@@ -47,18 +47,21 @@ module.exports = {
       },
       // css
       {
-        test: /\.css$/,
+        test: /\.s(c|a)ss$/,
         use: [
           isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
           {
             loader: 'css-loader',
-            query: {
-              sourceMap: !isProduction,
-              importLoaders: 1,
-              modules: {
-                localIdentName: isProduction ? '[hash:base64:5]' : '[local]__[hash:base64:5]'
-              }
+            options: {
+              modules: true
             }
+            // query: {
+            //   sourceMap: !isProduction,
+            //   importLoaders: 1,
+            //   modules: {
+            //     localIdentName: isProduction ? '[hash:base64:5]' : '[local]__[hash:base64:5]'
+            //   }
+            // }
           },
           {
             loader: 'postcss-loader',
@@ -77,7 +80,8 @@ module.exports = {
                 })
               ]
             }
-          }
+          },
+          'sass-loader'
         ]
       },
       // static assets

@@ -62,9 +62,14 @@
     "webpack-dev-server": "^3.10.1"
   },
   "dependencies": {
+    "@material-ui/core": "^4.10.2",
+    "@material-ui/lab": "^4.0.0-alpha.56",
+    "axios": "^0.19.2",
     "classnames": "^2.2.6",
+    "libphonenumber-js": "^1.7.53",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-i18next": "^11.5.1",
     "react-redux": "^7.1.1",
     "react-router": "^5.1.2",
     "redux": "^4.0.5",

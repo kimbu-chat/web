@@ -52,16 +52,10 @@ module.exports = {
           isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
           {
             loader: 'css-loader',
-            options: {
-              modules: true
+            query: {
+              sourceMap: !isProduction,
+              importLoaders: 1
             }
-            // query: {
-            //   sourceMap: !isProduction,
-            //   importLoaders: 1,
-            //   modules: {
-            //     localIdentName: isProduction ? '[hash:base64:5]' : '[local]__[hash:base64:5]'
-            //   }
-            // }
           },
           {
             loader: 'postcss-loader',

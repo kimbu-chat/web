@@ -10,15 +10,16 @@ import { history } from '../../../main';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { countryInterface } from 'app/utils/countries';
 
 export interface IAppProps {}
 
 export default function LoginPage(props: IAppProps) {
-  const [country, setCountry] = React.useState(null);
-  const [phone, setPhone] = React.useState('');
+  const [country, setCountry] = React.useState<null | countryInterface>(null);
+  const [phone, setPhone] = React.useState<string>('');
   const [stage, setStage] = React.useState(1);
-  const [code, setCode] = React.useState('');
-  const [error, setError] = React.useState('');
+  const [code, setCode] = React.useState<string>('');
+  const [error, setError] = React.useState<string>('');
 
   axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 

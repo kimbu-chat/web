@@ -6,10 +6,12 @@ import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete
 import { countryList, countryInterface } from '../../../utils/countries';
 import './CountrySelect.scss';
 
-interface IAppProps {
-  country: countryInterface | null;
-  setCountry: Function;
-  setPhone: Function;
+namespace CountrySelect {
+  export interface Props {
+    country: countryInterface | null;
+    setCountry: (setNewCountry: (oldCountry: countryInterface | null) => countryInterface | null) => void;
+    setPhone: (setNewPhone: ((oldPhone: string) => string) | string) => void;
+  }
 }
 
 function countryToFlag(isoCode: string): string {
@@ -18,19 +20,25 @@ function countryToFlag(isoCode: string): string {
     : isoCode;
 }
 
-export default function CountrySelect({ country, setCountry, setPhone }: IAppProps) {
+export default function CountrySelect({ country, setCountry, setPhone }: CountrySelect.Props) {
   const [inputValue, setInputValue] = React.useState('');
 
   const handleCountryChange = (event: any, newCountry: countryInterface | null) => {
-    setCountry((oldCountry: countryInterface) => {
-      setPhone((oldPhone: string) => {
-        if (oldCountry?.title.length > 0) {
-          return newCountry?.number + oldPhone.split(' ').join('').split(oldCountry.number)[1];
+    setCountry((oldCountry) => {
+      setPhone((oldPhone) => {
+        if (typeof oldCountry === 'object') {
+          const onlyNumber = oldPhone
+            .split(' ')
+            .join('')
+            .split(oldCountry ? oldCountry.number : '')[1];
+          const preparedNumber = newCountry?.number + onlyNumber ? onlyNumber : '';
+          const newCode = newCountry ? newCountry.number : '';
+          return preparedNumber ? preparedNumber : newCode;
         } else {
-          return newCountry?.number;
+          return newCountry ? newCountry.number : '';
         }
       });
-      return newCountry;
+      return newCountry ? newCountry : countryList[0];
     });
   };
 

@@ -12,16 +12,20 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { countryInterface } from 'app/utils/countries';
 
-export interface IAppProps {}
+namespace LogPage {
+  export enum Stages {
+    phoneInput = 1,
+    codeInput,
+    registration
+  }
+}
 
-export default function LoginPage(props: IAppProps) {
+export default function LoginPage() {
   const [country, setCountry] = React.useState<null | countryInterface>(null);
   const [phone, setPhone] = React.useState<string>('');
-  const [stage, setStage] = React.useState(1);
+  const [stage, setStage] = React.useState<LogPage.Stages>(LogPage.Stages.phoneInput);
   const [code, setCode] = React.useState<string>('');
   const [error, setError] = React.useState<string>('');
-
-  axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
   const sendSms = async () => {
     const phoneNumber = parsePhoneNumberFromString(phone);
@@ -65,7 +69,7 @@ export default function LoginPage(props: IAppProps) {
 
   return (
     <div className="login-page">
-      {stage === 1 && (
+      {stage === LogPage.Stages.phoneInput && (
         <div className="login-page__container">
           <img src="" alt="" className="login-page__logo" />
           <h1>Sign in to Kimbu</h1>
@@ -80,7 +84,7 @@ export default function LoginPage(props: IAppProps) {
           {error && <p>{error}</p>}
         </div>
       )}
-      {stage === 2 && (
+      {stage === LogPage.Stages.codeInput && (
         <div className="login-page__container">
           <h1>Sign in to Kimbu</h1>
           <p>Please enter received code.</p>
@@ -100,6 +104,12 @@ export default function LoginPage(props: IAppProps) {
             </div>
           </div>
           {error && <p>{error}</p>}
+        </div>
+      )}
+      {stage === LogPage.Stages.registration && (
+        <div className="login-page__container">
+          <h1>Sign in to Kimbu</h1>
+          <p>Please pass registration</p>
         </div>
       )}
     </div>

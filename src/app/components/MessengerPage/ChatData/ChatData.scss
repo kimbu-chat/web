@@ -1,0 +1,24 @@
+.messenger {
+  &__chat-data {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__contact-data {
+    display: flex;
+  }
+
+  &__contact-img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  &__chat-info {
+    h1 {
+      font-size: 19px;
+    }
+  }
+}

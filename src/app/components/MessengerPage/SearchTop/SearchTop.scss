@@ -1,0 +1,42 @@
+.messenger {
+  &__search-top {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  &__burger {
+    height: 24px;
+    width: 24px;
+  }
+
+  &__search {
+    display: flex;
+    align-items: center;
+    border-radius: 1000000px;
+    height: 32px;
+    width: 150px;
+    background: #ebebeb;
+    padding-left: 6px;
+    svg {
+      height: 16px;
+      width: 16px;
+      margin-right: 16px;
+    }
+    input {
+      height: 16px;
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      &:focus {
+        border: none;
+        outline: none;
+      }
+    }
+  }
+
+  &__create-chat {
+    width: 24px;
+    height: 24px;
+  }
+}

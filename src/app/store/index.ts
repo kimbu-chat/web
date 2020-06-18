@@ -1,22 +1,25 @@
-import { Store, createStore, applyMiddleware } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import { RootState, rootReducer } from 'app/reducers';
-import { logger, thunk } from 'app/middleware';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { createStore, applyMiddleware, compose, Store } from 'redux';
+import createSagaMiddleware from 'redux-saga';
 
-export function configureStore(initialState?: RootState): Store<RootState> {
-  let middleware = applyMiddleware(thunk, logger);
+import rootReducer from './root-reducer';
+import rootSaga from './root-saga';
 
-  if (process.env.NODE_ENV !== 'production') {
-    middleware = composeWithDevTools(middleware);
-  }
+export type AppState = ReturnType<typeof rootReducer>;
 
-  const store = createStore(rootReducer as any, initialState as any, middleware) as Store<RootState>;
+type ReduxStore = Store<AppState>;
 
-  if (module.hot) {
-    module.hot.accept('app/reducers', () => {
-      const nextReducer = require('app/reducers');
-      store.replaceReducer(nextReducer);
-    });
+export default function (): ReduxStore {
+  const composeEnchancers =
+    process.env.NODE_ENV === 'development' ? (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose : compose;
+  const sagaMiddleware = createSagaMiddleware();
+  const enchancers = composeEnchancers(applyMiddleware(sagaMiddleware));
+  const store: ReduxStore = createStore(rootReducer, enchancers);
+
+  sagaMiddleware.run(rootSaga);
+
+  if (process.env.NODE_ENV !== 'production' && (module as any).hot) {
+    (module as any).hot.accept('./root-reducer', () => store.replaceReducer(rootReducer));
   }
 
   return store;

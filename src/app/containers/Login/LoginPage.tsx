@@ -1,66 +1,54 @@
 import React from 'react';
-import axios from 'axios';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 
 import './LoginPage.scss';
-import CountrySelect from './CountrySelect/CountrySelect';
-import PhoneInput from './PhoneInput/PhoneInput';
-import { baseUrl } from '../../utils/axios';
+import CountrySelect from '../../components/LoginPage/CountrySelect/CountrySelect';
+import PhoneInput from '../../components/LoginPage/PhoneInput/PhoneInput';
 import { history } from '../../../main';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { countryInterface } from 'app/utils/countries';
+import { sendSmsPhoneConfirmationCodeAction, confirmPhoneAction } from 'app/store/auth/actions';
+import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
+import { useSelector } from 'react-redux';
+import { AppState } from 'app/store';
 
 export interface IAppProps {}
 
-export default function LoginPage(props: IAppProps) {
+export default function LoginPage() {
   const [country, setCountry] = React.useState<null | countryInterface>(null);
   const [phone, setPhone] = React.useState<string>('');
   const [stage, setStage] = React.useState(1);
   const [code, setCode] = React.useState<string>('');
   const [error, setError] = React.useState<string>('');
 
-  axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+  const codeFromServer = useSelector<AppState, string>((rootState) => rootState.auth.confirmationCode);
+  const isConfirmationCodeWrong = useSelector<AppState, boolean>((rootState) => rootState.auth.isConfirmationCodeWrong);
+
+  const sendSmsCode = useActionWithDeferred(sendSmsPhoneConfirmationCodeAction);
+  const checkConfirmationCode = useActionWithDeferred(confirmPhoneAction);
 
   const sendSms = async () => {
     const phoneNumber = parsePhoneNumberFromString(phone);
 
     if (phoneNumber?.isValid()) {
       setError('');
-      const res = await axios({
-        method: 'post',
-        url: baseUrl + '/api/users/send-sms-confirmation-code',
-        data: {
-          phoneNumber: phoneNumber?.number
-        }
-      });
 
-      if (res.status === 200) {
+      sendSmsCode<string>({ phoneNumber: phoneNumber?.number.toString() }).then((code) => {
         setStage(2);
-      }
+      });
     } else {
       setError('Phone is not valid');
     }
   };
 
   const checkCode = async () => {
-    const res = await axios({
-      method: 'post',
-      url: baseUrl + '/api/users/verify-sms-code',
-      data: {
-        phoneNumber: parsePhoneNumberFromString(phone)?.number,
-        code: code
+    checkConfirmationCode({ code, phoneNumber: parsePhoneNumberFromString(phone)?.number?.toString() || '' }).then(
+      () => {
+        history.push('/messenger');
       }
-    });
-
-    if (res.data.isCodeCorrect && res.data.userExists) {
-      history.push('/messenger');
-    } else if (!res.data.isCodeCorrect) {
-      setError('Code is Wrong');
-    } else {
-      setStage(3);
-    }
+    );
   };
 
   return (
@@ -82,6 +70,7 @@ export default function LoginPage(props: IAppProps) {
       )}
       {stage === 2 && (
         <div className="login-page__container">
+          {codeFromServer && <p>Code: {codeFromServer}</p>}
           <h1>Sign in to Kimbu</h1>
           <p>Please enter received code.</p>
           <div className="login-page__code-input">
@@ -99,7 +88,7 @@ export default function LoginPage(props: IAppProps) {
               </Button>
             </div>
           </div>
-          {error && <p>{error}</p>}
+          {isConfirmationCodeWrong && <p>Code is wrong</p>}
         </div>
       )}
     </div>

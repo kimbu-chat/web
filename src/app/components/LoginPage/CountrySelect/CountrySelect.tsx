@@ -3,13 +3,13 @@ import * as React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
 
-import { countryList, countryInterface } from '../../../utils/countries';
+import { countryList, country } from '../../../utils/countries';
 import './CountrySelect.scss';
 
 namespace CountrySelect {
   export interface Props {
-    country: countryInterface | null;
-    setCountry: (setNewCountry: (oldCountry: countryInterface | null) => countryInterface | null) => void;
+    country: country | null;
+    setCountry: (setNewCountry: (oldCountry: country | null) => country | null) => void;
     setPhone: (setNewPhone: ((oldPhone: string) => string) | string) => void;
   }
 }
@@ -23,7 +23,7 @@ function countryToFlag(isoCode: string): string {
 export default function CountrySelect({ country, setCountry, setPhone }: CountrySelect.Props) {
   const [inputValue, setInputValue] = React.useState('');
 
-  const handleCountryChange = (event: any, newCountry: countryInterface | null) => {
+  const handleCountryChange = (event: any, newCountry: country | null) => {
     setCountry((oldCountry) => {
       setPhone((oldPhone) => {
         if (typeof oldCountry === 'object') {

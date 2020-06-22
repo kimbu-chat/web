@@ -8,7 +8,7 @@ import { history } from '../../../main';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { countryInterface } from 'app/utils/countries';
+import { country } from 'app/utils/countries';
 import { sendSmsPhoneConfirmationCodeAction, confirmPhoneAction } from 'app/store/auth/actions';
 import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
 import { useSelector } from 'react-redux';
@@ -23,7 +23,7 @@ namespace LogPage {
 }
 
 export default function LoginPage() {
-  const [country, setCountry] = React.useState<null | countryInterface>(null);
+  const [country, setCountry] = React.useState<null | country>(null);
   const [phone, setPhone] = React.useState<string>('');
   const [stage, setStage] = React.useState<LogPage.Stages>(LogPage.Stages.phoneInput);
   const [code, setCode] = React.useState<string>('');

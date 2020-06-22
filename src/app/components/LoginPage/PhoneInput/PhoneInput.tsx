@@ -3,12 +3,12 @@ import { parsePhoneNumberFromString, AsYouType } from 'libphonenumber-js';
 
 import TextField from '@material-ui/core/TextField';
 
-import { countryInterface, countryList } from '../../../utils/countries';
+import { country, countryList } from '../../../utils/countries';
 import './PhoneInput.scss';
 
 namespace PhoneInput {
   export interface Props {
-    country: countryInterface | null;
+    country: country | null;
     setCountry: Function;
     phone: string;
     setPhone: Function;
@@ -19,7 +19,7 @@ export default function PhoneInput({ phone, setPhone, setCountry }: PhoneInput.P
   const handlePhoneChange = (e: any) => {
     setPhone(new AsYouType().input(e.target.value));
     const phoneNumber = parsePhoneNumberFromString(e.target.value);
-    setCountry((oldCountry: countryInterface | null) => {
+    setCountry((oldCountry: country | null) => {
       const result = countryList.find((elem) => elem.code === phoneNumber?.country);
       return result ? result : oldCountry;
     });

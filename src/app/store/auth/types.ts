@@ -5,7 +5,10 @@ export enum AuthActionTypes {
 
   CONFIRM_PHONE = 'CONFIRM_PHONE',
   CONFIRM_PHONE_SUCCESS = 'CONFIRM_PHONE_SUCCESS',
-  CONFIRM_PHONE_FAILURE = 'CONFIRM_PHONE_FAILURE'
+  CONFIRM_PHONE_FAILURE = 'CONFIRM_PHONE_FAILURE',
+
+  GET_MY_PROFILE = 'GET_MY_PROFILE',
+  GET_MY_PROFILE_SUCCESS = 'GET_MY_PROFILE_SUCCESS'
 }
 
 export interface Credentials {
@@ -16,12 +19,13 @@ export interface Credentials {
 export interface LoginApiResponse {
   accessToken: string;
   refreshToken: string;
+  userId: number;
 }
 
 export interface UserAuthData {
-  accessToken?: string;
-  userId?: number;
-  refreshToken?: string;
+  accessToken: string;
+  userId: number;
+  refreshToken: string;
 }
 
 export interface PhoneConfirmationActionData {

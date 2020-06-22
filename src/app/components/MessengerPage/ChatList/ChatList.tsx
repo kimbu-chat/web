@@ -1,35 +1,36 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ChatFromList from '../ChatFromList/ChatFromList';
 
 import './ChatList.scss';
+import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+import { getDialogsAction } from 'app/store/dialogs/actions';
+import { useSelector } from 'react-redux';
+import { AppState } from 'app/store';
+import { Dialog } from 'app/store/dialogs/types';
 
 namespace ChatList {
-  export interface Props {
-    chats?: {
-      photo: string;
-      name: string;
-      lastPhoto: string;
-      lastMessage: string;
-      lastTime: string;
-      count?: number;
-    }[];
-  }
+  export interface Props {}
 }
 
-const ChatList = ({ chats }: ChatList.Props) => {
+export const DIALOGS_LIMIT = 20;
+
+const ChatList = ({}: ChatList.Props) => {
+  const getDialogs = useActionWithDispatch(getDialogsAction);
+
+  const dialogs = useSelector<AppState, Dialog[]>((rootState) => rootState.dialogs.dialogs) || [];
+
+  useEffect(() => {
+    getDialogs({
+      page: { offset: dialogs.length, limit: DIALOGS_LIMIT },
+      initializedBySearch: false,
+      initiatedByScrolling: false
+    });
+  }, []);
+
   return (
     <div className="messenger__chat-list">
-      {chats?.map(({ photo, name, lastPhoto, lastMessage, lastTime, count }) => {
-        return (
-          <ChatFromList
-            photo={photo}
-            name={name}
-            lastPhoto={lastPhoto}
-            lastMessage={lastMessage}
-            lastTime={lastTime}
-            count={count}
-          />
-        );
+      {dialogs?.map((dialog: Dialog) => {
+        return <ChatFromList dialog={dialog} key={dialog.id} />;
       })}
     </div>
   );

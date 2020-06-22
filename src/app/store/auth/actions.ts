@@ -1,5 +1,6 @@
 import { createAction } from '../utils';
 import { AuthActionTypes, SendSmsCodeActionData, PhoneConfirmationActionData } from './types';
+import { UserPreview } from '../contacts/types';
 
 export const sendSmsPhoneConfirmationCodeAction = (actionData: SendSmsCodeActionData) =>
   createAction(AuthActionTypes.SEND_PHONE_CONFIRMATION_CODE, actionData);
@@ -13,10 +14,16 @@ export const confirmPhoneAction = (data: PhoneConfirmationActionData) =>
 export const confirmPhoneSuccessAction = () => createAction(AuthActionTypes.CONFIRM_PHONE_SUCCESS);
 export const confirmPhoneFailureAction = () => createAction(AuthActionTypes.CONFIRM_PHONE_FAILURE);
 
+export const getMyProfileAction = () => createAction(AuthActionTypes.GET_MY_PROFILE);
+export const getMyProfileSuccessAction = (data: UserPreview) =>
+  createAction(AuthActionTypes.GET_MY_PROFILE_SUCCESS, data);
+
 export type AuthActions =
   | typeof sendSmsPhoneConfirmationCodeAction
   | typeof sendSmsPhoneConfirmationCodeFailureAction
   | typeof sendSmsPhoneConfirmationCodeSuccessAction
   | typeof confirmPhoneAction
   | typeof confirmPhoneSuccessAction
-  | typeof confirmPhoneFailureAction;
+  | typeof confirmPhoneFailureAction
+  | typeof getMyProfileAction
+  | typeof getMyProfileSuccessAction;

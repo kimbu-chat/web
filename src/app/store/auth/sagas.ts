@@ -5,13 +5,17 @@ import {
   sendSmsPhoneConfirmationCodeAction,
   sendSmsPhoneConfirmationCodeSuccessAction,
   confirmPhoneAction,
-  confirmPhoneFailureAction
+  confirmPhoneFailureAction,
+  getMyProfileSuccessAction
 } from './actions';
 import { LoginApiResponse, UserAuthData, PhoneConfirmationApiResponse } from './types';
 import { call, put } from 'redux-saga/effects';
-import { sendSmsConfirmationCodeApi, loginApi, confirmPhoneApi } from './api';
+import { sendSmsConfirmationCodeApi, loginApi, confirmPhoneApi, getUserProfileApi } from './api';
 import { setToken } from 'app/api';
 import jwtDecode from 'jwt-decode';
+import { AuthService } from 'app/services/auth-service';
+import { MyProfileService } from 'app/services/my-profile-service';
+import { UserPreview } from '../contacts/types';
 
 export function* sendSmsPhoneConfirmationCodeSaga(
   action: ReturnType<typeof sendSmsPhoneConfirmationCodeAction>
@@ -59,7 +63,35 @@ export function* confirmPhoneNumberSaga(action: ReturnType<typeof confirmPhoneAc
 export function* authenticateSaga(action: ReturnType<typeof confirmPhoneAction>): Iterator<any> {
   // @ts-ignore
   const response: AxiosResponse<LoginApiResponse> = yield call(loginApi, action.payload);
-  setTokenAndSaveLoginResponse(response.data);
-
+  const parsedData = setTokenAndSaveLoginResponse(response.data);
+  const authService = new AuthService();
+  authService.initialize(parsedData);
   yield action?.deferred?.resolve();
+}
+
+export function* initializeSaga(): any {
+  const authService = new AuthService();
+  const authData = authService.auth;
+
+  if (!authData) {
+    return;
+  }
+
+  setToken(authData.accessToken);
+
+  const currentUserId = authService.auth.userId;
+
+  const profileService = new MyProfileService();
+  const userProfile = profileService.myProfile;
+
+  if (userProfile) {
+    yield put(getMyProfileSuccessAction(userProfile));
+    return;
+  }
+
+  const { data }: AxiosResponse<UserPreview> = yield call(getUserProfileApi, currentUserId);
+
+  profileService.setMyProfile(data);
+
+  yield put(getMyProfileSuccessAction(data));
 }

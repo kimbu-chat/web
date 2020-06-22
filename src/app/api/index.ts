@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosInstance, AxiosPromise, AxiosResponse } from 'axios';
 import { LoginApiResponse } from 'app/store/auth/types';
+import { AuthService } from 'app/services/auth-service';
 
 export const ENDPOINTS = {
   LOGIN: '/api/users/login',
@@ -30,8 +31,13 @@ export const ENDPOINTS = {
   RENAME_CONFERENCE: '/api/conference'
 };
 
+const authService = new AuthService();
+
 const mainApiInstance = axios.create({
-  baseURL: 'http://api.ravudi.com'
+  baseURL: 'http://api.ravudi.com',
+  headers: {
+    Authorization: `Bearer ${authService?.auth?.accessToken}`
+  }
 });
 
 export const setToken = (token: string): void => {

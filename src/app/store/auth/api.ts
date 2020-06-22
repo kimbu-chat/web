@@ -10,3 +10,5 @@ export const confirmPhoneApi = (data: PhoneConfirmationActionData) => api.post(E
 
 export const changeOnlineStatusApi = (isOnline: boolean) =>
   api.post(ENDPOINTS.CHANGE_ONLINE_STATUS, { isOnline: isOnline });
+
+export const getUserProfileApi = (userId: number) => api.get(`${ENDPOINTS.GET_USER_PROFILE}/${userId}`);

@@ -3,7 +3,7 @@ import React from 'react';
 import './ChatFromList.scss';
 import { Dialog } from 'app/store/dialogs/types';
 import * as moment from 'moment';
-import { SystemMessageType } from 'app/store/messages/types';
+import { SystemMessageType, Message } from 'app/store/messages/types';
 import { MessageUtils } from 'app/utils/message-utils';
 import { useSelector } from 'react-redux';
 import { AppState } from 'app/store';
@@ -25,13 +25,13 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
       return interlocutor.avatarUrl as string;
     }
 
-    return conference.avatarUrl as string;
+    return conference?.avatarUrl as string;
   };
 
   const getMessageText = (): string => {
     const { lastMessage, conference } = dialog;
-    if (lastMessage.systemMessageType !== SystemMessageType.None) {
-      return MessageUtils.constructSystemMessageText(lastMessage, lastMessage.userCreator?.id === currentUserId);
+    if (lastMessage?.systemMessageType !== SystemMessageType.None) {
+      return MessageUtils.constructSystemMessageText(lastMessage as Message, lastMessage?.userCreator?.id === currentUserId);
     }
 
     if (conference) {
@@ -59,7 +59,7 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
         </div>
       </div>
       <div className="messenger__time-and-count">
-        <div className="messenger__time">{moment.utc(lastMessage.creationDateTime).local().format('hh:mm')}</div>
+        <div className="messenger__time">{moment.utc(lastMessage?.creationDateTime).local().format('hh:mm')}</div>
         {/* <div className="messenger__count">{count}</div> */}
       </div>
     </button>

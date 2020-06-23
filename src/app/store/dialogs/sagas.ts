@@ -4,7 +4,7 @@ import { AxiosResponse } from 'axios';
 import { Dialog, MuteDialogRequest, GetDialogsResponse } from './types';
 import { getDialogsApi, muteDialogApi } from './api';
 import { MessageState } from '../messages/types';
-import { DialogRepository } from './dialog-service';
+import { DialogService } from './dialog-service';
 
 export function* getDialogsSaga(action: ReturnType<typeof getDialogsAction>): Iterator<any> {
   const dialogsRequestData = action.payload;
@@ -13,10 +13,10 @@ export function* getDialogsSaga(action: ReturnType<typeof getDialogsAction>): It
   data.forEach((dialog: Dialog) => {
     dialog.lastMessage.state =
       dialog.interlocutorLastReadMessageId && dialog.interlocutorLastReadMessageId >= Number(dialog?.lastMessage?.id)
-        ? MessageState.READ
-        : MessageState.SENT;
-    dialog.interlocutorType = DialogRepository.getInterlocutorType(dialog);
-    dialog.id = DialogRepository.getDialogIdentifier(dialog);
+        ? (MessageState.READ as MessageState)
+        : (MessageState.SENT as MessageState);
+    dialog.interlocutorType = DialogService.getInterlocutorType(dialog);
+    dialog.id = DialogService.getDialogIdentifier(dialog.interlocutor?.id, dialog.conference?.id);
   });
 
   const dialogList: GetDialogsResponse = {
@@ -37,7 +37,7 @@ export function* muteDialogSaga(action: ReturnType<typeof muteDialogAction>) {
     const request: MuteDialogRequest = {
       dialog: {
         conferenceId: interlocutor === null ? conference?.id : null,
-        interlocutorId: conference === null ? interlocutor.id : null
+        interlocutorId: conference === null ? interlocutor?.id : null
       },
       isMuted: !isMuted
     };
@@ -46,9 +46,6 @@ export function* muteDialogSaga(action: ReturnType<typeof muteDialogAction>) {
 
     if (response.status === 200) {
       yield put(muteDialogSuccessAction(dialog));
-      const dialogCopy = { ...dialog };
-      dialogCopy.isMuted = !isMuted;
-      DialogRepository.addOrUpdateDialogs([dialog]);
     } else {
       alert('Error mute dialog');
     }

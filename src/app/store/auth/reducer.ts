@@ -35,6 +35,13 @@ const auth = (state: AuthState = initialState, action: ReturnType<AuthActions>):
         isConfirmationCodeWrong: false
       };
     }
+    case AuthActionTypes.LOGIN_SUCCESS: {
+      return {
+        ...state,
+        isAuthenticated: true,
+        authentication: action.payload
+      };
+    }
     case AuthActionTypes.GET_MY_PROFILE_SUCCESS: {
       return {
         ...state,

@@ -4,7 +4,7 @@ export interface UserPreview {
   id?: number;
   firstName?: string;
   lastName?: string;
-  avatarUrl: string;
+  avatarUrl?: string;
   nickname?: string;
   status?: UserStatus;
   gender?: number;

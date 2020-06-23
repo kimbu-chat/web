@@ -2,7 +2,7 @@ import { BrowserStorage } from 'app/utils/browser-storage';
 import { UserPreview } from 'app/store/contacts/types';
 
 export class MyProfileService {
-  private readonly myProfileStorageKey = 'my-profile-storage-key';
+  private readonly myProfileStorageKey = 'my-profile';
   private browserStorage = new BrowserStorage(this.myProfileStorageKey);
 
   public get myProfile(): UserPreview {

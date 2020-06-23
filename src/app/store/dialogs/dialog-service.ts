@@ -1,17 +1,11 @@
 import { InterlocutorType, Dialog, ParsedInterlocutorId } from './types';
 
-export class DialogRepository {
-  static deleteDialog(id: number | undefined) {
-    throw new Error('Method not implemented.');
-  }
-  static addOrUpdateDialogs(arg0: Dialog[]) {
-    throw new Error('Method not implemented.');
-  }
-  public static getDialogIdentifier(dialog: Dialog): number {
-    if (dialog.interlocutor) {
-      return +`${dialog.interlocutor.id}${InterlocutorType.USER}`;
+export class DialogService {
+  public static getDialogIdentifier(userId?: number | null, conferenceId?: number | null): number {
+    if (userId) {
+      return +`${userId}${InterlocutorType.USER}`;
     }
-    return +`${dialog?.conference?.id}${InterlocutorType.CONFERENCE}`;
+    return +`${conferenceId}${InterlocutorType.CONFERENCE}`;
   }
 
   public static getDialogId(interlocutorId: number, conferenceId: number): number {

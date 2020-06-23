@@ -1,5 +1,5 @@
 import { createAction } from '../utils';
-import { AuthActionTypes, SendSmsCodeActionData, PhoneConfirmationActionData } from './types';
+import { AuthActionTypes, SendSmsCodeActionData, PhoneConfirmationActionData, UserAuthData } from './types';
 import { UserPreview } from '../contacts/types';
 
 export const sendSmsPhoneConfirmationCodeAction = (actionData: SendSmsCodeActionData) =>
@@ -18,6 +18,9 @@ export const getMyProfileAction = () => createAction(AuthActionTypes.GET_MY_PROF
 export const getMyProfileSuccessAction = (data: UserPreview) =>
   createAction(AuthActionTypes.GET_MY_PROFILE_SUCCESS, data);
 
+export const loginSuccessAction = (userAuthData: UserAuthData) =>
+  createAction(AuthActionTypes.LOGIN_SUCCESS, userAuthData);
+
 export type AuthActions =
   | typeof sendSmsPhoneConfirmationCodeAction
   | typeof sendSmsPhoneConfirmationCodeFailureAction
@@ -26,4 +29,5 @@ export type AuthActions =
   | typeof confirmPhoneSuccessAction
   | typeof confirmPhoneFailureAction
   | typeof getMyProfileAction
-  | typeof getMyProfileSuccessAction;
+  | typeof getMyProfileSuccessAction
+  | typeof loginSuccessAction;

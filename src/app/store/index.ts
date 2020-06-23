@@ -4,6 +4,7 @@ import createSagaMiddleware from 'redux-saga';
 
 import rootReducer from './root-reducer';
 import rootSaga from './root-saga';
+import { signalRInvokeMiddleware } from './middlewares/websockets/signalR';
 
 export type AppState = ReturnType<typeof rootReducer>;
 
@@ -13,7 +14,7 @@ export default function (): ReduxStore {
   const composeEnchancers =
     process.env.NODE_ENV === 'development' ? (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose : compose;
   const sagaMiddleware = createSagaMiddleware();
-  const enchancers = composeEnchancers(applyMiddleware(sagaMiddleware));
+  const enchancers = composeEnchancers(applyMiddleware(sagaMiddleware, signalRInvokeMiddleware));
   const store: ReduxStore = createStore(rootReducer, enchancers);
 
   sagaMiddleware.run(rootSaga);

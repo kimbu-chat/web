@@ -6,7 +6,8 @@ import {
   sendSmsPhoneConfirmationCodeSuccessAction,
   confirmPhoneAction,
   confirmPhoneFailureAction,
-  getMyProfileSuccessAction
+  getMyProfileSuccessAction,
+  loginSuccessAction
 } from './actions';
 import { LoginApiResponse, UserAuthData, PhoneConfirmationApiResponse } from './types';
 import { call, put } from 'redux-saga/effects';
@@ -16,6 +17,7 @@ import jwtDecode from 'jwt-decode';
 import { AuthService } from 'app/services/auth-service';
 import { MyProfileService } from 'app/services/my-profile-service';
 import { UserPreview } from '../contacts/types';
+import { initSocketConnectionAction } from '../sockets/actions';
 
 export function* sendSmsPhoneConfirmationCodeSaga(
   action: ReturnType<typeof sendSmsPhoneConfirmationCodeAction>
@@ -32,20 +34,6 @@ export function* sendSmsPhoneConfirmationCodeSaga(
   yield action?.deferred?.resolve(data);
 }
 
-export function setTokenAndSaveLoginResponse(loginResponse: LoginApiResponse): UserAuthData {
-  setToken(loginResponse.accessToken);
-
-  const userAuthData: UserAuthData = {
-    accessToken: loginResponse.accessToken,
-    userId: parseInt(jwtDecode<{ unique_name: string }>(loginResponse.accessToken).unique_name, 10),
-    refreshToken: loginResponse.refreshToken
-  };
-
-  // todo: save userAuthData into local storage
-
-  return userAuthData;
-}
-
 export function* confirmPhoneNumberSaga(action: ReturnType<typeof confirmPhoneAction>): Iterator<any> {
   // @ts-ignore
   const { data }: AxiosResponse<PhoneConfirmationApiResponse> = yield call(confirmPhoneApi, action.payload);
@@ -60,12 +48,23 @@ export function* confirmPhoneNumberSaga(action: ReturnType<typeof confirmPhoneAc
   }
 }
 
+function parseLoginResponse(loginResponse: LoginApiResponse): UserAuthData {
+  const userAuthData: UserAuthData = {
+    accessToken: loginResponse.accessToken,
+    userId: parseInt(jwtDecode<{ unique_name: string }>(loginResponse.accessToken).unique_name, 10),
+    refreshToken: loginResponse.refreshToken
+  };
+  return userAuthData;
+}
+
 export function* authenticateSaga(action: ReturnType<typeof confirmPhoneAction>): Iterator<any> {
   // @ts-ignore
   const response: AxiosResponse<LoginApiResponse> = yield call(loginApi, action.payload);
-  const parsedData = setTokenAndSaveLoginResponse(response.data);
+  const parsedData = parseLoginResponse(response.data);
   const authService = new AuthService();
   authService.initialize(parsedData);
+  setToken(parsedData.accessToken);
+  yield put(loginSuccessAction(parsedData));
   yield action?.deferred?.resolve();
 }
 
@@ -76,6 +75,8 @@ export function* initializeSaga(): any {
   if (!authData) {
     return;
   }
+
+  yield put(initSocketConnectionAction());
 
   setToken(authData.accessToken);
 

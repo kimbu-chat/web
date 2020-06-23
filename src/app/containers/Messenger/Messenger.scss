@@ -3,4 +3,9 @@
   grid-template-columns: 260px 1fr;
   grid-template-rows: 50px 1fr;
   min-height: 100vh;
+
+  &__chat-send {
+    display: grid;
+    grid-template-rows: 1fr 50px;
+  }
 }

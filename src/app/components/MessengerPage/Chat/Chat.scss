@@ -1,5 +1,11 @@
 .messenger {
   &__messages-list {
-    bottom: 0;
+    display: grid;
+    align-items: end;
+    border-bottom: 1px solid rgba(#000, 0.2);
+  }
+
+  &__messages-container {
+    margin-bottom: 10px;
   }
 }

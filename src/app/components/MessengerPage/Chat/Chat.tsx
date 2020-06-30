@@ -1,6 +1,8 @@
 import React from 'react';
 import Message from '../Message/Message';
 
+import './Chat.scss';
+
 export enum messageFrom {
   me,
   others
@@ -9,7 +11,11 @@ export enum messageFrom {
 const Chat = () => {
   return (
     <div className="messenger__messages-list">
-      <Message from={messageFrom.me} content="12345" time="20:20" />
+      <div className="messenger__messages-container">
+        <Message from={messageFrom.me} content="12345" time="20:20" />
+        <Message from={messageFrom.me} content="12345" time="20:20" />
+        <Message from={messageFrom.others} content="12345" time="20:20" />
+      </div>
     </div>
   );
 };

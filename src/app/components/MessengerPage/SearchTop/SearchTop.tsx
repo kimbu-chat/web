@@ -2,10 +2,16 @@ import React from 'react';
 
 import './SearchTop.scss';
 
-const SearchTop = () => {
+namespace SearchTop {
+  export interface Props {
+    displaySlider: Function;
+  }
+}
+
+const SearchTop = ({ displaySlider }: SearchTop.Props) => {
   return (
     <div className="messenger__search-top">
-      <button className="messenger__burger">
+      <button className="messenger__burger" onClick={() => displaySlider()}>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" e-dvz7b7="">
           <path
             fillRule="nonzero"

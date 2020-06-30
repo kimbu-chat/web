@@ -12,8 +12,23 @@ namespace Message {
 
 const Message = ({ from, content, time }: Message.Props) => {
   return (
-    <div className="messenger__message-container">
-      <div className="messenger__message">13245</div>
+    <div
+      className={
+        from === messageFrom.me
+          ? 'messenger__message-container messenger__message-container--from-me'
+          : 'messenger__message-container messenger__message-container--from-others'
+      }
+    >
+      <div
+        className={
+          from === messageFrom.me
+            ? 'messenger__message messenger__message--from-me'
+            : 'messenger__message messenger__message--from-others'
+        }
+      >
+        {content}
+        <span className="messenger__message-time">{time}</span>
+      </div>
     </div>
   );
 };

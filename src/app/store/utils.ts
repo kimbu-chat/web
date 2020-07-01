@@ -1,3 +1,6 @@
+import { normalize, schema } from 'normalizr';
+import _ from 'lodash';
+
 type Deferred = {
   resolve: (data?: any) => void;
   reject: (e?: never) => void;
@@ -21,3 +24,24 @@ export function createAction<T extends string, P>(
 ): Action<T> | ActionWithPayload<T, P> {
   return payload === undefined ? { type } : { type, payload, deferred };
 }
+
+export interface Page {
+  limit: number;
+  offset: number;
+}
+
+export interface Country {
+  callingCode: string;
+  code: string;
+  flag: string;
+  name: string;
+}
+
+export type IterableItem = {
+  isHeader?: boolean;
+  name: string;
+};
+
+export type NetworkState = {
+  isConnected: boolean;
+};

@@ -43,6 +43,7 @@ export function* messages(action: ReturnType<typeof getMessagesAction>): Iterato
       }
     };
 
+    //@ts-ignore
     const { data }: AxiosResponse<Array<Message>> = yield call(getMessagesApi, request);
 
     data.forEach((message) => {
@@ -63,14 +64,6 @@ export function* messages(action: ReturnType<typeof getMessagesAction>): Iterato
   }
 }
 
-function* sendMessageToServer(message: Message): Iterator<any> {
-  const messageCreationReq: MessageCreationReqData = {
-    text: message.text
-  };
-  const { data }: AxiosResponse<number> = yield call(createMessageApi, messageCreationReq);
-  return data;
-}
-
 export function* createMessage(action: ReturnType<typeof createMessageAction>): Iterator<any> {
   const { message, dialog, isFromEvent } = action.payload;
   const isInternetAvailable: boolean = true;
@@ -80,16 +73,23 @@ export function* createMessage(action: ReturnType<typeof createMessageAction>): 
   } else {
     try {
       if (isInternetAvailable) {
-        const messageId: number = yield call(sendMessageToServer, message);
+
+        const messageCreationReq: MessageCreationReqData = {
+          text: message.text
+        };
+
+        //@ts-ignore
+        const { data } = yield call(createMessageApi, messageCreationReq);
+
         yield put(
           createMessageSuccessAction({
             dialogId: message.dialogId || 0,
             oldMessageId: message.id,
-            newMessageId: messageId,
+            newMessageId: data,
             messageState: MessageState.SENT
           })
         );
-        message.id = messageId;
+        message.id = data;
         message.state = MessageState.SENT;
       }
     } catch {
@@ -125,6 +125,7 @@ export function* notifyInterlocutorThatMessageWasRead(createMessageRequest: Crea
 
   const isDialogCurrentInterlocutor: boolean = dialog.id == selectedDialogId;
   if (isDialogCurrentInterlocutor) {
+    //@ts-ignore
     yield call(markMessagesAsReadApi, {
       dialog: {
         conferenceId: isDestinationTypeUser ? null : dialog.conference?.id,

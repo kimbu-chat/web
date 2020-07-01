@@ -64,11 +64,8 @@ export function* messages(action: ReturnType<typeof getMessagesAction>): Iterato
 }
 
 function* sendMessageToServer(message: Message): Iterator<any> {
-  const { interlocutorId, interlocutorType } = DialogRepository.parseDialogId(message.dialogId);
   const messageCreationReq: MessageCreationReqData = {
-    text: message.text,
-    conferenceId: interlocutorType === InterlocutorType.CONFERENCE ? interlocutorId : null,
-    userInterlocutorId: interlocutorType === InterlocutorType.USER ? interlocutorId : null
+    text: message.text
   };
   const { data }: AxiosResponse<number> = yield call(createMessageApi, messageCreationReq);
   return data;
@@ -76,19 +73,17 @@ function* sendMessageToServer(message: Message): Iterator<any> {
 
 export function* createMessage(action: ReturnType<typeof createMessageAction>): Iterator<any> {
   const { message, dialog, isFromEvent } = action.payload;
-  const isInternetAvailable: boolean = yield call(checkInternetConnection);
+  const isInternetAvailable: boolean = true;
   dialog.lastMessage = message;
   if (isFromEvent) {
     yield call(notifyInterlocutorThatMessageWasRead, action.payload);
-    MessageRepository.addOrUpdateMessages([message], dialog.id);
-    DialogRepository.updateDialogLastMessage(message, dialog);
   } else {
     try {
       if (isInternetAvailable) {
         const messageId: number = yield call(sendMessageToServer, message);
         yield put(
           createMessageSuccessAction({
-            dialogId: message.dialogId,
+            dialogId: message.dialogId || 0,
             oldMessageId: message.id,
             newMessageId: messageId,
             messageState: MessageState.SENT
@@ -100,15 +95,13 @@ export function* createMessage(action: ReturnType<typeof createMessageAction>): 
     } catch {
       yield put(
         createMessageSuccessAction({
-          dialogId: message.dialogId,
+          dialogId: message.dialogId || 0,
           oldMessageId: message.id,
           newMessageId: message.id,
           messageState: MessageState.ERROR
         })
       );
       message.state = MessageState.ERROR;
-      MessageRepository.addOrUpdateMessages([message], dialog.id);
-      DialogRepository.updateDialogLastMessage(message, dialog);
     }
   }
 }

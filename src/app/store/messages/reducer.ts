@@ -57,7 +57,7 @@ const messages = (state: MessagesState = initialState, action: TypedAction): Mes
       };
     }
     case GET_MESSAGES_SUCCESS: {
-      const { dialogId, isFromLocalDb, hasMoreMessages }: GetMessagesResponse = action.payload;
+      const { dialogId, hasMoreMessages }: GetMessagesResponse = action.payload;
       const isDialogExists = state.messages.find((elem) => elem.dialogId === dialogId) ? true : false;
 
       // if server returned empty message list for interlocutor and there are
@@ -85,7 +85,7 @@ const messages = (state: MessagesState = initialState, action: TypedAction): Mes
               dialogId: dialogId
             }
           },
-          loading: isFromLocalDb
+          loading: false
         };
       }
     }

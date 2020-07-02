@@ -5,25 +5,24 @@ import { AppState } from 'app/store';
 
 namespace PublicRoute {
   export interface Props {
-    component: JSX.Element;
+    Component: any;
     path: string;
   }
 }
 
-function PublicRoute({ component, path, ...rest }: PublicRoute.Props) {
+function PublicRoute({ Component, path, ...rest }: PublicRoute.Props) {
   const isAuthenticated = useSelector<AppState, boolean>((rootState) => rootState.auth.isAuthenticated) || false;
-
   return (
     <Route
       path={path}
       {...rest}
       render={({ location }) =>
         !isAuthenticated ? (
-          component
+          <Component />
         ) : (
           <Redirect
             to={{
-              pathname: '/messenger',
+              pathname: '/chats',
               state: { from: location }
             }}
           />

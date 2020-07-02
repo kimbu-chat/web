@@ -35,9 +35,9 @@ export interface ConfereceMemberAddedSystemMessageContent extends SystemMessageB
 
 export interface Message {
   id: number;
-  userCreator?: UserPreview;
+  userCreator: UserPreview;
   creationDateTime?: Date;
-  text?: string;
+  text: string;
   attachments?: Array<Content>;
   attachmentsJson?: string;
   systemMessageType?: SystemMessageType;

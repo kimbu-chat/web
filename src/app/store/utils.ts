@@ -1,6 +1,3 @@
-import { normalize, schema } from 'normalizr';
-import _ from 'lodash';
-
 type Deferred = {
   resolve: (data?: any) => void;
   reject: (e?: never) => void;

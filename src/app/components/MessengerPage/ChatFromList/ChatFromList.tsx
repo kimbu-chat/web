@@ -3,7 +3,7 @@ import React from 'react';
 import './ChatFromList.scss';
 import { Dialog } from 'app/store/dialogs/types';
 import * as moment from 'moment';
-import { SystemMessageType, Message } from 'app/store/messages/types';
+import { SystemMessageType, Message } from 'app/store/messages/interfaces';
 import { MessageUtils } from 'app/utils/message-utils';
 import { useSelector } from 'react-redux';
 import { AppState } from 'app/store';
@@ -31,7 +31,10 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
   const getMessageText = (): string => {
     const { lastMessage, conference } = dialog;
     if (lastMessage?.systemMessageType !== SystemMessageType.None) {
-      return MessageUtils.constructSystemMessageText(lastMessage as Message, lastMessage?.userCreator?.id === currentUserId);
+      return MessageUtils.constructSystemMessageText(
+        lastMessage as Message,
+        lastMessage?.userCreator?.id === currentUserId
+      );
     }
 
     if (conference) {

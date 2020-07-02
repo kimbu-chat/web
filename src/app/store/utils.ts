@@ -26,19 +26,3 @@ export interface Page {
   limit: number;
   offset: number;
 }
-
-export interface Country {
-  callingCode: string;
-  code: string;
-  flag: string;
-  name: string;
-}
-
-export type IterableItem = {
-  isHeader?: boolean;
-  name: string;
-};
-
-export type NetworkState = {
-  isConnected: boolean;
-};

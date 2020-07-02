@@ -29,8 +29,7 @@ export function* messages(action: ReturnType<typeof getMessagesAction>): Iterato
   let messageList: GetMessagesResponse = {
     dialogId: dialog.id,
     messages: [],
-    hasMoreMessages: messages.length >= page.limit,
-    isFromLocalDb: true
+    hasMoreMessages: messages.length >= page.limit
   };
   yield put(getMessagesSuccessAction(messageList));
 
@@ -56,8 +55,7 @@ export function* messages(action: ReturnType<typeof getMessagesAction>): Iterato
     let messageList: GetMessagesResponse = {
       dialogId: dialog.id,
       messages: data,
-      hasMoreMessages: data.length >= page.limit,
-      isFromLocalDb: false
+      hasMoreMessages: data.length >= page.limit
     };
 
     yield put(getMessagesSuccessAction(messageList));
@@ -73,7 +71,6 @@ export function* createMessage(action: ReturnType<typeof createMessageAction>): 
   } else {
     try {
       if (isInternetAvailable) {
-
         const messageCreationReq: MessageCreationReqData = {
           text: message.text
         };

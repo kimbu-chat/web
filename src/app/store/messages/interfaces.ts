@@ -1,5 +1,4 @@
 import { Page } from '../utils';
-import { Content } from '../news/interfaces';
 import { UserPreview } from '../user/interfaces';
 import { Dialog } from '../dialogs/types';
 
@@ -9,9 +8,7 @@ export interface MessageList {
   dialogId: number;
 }
 
-export interface GetMessagesResponse extends MessageList {
-  isFromLocalDb: boolean;
-}
+export interface GetMessagesResponse extends MessageList {}
 
 export interface SystemMessageBase {}
 
@@ -31,6 +28,20 @@ export interface ConfereceMemberAddedSystemMessageContent extends SystemMessageB
   conferenceName: string;
   conferenceMembersNumber: number;
   conferenceAvatarUrl: string;
+}
+
+export interface Content {
+  type?: string;
+  originalUrl?: string;
+  thumbnailLargeUrl?: string;
+  thumbnailMediumUrl?: string;
+  thumbnailSmallUrl?: string;
+  votesCount?: string;
+  commentsCount?: string;
+  id?: number;
+  isVoted?: boolean;
+  userCreator?: UserPreview;
+  creationDateTime?: Date;
 }
 
 export interface Message {

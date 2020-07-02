@@ -9,7 +9,13 @@ import SendMessage from '../../components/MessengerPage/SendMessage/SendMessage'
 import AccountInfo from '../AccountInfo/AccountInfo';
 import BackgroundBlur from '../../utils/BackgroundBlur';
 
-const Messenger = () => {
+namespace Messenger {
+  export interface Props {
+    id?: number;
+  }
+}
+
+const Messenger = ({ id }: Messenger.Props) => {
   // const [activeChat, setActiveChat] = useState<string | null>(null);
   const sliderRef = useRef<HTMLDivElement>(null);
 
@@ -23,6 +29,7 @@ const Messenger = () => {
 
   return (
     <div className="messenger">
+      {id}
       <SearchTop displaySlider={displaySlider} />
       <BackgroundBlur />
       <AccountInfo ref={sliderRef} hideSlider={hideSlider} />

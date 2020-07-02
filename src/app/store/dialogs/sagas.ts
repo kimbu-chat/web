@@ -3,7 +3,7 @@ import { getDialogsAction, getDialogsSuccessAction, muteDialogAction, muteDialog
 import { AxiosResponse } from 'axios';
 import { Dialog, MuteDialogRequest, GetDialogsResponse } from './types';
 import { getDialogsApi, muteDialogApi } from './api';
-import { MessageState } from '../messages/types';
+import { MessageState } from '../messages/interfaces';
 import { DialogService } from './dialog-service';
 
 export function* getDialogsSaga(action: ReturnType<typeof getDialogsAction>): Iterator<any> {

@@ -3,11 +3,12 @@ import React from 'react';
 import './ChatFromList.scss';
 import { Dialog } from 'app/store/dialogs/types';
 import * as moment from 'moment';
-import { SystemMessageType, Message } from 'app/store/messages/types';
+import { SystemMessageType, Message } from 'app/store/messages/interfaces';
 import { MessageUtils } from 'app/utils/message-utils';
 import { useSelector } from 'react-redux';
 import { AppState } from 'app/store';
 import { Avatar } from '@material-ui/core';
+import { NavLink } from 'react-router-dom';
 
 namespace ChatFromList {
   export interface Props {
@@ -31,7 +32,10 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
   const getMessageText = (): string => {
     const { lastMessage, conference } = dialog;
     if (lastMessage?.systemMessageType !== SystemMessageType.None) {
-      return MessageUtils.constructSystemMessageText(lastMessage as Message, lastMessage?.userCreator?.id === currentUserId);
+      return MessageUtils.constructSystemMessageText(
+        lastMessage as Message,
+        lastMessage?.userCreator?.id === currentUserId
+      );
     }
 
     if (conference) {
@@ -41,18 +45,49 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
       return `${lastMessage.userCreator.firstName}: ${lastMessage.text}`;
     }
 
-    return lastMessage.text;
+    const shortedText = lastMessage.text.substr(0, 19);
+
+    return shortedText;
+  };
+
+  const getDialogInterlocutor = (): string => {
+    const { interlocutor } = dialog;
+
+    if (interlocutor) {
+      const { firstName, lastName } = interlocutor;
+
+      const interlocutorName = `${firstName} ${lastName}`;
+
+      return interlocutorName;
+    }
+
+    return '';
+  };
+
+  const getInterlocutorInitials = (): string => {
+    const initials = getDialogInterlocutor()
+      .split(' ')
+      .reduce((accum, current) => {
+        return accum + current[0];
+      }, '');
+
+    const shortedInitials = initials.substr(0, 3);
+
+    return shortedInitials;
   };
 
   return (
-    <button className="messenger__chat-block">
+    <NavLink
+      to={`/chats/${dialog.id}`}
+      activeClassName={'messenger__chat-block messenger__chat-block--active'}
+      className="messenger__chat-block"
+    >
       <div className="messenger__active-line"></div>
       <Avatar alt="Remy Sharp" src={getDialogAvatar()}>
-        B
+        {getInterlocutorInitials()}
       </Avatar>
-      {/* <img src={getDialogAvatar()} alt="" className="messenger__chat-img" /> */}
       <div className="messenger__name-and-message">
-        <div className="messenger__name">{name}</div>
+        <div className="messenger__name">{getDialogInterlocutor()}</div>
         <div className="flat">
           {/* <img src={lastPhoto} alt="" className="messenger__last-photo" /> */}
           <div className="messenger__last-message">{getMessageText()}</div>
@@ -62,7 +97,7 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
         <div className="messenger__time">{moment.utc(lastMessage?.creationDateTime).local().format('hh:mm')}</div>
         {/* <div className="messenger__count">{count}</div> */}
       </div>
-    </button>
+    </NavLink>
   );
 };
 

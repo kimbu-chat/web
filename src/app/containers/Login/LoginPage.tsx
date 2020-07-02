@@ -52,7 +52,7 @@ export default function LoginPage() {
   const checkCode = async () => {
     checkConfirmationCode({ code, phoneNumber: parsePhoneNumberFromString(phone)?.number?.toString() || '' }).then(
       () => {
-        history.push('/messenger');
+        history.push('/chats');
       }
     );
   };

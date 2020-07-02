@@ -1,25 +1,25 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router';
+import { Route, Redirect, useParams } from 'react-router';
 import { useSelector } from 'react-redux';
 import { AppState } from 'app/store';
 
 namespace PrivateRoute {
   export interface Props {
-    component: JSX.Element;
+    Component: any;
     path: string;
   }
 }
 
-function PrivateRoute({ component, path, ...rest }: PrivateRoute.Props) {
+function PrivateRoute({ Component, path, ...rest }: PrivateRoute.Props) {
   const isAuthenticated = useSelector<AppState, boolean>((rootState) => rootState.auth.isAuthenticated) || false;
-
+  const params = useParams;
   return (
     <Route
       path={path}
       {...rest}
       render={({ location }) =>
         isAuthenticated ? (
-          component
+          <Component {...params} />
         ) : (
           <Redirect
             to={{

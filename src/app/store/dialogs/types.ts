@@ -1,6 +1,6 @@
 import { Page } from '../common/types';
 import { UserPreview } from '../contacts/types';
-import { Message } from '../messages/types';
+import { Message } from '../messages/interfaces';
 
 export enum DialogsActionTypes {
   GET_DIALOGS = 'GET_DIALOGS',
@@ -44,7 +44,7 @@ export enum DialogsActionTypes {
 }
 
 export interface Conference {
-  id?: number;
+  id: number;
   avatarUrl?: string;
   name?: string;
   membersCount?: number;
@@ -119,7 +119,7 @@ export enum DialogType {
 }
 
 export interface Dialog {
-  id?: number;
+  id: number;
   interlocutorType?: InterlocutorType;
   conference?: Conference | null;
   lastMessage: Message;

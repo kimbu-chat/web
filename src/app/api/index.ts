@@ -40,8 +40,13 @@ const mainApiInstance = axios.create({
   }
 });
 
+const notificationsInstance = axios.create({
+  baseURL: 'http://notifications.ravudi.com'
+});
+
 export const setToken = (token: string): void => {
   mainApiInstance.defaults.headers.Authorization = `Bearer ${token}`;
+  notificationsInstance.defaults.headers.Authorization = `Bearer ${token}`;
 };
 
 function assignResponseInterceptor(service: AxiosInstance): void {
@@ -91,3 +96,4 @@ function createApi(service: AxiosInstance): api {
 }
 
 export const api: api = createApi(mainApiInstance);
+export const notifications = createApi(notificationsInstance);

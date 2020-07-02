@@ -5,7 +5,7 @@ import {
   ConfereceMemberRemovedSystemMessageContent,
   ConfereceMemberAddedSystemMessageContent,
   ConfereceNameChangedSystemMessageContent
-} from 'app/store/messages/types';
+} from 'app/store/messages/interfaces';
 import { UserStatus } from 'app/store/contacts/types';
 import moment from 'moment';
 

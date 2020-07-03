@@ -8,6 +8,10 @@ import { signalRInvokeMiddleware } from './middlewares/websockets/signalR';
 
 export type AppState = ReturnType<typeof rootReducer>;
 
+declare module 'react-redux' {
+  interface DefaultRootState extends AppState {}
+}
+
 type ReduxStore = Store<AppState>;
 
 export default function (): ReduxStore {

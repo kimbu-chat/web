@@ -57,8 +57,8 @@ const messages = (state: MessagesState = initialState, action: TypedAction): Mes
       };
     }
     case GET_MESSAGES_SUCCESS: {
-      const { dialogId, hasMoreMessages }: GetMessagesResponse = action.payload;
-      const isDialogExists = state.messages.find((elem) => elem.dialogId === dialogId) ? true : false;
+      const { dialogId, hasMoreMessages, messages }: GetMessagesResponse = action.payload;
+      const isDialogExists = typeof state.messages[dialogId] === 'object';
 
       // if server returned empty message list for interlocutor and there are
       // no messages in the store for interlocutor, create empty message list the in store
@@ -82,7 +82,8 @@ const messages = (state: MessagesState = initialState, action: TypedAction): Mes
             [dialogId]: {
               ...state.messages[dialogId],
               hasMoreMessages: hasMoreMessages,
-              dialogId: dialogId
+              dialogId: dialogId,
+              messages: [...state.messages[dialogId].messages, ...messages]
             }
           },
           loading: false

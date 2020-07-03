@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-
+import { useParams } from 'react-router';
 import './Messenger.scss';
 import SearchTop from '../../components/MessengerPage/SearchTop/SearchTop';
 import ChatData from '../../components/MessengerPage/ChatData/ChatData';
@@ -9,15 +9,10 @@ import SendMessage from '../../components/MessengerPage/SendMessage/SendMessage'
 import AccountInfo from '../AccountInfo/AccountInfo';
 import BackgroundBlur from '../../utils/BackgroundBlur';
 
-namespace Messenger {
-  export interface Props {
-    id?: number;
-  }
-}
-
-const Messenger = ({ id }: Messenger.Props) => {
-  // const [activeChat, setActiveChat] = useState<string | null>(null);
+const Messenger = () => {
   const sliderRef = useRef<HTMLDivElement>(null);
+
+  const { id: chatId } = useParams();
 
   const displaySlider = () => {
     if (sliderRef.current) sliderRef.current.style.left = '0px';
@@ -29,7 +24,6 @@ const Messenger = ({ id }: Messenger.Props) => {
 
   return (
     <div className="messenger">
-      {id}
       <SearchTop displaySlider={displaySlider} />
       <BackgroundBlur />
       <AccountInfo ref={sliderRef} hideSlider={hideSlider} />
@@ -40,7 +34,7 @@ const Messenger = ({ id }: Messenger.Props) => {
       />
       <ChatList />
       <div className="messenger__chat-send">
-        <Chat />
+        <Chat chatId={chatId} />
         <SendMessage />
       </div>
     </div>

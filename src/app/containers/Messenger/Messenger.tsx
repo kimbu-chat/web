@@ -24,7 +24,6 @@ const Messenger = () => {
 
   return (
     <div className="messenger">
-      {id}
       <SearchTop displaySlider={displaySlider} />
       <BackgroundBlur />
       <AccountInfo ref={sliderRef} hideSlider={hideSlider} />

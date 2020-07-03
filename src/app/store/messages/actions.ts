@@ -34,3 +34,13 @@ export const changeInterlocutorLastReadMessageIdAction = (data: MessagesReadInte
 export const messageTypingAction = (data: UserMessageTypingRequest) =>
   createAction(NOTIFY_USER_ABOUT_MESSAGE_TYPING, data);
 export const markMessagesAsReadAction = (dialog: Dialog) => createAction(RESET_UNREAD_MESSAGES_COUNT, dialog);
+
+export type MessagesActions =
+  | typeof getMessagesAction
+  | typeof getMessagesSuccessAction
+  | typeof getMessagesFailureAction
+  | typeof createMessageAction
+  | typeof createMessageSuccessAction
+  | typeof changeInterlocutorLastReadMessageIdAction
+  | typeof messageTypingAction
+  | typeof markMessagesAsReadAction;

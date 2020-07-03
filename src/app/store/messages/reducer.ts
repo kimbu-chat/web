@@ -1,4 +1,4 @@
-import { CreateMessageRequest, MessageList, CreateMessageResponse, GetMessagesResponse, Message } from './interfaces';
+import { MessageList, GetMessagesResponse, Message } from './interfaces';
 import {
   CREATE_MESSAGE,
   CREATE_MESSAGE_SUCCESS,
@@ -6,6 +6,7 @@ import {
   GET_MESSAGES_FAILURE,
   GET_MESSAGES_SUCCESS
 } from './types';
+import { MessagesActions } from './actions';
 import _ from 'lodash';
 
 export interface MessagesState {
@@ -18,17 +19,7 @@ const initialState: MessagesState = {
   messages: []
 };
 
-export type TypedAction =
-  | { type: typeof CREATE_MESSAGE; payload: CreateMessageRequest }
-  | { type: typeof CREATE_MESSAGE_SUCCESS; payload: CreateMessageResponse }
-  | { type: typeof GET_MESSAGES; payload: any }
-  | {
-      type: typeof GET_MESSAGES_SUCCESS;
-      payload: GetMessagesResponse;
-    }
-  | { type: typeof GET_MESSAGES_FAILURE; payload: any };
-
-const messages = (state: MessagesState = initialState, action: TypedAction): MessagesState => {
+const messages = (state: MessagesState = initialState, action: ReturnType<MessagesActions>): MessagesState => {
   switch (action.type) {
     case CREATE_MESSAGE_SUCCESS: {
       const { messageState, dialogId, oldMessageId, newMessageId } = action.payload;
@@ -83,7 +74,7 @@ const messages = (state: MessagesState = initialState, action: TypedAction): Mes
               ...state.messages[dialogId],
               hasMoreMessages: hasMoreMessages,
               dialogId: dialogId,
-              messages: [...state.messages[dialogId].messages, ...messages]
+              messages: _.unionBy(state.messages[dialogId].messages, messages, 'id')
             }
           },
           loading: false
@@ -98,7 +89,7 @@ const messages = (state: MessagesState = initialState, action: TypedAction): Mes
     }
     case CREATE_MESSAGE: {
       const { dialog, message } = action.payload;
-      const isDialogExists = state.messages.find((elem) => elem.dialogId === dialog.id) ? true : false;
+      const isDialogExists = typeof state.messages[dialog.id] === 'object';
 
       if (!isDialogExists) {
         const messageList: MessageList = {

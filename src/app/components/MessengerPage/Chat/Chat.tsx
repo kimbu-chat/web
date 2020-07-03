@@ -18,36 +18,46 @@ namespace Chat {
 }
 
 const Chat = ({ chatId }: Chat.Props) => {
+  const getMessages = useActionWithDeferred(getMessagesAction);
   const dialog = useSelector((state) =>
     state.dialogs.dialogs.find(({ id }) => {
       return id === Number(chatId);
     })
   );
 
-  //const messages = useSelector((state) => state.messages[Number(chatId)].messages);
-
-  const getMessages = useActionWithDeferred(getMessagesAction);
-
   const page = {
     offset: 0,
-    limit: 10
+    limit: 25
   };
 
   useEffect(() => {
     if (dialog) {
+      console.log(111);
       getMessages({
         page,
         dialog,
         initiatedByScrolling: false
       });
-      console.log(1);
     }
-  });
+  }, [dialog]);
+
+  const messages = useSelector((state) => state.messages.messages[Number(chatId)]?.messages);
+  const myId = useSelector((state) => state.auth.currentUser?.id);
+
+  const messageIsFrom = (id: Number | undefined) => {
+    if (id === myId) {
+      return messageFrom.me;
+    } else {
+      return messageFrom.others;
+    }
+  };
 
   return (
     <div className="messenger__messages-list">
       <div className="messenger__messages-container">
-        <Message from={messageFrom.me} content="12345" time="20:20" />
+        {messages?.map((msg) => {
+          return <Message key={msg.id} from={messageIsFrom(msg.userCreator.id)} content={msg.text} time="20:20" />;
+        })}
       </div>
     </div>
   );

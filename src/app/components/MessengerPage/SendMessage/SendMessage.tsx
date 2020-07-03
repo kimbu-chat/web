@@ -1,8 +1,22 @@
 import React from 'react';
-
+import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
+import { createMessageAction } from '../../../store/messages/actions';
 import './_SendMessage.scss';
 
 const SendMessage = () => {
+  const sendMessage = useActionWithDeferred(createMessageAction);
+
+  //Потом уберу - нужно чтоб орьентировался
+  // export interface CreateMessageRequest extends EntityCreation {
+  //   dialog: Dialog;
+  //   currentUser: UserPreview;
+  //   selectedDialogId: number;
+  //   message: Message;
+  //   files?: Array<UploadingFileInfo>;
+  //   isFromEvent: boolean;
+  // }
+
+  const sendMessageToServer = () => sendMessage({});
   return (
     <div className="messenger__send-message">
       <button className="messenger__display-smiles">
@@ -13,7 +27,7 @@ const SendMessage = () => {
           ></path>
         </svg>
       </button>
-      <form action="none" className="messenger__input-group">
+      <form action="none" className="messenger__input-group" onSubmit={sendMessageToServer}>
         <input placeholder="Напишите сообщение..." type="text" className="messenger__input-message" />
         <button className="messenger__send-btn">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">

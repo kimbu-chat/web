@@ -54,9 +54,10 @@ export function* messages(action: ReturnType<typeof getMessagesAction>): Iterato
 }
 
 export function* createMessage(action: ReturnType<typeof createMessageAction>): Iterator<any> {
-  const { message, dialog, isFromEvent } = action.payload;
+  let { message, dialog, isFromEvent } = {...action.payload};
   dialog.lastMessage = message;
   const {interlocutorId, interlocutorType} = DialogService.parseDialogId(dialog.id);
+  console.log('create')
   if (isFromEvent) {
     yield call(notifyInterlocutorThatMessageWasRead, action.payload);
   } else {
@@ -78,18 +79,8 @@ export function* createMessage(action: ReturnType<typeof createMessageAction>): 
             messageState: MessageState.SENT
           })
         );
-        message.id = data;
-        message.state = MessageState.SENT;
     } catch {
-      yield put(
-        createMessageSuccessAction({
-          dialogId: message.dialogId || 0,
-          oldMessageId: message.id,
-          newMessageId: message.id,
-          messageState: MessageState.ERROR
-        })
-      );
-      message.state = MessageState.ERROR;
+      alert("error message create")
     }
   }
 }

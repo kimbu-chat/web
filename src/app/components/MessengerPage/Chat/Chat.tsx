@@ -23,7 +23,9 @@ namespace Chat {
 const Chat = ({ chatId }: Chat.Props) => {
   const getMessages = useActionWithDeferred(getMessagesAction);
   const selectedDialog = useSelector(getSelectedDialogSelector);
-  const messages = useSelector<AppState, Message[]>((state) => state.messages.messages.find(x=>x.dialogId == chatId)?.messages as Message[]);
+  const messages = useSelector<AppState, Message[]>(
+    (state) => state.messages.messages.find((x) => x.dialogId == chatId)?.messages as Message[]
+  );
   const myId = useSelector<AppState, number>((state) => state.auth.authentication.userId);
 
   const page = {
@@ -41,9 +43,8 @@ const Chat = ({ chatId }: Chat.Props) => {
     }
   }, [selectedDialog]);
 
-
-  if(!selectedDialog || !messages){
-    return null;
+  if (!selectedDialog || !messages) {
+    return <div className="messenger__messages-list"></div>;
   }
 
   const messageIsFrom = (id: Number | undefined) => {

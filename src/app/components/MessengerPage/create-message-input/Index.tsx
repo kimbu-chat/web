@@ -11,14 +11,13 @@ import { Dialog } from 'app/store/dialogs/types';
 
 const CreateMessageInput = () => {
   const sendMessage = useActionWithDispatch(createMessageAction);
- 
+
   const currentUserId = useSelector<AppState, number>((appState: AppState) => appState.auth.authentication.userId);
   const selectedDialog = useSelector(getSelectedDialogSelector) as Dialog;
-  console.log(selectedDialog)
+  console.log(selectedDialog);
   const [text, setText] = useState('');
 
   const sendMessageToServer = () => {
-
     const currentUser: UserPreview = {
       id: currentUserId
     };
@@ -40,7 +39,9 @@ const CreateMessageInput = () => {
         dialogId: dialogId
       }
     });
-}
+
+    setText('');
+  };
   return (
     <div className="messenger__send-message">
       <button className="messenger__display-smiles">
@@ -52,7 +53,13 @@ const CreateMessageInput = () => {
         </svg>
       </button>
       <div className="messenger__input-group" onSubmit={sendMessageToServer}>
-        <input placeholder="Напишите сообщение..." type="text"  value={text}  onChange={event => setText(event.target.value)} className="messenger__input-message" />
+        <input
+          placeholder="Напишите сообщение..."
+          type="text"
+          value={text}
+          onChange={(event) => setText(event.target.value)}
+          className="messenger__input-message"
+        />
         <button className="messenger__send-btn" onClick={sendMessageToServer}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
             <path d="M2.56 10.26c.07-.55.58-1.04 1.12-1.1L11 8.38c.56-.06.56-.16 0-.22l-7.3-.78c-.55-.06-1.05-.55-1.12-1.1l-.54-4.02c-.15-1.1.52-1.57 1.5-1.04l11.38 6.1c.97.52 1 1.37 0 1.9l-11.38 6.1c-.97.52-1.65.06-1.5-1.04l.54-4.02z"></path>

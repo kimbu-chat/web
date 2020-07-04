@@ -5,7 +5,7 @@ import SearchTop from '../../components/MessengerPage/SearchTop/SearchTop';
 import ChatData from '../../components/MessengerPage/ChatData/ChatData';
 import ChatList from '../../components/MessengerPage/ChatList/ChatList';
 import Chat from '../../components/MessengerPage/Chat/Chat';
-import SendMessage from '../../components/MessengerPage/SendMessage/SendMessage';
+import CreateMessageInput from '../../components/MessengerPage/create-message-input/Index';
 import AccountInfo from '../AccountInfo/AccountInfo';
 import BackgroundBlur from '../../utils/BackgroundBlur';
 
@@ -34,8 +34,8 @@ const Messenger = () => {
       />
       <ChatList />
       <div className="messenger__chat-send">
-        <Chat chatId={chatId} />
-        <SendMessage />
+        <Chat chatId={Number(chatId)} />
+        <CreateMessageInput />
       </div>
     </div>
   );

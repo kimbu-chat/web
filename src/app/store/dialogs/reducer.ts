@@ -191,18 +191,18 @@ const dialogs = (state: DialogsState = initialState, action: ReturnType<DialogAc
     //     return state;
     //   }
     // }
-    // case CHANGE_SELECTED_DIALOG: {
-    //   return {
-    //     ...state,
-    //     selectedDialogId: action.payload
-    //   };
-    // }
-    // case UNSET_SELECTED_DIALOG: {
-    //   return {
-    //     ...state,
-    //     selectedDialogId: null
-    //   };
-    // }
+    case DialogsActionTypes.CHANGE_SELECTED_DIALOG: {
+      return {
+        ...state,
+        selectedDialogId: action.payload
+      };
+    }
+    case DialogsActionTypes.UNSET_SELECTED_DIALOG: {
+      return {
+        ...state,
+        selectedDialogId: null
+      };
+    }
     // case USER_STATUS_CHANGED_EVENT: {
     //   const dialogId: number = DialogRepository.getDialogIdentifier({
     //     interlocutor: { id: action.payload.objectId }

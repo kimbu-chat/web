@@ -8,7 +8,9 @@ import { MessageUtils } from 'app/utils/message-utils';
 import { useSelector } from 'react-redux';
 import { AppState } from 'app/store';
 import { Avatar } from '@material-ui/core';
-import { NavLink } from 'react-router-dom';
+import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+import { changeSelectedDialogAction } from 'app/store/dialogs/actions';
+import { useHistory } from "react-router-dom";
 
 namespace ChatFromList {
   export interface Props {
@@ -18,8 +20,10 @@ namespace ChatFromList {
 
 const ChatFromList = ({ dialog }: ChatFromList.Props) => {
   const { interlocutor, lastMessage, conference } = dialog;
-  const currentUserId: number = useSelector<AppState, number>((state) => state.auth.currentUser?.id as number);
+  const currentUserId: number = useSelector<AppState, number>((state) => state.auth.authentication.userId);
   const isMessageCreatorCurrentUser: boolean = lastMessage?.userCreator?.id === currentUserId;
+  const changeSelectedDialog = useActionWithDispatch(changeSelectedDialogAction);
+  let history = useHistory();
 
   const getDialogAvatar = (): string => {
     if (interlocutor) {
@@ -76,10 +80,14 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
     return shortedInitials;
   };
 
+  const setSelectedDialog = (): void => {
+    changeSelectedDialog(dialog.id);
+    history.push(`/chats/${dialog.id}`)
+  };
+
   return (
-    <NavLink
-      to={`/chats/${dialog.id}`}
-      activeClassName={'messenger__chat-block messenger__chat-block--active'}
+    <div onClick={setSelectedDialog}
+      // activeClassName={'messenger__chat-block messenger__chat-block--active'}
       className="messenger__chat-block"
     >
       <div className="messenger__active-line"></div>
@@ -97,7 +105,7 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
         <div className="messenger__time">{moment.utc(lastMessage?.creationDateTime).local().format('hh:mm')}</div>
         {/* <div className="messenger__count">{count}</div> */}
       </div>
-    </NavLink>
+    </div>
   );
 };
 

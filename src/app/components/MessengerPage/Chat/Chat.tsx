@@ -1,10 +1,13 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import Message from '../Message/Message';
 import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
 import { getMessagesAction } from '../../../store/messages/actions';
 
 import './Chat.scss';
+import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
+import MessageItem from '../message-item';
+import { Message } from 'app/store/messages/interfaces';
+import { AppState } from 'app/store';
 
 export enum messageFrom {
   me,
@@ -13,17 +16,15 @@ export enum messageFrom {
 
 namespace Chat {
   export interface Props {
-    chatId: string;
+    chatId: number;
   }
 }
 
 const Chat = ({ chatId }: Chat.Props) => {
   const getMessages = useActionWithDeferred(getMessagesAction);
-  const dialog = useSelector((state) =>
-    state.dialogs.dialogs.find(({ id }) => {
-      return id === Number(chatId);
-    })
-  );
+  const selectedDialog = useSelector(getSelectedDialogSelector);
+  const messages = useSelector<AppState, Message[]>((state) => state.messages.messages.find(x=>x.dialogId == chatId)?.messages as Message[]);
+  const myId = useSelector<AppState, number>((state) => state.auth.authentication.userId);
 
   const page = {
     offset: 0,
@@ -31,18 +32,19 @@ const Chat = ({ chatId }: Chat.Props) => {
   };
 
   useEffect(() => {
-    if (dialog) {
-      console.log(111);
+    if (selectedDialog) {
       getMessages({
         page,
-        dialog,
+        dialog: selectedDialog,
         initiatedByScrolling: false
       });
     }
-  }, [dialog]);
+  }, [selectedDialog]);
 
-  const messages = useSelector((state) => state.messages.messages[Number(chatId)]?.messages);
-  const myId = useSelector((state) => state.auth.currentUser?.id);
+
+  if(!selectedDialog || !messages){
+    return null;
+  }
 
   const messageIsFrom = (id: Number | undefined) => {
     if (id === myId) {
@@ -55,8 +57,8 @@ const Chat = ({ chatId }: Chat.Props) => {
   return (
     <div className="messenger__messages-list">
       <div className="messenger__messages-container">
-        {messages?.map((msg) => {
-          return <Message key={msg.id} from={messageIsFrom(msg.userCreator.id)} content={msg.text} time="20:20" />;
+        {messages.map((msg) => {
+          return <MessageItem key={msg.id} from={messageIsFrom(msg.userCreator.id)} content={msg.text} time="20:20" />;
         })}
       </div>
     </div>

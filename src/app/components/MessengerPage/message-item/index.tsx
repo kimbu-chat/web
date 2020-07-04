@@ -10,7 +10,7 @@ namespace Message {
   }
 }
 
-const Message = ({ from, content, time }: Message.Props) => {
+const MessageItem = ({ from, content, time }: Message.Props) => {
   return (
     <div
       className={
@@ -33,4 +33,4 @@ const Message = ({ from, content, time }: Message.Props) => {
   );
 };
 
-export default Message;
+export default MessageItem;

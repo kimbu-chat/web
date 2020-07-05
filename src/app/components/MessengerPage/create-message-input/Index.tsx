@@ -14,7 +14,6 @@ const CreateMessageInput = () => {
 
   const currentUserId = useSelector<AppState, number>((appState: AppState) => appState.auth.authentication.userId);
   const selectedDialog = useSelector(getSelectedDialogSelector) as Dialog;
-  console.log(selectedDialog);
   const [text, setText] = useState('');
 
   const sendMessageToServer = () => {
@@ -42,6 +41,12 @@ const CreateMessageInput = () => {
 
     setText('');
   };
+
+  const handleKeyPress = (event: any) => {
+    if (event.key === 'Enter') {
+      sendMessageToServer();
+    }
+  };
   return (
     <div className="messenger__send-message">
       <button className="messenger__display-smiles">
@@ -59,6 +64,7 @@ const CreateMessageInput = () => {
           value={text}
           onChange={(event) => setText(event.target.value)}
           className="messenger__input-message"
+          onKeyPress={handleKeyPress}
         />
         <button className="messenger__send-btn" onClick={sendMessageToServer}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">

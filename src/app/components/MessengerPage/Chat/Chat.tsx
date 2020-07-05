@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
 import { getMessagesAction } from '../../../store/messages/actions';
-
+import InfiniteScroll from 'react-infinite-scroller';
 import './Chat.scss';
 import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
 import MessageItem from '../message-item';
@@ -26,21 +26,29 @@ const Chat = ({ chatId }: Chat.Props) => {
   const messages = useSelector<AppState, Message[]>(
     (state) => state.messages.messages.find((x) => x.dialogId == chatId)?.messages as Message[]
   );
+  const hasMoreMessages = useSelector<AppState, boolean>(
+    (state) => state.messages.messages.find((x) => x.dialogId == chatId)?.hasMoreMessages as boolean
+  );
   const myId = useSelector<AppState, number>((state) => state.auth.authentication.userId);
+  const messagesContainerRef = useRef(null);
 
-  const page = {
-    offset: 0,
-    limit: 25
-  };
+  const loadPage = (page: number) => {
+    const pageData = {
+      limit: 25,
+      offset: page * 25
+    };
 
-  useEffect(() => {
     if (selectedDialog) {
       getMessages({
-        page,
+        page: pageData,
         dialog: selectedDialog,
         initiatedByScrolling: false
       });
     }
+  };
+
+  useEffect(() => {
+    loadPage(0);
   }, [selectedDialog]);
 
   if (!selectedDialog || !messages) {
@@ -57,10 +65,35 @@ const Chat = ({ chatId }: Chat.Props) => {
 
   return (
     <div className="messenger__messages-list">
-      <div className="messenger__messages-container">
-        {messages.map((msg) => {
-          return <MessageItem key={msg.id} from={messageIsFrom(msg.userCreator.id)} content={msg.text} time="20:20" />;
-        })}
+      <div ref={messagesContainerRef} className="messenger__messages-container">
+        <InfiniteScroll
+          pageStart={0}
+          loadMore={loadPage}
+          hasMore={hasMoreMessages}
+          loader={
+            <div className="loader" key={0}>
+              Loading ...
+            </div>
+          }
+          useWindow={false}
+          getScrollParent={() => messagesContainerRef.current}
+          isReverse={true}
+        >
+          {messages
+            .map((msg) => {
+              return (
+                <MessageItem
+                  key={msg.id}
+                  from={messageIsFrom(msg.userCreator.id)}
+                  content={msg.text}
+                  time={`${new Date(msg.creationDateTime ? msg.creationDateTime : 0).getUTCHours()}:${new Date(
+                    msg.creationDateTime ? msg.creationDateTime : 0
+                  ).getUTCMinutes()}`}
+                />
+              );
+            })
+            .reverse()}
+        </InfiniteScroll>
       </div>
     </div>
   );

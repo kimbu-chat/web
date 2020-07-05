@@ -7,6 +7,7 @@
     min-height: 32px;
     transition: padding-top linear 0.15s, padding-bottom linear 0.15s, border-radius linear 0.15s;
     display: flex;
+    margin-top: 3px;
 
     &--from-me {
       justify-content: flex-end;
@@ -14,6 +15,10 @@
 
     &--from-others {
       justify-content: flex-start;
+    }
+
+    &:last-child {
+      margin-bottom: 10px;
     }
   }
   &__message {

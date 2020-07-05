@@ -57,6 +57,12 @@ export default function LoginPage() {
     );
   };
 
+  const confirmPhoneByCode = (event: any) => {
+    if (event.key === 'Enter') {
+      checkCode();
+    }
+  };
+
   return (
     <div className="login-page">
       {stage === LogPage.Stages.phoneInput && (
@@ -87,6 +93,7 @@ export default function LoginPage() {
               id="outlined-required"
               label="Code"
               variant="outlined"
+              onKeyPress={confirmPhoneByCode}
             />
             <div className="login-page__button-container">
               <Button onClick={checkCode} className="login-page__check-button" variant="contained" color="primary">

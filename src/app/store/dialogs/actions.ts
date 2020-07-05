@@ -22,6 +22,16 @@ export const muteDialogSuccessAction = (dialog: Dialog) => createAction(DialogsA
 
 export const unsetSelectedDialogAction = () => createAction(DialogsActionTypes.UNSET_SELECTED_DIALOG);
 
+export const interlocutorStoppedTypingAction = (dialog: Dialog) =>
+  createAction(DialogsActionTypes.INTERLOCUTOR_STOPPED_TYPING, dialog);
+
+interface TypingEvent extends Dialog {
+  text: string;
+}
+
+export const interlocutorMessageTypingAction = (dialog: TypingEvent) =>
+  createAction(DialogsActionTypes.INTERLOCUTOR_MESSAGE_TYPING_EVENT, dialog);
+
 export type DialogActions =
   | typeof getDialogsAction
   | typeof changeSelectedDialogAction
@@ -31,4 +41,6 @@ export type DialogActions =
   | typeof removeDialogSuccessAction
   | typeof muteDialogAction
   | typeof muteDialogSuccessAction
-  | typeof unsetSelectedDialogAction;
+  | typeof unsetSelectedDialogAction
+  | typeof interlocutorStoppedTypingAction
+  | typeof interlocutorMessageTypingAction;

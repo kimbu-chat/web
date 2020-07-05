@@ -15,25 +15,18 @@ import {
   Message,
   MessageCreationReqData,
   MessageState,
-  GetMessagesResponse,
   SystemMessageType,
-  MessagesReqData
+  MessagesReqData,
+  MessageList
 } from './interfaces';
 
 import { InterlocutorType } from '../dialogs/types';
+import { DialogService } from '../dialogs/dialog-service';
 
 export function* messages(action: ReturnType<typeof getMessagesAction>): Iterator<any> {
   const { page, dialog } = action.payload;
   const isConference: boolean = Boolean(dialog.conference);
 
-  let messageList: GetMessagesResponse = {
-    dialogId: dialog.id,
-    messages: [],
-    hasMoreMessages: messages.length >= page.limit
-  };
-  yield put(getMessagesSuccessAction(messageList));
-
-  {
     const request: MessagesReqData = {
       page: page,
       dialog: {
@@ -51,28 +44,28 @@ export function* messages(action: ReturnType<typeof getMessagesAction>): Iterato
           ? MessageState.READ
           : MessageState.SENT;
     });
-
-    let messageList: GetMessagesResponse = {
+    let messageList: MessageList = {
       dialogId: dialog.id,
       messages: data,
       hasMoreMessages: data.length >= page.limit
     };
 
     yield put(getMessagesSuccessAction(messageList));
-  }
 }
 
 export function* createMessage(action: ReturnType<typeof createMessageAction>): Iterator<any> {
-  const { message, dialog, isFromEvent } = action.payload;
-  const isInternetAvailable: boolean = true;
+  let { message, dialog, isFromEvent } = {...action.payload};
   dialog.lastMessage = message;
+  const {interlocutorId, interlocutorType} = DialogService.parseDialogId(dialog.id);
+  console.log('create')
   if (isFromEvent) {
     yield call(notifyInterlocutorThatMessageWasRead, action.payload);
   } else {
     try {
-      if (isInternetAvailable) {
         const messageCreationReq: MessageCreationReqData = {
-          text: message.text
+          text: message.text,
+          conferenceId: interlocutorType === InterlocutorType.CONFERENCE ? interlocutorId: null,
+          userInterlocutorId: interlocutorType === InterlocutorType.USER ? interlocutorId: null
         };
 
         //@ts-ignore
@@ -86,19 +79,8 @@ export function* createMessage(action: ReturnType<typeof createMessageAction>): 
             messageState: MessageState.SENT
           })
         );
-        message.id = data;
-        message.state = MessageState.SENT;
-      }
     } catch {
-      yield put(
-        createMessageSuccessAction({
-          dialogId: message.dialogId || 0,
-          oldMessageId: message.id,
-          newMessageId: message.id,
-          messageState: MessageState.ERROR
-        })
-      );
-      message.state = MessageState.ERROR;
+      alert("error message create")
     }
   }
 }

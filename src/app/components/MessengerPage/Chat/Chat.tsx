@@ -1,10 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import Message from '../Message/Message';
 import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
 import { getMessagesAction } from '../../../store/messages/actions';
-
+import InfiniteScroll from 'react-infinite-scroller';
 import './Chat.scss';
+import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
+import MessageItem from '../message-item';
+import { Message } from 'app/store/messages/interfaces';
+import { AppState } from 'app/store';
 
 export enum messageFrom {
   me,
@@ -13,41 +16,84 @@ export enum messageFrom {
 
 namespace Chat {
   export interface Props {
-    chatId: string;
+    chatId: number;
   }
 }
 
 const Chat = ({ chatId }: Chat.Props) => {
-  const dialog = useSelector((state) =>
-    state.dialogs.dialogs.find(({ id }) => {
-      return id === Number(chatId);
-    })
-  );
-
-  //const messages = useSelector((state) => state.messages[Number(chatId)].messages);
-
   const getMessages = useActionWithDeferred(getMessagesAction);
+  const selectedDialog = useSelector(getSelectedDialogSelector);
+  const messages = useSelector<AppState, Message[]>(
+    (state) => state.messages.messages.find((x) => x.dialogId == chatId)?.messages as Message[]
+  );
+  const hasMoreMessages = useSelector<AppState, boolean>(
+    (state) => state.messages.messages.find((x) => x.dialogId == chatId)?.hasMoreMessages as boolean
+  );
+  const myId = useSelector<AppState, number>((state) => state.auth.authentication.userId);
+  const messagesContainerRef = useRef(null);
 
-  const page = {
-    offset: 0,
-    limit: 10
+  const loadPage = (page: number) => {
+    const pageData = {
+      limit: 25,
+      offset: page * 25
+    };
+
+    if (selectedDialog) {
+      getMessages({
+        page: pageData,
+        dialog: selectedDialog,
+        initiatedByScrolling: false
+      });
+    }
   };
 
   useEffect(() => {
-    if (dialog) {
-      getMessages({
-        page,
-        dialog,
-        initiatedByScrolling: false
-      });
-      console.log(1);
+    loadPage(0);
+  }, [selectedDialog]);
+
+  if (!selectedDialog || !messages) {
+    return <div className="messenger__messages-list"></div>;
+  }
+
+  const messageIsFrom = (id: Number | undefined) => {
+    if (id === myId) {
+      return messageFrom.me;
+    } else {
+      return messageFrom.others;
     }
-  });
+  };
 
   return (
     <div className="messenger__messages-list">
-      <div className="messenger__messages-container">
-        <Message from={messageFrom.me} content="12345" time="20:20" />
+      <div ref={messagesContainerRef} className="messenger__messages-container">
+        <InfiniteScroll
+          pageStart={0}
+          loadMore={loadPage}
+          hasMore={hasMoreMessages}
+          loader={
+            <div className="loader" key={0}>
+              Loading ...
+            </div>
+          }
+          useWindow={false}
+          getScrollParent={() => messagesContainerRef.current}
+          isReverse={true}
+        >
+          {messages
+            .map((msg) => {
+              return (
+                <MessageItem
+                  key={msg.id}
+                  from={messageIsFrom(msg.userCreator.id)}
+                  content={msg.text}
+                  time={`${new Date(msg.creationDateTime ? msg.creationDateTime : 0).getUTCHours()}:${new Date(
+                    msg.creationDateTime ? msg.creationDateTime : 0
+                  ).getUTCMinutes()}`}
+                />
+              );
+            })
+            .reverse()}
+        </InfiniteScroll>
       </div>
     </div>
   );

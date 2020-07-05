@@ -6,6 +6,9 @@
   }
 
   &__messages-container {
-    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column-reverse;
+    height: calc(100vh - 101px);
+    overflow: auto;
   }
 }

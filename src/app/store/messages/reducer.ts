@@ -1,12 +1,8 @@
-import { CreateMessageRequest, MessageList, CreateMessageResponse, GetMessagesResponse, Message } from './interfaces';
-import {
-  CREATE_MESSAGE,
-  CREATE_MESSAGE_SUCCESS,
-  GET_MESSAGES,
-  GET_MESSAGES_FAILURE,
-  GET_MESSAGES_SUCCESS
-} from './types';
+import { MessageList } from './interfaces';
+import { MessagesActions } from './actions';
 import _ from 'lodash';
+import produce from 'immer';
+import { MessagesActionTypes } from './types';
 
 export interface MessagesState {
   loading: boolean;
@@ -18,121 +14,61 @@ const initialState: MessagesState = {
   messages: []
 };
 
-export type TypedAction =
-  | { type: typeof CREATE_MESSAGE; payload: CreateMessageRequest }
-  | { type: typeof CREATE_MESSAGE_SUCCESS; payload: CreateMessageResponse }
-  | { type: typeof GET_MESSAGES; payload: any }
-  | {
-      type: typeof GET_MESSAGES_SUCCESS;
-      payload: GetMessagesResponse;
-    }
-  | { type: typeof GET_MESSAGES_FAILURE; payload: any };
+const checkIfDialogExists = (state: MessagesState, dialogId: number): boolean =>
+  state.messages && state.messages.length > 0 && state?.messages?.findIndex((x) => x.dialogId === dialogId) > -1;
+const getChatIndex = (state: MessagesState, dialogId: number): number =>
+  state?.messages?.findIndex((x) => x.dialogId === dialogId);
 
-const messages = (state: MessagesState = initialState, action: TypedAction): MessagesState => {
-  switch (action.type) {
-    case CREATE_MESSAGE_SUCCESS: {
-      const { messageState, dialogId, oldMessageId, newMessageId } = action.payload;
-      const newMessage: Message = {
-        ...state.messages[dialogId].messages[oldMessageId],
-        id: newMessageId,
-        state: messageState
-      };
-      // delete old id and add new id into array
+const messages = produce(
+  (draft: MessagesState = initialState, action: ReturnType<MessagesActions>): MessagesState => {
+    switch (action.type) {
+      case MessagesActionTypes.CREATE_MESSAGE_SUCCESS: {
+        console.log(action.payload)
+        const { messageState, dialogId, oldMessageId, newMessageId } = action.payload;
+        const chatIndex = getChatIndex(draft, dialogId);
+        const messageIndex = draft.messages[chatIndex].messages.findIndex((x) => x.id == oldMessageId);
+        draft.messages[chatIndex].messages[messageIndex].id = newMessageId,
+        draft.messages[chatIndex].messages[messageIndex].state = messageState;
+        return draft;
+      }
+      case MessagesActionTypes.GET_MESSAGES: {
+        draft.loading = true;
+        return draft;
+      }
+      case MessagesActionTypes.GET_MESSAGES_SUCCESS: {
+        const { dialogId, hasMoreMessages, messages }: MessageList = action.payload;
+        const isDialogExists = checkIfDialogExists(draft, dialogId);
 
-      return {
-        ...state,
-        messages: {
-          ...state.messages,
-          [dialogId]: {
-            ...state.messages[dialogId],
-            messages: [...state.messages[dialogId].messages, newMessage]
-          }
+        draft.loading = false;
+        if (!isDialogExists) {
+          draft.messages.push({
+            dialogId: dialogId,
+            hasMoreMessages: hasMoreMessages,
+            messages: messages
+          });
+        } else {
+          const chatIndex = getChatIndex(draft, dialogId);
+          draft.messages[chatIndex].messages = _.unionBy(draft.messages[chatIndex].messages, messages, 'id');
+          draft.messages[chatIndex].hasMoreMessages = hasMoreMessages;
         }
-      };
-    }
-    case GET_MESSAGES: {
-      return {
-        ...state,
-        loading: true
-      };
-    }
-    case GET_MESSAGES_SUCCESS: {
-      const { dialogId, hasMoreMessages, messages }: GetMessagesResponse = action.payload;
-      const isDialogExists = typeof state.messages[dialogId] === 'object';
 
-      // if server returned empty message list for interlocutor and there are
-      // no messages in the store for interlocutor, create empty message list the in store
-      if (!isDialogExists) {
-        return {
-          ...state,
-          messages: {
-            ...state.messages,
-            [dialogId]: {
-              ...state.messages[dialogId],
-              hasMoreMessages: false,
-              messages: []
-            }
-          }
-        };
-      } else {
-        return {
-          ...state,
-          messages: {
-            ...state.messages,
-            [dialogId]: {
-              ...state.messages[dialogId],
-              hasMoreMessages: hasMoreMessages,
-              dialogId: dialogId,
-              messages: [...state.messages[dialogId].messages, ...messages]
-            }
-          },
-          loading: false
-        };
+        return draft;
+      }
+      case MessagesActionTypes.GET_MESSAGES_FAILURE: {
+        draft.loading = false;
+        return draft;
+      }
+      case MessagesActionTypes.CREATE_MESSAGE: {
+        const { dialog, message } = action.payload;
+        const chatIndex = getChatIndex(draft, dialog.id);
+        draft.messages[chatIndex].messages.unshift(message);
+        return draft;
+      }
+      default: {
+        return draft;
       }
     }
-    case GET_MESSAGES_FAILURE: {
-      return {
-        ...state,
-        loading: false
-      };
-    }
-    case CREATE_MESSAGE: {
-      const { dialog, message } = action.payload;
-      const isDialogExists = state.messages.find((elem) => elem.dialogId === dialog.id) ? true : false;
-
-      if (!isDialogExists) {
-        const messageList: MessageList = {
-          dialogId: dialog.id,
-          messages: [message],
-          hasMoreMessages: false
-        };
-
-        return {
-          ...state,
-          messages: {
-            ...state.messages,
-            [dialog.id]: messageList
-          }
-        };
-      }
-
-      return {
-        ...state,
-        messages: {
-          ...state.messages,
-          [dialog.id]: {
-            ...state.messages[dialog.id],
-            messages: {
-              ...state.messages[dialog.id].messages,
-              [message.id]: message
-            }
-          }
-        }
-      };
-    }
-    default:
-      return state;
   }
-};
+);
 
 export default messages;

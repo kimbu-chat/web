@@ -27,12 +27,13 @@ export function signalRInvokeMiddleware(store: any): any {
         ) {
           openConnection(store);
         }
-        return;
+        return next(action);
       }
       case AuthActionTypes.LOGOUT: {
         if (connection && connection.state === HubConnectionState.Connected) {
           connection.stop();
         }
+        return next(action);
       }
       default:
         return next(action);

@@ -11,6 +11,7 @@ namespace ChatData {
 }
 
 const ChatData = ({ imageUrl, contact, suplimentData }: ChatData.Props) => {
+
   return (
     <div className="messenger__chat-data">
       <div className="messenger__contact-data">

@@ -2,10 +2,10 @@ import { AppState } from 'app/store';
 import { Store } from 'redux';
 import { MessageCreatedIntegrationEvent } from '../integration-events/message-created-integration-event';
 import { SystemMessageType, Message, MessageState, CreateMessageRequest } from 'app/store/messages/interfaces';
-import { CREATE_MESSAGE } from 'app/store/messages/types';
 import { InterlocutorType, Dialog } from 'app/store/dialogs/types';
 import { DialogService } from 'app/store/dialogs/dialog-service';
 import { IEventHandler } from '../event-handler';
+import { MessagesActionTypes } from 'app/store/messages/types';
 
 export class MessageCreatedEventHandler implements IEventHandler<MessageCreatedIntegrationEvent> {
   public handle(store: Store<AppState>, eventData: MessageCreatedIntegrationEvent): void {
@@ -69,7 +69,7 @@ export class MessageCreatedEventHandler implements IEventHandler<MessageCreatedI
     };
 
     store.dispatch({
-      type: CREATE_MESSAGE,
+      type: MessagesActionTypes.CREATE_MESSAGE,
       payload: messageCreation
     });
   }

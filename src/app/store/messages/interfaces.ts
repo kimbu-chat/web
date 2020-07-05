@@ -8,8 +8,6 @@ export interface MessageList {
   dialogId: number;
 }
 
-export interface GetMessagesResponse extends MessageList {}
-
 export interface SystemMessageBase {}
 
 export interface ConfereceMemberRemovedSystemMessageContent extends SystemMessageBase {
@@ -81,8 +79,7 @@ export interface CreateMessageRequest extends EntityCreation {
   currentUser: UserPreview;
   selectedDialogId: number;
   message: Message;
-  files?: Array<UploadingFileInfo>;
-  isFromEvent: boolean;
+  isFromEvent?: boolean;
 }
 
 export interface CreateMessageResponse {
@@ -101,8 +98,8 @@ export interface MarkMessagesAsReadRequest {
 
 export interface MessageCreationReqData {
   text?: string;
-  conferenceId?: number;
-  userInterlocutorId?: number;
+  conferenceId?: number | null;
+  userInterlocutorId?: number | null;
   attachments?: Array<AttachmentCreation>;
 }
 

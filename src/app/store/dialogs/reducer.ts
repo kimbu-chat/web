@@ -1,9 +1,9 @@
 import { Dialog, DialogsActionTypes } from './types';
+import produce from 'immer';
 import { DialogActions } from './actions';
 import { DialogService } from './dialog-service';
 import { CreateMessageResponse } from '../messages/interfaces';
 import { InterlocutorType } from './types';
-import produce from 'immer';
 
 export interface DialogsState {
   loading: boolean;
@@ -108,6 +108,7 @@ const dialogs = produce(
       //   const { id } = action.payload;
 
       //   return {
+
       //     ...draft,
       //     dialogs: {
       //       ...draft.dialogs,
@@ -124,7 +125,6 @@ const dialogs = produce(
       // case RENAME_CONFERENCE_SUCCESS: {
       //   const { dialog, newName }: RenameConferenceActionData = action.payload;
       //   const { id } = dialog;
-
       //   return {
       //     ...draft,
       //     dialogs: {
@@ -175,6 +175,7 @@ const dialogs = produce(
       //       }
       //     };
       //   } else {
+
       //     return draft;
       //   }
       // }

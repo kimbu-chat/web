@@ -95,6 +95,9 @@ const Chat = ({ chatId }: Chat.Props) => {
             .reverse()}
         </InfiniteScroll>
       </div>
+      {selectedDialog.isInterlocutorTyping && (
+        <div className="messenger__typing-notification">{`${selectedDialog.interlocutor?.firstName} ${selectedDialog.interlocutor?.lastName} печатает...`}</div>
+      )}
     </div>
   );
 };

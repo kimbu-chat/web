@@ -23,12 +23,11 @@ const messages = produce(
   (draft: MessagesState = initialState, action: ReturnType<MessagesActions>): MessagesState => {
     switch (action.type) {
       case MessagesActionTypes.CREATE_MESSAGE_SUCCESS: {
-        console.log(action.payload)
         const { messageState, dialogId, oldMessageId, newMessageId } = action.payload;
         const chatIndex = getChatIndex(draft, dialogId);
         const messageIndex = draft.messages[chatIndex].messages.findIndex((x) => x.id == oldMessageId);
-        draft.messages[chatIndex].messages[messageIndex].id = newMessageId,
-        draft.messages[chatIndex].messages[messageIndex].state = messageState;
+        (draft.messages[chatIndex].messages[messageIndex].id = newMessageId),
+          (draft.messages[chatIndex].messages[messageIndex].state = messageState);
         return draft;
       }
       case MessagesActionTypes.GET_MESSAGES: {
@@ -61,6 +60,19 @@ const messages = produce(
       case MessagesActionTypes.CREATE_MESSAGE: {
         const { dialog, message } = action.payload;
         const chatIndex = getChatIndex(draft, dialog.id);
+
+        if (chatIndex === -1) {
+          const messageList: MessageList = {
+            dialogId: dialog.id,
+            messages: [message],
+            hasMoreMessages: false
+          };
+          draft.messages.unshift(messageList);
+          console.log(draft);
+
+          return draft;
+        }
+
         draft.messages[chatIndex].messages.unshift(message);
         return draft;
       }

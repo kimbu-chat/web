@@ -1,5 +1,9 @@
 import { Dialog, DialogsActionTypes } from './types';
+import produce from 'immer';
 import { DialogActions } from './actions';
+import { DialogService } from './dialog-service';
+import { CreateMessageResponse } from '../messages/interfaces';
+import { InterlocutorType } from './types';
 
 export interface DialogsState {
   loading: boolean;
@@ -15,343 +19,316 @@ const initialState: DialogsState = {
   selectedDialogId: null
 };
 
-const dialogs = (state: DialogsState = initialState, action: ReturnType<DialogActions>): DialogsState => {
-  switch (action.type) {
-    // case DialogsActionTypes.INTERLOCUTOR_STOPPED_TYPING: {
-    //   const { isConference, interlocutorId, objectId } = action.payload;
+const checkDialogExists = (dialogId: number, state: DialogsState): boolean =>
+  Boolean(state.dialogs.find(({ id }) => id === dialogId));
 
-    //   const dialogId: number = DialogRepository.getDialogIdentifier({
-    //     interlocutor: !isConference ? { id: objectId } : null,
-    //     conference: isConference ? { id: interlocutorId } : null
-    //   });
+const getDialogArrayIndex = (dialogId: number, state: DialogsState): number =>
+  state.dialogs.findIndex(({ id }) => id === dialogId);
 
-    //   const isDialogExists: boolean = state.dialogs.allIds.includes(dialogId);
+const dialogs = produce(
+  (draft: DialogsState = initialState, action: ReturnType<DialogActions>): DialogsState => {
+    switch (action.type) {
+      case DialogsActionTypes.INTERLOCUTOR_STOPPED_TYPING: {
+        const { isConference, interlocutorId, objectId } = action.payload;
 
-    //   if (!isDialogExists) {
-    //     return state;
-    //   }
+        const dialogId: number = DialogService.getDialogIdentifier(
+          !isConference ? objectId : null,
+          isConference ? interlocutorId : null
+        );
 
-    //   return {
-    //     ...state,
-    //     dialogs: {
-    //       ...state.dialogs,
-    //       byId: {
-    //         ...state.dialogs.byId,
-    //         [dialogId]: {
-    //           ...state.dialogs.byId[dialogId],
-    //           timeoutId: null,
-    //           isInterlocutorTyping: false
-    //         }
-    //       }
-    //     }
-    //   };
-    // }
-    // case INTERLOCUTOR_MESSAGE_TYPING_EVENT: {
-    //   const { isConference, interlocutorId, objectId } = action.payload;
+        const isDialogExists: boolean = checkDialogExists(dialogId, draft);
 
-    //   const dialogId: number = DialogRepository.getDialogIdentifier({
-    //     interlocutor: !isConference ? { id: objectId } : null,
-    //     conference: isConference ? { id: interlocutorId } : null
-    //   });
+        if (!isDialogExists) {
+          return draft;
+        }
 
-    //   const isDialogExists: boolean = state.dialogs.allIds.includes(dialogId);
-    //   if (!isDialogExists) {
-    //     return state;
-    //   }
+        const dialogIndex: number = getDialogArrayIndex(dialogId, draft);
 
-    //   clearTimeout(state.dialogs.byId[dialogId].timeoutId);
+        (draft.dialogs[dialogIndex].timeoutId = null), (draft.dialogs[dialogIndex].isInterlocutorTyping = false);
 
-    //   return {
-    //     ...state,
-    //     dialogs: {
-    //       ...state.dialogs,
-    //       byId: {
-    //         ...state.dialogs.byId,
-    //         [dialogId]: {
-    //           ...state.dialogs.byId[dialogId],
-    //           draftMessage: action.payload.text,
-    //           timeoutId: action.payload.timeoutId,
-    //           isInterlocutorTyping: true
-    //         }
-    //       }
-    //     }
-    //   };
-    // }
-    // case CREATE_MESSAGE_SUCCESS: {
-    //   const { messageState, dialogId, newMessageId }: CreateMessageResponse = action.payload;
-    //   return {
-    //     ...state,
-    //     dialogs: {
-    //       ...state.dialogs,
-    //       byId: {
-    //         ...state.dialogs.byId,
-    //         [dialogId]: {
-    //           ...state.dialogs.byId[dialogId],
-    //           lastMessage: {
-    //             ...state.dialogs.byId[dialogId].lastMessage,
-    //             id: newMessageId,
-    //             state: messageState
-    //           }
-    //         }
-    //       }
-    //     }
-    //   };
-    // }
-    // case ADD_USERS_TO_CONFERENCE_SUCCESS: {
-    //   const { id } = action.payload;
+        return draft;
+      }
 
-    //   return {
-    //     ...state,
-    //     dialogs: {
-    //       ...state.dialogs,
-    //       byId: {
-    //         ...state.dialogs.byId,
-    //         [id]: {
-    //           ...state.dialogs.byId[id],
-    //           conference: {
-    //             ...state.dialogs.byId[id].conference,
-    //             membersCount: state.dialogs.byId[id].conference.membersCount + 1
-    //           }
-    //         }
-    //       }
-    //     }
-    //   };
-    // }
-    // case MUTE_DIALOG_SUCCESS: {
-    //   const { id } = action.payload;
+      case DialogsActionTypes.INTERLOCUTOR_MESSAGE_TYPING_EVENT: {
+        const { isConference, interlocutorId, objectId } = action.payload;
 
-    //   return {
-    //     ...state,
-    //     dialogs: {
-    //       ...state.dialogs,
-    //       byId: {
-    //         ...state.dialogs.byId,
-    //         [id]: {
-    //           ...state.dialogs.byId[id],
-    //           isMuted: !state.dialogs.byId[id].isMuted
-    //         }
-    //       }
-    //     }
-    //   };
-    // }
-    // case RENAME_CONFERENCE_SUCCESS: {
-    //   const { dialog, newName }: RenameConferenceActionData = action.payload;
-    //   const { id } = dialog;
+        const dialogId: number = DialogService.getDialogIdentifier(
+          !isConference ? objectId : null,
+          isConference ? interlocutorId : null
+        );
 
-    //   return {
-    //     ...state,
-    //     dialogs: {
-    //       ...state.dialogs,
-    //       byId: {
-    //         ...state.dialogs.byId,
-    //         [id]: {
-    //           ...state.dialogs.byId[id],
-    //           conference: {
-    //             ...state.dialogs.byId[id].conference,
-    //             name: newName
-    //           }
-    //         }
-    //       }
-    //     }
-    //   };
-    // }
-    // case CONFERENCE_MESSAGE_READ_FROM_EVENT:
-    // case USER_MESSAGE_READ_FROM_EVENT: {
-    //   const { lastReadMessageId, userReaderId, conferenceId } = action.payload;
+        const isDialogExists: boolean = checkDialogExists(dialogId, draft);
 
-    //   const isConference: boolean = Boolean(conferenceId);
+        if (!isDialogExists) {
+          return draft;
+        }
 
-    //   //Currently disabled for conferences
-    //   if (isConference) {
-    //     return state;
-    //   }
+        const dialogIndex: number = getDialogArrayIndex(dialogId, draft);
 
-    //   const dialogId: number = DialogRepository.getDialogIdentifier({
-    //     interlocutor: !isConference ? { id: userReaderId } : null,
-    //     conference: isConference ? { id: conferenceId } : null
-    //   });
+        clearTimeout(draft.dialogs[dialogIndex].timeoutId);
 
-    //   const isDialogExists = state.dialogs.allIds.includes(dialogId);
-    //   // if user already has dialogs with interlocutor - update dialog
-    //   if (isDialogExists) {
-    //     return {
-    //       ...state,
-    //       dialogs: {
-    //         ...state.dialogs,
-    //         byId: {
-    //           ...state.dialogs.byId,
-    //           [dialogId]: {
-    //             ...state.dialogs.byId[dialogId],
-    //             interlocutorLastReadMessageId: lastReadMessageId
-    //           }
-    //         }
-    //       }
-    //     };
-    //   } else {
-    //     return state;
-    //   }
-    // }
-    case DialogsActionTypes.CHANGE_SELECTED_DIALOG: {
-      return {
-        ...state,
-        selectedDialogId: action.payload
-      };
-    }
-    case DialogsActionTypes.UNSET_SELECTED_DIALOG: {
-      return {
-        ...state,
-        selectedDialogId: null
-      };
-    }
-    // case USER_STATUS_CHANGED_EVENT: {
-    //   const dialogId: number = DialogRepository.getDialogIdentifier({
-    //     interlocutor: { id: action.payload.objectId }
-    //   });
-    //   const isDialogExists = state.dialogs.allIds.includes(dialogId);
+        (draft.dialogs[dialogIndex].draftMessage = action.payload.text),
+          (draft.dialogs[dialogIndex].timeoutId = action.payload.timeoutId),
+          (draft.dialogs[dialogIndex].isInterlocutorTyping = true);
 
-    //   if (!isDialogExists) {
-    //     return state;
-    //   }
+        return draft;
+      }
 
-    //   return {
-    //     ...state,
-    //     dialogs: {
-    //       ...state.dialogs,
-    //       byId: {
-    //         ...state.dialogs.byId,
-    //         [dialogId]: {
-    //           ...state.dialogs.byId[dialogId],
-    //           interlocutor: {
-    //             ...state.dialogs.byId[dialogId].interlocutor,
-    //             status: action.payload.status,
-    //             lastOnlineTime: new Date()
-    //           }
-    //         }
-    //       }
-    //     }
-    //   };
-    // }
-    case DialogsActionTypes.GET_DIALOGS: {
-      return {
-        ...state,
-        loading: true
-      };
-    }
-    case DialogsActionTypes.GET_DIALOGS_SUCCESS: {
-      const { dialogs, hasMore } = action.payload;
-      // if (initializedBySearch) {
+      case DialogsActionTypes.CREATE_MESSAGE_SUCCESS: {
+        const { dialogId, newMessageId }: CreateMessageResponse = action.payload;
+
+        const dialogIndex: number = getDialogArrayIndex(dialogId, draft);
+
+        draft.dialogs[dialogIndex].lastMessage.id = newMessageId;
+
+        return draft;
+      }
+
+      // case ADD_USERS_TO_CONFERENCE_SUCCESS: {
+      //   const { id } = action.payload;
+
       //   return {
-      //     ...state,
-      //     loading: isFromLocalDb,
-      //     dialogs: dialogs,
-      //     hasMore: hasMore
+      //     ...draft,
+      //     dialogs: {
+      //       ...draft.dialogs,
+      //       byId: {
+      //         ...draft.dialogs.byId,
+      //         [id]: {
+      //           ...draft.dialogs.byId[id],
+      //           conference: {
+      //             ...draft.dialogs.byId[id].conference,
+      //             membersCount: draft.dialogs.byId[id].conference.membersCount + 1
+      //           }
+      //         }
+      //       }
+      //     }
+      //   };
+      // }
+      // case MUTE_DIALOG_SUCCESS: {
+      //   const { id } = action.payload;
+
+      //   return {
+
+      //     ...draft,
+      //     dialogs: {
+      //       ...draft.dialogs,
+      //       byId: {
+      //         ...draft.dialogs.byId,
+      //         [id]: {
+      //           ...draft.dialogs.byId[id],
+      //           isMuted: !draft.dialogs.byId[id].isMuted
+      //         }
+      //       }
+      //     }
+      //   };
+      // }
+      // case RENAME_CONFERENCE_SUCCESS: {
+      //   const { dialog, newName }: RenameConferenceActionData = action.payload;
+      //   const { id } = dialog;
+      //   return {
+      //     ...draft,
+      //     dialogs: {
+      //       ...draft.dialogs,
+      //       byId: {
+      //         ...draft.dialogs.byId,
+      //         [id]: {
+      //           ...draft.dialogs.byId[id],
+      //           conference: {
+      //             ...draft.dialogs.byId[id].conference,
+      //             name: newName
+      //           }
+      //         }
+      //       }
+      //     }
+      //   };
+      // }
+      // case CONFERENCE_MESSAGE_READ_FROM_EVENT:
+      // case USER_MESSAGE_READ_FROM_EVENT: {
+      //   const { lastReadMessageId, userReaderId, conferenceId } = action.payload;
+
+      //   const isConference: boolean = Boolean(conferenceId);
+
+      //   //Currently disabled for conferences
+      //   if (isConference) {
+      //     return draft;
+      //   }
+
+      //   const dialogId: number = DialogRepository.getDialogIdentifier({
+      //     interlocutor: !isConference ? { id: userReaderId } : null,
+      //     conference: isConference ? { id: conferenceId } : null
+      //   });
+
+      //   const isDialogExists = draft.dialogs.allIds.includes(dialogId);
+      //   // if user already has dialogs with interlocutor - update dialog
+      //   if (isDialogExists) {
+      //     return {
+      //       ...draft,
+      //       dialogs: {
+      //         ...draft.dialogs,
+      //         byId: {
+      //           ...draft.dialogs.byId,
+      //           [dialogId]: {
+      //             ...draft.dialogs.byId[dialogId],
+      //             interlocutorLastReadMessageId: lastReadMessageId
+      //           }
+      //         }
+      //       }
+      //     };
+      //   } else {
+
+      //     return draft;
+      //   }
+      // }
+      case DialogsActionTypes.CHANGE_SELECTED_DIALOG: {
+        return {
+          ...draft,
+          selectedDialogId: action.payload
+        };
+      }
+      case DialogsActionTypes.UNSET_SELECTED_DIALOG: {
+        return {
+          ...draft,
+          selectedDialogId: null
+        };
+      }
+
+      case DialogsActionTypes.USER_STATUS_CHANGED_EVENT: {
+        const dialogId: number = DialogService.getDialogId(action.payload.objectId, null);
+        const isDialogExists = checkDialogExists(dialogId, draft);
+        const dialogIndex = getDialogArrayIndex(dialogId, draft);
+
+        if (!isDialogExists) {
+          return draft;
+        }
+
+        const interlocutor = draft.dialogs[dialogIndex].interlocutor || {};
+
+        (interlocutor.status = action.payload.status), (interlocutor.lastOnlineTime = new Date());
+
+        return draft;
+      }
+
+      case DialogsActionTypes.GET_DIALOGS: {
+        return {
+          ...draft,
+          loading: true
+        };
+      }
+      case DialogsActionTypes.GET_DIALOGS_SUCCESS: {
+        const { dialogs, hasMore } = action.payload;
+        // if (initializedBySearch) {
+        //   return {
+        //     ...draft,
+        //     loading: isFromLocalDb,
+        //     dialogs: dialogs,
+        //     hasMore: hasMore
+        //   };
+        // }
+
+        // const orderedByDatetimeAllIds: number[] = normalizedDialogList.allIds.sort((a, b) => {
+        //   const first = new Date(normalizedDialogList.byId[a].lastMessage.creationDateTime).getTime();
+        //   const second = new Date(normalizedDialogList.byId[b].lastMessage.creationDateTime).getTime();
+        //   return first > second ? -1 : first < second ? 1 : 0;
+        // });
+
+        return {
+          ...draft,
+          loading: false,
+          dialogs: dialogs,
+          hasMore: hasMore
+        };
+      }
+
+      case DialogsActionTypes.GET_DIALOGS_FAILURE: {
+        return {
+          ...draft,
+          loading: false
+        };
+      }
+      // case LEAVE_CONFERENCE_SUCCESS:
+      // case REMOVE_DIALOG_SUCCESS: {
+      //   return {
+      //     ...draft,
+      //     dialogs: {
+      //       ...draft.dialogs,
+      //       // just remove id from allIds and item in the flatlist will fade away
+      //       allIds: draft.dialogs.allIds.filter(x => x !== action.payload.id)
+      //     }
+      //   };
+      // }
+      // case RESET_UNREAD_MESSAGES_COUNT: {
+      //   const dialogId = action.payload.id;
+      //   return {
+      //     ...draft,
+      //     dialogs: {
+      //       ...draft.dialogs,
+      //       byId: {
+      //         ...draft.dialogs.byId,
+      //         [dialogId]: {
+      //           ...draft.dialogs.byId[dialogId],
+      //           ownUnreadMessagesCount: 0
+      //         }
+      //       }
+      //     }
       //   };
       // }
 
-      // const orderedByDatetimeAllIds: number[] = normalizedDialogList.allIds.sort((a, b) => {
-      //   const first = new Date(normalizedDialogList.byId[a].lastMessage.creationDateTime).getTime();
-      //   const second = new Date(normalizedDialogList.byId[b].lastMessage.creationDateTime).getTime();
-      //   return first > second ? -1 : first < second ? 1 : 0;
-      // });
+      case DialogsActionTypes.CREATE_MESSAGE: {
+        const { message, dialog, currentUser } = action.payload;
 
-      return {
-        ...state,
-        loading: false,
-        dialogs: dialogs,
-        hasMore: hasMore
-      };
+        const dialogId: number = dialog.id;
+
+        const isDialogExists: boolean = checkDialogExists(dialogId, draft);
+
+        const dialogIndex: number = getDialogArrayIndex(dialogId, draft);
+
+        const isCurrentUserMessageCreator: boolean = currentUser.id === message.userCreator?.id;
+
+        // if user already has dialogs with interlocutor - update dialog
+        if (isDialogExists) {
+          const isInterlocutorCurrentSelectedDialog: boolean = draft.selectedDialogId === dialogId;
+          const previousOwnUnreadMessagesCount = draft.dialogs[dialogIndex].ownUnreadMessagesCount;
+          let ownUnreadMessagesCount;
+          if (previousOwnUnreadMessagesCount)
+            ownUnreadMessagesCount =
+              isInterlocutorCurrentSelectedDialog || isCurrentUserMessageCreator
+                ? previousOwnUnreadMessagesCount
+                : previousOwnUnreadMessagesCount + 1;
+
+          (draft.dialogs[dialogIndex].lastMessage = { ...message }),
+            (draft.dialogs[dialogIndex].ownUnreadMessagesCount = ownUnreadMessagesCount);
+
+          const dialogWithNewMessage = draft.dialogs[dialogIndex];
+
+          draft.dialogs.splice(dialogIndex);
+
+          const id = draft.dialogs.unshift(dialogWithNewMessage);
+
+          console.log(id);
+
+          return draft;
+        } else {
+          //if user does not have dialog with interlocutor - create dialog
+          const interlocutorType: InterlocutorType = DialogService.getInterlocutorType(action.payload.dialog);
+          let newDialog: Dialog = {
+            id: dialog.id,
+            interlocutorType: interlocutorType,
+            conference: dialog.conference,
+            lastMessage: message,
+            ownUnreadMessagesCount: !isCurrentUserMessageCreator ? 1 : 0,
+            interlocutorLastReadMessageId: 0,
+            interlocutor: dialog.interlocutor
+          };
+
+          draft.dialogs.push(newDialog);
+
+          return draft;
+        }
+      }
+      default:
+        return draft;
     }
-
-    case DialogsActionTypes.GET_DIALOGS_FAILURE: {
-      return {
-        ...state,
-        loading: false
-      };
-    }
-    // case LEAVE_CONFERENCE_SUCCESS:
-    // case REMOVE_DIALOG_SUCCESS: {
-    //   return {
-    //     ...state,
-    //     dialogs: {
-    //       ...state.dialogs,
-    //       // just remove id from allIds and item in the flatlist will fade away
-    //       allIds: state.dialogs.allIds.filter(x => x !== action.payload.id)
-    //     }
-    //   };
-    // }
-    // case RESET_UNREAD_MESSAGES_COUNT: {
-    //   const dialogId = action.payload.id;
-    //   return {
-    //     ...state,
-    //     dialogs: {
-    //       ...state.dialogs,
-    //       byId: {
-    //         ...state.dialogs.byId,
-    //         [dialogId]: {
-    //           ...state.dialogs.byId[dialogId],
-    //           ownUnreadMessagesCount: 0
-    //         }
-    //       }
-    //     }
-    //   };
-    // }
-    // case CREATE_MESSAGE: {
-    //   const { message, dialog, currentUser } = action.payload;
-    //   const dialogId: number = dialog.id;
-    //   const isDialogExists = state.dialogs.allIds.includes(dialogId);
-    //   const isCurrentUserMessageCreator: boolean = currentUser.id === message.userCreator?.id;
-    //   // if user already has dialogs with interlocutor - update dialog
-    //   if (isDialogExists) {
-    //     const isInterlocutorCurrentSelectedDialog: boolean = state.selectedDialogId === dialogId;
-    //     const previousOwnUnreadMessagesCount: number = state.dialogs.byId[dialogId].ownUnreadMessagesCount;
-    //     const ownUnreadMessagesCount: number =
-    //       isInterlocutorCurrentSelectedDialog || isCurrentUserMessageCreator ? previousOwnUnreadMessagesCount : previousOwnUnreadMessagesCount + 1;
-
-    //     return {
-    //       ...state,
-    //       dialogs: {
-    //         ...state.dialogs,
-    //         byId: {
-    //           ...state.dialogs.byId,
-    //           [dialogId]: {
-    //             ...state.dialogs.byId[dialogId],
-    //             ownUnreadMessagesCount: ownUnreadMessagesCount,
-    //             lastMessage: { ...message }
-    //           }
-    //         },
-    //         // delete dialog id from array and push into beginning of array to make dialog to appear at the top
-    //         allIds: [dialogId].concat(state.dialogs.allIds.filter(x => x !== dialogId))
-    //       }
-    //     };
-    //   } else {
-    //     //if user does not have dialog with interlocutor - create dialog
-    //     const interlocutorType: InterlocutorType = DialogRepository.getInterlocutorType(action.payload.dialog);
-    //     let newDialog: Dialog = {
-    //       id: dialog.id,
-    //       interlocutorType: interlocutorType,
-    //       conference: dialog.conference,
-    //       lastMessage: message,
-    //       ownUnreadMessagesCount: !isCurrentUserMessageCreator ? 1 : 0,
-    //       interlocutorLastReadMessageId: 0,
-    //       interlocutor: dialog.interlocutor
-    //     };
-
-    //     return {
-    //       ...state,
-    //       dialogs: {
-    //         ...state.dialogs,
-    //         byId: {
-    //           ...state.dialogs.byId,
-    //           [dialogId]: newDialog
-    //         },
-    //         allIds: [dialog.id].concat(state.dialogs.allIds)
-    //       }
-    //     };
-    //   }
-    // }
-    default:
-      return state;
   }
-};
+);
 
 export default dialogs;

@@ -3,7 +3,7 @@ import { AuthActionTypes } from './auth/types';
 import { confirmPhoneNumberSaga, sendSmsPhoneConfirmationCodeSaga, initializeSaga } from './auth/sagas';
 import { DialogsActionTypes } from './dialogs/types';
 import { getDialogsSaga } from './dialogs/sagas';
-import { messages, createMessage } from './messages/sagas';
+import { messages, createMessage, messageTyping } from './messages/sagas';
 import { MessagesActionTypes } from './messages/types';
 
 function* rootSaga() {
@@ -13,6 +13,7 @@ function* rootSaga() {
     takeLatest(DialogsActionTypes.GET_DIALOGS, getDialogsSaga),
     takeLatest(MessagesActionTypes.GET_MESSAGES, messages),
     takeLatest(MessagesActionTypes.CREATE_MESSAGE, createMessage),
+    takeLatest(MessagesActionTypes.NOTIFY_USER_ABOUT_MESSAGE_TYPING, messageTyping),
     fork(initializeSaga)
   ]);
 }

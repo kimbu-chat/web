@@ -27,60 +27,60 @@ export function* messages(action: ReturnType<typeof getMessagesAction>): Iterato
   const { page, dialog } = action.payload;
   const isConference: boolean = Boolean(dialog.conference);
 
-    const request: MessagesReqData = {
-      page: page,
-      dialog: {
-        id: isConference ? dialog.conference?.id : dialog.interlocutor?.id,
-        type: isConference ? 'Conference' : 'User'
-      }
-    };
+  const request: MessagesReqData = {
+    page: page,
+    dialog: {
+      id: isConference ? dialog.conference?.id : dialog.interlocutor?.id,
+      type: isConference ? 'Conference' : 'User'
+    }
+  };
 
-    //@ts-ignore
-    const { data }: AxiosResponse<Array<Message>> = yield call(getMessagesApi, request);
+  //@ts-ignore
+  const { data }: AxiosResponse<Array<Message>> = yield call(getMessagesApi, request);
 
-    data.forEach((message) => {
-      message.state =
-        dialog.interlocutorLastReadMessageId && dialog.interlocutorLastReadMessageId >= message.id
-          ? MessageState.READ
-          : MessageState.SENT;
-    });
-    let messageList: MessageList = {
-      dialogId: dialog.id,
-      messages: data,
-      hasMoreMessages: data.length >= page.limit
-    };
+  data.forEach((message) => {
+    message.state =
+      dialog.interlocutorLastReadMessageId && dialog.interlocutorLastReadMessageId >= message.id
+        ? MessageState.READ
+        : MessageState.SENT;
+  });
+  let messageList: MessageList = {
+    dialogId: dialog.id,
+    messages: data,
+    hasMoreMessages: data.length >= page.limit
+  };
 
-    yield put(getMessagesSuccessAction(messageList));
+  yield put(getMessagesSuccessAction(messageList));
 }
 
 export function* createMessage(action: ReturnType<typeof createMessageAction>): Iterator<any> {
-  let { message, dialog, isFromEvent } = {...action.payload};
-  dialog.lastMessage = message;
-  const {interlocutorId, interlocutorType} = DialogService.parseDialogId(dialog.id);
-  console.log('create')
+  let { message, dialog, isFromEvent } = { ...action.payload };
+
+  const { interlocutorId, interlocutorType } = DialogService.parseDialogId(dialog.id);
+  console.log('create');
   if (isFromEvent) {
     yield call(notifyInterlocutorThatMessageWasRead, action.payload);
   } else {
     try {
-        const messageCreationReq: MessageCreationReqData = {
-          text: message.text,
-          conferenceId: interlocutorType === InterlocutorType.CONFERENCE ? interlocutorId: null,
-          userInterlocutorId: interlocutorType === InterlocutorType.USER ? interlocutorId: null
-        };
+      const messageCreationReq: MessageCreationReqData = {
+        text: message.text,
+        conferenceId: interlocutorType === InterlocutorType.CONFERENCE ? interlocutorId : null,
+        userInterlocutorId: interlocutorType === InterlocutorType.USER ? interlocutorId : null
+      };
 
-        //@ts-ignore
-        const { data } = yield call(createMessageApi, messageCreationReq);
+      //@ts-ignore
+      const { data } = yield call(createMessageApi, messageCreationReq);
 
-        yield put(
-          createMessageSuccessAction({
-            dialogId: message.dialogId || 0,
-            oldMessageId: message.id,
-            newMessageId: data,
-            messageState: MessageState.SENT
-          })
-        );
+      yield put(
+        createMessageSuccessAction({
+          dialogId: message.dialogId || 0,
+          oldMessageId: message.id,
+          newMessageId: data,
+          messageState: MessageState.SENT
+        })
+      );
     } catch {
-      alert("error message create")
+      alert('error message create');
     }
   }
 }

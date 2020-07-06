@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { createMessageAction } from '../../../store/messages/actions';
+import { createMessageAction, messageTypingAction } from '../../../store/messages/actions';
 import './_SendMessage.scss';
 import { AppState } from 'app/store';
 import { useSelector } from 'react-redux';
@@ -11,6 +11,7 @@ import { Dialog } from 'app/store/dialogs/types';
 
 const CreateMessageInput = () => {
   const sendMessage = useActionWithDispatch(createMessageAction);
+  const notifyAboutTyping = useActionWithDispatch(messageTypingAction);
 
   const currentUserId = useSelector<AppState, number>((appState: AppState) => appState.auth.authentication.userId);
   const selectedDialog = useSelector(getSelectedDialogSelector) as Dialog;
@@ -42,6 +43,16 @@ const CreateMessageInput = () => {
     setText('');
   };
 
+  const handleTextChange = (newText: string): void => {
+    const isDialog = Boolean(selectedDialog.interlocutor);
+
+    notifyAboutTyping({
+      interlocutorId: isDialog ? selectedDialog.interlocutor?.id : selectedDialog.conference?.id,
+      isConference: !isDialog,
+      text: newText
+    });
+  };
+
   const handleKeyPress = (event: any) => {
     if (event.key === 'Enter') {
       sendMessageToServer();
@@ -62,7 +73,10 @@ const CreateMessageInput = () => {
           placeholder="Напишите сообщение..."
           type="text"
           value={text}
-          onChange={(event) => setText(event.target.value)}
+          onChange={(event) => {
+            setText(event.target.value);
+            handleTextChange(event.target.value);
+          }}
           className="messenger__input-message"
           onKeyPress={handleKeyPress}
         />

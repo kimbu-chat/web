@@ -8,7 +8,20 @@
   &__messages-container {
     display: flex;
     flex-direction: column-reverse;
-    height: calc(100vh - 101px);
+    height: calc(100vh - 130px);
     overflow: auto;
+  }
+
+  &__typing-notification {
+    background-color: darken($color: #fff, $amount: 56);
+    color: white;
+    font-size: 13px;
+    margin-left: 35px;
+    font-style: italic;
+    display: inline-block;
+    padding: 3px 15px;
+    border-radius: 100px;
+    justify-self: start;
+    margin-bottom: 10px;
   }
 }

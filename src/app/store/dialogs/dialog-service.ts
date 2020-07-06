@@ -8,7 +8,7 @@ export class DialogService {
     return +`${conferenceId}${InterlocutorType.CONFERENCE}`;
   }
 
-  public static getDialogId(interlocutorId: number, conferenceId: number): number {
+  public static getDialogId(interlocutorId: number | null, conferenceId: number | null): number {
     if (interlocutorId) {
       return +`${interlocutorId}${InterlocutorType.USER}`;
     }

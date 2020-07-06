@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
 import { getMessagesAction } from '../../../store/messages/actions';
@@ -63,6 +64,19 @@ const Chat = ({ chatId }: Chat.Props) => {
     }
   };
 
+  const items = messages
+  .map((msg) => {
+    return (
+      <MessageItem
+        key={msg.id}
+        from={messageIsFrom(msg.userCreator.id)}
+        content={msg.text}
+        time={moment.utc(msg.creationDateTime).locale('en').format("HH:mm")}
+      />
+    );
+  })
+  .reverse()
+  
   return (
     <div className="messenger__messages-list">
       <div ref={messagesContainerRef} className="messenger__messages-container">
@@ -71,7 +85,7 @@ const Chat = ({ chatId }: Chat.Props) => {
           loadMore={loadPage}
           hasMore={hasMoreMessages}
           loader={
-            <div className="loader" key={0}>
+            <div className="loader " key={0}>
               Loading ...
             </div>
           }
@@ -79,20 +93,7 @@ const Chat = ({ chatId }: Chat.Props) => {
           getScrollParent={() => messagesContainerRef.current}
           isReverse={true}
         >
-          {messages
-            .map((msg) => {
-              return (
-                <MessageItem
-                  key={msg.id}
-                  from={messageIsFrom(msg.userCreator.id)}
-                  content={msg.text}
-                  time={`${new Date(msg.creationDateTime ? msg.creationDateTime : 0).getUTCHours()}:${new Date(
-                    msg.creationDateTime ? msg.creationDateTime : 0
-                  ).getUTCMinutes()}`}
-                />
-              );
-            })
-            .reverse()}
+          {items}
         </InfiniteScroll>
       </div>
       {selectedDialog.isInterlocutorTyping && (

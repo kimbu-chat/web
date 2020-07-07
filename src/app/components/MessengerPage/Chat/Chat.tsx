@@ -65,18 +65,18 @@ const Chat = ({ chatId }: Chat.Props) => {
   };
 
   const items = messages
-  .map((msg) => {
-    return (
-      <MessageItem
-        key={msg.id}
-        from={messageIsFrom(msg.userCreator.id)}
-        content={msg.text}
-        time={moment.utc(msg.creationDateTime).locale('en').format("HH:mm")}
-      />
-    );
-  })
-  .reverse()
-  
+    .map((msg) => {
+      return (
+        <MessageItem
+          key={msg.id}
+          from={messageIsFrom(msg.userCreator.id)}
+          content={msg.text}
+          time={moment.utc(msg.creationDateTime).local().format('HH:mm')}
+        />
+      );
+    })
+    .reverse();
+
   return (
     <div className="messenger__messages-list">
       <div ref={messagesContainerRef} className="messenger__messages-container">

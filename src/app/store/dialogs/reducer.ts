@@ -300,11 +300,9 @@ const dialogs = produce(
 
           const dialogWithNewMessage = draft.dialogs[dialogIndex];
 
-          draft.dialogs.splice(dialogIndex);
+          draft.dialogs.splice(dialogIndex, 1);
 
-          const id = draft.dialogs.unshift(dialogWithNewMessage);
-
-          console.log(id);
+          draft.dialogs.unshift(dialogWithNewMessage);
 
           return draft;
         } else {

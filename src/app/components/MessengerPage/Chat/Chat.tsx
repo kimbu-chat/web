@@ -64,7 +64,30 @@ const Chat = ({ chatId }: Chat.Props) => {
     }
   };
 
-  const items = messages
+  const messagesWithSeparators = messages.map((message, index) => {
+    if (index < messages.length - 1)
+      if (
+        moment.utc(message.creationDateTime).local().format('DD MM YYYY').toString() !==
+        moment
+          .utc(messages[index + 1].creationDateTime)
+          .local()
+          .format('DD MM YYYY')
+          .toString()
+      ) {
+        message = {
+          ...message,
+          needToShowDateSeparator: true
+        };
+        return message;
+      }
+    message = {
+      ...message,
+      needToShowDateSeparator: false
+    };
+    return message;
+  });
+
+  const items = messagesWithSeparators
     .map((msg) => {
       return (
         <MessageItem
@@ -72,6 +95,12 @@ const Chat = ({ chatId }: Chat.Props) => {
           from={messageIsFrom(msg.userCreator.id)}
           content={msg.text}
           time={moment.utc(msg.creationDateTime).local().format('HH:mm')}
+          needToShowDateSeparator={msg.needToShowDateSeparator}
+          dateSeparator={
+            msg.needToShowDateSeparator
+              ? moment.utc(msg.creationDateTime).local().format('DD MMMM').toString()
+              : undefined
+          }
         />
       );
     })

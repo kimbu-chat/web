@@ -64,8 +64,8 @@ export function* authenticateSaga(action: ReturnType<typeof confirmPhoneAction>)
   const parsedData = parseLoginResponse(response.data);
   const authService = new AuthService();
   authService.initialize(parsedData);
-  setToken(parsedData.accessToken);
   yield put(loginSuccessAction(parsedData));
+  yield call(initializeSaga);
   yield action?.deferred?.resolve();
 }
 

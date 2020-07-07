@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
+import { getDialogInterlocutor, getInterlocutorInitials } from '../../../utils/get-interlocutor';
 import { Avatar } from '@material-ui/core';
 
 import './ChatData.scss';
@@ -11,46 +12,20 @@ const ChatData = () => {
 
   if (selectedDialog) {
     const imageUrl: string = selectedDialog?.interlocutor?.avatarUrl || '';
-    const suplimentData =
+    const status =
       selectedDialog?.interlocutor?.status === 1
         ? 'Online'
         : `Last seen online at ${moment.utc(selectedDialog?.interlocutor?.lastOnlineTime).local().format('hh:mm')}`;
-
-    const getDialogInterlocutor = (): string => {
-      const { interlocutor } = selectedDialog;
-
-      if (interlocutor) {
-        const { firstName, lastName } = interlocutor;
-
-        const interlocutorName = `${firstName} ${lastName}`;
-
-        return interlocutorName;
-      }
-
-      return '';
-    };
-
-    const getInterlocutorInitials = (): string => {
-      const initials = getDialogInterlocutor()
-        .split(' ')
-        .reduce((accum, current) => {
-          return accum + current[0];
-        }, '');
-
-      const shortedInitials = initials.substr(0, 2);
-
-      return shortedInitials;
-    };
 
     return (
       <div className="messenger__chat-data">
         <div className="messenger__contact-data">
           <Avatar className="messenger__contact-img" src={imageUrl}>
-            {getInterlocutorInitials()}
+            {getInterlocutorInitials(selectedDialog)}
           </Avatar>
           <div className="messenger__chat-info">
-            <h1>{getDialogInterlocutor()}</h1>
-            <p>{suplimentData}</p>
+            <h1>{getDialogInterlocutor(selectedDialog)}</h1>
+            <p>{status}</p>
           </div>
         </div>
         <div className="messenger__buttons-group">

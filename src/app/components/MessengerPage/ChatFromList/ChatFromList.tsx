@@ -11,6 +11,7 @@ import { Avatar } from '@material-ui/core';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { changeSelectedDialogAction } from 'app/store/dialogs/actions';
 import { useHistory } from 'react-router-dom';
+import { getDialogInterlocutor, getInterlocutorInitials } from '../../../utils/get-interlocutor';
 import { withStyles } from '@material-ui/core/styles';
 
 const OnlineBadge = withStyles((theme) => ({
@@ -92,32 +93,6 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
     return shortedText;
   };
 
-  const getDialogInterlocutor = (): string => {
-    const { interlocutor } = dialog;
-
-    if (interlocutor) {
-      const { firstName, lastName } = interlocutor;
-
-      const interlocutorName = `${firstName} ${lastName}`;
-
-      return interlocutorName;
-    }
-
-    return '';
-  };
-
-  const getInterlocutorInitials = (): string => {
-    const initials = getDialogInterlocutor()
-      .split(' ')
-      .reduce((accum, current) => {
-        return accum + current[0];
-      }, '');
-
-    const shortedInitials = initials.substr(0, 2);
-
-    return shortedInitials;
-  };
-
   const setSelectedDialog = (): void => {
     changeSelectedDialog(dialog.id);
     history.push(`/chats/${dialog.id}`);
@@ -140,7 +115,7 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
             }}
             variant="dot"
           >
-            <Avatar src={getDialogAvatar()}>{getInterlocutorInitials()}</Avatar>
+            <Avatar src={getDialogAvatar()}>{getInterlocutorInitials(dialog)}</Avatar>
           </OnlineBadge>
         ) : (
           <OfflineBadge
@@ -151,15 +126,15 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
             }}
             variant="dot"
           >
-            <Avatar src={getDialogAvatar()}>{getInterlocutorInitials()}</Avatar>
+            <Avatar src={getDialogAvatar()}>{getInterlocutorInitials(dialog)}</Avatar>
           </OfflineBadge>
         )
       ) : (
-        <Avatar src={getDialogAvatar()}>{getInterlocutorInitials()}</Avatar>
+        <Avatar src={getDialogAvatar()}>{getInterlocutorInitials(dialog)}</Avatar>
       )}
 
       <div className="messenger__name-and-message">
-        <div className="messenger__name">{getDialogInterlocutor()}</div>
+        <div className="messenger__name">{getDialogInterlocutor(dialog)}</div>
         <div className="flat">
           {/* <img src={lastPhoto} alt="" className="messenger__last-photo" /> */}
           <div className="messenger__last-message">{getMessageText()}</div>

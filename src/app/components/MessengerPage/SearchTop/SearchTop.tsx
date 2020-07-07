@@ -1,5 +1,9 @@
 import React from 'react';
-
+import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+import { getDialogsAction } from 'app/store/dialogs/actions';
+import { useSelector } from 'react-redux';
+import { AppState } from 'app/store';
+import { Dialog } from 'app/store/dialogs/types';
 import './SearchTop.scss';
 
 namespace SearchTop {
@@ -8,7 +12,29 @@ namespace SearchTop {
   }
 }
 
+export const DIALOGS_LIMIT = 20;
+
 const SearchTop = ({ displaySlider }: SearchTop.Props) => {
+  const getDialogs = useActionWithDispatch(getDialogsAction);
+  const dialogs = useSelector<AppState, Dialog[]>((rootState) => rootState.dialogs.dialogs) || [];
+
+  const handleDialogSearchChange = (name: string): void => {
+    if (name.length > 0) {
+      getDialogs({
+        name,
+        page: { offset: dialogs.length, limit: DIALOGS_LIMIT },
+        initializedBySearch: true,
+        initiatedByScrolling: false
+      });
+    } else {
+      getDialogs({
+        page: { offset: dialogs.length, limit: DIALOGS_LIMIT },
+        initializedBySearch: false,
+        initiatedByScrolling: false
+      });
+    }
+  };
+
   return (
     <div className="messenger__search-top">
       <button className="messenger__burger" onClick={() => displaySlider()}>
@@ -31,7 +57,7 @@ const SearchTop = ({ displaySlider }: SearchTop.Props) => {
             ></path>
           </svg>
         </div>
-        <input type="text" placeholder="Search" />
+        <input onChange={(e) => handleDialogSearchChange(e.target.value)} type="text" placeholder="Search" />
       </div>
       <button className="messenger__create-chat">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" e-dvz7b7="">

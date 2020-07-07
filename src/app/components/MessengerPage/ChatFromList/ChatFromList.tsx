@@ -1,6 +1,6 @@
 import React from 'react';
-
 import './ChatFromList.scss';
+import Badge from '@material-ui/core/Badge';
 import { Dialog } from 'app/store/dialogs/types';
 import * as moment from 'moment';
 import { SystemMessageType, Message } from 'app/store/messages/interfaces';
@@ -11,6 +11,44 @@ import { Avatar } from '@material-ui/core';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { changeSelectedDialogAction } from 'app/store/dialogs/actions';
 import { useHistory } from 'react-router-dom';
+import { withStyles } from '@material-ui/core/styles';
+
+const OnlineBadge = withStyles((theme) => ({
+  badge: {
+    backgroundColor: '#44b700',
+    color: '#44b700',
+    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+    '&::after': {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      borderRadius: '50%',
+      animation: '$ripple 1.2s infinite ease-in-out',
+      border: '1px solid currentColor',
+      content: '""'
+    }
+  },
+  '@keyframes ripple': {
+    '0%': {
+      transform: 'scale(.8)',
+      opacity: 1
+    },
+    '100%': {
+      transform: 'scale(2.4)',
+      opacity: 0
+    }
+  }
+}))(Badge);
+
+const OfflineBadge = withStyles((theme) => ({
+  badge: {
+    backgroundColor: '#b70015',
+    color: '#b70015',
+    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`
+  }
+}))(Badge);
 
 namespace ChatFromList {
   export interface Props {
@@ -92,9 +130,34 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
       className="messenger__chat-block"
     >
       <div className="messenger__active-line"></div>
-      <Avatar alt="Remy Sharp" src={getDialogAvatar()}>
-        {getInterlocutorInitials()}
-      </Avatar>
+      {!conference ? (
+        interlocutor?.status === 1 ? (
+          <OnlineBadge
+            overlap="circle"
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right'
+            }}
+            variant="dot"
+          >
+            <Avatar src={getDialogAvatar()}>{getInterlocutorInitials()}</Avatar>
+          </OnlineBadge>
+        ) : (
+          <OfflineBadge
+            overlap="circle"
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right'
+            }}
+            variant="dot"
+          >
+            <Avatar src={getDialogAvatar()}>{getInterlocutorInitials()}</Avatar>
+          </OfflineBadge>
+        )
+      ) : (
+        <Avatar src={getDialogAvatar()}>{getInterlocutorInitials()}</Avatar>
+      )}
+
       <div className="messenger__name-and-message">
         <div className="messenger__name">{getDialogInterlocutor()}</div>
         <div className="flat">

@@ -27,11 +27,7 @@ const Messenger = () => {
       <SearchTop displaySlider={displaySlider} />
       <BackgroundBlur />
       <AccountInfo ref={sliderRef} hideSlider={hideSlider} />
-      <ChatData
-        contact="Eternal Eagle"
-        imageUrl="https://i.simpalsmedia.com/forum.md/avatars/200x200/7a2a3285220f8881c3055d28873dd58f.jpg"
-        suplimentData="123456"
-      />
+      <ChatData />
       <ChatList />
       <div className="messenger__chat-send">
         <Chat chatId={Number(chatId)} />

@@ -18,6 +18,7 @@ import { AuthService } from 'app/services/auth-service';
 import { MyProfileService } from 'app/services/my-profile-service';
 import { UserPreview } from '../contacts/types';
 import { initSocketConnectionAction } from '../sockets/actions';
+import { changeUserOnlineStatusAction } from '../user/actions';
 
 export function* sendSmsPhoneConfirmationCodeSaga(
   action: ReturnType<typeof sendSmsPhoneConfirmationCodeAction>
@@ -77,6 +78,8 @@ export function* initializeSaga(): any {
   }
 
   yield put(initSocketConnectionAction());
+  yield put(changeUserOnlineStatusAction(true));
+  console.log('status changed');
 
   setToken(authData.accessToken);
 

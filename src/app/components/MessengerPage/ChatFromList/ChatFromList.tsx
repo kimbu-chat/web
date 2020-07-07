@@ -10,7 +10,7 @@ import { AppState } from 'app/store';
 import { Avatar } from '@material-ui/core';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { changeSelectedDialogAction } from 'app/store/dialogs/actions';
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 
 namespace ChatFromList {
   export interface Props {
@@ -75,18 +75,19 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
         return accum + current[0];
       }, '');
 
-    const shortedInitials = initials.substr(0, 3);
+    const shortedInitials = initials.substr(0, 2);
 
     return shortedInitials;
   };
 
   const setSelectedDialog = (): void => {
     changeSelectedDialog(dialog.id);
-    history.push(`/chats/${dialog.id}`)
+    history.push(`/chats/${dialog.id}`);
   };
 
   return (
-    <div onClick={setSelectedDialog}
+    <div
+      onClick={setSelectedDialog}
       // activeClassName={'messenger__chat-block messenger__chat-block--active'}
       className="messenger__chat-block"
     >

@@ -1,15 +1,15 @@
 import { changeOnlineStatusApi } from '../auth/api';
 import { changeUserOnlineStatusAction /*, updateMyProfileAction, getMyProfileSuccessAction */ } from './actions';
-import { call /*, put */ } from 'redux-saga/effects';
-// import { UserPreview } from './interfaces';
-// import { AxiosResponse } from 'axios';
-// import { getFriendsApi, deleteFriendApi } from '../contacts/api';
-// import {
-//   getFriendsAction,
-//   getFriendsSuccessAction,
-//   deleteFriendAction,
-//   deleteFriendSuccessAction
-// } from '../friends/actions';
+import { call, put } from 'redux-saga/effects';
+import { UserPreview } from './interfaces';
+import { AxiosResponse } from 'axios';
+import { getFriendsApi /*deleteFriendApi*/ } from '../contacts/api';
+import {
+  getFriendsAction,
+  getFriendsSuccessAction
+  /* deleteFriendAction,
+  deleteFriendSuccessAction*/
+} from '../friends/actions';
 // import { HTTPStatusCode } from 'app/common/http-status-code';
 // import { updateMyProfileApi, getUserProfileApi } from './api';
 
@@ -21,39 +21,23 @@ export function* changeOnlineStatus(action: ReturnType<typeof changeUserOnlineSt
   }
 }
 
-// export function* getFriendsSaga(action: ReturnType<typeof getFriendsAction>): Iterator<any> {
-//   const { name, page, initializedBySearch } = action.payload;
-//   const contacts: UserPreview[] = UserPreviewRepository.getFriends({ name, page });
+export function* getFriendsSaga(action: ReturnType<typeof getFriendsAction>): Iterator<any> {
+  const { name, initializedBySearch } = action.payload;
+  // @ts-ignore
+  const { data }: AxiosResponse<Array<UserPreview>> = yield call(getFriendsApi, action.payload);
 
-//   yield put(
-//     getFriendsSuccessAction({
-//       users: contacts,
-//       name,
-//       initializedBySearch
-//     })
-//   );
+  data.forEach((x) => {
+    x.lastOnlineTime = new Date(x.lastOnlineTime || '');
+  });
 
-//   const isInternetAvailable: boolean = yield call(checkInternetConnection);
-
-//   if (!isInternetAvailable) {
-//     return;
-//   }
-
-//   const { data }: AxiosResponse<Array<UserPreview>> = yield call(getFriendsApi, action.payload);
-
-//   data.forEach((x) => {
-//     x.lastOnlineTime = new Date(x.lastOnlineTime);
-//   });
-//   yield put(
-//     getFriendsSuccessAction({
-//       users: contacts,
-//       name,
-//       initializedBySearch
-//     })
-//   );
-
-//   UserPreviewRepository.addOrUpdateUsers(data);
-// }
+  yield put(
+    getFriendsSuccessAction({
+      users: data,
+      name,
+      initializedBySearch
+    })
+  );
+}
 
 // export function* deleteFriendSaga(action: ReturnType<typeof deleteFriendAction>): Iterator<any> {
 //   const userId = action.payload;

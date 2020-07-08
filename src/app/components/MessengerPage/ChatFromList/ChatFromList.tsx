@@ -1,17 +1,17 @@
 import React from 'react';
 import './ChatFromList.scss';
-import Badge from '@material-ui/core/Badge';
 import { Dialog } from 'app/store/dialogs/types';
 import * as moment from 'moment';
 import { SystemMessageType, Message } from 'app/store/messages/interfaces';
 import { MessageUtils } from 'app/utils/message-utils';
 import { useSelector } from 'react-redux';
 import { AppState } from 'app/store';
-import { Avatar } from '@material-ui/core';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { changeSelectedDialogAction } from 'app/store/dialogs/actions';
 import { useHistory } from 'react-router-dom';
 import { getDialogInterlocutor, getInterlocutorInitials } from '../../../utils/get-interlocutor';
+import { Avatar } from '@material-ui/core';
+import Badge from '@material-ui/core/Badge';
 import { withStyles } from '@material-ui/core/styles';
 
 const OnlineBadge = withStyles((theme) => ({

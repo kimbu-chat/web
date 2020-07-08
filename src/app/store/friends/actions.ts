@@ -1,22 +1,38 @@
 import { createAction } from '../utils';
 import { GetFriendsActionData, GetFriendsSuccessActionData } from '../user/interfaces';
-import {
-  GET_FRIENDS,
-  GET_FRIENDS_SUCCESS,
-  MARK_USER_AS_ADDED_TO_CONFERENCE,
-  UNSET_SELECTED_USER_IDS_TO_ADD_INTO_CONFERENCE,
-  DELETE_FRIEND_SUCCESS,
-  DELETE_FRIEND
-} from './types';
+import { FriendsActionTypes } from './types';
+import { userStatusChangedEventAction } from '../dialogs/actions';
+import { DialogsActionTypes } from '../dialogs/types';
+import { UserPreview } from '../contacts/types';
 
 export const unsetSelectedUserIdsForNewConferenceAction = () =>
-  createAction(UNSET_SELECTED_USER_IDS_TO_ADD_INTO_CONFERENCE);
+  createAction(FriendsActionTypes.UNSET_SELECTED_USER_IDS_TO_ADD_INTO_CONFERENCE);
 
-export const getFriendsAction = (data: GetFriendsActionData) => createAction(GET_FRIENDS, data);
-export const getFriendsSuccessAction = (data: GetFriendsSuccessActionData) => createAction(GET_FRIENDS_SUCCESS, data);
+export const getFriendsAction = (data: GetFriendsActionData) => createAction(FriendsActionTypes.GET_FRIENDS, data);
+export const getFriendsSuccessAction = (data: GetFriendsSuccessActionData) =>
+  createAction(FriendsActionTypes.GET_FRIENDS_SUCCESS, data);
 
-export const deleteFriendAction = (userId: number) => createAction(DELETE_FRIEND, userId);
-export const deleteFriendSuccessAction = (userId: number) => createAction(DELETE_FRIEND_SUCCESS, userId);
+export const deleteFriendAction = (userId: number) => createAction(FriendsActionTypes.DELETE_FRIEND, userId);
+export const deleteFriendSuccessAction = (userId: number) =>
+  createAction(FriendsActionTypes.DELETE_FRIEND_SUCCESS, userId);
 
 export const markUserAsAddedToConferenceAction = (userId: number) =>
-  createAction(MARK_USER_AS_ADDED_TO_CONFERENCE, userId);
+  createAction(FriendsActionTypes.MARK_USER_AS_ADDED_TO_CONFERENCE, userId);
+
+export const getConferenceUsers = () => createAction(DialogsActionTypes.GET_CONFERENCE_USERS);
+export const unsetConferenceUsers = () => createAction(DialogsActionTypes.UNSET_CONFERENCE_USERS);
+
+export const getConferenceUsersSuccess = (data: Array<UserPreview>) =>
+  createAction(DialogsActionTypes.GET_CONFERENCE_USERS_SUCCESS, data);
+
+export type FriendsActions =
+  | typeof unsetSelectedUserIdsForNewConferenceAction
+  | typeof getFriendsAction
+  | typeof getFriendsSuccessAction
+  | typeof deleteFriendAction
+  | typeof deleteFriendSuccessAction
+  | typeof markUserAsAddedToConferenceAction
+  | typeof userStatusChangedEventAction
+  | typeof getConferenceUsers
+  | typeof unsetConferenceUsers
+  | typeof getConferenceUsersSuccess;

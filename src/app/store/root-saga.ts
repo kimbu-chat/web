@@ -5,6 +5,8 @@ import { DialogsActionTypes } from './dialogs/types';
 import { getDialogsSaga } from './dialogs/sagas';
 import { messages, createMessage, messageTyping } from './messages/sagas';
 import { MessagesActionTypes } from './messages/types';
+import { FriendsActionTypes } from './friends/types';
+import { getFriendsSaga } from './user/sagas';
 
 function* rootSaga() {
   yield all([
@@ -14,6 +16,7 @@ function* rootSaga() {
     takeLatest(MessagesActionTypes.GET_MESSAGES, messages),
     takeLatest(MessagesActionTypes.CREATE_MESSAGE, createMessage),
     takeLatest(MessagesActionTypes.NOTIFY_USER_ABOUT_MESSAGE_TYPING, messageTyping),
+    takeLatest(FriendsActionTypes.GET_FRIENDS, getFriendsSaga),
     fork(initializeSaga)
   ]);
 }

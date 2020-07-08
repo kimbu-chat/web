@@ -9,12 +9,13 @@ import './SearchTop.scss';
 namespace SearchTop {
   export interface Props {
     displaySlider: Function;
+    displayCreateChat: () => void;
   }
 }
 
 export const DIALOGS_LIMIT = 20;
 
-const SearchTop = ({ displaySlider }: SearchTop.Props) => {
+const SearchTop = ({ displaySlider, displayCreateChat }: SearchTop.Props) => {
   const getDialogs = useActionWithDispatch(getDialogsAction);
   const dialogs = useSelector<AppState, Dialog[]>((rootState) => rootState.dialogs.dialogs) || [];
 
@@ -59,7 +60,7 @@ const SearchTop = ({ displaySlider }: SearchTop.Props) => {
         </div>
         <input onChange={(e) => handleDialogSearchChange(e.target.value)} type="text" placeholder="Search" />
       </div>
-      <button className="messenger__create-chat">
+      <button onClick={displayCreateChat} className="messenger__create-chat-btn">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" e-dvz7b7="">
           <path
             fillRule="evenodd"

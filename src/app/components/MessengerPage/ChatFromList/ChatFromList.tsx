@@ -85,7 +85,7 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
       if (isMessageCreatorCurrentUser) {
         return `You: ${lastMessage.text}`;
       }
-      return `${lastMessage.userCreator.firstName}: ${lastMessage.text}`;
+      return `${lastMessage.userCreator?.firstName}: ${lastMessage.text}`;
     }
 
     const shortedText = lastMessage.text.substr(0, 19);

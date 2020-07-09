@@ -35,21 +35,21 @@ export class MessageUtils {
       const confereceMemberRemovedSystemMessageContent = <ConfereceMemberAddedSystemMessageContent>systemMessageContent;
       return isCurrentUserMessageCreator
         ? `Вы добавили ${confereceMemberRemovedSystemMessageContent.addedUserName}`
-        : `${message.userCreator.firstName} ${message.userCreator.lastName} добавил ${confereceMemberRemovedSystemMessageContent.addedUserName}`;
+        : `${message.userCreator?.firstName} ${message.userCreator?.lastName} добавил ${confereceMemberRemovedSystemMessageContent.addedUserName}`;
     }
     if (message.systemMessageType === SystemMessageType.ConferenceNameChanged) {
       const systemMessageContent = MessageUtils.getSystemMessageContent(message.text);
       const confereceMemberRemovedSystemMessageContent = <ConfereceNameChangedSystemMessageContent>systemMessageContent;
       return isCurrentUserMessageCreator
         ? `Вы изменили название с ${confereceMemberRemovedSystemMessageContent.oldName} на ${confereceMemberRemovedSystemMessageContent.newName}`
-        : `${message.userCreator.firstName} ${message.userCreator.lastName} изменил название с 
+        : `${message.userCreator?.firstName} ${message.userCreator?.lastName} изменил название с 
                 ${confereceMemberRemovedSystemMessageContent.oldName} на ${confereceMemberRemovedSystemMessageContent.newName}`;
     }
     if (message.systemMessageType === SystemMessageType.ConferenceAvatarChanged) {
       return isCurrentUserMessageCreator
         ? `Вы изменили аватар`
-        : `${message.userCreator.firstName} 
-           ${message.userCreator.lastName} изменил аватар`;
+        : `${message.userCreator?.firstName} 
+           ${message.userCreator?.lastName} изменил аватар`;
     }
 
     throw 'Construct System MessageText function error';

@@ -92,7 +92,7 @@ const Chat = ({ chatId }: Chat.Props) => {
       return (
         <MessageItem
           key={msg.id}
-          from={messageIsFrom(msg.userCreator.id)}
+          from={messageIsFrom(msg.userCreator?.id)}
           content={msg.text}
           time={moment.utc(msg.creationDateTime).local().format('HH:mm')}
           needToShowDateSeparator={msg.needToShowDateSeparator}

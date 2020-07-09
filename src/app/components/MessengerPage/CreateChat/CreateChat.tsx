@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
-import { getFriendsAction } from '../../../store/friends/actions';
+import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
+import { getFriendsAction, unsetSelectedUserIdsForNewConferenceAction } from '../../../store/friends/actions';
+import { createConferenceAction } from '../../../store/conferences/actions';
 import FriendItem from './FriendItem/FriendItem';
 import './_CreateChat.scss';
 
@@ -13,7 +15,12 @@ namespace CreateChat {
 
 const CreateChat = React.forwardRef(({ hide }: CreateChat.Props, ref: React.Ref<HTMLDivElement>) => {
   const loadFriends = useActionWithDispatch(getFriendsAction);
+  const unsetFriends = useActionWithDispatch(unsetSelectedUserIdsForNewConferenceAction);
+  const submitConferenceCreation = useActionWithDeferred(createConferenceAction);
+
   const friends = useSelector((state) => state.friends.friends);
+  const currentUser = useSelector((state) => state.auth.currentUser);
+  const selectedUserIds = useSelector((state) => state.friends.userIdsToAddIntoConference);
 
   const [chatName, setChatName] = useState<string>('');
   const [searchFriendStr, setSearchFriendStr] = useState<string>('');
@@ -27,10 +34,23 @@ const CreateChat = React.forwardRef(({ hide }: CreateChat.Props, ref: React.Ref<
     searchFriends('');
   }, []);
 
+  const onRejectConferenceCreation = () => {
+    unsetFriends();
+    hide();
+  };
+
+  const createConference = () => {
+    submitConferenceCreation({
+      name: chatName,
+      currentUser: currentUser,
+      userIds: selectedUserIds
+    }).then(hide);
+  };
+
   return (
     <div ref={ref} className="messenger__create-chat">
       <div className="messenger__create-chat__header">
-        <button onClick={hide} className="messenger__create-chat__back flat">
+        <button onClick={onRejectConferenceCreation} className="messenger__create-chat__back flat">
           <div className="svg">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
               <path d="M10.634 3.634a.9.9 0 1 0-1.278-1.268l-4.995 5.03a.9.9 0 0 0 0 1.268l4.936 4.97a.9.9 0 0 0 1.278-1.268L6.268 8.03l4.366-4.396z"></path>
@@ -76,8 +96,12 @@ const CreateChat = React.forwardRef(({ hide }: CreateChat.Props, ref: React.Ref<
         </div>
       </div>
       <div className="messenger__create-chat__confirm-chat">
-        <button className="messenger__create-chat__confirm-chat-btn">Создать чат</button>
-        <button className="messenger__create-chat__dismiss-chat-btn">Отменить</button>
+        <button onClick={createConference} className="messenger__create-chat__confirm-chat-btn">
+          Создать чат
+        </button>
+        <button onClick={onRejectConferenceCreation} className="messenger__create-chat__dismiss-chat-btn">
+          Отменить
+        </button>
       </div>
     </div>
   );

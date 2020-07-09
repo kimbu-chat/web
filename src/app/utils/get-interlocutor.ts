@@ -11,6 +11,10 @@ export const getDialogInterlocutor = (dialog: Dialog): string => {
     return interlocutorName;
   }
 
+  if (dialog.conference?.name) {
+    return dialog.conference.name;
+  }
+
   return '';
 };
 

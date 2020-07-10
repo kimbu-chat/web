@@ -1,4 +1,5 @@
 import { Dialog, DialogsActionTypes } from './types';
+import { ConferencesActionTypes } from '../conferences/types';
 import produce from 'immer';
 import { DialogActions } from './actions';
 import { DialogService } from './dialog-service';
@@ -80,6 +81,14 @@ const dialogs = produce(
         const dialogIndex: number = getDialogArrayIndex(dialogId, draft);
 
         draft.dialogs[dialogIndex].lastMessage.id = newMessageId;
+
+        return draft;
+      }
+
+      case ConferencesActionTypes.CREATE_CONFERENCE_SUCCESS: {
+        const newDialog = action.payload;
+
+        draft.dialogs.unshift(newDialog);
 
         return draft;
       }
@@ -300,11 +309,9 @@ const dialogs = produce(
 
           const dialogWithNewMessage = draft.dialogs[dialogIndex];
 
-          draft.dialogs.splice(dialogIndex);
+          draft.dialogs.splice(dialogIndex, 1);
 
-          const id = draft.dialogs.unshift(dialogWithNewMessage);
-
-          console.log(id);
+          draft.dialogs.unshift(dialogWithNewMessage);
 
           return draft;
         } else {

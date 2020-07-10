@@ -1,16 +1,56 @@
 import React from 'react';
-
 import './ChatFromList.scss';
 import { Dialog } from 'app/store/dialogs/types';
 import * as moment from 'moment';
+import { useSelector } from 'react-redux';
+import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
 import { SystemMessageType, Message } from 'app/store/messages/interfaces';
 import { MessageUtils } from 'app/utils/message-utils';
-import { useSelector } from 'react-redux';
 import { AppState } from 'app/store';
-import { Avatar } from '@material-ui/core';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { changeSelectedDialogAction } from 'app/store/dialogs/actions';
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
+import { getDialogInterlocutor, getInterlocutorInitials } from '../../../utils/get-interlocutor';
+import { Avatar } from '@material-ui/core';
+import Badge from '@material-ui/core/Badge';
+import { withStyles } from '@material-ui/core/styles';
+
+const OnlineBadge = withStyles((theme) => ({
+  badge: {
+    backgroundColor: '#44b700',
+    color: '#44b700',
+    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+    '&::after': {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      borderRadius: '50%',
+      animation: '$ripple 1.2s infinite ease-in-out',
+      border: '1px solid currentColor',
+      content: '""'
+    }
+  },
+  '@keyframes ripple': {
+    '0%': {
+      transform: 'scale(.8)',
+      opacity: 1
+    },
+    '100%': {
+      transform: 'scale(2.4)',
+      opacity: 0
+    }
+  }
+}))(Badge);
+
+const OfflineBadge = withStyles((theme) => ({
+  badge: {
+    backgroundColor: '#b70015',
+    color: '#b70015',
+    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`
+  }
+}))(Badge);
 
 namespace ChatFromList {
   export interface Props {
@@ -20,9 +60,11 @@ namespace ChatFromList {
 
 const ChatFromList = ({ dialog }: ChatFromList.Props) => {
   const { interlocutor, lastMessage, conference } = dialog;
+  const selectedDialog = useSelector(getSelectedDialogSelector) as Dialog;
   const currentUserId: number = useSelector<AppState, number>((state) => state.auth.authentication.userId);
   const isMessageCreatorCurrentUser: boolean = lastMessage?.userCreator?.id === currentUserId;
   const changeSelectedDialog = useActionWithDispatch(changeSelectedDialogAction);
+  const isDialogSelected = selectedDialog?.id == dialog.id;
   let history = useHistory();
 
   const getDialogAvatar = (): string => {
@@ -46,7 +88,7 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
       if (isMessageCreatorCurrentUser) {
         return `You: ${lastMessage.text}`;
       }
-      return `${lastMessage.userCreator.firstName}: ${lastMessage.text}`;
+      return `${lastMessage.userCreator?.firstName}: ${lastMessage.text}`;
     }
 
     const shortedText = lastMessage.text.substr(0, 19);
@@ -54,48 +96,48 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
     return shortedText;
   };
 
-  const getDialogInterlocutor = (): string => {
-    const { interlocutor } = dialog;
-
-    if (interlocutor) {
-      const { firstName, lastName } = interlocutor;
-
-      const interlocutorName = `${firstName} ${lastName}`;
-
-      return interlocutorName;
-    }
-
-    return '';
-  };
-
-  const getInterlocutorInitials = (): string => {
-    const initials = getDialogInterlocutor()
-      .split(' ')
-      .reduce((accum, current) => {
-        return accum + current[0];
-      }, '');
-
-    const shortedInitials = initials.substr(0, 3);
-
-    return shortedInitials;
-  };
-
   const setSelectedDialog = (): void => {
     changeSelectedDialog(dialog.id);
-    history.push(`/chats/${dialog.id}`)
+    history.push(`/chats/${dialog.id}`);
   };
 
   return (
-    <div onClick={setSelectedDialog}
+    <div
+      onClick={setSelectedDialog}
       // activeClassName={'messenger__chat-block messenger__chat-block--active'}
-      className="messenger__chat-block"
+      className={isDialogSelected ? 'messenger__chat-block messenger__chat-block--active' : 'messenger__chat-block'}
     >
       <div className="messenger__active-line"></div>
-      <Avatar alt="Remy Sharp" src={getDialogAvatar()}>
-        {getInterlocutorInitials()}
-      </Avatar>
+      {!conference ? (
+        interlocutor?.status === 1 ? (
+          <OnlineBadge
+            overlap="circle"
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right'
+            }}
+            variant="dot"
+          >
+            <Avatar src={getDialogAvatar()}>{getInterlocutorInitials(dialog)}</Avatar>
+          </OnlineBadge>
+        ) : (
+          <OfflineBadge
+            overlap="circle"
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right'
+            }}
+            variant="dot"
+          >
+            <Avatar src={getDialogAvatar()}>{getInterlocutorInitials(dialog)}</Avatar>
+          </OfflineBadge>
+        )
+      ) : (
+        <Avatar src={getDialogAvatar()}>{getInterlocutorInitials(dialog)}</Avatar>
+      )}
+
       <div className="messenger__name-and-message">
-        <div className="messenger__name">{getDialogInterlocutor()}</div>
+        <div className="messenger__name">{getDialogInterlocutor(dialog)}</div>
         <div className="flat">
           {/* <img src={lastPhoto} alt="" className="messenger__last-photo" /> */}
           <div className="messenger__last-message">{getMessageText()}</div>

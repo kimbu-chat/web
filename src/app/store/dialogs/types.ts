@@ -149,3 +149,10 @@ export interface DialogList {
 export interface GetDialogsResponse extends DialogList {
   initializedBySearch: boolean;
 }
+
+export interface ConferenceCreationReqData {
+  name: string;
+  userIds: Array<number>;
+  currentUser: UserPreview | null;
+  // avatar?: Image;
+}

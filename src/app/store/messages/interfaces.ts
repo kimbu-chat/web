@@ -44,7 +44,7 @@ export interface Content {
 
 export interface Message {
   id: number;
-  userCreator: UserPreview;
+  userCreator: UserPreview | null;
   creationDateTime?: Date;
   text: string;
   attachments?: Array<Content>;

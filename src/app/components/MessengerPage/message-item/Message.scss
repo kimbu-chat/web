@@ -50,4 +50,21 @@
     line-height: 12px;
     padding: 4px 8px 0px 4px;
   }
+
+  &__message-separator {
+    display: flex;
+
+    justify-content: center;
+
+    span {
+      display: inline-block;
+      max-width: 100%;
+      margin-top: 8px;
+      padding: 4px 12px;
+      background-color: rgb(183, 183, 189);
+      border-radius: 12px;
+      line-height: 16px;
+      color: #fff;
+    }
+  }
 }

@@ -68,7 +68,6 @@ const messages = produce(
             hasMoreMessages: false
           };
           draft.messages.unshift(messageList);
-          console.log(draft);
 
           return draft;
         }

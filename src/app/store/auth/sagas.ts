@@ -18,6 +18,7 @@ import { AuthService } from 'app/services/auth-service';
 import { MyProfileService } from 'app/services/my-profile-service';
 import { UserPreview } from '../contacts/types';
 import { initSocketConnectionAction } from '../sockets/actions';
+import { changeUserOnlineStatusAction } from '../user/actions';
 
 export function* sendSmsPhoneConfirmationCodeSaga(
   action: ReturnType<typeof sendSmsPhoneConfirmationCodeAction>
@@ -63,8 +64,8 @@ export function* authenticateSaga(action: ReturnType<typeof confirmPhoneAction>)
   const parsedData = parseLoginResponse(response.data);
   const authService = new AuthService();
   authService.initialize(parsedData);
-  setToken(parsedData.accessToken);
   yield put(loginSuccessAction(parsedData));
+  yield call(initializeSaga);
   yield action?.deferred?.resolve();
 }
 
@@ -77,6 +78,8 @@ export function* initializeSaga(): any {
   }
 
   yield put(initSocketConnectionAction());
+  yield put(changeUserOnlineStatusAction(true));
+  console.log('status changed');
 
   setToken(authData.accessToken);
 

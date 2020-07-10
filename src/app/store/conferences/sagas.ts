@@ -107,7 +107,7 @@ export function* addUsersToConferenceSaga(action: ReturnType<typeof addUsersToCo
 }
 
 export function* createConferenceSaga(action: ReturnType<typeof createConferenceAction>): Iterator<any> {
-  const { userIds, /*avatar,*/ name, currentUser } = action.payload;
+  const { userIds, name } = action.payload;
 
   try {
     // @ts-ignore
@@ -129,7 +129,7 @@ export function* createConferenceSaga(action: ReturnType<typeof createConference
         text: Helpers.createSystemMessage({}),
         dialogId: dialogId,
         state: MessageState.LOCALMESSAGE,
-        userCreator: currentUser
+        userCreator: action.payload.currentUser
       }
     };
 
@@ -137,9 +137,9 @@ export function* createConferenceSaga(action: ReturnType<typeof createConference
     //   yield call(updloadConferenceAvatar, avatar, dialog.conference.id);
     // }
 
-    yield put(changeSelectedDialogAction(dialog.id));
-    yield put(createConferenceSuccessAction(dialog));
     yield put(unsetSelectedUserIdsForNewConferenceAction());
+    yield put(createConferenceSuccessAction(dialog));
+    yield put(changeSelectedDialogAction(dialog.id));
     action.deferred?.resolve(dialog);
   } catch (e) {
     console.warn(e);
@@ -182,6 +182,7 @@ export function* createConferenceFromEventSaga(
     currentUser: { id: currentUserId },
     selectedDialogId: dialog.id
   };
+
   yield put(createMessageAction(createMessageRequest));
 }
 

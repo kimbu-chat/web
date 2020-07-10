@@ -2,9 +2,10 @@ import React from 'react';
 import './ChatFromList.scss';
 import { Dialog } from 'app/store/dialogs/types';
 import * as moment from 'moment';
+import { useSelector } from 'react-redux';
+import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
 import { SystemMessageType, Message } from 'app/store/messages/interfaces';
 import { MessageUtils } from 'app/utils/message-utils';
-import { useSelector } from 'react-redux';
 import { AppState } from 'app/store';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { changeSelectedDialogAction } from 'app/store/dialogs/actions';
@@ -59,9 +60,11 @@ namespace ChatFromList {
 
 const ChatFromList = ({ dialog }: ChatFromList.Props) => {
   const { interlocutor, lastMessage, conference } = dialog;
+  const selectedDialog = useSelector(getSelectedDialogSelector) as Dialog;
   const currentUserId: number = useSelector<AppState, number>((state) => state.auth.authentication.userId);
   const isMessageCreatorCurrentUser: boolean = lastMessage?.userCreator?.id === currentUserId;
   const changeSelectedDialog = useActionWithDispatch(changeSelectedDialogAction);
+  const isDialogSelected = selectedDialog?.id == dialog.id;
   let history = useHistory();
 
   const getDialogAvatar = (): string => {
@@ -102,7 +105,7 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
     <div
       onClick={setSelectedDialog}
       // activeClassName={'messenger__chat-block messenger__chat-block--active'}
-      className="messenger__chat-block"
+      className={isDialogSelected ? 'messenger__chat-block messenger__chat-block--active' : 'messenger__chat-block'}
     >
       <div className="messenger__active-line"></div>
       {!conference ? (

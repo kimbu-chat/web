@@ -50,7 +50,7 @@ const Chat = ({ chatId }: Chat.Props) => {
 
   useEffect(() => {
     loadPage(0);
-  }, [selectedDialog]);
+  }, [selectedDialog?.id]);
 
   if (!selectedDialog || !messages) {
     return <div className="messenger__messages-list"></div>;
@@ -64,15 +64,14 @@ const Chat = ({ chatId }: Chat.Props) => {
     }
   };
 
+  const dateDifference = (startDate: Date, endDate: Date): boolean => {
+    return Boolean(Math.round(Math.abs((startDate.getTime() - endDate.getTime()) / (24 * 60 * 60 * 1000))));
+  };
+
   const messagesWithSeparators = messages.map((message, index) => {
     if (index < messages.length - 1)
       if (
-        moment.utc(message.creationDateTime).local().format('DD MM YYYY').toString() !==
-        moment
-          .utc(messages[index + 1].creationDateTime)
-          .local()
-          .format('DD MM YYYY')
-          .toString()
+        dateDifference(new Date(message.creationDateTime || ''), new Date(messages[index + 1].creationDateTime || ''))
       ) {
         message = {
           ...message,

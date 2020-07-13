@@ -167,7 +167,6 @@ const AccountInfo = React.forwardRef(
           </div>
         </button>
       </div>
-    </div>
   );
 });
 

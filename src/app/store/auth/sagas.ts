@@ -79,11 +79,10 @@ export function* initializeSaga(): any {
 
   yield put(initSocketConnectionAction());
   yield put(changeUserOnlineStatusAction(true));
-  console.log('status changed');
 
   setToken(authData.accessToken);
 
-  const currentUserId = authService.auth.userId;
+  const currentUserId = authData.userId;
 
   const profileService = new MyProfileService();
   const userProfile = profileService.myProfile;

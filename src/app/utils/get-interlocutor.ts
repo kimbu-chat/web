@@ -1,4 +1,5 @@
 import { Dialog } from 'app/store/dialogs/types';
+import { UserPreview } from 'app/store/contacts/types';
 
 export const getDialogInterlocutor = (dialog: Dialog): string => {
   const { interlocutor } = dialog;
@@ -24,6 +25,16 @@ export const getInterlocutorInitials = (dialog: Dialog): string => {
     .reduce((accum, current) => {
       return accum + current[0];
     }, '');
+
+  const shortedInitials = initials.substr(0, 2);
+
+  return shortedInitials;
+};
+
+export const getUserInitials = (user: UserPreview) => {
+  const initials = `${user.firstName} ${user.lastName}`.split(' ').reduce((accum, current) => {
+    return accum + current[0];
+  }, '');
 
   const shortedInitials = initials.substr(0, 2);
 

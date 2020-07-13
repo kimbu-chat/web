@@ -2,63 +2,16 @@ import React from 'react';
 import './_FriendItem.scss';
 import { UserPreview } from '../../../../store/contacts/types';
 import { Avatar } from '@material-ui/core';
-import Badge from '@material-ui/core/Badge';
-import { withStyles } from '@material-ui/core/styles';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { markUserAsAddedToConferenceAction } from '../../../../store/friends/actions';
-
-const OnlineBadge = withStyles((theme) => ({
-  badge: {
-    backgroundColor: '#44b700',
-    color: '#44b700',
-    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
-    '&::after': {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-      borderRadius: '50%',
-      animation: '$ripple 1.2s infinite ease-in-out',
-      border: '1px solid currentColor',
-      content: '""'
-    }
-  },
-  '@keyframes ripple': {
-    '0%': {
-      transform: 'scale(.8)',
-      opacity: 1
-    },
-    '100%': {
-      transform: 'scale(2.4)',
-      opacity: 0
-    }
-  }
-}))(Badge);
-
-const OfflineBadge = withStyles((theme) => ({
-  badge: {
-    backgroundColor: '#b70015',
-    color: '#b70015',
-    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`
-  }
-}))(Badge);
+import { getUserInitials } from 'app/utils/get-interlocutor';
+import { OnlineBadge, OfflineBadge } from 'app/utils/statusBadge';
 
 namespace FriendItem {
   export interface Props {
     user: UserPreview;
   }
 }
-
-const getUserInitials = (user: UserPreview) => {
-  const initials = `${user.firstName} ${user.lastName}`.split(' ').reduce((accum, current) => {
-    return accum + current[0];
-  }, '');
-
-  const shortedInitials = initials.substr(0, 2);
-
-  return shortedInitials;
-};
 
 const FriendItem = ({ user }: FriendItem.Props) => {
   const markUser = useActionWithDispatch(markUserAsAddedToConferenceAction);

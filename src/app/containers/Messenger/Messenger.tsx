@@ -9,6 +9,7 @@ import CreateMessageInput from '../../components/MessengerPage/create-message-in
 import AccountInfo from '../AccountInfo/AccountInfo';
 import BackgroundBlur from '../../utils/BackgroundBlur';
 import CreateChat from '../../components/MessengerPage/CreateChat/CreateChat';
+import ChatInfo from '../../components/MessengerPage/ChatInfo/ChatInfo';
 
 const Messenger = () => {
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -54,7 +55,7 @@ const Messenger = () => {
     <div className="messenger">
       <SearchTop displaySlider={displaySlider} displayCreateChat={displayCreateChat} />
       <BackgroundBlur />
-      <AccountInfo ref={sliderRef} hideSlider={hideSlider} />
+      <AccountInfo ref={sliderRef} hideSlider={hideSlider} displayCreateChat={displayCreateChat} />
       <ChatData />
       <ChatList />
       {createChatDisplayed ? (
@@ -63,6 +64,7 @@ const Messenger = () => {
         <div className="messenger__chat-send">
           <Chat chatId={Number(chatId)} />
           <CreateMessageInput />
+          <ChatInfo />
         </div>
       )}
     </div>

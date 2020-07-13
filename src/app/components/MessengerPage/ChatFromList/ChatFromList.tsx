@@ -12,45 +12,7 @@ import { changeSelectedDialogAction } from 'app/store/dialogs/actions';
 import { useHistory } from 'react-router-dom';
 import { getDialogInterlocutor, getInterlocutorInitials } from '../../../utils/get-interlocutor';
 import { Avatar } from '@material-ui/core';
-import Badge from '@material-ui/core/Badge';
-import { withStyles } from '@material-ui/core/styles';
-
-const OnlineBadge = withStyles((theme) => ({
-  badge: {
-    backgroundColor: '#44b700',
-    color: '#44b700',
-    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
-    '&::after': {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-      borderRadius: '50%',
-      animation: '$ripple 1.2s infinite ease-in-out',
-      border: '1px solid currentColor',
-      content: '""'
-    }
-  },
-  '@keyframes ripple': {
-    '0%': {
-      transform: 'scale(.8)',
-      opacity: 1
-    },
-    '100%': {
-      transform: 'scale(2.4)',
-      opacity: 0
-    }
-  }
-}))(Badge);
-
-const OfflineBadge = withStyles((theme) => ({
-  badge: {
-    backgroundColor: '#b70015',
-    color: '#b70015',
-    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`
-  }
-}))(Badge);
+import { OnlineBadge, OfflineBadge } from 'app/utils/statusBadge';
 
 namespace ChatFromList {
   export interface Props {

@@ -7,5 +7,6 @@
   &__chat-send {
     display: grid;
     grid-template-rows: 1fr 50px;
+    position: relative;
   }
 }

@@ -1,0 +1,44 @@
+.chat-info {
+  &__func-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    border-bottom: 1px solid #f5f5f5;
+    span {
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 400;
+      text-transform: uppercase;
+      display: inline-block;
+      padding: 20px 16px;
+      color: #8a8a95;
+    }
+    .svg {
+      width: 16px;
+      height: 16px;
+      margin-right: 16px;
+    }
+  }
+
+  &__actions-list {
+    padding-left: 16px;
+  }
+
+  &__action-btn {
+    display: flex;
+    font-family: inherit;
+    font-weight: inherit;
+    padding: 10px 0px;
+    .svg {
+      height: 16px;
+      width: 16px;
+      margin-right: 7px;
+      fill: #5c5c69;
+    }
+    span {
+      color: #5c5c69;
+      font-size: 14px;
+    }
+  }
+}

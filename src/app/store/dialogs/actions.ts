@@ -3,7 +3,8 @@ import { GetDialogsActionData, DialogsActionTypes, Dialog, GetDialogsResponse } 
 import { IntercolutorMessageTypingIntegrationEvent } from '../middlewares/websockets/integration-events/interlocutor-message-typing-integration-event';
 import { StatusChangedIntegrationEvent } from '../middlewares/websockets/integration-events/status-changed-integration-event';
 import { CreateMessageResponse, CreateMessageRequest } from '../messages/interfaces';
-import { createConferenceSuccessAction } from '../conferences/actions';
+import { markMessagesAsReadAction } from '../messages/actions';
+import { createConferenceSuccessAction, leaveConferenceSuccessAction } from '../conferences/actions';
 
 export const getDialogsAction = (data: GetDialogsActionData) => createAction(DialogsActionTypes.GET_DIALOGS, data);
 
@@ -56,4 +57,6 @@ export type DialogActions =
   | typeof createMessageSuccessAction
   | typeof createMessageAction
   | typeof userStatusChangedEventAction
-  | typeof createConferenceSuccessAction;
+  | typeof createConferenceSuccessAction
+  | typeof markMessagesAsReadAction
+  | typeof leaveConferenceSuccessAction;

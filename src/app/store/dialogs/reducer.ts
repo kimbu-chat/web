@@ -1,5 +1,6 @@
 import { Dialog, DialogsActionTypes } from './types';
 import { ConferencesActionTypes } from '../conferences/types';
+import { MessagesActionTypes } from '../messages/types';
 import produce from 'immer';
 import { DialogActions } from './actions';
 import { DialogService } from './dialog-service';
@@ -88,7 +89,12 @@ const dialogs = produce(
       case ConferencesActionTypes.CREATE_CONFERENCE_SUCCESS: {
         const newDialog = action.payload;
 
-        draft.dialogs.unshift(newDialog);
+        const isDialogExists: boolean = checkDialogExists(newDialog.id, draft);
+
+        if (!isDialogExists) {
+          draft.dialogs.unshift(newDialog);
+          return draft;
+        }
 
         return draft;
       }
@@ -113,24 +119,17 @@ const dialogs = produce(
       //     }
       //   };
       // }
-      // case MUTE_DIALOG_SUCCESS: {
-      //   const { id } = action.payload;
 
-      //   return {
+      case DialogsActionTypes.MUTE_DIALOG_SUCCESS: {
+        const { id } = action.payload;
 
-      //     ...draft,
-      //     dialogs: {
-      //       ...draft.dialogs,
-      //       byId: {
-      //         ...draft.dialogs.byId,
-      //         [id]: {
-      //           ...draft.dialogs.byId[id],
-      //           isMuted: !draft.dialogs.byId[id].isMuted
-      //         }
-      //       }
-      //     }
-      //   };
-      // }
+        const dialogIndex: number = getDialogArrayIndex(id, draft);
+
+        draft.dialogs[dialogIndex].isMuted = !draft.dialogs[dialogIndex].isMuted;
+
+        return draft;
+      }
+
       // case RENAME_CONFERENCE_SUCCESS: {
       //   const { dialog, newName }: RenameConferenceActionData = action.payload;
       //   const { id } = dialog;
@@ -254,33 +253,21 @@ const dialogs = produce(
           loading: false
         };
       }
-      // case LEAVE_CONFERENCE_SUCCESS:
-      // case REMOVE_DIALOG_SUCCESS: {
-      //   return {
-      //     ...draft,
-      //     dialogs: {
-      //       ...draft.dialogs,
-      //       // just remove id from allIds and item in the flatlist will fade away
-      //       allIds: draft.dialogs.allIds.filter(x => x !== action.payload.id)
-      //     }
-      //   };
-      // }
-      // case RESET_UNREAD_MESSAGES_COUNT: {
-      //   const dialogId = action.payload.id;
-      //   return {
-      //     ...draft,
-      //     dialogs: {
-      //       ...draft.dialogs,
-      //       byId: {
-      //         ...draft.dialogs.byId,
-      //         [dialogId]: {
-      //           ...draft.dialogs.byId[dialogId],
-      //           ownUnreadMessagesCount: 0
-      //         }
-      //       }
-      //     }
-      //   };
-      // }
+      case ConferencesActionTypes.LEAVE_CONFERENCE_SUCCESS:
+      case DialogsActionTypes.REMOVE_DIALOG_SUCCESS: {
+        const dialogIndex: number = getDialogArrayIndex(action.payload.id, draft);
+        draft.dialogs.splice(dialogIndex, 1);
+        draft.selectedDialogId = null;
+        return draft;
+      }
+
+      case MessagesActionTypes.RESET_UNREAD_MESSAGES_COUNT: {
+        const dialogId = action.payload.id;
+
+        const dialogIndex: number = getDialogArrayIndex(dialogId, draft);
+        draft.dialogs[dialogIndex].ownUnreadMessagesCount = 0;
+        return draft;
+      }
 
       case DialogsActionTypes.CREATE_MESSAGE: {
         const { message, dialog, currentUser } = action.payload;
@@ -296,13 +283,11 @@ const dialogs = produce(
         // if user already has dialogs with interlocutor - update dialog
         if (isDialogExists) {
           const isInterlocutorCurrentSelectedDialog: boolean = draft.selectedDialogId === dialogId;
-          const previousOwnUnreadMessagesCount = draft.dialogs[dialogIndex].ownUnreadMessagesCount;
-          let ownUnreadMessagesCount;
-          if (previousOwnUnreadMessagesCount)
-            ownUnreadMessagesCount =
-              isInterlocutorCurrentSelectedDialog || isCurrentUserMessageCreator
-                ? previousOwnUnreadMessagesCount
-                : previousOwnUnreadMessagesCount + 1;
+          const previousOwnUnreadMessagesCount = draft.dialogs[dialogIndex].ownUnreadMessagesCount || 0;
+          let ownUnreadMessagesCount =
+            isInterlocutorCurrentSelectedDialog || isCurrentUserMessageCreator
+              ? previousOwnUnreadMessagesCount
+              : previousOwnUnreadMessagesCount + 1;
 
           (draft.dialogs[dialogIndex].lastMessage = { ...message }),
             (draft.dialogs[dialogIndex].ownUnreadMessagesCount = ownUnreadMessagesCount);
@@ -327,7 +312,7 @@ const dialogs = produce(
             interlocutor: dialog.interlocutor
           };
 
-          draft.dialogs.push(newDialog);
+          draft.dialogs.unshift(newDialog);
 
           return draft;
         }

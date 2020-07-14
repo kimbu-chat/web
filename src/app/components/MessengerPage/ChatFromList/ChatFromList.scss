@@ -81,5 +81,9 @@
     border-radius: 16px;
     font-weight: 400;
     font-size: 14px;
+
+    &--muted {
+      background-color: gray;
+    }
   }
 }

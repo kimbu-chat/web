@@ -23,22 +23,24 @@ const CreateMessageInput = () => {
     };
     const dialogId = selectedDialog.id;
 
-    sendMessage({
-      currentUser: {
-        id: currentUserId
-      },
-      selectedDialogId: dialogId,
-      dialog: selectedDialog,
-      message: {
-        text,
-        systemMessageType: SystemMessageType.None,
-        userCreator: currentUser,
-        creationDateTime: new Date(new Date().toUTCString()),
-        state: MessageState.QUEUED,
-        id: new Date().getTime(),
-        dialogId: dialogId
-      }
-    });
+    if (text.trim().length > 0) {
+      sendMessage({
+        currentUser: {
+          id: currentUserId
+        },
+        selectedDialogId: dialogId,
+        dialog: selectedDialog,
+        message: {
+          text,
+          systemMessageType: SystemMessageType.None,
+          userCreator: currentUser,
+          creationDateTime: new Date(new Date().toUTCString()),
+          state: MessageState.QUEUED,
+          id: new Date().getTime(),
+          dialogId: dialogId
+        }
+      });
+    }
 
     setText('');
   };

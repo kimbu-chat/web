@@ -23,6 +23,12 @@
     h1 {
       font-size: 19px;
     }
+
+    &--blue {
+      svg {
+        fill: blue;
+      }
+    }
   }
 
   &__buttons-group {

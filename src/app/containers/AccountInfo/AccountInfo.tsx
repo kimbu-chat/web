@@ -150,24 +150,11 @@ const AccountInfo = React.forwardRef(
               </div>
               <span>Выход</span>
             </div>
-            <span>Настройки</span>
           </button>
         </div>
-        <button className="messenger__account-info__btn-group">
-          <div className="messenger__account-info__btn">
-            <div className="svg">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                <path
-                  fillRule="evenodd"
-                  d="M14.8 4A2.8 2.8 0 0 0 12 1.2H4A2.8 2.8 0 0 0 1.2 4v1.02h1.6V4c0-.66.53-1.2 1.2-1.2h8c.67 0 1.2.54 1.2 1.2v8.01c0 .67-.53 1.2-1.2 1.2H4a1.2 1.2 0 0 1-1.2-1.2V11H1.2V12a2.8 2.8 0 0 0 2.8 2.8h8a2.8 2.8 0 0 0 2.8-2.8v-8zM7.69 10.2a.8.8 0 0 0 1.13 1.13l2.73-2.73a.8.8 0 0 0-.15-1.28L8.8 4.73a.8.8 0 1 0-1.13 1.13L9.02 7.2H1a.8.8 0 1 0 0 1.6h8.06L7.68 10.2z"
-                ></path>
-              </svg>
-            </div>
-            <span>Выход</span>
-          </div>
-        </button>
       </div>
-  );
-});
+    );
+  }
+);
 
 export default AccountInfo;

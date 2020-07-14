@@ -35,7 +35,7 @@ const friends = produce(
       case FriendsActionTypes.UNSET_SELECTED_USER_IDS_TO_ADD_INTO_CONFERENCE: {
         for (const userId of draft.userIdsToAddIntoConference) {
           const userIndex = findUserIndex(userId, draft);
-          draft.friends[userIndex].supposedToAddIntoConference = false;
+          if (draft.friends[userIndex]) draft.friends[userIndex].supposedToAddIntoConference = false;
         }
 
         draft.userIdsToAddIntoConference = [];
@@ -85,8 +85,11 @@ const friends = produce(
           ? draft.userIdsToAddIntoConference.filter((x) => x !== userId)
           : draft.userIdsToAddIntoConference.concat(userId);
 
-        (draft.friends[userIndex].supposedToAddIntoConference = !user.supposedToAddIntoConference),
-          (draft.userIdsToAddIntoConference = updatedAddedUserIdsForNewConference);
+        if (draft.friends[userIndex]) {
+          draft.friends[userIndex].supposedToAddIntoConference = !user.supposedToAddIntoConference;
+        }
+
+        draft.userIdsToAddIntoConference = updatedAddedUserIdsForNewConference;
 
         return draft;
       }

@@ -5,11 +5,36 @@ import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
 import { Dialog } from 'app/store/dialogs/types';
 import { OnlineBadge, OfflineBadge } from 'app/utils/statusBadge';
 import { getInterlocutorInitials, getDialogInterlocutor } from '../../../utils/get-interlocutor';
+import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+import { removeDialogAction, muteDialogAction } from 'app/store/dialogs/actions';
+import { deleteFriendAction } from 'app/store/friends/actions';
+import { markUserAsAddedToConferenceAction } from 'app/store/friends/actions';
 import ChatActions from './ChatActions/ChatActions';
 import './_ChatInfo.scss';
 
-const ChatInfo = () => {
+namespace ChatInfo {
+  export interface Props {
+    displayCreateChat: () => void;
+  }
+}
+
+const ChatInfo = ({ displayCreateChat }: ChatInfo.Props) => {
   const selectedDialog = useSelector(getSelectedDialogSelector) as Dialog;
+  //checking if it is conference another function will be called
+  // const leaveConference = useActionWithDispatch(leaveConferenceAction);
+  const removeDialog = useActionWithDispatch(removeDialogAction);
+  const muteDialog = useActionWithDispatch(muteDialogAction);
+  const deleteFriend = useActionWithDispatch(deleteFriendAction);
+  const markUser = useActionWithDispatch(markUserAsAddedToConferenceAction);
+
+  const deleteChat = () => removeDialog(selectedDialog);
+  const muteChat = () => muteDialog(selectedDialog);
+  const deleteContact = () => deleteFriend(selectedDialog.interlocutor?.id || -1);
+  const createConference = () => {
+    markUser(selectedDialog.interlocutor?.id || -1);
+    displayCreateChat();
+  };
+
   if (selectedDialog) {
     const { interlocutor, conference } = selectedDialog;
 
@@ -53,7 +78,12 @@ const ChatInfo = () => {
           )}
           <span className="chat-info__interlocutor">{getDialogInterlocutor(selectedDialog)}</span>
         </div>
-        <ChatActions />
+        <ChatActions
+          deleteChat={deleteChat}
+          muteChat={muteChat}
+          deleteContact={deleteContact}
+          createConference={createConference}
+        />
       </div>
     );
   } else {

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import './Messenger.scss';
 import SearchTop from '../../components/MessengerPage/SearchTop/SearchTop';
@@ -10,13 +10,20 @@ import AccountInfo from '../AccountInfo/AccountInfo';
 import BackgroundBlur from '../../utils/BackgroundBlur';
 import CreateChat from '../../components/MessengerPage/CreateChat/CreateChat';
 import ChatInfo from '../../components/MessengerPage/ChatInfo/ChatInfo';
+import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+import { changeSelectedDialogAction } from 'app/store/dialogs/actions';
 
 const Messenger = () => {
   const sliderRef = useRef<HTMLDivElement>(null);
   const createChatRef = useRef<HTMLDivElement>(null);
   const [createChatDisplayed, setCreateChatDisplayed] = useState<boolean>(false);
-
+  const [infoDisplayed, setInfoDisplayed] = useState<boolean>(false);
+  const changeSelectedDialog = useActionWithDispatch(changeSelectedDialogAction);
   const { id: chatId } = useParams();
+
+  useEffect(() => {
+    changeSelectedDialog(Number(chatId));
+  }, []);
 
   const displaySlider = () => {
     if (sliderRef.current) sliderRef.current.style.left = '0px';
@@ -51,20 +58,24 @@ const Messenger = () => {
     }
   };
 
+  const displayChatInfo = () => {
+    setInfoDisplayed(!infoDisplayed);
+  };
+
   return (
     <div className="messenger">
       <SearchTop displaySlider={displaySlider} displayCreateChat={displayCreateChat} />
       <BackgroundBlur />
       <AccountInfo ref={sliderRef} hideSlider={hideSlider} displayCreateChat={displayCreateChat} />
-      <ChatData />
+      <ChatData chatInfoDisplayed={infoDisplayed} displayChatInfo={displayChatInfo} />
       <ChatList />
       {createChatDisplayed ? (
         <CreateChat ref={createChatRef} hide={hideCreateChat} />
       ) : (
         <div className="messenger__chat-send">
-          <Chat chatId={Number(chatId)} />
+          <Chat />
           <CreateMessageInput />
-          <ChatInfo />
+          {infoDisplayed && <ChatInfo displayCreateChat={displayCreateChat} />}
         </div>
       )}
     </div>

@@ -5,11 +5,17 @@ import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
 import { getFriendsAction, unsetSelectedUserIdsForNewConferenceAction } from '../../../store/friends/actions';
 import { createConferenceAction } from '../../../store/conferences/actions';
 import FriendItem from './FriendItem/FriendItem';
+
 import './_CreateChat.scss';
 
 namespace CreateChat {
   export interface Props {
     hide: () => void;
+  }
+
+  export interface validationError {
+    isPresent: boolean;
+    text?: string;
   }
 }
 
@@ -24,6 +30,7 @@ const CreateChat = React.forwardRef(({ hide }: CreateChat.Props, ref: React.Ref<
 
   const [chatName, setChatName] = useState<string>('');
   const [searchFriendStr, setSearchFriendStr] = useState<string>('');
+  const [error, setError] = useState<CreateChat.validationError>({ isPresent: false });
 
   const searchFriends = (name: string) => {
     setSearchFriendStr(name);
@@ -34,23 +41,37 @@ const CreateChat = React.forwardRef(({ hide }: CreateChat.Props, ref: React.Ref<
     searchFriends('');
   }, []);
 
-  const onRejectConferenceCreation = () => {
+  const rejectConferenceCreation = () => {
     unsetFriends();
     hide();
   };
 
   const createConference = () => {
-    submitConferenceCreation({
-      name: chatName,
-      currentUser: currentUser,
-      userIds: selectedUserIds
-    }).then(hide);
+    if (chatName.trim().length > 0) {
+      setError({ isPresent: false });
+    } else {
+      return setError({ isPresent: true, text: 'Chat name must inlude at least 1 character instead of empty spaces' });
+    }
+
+    if (selectedUserIds.length > 0) {
+      setError({ isPresent: false });
+    } else {
+      return setError({ isPresent: true, text: 'You have to choose at least 1 conference member' });
+    }
+
+    if (!error.isPresent) {
+      return submitConferenceCreation({
+        name: chatName,
+        currentUser: currentUser,
+        userIds: selectedUserIds
+      }).then(hide);
+    }
   };
 
   return (
     <div ref={ref} className="messenger__create-chat">
       <div className="messenger__create-chat__header">
-        <button onClick={onRejectConferenceCreation} className="messenger__create-chat__back flat">
+        <button onClick={rejectConferenceCreation} className="messenger__create-chat__back flat">
           <div className="svg">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
               <path d="M10.634 3.634a.9.9 0 1 0-1.278-1.268l-4.995 5.03a.9.9 0 0 0 0 1.268l4.936 4.97a.9.9 0 0 0 1.278-1.268L6.268 8.03l4.366-4.396z"></path>
@@ -73,13 +94,16 @@ const CreateChat = React.forwardRef(({ hide }: CreateChat.Props, ref: React.Ref<
             </svg>
           </div>
         </div>
-        <input
-          onChange={(e) => setChatName(e.target.value)}
-          value={chatName}
-          type="text"
-          placeholder="Название чата"
-          className="messenger__create-chat__chat-title"
-        />
+        <div className="">
+          {error.isPresent && <p className="error">{error.text}</p>}
+          <input
+            onChange={(e) => setChatName(e.target.value)}
+            value={chatName}
+            type="text"
+            placeholder="Название чата"
+            className="messenger__create-chat__chat-title"
+          />
+        </div>
       </div>
       <div className="messenger__create-chat__contacts-select">
         <input
@@ -99,7 +123,7 @@ const CreateChat = React.forwardRef(({ hide }: CreateChat.Props, ref: React.Ref<
         <button onClick={createConference} className="messenger__create-chat__confirm-chat-btn">
           Создать чат
         </button>
-        <button onClick={onRejectConferenceCreation} className="messenger__create-chat__dismiss-chat-btn">
+        <button onClick={rejectConferenceCreation} className="messenger__create-chat__dismiss-chat-btn">
           Отменить
         </button>
       </div>

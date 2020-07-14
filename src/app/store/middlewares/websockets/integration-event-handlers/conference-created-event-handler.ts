@@ -5,10 +5,7 @@ import { ConferenceCreatedIntegrationEvent } from '../integration-events/confere
 import { IEventHandler } from '../event-handler';
 
 export class ConferenceCreatedEventHandler implements IEventHandler<ConferenceCreatedIntegrationEvent> {
-  public handle(
-    store: Store<AppState>,
-    eventData: ConferenceCreatedIntegrationEvent
-  ): void {
+  public handle(store: Store<AppState>, eventData: ConferenceCreatedIntegrationEvent): void {
     store.dispatch({ type: DialogsActionTypes.CREATE_CONFERENCE_FROM_EVENT, payload: eventData });
   }
 }

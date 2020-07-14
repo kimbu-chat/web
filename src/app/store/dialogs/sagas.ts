@@ -1,9 +1,19 @@
 import { call, put } from 'redux-saga/effects';
-import { getDialogsAction, getDialogsSuccessAction, muteDialogAction, muteDialogSuccessAction } from './actions';
+import {
+  getDialogsAction,
+  getDialogsSuccessAction,
+  muteDialogAction,
+  muteDialogSuccessAction,
+  removeDialogAction,
+  removeDialogSuccessAction
+} from './actions';
+import { markMessagesAsReadAction } from '../messages/actions';
 import { AxiosResponse } from 'axios';
-import { Dialog, MuteDialogRequest, GetDialogsResponse } from './types';
-import { getDialogsApi, muteDialogApi } from './api';
-import { MessageState } from '../messages/interfaces';
+import { Dialog, MuteDialogRequest, GetDialogsResponse, HideDialogRequest } from './types';
+import { getDialogsApi, muteDialogApi, removeDialogApi } from './api';
+import { leaveConfereceApi } from '../conferences/api';
+import { MarkMessagesAsReadRequest, MessageState } from '../messages/interfaces';
+import { markMessagesAsReadApi } from '../messages/api';
 import { DialogService } from './dialog-service';
 
 export function* getDialogsSaga(action: ReturnType<typeof getDialogsAction>): Iterator<any> {
@@ -29,6 +39,7 @@ export function* getDialogsSaga(action: ReturnType<typeof getDialogsAction>): It
 }
 
 export function* muteDialogSaga(action: ReturnType<typeof muteDialogAction>) {
+  console.log(789456);
   try {
     const dialog: Dialog = action.payload;
 
@@ -48,6 +59,47 @@ export function* muteDialogSaga(action: ReturnType<typeof muteDialogAction>) {
       yield put(muteDialogSuccessAction(dialog));
     } else {
       alert('Error mute dialog');
+    }
+  } catch (e) {
+    console.warn(e);
+  }
+}
+
+export function* resetUnreadMessagesCountSaga(action: ReturnType<typeof markMessagesAsReadAction>): Iterator<any> {
+  {
+    const request: MarkMessagesAsReadRequest = {
+      dialog: {
+        conferenceId: action.payload.interlocutor === null ? action.payload.conference?.id : undefined,
+        interlocutorId: action.payload.conference === null ? action.payload.interlocutor?.id : undefined
+      }
+    };
+
+    yield call(markMessagesAsReadApi, request);
+  }
+}
+
+export function* removeDialogSaga(action: ReturnType<typeof removeDialogAction>) {
+  const dialog: Dialog = action.payload;
+  let response: AxiosResponse;
+
+  try {
+    if (dialog.interlocutor) {
+      const request: HideDialogRequest = {
+        dialog: {
+          interlocutorId: dialog.interlocutor.id
+        },
+        isHidden: true
+      };
+
+      response = yield call(removeDialogApi, request);
+    } else {
+      response = yield call(leaveConfereceApi, dialog.conference?.id || -1);
+    }
+
+    if (response.status === 200) {
+      yield put(removeDialogSuccessAction(dialog));
+    } else {
+      alert('Error dialog deletion');
     }
   } catch (e) {
     console.warn(e);

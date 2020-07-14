@@ -2,11 +2,14 @@ import React, { useEffect, useRef } from 'react';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
+import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { getMessagesAction } from '../../../store/messages/actions';
 import InfiniteScroll from 'react-infinite-scroller';
 import './Chat.scss';
 import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
+import { markMessagesAsReadAction } from 'app/store/messages/actions';
 import MessageItem from '../message-item';
+import { useHistory } from 'react-router-dom';
 import { Message } from 'app/store/messages/interfaces';
 import { AppState } from 'app/store';
 
@@ -15,23 +18,22 @@ export enum messageFrom {
   others
 }
 
-namespace Chat {
-  export interface Props {
-    chatId: number;
-  }
-}
-
-const Chat = ({ chatId }: Chat.Props) => {
+const Chat = () => {
   const getMessages = useActionWithDeferred(getMessagesAction);
+  const markMessagesAsRead = useActionWithDispatch(markMessagesAsReadAction);
+
   const selectedDialog = useSelector(getSelectedDialogSelector);
   const messages = useSelector<AppState, Message[]>(
-    (state) => state.messages.messages.find((x) => x.dialogId == chatId)?.messages as Message[]
+    (state) => state.messages.messages.find((x) => x.dialogId == selectedDialog?.id)?.messages as Message[]
   );
   const hasMoreMessages = useSelector<AppState, boolean>(
-    (state) => state.messages.messages.find((x) => x.dialogId == chatId)?.hasMoreMessages as boolean
+    (state) => state.messages.messages.find((x) => x.dialogId == selectedDialog?.id)?.hasMoreMessages as boolean
   );
   const myId = useSelector<AppState, number>((state) => state.auth.authentication.userId);
+
   const messagesContainerRef = useRef(null);
+
+  let history = useHistory();
 
   const loadPage = (page: number) => {
     const pageData = {
@@ -50,6 +52,19 @@ const Chat = ({ chatId }: Chat.Props) => {
 
   useEffect(() => {
     loadPage(0);
+
+    if (selectedDialog) {
+      const markAsRead = (): void => {
+        const { ownUnreadMessagesCount } = selectedDialog;
+        if (Boolean(ownUnreadMessagesCount) && (ownUnreadMessagesCount || 0) > 0) {
+          markMessagesAsRead(selectedDialog);
+        }
+      };
+
+      markAsRead();
+
+      history.push(`/chats/${selectedDialog?.id}`);
+    }
   }, [selectedDialog?.id]);
 
   if (!selectedDialog || !messages) {

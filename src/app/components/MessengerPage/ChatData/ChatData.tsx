@@ -7,7 +7,14 @@ import { Avatar } from '@material-ui/core';
 
 import './ChatData.scss';
 
-const ChatData = () => {
+namespace ChatData {
+  export interface Props {
+    displayChatInfo: () => void;
+    chatInfoDisplayed: boolean;
+  }
+}
+
+const ChatData = ({ displayChatInfo, chatInfoDisplayed }: ChatData.Props) => {
   const selectedDialog = useSelector(getSelectedDialogSelector);
 
   if (selectedDialog) {
@@ -59,7 +66,10 @@ const ChatData = () => {
               ></path>
             </svg>
           </button>
-          <button className="messenger__chat-info">
+          <button
+            onClick={displayChatInfo}
+            className={chatInfoDisplayed ? 'messenger__chat-info messenger__chat-info--blue' : 'messenger__chat-info'}
+          >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" e-dvz7b7="">
               <path
                 fillRule="evenodd"

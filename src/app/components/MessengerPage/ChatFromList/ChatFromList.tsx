@@ -66,7 +66,6 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
   return (
     <div
       onClick={setSelectedDialog}
-      // activeClassName={'messenger__chat-block messenger__chat-block--active'}
       className={isDialogSelected ? 'messenger__chat-block messenger__chat-block--active' : 'messenger__chat-block'}
     >
       <div className="messenger__active-line"></div>
@@ -107,7 +106,11 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
       </div>
       <div className="messenger__time-and-count">
         <div className="messenger__time">{moment.utc(lastMessage?.creationDateTime).local().format('hh:mm')}</div>
-        {/* <div className="messenger__count">{count}</div> */}
+        {(dialog.ownUnreadMessagesCount || false) && (
+          <div className={dialog.isMuted ? 'messenger__count messenger__count--muted' : 'messenger__count'}>
+            {dialog.ownUnreadMessagesCount}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -6,6 +6,8 @@ import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { markUserAsAddedToConferenceAction } from '../../../../store/friends/actions';
 import { getUserInitials } from 'app/utils/get-interlocutor';
 import { OnlineBadge, OfflineBadge } from 'app/utils/statusBadge';
+import { AppState } from 'app/store';
+import { useSelector } from 'react-redux';
 
 namespace FriendItem {
   export interface Props {
@@ -14,8 +16,14 @@ namespace FriendItem {
 }
 
 const FriendItem = ({ user }: FriendItem.Props) => {
+  const myId = useSelector<AppState, number>((state) => state.auth.authentication.userId);
   const markUser = useActionWithDispatch(markUserAsAddedToConferenceAction);
   const selectUser = () => markUser(user.id || -1);
+
+  if (user.id === myId) {
+    return <div className=""></div>;
+  }
+
   return (
     <div className="messenger__friend-item" onClick={selectUser}>
       {user?.status === 1 ? (

@@ -22,7 +22,12 @@ const ChatActions = ({
   deleteConference
 }: ChatActions.Props) => {
   const selectedDialog = useSelector(getSelectedDialogSelector) as Dialog;
+  const friends = useSelector((state) => state.friends.friends);
   const [actionsDisplayed, setActionsDisplayed] = useState<boolean>(false);
+
+  const selectedIsFriend = (): boolean => {
+    return friends.findIndex((friend) => friend.id === selectedDialog.interlocutor?.id) > -1;
+  };
 
   return (
     <React.Fragment>
@@ -49,7 +54,7 @@ const ChatActions = ({
               {selectedDialog.isMuted ? 'Уведомления отключенны' : 'Уведомления включены'}
             </span>
           </button>
-          {selectedDialog.interlocutor && (
+          {selectedDialog.interlocutor && selectedIsFriend() && (
             <button onClick={createConference} className="chat-info__action-btn">
               <div className="svg">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
@@ -63,7 +68,7 @@ const ChatActions = ({
               <span className="chat-info__action-nam">Создать груповой чат</span>
             </button>
           )}
-          {selectedDialog.interlocutor && (
+          {selectedDialog.interlocutor && selectedIsFriend() && (
             <button onClick={deleteContact} className="chat-info__action-btn">
               <div className="svg">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">

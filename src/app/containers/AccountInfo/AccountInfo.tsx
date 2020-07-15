@@ -102,7 +102,7 @@ const AccountInfo = React.forwardRef(
             </button>
           </div>
           <div className="messenger__account-info__btn-group">
-            <button className="messenger__account-info__btn">
+            <button onClick={() => window.location.reload(true)} className="messenger__account-info__btn">
               <div className="svg">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                   <path

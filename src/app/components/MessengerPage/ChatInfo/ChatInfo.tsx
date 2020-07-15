@@ -7,6 +7,7 @@ import { OnlineBadge, OfflineBadge } from 'app/utils/statusBadge';
 import { getInterlocutorInitials, getDialogInterlocutor } from '../../../utils/get-interlocutor';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { removeDialogAction, muteDialogAction } from 'app/store/dialogs/actions';
+import { leaveConferenceAction } from 'app/store/conferences/actions';
 import { deleteFriendAction } from 'app/store/friends/actions';
 import { markUserAsAddedToConferenceAction } from 'app/store/friends/actions';
 import ChatActions from './ChatActions/ChatActions';
@@ -21,7 +22,7 @@ namespace ChatInfo {
 const ChatInfo = ({ displayCreateChat }: ChatInfo.Props) => {
   const selectedDialog = useSelector(getSelectedDialogSelector) as Dialog;
   //checking if it is conference another function will be called
-  // const leaveConference = useActionWithDispatch(leaveConferenceAction);
+  const leaveConference = useActionWithDispatch(leaveConferenceAction);
   const removeDialog = useActionWithDispatch(removeDialogAction);
   const muteDialog = useActionWithDispatch(muteDialogAction);
   const deleteFriend = useActionWithDispatch(deleteFriendAction);
@@ -30,6 +31,7 @@ const ChatInfo = ({ displayCreateChat }: ChatInfo.Props) => {
   const deleteChat = () => removeDialog(selectedDialog);
   const muteChat = () => muteDialog(selectedDialog);
   const deleteContact = () => deleteFriend(selectedDialog.interlocutor?.id || -1);
+  const deleteConference = () => leaveConference(selectedDialog);
   const createConference = () => {
     markUser(selectedDialog.interlocutor?.id || -1);
     displayCreateChat();
@@ -80,6 +82,7 @@ const ChatInfo = ({ displayCreateChat }: ChatInfo.Props) => {
         </div>
         <ChatActions
           deleteChat={deleteChat}
+          deleteConference={deleteConference}
           muteChat={muteChat}
           deleteContact={deleteContact}
           createConference={createConference}

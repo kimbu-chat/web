@@ -105,6 +105,7 @@ const Chat = () => {
     .map((msg) => {
       return (
         <MessageItem
+          message={msg}
           key={msg.id}
           from={messageIsFrom(msg.userCreator?.id)}
           content={msg.text}

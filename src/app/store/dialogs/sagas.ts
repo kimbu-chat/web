@@ -11,7 +11,6 @@ import { markMessagesAsReadAction } from '../messages/actions';
 import { AxiosResponse } from 'axios';
 import { Dialog, MuteDialogRequest, GetDialogsResponse, HideDialogRequest } from './types';
 import { getDialogsApi, muteDialogApi, removeDialogApi } from './api';
-import { leaveConfereceApi } from '../conferences/api';
 import { MarkMessagesAsReadRequest, MessageState } from '../messages/interfaces';
 import { markMessagesAsReadApi } from '../messages/api';
 import { DialogService } from './dialog-service';
@@ -83,18 +82,14 @@ export function* removeDialogSaga(action: ReturnType<typeof removeDialogAction>)
   let response: AxiosResponse;
 
   try {
-    if (dialog.interlocutor) {
-      const request: HideDialogRequest = {
-        dialog: {
-          interlocutorId: dialog.interlocutor.id
-        },
-        isHidden: true
-      };
+    const request: HideDialogRequest = {
+      dialog: {
+        interlocutorId: dialog.interlocutor?.id
+      },
+      isHidden: true
+    };
 
-      response = yield call(removeDialogApi, request);
-    } else {
-      response = yield call(leaveConfereceApi, dialog.conference?.id || -1);
-    }
+    response = yield call(removeDialogApi, request);
 
     if (response.status === 200) {
       yield put(removeDialogSuccessAction(dialog));

@@ -1,6 +1,9 @@
 import React from 'react';
 import { messageFrom } from '../Chat/Chat';
-import { Message } from 'app/store/messages/interfaces';
+import { Message, SystemMessageType } from 'app/store/messages/interfaces';
+import { MessageUtils } from 'app/utils/message-utils';
+import { useSelector } from 'react-redux';
+import { AppState } from 'app/store';
 import './Message.scss';
 
 namespace Message {
@@ -10,10 +13,23 @@ namespace Message {
     time: string;
     needToShowDateSeparator: boolean | undefined;
     dateSeparator?: string;
+    message: Message;
   }
 }
 
-const MessageItem = ({ from, content, time, needToShowDateSeparator, dateSeparator }: Message.Props) => {
+const MessageItem = ({ from, content, time, needToShowDateSeparator, dateSeparator, message }: Message.Props) => {
+  const currentUserId: number = useSelector<AppState, number>((state) => state.auth.authentication.userId);
+
+  if (message?.systemMessageType !== SystemMessageType.None) {
+    return (
+      <div className="messenger__message-separator">
+        <span>
+          {MessageUtils.constructSystemMessageText(message as Message, message?.userCreator?.id === currentUserId)}
+        </span>
+      </div>
+    );
+  }
+
   if (needToShowDateSeparator) {
     return (
       <React.Fragment>

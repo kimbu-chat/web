@@ -19,6 +19,7 @@ import { MyProfileService } from 'app/services/my-profile-service';
 import { UserPreview } from '../contacts/types';
 import { initSocketConnectionAction } from '../sockets/actions';
 import { changeUserOnlineStatusAction } from '../user/actions';
+import { getFriendsAction } from '../friends/actions';
 
 export function* sendSmsPhoneConfirmationCodeSaga(
   action: ReturnType<typeof sendSmsPhoneConfirmationCodeAction>
@@ -89,6 +90,12 @@ export function* initializeSaga(): any {
 
   if (userProfile) {
     yield put(getMyProfileSuccessAction(userProfile));
+    yield put(
+      getFriendsAction({
+        page: { offset: 0, limit: 100 },
+        initializedBySearch: false
+      })
+    );
     return;
   }
 

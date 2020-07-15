@@ -12,6 +12,7 @@ import MessageItem from '../message-item';
 import { useHistory } from 'react-router-dom';
 import { Message } from 'app/store/messages/interfaces';
 import { AppState } from 'app/store';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 export enum messageFrom {
   me,
@@ -130,7 +131,9 @@ const Chat = () => {
           hasMore={hasMoreMessages}
           loader={
             <div className="loader " key={0}>
-              Loading ...
+              <div className="">
+                <CircularProgress />
+              </div>
             </div>
           }
           useWindow={false}

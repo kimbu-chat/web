@@ -12,7 +12,6 @@ import CreateChat from '../../components/MessengerPage/CreateChat/CreateChat';
 import ChatInfo from '../../components/MessengerPage/ChatInfo/ChatInfo';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { changeSelectedDialogAction } from 'app/store/dialogs/actions';
-import { getFriendsAction } from 'app/store/friends/actions';
 
 const Messenger = () => {
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -22,13 +21,11 @@ const Messenger = () => {
   const [infoDisplayed, setInfoDisplayed] = useState<boolean>(false);
 
   const changeSelectedDialog = useActionWithDispatch(changeSelectedDialogAction);
-  const loadFriends = useActionWithDispatch(getFriendsAction);
 
   const { id: chatId } = useParams();
 
   useEffect(() => {
     changeSelectedDialog(Number(chatId));
-    loadFriends({ page: { offset: 0, limit: 1024 }, initializedBySearch: false });
   }, []);
 
   const displaySlider = () => {

@@ -105,3 +105,8 @@ export function* initializeSaga(): any {
 
   yield put(getMyProfileSuccessAction(data));
 }
+
+export function* logoutSaga(): Iterator<any> {
+  new AuthService().clear();
+  window.location.reload();
+}

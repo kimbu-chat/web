@@ -21,6 +21,8 @@ export const getMyProfileSuccessAction = (data: UserPreview) =>
 export const loginSuccessAction = (userAuthData: UserAuthData) =>
   createAction(AuthActionTypes.LOGIN_SUCCESS, userAuthData);
 
+export const logoutAction = () => createAction(AuthActionTypes.LOGOUT);
+
 export type AuthActions =
   | typeof sendSmsPhoneConfirmationCodeAction
   | typeof sendSmsPhoneConfirmationCodeFailureAction
@@ -30,4 +32,5 @@ export type AuthActions =
   | typeof confirmPhoneFailureAction
   | typeof getMyProfileAction
   | typeof getMyProfileSuccessAction
-  | typeof loginSuccessAction;
+  | typeof loginSuccessAction
+  | typeof logoutAction;

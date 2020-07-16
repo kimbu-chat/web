@@ -25,7 +25,7 @@ const ChatActions = ({
 }: ChatActions.Props) => {
   const selectedDialog = useSelector(getSelectedDialogSelector) as Dialog;
   const friends = useSelector((state) => state.friends.friends);
-  const [actionsDisplayed, setActionsDisplayed] = useState<boolean>(false);
+  const [actionsDisplayed, setActionsDisplayed] = useState<boolean>(true);
 
   const selectedIsFriend = (): boolean => {
     return friends.findIndex((friend) => friend.id === selectedDialog.interlocutor?.id) > -1;

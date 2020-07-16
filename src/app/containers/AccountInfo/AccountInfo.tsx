@@ -2,6 +2,8 @@ import React from 'react';
 import { Avatar } from '@material-ui/core';
 import { AppState } from 'app/store';
 import { useSelector } from 'react-redux';
+import { logoutAction } from 'app/store/auth/actions';
+import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import './_AccountInfo.scss';
 
 namespace AccountInfo {
@@ -31,6 +33,8 @@ const AccountInfo = React.forwardRef(
     const firstName = useSelector<AppState, string>((state) => state.auth.currentUser?.firstName || '');
     const lastName = useSelector<AppState, string>((state) => state.auth.currentUser?.lastName || '');
     const avatar = useSelector<AppState, string>((state) => state.auth.currentUser?.avatarUrl || '');
+
+    const logout = useActionWithDispatch(logoutAction);
 
     const createChat = () => {
       hideSlider();
@@ -144,7 +148,7 @@ const AccountInfo = React.forwardRef(
               <span>Настройки</span>
             </button>
           </div>
-          <button className="messenger__account-info__btn-group">
+          <button onClick={() => logout()} className="messenger__account-info__btn-group">
             <div className="messenger__account-info__btn">
               <div className="svg">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">

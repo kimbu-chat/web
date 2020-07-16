@@ -96,7 +96,14 @@ const Messenger = () => {
   return (
     <div className="messenger">
       <SearchTop displaySlider={displaySlider} displayCreateChat={displayCreateChat} />
-      <BackgroundBlur />
+      {(createChatDisplayed || contactSearchDisplayed) && (
+        <BackgroundBlur
+          onClick={() => {
+            hideCreateChat();
+            hideContactSearch();
+          }}
+        />
+      )}
       <AccountInfo
         ref={sliderRef}
         hideSlider={hideSlider}

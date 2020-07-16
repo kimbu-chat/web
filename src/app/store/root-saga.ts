@@ -1,6 +1,6 @@
 import { all, takeLatest, fork, takeEvery } from 'redux-saga/effects';
 import { AuthActionTypes } from './auth/types';
-import { confirmPhoneNumberSaga, sendSmsPhoneConfirmationCodeSaga, initializeSaga } from './auth/sagas';
+import { confirmPhoneNumberSaga, sendSmsPhoneConfirmationCodeSaga, initializeSaga, logoutSaga } from './auth/sagas';
 import { DialogsActionTypes } from './dialogs/types';
 import { getDialogsSaga, resetUnreadMessagesCountSaga, removeDialogSaga, muteDialogSaga } from './dialogs/sagas';
 import { messages, createMessage, messageTyping } from './messages/sagas';
@@ -22,6 +22,7 @@ function* rootSaga() {
   yield all([
     takeLatest(AuthActionTypes.CONFIRM_PHONE, confirmPhoneNumberSaga),
     takeLatest(AuthActionTypes.SEND_PHONE_CONFIRMATION_CODE, sendSmsPhoneConfirmationCodeSaga),
+    takeLatest(AuthActionTypes.LOGOUT, logoutSaga),
     takeLatest(MessagesActionTypes.GET_MESSAGES, messages),
     takeEvery(MessagesActionTypes.CREATE_MESSAGE, createMessage),
     takeLatest(MessagesActionTypes.NOTIFY_USER_ABOUT_MESSAGE_TYPING, messageTyping),

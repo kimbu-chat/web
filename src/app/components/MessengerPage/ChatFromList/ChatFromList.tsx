@@ -13,6 +13,7 @@ import { useHistory } from 'react-router-dom';
 import { getDialogInterlocutor, getInterlocutorInitials } from '../../../utils/get-interlocutor';
 import { Avatar } from '@material-ui/core';
 import { OnlineBadge, OfflineBadge } from 'app/utils/statusBadge';
+import _ from 'lodash';
 
 namespace ChatFromList {
   export interface Props {
@@ -40,20 +41,32 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
   const getMessageText = (): string => {
     const { lastMessage, conference } = dialog;
     if (lastMessage?.systemMessageType !== SystemMessageType.None) {
-      return MessageUtils.constructSystemMessageText(
-        lastMessage as Message,
-        lastMessage?.userCreator?.id === currentUserId
+      return _.truncate(
+        MessageUtils.constructSystemMessageText(lastMessage as Message, lastMessage?.userCreator?.id === currentUserId),
+        {
+          length: 19,
+          omission: '...'
+        }
       );
     }
 
     if (conference) {
       if (isMessageCreatorCurrentUser) {
-        return `You: ${lastMessage.text}`;
+        return _.truncate(`You: ${lastMessage.text}`, {
+          length: 19,
+          omission: '...'
+        });
       }
-      return `${lastMessage.userCreator?.firstName}: ${lastMessage.text}`;
+      return _.truncate(`${lastMessage.userCreator?.firstName}: ${lastMessage.text}`, {
+        length: 19,
+        omission: '...'
+      });
     }
 
-    const shortedText = lastMessage.text.substr(0, 19);
+    const shortedText = _.truncate(lastMessage.text, {
+      length: 19,
+      omission: '...'
+    });
 
     return shortedText;
   };
@@ -101,7 +114,7 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
         <div className="messenger__name">{getDialogInterlocutor(dialog)}</div>
         <div className="flat">
           {/* <img src={lastPhoto} alt="" className="messenger__last-photo" /> */}
-          <div className="messenger__last-message">{getMessageText().substr(0, 19)}</div>
+          <div className="messenger__last-message">{getMessageText()}</div>
         </div>
       </div>
       <div className="messenger__time-and-count">

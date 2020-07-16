@@ -30,7 +30,7 @@ const CreateChat = React.forwardRef(({ hide }: CreateChat.Props, ref: React.Ref<
 
   const [chatName, setChatName] = useState<string>('');
   const [searchFriendStr, setSearchFriendStr] = useState<string>('');
-  const [error, setError] = useState<CreateChat.validationError>({ isPresent: true });
+  const [error, setError] = useState<CreateChat.validationError>({ isPresent: false });
 
   const searchFriends = (name: string) => {
     setSearchFriendStr(name);
@@ -41,11 +41,11 @@ const CreateChat = React.forwardRef(({ hide }: CreateChat.Props, ref: React.Ref<
     searchFriends('');
   }, []);
 
-  useEffect(() => {
-    if (!error.isPresent) {
-      createConference();
-    }
-  }, [error.isPresent]);
+  // useEffect(() => {
+  //   if (!error.isPresent) {
+  //     createConference();
+  //   }
+  // }, [error.isPresent]);
 
   const rejectConferenceCreation = () => {
     unsetFriends();
@@ -53,19 +53,22 @@ const CreateChat = React.forwardRef(({ hide }: CreateChat.Props, ref: React.Ref<
   };
 
   const createConference = () => {
+    let validationPassed = false;
     if (chatName.trim().length > 0) {
       setError({ isPresent: false });
+      validationPassed = true;
     } else {
       return setError({ isPresent: true, text: 'Chat name must inlude at least 1 character instead of empty spaces' });
     }
 
     if (selectedUserIds.length > 0) {
       setError({ isPresent: false });
+      validationPassed = true;
     } else {
       return setError({ isPresent: true, text: 'You have to choose at least 1 conference member' });
     }
 
-    if (!error.isPresent) {
+    if (validationPassed) {
       return submitConferenceCreation({
         name: chatName,
         currentUser: currentUser,

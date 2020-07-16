@@ -8,6 +8,7 @@ namespace AccountInfo {
   export interface Props {
     hideSlider: () => void;
     displayCreateChat: () => void;
+    displayContactSearch: () => void;
   }
 }
 
@@ -26,7 +27,7 @@ const getInitials = (nameSurname: string): string => {
 };
 
 const AccountInfo = React.forwardRef(
-  ({ hideSlider, displayCreateChat }: AccountInfo.Props, ref: React.Ref<HTMLDivElement>) => {
+  ({ hideSlider, displayCreateChat, displayContactSearch }: AccountInfo.Props, ref: React.Ref<HTMLDivElement>) => {
     const firstName = useSelector<AppState, string>((state) => state.auth.currentUser?.firstName || '');
     const lastName = useSelector<AppState, string>((state) => state.auth.currentUser?.lastName || '');
     const avatar = useSelector<AppState, string>((state) => state.auth.currentUser?.avatarUrl || '');
@@ -34,6 +35,11 @@ const AccountInfo = React.forwardRef(
     const createChat = () => {
       hideSlider();
       displayCreateChat();
+    };
+
+    const contactSearch = () => {
+      hideSlider();
+      displayContactSearch();
     };
 
     return (
@@ -113,7 +119,7 @@ const AccountInfo = React.forwardRef(
               </div>
               <span>На главную</span>
             </button>
-            <button className="messenger__account-info__btn">
+            <button onClick={contactSearch} className="messenger__account-info__btn">
               <div className="svg">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                   <path

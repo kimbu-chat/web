@@ -30,7 +30,7 @@ const CreateChat = React.forwardRef(({ hide }: CreateChat.Props, ref: React.Ref<
 
   const [chatName, setChatName] = useState<string>('');
   const [searchFriendStr, setSearchFriendStr] = useState<string>('');
-  const [error, setError] = useState<CreateChat.validationError>({ isPresent: false });
+  const [error, setError] = useState<CreateChat.validationError>({ isPresent: true });
 
   const searchFriends = (name: string) => {
     setSearchFriendStr(name);
@@ -40,6 +40,12 @@ const CreateChat = React.forwardRef(({ hide }: CreateChat.Props, ref: React.Ref<
   useEffect(() => {
     searchFriends('');
   }, []);
+
+  useEffect(() => {
+    if (!error.isPresent) {
+      createConference();
+    }
+  }, [error.isPresent]);
 
   const rejectConferenceCreation = () => {
     unsetFriends();

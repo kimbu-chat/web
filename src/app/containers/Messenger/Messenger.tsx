@@ -10,14 +10,17 @@ import AccountInfo from '../AccountInfo/AccountInfo';
 import BackgroundBlur from '../../utils/BackgroundBlur';
 import CreateChat from '../../components/MessengerPage/CreateChat/CreateChat';
 import ChatInfo from '../../components/MessengerPage/ChatInfo/ChatInfo';
+import ContactSearch from '../../components/MessengerPage/ContactSearch/ContactSearch';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { changeSelectedDialogAction } from 'app/store/dialogs/actions';
 
 const Messenger = () => {
   const sliderRef = useRef<HTMLDivElement>(null);
   const createChatRef = useRef<HTMLDivElement>(null);
+  const contactSearchRef = useRef<HTMLDivElement>(null);
 
   const [createChatDisplayed, setCreateChatDisplayed] = useState<boolean>(false);
+  const [contactSearchDisplayed, setContactSearchDisplayed] = useState<boolean>(false);
   const [infoDisplayed, setInfoDisplayed] = useState<boolean>(false);
 
   const changeSelectedDialog = useActionWithDispatch(changeSelectedDialogAction);
@@ -25,7 +28,7 @@ const Messenger = () => {
   const { id: chatId } = useParams();
 
   useEffect(() => {
-    changeSelectedDialog(Number(chatId));
+    if (chatId) changeSelectedDialog(Number(chatId));
   }, []);
 
   const displaySlider = () => {
@@ -36,8 +39,9 @@ const Messenger = () => {
     if (sliderRef.current) sliderRef.current.style.left = '-280px';
   };
 
+  //Create chat display and hide
+
   const displayCreateChat = () => {
-    console.log(123);
     setCreateChatDisplayed(true);
     setTimeout(() => {
       if (createChatRef.current) {
@@ -53,10 +57,34 @@ const Messenger = () => {
       createChatRef.current.style.visibility = 'hidden';
       createChatRef.current.style.opacity = '0';
       createChatRef.current.style.left = '-150px';
-      console.log(789);
 
       setTimeout(() => {
         setCreateChatDisplayed(false);
+      }, 600);
+    }
+  };
+
+  //Contact search display and hide
+
+  const displayContactSearch = () => {
+    setContactSearchDisplayed(true);
+    setTimeout(() => {
+      if (contactSearchRef.current) {
+        contactSearchRef.current.style.visibility = 'visible';
+        contactSearchRef.current.style.opacity = '1';
+        contactSearchRef.current.style.left = '0';
+      }
+    }, 1);
+  };
+
+  const hideContactSearch = () => {
+    if (contactSearchRef.current) {
+      contactSearchRef.current.style.visibility = 'hidden';
+      contactSearchRef.current.style.opacity = '0';
+      contactSearchRef.current.style.left = '-150px';
+
+      setTimeout(() => {
+        setContactSearchDisplayed(false);
       }, 600);
     }
   };
@@ -69,12 +97,18 @@ const Messenger = () => {
     <div className="messenger">
       <SearchTop displaySlider={displaySlider} displayCreateChat={displayCreateChat} />
       <BackgroundBlur />
-      <AccountInfo ref={sliderRef} hideSlider={hideSlider} displayCreateChat={displayCreateChat} />
+      <AccountInfo
+        ref={sliderRef}
+        hideSlider={hideSlider}
+        displayCreateChat={displayCreateChat}
+        displayContactSearch={displayContactSearch}
+      />
       <ChatData chatInfoDisplayed={infoDisplayed} displayChatInfo={displayChatInfo} />
       <ChatList />
-      {createChatDisplayed ? (
-        <CreateChat ref={createChatRef} hide={hideCreateChat} />
-      ) : (
+      {createChatDisplayed && <CreateChat ref={createChatRef} hide={hideCreateChat} />}
+      {contactSearchDisplayed && <ContactSearch hide={hideContactSearch} ref={contactSearchRef} />}
+
+      {!createChatDisplayed && !contactSearchDisplayed && (
         <div className="messenger__chat-send">
           <Chat />
           <CreateMessageInput />

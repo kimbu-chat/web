@@ -7,10 +7,11 @@ import { useSelector } from 'react-redux';
 namespace ChatActions {
   export interface Props {
     muteChat: () => void;
-    createConference: () => void;
-    deleteContact: () => void;
+    createConference?: () => void;
+    deleteContact?: () => void;
     deleteChat?: () => void;
     deleteConference?: () => void;
+    openRenameConference?: () => void;
   }
 }
 
@@ -19,7 +20,8 @@ const ChatActions = ({
   createConference,
   deleteContact,
   deleteChat,
-  deleteConference
+  deleteConference,
+  openRenameConference
 }: ChatActions.Props) => {
   const selectedDialog = useSelector(getSelectedDialogSelector) as Dialog;
   const friends = useSelector((state) => state.friends.friends);
@@ -97,6 +99,19 @@ const ChatActions = ({
               {selectedDialog.interlocutor ? 'Удалить чат' : 'Покинуть конференцию'}
             </span>
           </button>
+          {selectedDialog.conference && (
+            <button onClick={openRenameConference} className="chat-info__action-btn">
+              <div className="svg">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                  <path
+                    fillRule="nonzero"
+                    d="M9.969.167c2.577 0 4.667 2.103 4.667 4.692 0 2.588-2.09 4.691-4.667 4.691h-.013l-3.101 5.357a.8.8 0 01-.505.376l-2.068.5a.8.8 0 01-.95-.53l-.644-1.986a.8.8 0 01.068-.647l3.15-5.455a4.664 4.664 0 01-.605-2.306C5.3 2.27 7.39.167 9.969.167zm0 1.6C8.277 1.767 6.9 3.15 6.9 4.859c0 .663.207 1.291.587 1.812a.8.8 0 01.047.872L4.32 13.112l.306.942 1.016-.245L8.819 8.32a.8.8 0 01.801-.392c.109.015.225.022.349.022 1.691 0 3.067-1.384 3.067-3.091 0-1.708-1.376-3.092-3.067-3.092zM9.546 3.66a1.109 1.109 0 011.516-.401c.531.307.715.985.41 1.513a1.11 1.11 0 01-1.516.401 1.109 1.109 0 01-.41-1.513z"
+                  ></path>
+                </svg>
+              </div>
+              <span className="chat-info__action-nam">Переименовать конференцию</span>
+            </button>
+          )}
         </div>
       )}
     </React.Fragment>

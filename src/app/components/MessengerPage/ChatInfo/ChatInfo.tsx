@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Avatar } from '@material-ui/core';
 import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
@@ -7,9 +7,11 @@ import { OnlineBadge, OfflineBadge } from 'app/utils/statusBadge';
 import { getInterlocutorInitials, getDialogInterlocutor } from '../../../utils/get-interlocutor';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { removeDialogAction, muteDialogAction } from 'app/store/dialogs/actions';
-import { leaveConferenceAction } from 'app/store/conferences/actions';
+import { leaveConferenceAction, renameConferenceAction } from 'app/store/conferences/actions';
 import { deleteFriendAction } from 'app/store/friends/actions';
 import { markUserAsAddedToConferenceAction } from 'app/store/friends/actions';
+import RenameConferenceModal from './RenameConferenceModal/RenameConferenceModal';
+import Modal from '@material-ui/core/Modal';
 import ChatActions from './ChatActions/ChatActions';
 import './_ChatInfo.scss';
 
@@ -21,21 +23,24 @@ namespace ChatInfo {
 
 const ChatInfo = ({ displayCreateChat }: ChatInfo.Props) => {
   const selectedDialog = useSelector(getSelectedDialogSelector) as Dialog;
-  //checking if it is conference another function will be called
   const leaveConference = useActionWithDispatch(leaveConferenceAction);
   const removeDialog = useActionWithDispatch(removeDialogAction);
   const muteDialog = useActionWithDispatch(muteDialogAction);
   const deleteFriend = useActionWithDispatch(deleteFriendAction);
   const markUser = useActionWithDispatch(markUserAsAddedToConferenceAction);
+  const renameConference = useActionWithDispatch(renameConferenceAction);
+  const [renameConferenceOpened, setRenameConferenceOpened] = useState<boolean>(false);
 
-  const deleteChat = () => removeDialog(selectedDialog);
-  const muteChat = () => muteDialog(selectedDialog);
-  const deleteContact = () => deleteFriend(selectedDialog.interlocutor?.id || -1);
-  const deleteConference = () => leaveConference(selectedDialog);
-  const createConference = () => {
+  const deleteChat = (): void => removeDialog(selectedDialog);
+  const muteChat = (): void => muteDialog(selectedDialog);
+  const deleteContact = (): void => deleteFriend(selectedDialog.interlocutor?.id || -1);
+  const deleteConference = (): void => leaveConference(selectedDialog);
+  const setNewConferenceName = (newName: string): void => renameConference({ newName, dialog: selectedDialog });
+  const createConference = (): void => {
     markUser(selectedDialog.interlocutor?.id || -1);
     displayCreateChat();
   };
+  const openRenameConference = (): void => setRenameConferenceOpened(true);
 
   if (selectedDialog) {
     const { interlocutor, conference } = selectedDialog;
@@ -86,7 +91,22 @@ const ChatInfo = ({ displayCreateChat }: ChatInfo.Props) => {
           muteChat={muteChat}
           deleteContact={deleteContact}
           createConference={createConference}
+          openRenameConference={openRenameConference}
         />
+
+        <Modal
+          open={renameConferenceOpened}
+          onClose={() => setRenameConferenceOpened(false)}
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+        >
+          <div tabIndex={-1}>
+            <RenameConferenceModal
+              close={() => setRenameConferenceOpened(false)}
+              renameConference={setNewConferenceName}
+            />
+          </div>
+        </Modal>
       </div>
     );
   } else {

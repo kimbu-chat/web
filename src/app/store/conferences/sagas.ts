@@ -214,8 +214,6 @@ export function* renameConferenceSaga(action: ReturnType<typeof renameConference
   // @ts-ignore
   const { status }: AxiosResponse = yield call(renameConferenceApi, { id: dialog.conference.id, name: newName });
   if (status === HTTPStatusCode.OK) {
-    const conference = dialog.conference || { name: '' };
-    conference.name = newName;
     yield put(renameConferenceSuccessAction(action.payload));
     action.deferred?.resolve(dialog);
   } else {

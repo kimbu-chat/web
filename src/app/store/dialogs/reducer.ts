@@ -5,7 +5,7 @@ import produce from 'immer';
 import { DialogActions } from './actions';
 import { DialogService } from './dialog-service';
 import { CreateMessageResponse } from '../messages/interfaces';
-import { InterlocutorType } from './types';
+import { InterlocutorType, RenameConferenceActionData } from './types';
 
 export interface DialogsState {
   loading: boolean;
@@ -99,26 +99,17 @@ const dialogs = produce(
         return draft;
       }
 
-      // case ADD_USERS_TO_CONFERENCE_SUCCESS: {
-      //   const { id } = action.payload;
+      case ConferencesActionTypes.ADD_USERS_TO_CONFERENCE_SUCCESS: {
+        const { id } = action.payload;
 
-      //   return {
-      //     ...draft,
-      //     dialogs: {
-      //       ...draft.dialogs,
-      //       byId: {
-      //         ...draft.dialogs.byId,
-      //         [id]: {
-      //           ...draft.dialogs.byId[id],
-      //           conference: {
-      //             ...draft.dialogs.byId[id].conference,
-      //             membersCount: draft.dialogs.byId[id].conference.membersCount + 1
-      //           }
-      //         }
-      //       }
-      //     }
-      //   };
-      // }
+        const dialogIndex: number = getDialogArrayIndex(id, draft);
+
+        const conference = draft.dialogs[dialogIndex].conference || { membersCount: 0 };
+
+        conference.membersCount = (conference.membersCount || 0) + 1;
+
+        return draft;
+      }
 
       case DialogsActionTypes.MUTE_DIALOG_SUCCESS: {
         const { id } = action.payload;
@@ -130,26 +121,18 @@ const dialogs = produce(
         return draft;
       }
 
-      // case RENAME_CONFERENCE_SUCCESS: {
-      //   const { dialog, newName }: RenameConferenceActionData = action.payload;
-      //   const { id } = dialog;
-      //   return {
-      //     ...draft,
-      //     dialogs: {
-      //       ...draft.dialogs,
-      //       byId: {
-      //         ...draft.dialogs.byId,
-      //         [id]: {
-      //           ...draft.dialogs.byId[id],
-      //           conference: {
-      //             ...draft.dialogs.byId[id].conference,
-      //             name: newName
-      //           }
-      //         }
-      //       }
-      //     }
-      //   };
-      // }
+      case ConferencesActionTypes.RENAME_CONFERENCE_SUCCESS: {
+        const { dialog, newName }: RenameConferenceActionData = action.payload;
+        const { id } = dialog;
+
+        const dialogIndex: number = getDialogArrayIndex(id, draft);
+
+        const conference = draft.dialogs[dialogIndex].conference || { name: '' };
+
+        conference.name = newName;
+        return draft;
+      }
+
       // case CONFERENCE_MESSAGE_READ_FROM_EVENT:
       // case USER_MESSAGE_READ_FROM_EVENT: {
       //   const { lastReadMessageId, userReaderId, conferenceId } = action.payload;
@@ -224,20 +207,6 @@ const dialogs = produce(
       }
       case DialogsActionTypes.GET_DIALOGS_SUCCESS: {
         const { dialogs, hasMore } = action.payload;
-        // if (initializedBySearch) {
-        //   return {
-        //     ...draft,
-        //     loading: isFromLocalDb,
-        //     dialogs: dialogs,
-        //     hasMore: hasMore
-        //   };
-        // }
-
-        // const orderedByDatetimeAllIds: number[] = normalizedDialogList.allIds.sort((a, b) => {
-        //   const first = new Date(normalizedDialogList.byId[a].lastMessage.creationDateTime).getTime();
-        //   const second = new Date(normalizedDialogList.byId[b].lastMessage.creationDateTime).getTime();
-        //   return first > second ? -1 : first < second ? 1 : 0;
-        // });
 
         return {
           ...draft,

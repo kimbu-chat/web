@@ -4,7 +4,12 @@ import { IntercolutorMessageTypingIntegrationEvent } from '../middlewares/websoc
 import { StatusChangedIntegrationEvent } from '../middlewares/websockets/integration-events/status-changed-integration-event';
 import { CreateMessageResponse, CreateMessageRequest } from '../messages/interfaces';
 import { markMessagesAsReadAction } from '../messages/actions';
-import { createConferenceSuccessAction, leaveConferenceSuccessAction } from '../conferences/actions';
+import {
+  createConferenceSuccessAction,
+  leaveConferenceSuccessAction,
+  renameConferenceSuccessAction,
+  addUsersToConferenceSuccessAction
+} from '../conferences/actions';
 
 export const getDialogsAction = (data: GetDialogsActionData) => createAction(DialogsActionTypes.GET_DIALOGS, data);
 
@@ -59,4 +64,6 @@ export type DialogActions =
   | typeof userStatusChangedEventAction
   | typeof createConferenceSuccessAction
   | typeof markMessagesAsReadAction
-  | typeof leaveConferenceSuccessAction;
+  | typeof leaveConferenceSuccessAction
+  | typeof renameConferenceSuccessAction
+  | typeof addUsersToConferenceSuccessAction;

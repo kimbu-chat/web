@@ -29,6 +29,7 @@ const Messenger = () => {
 
   useEffect(() => {
     if (chatId) changeSelectedDialog(Number(chatId));
+    else changeSelectedDialog(-1);
   }, []);
 
   const displaySlider = () => {

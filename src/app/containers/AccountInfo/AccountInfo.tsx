@@ -3,7 +3,8 @@ import { Avatar } from '@material-ui/core';
 import { AppState } from 'app/store';
 import { useSelector } from 'react-redux';
 import { logoutAction } from 'app/store/auth/actions';
-import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
+import { useHistory } from 'react-router-dom';
 import './_AccountInfo.scss';
 
 namespace AccountInfo {
@@ -34,7 +35,11 @@ const AccountInfo = React.forwardRef(
     const lastName = useSelector<AppState, string>((state) => state.auth.currentUser?.lastName || '');
     const avatar = useSelector<AppState, string>((state) => state.auth.currentUser?.avatarUrl || '');
 
-    const logout = useActionWithDispatch(logoutAction);
+    const history = useHistory();
+
+    const startLogout = useActionWithDeferred(logoutAction);
+
+    const logout=()=>startLogout().then(() => history.push('/login'))
 
     const createChat = () => {
       hideSlider();

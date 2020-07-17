@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './_ChatActions.scss';
 import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
+import { UserPreview } from 'app/store/user/interfaces';
 import { Dialog } from 'app/store/dialogs/types';
 import { useSelector } from 'react-redux';
 
@@ -28,7 +29,7 @@ const ChatActions = ({
   const [actionsDisplayed, setActionsDisplayed] = useState<boolean>(true);
 
   const selectedIsFriend = (): boolean => {
-    return friends.findIndex((friend) => friend.id === selectedDialog.interlocutor?.id) > -1;
+    return friends.findIndex((friend: UserPreview) => friend.id === selectedDialog.interlocutor?.id) > -1;
   };
 
   return (

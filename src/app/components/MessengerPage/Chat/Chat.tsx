@@ -25,10 +25,11 @@ const Chat = () => {
 
   const selectedDialog = useSelector(getSelectedDialogSelector);
   const messages = useSelector<AppState, Message[]>(
-    (state) => state.messages.messages.find((x) => x.dialogId == selectedDialog?.id)?.messages as Message[]
+    (state) => state.messages.messages.find((x: Message) => x.dialogId == selectedDialog?.id)?.messages as Message[]
   );
   const hasMoreMessages = useSelector<AppState, boolean>(
-    (state) => state.messages.messages.find((x) => x.dialogId == selectedDialog?.id)?.hasMoreMessages as boolean
+    (state) =>
+      state.messages.messages.find((x: Message) => x.dialogId == selectedDialog?.id)?.hasMoreMessages as boolean
   );
   const myId = useSelector<AppState, number>((state) => state.auth.authentication.userId);
 

@@ -4,6 +4,7 @@ import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
 import { getFriendsAction, unsetSelectedUserIdsForNewConferenceAction } from '../../../store/friends/actions';
 import { createConferenceAction } from '../../../store/conferences/actions';
+import { UserPreview } from 'app/store/user/interfaces';
 import FriendItem from './FriendItem/FriendItem';
 
 import './_CreateChat.scss';
@@ -123,7 +124,7 @@ const CreateChat = React.forwardRef(({ hide }: CreateChat.Props, ref: React.Ref<
           value={searchFriendStr}
         />
         <div className="messenger__create-chat__contacts-list">
-          {friends.map((friend) => (
+          {friends.map((friend: UserPreview) => (
             <FriendItem user={friend} key={friend.id} />
           ))}
         </div>

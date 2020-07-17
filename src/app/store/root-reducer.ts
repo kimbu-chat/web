@@ -13,7 +13,7 @@ const rootReducer = combineReducers({
   friends
 });
 
-export default (state: any, action: any) => {
+export default (state: any, action: any): ReturnType<typeof rootReducer> => {
   if (action.type === AuthActionTypes.LOGOUT) {
     return {
       ...state,

@@ -158,7 +158,11 @@ const Messenger = () => {
           <Chat />
           <CreateMessageInput />
           {infoDisplayed && (
-            <ChatInfo displayCreateChat={displayCreateChat} displayContactSearch={displayContactSearch} />
+            <ChatInfo
+              displayCreateChat={displayCreateChat}
+              displayContactSearch={displayContactSearch}
+              hideContactSearch={hideContactSearch}
+            />
           )}
         </div>
       )}

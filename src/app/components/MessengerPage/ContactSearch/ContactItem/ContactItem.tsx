@@ -18,7 +18,7 @@ namespace ContactItem {
 }
 
 const ContactItem = ({ user, isSelectable, displayMyself }: ContactItem.Props) => {
-  const myId = useSelector<AppState, number>((state) => state.auth.currentUser.id);
+  const myId = useSelector<AppState, number>((state) => state.auth.currentUser?.id || -1);
   const markUser = useActionWithDispatch(markUserAsAddedToConferenceAction);
   const selectUser = () => markUser(user.id || -1);
 

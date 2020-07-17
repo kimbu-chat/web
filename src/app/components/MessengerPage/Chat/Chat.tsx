@@ -10,7 +10,7 @@ import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
 import { markMessagesAsReadAction } from 'app/store/messages/actions';
 import MessageItem from '../message-item';
 import { useHistory } from 'react-router-dom';
-import { Message } from 'app/store/messages/interfaces';
+import { Message, MessageList } from 'app/store/messages/interfaces';
 import { AppState } from 'app/store';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -25,11 +25,11 @@ const Chat = () => {
 
   const selectedDialog = useSelector(getSelectedDialogSelector);
   const messages = useSelector<AppState, Message[]>(
-    (state) => state.messages.messages.find((x: Message) => x.dialogId == selectedDialog?.id)?.messages as Message[]
+    (state) => state.messages.messages.find((x: MessageList) => x.dialogId == selectedDialog?.id)?.messages as Message[]
   );
   const hasMoreMessages = useSelector<AppState, boolean>(
     (state) =>
-      state.messages.messages.find((x: Message) => x.dialogId == selectedDialog?.id)?.hasMoreMessages as boolean
+      state.messages.messages.find((x: MessageList) => x.dialogId == selectedDialog?.id)?.hasMoreMessages as boolean
   );
   const myId = useSelector<AppState, number>((state) => state.auth.authentication.userId);
 

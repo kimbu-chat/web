@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Avatar } from '@material-ui/core';
 import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
@@ -17,24 +17,17 @@ import Modal from '@material-ui/core/Modal';
 import ChatActions from './ChatActions/ChatActions';
 import { Messenger } from 'app/containers/Messenger/Messenger';
 import './_ChatInfo.scss';
-import { AppState } from 'app/store';
 
 namespace ChatInfo {
   export interface Props {
     displayCreateChat: () => void;
     displayContactSearch: (action?: Messenger.contactSearchActions) => void;
+    hideContactSearch: () => void;
   }
 }
 
-const ChatInfo = ({ displayCreateChat, displayContactSearch }: ChatInfo.Props) => {
-  const selectedUserIds = useSelector<AppState, number[]>(
-    (state: AppState) => state.friends.userIdsToAddIntoConference
-  );
+const ChatInfo = ({ displayCreateChat, displayContactSearch, hideContactSearch }: ChatInfo.Props) => {
   const selectedDialog = useSelector(getSelectedDialogSelector) as Dialog;
-
-  useEffect(() => {
-    setInterval(() => console.log(selectedUserIds, selectedDialog), 2000);
-  });
 
   const leaveConference = useActionWithDispatch(leaveConferenceAction);
   const removeDialog = useActionWithDispatch(removeDialogAction);
@@ -54,7 +47,7 @@ const ChatInfo = ({ displayCreateChat, displayContactSearch }: ChatInfo.Props) =
     displayCreateChat();
   };
   const addUsers = (userIds: number[]): void => {
-    addUsersToConferece({ dialog: selectedDialog, userIds });
+    addUsersToConferece({ dialog: selectedDialog, userIds }).then(hideContactSearch);
   };
   const searchContactsToAdd = () => {
     displayContactSearch({

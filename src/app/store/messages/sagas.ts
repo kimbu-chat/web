@@ -57,7 +57,6 @@ export function* createMessage(action: ReturnType<typeof createMessageAction>): 
   let { message, dialog, isFromEvent } = { ...action.payload };
 
   const { interlocutorId, interlocutorType } = DialogService.parseDialogId(dialog.id);
-  console.log('create');
   if (isFromEvent) {
     yield call(notifyInterlocutorThatMessageWasRead, action.payload);
   } else {

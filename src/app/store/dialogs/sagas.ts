@@ -38,7 +38,6 @@ export function* getDialogsSaga(action: ReturnType<typeof getDialogsAction>): It
 }
 
 export function* muteDialogSaga(action: ReturnType<typeof muteDialogAction>) {
-  console.log(789456);
   try {
     const dialog: Dialog = action.payload;
 

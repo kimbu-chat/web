@@ -39,7 +39,7 @@ const AccountInfo = React.forwardRef(
 
     const startLogout = useActionWithDeferred(logoutAction);
 
-    const logout=()=>startLogout().then(() => history.push('/login'))
+    const logout = () => startLogout().then(() => history.push('/login'));
 
     const createChat = () => {
       hideSlider();

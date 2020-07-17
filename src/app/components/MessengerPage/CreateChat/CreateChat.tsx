@@ -42,12 +42,6 @@ const CreateChat = React.forwardRef(({ hide }: CreateChat.Props, ref: React.Ref<
     searchFriends('');
   }, []);
 
-  // useEffect(() => {
-  //   if (!error.isPresent) {
-  //     createConference();
-  //   }
-  // }, [error.isPresent]);
-
   const rejectConferenceCreation = () => {
     unsetFriends();
     hide();

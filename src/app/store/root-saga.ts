@@ -27,7 +27,6 @@ function* rootSaga() {
     takeEvery(MessagesActionTypes.CREATE_MESSAGE, createMessage),
     takeLatest(MessagesActionTypes.NOTIFY_USER_ABOUT_MESSAGE_TYPING, messageTyping),
     takeLatest(MessagesActionTypes.RESET_UNREAD_MESSAGES_COUNT, resetUnreadMessagesCountSaga),
-
     takeLatest(ConferencesActionTypes.CREATE_CONFERENCE, createConferenceSaga),
     takeLatest(ConferencesActionTypes.CREATE_CONFERENCE_FROM_EVENT, createConferenceFromEventSaga),
     takeLatest(ConferencesActionTypes.GET_CONFERENCE_USERS, getConferenceUsersSaga),

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Avatar } from '@material-ui/core';
 import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
@@ -11,25 +11,38 @@ import { leaveConferenceAction, renameConferenceAction } from 'app/store/confere
 import { deleteFriendAction } from 'app/store/friends/actions';
 import { markUserAsAddedToConferenceAction } from 'app/store/friends/actions';
 import RenameConferenceModal from './RenameConferenceModal/RenameConferenceModal';
+import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
+import { addUsersToConferenceAction } from 'app/store/conferences/actions';
 import Modal from '@material-ui/core/Modal';
 import ChatActions from './ChatActions/ChatActions';
+import { Messenger } from 'app/containers/Messenger/Messenger';
 import './_ChatInfo.scss';
+import { AppState } from 'app/store';
 
 namespace ChatInfo {
   export interface Props {
     displayCreateChat: () => void;
+    displayContactSearch: (action?: Messenger.contactSearchActions) => void;
   }
 }
 
-const ChatInfo = ({ displayCreateChat }: ChatInfo.Props) => {
+const ChatInfo = ({ displayCreateChat, displayContactSearch }: ChatInfo.Props) => {
+  const selectedUserIds = useSelector<AppState, number[]>(
+    (state: AppState) => state.friends.userIdsToAddIntoConference
+  );
   const selectedDialog = useSelector(getSelectedDialogSelector) as Dialog;
+
+  useEffect(() => {
+    setInterval(() => console.log(selectedUserIds, selectedDialog), 2000);
+  });
+
   const leaveConference = useActionWithDispatch(leaveConferenceAction);
   const removeDialog = useActionWithDispatch(removeDialogAction);
   const muteDialog = useActionWithDispatch(muteDialogAction);
   const deleteFriend = useActionWithDispatch(deleteFriendAction);
   const markUser = useActionWithDispatch(markUserAsAddedToConferenceAction);
   const renameConference = useActionWithDispatch(renameConferenceAction);
-  const [renameConferenceOpened, setRenameConferenceOpened] = useState<boolean>(false);
+  const addUsersToConferece = useActionWithDeferred(addUsersToConferenceAction);
 
   const deleteChat = (): void => removeDialog(selectedDialog);
   const muteChat = (): void => muteDialog(selectedDialog);
@@ -40,6 +53,20 @@ const ChatInfo = ({ displayCreateChat }: ChatInfo.Props) => {
     markUser(selectedDialog.interlocutor?.id || -1);
     displayCreateChat();
   };
+  const addUsers = () => {
+    console.log(selectedUserIds);
+    addUsersToConferece({ dialog: selectedDialog, userIds: selectedUserIds });
+  };
+  const searchContactsToAdd = () => {
+    displayContactSearch({
+      isDisplayed: true,
+      isSelectable: true,
+      onSubmit: () => addUsers(),
+      displayMyself: false
+    });
+  };
+
+  const [renameConferenceOpened, setRenameConferenceOpened] = useState<boolean>(false);
   const openRenameConference = (): void => setRenameConferenceOpened(true);
 
   if (selectedDialog) {
@@ -92,6 +119,7 @@ const ChatInfo = ({ displayCreateChat }: ChatInfo.Props) => {
           deleteContact={deleteContact}
           createConference={createConference}
           openRenameConference={openRenameConference}
+          displayContactSearch={searchContactsToAdd}
         />
 
         <Modal

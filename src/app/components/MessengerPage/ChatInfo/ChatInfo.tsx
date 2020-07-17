@@ -53,15 +53,14 @@ const ChatInfo = ({ displayCreateChat, displayContactSearch }: ChatInfo.Props) =
     markUser(selectedDialog.interlocutor?.id || -1);
     displayCreateChat();
   };
-  const addUsers = () => {
-    console.log(selectedUserIds);
-    addUsersToConferece({ dialog: selectedDialog, userIds: selectedUserIds });
+  const addUsers = (userIds: number[]): void => {
+    addUsersToConferece({ dialog: selectedDialog, userIds });
   };
   const searchContactsToAdd = () => {
     displayContactSearch({
       isDisplayed: true,
       isSelectable: true,
-      onSubmit: () => addUsers(),
+      onSubmit: addUsers,
       displayMyself: false
     });
   };

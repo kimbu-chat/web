@@ -18,7 +18,7 @@ export namespace Messenger {
   export interface contactSearchActions {
     isDisplayed: boolean;
     isSelectable?: boolean;
-    onSubmit?: () => void;
+    onSubmit?: (userIds: number[]) => void;
     displayMyself?: boolean;
   }
 

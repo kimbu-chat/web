@@ -90,7 +90,6 @@ const friends = produce(
         }
 
         draft.userIdsToAddIntoConference = updatedAddedUserIdsForNewConference;
-
         return draft;
       }
 

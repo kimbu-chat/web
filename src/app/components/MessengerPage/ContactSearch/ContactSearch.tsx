@@ -11,7 +11,7 @@ namespace ContactSearch {
   export interface Props {
     hide: () => void;
     isSelectable?: boolean;
-    onSubmit?: () => void;
+    onSubmit?: (userIds: number[]) => void;
     displayMyself?: boolean;
   }
 }
@@ -24,6 +24,7 @@ const ContactSearch = React.forwardRef(
     const [searchFriendStr, setSearchFriendStr] = useState<string>('');
 
     const friends = useSelector<AppState, UserPreview[]>((state) => state.friends.friends);
+    const userIdsToAddIntoConference = useSelector<AppState, number[]>((state) => state.friends.userIdsToAddIntoConference);
 
     const searchFriends = (name: string) => {
       setSearchFriendStr(name);
@@ -42,6 +43,10 @@ const ContactSearch = React.forwardRef(
         loadFriends({ page: { offset: 0, limit: 100 }, name, initializedBySearch: true });
       };
     }, []);
+
+    const submit = (): void => {
+      onSubmit && onSubmit(userIdsToAddIntoConference);
+    } 
 
     return (
       <div ref={ref} className="contact-search">
@@ -73,7 +78,7 @@ const ContactSearch = React.forwardRef(
         </div>
         {isSelectable && (
           <div className="messenger__create-chat__confirm-chat">
-            <button onClick={onSubmit} className="messenger__create-chat__confirm-chat-btn">
+            <button onClick={submit} className="messenger__create-chat__confirm-chat-btn">
               Создать чат
             </button>
             <button onClick={reject} className="messenger__create-chat__dismiss-chat-btn">

@@ -9,14 +9,14 @@ export interface FriendsState {
   loading: boolean;
   friends: UserPreview[];
   userIdsToAddIntoConference: number[];
-  userIdsForSelectedConference: (number | undefined)[];
+  usersForSelectedConference: (UserPreview | undefined)[];
   conferenceUsersLoading: boolean;
 }
 
 const initialState: FriendsState = {
   loading: true,
   friends: [],
-  userIdsForSelectedConference: [],
+  usersForSelectedConference: [],
   userIdsToAddIntoConference: [],
   conferenceUsersLoading: false
 };
@@ -49,7 +49,7 @@ const friends = produce(
       }
 
       case DialogsActionTypes.UNSET_CONFERENCE_USERS: {
-        draft.userIdsForSelectedConference = [];
+        draft.usersForSelectedConference = [];
 
         return draft;
       }
@@ -71,7 +71,7 @@ const friends = produce(
       }
 
       case DialogsActionTypes.GET_CONFERENCE_USERS_SUCCESS: {
-        (draft.conferenceUsersLoading = false), (draft.userIdsForSelectedConference = action.payload.map((x) => x.id));
+        (draft.conferenceUsersLoading = false), (draft.usersForSelectedConference = action.payload);
 
         return draft;
       }

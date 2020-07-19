@@ -18,6 +18,11 @@
       width: 16px;
       height: 16px;
       margin-right: 16px;
+      transition: all 0.3s;
+
+      &--rotated {
+        transform: rotate(90deg);
+      }
     }
   }
 

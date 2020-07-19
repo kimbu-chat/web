@@ -17,6 +17,7 @@ import Modal from '@material-ui/core/Modal';
 import ChatActions from './ChatActions/ChatActions';
 import { Messenger } from 'app/containers/Messenger/Messenger';
 import './_ChatInfo.scss';
+import ChatMembers from './ChatMembers/ChatMembers';
 
 namespace ChatInfo {
   export interface Props {
@@ -113,6 +114,8 @@ const ChatInfo = ({ displayCreateChat, displayContactSearch, hideContactSearch }
           openRenameConference={openRenameConference}
           displayContactSearch={searchContactsToAdd}
         />
+
+        {conference && <ChatMembers />}
 
         <Modal
           open={renameConferenceOpened}

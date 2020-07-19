@@ -77,6 +77,7 @@ export interface RenameConferenceApiRequest {
 export interface GetConferenceUsersRequest {
   conferenceId: number;
   initiatedByScrolling: boolean;
+  initializedBySearch?: boolean;
   page: Page;
 }
 

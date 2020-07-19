@@ -1,0 +1,83 @@
+.chat-members {
+  &__func-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    border-bottom: 1px solid #f5f5f5;
+    span {
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 400;
+      text-transform: uppercase;
+      display: inline-block;
+      padding: 20px 16px;
+      color: #8a8a95;
+    }
+    .svg {
+      width: 16px;
+      height: 16px;
+      margin-right: 16px;
+      transition: all 0.3s;
+
+      &--rotated {
+        transform: rotate(90deg);
+      }
+    }
+  }
+
+  &__search {
+    height: 40px;
+    border: none;
+    display: block;
+    padding: 5px 0;
+    outline: none;
+    padding-left: 20px;
+    width: calc(100% - 20px);
+  }
+
+  &__members-list {
+    & > * {
+      &:hover {
+        background-color: #f5f5f5;
+      }
+    }
+  }
+
+  &__add-member {
+    display: flex;
+    align-items: center;
+    padding: 6px 12px 6px 20px;
+
+    .svg {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 1px solid black;
+      padding: 7px;
+      margin-right: 10px;
+    }
+
+    span {
+      font-size: 14px;
+    }
+  }
+
+  &__member {
+    display: flex;
+    align-items: center;
+    padding: 6px 12px 6px 20px;
+  }
+
+  &__data {
+    margin-left: 10px;
+
+    h3 {
+      font-size: 15px;
+    }
+
+    span {
+      font-size: 12px;
+    }
+  }
+}

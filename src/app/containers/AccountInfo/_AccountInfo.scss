@@ -9,6 +9,7 @@
     color: white;
     transition: all 0.5s;
     z-index: 100;
+    overflow-y: auto;
     .svg {
       width: 16px;
       fill: white;

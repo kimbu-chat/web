@@ -6,6 +6,7 @@
   position: absolute;
   width: 353px;
   right: 0;
+  overflow-y: scroll;
 
   &__interlocutor {
     display: inline-block;

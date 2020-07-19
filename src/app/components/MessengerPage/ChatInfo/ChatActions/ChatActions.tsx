@@ -41,7 +41,7 @@ const ChatActions = ({
     <React.Fragment>
       <button onClick={() => setActionsDisplayed(!actionsDisplayed)} className="chat-info__func-btn">
         <span>Действия</span>
-        <div className="svg">
+        <div className={actionsDisplayed ? 'svg svg--rotated' : 'svg'}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
             <path d="M5.363 12.318a.9.9 0 1 0 1.274 1.272l4.995-5.007a.9.9 0 0 0 0-1.272L6.696 2.364a.9.9 0 1 0-1.274 1.272l4.302 4.311-4.361 4.371z"></path>
           </svg>

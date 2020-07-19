@@ -13,18 +13,24 @@ namespace ContactSearch {
     isSelectable?: boolean;
     onSubmit?: (userIds: number[]) => void;
     displayMyself?: boolean;
+    excludeIds?: (number | undefined)[];
   }
 }
 
 const ContactSearch = React.forwardRef(
-  ({ hide, isSelectable, displayMyself, onSubmit }: ContactSearch.Props, ref: React.Ref<HTMLDivElement>) => {
+  (
+    { hide, isSelectable, displayMyself, excludeIds, onSubmit }: ContactSearch.Props,
+    ref: React.Ref<HTMLDivElement>
+  ) => {
     const loadFriends = useActionWithDispatch(getFriendsAction);
     const unsetFriends = useActionWithDispatch(unsetSelectedUserIdsForNewConferenceAction);
 
     const [searchFriendStr, setSearchFriendStr] = useState<string>('');
 
     const friends = useSelector<AppState, UserPreview[]>((state) => state.friends.friends);
-    const userIdsToAddIntoConference = useSelector<AppState, number[]>((state) => state.friends.userIdsToAddIntoConference);
+    const userIdsToAddIntoConference = useSelector<AppState, number[]>(
+      (state) => state.friends.userIdsToAddIntoConference
+    );
 
     const searchFriends = (name: string) => {
       setSearchFriendStr(name);
@@ -46,7 +52,7 @@ const ContactSearch = React.forwardRef(
 
     const submit = (): void => {
       onSubmit && onSubmit(userIdsToAddIntoConference);
-    } 
+    };
 
     return (
       <div ref={ref} className="contact-search">
@@ -71,9 +77,17 @@ const ContactSearch = React.forwardRef(
             value={searchFriendStr}
           />
           <div className="contact-search__contacts-list">
-            {friends.map((friend) => (
-              <ContactItem displayMyself={displayMyself} isSelectable={isSelectable} user={friend} key={friend.id} />
-            ))}
+            {friends.map(
+              (friend) =>
+                !excludeIds?.includes(friend.id) && (
+                  <ContactItem
+                    displayMyself={displayMyself}
+                    isSelectable={isSelectable}
+                    user={friend}
+                    key={friend.id}
+                  />
+                )
+            )}
           </div>
         </div>
         {isSelectable && (

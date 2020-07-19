@@ -31,3 +31,8 @@ export interface GetFriendsSuccessActionData {
   name?: string;
   initializedBySearch?: boolean;
 }
+
+export interface getConferenceUsersSuccessActionData {
+  users: Array<UserPreview>;
+  initiatedByScrolling?: boolean;
+}

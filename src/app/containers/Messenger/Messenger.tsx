@@ -20,6 +20,7 @@ export namespace Messenger {
     isSelectable?: boolean;
     onSubmit?: (userIds: number[]) => void;
     displayMyself?: boolean;
+    excludeIds?: (number | undefined)[];
   }
 
   export interface displayedOrNot {

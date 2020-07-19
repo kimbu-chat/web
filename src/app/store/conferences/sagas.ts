@@ -187,9 +187,10 @@ export function* createConferenceFromEventSaga(
 }
 
 export function* getConferenceUsersSaga(action: ReturnType<typeof getConferenceUsersAction>): Iterator<any> {
+  const { initiatedByScrolling } = action.payload;
   // @ts-ignore
   const { data }: AxiosResponse<Array<UserPreview>> = yield call(getConferenceUsersApi, action.payload);
-  yield put(getConferenceUsersSuccessAction(data));
+  yield put(getConferenceUsersSuccessAction({ users: data, initiatedByScrolling: initiatedByScrolling }));
 }
 
 export function* leaveConferenceSaga(action: ReturnType<typeof leaveConferenceAction>): Iterator<any> {

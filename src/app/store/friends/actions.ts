@@ -3,7 +3,7 @@ import { GetFriendsActionData, GetFriendsSuccessActionData } from '../user/inter
 import { FriendsActionTypes } from './types';
 import { userStatusChangedEventAction } from '../dialogs/actions';
 import { DialogsActionTypes } from '../dialogs/types';
-import { UserPreview } from '../contacts/types';
+import { getConferenceUsersSuccessActionData } from '../contacts/types';
 
 export const unsetSelectedUserIdsForNewConferenceAction = () =>
   createAction(FriendsActionTypes.UNSET_SELECTED_USER_IDS_TO_ADD_INTO_CONFERENCE);
@@ -22,7 +22,7 @@ export const markUserAsAddedToConferenceAction = (userId: number) =>
 export const getConferenceUsers = () => createAction(DialogsActionTypes.GET_CONFERENCE_USERS);
 export const unsetConferenceUsers = () => createAction(DialogsActionTypes.UNSET_CONFERENCE_USERS);
 
-export const getConferenceUsersSuccess = (data: Array<UserPreview>) =>
+export const getConferenceUsersSuccess = (data: getConferenceUsersSuccessActionData) =>
   createAction(DialogsActionTypes.GET_CONFERENCE_USERS_SUCCESS, data);
 
 export type FriendsActions =

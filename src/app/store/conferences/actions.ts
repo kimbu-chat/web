@@ -10,7 +10,7 @@ import { ConferencesActionTypes } from './types';
 import { createAction } from '../utils';
 
 import { ConferenceCreatedIntegrationEvent } from '../middlewares/websockets/integration-events/conference-сreated-integration-event';
-import { UserPreview } from '../contacts/types';
+import { getConferenceUsersSuccessActionData } from '../contacts/types';
 
 export const createConferenceAction = (data: ConferenceCreationReqData) =>
   createAction(ConferencesActionTypes.CREATE_CONFERENCE, data);
@@ -22,8 +22,8 @@ export const createConferenceFromEventAction = (data: ConferenceCreatedIntegrati
 
 export const getConferenceUsersAction = (data: GetConferenceUsersRequest) =>
   createAction(ConferencesActionTypes.GET_CONFERENCE_USERS, data);
-export const getConferenceUsersSuccessAction = (users: UserPreview[]) =>
-  createAction(ConferencesActionTypes.GET_CONFERENCE_USERS_SUCCESS, users);
+export const getConferenceUsersSuccessAction = (data: getConferenceUsersSuccessActionData) =>
+  createAction(ConferencesActionTypes.GET_CONFERENCE_USERS_SUCCESS, data);
 
 export const unsetConferenceUsersAction = () => createAction(ConferencesActionTypes.UNSET_CONFERENCE_USERS);
 

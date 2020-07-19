@@ -71,7 +71,16 @@ const friends = produce(
       }
 
       case DialogsActionTypes.GET_CONFERENCE_USERS_SUCCESS: {
-        (draft.conferenceUsersLoading = false), (draft.usersForSelectedConference = action.payload);
+        const { initiatedByScrolling } = action.payload;
+
+        if (!initiatedByScrolling) {
+          draft.conferenceUsersLoading = false;
+          draft.usersForSelectedConference = action.payload.users;
+
+          return draft;
+        }
+
+        draft.usersForSelectedConference = _.unionBy(draft.usersForSelectedConference, action.payload.users, 'id');
 
         return draft;
       }

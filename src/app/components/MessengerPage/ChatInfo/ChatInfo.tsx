@@ -50,12 +50,13 @@ const ChatInfo = ({ displayCreateChat, displayContactSearch, hideContactSearch }
   const addUsers = (userIds: number[]): void => {
     addUsersToConferece({ dialog: selectedDialog, userIds }).then(hideContactSearch);
   };
-  const searchContactsToAdd = () => {
+  const searchContactsToAdd = (args?: object) => {
     displayContactSearch({
       isDisplayed: true,
       isSelectable: true,
       onSubmit: addUsers,
-      displayMyself: false
+      displayMyself: false,
+      ...args
     });
   };
 
@@ -115,7 +116,7 @@ const ChatInfo = ({ displayCreateChat, displayContactSearch, hideContactSearch }
           displayContactSearch={searchContactsToAdd}
         />
 
-        {conference && <ChatMembers />}
+        {conference && <ChatMembers addMembers={searchContactsToAdd} />}
 
         <Modal
           open={renameConferenceOpened}

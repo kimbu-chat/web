@@ -77,8 +77,17 @@ export interface RenameConferenceApiRequest {
 export interface GetConferenceUsersRequest {
   conferenceId: number;
   initiatedByScrolling: boolean;
-  initializedBySearch?: boolean;
   page: Page;
+  filters?: {
+    name?: string,
+    age?: {
+      from?: number,
+      to?: number
+    },
+    friendsOnly?: boolean,
+    country?: string,
+    city?: string
+  },
 }
 
 export interface AddUsersToConferenceActionData {

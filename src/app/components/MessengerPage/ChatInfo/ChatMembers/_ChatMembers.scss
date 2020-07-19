@@ -80,4 +80,22 @@
       font-size: 12px;
     }
   }
+
+  &__load-more {
+    display: flex;
+    align-items: center;
+    padding: 6px 12px 6px 20px;
+
+    .svg {
+      width: 16px;
+      height: 16px;
+      margin-left: auto;
+      margin-right: 10px;
+    }
+
+    span {
+      font-size: 14px;
+      margin-right: 10px;
+    }
+  }
 }

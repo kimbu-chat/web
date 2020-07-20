@@ -21,6 +21,20 @@ const MessageItem = ({ from, content, time, needToShowDateSeparator, dateSeparat
   const currentUserId: number = useSelector<AppState, number>((state) => state.auth.authentication.userId);
 
   if (message?.systemMessageType !== SystemMessageType.None) {
+    if (needToShowDateSeparator) {
+      return (
+        <React.Fragment>
+          <div className="messenger__message-separator">
+            <span>{dateSeparator}</span>
+          </div>
+          <div className="messenger__message-separator">
+            <span>
+              {MessageUtils.constructSystemMessageText(message as Message, message?.userCreator?.id === currentUserId)}
+            </span>
+          </div>
+        </React.Fragment>
+      );
+    }
     return (
       <div className="messenger__message-separator">
         <span>

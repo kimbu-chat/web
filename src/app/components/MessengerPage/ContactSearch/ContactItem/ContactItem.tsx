@@ -1,9 +1,7 @@
 import React from 'react';
 import './_ContactItem.scss';
 import { UserPreview } from '../../../../store/contacts/types';
-import { Avatar } from '@material-ui/core';
-import { getUserInitials } from 'app/utils/get-interlocutor';
-import { OnlineBadge, OfflineBadge } from 'app/utils/statusBadge';
+import StatusBadge from 'app/utils/StatusBadge';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { markUserAsAddedToConferenceAction } from '../../../../store/friends/actions';
 import { useSelector } from 'react-redux';
@@ -28,33 +26,7 @@ const ContactItem = ({ user, isSelectable, displayMyself }: ContactItem.Props) =
 
   return (
     <div onClick={isSelectable ? selectUser : () => {}} className="messenger__friend-item">
-      {user?.status === 1 ? (
-        <OnlineBadge
-          overlap="circle"
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right'
-          }}
-          variant="dot"
-        >
-          <Avatar className="messenger__friend-item__avatar" src={user.avatarUrl}>
-            {getUserInitials(user)}
-          </Avatar>
-        </OnlineBadge>
-      ) : (
-        <OfflineBadge
-          overlap="circle"
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right'
-          }}
-          variant="dot"
-        >
-          <Avatar className="messenger__friend-item__avatar" src={user.avatarUrl}>
-            {getUserInitials(user)}
-          </Avatar>
-        </OfflineBadge>
-      )}
+      <StatusBadge user={user} />
       <div className="messenger__friend-item__name">{`${user.firstName} ${user.lastName}`}</div>
       {isSelectable && (
         <div

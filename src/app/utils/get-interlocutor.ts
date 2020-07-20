@@ -31,7 +31,11 @@ export const getInterlocutorInitials = (dialog: Dialog): string => {
   return shortedInitials;
 };
 
-export const getUserInitials = (user: UserPreview) => {
+export const getUserInitials = (user?: UserPreview | null) => {
+  if (!user) {
+    return '';
+  }
+
   const initials = `${user.firstName} ${user.lastName}`.split(' ').reduce((accum, current) => {
     return accum + current[0];
   }, '');

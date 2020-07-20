@@ -1,7 +1,11 @@
 import Badge from '@material-ui/core/Badge';
 import { withStyles } from '@material-ui/core/styles';
+import { UserPreview } from 'app/store/contacts/types';
+import React from 'react';
+import Avatar from '@material-ui/core/Avatar/Avatar';
+import { getUserInitials } from 'app/utils/get-interlocutor';
 
-export const OnlineBadge = withStyles((theme) => ({
+const OnlineBadge = withStyles((theme) => ({
   badge: {
     backgroundColor: '#44b700',
     color: '#44b700',
@@ -30,10 +34,53 @@ export const OnlineBadge = withStyles((theme) => ({
   }
 }))(Badge);
 
-export const OfflineBadge = withStyles((theme) => ({
+const OfflineBadge = withStyles((theme) => ({
   badge: {
     backgroundColor: '#b70015',
     color: '#b70015',
     boxShadow: `0 0 0 2px ${theme.palette.background.paper}`
   }
 }))(Badge);
+
+namespace StatusBadge {
+  export interface Props {
+    user?: UserPreview | null;
+    additionalClassNames?: string;
+  }
+}
+
+const StatusBadge = ({ user, additionalClassNames }: StatusBadge.Props) => {
+  if (user?.status === 1) {
+    return (
+      <OnlineBadge
+        overlap="circle"
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right'
+        }}
+        variant="dot"
+      >
+        <Avatar className={additionalClassNames} src={user.avatarUrl}>
+          {getUserInitials(user)}
+        </Avatar>
+      </OnlineBadge>
+    );
+  } else {
+    return (
+      <OfflineBadge
+        overlap="circle"
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right'
+        }}
+        variant="dot"
+      >
+        <Avatar className={additionalClassNames} src={user?.avatarUrl}>
+          {getUserInitials(user)}
+        </Avatar>
+      </OfflineBadge>
+    );
+  }
+};
+
+export default StatusBadge;

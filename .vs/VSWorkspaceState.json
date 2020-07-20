@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\node_modules\\node-sass\\src",
+    "\\node_modules\\node-sass\\src\\libsass",
+    "\\node_modules\\node-sass\\src\\libsass\\win",
+    "\\src",
+    "\\src\\app",
+    "\\src\\app\\components",
+    "\\src\\app\\components\\MessengerPage",
+    "\\src\\app\\components\\MessengerPage\\ChatInfo"
+  ],
+  "SelectedNode": "\\src\\app\\components\\MessengerPage\\ChatInfo\\ChatInfo.tsx",
+  "PreviewInSolutionExplorer": false
+}

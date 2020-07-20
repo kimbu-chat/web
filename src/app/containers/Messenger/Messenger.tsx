@@ -23,6 +23,13 @@ export namespace Messenger {
     excludeIds?: (number | undefined)[];
   }
 
+  export interface optionalContactSearchActions {
+    isSelectable?: boolean;
+    onSubmit?: (userIds: number[]) => void;
+    displayMyself?: boolean;
+    excludeIds?: (number | undefined)[];
+  }
+
   export interface displayedOrNot {
     isDisplayed: boolean;
   }
@@ -117,8 +124,14 @@ const Messenger = () => {
     }
   };
 
+  //Chat info display and hide
+
   const displayChatInfo = () => {
     setInfoDisplayed(!infoDisplayed);
+  };
+
+  const hideChatInfo = () => {
+    setInfoDisplayed(false);
   };
 
   return (
@@ -148,7 +161,7 @@ const Messenger = () => {
 
       <ChatData chatInfoDisplayed={infoDisplayed} displayChatInfo={displayChatInfo} />
 
-      <ChatList />
+      <ChatList hideChatInfo={hideChatInfo} />
       {createChatDisplayed.isDisplayed && <CreateChat ref={createChatRef} hide={hideCreateChat} />}
       {contactSearchDisplayed.isDisplayed && (
         <ContactSearch hide={hideContactSearch} ref={contactSearchRef} {...contactSearchDisplayed} />

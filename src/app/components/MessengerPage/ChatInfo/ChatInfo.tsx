@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Avatar } from '@material-ui/core';
 import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
 import { Dialog } from 'app/store/dialogs/types';
-import { OnlineBadge, OfflineBadge } from 'app/utils/statusBadge';
+import StatusBadge from 'app/utils/StatusBadge';
 import { getInterlocutorInitials, getDialogInterlocutor } from '../../../utils/get-interlocutor';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { removeDialogAction, muteDialogAction } from 'app/store/dialogs/actions';
@@ -50,7 +50,7 @@ const ChatInfo = ({ displayCreateChat, displayContactSearch, hideContactSearch }
   const addUsers = (userIds: number[]): void => {
     addUsersToConferece({ dialog: selectedDialog, userIds }).then(hideContactSearch);
   };
-  const searchContactsToAdd = (args?: object) => {
+  const searchContactsToAdd = (args?: Messenger.optionalContactSearchActions) => {
     displayContactSearch({
       isDisplayed: true,
       isSelectable: true,
@@ -78,29 +78,7 @@ const ChatInfo = ({ displayCreateChat, displayContactSearch, hideContactSearch }
       <div className="chat-info">
         <div className="chat-info__main-data">
           {!conference ? (
-            interlocutor?.status === 1 ? (
-              <OnlineBadge
-                overlap="circle"
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'right'
-                }}
-                variant="dot"
-              >
-                <Avatar src={getDialogAvatar()}>{getInterlocutorInitials(selectedDialog)}</Avatar>
-              </OnlineBadge>
-            ) : (
-              <OfflineBadge
-                overlap="circle"
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'right'
-                }}
-                variant="dot"
-              >
-                <Avatar src={getDialogAvatar()}>{getInterlocutorInitials(selectedDialog)}</Avatar>
-              </OfflineBadge>
-            )
+            <StatusBadge user={selectedDialog.interlocutor} />
           ) : (
             <Avatar src={getDialogAvatar()}>{getInterlocutorInitials(selectedDialog)}</Avatar>
           )}

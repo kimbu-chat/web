@@ -9,12 +9,14 @@ import { AppState } from 'app/store';
 import { Dialog } from 'app/store/dialogs/types';
 
 namespace ChatList {
-  export interface Props {}
+  export interface Props {
+    hideChatInfo: () => void;
+  }
 }
 
 export const DIALOGS_LIMIT = 20;
 
-const ChatList = ({}: ChatList.Props) => {
+const ChatList = ({ hideChatInfo }: ChatList.Props) => {
   const getDialogs = useActionWithDispatch(getDialogsAction);
 
   const dialogs = useSelector<AppState, Dialog[]>((rootState) => rootState.dialogs.dialogs) || [];
@@ -30,7 +32,7 @@ const ChatList = ({}: ChatList.Props) => {
   return (
     <div className="messenger__chat-list">
       {dialogs?.map((dialog: Dialog) => {
-        return <ChatFromList dialog={dialog} key={dialog.id} />;
+        return <ChatFromList additionalOnClick={hideChatInfo} dialog={dialog} key={dialog.id} />;
       })}
     </div>
   );

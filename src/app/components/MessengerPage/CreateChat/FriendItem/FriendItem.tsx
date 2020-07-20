@@ -1,11 +1,9 @@
 import React from 'react';
 import './_FriendItem.scss';
 import { UserPreview } from '../../../../store/contacts/types';
-import { Avatar } from '@material-ui/core';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { markUserAsAddedToConferenceAction } from '../../../../store/friends/actions';
-import { getUserInitials } from 'app/utils/get-interlocutor';
-import { OnlineBadge, OfflineBadge } from 'app/utils/statusBadge';
+import StatusBadge from 'app/utils/StatusBadge';
 import { AppState } from 'app/store';
 import { useSelector } from 'react-redux';
 
@@ -26,33 +24,7 @@ const FriendItem = ({ user }: FriendItem.Props) => {
 
   return (
     <div className="messenger__friend-item" onClick={selectUser}>
-      {user?.status === 1 ? (
-        <OnlineBadge
-          overlap="circle"
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right'
-          }}
-          variant="dot"
-        >
-          <Avatar className="messenger__friend-item__avatar" src={user.avatarUrl}>
-            {getUserInitials(user)}
-          </Avatar>
-        </OnlineBadge>
-      ) : (
-        <OfflineBadge
-          overlap="circle"
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right'
-          }}
-          variant="dot"
-        >
-          <Avatar className="messenger__friend-item__avatar" src={user.avatarUrl}>
-            {getUserInitials(user)}
-          </Avatar>
-        </OfflineBadge>
-      )}
+      <StatusBadge user={user} additionalClassNames={'messenger__friend-item__avatar'} />
       <div className="messenger__friend-item__name">{`${user.firstName} ${user.lastName}`}</div>
       <div
         className={

@@ -12,16 +12,17 @@ import { changeSelectedDialogAction } from 'app/store/dialogs/actions';
 import { useHistory } from 'react-router-dom';
 import { getDialogInterlocutor, getInterlocutorInitials } from '../../../utils/get-interlocutor';
 import { Avatar } from '@material-ui/core';
-import { OnlineBadge, OfflineBadge } from 'app/utils/statusBadge';
+import StatusBadge from 'app/utils/StatusBadge';
 import _ from 'lodash';
 
 namespace ChatFromList {
   export interface Props {
     dialog: Dialog;
+    additionalOnClick: () => void;
   }
 }
 
-const ChatFromList = ({ dialog }: ChatFromList.Props) => {
+const ChatFromList = ({ dialog, additionalOnClick }: ChatFromList.Props) => {
   const { interlocutor, lastMessage, conference } = dialog;
   const selectedDialog = useSelector(getSelectedDialogSelector) as Dialog;
   const currentUserId: number = useSelector<AppState, number>((state) => state.auth.authentication.userId);
@@ -72,6 +73,7 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
   };
 
   const setSelectedDialog = (): void => {
+    additionalOnClick();
     changeSelectedDialog(dialog.id);
     history.push(`/chats/${dialog.id}`);
   };
@@ -83,29 +85,7 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
     >
       <div className="messenger__active-line"></div>
       {!conference ? (
-        interlocutor?.status === 1 ? (
-          <OnlineBadge
-            overlap="circle"
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'right'
-            }}
-            variant="dot"
-          >
-            <Avatar src={getDialogAvatar()}>{getInterlocutorInitials(dialog)}</Avatar>
-          </OnlineBadge>
-        ) : (
-          <OfflineBadge
-            overlap="circle"
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'right'
-            }}
-            variant="dot"
-          >
-            <Avatar src={getDialogAvatar()}>{getInterlocutorInitials(dialog)}</Avatar>
-          </OfflineBadge>
-        )
+        <StatusBadge user={dialog.interlocutor} />
       ) : (
         <Avatar src={getDialogAvatar()}>{getInterlocutorInitials(dialog)}</Avatar>
       )}

@@ -86,10 +86,12 @@ const Chat = () => {
   };
 
   const messagesWithSeparators = messages.map((message, index) => {
-    if (index < messages.length - 1)
+    if (index < messages.length)
       if (
+        index === messages.length - 1 ||
         dateDifference(new Date(message.creationDateTime || ''), new Date(messages[index + 1].creationDateTime || ''))
       ) {
+        console.log(message.text);
         message = {
           ...message,
           needToShowDateSeparator: true

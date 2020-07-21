@@ -32,7 +32,7 @@ const ChatList = ({ hideChatInfo }: ChatList.Props) => {
   return (
     <div className="messenger__chat-list">
       {dialogs?.map((dialog: Dialog) => {
-        return <ChatFromList additionalOnClick={hideChatInfo} dialog={dialog} key={dialog.id} />;
+        return <ChatFromList sideEffect={hideChatInfo} dialog={dialog} key={dialog.id} />;
       })}
     </div>
   );

@@ -18,11 +18,11 @@ import _ from 'lodash';
 namespace ChatFromList {
   export interface Props {
     dialog: Dialog;
-    additionalOnClick: () => void;
+    sideEffect: () => void;
   }
 }
 
-const ChatFromList = ({ dialog, additionalOnClick }: ChatFromList.Props) => {
+const ChatFromList = ({ dialog, sideEffect }: ChatFromList.Props) => {
   const { interlocutor, lastMessage, conference } = dialog;
   const selectedDialog = useSelector(getSelectedDialogSelector) as Dialog;
   const currentUserId: number = useSelector<AppState, number>((state) => state.auth.authentication.userId);
@@ -73,7 +73,7 @@ const ChatFromList = ({ dialog, additionalOnClick }: ChatFromList.Props) => {
   };
 
   const setSelectedDialog = (): void => {
-    additionalOnClick();
+    sideEffect();
     changeSelectedDialog(dialog.id);
     history.push(`/chats/${dialog.id}`);
   };

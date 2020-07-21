@@ -4,6 +4,8 @@ import { call, put } from 'redux-saga/effects';
 import { UserPreview } from './interfaces';
 import { AxiosResponse } from 'axios';
 import { getFriendsApi, deleteFriendApi } from '../contacts/api';
+import { SagaIterator } from 'redux-saga';
+import { FileUploadRequest, ErrorUploadResponse, uploadFileSaga } from '../../utils/fileUploader/fileuploader';
 import {
   getFriendsAction,
   getFriendsSuccessAction,
@@ -13,6 +15,9 @@ import {
 import { HTTPStatusCode } from 'app/common/http-status-code';
 import { AuthService } from 'app/services/auth-service';
 import { updateMyProfileApi, getUserProfileApi } from './api';
+import { AvatarSelectedData } from './interfaces';
+import { UpdateAvatarResponse } from '../utils';
+import { updateMyAvatarSuccessAction, updateMyAvatarAction } from './actions';
 
 export function* changeOnlineStatus(action: ReturnType<typeof changeUserOnlineStatusAction>): Iterator<any> {
   try {
@@ -53,6 +58,36 @@ export function* deleteFriendSaga(action: ReturnType<typeof deleteFriendAction>)
   } catch {
     alert('Failed to delete contact');
   }
+}
+
+export function* uploadUserAvatar(image: AvatarSelectedData): SagaIterator {
+  const { croppedImagePath, imagePath, offsetY, offsetX, width } = image;
+  if (!image || !imagePath || !croppedImagePath) {
+    return;
+  }
+
+  const uploadRequest: FileUploadRequest<UpdateAvatarResponse> = {
+    path: image.imagePath,
+    url: 'http://files.ravudi.com/api/user-avatars/',
+    fileName: 'File',
+    parameters: {
+      'Square.Point.X': offsetX.toString(),
+      'Square.Point.Y': offsetY.toString(),
+      'Square.Size': width.toString()
+    },
+    errorCallback(response: ErrorUploadResponse): void {
+      alert(response.error);
+    },
+    *completedCallback(response) {
+      yield put(updateMyAvatarSuccessAction(response.httpResponseBody));
+    }
+  };
+
+  yield call(uploadFileSaga, uploadRequest);
+}
+
+export function* uploadUserAvatarSaga(action: ReturnType<typeof updateMyAvatarAction>): SagaIterator {
+  yield call(uploadUserAvatar, action.payload);
 }
 
 export function* updateMyProfileSaga(action: ReturnType<typeof updateMyProfileAction>): Iterator<any> {

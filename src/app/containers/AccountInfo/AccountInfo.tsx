@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Avatar } from '@material-ui/core';
 import { AppState } from 'app/store';
 import { useSelector } from 'react-redux';
@@ -6,12 +6,21 @@ import { logoutAction } from 'app/store/auth/actions';
 import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
 import { useHistory } from 'react-router-dom';
 import './_AccountInfo.scss';
+import { updateMyAvatarAction } from 'app/store/user/actions';
+import { Messenger } from 'app/containers/Messenger/Messenger';
 
 namespace AccountInfo {
   export interface Props {
     hideSlider: () => void;
     displayCreateChat: () => void;
     displayContactSearch: () => void;
+    setImageUrl: (url: string | null | ArrayBuffer) => void;
+    displayChangePhoto: (data: Messenger.photoSelect) => void;
+  }
+
+  export interface FileState {
+    file: File;
+    imagePreviewUrl: string | null | ArrayBuffer;
   }
 }
 
@@ -30,10 +39,17 @@ const getInitials = (nameSurname: string): string => {
 };
 
 const AccountInfo = React.forwardRef(
-  ({ hideSlider, displayCreateChat, displayContactSearch }: AccountInfo.Props, ref: React.Ref<HTMLDivElement>) => {
+  (
+    { hideSlider, displayCreateChat, displayContactSearch, setImageUrl, displayChangePhoto }: AccountInfo.Props,
+    ref: React.Ref<HTMLDivElement>
+  ) => {
+    const changePhoto = useActionWithDeferred(updateMyAvatarAction);
+
     const firstName = useSelector<AppState, string>((state) => state.auth.currentUser?.firstName || '');
     const lastName = useSelector<AppState, string>((state) => state.auth.currentUser?.lastName || '');
     const avatar = useSelector<AppState, string>((state) => state.auth.currentUser?.avatarUrl || '');
+
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
 
     const history = useHistory();
 
@@ -51,6 +67,19 @@ const AccountInfo = React.forwardRef(
       displayContactSearch();
     };
 
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      e.preventDefault();
+
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        setImageUrl(reader.result);
+        displayChangePhoto({ onSubmit: changePhoto });
+      };
+
+      if (e.target.files) reader.readAsDataURL(e.target.files[0]);
+    };
+
     return (
       <div ref={ref} className="messenger__account-info">
         <button onClick={() => hideSlider()} className="messenger__hide-info">
@@ -61,15 +90,27 @@ const AccountInfo = React.forwardRef(
           </div>
         </button>
         <div className="messenger__account-avatar">
-          <Avatar className="messenger__account-avatar-img" alt={name} src={avatar}>
+          <Avatar
+            onClick={() => fileInputRef.current?.click()}
+            className="messenger__account-avatar-img"
+            alt={name}
+            src={avatar}
+          >
             {getInitials(`${firstName} ${lastName}`)}
           </Avatar>
+          <input
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleImageChange(e)}
+            ref={fileInputRef}
+            type="file"
+            hidden
+            accept="image/*"
+          />
           <div className="messenger__change-photo">
             <div className="messenger__change-photo__svg">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <path
                   fillRule="evenodd"
-                  d="M15.157 3.916a2.138 2.138 0 0 0-.001-3.017 2.137 2.137 0 0 0-3.02-.002l-2.65 2.649v.001l-2.47 2.47-1.123 1.122a.8.8 0 0 0-.196.324l-.138.432-.302.952-.147.464a1.299 1.299 0 0 0 1.632 1.632l.464-.147.952-.303.432-.137a.8.8 0 0 0 .324-.197l1.122-1.122 2.47-2.47v-.001l2.65-2.649v-.001zm-3.782 1.518v.002l-2.47 2.47-.985.984-.246.078-.864.275.274-.864.078-.246.985-.985 2.47-2.47.53-.53a.886.886 0 0 0 .082.097l.495.503.161.164a.293.293 0 0 0 .006.007l-.516.515zm1.767-1.766l-.495-.504-.155-.159a.89.89 0 0 0-.108-.094l.883-.883a.536.536 0 0 1 .757.758l-.882.882zm1.665 3.614v4.716a2.8 2.8 0 0 1-2.8 2.8H3.991a2.8 2.8 0 0 1-2.8-2.8V3.985a2.8 2.8 0 0 1 2.8-2.8h4.841l-1.6 1.6H3.991a1.2 1.2 0 0 0-1.2 1.2v8.013a1.2 1.2 0 0 0 1.2 1.2h8.016a1.2 1.2 0 0 0 1.2-1.2V8.882l1.6-1.6z"
+                  d="M6.72 4.36l.2-.35A4 4 0 0110.38 2h3.23a4 4 0 013.46 1.99l.21.37 2.32.35A4 4 0 0123 8.67V17a5 5 0 01-5 5H6a5 5 0 01-5-5V8.67A4 4 0 014.4 4.7l2.32-.35zm.78 1.9l-2.8.43A2 2 0 003 8.67V17a3 3 0 003 3h12a3 3 0 003-3V8.67a2 2 0 00-1.7-1.98l-2.78-.43a1 1 0 01-.72-.48l-.45-.79A2 2 0 0013.62 4h-3.23a2 2 0 00-1.74 1l-.44.77a1 1 0 01-.71.5zM12 8a5 5 0 110 10 5 5 0 010-10zm0 2a3 3 0 100 6 3 3 0 000-6z"
                   clipRule="evenodd"
                 ></path>
               </svg>

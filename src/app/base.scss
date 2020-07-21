@@ -37,3 +37,30 @@ button {
   top: 0;
   left: 0;
 }
+
+[hidden] {
+  display: none;
+}
+
+.reactEasyCrop_Container {
+  z-index: 500;
+
+  & > * {
+    z-index: 600;
+  }
+}
+
+.controls {
+  z-index: 500;
+
+  & > * {
+    z-index: 600;
+  }
+
+  z-index: 500;
+  margin: 0 auto;
+
+  width: 50%;
+  margin-top: 26px;
+  background-color: rgba(255, 255, 255, 0.75);
+}

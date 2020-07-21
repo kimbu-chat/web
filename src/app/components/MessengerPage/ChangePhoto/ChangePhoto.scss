@@ -1,0 +1,14 @@
+.change-photo__btn-group {
+  transform: translateX(-50%);
+  z-index: 500;
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  & > * {
+    &:first-child {
+      margin-right: 35px;
+    }
+  }
+}

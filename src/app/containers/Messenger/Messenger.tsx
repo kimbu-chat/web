@@ -11,8 +11,10 @@ import BackgroundBlur from '../../utils/BackgroundBlur';
 import CreateChat from '../../components/MessengerPage/CreateChat/CreateChat';
 import ChatInfo from '../../components/MessengerPage/ChatInfo/ChatInfo';
 import ContactSearch from '../../components/MessengerPage/ContactSearch/ContactSearch';
+import ChangePhoto from '../../components/MessengerPage/ChangePhoto/ChangePhoto';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { changeSelectedDialogAction } from 'app/store/dialogs/actions';
+import { AvatarSelectedData } from 'app/store/user/interfaces';
 
 export namespace Messenger {
   export interface contactSearchActions {
@@ -33,21 +35,17 @@ export namespace Messenger {
   export interface displayedOrNot {
     isDisplayed: boolean;
   }
+
+  export interface photoSelect {
+    isDisplayed?: boolean;
+    onSubmit?: (data: AvatarSelectedData) => void;
+  }
 }
 
 const Messenger = () => {
   const sliderRef = useRef<HTMLDivElement>(null);
   const createChatRef = useRef<HTMLDivElement>(null);
   const contactSearchRef = useRef<HTMLDivElement>(null);
-
-  const [createChatDisplayed, setCreateChatDisplayed] = useState<Messenger.displayedOrNot>({ isDisplayed: false });
-  const [contactSearchDisplayed, setContactSearchDisplayed] = useState<Messenger.contactSearchActions>({
-    isDisplayed: false
-  });
-  const [infoDisplayed, setInfoDisplayed] = useState<boolean>(false);
-  const [accountInfoIsDisplayed, setAccountInfoIsDisplayed] = useState<Messenger.displayedOrNot>({
-    isDisplayed: false
-  });
 
   const changeSelectedDialog = useActionWithDispatch(changeSelectedDialogAction);
 
@@ -57,6 +55,20 @@ const Messenger = () => {
     if (chatId) changeSelectedDialog(Number(chatId));
     else changeSelectedDialog(-1);
   }, []);
+
+  const [createChatDisplayed, setCreateChatDisplayed] = useState<Messenger.displayedOrNot>({ isDisplayed: false });
+  const [contactSearchDisplayed, setContactSearchDisplayed] = useState<Messenger.contactSearchActions>({
+    isDisplayed: false
+  });
+  const [infoDisplayed, setInfoDisplayed] = useState<boolean>(false);
+  const [accountInfoIsDisplayed, setAccountInfoIsDisplayed] = useState<Messenger.displayedOrNot>({
+    isDisplayed: false
+  });
+  const [photoSelected, setPhotoSelected] = useState<Messenger.photoSelect>({
+    isDisplayed: false
+  });
+  const [imageUrl, setImageUrl] = useState<string | null | ArrayBuffer>('');
+  const [blurIsHidden, setBlurIsHidden] = useState<boolean>(false);
 
   //Slider display and hide
 
@@ -134,21 +146,34 @@ const Messenger = () => {
     setInfoDisplayed(false);
   };
 
+  //Blur handler
+  const hideDisplayBlur = () => setBlurIsHidden(!blurIsHidden);
+
+  //Cropper display and hide
+  const hideChangePhoto = () => setPhotoSelected({ ...photoSelected, isDisplayed: false });
+  const displayChangePhoto = ({ onSubmit }: Messenger.photoSelect) => {
+    setPhotoSelected({ ...photoSelected, isDisplayed: true, onSubmit });
+    hideDisplayBlur();
+  };
+
   return (
     <div className="messenger">
       <SearchTop displaySlider={displaySlider} displayCreateChat={displayCreateChat} />
 
-      {(createChatDisplayed.isDisplayed ||
-        contactSearchDisplayed.isDisplayed ||
-        accountInfoIsDisplayed.isDisplayed) && (
-        <BackgroundBlur
-          onClick={() => {
-            hideCreateChat();
-            hideContactSearch();
-            hideSlider();
-          }}
-        />
+      {photoSelected.isDisplayed && (
+        <ChangePhoto imageUrl={imageUrl} hideChangePhoto={hideChangePhoto} onSubmit={photoSelected.onSubmit} />
       )}
+
+      {(createChatDisplayed.isDisplayed || contactSearchDisplayed.isDisplayed || accountInfoIsDisplayed.isDisplayed) &&
+        !blurIsHidden && (
+          <BackgroundBlur
+            onClick={() => {
+              hideCreateChat();
+              hideContactSearch();
+              hideSlider();
+            }}
+          />
+        )}
 
       {accountInfoIsDisplayed.isDisplayed && (
         <AccountInfo
@@ -156,6 +181,8 @@ const Messenger = () => {
           hideSlider={hideSlider}
           displayCreateChat={displayCreateChat}
           displayContactSearch={displayContactSearch}
+          setImageUrl={setImageUrl}
+          displayChangePhoto={displayChangePhoto}
         />
       )}
 

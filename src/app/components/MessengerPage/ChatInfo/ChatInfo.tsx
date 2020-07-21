@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { Avatar } from '@material-ui/core';
 import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
@@ -60,6 +60,8 @@ const ChatInfo = ({ displayCreateChat, displayContactSearch, hideContactSearch }
     });
   };
 
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
   const [renameConferenceOpened, setRenameConferenceOpened] = useState<boolean>(false);
   const openRenameConference = (): void => setRenameConferenceOpened(true);
 
@@ -80,8 +82,11 @@ const ChatInfo = ({ displayCreateChat, displayContactSearch, hideContactSearch }
           {!conference ? (
             <StatusBadge user={selectedDialog.interlocutor} />
           ) : (
-            <Avatar src={getDialogAvatar()}>{getInterlocutorInitials(selectedDialog)}</Avatar>
+            <Avatar onClick={() => fileInputRef.current?.click()} src={getDialogAvatar()}>
+              {getInterlocutorInitials(selectedDialog)}
+            </Avatar>
           )}
+          <input ref={fileInputRef} type="file" hidden accept="image/*" />
           <span className="chat-info__interlocutor">{getDialogInterlocutor(selectedDialog)}</span>
         </div>
         <ChatActions

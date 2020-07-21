@@ -37,3 +37,16 @@ export interface UpdateMyProfileActionData {
   lastName: string;
   nickName: string;
 }
+
+export interface AvatarSelectedData {
+  offsetY: number;
+  offsetX: number;
+  width: number;
+  imagePath: string;
+  croppedImagePath: string;
+}
+
+export interface UpdateAvatarResponse {
+  fullAvatarUrl: string;
+  croppedAvatarUrl: string;
+}

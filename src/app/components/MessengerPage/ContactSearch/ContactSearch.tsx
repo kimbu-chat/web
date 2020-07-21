@@ -79,7 +79,7 @@ const ContactSearch = React.forwardRef(
           <div className="contact-search__contacts-list">
             {friends.map(
               (friend) =>
-                !excludeIds?.includes(friend.id) && (
+                excludeIds?.includes(friend.id) || (
                   <ContactItem
                     displayMyself={displayMyself}
                     isSelectable={isSelectable}

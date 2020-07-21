@@ -108,5 +108,6 @@ export function* initializeSaga(): any {
 
 export function* logoutSaga(action: any): Iterator<any> {
   new AuthService().clear();
+  new MyProfileService().clear();
   yield action?.deferred?.resolve();
 }

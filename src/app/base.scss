@@ -42,25 +42,7 @@ button {
   display: none;
 }
 
-.reactEasyCrop_Container {
-  z-index: 500;
-
-  & > * {
-    z-index: 600;
-  }
-}
-
-.controls {
-  z-index: 500;
-
-  & > * {
-    z-index: 600;
-  }
-
-  z-index: 500;
-  margin: 0 auto;
-
-  width: 50%;
-  margin-top: 26px;
-  background-color: rgba(255, 255, 255, 0.75);
+.hidden {
+  visibility: hidden;
+  height: 0 !important;
 }

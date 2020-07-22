@@ -14,9 +14,16 @@ import {
   getConferenceUsersSaga,
   leaveConferenceSaga,
   addUsersToConferenceSaga,
-  renameConferenceSaga
+  renameConferenceSaga,
+  changeConferenceAvatarSaga
 } from './conferences/sagas';
-import { getFriendsSaga, deleteFriendSaga, getMyProfileSaga, updateMyProfileSaga } from './user/sagas';
+import {
+  getFriendsSaga,
+  deleteFriendSaga,
+  getMyProfileSaga,
+  updateMyProfileSaga,
+  uploadUserAvatarSaga
+} from './user/sagas';
 
 function* rootSaga() {
   yield all([
@@ -36,10 +43,12 @@ function* rootSaga() {
     takeEvery(DialogsActionTypes.REMOVE_DIALOG, removeDialogSaga),
     takeEvery(DialogsActionTypes.MUTE_DIALOG, muteDialogSaga),
     takeLatest(DialogsActionTypes.GET_DIALOGS, getDialogsSaga),
+    takeLatest(ConferencesActionTypes.CHANGE_CONFERENCE_AVATAR, changeConferenceAvatarSaga),
     takeLatest(FriendsActionTypes.GET_FRIENDS, getFriendsSaga),
     takeLatest(FriendsActionTypes.DELETE_FRIEND, deleteFriendSaga),
     takeLatest(userActionTypes.GET_MY_PROFILE, getMyProfileSaga),
     takeLatest(userActionTypes.UPDATE_MY_PROFILE_INFO, updateMyProfileSaga),
+    takeLatest(userActionTypes.UPDATE_MY_AVATAR, uploadUserAvatarSaga),
     fork(initializeSaga)
   ]);
 }

@@ -1,6 +1,7 @@
 import { createAction } from '../utils';
 import { AuthActionTypes, SendSmsCodeActionData, PhoneConfirmationActionData, UserAuthData } from './types';
 import { UserPreview } from '../contacts/types';
+import { updateMyAvatarSuccessAction } from '../user/actions';
 
 export const sendSmsPhoneConfirmationCodeAction = (actionData: SendSmsCodeActionData) =>
   createAction(AuthActionTypes.SEND_PHONE_CONFIRMATION_CODE, actionData);
@@ -33,4 +34,5 @@ export type AuthActions =
   | typeof getMyProfileAction
   | typeof getMyProfileSuccessAction
   | typeof loginSuccessAction
-  | typeof logoutAction;
+  | typeof logoutAction
+  | typeof updateMyAvatarSuccessAction;

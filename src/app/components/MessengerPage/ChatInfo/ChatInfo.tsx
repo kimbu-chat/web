@@ -7,7 +7,11 @@ import StatusBadge from 'app/utils/StatusBadge';
 import { getInterlocutorInitials, getDialogInterlocutor } from '../../../utils/get-interlocutor';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { removeDialogAction, muteDialogAction } from 'app/store/dialogs/actions';
-import { leaveConferenceAction, renameConferenceAction } from 'app/store/conferences/actions';
+import {
+  leaveConferenceAction,
+  renameConferenceAction,
+  changeConferenceAvatarAction
+} from 'app/store/conferences/actions';
 import { deleteFriendAction } from 'app/store/friends/actions';
 import { markUserAsAddedToConferenceAction } from 'app/store/friends/actions';
 import RenameConferenceModal from './RenameConferenceModal/RenameConferenceModal';
@@ -18,16 +22,25 @@ import ChatActions from './ChatActions/ChatActions';
 import { Messenger } from 'app/containers/Messenger/Messenger';
 import './_ChatInfo.scss';
 import ChatMembers from './ChatMembers/ChatMembers';
+import { AvatarSelectedData } from 'app/store/user/interfaces';
 
 namespace ChatInfo {
   export interface Props {
     displayCreateChat: () => void;
     displayContactSearch: (action?: Messenger.contactSearchActions) => void;
     hideContactSearch: () => void;
+    setImageUrl: (url: string | null | ArrayBuffer) => void;
+    displayChangePhoto: (data: Messenger.photoSelect) => void;
   }
 }
 
-const ChatInfo = ({ displayCreateChat, displayContactSearch, hideContactSearch }: ChatInfo.Props) => {
+const ChatInfo = ({
+  displayCreateChat,
+  displayContactSearch,
+  hideContactSearch,
+  setImageUrl,
+  displayChangePhoto
+}: ChatInfo.Props) => {
   const selectedDialog = useSelector(getSelectedDialogSelector) as Dialog;
 
   const leaveConference = useActionWithDispatch(leaveConferenceAction);
@@ -37,6 +50,7 @@ const ChatInfo = ({ displayCreateChat, displayContactSearch, hideContactSearch }
   const markUser = useActionWithDispatch(markUserAsAddedToConferenceAction);
   const renameConference = useActionWithDispatch(renameConferenceAction);
   const addUsersToConferece = useActionWithDeferred(addUsersToConferenceAction);
+  const changeConferenceAvatar = useActionWithDeferred(changeConferenceAvatarAction);
 
   const deleteChat = (): void => removeDialog(selectedDialog);
   const muteChat = (): void => muteDialog(selectedDialog);
@@ -59,6 +73,8 @@ const ChatInfo = ({ displayCreateChat, displayContactSearch, hideContactSearch }
       ...args
     });
   };
+  const changeAvatar = (data: AvatarSelectedData) =>
+    changeConferenceAvatar({ conferenceId: selectedDialog.conference?.id || -100, avatarData: data });
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -76,6 +92,19 @@ const ChatInfo = ({ displayCreateChat, displayContactSearch, hideContactSearch }
       return conference?.avatarUrl as string;
     };
 
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      e.preventDefault();
+
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        setImageUrl(reader.result);
+        displayChangePhoto({ onSubmit: changeAvatar });
+      };
+
+      if (e.target.files) reader.readAsDataURL(e.target.files[0]);
+    };
+
     return (
       <div className="chat-info">
         <div className="chat-info__main-data">
@@ -86,7 +115,13 @@ const ChatInfo = ({ displayCreateChat, displayContactSearch, hideContactSearch }
               {getInterlocutorInitials(selectedDialog)}
             </Avatar>
           )}
-          <input ref={fileInputRef} type="file" hidden accept="image/*" />
+          <input
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleImageChange(e)}
+            ref={fileInputRef}
+            type="file"
+            hidden
+            accept="image/*"
+          />
           <span className="chat-info__interlocutor">{getDialogInterlocutor(selectedDialog)}</span>
         </div>
         <ChatActions

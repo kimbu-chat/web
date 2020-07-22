@@ -38,7 +38,7 @@ export namespace Messenger {
 
   export interface photoSelect {
     isDisplayed?: boolean;
-    onSubmit?: (data: AvatarSelectedData) => void;
+    onSubmit?: (data: AvatarSelectedData) => Promise<any>;
   }
 }
 
@@ -68,7 +68,7 @@ const Messenger = () => {
     isDisplayed: false
   });
   const [imageUrl, setImageUrl] = useState<string | null | ArrayBuffer>('');
-  const [blurIsHidden, setBlurIsHidden] = useState<boolean>(false);
+  const [] = useState<boolean>(false);
 
   //Slider display and hide
 
@@ -146,14 +146,13 @@ const Messenger = () => {
     setInfoDisplayed(false);
   };
 
-  //Blur handler
-  const hideDisplayBlur = () => setBlurIsHidden(!blurIsHidden);
-
   //Cropper display and hide
-  const hideChangePhoto = () => setPhotoSelected({ ...photoSelected, isDisplayed: false });
+  const hideChangePhoto = () => setPhotoSelected({ isDisplayed: false });
   const displayChangePhoto = ({ onSubmit }: Messenger.photoSelect) => {
     setPhotoSelected({ ...photoSelected, isDisplayed: true, onSubmit });
-    hideDisplayBlur();
+    hideCreateChat();
+    hideContactSearch();
+    hideSlider();
   };
 
   return (
@@ -164,16 +163,19 @@ const Messenger = () => {
         <ChangePhoto imageUrl={imageUrl} hideChangePhoto={hideChangePhoto} onSubmit={photoSelected.onSubmit} />
       )}
 
-      {(createChatDisplayed.isDisplayed || contactSearchDisplayed.isDisplayed || accountInfoIsDisplayed.isDisplayed) &&
-        !blurIsHidden && (
-          <BackgroundBlur
-            onClick={() => {
-              hideCreateChat();
-              hideContactSearch();
-              hideSlider();
-            }}
-          />
-        )}
+      {(createChatDisplayed.isDisplayed ||
+        contactSearchDisplayed.isDisplayed ||
+        accountInfoIsDisplayed.isDisplayed ||
+        photoSelected.isDisplayed) && (
+        <BackgroundBlur
+          onClick={() => {
+            hideCreateChat();
+            hideContactSearch();
+            hideSlider();
+            hideChangePhoto();
+          }}
+        />
+      )}
 
       {accountInfoIsDisplayed.isDisplayed && (
         <AccountInfo
@@ -203,6 +205,8 @@ const Messenger = () => {
               displayCreateChat={displayCreateChat}
               displayContactSearch={displayContactSearch}
               hideContactSearch={hideContactSearch}
+              setImageUrl={setImageUrl}
+              displayChangePhoto={displayChangePhoto}
             />
           )}
         </div>

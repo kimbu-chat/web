@@ -32,58 +32,41 @@ import { ConferenceCreatedIntegrationEvent } from '../middlewares/websockets/int
 import { changeSelectedDialogAction } from '../dialogs/actions';
 import { unsetSelectedUserIdsForNewConferenceAction } from '../friends/actions';
 import { Dialog, InterlocutorType } from '../dialogs/types';
+import { AvatarSelectedData, UpdateAvatarResponse } from '../user/interfaces';
+import { SagaIterator } from 'redux-saga';
+import { FileUploadRequest, ErrorUploadResponse, uploadFileSaga } from 'app/utils/fileUploader/fileuploader';
+import { changeConferenceAvatarSuccessAction, changeConferenceAvatarAction } from './actions';
 
-// function* updloadConferenceAvatar(image: Image, conferenceId: number): Iterator<any> {
-//   if (!image || !image.path) {
-//     return;
-//   }
+function* updloadConferenceAvatar(avatarData: AvatarSelectedData, conferenceId: number): SagaIterator {
+  const { imagePath, offsetX, offsetY, width } = avatarData;
+  if (!imagePath) {
+    return;
+  }
 
-//   const uploadRequest: FileUploadRequest<any> = {
-//     path: image.path,
-//     url: 'http://files.ravudi.com/conference-avatar/',
-//     fileName: 'File',
-//     parameters: {
-//       'Square.Point.X': image.cropRect.x.toString(),
-//       'Square.Point.Y': image.cropRect.y.toString(),
-//       'Square.Size': '500'.toString(),
-//       ConferenceId: conferenceId.toString()
-//     },
-//     errorCallback(response: ErrorUploadResponse): void {
-//       console.warn(response);
-//     },
-//     completedCallback(response: CompletedUploadResponse<void>): void {
-//       console.warn(response);
-//     }
-//   };
-//   yield call(uploadFileSaga, uploadRequest);
-// }
+  const uploadRequest: FileUploadRequest<UpdateAvatarResponse> = {
+    path: imagePath,
+    url: 'http://files.ravudi.com/api/conference-avatars/',
+    fileName: 'file',
+    parameters: {
+      'Square.Point.X': offsetX.toString(),
+      'Square.Point.Y': offsetY.toString(),
+      'Square.Size': width.toString(),
+      ConferenceId: conferenceId.toString()
+    },
+    errorCallback(response: ErrorUploadResponse): void {
+      alert('Error' + response.error);
+    },
+    *completedCallback(response) {
+      yield put(changeConferenceAvatarSuccessAction({ conferenceId, ...response.httpResponseBody }));
+    }
+  };
+  yield call(uploadFileSaga, uploadRequest);
+}
 
-// export function* changeConferenceAvatarSaga(action: ReturnType<typeof changeConferenceAvatarAction>): Iterator<any> {
-//   const { avatar, conferenceId } = action.payload;
-
-//   if (!avatar || !avatar.path) {
-//     return;
-//   }
-
-//   const uploadRequest: FileUploadRequest<any> = {
-//     path: avatar.path,
-//     url: 'http://files.ravudi.com/conference-avatar/',
-//     fileName: 'File',
-//     parameters: {
-//       'Square.Point.X': avatar.cropRect.x.toString(),
-//       'Square.Point.Y': avatar.cropRect.y.toString(),
-//       'Square.Size': '500'.toString(),
-//       ConferenceId: conferenceId.toString()
-//     },
-//     errorCallback(response: ErrorUploadResponse): void {
-//       console.warn(response);
-//     },
-//     completedCallback(response: CompletedUploadResponse<void>) {
-//       console.warn(response);
-//     }
-//   };
-//   yield call(uploadFileSaga, uploadRequest);
-// }
+export function* changeConferenceAvatarSaga(action: ReturnType<typeof changeConferenceAvatarAction>): SagaIterator {
+  const { conferenceId, avatarData } = action.payload;
+  yield call(updloadConferenceAvatar, avatarData, conferenceId);
+}
 
 export function* addUsersToConferenceSaga(action: ReturnType<typeof addUsersToConferenceAction>): Iterator<any> {
   try {

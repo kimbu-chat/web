@@ -10,7 +10,7 @@ export interface UserPreview {
   gender?: number;
   lastOnlineTime?: Date;
   phoneNumber?: string;
-
+  avatarThumbnailMiddleUrl?: string;
   supposedToAddIntoConference?: boolean;
 }
 

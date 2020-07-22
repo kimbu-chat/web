@@ -12,3 +12,21 @@
     }
   }
 }
+
+.crop-container {
+  z-index: 500;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  transform: translate(-50%, -50%);
+  & > * {
+    z-index: 500;
+  }
+
+  &__canvas {
+    border-radius: 50%;
+  }
+}

@@ -1,5 +1,6 @@
 import { AuthService } from 'app/services/auth-service';
 import axios from 'axios';
+import { call } from 'redux-saga/effects';
 
 export interface FileUploadRequest<TResponseBody = object> {
   uploadId?: string;
@@ -26,37 +27,36 @@ export interface ErrorUploadResponse {
 }
 
 export interface CompletedUploadResponse<T> {
+  data: any;
   httpResponseCode: string;
   httpResponseBody: T;
   uploadId: string;
 }
 
 export function* uploadFileSaga<T>(request: FileUploadRequest<T>): any {
-  const imagePath: string = request.path.replace('file://', '');
+  const imagePath: string = request.path.replace('file://', '/');
 
   const userAccessToken = new AuthService().auth.accessToken;
 
-  function fileUpload(canvas: any) {
-    let data = new FormData();
-    canvas.toBlob(function (blob: any) {
-      data.append('file', blob, request.fileName);
+  let data = new FormData();
+  let blob = yield call(() => fetch(imagePath).then((r) => r.blob()));
 
-      for (let i in request.parameters) {
-        data.append(i, request.parameters[i]);
-      }
+  data.append('file', blob, request.fileName);
 
-      axios
-        .post(request.url, data, {
-          headers: {
-            Authorization: `bearer ${userAccessToken}`,
-            'content-type': 'multipart/form-data'
-          }
-        })
-        .then((res: any) => {
-          console.log(res);
-        });
-    });
+  for (let i in request.parameters) {
+    data.append(i, request.parameters[i]);
   }
-
-  fileUpload(imagePath);
+  try {
+    const response = yield call(() =>
+      axios.post(request.url, data, {
+        headers: {
+          Authorization: `bearer ${userAccessToken}`,
+          'content-type': 'multipart/form-data'
+        }
+      })
+    );
+    if (request.completedCallback) yield call(request.completedCallback, response);
+  } catch (error) {
+    if (request.errorCallback) request.errorCallback(error);
+  }
 }

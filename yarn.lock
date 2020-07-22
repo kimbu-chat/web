@@ -400,6 +400,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-image-crop@^8.1.2":
+  version "8.1.2"
+  resolved "https://registry.yarnpkg.com/@types/react-image-crop/-/react-image-crop-8.1.2.tgz#9c16d6b0b577a63a854a1a895180cc76800e2988"
+  integrity sha512-K6mbw1Bj/CeePnRa78E3v3gIn/EeqlCof5IVU9IPLdzMjOsf+ccn3Qv/vagsH/6eANGgoDz4hG41eJ2kggiuuw==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-infinite-scroller@^1.2.1":
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@types/react-infinite-scroller/-/react-infinite-scroller-1.2.1.tgz#1cd747ef8f50d3c883e375c0491a906e5436fcb2"
@@ -1558,6 +1565,11 @@ copy-descriptor@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/copy-descriptor/-/copy-descriptor-0.1.1.tgz#676f6eb3c39997c2ee1ac3a924fd6124748f578d"
   integrity sha1-Z29us8OZl8LuGsOpJP1hJHSPV40=
+
+core-js@^3.4.2:
+  version "3.6.5"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.6.5.tgz#7395dc273af37fb2e50e9bd3d9fe841285231d1a"
+  integrity sha512-vZVEEwZoIsI+vPEuoF9Iqf5H7/M3eeQqWlQnYa8FSKKePuYTf5MWnxb5SDAzCa60b3JBRS5g9b+Dq7b1y/RCrA==
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
@@ -5321,10 +5333,10 @@ react-dom@^16.12.0:
     prop-types "^15.6.2"
     scheduler "^0.19.1"
 
-react-easy-crop@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/react-easy-crop/-/react-easy-crop-3.1.0.tgz#cd2dd19188f12d3922aeeb677321ed9de9073ae0"
-  integrity sha512-bAJxqau48Y4KyvKT+kANE83F/+mpZo0XUVKfWtE2EVqS0f+hqfQ2CEl43lRUx34j/WCdUFh/nw0pcf4Dqq5CNw==
+react-easy-crop@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/react-easy-crop/-/react-easy-crop-3.1.1.tgz#e5f5d8d42540be7ab1ddb8c79927b9f75ee6ec43"
+  integrity sha512-q5NYzFyzMNbTg/hYLc74lWl/uuQPbWAvge0MUywkLdAuc2A6KxKWplcMBHGQg3dVGqMqnpu7TMDgiZboJOFkbA==
   dependencies:
     tslib "1.11.2"
 
@@ -5349,6 +5361,15 @@ react-i18next@^11.5.1:
   dependencies:
     "@babel/runtime" "^7.3.1"
     html-parse-stringify2 "2.0.1"
+
+react-image-crop@^8.6.4:
+  version "8.6.4"
+  resolved "https://registry.yarnpkg.com/react-image-crop/-/react-image-crop-8.6.4.tgz#51289c22baf7d116575102e885f879af71376388"
+  integrity sha512-5buyhUg9slzW+QGvN2dbpGSI1VqPxxmfEwe19TZXUB7LjW5+ljZOnrTSsteIzeBqmz6ngVucc8l+OrwgcDOSNg==
+  dependencies:
+    clsx "^1.0.4"
+    core-js "^3.4.2"
+    prop-types "^15.7.2"
 
 react-infinite-scroller@^1.2.4:
   version "1.2.4"

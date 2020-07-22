@@ -3,8 +3,9 @@ import {
   GetConferenceUsersRequest,
   Dialog,
   AddUsersToConferenceActionData,
-  RenameConferenceActionData
-  // ChangeConferenceAvatarActionData
+  RenameConferenceActionData,
+  ChangeConferenceAvatarActionData,
+  ChangeConferenceAvatarSuccessActionData
 } from '../dialogs/types';
 import { ConferencesActionTypes } from './types';
 import { createAction } from '../utils';
@@ -41,10 +42,10 @@ export const renameConferenceAction = (data: RenameConferenceActionData) =>
 export const renameConferenceSuccessAction = (data: RenameConferenceActionData) =>
   createAction(ConferencesActionTypes.RENAME_CONFERENCE_SUCCESS, data);
 
-// export const changeConferenceAvatarAction = (data: ChangeConferenceAvatarActionData) =>
-//   createAction(ConferencesActionTypes.CHANGE_CONFERENCE_AVATAR, data);
-// export const changeConferenceAvatarSuccessAction = (data: ChangeConferenceAvatarActionData) =>
-//   createAction(ConferencesActionTypes.CHANGE_CONFERENCE_AVATAR_SUCCESS, data);
+export const changeConferenceAvatarAction = (data: ChangeConferenceAvatarActionData) =>
+  createAction(ConferencesActionTypes.CHANGE_CONFERENCE_AVATAR, data);
+export const changeConferenceAvatarSuccessAction = (data: ChangeConferenceAvatarSuccessActionData) =>
+  createAction(ConferencesActionTypes.CHANGE_CONFERENCE_AVATAR_SUCCESS, data);
 
 export type ConferenceActions =
   | typeof createConferenceAction
@@ -58,4 +59,6 @@ export type ConferenceActions =
   | typeof addUsersToConferenceAction
   | typeof addUsersToConferenceSuccessAction
   | typeof renameConferenceAction
-  | typeof renameConferenceSuccessAction;
+  | typeof renameConferenceSuccessAction
+  | typeof changeConferenceAvatarAction
+  | typeof changeConferenceAvatarSuccessAction;

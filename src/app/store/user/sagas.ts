@@ -60,7 +60,9 @@ export function* deleteFriendSaga(action: ReturnType<typeof deleteFriendAction>)
   }
 }
 
-export function* uploadUserAvatar(image: AvatarSelectedData): SagaIterator {
+export function* uploadUserAvatar(action: ReturnType<typeof updateMyAvatarAction>): SagaIterator {
+  const image: AvatarSelectedData = action.payload;
+
   const { croppedImagePath, imagePath, offsetY, offsetX, width } = image;
   if (!image || !imagePath || !croppedImagePath) {
     return;
@@ -79,7 +81,9 @@ export function* uploadUserAvatar(image: AvatarSelectedData): SagaIterator {
       alert(response.error);
     },
     *completedCallback(response) {
-      yield put(updateMyAvatarSuccessAction(response.httpResponseBody));
+      console.log(response);
+      yield put(updateMyAvatarSuccessAction(response.data));
+      action.deferred?.resolve();
     }
   };
 
@@ -87,7 +91,7 @@ export function* uploadUserAvatar(image: AvatarSelectedData): SagaIterator {
 }
 
 export function* uploadUserAvatarSaga(action: ReturnType<typeof updateMyAvatarAction>): SagaIterator {
-  yield call(uploadUserAvatar, action.payload);
+  yield call(uploadUserAvatar, action);
 }
 
 export function* updateMyProfileSaga(action: ReturnType<typeof updateMyProfileAction>): Iterator<any> {

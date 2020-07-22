@@ -1,6 +1,7 @@
 import { Page } from '../common/types';
 import { UserPreview } from '../contacts/types';
 import { Message } from '../messages/interfaces';
+import { AvatarSelectedData } from '../user/interfaces';
 
 export enum DialogsActionTypes {
   GET_DIALOGS = 'GET_DIALOGS',
@@ -79,15 +80,15 @@ export interface GetConferenceUsersRequest {
   initiatedByScrolling: boolean;
   page: Page;
   filters?: {
-    name?: string,
+    name?: string;
     age?: {
-      from?: number,
-      to?: number
-    },
-    friendsOnly?: boolean,
-    country?: string,
-    city?: string
-  },
+      from?: number;
+      to?: number;
+    };
+    friendsOnly?: boolean;
+    country?: string;
+    city?: string;
+  };
 }
 
 export interface AddUsersToConferenceActionData {
@@ -166,4 +167,15 @@ export interface ConferenceCreationReqData {
   userIds: Array<number>;
   currentUser: UserPreview | null;
   // avatar?: Image;
+}
+
+export interface ChangeConferenceAvatarActionData {
+  conferenceId: number;
+  avatarData: AvatarSelectedData;
+}
+
+export interface ChangeConferenceAvatarSuccessActionData {
+  conferenceId: number;
+  fullAvatarUrl: string;
+  croppedAvatarUrl: string;
 }

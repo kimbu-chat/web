@@ -38,7 +38,7 @@ export namespace Messenger {
 
   export interface photoSelect {
     isDisplayed?: boolean;
-    onSubmit?: (data: AvatarSelectedData) => Promise<any>;
+    onSubmit?: (data: AvatarSelectedData) => void;
   }
 }
 
@@ -150,7 +150,6 @@ const Messenger = () => {
   const hideChangePhoto = () => setPhotoSelected({ isDisplayed: false });
   const displayChangePhoto = ({ onSubmit }: Messenger.photoSelect) => {
     setPhotoSelected({ ...photoSelected, isDisplayed: true, onSubmit });
-    hideCreateChat();
     hideContactSearch();
     hideSlider();
   };
@@ -191,7 +190,14 @@ const Messenger = () => {
       <ChatData chatInfoDisplayed={infoDisplayed} displayChatInfo={displayChatInfo} />
 
       <ChatList hideChatInfo={hideChatInfo} />
-      {createChatDisplayed.isDisplayed && <CreateChat ref={createChatRef} hide={hideCreateChat} />}
+      {createChatDisplayed.isDisplayed && (
+        <CreateChat
+          setImageUrl={setImageUrl}
+          displayChangePhoto={displayChangePhoto}
+          ref={createChatRef}
+          hide={hideCreateChat}
+        />
+      )}
       {contactSearchDisplayed.isDisplayed && (
         <ContactSearch hide={hideContactSearch} ref={contactSearchRef} {...contactSearchDisplayed} />
       )}

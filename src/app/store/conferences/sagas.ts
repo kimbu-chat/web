@@ -13,7 +13,6 @@ import {
   renameConferenceSuccessAction,
   leaveConferenceSuccessAction,
   addUsersToConferenceSuccessAction,
-  //	changeConferenceAvatarAction,
   createConferenceSuccessAction
 } from './actions';
 import {
@@ -37,32 +36,37 @@ import { SagaIterator } from 'redux-saga';
 import { FileUploadRequest, ErrorUploadResponse, uploadFileSaga } from 'app/utils/fileUploader/fileuploader';
 import { changeConferenceAvatarSuccessAction, changeConferenceAvatarAction } from './actions';
 
-function* updloadConferenceAvatar(action: ReturnType<typeof changeConferenceAvatarAction>): SagaIterator {
+function* updloadConferenceAvatar(
+  action: ReturnType<typeof changeConferenceAvatarAction> | ReturnType<typeof createConferenceAction>
+): SagaIterator {
   const { avatarData, conferenceId } = action.payload;
-  const { imagePath, offsetX, offsetY, width } = avatarData;
-  if (!imagePath) {
-    return;
-  }
-
-  const uploadRequest: FileUploadRequest<UpdateAvatarResponse> = {
-    path: imagePath,
-    url: 'http://files.ravudi.com/api/conference-avatars/',
-    fileName: 'file',
-    parameters: {
-      'Square.Point.X': offsetX.toString(),
-      'Square.Point.Y': offsetY.toString(),
-      'Square.Size': width.toString(),
-      ConferenceId: conferenceId.toString()
-    },
-    errorCallback(response: ErrorUploadResponse): void {
-      alert('Error' + response.error);
-    },
-    *completedCallback(response) {
-      yield put(changeConferenceAvatarSuccessAction({ conferenceId, ...response.data }));
-      action.deferred?.resolve();
+  if (avatarData && conferenceId) {
+    const { imagePath, offsetX, offsetY, width } = avatarData;
+    if (!imagePath) {
+      return;
     }
-  };
-  yield call(uploadFileSaga, uploadRequest);
+
+    const uploadRequest: FileUploadRequest<UpdateAvatarResponse> = {
+      path: imagePath,
+      url: 'http://files.ravudi.com/api/conference-avatars/',
+      fileName: 'file',
+      parameters: {
+        'Square.Point.X': offsetX.toString(),
+        'Square.Point.Y': offsetY.toString(),
+        'Square.Size': width.toString(),
+        ConferenceId: conferenceId.toString()
+      },
+      errorCallback(response: ErrorUploadResponse): void {
+        alert('Error' + response.error);
+      },
+      *completedCallback(response) {
+        yield put(changeConferenceAvatarSuccessAction({ conferenceId, ...response.data }));
+        alert('Upload succes');
+        action.deferred?.resolve();
+      }
+    };
+    yield call(uploadFileSaga, uploadRequest);
+  }
 }
 
 export function* changeConferenceAvatarSaga(action: ReturnType<typeof changeConferenceAvatarAction>): SagaIterator {
@@ -91,7 +95,7 @@ export function* addUsersToConferenceSaga(action: ReturnType<typeof addUsersToCo
 }
 
 export function* createConferenceSaga(action: ReturnType<typeof createConferenceAction>): Iterator<any> {
-  const { userIds, name } = action.payload;
+  const { userIds, name, avatar } = action.payload;
 
   try {
     // @ts-ignore
@@ -117,14 +121,17 @@ export function* createConferenceSaga(action: ReturnType<typeof createConference
       }
     };
 
-    // if (avatar) {
-    //   yield call(updloadConferenceAvatar, avatar, dialog.conference.id);
-    // }
+    action.payload.conferenceId = data;
+    action.payload.avatarData = avatar;
 
     yield put(unsetSelectedUserIdsForNewConferenceAction());
     yield put(createConferenceSuccessAction(dialog));
     yield put(changeSelectedDialogAction(dialog.id));
     action.deferred?.resolve(dialog);
+
+    if (avatar) {
+      yield call(updloadConferenceAvatar, action);
+    }
   } catch (e) {
     console.warn(e);
     alert('createConferenceSaga error');

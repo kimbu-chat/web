@@ -9,13 +9,13 @@ import './_AccountInfo.scss';
 import { updateMyAvatarAction } from 'app/store/user/actions';
 import { Messenger } from 'app/containers/Messenger/Messenger';
 
-namespace AccountInfo {
+namespace AccountInfoNS {
   export interface Props {
     hideSlider: () => void;
     displayCreateChat: () => void;
-    displayContactSearch: () => void;
     setImageUrl: (url: string | null | ArrayBuffer) => void;
     displayChangePhoto: (data: Messenger.photoSelect) => void;
+    displayContactSearch: (action?: Messenger.contactSearchActions) => void;
   }
 
   export interface FileState {
@@ -40,7 +40,7 @@ const getInitials = (nameSurname: string): string => {
 
 const AccountInfo = React.forwardRef(
   (
-    { hideSlider, displayCreateChat, displayContactSearch, setImageUrl, displayChangePhoto }: AccountInfo.Props,
+    { hideSlider, displayCreateChat, displayContactSearch, setImageUrl, displayChangePhoto }: AccountInfoNS.Props,
     ref: React.Ref<HTMLDivElement>
   ) => {
     const changePhoto = useActionWithDeferred(updateMyAvatarAction);
@@ -64,7 +64,10 @@ const AccountInfo = React.forwardRef(
 
     const contactSearch = () => {
       hideSlider();
-      displayContactSearch();
+      displayContactSearch({
+        isDisplayed: true,
+        displayMyself: true
+      });
     };
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {

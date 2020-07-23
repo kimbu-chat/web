@@ -10,7 +10,7 @@ namespace ChangePhoto {
   export interface Props {
     imageUrl: string | null | ArrayBuffer;
     hideChangePhoto: () => void;
-    onSubmit?: (data: AvatarSelectedData) => Promise<any>;
+    onSubmit?: (data: AvatarSelectedData) => void;
   }
 
   export interface Coords {
@@ -25,6 +25,28 @@ namespace ChangePhoto {
 }
 
 const pixelRatio = 4;
+
+function getResizedCanvas(canvas: any, newWidth?: number, newHeight?: number) {
+  const tmpCanvas = document.createElement('canvas');
+  tmpCanvas.width = newWidth || 0;
+  tmpCanvas.height = newHeight || 0;
+
+  const ctx = tmpCanvas.getContext('2d');
+  ctx?.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, newWidth || 0, newHeight || 0);
+
+  return tmpCanvas;
+}
+
+function generateDownload(previewCanvas: any, crop: ReactCrop.Crop): string {
+  if (!crop || !previewCanvas) {
+    return '';
+  }
+
+  const canvas = getResizedCanvas(previewCanvas, crop.width, crop.height);
+  let previewUrl = canvas.toDataURL('image/png');
+
+  return previewUrl;
+}
 
 const ChangePhotoComponent = ({ imageUrl, onSubmit, hideChangePhoto }: ChangePhoto.Props) => {
   const imgRef = useRef<HTMLImageElement | null>(null);
@@ -75,7 +97,6 @@ const ChangePhotoComponent = ({ imageUrl, onSubmit, hideChangePhoto }: ChangePho
       crop?.width || 0,
       crop?.height || 0
     );
-    console.log('reached');
   }, [completedCrop]);
 
   if (typeof imageUrl === 'string') {
@@ -113,13 +134,14 @@ const ChangePhotoComponent = ({ imageUrl, onSubmit, hideChangePhoto }: ChangePho
 
               if (onSubmit && stage === ChangePhoto.Stage.imagePreview) {
                 hideChangePhoto();
+                const croppedUrl = generateDownload(previewCanvasRef.current, completedCrop || {});
                 onSubmit({
                   offsetY: crop.y || 250,
                   offsetX: crop.x || 250,
                   width: crop.width || 500,
                   imagePath: imageUrl,
-                  croppedImagePath: imageUrl
-                }).then(() => alert('Uploaded successfull'));
+                  croppedImagePath: croppedUrl
+                });
               }
             }}
             variant="contained"

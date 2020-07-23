@@ -1,17 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
 import { getFriendsAction, unsetSelectedUserIdsForNewConferenceAction } from '../../../store/friends/actions';
 import { createConferenceAction } from '../../../store/conferences/actions';
-import { UserPreview } from 'app/store/user/interfaces';
+import { UserPreview, AvatarSelectedData } from 'app/store/user/interfaces';
 import FriendItem from './FriendItem/FriendItem';
 
 import './_CreateChat.scss';
+import { Messenger } from 'app/containers/Messenger/Messenger';
 
 namespace CreateChat {
   export interface Props {
     hide: () => void;
+    setImageUrl: (url: string | null | ArrayBuffer) => void;
+    displayChangePhoto: (data: Messenger.photoSelect) => void;
   }
 
   export interface validationError {
@@ -20,119 +23,153 @@ namespace CreateChat {
   }
 }
 
-const CreateChat = React.forwardRef(({ hide }: CreateChat.Props, ref: React.Ref<HTMLDivElement>) => {
-  const loadFriends = useActionWithDispatch(getFriendsAction);
-  const unsetFriends = useActionWithDispatch(unsetSelectedUserIdsForNewConferenceAction);
-  const submitConferenceCreation = useActionWithDeferred(createConferenceAction);
+const CreateChat = React.forwardRef(
+  ({ hide, setImageUrl, displayChangePhoto }: CreateChat.Props, ref: React.Ref<HTMLDivElement>) => {
+    const loadFriends = useActionWithDispatch(getFriendsAction);
+    const unsetFriends = useActionWithDispatch(unsetSelectedUserIdsForNewConferenceAction);
+    const submitConferenceCreation = useActionWithDeferred(createConferenceAction);
 
-  const friends = useSelector((state) => state.friends.friends);
-  const currentUser = useSelector((state) => state.auth.currentUser);
-  const selectedUserIds = useSelector((state) => state.friends.userIdsToAddIntoConference);
+    const friends = useSelector((state) => state.friends.friends);
+    const currentUser = useSelector((state) => state.auth.currentUser);
+    const selectedUserIds = useSelector((state) => state.friends.userIdsToAddIntoConference);
 
-  const [chatName, setChatName] = useState<string>('');
-  const [searchFriendStr, setSearchFriendStr] = useState<string>('');
-  const [error, setError] = useState<CreateChat.validationError>({ isPresent: false });
+    const [chatName, setChatName] = useState<string>('');
+    const [searchFriendStr, setSearchFriendStr] = useState<string>('');
+    const [error, setError] = useState<CreateChat.validationError>({ isPresent: false });
+    const [avatarData, setAvatarData] = useState<AvatarSelectedData | null>(null);
 
-  const searchFriends = (name: string) => {
-    setSearchFriendStr(name);
-    loadFriends({ page: { offset: 0, limit: 25 }, name, initializedBySearch: true });
-  };
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  useEffect(() => {
-    searchFriends('');
-  }, []);
+    const searchFriends = (name: string) => {
+      setSearchFriendStr(name);
+      loadFriends({ page: { offset: 0, limit: 25 }, name, initializedBySearch: true });
+    };
 
-  const rejectConferenceCreation = () => {
-    unsetFriends();
-    hide();
-  };
+    useEffect(() => {
+      searchFriends('');
 
-  const createConference = () => {
-    let validationPassed = false;
-    if (chatName.trim().length > 0) {
-      setError({ isPresent: false });
-      validationPassed = true;
-    } else {
-      return setError({ isPresent: true, text: 'Chat name must inlude at least 1 character instead of empty spaces' });
-    }
+      return () => searchFriends('');
+    }, []);
 
-    if (selectedUserIds.length > 0) {
-      setError({ isPresent: false });
-      validationPassed = true;
-    } else {
-      return setError({ isPresent: true, text: 'You have to choose at least 1 conference member' });
-    }
+    const rejectConferenceCreation = () => {
+      unsetFriends();
+      hide();
+    };
 
-    if (validationPassed) {
-      return submitConferenceCreation({
-        name: chatName,
-        currentUser: currentUser,
-        userIds: selectedUserIds
-      }).then(hide);
-    }
-  };
+    const createConference = () => {
+      let validationPassed = false;
+      if (chatName.trim().length > 0) {
+        setError({ isPresent: false });
+        validationPassed = true;
+      } else {
+        return setError({
+          isPresent: true,
+          text: 'Chat name must inlude at least 1 character instead of empty spaces'
+        });
+      }
 
-  return (
-    <div ref={ref} className="messenger__create-chat">
-      <div className="messenger__create-chat__header">
-        <button onClick={rejectConferenceCreation} className="messenger__create-chat__back flat">
-          <div className="svg">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-              <path d="M10.634 3.634a.9.9 0 1 0-1.278-1.268l-4.995 5.03a.9.9 0 0 0 0 1.268l4.936 4.97a.9.9 0 0 0 1.278-1.268L6.268 8.03l4.366-4.396z"></path>
-            </svg>
+      if (selectedUserIds.length > 0) {
+        setError({ isPresent: false });
+        validationPassed = true;
+      } else {
+        return setError({ isPresent: true, text: 'You have to choose at least 1 conference member' });
+      }
+
+      if (validationPassed) {
+        return submitConferenceCreation({
+          name: chatName,
+          currentUser: currentUser,
+          userIds: selectedUserIds,
+          avatar: avatarData
+        }).then(hide);
+      }
+    };
+
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      e.preventDefault();
+
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        setImageUrl(reader.result);
+        displayChangePhoto({ onSubmit: setAvatarData });
+      };
+
+      if (e.target.files) reader.readAsDataURL(e.target.files[0]);
+    };
+
+    return (
+      <div ref={ref} className="messenger__create-chat">
+        <div className="messenger__create-chat__header">
+          <button onClick={rejectConferenceCreation} className="messenger__create-chat__back flat">
+            <div className="svg">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                <path d="M10.634 3.634a.9.9 0 1 0-1.278-1.268l-4.995 5.03a.9.9 0 0 0 0 1.268l4.936 4.97a.9.9 0 0 0 1.278-1.268L6.268 8.03l4.366-4.396z"></path>
+              </svg>
+            </div>
+            <span>Назад</span>
+          </button>
+          <div className="messenger__create-chat__title">Создание нового чата</div>
+          <div className=""></div>
+        </div>
+        <div className="messenger__create-chat__chat-data">
+          <div onClick={() => fileInputRef.current?.click()} className="messenger__create-chat__img-select">
+            {!avatarData?.croppedImagePath && (
+              <div className="svg">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <path
+                    fillRule="evenodd"
+                    d="M6.72 4.36l.2-.35A4 4 0 0110.38 2h3.23a4 4 0 013.46 1.99l.21.37 2.32.35A4 4 0 0123 8.67V17a5 5 0 01-5 5H6a5 5 0 01-5-5V8.67A4 4 0 014.4 4.7l2.32-.35zm.78 1.9l-2.8.43A2 2 0 003 8.67V17a3 3 0 003 3h12a3 3 0 003-3V8.67a2 2 0 00-1.7-1.98l-2.78-.43a1 1 0 01-.72-.48l-.45-.79A2 2 0 0013.62 4h-3.23a2 2 0 00-1.74 1l-.44.77a1 1 0 01-.71.5zM12 8a5 5 0 110 10 5 5 0 010-10zm0 2a3 3 0 100 6 3 3 0 000-6z"
+                    clipRule="evenodd"
+                  ></path>
+                </svg>
+              </div>
+            )}
+            {avatarData?.croppedImagePath && <img src={avatarData?.croppedImagePath} alt="Error" />}
+            <input
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleImageChange(e)}
+              ref={fileInputRef}
+              type="file"
+              hidden
+              accept="image/*"
+            />
           </div>
-          <span>Назад</span>
-        </button>
-        <div className="messenger__create-chat__title">Создание нового чата</div>
-        <div className=""></div>
-      </div>
-      <div className="messenger__create-chat__chat-data">
-        <div className="messenger__create-chat__img-select">
-          <div className="svg">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <path
-                fillRule="evenodd"
-                d="M6.72 4.36l.2-.35A4 4 0 0110.38 2h3.23a4 4 0 013.46 1.99l.21.37 2.32.35A4 4 0 0123 8.67V17a5 5 0 01-5 5H6a5 5 0 01-5-5V8.67A4 4 0 014.4 4.7l2.32-.35zm.78 1.9l-2.8.43A2 2 0 003 8.67V17a3 3 0 003 3h12a3 3 0 003-3V8.67a2 2 0 00-1.7-1.98l-2.78-.43a1 1 0 01-.72-.48l-.45-.79A2 2 0 0013.62 4h-3.23a2 2 0 00-1.74 1l-.44.77a1 1 0 01-.71.5zM12 8a5 5 0 110 10 5 5 0 010-10zm0 2a3 3 0 100 6 3 3 0 000-6z"
-                clipRule="evenodd"
-              ></path>
-            </svg>
+          <div className="">
+            {error.isPresent && <p className="error">{error.text}</p>}
+            <input
+              onChange={(e) => setChatName(e.target.value)}
+              value={chatName}
+              type="text"
+              placeholder="Название чата"
+              className="messenger__create-chat__chat-title"
+            />
           </div>
         </div>
-        <div className="">
-          {error.isPresent && <p className="error">{error.text}</p>}
+        <div className="messenger__create-chat__contacts-select">
           <input
-            onChange={(e) => setChatName(e.target.value)}
-            value={chatName}
+            placeholder="Поиск по контактам"
             type="text"
-            placeholder="Название чата"
-            className="messenger__create-chat__chat-title"
+            className="messenger__create-chat__contact-name"
+            onChange={(e) => searchFriends(e.target.value)}
+            value={searchFriendStr}
           />
+          <div className="messenger__create-chat__contacts-list">
+            {friends.map((friend: UserPreview) => (
+              <FriendItem user={friend} key={friend.id} />
+            ))}
+          </div>
+        </div>
+        <div className="messenger__create-chat__confirm-chat">
+          <button onClick={createConference} className="messenger__create-chat__confirm-chat-btn">
+            Создать чат
+          </button>
+          <button onClick={rejectConferenceCreation} className="messenger__create-chat__dismiss-chat-btn">
+            Отменить
+          </button>
         </div>
       </div>
-      <div className="messenger__create-chat__contacts-select">
-        <input
-          placeholder="Поиск по контактам"
-          type="text"
-          className="messenger__create-chat__contact-name"
-          onChange={(e) => searchFriends(e.target.value)}
-          value={searchFriendStr}
-        />
-        <div className="messenger__create-chat__contacts-list">
-          {friends.map((friend: UserPreview) => (
-            <FriendItem user={friend} key={friend.id} />
-          ))}
-        </div>
-      </div>
-      <div className="messenger__create-chat__confirm-chat">
-        <button onClick={createConference} className="messenger__create-chat__confirm-chat-btn">
-          Создать чат
-        </button>
-        <button onClick={rejectConferenceCreation} className="messenger__create-chat__dismiss-chat-btn">
-          Отменить
-        </button>
-      </div>
-    </div>
-  );
-});
+    );
+  }
+);
 
 export default CreateChat;

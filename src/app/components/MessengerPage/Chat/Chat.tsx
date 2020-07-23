@@ -91,7 +91,6 @@ const Chat = () => {
         index === messages.length - 1 ||
         dateDifference(new Date(message.creationDateTime || ''), new Date(messages[index + 1].creationDateTime || ''))
       ) {
-        console.log(message.text);
         message = {
           ...message,
           needToShowDateSeparator: true

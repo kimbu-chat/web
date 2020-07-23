@@ -166,7 +166,9 @@ export interface ConferenceCreationReqData {
   name: string;
   userIds: Array<number>;
   currentUser: UserPreview | null;
-  // avatar?: Image;
+  avatar: AvatarSelectedData | null;
+  conferenceId?: number;
+  avatarData?: AvatarSelectedData | null;
 }
 
 export interface ChangeConferenceAvatarActionData {

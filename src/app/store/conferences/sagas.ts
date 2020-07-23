@@ -32,12 +32,13 @@ import { ConferenceCreatedIntegrationEvent } from '../middlewares/websockets/int
 import { changeSelectedDialogAction } from '../dialogs/actions';
 import { unsetSelectedUserIdsForNewConferenceAction } from '../friends/actions';
 import { Dialog, InterlocutorType } from '../dialogs/types';
-import { AvatarSelectedData, UpdateAvatarResponse } from '../user/interfaces';
+import { UpdateAvatarResponse } from '../user/interfaces';
 import { SagaIterator } from 'redux-saga';
 import { FileUploadRequest, ErrorUploadResponse, uploadFileSaga } from 'app/utils/fileUploader/fileuploader';
 import { changeConferenceAvatarSuccessAction, changeConferenceAvatarAction } from './actions';
 
-function* updloadConferenceAvatar(avatarData: AvatarSelectedData, conferenceId: number): SagaIterator {
+function* updloadConferenceAvatar(action: ReturnType<typeof changeConferenceAvatarAction>): SagaIterator {
+  const { avatarData, conferenceId } = action.payload;
   const { imagePath, offsetX, offsetY, width } = avatarData;
   if (!imagePath) {
     return;
@@ -57,15 +58,15 @@ function* updloadConferenceAvatar(avatarData: AvatarSelectedData, conferenceId: 
       alert('Error' + response.error);
     },
     *completedCallback(response) {
-      yield put(changeConferenceAvatarSuccessAction({ conferenceId, ...response.httpResponseBody }));
+      yield put(changeConferenceAvatarSuccessAction({ conferenceId, ...response.data }));
+      action.deferred?.resolve();
     }
   };
   yield call(uploadFileSaga, uploadRequest);
 }
 
 export function* changeConferenceAvatarSaga(action: ReturnType<typeof changeConferenceAvatarAction>): SagaIterator {
-  const { conferenceId, avatarData } = action.payload;
-  yield call(updloadConferenceAvatar, avatarData, conferenceId);
+  yield call(updloadConferenceAvatar, action);
 }
 
 export function* addUsersToConferenceSaga(action: ReturnType<typeof addUsersToConferenceAction>): Iterator<any> {

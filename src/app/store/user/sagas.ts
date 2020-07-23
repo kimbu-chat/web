@@ -81,7 +81,6 @@ export function* uploadUserAvatar(action: ReturnType<typeof updateMyAvatarAction
       alert(response.error);
     },
     *completedCallback(response) {
-      console.log(response);
       yield put(updateMyAvatarSuccessAction(response.data));
       action.deferred?.resolve();
     }

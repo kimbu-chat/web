@@ -8,7 +8,8 @@ import {
   createConferenceSuccessAction,
   leaveConferenceSuccessAction,
   renameConferenceSuccessAction,
-  addUsersToConferenceSuccessAction
+  addUsersToConferenceSuccessAction,
+  changeConferenceAvatarSuccessAction
 } from '../conferences/actions';
 
 export const getDialogsAction = (data: GetDialogsActionData) => createAction(DialogsActionTypes.GET_DIALOGS, data);
@@ -66,4 +67,5 @@ export type DialogActions =
   | typeof markMessagesAsReadAction
   | typeof leaveConferenceSuccessAction
   | typeof renameConferenceSuccessAction
-  | typeof addUsersToConferenceSuccessAction;
+  | typeof addUsersToConferenceSuccessAction
+  | typeof changeConferenceAvatarSuccessAction;

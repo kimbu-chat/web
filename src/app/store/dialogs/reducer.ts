@@ -286,6 +286,21 @@ const dialogs = produce(
           return draft;
         }
       }
+
+      case ConferencesActionTypes.CHANGE_CONFERENCE_AVATAR_SUCCESS: {
+        const { conferenceId, croppedAvatarUrl } = action.payload;
+
+        const dialogId: number = DialogService.getDialogIdentifier(null, conferenceId);
+
+        const dialogIndex: number = getDialogArrayIndex(dialogId, draft);
+
+        const conference = draft.dialogs[dialogIndex].conference || { avatarUrl: '' };
+
+        conference.avatarUrl = croppedAvatarUrl;
+
+        return draft;
+      }
+
       default:
         return draft;
     }

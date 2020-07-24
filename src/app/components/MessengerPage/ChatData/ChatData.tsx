@@ -18,7 +18,7 @@ const ChatData = ({ displayChatInfo, chatInfoDisplayed }: ChatData.Props) => {
   const selectedDialog = useSelector(getSelectedDialogSelector);
 
   if (selectedDialog) {
-    const imageUrl: string = selectedDialog?.interlocutor?.avatarUrl || '';
+    const imageUrl: string = selectedDialog.conference?.avatarUrl || selectedDialog?.interlocutor?.avatarUrl || '';
     const status = selectedDialog.conference
       ? `${selectedDialog.conference.membersCount} members`
       : selectedDialog?.interlocutor?.status === 1

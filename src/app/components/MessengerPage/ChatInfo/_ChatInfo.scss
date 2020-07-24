@@ -19,4 +19,47 @@
     align-items: center;
     border-bottom: 8px solid #f5f5f5;
   }
+
+  &__avatar-group {
+    position: relative;
+  }
+
+  &__avatar {
+    &:hover + * {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
+
+.change-avatar {
+  height: 28px;
+  width: 28px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.8;
+  position: absolute;
+  top: -6px;
+  right: -9px;
+  background: white;
+  transition: all 0.3s;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 1;
+    visibility: visible;
+    transition: all 0.3s;
+  }
+
+  .svg {
+    height: 16px;
+    width: 16px;
+  }
+
+  &--hidden {
+    visibility: hidden;
+    transition: all 0.3s;
+  }
 }

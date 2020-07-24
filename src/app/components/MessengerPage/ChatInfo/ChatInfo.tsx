@@ -27,10 +27,11 @@ import { AvatarSelectedData } from 'app/store/user/interfaces';
 namespace ChatInfo {
   export interface Props {
     displayCreateChat: () => void;
-    displayContactSearch: (action?: Messenger.contactSearchActions) => void;
     hideContactSearch: () => void;
+    displayContactSearch: (action?: Messenger.contactSearchActions) => void;
     setImageUrl: (url: string | null | ArrayBuffer) => void;
     displayChangePhoto: (data: Messenger.photoSelect) => void;
+    isDisplayed: boolean;
   }
 }
 
@@ -39,7 +40,8 @@ const ChatInfo = ({
   displayContactSearch,
   hideContactSearch,
   setImageUrl,
-  displayChangePhoto
+  displayChangePhoto,
+  isDisplayed
 }: ChatInfo.Props) => {
   const selectedDialog = useSelector(getSelectedDialogSelector) as Dialog;
 
@@ -106,7 +108,7 @@ const ChatInfo = ({
     };
 
     return (
-      <div className="chat-info">
+      <div className={isDisplayed ? 'chat-info chat-info--active' : 'chat-info'}>
         <div className="chat-info__main-data">
           {!conference ? (
             <StatusBadge user={selectedDialog.interlocutor} />

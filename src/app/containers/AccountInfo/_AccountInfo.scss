@@ -32,6 +32,10 @@
       color: #ebebeb;
       padding: 8px 0;
     }
+
+    &--active {
+      left: 0px;
+    }
   }
 
   &__change-photo {

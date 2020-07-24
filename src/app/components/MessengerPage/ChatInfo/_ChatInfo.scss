@@ -5,8 +5,13 @@
   background-color: white;
   position: absolute;
   width: 353px;
-  right: 0;
+  right: -353px;
   overflow-y: scroll;
+  transition: all 0.3s;
+
+  &--active {
+    right: 0;
+  }
 
   &__interlocutor {
     display: inline-block;

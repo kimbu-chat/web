@@ -1,6 +1,6 @@
 .messenger__create-chat {
   margin-top: -50px;
-  height: 100vh;
+  height: 0px;
   background-color: white;
   z-index: 100;
   position: relative;
@@ -8,6 +8,16 @@
   opacity: 0;
   visibility: hidden;
   transition: all 0.3s;
+
+  grid-row: 2/3;
+  grid-column: 2/3;
+
+  &--active {
+    visibility: visible;
+    opacity: 1;
+    left: 0;
+    height: 100vh;
+  }
 
   &__header {
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);

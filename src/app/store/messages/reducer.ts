@@ -26,8 +26,10 @@ const messages = produce(
         const { messageState, dialogId, oldMessageId, newMessageId } = action.payload;
         const chatIndex = getChatIndex(draft, dialogId);
         const messageIndex = draft.messages[chatIndex].messages.findIndex((x) => x.id == oldMessageId);
+
         (draft.messages[chatIndex].messages[messageIndex].id = newMessageId),
           (draft.messages[chatIndex].messages[messageIndex].state = messageState);
+
         return draft;
       }
       case MessagesActionTypes.GET_MESSAGES: {

@@ -8,5 +8,14 @@
     }
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
+
+    .loader {
+      & > * {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 15px;
+      }
+    }
   }
 }

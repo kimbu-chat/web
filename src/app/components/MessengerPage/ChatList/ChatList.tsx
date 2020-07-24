@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import ChatFromList from '../ChatFromList/ChatFromList';
-
+import InfiniteScroll from 'react-infinite-scroller';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import './ChatList.scss';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { getDialogsAction } from 'app/store/dialogs/actions';
@@ -20,6 +21,7 @@ const ChatList = ({ hideChatInfo }: ChatList.Props) => {
   const getDialogs = useActionWithDispatch(getDialogsAction);
 
   const dialogs = useSelector<AppState, Dialog[]>((rootState) => rootState.dialogs.dialogs) || [];
+  const hasMoreDialogs = useSelector<AppState, boolean>((rootState) => rootState.dialogs.hasMore);
 
   useEffect(() => {
     getDialogs({
@@ -29,11 +31,42 @@ const ChatList = ({ hideChatInfo }: ChatList.Props) => {
     });
   }, []);
 
+  const loadPage = (page: number) => {
+    const pageData = {
+      limit: 25,
+      offset: page * 25
+    };
+
+    getDialogs({
+      page: pageData,
+      initializedBySearch: false,
+      initiatedByScrolling: true
+    });
+  };
+
+  const chatListRef = useRef(null);
+
   return (
-    <div className="messenger__chat-list">
-      {dialogs?.map((dialog: Dialog) => {
-        return <ChatFromList sideEffect={hideChatInfo} dialog={dialog} key={dialog.id} />;
-      })}
+    <div ref={chatListRef} className="messenger__chat-list">
+      <InfiniteScroll
+        pageStart={0}
+        loadMore={loadPage}
+        hasMore={hasMoreDialogs}
+        loader={
+          <div className="loader " key={0}>
+            <div className="">
+              <CircularProgress />
+            </div>
+          </div>
+        }
+        useWindow={false}
+        getScrollParent={() => chatListRef.current}
+        isReverse={false}
+      >
+        {dialogs?.map((dialog: Dialog) => {
+          return <ChatFromList sideEffect={hideChatInfo} dialog={dialog} key={dialog.id} />;
+        })}
+      </InfiniteScroll>
     </div>
   );
 };

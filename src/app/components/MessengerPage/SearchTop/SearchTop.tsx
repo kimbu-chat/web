@@ -20,20 +20,12 @@ const SearchTop = ({ displaySlider, displayCreateChat }: SearchTop.Props) => {
   const dialogs = useSelector<AppState, Dialog[]>((rootState) => rootState.dialogs.dialogs) || [];
 
   const handleDialogSearchChange = (name: string): void => {
-    if (name.length > 0) {
-      getDialogs({
-        name,
-        page: { offset: dialogs.length, limit: DIALOGS_LIMIT },
-        initializedBySearch: true,
-        initiatedByScrolling: false
-      });
-    } else {
-      getDialogs({
-        page: { offset: dialogs.length, limit: DIALOGS_LIMIT },
-        initializedBySearch: false,
-        initiatedByScrolling: false
-      });
-    }
+    getDialogs({
+      name,
+      page: { offset: dialogs.length, limit: DIALOGS_LIMIT },
+      initializedBySearch: true,
+      initiatedByScrolling: false
+    });
   };
 
   return (

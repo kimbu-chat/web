@@ -206,14 +206,17 @@ const dialogs = produce(
         };
       }
       case DialogsActionTypes.GET_DIALOGS_SUCCESS: {
-        const { dialogs, hasMore } = action.payload;
+        const { dialogs, hasMore, initializedBySearch } = action.payload;
 
-        return {
-          ...draft,
-          loading: false,
-          dialogs: dialogs,
-          hasMore: hasMore
-        };
+        (draft.loading = false), (draft.hasMore = hasMore);
+
+        if (initializedBySearch) {
+          draft.dialogs = dialogs;
+        } else {
+          draft.dialogs = draft.dialogs.concat(dialogs);
+        }
+
+        return draft;
       }
 
       case DialogsActionTypes.GET_DIALOGS_FAILURE: {

@@ -19,10 +19,11 @@ const ChatData = ({ displayChatInfo, chatInfoDisplayed }: ChatData.Props) => {
 
   if (selectedDialog) {
     const imageUrl: string = selectedDialog?.interlocutor?.avatarUrl || '';
-    const status =
-      selectedDialog?.interlocutor?.status === 1
-        ? 'Online'
-        : `Last seen online at ${moment.utc(selectedDialog?.interlocutor?.lastOnlineTime).local().format('hh:mm')}`;
+    const status = selectedDialog.conference
+      ? `${selectedDialog.conference.membersCount} members`
+      : selectedDialog?.interlocutor?.status === 1
+      ? 'Online'
+      : `Last seen online at ${moment.utc(selectedDialog?.interlocutor?.lastOnlineTime).local().format('hh:mm')}`;
 
     return (
       <div className="messenger__chat-data">

@@ -48,8 +48,7 @@ export class MessageUtils {
     if (message.systemMessageType === SystemMessageType.ConferenceAvatarChanged) {
       return isCurrentUserMessageCreator
         ? `Вы изменили аватар`
-        : `${message.userCreator?.firstName} 
-           ${message.userCreator?.lastName} изменил аватар`;
+        : `${message.userCreator?.firstName} ${message.userCreator?.lastName} изменил аватар`;
     }
 
     throw 'Construct System MessageText function error';

@@ -86,22 +86,17 @@ export function* initializeSaga(): any {
   const currentUserId = authData.userId;
 
   const profileService = new MyProfileService();
-  const userProfile = profileService.myProfile;
-
-  if (userProfile) {
-    yield put(getMyProfileSuccessAction(userProfile));
-    yield put(
-      getFriendsAction({
-        page: { offset: 0, limit: 100 },
-        initializedBySearch: false
-      })
-    );
-    return;
-  }
 
   const { data }: AxiosResponse<UserPreview> = yield call(getUserProfileApi, currentUserId);
 
   profileService.setMyProfile(data);
+
+  yield put(
+    getFriendsAction({
+      page: { offset: 0, limit: 100 },
+      initializedBySearch: false
+    })
+  );
 
   yield put(getMyProfileSuccessAction(data));
 }

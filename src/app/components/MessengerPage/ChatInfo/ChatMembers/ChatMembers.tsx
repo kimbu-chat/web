@@ -34,7 +34,11 @@ const ChatMembers = ({ addMembers }: ChatMembers.Props) => {
       initiatedByScrolling: false,
       page: { offset: 0, limit: 15 }
     });
-  }, []);
+    return () => {
+      setSearchStr('');
+      setMembersDisplayed(false);
+    };
+  }, [selectedDialog.id]);
 
   const loadMore = () => {
     getConferenceUsers({

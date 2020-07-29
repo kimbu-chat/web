@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './_SendMessage.scss';
 import { useSelector } from 'react-redux';
 import { UserPreview } from 'app/store/my-profile/models';
@@ -8,6 +8,8 @@ import { MessageActions } from 'app/store/messages/actions';
 import { RootState } from 'app/store/root-reducer';
 import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
 import { SystemMessageType, MessageState } from 'app/store/messages/models';
+import { Picker } from 'emoji-mart';
+import 'emoji-mart/css/emoji-mart.css';
 
 const CreateMessageInput = () => {
   const sendMessage = useActionWithDispatch(MessageActions.createMessage);
@@ -16,6 +18,22 @@ const CreateMessageInput = () => {
   const currentUserId = useSelector<RootState, number>((appState: RootState) => appState.myProfile.user.id);
   const selectedDialog = useSelector(getSelectedDialogSelector) as Dialog;
   const [text, setText] = useState('');
+  const [smilesDisplayed, setSmilesDisplayed] = useState<boolean>(false);
+
+  const emojiRef = useRef<HTMLDivElement | null>(null);
+
+  const handleClick = () => {
+    document.addEventListener('click', handleOutsideClick, false);
+
+    setSmilesDisplayed(!smilesDisplayed);
+  };
+
+  const handleOutsideClick = (e: any) => {
+    if (!emojiRef.current?.contains(e.target)) {
+      setSmilesDisplayed(false);
+      document.removeEventListener('click', handleOutsideClick, false);
+    }
+  };
 
   const sendMessageToServer = () => {
     const currentUser: UserPreview = {
@@ -64,7 +82,7 @@ const CreateMessageInput = () => {
     <div className="messenger__send-message">
       {selectedDialog && (
         <React.Fragment>
-          <button className="messenger__display-smiles">
+          <button onClick={() => handleClick()} className="messenger__display-smiles">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
               <path
                 fillRule="evenodd"
@@ -90,6 +108,19 @@ const CreateMessageInput = () => {
               </svg>
             </button>
           </div>
+          {smilesDisplayed && (
+            <div ref={emojiRef} className="emoji-wrapper">
+              <Picker
+                set="apple"
+                showSkinTones={false}
+                showPreview={false}
+                //problems with typization detected
+                onSelect={(emoji: any) => {
+                  setText((oldText) => oldText + emoji.native);
+                }}
+              />
+            </div>
+          )}
         </React.Fragment>
       )}
     </div>

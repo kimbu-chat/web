@@ -27,6 +27,7 @@
   }
 
   &__input-message {
+    line-height: 20px;
     display: block;
     border: none;
     width: calc(100% - 52px);
@@ -54,4 +55,10 @@
       fill: white;
     }
   }
+}
+
+.emoji-wrapper {
+  position: absolute;
+  bottom: 56px;
+  left: 5px;
 }

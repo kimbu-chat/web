@@ -8,12 +8,12 @@ const LangCategory = () => {
         <div className="account-settings__select-block__option">
           <input id="russian" type="radio" className="account-settings__radio" name="lang" />
           <label className="box" htmlFor="russian"></label>
-          <span>Русский</span>
+          <label htmlFor="russian">Русский</label>
         </div>
         <div className="account-settings__select-block__option">
           <input id="english" type="radio" className="account-settings__radio" name="lang" />
           <label className="box" htmlFor="english"></label>
-          <span>English</span>
+          <label htmlFor="english">English</label>
         </div>
       </div>
     </div>

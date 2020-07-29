@@ -83,7 +83,7 @@ const CreateMessageInput = () => {
       {selectedDialog && (
         <React.Fragment>
           <button onClick={() => handleClick()} className="messenger__display-smiles">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+            <svg className={smilesDisplayed ? 'blue' : 'black'} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
               <path
                 fillRule="evenodd"
                 d="M8 .2a7.8 7.8 0 1 1 0 15.6A7.8 7.8 0 0 1 8 .2zm0 1.6a6.2 6.2 0 1 0 0 12.4A6.2 6.2 0 0 0 8 1.8zm0 8.83a2.5 2.5 0 0 0 2.31-1.56.8.8 0 0 1 1.49.6 4.1 4.1 0 0 1-7.56.08.8.8 0 0 1 1.47-.63A2.5 2.5 0 0 0 8 10.63zm2-5.69c.54 0 .98.48.98 1.06 0 .59-.44 1.06-.99 1.06-.54 0-.98-.47-.98-1.06 0-.58.44-1.05.98-1.05zM6.97 6c0-.58-.44-1.06-.98-1.06-.55 0-1 .48-1 1.06 0 .58.45 1.06 1 1.06.54 0 .98-.48.98-1.06z"

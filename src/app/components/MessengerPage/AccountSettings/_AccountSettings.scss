@@ -1,0 +1,90 @@
+.account-settings {
+  margin-top: -50px;
+  height: 0px;
+  background-color: white;
+  z-index: 100;
+  position: relative;
+  left: -150px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+
+  grid-row: 2/3;
+  grid-column: 2/3;
+
+  &--active {
+    visibility: visible;
+    opacity: 1;
+    left: 0;
+    height: 100vh;
+  }
+
+  &__header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: space-between;
+    height: 49px;
+    align-items: center;
+    .svg {
+      height: 16px;
+      width: 16px;
+    }
+  }
+
+  &__back {
+    margin-left: 16px;
+    font-size: inherit;
+    line-height: inherit;
+    font-weight: inherit;
+    span {
+      text-indent: 5px;
+    }
+  }
+
+  &__main {
+    padding: 12px 24px;
+  }
+
+  &__language {
+    padding: 12px 24px;
+    margin-top: 12px;
+    display: flex;
+    h2 {
+      font-size: 14px;
+      line-height: 1.6;
+      font-weight: 400;
+      text-transform: uppercase;
+      color: #8a8a95;
+      width: 130px;
+      margin: 6px 8px 8px 0;
+    }
+  }
+
+  &__select-block {
+    flex: 1;
+    margin: 6px 8px 8px 0;
+
+    input {
+      display: none;
+
+      &:checked + .box {
+        border: 5px solid #697cff;
+      }
+    }
+    .box {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 1px solid #ebebeb;
+      display: inline-block;
+      margin-right: 5px;
+      box-sizing: border-box;
+      transition: all 0.3s;
+    }
+
+    &__option {
+      display: flex;
+      margin-bottom: 10px;
+    }
+  }
+}

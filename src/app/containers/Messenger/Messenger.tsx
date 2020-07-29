@@ -12,6 +12,7 @@ import CreateChat from '../../components/MessengerPage/CreateChat/CreateChat';
 import ChatInfo from '../../components/MessengerPage/ChatInfo/ChatInfo';
 import ContactSearch from '../../components/MessengerPage/ContactSearch/ContactSearch';
 import ChangePhoto from '../../components/MessengerPage/ChangePhoto/ChangePhoto';
+import AccountSettings from 'app/components/MessengerPage/AccountSettings/AccountSettings';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { AvatarSelectedData } from 'app/store/my-profile/models';
 import { ChatActions } from 'app/store/dialogs/actions';
@@ -32,10 +33,6 @@ export namespace Messenger {
     excludeIds?: (number | undefined)[];
   }
 
-  export interface displayedOrNot {
-    isDisplayed: boolean;
-  }
-
   export interface photoSelect {
     isDisplayed?: boolean;
     onSubmit?: (data: AvatarSelectedData) => void;
@@ -52,41 +49,33 @@ const Messenger = () => {
     else changeSelectedDialog(-1);
   }, []);
 
-  const [createChatDisplayed, setCreateChatDisplayed] = useState<Messenger.displayedOrNot>({ isDisplayed: false });
   const [contactSearchDisplayed, setContactSearchDisplayed] = useState<Messenger.contactSearchActions>({
-    isDisplayed: false
-  });
-  const [infoDisplayed, setInfoDisplayed] = useState<boolean>(false);
-  const [accountInfoIsDisplayed, setAccountInfoIsDisplayed] = useState<Messenger.displayedOrNot>({
     isDisplayed: false
   });
   const [photoSelected, setPhotoSelected] = useState<Messenger.photoSelect>({
     isDisplayed: false
   });
+
+  const [createChatDisplayed, setCreateChatDisplayed] = useState<boolean>(false);
+  const [infoDisplayed, setInfoDisplayed] = useState<boolean>(false);
+  const [accountInfoIsDisplayed, setAccountInfoIsDisplayed] = useState<boolean>(false);
+  const [settingsDisplayed, setSettingsDisplayed] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string | null | ArrayBuffer>('');
 
   //Slider display and hide
   const displaySlider = () => {
-    setAccountInfoIsDisplayed({ isDisplayed: true });
+    setAccountInfoIsDisplayed(true);
   };
   const hideSlider = () => {
-    setAccountInfoIsDisplayed({ isDisplayed: false });
+    setAccountInfoIsDisplayed(false);
   };
 
   //Create chat display and hide
   const displayCreateChat = () => {
-    setCreateChatDisplayed({ isDisplayed: true });
+    setCreateChatDisplayed(true);
   };
   const hideCreateChat = () => {
-    setCreateChatDisplayed({ isDisplayed: false });
-  };
-
-  //Contact search display and hide
-  const displayContactSearch = (actions?: Messenger.contactSearchActions) => {
-    setContactSearchDisplayed({ isDisplayed: true, ...actions });
-  };
-  const hideContactSearch = () => {
-    setContactSearchDisplayed({ isDisplayed: false });
+    setCreateChatDisplayed(false);
   };
 
   //Chat info display and hide
@@ -95,6 +84,19 @@ const Messenger = () => {
   };
   const hideChatInfo = () => {
     setInfoDisplayed(false);
+  };
+
+  //Settings dispay and hideChatInfo
+
+  const displaySettings = () => setSettingsDisplayed(true);
+  const hideSettings = () => setSettingsDisplayed(false);
+
+  //Contact search display and hide
+  const displayContactSearch = (actions?: Messenger.contactSearchActions) => {
+    setContactSearchDisplayed({ isDisplayed: true, ...actions });
+  };
+  const hideContactSearch = () => {
+    setContactSearchDisplayed({ isDisplayed: false });
   };
 
   //Cropper display and hide
@@ -113,9 +115,10 @@ const Messenger = () => {
         <ChangePhoto imageUrl={imageUrl} hideChangePhoto={hideChangePhoto} onSubmit={photoSelected.onSubmit} />
       )}
 
-      {(createChatDisplayed.isDisplayed ||
+      {(createChatDisplayed ||
+        accountInfoIsDisplayed ||
         contactSearchDisplayed.isDisplayed ||
-        accountInfoIsDisplayed.isDisplayed ||
+        settingsDisplayed ||
         photoSelected.isDisplayed) && (
         <BackgroundBlur
           onClick={() => {
@@ -123,17 +126,19 @@ const Messenger = () => {
             hideContactSearch();
             hideSlider();
             hideChangePhoto();
+            hideSettings();
           }}
         />
       )}
 
       <AccountInfo
+        isDisplayed={accountInfoIsDisplayed}
         hideSlider={hideSlider}
         displayCreateChat={displayCreateChat}
         displayContactSearch={displayContactSearch}
-        setImageUrl={setImageUrl}
+        displaySettings={displaySettings}
         displayChangePhoto={displayChangePhoto}
-        isDisplayed={accountInfoIsDisplayed.isDisplayed}
+        setImageUrl={setImageUrl}
       />
 
       <ChatData chatInfoDisplayed={infoDisplayed} displayChatInfo={displayChatInfo} />
@@ -144,12 +149,14 @@ const Messenger = () => {
         setImageUrl={setImageUrl}
         displayChangePhoto={displayChangePhoto}
         hide={hideCreateChat}
-        isDisplayed={createChatDisplayed.isDisplayed}
+        isDisplayed={createChatDisplayed}
       />
+
+      <AccountSettings isDisplayed={settingsDisplayed} hide={hideSettings} />
 
       <ContactSearch hide={hideContactSearch} {...contactSearchDisplayed} />
 
-      {!createChatDisplayed.isDisplayed && !contactSearchDisplayed.isDisplayed && (
+      {!createChatDisplayed && !contactSearchDisplayed.isDisplayed && (
         <div className="messenger__chat-send">
           <Chat />
           <CreateMessageInput />

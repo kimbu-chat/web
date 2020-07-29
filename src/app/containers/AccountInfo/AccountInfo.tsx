@@ -13,6 +13,7 @@ namespace AccountInfoNS {
   export interface Props {
     hideSlider: () => void;
     displayCreateChat: () => void;
+    displaySettings: () => void;
     setImageUrl: (url: string | null | ArrayBuffer) => void;
     displayChangePhoto: (data: Messenger.photoSelect) => void;
     displayContactSearch: (action?: Messenger.contactSearchActions) => void;
@@ -45,6 +46,7 @@ const AccountInfo = ({
   displayContactSearch,
   setImageUrl,
   displayChangePhoto,
+  displaySettings,
   isDisplayed
 }: AccountInfoNS.Props) => {
   const changePhoto = useActionWithDeferred(MyProfileActions.updateMyAvatar);
@@ -72,6 +74,11 @@ const AccountInfo = ({
       isDisplayed: true,
       displayMyself: true
     });
+  };
+
+  const settings = () => {
+    hideSlider();
+    displaySettings();
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -190,7 +197,7 @@ const AccountInfo = ({
             </div>
             <span>Контакты</span>
           </button>
-          <button className="messenger__account-info__btn">
+          <button onClick={settings} className="messenger__account-info__btn">
             <div className="svg">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                 <path

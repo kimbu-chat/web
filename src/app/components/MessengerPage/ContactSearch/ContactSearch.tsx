@@ -52,7 +52,7 @@ const ContactSearch = ({
     return () => {
       loadFriends({ page: { offset: 0, limit: 100 }, name, initializedBySearch: true });
     };
-  }, []);
+  }, [isDisplayed]);
 
   const submit = (): void => {
     onSubmit && onSubmit(userIdsToAddIntoConference);

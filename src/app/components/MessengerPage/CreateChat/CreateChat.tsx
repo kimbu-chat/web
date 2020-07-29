@@ -48,9 +48,11 @@ const CreateChat = ({ hide, setImageUrl, displayChangePhoto, isDisplayed }: Crea
 
   useEffect(() => {
     searchFriends('');
+    setChatName('');
+    setSearchFriendStr('');
 
     return () => searchFriends('');
-  }, []);
+  }, [isDisplayed]);
 
   const rejectConferenceCreation = () => {
     unsetFriends();

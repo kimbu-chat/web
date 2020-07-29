@@ -23,9 +23,13 @@ const CreateMessageInput = () => {
   const emojiRef = useRef<HTMLDivElement | null>(null);
 
   const handleClick = () => {
-    document.addEventListener('click', handleOutsideClick, false);
-
-    setSmilesDisplayed(!smilesDisplayed);
+    if(!smilesDisplayed){
+      setSmilesDisplayed(true);
+      document.addEventListener('click', handleOutsideClick, false);
+      return;
+    }
+    setSmilesDisplayed(false);
+    document.removeEventListener('click', handleOutsideClick, false);
   };
 
   const handleOutsideClick = (e: any) => {

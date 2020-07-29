@@ -9,10 +9,6 @@ function* getFriendsSaga(action: ReturnType<typeof FriendActions.getFriends>): S
   const request = FriendsHttpRequests.getFriends;
 	const { data } = request.call(yield call(() => request.generator(action.payload)));
 
-  data.forEach((x) => {
-    x.lastOnlineTime = new Date(x.lastOnlineTime || '');
-  });
-
   yield put(
     FriendActions.getFriendsSuccess({
       users: data,

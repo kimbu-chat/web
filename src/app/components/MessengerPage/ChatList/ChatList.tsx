@@ -22,7 +22,6 @@ const ChatList = ({ hideChatInfo }: ChatList.Props) => {
 
   const dialogs = useSelector<RootState, Dialog[]>((rootState) => rootState.dialogs.dialogs) || [];
   const hasMoreDialogs = useSelector<RootState, boolean>((rootState) => rootState.dialogs.hasMore);
-  console.warn(222)
   useEffect(() => {
     getChats({
       page: { offset: dialogs.length, limit: DIALOGS_LIMIT },

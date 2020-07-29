@@ -95,7 +95,6 @@ export const httpRequestFactory = <T, B>(
 				return yield call(httpRequest, finalUrl, method, body, cancelTokenSource.token, blob, headers);
 			} catch (e) {
 				const error = e as AxiosError;
-
 				if (isNetworkError(e)) {
 					alert('Network Error.');
 				} else if (error?.response?.status === 401) {

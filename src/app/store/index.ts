@@ -1,18 +1,21 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { createStore, applyMiddleware, compose, Store } from 'redux';
+import { createStore, applyMiddleware, compose, Store, Action, Dispatch } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 
-import rootReducer from './root-reducer';
-import rootSaga from './root-saga';
+import rootReducer, { RootState } from './root-reducer';
+import { rootSaga } from './root-saga';
 import { signalRInvokeMiddleware } from './middlewares/websockets/signalR';
 
-export type AppState = ReturnType<typeof rootReducer>;
+// export type AppState = ReturnType<typeof rootReducer>;
 
-declare module 'react-redux' {
-  interface DefaultRootState extends AppState {}
-}
+// declare module 'react-redux' {
+//   interface DefaultRootState extends AppState {}
+// }
 
-type ReduxStore = Store<AppState>;
+// type ReduxStore = Store<AppState>;
+
+export type ReduxStore = Store<RootState, Action> & {
+	dispatch: Dispatch;
+};
 
 export default function (): ReduxStore {
   const composeEnchancers =

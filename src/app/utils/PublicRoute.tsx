@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router';
 import { useSelector } from 'react-redux';
-import { AppState } from 'app/store';
+import { RootState } from 'app/store/root-reducer';
 
 namespace PublicRoute {
   export interface Props {
@@ -11,7 +11,7 @@ namespace PublicRoute {
 }
 
 function PublicRoute({ Component, path, ...rest }: PublicRoute.Props) {
-  const isAuthenticated = useSelector<AppState, boolean>((rootState) => rootState.auth.isAuthenticated) || false;
+  const isAuthenticated = useSelector<RootState, boolean>((rootState) => rootState.auth.isAuthenticated) || false;
   return (
     <Route
       path={path}

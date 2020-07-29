@@ -13,8 +13,8 @@ import ChatInfo from '../../components/MessengerPage/ChatInfo/ChatInfo';
 import ContactSearch from '../../components/MessengerPage/ContactSearch/ContactSearch';
 import ChangePhoto from '../../components/MessengerPage/ChangePhoto/ChangePhoto';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
-import { changeSelectedDialogAction } from 'app/store/dialogs/actions';
-import { AvatarSelectedData } from 'app/store/user/interfaces';
+import { AvatarSelectedData } from 'app/store/my-profile/models';
+import { ChatActions } from 'app/store/dialogs/actions';
 
 export namespace Messenger {
   export interface contactSearchActions {
@@ -43,7 +43,7 @@ export namespace Messenger {
 }
 
 const Messenger = () => {
-  const changeSelectedDialog = useActionWithDispatch(changeSelectedDialogAction);
+  const changeSelectedDialog = useActionWithDispatch(ChatActions.changeSelectedChat);
 
   const { id: chatId } = useParams();
 

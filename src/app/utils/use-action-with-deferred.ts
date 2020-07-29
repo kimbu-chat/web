@@ -2,12 +2,14 @@ import { useCallback } from 'react';
 import flow from 'lodash/flow';
 import { useDispatch } from 'react-redux';
 import { withDeferred } from './with-deffered';
+import { createCustomAction } from 'typesafe-actions';
 
-type ArgumentTypes<F extends Function> = F extends (...args: infer A) => any ? A : never;
+type ActionReturnType = ReturnType<typeof createCustomAction>
+type ArgumentTypes<F extends ActionReturnType> = F extends (...args: infer A) => any ? A : never;
 
-export function useActionWithDeferred<T extends (...args: any[]) => any>(
-  action: T
-): <P = any>(...args: ArgumentTypes<typeof action>) => Promise<P> {
-  const dispatch = useDispatch();
-  return useCallback(flow([action, withDeferred(dispatch)]), [dispatch, action]);
+export function useActionWithDeferred<T extends ActionReturnType>(
+	action: T,
+): <PromiseReturnType = undefined>(payload: ArgumentTypes<typeof action>[0]) => Promise<PromiseReturnType> {
+	const dispatch = useDispatch();
+	return useCallback(flow([action, withDeferred(dispatch)]), [dispatch, action]);
 }

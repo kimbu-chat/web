@@ -2,15 +2,16 @@ import { HubConnection, HubConnectionBuilder, HubConnectionState, LogLevel } fro
 
 import { EVENTS_NAMES, EventManager } from './event-manager';
 import { WebsocketsActionTypes } from 'app/store/sockets/types';
-import { AuthActionTypes } from 'app/store/auth/types';
 import { Store } from 'redux';
-import { AppState } from 'app/store';
 import { MessageCreatedEventHandler } from './integration-event-handlers/message-created-event-handler';
 import { UserMessageTypingEventHandler } from './integration-event-handlers/user-message-typing-event-handler';
 import { UserStatusChangedEventHandler } from './integration-event-handlers/user-status-changed-event-handler';
 import { ConferenceCreatedEventHandler } from './integration-event-handlers/conference-created-event-handler';
 import { ConferenceMessageReadEventHandler } from './integration-event-handlers/conference-message-read-event-handler';
 import { UserMessageReadEventHandler } from './integration-event-handlers/user-message-read-event-handler';
+import { getType } from 'typesafe-actions';
+import { AuthActions } from 'app/store/auth/actions';
+import { RootState } from 'app/store/root-reducer';
 
 const CONNECTION_ENDPOINT = 'http://notifications.ravudi.com/signalr';
 
@@ -29,7 +30,7 @@ export function signalRInvokeMiddleware(store: any): any {
         }
         return next(action);
       }
-      case AuthActionTypes.LOGOUT: {
+      case getType(AuthActions.logout): {
         if (connection && connection.state === HubConnectionState.Connected) {
           connection.stop();
         }
@@ -41,7 +42,7 @@ export function signalRInvokeMiddleware(store: any): any {
   };
 }
 
-function openConnection(store: Store<AppState>): void {
+function openConnection(store: Store<RootState>): void {
   const eventManager = new EventManager();
   eventManager.registerEventHandler(EVENTS_NAMES.MESSAGE_CREATED, new MessageCreatedEventHandler());
   eventManager.registerEventHandler(EVENTS_NAMES.INTEROCUTOR_MESSAGE_TYPING, new UserMessageTypingEventHandler());
@@ -53,7 +54,7 @@ function openConnection(store: Store<AppState>): void {
   connection = new HubConnectionBuilder()
     .withUrl(CONNECTION_ENDPOINT, {
       logMessageContent: true,
-      accessTokenFactory: () => store.getState().auth.authentication.accessToken
+      accessTokenFactory: () => store.getState().auth.securityTokens.accessToken
     })
     .withAutomaticReconnect()
     .configureLogging(LogLevel.None)

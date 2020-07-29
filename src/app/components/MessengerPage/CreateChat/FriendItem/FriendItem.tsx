@@ -1,11 +1,11 @@
 import React from 'react';
 import './_FriendItem.scss';
-import { UserPreview } from '../../../../store/contacts/types';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
-import { markUserAsAddedToConferenceAction } from '../../../../store/friends/actions';
 import StatusBadge from 'app/utils/StatusBadge';
-import { AppState } from 'app/store';
 import { useSelector } from 'react-redux';
+import { UserPreview } from 'app/store/my-profile/models';
+import { RootState } from 'app/store/root-reducer';
+import { FriendActions } from 'app/store/friends/actions';
 
 namespace FriendItem {
   export interface Props {
@@ -14,8 +14,8 @@ namespace FriendItem {
 }
 
 const FriendItem = ({ user }: FriendItem.Props) => {
-  const myId = useSelector<AppState, number>((state) => state.auth.authentication.userId);
-  const markUser = useActionWithDispatch(markUserAsAddedToConferenceAction);
+  const myId = useSelector<RootState, number>((state) => state.myProfile.user.id);
+  const markUser = useActionWithDispatch(FriendActions.markUserAsAddedToConference);
   const selectUser = () => markUser(user.id || -1);
 
   if (user.id === myId) {

@@ -1,4 +1,4 @@
-import { InterlocutorType, Dialog, ParsedInterlocutorId } from './types';
+import { ParsedInterlocutorId, InterlocutorType, Dialog } from "./models";
 
 export class DialogService {
   public static getDialogIdentifier(userId?: number | null, conferenceId?: number | null): number {

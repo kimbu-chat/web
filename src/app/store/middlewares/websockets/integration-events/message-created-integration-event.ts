@@ -1,6 +1,6 @@
 import { BaseIntegrationEvent } from './base-integration-event';
-import { UserPreview } from 'app/store/contacts/types';
-import { SystemMessageType } from 'app/store/messages/interfaces';
+import { SystemMessageType } from 'app/store/messages/models';
+import { UserPreview } from 'app/store/my-profile/models';
 
 export interface MessageCreatedIntegrationEvent extends BaseIntegrationEvent {
   destinationId: number;

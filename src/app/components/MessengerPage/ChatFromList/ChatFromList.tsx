@@ -1,19 +1,19 @@
 import React from 'react';
 import './ChatFromList.scss';
-import { Dialog } from 'app/store/dialogs/types';
+import { Dialog } from 'app/store/dialogs/models';
 import * as moment from 'moment';
 import { useSelector } from 'react-redux';
-import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
-import { SystemMessageType, Message } from 'app/store/messages/interfaces';
 import { MessageUtils } from 'app/utils/message-utils';
-import { AppState } from 'app/store';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
-import { changeSelectedDialogAction } from 'app/store/dialogs/actions';
 import { useHistory } from 'react-router-dom';
 import { getDialogInterlocutor, getInterlocutorInitials } from '../../../utils/get-interlocutor';
 import { Avatar } from '@material-ui/core';
 import StatusBadge from 'app/utils/StatusBadge';
 import _ from 'lodash';
+import { RootState } from 'app/store/root-reducer';
+import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
+import { ChatActions } from 'app/store/dialogs/actions';
+import { SystemMessageType, Message } from 'app/store/messages/models';
 
 namespace ChatFromList {
   export interface Props {
@@ -25,9 +25,9 @@ namespace ChatFromList {
 const ChatFromList = ({ dialog, sideEffect }: ChatFromList.Props) => {
   const { interlocutor, lastMessage, conference } = dialog;
   const selectedDialog = useSelector(getSelectedDialogSelector) as Dialog;
-  const currentUserId: number = useSelector<AppState, number>((state) => state.auth.authentication.userId);
+  const currentUserId: number = useSelector<RootState, number>((state) => state.myProfile.user.id);
   const isMessageCreatorCurrentUser: boolean = lastMessage?.userCreator?.id === currentUserId;
-  const changeSelectedDialog = useActionWithDispatch(changeSelectedDialogAction);
+  const changeSelectedDialog = useActionWithDispatch(ChatActions.changeSelectedChat);
   const isDialogSelected = selectedDialog?.id == dialog.id;
   let history = useHistory();
 
@@ -85,7 +85,7 @@ const ChatFromList = ({ dialog, sideEffect }: ChatFromList.Props) => {
     >
       <div className="messenger__active-line"></div>
       {!conference ? (
-        <StatusBadge user={dialog.interlocutor} />
+        <StatusBadge user={dialog.interlocutor!} />
       ) : (
         <Avatar src={getDialogAvatar()}>{getInterlocutorInitials(dialog)}</Avatar>
       )}

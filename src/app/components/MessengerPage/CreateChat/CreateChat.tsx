@@ -2,13 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
-import { getFriendsAction, unsetSelectedUserIdsForNewConferenceAction } from '../../../store/friends/actions';
-import { createConferenceAction } from '../../../store/conferences/actions';
-import { UserPreview, AvatarSelectedData } from 'app/store/user/interfaces';
+import { UserPreview, AvatarSelectedData } from 'app/store/my-profile/models';
 import FriendItem from './FriendItem/FriendItem';
 
 import './_CreateChat.scss';
 import { Messenger } from 'app/containers/Messenger/Messenger';
+import { FriendActions } from 'app/store/friends/actions';
+import { ChatActions } from 'app/store/dialogs/actions';
+import { RootState } from 'app/store/root-reducer';
 
 namespace CreateChat {
   export interface Props {
@@ -25,13 +26,13 @@ namespace CreateChat {
 }
 
 const CreateChat = ({ hide, setImageUrl, displayChangePhoto, isDisplayed }: CreateChat.Props) => {
-  const loadFriends = useActionWithDispatch(getFriendsAction);
-  const unsetFriends = useActionWithDispatch(unsetSelectedUserIdsForNewConferenceAction);
-  const submitConferenceCreation = useActionWithDeferred(createConferenceAction);
+  const loadFriends = useActionWithDispatch(FriendActions.getFriends);
+  const unsetFriends = useActionWithDispatch(FriendActions.unsetSelectedUserIdsForNewConference);
+  const submitConferenceCreation = useActionWithDeferred(ChatActions.createConference);
 
-  const friends = useSelector((state) => state.friends.friends);
-  const currentUser = useSelector((state) => state.auth.currentUser);
-  const selectedUserIds = useSelector((state) => state.friends.userIdsToAddIntoConference);
+  const friends = useSelector<RootState, UserPreview[]>((state) => state.friends.friends);
+  const currentUser = useSelector<RootState, UserPreview>((state) => state.myProfile.user);
+  const selectedUserIds = useSelector<RootState, number[]>((state) => state.friends.userIdsToAddIntoConference);
 
   const [chatName, setChatName] = useState<string>('');
   const [searchFriendStr, setSearchFriendStr] = useState<string>('');

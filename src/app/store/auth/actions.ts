@@ -1,38 +1,19 @@
-import { createAction } from '../utils';
-import { AuthActionTypes, SendSmsCodeActionData, PhoneConfirmationActionData, UserAuthData } from './types';
-import { UserPreview } from '../contacts/types';
-import { updateMyAvatarSuccessAction } from '../user/actions';
+import { SendSmsCodeActionData, PhoneConfirmationActionData, LoginResponse } from './types';
+import { createAction } from 'typesafe-actions';
+import { createEmptyAction, Meta, createEmptyActionWithDeffered } from '../common/actions';
 
-export const sendSmsPhoneConfirmationCodeAction = (actionData: SendSmsCodeActionData) =>
-  createAction(AuthActionTypes.SEND_PHONE_CONFIRMATION_CODE, actionData);
-export const sendSmsPhoneConfirmationCodeFailureAction = () =>
-  createAction(AuthActionTypes.SEND_PHONE_CONFIRMATION_CODE_FAILURE);
-export const sendSmsPhoneConfirmationCodeSuccessAction = (code: string) =>
-  createAction(AuthActionTypes.SEND_PHONE_CONFIRMATION_CODE_SUCCESS, code);
-
-export const confirmPhoneAction = (data: PhoneConfirmationActionData) =>
-  createAction(AuthActionTypes.CONFIRM_PHONE, data);
-export const confirmPhoneSuccessAction = () => createAction(AuthActionTypes.CONFIRM_PHONE_SUCCESS);
-export const confirmPhoneFailureAction = () => createAction(AuthActionTypes.CONFIRM_PHONE_FAILURE);
-
-export const getMyProfileAction = () => createAction(AuthActionTypes.GET_MY_PROFILE);
-export const getMyProfileSuccessAction = (data: UserPreview) =>
-  createAction(AuthActionTypes.GET_MY_PROFILE_SUCCESS, data);
-
-export const loginSuccessAction = (userAuthData: UserAuthData) =>
-  createAction(AuthActionTypes.LOGIN_SUCCESS, userAuthData);
-
-export const logoutAction = () => createAction(AuthActionTypes.LOGOUT);
-
-export type AuthActions =
-  | typeof sendSmsPhoneConfirmationCodeAction
-  | typeof sendSmsPhoneConfirmationCodeFailureAction
-  | typeof sendSmsPhoneConfirmationCodeSuccessAction
-  | typeof confirmPhoneAction
-  | typeof confirmPhoneSuccessAction
-  | typeof confirmPhoneFailureAction
-  | typeof getMyProfileAction
-  | typeof getMyProfileSuccessAction
-  | typeof loginSuccessAction
-  | typeof logoutAction
-  | typeof updateMyAvatarSuccessAction;
+export namespace AuthActions {
+  export const loginSuccess = createAction('LOGIN_SUCCESS')<LoginResponse>();
+  export const refreshToken = createEmptyAction('REFRESH_TOKEN');
+  export const refreshTokenSuccess = createAction('REFRESH_TOKEN_SUCCESS')<LoginResponse>();
+  export const refreshTokenFailure = createEmptyAction('REFRESH_TOKEN_FAILURE');
+  export const registerSuccess = createEmptyAction('REGISTER_SUCCESS');
+  export const registerFailure = createEmptyAction('REGISTER_FAILURE');
+  export const sendSmsCode = createAction('SEND_PHONE_CONFIRMATION_CODE')<SendSmsCodeActionData, Meta>();
+  export const sendSmsCodeFailure = createEmptyAction('SEND_PHONE_CONFIRMATION_CODE_FAILURE');
+  export const sendSmsCodeSuccess = createAction('SEND_PHONE_CONFIRMATION_CODE_SUCCESS')<string>();
+  export const confirmPhone = createAction('CONFIRM_PHONE')<PhoneConfirmationActionData, Meta>();
+  export const confirmPhoneSuccess = createEmptyAction('CONFIRM_PHONE_SUCCESS');
+  export const confirmPhoneFailure = createEmptyAction('CONFIRM_PHONE_FAILURE');
+  export const logout = createEmptyActionWithDeffered('LOGOUT');
+}

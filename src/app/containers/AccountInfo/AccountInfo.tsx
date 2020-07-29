@@ -1,13 +1,13 @@
 import React, { useRef } from 'react';
 import { Avatar } from '@material-ui/core';
-import { AppState } from 'app/store';
 import { useSelector } from 'react-redux';
-import { logoutAction } from 'app/store/auth/actions';
 import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
 import { useHistory } from 'react-router-dom';
 import './_AccountInfo.scss';
-import { updateMyAvatarAction } from 'app/store/user/actions';
 import { Messenger } from 'app/containers/Messenger/Messenger';
+import { RootState } from 'app/store/root-reducer';
+import { AuthActions } from 'app/store/auth/actions';
+import { MyProfileActions } from 'app/store/my-profile/actions';
 
 namespace AccountInfoNS {
   export interface Props {
@@ -47,19 +47,19 @@ const AccountInfo = ({
   displayChangePhoto,
   isDisplayed
 }: AccountInfoNS.Props) => {
-  const changePhoto = useActionWithDeferred(updateMyAvatarAction);
+  const changePhoto = useActionWithDeferred(MyProfileActions.updateMyAvatar);
 
-  const firstName = useSelector<AppState, string>((state) => state.auth.currentUser?.firstName || '');
-  const lastName = useSelector<AppState, string>((state) => state.auth.currentUser?.lastName || '');
-  const avatar = useSelector<AppState, string>((state) => state.auth.currentUser?.avatarUrl || '');
+  const firstName = useSelector<RootState, string>((state) => state.myProfile.user?.firstName || '');
+  const lastName = useSelector<RootState, string>((state) => state.myProfile.user?.lastName || '');
+  const avatar = useSelector<RootState, string>((state) => state.myProfile.user?.avatarUrl || '');
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const history = useHistory();
 
-  const startLogout = useActionWithDeferred(logoutAction);
+  const startLogout = useActionWithDeferred(AuthActions.logout);
 
-  const logout = () => startLogout().then(() => history.push('/login'));
+  const logout = () => startLogout(undefined).then(() => history.push('/login'));
 
   const createChat = () => {
     hideSlider();

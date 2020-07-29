@@ -1,39 +1,21 @@
-import { createAction } from '../utils';
-
 import {
   CreateMessageRequest,
   MessagesReq,
   UserMessageTypingRequest,
   CreateMessageResponse,
   MessageList
-} from './interfaces';
+} from './models';
+import { createAction } from 'typesafe-actions';
+import { createEmptyAction } from '../common/actions';
+import { Dialog } from '../dialogs/models';
 
-import { Dialog } from '../dialogs/types';
+export namespace MessageActions {
+  export const getMessages = createAction('GET_MESSAGES')<MessagesReq>();
+  export const getMessagesSuccess = createAction('GET_MESSAGES_SUCCESS')<MessageList>();
+  export const getMessagesFailure = createEmptyAction('GET_MESSAGES_FAILURE');
+  export const createMessage = createAction('CREATE_MESSAGE')<CreateMessageRequest>();
+  export const createMessageSuccess = createAction('CREATE_MESSAGE_SUCCESS')<CreateMessageResponse>();
+  export const messageTyping = createAction('NOTIFY_USER_ABOUT_MESSAGE_TYPING')<UserMessageTypingRequest>();
+  export const markMessagesAsRead = createAction('RESET_UNREAD_MESSAGES_COUNT')<Dialog>();
+}
 
-import { MessagesReadIntegrationEvent } from '../middlewares/websockets/integration-events/messages-read-integration-event';
-import { MessagesActionTypes } from './types';
-
-export const getMessagesAction = (data: MessagesReq) => createAction(MessagesActionTypes.GET_MESSAGES, data);
-export const getMessagesSuccessAction = (messageList: MessageList) =>
-  createAction(MessagesActionTypes.GET_MESSAGES_SUCCESS, messageList);
-export const getMessagesFailureAction = () => createAction(MessagesActionTypes.GET_MESSAGES_FAILURE);
-export const createMessageAction = (data: CreateMessageRequest) =>
-  createAction(MessagesActionTypes.CREATE_MESSAGE, data);
-export const createMessageSuccessAction = (createMessageResponse: CreateMessageResponse) =>
-  createAction(MessagesActionTypes.CREATE_MESSAGE_SUCCESS, createMessageResponse);
-export const changeInterlocutorLastReadMessageIdAction = (data: MessagesReadIntegrationEvent) =>
-  createAction(MessagesActionTypes.CONFERENCE_MESSAGE_READ_FROM_EVENT, data);
-export const messageTypingAction = (data: UserMessageTypingRequest) =>
-  createAction(MessagesActionTypes.NOTIFY_USER_ABOUT_MESSAGE_TYPING, data);
-export const markMessagesAsReadAction = (dialog: Dialog) =>
-  createAction(MessagesActionTypes.RESET_UNREAD_MESSAGES_COUNT, dialog);
-
-export type MessagesActions =
-  | typeof getMessagesAction
-  | typeof getMessagesSuccessAction
-  | typeof getMessagesFailureAction
-  | typeof createMessageAction
-  | typeof createMessageSuccessAction
-  | typeof changeInterlocutorLastReadMessageIdAction
-  | typeof messageTypingAction
-  | typeof markMessagesAsReadAction;

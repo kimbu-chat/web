@@ -9,12 +9,12 @@ import { history } from '../../../main';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { country } from 'app/utils/countries';
-import { sendSmsPhoneConfirmationCodeAction, confirmPhoneAction } from 'app/store/auth/actions';
 import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
 import { useSelector } from 'react-redux';
-import { AppState } from 'app/store';
+import { RootState } from 'app/store/root-reducer';
+import { AuthActions } from 'app/store/auth/actions';
 
-namespace LogPage {
+namespace LoginPageProps {
   export enum Stages {
     phoneInput = 1,
     codeInput,
@@ -25,15 +25,15 @@ namespace LogPage {
 export default function LoginPage() {
   const [country, setCountry] = React.useState<null | country>(null);
   const [phone, setPhone] = React.useState<string>('');
-  const [stage, setStage] = React.useState<LogPage.Stages>(LogPage.Stages.phoneInput);
+  const [stage, setStage] = React.useState<LoginPageProps.Stages>(LoginPageProps.Stages.phoneInput);
   const [code, setCode] = React.useState<string>('');
   const [error, setError] = React.useState<string>('');
 
-  const codeFromServer = useSelector<AppState, string>((rootState) => rootState.auth.confirmationCode);
-  const isConfirmationCodeWrong = useSelector<AppState, boolean>((rootState) => rootState.auth.isConfirmationCodeWrong);
+  const codeFromServer = useSelector<RootState, string>((rootState) => rootState.auth.confirmationCode);
+  const isConfirmationCodeWrong = useSelector<RootState, boolean>((rootState) => rootState.auth.isConfirmationCodeWrong);
 
-  const sendSmsCode = useActionWithDeferred(sendSmsPhoneConfirmationCodeAction);
-  const checkConfirmationCode = useActionWithDeferred(confirmPhoneAction);
+  const sendSmsCode = useActionWithDeferred(AuthActions.sendSmsCode);
+  const checkConfirmationCode = useActionWithDeferred(AuthActions.confirmPhone);
 
   const sendSms = async () => {
     const phoneNumber = parsePhoneNumberFromString(phone);
@@ -65,7 +65,7 @@ export default function LoginPage() {
 
   return (
     <div className="login-page">
-      {stage === LogPage.Stages.phoneInput && (
+      {stage === LoginPageProps.Stages.phoneInput && (
         <div className="login-page__container">
           <img src="" alt="" className="login-page__logo" />
           <h1>Sign in to Kimbu</h1>
@@ -80,7 +80,7 @@ export default function LoginPage() {
           {error && <p>{error}</p>}
         </div>
       )}
-      {stage === LogPage.Stages.codeInput && (
+      {stage === LoginPageProps.Stages.codeInput && (
         <div className="login-page__container">
           {codeFromServer && <p>Code: {codeFromServer}</p>}
           <h1>Sign in to Kimbu</h1>
@@ -104,7 +104,7 @@ export default function LoginPage() {
           {isConfirmationCodeWrong && <p>Code is wrong</p>}
         </div>
       )}
-      {stage === LogPage.Stages.registration && (
+      {stage === LoginPageProps.Stages.registration && (
         <div className="login-page__container">
           <h1>Sign in to Kimbu</h1>
           <p>Please pass registration</p>

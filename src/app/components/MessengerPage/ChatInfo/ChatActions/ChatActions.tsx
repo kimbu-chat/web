@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import './_ChatActions.scss';
-import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
-import { UserPreview } from 'app/store/user/interfaces';
-import { Dialog } from 'app/store/dialogs/types';
+import { UserPreview } from 'app/store/my-profile/models';
+import { Dialog } from 'app/store/dialogs/models';
 import { useSelector } from 'react-redux';
-//importing namespaces
+import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
+import { RootState } from 'app/store/root-reducer';
 
 namespace ChatActions {
   export interface Props {
@@ -29,7 +29,7 @@ const ChatActions = ({
   displayContactSearch
 }: ChatActions.Props) => {
   const selectedDialog = useSelector(getSelectedDialogSelector) as Dialog;
-  const friends = useSelector((state) => state.friends.friends);
+  const friends = useSelector<RootState, UserPreview[]>((state) => state.friends.friends);
 
   const [actionsDisplayed, setActionsDisplayed] = useState<boolean>(true);
 

@@ -1,15 +1,15 @@
-import { AppState } from 'app/store';
 import { Store } from 'redux';
 import { MessageCreatedIntegrationEvent } from '../integration-events/message-created-integration-event';
-import { SystemMessageType, Message, MessageState, CreateMessageRequest } from 'app/store/messages/interfaces';
-import { InterlocutorType, Dialog } from 'app/store/dialogs/types';
+import { SystemMessageType, Message, MessageState, CreateMessageRequest } from 'app/store/messages/models';
+import { InterlocutorType, Dialog } from 'app/store/dialogs/models';
 import { DialogService } from 'app/store/dialogs/dialog-service';
 import { IEventHandler } from '../event-handler';
-import { MessagesActionTypes } from 'app/store/messages/types';
+import { RootState } from 'app/store/root-reducer';
+import { MessageActions } from 'app/store/messages/actions';
 
 export class MessageCreatedEventHandler implements IEventHandler<MessageCreatedIntegrationEvent> {
-  public handle(store: Store<AppState>, eventData: MessageCreatedIntegrationEvent): void {
-    const currentUserId = store.getState().auth.authentication.userId;
+  public handle(store: Store<RootState>, eventData: MessageCreatedIntegrationEvent): void {
+    const currentUserId = store.getState().myProfile.user.id;
     const shouldHandleMessageCreation: boolean =
       eventData.userCreatorId !== currentUserId || eventData.systemMessageType !== SystemMessageType.None;
     if (!shouldHandleMessageCreation) {
@@ -68,9 +68,6 @@ export class MessageCreatedEventHandler implements IEventHandler<MessageCreatedI
       isFromEvent: true
     };
 
-    store.dispatch({
-      type: MessagesActionTypes.CREATE_MESSAGE,
-      payload: messageCreation
-    });
+    store.dispatch(MessageActions.createMessage(messageCreation));
   }
 }

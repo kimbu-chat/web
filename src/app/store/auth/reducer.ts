@@ -1,82 +1,69 @@
-import { AuthActionTypes, UserAuthData } from './types';
+import { SecurityTokens } from './types';
 import { AuthActions } from './actions';
 import { AuthService } from 'app/services/auth-service';
-import { UserPreview } from '../contacts/types';
 import produce from 'immer';
-import { userActionTypes } from '../user/types';
+import { createReducer } from 'typesafe-actions';
 
 export interface AuthState {
   loading: boolean;
-  isLoggedIn: boolean;
   confirmationCode: string;
   isConfirmationCodeWrong: boolean;
   isAuthenticated: boolean;
-  authentication: UserAuthData;
-  currentUser: UserPreview | null;
+  securityTokens: SecurityTokens;
 }
 
 const authService = new AuthService();
-const loginReponse = authService.auth;
+const securityTokens = authService?.securityTokens;
 
 const initialState: AuthState = {
   loading: false,
-  isLoggedIn: false,
   confirmationCode: '',
   isConfirmationCodeWrong: false,
-  isAuthenticated: loginReponse ? true : false,
-  authentication: loginReponse,
-  currentUser: null
+  isAuthenticated: securityTokens ? true : false,
+  securityTokens: securityTokens,
 };
 
-const auth = produce(
-  (state: AuthState = initialState, action: ReturnType<AuthActions>): AuthState => {
-    switch (action.type) {
-      case AuthActionTypes.SEND_PHONE_CONFIRMATION_CODE: {
-        return {
-          ...state,
-          loading: true,
-          isConfirmationCodeWrong: false
-        };
-      }
-      case AuthActionTypes.LOGIN_SUCCESS: {
-        return {
-          ...state,
-          isAuthenticated: true,
-          authentication: action.payload
-        };
-      }
-      case AuthActionTypes.GET_MY_PROFILE_SUCCESS: {
-        return {
-          ...state,
-          currentUser: action.payload
-        };
-      }
-      case AuthActionTypes.SEND_PHONE_CONFIRMATION_CODE_SUCCESS: {
-        return {
-          ...state,
-          loading: false,
-          confirmationCode: action.payload
-        };
-      }
-      case AuthActionTypes.CONFIRM_PHONE_FAILURE: {
-        return {
-          ...state,
-          loading: false,
-          isConfirmationCodeWrong: true
-        };
-      }
-      case userActionTypes.UPDATE_MY_AVATAR_SUCCESS: {
-        if (state.currentUser) {
-          state.currentUser.avatarUrl = action.payload.fullAvatarUrl;
-          state.currentUser.avatarThumbnailMiddleUrl = action.payload.croppedAvatarUrl;
-        }
-        return state;
-      }
-      default: {
-        return state;
-      }
-    }
-  }
-);
 
+const auth = createReducer<AuthState>(initialState)
+	.handleAction(
+		[AuthActions.sendSmsCode],
+		produce((draft: AuthState) => {
+      return {
+        ...draft,
+        loading: true,
+        isConfirmationCodeWrong: false
+      };
+		}),
+	)
+	.handleAction(
+		[AuthActions.loginSuccess],
+		produce((draft: AuthState, { payload }: ReturnType<typeof AuthActions.loginSuccess>) => {
+      return {
+        ...draft,
+        isAuthenticated: true,
+        securityTokens: payload
+      };
+		}),
+	)
+	.handleAction(
+		[AuthActions.sendSmsCodeSuccess],
+		produce((draft: AuthState, { payload }: ReturnType<typeof AuthActions.sendSmsCodeSuccess>) => {
+      return {
+        ...draft,
+        loading: false,
+        confirmationCode: payload
+      };
+		}),
+	)
+	.handleAction(
+		[AuthActions.confirmPhoneFailure],
+		produce((draft: AuthState) => {
+      return {
+        ...draft,
+        loading: false,
+        isConfirmationCodeWrong: true
+      };
+		}),
+	);
+	
 export default auth;

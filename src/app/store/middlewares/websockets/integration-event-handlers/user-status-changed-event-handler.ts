@@ -1,12 +1,12 @@
 import { Store } from 'redux';
 
-import { AppState } from 'app/store';
 import { StatusChangedIntegrationEvent } from '../integration-events/status-changed-integration-event';
-import { AuthActionTypes } from 'app/store/auth/types';
 import { IEventHandler } from '../event-handler';
+import { RootState } from 'app/store/root-reducer';
+import { FriendActions } from 'app/store/friends/actions';
 
 export class UserStatusChangedEventHandler implements IEventHandler<StatusChangedIntegrationEvent> {
-  public handle(store: Store<AppState>, eventData: StatusChangedIntegrationEvent): void {
-    store.dispatch({ type: AuthActionTypes.USER_STATUS_CHANGED_EVENT, payload: eventData });
+  public handle(store: Store<RootState>, eventData: StatusChangedIntegrationEvent): void {
+    store.dispatch(FriendActions.userStatusChangedEvent(eventData));
   }
 }

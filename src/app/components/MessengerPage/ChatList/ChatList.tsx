@@ -4,10 +4,10 @@ import InfiniteScroll from 'react-infinite-scroller';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import './ChatList.scss';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
-import { getDialogsAction } from 'app/store/dialogs/actions';
 import { useSelector } from 'react-redux';
-import { AppState } from 'app/store';
-import { Dialog } from 'app/store/dialogs/types';
+import { Dialog } from 'app/store/dialogs/models';
+import { RootState } from 'app/store/root-reducer';
+import { ChatActions } from 'app/store/dialogs/actions';
 
 namespace ChatList {
   export interface Props {
@@ -18,13 +18,13 @@ namespace ChatList {
 export const DIALOGS_LIMIT = 20;
 
 const ChatList = ({ hideChatInfo }: ChatList.Props) => {
-  const getDialogs = useActionWithDispatch(getDialogsAction);
+  const getChats = useActionWithDispatch(ChatActions.getChats);
 
-  const dialogs = useSelector<AppState, Dialog[]>((rootState) => rootState.dialogs.dialogs) || [];
-  const hasMoreDialogs = useSelector<AppState, boolean>((rootState) => rootState.dialogs.hasMore);
-
+  const dialogs = useSelector<RootState, Dialog[]>((rootState) => rootState.dialogs.dialogs) || [];
+  const hasMoreDialogs = useSelector<RootState, boolean>((rootState) => rootState.dialogs.hasMore);
+  console.warn(222)
   useEffect(() => {
-    getDialogs({
+    getChats({
       page: { offset: dialogs.length, limit: DIALOGS_LIMIT },
       initializedBySearch: false,
       initiatedByScrolling: false
@@ -37,7 +37,7 @@ const ChatList = ({ hideChatInfo }: ChatList.Props) => {
       offset: page * 25
     };
 
-    getDialogs({
+    getChats({
       page: pageData,
       initializedBySearch: false,
       initiatedByScrolling: true

@@ -1,6 +1,6 @@
-import { SystemMessageBase } from '../store/messages/interfaces';
+import { SystemMessageBase } from '../store/messages/models';
 
-export class Helpers {
+export class MessageHelpers {
   static createSystemMessage(systemMessage: SystemMessageBase): string {
     return JSON.stringify(systemMessage);
   }

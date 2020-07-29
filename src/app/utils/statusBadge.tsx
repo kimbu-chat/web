@@ -1,9 +1,9 @@
 import Badge from '@material-ui/core/Badge';
 import { withStyles } from '@material-ui/core/styles';
-import { UserPreview } from 'app/store/contacts/types';
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar/Avatar';
 import { getUserInitials } from 'app/utils/get-interlocutor';
+import { UserPreview } from 'app/store/my-profile/models';
 
 const OnlineBadge = withStyles((theme) => ({
   badge: {
@@ -44,7 +44,7 @@ const OfflineBadge = withStyles((theme) => ({
 
 namespace StatusBadge {
   export interface Props {
-    user?: UserPreview | null;
+    user: UserPreview;
     additionalClassNames?: string;
   }
 }

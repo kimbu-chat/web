@@ -1,11 +1,11 @@
 import { MessagesReadIntegrationEvent } from '../integration-events/messages-read-integration-event';
-import { AppState } from 'app/store';
 import { Store } from 'redux';
 import { IEventHandler } from '../event-handler';
-import { MessagesActionTypes } from 'app/store/messages/types';
+import { RootState } from 'app/store/root-reducer';
+import { ChatActions } from 'app/store/dialogs/actions';
 
 export class UserMessageReadEventHandler implements IEventHandler<MessagesReadIntegrationEvent> {
-  public handle(store: Store<AppState>, eventData: MessagesReadIntegrationEvent): void {
-    store.dispatch({ type: MessagesActionTypes.USER_MESSAGE_READ_FROM_EVENT, payload: eventData });
+  public handle(store: Store<RootState>, eventData: MessagesReadIntegrationEvent): void {
+    store.dispatch(ChatActions.changeInterlocutorLastReadMessageId(eventData));
   }
 }

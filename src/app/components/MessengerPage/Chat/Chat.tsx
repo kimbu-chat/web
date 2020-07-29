@@ -3,16 +3,15 @@ import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
-import { getMessagesAction } from '../../../store/messages/actions';
 import InfiniteScroll from 'react-infinite-scroller';
 import './Chat.scss';
-import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
-import { markMessagesAsReadAction } from 'app/store/messages/actions';
 import MessageItem from '../message-item';
 import { useHistory } from 'react-router-dom';
-import { Message, MessageList } from 'app/store/messages/interfaces';
-import { AppState } from 'app/store';
+import { Message, MessageList } from 'app/store/messages/models';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { MessageActions } from 'app/store/messages/actions';
+import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
+import { RootState } from 'app/store/root-reducer';
 
 export enum messageFrom {
   me,
@@ -20,18 +19,18 @@ export enum messageFrom {
 }
 
 const Chat = () => {
-  const getMessages = useActionWithDeferred(getMessagesAction);
-  const markMessagesAsRead = useActionWithDispatch(markMessagesAsReadAction);
+  const getMessages = useActionWithDeferred(MessageActions.getMessages);
+  const markMessagesAsRead = useActionWithDispatch(MessageActions.markMessagesAsRead);
 
   const selectedDialog = useSelector(getSelectedDialogSelector);
-  const messages = useSelector<AppState, Message[]>(
+  const messages = useSelector<RootState, Message[]>(
     (state) => state.messages.messages.find((x: MessageList) => x.dialogId == selectedDialog?.id)?.messages as Message[]
   );
-  const hasMoreMessages = useSelector<AppState, boolean>(
+  const hasMoreMessages = useSelector<RootState, boolean>(
     (state) =>
       state.messages.messages.find((x: MessageList) => x.dialogId == selectedDialog?.id)?.hasMoreMessages as boolean
   );
-  const myId = useSelector<AppState, number>((state) => state.auth.authentication.userId);
+  const myId = useSelector<RootState, number>((state) => state.myProfile.user.id);
 
   const messagesContainerRef = useRef(null);
 

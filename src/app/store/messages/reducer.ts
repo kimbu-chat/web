@@ -1,8 +1,8 @@
-import { MessageList } from './interfaces';
-import { MessagesActions } from './actions';
+import { MessageList } from './models';
 import _ from 'lodash';
 import produce from 'immer';
-import { MessagesActionTypes } from './types';
+import { createReducer } from 'typesafe-actions';
+import { MessageActions } from './actions';
 
 export interface MessagesState {
   loading: boolean;
@@ -19,25 +19,32 @@ const checkIfDialogExists = (state: MessagesState, dialogId: number): boolean =>
 const getChatIndex = (state: MessagesState, dialogId: number): number =>
   state?.messages?.findIndex((x) => x.dialogId === dialogId);
 
-const messages = produce(
-  (draft: MessagesState = initialState, action: ReturnType<MessagesActions>): MessagesState => {
-    switch (action.type) {
-      case MessagesActionTypes.CREATE_MESSAGE_SUCCESS: {
-        const { messageState, dialogId, oldMessageId, newMessageId } = action.payload;
-        const chatIndex = getChatIndex(draft, dialogId);
-        const messageIndex = draft.messages[chatIndex].messages.findIndex((x) => x.id == oldMessageId);
 
-        (draft.messages[chatIndex].messages[messageIndex].id = newMessageId),
-          (draft.messages[chatIndex].messages[messageIndex].state = messageState);
+  const messages = createReducer<MessagesState>(initialState)
+	.handleAction(
+		MessageActions.createMessageSuccess,
+		produce((draft: MessagesState, { payload }: ReturnType<typeof MessageActions.createMessageSuccess>) => {
+      const { messageState, dialogId, oldMessageId, newMessageId } = payload;
+      const chatIndex = getChatIndex(draft, dialogId);
+      const messageIndex = draft.messages[chatIndex].messages.findIndex((x) => x.id == oldMessageId);
 
-        return draft;
-      }
-      case MessagesActionTypes.GET_MESSAGES: {
-        draft.loading = true;
-        return draft;
-      }
-      case MessagesActionTypes.GET_MESSAGES_SUCCESS: {
-        const { dialogId, hasMoreMessages, messages }: MessageList = action.payload;
+      (draft.messages[chatIndex].messages[messageIndex].id = newMessageId),
+        (draft.messages[chatIndex].messages[messageIndex].state = messageState);
+
+      return draft;
+		}),
+  )
+  .handleAction(
+		MessageActions.getMessages,
+		produce((draft: MessagesState) => {
+      draft.loading = true;
+      return draft;
+		}),
+  )
+  .handleAction(
+		MessageActions.getMessagesSuccess,
+		produce((draft: MessagesState, { payload }: ReturnType<typeof MessageActions.getMessagesSuccess>) => {
+      const { dialogId, hasMoreMessages, messages }: MessageList = payload;
         const isDialogExists = checkIfDialogExists(draft, dialogId);
 
         draft.loading = false;
@@ -54,13 +61,19 @@ const messages = produce(
         }
 
         return draft;
-      }
-      case MessagesActionTypes.GET_MESSAGES_FAILURE: {
-        draft.loading = false;
-        return draft;
-      }
-      case MessagesActionTypes.CREATE_MESSAGE: {
-        const { dialog, message } = action.payload;
+		}),
+  )
+  .handleAction(
+		MessageActions.getMessagesFailure,
+		produce((draft: MessagesState) => {
+      draft.loading = false;
+      return draft;
+		}),
+  )
+  .handleAction(
+		MessageActions.createMessage,
+		produce((draft: MessagesState, { payload }: ReturnType<typeof MessageActions.createMessage>) => {
+      const { dialog, message } = payload;
         const chatIndex = getChatIndex(draft, dialog.id);
 
         if (chatIndex === -1) {
@@ -76,12 +89,7 @@ const messages = produce(
 
         draft.messages[chatIndex].messages.unshift(message);
         return draft;
-      }
-      default: {
-        return draft;
-      }
-    }
-  }
-);
+		}),
+  )
 
 export default messages;

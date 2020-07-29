@@ -36,7 +36,7 @@ export interface CompletedUploadResponse<T> {
 export function* uploadFileSaga<T>(request: FileUploadRequest<T>): any {
   const imagePath: string = request.path.replace('file://', '/');
 
-  const userAccessToken = new AuthService().auth.accessToken;
+  const userAccessToken = new AuthService().securityTokens.accessToken;
 
   let data = new FormData();
   let blob = yield call(() => fetch(imagePath).then((r) => r.blob()));

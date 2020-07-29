@@ -1,10 +1,10 @@
 import React from 'react';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
-import { getDialogsAction } from 'app/store/dialogs/actions';
 import { useSelector } from 'react-redux';
-import { AppState } from 'app/store';
-import { Dialog } from 'app/store/dialogs/types';
+import { Dialog } from 'app/store/dialogs/models';
 import './SearchTop.scss';
+import { ChatActions } from 'app/store/dialogs/actions';
+import { RootState } from 'app/store/root-reducer';
 
 namespace SearchTop {
   export interface Props {
@@ -16,8 +16,8 @@ namespace SearchTop {
 export const DIALOGS_LIMIT = 20;
 
 const SearchTop = ({ displaySlider, displayCreateChat }: SearchTop.Props) => {
-  const getDialogs = useActionWithDispatch(getDialogsAction);
-  const dialogs = useSelector<AppState, Dialog[]>((rootState) => rootState.dialogs.dialogs) || [];
+  const getDialogs = useActionWithDispatch(ChatActions.getChats);
+  const dialogs = useSelector<RootState, Dialog[]>((rootState) => rootState.dialogs.dialogs) || [];
 
   const handleDialogSearchChange = (name: string): void => {
     getDialogs({

@@ -1,11 +1,11 @@
 import React from 'react';
 import './_ContactItem.scss';
-import { UserPreview } from '../../../../store/contacts/types';
 import StatusBadge from 'app/utils/StatusBadge';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
-import { markUserAsAddedToConferenceAction } from '../../../../store/friends/actions';
 import { useSelector } from 'react-redux';
-import { AppState } from 'app/store';
+import { UserPreview } from 'app/store/my-profile/models';
+import { RootState } from 'app/store/root-reducer';
+import { FriendActions } from 'app/store/friends/actions';
 
 namespace ContactItem {
   export interface Props {
@@ -16,8 +16,8 @@ namespace ContactItem {
 }
 
 const ContactItem = ({ user, isSelectable, displayMyself }: ContactItem.Props) => {
-  const myId = useSelector<AppState, number>((state) => state.auth.currentUser?.id || -1);
-  const markUser = useActionWithDispatch(markUserAsAddedToConferenceAction);
+  const myId = useSelector<RootState, number>((state) => state.myProfile.user.id);
+  const markUser = useActionWithDispatch(FriendActions.markUserAsAddedToConference);
   const selectUser = () => markUser(user.id || -1);
 
   if (user.id === myId && !displayMyself) {

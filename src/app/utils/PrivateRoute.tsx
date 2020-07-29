@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Redirect, useParams } from 'react-router';
 import { useSelector } from 'react-redux';
-import { AppState } from 'app/store';
+import { RootState } from 'app/store/root-reducer';
 
 namespace PrivateRoute {
   export interface Props {
@@ -11,7 +11,7 @@ namespace PrivateRoute {
 }
 
 function PrivateRoute({ Component, path, ...rest }: PrivateRoute.Props) {
-  const isAuthenticated = useSelector<AppState, boolean>((rootState) => rootState.auth.isAuthenticated) || false;
+  const isAuthenticated = useSelector<RootState, boolean>((rootState) => rootState.auth.isAuthenticated) || false;
   const params = useParams;
   return (
     <Route

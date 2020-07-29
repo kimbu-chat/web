@@ -1,12 +1,12 @@
 import { Store } from 'redux';
 
-import { AppState } from 'app/store';
-import { DialogsActionTypes } from 'app/store/dialogs/types';
 import { IEventHandler } from '../event-handler';
 import { MessagesReadIntegrationEvent } from '../integration-events/messages-read-integration-event';
+import { ChatActions } from 'app/store/dialogs/actions';
+import { RootState } from 'app/store/root-reducer';
 
 export class ConferenceMessageReadEventHandler implements IEventHandler<MessagesReadIntegrationEvent> {
-  public handle(store: Store<AppState>, eventData: MessagesReadIntegrationEvent): void {
-    store.dispatch({ type: DialogsActionTypes.CONFERENCE_MESSAGE_READ_FROM_EVENT, payload: eventData });
+  public handle(store: Store<RootState>, eventData: MessagesReadIntegrationEvent): void {
+    store.dispatch(ChatActions.changeInterlocutorLastReadMessageId(eventData));
   }
 }

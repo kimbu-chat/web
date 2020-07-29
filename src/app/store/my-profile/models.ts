@@ -1,4 +1,4 @@
-import { Page } from '../utils';
+import { Page } from "../common/models";
 
 export enum UserStatus {
   Offline = 0,
@@ -7,7 +7,7 @@ export enum UserStatus {
 }
 
 export interface UserPreview {
-  id?: number;
+  id: number;
   firstName?: string;
   lastName?: string;
   avatarUrl?: string;
@@ -46,7 +46,7 @@ export interface AvatarSelectedData {
   croppedImagePath: string;
 }
 
-export interface UpdateAvatarResponse {
+export interface UpdateAvatarSuccess {
   fullAvatarUrl: string;
   croppedAvatarUrl: string;
 }

@@ -1,6 +1,7 @@
 import curryRight from 'lodash/curryRight';
+import { Dispatch } from 'redux';
 
 export const withDeferred = curryRight(
-  (action: any, dispatch: (arg0: any) => void) =>
-    new Promise((resolve, reject) => dispatch({ ...action, deferred: { resolve, reject } }))
+	(action: any, dispatch: Dispatch) =>
+		new Promise((resolve, reject) => dispatch({ ...action, meta: { deferred: { resolve, reject } } })),
 );

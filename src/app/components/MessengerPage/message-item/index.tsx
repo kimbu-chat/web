@@ -1,10 +1,10 @@
 import React from 'react';
 import { messageFrom } from '../Chat/Chat';
-import { Message, SystemMessageType } from 'app/store/messages/interfaces';
+import { Message, SystemMessageType } from 'app/store/messages/models';
 import { MessageUtils } from 'app/utils/message-utils';
 import { useSelector } from 'react-redux';
-import { AppState } from 'app/store';
 import './Message.scss';
+import { RootState } from 'app/store/root-reducer';
 
 namespace Message {
   export interface Props {
@@ -18,7 +18,7 @@ namespace Message {
 }
 
 const MessageItem = ({ from, content, time, needToShowDateSeparator, dateSeparator, message }: Message.Props) => {
-  const currentUserId: number = useSelector<AppState, number>((state) => state.auth.authentication.userId);
+  const currentUserId: number = useSelector<RootState, number>((state) => state.myProfile.user.id);
 
   if (message?.systemMessageType !== SystemMessageType.None) {
     return (

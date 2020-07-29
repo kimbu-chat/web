@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import { createMessageAction, messageTypingAction } from '../../../store/messages/actions';
 import './_SendMessage.scss';
-import { AppState } from 'app/store';
 import { useSelector } from 'react-redux';
-import { SystemMessageType, MessageState } from 'app/store/messages/interfaces';
-import { UserPreview } from 'app/store/user/interfaces';
+import { UserPreview } from 'app/store/my-profile/models';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+import { Dialog } from 'app/store/dialogs/models';
+import { MessageActions } from 'app/store/messages/actions';
+import { RootState } from 'app/store/root-reducer';
 import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
-import { Dialog } from 'app/store/dialogs/types';
+import { SystemMessageType, MessageState } from 'app/store/messages/models';
 
 const CreateMessageInput = () => {
-  const sendMessage = useActionWithDispatch(createMessageAction);
-  const notifyAboutTyping = useActionWithDispatch(messageTypingAction);
+  const sendMessage = useActionWithDispatch(MessageActions.createMessage);
+  const notifyAboutTyping = useActionWithDispatch(MessageActions.messageTyping);
 
-  const currentUserId = useSelector<AppState, number>((appState: AppState) => appState.auth.authentication.userId);
+  const currentUserId = useSelector<RootState, number>((appState: RootState) => appState.myProfile.user.id);
   const selectedDialog = useSelector(getSelectedDialogSelector) as Dialog;
   const [text, setText] = useState('');
 

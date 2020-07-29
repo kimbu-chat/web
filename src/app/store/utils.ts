@@ -22,12 +22,3 @@ export function createAction<T extends string, P>(
   return payload === undefined ? { type } : { type, payload, deferred };
 }
 
-export interface Page {
-  limit: number;
-  offset: number;
-}
-
-export interface UpdateAvatarResponse {
-  fullAvatarUrl: string;
-  croppedAvatarUrl: string;
-}

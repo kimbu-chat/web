@@ -1,5 +1,5 @@
-import { Dialog } from 'app/store/dialogs/types';
-import { UserPreview } from 'app/store/contacts/types';
+import { Dialog } from 'app/store/dialogs/models';
+import { UserPreview } from 'app/store/my-profile/models';
 
 export const getDialogInterlocutor = (dialog: Dialog): string => {
   const { interlocutor } = dialog;
@@ -31,7 +31,7 @@ export const getInterlocutorInitials = (dialog: Dialog): string => {
   return shortedInitials;
 };
 
-export const getUserInitials = (user?: UserPreview | null) => {
+export const getUserInitials = (user?: UserPreview) => {
   if (!user) {
     return '';
   }

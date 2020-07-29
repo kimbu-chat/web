@@ -1,29 +1,22 @@
-import { AxiosResponse } from 'axios';
-import { call, put } from 'redux-saga/effects';
+import { call, put, takeLatest, takeEvery } from 'redux-saga/effects';
 
-import {
-  createMessageAction,
-  createMessageSuccessAction,
-  getMessagesAction,
-  getMessagesSuccessAction,
-  messageTypingAction
-} from './actions';
-
-import { createMessageApi, markMessagesAsReadApi, messageTypingApi, getMessagesApi } from './api';
 import {
   CreateMessageRequest,
-  Message,
   MessageCreationReqData,
   MessageState,
   SystemMessageType,
   MessagesReqData,
-  MessageList
-} from './interfaces';
+  MessageList,
+  MarkMessagesAsReadRequest
+} from './models';
 
-import { InterlocutorType } from '../dialogs/types';
 import { DialogService } from '../dialogs/dialog-service';
+import { MessageActions } from './actions';
+import { InterlocutorType } from '../dialogs/models';
+import { MessagesHttpRequests } from './http-requests';
+import { SagaIterator } from 'redux-saga';
 
-export function* messages(action: ReturnType<typeof getMessagesAction>): Iterator<any> {
+export function* getMessages(action: ReturnType<typeof MessageActions.getMessages>): SagaIterator {
   const { page, dialog } = action.payload;
   const isConference: boolean = Boolean(dialog.conference);
 
@@ -35,8 +28,8 @@ export function* messages(action: ReturnType<typeof getMessagesAction>): Iterato
     }
   };
 
-  //@ts-ignore
-  const { data }: AxiosResponse<Array<Message>> = yield call(getMessagesApi, request);
+  const httpRequest = MessagesHttpRequests.getMessages;
+  const { data } = httpRequest.call(yield call(() => httpRequest.generator(request)));
 
   data.forEach((message) => {
     message.state =
@@ -50,10 +43,10 @@ export function* messages(action: ReturnType<typeof getMessagesAction>): Iterato
     hasMoreMessages: data.length >= page.limit
   };
 
-  yield put(getMessagesSuccessAction(messageList));
+  yield put(MessageActions.getMessagesSuccess(messageList));
 }
 
-export function* createMessage(action: ReturnType<typeof createMessageAction>): Iterator<any> {
+export function* createMessage(action: ReturnType<typeof MessageActions.createMessage>): SagaIterator {
   let { message, dialog, isFromEvent } = { ...action.payload };
 
   const { interlocutorId, interlocutorType } = DialogService.parseDialogId(dialog.id);
@@ -67,11 +60,11 @@ export function* createMessage(action: ReturnType<typeof createMessageAction>): 
         userInterlocutorId: interlocutorType === InterlocutorType.USER ? interlocutorId : null
       };
 
-      //@ts-ignore
-      const { data } = yield call(createMessageApi, messageCreationReq);
+      const httpRequest = MessagesHttpRequests.createMessage;
+	    const { data } = httpRequest.call(yield call(() => httpRequest.generator(messageCreationReq)));
 
       yield put(
-        createMessageSuccessAction({
+        MessageActions.createMessageSuccess({
           dialogId: message.dialogId || 0,
           oldMessageId: message.id,
           newMessageId: data,
@@ -84,11 +77,12 @@ export function* createMessage(action: ReturnType<typeof createMessageAction>): 
   }
 }
 
-export function* messageTyping(action: ReturnType<typeof messageTypingAction>): Iterator<any> {
-  yield call(messageTypingApi, action.payload);
+export function* messageTyping({ payload }: ReturnType<typeof MessageActions.messageTyping>): SagaIterator {
+  const httpRequest = MessagesHttpRequests.messageTyping;
+	httpRequest.call(yield call(() => httpRequest.generator(payload)));
 }
 
-export function* notifyInterlocutorThatMessageWasRead(createMessageRequest: CreateMessageRequest): Iterator<any> {
+export function* notifyInterlocutorThatMessageWasRead(createMessageRequest: CreateMessageRequest): SagaIterator {
   const { dialog, currentUser, selectedDialogId, message } = createMessageRequest;
 
   if (
@@ -103,14 +97,41 @@ export function* notifyInterlocutorThatMessageWasRead(createMessageRequest: Crea
 
   const isDialogCurrentInterlocutor: boolean = dialog.id == selectedDialogId;
   if (isDialogCurrentInterlocutor) {
-    //@ts-ignore
-    yield call(markMessagesAsReadApi, {
+
+    const httpRequestPayload = {
       dialog: {
-        conferenceId: isDestinationTypeUser ? null : dialog.conference?.id,
-        interlocutorId: isDestinationTypeUser ? message.userCreator?.id : null
+        conferenceId: isDestinationTypeUser ? null : dialog.conference?.id!,
+        interlocutorId: isDestinationTypeUser ? message.userCreator?.id! : null
       }
-    });
+    };
+    const httpRequest = MessagesHttpRequests.markMessagesAsRead;
+		httpRequest.call(yield call(() => httpRequest.generator(httpRequestPayload)));
+
+    //@ts-ignore
+    yield call(markMessagesAsReadApi, );
   } else {
     console.warn('notifyInterlocutorThatMessageWasRead Error');
   }
 }
+
+export function* resetUnreadMessagesCountSaga(action: ReturnType<typeof MessageActions.markMessagesAsRead>): SagaIterator {
+
+    const request: MarkMessagesAsReadRequest = {
+      dialog: {
+        conferenceId: action.payload.interlocutor === null ? action.payload.conference?.id! : null,
+        interlocutorId: action.payload.conference === null ? action.payload.interlocutor?.id! : null
+      }
+    };
+
+    const httpRequest = MessagesHttpRequests.markMessagesAsRead;
+		httpRequest.call(yield call(() => httpRequest.generator(request)));
+}
+
+export const MessageSagas = [
+  takeLatest(MessageActions.markMessagesAsRead, resetUnreadMessagesCountSaga),
+  takeLatest(MessageActions.messageTyping, messageTyping),
+  takeLatest(MessageActions.getMessages, getMessages),
+  takeEvery(MessageActions.createMessage, createMessage),
+  takeEvery(MessageActions.markMessagesAsRead, resetUnreadMessagesCountSaga),
+];
+

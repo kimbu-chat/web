@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { AppState } from 'app/store';
-import { UserPreview } from 'app/store/contacts/types';
-import { getFriendsAction, unsetSelectedUserIdsForNewConferenceAction } from 'app/store/friends/actions';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import ContactItem from './ContactItem/ContactItem';
 import { useSelector } from 'react-redux';
 import './_ContactSearch.scss';
+import { FriendActions } from 'app/store/friends/actions';
+import { RootState } from 'app/store/root-reducer';
+import { UserPreview } from 'app/store/my-profile/models';
 
 namespace ContactSearch {
   export interface Props {
@@ -26,13 +26,13 @@ const ContactSearch = ({
   onSubmit,
   isDisplayed
 }: ContactSearch.Props) => {
-  const loadFriends = useActionWithDispatch(getFriendsAction);
-  const unsetFriends = useActionWithDispatch(unsetSelectedUserIdsForNewConferenceAction);
+  const loadFriends = useActionWithDispatch(FriendActions.getFriends);
+  const unsetFriends = useActionWithDispatch(FriendActions.unsetSelectedUserIdsForNewConference);
 
   const [searchFriendStr, setSearchFriendStr] = useState<string>('');
 
-  const friends = useSelector<AppState, UserPreview[]>((state) => state.friends.friends);
-  const userIdsToAddIntoConference = useSelector<AppState, number[]>(
+  const friends = useSelector<RootState, UserPreview[]>((state) => state.friends.friends);
+  const userIdsToAddIntoConference = useSelector<RootState, number[]>(
     (state) => state.friends.userIdsToAddIntoConference
   );
 

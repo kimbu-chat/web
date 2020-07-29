@@ -1,13 +1,6 @@
-import {
-  SystemMessageBase,
-  Message,
-  SystemMessageType,
-  ConfereceMemberRemovedSystemMessageContent,
-  ConfereceMemberAddedSystemMessageContent,
-  ConfereceNameChangedSystemMessageContent
-} from 'app/store/messages/interfaces';
-import { UserStatus } from 'app/store/contacts/types';
 import moment from 'moment';
+import { SystemMessageBase, Message, SystemMessageType, ConfereceMemberRemovedSystemMessageContent, ConfereceMemberAddedSystemMessageContent, ConfereceNameChangedSystemMessageContent } from 'app/store/messages/models';
+import { UserStatus } from 'app/store/my-profile/models';
 
 export class MessageUtils {
   static getSystemMessageContent(text: string): SystemMessageBase {

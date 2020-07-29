@@ -1,6 +1,6 @@
-import { Page } from '../utils';
-import { UserPreview } from '../user/interfaces';
-import { Dialog } from '../dialogs/types';
+import { UserPreview } from '../my-profile/models';
+import { Dialog } from '../dialogs/models';
+import { Page } from '../common/models';
 
 export interface MessageList {
   messages: Message[];
@@ -91,8 +91,8 @@ export interface CreateMessageResponse {
 
 export interface MarkMessagesAsReadRequest {
   dialog: {
-    interlocutorId?: number;
-    conferenceId?: number;
+    interlocutorId: number | null;
+    conferenceId: number | null;
   };
 }
 

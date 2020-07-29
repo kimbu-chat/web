@@ -1,108 +1,98 @@
 import { AxiosResponse } from 'axios';
 import { HTTPStatusCode } from 'app/common/http-status-code';
-import {
-  sendSmsPhoneConfirmationCodeFailureAction,
-  sendSmsPhoneConfirmationCodeAction,
-  sendSmsPhoneConfirmationCodeSuccessAction,
-  confirmPhoneAction,
-  confirmPhoneFailureAction,
-  getMyProfileSuccessAction,
-  loginSuccessAction
-} from './actions';
-import { LoginApiResponse, UserAuthData, PhoneConfirmationApiResponse } from './types';
-import { call, put } from 'redux-saga/effects';
-import { sendSmsConfirmationCodeApi, loginApi, confirmPhoneApi, getUserProfileApi } from './api';
-import { setToken } from 'app/api';
+import { PhoneConfirmationApiResponse, SecurityTokens, LoginResponse } from './types';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import jwtDecode from 'jwt-decode';
 import { AuthService } from 'app/services/auth-service';
 import { MyProfileService } from 'app/services/my-profile-service';
-import { UserPreview } from '../contacts/types';
-import { initSocketConnectionAction } from '../sockets/actions';
-import { changeUserOnlineStatusAction } from '../user/actions';
-import { getFriendsAction } from '../friends/actions';
+import { AuthActions } from './actions';
+import { AuthHttpRequests } from './http-requests';
+import { SagaIterator } from 'redux-saga';
+import { InitActions } from '../initiation/actions';
 
-export function* sendSmsPhoneConfirmationCodeSaga(
-  action: ReturnType<typeof sendSmsPhoneConfirmationCodeAction>
-): Iterator<any> {
-  // @ts-ignore
-  const { data, status }: AxiosResponse<string> = yield call(sendSmsConfirmationCodeApi, action.payload.phoneNumber);
+function* requestRefreshToken(): SagaIterator {
+
+  const authService = new AuthService();
+
+	const { refreshToken } = authService.securityTokens;
+	const request = AuthHttpRequests.refreshToken;
+
+	try {
+		const { data }: AxiosResponse<LoginResponse> = request.call(
+			yield call(() => request.generator({ refreshToken })),
+		);
+		new AuthService().initialize(data)
+		yield put(AuthActions.refreshTokenSuccess(data));
+	} catch (e) {
+		yield put(AuthActions.refreshTokenFailure());
+	}
+}
+
+function* sendSmsPhoneConfirmationCodeSaga(
+  action: ReturnType<typeof AuthActions.sendSmsCode>
+): SagaIterator {
+
+  const request = AuthHttpRequests.sendSmsConfirmationCode;
+	const { data, status }: AxiosResponse<string> = request.call(
+		yield call(() => request.generator({ phoneNumber: action.payload.phoneNumber })),
+	);
+
   if (status !== HTTPStatusCode.OK) {
-    yield put(sendSmsPhoneConfirmationCodeFailureAction());
+    yield put(AuthActions.sendSmsCodeFailure());
     alert('Sms Limit');
     return;
   }
 
-  yield put(sendSmsPhoneConfirmationCodeSuccessAction(data));
-  yield action?.deferred?.resolve(data);
+  yield put(AuthActions.sendSmsCodeSuccess(data));
+  action?.meta.deferred.resolve();
 }
 
-export function* confirmPhoneNumberSaga(action: ReturnType<typeof confirmPhoneAction>): Iterator<any> {
-  // @ts-ignore
-  const { data }: AxiosResponse<PhoneConfirmationApiResponse> = yield call(confirmPhoneApi, action.payload);
+function* confirmPhoneNumberSaga(action: ReturnType<typeof AuthActions.confirmPhone>): SagaIterator {
+  const request = AuthHttpRequests.confirmPhone;
+	const { data }: AxiosResponse<PhoneConfirmationApiResponse> = request.call(
+		yield call(() => request.generator(action.payload)),
+	);
+
   if (data.isCodeCorrect && data.userExists) {
-    yield call(authenticateSaga, action);
+    yield call(authenticate, action);
   } else if (data.isCodeCorrect && !data.userExists) {
     alert('User can be registered using mobile app');
     // yield put(confirmPhoneSuccessAction());
     // yield action?.deferred?.resolve();
   } else {
-    yield put(confirmPhoneFailureAction());
+    yield put(AuthActions.confirmPhoneFailure());
   }
 }
 
-function parseLoginResponse(loginResponse: LoginApiResponse): UserAuthData {
-  const userAuthData: UserAuthData = {
-    accessToken: loginResponse.accessToken,
-    userId: parseInt(jwtDecode<{ unique_name: string }>(loginResponse.accessToken).unique_name, 10),
-    refreshToken: loginResponse.refreshToken
-  };
-  return userAuthData;
-}
+function* authenticate(action: ReturnType<typeof AuthActions.confirmPhone>): SagaIterator {
 
-export function* authenticateSaga(action: ReturnType<typeof confirmPhoneAction>): Iterator<any> {
-  // @ts-ignore
-  const response: AxiosResponse<LoginApiResponse> = yield call(loginApi, action.payload);
-  const parsedData = parseLoginResponse(response.data);
-  const authService = new AuthService();
-  authService.initialize(parsedData);
-  yield put(loginSuccessAction(parsedData));
-  yield call(initializeSaga);
-  yield action?.deferred?.resolve();
-}
-
-export function* initializeSaga(): any {
-  const authService = new AuthService();
-  const authData = authService.auth;
-
-  if (!authData) {
-    return;
-  }
-
-  yield put(initSocketConnectionAction());
-  yield put(changeUserOnlineStatusAction(true));
-
-  setToken(authData.accessToken);
-
-  const currentUserId = authData.userId;
+  const request = AuthHttpRequests.login;
+	const { data }: AxiosResponse<LoginResponse> = request.call(yield call(() => request.generator(action.payload)));
 
   const profileService = new MyProfileService();
+  profileService.setMyProfile({id: parseInt(jwtDecode<{ unique_name: string }>(data.accessToken).unique_name, 10)})
 
-  const { data }: AxiosResponse<UserPreview> = yield call(getUserProfileApi, currentUserId);
+  const parsedData: SecurityTokens = {
+    accessToken: data.accessToken,
+    refreshToken: data.refreshToken
+  };
 
-  profileService.setMyProfile(data);
-
-  yield put(
-    getFriendsAction({
-      page: { offset: 0, limit: 100 },
-      initializedBySearch: false
-    })
-  );
-
-  yield put(getMyProfileSuccessAction(data));
+  const authService = new AuthService();
+  authService.initialize(parsedData);
+  yield put(AuthActions.loginSuccess(parsedData));
+  yield put(InitActions.init());
+  action?.meta.deferred?.resolve();
 }
 
-export function* logoutSaga(action: any): Iterator<any> {
+function* logout(action: ReturnType<typeof AuthActions.logout>): SagaIterator {
   new AuthService().clear();
   new MyProfileService().clear();
-  yield action?.deferred?.resolve();
+  action.meta.deferred?.resolve();
 }
+
+export const AuthSagas = [
+  takeLatest(AuthActions.logout, logout),
+  takeLatest(AuthActions.refreshToken, requestRefreshToken),
+	takeLatest(AuthActions.confirmPhone, confirmPhoneNumberSaga),
+	takeLatest(AuthActions.sendSmsCode, sendSmsPhoneConfirmationCodeSaga),
+];

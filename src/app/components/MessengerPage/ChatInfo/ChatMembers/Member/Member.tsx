@@ -1,12 +1,12 @@
 import React from 'react';
 import './_Member.scss';
-import { UserPreview } from 'app/store/user/interfaces';
+import { UserPreview } from 'app/store/my-profile/models';
 import moment from 'moment';
 import StatusBadge from 'app/utils/StatusBadge';
 
 namespace Member {
   export interface Props {
-    member?: UserPreview;
+    member: UserPreview;
   }
 }
 

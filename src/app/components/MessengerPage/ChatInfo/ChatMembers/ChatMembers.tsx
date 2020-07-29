@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import Member from './Member/Member';
 import { useSelector } from 'react-redux';
 import './_ChatMembers.scss';
-import { AppState } from 'app/store';
-import { UserPreview } from 'app/store/contacts/types';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
-import { getConferenceUsersAction } from 'app/store/conferences/actions';
+import { Dialog } from 'app/store/dialogs/models';
+import { ChatActions } from 'app/store/dialogs/actions';
 import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
-import { Dialog } from 'app/store/dialogs/types';
+import { UserPreview } from 'app/store/my-profile/models';
+import { RootState } from 'app/store/root-reducer';
 
 namespace ChatMembers {
   export interface Props {
@@ -19,10 +19,10 @@ const ChatMembers = ({ addMembers }: ChatMembers.Props) => {
   const [membersDisplayed, setMembersDisplayed] = useState<boolean>(false);
   const [searchStr, setSearchStr] = useState<string>('');
 
-  const getConferenceUsers = useActionWithDispatch(getConferenceUsersAction);
+  const getConferenceUsers = useActionWithDispatch(ChatActions.getConferenceUsers);
   const selectedDialog = useSelector(getSelectedDialogSelector) as Dialog;
 
-  const membersForConference = useSelector<AppState, (UserPreview | undefined)[]>(
+  const membersForConference = useSelector<RootState, UserPreview[]>(
     (state) => state.friends.usersForSelectedConference
   );
 

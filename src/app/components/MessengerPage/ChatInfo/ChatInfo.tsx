@@ -1,28 +1,22 @@
 import React, { useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { Avatar } from '@material-ui/core';
-import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
-import { Dialog } from 'app/store/dialogs/types';
+import { Dialog } from 'app/store/dialogs/models';
 import StatusBadge from 'app/utils/StatusBadge';
 import { getInterlocutorInitials, getDialogInterlocutor } from '../../../utils/get-interlocutor';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
-import { removeDialogAction, muteDialogAction } from 'app/store/dialogs/actions';
-import {
-  leaveConferenceAction,
-  renameConferenceAction,
-  changeConferenceAvatarAction
-} from 'app/store/conferences/actions';
-import { deleteFriendAction } from 'app/store/friends/actions';
-import { markUserAsAddedToConferenceAction } from 'app/store/friends/actions';
 import RenameConferenceModal from './RenameConferenceModal/RenameConferenceModal';
 import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
-import { addUsersToConferenceAction } from 'app/store/conferences/actions';
 import Modal from '@material-ui/core/Modal';
-import ChatActions from './ChatActions/ChatActions';
 import { Messenger } from 'app/containers/Messenger/Messenger';
 import './_ChatInfo.scss';
 import ChatMembers from './ChatMembers/ChatMembers';
-import { AvatarSelectedData } from 'app/store/user/interfaces';
+import { AvatarSelectedData } from 'app/store/my-profile/models';
+import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
+import { FriendActions } from 'app/store/friends/actions';
+
+import { ChatActions as AppActions } from 'app/store/dialogs/actions';
+import ChatActions from './ChatActions/ChatActions';
 
 namespace ChatInfo {
   export interface Props {
@@ -45,14 +39,14 @@ const ChatInfo = ({
 }: ChatInfo.Props) => {
   const selectedDialog = useSelector(getSelectedDialogSelector) as Dialog;
 
-  const leaveConference = useActionWithDispatch(leaveConferenceAction);
-  const removeDialog = useActionWithDispatch(removeDialogAction);
-  const muteDialog = useActionWithDispatch(muteDialogAction);
-  const deleteFriend = useActionWithDispatch(deleteFriendAction);
-  const markUser = useActionWithDispatch(markUserAsAddedToConferenceAction);
-  const renameConference = useActionWithDispatch(renameConferenceAction);
-  const addUsersToConferece = useActionWithDeferred(addUsersToConferenceAction);
-  const changeConferenceAvatar = useActionWithDeferred(changeConferenceAvatarAction);
+  const leaveConference = useActionWithDispatch(AppActions.leaveConference);
+  const removeDialog = useActionWithDispatch(AppActions.removeChat);
+  const muteDialog = useActionWithDispatch(AppActions.muteChat);
+  const deleteFriend = useActionWithDispatch(FriendActions.deleteFriend);
+  const markUser = useActionWithDispatch(FriendActions.markUserAsAddedToConference);
+  const renameConference = useActionWithDispatch(AppActions.renameConference);
+  const addUsersToConferece = useActionWithDeferred(AppActions.addUsersToConference);
+  const changeConferenceAvatar = useActionWithDeferred(AppActions.changeConferenceAvatar);
 
   const deleteChat = (): void => removeDialog(selectedDialog);
   const muteChat = (): void => muteDialog(selectedDialog);
@@ -111,7 +105,7 @@ const ChatInfo = ({
       <div className={isDisplayed ? 'chat-info chat-info--active' : 'chat-info'}>
         <div className="chat-info__main-data">
           {!conference ? (
-            <StatusBadge user={selectedDialog.interlocutor} />
+            <StatusBadge user={selectedDialog?.interlocutor!} />
           ) : (
             <div className="chat-info__avatar-group">
               <Avatar className="chat-info__avatar" src={getDialogAvatar()}>

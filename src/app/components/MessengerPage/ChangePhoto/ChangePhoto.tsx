@@ -3,7 +3,7 @@ import './ChangePhoto.scss';
 import { Button } from '@material-ui/core';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
-import { AvatarSelectedData } from 'app/store/user/interfaces';
+import { AvatarSelectedData } from 'app/store/my-profile/models';
 import ReactDOM from 'react-dom';
 
 namespace ChangePhoto {

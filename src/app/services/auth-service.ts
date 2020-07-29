@@ -1,16 +1,16 @@
 import { BrowserStorage } from 'app/utils/browser-storage';
-import { UserAuthData } from 'app/store/auth/types';
+import { SecurityTokens } from 'app/store/auth/types';
 
 export class AuthService {
   private readonly authentication = 'authentication';
   private browserStorage = new BrowserStorage(this.authentication);
 
-  public get auth(): UserAuthData {
-    return this.browserStorage.getObject<UserAuthData>(this.authentication);
+  public get securityTokens(): SecurityTokens {
+    return this.browserStorage.getObject<SecurityTokens>(this.authentication);
   }
 
-  public initialize(auth: UserAuthData) {
-    this.browserStorage.setObject<UserAuthData>(this.authentication, auth);
+  public initialize(auth: SecurityTokens) {
+    this.browserStorage.setObject<SecurityTokens>(this.authentication, auth);
   }
 
   public clear() {

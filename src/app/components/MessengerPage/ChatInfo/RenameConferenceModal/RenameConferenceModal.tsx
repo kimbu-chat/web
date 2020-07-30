@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import './_RenameConferenceModal.scss';
+import { LocalizationContext } from 'app/app';
 
 namespace RenameConferenceModal {
   export interface Props {
@@ -12,6 +13,7 @@ namespace RenameConferenceModal {
 
 const RenameConferenceModal = React.forwardRef(
   ({ close, renameConference }: RenameConferenceModal.Props, ref: React.Ref<HTMLDivElement>) => {
+    const { t } = useContext(LocalizationContext);
     const [newName, setNewName] = useState('');
 
     const submitRename = () => {
@@ -30,14 +32,14 @@ const RenameConferenceModal = React.forwardRef(
           onKeyPress={submitRenameByKey}
           onChange={(e) => setNewName(e.target.value)}
           id="standard-basic"
-          label="Новое название"
+          label={t('renameConference.newName')}
         />
         <div className="flat rename-conference__btn-group">
           <Button onClick={submitRename} color="primary">
-            Переименовать
+            {t('renameConference.rename')}
           </Button>
           <Button onClick={close} color="secondary">
-            Отмена
+            {t('renameConference.reject')}
           </Button>
         </div>
       </div>

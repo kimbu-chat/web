@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Member from './Member/Member';
 import { useSelector } from 'react-redux';
 import './_ChatMembers.scss';
@@ -8,6 +8,7 @@ import { ChatActions } from 'app/store/dialogs/actions';
 import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
 import { UserPreview } from 'app/store/my-profile/models';
 import { RootState } from 'app/store/root-reducer';
+import { LocalizationContext } from 'app/app';
 
 namespace ChatMembers {
   export interface Props {
@@ -16,6 +17,8 @@ namespace ChatMembers {
 }
 
 const ChatMembers = ({ addMembers }: ChatMembers.Props) => {
+  const { t } = useContext(LocalizationContext);
+
   const [membersDisplayed, setMembersDisplayed] = useState<boolean>(false);
   const [searchStr, setSearchStr] = useState<string>('');
 
@@ -54,7 +57,7 @@ const ChatMembers = ({ addMembers }: ChatMembers.Props) => {
   return (
     <React.Fragment>
       <button onClick={() => setMembersDisplayed(!membersDisplayed)} className="chat-members__func-btn">
-        <span>Участники</span>
+        <span>{t('chatMembers.members')}</span>
         <div className={membersDisplayed ? 'svg svg--rotated' : 'svg'}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
             <path d="M5.363 12.318a.9.9 0 1 0 1.274 1.272l4.995-5.007a.9.9 0 0 0 0-1.272L6.696 2.364a.9.9 0 1 0-1.274 1.272l4.302 4.311-4.361 4.371z" />
@@ -76,7 +79,7 @@ const ChatMembers = ({ addMembers }: ChatMembers.Props) => {
               });
             }}
             type="text"
-            placeholder="Поиск"
+            placeholder={t('chatMembers.search')}
             className="chat-members__search"
           />
           <div className="chat-members__members-list">
@@ -93,13 +96,13 @@ const ChatMembers = ({ addMembers }: ChatMembers.Props) => {
                   />
                 </svg>
               </div>
-              <span>Добавить участников</span>
+              <span>{t('chatMembers.add_members')}</span>
             </div>
             {membersForConference.map((member) => (
               <Member member={member} key={member?.id} />
             ))}
             <div onClick={loadMore} className="chat-members__load-more">
-              <span>Показать еще</span>
+              <span>{t('chatMembers.load_more')}</span>
               <div className="svg">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                   <path d="M5.363 12.318a.9.9 0 1 0 1.274 1.272l4.995-5.007a.9.9 0 0 0 0-1.272L6.696 2.364a.9.9 0 1 0-1.274 1.272l4.302 4.311-4.361 4.371z" />

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
@@ -6,6 +6,7 @@ import { getDialogInterlocutor, getInterlocutorInitials } from '../../../utils/g
 import { Avatar } from '@material-ui/core';
 
 import './ChatData.scss';
+import { LocalizationContext } from 'app/app';
 
 namespace ChatData {
   export interface Props {
@@ -15,15 +16,19 @@ namespace ChatData {
 }
 
 const ChatData = ({ displayChatInfo, chatInfoDisplayed }: ChatData.Props) => {
+  const { t } = useContext(LocalizationContext);
   const selectedDialog = useSelector(getSelectedDialogSelector);
 
   if (selectedDialog) {
     const imageUrl: string = selectedDialog.conference?.avatarUrl || selectedDialog?.interlocutor?.avatarUrl || '';
     const status = selectedDialog.conference
-      ? `${selectedDialog.conference.membersCount} members`
+      ? `${selectedDialog.conference.membersCount} ${t('chatData.members')}`
       : selectedDialog?.interlocutor?.status === 1
-      ? 'Online'
-      : `Last seen online at ${moment.utc(selectedDialog?.interlocutor?.lastOnlineTime).local().format('hh:mm')}`;
+      ? t('chatData.online')
+      : `${t('chatData.last-time')} ${moment
+          .utc(selectedDialog?.interlocutor?.lastOnlineTime)
+          .local()
+          .format('hh:mm')}`;
 
     return (
       <div className="messenger__chat-data">

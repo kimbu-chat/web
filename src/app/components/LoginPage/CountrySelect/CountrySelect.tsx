@@ -5,6 +5,8 @@ import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete
 
 import { countryList, country } from '../../../utils/countries';
 import './CountrySelect.scss';
+import { useContext } from 'react';
+import { LocalizationContext } from 'app/app';
 
 namespace CountrySelect {
   export interface Props {
@@ -21,6 +23,7 @@ function countryToFlag(isoCode: string): string {
 }
 
 export default function CountrySelect({ country, setCountry, setPhone }: CountrySelect.Props) {
+  const { t } = useContext(LocalizationContext);
   const [inputValue, setInputValue] = React.useState('');
 
   const handleCountryChange = (event: any, newCountry: country | null) => {
@@ -62,7 +65,7 @@ export default function CountrySelect({ country, setCountry, setPhone }: Country
       renderInput={(params) => (
         <TextField
           {...params}
-          label="Country"
+          label={t('loginPage.country')}
           variant="outlined"
           inputProps={{
             ...params.inputProps,

@@ -5,6 +5,8 @@ import TextField from '@material-ui/core/TextField';
 
 import { country, countryList } from '../../../utils/countries';
 import './PhoneInput.scss';
+import { useContext } from 'react';
+import { LocalizationContext } from 'app/app';
 
 namespace PhoneInput {
   export interface Props {
@@ -16,6 +18,8 @@ namespace PhoneInput {
 }
 
 export default function PhoneInput({ phone, setPhone, setCountry }: PhoneInput.Props) {
+  const { t } = useContext(LocalizationContext);
+
   const handlePhoneChange = (e: any) => {
     setPhone(new AsYouType().input(e.target.value));
     const phoneNumber = parsePhoneNumberFromString(e.target.value);
@@ -32,7 +36,7 @@ export default function PhoneInput({ phone, setPhone, setCountry }: PhoneInput.P
         onChange={handlePhoneChange}
         className="phone-input__input"
         id="outlined-required"
-        label="Phone"
+        label={t('loginPage.phone')}
         variant="outlined"
       />
     </div>

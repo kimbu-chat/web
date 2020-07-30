@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
@@ -10,6 +10,7 @@ import { Messenger } from 'app/containers/Messenger/Messenger';
 import { FriendActions } from 'app/store/friends/actions';
 import { ChatActions } from 'app/store/dialogs/actions';
 import { RootState } from 'app/store/root-reducer';
+import { LocalizationContext } from 'app/app';
 
 namespace CreateChat {
   export interface Props {
@@ -26,6 +27,8 @@ namespace CreateChat {
 }
 
 const CreateChat = ({ hide, setImageUrl, displayChangePhoto, isDisplayed }: CreateChat.Props) => {
+  const { t } = useContext(LocalizationContext);
+
   const loadFriends = useActionWithDispatch(FriendActions.getFriends);
   const unsetFriends = useActionWithDispatch(FriendActions.unsetSelectedUserIdsForNewConference);
   const submitConferenceCreation = useActionWithDeferred(ChatActions.createConference);
@@ -67,7 +70,7 @@ const CreateChat = ({ hide, setImageUrl, displayChangePhoto, isDisplayed }: Crea
     } else {
       return setError({
         isPresent: true,
-        text: 'Chat name must inlude at least 1 character instead of empty spaces'
+        text: t('createChat.no_name_error')
       });
     }
 
@@ -75,7 +78,7 @@ const CreateChat = ({ hide, setImageUrl, displayChangePhoto, isDisplayed }: Crea
       setError({ isPresent: false });
       validationPassed = true;
     } else {
-      return setError({ isPresent: true, text: 'You have to choose at least 1 conference member' });
+      return setError({ isPresent: true, text: t('createChat.no_members_error') });
     }
 
     if (validationPassed) {
@@ -110,9 +113,9 @@ const CreateChat = ({ hide, setImageUrl, displayChangePhoto, isDisplayed }: Crea
               <path d="M10.634 3.634a.9.9 0 1 0-1.278-1.268l-4.995 5.03a.9.9 0 0 0 0 1.268l4.936 4.97a.9.9 0 0 0 1.278-1.268L6.268 8.03l4.366-4.396z"></path>
             </svg>
           </div>
-          <span>Назад</span>
+          <span>{t('back')}</span>
         </button>
-        <div className="messenger__create-chat__title">Создание нового чата</div>
+        <div className="messenger__create-chat__title">{t('createChat.createChat')}</div>
         <div className=""></div>
       </div>
       <div className="messenger__create-chat__chat-data">
@@ -143,14 +146,14 @@ const CreateChat = ({ hide, setImageUrl, displayChangePhoto, isDisplayed }: Crea
             onChange={(e) => setChatName(e.target.value)}
             value={chatName}
             type="text"
-            placeholder="Название чата"
+            placeholder={t('createChat.search-friends')}
             className="messenger__create-chat__chat-title"
           />
         </div>
       </div>
       <div className="messenger__create-chat__contacts-select">
         <input
-          placeholder="Поиск по контактам"
+          placeholder={t('createChat.search-friends')}
           type="text"
           className="messenger__create-chat__contact-name"
           onChange={(e) => searchFriends(e.target.value)}
@@ -164,10 +167,10 @@ const CreateChat = ({ hide, setImageUrl, displayChangePhoto, isDisplayed }: Crea
       </div>
       <div className="messenger__create-chat__confirm-chat">
         <button onClick={createConference} className="messenger__create-chat__confirm-chat-btn">
-          Создать чат
+          {t('createChat.confirm')}
         </button>
         <button onClick={rejectConferenceCreation} className="messenger__create-chat__dismiss-chat-btn">
-          Отменить
+          {t('createChat.reject')}
         </button>
       </div>
     </div>

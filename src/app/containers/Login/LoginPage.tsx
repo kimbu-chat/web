@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 
 import './LoginPage.scss';
@@ -13,6 +13,7 @@ import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
 import { useSelector } from 'react-redux';
 import { RootState } from 'app/store/root-reducer';
 import { AuthActions } from 'app/store/auth/actions';
+import { LocalizationContext } from 'app/app';
 
 namespace LoginPageProps {
   export enum Stages {
@@ -23,6 +24,8 @@ namespace LoginPageProps {
 }
 
 export default function LoginPage() {
+  const { t } = useContext(LocalizationContext);
+
   const [country, setCountry] = React.useState<null | country>(null);
   const [phone, setPhone] = React.useState<string>('');
   const [stage, setStage] = React.useState<LoginPageProps.Stages>(LoginPageProps.Stages.phoneInput);
@@ -30,7 +33,9 @@ export default function LoginPage() {
   const [error, setError] = React.useState<string>('');
 
   const codeFromServer = useSelector<RootState, string>((rootState) => rootState.auth.confirmationCode);
-  const isConfirmationCodeWrong = useSelector<RootState, boolean>((rootState) => rootState.auth.isConfirmationCodeWrong);
+  const isConfirmationCodeWrong = useSelector<RootState, boolean>(
+    (rootState) => rootState.auth.isConfirmationCodeWrong
+  );
 
   const sendSmsCode = useActionWithDeferred(AuthActions.sendSmsCode);
   const checkConfirmationCode = useActionWithDeferred(AuthActions.confirmPhone);
@@ -68,13 +73,13 @@ export default function LoginPage() {
       {stage === LoginPageProps.Stages.phoneInput && (
         <div className="login-page__container">
           <img src="" alt="" className="login-page__logo" />
-          <h1>Sign in to Kimbu</h1>
-          <p>Please confirm your country code and enter your phone number.</p>
+          <h1>{t('loginPage.title')}</h1>
+          <p>{t('loginPage.confirm_phone')}</p>
           <CountrySelect country={country} setCountry={setCountry} setPhone={setPhone} />
           <PhoneInput phone={phone} setPhone={setPhone} country={country} setCountry={setCountry} />
           <div className="login-page__button-container">
             <Button onClick={sendSms} className="login-page__button" variant="contained" color="primary">
-              Log In
+              {t('loginPage.next')}
             </Button>
           </div>
           {error && <p>{error}</p>}
@@ -83,30 +88,30 @@ export default function LoginPage() {
       {stage === LoginPageProps.Stages.codeInput && (
         <div className="login-page__container">
           {codeFromServer && <p>Code: {codeFromServer}</p>}
-          <h1>Sign in to Kimbu</h1>
-          <p>Please enter received code.</p>
+          <h1>{t('loginPage.title')}</h1>
+          <p>{t('loginPage.confirm_code')}</p>
           <div className="login-page__code-input">
             <TextField
               value={code}
               onChange={(e) => setCode(e.target.value)}
               className="phone-input__input"
               id="outlined-required"
-              label="Code"
+              label={t('loginPage.code')}
               variant="outlined"
               onKeyPress={confirmPhoneByCode}
             />
             <div className="login-page__button-container">
               <Button onClick={checkCode} className="login-page__check-button" variant="contained" color="primary">
-                Start Messaging
+                {t('loginPage.log_in')}
               </Button>
             </div>
           </div>
-          {isConfirmationCodeWrong && <p>Code is wrong</p>}
+          {isConfirmationCodeWrong && <p>{t('loginPage.wrong_code')}</p>}
         </div>
       )}
       {stage === LoginPageProps.Stages.registration && (
         <div className="login-page__container">
-          <h1>Sign in to Kimbu</h1>
+          <h1>{t('loginPage.title')}</h1>
           <p>Please pass registration</p>
         </div>
       )}

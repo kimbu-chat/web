@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './ChatFromList.scss';
 import { Dialog } from 'app/store/dialogs/models';
 import * as moment from 'moment';
@@ -14,6 +14,7 @@ import { RootState } from 'app/store/root-reducer';
 import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
 import { ChatActions } from 'app/store/dialogs/actions';
 import { SystemMessageType, Message } from 'app/store/messages/models';
+import { LocalizationContext } from 'app/app';
 
 namespace ChatFromList {
   export interface Props {
@@ -24,6 +25,7 @@ namespace ChatFromList {
 
 const ChatFromList = ({ dialog, sideEffect }: ChatFromList.Props) => {
   const { interlocutor, lastMessage, conference } = dialog;
+  const { t } = useContext(LocalizationContext);
   const selectedDialog = useSelector(getSelectedDialogSelector) as Dialog;
   const currentUserId: number = useSelector<RootState, number>((state) => state.myProfile.user.id);
   const isMessageCreatorCurrentUser: boolean = lastMessage?.userCreator?.id === currentUserId;
@@ -53,7 +55,7 @@ const ChatFromList = ({ dialog, sideEffect }: ChatFromList.Props) => {
 
     if (conference) {
       if (isMessageCreatorCurrentUser) {
-        return _.truncate(`You: ${lastMessage.text}`, {
+        return _.truncate(`${t('chatFromList.you')}: ${lastMessage.text}`, {
           length: 19,
           omission: '...'
         });

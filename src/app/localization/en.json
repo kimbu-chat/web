@@ -1,0 +1,74 @@
+{
+  "loginPage": {
+    "title": "Sign in Kimbu",
+    "confirm_phone": "Confirm your phone number",
+    "confirm_code": "Enter code from sms",
+    "log_in": "Log in",
+    "next": "Next",
+    "wrong_code": "Wrong code",
+    "country": "Country",
+    "phone": "Phone",
+    "code": "Code"
+  },
+  "accountInfo": {
+    "create_chat": "Create chat",
+    "create_channel": "Create channel",
+    "create_call": "Create call",
+    "to_main": "Main",
+    "contacts": "Contacts",
+    "settings": "Settings",
+    "exit": "Exit"
+  },
+  "accountSettings": {
+    "settings": "Settings"
+  },
+  "langCategory": {
+    "language": "Language"
+  },
+  "chatData": {
+    "members": "members",
+    "member": "member",
+    "online": "Online",
+    "last-time": "Last seen online at"
+  },
+  "chatFromList": {
+    "you": "You"
+  },
+  "chatActions": {
+    "actions": "Actions",
+    "create_group": "Create group",
+    "delete_contact": "Delete contact",
+    "rename_conference": "Rename conference",
+    "add_to_conference": "Add to conference",
+    "notifications_on": "Notifications are enabled",
+    "notifications_off": "Notifications are disabled",
+    "leave_conference": "Leave conference",
+    "delete_chat": "Delete chat"
+  },
+  "chatMembers": {
+    "members": "Members",
+    "add_members": "Add members",
+    "load_more": "Load more",
+    "search": "Search"
+  },
+  "renameConference": {
+    "newName": "New name",
+    "rename": "Rename",
+    "reject": "Cancel"
+  },
+  "contactsSearch": {
+    "contactsSearch": "Search in contacts",
+    "create_chat": "Create chat",
+    "reject": "Reject"
+  },
+  "createChat": {
+    "createChat": "Create new chat",
+    "confirm": "Create chat",
+    "reject": "Reject",
+    "chat_name": "Chat name",
+    "search-friends": "Search in contacts",
+    "no_name_error": "Chat name must inlude at least 1 character instead of empty spaces",
+    "no_members_error": "You have to choose at least 1 conference member"
+  },
+  "back": "Back"
+}

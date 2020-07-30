@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useContext } from 'react';
 import { Avatar } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
@@ -8,6 +8,7 @@ import { Messenger } from 'app/containers/Messenger/Messenger';
 import { RootState } from 'app/store/root-reducer';
 import { AuthActions } from 'app/store/auth/actions';
 import { MyProfileActions } from 'app/store/my-profile/actions';
+import { LocalizationContext } from 'app/app';
 
 namespace AccountInfoNS {
   export interface Props {
@@ -49,6 +50,8 @@ const AccountInfo = ({
   displaySettings,
   isDisplayed
 }: AccountInfoNS.Props) => {
+  const { t } = useContext(LocalizationContext);
+
   const changePhoto = useActionWithDeferred(MyProfileActions.updateMyAvatar);
 
   const firstName = useSelector<RootState, string>((state) => state.myProfile.user?.firstName || '');
@@ -146,7 +149,7 @@ const AccountInfo = ({
                 ></path>
               </svg>
             </div>
-            <span>Создать чат</span>
+            <span>{t('accountInfo.create_chat')}</span>
           </button>
           <button className="messenger__account-info__btn">
             <div className="svg">
@@ -158,7 +161,7 @@ const AccountInfo = ({
                 ></path>
               </svg>
             </div>
-            <span>Создать канал</span>
+            <span>{t('accountInfo.create_channel')}</span>
           </button>
           <button className="messenger__account-info__btn">
             <div className="svg">
@@ -170,7 +173,7 @@ const AccountInfo = ({
                 ></path>
               </svg>
             </div>
-            <span>Создать звонок</span>
+            <span>{t('accountInfo.create_call')}</span>
           </button>
         </div>
         <div className="messenger__account-info__btn-group">
@@ -183,7 +186,7 @@ const AccountInfo = ({
                 ></path>
               </svg>
             </div>
-            <span>На главную</span>
+            <span>{t('accountInfo.to_main')}</span>
           </button>
           <button onClick={contactSearch} className="messenger__account-info__btn">
             <div className="svg">
@@ -195,7 +198,7 @@ const AccountInfo = ({
                 ></path>
               </svg>
             </div>
-            <span>Контакты</span>
+            <span>{t('accountInfo.contacts')}</span>
           </button>
           <button onClick={settings} className="messenger__account-info__btn">
             <div className="svg">
@@ -207,7 +210,7 @@ const AccountInfo = ({
                 ></path>
               </svg>
             </div>
-            <span>Настройки</span>
+            <span>{t('accountInfo.settings')}</span>
           </button>
         </div>
         <button onClick={() => logout()} className="messenger__account-info__btn-group">
@@ -220,7 +223,7 @@ const AccountInfo = ({
                 ></path>
               </svg>
             </div>
-            <span>Выход</span>
+            <span>{t('accountInfo.exit')}</span>
           </div>
         </button>
       </div>

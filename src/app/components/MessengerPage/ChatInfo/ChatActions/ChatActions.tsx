@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import './_ChatActions.scss';
 import { UserPreview } from 'app/store/my-profile/models';
 import { Dialog } from 'app/store/dialogs/models';
 import { useSelector } from 'react-redux';
 import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
 import { RootState } from 'app/store/root-reducer';
+import { LocalizationContext } from 'app/app';
 
 namespace ChatActions {
   export interface Props {
@@ -28,6 +29,8 @@ const ChatActions = ({
   openRenameConference,
   displayContactSearch
 }: ChatActions.Props) => {
+  const { t } = useContext(LocalizationContext);
+
   const selectedDialog = useSelector(getSelectedDialogSelector) as Dialog;
   const friends = useSelector<RootState, UserPreview[]>((state) => state.friends.friends);
 
@@ -40,7 +43,7 @@ const ChatActions = ({
   return (
     <React.Fragment>
       <button onClick={() => setActionsDisplayed(!actionsDisplayed)} className="chat-info__func-btn">
-        <span>Действия</span>
+        <span>{t('chatActions.actions')}</span>
         <div className={actionsDisplayed ? 'svg svg--rotated' : 'svg'}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
             <path d="M5.363 12.318a.9.9 0 1 0 1.274 1.272l4.995-5.007a.9.9 0 0 0 0-1.272L6.696 2.364a.9.9 0 1 0-1.274 1.272l4.302 4.311-4.361 4.371z"></path>
@@ -59,7 +62,7 @@ const ChatActions = ({
               </svg>
             </div>
             <span className="chat-info__action-nam">
-              {selectedDialog.isMuted ? 'Уведомления отключенны' : 'Уведомления включены'}
+              {selectedDialog.isMuted ? t('chatActions.notifications_off') : t('chatActions.notifications_on')}
             </span>
           </button>
           {selectedDialog.interlocutor && selectedIsFriend() && (
@@ -73,7 +76,7 @@ const ChatActions = ({
                   ></path>
                 </svg>
               </div>
-              <span className="chat-info__action-nam">Создать груповой чат</span>
+              <span className="chat-info__action-nam">{t('chatActions.create_group')}</span>
             </button>
           )}
           {selectedDialog.interlocutor && selectedIsFriend() && (
@@ -86,7 +89,7 @@ const ChatActions = ({
                   ></path>
                 </svg>
               </div>
-              <span className="chat-info__action-nam">Удалить контакт</span>
+              <span className="chat-info__action-nam">{t('chatActions.delete_contact')}</span>
             </button>
           )}
           <button
@@ -102,7 +105,7 @@ const ChatActions = ({
               </svg>
             </div>
             <span className="chat-info__action-nam">
-              {selectedDialog.interlocutor ? 'Удалить чат' : 'Покинуть конференцию'}
+              {selectedDialog.interlocutor ? t('chatActions.delete_chat') : t('chatActions.leave_conference')}
             </span>
           </button>
           {selectedDialog.conference && (
@@ -115,7 +118,7 @@ const ChatActions = ({
                   ></path>
                 </svg>
               </div>
-              <span className="chat-info__action-nam">Переименовать конференцию</span>
+              <span className="chat-info__action-nam">{t('chatActions.rename_conference')}</span>
             </button>
           )}
           {selectedDialog.conference && (
@@ -128,7 +131,7 @@ const ChatActions = ({
                   ></path>
                 </svg>
               </div>
-              <span className="chat-info__action-nam">Добавить в конференцию</span>
+              <span className="chat-info__action-nam">{t('chatActions.add_to_conference')}</span>
             </button>
           )}
         </div>

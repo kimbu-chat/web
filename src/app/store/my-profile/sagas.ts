@@ -9,10 +9,12 @@ import { MyProfileHttpRequests } from './http-requests';
 import { UpdateAvatarResponse } from '../common/models';
 import { MyProfileService } from 'app/services/my-profile-service';
 
-export function* changeOnlineStatus({ payload }: ReturnType<typeof MyProfileActions.changeUserOnlineStatus>): SagaIterator {
+export function* changeOnlineStatus({
+  payload
+}: ReturnType<typeof MyProfileActions.changeUserOnlineStatus>): SagaIterator {
   try {
     const httpRequest = MyProfileHttpRequests.changeOnlineStatus;
-		httpRequest.call(yield call(() => httpRequest.generator({ isOnline: payload })));
+    httpRequest.call(yield call(() => httpRequest.generator({ isOnline: payload })));
   } catch (err) {
     alert(err);
   }
@@ -66,16 +68,18 @@ export function* updateMyProfileSaga(action: ReturnType<typeof MyProfileActions.
 }
 
 export function* getMyProfileSaga(): any {
-  const currentUserId = new MyProfileService().myProfile.id;
+  const profileService = new MyProfileService();
+  const currentUserId = profileService.myProfile.id;
 
   const httpRequest = MyProfileHttpRequests.getUserProfile;
-	const { data } = httpRequest.call(yield call(() => httpRequest.generator(currentUserId)));
+  const { data } = httpRequest.call(yield call(() => httpRequest.generator(currentUserId)));
+  profileService.setMyProfile(data);
   yield put(MyProfileActions.getMyProfileSuccess(data));
 }
 
 export const MyProfileSagas = [
-	takeLatest(MyProfileActions.updateMyAvatar, uploadUserAvatarSaga),
-	takeLatest(MyProfileActions.updateMyProfile, updateMyProfileSaga),
-	takeLatest(MyProfileActions.getMyProfile, getMyProfileSaga),
-	takeEvery(MyProfileActions.changeUserOnlineStatus, changeOnlineStatus),
+  takeLatest(MyProfileActions.updateMyAvatar, uploadUserAvatarSaga),
+  takeLatest(MyProfileActions.updateMyProfile, updateMyProfileSaga),
+  takeLatest(MyProfileActions.getMyProfile, getMyProfileSaga),
+  takeEvery(MyProfileActions.changeUserOnlineStatus, changeOnlineStatus)
 ];

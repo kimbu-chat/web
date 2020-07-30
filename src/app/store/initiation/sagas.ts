@@ -1,12 +1,9 @@
-import { AuthService } from "app/services/auth-service";
-import { put, takeLatest, call } from "redux-saga/effects";
-import { initSocketConnectionAction } from "../sockets/actions";
-import { MyProfileActions } from "../my-profile/actions";
-import { MyProfileService } from "app/services/my-profile-service";
-import { MyProfileHttpRequests } from "../my-profile/http-requests";
-import { FriendActions } from "../friends/actions";
-import { SagaIterator } from "redux-saga";
-import { InitActions } from "./actions";
+import { AuthService } from 'app/services/auth-service';
+import { put, fork } from 'redux-saga/effects';
+import { initSocketConnectionAction } from '../sockets/actions';
+import { MyProfileActions } from '../my-profile/actions';
+import { FriendActions } from '../friends/actions';
+import { SagaIterator } from 'redux-saga';
 
 function* initializeSaga(): SagaIterator {
   const authService = new AuthService();
@@ -19,14 +16,7 @@ function* initializeSaga(): SagaIterator {
   yield put(initSocketConnectionAction());
   yield put(MyProfileActions.changeUserOnlineStatus(true));
 
-  const profileService = new MyProfileService();
-
-  const currentUserId = profileService.myProfile.id;
-
-  const httpRequest = MyProfileHttpRequests.getUserProfile;
-	const { data } = httpRequest.call(yield call(() => httpRequest.generator(currentUserId)));
-
-  profileService.setMyProfile(data);
+  yield put(MyProfileActions.getMyProfile());
 
   yield put(
     FriendActions.getFriends({
@@ -34,10 +24,6 @@ function* initializeSaga(): SagaIterator {
       initializedBySearch: false
     })
   );
-
-  yield put(MyProfileActions.getMyProfileSuccess(data));
 }
 
-export const InitiationSagas = [
-  takeLatest(InitActions.init, initializeSaga),
-];
+export const InitiationSagas = [fork(initializeSaga)];

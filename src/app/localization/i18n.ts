@@ -18,7 +18,7 @@ i18n
     initImmediate: false,
     preload: ['en'],
     fallbackLng: 'en',
-    lng: 'ru',
+    lng: navigator.language,
     resources: {
       en: {
         translation: en

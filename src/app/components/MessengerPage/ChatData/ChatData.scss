@@ -25,6 +25,7 @@
     }
 
     &--blue {
+      transition: all 0.3s;
       svg {
         fill: blue;
       }

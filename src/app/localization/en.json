@@ -70,5 +70,12 @@
     "no_name_error": "Chat name must inlude at least 1 character instead of empty spaces",
     "no_members_error": "You have to choose at least 1 conference member"
   },
+  "searchTop": {
+    "search": "Search"
+  },
+  "changePhoto": {
+    "confirm": "Confirm",
+    "reject": "Reject"
+  },
   "back": "Back"
 }

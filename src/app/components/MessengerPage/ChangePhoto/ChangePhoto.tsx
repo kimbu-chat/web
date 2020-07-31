@@ -1,10 +1,11 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useCallback, useRef, useEffect, useContext } from 'react';
 import './ChangePhoto.scss';
 import { Button } from '@material-ui/core';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import { AvatarSelectedData } from 'app/store/my-profile/models';
 import ReactDOM from 'react-dom';
+import { LocalizationContext } from 'app/app';
 
 namespace ChangePhoto {
   export interface Props {
@@ -49,6 +50,8 @@ function generateDownload(previewCanvas: any, crop: ReactCrop.Crop): string {
 }
 
 const ChangePhotoComponent = ({ imageUrl, onSubmit, hideChangePhoto }: ChangePhoto.Props) => {
+  const { t } = useContext(LocalizationContext);
+
   const imgRef = useRef<HTMLImageElement | null>(null);
   const [crop, setCrop] = useState<ReactCrop.Crop>({
     aspect: 1,
@@ -64,6 +67,33 @@ const ChangePhotoComponent = ({ imageUrl, onSubmit, hideChangePhoto }: ChangePho
 
   const onLoad = useCallback((img) => {
     imgRef.current = img;
+
+    const aspect = 1;
+    const width = img.width < img.height ? img.width : img.height;
+    const height = img.width < img.height ? img.width : img.height;
+
+    const y = (img.height - height) / 2;
+    const x = (img.width - width) / 2;
+
+    setCrop({
+      unit: 'px',
+      width,
+      height,
+      x,
+      y,
+      aspect
+    });
+
+    setCompletedCrop({
+      unit: 'px',
+      width,
+      height,
+      x,
+      y,
+      aspect
+    });
+
+    return false;
   }, []);
 
   useEffect(() => {
@@ -147,10 +177,10 @@ const ChangePhotoComponent = ({ imageUrl, onSubmit, hideChangePhoto }: ChangePho
             variant="contained"
             color="primary"
           >
-            Подтвердить
+            {t('changePhoto.confirm')}
           </Button>
           <Button onClick={hideChangePhoto} variant="contained" color="secondary">
-            Отменить
+            {t('changePhoto.reject')}
           </Button>
         </div>
       </div>

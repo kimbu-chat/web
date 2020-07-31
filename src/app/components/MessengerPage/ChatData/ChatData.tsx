@@ -32,7 +32,7 @@ const ChatData = ({ displayChatInfo, chatInfoDisplayed }: ChatData.Props) => {
 
     return (
       <div className="messenger__chat-data">
-        <div className="messenger__contact-data">
+        <div onClick={displayChatInfo} className="messenger__contact-data">
           <Avatar className="messenger__contact-img" src={imageUrl}>
             {getInterlocutorInitials(selectedDialog)}
           </Avatar>

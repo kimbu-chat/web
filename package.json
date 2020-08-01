@@ -35,13 +35,19 @@
     "@types/redux-actions": "^2.6.1",
     "@types/webpack": "^4.41.0",
     "@types/webpack-env": "^1.15.1",
+    "@typescript-eslint/eslint-plugin": "^3.7.1",
+    "@typescript-eslint/parser": "^3.7.1",
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^3.4.2",
+    "eslint": "^7.6.0",
+    "eslint-plugin-react": "^7.20.5",
     "file-loader": "^6.0.0",
     "gh-pages": "^2.1.1",
     "html-loader": "^1.1.0",
     "html-webpack-plugin": "^4.0.0-beta.11",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.11",
     "mini-css-extract-plugin": "^0.9.0",
     "node-sass": "^4.14.1",
     "postcss": "^7.0.25",
@@ -51,7 +57,7 @@
     "postcss-preset-env": "^6.7.0",
     "postcss-reporter": "^6.0.1",
     "postcss-url": "^8.0.0",
-    "prettier": "^2.0.2",
+    "prettier": "^2.0.5",
     "react-hot-loader": "^4.12.18",
     "redux-devtools-extension": "^2.13.8",
     "sass-loader": "^8.0.2",
@@ -93,5 +99,21 @@
     "redux-actions": "^2.6.5",
     "redux-saga": "^1.1.3",
     "typesafe-actions": "^5.1.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ],
+    "*.{html,css,less,ejs,json}": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }

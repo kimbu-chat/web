@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import './_SendMessage.scss';
 import { useSelector } from 'react-redux';
 import { UserPreview } from 'app/store/my-profile/models';
@@ -10,8 +10,11 @@ import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
 import { SystemMessageType, MessageState } from 'app/store/messages/models';
 import { Picker } from 'emoji-mart';
 import 'emoji-mart/css/emoji-mart.css';
+import { LocalizationContext } from 'app/app';
 
 const CreateMessageInput = () => {
+	const { t } = useContext(LocalizationContext);
+
 	const sendMessage = useActionWithDispatch(MessageActions.createMessage);
 	const notifyAboutTyping = useActionWithDispatch(MessageActions.messageTyping);
 
@@ -100,7 +103,7 @@ const CreateMessageInput = () => {
 					</button>
 					<div className='messenger__input-group' onSubmit={sendMessageToServer}>
 						<input
-							placeholder='Напишите сообщение...'
+							placeholder={t('messageInput.write')}
 							type='text'
 							value={text}
 							onChange={(event) => {
@@ -123,6 +126,22 @@ const CreateMessageInput = () => {
 								showSkinTones={false}
 								showPreview={false}
 								//problems with typization detected
+								i18n={{
+									search: t('emojiMart.search'),
+									notfound: t('emojiMart.notfound'),
+									categories: {
+										search: t('emojiMart.categories.search'),
+										recent: t('emojiMart.categories.recent'),
+										people: t('emojiMart.categories.people'),
+										nature: t('emojiMart.categories.nature'),
+										foods: t('emojiMart.categories.foods'),
+										activity: t('emojiMart.categories.activity'),
+										places: t('emojiMart.categories.places'),
+										objects: t('emojiMart.categories.objects'),
+										symbols: t('emojiMart.categories.symbols'),
+										flags: t('emojiMart.categories.flags'),
+									},
+								}}
 								onSelect={(emoji: any) => {
 									setText((oldText) => oldText + emoji.native);
 								}}

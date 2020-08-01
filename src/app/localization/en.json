@@ -77,5 +77,28 @@
 		"confirm": "Confirm",
 		"reject": "Reject"
 	},
-	"back": "Back"
+	"messageInput": {
+		"write": "Type message..."
+	},
+	"back": "Back",
+	"emojiMart": {
+		"search": "Search",
+		"clear": "Clear",
+		"notfound": "No Emoji Found",
+		"skintext": "Choose your default skin tone",
+		"categories": {
+			"search": "Search Results",
+			"recent": "Frequently Used",
+			"smileys": "Smileys & Emotion",
+			"people": "People & Body",
+			"nature": "Animals & Nature",
+			"foods": "Food & Drink",
+			"activity": "Activity",
+			"places": "Travel & Places",
+			"objects": "Objects",
+			"symbols": "Symbols",
+			"flags": "Flags",
+			"custom": "Custom"
+		}
+	}
 }

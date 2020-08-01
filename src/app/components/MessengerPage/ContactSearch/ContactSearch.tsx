@@ -11,8 +11,9 @@ import { LocalizationContext } from 'app/app';
 namespace ContactSearch {
 	export interface Props {
 		hide: () => void;
-		isSelectable?: boolean;
 		onSubmit?: (userIds: number[]) => void;
+		onClickOnContact?: (user: UserPreview) => void;
+		isSelectable?: boolean;
 		displayMyself?: boolean;
 		excludeIds?: (number | undefined)[];
 		isDisplayed: boolean;
@@ -26,6 +27,7 @@ const ContactSearch = ({
 	excludeIds,
 	onSubmit,
 	isDisplayed,
+	onClickOnContact,
 }: ContactSearch.Props) => {
 	const { t } = useContext(LocalizationContext);
 	const loadFriends = useActionWithDispatch(FriendActions.getFriends);
@@ -89,6 +91,7 @@ const ContactSearch = ({
 								<ContactItem
 									displayMyself={displayMyself}
 									isSelectable={isSelectable}
+									onClick={onClickOnContact}
 									user={friend}
 									key={friend.id}
 								/>
@@ -96,7 +99,7 @@ const ContactSearch = ({
 					)}
 				</div>
 			</div>
-			{isSelectable && (
+			{onSubmit && (
 				<div className='messenger__create-chat__confirm-chat'>
 					<button onClick={submit} className='messenger__create-chat__confirm-chat-btn'>
 						{t('contactsSearch.create_chat')}

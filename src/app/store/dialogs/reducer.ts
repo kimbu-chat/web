@@ -86,7 +86,9 @@ const dialogs = createReducer<DialogsState>(initialState)
 
 			const dialogIndex: number = getDialogArrayIndex(dialogId, draft);
 
-			draft.dialogs[dialogIndex].lastMessage.id = newMessageId;
+			const lastMessage = draft.dialogs[dialogIndex].lastMessage || { id: 0 };
+
+			lastMessage.id = newMessageId;
 
 			return draft;
 		}),
@@ -306,6 +308,29 @@ const dialogs = createReducer<DialogsState>(initialState)
 
 			const interlocutor = draft.dialogs[dialogIndex].interlocutor!;
 			(interlocutor.status = status), (interlocutor.lastOnlineTime = new Date());
+
+			return draft;
+		}),
+	)
+	.handleAction(
+		MessageActions.createDialog,
+		produce((draft: DialogsState, { payload }: ReturnType<typeof MessageActions.createDialog>) => {
+			const { id } = payload;
+
+			const dialogId: number = DialogService.getDialogId(id, null);
+
+			//user does not have dialog with interlocutor - create dialog
+			let newDialog: Dialog = {
+				id: dialogId,
+				interlocutorType: 1,
+				conference: null,
+				lastMessage: null,
+				ownUnreadMessagesCount: 0,
+				interlocutorLastReadMessageId: 0,
+				interlocutor: payload,
+			};
+
+			draft.dialogs.unshift(newDialog);
 
 			return draft;
 		}),

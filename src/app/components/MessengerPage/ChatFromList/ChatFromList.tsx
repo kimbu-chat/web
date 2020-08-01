@@ -39,7 +39,7 @@ const ChatFromList = ({ dialog, sideEffect }: ChatFromList.Props) => {
 
 	const getMessageText = (): string => {
 		const { lastMessage, conference } = dialog;
-		if (lastMessage?.systemMessageType !== SystemMessageType.None) {
+		if (lastMessage && lastMessage?.systemMessageType !== SystemMessageType.None) {
 			return _.truncate(
 				MessageUtils.constructSystemMessageText(
 					lastMessage as Message,
@@ -54,18 +54,18 @@ const ChatFromList = ({ dialog, sideEffect }: ChatFromList.Props) => {
 
 		if (conference) {
 			if (isMessageCreatorCurrentUser) {
-				return _.truncate(`${t('chatFromList.you')}: ${lastMessage.text}`, {
+				return _.truncate(`${t('chatFromList.you')}: ${lastMessage?.text}`, {
 					length: 19,
 					omission: '...',
 				});
 			}
-			return _.truncate(`${lastMessage.userCreator?.firstName}: ${lastMessage.text}`, {
+			return _.truncate(`${lastMessage?.userCreator?.firstName}: ${lastMessage?.text}`, {
 				length: 19,
 				omission: '...',
 			});
 		}
 
-		const shortedText = _.truncate(lastMessage.text, {
+		const shortedText = _.truncate(lastMessage?.text, {
 			length: 19,
 			omission: '...',
 		});

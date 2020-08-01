@@ -14,8 +14,9 @@ import ContactSearch from '../../components/MessengerPage/ContactSearch/ContactS
 import ChangePhoto from '../../components/MessengerPage/ChangePhoto/ChangePhoto';
 import AccountSettings from 'app/components/MessengerPage/AccountSettings/AccountSettings';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
-import { AvatarSelectedData } from 'app/store/my-profile/models';
+import { AvatarSelectedData, UserPreview } from 'app/store/my-profile/models';
 import { ChatActions } from 'app/store/dialogs/actions';
+import { MessageActions } from 'app/store/messages/actions';
 
 export namespace Messenger {
 	export interface contactSearchActions {
@@ -41,6 +42,7 @@ export namespace Messenger {
 
 const Messenger = () => {
 	const changeSelectedDialog = useActionWithDispatch(ChatActions.changeSelectedChat);
+	const createDialog = useActionWithDispatch(MessageActions.createDialog);
 
 	const { id: chatId } = useParams();
 	const history = useHistory();
@@ -115,6 +117,13 @@ const Messenger = () => {
 		hideSlider();
 	};
 
+	//Creation of empty dialog with contact
+
+	const createEmptyDialog = (user: UserPreview) => {
+		createDialog(user);
+		hideContactSearch();
+	};
+
 	return (
 		<div className='messenger'>
 			<SearchTop displaySlider={displaySlider} displayCreateChat={displayCreateChat} />
@@ -162,7 +171,7 @@ const Messenger = () => {
 
 			<AccountSettings isDisplayed={settingsDisplayed} hide={hideSettings} />
 
-			<ContactSearch hide={hideContactSearch} {...contactSearchDisplayed} />
+			<ContactSearch onClickOnContact={createEmptyDialog} hide={hideContactSearch} {...contactSearchDisplayed} />
 
 			{!createChatDisplayed && !contactSearchDisplayed.isDisplayed && (
 				<div className='messenger__chat-send'>

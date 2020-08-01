@@ -91,7 +91,7 @@ export interface Dialog {
 	id: number;
 	interlocutorType?: InterlocutorType;
 	conference?: Conference | null;
-	lastMessage: Message;
+	lastMessage: Message | null;
 	interlocutor?: UserPreview | null;
 	ownUnreadMessagesCount?: number;
 	interlocutorLastReadMessageId?: number;

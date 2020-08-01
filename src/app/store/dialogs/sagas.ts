@@ -21,7 +21,9 @@ export function* getDialogsSaga(action: ReturnType<typeof ChatActions.getChats>)
 	const request = ChatHttpRequests.getChats;
 	const { data }: AxiosResponse<Dialog[]> = request.call(yield call(() => request.generator(action.payload)));
 	data.forEach((dialog: Dialog) => {
-		dialog.lastMessage.state =
+		const lastMessage = dialog.lastMessage || { state: {} };
+
+		lastMessage.state =
 			dialog.interlocutorLastReadMessageId &&
 			dialog.interlocutorLastReadMessageId >= Number(dialog?.lastMessage?.id)
 				? (MessageState.READ as MessageState)

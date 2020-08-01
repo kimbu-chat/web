@@ -12,10 +12,11 @@ namespace ContactItem {
 		user: UserPreview;
 		isSelectable?: boolean;
 		displayMyself?: boolean;
+		onClick?: (user: UserPreview) => void;
 	}
 }
 
-const ContactItem = ({ user, isSelectable, displayMyself }: ContactItem.Props) => {
+const ContactItem = ({ user, isSelectable, displayMyself, onClick }: ContactItem.Props) => {
 	const myId = useSelector<RootState, number>((state) => state.myProfile.user.id);
 	const markUser = useActionWithDispatch(FriendActions.markUserAsAddedToConference);
 	const selectUser = () => markUser(user.id || -1);
@@ -24,8 +25,13 @@ const ContactItem = ({ user, isSelectable, displayMyself }: ContactItem.Props) =
 		return <div className=''></div>;
 	}
 
+	const clickOnContact = () => {
+		if (isSelectable) selectUser();
+		if (onClick) onClick(user);
+	};
+
 	return (
-		<div onClick={isSelectable ? selectUser : () => {}} className='messenger__friend-item'>
+		<div onClick={clickOnContact} className='messenger__friend-item'>
 			<StatusBadge user={user} />
 			<div className='messenger__friend-item__name'>{`${user.firstName} ${user.lastName}`}</div>
 			{isSelectable && (

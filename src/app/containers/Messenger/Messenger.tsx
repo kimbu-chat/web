@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router';
+import { useParams, useHistory } from 'react-router';
 import './Messenger.scss';
 import SearchTop from '../../components/MessengerPage/SearchTop/SearchTop';
 import ChatData from '../../components/MessengerPage/ChatData/ChatData';
@@ -43,6 +43,14 @@ const Messenger = () => {
 	const changeSelectedDialog = useActionWithDispatch(ChatActions.changeSelectedChat);
 
 	const { id: chatId } = useParams();
+	const history = useHistory();
+
+	//redux sync with history
+	history.listen((location, action) => {
+		if (location.pathname.split('/')[2]) {
+			changeSelectedDialog(Number(location.pathname.split('/')[2]));
+		}
+	});
 
 	useEffect(() => {
 		if (chatId) changeSelectedDialog(Number(chatId));

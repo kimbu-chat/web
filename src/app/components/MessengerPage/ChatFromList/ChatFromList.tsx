@@ -5,16 +5,15 @@ import * as moment from 'moment';
 import { useSelector } from 'react-redux';
 import { MessageUtils } from 'app/utils/message-utils';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
-import { useHistory } from 'react-router-dom';
 import { getDialogInterlocutor, getInterlocutorInitials } from '../../../utils/get-interlocutor';
 import { Avatar } from '@material-ui/core';
 import StatusBadge from 'app/utils/StatusBadge';
 import _ from 'lodash';
 import { RootState } from 'app/store/root-reducer';
-import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
 import { ChatActions } from 'app/store/dialogs/actions';
 import { SystemMessageType, Message } from 'app/store/messages/models';
 import { LocalizationContext } from 'app/app';
+import { NavLink } from 'react-router-dom';
 
 namespace ChatFromList {
 	export interface Props {
@@ -26,12 +25,9 @@ namespace ChatFromList {
 const ChatFromList = ({ dialog, sideEffect }: ChatFromList.Props) => {
 	const { interlocutor, lastMessage, conference } = dialog;
 	const { t } = useContext(LocalizationContext);
-	const selectedDialog = useSelector(getSelectedDialogSelector) as Dialog;
 	const currentUserId: number = useSelector<RootState, number>((state) => state.myProfile.user.id);
 	const isMessageCreatorCurrentUser: boolean = lastMessage?.userCreator?.id === currentUserId;
 	const changeSelectedDialog = useActionWithDispatch(ChatActions.changeSelectedChat);
-	const isDialogSelected = selectedDialog?.id == dialog.id;
-	let history = useHistory();
 
 	const getDialogAvatar = (): string => {
 		if (interlocutor) {
@@ -80,15 +76,14 @@ const ChatFromList = ({ dialog, sideEffect }: ChatFromList.Props) => {
 	const setSelectedDialog = (): void => {
 		sideEffect();
 		changeSelectedDialog(dialog.id);
-		history.push(`/chats/${dialog.id}`);
 	};
 
 	return (
-		<div
+		<NavLink
 			onClick={setSelectedDialog}
-			className={
-				isDialogSelected ? 'messenger__chat-block messenger__chat-block--active' : 'messenger__chat-block'
-			}
+			to={`/chats/${dialog.id}`}
+			className='messenger__chat-block'
+			activeClassName='messenger__chat-block messenger__chat-block--active'
 		>
 			<div className='messenger__active-line'></div>
 			{!conference ? (
@@ -114,7 +109,7 @@ const ChatFromList = ({ dialog, sideEffect }: ChatFromList.Props) => {
 					</div>
 				)}
 			</div>
-		</div>
+		</NavLink>
 	);
 };
 

@@ -9,6 +9,8 @@ import { AuthActions } from './actions';
 import { AuthHttpRequests } from './http-requests';
 import { SagaIterator } from 'redux-saga';
 import { InitActions } from '../initiation/actions';
+import { getMyProfileSaga } from '../my-profile/sagas';
+import { MyProfileActions } from '../my-profile/actions';
 
 function* requestRefreshToken(): SagaIterator {
 	const authService = new AuthService();
@@ -65,17 +67,19 @@ function* authenticate(action: ReturnType<typeof AuthActions.confirmPhone>): Sag
 	const { data }: AxiosResponse<LoginResponse> = request.call(yield call(() => request.generator(action.payload)));
 
 	const profileService = new MyProfileService();
-	profileService.setMyProfile({ id: parseInt(jwtDecode<{ unique_name: string }>(data.accessToken).unique_name, 10) });
-
-	const parsedData: SecurityTokens = {
+	const myProfile = { id: parseInt(jwtDecode<{ unique_name: string }>(data.accessToken).unique_name, 10) };
+	yield put(MyProfileActions.getMyProfileSuccess(myProfile));
+	profileService.setMyProfile(myProfile);
+	const securityTokens: SecurityTokens = {
 		accessToken: data.accessToken,
 		refreshToken: data.refreshToken,
 	};
 
 	const authService = new AuthService();
-	authService.initialize(parsedData);
-	yield put(AuthActions.loginSuccess(parsedData));
+	authService.initialize(securityTokens);
+	yield put(AuthActions.loginSuccess(securityTokens));
 	yield put(InitActions.init());
+	yield call(getMyProfileSaga);
 	action?.meta.deferred?.resolve();
 }
 

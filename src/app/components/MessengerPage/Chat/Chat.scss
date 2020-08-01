@@ -8,7 +8,7 @@
 	&__messages-container {
 		display: flex;
 		flex-direction: column-reverse;
-		height: calc(100vh - 130px);
+		height: calc(100vh - 101px);
 		overflow: auto;
 
 		.loader {

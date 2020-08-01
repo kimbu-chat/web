@@ -6,7 +6,6 @@ import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import InfiniteScroll from 'react-infinite-scroller';
 import './Chat.scss';
 import MessageItem from '../message-item';
-import { useHistory } from 'react-router-dom';
 import { Message, MessageList } from 'app/store/messages/models';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { MessageActions } from 'app/store/messages/actions';
@@ -36,8 +35,6 @@ const Chat = () => {
 
 	const messagesContainerRef = useRef(null);
 
-	let history = useHistory();
-
 	const loadPage = (page: number) => {
 		const pageData = {
 			limit: 25,
@@ -65,8 +62,6 @@ const Chat = () => {
 			};
 
 			markAsRead();
-
-			history.push(`/chats/${selectedDialog?.id}`);
 		}
 	}, [selectedDialog?.id]);
 

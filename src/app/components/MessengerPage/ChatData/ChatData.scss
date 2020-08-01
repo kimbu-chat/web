@@ -9,6 +9,10 @@
 
 	&__contact-data {
 		display: flex;
+
+		.MuiBadge-dot {
+			right: 31% !important;
+		}
 	}
 
 	&__contact-img {

@@ -105,9 +105,6 @@ export function* notifyInterlocutorThatMessageWasRead(createMessageRequest: Crea
 		};
 		const httpRequest = MessagesHttpRequests.markMessagesAsRead;
 		httpRequest.call(yield call(() => httpRequest.generator(httpRequestPayload)));
-
-		//@ts-ignore
-		yield call(markMessagesAsReadApi);
 	} else {
 		console.warn('notifyInterlocutorThatMessageWasRead Error');
 	}

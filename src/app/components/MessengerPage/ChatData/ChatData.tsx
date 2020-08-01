@@ -7,6 +7,7 @@ import { Avatar } from '@material-ui/core';
 
 import './ChatData.scss';
 import { LocalizationContext } from 'app/app';
+import StatusBadge from 'app/utils/StatusBadge';
 
 namespace ChatData {
 	export interface Props {
@@ -33,9 +34,17 @@ const ChatData = ({ displayChatInfo, chatInfoDisplayed }: ChatData.Props) => {
 		return (
 			<div className='messenger__chat-data'>
 				<div onClick={displayChatInfo} className='messenger__contact-data'>
-					<Avatar className='messenger__contact-img' src={imageUrl}>
-						{getInterlocutorInitials(selectedDialog)}
-					</Avatar>
+					{selectedDialog.interlocutor ? (
+						<StatusBadge
+							additionalClassNames='messenger__contact-img'
+							user={selectedDialog.interlocutor!}
+						/>
+					) : (
+						<Avatar className='messenger__contact-img' src={imageUrl}>
+							{getInterlocutorInitials(selectedDialog)}
+						</Avatar>
+					)}
+
 					<div className='messenger__chat-info'>
 						<h1>{getDialogInterlocutor(selectedDialog)}</h1>
 						<p>{status}</p>

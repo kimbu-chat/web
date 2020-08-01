@@ -1,6 +1,12 @@
 ﻿import { AxiosResponse } from 'axios';
 import { httpRequestFactory, HttpRequestMethod } from '../common/http-factory';
-import { Message, MessagesReqData, MessageCreationReqData, MarkMessagesAsReadRequest, UserMessageTypingRequest } from './models';
+import {
+	Message,
+	MessagesReqData,
+	MessageCreationReqData,
+	MarkMessagesAsReadRequest,
+	UserMessageTypingRequest,
+} from './models';
 import { ApiBasePath } from '../root-api';
 
 export const MessagesHttpRequests = {

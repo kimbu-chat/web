@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { withDeferred } from './with-deffered';
 import { createCustomAction } from 'typesafe-actions';
 
-type ActionReturnType = ReturnType<typeof createCustomAction>
+type ActionReturnType = ReturnType<typeof createCustomAction>;
 type ArgumentTypes<F extends ActionReturnType> = F extends (...args: infer A) => any ? A : never;
 
 export function useActionWithDeferred<T extends ActionReturnType>(

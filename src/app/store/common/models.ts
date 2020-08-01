@@ -1,9 +1,9 @@
 export interface Page {
-  limit: number;
-  offset: number;
+	limit: number;
+	offset: number;
 }
 
 export interface UpdateAvatarResponse {
-  fullAvatarUrl: string;
-  croppedAvatarUrl: string;
+	fullAvatarUrl: string;
+	croppedAvatarUrl: string;
 }

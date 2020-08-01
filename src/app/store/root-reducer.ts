@@ -9,24 +9,24 @@ import { AuthActions } from './auth/actions';
 import { getType } from 'typesafe-actions';
 
 const rootReducer = combineReducers({
-  auth,
-  dialogs,
-  messages,
-  friends,
-  myProfile
+	auth,
+	dialogs,
+	messages,
+	friends,
+	myProfile,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
 
 export default (state: any, action: any): ReturnType<typeof rootReducer> => {
-  if (action.type === getType(AuthActions.logout)) {
-    return {
-      ...state,
-      auth: {
-        ...state.auth,
-        isAuthenticated: false
-      }
-    };
-  }
-  return rootReducer(state, action);
+	if (action.type === getType(AuthActions.logout)) {
+		return {
+			...state,
+			auth: {
+				...state.auth,
+				isAuthenticated: false,
+			},
+		};
+	}
+	return rootReducer(state, action);
 };

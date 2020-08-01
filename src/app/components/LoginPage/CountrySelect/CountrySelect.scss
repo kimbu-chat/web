@@ -1,20 +1,20 @@
 .country-select {
-  width: 360px;
+	width: 360px;
 
-  &__country {
-    display: flex;
-    align-items: baseline;
-  }
+	&__country {
+		display: flex;
+		align-items: baseline;
+	}
 
-  &__flag {
-    margin-right: 10px;
-    font-size: 24px;
-    display: block;
-  }
+	&__flag {
+		margin-right: 10px;
+		font-size: 24px;
+		display: block;
+	}
 
-  &__number {
-    font-size: 15px;
-    display: block;
-    justify-self: flex-end;
-  }
+	&__number {
+		font-size: 15px;
+		display: block;
+		justify-self: flex-end;
+	}
 }

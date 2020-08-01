@@ -6,136 +6,135 @@ import { FriendActions } from './actions';
 import { ChatActions } from '../dialogs/actions';
 
 export interface FriendsState {
-  loading: boolean;
-  friends: UserPreview[];
-  userIdsToAddIntoConference: number[];
-  usersForSelectedConference: UserPreview[];
-  conferenceUsersLoading: boolean;
+	loading: boolean;
+	friends: UserPreview[];
+	userIdsToAddIntoConference: number[];
+	usersForSelectedConference: UserPreview[];
+	conferenceUsersLoading: boolean;
 }
 
 const initialState: FriendsState = {
-  loading: true,
-  friends: [],
-  usersForSelectedConference: [],
-  userIdsToAddIntoConference: [],
-  conferenceUsersLoading: false
+	loading: true,
+	friends: [],
+	usersForSelectedConference: [],
+	userIdsToAddIntoConference: [],
+	conferenceUsersLoading: false,
 };
 
 const checkUserExist = (userId: number, state: FriendsState): boolean => {
-  return Boolean(state.friends.find(({ id }) => id === userId));
+	return Boolean(state.friends.find(({ id }) => id === userId));
 };
 
 const findUserIndex = (userId: number, state: FriendsState): number => {
-  return state.friends.findIndex(({ id }) => id === userId);
+	return state.friends.findIndex(({ id }) => id === userId);
 };
 
 const friends = createReducer<FriendsState>(initialState)
-  .handleAction(
-    FriendActions.deleteFriend,
-    produce((draft: FriendsState, { payload }: ReturnType<typeof FriendActions.deleteFriend>) => {
-      draft.friends = draft.friends.filter(({ id }) => id != payload);
-      return draft;
-    }),
-  )
-  .handleAction(
-    ChatActions.getConferenceUsers,
-    produce((draft: FriendsState) => {
-      draft.conferenceUsersLoading = true;
-      return draft;
-    }),
-  )
-  .handleAction(
-    FriendActions.unsetSelectedUserIdsForNewConference,
-    produce((draft: FriendsState) => {
-      for (const userId of draft.userIdsToAddIntoConference) {
-        const userIndex = findUserIndex(userId, draft);
-        if (draft.friends[userIndex]){
-          draft.friends[userIndex].supposedToAddIntoConference = false;
-        } 
-      }
+	.handleAction(
+		FriendActions.deleteFriend,
+		produce((draft: FriendsState, { payload }: ReturnType<typeof FriendActions.deleteFriend>) => {
+			draft.friends = draft.friends.filter(({ id }) => id != payload);
+			return draft;
+		}),
+	)
+	.handleAction(
+		ChatActions.getConferenceUsers,
+		produce((draft: FriendsState) => {
+			draft.conferenceUsersLoading = true;
+			return draft;
+		}),
+	)
+	.handleAction(
+		FriendActions.unsetSelectedUserIdsForNewConference,
+		produce((draft: FriendsState) => {
+			for (const userId of draft.userIdsToAddIntoConference) {
+				const userIndex = findUserIndex(userId, draft);
+				if (draft.friends[userIndex]) {
+					draft.friends[userIndex].supposedToAddIntoConference = false;
+				}
+			}
 
-      draft.userIdsToAddIntoConference = [];
-      return draft;
-    }),
-  )
-  .handleAction(
-    FriendActions.userStatusChangedEvent,
-    produce((draft: FriendsState, { payload }: ReturnType<typeof FriendActions.userStatusChangedEvent>) => {
-      const userId = payload.objectId;
-      const isUserExist = checkUserExist(userId, draft);
+			draft.userIdsToAddIntoConference = [];
+			return draft;
+		}),
+	)
+	.handleAction(
+		FriendActions.userStatusChangedEvent,
+		produce((draft: FriendsState, { payload }: ReturnType<typeof FriendActions.userStatusChangedEvent>) => {
+			const userId = payload.objectId;
+			const isUserExist = checkUserExist(userId, draft);
 
-      if (!isUserExist) {
-        return draft;
-      }
+			if (!isUserExist) {
+				return draft;
+			}
 
-      const userIndex = findUserIndex(userId, draft);
+			const userIndex = findUserIndex(userId, draft);
 
-      draft.friends[userIndex].status = payload.status;
-      draft.friends[userIndex].lastOnlineTime = new Date();
+			draft.friends[userIndex].status = payload.status;
+			draft.friends[userIndex].lastOnlineTime = new Date();
 
-      return draft;
-    }),
-  )
-  .handleAction(
-    ChatActions.getConferenceUsersSuccess,
-    produce((draft: FriendsState, { payload }: ReturnType<typeof ChatActions.getConferenceUsersSuccess>) => {
-      const { initiatedByScrolling } = payload;
+			return draft;
+		}),
+	)
+	.handleAction(
+		ChatActions.getConferenceUsersSuccess,
+		produce((draft: FriendsState, { payload }: ReturnType<typeof ChatActions.getConferenceUsersSuccess>) => {
+			const { initiatedByScrolling } = payload;
 
-        if (!initiatedByScrolling) {
-          draft.conferenceUsersLoading = false;
-          draft.usersForSelectedConference = payload.users;
+			if (!initiatedByScrolling) {
+				draft.conferenceUsersLoading = false;
+				draft.usersForSelectedConference = payload.users;
 
-          return draft;
-        }
+				return draft;
+			}
 
-        draft.usersForSelectedConference = _.unionBy(draft.usersForSelectedConference, payload.users, 'id');
+			draft.usersForSelectedConference = _.unionBy(draft.usersForSelectedConference, payload.users, 'id');
 
-        return draft;
+			return draft;
+		}),
+	)
+	.handleAction(
+		FriendActions.markUserAsAddedToConference,
+		produce((draft: FriendsState, { payload }: ReturnType<typeof FriendActions.markUserAsAddedToConference>) => {
+			const userId: number = payload;
+			const userIndex = findUserIndex(userId, draft);
+			const user: UserPreview = draft.friends[userIndex];
 
-    }),
-  )
-  .handleAction(
-    FriendActions.markUserAsAddedToConference,
-    produce((draft: FriendsState, { payload }: ReturnType<typeof FriendActions.markUserAsAddedToConference>) => {
-      const userId: number = payload;
-      const userIndex = findUserIndex(userId, draft);
-      const user: UserPreview = draft.friends[userIndex];
+			const updatedAddedUserIdsForNewConference = draft.userIdsToAddIntoConference.includes(userId)
+				? draft.userIdsToAddIntoConference.filter((x) => x !== userId)
+				: draft.userIdsToAddIntoConference.concat(userId);
 
-      const updatedAddedUserIdsForNewConference = draft.userIdsToAddIntoConference.includes(userId)
-        ? draft.userIdsToAddIntoConference.filter((x) => x !== userId)
-        : draft.userIdsToAddIntoConference.concat(userId);
+			if (draft.friends[userIndex]) {
+				draft.friends[userIndex].supposedToAddIntoConference = !user.supposedToAddIntoConference;
+			}
 
-      if (draft.friends[userIndex]) {
-        draft.friends[userIndex].supposedToAddIntoConference = !user.supposedToAddIntoConference;
-      }
+			draft.userIdsToAddIntoConference = updatedAddedUserIdsForNewConference;
+			return draft;
+		}),
+	)
+	.handleAction(
+		FriendActions.getFriends,
+		produce((draft: FriendsState) => {
+			draft.loading = true;
+			return draft;
+		}),
+	)
+	.handleAction(
+		FriendActions.getFriendsSuccess,
+		produce((draft: FriendsState, { payload }: ReturnType<typeof FriendActions.getFriendsSuccess>) => {
+			const { users, initializedBySearch } = payload;
 
-      draft.userIdsToAddIntoConference = updatedAddedUserIdsForNewConference;
-      return draft;
-    }),
-  )
-  .handleAction(
-    FriendActions.getFriends,
-    produce((draft: FriendsState) => {
-      draft.loading = true;
-      return draft;
-    }),
-  )
-  .handleAction(
-    FriendActions.getFriendsSuccess,
-    produce((draft: FriendsState, { payload }: ReturnType<typeof FriendActions.getFriendsSuccess>) => {
-      const { users, initializedBySearch } = payload;
+			if (initializedBySearch) {
+				draft.loading = false;
+				draft.friends = users;
 
-      if (initializedBySearch) {
-        draft.loading = false;
-        draft.friends = users;
+				return draft;
+			}
 
-        return draft;
-      }
+			draft.friends = _.unionBy(draft.friends, users, 'id');
 
-      draft.friends = _.unionBy(draft.friends, users, 'id');
-
-      return draft;
-    }),
-  );
+			return draft;
+		}),
+	);
 
 export default friends;

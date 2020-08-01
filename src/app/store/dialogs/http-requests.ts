@@ -1,5 +1,5 @@
-﻿import { httpRequestFactory, HttpRequestMethod } from "../common/http-factory";
-import { AxiosResponse } from "axios";
+﻿import { httpRequestFactory, HttpRequestMethod } from '../common/http-factory';
+import { AxiosResponse } from 'axios';
 import {
 	Dialog,
 	GetDialogsRequestData,
@@ -7,10 +7,10 @@ import {
 	MuteDialogRequest,
 	GetConferenceUsersRequest,
 	RenameConferenceApiRequest,
-	ConferenceCreationReqData
-} from "./models";
-import { ApiBasePath } from "../root-api";
-import { UserPreview } from "../my-profile/models";
+	ConferenceCreationReqData,
+} from './models';
+import { ApiBasePath } from '../root-api';
+import { UserPreview } from '../my-profile/models';
 
 export const ChatHttpRequests = {
 	getChats: httpRequestFactory<AxiosResponse<Dialog[]>, GetDialogsRequestData>(

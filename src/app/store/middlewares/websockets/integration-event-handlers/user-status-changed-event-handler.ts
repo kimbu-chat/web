@@ -6,7 +6,7 @@ import { RootState } from 'app/store/root-reducer';
 import { FriendActions } from 'app/store/friends/actions';
 
 export class UserStatusChangedEventHandler implements IEventHandler<StatusChangedIntegrationEvent> {
-  public handle(store: Store<RootState>, eventData: StatusChangedIntegrationEvent): void {
-    store.dispatch(FriendActions.userStatusChangedEvent(eventData));
-  }
+	public handle(store: Store<RootState>, eventData: StatusChangedIntegrationEvent): void {
+		store.dispatch(FriendActions.userStatusChangedEvent(eventData));
+	}
 }

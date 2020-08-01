@@ -8,33 +8,32 @@ import ru from './ru.json';
 import 'moment/min/locales';
 
 i18n.on('languageChanged', (lng: string) => {
-  moment.locale(lng);
+	moment.locale(lng);
 });
 
-i18n
-  .use(initReactI18next)
-  .init({
-    debug: process.env.NODE_ENV !== 'production',
-    initImmediate: false,
-    preload: ['en'],
-    fallbackLng: 'en',
-    lng: navigator.language,
-    resources: {
-      en: {
-        translation: en
-      },
-      ru: {
-        translation: ru
-      }
-    },
-    ns: ['translation'],
-    defaultNS: 'translation',
-    interpolation: {
-      escapeValue: false
-    }
-  })
-  .then(() => {
-    moment.locale(i18n.language);
-  });
+i18n.use(initReactI18next)
+	.init({
+		debug: process.env.NODE_ENV !== 'production',
+		initImmediate: false,
+		preload: ['en'],
+		fallbackLng: 'en',
+		lng: navigator.language,
+		resources: {
+			en: {
+				translation: en,
+			},
+			ru: {
+				translation: ru,
+			},
+		},
+		ns: ['translation'],
+		defaultNS: 'translation',
+		interpolation: {
+			escapeValue: false,
+		},
+	})
+	.then(() => {
+		moment.locale(i18n.language);
+	});
 
 export default i18n;

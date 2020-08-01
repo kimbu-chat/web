@@ -1,47 +1,47 @@
 .messenger {
-  &__chat-data {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-left: 10px;
-    border-bottom: 1px solid rgba(#000, 0.2);
-  }
+	&__chat-data {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding-left: 10px;
+		border-bottom: 1px solid rgba(#000, 0.2);
+	}
 
-  &__contact-data {
-    display: flex;
-  }
+	&__contact-data {
+		display: flex;
+	}
 
-  &__contact-img {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    margin-right: 10px;
-    object-fit: cover;
-  }
+	&__contact-img {
+		width: 32px;
+		height: 32px;
+		border-radius: 50%;
+		margin-right: 10px;
+		object-fit: cover;
+	}
 
-  &__chat-info {
-    h1 {
-      font-size: 19px;
-    }
+	&__chat-info {
+		h1 {
+			font-size: 19px;
+		}
 
-    &--blue {
-      transition: all 0.3s;
-      svg {
-        fill: blue;
-      }
-    }
-  }
+		&--blue {
+			transition: all 0.3s;
+			svg {
+				fill: blue;
+			}
+		}
+	}
 
-  &__buttons-group {
-    display: flex;
-    width: 120px;
-    justify-content: space-between;
-    button {
-      width: 24px;
-      height: 24px;
-      svg {
-        width: 100%;
-      }
-    }
-  }
+	&__buttons-group {
+		display: flex;
+		width: 120px;
+		justify-content: space-between;
+		button {
+			width: 24px;
+			height: 24px;
+			svg {
+				width: 100%;
+			}
+		}
+	}
 }

@@ -3,5 +3,5 @@ import { Store } from 'redux';
 import { RootState } from 'app/store/root-reducer';
 
 export interface IEventHandler<T extends BaseIntegrationEvent = any> {
-  handle(store: Store<RootState>, eventData: T): void;
+	handle(store: Store<RootState>, eventData: T): void;
 }

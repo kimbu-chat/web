@@ -6,24 +6,24 @@ import { FriendActions } from '../friends/actions';
 import { SagaIterator } from 'redux-saga';
 
 function* initializeSaga(): SagaIterator {
-  const authService = new AuthService();
-  const authData = authService.securityTokens;
+	const authService = new AuthService();
+	const authData = authService.securityTokens;
 
-  if (!authData) {
-    return;
-  }
+	if (!authData) {
+		return;
+	}
 
-  yield put(initSocketConnectionAction());
-  yield put(MyProfileActions.changeUserOnlineStatus(true));
+	yield put(initSocketConnectionAction());
+	yield put(MyProfileActions.changeUserOnlineStatus(true));
 
-  yield put(MyProfileActions.getMyProfile());
+	yield put(MyProfileActions.getMyProfile());
 
-  yield put(
-    FriendActions.getFriends({
-      page: { offset: 0, limit: 100 },
-      initializedBySearch: false
-    })
-  );
+	yield put(
+		FriendActions.getFriends({
+			page: { offset: 0, limit: 100 },
+			initializedBySearch: false,
+		}),
+	);
 }
 
 export const InitiationSagas = [fork(initializeSaga)];

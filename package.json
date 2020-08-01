@@ -58,6 +58,7 @@
     "postcss-reporter": "^6.0.1",
     "postcss-url": "^8.0.0",
     "prettier": "^2.0.5",
+    "pretty-quick": "^2.0.1",
     "react-hot-loader": "^4.12.18",
     "redux-devtools-extension": "^2.13.8",
     "sass-loader": "^8.0.2",
@@ -102,7 +103,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged && pretty-quick --staged"
     }
   },
   "lint-staged": {

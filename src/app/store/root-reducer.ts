@@ -26,6 +26,16 @@ export default (state: any, action: any): ReturnType<typeof rootReducer> => {
 				...state.auth,
 				isAuthenticated: false,
 			},
+			dialogs: {
+				...state.dialogs,
+				dialogs: [],
+				selectedDialogId: null,
+			},
+			messages: {
+				...state.messages,
+				messages: [],
+			},
+			myProfile: null,
 		};
 	}
 	return rootReducer(state, action);

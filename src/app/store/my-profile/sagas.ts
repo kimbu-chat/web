@@ -1,4 +1,4 @@
-import { call, put, takeLatest, takeEvery } from 'redux-saga/effects';
+import { call, put, takeLatest, takeEvery, select } from 'redux-saga/effects';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { FileUploadRequest, ErrorUploadResponse, uploadFileSaga } from '../../utils/fileUploader/fileuploader';
@@ -51,6 +51,8 @@ export function* uploadUserAvatar(action: ReturnType<typeof MyProfileActions.upd
 
 export function* uploadUserAvatarSaga(action: ReturnType<typeof MyProfileActions.updateMyAvatar>): SagaIterator {
 	yield call(uploadUserAvatar, action);
+	const updatedProfile = yield select((state) => state.myProfile.user);
+	new MyProfileService().setMyProfile(updatedProfile);
 }
 
 export function* updateMyProfileSaga(action: ReturnType<typeof MyProfileActions.updateMyProfile>): SagaIterator {

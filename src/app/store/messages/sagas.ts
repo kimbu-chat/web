@@ -1,4 +1,5 @@
 import { call, put, takeLatest, takeEvery, select } from 'redux-saga/effects';
+import { RootState } from 'app/store/root-reducer';
 
 import {
 	CreateMessageRequest,
@@ -59,12 +60,26 @@ export function* createMessage(action: ReturnType<typeof MessageActions.createMe
 	const { interlocutorId, interlocutorType } = DialogService.parseDialogId(dialog.id);
 	if (isFromEvent) {
 		yield call(notifyInterlocutorThatMessageWasRead, action.payload);
-
 		//notifications play
-		const currentUserId = yield select((state) => state.myProfile.user.id);
-		if (message.userCreator?.id !== currentUserId && !(selectedDialogId !== message.dialogId) && !document.hidden)
+		const currentUserId = yield select((state: RootState) => state.myProfile.user.id);
+		const dialogOfMessage = yield select((state: RootState) =>
+			state.dialogs.dialogs.find(({ id }) => id === dialog.id),
+		);
+
+		console.log(dialogOfMessage);
+
+		if (
+			message.userCreator?.id !== currentUserId &&
+			!(selectedDialogId !== message.dialogId) &&
+			!document.hidden &&
+			!dialogOfMessage.isMuted
+		) {
 			audioSelected.play();
-		if (selectedDialogId !== message.dialogId || document.hidden) audioUnselected.play();
+		}
+
+		if ((selectedDialogId !== message.dialogId || document.hidden) && !dialogOfMessage.isMuted) {
+			audioUnselected.play();
+		}
 	} else {
 		try {
 			const messageCreationReq: MessageCreationReqData = {

@@ -291,4 +291,5 @@ export const ChatSagas = [
 	takeLatest(ChatActions.changeConferenceAvatar, changeConferenceAvatarSaga),
 	takeLatest(ChatActions.removeChat, removeDialogSaga),
 	takeLatest(ChatActions.addUsersToConference, addUsersToConferenceSaga),
+	takeLatest(ChatActions.muteChat, muteDialogSaga),
 ];

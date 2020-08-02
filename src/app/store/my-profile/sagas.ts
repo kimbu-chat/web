@@ -8,6 +8,7 @@ import { MyProfileActions } from './actions';
 import { MyProfileHttpRequests } from './http-requests';
 import { UpdateAvatarResponse } from '../common/models';
 import { MyProfileService } from 'app/services/my-profile-service';
+import { RootState } from '../root-reducer';
 
 export function* changeOnlineStatus({
 	payload,
@@ -51,7 +52,7 @@ export function* uploadUserAvatar(action: ReturnType<typeof MyProfileActions.upd
 
 export function* uploadUserAvatarSaga(action: ReturnType<typeof MyProfileActions.updateMyAvatar>): SagaIterator {
 	yield call(uploadUserAvatar, action);
-	const updatedProfile = yield select((state) => state.myProfile.user);
+	const updatedProfile = yield select((state: RootState) => state.myProfile.user);
 	new MyProfileService().setMyProfile(updatedProfile);
 }
 

@@ -126,6 +126,9 @@ const Chat = () => {
 	return (
 		<div className='messenger__messages-list'>
 			<div ref={messagesContainerRef} className='messenger__messages-container'>
+				{selectedDialog.isInterlocutorTyping && (
+					<div className='messenger__typing-notification'>{`${selectedDialog.interlocutor?.firstName} ${selectedDialog.interlocutor?.lastName} печатает...`}</div>
+				)}
 				<InfiniteScroll
 					pageStart={0}
 					loadMore={loadPage}
@@ -144,9 +147,6 @@ const Chat = () => {
 					{items}
 				</InfiniteScroll>
 			</div>
-			{selectedDialog.isInterlocutorTyping && (
-				<div className='messenger__typing-notification'>{`${selectedDialog.interlocutor?.firstName} ${selectedDialog.interlocutor?.lastName} печатает...`}</div>
-			)}
 		</div>
 	);
 };

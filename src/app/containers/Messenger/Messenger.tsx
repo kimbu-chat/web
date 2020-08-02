@@ -121,6 +121,8 @@ const Messenger = () => {
 
 	const createEmptyDialog = (user: UserPreview) => {
 		createDialog(user);
+		const dialogId = Number(`${user.id}1`);
+		history.push(`/chats/${dialogId}`);
 		hideContactSearch();
 	};
 

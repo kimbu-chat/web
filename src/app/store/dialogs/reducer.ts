@@ -151,10 +151,16 @@ const dialogs = createReducer<DialogsState>(initialState)
 	.handleAction(
 		ChatActions.changeSelectedChat,
 		produce((draft: DialogsState, { payload }: ReturnType<typeof ChatActions.changeSelectedChat>) => {
-			return {
-				...draft,
-				selectedDialogId: payload,
-			};
+			draft.dialogs.sort(({ lastMessage: lastMessageA }, { lastMessage: lastMessageB }) => {
+				return (
+					(new Date(lastMessageB?.creationDateTime || 0) as any) -
+					(new Date(lastMessageA?.creationDateTime || 0) as any)
+				);
+			});
+
+			draft.selectedDialogId = payload;
+
+			return draft;
 		}),
 	)
 	.handleAction(
@@ -319,20 +325,28 @@ const dialogs = createReducer<DialogsState>(initialState)
 
 			const dialogId: number = DialogService.getDialogId(id, null);
 
-			//user does not have dialog with interlocutor - create dialog
-			let newDialog: Dialog = {
-				id: dialogId,
-				interlocutorType: 1,
-				conference: null,
-				lastMessage: null,
-				ownUnreadMessagesCount: 0,
-				interlocutorLastReadMessageId: 0,
-				interlocutor: payload,
-			};
+			const isDialogExists = checkDialogExists(dialogId, draft);
 
-			draft.dialogs.unshift(newDialog);
+			draft.selectedDialogId = dialogId;
 
-			return draft;
+			if (isDialogExists) {
+				return draft;
+			} else {
+				//user does not have dialog with interlocutor - create dialog
+				let newDialog: Dialog = {
+					id: dialogId,
+					interlocutorType: 1,
+					conference: null,
+					lastMessage: null,
+					ownUnreadMessagesCount: 0,
+					interlocutorLastReadMessageId: 0,
+					interlocutor: payload,
+				};
+
+				draft.dialogs.unshift(newDialog);
+
+				return draft;
+			}
 		}),
 	);
 

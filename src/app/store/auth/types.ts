@@ -1,12 +1,12 @@
 export interface Credentials {
-  phoneNumber: string;
-  code: string;
+	phoneNumber: string;
+	code: string;
 }
 
 export interface LoginApiResponse {
-  accessToken: string;
-  refreshToken: string;
-  userId: number;
+	accessToken: string;
+	refreshToken: string;
+	userId: number;
 }
 
 export interface PhoneConfirmationData {
@@ -15,8 +15,8 @@ export interface PhoneConfirmationData {
 }
 
 export interface PhoneConfirmationActionData {
-  phoneNumber: string;
-  code: string;
+	phoneNumber: string;
+	code: string;
 }
 
 export interface LoginResponse {
@@ -30,12 +30,11 @@ export interface SecurityTokens extends LoginResponse {
 	isAuthenticated?: boolean;
 }
 
-
 export interface SendSmsCodeActionData {
-  phoneNumber: string;
+	phoneNumber: string;
 }
 
 export interface PhoneConfirmationApiResponse {
-  isCodeCorrect: boolean;
-  userExists: boolean;
+	isCodeCorrect: boolean;
+	userExists: boolean;
 }

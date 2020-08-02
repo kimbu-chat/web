@@ -9,23 +9,23 @@ import PublicRoute from './utils/PublicRoute';
 import { useTranslation } from 'react-i18next';
 
 namespace App {
-  export interface localization {
-    t: (str: string) => string;
-    i18n: any;
-  }
+	export interface localization {
+		t: (str: string) => string;
+		i18n: any;
+	}
 }
 
 export const LocalizationContext = React.createContext<App.localization>({ t: (str) => str, i18n: {} });
 
 export const App = () => {
-  const { t, i18n } = useTranslation(undefined, { i18n: i18nConfiguration });
+	const { t, i18n } = useTranslation(undefined, { i18n: i18nConfiguration });
 
-  return (
-    <LocalizationContext.Provider value={{ t, i18n }}>
-      <Switch>
-        <PrivateRoute path="/chats/:id?" Component={Messenger} />
-        <PublicRoute path="/" Component={LoginPage} />
-      </Switch>
-    </LocalizationContext.Provider>
-  );
+	return (
+		<LocalizationContext.Provider value={{ t, i18n }}>
+			<Switch>
+				<PrivateRoute path='/chats/:id?' Component={Messenger} />
+				<PublicRoute path='/' Component={LoginPage} />
+			</Switch>
+		</LocalizationContext.Provider>
+	);
 };

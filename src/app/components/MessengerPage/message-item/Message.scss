@@ -1,72 +1,72 @@
 .messenger {
-  &__message-container {
-    padding: 1px 48px 1px 52px;
-    box-sizing: border-box;
-    width: 100%;
-    max-width: 100%;
-    min-height: 32px;
-    display: flex;
-    margin-top: 3px;
+	&__message-container {
+		padding: 1px 48px 1px 52px;
+		box-sizing: border-box;
+		width: 100%;
+		max-width: 100%;
+		min-height: 32px;
+		display: flex;
+		margin-top: 3px;
 
-    &--from-me {
-      justify-content: flex-end;
-    }
+		&--from-me {
+			justify-content: flex-end;
+		}
 
-    &--from-others {
-      justify-content: flex-start;
-    }
+		&--from-others {
+			justify-content: flex-start;
+		}
 
-    &:last-child {
-      margin-bottom: 10px;
-    }
-  }
+		&:last-child {
+			margin-bottom: 10px;
+		}
+	}
 
-  &__message {
-    display: inline-block;
-    padding: 5px 8px;
-    margin: 1px 0;
-    min-height: 20px;
-    line-height: 20px;
-    word-wrap: break-word;
-    white-space: pre-wrap;
-    pointer-events: auto;
-    background-color: #e1e5ff;
-    border: 1px solid #e1e5ff;
-    border-radius: 12px;
-    max-width: 50vw;
+	&__message {
+		display: inline-block;
+		padding: 5px 8px;
+		margin: 1px 0;
+		min-height: 20px;
+		line-height: 20px;
+		word-wrap: break-word;
+		white-space: pre-wrap;
+		pointer-events: auto;
+		background-color: #e1e5ff;
+		border: 1px solid #e1e5ff;
+		border-radius: 12px;
+		max-width: 50vw;
 
-    &--from-me {
-      border-bottom-right-radius: 4px;
-    }
+		&--from-me {
+			border-bottom-right-radius: 4px;
+		}
 
-    &--from-others {
-      border-bottom-right-radius: 12px;
-      border-bottom-left-radius: 4px;
-    }
-  }
+		&--from-others {
+			border-bottom-right-radius: 12px;
+			border-bottom-left-radius: 4px;
+		}
+	}
 
-  &__message-time {
-    font-size: 11px;
-    line-height: 12px;
-    padding: 4px 8px 0px 4px;
-  }
+	&__message-time {
+		font-size: 11px;
+		line-height: 12px;
+		padding: 4px 8px 0px 4px;
+	}
 
-  &__message-separator {
-    display: flex;
+	&__message-separator {
+		display: flex;
 
-    justify-content: center;
+		justify-content: center;
 
-    margin-bottom: 5px;
+		margin-bottom: 5px;
 
-    span {
-      display: inline-block;
-      max-width: 100%;
-      margin-top: 8px;
-      padding: 4px 12px;
-      background-color: rgb(183, 183, 189);
-      border-radius: 12px;
-      line-height: 16px;
-      color: #fff;
-    }
-  }
+		span {
+			display: inline-block;
+			max-width: 100%;
+			margin-top: 8px;
+			padding: 4px 12px;
+			background-color: rgb(183, 183, 189);
+			border-radius: 12px;
+			line-height: 16px;
+			color: #fff;
+		}
+	}
 }

@@ -1,39 +1,40 @@
 .messenger {
-  &__messages-list {
-    display: grid;
-    align-items: end;
-    border-bottom: 1px solid rgba(#000, 0.2);
-  }
+	&__messages-list {
+		display: grid;
+		align-items: end;
+		border-bottom: 1px solid rgba(#000, 0.2);
+	}
 
-  &__messages-container {
-    display: flex;
-    flex-direction: column-reverse;
-    height: calc(100vh - 130px);
-    overflow: auto;
+	&__messages-container {
+		display: flex;
+		flex-direction: column-reverse;
+		height: calc(100vh - 101px);
+		overflow: auto;
 
-    .loader {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      height: 40px;
-      div {
-        height: 40px;
-        width: 40px;
-        overflow: hidden;
-      }
-    }
-  }
+		.loader {
+			width: 100%;
+			display: flex;
+			justify-content: center;
+			height: 40px;
+			div {
+				height: 40px;
+				width: 40px;
+				overflow: hidden;
+			}
+		}
+	}
 
-  &__typing-notification {
-    background-color: darken($color: #fff, $amount: 56);
-    color: white;
-    font-size: 13px;
-    margin-left: 35px;
-    font-style: italic;
-    display: inline-block;
-    padding: 3px 15px;
-    border-radius: 100px;
-    justify-self: start;
-    margin-bottom: 10px;
-  }
+	&__typing-notification {
+		background-color: darken($color: #fff, $amount: 56);
+		color: white;
+		font-size: 13px;
+		margin-left: 35px;
+		font-style: italic;
+		display: inline-block;
+		padding: 3px 15px;
+		border-radius: 100px;
+		justify-self: start;
+		margin-bottom: 10px;
+		align-self: baseline;
+	}
 }

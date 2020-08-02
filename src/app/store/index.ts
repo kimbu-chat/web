@@ -13,21 +13,23 @@ import { signalRInvokeMiddleware } from './middlewares/websockets/signalR';
 // type ReduxStore = Store<AppState>;
 
 export type ReduxStore = Store<RootState, Action> & {
-  dispatch: Dispatch;
+	dispatch: Dispatch;
 };
 
 export default function (): ReduxStore {
-  const composeEnchancers =
-    process.env.NODE_ENV === 'development' ? (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose : compose;
-  const sagaMiddleware = createSagaMiddleware();
-  const enchancers = composeEnchancers(applyMiddleware(sagaMiddleware, signalRInvokeMiddleware));
-  const store: ReduxStore = createStore(rootReducer, enchancers);
+	const composeEnchancers =
+		process.env.NODE_ENV === 'development'
+			? (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+			: compose;
+	const sagaMiddleware = createSagaMiddleware();
+	const enchancers = composeEnchancers(applyMiddleware(sagaMiddleware, signalRInvokeMiddleware));
+	const store: ReduxStore = createStore(rootReducer, enchancers);
 
-  sagaMiddleware.run(rootSaga);
+	sagaMiddleware.run(rootSaga);
 
-  if (process.env.NODE_ENV !== 'production' && (module as any).hot) {
-    (module as any).hot.accept('./root-reducer', () => store.replaceReducer(rootReducer));
-  }
+	if (process.env.NODE_ENV !== 'production' && (module as any).hot) {
+		(module as any).hot.accept('./root-reducer', () => store.replaceReducer(rootReducer));
+	}
 
-  return store;
+	return store;
 }

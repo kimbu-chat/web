@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router';
+import { useParams, useHistory } from 'react-router';
 import './Messenger.scss';
 import SearchTop from '../../components/MessengerPage/SearchTop/SearchTop';
 import ChatData from '../../components/MessengerPage/ChatData/ChatData';
@@ -14,164 +14,183 @@ import ContactSearch from '../../components/MessengerPage/ContactSearch/ContactS
 import ChangePhoto from '../../components/MessengerPage/ChangePhoto/ChangePhoto';
 import AccountSettings from 'app/components/MessengerPage/AccountSettings/AccountSettings';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
-import { AvatarSelectedData } from 'app/store/my-profile/models';
+import { AvatarSelectedData, UserPreview } from 'app/store/my-profile/models';
 import { ChatActions } from 'app/store/dialogs/actions';
+import { MessageActions } from 'app/store/messages/actions';
 
 export namespace Messenger {
-  export interface contactSearchActions {
-    isDisplayed: boolean;
-    isSelectable?: boolean;
-    onSubmit?: (userIds: number[]) => void;
-    displayMyself?: boolean;
-    excludeIds?: (number | undefined)[];
-  }
+	export interface contactSearchActions {
+		isDisplayed: boolean;
+		isSelectable?: boolean;
+		onSubmit?: (userIds: number[]) => void;
+		displayMyself?: boolean;
+		excludeIds?: (number | undefined)[];
+	}
 
-  export interface optionalContactSearchActions {
-    isSelectable?: boolean;
-    onSubmit?: (userIds: number[]) => void;
-    displayMyself?: boolean;
-    excludeIds?: (number | undefined)[];
-  }
+	export interface optionalContactSearchActions {
+		isSelectable?: boolean;
+		onSubmit?: (userIds: number[]) => void;
+		displayMyself?: boolean;
+		excludeIds?: (number | undefined)[];
+	}
 
-  export interface photoSelect {
-    isDisplayed?: boolean;
-    onSubmit?: (data: AvatarSelectedData) => void;
-  }
+	export interface photoSelect {
+		isDisplayed?: boolean;
+		onSubmit?: (data: AvatarSelectedData) => void;
+	}
 }
 
 const Messenger = () => {
-  const changeSelectedDialog = useActionWithDispatch(ChatActions.changeSelectedChat);
+	const changeSelectedDialog = useActionWithDispatch(ChatActions.changeSelectedChat);
+	const createDialog = useActionWithDispatch(MessageActions.createDialog);
 
-  const { id: chatId } = useParams();
+	const { id: chatId } = useParams();
+	const history = useHistory();
 
-  useEffect(() => {
-    if (chatId) changeSelectedDialog(Number(chatId));
-    else changeSelectedDialog(-1);
-  }, []);
+	//redux sync with history
+	history.listen((location, action) => {
+		if (location.pathname.split('/')[2]) {
+			changeSelectedDialog(Number(location.pathname.split('/')[2]));
+		}
+	});
 
-  const [contactSearchDisplayed, setContactSearchDisplayed] = useState<Messenger.contactSearchActions>({
-    isDisplayed: false
-  });
-  const [photoSelected, setPhotoSelected] = useState<Messenger.photoSelect>({
-    isDisplayed: false
-  });
+	useEffect(() => {
+		if (chatId) changeSelectedDialog(Number(chatId));
+		else changeSelectedDialog(-1);
+	}, []);
 
-  const [createChatDisplayed, setCreateChatDisplayed] = useState<boolean>(false);
-  const [infoDisplayed, setInfoDisplayed] = useState<boolean>(false);
-  const [accountInfoIsDisplayed, setAccountInfoIsDisplayed] = useState<boolean>(false);
-  const [settingsDisplayed, setSettingsDisplayed] = useState<boolean>(false);
-  const [imageUrl, setImageUrl] = useState<string | null | ArrayBuffer>('');
+	const [contactSearchDisplayed, setContactSearchDisplayed] = useState<Messenger.contactSearchActions>({
+		isDisplayed: false,
+	});
+	const [photoSelected, setPhotoSelected] = useState<Messenger.photoSelect>({
+		isDisplayed: false,
+	});
 
-  //Slider display and hide
-  const displaySlider = () => {
-    setAccountInfoIsDisplayed(true);
-  };
-  const hideSlider = () => {
-    setAccountInfoIsDisplayed(false);
-  };
+	const [createChatDisplayed, setCreateChatDisplayed] = useState<boolean>(false);
+	const [infoDisplayed, setInfoDisplayed] = useState<boolean>(false);
+	const [accountInfoIsDisplayed, setAccountInfoIsDisplayed] = useState<boolean>(false);
+	const [settingsDisplayed, setSettingsDisplayed] = useState<boolean>(false);
+	const [imageUrl, setImageUrl] = useState<string | null | ArrayBuffer>('');
 
-  //Create chat display and hide
-  const displayCreateChat = () => {
-    setCreateChatDisplayed(true);
-  };
-  const hideCreateChat = () => {
-    setCreateChatDisplayed(false);
-  };
+	//Slider display and hide
+	const displaySlider = () => {
+		setAccountInfoIsDisplayed(true);
+	};
+	const hideSlider = () => {
+		setAccountInfoIsDisplayed(false);
+	};
 
-  //Chat info display and hide
-  const displayChatInfo = () => {
-    setInfoDisplayed(!infoDisplayed);
-  };
-  const hideChatInfo = () => {
-    setInfoDisplayed(false);
-  };
+	//Create chat display and hide
+	const displayCreateChat = () => {
+		setCreateChatDisplayed(true);
+	};
+	const hideCreateChat = () => {
+		setCreateChatDisplayed(false);
+	};
 
-  //Settings dispay and hideChatInfo
+	//Chat info display and hide
+	const displayChatInfo = () => {
+		setInfoDisplayed(!infoDisplayed);
+	};
+	const hideChatInfo = () => {
+		setInfoDisplayed(false);
+	};
 
-  const displaySettings = () => setSettingsDisplayed(true);
-  const hideSettings = () => setSettingsDisplayed(false);
+	//Settings dispay and hideChatInfo
 
-  //Contact search display and hide
-  const displayContactSearch = (actions?: Messenger.contactSearchActions) => {
-    setContactSearchDisplayed({ isDisplayed: true, ...actions });
-  };
-  const hideContactSearch = () => {
-    setContactSearchDisplayed({ isDisplayed: false });
-  };
+	const displaySettings = () => setSettingsDisplayed(true);
+	const hideSettings = () => setSettingsDisplayed(false);
 
-  //Cropper display and hide
-  const hideChangePhoto = () => setPhotoSelected({ isDisplayed: false });
-  const displayChangePhoto = ({ onSubmit }: Messenger.photoSelect) => {
-    setPhotoSelected({ ...photoSelected, isDisplayed: true, onSubmit });
-    hideContactSearch();
-    hideSlider();
-  };
+	//Contact search display and hide
+	const displayContactSearch = (actions?: Messenger.contactSearchActions) => {
+		setContactSearchDisplayed({ isDisplayed: true, ...actions });
+	};
+	const hideContactSearch = () => {
+		setContactSearchDisplayed({ isDisplayed: false });
+	};
 
-  return (
-    <div className="messenger">
-      <SearchTop displaySlider={displaySlider} displayCreateChat={displayCreateChat} />
+	//Cropper display and hide
+	const hideChangePhoto = () => setPhotoSelected({ isDisplayed: false });
+	const displayChangePhoto = ({ onSubmit }: Messenger.photoSelect) => {
+		setPhotoSelected({ ...photoSelected, isDisplayed: true, onSubmit });
+		hideContactSearch();
+		hideSlider();
+	};
 
-      {photoSelected.isDisplayed && (
-        <ChangePhoto imageUrl={imageUrl} hideChangePhoto={hideChangePhoto} onSubmit={photoSelected.onSubmit} />
-      )}
+	//Creation of empty dialog with contact
 
-      {(createChatDisplayed ||
-        accountInfoIsDisplayed ||
-        contactSearchDisplayed.isDisplayed ||
-        settingsDisplayed ||
-        photoSelected.isDisplayed) && (
-        <BackgroundBlur
-          onClick={() => {
-            hideCreateChat();
-            hideContactSearch();
-            hideSlider();
-            hideChangePhoto();
-            hideSettings();
-          }}
-        />
-      )}
+	const createEmptyDialog = (user: UserPreview) => {
+		createDialog(user);
+		const dialogId = Number(`${user.id}1`);
+		history.push(`/chats/${dialogId}`);
+		hideContactSearch();
+	};
 
-      <AccountInfo
-        isDisplayed={accountInfoIsDisplayed}
-        hideSlider={hideSlider}
-        displayCreateChat={displayCreateChat}
-        displayContactSearch={displayContactSearch}
-        displaySettings={displaySettings}
-        displayChangePhoto={displayChangePhoto}
-        setImageUrl={setImageUrl}
-      />
+	return (
+		<div className='messenger'>
+			<SearchTop displaySlider={displaySlider} displayCreateChat={displayCreateChat} />
 
-      <ChatData chatInfoDisplayed={infoDisplayed} displayChatInfo={displayChatInfo} />
+			{photoSelected.isDisplayed && (
+				<ChangePhoto imageUrl={imageUrl} hideChangePhoto={hideChangePhoto} onSubmit={photoSelected.onSubmit} />
+			)}
 
-      <ChatList hideChatInfo={hideChatInfo} />
+			{(createChatDisplayed ||
+				accountInfoIsDisplayed ||
+				contactSearchDisplayed.isDisplayed ||
+				settingsDisplayed ||
+				photoSelected.isDisplayed) && (
+				<BackgroundBlur
+					onClick={() => {
+						hideCreateChat();
+						hideContactSearch();
+						hideSlider();
+						hideChangePhoto();
+						hideSettings();
+					}}
+				/>
+			)}
 
-      <CreateChat
-        setImageUrl={setImageUrl}
-        displayChangePhoto={displayChangePhoto}
-        hide={hideCreateChat}
-        isDisplayed={createChatDisplayed}
-      />
+			<AccountInfo
+				isDisplayed={accountInfoIsDisplayed}
+				hideSlider={hideSlider}
+				displayCreateChat={displayCreateChat}
+				displayContactSearch={displayContactSearch}
+				displaySettings={displaySettings}
+				displayChangePhoto={displayChangePhoto}
+				setImageUrl={setImageUrl}
+			/>
 
-      <AccountSettings isDisplayed={settingsDisplayed} hide={hideSettings} />
+			<ChatData chatInfoDisplayed={infoDisplayed} displayChatInfo={displayChatInfo} />
 
-      <ContactSearch hide={hideContactSearch} {...contactSearchDisplayed} />
+			<ChatList hideChatInfo={hideChatInfo} />
 
-      {!createChatDisplayed && !contactSearchDisplayed.isDisplayed && (
-        <div className="messenger__chat-send">
-          <Chat />
-          <CreateMessageInput />
-          <ChatInfo
-            displayCreateChat={displayCreateChat}
-            displayContactSearch={displayContactSearch}
-            hideContactSearch={hideContactSearch}
-            setImageUrl={setImageUrl}
-            displayChangePhoto={displayChangePhoto}
-            isDisplayed={infoDisplayed}
-          />
-        </div>
-      )}
-    </div>
-  );
+			<CreateChat
+				setImageUrl={setImageUrl}
+				displayChangePhoto={displayChangePhoto}
+				hide={hideCreateChat}
+				isDisplayed={createChatDisplayed}
+			/>
+
+			<AccountSettings isDisplayed={settingsDisplayed} hide={hideSettings} />
+
+			<ContactSearch onClickOnContact={createEmptyDialog} hide={hideContactSearch} {...contactSearchDisplayed} />
+
+			{!createChatDisplayed && !contactSearchDisplayed.isDisplayed && (
+				<div className='messenger__chat-send'>
+					<Chat />
+					<CreateMessageInput />
+					<ChatInfo
+						displayCreateChat={displayCreateChat}
+						displayContactSearch={displayContactSearch}
+						hideContactSearch={hideContactSearch}
+						setImageUrl={setImageUrl}
+						displayChangePhoto={displayChangePhoto}
+						isDisplayed={infoDisplayed}
+					/>
+				</div>
+			)}
+		</div>
+	);
 };
 
 export default Messenger;

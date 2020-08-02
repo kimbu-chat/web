@@ -13,10 +13,11 @@ export function createEmptyAction<TType extends TypeConstant>(type: TType): Acti
 	return createAction(type)<undefined>();
 }
 
-export function createEmptyActionWithDeffered<TType extends TypeConstant>(type: TType): ActionCreatorBuilder<TType, undefined, Meta> {
+export function createEmptyActionWithDeffered<TType extends TypeConstant>(
+	type: TType,
+): ActionCreatorBuilder<TType, undefined, Meta> {
 	return createAction(type)<undefined, Meta>();
 }
-
 
 export type Fn = (...args: any[]) => any;
 export type FnMap = { [key: string]: Fn };

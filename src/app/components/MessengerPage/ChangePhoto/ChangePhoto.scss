@@ -1,37 +1,37 @@
 .change-photo__btn-group {
-  transform: translateX(-50%);
-  z-index: 500;
-  display: flex;
-  flex-direction: row;
-  position: absolute;
-  bottom: 10%;
-  left: 50%;
-  & > * {
-    &:first-child {
-      margin-right: 35px;
-    }
-  }
+	transform: translateX(-50%);
+	z-index: 500;
+	display: flex;
+	flex-direction: row;
+	position: absolute;
+	bottom: 10%;
+	left: 50%;
+	& > * {
+		&:first-child {
+			margin-right: 35px;
+		}
+	}
 }
 
 .crop-container {
-  z-index: 500;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  transform: translate(-50%, -50%);
-  & > * {
-    z-index: 500;
-  }
+	z-index: 500;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	transform: translate(-50%, -50%);
+	& > * {
+		z-index: 500;
+	}
 
-  &__canvas {
-    border-radius: 50%;
-  }
+	&__canvas {
+		border-radius: 50%;
+	}
 }
 
 .ReactCrop__image {
-  max-width: 90vw;
-  max-height: 70vh;
+	max-width: 90vw;
+	max-height: 70vh;
 }

@@ -9,36 +9,36 @@ import { useContext } from 'react';
 import { LocalizationContext } from 'app/app';
 
 namespace PhoneInput {
-  export interface Props {
-    country: country | null;
-    setCountry: Function;
-    phone: string;
-    setPhone: Function;
-  }
+	export interface Props {
+		country: country | null;
+		setCountry: Function;
+		phone: string;
+		setPhone: Function;
+	}
 }
 
 export default function PhoneInput({ phone, setPhone, setCountry }: PhoneInput.Props) {
-  const { t } = useContext(LocalizationContext);
+	const { t } = useContext(LocalizationContext);
 
-  const handlePhoneChange = (e: any) => {
-    setPhone(new AsYouType().input(e.target.value));
-    const phoneNumber = parsePhoneNumberFromString(e.target.value);
-    setCountry((oldCountry: country | null) => {
-      const result = countryList.find((elem) => elem.code === phoneNumber?.country);
-      return result ? result : oldCountry;
-    });
-  };
+	const handlePhoneChange = (e: any) => {
+		setPhone(new AsYouType().input(e.target.value));
+		const phoneNumber = parsePhoneNumberFromString(e.target.value);
+		setCountry((oldCountry: country | null) => {
+			const result = countryList.find((elem) => elem.code === phoneNumber?.country);
+			return result ? result : oldCountry;
+		});
+	};
 
-  return (
-    <div className="phone-input">
-      <TextField
-        value={phone}
-        onChange={handlePhoneChange}
-        className="phone-input__input"
-        id="outlined-required"
-        label={t('loginPage.phone')}
-        variant="outlined"
-      />
-    </div>
-  );
+	return (
+		<div className='phone-input'>
+			<TextField
+				value={phone}
+				onChange={handlePhoneChange}
+				className='phone-input__input'
+				id='outlined-required'
+				label={t('loginPage.phone')}
+				variant='outlined'
+			/>
+		</div>
+	);
 }

@@ -6,7 +6,7 @@ import { ChatActions } from 'app/store/dialogs/actions';
 import { RootState } from 'app/store/root-reducer';
 
 export class ConferenceMessageReadEventHandler implements IEventHandler<MessagesReadIntegrationEvent> {
-  public handle(store: Store<RootState>, eventData: MessagesReadIntegrationEvent): void {
-    store.dispatch(ChatActions.changeInterlocutorLastReadMessageId(eventData));
-  }
+	public handle(store: Store<RootState>, eventData: MessagesReadIntegrationEvent): void {
+		store.dispatch(ChatActions.changeInterlocutorLastReadMessageId(eventData));
+	}
 }

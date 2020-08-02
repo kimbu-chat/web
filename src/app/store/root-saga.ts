@@ -8,5 +8,5 @@ import { MyProfileSagas } from './my-profile/sagas';
 import { InitiationSagas } from './initiation/sagas';
 
 export function* rootSaga(): SagaIterator {
-  yield all([...InitiationSagas, ...ChatSagas, ...MessageSagas, ...AuthSagas, ...FriendSagas, ...MyProfileSagas]);
+	yield all([...InitiationSagas, ...ChatSagas, ...MessageSagas, ...AuthSagas, ...FriendSagas, ...MyProfileSagas]);
 }

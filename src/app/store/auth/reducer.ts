@@ -5,65 +5,64 @@ import produce from 'immer';
 import { createReducer } from 'typesafe-actions';
 
 export interface AuthState {
-  loading: boolean;
-  confirmationCode: string;
-  isConfirmationCodeWrong: boolean;
-  isAuthenticated: boolean;
-  securityTokens: SecurityTokens;
+	loading: boolean;
+	confirmationCode: string;
+	isConfirmationCodeWrong: boolean;
+	isAuthenticated: boolean;
+	securityTokens: SecurityTokens;
 }
 
 const authService = new AuthService();
 const securityTokens = authService?.securityTokens;
 
 const initialState: AuthState = {
-  loading: false,
-  confirmationCode: '',
-  isConfirmationCodeWrong: false,
-  isAuthenticated: securityTokens ? true : false,
-  securityTokens: securityTokens,
+	loading: false,
+	confirmationCode: '',
+	isConfirmationCodeWrong: false,
+	isAuthenticated: securityTokens ? true : false,
+	securityTokens: securityTokens,
 };
-
 
 const auth = createReducer<AuthState>(initialState)
 	.handleAction(
 		[AuthActions.sendSmsCode],
 		produce((draft: AuthState) => {
-      return {
-        ...draft,
-        loading: true,
-        isConfirmationCodeWrong: false
-      };
+			return {
+				...draft,
+				loading: true,
+				isConfirmationCodeWrong: false,
+			};
 		}),
 	)
 	.handleAction(
 		[AuthActions.loginSuccess],
 		produce((draft: AuthState, { payload }: ReturnType<typeof AuthActions.loginSuccess>) => {
-      return {
-        ...draft,
-        isAuthenticated: true,
-        securityTokens: payload
-      };
+			return {
+				...draft,
+				isAuthenticated: true,
+				securityTokens: payload,
+			};
 		}),
 	)
 	.handleAction(
 		[AuthActions.sendSmsCodeSuccess],
 		produce((draft: AuthState, { payload }: ReturnType<typeof AuthActions.sendSmsCodeSuccess>) => {
-      return {
-        ...draft,
-        loading: false,
-        confirmationCode: payload
-      };
+			return {
+				...draft,
+				loading: false,
+				confirmationCode: payload,
+			};
 		}),
 	)
 	.handleAction(
 		[AuthActions.confirmPhoneFailure],
 		produce((draft: AuthState) => {
-      return {
-        ...draft,
-        loading: false,
-        isConfirmationCodeWrong: true
-      };
+			return {
+				...draft,
+				loading: false,
+				isConfirmationCodeWrong: true,
+			};
 		}),
 	);
-	
+
 export default auth;

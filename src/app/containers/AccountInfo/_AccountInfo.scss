@@ -1,102 +1,102 @@
 .messenger {
-  &__account-info {
-    background-color: #697cff;
-    width: 280px;
-    height: 100vh;
-    position: absolute;
-    left: -280px;
-    top: 0;
-    color: white;
-    transition: all 0.5s;
-    z-index: 100;
-    overflow-y: auto;
-    .svg {
-      width: 16px;
-      fill: white;
-      margin-right: 10px;
-    }
+	&__account-info {
+		background-color: #697cff;
+		width: 280px;
+		height: 100vh;
+		position: absolute;
+		left: -280px;
+		top: 0;
+		color: white;
+		transition: all 0.5s;
+		z-index: 100;
+		overflow-y: auto;
+		.svg {
+			width: 16px;
+			fill: white;
+			margin-right: 10px;
+		}
 
-    &__btn-groups {
-      padding: 8px 0px 8px 24px;
-    }
+		&__btn-groups {
+			padding: 8px 0px 8px 24px;
+		}
 
-    &__btn-group {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.25);
-      margin-bottom: 16px;
-      width: 100%;
-    }
+		&__btn-group {
+			border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+			margin-bottom: 16px;
+			width: 100%;
+		}
 
-    &__btn {
-      display: flex;
-      font-size: 14px;
-      color: #ebebeb;
-      padding: 8px 0;
-    }
+		&__btn {
+			display: flex;
+			font-size: 14px;
+			color: #ebebeb;
+			padding: 8px 0;
+		}
 
-    &--active {
-      left: 0px;
-    }
-  }
+		&--active {
+			left: 0px;
+		}
+	}
 
-  &__change-photo {
-    opacity: 0;
-    visibility: hidden;
-    display: flex;
-    background-color: rgba(0, 0, 0, 0.4);
-    width: 132px;
-    height: 132px;
-    margin: 0 auto;
-    margin-top: -136px;
-    z-index: 200;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    border: 2px solid transparent;
-    pointer-events: none;
-  }
+	&__change-photo {
+		opacity: 0;
+		visibility: hidden;
+		display: flex;
+		background-color: rgba(0, 0, 0, 0.4);
+		width: 132px;
+		height: 132px;
+		margin: 0 auto;
+		margin-top: -136px;
+		z-index: 200;
+		justify-content: center;
+		align-items: center;
+		border-radius: 50%;
+		border: 2px solid transparent;
+		pointer-events: none;
+	}
 
-  &__change-photo__svg {
-    width: 24px;
-    svg {
-      fill: white;
-    }
-  }
+	&__change-photo__svg {
+		width: 24px;
+		svg {
+			fill: white;
+		}
+	}
 
-  &__hide-info {
-    position: absolute;
-    top: 20px;
-    left: 11px;
-  }
+	&__hide-info {
+		position: absolute;
+		top: 20px;
+		left: 11px;
+	}
 
-  &__account-avatar-img {
-    width: 132px !important;
-    height: 132px !important;
-    margin: 0 auto;
-    object-fit: cover !important;
-    border: 2px solid #fff;
+	&__account-avatar-img {
+		width: 132px !important;
+		height: 132px !important;
+		margin: 0 auto;
+		object-fit: cover !important;
+		border: 2px solid #fff;
 
-    &:hover ~ * {
-      opacity: 1;
-      visibility: visible;
-      cursor: pointer;
-    }
-  }
+		&:hover ~ * {
+			opacity: 1;
+			visibility: visible;
+			cursor: pointer;
+		}
+	}
 
-  &__account-avatar {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 32px 24px 20px;
-    h1 {
-      margin: 0 auto;
-      margin-top: 16px;
-      font-size: 14px;
-      font-weight: 500;
-      max-width: 100%;
-      color: #fff;
-      word-break: break-word;
-      cursor: pointer;
-      color: #ebebeb;
-    }
-  }
+	&__account-avatar {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		padding: 32px 24px 20px;
+		h1 {
+			margin: 0 auto;
+			margin-top: 16px;
+			font-size: 14px;
+			font-weight: 500;
+			max-width: 100%;
+			color: #fff;
+			word-break: break-word;
+			cursor: pointer;
+			color: #ebebeb;
+		}
+	}
 }

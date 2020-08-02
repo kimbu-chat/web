@@ -5,7 +5,7 @@ import { ChatActions } from 'app/store/dialogs/actions';
 import { RootState } from 'app/store/root-reducer';
 
 export class ConferenceCreatedEventHandler implements IEventHandler<ConferenceCreatedIntegrationEvent> {
-  public handle(store: Store<RootState>, eventData: ConferenceCreatedIntegrationEvent): void {
-    store.dispatch(ChatActions.createConferenceFromEvent(eventData));
-  }
+	public handle(store: Store<RootState>, eventData: ConferenceCreatedIntegrationEvent): void {
+		store.dispatch(ChatActions.createConferenceFromEvent(eventData));
+	}
 }

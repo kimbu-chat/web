@@ -1,44 +1,44 @@
 .messenger {
-  &__search-top {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    border-right: 1px solid rgba(#000, 0.2);
-    border-bottom: 1px solid rgba(#000, 0.2);
-  }
+	&__search-top {
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+		border-right: 1px solid rgba(#000, 0.2);
+		border-bottom: 1px solid rgba(#000, 0.2);
+	}
 
-  &__burger {
-    height: 24px;
-    width: 24px;
-  }
+	&__burger {
+		height: 24px;
+		width: 24px;
+	}
 
-  &__search {
-    display: flex;
-    align-items: center;
-    border-radius: 1000000px;
-    height: 32px;
-    width: 150px;
-    background: #ebebeb;
-    padding-left: 6px;
-    svg {
-      height: 16px;
-      width: 16px;
-      margin-right: 16px;
-    }
-    input {
-      height: 16px;
-      border: none;
-      border-radius: 0;
-      background: transparent;
-      &:focus {
-        border: none;
-        outline: none;
-      }
-    }
-  }
+	&__search {
+		display: flex;
+		align-items: center;
+		border-radius: 1000000px;
+		height: 32px;
+		width: 150px;
+		background: #ebebeb;
+		padding-left: 6px;
+		svg {
+			height: 16px;
+			width: 16px;
+			margin-right: 16px;
+		}
+		input {
+			height: 16px;
+			border: none;
+			border-radius: 0;
+			background: transparent;
+			&:focus {
+				border: none;
+				outline: none;
+			}
+		}
+	}
 
-  &__create-chat-btn {
-    width: 24px;
-    height: 24px;
-  }
+	&__create-chat-btn {
+		width: 24px;
+		height: 24px;
+	}
 }

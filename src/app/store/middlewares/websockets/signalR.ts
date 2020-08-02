@@ -18,76 +18,76 @@ const CONNECTION_ENDPOINT = 'http://notifications.ravudi.com/signalr';
 let connection: HubConnection | null = null;
 
 export function signalRInvokeMiddleware(store: any): any {
-  return (next: any) => async (action: any) => {
-    switch (action.type) {
-      case WebsocketsActionTypes.INIT_SOCKET_CONNECTION: {
-        if (
-          !connection ||
-          connection.state === HubConnectionState.Disconnected ||
-          connection.state !== HubConnectionState.Connecting
-        ) {
-          openConnection(store);
-        }
-        return next(action);
-      }
-      case getType(AuthActions.logout): {
-        if (connection && connection.state === HubConnectionState.Connected) {
-          connection.stop();
-        }
-        return next(action);
-      }
-      default:
-        return next(action);
-    }
-  };
+	return (next: any) => async (action: any) => {
+		switch (action.type) {
+			case WebsocketsActionTypes.INIT_SOCKET_CONNECTION: {
+				if (
+					!connection ||
+					connection.state === HubConnectionState.Disconnected ||
+					connection.state !== HubConnectionState.Connecting
+				) {
+					openConnection(store);
+				}
+				return next(action);
+			}
+			case getType(AuthActions.logout): {
+				if (connection && connection.state === HubConnectionState.Connected) {
+					connection.stop();
+				}
+				return next(action);
+			}
+			default:
+				return next(action);
+		}
+	};
 }
 
 function openConnection(store: Store<RootState>): void {
-  const eventManager = new EventManager();
-  eventManager.registerEventHandler(EVENTS_NAMES.MESSAGE_CREATED, new MessageCreatedEventHandler());
-  eventManager.registerEventHandler(EVENTS_NAMES.INTEROCUTOR_MESSAGE_TYPING, new UserMessageTypingEventHandler());
-  eventManager.registerEventHandler(EVENTS_NAMES.USER_STATUS_CHANGED, new UserStatusChangedEventHandler());
-  eventManager.registerEventHandler(EVENTS_NAMES.CONFERENCE_CREATED, new ConferenceCreatedEventHandler());
-  eventManager.registerEventHandler(EVENTS_NAMES.CONFERENCE_MESSAGE_READ, new ConferenceMessageReadEventHandler());
-  eventManager.registerEventHandler(EVENTS_NAMES.USER_MESSAGE_READ, new UserMessageReadEventHandler());
+	const eventManager = new EventManager();
+	eventManager.registerEventHandler(EVENTS_NAMES.MESSAGE_CREATED, new MessageCreatedEventHandler());
+	eventManager.registerEventHandler(EVENTS_NAMES.INTEROCUTOR_MESSAGE_TYPING, new UserMessageTypingEventHandler());
+	eventManager.registerEventHandler(EVENTS_NAMES.USER_STATUS_CHANGED, new UserStatusChangedEventHandler());
+	eventManager.registerEventHandler(EVENTS_NAMES.CONFERENCE_CREATED, new ConferenceCreatedEventHandler());
+	eventManager.registerEventHandler(EVENTS_NAMES.CONFERENCE_MESSAGE_READ, new ConferenceMessageReadEventHandler());
+	eventManager.registerEventHandler(EVENTS_NAMES.USER_MESSAGE_READ, new UserMessageReadEventHandler());
 
-  connection = new HubConnectionBuilder()
-    .withUrl(CONNECTION_ENDPOINT, {
-      logMessageContent: true,
-      accessTokenFactory: () => store.getState().auth.securityTokens.accessToken
-    })
-    .withAutomaticReconnect()
-    .configureLogging(LogLevel.None)
-    .build();
+	connection = new HubConnectionBuilder()
+		.withUrl(CONNECTION_ENDPOINT, {
+			logMessageContent: true,
+			accessTokenFactory: () => store.getState().auth.securityTokens.accessToken,
+		})
+		.withAutomaticReconnect()
+		.configureLogging(LogLevel.None)
+		.build();
 
-  connection
-    .start()
-    .then(() => {
-      console.warn('CONNECTED WEBSOCKETS');
-    })
-    .catch((err: any) => {
-      console.warn('ERROR WEBSOCKETS');
-    });
+	connection
+		.start()
+		.then(() => {
+			console.warn('CONNECTED WEBSOCKETS');
+		})
+		.catch((err: any) => {
+			console.warn('ERROR WEBSOCKETS');
+		});
 
-  connection.on('notify', (event: IntegrationEvent) => {
-    console.warn('connection.on(EVENTS_NAMES.NOTIFY');
-    const eventHandler = eventManager.getEventHandler(event.name as EVENTS_NAMES);
-    eventHandler.handle(store, event.object);
-  });
-  connection.onreconnecting(() => {
-    console.warn('RECONNECTING WEBSOCKETS');
-  });
+	connection.on('notify', (event: IntegrationEvent) => {
+		console.warn('connection.on(EVENTS_NAMES.NOTIFY');
+		const eventHandler = eventManager.getEventHandler(event.name as EVENTS_NAMES);
+		eventHandler.handle(store, event.object);
+	});
+	connection.onreconnecting(() => {
+		console.warn('RECONNECTING WEBSOCKETS');
+	});
 
-  connection.onreconnected(() => {
-    console.warn('ON RECCONECTED WEBSOCKETS');
-  });
+	connection.onreconnected(() => {
+		console.warn('ON RECCONECTED WEBSOCKETS');
+	});
 
-  connection.onclose((err: any) => {
-    console.warn('WEB SOCKET CONNECTION WAS LOST', err);
-  });
+	connection.onclose((err: any) => {
+		console.warn('WEB SOCKET CONNECTION WAS LOST', err);
+	});
 }
 
 interface IntegrationEvent {
-  name: string;
-  object: any;
+	name: string;
+	object: any;
 }

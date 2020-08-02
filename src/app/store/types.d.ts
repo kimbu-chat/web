@@ -5,3 +5,5 @@ declare module 'typesafe-actions' {
 		RootAction: RootAction;
 	}
 }
+
+declare module '*.ogg';

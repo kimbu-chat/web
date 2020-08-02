@@ -1,81 +1,103 @@
 {
-  "loginPage": {
-    "title": "Войти Kimbu",
-    "confirm_phone": "Подтвердите ваш номер телефона",
-    "confirm_code": "Введите код пришедший на телефон",
-    "log_in": "Вход",
-    "next": "Далее",
-    "wrong_code": "Неверный код",
-    "country": "Cтрана",
-    "phone": "Телефон",
-    "code": "Код"
-  },
-  "accountInfo": {
-    "create_chat": "Создать чат",
-    "create_channel": "Создать канал",
-    "create_call": "Создать звонок",
-    "to_main": "На главную",
-    "contacts": "Контакты",
-    "settings": "Настройки",
-    "exit": "Выход"
-  },
-  "accountSettings": {
-    "settings": "Настройки"
-  },
-  "langCategory": {
-    "language": "Язык"
-  },
-  "chatData": {
-    "members": "участника",
-    "member": "участник",
-    "online": "Онлайн",
-    "last-time": "Последний раз был в сети"
-  },
-  "chatFromList": {
-    "you": "Вы"
-  },
-  "chatActions": {
-    "actions": "Действия",
-    "create_group": "Создать груповой чат",
-    "delete_contact": "Удалить контакт",
-    "rename_conference": "Переименовать конференцию",
-    "add_to_conference": "Добавить в конференцию",
-    "notifications_on": "Уведомления включены",
-    "notifications_off": "Уведомления отключенны",
-    "leave_conference": "Покинуть конференцию",
-    "delete_chat": "Удалить чат"
-  },
-  "chatMembers": {
-    "members": "Участники",
-    "add_members": "Добавить участников",
-    "load_more": "Показать еще",
-    "search": "Поиск"
-  },
-  "renameConference": {
-    "newName": "Новое название",
-    "rename": "Переименовать",
-    "reject": "Отмена"
-  },
-  "contactsSearch": {
-    "contactsSearch": "Поиск по контактам",
-    "create_chat": "Создать чат",
-    "reject": "Отмена"
-  },
-  "createChat": {
-    "createChat": "Создание нового чата",
-    "confirm": "Создать чат",
-    "reject": "Отменить",
-    "chat_name": "Название чата",
-    "search-friends": "Поиск по контактам",
-    "no_name_error": "Название чата должно включать в себя как минимум 1 символ",
-    "no_members_error": "Выберите как минимум 1 участника"
-  },
-  "searchTop": {
-    "search": "Поиск"
-  },
-  "changePhoto": {
-    "confirm": "Подтвердить",
-    "reject": "Отмена"
-  },
-  "back": "Назад"
+	"loginPage": {
+		"title": "Войти Kimbu",
+		"confirm_phone": "Подтвердите ваш номер телефона",
+		"confirm_code": "Введите код пришедший на телефон",
+		"log_in": "Вход",
+		"next": "Далее",
+		"wrong_code": "Неверный код",
+		"country": "Cтрана",
+		"phone": "Телефон",
+		"code": "Код"
+	},
+	"accountInfo": {
+		"create_chat": "Создать чат",
+		"create_channel": "Создать канал",
+		"create_call": "Создать звонок",
+		"to_main": "На главную",
+		"contacts": "Контакты",
+		"settings": "Настройки",
+		"exit": "Выход"
+	},
+	"accountSettings": {
+		"settings": "Настройки"
+	},
+	"langCategory": {
+		"language": "Язык"
+	},
+	"chatData": {
+		"members": "участника",
+		"member": "участник",
+		"online": "Онлайн",
+		"last-time": "Последний раз был в сети"
+	},
+	"chatFromList": {
+		"you": "Вы"
+	},
+	"chatActions": {
+		"actions": "Действия",
+		"create_group": "Создать груповой чат",
+		"delete_contact": "Удалить контакт",
+		"rename_conference": "Переименовать конференцию",
+		"add_to_conference": "Добавить в конференцию",
+		"notifications_on": "Уведомления включены",
+		"notifications_off": "Уведомления отключенны",
+		"leave_conference": "Покинуть конференцию",
+		"delete_chat": "Удалить чат"
+	},
+	"chatMembers": {
+		"members": "Участники",
+		"add_members": "Добавить участников",
+		"load_more": "Показать еще",
+		"search": "Поиск"
+	},
+	"renameConference": {
+		"newName": "Новое название",
+		"rename": "Переименовать",
+		"reject": "Отмена"
+	},
+	"contactsSearch": {
+		"contactsSearch": "Поиск по контактам",
+		"create_chat": "Создать чат",
+		"reject": "Отмена"
+	},
+	"createChat": {
+		"createChat": "Создание нового чата",
+		"confirm": "Создать чат",
+		"reject": "Отменить",
+		"chat_name": "Название чата",
+		"search-friends": "Поиск по контактам",
+		"no_name_error": "Название чата должно включать в себя как минимум 1 символ",
+		"no_members_error": "Выберите как минимум 1 участника"
+	},
+	"searchTop": {
+		"search": "Поиск"
+	},
+	"changePhoto": {
+		"confirm": "Подтвердить",
+		"reject": "Отмена"
+	},
+	"messageInput": {
+		"write": "Напишите сообщение..."
+	},
+	"back": "Назад",
+	"emojiMart": {
+		"search": "Поиск",
+		"clear": "Отчистить",
+		"notfound": "Не найденно эмоджи",
+		"skintext": "Выберете стандартный цвет кожи",
+		"categories": {
+			"search": "Результаты поиска",
+			"recent": "Часто используемые",
+			"smileys": "Смайлики и эмоции",
+			"people": "Люди и тело",
+			"nature": "Животные и природа",
+			"foods": "Еда и Напитки",
+			"activity": "Действия",
+			"places": "Путешествия и Места",
+			"objects": "Обьекты",
+			"symbols": "Символы",
+			"flags": "Флаги"
+		}
+	}
 }

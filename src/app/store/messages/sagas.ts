@@ -1,4 +1,4 @@
-import { call, put, takeLatest, takeEvery } from 'redux-saga/effects';
+import { call, put, takeLatest, takeEvery, select } from 'redux-saga/effects';
 
 import {
 	CreateMessageRequest,
@@ -15,6 +15,10 @@ import { MessageActions } from './actions';
 import { InterlocutorType } from '../dialogs/models';
 import { MessagesHttpRequests } from './http-requests';
 import { SagaIterator } from 'redux-saga';
+
+//Sounds
+import messageCameUnselected from '../../sounds/notifications/messsage-came-unselected.ogg';
+import messageCameSelected from '../../sounds/notifications/messsage-came-selected.ogg';
 
 export function* getMessages(action: ReturnType<typeof MessageActions.getMessages>): SagaIterator {
 	const { page, dialog } = action.payload;
@@ -47,11 +51,20 @@ export function* getMessages(action: ReturnType<typeof MessageActions.getMessage
 }
 
 export function* createMessage(action: ReturnType<typeof MessageActions.createMessage>): SagaIterator {
-	let { message, dialog, isFromEvent } = { ...action.payload };
+	let { message, dialog, isFromEvent, selectedDialogId } = { ...action.payload };
+
+	let audioUnselected = new Audio(messageCameUnselected);
+	let audioSelected = new Audio(messageCameSelected);
 
 	const { interlocutorId, interlocutorType } = DialogService.parseDialogId(dialog.id);
 	if (isFromEvent) {
 		yield call(notifyInterlocutorThatMessageWasRead, action.payload);
+
+		//notifications play
+		const currentUserId = yield select((state) => state.myProfile.user.id);
+		if (message.userCreator?.id !== currentUserId && !(selectedDialogId !== message.dialogId) && !document.hidden)
+			audioSelected.play();
+		if (selectedDialogId !== message.dialogId || document.hidden) audioUnselected.play();
 	} else {
 		try {
 			const messageCreationReq: MessageCreationReqData = {

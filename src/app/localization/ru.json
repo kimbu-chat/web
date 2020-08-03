@@ -32,7 +32,11 @@
 		"last-time": "Последний раз был в сети"
 	},
 	"chatFromList": {
-		"you": "Вы"
+		"you": "Вы",
+		"typing": "Печатает..."
+	},
+	"chat": {
+		"typing": "печатает..."
 	},
 	"chatActions": {
 		"actions": "Действия",

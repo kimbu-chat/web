@@ -96,7 +96,9 @@ const ChatFromList = ({ dialog, sideEffect }: ChatFromList.Props) => {
 				<div className='messenger__name'>{getDialogInterlocutor(dialog)}</div>
 				<div className='flat'>
 					{/* <img src={lastPhoto} alt="" className="messenger__last-photo" /> */}
-					<div className='messenger__last-message'>{getMessageText()}</div>
+					<div className='messenger__last-message'>
+						{dialog.isInterlocutorTyping ? t('chatFromList.typing') : getMessageText()}
+					</div>
 				</div>
 			</div>
 			<div className='messenger__time-and-count'>

@@ -32,7 +32,11 @@
 		"last-time": "Last seen online at"
 	},
 	"chatFromList": {
-		"you": "You"
+		"you": "You",
+		"typing": "Is typing..."
+	},
+	"chat": {
+		"typing": "is typing..."
 	},
 	"chatActions": {
 		"actions": "Actions",

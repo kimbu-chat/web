@@ -17,6 +17,8 @@ import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { AvatarSelectedData, UserPreview } from 'app/store/my-profile/models';
 import { ChatActions } from 'app/store/dialogs/actions';
 import { MessageActions } from 'app/store/messages/actions';
+import { useSelector } from 'react-redux';
+import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
 
 export namespace Messenger {
 	export interface contactSearchActions {
@@ -43,6 +45,8 @@ export namespace Messenger {
 const Messenger = () => {
 	const changeSelectedDialog = useActionWithDispatch(ChatActions.changeSelectedChat);
 	const createDialog = useActionWithDispatch(MessageActions.createDialog);
+
+	const selectedDialog = useSelector(getSelectedDialogSelector);
 
 	const { id: chatId } = useParams();
 	const history = useHistory();
@@ -96,7 +100,7 @@ const Messenger = () => {
 		setInfoDisplayed(false);
 	};
 
-	//Settings dispay and hideChatInfo
+	//Settings dispay and hide settings
 
 	const displaySettings = () => setSettingsDisplayed(true);
 	const hideSettings = () => setSettingsDisplayed(false);
@@ -125,6 +129,10 @@ const Messenger = () => {
 		history.push(`/chats/${dialogId}`);
 		hideContactSearch();
 	};
+
+	//hide chatInfo on dialog change
+
+	useEffect(() => hideChatInfo(), [selectedDialog?.id]);
 
 	return (
 		<div className='messenger'>
@@ -162,7 +170,7 @@ const Messenger = () => {
 
 			<ChatData chatInfoDisplayed={infoDisplayed} displayChatInfo={displayChatInfo} />
 
-			<ChatList hideChatInfo={hideChatInfo} />
+			<ChatList />
 
 			<CreateChat
 				setImageUrl={setImageUrl}

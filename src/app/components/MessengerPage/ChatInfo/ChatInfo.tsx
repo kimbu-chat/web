@@ -54,8 +54,8 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 	const deleteConference = (): void => leaveConference(selectedDialog);
 	const setNewConferenceName = (newName: string): void => renameConference({ newName, dialog: selectedDialog });
 	const createConference = (): void => {
-		markUser(selectedDialog.interlocutor?.id || -1);
 		displayCreateChat();
+		markUser(selectedDialog.interlocutor?.id || -1);
 	};
 	const addUsers = (userIds: number[]): void => {
 		addUsersToConferece({ dialog: selectedDialog, userIds }).then(hideContactSearch);

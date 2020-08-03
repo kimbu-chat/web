@@ -1,10 +1,13 @@
 import React from 'react';
 import { messageFrom } from '../Chat/Chat';
-import { Message, SystemMessageType } from 'app/store/messages/models';
+import { Message, SystemMessageType, MessageState } from 'app/store/messages/models';
 import { MessageUtils } from 'app/utils/message-utils';
 import { useSelector } from 'react-redux';
 import './Message.scss';
 import { RootState } from 'app/store/root-reducer';
+import DoneIcon from '@material-ui/icons/Done';
+import DoneAllIcon from '@material-ui/icons/DoneAll';
+import CachedIcon from '@material-ui/icons/Cached';
 
 namespace Message {
 	export interface Props {
@@ -61,6 +64,14 @@ const MessageItem = ({ from, content, time, needToShowDateSeparator, dateSeparat
 				>
 					{content}
 					<span className='messenger__message-time'>{time}</span>
+					{from === messageFrom.me &&
+						(message.state === MessageState.READ ? (
+							<DoneAllIcon className='messenger__read' />
+						) : message.state === MessageState.QUEUED ? (
+							<CachedIcon className='messenger__read' />
+						) : (
+							<DoneIcon className='messenger__read' />
+						))}
 				</div>
 			</div>
 		</React.Fragment>

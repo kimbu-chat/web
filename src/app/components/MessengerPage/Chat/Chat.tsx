@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
@@ -11,6 +11,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { MessageActions } from 'app/store/messages/actions';
 import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
 import { RootState } from 'app/store/root-reducer';
+import { LocalizationContext } from 'app/app';
 
 export enum messageFrom {
 	me,
@@ -20,6 +21,8 @@ export enum messageFrom {
 const Chat = () => {
 	const getMessages = useActionWithDeferred(MessageActions.getMessages);
 	const markMessagesAsRead = useActionWithDispatch(MessageActions.markMessagesAsRead);
+
+	const { t } = useContext(LocalizationContext);
 
 	const selectedDialog = useSelector(getSelectedDialogSelector);
 	const messages = useSelector<RootState, Message[]>(
@@ -127,7 +130,9 @@ const Chat = () => {
 		<div className='messenger__messages-list'>
 			<div ref={messagesContainerRef} className='messenger__messages-container'>
 				{selectedDialog.isInterlocutorTyping && (
-					<div className='messenger__typing-notification'>{`${selectedDialog.interlocutor?.firstName} ${selectedDialog.interlocutor?.lastName} печатает...`}</div>
+					<div className='messenger__typing-notification'>{`${selectedDialog.interlocutor?.firstName} ${
+						selectedDialog.interlocutor?.lastName
+					} ${t('chat.typing')}`}</div>
 				)}
 				<InfiniteScroll
 					pageStart={0}

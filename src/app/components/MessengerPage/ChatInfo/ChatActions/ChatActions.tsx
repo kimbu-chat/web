@@ -111,7 +111,7 @@ const ChatActions = ({
 								></path>
 							</svg>
 						</div>
-						<span className='chat-info__action-nam'>
+						<span className='chat-info__action-name'>
 							{selectedDialog.interlocutor
 								? t('chatActions.delete_chat')
 								: t('chatActions.leave_conference')}

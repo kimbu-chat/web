@@ -348,6 +348,25 @@ const dialogs = createReducer<DialogsState>(initialState)
 				return draft;
 			}
 		}),
+	)
+	.handleAction(
+		ChatActions.changeInterlocutorLastReadMessageId,
+		produce(
+			(draft: DialogsState, { payload }: ReturnType<typeof ChatActions.changeInterlocutorLastReadMessageId>) => {
+				const { lastReadMessageId, userReaderId } = payload;
+
+				const dialogId = DialogService.getDialogId(userReaderId, null);
+				const dialogIndex = getDialogArrayIndex(dialogId, draft);
+
+				console.log(dialogId, dialogIndex, lastReadMessageId);
+
+				if (dialogIndex >= 0) {
+					draft.dialogs[dialogIndex].interlocutorLastReadMessageId = lastReadMessageId;
+				}
+
+				return draft;
+			},
+		),
 	);
 
 export default dialogs;

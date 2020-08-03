@@ -5,6 +5,9 @@ import { MessageUtils } from 'app/utils/message-utils';
 import { useSelector } from 'react-redux';
 import './Message.scss';
 import { RootState } from 'app/store/root-reducer';
+import DoneIcon from '@material-ui/icons/Done';
+import DoneAllIcon from '@material-ui/icons/DoneAll';
+import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
 
 namespace Message {
 	export interface Props {
@@ -19,6 +22,7 @@ namespace Message {
 
 const MessageItem = ({ from, content, time, needToShowDateSeparator, dateSeparator, message }: Message.Props) => {
 	const currentUserId: number = useSelector<RootState, number>((state) => state.myProfile.user.id);
+	const selectedDialog = useSelector(getSelectedDialogSelector);
 
 	if (message?.systemMessageType !== SystemMessageType.None) {
 		return (
@@ -61,6 +65,11 @@ const MessageItem = ({ from, content, time, needToShowDateSeparator, dateSeparat
 				>
 					{content}
 					<span className='messenger__message-time'>{time}</span>
+					{message.id > (selectedDialog?.interlocutorLastReadMessageId || 999999999) ? (
+						<DoneIcon className='messenger__read' />
+					) : (
+						<DoneAllIcon className='messenger__read' />
+					)}
 				</div>
 			</div>
 		</React.Fragment>

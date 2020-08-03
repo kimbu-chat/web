@@ -48,7 +48,7 @@
 	&__message-time {
 		font-size: 11px;
 		line-height: 12px;
-		padding: 4px 8px 0px 4px;
+		padding: 4px 3px 0px 4px;
 	}
 
 	&__message-separator {
@@ -68,5 +68,10 @@
 			line-height: 16px;
 			color: #fff;
 		}
+	}
+
+	&__read {
+		height: 17px !important;
+		margin-bottom: -6px !important;
 	}
 }

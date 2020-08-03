@@ -1,8 +1,10 @@
-import { MessageList } from './models';
+import { MessageList, MessageState } from './models';
 import _ from 'lodash';
 import produce from 'immer';
 import { createReducer } from 'typesafe-actions';
 import { MessageActions } from './actions';
+import { ChatActions } from '../dialogs/actions';
+import { DialogService } from '../dialogs/dialog-service';
 
 export interface MessagesState {
 	loading: boolean;
@@ -89,6 +91,26 @@ const messages = createReducer<MessagesState>(initialState)
 			draft.messages[chatIndex].messages.unshift(message);
 			return draft;
 		}),
+	)
+	.handleAction(
+		ChatActions.changeInterlocutorLastReadMessageId,
+		produce(
+			(draft: MessagesState, { payload }: ReturnType<typeof ChatActions.changeInterlocutorLastReadMessageId>) => {
+				const { lastReadMessageId, userReaderId } = payload;
+
+				const dialogId = DialogService.getDialogId(userReaderId, null);
+
+				const chatIndex = getChatIndex(draft, dialogId);
+
+				if (chatIndex !== -1) {
+					draft.messages[chatIndex].messages.map((message) => {
+						if (message.id <= lastReadMessageId) message.state = MessageState.READ;
+					});
+				}
+
+				return draft;
+			},
+		),
 	);
 
 export default messages;

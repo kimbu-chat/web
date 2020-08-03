@@ -18,11 +18,10 @@ import { NavLink } from 'react-router-dom';
 namespace ChatFromList {
 	export interface Props {
 		dialog: Dialog;
-		sideEffect: () => void;
 	}
 }
 
-const ChatFromList = ({ dialog, sideEffect }: ChatFromList.Props) => {
+const ChatFromList = ({ dialog }: ChatFromList.Props) => {
 	const { interlocutor, lastMessage, conference } = dialog;
 	const { t } = useContext(LocalizationContext);
 	const currentUserId: number = useSelector<RootState, number>((state) => state.myProfile.user.id);
@@ -74,7 +73,6 @@ const ChatFromList = ({ dialog, sideEffect }: ChatFromList.Props) => {
 	};
 
 	const setSelectedDialog = (): void => {
-		sideEffect();
 		changeSelectedDialog(dialog.id);
 	};
 

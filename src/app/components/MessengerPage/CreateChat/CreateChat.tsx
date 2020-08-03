@@ -44,17 +44,17 @@ const CreateChat = ({ hide, setImageUrl, displayChangePhoto, isDisplayed }: Crea
 
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-	const searchFriends = (name: string) => {
+	const searchFriends = (name: string, initializedBySearch: boolean) => {
 		setSearchFriendStr(name);
-		loadFriends({ page: { offset: 0, limit: 25 }, name, initializedBySearch: true });
+		loadFriends({ page: { offset: 0, limit: 25 }, name, initializedBySearch: initializedBySearch });
 	};
 
 	useEffect(() => {
-		searchFriends('');
+		searchFriends('', false);
 		setChatName('');
 		setSearchFriendStr('');
 
-		return () => searchFriends('');
+		return () => searchFriends('', true);
 	}, [isDisplayed]);
 
 	const rejectConferenceCreation = () => {
@@ -158,7 +158,7 @@ const CreateChat = ({ hide, setImageUrl, displayChangePhoto, isDisplayed }: Crea
 					placeholder={t('createChat.search-friends')}
 					type='text'
 					className='messenger__create-chat__contact-name'
-					onChange={(e) => searchFriends(e.target.value)}
+					onChange={(e) => searchFriends(e.target.value, true)}
 					value={searchFriendStr}
 				/>
 				<div className='messenger__create-chat__contacts-list'>

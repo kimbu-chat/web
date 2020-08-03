@@ -9,15 +9,9 @@ import { Dialog } from 'app/store/dialogs/models';
 import { RootState } from 'app/store/root-reducer';
 import { ChatActions } from 'app/store/dialogs/actions';
 
-namespace ChatList {
-	export interface Props {
-		hideChatInfo: () => void;
-	}
-}
-
 export const DIALOGS_LIMIT = 20;
 
-const ChatList = ({ hideChatInfo }: ChatList.Props) => {
+const ChatList = () => {
 	const getChats = useActionWithDispatch(ChatActions.getChats);
 
 	const dialogs = useSelector<RootState, Dialog[]>((rootState) => rootState.dialogs.dialogs) || [];
@@ -63,7 +57,7 @@ const ChatList = ({ hideChatInfo }: ChatList.Props) => {
 				isReverse={false}
 			>
 				{dialogs?.map((dialog: Dialog) => {
-					return <ChatFromList sideEffect={hideChatInfo} dialog={dialog} key={dialog.id} />;
+					return <ChatFromList dialog={dialog} key={dialog.id} />;
 				})}
 			</InfiniteScroll>
 		</div>

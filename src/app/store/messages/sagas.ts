@@ -21,6 +21,9 @@ import { SagaIterator } from 'redux-saga';
 import messageCameUnselected from '../../sounds/notifications/messsage-came-unselected.ogg';
 import messageCameSelected from '../../sounds/notifications/messsage-came-selected.ogg';
 
+const audioUnselected = new Audio(messageCameUnselected);
+const audioSelected = new Audio(messageCameSelected);
+
 export function* getMessages(action: ReturnType<typeof MessageActions.getMessages>): SagaIterator {
 	const { page, dialog } = action.payload;
 	const isConference: boolean = Boolean(dialog.conference);
@@ -53,9 +56,6 @@ export function* getMessages(action: ReturnType<typeof MessageActions.getMessage
 
 export function* createMessage(action: ReturnType<typeof MessageActions.createMessage>): SagaIterator {
 	let { message, dialog, isFromEvent, selectedDialogId } = { ...action.payload };
-
-	let audioUnselected = new Audio(messageCameUnselected);
-	let audioSelected = new Audio(messageCameSelected);
 
 	const { interlocutorId, interlocutorType } = DialogService.parseDialogId(dialog.id);
 	if (isFromEvent) {

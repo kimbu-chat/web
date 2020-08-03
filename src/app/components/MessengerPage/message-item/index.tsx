@@ -65,11 +65,12 @@ const MessageItem = ({ from, content, time, needToShowDateSeparator, dateSeparat
 				>
 					{content}
 					<span className='messenger__message-time'>{time}</span>
-					{message.id > (selectedDialog?.interlocutorLastReadMessageId || 999999999) ? (
-						<DoneIcon className='messenger__read' />
-					) : (
-						<DoneAllIcon className='messenger__read' />
-					)}
+					{from === messageFrom.me &&
+						(message.id > (selectedDialog?.interlocutorLastReadMessageId || 999999999) ? (
+							<DoneIcon className='messenger__read' />
+						) : (
+							<DoneAllIcon className='messenger__read' />
+						))}
 				</div>
 			</div>
 		</React.Fragment>

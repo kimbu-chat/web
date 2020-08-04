@@ -9,11 +9,11 @@ import { getDialogInterlocutor, getInterlocutorInitials } from '../../../utils/g
 import { Avatar } from '@material-ui/core';
 import StatusBadge from 'app/utils/StatusBadge';
 import _ from 'lodash';
-import { RootState } from 'app/store/root-reducer';
 import { ChatActions } from 'app/store/dialogs/actions';
 import { SystemMessageType, Message } from 'app/store/messages/models';
 import { LocalizationContext } from 'app/app';
 import { NavLink } from 'react-router-dom';
+import { getMyIdSelector } from 'app/store/my-profile/selectors';
 
 namespace ChatFromList {
 	export interface Props {
@@ -24,7 +24,7 @@ namespace ChatFromList {
 const ChatFromList = ({ dialog }: ChatFromList.Props) => {
 	const { interlocutor, lastMessage, conference } = dialog;
 	const { t } = useContext(LocalizationContext);
-	const currentUserId: number = useSelector<RootState, number>((state) => state.myProfile.user.id);
+	const currentUserId: number = useSelector(getMyIdSelector) as number;
 	const isMessageCreatorCurrentUser: boolean = lastMessage?.userCreator?.id === currentUserId;
 	const changeSelectedDialog = useActionWithDispatch(ChatActions.changeSelectedChat);
 

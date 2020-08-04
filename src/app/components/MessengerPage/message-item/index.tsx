@@ -4,10 +4,10 @@ import { Message, SystemMessageType, MessageState } from 'app/store/messages/mod
 import { MessageUtils } from 'app/utils/message-utils';
 import { useSelector } from 'react-redux';
 import './Message.scss';
-import { RootState } from 'app/store/root-reducer';
 import DoneIcon from '@material-ui/icons/Done';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
 import CachedIcon from '@material-ui/icons/Cached';
+import { getMyIdSelector } from 'app/store/my-profile/selectors';
 
 namespace Message {
 	export interface Props {
@@ -21,7 +21,7 @@ namespace Message {
 }
 
 const MessageItem = ({ from, content, time, needToShowDateSeparator, dateSeparator, message }: Message.Props) => {
-	const currentUserId: number = useSelector<RootState, number>((state) => state.myProfile.user.id);
+	const currentUserId: number = useSelector(getMyIdSelector) as number;
 
 	if (message?.systemMessageType !== SystemMessageType.None) {
 		return (

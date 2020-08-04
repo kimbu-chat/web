@@ -4,8 +4,8 @@ import StatusBadge from 'app/utils/StatusBadge';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { useSelector } from 'react-redux';
 import { UserPreview } from 'app/store/my-profile/models';
-import { RootState } from 'app/store/root-reducer';
 import { FriendActions } from 'app/store/friends/actions';
+import { getMyIdSelector } from 'app/store/my-profile/selectors';
 
 namespace ContactItem {
 	export interface Props {
@@ -17,7 +17,7 @@ namespace ContactItem {
 }
 
 const ContactItem = ({ user, isSelectable, displayMyself, onClick }: ContactItem.Props) => {
-	const myId = useSelector<RootState, number>((state) => state.myProfile.user.id);
+	const myId = useSelector(getMyIdSelector) as number;
 	const markUser = useActionWithDispatch(FriendActions.markUserAsAddedToConference);
 	const selectUser = () => markUser(user.id || -1);
 

@@ -12,6 +12,7 @@ import { MessageActions } from 'app/store/messages/actions';
 import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
 import { RootState } from 'app/store/root-reducer';
 import { LocalizationContext } from 'app/app';
+import { getMyIdSelector } from 'app/store/my-profile/selectors';
 
 export enum messageFrom {
 	me,
@@ -34,7 +35,7 @@ const Chat = () => {
 			state.messages.messages.find((x: MessageList) => x.dialogId == selectedDialog?.id)
 				?.hasMoreMessages as boolean,
 	);
-	const myId = useSelector<RootState, number>((state) => state.myProfile.user.id);
+	const myId = useSelector(getMyIdSelector) as number;
 
 	const messagesContainerRef = useRef(null);
 

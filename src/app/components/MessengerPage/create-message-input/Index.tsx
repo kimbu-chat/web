@@ -5,12 +5,12 @@ import { UserPreview } from 'app/store/my-profile/models';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { Dialog } from 'app/store/dialogs/models';
 import { MessageActions } from 'app/store/messages/actions';
-import { RootState } from 'app/store/root-reducer';
 import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
 import { SystemMessageType, MessageState } from 'app/store/messages/models';
 import { Picker } from 'emoji-mart';
 import 'emoji-mart/css/emoji-mart.css';
 import { LocalizationContext } from 'app/app';
+import { getMyIdSelector } from 'app/store/my-profile/selectors';
 
 const CreateMessageInput = () => {
 	const { t } = useContext(LocalizationContext);
@@ -18,7 +18,7 @@ const CreateMessageInput = () => {
 	const sendMessage = useActionWithDispatch(MessageActions.createMessage);
 	const notifyAboutTyping = useActionWithDispatch(MessageActions.messageTyping);
 
-	const currentUserId = useSelector<RootState, number>((appState: RootState) => appState.myProfile.user.id);
+	const currentUserId = useSelector(getMyIdSelector) as number;
 	const selectedDialog = useSelector(getSelectedDialogSelector) as Dialog;
 	const [text, setText] = useState('');
 	const [smilesDisplayed, setSmilesDisplayed] = useState<boolean>(false);

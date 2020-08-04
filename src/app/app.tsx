@@ -4,9 +4,9 @@ import LoginPage from './containers/Login/LoginPage';
 import Messenger from './containers/Messenger/Messenger';
 import './base.scss';
 import i18nConfiguration from 'app/localization/i18n';
-import PrivateRoute from './utils/PrivateRoute';
-import PublicRoute from './utils/PublicRoute';
 import { useTranslation } from 'react-i18next';
+import PublicRoute from './routing/PublicRoute';
+import PrivateRoute from './routing/PrivateRoute';
 
 namespace App {
 	export interface localization {

@@ -8,14 +8,14 @@ export enum UserStatus {
 
 export interface UserPreview {
 	id: number;
-	firstName?: string;
-	lastName?: string;
+	firstName: string;
+	lastName: string;
 	avatarUrl?: string;
-	nickname?: string;
-	status?: UserStatus;
+	nickname: string;
+	status: UserStatus;
 	gender?: number;
-	lastOnlineTime?: Date;
-	phoneNumber?: string;
+	lastOnlineTime: Date;
+	phoneNumber: string;
 
 	supposedToAddIntoConference?: boolean;
 }

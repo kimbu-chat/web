@@ -48,7 +48,7 @@ const Messenger = () => {
 
 	const selectedDialog = useSelector(getSelectedDialogSelector);
 
-	const { id: chatId } = useParams();
+	const { id: chatId } = useParams<{ id: string }>();
 	const history = useHistory();
 
 	//redux sync with history

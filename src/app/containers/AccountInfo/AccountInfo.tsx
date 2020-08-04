@@ -54,9 +54,9 @@ const AccountInfo = ({
 
 	const changePhoto = useActionWithDeferred(MyProfileActions.updateMyAvatar);
 
-	const firstName = useSelector<RootState, string>((state) => state.myProfile.user?.firstName || '');
-	const lastName = useSelector<RootState, string>((state) => state.myProfile.user?.lastName || '');
-	const avatar = useSelector<RootState, string>((state) => state.myProfile.user?.avatarUrl || '');
+	const firstName = useSelector<RootState, string>((state) => state.myProfile.user?.firstName);
+	const lastName = useSelector<RootState, string>((state) => state.myProfile.user?.lastName);
+	const avatar = useSelector<RootState, string | undefined>((state) => state.myProfile?.user?.avatarUrl);
 
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -94,7 +94,9 @@ const AccountInfo = ({
 			displayChangePhoto({ onSubmit: changePhoto });
 		};
 
-		if (e.target.files) reader.readAsDataURL(e.target.files[0]);
+		if (e.target.files) {
+			reader.readAsDataURL(e.target.files[0]);
+		}
 	};
 
 	return (

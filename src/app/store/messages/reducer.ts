@@ -28,9 +28,8 @@ const messages = createReducer<MessagesState>(initialState)
 			const { messageState, dialogId, oldMessageId, newMessageId } = payload;
 			const chatIndex = getChatIndex(draft, dialogId);
 			const messageIndex = draft.messages[chatIndex].messages.findIndex((x) => x.id == oldMessageId);
-
-			(draft.messages[chatIndex].messages[messageIndex].id = newMessageId),
-				(draft.messages[chatIndex].messages[messageIndex].state = messageState);
+			draft.messages[chatIndex].messages[messageIndex].id = newMessageId;
+			draft.messages[chatIndex].messages[messageIndex].state = messageState;
 
 			return draft;
 		}),

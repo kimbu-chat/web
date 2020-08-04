@@ -4,20 +4,19 @@ import { UserPreview } from './models';
 import { MyProfileActions } from './actions';
 import { MyProfileService } from 'app/services/my-profile-service';
 
-export interface AuthState {
+export interface MyProfileState {
 	user: UserPreview;
 }
 
 const authService = new MyProfileService();
-console.warn(authService.myProfile);
-const initialState: AuthState = {
+const initialState: MyProfileState = {
 	user: authService.myProfile,
 };
 
-const myProfile = createReducer<AuthState>(initialState)
+const myProfile = createReducer<MyProfileState>(initialState)
 	.handleAction(
 		[MyProfileActions.updateMyAvatarSuccess],
-		produce((draft: AuthState, { payload }: ReturnType<typeof MyProfileActions.updateMyAvatarSuccess>) => {
+		produce((draft: MyProfileState, { payload }: ReturnType<typeof MyProfileActions.updateMyAvatarSuccess>) => {
 			if (draft.user) {
 				draft.user.avatarUrl = payload.fullAvatarUrl;
 			}
@@ -26,7 +25,7 @@ const myProfile = createReducer<AuthState>(initialState)
 	)
 	.handleAction(
 		[MyProfileActions.getMyProfileSuccess],
-		produce((draft: AuthState, { payload }: ReturnType<typeof MyProfileActions.getMyProfileSuccess>) => {
+		produce((draft: MyProfileState, { payload }: ReturnType<typeof MyProfileActions.getMyProfileSuccess>) => {
 			return {
 				...draft,
 				user: payload,

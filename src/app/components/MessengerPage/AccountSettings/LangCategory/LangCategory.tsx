@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { LocalizationContext } from 'app/app';
+import { LangService, langs } from 'app/services/lang-service';
 
 const LangCategory = () => {
 	const { t, i18n } = useContext(LocalizationContext);
@@ -11,7 +12,7 @@ const LangCategory = () => {
 					<input
 						onClick={() => {
 							i18n.changeLanguage('ru');
-							console.log(7);
+							new LangService().setLang({ language: langs.ru });
 						}}
 						id='russian'
 						type='radio'
@@ -25,6 +26,7 @@ const LangCategory = () => {
 					<input
 						onClick={() => {
 							i18n.changeLanguage('en');
+							new LangService().setLang({ language: langs.en });
 						}}
 						id='english'
 						type='radio'

@@ -1,22 +1,25 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
+import './ChatInfo.scss';
 import { useSelector } from 'react-redux';
-import { Avatar } from '@material-ui/core';
 import { Dialog } from 'app/store/dialogs/models';
-import StatusBadge from 'app/utils/StatusBadge';
 import { getInterlocutorInitials, getDialogInterlocutor } from '../../../utils/get-interlocutor';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
-import RenameConferenceModal from './RenameConferenceModal/RenameConferenceModal';
 import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
-import Modal from '@material-ui/core/Modal';
 import { Messenger } from 'app/containers/Messenger/Messenger';
-import './_ChatInfo.scss';
-import ChatMembers from './ChatMembers/ChatMembers';
 import { AvatarSelectedData } from 'app/store/my-profile/models';
-import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
-import { FriendActions } from 'app/store/friends/actions';
 
-import { ChatActions as AppActions } from 'app/store/dialogs/actions';
-import ChatActions from './ChatActions/ChatActions';
+import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
+
+import ChatManipulation from './ChatManipulation/ChatManipulation';
+import StatusBadge from 'app/utils/StatusBadge';
+import ChatMembers from './ChatMembers/ChatMembers';
+import RenameConferenceModal from './RenameConferenceModal/RenameConferenceModal';
+
+import { FriendActions } from 'app/store/friends/actions';
+import { ChatActions } from 'app/store/dialogs/actions';
+
+import { Avatar } from '@material-ui/core';
+import Modal from '@material-ui/core/Modal';
 
 namespace ChatInfo {
 	export interface Props {
@@ -39,14 +42,14 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 }) => {
 	const selectedDialog = useSelector(getSelectedDialogSelector) as Dialog;
 
-	const leaveConference = useActionWithDispatch(AppActions.leaveConference);
-	const removeDialog = useActionWithDispatch(AppActions.removeChat);
-	const muteDialog = useActionWithDispatch(AppActions.muteChat);
+	const leaveConference = useActionWithDispatch(ChatActions.leaveConference);
+	const removeDialog = useActionWithDispatch(ChatActions.removeChat);
+	const muteDialog = useActionWithDispatch(ChatActions.muteChat);
 	const deleteFriend = useActionWithDispatch(FriendActions.deleteFriend);
 	const markUser = useActionWithDispatch(FriendActions.markUserAsAddedToConference);
-	const renameConference = useActionWithDispatch(AppActions.renameConference);
-	const addUsersToConferece = useActionWithDeferred(AppActions.addUsersToConference);
-	const changeConferenceAvatar = useActionWithDeferred(AppActions.changeConferenceAvatar);
+	const renameConference = useActionWithDispatch(ChatActions.renameConference);
+	const addUsersToConferece = useActionWithDeferred(ChatActions.addUsersToConference);
+	const changeConferenceAvatar = useActionWithDeferred(ChatActions.changeConferenceAvatar);
 
 	const deleteChat = (): void => removeDialog(selectedDialog);
 	const muteChat = (): void => muteDialog(selectedDialog);
@@ -60,15 +63,18 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 	const addUsers = (userIds: number[]): void => {
 		addUsersToConferece({ dialog: selectedDialog, userIds }).then(hideContactSearch);
 	};
-	const searchContactsToAdd = (args?: Messenger.optionalContactSearchActions) => {
-		displayContactSearch({
-			isDisplayed: true,
-			isSelectable: true,
-			onSubmit: addUsers,
-			displayMyself: false,
-			...args,
-		});
-	};
+	const searchContactsToAdd = useCallback(
+		(args?: Messenger.optionalContactSearchActions) => {
+			displayContactSearch({
+				isDisplayed: true,
+				isSelectable: true,
+				onSubmit: addUsers,
+				displayMyself: false,
+				...args,
+			});
+		},
+		[addUsers],
+	);
 	const changeAvatar = (data: AvatarSelectedData) =>
 		changeConferenceAvatar({
 			conferenceId: selectedDialog.conference?.id || -100,
@@ -138,7 +144,7 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 					/>
 					<span className='chat-info__interlocutor'>{getDialogInterlocutor(selectedDialog)}</span>
 				</div>
-				<ChatActions
+				<ChatManipulation
 					deleteChat={deleteChat}
 					deleteConference={deleteConference}
 					muteChat={muteChat}
@@ -170,4 +176,4 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 	}
 };
 
-export default ChatInfo;
+export default React.memo(ChatInfo, (prevProps, nextProps) => prevProps.isDisplayed === nextProps.isDisplayed);

@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
-import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { useSelector } from 'react-redux';
-import { Dialog } from 'app/store/dialogs/models';
 import './SearchTop.scss';
+
+import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+import { Dialog } from 'app/store/dialogs/models';
 import { ChatActions } from 'app/store/dialogs/actions';
 import { RootState } from 'app/store/root-reducer';
 import { LocalizationContext } from 'app/app';
@@ -20,7 +21,7 @@ const SearchTop = ({ displaySlider, displayCreateChat }: SearchTop.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const getDialogs = useActionWithDispatch(ChatActions.getChats);
-	const dialogs = useSelector<RootState, Dialog[]>((rootState) => rootState.dialogs.dialogs) || [];
+	const dialogs = useSelector<RootState, Dialog[]>((rootState) => rootState.dialogs.dialogs);
 
 	const handleDialogSearchChange = (name: string): void => {
 		getDialogs({
@@ -73,4 +74,4 @@ const SearchTop = ({ displaySlider, displayCreateChat }: SearchTop.Props) => {
 	);
 };
 
-export default SearchTop;
+export default React.memo(SearchTop);

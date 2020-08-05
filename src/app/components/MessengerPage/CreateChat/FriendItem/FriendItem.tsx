@@ -43,4 +43,7 @@ const FriendItem = ({ user }: FriendItem.Props) => {
 	);
 };
 
-export default FriendItem;
+export default React.memo(
+	FriendItem,
+	(prevProps, nextProps) => prevProps.user.supposedToAddIntoConference === nextProps.user.supposedToAddIntoConference,
+);

@@ -1,11 +1,11 @@
 import * as React from 'react';
+import { useContext, useCallback } from 'react';
+import './CountrySelect.scss';
 
 import TextField from '@material-ui/core/TextField';
 import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
 
 import { countryList, country } from '../../../utils/countries';
-import './CountrySelect.scss';
-import { useContext } from 'react';
 import { LocalizationContext } from 'app/app';
 
 namespace CountrySelect {
@@ -22,28 +22,31 @@ function countryToFlag(isoCode: string): string {
 		: isoCode;
 }
 
-export default function CountrySelect({ country, setCountry, setPhone }: CountrySelect.Props) {
+const CountrySelect = ({ country, setCountry, setPhone }: CountrySelect.Props) => {
 	const { t } = useContext(LocalizationContext);
 	const [inputValue, setInputValue] = React.useState('');
 
-	const handleCountryChange = (event: any, newCountry: country | null) => {
-		setCountry((oldCountry) => {
-			setPhone((oldPhone) => {
-				if (typeof oldCountry === 'object') {
-					const onlyNumber = oldPhone
-						.split(' ')
-						.join('')
-						.split(oldCountry ? oldCountry.number : '')[1];
-					const preparedNumber = newCountry?.number + onlyNumber ? onlyNumber : '';
-					const newCode = newCountry ? newCountry.number : '';
-					return preparedNumber ? preparedNumber : newCode;
-				} else {
-					return newCountry ? newCountry.number : '';
-				}
+	const handleCountryChange = useCallback(
+		(event: any, newCountry: country | null) => {
+			setCountry((oldCountry) => {
+				setPhone((oldPhone) => {
+					if (typeof oldCountry === 'object') {
+						const onlyNumber = oldPhone
+							.split(' ')
+							.join('')
+							.split(oldCountry ? oldCountry.number : '')[1];
+						const preparedNumber = newCountry?.number + onlyNumber ? onlyNumber : '';
+						const newCode = newCountry ? newCountry.number : '';
+						return preparedNumber ? preparedNumber : newCode;
+					} else {
+						return newCountry ? newCountry.number : '';
+					}
+				});
+				return newCountry ? newCountry : countryList[0];
 			});
-			return newCountry ? newCountry : countryList[0];
-		});
-	};
+		},
+		[setCountry, setPhone],
+	);
 
 	return (
 		<Autocomplete
@@ -78,4 +81,6 @@ export default function CountrySelect({ country, setCountry, setPhone }: Country
 			})}
 		/>
 	);
-}
+};
+
+export default React.memo(CountrySelect, (prevProps, nextProps) => prevProps.country === nextProps.country);

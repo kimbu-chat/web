@@ -38,7 +38,7 @@
 	"chat": {
 		"typing": "is typing..."
 	},
-	"chatActions": {
+	"ChatManipulation": {
 		"actions": "Actions",
 		"create_group": "Create group",
 		"delete_contact": "Delete contact",

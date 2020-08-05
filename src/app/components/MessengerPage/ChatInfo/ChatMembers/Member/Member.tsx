@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
-import './_Member.scss';
-import { UserPreview } from 'app/store/my-profile/models';
 import moment from 'moment';
-import StatusBadge from 'app/utils/StatusBadge';
+
+import { UserPreview } from 'app/store/my-profile/models';
 import { LocalizationContext } from 'app/app';
+
+import StatusBadge from 'app/utils/StatusBadge';
 
 namespace Member {
 	export interface Props {
@@ -29,4 +30,4 @@ const Member = ({ member }: Member.Props) => {
 	);
 };
 
-export default Member;
+export default React.memo(Member);

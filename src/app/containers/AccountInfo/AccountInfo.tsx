@@ -1,9 +1,12 @@
-import React, { useRef, useContext } from 'react';
-import { Avatar } from '@material-ui/core';
+import React, { useRef, useContext, useCallback } from 'react';
+import './AccountInfo.scss';
+
 import { useSelector } from 'react-redux';
-import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
 import { useHistory } from 'react-router-dom';
-import './_AccountInfo.scss';
+
+import { Avatar } from '@material-ui/core';
+
+import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
 import { Messenger } from 'app/containers/Messenger/Messenger';
 import { RootState } from 'app/store/root-reducer';
 import { AuthActions } from 'app/store/auth/actions';
@@ -54,8 +57,8 @@ const AccountInfo = ({
 
 	const changePhoto = useActionWithDeferred(MyProfileActions.updateMyAvatar);
 
-	const firstName = useSelector<RootState, string>((state) => state.myProfile.user?.firstName);
-	const lastName = useSelector<RootState, string>((state) => state.myProfile.user?.lastName);
+	const firstName = useSelector<RootState, string>((state) => state.myProfile.user.firstName);
+	const lastName = useSelector<RootState, string>((state) => state.myProfile.user.lastName);
 	const avatar = useSelector<RootState, string | undefined>((state) => state.myProfile?.user?.avatarUrl);
 
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -66,23 +69,23 @@ const AccountInfo = ({
 
 	const logout = () => startLogout(undefined).then(() => history.push('/login'));
 
-	const createChat = () => {
+	const createChat = useCallback(() => {
 		hideSlider();
 		displayCreateChat();
-	};
+	}, [hideSlider, displayCreateChat]);
 
-	const contactSearch = () => {
+	const contactSearch = useCallback(() => {
 		hideSlider();
 		displayContactSearch({
 			isDisplayed: true,
 			displayMyself: true,
 		});
-	};
+	}, [hideSlider, displayContactSearch]);
 
-	const settings = () => {
+	const settings = useCallback(() => {
 		hideSlider();
 		displaySettings();
-	};
+	}, [displaySettings, hideSlider]);
 
 	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		e.preventDefault();
@@ -234,4 +237,4 @@ const AccountInfo = ({
 		</div>
 	);
 };
-export default AccountInfo;
+export default React.memo(AccountInfo, (prevProps, nextProps) => prevProps.isDisplayed === nextProps.isDisplayed);

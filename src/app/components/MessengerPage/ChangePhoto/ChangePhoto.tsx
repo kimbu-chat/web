@@ -1,11 +1,14 @@
 import React, { useState, useCallback, useRef, useEffect, useContext } from 'react';
+import ReactDOM from 'react-dom';
 import './ChangePhoto.scss';
-import { Button } from '@material-ui/core';
+
+import { AvatarSelectedData } from 'app/store/my-profile/models';
+import { LocalizationContext } from 'app/app';
+
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
-import { AvatarSelectedData } from 'app/store/my-profile/models';
-import ReactDOM from 'react-dom';
-import { LocalizationContext } from 'app/app';
+
+import { Button } from '@material-ui/core';
 
 namespace ChangePhoto {
 	export interface Props {
@@ -64,6 +67,24 @@ const ChangePhotoComponent = ({ imageUrl, onSubmit, hideChangePhoto }: ChangePho
 	const [stage, setStage] = useState<ChangePhoto.Stage>(ChangePhoto.Stage.imageCrop);
 
 	const previewCanvasRef = useRef<HTMLCanvasElement | null>(null);
+
+	const submitChange = useCallback(() => {
+		if (stage === ChangePhoto.Stage.imageCrop) {
+			return setStage(ChangePhoto.Stage.imagePreview);
+		}
+
+		if (onSubmit && stage === ChangePhoto.Stage.imagePreview && typeof imageUrl === 'string') {
+			hideChangePhoto();
+			const croppedUrl = generateDownload(previewCanvasRef.current, completedCrop || {});
+			onSubmit({
+				offsetY: crop.y || 250,
+				offsetX: crop.x || 250,
+				width: crop.width || 500,
+				imagePath: imageUrl,
+				croppedImagePath: croppedUrl,
+			});
+		}
+	}, [stage, setStage, onSubmit]);
 
 	const onLoad = useCallback((img) => {
 		imgRef.current = img;
@@ -129,65 +150,43 @@ const ChangePhotoComponent = ({ imageUrl, onSubmit, hideChangePhoto }: ChangePho
 		);
 	}, [completedCrop]);
 
-	if (typeof imageUrl === 'string') {
-		return (
-			<div>
-				<div className='crop-container'>
-					<ReactCrop
-						className={stage === ChangePhoto.Stage.imageCrop ? 'visible' : 'hidden'}
-						src={imageUrl}
-						onImageLoaded={onLoad}
-						crop={crop}
-						onChange={(c: ReactCrop.Crop) => setCrop(c)}
-						circularCrop={true}
-						onComplete={(c) => setCompletedCrop(c)}
-					/>
-					<canvas
-						className={
-							stage === ChangePhoto.Stage.imagePreview
-								? 'crop-container__canvas visible'
-								: 'crop-container__canvas hidden'
-						}
-						ref={previewCanvasRef}
-						style={{
-							width: completedCrop?.width || 0,
-							height: completedCrop?.height || 0,
-						}}
-					/>
-				</div>
-				<div className='change-photo__btn-group'>
-					<Button
-						onClick={() => {
-							if (stage === ChangePhoto.Stage.imageCrop) {
-								return setStage(ChangePhoto.Stage.imagePreview);
-							}
-
-							if (onSubmit && stage === ChangePhoto.Stage.imagePreview) {
-								hideChangePhoto();
-								const croppedUrl = generateDownload(previewCanvasRef.current, completedCrop || {});
-								onSubmit({
-									offsetY: crop.y || 250,
-									offsetX: crop.x || 250,
-									width: crop.width || 500,
-									imagePath: imageUrl,
-									croppedImagePath: croppedUrl,
-								});
-							}
-						}}
-						variant='contained'
-						color='primary'
-					>
-						{t('changePhoto.confirm')}
-					</Button>
-					<Button onClick={hideChangePhoto} variant='contained' color='secondary'>
-						{t('changePhoto.reject')}
-					</Button>
-				</div>
+	return typeof imageUrl === 'string' ? (
+		<div>
+			<div className='crop-container'>
+				<ReactCrop
+					className={stage === ChangePhoto.Stage.imageCrop ? 'visible' : 'hidden'}
+					src={imageUrl}
+					onImageLoaded={onLoad}
+					crop={crop}
+					onChange={(c: ReactCrop.Crop) => setCrop(c)}
+					circularCrop={true}
+					onComplete={(c) => setCompletedCrop(c)}
+				/>
+				<canvas
+					className={
+						stage === ChangePhoto.Stage.imagePreview
+							? 'crop-container__canvas visible'
+							: 'crop-container__canvas hidden'
+					}
+					ref={previewCanvasRef}
+					style={{
+						width: completedCrop?.width || 0,
+						height: completedCrop?.height || 0,
+					}}
+				/>
 			</div>
-		);
-	}
-
-	return <div></div>;
+			<div className='change-photo__btn-group'>
+				<Button onClick={submitChange} variant='contained' color='primary'>
+					{t('changePhoto.confirm')}
+				</Button>
+				<Button onClick={hideChangePhoto} variant='contained' color='secondary'>
+					{t('changePhoto.reject')}
+				</Button>
+			</div>
+		</div>
+	) : (
+		<div></div>
+	);
 };
 
 const ChangePhotoPortal = (props: ChangePhoto.Props) => {
@@ -197,4 +196,4 @@ const ChangePhotoPortal = (props: ChangePhoto.Props) => {
 	);
 };
 
-export default ChangePhotoPortal;
+export default React.memo(ChangePhotoPortal, () => true);

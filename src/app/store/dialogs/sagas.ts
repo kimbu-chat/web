@@ -209,7 +209,7 @@ function* createConferenceFromEventSaga(
 ): SagaIterator {
 	const payload: ConferenceCreatedIntegrationEvent = action.payload;
 	const dialogId: number = DialogService.getDialogIdentifier(null, payload.objectId);
-	const currentUserId = new MyProfileService().myProfile.id;
+	const currentUser = new MyProfileService().myProfile;
 
 	const message: Message = {
 		systemMessageType: SystemMessageType.ConferenceCreated,
@@ -236,7 +236,7 @@ function* createConferenceFromEventSaga(
 		message: message,
 		isFromEvent: true,
 		dialog: dialog,
-		currentUser: { id: currentUserId },
+		currentUser,
 		selectedDialogId: dialog.id,
 	};
 

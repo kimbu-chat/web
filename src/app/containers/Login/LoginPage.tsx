@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useCallback } from 'react';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 
 import './LoginPage.scss';
@@ -23,13 +23,13 @@ namespace LoginPageProps {
 	}
 }
 
-export default function LoginPage() {
+const LoginPage = () => {
 	const { t } = useContext(LocalizationContext);
 
-	const [country, setCountry] = React.useState<null | country>(null);
+	const [country, setCountry] = useState<null | country>(null);
 	const [phone, setPhone] = React.useState<string>('');
 	const [stage, setStage] = React.useState<LoginPageProps.Stages>(LoginPageProps.Stages.phoneInput);
-	const [code, setCode] = React.useState<string>('');
+	const [code, setCode] = React.useState('');
 	const [error, setError] = React.useState<string>('');
 
 	const codeFromServer = useSelector<RootState, string>((rootState) => rootState.auth.confirmationCode);
@@ -40,33 +40,33 @@ export default function LoginPage() {
 	const sendSmsCode = useActionWithDeferred(AuthActions.sendSmsCode);
 	const checkConfirmationCode = useActionWithDeferred(AuthActions.confirmPhone);
 
-	const sendSms = async () => {
+	const sendSms = useCallback(async () => {
 		const phoneNumber = parsePhoneNumberFromString(phone);
 
 		if (phoneNumber?.isValid()) {
 			setError('');
 
-			sendSmsCode<string>({ phoneNumber: phoneNumber?.number.toString() }).then((code) => {
-				setStage(2);
-			});
+			await sendSmsCode<string>({ phoneNumber: phoneNumber?.number.toString() });
+
+			setStage(2);
 		} else {
 			setError('Phone is not valid');
 		}
-	};
+	}, [setError, setStage, phone]);
 
-	const checkCode = async () => {
-		checkConfirmationCode({ code, phoneNumber: parsePhoneNumberFromString(phone)?.number?.toString() || '' }).then(
-			() => {
-				history.push('/chats');
-			},
-		);
-	};
+	const checkCode = useCallback(async () => {
+		await checkConfirmationCode({ code, phoneNumber: parsePhoneNumberFromString(phone)?.number?.toString() || '' });
+		history.push('/chats');
+	}, [code, phone]);
 
-	const confirmPhoneByCode = (event: any) => {
-		if (event.key === 'Enter') {
-			checkCode();
-		}
-	};
+	const confirmPhoneByCode = useCallback(
+		(event: any) => {
+			if (event.key === 'Enter') {
+				checkCode();
+			}
+		},
+		[checkCode],
+	);
 
 	return (
 		<div className='login-page'>
@@ -122,4 +122,6 @@ export default function LoginPage() {
 			)}
 		</div>
 	);
-}
+};
+
+export default React.memo(LoginPage, () => true);

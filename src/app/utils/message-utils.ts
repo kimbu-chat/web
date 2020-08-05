@@ -7,7 +7,7 @@ import {
 	ConfereceMemberAddedSystemMessageContent,
 	ConfereceNameChangedSystemMessageContent,
 } from 'app/store/messages/models';
-import { UserStatus } from 'app/store/my-profile/models';
+import { UserStatus } from 'app/store/friends/models';
 
 export class MessageUtils {
 	static getSystemMessageContent(text: string): SystemMessageBase {

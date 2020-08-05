@@ -3,7 +3,7 @@ import { messageFrom } from '../Chat/Chat';
 import { Message, SystemMessageType, MessageState } from 'app/store/messages/models';
 import { MessageUtils } from 'app/utils/message-utils';
 import { useSelector } from 'react-redux';
-import './Message.scss';
+import './MessageItem.scss';
 import DoneIcon from '@material-ui/icons/Done';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
 import CachedIcon from '@material-ui/icons/Cached';
@@ -21,7 +21,7 @@ namespace Message {
 }
 
 const MessageItem = ({ from, content, time, needToShowDateSeparator, dateSeparator, message }: Message.Props) => {
-	const currentUserId: number = useSelector(getMyIdSelector) as number;
+	const currentUserId = useSelector(getMyIdSelector) as number;
 
 	if (message?.systemMessageType !== SystemMessageType.None) {
 		return (
@@ -78,4 +78,4 @@ const MessageItem = ({ from, content, time, needToShowDateSeparator, dateSeparat
 	);
 };
 
-export default MessageItem;
+export default React.memo(MessageItem, () => true);

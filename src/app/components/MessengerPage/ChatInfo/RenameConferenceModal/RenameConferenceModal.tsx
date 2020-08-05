@@ -1,7 +1,9 @@
 import React, { useState, useContext } from 'react';
+import './RenameConferenceModal.scss';
+
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import './_RenameConferenceModal.scss';
+
 import { LocalizationContext } from 'app/app';
 
 namespace RenameConferenceModal {

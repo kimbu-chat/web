@@ -1,11 +1,10 @@
-import * as React from 'react';
+import React, { useContext, useCallback } from 'react';
 import { parsePhoneNumberFromString, AsYouType } from 'libphonenumber-js';
+import './PhoneInput.scss';
 
 import TextField from '@material-ui/core/TextField';
 
 import { country, countryList } from '../../../utils/countries';
-import './PhoneInput.scss';
-import { useContext } from 'react';
 import { LocalizationContext } from 'app/app';
 
 namespace PhoneInput {
@@ -17,17 +16,17 @@ namespace PhoneInput {
 	}
 }
 
-export default function PhoneInput({ phone, setPhone, setCountry }: PhoneInput.Props) {
+const PhoneInput = ({ phone, setPhone, setCountry }: PhoneInput.Props) => {
 	const { t } = useContext(LocalizationContext);
 
-	const handlePhoneChange = (e: any) => {
+	const handlePhoneChange = useCallback((e: any) => {
 		setPhone(new AsYouType().input(e.target.value));
 		const phoneNumber = parsePhoneNumberFromString(e.target.value);
 		setCountry((oldCountry: country | null) => {
 			const result = countryList.find((elem) => elem.code === phoneNumber?.country);
 			return result ? result : oldCountry;
 		});
-	};
+	}, []);
 
 	return (
 		<div className='phone-input'>
@@ -41,4 +40,6 @@ export default function PhoneInput({ phone, setPhone, setCountry }: PhoneInput.P
 			/>
 		</div>
 	);
-}
+};
+
+export default PhoneInput;

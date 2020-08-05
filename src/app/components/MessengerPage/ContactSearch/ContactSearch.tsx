@@ -1,8 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
+import './ContactSearch.scss';
 import ContactItem from './ContactItem/ContactItem';
+
+import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+
 import { useSelector } from 'react-redux';
-import './_ContactSearch.scss';
 import { FriendActions } from 'app/store/friends/actions';
 import { RootState } from 'app/store/root-reducer';
 import { UserPreview } from 'app/store/my-profile/models';
@@ -40,15 +42,15 @@ const ContactSearch = ({
 		(state) => state.friends.userIdsToAddIntoConference,
 	);
 
-	const searchFriends = (name: string) => {
+	const searchFriends = useCallback((name: string) => {
 		setSearchFriendStr(name);
 		loadFriends({ page: { offset: 0, limit: 25 }, name, initializedBySearch: true });
-	};
+	}, []);
 
-	const reject = () => {
+	const reject = useCallback(() => {
 		hide();
 		unsetFriends();
-	};
+	}, []);
 
 	useEffect(() => {
 		searchFriends('');
@@ -113,4 +115,4 @@ const ContactSearch = ({
 	);
 };
 
-export default ContactSearch;
+export default React.memo(ContactSearch, (prevProps, nextProps) => prevProps.isDisplayed === nextProps.isDisplayed);

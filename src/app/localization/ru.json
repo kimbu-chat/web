@@ -38,7 +38,7 @@
 	"chat": {
 		"typing": "печатает..."
 	},
-	"chatActions": {
+	"ChatManipulation": {
 		"actions": "Действия",
 		"create_group": "Создать груповой чат",
 		"delete_contact": "Удалить контакт",

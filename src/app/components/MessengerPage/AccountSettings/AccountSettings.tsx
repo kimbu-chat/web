@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import './_AccountSettings.scss';
+import './AccountSettings.scss';
 import LangCategory from './LangCategory/LangCategory';
 import { LocalizationContext } from 'app/app';
 
@@ -34,4 +34,4 @@ const AccountSettings = ({ isDisplayed, hide }: AccountSettings.Props) => {
 	);
 };
 
-export default AccountSettings;
+export default React.memo(AccountSettings, (prevProps, nextProps) => prevProps.isDisplayed === nextProps.isDisplayed);

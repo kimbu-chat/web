@@ -1,16 +1,17 @@
-import React, { useState, useRef, useContext } from 'react';
-import './_SendMessage.scss';
+import React, { useState, useRef, useContext, useCallback } from 'react';
 import { useSelector } from 'react-redux';
+import './MessageInput.scss';
+
+import { Picker } from 'emoji-mart';
+import 'emoji-mart/css/emoji-mart.css';
+
 import { UserPreview } from 'app/store/my-profile/models';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
-import { Dialog } from 'app/store/dialogs/models';
 import { MessageActions } from 'app/store/messages/actions';
 import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
 import { SystemMessageType, MessageState } from 'app/store/messages/models';
-import { Picker } from 'emoji-mart';
-import 'emoji-mart/css/emoji-mart.css';
 import { LocalizationContext } from 'app/app';
-import { getMyIdSelector } from 'app/store/my-profile/selectors';
+import { RootState } from 'app/store/root-reducer';
 
 const CreateMessageInput = () => {
 	const { t } = useContext(LocalizationContext);
@@ -18,8 +19,8 @@ const CreateMessageInput = () => {
 	const sendMessage = useActionWithDispatch(MessageActions.createMessage);
 	const notifyAboutTyping = useActionWithDispatch(MessageActions.messageTyping);
 
-	const currentUserId = useSelector(getMyIdSelector) as number;
-	const selectedDialog = useSelector(getSelectedDialogSelector) as Dialog;
+	const currentUser = useSelector<RootState, UserPreview>((state) => state.myProfile.user);
+	const selectedDialog = useSelector(getSelectedDialogSelector);
 	const [text, setText] = useState('');
 	const [smilesDisplayed, setSmilesDisplayed] = useState<boolean>(false);
 
@@ -35,25 +36,23 @@ const CreateMessageInput = () => {
 		document.removeEventListener('click', handleOutsideClick, false);
 	};
 
-	const handleOutsideClick = (e: any) => {
-		if (!emojiRef.current?.contains(e.target)) {
-			setSmilesDisplayed(false);
-			document.removeEventListener('click', handleOutsideClick, false);
-		}
-	};
+	const handleOutsideClick = useCallback(
+		(e: any) => {
+			if (!emojiRef.current?.contains(e.target)) {
+				setSmilesDisplayed(false);
+				document.removeEventListener('click', handleOutsideClick, false);
+			}
+		},
+		[setSmilesDisplayed, emojiRef],
+	);
 
 	const sendMessageToServer = () => {
-		const currentUser: UserPreview = {
-			id: currentUserId,
-		};
-		const dialogId = selectedDialog.id;
+		const dialogId = selectedDialog?.id;
 
-		if (text.trim().length > 0) {
+		if (text.trim().length > 0 && selectedDialog) {
 			sendMessage({
-				currentUser: {
-					id: currentUserId,
-				},
-				selectedDialogId: dialogId,
+				currentUser: currentUser,
+				selectedDialogId: dialogId || -1,
 				dialog: selectedDialog,
 				message: {
 					text,
@@ -71,10 +70,10 @@ const CreateMessageInput = () => {
 	};
 
 	const handleTextChange = (newText: string): void => {
-		const isDialog = Boolean(selectedDialog.interlocutor);
+		const isDialog = Boolean(selectedDialog?.interlocutor);
 
 		notifyAboutTyping({
-			interlocutorId: isDialog ? selectedDialog.interlocutor?.id : selectedDialog.conference?.id,
+			interlocutorId: isDialog ? selectedDialog?.interlocutor?.id : selectedDialog?.conference?.id,
 			isConference: !isDialog,
 			text: newText,
 		});
@@ -154,4 +153,4 @@ const CreateMessageInput = () => {
 	);
 };
 
-export default CreateMessageInput;
+export default React.memo(CreateMessageInput);

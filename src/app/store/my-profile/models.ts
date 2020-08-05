@@ -1,10 +1,5 @@
+import { UserStatus } from '../friends/models';
 import { Page } from '../common/models';
-
-export enum UserStatus {
-	Offline = 0,
-	Away = 1,
-	Online = 2,
-}
 
 export interface UserPreview {
 	id: number;

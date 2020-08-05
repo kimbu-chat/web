@@ -1,19 +1,23 @@
 import React, { useContext } from 'react';
+import { useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+import moment from 'moment';
+
+import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+
 import './ChatFromList.scss';
 import { Dialog } from 'app/store/dialogs/models';
-import * as moment from 'moment';
-import { useSelector } from 'react-redux';
 import { MessageUtils } from 'app/utils/message-utils';
-import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { getDialogInterlocutor, getInterlocutorInitials } from '../../../utils/get-interlocutor';
-import { Avatar } from '@material-ui/core';
+
 import StatusBadge from 'app/utils/StatusBadge';
 import _ from 'lodash';
 import { ChatActions } from 'app/store/dialogs/actions';
 import { SystemMessageType, Message } from 'app/store/messages/models';
 import { LocalizationContext } from 'app/app';
-import { NavLink } from 'react-router-dom';
 import { getMyIdSelector } from 'app/store/my-profile/selectors';
+
+import { Avatar } from '@material-ui/core';
 
 namespace ChatFromList {
 	export interface Props {
@@ -24,7 +28,7 @@ namespace ChatFromList {
 const ChatFromList = ({ dialog }: ChatFromList.Props) => {
 	const { interlocutor, lastMessage, conference } = dialog;
 	const { t } = useContext(LocalizationContext);
-	const currentUserId: number = useSelector(getMyIdSelector) as number;
+	const currentUserId = useSelector(getMyIdSelector) as number;
 	const isMessageCreatorCurrentUser: boolean = lastMessage?.userCreator?.id === currentUserId;
 	const changeSelectedDialog = useActionWithDispatch(ChatActions.changeSelectedChat);
 
@@ -113,4 +117,4 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
 	);
 };
 
-export default ChatFromList;
+export default React.memo(ChatFromList);

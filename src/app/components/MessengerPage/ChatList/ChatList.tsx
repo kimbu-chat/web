@@ -1,8 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
+import './ChatList.scss';
+
 import ChatFromList from '../ChatFromList/ChatFromList';
 import InfiniteScroll from 'react-infinite-scroller';
+
 import CircularProgress from '@material-ui/core/CircularProgress';
-import './ChatList.scss';
+
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { useSelector } from 'react-redux';
 import { Dialog } from 'app/store/dialogs/models';
@@ -14,7 +17,7 @@ export const DIALOGS_LIMIT = 20;
 const ChatList = () => {
 	const getChats = useActionWithDispatch(ChatActions.getChats);
 
-	const dialogs = useSelector<RootState, Dialog[]>((rootState) => rootState.dialogs.dialogs) || [];
+	const dialogs = useSelector<RootState, Dialog[]>((rootState) => rootState.dialogs.dialogs);
 	const hasMoreDialogs = useSelector<RootState, boolean>((rootState) => rootState.dialogs.hasMore);
 	useEffect(() => {
 		getChats({
@@ -24,7 +27,7 @@ const ChatList = () => {
 		});
 	}, []);
 
-	const loadPage = (page: number) => {
+	const loadPage = useCallback((page: number) => {
 		const pageData = {
 			limit: 25,
 			offset: page * 25,
@@ -35,7 +38,7 @@ const ChatList = () => {
 			initializedBySearch: false,
 			initiatedByScrolling: true,
 		});
-	};
+	}, []);
 
 	const chatListRef = useRef(null);
 
@@ -64,4 +67,4 @@ const ChatList = () => {
 	);
 };
 
-export default ChatList;
+export default React.memo(ChatList);

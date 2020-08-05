@@ -11,7 +11,7 @@ namespace PrivateRoute {
 }
 
 function PrivateRoute({ Component, path, ...rest }: PrivateRoute.Props) {
-	const isAuthenticated = useSelector<RootState, boolean>((rootState) => rootState.auth.isAuthenticated) || false;
+	const isAuthenticated = useSelector<RootState, boolean>((rootState) => rootState.auth.isAuthenticated);
 	const params = useParams;
 	return (
 		<Route

@@ -358,8 +358,6 @@ const dialogs = createReducer<DialogsState>(initialState)
 				const dialogId = DialogService.getDialogId(userReaderId, null);
 				const dialogIndex = getDialogArrayIndex(dialogId, draft);
 
-				console.log(dialogId, dialogIndex, lastReadMessageId);
-
 				if (dialogIndex >= 0) {
 					draft.dialogs[dialogIndex].interlocutorLastReadMessageId = lastReadMessageId;
 				}

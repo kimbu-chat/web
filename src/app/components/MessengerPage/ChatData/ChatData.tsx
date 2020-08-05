@@ -3,6 +3,7 @@ import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
 import { getDialogInterlocutor, getInterlocutorInitials } from '../../../utils/get-interlocutor';
+
 import { Avatar } from '@material-ui/core';
 
 import './ChatData.scss';
@@ -104,4 +105,7 @@ const ChatData = ({ displayChatInfo, chatInfoDisplayed }: ChatData.Props) => {
 	} else return <div className='messenger__chat-data'></div>;
 };
 
-export default ChatData;
+export default React.memo(
+	ChatData,
+	(prevProps, nextProps) => prevProps.chatInfoDisplayed === nextProps.chatInfoDisplayed,
+);

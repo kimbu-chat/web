@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useRef, useContext, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
@@ -11,6 +11,8 @@ import { FriendActions } from 'app/store/friends/actions';
 import { ChatActions } from 'app/store/dialogs/actions';
 import { RootState } from 'app/store/root-reducer';
 import { LocalizationContext } from 'app/app';
+import { useHistory } from 'react-router-dom';
+import { Dialog } from 'app/store/dialogs/models';
 
 namespace CreateChat {
 	export interface Props {
@@ -44,6 +46,8 @@ const CreateChat = ({ hide, setImageUrl, displayChangePhoto, isDisplayed }: Crea
 
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
 
+	const history = useHistory();
+
 	const searchFriends = (name: string, initializedBySearch: boolean) => {
 		setSearchFriendStr(name);
 		loadFriends({ page: { offset: 0, limit: 25 }, name, initializedBySearch: initializedBySearch });
@@ -57,12 +61,12 @@ const CreateChat = ({ hide, setImageUrl, displayChangePhoto, isDisplayed }: Crea
 		return () => searchFriends('', true);
 	}, [isDisplayed]);
 
-	const rejectConferenceCreation = () => {
+	const rejectConferenceCreation = useCallback(() => {
 		unsetFriends();
 		hide();
-	};
+	}, []);
 
-	const createConference = () => {
+	const createConference = useCallback(() => {
 		let validationPassed = false;
 		if (chatName.trim().length > 0) {
 			setError({ isPresent: false });
@@ -87,9 +91,11 @@ const CreateChat = ({ hide, setImageUrl, displayChangePhoto, isDisplayed }: Crea
 				currentUser: currentUser,
 				userIds: selectedUserIds,
 				avatar: avatarData,
-			}).then(hide);
+			})
+				.then((payload: Dialog) => history.push(`/chats/${payload.id}`))
+				.then(hide);
 		}
-	};
+	}, [chatName, setError, selectedUserIds]);
 
 	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		e.preventDefault();
@@ -179,4 +185,4 @@ const CreateChat = ({ hide, setImageUrl, displayChangePhoto, isDisplayed }: Crea
 	);
 };
 
-export default CreateChat;
+export default React.memo(CreateChat, (prevProps, nextProps) => prevProps.isDisplayed === nextProps.isDisplayed);

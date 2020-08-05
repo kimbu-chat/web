@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
+import './ChatMembers.scss';
 import Member from './Member/Member';
 import { useSelector } from 'react-redux';
-import './_ChatMembers.scss';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { Dialog } from 'app/store/dialogs/models';
 import { ChatActions } from 'app/store/dialogs/actions';
@@ -43,7 +43,7 @@ const ChatMembers = ({ addMembers }: ChatMembers.Props) => {
 		};
 	}, [selectedDialog.id]);
 
-	const loadMore = () => {
+	const loadMore = useCallback(() => {
 		getConferenceUsers({
 			conferenceId: selectedDialog.conference?.id || -1,
 			initiatedByScrolling: true,
@@ -52,7 +52,7 @@ const ChatMembers = ({ addMembers }: ChatMembers.Props) => {
 				name: searchStr,
 			},
 		});
-	};
+	}, [selectedDialog]);
 
 	return (
 		<React.Fragment>
@@ -116,4 +116,4 @@ const ChatMembers = ({ addMembers }: ChatMembers.Props) => {
 	);
 };
 
-export default ChatMembers;
+export default React.memo(ChatMembers);

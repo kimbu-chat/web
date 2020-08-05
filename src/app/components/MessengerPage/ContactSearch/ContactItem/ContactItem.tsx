@@ -1,7 +1,10 @@
 import React from 'react';
-import './_ContactItem.scss';
+import './ContactItem.scss';
+
 import StatusBadge from 'app/utils/StatusBadge';
+
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+
 import { useSelector } from 'react-redux';
 import { UserPreview } from 'app/store/my-profile/models';
 import { FriendActions } from 'app/store/friends/actions';
@@ -53,4 +56,4 @@ const ContactItem = ({ user, isSelectable, displayMyself, onClick }: ContactItem
 	);
 };
 
-export default ContactItem;
+export default React.memo(ContactItem);

@@ -1,9 +1,9 @@
 import { AuthService } from 'app/services/auth-service';
 import { put, fork } from 'redux-saga/effects';
-import { initSocketConnectionAction } from '../sockets/actions';
 import { MyProfileActions } from '../my-profile/actions';
 import { FriendActions } from '../friends/actions';
 import { SagaIterator } from 'redux-saga';
+import { WebSocketActions } from '../sockets/actions';
 
 function* initializeSaga(): SagaIterator {
 	const authService = new AuthService();
@@ -13,7 +13,7 @@ function* initializeSaga(): SagaIterator {
 		return;
 	}
 
-	yield put(initSocketConnectionAction());
+	yield put(WebSocketActions.initSocketConnection());
 	yield put(MyProfileActions.changeUserOnlineStatus(true));
 
 	yield put(MyProfileActions.getMyProfile());

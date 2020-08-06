@@ -33,6 +33,7 @@ export const getInterlocutorInitials = (dialog: Dialog): string => {
 
 export const getUserInitials = (user?: UserPreview) => {
 	if (!user) {
+		alert('getUserInitials error');
 		return '';
 	}
 

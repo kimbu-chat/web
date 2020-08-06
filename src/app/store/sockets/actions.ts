@@ -1,6 +1,5 @@
-import { createAction } from '../utils';
-import { WebsocketsActionTypes } from './types';
+import { createEmptyAction } from '../common/actions';
 
-export const initSocketConnectionAction = () => createAction(WebsocketsActionTypes.INIT_SOCKET_CONNECTION);
-
-export type WebsocketActions = typeof initSocketConnectionAction;
+export namespace WebSocketActions {
+	export const initSocketConnection = createEmptyAction('INIT_SOCKET_CONNECTION');
+}

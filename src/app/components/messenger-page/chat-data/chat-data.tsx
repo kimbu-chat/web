@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
-import { getDialogInterlocutor, getInterlocutorInitials } from '../../../utils/get-interlocutor';
+import { getDialogInterlocutor, getInterlocutorInitials } from '../../../utils/interlocutor-name-utils';
 
 import { Avatar } from '@material-ui/core';
 

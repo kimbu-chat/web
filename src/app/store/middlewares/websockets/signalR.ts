@@ -1,7 +1,6 @@
 import { HubConnection, HubConnectionBuilder, HubConnectionState, LogLevel } from '@microsoft/signalr';
 
 import { EVENTS_NAMES, EventManager } from './event-manager';
-import { WebsocketsActionTypes } from 'app/store/sockets/types';
 import { Store } from 'redux';
 import { MessageCreatedEventHandler } from './integration-event-handlers/message-created-event-handler';
 import { UserMessageTypingEventHandler } from './integration-event-handlers/user-message-typing-event-handler';
@@ -12,6 +11,7 @@ import { UserMessageReadEventHandler } from './integration-event-handlers/user-m
 import { getType } from 'typesafe-actions';
 import { AuthActions } from 'app/store/auth/actions';
 import { RootState } from 'app/store/root-reducer';
+import { WebSocketActions } from 'app/store/sockets/actions';
 
 const CONNECTION_ENDPOINT = 'http://notifications.ravudi.com/signalr';
 
@@ -20,7 +20,7 @@ let connection: HubConnection | null = null;
 export function signalRInvokeMiddleware(store: any): any {
 	return (next: any) => async (action: any) => {
 		switch (action.type) {
-			case WebsocketsActionTypes.INIT_SOCKET_CONNECTION: {
+			case getType(WebSocketActions.initSocketConnection): {
 				if (
 					!connection ||
 					connection.state === HubConnectionState.Disconnected ||

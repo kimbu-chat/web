@@ -7,7 +7,6 @@ import { ChatActions } from './actions';
 import { SagaIterator } from 'redux-saga';
 import { FileUploadRequest, ErrorUploadResponse, uploadFileSaga } from 'app/utils/file-uploader/file-uploader';
 import { HTTPStatusCode } from 'app/common/http-status-code';
-import { MessageHelpers } from 'app/common/helpers';
 import { ConferenceCreatedIntegrationEvent } from '../middlewares/websockets/integration-events/conference-сreated-integration-event';
 import { MessageActions } from '../messages/actions';
 import { ChatHttpRequests } from './http-requests';
@@ -15,6 +14,7 @@ import { UpdateAvatarResponse } from '../common/models';
 import { FriendActions } from '../friends/actions';
 import { MyProfileService } from 'app/services/my-profile-service';
 import { getType } from 'typesafe-actions';
+import { MessageUtils } from 'app/utils/message-utils';
 
 export function* getDialogsSaga(action: ReturnType<typeof ChatActions.getChats>): SagaIterator {
 	const dialogsRequestData = action.payload;
@@ -180,7 +180,7 @@ function* createConferenceSaga(action: ReturnType<typeof ChatActions.createConfe
 				creationDateTime: new Date(),
 				id: new Date().getTime(),
 				systemMessageType: SystemMessageType.ConferenceCreated,
-				text: MessageHelpers.createSystemMessage({}),
+				text: MessageUtils.createSystemMessage({}),
 				dialogId: dialogId,
 				state: MessageState.LOCALMESSAGE,
 				userCreator: action.payload.currentUser,
@@ -213,7 +213,7 @@ function* createConferenceFromEventSaga(
 
 	const message: Message = {
 		systemMessageType: SystemMessageType.ConferenceCreated,
-		text: MessageHelpers.createSystemMessage({}),
+		text: MessageUtils.createSystemMessage({}),
 		creationDateTime: new Date(new Date().toUTCString()),
 		userCreator: action.payload.userCreator,
 		state: MessageState.READ,
@@ -257,7 +257,6 @@ function* leaveConferenceSaga(action: ReturnType<typeof ChatActions.leaveConfere
 		const { status } = httpRequest.call(yield call(() => httpRequest.generator(dialog?.conference?.id)));
 		if (status === HTTPStatusCode.OK) {
 			yield put(ChatActions.leaveConferenceSuccess(action.payload));
-			// action.meta.deferred?.resolve();
 		} else {
 			alert('Error. http status is ' + status);
 		}
@@ -275,7 +274,6 @@ function* renameConferenceSaga(action: ReturnType<typeof ChatActions.renameConfe
 
 	if (status === HTTPStatusCode.OK) {
 		yield put(ChatActions.renameConferenceSuccess(action.payload));
-		// action.meta.deferred?.resolve(dialog);
 	} else {
 		alert('renameConferenceSaga error');
 	}

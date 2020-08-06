@@ -2,7 +2,7 @@ import Badge from '@material-ui/core/Badge';
 import { withStyles } from '@material-ui/core/styles';
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar/Avatar';
-import { getUserInitials } from 'app/utils/get-interlocutor';
+import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 import { UserPreview } from 'app/store/my-profile/models';
 
 const OnlineBadge = withStyles((theme) => ({

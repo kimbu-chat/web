@@ -8,7 +8,7 @@ import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import './chat-from-list.scss';
 import { Dialog } from 'app/store/dialogs/models';
 import { MessageUtils } from 'app/utils/message-utils';
-import { getDialogInterlocutor, getInterlocutorInitials } from '../../../utils/get-interlocutor';
+import { getDialogInterlocutor, getInterlocutorInitials } from '../../../utils/interlocutor-name-utils';
 
 import StatusBadge from 'app/components/shared/status-badge';
 import _ from 'lodash';

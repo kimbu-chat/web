@@ -15,10 +15,10 @@ export enum HttpRequestMethod {
 
 export type HttpHeaders = { [key: string]: string };
 
-export function* httpRequest(
+export function* httpRequest<T>(
 	url: string,
 	method: HttpRequestMethod,
-	body?: any,
+	body?: T,
 	token?: CancelToken,
 	headers?: HttpHeaders,
 ) {

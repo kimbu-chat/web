@@ -154,8 +154,8 @@ const dialogs = createReducer<DialogsState>(initialState)
 		produce((draft: DialogsState, { payload }: ReturnType<typeof ChatActions.changeSelectedChat>) => {
 			draft.dialogs.sort(({ lastMessage: lastMessageA }, { lastMessage: lastMessageB }) => {
 				return (
-					(new Date(lastMessageB?.creationDateTime || 0) as any) -
-					(new Date(lastMessageA?.creationDateTime || 0) as any)
+					new Date(lastMessageB?.creationDateTime!).getTime() -
+					new Date(lastMessageA?.creationDateTime!).getTime()
 				);
 			});
 

@@ -5,7 +5,7 @@ import { MessageState, SystemMessageType, Message, CreateMessageRequest } from '
 import { DialogService } from './dialog-service';
 import { ChatActions } from './actions';
 import { SagaIterator } from 'redux-saga';
-import { FileUploadRequest, ErrorUploadResponse, uploadFileSaga } from 'app/utils/fileUploader/fileuploader';
+import { FileUploadRequest, ErrorUploadResponse, uploadFileSaga } from 'app/utils/file-uploader/file-uploader';
 import { HTTPStatusCode } from 'app/common/http-status-code';
 import { MessageHelpers } from 'app/common/helpers';
 import { ConferenceCreatedIntegrationEvent } from '../middlewares/websockets/integration-events/conference-сreated-integration-event';

@@ -5,7 +5,7 @@ import { MyProfileActions } from './actions';
 import { MyProfileService } from 'app/services/my-profile-service';
 
 export interface MyProfileState {
-	user: UserPreview;
+	user?: UserPreview;
 }
 
 const authService = new MyProfileService();

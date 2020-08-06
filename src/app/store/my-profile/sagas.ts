@@ -1,7 +1,7 @@
 import { call, put, takeLatest, takeEvery, select } from 'redux-saga/effects';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
-import { FileUploadRequest, ErrorUploadResponse, uploadFileSaga } from '../../utils/fileUploader/fileuploader';
+import { FileUploadRequest, ErrorUploadResponse, uploadFileSaga } from '../../utils/file-uploader/file-uploader';
 import { HTTPStatusCode } from 'app/common/http-status-code';
 import { AvatarSelectedData } from './models';
 import { MyProfileActions } from './actions';

@@ -10,7 +10,7 @@ export class UserMessageTypingEventHandler implements IEventHandler<Intercolutor
 			store.dispatch(ChatActions.interlocutorStoppedTyping(eventData));
 		}, 1500) as unknown) as NodeJS.Timeout;
 
-		if (eventData.isConference && eventData.objectId === store.getState().myProfile.user.id) {
+		if (eventData.isConference && eventData.objectId === store.getState().myProfile.user?.id) {
 			return;
 		}
 		store.dispatch(ChatActions.interlocutorMessageTyping(eventData));

@@ -9,7 +9,7 @@ import { MessageActions } from 'app/store/messages/actions';
 
 export class MessageCreatedEventHandler implements IEventHandler<MessageCreatedIntegrationEvent> {
 	public handle(store: Store<RootState>, eventData: MessageCreatedIntegrationEvent): void {
-		const currentUserId = store.getState().myProfile.user.id;
+		const currentUserId: number = store.getState().myProfile.user?.id || -1;
 		const shouldHandleMessageCreation: boolean =
 			eventData.userCreatorId !== currentUserId || eventData.systemMessageType !== SystemMessageType.None;
 		if (!shouldHandleMessageCreation) {

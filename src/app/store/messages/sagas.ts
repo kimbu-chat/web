@@ -61,7 +61,7 @@ export function* createMessage(action: ReturnType<typeof MessageActions.createMe
 	if (isFromEvent) {
 		yield call(notifyInterlocutorThatMessageWasRead, action.payload);
 		//notifications play
-		const currentUserId = yield select((state: RootState) => state.myProfile.user.id);
+		const currentUserId = yield select((state: RootState) => state.myProfile.user?.id);
 		const dialogOfMessage = yield select((state: RootState) =>
 			state.dialogs.dialogs.find(({ id }) => id === dialog.id),
 		);

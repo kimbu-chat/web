@@ -12,6 +12,7 @@ import { RootState } from 'app/store/root-reducer';
 import { AuthActions } from 'app/store/auth/actions';
 import { MyProfileActions } from 'app/store/my-profile/actions';
 import { LocalizationContext } from 'app/app';
+import { UserPreview } from 'app/store/my-profile/models';
 
 namespace AccountInfoNS {
 	export interface Props {
@@ -57,9 +58,9 @@ const AccountInfo = ({
 
 	const changePhoto = useActionWithDeferred(MyProfileActions.updateMyAvatar);
 
-	const firstName = useSelector<RootState, string>((state) => state.myProfile.user.firstName);
-	const lastName = useSelector<RootState, string>((state) => state.myProfile.user.lastName);
-	const avatar = useSelector<RootState, string | undefined>((state) => state.myProfile?.user?.avatarUrl);
+	const { firstName, lastName, avatarUrl: avatar } = useSelector<RootState, UserPreview>(
+		(state) => state.myProfile.user,
+	);
 
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
 

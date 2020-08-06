@@ -124,4 +124,4 @@ const LoginPage = () => {
 	);
 };
 
-export default React.memo(LoginPage, () => true);
+export default React.memo(LoginPage);

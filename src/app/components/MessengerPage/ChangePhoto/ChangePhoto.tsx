@@ -196,4 +196,4 @@ const ChangePhotoPortal = (props: ChangePhoto.Props) => {
 	);
 };
 
-export default React.memo(ChangePhotoPortal, () => true);
+export default React.memo(ChangePhotoPortal);

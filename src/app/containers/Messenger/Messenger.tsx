@@ -207,4 +207,4 @@ const Messenger = () => {
 	);
 };
 
-export default React.memo(Messenger, () => true);
+export default React.memo(Messenger);

@@ -78,4 +78,4 @@ const MessageItem = ({ from, content, time, needToShowDateSeparator, dateSeparat
 	);
 };
 
-export default React.memo(MessageItem, () => true);
+export default React.memo(MessageItem);

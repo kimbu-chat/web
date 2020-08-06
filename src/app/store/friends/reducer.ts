@@ -132,7 +132,6 @@ const friends = createReducer<FriendsState>(initialState)
 			}
 
 			draft.friends = _.unionBy(draft.friends, users, 'id');
-			console.log('reached');
 
 			return draft;
 		}),

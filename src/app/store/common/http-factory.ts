@@ -18,9 +18,8 @@ export type HttpHeaders = { [key: string]: string };
 export function* httpRequest<T>(
 	url: string,
 	method: HttpRequestMethod,
-	body?: any,
+	body?: T,
 	token?: CancelToken,
-	blob?: string,
 	headers?: HttpHeaders,
 ) {
 	const requestConfig: AxiosRequestConfig = {
@@ -75,7 +74,6 @@ type urlGenerator<TBody> = (body: TBody) => string;
 export const httpRequestFactory = <T, B>(
 	url: string | urlGenerator<B>,
 	method: HttpRequestMethod,
-	blob?: string,
 	headers?: HttpHeaders,
 ): IRequestGenerator<T, B> => {
 	function* generator(body?: B): SagaIterator {
@@ -92,7 +90,7 @@ export const httpRequestFactory = <T, B>(
 
 			try {
 				cancelTokenSource = axios.CancelToken.source();
-				return yield call(httpRequest, finalUrl, method, body, cancelTokenSource.token, blob, headers);
+				return yield call(httpRequest, finalUrl, method, body, cancelTokenSource.token, headers);
 			} catch (e) {
 				const error = e as AxiosError;
 				if (isNetworkError(e)) {
@@ -106,7 +104,7 @@ export const httpRequestFactory = <T, B>(
 
 					if (auth.isAuthenticated) {
 						cancelTokenSource = axios.CancelToken.source();
-						return yield call(httpRequest, finalUrl, method, body, cancelTokenSource.token, blob, headers);
+						return yield call(httpRequest, finalUrl, method, body, cancelTokenSource.token, headers);
 					}
 				}
 
@@ -130,7 +128,7 @@ export const httpRequestFactory = <T, B>(
 export const authRequestFactory = <T, B>(url: string, method: HttpRequestMethod): IRequestGenerator<T, B> => {
 	function* generator(body?: B): SagaIterator {
 		try {
-			return yield call(() => httpRequest<T>(url, method, body));
+			return yield call(() => httpRequest(url, method, body));
 		} catch (e) {
 			const error = e as AxiosError;
 

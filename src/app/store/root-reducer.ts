@@ -35,7 +35,7 @@ export default (state: any, action: any): ReturnType<typeof rootReducer> => {
 				...state.messages,
 				messages: [],
 			},
-			myProfile: null,
+			myProfile: {},
 		};
 	}
 	return rootReducer(state, action);

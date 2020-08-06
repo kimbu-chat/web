@@ -5,7 +5,7 @@ import { MessageState, SystemMessageType, Message, CreateMessageRequest } from '
 import { DialogService } from './dialog-service';
 import { ChatActions } from './actions';
 import { SagaIterator } from 'redux-saga';
-import { FileUploadRequest, ErrorUploadResponse, uploadFileSaga } from 'app/utils/fileUploader/fileuploader';
+import { FileUploadRequest, ErrorUploadResponse, uploadFileSaga } from 'app/utils/file-uploader/file-uploader';
 import { HTTPStatusCode } from 'app/common/http-status-code';
 import { MessageHelpers } from 'app/common/helpers';
 import { ConferenceCreatedIntegrationEvent } from '../middlewares/websockets/integration-events/conference-сreated-integration-event';
@@ -209,7 +209,7 @@ function* createConferenceFromEventSaga(
 ): SagaIterator {
 	const payload: ConferenceCreatedIntegrationEvent = action.payload;
 	const dialogId: number = DialogService.getDialogIdentifier(null, payload.objectId);
-	const currentUserId = new MyProfileService().myProfile.id;
+	const currentUser = new MyProfileService().myProfile;
 
 	const message: Message = {
 		systemMessageType: SystemMessageType.ConferenceCreated,
@@ -236,7 +236,7 @@ function* createConferenceFromEventSaga(
 		message: message,
 		isFromEvent: true,
 		dialog: dialog,
-		currentUser: { id: currentUserId },
+		currentUser,
 		selectedDialogId: dialog.id,
 	};
 

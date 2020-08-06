@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useHistory } from 'react-router';
 import './Messenger.scss';
-import SearchTop from '../../components/MessengerPage/SearchTop/SearchTop';
-import ChatData from '../../components/MessengerPage/ChatData/ChatData';
-import ChatList from '../../components/MessengerPage/ChatList/ChatList';
-import Chat from '../../components/MessengerPage/Chat/Chat';
-import CreateMessageInput from '../../components/MessengerPage/create-message-input/Index';
-import AccountInfo from '../AccountInfo/AccountInfo';
-import BackgroundBlur from '../../utils/BackgroundBlur';
-import CreateChat from '../../components/MessengerPage/CreateChat/CreateChat';
-import ChatInfo from '../../components/MessengerPage/ChatInfo/ChatInfo';
-import ContactSearch from '../../components/MessengerPage/ContactSearch/ContactSearch';
-import ChangePhoto from '../../components/MessengerPage/ChangePhoto/ChangePhoto';
-import AccountSettings from 'app/components/MessengerPage/AccountSettings/AccountSettings';
+
+import SearchTop from '../../components/messenger-page/search-top/search-top';
+import ChatData from '../../components/messenger-page/chat-data/chat-data';
+import ChatList from '../../components/messenger-page/chat-list/chat-list';
+import Chat from '../../components/messenger-page/chat/chat';
+import CreateMessageInput from '../../components/messenger-page/message-input/message-input';
+import AccountInfo from '../account-info/account-info';
+import BackgroundBlur from '../../components/shared/background-blur';
+import CreateChat from '../../components/messenger-page/create-chat/create-chat';
+import ChatInfo from '../../components/messenger-page/chat-info/chat-info';
+import ContactSearch from '../../components/messenger-page/contact-search/contact-search';
+import ChangePhoto from '../../components/messenger-page/change-photo/change-photo';
+import AccountSettings from 'app/components/messenger-page/account-settings/account-settings';
+
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { AvatarSelectedData, UserPreview } from 'app/store/my-profile/models';
 import { ChatActions } from 'app/store/dialogs/actions';
@@ -52,7 +54,7 @@ const Messenger = () => {
 	const history = useHistory();
 
 	//redux sync with history
-	history.listen((location, action) => {
+	history.listen((location) => {
 		if (location.pathname.split('/')[2]) {
 			changeSelectedDialog(Number(location.pathname.split('/')[2]));
 		}
@@ -77,62 +79,76 @@ const Messenger = () => {
 	const [imageUrl, setImageUrl] = useState<string | null | ArrayBuffer>('');
 
 	//Slider display and hide
-	const displaySlider = () => {
+	const displaySlider = useCallback(() => {
 		setAccountInfoIsDisplayed(true);
-	};
-	const hideSlider = () => {
+	}, [setAccountInfoIsDisplayed]);
+	const hideSlider = useCallback(() => {
 		setAccountInfoIsDisplayed(false);
-	};
+	}, [setAccountInfoIsDisplayed]);
 
 	//Create chat display and hide
-	const displayCreateChat = () => {
+	const displayCreateChat = useCallback(() => {
 		setCreateChatDisplayed(true);
-	};
-	const hideCreateChat = () => {
+	}, [setCreateChatDisplayed]);
+	const hideCreateChat = useCallback(() => {
 		setCreateChatDisplayed(false);
-	};
+	}, [setCreateChatDisplayed]);
 
 	//Chat info display and hide
-	const displayChatInfo = () => {
+	const displayChatInfo = useCallback(() => {
 		setInfoDisplayed(!infoDisplayed);
-	};
-	const hideChatInfo = () => {
+	}, [setInfoDisplayed]);
+	const hideChatInfo = useCallback(() => {
 		setInfoDisplayed(false);
-	};
+	}, [setInfoDisplayed]);
 
 	//Settings dispay and hide settings
-
-	const displaySettings = () => setSettingsDisplayed(true);
-	const hideSettings = () => setSettingsDisplayed(false);
+	const displaySettings = useCallback(() => setSettingsDisplayed(true), [setSettingsDisplayed]);
+	const hideSettings = useCallback(() => setSettingsDisplayed(false), [setSettingsDisplayed]);
 
 	//Contact search display and hide
-	const displayContactSearch = (actions?: Messenger.contactSearchActions) => {
-		setContactSearchDisplayed({ isDisplayed: true, ...actions });
-	};
-	const hideContactSearch = () => {
+	const displayContactSearch = useCallback(
+		(actions?: Messenger.contactSearchActions) => {
+			setContactSearchDisplayed({ isDisplayed: true, ...actions });
+		},
+		[setContactSearchDisplayed],
+	);
+	const hideContactSearch = useCallback(() => {
 		setContactSearchDisplayed({ isDisplayed: false });
-	};
+	}, [setContactSearchDisplayed]);
 
 	//Cropper display and hide
-	const hideChangePhoto = () => setPhotoSelected({ isDisplayed: false });
-	const displayChangePhoto = ({ onSubmit }: Messenger.photoSelect) => {
-		setPhotoSelected({ ...photoSelected, isDisplayed: true, onSubmit });
-		hideContactSearch();
-		hideSlider();
-	};
+	const hideChangePhoto = useCallback(() => setPhotoSelected({ isDisplayed: false }), []);
+	const displayChangePhoto = useCallback(
+		({ onSubmit }: Messenger.photoSelect) => {
+			setPhotoSelected({ ...photoSelected, isDisplayed: true, onSubmit });
+			hideContactSearch();
+			hideSlider();
+		},
+		[setPhotoSelected, hideContactSearch, hideSlider],
+	);
 
 	//Creation of empty dialog with contact
-
-	const createEmptyDialog = (user: UserPreview) => {
+	const createEmptyDialog = useCallback((user: UserPreview) => {
 		createDialog(user);
 		const dialogId = Number(`${user.id}1`);
 		history.push(`/chats/${dialogId}`);
 		hideContactSearch();
-	};
+	}, []);
 
 	//hide chatInfo on dialog change
 
 	useEffect(() => hideChatInfo(), [selectedDialog?.id]);
+
+	//hide all on backgroundBlur click
+
+	const hideAll = useCallback(() => {
+		hideCreateChat();
+		hideContactSearch();
+		hideSlider();
+		hideChangePhoto();
+		hideSettings();
+	}, [hideCreateChat, hideContactSearch, hideSlider, hideChangePhoto, hideSettings]);
 
 	return (
 		<div className='messenger'>
@@ -146,17 +162,7 @@ const Messenger = () => {
 				accountInfoIsDisplayed ||
 				contactSearchDisplayed.isDisplayed ||
 				settingsDisplayed ||
-				photoSelected.isDisplayed) && (
-				<BackgroundBlur
-					onClick={() => {
-						hideCreateChat();
-						hideContactSearch();
-						hideSlider();
-						hideChangePhoto();
-						hideSettings();
-					}}
-				/>
-			)}
+				photoSelected.isDisplayed) && <BackgroundBlur onClick={hideAll} />}
 
 			<AccountInfo
 				isDisplayed={accountInfoIsDisplayed}
@@ -201,4 +207,4 @@ const Messenger = () => {
 	);
 };
 
-export default Messenger;
+export default React.memo(Messenger);

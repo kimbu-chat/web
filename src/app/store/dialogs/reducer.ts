@@ -47,7 +47,8 @@ const dialogs = createReducer<DialogsState>(initialState)
 
 			const dialogIndex: number = getDialogArrayIndex(dialogId, draft);
 
-			(draft.dialogs[dialogIndex].timeoutId = null), (draft.dialogs[dialogIndex].isInterlocutorTyping = false);
+			(draft.dialogs[dialogIndex].timeoutId = undefined),
+				(draft.dialogs[dialogIndex].isInterlocutorTyping = false);
 
 			return draft;
 		}),
@@ -70,7 +71,7 @@ const dialogs = createReducer<DialogsState>(initialState)
 
 			const dialogIndex: number = getDialogArrayIndex(dialogId, draft);
 
-			clearTimeout(draft.dialogs[dialogIndex].timeoutId);
+			clearTimeout(draft.dialogs[dialogIndex].timeoutId as NodeJS.Timeout);
 
 			(draft.dialogs[dialogIndex].draftMessage = payload.text),
 				(draft.dialogs[dialogIndex].timeoutId = payload.timeoutId),
@@ -153,8 +154,8 @@ const dialogs = createReducer<DialogsState>(initialState)
 		produce((draft: DialogsState, { payload }: ReturnType<typeof ChatActions.changeSelectedChat>) => {
 			draft.dialogs.sort(({ lastMessage: lastMessageA }, { lastMessage: lastMessageB }) => {
 				return (
-					(new Date(lastMessageB?.creationDateTime || 0) as any) -
-					(new Date(lastMessageA?.creationDateTime || 0) as any)
+					new Date(lastMessageB?.creationDateTime!).getTime() -
+					new Date(lastMessageA?.creationDateTime!).getTime()
 				);
 			});
 
@@ -357,8 +358,6 @@ const dialogs = createReducer<DialogsState>(initialState)
 
 				const dialogId = DialogService.getDialogId(userReaderId, null);
 				const dialogIndex = getDialogArrayIndex(dialogId, draft);
-
-				console.log(dialogId, dialogIndex, lastReadMessageId);
 
 				if (dialogIndex >= 0) {
 					draft.dialogs[dialogIndex].interlocutorLastReadMessageId = lastReadMessageId;

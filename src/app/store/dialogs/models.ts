@@ -96,7 +96,7 @@ export interface Dialog {
 	ownUnreadMessagesCount?: number;
 	interlocutorLastReadMessageId?: number;
 	draftMessage?: string;
-	timeoutId?: any;
+	timeoutId?: NodeJS.Timeout;
 	isInterlocutorTyping?: boolean;
 	isDeleted?: boolean;
 	isMuted?: boolean;

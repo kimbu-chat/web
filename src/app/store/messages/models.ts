@@ -76,7 +76,7 @@ export interface EntityCreation {}
 
 export interface CreateMessageRequest extends EntityCreation {
 	dialog: Dialog;
-	currentUser: UserPreview;
+	currentUser: { id: number };
 	selectedDialogId: number;
 	message: Message;
 	isFromEvent?: boolean;

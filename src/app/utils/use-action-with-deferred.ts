@@ -9,7 +9,7 @@ type ArgumentTypes<F extends ActionReturnType> = F extends (...args: infer A) =>
 
 export function useActionWithDeferred<T extends ActionReturnType>(
 	action: T,
-): <PromiseReturnType = undefined>(payload: ArgumentTypes<typeof action>[0]) => Promise<PromiseReturnType> {
+): <PromiseReturnType = any>(payload: ArgumentTypes<typeof action>[0]) => Promise<PromiseReturnType> {
 	const dispatch = useDispatch();
 	return useCallback(flow([action, withDeferred(dispatch)]), [dispatch, action]);
 }

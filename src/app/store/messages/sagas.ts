@@ -18,8 +18,8 @@ import { MessagesHttpRequests } from './http-requests';
 import { SagaIterator } from 'redux-saga';
 
 //Sounds
-import messageCameUnselected from '../../sounds/notifications/messsage-came-unselected.ogg';
-import messageCameSelected from '../../sounds/notifications/messsage-came-selected.ogg';
+import messageCameUnselected from 'app/sounds/notifications/messsage-came-unselected.ogg';
+import messageCameSelected from 'app/sounds/notifications/messsage-came-selected.ogg';
 
 const audioUnselected = new Audio(messageCameUnselected);
 const audioSelected = new Audio(messageCameSelected);
@@ -61,12 +61,10 @@ export function* createMessage(action: ReturnType<typeof MessageActions.createMe
 	if (isFromEvent) {
 		yield call(notifyInterlocutorThatMessageWasRead, action.payload);
 		//notifications play
-		const currentUserId = yield select((state: RootState) => state.myProfile.user.id);
+		const currentUserId = yield select((state: RootState) => state.myProfile.user?.id);
 		const dialogOfMessage = yield select((state: RootState) =>
 			state.dialogs.dialogs.find(({ id }) => id === dialog.id),
 		);
-
-		console.log(dialogOfMessage);
 
 		if (
 			message.userCreator?.id !== currentUserId &&

@@ -11,6 +11,8 @@ import { SagaIterator } from 'redux-saga';
 import { InitActions } from '../initiation/actions';
 import { getMyProfileSaga } from '../my-profile/sagas';
 import { MyProfileActions } from '../my-profile/actions';
+import { UserPreview } from '../my-profile/models';
+import { UserStatus } from '../friends/models';
 
 function* requestRefreshToken(): SagaIterator {
 	const authService = new AuthService();
@@ -67,7 +69,15 @@ function* authenticate(action: ReturnType<typeof AuthActions.confirmPhone>): Sag
 	const { data }: AxiosResponse<LoginResponse> = request.call(yield call(() => request.generator(action.payload)));
 
 	const profileService = new MyProfileService();
-	const myProfile = { id: parseInt(jwtDecode<{ unique_name: string }>(data.accessToken).unique_name, 10) };
+	const myProfile: UserPreview = {
+		id: parseInt(jwtDecode<{ unique_name: string }>(data.accessToken).unique_name, 10),
+		firstName: '',
+		lastName: '',
+		lastOnlineTime: new Date(),
+		phoneNumber: '',
+		nickname: '',
+		status: UserStatus.Online,
+	};
 	yield put(MyProfileActions.getMyProfileSuccess(myProfile));
 	profileService.setMyProfile(myProfile);
 	const securityTokens: SecurityTokens = {

@@ -11,7 +11,7 @@ namespace PublicRoute {
 }
 
 function PublicRoute({ Component, path, ...rest }: PublicRoute.Props) {
-	const isAuthenticated = useSelector<RootState, boolean>((rootState) => rootState.auth.isAuthenticated) || false;
+	const isAuthenticated = useSelector<RootState, boolean>((rootState) => rootState.auth.isAuthenticated);
 	return (
 		<Route
 			path={path}

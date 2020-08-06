@@ -66,7 +66,7 @@ function openConnection(store: Store<RootState>): void {
 			console.warn('CONNECTED WEBSOCKETS');
 		})
 		.catch((err: any) => {
-			console.warn('ERROR WEBSOCKETS');
+			console.warn('ERROR WEBSOCKETS', err);
 		});
 
 	connection.on('notify', (event: IntegrationEvent) => {

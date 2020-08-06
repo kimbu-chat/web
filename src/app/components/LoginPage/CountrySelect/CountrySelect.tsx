@@ -52,9 +52,9 @@ const CountrySelect = ({ country, setCountry, setPhone }: CountrySelect.Props) =
 		<Autocomplete
 			value={country}
 			className='country-select'
-			onChange={(event, newCountry) => handleCountryChange(newCountry)}
+			onChange={(_event, newCountry) => handleCountryChange(newCountry)}
 			inputValue={inputValue}
-			onInputChange={(event, newInputValue) => {
+			onInputChange={(_event, newInputValue) => {
 				setInputValue(newInputValue);
 			}}
 			options={countryList}

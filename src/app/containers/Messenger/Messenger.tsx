@@ -54,7 +54,7 @@ const Messenger = () => {
 	const history = useHistory();
 
 	//redux sync with history
-	history.listen((location, action) => {
+	history.listen((location) => {
 		if (location.pathname.split('/')[2]) {
 			changeSelectedDialog(Number(location.pathname.split('/')[2]));
 		}

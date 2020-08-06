@@ -1,6 +1,7 @@
 import { AuthService } from 'app/services/auth-service';
 import axios from 'axios';
 import { call } from 'redux-saga/effects';
+import { SagaIterator } from 'redux-saga';
 
 export interface FileUploadRequest<TResponseBody = object> {
 	uploadId?: string;
@@ -33,7 +34,7 @@ export interface CompletedUploadResponse<T> {
 	uploadId: string;
 }
 
-export function* uploadFileSaga<T>(request: FileUploadRequest<T>): any {
+export function* uploadFileSaga<T>(request: FileUploadRequest<T>): SagaIterator {
 	const imagePath: string = request.path.replace('file://', '/');
 
 	const userAccessToken = new AuthService().securityTokens.accessToken;

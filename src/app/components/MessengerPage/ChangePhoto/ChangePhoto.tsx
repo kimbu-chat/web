@@ -30,7 +30,7 @@ namespace ChangePhoto {
 
 const pixelRatio = 4;
 
-function getResizedCanvas(canvas: any, newWidth?: number, newHeight?: number) {
+function getResizedCanvas(canvas: HTMLCanvasElement, newWidth?: number, newHeight?: number) {
 	const tmpCanvas = document.createElement('canvas');
 	tmpCanvas.width = newWidth || 0;
 	tmpCanvas.height = newHeight || 0;
@@ -41,7 +41,7 @@ function getResizedCanvas(canvas: any, newWidth?: number, newHeight?: number) {
 	return tmpCanvas;
 }
 
-function generateDownload(previewCanvas: any, crop: ReactCrop.Crop): string {
+function generateDownload(previewCanvas: HTMLCanvasElement | null, crop: ReactCrop.Crop): string {
 	if (!crop || !previewCanvas) {
 		return '';
 	}

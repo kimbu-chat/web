@@ -70,7 +70,7 @@ export function* updateMyProfileSaga(action: ReturnType<typeof MyProfileActions.
 	}
 }
 
-export function* getMyProfileSaga(): any {
+export function* getMyProfileSaga(): SagaIterator {
 	const profileService = new MyProfileService();
 	const currentUserId = profileService.myProfile.id;
 

@@ -47,7 +47,8 @@ const dialogs = createReducer<DialogsState>(initialState)
 
 			const dialogIndex: number = getDialogArrayIndex(dialogId, draft);
 
-			(draft.dialogs[dialogIndex].timeoutId = null), (draft.dialogs[dialogIndex].isInterlocutorTyping = false);
+			(draft.dialogs[dialogIndex].timeoutId = undefined),
+				(draft.dialogs[dialogIndex].isInterlocutorTyping = false);
 
 			return draft;
 		}),
@@ -70,7 +71,7 @@ const dialogs = createReducer<DialogsState>(initialState)
 
 			const dialogIndex: number = getDialogArrayIndex(dialogId, draft);
 
-			clearTimeout(draft.dialogs[dialogIndex].timeoutId);
+			clearTimeout(draft.dialogs[dialogIndex].timeoutId as NodeJS.Timeout);
 
 			(draft.dialogs[dialogIndex].draftMessage = payload.text),
 				(draft.dialogs[dialogIndex].timeoutId = payload.timeoutId),

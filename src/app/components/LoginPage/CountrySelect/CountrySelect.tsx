@@ -27,7 +27,7 @@ const CountrySelect = ({ country, setCountry, setPhone }: CountrySelect.Props) =
 	const [inputValue, setInputValue] = useState('');
 
 	const handleCountryChange = useCallback(
-		(event: any, newCountry: country | null) => {
+		(newCountry: country | null) => {
 			setCountry((oldCountry) => {
 				setPhone((oldPhone) => {
 					if (typeof oldCountry === 'object') {
@@ -52,7 +52,7 @@ const CountrySelect = ({ country, setCountry, setPhone }: CountrySelect.Props) =
 		<Autocomplete
 			value={country}
 			className='country-select'
-			onChange={(event, newCountry) => handleCountryChange(event, newCountry)}
+			onChange={(event, newCountry) => handleCountryChange(newCountry)}
 			inputValue={inputValue}
 			onInputChange={(event, newInputValue) => {
 				setInputValue(newInputValue);

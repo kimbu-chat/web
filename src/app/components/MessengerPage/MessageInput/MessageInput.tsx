@@ -1,8 +1,8 @@
-import React, { useState, useRef, useContext, useCallback } from 'react';
+import React, { useState, useRef, useContext, useCallback, KeyboardEvent } from 'react';
 import { useSelector } from 'react-redux';
 import './MessageInput.scss';
 
-import { Picker } from 'emoji-mart';
+import { Picker, BaseEmoji } from 'emoji-mart';
 import 'emoji-mart/css/emoji-mart.css';
 
 import { UserPreview } from 'app/store/my-profile/models';
@@ -37,8 +37,8 @@ const CreateMessageInput = () => {
 	};
 
 	const handleOutsideClick = useCallback(
-		(e: any) => {
-			if (!emojiRef.current?.contains(e.target)) {
+		(e: MouseEvent) => {
+			if (!emojiRef.current?.contains(e.target as Node)) {
 				setSmilesDisplayed(false);
 				document.removeEventListener('click', handleOutsideClick, false);
 			}
@@ -79,7 +79,7 @@ const CreateMessageInput = () => {
 		});
 	};
 
-	const handleKeyPress = (event: any) => {
+	const handleKeyPress = (event: KeyboardEvent) => {
 		if (event.key === 'Enter') {
 			sendMessageToServer();
 		}
@@ -141,8 +141,8 @@ const CreateMessageInput = () => {
 										flags: t('emojiMart.categories.flags'),
 									},
 								}}
-								onSelect={(emoji: any) => {
-									setText((oldText) => oldText + emoji.native);
+								onSelect={(emoji: BaseEmoji) => {
+									setText((oldText) => oldText + (emoji.native as string));
 								}}
 							/>
 						</div>

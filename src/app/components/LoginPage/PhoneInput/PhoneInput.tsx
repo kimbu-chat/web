@@ -19,7 +19,7 @@ namespace PhoneInput {
 const PhoneInput = ({ phone, setPhone, setCountry }: PhoneInput.Props) => {
 	const { t } = useContext(LocalizationContext);
 
-	const handlePhoneChange = useCallback((e: any) => {
+	const handlePhoneChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
 		setPhone(new AsYouType().input(e.target.value));
 		const phoneNumber = parsePhoneNumberFromString(e.target.value);
 		setCountry((oldCountry: country | null) => {

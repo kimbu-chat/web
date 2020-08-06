@@ -60,7 +60,7 @@ const LoginPage = () => {
 	}, [code, phone]);
 
 	const confirmPhoneByCode = useCallback(
-		(event: any) => {
+		(event: React.KeyboardEvent<HTMLInputElement>) => {
 			if (event.key === 'Enter') {
 				checkCode();
 			}

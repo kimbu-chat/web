@@ -23,7 +23,7 @@ const RenameConferenceModal = React.forwardRef(
 			close();
 		};
 
-		const submitRenameByKey = (event: any) => {
+		const submitRenameByKey = (event: React.KeyboardEvent) => {
 			if (event.key === 'Enter') {
 				submitRename();
 			}

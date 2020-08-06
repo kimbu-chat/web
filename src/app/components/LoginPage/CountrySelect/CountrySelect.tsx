@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useCallback } from 'react';
+import { useContext, useCallback, useState } from 'react';
 import './CountrySelect.scss';
 
 import TextField from '@material-ui/core/TextField';
@@ -24,7 +24,7 @@ function countryToFlag(isoCode: string): string {
 
 const CountrySelect = ({ country, setCountry, setPhone }: CountrySelect.Props) => {
 	const { t } = useContext(LocalizationContext);
-	const [inputValue, setInputValue] = React.useState('');
+	const [inputValue, setInputValue] = useState('');
 
 	const handleCountryChange = useCallback(
 		(event: any, newCountry: country | null) => {

@@ -27,10 +27,10 @@ const LoginPage = () => {
 	const { t } = useContext(LocalizationContext);
 
 	const [country, setCountry] = useState<null | country>(null);
-	const [phone, setPhone] = React.useState<string>('');
-	const [stage, setStage] = React.useState<LoginPageProps.Stages>(LoginPageProps.Stages.phoneInput);
-	const [code, setCode] = React.useState('');
-	const [error, setError] = React.useState<string>('');
+	const [phone, setPhone] = useState<string>('');
+	const [stage, setStage] = useState<LoginPageProps.Stages>(LoginPageProps.Stages.phoneInput);
+	const [code, setCode] = useState('');
+	const [error, setError] = useState<string>('');
 
 	const codeFromServer = useSelector<RootState, string>((rootState) => rootState.auth.confirmationCode);
 	const isConfirmationCodeWrong = useSelector<RootState, boolean>(

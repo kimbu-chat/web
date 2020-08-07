@@ -1,4 +1,5 @@
 import { RootAction } from './root-action';
+import { compose } from 'redux';
 
 declare module 'typesafe-actions' {
 	interface Types {
@@ -6,4 +7,10 @@ declare module 'typesafe-actions' {
 	}
 }
 
-declare module '*.ogg';
+declare global {
+	interface Window {
+		__REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+	}
+}
+
+// declare module '*.ogg';

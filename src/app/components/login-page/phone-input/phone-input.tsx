@@ -4,7 +4,7 @@ import './phone-input.scss';
 
 import TextField from '@material-ui/core/TextField';
 
-import { country, countryList } from '../../../utils/countries';
+import { country, countryList } from '../../../common/countries';
 import { LocalizationContext } from 'app/app';
 
 namespace PhoneInput {

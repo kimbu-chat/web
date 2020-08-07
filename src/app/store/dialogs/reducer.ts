@@ -11,6 +11,7 @@ import { FriendActions } from '../friends/actions';
 export interface DialogsState {
 	loading: boolean;
 	hasMore: boolean;
+	searchString: string;
 	dialogs: Dialog[];
 	selectedDialogId?: number | null;
 }
@@ -18,6 +19,7 @@ export interface DialogsState {
 const initialState: DialogsState = {
 	loading: false,
 	hasMore: true,
+	searchString: '',
 	dialogs: [],
 	selectedDialogId: null,
 };
@@ -175,10 +177,11 @@ const dialogs = createReducer<DialogsState>(initialState)
 	)
 	.handleAction(
 		ChatActions.getChats,
-		produce((draft: DialogsState) => {
+		produce((draft: DialogsState, { payload }: ReturnType<typeof ChatActions.getChats>) => {
 			return {
 				...draft,
 				loading: true,
+				searchString: payload.name || '',
 			};
 		}),
 	)

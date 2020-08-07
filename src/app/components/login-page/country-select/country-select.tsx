@@ -5,7 +5,7 @@ import './country-select.scss';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
 
-import { countryList, country } from '../../../utils/countries';
+import { countryList, country } from '../../../common/countries';
 import { LocalizationContext } from 'app/app';
 
 namespace CountrySelect {

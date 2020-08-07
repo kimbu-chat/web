@@ -8,7 +8,7 @@ import { history } from '../../../main';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { country } from 'app/utils/countries';
+import { country } from 'app/common/countries';
 import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
 import { useSelector } from 'react-redux';
 import { RootState } from 'app/store/root-reducer';

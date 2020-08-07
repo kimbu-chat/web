@@ -2,7 +2,7 @@ import React, { useState, useRef, useCallback } from 'react';
 import './chat-info.scss';
 import { useSelector } from 'react-redux';
 import { Dialog } from 'app/store/dialogs/models';
-import { getInterlocutorInitials, getDialogInterlocutor } from '../../../utils/get-interlocutor';
+import { getInterlocutorInitials, getDialogInterlocutor } from '../../../utils/interlocutor-name-utils';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
 import { Messenger } from 'app/containers/Messenger/Messenger';

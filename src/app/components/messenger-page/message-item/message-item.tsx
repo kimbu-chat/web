@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { messageFrom } from '../chat/chat';
 import { Message, SystemMessageType, MessageState } from 'app/store/messages/models';
 import { MessageUtils } from 'app/utils/message-utils';
@@ -8,6 +8,7 @@ import DoneIcon from '@material-ui/icons/Done';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
 import CachedIcon from '@material-ui/icons/Cached';
 import { getMyIdSelector } from 'app/store/my-profile/selectors';
+import { LocalizationContext } from 'app/app';
 
 namespace Message {
 	export interface Props {
@@ -22,6 +23,7 @@ namespace Message {
 
 const MessageItem = ({ from, content, time, needToShowDateSeparator, dateSeparator, message }: Message.Props) => {
 	const currentUserId = useSelector(getMyIdSelector) as number;
+	const { t } = useContext(LocalizationContext);
 
 	if (message?.systemMessageType !== SystemMessageType.None) {
 		return (
@@ -36,6 +38,7 @@ const MessageItem = ({ from, content, time, needToShowDateSeparator, dateSeparat
 						{MessageUtils.constructSystemMessageText(
 							message as Message,
 							message?.userCreator?.id === currentUserId,
+							t,
 						)}
 					</span>
 				</div>

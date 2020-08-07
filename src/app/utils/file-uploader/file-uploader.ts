@@ -1,7 +1,8 @@
-import { AuthService } from 'app/services/auth-service';
 import axios from 'axios';
-import { call } from 'redux-saga/effects';
+import { call, select } from 'redux-saga/effects';
 import { SagaIterator } from 'redux-saga';
+import { selectSecurityTokens } from 'app/store/auth/selectors';
+import { SecurityTokens } from 'app/store/auth/types';
 
 export interface FileUploadRequest<TResponseBody = object> {
 	uploadId?: string;
@@ -35,12 +36,10 @@ export interface CompletedUploadResponse<T> {
 }
 
 export function* uploadFileSaga<T>(request: FileUploadRequest<T>): SagaIterator {
-	const imagePath: string = request.path.replace('file://', '/');
-
-	const userAccessToken = new AuthService().securityTokens.accessToken;
+	const securityTokens: SecurityTokens = yield select(selectSecurityTokens);
 
 	let data = new FormData();
-	let blob = yield call(() => fetch(imagePath).then((r) => r.blob()));
+	let blob = yield call(() => fetch(request.path).then((r) => r.blob()));
 
 	data.append('file', blob, request.fileName);
 
@@ -51,13 +50,17 @@ export function* uploadFileSaga<T>(request: FileUploadRequest<T>): SagaIterator 
 		const response = yield call(() =>
 			axios.post(request.url, data, {
 				headers: {
-					Authorization: `bearer ${userAccessToken}`,
+					Authorization: `bearer ${securityTokens.accessToken}`,
 					'content-type': 'multipart/form-data',
 				},
 			}),
 		);
-		if (request.completedCallback) yield call(request.completedCallback, response);
+		if (request.completedCallback) {
+			yield call(request.completedCallback, response);
+		}
 	} catch (error) {
-		if (request.errorCallback) request.errorCallback(error);
+		if (request.errorCallback) {
+			request.errorCallback(error);
+		}
 	}
 }

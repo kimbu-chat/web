@@ -47,6 +47,7 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
 				MessageUtils.constructSystemMessageText(
 					lastMessage as Message,
 					lastMessage?.userCreator?.id === currentUserId,
+					t,
 				),
 				{
 					length: 19,

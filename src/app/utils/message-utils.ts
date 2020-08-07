@@ -8,6 +8,7 @@ import {
 	ConfereceNameChangedSystemMessageContent,
 } from 'app/store/messages/models';
 import { UserStatus } from 'app/store/friends/models';
+import { TFunction } from 'i18next';
 
 export class MessageUtils {
 	static getSystemMessageContent(text: string): SystemMessageBase {
@@ -15,11 +16,17 @@ export class MessageUtils {
 		return systemMessage;
 	}
 
-	static constructSystemMessageText(message: Message, isCurrentUserMessageCreator: boolean = false): string {
+	static constructSystemMessageText(
+		message: Message,
+		isCurrentUserMessageCreator: boolean = false,
+		t: TFunction,
+	): string {
 		if (message.systemMessageType === SystemMessageType.ConferenceCreated) {
 			return isCurrentUserMessageCreator
-				? 'Вы создали группу'
-				: `${message?.userCreator?.firstName} ${message?.userCreator?.lastName} создал группу`;
+				? t('systemMessage.you_created_group')
+				: t('systemMessage.you_created_group', {
+						name: `${message?.userCreator?.firstName} ${message?.userCreator?.lastName}`,
+				  });
 		}
 		if (message.systemMessageType === SystemMessageType.ConferenceMemberRemoved) {
 			const systemMessageContent = MessageUtils.getSystemMessageContent(message.text);
@@ -27,8 +34,12 @@ export class MessageUtils {
 				systemMessageContent
 			);
 			return message.userCreator?.id === confereceMemberRemovedSystemMessageContent.removedUserId
-				? `${confereceMemberRemovedSystemMessageContent.removedUserName} покинул группу`
-				: `${confereceMemberRemovedSystemMessageContent.removedUserName} покинул группу`; // change
+				? t('systemMessage.left_group', {
+						name: confereceMemberRemovedSystemMessageContent.removedUserName,
+				  })
+				: t('systemMessage.left_group', {
+						name: confereceMemberRemovedSystemMessageContent.removedUserName,
+				  }); // change
 		}
 		if (message.systemMessageType === SystemMessageType.ConferenceMemberAdded) {
 			const systemMessageContent = MessageUtils.getSystemMessageContent(message.text);
@@ -36,8 +47,13 @@ export class MessageUtils {
 				systemMessageContent
 			);
 			return isCurrentUserMessageCreator
-				? `Вы добавили ${confereceMemberRemovedSystemMessageContent.addedUserName}`
-				: `${message.userCreator?.firstName} ${message.userCreator?.lastName} добавил ${confereceMemberRemovedSystemMessageContent.addedUserName}`;
+				? t('systemMessage.you_added', {
+						name: confereceMemberRemovedSystemMessageContent.addedUserName,
+				  })
+				: t('systemMessage.someone_added', {
+						someonesName: `${message.userCreator?.firstName} ${message.userCreator?.lastName}`,
+						addedName: confereceMemberRemovedSystemMessageContent.addedUserName,
+				  });
 		}
 		if (message.systemMessageType === SystemMessageType.ConferenceNameChanged) {
 			const systemMessageContent = MessageUtils.getSystemMessageContent(message.text);
@@ -45,14 +61,22 @@ export class MessageUtils {
 				systemMessageContent
 			);
 			return isCurrentUserMessageCreator
-				? `Вы изменили название с ${confereceMemberRemovedSystemMessageContent.oldName} на ${confereceMemberRemovedSystemMessageContent.newName}`
-				: `${message.userCreator?.firstName} ${message.userCreator?.lastName} изменил название с 
-                ${confereceMemberRemovedSystemMessageContent.oldName} на ${confereceMemberRemovedSystemMessageContent.newName}`;
+				? t('systemMessage.you_changed_name', {
+						oldName: confereceMemberRemovedSystemMessageContent.oldName,
+						newName: confereceMemberRemovedSystemMessageContent.newName,
+				  })
+				: t('systemMessage.someone_changed_name', {
+						oldName: confereceMemberRemovedSystemMessageContent.oldName,
+						newName: confereceMemberRemovedSystemMessageContent.newName,
+						someonesName: `${message.userCreator?.firstName} ${message.userCreator?.lastName}`,
+				  });
 		}
 		if (message.systemMessageType === SystemMessageType.ConferenceAvatarChanged) {
 			return isCurrentUserMessageCreator
-				? `Вы изменили аватар`
-				: `${message.userCreator?.firstName} ${message.userCreator?.lastName} изменил аватар`;
+				? t('systemMessage.you_changed_avatar')
+				: t('systemMessage.someone_changed_avatar', {
+						someonesName: `${message.userCreator?.firstName} ${message.userCreator?.lastName}`,
+				  });
 		}
 
 		throw 'Construct System MessageText function error';

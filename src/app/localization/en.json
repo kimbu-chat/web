@@ -104,5 +104,16 @@
 			"flags": "Flags",
 			"custom": "Custom"
 		}
+	},
+	"systemMessage": {
+		"you_created_group": "You created group",
+		"created_group": "{{name}} created group",
+		"left_group": "{{name}} left group",
+		"you_added": "You added {{name}}",
+		"someone_added": "{{someonesName}} added {{addedName}}",
+		"you_changed_name": "You changed name from {{oldName}} to {{newName}}",
+		"someone_changed_name": "{{someonesName}} changed name from {{oldName}} to {{newName}}",
+		"you_changed_avatar": "You changed avatar",
+		"someone_changed_avatar": "{{someonesName}} changed avatar"
 	}
 }

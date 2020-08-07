@@ -1,11 +1,8 @@
 import React, { useContext } from 'react';
-import { useSelector } from 'react-redux';
 import './search-top.scss';
 
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
-import { Dialog } from 'app/store/dialogs/models';
 import { ChatActions } from 'app/store/dialogs/actions';
-import { RootState } from 'app/store/root-reducer';
 import { LocalizationContext } from 'app/app';
 
 namespace SearchTop {
@@ -15,18 +12,17 @@ namespace SearchTop {
 	}
 }
 
-export const DIALOGS_LIMIT = 20;
+export const DIALOGS_LIMIT = 25;
 
 const SearchTop = ({ displaySlider, displayCreateChat }: SearchTop.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const getDialogs = useActionWithDispatch(ChatActions.getChats);
-	const dialogs = useSelector<RootState, Dialog[]>((rootState) => rootState.dialogs.dialogs);
 
 	const handleDialogSearchChange = (name: string): void => {
 		getDialogs({
 			name,
-			page: { offset: dialogs.length, limit: DIALOGS_LIMIT },
+			page: { offset: 0, limit: DIALOGS_LIMIT },
 			initializedBySearch: true,
 			initiatedByScrolling: false,
 		});

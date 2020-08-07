@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useCallback, useRef } from 'react';
 import './chat-list.scss';
 
 import ChatFromList from '../chat-from-list/chat-from-list';
@@ -12,33 +12,37 @@ import { Dialog } from 'app/store/dialogs/models';
 import { RootState } from 'app/store/root-reducer';
 import { ChatActions } from 'app/store/dialogs/actions';
 
-export const DIALOGS_LIMIT = 20;
+export const DIALOGS_LIMIT = 25;
 
 const ChatList = () => {
 	const getChats = useActionWithDispatch(ChatActions.getChats);
 
 	const dialogs = useSelector<RootState, Dialog[]>((rootState) => rootState.dialogs.dialogs);
 	const hasMoreDialogs = useSelector<RootState, boolean>((rootState) => rootState.dialogs.hasMore);
+	const searchString = useSelector<RootState, string>((rootState) => rootState.dialogs.searchString);
+
 	useEffect(() => {
 		getChats({
-			page: { offset: dialogs.length, limit: DIALOGS_LIMIT },
-			initializedBySearch: false,
+			page: { offset: 0, limit: DIALOGS_LIMIT },
+			initializedBySearch: true,
 			initiatedByScrolling: false,
+			name: searchString,
 		});
-	}, []);
+	}, [searchString]);
 
-	const loadPage = useCallback((page: number) => {
+	const loadPage = useCallback(() => {
 		const pageData = {
 			limit: 25,
-			offset: page * 25,
+			offset: dialogs.length,
 		};
 
 		getChats({
 			page: pageData,
 			initializedBySearch: false,
 			initiatedByScrolling: true,
+			name: searchString,
 		});
-	}, []);
+	}, [searchString, dialogs]);
 
 	const chatListRef = useRef(null);
 

@@ -22,6 +22,7 @@ import { MessageActions } from 'app/store/messages/actions';
 import { useSelector } from 'react-redux';
 import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
 import OutgoingCall from 'app/components/messenger-page/outgoing-call/outgoing-call';
+import IncomingCall from 'app/components/messenger-page/incoming-call/incoming-call';
 
 export namespace Messenger {
 	export interface contactSearchActions {
@@ -153,7 +154,8 @@ const Messenger = () => {
 
 	return (
 		<div className='messenger'>
-			<OutgoingCall />
+			{false && <OutgoingCall />}
+			{true && <IncomingCall />}
 
 			<SearchTop displaySlider={displaySlider} displayCreateChat={displayCreateChat} />
 

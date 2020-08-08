@@ -21,6 +21,7 @@ import { ChatActions } from 'app/store/dialogs/actions';
 import { MessageActions } from 'app/store/messages/actions';
 import { useSelector } from 'react-redux';
 import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
+import OutgoingCall from 'app/components/messenger-page/outgoing-call/outgoing-call';
 
 export namespace Messenger {
 	export interface contactSearchActions {
@@ -152,6 +153,8 @@ const Messenger = () => {
 
 	return (
 		<div className='messenger'>
+			<OutgoingCall />
+
 			<SearchTop displaySlider={displaySlider} displayCreateChat={displayCreateChat} />
 
 			{photoSelected.isDisplayed && (

@@ -1,0 +1,70 @@
+.outgoing-call {
+	height: 320px;
+	width: 320px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #334;
+	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.6);
+	pointer-events: auto;
+	border-radius: 8px;
+	z-index: 1000000000;
+
+	&__menu {
+		display: inline-flex;
+		float: right;
+		margin-top: 10px;
+		margin-right: 15px;
+	}
+
+	&__img {
+		border-radius: 50%;
+		top: 50%;
+		left: 50%;
+		position: absolute;
+		transform: translate(-50%, -50%);
+		height: 96px;
+		width: 96px;
+		object-fit: cover;
+		display: block;
+	}
+
+	&__bottom-menu {
+		display: flex;
+		bottom: 0;
+		position: absolute;
+		height: 50px;
+		align-items: center;
+		width: 100%;
+		justify-content: center;
+	}
+
+	&__call-btn {
+		width: 32px;
+		height: 32px;
+		margin: 0 4px 0 4px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		&--microphone {
+			background: #75757c;
+		}
+
+		&--cancel {
+			background: #ff2423;
+		}
+
+		&--video {
+			background: #223;
+		}
+	}
+
+	.svg {
+		height: 16px;
+		width: 16px;
+		fill: white;
+	}
+}

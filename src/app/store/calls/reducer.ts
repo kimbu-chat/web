@@ -87,13 +87,11 @@ const calls = createReducer<CallState>(initialState)
 	)
 	.handleAction(
 		CallActions.callEndedAction,
-		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.callEndedAction>) => {
-			if (draft.interlocutor?.id === payload.interlocutor.id) {
-				draft.interlocutor = undefined;
-				draft.amCalling = false;
-				draft.isCalling = false;
-				draft.isSpeaking = false;
-			}
+		produce((draft: CallState) => {
+			draft.interlocutor = undefined;
+			draft.amCalling = false;
+			draft.isCalling = false;
+			draft.isSpeaking = false;
 			return draft;
 		}),
 	);

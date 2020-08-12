@@ -22,10 +22,6 @@ export interface ICancelCall {
 	interlocutor: UserPreview;
 }
 
-export interface ICallEnded {
-	interlocutor: UserPreview;
-}
-
 export interface ICandidateAction {
 	candidate: RTCIceCandidate;
 }

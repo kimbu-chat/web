@@ -16,5 +16,47 @@
 	&__bg {
 		width: 100%;
 		height: auto;
+		filter: grayscale(89%) hue-rotate(208deg) saturate(150%);
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+
+	&__bottom-menu {
+		display: flex;
+		bottom: 0;
+		position: absolute;
+		height: 50px;
+		align-items: center;
+		width: 100%;
+		justify-content: center;
+	}
+
+	&__call-btn {
+		width: 32px;
+		height: 32px;
+		margin: 0 4px 0 4px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		&--microphone {
+			background: #75757c;
+		}
+
+		&--cancel {
+			background: #ff2423;
+		}
+
+		&--video {
+			background: #223;
+		}
+	}
+
+	.svg {
+		height: 16px;
+		width: 16px;
+		fill: white;
 	}
 }

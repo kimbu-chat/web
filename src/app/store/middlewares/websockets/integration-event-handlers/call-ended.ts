@@ -5,7 +5,7 @@ import { CallActions } from 'app/store/calls/actions';
 import { CallEndedIntegrationEvent } from '../integration-events/call-ended-integration-event';
 
 export class CallEndedEventHandler implements IEventHandler<CallEndedIntegrationEvent> {
-	public handle(store: Store<RootState>, eventData: CallEndedIntegrationEvent): void {
-		store.dispatch(CallActions.callEndedAction({ ...eventData }));
+	public handle(store: Store<RootState>): void {
+		store.dispatch(CallActions.callEndedAction());
 	}
 }

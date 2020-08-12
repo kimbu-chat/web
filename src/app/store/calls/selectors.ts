@@ -12,3 +12,7 @@ export const isCallingMe = (state: RootState): boolean => {
 export const amCallingI = (state: RootState): boolean => {
 	return state.calls.amCalling;
 };
+
+export const doIhaveCall = (state: RootState): boolean => {
+	return state.calls.isSpeaking;
+};

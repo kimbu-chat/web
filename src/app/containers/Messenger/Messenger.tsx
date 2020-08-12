@@ -23,6 +23,8 @@ import { useSelector } from 'react-redux';
 import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
 import OutgoingCall from 'app/components/messenger-page/outgoing-call/outgoing-call';
 import IncomingCall from 'app/components/messenger-page/incoming-call/incoming-call';
+import { isCallingMe, amCallingI } from 'app/store/calls/selectors';
+import ActiveCall from 'app/components/messenger-page/active-call/active-call';
 
 export namespace Messenger {
 	export interface contactSearchActions {
@@ -51,6 +53,8 @@ const Messenger = () => {
 	const createDialog = useActionWithDispatch(MessageActions.createDialog);
 
 	const selectedDialog = useSelector(getSelectedDialogSelector);
+	const amICalled = useSelector(isCallingMe);
+	const amICaling = useSelector(amCallingI);
 
 	const { id: chatId } = useParams<{ id: string }>();
 	const history = useHistory();
@@ -154,8 +158,9 @@ const Messenger = () => {
 
 	return (
 		<div className='messenger'>
-			{false && <OutgoingCall />}
-			{true && <IncomingCall />}
+			{amICaling && <OutgoingCall />}
+			{amICalled && <IncomingCall />}
+			{true && <ActiveCall />}
 
 			<SearchTop displaySlider={displaySlider} displayCreateChat={displayCreateChat} />
 

@@ -5,6 +5,7 @@ import messages from './messages/reducer';
 import dialogs from './dialogs/reducer';
 import friends from './friends/reducer';
 import myProfile from './my-profile/reducer';
+import calls from './calls/reducer';
 import { AuthActions } from './auth/actions';
 import { getType } from 'typesafe-actions';
 
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
 	messages,
 	friends,
 	myProfile,
+	calls,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

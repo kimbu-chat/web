@@ -9,9 +9,9 @@ export enum EVENTS_NAMES {
 	USER_MESSAGE_READ = 'UserMessagesRead',
 	INTEROCUTOR_MESSAGE_TYPING = 'MessageTyping',
 	//Event names for WEBRTC
-	INCOMING_CALL = 'IncomingCall',
+	INCOMING_CALL = 'CallInit',
 	INTERLOCUTOR_ACCEPTED_CALL = 'CallAccepted',
-	INTERLOCUTOR_CANCELED_CALL = 'CallDeclined',
+	INTERLOCUTOR_CANCELED_CALL = 'CallCancelled',
 	CALL_ENDED = 'CallEnded',
 	CANDIDATE = 'Candidate',
 }

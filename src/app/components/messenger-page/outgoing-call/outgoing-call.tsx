@@ -1,7 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './outgoing-call.scss';
 
+//sounds
+import callingBeep from 'app/sounds/calls/outgoing-call.ogg';
+import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+import { CallActions } from 'app/store/calls/actions';
+
 const OutgoingCall = () => {
+	const cancelCall = useActionWithDispatch(CallActions.cancelCallAction);
+
+	useEffect(() => {
+		//repeatable playing beep-beep
+		const audio = new Audio(callingBeep);
+
+		const repeatAudio = function () {
+			audio.play();
+		};
+
+		audio.addEventListener('ended', repeatAudio, false);
+
+		audio.play();
+
+		return () => {
+			audio.pause();
+			audio.removeEventListener('ended', repeatAudio);
+			audio.currentTime = 0;
+		};
+	});
 	return (
 		<div className='outgoing-call'>
 			<div className='outgoing-call__menu'>
@@ -31,7 +56,7 @@ const OutgoingCall = () => {
 						</svg>
 					</div>
 				</button>
-				<button className='outgoing-call__call-btn outgoing-call__call-btn--cancel'>
+				<button className='outgoing-call__call-btn outgoing-call__call-btn--cancel' onClick={cancelCall}>
 					<div className='svg'>
 						<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
 							<path

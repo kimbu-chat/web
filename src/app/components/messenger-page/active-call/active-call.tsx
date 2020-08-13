@@ -1,10 +1,68 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './active-call.scss';
+import { peerConnection } from 'app/store/middlewares/webRTC/peerConnection';
+import { useSelector } from 'react-redux';
+import { getInterlocutorSelector } from 'app/store/calls/selectors';
+import { RootState } from 'app/store/root-reducer';
+import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+import { CallActions } from 'app/store/calls/actions';
 
-const ActiveCall = () => {
+namespace IActiveCall {
+	export interface Props {
+		isDisplayed: boolean;
+	}
+}
+
+const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
+	const interlocutor = useSelector(getInterlocutorSelector);
+	const isVideoOpened = useSelector((state: RootState) => state.calls.isVideoOpened);
+	const isAudioOpened = useSelector((state: RootState) => state.calls.isAudioOpened);
+	const sendCandidates = useActionWithDispatch(CallActions.myCandidateAction);
+
+	const constraints = {
+		video: isVideoOpened,
+		audio: isAudioOpened,
+	};
+
+	useEffect(() => {
+		navigator.mediaDevices
+			.getUserMedia(constraints)
+			.then((stream) => {
+				const localStream = stream;
+				localStream.getTracks().forEach((track) => {
+					peerConnection.addTrack(track, localStream);
+					console.log('added track');
+				});
+			})
+			.catch((error) => {
+				console.error('Error accessing media devices.', error);
+			});
+	}, [constraints]);
+
+	peerConnection.onicecandidate = (event) => {
+		console.log('ice candidate');
+		if (event.candidate) {
+			const request = {
+				interlocutorId: interlocutor?.id || -1,
+				candidate: event.candidate,
+			};
+			sendCandidates(request);
+		}
+	};
+
+	peerConnection.addEventListener('connectionstatechange', () => {
+		if (peerConnection.connectionState === 'connected') {
+			console.log('peers connected');
+		}
+	});
+
+	peerConnection.addEventListener('track', async () => {
+		console.log('track');
+	});
+
 	return (
-		<div className='active-call'>
-			<img src='https://i.imgur.com/vaUKvPC.jpg' alt='' className='active-call__bg' />
+		<div className={isDisplayed ? 'active-call' : 'completly-hidden'}>
+			<img src={interlocutor?.avatarUrl} alt='' className='active-call__bg' />
 			<div className='active-call__bottom-menu'>
 				<button className='active-call__call-btn active-call__call-btn--microphone'>
 					<div className='svg'>

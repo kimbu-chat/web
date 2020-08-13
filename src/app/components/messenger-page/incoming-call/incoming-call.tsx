@@ -1,7 +1,12 @@
 import React from 'react';
 import './incoming-call.scss';
+import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+import { CallActions } from 'app/store/calls/actions';
 
 const IncomingCall = () => {
+	const cancelCall = useActionWithDispatch(CallActions.cancelCallAction);
+	const acceptCall = useActionWithDispatch(CallActions.acceptCallAction);
+
 	return (
 		<div className='incoming-call'>
 			<img
@@ -12,7 +17,7 @@ const IncomingCall = () => {
 			<h1 className='incoming-call__calling-name'>Stef</h1>
 			<h3 className='incoming-call__additional-data'>Входящий аудиовыхов</h3>
 			<div className='incoming-call__bottom-menu'>
-				<button className='incoming-call__call-btn incoming-call__call-btn--accept'>
+				<button onClick={acceptCall} className='incoming-call__call-btn incoming-call__call-btn--accept'>
 					<div className='svg'>
 						<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
 							<path
@@ -23,7 +28,7 @@ const IncomingCall = () => {
 						</svg>
 					</div>
 				</button>
-				<button className='incoming-call__call-btn incoming-call__call-btn--cancel'>
+				<button onClick={cancelCall} className='incoming-call__call-btn incoming-call__call-btn--cancel'>
 					<div className='svg'>
 						<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
 							<path

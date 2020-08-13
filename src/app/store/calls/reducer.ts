@@ -10,13 +10,15 @@ export interface CallState {
 	isSpeaking: boolean;
 	isVideoOpened: boolean;
 	isAudioOpened: boolean;
+	offer?: RTCSessionDescriptionInit;
+	answer?: RTCSessionDescriptionInit;
 }
 
 const initialState: CallState = {
 	isCalling: false,
 	isSpeaking: false,
 	isVideoOpened: false,
-	isAudioOpened: false,
+	isAudioOpened: true,
 	amCalling: false,
 };
 
@@ -25,8 +27,10 @@ const calls = createReducer<CallState>(initialState)
 		CallActions.incomingCallAction,
 		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.incomingCallAction>) => {
 			const interlocutor = payload.caller;
+			const offer = payload.offer;
 			draft.interlocutor = interlocutor;
 			draft.isCalling = true;
+			draft.offer = offer;
 			return draft;
 		}),
 	)
@@ -40,48 +44,41 @@ const calls = createReducer<CallState>(initialState)
 		}),
 	)
 	.handleAction(
-		CallActions.cancelCallAction,
-		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.cancelCallAction>) => {
-			if (draft.interlocutor?.id === payload.interlocutor.id) {
-				draft.interlocutor = undefined;
-				draft.amCalling = false;
-				draft.isCalling = false;
-				draft.isSpeaking = false;
-			}
+		CallActions.cancelCallSuccessAction,
+		produce((draft: CallState) => {
+			draft.interlocutor = undefined;
+			draft.amCalling = false;
+			draft.isCalling = false;
+			draft.isSpeaking = false;
 			return draft;
 		}),
 	)
 	.handleAction(
 		CallActions.acceptCallAction,
-		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.acceptCallAction>) => {
-			if (draft.interlocutor?.id === payload.interlocutor.id) {
-				draft.isSpeaking = true;
-				draft.isCalling = false;
-				draft.amCalling = false;
-			}
+		produce((draft: CallState) => {
+			draft.isSpeaking = true;
+			draft.isCalling = false;
+			draft.amCalling = false;
 			return draft;
 		}),
 	)
 	.handleAction(
 		CallActions.interlocutorCanceledCallAction,
-		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.interlocutorCanceledCallAction>) => {
-			if (draft.interlocutor?.id === payload.interlocutor.id) {
-				draft.interlocutor = undefined;
-				draft.amCalling = false;
-				draft.isCalling = false;
-				draft.isSpeaking = false;
-			}
+		produce((draft: CallState) => {
+			draft.interlocutor = undefined;
+			draft.amCalling = false;
+			draft.isCalling = false;
+			draft.isSpeaking = false;
 			return draft;
 		}),
 	)
 	.handleAction(
 		CallActions.interlocutorAcceptedCallAction,
 		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.interlocutorAcceptedCallAction>) => {
-			if (draft.interlocutor?.id === payload.interlocutor.id) {
-				draft.isSpeaking = true;
-				draft.isCalling = false;
-				draft.amCalling = false;
-			}
+			draft.isSpeaking = true;
+			draft.isCalling = false;
+			draft.amCalling = false;
+			draft.answer = payload.answer;
 			return draft;
 		}),
 	)

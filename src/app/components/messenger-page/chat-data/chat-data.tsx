@@ -9,6 +9,9 @@ import { Avatar } from '@material-ui/core';
 import './chat-data.scss';
 import { LocalizationContext } from 'app/app';
 import StatusBadge from 'app/components/shared/status-badge';
+import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+import { CallActions } from 'app/store/calls/actions';
+import { UserPreview } from 'app/store/my-profile/models';
 
 namespace ChatData {
 	export interface Props {
@@ -20,6 +23,19 @@ namespace ChatData {
 const ChatData = ({ displayChatInfo, chatInfoDisplayed }: ChatData.Props) => {
 	const { t } = useContext(LocalizationContext);
 	const selectedDialog = useSelector(getSelectedDialogSelector);
+	const callInterlocutor = useActionWithDispatch(CallActions.outgoingCallAction);
+
+	const callWithVideo = () =>
+		callInterlocutor({
+			calling: selectedDialog?.interlocutor as UserPreview,
+			constraints: { video: true, audio: true },
+		});
+
+	const callWithAudio = () =>
+		callInterlocutor({
+			calling: selectedDialog?.interlocutor as UserPreview,
+			constraints: { video: true, audio: true },
+		});
 
 	if (selectedDialog) {
 		const imageUrl: string = selectedDialog.conference?.avatarUrl || selectedDialog?.interlocutor?.avatarUrl || '';
@@ -52,7 +68,7 @@ const ChatData = ({ displayChatInfo, chatInfoDisplayed }: ChatData.Props) => {
 					</div>
 				</div>
 				<div className='messenger__buttons-group'>
-					<button className='messenger__voice-call'>
+					<button className='messenger__voice-call' onClick={callWithAudio}>
 						<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' e-dvz7b7=''>
 							<path
 								fillRule='evenodd'
@@ -62,7 +78,7 @@ const ChatData = ({ displayChatInfo, chatInfoDisplayed }: ChatData.Props) => {
 							></path>
 						</svg>
 					</button>
-					<button className='messenger__video-call'>
+					<button className='messenger__video-call' onClick={callWithVideo}>
 						<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' e-dvz7b7=''>
 							<path
 								fillRule='evenodd'

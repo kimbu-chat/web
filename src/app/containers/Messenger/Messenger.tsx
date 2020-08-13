@@ -161,7 +161,7 @@ const Messenger = () => {
 		<div className='messenger'>
 			{amICaling && <OutgoingCall />}
 			{amICalled && <IncomingCall />}
-			{amISpeaking && <ActiveCall />}
+			<ActiveCall isDisplayed={amISpeaking} />
 
 			<SearchTop displaySlider={displaySlider} displayCreateChat={displayCreateChat} />
 

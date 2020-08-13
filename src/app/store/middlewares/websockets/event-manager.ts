@@ -9,7 +9,7 @@ export enum EVENTS_NAMES {
 	USER_MESSAGE_READ = 'UserMessagesRead',
 	INTEROCUTOR_MESSAGE_TYPING = 'MessageTyping',
 	//Event names for WEBRTC
-	INCOMING_CALL = 'CallInit',
+	INCOMING_CALL = 'Call',
 	INTERLOCUTOR_ACCEPTED_CALL = 'CallAccepted',
 	INTERLOCUTOR_CANCELED_CALL = 'CallCancelled',
 	CALL_ENDED = 'CallEnded',
@@ -26,8 +26,10 @@ export class EventManager {
 	public getEventHandler(eventName: EVENTS_NAMES): IEventHandler {
 		const eventHandler = this.intergrationEventHandlers.get(eventName);
 
+		console.log(eventName);
+
 		if (!eventHandler) {
-			alert('Event handler not found');
+			alert('Event handler not found ' + eventName);
 		}
 
 		return this.intergrationEventHandlers.get(eventName) as IEventHandler;

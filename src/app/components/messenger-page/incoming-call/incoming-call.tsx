@@ -7,6 +7,16 @@ const IncomingCall = () => {
 	const cancelCall = useActionWithDispatch(CallActions.cancelCallAction);
 	const acceptCall = useActionWithDispatch(CallActions.acceptCallAction);
 
+	const acceptWithVideo = () =>
+		acceptCall({
+			constraints: { video: true, audio: false },
+		});
+
+	const acceptWithAudio = () =>
+		acceptCall({
+			constraints: { video: false, audio: true },
+		});
+
 	return (
 		<div className='incoming-call'>
 			<img
@@ -17,7 +27,7 @@ const IncomingCall = () => {
 			<h1 className='incoming-call__calling-name'>Stef</h1>
 			<h3 className='incoming-call__additional-data'>Входящий аудиовыхов</h3>
 			<div className='incoming-call__bottom-menu'>
-				<button onClick={acceptCall} className='incoming-call__call-btn incoming-call__call-btn--accept'>
+				<button onClick={acceptWithAudio} className='incoming-call__call-btn incoming-call__call-btn--accept'>
 					<div className='svg'>
 						<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
 							<path
@@ -39,7 +49,7 @@ const IncomingCall = () => {
 						</svg>
 					</div>
 				</button>
-				<button className='incoming-call__call-btn incoming-call__call-btn--video'>
+				<button onClick={acceptWithVideo} className='incoming-call__call-btn incoming-call__call-btn--video'>
 					<div className='svg'>
 						<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
 							<path

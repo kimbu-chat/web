@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import './active-call.scss';
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnection';
 import { useSelector } from 'react-redux';
@@ -14,10 +14,14 @@ namespace IActiveCall {
 }
 
 const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
+	const cancelCall = useActionWithDispatch(CallActions.cancelCallAction);
+
 	const interlocutor = useSelector(getInterlocutorSelector);
 	const isVideoOpened = useSelector((state: RootState) => state.calls.isVideoOpened);
 	const isAudioOpened = useSelector((state: RootState) => state.calls.isAudioOpened);
 	const sendCandidates = useActionWithDispatch(CallActions.myCandidateAction);
+
+	const remoteVideoRef = useRef<HTMLVideoElement>(null);
 
 	const constraints = {
 		video: isVideoOpened,
@@ -30,8 +34,8 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 			.then((stream) => {
 				const localStream = stream;
 				localStream.getTracks().forEach((track) => {
-					peerConnection.addTrack(track, localStream);
-					console.log('added track');
+					peerConnection.connection.addTrack(track, localStream);
+					console.log(track);
 				});
 			})
 			.catch((error) => {
@@ -39,30 +43,38 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 			});
 	}, [constraints]);
 
-	peerConnection.onicecandidate = (event) => {
-		console.log('ice candidate');
+	peerConnection.connection.onicecandidate = (event) => {
 		if (event.candidate) {
 			const request = {
 				interlocutorId: interlocutor?.id || -1,
 				candidate: event.candidate,
 			};
 			sendCandidates(request);
+			console.log('local candidate generated');
 		}
 	};
 
-	peerConnection.addEventListener('connectionstatechange', () => {
-		if (peerConnection.connectionState === 'connected') {
+	peerConnection.connection.addEventListener('connectionstatechange', () => {
+		if (peerConnection.connection.connectionState === 'connected') {
 			console.log('peers connected');
 		}
 	});
 
-	peerConnection.addEventListener('track', async () => {
-		console.log('track');
+	setInterval(() => console.log(peerConnection.connection.connectionState), 1000);
+
+	peerConnection.connection.addEventListener('track', async (event) => {
+		const remoteStream = new MediaStream();
+		if (remoteVideoRef.current) {
+			remoteVideoRef.current.srcObject = remoteStream;
+		}
+
+		remoteStream.addTrack(event.track);
 	});
 
 	return (
 		<div className={isDisplayed ? 'active-call' : 'completly-hidden'}>
 			<img src={interlocutor?.avatarUrl} alt='' className='active-call__bg' />
+			<video autoPlay playsInline ref={remoteVideoRef} className='active-call__remote-video'></video>
 			<div className='active-call__bottom-menu'>
 				<button className='active-call__call-btn active-call__call-btn--microphone'>
 					<div className='svg'>
@@ -74,7 +86,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 						</svg>
 					</div>
 				</button>
-				<button className='active-call__call-btn active-call__call-btn--cancel'>
+				<button className='active-call__call-btn active-call__call-btn--cancel' onClick={cancelCall}>
 					<div className='svg'>
 						<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
 							<path

@@ -13,7 +13,10 @@ export interface IIncomingCall {
 export interface IOutgoingCall {
 	calling: UserPreview;
 	constraints: IConstraints;
-	//offer: RTCSessionDescriptionInit;
+}
+
+export interface IAcceptIncomingCall {
+	constraints: IConstraints;
 }
 
 export interface IInterlocutorAcceptCall {

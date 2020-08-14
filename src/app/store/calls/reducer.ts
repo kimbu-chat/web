@@ -20,6 +20,9 @@ const initialState: CallState = {
 	isVideoOpened: false,
 	isAudioOpened: true,
 	amCalling: false,
+	interlocutor: undefined,
+	offer: undefined,
+	answer: undefined,
 };
 
 const calls = createReducer<CallState>(initialState)
@@ -40,6 +43,8 @@ const calls = createReducer<CallState>(initialState)
 			const interlocutor = payload.calling;
 			draft.interlocutor = interlocutor;
 			draft.amCalling = true;
+			draft.isVideoOpened = payload.constraints.video;
+			draft.isAudioOpened = payload.constraints.video;
 			return draft;
 		}),
 	)
@@ -50,15 +55,19 @@ const calls = createReducer<CallState>(initialState)
 			draft.amCalling = false;
 			draft.isCalling = false;
 			draft.isSpeaking = false;
+			draft.offer = undefined;
+			draft.answer = undefined;
 			return draft;
 		}),
 	)
 	.handleAction(
 		CallActions.acceptCallAction,
-		produce((draft: CallState) => {
+		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.acceptCallAction>) => {
 			draft.isSpeaking = true;
 			draft.isCalling = false;
 			draft.amCalling = false;
+			draft.isAudioOpened = payload.constraints.audio;
+			draft.isVideoOpened = payload.constraints.video;
 			return draft;
 		}),
 	)
@@ -69,6 +78,8 @@ const calls = createReducer<CallState>(initialState)
 			draft.amCalling = false;
 			draft.isCalling = false;
 			draft.isSpeaking = false;
+			draft.offer = undefined;
+			draft.answer = undefined;
 			return draft;
 		}),
 	)

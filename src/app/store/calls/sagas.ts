@@ -4,16 +4,16 @@ import { call, select, takeLatest, put } from 'redux-saga/effects';
 import { getMyProfileSelector } from '../my-profile/selectors';
 import { UserPreview } from '../my-profile/models';
 import { CallsHttpRequests } from './http-requests';
-import { peerConnection } from '../middlewares/webRTC/peerConnection';
+import { peerConnection, peerConfiguration } from '../middlewares/webRTC/peerConnection';
 import { RootState } from '../root-reducer';
 
-export function* resetUnreadMessagesCountSaga(action: ReturnType<typeof CallActions.outgoingCallAction>): SagaIterator {
+export function* outgoingCallSaga(action: ReturnType<typeof CallActions.outgoingCallAction>): SagaIterator {
 	const interlocutorId = action.payload.calling.id;
 	const myProfile: UserPreview = yield select(getMyProfileSelector);
 	let offer: RTCSessionDescriptionInit;
 	const createOffer = async () => {
-		offer = await peerConnection.createOffer();
-		await peerConnection.setLocalDescription(offer);
+		offer = await peerConnection.connection.createOffer();
+		await peerConnection.connection.setLocalDescription(offer);
 	};
 	yield call(createOffer);
 
@@ -31,17 +31,22 @@ export function* resetUnreadMessagesCountSaga(action: ReturnType<typeof CallActi
 export function* cancelCallSaga(): SagaIterator {
 	const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
 
-	console.log('call canceled');
-
 	const request = {
 		interlocutorId,
 	};
 
-	console.log(request);
 	const httpRequest = CallsHttpRequests.cancelCall;
 	httpRequest.call(yield call(() => httpRequest.generator(request)));
 
+	peerConnection.connection.close();
+	peerConnection.connection = new RTCPeerConnection(peerConfiguration);
+
 	yield put(CallActions.cancelCallSuccessAction());
+}
+
+export function* callEndedSaga(): SagaIterator {
+	peerConnection.connection.close();
+	peerConnection.connection = new RTCPeerConnection(peerConfiguration);
 }
 
 export function* acceptCallSaga(): SagaIterator {
@@ -49,14 +54,12 @@ export function* acceptCallSaga(): SagaIterator {
 	const offer: RTCSessionDescriptionInit = yield select((state: RootState) => state.calls.offer);
 	let answer: RTCSessionDescriptionInit;
 	const createAnswer = async () => {
-		peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
-		answer = await peerConnection.createAnswer();
+		peerConnection.connection.setRemoteDescription(new RTCSessionDescription(offer));
+		answer = await peerConnection.connection.createAnswer();
 
-		await peerConnection.setLocalDescription(answer);
+		await peerConnection.connection.setLocalDescription(answer);
 	};
 	yield call(createAnswer);
-
-	console.log('offer accepted' + offer);
 
 	const request = {
 		interlocutorId,
@@ -71,19 +74,23 @@ export function* acceptCallSaga(): SagaIterator {
 export function* callAcceptedSaga(action: ReturnType<typeof CallActions.interlocutorAcceptedCallAction>): SagaIterator {
 	const processAnswer = async () => {
 		const remoteDesc = new RTCSessionDescription(action.payload.answer);
-		await peerConnection.setRemoteDescription(remoteDesc);
+		await peerConnection.connection.setRemoteDescription(remoteDesc);
 	};
-	console.log('answer registered' + action.payload.answer);
 	yield call(processAnswer);
 }
 
 export function* candidateSaga(action: ReturnType<typeof CallActions.candidateAction>): SagaIterator {
 	const processCandidate = async () => {
-		console.log(action.payload.candidate);
-		await peerConnection.addIceCandidate(new RTCIceCandidate(action.payload.candidate));
+		await peerConnection.connection.addIceCandidate(new RTCIceCandidate(action.payload.candidate));
 	};
-	console.log('candidate in saga');
-	yield call(processCandidate);
+
+	const checkIntervalCode = setInterval(() => {
+		if (peerConnection.connection.remoteDescription?.type) {
+			processCandidate();
+			console.log('interval success check');
+			clearInterval(checkIntervalCode);
+		}
+	}, 100);
 }
 
 export function* myCandidateSaga(action: ReturnType<typeof CallActions.myCandidateAction>): SagaIterator {
@@ -96,10 +103,11 @@ export function* myCandidateSaga(action: ReturnType<typeof CallActions.myCandida
 }
 
 export const CallsSagas = [
-	takeLatest(CallActions.outgoingCallAction, resetUnreadMessagesCountSaga),
+	takeLatest(CallActions.outgoingCallAction, outgoingCallSaga),
 	takeLatest(CallActions.cancelCallAction, cancelCallSaga),
 	takeLatest(CallActions.acceptCallAction, acceptCallSaga),
 	takeLatest(CallActions.interlocutorAcceptedCallAction, callAcceptedSaga),
 	takeLatest(CallActions.candidateAction, candidateSaga),
 	takeLatest(CallActions.myCandidateAction, myCandidateSaga),
+	takeLatest(CallActions.interlocutorCanceledCallAction, callEndedSaga),
 ];

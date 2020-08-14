@@ -1,6 +1,6 @@
 .active-call {
 	width: 320px;
-	height: 132px;
+	padding: 25px 15px 45px 15px;
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -19,7 +19,8 @@
 		filter: grayscale(89%) hue-rotate(208deg) saturate(150%);
 		position: absolute;
 		top: 50%;
-		transform: translateY(-50%);
+		left: 50%;
+		transform: translate(-50%, -50%);
 	}
 
 	&__bottom-menu {
@@ -28,7 +29,8 @@
 		position: absolute;
 		height: 50px;
 		align-items: center;
-		width: 100%;
+		left: 50%;
+		transform: translateX(-50%);
 		justify-content: center;
 	}
 
@@ -58,5 +60,10 @@
 		height: 16px;
 		width: 16px;
 		fill: white;
+	}
+
+	&__remote-video {
+		margin: 0 auto;
+		width: 100%;
 	}
 }

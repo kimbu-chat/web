@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { FileUploadRequest, ErrorUploadResponse, uploadFileSaga } from '../../utils/file-uploader/file-uploader';
 import { HTTPStatusCode } from 'app/common/http-status-code';
-import { AvatarSelectedData } from './models';
+import { AvatarSelectedData, UserPreview } from './models';
 import { MyProfileActions } from './actions';
 import { MyProfileHttpRequests } from './http-requests';
 import { UpdateAvatarResponse } from '../common/models';
@@ -52,7 +52,7 @@ export function* uploadUserAvatar(action: ReturnType<typeof MyProfileActions.upd
 
 export function* uploadUserAvatarSaga(action: ReturnType<typeof MyProfileActions.updateMyAvatar>): SagaIterator {
 	yield call(uploadUserAvatar, action);
-	const updatedProfile = yield select((state: RootState) => state.myProfile.user);
+	const updatedProfile: UserPreview = yield select((state: RootState) => state.myProfile.user);
 	new MyProfileService().setMyProfile(updatedProfile);
 }
 

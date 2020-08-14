@@ -1,0 +1,69 @@
+.active-call {
+	width: 320px;
+	padding: 25px 15px 45px 15px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #334;
+	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.6);
+	pointer-events: auto;
+	border-radius: 8px;
+	z-index: 1000000000;
+	overflow: hidden;
+	display: inline-block;
+
+	&__bg {
+		width: 100%;
+		height: auto;
+		filter: grayscale(89%) hue-rotate(208deg) saturate(150%);
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	&__bottom-menu {
+		display: flex;
+		bottom: 0;
+		position: absolute;
+		height: 50px;
+		align-items: center;
+		left: 50%;
+		transform: translateX(-50%);
+		justify-content: center;
+	}
+
+	&__call-btn {
+		width: 32px;
+		height: 32px;
+		margin: 0 4px 0 4px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		&--microphone {
+			background: #75757c;
+		}
+
+		&--cancel {
+			background: #ff2423;
+		}
+
+		&--video {
+			background: #223;
+		}
+	}
+
+	.svg {
+		height: 16px;
+		width: 16px;
+		fill: white;
+	}
+
+	&__remote-video {
+		margin: 0 auto;
+		width: 100%;
+	}
+}

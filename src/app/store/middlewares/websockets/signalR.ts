@@ -12,6 +12,11 @@ import { getType } from 'typesafe-actions';
 import { AuthActions } from 'app/store/auth/actions';
 import { RootState } from 'app/store/root-reducer';
 import { WebSocketActions } from 'app/store/sockets/actions';
+import { IncomingCallEventHandler } from './integration-event-handlers/incoming-call';
+import { InterlocutorAcceptedCallEventHandler } from './integration-event-handlers/interlocutor-accepted-call';
+import { InterlocutorCanceledCallEventHandler } from './integration-event-handlers/interlocutor-canceled-call';
+import { CallEndedEventHandler } from './integration-event-handlers/call-ended';
+import { CandidateEventHandler } from './integration-event-handlers/candidate-event-handler';
 
 const CONNECTION_ENDPOINT = 'http://notifications.ravudi.com/signalr';
 
@@ -50,6 +55,18 @@ function openConnection(store: Store<RootState>): void {
 	eventManager.registerEventHandler(EVENTS_NAMES.CONFERENCE_CREATED, new ConferenceCreatedEventHandler());
 	eventManager.registerEventHandler(EVENTS_NAMES.CONFERENCE_MESSAGE_READ, new ConferenceMessageReadEventHandler());
 	eventManager.registerEventHandler(EVENTS_NAMES.USER_MESSAGE_READ, new UserMessageReadEventHandler());
+	//WebRTC
+	eventManager.registerEventHandler(EVENTS_NAMES.INCOMING_CALL, new IncomingCallEventHandler());
+	eventManager.registerEventHandler(
+		EVENTS_NAMES.INTERLOCUTOR_ACCEPTED_CALL,
+		new InterlocutorAcceptedCallEventHandler(),
+	);
+	eventManager.registerEventHandler(
+		EVENTS_NAMES.INTERLOCUTOR_CANCELED_CALL,
+		new InterlocutorCanceledCallEventHandler(),
+	);
+	eventManager.registerEventHandler(EVENTS_NAMES.CALL_ENDED, new CallEndedEventHandler());
+	eventManager.registerEventHandler(EVENTS_NAMES.CANDIDATE, new CandidateEventHandler());
 
 	connection = new HubConnectionBuilder()
 		.withUrl(CONNECTION_ENDPOINT, {

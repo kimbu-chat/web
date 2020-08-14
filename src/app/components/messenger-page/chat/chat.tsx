@@ -23,7 +23,7 @@ const Chat = () => {
 	const getMessages = useActionWithDeferred(MessageActions.getMessages);
 	const markMessagesAsRead = useActionWithDispatch(MessageActions.markMessagesAsRead);
 
-	const { t } = useContext(LocalizationContext);
+	const { t, i18n } = useContext(LocalizationContext);
 
 	const selectedDialog = useSelector(getSelectedDialogSelector);
 	const messages = useSelector<RootState, Message[]>(
@@ -122,7 +122,12 @@ const Chat = () => {
 					needToShowDateSeparator={msg.needToShowDateSeparator}
 					dateSeparator={
 						msg.needToShowDateSeparator
-							? moment.utc(msg.creationDateTime).local().format('DD MMMM').toString()
+							? moment
+									.utc(msg.creationDateTime)
+									.local()
+									.locale(i18n?.language || '')
+									.format('DD MMMM')
+									.toString()
 							: undefined
 					}
 				/>

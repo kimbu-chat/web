@@ -6,7 +6,16 @@ import { ChatSagas } from './dialogs/sagas';
 import { AuthSagas } from './auth/sagas';
 import { MyProfileSagas } from './my-profile/sagas';
 import { InitiationSagas } from './initiation/sagas';
+import { CallsSagas } from './calls/sagas';
 
 export function* rootSaga(): SagaIterator {
-	yield all([...InitiationSagas, ...ChatSagas, ...MessageSagas, ...AuthSagas, ...FriendSagas, ...MyProfileSagas]);
+	yield all([
+		...InitiationSagas,
+		...ChatSagas,
+		...MessageSagas,
+		...AuthSagas,
+		...FriendSagas,
+		...MyProfileSagas,
+		...CallsSagas,
+	]);
 }

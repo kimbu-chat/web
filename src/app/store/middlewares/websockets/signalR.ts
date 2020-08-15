@@ -17,8 +17,7 @@ import { InterlocutorAcceptedCallEventHandler } from './integration-event-handle
 import { InterlocutorCanceledCallEventHandler } from './integration-event-handlers/interlocutor-canceled-call';
 import { CallEndedEventHandler } from './integration-event-handlers/call-ended';
 import { CandidateEventHandler } from './integration-event-handlers/candidate-event-handler';
-
-const CONNECTION_ENDPOINT = 'http://notifications.ravudi.com/signalr';
+import { ApiBasePath } from 'app/store/root-api';
 
 let connection: HubConnection | null = null;
 
@@ -69,7 +68,7 @@ function openConnection(store: Store<RootState>): void {
 	eventManager.registerEventHandler(EVENTS_NAMES.CANDIDATE, new CandidateEventHandler());
 
 	connection = new HubConnectionBuilder()
-		.withUrl(CONNECTION_ENDPOINT, {
+		.withUrl(`${ApiBasePath.NotificationsApi}/signalr`, {
 			logMessageContent: true,
 			accessTokenFactory: () => store.getState().auth.securityTokens.accessToken,
 		})

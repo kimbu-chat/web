@@ -1,9 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import './active-call.scss';
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnection';
 import { useSelector } from 'react-redux';
 import { getInterlocutorSelector } from 'app/store/calls/selectors';
-import { RootState } from 'app/store/root-reducer';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { CallActions } from 'app/store/calls/actions';
 
@@ -17,31 +16,9 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 	const cancelCall = useActionWithDispatch(CallActions.cancelCallAction);
 
 	const interlocutor = useSelector(getInterlocutorSelector);
-	const isVideoOpened = useSelector((state: RootState) => state.calls.isVideoOpened);
-	const isAudioOpened = useSelector((state: RootState) => state.calls.isAudioOpened);
 	const sendCandidates = useActionWithDispatch(CallActions.myCandidateAction);
 
 	const remoteVideoRef = useRef<HTMLVideoElement>(null);
-
-	const constraints = {
-		video: isVideoOpened,
-		audio: isAudioOpened,
-	};
-
-	useEffect(() => {
-		navigator.mediaDevices
-			.getUserMedia(constraints)
-			.then((stream) => {
-				const localStream = stream;
-				localStream.getTracks().forEach((track) => {
-					peerConnection.connection.addTrack(track, localStream);
-					console.log(track);
-				});
-			})
-			.catch((error) => {
-				console.error('Error accessing media devices.', error);
-			});
-	}, [constraints]);
 
 	peerConnection.connection.onicecandidate = (event) => {
 		if (event.candidate) {

@@ -8,6 +8,26 @@ import { peerConnection, peerConfiguration } from '../middlewares/webRTC/peerCon
 import { RootState } from '../root-reducer';
 
 export function* outgoingCallSaga(action: ReturnType<typeof CallActions.outgoingCallAction>): SagaIterator {
+	//setup local stream
+	const constraints = {
+		video: action.payload.constraints.video,
+		audio: action.payload.constraints.audio,
+	};
+
+	navigator.mediaDevices
+		.getUserMedia(constraints)
+		.then((stream) => {
+			const localStream = stream;
+			localStream.getTracks().forEach((track) => {
+				peerConnection.connection.addTrack(track, localStream);
+				console.log(track);
+			});
+		})
+		.catch((error) => {
+			console.error('Error accessing media devices.', error);
+		});
+	//---
+
 	const interlocutorId = action.payload.calling.id;
 	const myProfile: UserPreview = yield select(getMyProfileSelector);
 	let offer: RTCSessionDescriptionInit;

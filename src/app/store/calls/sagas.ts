@@ -16,13 +16,18 @@ export function* outgoingCallSaga(action: ReturnType<typeof CallActions.outgoing
 			video: action.payload.constraints.video,
 			audio: action.payload.constraints.audio,
 		};
+		try {
+			localMediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+		} catch {
+			alert('No device found, sorry...');
+		}
 
-		localMediaStream = await navigator.mediaDevices.getUserMedia(constraints);
-
-		localMediaStream.getTracks().forEach((track) => {
-			peerConnection.connection.addTrack(track, localMediaStream);
-			console.log('Local track', track);
-		});
+		if (localMediaStream) {
+			localMediaStream.getTracks().forEach((track) => {
+				peerConnection.connection.addTrack(track, localMediaStream);
+				console.log('Local track', track);
+			});
+		}
 	};
 
 	yield call(getUserMedia);
@@ -91,11 +96,17 @@ export function* acceptCallSaga(action: ReturnType<typeof CallActions.acceptCall
 
 		console.log(constraints);
 
-		localMediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+		try {
+			localMediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+		} catch {
+			alert('No device found, sorry...');
+		}
 
-		localMediaStream.getTracks().forEach((track) => {
-			peerConnection.connection.addTrack(track, localMediaStream);
-		});
+		if (localMediaStream) {
+			localMediaStream.getTracks().forEach((track) => {
+				peerConnection.connection.addTrack(track, localMediaStream);
+			});
+		}
 	};
 
 	yield call(getUserMedia);

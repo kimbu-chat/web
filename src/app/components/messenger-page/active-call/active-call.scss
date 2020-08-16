@@ -45,7 +45,10 @@
 		justify-content: center;
 
 		&--microphone {
-			background: #75757c;
+			background: #223;
+			&--active {
+				background: #75757c;
+			}
 		}
 
 		&--cancel {
@@ -54,6 +57,9 @@
 
 		&--video {
 			background: #223;
+			&--active {
+				background: #75757c;
+			}
 		}
 	}
 

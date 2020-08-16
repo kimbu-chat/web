@@ -24,8 +24,8 @@ const IncomingCall = () => {
 	return (
 		<div className='incoming-call'>
 			<img src={interlocutor?.avatarUrl} alt='' className='incoming-call__img' />
-			<h1 className='incoming-call__calling-name'>Stef</h1>
-			<h3 className='incoming-call__additional-data'>Входящий аудиовыхов</h3>
+			<h1 className='incoming-call__calling-name'>{`${interlocutor?.firstName} ${interlocutor?.lastName}`}</h1>
+			<h3 className='incoming-call__additional-data'>Входящий вызов</h3>
 			<div className='incoming-call__bottom-menu'>
 				<button onClick={acceptWithAudio} className='incoming-call__call-btn incoming-call__call-btn--accept'>
 					<div className='svg'>

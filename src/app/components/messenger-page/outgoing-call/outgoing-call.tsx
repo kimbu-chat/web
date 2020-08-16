@@ -1,13 +1,18 @@
 import React, { useEffect } from 'react';
 import './outgoing-call.scss';
 
-//sounds
-import callingBeep from 'app/sounds/calls/outgoing-call.ogg';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { CallActions } from 'app/store/calls/actions';
+import { useSelector } from 'react-redux';
+import { getCallInterlocutorSelector } from 'app/store/calls/selectors';
+
+//sounds
+import callingBeep from 'app/sounds/calls/outgoing-call.ogg';
 
 const OutgoingCall = () => {
 	const cancelCall = useActionWithDispatch(CallActions.cancelCallAction);
+
+	const interlocutor = useSelector(getCallInterlocutorSelector);
 
 	useEffect(() => {
 		//repeatable playing beep-beep
@@ -40,11 +45,9 @@ const OutgoingCall = () => {
 					</svg>
 				</div>
 			</div>
-			<img
-				src='https://d18j2ovy2glyrp.cloudfront.net/2020/07/24/fa7969a484d64b25a3c61a449ed492a6/image_143x143.jpeg'
-				alt=''
-				className='outgoing-call__img'
-			/>
+			<img src={interlocutor?.avatarUrl} alt='' className='outgoing-call__img' />
+			<h1 className='outgoing-call__calling-name'>{`${interlocutor?.firstName} ${interlocutor?.lastName}`}</h1>
+			<h3 className='outgoing-call__additional-data'>Исходящий вызов</h3>
 			<div className='outgoing-call__bottom-menu'>
 				<button className='outgoing-call__call-btn outgoing-call__call-btn--microphone'>
 					<div className='svg'>

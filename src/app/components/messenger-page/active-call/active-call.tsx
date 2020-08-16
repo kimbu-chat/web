@@ -36,8 +36,6 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 		}
 	});
 
-	setInterval(() => console.log(peerConnection.connection.connectionState), 1000);
-
 	peerConnection.connection.addEventListener('track', async (event) => {
 		const remoteStream = new MediaStream();
 		if (remoteVideoRef.current) {

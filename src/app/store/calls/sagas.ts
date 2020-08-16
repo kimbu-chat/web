@@ -120,7 +120,7 @@ export function* acceptCallSaga(action: ReturnType<typeof CallActions.acceptCall
 	const httpRequest = CallsHttpRequests.acceptCall;
 	httpRequest.call(yield call(() => httpRequest.generator(request)));
 
-	//yield put(CallActions.acceptCallSuccessAction(action.payload));
+	yield put(CallActions.acceptCallSuccessAction(action.payload));
 }
 
 export function* callAcceptedSaga(action: ReturnType<typeof CallActions.interlocutorAcceptedCallAction>): SagaIterator {

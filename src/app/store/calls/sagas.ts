@@ -7,7 +7,32 @@ import { CallsHttpRequests } from './http-requests';
 import { peerConnection, peerConfiguration } from '../middlewares/webRTC/peerConnection';
 import { RootState } from '../root-reducer';
 
+let localMediaStream: MediaStream;
+
 export function* outgoingCallSaga(action: ReturnType<typeof CallActions.outgoingCallAction>): SagaIterator {
+	//setup local stream
+	const getUserMedia = async () => {
+		const constraints = {
+			video: action.payload.constraints.video,
+			audio: action.payload.constraints.audio,
+		};
+		try {
+			localMediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+		} catch {
+			alert('No device found, sorry...');
+		}
+
+		if (localMediaStream) {
+			localMediaStream.getTracks().forEach((track) => {
+				peerConnection.connection.addTrack(track, localMediaStream);
+				console.log('Local track', track);
+			});
+		}
+	};
+
+	yield call(getUserMedia);
+	//---
+
 	const interlocutorId = action.payload.calling.id;
 	const myProfile: UserPreview = yield select(getMyProfileSelector);
 	let offer: RTCSessionDescriptionInit;
@@ -26,6 +51,8 @@ export function* outgoingCallSaga(action: ReturnType<typeof CallActions.outgoing
 
 	const httpRequest = CallsHttpRequests.call;
 	httpRequest.call(yield call(() => httpRequest.generator(request)));
+
+	yield put(CallActions.outgoingCallSuccessAction(action.payload));
 }
 
 export function* cancelCallSaga(): SagaIterator {
@@ -41,15 +68,49 @@ export function* cancelCallSaga(): SagaIterator {
 	peerConnection.connection.close();
 	peerConnection.connection = new RTCPeerConnection(peerConfiguration);
 
+	if (localMediaStream) {
+		const tracks = localMediaStream.getTracks();
+		tracks.forEach((track) => track.stop());
+	}
+
 	yield put(CallActions.cancelCallSuccessAction());
 }
 
 export function* callEndedSaga(): SagaIterator {
 	peerConnection.connection.close();
 	peerConnection.connection = new RTCPeerConnection(peerConfiguration);
+
+	if (localMediaStream) {
+		const tracks = localMediaStream.getTracks();
+		tracks.forEach((track) => track.stop());
+	}
 }
 
-export function* acceptCallSaga(): SagaIterator {
+export function* acceptCallSaga(action: ReturnType<typeof CallActions.acceptCallAction>): SagaIterator {
+	//setup local stream
+	const getUserMedia = async () => {
+		const constraints = {
+			video: action.payload.constraints.video,
+			audio: action.payload.constraints.audio,
+		};
+
+		console.log(constraints);
+
+		try {
+			localMediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+		} catch {
+			alert('No device found, sorry...');
+		}
+
+		if (localMediaStream) {
+			localMediaStream.getTracks().forEach((track) => {
+				peerConnection.connection.addTrack(track, localMediaStream);
+			});
+		}
+	};
+
+	yield call(getUserMedia);
+	//---
 	const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
 	const offer: RTCSessionDescriptionInit = yield select((state: RootState) => state.calls.offer);
 	let answer: RTCSessionDescriptionInit;
@@ -69,6 +130,8 @@ export function* acceptCallSaga(): SagaIterator {
 
 	const httpRequest = CallsHttpRequests.acceptCall;
 	httpRequest.call(yield call(() => httpRequest.generator(request)));
+
+	yield put(CallActions.acceptCallSuccessAction(action.payload));
 }
 
 export function* callAcceptedSaga(action: ReturnType<typeof CallActions.interlocutorAcceptedCallAction>): SagaIterator {
@@ -87,7 +150,6 @@ export function* candidateSaga(action: ReturnType<typeof CallActions.candidateAc
 	const checkIntervalCode = setInterval(() => {
 		if (peerConnection.connection.remoteDescription?.type) {
 			processCandidate();
-			console.log('interval success check');
 			clearInterval(checkIntervalCode);
 		}
 	}, 100);

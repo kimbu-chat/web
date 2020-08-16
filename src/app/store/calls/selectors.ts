@@ -1,7 +1,7 @@
 import { RootState } from '../root-reducer';
 import { UserPreview } from '../my-profile/models';
 
-export const getInterlocutorSelector = (state: RootState): UserPreview | undefined => {
+export const getCallInterlocutorSelector = (state: RootState): UserPreview | undefined => {
 	return state.calls.interlocutor;
 };
 

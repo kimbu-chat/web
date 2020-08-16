@@ -17,7 +17,7 @@
 		"predeploy": "npm run build",
 		"deploy": "gh-pages -d build",
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"start": "webpack-dev-server --mode development --hot --progress --color --port 3000 --open",
+		"start": "webpack-dev-server --mode development --hot --progress --color --port 3000 --open --https",
 		"build": "webpack -p --progress --colors",
 		"format": "prettier --write src/**/*.{js,jsx,ts,tsx}",
 		"lint": "prettier --check . --ext .js,.jsx,.ts,.tsx && eslint . --ext .js,.jsx,.ts,.ts && tsc",

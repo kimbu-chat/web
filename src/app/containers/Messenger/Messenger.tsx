@@ -103,7 +103,7 @@ const Messenger = () => {
 
 	//Chat info display and hide
 	const displayChatInfo = useCallback(() => {
-		setInfoDisplayed(!infoDisplayed);
+		setInfoDisplayed((oldDisplayedState) => !oldDisplayedState);
 	}, [setInfoDisplayed]);
 	const hideChatInfo = useCallback(() => {
 		setInfoDisplayed(false);

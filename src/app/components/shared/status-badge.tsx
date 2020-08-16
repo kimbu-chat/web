@@ -4,6 +4,7 @@ import React from 'react';
 import Avatar from '@material-ui/core/Avatar/Avatar';
 import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 import { UserPreview } from 'app/store/my-profile/models';
+import { UserStatus } from 'app/store/friends/models';
 
 const OnlineBadge = withStyles((theme) => ({
 	badge: {
@@ -50,7 +51,7 @@ namespace StatusBadge {
 }
 
 const StatusBadge = ({ user, additionalClassNames }: StatusBadge.Props) => {
-	if (user?.status === 1) {
+	if (user?.status === UserStatus.Online) {
 		return (
 			<OnlineBadge
 				overlap='circle'

@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import './active-call.scss';
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnection';
 import { useSelector } from 'react-redux';
-import { getInterlocutorSelector } from 'app/store/calls/selectors';
+import { getCallInterlocutorSelector } from 'app/store/calls/selectors';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { CallActions } from 'app/store/calls/actions';
 
@@ -15,7 +15,7 @@ namespace IActiveCall {
 const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 	const cancelCall = useActionWithDispatch(CallActions.cancelCallAction);
 
-	const interlocutor = useSelector(getInterlocutorSelector);
+	const interlocutor = useSelector(getCallInterlocutorSelector);
 	const sendCandidates = useActionWithDispatch(CallActions.myCandidateAction);
 
 	const remoteVideoRef = useRef<HTMLVideoElement>(null);
@@ -27,7 +27,6 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 				candidate: event.candidate,
 			};
 			sendCandidates(request);
-			console.log('local candidate generated');
 		}
 	};
 
@@ -44,6 +43,8 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 		if (remoteVideoRef.current) {
 			remoteVideoRef.current.srcObject = remoteStream;
 		}
+
+		console.log('Incoming Track', event.track);
 
 		remoteStream.addTrack(event.track);
 	});

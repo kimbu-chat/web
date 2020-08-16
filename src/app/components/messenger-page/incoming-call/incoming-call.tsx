@@ -2,14 +2,18 @@ import React from 'react';
 import './incoming-call.scss';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { CallActions } from 'app/store/calls/actions';
+import { useSelector } from 'react-redux';
+import { getCallInterlocutorSelector } from 'app/store/calls/selectors';
 
 const IncomingCall = () => {
 	const cancelCall = useActionWithDispatch(CallActions.cancelCallAction);
 	const acceptCall = useActionWithDispatch(CallActions.acceptCallAction);
 
+	const interlocutor = useSelector(getCallInterlocutorSelector);
+
 	const acceptWithVideo = () =>
 		acceptCall({
-			constraints: { video: true, audio: false },
+			constraints: { video: true, audio: true },
 		});
 
 	const acceptWithAudio = () =>
@@ -19,11 +23,7 @@ const IncomingCall = () => {
 
 	return (
 		<div className='incoming-call'>
-			<img
-				src='https://d18j2ovy2glyrp.cloudfront.net/2020/07/24/fa7969a484d64b25a3c61a449ed492a6/image_143x143.jpeg'
-				alt=''
-				className='incoming-call__img'
-			/>
+			<img src={interlocutor?.avatarUrl} alt='' className='incoming-call__img' />
 			<h1 className='incoming-call__calling-name'>Stef</h1>
 			<h3 className='incoming-call__additional-data'>Входящий аудиовыхов</h3>
 			<div className='incoming-call__bottom-menu'>

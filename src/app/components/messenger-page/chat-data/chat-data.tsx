@@ -34,7 +34,7 @@ const ChatData = ({ displayChatInfo, chatInfoDisplayed }: ChatData.Props) => {
 	const callWithAudio = () =>
 		callInterlocutor({
 			calling: selectedDialog?.interlocutor as UserPreview,
-			constraints: { video: true, audio: true },
+			constraints: { video: false, audio: true },
 		});
 
 	if (selectedDialog) {

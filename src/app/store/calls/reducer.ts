@@ -38,8 +38,8 @@ const calls = createReducer<CallState>(initialState)
 		}),
 	)
 	.handleAction(
-		CallActions.outgoingCallAction,
-		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.outgoingCallAction>) => {
+		CallActions.outgoingCallSuccessAction,
+		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.outgoingCallSuccessAction>) => {
 			const interlocutor = payload.calling;
 			draft.interlocutor = interlocutor;
 			draft.amCalling = true;
@@ -61,8 +61,8 @@ const calls = createReducer<CallState>(initialState)
 		}),
 	)
 	.handleAction(
-		CallActions.acceptCallAction,
-		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.acceptCallAction>) => {
+		CallActions.acceptCallSuccessAction,
+		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.acceptCallSuccessAction>) => {
 			draft.isSpeaking = true;
 			draft.isCalling = false;
 			draft.amCalling = false;

@@ -5,7 +5,7 @@ import { FriendActions } from '../friends/actions';
 import { SagaIterator } from 'redux-saga';
 import { WebSocketActions } from '../sockets/actions';
 
-function* initializeSaga(): SagaIterator {
+export function* initializeSaga(): SagaIterator {
 	const authService = new AuthService();
 	const authData = authService.securityTokens;
 

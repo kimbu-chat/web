@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { HTTPStatusCode } from 'app/common/http-status-code';
 import { PhoneConfirmationApiResponse, SecurityTokens, LoginResponse } from './types';
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest, fork } from 'redux-saga/effects';
 import jwtDecode from 'jwt-decode';
 import { AuthService } from 'app/services/auth-service';
 import { MyProfileService } from 'app/services/my-profile-service';
@@ -13,6 +13,7 @@ import { getMyProfileSaga } from '../my-profile/sagas';
 import { MyProfileActions } from '../my-profile/actions';
 import { UserPreview } from '../my-profile/models';
 import { UserStatus } from '../friends/models';
+import { initializeSaga } from '../initiation/sagas';
 
 function* requestRefreshToken(): SagaIterator {
 	const authService = new AuthService();
@@ -89,6 +90,7 @@ function* authenticate(action: ReturnType<typeof AuthActions.confirmPhone>): Sag
 	authService.initialize(securityTokens);
 	yield put(AuthActions.loginSuccess(securityTokens));
 	yield put(InitActions.init());
+	yield fork(initializeSaga);
 	yield call(getMyProfileSaga);
 	action?.meta.deferred?.resolve();
 }

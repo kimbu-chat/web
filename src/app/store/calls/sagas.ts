@@ -6,31 +6,38 @@ import { UserPreview } from '../my-profile/models';
 import { CallsHttpRequests } from './http-requests';
 import { peerConnection, peerConfiguration } from '../middlewares/webRTC/peerConnection';
 import { RootState } from '../root-reducer';
+import { IConstraints } from './models';
 
 let localMediaStream: MediaStream;
+let videoTracks: MediaStreamTrack[], audioTracks: MediaStreamTrack[];
+let videoSender: RTCRtpSender, audioSender: RTCRtpSender;
+//@ts-ignore
+console.log(videoSender);
+
+const getUserMedia = async (constraints: IConstraints) => {
+	try {
+		localMediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+	} catch {
+		alert('No device found, sorry...');
+	}
+	console.log(constraints);
+
+	if (localMediaStream) {
+		videoTracks = localMediaStream.getVideoTracks();
+		audioTracks = localMediaStream.getAudioTracks();
+
+		if (videoTracks.length > 0) {
+			videoSender = peerConnection.connection.addTrack(videoTracks[0], localMediaStream);
+		}
+		if (audioTracks.length > 0) {
+			audioSender = peerConnection.connection.addTrack(audioTracks[0], localMediaStream);
+		}
+	}
+};
 
 export function* outgoingCallSaga(action: ReturnType<typeof CallActions.outgoingCallAction>): SagaIterator {
 	//setup local stream
-	const getUserMedia = async () => {
-		const constraints = {
-			video: action.payload.constraints.video,
-			audio: action.payload.constraints.audio,
-		};
-		try {
-			localMediaStream = await navigator.mediaDevices.getUserMedia(constraints);
-		} catch {
-			alert('No device found, sorry...');
-		}
-
-		if (localMediaStream) {
-			localMediaStream.getTracks().forEach((track) => {
-				peerConnection.connection.addTrack(track, localMediaStream);
-				console.log('Local track', track);
-			});
-		}
-	};
-
-	yield call(getUserMedia);
+	yield call(getUserMedia, action.payload.constraints);
 	//---
 
 	const interlocutorId = action.payload.calling.id;
@@ -88,28 +95,7 @@ export function* callEndedSaga(): SagaIterator {
 
 export function* acceptCallSaga(action: ReturnType<typeof CallActions.acceptCallAction>): SagaIterator {
 	//setup local stream
-	const getUserMedia = async () => {
-		const constraints = {
-			video: action.payload.constraints.video,
-			audio: action.payload.constraints.audio,
-		};
-
-		console.log(constraints);
-
-		try {
-			localMediaStream = await navigator.mediaDevices.getUserMedia(constraints);
-		} catch {
-			alert('No device found, sorry...');
-		}
-
-		if (localMediaStream) {
-			localMediaStream.getTracks().forEach((track) => {
-				peerConnection.connection.addTrack(track, localMediaStream);
-			});
-		}
-	};
-
-	yield call(getUserMedia);
+	yield call(getUserMedia, action.payload.constraints);
 	//---
 	const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
 	const offer: RTCSessionDescriptionInit = yield select((state: RootState) => state.calls.offer);
@@ -164,6 +150,38 @@ export function* myCandidateSaga(action: ReturnType<typeof CallActions.myCandida
 	httpRequest.call(yield call(() => httpRequest.generator(request)));
 }
 
+export function* changeAudioStatusSaga(): SagaIterator {
+	const audioState = yield select((state: RootState) => state.calls.isAudioOpened);
+
+	if (audioState && audioTracks.length > 0) {
+		audioSender.replaceTrack(null);
+	}
+
+	if (!audioState && audioTracks.length > 0) {
+		audioSender.replaceTrack(audioTracks[0]);
+		console.log('audio enabled');
+	}
+
+	yield put(CallActions.changeAudioStatusSucces());
+}
+
+export function* changeVideoStatusSaga(): SagaIterator {
+	const videoState = yield select((state: RootState) => state.calls.isVideoOpened);
+	console.log(videoState, videoTracks);
+
+	if (videoState && videoTracks.length > 0) {
+		videoSender.replaceTrack(null);
+		console.log('video disabled');
+	}
+
+	if (!videoState && videoTracks.length > 0) {
+		videoSender.replaceTrack(videoTracks[0]);
+		console.log('video enabled');
+	}
+
+	yield put(CallActions.changeVideoStatusSucces());
+}
+
 export const CallsSagas = [
 	takeLatest(CallActions.outgoingCallAction, outgoingCallSaga),
 	takeLatest(CallActions.cancelCallAction, cancelCallSaga),
@@ -172,4 +190,6 @@ export const CallsSagas = [
 	takeLatest(CallActions.candidateAction, candidateSaga),
 	takeLatest(CallActions.myCandidateAction, myCandidateSaga),
 	takeLatest(CallActions.interlocutorCanceledCallAction, callEndedSaga),
+	takeLatest(CallActions.changeAudioStatus, changeAudioStatusSaga),
+	takeLatest(CallActions.changeVideoStatus, changeVideoStatusSaga),
 ];

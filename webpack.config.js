@@ -166,7 +166,10 @@ module.exports = {
 			},
 		}),
 	],
+
 	devServer: {
+		port: 3000,
+		host: '127.0.0.1',
 		contentBase: sourcePath,
 		hot: true,
 		inline: true,
@@ -175,6 +178,7 @@ module.exports = {
 		},
 		stats: 'minimal',
 		clientLogLevel: 'warning',
+		https: true,
 	},
 	// https://webpack.js.org/configuration/devtool/
 	devtool: isProduction ? 'hidden-source-map' : 'cheap-module-eval-source-map',

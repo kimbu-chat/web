@@ -43,6 +43,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 	});
 
 	peerConnection.connection.addEventListener('track', async (event) => {
+		console.log('INCOMING TRACK');
 		const remoteStream = new MediaStream();
 		if (remoteVideoRef.current) {
 			remoteVideoRef.current.srcObject = remoteStream;

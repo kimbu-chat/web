@@ -12,6 +12,7 @@ import StatusBadge from 'app/components/shared/status-badge';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { CallActions } from 'app/store/calls/actions';
 import { UserPreview } from 'app/store/my-profile/models';
+import { UserStatus } from 'app/store/friends/models';
 
 namespace ChatData {
 	export interface Props {
@@ -41,7 +42,7 @@ const ChatData = ({ displayChatInfo, chatInfoDisplayed }: ChatData.Props) => {
 		const imageUrl: string = selectedDialog.conference?.avatarUrl || selectedDialog?.interlocutor?.avatarUrl || '';
 		const status = selectedDialog.conference
 			? `${selectedDialog.conference.membersCount} ${t('chatData.members')}`
-			: selectedDialog?.interlocutor?.status === 1
+			: selectedDialog?.interlocutor?.status === UserStatus.Online
 			? t('chatData.online')
 			: `${t('chatData.last-time')} ${moment
 					.utc(selectedDialog?.interlocutor?.lastOnlineTime)

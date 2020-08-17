@@ -25,6 +25,7 @@ import OutgoingCall from 'app/components/messenger-page/outgoing-call/outgoing-c
 import IncomingCall from 'app/components/messenger-page/incoming-call/incoming-call';
 import { isCallingMe, amCallingI, doIhaveCall } from 'app/store/calls/selectors';
 import ActiveCall from 'app/components/messenger-page/active-call/active-call';
+import { MyProfileActions } from 'app/store/my-profile/actions';
 
 export namespace Messenger {
 	export interface contactSearchActions {
@@ -52,6 +53,8 @@ const Messenger = () => {
 	const changeSelectedDialog = useActionWithDispatch(ChatActions.changeSelectedChat);
 	const createDialog = useActionWithDispatch(MessageActions.createDialog);
 
+	const changeMyOnlineStatus = useActionWithDispatch(MyProfileActions.changeUserOnlineStatus);
+
 	const selectedDialog = useSelector(getSelectedDialogSelector);
 	const amICalled = useSelector(isCallingMe);
 	const amICaling = useSelector(amCallingI);
@@ -70,7 +73,24 @@ const Messenger = () => {
 	useEffect(() => {
 		if (chatId) changeSelectedDialog(Number(chatId));
 		else changeSelectedDialog(-1);
+
+		const onBlur = () => changeMyOnlineStatus(false);
+		const onFocus = () => changeMyOnlineStatus(true);
+
+		window.addEventListener('blur', onBlur);
+
+		window.addEventListener('focus', onFocus);
+
+		return () => {
+			window.removeEventListener('blur', onBlur);
+
+			window.removeEventListener('focus', onFocus);
+		};
 	}, []);
+
+	//hide chatInfo on dialog change
+
+	useEffect(() => hideChatInfo(), [selectedDialog?.id]);
 
 	const [contactSearchDisplayed, setContactSearchDisplayed] = useState<Messenger.contactSearchActions>({
 		isDisplayed: false,
@@ -142,10 +162,6 @@ const Messenger = () => {
 		history.push(`/chats/${dialogId}`);
 		hideContactSearch();
 	}, []);
-
-	//hide chatInfo on dialog change
-
-	useEffect(() => hideChatInfo(), [selectedDialog?.id]);
 
 	//hide all on backgroundBlur click
 

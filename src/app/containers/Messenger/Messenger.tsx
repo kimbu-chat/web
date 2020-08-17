@@ -76,15 +76,18 @@ const Messenger = () => {
 
 		const onBlur = () => changeMyOnlineStatus(false);
 		const onFocus = () => changeMyOnlineStatus(true);
+		const handleVisibilityChange = () => {
+			if (document.visibilityState === 'visible') {
+				onFocus();
+			} else {
+				onBlur();
+			}
+		};
 
-		window.addEventListener('blur', onBlur);
-
-		window.addEventListener('focus', onFocus);
+		document.addEventListener('visibilitychange', handleVisibilityChange);
 
 		return () => {
-			window.removeEventListener('blur', onBlur);
-
-			window.removeEventListener('focus', onFocus);
+			document.removeEventListener('visibilitychange', handleVisibilityChange);
 		};
 	}, []);
 

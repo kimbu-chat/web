@@ -1,6 +1,6 @@
 import { CallActions } from './actions';
 import { SagaIterator } from 'redux-saga';
-import { call, select, takeLatest, put } from 'redux-saga/effects';
+import { call, select, takeLatest, put, takeEvery } from 'redux-saga/effects';
 import { getMyProfileSelector } from '../my-profile/selectors';
 import { UserPreview } from '../my-profile/models';
 import { CallsHttpRequests } from './http-requests';
@@ -188,7 +188,7 @@ export const CallsSagas = [
 	takeLatest(CallActions.acceptCallAction, acceptCallSaga),
 	takeLatest(CallActions.interlocutorAcceptedCallAction, callAcceptedSaga),
 	takeLatest(CallActions.candidateAction, candidateSaga),
-	takeLatest(CallActions.myCandidateAction, myCandidateSaga),
+	takeEvery(CallActions.myCandidateAction, myCandidateSaga),
 	takeLatest(CallActions.interlocutorCanceledCallAction, callEndedSaga),
 	takeLatest(CallActions.changeAudioStatus, changeAudioStatusSaga),
 	takeLatest(CallActions.changeVideoStatus, changeVideoStatusSaga),

@@ -4,6 +4,7 @@ import { MyProfileActions } from '../my-profile/actions';
 import { FriendActions } from '../friends/actions';
 import { SagaIterator } from 'redux-saga';
 import { WebSocketActions } from '../sockets/actions';
+import { intervalInternetConnectionCheckSaga } from '../internet/sagas';
 
 export function* initializeSaga(): SagaIterator {
 	const authService = new AuthService();
@@ -24,6 +25,8 @@ export function* initializeSaga(): SagaIterator {
 			initializedBySearch: false,
 		}),
 	);
+
+	yield fork(intervalInternetConnectionCheckSaga);
 }
 
 export const InitiationSagas = [fork(initializeSaga)];

@@ -26,6 +26,7 @@ import IncomingCall from 'app/components/messenger-page/incoming-call/incoming-c
 import { isCallingMe, amCallingI, doIhaveCall } from 'app/store/calls/selectors';
 import ActiveCall from 'app/components/messenger-page/active-call/active-call';
 import { MyProfileActions } from 'app/store/my-profile/actions';
+import InternetError from 'app/components/shared/internet-error/internet-error';
 
 export namespace Messenger {
 	export interface contactSearchActions {
@@ -181,6 +182,8 @@ const Messenger = () => {
 			{amICaling && <OutgoingCall />}
 			{amICalled && <IncomingCall />}
 			<ActiveCall isDisplayed={amISpeaking} />
+
+			<InternetError />
 
 			<SearchTop displaySlider={displaySlider} displayCreateChat={displayCreateChat} />
 

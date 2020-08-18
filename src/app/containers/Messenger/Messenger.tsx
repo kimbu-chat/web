@@ -14,6 +14,10 @@ import ChatInfo from '../../components/messenger-page/chat-info/chat-info';
 import ContactSearch from '../../components/messenger-page/contact-search/contact-search';
 import ChangePhoto from '../../components/messenger-page/change-photo/change-photo';
 import AccountSettings from 'app/components/messenger-page/account-settings/account-settings';
+import InternetError from 'app/components/shared/internet-error/internet-error';
+import OutgoingCall from 'app/components/messenger-page/outgoing-call/outgoing-call';
+import IncomingCall from 'app/components/messenger-page/incoming-call/incoming-call';
+import ActiveCall from 'app/components/messenger-page/active-call/active-call';
 
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { AvatarSelectedData, UserPreview } from 'app/store/my-profile/models';
@@ -21,10 +25,8 @@ import { ChatActions } from 'app/store/dialogs/actions';
 import { MessageActions } from 'app/store/messages/actions';
 import { useSelector } from 'react-redux';
 import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
-import OutgoingCall from 'app/components/messenger-page/outgoing-call/outgoing-call';
-import IncomingCall from 'app/components/messenger-page/incoming-call/incoming-call';
 import { isCallingMe, amCallingI, doIhaveCall } from 'app/store/calls/selectors';
-import ActiveCall from 'app/components/messenger-page/active-call/active-call';
+import { MyProfileActions } from 'app/store/my-profile/actions';
 
 export namespace Messenger {
 	export interface contactSearchActions {
@@ -52,6 +54,8 @@ const Messenger = () => {
 	const changeSelectedDialog = useActionWithDispatch(ChatActions.changeSelectedChat);
 	const createDialog = useActionWithDispatch(MessageActions.createDialog);
 
+	const changeMyOnlineStatus = useActionWithDispatch(MyProfileActions.changeUserOnlineStatus);
+
 	const selectedDialog = useSelector(getSelectedDialogSelector);
 	const amICalled = useSelector(isCallingMe);
 	const amICaling = useSelector(amCallingI);
@@ -70,7 +74,32 @@ const Messenger = () => {
 	useEffect(() => {
 		if (chatId) changeSelectedDialog(Number(chatId));
 		else changeSelectedDialog(-1);
+
+		const onBlur = () => changeMyOnlineStatus(false);
+		const onFocus = () => changeMyOnlineStatus(true);
+		const handleVisibilityChange = () => {
+			if (document.visibilityState === 'visible') {
+				onFocus();
+			} else {
+				onBlur();
+			}
+		};
+
+		document.addEventListener('visibilitychange', handleVisibilityChange);
+
+		window.addEventListener('blur', onBlur);
+		window.addEventListener('focus', onFocus);
+
+		return () => {
+			document.removeEventListener('visibilitychange', handleVisibilityChange);
+			window.removeEventListener('blur', onBlur);
+			window.removeEventListener('focus', onFocus);
+		};
 	}, []);
+
+	//hide chatInfo on dialog change
+
+	useEffect(() => hideChatInfo(), [selectedDialog?.id]);
 
 	const [contactSearchDisplayed, setContactSearchDisplayed] = useState<Messenger.contactSearchActions>({
 		isDisplayed: false,
@@ -143,10 +172,6 @@ const Messenger = () => {
 		hideContactSearch();
 	}, []);
 
-	//hide chatInfo on dialog change
-
-	useEffect(() => hideChatInfo(), [selectedDialog?.id]);
-
 	//hide all on backgroundBlur click
 
 	const hideAll = useCallback(() => {
@@ -162,6 +187,8 @@ const Messenger = () => {
 			{amICaling && <OutgoingCall />}
 			{amICalled && <IncomingCall />}
 			<ActiveCall isDisplayed={amISpeaking} />
+
+			<InternetError />
 
 			<SearchTop displaySlider={displaySlider} displayCreateChat={displayCreateChat} />
 

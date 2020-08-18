@@ -44,7 +44,7 @@ const calls = createReducer<CallState>(initialState)
 			draft.interlocutor = interlocutor;
 			draft.amCalling = true;
 			draft.isVideoOpened = payload.constraints.video;
-			draft.isAudioOpened = payload.constraints.video;
+			draft.isAudioOpened = payload.constraints.audio;
 			return draft;
 		}),
 	)
@@ -100,6 +100,20 @@ const calls = createReducer<CallState>(initialState)
 			draft.amCalling = false;
 			draft.isCalling = false;
 			draft.isSpeaking = false;
+			return draft;
+		}),
+	)
+	.handleAction(
+		CallActions.changeAudioStatusSucces,
+		produce((draft: CallState) => {
+			draft.isAudioOpened = !draft.isAudioOpened;
+			return draft;
+		}),
+	)
+	.handleAction(
+		CallActions.changeVideoStatusSucces,
+		produce((draft: CallState) => {
+			draft.isVideoOpened = !draft.isVideoOpened;
 			return draft;
 		}),
 	);

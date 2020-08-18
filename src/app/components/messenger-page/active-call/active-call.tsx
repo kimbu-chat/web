@@ -25,6 +25,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 	const changeAudioStatus = useActionWithDispatch(CallActions.changeAudioStatus);
 
 	const remoteVideoRef = useRef<HTMLVideoElement>(null);
+	const remoteAudioRef = useRef<HTMLAudioElement>(null);
 
 	peerConnection.connection.onicecandidate = (event) => {
 		if (event.candidate) {
@@ -44,20 +45,34 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 
 	peerConnection.connection.addEventListener('track', async (event) => {
 		console.log('INCOMING TRACK');
-		const remoteStream = new MediaStream();
+		const remoteVideoStream = new MediaStream();
+		const remoteAudioStream = new MediaStream();
+
 		if (remoteVideoRef.current) {
-			remoteVideoRef.current.srcObject = remoteStream;
+			remoteVideoRef.current.srcObject = remoteVideoStream;
 		}
 
-		console.log('Incoming Track', event.track);
+		if (remoteAudioRef.current) {
+			remoteAudioRef.current.srcObject = remoteAudioStream;
+		}
 
-		remoteStream.addTrack(event.track);
+		console.log('Incoming Track', event.track.kind);
+
+		if (event.track.kind === 'video') remoteVideoStream.addTrack(event.track);
+		if (event.track.kind === 'audio') remoteAudioStream.addTrack(event.track);
+
+		//@ts-ignore
+		remoteAudioRef.current.onloadedmetadata = function () {
+			//@ts-ignore
+			remoteAudioRef.current.play();
+		};
 	});
 
 	return (
 		<div className={isDisplayed ? 'active-call' : 'completly-hidden'}>
 			<img src={interlocutor?.avatarUrl} alt='' className='active-call__bg' />
 			<video autoPlay playsInline ref={remoteVideoRef} className='active-call__remote-video'></video>
+			<audio autoPlay playsInline ref={remoteAudioRef} className='active-call__remote-audio'></audio>
 			<div className='active-call__bottom-menu'>
 				{isAudioOpened ? (
 					<button

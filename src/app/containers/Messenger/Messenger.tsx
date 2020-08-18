@@ -14,6 +14,10 @@ import ChatInfo from '../../components/messenger-page/chat-info/chat-info';
 import ContactSearch from '../../components/messenger-page/contact-search/contact-search';
 import ChangePhoto from '../../components/messenger-page/change-photo/change-photo';
 import AccountSettings from 'app/components/messenger-page/account-settings/account-settings';
+import InternetError from 'app/components/shared/internet-error/internet-error';
+import OutgoingCall from 'app/components/messenger-page/outgoing-call/outgoing-call';
+import IncomingCall from 'app/components/messenger-page/incoming-call/incoming-call';
+import ActiveCall from 'app/components/messenger-page/active-call/active-call';
 
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { AvatarSelectedData, UserPreview } from 'app/store/my-profile/models';
@@ -21,12 +25,8 @@ import { ChatActions } from 'app/store/dialogs/actions';
 import { MessageActions } from 'app/store/messages/actions';
 import { useSelector } from 'react-redux';
 import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
-import OutgoingCall from 'app/components/messenger-page/outgoing-call/outgoing-call';
-import IncomingCall from 'app/components/messenger-page/incoming-call/incoming-call';
 import { isCallingMe, amCallingI, doIhaveCall } from 'app/store/calls/selectors';
-import ActiveCall from 'app/components/messenger-page/active-call/active-call';
 import { MyProfileActions } from 'app/store/my-profile/actions';
-import InternetError from 'app/components/shared/internet-error/internet-error';
 
 export namespace Messenger {
 	export interface contactSearchActions {
@@ -87,8 +87,13 @@ const Messenger = () => {
 
 		document.addEventListener('visibilitychange', handleVisibilityChange);
 
+		window.addEventListener('blur', onBlur);
+		window.addEventListener('focus', onFocus);
+
 		return () => {
 			document.removeEventListener('visibilitychange', handleVisibilityChange);
+			window.removeEventListener('blur', onBlur);
+			window.removeEventListener('focus', onFocus);
 		};
 	}, []);
 

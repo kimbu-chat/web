@@ -16,7 +16,7 @@ console.log(videoSender);
 
 const getUserMedia = async (constraints: IConstraints) => {
 	try {
-		localMediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+		localMediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
 	} catch {
 		alert('No device found, sorry...');
 	}
@@ -94,6 +94,8 @@ export function* callEndedSaga(): SagaIterator {
 }
 
 export function* acceptCallSaga(action: ReturnType<typeof CallActions.acceptCallAction>): SagaIterator {
+	const videoState = yield select((state: RootState) => state.calls.isVideoOpened);
+
 	//setup local stream
 	yield call(getUserMedia, action.payload.constraints);
 	//---
@@ -117,15 +119,28 @@ export function* acceptCallSaga(action: ReturnType<typeof CallActions.acceptCall
 	const httpRequest = CallsHttpRequests.acceptCall;
 	httpRequest.call(yield call(() => httpRequest.generator(request)));
 
+	if (!videoState) {
+		videoSender.replaceTrack(null);
+		console.log('video disabled in intiation');
+	}
+
 	yield put(CallActions.acceptCallSuccessAction(action.payload));
 }
 
 export function* callAcceptedSaga(action: ReturnType<typeof CallActions.interlocutorAcceptedCallAction>): SagaIterator {
+	const videoState = yield select((state: RootState) => state.calls.isVideoOpened);
+
 	const processAnswer = async () => {
 		const remoteDesc = new RTCSessionDescription(action.payload.answer);
 		await peerConnection.connection.setRemoteDescription(remoteDesc);
 	};
+
 	yield call(processAnswer);
+
+	if (!videoState) {
+		videoSender.replaceTrack(null);
+		console.log('video disabled in intiation');
+	}
 }
 
 export function* candidateSaga(action: ReturnType<typeof CallActions.candidateAction>): SagaIterator {

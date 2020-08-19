@@ -9,9 +9,7 @@ const InternetError = () => {
 	return (
 		<React.Fragment>
 			{internetState ? (
-				<div key={1} className='internet-state internet-state--online'>
-					<p>Internet connected</p>
-				</div>
+				<div key={1} hidden></div>
 			) : (
 				<div key={2} className='internet-state internet-state--offline'>
 					<p>Internet disconnected</p>

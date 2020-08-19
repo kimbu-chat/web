@@ -16,7 +16,7 @@ console.log(videoSender);
 
 const getUserMedia = async (constraints: IConstraints) => {
 	try {
-		localMediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+		localMediaStream = await navigator.mediaDevices.getUserMedia(constraints);
 	} catch {
 		alert('No device found, sorry...');
 	}
@@ -28,9 +28,11 @@ const getUserMedia = async (constraints: IConstraints) => {
 
 		if (videoTracks.length > 0) {
 			videoSender = peerConnection.connection.addTrack(videoTracks[0], localMediaStream);
+			console.log('Track sent', videoTracks[0]);
 		}
 		if (audioTracks.length > 0) {
 			audioSender = peerConnection.connection.addTrack(audioTracks[0], localMediaStream);
+			console.log('Track sent', audioTracks[0]);
 		}
 	}
 };
@@ -94,8 +96,6 @@ export function* callEndedSaga(): SagaIterator {
 }
 
 export function* acceptCallSaga(action: ReturnType<typeof CallActions.acceptCallAction>): SagaIterator {
-	const videoState = yield select((state: RootState) => state.calls.isVideoOpened);
-
 	//setup local stream
 	yield call(getUserMedia, action.payload.constraints);
 	//---
@@ -119,41 +119,31 @@ export function* acceptCallSaga(action: ReturnType<typeof CallActions.acceptCall
 	const httpRequest = CallsHttpRequests.acceptCall;
 	httpRequest.call(yield call(() => httpRequest.generator(request)));
 
-	if (!videoState) {
-		videoSender.replaceTrack(null);
-		console.log('video disabled in intiation');
-	}
-
 	yield put(CallActions.acceptCallSuccessAction(action.payload));
 }
 
 export function* callAcceptedSaga(action: ReturnType<typeof CallActions.interlocutorAcceptedCallAction>): SagaIterator {
-	const videoState = yield select((state: RootState) => state.calls.isVideoOpened);
-
 	const processAnswer = async () => {
 		const remoteDesc = new RTCSessionDescription(action.payload.answer);
 		await peerConnection.connection.setRemoteDescription(remoteDesc);
 	};
 
 	yield call(processAnswer);
-
-	if (!videoState) {
-		videoSender.replaceTrack(null);
-		console.log('video disabled in intiation');
-	}
 }
 
 export function* candidateSaga(action: ReturnType<typeof CallActions.candidateAction>): SagaIterator {
 	const processCandidate = async () => {
-		await peerConnection.connection.addIceCandidate(new RTCIceCandidate(action.payload.candidate));
+		try {
+			await peerConnection.connection.addIceCandidate(new RTCIceCandidate(action.payload.candidate));
+		} catch {}
 	};
 
-	const checkIntervalCode = setInterval(() => {
-		if (peerConnection.connection.remoteDescription?.type) {
-			processCandidate();
-			clearInterval(checkIntervalCode);
-		}
-	}, 100);
+	// const checkIntervalCode = setInterval(() => {
+	// 	if (peerConnection.connection.remoteDescription?.type) {
+	processCandidate();
+	// clearInterval(checkIntervalCode);
+	// 	}
+	// }, 100);
 }
 
 export function* myCandidateSaga(action: ReturnType<typeof CallActions.myCandidateAction>): SagaIterator {

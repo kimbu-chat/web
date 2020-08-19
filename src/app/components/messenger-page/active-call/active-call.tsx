@@ -43,11 +43,10 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 		}
 	});
 
-	peerConnection.connection.addEventListener('track', async (event) => {
-		console.log('INCOMING TRACK');
-		const remoteVideoStream = new MediaStream();
-		const remoteAudioStream = new MediaStream();
+	const remoteVideoStream = new MediaStream();
+	const remoteAudioStream = new MediaStream();
 
+	peerConnection.connection.addEventListener('track', async (event) => {
 		if (remoteVideoRef.current) {
 			remoteVideoRef.current.srcObject = remoteVideoStream;
 		}
@@ -56,23 +55,34 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 			remoteAudioRef.current.srcObject = remoteAudioStream;
 		}
 
-		console.log('Incoming Track', event.track.kind);
+		console.log('Track received', event.track);
 
-		if (event.track.kind === 'video') remoteVideoStream.addTrack(event.track);
-		if (event.track.kind === 'audio') remoteAudioStream.addTrack(event.track);
+		if (event.track.kind === 'video') {
+			remoteVideoStream.addTrack(event.track);
 
-		//@ts-ignore
-		remoteAudioRef.current.onloadedmetadata = function () {
-			//@ts-ignore
-			remoteAudioRef.current.play();
-		};
+			setTimeout(() => {
+				remoteVideoRef.current?.load();
+				remoteVideoRef.current
+					?.play()
+					.then(() => console.log('video Playing'))
+					.catch((err) => console.log(err));
+			}, 1000);
+		}
+		if (event.track.kind === 'audio') {
+			remoteAudioStream.addTrack(event.track);
+			remoteAudioRef.current?.load();
+			remoteAudioRef.current
+				?.play()
+				.then(() => console.log('audio Playing'))
+				.catch((err) => console.log(err));
+		}
 	});
 
 	return (
 		<div className={isDisplayed ? 'active-call' : 'completly-hidden'}>
 			<img src={interlocutor?.avatarUrl} alt='' className='active-call__bg' />
-			<video autoPlay playsInline ref={remoteVideoRef} className='active-call__remote-video'></video>
-			<audio autoPlay playsInline ref={remoteAudioRef} className='active-call__remote-audio'></audio>
+			<video playsInline ref={remoteVideoRef} className='active-call__remote-video'></video>
+			<audio playsInline ref={remoteAudioRef} className='active-call__remote-audio'></audio>
 			<div className='active-call__bottom-menu'>
 				{isAudioOpened ? (
 					<button

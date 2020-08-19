@@ -1,5 +1,5 @@
 import { AuthService } from 'app/services/auth-service';
-import { put, fork } from 'redux-saga/effects';
+import { put, fork, spawn } from 'redux-saga/effects';
 import { MyProfileActions } from '../my-profile/actions';
 import { FriendActions } from '../friends/actions';
 import { SagaIterator } from 'redux-saga';
@@ -26,7 +26,7 @@ export function* initializeSaga(): SagaIterator {
 		}),
 	);
 
-	yield fork(intervalInternetConnectionCheckSaga);
+	yield spawn(intervalInternetConnectionCheckSaga);
 }
 
 export const InitiationSagas = [fork(initializeSaga)];

@@ -26,7 +26,6 @@ import { MessageActions } from 'app/store/messages/actions';
 import { useSelector } from 'react-redux';
 import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
 import { isCallingMe, amCallingI, doIhaveCall } from 'app/store/calls/selectors';
-import { MyProfileActions } from 'app/store/my-profile/actions';
 
 export namespace Messenger {
 	export interface contactSearchActions {
@@ -54,8 +53,6 @@ const Messenger = () => {
 	const changeSelectedDialog = useActionWithDispatch(ChatActions.changeSelectedChat);
 	const createDialog = useActionWithDispatch(MessageActions.createDialog);
 
-	const changeMyOnlineStatus = useActionWithDispatch(MyProfileActions.changeUserOnlineStatus);
-
 	const selectedDialog = useSelector(getSelectedDialogSelector);
 	const amICalled = useSelector(isCallingMe);
 	const amICaling = useSelector(amCallingI);
@@ -74,27 +71,6 @@ const Messenger = () => {
 	useEffect(() => {
 		if (chatId) changeSelectedDialog(Number(chatId));
 		else changeSelectedDialog(-1);
-
-		const onBlur = () => changeMyOnlineStatus(false);
-		const onFocus = () => changeMyOnlineStatus(true);
-		const handleVisibilityChange = () => {
-			if (document.visibilityState === 'visible') {
-				onFocus();
-			} else {
-				onBlur();
-			}
-		};
-
-		document.addEventListener('visibilitychange', handleVisibilityChange);
-
-		window.addEventListener('blur', onBlur);
-		window.addEventListener('focus', onFocus);
-
-		return () => {
-			document.removeEventListener('visibilitychange', handleVisibilityChange);
-			window.removeEventListener('blur', onBlur);
-			window.removeEventListener('focus', onFocus);
-		};
 	}, []);
 
 	//hide chatInfo on dialog change

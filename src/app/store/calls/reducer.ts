@@ -29,6 +29,11 @@ const calls = createReducer<CallState>(initialState)
 	.handleAction(
 		CallActions.incomingCallAction,
 		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.incomingCallAction>) => {
+			if (draft.interlocutor?.id === payload.caller.id && draft.isSpeaking) {
+				//if it matches this condition then it's negociation
+				return draft;
+			}
+
 			const interlocutor = payload.caller;
 			const offer = payload.offer;
 			draft.interlocutor = interlocutor;

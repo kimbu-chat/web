@@ -145,7 +145,7 @@ const Chat = () => {
 				)}
 				{items.length === 0 && (
 					<div className='messenger__messages-list__empty'>
-						<p>В этом чате нет новых сообщений. Ваше может быть первым!</p>
+						<p>{t('chat.empty')}</p>
 					</div>
 				)}
 				<InfiniteScroll

@@ -23,6 +23,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 	const sendCandidates = useActionWithDispatch(CallActions.myCandidateAction);
 	const changeVideoStatus = useActionWithDispatch(CallActions.changeVideoStatus);
 	const changeAudioStatus = useActionWithDispatch(CallActions.changeAudioStatus);
+	const negociationNeeded = useActionWithDispatch(CallActions.negociationNeeded);
 
 	const remoteVideoRef = useRef<HTMLVideoElement>(null);
 	const remoteAudioRef = useRef<HTMLAudioElement>(null);
@@ -77,6 +78,10 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 				.catch((err) => console.log(err));
 		}
 	});
+
+	peerConnection.connection.onnegotiationneeded = () => {
+		negociationNeeded();
+	};
 
 	return (
 		<div className={isDisplayed ? 'active-call' : 'completly-hidden'}>

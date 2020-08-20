@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useCallback } from 'react';
 import { messageFrom } from '../chat/chat';
 import { Message, SystemMessageType, MessageState } from 'app/store/messages/models';
 import { MessageUtils } from 'app/utils/message-utils';
@@ -9,6 +9,9 @@ import DoneAllIcon from '@material-ui/icons/DoneAll';
 import CachedIcon from '@material-ui/icons/Cached';
 import { getMyIdSelector } from 'app/store/my-profile/selectors';
 import { LocalizationContext } from 'app/app';
+import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
+import { MessageActions } from 'app/store/messages/actions';
 
 namespace Message {
 	export interface Props {
@@ -23,7 +26,25 @@ namespace Message {
 
 const MessageItem = ({ from, content, time, needToShowDateSeparator, dateSeparator, message }: Message.Props) => {
 	const currentUserId = useSelector(getMyIdSelector) as number;
+	const selectedDialogId = useSelector(getSelectedDialogSelector)?.id;
+
 	const { t } = useContext(LocalizationContext);
+
+	const deleteMessage = useActionWithDispatch(MessageActions.deleteMessageSuccess);
+	const deleteThisMessage = useCallback(
+		() => deleteMessage({ dialogId: selectedDialogId as number, messageId: message.id }),
+		[selectedDialogId, message.id],
+	);
+
+	const copyText = useCallback(() => {
+		const el = document.createElement('textarea');
+		el.value = content;
+		document.body.appendChild(el);
+		el.select();
+		console.log('copied ' + content);
+		document.execCommand('copy');
+		document.body.removeChild(el);
+	}, [content]);
 
 	if (message?.systemMessageType !== SystemMessageType.None) {
 		return (
@@ -79,7 +100,7 @@ const MessageItem = ({ from, content, time, needToShowDateSeparator, dateSeparat
 							from === messageFrom.me ? 'message__menu--from-me' : 'message__menu--from-others'
 						}`}
 					>
-						<button className='message__menu-item'>
+						<button onClick={copyText} className='message__menu-item'>
 							<div className='svg'>
 								<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
 									<path
@@ -105,7 +126,7 @@ const MessageItem = ({ from, content, time, needToShowDateSeparator, dateSeparat
 							</div>
 							<span className='message__menu-item__text'>Выбрать</span>
 						</button>
-						<button className='message__menu-item'>
+						<button onClick={deleteThisMessage} className='message__menu-item'>
 							<div className='svg'>
 								<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
 									<path

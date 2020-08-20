@@ -110,6 +110,18 @@ const messages = createReducer<MessagesState>(initialState)
 				return draft;
 			},
 		),
+	)
+	.handleAction(
+		MessageActions.deleteMessageSuccess,
+		produce((draft: MessagesState, { payload }: ReturnType<typeof MessageActions.deleteMessageSuccess>) => {
+			const chatIndex = getChatIndex(draft, payload.dialogId as number);
+
+			draft.messages[chatIndex].messages = draft.messages[chatIndex].messages.filter(
+				({ id }) => id !== payload.messageId,
+			);
+
+			return draft;
+		}),
 	);
 
 export default messages;

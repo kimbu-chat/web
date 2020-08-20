@@ -122,6 +122,11 @@ export interface MessagesReq {
 	initiatedByScrolling: boolean;
 }
 
+export interface DeleteMessageReq {
+	messageId: number;
+	dialogId: number;
+}
+
 export enum MessageState {
 	QUEUED = 1,
 	SENT = 2,

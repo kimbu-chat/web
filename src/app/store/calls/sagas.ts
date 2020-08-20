@@ -45,12 +45,8 @@ export function* outgoingCallSaga(action: ReturnType<typeof CallActions.outgoing
 
 	const interlocutorId = action.payload.calling.id;
 	const myProfile: UserPreview = yield select(getMyProfileSelector);
-	let offer: RTCSessionDescriptionInit;
-	const createOffer = async () => {
-		offer = await peerConnection.connection.createOffer();
-		await peerConnection.connection.setLocalDescription(offer);
-	};
-	yield call(createOffer);
+	let offer: RTCSessionDescriptionInit = yield call(async () => await peerConnection.connection.createOffer());
+	yield call(async () => await peerConnection.connection.setLocalDescription(offer));
 
 	const request = {
 		//@ts-ignore
@@ -102,14 +98,10 @@ export function* acceptCallSaga(action: ReturnType<typeof CallActions.acceptCall
 	//---
 	const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
 	const offer: RTCSessionDescriptionInit = yield select((state: RootState) => state.calls.offer);
-	let answer: RTCSessionDescriptionInit;
-	const createAnswer = async () => {
-		peerConnection.connection.setRemoteDescription(new RTCSessionDescription(offer));
-		answer = await peerConnection.connection.createAnswer();
 
-		await peerConnection.connection.setLocalDescription(answer);
-	};
-	yield call(createAnswer);
+	peerConnection.connection.setRemoteDescription(new RTCSessionDescription(offer));
+	const answer = yield call(async () => await peerConnection.connection.createAnswer());
+	yield call(async () => await peerConnection.connection.setLocalDescription(answer));
 
 	const request = {
 		interlocutorId,
@@ -124,21 +116,17 @@ export function* acceptCallSaga(action: ReturnType<typeof CallActions.acceptCall
 }
 
 export function* callAcceptedSaga(action: ReturnType<typeof CallActions.interlocutorAcceptedCallAction>): SagaIterator {
-	const processAnswer = async () => {
-		const remoteDesc = new RTCSessionDescription(action.payload.answer);
-		await peerConnection.connection.setRemoteDescription(remoteDesc);
-	};
-
-	yield call(processAnswer);
+	const remoteDesc = new RTCSessionDescription(action.payload.answer);
+	yield call(async () => await peerConnection.connection.setRemoteDescription(remoteDesc));
 }
 
 export function* candidateSaga(action: ReturnType<typeof CallActions.candidateAction>): SagaIterator {
-	const processCandidate = async () => {
-		try {
+	const checkIntervalCode = setInterval(async () => {
+		if (peerConnection.connection.remoteDescription?.type) {
 			await peerConnection.connection.addIceCandidate(new RTCIceCandidate(action.payload.candidate));
-		} catch {}
-	};
-	processCandidate();
+			clearInterval(checkIntervalCode);
+		}
+	}, 100);
 }
 
 export function* myCandidateSaga(action: ReturnType<typeof CallActions.myCandidateAction>): SagaIterator {
@@ -154,31 +142,29 @@ export function* changeAudioStatusSaga(): SagaIterator {
 	const videoState = yield select((state: RootState) => state.calls.isVideoOpened);
 	const audioState = yield select((state: RootState) => state.calls.isAudioOpened);
 
-	const switchAudio = async () => {
-		if (!audioState) {
-			if (localMediaStream) {
-				const tracks = localMediaStream.getTracks();
-				tracks.forEach((track) => track.stop());
-			}
-
-			localMediaStream = await navigator.mediaDevices.getUserMedia({ video: videoState, audio: !audioState });
-
-			videoTracks = localMediaStream.getVideoTracks();
-			audioTracks = localMediaStream.getAudioTracks();
-
-			audioSender = peerConnection.connection.addTrack(audioTracks[0], localMediaStream);
-
-			if (videoState) {
-				videoSender = peerConnection.connection.addTrack(videoTracks[0], localMediaStream);
-			}
-
-			console.log('Track sent', audioTracks[0]);
-		} else {
-			peerConnection.connection.removeTrack(audioSender);
+	if (!audioState) {
+		if (localMediaStream) {
+			const tracks = localMediaStream.getTracks();
+			tracks.forEach((track) => track.stop());
 		}
-	};
 
-	yield call(switchAudio);
+		localMediaStream = yield call(
+			async () => await navigator.mediaDevices.getUserMedia({ video: videoState, audio: !audioState }),
+		);
+
+		videoTracks = localMediaStream.getVideoTracks();
+		audioTracks = localMediaStream.getAudioTracks();
+
+		audioSender = peerConnection.connection.addTrack(audioTracks[0], localMediaStream);
+
+		if (videoState) {
+			videoSender = peerConnection.connection.addTrack(videoTracks[0], localMediaStream);
+		}
+
+		console.log('Track sent', audioTracks[0]);
+	} else {
+		peerConnection.connection.removeTrack(audioSender);
+	}
 
 	yield put(CallActions.changeAudioStatusSucces());
 }
@@ -187,46 +173,45 @@ export function* changeVideoStatusSaga(): SagaIterator {
 	const videoState = yield select((state: RootState) => state.calls.isVideoOpened);
 	const audioState = yield select((state: RootState) => state.calls.isAudioOpened);
 
-	const switchVideo = async () => {
-		if (!videoState) {
-			if (localMediaStream) {
-				const tracks = localMediaStream.getTracks();
-				tracks.forEach((track) => track.stop());
-			}
-
-			localMediaStream = await navigator.mediaDevices.getUserMedia({ video: !videoState, audio: audioState });
-
-			videoTracks = localMediaStream.getVideoTracks();
-			audioTracks = localMediaStream.getAudioTracks();
-
-			videoSender = peerConnection.connection.addTrack(videoTracks[0], localMediaStream);
-
-			if (audioState) {
-				audioSender = peerConnection.connection.addTrack(audioTracks[0], localMediaStream);
-			}
-
-			console.log('Track sent', videoTracks[0]);
-		} else {
-			peerConnection.connection.removeTrack(videoSender);
+	if (!videoState) {
+		if (localMediaStream) {
+			const tracks = localMediaStream.getTracks();
+			tracks.forEach((track) => track.stop());
 		}
-	};
 
-	yield call(switchVideo);
+		localMediaStream = yield call(
+			async () =>
+				await navigator.mediaDevices.getUserMedia({
+					video: !videoState,
+					audio: audioState,
+				}),
+		);
+
+		videoTracks = localMediaStream.getVideoTracks();
+		audioTracks = localMediaStream.getAudioTracks();
+
+		videoSender = peerConnection.connection.addTrack(videoTracks[0], localMediaStream);
+
+		if (audioState) {
+			audioSender = peerConnection.connection.addTrack(audioTracks[0], localMediaStream);
+		}
+
+		console.log('Track sent', videoTracks[0]);
+	} else {
+		peerConnection.connection.removeTrack(videoSender);
+	}
 
 	yield put(CallActions.changeVideoStatusSucces());
 }
 
-export function* negociationNeededSaga(): SagaIterator {
+export function* negociateSaga(): SagaIterator {
 	const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
 	const myProfile: UserPreview = yield select(getMyProfileSelector);
 	const isCallActive: boolean = yield select(doIhaveCall);
 	if (isCallActive) {
 		let offer: RTCSessionDescriptionInit;
-		const createOffer = async () => {
-			offer = await peerConnection.connection.createOffer();
-			await peerConnection.connection.setLocalDescription(offer);
-		};
-		yield call(createOffer);
+		offer = yield call(async () => await peerConnection.connection.createOffer());
+		yield call(async () => await peerConnection.connection.setLocalDescription(offer));
 
 		const request = {
 			//@ts-ignore
@@ -246,13 +231,10 @@ export function* negociationSaga(action: ReturnType<typeof CallActions.incomingC
 
 	if (isCallActive && interlocutorId === action.payload.caller.id) {
 		let answer: RTCSessionDescriptionInit;
-		const createAnswer = async () => {
-			peerConnection.connection.setRemoteDescription(new RTCSessionDescription(action.payload.offer));
-			answer = await peerConnection.connection.createAnswer();
 
-			await peerConnection.connection.setLocalDescription(answer);
-		};
-		yield call(createAnswer);
+		peerConnection.connection.setRemoteDescription(new RTCSessionDescription(action.payload.offer));
+		answer = yield call(async () => await peerConnection.connection.createAnswer());
+		yield call(async () => await peerConnection.connection.setLocalDescription(answer));
 
 		const request = {
 			interlocutorId,
@@ -275,6 +257,6 @@ export const CallsSagas = [
 	takeLatest(CallActions.interlocutorCanceledCallAction, callEndedSaga),
 	takeLatest(CallActions.changeAudioStatus, changeAudioStatusSaga),
 	takeLatest(CallActions.changeVideoStatus, changeVideoStatusSaga),
-	takeLatest(CallActions.negociationNeeded, negociationNeededSaga),
+	takeLatest(CallActions.negociate, negociateSaga),
 	takeLatest(CallActions.incomingCallAction, negociationSaga),
 ];

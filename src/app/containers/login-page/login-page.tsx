@@ -75,6 +75,8 @@ const LoginPage = () => {
 					<img src='' alt='' className='login-page__logo' />
 					<h1>{t('loginPage.title')}</h1>
 					<p>{t('loginPage.confirm_phone')}</p>
+					<p>+375445446331</p>
+					<p>+375292725607</p>
 					<CountrySelect country={country} setCountry={setCountry} setPhone={setPhone} />
 					<PhoneInput phone={phone} setPhone={setPhone} country={country} setCountry={setCountry} />
 					<div className='login-page__button-container'>

@@ -10,6 +10,8 @@ import PrivateRoute from './routing/PrivateRoute';
 import { i18n, TFunction } from 'i18next';
 import { useActionWithDispatch } from './utils/use-action-with-dispatch';
 import { MyProfileActions } from './store/my-profile/actions';
+import { RootState } from './store/root-reducer';
+import { useSelector } from 'react-redux';
 
 namespace App {
 	export interface localization {
@@ -23,10 +25,11 @@ export const LocalizationContext = React.createContext<App.localization>({ t: (s
 export const App = () => {
 	const { t, i18n } = useTranslation(undefined, { i18n: i18nConfiguration });
 	const changeMyOnlineStatus = useActionWithDispatch(MyProfileActions.changeUserOnlineStatus);
+	const amIAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
 
 	useEffect(() => {
-		const onBlur = () => changeMyOnlineStatus(false);
-		const onFocus = () => changeMyOnlineStatus(true);
+		const onBlur = () => amIAuthenticated && changeMyOnlineStatus(false);
+		const onFocus = () => amIAuthenticated && changeMyOnlineStatus(true);
 		const handleVisibilityChange = () => {
 			if (document.visibilityState === 'visible') {
 				onFocus();
@@ -45,7 +48,7 @@ export const App = () => {
 			window.removeEventListener('blur', onBlur);
 			window.removeEventListener('focus', onFocus);
 		};
-	}, []);
+	}, [amIAuthenticated]);
 
 	return (
 		<LocalizationContext.Provider value={{ t, i18n }}>

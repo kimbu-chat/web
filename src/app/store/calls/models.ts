@@ -1,7 +1,12 @@
 import { UserPreview } from '../my-profile/models';
 
 export interface IConstraints {
-	video: boolean;
+	video:
+		| boolean
+		| {
+				width: { min: number; ideal: number; max: number };
+				height: { min: number; ideal: number; max: number };
+		  };
 	audio: boolean;
 }
 

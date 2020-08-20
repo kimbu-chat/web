@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './incoming-call.scss';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { CallActions } from 'app/store/calls/actions';
 import { useSelector } from 'react-redux';
 import { getCallInterlocutorSelector } from 'app/store/calls/selectors';
+
+//sounds
+import incomingCallSound from 'app/sounds/calls/imcoming-call.ogg';
 
 const IncomingCall = () => {
 	const cancelCall = useActionWithDispatch(CallActions.cancelCallAction);
@@ -11,9 +14,34 @@ const IncomingCall = () => {
 
 	const interlocutor = useSelector(getCallInterlocutorSelector);
 
+	useEffect(() => {
+		//repeatable playing beep-beep
+		const audio = new Audio(incomingCallSound);
+
+		const repeatAudio = function () {
+			audio.play();
+		};
+
+		audio.addEventListener('ended', repeatAudio, false);
+
+		audio.play();
+
+		return () => {
+			audio.pause();
+			audio.removeEventListener('ended', repeatAudio);
+			audio.currentTime = 0;
+		};
+	});
+
 	const acceptWithVideo = () =>
 		acceptCall({
-			constraints: { video: true, audio: true },
+			constraints: {
+				video: {
+					width: { min: 320, ideal: 320, max: 320 },
+					height: { min: 240, ideal: 240, max: 240 },
+				},
+				audio: true,
+			},
 		});
 
 	const acceptWithAudio = () =>

@@ -8,7 +8,12 @@ export interface CallState {
 	isCalling: boolean;
 	amCalling: boolean;
 	isSpeaking: boolean;
-	isVideoOpened: boolean;
+	isVideoOpened:
+		| boolean
+		| {
+				width: { min: number; ideal: number; max: number };
+				height: { min: number; ideal: number; max: number };
+		  };
 	isAudioOpened: boolean;
 	offer?: RTCSessionDescriptionInit;
 	answer?: RTCSessionDescriptionInit;

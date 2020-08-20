@@ -1,11 +1,12 @@
-.messenger {
-	&__message-container {
+.message {
+	&__container {
 		padding: 1px 48px 1px 52px;
 		box-sizing: border-box;
 		width: 100%;
 		max-width: 100%;
 		min-height: 32px;
 		display: flex;
+		align-items: center;
 		margin-top: 3px;
 
 		&--from-me {
@@ -21,7 +22,7 @@
 		}
 	}
 
-	&__message {
+	&__item {
 		display: inline-block;
 		padding: 5px 8px;
 		margin: 1px 0;
@@ -43,15 +44,49 @@
 			border-bottom-right-radius: 12px;
 			border-bottom-left-radius: 4px;
 		}
+
+		&:hover ~ * {
+			opacity: 1;
+		}
 	}
 
-	&__message-time {
+	&__btn-group {
+		display: flex;
+		opacity: 0;
+
+		&:hover {
+			opacity: 1;
+		}
+	}
+
+	&__btn {
+		height: 28px;
+		width: 28px;
+		border-radius: 50%;
+		background-color: #ebebeb;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin: 5px;
+
+		.svg {
+			height: 16px;
+			width: 16px;
+		}
+
+		&:hover {
+			background-color: #ccc;
+		}
+	}
+
+	&__time {
 		font-size: 11px;
 		line-height: 12px;
 		padding: 4px 3px 0px 4px;
+		user-select: none;
 	}
 
-	&__message-separator {
+	&__separator {
 		display: flex;
 
 		justify-content: center;

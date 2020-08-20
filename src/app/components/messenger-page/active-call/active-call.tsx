@@ -23,7 +23,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 	const sendCandidates = useActionWithDispatch(CallActions.myCandidateAction);
 	const changeVideoStatus = useActionWithDispatch(CallActions.changeVideoStatus);
 	const changeAudioStatus = useActionWithDispatch(CallActions.changeAudioStatus);
-	const negociationNeeded = useActionWithDispatch(CallActions.negociationNeeded);
+	const negociate = useActionWithDispatch(CallActions.negociate);
 
 	const remoteVideoRef = useRef<HTMLVideoElement>(null);
 	const remoteAudioRef = useRef<HTMLAudioElement>(null);
@@ -47,7 +47,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 	const remoteVideoStream = new MediaStream();
 	const remoteAudioStream = new MediaStream();
 
-	peerConnection.connection.addEventListener('track', async (event) => {
+	peerConnection.connection.addEventListener('track', (event) => {
 		if (remoteVideoRef.current) {
 			remoteVideoRef.current.srcObject = remoteVideoStream;
 		}
@@ -80,7 +80,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 	});
 
 	peerConnection.connection.onnegotiationneeded = () => {
-		negociationNeeded();
+		negociate();
 	};
 
 	return (

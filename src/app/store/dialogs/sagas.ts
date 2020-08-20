@@ -48,10 +48,12 @@ export function* muteDialogSaga(action: ReturnType<typeof ChatActions.muteChat>)
 		const { interlocutor, conference, isMuted } = dialog;
 
 		const request: MuteDialogRequest = {
-			dialog: {
-				conferenceId: interlocutor === null ? conference?.id : null,
-				interlocutorId: conference === null ? interlocutor?.id : null,
-			},
+			dialogs: [
+				{
+					conferenceId: interlocutor === null ? conference?.id : null,
+					interlocutorId: conference === null ? interlocutor?.id : null,
+				},
+			],
 			isMuted: !isMuted,
 		};
 
@@ -74,9 +76,11 @@ export function* removeDialogSaga(action: ReturnType<typeof ChatActions.removeCh
 
 	try {
 		const request: HideDialogRequest = {
-			dialog: {
-				interlocutorId: dialog.interlocutor?.id,
-			},
+			dialogs: [
+				{
+					interlocutorId: dialog.interlocutor?.id,
+				},
+			],
 			isHidden: true,
 		};
 

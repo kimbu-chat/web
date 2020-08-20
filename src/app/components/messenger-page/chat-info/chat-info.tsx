@@ -53,7 +53,7 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 
 	const deleteChat = (): void => removeDialog(selectedDialog);
 	const muteChat = (): void => muteDialog(selectedDialog);
-	const deleteContact = (): void => deleteFriend(selectedDialog.interlocutor?.id || -1);
+	const deleteContact = (): void => deleteFriend({ userIds: [selectedDialog.interlocutor?.id || -1] });
 	const deleteConference = (): void => leaveConference(selectedDialog);
 	const setNewConferenceName = (newName: string): void => renameConference({ newName, dialog: selectedDialog });
 	const createConference = (): void => {

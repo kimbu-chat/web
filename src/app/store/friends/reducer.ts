@@ -33,7 +33,8 @@ const friends = createReducer<FriendsState>(initialState)
 	.handleAction(
 		FriendActions.deleteFriend,
 		produce((draft: FriendsState, { payload }: ReturnType<typeof FriendActions.deleteFriend>) => {
-			draft.friends = draft.friends.filter(({ id }) => id != payload);
+			payload.userIds.forEach((userId) => (draft.friends = draft.friends.filter(({ id }) => id != userId)));
+
 			return draft;
 		}),
 	)

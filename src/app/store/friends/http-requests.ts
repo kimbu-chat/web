@@ -10,7 +10,7 @@ export const FriendsHttpRequests = {
 		HttpRequestMethod.Post,
 	),
 	deleteFriend: httpRequestFactory<AxiosResponse, DeleteFriendsActionData>(
-		`${ApiBasePath.MainApi}/api/contacts`,
-		HttpRequestMethod.Delete,
+		`${ApiBasePath.MainApi}/api/contacts/batch-delete`,
+		HttpRequestMethod.Post,
 	),
 };

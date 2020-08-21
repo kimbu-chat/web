@@ -5,6 +5,7 @@ import {
 	CreateMessageResponse,
 	MessageList,
 	DeleteMessageReq,
+	SelectMessageReq,
 } from './models';
 import { createAction } from 'typesafe-actions';
 import { createEmptyAction } from '../common/actions';
@@ -22,4 +23,5 @@ export namespace MessageActions {
 	export const createDialog = createAction('CREATE_DIALOG')<UserPreview>();
 	export const deleteMessage = createAction('DELETE_MESSAGE')<DeleteMessageReq>();
 	export const deleteMessageSuccess = createAction('DELETE_MESSAGE_SUCCESS')<DeleteMessageReq>();
+	export const selectMessage = createAction('SELECT_MESSAGE')<SelectMessageReq>();
 }

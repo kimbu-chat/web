@@ -1,4 +1,4 @@
-import { MessageList, MessageState } from './models';
+import { MessageList, MessageState, Message } from './models';
 import _ from 'lodash';
 import produce from 'immer';
 import { createReducer } from 'typesafe-actions';
@@ -9,17 +9,21 @@ import { DialogService } from '../dialogs/dialog-service';
 export interface MessagesState {
 	loading: boolean;
 	messages: MessageList[];
+	selectedMessageIds: number[];
 }
 
 const initialState: MessagesState = {
 	loading: false,
 	messages: [],
+	selectedMessageIds: [],
 };
 
 const checkIfDialogExists = (state: MessagesState, dialogId: number): boolean =>
 	state.messages && state.messages.length > 0 && state?.messages?.findIndex((x) => x.dialogId === dialogId) > -1;
 const getChatIndex = (state: MessagesState, dialogId: number): number =>
 	state?.messages?.findIndex((x) => x.dialogId === dialogId);
+
+const getMessage = (messages: Message[], messageId: number) => messages.find(({ id }) => id === messageId);
 
 const messages = createReducer<MessagesState>(initialState)
 	.handleAction(
@@ -114,11 +118,39 @@ const messages = createReducer<MessagesState>(initialState)
 	.handleAction(
 		MessageActions.deleteMessageSuccess,
 		produce((draft: MessagesState, { payload }: ReturnType<typeof MessageActions.deleteMessageSuccess>) => {
-			const chatIndex = getChatIndex(draft, payload.dialogId as number);
+			payload.messages.forEach((msgToDelete) => {
+				const chatIndex = getChatIndex(draft, msgToDelete.dialogId as number);
 
-			draft.messages[chatIndex].messages = draft.messages[chatIndex].messages.filter(
-				({ id }) => id !== payload.messageId,
-			);
+				if (getMessage(draft.messages[chatIndex].messages, msgToDelete.messageId)?.isSelected) {
+					draft.selectedMessageIds = draft.selectedMessageIds.filter((id) => id !== msgToDelete.messageId);
+				}
+
+				draft.messages[chatIndex].messages = draft.messages[chatIndex].messages.filter(
+					({ id }) => id !== msgToDelete.messageId,
+				);
+			});
+			return draft;
+		}),
+	)
+	.handleAction(
+		MessageActions.selectMessage,
+		produce((draft: MessagesState, { payload }: ReturnType<typeof MessageActions.selectMessage>) => {
+			const chatIndex = getChatIndex(draft, payload.dialogId as number);
+			const selectedMessage = draft.messages[chatIndex].messages.find(
+				({ id }) => id === payload.messageId,
+			) as Message;
+			const isMessageSelected =
+				draft.selectedMessageIds.includes(selectedMessage?.id as number) && selectedMessage?.isSelected;
+
+			if (!isMessageSelected) {
+				console.log('message not selected');
+				selectedMessage.isSelected = true;
+				draft.selectedMessageIds.push(payload.messageId);
+			} else {
+				console.log('message  selected');
+				selectedMessage.isSelected = false;
+				draft.selectedMessageIds = draft.selectedMessageIds.filter((id) => id !== payload.messageId);
+			}
 
 			return draft;
 		}),

@@ -12,6 +12,7 @@ import { LocalizationContext } from 'app/app';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
 import { MessageActions } from 'app/store/messages/actions';
+import { setSelectedMessagesLength } from 'app/store/messages/selectors';
 
 namespace Message {
 	export interface Props {
@@ -27,24 +28,43 @@ namespace Message {
 const MessageItem = ({ from, content, time, needToShowDateSeparator, dateSeparator, message }: Message.Props) => {
 	const currentUserId = useSelector(getMyIdSelector) as number;
 	const selectedDialogId = useSelector(getSelectedDialogSelector)?.id;
+	const isSelectState = useSelector(setSelectedMessagesLength) > 0;
 
 	const { t } = useContext(LocalizationContext);
 
 	const deleteMessage = useActionWithDispatch(MessageActions.deleteMessageSuccess);
-	const deleteThisMessage = useCallback(
-		() => deleteMessage({ dialogId: selectedDialogId as number, messageId: message.id }),
+	const selectMessage = useActionWithDispatch(MessageActions.selectMessage);
+
+	const selectThisMessage = useCallback(
+		(event?: React.MouseEvent<HTMLButtonElement | HTMLDivElement, MouseEvent>) => {
+			event?.stopPropagation();
+			selectMessage({ dialogId: selectedDialogId as number, messageId: message.id });
+		},
 		[selectedDialogId, message.id],
 	);
 
-	const copyText = useCallback(() => {
-		const el = document.createElement('textarea');
-		el.value = content;
-		document.body.appendChild(el);
-		el.select();
-		console.log('copied ' + content);
-		document.execCommand('copy');
-		document.body.removeChild(el);
-	}, [content]);
+	const deleteThisMessage = useCallback(
+		(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+			event.stopPropagation();
+
+			deleteMessage({ messages: [{ dialogId: selectedDialogId as number, messageId: message.id }] });
+		},
+		[selectedDialogId, message.id],
+	);
+
+	const copyText = useCallback(
+		(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+			event.stopPropagation();
+			const el = document.createElement('textarea');
+			el.value = content;
+			document.body.appendChild(el);
+			el.select();
+			console.log('copied ' + content);
+			document.execCommand('copy');
+			document.body.removeChild(el);
+		},
+		[content],
+	);
 
 	if (message?.systemMessageType !== SystemMessageType.None) {
 		return (
@@ -75,10 +95,25 @@ const MessageItem = ({ from, content, time, needToShowDateSeparator, dateSeparat
 				</div>
 			)}
 			<div
-				className={`message__container ${
-					from === messageFrom.me ? 'message__container--from-me' : 'message__container--from-others'
-				}`}
+				className={`message__container 
+				${from === messageFrom.me ? 'message__container--from-me' : 'message__container--from-others'} 
+				${message.isSelected ? 'message__container--selected' : ''}
+				${isSelectState ? 'pointer' : ''}`}
+				onClick={isSelectState ? selectThisMessage : () => {}}
 			>
+				{message.isSelected && (
+					<div
+						className={`message__selected ${
+							from === messageFrom.me ? 'message__selected--from-me' : 'message__selected--from-others'
+						}`}
+					>
+						<div className='svg'>
+							<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
+								<path d='M5.85 9.66l-.88-.98-.4-.45A.8.8 0 1 0 3.39 9.3l.4.44.87.98.73.82a1.5 1.5 0 0 0 2.28-.04l2.09-2.54 1.8-2.18.8-1a.8.8 0 0 0-1.23-1.01l-.81.99-1.8 2.18L6.5 10.4l-.65-.73z'></path>
+							</svg>
+						</div>
+					</div>
+				)}
 				<div
 					className={`message__btn-group ${
 						from === messageFrom.me ? 'message__btn-group--from-me' : 'message__btn-group--from-others'
@@ -113,7 +148,7 @@ const MessageItem = ({ from, content, time, needToShowDateSeparator, dateSeparat
 							</div>
 							<span className='message__menu-item__text'>Копировать сообщение</span>
 						</button>
-						<button className='message__menu-item'>
+						<button onClick={selectThisMessage} className='message__menu-item'>
 							<div className='svg'>
 								<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
 									<path

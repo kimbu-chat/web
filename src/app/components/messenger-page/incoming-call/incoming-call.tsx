@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import './incoming-call.scss';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { CallActions } from 'app/store/calls/actions';
@@ -7,12 +7,14 @@ import { getCallInterlocutorSelector } from 'app/store/calls/selectors';
 
 //sounds
 import incomingCallSound from 'app/sounds/calls/imcoming-call.ogg';
+import { RootState } from 'app/store/root-reducer';
 
 const IncomingCall = () => {
 	const cancelCall = useActionWithDispatch(CallActions.cancelCallAction);
 	const acceptCall = useActionWithDispatch(CallActions.acceptCallAction);
 
 	const interlocutor = useSelector(getCallInterlocutorSelector);
+	const isCallingWithVideo = useSelector((state: RootState) => state.calls.isCallingWithVideo);
 
 	useEffect(() => {
 		//repeatable playing beep-beep
@@ -33,27 +35,35 @@ const IncomingCall = () => {
 		};
 	});
 
-	const acceptWithVideo = () =>
-		acceptCall({
-			constraints: {
-				video: {
-					width: { min: 320, ideal: 320, max: 320 },
-					height: { min: 240, ideal: 240, max: 240 },
+	const acceptWithVideo = useCallback(
+		() =>
+			acceptCall({
+				constraints: {
+					video: {
+						width: { min: 320, ideal: 320, max: 320 },
+						height: { min: 240, ideal: 240, max: 240 },
+					},
+					audio: true,
 				},
-				audio: true,
-			},
-		});
+			}),
+		[],
+	);
 
-	const acceptWithAudio = () =>
-		acceptCall({
-			constraints: { video: false, audio: true },
-		});
+	const acceptWithAudio = useCallback(
+		() =>
+			acceptCall({
+				constraints: { video: false, audio: true },
+			}),
+		[],
+	);
 
 	return (
 		<div className='incoming-call'>
 			<img src={interlocutor?.avatarUrl} alt='' className='incoming-call__img' />
 			<h1 className='incoming-call__calling-name'>{`${interlocutor?.firstName} ${interlocutor?.lastName}`}</h1>
-			<h3 className='incoming-call__additional-data'>Входящий вызов</h3>
+			<h3 className='incoming-call__additional-data'>
+				{isCallingWithVideo ? 'Входящий видеовызов' : 'Входящий аудиовызов'}
+			</h3>
 			<div className='incoming-call__bottom-menu'>
 				<button onClick={acceptWithAudio} className='incoming-call__call-btn incoming-call__call-btn--accept'>
 					<div className='svg'>

@@ -6,6 +6,7 @@ import { UserPreview } from '../my-profile/models';
 export interface CallState {
 	interlocutor?: UserPreview;
 	isCalling: boolean;
+	isCallingWithVideo?: boolean;
 	amCalling: boolean;
 	isSpeaking: boolean;
 	isVideoOpened:
@@ -44,6 +45,9 @@ const calls = createReducer<CallState>(initialState)
 			draft.interlocutor = interlocutor;
 			draft.isCalling = true;
 			draft.offer = offer;
+
+			if (draft.offer.sdp?.includes('video')) draft.isCallingWithVideo = true;
+
 			return draft;
 		}),
 	)

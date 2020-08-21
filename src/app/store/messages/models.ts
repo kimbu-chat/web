@@ -53,6 +53,7 @@ export interface Message {
 	state?: MessageState;
 	dialogId?: number;
 	needToShowDateSeparator?: boolean;
+	isSelected?: boolean;
 }
 
 export enum SystemMessageType {
@@ -123,6 +124,13 @@ export interface MessagesReq {
 }
 
 export interface DeleteMessageReq {
+	messages: {
+		messageId: number;
+		dialogId: number;
+	}[];
+}
+
+export interface SelectMessageReq {
 	messageId: number;
 	dialogId: number;
 }

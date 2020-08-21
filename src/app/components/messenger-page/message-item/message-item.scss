@@ -20,6 +20,10 @@
 			flex-direction: row-reverse;
 		}
 
+		&--selected {
+			background-color: #f5f5f5;
+		}
+
 		&:last-child {
 			margin-bottom: 10px;
 		}
@@ -175,6 +179,26 @@
 
 		&:hover {
 			background-color: #f5f5f5;
+		}
+	}
+
+	&__selected {
+		background-color: #697cff;
+		border-radius: 50%;
+		.svg {
+			height: 16px;
+			width: 16px;
+			svg {
+				fill: white;
+			}
+		}
+
+		&--from-me {
+			margin-right: auto;
+		}
+
+		&--from-others {
+			margin-left: auto;
 		}
 	}
 }

@@ -145,14 +145,14 @@ export function* changeAudioStatusSaga(): SagaIterator {
 	const videoState = yield select((state: RootState) => state.calls.isVideoOpened);
 	const audioState = yield select((state: RootState) => state.calls.isAudioOpened);
 
-	if (!audioState) {
+	if (audioState) {
 		if (localMediaStream) {
 			const tracks = localMediaStream.getTracks();
 			tracks.forEach((track) => track.stop());
 		}
 
 		localMediaStream = yield call(
-			async () => await navigator.mediaDevices.getUserMedia({ video: videoState, audio: !audioState }),
+			async () => await navigator.mediaDevices.getUserMedia({ video: videoState, audio: audioState }),
 		);
 
 		videoTracks = localMediaStream.getVideoTracks();
@@ -168,15 +168,13 @@ export function* changeAudioStatusSaga(): SagaIterator {
 	} else {
 		peerConnection.connection.removeTrack(audioSender);
 	}
-
-	yield put(CallActions.changeAudioStatusSucces());
 }
 
 export function* changeVideoStatusSaga(): SagaIterator {
 	const videoState = yield select((state: RootState) => state.calls.isVideoOpened);
 	const audioState = yield select((state: RootState) => state.calls.isAudioOpened);
 
-	if (!videoState) {
+	if (videoState) {
 		if (localMediaStream) {
 			const tracks = localMediaStream.getTracks();
 			tracks.forEach((track) => track.stop());
@@ -185,7 +183,7 @@ export function* changeVideoStatusSaga(): SagaIterator {
 		localMediaStream = yield call(
 			async () =>
 				await navigator.mediaDevices.getUserMedia({
-					video: !videoState,
+					video: videoState,
 					audio: audioState,
 				}),
 		);
@@ -203,8 +201,6 @@ export function* changeVideoStatusSaga(): SagaIterator {
 	} else {
 		peerConnection.connection.removeTrack(videoSender);
 	}
-
-	yield put(CallActions.changeVideoStatusSucces());
 }
 
 export function* negociateSaga(): SagaIterator {

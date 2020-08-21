@@ -36,7 +36,8 @@
 		"typing": "Is typing..."
 	},
 	"chat": {
-		"typing": "is typing..."
+		"typing": "is typing...",
+		"empty": "There are no messages in this chat. Yours may be the first!"
 	},
 	"ChatManipulation": {
 		"actions": "Actions",

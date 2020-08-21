@@ -26,5 +26,5 @@ export namespace CallActions {
 	export const changeVideoStatusSucces = createEmptyAction('CHANGE_VIDEO_STATUS_SUCCES');
 	export const changeAudioStatus = createEmptyAction('CHANGE_AUDIO_STATUS');
 	export const changeAudioStatusSucces = createEmptyAction('CHANGE_AUDIO_STATUS_SUCCES');
-	export const negociationNeeded = createEmptyAction('NEGOCIATION_NEEDED');
+	export const negociate = createEmptyAction('NEGOCIATION_NEEDED');
 }

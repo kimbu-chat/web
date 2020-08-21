@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useCallback, useEffect } from 'react';
 import './active-call.scss';
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnection';
 import { useSelector } from 'react-redux';
@@ -23,65 +23,79 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 	const sendCandidates = useActionWithDispatch(CallActions.myCandidateAction);
 	const changeVideoStatus = useActionWithDispatch(CallActions.changeVideoStatus);
 	const changeAudioStatus = useActionWithDispatch(CallActions.changeAudioStatus);
-	const negociationNeeded = useActionWithDispatch(CallActions.negociationNeeded);
+	const negociate = useActionWithDispatch(CallActions.negociate);
 
 	const remoteVideoRef = useRef<HTMLVideoElement>(null);
 	const remoteAudioRef = useRef<HTMLAudioElement>(null);
 
-	peerConnection.connection.onicecandidate = (event) => {
-		if (event.candidate) {
-			const request = {
-				interlocutorId: interlocutor?.id || -1,
-				candidate: event.candidate,
-			};
-			sendCandidates(request);
-		}
-	};
+	//peer connection callbacks
+	const onIceCandidate = useCallback(
+		(event: RTCPeerConnectionIceEvent) => {
+			if (event.candidate) {
+				const request = {
+					interlocutorId: interlocutor?.id || -1,
+					candidate: event.candidate,
+				};
+				sendCandidates(request);
+			}
+		},
+		[interlocutor, sendCandidates, peerConnection.connection],
+	);
 
-	peerConnection.connection.addEventListener('connectionstatechange', () => {
+	const onTrack = useCallback(
+		(event: RTCTrackEvent) => {
+			if (remoteVideoRef.current) {
+				remoteVideoRef.current.srcObject = remoteVideoStream;
+			}
+
+			if (remoteAudioRef.current) {
+				remoteAudioRef.current.srcObject = remoteAudioStream;
+			}
+
+			console.log('Track received', event.track);
+
+			if (event.track.kind === 'video') {
+				remoteVideoStream.addTrack(event.track);
+
+				setTimeout(() => remoteVideoRef.current?.play(), 50);
+			}
+			if (event.track.kind === 'audio') {
+				remoteAudioStream.addTrack(event.track);
+				setTimeout(() => remoteAudioRef.current?.play(), 50);
+			}
+		},
+		[remoteVideoRef, remoteAudioRef, peerConnection.connection],
+	);
+
+	const onConnectionStateChange = useCallback(() => {
 		if (peerConnection.connection.connectionState === 'connected') {
 			console.log('peers connected');
 		}
+	}, [peerConnection.connection]);
+
+	//binding peer connection events
+	useEffect(() => {
+		peerConnection.connection.addEventListener('icecandidate', onIceCandidate);
+
+		peerConnection.connection.addEventListener('connectionstatechange', onConnectionStateChange);
+
+		peerConnection.connection.addEventListener('track', onTrack);
+
+		peerConnection.connection.addEventListener('negotiationneeded', negociate);
+		//removing peer connection events
+		return () => {
+			peerConnection.connection.removeEventListener('icecandidate', onIceCandidate);
+
+			peerConnection.connection.removeEventListener('connectionstatechange', onConnectionStateChange);
+
+			peerConnection.connection.removeEventListener('track', onTrack);
+
+			peerConnection.connection.removeEventListener('negotiationneeded', negociate);
+		};
 	});
 
 	const remoteVideoStream = new MediaStream();
 	const remoteAudioStream = new MediaStream();
-
-	peerConnection.connection.addEventListener('track', async (event) => {
-		if (remoteVideoRef.current) {
-			remoteVideoRef.current.srcObject = remoteVideoStream;
-		}
-
-		if (remoteAudioRef.current) {
-			remoteAudioRef.current.srcObject = remoteAudioStream;
-		}
-
-		console.log('Track received', event.track);
-
-		if (event.track.kind === 'video') {
-			remoteVideoStream.addTrack(event.track);
-
-			setTimeout(() => {
-				remoteVideoRef.current?.load();
-				remoteVideoRef.current
-					?.play()
-					.then(() => console.log('video Playing'))
-					.catch((err) => console.log(err));
-			}, 1000);
-		}
-		if (event.track.kind === 'audio') {
-			remoteAudioStream.addTrack(event.track);
-			remoteAudioRef.current?.load();
-			remoteAudioRef.current
-				?.play()
-				.then(() => console.log('audio Playing'))
-				.catch((err) => console.log(err));
-		}
-	});
-
-	peerConnection.connection.onnegotiationneeded = () => {
-		negociationNeeded();
-	};
 
 	return (
 		<div className={isDisplayed ? 'active-call' : 'completly-hidden'}>

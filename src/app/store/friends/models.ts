@@ -23,3 +23,7 @@ export interface GetConferenceUsersSuccessActionData {
 	users: Array<UserPreview>;
 	initiatedByScrolling?: boolean;
 }
+
+export interface DeleteFriendsActionData {
+	userIds: number[];
+}

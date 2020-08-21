@@ -143,6 +143,11 @@ const Chat = () => {
 						selectedDialog.interlocutor?.lastName
 					} ${t('chat.typing')}`}</div>
 				)}
+				{items.length === 0 && (
+					<div className='messenger__messages-list__empty'>
+						<p>{t('chat.empty')}</p>
+					</div>
+				)}
 				<InfiniteScroll
 					pageStart={0}
 					loadMore={loadPage}

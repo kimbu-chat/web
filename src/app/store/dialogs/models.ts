@@ -67,18 +67,20 @@ export interface GetDialogsActionData {
 }
 
 export interface HideDialogRequest {
-	dialog: {
-		interlocutorId?: number;
-		conferenceId?: number;
-	};
+	dialogs: [
+		{
+			interlocutorId?: number;
+			conferenceId?: number;
+		},
+	];
 	isHidden: boolean;
 }
 
 export interface MuteDialogRequest {
-	dialog: {
+	dialogs: {
 		interlocutorId?: number | null;
 		conferenceId?: number | null;
-	};
+	}[];
 	isMuted: boolean;
 }
 

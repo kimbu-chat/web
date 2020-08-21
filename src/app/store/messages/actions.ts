@@ -4,6 +4,8 @@ import {
 	UserMessageTypingRequest,
 	CreateMessageResponse,
 	MessageList,
+	DeleteMessageReq,
+	SelectMessageReq,
 } from './models';
 import { createAction } from 'typesafe-actions';
 import { createEmptyAction } from '../common/actions';
@@ -19,4 +21,7 @@ export namespace MessageActions {
 	export const messageTyping = createAction('NOTIFY_USER_ABOUT_MESSAGE_TYPING')<UserMessageTypingRequest>();
 	export const markMessagesAsRead = createAction('RESET_UNREAD_MESSAGES_COUNT')<Dialog>();
 	export const createDialog = createAction('CREATE_DIALOG')<UserPreview>();
+	export const deleteMessage = createAction('DELETE_MESSAGE')<DeleteMessageReq>();
+	export const deleteMessageSuccess = createAction('DELETE_MESSAGE_SUCCESS')<DeleteMessageReq>();
+	export const selectMessage = createAction('SELECT_MESSAGE')<SelectMessageReq>();
 }

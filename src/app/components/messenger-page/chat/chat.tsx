@@ -13,6 +13,7 @@ import { getMyIdSelector } from 'app/store/my-profile/selectors';
 import MessageItem from '../message-item/message-item';
 import InfiniteScroll from 'react-infinite-scroller';
 import { CircularProgress } from '@material-ui/core';
+import SelectedMessagesData from '../selected-messages-data/selected-messages-data';
 
 export enum messageFrom {
 	me,
@@ -143,11 +144,15 @@ const Chat = () => {
 						selectedDialog.interlocutor?.lastName
 					} ${t('chat.typing')}`}</div>
 				)}
+
 				{items.length === 0 && (
 					<div className='messenger__messages-list__empty'>
 						<p>{t('chat.empty')}</p>
 					</div>
 				)}
+
+				<SelectedMessagesData />
+
 				<InfiniteScroll
 					pageStart={0}
 					loadMore={loadPage}

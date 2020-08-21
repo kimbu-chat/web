@@ -155,5 +155,16 @@ const messages = createReducer<MessagesState>(initialState)
 			return draft;
 		}),
 	);
+// .handleAction(ChatActions.changeSelectedChat, (draft: MessagesState) => {
+// 	draft.messages = draft.messages.map((messages) => {
+// 		messages.messages.map((message) => {
+// 			message.isSelected = false;
+// 			return message;
+// 		});
+
+// 		return messages;
+// 	});
+// 	return draft;
+// });
 
 export default messages;

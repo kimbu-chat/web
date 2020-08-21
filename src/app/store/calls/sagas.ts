@@ -45,7 +45,10 @@ export function* outgoingCallSaga(action: ReturnType<typeof CallActions.outgoing
 
 	const interlocutorId = action.payload.calling.id;
 	const myProfile: UserPreview = yield select(getMyProfileSelector);
-	let offer: RTCSessionDescriptionInit = yield call(async () => await peerConnection.connection.createOffer());
+	let offer: RTCSessionDescriptionInit = yield call(
+		async () =>
+			await peerConnection.connection.createOffer({ offerToReceiveAudio: true, offerToReceiveVideo: true }),
+	);
 	yield call(async () => await peerConnection.connection.setLocalDescription(offer));
 
 	const request = {
@@ -210,7 +213,10 @@ export function* negociateSaga(): SagaIterator {
 	const isCallActive: boolean = yield select(doIhaveCall);
 	if (isCallActive) {
 		let offer: RTCSessionDescriptionInit;
-		offer = yield call(async () => await peerConnection.connection.createOffer());
+		offer = yield call(
+			async () =>
+				await peerConnection.connection.createOffer({ offerToReceiveAudio: true, offerToReceiveVideo: true }),
+		);
 		yield call(async () => await peerConnection.connection.setLocalDescription(offer));
 
 		const request = {

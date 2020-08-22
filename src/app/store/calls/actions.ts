@@ -24,5 +24,6 @@ export namespace CallActions {
 	export const myCandidateAction = createAction('MY_CANDIDATE')<IMyCandidateAction>();
 	export const changeVideoStatus = createEmptyAction('CHANGE_VIDEO_STATUS');
 	export const changeAudioStatus = createEmptyAction('CHANGE_AUDIO_STATUS');
+	export const enableMediaSwitching = createEmptyAction('ENABLE_MEDIA');
 	export const negociate = createEmptyAction('NEGOCIATION_NEEDED');
 }

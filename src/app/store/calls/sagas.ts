@@ -168,11 +168,14 @@ export function* changeAudioStatusSaga(): SagaIterator {
 	} else if (audioSender) {
 		peerConnection.connection.removeTrack(audioSender);
 	}
+	yield put(CallActions.enableMediaSwitching());
 }
 
 export function* changeVideoStatusSaga(): SagaIterator {
 	const videoState = yield select((state: RootState) => state.calls.isVideoOpened);
 	const audioState = yield select((state: RootState) => state.calls.isAudioOpened);
+
+	localMediaStream.getTracks().forEach((track) => track.stop());
 
 	if (videoState) {
 		if (videoTracks.length <= 0) {
@@ -190,7 +193,9 @@ export function* changeVideoStatusSaga(): SagaIterator {
 			audioTracks = localMediaStream.getAudioTracks();
 
 			if (audioState) {
-				audioSender = peerConnection.connection.addTrack(audioTracks[0], localMediaStream);
+				try {
+					audioSender = peerConnection.connection.addTrack(audioTracks[0], localMediaStream);
+				} catch {}
 			}
 		}
 
@@ -198,10 +203,9 @@ export function* changeVideoStatusSaga(): SagaIterator {
 
 		console.log('Track sent', videoTracks[0]);
 	} else if (videoSender) {
-		try {
-			peerConnection.connection.removeTrack(videoSender);
-		} catch {}
+		peerConnection.connection.removeTrack(videoSender);
 	}
+	yield put(CallActions.enableMediaSwitching());
 }
 
 export function* negociateSaga(): SagaIterator {

@@ -19,6 +19,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 	const interlocutor = useSelector(getCallInterlocutorSelector);
 	const isVideoOpened = useSelector((state: RootState) => state.calls.isVideoOpened);
 	const isAudioOpened = useSelector((state: RootState) => state.calls.isAudioOpened);
+	const isMediaSwitchingEnabled = useSelector((state: RootState) => state.calls.isMediaSwitchingEnabled);
 
 	const sendCandidates = useActionWithDispatch(CallActions.myCandidateAction);
 	const changeVideoStatus = useActionWithDispatch(CallActions.changeVideoStatus);
@@ -100,6 +101,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 			<div className='active-call__bottom-menu'>
 				{isAudioOpened ? (
 					<button
+						disabled={!isMediaSwitchingEnabled}
 						onClick={changeAudioStatus}
 						className='active-call__call-btn active-call__call-btn--microphone active-call__call-btn--microphone--active'
 					>
@@ -114,6 +116,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 					</button>
 				) : (
 					<button
+						disabled={!isMediaSwitchingEnabled}
 						onClick={changeAudioStatus}
 						className='active-call__call-btn active-call__call-btn--microphone'
 					>
@@ -140,6 +143,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 				</button>
 				{isVideoOpened ? (
 					<button
+						disabled={!isMediaSwitchingEnabled}
 						onClick={changeVideoStatus}
 						className='active-call__call-btn active-call__call-btn--video active-call__call-btn--video--active'
 					>
@@ -154,7 +158,11 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 						</div>
 					</button>
 				) : (
-					<button onClick={changeVideoStatus} className='active-call__call-btn active-call__call-btn--video'>
+					<button
+						disabled={!isMediaSwitchingEnabled}
+						onClick={changeVideoStatus}
+						className='active-call__call-btn active-call__call-btn--video'
+					>
 						<div className='svg'>
 							<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
 								<path

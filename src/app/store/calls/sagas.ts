@@ -166,6 +166,7 @@ export function* changeAudioStatusSaga(): SagaIterator {
 
 		console.log('Track sent', audioTracks[0]);
 	} else if (audioSender) {
+		localMediaStream.getAudioTracks()[0].stop();
 		peerConnection.connection.removeTrack(audioSender);
 	}
 }
@@ -199,6 +200,7 @@ export function* changeVideoStatusSaga(): SagaIterator {
 
 		console.log('Track sent', videoTracks[0]);
 	} else if (videoSender) {
+		localMediaStream.getVideoTracks()[0].stop();
 		peerConnection.connection.removeTrack(videoSender);
 	}
 }

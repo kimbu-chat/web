@@ -12,8 +12,6 @@ import { doIhaveCall } from './selectors';
 let localMediaStream: MediaStream;
 let videoTracks: MediaStreamTrack[], audioTracks: MediaStreamTrack[];
 let videoSender: RTCRtpSender, audioSender: RTCRtpSender;
-//@ts-ignore
-console.log(videoSender);
 
 const getUserMedia = async (constraints: IConstraints) => {
 	try {
@@ -90,8 +88,7 @@ export function* callEndedSaga(): SagaIterator {
 	peerConnection.connection = new RTCPeerConnection(peerConfiguration);
 
 	if (localMediaStream) {
-		const tracks = localMediaStream.getTracks();
-		tracks.forEach((track) => track.stop());
+		localMediaStream.getTracks().forEach((track) => track.stop());
 	}
 }
 
@@ -146,27 +143,29 @@ export function* changeAudioStatusSaga(): SagaIterator {
 	const audioState = yield select((state: RootState) => state.calls.isAudioOpened);
 
 	if (audioState) {
-		if (localMediaStream) {
-			const tracks = localMediaStream.getTracks();
-			tracks.forEach((track) => track.stop());
+		if (audioTracks.length <= 0) {
+			localMediaStream.getTracks().forEach((track) => track.stop());
+
+			localMediaStream = yield call(
+				async () =>
+					await navigator.mediaDevices.getUserMedia({
+						video: videoState,
+						audio: audioState,
+					}),
+			);
+
+			videoTracks = localMediaStream.getVideoTracks();
+			audioTracks = localMediaStream.getAudioTracks();
+
+			if (videoState) {
+				videoSender = peerConnection.connection.addTrack(videoTracks[0], localMediaStream);
+			}
 		}
-
-		localMediaStream = yield call(
-			async () => await navigator.mediaDevices.getUserMedia({ video: videoState, audio: audioState }),
-		);
-
-		videoTracks = localMediaStream.getVideoTracks();
-		audioTracks = localMediaStream.getAudioTracks();
 
 		audioSender = peerConnection.connection.addTrack(audioTracks[0], localMediaStream);
 
-		if (videoState) {
-			videoSender = peerConnection.connection.addTrack(videoTracks[0], localMediaStream);
-		}
-
 		console.log('Track sent', audioTracks[0]);
 	} else if (audioSender) {
-		localMediaStream.getAudioTracks()[0].stop();
 		peerConnection.connection.removeTrack(audioSender);
 	}
 }
@@ -176,32 +175,32 @@ export function* changeVideoStatusSaga(): SagaIterator {
 	const audioState = yield select((state: RootState) => state.calls.isAudioOpened);
 
 	if (videoState) {
-		if (localMediaStream) {
-			const tracks = localMediaStream.getTracks();
-			tracks.forEach((track) => track.stop());
+		if (videoTracks.length <= 0) {
+			localMediaStream.getTracks().forEach((track) => track.stop());
+
+			localMediaStream = yield call(
+				async () =>
+					await navigator.mediaDevices.getUserMedia({
+						video: videoState,
+						audio: audioState,
+					}),
+			);
+
+			videoTracks = localMediaStream.getVideoTracks();
+			audioTracks = localMediaStream.getAudioTracks();
+
+			if (audioState) {
+				audioSender = peerConnection.connection.addTrack(audioTracks[0], localMediaStream);
+			}
 		}
-
-		localMediaStream = yield call(
-			async () =>
-				await navigator.mediaDevices.getUserMedia({
-					video: videoState,
-					audio: audioState,
-				}),
-		);
-
-		videoTracks = localMediaStream.getVideoTracks();
-		audioTracks = localMediaStream.getAudioTracks();
 
 		videoSender = peerConnection.connection.addTrack(videoTracks[0], localMediaStream);
 
-		if (audioState) {
-			audioSender = peerConnection.connection.addTrack(audioTracks[0], localMediaStream);
-		}
-
 		console.log('Track sent', videoTracks[0]);
 	} else if (videoSender) {
-		localMediaStream.getVideoTracks()[0].stop();
-		peerConnection.connection.removeTrack(videoSender);
+		try {
+			peerConnection.connection.removeTrack(videoSender);
+		} catch {}
 	}
 }
 

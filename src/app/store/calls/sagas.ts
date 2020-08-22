@@ -175,8 +175,6 @@ export function* changeVideoStatusSaga(): SagaIterator {
 	const videoState = yield select((state: RootState) => state.calls.isVideoOpened);
 	const audioState = yield select((state: RootState) => state.calls.isAudioOpened);
 
-	localMediaStream.getTracks().forEach((track) => track.stop());
-
 	if (videoState) {
 		if (videoTracks.length <= 0) {
 			localMediaStream.getTracks().forEach((track) => track.stop());

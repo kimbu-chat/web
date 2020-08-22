@@ -118,14 +118,14 @@ const calls = createReducer<CallState>(initialState)
 		}),
 	)
 	.handleAction(
-		CallActions.changeAudioStatusSucces,
+		CallActions.changeAudioStatus,
 		produce((draft: CallState) => {
 			draft.isAudioOpened = !draft.isAudioOpened;
 			return draft;
 		}),
 	)
 	.handleAction(
-		CallActions.changeVideoStatusSucces,
+		CallActions.changeVideoStatus,
 		produce((draft: CallState) => {
 			draft.isVideoOpened = !draft.isVideoOpened;
 			return draft;

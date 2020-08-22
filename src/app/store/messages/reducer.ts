@@ -118,15 +118,15 @@ const messages = createReducer<MessagesState>(initialState)
 	.handleAction(
 		MessageActions.deleteMessageSuccess,
 		produce((draft: MessagesState, { payload }: ReturnType<typeof MessageActions.deleteMessageSuccess>) => {
-			payload.messages.forEach((msgToDelete) => {
-				const chatIndex = getChatIndex(draft, msgToDelete.dialogId as number);
+			const chatIndex = getChatIndex(draft, payload.dialogId);
 
-				if (getMessage(draft.messages[chatIndex].messages, msgToDelete.messageId)?.isSelected) {
-					draft.selectedMessageIds = draft.selectedMessageIds.filter((id) => id !== msgToDelete.messageId);
+			payload.messageIds.forEach((msgIdToDelete) => {
+				if (getMessage(draft.messages[chatIndex].messages, msgIdToDelete)?.isSelected) {
+					draft.selectedMessageIds = draft.selectedMessageIds.filter((id) => id !== msgIdToDelete);
 				}
 
 				draft.messages[chatIndex].messages = draft.messages[chatIndex].messages.filter(
-					({ id }) => id !== msgToDelete.messageId,
+					({ id }) => id !== msgIdToDelete,
 				);
 			});
 			return draft;
@@ -154,17 +154,33 @@ const messages = createReducer<MessagesState>(initialState)
 
 			return draft;
 		}),
-	);
-// .handleAction(ChatActions.changeSelectedChat, (draft: MessagesState) => {
-// 	draft.messages = draft.messages.map((messages) => {
-// 		messages.messages.map((message) => {
-// 			message.isSelected = false;
-// 			return message;
-// 		});
+	)
+	.handleAction(
+		MessageActions.resetSelectedMessages,
+		produce((draft: MessagesState, { payload }: ReturnType<typeof MessageActions.resetSelectedMessages>) => {
+			const chatIndex = getChatIndex(draft, payload.dialogId as number);
 
-// 		return messages;
-// 	});
-// 	return draft;
-// });
+			draft.messages[chatIndex].messages.forEach((message) => {
+				message.isSelected = false;
+			});
+			draft.selectedMessageIds = [];
+
+			return draft;
+		}),
+	)
+	.handleAction(
+		ChatActions.changeSelectedChat,
+		produce((draft: MessagesState) => {
+			draft.messages = draft.messages.map((messages) => {
+				messages.messages.map((message) => {
+					message.isSelected = false;
+					return message;
+				});
+
+				return messages;
+			});
+			return draft;
+		}),
+	);
 
 export default messages;

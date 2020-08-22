@@ -44,24 +44,22 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 
 	const onTrack = useCallback(
 		(event: RTCTrackEvent) => {
-			if (remoteVideoRef.current) {
-				remoteVideoRef.current.srcObject = remoteVideoStream;
-			}
-
-			if (remoteAudioRef.current) {
-				remoteAudioRef.current.srcObject = remoteAudioStream;
-			}
-
 			console.log('Track received', event.track);
 
-			if (event.track.kind === 'video') {
+			if (event.track.kind === 'video' && remoteVideoRef.current) {
+				const remoteVideoStream = new MediaStream();
 				remoteVideoStream.addTrack(event.track);
-
-				setTimeout(() => remoteVideoRef.current?.play(), 50);
+				remoteVideoRef.current.pause();
+				remoteVideoRef.current.srcObject = remoteVideoStream;
+				remoteVideoRef.current.play();
 			}
-			if (event.track.kind === 'audio') {
+
+			if (event.track.kind === 'audio' && remoteAudioRef.current) {
+				const remoteAudioStream = new MediaStream();
 				remoteAudioStream.addTrack(event.track);
-				setTimeout(() => remoteAudioRef.current?.play(), 50);
+				remoteAudioRef.current.pause();
+				remoteAudioRef.current.srcObject = remoteAudioStream;
+				remoteAudioRef.current.play();
 			}
 		},
 		[remoteVideoRef, remoteAudioRef, peerConnection.connection],
@@ -94,14 +92,11 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 		};
 	});
 
-	const remoteVideoStream = new MediaStream();
-	const remoteAudioStream = new MediaStream();
-
 	return (
 		<div className={isDisplayed ? 'active-call' : 'completly-hidden'}>
 			<img src={interlocutor?.avatarUrl} alt='' className='active-call__bg' />
-			<video playsInline ref={remoteVideoRef} className='active-call__remote-video'></video>
-			<audio playsInline ref={remoteAudioRef} className='active-call__remote-audio'></audio>
+			<video autoPlay playsInline ref={remoteVideoRef} className='active-call__remote-video'></video>
+			<audio autoPlay playsInline ref={remoteAudioRef} className='active-call__remote-audio'></audio>
 			<div className='active-call__bottom-menu'>
 				{isAudioOpened ? (
 					<button

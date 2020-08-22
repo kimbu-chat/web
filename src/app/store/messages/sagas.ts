@@ -20,6 +20,7 @@ import { SagaIterator } from 'redux-saga';
 //Sounds
 import messageCameUnselected from 'app/sounds/notifications/messsage-came-unselected.ogg';
 import messageCameSelected from 'app/sounds/notifications/messsage-came-selected.ogg';
+import moment from 'moment';
 
 const audioUnselected = new Audio(messageCameUnselected);
 const audioSelected = new Audio(messageCameSelected);
@@ -150,10 +151,46 @@ export function* resetUnreadMessagesCountSaga(
 	httpRequest.call(yield call(() => httpRequest.generator(request)));
 }
 
+export function* copyMessagesSaga(action: ReturnType<typeof MessageActions.copyMessages>): SagaIterator {
+	const chat: MessageList = yield select((state: RootState) =>
+		state.messages.messages.find(({ dialogId }) => dialogId === action.payload.dialogId),
+	);
+
+	const content = chat.messages.reduce((accum: string, current) => {
+		if (action.payload.messageIds.includes(current.id)) {
+			const preparedStr = `\n[${moment.utc(current?.creationDateTime).format('YYYY MM DD h:mm')}] ${
+				current?.userCreator?.nickname
+			}: ${current?.text}`;
+			return accum + preparedStr;
+		}
+		return accum;
+	}, '');
+
+	// const content = action.payload.messageIds.reduce((accum: string, current: number) => {
+	// 	const message = chat.messages.find(({ id }) => id === current);
+
+	// 	const preparedStr = `\n[${moment.utc(message?.creationDateTime).format('YYYY MM DD h:mm')}] ${
+	// 		message?.userCreator?.nickname
+	// 	}: ${message?.text}`;
+	// 	console.log(preparedStr);
+
+	// 	return accum + preparedStr;
+	// }, '');
+
+	const el = document.createElement('textarea');
+	el.value = content;
+	document.body.appendChild(el);
+	el.select();
+	console.log('copied ' + content);
+	document.execCommand('copy');
+	document.body.removeChild(el);
+}
+
 export const MessageSagas = [
 	takeLatest(MessageActions.markMessagesAsRead, resetUnreadMessagesCountSaga),
 	takeLatest(MessageActions.messageTyping, messageTyping),
 	takeLatest(MessageActions.getMessages, getMessages),
 	takeEvery(MessageActions.createMessage, createMessage),
 	takeEvery(MessageActions.markMessagesAsRead, resetUnreadMessagesCountSaga),
+	takeEvery(MessageActions.copyMessages, copyMessagesSaga),
 ];

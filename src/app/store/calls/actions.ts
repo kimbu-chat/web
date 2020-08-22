@@ -23,8 +23,6 @@ export namespace CallActions {
 	export const candidateAction = createAction('CANDIDATE')<ICandidateAction>();
 	export const myCandidateAction = createAction('MY_CANDIDATE')<IMyCandidateAction>();
 	export const changeVideoStatus = createEmptyAction('CHANGE_VIDEO_STATUS');
-	export const changeVideoStatusSucces = createEmptyAction('CHANGE_VIDEO_STATUS_SUCCES');
 	export const changeAudioStatus = createEmptyAction('CHANGE_AUDIO_STATUS');
-	export const changeAudioStatusSucces = createEmptyAction('CHANGE_AUDIO_STATUS_SUCCES');
 	export const negociate = createEmptyAction('NEGOCIATION_NEEDED');
 }

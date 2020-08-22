@@ -34,6 +34,7 @@ const MessageItem = ({ from, content, time, needToShowDateSeparator, dateSeparat
 
 	const deleteMessage = useActionWithDispatch(MessageActions.deleteMessageSuccess);
 	const selectMessage = useActionWithDispatch(MessageActions.selectMessage);
+	const copyMessage = useActionWithDispatch(MessageActions.copyMessages);
 
 	const selectThisMessage = useCallback(
 		(event?: React.MouseEvent<HTMLButtonElement | HTMLDivElement, MouseEvent>) => {
@@ -47,23 +48,17 @@ const MessageItem = ({ from, content, time, needToShowDateSeparator, dateSeparat
 		(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 			event.stopPropagation();
 
-			deleteMessage({ messages: [{ dialogId: selectedDialogId as number, messageId: message.id }] });
+			deleteMessage({ dialogId: selectedDialogId as number, messageIds: [message.id] });
 		},
 		[selectedDialogId, message.id],
 	);
 
-	const copyText = useCallback(
+	const copyThisMessage = useCallback(
 		(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 			event.stopPropagation();
-			const el = document.createElement('textarea');
-			el.value = content;
-			document.body.appendChild(el);
-			el.select();
-			console.log('copied ' + content);
-			document.execCommand('copy');
-			document.body.removeChild(el);
+			copyMessage({ dialogId: selectedDialogId || -1, messageIds: [message.id] });
 		},
-		[content],
+		[selectedDialogId, message.id],
 	);
 
 	if (message?.systemMessageType !== SystemMessageType.None) {
@@ -135,7 +130,7 @@ const MessageItem = ({ from, content, time, needToShowDateSeparator, dateSeparat
 							from === messageFrom.me ? 'message__menu--from-me' : 'message__menu--from-others'
 						}`}
 					>
-						<button onClick={copyText} className='message__menu-item'>
+						<button onClick={copyThisMessage} className='message__menu-item'>
 							<div className='svg'>
 								<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
 									<path

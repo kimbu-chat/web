@@ -6,6 +6,8 @@ import {
 	MessageList,
 	DeleteMessageReq,
 	SelectMessageReq,
+	ResetSelectedMessagesReq,
+	CopyMessagesReq,
 } from './models';
 import { createAction } from 'typesafe-actions';
 import { createEmptyAction } from '../common/actions';
@@ -24,4 +26,6 @@ export namespace MessageActions {
 	export const deleteMessage = createAction('DELETE_MESSAGE')<DeleteMessageReq>();
 	export const deleteMessageSuccess = createAction('DELETE_MESSAGE_SUCCESS')<DeleteMessageReq>();
 	export const selectMessage = createAction('SELECT_MESSAGE')<SelectMessageReq>();
+	export const resetSelectedMessages = createAction('RESET_SELECTED_MESSAGES')<ResetSelectedMessagesReq>();
+	export const copyMessages = createAction('COPY_MESSAGES')<CopyMessagesReq>();
 }

@@ -1,11 +1,36 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import './selected-messages-data.scss';
+import { useSelector } from 'react-redux';
+import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
+import { MessageActions } from 'app/store/messages/actions';
+import { RootState } from 'app/store/root-reducer';
 
 const SelectedMessagesData = () => {
+	const selectedMessages = useSelector((state: RootState) => state.messages.selectedMessageIds);
+	const selectedDialogId = useSelector(getSelectedDialogSelector)?.id;
+
+	const copyMessage = useActionWithDispatch(MessageActions.copyMessages);
+	const resetSelectedMessages = useActionWithDispatch(MessageActions.resetSelectedMessages);
+	const deleteMessage = useActionWithDispatch(MessageActions.deleteMessageSuccess);
+
+	const resetSelectedMessagesForDialog = useCallback(() => {
+		resetSelectedMessages({ dialogId: selectedDialogId || -1 });
+	}, [selectedDialogId]);
+
+	const copyTheseMessages = useCallback(() => {
+		copyMessage({ dialogId: selectedDialogId || -1, messageIds: selectedMessages });
+		resetSelectedMessagesForDialog();
+	}, [selectedDialogId, selectedMessages]);
+
+	const deleteTheseMessages = useCallback(() => {
+		deleteMessage({ dialogId: selectedDialogId as number, messageIds: selectedMessages });
+	}, [selectedDialogId, selectedMessages]);
+
 	return (
 		<div className='selected-messages-data'>
-			<p className='selected-messages-data__info'>2 сообщения:</p>
-			<button className='selected-messages-data__btn'>
+			<p className='selected-messages-data__info'>{selectedMessages.length} сообщения:</p>
+			<button onClick={deleteTheseMessages} className='selected-messages-data__btn'>
 				<div className='svg'>
 					<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
 						<path
@@ -17,7 +42,7 @@ const SelectedMessagesData = () => {
 				</div>
 				<span>Удалить</span>
 			</button>
-			<button className='selected-messages-data__btn'>
+			<button onClick={copyTheseMessages} className='selected-messages-data__btn'>
 				<div className='svg'>
 					<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
 						<path
@@ -29,7 +54,7 @@ const SelectedMessagesData = () => {
 				</div>
 				<span>Копировать</span>
 			</button>
-			<button className='selected-messages-data__close-btn'>
+			<button onClick={resetSelectedMessagesForDialog} className='selected-messages-data__close-btn'>
 				<div className='svg'>
 					<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
 						<path

@@ -14,6 +14,7 @@ import MessageItem from '../message-item/message-item';
 import InfiniteScroll from 'react-infinite-scroller';
 import { CircularProgress } from '@material-ui/core';
 import SelectedMessagesData from '../selected-messages-data/selected-messages-data';
+import { setSelectedMessagesLength } from 'app/store/messages/selectors';
 
 export enum messageFrom {
 	me,
@@ -37,6 +38,7 @@ const Chat = () => {
 				?.hasMoreMessages as boolean,
 	);
 	const myId = useSelector(getMyIdSelector) as number;
+	const isSelectState = useSelector(setSelectedMessagesLength) > 0;
 
 	const messageIsFrom = useCallback((id: Number | undefined) => {
 		if (id === myId) {
@@ -151,7 +153,7 @@ const Chat = () => {
 					</div>
 				)}
 
-				<SelectedMessagesData />
+				{isSelectState && <SelectedMessagesData />}
 
 				<InfiniteScroll
 					pageStart={0}

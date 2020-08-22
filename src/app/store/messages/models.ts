@@ -124,14 +124,21 @@ export interface MessagesReq {
 }
 
 export interface DeleteMessageReq {
-	messages: {
-		messageId: number;
-		dialogId: number;
-	}[];
+	messageIds: number[];
+	dialogId: number;
 }
 
 export interface SelectMessageReq {
 	messageId: number;
+	dialogId: number;
+}
+
+export interface CopyMessagesReq {
+	messageIds: number[];
+	dialogId: number;
+}
+
+export interface ResetSelectedMessagesReq {
 	dialogId: number;
 }
 

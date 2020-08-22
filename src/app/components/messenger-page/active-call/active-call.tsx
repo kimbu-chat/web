@@ -49,15 +49,17 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 			if (event.track.kind === 'video' && remoteVideoRef.current) {
 				const remoteVideoStream = new MediaStream();
 				remoteVideoStream.addTrack(event.track);
-				remoteVideoRef.current.play();
+				remoteVideoRef.current.pause();
 				remoteVideoRef.current.srcObject = remoteVideoStream;
+				remoteVideoRef.current.play();
 			}
 
 			if (event.track.kind === 'audio' && remoteAudioRef.current) {
 				const remoteAudioStream = new MediaStream();
 				remoteAudioStream.addTrack(event.track);
-				remoteAudioRef.current.play();
+				remoteAudioRef.current.pause();
 				remoteAudioRef.current.srcObject = remoteAudioStream;
+				remoteAudioRef.current.play();
 			}
 		},
 		[remoteVideoRef, remoteAudioRef, peerConnection.connection],

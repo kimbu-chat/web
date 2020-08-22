@@ -142,8 +142,8 @@ export function* resetUnreadMessagesCountSaga(
 ): SagaIterator {
 	const request: MarkMessagesAsReadRequest = {
 		dialog: {
-			conferenceId: action.payload.interlocutor === null ? action.payload.conference?.id! : null,
-			interlocutorId: action.payload.conference === null ? action.payload.interlocutor?.id! : null,
+			conferenceId: action.payload.conference?.id || null,
+			interlocutorId: action.payload.interlocutor?.id || null,
 		},
 	};
 
@@ -191,6 +191,5 @@ export const MessageSagas = [
 	takeLatest(MessageActions.messageTyping, messageTyping),
 	takeLatest(MessageActions.getMessages, getMessages),
 	takeEvery(MessageActions.createMessage, createMessage),
-	takeEvery(MessageActions.markMessagesAsRead, resetUnreadMessagesCountSaga),
 	takeEvery(MessageActions.copyMessages, copyMessagesSaga),
 ];

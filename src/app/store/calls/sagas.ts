@@ -10,8 +10,8 @@ import { IConstraints } from './models';
 import { doIhaveCall } from './selectors';
 
 let localMediaStream: MediaStream;
-let videoTracks: MediaStreamTrack[], audioTracks: MediaStreamTrack[];
-let videoSender: RTCRtpSender, audioSender: RTCRtpSender;
+let videoTracks: MediaStreamTrack[], audioTracks: MediaStreamTrack[], screenSharingTracks: MediaStreamTrack[];
+let videoSender: RTCRtpSender, audioSender: RTCRtpSender, screenSharingSender: RTCRtpSender;
 
 const getUserMedia = async (constraints: IConstraints) => {
 	try {
@@ -175,6 +175,11 @@ export function* changeVideoStatusSaga(): SagaIterator {
 	const videoState = yield select((state: RootState) => state.calls.isVideoOpened);
 	const audioState = yield select((state: RootState) => state.calls.isAudioOpened);
 
+	if (screenSharingTracks) {
+		screenSharingTracks.forEach((track) => track.stop());
+		peerConnection.connection.removeTrack(screenSharingSender);
+	}
+
 	if (videoState) {
 		if (videoTracks.length <= 0) {
 			localMediaStream.getTracks().forEach((track) => track.stop());
@@ -203,6 +208,37 @@ export function* changeVideoStatusSaga(): SagaIterator {
 	} else if (videoSender) {
 		peerConnection.connection.removeTrack(videoSender);
 	}
+	yield put(CallActions.enableMediaSwitching());
+}
+
+export function* changeScreenSharingStatus(): SagaIterator {
+	const audioState = yield select((state: RootState) => state.calls.isAudioOpened);
+	const screenSharingState = yield select((state: RootState) => state.calls.isScreenSharingOpened);
+
+	if (videoSender) {
+		peerConnection.connection.removeTrack(videoSender);
+	}
+
+	if (screenSharingState) {
+		//@ts-ignore
+		const localVideoStream = yield call(async () => await navigator.mediaDevices.getDisplayMedia());
+		console.log(localVideoStream.getTracks());
+		screenSharingTracks = localVideoStream.getTracks();
+
+		if (audioState) {
+			try {
+				audioSender = peerConnection.connection.addTrack(audioTracks[0], localMediaStream);
+			} catch {}
+		}
+
+		screenSharingSender = peerConnection.connection.addTrack(screenSharingTracks[0], localMediaStream);
+
+		console.log('Track sent', screenSharingTracks[0]);
+	} else if (screenSharingTracks) {
+		screenSharingTracks.forEach((track) => track.stop());
+		peerConnection.connection.removeTrack(screenSharingSender);
+	}
+
 	yield put(CallActions.enableMediaSwitching());
 }
 
@@ -262,6 +298,7 @@ export const CallsSagas = [
 	takeLatest(CallActions.interlocutorCanceledCallAction, callEndedSaga),
 	takeLatest(CallActions.changeAudioStatus, changeAudioStatusSaga),
 	takeLatest(CallActions.changeVideoStatus, changeVideoStatusSaga),
+	takeLatest(CallActions.changeScreenShareStatus, changeScreenSharingStatus),
 	takeLatest(CallActions.negociate, negociateSaga),
 	takeLatest(CallActions.incomingCallAction, negociationSaga),
 ];

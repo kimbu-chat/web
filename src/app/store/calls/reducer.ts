@@ -16,6 +16,7 @@ export interface CallState {
 				height: { min: number; ideal: number; max: number };
 		  };
 	isAudioOpened: boolean;
+	isScreenSharingOpened: boolean;
 	offer?: RTCSessionDescriptionInit;
 	answer?: RTCSessionDescriptionInit;
 	isMediaSwitchingEnabled: boolean;
@@ -26,6 +27,7 @@ const initialState: CallState = {
 	isSpeaking: false,
 	isVideoOpened: false,
 	isAudioOpened: true,
+	isScreenSharingOpened: false,
 	amCalling: false,
 	interlocutor: undefined,
 	offer: undefined,
@@ -133,7 +135,17 @@ const calls = createReducer<CallState>(initialState)
 		CallActions.changeVideoStatus,
 		produce((draft: CallState) => {
 			draft.isVideoOpened = !draft.isVideoOpened;
+			draft.isScreenSharingOpened = false;
 			draft.isMediaSwitchingEnabled = false;
+			return draft;
+		}),
+	)
+	.handleAction(
+		CallActions.changeScreenShareStatus,
+		produce((draft: CallState) => {
+			draft.isMediaSwitchingEnabled = false;
+			draft.isVideoOpened = false;
+			draft.isScreenSharingOpened = !draft.isScreenSharingOpened;
 			return draft;
 		}),
 	)

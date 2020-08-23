@@ -166,17 +166,6 @@ export function* copyMessagesSaga(action: ReturnType<typeof MessageActions.copyM
 		return accum;
 	}, '');
 
-	// const content = action.payload.messageIds.reduce((accum: string, current: number) => {
-	// 	const message = chat.messages.find(({ id }) => id === current);
-
-	// 	const preparedStr = `\n[${moment.utc(message?.creationDateTime).format('YYYY MM DD h:mm')}] ${
-	// 		message?.userCreator?.nickname
-	// 	}: ${message?.text}`;
-	// 	console.log(preparedStr);
-
-	// 	return accum + preparedStr;
-	// }, '');
-
 	const el = document.createElement('textarea');
 	el.value = content;
 	document.body.appendChild(el);

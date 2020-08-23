@@ -39,7 +39,7 @@
 	&__buttons-group {
 		display: flex;
 		width: 120px;
-		justify-content: space-between;
+		justify-content: flex-end;
 		button {
 			width: 24px;
 			height: 24px;

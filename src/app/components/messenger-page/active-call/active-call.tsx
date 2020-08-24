@@ -14,15 +14,17 @@ namespace IActiveCall {
 }
 
 const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
-	const cancelCall = useActionWithDispatch(CallActions.cancelCallAction);
-
 	const interlocutor = useSelector(getCallInterlocutorSelector);
 	const isVideoOpened = useSelector((state: RootState) => state.calls.isVideoOpened);
 	const isAudioOpened = useSelector((state: RootState) => state.calls.isAudioOpened);
+	const isScreenSharingOpened = useSelector((state: RootState) => state.calls.isScreenSharingOpened);
+	const isMediaSwitchingEnabled = useSelector((state: RootState) => state.calls.isMediaSwitchingEnabled);
 
 	const sendCandidates = useActionWithDispatch(CallActions.myCandidateAction);
 	const changeVideoStatus = useActionWithDispatch(CallActions.changeVideoStatus);
 	const changeAudioStatus = useActionWithDispatch(CallActions.changeAudioStatus);
+	const cancelCall = useActionWithDispatch(CallActions.cancelCallAction);
+	const changeScreenShareStatus = useActionWithDispatch(CallActions.changeScreenShareStatus);
 	const negociate = useActionWithDispatch(CallActions.negociate);
 
 	const remoteVideoRef = useRef<HTMLVideoElement>(null);
@@ -44,8 +46,6 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 
 	const onTrack = useCallback(
 		(event: RTCTrackEvent) => {
-			console.log('Track received', event.track);
-
 			if (event.track.kind === 'video' && remoteVideoRef.current) {
 				const remoteVideoStream = new MediaStream();
 				remoteVideoStream.addTrack(event.track);
@@ -100,6 +100,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 			<div className='active-call__bottom-menu'>
 				{isAudioOpened ? (
 					<button
+						disabled={!isMediaSwitchingEnabled}
 						onClick={changeAudioStatus}
 						className='active-call__call-btn active-call__call-btn--microphone active-call__call-btn--microphone--active'
 					>
@@ -114,6 +115,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 					</button>
 				) : (
 					<button
+						disabled={!isMediaSwitchingEnabled}
 						onClick={changeAudioStatus}
 						className='active-call__call-btn active-call__call-btn--microphone'
 					>
@@ -140,6 +142,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 				</button>
 				{isVideoOpened ? (
 					<button
+						disabled={!isMediaSwitchingEnabled}
 						onClick={changeVideoStatus}
 						className='active-call__call-btn active-call__call-btn--video active-call__call-btn--video--active'
 					>
@@ -154,12 +157,49 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 						</div>
 					</button>
 				) : (
-					<button onClick={changeVideoStatus} className='active-call__call-btn active-call__call-btn--video'>
+					<button
+						disabled={!isMediaSwitchingEnabled}
+						onClick={changeVideoStatus}
+						className='active-call__call-btn active-call__call-btn--video'
+					>
 						<div className='svg'>
 							<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
 								<path
 									fillRule='evenodd'
 									d='M1.67 1.52A.9.9 0 00.49 2.88l11.67 11.54.1.08a.9.9 0 001.17-1.36l-1.99-1.97V9.73l2.4 1.77a1.3 1.3 0 002.07-1.04V5.52a1.3 1.3 0 00-2.07-1.05l-2.4 1.75V5a2.3 2.3 0 00-2.3-2.3H5.64c-.79 0-1.56.17-2.25.5L1.76 1.6l-.1-.08zm2.96 2.92L9.85 9.6V5a.7.7 0 00-.7-.7H5.63c-.34 0-.68.04-1 .14zM.32 8c0-.74.15-1.46.44-2.12l1.26 1.25a3.73 3.73 0 003.6 4.58h1.02l1.61 1.6H5.63a5.31 5.31 0 01-5.31-5.3zm13.99-1.9v3.75l-2.55-1.89 2.55-1.86z'
+									clipRule='evenodd'
+								></path>
+							</svg>
+						</div>
+					</button>
+				)}
+				{isScreenSharingOpened ? (
+					<button
+						disabled={!isMediaSwitchingEnabled}
+						onClick={changeScreenShareStatus}
+						className='active-call__call-btn active-call__call-btn--video active-call__call-btn--video--active'
+					>
+						<div className='svg'>
+							<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
+								<path
+									fillRule='evenodd'
+									d='M3.001 1.193h10.014a2.8 2.8 0 012.8 2.8v7.016a2.8 2.8 0 01-2.8 2.8H3a2.8 2.8 0 01-2.8-2.8V3.993a2.8 2.8 0 012.8-2.8zm10.014 1.6H3a1.2 1.2 0 00-1.2 1.2v7.016a1.2 1.2 0 001.2 1.2h10.014a1.2 1.2 0 001.2-1.2V3.993a1.2 1.2 0 00-1.2-1.2zM7.46 4.03a.8.8 0 011.042-.078l.09.078 2.234 2.235a.8.8 0 01-1.041 1.208l-.09-.077-.889-.889-.004 3.819a.8.8 0 01-1.594.098l-.006-.1.004-3.777-.851.851a.8.8 0 01-1.042.078l-.09-.078a.8.8 0 01-.077-1.041l.077-.09L7.46 4.03z'
+									clipRule='evenodd'
+								></path>
+							</svg>
+						</div>
+					</button>
+				) : (
+					<button
+						disabled={!isMediaSwitchingEnabled}
+						onClick={changeScreenShareStatus}
+						className='active-call__call-btn active-call__call-btn--video'
+					>
+						<div className='svg'>
+							<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
+								<path
+									fillRule='evenodd'
+									d='M3.001 1.193h10.014a2.8 2.8 0 012.8 2.8v7.016a2.8 2.8 0 01-2.8 2.8H3a2.8 2.8 0 01-2.8-2.8V3.993a2.8 2.8 0 012.8-2.8zm10.014 1.6H3a1.2 1.2 0 00-1.2 1.2v7.016a1.2 1.2 0 001.2 1.2h10.014a1.2 1.2 0 001.2-1.2V3.993a1.2 1.2 0 00-1.2-1.2zM7.46 4.03a.8.8 0 011.042-.078l.09.078 2.234 2.235a.8.8 0 01-1.041 1.208l-.09-.077-.889-.889-.004 3.819a.8.8 0 01-1.594.098l-.006-.1.004-3.777-.851.851a.8.8 0 01-1.042.078l-.09-.078a.8.8 0 01-.077-1.041l.077-.09L7.46 4.03z'
 									clipRule='evenodd'
 								></path>
 							</svg>

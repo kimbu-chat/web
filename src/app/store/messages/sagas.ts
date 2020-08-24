@@ -142,8 +142,8 @@ export function* resetUnreadMessagesCountSaga(
 ): SagaIterator {
 	const request: MarkMessagesAsReadRequest = {
 		dialog: {
-			conferenceId: action.payload.interlocutor === null ? action.payload.conference?.id! : null,
-			interlocutorId: action.payload.conference === null ? action.payload.interlocutor?.id! : null,
+			conferenceId: action.payload.conference?.id || null,
+			interlocutorId: action.payload.interlocutor?.id || null,
 		},
 	};
 
@@ -166,22 +166,10 @@ export function* copyMessagesSaga(action: ReturnType<typeof MessageActions.copyM
 		return accum;
 	}, '');
 
-	// const content = action.payload.messageIds.reduce((accum: string, current: number) => {
-	// 	const message = chat.messages.find(({ id }) => id === current);
-
-	// 	const preparedStr = `\n[${moment.utc(message?.creationDateTime).format('YYYY MM DD h:mm')}] ${
-	// 		message?.userCreator?.nickname
-	// 	}: ${message?.text}`;
-	// 	console.log(preparedStr);
-
-	// 	return accum + preparedStr;
-	// }, '');
-
 	const el = document.createElement('textarea');
 	el.value = content;
 	document.body.appendChild(el);
 	el.select();
-	console.log('copied ' + content);
 	document.execCommand('copy');
 	document.body.removeChild(el);
 }
@@ -191,6 +179,5 @@ export const MessageSagas = [
 	takeLatest(MessageActions.messageTyping, messageTyping),
 	takeLatest(MessageActions.getMessages, getMessages),
 	takeEvery(MessageActions.createMessage, createMessage),
-	takeEvery(MessageActions.markMessagesAsRead, resetUnreadMessagesCountSaga),
 	takeEvery(MessageActions.copyMessages, copyMessagesSaga),
 ];

@@ -143,11 +143,9 @@ const messages = createReducer<MessagesState>(initialState)
 				draft.selectedMessageIds.includes(selectedMessage?.id as number) && selectedMessage?.isSelected;
 
 			if (!isMessageSelected) {
-				console.log('message not selected');
 				selectedMessage.isSelected = true;
 				draft.selectedMessageIds.push(payload.messageId);
 			} else {
-				console.log('message  selected');
 				selectedMessage.isSelected = false;
 				draft.selectedMessageIds = draft.selectedMessageIds.filter((id) => id !== payload.messageId);
 			}

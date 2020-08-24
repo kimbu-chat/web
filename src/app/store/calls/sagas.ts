@@ -10,10 +10,8 @@ import { IConstraints } from './models';
 import { doIhaveCall } from './selectors';
 
 let localMediaStream: MediaStream;
-let videoTracks: MediaStreamTrack[], audioTracks: MediaStreamTrack[];
-let videoSender: RTCRtpSender, audioSender: RTCRtpSender;
-//@ts-ignore
-console.log(videoSender);
+let videoTracks: MediaStreamTrack[], audioTracks: MediaStreamTrack[], screenSharingTracks: MediaStreamTrack[];
+let videoSender: RTCRtpSender, audioSender: RTCRtpSender, screenSharingSender: RTCRtpSender;
 
 const getUserMedia = async (constraints: IConstraints) => {
 	try {
@@ -21,7 +19,6 @@ const getUserMedia = async (constraints: IConstraints) => {
 	} catch {
 		alert('No device found, sorry...');
 	}
-	console.log(constraints);
 
 	if (localMediaStream) {
 		videoTracks = localMediaStream.getVideoTracks();
@@ -29,11 +26,11 @@ const getUserMedia = async (constraints: IConstraints) => {
 
 		if (videoTracks.length > 0) {
 			videoSender = peerConnection.connection.addTrack(videoTracks[0], localMediaStream);
-			console.log('Track sent', videoTracks[0]);
+			console.log(videoTracks);
 		}
 		if (audioTracks.length > 0) {
 			audioSender = peerConnection.connection.addTrack(audioTracks[0], localMediaStream);
-			console.log('Track sent', audioTracks[0]);
+			console.log('audio', audioTracks);
 		}
 	}
 };
@@ -81,6 +78,9 @@ export function* cancelCallSaga(): SagaIterator {
 		const tracks = localMediaStream.getTracks();
 		tracks.forEach((track) => track.stop());
 	}
+	if (screenSharingTracks) {
+		screenSharingTracks.forEach((track) => track.stop());
+	}
 
 	yield put(CallActions.cancelCallSuccessAction());
 }
@@ -90,8 +90,10 @@ export function* callEndedSaga(): SagaIterator {
 	peerConnection.connection = new RTCPeerConnection(peerConfiguration);
 
 	if (localMediaStream) {
-		const tracks = localMediaStream.getTracks();
-		tracks.forEach((track) => track.stop());
+		localMediaStream.getTracks().forEach((track) => track.stop());
+	}
+	if (screenSharingTracks) {
+		screenSharingTracks.forEach((track) => track.stop());
 	}
 }
 
@@ -146,63 +148,98 @@ export function* changeAudioStatusSaga(): SagaIterator {
 	const audioState = yield select((state: RootState) => state.calls.isAudioOpened);
 
 	if (audioState) {
-		if (localMediaStream) {
-			const tracks = localMediaStream.getTracks();
-			tracks.forEach((track) => track.stop());
+		if (audioTracks.length <= 0) {
+			localMediaStream.getTracks().forEach((track) => track.stop());
+
+			localMediaStream = yield call(
+				async () =>
+					await navigator.mediaDevices.getUserMedia({
+						video: videoState,
+						audio: audioState,
+					}),
+			);
+
+			videoTracks = localMediaStream.getVideoTracks();
+			audioTracks = localMediaStream.getAudioTracks();
+
+			if (videoState) {
+				videoSender = peerConnection.connection.addTrack(videoTracks[0], localMediaStream);
+			}
 		}
-
-		localMediaStream = yield call(
-			async () => await navigator.mediaDevices.getUserMedia({ video: videoState, audio: audioState }),
-		);
-
-		videoTracks = localMediaStream.getVideoTracks();
-		audioTracks = localMediaStream.getAudioTracks();
 
 		audioSender = peerConnection.connection.addTrack(audioTracks[0], localMediaStream);
-
-		if (videoState) {
-			videoSender = peerConnection.connection.addTrack(videoTracks[0], localMediaStream);
-		}
-
-		console.log('Track sent', audioTracks[0]);
 	} else if (audioSender) {
-		localMediaStream.getAudioTracks()[0].stop();
 		peerConnection.connection.removeTrack(audioSender);
 	}
+	yield put(CallActions.enableMediaSwitching());
 }
 
 export function* changeVideoStatusSaga(): SagaIterator {
 	const videoState = yield select((state: RootState) => state.calls.isVideoOpened);
 	const audioState = yield select((state: RootState) => state.calls.isAudioOpened);
 
+	if (screenSharingTracks) {
+		screenSharingTracks.forEach((track) => track.stop());
+		peerConnection.connection.removeTrack(screenSharingSender);
+	}
+
 	if (videoState) {
-		if (localMediaStream) {
-			const tracks = localMediaStream.getTracks();
-			tracks.forEach((track) => track.stop());
+		if (videoTracks.length <= 0) {
+			localMediaStream.getTracks().forEach((track) => track.stop());
+
+			localMediaStream = yield call(
+				async () =>
+					await navigator.mediaDevices.getUserMedia({
+						video: videoState,
+						audio: audioState,
+					}),
+			);
+
+			videoTracks = localMediaStream.getVideoTracks();
+			audioTracks = localMediaStream.getAudioTracks();
+
+			if (audioState) {
+				try {
+					audioSender = peerConnection.connection.addTrack(audioTracks[0], localMediaStream);
+				} catch {}
+			}
 		}
-
-		localMediaStream = yield call(
-			async () =>
-				await navigator.mediaDevices.getUserMedia({
-					video: videoState,
-					audio: audioState,
-				}),
-		);
-
-		videoTracks = localMediaStream.getVideoTracks();
-		audioTracks = localMediaStream.getAudioTracks();
 
 		videoSender = peerConnection.connection.addTrack(videoTracks[0], localMediaStream);
-
-		if (audioState) {
-			audioSender = peerConnection.connection.addTrack(audioTracks[0], localMediaStream);
-		}
-
-		console.log('Track sent', videoTracks[0]);
 	} else if (videoSender) {
-		localMediaStream.getVideoTracks()[0].stop();
 		peerConnection.connection.removeTrack(videoSender);
 	}
+	yield put(CallActions.enableMediaSwitching());
+}
+
+export function* changeScreenSharingStatus(): SagaIterator {
+	const audioState = yield select((state: RootState) => state.calls.isAudioOpened);
+	const screenSharingState = yield select((state: RootState) => state.calls.isScreenSharingOpened);
+
+	if (videoSender) {
+		peerConnection.connection.removeTrack(videoSender);
+	}
+
+	if (screenSharingState) {
+		//@ts-ignore
+		const localVideoStream = yield call(async () => await navigator.mediaDevices.getDisplayMedia());
+		screenSharingTracks = localVideoStream.getTracks();
+
+		if (audioState) {
+			try {
+				audioSender = peerConnection.connection.addTrack(audioTracks[0], localMediaStream);
+			} catch {}
+		}
+
+		screenSharingSender = peerConnection.connection.addTrack(screenSharingTracks[0], localMediaStream);
+	} else if (screenSharingTracks) {
+		screenSharingTracks.forEach((track) => track.stop());
+		if (screenSharingSender) {
+			peerConnection.connection.removeTrack(screenSharingSender);
+		}
+	}
+
+	yield put(CallActions.enableMediaSwitching());
 }
 
 export function* negociateSaga(): SagaIterator {
@@ -261,6 +298,7 @@ export const CallsSagas = [
 	takeLatest(CallActions.interlocutorCanceledCallAction, callEndedSaga),
 	takeLatest(CallActions.changeAudioStatus, changeAudioStatusSaga),
 	takeLatest(CallActions.changeVideoStatus, changeVideoStatusSaga),
+	takeLatest(CallActions.changeScreenShareStatus, changeScreenSharingStatus),
 	takeLatest(CallActions.negociate, negociateSaga),
 	takeLatest(CallActions.incomingCallAction, negociationSaga),
 ];

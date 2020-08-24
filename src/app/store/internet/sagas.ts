@@ -3,7 +3,6 @@ import { delay, call, put } from 'redux-saga/effects';
 import { InternetActions } from './actions';
 
 export function* intervalInternetConnectionCheckSaga(): SagaIterator {
-	console.log('saga called');
 	const ping = (timeout: number): Promise<boolean> => {
 		return new Promise((resolve) => {
 			const isOnline = () => resolve(true);
@@ -31,7 +30,6 @@ export function* intervalInternetConnectionCheckSaga(): SagaIterator {
 
 	while (true) {
 		yield delay(10000);
-		console.log('ping');
 		const internetState = yield call(ping, 500);
 		yield put(InternetActions.internetConnectionCheck({ state: internetState }));
 	}

@@ -24,7 +24,7 @@ export class MessageUtils {
 		if (message.systemMessageType === SystemMessageType.ConferenceCreated) {
 			return isCurrentUserMessageCreator
 				? t('systemMessage.you_created_group')
-				: t('systemMessage.you_created_group', {
+				: t('systemMessage.created_group', {
 						name: `${message?.userCreator?.firstName} ${message?.userCreator?.lastName}`,
 				  });
 		}

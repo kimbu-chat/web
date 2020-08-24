@@ -6,12 +6,12 @@ import {
 	IInterlocutorAcceptCall,
 	IMyCandidateAction,
 	IAcceptIncomingCall,
+	IGotMediaDevicesInfo,
 } from './models';
 import { createEmptyAction } from '../common/actions';
 
 export namespace CallActions {
 	export const outgoingCallAction = createAction('OUTGOING_CALL')<IOutgoingCall>();
-	export const outgoingCallSuccessAction = createAction('OUTGOING_CALL_SUCCESS')<IOutgoingCall>();
 	export const incomingCallAction = createAction('INCOMING_CALL')<IIncomingCall>();
 	export const cancelCallAction = createEmptyAction('CANCEL_CALL');
 	export const cancelCallSuccessAction = createEmptyAction('CANCEL_CALL_SUCCESS');
@@ -25,6 +25,7 @@ export namespace CallActions {
 	export const changeVideoStatus = createEmptyAction('CHANGE_VIDEO_STATUS');
 	export const changeAudioStatus = createEmptyAction('CHANGE_AUDIO_STATUS');
 	export const changeScreenShareStatus = createEmptyAction('CHANGE_SCREEN_SHARE_STATUS');
+	export const gotDevicesInfo = createAction('GOT_DEVICES_INFO')<IGotMediaDevicesInfo>();
 	export const enableMediaSwitching = createEmptyAction('ENABLE_MEDIA');
 	export const negociate = createEmptyAction('NEGOCIATION_NEEDED');
 }

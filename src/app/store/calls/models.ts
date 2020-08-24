@@ -32,6 +32,11 @@ export interface ICandidateAction {
 	candidate: RTCIceCandidate;
 }
 
+export interface IGotMediaDevicesInfo {
+	kind: 'videoinput' | 'audioinput';
+	devices: MediaDeviceInfo[];
+}
+
 //Http requests
 
 export interface IEndCall {

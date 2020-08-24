@@ -35,10 +35,26 @@ const getUserMedia = async (constraints: IConstraints) => {
 	}
 };
 
+const getMediaDevicesList = async (kind: string) => {
+	const devices = await navigator.mediaDevices.enumerateDevices();
+	const deviceList = devices.filter((device) => device.kind === kind);
+	return deviceList;
+};
+
 export function* outgoingCallSaga(action: ReturnType<typeof CallActions.outgoingCallAction>): SagaIterator {
 	//setup local stream
 	yield call(getUserMedia, action.payload.constraints);
 	//---
+
+	//gathering data about media devices
+	if (action.payload.constraints.audio) {
+		const audioDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'audioinput');
+		yield put(CallActions.gotDevicesInfo({ kind: 'audioinput', devices: audioDevices }));
+	}
+	if (action.payload.constraints.video) {
+		const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'videoinput');
+		yield put(CallActions.gotDevicesInfo({ kind: 'videoinput', devices: videoDevices }));
+	}
 
 	const interlocutorId = action.payload.calling.id;
 	const myProfile: UserPreview = yield select(getMyProfileSelector);
@@ -49,7 +65,6 @@ export function* outgoingCallSaga(action: ReturnType<typeof CallActions.outgoing
 	yield call(async () => await peerConnection.connection.setLocalDescription(offer));
 
 	const request = {
-		//@ts-ignore
 		offer,
 		interlocutorId,
 		caller: myProfile,
@@ -57,8 +72,6 @@ export function* outgoingCallSaga(action: ReturnType<typeof CallActions.outgoing
 
 	const httpRequest = CallsHttpRequests.call;
 	httpRequest.call(yield call(() => httpRequest.generator(request)));
-
-	yield put(CallActions.outgoingCallSuccessAction(action.payload));
 }
 
 export function* cancelCallSaga(): SagaIterator {
@@ -81,7 +94,6 @@ export function* cancelCallSaga(): SagaIterator {
 	if (screenSharingTracks) {
 		screenSharingTracks.forEach((track) => track.stop());
 	}
-
 	yield put(CallActions.cancelCallSuccessAction());
 }
 
@@ -110,7 +122,6 @@ export function* acceptCallSaga(action: ReturnType<typeof CallActions.acceptCall
 
 	const request = {
 		interlocutorId,
-		//@ts-ignore
 		answer,
 	};
 
@@ -195,6 +206,9 @@ export function* changeVideoStatusSaga(): SagaIterator {
 					}),
 			);
 
+			const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'videoinput');
+			yield put(CallActions.gotDevicesInfo({ kind: 'videoinput', devices: videoDevices }));
+
 			videoTracks = localMediaStream.getVideoTracks();
 			audioTracks = localMediaStream.getAudioTracks();
 
@@ -255,7 +269,6 @@ export function* negociateSaga(): SagaIterator {
 		yield call(async () => await peerConnection.connection.setLocalDescription(offer));
 
 		const request = {
-			//@ts-ignore
 			offer,
 			interlocutorId,
 			caller: myProfile,
@@ -271,15 +284,12 @@ export function* negociationSaga(action: ReturnType<typeof CallActions.incomingC
 	const isCallActive: boolean = yield select(doIhaveCall);
 
 	if (isCallActive && interlocutorId === action.payload.caller.id) {
-		let answer: RTCSessionDescriptionInit;
-
 		peerConnection.connection.setRemoteDescription(new RTCSessionDescription(action.payload.offer));
-		answer = yield call(async () => await peerConnection.connection.createAnswer());
+		const answer = yield call(async () => await peerConnection.connection.createAnswer());
 		yield call(async () => await peerConnection.connection.setLocalDescription(answer));
 
 		const request = {
 			interlocutorId,
-			//@ts-ignore
 			answer,
 		};
 

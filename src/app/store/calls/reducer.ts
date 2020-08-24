@@ -20,6 +20,8 @@ export interface CallState {
 	offer?: RTCSessionDescriptionInit;
 	answer?: RTCSessionDescriptionInit;
 	isMediaSwitchingEnabled: boolean;
+	audioDevicesList: MediaDeviceInfo[];
+	videoDevicesList: MediaDeviceInfo[];
 }
 
 const initialState: CallState = {
@@ -33,6 +35,8 @@ const initialState: CallState = {
 	offer: undefined,
 	answer: undefined,
 	isMediaSwitchingEnabled: false,
+	audioDevicesList: [],
+	videoDevicesList: [],
 };
 
 const calls = createReducer<CallState>(initialState)
@@ -56,8 +60,8 @@ const calls = createReducer<CallState>(initialState)
 		}),
 	)
 	.handleAction(
-		CallActions.outgoingCallSuccessAction,
-		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.outgoingCallSuccessAction>) => {
+		CallActions.outgoingCallAction,
+		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.outgoingCallAction>) => {
 			const interlocutor = payload.calling;
 			draft.interlocutor = interlocutor;
 			draft.amCalling = true;
@@ -153,6 +157,20 @@ const calls = createReducer<CallState>(initialState)
 		CallActions.enableMediaSwitching,
 		produce((draft: CallState) => {
 			draft.isMediaSwitchingEnabled = true;
+			return draft;
+		}),
+	)
+	.handleAction(
+		CallActions.gotDevicesInfo,
+		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.gotDevicesInfo>) => {
+			if (payload.kind === 'videoinput') {
+				draft.videoDevicesList = payload.devices;
+			}
+
+			if (payload.kind === 'audioinput') {
+				draft.audioDevicesList = payload.devices;
+			}
+
 			return draft;
 		}),
 	);

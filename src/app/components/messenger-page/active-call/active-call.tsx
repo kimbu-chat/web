@@ -19,6 +19,8 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 	const isAudioOpened = useSelector((state: RootState) => state.calls.isAudioOpened);
 	const isScreenSharingOpened = useSelector((state: RootState) => state.calls.isScreenSharingOpened);
 	const isMediaSwitchingEnabled = useSelector((state: RootState) => state.calls.isMediaSwitchingEnabled);
+	const audioDevices = useSelector((state: RootState) => state.calls.audioDevicesList);
+	const videoDevices = useSelector((state: RootState) => state.calls.videoDevicesList);
 
 	const sendCandidates = useActionWithDispatch(CallActions.myCandidateAction);
 	const changeVideoStatus = useActionWithDispatch(CallActions.changeVideoStatus);
@@ -97,6 +99,23 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 			<img src={interlocutor?.avatarUrl} alt='' className='active-call__bg' />
 			<video autoPlay playsInline ref={remoteVideoRef} className='active-call__remote-video'></video>
 			<audio autoPlay playsInline ref={remoteAudioRef} className='active-call__remote-audio'></audio>
+			<div className='active-call__select-group'>
+				<select className='active-call__select active-call__select--audio'>
+					{audioDevices.map((device) => (
+						<option value={device.deviceId} key={device.deviceId}>
+							{device.label}
+						</option>
+					))}
+				</select>
+				<select className='active-call__select active-call__select--video'>
+					{videoDevices.map((device) => (
+						<option value={device.deviceId} key={device.deviceId}>
+							{device.label}
+						</option>
+					))}
+				</select>
+			</div>
+
 			<div className='active-call__bottom-menu'>
 				{isAudioOpened ? (
 					<button

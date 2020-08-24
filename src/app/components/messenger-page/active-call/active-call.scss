@@ -69,6 +69,11 @@
 		fill: white;
 	}
 
+	&__select-group {
+		display: flex;
+		justify-content: space-between;
+	}
+
 	&__remote-video {
 		margin: 0 auto;
 		width: 100%;

@@ -170,7 +170,6 @@ export function* copyMessagesSaga(action: ReturnType<typeof MessageActions.copyM
 	el.value = content;
 	document.body.appendChild(el);
 	el.select();
-	console.log('copied ' + content);
 	document.execCommand('copy');
 	document.body.removeChild(el);
 }

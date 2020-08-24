@@ -46,8 +46,6 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 
 	const onTrack = useCallback(
 		(event: RTCTrackEvent) => {
-			console.log('Track received', event.track);
-
 			if (event.track.kind === 'video' && remoteVideoRef.current) {
 				const remoteVideoStream = new MediaStream();
 				remoteVideoStream.addTrack(event.track);

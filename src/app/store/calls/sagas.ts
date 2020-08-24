@@ -19,7 +19,6 @@ const getUserMedia = async (constraints: IConstraints) => {
 	} catch {
 		alert('No device found, sorry...');
 	}
-	console.log(constraints);
 
 	if (localMediaStream) {
 		videoTracks = localMediaStream.getVideoTracks();
@@ -27,11 +26,11 @@ const getUserMedia = async (constraints: IConstraints) => {
 
 		if (videoTracks.length > 0) {
 			videoSender = peerConnection.connection.addTrack(videoTracks[0], localMediaStream);
-			console.log('Track sent', videoTracks[0]);
+			console.log(videoTracks);
 		}
 		if (audioTracks.length > 0) {
 			audioSender = peerConnection.connection.addTrack(audioTracks[0], localMediaStream);
-			console.log('Track sent', audioTracks[0]);
+			console.log('audio', audioTracks);
 		}
 	}
 };
@@ -79,6 +78,9 @@ export function* cancelCallSaga(): SagaIterator {
 		const tracks = localMediaStream.getTracks();
 		tracks.forEach((track) => track.stop());
 	}
+	if (screenSharingTracks) {
+		screenSharingTracks.forEach((track) => track.stop());
+	}
 
 	yield put(CallActions.cancelCallSuccessAction());
 }
@@ -89,6 +91,9 @@ export function* callEndedSaga(): SagaIterator {
 
 	if (localMediaStream) {
 		localMediaStream.getTracks().forEach((track) => track.stop());
+	}
+	if (screenSharingTracks) {
+		screenSharingTracks.forEach((track) => track.stop());
 	}
 }
 
@@ -163,8 +168,6 @@ export function* changeAudioStatusSaga(): SagaIterator {
 		}
 
 		audioSender = peerConnection.connection.addTrack(audioTracks[0], localMediaStream);
-
-		console.log('Track sent', audioTracks[0]);
 	} else if (audioSender) {
 		peerConnection.connection.removeTrack(audioSender);
 	}
@@ -203,8 +206,6 @@ export function* changeVideoStatusSaga(): SagaIterator {
 		}
 
 		videoSender = peerConnection.connection.addTrack(videoTracks[0], localMediaStream);
-
-		console.log('Track sent', videoTracks[0]);
 	} else if (videoSender) {
 		peerConnection.connection.removeTrack(videoSender);
 	}
@@ -222,7 +223,6 @@ export function* changeScreenSharingStatus(): SagaIterator {
 	if (screenSharingState) {
 		//@ts-ignore
 		const localVideoStream = yield call(async () => await navigator.mediaDevices.getDisplayMedia());
-		console.log(localVideoStream.getTracks());
 		screenSharingTracks = localVideoStream.getTracks();
 
 		if (audioState) {
@@ -232,11 +232,11 @@ export function* changeScreenSharingStatus(): SagaIterator {
 		}
 
 		screenSharingSender = peerConnection.connection.addTrack(screenSharingTracks[0], localMediaStream);
-
-		console.log('Track sent', screenSharingTracks[0]);
 	} else if (screenSharingTracks) {
 		screenSharingTracks.forEach((track) => track.stop());
-		peerConnection.connection.removeTrack(screenSharingSender);
+		if (screenSharingSender) {
+			peerConnection.connection.removeTrack(screenSharingSender);
+		}
 	}
 
 	yield put(CallActions.enableMediaSwitching());

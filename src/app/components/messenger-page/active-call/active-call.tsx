@@ -15,24 +15,30 @@ namespace IActiveCall {
 
 const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 	const interlocutor = useSelector(getCallInterlocutorSelector);
-	const isVideoOpened = useSelector((state: RootState) => state.calls.isVideoOpened);
-	const isAudioOpened = useSelector((state: RootState) => state.calls.isAudioOpened);
+	const videoConstraints = useSelector((state: RootState) => state.calls.videoConstraints);
+	const audioConstraints = useSelector((state: RootState) => state.calls.audioConstraints);
 	const isScreenSharingOpened = useSelector((state: RootState) => state.calls.isScreenSharingOpened);
 	const isMediaSwitchingEnabled = useSelector((state: RootState) => state.calls.isMediaSwitchingEnabled);
 	const audioDevices = useSelector((state: RootState) => state.calls.audioDevicesList);
 	const videoDevices = useSelector((state: RootState) => state.calls.videoDevicesList);
 
+	const isVideoOpened = videoConstraints.isOpened;
+	const isAudioOpened = audioConstraints.isOpened;
+	const activeAudioDevice = audioConstraints.deviceId;
+	const activeVideoDevice = videoConstraints.deviceId;
+
 	const sendCandidates = useActionWithDispatch(CallActions.myCandidateAction);
-	const changeVideoStatus = useActionWithDispatch(CallActions.changeVideoStatus);
-	const changeAudioStatus = useActionWithDispatch(CallActions.changeAudioStatus);
+	const changeVideoStatus = useActionWithDispatch(CallActions.changeVideoStatusAction);
+	const changeAudioStatus = useActionWithDispatch(CallActions.changeAudioStatusAction);
 	const cancelCall = useActionWithDispatch(CallActions.cancelCallAction);
-	const changeScreenShareStatus = useActionWithDispatch(CallActions.changeScreenShareStatus);
-	const negociate = useActionWithDispatch(CallActions.negociate);
+	const changeScreenShareStatus = useActionWithDispatch(CallActions.changeScreenShareStatusAction);
+	const negociate = useActionWithDispatch(CallActions.negociateAction);
+	const switchDevice = useActionWithDispatch(CallActions.switchDeviceAction);
 
 	const remoteVideoRef = useRef<HTMLVideoElement>(null);
 	const remoteAudioRef = useRef<HTMLAudioElement>(null);
 
-	//peer connection callbacks
+	//!PEER connection callbacks
 	const onIceCandidate = useCallback(
 		(event: RTCPeerConnectionIceEvent) => {
 			if (event.candidate) {
@@ -100,14 +106,24 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 			<video autoPlay playsInline ref={remoteVideoRef} className='active-call__remote-video'></video>
 			<audio autoPlay playsInline ref={remoteAudioRef} className='active-call__remote-audio'></audio>
 			<div className='active-call__select-group'>
-				<select className='active-call__select active-call__select--audio'>
+				<select
+					onChange={(e) => switchDevice({ kind: 'audioinput', deviceId: e.target.value })}
+					value={activeAudioDevice}
+					disabled={!isMediaSwitchingEnabled || !isAudioOpened}
+					className='active-call__select active-call__select--audio'
+				>
 					{audioDevices.map((device) => (
 						<option value={device.deviceId} key={device.deviceId}>
 							{device.label}
 						</option>
 					))}
 				</select>
-				<select className='active-call__select active-call__select--video'>
+				<select
+					onChange={(e) => switchDevice({ kind: 'videoinput', deviceId: e.target.value })}
+					value={activeVideoDevice}
+					disabled={!isMediaSwitchingEnabled || !isVideoOpened}
+					className='active-call__select active-call__select--video'
+				>
 					{videoDevices.map((device) => (
 						<option value={device.deviceId} key={device.deviceId}>
 							{device.label}

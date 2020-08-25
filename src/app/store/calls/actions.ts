@@ -6,12 +6,13 @@ import {
 	IInterlocutorAcceptCall,
 	IMyCandidateAction,
 	IAcceptIncomingCall,
+	IGotMediaDevicesInfo,
+	ISwitchDevice,
 } from './models';
 import { createEmptyAction } from '../common/actions';
 
 export namespace CallActions {
 	export const outgoingCallAction = createAction('OUTGOING_CALL')<IOutgoingCall>();
-	export const outgoingCallSuccessAction = createAction('OUTGOING_CALL_SUCCESS')<IOutgoingCall>();
 	export const incomingCallAction = createAction('INCOMING_CALL')<IIncomingCall>();
 	export const cancelCallAction = createEmptyAction('CANCEL_CALL');
 	export const cancelCallSuccessAction = createEmptyAction('CANCEL_CALL_SUCCESS');
@@ -22,9 +23,11 @@ export namespace CallActions {
 	export const callEndedAction = createEmptyAction('CALL_ENDED');
 	export const candidateAction = createAction('CANDIDATE')<ICandidateAction>();
 	export const myCandidateAction = createAction('MY_CANDIDATE')<IMyCandidateAction>();
-	export const changeVideoStatus = createEmptyAction('CHANGE_VIDEO_STATUS');
-	export const changeAudioStatus = createEmptyAction('CHANGE_AUDIO_STATUS');
-	export const changeScreenShareStatus = createEmptyAction('CHANGE_SCREEN_SHARE_STATUS');
-	export const enableMediaSwitching = createEmptyAction('ENABLE_MEDIA');
-	export const negociate = createEmptyAction('NEGOCIATION_NEEDED');
+	export const changeVideoStatusAction = createEmptyAction('CHANGE_VIDEO_STATUS');
+	export const changeAudioStatusAction = createEmptyAction('CHANGE_AUDIO_STATUS');
+	export const changeScreenShareStatusAction = createEmptyAction('CHANGE_SCREEN_SHARE_STATUS');
+	export const gotDevicesInfoAction = createAction('GOT_DEVICES_INFO')<IGotMediaDevicesInfo>();
+	export const switchDeviceAction = createAction('SWITCH_DEVICE')<ISwitchDevice>();
+	export const enableMediaSwitchingAction = createEmptyAction('ENABLE_MEDIA');
+	export const negociateAction = createEmptyAction('NEGOCIATION_NEEDED');
 }

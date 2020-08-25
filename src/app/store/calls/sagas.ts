@@ -6,18 +6,28 @@ import { UserPreview } from '../my-profile/models';
 import { CallsHttpRequests } from './http-requests';
 import { peerConnection, peerConfiguration } from '../middlewares/webRTC/peerConnection';
 import { RootState } from '../root-reducer';
-import { IConstraints } from './models';
+import { ICompleteConstraints } from './models';
 import { doIhaveCall } from './selectors';
 
 let localMediaStream: MediaStream;
-let videoTracks: MediaStreamTrack[], audioTracks: MediaStreamTrack[], screenSharingTracks: MediaStreamTrack[];
+let videoTracks: MediaStreamTrack[] = [],
+	audioTracks: MediaStreamTrack[] = [],
+	screenSharingTracks: MediaStreamTrack[] = [];
 let videoSender: RTCRtpSender, audioSender: RTCRtpSender, screenSharingSender: RTCRtpSender;
 
-const getUserMedia = async (constraints: IConstraints) => {
+const getUserMedia = async (constraints: ICompleteConstraints) => {
 	try {
-		localMediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+		localMediaStream = await navigator.mediaDevices.getUserMedia({
+			video: constraints.video.isOpened && constraints.video,
+			audio: constraints.audio.deviceId ? constraints.audio : constraints.audio.isOpened,
+		});
 	} catch {
 		alert('No device found, sorry...');
+		try {
+			localMediaStream = await navigator.mediaDevices.getUserMedia({
+				audio: constraints.audio.deviceId ? constraints.audio : constraints.audio.isOpened,
+			});
+		} catch {}
 	}
 
 	if (localMediaStream) {
@@ -26,7 +36,6 @@ const getUserMedia = async (constraints: IConstraints) => {
 
 		if (videoTracks.length > 0) {
 			videoSender = peerConnection.connection.addTrack(videoTracks[0], localMediaStream);
-			console.log(videoTracks);
 		}
 		if (audioTracks.length > 0) {
 			audioSender = peerConnection.connection.addTrack(audioTracks[0], localMediaStream);
@@ -35,10 +44,29 @@ const getUserMedia = async (constraints: IConstraints) => {
 	}
 };
 
+const getMediaDevicesList = async (kind: string) => {
+	const devices = await navigator.mediaDevices.enumerateDevices();
+	const deviceList = devices.filter((device) => device.kind === kind);
+	return deviceList;
+};
+
 export function* outgoingCallSaga(action: ReturnType<typeof CallActions.outgoingCallAction>): SagaIterator {
+	const videoConstraints = yield select((state: RootState) => state.calls.videoConstraints);
+	const audioConstraints = yield select((state: RootState) => state.calls.audioConstraints);
+
 	//setup local stream
-	yield call(getUserMedia, action.payload.constraints);
+	yield call(getUserMedia, { video: videoConstraints, audio: audioConstraints });
 	//---
+
+	//gathering data about media devices
+	if (action.payload.constraints.audio) {
+		const audioDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'audioinput');
+		yield put(CallActions.gotDevicesInfoAction({ kind: 'audioinput', devices: audioDevices }));
+	}
+	if (action.payload.constraints.video) {
+		const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'videoinput');
+		yield put(CallActions.gotDevicesInfoAction({ kind: 'videoinput', devices: videoDevices }));
+	}
 
 	const interlocutorId = action.payload.calling.id;
 	const myProfile: UserPreview = yield select(getMyProfileSelector);
@@ -49,7 +77,6 @@ export function* outgoingCallSaga(action: ReturnType<typeof CallActions.outgoing
 	yield call(async () => await peerConnection.connection.setLocalDescription(offer));
 
 	const request = {
-		//@ts-ignore
 		offer,
 		interlocutorId,
 		caller: myProfile,
@@ -57,8 +84,6 @@ export function* outgoingCallSaga(action: ReturnType<typeof CallActions.outgoing
 
 	const httpRequest = CallsHttpRequests.call;
 	httpRequest.call(yield call(() => httpRequest.generator(request)));
-
-	yield put(CallActions.outgoingCallSuccessAction(action.payload));
 }
 
 export function* cancelCallSaga(): SagaIterator {
@@ -81,7 +106,6 @@ export function* cancelCallSaga(): SagaIterator {
 	if (screenSharingTracks) {
 		screenSharingTracks.forEach((track) => track.stop());
 	}
-
 	yield put(CallActions.cancelCallSuccessAction());
 }
 
@@ -98,9 +122,22 @@ export function* callEndedSaga(): SagaIterator {
 }
 
 export function* acceptCallSaga(action: ReturnType<typeof CallActions.acceptCallAction>): SagaIterator {
+	const videoConstraints = yield select((state: RootState) => state.calls.videoConstraints);
+	const audioConstraints = yield select((state: RootState) => state.calls.audioConstraints);
+
 	//setup local stream
-	yield call(getUserMedia, action.payload.constraints);
+	yield call(getUserMedia, { video: videoConstraints, audio: audioConstraints });
+	//gathering data about media devices
+	if (audioConstraints.isOpened) {
+		const audioDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'audioinput');
+		yield put(CallActions.gotDevicesInfoAction({ kind: 'audioinput', devices: audioDevices }));
+	}
+	if (videoConstraints.isOpened) {
+		const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'videoinput');
+		yield put(CallActions.gotDevicesInfoAction({ kind: 'videoinput', devices: videoDevices }));
+	}
 	//---
+
 	const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
 	const offer: RTCSessionDescriptionInit = yield select((state: RootState) => state.calls.offer);
 
@@ -110,7 +147,6 @@ export function* acceptCallSaga(action: ReturnType<typeof CallActions.acceptCall
 
 	const request = {
 		interlocutorId,
-		//@ts-ignore
 		answer,
 	};
 
@@ -128,7 +164,9 @@ export function* callAcceptedSaga(action: ReturnType<typeof CallActions.interloc
 export function* candidateSaga(action: ReturnType<typeof CallActions.candidateAction>): SagaIterator {
 	const checkIntervalCode = setInterval(async () => {
 		if (peerConnection.connection.remoteDescription?.type) {
-			await peerConnection.connection.addIceCandidate(new RTCIceCandidate(action.payload.candidate));
+			try {
+				await peerConnection.connection.addIceCandidate(new RTCIceCandidate(action.payload.candidate));
+			} catch {}
 			clearInterval(checkIntervalCode);
 		}
 	}, 100);
@@ -144,25 +182,25 @@ export function* myCandidateSaga(action: ReturnType<typeof CallActions.myCandida
 }
 
 export function* changeAudioStatusSaga(): SagaIterator {
-	const videoState = yield select((state: RootState) => state.calls.isVideoOpened);
-	const audioState = yield select((state: RootState) => state.calls.isAudioOpened);
+	const videoConstraints = yield select((state: RootState) => state.calls.videoConstraints);
+	const audioConstraints = yield select((state: RootState) => state.calls.audioConstraints);
 
-	if (audioState) {
+	if (audioConstraints.isOpened) {
 		if (audioTracks.length <= 0) {
 			localMediaStream.getTracks().forEach((track) => track.stop());
 
 			localMediaStream = yield call(
 				async () =>
 					await navigator.mediaDevices.getUserMedia({
-						video: videoState,
-						audio: audioState,
+						video: videoConstraints.isOpened && videoConstraints,
+						audio: audioConstraints.deviceId ? audioConstraints : audioConstraints.isOpened,
 					}),
 			);
 
 			videoTracks = localMediaStream.getVideoTracks();
 			audioTracks = localMediaStream.getAudioTracks();
 
-			if (videoState) {
+			if (videoConstraints.isOpened) {
 				videoSender = peerConnection.connection.addTrack(videoTracks[0], localMediaStream);
 			}
 		}
@@ -171,49 +209,58 @@ export function* changeAudioStatusSaga(): SagaIterator {
 	} else if (audioSender) {
 		peerConnection.connection.removeTrack(audioSender);
 	}
-	yield put(CallActions.enableMediaSwitching());
+	yield put(CallActions.enableMediaSwitchingAction());
 }
 
 export function* changeVideoStatusSaga(): SagaIterator {
-	const videoState = yield select((state: RootState) => state.calls.isVideoOpened);
-	const audioState = yield select((state: RootState) => state.calls.isAudioOpened);
+	const videoConstraints = yield select((state: RootState) => state.calls.videoConstraints);
+	const audioConstraints = yield select((state: RootState) => state.calls.audioConstraints);
 
-	if (screenSharingTracks) {
+	if (screenSharingTracks.length > 0) {
 		screenSharingTracks.forEach((track) => track.stop());
-		peerConnection.connection.removeTrack(screenSharingSender);
+		if (screenSharingSender) {
+			peerConnection.connection.removeTrack(screenSharingSender);
+		}
 	}
 
-	if (videoState) {
+	if (videoConstraints.isOpened) {
 		if (videoTracks.length <= 0) {
 			localMediaStream.getTracks().forEach((track) => track.stop());
 
-			localMediaStream = yield call(
-				async () =>
-					await navigator.mediaDevices.getUserMedia({
-						video: videoState,
-						audio: audioState,
-					}),
-			);
+			try {
+				localMediaStream = yield call(
+					async () =>
+						await navigator.mediaDevices.getUserMedia({
+							video: videoConstraints.isOpened && videoConstraints,
+							audio: audioConstraints.deviceId ? audioConstraints : audioConstraints.isOpened,
+						}),
+				);
+			} catch (e) {
+				console.log(e);
+			}
 
-			videoTracks = localMediaStream.getVideoTracks();
-			audioTracks = localMediaStream.getAudioTracks();
+			if (localMediaStream) {
+				const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'videoinput');
+				yield put(CallActions.gotDevicesInfoAction({ kind: 'videoinput', devices: videoDevices }));
 
-			if (audioState) {
-				try {
+				videoTracks = localMediaStream.getVideoTracks();
+				audioTracks = localMediaStream.getAudioTracks();
+
+				if (audioConstraints.isOpened) {
 					audioSender = peerConnection.connection.addTrack(audioTracks[0], localMediaStream);
-				} catch {}
+				}
 			}
 		}
-
-		videoSender = peerConnection.connection.addTrack(videoTracks[0], localMediaStream);
+		if (videoTracks.length > 0) {
+			videoSender = peerConnection.connection.addTrack(videoTracks[0], localMediaStream);
+		}
 	} else if (videoSender) {
 		peerConnection.connection.removeTrack(videoSender);
 	}
-	yield put(CallActions.enableMediaSwitching());
+	yield put(CallActions.enableMediaSwitchingAction());
 }
 
 export function* changeScreenSharingStatus(): SagaIterator {
-	const audioState = yield select((state: RootState) => state.calls.isAudioOpened);
 	const screenSharingState = yield select((state: RootState) => state.calls.isScreenSharingOpened);
 
 	if (videoSender) {
@@ -225,21 +272,15 @@ export function* changeScreenSharingStatus(): SagaIterator {
 		const localVideoStream = yield call(async () => await navigator.mediaDevices.getDisplayMedia());
 		screenSharingTracks = localVideoStream.getTracks();
 
-		if (audioState) {
-			try {
-				audioSender = peerConnection.connection.addTrack(audioTracks[0], localMediaStream);
-			} catch {}
-		}
-
 		screenSharingSender = peerConnection.connection.addTrack(screenSharingTracks[0], localMediaStream);
-	} else if (screenSharingTracks) {
+	} else if (screenSharingTracks.length > 0) {
 		screenSharingTracks.forEach((track) => track.stop());
 		if (screenSharingSender) {
 			peerConnection.connection.removeTrack(screenSharingSender);
 		}
 	}
 
-	yield put(CallActions.enableMediaSwitching());
+	yield put(CallActions.enableMediaSwitchingAction());
 }
 
 export function* negociateSaga(): SagaIterator {
@@ -255,7 +296,6 @@ export function* negociateSaga(): SagaIterator {
 		yield call(async () => await peerConnection.connection.setLocalDescription(offer));
 
 		const request = {
-			//@ts-ignore
 			offer,
 			interlocutorId,
 			caller: myProfile,
@@ -271,20 +311,83 @@ export function* negociationSaga(action: ReturnType<typeof CallActions.incomingC
 	const isCallActive: boolean = yield select(doIhaveCall);
 
 	if (isCallActive && interlocutorId === action.payload.caller.id) {
-		let answer: RTCSessionDescriptionInit;
-
 		peerConnection.connection.setRemoteDescription(new RTCSessionDescription(action.payload.offer));
-		answer = yield call(async () => await peerConnection.connection.createAnswer());
+		const answer = yield call(async () => await peerConnection.connection.createAnswer());
 		yield call(async () => await peerConnection.connection.setLocalDescription(answer));
 
 		const request = {
 			interlocutorId,
-			//@ts-ignore
 			answer,
 		};
 
 		const httpRequest = CallsHttpRequests.acceptCall;
 		httpRequest.call(yield call(() => httpRequest.generator(request)));
+	}
+}
+
+export function* switchDeviceSaga(action: ReturnType<typeof CallActions.switchDeviceAction>): SagaIterator {
+	const videoConstraints = yield select((state: RootState) => state.calls.videoConstraints);
+	const audioConstraints = yield select((state: RootState) => state.calls.audioConstraints);
+
+	if (action.payload.kind === 'videoinput') {
+		if (videoConstraints.isOpened) {
+			localMediaStream.getTracks().forEach((track) => track.stop());
+
+			try {
+				localMediaStream = yield call(
+					async () =>
+						await navigator.mediaDevices.getUserMedia({
+							video: videoConstraints.isOpened && videoConstraints,
+							audio: audioConstraints.deviceId ? audioConstraints : audioConstraints.isOpened,
+						}),
+				);
+			} catch (e) {
+				console.log(e);
+			}
+
+			if (localMediaStream) {
+				videoTracks = localMediaStream.getVideoTracks();
+				audioTracks = localMediaStream.getAudioTracks();
+			}
+
+			if (audioConstraints.isOpened && audioTracks.length >= 0) {
+				audioSender = peerConnection.connection.addTrack(audioTracks[0], localMediaStream);
+			}
+
+			if (videoTracks.length > 0) {
+				videoSender = peerConnection.connection.addTrack(videoTracks[0], localMediaStream);
+			}
+		}
+	}
+
+	if (action.payload.kind === 'audioinput') {
+		if (audioConstraints.isOpened) {
+			localMediaStream.getTracks().forEach((track) => track.stop());
+
+			try {
+				localMediaStream = yield call(
+					async () =>
+						await navigator.mediaDevices.getUserMedia({
+							video: videoConstraints.isOpened && videoConstraints,
+							audio: audioConstraints.deviceId ? audioConstraints : audioConstraints.isOpened,
+						}),
+				);
+			} catch (e) {
+				console.log(e);
+			}
+
+			if (localMediaStream) {
+				videoTracks = localMediaStream.getVideoTracks();
+				audioTracks = localMediaStream.getAudioTracks();
+			}
+
+			if (audioConstraints.isOpened && audioTracks.length >= 0) {
+				audioSender = peerConnection.connection.addTrack(audioTracks[0], localMediaStream);
+			}
+			if (videoTracks.length > 0) {
+				videoSender = peerConnection.connection.addTrack(videoTracks[0], localMediaStream);
+			}
+		}
 	}
 }
 
@@ -296,9 +399,10 @@ export const CallsSagas = [
 	takeLatest(CallActions.candidateAction, candidateSaga),
 	takeEvery(CallActions.myCandidateAction, myCandidateSaga),
 	takeLatest(CallActions.interlocutorCanceledCallAction, callEndedSaga),
-	takeLatest(CallActions.changeAudioStatus, changeAudioStatusSaga),
-	takeLatest(CallActions.changeVideoStatus, changeVideoStatusSaga),
-	takeLatest(CallActions.changeScreenShareStatus, changeScreenSharingStatus),
-	takeLatest(CallActions.negociate, negociateSaga),
+	takeLatest(CallActions.changeAudioStatusAction, changeAudioStatusSaga),
+	takeLatest(CallActions.changeVideoStatusAction, changeVideoStatusSaga),
+	takeLatest(CallActions.changeScreenShareStatusAction, changeScreenSharingStatus),
+	takeLatest(CallActions.switchDeviceAction, switchDeviceSaga),
+	takeLatest(CallActions.negociateAction, negociateSaga),
 	takeLatest(CallActions.incomingCallAction, negociationSaga),
 ];

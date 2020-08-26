@@ -53,6 +53,7 @@ export interface RenameConferenceActionData {
 export interface GetDialogsRequestData {
 	page: Page;
 	unreadOnly?: boolean;
+	showHidden: boolean;
 	initiatedByScrolling?: boolean;
 	initializedBySearch?: boolean;
 	name?: string;
@@ -61,6 +62,7 @@ export interface GetDialogsRequestData {
 export interface GetDialogsActionData {
 	page: Page;
 	unreadOnly?: boolean;
+	showHidden: boolean;
 	initiatedByScrolling: boolean;
 	initializedBySearch: boolean;
 	name?: string;

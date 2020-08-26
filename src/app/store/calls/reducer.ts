@@ -4,11 +4,13 @@ import { produce } from 'immer';
 import { UserPreview } from '../my-profile/models';
 
 export interface CallState {
-	interlocutor?: UserPreview;
+	isFullScreen: boolean;
 	isCalling: boolean;
 	isCallingWithVideo?: boolean;
+	isMediaSwitchingEnabled: boolean;
 	amCalling: boolean;
 	isSpeaking: boolean;
+	interlocutor?: UserPreview;
 	videoConstraints: {
 		isOpened: boolean;
 		width?: { min: number; ideal: number; max: number };
@@ -22,12 +24,12 @@ export interface CallState {
 	isScreenSharingOpened: boolean;
 	offer?: RTCSessionDescriptionInit;
 	answer?: RTCSessionDescriptionInit;
-	isMediaSwitchingEnabled: boolean;
 	audioDevicesList: MediaDeviceInfo[];
 	videoDevicesList: MediaDeviceInfo[];
 }
 
 const initialState: CallState = {
+	isFullScreen: false,
 	isCalling: false,
 	isSpeaking: false,
 	videoConstraints: {
@@ -84,6 +86,7 @@ const calls = createReducer<CallState>(initialState)
 			draft.amCalling = false;
 			draft.isCalling = false;
 			draft.isSpeaking = false;
+			draft.isFullScreen = false;
 			draft.offer = undefined;
 			draft.answer = undefined;
 			return draft;
@@ -108,6 +111,7 @@ const calls = createReducer<CallState>(initialState)
 			draft.amCalling = false;
 			draft.isCalling = false;
 			draft.isSpeaking = false;
+			draft.isFullScreen = false;
 			draft.offer = undefined;
 			draft.answer = undefined;
 			return draft;
@@ -131,6 +135,7 @@ const calls = createReducer<CallState>(initialState)
 			draft.amCalling = false;
 			draft.isCalling = false;
 			draft.isSpeaking = false;
+			draft.isFullScreen = false;
 			return draft;
 		}),
 	)
@@ -191,6 +196,14 @@ const calls = createReducer<CallState>(initialState)
 			if (payload.kind === 'audioinput') {
 				draft.audioConstraints.deviceId = payload.deviceId;
 			}
+
+			return draft;
+		}),
+	)
+	.handleAction(
+		CallActions.changeFullScreenStatusAction,
+		produce((draft: CallState) => {
+			draft.isFullScreen = !draft.isFullScreen;
 
 			return draft;
 		}),

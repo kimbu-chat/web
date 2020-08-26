@@ -30,4 +30,5 @@ export namespace CallActions {
 	export const switchDeviceAction = createAction('SWITCH_DEVICE')<ISwitchDevice>();
 	export const enableMediaSwitchingAction = createEmptyAction('ENABLE_MEDIA');
 	export const negociateAction = createEmptyAction('NEGOCIATION_NEEDED');
+	export const changeFullScreenStatusAction = createEmptyAction('CHANGE_FULL_SCREEN_STATUS');
 }

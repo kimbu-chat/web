@@ -10,12 +10,33 @@
 	pointer-events: auto;
 	border-radius: 8px;
 	z-index: 1000000000;
+	transition: all 0.1s ease-in-out;
+
+	&--big {
+		height: 100vh;
+		width: 100vw;
+	}
+
+	&__info {
+		&--big {
+			position: absolute;
+			top: 30%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+		}
+	}
 
 	&__menu {
 		display: inline-flex;
 		float: right;
 		margin-top: 10px;
 		margin-right: 15px;
+		.svg {
+			height: 16px;
+			width: 16px;
+			margin-left: 5px;
+			fill: white;
+		}
 	}
 
 	&__additional-data {
@@ -83,11 +104,12 @@
 		&--video {
 			background: #223;
 		}
-	}
 
-	.svg {
-		height: 16px;
-		width: 16px;
-		fill: white;
+		.svg {
+			margin: 0;
+			height: 16px;
+			width: 16px;
+			fill: white;
+		}
 	}
 }

@@ -25,6 +25,7 @@ const SearchTop = ({ displaySlider, displayCreateChat }: SearchTop.Props) => {
 			page: { offset: 0, limit: DIALOGS_LIMIT },
 			initializedBySearch: true,
 			initiatedByScrolling: false,
+			showHidden: true,
 		});
 	};
 

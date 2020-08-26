@@ -13,7 +13,7 @@ let localMediaStream: MediaStream;
 let videoTracks: MediaStreamTrack[] = [],
 	audioTracks: MediaStreamTrack[] = [],
 	screenSharingTracks: MediaStreamTrack[] = [];
-let videoSender: RTCRtpSender, audioSender: RTCRtpSender, screenSharingSender: RTCRtpSender;
+let videoSender: RTCRtpSender | null, audioSender: RTCRtpSender | null, screenSharingSender: RTCRtpSender | null;
 
 const getUserMedia = async (constraints: ICompleteConstraints) => {
 	try {
@@ -21,8 +21,9 @@ const getUserMedia = async (constraints: ICompleteConstraints) => {
 			video: constraints.video.isOpened && constraints.video,
 			audio: constraints.audio.deviceId ? constraints.audio : constraints.audio.isOpened,
 		});
-	} catch {
+	} catch (e) {
 		alert('No device found, sorry...');
+		console.log(e);
 		try {
 			localMediaStream = await navigator.mediaDevices.getUserMedia({
 				audio: constraints.audio.deviceId ? constraints.audio : constraints.audio.isOpened,
@@ -207,7 +208,13 @@ export function* changeAudioStatusSaga(): SagaIterator {
 
 		audioSender = peerConnection.connection.addTrack(audioTracks[0], localMediaStream);
 	} else if (audioSender) {
-		peerConnection.connection.removeTrack(audioSender);
+		try {
+			peerConnection.connection.removeTrack(audioSender);
+		} catch (e) {
+			console.warn(e);
+		}
+
+		audioSender = null;
 	}
 	yield put(CallActions.enableMediaSwitchingAction());
 }
@@ -219,7 +226,12 @@ export function* changeVideoStatusSaga(): SagaIterator {
 	if (screenSharingTracks.length > 0) {
 		screenSharingTracks.forEach((track) => track.stop());
 		if (screenSharingSender) {
-			peerConnection.connection.removeTrack(screenSharingSender);
+			try {
+				peerConnection.connection.removeTrack(screenSharingSender);
+			} catch (e) {
+				console.warn(e);
+			}
+			screenSharingSender = null;
 		}
 	}
 
@@ -255,7 +267,12 @@ export function* changeVideoStatusSaga(): SagaIterator {
 			videoSender = peerConnection.connection.addTrack(videoTracks[0], localMediaStream);
 		}
 	} else if (videoSender) {
-		peerConnection.connection.removeTrack(videoSender);
+		try {
+			peerConnection.connection.removeTrack(videoSender);
+		} catch (e) {
+			console.warn(e);
+		}
+		videoSender = null;
 	}
 	yield put(CallActions.enableMediaSwitchingAction());
 }
@@ -264,23 +281,38 @@ export function* changeScreenSharingStatus(): SagaIterator {
 	const screenSharingState = yield select((state: RootState) => state.calls.isScreenSharingOpened);
 
 	if (videoSender) {
-		peerConnection.connection.removeTrack(videoSender);
+		try {
+			peerConnection.connection.removeTrack(videoSender);
+		} catch (e) {
+			console.warn(e);
+		}
+		videoSender = null;
 	}
 
 	if (screenSharingState) {
-		//@ts-ignore
-		const localVideoStream = yield call(async () => await navigator.mediaDevices.getDisplayMedia());
-		screenSharingTracks = localVideoStream.getTracks();
+		try {
+			//@ts-ignore
+			const localVideoStream = yield call(async () => await navigator.mediaDevices.getDisplayMedia());
+			screenSharingTracks = localVideoStream.getTracks();
 
-		screenSharingSender = peerConnection.connection.addTrack(screenSharingTracks[0], localMediaStream);
+			screenSharingSender = peerConnection.connection.addTrack(screenSharingTracks[0], localMediaStream);
+
+			yield put(CallActions.enableMediaSwitchingAction());
+		} catch (e) {
+			console.log(e);
+		}
 	} else if (screenSharingTracks.length > 0) {
 		screenSharingTracks.forEach((track) => track.stop());
 		if (screenSharingSender) {
-			peerConnection.connection.removeTrack(screenSharingSender);
+			try {
+				peerConnection.connection.removeTrack(screenSharingSender);
+			} catch (e) {
+				console.warn(e);
+			}
+			screenSharingSender = null;
 		}
+		yield put(CallActions.enableMediaSwitchingAction());
 	}
-
-	yield put(CallActions.enableMediaSwitchingAction());
 }
 
 export function* negociateSaga(): SagaIterator {

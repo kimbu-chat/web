@@ -2,7 +2,7 @@ import React, { useRef, useCallback, useEffect } from 'react';
 import './active-call.scss';
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnection';
 import { useSelector } from 'react-redux';
-import { getCallInterlocutorSelector } from 'app/store/calls/selectors';
+import { getCallInterlocutorSelector, isFullScreen } from 'app/store/calls/selectors';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { CallActions } from 'app/store/calls/actions';
 import { RootState } from 'app/store/root-reducer';
@@ -21,6 +21,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 	const isMediaSwitchingEnabled = useSelector((state: RootState) => state.calls.isMediaSwitchingEnabled);
 	const audioDevices = useSelector((state: RootState) => state.calls.audioDevicesList);
 	const videoDevices = useSelector((state: RootState) => state.calls.videoDevicesList);
+	const isFullScreenEnabled = useSelector(isFullScreen);
 
 	const isVideoOpened = videoConstraints.isOpened;
 	const isAudioOpened = audioConstraints.isOpened;
@@ -34,6 +35,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 	const changeScreenShareStatus = useActionWithDispatch(CallActions.changeScreenShareStatusAction);
 	const negociate = useActionWithDispatch(CallActions.negociateAction);
 	const switchDevice = useActionWithDispatch(CallActions.switchDeviceAction);
+	const changeFullScreenStatus = useActionWithDispatch(CallActions.changeFullScreenStatusAction);
 
 	const remoteVideoRef = useRef<HTMLVideoElement>(null);
 	const remoteAudioRef = useRef<HTMLAudioElement>(null);
@@ -101,11 +103,39 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 	});
 
 	return (
-		<div className={isDisplayed ? 'active-call' : 'completly-hidden'}>
+		<div
+			className={`${isDisplayed ? 'active-call' : 'completly-hidden'} ${
+				isFullScreenEnabled ? 'active-call--big' : ''
+			}`}
+		>
+			<div className='active-call__menu'>
+				<button className='svg'>
+					<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
+						<path
+							fillRule='evenodd'
+							d='M7.952 1.2a6.269 6.269 0 0 0-6.266 6.266 6.22 6.22 0 0 0 1.506 4.068l-.001 1.616v.536a1.522 1.522 0 0 0 2.34 1.284L7.5 13.716a6.269 6.269 0 0 0 6.72-6.25A6.269 6.269 0 0 0 7.951 1.2zm-1.08 11.018L4.79 13.544v-2.246l.003-.008a.8.8 0 0 0-.22-.614 4.62 4.62 0 0 1-1.288-3.21A4.669 4.669 0 0 1 7.952 2.8a4.669 4.669 0 0 1 4.666 4.666A4.669 4.669 0 0 1 7.402 12.1a.8.8 0 0 0-.53.119z'
+							clipRule='evenodd'
+						></path>
+					</svg>
+				</button>
+				<button onClick={changeFullScreenStatus} className='svg'>
+					<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
+						<path
+							fillRule='nonzero'
+							d='M7 9a.8.8 0 01.07 1.05l-.07.09-3.05 3.04H5.9c.4 0 .74.3.8.7v.1c0 .4-.3.74-.7.8H2.28a1.1 1.1 0 01-1.09-.98v-3.73a.8.8 0 011.59-.1v2.12L5.87 9A.8.8 0 017 9zm3.08-7.8h3.62a1.1 1.1 0 011.1.98v3.74a.8.8 0 01-1.6.1V3.89l-3.08 3.08a.8.8 0 01-1.04.08L9 6.97a.8.8 0 010-1.13l3.04-3.04h-1.95a.8.8 0 01-.1-1.6h3.72z'
+						></path>
+					</svg>
+				</button>
+			</div>
 			<img src={interlocutor?.avatarUrl} alt='' className='active-call__bg' />
-			<video autoPlay playsInline ref={remoteVideoRef} className='active-call__remote-video'></video>
+			<video
+				autoPlay
+				playsInline
+				ref={remoteVideoRef}
+				className={`active-call__remote-video ${isFullScreenEnabled ? 'active-call__remote-video--big' : ''} `}
+			></video>
 			<audio autoPlay playsInline ref={remoteAudioRef} className='active-call__remote-audio'></audio>
-			<div className='active-call__select-group'>
+			<div className={`active-call__select-group ${isFullScreenEnabled ? 'active-call__select-group--big' : ''}`}>
 				<select
 					onChange={(e) => switchDevice({ kind: 'audioinput', deviceId: e.target.value })}
 					value={activeAudioDevice}

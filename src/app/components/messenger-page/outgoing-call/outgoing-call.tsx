@@ -4,15 +4,17 @@ import './outgoing-call.scss';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { CallActions } from 'app/store/calls/actions';
 import { useSelector } from 'react-redux';
-import { getCallInterlocutorSelector } from 'app/store/calls/selectors';
+import { getCallInterlocutorSelector, isFullScreen } from 'app/store/calls/selectors';
 
 //sounds
 import callingBeep from 'app/sounds/calls/outgoing-call.ogg';
 
 const OutgoingCall = () => {
 	const cancelCall = useActionWithDispatch(CallActions.cancelCallAction);
+	const changeFullScreenStatus = useActionWithDispatch(CallActions.changeFullScreenStatusAction);
 
 	const interlocutor = useSelector(getCallInterlocutorSelector);
+	const isFullScreenEnabled = useSelector(isFullScreen);
 
 	useEffect(() => {
 		//repeatable playing beep-beep
@@ -33,9 +35,9 @@ const OutgoingCall = () => {
 		};
 	});
 	return (
-		<div className='outgoing-call'>
+		<div className={`outgoing-call ${isFullScreenEnabled ? 'outgoing-call--big' : ''}`}>
 			<div className='outgoing-call__menu'>
-				<div className='svg'>
+				<button className='svg'>
 					<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
 						<path
 							fillRule='evenodd'
@@ -43,11 +45,22 @@ const OutgoingCall = () => {
 							clipRule='evenodd'
 						></path>
 					</svg>
-				</div>
+				</button>
+				<button onClick={changeFullScreenStatus} className='svg'>
+					<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
+						<path
+							fillRule='nonzero'
+							d='M7 9a.8.8 0 01.07 1.05l-.07.09-3.05 3.04H5.9c.4 0 .74.3.8.7v.1c0 .4-.3.74-.7.8H2.28a1.1 1.1 0 01-1.09-.98v-3.73a.8.8 0 011.59-.1v2.12L5.87 9A.8.8 0 017 9zm3.08-7.8h3.62a1.1 1.1 0 011.1.98v3.74a.8.8 0 01-1.6.1V3.89l-3.08 3.08a.8.8 0 01-1.04.08L9 6.97a.8.8 0 010-1.13l3.04-3.04h-1.95a.8.8 0 01-.1-1.6h3.72z'
+						></path>
+					</svg>
+				</button>
 			</div>
-			<img src={interlocutor?.avatarUrl} alt='' className='outgoing-call__img' />
-			<h1 className='outgoing-call__calling-name'>{`${interlocutor?.firstName} ${interlocutor?.lastName}`}</h1>
-			<h3 className='outgoing-call__additional-data'>Исходящий вызов</h3>
+			<div className={`outgoing-call__info ${isFullScreenEnabled ? 'outgoing-call__info--big' : ''}`}>
+				<img src={interlocutor?.avatarUrl} alt='' className='outgoing-call__img' />
+				<h1 className='outgoing-call__calling-name'>{`${interlocutor?.firstName} ${interlocutor?.lastName}`}</h1>
+				<h3 className='outgoing-call__additional-data'>Исходящий вызов</h3>
+			</div>
+
 			<div className='outgoing-call__bottom-menu'>
 				<button className='outgoing-call__call-btn outgoing-call__call-btn--microphone'>
 					<div className='svg'>

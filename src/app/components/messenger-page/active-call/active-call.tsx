@@ -1,6 +1,6 @@
 import React, { useRef, useCallback, useEffect } from 'react';
 import './active-call.scss';
-import { peerConnection } from 'app/store/middlewares/webRTC/peerConnection';
+import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import { useSelector } from 'react-redux';
 import { getCallInterlocutorSelector, isFullScreen } from 'app/store/calls/selectors';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
@@ -66,11 +66,11 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 
 	//binding peer connection events
 	useEffect(() => {
-		peerConnection.connection.addEventListener('track', onTrack);
+		peerConnection.connection?.addEventListener('track', onTrack);
 
 		//removing peer connection events
 		return () => {
-			peerConnection.connection.removeEventListener('track', onTrack);
+			peerConnection.connection?.removeEventListener('track', onTrack);
 		};
 	}, [onTrack, isDisplayed]);
 

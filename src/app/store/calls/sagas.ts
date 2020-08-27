@@ -423,7 +423,8 @@ function createPeerConnectionChannel() {
 		//!TO CHECK
 		const clearIntervalCode = setInterval(() => {
 			const state = peerConnection?.connectionState;
-			if (state && (state === 'closed' || state === 'disconnected')) {
+			console.log('тик');
+			if (!state || state === 'closed' || state === 'disconnected') {
 				clearInterval(clearIntervalCode);
 				console.log('cleared');
 				emit(END);

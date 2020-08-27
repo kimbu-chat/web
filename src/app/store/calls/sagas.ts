@@ -4,7 +4,7 @@ import { call, select, takeLatest, put, take, spawn } from 'redux-saga/effects';
 import { getMyProfileSelector } from '../my-profile/selectors';
 import { UserPreview } from '../my-profile/models';
 import { CallsHttpRequests } from './http-requests';
-import { peerConnection, peerConfiguration } from '../middlewares/webRTC/peerConnectionFactory';
+import { peerConnection, createPeerConnection, resetPeerConnection } from '../middlewares/webRTC/peerConnectionFactory';
 import { RootState } from '../root-reducer';
 import { ICompleteConstraints } from './models';
 import { doIhaveCall, getCallInterlocutorSelector } from './selectors';
@@ -37,10 +37,10 @@ const getUserMedia = async (constraints: ICompleteConstraints) => {
 		tracks.audioTracks = localMediaStream.getAudioTracks();
 
 		if (tracks.videoTracks.length > 0) {
-			videoSender = peerConnection.connection?.addTrack(tracks.videoTracks[0], localMediaStream) as RTCRtpSender;
+			videoSender = peerConnection?.addTrack(tracks.videoTracks[0], localMediaStream) as RTCRtpSender;
 		}
 		if (tracks.audioTracks.length > 0) {
-			audioSender = peerConnection.connection?.addTrack(tracks.audioTracks[0], localMediaStream) as RTCRtpSender;
+			audioSender = peerConnection?.addTrack(tracks.audioTracks[0], localMediaStream) as RTCRtpSender;
 		}
 	}
 };
@@ -55,7 +55,7 @@ export function* outgoingCallSaga(action: ReturnType<typeof CallActions.outgoing
 	const videoConstraints = yield select((state: RootState) => state.calls.videoConstraints);
 	const audioConstraints = yield select((state: RootState) => state.calls.audioConstraints);
 
-	peerConnection.connection = new RTCPeerConnection(peerConfiguration);
+	createPeerConnection();
 	yield spawn(peerWatcher);
 
 	//setup local stream
@@ -75,10 +75,9 @@ export function* outgoingCallSaga(action: ReturnType<typeof CallActions.outgoing
 	const interlocutorId = action.payload.calling.id;
 	const myProfile: UserPreview = yield select(getMyProfileSelector);
 	let offer: RTCSessionDescriptionInit = yield call(
-		async () =>
-			await peerConnection.connection?.createOffer({ offerToReceiveAudio: true, offerToReceiveVideo: true }),
+		async () => await peerConnection?.createOffer({ offerToReceiveAudio: true, offerToReceiveVideo: true }),
 	);
-	yield call(async () => await peerConnection.connection?.setLocalDescription(offer));
+	yield call(async () => await peerConnection?.setLocalDescription(offer));
 
 	const request = {
 		offer,
@@ -100,8 +99,8 @@ export function* cancelCallSaga(): SagaIterator {
 	const httpRequest = CallsHttpRequests.cancelCall;
 	httpRequest.call(yield call(() => httpRequest.generator(request)));
 
-	peerConnection.connection?.close();
-	peerConnection.connection = null;
+	peerConnection?.close();
+	resetPeerConnection();
 
 	if (localMediaStream) {
 		const tracks = localMediaStream.getTracks();
@@ -114,8 +113,8 @@ export function* cancelCallSaga(): SagaIterator {
 }
 
 export function* callEndedSaga(): SagaIterator {
-	peerConnection.connection?.close();
-	peerConnection.connection = null;
+	peerConnection?.close();
+	resetPeerConnection();
 
 	if (localMediaStream) {
 		localMediaStream.getTracks().forEach((track) => track.stop());
@@ -145,9 +144,9 @@ export function* acceptCallSaga(action: ReturnType<typeof CallActions.acceptCall
 	const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
 	const offer: RTCSessionDescriptionInit = yield select((state: RootState) => state.calls.offer);
 
-	peerConnection.connection?.setRemoteDescription(new RTCSessionDescription(offer));
-	const answer = yield call(async () => await peerConnection.connection?.createAnswer());
-	yield call(async () => await peerConnection.connection?.setLocalDescription(answer));
+	peerConnection?.setRemoteDescription(new RTCSessionDescription(offer));
+	const answer = yield call(async () => await peerConnection?.createAnswer());
+	yield call(async () => await peerConnection?.setLocalDescription(answer));
 
 	const request = {
 		interlocutorId,
@@ -162,14 +161,14 @@ export function* acceptCallSaga(action: ReturnType<typeof CallActions.acceptCall
 
 export function* callAcceptedSaga(action: ReturnType<typeof CallActions.interlocutorAcceptedCallAction>): SagaIterator {
 	const remoteDesc = new RTCSessionDescription(action.payload.answer);
-	yield call(async () => await peerConnection.connection?.setRemoteDescription(remoteDesc));
+	yield call(async () => await peerConnection?.setRemoteDescription(remoteDesc));
 }
 
 export function* candidateSaga(action: ReturnType<typeof CallActions.candidateAction>): SagaIterator {
 	const checkIntervalCode = setInterval(async () => {
-		if (peerConnection.connection?.remoteDescription?.type) {
+		if (peerConnection?.remoteDescription?.type) {
 			try {
-				await peerConnection.connection?.addIceCandidate(new RTCIceCandidate(action.payload.candidate));
+				await peerConnection?.addIceCandidate(new RTCIceCandidate(action.payload.candidate));
 			} catch {}
 			clearInterval(checkIntervalCode);
 		}
@@ -196,17 +195,14 @@ export function* changeAudioStatusSaga(): SagaIterator {
 			tracks.audioTracks = localMediaStream.getAudioTracks();
 
 			if (videoConstraints.isOpened) {
-				videoSender = peerConnection.connection?.addTrack(
-					tracks.videoTracks[0],
-					localMediaStream,
-				) as RTCRtpSender;
+				videoSender = peerConnection?.addTrack(tracks.videoTracks[0], localMediaStream) as RTCRtpSender;
 			}
 		}
 
-		audioSender = peerConnection.connection?.addTrack(tracks.audioTracks[0], localMediaStream) as RTCRtpSender;
+		audioSender = peerConnection?.addTrack(tracks.audioTracks[0], localMediaStream) as RTCRtpSender;
 	} else if (audioSender) {
 		try {
-			peerConnection.connection?.removeTrack(audioSender);
+			peerConnection?.removeTrack(audioSender);
 		} catch (e) {
 			console.warn(e);
 		}
@@ -224,7 +220,7 @@ export function* changeVideoStatusSaga(): SagaIterator {
 		tracks.screenSharingTracks.forEach((track) => track.stop());
 		if (screenSharingSender) {
 			try {
-				peerConnection.connection?.removeTrack(screenSharingSender);
+				peerConnection?.removeTrack(screenSharingSender);
 			} catch (e) {
 				console.warn(e);
 			}
@@ -256,19 +252,16 @@ export function* changeVideoStatusSaga(): SagaIterator {
 				tracks.audioTracks = localMediaStream.getAudioTracks();
 
 				if (audioConstraints.isOpened) {
-					audioSender = peerConnection.connection?.addTrack(
-						tracks.audioTracks[0],
-						localMediaStream,
-					) as RTCRtpSender;
+					audioSender = peerConnection?.addTrack(tracks.audioTracks[0], localMediaStream) as RTCRtpSender;
 				}
 			}
 		}
 		if (tracks.videoTracks.length > 0) {
-			videoSender = peerConnection.connection?.addTrack(tracks.videoTracks[0], localMediaStream) as RTCRtpSender;
+			videoSender = peerConnection?.addTrack(tracks.videoTracks[0], localMediaStream) as RTCRtpSender;
 		}
 	} else if (videoSender) {
 		try {
-			peerConnection.connection?.removeTrack(videoSender);
+			peerConnection?.removeTrack(videoSender);
 		} catch (e) {
 			console.warn(e);
 		}
@@ -282,7 +275,7 @@ export function* changeScreenSharingStatus(): SagaIterator {
 
 	if (videoSender) {
 		try {
-			peerConnection.connection?.removeTrack(videoSender);
+			peerConnection?.removeTrack(videoSender);
 		} catch (e) {
 			console.warn(e);
 		}
@@ -295,7 +288,7 @@ export function* changeScreenSharingStatus(): SagaIterator {
 			const localVideoStream = yield call(async () => await navigator.mediaDevices.getDisplayMedia());
 			tracks.screenSharingTracks = localVideoStream.getTracks();
 
-			screenSharingSender = peerConnection.connection?.addTrack(
+			screenSharingSender = peerConnection?.addTrack(
 				tracks.screenSharingTracks[0],
 				localMediaStream,
 			) as RTCRtpSender;
@@ -308,7 +301,7 @@ export function* changeScreenSharingStatus(): SagaIterator {
 		tracks.screenSharingTracks.forEach((track) => track.stop());
 		if (screenSharingSender) {
 			try {
-				peerConnection.connection?.removeTrack(screenSharingSender);
+				peerConnection?.removeTrack(screenSharingSender);
 			} catch (e) {
 				console.warn(e);
 			}
@@ -323,9 +316,9 @@ export function* negociationSaga(action: ReturnType<typeof CallActions.incomingC
 	const isCallActive: boolean = yield select(doIhaveCall);
 
 	if (isCallActive && interlocutorId === action.payload.caller.id) {
-		peerConnection.connection?.setRemoteDescription(new RTCSessionDescription(action.payload.offer));
-		const answer = yield call(async () => await peerConnection.connection?.createAnswer());
-		yield call(async () => await peerConnection.connection?.setLocalDescription(answer));
+		peerConnection?.setRemoteDescription(new RTCSessionDescription(action.payload.offer));
+		const answer = yield call(async () => await peerConnection?.createAnswer());
+		yield call(async () => await peerConnection?.setLocalDescription(answer));
 
 		const request = {
 			interlocutorId,
@@ -335,7 +328,7 @@ export function* negociationSaga(action: ReturnType<typeof CallActions.incomingC
 		const httpRequest = CallsHttpRequests.acceptCall;
 		httpRequest.call(yield call(() => httpRequest.generator(request)));
 	} else {
-		peerConnection.connection = new RTCPeerConnection(peerConfiguration);
+		createPeerConnection();
 		yield spawn(peerWatcher);
 	}
 }
@@ -366,17 +359,11 @@ export function* switchDeviceSaga(action: ReturnType<typeof CallActions.switchDe
 			}
 
 			if (audioConstraints.isOpened && tracks.audioTracks.length >= 0) {
-				audioSender = peerConnection.connection?.addTrack(
-					tracks.audioTracks[0],
-					localMediaStream,
-				) as RTCRtpSender;
+				audioSender = peerConnection?.addTrack(tracks.audioTracks[0], localMediaStream) as RTCRtpSender;
 			}
 
 			if (tracks.videoTracks.length > 0) {
-				videoSender = peerConnection.connection?.addTrack(
-					tracks.videoTracks[0],
-					localMediaStream,
-				) as RTCRtpSender;
+				videoSender = peerConnection?.addTrack(tracks.videoTracks[0], localMediaStream) as RTCRtpSender;
 			}
 
 			yield put(CallActions.enableMediaSwitchingAction());
@@ -405,16 +392,10 @@ export function* switchDeviceSaga(action: ReturnType<typeof CallActions.switchDe
 			}
 
 			if (audioConstraints.isOpened && tracks.audioTracks.length >= 0) {
-				audioSender = peerConnection.connection?.addTrack(
-					tracks.audioTracks[0],
-					localMediaStream,
-				) as RTCRtpSender;
+				audioSender = peerConnection?.addTrack(tracks.audioTracks[0], localMediaStream) as RTCRtpSender;
 			}
 			if (tracks.videoTracks.length > 0) {
-				videoSender = peerConnection.connection?.addTrack(
-					tracks.videoTracks[0],
-					localMediaStream,
-				) as RTCRtpSender;
+				videoSender = peerConnection?.addTrack(tracks.videoTracks[0], localMediaStream) as RTCRtpSender;
 			}
 		}
 	}
@@ -432,16 +413,16 @@ function createPeerConnectionChannel() {
 		};
 
 		const onConnectionStateChange = () => {
-			if (peerConnection.connection?.connectionState === 'connected') {
+			if (peerConnection?.connectionState === 'connected') {
 				console.log('peers connected');
 			}
 
-			console.log(peerConnection.connection?.connectionState);
+			console.log(peerConnection?.connectionState);
 		};
 
 		//!TO CHECK
 		const clearIntervalCode = setInterval(() => {
-			const state = peerConnection.connection?.connectionState;
+			const state = peerConnection?.connectionState;
 			if (state && (state === 'closed' || state === 'disconnected')) {
 				clearInterval(clearIntervalCode);
 				console.log('cleared');
@@ -449,14 +430,14 @@ function createPeerConnectionChannel() {
 			}
 		}, 1000);
 
-		peerConnection.connection?.addEventListener('icecandidate', onIceCandidate);
-		peerConnection.connection?.addEventListener('negotiationneeded', onNegotiationNeeded);
-		peerConnection.connection?.addEventListener('connectionstatechange', onConnectionStateChange);
+		peerConnection?.addEventListener('icecandidate', onIceCandidate);
+		peerConnection?.addEventListener('negotiationneeded', onNegotiationNeeded);
+		peerConnection?.addEventListener('connectionstatechange', onConnectionStateChange);
 
 		return () => {
-			peerConnection.connection?.removeEventListener('icecandidate', onIceCandidate);
-			peerConnection.connection?.removeEventListener('negotiationneeded', onNegotiationNeeded);
-			peerConnection.connection?.removeEventListener('connectionstatechange', onConnectionStateChange);
+			peerConnection?.removeEventListener('icecandidate', onIceCandidate);
+			peerConnection?.removeEventListener('negotiationneeded', onNegotiationNeeded);
+			peerConnection?.removeEventListener('connectionstatechange', onConnectionStateChange);
 		};
 	}, buffers.expanding(100));
 }
@@ -491,12 +472,12 @@ export function* peerWatcher() {
 					let offer: RTCSessionDescriptionInit;
 					offer = yield call(
 						async () =>
-							await peerConnection.connection?.createOffer({
+							await peerConnection?.createOffer({
 								offerToReceiveAudio: true,
 								offerToReceiveVideo: true,
 							}),
 					);
-					yield call(async () => await peerConnection.connection?.setLocalDescription(offer));
+					yield call(async () => await peerConnection?.setLocalDescription(offer));
 
 					const request = {
 						offer,

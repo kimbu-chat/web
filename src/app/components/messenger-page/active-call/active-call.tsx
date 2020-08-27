@@ -61,16 +61,16 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 				remoteAudioRef.current.play();
 			}
 		},
-		[remoteVideoRef, remoteAudioRef, peerConnection.connection],
+		[remoteVideoRef, remoteAudioRef, peerConnection],
 	);
 
 	//binding peer connection events
 	useEffect(() => {
-		peerConnection.connection?.addEventListener('track', onTrack);
+		peerConnection?.addEventListener('track', onTrack);
 
 		//removing peer connection events
 		return () => {
-			peerConnection.connection?.removeEventListener('track', onTrack);
+			peerConnection?.removeEventListener('track', onTrack);
 		};
 	}, [onTrack, isDisplayed]);
 

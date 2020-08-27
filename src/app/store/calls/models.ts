@@ -78,8 +78,3 @@ export interface ICancelCall {
 export interface IAcceptCall {
 	interlocutorId: number;
 }
-
-export interface IMyCandidateAction {
-	interlocutorId: number;
-	candidate: RTCIceCandidate;
-}

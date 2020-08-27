@@ -93,13 +93,19 @@ const calls = createReducer<CallState>(initialState)
 		}),
 	)
 	.handleAction(
+		CallActions.acceptCallAction,
+		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.acceptCallAction>) => {
+			draft.audioConstraints = { ...draft.audioConstraints, ...payload.constraints.audio };
+			draft.videoConstraints = { ...draft.videoConstraints, ...payload.constraints.video };
+			return draft;
+		}),
+	)
+	.handleAction(
 		CallActions.acceptCallSuccessAction,
-		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.acceptCallSuccessAction>) => {
+		produce((draft: CallState) => {
 			draft.isSpeaking = true;
 			draft.isCalling = false;
 			draft.amCalling = false;
-			draft.audioConstraints = { ...draft.audioConstraints, ...payload.constraints.audio };
-			draft.videoConstraints = { ...draft.videoConstraints, ...payload.constraints.video };
 			draft.isMediaSwitchingEnabled = true;
 			return draft;
 		}),
@@ -191,10 +197,12 @@ const calls = createReducer<CallState>(initialState)
 		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.switchDeviceAction>) => {
 			if (payload.kind === 'videoinput') {
 				draft.videoConstraints.deviceId = payload.deviceId;
+				draft.isMediaSwitchingEnabled = false;
 			}
 
 			if (payload.kind === 'audioinput') {
 				draft.audioConstraints.deviceId = payload.deviceId;
+				draft.isMediaSwitchingEnabled = false;
 			}
 
 			return draft;

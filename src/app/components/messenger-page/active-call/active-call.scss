@@ -122,4 +122,11 @@
 			transform: translate(-50%, -50%);
 		}
 	}
+
+	&__local-video {
+		height: 60px;
+		position: absolute;
+		right: 16px;
+		bottom: 67px;
+	}
 }

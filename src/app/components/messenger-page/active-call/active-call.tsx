@@ -6,6 +6,7 @@ import { getCallInterlocutorSelector, isFullScreen } from 'app/store/calls/selec
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { CallActions } from 'app/store/calls/actions';
 import { RootState } from 'app/store/root-reducer';
+import { tracks } from 'app/store/calls/sagas';
 
 namespace IActiveCall {
 	export interface Props {
@@ -28,31 +29,19 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 	const activeAudioDevice = audioConstraints.deviceId;
 	const activeVideoDevice = videoConstraints.deviceId;
 
-	const sendCandidates = useActionWithDispatch(CallActions.myCandidateAction);
 	const changeVideoStatus = useActionWithDispatch(CallActions.changeVideoStatusAction);
 	const changeAudioStatus = useActionWithDispatch(CallActions.changeAudioStatusAction);
 	const cancelCall = useActionWithDispatch(CallActions.cancelCallAction);
 	const changeScreenShareStatus = useActionWithDispatch(CallActions.changeScreenShareStatusAction);
-	const negociate = useActionWithDispatch(CallActions.negociateAction);
 	const switchDevice = useActionWithDispatch(CallActions.switchDeviceAction);
 	const changeFullScreenStatus = useActionWithDispatch(CallActions.changeFullScreenStatusAction);
 
 	const remoteVideoRef = useRef<HTMLVideoElement>(null);
 	const remoteAudioRef = useRef<HTMLAudioElement>(null);
 
+	const localVideoRef = useRef<HTMLVideoElement>(null);
+
 	//!PEER connection callbacks
-	const onIceCandidate = useCallback(
-		(event: RTCPeerConnectionIceEvent) => {
-			if (event.candidate) {
-				const request = {
-					interlocutorId: interlocutor?.id || -1,
-					candidate: event.candidate,
-				};
-				sendCandidates(request);
-			}
-		},
-		[interlocutor, sendCandidates, peerConnection.connection],
-	);
 
 	const onTrack = useCallback(
 		(event: RTCTrackEvent) => {
@@ -75,32 +64,29 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 		[remoteVideoRef, remoteAudioRef, peerConnection.connection],
 	);
 
-	const onConnectionStateChange = useCallback(() => {
-		if (peerConnection.connection.connectionState === 'connected') {
-			console.log('peers connected');
-		}
-	}, [peerConnection.connection]);
-
 	//binding peer connection events
 	useEffect(() => {
-		peerConnection.connection.addEventListener('icecandidate', onIceCandidate);
-
-		peerConnection.connection.addEventListener('connectionstatechange', onConnectionStateChange);
-
 		peerConnection.connection.addEventListener('track', onTrack);
 
-		peerConnection.connection.addEventListener('negotiationneeded', negociate);
 		//removing peer connection events
 		return () => {
-			peerConnection.connection.removeEventListener('icecandidate', onIceCandidate);
-
-			peerConnection.connection.removeEventListener('connectionstatechange', onConnectionStateChange);
-
 			peerConnection.connection.removeEventListener('track', onTrack);
-
-			peerConnection.connection.removeEventListener('negotiationneeded', negociate);
 		};
-	});
+	}, [onTrack, isDisplayed]);
+
+	useEffect(() => {
+		if (isVideoOpened) {
+			const localVideoStream = new MediaStream();
+			if (tracks.videoTracks[0]) {
+				localVideoStream.addTrack(tracks.videoTracks[0]);
+				if (localVideoRef.current) {
+					localVideoRef.current.pause();
+					localVideoRef.current.srcObject = localVideoStream;
+					localVideoRef.current.play();
+				}
+			}
+		}
+	}, [isVideoOpened, isDisplayed, activeVideoDevice, isMediaSwitchingEnabled]);
 
 	return (
 		<div
@@ -134,6 +120,16 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 				ref={remoteVideoRef}
 				className={`active-call__remote-video ${isFullScreenEnabled ? 'active-call__remote-video--big' : ''} `}
 			></video>
+			{isVideoOpened && (
+				<video
+					autoPlay
+					playsInline
+					ref={localVideoRef}
+					className={`active-call__local-video ${
+						isFullScreenEnabled ? 'active-call__local-video--big' : ''
+					} `}
+				></video>
+			)}
 			<audio autoPlay playsInline ref={remoteAudioRef} className='active-call__remote-audio'></audio>
 			<div className={`active-call__select-group ${isFullScreenEnabled ? 'active-call__select-group--big' : ''}`}>
 				<select

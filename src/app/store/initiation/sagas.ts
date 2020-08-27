@@ -6,6 +6,7 @@ import { SagaIterator, eventChannel } from 'redux-saga';
 import { WebSocketActions } from '../sockets/actions';
 import { intervalInternetConnectionCheckSaga } from '../internet/sagas';
 import { RootState } from '../root-reducer';
+import { peerWatcher } from '../calls/sagas';
 
 export function* initializeSaga(): SagaIterator {
 	const authService = new AuthService();
@@ -29,6 +30,7 @@ export function* initializeSaga(): SagaIterator {
 
 	yield spawn(intervalInternetConnectionCheckSaga);
 	yield spawn(watcher);
+	yield spawn(peerWatcher);
 }
 
 function createVisibilityChannel() {

@@ -217,13 +217,6 @@ export function* changeAudioStatusSaga(): SagaIterator {
 export function* changeVideoStatusSaga(): SagaIterator {
 	const videoConstraints = yield select((state: RootState) => state.calls.videoConstraints);
 	const audioConstraints = yield select((state: RootState) => state.calls.audioConstraints);
-	const isScreenSharingOpened = yield select((state: RootState) => state.calls.isScreenSharingOpened);
-
-	if (isScreenSharingOpened) {
-		yield put(CallActions.changeScreenShareStatusAction());
-
-		screenSharingSender = null;
-	}
 
 	if (tracks.screenSharingTracks.length > 0) {
 		tracks.screenSharingTracks.forEach((track) => track.stop());
@@ -281,11 +274,13 @@ export function* changeVideoStatusSaga(): SagaIterator {
 
 export function* changeScreenSharingStatus(): SagaIterator {
 	const screenSharingState = yield select((state: RootState) => state.calls.isScreenSharingOpened);
-	const isVideoEnabled = yield select((state: RootState) => state.calls.videoConstraints.isOpened);
 
-	if (isVideoEnabled) {
-		yield put(CallActions.changeVideoStatusAction());
-
+	if (videoSender) {
+		try {
+			peerConnection?.removeTrack(videoSender);
+		} catch (e) {
+			console.warn(e);
+		}
 		videoSender = null;
 	}
 

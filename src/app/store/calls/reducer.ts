@@ -168,6 +168,7 @@ const calls = createReducer<CallState>(initialState)
 		CallActions.changeVideoStatusAction,
 		produce((draft: CallState) => {
 			draft.videoConstraints.isOpened = !draft.videoConstraints.isOpened;
+			draft.isScreenSharingOpened = false;
 			draft.isMediaSwitchingEnabled = false;
 			return draft;
 		}),
@@ -177,6 +178,7 @@ const calls = createReducer<CallState>(initialState)
 		produce((draft: CallState) => {
 			draft.isMediaSwitchingEnabled = false;
 			draft.isScreenSharingOpened = !draft.isScreenSharingOpened;
+			draft.videoConstraints.isOpened = false;
 			return draft;
 		}),
 	)

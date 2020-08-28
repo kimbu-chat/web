@@ -63,11 +63,11 @@ export function* outgoingCallSaga(action: ReturnType<typeof CallActions.outgoing
 	//---
 
 	//gathering data about media devices
-	if (action.payload.constraints.audio) {
+	if (action.payload.constraints.audio.isOpened) {
 		const audioDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'audioinput');
 		yield put(CallActions.gotDevicesInfoAction({ kind: 'audioinput', devices: audioDevices }));
 	}
-	if (action.payload.constraints.video) {
+	if (action.payload.constraints.video.isOpened) {
 		const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'videoinput');
 		yield put(CallActions.gotDevicesInfoAction({ kind: 'videoinput', devices: videoDevices }));
 	}
@@ -83,6 +83,7 @@ export function* outgoingCallSaga(action: ReturnType<typeof CallActions.outgoing
 		offer,
 		interlocutorId,
 		caller: myProfile,
+		isVideoEnabled: action.payload.constraints.video.isOpened,
 	};
 
 	const httpRequest = CallsHttpRequests.call;
@@ -151,6 +152,7 @@ export function* acceptCallSaga(action: ReturnType<typeof CallActions.acceptCall
 	const request = {
 		interlocutorId,
 		answer,
+		isVideoEnabled: videoConstraints.isOpened,
 	};
 
 	const httpRequest = CallsHttpRequests.acceptCall;
@@ -215,6 +217,13 @@ export function* changeAudioStatusSaga(): SagaIterator {
 export function* changeVideoStatusSaga(): SagaIterator {
 	const videoConstraints = yield select((state: RootState) => state.calls.videoConstraints);
 	const audioConstraints = yield select((state: RootState) => state.calls.audioConstraints);
+	const isScreenSharingOpened = yield select((state: RootState) => state.calls.isScreenSharingOpened);
+
+	if (isScreenSharingOpened) {
+		yield put(CallActions.changeScreenShareStatusAction());
+
+		screenSharingSender = null;
+	}
 
 	if (tracks.screenSharingTracks.length > 0) {
 		tracks.screenSharingTracks.forEach((track) => track.stop());
@@ -272,13 +281,11 @@ export function* changeVideoStatusSaga(): SagaIterator {
 
 export function* changeScreenSharingStatus(): SagaIterator {
 	const screenSharingState = yield select((state: RootState) => state.calls.isScreenSharingOpened);
+	const isVideoEnabled = yield select((state: RootState) => state.calls.videoConstraints.isOpened);
 
-	if (videoSender) {
-		try {
-			peerConnection?.removeTrack(videoSender);
-		} catch (e) {
-			console.warn(e);
-		}
+	if (isVideoEnabled) {
+		yield put(CallActions.changeVideoStatusAction());
+
 		videoSender = null;
 	}
 
@@ -292,8 +299,6 @@ export function* changeScreenSharingStatus(): SagaIterator {
 				tracks.screenSharingTracks[0],
 				localMediaStream,
 			) as RTCRtpSender;
-
-			yield put(CallActions.enableMediaSwitchingAction());
 		} catch (e) {
 			console.log(e);
 		}
@@ -307,12 +312,14 @@ export function* changeScreenSharingStatus(): SagaIterator {
 			}
 			screenSharingSender = null;
 		}
-		yield put(CallActions.enableMediaSwitchingAction());
 	}
+
+	yield put(CallActions.enableMediaSwitchingAction());
 }
 
 export function* negociationSaga(action: ReturnType<typeof CallActions.incomingCallAction>): SagaIterator {
 	const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
+	const videoConstraints = yield select((state: RootState) => state.calls.videoConstraints);
 	const isCallActive: boolean = yield select(doIhaveCall);
 
 	if (isCallActive && interlocutorId === action.payload.caller.id) {
@@ -323,6 +330,7 @@ export function* negociationSaga(action: ReturnType<typeof CallActions.incomingC
 		const request = {
 			interlocutorId,
 			answer,
+			isVideoEnabled: videoConstraints.isOpened,
 		};
 
 		const httpRequest = CallsHttpRequests.acceptCall;
@@ -404,7 +412,6 @@ export function* switchDeviceSaga(action: ReturnType<typeof CallActions.switchDe
 function createPeerConnectionChannel() {
 	return eventChannel((emit) => {
 		const onIceCandidate = (event: RTCPeerConnectionIceEvent) => {
-			console.log('icecandidate');
 			emit({ type: 'icecandidate', event });
 		};
 
@@ -416,14 +423,11 @@ function createPeerConnectionChannel() {
 			if (peerConnection?.connectionState === 'connected') {
 				console.log('peers connected');
 			}
-
-			console.log(peerConnection?.connectionState);
 		};
 
 		//!TO CHECK
 		const clearIntervalCode = setInterval(() => {
 			const state = peerConnection?.connectionState;
-			console.log('тик');
 			if (!state || state === 'closed' || state === 'disconnected') {
 				clearInterval(clearIntervalCode);
 				console.log('cleared');
@@ -469,6 +473,9 @@ export function* peerWatcher() {
 				const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
 				const myProfile: UserPreview = yield select(getMyProfileSelector);
 				const isCallActive: boolean = yield select(doIhaveCall);
+				const isVideoEnabled = yield select((state: RootState) => state.calls.videoConstraints.isOpened);
+				const isScreenSharingEnabled = yield select((state: RootState) => state.calls.isScreenSharingOpened);
+
 				if (isCallActive) {
 					let offer: RTCSessionDescriptionInit;
 					offer = yield call(
@@ -484,7 +491,10 @@ export function* peerWatcher() {
 						offer,
 						interlocutorId,
 						caller: myProfile,
+						isVideoEnabled: isVideoEnabled || isScreenSharingEnabled,
 					};
+
+					console.log(isVideoEnabled, isScreenSharingEnabled);
 
 					const httpRequest = CallsHttpRequests.call;
 					httpRequest.call(yield call(() => httpRequest.generator(request)));

@@ -6,7 +6,7 @@ import { UserPreview } from '../my-profile/models';
 export interface CallState {
 	isFullScreen: boolean;
 	isCalling: boolean;
-	isCallingWithVideo?: boolean;
+	isInterlocutorVideoEnabled: boolean;
 	isMediaSwitchingEnabled: boolean;
 	amCalling: boolean;
 	isSpeaking: boolean;
@@ -29,6 +29,7 @@ export interface CallState {
 }
 
 const initialState: CallState = {
+	isInterlocutorVideoEnabled: false,
 	isFullScreen: false,
 	isCalling: false,
 	isSpeaking: false,
@@ -52,6 +53,8 @@ const calls = createReducer<CallState>(initialState)
 	.handleAction(
 		CallActions.incomingCallAction,
 		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.incomingCallAction>) => {
+			draft.isInterlocutorVideoEnabled = payload.isVideoEnabled;
+
 			if (draft.interlocutor?.id === payload.caller.id && draft.isSpeaking) {
 				//if it matches this condition then it's negociation
 				return draft;
@@ -62,8 +65,6 @@ const calls = createReducer<CallState>(initialState)
 			draft.interlocutor = interlocutor;
 			draft.isCalling = true;
 			draft.offer = offer;
-
-			if (draft.offer.sdp?.includes('video')) draft.isCallingWithVideo = true;
 
 			return draft;
 		}),
@@ -89,6 +90,9 @@ const calls = createReducer<CallState>(initialState)
 			draft.isFullScreen = false;
 			draft.offer = undefined;
 			draft.answer = undefined;
+			draft.videoConstraints.isOpened = false;
+			draft.videoConstraints.isOpened = false;
+			draft.isScreenSharingOpened = false;
 			return draft;
 		}),
 	)
@@ -120,6 +124,9 @@ const calls = createReducer<CallState>(initialState)
 			draft.isFullScreen = false;
 			draft.offer = undefined;
 			draft.answer = undefined;
+			draft.videoConstraints.isOpened = false;
+			draft.videoConstraints.isOpened = false;
+			draft.isScreenSharingOpened = false;
 			return draft;
 		}),
 	)
@@ -130,6 +137,7 @@ const calls = createReducer<CallState>(initialState)
 			draft.isCalling = false;
 			draft.amCalling = false;
 			draft.answer = payload.answer;
+			draft.isInterlocutorVideoEnabled = payload.isVideoEnabled;
 			draft.isMediaSwitchingEnabled = true;
 			return draft;
 		}),
@@ -142,6 +150,9 @@ const calls = createReducer<CallState>(initialState)
 			draft.isCalling = false;
 			draft.isSpeaking = false;
 			draft.isFullScreen = false;
+			draft.videoConstraints.isOpened = false;
+			draft.videoConstraints.isOpened = false;
+			draft.isScreenSharingOpened = false;
 			return draft;
 		}),
 	)
@@ -157,7 +168,6 @@ const calls = createReducer<CallState>(initialState)
 		CallActions.changeVideoStatusAction,
 		produce((draft: CallState) => {
 			draft.videoConstraints.isOpened = !draft.videoConstraints.isOpened;
-			draft.isScreenSharingOpened = false;
 			draft.isMediaSwitchingEnabled = false;
 			return draft;
 		}),
@@ -166,7 +176,6 @@ const calls = createReducer<CallState>(initialState)
 		CallActions.changeScreenShareStatusAction,
 		produce((draft: CallState) => {
 			draft.isMediaSwitchingEnabled = false;
-			draft.videoConstraints.isOpened = false;
 			draft.isScreenSharingOpened = !draft.isScreenSharingOpened;
 			return draft;
 		}),

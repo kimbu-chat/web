@@ -3,5 +3,6 @@ import { UserPreview } from 'app/store/my-profile/models';
 
 export interface IncomingCallIntegrationEvent extends BaseIntegrationEvent {
 	caller: UserPreview;
+	isVideoEnabled: boolean;
 	offer: RTCSessionDescriptionInit;
 }

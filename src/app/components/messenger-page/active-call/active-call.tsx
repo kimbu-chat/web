@@ -23,6 +23,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 	const audioDevices = useSelector((state: RootState) => state.calls.audioDevicesList);
 	const videoDevices = useSelector((state: RootState) => state.calls.videoDevicesList);
 	const isFullScreenEnabled = useSelector(isFullScreen);
+	const isInterlocutorVideoEnabled = useSelector((state: RootState) => state.calls.isInterlocutorVideoEnabled);
 
 	const isVideoOpened = videoConstraints.isOpened;
 	const isAudioOpened = audioConstraints.isOpened;
@@ -114,12 +115,16 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 				</button>
 			</div>
 			<img src={interlocutor?.avatarUrl} alt='' className='active-call__bg' />
-			<video
-				autoPlay
-				playsInline
-				ref={remoteVideoRef}
-				className={`active-call__remote-video ${isFullScreenEnabled ? 'active-call__remote-video--big' : ''} `}
-			></video>
+			{isInterlocutorVideoEnabled && (
+				<video
+					autoPlay
+					playsInline
+					ref={remoteVideoRef}
+					className={`active-call__remote-video ${
+						isFullScreenEnabled ? 'active-call__remote-video--big' : ''
+					} `}
+				></video>
+			)}
 			{isVideoOpened && (
 				<video
 					autoPlay

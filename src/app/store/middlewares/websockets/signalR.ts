@@ -12,10 +12,10 @@ import { getType } from 'typesafe-actions';
 import { AuthActions } from 'app/store/auth/actions';
 import { RootState } from 'app/store/root-reducer';
 import { WebSocketActions } from 'app/store/sockets/actions';
-import { IncomingCallEventHandler } from './integration-event-handlers/incoming-call';
-import { InterlocutorAcceptedCallEventHandler } from './integration-event-handlers/interlocutor-accepted-call';
-import { InterlocutorCanceledCallEventHandler } from './integration-event-handlers/interlocutor-canceled-call';
-import { CallEndedEventHandler } from './integration-event-handlers/call-ended';
+import { IncomingCallEventHandler } from './integration-event-handlers/incoming-call-event-handler';
+import { InterlocutorAcceptedCallEventHandler } from './integration-event-handlers/interlocutor-accepted-call-event-handler';
+import { InterlocutorCanceledCallEventHandler } from './integration-event-handlers/interlocutor-canceled-call-event-handler';
+import { CallEndedEventHandler } from './integration-event-handlers/call-ended-event-handler';
 import { CandidateEventHandler } from './integration-event-handlers/candidate-event-handler';
 import { ApiBasePath } from 'app/store/root-api';
 

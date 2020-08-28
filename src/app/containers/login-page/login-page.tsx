@@ -77,6 +77,8 @@ const LoginPage = () => {
 					<p>{t('loginPage.confirm_phone')}</p>
 					<p>+375445446331</p>
 					<p>+375292725607</p>
+					<p>+375445446388</p>
+					<p>+375445446399</p>
 					<CountrySelect country={country} setCountry={setCountry} setPhone={setPhone} />
 					<PhoneInput phone={phone} setPhone={setPhone} country={country} setCountry={setCountry} />
 					<div className='login-page__button-container'>

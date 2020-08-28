@@ -14,6 +14,11 @@
 	display: inline-block;
 	transition: all 0.1s ease-in-out;
 
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	min-height: 262px;
+
 	&--big {
 		height: calc(100vh - 55px);
 		width: 100vw;
@@ -21,7 +26,7 @@
 
 	&__menu {
 		display: inline-flex;
-		float: right;
+		align-self: flex-end;
 		margin-top: 10px;
 		margin-right: 15px;
 		.svg {
@@ -121,5 +126,13 @@
 			max-width: 100vw;
 			transform: translate(-50%, -50%);
 		}
+	}
+
+	&__local-video {
+		height: 60px;
+		position: absolute;
+		right: 16px;
+		bottom: 67px;
+		z-index: 55;
 	}
 }

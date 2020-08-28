@@ -6,7 +6,7 @@ import { UserPreview } from '../my-profile/models';
 export interface CallState {
 	isFullScreen: boolean;
 	isCalling: boolean;
-	isCallingWithVideo?: boolean;
+	isInterlocutorVideoEnabled: boolean;
 	isMediaSwitchingEnabled: boolean;
 	amCalling: boolean;
 	isSpeaking: boolean;
@@ -29,6 +29,7 @@ export interface CallState {
 }
 
 const initialState: CallState = {
+	isInterlocutorVideoEnabled: false,
 	isFullScreen: false,
 	isCalling: false,
 	isSpeaking: false,
@@ -52,6 +53,8 @@ const calls = createReducer<CallState>(initialState)
 	.handleAction(
 		CallActions.incomingCallAction,
 		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.incomingCallAction>) => {
+			draft.isInterlocutorVideoEnabled = payload.isVideoEnabled;
+
 			if (draft.interlocutor?.id === payload.caller.id && draft.isSpeaking) {
 				//if it matches this condition then it's negociation
 				return draft;
@@ -62,8 +65,6 @@ const calls = createReducer<CallState>(initialState)
 			draft.interlocutor = interlocutor;
 			draft.isCalling = true;
 			draft.offer = offer;
-
-			if (draft.offer.sdp?.includes('video')) draft.isCallingWithVideo = true;
 
 			return draft;
 		}),
@@ -89,17 +90,26 @@ const calls = createReducer<CallState>(initialState)
 			draft.isFullScreen = false;
 			draft.offer = undefined;
 			draft.answer = undefined;
+			draft.videoConstraints.isOpened = false;
+			draft.videoConstraints.isOpened = false;
+			draft.isScreenSharingOpened = false;
+			return draft;
+		}),
+	)
+	.handleAction(
+		CallActions.acceptCallAction,
+		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.acceptCallAction>) => {
+			draft.audioConstraints = { ...draft.audioConstraints, ...payload.constraints.audio };
+			draft.videoConstraints = { ...draft.videoConstraints, ...payload.constraints.video };
 			return draft;
 		}),
 	)
 	.handleAction(
 		CallActions.acceptCallSuccessAction,
-		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.acceptCallSuccessAction>) => {
+		produce((draft: CallState) => {
 			draft.isSpeaking = true;
 			draft.isCalling = false;
 			draft.amCalling = false;
-			draft.audioConstraints = { ...draft.audioConstraints, ...payload.constraints.audio };
-			draft.videoConstraints = { ...draft.videoConstraints, ...payload.constraints.video };
 			draft.isMediaSwitchingEnabled = true;
 			return draft;
 		}),
@@ -114,6 +124,9 @@ const calls = createReducer<CallState>(initialState)
 			draft.isFullScreen = false;
 			draft.offer = undefined;
 			draft.answer = undefined;
+			draft.videoConstraints.isOpened = false;
+			draft.videoConstraints.isOpened = false;
+			draft.isScreenSharingOpened = false;
 			return draft;
 		}),
 	)
@@ -124,6 +137,7 @@ const calls = createReducer<CallState>(initialState)
 			draft.isCalling = false;
 			draft.amCalling = false;
 			draft.answer = payload.answer;
+			draft.isInterlocutorVideoEnabled = payload.isVideoEnabled;
 			draft.isMediaSwitchingEnabled = true;
 			return draft;
 		}),
@@ -136,6 +150,9 @@ const calls = createReducer<CallState>(initialState)
 			draft.isCalling = false;
 			draft.isSpeaking = false;
 			draft.isFullScreen = false;
+			draft.videoConstraints.isOpened = false;
+			draft.videoConstraints.isOpened = false;
+			draft.isScreenSharingOpened = false;
 			return draft;
 		}),
 	)
@@ -160,8 +177,8 @@ const calls = createReducer<CallState>(initialState)
 		CallActions.changeScreenShareStatusAction,
 		produce((draft: CallState) => {
 			draft.isMediaSwitchingEnabled = false;
-			draft.videoConstraints.isOpened = false;
 			draft.isScreenSharingOpened = !draft.isScreenSharingOpened;
+			draft.videoConstraints.isOpened = false;
 			return draft;
 		}),
 	)
@@ -191,10 +208,12 @@ const calls = createReducer<CallState>(initialState)
 		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.switchDeviceAction>) => {
 			if (payload.kind === 'videoinput') {
 				draft.videoConstraints.deviceId = payload.deviceId;
+				draft.isMediaSwitchingEnabled = false;
 			}
 
 			if (payload.kind === 'audioinput') {
 				draft.audioConstraints.deviceId = payload.deviceId;
+				draft.isMediaSwitchingEnabled = false;
 			}
 
 			return draft;

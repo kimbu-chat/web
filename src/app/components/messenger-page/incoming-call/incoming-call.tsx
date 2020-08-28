@@ -14,7 +14,7 @@ const IncomingCall = () => {
 	const acceptCall = useActionWithDispatch(CallActions.acceptCallAction);
 
 	const interlocutor = useSelector(getCallInterlocutorSelector);
-	const isCallingWithVideo = useSelector((state: RootState) => state.calls.isCallingWithVideo);
+	const isCallingWithVideo = useSelector((state: RootState) => state.calls.isInterlocutorVideoEnabled);
 
 	useEffect(() => {
 		//repeatable playing beep-beep

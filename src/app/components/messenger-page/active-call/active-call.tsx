@@ -1,11 +1,12 @@
 import React, { useRef, useCallback, useEffect } from 'react';
 import './active-call.scss';
-import { peerConnection } from 'app/store/middlewares/webRTC/peerConnection';
+import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import { useSelector } from 'react-redux';
 import { getCallInterlocutorSelector, isFullScreen } from 'app/store/calls/selectors';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { CallActions } from 'app/store/calls/actions';
 import { RootState } from 'app/store/root-reducer';
+import { tracks } from 'app/store/calls/sagas';
 
 namespace IActiveCall {
 	export interface Props {
@@ -22,37 +23,26 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 	const audioDevices = useSelector((state: RootState) => state.calls.audioDevicesList);
 	const videoDevices = useSelector((state: RootState) => state.calls.videoDevicesList);
 	const isFullScreenEnabled = useSelector(isFullScreen);
+	const isInterlocutorVideoEnabled = useSelector((state: RootState) => state.calls.isInterlocutorVideoEnabled);
 
 	const isVideoOpened = videoConstraints.isOpened;
 	const isAudioOpened = audioConstraints.isOpened;
 	const activeAudioDevice = audioConstraints.deviceId;
 	const activeVideoDevice = videoConstraints.deviceId;
 
-	const sendCandidates = useActionWithDispatch(CallActions.myCandidateAction);
 	const changeVideoStatus = useActionWithDispatch(CallActions.changeVideoStatusAction);
 	const changeAudioStatus = useActionWithDispatch(CallActions.changeAudioStatusAction);
 	const cancelCall = useActionWithDispatch(CallActions.cancelCallAction);
 	const changeScreenShareStatus = useActionWithDispatch(CallActions.changeScreenShareStatusAction);
-	const negociate = useActionWithDispatch(CallActions.negociateAction);
 	const switchDevice = useActionWithDispatch(CallActions.switchDeviceAction);
 	const changeFullScreenStatus = useActionWithDispatch(CallActions.changeFullScreenStatusAction);
 
 	const remoteVideoRef = useRef<HTMLVideoElement>(null);
 	const remoteAudioRef = useRef<HTMLAudioElement>(null);
 
+	const localVideoRef = useRef<HTMLVideoElement>(null);
+
 	//!PEER connection callbacks
-	const onIceCandidate = useCallback(
-		(event: RTCPeerConnectionIceEvent) => {
-			if (event.candidate) {
-				const request = {
-					interlocutorId: interlocutor?.id || -1,
-					candidate: event.candidate,
-				};
-				sendCandidates(request);
-			}
-		},
-		[interlocutor, sendCandidates, peerConnection.connection],
-	);
 
 	const onTrack = useCallback(
 		(event: RTCTrackEvent) => {
@@ -72,35 +62,32 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 				remoteAudioRef.current.play();
 			}
 		},
-		[remoteVideoRef, remoteAudioRef, peerConnection.connection],
+		[remoteVideoRef, remoteAudioRef, peerConnection],
 	);
-
-	const onConnectionStateChange = useCallback(() => {
-		if (peerConnection.connection.connectionState === 'connected') {
-			console.log('peers connected');
-		}
-	}, [peerConnection.connection]);
 
 	//binding peer connection events
 	useEffect(() => {
-		peerConnection.connection.addEventListener('icecandidate', onIceCandidate);
+		peerConnection?.addEventListener('track', onTrack);
 
-		peerConnection.connection.addEventListener('connectionstatechange', onConnectionStateChange);
-
-		peerConnection.connection.addEventListener('track', onTrack);
-
-		peerConnection.connection.addEventListener('negotiationneeded', negociate);
 		//removing peer connection events
 		return () => {
-			peerConnection.connection.removeEventListener('icecandidate', onIceCandidate);
-
-			peerConnection.connection.removeEventListener('connectionstatechange', onConnectionStateChange);
-
-			peerConnection.connection.removeEventListener('track', onTrack);
-
-			peerConnection.connection.removeEventListener('negotiationneeded', negociate);
+			peerConnection?.removeEventListener('track', onTrack);
 		};
-	});
+	}, [onTrack, isDisplayed]);
+
+	useEffect(() => {
+		if (isVideoOpened) {
+			const localVideoStream = new MediaStream();
+			if (tracks.videoTracks[0]) {
+				localVideoStream.addTrack(tracks.videoTracks[0]);
+				if (localVideoRef.current) {
+					localVideoRef.current.pause();
+					localVideoRef.current.srcObject = localVideoStream;
+					localVideoRef.current.play();
+				}
+			}
+		}
+	}, [isVideoOpened, isDisplayed, activeVideoDevice, isMediaSwitchingEnabled]);
 
 	return (
 		<div
@@ -128,12 +115,26 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 				</button>
 			</div>
 			<img src={interlocutor?.avatarUrl} alt='' className='active-call__bg' />
-			<video
-				autoPlay
-				playsInline
-				ref={remoteVideoRef}
-				className={`active-call__remote-video ${isFullScreenEnabled ? 'active-call__remote-video--big' : ''} `}
-			></video>
+			{isInterlocutorVideoEnabled && (
+				<video
+					autoPlay
+					playsInline
+					ref={remoteVideoRef}
+					className={`active-call__remote-video ${
+						isFullScreenEnabled ? 'active-call__remote-video--big' : ''
+					} `}
+				></video>
+			)}
+			{isVideoOpened && (
+				<video
+					autoPlay
+					playsInline
+					ref={localVideoRef}
+					className={`active-call__local-video ${
+						isFullScreenEnabled ? 'active-call__local-video--big' : ''
+					} `}
+				></video>
+			)}
 			<audio autoPlay playsInline ref={remoteAudioRef} className='active-call__remote-audio'></audio>
 			<div className={`active-call__select-group ${isFullScreenEnabled ? 'active-call__select-group--big' : ''}`}>
 				<select

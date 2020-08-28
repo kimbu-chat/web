@@ -25,6 +25,7 @@ export interface ICompleteConstraints {
 export interface IIncomingCall {
 	caller: UserPreview;
 	offer: RTCSessionDescriptionInit;
+	isVideoEnabled: boolean;
 }
 
 export interface IOutgoingCall {
@@ -38,6 +39,7 @@ export interface IAcceptIncomingCall {
 
 export interface IInterlocutorAcceptCall {
 	answer: RTCSessionDescriptionInit;
+	isVideoEnabled: boolean;
 }
 
 export interface ICandidateAction {
@@ -77,9 +79,4 @@ export interface ICancelCall {
 
 export interface IAcceptCall {
 	interlocutorId: number;
-}
-
-export interface IMyCandidateAction {
-	interlocutorId: number;
-	candidate: RTCIceCandidate;
 }

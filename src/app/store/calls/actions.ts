@@ -4,7 +4,6 @@ import {
 	IIncomingCall,
 	ICandidateAction,
 	IInterlocutorAcceptCall,
-	IMyCandidateAction,
 	IAcceptIncomingCall,
 	IGotMediaDevicesInfo,
 	ISwitchDevice,
@@ -22,13 +21,11 @@ export namespace CallActions {
 	export const interlocutorAcceptedCallAction = createAction('INTERLOCUTOR_ACCEPTED_CALL')<IInterlocutorAcceptCall>();
 	export const callEndedAction = createEmptyAction('CALL_ENDED');
 	export const candidateAction = createAction('CANDIDATE')<ICandidateAction>();
-	export const myCandidateAction = createAction('MY_CANDIDATE')<IMyCandidateAction>();
 	export const changeVideoStatusAction = createEmptyAction('CHANGE_VIDEO_STATUS');
 	export const changeAudioStatusAction = createEmptyAction('CHANGE_AUDIO_STATUS');
 	export const changeScreenShareStatusAction = createEmptyAction('CHANGE_SCREEN_SHARE_STATUS');
 	export const gotDevicesInfoAction = createAction('GOT_DEVICES_INFO')<IGotMediaDevicesInfo>();
 	export const switchDeviceAction = createAction('SWITCH_DEVICE')<ISwitchDevice>();
 	export const enableMediaSwitchingAction = createEmptyAction('ENABLE_MEDIA');
-	export const negociateAction = createEmptyAction('NEGOCIATION_NEEDED');
 	export const changeFullScreenStatusAction = createEmptyAction('CHANGE_FULL_SCREEN_STATUS');
 }

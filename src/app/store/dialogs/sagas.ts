@@ -50,8 +50,8 @@ export function* muteDialogSaga(action: ReturnType<typeof ChatActions.muteChat>)
 		const request: MuteDialogRequest = {
 			dialogs: [
 				{
-					conferenceId: interlocutor === null ? conference?.id : null,
-					interlocutorId: conference === null ? interlocutor?.id : null,
+					conferenceId: conference?.id,
+					interlocutorId: interlocutor?.id,
 				},
 			],
 			isMuted: !isMuted,

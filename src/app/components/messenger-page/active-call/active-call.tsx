@@ -52,6 +52,13 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 				remoteVideoRef.current.pause();
 				remoteVideoRef.current.srcObject = remoteVideoStream;
 				remoteVideoRef.current.play();
+
+				event.streams[0].onremovetrack = ({ track }) => {
+					console.log(`${track.kind} track was removed.`);
+					if (!event.streams[0].getTracks().length) {
+						console.log(`stream ${event.streams[0].id} emptied (effectively removed).`);
+					}
+				};
 			}
 
 			if (event.track.kind === 'audio' && remoteAudioRef.current) {
@@ -208,7 +215,6 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 				</button>
 				{isVideoOpened ? (
 					<button
-						disabled={!isMediaSwitchingEnabled}
 						onClick={changeVideoStatus}
 						className='active-call__call-btn active-call__call-btn--video active-call__call-btn--video--active'
 					>
@@ -223,11 +229,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 						</div>
 					</button>
 				) : (
-					<button
-						disabled={!isMediaSwitchingEnabled}
-						onClick={changeVideoStatus}
-						className='active-call__call-btn active-call__call-btn--video'
-					>
+					<button onClick={changeVideoStatus} className='active-call__call-btn active-call__call-btn--video'>
 						<div className='svg'>
 							<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
 								<path

@@ -7,6 +7,7 @@ import {
 	IAcceptIncomingCall,
 	IGotMediaDevicesInfo,
 	ISwitchDevice,
+	IChangeMediaStatus,
 } from './models';
 import { createEmptyAction } from '../common/actions';
 
@@ -21,8 +22,7 @@ export namespace CallActions {
 	export const interlocutorAcceptedCallAction = createAction('INTERLOCUTOR_ACCEPTED_CALL')<IInterlocutorAcceptCall>();
 	export const callEndedAction = createEmptyAction('CALL_ENDED');
 	export const candidateAction = createAction('CANDIDATE')<ICandidateAction>();
-	export const changeVideoStatusAction = createEmptyAction('CHANGE_VIDEO_STATUS');
-	export const changeAudioStatusAction = createEmptyAction('CHANGE_AUDIO_STATUS');
+	export const changeMediaStatusAction = createAction('CHANGE_MEDIA_STATUS')<IChangeMediaStatus>();
 	export const changeScreenShareStatusAction = createEmptyAction('CHANGE_SCREEN_SHARE_STATUS');
 	export const gotDevicesInfoAction = createAction('GOT_DEVICES_INFO')<IGotMediaDevicesInfo>();
 	export const switchDeviceAction = createAction('SWITCH_DEVICE')<ISwitchDevice>();

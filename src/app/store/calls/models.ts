@@ -51,6 +51,10 @@ export interface IGotMediaDevicesInfo {
 	devices: MediaDeviceInfo[];
 }
 
+export interface IChangeMediaStatus {
+	kind: 'videoinput' | 'audioinput';
+}
+
 export interface ISwitchDevice {
 	kind: 'videoinput' | 'audioinput';
 	deviceId: string;

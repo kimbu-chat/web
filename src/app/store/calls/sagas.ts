@@ -1,6 +1,6 @@
 import { CallActions } from './actions';
 import { SagaIterator, eventChannel, buffers, END } from 'redux-saga';
-import { call, select, takeLatest, put, take, spawn, actionChannel } from 'redux-saga/effects';
+import { call, select, takeLatest, put, take, spawn, actionChannel, fork } from 'redux-saga/effects';
 import { getMyProfileSelector } from '../my-profile/selectors';
 import { UserPreview } from '../my-profile/models';
 import { CallsHttpRequests } from './http-requests';
@@ -185,8 +185,9 @@ export function* candidateSaga(action: ReturnType<typeof CallActions.candidateAc
 export function* changeVideoStatusSaga(): SagaIterator {
 	const requestChan = yield actionChannel(CallActions.changeMediaStatusAction);
 
-	const handleRequest = async ({ videoConstraints, audioConstraints }: any) => {
+	const handleVideoStatusChange = async ({ videoConstraints, audioConstraints }: any) => {
 		const oldStream = localMediaStream;
+		console.log('trigger');
 
 		if (videoConstraints.isOpened) {
 			try {
@@ -259,6 +260,16 @@ export function* changeVideoStatusSaga(): SagaIterator {
 		oldStream.getTracks().forEach((track) => track.stop());
 	};
 
+	yield fork(function* () {
+		yield take(CallActions.cancelCallAction);
+		requestChan.close();
+	});
+
+	yield fork(function* () {
+		yield take(CallActions.interlocutorCanceledCallAction);
+		requestChan.close();
+	});
+
 	while (true) {
 		// 2- take from the channel
 		const action = yield take(requestChan);
@@ -266,7 +277,7 @@ export function* changeVideoStatusSaga(): SagaIterator {
 		const audioConstraints = yield select((state: RootState) => state.calls.audioConstraints);
 		// 3- Note that we're using a blocking call
 		if (action.payload.kind === 'videoinput') {
-			yield call(handleRequest, { videoConstraints, audioConstraints });
+			yield call(handleVideoStatusChange, { videoConstraints, audioConstraints });
 			const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'videoinput');
 			yield put(CallActions.gotDevicesInfoAction({ kind: 'videoinput', devices: videoDevices }));
 		}

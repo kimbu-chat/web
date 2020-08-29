@@ -30,8 +30,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 	const activeAudioDevice = audioConstraints.deviceId;
 	const activeVideoDevice = videoConstraints.deviceId;
 
-	const changeVideoStatus = useActionWithDispatch(CallActions.changeVideoStatusAction);
-	const changeAudioStatus = useActionWithDispatch(CallActions.changeAudioStatusAction);
+	const changeMediaStatus = useActionWithDispatch(CallActions.changeMediaStatusAction);
 	const cancelCall = useActionWithDispatch(CallActions.cancelCallAction);
 	const changeScreenShareStatus = useActionWithDispatch(CallActions.changeScreenShareStatusAction);
 	const switchDevice = useActionWithDispatch(CallActions.switchDeviceAction);
@@ -174,7 +173,9 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 				{isAudioOpened ? (
 					<button
 						disabled={!isMediaSwitchingEnabled}
-						onClick={changeAudioStatus}
+						onClick={useCallback(() => {
+							changeMediaStatus({ kind: 'audioinput' });
+						}, [])}
 						className='active-call__call-btn active-call__call-btn--microphone active-call__call-btn--microphone--active'
 					>
 						<div className='svg'>
@@ -189,7 +190,9 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 				) : (
 					<button
 						disabled={!isMediaSwitchingEnabled}
-						onClick={changeAudioStatus}
+						onClick={useCallback(() => {
+							changeMediaStatus({ kind: 'audioinput' });
+						}, [])}
 						className='active-call__call-btn active-call__call-btn--microphone'
 					>
 						<div className='svg'>
@@ -215,7 +218,9 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 				</button>
 				{isVideoOpened ? (
 					<button
-						onClick={changeVideoStatus}
+						onClick={useCallback(() => {
+							changeMediaStatus({ kind: 'videoinput' });
+						}, [])}
 						className='active-call__call-btn active-call__call-btn--video active-call__call-btn--video--active'
 					>
 						<div className='svg'>
@@ -229,7 +234,12 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 						</div>
 					</button>
 				) : (
-					<button onClick={changeVideoStatus} className='active-call__call-btn active-call__call-btn--video'>
+					<button
+						onClick={useCallback(() => {
+							changeMediaStatus({ kind: 'videoinput' });
+						}, [])}
+						className='active-call__call-btn active-call__call-btn--video'
+					>
 						<div className='svg'>
 							<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
 								<path

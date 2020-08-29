@@ -157,18 +157,17 @@ const calls = createReducer<CallState>(initialState)
 		}),
 	)
 	.handleAction(
-		CallActions.changeAudioStatusAction,
-		produce((draft: CallState) => {
-			draft.audioConstraints.isOpened = !draft.audioConstraints.isOpened;
-			draft.isMediaSwitchingEnabled = false;
-			return draft;
-		}),
-	)
-	.handleAction(
-		CallActions.changeVideoStatusAction,
-		produce((draft: CallState) => {
-			draft.videoConstraints.isOpened = !draft.videoConstraints.isOpened;
-			draft.isScreenSharingOpened = false;
+		CallActions.changeMediaStatusAction,
+		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.changeMediaStatusAction>) => {
+			if (payload.kind === 'videoinput') {
+				draft.isScreenSharingOpened = false;
+				draft.videoConstraints.isOpened = !draft.videoConstraints.isOpened;
+			}
+
+			if (payload.kind === 'audioinput') {
+				draft.audioConstraints.isOpened = !draft.audioConstraints.isOpened;
+			}
+
 			draft.isMediaSwitchingEnabled = false;
 			return draft;
 		}),

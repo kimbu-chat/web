@@ -182,44 +182,8 @@ export function* candidateSaga(action: ReturnType<typeof CallActions.candidateAc
 	}, 100);
 }
 
-export function* changeAudioStatusSaga(): SagaIterator {
-	const videoConstraints = yield select((state: RootState) => state.calls.videoConstraints);
-	const audioConstraints = yield select((state: RootState) => state.calls.audioConstraints);
-	const oldStream = localMediaStream;
-
-	try {
-		if (audioConstraints.isOpened || videoConstraints.isOpened) {
-			console.log('requested');
-			localMediaStream = yield call(
-				async () =>
-					await navigator.mediaDevices.getUserMedia({
-						video: videoConstraints.isOpened && videoConstraints,
-						audio: audioConstraints.deviceId ? audioConstraints : audioConstraints.isOpened,
-					}),
-			);
-		}
-	} catch (e) {
-		console.log(e);
-	}
-
-	if (localMediaStream) {
-		tracks.videoTracks = localMediaStream.getVideoTracks();
-		tracks.audioTracks = localMediaStream.getAudioTracks();
-	}
-
-	if (tracks.audioTracks.length >= 0) {
-		audioSender?.replaceTrack(tracks.audioTracks[0]);
-	}
-	if (tracks.videoTracks.length > 0) {
-		videoSender?.replaceTrack(tracks.videoTracks[0]);
-	}
-
-	oldStream.getTracks().forEach((track) => track.stop());
-	yield put(CallActions.enableMediaSwitchingAction());
-}
-
 export function* changeVideoStatusSaga(): SagaIterator {
-	const requestChan = yield actionChannel(CallActions.changeVideoStatusAction);
+	const requestChan = yield actionChannel(CallActions.changeMediaStatusAction);
 
 	const handleRequest = async ({ videoConstraints, audioConstraints }: any) => {
 		const oldStream = localMediaStream;
@@ -265,13 +229,50 @@ export function* changeVideoStatusSaga(): SagaIterator {
 		}
 	};
 
+	const handleAudioStatusChange = async ({ videoConstraints, audioConstraints }: any) => {
+		const oldStream = localMediaStream;
+
+		try {
+			if (audioConstraints.isOpened || videoConstraints.isOpened) {
+				console.log('requested');
+				localMediaStream = await navigator.mediaDevices.getUserMedia({
+					video: videoConstraints.isOpened && videoConstraints,
+					audio: audioConstraints.deviceId ? audioConstraints : audioConstraints.isOpened,
+				});
+			}
+		} catch (e) {
+			console.log(e);
+		}
+
+		if (localMediaStream) {
+			tracks.videoTracks = localMediaStream.getVideoTracks();
+			tracks.audioTracks = localMediaStream.getAudioTracks();
+		}
+
+		if (tracks.audioTracks.length >= 0) {
+			audioSender?.replaceTrack(tracks.audioTracks[0]);
+		}
+		if (tracks.videoTracks.length > 0) {
+			videoSender?.replaceTrack(tracks.videoTracks[0]);
+		}
+
+		oldStream.getTracks().forEach((track) => track.stop());
+	};
+
 	while (true) {
 		// 2- take from the channel
-		yield take(requestChan);
+		const action = yield take(requestChan);
 		const videoConstraints = yield select((state: RootState) => state.calls.videoConstraints);
 		const audioConstraints = yield select((state: RootState) => state.calls.audioConstraints);
 		// 3- Note that we're using a blocking call
-		yield call(handleRequest, { videoConstraints, audioConstraints });
+		if (action.payload.kind === 'videoinput') {
+			yield call(handleRequest, { videoConstraints, audioConstraints });
+			const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'videoinput');
+			yield put(CallActions.gotDevicesInfoAction({ kind: 'videoinput', devices: videoDevices }));
+		}
+		if (action.payload.kind === 'audioinput') {
+			yield call(handleAudioStatusChange, { videoConstraints, audioConstraints });
+		}
 		yield put(CallActions.enableMediaSwitchingAction());
 	}
 }
@@ -313,6 +314,7 @@ export function* negociationSaga(action: ReturnType<typeof CallActions.incomingC
 	const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
 	const videoConstraints = yield select((state: RootState) => state.calls.videoConstraints);
 	const isCallActive: boolean = yield select(doIhaveCall);
+	const isScreenSharingEnabled = yield select((state: RootState) => state.calls.isScreenSharingOpened);
 
 	if (isCallActive && interlocutorId === action.payload.caller.id) {
 		peerConnection?.setRemoteDescription(new RTCSessionDescription(action.payload.offer));
@@ -322,7 +324,7 @@ export function* negociationSaga(action: ReturnType<typeof CallActions.incomingC
 		const request = {
 			interlocutorId,
 			answer,
-			isVideoEnabled: videoConstraints.isOpened,
+			isVideoEnabled: videoConstraints.isOpened || isScreenSharingEnabled,
 		};
 
 		const httpRequest = CallsHttpRequests.acceptCall;
@@ -474,8 +476,6 @@ export const CallsSagas = [
 	takeLatest(CallActions.interlocutorAcceptedCallAction, callAcceptedSaga),
 	takeLatest(CallActions.candidateAction, candidateSaga),
 	takeLatest(CallActions.interlocutorCanceledCallAction, callEndedSaga),
-	takeLatest(CallActions.changeAudioStatusAction, changeAudioStatusSaga),
-	// takeLatest(CallActions.changeVideoStatusAction, changeVideoStatusSaga),
 	takeLatest(CallActions.changeScreenShareStatusAction, changeScreenSharingStatus),
 	takeLatest(CallActions.switchDeviceAction, switchDeviceSaga),
 	takeLatest(CallActions.incomingCallAction, negociationSaga),

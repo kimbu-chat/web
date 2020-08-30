@@ -51,13 +51,6 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 				remoteVideoRef.current.pause();
 				remoteVideoRef.current.srcObject = remoteVideoStream;
 				remoteVideoRef.current.play();
-
-				event.streams[0].onremovetrack = ({ track }) => {
-					console.log(`${track.kind} track was removed.`);
-					if (!event.streams[0].getTracks().length) {
-						console.log(`stream ${event.streams[0].id} emptied (effectively removed).`);
-					}
-				};
 			}
 
 			if (event.track.kind === 'audio' && remoteAudioRef.current) {
@@ -93,7 +86,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 				}
 			}
 		}
-	}, [isVideoOpened, isDisplayed, activeVideoDevice, isMediaSwitchingEnabled]);
+	}, [isVideoOpened, tracks.videoTracks[0]]);
 
 	return (
 		<div

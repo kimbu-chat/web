@@ -64,6 +64,14 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 		[remoteVideoRef, remoteAudioRef, peerConnection],
 	);
 
+	const changeAudioStatus = useCallback(() => {
+		changeMediaStatus({ kind: 'audioinput' });
+	}, []);
+
+	const changeVideoStatus = useCallback(() => {
+		changeMediaStatus({ kind: 'videoinput' });
+	}, []);
+
 	//binding peer connection events
 	useEffect(() => {
 		peerConnection?.addEventListener('track', onTrack);
@@ -166,9 +174,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 				{isAudioOpened ? (
 					<button
 						disabled={!isMediaSwitchingEnabled}
-						onClick={useCallback(() => {
-							changeMediaStatus({ kind: 'audioinput' });
-						}, [])}
+						onClick={changeAudioStatus}
 						className='active-call__call-btn active-call__call-btn--microphone active-call__call-btn--microphone--active'
 					>
 						<div className='svg'>
@@ -183,9 +189,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 				) : (
 					<button
 						disabled={!isMediaSwitchingEnabled}
-						onClick={useCallback(() => {
-							changeMediaStatus({ kind: 'audioinput' });
-						}, [])}
+						onClick={changeAudioStatus}
 						className='active-call__call-btn active-call__call-btn--microphone'
 					>
 						<div className='svg'>
@@ -211,9 +215,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 				</button>
 				{isVideoOpened ? (
 					<button
-						onClick={useCallback(() => {
-							changeMediaStatus({ kind: 'videoinput' });
-						}, [])}
+						onClick={changeVideoStatus}
 						className='active-call__call-btn active-call__call-btn--video active-call__call-btn--video--active'
 					>
 						<div className='svg'>
@@ -227,12 +229,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 						</div>
 					</button>
 				) : (
-					<button
-						onClick={useCallback(() => {
-							changeMediaStatus({ kind: 'videoinput' });
-						}, [])}
-						className='active-call__call-btn active-call__call-btn--video'
-					>
+					<button onClick={changeVideoStatus} className='active-call__call-btn active-call__call-btn--video'>
 						<div className='svg'>
 							<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
 								<path

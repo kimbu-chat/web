@@ -109,7 +109,7 @@ const AccountInfo = ({
 				isDisplayed ? 'messenger__account-info messenger__account-info--active' : 'messenger__account-info'
 			}
 		>
-			<button onClick={() => hideSlider()} className='messenger__hide-info'>
+			<button onClick={hideSlider} className='messenger__hide-info'>
 				<div className='svg'>
 					<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
 						<path d='M10.634 3.634a.9.9 0 1 0-1.278-1.268l-4.995 5.03a.9.9 0 0 0 0 1.268l4.936 4.97a.9.9 0 0 0 1.278-1.268L6.268 8.03l4.366-4.396z'></path>
@@ -118,7 +118,7 @@ const AccountInfo = ({
 			</button>
 			<div className='messenger__account-avatar'>
 				<Avatar
-					onClick={() => fileInputRef.current?.click()}
+					onClick={fileInputRef.current?.click}
 					className='messenger__account-avatar-img'
 					alt={name}
 					src={avatar}
@@ -147,7 +147,7 @@ const AccountInfo = ({
 			</div>
 			<div className='messenger__account-info__btn-groups'>
 				<div className='messenger__account-info__btn-group'>
-					<button className='messenger__account-info__btn' onClick={() => createChat()}>
+					<button className='messenger__account-info__btn' onClick={createChat}>
 						<div className='svg'>
 							<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
 								<path
@@ -221,7 +221,7 @@ const AccountInfo = ({
 						<span>{t('accountInfo.settings')}</span>
 					</button>
 				</div>
-				<button onClick={() => logout()} className='messenger__account-info__btn-group'>
+				<button onClick={logout} className='messenger__account-info__btn-group'>
 					<div className='messenger__account-info__btn'>
 						<div className='svg'>
 							<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>

@@ -88,7 +88,7 @@ const CreateMessageInput = () => {
 		<div className='messenger__send-message'>
 			{selectedDialog && (
 				<React.Fragment>
-					<button onClick={() => handleClick()} className='messenger__display-smiles'>
+					<button onClick={handleClick} className='messenger__display-smiles'>
 						<svg
 							className={smilesDisplayed ? 'blue' : 'black'}
 							xmlns='http://www.w3.org/2000/svg'

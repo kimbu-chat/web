@@ -22,65 +22,65 @@ export interface ICompleteConstraints {
 	};
 }
 
-export interface IIncomingCall {
+export interface IncomingCallActionPayload {
 	caller: UserPreview;
 	offer: RTCSessionDescriptionInit;
 	isVideoEnabled: boolean;
 }
 
-export interface IOutgoingCall {
+export interface OutgoingCallActionPayload {
 	calling: UserPreview;
 	constraints: IConstraints;
 }
 
-export interface IAcceptIncomingCall {
+export interface AcceptIncomingCallActionPayload {
 	constraints: IConstraints;
 }
 
-export interface IInterlocutorAcceptCall {
+export interface InterlocutorAcceptCallActionPayload {
 	answer: RTCSessionDescriptionInit;
 	isVideoEnabled: boolean;
 }
 
-export interface ICandidateAction {
+export interface CandidateActionPayload {
 	candidate: RTCIceCandidate;
 }
 
-export interface IGotMediaDevicesInfo {
+export interface GotMediaDevicesInfoActionPayload {
 	kind: 'videoinput' | 'audioinput';
 	devices: MediaDeviceInfo[];
 }
 
-export interface IChangeMediaStatus {
+export interface ChangeMediaStatusActionPayload {
 	kind: 'videoinput' | 'audioinput';
 }
 
-export interface ISwitchDevice {
+export interface SwitchDeviceActionPayload {
 	kind: 'videoinput' | 'audioinput';
 	deviceId: string;
 }
 
 //Http requests
 
-export interface IEndCall {
+export interface EndCallApiRequest {
 	interlocutorId: number;
 }
 
-export interface ICandidate {
+export interface CandidateApiRequest {
 	interlocutorId: number;
 	candidate: RTCIceCandidate;
 }
 
-export interface ICall {
+export interface CallApiRequest {
 	interlocutorId: number;
 	offer: RTCSessionDescriptionInit;
 	caller: UserPreview;
 }
 
-export interface ICancelCall {
+export interface CancelCallApiRequest {
 	interlocutorId: number;
 }
 
-export interface IAcceptCall {
+export interface AcceptCallApiRequest {
 	interlocutorId: number;
 }

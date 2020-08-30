@@ -7,7 +7,7 @@ import { LocalizationContext } from 'app/app';
 
 namespace SearchTop {
 	export interface Props {
-		displaySlider: Function;
+		displaySlider: () => void;
 		displayCreateChat: () => void;
 	}
 }
@@ -31,7 +31,7 @@ const SearchTop = ({ displaySlider, displayCreateChat }: SearchTop.Props) => {
 
 	return (
 		<div className='messenger__search-top'>
-			<button className='messenger__burger' onClick={() => displaySlider()}>
+			<button className='messenger__burger' onClick={displaySlider}>
 				<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' e-dvz7b7=''>
 					<path
 						fillRule='nonzero'

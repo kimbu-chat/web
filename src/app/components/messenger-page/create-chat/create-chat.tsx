@@ -127,7 +127,7 @@ const CreateChat = ({ hide, setImageUrl, displayChangePhoto, isDisplayed }: Crea
 				<div className=''></div>
 			</div>
 			<div className='messenger__create-chat__chat-data'>
-				<div onClick={() => fileInputRef.current?.click()} className='messenger__create-chat__img-select'>
+				<div onClick={fileInputRef.current?.click} className='messenger__create-chat__img-select'>
 					{!avatarData?.croppedImagePath && (
 						<div className='svg'>
 							<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>

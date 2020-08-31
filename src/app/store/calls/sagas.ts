@@ -115,6 +115,15 @@ export function* cancelCallSaga(): SagaIterator {
 	const httpRequest = CallsHttpRequests.cancelCall;
 	httpRequest.call(yield call(() => httpRequest.generator(request)));
 
+	if (videoSender) {
+		try {
+			peerConnection?.removeTrack(videoSender);
+		} catch (e) {
+			console.warn(e);
+		}
+		videoSender = null;
+	}
+
 	peerConnection?.close();
 	resetPeerConnection();
 
@@ -125,6 +134,7 @@ export function* cancelCallSaga(): SagaIterator {
 	if (tracks.screenSharingTracks) {
 		tracks.screenSharingTracks.forEach((track) => track.stop());
 	}
+
 	yield put(CallActions.cancelCallSuccessAction());
 }
 
@@ -160,6 +170,15 @@ export function* callEndedSaga(): SagaIterator {
 	}
 	if (tracks.screenSharingTracks) {
 		tracks.screenSharingTracks.forEach((track) => track.stop());
+	}
+
+	if (videoSender) {
+		try {
+			peerConnection?.removeTrack(videoSender);
+		} catch (e) {
+			console.warn(e);
+		}
+		videoSender = null;
 	}
 }
 
@@ -514,6 +533,8 @@ export function* peerWatcher() {
 		}
 	}
 }
+
+setInterval(() => console.log(peerConnection?.connectionState), 1000);
 
 export const CallsSagas = [
 	takeLatest(CallActions.outgoingCallAction, outgoingCallSaga),

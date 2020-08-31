@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, useEffect } from 'react';
+import React, { useRef, useCallback, useEffect, useState } from 'react';
 import './active-call.scss';
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import { useSelector } from 'react-redux';
@@ -7,6 +7,7 @@ import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { CallActions } from 'app/store/calls/actions';
 import { RootState } from 'app/store/root-reducer';
 import { tracks } from 'app/store/calls/sagas';
+import moment from 'moment';
 
 namespace IActiveCall {
 	export interface Props {
@@ -38,8 +39,9 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 
 	const remoteVideoRef = useRef<HTMLVideoElement>(null);
 	const remoteAudioRef = useRef<HTMLAudioElement>(null);
-
 	const localVideoRef = useRef<HTMLVideoElement>(null);
+
+	const [callDuration, setCallDuration] = useState(0);
 
 	//!PEER connection callbacks
 
@@ -82,6 +84,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 		};
 	}, [onTrack, isDisplayed]);
 
+	//local video stream assigning
 	useEffect(() => {
 		if (isVideoOpened) {
 			const localVideoStream = new MediaStream();
@@ -95,6 +98,17 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 			}
 		}
 	}, [isVideoOpened, tracks.videoTracks[0]]);
+
+	//component did mount effect
+	useEffect(() => {
+		setCallDuration(0);
+
+		const callDurationIntervalCode = setInterval(() => setCallDuration((old) => old + 1), 1000);
+
+		return () => {
+			clearInterval(callDurationIntervalCode);
+		};
+	}, [isDisplayed]);
 
 	return (
 		<div
@@ -143,6 +157,8 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 				></video>
 			)}
 			<audio autoPlay playsInline ref={remoteAudioRef} className='active-call__remote-audio'></audio>
+			<div className='active-call__duration'>{moment.utc(callDuration * 1000).format('HH:mm:ss')}</div>
+
 			<div className={`active-call__select-group ${isFullScreenEnabled ? 'active-call__select-group--big' : ''}`}>
 				<select
 					onChange={(e) => switchDevice({ kind: 'audioinput', deviceId: e.target.value })}
@@ -169,7 +185,6 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 					))}
 				</select>
 			</div>
-
 			<div className='active-call__bottom-menu'>
 				{isAudioOpened ? (
 					<button

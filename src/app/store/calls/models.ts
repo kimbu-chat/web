@@ -81,6 +81,10 @@ export interface CancelCallApiRequest {
 	interlocutorId: number;
 }
 
+export interface DeclineCallApiRequest {
+	interlocutorId: number;
+}
+
 export interface AcceptCallApiRequest {
 	interlocutorId: number;
 }

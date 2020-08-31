@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useContext, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import './chat.scss';
 import moment from 'moment';
-import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { Message, MessageList } from 'app/store/messages/models';
 import { MessageActions } from 'app/store/messages/actions';
@@ -12,7 +11,6 @@ import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
 import { getMyIdSelector } from 'app/store/my-profile/selectors';
 import MessageItem from '../message-item/message-item';
 import InfiniteScroll from 'react-infinite-scroller';
-import { CircularProgress } from '@material-ui/core';
 import SelectedMessagesData from '../selected-messages-data/selected-messages-data';
 import { setSelectedMessagesLength } from 'app/store/messages/selectors';
 
@@ -22,7 +20,7 @@ export enum messageFrom {
 }
 
 const Chat = () => {
-	const getMessages = useActionWithDeferred(MessageActions.getMessages);
+	const getMessages = useActionWithDispatch(MessageActions.getMessages);
 	const markMessagesAsRead = useActionWithDispatch(MessageActions.markMessagesAsRead);
 
 	const { t, i18n } = useContext(LocalizationContext);
@@ -54,26 +52,25 @@ const Chat = () => {
 
 	const messagesContainerRef = useRef(null);
 
-	const loadPage = useCallback(
-		(page: number) => {
-			const pageData = {
-				limit: 25,
-				offset: page * 25,
-			};
+	const loadPage = () => {
+		const pageData = {
+			limit: 25,
+			offset: messages?.length || 0,
+		};
 
-			if (selectedDialog) {
-				getMessages({
-					page: pageData,
-					dialog: selectedDialog,
-					initiatedByScrolling: false,
-				});
-			}
-		},
-		[selectedDialog],
-	);
+		console.log('loaded');
+
+		if (selectedDialog) {
+			getMessages({
+				page: pageData,
+				dialog: selectedDialog,
+				initiatedByScrolling: false,
+			});
+		}
+	};
 
 	useEffect(() => {
-		loadPage(0);
+		loadPage();
 
 		if (selectedDialog) {
 			const markAsRead = (): void => {
@@ -162,7 +159,12 @@ const Chat = () => {
 					loader={
 						<div className='loader ' key={0}>
 							<div className=''>
-								<CircularProgress />
+								<div className='lds-ellipsis'>
+									<div></div>
+									<div></div>
+									<div></div>
+									<div></div>
+								</div>
 							</div>
 						</div>
 					}

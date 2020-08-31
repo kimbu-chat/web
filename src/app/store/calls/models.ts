@@ -85,6 +85,10 @@ export interface DeclineCallApiRequest {
 	interlocutorId: number;
 }
 
+export interface CallNotAnsweredApiRequest {
+	interlocutorId: number;
+}
+
 export interface AcceptCallApiRequest {
 	interlocutorId: number;
 }

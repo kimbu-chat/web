@@ -8,8 +8,6 @@ import { LocalizationContext } from 'app/app';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 
-import { Button } from '@material-ui/core';
-
 namespace ChangePhoto {
 	export interface Props {
 		imageUrl: string | null | ArrayBuffer;
@@ -176,12 +174,8 @@ const ChangePhotoComponent = ({ imageUrl, onSubmit, hideChangePhoto }: ChangePho
 				/>
 			</div>
 			<div className='change-photo__btn-group'>
-				<Button onClick={submitChange} variant='contained' color='primary'>
-					{t('changePhoto.confirm')}
-				</Button>
-				<Button onClick={hideChangePhoto} variant='contained' color='secondary'>
-					{t('changePhoto.reject')}
-				</Button>
+				<button onClick={submitChange}>{t('changePhoto.confirm')}</button>
+				<button onClick={hideChangePhoto}>{t('changePhoto.reject')}</button>
 			</div>
 		</div>
 	) : (

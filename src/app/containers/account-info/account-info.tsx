@@ -118,7 +118,7 @@ const AccountInfo = ({
 			</button>
 			<div className='messenger__account-avatar'>
 				<Avatar
-					onClick={fileInputRef.current?.click}
+					onClick={() => fileInputRef.current?.click()}
 					className='messenger__account-avatar-img'
 					alt={name}
 					src={avatar}

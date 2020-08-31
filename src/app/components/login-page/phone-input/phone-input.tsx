@@ -2,8 +2,6 @@ import React, { useContext, useCallback } from 'react';
 import { parsePhoneNumberFromString, AsYouType } from 'libphonenumber-js';
 import './phone-input.scss';
 
-import TextField from '@material-ui/core/TextField';
-
 import { country, countryList } from '../../../common/countries';
 import { LocalizationContext } from 'app/app';
 
@@ -30,14 +28,8 @@ const PhoneInput = ({ phone, setPhone, setCountry }: PhoneInput.Props) => {
 
 	return (
 		<div className='phone-input'>
-			<TextField
-				value={phone}
-				onChange={handlePhoneChange}
-				className='phone-input__input'
-				id='outlined-required'
-				label={t('loginPage.phone')}
-				variant='outlined'
-			/>
+			<p>{t('loginPage.phone')}</p>
+			<input value={phone} onChange={handlePhoneChange} className='phone-input__input' />
 		</div>
 	);
 };

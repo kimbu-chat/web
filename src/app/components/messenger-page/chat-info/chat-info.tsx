@@ -121,7 +121,7 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 								{getInterlocutorInitials(selectedDialog)}
 							</Avatar>
 							<div
-								onClick={fileInputRef.current?.click}
+								onClick={() => fileInputRef.current?.click()}
 								className={getDialogAvatar() ? 'change-avatar change-avatar--hidden' : 'change-avatar'}
 							>
 								<div className='svg'>

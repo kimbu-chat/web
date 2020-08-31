@@ -1,6 +1,6 @@
 import { CallActions } from './actions';
 import { SagaIterator, eventChannel, buffers, END } from 'redux-saga';
-import { call, select, takeLatest, put, take, spawn, actionChannel, fork } from 'redux-saga/effects';
+import { call, select, takeLatest, put, take, spawn, actionChannel, fork, delay, race } from 'redux-saga/effects';
 import { getMyProfileSelector } from '../my-profile/selectors';
 import { UserPreview } from '../my-profile/models';
 import { CallsHttpRequests } from './http-requests';
@@ -91,6 +91,18 @@ export function* outgoingCallSaga(action: ReturnType<typeof CallActions.outgoing
 
 	yield spawn(changeVideoStatusSaga);
 	console.log('spawned');
+
+	const { timeout } = yield race({
+		canceled: take(CallActions.cancelCallAction),
+		interlocutorCanceled: take(CallActions.interlocutorCanceledCallAction),
+		answered: take(CallActions.interlocutorAcceptedCallAction),
+		timeout: delay(15000),
+	});
+
+	if (timeout) {
+		yield put(CallActions.timeoutCallAction());
+		console.log('timeouted');
+	}
 }
 
 export function* cancelCallSaga(): SagaIterator {
@@ -483,6 +495,7 @@ export function* peerWatcher() {
 export const CallsSagas = [
 	takeLatest(CallActions.outgoingCallAction, outgoingCallSaga),
 	takeLatest(CallActions.cancelCallAction, cancelCallSaga),
+	takeLatest(CallActions.timeoutCallAction, cancelCallSaga),
 	takeLatest(CallActions.acceptCallAction, acceptCallSaga),
 	takeLatest(CallActions.interlocutorAcceptedCallAction, callAcceptedSaga),
 	takeLatest(CallActions.candidateAction, candidateSaga),

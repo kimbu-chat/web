@@ -4,8 +4,6 @@ import './chat-list.scss';
 import ChatFromList from '../chat-from-list/chat-from-list';
 import InfiniteScroll from 'react-infinite-scroller';
 
-import CircularProgress from '@material-ui/core/CircularProgress';
-
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { useSelector } from 'react-redux';
 import { Dialog } from 'app/store/dialogs/models';
@@ -57,7 +55,12 @@ const ChatList = () => {
 				loader={
 					<div className='loader ' key={0}>
 						<div className=''>
-							<CircularProgress />
+							<div className='lds-ellipsis'>
+								<div></div>
+								<div></div>
+								<div></div>
+								<div></div>
+							</div>
 						</div>
 					</div>
 				}

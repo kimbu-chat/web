@@ -4,8 +4,6 @@ import './account-info.scss';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import { Avatar } from '@material-ui/core';
-
 import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
 import { Messenger } from 'app/containers/Messenger/Messenger';
 import { RootState } from 'app/store/root-reducer';
@@ -13,6 +11,7 @@ import { AuthActions } from 'app/store/auth/actions';
 import { MyProfileActions } from 'app/store/my-profile/actions';
 import { LocalizationContext } from 'app/app';
 import { UserPreview } from 'app/store/my-profile/models';
+import Avatar from 'app/components/shared/avatar/avatar';
 
 namespace AccountInfoNS {
 	export interface Props {
@@ -120,7 +119,6 @@ const AccountInfo = ({
 				<Avatar
 					onClick={() => fileInputRef.current?.click()}
 					className='messenger__account-avatar-img'
-					alt={name}
 					src={avatar}
 				>
 					{getInitials(`${firstName} ${lastName}`)}

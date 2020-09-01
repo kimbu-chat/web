@@ -126,8 +126,10 @@
 	}
 
 	&__read {
-		height: 17px !important;
+		height: 20px !important;
 		margin-bottom: -6px !important;
+		display: inline-block;
+		width: 28px;
 	}
 
 	&__menu {

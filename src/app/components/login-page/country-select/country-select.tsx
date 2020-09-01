@@ -2,8 +2,7 @@ import * as React from 'react';
 import { useContext, useCallback, useState } from 'react';
 import './country-select.scss';
 
-import TextField from '@material-ui/core/TextField';
-import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
+import useAutocomplete, { createFilterOptions } from '@material-ui/lab/useAutocomplete';
 
 import { countryList, country } from '../../../common/countries';
 import { LocalizationContext } from 'app/app';
@@ -16,11 +15,11 @@ namespace CountrySelect {
 	}
 }
 
-function countryToFlag(isoCode: string): string {
-	return typeof String.fromCodePoint !== 'undefined'
-		? isoCode.toUpperCase().replace(/./g, (char) => String.fromCodePoint(char.charCodeAt(0) + 127397))
-		: isoCode;
-}
+// function countryToFlag(isoCode: string): string {
+// 	return typeof String.fromCodePoint !== 'undefined'
+// 		? isoCode.toUpperCase().replace(/./g, (char) => String.fromCodePoint(char.charCodeAt(0) + 127397))
+// 		: isoCode;
+// }
 
 const CountrySelect = ({ country, setCountry, setPhone }: CountrySelect.Props) => {
 	const { t } = useContext(LocalizationContext);
@@ -48,38 +47,45 @@ const CountrySelect = ({ country, setCountry, setPhone }: CountrySelect.Props) =
 		[setCountry, setPhone],
 	);
 
+	const { getRootProps, getInputProps, getListboxProps, getOptionProps, groupedOptions } = useAutocomplete({
+		id: 'use-autocomplete-demo',
+		options: countryList,
+		inputValue: inputValue,
+		onInputChange: (_event, newInputValue) => {
+			setInputValue(newInputValue);
+			console.log(newInputValue);
+		},
+		getOptionLabel: (option) => option.title,
+		value: country,
+		onChange: (_event, newCountry) => handleCountryChange(newCountry),
+		filterOptions: createFilterOptions({
+			stringify: (option) => option.title + option.number,
+		}),
+	});
+
 	return (
-		<Autocomplete
-			value={country}
-			className='country-select'
-			onChange={(_event, newCountry) => handleCountryChange(newCountry)}
-			inputValue={inputValue}
-			onInputChange={(_event, newInputValue) => {
-				setInputValue(newInputValue);
-			}}
-			options={countryList}
-			getOptionLabel={(option) => option.title}
-			renderOption={(option) => (
-				<div className='country-select__country'>
-					<span className='country-select__flag'>{countryToFlag(option.code)}</span>
-					{option.title} <span className='country-select__number'>{option.number}</span>
-				</div>
-			)}
-			renderInput={(params) => (
-				<TextField
-					{...params}
-					label={t('loginPage.country')}
-					variant='outlined'
-					inputProps={{
-						...params.inputProps,
-						autoComplete: 'new-password',
-					}}
-				/>
-			)}
-			filterOptions={createFilterOptions({
-				stringify: (option) => option.title + option.number,
-			})}
-		/>
+		<div {...getRootProps()} className=''>
+			<input
+				placeholder={t('loginPage.country')}
+				list='countries'
+				type='text'
+				className='country-select'
+				{...getInputProps()}
+			/>
+
+			{groupedOptions.length > 0 ? (
+				<datalist id='countries' {...getListboxProps()}>
+					{groupedOptions.map((option, index) => {
+						console.log(option);
+						return (
+							<option className='country-select__country' {...getOptionProps({ option, index })}>
+								{option.title}
+							</option>
+						);
+					})}
+				</datalist>
+			) : null}
+		</div>
 	);
 };
 

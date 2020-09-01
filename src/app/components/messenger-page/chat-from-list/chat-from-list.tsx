@@ -10,14 +10,13 @@ import { Dialog } from 'app/store/dialogs/models';
 import { MessageUtils } from 'app/utils/message-utils';
 import { getDialogInterlocutor, getInterlocutorInitials } from '../../../utils/interlocutor-name-utils';
 
-import StatusBadge from 'app/components/shared/status-badge';
+import StatusBadge from 'app/components/shared/status-badge/status-badge';
 import _ from 'lodash';
 import { ChatActions } from 'app/store/dialogs/actions';
 import { SystemMessageType, Message } from 'app/store/messages/models';
 import { LocalizationContext } from 'app/app';
 import { getMyIdSelector } from 'app/store/my-profile/selectors';
-
-import { Avatar } from '@material-ui/core';
+import Avatar from 'app/components/shared/avatar/avatar';
 
 namespace ChatFromList {
 	export interface Props {

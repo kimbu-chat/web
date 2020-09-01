@@ -4,15 +4,14 @@ import { useSelector } from 'react-redux';
 import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
 import { getDialogInterlocutor, getInterlocutorInitials } from '../../../utils/interlocutor-name-utils';
 
-import { Avatar } from '@material-ui/core';
-
 import './chat-data.scss';
 import { LocalizationContext } from 'app/app';
-import StatusBadge from 'app/components/shared/status-badge';
+import StatusBadge from 'app/components/shared/status-badge/status-badge';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { CallActions } from 'app/store/calls/actions';
 import { UserPreview } from 'app/store/my-profile/models';
 import { UserStatus } from 'app/store/friends/models';
+import Avatar from 'app/components/shared/avatar/avatar';
 
 namespace ChatData {
 	export interface Props {

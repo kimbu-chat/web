@@ -1,7 +1,7 @@
 import React from 'react';
 import './contact-item.scss';
 
-import StatusBadge from 'app/components/shared/status-badge';
+import StatusBadge from 'app/components/shared/status-badge/status-badge';
 
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 

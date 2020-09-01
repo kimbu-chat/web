@@ -1,10 +1,8 @@
 import React, { useState, useContext } from 'react';
 import './rename-conference-modal.scss';
 
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-
 import { LocalizationContext } from 'app/app';
+import ReactDOM from 'react-dom';
 
 namespace RenameConferenceModal {
 	export interface Props {
@@ -30,23 +28,30 @@ const RenameConferenceModal = React.forwardRef(
 		};
 		return (
 			<div ref={ref} className='rename-conference'>
-				<TextField
+				<input
 					onKeyPress={submitRenameByKey}
 					onChange={(e) => setNewName(e.target.value)}
 					id='standard-basic'
-					label={t('renameConference.newName')}
+					placeholder={t('renameConference.newName')}
 				/>
 				<div className='flat rename-conference__btn-group'>
-					<Button onClick={submitRename} color='primary'>
+					<button onClick={submitRename} color='primary'>
 						{t('renameConference.rename')}
-					</Button>
-					<Button onClick={close} color='secondary'>
+					</button>
+					<button onClick={close} color='secondary'>
 						{t('renameConference.reject')}
-					</Button>
+					</button>
 				</div>
 			</div>
 		);
 	},
 );
 
-export default RenameConferenceModal;
+const RenameConferenceModalPortal = (props: RenameConferenceModal.Props) => {
+	return ReactDOM.createPortal(
+		<RenameConferenceModal {...props} />,
+		document.getElementById('root') || document.createElement('div'),
+	);
+};
+
+export default React.memo(RenameConferenceModalPortal);

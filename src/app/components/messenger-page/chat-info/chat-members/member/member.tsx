@@ -4,7 +4,7 @@ import moment from 'moment';
 import { UserPreview } from 'app/store/my-profile/models';
 import { LocalizationContext } from 'app/app';
 
-import StatusBadge from 'app/components/shared/status-badge';
+import StatusBadge from 'app/components/shared/status-badge/status-badge';
 
 namespace Member {
 	export interface Props {

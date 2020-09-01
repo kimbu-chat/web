@@ -115,6 +115,10 @@
 		"you_changed_name": "You changed name from {{oldName}} to {{newName}}",
 		"someone_changed_name": "{{someonesName}} changed name from {{oldName}} to {{newName}}",
 		"you_changed_avatar": "You changed avatar",
-		"someone_changed_avatar": "{{someonesName}} changed avatar"
+		"someone_changed_avatar": "{{someonesName}} changed avatar",
+		"you_missed_call": "You missed call",
+		"someone_missed_call": "Interlocutor missed call",
+		"outgoing_call_success_ended": "Outgoing call: {{duration}}",
+		"incoming_call_success_ended": "Incoming call: {{duration}}"
 	}
 }

@@ -11,15 +11,14 @@ import { AvatarSelectedData } from 'app/store/my-profile/models';
 import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
 
 import ChatManipulation from './chat-manipulation/chat-manipulation';
-import StatusBadge from 'app/components/shared/status-badge';
+import StatusBadge from 'app/components/shared/status-badge/status-badge';
 import ChatMembers from './chat-members/chat-members';
 import RenameConferenceModal from './rename-conference-modal/rename-conference-modal';
 
 import { FriendActions } from 'app/store/friends/actions';
 import { ChatActions } from 'app/store/dialogs/actions';
 
-import { Avatar } from '@material-ui/core';
-import Modal from '@material-ui/core/Modal';
+import Avatar from 'app/components/shared/avatar/avatar';
 
 namespace ChatInfo {
 	export interface Props {
@@ -121,7 +120,7 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 								{getInterlocutorInitials(selectedDialog)}
 							</Avatar>
 							<div
-								onClick={fileInputRef.current?.click}
+								onClick={() => fileInputRef.current?.click()}
 								className={getDialogAvatar() ? 'change-avatar change-avatar--hidden' : 'change-avatar'}
 							>
 								<div className='svg'>
@@ -156,19 +155,12 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 
 				{conference && <ChatMembers addMembers={searchContactsToAdd} />}
 
-				<Modal
-					open={renameConferenceOpened}
-					onClose={() => setRenameConferenceOpened(false)}
-					aria-labelledby='simple-modal-title'
-					aria-describedby='simple-modal-description'
-				>
-					<div tabIndex={-1}>
-						<RenameConferenceModal
-							close={() => setRenameConferenceOpened(false)}
-							renameConference={setNewConferenceName}
-						/>
-					</div>
-				</Modal>
+				{renameConferenceOpened && (
+					<RenameConferenceModal
+						close={() => setRenameConferenceOpened(false)}
+						renameConference={setNewConferenceName}
+					/>
+				)}
 			</div>
 		);
 	} else {

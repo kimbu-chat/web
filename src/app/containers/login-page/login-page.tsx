@@ -6,8 +6,6 @@ import CountrySelect from '../../components/login-page/country-select/country-se
 import PhoneInput from '../../components/login-page/phone-input/phone-input';
 import { history } from '../../../main';
 
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 import { country } from 'app/common/countries';
 import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
 import { useSelector } from 'react-redux';
@@ -82,9 +80,9 @@ const LoginPage = () => {
 					<CountrySelect country={country} setCountry={setCountry} setPhone={setPhone} />
 					<PhoneInput phone={phone} setPhone={setPhone} country={country} setCountry={setCountry} />
 					<div className='login-page__button-container'>
-						<Button onClick={sendSms} className='login-page__button' variant='contained' color='primary'>
+						<button onClick={sendSms} className='login-page__button'>
 							{t('loginPage.next')}
-						</Button>
+						</button>
 					</div>
 					{error && <p>{error}</p>}
 				</div>
@@ -95,24 +93,18 @@ const LoginPage = () => {
 					<h1>{t('loginPage.title')}</h1>
 					<p>{t('loginPage.confirm_code')}</p>
 					<div className='login-page__code-input'>
-						<TextField
+						<input
 							value={code}
 							onChange={(e) => setCode(e.target.value)}
 							className='phone-input__input'
-							id='outlined-required'
-							label={t('loginPage.code')}
-							variant='outlined'
+							required
+							placeholder={t('loginPage.code')}
 							onKeyPress={confirmPhoneByCode}
 						/>
 						<div className='login-page__button-container'>
-							<Button
-								onClick={checkCode}
-								className='login-page__check-button'
-								variant='contained'
-								color='primary'
-							>
+							<button onClick={checkCode} className='login-page__check-button'>
 								{t('loginPage.log_in')}
-							</Button>
+							</button>
 						</div>
 					</div>
 					{isConfirmationCodeWrong && <p>{t('loginPage.wrong_code')}</p>}

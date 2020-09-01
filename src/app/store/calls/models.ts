@@ -22,6 +22,10 @@ export interface ICompleteConstraints {
 	};
 }
 
+export interface EndCallActionPayload {
+	seconds: number;
+}
+
 export interface IncomingCallActionPayload {
 	caller: UserPreview;
 	offer: RTCSessionDescriptionInit;
@@ -62,10 +66,6 @@ export interface SwitchDeviceActionPayload {
 
 //Http requests
 
-export interface EndCallApiRequest {
-	interlocutorId: number;
-}
-
 export interface CandidateApiRequest {
 	interlocutorId: number;
 	candidate: RTCIceCandidate;
@@ -78,6 +78,19 @@ export interface CallApiRequest {
 }
 
 export interface CancelCallApiRequest {
+	interlocutorId: number;
+}
+
+export interface DeclineCallApiRequest {
+	interlocutorId: number;
+}
+
+export interface EndCallApiRequest {
+	interlocutorId: number;
+	seconds: number;
+}
+
+export interface CallNotAnsweredApiRequest {
 	interlocutorId: number;
 }
 

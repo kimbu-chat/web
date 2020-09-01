@@ -79,7 +79,29 @@ export class MessageUtils {
 				  });
 		}
 
-		throw 'Construct System MessageText function error';
+		if (message.systemMessageType === SystemMessageType.MissedCall) {
+			console.log(message);
+			try {
+				const seconds = JSON.parse(message.text).seconds;
+				if (seconds) {
+					return isCurrentUserMessageCreator
+						? t('systemMessage.outgoing_call_success_ended', {
+								duration: moment.utc(seconds * 1000).format('HH:mm:ss'),
+						  })
+						: t('systemMessage.incoming_call_success_ended', {
+								duration: moment.utc(seconds * 1000).format('HH:mm:ss'),
+						  });
+				}
+			} catch {}
+
+			return isCurrentUserMessageCreator
+				? t('systemMessage.someone_missed_call')
+				: t('systemMessage.you_missed_call');
+		}
+
+		console.log(message.systemMessageType);
+		return message.toString() || '';
+		//throw 'Construct System MessageText function error';
 	}
 
 	static createSystemMessage(systemMessage: SystemMessageBase): string {

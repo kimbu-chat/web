@@ -1,6 +1,6 @@
 import { CallActions } from './actions';
 import { SagaIterator, eventChannel, buffers, END } from 'redux-saga';
-import { call, select, takeLatest, put, take, spawn, actionChannel, fork } from 'redux-saga/effects';
+import { call, select, takeLatest, put, take, spawn, actionChannel, fork, delay, race } from 'redux-saga/effects';
 import { getMyProfileSelector } from '../my-profile/selectors';
 import { UserPreview } from '../my-profile/models';
 import { CallsHttpRequests } from './http-requests';
@@ -91,6 +91,18 @@ export function* outgoingCallSaga(action: ReturnType<typeof CallActions.outgoing
 
 	yield spawn(changeVideoStatusSaga);
 	console.log('spawned');
+
+	const { timeout } = yield race({
+		canceled: take(CallActions.cancelCallAction),
+		interlocutorCanceled: take(CallActions.interlocutorCanceledCallAction),
+		answered: take(CallActions.interlocutorAcceptedCallAction),
+		timeout: delay(15000),
+	});
+
+	if (timeout) {
+		yield put(CallActions.timeoutCallAction());
+		console.log('timeouted');
+	}
 }
 
 export function* cancelCallSaga(): SagaIterator {
@@ -101,6 +113,72 @@ export function* cancelCallSaga(): SagaIterator {
 	};
 
 	const httpRequest = CallsHttpRequests.cancelCall;
+	httpRequest.call(yield call(() => httpRequest.generator(request)));
+
+	if (videoSender) {
+		try {
+			peerConnection?.removeTrack(videoSender);
+		} catch (e) {
+			console.warn(e);
+		}
+		videoSender = null;
+	}
+
+	peerConnection?.close();
+	resetPeerConnection();
+
+	if (localMediaStream) {
+		const tracks = localMediaStream.getTracks();
+		tracks.forEach((track) => track.stop());
+	}
+	if (tracks.screenSharingTracks) {
+		tracks.screenSharingTracks.forEach((track) => track.stop());
+	}
+
+	yield put(CallActions.cancelCallSuccessAction());
+}
+
+export function* callNotAnsweredSaga(): SagaIterator {
+	const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
+
+	const request = {
+		interlocutorId,
+	};
+
+	const httpRequest = CallsHttpRequests.callNotAnswered;
+	httpRequest.call(yield call(() => httpRequest.generator(request)));
+
+	if (videoSender) {
+		try {
+			peerConnection?.removeTrack(videoSender);
+		} catch (e) {
+			console.warn(e);
+		}
+		videoSender = null;
+	}
+
+	peerConnection?.close();
+	resetPeerConnection();
+
+	if (localMediaStream) {
+		const tracks = localMediaStream.getTracks();
+		tracks.forEach((track) => track.stop());
+	}
+	if (tracks.screenSharingTracks) {
+		tracks.screenSharingTracks.forEach((track) => track.stop());
+	}
+
+	yield put(CallActions.cancelCallSuccessAction());
+}
+
+export function* declineCallSaga(): SagaIterator {
+	const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
+
+	const request = {
+		interlocutorId,
+	};
+
+	const httpRequest = CallsHttpRequests.declineCall;
 	httpRequest.call(yield call(() => httpRequest.generator(request)));
 
 	peerConnection?.close();
@@ -116,6 +194,40 @@ export function* cancelCallSaga(): SagaIterator {
 	yield put(CallActions.cancelCallSuccessAction());
 }
 
+export function* endCallSaga(action: ReturnType<typeof CallActions.endCallAction>): SagaIterator {
+	const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
+
+	const request = {
+		interlocutorId,
+		seconds: action.payload.seconds,
+	};
+
+	const httpRequest = CallsHttpRequests.endCall;
+	httpRequest.call(yield call(() => httpRequest.generator(request)));
+
+	if (videoSender) {
+		try {
+			peerConnection?.removeTrack(videoSender);
+		} catch (e) {
+			console.warn(e);
+		}
+		videoSender = null;
+	}
+
+	peerConnection?.close();
+	resetPeerConnection();
+
+	if (localMediaStream) {
+		const tracks = localMediaStream.getTracks();
+		tracks.forEach((track) => track.stop());
+	}
+	if (tracks.screenSharingTracks) {
+		tracks.screenSharingTracks.forEach((track) => track.stop());
+	}
+
+	yield put(CallActions.cancelCallSuccessAction());
+}
+
 export function* callEndedSaga(): SagaIterator {
 	peerConnection?.close();
 	resetPeerConnection();
@@ -125,6 +237,15 @@ export function* callEndedSaga(): SagaIterator {
 	}
 	if (tracks.screenSharingTracks) {
 		tracks.screenSharingTracks.forEach((track) => track.stop());
+	}
+
+	if (videoSender) {
+		try {
+			peerConnection?.removeTrack(videoSender);
+		} catch (e) {
+			console.warn(e);
+		}
+		videoSender = null;
 	}
 }
 
@@ -480,9 +601,14 @@ export function* peerWatcher() {
 	}
 }
 
+setInterval(() => console.log(peerConnection?.connectionState), 1000);
+
 export const CallsSagas = [
 	takeLatest(CallActions.outgoingCallAction, outgoingCallSaga),
 	takeLatest(CallActions.cancelCallAction, cancelCallSaga),
+	takeLatest(CallActions.endCallAction, endCallSaga),
+	takeLatest(CallActions.declineCallAction, declineCallSaga),
+	takeLatest(CallActions.timeoutCallAction, callNotAnsweredSaga),
 	takeLatest(CallActions.acceptCallAction, acceptCallSaga),
 	takeLatest(CallActions.interlocutorAcceptedCallAction, callAcceptedSaga),
 	takeLatest(CallActions.candidateAction, candidateSaga),

@@ -10,7 +10,7 @@ import incomingCallSound from 'app/sounds/calls/imcoming-call.ogg';
 import { RootState } from 'app/store/root-reducer';
 
 const IncomingCall = () => {
-	const cancelCall = useActionWithDispatch(CallActions.cancelCallAction);
+	const declineCallAction = useActionWithDispatch(CallActions.declineCallAction);
 	const acceptCall = useActionWithDispatch(CallActions.acceptCallAction);
 
 	const interlocutor = useSelector(getCallInterlocutorSelector);
@@ -86,7 +86,7 @@ const IncomingCall = () => {
 						</svg>
 					</div>
 				</button>
-				<button onClick={cancelCall} className='incoming-call__call-btn incoming-call__call-btn--cancel'>
+				<button onClick={declineCallAction} className='incoming-call__call-btn incoming-call__call-btn--cancel'>
 					<div className='svg'>
 						<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
 							<path

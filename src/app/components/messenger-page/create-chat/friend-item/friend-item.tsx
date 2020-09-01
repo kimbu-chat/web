@@ -1,7 +1,7 @@
 import React from 'react';
 import './friend-item.scss';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
-import StatusBadge from 'app/components/shared/status-badge';
+import StatusBadge from 'app/components/shared/status-badge/status-badge';
 import { useSelector } from 'react-redux';
 import { UserPreview } from 'app/store/my-profile/models';
 import { FriendActions } from 'app/store/friends/actions';

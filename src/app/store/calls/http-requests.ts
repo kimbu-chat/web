@@ -8,6 +8,8 @@ import {
 	CallApiRequest,
 	CancelCallApiRequest,
 	AcceptCallApiRequest,
+	DeclineCallApiRequest,
+	CallNotAnsweredApiRequest,
 } from './models';
 
 export const CallsHttpRequests = {
@@ -25,6 +27,14 @@ export const CallsHttpRequests = {
 	),
 	cancelCall: httpRequestFactory<AxiosResponse, CancelCallApiRequest>(
 		`${ApiBasePath.NotificationsApi}​/api/calls/cancel-call`,
+		HttpRequestMethod.Post,
+	),
+	callNotAnswered: httpRequestFactory<AxiosResponse, CallNotAnsweredApiRequest>(
+		`${ApiBasePath.NotificationsApi}​/api/calls/call-not-answered`,
+		HttpRequestMethod.Post,
+	),
+	declineCall: httpRequestFactory<AxiosResponse, DeclineCallApiRequest>(
+		`${ApiBasePath.NotificationsApi}​/api/calls/decline-call`,
 		HttpRequestMethod.Post,
 	),
 	acceptCall: httpRequestFactory<AxiosResponse, AcceptCallApiRequest>(

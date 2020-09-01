@@ -4,9 +4,7 @@ import { Message, SystemMessageType, MessageState } from 'app/store/messages/mod
 import { MessageUtils } from 'app/utils/message-utils';
 import { useSelector } from 'react-redux';
 import './message-item.scss';
-import DoneIcon from '@material-ui/icons/Done';
-import DoneAllIcon from '@material-ui/icons/DoneAll';
-import CachedIcon from '@material-ui/icons/Cached';
+
 import { getMyIdSelector } from 'app/store/my-profile/selectors';
 import { LocalizationContext } from 'app/app';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
@@ -191,11 +189,17 @@ const MessageItem = ({ from, content, time, needToShowDateSeparator, dateSeparat
 					<span className='message__time'>{time}</span>
 					{from === messageFrom.me &&
 						(message.state === MessageState.READ ? (
-							<DoneAllIcon className='message__read' />
+							<svg className='message__read'>
+								<path d='M18 7l-1.41-1.41-6.34 6.34 1.41 1.41L18 7zm4.24-1.41L11.66 16.17 7.48 12l-1.41 1.41L11.66 19l12-12-1.42-1.41zM.41 13.41L6 19l1.41-1.41L1.83 12 .41 13.41z'></path>
+							</svg>
 						) : message.state === MessageState.QUEUED ? (
-							<CachedIcon className='message__read' />
+							<svg className='message__read'>
+								<path d='M19 8l-4 4h3c0 3.31-2.69 6-6 6-1.01 0-1.97-.25-2.8-.7l-1.46 1.46C8.97 19.54 10.43 20 12 20c4.42 0 8-3.58 8-8h3l-4-4zM6 12c0-3.31 2.69-6 6-6 1.01 0 1.97.25 2.8.7l1.46-1.46C15.03 4.46 13.57 4 12 4c-4.42 0-8 3.58-8 8H1l4 4 4-4H6z'></path>
+							</svg>
 						) : (
-							<DoneIcon className='message__read' />
+							<svg className='message__read'>
+								<path d='M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z'></path>
+							</svg>
 						))}
 				</div>
 			</div>

@@ -35,8 +35,8 @@ const initialState: CallState = {
 	isSpeaking: false,
 	videoConstraints: {
 		isOpened: false,
-		width: { min: 320, ideal: 320, max: 320 },
-		height: { min: 240, ideal: 240, max: 240 },
+		width: { min: 640, ideal: 1920, max: 1920 },
+		height: { min: 480, ideal: 1440, max: 1440 },
 	},
 	audioConstraints: { isOpened: true },
 	isScreenSharingOpened: false,

@@ -30,7 +30,7 @@ export const CallsHttpRequests = {
 		HttpRequestMethod.Post,
 	),
 	callNotAnswered: httpRequestFactory<AxiosResponse, CallNotAnsweredApiRequest>(
-		`${ApiBasePath.NotificationsApi}​/api/calls/cancel-call`,
+		`${ApiBasePath.NotificationsApi}​/api/calls/call-not-answered`,
 		HttpRequestMethod.Post,
 	),
 	declineCall: httpRequestFactory<AxiosResponse, DeclineCallApiRequest>(

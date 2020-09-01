@@ -194,6 +194,40 @@ export function* declineCallSaga(): SagaIterator {
 	yield put(CallActions.cancelCallSuccessAction());
 }
 
+export function* endCallSaga(action: ReturnType<typeof CallActions.endCallAction>): SagaIterator {
+	const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
+
+	const request = {
+		interlocutorId,
+		seconds: action.payload.seconds,
+	};
+
+	const httpRequest = CallsHttpRequests.endCall;
+	httpRequest.call(yield call(() => httpRequest.generator(request)));
+
+	if (videoSender) {
+		try {
+			peerConnection?.removeTrack(videoSender);
+		} catch (e) {
+			console.warn(e);
+		}
+		videoSender = null;
+	}
+
+	peerConnection?.close();
+	resetPeerConnection();
+
+	if (localMediaStream) {
+		const tracks = localMediaStream.getTracks();
+		tracks.forEach((track) => track.stop());
+	}
+	if (tracks.screenSharingTracks) {
+		tracks.screenSharingTracks.forEach((track) => track.stop());
+	}
+
+	yield put(CallActions.cancelCallSuccessAction());
+}
+
 export function* callEndedSaga(): SagaIterator {
 	peerConnection?.close();
 	resetPeerConnection();
@@ -572,6 +606,7 @@ setInterval(() => console.log(peerConnection?.connectionState), 1000);
 export const CallsSagas = [
 	takeLatest(CallActions.outgoingCallAction, outgoingCallSaga),
 	takeLatest(CallActions.cancelCallAction, cancelCallSaga),
+	takeLatest(CallActions.endCallAction, endCallSaga),
 	takeLatest(CallActions.declineCallAction, declineCallSaga),
 	takeLatest(CallActions.timeoutCallAction, callNotAnsweredSaga),
 	takeLatest(CallActions.acceptCallAction, acceptCallSaga),

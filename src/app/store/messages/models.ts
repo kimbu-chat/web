@@ -65,6 +65,7 @@ export enum SystemMessageType {
 	ConferenceNameChanged = 5,
 	ConferenceAvatarRemoved = 6,
 	UserCreated = 7,
+	MissedCall = 8,
 }
 
 export interface UserMessageTypingRequest {

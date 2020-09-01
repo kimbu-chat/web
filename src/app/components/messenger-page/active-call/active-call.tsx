@@ -32,7 +32,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 	const activeVideoDevice = videoConstraints.deviceId;
 
 	const changeMediaStatus = useActionWithDispatch(CallActions.changeMediaStatusAction);
-	const cancelCall = useActionWithDispatch(CallActions.cancelCallAction);
+	const endCall = useActionWithDispatch(CallActions.endCallAction);
 	const changeScreenShareStatus = useActionWithDispatch(CallActions.changeScreenShareStatusAction);
 	const switchDevice = useActionWithDispatch(CallActions.switchDeviceAction);
 	const changeFullScreenStatus = useActionWithDispatch(CallActions.changeFullScreenStatusAction);
@@ -217,7 +217,10 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 						</div>
 					</button>
 				)}
-				<button className='active-call__call-btn active-call__call-btn--cancel' onClick={cancelCall}>
+				<button
+					className='active-call__call-btn active-call__call-btn--cancel'
+					onClick={() => endCall({ seconds: callDuration })}
+				>
 					<div className='svg'>
 						<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
 							<path

@@ -114,6 +114,10 @@
 		"you_changed_name": "Вы изменили название с {{oldName}} на {{newName}}",
 		"someone_changed_name": "{{someonesName}} изменил название с {{oldName}} на {{newName}}",
 		"you_changed_avatar": "Вы изменили аватар",
-		"someone_changed_avatar": "{{someonesName}} изменил аватар"
+		"someone_changed_avatar": "{{someonesName}} изменил аватар",
+		"you_missed_call": "Вы пропустили звонок",
+		"someone_missed_call": "Собеседник пропустил звонок",
+		"outgoing_call_success_ended": "Исходящий вызов: {{duration}}",
+		"incoming_call_success_ended": "Входящий вызов: {{duration}}"
 	}
 }

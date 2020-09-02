@@ -1,4 +1,4 @@
-import React, { useContext, useCallback } from 'react';
+import React, { useContext, useCallback, useEffect } from 'react';
 import { parsePhoneNumberFromString, AsYouType } from 'libphonenumber-js';
 import './phone-input.scss';
 
@@ -18,18 +18,27 @@ const PhoneInput = ({ phone, setPhone, setCountry }: PhoneInput.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const handlePhoneChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-		setPhone(new AsYouType().input(e.target.value));
+		setPhone(e.target.value);
 		const phoneNumber = parsePhoneNumberFromString(e.target.value);
-		setCountry((oldCountry: country | null) => {
-			const result = countryList.find((elem) => elem.code === phoneNumber?.country);
-			return result ? result : oldCountry;
+		setCountry(() => {
+			console.log(phoneNumber?.country || '');
+			const result = countryList.find((elem) => elem.code === (phoneNumber?.country || ''));
+			return result;
 		});
 	}, []);
 
+	useEffect(() => {
+		setPhone(new AsYouType().input(phone));
+	}, [setPhone, phone]);
+
 	return (
 		<div className='phone-input'>
-			<p>{t('loginPage.phone')}</p>
-			<input value={phone} onChange={handlePhoneChange} className='phone-input__input' />
+			<input
+				placeholder={t('loginPage.phone')}
+				value={phone}
+				onChange={handlePhoneChange}
+				className='phone-input__input'
+			/>
 		</div>
 	);
 };

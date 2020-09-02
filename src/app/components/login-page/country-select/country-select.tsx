@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useCallback, useState } from 'react';
+import { useContext, useCallback } from 'react';
 import './country-select.scss';
 
 import useAutocomplete, { createFilterOptions } from '@material-ui/lab/useAutocomplete';
@@ -15,18 +15,18 @@ namespace CountrySelect {
 	}
 }
 
-// function countryToFlag(isoCode: string): string {
-// 	return typeof String.fromCodePoint !== 'undefined'
-// 		? isoCode.toUpperCase().replace(/./g, (char) => String.fromCodePoint(char.charCodeAt(0) + 127397))
-// 		: isoCode;
-// }
+function countryToFlag(isoCode: string): string {
+	return typeof String.fromCodePoint !== 'undefined'
+		? isoCode.toUpperCase().replace(/./g, (char) => String.fromCodePoint(char.charCodeAt(0) + 127397))
+		: isoCode;
+}
 
 const CountrySelect = ({ country, setCountry, setPhone }: CountrySelect.Props) => {
 	const { t } = useContext(LocalizationContext);
-	const [inputValue, setInputValue] = useState('');
 
 	const handleCountryChange = useCallback(
 		(newCountry: country | null) => {
+			console.log('trigger');
 			setCountry((oldCountry) => {
 				setPhone((oldPhone) => {
 					if (typeof oldCountry === 'object') {
@@ -34,14 +34,13 @@ const CountrySelect = ({ country, setCountry, setPhone }: CountrySelect.Props) =
 							.split(' ')
 							.join('')
 							.split(oldCountry ? oldCountry.number : '')[1];
-						const preparedNumber = newCountry?.number + onlyNumber ? onlyNumber : '';
-						const newCode = newCountry ? newCountry.number : '';
-						return preparedNumber ? preparedNumber : newCode;
+						const newCode = newCountry ? newCountry.number : oldCountry?.number || '';
+						return onlyNumber ? newCode + onlyNumber : newCode;
 					} else {
 						return newCountry ? newCountry.number : '';
 					}
 				});
-				return newCountry ? newCountry : countryList[0];
+				return newCountry ? newCountry : oldCountry;
 			});
 		},
 		[setCountry, setPhone],
@@ -50,11 +49,6 @@ const CountrySelect = ({ country, setCountry, setPhone }: CountrySelect.Props) =
 	const { getRootProps, getInputProps, getListboxProps, getOptionProps, groupedOptions } = useAutocomplete({
 		id: 'use-autocomplete-demo',
 		options: countryList,
-		inputValue: inputValue,
-		onInputChange: (_event, newInputValue) => {
-			setInputValue(newInputValue);
-			console.log(newInputValue);
-		},
 		getOptionLabel: (option) => option.title,
 		value: country,
 		onChange: (_event, newCountry) => handleCountryChange(newCountry),
@@ -64,26 +58,26 @@ const CountrySelect = ({ country, setCountry, setPhone }: CountrySelect.Props) =
 	});
 
 	return (
-		<div {...getRootProps()} className=''>
+		<div {...getRootProps()} className='country-select'>
 			<input
 				placeholder={t('loginPage.country')}
-				list='countries'
 				type='text'
-				className='country-select'
+				className='country-select__input'
 				{...getInputProps()}
 			/>
 
 			{groupedOptions.length > 0 ? (
-				<datalist id='countries' {...getListboxProps()}>
-					{groupedOptions.map((option, index) => {
-						console.log(option);
-						return (
-							<option className='country-select__country' {...getOptionProps({ option, index })}>
-								{option.title}
-							</option>
-						);
-					})}
-				</datalist>
+				<div className='country-select__countries' {...getListboxProps()}>
+					{groupedOptions.map(
+						(option, index) =>
+							option.number && (
+								<div className='country-select__country' {...getOptionProps({ option, index })}>
+									<span className='country-select__flag'>{countryToFlag(option.code)}</span>
+									{option.title} <span className='country-select__number'>{option.number}</span>
+								</div>
+							),
+					)}
+				</div>
 			) : null}
 		</div>
 	);

@@ -64,6 +64,13 @@ export interface SwitchDeviceActionPayload {
 	deviceId: string;
 }
 
+export enum CallStatus {
+	Successfull = 0,
+	Cancelled = 1,
+	Declined = 2,
+	NotAnswered = 3,
+}
+
 //Http requests
 
 export interface CandidateApiRequest {

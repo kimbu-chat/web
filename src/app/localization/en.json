@@ -116,9 +116,13 @@
 		"someone_changed_name": "{{someonesName}} changed name from {{oldName}} to {{newName}}",
 		"you_changed_avatar": "You changed avatar",
 		"someone_changed_avatar": "{{someonesName}} changed avatar",
+		"outgoing_call_success_ended": "Outgoing call: {{duration}}",
+		"incoming_call_success_ended": "Incoming call: {{duration}}",
+		"you_canceled_call": "You canceled call",
+		"someone_canceled_call": "Interlocutor canceled call",
 		"you_missed_call": "You missed call",
 		"someone_missed_call": "Interlocutor missed call",
-		"outgoing_call_success_ended": "Outgoing call: {{duration}}",
-		"incoming_call_success_ended": "Incoming call: {{duration}}"
+		"you_declined_call": "You declined incoming call",
+		"someone_declined_call": "Interlocutor declined incoming call"
 	}
 }

@@ -9,6 +9,7 @@ import {
 } from 'app/store/messages/models';
 import { UserStatus } from 'app/store/friends/models';
 import { TFunction } from 'i18next';
+import { CallStatus } from 'app/store/calls/models';
 
 export class MessageUtils {
 	static getSystemMessageContent(text: string): SystemMessageBase {
@@ -82,21 +83,35 @@ export class MessageUtils {
 		if (message.systemMessageType === SystemMessageType.MissedCall) {
 			console.log(message);
 			try {
-				const seconds = JSON.parse(message.text).seconds;
-				if (seconds) {
+				const callMessage = JSON.parse(message.text);
+				if (callMessage.status === CallStatus.Successfull && callMessage.seconds) {
 					return isCurrentUserMessageCreator
 						? t('systemMessage.outgoing_call_success_ended', {
-								duration: moment.utc(seconds * 1000).format('HH:mm:ss'),
+								duration: moment.utc(callMessage.seconds * 1000).format('HH:mm:ss'),
 						  })
 						: t('systemMessage.incoming_call_success_ended', {
-								duration: moment.utc(seconds * 1000).format('HH:mm:ss'),
+								duration: moment.utc(callMessage.seconds * 1000).format('HH:mm:ss'),
 						  });
 				}
-			} catch {}
 
-			return isCurrentUserMessageCreator
-				? t('systemMessage.someone_missed_call')
-				: t('systemMessage.you_missed_call');
+				if (callMessage.status === CallStatus.Cancelled) {
+					return isCurrentUserMessageCreator
+						? t('systemMessage.you_canceled_call')
+						: t('systemMessage.someone_canceled_call');
+				}
+
+				if (callMessage.status === CallStatus.Declined) {
+					return isCurrentUserMessageCreator
+						? t('systemMessage.you_declined_call')
+						: t('systemMessage.someone_declined_call');
+				}
+
+				if (callMessage.status === CallStatus.NotAnswered) {
+					return isCurrentUserMessageCreator
+						? t('systemMessage.someone_missed_call')
+						: t('systemMessage.you_missed_call');
+				}
+			} catch {}
 		}
 
 		console.log(message.systemMessageType);

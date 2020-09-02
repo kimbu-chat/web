@@ -245,7 +245,7 @@ export const countryList: country[] = [
 		code: 'CG',
 	},
 	{
-		title: 'Congo, The Democratic Republic of the Congo',
+		title: 'The Democratic Republic of the Congo',
 		number: '+243',
 		code: 'CD',
 	},
@@ -560,12 +560,12 @@ export const countryList: country[] = [
 		code: 'KI',
 	},
 	{
-		title: "Korea, Democratic People's Republic of Korea",
+		title: 'North Korea',
 		number: '+850',
 		code: 'KP',
 	},
 	{
-		title: 'Korea, Republic of South Korea',
+		title: 'South Korea',
 		number: '+82',
 		code: 'KR',
 	},
@@ -695,7 +695,7 @@ export const countryList: country[] = [
 		code: 'MX',
 	},
 	{
-		title: 'Micronesia, Federated States of Micronesia',
+		title: 'Micronesia',
 		number: '+691',
 		code: 'FM',
 	},
@@ -905,7 +905,7 @@ export const countryList: country[] = [
 		code: 'BL',
 	},
 	{
-		title: 'Saint Helena, Ascension and Tristan Da Cunha',
+		title: 'Saint Helena',
 		number: '+290',
 		code: 'SH',
 	},
@@ -1208,6 +1208,11 @@ export const countryList: country[] = [
 		title: 'Zimbabwe',
 		number: '+263',
 		code: 'ZW',
+	},
+	{
+		title: '',
+		number: '',
+		code: '',
 	},
 ];
 

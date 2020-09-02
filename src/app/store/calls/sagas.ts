@@ -90,7 +90,6 @@ export function* outgoingCallSaga(action: ReturnType<typeof CallActions.outgoing
 	httpRequest.call(yield call(() => httpRequest.generator(request)));
 
 	yield spawn(changeVideoStatusSaga);
-	console.log('spawned');
 
 	const { timeout } = yield race({
 		canceled: take(CallActions.cancelCallAction),
@@ -101,7 +100,6 @@ export function* outgoingCallSaga(action: ReturnType<typeof CallActions.outgoing
 
 	if (timeout) {
 		yield put(CallActions.timeoutCallAction());
-		console.log('timeouted');
 	}
 }
 
@@ -284,7 +282,6 @@ export function* acceptCallSaga(action: ReturnType<typeof CallActions.acceptCall
 
 	yield put(CallActions.acceptCallSuccessAction(action.payload));
 	yield spawn(changeVideoStatusSaga);
-	console.log('spawned');
 }
 
 export function* callAcceptedSaga(action: ReturnType<typeof CallActions.interlocutorAcceptedCallAction>): SagaIterator {
@@ -308,7 +305,6 @@ export function* changeVideoStatusSaga(): SagaIterator {
 
 	const handleVideoStatusChange = async ({ videoConstraints, audioConstraints }: any) => {
 		const oldStream = localMediaStream;
-		console.log('trigger');
 
 		if (videoConstraints.isOpened) {
 			try {
@@ -318,7 +314,6 @@ export function* changeVideoStatusSaga(): SagaIterator {
 						audio: audioConstraints.deviceId ? audioConstraints : audioConstraints.isOpened,
 					});
 				}
-				console.log('assigned');
 			} catch (e) {
 				console.log(e);
 			}
@@ -356,7 +351,6 @@ export function* changeVideoStatusSaga(): SagaIterator {
 
 		try {
 			if (audioConstraints.isOpened || videoConstraints.isOpened) {
-				console.log('requested');
 				localMediaStream = await navigator.mediaDevices.getUserMedia({
 					video: videoConstraints.isOpened && videoConstraints,
 					audio: audioConstraints.deviceId ? audioConstraints : audioConstraints.isOpened,
@@ -518,7 +512,6 @@ function createPeerConnectionChannel() {
 
 		const onConnectionStateChange = () => {
 			if (peerConnection?.connectionState === 'connected') {
-				console.log('peers connected');
 			}
 		};
 
@@ -527,7 +520,6 @@ function createPeerConnectionChannel() {
 			const state = peerConnection?.connectionState;
 			if (!state || state === 'closed' || state === 'disconnected') {
 				clearInterval(clearIntervalCode);
-				console.log('cleared');
 				emit(END);
 			}
 		}, 1000);
@@ -590,8 +582,6 @@ export function* peerWatcher() {
 						caller: myProfile,
 						isVideoEnabled: isVideoEnabled || isScreenSharingEnabled,
 					};
-
-					console.log(isVideoEnabled, isScreenSharingEnabled);
 
 					const httpRequest = CallsHttpRequests.call;
 					httpRequest.call(yield call(() => httpRequest.generator(request)));

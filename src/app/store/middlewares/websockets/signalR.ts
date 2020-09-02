@@ -64,6 +64,7 @@ function openConnection(store: Store<RootState>): void {
 		EVENTS_NAMES.INTERLOCUTOR_CANCELED_CALL,
 		new InterlocutorCanceledCallEventHandler(),
 	);
+	eventManager.registerEventHandler(EVENTS_NAMES.CALL_NOT_ANSWERED, new InterlocutorCanceledCallEventHandler());
 	eventManager.registerEventHandler(EVENTS_NAMES.CALL_ENDED, new CallEndedEventHandler());
 	eventManager.registerEventHandler(EVENTS_NAMES.CANDIDATE, new CandidateEventHandler());
 

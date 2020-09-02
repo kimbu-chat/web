@@ -21,7 +21,6 @@ const PhoneInput = ({ phone, setPhone, setCountry }: PhoneInput.Props) => {
 		setPhone(e.target.value);
 		const phoneNumber = parsePhoneNumberFromString(e.target.value);
 		setCountry(() => {
-			console.log(phoneNumber?.country || '');
 			const result = countryList.find((elem) => elem.code === (phoneNumber?.country || ''));
 			return result;
 		});

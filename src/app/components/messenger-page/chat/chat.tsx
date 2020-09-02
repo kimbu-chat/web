@@ -58,8 +58,6 @@ const Chat = () => {
 			offset: messages?.length || 0,
 		};
 
-		console.log('loaded');
-
 		if (selectedDialog) {
 			getMessages({
 				page: pageData,

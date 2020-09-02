@@ -26,7 +26,6 @@ const CountrySelect = ({ country, setCountry, setPhone }: CountrySelect.Props) =
 
 	const handleCountryChange = useCallback(
 		(newCountry: country | null) => {
-			console.log('trigger');
 			setCountry((oldCountry) => {
 				setPhone((oldPhone) => {
 					if (typeof oldCountry === 'object') {

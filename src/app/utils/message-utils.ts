@@ -81,7 +81,6 @@ export class MessageUtils {
 		}
 
 		if (message.systemMessageType === SystemMessageType.MissedCall) {
-			console.log(message);
 			try {
 				const callMessage = JSON.parse(message.text);
 				if (callMessage.status === CallStatus.Successfull && callMessage.seconds) {
@@ -114,7 +113,6 @@ export class MessageUtils {
 			} catch {}
 		}
 
-		console.log(message.systemMessageType);
 		return message.toString() || '';
 		//throw 'Construct System MessageText function error';
 	}

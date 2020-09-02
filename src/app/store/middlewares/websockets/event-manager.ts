@@ -12,6 +12,7 @@ export enum EVENTS_NAMES {
 	INCOMING_CALL = 'CallInit',
 	INTERLOCUTOR_ACCEPTED_CALL = 'CallAccepted',
 	INTERLOCUTOR_CANCELED_CALL = 'CallCancelled',
+	CALL_NOT_ANSWERED = 'CallNotAnswered',
 	CALL_ENDED = 'CallEnded',
 	CANDIDATE = 'Candidate',
 }

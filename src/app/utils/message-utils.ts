@@ -114,7 +114,7 @@ export class MessageUtils {
 		}
 
 		return message.toString() || '';
-		//throw 'Construct System MessageText function error';
+		throw 'Construct System MessageText function error';
 	}
 
 	static createSystemMessage(systemMessage: SystemMessageBase): string {

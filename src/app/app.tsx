@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { Switch } from 'react-router';
-import LoginPage from './containers/login-page/login-page';
-import Messenger from './containers/messenger/messenger';
 import './base.scss';
 import i18nConfiguration from 'app/localization/i18n';
 import { useTranslation } from 'react-i18next';
 import PublicRoute from './routing/PublicRoute';
 import PrivateRoute from './routing/PrivateRoute';
 import { i18n, TFunction } from 'i18next';
+
+const LoginPage = lazy(() => import('./containers/login-page/login-page'));
+const Messenger = lazy(() => import('./containers/messenger/messenger'));
 
 namespace App {
 	export interface localization {
@@ -24,8 +25,22 @@ export const App = () => {
 	return (
 		<LocalizationContext.Provider value={{ t, i18n }}>
 			<Switch>
-				<PrivateRoute path='/chats/:id?' Component={Messenger} />
-				<PublicRoute path='/' Component={LoginPage} />
+				<PrivateRoute
+					path='/chats/:id?'
+					Component={
+						<Suspense fallback={<div>Загрузка...</div>}>
+							<Messenger />
+						</Suspense>
+					}
+				/>
+				<PublicRoute
+					path='/'
+					Component={
+						<Suspense fallback={<div>Загрузка...</div>}>
+							<LoginPage />
+						</Suspense>
+					}
+				/>
 			</Switch>
 		</LocalizationContext.Provider>
 	);

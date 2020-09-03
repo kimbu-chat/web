@@ -129,7 +129,6 @@ module.exports = {
 				vendors: {
 					test: /[\\/]node_modules[\\/]/,
 					chunks: 'all',
-					filename: isProduction ? 'vendor.[contenthash].js' : 'vendor.[hash].js',
 					priority: -10,
 				},
 			},

@@ -32,7 +32,7 @@ const ChatList = () => {
 	const loadPage = useCallback(() => {
 		const pageData = {
 			limit: 25,
-			offset: dialogs.length,
+			offset: DIALOGS_LIMIT,
 		};
 
 		getChats({

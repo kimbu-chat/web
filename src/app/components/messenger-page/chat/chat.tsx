@@ -14,6 +14,8 @@ import InfiniteScroll from 'react-infinite-scroller';
 import SelectedMessagesData from '../selected-messages-data/selected-messages-data';
 import { setSelectedMessagesLength } from 'app/store/messages/selectors';
 
+export const MESSAGES_LIMIT = 25;
+
 export enum messageFrom {
 	me,
 	others,
@@ -50,27 +52,20 @@ const Chat = () => {
 		return Boolean(Math.round(Math.abs((startDate.getTime() - endDate.getTime()) / (24 * 60 * 60 * 1000))));
 	}, []);
 
-	const messagesContainerRef = useRef(null);
-
-	const loadPage = () => {
-		const pageData = {
-			limit: 25,
-			offset: messages?.length || 0,
-		};
-
+	useEffect(() => {
 		if (selectedDialog) {
+			console.log('loaded');
+			//fetching first 25messages
 			getMessages({
-				page: pageData,
+				page: {
+					limit: MESSAGES_LIMIT,
+					offset: 0,
+				},
 				dialog: selectedDialog,
 				initiatedByScrolling: false,
 			});
-		}
-	};
 
-	useEffect(() => {
-		loadPage();
-
-		if (selectedDialog) {
+			//marking as read
 			const markAsRead = (): void => {
 				const { ownUnreadMessagesCount } = selectedDialog;
 				if (Boolean(ownUnreadMessagesCount) && (ownUnreadMessagesCount || 0) > 0) {
@@ -81,6 +76,23 @@ const Chat = () => {
 			markAsRead();
 		}
 	}, [selectedDialog?.id]);
+
+	const loadPage = useCallback(() => {
+		const pageData = {
+			limit: MESSAGES_LIMIT,
+			offset: messages?.length || 0,
+		};
+
+		if (selectedDialog) {
+			getMessages({
+				page: pageData,
+				dialog: selectedDialog,
+				initiatedByScrolling: false,
+			});
+		}
+	}, [messages?.length, selectedDialog]);
+
+	const messagesContainerRef = useRef(null);
 
 	if (!selectedDialog || !messages) {
 		return <div className='messenger__messages-list'></div>;

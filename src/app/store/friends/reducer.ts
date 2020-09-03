@@ -1,9 +1,9 @@
 import produce from 'immer';
-import _ from 'lodash';
 import { createReducer } from 'typesafe-actions';
 import { UserPreview } from '../my-profile/models';
 import { FriendActions } from './actions';
 import { ChatActions } from '../dialogs/actions';
+import unionBy from 'lodash/unionBy';
 
 export interface FriendsState {
 	loading: boolean;
@@ -89,7 +89,7 @@ const friends = createReducer<FriendsState>(initialState)
 				return draft;
 			}
 
-			draft.usersForSelectedConference = _.unionBy(draft.usersForSelectedConference, payload.users, 'id');
+			draft.usersForSelectedConference = unionBy(draft.usersForSelectedConference, payload.users, 'id');
 
 			return draft;
 		}),
@@ -132,7 +132,7 @@ const friends = createReducer<FriendsState>(initialState)
 				return draft;
 			}
 
-			draft.friends = _.unionBy(draft.friends, users, 'id');
+			draft.friends = unionBy(draft.friends, users, 'id');
 
 			return draft;
 		}),

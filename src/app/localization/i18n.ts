@@ -4,7 +4,6 @@ import en from './en.json';
 import ru from './ru.json';
 
 // todo: load only needed local at runtime
-import 'moment/min/locales';
 import { LangService } from 'app/services/lang-service';
 
 i18n.use(initReactI18next).init({

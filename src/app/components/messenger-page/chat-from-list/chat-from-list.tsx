@@ -89,9 +89,11 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
 		>
 			<div className='messenger__active-line'></div>
 			{!conference ? (
-				<StatusBadge user={dialog.interlocutor!} />
+				<StatusBadge additionalClassNames={'messenger__chat-block__avatar'} user={dialog.interlocutor!} />
 			) : (
-				<Avatar src={getDialogAvatar()}>{getInterlocutorInitials(dialog)}</Avatar>
+				<Avatar className={'messenger__chat-block__avatar'} src={getDialogAvatar()}>
+					{getInterlocutorInitials(dialog)}
+				</Avatar>
 			)}
 
 			<div className='messenger__name-and-message'>

@@ -106,9 +106,7 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
 				</div>
 			</div>
 			<div className='messenger__time-and-count'>
-				<div className='messenger__time'>
-					{moment.utc(lastMessage?.creationDateTime).local().format('hh:mm')}
-				</div>
+				<div className='messenger__time'>{moment.utc(lastMessage?.creationDateTime).local().format('LT')}</div>
 				{(dialog.ownUnreadMessagesCount || false) && (
 					<div className={dialog.isMuted ? 'messenger__count messenger__count--muted' : 'messenger__count'}>
 						{dialog.ownUnreadMessagesCount}

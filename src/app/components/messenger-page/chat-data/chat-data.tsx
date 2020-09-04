@@ -6,7 +6,6 @@ import { getDialogInterlocutor, getInterlocutorInitials } from '../../../utils/i
 
 import './chat-data.scss';
 import { LocalizationContext } from 'app/app';
-import StatusBadge from 'app/components/shared/status-badge/status-badge';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { CallActions } from 'app/store/calls/actions';
 import { UserPreview } from 'app/store/my-profile/models';
@@ -65,16 +64,9 @@ const ChatData = ({ displayChatInfo, chatInfoDisplayed }: ChatData.Props) => {
 		return (
 			<div className='messenger__chat-data'>
 				<div onClick={displayChatInfo} className='messenger__contact-data'>
-					{selectedDialog.interlocutor ? (
-						<StatusBadge
-							additionalClassNames='messenger__contact-img'
-							user={selectedDialog.interlocutor!}
-						/>
-					) : (
-						<Avatar className='messenger__contact-img' src={imageUrl}>
-							{getInterlocutorInitials(selectedDialog)}
-						</Avatar>
-					)}
+					<Avatar className='messenger__contact-img' src={imageUrl}>
+						{getInterlocutorInitials(selectedDialog)}
+					</Avatar>
 
 					<div className='messenger__chat-info'>
 						<h1>{getDialogInterlocutor(selectedDialog)}</h1>

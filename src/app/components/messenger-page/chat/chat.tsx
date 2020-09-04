@@ -136,7 +136,7 @@ const Chat = () => {
 									.utc(msg.creationDateTime)
 									.local()
 									.locale(i18n?.language || '')
-									.format('DD MMMM')
+									.format('dddd, MMMM D, YYYY')
 									.toString()
 							: undefined
 					}

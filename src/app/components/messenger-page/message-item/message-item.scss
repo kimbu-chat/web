@@ -117,11 +117,14 @@
 			display: inline-block;
 			max-width: 100%;
 			margin-top: 8px;
-			padding: 4px 12px;
-			background-color: rgb(183, 183, 189);
-			border-radius: 12px;
+			background-color: rgba(63, 138, 224, 0.1);
+			border-radius: 11px;
 			line-height: 16px;
-			color: #fff;
+			color: #3f8ae0;
+			text-transform: capitalize;
+			font-size: 12px;
+			font-weight: 500;
+			padding: 3px 14px;
 		}
 	}
 

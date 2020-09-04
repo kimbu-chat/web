@@ -27,13 +27,14 @@
 	}
 
 	&__search {
-		height: 40px;
-		border: none;
-		display: block;
-		padding: 5px 0;
-		outline: none;
-		padding-left: 20px;
-		width: calc(100% - 20px);
+		display: flex;
+		align-items: center;
+		border-radius: 10px;
+		background: #ebebeb;
+		padding-left: 6px;
+		margin-top: 20px;
+		width: 67%;
+		height: 36px;
 	}
 
 	&__members-list {

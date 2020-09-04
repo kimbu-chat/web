@@ -3,7 +3,6 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding-left: 10px;
 		border-bottom: 1px solid rgba(#000, 0.2);
 	}
 
@@ -16,16 +15,21 @@
 	}
 
 	&__contact-img {
+		margin-left: 20px;
 		width: 32px;
 		height: 32px;
 		border-radius: 50%;
 		margin-right: 10px;
+		height: 36px !important;
+		width: 36px !important;
 		object-fit: cover;
 	}
 
 	&__chat-info {
 		h1 {
-			font-size: 19px;
+			font-size: 15px;
+			line-height: 16px;
+			font-weight: 500;
 		}
 
 		&--blue {

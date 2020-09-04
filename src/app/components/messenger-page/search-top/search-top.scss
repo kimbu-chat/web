@@ -1,29 +1,35 @@
 .messenger {
 	&__search-top {
 		display: flex;
-		justify-content: space-around;
-		align-items: center;
-		border-right: 1px solid rgba(#000, 0.2);
-		border-bottom: 1px solid rgba(#000, 0.2);
+		justify-content: flex-start;
+		border-right: 1px solid rgba(0, 0, 0, 0.2);
 	}
 
 	&__burger {
 		height: 24px;
 		width: 24px;
+		margin-top: 26px;
+		margin-left: 20px;
+		margin-right: 10px;
+		svg {
+			fill: rgb(153, 162, 173);
+		}
 	}
 
 	&__search {
 		display: flex;
 		align-items: center;
-		border-radius: 1000000px;
-		height: 32px;
-		width: 150px;
-		background: #ebebeb;
-		padding-left: 6px;
+		border-radius: 10px;
+		background: rgb(235, 237, 240);
+		margin-top: 20px;
+		width: 67.5%;
+		height: 36px;
+
 		svg {
 			height: 16px;
 			width: 16px;
 			margin-right: 16px;
+			fill: rgb(153, 162, 173);
 		}
 		input {
 			height: 16px;
@@ -33,6 +39,10 @@
 			&:focus {
 				border: none;
 				outline: none;
+			}
+
+			&::placeholder {
+				text-align: center;
 			}
 		}
 	}

@@ -79,17 +79,16 @@
 	}
 
 	&__count {
-		background-color: #33a909;
+		background-color: rgb(63, 138, 224);
 		color: white;
-		font-size: 10px;
-		height: 16px;
-		min-width: 16px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		border-radius: 16px;
-		font-weight: 400;
-		font-size: 14px;
+		border-radius: 6px;
+		font-size: 13px;
+		line-height: 16px;
+		padding: 3px 7px;
+		font-weight: 500;
+		margin-top: 10px;
+		text-align: center;
+		float: right;
 
 		&--muted {
 			background-color: gray;

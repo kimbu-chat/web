@@ -155,7 +155,7 @@ module.exports = {
 		runtimeChunk: true,
 	},
 	plugins: [
-		new BundleAnalyzerPlugin(),
+		// new BundleAnalyzerPlugin(),
 		new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /ru|en-gb/),
 		new webpack.EnvironmentPlugin({
 			NODE_ENV: 'development', // use 'development' unless process.env.NODE_ENV is defined

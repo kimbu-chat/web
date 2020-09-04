@@ -1,10 +1,10 @@
 import { MessageList, MessageState, Message } from './models';
-import _ from 'lodash';
 import produce from 'immer';
 import { createReducer } from 'typesafe-actions';
 import { MessageActions } from './actions';
 import { ChatActions } from '../dialogs/actions';
 import { DialogService } from '../dialogs/dialog-service';
+import unionBy from 'lodash/unionBy';
 
 export interface MessagesState {
 	loading: boolean;
@@ -60,7 +60,7 @@ const messages = createReducer<MessagesState>(initialState)
 				});
 			} else {
 				const chatIndex = getChatIndex(draft, dialogId);
-				draft.messages[chatIndex].messages = _.unionBy(draft.messages[chatIndex].messages, messages, 'id');
+				draft.messages[chatIndex].messages = unionBy(draft.messages[chatIndex].messages, messages, 'id');
 				draft.messages[chatIndex].hasMoreMessages = hasMoreMessages;
 			}
 

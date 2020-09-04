@@ -24,15 +24,8 @@
 		overflow: auto;
 
 		.loader {
-			width: 100%;
 			display: flex;
 			justify-content: center;
-			height: 40px;
-			div {
-				height: 40px;
-				width: 40px;
-				overflow: hidden;
-			}
 		}
 	}
 

@@ -1,6 +1,7 @@
 var webpack = require('webpack');
 var path = require('path');
 var package = require('./package.json');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 // variables
 var isProduction = process.argv.indexOf('-p') >= 0 || process.env.NODE_ENV === 'production';
@@ -40,7 +41,25 @@ module.exports = {
 				use: [
 					!isProduction && {
 						loader: 'babel-loader',
-						options: { plugins: ['react-hot-loader/babel'] },
+						options: {
+							plugins: [
+								'react-hot-loader/babel',
+								[
+									'transform-imports',
+									{
+										'react-bootstrap': {
+											transform: 'react-bootstrap/lib/${member}',
+											preventFullImport: true,
+										},
+										lodash: {
+											transform: 'lodash/${member}',
+											preventFullImport: true,
+										},
+									},
+								],
+								['import', { libraryName: '@material-ui/core', camel2DashComponentName: false }],
+							],
+						},
 					},
 					'ts-loader',
 				].filter(Boolean),
@@ -129,7 +148,6 @@ module.exports = {
 				vendors: {
 					test: /[\\/]node_modules[\\/]/,
 					chunks: 'all',
-					filename: isProduction ? 'vendor.[contenthash].js' : 'vendor.[hash].js',
 					priority: -10,
 				},
 			},
@@ -137,6 +155,8 @@ module.exports = {
 		runtimeChunk: true,
 	},
 	plugins: [
+		new BundleAnalyzerPlugin(),
+		new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /ru|en-gb/),
 		new webpack.EnvironmentPlugin({
 			NODE_ENV: 'development', // use 'development' unless process.env.NODE_ENV is defined
 			DEBUG: false,
@@ -182,7 +202,7 @@ module.exports = {
 		https: true,
 	},
 	// https://webpack.js.org/configuration/devtool/
-	devtool: isProduction ? 'hidden-source-map' : 'cheap-module-eval-source-map',
+	devtool: isProduction ? 'source-map' : 'cheap-module-eval-source-map',
 	node: {
 		// workaround for webpack-dev-server issue
 		// https://github.com/webpack/webpack-dev-server/issues/60#issuecomment-103411179

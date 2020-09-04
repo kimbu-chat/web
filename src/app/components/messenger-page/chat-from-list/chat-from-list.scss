@@ -1,23 +1,22 @@
 .messenger {
 	&__active-line {
 		display: none;
-		background-color: #697cff;
-		height: 64px;
-		width: 3px;
+		background-color: #3f8ae0;
+		height: 100%;
+		width: 4px;
 		position: absolute;
 		left: 0;
 	}
 
 	&__chat-block {
-		height: 48px;
-		padding: 8px 6px 8px 12px;
+		padding: 14px 20px;
 		display: flex;
 		align-items: center;
 		margin: 0;
 		position: relative;
 
 		&:hover {
-			background-color: #ebebeb;
+			background-color: rgba($color: #3f8ae0, $alpha: 0.1);
 		}
 		font-family: inherit;
 		font-size: inherit;
@@ -26,11 +25,16 @@
 		text-decoration: none;
 
 		&--active {
-			background-color: #ebebeb;
+			background-color: rgba($color: #3f8ae0, $alpha: 0.1);
 
 			& > .messenger__active-line {
 				display: block;
 			}
+		}
+
+		&__avatar {
+			width: 52px;
+			height: 52px;
 		}
 	}
 
@@ -41,13 +45,14 @@
 	}
 
 	&__name-and-message {
-		margin-left: 10px;
+		margin-left: 14px;
 	}
 
 	&__name {
 		font-weight: 500;
 		font-size: 14px;
-		margin-bottom: 4px;
+		margin-bottom: 6px;
+		max-width: max-content;
 	}
 
 	&__last-photo {
@@ -58,29 +63,32 @@
 
 	&__last-message {
 		font-size: 14px;
+		font-weight: 400;
+		color: #6d7885;
 	}
 
 	&__time-and-count {
 		margin-left: auto;
-		margin-right: 10px;
+		margin-bottom: auto;
 	}
 
 	&__time {
-		margin-bottom: 7px;
+		font-size: 11px;
+		font-weight: 400px;
+		color: #868686;
 	}
 
 	&__count {
-		background-color: #33a909;
+		background-color: rgb(63, 138, 224);
 		color: white;
-		font-size: 10px;
-		height: 16px;
-		min-width: 16px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		border-radius: 16px;
-		font-weight: 400;
-		font-size: 14px;
+		border-radius: 6px;
+		font-size: 13px;
+		line-height: 16px;
+		padding: 3px 7px;
+		font-weight: 500;
+		margin-top: 10px;
+		text-align: center;
+		float: right;
 
 		&--muted {
 			background-color: gray;

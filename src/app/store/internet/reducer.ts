@@ -1,5 +1,4 @@
 import produce from 'immer';
-import _ from 'lodash';
 import { createReducer } from 'typesafe-actions';
 import { InternetActions } from './actions';
 

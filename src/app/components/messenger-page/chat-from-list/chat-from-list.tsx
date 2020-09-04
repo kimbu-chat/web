@@ -11,12 +11,12 @@ import { MessageUtils } from 'app/utils/message-utils';
 import { getDialogInterlocutor, getInterlocutorInitials } from '../../../utils/interlocutor-name-utils';
 
 import StatusBadge from 'app/components/shared/status-badge/status-badge';
-import _ from 'lodash';
 import { ChatActions } from 'app/store/dialogs/actions';
 import { SystemMessageType, Message } from 'app/store/messages/models';
 import { LocalizationContext } from 'app/app';
 import { getMyIdSelector } from 'app/store/my-profile/selectors';
 import Avatar from 'app/components/shared/avatar/avatar';
+import truncate from 'lodash/truncate';
 
 namespace ChatFromList {
 	export interface Props {
@@ -42,7 +42,7 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
 	const getMessageText = (): string => {
 		const { lastMessage, conference } = dialog;
 		if (lastMessage && lastMessage?.systemMessageType !== SystemMessageType.None) {
-			return _.truncate(
+			return truncate(
 				MessageUtils.constructSystemMessageText(
 					lastMessage as Message,
 					lastMessage?.userCreator?.id === currentUserId,
@@ -57,18 +57,18 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
 
 		if (conference) {
 			if (isMessageCreatorCurrentUser) {
-				return _.truncate(`${t('chatFromList.you')}: ${lastMessage?.text}`, {
+				return truncate(`${t('chatFromList.you')}: ${lastMessage?.text}`, {
 					length: 19,
 					omission: '...',
 				});
 			}
-			return _.truncate(`${lastMessage?.userCreator?.firstName}: ${lastMessage?.text}`, {
+			return truncate(`${lastMessage?.userCreator?.firstName}: ${lastMessage?.text}`, {
 				length: 19,
 				omission: '...',
 			});
 		}
 
-		const shortedText = _.truncate(lastMessage?.text, {
+		const shortedText = truncate(lastMessage?.text, {
 			length: 19,
 			omission: '...',
 		});
@@ -89,9 +89,11 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
 		>
 			<div className='messenger__active-line'></div>
 			{!conference ? (
-				<StatusBadge user={dialog.interlocutor!} />
+				<StatusBadge additionalClassNames={'messenger__chat-block__avatar'} user={dialog.interlocutor!} />
 			) : (
-				<Avatar src={getDialogAvatar()}>{getInterlocutorInitials(dialog)}</Avatar>
+				<Avatar className={'messenger__chat-block__avatar'} src={getDialogAvatar()}>
+					{getInterlocutorInitials(dialog)}
+				</Avatar>
 			)}
 
 			<div className='messenger__name-and-message'>
@@ -104,9 +106,7 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
 				</div>
 			</div>
 			<div className='messenger__time-and-count'>
-				<div className='messenger__time'>
-					{moment.utc(lastMessage?.creationDateTime).local().format('hh:mm')}
-				</div>
+				<div className='messenger__time'>{moment.utc(lastMessage?.creationDateTime).local().format('LT')}</div>
 				{(dialog.ownUnreadMessagesCount || false) && (
 					<div className={dialog.isMuted ? 'messenger__count messenger__count--muted' : 'messenger__count'}>
 						{dialog.ownUnreadMessagesCount}

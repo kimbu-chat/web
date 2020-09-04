@@ -18,7 +18,7 @@ function PublicRoute({ Component, path, ...rest }: PublicRoute.Props) {
 			{...rest}
 			render={({ location }) =>
 				!isAuthenticated ? (
-					<Component />
+					Component
 				) : (
 					<Redirect
 						to={{

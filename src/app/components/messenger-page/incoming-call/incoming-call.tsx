@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { getCallInterlocutorSelector } from 'app/store/calls/selectors';
 
 //sounds
-import incomingCallSound from 'app/sounds/calls/imcoming-call.ogg';
+import incomingCallSound from 'app/assets/sounds/calls/imcoming-call.ogg';
 import { RootState } from 'app/store/root-reducer';
 
 const IncomingCall = () => {

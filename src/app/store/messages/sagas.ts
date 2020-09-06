@@ -18,8 +18,8 @@ import { MessagesHttpRequests } from './http-requests';
 import { SagaIterator } from 'redux-saga';
 
 //Sounds
-import messageCameUnselected from 'app/sounds/notifications/messsage-came-unselected.ogg';
-import messageCameSelected from 'app/sounds/notifications/messsage-came-selected.ogg';
+import messageCameUnselected from 'app/assets/sounds/notifications/messsage-came-unselected.ogg';
+import messageCameSelected from 'app/assets/sounds/notifications/messsage-came-selected.ogg';
 import moment from 'moment';
 
 const audioUnselected = new Audio(messageCameUnselected);

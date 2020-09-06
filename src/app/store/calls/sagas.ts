@@ -194,9 +194,13 @@ export function* declineCallSaga(): SagaIterator {
 
 export function* endCallSaga(action: ReturnType<typeof CallActions.endCallAction>): SagaIterator {
 	const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
+	const myProfile: UserPreview = yield select(getMyProfileSelector);
+	const myId = myProfile.id;
+	const isActiveCallIncoming: boolean = yield select((state: RootState) => state.calls.isActiveCallIncoming);
 
 	const request = {
-		interlocutorId,
+		callerId: isActiveCallIncoming ? interlocutorId : myId,
+		calleeId: isActiveCallIncoming ? myId : interlocutorId,
 		seconds: action.payload.seconds,
 	};
 

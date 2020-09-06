@@ -5,6 +5,7 @@ import { UserPreview } from '../my-profile/models';
 
 export interface CallState {
 	isFullScreen: boolean;
+	isActiveCallIncoming?: boolean;
 	isCalling: boolean;
 	isInterlocutorVideoEnabled: boolean;
 	isMediaSwitchingEnabled: boolean;
@@ -64,6 +65,7 @@ const calls = createReducer<CallState>(initialState)
 			const offer = payload.offer;
 			draft.interlocutor = interlocutor;
 			draft.isCalling = true;
+			draft.isActiveCallIncoming = true;
 			draft.offer = offer;
 
 			return draft;
@@ -75,6 +77,7 @@ const calls = createReducer<CallState>(initialState)
 			const interlocutor = payload.calling;
 			draft.interlocutor = interlocutor;
 			draft.amCalling = true;
+			draft.isActiveCallIncoming = false;
 			draft.audioConstraints = { ...draft.audioConstraints, ...payload.constraints.audio };
 			draft.videoConstraints = { ...draft.videoConstraints, ...payload.constraints.video };
 			return draft;

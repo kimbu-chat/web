@@ -2,7 +2,7 @@
 	&__chat-list {
 		border-right: 1px solid rgba(#000, 0.2);
 		overflow-y: scroll;
-		max-height: calc(100vh - 50px);
+		max-height: calc(100vh - 64px);
 		&::-webkit-scrollbar {
 			display: none;
 		}

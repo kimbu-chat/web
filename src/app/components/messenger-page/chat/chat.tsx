@@ -3,12 +3,11 @@ import { useSelector } from 'react-redux';
 import './chat.scss';
 import moment from 'moment';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
-import { Message, MessageList } from 'app/store/messages/models';
+import { Message, MessageList, SystemMessageType } from 'app/store/messages/models';
 import { MessageActions } from 'app/store/messages/actions';
 import { RootState } from 'app/store/root-reducer';
 import { LocalizationContext } from 'app/app';
 import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
-import { getMyIdSelector } from 'app/store/my-profile/selectors';
 import MessageItem from '../message-item/message-item';
 import InfiniteScroll from 'react-infinite-scroller';
 import SelectedMessagesData from '../selected-messages-data/selected-messages-data';
@@ -37,16 +36,7 @@ const Chat = () => {
 			state.messages.messages.find((x: MessageList) => x.dialogId == selectedDialog?.id)
 				?.hasMoreMessages as boolean,
 	);
-	const myId = useSelector(getMyIdSelector) as number;
 	const isSelectState = useSelector(setSelectedMessagesLength) > 0;
-
-	const messageIsFrom = useCallback((id: Number | undefined) => {
-		if (id === myId) {
-			return messageFrom.me;
-		} else {
-			return messageFrom.others;
-		}
-	}, []);
 
 	const dateDifference = useCallback((startDate: Date, endDate: Date): boolean => {
 		return Boolean(Math.round(Math.abs((startDate.getTime() - endDate.getTime()) / (24 * 60 * 60 * 1000))));
@@ -98,8 +88,9 @@ const Chat = () => {
 		return <div className='messenger__messages-list'></div>;
 	}
 
-	const messagesWithSeparators = messages.map((message, index) => {
-		if (index < messages.length)
+	const messagesCopy: Message[] = JSON.parse(JSON.stringify(messages));
+	const itemsWithDateSeparators = messagesCopy.map((message, index) => {
+		if (index < messages.length - 1)
 			if (
 				index === messages.length - 1 ||
 				dateDifference(
@@ -107,41 +98,43 @@ const Chat = () => {
 					new Date(messages[index + 1].creationDateTime || ''),
 				)
 			) {
-				message = {
-					...message,
-					needToShowDateSeparator: true,
-				};
+				message.dateSeparator = moment
+					.utc(message.creationDateTime)
+					.local()
+					.locale(i18n?.language || '')
+					.format('dddd, MMMM D, YYYY')
+					.toString();
+
+				console.log(
+					dateDifference(
+						new Date(message.creationDateTime || ''),
+						new Date(messages[index + 1].creationDateTime || ''),
+					),
+				);
+
+				message.needToShowDateSeparator = true;
 				return message;
 			}
-		message = {
-			...message,
-			needToShowDateSeparator: false,
-		};
+
+		message.needToShowDateSeparator = false;
+
 		return message;
 	});
 
-	const items = messagesWithSeparators
-		.map((msg) => {
-			return (
-				<MessageItem
-					message={msg}
-					key={msg.id}
-					from={messageIsFrom(msg.userCreator?.id)}
-					content={msg.text}
-					time={moment.utc(msg.creationDateTime).local().format('HH:mm')}
-					needToShowDateSeparator={msg.needToShowDateSeparator}
-					dateSeparator={
-						msg.needToShowDateSeparator
-							? moment
-									.utc(msg.creationDateTime)
-									.local()
-									.locale(i18n?.language || '')
-									.format('dddd, MMMM D, YYYY')
-									.toString()
-							: undefined
-					}
-				/>
-			);
+	const itemsWithUserInfo = itemsWithDateSeparators
+		.map((message, index) => {
+			if (
+				selectedDialog.conference &&
+				index < messages.length - 1 &&
+				(messages[index].userCreator?.id !== messages[index + 1].userCreator?.id ||
+					messages[index + 1].systemMessageType !== SystemMessageType.None ||
+					message.needToShowDateSeparator)
+			) {
+				console.log(message.text);
+				message.needToShowCreator = true;
+			}
+
+			return message;
 		})
 		.reverse();
 
@@ -154,7 +147,7 @@ const Chat = () => {
 					} ${t('chat.typing')}`}</div>
 				)}
 
-				{items.length === 0 && (
+				{itemsWithUserInfo.length === 0 && (
 					<div className='messenger__messages-list__empty'>
 						<p>{t('chat.empty')}</p>
 					</div>
@@ -182,7 +175,9 @@ const Chat = () => {
 					getScrollParent={() => messagesContainerRef.current}
 					isReverse={true}
 				>
-					{items}
+					{itemsWithUserInfo.map((msg) => {
+						return <MessageItem message={msg} key={msg.id} />;
+					})}
 				</InfiniteScroll>
 			</div>
 		</div>

@@ -9,10 +9,10 @@ export class DialogService {
 	}
 
 	public static getDialogId(interlocutorId: number | null, conferenceId: number | null): number {
-		if (interlocutorId) {
-			return +`${interlocutorId}${InterlocutorType.USER}`;
+		if (conferenceId) {
+			return +`${conferenceId}${InterlocutorType.CONFERENCE}`;
 		}
-		return +`${conferenceId}${InterlocutorType.CONFERENCE}`;
+		return +`${interlocutorId}${InterlocutorType.USER}`;
 	}
 
 	public static parseDialogId(dialogId: number): ParsedInterlocutorId {

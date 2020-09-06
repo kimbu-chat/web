@@ -24,6 +24,15 @@
 		margin-top: 20px;
 		width: 67.5%;
 		height: 36px;
+		position: relative;
+
+		div {
+			position: absolute;
+			top: 50%;
+			left: 43%;
+			transform: translate(-50%, -50%);
+			pointer-events: none;
+		}
 
 		svg {
 			height: 16px;
@@ -36,6 +45,7 @@
 			border: none;
 			border-radius: 0;
 			background: transparent;
+			width: 100%;
 			&:focus {
 				border: none;
 				outline: none;
@@ -43,6 +53,7 @@
 
 			&::placeholder {
 				text-align: center;
+				text-indent: 11%;
 			}
 		}
 	}
@@ -50,5 +61,7 @@
 	&__create-chat-btn {
 		width: 24px;
 		height: 24px;
+		margin-top: 26px;
+		margin-left: 14px;
 	}
 }

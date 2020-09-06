@@ -10,17 +10,17 @@ import { MessageActions } from 'app/store/messages/actions';
 export class MessageCreatedEventHandler implements IEventHandler<MessageCreatedIntegrationEvent> {
 	public handle(store: Store<RootState>, eventData: MessageCreatedIntegrationEvent): void {
 		const currentUserId: number = store.getState().myProfile.user?.id || -1;
-		// const shouldHandleMessageCreation: boolean =
-		// 	eventData.userCreatorId !== currentUserId || eventData.systemMessageType !== SystemMessageType.None;
+		const shouldHandleMessageCreation: boolean =
+			eventData.userCreatorId !== currentUserId || eventData.systemMessageType !== SystemMessageType.None;
 
-		// if (!shouldHandleMessageCreation) {
-		// 	return;
-		// }
+		if (!shouldHandleMessageCreation) {
+			return;
+		}
 
 		const interlocutorType: InterlocutorType =
 			eventData.destinationType === 'Conference' ? InterlocutorType.CONFERENCE : InterlocutorType.USER;
 
-		const dialogId: number = DialogService.getDialogIdentifier(eventData.userCreatorId, eventData.destinationId);
+		const dialogId: number = DialogService.getDialogId(eventData.userCreatorId, eventData.destinationId);
 
 		const message: Message = {
 			text: eventData.text,

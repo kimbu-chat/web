@@ -12,11 +12,15 @@ import { getDialogInterlocutor, getInterlocutorInitials } from '../../../utils/i
 
 import StatusBadge from 'app/components/shared/status-badge/status-badge';
 import { ChatActions } from 'app/store/dialogs/actions';
-import { SystemMessageType, Message } from 'app/store/messages/models';
+import { SystemMessageType, Message, MessageState } from 'app/store/messages/models';
 import { LocalizationContext } from 'app/app';
 import { getMyIdSelector } from 'app/store/my-profile/selectors';
 import Avatar from 'app/components/shared/avatar/avatar';
 import truncate from 'lodash/truncate';
+
+import MessageQeuedSvg from 'app/assets/icons/ic-time.svg';
+import MessageSentSvg from 'app/assets/icons/ic-tick.svg';
+import MessageReadSvg from 'app/assets/icons/ic-double_tick.svg';
 
 namespace ChatFromList {
 	export interface Props {
@@ -49,7 +53,7 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
 					t,
 				),
 				{
-					length: 19,
+					length: 53,
 					omission: '...',
 				},
 			);
@@ -58,18 +62,18 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
 		if (conference) {
 			if (isMessageCreatorCurrentUser) {
 				return truncate(`${t('chatFromList.you')}: ${lastMessage?.text}`, {
-					length: 19,
+					length: 53,
 					omission: '...',
 				});
 			}
 			return truncate(`${lastMessage?.userCreator?.firstName}: ${lastMessage?.text}`, {
-				length: 19,
+				length: 53,
 				omission: '...',
 			});
 		}
 
 		const shortedText = truncate(lastMessage?.text, {
-			length: 19,
+			length: 53,
 			omission: '...',
 		});
 
@@ -84,31 +88,41 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
 		<NavLink
 			onClick={setSelectedDialog}
 			to={`/chats/${dialog.id}`}
-			className='messenger__chat-block'
-			activeClassName='messenger__chat-block messenger__chat-block--active'
+			className='chat-from-list'
+			activeClassName='chat-from-list chat-from-list--active'
 		>
-			<div className='messenger__active-line'></div>
+			<div className='chat-from-list__active-line'></div>
 			{!conference ? (
-				<StatusBadge additionalClassNames={'messenger__chat-block__avatar'} user={dialog.interlocutor!} />
+				<StatusBadge additionalClassNames={'chat-from-list__avatar'} user={dialog.interlocutor!} />
 			) : (
-				<Avatar className={'messenger__chat-block__avatar'} src={getDialogAvatar()}>
+				<Avatar className={'chat-from-list__avatar'} src={getDialogAvatar()}>
 					{getInterlocutorInitials(dialog)}
 				</Avatar>
 			)}
 
-			<div className='messenger__name-and-message'>
-				<div className='messenger__name'>{getDialogInterlocutor(dialog)}</div>
-				<div className='flat'>
-					{/* <img src={lastPhoto} alt="" className="messenger__last-photo" /> */}
-					<div className='messenger__last-message'>
-						{dialog.isInterlocutorTyping ? t('chatFromList.typing') : getMessageText()}
+			<div className='chat-from-list__contents'>
+				<div className='chat-from-list__heading'>
+					<div className='chat-from-list__name'>{getDialogInterlocutor(dialog)}</div>
+					<div className='chat-from-list__status'>
+						{lastMessage?.state === MessageState.QUEUED && <MessageQeuedSvg />}
+						{lastMessage?.state === MessageState.SENT && <MessageSentSvg />}
+						{lastMessage?.state === MessageState.READ && <MessageReadSvg />}
+					</div>
+					<div className='chat-from-list__time'>
+						{moment.utc(lastMessage?.creationDateTime).local().format('LT')}
 					</div>
 				</div>
-			</div>
-			<div className='messenger__time-and-count'>
-				<div className='messenger__time'>{moment.utc(lastMessage?.creationDateTime).local().format('LT')}</div>
+				<div className='chat-from-list__last-message'>
+					{dialog.isInterlocutorTyping ? t('chatFromList.typing') : getMessageText()}
+				</div>
 				{(dialog.ownUnreadMessagesCount || false) && (
-					<div className={dialog.isMuted ? 'messenger__count messenger__count--muted' : 'messenger__count'}>
+					<div
+						className={
+							dialog.isMuted
+								? 'chat-from-list__count chat-from-list__count--muted'
+								: 'chat-from-list__count'
+						}
+					>
 						{dialog.ownUnreadMessagesCount}
 					</div>
 				)}

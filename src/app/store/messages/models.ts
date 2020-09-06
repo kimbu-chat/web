@@ -44,6 +44,7 @@ export interface Content {
 
 export interface Message {
 	id: number;
+	needToShowCreator?: boolean;
 	userCreator: UserPreview | null;
 	creationDateTime?: Date;
 	text: string;
@@ -52,8 +53,9 @@ export interface Message {
 	systemMessageType?: SystemMessageType;
 	state?: MessageState;
 	dialogId?: number;
-	needToShowDateSeparator?: boolean;
+	dateSeparator?: string;
 	isSelected?: boolean;
+	needToShowDateSeparator?: boolean;
 }
 
 export enum SystemMessageType {

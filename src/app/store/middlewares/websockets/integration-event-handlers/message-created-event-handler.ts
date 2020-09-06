@@ -20,7 +20,12 @@ export class MessageCreatedEventHandler implements IEventHandler<MessageCreatedI
 		const interlocutorType: InterlocutorType =
 			eventData.destinationType === 'Conference' ? InterlocutorType.CONFERENCE : InterlocutorType.USER;
 
-		const chatId: number = ChatService.getChatId(eventData.userCreatorId, eventData.destinationId);
+		console.log(eventData);
+
+		const chatId: number = ChatService.getChatId(
+			eventData.destinationType === 'User' ? eventData.userCreatorId : null,
+			eventData.destinationType === 'Conference' ? eventData.destinationId : null,
+		);
 
 		const message: Message = {
 			text: eventData.text,

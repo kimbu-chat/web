@@ -9,6 +9,7 @@ export class ChatService {
 	}
 
 	public static getChatId(interlocutorId: number | null, conferenceId: number | null): number {
+		console.log('interlocutor', interlocutorId, 'conference', conferenceId);
 		if (conferenceId) {
 			return +`${conferenceId}${InterlocutorType.CONFERENCE}`;
 		}

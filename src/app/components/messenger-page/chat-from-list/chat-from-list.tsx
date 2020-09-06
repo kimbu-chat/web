@@ -6,12 +6,12 @@ import moment from 'moment';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 
 import './chat-from-list.scss';
-import { Dialog } from 'app/store/dialogs/models';
+import { Chat } from 'app/store/chats/models';
 import { MessageUtils } from 'app/utils/message-utils';
-import { getDialogInterlocutor, getInterlocutorInitials } from '../../../utils/interlocutor-name-utils';
+import { getChatInterlocutor, getInterlocutorInitials } from '../../../utils/interlocutor-name-utils';
 
 import StatusBadge from 'app/components/shared/status-badge/status-badge';
-import { ChatActions } from 'app/store/dialogs/actions';
+import { ChatActions } from 'app/store/chats/actions';
 import { SystemMessageType, Message, MessageState } from 'app/store/messages/models';
 import { LocalizationContext } from 'app/app';
 import { getMyIdSelector } from 'app/store/my-profile/selectors';
@@ -24,18 +24,18 @@ import MessageReadSvg from 'app/assets/icons/ic-double_tick.svg';
 
 namespace ChatFromList {
 	export interface Props {
-		dialog: Dialog;
+		chat: Chat;
 	}
 }
 
-const ChatFromList = ({ dialog }: ChatFromList.Props) => {
-	const { interlocutor, lastMessage, conference } = dialog;
+const ChatFromList = ({ chat }: ChatFromList.Props) => {
+	const { interlocutor, lastMessage, conference } = chat;
 	const { t } = useContext(LocalizationContext);
 	const currentUserId = useSelector(getMyIdSelector) as number;
 	const isMessageCreatorCurrentUser: boolean = lastMessage?.userCreator?.id === currentUserId;
-	const changeSelectedDialog = useActionWithDispatch(ChatActions.changeSelectedChat);
+	const changeSelectedChat = useActionWithDispatch(ChatActions.changeSelectedChat);
 
-	const getDialogAvatar = (): string => {
+	const getChatAvatar = (): string => {
 		if (interlocutor) {
 			return interlocutor.avatarUrl as string;
 		}
@@ -44,7 +44,7 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
 	};
 
 	const getMessageText = (): string => {
-		const { lastMessage, conference } = dialog;
+		const { lastMessage, conference } = chat;
 		if (lastMessage && lastMessage?.systemMessageType !== SystemMessageType.None) {
 			return truncate(
 				MessageUtils.constructSystemMessageText(
@@ -80,29 +80,29 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
 		return shortedText;
 	};
 
-	const setSelectedDialog = (): void => {
-		changeSelectedDialog(dialog.id);
+	const setSelectedChat = (): void => {
+		changeSelectedChat(chat.id);
 	};
 
 	return (
 		<NavLink
-			onClick={setSelectedDialog}
-			to={`/chats/${dialog.id}`}
+			onClick={setSelectedChat}
+			to={`/chats/${chat.id}`}
 			className='chat-from-list'
 			activeClassName='chat-from-list chat-from-list--active'
 		>
 			<div className='chat-from-list__active-line'></div>
 			{!conference ? (
-				<StatusBadge additionalClassNames={'chat-from-list__avatar'} user={dialog.interlocutor!} />
+				<StatusBadge additionalClassNames={'chat-from-list__avatar'} user={chat.interlocutor!} />
 			) : (
-				<Avatar className={'chat-from-list__avatar'} src={getDialogAvatar()}>
-					{getInterlocutorInitials(dialog)}
+				<Avatar className={'chat-from-list__avatar'} src={getChatAvatar()}>
+					{getInterlocutorInitials(chat)}
 				</Avatar>
 			)}
 
 			<div className='chat-from-list__contents'>
 				<div className='chat-from-list__heading'>
-					<div className='chat-from-list__name'>{getDialogInterlocutor(dialog)}</div>
+					<div className='chat-from-list__name'>{getChatInterlocutor(chat)}</div>
 					<div className='chat-from-list__status'>
 						{lastMessage?.state === MessageState.QUEUED && <MessageQeuedSvg />}
 						{lastMessage?.state === MessageState.SENT && <MessageSentSvg />}
@@ -113,17 +113,17 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
 					</div>
 				</div>
 				<div className='chat-from-list__last-message'>
-					{dialog.isInterlocutorTyping ? t('chatFromList.typing') : getMessageText()}
+					{chat.isInterlocutorTyping ? t('chatFromList.typing') : getMessageText()}
 				</div>
-				{(dialog.ownUnreadMessagesCount || false) && (
+				{(chat.ownUnreadMessagesCount || false) && (
 					<div
 						className={
-							dialog.isMuted
+							chat.isMuted
 								? 'chat-from-list__count chat-from-list__count--muted'
 								: 'chat-from-list__count'
 						}
 					>
-						{dialog.ownUnreadMessagesCount}
+						{chat.ownUnreadMessagesCount}
 					</div>
 				)}
 			</div>

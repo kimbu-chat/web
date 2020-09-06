@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
-import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
-import { getDialogInterlocutor, getInterlocutorInitials } from '../../../utils/interlocutor-name-utils';
+import { getSelectedChatSelector } from 'app/store/chats/selectors';
+import { getChatInterlocutor, getInterlocutorInitials } from '../../../utils/interlocutor-name-utils';
 
 import './chat-data.scss';
 import { LocalizationContext } from 'app/app';
@@ -26,12 +26,12 @@ namespace ChatData {
 
 const ChatData = ({ displayChatInfo, chatInfoDisplayed }: ChatData.Props) => {
 	const { t } = useContext(LocalizationContext);
-	const selectedDialog = useSelector(getSelectedDialogSelector);
+	const selectedChat = useSelector(getSelectedChatSelector);
 	const callInterlocutor = useActionWithDispatch(CallActions.outgoingCallAction);
 
 	const callWithVideo = () =>
 		callInterlocutor({
-			calling: selectedDialog?.interlocutor as UserPreview,
+			calling: selectedChat?.interlocutor as UserPreview,
 			constraints: {
 				video: {
 					isOpened: true,
@@ -44,7 +44,7 @@ const ChatData = ({ displayChatInfo, chatInfoDisplayed }: ChatData.Props) => {
 
 	const callWithAudio = () =>
 		callInterlocutor({
-			calling: selectedDialog?.interlocutor as UserPreview,
+			calling: selectedChat?.interlocutor as UserPreview,
 			constraints: {
 				video: {
 					isOpened: false,
@@ -55,14 +55,14 @@ const ChatData = ({ displayChatInfo, chatInfoDisplayed }: ChatData.Props) => {
 			},
 		});
 
-	if (selectedDialog) {
-		const imageUrl: string = selectedDialog.conference?.avatarUrl || selectedDialog?.interlocutor?.avatarUrl || '';
-		const status = selectedDialog.conference
-			? `${selectedDialog.conference.membersCount} ${t('chatData.members')}`
-			: selectedDialog?.interlocutor?.status === UserStatus.Online
+	if (selectedChat) {
+		const imageUrl: string = selectedChat.conference?.avatarUrl || selectedChat?.interlocutor?.avatarUrl || '';
+		const status = selectedChat.conference
+			? `${selectedChat.conference.membersCount} ${t('chatData.members')}`
+			: selectedChat?.interlocutor?.status === UserStatus.Online
 			? t('chatData.online')
 			: `${t('chatData.last-time')} ${moment
-					.utc(selectedDialog?.interlocutor?.lastOnlineTime)
+					.utc(selectedChat?.interlocutor?.lastOnlineTime)
 					.local()
 					.format('hh:mm')}`;
 
@@ -70,21 +70,21 @@ const ChatData = ({ displayChatInfo, chatInfoDisplayed }: ChatData.Props) => {
 			<div className='chat-data__chat-data'>
 				<div onClick={displayChatInfo} className='chat-data__contact-data'>
 					<Avatar className='chat-data__contact-img' src={imageUrl}>
-						{getInterlocutorInitials(selectedDialog)}
+						{getInterlocutorInitials(selectedChat)}
 					</Avatar>
 
 					<div className='chat-data__chat-info'>
-						<h1>{getDialogInterlocutor(selectedDialog)}</h1>
+						<h1>{getChatInterlocutor(selectedChat)}</h1>
 						<p>{status}</p>
 					</div>
 				</div>
 				<div className='chat-data__buttons-group'>
-					{selectedDialog.interlocutor && (
+					{selectedChat.interlocutor && (
 						<button className='chat-data__button' onClick={callWithAudio}>
 							<VoiceCallSvg />
 						</button>
 					)}
-					{selectedDialog.interlocutor && (
+					{selectedChat.interlocutor && (
 						<button className='chat-data__button' onClick={callWithVideo}>
 							<VideoCallSvg />
 						</button>

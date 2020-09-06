@@ -2,30 +2,30 @@ import React, { useCallback } from 'react';
 import './selected-messages-data.scss';
 import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
-import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
+import { getSelectedChatSelector } from 'app/store/chats/selectors';
 import { MessageActions } from 'app/store/messages/actions';
 import { RootState } from 'app/store/root-reducer';
 
 const SelectedMessagesData = () => {
 	const selectedMessages = useSelector((state: RootState) => state.messages.selectedMessageIds);
-	const selectedDialogId = useSelector(getSelectedDialogSelector)?.id;
+	const selectedChatId = useSelector(getSelectedChatSelector)?.id;
 
 	const copyMessage = useActionWithDispatch(MessageActions.copyMessages);
 	const resetSelectedMessages = useActionWithDispatch(MessageActions.resetSelectedMessages);
 	const deleteMessage = useActionWithDispatch(MessageActions.deleteMessageSuccess);
 
-	const resetSelectedMessagesForDialog = useCallback(() => {
-		resetSelectedMessages({ dialogId: selectedDialogId || -1 });
-	}, [selectedDialogId]);
+	const resetSelectedMessagesForChat = useCallback(() => {
+		resetSelectedMessages({ chatId: selectedChatId || -1 });
+	}, [selectedChatId]);
 
 	const copyTheseMessages = useCallback(() => {
-		copyMessage({ dialogId: selectedDialogId || -1, messageIds: selectedMessages });
-		resetSelectedMessagesForDialog();
-	}, [selectedDialogId, selectedMessages]);
+		copyMessage({ chatId: selectedChatId || -1, messageIds: selectedMessages });
+		resetSelectedMessagesForChat();
+	}, [selectedChatId, selectedMessages]);
 
 	const deleteTheseMessages = useCallback(() => {
-		deleteMessage({ dialogId: selectedDialogId as number, messageIds: selectedMessages });
-	}, [selectedDialogId, selectedMessages]);
+		deleteMessage({ chatId: selectedChatId as number, messageIds: selectedMessages });
+	}, [selectedChatId, selectedMessages]);
 
 	return (
 		<div className='selected-messages-data'>
@@ -54,7 +54,7 @@ const SelectedMessagesData = () => {
 				</div>
 				<span>Копировать</span>
 			</button>
-			<button onClick={resetSelectedMessagesForDialog} className='selected-messages-data__close-btn'>
+			<button onClick={resetSelectedMessagesForChat} className='selected-messages-data__close-btn'>
 				<div className='svg'>
 					<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
 						<path

@@ -1,9 +1,9 @@
 import React, { useState, useContext } from 'react';
 import './chat-manipulation.scss';
 import { UserPreview } from 'app/store/my-profile/models';
-import { Dialog } from 'app/store/dialogs/models';
+import { Chat } from 'app/store/chats/models';
 import { useSelector } from 'react-redux';
-import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
+import { getSelectedChatSelector } from 'app/store/chats/selectors';
 import { RootState } from 'app/store/root-reducer';
 import { LocalizationContext } from 'app/app';
 
@@ -36,13 +36,13 @@ const ChatManipulation = ({
 
 	const membersIdsForConference: (number | undefined)[] = membersForConference.map((user) => user?.id);
 
-	const selectedDialog = useSelector(getSelectedDialogSelector) as Dialog;
+	const selectedChat = useSelector(getSelectedChatSelector) as Chat;
 	const friends = useSelector<RootState, UserPreview[]>((state) => state.friends.friends);
 
 	const [actionsDisplayed, setActionsDisplayed] = useState<boolean>(true);
 
 	const selectedIsFriend = (): boolean => {
-		return friends.findIndex((friend: UserPreview) => friend.id === selectedDialog.interlocutor?.id) > -1;
+		return friends.findIndex((friend: UserPreview) => friend.id === selectedChat.interlocutor?.id) > -1;
 	};
 
 	return (
@@ -67,12 +67,12 @@ const ChatManipulation = ({
 							</svg>
 						</div>
 						<span className='chat-info__action-nam'>
-							{selectedDialog.isMuted
+							{selectedChat.isMuted
 								? t('ChatManipulation.notifications_off')
 								: t('ChatManipulation.notifications_on')}
 						</span>
 					</button>
-					{selectedDialog.interlocutor && selectedIsFriend() && (
+					{selectedChat.interlocutor && selectedIsFriend() && (
 						<button onClick={createConference} className='chat-info__action-btn'>
 							<div className='svg'>
 								<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
@@ -86,7 +86,7 @@ const ChatManipulation = ({
 							<span className='chat-info__action-nam'>{t('ChatManipulation.create_group')}</span>
 						</button>
 					)}
-					{selectedDialog.interlocutor && selectedIsFriend() && (
+					{selectedChat.interlocutor && selectedIsFriend() && (
 						<button onClick={deleteContact} className='chat-info__action-btn'>
 							<div className='svg'>
 								<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
@@ -100,7 +100,7 @@ const ChatManipulation = ({
 						</button>
 					)}
 					<button
-						onClick={selectedDialog.interlocutor ? deleteChat : deleteConference}
+						onClick={selectedChat.interlocutor ? deleteChat : deleteConference}
 						className='chat-info__action-btn'
 					>
 						<div className='svg'>
@@ -112,12 +112,12 @@ const ChatManipulation = ({
 							</svg>
 						</div>
 						<span className='chat-info__action-name'>
-							{selectedDialog.interlocutor
+							{selectedChat.interlocutor
 								? t('ChatManipulation.delete_chat')
 								: t('ChatManipulation.leave_conference')}
 						</span>
 					</button>
-					{selectedDialog.conference && (
+					{selectedChat.conference && (
 						<button onClick={openRenameConference} className='chat-info__action-btn'>
 							<div className='svg'>
 								<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
@@ -130,7 +130,7 @@ const ChatManipulation = ({
 							<span className='chat-info__action-nam'>{t('ChatManipulation.rename_conference')}</span>
 						</button>
 					)}
-					{selectedDialog.conference && (
+					{selectedChat.conference && (
 						<button
 							onClick={() => addMembers({ excludeIds: membersIdsForConference })}
 							className='chat-info__action-btn'

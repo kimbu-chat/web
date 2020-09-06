@@ -2,7 +2,7 @@ import produce from 'immer';
 import { createReducer } from 'typesafe-actions';
 import { UserPreview } from '../my-profile/models';
 import { FriendActions } from './actions';
-import { ChatActions } from '../dialogs/actions';
+import { ChatActions } from '../chats/actions';
 import unionBy from 'lodash/unionBy';
 
 export interface FriendsState {

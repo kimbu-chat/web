@@ -11,9 +11,9 @@ import {
 	MarkMessagesAsReadRequest,
 } from './models';
 
-import { DialogService } from '../dialogs/dialog-service';
+import { ChatService } from '../chats/chat-service';
 import { MessageActions } from './actions';
-import { InterlocutorType } from '../dialogs/models';
+import { InterlocutorType } from '../chats/models';
 import { MessagesHttpRequests } from './http-requests';
 import { SagaIterator } from 'redux-saga';
 
@@ -26,13 +26,13 @@ const audioUnselected = new Audio(messageCameUnselected);
 const audioSelected = new Audio(messageCameSelected);
 
 export function* getMessages(action: ReturnType<typeof MessageActions.getMessages>): SagaIterator {
-	const { page, dialog } = action.payload;
-	const isConference: boolean = Boolean(dialog.conference);
+	const { page, chat } = action.payload;
+	const isConference: boolean = Boolean(chat.conference);
 
 	const request: MessagesReqData = {
 		page: page,
 		dialog: {
-			id: isConference ? dialog.conference?.id : dialog.interlocutor?.id,
+			id: isConference ? chat.conference?.id : chat.interlocutor?.id,
 			type: isConference ? 'Conference' : 'User',
 		},
 	};
@@ -42,12 +42,12 @@ export function* getMessages(action: ReturnType<typeof MessageActions.getMessage
 
 	data.forEach((message) => {
 		message.state =
-			dialog.interlocutorLastReadMessageId && dialog.interlocutorLastReadMessageId >= message.id
+			chat.interlocutorLastReadMessageId && chat.interlocutorLastReadMessageId >= message.id
 				? MessageState.READ
 				: MessageState.SENT;
 	});
 	let messageList: MessageList = {
-		dialogId: dialog.id,
+		chatId: chat.id,
 		messages: data,
 		hasMoreMessages: data.length >= page.limit,
 	};
@@ -56,27 +56,25 @@ export function* getMessages(action: ReturnType<typeof MessageActions.getMessage
 }
 
 export function* createMessage(action: ReturnType<typeof MessageActions.createMessage>): SagaIterator {
-	let { message, dialog, isFromEvent, selectedDialogId } = { ...action.payload };
+	let { message, chat, isFromEvent, selectedChatId } = { ...action.payload };
 
-	const { interlocutorId, interlocutorType } = DialogService.parseDialogId(dialog.id);
+	const { interlocutorId, interlocutorType } = ChatService.parseChatId(chat.id);
 	if (isFromEvent) {
 		yield call(notifyInterlocutorThatMessageWasRead, action.payload);
 		//notifications play
 		const currentUserId = yield select((state: RootState) => state.myProfile.user?.id);
-		const dialogOfMessage = yield select((state: RootState) =>
-			state.dialogs.dialogs.find(({ id }) => id === dialog.id),
-		);
+		const chatOfMessage = yield select((state: RootState) => state.chats.chats.find(({ id }) => id === chat.id));
 
 		if (
 			message.userCreator?.id !== currentUserId &&
-			!(selectedDialogId !== message.dialogId) &&
+			!(selectedChatId !== message.chatId) &&
 			!document.hidden &&
-			!dialogOfMessage.isMuted
+			!chatOfMessage.isMuted
 		) {
 			audioSelected.play();
 		}
 
-		if ((selectedDialogId !== message.dialogId || document.hidden) && !dialogOfMessage.isMuted) {
+		if ((selectedChatId !== message.chatId || document.hidden) && !chatOfMessage.isMuted) {
 			audioUnselected.play();
 		}
 	} else {
@@ -92,7 +90,7 @@ export function* createMessage(action: ReturnType<typeof MessageActions.createMe
 
 			yield put(
 				MessageActions.createMessageSuccess({
-					dialogId: message.dialogId || 0,
+					chatId: message.chatId || 0,
 					oldMessageId: message.id,
 					newMessageId: data,
 					messageState: MessageState.SENT,
@@ -110,23 +108,23 @@ export function* messageTyping({ payload }: ReturnType<typeof MessageActions.mes
 }
 
 export function* notifyInterlocutorThatMessageWasRead(createMessageRequest: CreateMessageRequest): SagaIterator {
-	const { dialog, currentUser, selectedDialogId, message } = createMessageRequest;
+	const { chat, currentUser, selectedChatId, message } = createMessageRequest;
 
 	if (
-		!selectedDialogId ||
+		!selectedChatId ||
 		!Boolean(message.userCreator) ||
 		currentUser.id === message.userCreator?.id ||
 		message.systemMessageType !== SystemMessageType.None
 	) {
 		return;
 	}
-	const isDestinationTypeUser: boolean = dialog.interlocutorType === InterlocutorType.USER;
+	const isDestinationTypeUser: boolean = chat.interlocutorType === InterlocutorType.USER;
 
-	const isDialogCurrentInterlocutor: boolean = dialog.id == selectedDialogId;
-	if (isDialogCurrentInterlocutor) {
+	const isChatCurrentInterlocutor: boolean = chat.id == selectedChatId;
+	if (isChatCurrentInterlocutor) {
 		const httpRequestPayload = {
 			dialog: {
-				conferenceId: isDestinationTypeUser ? null : dialog.conference?.id!,
+				conferenceId: isDestinationTypeUser ? null : chat.conference?.id!,
 				interlocutorId: isDestinationTypeUser ? message.userCreator?.id! : null,
 			},
 		};
@@ -153,7 +151,7 @@ export function* resetUnreadMessagesCountSaga(
 
 export function* copyMessagesSaga(action: ReturnType<typeof MessageActions.copyMessages>): SagaIterator {
 	const chat: MessageList = yield select((state: RootState) =>
-		state.messages.messages.find(({ dialogId }) => dialogId === action.payload.dialogId),
+		state.messages.messages.find(({ chatId }) => chatId === action.payload.chatId),
 	);
 
 	const content = chat.messages.reduce((accum: string, current) => {

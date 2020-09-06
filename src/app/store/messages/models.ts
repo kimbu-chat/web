@@ -1,11 +1,11 @@
 import { UserPreview } from '../my-profile/models';
-import { Dialog } from '../dialogs/models';
+import { Chat } from '../chats/models';
 import { Page } from '../common/models';
 
 export interface MessageList {
 	messages: Message[];
 	hasMoreMessages: boolean;
-	dialogId: number;
+	chatId: number;
 }
 
 export interface SystemMessageBase {}
@@ -52,7 +52,7 @@ export interface Message {
 	attachmentsJson?: string;
 	systemMessageType?: SystemMessageType;
 	state?: MessageState;
-	dialogId?: number;
+	chatId?: number;
 	dateSeparator?: string;
 	isSelected?: boolean;
 	needToShowDateSeparator?: boolean;
@@ -79,9 +79,9 @@ export interface UserMessageTypingRequest {
 export interface EntityCreation {}
 
 export interface CreateMessageRequest extends EntityCreation {
-	dialog: Dialog;
+	chat: Chat;
 	currentUser: { id: number };
-	selectedDialogId: number;
+	selectedChatId: number;
 	message: Message;
 	isFromEvent?: boolean;
 }
@@ -90,7 +90,7 @@ export interface CreateMessageResponse {
 	oldMessageId: number;
 	newMessageId: number;
 	messageState: MessageState;
-	dialogId: number;
+	chatId: number;
 }
 
 export interface MarkMessagesAsReadRequest {
@@ -122,27 +122,27 @@ export interface MessagesReqData {
 
 export interface MessagesReq {
 	page: Page;
-	dialog: Dialog;
+	chat: Chat;
 	initiatedByScrolling: boolean;
 }
 
 export interface DeleteMessageReq {
 	messageIds: number[];
-	dialogId: number;
+	chatId: number;
 }
 
 export interface SelectMessageReq {
 	messageId: number;
-	dialogId: number;
+	chatId: number;
 }
 
 export interface CopyMessagesReq {
 	messageIds: number[];
-	dialogId: number;
+	chatId: number;
 }
 
 export interface ResetSelectedMessagesReq {
-	dialogId: number;
+	chatId: number;
 }
 
 export enum MessageState {

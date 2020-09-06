@@ -42,15 +42,15 @@ export interface GetConferenceUsersRequest {
 
 export interface AddUsersToConferenceActionData {
 	userIds: number[];
-	dialog: Dialog;
+	chat: Chat;
 }
 
 export interface RenameConferenceActionData {
 	newName: string;
-	dialog: Dialog;
+	chat: Chat;
 }
 
-export interface GetDialogsRequestData {
+export interface GetChatsRequestData {
 	page: Page;
 	unreadOnly?: boolean;
 	showHidden: boolean;
@@ -59,7 +59,7 @@ export interface GetDialogsRequestData {
 	name?: string;
 }
 
-export interface GetDialogsActionData {
+export interface GetChatsActionData {
 	page: Page;
 	unreadOnly?: boolean;
 	showHidden: boolean;
@@ -68,8 +68,8 @@ export interface GetDialogsActionData {
 	name?: string;
 }
 
-export interface HideDialogRequest {
-	dialogs: [
+export interface HideChatRequest {
+	chats: [
 		{
 			interlocutorId?: number;
 			conferenceId?: number;
@@ -78,20 +78,20 @@ export interface HideDialogRequest {
 	isHidden: boolean;
 }
 
-export interface MuteDialogRequest {
-	dialogs: {
+export interface MuteChatRequest {
+	chats: {
 		interlocutorId?: number | null;
 		conferenceId?: number | null;
 	}[];
 	isMuted: boolean;
 }
 
-export enum DialogType {
+export enum ChatType {
 	User = 'User',
 	Conference = 'Conference',
 }
 
-export interface Dialog {
+export interface Chat {
 	id: number;
 	interlocutorType?: InterlocutorType;
 	conference?: Conference | null;
@@ -106,12 +106,12 @@ export interface Dialog {
 	isMuted?: boolean;
 }
 
-export interface DialogList {
-	dialogs: Array<Dialog>;
+export interface ChatList {
+	chats: Array<Chat>;
 	hasMore: boolean;
 }
 
-export interface GetDialogsResponse extends DialogList {
+export interface GetChatsResponse extends ChatList {
 	initializedBySearch: boolean;
 }
 

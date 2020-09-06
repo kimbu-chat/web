@@ -6,18 +6,18 @@ import InfiniteScroll from 'react-infinite-scroller';
 
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { useSelector } from 'react-redux';
-import { Dialog } from 'app/store/dialogs/models';
+import { Chat } from 'app/store/chats/models';
 import { RootState } from 'app/store/root-reducer';
-import { ChatActions } from 'app/store/dialogs/actions';
+import { ChatActions } from 'app/store/chats/actions';
 
 export const DIALOGS_LIMIT = 25;
 
 const ChatList = () => {
 	const getChats = useActionWithDispatch(ChatActions.getChats);
 
-	const dialogs = useSelector<RootState, Dialog[]>((rootState) => rootState.dialogs.dialogs);
-	const hasMoreDialogs = useSelector<RootState, boolean>((rootState) => rootState.dialogs.hasMore);
-	const searchString = useSelector<RootState, string>((rootState) => rootState.dialogs.searchString);
+	const chats = useSelector<RootState, Chat[]>((rootState) => rootState.chats.chats);
+	const hasMoreChats = useSelector<RootState, boolean>((rootState) => rootState.chats.hasMore);
+	const searchString = useSelector<RootState, string>((rootState) => rootState.chats.searchString);
 
 	useEffect(() => {
 		getChats({
@@ -42,7 +42,7 @@ const ChatList = () => {
 			name: searchString,
 			showHidden: true,
 		});
-	}, [searchString, dialogs]);
+	}, [searchString, chats]);
 
 	const chatListRef = useRef(null);
 
@@ -51,7 +51,7 @@ const ChatList = () => {
 			<InfiniteScroll
 				pageStart={0}
 				loadMore={loadPage}
-				hasMore={hasMoreDialogs}
+				hasMore={hasMoreChats}
 				loader={
 					<div className='loader ' key={0}>
 						<div className=''>
@@ -68,8 +68,8 @@ const ChatList = () => {
 				getScrollParent={() => chatListRef.current}
 				isReverse={false}
 			>
-				{dialogs?.map((dialog: Dialog) => {
-					return <ChatFromList dialog={dialog} key={dialog.id} />;
+				{chats?.map((chat: Chat) => {
+					return <ChatFromList chat={chat} key={chat.id} />;
 				})}
 			</InfiniteScroll>
 		</div>

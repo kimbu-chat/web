@@ -6,7 +6,7 @@ import SearchSvg from 'app/assets/icons/ic-search_16.svg';
 import CreateChatSvg from 'app/assets/icons/ic-write-message.svg';
 
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
-import { ChatActions } from 'app/store/dialogs/actions';
+import { ChatActions } from 'app/store/chats/actions';
 import { LocalizationContext } from 'app/app';
 
 namespace SearchTop {
@@ -21,10 +21,10 @@ export const DIALOGS_LIMIT = 25;
 const SearchTop = ({ displaySlider, displayCreateChat }: SearchTop.Props) => {
 	const { t } = useContext(LocalizationContext);
 
-	const getDialogs = useActionWithDispatch(ChatActions.getChats);
+	const getChats = useActionWithDispatch(ChatActions.getChats);
 
-	const handleDialogSearchChange = (name: string): void => {
-		getDialogs({
+	const handleChatSearchChange = (name: string): void => {
+		getChats({
 			name,
 			page: { offset: 0, limit: DIALOGS_LIMIT },
 			initializedBySearch: true,
@@ -43,7 +43,7 @@ const SearchTop = ({ displaySlider, displayCreateChat }: SearchTop.Props) => {
 					<SearchSvg />
 				</div>
 				<input
-					onChange={(e) => handleDialogSearchChange(e.target.value)}
+					onChange={(e) => handleChatSearchChange(e.target.value)}
 					type='text'
 					placeholder={t('searchTop.search')}
 				/>

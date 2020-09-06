@@ -21,10 +21,10 @@ import ActiveCall from 'app/components/messenger-page/active-call/active-call';
 
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { AvatarSelectedData, UserPreview } from 'app/store/my-profile/models';
-import { ChatActions } from 'app/store/dialogs/actions';
+import { ChatActions } from 'app/store/chats/actions';
 import { MessageActions } from 'app/store/messages/actions';
 import { useSelector } from 'react-redux';
-import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
+import { getSelectedChatSelector } from 'app/store/chats/selectors';
 import { isCallingMe, amCallingI, doIhaveCall } from 'app/store/calls/selectors';
 
 export namespace Messenger {
@@ -50,10 +50,10 @@ export namespace Messenger {
 }
 
 const Messenger = () => {
-	const changeSelectedDialog = useActionWithDispatch(ChatActions.changeSelectedChat);
-	const createDialog = useActionWithDispatch(MessageActions.createDialog);
+	const changeSelectedChat = useActionWithDispatch(ChatActions.changeSelectedChat);
+	const createChat = useActionWithDispatch(MessageActions.createChat);
 
-	const selectedDialog = useSelector(getSelectedDialogSelector);
+	const selectedChat = useSelector(getSelectedChatSelector);
 	const amICalled = useSelector(isCallingMe);
 	const amICaling = useSelector(amCallingI);
 	const amISpeaking = useSelector(doIhaveCall);
@@ -64,18 +64,18 @@ const Messenger = () => {
 	//redux sync with history
 	history.listen((location) => {
 		if (location.pathname.split('/')[2]) {
-			changeSelectedDialog(Number(location.pathname.split('/')[2]));
+			changeSelectedChat(Number(location.pathname.split('/')[2]));
 		}
 	});
 
 	useEffect(() => {
-		if (chatId) changeSelectedDialog(Number(chatId));
-		else changeSelectedDialog(-1);
+		if (chatId) changeSelectedChat(Number(chatId));
+		else changeSelectedChat(-1);
 	}, []);
 
-	//hide chatInfo on dialog change
+	//hide chatInfo on chat change
 
-	useEffect(() => hideChatInfo(), [selectedDialog?.id]);
+	useEffect(() => hideChatInfo(), [selectedChat?.id]);
 
 	const [contactSearchDisplayed, setContactSearchDisplayed] = useState<Messenger.contactSearchActions>({
 		isDisplayed: false,
@@ -140,11 +140,11 @@ const Messenger = () => {
 		[setPhotoSelected, hideContactSearch, hideSlider],
 	);
 
-	//Creation of empty dialog with contact
-	const createEmptyDialog = useCallback((user: UserPreview) => {
-		createDialog(user);
-		const dialogId = Number(`${user.id}1`);
-		history.push(`/chats/${dialogId}`);
+	//Creation of empty chat with contact
+	const createEmptyChat = useCallback((user: UserPreview) => {
+		createChat(user);
+		const chatId = Number(`${user.id}1`);
+		history.push(`/chats/${chatId}`);
 		hideContactSearch();
 	}, []);
 
@@ -201,7 +201,7 @@ const Messenger = () => {
 
 			<AccountSettings isDisplayed={settingsDisplayed} hide={hideSettings} />
 
-			<ContactSearch onClickOnContact={createEmptyDialog} hide={hideContactSearch} {...contactSearchDisplayed} />
+			<ContactSearch onClickOnContact={createEmptyChat} hide={hideContactSearch} {...contactSearchDisplayed} />
 
 			{!createChatDisplayed && !contactSearchDisplayed.isDisplayed && (
 				<div className='messenger__chat-send'>

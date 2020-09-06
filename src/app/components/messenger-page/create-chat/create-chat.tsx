@@ -8,11 +8,11 @@ import FriendItem from './friend-item/friend-item';
 import './create-chat.scss';
 import { Messenger } from 'app/containers/Messenger/Messenger';
 import { FriendActions } from 'app/store/friends/actions';
-import { ChatActions } from 'app/store/dialogs/actions';
+import { ChatActions } from 'app/store/chats/actions';
 import { RootState } from 'app/store/root-reducer';
 import { LocalizationContext } from 'app/app';
 import { useHistory } from 'react-router-dom';
-import { Dialog } from 'app/store/dialogs/models';
+import { Chat } from 'app/store/chats/models';
 
 namespace CreateChat {
 	export interface Props {
@@ -92,7 +92,7 @@ const CreateChat = ({ hide, setImageUrl, displayChangePhoto, isDisplayed }: Crea
 				userIds: selectedUserIds,
 				avatar: avatarData,
 			})
-				.then((payload: Dialog) => history.push(`/chats/${payload.id}`))
+				.then((payload: Chat) => history.push(`/chats/${payload.id}`))
 				.then(hide);
 		}
 	}, [chatName, setError, selectedUserIds]);

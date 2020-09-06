@@ -8,7 +8,7 @@ import './message-item.scss';
 import { getMyIdSelector } from 'app/store/my-profile/selectors';
 import { LocalizationContext } from 'app/app';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
-import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
+import { getSelectedChatSelector } from 'app/store/chats/selectors';
 import { MessageActions } from 'app/store/messages/actions';
 import { setSelectedMessagesLength } from 'app/store/messages/selectors';
 import Avatar from 'app/components/shared/avatar/avatar';
@@ -28,7 +28,7 @@ namespace Message {
 
 const MessageItem = ({ message }: Message.Props) => {
 	const currentUserId = useSelector(getMyIdSelector) as number;
-	const selectedDialogId = useSelector(getSelectedDialogSelector)?.id;
+	const selectedChatId = useSelector(getSelectedChatSelector)?.id;
 	const isSelectState = useSelector(setSelectedMessagesLength) > 0;
 
 	const myId = useSelector(getMyIdSelector) as number;
@@ -52,26 +52,26 @@ const MessageItem = ({ message }: Message.Props) => {
 	const selectThisMessage = useCallback(
 		(event?: React.MouseEvent<HTMLButtonElement | HTMLDivElement, MouseEvent>) => {
 			event?.stopPropagation();
-			selectMessage({ dialogId: selectedDialogId as number, messageId: message.id });
+			selectMessage({ chatId: selectedChatId as number, messageId: message.id });
 		},
-		[selectedDialogId, message.id],
+		[selectedChatId, message.id],
 	);
 
 	const deleteThisMessage = useCallback(
 		(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 			event.stopPropagation();
 
-			deleteMessage({ dialogId: selectedDialogId as number, messageIds: [message.id] });
+			deleteMessage({ chatId: selectedChatId as number, messageIds: [message.id] });
 		},
-		[selectedDialogId, message.id],
+		[selectedChatId, message.id],
 	);
 
 	const copyThisMessage = useCallback(
 		(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 			event.stopPropagation();
-			copyMessage({ dialogId: selectedDialogId || -1, messageIds: [message.id] });
+			copyMessage({ chatId: selectedChatId || -1, messageIds: [message.id] });
 		},
-		[selectedDialogId, message.id],
+		[selectedChatId, message.id],
 	);
 
 	if (message?.systemMessageType !== SystemMessageType.None) {

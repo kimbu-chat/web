@@ -2,8 +2,8 @@ import { MessageList, MessageState, Message } from './models';
 import produce from 'immer';
 import { createReducer } from 'typesafe-actions';
 import { MessageActions } from './actions';
-import { ChatActions } from '../dialogs/actions';
-import { DialogService } from '../dialogs/dialog-service';
+import { ChatActions } from '../chats/actions';
+import { ChatService } from '../chats/chat-service';
 import unionBy from 'lodash/unionBy';
 
 export interface MessagesState {
@@ -18,10 +18,10 @@ const initialState: MessagesState = {
 	selectedMessageIds: [],
 };
 
-const checkIfDialogExists = (state: MessagesState, dialogId: number): boolean =>
-	state.messages && state.messages.length > 0 && state?.messages?.findIndex((x) => x.dialogId === dialogId) > -1;
-const getChatIndex = (state: MessagesState, dialogId: number): number =>
-	state?.messages?.findIndex((x) => x.dialogId === dialogId);
+const checkIfChatExists = (state: MessagesState, chatId: number): boolean =>
+	state.messages && state.messages.length > 0 && state?.messages?.findIndex((x) => x.chatId === chatId) > -1;
+const getChatIndex = (state: MessagesState, chatId: number): number =>
+	state?.messages?.findIndex((x) => x.chatId === chatId);
 
 const getMessage = (messages: Message[], messageId: number) => messages.find(({ id }) => id === messageId);
 
@@ -29,8 +29,8 @@ const messages = createReducer<MessagesState>(initialState)
 	.handleAction(
 		MessageActions.createMessageSuccess,
 		produce((draft: MessagesState, { payload }: ReturnType<typeof MessageActions.createMessageSuccess>) => {
-			const { messageState, dialogId, oldMessageId, newMessageId } = payload;
-			const chatIndex = getChatIndex(draft, dialogId);
+			const { messageState, chatId, oldMessageId, newMessageId } = payload;
+			const chatIndex = getChatIndex(draft, chatId);
 			const messageIndex = draft.messages[chatIndex].messages.findIndex((x) => x.id == oldMessageId);
 			draft.messages[chatIndex].messages[messageIndex].id = newMessageId;
 			draft.messages[chatIndex].messages[messageIndex].state = messageState;
@@ -48,18 +48,18 @@ const messages = createReducer<MessagesState>(initialState)
 	.handleAction(
 		MessageActions.getMessagesSuccess,
 		produce((draft: MessagesState, { payload }: ReturnType<typeof MessageActions.getMessagesSuccess>) => {
-			const { dialogId, hasMoreMessages, messages }: MessageList = payload;
-			const isDialogExists = checkIfDialogExists(draft, dialogId);
+			const { chatId, hasMoreMessages, messages }: MessageList = payload;
+			const isChatExists = checkIfChatExists(draft, chatId);
 
 			draft.loading = false;
-			if (!isDialogExists) {
+			if (!isChatExists) {
 				draft.messages.push({
-					dialogId: dialogId,
+					chatId: chatId,
 					hasMoreMessages: hasMoreMessages,
 					messages: messages,
 				});
 			} else {
-				const chatIndex = getChatIndex(draft, dialogId);
+				const chatIndex = getChatIndex(draft, chatId);
 				draft.messages[chatIndex].messages = unionBy(draft.messages[chatIndex].messages, messages, 'id');
 				draft.messages[chatIndex].hasMoreMessages = hasMoreMessages;
 			}
@@ -77,12 +77,12 @@ const messages = createReducer<MessagesState>(initialState)
 	.handleAction(
 		MessageActions.createMessage,
 		produce((draft: MessagesState, { payload }: ReturnType<typeof MessageActions.createMessage>) => {
-			const { dialog, message } = payload;
-			const chatIndex = getChatIndex(draft, dialog.id);
+			const { chat, message } = payload;
+			const chatIndex = getChatIndex(draft, chat.id);
 
 			if (chatIndex === -1) {
 				const messageList: MessageList = {
-					dialogId: dialog.id,
+					chatId: chat.id,
 					messages: [message],
 					hasMoreMessages: false,
 				};
@@ -101,9 +101,9 @@ const messages = createReducer<MessagesState>(initialState)
 			(draft: MessagesState, { payload }: ReturnType<typeof ChatActions.changeInterlocutorLastReadMessageId>) => {
 				const { lastReadMessageId, userReaderId } = payload;
 
-				const dialogId = DialogService.getDialogId(userReaderId, null);
+				const chatId = ChatService.getChatId(userReaderId, null);
 
-				const chatIndex = getChatIndex(draft, dialogId);
+				const chatIndex = getChatIndex(draft, chatId);
 
 				if (chatIndex !== -1) {
 					draft.messages[chatIndex].messages.map((message) => {
@@ -118,7 +118,7 @@ const messages = createReducer<MessagesState>(initialState)
 	.handleAction(
 		MessageActions.deleteMessageSuccess,
 		produce((draft: MessagesState, { payload }: ReturnType<typeof MessageActions.deleteMessageSuccess>) => {
-			const chatIndex = getChatIndex(draft, payload.dialogId);
+			const chatIndex = getChatIndex(draft, payload.chatId);
 
 			payload.messageIds.forEach((msgIdToDelete) => {
 				if (getMessage(draft.messages[chatIndex].messages, msgIdToDelete)?.isSelected) {
@@ -135,7 +135,7 @@ const messages = createReducer<MessagesState>(initialState)
 	.handleAction(
 		MessageActions.selectMessage,
 		produce((draft: MessagesState, { payload }: ReturnType<typeof MessageActions.selectMessage>) => {
-			const chatIndex = getChatIndex(draft, payload.dialogId as number);
+			const chatIndex = getChatIndex(draft, payload.chatId as number);
 			const selectedMessage = draft.messages[chatIndex].messages.find(
 				({ id }) => id === payload.messageId,
 			) as Message;
@@ -156,7 +156,7 @@ const messages = createReducer<MessagesState>(initialState)
 	.handleAction(
 		MessageActions.resetSelectedMessages,
 		produce((draft: MessagesState, { payload }: ReturnType<typeof MessageActions.resetSelectedMessages>) => {
-			const chatIndex = getChatIndex(draft, payload.dialogId as number);
+			const chatIndex = getChatIndex(draft, payload.chatId as number);
 
 			draft.messages[chatIndex].messages.forEach((message) => {
 				message.isSelected = false;

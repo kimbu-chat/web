@@ -8,7 +8,7 @@ import 'emoji-mart/css/emoji-mart.css';
 import { UserPreview } from 'app/store/my-profile/models';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { MessageActions } from 'app/store/messages/actions';
-import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
+import { getSelectedChatSelector } from 'app/store/chats/selectors';
 import { SystemMessageType, MessageState } from 'app/store/messages/models';
 import { LocalizationContext } from 'app/app';
 import { RootState } from 'app/store/root-reducer';
@@ -20,7 +20,7 @@ const CreateMessageInput = () => {
 	const notifyAboutTyping = useActionWithDispatch(MessageActions.messageTyping);
 
 	const currentUser = useSelector<RootState, UserPreview | undefined>((state) => state.myProfile.user);
-	const selectedDialog = useSelector(getSelectedDialogSelector);
+	const selectedChat = useSelector(getSelectedChatSelector);
 	const [text, setText] = useState('');
 	const [smilesDisplayed, setSmilesDisplayed] = useState<boolean>(false);
 
@@ -47,13 +47,13 @@ const CreateMessageInput = () => {
 	);
 
 	const sendMessageToServer = () => {
-		const dialogId = selectedDialog?.id;
+		const chatId = selectedChat?.id;
 
-		if (text.trim().length > 0 && selectedDialog && currentUser) {
+		if (text.trim().length > 0 && selectedChat && currentUser) {
 			sendMessage({
 				currentUser: currentUser,
-				selectedDialogId: dialogId || -1,
-				dialog: selectedDialog,
+				selectedChatId: chatId || -1,
+				chat: selectedChat,
 				message: {
 					text,
 					systemMessageType: SystemMessageType.None,
@@ -61,7 +61,7 @@ const CreateMessageInput = () => {
 					creationDateTime: new Date(new Date().toUTCString()),
 					state: MessageState.QUEUED,
 					id: new Date().getTime(),
-					dialogId: dialogId,
+					chatId: chatId,
 				},
 			});
 		}
@@ -70,11 +70,11 @@ const CreateMessageInput = () => {
 	};
 
 	const handleTextChange = (newText: string): void => {
-		const isDialog = Boolean(selectedDialog?.interlocutor);
+		const isChat = Boolean(selectedChat?.interlocutor);
 
 		notifyAboutTyping({
-			interlocutorId: isDialog ? selectedDialog?.interlocutor?.id : selectedDialog?.conference?.id,
-			isConference: !isDialog,
+			interlocutorId: isChat ? selectedChat?.interlocutor?.id : selectedChat?.conference?.id,
+			isConference: !isChat,
 			text: newText,
 		});
 	};
@@ -86,7 +86,7 @@ const CreateMessageInput = () => {
 	};
 	return (
 		<div className='messenger__send-message'>
-			{selectedDialog && (
+			{selectedChat && (
 				<React.Fragment>
 					<button onClick={handleClick} className='messenger__display-smiles'>
 						<svg

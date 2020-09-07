@@ -1,8 +1,8 @@
-import { Dialog } from 'app/store/dialogs/models';
+import { Chat } from 'app/store/chats/models';
 import { UserPreview } from 'app/store/my-profile/models';
 
-export const getDialogInterlocutor = (dialog: Dialog): string => {
-	const { interlocutor } = dialog;
+export const getChatInterlocutor = (chat: Chat): string => {
+	const { interlocutor } = chat;
 
 	if (interlocutor) {
 		const { firstName, lastName } = interlocutor;
@@ -12,15 +12,15 @@ export const getDialogInterlocutor = (dialog: Dialog): string => {
 		return interlocutorName;
 	}
 
-	if (dialog.conference?.name) {
-		return dialog.conference.name;
+	if (chat.conference?.name) {
+		return chat.conference.name;
 	}
 
 	return '';
 };
 
-export const getInterlocutorInitials = (dialog: Dialog): string => {
-	const initials = getDialogInterlocutor(dialog)
+export const getInterlocutorInitials = (chat: Chat): string => {
+	const initials = getChatInterlocutor(chat)
 		.split(' ')
 		.reduce((accum, current) => {
 			return accum + current[0];

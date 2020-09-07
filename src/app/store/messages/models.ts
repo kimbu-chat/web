@@ -1,11 +1,11 @@
 import { UserPreview } from '../my-profile/models';
-import { Dialog } from '../dialogs/models';
+import { Chat } from '../chats/models';
 import { Page } from '../common/models';
 
 export interface MessageList {
 	messages: Message[];
 	hasMoreMessages: boolean;
-	dialogId: number;
+	chatId: number;
 }
 
 export interface SystemMessageBase {}
@@ -44,6 +44,7 @@ export interface Content {
 
 export interface Message {
 	id: number;
+	needToShowCreator?: boolean;
 	userCreator: UserPreview | null;
 	creationDateTime?: Date;
 	text: string;
@@ -51,9 +52,10 @@ export interface Message {
 	attachmentsJson?: string;
 	systemMessageType?: SystemMessageType;
 	state?: MessageState;
-	dialogId?: number;
-	needToShowDateSeparator?: boolean;
+	chatId?: number;
+	dateSeparator?: string;
 	isSelected?: boolean;
+	needToShowDateSeparator?: boolean;
 }
 
 export enum SystemMessageType {
@@ -77,9 +79,9 @@ export interface UserMessageTypingRequest {
 export interface EntityCreation {}
 
 export interface CreateMessageRequest extends EntityCreation {
-	dialog: Dialog;
+	chat: Chat;
 	currentUser: { id: number };
-	selectedDialogId: number;
+	selectedChatId: number;
 	message: Message;
 	isFromEvent?: boolean;
 }
@@ -88,14 +90,11 @@ export interface CreateMessageResponse {
 	oldMessageId: number;
 	newMessageId: number;
 	messageState: MessageState;
-	dialogId: number;
+	chatId: number;
 }
 
 export interface MarkMessagesAsReadRequest {
-	dialog: {
-		interlocutorId: number | null;
-		conferenceId: number | null;
-	};
+	chatId: number | null;
 }
 
 export interface MessageCreationReqData {
@@ -112,35 +111,32 @@ export interface AttachmentCreation {
 
 export interface MessagesReqData {
 	page: Page;
-	dialog: {
-		id?: number;
-		type: 'User' | 'Conference';
-	};
+	chatId: number;
 }
 
 export interface MessagesReq {
 	page: Page;
-	dialog: Dialog;
+	chat: Chat;
 	initiatedByScrolling: boolean;
 }
 
 export interface DeleteMessageReq {
 	messageIds: number[];
-	dialogId: number;
+	chatId: number;
 }
 
 export interface SelectMessageReq {
 	messageId: number;
-	dialogId: number;
+	chatId: number;
 }
 
 export interface CopyMessagesReq {
 	messageIds: number[];
-	dialogId: number;
+	chatId: number;
 }
 
 export interface ResetSelectedMessagesReq {
-	dialogId: number;
+	chatId: number;
 }
 
 export enum MessageState {

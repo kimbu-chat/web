@@ -93,7 +93,8 @@ export interface DeclineCallApiRequest {
 }
 
 export interface EndCallApiRequest {
-	interlocutorId: number;
+	callerId: number;
+	calleeId: number;
 	seconds: number;
 }
 

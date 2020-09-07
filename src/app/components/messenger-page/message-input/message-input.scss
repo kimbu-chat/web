@@ -4,22 +4,14 @@
 		align-items: center;
 	}
 
-	&__display-smiles {
+	&__add {
 		width: 32px;
 		height: 32px;
 		border-radius: 50%;
-		background-color: #ebebeb;
-		margin: 0 10px;
-		svg {
-			width: 16px;
-			height: 16px;
-		}
+		margin-left: 23px;
 	}
 
 	&__input-group {
-		display: inline-block;
-		width: calc(100% - 52px);
-		display: inline-block;
 		width: calc(100% - 52px);
 		height: 50px;
 		display: flex;
@@ -37,6 +29,8 @@
 
 		&::placeholder {
 			color: #a7a7af;
+
+			text-indent: 18px;
 		}
 	}
 

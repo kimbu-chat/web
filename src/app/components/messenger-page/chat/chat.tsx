@@ -3,12 +3,11 @@ import { useSelector } from 'react-redux';
 import './chat.scss';
 import moment from 'moment';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
-import { Message, MessageList } from 'app/store/messages/models';
+import { Message, MessageList, SystemMessageType } from 'app/store/messages/models';
 import { MessageActions } from 'app/store/messages/actions';
 import { RootState } from 'app/store/root-reducer';
 import { LocalizationContext } from 'app/app';
-import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
-import { getMyIdSelector } from 'app/store/my-profile/selectors';
+import { getSelectedChatSelector } from 'app/store/chats/selectors';
 import MessageItem from '../message-item/message-item';
 import InfiniteScroll from 'react-infinite-scroller';
 import SelectedMessagesData from '../selected-messages-data/selected-messages-data';
@@ -27,33 +26,23 @@ const Chat = () => {
 
 	const { t, i18n } = useContext(LocalizationContext);
 
-	const selectedDialog = useSelector(getSelectedDialogSelector);
+	const selectedChat = useSelector(getSelectedChatSelector);
 	const messages = useSelector<RootState, Message[]>(
 		(state) =>
-			state.messages.messages.find((x: MessageList) => x.dialogId == selectedDialog?.id)?.messages as Message[],
+			state.messages.messages.find((x: MessageList) => x.chatId == selectedChat?.id)?.messages as Message[],
 	);
 	const hasMoreMessages = useSelector<RootState, boolean>(
 		(state) =>
-			state.messages.messages.find((x: MessageList) => x.dialogId == selectedDialog?.id)
-				?.hasMoreMessages as boolean,
+			state.messages.messages.find((x: MessageList) => x.chatId == selectedChat?.id)?.hasMoreMessages as boolean,
 	);
-	const myId = useSelector(getMyIdSelector) as number;
 	const isSelectState = useSelector(setSelectedMessagesLength) > 0;
-
-	const messageIsFrom = useCallback((id: Number | undefined) => {
-		if (id === myId) {
-			return messageFrom.me;
-		} else {
-			return messageFrom.others;
-		}
-	}, []);
 
 	const dateDifference = useCallback((startDate: Date, endDate: Date): boolean => {
 		return Boolean(Math.round(Math.abs((startDate.getTime() - endDate.getTime()) / (24 * 60 * 60 * 1000))));
 	}, []);
 
 	useEffect(() => {
-		if (selectedDialog) {
+		if (selectedChat) {
 			console.log('loaded');
 			//fetching first 25messages
 			getMessages({
@@ -61,21 +50,21 @@ const Chat = () => {
 					limit: MESSAGES_LIMIT,
 					offset: 0,
 				},
-				dialog: selectedDialog,
+				chat: selectedChat,
 				initiatedByScrolling: false,
 			});
 
 			//marking as read
 			const markAsRead = (): void => {
-				const { ownUnreadMessagesCount } = selectedDialog;
+				const { ownUnreadMessagesCount } = selectedChat;
 				if (Boolean(ownUnreadMessagesCount) && (ownUnreadMessagesCount || 0) > 0) {
-					markMessagesAsRead(selectedDialog);
+					markMessagesAsRead(selectedChat);
 				}
 			};
 
 			markAsRead();
 		}
-	}, [selectedDialog?.id]);
+	}, [selectedChat?.id]);
 
 	const loadPage = useCallback(() => {
 		const pageData = {
@@ -83,23 +72,24 @@ const Chat = () => {
 			offset: messages?.length || 0,
 		};
 
-		if (selectedDialog) {
+		if (selectedChat) {
 			getMessages({
 				page: pageData,
-				dialog: selectedDialog,
+				chat: selectedChat,
 				initiatedByScrolling: false,
 			});
 		}
-	}, [messages?.length, selectedDialog]);
+	}, [messages?.length, selectedChat]);
 
 	const messagesContainerRef = useRef(null);
 
-	if (!selectedDialog || !messages) {
+	if (!selectedChat || !messages) {
 		return <div className='messenger__messages-list'></div>;
 	}
 
-	const messagesWithSeparators = messages.map((message, index) => {
-		if (index < messages.length)
+	const messagesCopy: Message[] = JSON.parse(JSON.stringify(messages));
+	const itemsWithDateSeparators = messagesCopy.map((message, index) => {
+		if (index < messages.length - 1)
 			if (
 				index === messages.length - 1 ||
 				dateDifference(
@@ -107,54 +97,56 @@ const Chat = () => {
 					new Date(messages[index + 1].creationDateTime || ''),
 				)
 			) {
-				message = {
-					...message,
-					needToShowDateSeparator: true,
-				};
+				message.dateSeparator = moment
+					.utc(message.creationDateTime)
+					.local()
+					.locale(i18n?.language || '')
+					.format('dddd, MMMM D, YYYY')
+					.toString();
+
+				console.log(
+					dateDifference(
+						new Date(message.creationDateTime || ''),
+						new Date(messages[index + 1].creationDateTime || ''),
+					),
+				);
+
+				message.needToShowDateSeparator = true;
 				return message;
 			}
-		message = {
-			...message,
-			needToShowDateSeparator: false,
-		};
+
+		message.needToShowDateSeparator = false;
+
 		return message;
 	});
 
-	const items = messagesWithSeparators
-		.map((msg) => {
-			return (
-				<MessageItem
-					message={msg}
-					key={msg.id}
-					from={messageIsFrom(msg.userCreator?.id)}
-					content={msg.text}
-					time={moment.utc(msg.creationDateTime).local().format('HH:mm')}
-					needToShowDateSeparator={msg.needToShowDateSeparator}
-					dateSeparator={
-						msg.needToShowDateSeparator
-							? moment
-									.utc(msg.creationDateTime)
-									.local()
-									.locale(i18n?.language || '')
-									.format('dddd, MMMM D, YYYY')
-									.toString()
-							: undefined
-					}
-				/>
-			);
+	const itemsWithUserInfo = itemsWithDateSeparators
+		.map((message, index) => {
+			if (
+				selectedChat.conference &&
+				index < messages.length - 1 &&
+				(messages[index].userCreator?.id !== messages[index + 1].userCreator?.id ||
+					messages[index + 1].systemMessageType !== SystemMessageType.None ||
+					message.needToShowDateSeparator)
+			) {
+				console.log(message.text);
+				message.needToShowCreator = true;
+			}
+
+			return message;
 		})
 		.reverse();
 
 	return (
 		<div className='messenger__messages-list'>
 			<div ref={messagesContainerRef} className='messenger__messages-container'>
-				{selectedDialog.isInterlocutorTyping && (
-					<div className='messenger__typing-notification'>{`${selectedDialog.interlocutor?.firstName} ${
-						selectedDialog.interlocutor?.lastName
+				{selectedChat.isInterlocutorTyping && (
+					<div className='messenger__typing-notification'>{`${selectedChat.interlocutor?.firstName} ${
+						selectedChat.interlocutor?.lastName
 					} ${t('chat.typing')}`}</div>
 				)}
 
-				{items.length === 0 && (
+				{itemsWithUserInfo.length === 0 && (
 					<div className='messenger__messages-list__empty'>
 						<p>{t('chat.empty')}</p>
 					</div>
@@ -182,7 +174,9 @@ const Chat = () => {
 					getScrollParent={() => messagesContainerRef.current}
 					isReverse={true}
 				>
-					{items}
+					{itemsWithUserInfo.map((msg) => {
+						return <MessageItem message={msg} key={msg.id} />;
+					})}
 				</InfiniteScroll>
 			</div>
 		</div>

@@ -4,7 +4,11 @@ var package = require('./package.json');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 // variables
-var isProduction = process.argv.indexOf('-p') >= 0 || process.env.NODE_ENV === 'production';
+var isProduction =
+	process.argv.indexOf('-p') >= 0 ||
+	process.env.NODE_ENV === 'production' ||
+	process.env.NODE_ENV === 'productionAnalyze';
+var isProductionAnalyze = process.env.NODE_ENV === 'productionAnalyze';
 var sourcePath = path.join(__dirname, './src');
 var outPath = path.join(__dirname, './build');
 
@@ -98,6 +102,14 @@ module.exports = {
 				],
 			},
 			{
+				test: /\.svg$/,
+				use: [
+					{
+						loader: '@svgr/webpack',
+					},
+				],
+			},
+			{
 				test: /\.css$/,
 				use: [
 					isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
@@ -130,7 +142,7 @@ module.exports = {
 			},
 			// static assets
 			{ test: /\.html$/, use: 'html-loader' },
-			{ test: /\.(a?png|svg)$/, use: 'url-loader?limit=10000' },
+			{ test: /\.(a?png)$/, use: 'url-loader?limit=10000' },
 			{
 				test: /\.(jpe?g|gif|bmp|mp3|mp4|ogg|wav|eot|ttf|woff|woff2)$/,
 				use: 'file-loader',
@@ -155,7 +167,6 @@ module.exports = {
 		runtimeChunk: true,
 	},
 	plugins: [
-		new BundleAnalyzerPlugin(),
 		new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /ru|en-gb/),
 		new webpack.EnvironmentPlugin({
 			NODE_ENV: 'development', // use 'development' unless process.env.NODE_ENV is defined
@@ -185,6 +196,7 @@ module.exports = {
 				keywords: Array.isArray(package.keywords) ? package.keywords.join(',') : undefined,
 			},
 		}),
+		...(isProductionAnalyze ? [new BundleAnalyzerPlugin()] : []),
 	],
 
 	devServer: {

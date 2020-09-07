@@ -8,10 +8,12 @@ import 'emoji-mart/css/emoji-mart.css';
 import { UserPreview } from 'app/store/my-profile/models';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { MessageActions } from 'app/store/messages/actions';
-import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
+import { getSelectedChatSelector } from 'app/store/chats/selectors';
 import { SystemMessageType, MessageState } from 'app/store/messages/models';
 import { LocalizationContext } from 'app/app';
 import { RootState } from 'app/store/root-reducer';
+
+import AddSvg from 'app/assets/icons/ic-add-new.svg';
 
 const CreateMessageInput = () => {
 	const { t } = useContext(LocalizationContext);
@@ -20,7 +22,7 @@ const CreateMessageInput = () => {
 	const notifyAboutTyping = useActionWithDispatch(MessageActions.messageTyping);
 
 	const currentUser = useSelector<RootState, UserPreview | undefined>((state) => state.myProfile.user);
-	const selectedDialog = useSelector(getSelectedDialogSelector);
+	const selectedChat = useSelector(getSelectedChatSelector);
 	const [text, setText] = useState('');
 	const [smilesDisplayed, setSmilesDisplayed] = useState<boolean>(false);
 
@@ -47,13 +49,13 @@ const CreateMessageInput = () => {
 	);
 
 	const sendMessageToServer = () => {
-		const dialogId = selectedDialog?.id;
+		const chatId = selectedChat?.id;
 
-		if (text.trim().length > 0 && selectedDialog && currentUser) {
+		if (text.trim().length > 0 && selectedChat && currentUser) {
 			sendMessage({
 				currentUser: currentUser,
-				selectedDialogId: dialogId || -1,
-				dialog: selectedDialog,
+				selectedChatId: chatId || -1,
+				chat: selectedChat,
 				message: {
 					text,
 					systemMessageType: SystemMessageType.None,
@@ -61,7 +63,7 @@ const CreateMessageInput = () => {
 					creationDateTime: new Date(new Date().toUTCString()),
 					state: MessageState.QUEUED,
 					id: new Date().getTime(),
-					dialogId: dialogId,
+					chatId: chatId,
 				},
 			});
 		}
@@ -70,11 +72,11 @@ const CreateMessageInput = () => {
 	};
 
 	const handleTextChange = (newText: string): void => {
-		const isDialog = Boolean(selectedDialog?.interlocutor);
+		const isChat = Boolean(selectedChat?.interlocutor);
 
 		notifyAboutTyping({
-			interlocutorId: isDialog ? selectedDialog?.interlocutor?.id : selectedDialog?.conference?.id,
-			isConference: !isDialog,
+			interlocutorId: isChat ? selectedChat?.interlocutor?.id : selectedChat?.conference?.id,
+			isConference: !isChat,
 			text: newText,
 		});
 	};
@@ -86,19 +88,10 @@ const CreateMessageInput = () => {
 	};
 	return (
 		<div className='messenger__send-message'>
-			{selectedDialog && (
+			{selectedChat && (
 				<React.Fragment>
-					<button onClick={handleClick} className='messenger__display-smiles'>
-						<svg
-							className={smilesDisplayed ? 'blue' : 'black'}
-							xmlns='http://www.w3.org/2000/svg'
-							viewBox='0 0 16 16'
-						>
-							<path
-								fillRule='evenodd'
-								d='M8 .2a7.8 7.8 0 1 1 0 15.6A7.8 7.8 0 0 1 8 .2zm0 1.6a6.2 6.2 0 1 0 0 12.4A6.2 6.2 0 0 0 8 1.8zm0 8.83a2.5 2.5 0 0 0 2.31-1.56.8.8 0 0 1 1.49.6 4.1 4.1 0 0 1-7.56.08.8.8 0 0 1 1.47-.63A2.5 2.5 0 0 0 8 10.63zm2-5.69c.54 0 .98.48.98 1.06 0 .59-.44 1.06-.99 1.06-.54 0-.98-.47-.98-1.06 0-.58.44-1.05.98-1.05zM6.97 6c0-.58-.44-1.06-.98-1.06-.55 0-1 .48-1 1.06 0 .58.45 1.06 1 1.06.54 0 .98-.48.98-1.06z'
-							></path>
-						</svg>
+					<button onClick={handleClick} className='messenger__add'>
+						<AddSvg />
 					</button>
 					<div className='messenger__input-group' onSubmit={sendMessageToServer}>
 						<input

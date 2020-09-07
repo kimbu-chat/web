@@ -8,25 +8,40 @@ import './message-item.scss';
 import { getMyIdSelector } from 'app/store/my-profile/selectors';
 import { LocalizationContext } from 'app/app';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
-import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
+import { getSelectedChatSelector } from 'app/store/chats/selectors';
 import { MessageActions } from 'app/store/messages/actions';
 import { setSelectedMessagesLength } from 'app/store/messages/selectors';
+import Avatar from 'app/components/shared/avatar/avatar';
+import { getUserInitials } from 'app/utils/interlocutor-name-utils';
+import { UserPreview } from 'app/store/my-profile/models';
+import moment from 'moment';
+
+import MessageQeuedSvg from 'app/assets/icons/ic-time.svg';
+import MessageSentSvg from 'app/assets/icons/ic-tick.svg';
+import MessageReadSvg from 'app/assets/icons/ic-double_tick.svg';
 
 namespace Message {
 	export interface Props {
-		from: messageFrom;
-		content: string;
-		time: string;
-		needToShowDateSeparator: boolean | undefined;
-		dateSeparator?: string;
 		message: Message;
 	}
 }
 
-const MessageItem = ({ from, content, time, needToShowDateSeparator, dateSeparator, message }: Message.Props) => {
+const MessageItem = ({ message }: Message.Props) => {
 	const currentUserId = useSelector(getMyIdSelector) as number;
-	const selectedDialogId = useSelector(getSelectedDialogSelector)?.id;
+	const selectedChatId = useSelector(getSelectedChatSelector)?.id;
 	const isSelectState = useSelector(setSelectedMessagesLength) > 0;
+
+	const myId = useSelector(getMyIdSelector) as number;
+
+	const messageIsFrom = useCallback((id: Number | undefined) => {
+		if (id === myId) {
+			return messageFrom.me;
+		} else {
+			return messageFrom.others;
+		}
+	}, []);
+
+	const from = messageIsFrom(message.userCreator?.id);
 
 	const { t } = useContext(LocalizationContext);
 
@@ -37,34 +52,34 @@ const MessageItem = ({ from, content, time, needToShowDateSeparator, dateSeparat
 	const selectThisMessage = useCallback(
 		(event?: React.MouseEvent<HTMLButtonElement | HTMLDivElement, MouseEvent>) => {
 			event?.stopPropagation();
-			selectMessage({ dialogId: selectedDialogId as number, messageId: message.id });
+			selectMessage({ chatId: selectedChatId as number, messageId: message.id });
 		},
-		[selectedDialogId, message.id],
+		[selectedChatId, message.id],
 	);
 
 	const deleteThisMessage = useCallback(
 		(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 			event.stopPropagation();
 
-			deleteMessage({ dialogId: selectedDialogId as number, messageIds: [message.id] });
+			deleteMessage({ chatId: selectedChatId as number, messageIds: [message.id] });
 		},
-		[selectedDialogId, message.id],
+		[selectedChatId, message.id],
 	);
 
 	const copyThisMessage = useCallback(
 		(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 			event.stopPropagation();
-			copyMessage({ dialogId: selectedDialogId || -1, messageIds: [message.id] });
+			copyMessage({ chatId: selectedChatId || -1, messageIds: [message.id] });
 		},
-		[selectedDialogId, message.id],
+		[selectedChatId, message.id],
 	);
 
 	if (message?.systemMessageType !== SystemMessageType.None) {
 		return (
 			<React.Fragment>
-				{needToShowDateSeparator && (
-					<div className='message__separator'>
-						<span>{dateSeparator}</span>
+				{message.needToShowDateSeparator && from === messageFrom.others && (
+					<div className='message__separator message__separator--capitalized'>
+						<span>{message.dateSeparator}</span>
 					</div>
 				)}
 				<div className='message__separator'>
@@ -82,9 +97,9 @@ const MessageItem = ({ from, content, time, needToShowDateSeparator, dateSeparat
 
 	return (
 		<React.Fragment>
-			{needToShowDateSeparator && (
-				<div className='message__separator'>
-					<span>{dateSeparator}</span>
+			{message.dateSeparator && (
+				<div className='message__separator message__separator--capitalized'>
+					<span>{message.dateSeparator}</span>
 				</div>
 			)}
 			<div
@@ -95,11 +110,7 @@ const MessageItem = ({ from, content, time, needToShowDateSeparator, dateSeparat
 				onClick={isSelectState ? selectThisMessage : () => {}}
 			>
 				{message.isSelected && (
-					<div
-						className={`message__selected ${
-							from === messageFrom.me ? 'message__selected--from-me' : 'message__selected--from-others'
-						}`}
-					>
+					<div className={`message__selected`}>
 						<div className='svg'>
 							<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
 								<path d='M5.85 9.66l-.88-.98-.4-.45A.8.8 0 1 0 3.39 9.3l.4.44.87.98.73.82a1.5 1.5 0 0 0 2.28-.04l2.09-2.54 1.8-2.18.8-1a.8.8 0 0 0-1.23-1.01l-.81.99-1.8 2.18L6.5 10.4l-.65-.73z'></path>
@@ -107,6 +118,21 @@ const MessageItem = ({ from, content, time, needToShowDateSeparator, dateSeparat
 						</div>
 					</div>
 				)}
+				<span
+					className={`message__time ${
+						from === messageFrom.me ? 'message__time--from-me' : 'message__time--from-others'
+					}`}
+				>
+					{moment.utc(message.creationDateTime).local().format('LT')}
+				</span>
+				{from === messageFrom.me &&
+					(message.state === MessageState.READ ? (
+						<MessageReadSvg className='message__read' />
+					) : message.state === MessageState.QUEUED ? (
+						<MessageQeuedSvg className='message__read' />
+					) : (
+						<MessageSentSvg className='message__read' />
+					))}
 				<div
 					className={`message__btn-group ${
 						from === messageFrom.me ? 'message__btn-group--from-me' : 'message__btn-group--from-others'
@@ -182,26 +208,19 @@ const MessageItem = ({ from, content, time, needToShowDateSeparator, dateSeparat
 
 				<div
 					className={`message__item ${
-						from === messageFrom.me ? 'message__item--from-me' : 'message__item--from-others'
+						!message.needToShowCreator && from === messageFrom.others ? 'message__item--upcoming' : ''
 					}`}
 				>
-					{content}
-					<span className='message__time'>{time}</span>
-					{from === messageFrom.me &&
-						(message.state === MessageState.READ ? (
-							<svg className='message__read'>
-								<path d='M18 7l-1.41-1.41-6.34 6.34 1.41 1.41L18 7zm4.24-1.41L11.66 16.17 7.48 12l-1.41 1.41L11.66 19l12-12-1.42-1.41zM.41 13.41L6 19l1.41-1.41L1.83 12 .41 13.41z'></path>
-							</svg>
-						) : message.state === MessageState.QUEUED ? (
-							<svg className='message__read'>
-								<path d='M19 8l-4 4h3c0 3.31-2.69 6-6 6-1.01 0-1.97-.25-2.8-.7l-1.46 1.46C8.97 19.54 10.43 20 12 20c4.42 0 8-3.58 8-8h3l-4-4zM6 12c0-3.31 2.69-6 6-6 1.01 0 1.97.25 2.8.7l1.46-1.46C15.03 4.46 13.57 4 12 4c-4.42 0-8 3.58-8 8H1l4 4 4-4H6z'></path>
-							</svg>
-						) : (
-							<svg className='message__read'>
-								<path d='M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z'></path>
-							</svg>
-						))}
+					{message.needToShowCreator && from === messageFrom.others && (
+						<p className='message__sender-name'>{`${message.userCreator?.firstName} ${message.userCreator?.lastName}`}</p>
+					)}
+					{message.text}
 				</div>
+				{message.needToShowCreator && from === messageFrom.others && (
+					<Avatar className='message__sender-photo' src={message.userCreator?.avatarUrl}>
+						{getUserInitials(message.userCreator as UserPreview)}
+					</Avatar>
+				)}
 			</div>
 		</React.Fragment>
 	);

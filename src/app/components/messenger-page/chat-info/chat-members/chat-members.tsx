@@ -3,9 +3,9 @@ import './chat-members.scss';
 import Member from './member/member';
 import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
-import { Dialog } from 'app/store/dialogs/models';
-import { ChatActions } from 'app/store/dialogs/actions';
-import { getSelectedDialogSelector } from 'app/store/dialogs/selectors';
+import { Chat } from 'app/store/chats/models';
+import { ChatActions } from 'app/store/chats/actions';
+import { getSelectedChatSelector } from 'app/store/chats/selectors';
 import { UserPreview } from 'app/store/my-profile/models';
 import { RootState } from 'app/store/root-reducer';
 import { LocalizationContext } from 'app/app';
@@ -23,7 +23,7 @@ const ChatMembers = ({ addMembers }: ChatMembers.Props) => {
 	const [searchStr, setSearchStr] = useState<string>('');
 
 	const getConferenceUsers = useActionWithDispatch(ChatActions.getConferenceUsers);
-	const selectedDialog = useSelector(getSelectedDialogSelector) as Dialog;
+	const selectedChat = useSelector(getSelectedChatSelector) as Chat;
 
 	const membersForConference = useSelector<RootState, UserPreview[]>(
 		(state) => state.friends.usersForSelectedConference,
@@ -33,7 +33,7 @@ const ChatMembers = ({ addMembers }: ChatMembers.Props) => {
 
 	useEffect(() => {
 		getConferenceUsers({
-			conferenceId: selectedDialog.conference?.id || -1,
+			conferenceId: selectedChat.conference?.id || -1,
 			initiatedByScrolling: false,
 			page: { offset: 0, limit: 15 },
 		});
@@ -41,18 +41,18 @@ const ChatMembers = ({ addMembers }: ChatMembers.Props) => {
 			setSearchStr('');
 			setMembersDisplayed(false);
 		};
-	}, [selectedDialog.id]);
+	}, [selectedChat.id]);
 
 	const loadMore = useCallback(() => {
 		getConferenceUsers({
-			conferenceId: selectedDialog.conference?.id || -1,
+			conferenceId: selectedChat.conference?.id || -1,
 			initiatedByScrolling: true,
 			page: { offset: membersForConference.length, limit: 15 },
 			filters: {
 				name: searchStr,
 			},
 		});
-	}, [selectedDialog]);
+	}, [selectedChat]);
 
 	return (
 		<React.Fragment>
@@ -70,7 +70,7 @@ const ChatMembers = ({ addMembers }: ChatMembers.Props) => {
 						onChange={(e) => {
 							setSearchStr(e.target.value);
 							getConferenceUsers({
-								conferenceId: selectedDialog.conference?.id || -1,
+								conferenceId: selectedChat.conference?.id || -1,
 								initiatedByScrolling: false,
 								page: { offset: 0, limit: 15 },
 								filters: {

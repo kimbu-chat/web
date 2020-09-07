@@ -1,8 +1,8 @@
 import { Store } from 'redux';
 import { MessageCreatedIntegrationEvent } from '../integration-events/message-created-integration-event';
 import { SystemMessageType, Message, MessageState, CreateMessageRequest } from 'app/store/messages/models';
-import { InterlocutorType, Dialog } from 'app/store/dialogs/models';
-import { DialogService } from 'app/store/dialogs/dialog-service';
+import { InterlocutorType, Chat } from 'app/store/chats/models';
+import { ChatService } from 'app/store/chats/chat-service';
 import { IEventHandler } from '../event-handler';
 import { RootState } from 'app/store/root-reducer';
 import { MessageActions } from 'app/store/messages/actions';
@@ -10,30 +10,35 @@ import { MessageActions } from 'app/store/messages/actions';
 export class MessageCreatedEventHandler implements IEventHandler<MessageCreatedIntegrationEvent> {
 	public handle(store: Store<RootState>, eventData: MessageCreatedIntegrationEvent): void {
 		const currentUserId: number = store.getState().myProfile.user?.id || -1;
-		// const shouldHandleMessageCreation: boolean =
-		// 	eventData.userCreatorId !== currentUserId || eventData.systemMessageType !== SystemMessageType.None;
+		const shouldHandleMessageCreation: boolean =
+			eventData.userCreatorId !== currentUserId || eventData.systemMessageType !== SystemMessageType.None;
 
-		// if (!shouldHandleMessageCreation) {
-		// 	return;
-		// }
+		if (!shouldHandleMessageCreation) {
+			return;
+		}
 
 		const interlocutorType: InterlocutorType =
 			eventData.destinationType === 'Conference' ? InterlocutorType.CONFERENCE : InterlocutorType.USER;
 
-		const dialogId: number = DialogService.getDialogIdentifier(eventData.userCreatorId, eventData.destinationId);
+		console.log(eventData);
+
+		const chatId: number = ChatService.getChatId(
+			eventData.destinationType === 'User' ? eventData.userCreatorId : null,
+			eventData.destinationType === 'Conference' ? eventData.destinationId : null,
+		);
 
 		const message: Message = {
 			text: eventData.text,
 			systemMessageType: eventData.systemMessageType,
-			dialogId: dialogId,
+			chatId: chatId,
 			creationDateTime: new Date(new Date().toUTCString()),
 			id: eventData.objectId,
 			state: MessageState.READ,
 			userCreator: eventData.userCreator,
 		};
 
-		const dialog: Dialog = {
-			id: dialogId,
+		const chat: Chat = {
+			id: chatId,
 			interlocutor: interlocutorType === InterlocutorType.CONFERENCE ? null : eventData.userCreator,
 			interlocutorType: interlocutorType,
 			conference: interlocutorType === InterlocutorType.CONFERENCE ? { id: eventData.destinationId } : null,
@@ -42,27 +47,27 @@ export class MessageCreatedEventHandler implements IEventHandler<MessageCreatedI
 
 		if (eventData.systemMessageType === SystemMessageType.ConferenceMemberRemoved) {
 			if (eventData.userCreatorId === currentUserId) {
-				// if (DialogRepository.getDialogExistence(dialogId)) {
-				//   //delete local dialog on another device on the same user
+				// if (ChatRepository.getChatExistence(chatId)) {
+				//   //delete local chat on another device on the same user
 				// }
 				return;
 			}
 		} else if (eventData.systemMessageType === SystemMessageType.ConferenceMemberAdded) {
-			// if (!DialogRepository.getDialogExistence(dialogId)) {
+			// if (!ChatRepository.getChatExistence(chatId)) {
 			//   const messageContent = Helpers.getSystemMessageContent(eventData.text) as ConfereceMemberAddedSystemMessageContent;
-			//   dialog.conference.membersCount = messageContent.conferenceMembersNumber;
-			//   dialog.conference.avatarUrl = messageContent.conferenceAvatarUrl;
-			//   dialog.conference.name = messageContent.conferenceName;
-			//   dialog.lastMessage = message;
-			//   DialogRepository.addOrUpdateDialogs([dialog]);
+			//   chat.conference.membersCount = messageContent.conferenceMembersNumber;
+			//   chat.conference.avatarUrl = messageContent.conferenceAvatarUrl;
+			//   chat.conference.name = messageContent.conferenceName;
+			//   chat.lastMessage = message;
+			//   ChatRepository.addOrUpdateChats([chat]);
 			// }
 		}
 
 		const messageCreation: CreateMessageRequest = {
 			message: message,
-			dialog: dialog,
+			chat: chat,
 			currentUser: { id: currentUserId },
-			selectedDialogId: store.getState().dialogs.selectedDialogId as number,
+			selectedChatId: store.getState().chats.selectedChatId as number,
 			isFromEvent: true,
 		};
 

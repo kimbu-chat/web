@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { getCallInterlocutorSelector, isFullScreen } from 'app/store/calls/selectors';
 
 //sounds
-import callingBeep from 'app/sounds/calls/outgoing-call.ogg';
+import callingBeep from 'app/assets/sounds/calls/outgoing-call.ogg';
 
 const OutgoingCall = () => {
 	const cancelCall = useActionWithDispatch(CallActions.cancelCallAction);

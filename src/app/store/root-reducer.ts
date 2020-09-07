@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 
 import auth from './auth/reducer';
 import messages from './messages/reducer';
-import dialogs from './dialogs/reducer';
+import chats from './chats/reducer';
 import friends from './friends/reducer';
 import myProfile from './my-profile/reducer';
 import calls from './calls/reducer';
@@ -12,7 +12,7 @@ import { getType } from 'typesafe-actions';
 
 const rootReducer = combineReducers({
 	auth,
-	dialogs,
+	chats,
 	messages,
 	friends,
 	myProfile,
@@ -30,10 +30,10 @@ export default (state: any, action: any): ReturnType<typeof rootReducer> => {
 				...state.auth,
 				isAuthenticated: false,
 			},
-			dialogs: {
-				...state.dialogs,
-				dialogs: [],
-				selectedDialogId: null,
+			chats: {
+				...state.chats,
+				chats: [],
+				selectedChatId: null,
 			},
 			messages: {
 				...state.messages,

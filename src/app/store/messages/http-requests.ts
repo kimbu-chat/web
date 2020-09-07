@@ -19,7 +19,7 @@ export const MessagesHttpRequests = {
 		HttpRequestMethod.Post,
 	),
 	markMessagesAsRead: httpRequestFactory<AxiosResponse, MarkMessagesAsReadRequest>(
-		`${ApiBasePath.MainApi}/api/dialogsConferences/markAsRead`,
+		`${ApiBasePath.MainApi}/api/chats/mark-as-read`,
 		HttpRequestMethod.Post,
 	),
 	messageTyping: httpRequestFactory<AxiosResponse, UserMessageTypingRequest>(

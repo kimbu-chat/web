@@ -6,32 +6,36 @@ import moment from 'moment';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 
 import './chat-from-list.scss';
-import { Dialog } from 'app/store/dialogs/models';
+import { Chat } from 'app/store/chats/models';
 import { MessageUtils } from 'app/utils/message-utils';
-import { getDialogInterlocutor, getInterlocutorInitials } from '../../../utils/interlocutor-name-utils';
+import { getChatInterlocutor, getInterlocutorInitials } from '../../../utils/interlocutor-name-utils';
 
 import StatusBadge from 'app/components/shared/status-badge/status-badge';
-import { ChatActions } from 'app/store/dialogs/actions';
-import { SystemMessageType, Message } from 'app/store/messages/models';
+import { ChatActions } from 'app/store/chats/actions';
+import { SystemMessageType, Message, MessageState } from 'app/store/messages/models';
 import { LocalizationContext } from 'app/app';
 import { getMyIdSelector } from 'app/store/my-profile/selectors';
 import Avatar from 'app/components/shared/avatar/avatar';
 import truncate from 'lodash/truncate';
 
+import MessageQeuedSvg from 'app/assets/icons/ic-time.svg';
+import MessageSentSvg from 'app/assets/icons/ic-tick.svg';
+import MessageReadSvg from 'app/assets/icons/ic-double_tick.svg';
+
 namespace ChatFromList {
 	export interface Props {
-		dialog: Dialog;
+		chat: Chat;
 	}
 }
 
-const ChatFromList = ({ dialog }: ChatFromList.Props) => {
-	const { interlocutor, lastMessage, conference } = dialog;
+const ChatFromList = ({ chat }: ChatFromList.Props) => {
+	const { interlocutor, lastMessage, conference } = chat;
 	const { t } = useContext(LocalizationContext);
 	const currentUserId = useSelector(getMyIdSelector) as number;
 	const isMessageCreatorCurrentUser: boolean = lastMessage?.userCreator?.id === currentUserId;
-	const changeSelectedDialog = useActionWithDispatch(ChatActions.changeSelectedChat);
+	const changeSelectedChat = useActionWithDispatch(ChatActions.changeSelectedChat);
 
-	const getDialogAvatar = (): string => {
+	const getChatAvatar = (): string => {
 		if (interlocutor) {
 			return interlocutor.avatarUrl as string;
 		}
@@ -40,7 +44,7 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
 	};
 
 	const getMessageText = (): string => {
-		const { lastMessage, conference } = dialog;
+		const { lastMessage, conference } = chat;
 		if (lastMessage && lastMessage?.systemMessageType !== SystemMessageType.None) {
 			return truncate(
 				MessageUtils.constructSystemMessageText(
@@ -49,7 +53,7 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
 					t,
 				),
 				{
-					length: 19,
+					length: 53,
 					omission: '...',
 				},
 			);
@@ -58,58 +62,68 @@ const ChatFromList = ({ dialog }: ChatFromList.Props) => {
 		if (conference) {
 			if (isMessageCreatorCurrentUser) {
 				return truncate(`${t('chatFromList.you')}: ${lastMessage?.text}`, {
-					length: 19,
+					length: 53,
 					omission: '...',
 				});
 			}
 			return truncate(`${lastMessage?.userCreator?.firstName}: ${lastMessage?.text}`, {
-				length: 19,
+				length: 53,
 				omission: '...',
 			});
 		}
 
 		const shortedText = truncate(lastMessage?.text, {
-			length: 19,
+			length: 53,
 			omission: '...',
 		});
 
 		return shortedText;
 	};
 
-	const setSelectedDialog = (): void => {
-		changeSelectedDialog(dialog.id);
+	const setSelectedChat = (): void => {
+		changeSelectedChat(chat.id);
 	};
 
 	return (
 		<NavLink
-			onClick={setSelectedDialog}
-			to={`/chats/${dialog.id}`}
-			className='messenger__chat-block'
-			activeClassName='messenger__chat-block messenger__chat-block--active'
+			onClick={setSelectedChat}
+			to={`/chats/${chat.id}`}
+			className='chat-from-list'
+			activeClassName='chat-from-list chat-from-list--active'
 		>
-			<div className='messenger__active-line'></div>
+			<div className='chat-from-list__active-line'></div>
 			{!conference ? (
-				<StatusBadge additionalClassNames={'messenger__chat-block__avatar'} user={dialog.interlocutor!} />
+				<StatusBadge additionalClassNames={'chat-from-list__avatar'} user={chat.interlocutor!} />
 			) : (
-				<Avatar className={'messenger__chat-block__avatar'} src={getDialogAvatar()}>
-					{getInterlocutorInitials(dialog)}
+				<Avatar className={'chat-from-list__avatar'} src={getChatAvatar()}>
+					{getInterlocutorInitials(chat)}
 				</Avatar>
 			)}
 
-			<div className='messenger__name-and-message'>
-				<div className='messenger__name'>{getDialogInterlocutor(dialog)}</div>
-				<div className='flat'>
-					{/* <img src={lastPhoto} alt="" className="messenger__last-photo" /> */}
-					<div className='messenger__last-message'>
-						{dialog.isInterlocutorTyping ? t('chatFromList.typing') : getMessageText()}
+			<div className='chat-from-list__contents'>
+				<div className='chat-from-list__heading'>
+					<div className='chat-from-list__name'>{getChatInterlocutor(chat)}</div>
+					<div className='chat-from-list__status'>
+						{lastMessage?.state === MessageState.QUEUED && <MessageQeuedSvg />}
+						{lastMessage?.state === MessageState.SENT && <MessageSentSvg />}
+						{lastMessage?.state === MessageState.READ && <MessageReadSvg />}
+					</div>
+					<div className='chat-from-list__time'>
+						{moment.utc(lastMessage?.creationDateTime).local().format('LT')}
 					</div>
 				</div>
-			</div>
-			<div className='messenger__time-and-count'>
-				<div className='messenger__time'>{moment.utc(lastMessage?.creationDateTime).local().format('LT')}</div>
-				{(dialog.ownUnreadMessagesCount || false) && (
-					<div className={dialog.isMuted ? 'messenger__count messenger__count--muted' : 'messenger__count'}>
-						{dialog.ownUnreadMessagesCount}
+				<div className='chat-from-list__last-message'>
+					{chat.isInterlocutorTyping ? t('chatFromList.typing') : getMessageText()}
+				</div>
+				{(chat.ownUnreadMessagesCount || false) && (
+					<div
+						className={
+							chat.isMuted
+								? 'chat-from-list__count chat-from-list__count--muted'
+								: 'chat-from-list__count'
+						}
+					>
+						{chat.ownUnreadMessagesCount}
 					</div>
 				)}
 			</div>

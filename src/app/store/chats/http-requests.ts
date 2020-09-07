@@ -1,10 +1,10 @@
 ﻿import { httpRequestFactory, HttpRequestMethod } from '../common/http-factory';
 import { AxiosResponse } from 'axios';
 import {
-	Dialog,
-	GetDialogsRequestData,
-	HideDialogRequest,
-	MuteDialogRequest,
+	Chat,
+	GetChatsRequestData,
+	HideChatRequest,
+	MuteChatRequest,
 	GetConferenceUsersRequest,
 	RenameConferenceApiRequest,
 	ConferenceCreationReqData,
@@ -13,16 +13,16 @@ import { ApiBasePath } from '../root-api';
 import { UserPreview } from '../my-profile/models';
 
 export const ChatHttpRequests = {
-	getChats: httpRequestFactory<AxiosResponse<Dialog[]>, GetDialogsRequestData>(
-		`${ApiBasePath.MainApi}/api/dialogsConferences`,
+	getChats: httpRequestFactory<AxiosResponse<Chat[]>, GetChatsRequestData>(
+		`${ApiBasePath.MainApi}/api/chats/search`,
 		HttpRequestMethod.Post,
 	),
-	removeChat: httpRequestFactory<AxiosResponse, HideDialogRequest>(
-		`${ApiBasePath.MainApi}/api/dialogsConferences/changeHiddenStatus`,
+	removeChat: httpRequestFactory<AxiosResponse, HideChatRequest>(
+		`${ApiBasePath.MainApi}​/api​/chats​/change-hidden-status`,
 		HttpRequestMethod.Put,
 	),
-	muteChat: httpRequestFactory<AxiosResponse, MuteDialogRequest>(
-		`${ApiBasePath.MainApi}/api/dialogsConferences/changeMutedStatus`,
+	muteChat: httpRequestFactory<AxiosResponse, MuteChatRequest>(
+		`${ApiBasePath.MainApi}/api/chats/change-muted-status`,
 		HttpRequestMethod.Put,
 	),
 	createConference: httpRequestFactory<AxiosResponse<number>, ConferenceCreationReqData>(

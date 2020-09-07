@@ -1,7 +1,7 @@
 import { Store } from 'redux';
 import { ConferenceCreatedIntegrationEvent } from '../integration-events/conference-сreated-integration-event';
 import { IEventHandler } from '../event-handler';
-import { ChatActions } from 'app/store/dialogs/actions';
+import { ChatActions } from 'app/store/chats/actions';
 import { RootState } from 'app/store/root-reducer';
 
 export class ConferenceCreatedEventHandler implements IEventHandler<ConferenceCreatedIntegrationEvent> {

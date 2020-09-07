@@ -2,7 +2,7 @@ import { IntercolutorMessageTypingIntegrationEvent } from '../integration-events
 import { Store } from 'redux';
 import { IEventHandler } from '../event-handler';
 import { RootState } from 'app/store/root-reducer';
-import { ChatActions } from 'app/store/dialogs/actions';
+import { ChatActions } from 'app/store/chats/actions';
 
 export class UserMessageTypingEventHandler implements IEventHandler<IntercolutorMessageTypingIntegrationEvent> {
 	public handle(store: Store<RootState>, eventData: IntercolutorMessageTypingIntegrationEvent): void {

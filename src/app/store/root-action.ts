@@ -1,7 +1,7 @@
 ﻿import { ActionUnionType } from './common/actions';
 import { AuthActions } from './auth/actions';
 import { MessageActions } from './messages/actions';
-import { ChatActions } from './dialogs/actions';
+import { ChatActions } from './chats/actions';
 import { MyProfileActions } from './my-profile/actions';
 import { FriendActions } from './friends/actions';
 import { CallActions } from './calls/actions';

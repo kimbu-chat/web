@@ -18,8 +18,13 @@ import { MessageUtils } from 'app/utils/message-utils';
 
 export function* getChatsSaga(action: ReturnType<typeof ChatActions.getChats>): SagaIterator {
 	const chatsRequestData = action.payload;
-	const request = ChatHttpRequests.getChats;
-	const { data }: AxiosResponse<Chat[]> = request.call(yield call(() => request.generator(action.payload)));
+
+	const { name, showOnlyHidden, page } = action.payload;
+
+	const request = { name, showOnlyHidden, page };
+
+	const getChatsRequest = ChatHttpRequests.getChats;
+	const { data }: AxiosResponse<Chat[]> = getChatsRequest.call(yield call(() => getChatsRequest.generator(request)));
 	data.forEach((chat: Chat) => {
 		const lastMessage = chat.lastMessage || { state: {} };
 
@@ -47,11 +52,9 @@ export function* muteChatSaga(action: ReturnType<typeof ChatActions.muteChat>) {
 		const { interlocutor, conference, isMuted } = chat;
 
 		const request: MuteChatRequest = {
-			chats: [
-				{
-					conferenceId: conference?.id,
-					interlocutorId: interlocutor?.id,
-				},
+			chatIds: [
+				...(conference?.id ? [ChatService.getChatId(null, conference?.id!)] : []),
+				...(interlocutor?.id ? [ChatService.getChatId(interlocutor?.id!, null)] : []),
 			],
 			isMuted: !isMuted,
 		};
@@ -73,12 +76,13 @@ export function* removeChatSaga(action: ReturnType<typeof ChatActions.removeChat
 	const chat: Chat = action.payload;
 	let response: AxiosResponse;
 
+	const { interlocutor, conference } = chat;
+
 	try {
 		const request: HideChatRequest = {
-			chats: [
-				{
-					interlocutorId: chat.interlocutor?.id,
-				},
+			chatIds: [
+				...(conference?.id ? [ChatService.getChatId(null, conference?.id!)] : []),
+				...(interlocutor?.id ? [ChatService.getChatId(interlocutor?.id!, null)] : []),
 			],
 			isHidden: true,
 		};

@@ -94,10 +94,7 @@ export interface CreateMessageResponse {
 }
 
 export interface MarkMessagesAsReadRequest {
-	dialog: {
-		interlocutorId: number | null;
-		conferenceId: number | null;
-	};
+	chatId: number | null;
 }
 
 export interface MessageCreationReqData {
@@ -114,10 +111,7 @@ export interface AttachmentCreation {
 
 export interface MessagesReqData {
 	page: Page;
-	dialog: {
-		id?: number;
-		type: 'User' | 'Conference';
-	};
+	chatId: number;
 }
 
 export interface MessagesReq {

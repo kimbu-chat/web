@@ -25,7 +25,7 @@ const ChatList = () => {
 			initializedBySearch: true,
 			initiatedByScrolling: false,
 			name: searchString,
-			showHidden: true,
+			showOnlyHidden: false,
 		});
 	}, [searchString]);
 
@@ -40,7 +40,7 @@ const ChatList = () => {
 			initializedBySearch: false,
 			initiatedByScrolling: true,
 			name: searchString,
-			showHidden: true,
+			showOnlyHidden: false,
 		});
 	}, [searchString, chats]);
 

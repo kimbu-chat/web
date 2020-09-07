@@ -53,7 +53,7 @@ export interface RenameConferenceActionData {
 export interface GetChatsRequestData {
 	page: Page;
 	unreadOnly?: boolean;
-	showHidden: boolean;
+	showOnlyHidden: boolean;
 	initiatedByScrolling?: boolean;
 	initializedBySearch?: boolean;
 	name?: string;
@@ -62,27 +62,19 @@ export interface GetChatsRequestData {
 export interface GetChatsActionData {
 	page: Page;
 	unreadOnly?: boolean;
-	showHidden: boolean;
+	showOnlyHidden: boolean;
 	initiatedByScrolling: boolean;
 	initializedBySearch: boolean;
 	name?: string;
 }
 
 export interface HideChatRequest {
-	chats: [
-		{
-			interlocutorId?: number;
-			conferenceId?: number;
-		},
-	];
+	chatIds: (number | undefined)[];
 	isHidden: boolean;
 }
 
 export interface MuteChatRequest {
-	chats: {
-		interlocutorId?: number | null;
-		conferenceId?: number | null;
-	}[];
+	chatIds: (number | undefined)[];
 	isMuted: boolean;
 }
 

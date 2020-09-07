@@ -24,10 +24,10 @@ export function* getMessages(action: ReturnType<typeof MessageActions.getMessage
 
 	const request: MessagesReqData = {
 		page: page,
-		dialog: {
-			id: isConference ? chat.conference?.id : chat.interlocutor?.id,
-			type: isConference ? 'Conference' : 'User',
-		},
+		chatId: ChatService.getChatId(
+			isConference ? null : chat.interlocutor?.id!,
+			isConference ? chat.conference?.id! : null,
+		),
 	};
 
 	const httpRequest = MessagesHttpRequests.getMessages;
@@ -127,11 +127,10 @@ export function* notifyInterlocutorThatMessageWasRead(createMessageRequest: Crea
 
 	const isChatCurrentInterlocutor: boolean = chat.id == selectedChatId;
 	if (isChatCurrentInterlocutor) {
-		const httpRequestPayload = {
-			dialog: {
-				conferenceId: isDestinationTypeUser ? null : chat.conference?.id!,
-				interlocutorId: isDestinationTypeUser ? message.userCreator?.id! : null,
-			},
+		const httpRequestPayload: MarkMessagesAsReadRequest = {
+			chatId: isDestinationTypeUser
+				? ChatService.getChatId(message.userCreator?.id || null, null)
+				: ChatService.getChatId(null, chat.conference?.id || null),
 		};
 		const httpRequest = MessagesHttpRequests.markMessagesAsRead;
 		httpRequest.call(yield call(() => httpRequest.generator(httpRequestPayload)));
@@ -144,10 +143,11 @@ export function* resetUnreadMessagesCountSaga(
 	action: ReturnType<typeof MessageActions.markMessagesAsRead>,
 ): SagaIterator {
 	const request: MarkMessagesAsReadRequest = {
-		dialog: {
-			conferenceId: action.payload.conference?.id || null,
-			interlocutorId: action.payload.interlocutor?.id || null,
-		},
+		chatId: action.payload.conference?.id
+			? ChatService.getChatId(null, action.payload.conference?.id || null)
+			: action.payload.interlocutor?.id
+			? ChatService.getChatId(action.payload.interlocutor?.id || null, null)
+			: null,
 	};
 
 	const httpRequest = MessagesHttpRequests.markMessagesAsRead;

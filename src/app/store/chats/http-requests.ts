@@ -14,15 +14,15 @@ import { UserPreview } from '../my-profile/models';
 
 export const ChatHttpRequests = {
 	getChats: httpRequestFactory<AxiosResponse<Chat[]>, GetChatsRequestData>(
-		`${ApiBasePath.MainApi}/api/dialogsConferences`,
+		`${ApiBasePath.MainApi}/api/chats/search`,
 		HttpRequestMethod.Post,
 	),
 	removeChat: httpRequestFactory<AxiosResponse, HideChatRequest>(
-		`${ApiBasePath.MainApi}/api/dialogsConferences/changeHiddenStatus`,
+		`${ApiBasePath.MainApi}​/api​/chats​/change-hidden-status`,
 		HttpRequestMethod.Put,
 	),
 	muteChat: httpRequestFactory<AxiosResponse, MuteChatRequest>(
-		`${ApiBasePath.MainApi}/api/dialogsConferences/changeMutedStatus`,
+		`${ApiBasePath.MainApi}/api/chats/change-muted-status`,
 		HttpRequestMethod.Put,
 	),
 	createConference: httpRequestFactory<AxiosResponse<number>, ConferenceCreationReqData>(

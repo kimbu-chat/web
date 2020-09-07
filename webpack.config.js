@@ -4,7 +4,11 @@ var package = require('./package.json');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 // variables
-var isProduction = process.argv.indexOf('-p') >= 0 || process.env.NODE_ENV === 'production';
+var isProduction =
+	process.argv.indexOf('-p') >= 0 ||
+	process.env.NODE_ENV === 'production' ||
+	process.env.NODE_ENV === 'productionAnalyze';
+var isProductionAnalyze = process.env.NODE_ENV === 'productionAnalyze';
 var sourcePath = path.join(__dirname, './src');
 var outPath = path.join(__dirname, './build');
 
@@ -163,7 +167,6 @@ module.exports = {
 		runtimeChunk: true,
 	},
 	plugins: [
-		// new BundleAnalyzerPlugin(),
 		new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /ru|en-gb/),
 		new webpack.EnvironmentPlugin({
 			NODE_ENV: 'development', // use 'development' unless process.env.NODE_ENV is defined
@@ -193,6 +196,7 @@ module.exports = {
 				keywords: Array.isArray(package.keywords) ? package.keywords.join(',') : undefined,
 			},
 		}),
+		...(isProductionAnalyze ? [new BundleAnalyzerPlugin()] : []),
 	],
 
 	devServer: {

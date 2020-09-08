@@ -99,8 +99,7 @@ export interface MarkMessagesAsReadRequest {
 
 export interface MessageCreationReqData {
 	text?: string;
-	conferenceId?: number | null;
-	userInterlocutorId?: number | null;
+	chatId?: number | null;
 	attachments?: Array<AttachmentCreation>;
 }
 

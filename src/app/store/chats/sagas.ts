@@ -49,14 +49,9 @@ export function* muteChatSaga(action: ReturnType<typeof ChatActions.muteChat>) {
 	try {
 		const chat: Chat = action.payload;
 
-		const { interlocutor, conference, isMuted } = chat;
-
 		const request: MuteChatRequest = {
-			chatIds: [
-				...(conference?.id ? [ChatService.getChatId(null, conference?.id!)] : []),
-				...(interlocutor?.id ? [ChatService.getChatId(interlocutor?.id!, null)] : []),
-			],
-			isMuted: !isMuted,
+			chatIds: [chat.id],
+			isMuted: !chat.isMuted,
 		};
 
 		const muteChatRequest = ChatHttpRequests.muteChat;
@@ -76,14 +71,9 @@ export function* removeChatSaga(action: ReturnType<typeof ChatActions.removeChat
 	const chat: Chat = action.payload;
 	let response: AxiosResponse;
 
-	const { interlocutor, conference } = chat;
-
 	try {
 		const request: HideChatRequest = {
-			chatIds: [
-				...(conference?.id ? [ChatService.getChatId(null, conference?.id!)] : []),
-				...(interlocutor?.id ? [ChatService.getChatId(interlocutor?.id!, null)] : []),
-			],
+			chatIds: [chat.id],
 			isHidden: true,
 		};
 

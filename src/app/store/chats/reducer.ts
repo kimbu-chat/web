@@ -368,6 +368,24 @@ const chats = createReducer<ChatsState>(initialState)
 				return draft;
 			},
 		),
+	)
+	.handleAction(
+		MessageActions.createMessageSuccess,
+		produce((draft: ChatsState, { payload }: ReturnType<typeof MessageActions.createMessageSuccess>) => {
+			const { messageState, chatId, oldMessageId, newMessageId } = payload;
+
+			const chatIndex: number = getChatArrayIndex(chatId, draft);
+
+			if (chatIndex >= 0 && draft.chats[chatIndex].lastMessage?.id === oldMessageId) {
+				const lastMessage = draft.chats[chatIndex].lastMessage || { id: 0, state: '' };
+
+				lastMessage.id = newMessageId;
+
+				lastMessage.state = messageState;
+			}
+
+			return draft;
+		}),
 	);
 
 export default chats;

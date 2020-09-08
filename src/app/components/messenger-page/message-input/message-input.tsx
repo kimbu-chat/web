@@ -28,7 +28,7 @@ const CreateMessageInput = () => {
 	const [text, setText] = useState('');
 	const [smilesDisplayed, setSmilesDisplayed] = useState<boolean>(false);
 
-	const emojiRef = useRef<HTMLDivElement | null>(null);
+	const emojiRef = useRef<HTMLDivElement>(null);
 
 	const handleClick = () => {
 		if (!smilesDisplayed) {

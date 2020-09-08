@@ -45,7 +45,7 @@ export interface Content {
 export interface Message {
 	id: number;
 	needToShowCreator?: boolean;
-	userCreator: UserPreview | null;
+	userCreator: UserPreview;
 	creationDateTime?: Date;
 	text: string;
 	attachments?: Array<Content>;
@@ -94,12 +94,12 @@ export interface CreateMessageResponse {
 }
 
 export interface MarkMessagesAsReadRequest {
-	chatId: number | null;
+	chatId: number;
 }
 
 export interface MessageCreationReqData {
 	text?: string;
-	chatId?: number | null;
+	chatId?: number;
 	attachments?: Array<AttachmentCreation>;
 }
 

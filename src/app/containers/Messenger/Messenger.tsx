@@ -88,7 +88,7 @@ const Messenger = () => {
 	const [infoDisplayed, setInfoDisplayed] = useState<boolean>(false);
 	const [accountInfoIsDisplayed, setAccountInfoIsDisplayed] = useState<boolean>(false);
 	const [settingsDisplayed, setSettingsDisplayed] = useState<boolean>(false);
-	const [imageUrl, setImageUrl] = useState<string | null | ArrayBuffer>('');
+	const [imageUrl, setImageUrl] = useState<string | ArrayBuffer | null>('');
 
 	//Slider display and hide
 	const displaySlider = useCallback(() => {

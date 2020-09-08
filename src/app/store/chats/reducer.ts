@@ -1,19 +1,19 @@
 import { Chat } from './models';
 import produce from 'immer';
 import { ChatService } from './chat-service';
-import { CreateMessageResponse } from '../messages/models';
 import { InterlocutorType } from './models';
 import { createReducer } from 'typesafe-actions';
 import { ChatActions } from './actions';
 import { MessageActions } from '../messages/actions';
 import { FriendActions } from '../friends/actions';
+import { MessageState } from '../messages/models';
 
 export interface ChatsState {
 	loading: boolean;
 	hasMore: boolean;
 	searchString: string;
 	chats: Chat[];
-	selectedChatId?: number | null;
+	selectedChatId?: number;
 }
 
 const initialState: ChatsState = {
@@ -21,7 +21,6 @@ const initialState: ChatsState = {
 	hasMore: true,
 	searchString: '',
 	chats: [],
-	selectedChatId: null,
 };
 
 const checkChatExists = (chatId: number, state: ChatsState): boolean =>
@@ -37,8 +36,8 @@ const chats = createReducer<ChatsState>(initialState)
 			const { isConference, interlocutorId, objectId } = payload;
 
 			const chatId: number = ChatService.getChatIdentifier(
-				!isConference ? objectId : null,
-				isConference ? interlocutorId : null,
+				isConference ? undefined : objectId,
+				isConference ? interlocutorId : undefined,
 			);
 
 			const isChatExists: boolean = checkChatExists(chatId, draft);
@@ -60,8 +59,8 @@ const chats = createReducer<ChatsState>(initialState)
 			const { isConference, interlocutorId, objectId } = payload;
 
 			const chatId: number = ChatService.getChatIdentifier(
-				!isConference ? objectId : null,
-				isConference ? interlocutorId : null,
+				isConference ? undefined : objectId,
+				isConference ? interlocutorId : undefined,
 			);
 
 			const isChatExists: boolean = checkChatExists(chatId, draft);
@@ -77,20 +76,6 @@ const chats = createReducer<ChatsState>(initialState)
 			(draft.chats[chatIndex].draftMessage = payload.text),
 				(draft.chats[chatIndex].timeoutId = payload.timeoutId),
 				(draft.chats[chatIndex].isInterlocutorTyping = true);
-
-			return draft;
-		}),
-	)
-	.handleAction(
-		MessageActions.createMessageSuccess,
-		produce((draft: ChatsState, { payload }: ReturnType<typeof MessageActions.createMessageSuccess>) => {
-			const { chatId, newMessageId }: CreateMessageResponse = payload;
-
-			const chatIndex: number = getChatArrayIndex(chatId, draft);
-
-			const lastMessage = draft.chats[chatIndex].lastMessage || { id: 0 };
-
-			lastMessage.id = newMessageId;
 
 			return draft;
 		}),
@@ -170,7 +155,7 @@ const chats = createReducer<ChatsState>(initialState)
 		produce((draft: ChatsState) => {
 			return {
 				...draft,
-				selectedChatId: null,
+				selectedChatId: -1,
 			};
 		}),
 	)
@@ -222,7 +207,7 @@ const chats = createReducer<ChatsState>(initialState)
 			) => {
 				const chatIndex: number = getChatArrayIndex(payload.id, draft);
 				draft.chats.splice(chatIndex, 1);
-				draft.selectedChatId = null;
+				draft.selectedChatId = -1;
 				return draft;
 			},
 		),
@@ -292,7 +277,7 @@ const chats = createReducer<ChatsState>(initialState)
 		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.changeConferenceAvatarSuccess>) => {
 			const { conferenceId, croppedAvatarUrl } = payload;
 
-			const chatId: number = ChatService.getChatIdentifier(null, conferenceId);
+			const chatId: number = ChatService.getChatIdentifier(undefined, conferenceId);
 
 			const chatIndex: number = getChatArrayIndex(chatId, draft);
 
@@ -307,7 +292,7 @@ const chats = createReducer<ChatsState>(initialState)
 		FriendActions.userStatusChangedEvent,
 		produce((draft: ChatsState, { payload }: ReturnType<typeof FriendActions.userStatusChangedEvent>) => {
 			const { status, objectId } = payload;
-			const chatId: number = ChatService.getChatId(objectId, null);
+			const chatId: number = ChatService.getChatId(objectId);
 			const isChatExists = checkChatExists(chatId, draft);
 			const chatIndex = getChatArrayIndex(chatId, draft);
 
@@ -322,47 +307,20 @@ const chats = createReducer<ChatsState>(initialState)
 		}),
 	)
 	.handleAction(
-		MessageActions.createChat,
-		produce((draft: ChatsState, { payload }: ReturnType<typeof MessageActions.createChat>) => {
-			const { id } = payload;
-
-			const chatId: number = ChatService.getChatId(id, null);
-
-			const isChatExists = checkChatExists(chatId, draft);
-
-			draft.selectedChatId = chatId;
-
-			if (isChatExists) {
-				return draft;
-			} else {
-				//user does not have chat with interlocutor - create chat
-				let newChat: Chat = {
-					id: chatId,
-					interlocutorType: 1,
-					conference: null,
-					lastMessage: null,
-					ownUnreadMessagesCount: 0,
-					interlocutorLastReadMessageId: 0,
-					interlocutor: payload,
-				};
-
-				draft.chats.unshift(newChat);
-
-				return draft;
-			}
-		}),
-	)
-	.handleAction(
 		ChatActions.changeInterlocutorLastReadMessageId,
 		produce(
 			(draft: ChatsState, { payload }: ReturnType<typeof ChatActions.changeInterlocutorLastReadMessageId>) => {
 				const { lastReadMessageId, userReaderId } = payload;
 
-				const chatId = ChatService.getChatId(userReaderId, null);
+				const chatId = ChatService.getChatId(userReaderId);
 				const chatIndex = getChatArrayIndex(chatId, draft);
 
 				if (chatIndex >= 0) {
 					draft.chats[chatIndex].interlocutorLastReadMessageId = lastReadMessageId;
+				}
+
+				if (draft.chats[chatIndex].lastMessage?.id === lastReadMessageId) {
+					draft.chats[chatIndex].lastMessage!.state = MessageState.READ;
 				}
 
 				return draft;

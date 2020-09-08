@@ -23,8 +23,8 @@ export class MessageCreatedEventHandler implements IEventHandler<MessageCreatedI
 		console.log(eventData);
 
 		const chatId: number = ChatService.getChatId(
-			eventData.destinationType === 'User' ? eventData.userCreatorId : null,
-			eventData.destinationType === 'Conference' ? eventData.destinationId : null,
+			eventData.destinationType === 'User' ? eventData.userCreatorId : undefined,
+			eventData.destinationType === 'Conference' ? eventData.destinationId : undefined,
 		);
 
 		const message: Message = {
@@ -39,9 +39,9 @@ export class MessageCreatedEventHandler implements IEventHandler<MessageCreatedI
 
 		const chat: Chat = {
 			id: chatId,
-			interlocutor: interlocutorType === InterlocutorType.CONFERENCE ? null : eventData.userCreator,
+			interlocutor: interlocutorType === InterlocutorType.CONFERENCE ? undefined : eventData.userCreator,
 			interlocutorType: interlocutorType,
-			conference: interlocutorType === InterlocutorType.CONFERENCE ? { id: eventData.destinationId } : null,
+			conference: interlocutorType === InterlocutorType.CONFERENCE ? { id: eventData.destinationId } : undefined,
 			lastMessage: message,
 		};
 

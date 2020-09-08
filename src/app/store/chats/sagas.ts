@@ -163,7 +163,7 @@ function* createConferenceSaga(action: ReturnType<typeof ChatActions.createConfe
 		const httpRequest = ChatHttpRequests.createConference;
 		const { data } = httpRequest.call(yield call(() => httpRequest.generator(action.payload)));
 
-		const chatId: number = ChatService.getChatIdentifier(null, data);
+		const chatId: number = ChatService.getChatIdentifier(undefined, data);
 		const chat: Chat = {
 			interlocutorType: InterlocutorType.CONFERENCE,
 			id: chatId,
@@ -205,7 +205,7 @@ function* createConferenceFromEventSaga(
 	action: ReturnType<typeof ChatActions.createConferenceFromEvent>,
 ): SagaIterator {
 	const payload: ConferenceCreatedIntegrationEvent = action.payload;
-	const chatId: number = ChatService.getChatIdentifier(null, payload.objectId);
+	const chatId: number = ChatService.getChatIdentifier(undefined, payload.objectId);
 	const currentUser = new MyProfileService().myProfile;
 
 	const message: Message = {

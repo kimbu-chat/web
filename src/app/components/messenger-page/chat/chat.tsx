@@ -43,7 +43,6 @@ const Chat = () => {
 
 	useEffect(() => {
 		if (selectedChat) {
-			console.log('loaded');
 			//fetching first 25messages
 			getMessages({
 				page: {
@@ -104,13 +103,6 @@ const Chat = () => {
 					.format('dddd, MMMM D, YYYY')
 					.toString();
 
-				console.log(
-					dateDifference(
-						new Date(message.creationDateTime || ''),
-						new Date(messages[index + 1].creationDateTime || ''),
-					),
-				);
-
 				message.needToShowDateSeparator = true;
 				return message;
 			}
@@ -123,13 +115,11 @@ const Chat = () => {
 	const itemsWithUserInfo = itemsWithDateSeparators
 		.map((message, index) => {
 			if (
-				selectedChat.conference &&
 				index < messages.length - 1 &&
 				(messages[index].userCreator?.id !== messages[index + 1].userCreator?.id ||
 					messages[index + 1].systemMessageType !== SystemMessageType.None ||
 					message.needToShowDateSeparator)
 			) {
-				console.log(message.text);
 				message.needToShowCreator = true;
 			}
 

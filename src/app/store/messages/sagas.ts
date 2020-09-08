@@ -19,14 +19,10 @@ import moment from 'moment';
 
 export function* getMessages(action: ReturnType<typeof MessageActions.getMessages>): SagaIterator {
 	const { page, chat } = action.payload;
-	const isConference: boolean = Boolean(chat.conference);
 
 	const request: MessagesReqData = {
 		page: page,
-		chatId: ChatService.getChatId(
-			isConference ? null : chat.interlocutor?.id!,
-			isConference ? chat.conference?.id! : null,
-		),
+		chatId: ChatService.getChatId(chat.interlocutor?.id!, chat.conference?.id!),
 	};
 
 	const httpRequest = MessagesHttpRequests.getMessages;

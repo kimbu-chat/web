@@ -310,17 +310,21 @@ const chats = createReducer<ChatsState>(initialState)
 		ChatActions.changeInterlocutorLastReadMessageId,
 		produce(
 			(draft: ChatsState, { payload }: ReturnType<typeof ChatActions.changeInterlocutorLastReadMessageId>) => {
-				const { lastReadMessageId, userReaderId } = payload;
+				const { lastReadMessageId, userReaderId, objectType, conferenceId } = payload;
 
-				const chatId = ChatService.getChatId(userReaderId);
+				const chatId = ChatService.getChatId(
+					objectType === 'User' ? userReaderId : undefined,
+					objectType === 'Conference' ? conferenceId : undefined,
+				);
+
 				const chatIndex = getChatArrayIndex(chatId, draft);
 
 				if (chatIndex >= 0) {
 					draft.chats[chatIndex].interlocutorLastReadMessageId = lastReadMessageId;
-				}
 
-				if (draft.chats[chatIndex].lastMessage?.id === lastReadMessageId) {
-					draft.chats[chatIndex].lastMessage!.state = MessageState.READ;
+					if (draft.chats[chatIndex].lastMessage?.id === lastReadMessageId) {
+						draft.chats[chatIndex].lastMessage!.state = MessageState.READ;
+					}
 				}
 
 				return draft;

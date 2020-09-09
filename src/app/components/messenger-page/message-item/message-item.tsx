@@ -104,7 +104,6 @@ const MessageItem = ({ message }: Message.Props) => {
 			)}
 			<div
 				className={`message__container 
-				${from === messageFrom.me ? 'message__container--from-me' : 'message__container--from-others'} 
 				${message.isSelected ? 'message__container--selected' : ''}
 				${isSelectState ? 'pointer' : ''}`}
 				onClick={isSelectState ? selectThisMessage : () => {}}
@@ -118,11 +117,7 @@ const MessageItem = ({ message }: Message.Props) => {
 						</div>
 					</div>
 				)}
-				<span
-					className={`message__time ${
-						from === messageFrom.me ? 'message__time--from-me' : 'message__time--from-others'
-					}`}
-				>
+				<span className={`message__time ${from === messageFrom.others ? 'message__time--no-status' : ''}`}>
 					{moment.utc(message.creationDateTime).local().format('LT')}
 				</span>
 				{from === messageFrom.me &&
@@ -133,11 +128,7 @@ const MessageItem = ({ message }: Message.Props) => {
 					) : (
 						<MessageSentSvg className='message__read' />
 					))}
-				<div
-					className={`message__btn-group ${
-						from === messageFrom.me ? 'message__btn-group--from-me' : 'message__btn-group--from-others'
-					}`}
-				>
+				<div className={`message__btn-group`}>
 					<div className='message__btn message__btn--options'>
 						<div className='svg'>
 							<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
@@ -149,11 +140,7 @@ const MessageItem = ({ message }: Message.Props) => {
 							</svg>
 						</div>
 					</div>
-					<div
-						className={`message__menu ${
-							from === messageFrom.me ? 'message__menu--from-me' : 'message__menu--from-others'
-						}`}
-					>
+					<div className={`message__menu`}>
 						<button onClick={copyThisMessage} className='message__menu-item'>
 							<div className='svg'>
 								<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
@@ -206,17 +193,13 @@ const MessageItem = ({ message }: Message.Props) => {
 					</div>
 				</div>
 
-				<div
-					className={`message__item ${
-						!message.needToShowCreator && from === messageFrom.others ? 'message__item--upcoming' : ''
-					}`}
-				>
-					{message.needToShowCreator && from === messageFrom.others && (
+				<div className={`message__item ${!message.needToShowCreator ? 'message__item--upcoming' : ''}`}>
+					{message.needToShowCreator && (
 						<p className='message__sender-name'>{`${message.userCreator?.firstName} ${message.userCreator?.lastName}`}</p>
 					)}
 					{message.text}
 				</div>
-				{message.needToShowCreator && from === messageFrom.others && (
+				{message.needToShowCreator && (
 					<Avatar className='message__sender-photo' src={message.userCreator?.avatarUrl}>
 						{getUserInitials(message.userCreator as UserPreview)}
 					</Avatar>

@@ -49,14 +49,9 @@ export function* muteChatSaga(action: ReturnType<typeof ChatActions.muteChat>) {
 	try {
 		const chat: Chat = action.payload;
 
-		const { interlocutor, conference, isMuted } = chat;
-
 		const request: MuteChatRequest = {
-			chatIds: [
-				...(conference?.id ? [ChatService.getChatId(null, conference?.id!)] : []),
-				...(interlocutor?.id ? [ChatService.getChatId(interlocutor?.id!, null)] : []),
-			],
-			isMuted: !isMuted,
+			chatIds: [chat.id],
+			isMuted: !chat.isMuted,
 		};
 
 		const muteChatRequest = ChatHttpRequests.muteChat;
@@ -76,14 +71,9 @@ export function* removeChatSaga(action: ReturnType<typeof ChatActions.removeChat
 	const chat: Chat = action.payload;
 	let response: AxiosResponse;
 
-	const { interlocutor, conference } = chat;
-
 	try {
 		const request: HideChatRequest = {
-			chatIds: [
-				...(conference?.id ? [ChatService.getChatId(null, conference?.id!)] : []),
-				...(interlocutor?.id ? [ChatService.getChatId(interlocutor?.id!, null)] : []),
-			],
+			chatIds: [chat.id],
 			isHidden: true,
 		};
 
@@ -173,7 +163,7 @@ function* createConferenceSaga(action: ReturnType<typeof ChatActions.createConfe
 		const httpRequest = ChatHttpRequests.createConference;
 		const { data } = httpRequest.call(yield call(() => httpRequest.generator(action.payload)));
 
-		const chatId: number = ChatService.getChatIdentifier(null, data);
+		const chatId: number = ChatService.getChatIdentifier(undefined, data);
 		const chat: Chat = {
 			interlocutorType: InterlocutorType.CONFERENCE,
 			id: chatId,
@@ -215,7 +205,7 @@ function* createConferenceFromEventSaga(
 	action: ReturnType<typeof ChatActions.createConferenceFromEvent>,
 ): SagaIterator {
 	const payload: ConferenceCreatedIntegrationEvent = action.payload;
-	const chatId: number = ChatService.getChatIdentifier(null, payload.objectId);
+	const chatId: number = ChatService.getChatIdentifier(undefined, payload.objectId);
 	const currentUser = new MyProfileService().myProfile;
 
 	const message: Message = {

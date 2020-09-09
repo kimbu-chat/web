@@ -101,7 +101,7 @@ const messages = createReducer<MessagesState>(initialState)
 			(draft: MessagesState, { payload }: ReturnType<typeof ChatActions.changeInterlocutorLastReadMessageId>) => {
 				const { lastReadMessageId, userReaderId } = payload;
 
-				const chatId = ChatService.getChatId(userReaderId, null);
+				const chatId = ChatService.getChatId(userReaderId, undefined);
 
 				const chatIndex = getChatIndex(draft, chatId);
 

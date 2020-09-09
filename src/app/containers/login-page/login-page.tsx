@@ -6,7 +6,7 @@ import CountrySelect from '../../components/login-page/country-select/country-se
 import PhoneInput from '../../components/login-page/phone-input/phone-input';
 import { history } from '../../../main';
 
-import { country } from 'app/common/countries';
+import { country, countryList } from 'app/common/countries';
 import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
 import { useSelector } from 'react-redux';
 import { RootState } from 'app/store/root-reducer';
@@ -24,7 +24,7 @@ namespace LoginPageProps {
 const LoginPage = () => {
 	const { t } = useContext(LocalizationContext);
 
-	const [country, setCountry] = useState<null | country>(null);
+	const [country, setCountry] = useState<country>(countryList[countryList.length - 1]);
 	const [phone, setPhone] = useState<string>('');
 	const [stage, setStage] = useState<LoginPageProps.Stages>(LoginPageProps.Stages.phoneInput);
 	const [code, setCode] = useState('');

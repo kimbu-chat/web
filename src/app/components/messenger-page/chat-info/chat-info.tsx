@@ -80,7 +80,7 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 			avatarData: data,
 		});
 
-	const fileInputRef = useRef<HTMLInputElement | null>(null);
+	const fileInputRef = useRef<HTMLInputElement>(null);
 
 	const [renameConferenceOpened, setRenameConferenceOpened] = useState<boolean>(false);
 	const openRenameConference = (): void => setRenameConferenceOpened(true);

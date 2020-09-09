@@ -19,7 +19,7 @@ import { CallEndedEventHandler } from './integration-event-handlers/call-ended-e
 import { CandidateEventHandler } from './integration-event-handlers/candidate-event-handler';
 import { ApiBasePath } from 'app/store/root-api';
 
-let connection: HubConnection | null = null;
+let connection: HubConnection;
 
 export function signalRInvokeMiddleware(store: any): any {
 	return (next: any) => async (action: any) => {

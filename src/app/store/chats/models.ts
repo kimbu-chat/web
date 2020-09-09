@@ -86,9 +86,9 @@ export enum ChatType {
 export interface Chat {
 	id: number;
 	interlocutorType?: InterlocutorType;
-	conference?: Conference | null;
-	lastMessage: Message | null;
-	interlocutor?: UserPreview | null;
+	conference?: Conference;
+	lastMessage: Message;
+	interlocutor?: UserPreview;
 	ownUnreadMessagesCount?: number;
 	interlocutorLastReadMessageId?: number;
 	draftMessage?: string;
@@ -110,7 +110,7 @@ export interface GetChatsResponse extends ChatList {
 export interface ConferenceCreationReqData {
 	name: string;
 	userIds: Array<number>;
-	currentUser: UserPreview | null;
+	currentUser: UserPreview;
 	avatar: AvatarSelectedData | null;
 	conferenceId?: number;
 	avatarData?: AvatarSelectedData | null;

@@ -34,27 +34,20 @@
 		}
 	}
 
-	&__send-btn {
-		width: 32px;
-		height: 32px;
-		background-color: #697cff;
-		border-radius: 50%;
+	&__right-btns {
+		margin-right: 20px;
 		display: flex;
-		justify-content: center;
-		align-items: center;
-		margin: 0 10px;
+	}
 
-		svg {
-			width: 16px;
-			fill: white;
-		}
+	&__smiles-btn {
+		margin-right: 10px;
 	}
 }
 
 .emoji-wrapper {
 	position: absolute;
 	bottom: 56px;
-	left: 5px;
+	right: 25px;
 }
 
 svg.blue {

@@ -7,7 +7,7 @@ import { LocalizationContext } from 'app/app';
 
 namespace PhoneInput {
 	export interface Props {
-		country: country | null;
+		country?: country;
 		setCountry: Function;
 		phone: string;
 		setPhone: Function;

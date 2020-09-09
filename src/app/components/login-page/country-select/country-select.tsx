@@ -9,8 +9,8 @@ import { LocalizationContext } from 'app/app';
 
 namespace CountrySelect {
 	export interface Props {
-		country: country | null;
-		setCountry: (setNewCountry: (oldCountry: country | null) => country | null) => void;
+		country?: country;
+		setCountry: React.Dispatch<React.SetStateAction<country>>;
 		setPhone: (setNewPhone: ((oldPhone: string) => string) | string) => void;
 	}
 }
@@ -25,7 +25,7 @@ const CountrySelect = ({ country, setCountry, setPhone }: CountrySelect.Props) =
 	const { t } = useContext(LocalizationContext);
 
 	const handleCountryChange = useCallback(
-		(newCountry: country | null) => {
+		(newCountry: country) => {
 			setCountry((oldCountry) => {
 				setPhone((oldPhone) => {
 					if (typeof oldCountry === 'object') {
@@ -50,7 +50,7 @@ const CountrySelect = ({ country, setCountry, setPhone }: CountrySelect.Props) =
 		options: countryList,
 		getOptionLabel: (option) => option.title,
 		value: country,
-		onChange: (_event, newCountry) => handleCountryChange(newCountry),
+		onChange: (_event, newCountry) => handleCountryChange(newCountry!),
 		filterOptions: createFilterOptions({
 			stringify: (option) => option.title + option.number,
 		}),

@@ -1,15 +1,14 @@
 import { ParsedInterlocutorId, InterlocutorType, Chat } from './models';
 
 export class ChatService {
-	public static getChatIdentifier(userId?: number | null, conferenceId?: number | null): number {
+	public static getChatIdentifier(userId?: number, conferenceId?: number): number {
 		if (userId) {
 			return +`${userId}${InterlocutorType.USER}`;
 		}
 		return +`${conferenceId}${InterlocutorType.CONFERENCE}`;
 	}
 
-	public static getChatId(interlocutorId: number | null, conferenceId: number | null): number {
-		console.log('interlocutor', interlocutorId, 'conference', conferenceId);
+	public static getChatId(interlocutorId?: number, conferenceId?: number): number {
 		if (conferenceId) {
 			return +`${conferenceId}${InterlocutorType.CONFERENCE}`;
 		}

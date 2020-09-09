@@ -14,6 +14,8 @@ import { LocalizationContext } from 'app/app';
 import { RootState } from 'app/store/root-reducer';
 
 import AddSvg from 'app/assets/icons/ic-add-new.svg';
+import SmilesSvg from 'app/assets/icons/ic-smile.svg';
+import VoiceSvg from 'app/assets/icons/ic-microphone.svg';
 
 const CreateMessageInput = () => {
 	const { t } = useContext(LocalizationContext);
@@ -26,7 +28,7 @@ const CreateMessageInput = () => {
 	const [text, setText] = useState('');
 	const [smilesDisplayed, setSmilesDisplayed] = useState<boolean>(false);
 
-	const emojiRef = useRef<HTMLDivElement | null>(null);
+	const emojiRef = useRef<HTMLDivElement>(null);
 
 	const handleClick = () => {
 		if (!smilesDisplayed) {
@@ -90,7 +92,7 @@ const CreateMessageInput = () => {
 		<div className='messenger__send-message'>
 			{selectedChat && (
 				<React.Fragment>
-					<button onClick={handleClick} className='messenger__add'>
+					<button className='messenger__add'>
 						<AddSvg />
 					</button>
 					<div className='messenger__input-group' onSubmit={sendMessageToServer}>
@@ -105,11 +107,14 @@ const CreateMessageInput = () => {
 							className='messenger__input-message'
 							onKeyPress={handleKeyPress}
 						/>
-						<button className='messenger__send-btn' onClick={sendMessageToServer}>
-							<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
-								<path d='M2.56 10.26c.07-.55.58-1.04 1.12-1.1L11 8.38c.56-.06.56-.16 0-.22l-7.3-.78c-.55-.06-1.05-.55-1.12-1.1l-.54-4.02c-.15-1.1.52-1.57 1.5-1.04l11.38 6.1c.97.52 1 1.37 0 1.9l-11.38 6.1c-.97.52-1.65.06-1.5-1.04l.54-4.02z'></path>
-							</svg>
-						</button>
+						<div className='messenger__right-btns'>
+							<button onClick={handleClick} className='messenger__smiles-btn'>
+								<SmilesSvg />
+							</button>
+							<button onClick={sendMessageToServer} className='messenger__voice-btn'>
+								<VoiceSvg />
+							</button>
+						</div>
 					</div>
 					{smilesDisplayed && (
 						<div ref={emojiRef} className='emoji-wrapper'>

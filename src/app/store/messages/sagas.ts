@@ -13,21 +13,16 @@ import {
 
 import { ChatService } from '../chats/chat-service';
 import { MessageActions } from './actions';
-import { InterlocutorType } from '../chats/models';
 import { MessagesHttpRequests } from './http-requests';
 import { SagaIterator } from 'redux-saga';
 import moment from 'moment';
 
 export function* getMessages(action: ReturnType<typeof MessageActions.getMessages>): SagaIterator {
 	const { page, chat } = action.payload;
-	const isConference: boolean = Boolean(chat.conference);
 
 	const request: MessagesReqData = {
 		page: page,
-		chatId: ChatService.getChatId(
-			isConference ? null : chat.interlocutor?.id!,
-			isConference ? chat.conference?.id! : null,
-		),
+		chatId: ChatService.getChatId(chat.interlocutor?.id!, chat.conference?.id!),
 	};
 
 	const httpRequest = MessagesHttpRequests.getMessages;
@@ -51,7 +46,6 @@ export function* getMessages(action: ReturnType<typeof MessageActions.getMessage
 export function* createMessage(action: ReturnType<typeof MessageActions.createMessage>): SagaIterator {
 	let { message, chat, isFromEvent, selectedChatId } = { ...action.payload };
 
-	const { interlocutorId, interlocutorType } = ChatService.parseChatId(chat.id);
 	if (isFromEvent) {
 		yield call(notifyInterlocutorThatMessageWasRead, action.payload);
 		//notifications play
@@ -86,8 +80,7 @@ export function* createMessage(action: ReturnType<typeof MessageActions.createMe
 		try {
 			const messageCreationReq: MessageCreationReqData = {
 				text: message.text,
-				conferenceId: interlocutorType === InterlocutorType.CONFERENCE ? interlocutorId : null,
-				userInterlocutorId: interlocutorType === InterlocutorType.USER ? interlocutorId : null,
+				chatId: chat.id,
 			};
 
 			const httpRequest = MessagesHttpRequests.createMessage;
@@ -123,14 +116,10 @@ export function* notifyInterlocutorThatMessageWasRead(createMessageRequest: Crea
 	) {
 		return;
 	}
-	const isDestinationTypeUser: boolean = chat.interlocutorType === InterlocutorType.USER;
-
 	const isChatCurrentInterlocutor: boolean = chat.id == selectedChatId;
 	if (isChatCurrentInterlocutor) {
 		const httpRequestPayload: MarkMessagesAsReadRequest = {
-			chatId: isDestinationTypeUser
-				? ChatService.getChatId(message.userCreator?.id || null, null)
-				: ChatService.getChatId(null, chat.conference?.id || null),
+			chatId: selectedChatId,
 		};
 		const httpRequest = MessagesHttpRequests.markMessagesAsRead;
 		httpRequest.call(yield call(() => httpRequest.generator(httpRequestPayload)));
@@ -143,11 +132,7 @@ export function* resetUnreadMessagesCountSaga(
 	action: ReturnType<typeof MessageActions.markMessagesAsRead>,
 ): SagaIterator {
 	const request: MarkMessagesAsReadRequest = {
-		chatId: action.payload.conference?.id
-			? ChatService.getChatId(null, action.payload.conference?.id || null)
-			: action.payload.interlocutor?.id
-			? ChatService.getChatId(action.payload.interlocutor?.id || null, null)
-			: null,
+		chatId: action.payload.id,
 	};
 
 	const httpRequest = MessagesHttpRequests.markMessagesAsRead;

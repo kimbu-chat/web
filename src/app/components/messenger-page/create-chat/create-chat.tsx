@@ -17,7 +17,7 @@ import { Chat } from 'app/store/chats/models';
 namespace CreateChat {
 	export interface Props {
 		hide: () => void;
-		setImageUrl: (url: string | null | ArrayBuffer) => void;
+		setImageUrl: (url: string | ArrayBuffer | null) => void;
 		displayChangePhoto: (data: Messenger.photoSelect) => void;
 		isDisplayed: boolean;
 	}
@@ -44,7 +44,7 @@ const CreateChat = ({ hide, setImageUrl, displayChangePhoto, isDisplayed }: Crea
 	const [error, setError] = useState<CreateChat.validationError>({ isPresent: false });
 	const [avatarData, setAvatarData] = useState<AvatarSelectedData | null>(null);
 
-	const fileInputRef = useRef<HTMLInputElement | null>(null);
+	const fileInputRef = useRef<HTMLInputElement>(null);
 
 	const history = useHistory();
 

@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { HTTPStatusCode } from 'app/common/http-status-code';
 import { PhoneConfirmationApiResponse, SecurityTokens, LoginResponse } from './types';
-import { call, put, takeLatest, fork } from 'redux-saga/effects';
+import { call, put, takeLatest, fork, spawn } from 'redux-saga/effects';
 import jwtDecode from 'jwt-decode';
 import { AuthService } from 'app/services/auth-service';
 import { MyProfileService } from 'app/services/my-profile-service';
@@ -14,6 +14,8 @@ import { MyProfileActions } from '../my-profile/actions';
 import { UserPreview } from '../my-profile/models';
 import { UserStatus } from '../friends/models';
 import { initializeSaga } from '../initiation/sagas';
+import { messaging } from '../middlewares/firebase/firebase';
+// import  FirebaseMessagingTypes  from 'firebase/messaging';
 
 function* requestRefreshToken(): SagaIterator {
 	const authService = new AuthService();
@@ -30,6 +32,33 @@ function* requestRefreshToken(): SagaIterator {
 	} catch (e) {
 		yield put(AuthActions.refreshTokenFailure());
 	}
+}
+
+async function getPushNotificationTokens(): Promise<{ tokenId: string; deviceId: string } | undefined> {
+	async function retrieveApplicationToken(): Promise<{ tokenId: string; deviceId: string }> {
+		const tokenId: string = await messaging().getToken();
+		const deviceId: string = '';
+		return Promise.resolve({ tokenId, deviceId });
+	}
+
+	// const authStatus: FirebaseMessagingTypes.AuthorizationStatus = await messaging().hasPermission();
+	// if (authStatus === messaging.AuthorizationStatus.AUTHORIZED) {
+	// 	const tokens = await retrieveApplicationToken();
+	// 	return tokens;
+	// }
+	// const newStatus =
+	await messaging().requestPermission();
+	//if (newStatus === messaging.AuthorizationStatus.AUTHORIZED) {
+	const tokens = await retrieveApplicationToken();
+	return tokens;
+	//}
+	alert('Please provide FCM permission');
+}
+
+function* initializePushNotifications(): SagaIterator {
+	const tokens = yield call(getPushNotificationTokens);
+	const httpRequest = AuthHttpRequests.subscribeToPushNotifications;
+	httpRequest.call(yield call(() => httpRequest.generator(tokens)));
 }
 
 function* sendSmsPhoneConfirmationCodeSaga(action: ReturnType<typeof AuthActions.sendSmsCode>): SagaIterator {
@@ -92,6 +121,7 @@ function* authenticate(action: ReturnType<typeof AuthActions.confirmPhone>): Sag
 	yield put(InitActions.init());
 	yield fork(initializeSaga);
 	yield call(getMyProfileSaga);
+	yield spawn(initializePushNotifications);
 	action?.meta.deferred?.resolve();
 }
 

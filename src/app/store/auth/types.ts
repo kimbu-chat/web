@@ -38,3 +38,8 @@ export interface PhoneConfirmationApiResponse {
 	isCodeCorrect: boolean;
 	userExists: boolean;
 }
+
+export interface SubscribeToPushNotificationsRequest {
+	tokenId: string;
+	deviceId: string;
+}

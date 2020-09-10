@@ -15,12 +15,12 @@
 		"esModuleInterop": true,
 		"resolveJsonModule": true,
 		"outDir": "build",
-		"lib": ["es6", "es7", "dom"],
 		"baseUrl": "src",
 		"paths": {
 			"app/*": ["./app/*"]
 		},
-		"allowSyntheticDefaultImports": true
+		"allowSyntheticDefaultImports": true,
+		"lib": ["webworker", "es6", "es7", "dom", "scripthost"]
 	},
 	"exclude": ["build", "node_modules"]
 }

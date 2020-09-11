@@ -41,18 +41,32 @@ async function getPushNotificationTokens(): Promise<{ tokenId: string; deviceId:
 		return Promise.resolve({ tokenId, deviceId });
 	}
 
-	// const authStatus: FirebaseMessagingTypes.AuthorizationStatus = await messaging().hasPermission();
-	// if (authStatus === messaging.AuthorizationStatus.AUTHORIZED) {
-	// 	const tokens = await retrieveApplicationToken();
-	// 	return tokens;
-	// }
-	// const newStatus =
-	await messaging().requestPermission();
-	//if (newStatus === messaging.AuthorizationStatus.AUTHORIZED) {
-	const tokens = await retrieveApplicationToken();
-	return tokens;
-	//}
-	alert('Please provide FCM permission');
+	// Let's check if the browser supports notifications
+	if (!('Notification' in window)) {
+		alert('This browser does not support desktop notification');
+	}
+
+	// Let's check whether notification permissions have already been granted
+	else if (Notification.permission === 'granted') {
+		// If it's okay let's create a notification
+		const tokens = await retrieveApplicationToken();
+		return tokens;
+	}
+
+	// Otherwise, we need to ask the user for permission
+	else if (Notification.permission !== 'denied') {
+		const permission = await Notification.requestPermission();
+		// If the user accepts, let's create a notification
+		if (permission === 'granted') {
+			const tokens = await retrieveApplicationToken();
+			return tokens;
+		}
+	}
+
+	return undefined;
+
+	// At last, if the user has denied notifications, and you
+	// want to be respectful there is no need to bother them any more.
 }
 
 function* initializePushNotifications(): SagaIterator {

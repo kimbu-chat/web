@@ -2,6 +2,7 @@ var webpack = require('webpack');
 var path = require('path');
 var package = require('./package.json');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const CopyPlugin = require('copy-webpack-plugin');
 
 // variables
 var isProduction =
@@ -168,6 +169,12 @@ module.exports = {
 	},
 	plugins: [
 		new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /ru|en-gb/),
+		new CopyPlugin({
+			patterns: [{ from: 'assets/', to: outPath }],
+			options: {
+				concurrency: 100,
+			},
+		}),
 		new webpack.EnvironmentPlugin({
 			NODE_ENV: 'development', // use 'development' unless process.env.NODE_ENV is defined
 			DEBUG: false,

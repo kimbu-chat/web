@@ -233,6 +233,7 @@ export function* endCallSaga(action: ReturnType<typeof CallActions.endCallAction
 export function* callEndedSaga(): SagaIterator {
 	peerConnection?.close();
 	resetPeerConnection();
+	console.log('CALL ENDED');
 
 	if (localMediaStream) {
 		localMediaStream.getTracks().forEach((track) => track.stop());
@@ -607,6 +608,7 @@ export const CallsSagas = [
 	takeLatest(CallActions.interlocutorAcceptedCallAction, callAcceptedSaga),
 	takeLatest(CallActions.candidateAction, candidateSaga),
 	takeLatest(CallActions.interlocutorCanceledCallAction, callEndedSaga),
+	takeLatest(CallActions.callEndedAction, callEndedSaga),
 	takeLatest(CallActions.changeScreenShareStatusAction, changeScreenSharingStatus),
 	takeLatest(CallActions.switchDeviceAction, switchDeviceSaga),
 	takeLatest(CallActions.incomingCallAction, negociationSaga),

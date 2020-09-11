@@ -83,7 +83,7 @@ export class MessageUtils {
 		if (message.systemMessageType === SystemMessageType.MissedCall) {
 			try {
 				const callMessage = JSON.parse(message.text);
-				if (callMessage.status === CallStatus.Successfull && callMessage.seconds) {
+				if (callMessage.status === CallStatus.Successfull) {
 					return isCurrentUserMessageCreator
 						? t('systemMessage.outgoing_call_success_ended', {
 								duration: moment.utc(callMessage.seconds * 1000).format('HH:mm:ss'),

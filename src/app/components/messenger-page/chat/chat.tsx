@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useContext, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import './chat.scss';
-import moment from 'moment';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
-import { Message, MessageList, SystemMessageType } from 'app/store/messages/models';
+import { Message, MessageList } from 'app/store/messages/models';
 import { MessageActions } from 'app/store/messages/actions';
 import { RootState } from 'app/store/root-reducer';
 import { LocalizationContext } from 'app/app';
@@ -24,7 +23,7 @@ const Chat = () => {
 	const getMessages = useActionWithDispatch(MessageActions.getMessages);
 	const markMessagesAsRead = useActionWithDispatch(MessageActions.markMessagesAsRead);
 
-	const { t, i18n } = useContext(LocalizationContext);
+	const { t } = useContext(LocalizationContext);
 
 	const selectedChat = useSelector(getSelectedChatSelector);
 	const messages = useSelector<RootState, Message[]>(
@@ -36,10 +35,6 @@ const Chat = () => {
 			state.messages.messages.find((x: MessageList) => x.chatId == selectedChat?.id)?.hasMoreMessages as boolean,
 	);
 	const isSelectState = useSelector(setSelectedMessagesLength) > 0;
-
-	const dateDifference = useCallback((startDate: Date, endDate: Date): boolean => {
-		return Boolean(Math.round(Math.abs((startDate.getTime() - endDate.getTime()) / (24 * 60 * 60 * 1000))));
-	}, []);
 
 	useEffect(() => {
 		if (selectedChat) {
@@ -87,45 +82,8 @@ const Chat = () => {
 	}
 
 	const messagesCopy: Message[] = JSON.parse(JSON.stringify(messages));
-	const itemsWithDateSeparators = messagesCopy.map((message, index) => {
-		if (index < messages.length - 1)
-			if (
-				index === messages.length - 1 ||
-				dateDifference(
-					new Date(message.creationDateTime || ''),
-					new Date(messages[index + 1].creationDateTime || ''),
-				)
-			) {
-				message.dateSeparator = moment
-					.utc(message.creationDateTime)
-					.local()
-					.locale(i18n?.language || '')
-					.format('dddd, MMMM D, YYYY')
-					.toString();
 
-				message.needToShowDateSeparator = true;
-				return message;
-			}
-
-		message.needToShowDateSeparator = false;
-
-		return message;
-	});
-
-	const itemsWithUserInfo = itemsWithDateSeparators
-		.map((message, index) => {
-			if (
-				index < messages.length - 1 &&
-				(messages[index].userCreator?.id !== messages[index + 1].userCreator?.id ||
-					messages[index + 1].systemMessageType !== SystemMessageType.None ||
-					message.needToShowDateSeparator)
-			) {
-				message.needToShowCreator = true;
-			}
-
-			return message;
-		})
-		.reverse();
+	const itemsWithUserInfo = messagesCopy.reverse();
 
 	return (
 		<div className='messenger__messages-list'>

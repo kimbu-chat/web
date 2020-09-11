@@ -17,6 +17,11 @@ export class MessageUtils {
 		return systemMessage;
 	}
 
+	static dateDifference = (startDate: Date, endDate: Date): boolean => {
+		console.log(Math.round(Math.abs((startDate.getTime() - endDate.getTime()) / (24 * 60 * 60 * 1000))));
+		return Boolean(Math.round(Math.abs((startDate.getTime() - endDate.getTime()) / (24 * 60 * 60 * 1000))));
+	};
+
 	static constructSystemMessageText(
 		message: Message,
 		isCurrentUserMessageCreator: boolean = false,
@@ -127,5 +132,41 @@ export class MessageUtils {
 		}
 
 		return moment.utc(lastOnlineTime).local().fromNow();
+	}
+
+	static signAndSeparate(arr: Message[]): Message[] {
+		const separatedMessages = arr.map((message, index) => {
+			if (index <= arr.length - 1)
+				if (
+					index === arr.length - 1 ||
+					MessageUtils.dateDifference(
+						new Date(arr[index + 1].creationDateTime || ''),
+						new Date(message.creationDateTime || ''),
+					)
+				) {
+					console.log(message.creationDateTime);
+					message.needToShowDateSeparator = true;
+					return message;
+				}
+
+			message.needToShowDateSeparator = false;
+
+			return message;
+		});
+
+		const signedMessages = separatedMessages.map((message, index) => {
+			if (
+				index < arr.length - 1 &&
+				(arr[index].userCreator?.id !== arr[index + 1].userCreator?.id ||
+					arr[index + 1].systemMessageType !== SystemMessageType.None ||
+					message.needToShowDateSeparator)
+			) {
+				message.needToShowCreator = true;
+			}
+
+			return message;
+		});
+
+		return signedMessages;
 	}
 }

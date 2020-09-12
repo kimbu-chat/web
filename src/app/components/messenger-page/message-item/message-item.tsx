@@ -19,6 +19,7 @@ import moment from 'moment';
 import MessageQeuedSvg from 'app/assets/icons/ic-time.svg';
 import MessageSentSvg from 'app/assets/icons/ic-tick.svg';
 import MessageReadSvg from 'app/assets/icons/ic-double_tick.svg';
+import { useEffect } from 'react';
 
 namespace Message {
 	export interface Props {
@@ -31,6 +32,10 @@ const MessageItem = ({ message }: Message.Props) => {
 	const selectedChatId = useSelector(getSelectedChatSelector)?.id;
 	const isSelectState = useSelector(setSelectedMessagesLength) > 0;
 	const myId = useSelector(getMyIdSelector) as number;
+
+	useEffect(() => {
+		console.log('MessageItem was rendered');
+	}, []);
 
 	const messageIsFrom = useCallback((id: Number | undefined) => {
 		if (id === myId) {

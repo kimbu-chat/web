@@ -1,5 +1,10 @@
 ﻿import { AxiosResponse } from 'axios';
-import { LoginResponse, PhoneConfirmationData, PhoneConfirmationApiResponse } from './types';
+import {
+	LoginResponse,
+	PhoneConfirmationData,
+	PhoneConfirmationApiResponse,
+	SubscribeToPushNotificationsRequest,
+} from './types';
 import { authRequestFactory, HttpRequestMethod } from '../common/http-factory';
 import { ApiBasePath } from '../root-api';
 
@@ -18,6 +23,10 @@ export const AuthHttpRequests = {
 	),
 	sendSmsConfirmationCode: authRequestFactory<AxiosResponse<string>, { phoneNumber: string }>(
 		`${ApiBasePath.MainApi}/api/users/send-sms-confirmation-code`,
+		HttpRequestMethod.Post,
+	),
+	subscribeToPushNotifications: authRequestFactory<AxiosResponse, SubscribeToPushNotificationsRequest>(
+		`${ApiBasePath.NotificationsApi}/api/notifications/subscribe`,
 		HttpRequestMethod.Post,
 	),
 };

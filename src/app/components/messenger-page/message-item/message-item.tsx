@@ -19,6 +19,7 @@ import moment from 'moment';
 import MessageQeuedSvg from 'app/assets/icons/ic-time.svg';
 import MessageSentSvg from 'app/assets/icons/ic-tick.svg';
 import MessageReadSvg from 'app/assets/icons/ic-double_tick.svg';
+import { useEffect } from 'react';
 
 namespace Message {
 	export interface Props {
@@ -30,8 +31,11 @@ const MessageItem = ({ message }: Message.Props) => {
 	const currentUserId = useSelector(getMyIdSelector) as number;
 	const selectedChatId = useSelector(getSelectedChatSelector)?.id;
 	const isSelectState = useSelector(setSelectedMessagesLength) > 0;
-
 	const myId = useSelector(getMyIdSelector) as number;
+
+	useEffect(() => {
+		console.log('MessageItem was rendered');
+	}, []);
 
 	const messageIsFrom = useCallback((id: Number | undefined) => {
 		if (id === myId) {
@@ -43,7 +47,7 @@ const MessageItem = ({ message }: Message.Props) => {
 
 	const from = messageIsFrom(message.userCreator?.id);
 
-	const { t } = useContext(LocalizationContext);
+	const { t, i18n } = useContext(LocalizationContext);
 
 	const deleteMessage = useActionWithDispatch(MessageActions.deleteMessageSuccess);
 	const selectMessage = useActionWithDispatch(MessageActions.selectMessage);
@@ -77,9 +81,16 @@ const MessageItem = ({ message }: Message.Props) => {
 	if (message?.systemMessageType !== SystemMessageType.None) {
 		return (
 			<React.Fragment>
-				{message.needToShowDateSeparator && from === messageFrom.others && (
+				{message.needToShowDateSeparator && (
 					<div className='message__separator message__separator--capitalized'>
-						<span>{message.dateSeparator}</span>
+						<span>
+							{moment
+								.utc(message.creationDateTime)
+								.local()
+								.locale(i18n?.language || '')
+								.format('dddd, MMMM D, YYYY')
+								.toString()}
+						</span>
 					</div>
 				)}
 				<div className='message__separator'>
@@ -97,9 +108,16 @@ const MessageItem = ({ message }: Message.Props) => {
 
 	return (
 		<React.Fragment>
-			{message.dateSeparator && (
+			{message.needToShowDateSeparator && (
 				<div className='message__separator message__separator--capitalized'>
-					<span>{message.dateSeparator}</span>
+					<span>
+						{moment
+							.utc(message.creationDateTime)
+							.local()
+							.locale(i18n?.language || '')
+							.format('dddd, MMMM D, YYYY')
+							.toString()}
+					</span>
 				</div>
 			)}
 			<div

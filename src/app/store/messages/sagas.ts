@@ -17,6 +17,12 @@ import { MessagesHttpRequests } from './http-requests';
 import { SagaIterator } from 'redux-saga';
 import moment from 'moment';
 
+import messageCameSelected from 'app/assets/sounds/notifications/messsage-came-selected.ogg';
+import messageCameUnselected from 'app/assets/sounds/notifications/messsage-came-unselected.ogg';
+
+const audioSelected = new Audio(messageCameSelected);
+const audioUnselected = new Audio(messageCameUnselected);
+
 export function* getMessages(action: ReturnType<typeof MessageActions.getMessages>): SagaIterator {
 	const { page, chat } = action.payload;
 
@@ -58,22 +64,10 @@ export function* createMessage(action: ReturnType<typeof MessageActions.createMe
 			!document.hidden &&
 			!chatOfMessage.isMuted
 		) {
-			const messageCameSelected = yield call(
-				async () => await import('app/assets/sounds/notifications/messsage-came-selected.ogg'),
-			);
-
-			const audioSelected = new Audio(messageCameSelected);
-
 			audioSelected.play();
 		}
 
 		if ((selectedChatId !== message.chatId || document.hidden) && !chatOfMessage.isMuted) {
-			const messageCameUnselected = yield call(
-				async () => await import('app/assets/sounds/notifications/messsage-came-unselected.ogg'),
-			);
-
-			const audioUnselected = new Audio(messageCameUnselected);
-
 			audioUnselected.play();
 		}
 	} else {

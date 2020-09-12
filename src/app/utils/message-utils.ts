@@ -17,6 +17,10 @@ export class MessageUtils {
 		return systemMessage;
 	}
 
+	static dateDifference = (startDate: Date, endDate: Date): boolean => {
+		return !(startDate.toDateString() === endDate.toDateString());
+	};
+
 	static constructSystemMessageText(
 		message: Message,
 		isCurrentUserMessageCreator: boolean = false,
@@ -83,7 +87,7 @@ export class MessageUtils {
 		if (message.systemMessageType === SystemMessageType.MissedCall) {
 			try {
 				const callMessage = JSON.parse(message.text);
-				if (callMessage.status === CallStatus.Successfull && callMessage.seconds) {
+				if (callMessage.status === CallStatus.Successfull) {
 					return isCurrentUserMessageCreator
 						? t('systemMessage.outgoing_call_success_ended', {
 								duration: moment.utc(callMessage.seconds * 1000).format('HH:mm:ss'),
@@ -127,5 +131,34 @@ export class MessageUtils {
 		}
 
 		return moment.utc(lastOnlineTime).local().fromNow();
+	}
+
+	static signAndSeparate(arr: Message[]): Message[] {
+		const separatedAndSignedMessages = arr.map((message, index) => {
+			if (index <= arr.length - 1) {
+				if (
+					index === arr.length - 1 ||
+					MessageUtils.dateDifference(
+						new Date(arr[index + 1].creationDateTime || ''),
+						new Date(message.creationDateTime || ''),
+					)
+				) {
+					message = { ...message, needToShowDateSeparator: true, needToShowCreator: true };
+					return message;
+				}
+			}
+
+			if (
+				index < arr.length - 1 &&
+				(arr[index].userCreator?.id !== arr[index + 1].userCreator?.id ||
+					arr[index + 1].systemMessageType !== SystemMessageType.None)
+			) {
+				message = { ...message, needToShowCreator: true };
+			}
+
+			return message;
+		});
+
+		return separatedAndSignedMessages;
 	}
 }

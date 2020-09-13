@@ -1,6 +1,7 @@
 .login-page {
 	min-height: 100vh;
 	position: relative;
+	background-color: rgb(63, 138, 224);
 
 	&__container {
 		display: inline-block;
@@ -8,10 +9,95 @@
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
+		padding: 100px 150px 50px 150px;
+		background-color: white;
+		border-radius: 4px;
+		font-size: 13px;
+		font-weight: 500;
+		line-height: 16px;
 
 		& > * {
 			margin: 0 auto;
 			text-align: center;
+		}
+	}
+
+	&__confirm-phone {
+		margin-top: 50px;
+		margin-bottom: 20px;
+	}
+
+	&__confirm-code {
+		margin-top: 50px;
+		margin-bottom: 15px;
+	}
+
+	&__code-sent {
+		color: rgb(151, 151, 151);
+		margin-bottom: 50px;
+	}
+
+	&__timer {
+		color: rgb(151, 151, 151);
+	}
+
+	&__button {
+		background-color: rgb(63, 138, 224);
+		color: white;
+		border-radius: 4px;
+		width: 100%;
+		padding: 16px 1px;
+		margin-top: 20px;
+		width: 400px;
+
+		&--code-confirmation {
+			margin-bottom: 160px;
+		}
+	}
+
+	&__credentials {
+		border: 1px solid rgb(215, 216, 217);
+		border-radius: 8px;
+	}
+
+	&__conditions {
+		font-weight: 300;
+		line-height: 1;
+		margin-top: 194px;
+		a {
+			display: inline;
+			color: rgb(63, 138, 224);
+			font-weight: 400;
+
+			&:hover {
+				text-decoration: underline;
+				cursor: pointer;
+			}
+		}
+	}
+
+	&__inputs-container {
+		display: flex;
+		margin-bottom: 20px;
+	}
+
+	&__code-input {
+		width: 86px;
+		height: 60px;
+		border-radius: 8px;
+		margin-right: 16px;
+		border: 1px solid rgb(215, 216, 217);
+		text-align: center;
+		font-weight: 400;
+		font-size: 17px;
+		line-height: 16px;
+
+		&:focus {
+			border: 1px solid rgb(63, 138, 224);
+		}
+
+		&:last-child {
+			margin-right: 0;
 		}
 	}
 }

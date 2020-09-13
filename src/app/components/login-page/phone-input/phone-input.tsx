@@ -1,41 +1,57 @@
-import React, { useContext, useCallback, useEffect } from 'react';
-import { parsePhoneNumberFromString, AsYouType } from 'libphonenumber-js';
+import React, { useCallback, useContext } from 'react';
+import { AsYouType } from 'libphonenumber-js';
 import './phone-input.scss';
 
-import { country, countryList } from '../../../common/countries';
+import { country } from '../../../common/countries';
 import { LocalizationContext } from 'app/app';
 
 namespace PhoneInput {
 	export interface Props {
-		country?: country;
-		setCountry: Function;
+		country: country;
 		phone: string;
 		setPhone: Function;
 	}
 }
 
-const PhoneInput = ({ phone, setPhone, setCountry }: PhoneInput.Props) => {
+const PhoneInput = ({ country, phone, setPhone }: PhoneInput.Props) => {
 	const { t } = useContext(LocalizationContext);
 
-	const handlePhoneChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-		setPhone(e.target.value);
-		const phoneNumber = parsePhoneNumberFromString(e.target.value);
-		setCountry(() => {
-			const result = countryList.find((elem) => elem.code === (phoneNumber?.country || ''));
-			return result;
+	const trimCountryCode = useCallback((countryCode: string, phone: string) => {
+		let regex = '';
+		const countryCodeArr = String(countryCode).split('');
+
+		countryCodeArr.forEach((char) => {
+			regex += `[${char}]\\s?`;
 		});
+
+		const replaceRegex = new RegExp(regex);
+
+		console.log(replaceRegex);
+		console.log(regex);
+
+		return phone.replace(replaceRegex, '');
 	}, []);
 
-	useEffect(() => {
-		setPhone(new AsYouType().input(phone));
-	}, [setPhone, phone]);
+	const displayCountries = useCallback(() => {
+		(document.querySelector('.country-select__input') as HTMLInputElement).focus();
+		var clickEvent = document.createEvent('MouseEvents');
+		clickEvent.initEvent('mousedown', true, true);
+		(document.querySelector('.country-select__input') as HTMLInputElement).dispatchEvent(clickEvent);
+	}, []);
 
 	return (
 		<div className='phone-input'>
 			<input
+				onClick={displayCountries}
+				type='text'
+				className='phone-input__country-code'
+				readOnly
+				value={country.number}
+			/>
+			<input
 				placeholder={t('loginPage.phone')}
-				value={phone}
-				onChange={handlePhoneChange}
+				value={trimCountryCode(country.number, new AsYouType().input(phone))}
+				onChange={(e) => setPhone(new AsYouType().input(country.number + e.target.value))}
 				className='phone-input__input'
 			/>
 		</div>

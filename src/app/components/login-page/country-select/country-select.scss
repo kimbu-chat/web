@@ -1,9 +1,13 @@
 .country-select {
-	width: 360px;
 	position: relative;
 
 	&__input {
-		width: 100%;
+		width: 400px;
+		height: 52px;
+		border: none;
+		text-indent: 20px;
+		border-bottom: 1px solid rgb(215, 216, 217);
+		background: transparent;
 	}
 
 	&__country {

@@ -1,10 +1,12 @@
 import React, { useContext, useState, useCallback, useRef } from 'react';
-import { AsYouType, parsePhoneNumberFromString } from 'libphonenumber-js';
+import { AsYouType } from 'libphonenumber-js';
 
 import './login-page.scss';
 import CountrySelect from '../../components/login-page/country-select/country-select';
 import PhoneInput from '../../components/login-page/phone-input/phone-input';
 import { history } from '../../../main';
+
+import useInterval from 'use-interval';
 
 import { country, countryList } from 'app/common/countries';
 import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
@@ -12,6 +14,9 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'app/store/root-reducer';
 import { AuthActions } from 'app/store/auth/actions';
 import { LocalizationContext } from 'app/app';
+import moment from 'moment';
+
+// import ResendIcon from 'app/assets/icons/ic-search.svg';
 
 namespace LoginPageProps {
 	export enum Stages {
@@ -21,8 +26,12 @@ namespace LoginPageProps {
 	}
 }
 
+const NUMBER_OF_DIGITS = [0, 1, 2, 3];
+
 const LoginPage = () => {
 	const { t } = useContext(LocalizationContext);
+
+	const checkIfCharacterIsNumeric = (character: string): boolean => /^[0-9]+$/.test(character);
 
 	const phoneNumber = useSelector((state: RootState) => state.auth.phoneNumber);
 	const codeFromServer = useSelector<RootState, string>((rootState) => rootState.auth.confirmationCode);
@@ -33,88 +42,122 @@ const LoginPage = () => {
 	const sendSmsCode = useActionWithDeferred(AuthActions.sendSmsCode);
 	const checkConfirmationCode = useActionWithDeferred(AuthActions.confirmPhone);
 
-	const boxesContainerRef = useRef<HTMLDivElement>(null);
-
 	const [country, setCountry] = useState<country>(countryList[countryList.length - 1]);
 	const [phone, setPhone] = useState<string>('');
 	const [stage, setStage] = useState<LoginPageProps.Stages>(LoginPageProps.Stages.phoneInput);
-	const [code, setCode] = useState<number[]>([]);
-	const [error, setError] = useState<string>('');
+
+	const [code, setCode] = useState<string[]>(['', '', '', '']);
+	const [remainingSeconds, setRemainingSeconds] = useState<number>(60);
+
+	const [isIntervalRunning, setIsIntervalRunning] = useState(true);
+
+	const boxElements: React.RefObject<HTMLInputElement>[] = [
+		useRef<HTMLInputElement>(null),
+		useRef<HTMLInputElement>(null),
+		useRef<HTMLInputElement>(null),
+		useRef<HTMLInputElement>(null),
+	];
+
+	useInterval(
+		() => {
+			if (remainingSeconds === 0) {
+				setIsIntervalRunning(false);
+			}
+			setRemainingSeconds((x) => x - 1);
+		},
+		isIntervalRunning ? 1000 : null,
+		true,
+	);
 
 	const sendSms = useCallback(async () => {
-		const phoneNumber = parsePhoneNumberFromString(phone);
+		await sendSmsCode({ phoneNumber });
+		setStage(2);
+	}, [setStage, phone]);
 
-		if (phoneNumber?.isValid()) {
-			setError('');
+	const checkCode = useCallback(
+		async (code: string[]) => {
+			if (code.every((element) => element.length === 1)) {
+				console.log('NOT-REJECTED');
+				checkConfirmationCode({ code: code!.join(''), phoneNumber })
+					.then(() => {
+						history.push('/chats');
+					})
+					.catch(() => {
+						console.log('NOT-REJECTED1');
+						setCode(['', '', '', '']);
+					});
+			}
+		},
+		[phoneNumber],
+	);
 
-			await sendSmsCode<string>({ phoneNumber: phoneNumber?.number.toString() });
-
-			setStage(2);
-		} else {
-			setError('Phone is not valid');
+	const onKeyPress = (key: number): void => {
+		if (key === 0 && code[key] === '') {
+			return;
 		}
-	}, [setError, setStage, phone]);
+		if (code[key] === '') {
+			boxElements[key - 1].current?.focus();
+		} else {
+			const codeCopy = code.slice();
+			codeCopy[key] = '';
+			setCode(codeCopy);
+		}
+	};
 
-	const checkCode = useCallback(async () => {
-		await checkConfirmationCode({ code: code!.join(''), phoneNumber });
-		history.push('/chats');
-	}, [code, phone]);
+	const onChangeText = (key: number, text: string): void => {
+		if (!checkIfCharacterIsNumeric(text) && key !== 0) {
+			return;
+		}
 
-	const handleKeyPress = useCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
-		console.dir(event.target);
+		const codeClone = code.slice();
 
-		//@ts-ignore
-		const index = [...boxesContainerRef.current.children]!.indexOf(event.target);
+		if (text.length === 1) {
+			codeClone[key] = text;
+		} else {
+			codeClone[key] = text.replace(codeClone[key], '');
+		}
 
-		console.log(index);
+		setCode(codeClone);
 
-		if (event.key === 'Backspace') {
-			//@ts-ignore
-			if (event.target.value === '') {
-				//@ts-ignore
-				if (event.target.previousSibling) {
-					//@ts-ignore
-					event.target.previousSibling.focus();
+		if (key === NUMBER_OF_DIGITS.length - 1) {
+			boxElements[key].current?.blur();
+
+			if (codeClone.every((element) => element.length === 1)) {
+				setIsIntervalRunning(false);
+				checkCode(codeClone);
+			}
+		}
+
+		if (codeClone[key] && key < 3) {
+			boxElements[key + 1].current?.focus();
+		}
+
+		if (text === '' && key !== 0) {
+			boxElements[key - 1].current?.focus();
+		}
+	};
+
+	const input = (key: number): JSX.Element => {
+		return (
+			<input
+				onChange={(event: React.ChangeEvent<HTMLInputElement>) => onChangeText(key, event.target.value)}
+				onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) =>
+					event.key === 'Backspace' && onKeyPress(key)
 				}
-			} else {
-				//@ts-ignore
-				event.target.value = '';
-			}
-		}
+				ref={boxElements[key]}
+				value={code[key]}
+				key={key}
+				type='text'
+				className='login-page__code-input'
+			/>
+		);
+	};
 
-		if (
-			event.key === '1' ||
-			event.key === '2' ||
-			event.key === '3' ||
-			event.key === '4' ||
-			event.key === '5' ||
-			event.key === '6' ||
-			event.key === '7' ||
-			event.key === '8' ||
-			event.key === '9' ||
-			event.key === '0'
-		) {
-			setCode((oldCode) => {
-				const copyCode: number[] = [...oldCode];
-				copyCode[index] = Number(event.key);
-				return copyCode;
-			});
-
-			//@ts-ignore
-			event.target.value = event.key;
-			event.preventDefault();
-			//@ts-ignore
-			if (event.target.nextSibling) {
-				//@ts-ignore
-				event.target.nextSibling.focus();
-			} else {
-				//@ts-ignore
-				event.target.blur();
-			}
-		} else {
-			event.preventDefault();
-		}
-	}, []);
+	const resendPhoneConfirmationCode = (): void => {
+		sendSmsCode({ phoneNumber });
+		setRemainingSeconds(60);
+		setIsIntervalRunning(true);
+	};
 
 	return (
 		<div className='login-page'>
@@ -136,7 +179,6 @@ const LoginPage = () => {
 					<p className='login-page__conditions'>
 						{t('loginPage.agree_to')} <a href='#'>{t('loginPage.ravudi_terms')}</a>
 					</p>
-					{error && <p>{error}</p>}
 					{codeFromServer && <p>Code: {codeFromServer}</p>}
 				</div>
 			)}
@@ -146,16 +188,28 @@ const LoginPage = () => {
 					<p className='login-page__code-sent'>{`${t('loginPage.code_sent_to')} ${new AsYouType().input(
 						phoneNumber,
 					)}`}</p>
-					<div ref={boxesContainerRef} className='login-page__inputs-container'>
-						<input onKeyDown={handleKeyPress} type='text' className='login-page__code-input' />
-						<input onKeyDown={handleKeyPress} type='text' className='login-page__code-input' />
-						<input onKeyDown={handleKeyPress} type='text' className='login-page__code-input' />
-						<input onKeyDown={handleKeyPress} type='text' className='login-page__code-input' />
-					</div>
-					<p className='login-page__timer'>0:00</p>
-					<button onClick={checkCode} className='login-page__button login-page__button--code-confirmation'>
-						{t('loginPage.next')}
-					</button>
+					<div className='login-page__inputs-container'>{NUMBER_OF_DIGITS.map(input)}</div>
+					<p className='login-page__timer'>{moment.utc(remainingSeconds * 1000).format('mm:ss')}</p>
+					{(remainingSeconds > 0 || code.every((element) => element.length === 1)) && (
+						<button
+							disabled={!code.every((element) => element.length === 1)}
+							onClick={() => checkCode(code)}
+							className='login-page__button login-page__button--code-confirmation'
+						>
+							{t('loginPage.next')}
+						</button>
+					)}
+
+					{remainingSeconds === 0 && (
+						<button
+							disabled={remainingSeconds > 0}
+							onClick={() => resendPhoneConfirmationCode()}
+							className='login-page__button login-page__button--resend-code'
+						>
+							{t('loginPage.resend')}
+						</button>
+					)}
+
 					{isConfirmationCodeWrong && <p>{t('loginPage.wrong_code')}</p>}
 				</div>
 			)}

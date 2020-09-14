@@ -102,8 +102,9 @@ function* confirmPhoneNumberSaga(action: ReturnType<typeof AuthActions.confirmPh
 	} else if (data.isCodeCorrect && !data.userExists) {
 		alert('User can be registered using mobile app');
 		// yield put(confirmPhoneSuccessAction());
-		// yield action?.deferred?.resolve();
+		action?.meta.deferred.resolve();
 	} else {
+		action?.meta.deferred.reject();
 		yield put(AuthActions.confirmPhoneFailure());
 	}
 }

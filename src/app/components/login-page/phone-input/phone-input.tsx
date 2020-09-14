@@ -26,9 +26,6 @@ const PhoneInput = ({ country, phone, setPhone }: PhoneInput.Props) => {
 
 		const replaceRegex = new RegExp(regex);
 
-		console.log(replaceRegex);
-		console.log(regex);
-
 		return phone.replace(replaceRegex, '');
 	}, []);
 
@@ -51,7 +48,9 @@ const PhoneInput = ({ country, phone, setPhone }: PhoneInput.Props) => {
 			<input
 				placeholder={t('loginPage.phone')}
 				value={trimCountryCode(country.number, new AsYouType().input(phone))}
-				onChange={(e) => setPhone(new AsYouType().input(country.number + e.target.value))}
+				onChange={(e) => {
+					setPhone(new AsYouType().input(country.number + e.target.value));
+				}}
 				className='phone-input__input'
 			/>
 		</div>

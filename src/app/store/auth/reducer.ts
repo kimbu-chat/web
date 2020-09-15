@@ -7,6 +7,7 @@ import { createReducer } from 'typesafe-actions';
 export interface AuthState {
 	loading: boolean;
 	confirmationCode: string;
+	phoneNumber: string;
 	isConfirmationCodeWrong: boolean;
 	isAuthenticated: boolean;
 	securityTokens: SecurityTokens;
@@ -18,6 +19,7 @@ const securityTokens = authService?.securityTokens;
 const initialState: AuthState = {
 	loading: false,
 	confirmationCode: '',
+	phoneNumber: '',
 	isConfirmationCodeWrong: false,
 	isAuthenticated: securityTokens ? true : false,
 	securityTokens: securityTokens,
@@ -26,11 +28,12 @@ const initialState: AuthState = {
 const auth = createReducer<AuthState>(initialState)
 	.handleAction(
 		[AuthActions.sendSmsCode],
-		produce((draft: AuthState) => {
+		produce((draft: AuthState, { payload }: ReturnType<typeof AuthActions.sendSmsCode>) => {
 			return {
 				...draft,
 				loading: true,
 				isConfirmationCodeWrong: false,
+				phoneNumber: payload.phoneNumber,
 			};
 		}),
 	)

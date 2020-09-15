@@ -4,7 +4,7 @@ import './country-select.scss';
 
 import useAutocomplete, { createFilterOptions } from '@material-ui/lab/useAutocomplete';
 
-import { countryList, country } from '../../../common/countries';
+import { countryList, country } from '../../../../../common/countries';
 import { LocalizationContext } from 'app/app';
 
 namespace CountrySelect {

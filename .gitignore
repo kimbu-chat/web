@@ -7,3 +7,6 @@ node_modules
 build
 dist
 .vs
+localhost-key.pem
+localhost.pem
+localhost-key.pfx

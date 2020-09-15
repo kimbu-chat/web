@@ -1,28 +1,27 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router';
-import { useSelector } from 'react-redux';
-import { RootState } from 'app/store/root-reducer';
 
 namespace PrivateRoute {
 	export interface Props {
 		Component: any;
 		path: string;
+		isAllowed: boolean;
+		fallback: string;
 	}
 }
 
-function PrivateRoute({ Component, path, ...rest }: PrivateRoute.Props) {
-	const isAuthenticated = useSelector<RootState, boolean>((rootState) => rootState.auth.isAuthenticated);
+function PrivateRoute({ Component, path, fallback, isAllowed, ...rest }: PrivateRoute.Props) {
 	return (
 		<Route
 			path={path}
 			{...rest}
 			render={({ location }) =>
-				isAuthenticated ? (
+				isAllowed ? (
 					Component
 				) : (
 					<Redirect
 						to={{
-							pathname: '/',
+							pathname: fallback,
 							state: { from: location },
 						}}
 					/>

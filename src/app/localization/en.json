@@ -1,14 +1,16 @@
 {
 	"loginPage": {
-		"title": "Sign in Kimbu",
-		"confirm_phone": "Confirm your phone number",
-		"confirm_code": "Enter code from sms",
-		"log_in": "Log in",
+		"confirm_phone": "Enter your number to log in",
+		"confirm_code": "We sent you a code to verify your phone number",
+		"code_sent_to": "Sent to",
 		"next": "Next",
+		"resend": "Resend",
 		"wrong_code": "Wrong code",
 		"country": "Country",
 		"phone": "Phone",
-		"code": "Code"
+		"code": "Code",
+		"agree_to": "By signing in you agree to ",
+		"ravudi_terms": "Ravudi Terms and Conditions"
 	},
 	"accountInfo": {
 		"create_chat": "Create chat",

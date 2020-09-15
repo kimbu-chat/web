@@ -7,17 +7,18 @@ namespace PublicRoute {
 	export interface Props {
 		Component: any;
 		path: string;
+		isAllowed?: boolean;
 	}
 }
 
-function PublicRoute({ Component, path, ...rest }: PublicRoute.Props) {
+function PublicRoute({ Component, path, isAllowed = true, ...rest }: PublicRoute.Props) {
 	const isAuthenticated = useSelector<RootState, boolean>((rootState) => rootState.auth.isAuthenticated);
 	return (
 		<Route
 			path={path}
 			{...rest}
 			render={({ location }) =>
-				!isAuthenticated ? (
+				!isAuthenticated && isAllowed ? (
 					Component
 				) : (
 					<Redirect

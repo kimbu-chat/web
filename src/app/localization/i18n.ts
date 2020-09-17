@@ -11,7 +11,7 @@ i18n.use(initReactI18next).init({
 	initImmediate: false,
 	preload: ['en'],
 	fallbackLng: 'en',
-	lng: new LangService()?.currentLang?.language || navigator.language,
+	lng: new LangService().currentLang?.language || navigator.language,
 	resources: {
 		en: {
 			translation: en,

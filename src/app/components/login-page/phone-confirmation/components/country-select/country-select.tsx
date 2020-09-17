@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useCallback } from 'react';
+import { useContext, useCallback, useEffect } from 'react';
 import './country-select.scss';
 
 import useAutocomplete, { createFilterOptions } from '@material-ui/lab/useAutocomplete';
@@ -7,11 +7,15 @@ import useAutocomplete, { createFilterOptions } from '@material-ui/lab/useAutoco
 import { countryList, country } from '../../../../../common/countries';
 import { LocalizationContext } from 'app/app';
 
+import DownSvg from 'app/assets/icons/ic-chevron-down.svg';
+
 namespace CountrySelect {
 	export interface Props {
 		country?: country;
 		setCountry: React.Dispatch<React.SetStateAction<country>>;
 		setPhone: (setNewPhone: ((oldPhone: string) => string) | string) => void;
+		setRef: React.Dispatch<React.SetStateAction<React.RefObject<HTMLInputElement> | null>>;
+		focusPhoneInput: () => void;
 	}
 }
 
@@ -21,22 +25,20 @@ function countryToFlag(isoCode: string): string {
 		: isoCode;
 }
 
-const CountrySelect = ({ country, setCountry, setPhone }: CountrySelect.Props) => {
+const CountrySelect = ({ country, setCountry, setPhone, setRef, focusPhoneInput }: CountrySelect.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const handleCountryChange = useCallback(
 		(newCountry: country) => {
 			setCountry((oldCountry) => {
 				setPhone((oldPhone) => {
-					if (typeof oldCountry === 'object') {
-						const onlyNumber = oldPhone
-							.split(' ')
-							.join('')
-							.split(oldCountry ? oldCountry.number : '')[1];
-						const newCode = newCountry ? newCountry.number : oldCountry?.number || '';
+					focusPhoneInput();
+					if (oldCountry.title.length > 0) {
+						const onlyNumber = oldPhone.split(' ').join('').split(oldCountry.number)[1];
+						const newCode = newCountry ? newCountry.number : '';
 						return onlyNumber ? newCode + onlyNumber : newCode;
 					} else {
-						return newCountry ? newCountry.number : '';
+						return newCountry ? newCountry.number + oldPhone : '';
 					}
 				});
 				return newCountry ? newCountry : oldCountry;
@@ -56,14 +58,17 @@ const CountrySelect = ({ country, setCountry, setPhone }: CountrySelect.Props) =
 		}),
 	});
 
+	const inputProps = getInputProps();
+
+	useEffect(() => {
+		//@ts-ignore
+		setRef(inputProps.ref);
+	}, []);
+
 	return (
 		<div {...getRootProps()} className='country-select'>
-			<input
-				placeholder={t('loginPage.country')}
-				type='text'
-				className='country-select__input'
-				{...getInputProps()}
-			/>
+			<input placeholder={t('loginPage.country')} type='text' className='country-select__input' {...inputProps} />
+			<DownSvg className='country-select__input-svg' />
 
 			{groupedOptions.length > 0 ? (
 				<div className='country-select__countries' {...getListboxProps()}>

@@ -3,11 +3,19 @@
 
 	&__input {
 		width: 400px;
-		height: 52px;
+		height: 51px;
 		border: none;
 		text-indent: 20px;
 		border-bottom: 1px solid rgb(215, 216, 217);
 		background: transparent;
+	}
+
+	&__input-svg {
+		display: block;
+		position: absolute;
+		top: 14px;
+		right: 16px;
+		pointer-events: none;
 	}
 
 	&__country {

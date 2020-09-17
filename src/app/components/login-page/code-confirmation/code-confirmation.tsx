@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef, useCallback } from 'react';
+import React, { useContext, useState, useRef, useCallback, useEffect } from 'react';
 import './code-confirmation.scss';
 
 import { LocalizationContext } from 'app/app';
@@ -10,6 +10,7 @@ import useInterval from 'use-interval';
 import { history } from '../../../../main';
 import moment from 'moment';
 import { AsYouType } from 'libphonenumber-js';
+import ResendSvg from 'app/assets/icons/ic-resend.svg';
 
 const NUMBER_OF_DIGITS = [0, 1, 2, 3];
 
@@ -40,7 +41,7 @@ const CodeConfirmation = () => {
 
 	useInterval(
 		() => {
-			if (remainingSeconds === 0) {
+			if (remainingSeconds === 1) {
 				setIsIntervalRunning(false);
 			}
 			setRemainingSeconds((x) => x - 1);
@@ -49,16 +50,21 @@ const CodeConfirmation = () => {
 		true,
 	);
 
+	useEffect(() => {
+		return () => {
+			setIsIntervalRunning(false);
+		};
+	});
+
 	const checkCode = useCallback(
 		async (code: string[]) => {
 			if (code.every((element) => element.length === 1)) {
-				console.log('NOT-REJECTED');
 				checkConfirmationCode({ code: code!.join(''), phoneNumber })
 					.then(() => {
 						history.push('/chats');
+						setIsIntervalRunning(false);
 					})
 					.catch(() => {
-						console.log('NOT-REJECTED1');
 						setCode(['', '', '', '']);
 					});
 			}
@@ -94,11 +100,10 @@ const CodeConfirmation = () => {
 
 		setCode(codeClone);
 
-		if (key === NUMBER_OF_DIGITS.length - 1) {
+		if (codeClone.every((element) => element.length === 1)) {
 			boxElements[key].current?.blur();
 
 			if (codeClone.every((element) => element.length === 1)) {
-				setIsIntervalRunning(false);
 				checkCode(codeClone);
 			}
 		}
@@ -142,16 +147,9 @@ const CodeConfirmation = () => {
 					phoneNumber,
 				)}`}</p>
 				<div className='code-confirmation__inputs-container'>{NUMBER_OF_DIGITS.map(input)}</div>
-				<p className='code-confirmation__timer'>{moment.utc(remainingSeconds * 1000).format('mm:ss')}</p>
-				{(remainingSeconds > 0 || code.every((element) => element.length === 1)) && (
-					<button
-						disabled={!code.every((element) => element.length === 1)}
-						onClick={() => checkCode(code)}
-						className='code-confirmation__button code-confirmation__button--code-confirmation'
-					>
-						{t('loginPage.next')}
-					</button>
-				)}
+				<p className='code-confirmation__timer'>
+					{t('loginPage.resend_timer', { time: moment.utc(remainingSeconds * 1000).format('mm:ss') })}
+				</p>
 
 				{remainingSeconds === 0 && (
 					<button
@@ -159,6 +157,7 @@ const CodeConfirmation = () => {
 						onClick={() => resendPhoneConfirmationCode()}
 						className='code-confirmation__button code-confirmation__button--resend-code'
 					>
+						<ResendSvg className='code-confirmation__resend-svg' />
 						{t('loginPage.resend')}
 					</button>
 				)}

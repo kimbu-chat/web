@@ -233,7 +233,6 @@ export function* endCallSaga(action: ReturnType<typeof CallActions.endCallAction
 export function* callEndedSaga(): SagaIterator {
 	peerConnection?.close();
 	resetPeerConnection();
-	console.log('CALL ENDED');
 
 	if (localMediaStream) {
 		localMediaStream.getTracks().forEach((track) => track.stop());

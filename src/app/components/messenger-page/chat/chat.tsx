@@ -106,6 +106,7 @@ const Chat = () => {
 					pageStart={0}
 					loadMore={loadPage}
 					hasMore={hasMoreMessages}
+					initialLoad={false}
 					loader={
 						<div className='loader ' key={0}>
 							<div className=''>

@@ -10,7 +10,7 @@
 		"phone": "Phone",
 		"agree_to": "By signing in you agree to ",
 		"ravudi_terms": "Ravudi Terms and Conditions",
-		"resend_timer": "Code can be re-sent code in {{time}}"
+		"resend_timer": "Code can be re-sent in {{time}}"
 	},
 	"accountInfo": {
 		"create_chat": "Create chat",

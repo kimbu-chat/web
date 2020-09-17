@@ -7,6 +7,8 @@ import useAutocomplete, { createFilterOptions } from '@material-ui/lab/useAutoco
 import { countryList, country } from '../../../../../common/countries';
 import { LocalizationContext } from 'app/app';
 
+import DownSvg from 'app/assets/icons/ic-chevron-down.svg';
+
 namespace CountrySelect {
 	export interface Props {
 		country?: country;
@@ -66,6 +68,7 @@ const CountrySelect = ({ country, setCountry, setPhone, setRef, focusPhoneInput 
 	return (
 		<div {...getRootProps()} className='country-select'>
 			<input placeholder={t('loginPage.country')} type='text' className='country-select__input' {...inputProps} />
+			<DownSvg className='country-select__input-svg' />
 
 			{groupedOptions.length > 0 ? (
 				<div className='country-select__countries' {...getListboxProps()}>

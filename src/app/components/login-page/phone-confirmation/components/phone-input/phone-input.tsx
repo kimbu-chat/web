@@ -11,11 +11,12 @@ namespace PhoneInput {
 		phone: string;
 		setPhone: Function;
 		displayCountries: () => void;
+		sendSms: () => void;
 	}
 }
 
 const PhoneInput = React.forwardRef(
-	({ country, phone, setPhone, displayCountries }: PhoneInput.Props, ref: React.Ref<HTMLInputElement>) => {
+	({ country, phone, setPhone, displayCountries, sendSms }: PhoneInput.Props, ref: React.Ref<HTMLInputElement>) => {
 		const { t } = useContext(LocalizationContext);
 
 		const trimCountryCode = useCallback((countryCode: string, phone: string) => {
@@ -48,6 +49,7 @@ const PhoneInput = React.forwardRef(
 						setPhone(new AsYouType().input(country.number + e.target.value));
 					}}
 					className='phone-input__input'
+					onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => event.key === 'Enter' && sendSms()}
 				/>
 			</div>
 		);

@@ -62,6 +62,7 @@ const PhoneConfirmation = () => {
 						country={country}
 						phone={phone}
 						setPhone={setPhone}
+						sendSms={sendSms}
 					/>
 				</div>
 				<button onClick={sendSms} className='phone-confirmation__button'>

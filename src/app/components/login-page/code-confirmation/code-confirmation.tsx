@@ -41,10 +41,12 @@ const CodeConfirmation = () => {
 
 	useInterval(
 		() => {
-			if (remainingSeconds === 1) {
-				setIsIntervalRunning(false);
+			if (isIntervalRunning) {
+				if (remainingSeconds === 1) {
+					setIsIntervalRunning(false);
+				}
+				setRemainingSeconds((x) => x - 1);
 			}
-			setRemainingSeconds((x) => x - 1);
 		},
 		isIntervalRunning ? 1000 : null,
 		true,
@@ -54,7 +56,7 @@ const CodeConfirmation = () => {
 		return () => {
 			setIsIntervalRunning(false);
 		};
-	});
+	}, []);
 
 	const checkCode = useCallback(
 		async (code: string[]) => {

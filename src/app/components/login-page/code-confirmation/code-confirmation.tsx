@@ -40,7 +40,7 @@ const CodeConfirmation = () => {
 
 	useInterval(
 		() => {
-			if (remainingSeconds === 0) {
+			if (remainingSeconds === 1) {
 				setIsIntervalRunning(false);
 			}
 			setRemainingSeconds((x) => x - 1);

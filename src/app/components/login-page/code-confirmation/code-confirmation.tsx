@@ -140,7 +140,9 @@ const CodeConfirmation = () => {
 					phoneNumber,
 				)}`}</p>
 				<div className='code-confirmation__inputs-container'>{NUMBER_OF_DIGITS.map(input)}</div>
-				<p className='code-confirmation__timer'>{moment.utc(remainingSeconds * 1000).format('mm:ss')}</p>
+				<p className='code-confirmation__timer'>
+					{t('loginPage.resend_timer', { time: moment.utc(remainingSeconds * 1000).format('mm:ss') })}
+				</p>
 				{(remainingSeconds > 0 || code.every((element) => element.length === 1)) && (
 					<button
 						disabled={!code.every((element) => element.length === 1)}

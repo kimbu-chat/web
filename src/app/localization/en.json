@@ -8,9 +8,9 @@
 		"wrong_code": "Wrong code",
 		"country": "Country",
 		"phone": "Phone",
-		"code": "Code",
 		"agree_to": "By signing in you agree to ",
-		"ravudi_terms": "Ravudi Terms and Conditions"
+		"ravudi_terms": "Ravudi Terms and Conditions",
+		"resend_timer": "Code can be re-sent code in {{time}}"
 	},
 	"accountInfo": {
 		"create_chat": "Create chat",

@@ -10,7 +10,8 @@
 		"phone": "Телефон",
 		"code": "Код",
 		"agree_to": "Выполняя вход, вы соглашаетесь с",
-		"ravudi_terms": " Условиями Ravudi"
+		"ravudi_terms": " Условиями Ravudi",
+		"resend_timer": "Код можно повторно отправить через {{time}}"
 	},
 	"accountInfo": {
 		"create_chat": "Создать чат",

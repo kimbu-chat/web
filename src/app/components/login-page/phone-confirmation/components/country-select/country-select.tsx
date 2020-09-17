@@ -13,6 +13,7 @@ namespace CountrySelect {
 		setCountry: React.Dispatch<React.SetStateAction<country>>;
 		setPhone: (setNewPhone: ((oldPhone: string) => string) | string) => void;
 		setRef: React.Dispatch<React.SetStateAction<React.RefObject<HTMLInputElement> | null>>;
+		focusPhoneInput: () => void;
 	}
 }
 
@@ -22,22 +23,20 @@ function countryToFlag(isoCode: string): string {
 		: isoCode;
 }
 
-const CountrySelect = ({ country, setCountry, setPhone, setRef }: CountrySelect.Props) => {
+const CountrySelect = ({ country, setCountry, setPhone, setRef, focusPhoneInput }: CountrySelect.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const handleCountryChange = useCallback(
 		(newCountry: country) => {
 			setCountry((oldCountry) => {
 				setPhone((oldPhone) => {
-					if (typeof oldCountry === 'object') {
-						const onlyNumber = oldPhone
-							.split(' ')
-							.join('')
-							.split(oldCountry ? oldCountry.number : '')[1];
-						const newCode = newCountry ? newCountry.number : oldCountry?.number || '';
+					focusPhoneInput();
+					if (oldCountry.title.length > 0) {
+						const onlyNumber = oldPhone.split(' ').join('').split(oldCountry.number)[1];
+						const newCode = newCountry ? newCountry.number : '';
 						return onlyNumber ? newCode + onlyNumber : newCode;
 					} else {
-						return newCountry ? newCountry.number : '';
+						return newCountry ? newCountry.number + oldPhone : '';
 					}
 				});
 				return newCountry ? newCountry : oldCountry;

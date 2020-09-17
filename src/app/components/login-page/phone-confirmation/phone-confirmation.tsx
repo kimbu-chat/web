@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useState, useRef } from 'react';
 import './phone-confirmation.scss';
 import CountrySelect from './components/country-select/country-select';
 import PhoneInput from './components/phone-input/phone-input';
@@ -16,6 +16,7 @@ const PhoneConfirmation = () => {
 	const [phone, setPhone] = useState<string>('');
 
 	const [countrySelectRef, setCountrySelectRef] = useState<React.RefObject<HTMLInputElement> | null>(null);
+	const phoneInputRef = useRef<HTMLInputElement>(null);
 
 	const sendSmsCode = useActionWithDeferred(AuthActions.sendSmsCode);
 	const sendSms = useCallback(() => {
@@ -34,6 +35,10 @@ const PhoneConfirmation = () => {
 		countrySelectRef?.current?.dispatchEvent(clickEvent);
 	}, [countrySelectRef]);
 
+	const focusPhoneInput = useCallback(() => {
+		phoneInputRef.current?.focus();
+	}, [phoneInputRef]);
+
 	return (
 		<div className='phone-confirmation'>
 			<div className='phone-confirmation__container'>
@@ -49,8 +54,10 @@ const PhoneConfirmation = () => {
 						country={country}
 						setCountry={setCountry}
 						setPhone={setPhone}
+						focusPhoneInput={focusPhoneInput}
 					/>
 					<PhoneInput
+						ref={phoneInputRef}
 						displayCountries={displayCountries}
 						country={country}
 						phone={phone}

@@ -10,10 +10,11 @@ namespace PhoneInput {
 		country: country;
 		phone: string;
 		setPhone: Function;
+		displayCountries: () => void;
 	}
 }
 
-const PhoneInput = ({ country, phone, setPhone }: PhoneInput.Props) => {
+const PhoneInput = ({ country, phone, setPhone, displayCountries }: PhoneInput.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const trimCountryCode = useCallback((countryCode: string, phone: string) => {
@@ -27,13 +28,6 @@ const PhoneInput = ({ country, phone, setPhone }: PhoneInput.Props) => {
 		const replaceRegex = new RegExp(regex);
 
 		return phone.replace(replaceRegex, '');
-	}, []);
-
-	const displayCountries = useCallback(() => {
-		(document.querySelector('.country-select__input') as HTMLInputElement).focus();
-		var clickEvent = document.createEvent('MouseEvents');
-		clickEvent.initEvent('mousedown', true, true);
-		(document.querySelector('.country-select__input') as HTMLInputElement).dispatchEvent(clickEvent);
 	}, []);
 
 	return (

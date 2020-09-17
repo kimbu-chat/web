@@ -52,13 +52,11 @@ const CodeConfirmation = () => {
 	const checkCode = useCallback(
 		async (code: string[]) => {
 			if (code.every((element) => element.length === 1)) {
-				console.log('NOT-REJECTED');
 				checkConfirmationCode({ code: code!.join(''), phoneNumber })
 					.then(() => {
 						history.push('/chats');
 					})
 					.catch(() => {
-						console.log('NOT-REJECTED1');
 						setCode(['', '', '', '']);
 					});
 			}

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useCallback } from 'react';
+import { useContext, useCallback, useEffect } from 'react';
 import './country-select.scss';
 
 import useAutocomplete, { createFilterOptions } from '@material-ui/lab/useAutocomplete';
@@ -12,6 +12,7 @@ namespace CountrySelect {
 		country?: country;
 		setCountry: React.Dispatch<React.SetStateAction<country>>;
 		setPhone: (setNewPhone: ((oldPhone: string) => string) | string) => void;
+		setRef: React.Dispatch<React.SetStateAction<React.RefObject<HTMLInputElement> | null>>;
 	}
 }
 
@@ -21,7 +22,7 @@ function countryToFlag(isoCode: string): string {
 		: isoCode;
 }
 
-const CountrySelect = ({ country, setCountry, setPhone }: CountrySelect.Props) => {
+const CountrySelect = ({ country, setCountry, setPhone, setRef }: CountrySelect.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const handleCountryChange = useCallback(
@@ -56,14 +57,16 @@ const CountrySelect = ({ country, setCountry, setPhone }: CountrySelect.Props) =
 		}),
 	});
 
+	const inputProps = getInputProps();
+
+	useEffect(() => {
+		//@ts-ignore
+		setRef(inputProps.ref);
+	}, []);
+
 	return (
 		<div {...getRootProps()} className='country-select'>
-			<input
-				placeholder={t('loginPage.country')}
-				type='text'
-				className='country-select__input'
-				{...getInputProps()}
-			/>
+			<input placeholder={t('loginPage.country')} type='text' className='country-select__input' {...inputProps} />
 
 			{groupedOptions.length > 0 ? (
 				<div className='country-select__countries' {...getListboxProps()}>

@@ -15,6 +15,8 @@ const PhoneConfirmation = () => {
 	const [country, setCountry] = useState<country>(countryList[countryList.length - 1]);
 	const [phone, setPhone] = useState<string>('');
 
+	const [countrySelectRef, setCountrySelectRef] = useState<React.RefObject<HTMLInputElement> | null>(null);
+
 	const sendSmsCode = useActionWithDeferred(AuthActions.sendSmsCode);
 	const sendSms = useCallback(() => {
 		const phoneNumber = parsePhoneNumberFromString(phone);
@@ -24,6 +26,13 @@ const PhoneConfirmation = () => {
 			});
 		}
 	}, [phone]);
+
+	const displayCountries = useCallback(() => {
+		countrySelectRef?.current?.focus();
+		var clickEvent = document.createEvent('MouseEvents');
+		clickEvent.initEvent('mousedown', true, true);
+		countrySelectRef?.current?.dispatchEvent(clickEvent);
+	}, [countrySelectRef]);
 
 	return (
 		<div className='phone-confirmation'>
@@ -35,8 +44,18 @@ const PhoneConfirmation = () => {
 					<p>+375445446388</p>
 					<p>+375445446399</p> */}
 				<div className='phone-confirmation__credentials'>
-					<CountrySelect country={country} setCountry={setCountry} setPhone={setPhone} />
-					<PhoneInput country={country} phone={phone} setPhone={setPhone} />
+					<CountrySelect
+						setRef={setCountrySelectRef}
+						country={country}
+						setCountry={setCountry}
+						setPhone={setPhone}
+					/>
+					<PhoneInput
+						displayCountries={displayCountries}
+						country={country}
+						phone={phone}
+						setPhone={setPhone}
+					/>
 				</div>
 				<button onClick={sendSms} className='phone-confirmation__button'>
 					{t('loginPage.next')}

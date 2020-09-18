@@ -8,7 +8,7 @@ import ChatList from '../../components/messenger-page/chat-list/chat-list';
 import Chat from '../../components/messenger-page/chat/chat';
 import CreateMessageInput from '../../components/messenger-page/message-input/message-input';
 import AccountInfo from '../account-info/account-info';
-import BackgroundBlur from '../../components/shared/background-blur';
+import WithBackground from '../../components/shared/with-background';
 import CreateChat from '../../components/messenger-page/create-chat/create-chat';
 import ChatInfo from '../../components/messenger-page/chat-info/chat-info';
 import ContactSearch from '../../components/messenger-page/contact-search/contact-search';
@@ -148,16 +148,6 @@ const Messenger = () => {
 		hideContactSearch();
 	}, []);
 
-	//hide all on backgroundBlur click
-
-	const hideAll = useCallback(() => {
-		hideCreateChat();
-		hideContactSearch();
-		hideSlider();
-		hideChangePhoto();
-		hideSettings();
-	}, [hideCreateChat, hideContactSearch, hideSlider, hideChangePhoto, hideSettings]);
-
 	return (
 		<div className='messenger'>
 			{amICaling && <OutgoingCall />}
@@ -168,40 +158,58 @@ const Messenger = () => {
 
 			<SearchTop displaySlider={displaySlider} displayCreateChat={displayCreateChat} />
 
-			{photoSelected.isDisplayed && (
-				<ChangePhoto imageUrl={imageUrl} hideChangePhoto={hideChangePhoto} onSubmit={photoSelected.onSubmit} />
-			)}
+			<WithBackground
+				isBackgroundDisplayed={Boolean(photoSelected.isDisplayed)}
+				onBackgroundClick={hideChangePhoto}
+			>
+				{photoSelected.isDisplayed && (
+					<ChangePhoto
+						imageUrl={imageUrl}
+						hideChangePhoto={hideChangePhoto}
+						onSubmit={photoSelected.onSubmit}
+					/>
+				)}
+			</WithBackground>
 
-			{(createChatDisplayed ||
-				accountInfoIsDisplayed ||
-				contactSearchDisplayed.isDisplayed ||
-				settingsDisplayed ||
-				photoSelected.isDisplayed) && <BackgroundBlur onClick={hideAll} />}
-
-			<AccountInfo
-				isDisplayed={accountInfoIsDisplayed}
-				hideSlider={hideSlider}
-				displayCreateChat={displayCreateChat}
-				displayContactSearch={displayContactSearch}
-				displaySettings={displaySettings}
-				displayChangePhoto={displayChangePhoto}
-				setImageUrl={setImageUrl}
-			/>
+			<WithBackground isBackgroundDisplayed={accountInfoIsDisplayed} onBackgroundClick={hideSlider}>
+				<AccountInfo
+					isDisplayed={accountInfoIsDisplayed}
+					hideSlider={hideSlider}
+					displayCreateChat={displayCreateChat}
+					displayContactSearch={displayContactSearch}
+					displaySettings={displaySettings}
+					displayChangePhoto={displayChangePhoto}
+					setImageUrl={setImageUrl}
+				/>
+			</WithBackground>
 
 			<ChatData chatInfoDisplayed={infoDisplayed} displayChatInfo={displayChatInfo} />
 
 			<ChatList />
 
-			<CreateChat
-				setImageUrl={setImageUrl}
-				displayChangePhoto={displayChangePhoto}
-				hide={hideCreateChat}
-				isDisplayed={createChatDisplayed}
-			/>
+			<WithBackground isBackgroundDisplayed={createChatDisplayed} onBackgroundClick={hideCreateChat}>
+				<CreateChat
+					setImageUrl={setImageUrl}
+					displayChangePhoto={displayChangePhoto}
+					hide={hideCreateChat}
+					isDisplayed={createChatDisplayed}
+				/>
+			</WithBackground>
 
-			<AccountSettings isDisplayed={settingsDisplayed} hide={hideSettings} />
+			<WithBackground isBackgroundDisplayed={settingsDisplayed} onBackgroundClick={hideSettings}>
+				<AccountSettings isDisplayed={settingsDisplayed} hide={hideSettings} />
+			</WithBackground>
 
-			<ContactSearch onClickOnContact={createEmptyChat} hide={hideContactSearch} {...contactSearchDisplayed} />
+			<WithBackground
+				isBackgroundDisplayed={contactSearchDisplayed.isDisplayed}
+				onBackgroundClick={hideContactSearch}
+			>
+				<ContactSearch
+					onClickOnContact={createEmptyChat}
+					hide={hideContactSearch}
+					{...contactSearchDisplayed}
+				/>
+			</WithBackground>
 
 			{!createChatDisplayed && !contactSearchDisplayed.isDisplayed && (
 				<div className='messenger__chat-send'>

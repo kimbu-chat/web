@@ -45,7 +45,7 @@ export namespace ChatActions {
 		GetConferenceUsersSuccessActionData
 	>();
 	export const unsetConferenceUsers = createEmptyAction('UNSET_CONFERENCE_USERS');
-	export const leaveConference = createAction('LEAVE_CONFERENCE')<Chat>();
+	export const leaveConference = createAction('LEAVE_CONFERENCE')<Chat, Meta>();
 	export const leaveConferenceSuccess = createAction('LEAVE_CONFERENCE_SUCCESS')<Chat>();
 	export const addUsersToConference = createAction('ADD_USERS_TO_CONFERENCE')<AddUsersToConferenceActionData, Meta>();
 	export const addUsersToConferenceSuccess = createAction('ADD_USERS_TO_CONFERENCE_SUCCESS')<Chat>();

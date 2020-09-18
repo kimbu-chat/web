@@ -254,6 +254,7 @@ function* leaveConferenceSaga(action: ReturnType<typeof ChatActions.leaveConfere
 		const { status } = httpRequest.call(yield call(() => httpRequest.generator(chat?.conference?.id)));
 		if (status === HTTPStatusCode.OK) {
 			yield put(ChatActions.leaveConferenceSuccess(action.payload));
+			action.meta.deferred?.resolve();
 		} else {
 			alert('Error. http status is ' + status);
 		}

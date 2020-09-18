@@ -19,6 +19,8 @@ import { FriendActions } from 'app/store/friends/actions';
 import { ChatActions } from 'app/store/chats/actions';
 
 import Avatar from 'app/components/shared/avatar/avatar';
+import Modal from 'app/components/shared/modal/modal';
+import WithBackground from 'app/components/shared/with-background';
 
 namespace ChatInfo {
 	export interface Props {
@@ -41,7 +43,7 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 }) => {
 	const selectedChat = useSelector(getSelectedChatSelector) as Chat;
 
-	const leaveConference = useActionWithDispatch(ChatActions.leaveConference);
+	const leaveConference = useActionWithDeferred(ChatActions.leaveConference);
 	const removeChat = useActionWithDispatch(ChatActions.removeChat);
 	const muteChat = useActionWithDispatch(ChatActions.muteChat);
 	const deleteFriend = useActionWithDispatch(FriendActions.deleteFriend);
@@ -50,18 +52,44 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 	const addUsersToConferece = useActionWithDeferred(ChatActions.addUsersToConference);
 	const changeConferenceAvatar = useActionWithDeferred(ChatActions.changeConferenceAvatar);
 
-	const deleteChat = (): void => removeChat(selectedChat);
-	const muteThisChat = (): void => muteChat(selectedChat);
-	const deleteContact = (): void => deleteFriend({ userIds: [selectedChat.interlocutor?.id || -1] });
-	const deleteConference = (): void => leaveConference(selectedChat);
-	const setNewConferenceName = (newName: string): void => renameConference({ newName, chat: selectedChat });
-	const createConference = (): void => {
+	const [renameConferenceOpened, setRenameConferenceOpened] = useState<boolean>(false);
+	const [leaveConferenceModalOpened, setLeaveConferenceModalOpened] = useState<boolean>(false);
+
+	const openRenameConference = useCallback(() => setRenameConferenceOpened(true), [setRenameConferenceOpened]);
+	const closeRenameConferenceModal = useCallback(() => setRenameConferenceOpened(false), [setRenameConferenceOpened]);
+
+	const openLeaveConferenceModal = useCallback(() => setLeaveConferenceModalOpened(true), [
+		setLeaveConferenceModalOpened,
+	]);
+	const closeLeaveConferenceModal = useCallback(() => setLeaveConferenceModalOpened(false), [
+		setLeaveConferenceModalOpened,
+	]);
+
+	const deleteChat = useCallback(() => removeChat(selectedChat), [removeChat, selectedChat]);
+	const muteThisChat = useCallback(() => muteChat(selectedChat), [muteChat, selectedChat]);
+	const deleteContact = useCallback(() => deleteFriend({ userIds: [selectedChat?.interlocutor?.id || -1] }), [
+		deleteFriend,
+		selectedChat?.interlocutor?.id,
+	]);
+	const deleteConference = useCallback(async () => {
+		await leaveConference(selectedChat);
+		closeLeaveConferenceModal();
+	}, [leaveConference, closeLeaveConferenceModal, selectedChat]);
+	const setNewConferenceName = useCallback((newName: string) => renameConference({ newName, chat: selectedChat }), [
+		renameConference,
+		selectedChat,
+	]);
+	const createConference = useCallback(() => {
 		displayCreateChat();
 		markUser(selectedChat.interlocutor?.id || -1);
-	};
-	const addUsers = (userIds: number[]): void => {
-		addUsersToConferece({ chat: selectedChat, userIds }).then(hideContactSearch);
-	};
+	}, [displayCreateChat, markUser, selectedChat?.interlocutor?.id]);
+	const addUsers = useCallback(
+		(userIds: number[]): void => {
+			addUsersToConferece({ chat: selectedChat, userIds }).then(hideContactSearch);
+		},
+		[addUsersToConferece, hideContactSearch, selectedChat],
+	);
+
 	const searchContactsToAdd = useCallback(
 		(args?: Messenger.optionalContactSearchActions) => {
 			displayContactSearch({
@@ -72,18 +100,19 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 				...args,
 			});
 		},
-		[addUsers],
+		[addUsers, displayContactSearch],
 	);
-	const changeAvatar = (data: AvatarSelectedData) =>
-		changeConferenceAvatar({
-			conferenceId: selectedChat.conference?.id || -100,
-			avatarData: data,
-		});
+	const changeAvatar = useCallback(
+		(data: AvatarSelectedData) => {
+			changeConferenceAvatar({
+				conferenceId: selectedChat?.conference?.id!,
+				avatarData: data,
+			});
+		},
+		[changeConferenceAvatar, selectedChat?.conference?.id],
+	);
 
 	const fileInputRef = useRef<HTMLInputElement>(null);
-
-	const [renameConferenceOpened, setRenameConferenceOpened] = useState<boolean>(false);
-	const openRenameConference = (): void => setRenameConferenceOpened(true);
 
 	if (selectedChat) {
 		const { interlocutor, conference } = selectedChat;
@@ -145,7 +174,7 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 				</div>
 				<ChatManipulation
 					deleteChat={deleteChat}
-					deleteConference={deleteConference}
+					deleteConference={openLeaveConferenceModal}
 					muteChat={muteThisChat}
 					deleteContact={deleteContact}
 					createConference={createConference}
@@ -153,13 +182,49 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 					addMembers={searchContactsToAdd}
 				/>
 
+				<WithBackground
+					isBackgroundDisplayed={leaveConferenceModalOpened}
+					onBackgroundClick={closeLeaveConferenceModal}
+				>
+					{leaveConferenceModalOpened && (
+						<Modal
+							title='Delete chat'
+							contents={`Are you sure you want to delete ‘${conference?.name}‘ chat? All the data will be lost`}
+							highlightedInContents={`‘${conference?.name}‘`}
+							buttons={[
+								{
+									text: 'Delete',
+									style: {
+										color: 'rgb(255, 255, 255)',
+										backgroundColor: 'rgb(209, 36, 51)',
+										padding: '16px 49.5px',
+										margin: '0',
+									},
+									position: 'left',
+									onClick: deleteConference,
+								},
+								{
+									text: 'Cancel',
+									style: {
+										color: 'rgb(109, 120, 133)',
+										backgroundColor: 'rgb(255, 255, 255)',
+										padding: '16px 38px',
+										margin: '0 0 0 10px',
+										border: '1px solid rgb(215, 216, 217)',
+									},
+
+									position: 'left',
+									onClick: closeLeaveConferenceModal,
+								},
+							]}
+						/>
+					)}
+				</WithBackground>
+
 				{conference && <ChatMembers addMembers={searchContactsToAdd} />}
 
 				{renameConferenceOpened && (
-					<RenameConferenceModal
-						close={() => setRenameConferenceOpened(false)}
-						renameConference={setNewConferenceName}
-					/>
+					<RenameConferenceModal close={closeRenameConferenceModal} renameConference={setNewConferenceName} />
 				)}
 			</div>
 		);

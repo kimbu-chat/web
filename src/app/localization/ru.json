@@ -53,6 +53,11 @@
 		"leave_conference": "Покинуть конференцию",
 		"delete_chat": "Удалить чат"
 	},
+	"chatInfo": {
+		"leave-confirmation": "Вы уверенны что хотите покинуть ‘{{conferenceName}}‘ ? Все данные будут потерянны",
+		"confirm": "Покинуть",
+		"cancel": "Отмена"
+	},
 	"chatMembers": {
 		"members": "Участники",
 		"add_members": "Добавить участников",

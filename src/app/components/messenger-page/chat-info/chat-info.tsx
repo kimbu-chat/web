@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useContext } from 'react';
 import './chat-info.scss';
 import { useSelector } from 'react-redux';
 import { Chat } from 'app/store/chats/models';
@@ -21,6 +21,7 @@ import { ChatActions } from 'app/store/chats/actions';
 import Avatar from 'app/components/shared/avatar/avatar';
 import Modal from 'app/components/shared/modal/modal';
 import WithBackground from 'app/components/shared/with-background';
+import { LocalizationContext } from 'app/app';
 
 namespace ChatInfo {
 	export interface Props {
@@ -41,6 +42,8 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 	displayChangePhoto,
 	isDisplayed,
 }) => {
+	const { t } = useContext(LocalizationContext);
+
 	const selectedChat = useSelector(getSelectedChatSelector) as Chat;
 
 	const leaveConference = useActionWithDeferred(ChatActions.leaveConference);
@@ -189,11 +192,11 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 					{leaveConferenceModalOpened && (
 						<Modal
 							title='Delete chat'
-							contents={`Are you sure you want to delete ‘${conference?.name}‘ chat? All the data will be lost`}
+							contents={t('chatInfo.leave-confirmation', { conferenceName: conference?.name })}
 							highlightedInContents={`‘${conference?.name}‘`}
 							buttons={[
 								{
-									text: 'Delete',
+									text: t('chatInfo.confirm'),
 									style: {
 										color: 'rgb(255, 255, 255)',
 										backgroundColor: 'rgb(209, 36, 51)',
@@ -204,7 +207,7 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 									onClick: deleteConference,
 								},
 								{
-									text: 'Cancel',
+									text: t('chatInfo.cancel'),
 									style: {
 										color: 'rgb(109, 120, 133)',
 										backgroundColor: 'rgb(255, 255, 255)',

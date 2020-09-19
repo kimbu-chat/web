@@ -52,6 +52,11 @@
 		"leave_conference": "Leave conference",
 		"delete_chat": "Delete chat"
 	},
+	"chatInfo": {
+		"leave-confirmation": "Are you sure you want to delete ‘{{conferenceName}}‘ chat? All the data will be lost",
+		"confirm": "Delete",
+		"cancel": "Cancel"
+	},
 	"chatMembers": {
 		"members": "Members",
 		"add_members": "Add members",

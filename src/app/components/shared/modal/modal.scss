@@ -1,0 +1,41 @@
+.modal {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	padding: 24px 32px 22px 32px;
+	background-color: white;
+	border-radius: 4px;
+	z-index: 55;
+
+	&__title {
+		font-weight: 500;
+		font-size: 16px;
+		line-height: 16px;
+		margin-bottom: 20px;
+	}
+
+	&__contents {
+		font-weight: 400;
+		font-size: 14px;
+		line-height: 18px;
+		margin-bottom: 22px;
+		max-width: 376px;
+
+		&__text {
+			&--highlighted {
+				font-weight: 500;
+				color: rgb(63, 138, 224);
+			}
+		}
+	}
+
+	&__btn-block {
+		display: flex;
+	}
+
+	&__btn-base {
+		padding: 16px 49.5px;
+		border-radius: 4px;
+	}
+}

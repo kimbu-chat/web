@@ -29,4 +29,8 @@ export const AuthHttpRequests = {
 		`${ApiBasePath.NotificationsApi}/api/notifications/subscribe`,
 		HttpRequestMethod.Post,
 	),
+	unsubscribeFromPushNotifications: authRequestFactory<AxiosResponse, SubscribeToPushNotificationsRequest>(
+		`${ApiBasePath.NotificationsApi}/api/notifications/unsubscribe`,
+		HttpRequestMethod.Post,
+	),
 };

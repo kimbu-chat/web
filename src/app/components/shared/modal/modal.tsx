@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 
 import './modal.scss';
 
+import CloseSVG from 'app/assets/icons/ic-close.svg';
+
 namespace Modal {
 	export interface Button {
 		text: string;
@@ -15,10 +17,11 @@ namespace Modal {
 		contents: string;
 		highlightedInContents: string;
 		buttons: Modal.Button[];
+		closeModal: () => void;
 	}
 }
 
-const Modal = ({ title, contents, buttons, highlightedInContents }: Modal.Props) => {
+const Modal = ({ title, contents, buttons, highlightedInContents, closeModal }: Modal.Props) => {
 	const leftBtns: Modal.Button[] = [],
 		rightBtns: Modal.Button[] = [];
 
@@ -34,7 +37,10 @@ const Modal = ({ title, contents, buttons, highlightedInContents }: Modal.Props)
 
 	return ReactDOM.createPortal(
 		<div className='modal'>
-			<div className='modal__title'>{title}</div>
+			<header className='modal__header'>
+				<div className='modal__title'>{title}</div>
+				<CloseSVG onClick={closeModal} className='modal__close-btn' />
+			</header>
 			<div className='modal__contents'>
 				{contents.split(highlightedInContents).map((text, index, arr) => (
 					<React.Fragment key={index}>

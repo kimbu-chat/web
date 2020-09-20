@@ -194,6 +194,7 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 							title='Delete chat'
 							contents={t('chatInfo.leave-confirmation', { conferenceName: conference?.name })}
 							highlightedInContents={`‘${conference?.name}‘`}
+							closeModal={closeLeaveConferenceModal}
 							buttons={[
 								{
 									text: t('chatInfo.confirm'),

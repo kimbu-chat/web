@@ -5,7 +5,7 @@ import { createBrowserHistory } from 'history';
 import createStore from './app/store';
 import { Router } from 'react-router';
 import { App } from './app/app';
-import { registerServiceWorker } from './serviceWorker';
+//import { registerServiceWorker } from './serviceWorker';
 
 // prepare store
 export const history = createBrowserHistory();
@@ -21,4 +21,4 @@ ReactDOM.render(
 	document.getElementById('root'),
 );
 
-registerServiceWorker();
+//registerServiceWorker();

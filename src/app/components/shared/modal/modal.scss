@@ -12,7 +12,19 @@
 		font-weight: 500;
 		font-size: 16px;
 		line-height: 16px;
-		margin-bottom: 20px;
+	}
+
+	&__header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 14px;
+	}
+
+	&__close-btn {
+		transform: scale(0.67);
+		display: block;
+		cursor: pointer;
 	}
 
 	&__contents {

@@ -15,6 +15,8 @@ import { UserPreview } from '../my-profile/models';
 import { UserStatus } from '../friends/models';
 import { initializeSaga } from '../initiation/sagas';
 import { messaging } from '../middlewares/firebase/firebase';
+//@ts-ignore
+import Fingerprint2 from '@fingerprintjs/fingerprintjs';
 // import  FirebaseMessagingTypes  from 'firebase/messaging';
 
 function* requestRefreshToken(): SagaIterator {
@@ -35,9 +37,17 @@ function* requestRefreshToken(): SagaIterator {
 }
 
 async function getPushNotificationTokens(): Promise<{ tokenId: string; deviceId: string } | undefined> {
+	const retrieveUniqueId = () =>
+		new Promise<string>((resolve) => {
+			new Fingerprint2.getV18({}, function (result: string) {
+				console.log(result);
+				resolve(result);
+			});
+		});
+
 	async function retrieveApplicationToken(): Promise<{ tokenId: string; deviceId: string }> {
 		const tokenId: string = await messaging().getToken();
-		const deviceId: string = '';
+		const deviceId: string = await retrieveUniqueId();
 		return Promise.resolve({ tokenId, deviceId });
 	}
 
@@ -72,6 +82,12 @@ async function getPushNotificationTokens(): Promise<{ tokenId: string; deviceId:
 function* initializePushNotifications(): SagaIterator {
 	const tokens = yield call(getPushNotificationTokens);
 	const httpRequest = AuthHttpRequests.subscribeToPushNotifications;
+	httpRequest.call(yield call(() => httpRequest.generator(tokens)));
+}
+
+function* unsubscribePushNotifications(): SagaIterator {
+	const tokens = yield call(getPushNotificationTokens);
+	const httpRequest = AuthHttpRequests.unsubscribeFromPushNotifications;
 	httpRequest.call(yield call(() => httpRequest.generator(tokens)));
 }
 
@@ -143,6 +159,22 @@ function* authenticate(action: ReturnType<typeof AuthActions.confirmPhone>): Sag
 function* logout(action: ReturnType<typeof AuthActions.logout>): SagaIterator {
 	new AuthService().clear();
 	new MyProfileService().clear();
+
+	yield spawn(unsubscribePushNotifications);
+
+	if ('serviceWorker' in navigator) {
+		navigator.serviceWorker
+			.getRegistrations()
+			.then(function (registrations) {
+				for (let registration of registrations) {
+					registration.unregister();
+				}
+			})
+			.catch(function (err) {
+				console.log('Service Worker registration failed: ', err);
+			});
+	}
+
 	action.meta.deferred?.resolve();
 }
 

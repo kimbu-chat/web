@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState, useRef } from 'react';
+import React, { useCallback, useContext, useState, useRef, useEffect } from 'react';
 import './phone-confirmation.scss';
 import CountrySelect from './components/country-select/country-select';
 import PhoneInput from './components/phone-input/phone-input';
@@ -39,15 +39,30 @@ const PhoneConfirmation = () => {
 		phoneInputRef.current?.focus();
 	}, [phoneInputRef]);
 
+	useEffect(() => {
+		(async () => {
+			const result = await fetch('https://ipapi.co/json/');
+
+			if (result.ok) {
+				const countryData = await result.json();
+
+				const country =
+					countryList.find(({ code }) => countryData.country_code === code) ||
+					countryList[countryList.length - 1];
+				setCountry(country);
+			}
+		})();
+	}, []);
+
 	return (
 		<div className='phone-confirmation'>
 			<div className='phone-confirmation__container'>
 				<img src='' alt='' className='phone-confirmation__logo' />
 				<p className='phone-confirmation__confirm-phone'>{t('loginPage.confirm_phone')}</p>
-				{/* <p>+375445446331</p>
-					<p>+375292725607</p>
-					<p>+375445446388</p>
-					<p>+375445446399</p> */}
+				<p>+375445446331</p>
+				<p>+375292725607</p>
+				<p>+375445446388</p>
+				<p>+375445446399</p>
 				<div className='phone-confirmation__credentials'>
 					<CountrySelect
 						setRef={setCountrySelectRef}

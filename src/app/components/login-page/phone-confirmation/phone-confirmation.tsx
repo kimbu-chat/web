@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState, useRef } from 'react';
+import React, { useCallback, useContext, useState, useRef, useEffect } from 'react';
 import './phone-confirmation.scss';
 import CountrySelect from './components/country-select/country-select';
 import PhoneInput from './components/phone-input/phone-input';
@@ -38,6 +38,21 @@ const PhoneConfirmation = () => {
 	const focusPhoneInput = useCallback(() => {
 		phoneInputRef.current?.focus();
 	}, [phoneInputRef]);
+
+	useEffect(() => {
+		(async () => {
+			const result = await fetch('https://ipapi.co/json/');
+
+			if (result.ok) {
+				const countryData = await result.json();
+
+				const country =
+					countryList.find(({ code }) => countryData.country_code === code) ||
+					countryList[countryList.length - 1];
+				setCountry(country);
+			}
+		})();
+	}, []);
 
 	return (
 		<div className='phone-confirmation'>

@@ -44,10 +44,10 @@ const PhoneConfirmation = () => {
 			<div className='phone-confirmation__container'>
 				<img src='' alt='' className='phone-confirmation__logo' />
 				<p className='phone-confirmation__confirm-phone'>{t('loginPage.confirm_phone')}</p>
-				{/* <p>+375445446331</p>
-					<p>+375292725607</p>
-					<p>+375445446388</p>
-					<p>+375445446399</p> */}
+				<p>+375445446331</p>
+				<p>+375292725607</p>
+				<p>+375445446388</p>
+				<p>+375445446399</p>
 				<div className='phone-confirmation__credentials'>
 					<CountrySelect
 						setRef={setCountrySelectRef}

@@ -84,19 +84,20 @@ module.exports = {
 					{
 						loader: 'postcss-loader',
 						options: {
-							ident: 'postcss',
-							plugins: [
-								require('postcss-import')({ addDependencyTo: webpack }),
-								require('postcss-url')(),
-								require('postcss-preset-env')({
-									/* use stage 2 features (defaults) */
-									stage: 2,
-								}),
-								require('postcss-reporter')(),
-								require('postcss-browser-reporter')({
-									disabled: isProduction,
-								}),
-							],
+							postcssOptions: {
+								plugins: [
+									require('postcss-import')({ addDependencyTo: webpack }),
+									require('postcss-url')(),
+									require('postcss-preset-env')({
+										/* use stage 2 features (defaults) */
+										stage: 2,
+									}),
+									require('postcss-reporter')(),
+									require('postcss-browser-reporter')({
+										disabled: isProduction,
+									}),
+								],
+							},
 						},
 					},
 					'sass-loader',
@@ -124,19 +125,20 @@ module.exports = {
 					{
 						loader: 'postcss-loader',
 						options: {
-							ident: 'postcss',
-							plugins: [
-								require('postcss-import')({ addDependencyTo: webpack }),
-								require('postcss-url')(),
-								require('postcss-preset-env')({
-									/* use stage 2 features (defaults) */
-									stage: 2,
-								}),
-								require('postcss-reporter')(),
-								require('postcss-browser-reporter')({
-									disabled: isProduction,
-								}),
-							],
+							postcssOptions: {
+								plugins: [
+									require('postcss-import')({ addDependencyTo: webpack }),
+									require('postcss-url')(),
+									require('postcss-preset-env')({
+										/* use stage 2 features (defaults) */
+										stage: 2,
+									}),
+									require('postcss-reporter')(),
+									require('postcss-browser-reporter')({
+										disabled: isProduction,
+									}),
+								],
+							},
 						},
 					},
 				],

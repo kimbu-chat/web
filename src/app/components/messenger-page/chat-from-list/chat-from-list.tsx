@@ -104,9 +104,15 @@ const ChatFromList = ({ chat }: ChatFromList.Props) => {
 				<div className='chat-from-list__heading'>
 					<div className='chat-from-list__name'>{getChatInterlocutor(chat)}</div>
 					<div className='chat-from-list__status'>
-						{lastMessage?.state === MessageState.QUEUED && <MessageQeuedSvg />}
-						{lastMessage?.state === MessageState.SENT && <MessageSentSvg />}
-						{lastMessage?.state === MessageState.READ && <MessageReadSvg />}
+						{!(
+							lastMessage.systemMessageType !== SystemMessageType.None || !isMessageCreatorCurrentUser
+						) && (
+							<React.Fragment>
+								{lastMessage?.state === MessageState.QUEUED && <MessageQeuedSvg />}
+								{lastMessage?.state === MessageState.SENT && <MessageSentSvg />}
+								{lastMessage?.state === MessageState.READ && <MessageReadSvg />}
+							</React.Fragment>
+						)}
 					</div>
 					<div className='chat-from-list__time'>
 						{moment.utc(lastMessage?.creationDateTime).local().format('LT')}

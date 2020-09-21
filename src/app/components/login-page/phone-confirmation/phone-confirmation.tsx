@@ -40,7 +40,6 @@ const PhoneConfirmation = () => {
 	}, [phoneInputRef]);
 
 	useEffect(() => {
-		setCountry(countryList[0]);
 		(async () => {
 			const result = await fetch('https://ipapi.co/json/');
 

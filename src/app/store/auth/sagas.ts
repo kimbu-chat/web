@@ -175,6 +175,8 @@ function* logout(action: ReturnType<typeof AuthActions.logout>): SagaIterator {
 			});
 	}
 
+	yield call(async () => await messaging().deleteToken);
+
 	action.meta.deferred?.resolve();
 }
 

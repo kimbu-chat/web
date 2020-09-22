@@ -68,6 +68,10 @@ a {
 	cursor: pointer;
 }
 
+.react-draggable {
+	z-index: 500 !important;
+}
+
 //fonts
 @font-face {
 	font-family: 'SFUI Text';

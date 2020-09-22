@@ -6,7 +6,7 @@ import { CallActions } from 'app/store/calls/actions';
 import { useSelector } from 'react-redux';
 import { getCallInterlocutorSelector, isFullScreen } from 'app/store/calls/selectors';
 
-import Draggable from 'react-draggable';
+import { Rnd } from 'react-rnd';
 
 //sounds
 import callingBeep from 'app/assets/sounds/calls/outgoing-call.ogg';
@@ -39,7 +39,15 @@ const OutgoingCall = () => {
 	}, []);
 
 	return (
-		<Draggable bounds='body' defaultPosition={{ x: -160, y: -160 }}>
+		<Rnd
+			default={{
+				x: window.innerWidth / 2 - 120,
+				y: window.innerHeight / 2 - 120,
+				width: 320,
+				height: 320,
+			}}
+			bounds='body'
+		>
 			<div className={`outgoing-call ${isFullScreenEnabled ? 'outgoing-call--big' : ''}`}>
 				<div className='outgoing-call__menu'>
 					<button className='svg'>
@@ -101,7 +109,7 @@ const OutgoingCall = () => {
 					</button>
 				</div>
 			</div>
-		</Draggable>
+		</Rnd>
 	);
 };
 

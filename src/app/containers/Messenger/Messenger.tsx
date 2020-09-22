@@ -31,6 +31,7 @@ export namespace Messenger {
 	export interface contactSearchActions {
 		isDisplayed: boolean;
 		isSelectable?: boolean;
+		onClickOnContact?: (user: UserPreview) => void;
 		onSubmit?: (userIds: number[]) => void;
 		displayMyself?: boolean;
 		excludeIds?: (number | undefined)[];
@@ -143,6 +144,7 @@ const Messenger = () => {
 	//Creation of empty chat with contact
 	const createEmptyChat = useCallback((user: UserPreview) => {
 		createChat(user);
+		console.log('Create empty chat');
 		const chatId = Number(`${user.id}1`);
 		history.push(`/chats/${chatId}`);
 		hideContactSearch();

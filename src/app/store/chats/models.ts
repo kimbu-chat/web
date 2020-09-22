@@ -87,7 +87,7 @@ export interface Chat {
 	id: number;
 	interlocutorType?: InterlocutorType;
 	conference?: Conference;
-	lastMessage: Message;
+	lastMessage?: Message;
 	interlocutor?: UserPreview;
 	ownUnreadMessagesCount?: number;
 	interlocutorLastReadMessageId?: number;

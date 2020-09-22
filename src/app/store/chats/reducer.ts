@@ -348,6 +348,34 @@ const chats = createReducer<ChatsState>(initialState)
 
 			return draft;
 		}),
-	);
+	)
+	.handleAction(
+		MessageActions.createChat,
+		produce((draft: ChatsState, { payload }: ReturnType<typeof MessageActions.createChat>) => {
+			const { id } = payload;
 
+			const dialogId: number = ChatService.getChatId(id);
+
+			const isDialogExists = checkChatExists(dialogId, draft);
+
+			draft.selectedChatId = dialogId;
+
+			if (isDialogExists) {
+				return draft;
+			} else {
+				//user does not have dialog with interlocutor - create dialog
+				let newDialog: Chat = {
+					id: dialogId,
+					interlocutorType: 1,
+					ownUnreadMessagesCount: 0,
+					interlocutorLastReadMessageId: 0,
+					interlocutor: payload,
+				};
+
+				draft.chats.unshift(newDialog);
+
+				return draft;
+			}
+		}),
+	);
 export default chats;

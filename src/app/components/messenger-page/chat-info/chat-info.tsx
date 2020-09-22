@@ -100,6 +100,7 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 				isSelectable: true,
 				onSubmit: addUsers,
 				displayMyself: false,
+				onClickOnContact: undefined,
 				...args,
 			});
 		},

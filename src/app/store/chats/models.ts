@@ -54,6 +54,7 @@ export interface GetChatsRequestData {
 	page: Page;
 	unreadOnly?: boolean;
 	showOnlyHidden: boolean;
+	showAll: boolean;
 	initiatedByScrolling?: boolean;
 	initializedBySearch?: boolean;
 	name?: string;
@@ -64,6 +65,7 @@ export interface GetChatsActionData {
 	unreadOnly?: boolean;
 	showOnlyHidden: boolean;
 	initiatedByScrolling: boolean;
+	showAll: boolean;
 	initializedBySearch: boolean;
 	name?: string;
 }
@@ -87,7 +89,7 @@ export interface Chat {
 	id: number;
 	interlocutorType?: InterlocutorType;
 	conference?: Conference;
-	lastMessage: Message;
+	lastMessage?: Message;
 	interlocutor?: UserPreview;
 	ownUnreadMessagesCount?: number;
 	interlocutorLastReadMessageId?: number;

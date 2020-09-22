@@ -8,9 +8,13 @@ import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
 import { AuthActions } from 'app/store/auth/actions';
 import { history } from '../../../../main';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
+import { useSelector } from 'react-redux';
+import { RootState } from 'app/store/root-reducer';
 
 const PhoneConfirmation = () => {
 	const { t } = useContext(LocalizationContext);
+
+	const isLoading = useSelector((state: RootState) => state.auth.loading);
 
 	const [country, setCountry] = useState<country>(countryList[countryList.length - 1]);
 	const [phone, setPhone] = useState<string>('');
@@ -81,7 +85,7 @@ const PhoneConfirmation = () => {
 						sendSms={sendSms}
 					/>
 				</div>
-				<button onClick={sendSms} className='phone-confirmation__button'>
+				<button disabled={isLoading} onClick={sendSms} className='phone-confirmation__button'>
 					{t('loginPage.next')}
 				</button>
 				<p className='phone-confirmation__conditions'>

@@ -30,6 +30,7 @@ const SearchTop = ({ displaySlider, displayCreateChat }: SearchTop.Props) => {
 			initializedBySearch: true,
 			initiatedByScrolling: false,
 			showOnlyHidden: false,
+			showAll: true,
 		});
 	};
 

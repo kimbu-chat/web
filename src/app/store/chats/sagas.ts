@@ -19,9 +19,9 @@ import { MessageUtils } from 'app/utils/message-utils';
 export function* getChatsSaga(action: ReturnType<typeof ChatActions.getChats>): SagaIterator {
 	const chatsRequestData = action.payload;
 
-	const { name, showOnlyHidden, page } = action.payload;
+	const { name, showOnlyHidden, page, showAll } = action.payload;
 
-	const request = { name, showOnlyHidden, page };
+	const request = { name, showOnlyHidden, page, showAll };
 
 	const getChatsRequest = ChatHttpRequests.getChats;
 	const { data }: AxiosResponse<Chat[]> = getChatsRequest.call(yield call(() => getChatsRequest.generator(request)));

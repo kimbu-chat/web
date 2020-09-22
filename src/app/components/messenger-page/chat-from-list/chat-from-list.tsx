@@ -105,7 +105,7 @@ const ChatFromList = ({ chat }: ChatFromList.Props) => {
 					<div className='chat-from-list__name'>{getChatInterlocutor(chat)}</div>
 					<div className='chat-from-list__status'>
 						{!(
-							lastMessage.systemMessageType !== SystemMessageType.None || !isMessageCreatorCurrentUser
+							lastMessage?.systemMessageType !== SystemMessageType.None || !isMessageCreatorCurrentUser
 						) && (
 							<React.Fragment>
 								{lastMessage?.state === MessageState.QUEUED && <MessageQeuedSvg />}

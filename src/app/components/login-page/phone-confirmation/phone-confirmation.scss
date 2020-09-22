@@ -35,6 +35,11 @@
 		padding: 16px 1px;
 		margin-top: 20px;
 		width: 400px;
+
+		&:disabled {
+			background-color: rgba(rgb(63, 138, 224), 0.7);
+			cursor: not-allowed;
+		}
 	}
 
 	&__credentials {

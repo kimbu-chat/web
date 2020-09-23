@@ -10,10 +10,9 @@ import { AvatarSelectedData } from 'app/store/my-profile/models';
 
 import { getSelectedChatSelector } from 'app/store/chats/selectors';
 
-import ChatManipulation from './chat-manipulation/chat-manipulation';
-import StatusBadge from 'app/components/shared/status-badge/status-badge';
+import InterlocutorInfo from './interlocutor-info/interlocutor-info';
+import ChatManipulation from './chat-actions/chat-actions';
 import ChatMembers from './chat-members/chat-members';
-import RenameConferenceModal from './rename-conference-modal/rename-conference-modal';
 
 import { FriendActions } from 'app/store/friends/actions';
 import { ChatActions } from 'app/store/chats/actions';
@@ -22,6 +21,8 @@ import Avatar from 'app/components/shared/avatar/avatar';
 import Modal from 'app/components/shared/modal/modal';
 import WithBackground from 'app/components/shared/with-background';
 import { LocalizationContext } from 'app/app';
+
+import RenameSvg from 'app/assets/icons/ic-edit.svg';
 
 namespace ChatInfo {
 	export interface Props {
@@ -51,15 +52,10 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 	const muteChat = useActionWithDispatch(ChatActions.muteChat);
 	const deleteFriend = useActionWithDispatch(FriendActions.deleteFriend);
 	const markUser = useActionWithDispatch(FriendActions.markUserAsAddedToConference);
-	const renameConference = useActionWithDispatch(ChatActions.renameConference);
 	const addUsersToConferece = useActionWithDeferred(ChatActions.addUsersToConference);
 	const changeConferenceAvatar = useActionWithDeferred(ChatActions.changeConferenceAvatar);
 
-	const [renameConferenceOpened, setRenameConferenceOpened] = useState<boolean>(false);
 	const [leaveConferenceModalOpened, setLeaveConferenceModalOpened] = useState<boolean>(false);
-
-	const openRenameConference = useCallback(() => setRenameConferenceOpened(true), [setRenameConferenceOpened]);
-	const closeRenameConferenceModal = useCallback(() => setRenameConferenceOpened(false), [setRenameConferenceOpened]);
 
 	const openLeaveConferenceModal = useCallback(() => setLeaveConferenceModalOpened(true), [
 		setLeaveConferenceModalOpened,
@@ -78,10 +74,7 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 		await leaveConference(selectedChat);
 		closeLeaveConferenceModal();
 	}, [leaveConference, closeLeaveConferenceModal, selectedChat]);
-	const setNewConferenceName = useCallback((newName: string) => renameConference({ newName, chat: selectedChat }), [
-		renameConference,
-		selectedChat,
-	]);
+
 	const createConference = useCallback(() => {
 		displayCreateChat();
 		markUser(selectedChat.interlocutor?.id || -1);
@@ -146,7 +139,9 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 			<div className={isDisplayed ? 'chat-info chat-info--active' : 'chat-info'}>
 				<div className='chat-info__main-data'>
 					{!conference && selectedChat?.interlocutor ? (
-						<StatusBadge user={selectedChat.interlocutor} />
+						<Avatar className='chat-info__avatar' src={getChatAvatar()}>
+							{getInterlocutorInitials(selectedChat)}
+						</Avatar>
 					) : (
 						<div className='chat-info__avatar-group'>
 							<Avatar className='chat-info__avatar' src={getChatAvatar()}>
@@ -175,14 +170,21 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 						accept='image/*'
 					/>
 					<span className='chat-info__interlocutor'>{getChatInterlocutor(selectedChat)}</span>
+					{conference && (
+						<button className='chat-info__rename-btn'>
+							<RenameSvg />
+						</button>
+					)}
 				</div>
+
+				{selectedChat.interlocutor && <InterlocutorInfo />}
+
 				<ChatManipulation
 					deleteChat={deleteChat}
 					deleteConference={openLeaveConferenceModal}
 					muteChat={muteThisChat}
 					deleteContact={deleteContact}
 					createConference={createConference}
-					openRenameConference={openRenameConference}
 					addMembers={searchContactsToAdd}
 				/>
 
@@ -227,10 +229,6 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 				</WithBackground>
 
 				{conference && <ChatMembers addMembers={searchContactsToAdd} />}
-
-				{renameConferenceOpened && (
-					<RenameConferenceModal close={closeRenameConferenceModal} renameConference={setNewConferenceName} />
-				)}
 			</div>
 		);
 	} else {

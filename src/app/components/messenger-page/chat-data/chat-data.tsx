@@ -67,7 +67,7 @@ const ChatData = ({ displayChatInfo, chatInfoDisplayed }: ChatData.Props) => {
 					.format('hh:mm')}`;
 
 		return (
-			<div className='chat-data__chat-data'>
+			<div className={`chat-data__chat-data ${chatInfoDisplayed ? 'chat-data__chat-data--little' : ''}`}>
 				<div onClick={displayChatInfo} className='chat-data__contact-data'>
 					<Avatar className='chat-data__contact-img' src={imageUrl}>
 						{getInterlocutorInitials(selectedChat)}

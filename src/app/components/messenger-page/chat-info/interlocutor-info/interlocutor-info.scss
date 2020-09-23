@@ -1,0 +1,39 @@
+.interlocutor-info {
+	margin: 0 20px 40px 20px;
+
+	&__heading {
+		font-weight: 500;
+		font-size: 15px;
+		line-height: 16px;
+		margin-bottom: 20px;
+	}
+
+	&__info-block {
+		display: flex;
+
+		&:not(:last-child) {
+			margin-bottom: 14px;
+		}
+	}
+
+	&__info-svg {
+		display: block;
+	}
+
+	&__data {
+		margin-left: 10px;
+	}
+
+	&__data-value {
+		font-size: 400;
+		font-weight: 13px;
+		line-height: 18px;
+	}
+
+	&__data-name {
+		margin-top: 4px;
+		font-weight: 400;
+		font-size: 13px;
+		color: #6d7885;
+	}
+}

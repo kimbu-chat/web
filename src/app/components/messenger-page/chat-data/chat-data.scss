@@ -4,6 +4,11 @@
 		justify-content: space-between;
 		align-items: center;
 		border-bottom: 1px solid rgba(#000, 0.2);
+
+		&--little {
+			width: calc(100% - 300px);
+		}
+		transition: all 0.3s;
 	}
 
 	&__contact-data {

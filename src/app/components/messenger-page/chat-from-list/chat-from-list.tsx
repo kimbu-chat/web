@@ -93,7 +93,11 @@ const ChatFromList = ({ chat }: ChatFromList.Props) => {
 		>
 			<div className='chat-from-list__active-line'></div>
 			{!conference ? (
-				<StatusBadge additionalClassNames={'chat-from-list__avatar'} user={chat.interlocutor!} />
+				<StatusBadge
+					containerClassName='chat-from-list__avatar-container'
+					additionalClassNames={'chat-from-list__avatar'}
+					user={chat.interlocutor!}
+				/>
 			) : (
 				<Avatar className={'chat-from-list__avatar'} src={getChatAvatar()}>
 					{getInterlocutorInitials(chat)}

@@ -57,7 +57,18 @@
 	"interlocutorInfo": {
 		"information": "Информация",
 		"mobile": "Мобильный",
-		"username": "Имя пользователя"
+		"username": "Имя пользователя",
+		"about": "Подробности",
+		"link": "Ссылка"
+	},
+	"chatMedia": {
+		"media": "Медия",
+		"photos": "{{count}} фото",
+		"videos": "{{count}} видео",
+		"files": "{{count}} файлов",
+		"shared-links": "{{count}} ссылок",
+		"voice-messages": "{{count}} голосовых сообщений",
+		"common-groups": "{{count}} общих груп"
 	},
 	"chatInfo": {
 		"leave-confirmation": "Вы уверенны что хотите покинуть ‘{{conferenceName}}‘ ? Все данные будут потерянны",

@@ -10,6 +10,8 @@ import { UserPreview } from 'app/store/my-profile/models';
 import { RootState } from 'app/store/root-reducer';
 import { LocalizationContext } from 'app/app';
 
+import AddSvg from 'app/assets/icons/ic-add-new.svg';
+
 namespace ChatMembers {
 	export interface Props {
 		addMembers: (params: object) => void;
@@ -19,7 +21,6 @@ namespace ChatMembers {
 const ChatMembers = ({ addMembers }: ChatMembers.Props) => {
 	const { t } = useContext(LocalizationContext);
 
-	const [membersDisplayed, setMembersDisplayed] = useState<boolean>(false);
 	const [searchStr, setSearchStr] = useState<string>('');
 
 	const getConferenceUsers = useActionWithDispatch(ChatActions.getConferenceUsers);
@@ -39,7 +40,6 @@ const ChatMembers = ({ addMembers }: ChatMembers.Props) => {
 		});
 		return () => {
 			setSearchStr('');
-			setMembersDisplayed(false);
 		};
 	}, [selectedChat.id]);
 
@@ -55,64 +55,35 @@ const ChatMembers = ({ addMembers }: ChatMembers.Props) => {
 	}, [selectedChat]);
 
 	return (
-		<React.Fragment>
-			<button onClick={() => setMembersDisplayed(!membersDisplayed)} className='chat-members__func-btn'>
-				<span>{t('chatMembers.members')}</span>
-				<div className={membersDisplayed ? 'svg svg--rotated' : 'svg'}>
-					<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
-						<path d='M5.363 12.318a.9.9 0 1 0 1.274 1.272l4.995-5.007a.9.9 0 0 0 0-1.272L6.696 2.364a.9.9 0 1 0-1.274 1.272l4.302 4.311-4.361 4.371z' />
-					</svg>
-				</div>
-			</button>
-			{membersDisplayed && (
-				<React.Fragment>
-					<input
-						onChange={(e) => {
-							setSearchStr(e.target.value);
-							getConferenceUsers({
-								conferenceId: selectedChat.conference?.id || -1,
-								initiatedByScrolling: false,
-								page: { offset: 0, limit: 15 },
-								filters: {
-									name: e.target.value,
-								},
-							});
-						}}
-						type='text'
-						placeholder={t('chatMembers.search')}
-						className='chat-members__search'
-					/>
-					<div className='chat-members__members-list'>
-						<div
-							onClick={() => addMembers({ excludeIds: membersIdsForConference })}
-							className='chat-members__add-member'
-						>
-							<div className='svg'>
-								<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
-									<path
-										fillRule='evenodd'
-										d='M7.2 7.2V2.682a.8.8 0 0 1 1.6 0V7.2h4.518a.8.8 0 0 1 0 1.6H8.8v4.518a.8.8 0 0 1-1.6 0V8.8H2.682a.8.8 0 0 1 0-1.6H7.2z'
-										clipRule='evenodd'
-									/>
-								</svg>
-							</div>
-							<span>{t('chatMembers.add_members')}</span>
-						</div>
-						{membersForConference.map((member) => (
-							<Member member={member} key={member?.id} />
-						))}
-						<div onClick={loadMore} className='chat-members__load-more'>
-							<span>{t('chatMembers.load_more')}</span>
-							<div className='svg'>
-								<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
-									<path d='M5.363 12.318a.9.9 0 1 0 1.274 1.272l4.995-5.007a.9.9 0 0 0 0-1.272L6.696 2.364a.9.9 0 1 0-1.274 1.272l4.302 4.311-4.361 4.371z' />
-								</svg>
-							</div>
-						</div>
-					</div>
-				</React.Fragment>
-			)}
-		</React.Fragment>
+		<div>
+			<div className='chat-members__heading-block'>
+				<h3 className='chat-members__heading'>Members</h3>
+				<button className='chat-members__add'>
+					<AddSvg />
+				</button>
+			</div>
+			<input
+				onChange={(e) => {
+					setSearchStr(e.target.value);
+					getConferenceUsers({
+						conferenceId: selectedChat.conference?.id || -1,
+						initiatedByScrolling: false,
+						page: { offset: 0, limit: 15 },
+						filters: {
+							name: e.target.value,
+						},
+					});
+				}}
+				type='text'
+				placeholder={t('chatMembers.search')}
+				className='chat-members__search'
+			/>
+			<div className='chat-members__members-list'>
+				{membersForConference.map((member) => (
+					<Member member={member} key={member?.id} />
+				))}
+			</div>
+		</div>
 	);
 };
 

@@ -11,7 +11,7 @@ import { AvatarSelectedData } from 'app/store/my-profile/models';
 import { getSelectedChatSelector } from 'app/store/chats/selectors';
 
 import InterlocutorInfo from './interlocutor-info/interlocutor-info';
-import ChatManipulation from './chat-actions/chat-actions';
+import ChatInfoActions from './chat-actions/chat-actions';
 import ChatMembers from './chat-members/chat-members';
 
 import { FriendActions } from 'app/store/friends/actions';
@@ -23,6 +23,7 @@ import WithBackground from 'app/components/shared/with-background';
 import { LocalizationContext } from 'app/app';
 
 import RenameSvg from 'app/assets/icons/ic-edit.svg';
+import ChatMedia from './chat-media/chat-media';
 
 namespace ChatInfo {
 	export interface Props {
@@ -177,9 +178,9 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 					)}
 				</div>
 
-				{selectedChat.interlocutor && <InterlocutorInfo />}
+				<InterlocutorInfo />
 
-				<ChatManipulation
+				<ChatInfoActions
 					deleteChat={deleteChat}
 					deleteConference={openLeaveConferenceModal}
 					muteChat={muteThisChat}
@@ -187,6 +188,8 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 					createConference={createConference}
 					addMembers={searchContactsToAdd}
 				/>
+
+				<ChatMedia />
 
 				<WithBackground
 					isBackgroundDisplayed={leaveConferenceModalOpened}

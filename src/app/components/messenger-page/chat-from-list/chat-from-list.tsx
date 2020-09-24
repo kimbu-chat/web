@@ -99,7 +99,7 @@ const ChatFromList = ({ chat }: ChatFromList.Props) => {
 					user={chat.interlocutor!}
 				/>
 			) : (
-				<Avatar className={'chat-from-list__avatar'} src={getChatAvatar()}>
+				<Avatar className={'chat-from-list__avatar chat-from-list__avatar-container'} src={getChatAvatar()}>
 					{getInterlocutorInitials(chat)}
 				</Avatar>
 			)}

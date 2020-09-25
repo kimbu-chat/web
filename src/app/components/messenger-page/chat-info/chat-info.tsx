@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useContext } from 'react';
+import React, { useState, useRef, useCallback, useContext, useEffect } from 'react';
 import './chat-info.scss';
 import { useSelector } from 'react-redux';
 import { Chat } from 'app/store/chats/models';
@@ -25,6 +25,7 @@ import { LocalizationContext } from 'app/app';
 
 import RenameSvg from 'app/assets/icons/ic-edit.svg';
 import PhotoSvg from 'app/assets/icons/ic-photo.svg';
+import ChatPhoto from './chat-photo/chat-photo';
 
 namespace ChatInfo {
 	export interface Props {
@@ -47,6 +48,10 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 }) => {
 	const { t } = useContext(LocalizationContext);
 
+	const [chatPhotoDisplayed, setChatPhotoDisplayed] = useState(false);
+	const closeChatPhoto = useCallback(() => setChatPhotoDisplayed(false), [setChatPhotoDisplayed]);
+	const displayChatPhoto = useCallback(() => setChatPhotoDisplayed(true), [setChatPhotoDisplayed]);
+
 	const selectedChat = useSelector(getSelectedChatSelector) as Chat;
 
 	const leaveConference = useActionWithDeferred(ChatActions.leaveConference);
@@ -65,6 +70,13 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 	const closeLeaveConferenceModal = useCallback(() => setLeaveConferenceModalOpened(false), [
 		setLeaveConferenceModalOpened,
 	]);
+
+	useEffect(() => {
+		return () => {
+			console.log('closed');
+			closeLeaveConferenceModal();
+		};
+	}, []);
 
 	const deleteChat = useCallback(() => removeChat(selectedChat), [removeChat, selectedChat]);
 	const muteThisChat = useCallback(() => muteChat(selectedChat), [muteChat, selectedChat]);
@@ -138,97 +150,102 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 		};
 
 		return (
-			<div className={isDisplayed ? 'chat-info chat-info--active' : 'chat-info'}>
-				<div className='chat-info__main-data'>
-					{!conference && selectedChat?.interlocutor ? (
-						<Avatar className='chat-info__avatar' src={getChatAvatar()}>
-							{getInterlocutorInitials(selectedChat)}
-						</Avatar>
-					) : (
-						<div className='chat-info__avatar-group'>
+			<React.Fragment>
+				<div className={isDisplayed ? 'chat-info chat-info--active' : 'chat-info'}>
+					<div className='chat-info__main-data'>
+						{!conference && selectedChat?.interlocutor ? (
 							<Avatar className='chat-info__avatar' src={getChatAvatar()}>
 								{getInterlocutorInitials(selectedChat)}
 							</Avatar>
-							<div
-								onClick={() => fileInputRef.current?.click()}
-								className={getChatAvatar() ? 'change-avatar change-avatar--hidden' : 'change-avatar'}
-							>
-								<div>
-									<PhotoSvg className='change-avatar__svg' viewBox='0 0 25 25' />
+						) : (
+							<div className='chat-info__avatar-group'>
+								<Avatar className='chat-info__avatar' src={getChatAvatar()}>
+									{getInterlocutorInitials(selectedChat)}
+								</Avatar>
+								<div
+									onClick={() => fileInputRef.current?.click()}
+									className={
+										getChatAvatar() ? 'change-avatar change-avatar--hidden' : 'change-avatar'
+									}
+								>
+									<div>
+										<PhotoSvg className='change-avatar__svg' viewBox='0 0 25 25' />
+									</div>
 								</div>
 							</div>
-						</div>
-					)}
-					<input
-						onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleImageChange(e)}
-						ref={fileInputRef}
-						type='file'
-						hidden
-						accept='image/*'
-					/>
-					<span className='chat-info__interlocutor'>{getChatInterlocutor(selectedChat)}</span>
-					{conference && (
-						<button className='chat-info__rename-btn'>
-							<RenameSvg />
-						</button>
-					)}
-				</div>
-
-				<InterlocutorInfo />
-
-				<ChatInfoActions
-					deleteChat={deleteChat}
-					deleteConference={openLeaveConferenceModal}
-					muteChat={muteThisChat}
-					deleteContact={deleteContact}
-					createConference={createConference}
-					addMembers={searchContactsToAdd}
-				/>
-
-				<ChatMedia />
-
-				<WithBackground
-					isBackgroundDisplayed={leaveConferenceModalOpened}
-					onBackgroundClick={closeLeaveConferenceModal}
-				>
-					{leaveConferenceModalOpened && (
-						<Modal
-							title='Delete chat'
-							contents={t('chatInfo.leave-confirmation', { conferenceName: conference?.name })}
-							highlightedInContents={`‘${conference?.name}‘`}
-							closeModal={closeLeaveConferenceModal}
-							buttons={[
-								{
-									text: t('chatInfo.confirm'),
-									style: {
-										color: 'rgb(255, 255, 255)',
-										backgroundColor: 'rgb(209, 36, 51)',
-										padding: '16px 49.5px',
-										margin: '0',
-									},
-									position: 'left',
-									onClick: deleteConference,
-								},
-								{
-									text: t('chatInfo.cancel'),
-									style: {
-										color: 'rgb(109, 120, 133)',
-										backgroundColor: 'rgb(255, 255, 255)',
-										padding: '16px 38px',
-										margin: '0 0 0 10px',
-										border: '1px solid rgb(215, 216, 217)',
-									},
-
-									position: 'left',
-									onClick: closeLeaveConferenceModal,
-								},
-							]}
+						)}
+						<input
+							onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleImageChange(e)}
+							ref={fileInputRef}
+							type='file'
+							hidden
+							accept='image/*'
 						/>
-					)}
-				</WithBackground>
+						<span className='chat-info__interlocutor'>{getChatInterlocutor(selectedChat)}</span>
+						{conference && (
+							<button className='chat-info__rename-btn'>
+								<RenameSvg />
+							</button>
+						)}
+					</div>
 
-				{conference && <ChatMembers addMembers={searchContactsToAdd} />}
-			</div>
+					<InterlocutorInfo />
+
+					<ChatInfoActions
+						deleteChat={deleteChat}
+						deleteConference={openLeaveConferenceModal}
+						muteChat={muteThisChat}
+						deleteContact={deleteContact}
+						createConference={createConference}
+						addMembers={searchContactsToAdd}
+					/>
+
+					<ChatMedia displayChatPhoto={displayChatPhoto} />
+
+					<WithBackground
+						isBackgroundDisplayed={leaveConferenceModalOpened}
+						onBackgroundClick={closeLeaveConferenceModal}
+					>
+						{leaveConferenceModalOpened && (
+							<Modal
+								title='Delete chat'
+								contents={t('chatInfo.leave-confirmation', { conferenceName: conference?.name })}
+								highlightedInContents={`‘${conference?.name}‘`}
+								closeModal={closeLeaveConferenceModal}
+								buttons={[
+									{
+										text: t('chatInfo.confirm'),
+										style: {
+											color: 'rgb(255, 255, 255)',
+											backgroundColor: 'rgb(209, 36, 51)',
+											padding: '16px 49.5px',
+											margin: '0',
+										},
+										position: 'left',
+										onClick: deleteConference,
+									},
+									{
+										text: t('chatInfo.cancel'),
+										style: {
+											color: 'rgb(109, 120, 133)',
+											backgroundColor: 'rgb(255, 255, 255)',
+											padding: '16px 38px',
+											margin: '0 0 0 10px',
+											border: '1px solid rgb(215, 216, 217)',
+										},
+
+										position: 'left',
+										onClick: closeLeaveConferenceModal,
+									},
+								]}
+							/>
+						)}
+					</WithBackground>
+
+					{conference && <ChatMembers addMembers={searchContactsToAdd} />}
+				</div>
+				<ChatPhoto isDisplayed={chatPhotoDisplayed} close={closeChatPhoto} />
+			</React.Fragment>
 		);
 	} else {
 		return <div></div>;

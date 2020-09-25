@@ -31,7 +31,7 @@
 		"members": "members",
 		"member": "member",
 		"online": "Online",
-		"last-time": "Last seen online at"
+		"last-time": "Last seen online"
 	},
 	"chatFromList": {
 		"you": "You",

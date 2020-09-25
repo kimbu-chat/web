@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 import './chat-members.scss';
-import Member from './member/member';
+import Member from './chat-member/chat-member';
 import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { Chat } from 'app/store/chats/models';
@@ -11,6 +11,7 @@ import { RootState } from 'app/store/root-reducer';
 import { LocalizationContext } from 'app/app';
 
 import AddSvg from 'app/assets/icons/ic-add-new.svg';
+import SearchSvg from 'app/assets/icons/ic-search.svg';
 
 namespace ChatMembers {
 	export interface Props {
@@ -54,30 +55,39 @@ const ChatMembers = ({ addMembers }: ChatMembers.Props) => {
 		});
 	}, [selectedChat]);
 
+	//!remove
+	console.log(loadMore);
+
 	return (
-		<div>
+		<div className='chat-members'>
 			<div className='chat-members__heading-block'>
 				<h3 className='chat-members__heading'>Members</h3>
-				<button className='chat-members__add'>
-					<AddSvg />
+				<button
+					onClick={() => addMembers({ excludeIds: membersIdsForConference })}
+					className='chat-members__add'
+				>
+					<AddSvg viewBox='0 0 25 25' />
 				</button>
 			</div>
-			<input
-				onChange={(e) => {
-					setSearchStr(e.target.value);
-					getConferenceUsers({
-						conferenceId: selectedChat.conference?.id || -1,
-						initiatedByScrolling: false,
-						page: { offset: 0, limit: 15 },
-						filters: {
-							name: e.target.value,
-						},
-					});
-				}}
-				type='text'
-				placeholder={t('chatMembers.search')}
-				className='chat-members__search'
-			/>
+			<div className='chat-members__input-wrapper'>
+				<SearchSvg viewBox='0 0 25 25' />
+				<input
+					onChange={(e) => {
+						setSearchStr(e.target.value);
+						getConferenceUsers({
+							conferenceId: selectedChat.conference?.id || -1,
+							initiatedByScrolling: false,
+							page: { offset: 0, limit: 15 },
+							filters: {
+								name: e.target.value,
+							},
+						});
+					}}
+					type='text'
+					placeholder={t('chatMembers.search')}
+					className='chat-members__search'
+				/>
+			</div>
 			<div className='chat-members__members-list'>
 				{membersForConference.map((member) => (
 					<Member member={member} key={member?.id} />

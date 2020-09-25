@@ -13,6 +13,7 @@ import { getSelectedChatSelector } from 'app/store/chats/selectors';
 import InterlocutorInfo from './interlocutor-info/interlocutor-info';
 import ChatInfoActions from './chat-actions/chat-actions';
 import ChatMembers from './chat-members/chat-members';
+import ChatMedia from './chat-media/chat-media';
 
 import { FriendActions } from 'app/store/friends/actions';
 import { ChatActions } from 'app/store/chats/actions';
@@ -23,7 +24,7 @@ import WithBackground from 'app/components/shared/with-background';
 import { LocalizationContext } from 'app/app';
 
 import RenameSvg from 'app/assets/icons/ic-edit.svg';
-import ChatMedia from './chat-media/chat-media';
+import PhotoSvg from 'app/assets/icons/ic-photo.svg';
 
 namespace ChatInfo {
 	export interface Props {
@@ -152,13 +153,8 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 								onClick={() => fileInputRef.current?.click()}
 								className={getChatAvatar() ? 'change-avatar change-avatar--hidden' : 'change-avatar'}
 							>
-								<div className='svg'>
-									<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
-										<path
-											fillRule='evenodd'
-											d='M4.254 2.257A3.8 3.8 0 0 1 7.392.6h1.223c1.26 0 2.433.625 3.139 1.658l1.67.256A2.8 2.8 0 0 1 15.8 5.282V11a3.8 3.8 0 0 1-3.8 3.8H4A3.8 3.8 0 0 1 .2 11V5.282a2.8 2.8 0 0 1 2.376-2.768l1.678-.257zm.61 1.525l-2.046.314A1.2 1.2 0 0 0 1.8 5.282V11A2.2 2.2 0 0 0 4 13.2h8a2.2 2.2 0 0 0 2.2-2.2V5.282a1.2 1.2 0 0 0-1.018-1.186l-2.037-.312a.8.8 0 0 1-.572-.391l-.057-.1A2.2 2.2 0 0 0 8.615 2.2H7.392a2.2 2.2 0 0 0-1.91 1.107l-.046.081a.8.8 0 0 1-.573.394zM8 4.615A3.786 3.786 0 0 1 11.785 8.4 3.786 3.786 0 0 1 8 12.185 3.786 3.786 0 0 1 4.215 8.4 3.786 3.786 0 0 1 8 4.615zm0 1.6c-1.206 0-2.185.98-2.185 2.185 0 1.206.98 2.185 2.185 2.185 1.206 0 2.185-.98 2.185-2.185 0-1.206-.98-2.185-2.185-2.185z'
-										></path>
-									</svg>
+								<div>
+									<PhotoSvg className='change-avatar__svg' viewBox='0 0 25 25' />
 								</div>
 							</div>
 						</div>

@@ -2,6 +2,8 @@ import React, { useCallback, useContext } from 'react';
 import './interlocutor-info.scss';
 
 import InfoSvg from 'app/assets/icons/ic-info.svg';
+import LinkSvg from 'app/assets/icons/ic-links.svg';
+
 import { useSelector } from 'react-redux';
 import { ChatActions } from 'app/store/chats/actions';
 import { Chat } from 'app/store/chats/models';
@@ -66,7 +68,7 @@ const InterlocutorInfo = () => {
 			)}
 			{selectedChat.conference && (
 				<div className='interlocutor-info__info-block'>
-					<InfoSvg className='interlocutor-info__info-svg' />
+					<LinkSvg className='interlocutor-info__info-svg' />
 					<div className='interlocutor-info__data'>
 						<Link
 							to={`/chats/${selectedChat.conference.id}2`}

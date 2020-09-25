@@ -1,0 +1,20 @@
+.chat-photo {
+	border-left: 1px solid #e0e4e8;
+	grid-row: 1/3;
+	height: 100vh;
+	background-color: white;
+	position: absolute;
+	width: 300px;
+	right: -300px;
+	overflow-y: auto;
+	transition: all 0.3s;
+
+	&::-webkit-scrollbar {
+		width: 0px;
+		height: 0px;
+	}
+
+	&--active {
+		right: 0;
+	}
+}

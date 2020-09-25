@@ -10,13 +10,19 @@ import PeopleSvg from 'app/assets/icons/ic-group.svg';
 
 import { LocalizationContext } from 'app/app';
 
-const ChatMedia = () => {
+namespace ChatMedia {
+	export interface Props {
+		displayChatPhoto: () => void;
+	}
+}
+
+const ChatMedia = ({ displayChatPhoto }: ChatMedia.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	return (
 		<div className='chat-media'>
 			<div className='chat-media__heading'>{t('chatMedia.media')}</div>
-			<button className='chat-media__media-type'>
+			<button onClick={displayChatPhoto} className='chat-media__media-type'>
 				<PhotoSvg viewBox='0 0 25 25' className='chat-media__media-type__svg' />
 				<span className='chat-media__media-type__name'>{t('chatMedia.photos', { count: 155 })}</span>
 			</button>

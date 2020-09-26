@@ -55,7 +55,7 @@ const ChatMembers = ({ addMembers }: ChatMembers.Props) => {
 		});
 	}, [selectedChat]);
 
-	//!remove
+	//!remove when will be implemented
 	console.log(loadMore);
 
 	return (

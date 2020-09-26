@@ -14,6 +14,8 @@ import InterlocutorInfo from './interlocutor-info/interlocutor-info';
 import ChatInfoActions from './chat-actions/chat-actions';
 import ChatMembers from './chat-members/chat-members';
 import ChatMedia from './chat-media/chat-media';
+import ChatPhoto from './chat-photo/chat-photo';
+import ChatVideo from './chat-video/chat-video';
 
 import { FriendActions } from 'app/store/friends/actions';
 import { ChatActions } from 'app/store/chats/actions';
@@ -25,7 +27,6 @@ import { LocalizationContext } from 'app/app';
 
 import RenameSvg from 'app/assets/icons/ic-edit.svg';
 import PhotoSvg from 'app/assets/icons/ic-photo.svg';
-import ChatPhoto from './chat-photo/chat-photo';
 
 namespace ChatInfo {
 	export interface Props {
@@ -52,6 +53,17 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 	const closeChatPhoto = useCallback(() => setChatPhotoDisplayed(false), [setChatPhotoDisplayed]);
 	const displayChatPhoto = useCallback(() => setChatPhotoDisplayed(true), [setChatPhotoDisplayed]);
 
+	const [chatVideoDisplayed, setChatVideoDisplayed] = useState(false);
+	const closeChatVideo = useCallback(() => setChatVideoDisplayed(false), [setChatVideoDisplayed]);
+	const displayChatVideo = useCallback(() => setChatVideoDisplayed(true), [setChatVideoDisplayed]);
+
+	useEffect(() => {
+		return () => {
+			closeChatPhoto();
+			closeChatVideo();
+		};
+	}, [isDisplayed]);
+
 	const selectedChat = useSelector(getSelectedChatSelector) as Chat;
 
 	const leaveConference = useActionWithDeferred(ChatActions.leaveConference);
@@ -70,13 +82,6 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 	const closeLeaveConferenceModal = useCallback(() => setLeaveConferenceModalOpened(false), [
 		setLeaveConferenceModalOpened,
 	]);
-
-	useEffect(() => {
-		return () => {
-			console.log('closed');
-			closeLeaveConferenceModal();
-		};
-	}, []);
 
 	const deleteChat = useCallback(() => removeChat(selectedChat), [removeChat, selectedChat]);
 	const muteThisChat = useCallback(() => muteChat(selectedChat), [muteChat, selectedChat]);
@@ -200,7 +205,7 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 						addMembers={searchContactsToAdd}
 					/>
 
-					<ChatMedia displayChatPhoto={displayChatPhoto} />
+					<ChatMedia displayChatPhoto={displayChatPhoto} displayChatVideo={displayChatVideo} />
 
 					<WithBackground
 						isBackgroundDisplayed={leaveConferenceModalOpened}
@@ -244,7 +249,10 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 
 					{conference && <ChatMembers addMembers={searchContactsToAdd} />}
 				</div>
+
 				<ChatPhoto isDisplayed={chatPhotoDisplayed} close={closeChatPhoto} />
+
+				<ChatVideo isDisplayed={chatVideoDisplayed} close={closeChatVideo} />
 			</React.Fragment>
 		);
 	} else {

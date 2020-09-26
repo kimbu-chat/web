@@ -13,10 +13,11 @@ import { LocalizationContext } from 'app/app';
 namespace ChatMedia {
 	export interface Props {
 		displayChatPhoto: () => void;
+		displayChatVideo: () => void;
 	}
 }
 
-const ChatMedia = ({ displayChatPhoto }: ChatMedia.Props) => {
+const ChatMedia = ({ displayChatPhoto, displayChatVideo }: ChatMedia.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	return (
@@ -26,7 +27,7 @@ const ChatMedia = ({ displayChatPhoto }: ChatMedia.Props) => {
 				<PhotoSvg viewBox='0 0 25 25' className='chat-media__media-type__svg' />
 				<span className='chat-media__media-type__name'>{t('chatMedia.photos', { count: 155 })}</span>
 			</button>
-			<button className='chat-media__media-type'>
+			<button onClick={displayChatVideo} className='chat-media__media-type'>
 				<VideoSvg viewBox='0 0 25 25' className='chat-media__media-type__svg' />
 				<span className='chat-media__media-type__name'>{t('chatMedia.videos', { count: 7 })}</span>
 			</button>

@@ -40,7 +40,6 @@ async function getPushNotificationTokens(): Promise<{ tokenId: string; deviceId:
 	const retrieveUniqueId = () =>
 		new Promise<string>((resolve) => {
 			new Fingerprint2.getV18({}, function (result: string) {
-				console.log(result);
 				resolve(result);
 			});
 		});

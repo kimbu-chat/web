@@ -42,16 +42,33 @@
 		"typing": "Печатает...",
 		"empty": "В этом чате нет новых сообщений. Ваше может быть первым!"
 	},
-	"ChatManipulation": {
+	"chatActions": {
 		"actions": "Действия",
-		"create_group": "Создать груповой чат",
-		"delete_contact": "Удалить контакт",
-		"rename_conference": "Переименовать конференцию",
-		"add_to_conference": "Добавить в конференцию",
-		"notifications_on": "Уведомления включены",
-		"notifications_off": "Уведомления отключенны",
-		"leave_conference": "Покинуть конференцию",
-		"delete_chat": "Удалить чат"
+		"mute": "Отключить уведомления",
+		"unmute": "Включить уведомления",
+		"clear-history": "Отчистить историю собщений",
+		"edit-contact": "Редактировать контакт",
+		"delete-contact": "Удалить контакт",
+		"create-group": "Создать чат",
+		"delete-chat": "Удалить чат",
+		"leave-chat": "Покинуть чат",
+		"add-users": "Добавить в чат"
+	},
+	"interlocutorInfo": {
+		"information": "Информация",
+		"mobile": "Мобильный",
+		"username": "Имя пользователя",
+		"about": "Подробности",
+		"link": "Ссылка"
+	},
+	"chatMedia": {
+		"media": "Медия",
+		"photos": "{{count}} фото",
+		"videos": "{{count}} видео",
+		"files": "{{count}} файлов",
+		"shared-links": "{{count}} ссылок",
+		"voice-messages": "{{count}} голосовых сообщений",
+		"common-groups": "{{count}} общих груп"
 	},
 	"chatInfo": {
 		"leave-confirmation": "Вы уверенны что хотите покинуть ‘{{conferenceName}}‘ ? Все данные будут потерянны",

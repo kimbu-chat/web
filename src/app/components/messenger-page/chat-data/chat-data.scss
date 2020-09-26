@@ -4,6 +4,11 @@
 		justify-content: space-between;
 		align-items: center;
 		border-bottom: 1px solid rgba(#000, 0.2);
+
+		&--little {
+			width: calc(100% - 300px);
+		}
+		transition: all 0.3s;
 	}
 
 	&__contact-data {
@@ -44,6 +49,7 @@
 	}
 
 	&__button {
+		color: #3f8ae0;
 		width: 36px;
 		height: 36px;
 		display: flex;
@@ -52,7 +58,7 @@
 		border-radius: 50%;
 		margin-right: 4px;
 		&:last-child {
-			margin-right: -2px;
+			margin-right: 14px;
 		}
 
 		&:hover {

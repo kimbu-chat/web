@@ -10,5 +10,11 @@
 		position: relative;
 		grid-row: 2/3;
 		grid-column: 2/3;
+
+		&--little {
+			width: calc(100% - 300px);
+		}
+
+		transition: all 0.3s;
 	}
 }

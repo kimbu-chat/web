@@ -25,7 +25,7 @@ namespace ChatData {
 }
 
 const ChatData = ({ displayChatInfo, chatInfoDisplayed }: ChatData.Props) => {
-	const { t } = useContext(LocalizationContext);
+	const { t, i18n } = useContext(LocalizationContext);
 	const selectedChat = useSelector(getSelectedChatSelector);
 	const callInterlocutor = useActionWithDispatch(CallActions.outgoingCallAction);
 
@@ -63,11 +63,12 @@ const ChatData = ({ displayChatInfo, chatInfoDisplayed }: ChatData.Props) => {
 			? t('chatData.online')
 			: `${t('chatData.last-time')} ${moment
 					.utc(selectedChat?.interlocutor?.lastOnlineTime)
-					.local()
-					.format('hh:mm')}`;
+					.startOf('hour')
+					.locale(i18n?.language || '')
+					.fromNow()}`;
 
 		return (
-			<div className='chat-data__chat-data'>
+			<div className={`chat-data__chat-data ${chatInfoDisplayed ? 'chat-data__chat-data--little' : ''}`}>
 				<div onClick={displayChatInfo} className='chat-data__contact-data'>
 					<Avatar className='chat-data__contact-img' src={imageUrl}>
 						{getInterlocutorInitials(selectedChat)}

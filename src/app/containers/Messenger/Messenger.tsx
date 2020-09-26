@@ -214,9 +214,11 @@ const Messenger = () => {
 			</WithBackground>
 
 			{!createChatDisplayed && !contactSearchDisplayed.isDisplayed && (
-				<div className='messenger__chat-send'>
-					<Chat />
-					<CreateMessageInput />
+				<>
+					<div className={`messenger__chat-send ${infoDisplayed ? 'messenger__chat-send--little' : ''}`}>
+						<Chat />
+						<CreateMessageInput />
+					</div>
 					<ChatInfo
 						displayCreateChat={displayCreateChat}
 						displayContactSearch={displayContactSearch}
@@ -225,7 +227,7 @@ const Messenger = () => {
 						displayChangePhoto={displayChangePhoto}
 						isDisplayed={infoDisplayed}
 					/>
-				</div>
+				</>
 			)}
 		</div>
 	);

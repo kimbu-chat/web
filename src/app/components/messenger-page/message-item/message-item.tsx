@@ -89,13 +89,7 @@ const MessageItem = ({ message }: Message.Props) => {
 					</div>
 				)}
 				<div className='message__separator'>
-					<span>
-						{MessageUtils.constructSystemMessageText(
-							message as Message,
-							message?.userCreator?.id === currentUserId,
-							t,
-						)}
-					</span>
+					<span>{MessageUtils.constructSystemMessageText(message as Message, t, currentUserId)}</span>
 				</div>
 			</React.Fragment>
 		);

@@ -119,11 +119,13 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 			isFullScreenEnabled ? { x: 0, y: 0 } : { x: window.innerWidth / 2 - 120, y: window.innerHeight / 2 - 120 },
 		);
 		dragRef.current?.updateSize(
-			isFullScreenEnabled
-				? { width: window.innerWidth, height: window.innerHeight }
-				: { width: 320, height: 320 },
+			isDisplayed
+				? isFullScreenEnabled
+					? { width: window.innerWidth, height: window.innerHeight }
+					: { width: 320, height: 320 }
+				: { width: 0, height: 0 },
 		);
-	}, [isFullScreenEnabled]);
+	}, [isFullScreenEnabled, isDisplayed]);
 
 	return (
 		<Rnd
@@ -131,8 +133,8 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 			default={{
 				x: window.innerWidth / 2 - 120,
 				y: window.innerHeight / 2 - 120,
-				width: 320,
-				height: 320,
+				width: 0,
+				height: 0,
 			}}
 			bounds='body'
 			disableDragging={isFullScreenEnabled}

@@ -25,7 +25,7 @@ namespace ChatData {
 }
 
 const ChatData = ({ displayChatInfo, chatInfoDisplayed }: ChatData.Props) => {
-	const { t, i18n } = useContext(LocalizationContext);
+	const { t } = useContext(LocalizationContext);
 	const selectedChat = useSelector(getSelectedChatSelector);
 	const callInterlocutor = useActionWithDispatch(CallActions.outgoingCallAction);
 
@@ -64,7 +64,6 @@ const ChatData = ({ displayChatInfo, chatInfoDisplayed }: ChatData.Props) => {
 			: `${t('chatData.last-time')} ${moment
 					.utc(selectedChat?.interlocutor?.lastOnlineTime)
 					.startOf('hour')
-					.locale(i18n?.language || '')
 					.fromNow()}`;
 
 		return (

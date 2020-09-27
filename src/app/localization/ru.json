@@ -75,6 +75,13 @@
 		"confirm": "Покинуть",
 		"cancel": "Отмена"
 	},
+	"chatPhoto": {
+		"photo": "Фото"
+	},
+
+	"chatVideo": {
+		"video": "Видео"
+	},
 	"chatMembers": {
 		"members": "Участники",
 		"add_members": "Добавить участников",

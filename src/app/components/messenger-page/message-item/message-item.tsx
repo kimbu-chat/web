@@ -42,7 +42,7 @@ const MessageItem = ({ message }: Message.Props) => {
 
 	const from = messageIsFrom(message.userCreator?.id);
 
-	const { t, i18n } = useContext(LocalizationContext);
+	const { t } = useContext(LocalizationContext);
 
 	const deleteMessage = useActionWithDispatch(MessageActions.deleteMessageSuccess);
 	const selectMessage = useActionWithDispatch(MessageActions.selectMessage);
@@ -79,12 +79,7 @@ const MessageItem = ({ message }: Message.Props) => {
 				{message.needToShowDateSeparator && (
 					<div className='message__separator message__separator--capitalized'>
 						<span>
-							{moment
-								.utc(message.creationDateTime)
-								.local()
-								.locale(i18n?.language || '')
-								.format('dddd, MMMM D, YYYY')
-								.toString()}
+							{moment.utc(message.creationDateTime).local().format('dddd, MMMM D, YYYY').toString()}
 						</span>
 					</div>
 				)}
@@ -99,14 +94,7 @@ const MessageItem = ({ message }: Message.Props) => {
 		<React.Fragment>
 			{message.needToShowDateSeparator && (
 				<div className='message__separator message__separator--capitalized'>
-					<span>
-						{moment
-							.utc(message.creationDateTime)
-							.local()
-							.locale(i18n?.language || '')
-							.format('dddd, MMMM D, YYYY')
-							.toString()}
-					</span>
+					<span>{moment.utc(message.creationDateTime).local().format('dddd, MMMM D, YYYY').toString()}</span>
 				</div>
 			)}
 			<div

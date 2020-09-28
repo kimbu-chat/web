@@ -1,4 +1,4 @@
-.messenger {
+.message-input {
 	&__send-message {
 		display: flex;
 		align-items: center;
@@ -41,6 +41,16 @@
 
 	&__smiles-btn {
 		margin-right: 10px;
+	}
+
+	&__voice-btn {
+		border-radius: 50%;
+		color: #3f8ae0;
+
+		&--active {
+			background-color: #ebf3fc;
+			color: black;
+		}
 	}
 }
 

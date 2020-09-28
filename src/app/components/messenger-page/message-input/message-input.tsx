@@ -12,6 +12,7 @@ import { getSelectedChatSelector } from 'app/store/chats/selectors';
 import { SystemMessageType, MessageState } from 'app/store/messages/models';
 import { LocalizationContext } from 'app/app';
 import { RootState } from 'app/store/root-reducer';
+import useInterval from 'use-interval';
 
 import AddSvg from 'app/assets/icons/ic-add-new.svg';
 import SmilesSvg from 'app/assets/icons/ic-smile.svg';
@@ -27,6 +28,19 @@ const CreateMessageInput = () => {
 	const selectedChat = useSelector(getSelectedChatSelector);
 	const [text, setText] = useState('');
 	const [smilesDisplayed, setSmilesDisplayed] = useState<boolean>(false);
+	const [isRecording, setIsRecording] = useState(false);
+	const [recordedSeconds, setRecordedSeconds] = useState(0);
+
+	useInterval(
+		() => {
+			if (isRecording) {
+				setRecordedSeconds((x) => x + 1);
+				console.log('+1');
+			}
+		},
+		isRecording ? 1000 : null,
+		true,
+	);
 
 	const emojiRef = useRef<HTMLDivElement>(null);
 
@@ -89,8 +103,6 @@ const CreateMessageInput = () => {
 		}
 	};
 
-	const [isRecording, setIsRecording] = useState(false);
-
 	const recorderData: React.MutableRefObject<{
 		mediaRecorder: MediaRecorder | null;
 		mediaStream: MediaStream | null;
@@ -109,6 +121,7 @@ const CreateMessageInput = () => {
 			});
 
 			recorderData.current.mediaRecorder?.addEventListener('stop', () => {
+				setRecordedSeconds(0);
 				setIsRecording(false);
 				const tracks = recorderData.current.mediaStream?.getTracks();
 				tracks?.forEach((track) => track.stop());
@@ -133,25 +146,40 @@ const CreateMessageInput = () => {
 		<div className='message-input__send-message'>
 			{selectedChat && (
 				<React.Fragment>
-					<button className='message-input__add'>
-						<AddSvg />
-					</button>
+					{!isRecording && (
+						<button className='message-input__add'>
+							<AddSvg />
+						</button>
+					)}
+					{isRecording && (
+						<>
+							<div className='message-input__red-dot'></div>
+							<div className='message-input__counter'>{recordedSeconds}</div>
+						</>
+					)}
 					<div className='message-input__input-group' onSubmit={sendMessageToServer}>
-						<input
-							placeholder={t('messageInput.write')}
-							type='text'
-							value={text}
-							onChange={(event) => {
-								setText(event.target.value);
-								handleTextChange(event.target.value);
-							}}
-							className='message-input__input-message'
-							onKeyPress={handleKeyPress}
-						/>
+						{!isRecording && (
+							<input
+								placeholder={t('messageInput.write')}
+								type='text'
+								value={text}
+								onChange={(event) => {
+									setText(event.target.value);
+									handleTextChange(event.target.value);
+								}}
+								className='message-input__input-message'
+								onKeyPress={handleKeyPress}
+							/>
+						)}
+						{isRecording && (
+							<div className='message-input__recording-info'>Release outside this field to cancel</div>
+						)}
 						<div className='message-input__right-btns'>
-							<button onClick={handleClick} className='message-input__smiles-btn'>
-								<SmilesSvg />
-							</button>
+							{!isRecording && (
+								<button onClick={handleClick} className='message-input__smiles-btn'>
+									<SmilesSvg />
+								</button>
+							)}
 							<button
 								onMouseDown={registerAudio}
 								onMouseUp={stopAudioRegistering}
@@ -163,7 +191,7 @@ const CreateMessageInput = () => {
 							</button>
 						</div>
 					</div>
-					{smilesDisplayed && (
+					{smilesDisplayed && !isRecording && (
 						<div ref={emojiRef} className='emoji-wrapper'>
 							<Picker
 								set='apple'

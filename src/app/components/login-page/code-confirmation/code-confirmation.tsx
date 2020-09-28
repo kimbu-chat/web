@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 import useInterval from 'use-interval';
 import { history } from '../../../../main';
 import moment from 'moment';
-import { AsYouType } from 'libphonenumber-js';
+import { parsePhoneNumber } from 'libphonenumber-js';
 import ResendSvg from 'app/assets/icons/ic-resend.svg';
 
 const NUMBER_OF_DIGITS = [0, 1, 2, 3];
@@ -145,9 +145,9 @@ const CodeConfirmation = () => {
 		<div className='code-confirmation'>
 			<div className='code-confirmation__container'>
 				<p className='code-confirmation__confirm-code'>{t('loginPage.confirm_code')}</p>
-				<p className='code-confirmation__code-sent'>{`${t('loginPage.code_sent_to')} ${new AsYouType().input(
+				<p className='code-confirmation__code-sent'>{`${t('loginPage.code_sent_to')} ${parsePhoneNumber(
 					phoneNumber,
-				)}`}</p>
+				).formatInternational()}`}</p>
 				<div className='code-confirmation__inputs-container'>{NUMBER_OF_DIGITS.map(input)}</div>
 				<p className='code-confirmation__timer'>
 					{t('loginPage.resend_timer', { time: moment.utc(remainingSeconds * 1000).format('mm:ss') })}

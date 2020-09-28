@@ -9,7 +9,7 @@ import { ChatActions } from 'app/store/chats/actions';
 import { Chat } from 'app/store/chats/models';
 import { getSelectedChatSelector } from 'app/store/chats/selectors';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
-import { AsYouType } from 'libphonenumber-js';
+import { parsePhoneNumber } from 'libphonenumber-js';
 import { LocalizationContext } from 'app/app';
 import { Link } from 'react-router-dom';
 
@@ -36,7 +36,7 @@ const InterlocutorInfo = () => {
 					<InfoSvg className='interlocutor-info__info-svg' />
 					<div className='interlocutor-info__data'>
 						<div className='interlocutor-info__data-value'>
-							{new AsYouType().input(selectedChat.interlocutor?.phoneNumber as string)}
+							{parsePhoneNumber(selectedChat.interlocutor?.phoneNumber).formatInternational()}
 						</div>
 						<div className='interlocutor-info__data-name'>{t('interlocutorInfo.mobile')}</div>
 					</div>

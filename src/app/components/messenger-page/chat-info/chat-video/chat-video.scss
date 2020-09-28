@@ -1,4 +1,4 @@
-.chat-photo {
+.chat-video {
 	border-left: 1px solid #e0e4e8;
 	grid-row: 1/3;
 	height: 100vh;
@@ -46,18 +46,23 @@
 		}
 	}
 
-	&__photo-list {
+	&__video-list {
 		display: flex;
 		flex-wrap: wrap;
 		margin: 0 20px;
 	}
 
-	&__photo {
+	&__video {
 		width: 126px;
 		height: 120px;
 		object-fit: cover;
+	}
+
+	&__video-wrapper {
 		margin-bottom: 8px;
 		border-radius: 4px;
+		position: relative;
+		overflow: hidden;
 
 		&:nth-of-type(2n + 1) {
 			margin-right: 8px;
@@ -66,14 +71,37 @@
 
 	&__separator {
 		width: 100%;
-		margin-bottom: 10px;
+		margin: 0 20px 10px 20px;
 		font-size: 11px;
 		font-weight: 500;
 		line-height: 16px;
-		margin: 0 20px 10px 20px;
 
 		&:not(:nth-child(2)) {
 			margin-top: 20px;
 		}
+	}
+
+	&__play {
+		position: absolute;
+		bottom: 6px;
+		left: 6px;
+		background-color: rgba($color: #000000, $alpha: 0.4);
+		border-radius: 10px;
+		display: flex;
+		align-items: center;
+		padding: 4px 8px;
+
+		svg {
+			height: 12px;
+			width: 12px;
+			margin-right: 6px;
+			color: white;
+		}
+	}
+
+	&__duration {
+		font-size: 11px;
+		font-weight: 500;
+		color: white;
 	}
 }

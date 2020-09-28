@@ -43,6 +43,8 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 	const remoteAudioRef = useRef<HTMLAudioElement>(null);
 	const localVideoRef = useRef<HTMLVideoElement>(null);
 
+	const dragRef = useRef<Rnd>(null);
+
 	const [callDuration, setCallDuration] = useState(0);
 
 	//!PEER connection callbacks
@@ -112,15 +114,30 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 		};
 	}, [isDisplayed]);
 
+	useEffect(() => {
+		dragRef.current?.updatePosition(
+			isFullScreenEnabled ? { x: 0, y: 0 } : { x: window.innerWidth / 2 - 120, y: window.innerHeight / 2 - 120 },
+		);
+		dragRef.current?.updateSize(
+			isDisplayed
+				? isFullScreenEnabled
+					? { width: window.innerWidth, height: window.innerHeight }
+					: { width: 320, height: 320 }
+				: { width: 0, height: 0 },
+		);
+	}, [isFullScreenEnabled, isDisplayed]);
+
 	return (
 		<Rnd
+			ref={dragRef}
 			default={{
 				x: window.innerWidth / 2 - 120,
 				y: window.innerHeight / 2 - 120,
-				width: 320,
-				height: 320,
+				width: 0,
+				height: 0,
 			}}
 			bounds='body'
+			disableDragging={isFullScreenEnabled}
 		>
 			<div
 				className={`${isDisplayed ? 'active-call' : 'completly-hidden'} ${

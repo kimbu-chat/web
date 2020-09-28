@@ -74,6 +74,13 @@
 		"confirm": "Delete",
 		"cancel": "Cancel"
 	},
+	"chatPhoto": {
+		"photo": "Photo"
+	},
+
+	"chatVideo": {
+		"video": "Video"
+	},
 	"chatMembers": {
 		"members": "Members",
 		"add_members": "Add members",

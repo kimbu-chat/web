@@ -88,6 +88,37 @@ const CreateMessageInput = () => {
 			sendMessageToServer();
 		}
 	};
+
+	let recorderData: { mediaRecorder: MediaRecorder | null } = { mediaRecorder: null };
+
+	const registerAudio = () => {
+		navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+			console.log('started');
+			recorderData.mediaRecorder = new MediaRecorder(stream);
+			recorderData.mediaRecorder.start();
+
+			const audioChunks: Blob[] = [];
+			recorderData.mediaRecorder.addEventListener('dataavailable', (event) => {
+				audioChunks.push(event.data);
+			});
+
+			recorderData.mediaRecorder.addEventListener('stop', () => {
+				const tracks = stream.getTracks();
+				tracks.forEach((track) => track.stop());
+				const audioBlob = new Blob(audioChunks);
+				const audioUrl = URL.createObjectURL(audioBlob);
+				const audio = new Audio(audioUrl);
+				audio.play();
+			});
+		});
+	};
+
+	const stopAudioRegistering = () => {
+		if (recorderData.mediaRecorder?.state === 'recording') {
+			recorderData.mediaRecorder?.stop();
+		}
+	};
+
 	return (
 		<div className='messenger__send-message'>
 			{selectedChat && (
@@ -111,7 +142,11 @@ const CreateMessageInput = () => {
 							<button onClick={handleClick} className='messenger__smiles-btn'>
 								<SmilesSvg />
 							</button>
-							<button onClick={sendMessageToServer} className='messenger__voice-btn'>
+							<button
+								onMouseDown={registerAudio}
+								onMouseUp={stopAudioRegistering}
+								className='messenger__voice-btn'
+							>
 								<VoiceSvg />
 							</button>
 						</div>

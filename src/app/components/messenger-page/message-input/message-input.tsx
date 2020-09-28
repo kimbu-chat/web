@@ -89,22 +89,29 @@ const CreateMessageInput = () => {
 		}
 	};
 
-	let recorderData: { mediaRecorder: MediaRecorder | null } = { mediaRecorder: null };
+	const [isRecording, setIsRecording] = useState(false);
+
+	const recorderData: React.MutableRefObject<{
+		mediaRecorder: MediaRecorder | null;
+		mediaStream: MediaStream | null;
+	}> = useRef({ mediaRecorder: null, mediaStream: null });
 
 	const registerAudio = () => {
 		navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-			console.log('started');
-			recorderData.mediaRecorder = new MediaRecorder(stream);
-			recorderData.mediaRecorder.start();
+			recorderData.current.mediaStream = stream;
+			recorderData.current.mediaRecorder = new MediaRecorder(recorderData.current.mediaStream);
+			recorderData.current.mediaRecorder?.start();
+			setIsRecording(true);
 
 			const audioChunks: Blob[] = [];
-			recorderData.mediaRecorder.addEventListener('dataavailable', (event) => {
+			recorderData.current.mediaRecorder?.addEventListener('dataavailable', (event) => {
 				audioChunks.push(event.data);
 			});
 
-			recorderData.mediaRecorder.addEventListener('stop', () => {
-				const tracks = stream.getTracks();
-				tracks.forEach((track) => track.stop());
+			recorderData.current.mediaRecorder?.addEventListener('stop', () => {
+				setIsRecording(false);
+				const tracks = recorderData.current.mediaStream?.getTracks();
+				tracks?.forEach((track) => track.stop());
 				const audioBlob = new Blob(audioChunks);
 				const audioUrl = URL.createObjectURL(audioBlob);
 				const audio = new Audio(audioUrl);
@@ -114,19 +121,22 @@ const CreateMessageInput = () => {
 	};
 
 	const stopAudioRegistering = () => {
-		if (recorderData.mediaRecorder?.state === 'recording') {
-			recorderData.mediaRecorder?.stop();
+		console.log(recorderData.current.mediaRecorder);
+		if (recorderData.current.mediaRecorder?.state === 'recording') {
+			recorderData.current.mediaRecorder?.stop();
 		}
+		const tracks = recorderData.current.mediaStream?.getTracks();
+		tracks?.forEach((track) => track.stop());
 	};
 
 	return (
-		<div className='messenger__send-message'>
+		<div className='message-input__send-message'>
 			{selectedChat && (
 				<React.Fragment>
-					<button className='messenger__add'>
+					<button className='message-input__add'>
 						<AddSvg />
 					</button>
-					<div className='messenger__input-group' onSubmit={sendMessageToServer}>
+					<div className='message-input__input-group' onSubmit={sendMessageToServer}>
 						<input
 							placeholder={t('messageInput.write')}
 							type='text'
@@ -135,17 +145,19 @@ const CreateMessageInput = () => {
 								setText(event.target.value);
 								handleTextChange(event.target.value);
 							}}
-							className='messenger__input-message'
+							className='message-input__input-message'
 							onKeyPress={handleKeyPress}
 						/>
-						<div className='messenger__right-btns'>
-							<button onClick={handleClick} className='messenger__smiles-btn'>
+						<div className='message-input__right-btns'>
+							<button onClick={handleClick} className='message-input__smiles-btn'>
 								<SmilesSvg />
 							</button>
 							<button
 								onMouseDown={registerAudio}
 								onMouseUp={stopAudioRegistering}
-								className='messenger__voice-btn'
+								className={`message-input__voice-btn ${
+									isRecording ? 'message-input__voice-btn--active' : ''
+								}`}
 							>
 								<VoiceSvg />
 							</button>

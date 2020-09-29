@@ -105,9 +105,7 @@ const CodeConfirmation = () => {
 		if (codeClone.every((element) => element.length === 1)) {
 			boxElements[key].current?.blur();
 
-			if (codeClone.every((element) => element.length === 1)) {
-				checkCode(codeClone);
-			}
+			checkCode(codeClone);
 		}
 
 		if (codeClone[key] && key < 3) {
@@ -130,7 +128,9 @@ const CodeConfirmation = () => {
 				value={code[key]}
 				key={key}
 				type='text'
-				className='code-confirmation__code-input'
+				className={`code-confirmation__code-input ${
+					isConfirmationCodeWrong ? 'code-confirmation__code-input--wrong' : ''
+				}`}
 			/>
 		);
 	};
@@ -145,13 +145,25 @@ const CodeConfirmation = () => {
 		<div className='code-confirmation'>
 			<div className='code-confirmation__container'>
 				<p className='code-confirmation__confirm-code'>{t('loginPage.confirm_code')}</p>
-				<p className='code-confirmation__code-sent'>{`${t('loginPage.code_sent_to')} ${parsePhoneNumber(
-					phoneNumber,
-				).formatInternational()}`}</p>
+				<p
+					style={{ marginBottom: isConfirmationCodeWrong ? '20px' : '50px' }}
+					className='code-confirmation__code-sent'
+				>{`${t('loginPage.code_sent_to')} ${parsePhoneNumber(phoneNumber).formatInternational()}`}</p>
+				{isConfirmationCodeWrong && (
+					<p className='code-confirmation__wrong-code'>{t('loginPage.wrong_code')}</p>
+				)}
 				<div className='code-confirmation__inputs-container'>{NUMBER_OF_DIGITS.map(input)}</div>
 				<p className='code-confirmation__timer'>
 					{t('loginPage.resend_timer', { time: moment.utc(remainingSeconds * 1000).format('mm:ss') })}
 				</p>
+
+				<button
+					disabled={isConfirmationCodeWrong || !code.every((element) => element.length === 1)}
+					onClick={() => checkCode(code)}
+					className='phone-confirmation__button'
+				>
+					{t('loginPage.next')}
+				</button>
 
 				{remainingSeconds === 0 && (
 					<button
@@ -163,8 +175,6 @@ const CodeConfirmation = () => {
 						{t('loginPage.resend')}
 					</button>
 				)}
-
-				{isConfirmationCodeWrong && <p>{t('loginPage.wrong_code')}</p>}
 				{codeFromServer}
 			</div>
 		</div>

@@ -34,6 +34,15 @@
 
 	&__timer {
 		color: rgb(151, 151, 151);
+		margin-bottom: 20px;
+	}
+
+	&__wrong-code {
+		font-size: 13px;
+		font-weight: 400;
+		color: #d12433;
+		line-height: 16px;
+		margin-bottom: 14px;
 	}
 
 	&__button {
@@ -91,6 +100,11 @@
 
 		&:last-child {
 			margin-right: 0;
+		}
+
+		&--wrong {
+			border: 1px solid #d12433;
+			background: rgba($color: #d12433, $alpha: 0.05);
 		}
 	}
 }

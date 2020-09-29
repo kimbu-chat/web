@@ -17,6 +17,7 @@ import useInterval from 'use-interval';
 import AddSvg from 'app/assets/icons/ic-add-new.svg';
 import SmilesSvg from 'app/assets/icons/ic-smile.svg';
 import VoiceSvg from 'app/assets/icons/ic-microphone.svg';
+import moment from 'moment';
 
 const CreateMessageInput = () => {
 	const { t } = useContext(LocalizationContext);
@@ -105,14 +106,21 @@ const CreateMessageInput = () => {
 
 	const recorderData: React.MutableRefObject<{
 		mediaRecorder: MediaRecorder | null;
-		mediaStream: MediaStream | null;
-	}> = useRef({ mediaRecorder: null, mediaStream: null });
+		tracks: MediaStreamTrack[];
+		isRecording: boolean;
+	}> = useRef({ mediaRecorder: null, tracks: [], isRecording: false });
 
 	const registerAudio = () => {
+		recorderData.current.tracks.forEach((track) => track.stop());
+		recorderData.current.tracks = [];
+
 		navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-			recorderData.current.mediaStream = stream;
-			recorderData.current.mediaRecorder = new MediaRecorder(recorderData.current.mediaStream);
+			recorderData.current.mediaRecorder = new MediaRecorder(stream);
 			recorderData.current.mediaRecorder?.start();
+			const tracks = stream.getTracks();
+			recorderData.current.tracks.push(...tracks);
+
+			recorderData.current.isRecording = true;
 			setIsRecording(true);
 
 			const audioChunks: Blob[] = [];
@@ -122,9 +130,13 @@ const CreateMessageInput = () => {
 
 			recorderData.current.mediaRecorder?.addEventListener('stop', () => {
 				setRecordedSeconds(0);
+
 				setIsRecording(false);
-				const tracks = recorderData.current.mediaStream?.getTracks();
-				tracks?.forEach((track) => track.stop());
+				recorderData.current.isRecording = false;
+
+				recorderData.current.tracks.forEach((track) => track.stop());
+				recorderData.current.tracks = [];
+
 				const audioBlob = new Blob(audioChunks);
 				const audioUrl = URL.createObjectURL(audioBlob);
 				const audio = new Audio(audioUrl);
@@ -134,12 +146,28 @@ const CreateMessageInput = () => {
 	};
 
 	const stopAudioRegistering = () => {
-		console.log(recorderData.current.mediaRecorder);
-		if (recorderData.current.mediaRecorder?.state === 'recording') {
-			recorderData.current.mediaRecorder?.stop();
+		if (recorderData.current.isRecording) {
+			if (recorderData.current.mediaRecorder?.state === 'recording') {
+				recorderData.current.mediaRecorder?.stop();
+			}
+
+			recorderData.current.tracks.forEach((track) => track.stop());
+			recorderData.current.tracks = [];
+		} else {
+			setTimeout(() => {
+				console.log('interval');
+				if (recorderData.current.isRecording) {
+					console.log('stopped');
+
+					if (recorderData.current.mediaRecorder?.state === 'recording') {
+						recorderData.current.mediaRecorder?.stop();
+					}
+
+					recorderData.current.tracks.forEach((track) => track.stop());
+					recorderData.current.tracks = [];
+				}
+			}, 100);
 		}
-		const tracks = recorderData.current.mediaStream?.getTracks();
-		tracks?.forEach((track) => track.stop());
 	};
 
 	return (
@@ -154,7 +182,9 @@ const CreateMessageInput = () => {
 					{isRecording && (
 						<>
 							<div className='message-input__red-dot'></div>
-							<div className='message-input__counter'>{recordedSeconds}</div>
+							<div className='message-input__counter'>
+								{moment.utc(recordedSeconds * 1000).format('mm:ss')}
+							</div>
 						</>
 					)}
 					<div className='message-input__input-group' onSubmit={sendMessageToServer}>

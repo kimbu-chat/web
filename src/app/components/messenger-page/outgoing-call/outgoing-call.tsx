@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import './outgoing-call.scss';
 
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
@@ -19,6 +19,8 @@ const OutgoingCall = () => {
 	const interlocutor = useSelector(getCallInterlocutorSelector);
 	const isFullScreenEnabled = useSelector(isFullScreen);
 
+	const dragRef = useRef<Rnd>(null);
+
 	useEffect(() => {
 		//repeatable playing beep-beep
 		const audio = new Audio(callingBeep);
@@ -38,8 +40,20 @@ const OutgoingCall = () => {
 		};
 	}, []);
 
+	useEffect(() => {
+		dragRef.current?.updatePosition(
+			isFullScreenEnabled ? { x: 0, y: 0 } : { x: window.innerWidth / 2 - 120, y: window.innerHeight / 2 - 120 },
+		);
+		dragRef.current?.updateSize(
+			isFullScreenEnabled
+				? { width: window.innerWidth, height: window.innerHeight }
+				: { width: 320, height: 320 },
+		);
+	}, [isFullScreenEnabled]);
+
 	return (
 		<Rnd
+			ref={dragRef}
 			default={{
 				x: window.innerWidth / 2 - 120,
 				y: window.innerHeight / 2 - 120,
@@ -47,6 +61,7 @@ const OutgoingCall = () => {
 				height: 320,
 			}}
 			bounds='body'
+			disableDragging={isFullScreenEnabled}
 		>
 			<div className={`outgoing-call ${isFullScreenEnabled ? 'outgoing-call--big' : ''}`}>
 				<div className='outgoing-call__menu'>

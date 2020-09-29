@@ -21,13 +21,9 @@ export class MessageUtils {
 		return !(startDate.toDateString() === endDate.toDateString());
 	};
 
-	static constructSystemMessageText(
-		message: Message,
-		isCurrentUserMessageCreator: boolean = false,
-		t: TFunction,
-	): string {
+	static constructSystemMessageText(message: Message, t: TFunction, myId: number): string {
 		if (message.systemMessageType === SystemMessageType.ConferenceCreated) {
-			return isCurrentUserMessageCreator
+			return message?.userCreator?.id === myId
 				? t('systemMessage.you_created_group')
 				: t('systemMessage.created_group', {
 						name: `${message?.userCreator?.firstName} ${message?.userCreator?.lastName}`,
@@ -51,7 +47,7 @@ export class MessageUtils {
 			const confereceMemberRemovedSystemMessageContent = <ConfereceMemberAddedSystemMessageContent>(
 				systemMessageContent
 			);
-			return isCurrentUserMessageCreator
+			return message?.userCreator?.id === myId
 				? t('systemMessage.you_added', {
 						name: confereceMemberRemovedSystemMessageContent.addedUserName,
 				  })
@@ -65,7 +61,7 @@ export class MessageUtils {
 			const confereceMemberRemovedSystemMessageContent = <ConfereceNameChangedSystemMessageContent>(
 				systemMessageContent
 			);
-			return isCurrentUserMessageCreator
+			return message?.userCreator?.id === myId
 				? t('systemMessage.you_changed_name', {
 						oldName: confereceMemberRemovedSystemMessageContent.oldName,
 						newName: confereceMemberRemovedSystemMessageContent.newName,
@@ -77,7 +73,7 @@ export class MessageUtils {
 				  });
 		}
 		if (message.systemMessageType === SystemMessageType.ConferenceAvatarChanged) {
-			return isCurrentUserMessageCreator
+			return message?.userCreator?.id === myId
 				? t('systemMessage.you_changed_avatar')
 				: t('systemMessage.someone_changed_avatar', {
 						someonesName: `${message.userCreator?.firstName} ${message.userCreator?.lastName}`,
@@ -88,7 +84,7 @@ export class MessageUtils {
 			try {
 				const callMessage = JSON.parse(message.text);
 				if (callMessage.status === CallStatus.Successfull) {
-					return isCurrentUserMessageCreator
+					return callMessage.userCallerId === myId
 						? t('systemMessage.outgoing_call_success_ended', {
 								duration: moment.utc(callMessage.seconds * 1000).format('HH:mm:ss'),
 						  })
@@ -98,19 +94,19 @@ export class MessageUtils {
 				}
 
 				if (callMessage.status === CallStatus.Cancelled) {
-					return isCurrentUserMessageCreator
+					return callMessage.userCallerId === myId
 						? t('systemMessage.you_canceled_call')
 						: t('systemMessage.someone_canceled_call');
 				}
 
 				if (callMessage.status === CallStatus.Declined) {
-					return isCurrentUserMessageCreator
+					return callMessage.userCallerId === myId
 						? t('systemMessage.you_declined_call')
 						: t('systemMessage.someone_declined_call');
 				}
 
 				if (callMessage.status === CallStatus.NotAnswered) {
-					return isCurrentUserMessageCreator
+					return callMessage.userCallerId === myId
 						? t('systemMessage.someone_missed_call')
 						: t('systemMessage.you_missed_call');
 				}

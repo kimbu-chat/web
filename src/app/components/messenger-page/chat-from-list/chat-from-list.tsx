@@ -46,17 +46,10 @@ const ChatFromList = ({ chat }: ChatFromList.Props) => {
 	const getMessageText = (): string => {
 		const { lastMessage, conference } = chat;
 		if (lastMessage && lastMessage?.systemMessageType !== SystemMessageType.None) {
-			return truncate(
-				MessageUtils.constructSystemMessageText(
-					lastMessage as Message,
-					lastMessage?.userCreator?.id === currentUserId,
-					t,
-				),
-				{
-					length: 53,
-					omission: '...',
-				},
-			);
+			return truncate(MessageUtils.constructSystemMessageText(lastMessage as Message, t, currentUserId), {
+				length: 53,
+				omission: '...',
+			});
 		}
 
 		if (conference) {

@@ -7,13 +7,13 @@ import moment from 'moment';
 
 import PlaySvg from 'app/assets/icons/ic-play.svg';
 
-namespace ChatPhoto {
+namespace ChatVideo {
 	export interface Props {
 		isDisplayed: boolean;
 		close: () => void;
 	}
 
-	export interface Photo {
+	export interface Video {
 		id: string;
 		previewImgUrl: string;
 		creationDateTime: Date;
@@ -23,11 +23,11 @@ namespace ChatPhoto {
 	}
 }
 
-const ChatPhoto = ({ isDisplayed, close }: ChatPhoto.Props) => {
-	const { i18n } = useContext(LocalizationContext);
+const ChatVideo = ({ isDisplayed, close }: ChatVideo.Props) => {
+	const { t } = useContext(LocalizationContext);
 
 	//TODO: when endpoint will be done replace with useSelector
-	const videoToDisplay: ChatPhoto.Photo[] = [
+	const videoToDisplay: ChatVideo.Video[] = [
 		{
 			id: 'aa',
 			previewImgUrl: 'https://i.imgur.com/t0x900S.jpg',
@@ -120,7 +120,7 @@ const ChatPhoto = ({ isDisplayed, close }: ChatPhoto.Props) => {
 		}
 
 		return prevValue;
-	}, [] as ChatPhoto.Photo[][]);
+	}, [] as ChatVideo.Video[][]);
 
 	return (
 		<div className={isDisplayed ? 'chat-video chat-video--active' : 'chat-video'}>
@@ -128,24 +128,15 @@ const ChatPhoto = ({ isDisplayed, close }: ChatPhoto.Props) => {
 				<button onClick={close} className='chat-video__back'>
 					<ReturnSvg viewBox='0 0 25 25' />
 				</button>
-				<div className='chat-video__heading'>Videos</div>
+				<div className='chat-video__heading'>{t('chatVideo.video')}</div>
 			</div>
 			{videosWithSeparators.map((videoGroup) => (
 				<React.Fragment key={videoGroup[0].id + 'group'}>
-					<div className='chat-video__separator'>
-						{moment(videoGroup[0].creationDateTime)
-							.locale(i18n?.language || '')
-							.format('MMMM')}
-					</div>
+					<div className='chat-video__separator'>{moment(videoGroup[0].creationDateTime).format('MMMM')}</div>
 					<div className='chat-video__video-list'>
 						{videoGroup.map((video) => (
-							<div className='chat-video__video-wrapper'>
-								<img
-									key={video.id}
-									className='chat-video__video'
-									src={video.previewImgUrl}
-									alt={video.alt}
-								/>
+							<div key={video.id} className='chat-video__video-wrapper'>
+								<img className='chat-video__video' src={video.previewImgUrl} alt={video.alt} />
 								<button className='chat-video__play'>
 									<PlaySvg viewBox='0 0 25 25' />
 									<span className='chat-video__duration'>
@@ -161,4 +152,4 @@ const ChatPhoto = ({ isDisplayed, close }: ChatPhoto.Props) => {
 	);
 };
 
-export default ChatPhoto;
+export default ChatVideo;

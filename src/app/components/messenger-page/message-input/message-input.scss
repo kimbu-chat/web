@@ -1,4 +1,4 @@
-.messenger {
+.message-input {
 	&__send-message {
 		display: flex;
 		align-items: center;
@@ -9,6 +9,15 @@
 		height: 32px;
 		border-radius: 50%;
 		margin-left: 23px;
+	}
+
+	&__red-dot {
+		width: 15px;
+		height: 15px;
+		border-radius: 50%;
+		margin-left: 40px;
+		background-color: red;
+		animation: pulse 2s infinite;
 	}
 
 	&__input-group {
@@ -34,13 +43,34 @@
 		}
 	}
 
+	&__recording-info {
+		line-height: 20px;
+		text-align: center;
+		width: 100%;
+	}
+
+	&__counter {
+		margin-left: 15px;
+	}
+
 	&__right-btns {
 		margin-right: 20px;
 		display: flex;
+		margin-left: auto;
 	}
 
 	&__smiles-btn {
 		margin-right: 10px;
+	}
+
+	&__voice-btn {
+		border-radius: 50%;
+		color: #3f8ae0;
+
+		&--active {
+			background-color: #ebf3fc;
+			color: black;
+		}
 	}
 }
 
@@ -56,4 +86,21 @@ svg.blue {
 
 svg.black {
 	fill: black;
+}
+
+@keyframes pulse {
+	0% {
+		transform: scale(0.95);
+		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+	}
+
+	70% {
+		transform: scale(1);
+		box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+	}
+
+	100% {
+		transform: scale(0.95);
+		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+	}
 }

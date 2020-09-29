@@ -18,7 +18,7 @@ namespace Member {
 }
 
 const Member = ({ member }: Member.Props) => {
-	const { t, i18n } = useContext(LocalizationContext);
+	const { t } = useContext(LocalizationContext);
 
 	return (
 		<div className='chat-member'>
@@ -33,11 +33,7 @@ const Member = ({ member }: Member.Props) => {
 				) : (
 					<span className='chat-member__status chat-member__status--online'>
 						{' '}
-						{moment
-							.utc(member?.lastOnlineTime)
-							.startOf('hour')
-							.locale(i18n?.language || '')
-							.fromNow()}
+						{moment.utc(member?.lastOnlineTime).startOf('hour').fromNow()}
 					</span>
 				)}
 			</div>

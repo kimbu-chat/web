@@ -21,7 +21,7 @@ namespace ChatPhoto {
 }
 
 const ChatPhoto = ({ isDisplayed, close }: ChatPhoto.Props) => {
-	const { i18n } = useContext(LocalizationContext);
+	const { t } = useContext(LocalizationContext);
 
 	//TODO: when endpoint will be done replace with useSelector
 	const photoToDisplay: ChatPhoto.Photo[] = [
@@ -108,15 +108,11 @@ const ChatPhoto = ({ isDisplayed, close }: ChatPhoto.Props) => {
 				<button onClick={close} className='chat-photo__back'>
 					<ReturnSvg viewBox='0 0 25 25' />
 				</button>
-				<div className='chat-photo__heading'>Photos</div>
+				<div className='chat-photo__heading'>{t('chatPhoto.photo')}</div>
 			</div>
 			{photosWithSeparators.map((photoGroup) => (
 				<React.Fragment key={photoGroup[0].id + 'group'}>
-					<div className='chat-photo__separator'>
-						{moment(photoGroup[0].creationDateTime)
-							.locale(i18n?.language || '')
-							.format('MMMM')}
-					</div>
+					<div className='chat-photo__separator'>{moment(photoGroup[0].creationDateTime).format('MMMM')}</div>
 					<div className='chat-photo__photo-list'>
 						{photoGroup.map((photo) => (
 							<img key={photo.id} className='chat-photo__photo' src={photo.url} alt={photo.alt} />

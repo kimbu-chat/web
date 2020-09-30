@@ -19,6 +19,8 @@ import moment from 'moment';
 import MessageQeuedSvg from 'app/assets/icons/ic-time.svg';
 import MessageSentSvg from 'app/assets/icons/ic-tick.svg';
 import MessageReadSvg from 'app/assets/icons/ic-double_tick.svg';
+import SelectedSvg from 'app/assets/icons/ic-check-filled.svg';
+import UnSelectedSvg from 'app/assets/icons/ic-check-outline.svg';
 
 namespace Message {
 	export interface Props {
@@ -99,19 +101,9 @@ const MessageItem = ({ message }: Message.Props) => {
 			)}
 			<div
 				className={`message__container 
-				${message.isSelected ? 'message__container--selected' : ''}
-				${isSelectState ? 'pointer' : ''}`}
+				${message.isSelected ? 'message__container--selected' : ''}`}
 				onClick={isSelectState ? selectThisMessage : () => {}}
 			>
-				{message.isSelected && (
-					<div className={`message__selected`}>
-						<div className='svg'>
-							<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
-								<path d='M5.85 9.66l-.88-.98-.4-.45A.8.8 0 1 0 3.39 9.3l.4.44.87.98.73.82a1.5 1.5 0 0 0 2.28-.04l2.09-2.54 1.8-2.18.8-1a.8.8 0 0 0-1.23-1.01l-.81.99-1.8 2.18L6.5 10.4l-.65-.73z'></path>
-							</svg>
-						</div>
-					</div>
-				)}
 				<span className={`message__time ${from === messageFrom.others ? 'message__time--no-status' : ''}`}>
 					{moment.utc(message.creationDateTime).local().format('LT')}
 				</span>
@@ -188,17 +180,21 @@ const MessageItem = ({ message }: Message.Props) => {
 					</div>
 				</div>
 
-				<div className={`message__item ${!message.needToShowCreator ? 'message__item--upcoming' : ''}`}>
+				<div className={`message__item ${!message.needToShowCreator ? 'message__item--upcoming' : ''} }`}>
 					{message.needToShowCreator && (
 						<p className='message__sender-name'>{`${message.userCreator?.firstName} ${message.userCreator?.lastName}`}</p>
 					)}
 					{message.text}
 				</div>
 				{message.needToShowCreator && (
-					<Avatar className='message__sender-photo' src={message.userCreator?.avatarUrl}>
+					<Avatar className={`message__sender-photo `} src={message.userCreator?.avatarUrl}>
 						{getUserInitials(message.userCreator as UserPreview)}
 					</Avatar>
 				)}
+
+				<div onClick={selectThisMessage} className={`message__selected`}>
+					{message.isSelected ? <SelectedSvg /> : <UnSelectedSvg className={`message__unselected`} />}
+				</div>
 			</div>
 		</React.Fragment>
 	);

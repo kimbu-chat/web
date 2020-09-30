@@ -1,86 +1,69 @@
 .incoming-call {
-	width: 320px;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	background-color: #334;
-	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.6);
-	pointer-events: auto;
-	border-radius: 8px;
-	z-index: 1000000000;
-	padding: 5px 5px;
-	display: inline-block;
+	height: 100px;
+	width: 100%;
+	border-radius: 10px;
+	background-color: rgba($color: #020016, $alpha: 0.9);
+	display: flex;
 
 	&__img {
 		border-radius: 50%;
-		margin: 0 auto;
-		margin-top: 68px;
-		height: 96px;
-		width: 96px;
-		object-fit: cover;
-		display: block;
+		margin: 20px;
+		height: 60px;
+		width: 60px;
 	}
 
-	&__additional-data {
-		display: block;
-		margin: 4px 0 16px;
-		line-height: 20px;
-		color: #8a8a95;
-		font-size: 14px;
-		text-align: center;
-		font-weight: 400;
+	&__info {
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
 	}
 
 	&__calling-name {
 		font-size: 14px;
-		margin: 0 auto;
-		font-weight: 600;
-		line-height: 20px;
-		color: #f5f5f5;
-		padding: 0 16px;
-		margin-top: 24px;
-		max-width: 100%;
-		overflow: hidden;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		text-align: center;
+		font-weight: 500px;
+		color: #fff;
+		margin-bottom: 6px;
 	}
 
-	&__bottom-menu {
+	&__additional-data {
+		font-size: 14px;
+		font-weight: 400;
+		color: #6d7885;
+	}
+
+	&__right-btns {
+		margin-left: auto;
+		margin-right: 40px;
+		margin-left: auto;
+		margin-right: 40px;
 		display: flex;
-		margin-top: 15px;
-		height: 50px;
 		align-items: center;
-		width: 100%;
-		justify-content: center;
 	}
 
 	&__call-btn {
-		width: 32px;
-		height: 32px;
-		margin: 0 4px 0 4px;
+		color: white;
+		height: 40px;
+		width: 40px;
 		border-radius: 50%;
 		display: flex;
-		align-items: center;
 		justify-content: center;
+		align-items: center;
+		margin-right: 20px;
 
-		&--accept {
-			background: green;
+		&:last-child {
+			margin-right: 40px;
 		}
 
-		&--cancel {
-			background: #ff2423;
+		&--accept {
+			background-color: #2dcb56;
 		}
 
 		&--video {
-			background: green;
+			background-color: #2dcb56;
 		}
-	}
 
-	.svg {
-		height: 16px;
-		width: 16px;
-		fill: white;
+		&--cancel {
+			background-color: #ff4d54;
+		}
 	}
 }

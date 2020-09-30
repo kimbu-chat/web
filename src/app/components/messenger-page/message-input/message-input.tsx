@@ -32,6 +32,8 @@ const CreateMessageInput = () => {
 	const [isRecording, setIsRecording] = useState(false);
 	const [recordedSeconds, setRecordedSeconds] = useState(0);
 
+	const registerAudioBtnRef = useRef<HTMLButtonElement>(null);
+
 	useInterval(
 		() => {
 			if (isRecording) {
@@ -104,70 +106,88 @@ const CreateMessageInput = () => {
 		}
 	};
 
-	const recorderData: React.MutableRefObject<{
-		mediaRecorder: MediaRecorder | null;
-		tracks: MediaStreamTrack[];
-		isRecording: boolean;
-	}> = useRef({ mediaRecorder: null, tracks: [], isRecording: false });
-
 	const registerAudio = () => {
-		recorderData.current.tracks.forEach((track) => track.stop());
-		recorderData.current.tracks = [];
+		const recorderData: {
+			mediaRecorder: MediaRecorder | null;
+			tracks: MediaStreamTrack[];
+			isRecording: boolean;
+			needToSubmit: boolean;
+		} = { mediaRecorder: null, tracks: [], isRecording: false, needToSubmit: false };
+
+		recorderData.tracks.forEach((track) => track.stop());
+		recorderData.tracks = [];
 
 		navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-			recorderData.current.mediaRecorder = new MediaRecorder(stream);
-			recorderData.current.mediaRecorder?.start();
+			recorderData.mediaRecorder = new MediaRecorder(stream);
+			recorderData.mediaRecorder?.start();
 			const tracks = stream.getTracks();
-			recorderData.current.tracks.push(...tracks);
+			recorderData.tracks.push(...tracks);
 
-			recorderData.current.isRecording = true;
+			recorderData.isRecording = true;
 			setIsRecording(true);
 
-			const audioChunks: Blob[] = [];
-			recorderData.current.mediaRecorder?.addEventListener('dataavailable', (event) => {
+			let audioChunks: Blob[] = [];
+			recorderData.mediaRecorder?.addEventListener('dataavailable', (event) => {
 				audioChunks.push(event.data);
 			});
 
-			recorderData.current.mediaRecorder?.addEventListener('stop', () => {
-				setRecordedSeconds(0);
-
+			recorderData.mediaRecorder?.addEventListener('stop', () => {
 				setIsRecording(false);
-				recorderData.current.isRecording = false;
+				recorderData.isRecording = false;
 
-				recorderData.current.tracks.forEach((track) => track.stop());
-				recorderData.current.tracks = [];
+				recorderData.tracks.forEach((track) => track.stop());
+				recorderData.tracks = [];
 
-				const audioBlob = new Blob(audioChunks);
-				const audioUrl = URL.createObjectURL(audioBlob);
-				const audio = new Audio(audioUrl);
-				audio.play();
-			});
-		});
-	};
-
-	const stopAudioRegistering = () => {
-		if (recorderData.current.isRecording) {
-			if (recorderData.current.mediaRecorder?.state === 'recording') {
-				recorderData.current.mediaRecorder?.stop();
-			}
-
-			recorderData.current.tracks.forEach((track) => track.stop());
-			recorderData.current.tracks = [];
-		} else {
-			setTimeout(() => {
-				console.log('interval');
-				if (recorderData.current.isRecording) {
-					console.log('stopped');
-
-					if (recorderData.current.mediaRecorder?.state === 'recording') {
-						recorderData.current.mediaRecorder?.stop();
-					}
-
-					recorderData.current.tracks.forEach((track) => track.stop());
-					recorderData.current.tracks = [];
+				if (audioChunks[0]?.size > 0 && recorderData.needToSubmit) {
+					const audioBlob = new Blob(audioChunks);
+					const audioUrl = URL.createObjectURL(audioBlob);
+					const audio = new Audio(audioUrl);
+					audio.play();
 				}
-			}, 100);
-		}
+
+				setRecordedSeconds(0);
+			});
+
+			const handleMouseUp = (event: MouseEvent) => {
+				document.removeEventListener('mouseup', handleMouseUp);
+				console.log('upup');
+				console.log(registerAudioBtnRef.current?.contains(event.target as Node));
+				if (registerAudioBtnRef.current?.contains(event.target as Node)) {
+					if (recorderData.isRecording) {
+						if (recorderData.mediaRecorder?.state === 'recording') {
+							recorderData.needToSubmit = true;
+							recorderData.mediaRecorder?.stop();
+						}
+
+						recorderData.tracks.forEach((track) => track.stop());
+						recorderData.tracks = [];
+					} else {
+						setTimeout(() => {
+							console.log('interval');
+							if (recorderData.isRecording) {
+								console.log('stopped');
+
+								if (recorderData.mediaRecorder?.state === 'recording') {
+									recorderData.needToSubmit = false;
+									recorderData.mediaRecorder?.stop();
+								}
+
+								recorderData.tracks.forEach((track) => track.stop());
+								recorderData.tracks = [];
+							}
+						}, 100);
+					}
+				} else {
+					recorderData.isRecording = false;
+					recorderData.tracks.forEach((track) => track.stop());
+					recorderData.tracks = [];
+					recorderData.needToSubmit = false;
+					recorderData.mediaRecorder?.stop();
+				}
+			};
+
+			document.addEventListener('mouseup', handleMouseUp);
+		});
 	};
 
 	return (
@@ -212,7 +232,7 @@ const CreateMessageInput = () => {
 							)}
 							<button
 								onMouseDown={registerAudio}
-								onMouseUp={stopAudioRegistering}
+								ref={registerAudioBtnRef}
 								className={`message-input__voice-btn ${
 									isRecording ? 'message-input__voice-btn--active' : ''
 								}`}

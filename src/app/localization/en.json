@@ -82,15 +82,7 @@
 		"video": "Video"
 	},
 	"chatMembers": {
-		"members": "Members",
-		"add_members": "Add members",
-		"load_more": "Load more",
 		"search": "Search"
-	},
-	"renameConference": {
-		"newName": "New name",
-		"rename": "Rename",
-		"reject": "Cancel"
 	},
 	"contactsSearch": {
 		"contactsSearch": "Search in contacts",
@@ -115,6 +107,14 @@
 	},
 	"messageInput": {
 		"write": "Write a message…..."
+	},
+	"selectedMessagesData": {
+		"forward": "Forward ({{count}})",
+		"delete": "Delete ({{count}})",
+		"reply": "Reply",
+		"edit": "Edit",
+		"copy": "Copy",
+		"cancel": "Cancel"
 	},
 	"back": "Back",
 	"emojiMart": {

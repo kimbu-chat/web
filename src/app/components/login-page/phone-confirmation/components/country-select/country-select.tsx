@@ -19,12 +19,6 @@ namespace CountrySelect {
 	}
 }
 
-function countryToFlag(isoCode: string): string {
-	return typeof String.fromCodePoint !== 'undefined'
-		? isoCode.toUpperCase().replace(/./g, (char) => String.fromCodePoint(char.charCodeAt(0) + 127397))
-		: isoCode;
-}
-
 const CountrySelect = ({ country, setCountry, setPhone, setRef, focusPhoneInput }: CountrySelect.Props) => {
 	const { t } = useContext(LocalizationContext);
 
@@ -76,8 +70,8 @@ const CountrySelect = ({ country, setCountry, setPhone, setRef, focusPhoneInput 
 						(option, index) =>
 							option.number && (
 								<div className='country-select__country' {...getOptionProps({ option, index })}>
-									<span className='country-select__flag'>{countryToFlag(option.code)}</span>
-									{option.title} <span className='country-select__number'>{option.number}</span>
+									<span className='country-select__country-name'>{option.title}</span>
+									<span className='country-select__number'>{option.number}</span>
 								</div>
 							),
 					)}

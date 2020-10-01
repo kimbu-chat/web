@@ -19,18 +19,18 @@ const CodeConfirmation = () => {
 
 	const checkIfCharacterIsNumeric = (character: string): boolean => /^[0-9]+$/.test(character);
 
-	const phoneNumber = useSelector((state: RootState) => state.auth.phoneNumber);
-	const codeFromServer = useSelector<RootState, string>((rootState) => rootState.auth.confirmationCode);
-	const isConfirmationCodeWrong = useSelector<RootState, boolean>(
-		(rootState) => rootState.auth.isConfirmationCodeWrong,
-	);
-
-	const sendSmsCode = useActionWithDeferred(AuthActions.sendSmsCode);
-	const checkConfirmationCode = useActionWithDeferred(AuthActions.confirmPhone);
-
 	const [code, setCode] = useState<string[]>(['', '', '', '']);
 	const [remainingSeconds, setRemainingSeconds] = useState<number>(60);
 	const [isIntervalRunning, setIsIntervalRunning] = useState(true);
+
+	const phoneNumber = useSelector((state: RootState) => state.auth.phoneNumber);
+	const codeFromServer = useSelector<RootState, string>((rootState) => rootState.auth.confirmationCode);
+	const isConfirmationCodeWrong =
+		useSelector<RootState, boolean>((rootState) => rootState.auth.isConfirmationCodeWrong) &&
+		!code.some((element) => element.length === 1);
+
+	const sendSmsCode = useActionWithDeferred(AuthActions.sendSmsCode);
+	const checkConfirmationCode = useActionWithDeferred(AuthActions.confirmPhone);
 
 	const boxElements: React.RefObject<HTMLInputElement>[] = [
 		useRef<HTMLInputElement>(null),

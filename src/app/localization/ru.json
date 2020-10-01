@@ -83,15 +83,7 @@
 		"video": "Видео"
 	},
 	"chatMembers": {
-		"members": "Участники",
-		"add_members": "Добавить участников",
-		"load_more": "Показать еще",
 		"search": "Поиск"
-	},
-	"renameConference": {
-		"newName": "Новое название",
-		"rename": "Переименовать",
-		"reject": "Отмена"
 	},
 	"contactsSearch": {
 		"contactsSearch": "Поиск по контактам",
@@ -116,6 +108,14 @@
 	},
 	"messageInput": {
 		"write": "Напишите сообщение..."
+	},
+	"selectedMessagesData": {
+		"forward": "Переслать ({{count}})",
+		"delete": "Удалить ({{count}})",
+		"reply": "Ответить",
+		"edit": "Редактировать",
+		"copy": "Копировать",
+		"cancel": "Отмена"
 	},
 	"back": "Назад",
 	"emojiMart": {

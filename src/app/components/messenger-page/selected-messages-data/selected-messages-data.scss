@@ -1,50 +1,38 @@
 .selected-messages-data {
 	position: absolute;
-	top: 0;
-	padding: 5px 0px 5px 12px;
-	width: 97%;
-	background-color: white;
+	bottom: 0;
+	padding: 13px 40px 13px 20px;
+	width: 100%;
+	background-color: #1a192c;
 	border-bottom: 1px solid #e9e9e9;
 	z-index: 50;
 	display: flex;
 	align-items: center;
-
-	&__info {
-		white-space: nowrap;
-		display: inline-block;
-		margin-right: 5px;
-	}
+	box-sizing: border-box;
 
 	&__btn {
-		background-color: #ebebeb;
-		border-radius: 100px;
-		padding: 6px 16px;
-		vertical-align: middle;
-		display: inline-flex;
-		align-items: center;
-		transition: all 0.1s ease-in-out;
-		margin: 0px 5px;
+		padding: 11px 30px;
+		color: white;
+		background-color: rgb(63, 138, 224);
+		border-radius: 4px;
+		font-size: 13px;
+		line-height: 16px;
+		font-weight: 500;
 
-		&:hover {
-			background-color: #ccc;
+		&:not(:last-child) {
+			margin-right: 20px;
 		}
 
-		.svg {
-			width: 16px;
-			height: 16px;
-			display: inline-block;
+		&--delete {
+			background-color: rgb(209, 36, 51);
 		}
 
-		span {
-			margin-left: 5px;
-		}
-	}
-
-	&__close-btn {
-		margin-left: auto;
-		.svg {
-			height: 16px;
-			width: 16px;
+		&--cancel {
+			margin-left: auto;
+			padding: 0;
+			color: white;
+			line-height: 18px;
+			background: none;
 		}
 	}
 }

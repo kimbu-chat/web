@@ -148,6 +148,7 @@ const CodeConfirmation = () => {
 				<p
 					style={{ marginBottom: isConfirmationCodeWrong ? '20px' : '50px' }}
 					className='code-confirmation__code-sent'
+					onClick={() => setCode(String(codeFromServer).split(''))}
 				>{`${t('loginPage.code_sent_to')} ${parsePhoneNumber(phoneNumber).formatInternational()}`}</p>
 				{isConfirmationCodeWrong && (
 					<p className='code-confirmation__wrong-code'>{t('loginPage.wrong_code')}</p>
@@ -175,7 +176,6 @@ const CodeConfirmation = () => {
 						{t('loginPage.resend')}
 					</button>
 				)}
-				{codeFromServer}
 			</div>
 		</div>
 	);

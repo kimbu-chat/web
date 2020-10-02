@@ -4,13 +4,13 @@
 		"confirm_code": "We sent you a code to verify your phone number",
 		"code_sent_to": "Sent to",
 		"next": "Next",
-		"resend": "Resend",
+		"resend": "Send code again",
 		"wrong_code": "Wrong code",
 		"country": "Country",
 		"phone": "Phone",
 		"agree_to": "By signing in you agree to ",
 		"ravudi_terms": "Ravudi Terms and Conditions",
-		"resend_timer": "Code can be re-sent in {{time}}"
+		"reset_timer": "Code can be re-sent in {{time}}"
 	},
 	"accountInfo": {
 		"create_chat": "Create chat",

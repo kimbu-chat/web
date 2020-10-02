@@ -4,7 +4,6 @@ import { produce } from 'immer';
 import { UserPreview } from '../my-profile/models';
 
 export interface CallState {
-	isFullScreen: boolean;
 	isActiveCallIncoming?: boolean;
 	isCalling: boolean;
 	isInterlocutorVideoEnabled: boolean;
@@ -31,7 +30,6 @@ export interface CallState {
 
 const initialState: CallState = {
 	isInterlocutorVideoEnabled: false,
-	isFullScreen: false,
 	isCalling: false,
 	isSpeaking: false,
 	videoConstraints: {
@@ -90,7 +88,6 @@ const calls = createReducer<CallState>(initialState)
 			draft.amCalling = false;
 			draft.isCalling = false;
 			draft.isSpeaking = false;
-			draft.isFullScreen = false;
 			draft.offer = undefined;
 			draft.answer = undefined;
 			draft.videoConstraints.isOpened = false;
@@ -124,7 +121,6 @@ const calls = createReducer<CallState>(initialState)
 			draft.amCalling = false;
 			draft.isCalling = false;
 			draft.isSpeaking = false;
-			draft.isFullScreen = false;
 			draft.offer = undefined;
 			draft.answer = undefined;
 			draft.videoConstraints.isOpened = false;
@@ -152,7 +148,6 @@ const calls = createReducer<CallState>(initialState)
 			draft.amCalling = false;
 			draft.isCalling = false;
 			draft.isSpeaking = false;
-			draft.isFullScreen = false;
 			draft.videoConstraints.isOpened = false;
 			draft.videoConstraints.isOpened = false;
 			draft.isScreenSharingOpened = false;
@@ -217,14 +212,6 @@ const calls = createReducer<CallState>(initialState)
 				draft.audioConstraints.deviceId = payload.deviceId;
 				draft.isMediaSwitchingEnabled = false;
 			}
-
-			return draft;
-		}),
-	)
-	.handleAction(
-		CallActions.changeFullScreenStatusAction,
-		produce((draft: CallState) => {
-			draft.isFullScreen = !draft.isFullScreen;
 
 			return draft;
 		}),

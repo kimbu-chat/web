@@ -16,7 +16,3 @@ export const amCallingI = (state: RootState): boolean => {
 export const doIhaveCall = (state: RootState): boolean => {
 	return state.calls.isSpeaking;
 };
-
-export const isFullScreen = (state: RootState): boolean => {
-	return state.calls.isFullScreen;
-};

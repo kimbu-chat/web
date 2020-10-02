@@ -155,7 +155,7 @@ const CodeConfirmation = () => {
 				)}
 				<div className='code-confirmation__inputs-container'>{NUMBER_OF_DIGITS.map(input)}</div>
 				<p className='code-confirmation__timer'>
-					{t('loginPage.resend_timer', { time: moment.utc(remainingSeconds * 1000).format('mm:ss') })}
+					{t('loginPage.reset_timer', { time: moment.utc(remainingSeconds * 1000).format('mm:ss') })}
 				</p>
 
 				<button

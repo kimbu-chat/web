@@ -20,12 +20,12 @@ const InterlocutorInfo = () => {
 
 	const renameConference = useActionWithDispatch(ChatActions.renameConference);
 
+	//TODO: This function is actually working well, just place it in the right place when ui is implemented
+	//@ts-ignore
 	const setNewConferenceName = useCallback((newName: string) => renameConference({ newName, chat: selectedChat }), [
 		renameConference,
 		selectedChat,
 	]);
-	//!TODO This is a temporal console log placed in order to avoid ts warnings
-	console.log(setNewConferenceName);
 
 	return (
 		<div className='interlocutor-info'>

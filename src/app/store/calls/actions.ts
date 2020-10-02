@@ -33,5 +33,4 @@ export namespace CallActions {
 	export const gotDevicesInfoAction = createAction('GOT_DEVICES_INFO')<GotMediaDevicesInfoActionPayload>();
 	export const switchDeviceAction = createAction('SWITCH_DEVICE')<SwitchDeviceActionPayload>();
 	export const enableMediaSwitchingAction = createEmptyAction('ENABLE_MEDIA');
-	export const changeFullScreenStatusAction = createEmptyAction('CHANGE_FULL_SCREEN_STATUS');
 }

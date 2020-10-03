@@ -118,13 +118,17 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 
 	//component did mount effect
 	useEffect(() => {
-		setCallDuration(0);
+		if (isDisplayed) {
+			setCallDuration(0);
 
-		const callDurationIntervalCode = setInterval(() => setCallDuration((old) => old + 1), 1000);
+			const callDurationIntervalCode = setInterval(() => setCallDuration((old) => old + 1), 1000);
 
-		return () => {
-			clearInterval(callDurationIntervalCode);
-		};
+			return () => {
+				clearInterval(callDurationIntervalCode);
+			};
+		}
+
+		return () => {};
 	}, [isDisplayed]);
 
 	useEffect(() => {

@@ -14,7 +14,7 @@ import { Rnd } from 'react-rnd';
 import ReactDOM from 'react-dom';
 
 //svgs
-import AcceptWithAudioSvg from 'app/assets/icons/ic-call.svg';
+import AcceptWithAudioSvg from 'app/assets/icons/ic-call-filled.svg';
 import AcceptWithVideoSvg from 'app/assets/icons/ic-video-call-filled.svg';
 import DeclineCallSvg from 'app/assets/icons/ic-call-out.svg';
 
@@ -78,7 +78,7 @@ const IncomingCall = () => {
 		<Rnd
 			default={{
 				x: 20,
-				y: window.innerHeight / 2 - 100,
+				y: 20,
 				width: window.innerWidth - 40,
 				height: 100,
 			}}

@@ -22,6 +22,17 @@
 		background-color: #1b192d;
 	}
 
+	&__change-screen {
+		position: absolute;
+		top: 20px;
+		right: 20px;
+		svg {
+			width: 16px;
+			height: 16px;
+			color: white;
+		}
+	}
+
 	&__bottom-menu {
 		display: flex;
 		bottom: 30px;

@@ -9,6 +9,7 @@ import { RootState } from 'app/store/root-reducer';
 import { tracks } from 'app/store/calls/sagas';
 import moment from 'moment';
 import { Rnd } from 'react-rnd';
+import Avatar from 'app/components/shared/avatar/avatar';
 import ReactDOM from 'react-dom';
 
 //SVG
@@ -20,7 +21,8 @@ import ScreenSharingEnableSvg from 'app/assets/icons/ic-screen-share.svg';
 import ScreenSharingDisableSvg from 'app/assets/icons/ic-screen-share-mute.svg';
 import ChatSvg from 'app/assets/icons/ic-chat-outline.svg';
 import HangUpSvg from 'app/assets/icons/ic-call-out.svg';
-import Avatar from 'app/components/shared/avatar/avatar';
+import FullScreenSvg from 'app/assets/icons/ic-fullscreen.svg';
+import ExitFullScreenSvg from 'app/assets/icons/ic-fullscreen-exit.svg';
 
 namespace IActiveCall {
 	export interface Props {
@@ -166,6 +168,10 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 					<h3 className='active-call__interlocutor-name'>{`${interlocutor?.firstName} ${interlocutor?.lastName}`}</h3>
 					<div className='active-call__duration'>{moment.utc(callDuration * 1000).format('HH:mm:ss')}</div>
 				</div>
+
+				<button onClick={changeFullScreenStatus} className='active-call__change-screen'>
+					{isFullScreen ? <ExitFullScreenSvg viewBox='0 0 25 25' /> : <FullScreenSvg viewBox='0 0 25 25' />}
+				</button>
 
 				<audio autoPlay playsInline ref={remoteAudioRef} className='active-call__remote-audio'></audio>
 

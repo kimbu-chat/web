@@ -8,6 +8,8 @@ import {
 	SelectMessageReq,
 	ResetSelectedMessagesReq,
 	CopyMessagesReq,
+	EditMessageReq,
+	ReplyMessageReq,
 } from './models';
 import { createAction } from 'typesafe-actions';
 import { createEmptyAction } from '../common/actions';
@@ -28,4 +30,8 @@ export namespace MessageActions {
 	export const selectMessage = createAction('SELECT_MESSAGE')<SelectMessageReq>();
 	export const resetSelectedMessages = createAction('RESET_SELECTED_MESSAGES')<ResetSelectedMessagesReq>();
 	export const copyMessages = createAction('COPY_MESSAGES')<CopyMessagesReq>();
+	export const replyToMessage = createAction('REPLY_TO_MESSAGE')<ReplyMessageReq>();
+	export const resetReplyToMessage = createEmptyAction('RESET_REPLY_TO_MESSAGE');
+	export const editMessage = createAction('EDIT_MESSAGE')<EditMessageReq>();
+	export const resetEditMessage = createEmptyAction('RESET_EDIT_MESSAGE');
 }

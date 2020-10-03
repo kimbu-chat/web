@@ -20,6 +20,7 @@ const SelectedMessagesData = () => {
 	const copyMessage = useActionWithDispatch(MessageActions.copyMessages);
 	const resetSelectedMessages = useActionWithDispatch(MessageActions.resetSelectedMessages);
 	const deleteMessage = useActionWithDispatch(MessageActions.deleteMessageSuccess);
+	const replyToMessage = useActionWithDispatch(MessageActions.replyToMessage);
 
 	const resetSelectedMessagesForChat = useCallback(() => {
 		resetSelectedMessages({ chatId: selectedChatId || -1 });
@@ -33,6 +34,10 @@ const SelectedMessagesData = () => {
 	const deleteTheseMessages = useCallback(() => {
 		deleteMessage({ chatId: selectedChatId as number, messageIds: selectedMessages });
 	}, [selectedChatId, selectedMessages]);
+
+	const replyToSelectedMessage = useCallback(() => {
+		replyToMessage({ messageId: selectedMessages[0], chatId: selectedChatId as number });
+	}, [replyToMessage, selectedMessages]);
 
 	//--Delete message logic
 	const [deleteMessagesModalDisplayed, setDeleteMessagesModalDisplayed] = useState(false);
@@ -57,7 +62,9 @@ const SelectedMessagesData = () => {
 				{t('selectedMessagesData.delete', { count: selectedMessagesCount })}
 			</button>
 			{selectedMessagesCount === 1 && (
-				<button className='selected-messages-data__btn'>{t('selectedMessagesData.reply')}</button>
+				<button onClick={replyToSelectedMessage} className='selected-messages-data__btn'>
+					{t('selectedMessagesData.reply')}
+				</button>
 			)}
 			{selectedMessagesCount === 1 && (
 				<button className='selected-messages-data__btn '>{t('selectedMessagesData.edit')}</button>

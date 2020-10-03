@@ -11,6 +11,8 @@ export interface MessagesState {
 	loading: boolean;
 	messages: MessageList[];
 	selectedMessageIds: number[];
+	messageToReply?: Message;
+	messageToEdit?: Message;
 }
 
 const initialState: MessagesState = {
@@ -184,6 +186,53 @@ const messages = createReducer<MessagesState>(initialState)
 
 				return messages;
 			});
+
+			draft.selectedMessageIds = [];
+
+			return draft;
+		}),
+	)
+	.handleAction(
+		MessageActions.replyToMessage,
+		produce((draft: MessagesState, { payload }: ReturnType<typeof MessageActions.replyToMessage>) => {
+			draft.selectedMessageIds = [];
+
+			const chatIndex = getChatIndex(draft, payload.chatId);
+
+			const message = getMessage(draft.messages[chatIndex].messages, payload.messageId);
+
+			message!.isSelected = false;
+
+			draft.messageToReply = message;
+
+			return draft;
+		}),
+	)
+	.handleAction(
+		MessageActions.editMessage,
+		produce((draft: MessagesState, { payload }: ReturnType<typeof MessageActions.editMessage>) => {
+			const chatIndex = getChatIndex(draft, payload.chatId);
+
+			const message = getMessage(draft.messages[chatIndex].messages, payload.messageId);
+
+			message!.isSelected = false;
+
+			draft.messageToEdit = message;
+
+			return draft;
+		}),
+	)
+	.handleAction(
+		MessageActions.resetReplyToMessage,
+		produce((draft: MessagesState) => {
+			draft.messageToReply = undefined;
+			return draft;
+		}),
+	)
+	.handleAction(
+		MessageActions.resetEditMessage,
+		produce((draft: MessagesState) => {
+			draft.messageToEdit = undefined;
 			return draft;
 		}),
 	);

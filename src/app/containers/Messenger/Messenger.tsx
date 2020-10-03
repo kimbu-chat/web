@@ -26,6 +26,8 @@ import { MessageActions } from 'app/store/messages/actions';
 import { useSelector } from 'react-redux';
 import { getSelectedChatSelector } from 'app/store/chats/selectors';
 import { isCallingMe, amCallingI, doIhaveCall } from 'app/store/calls/selectors';
+import RespondingMessage from 'app/components/messenger-page/responding-message/responding-message';
+import { RootState } from 'app/store/root-reducer';
 
 export namespace Messenger {
 	export interface contactSearchActions {
@@ -58,6 +60,7 @@ const Messenger = () => {
 	const amICalled = useSelector(isCallingMe);
 	const amICaling = useSelector(amCallingI);
 	const amISpeaking = useSelector(doIhaveCall);
+	const replyingMessage = useSelector((state: RootState) => state.messages.messageToReply);
 
 	const { id: chatId } = useParams<{ id: string }>();
 	const history = useHistory();
@@ -216,6 +219,7 @@ const Messenger = () => {
 				<>
 					<div className={`messenger__chat-send ${infoDisplayed ? 'messenger__chat-send--little' : ''}`}>
 						<Chat />
+						{replyingMessage && <RespondingMessage />}
 						<CreateMessageInput />
 					</div>
 					<ChatInfo

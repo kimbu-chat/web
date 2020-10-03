@@ -173,9 +173,7 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 										getChatAvatar() ? 'change-avatar change-avatar--hidden' : 'change-avatar'
 									}
 								>
-									<div>
-										<PhotoSvg className='change-avatar__svg' viewBox='0 0 25 25' />
-									</div>
+									<PhotoSvg className='change-avatar__svg' viewBox='0 0 25 25' />
 								</div>
 							</div>
 						)}

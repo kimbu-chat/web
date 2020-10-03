@@ -19,7 +19,6 @@ import VideoEnableSvg from 'app/assets/icons/ic-video-call.svg';
 import VideoDisableSvg from 'app/assets/icons/ic-video-call-mute.svg';
 import ScreenSharingEnableSvg from 'app/assets/icons/ic-screen-share.svg';
 import ScreenSharingDisableSvg from 'app/assets/icons/ic-screen-share-mute.svg';
-import ChatSvg from 'app/assets/icons/ic-chat-outline.svg';
 import HangUpSvg from 'app/assets/icons/ic-call-out.svg';
 import FullScreenSvg from 'app/assets/icons/ic-fullscreen.svg';
 import ExitFullScreenSvg from 'app/assets/icons/ic-fullscreen-exit.svg';
@@ -273,15 +272,6 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 						) : (
 							<ScreenSharingDisableSvg viewBox='0 0 25 25' />
 						)}
-					</button>
-
-					<button
-						onClick={changeFullScreenStatus}
-						className={`active-call__call-btn ${
-							isFullScreen ? 'active-call__call-btn--big' : 'active-call__call-btn--active'
-						}`}
-					>
-						<ChatSvg viewBox='0 0 25 25' />
 					</button>
 
 					<button

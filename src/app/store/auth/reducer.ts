@@ -27,7 +27,7 @@ const initialState: AuthState = {
 
 const auth = createReducer<AuthState>(initialState)
 	.handleAction(
-		[AuthActions.sendSmsCode],
+		AuthActions.sendSmsCode,
 		produce((draft: AuthState, { payload }: ReturnType<typeof AuthActions.sendSmsCode>) => {
 			return {
 				...draft,
@@ -38,7 +38,7 @@ const auth = createReducer<AuthState>(initialState)
 		}),
 	)
 	.handleAction(
-		[AuthActions.loginSuccess],
+		AuthActions.loginSuccess,
 		produce((draft: AuthState, { payload }: ReturnType<typeof AuthActions.loginSuccess>) => {
 			return {
 				...draft,
@@ -48,7 +48,7 @@ const auth = createReducer<AuthState>(initialState)
 		}),
 	)
 	.handleAction(
-		[AuthActions.sendSmsCodeSuccess],
+		AuthActions.sendSmsCodeSuccess,
 		produce((draft: AuthState, { payload }: ReturnType<typeof AuthActions.sendSmsCodeSuccess>) => {
 			return {
 				...draft,
@@ -58,7 +58,7 @@ const auth = createReducer<AuthState>(initialState)
 		}),
 	)
 	.handleAction(
-		[AuthActions.confirmPhoneFailure],
+		AuthActions.confirmPhoneFailure,
 		produce((draft: AuthState) => {
 			return {
 				...draft,

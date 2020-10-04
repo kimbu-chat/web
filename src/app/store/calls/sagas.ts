@@ -1,18 +1,6 @@
 import { CallActions } from './actions';
 import { SagaIterator, eventChannel, buffers, END } from 'redux-saga';
-import {
-	call,
-	select,
-	takeLatest,
-	put,
-	take,
-	spawn,
-	actionChannel,
-	fork,
-	delay,
-	race,
-	takeEvery,
-} from 'redux-saga/effects';
+import { call, select, takeLatest, put, take, spawn, delay, race, takeEvery } from 'redux-saga/effects';
 import { getMyProfileSelector } from '../my-profile/selectors';
 import { UserPreview } from '../my-profile/models';
 import { CallsHttpRequests } from './http-requests';
@@ -123,8 +111,6 @@ export function* outgoingCallSaga(action: ReturnType<typeof CallActions.outgoing
 
 	const httpRequest = CallsHttpRequests.call;
 	httpRequest.call(yield call(() => httpRequest.generator(request)));
-
-	yield spawn(changeVideoStatusSaga);
 
 	const { timeout } = yield race({
 		canceled: take(CallActions.cancelCallAction),
@@ -291,7 +277,6 @@ export function* acceptCallSaga(action: ReturnType<typeof CallActions.acceptCall
 	httpRequest.call(yield call(() => httpRequest.generator(request)));
 
 	yield put(CallActions.acceptCallSuccessAction(action.payload));
-	yield spawn(changeVideoStatusSaga);
 }
 
 export function* callAcceptedSaga(action: ReturnType<typeof CallActions.interlocutorAcceptedCallAction>): SagaIterator {
@@ -310,14 +295,9 @@ export function* candidateSaga(action: ReturnType<typeof CallActions.candidateAc
 	}, 100);
 }
 
-export function* changeVideoStatusSaga(): SagaIterator {
-	const requestChan = yield actionChannel(CallActions.changeMediaStatusAction);
-
+export function* changeMediaStatusSaga(action: ReturnType<typeof CallActions.changeMediaStatusAction>): SagaIterator {
 	const handleVideoStatusChange = async ({ videoConstraints, audioConstraints }: any) => {
-		const oldStream = localMediaStream;
-
 		if (videoConstraints.isOpened) {
-			stopTracks();
 			try {
 				if (audioConstraints.isOpened || videoConstraints.isOpened) {
 					localMediaStream = await navigator.mediaDevices.getUserMedia({
@@ -329,6 +309,7 @@ export function* changeVideoStatusSaga(): SagaIterator {
 				console.log(e);
 			}
 
+			stopTracks();
 			assignStreams(localMediaStream);
 
 			if (tracks.audioTracks.length > 0) {
@@ -340,9 +321,6 @@ export function* changeVideoStatusSaga(): SagaIterator {
 			} else {
 				videoSender = peerConnection?.addTrack(tracks.videoTracks[0], localMediaStream) as RTCRtpSender;
 			}
-
-			tracks.screenSharingTracks.forEach((track) => track.stop());
-			oldStream.getTracks().forEach((track) => track.stop());
 		} else if (tracks.videoTracks.length > 0) {
 			tracks.videoTracks.forEach((track) => track.stop());
 			tracks.videoTracks = [];
@@ -386,30 +364,16 @@ export function* changeVideoStatusSaga(): SagaIterator {
 		}
 	};
 
-	yield fork(function* () {
-		yield take(CallActions.cancelCallAction);
-		requestChan.close();
-	});
-
-	yield fork(function* () {
-		yield take(CallActions.interlocutorCanceledCallAction);
-		requestChan.close();
-	});
-
-	while (true) {
-		// 2- take from the channel
-		const action = yield take(requestChan);
-		const videoConstraints = yield select((state: RootState) => state.calls.videoConstraints);
-		const audioConstraints = yield select((state: RootState) => state.calls.audioConstraints);
-		// 3- Note that we're using a blocking call
-		if (action.payload.kind === 'videoinput') {
-			yield call(handleVideoStatusChange, { videoConstraints, audioConstraints });
-			const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'videoinput');
-			yield put(CallActions.gotDevicesInfoAction({ kind: 'videoinput', devices: videoDevices }));
-		}
-		if (action.payload.kind === 'audioinput') {
-			yield call(handleAudioStatusChange, { videoConstraints, audioConstraints });
-		}
+	const videoConstraints = yield select((state: RootState) => state.calls.videoConstraints);
+	const audioConstraints = yield select((state: RootState) => state.calls.audioConstraints);
+	// 3- Note that we're using a blocking call
+	if (action.payload.kind === 'videoinput') {
+		yield call(handleVideoStatusChange, { videoConstraints, audioConstraints });
+		const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'videoinput');
+		yield put(CallActions.gotDevicesInfoAction({ kind: 'videoinput', devices: videoDevices }));
+	}
+	if (action.payload.kind === 'audioinput') {
+		yield call(handleAudioStatusChange, { videoConstraints, audioConstraints });
 	}
 }
 
@@ -432,8 +396,11 @@ export function* changeScreenSharingStatus(): SagaIterator {
 		}
 
 		tracks.videoTracks.forEach((track) => track.stop());
+		tracks.videoTracks = [];
 	} else if (tracks.screenSharingTracks.length > 0) {
 		tracks.screenSharingTracks.forEach((track) => track.stop());
+		tracks.screenSharingTracks = [];
+
 		if (videoSender) {
 			try {
 				peerConnection?.removeTrack(videoSender);
@@ -478,8 +445,6 @@ export function* switchDeviceSaga(action: ReturnType<typeof CallActions.switchDe
 		(action.payload.kind === 'audioinput' && audioConstraints.isOpened) ||
 		(action.payload.kind === 'videoinput' && videoConstraints.isOpened)
 	) {
-		const oldStream = localMediaStream;
-
 		try {
 			localMediaStream = yield call(
 				async () =>
@@ -492,6 +457,7 @@ export function* switchDeviceSaga(action: ReturnType<typeof CallActions.switchDe
 			console.log(e);
 		}
 
+		stopTracks();
 		assignStreams(localMediaStream);
 
 		if (tracks.audioTracks.length >= 0) {
@@ -500,8 +466,6 @@ export function* switchDeviceSaga(action: ReturnType<typeof CallActions.switchDe
 		if (tracks.videoTracks.length > 0) {
 			videoSender?.replaceTrack(tracks.videoTracks[0]);
 		}
-
-		oldStream.getTracks().forEach((track) => track.stop());
 	}
 }
 
@@ -610,4 +574,5 @@ export const CallsSagas = [
 	takeLatest(CallActions.changeScreenShareStatusAction, changeScreenSharingStatus),
 	takeLatest(CallActions.switchDeviceAction, switchDeviceSaga),
 	takeLatest(CallActions.incomingCallAction, negociationSaga),
+	takeEvery(CallActions.changeMediaStatusAction, changeMediaStatusSaga),
 ];

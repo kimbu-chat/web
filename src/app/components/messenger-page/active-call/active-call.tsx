@@ -114,7 +114,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 				}
 			}
 		}
-	}, [isVideoOpened, tracks.videoTracks[0]]);
+	}, [isVideoOpened, tracks.videoTracks[0]?.id]);
 
 	//component did mount effect
 	useEffect(() => {

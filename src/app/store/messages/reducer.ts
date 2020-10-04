@@ -189,6 +189,9 @@ const messages = createReducer<MessagesState>(initialState)
 
 			draft.selectedMessageIds = [];
 
+			draft.messageToReply = undefined;
+			draft.messageToEdit = undefined;
+
 			return draft;
 		}),
 	)

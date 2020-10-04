@@ -25,8 +25,9 @@ import Modal from 'app/components/shared/modal/modal';
 import WithBackground from 'app/components/shared/with-background';
 import { LocalizationContext } from 'app/app';
 
-import RenameSvg from 'app/assets/icons/ic-edit.svg';
+import EditSvg from 'app/assets/icons/ic-edit.svg';
 import PhotoSvg from 'app/assets/icons/ic-photo.svg';
+import EditChatModal from '../edit-chat-modal/edit-chat-modal';
 
 namespace ChatInfo {
 	export interface Props {
@@ -56,6 +57,11 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 	const [chatVideoDisplayed, setChatVideoDisplayed] = useState(false);
 	const closeChatVideo = useCallback(() => setChatVideoDisplayed(false), [setChatVideoDisplayed]);
 	const displayChatVideo = useCallback(() => setChatVideoDisplayed(true), [setChatVideoDisplayed]);
+
+	const [editConferenceDisplayed, setEditConferenceDisplayed] = useState(false);
+	const changeEditConferenceDisplayedState = useCallback(() => {
+		setEditConferenceDisplayed((oldState) => !oldState);
+	}, [setEditConferenceDisplayed]);
 
 	useEffect(() => {
 		return () => {
@@ -186,8 +192,8 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 						/>
 						<span className='chat-info__interlocutor'>{getChatInterlocutor(selectedChat)}</span>
 						{conference && (
-							<button className='chat-info__rename-btn'>
-								<RenameSvg />
+							<button onClick={changeEditConferenceDisplayedState} className='chat-info__rename-btn'>
+								<EditSvg />
 							</button>
 						)}
 					</div>
@@ -205,52 +211,54 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 
 					<ChatMedia displayChatPhoto={displayChatPhoto} displayChatVideo={displayChatVideo} />
 
-					<WithBackground
-						isBackgroundDisplayed={leaveConferenceModalOpened}
-						onBackgroundClick={closeLeaveConferenceModal}
-					>
-						{leaveConferenceModalOpened && (
-							<Modal
-								title='Delete chat'
-								contents={t('chatInfo.leave-confirmation', { conferenceName: conference?.name })}
-								highlightedInContents={`‘${conference?.name}‘`}
-								closeModal={closeLeaveConferenceModal}
-								buttons={[
-									{
-										text: t('chatInfo.confirm'),
-										style: {
-											color: 'rgb(255, 255, 255)',
-											backgroundColor: 'rgb(209, 36, 51)',
-											padding: '16px 49.5px',
-											margin: '0',
-										},
-										position: 'left',
-										onClick: deleteConference,
-									},
-									{
-										text: t('chatInfo.cancel'),
-										style: {
-											color: 'rgb(109, 120, 133)',
-											backgroundColor: 'rgb(255, 255, 255)',
-											padding: '16px 38px',
-											margin: '0 0 0 10px',
-											border: '1px solid rgb(215, 216, 217)',
-										},
-
-										position: 'left',
-										onClick: closeLeaveConferenceModal,
-									},
-								]}
-							/>
-						)}
-					</WithBackground>
-
 					{conference && <ChatMembers addMembers={searchContactsToAdd} />}
 				</div>
 
 				<ChatPhoto isDisplayed={chatPhotoDisplayed} close={closeChatPhoto} />
 
 				<ChatVideo isDisplayed={chatVideoDisplayed} close={closeChatVideo} />
+
+				<EditChatModal isDisplayed={editConferenceDisplayed} close={changeEditConferenceDisplayedState} />
+
+				<WithBackground
+					isBackgroundDisplayed={leaveConferenceModalOpened}
+					onBackgroundClick={closeLeaveConferenceModal}
+				>
+					{leaveConferenceModalOpened && (
+						<Modal
+							title='Delete chat'
+							contents={t('chatInfo.leave-confirmation', { conferenceName: conference?.name })}
+							highlightedInContents={`‘${conference?.name}‘`}
+							closeModal={closeLeaveConferenceModal}
+							buttons={[
+								{
+									text: t('chatInfo.confirm'),
+									style: {
+										color: 'rgb(255, 255, 255)',
+										backgroundColor: 'rgb(209, 36, 51)',
+										padding: '16px 49.5px',
+										margin: '0',
+									},
+									position: 'left',
+									onClick: deleteConference,
+								},
+								{
+									text: t('chatInfo.cancel'),
+									style: {
+										color: 'rgb(109, 120, 133)',
+										backgroundColor: 'rgb(255, 255, 255)',
+										padding: '16px 38px',
+										margin: '0 0 0 10px',
+										border: '1px solid rgb(215, 216, 217)',
+									},
+
+									position: 'left',
+									onClick: closeLeaveConferenceModal,
+								},
+							]}
+						/>
+					)}
+				</WithBackground>
 			</React.Fragment>
 		);
 	} else {

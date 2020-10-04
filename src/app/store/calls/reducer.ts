@@ -7,7 +7,6 @@ export interface CallState {
 	isActiveCallIncoming?: boolean;
 	isCalling: boolean;
 	isInterlocutorVideoEnabled: boolean;
-	isMediaSwitchingEnabled: boolean;
 	amCalling: boolean;
 	isSpeaking: boolean;
 	interlocutor?: UserPreview;
@@ -43,7 +42,6 @@ const initialState: CallState = {
 	interlocutor: undefined,
 	offer: undefined,
 	answer: undefined,
-	isMediaSwitchingEnabled: false,
 	audioDevicesList: [],
 	videoDevicesList: [],
 };
@@ -110,7 +108,6 @@ const calls = createReducer<CallState>(initialState)
 			draft.isSpeaking = true;
 			draft.isCalling = false;
 			draft.amCalling = false;
-			draft.isMediaSwitchingEnabled = true;
 			return draft;
 		}),
 	)
@@ -137,7 +134,6 @@ const calls = createReducer<CallState>(initialState)
 			draft.amCalling = false;
 			draft.answer = payload.answer;
 			draft.isInterlocutorVideoEnabled = payload.isVideoEnabled;
-			draft.isMediaSwitchingEnabled = true;
 			return draft;
 		}),
 	)
@@ -166,23 +162,14 @@ const calls = createReducer<CallState>(initialState)
 				draft.audioConstraints.isOpened = !draft.audioConstraints.isOpened;
 			}
 
-			draft.isMediaSwitchingEnabled = false;
 			return draft;
 		}),
 	)
 	.handleAction(
 		CallActions.changeScreenShareStatusAction,
 		produce((draft: CallState) => {
-			draft.isMediaSwitchingEnabled = false;
 			draft.isScreenSharingOpened = !draft.isScreenSharingOpened;
 			draft.videoConstraints.isOpened = false;
-			return draft;
-		}),
-	)
-	.handleAction(
-		CallActions.enableMediaSwitchingAction,
-		produce((draft: CallState) => {
-			draft.isMediaSwitchingEnabled = true;
 			return draft;
 		}),
 	)
@@ -205,12 +192,10 @@ const calls = createReducer<CallState>(initialState)
 		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.switchDeviceAction>) => {
 			if (payload.kind === 'videoinput') {
 				draft.videoConstraints.deviceId = payload.deviceId;
-				draft.isMediaSwitchingEnabled = false;
 			}
 
 			if (payload.kind === 'audioinput') {
 				draft.audioConstraints.deviceId = payload.deviceId;
-				draft.isMediaSwitchingEnabled = false;
 			}
 
 			return draft;

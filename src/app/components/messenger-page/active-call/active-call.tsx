@@ -34,7 +34,6 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 	const videoConstraints = useSelector((state: RootState) => state.calls.videoConstraints);
 	const audioConstraints = useSelector((state: RootState) => state.calls.audioConstraints);
 	const isScreenSharingOpened = useSelector((state: RootState) => state.calls.isScreenSharingOpened);
-	const isMediaSwitchingEnabled = useSelector((state: RootState) => state.calls.isMediaSwitchingEnabled);
 	const audioDevices = useSelector((state: RootState) => state.calls.audioDevicesList);
 	const videoDevices = useSelector((state: RootState) => state.calls.videoDevicesList);
 	const isInterlocutorVideoEnabled = useSelector((state: RootState) => state.calls.isInterlocutorVideoEnabled);
@@ -178,7 +177,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 					<select
 						onChange={(e) => switchDevice({ kind: 'audioinput', deviceId: e.target.value })}
 						value={activeAudioDevice}
-						disabled={!isMediaSwitchingEnabled || !isAudioOpened}
+						disabled={!isAudioOpened}
 						className='active-call__select active-call__select--audio'
 					>
 						{audioDevices.map((device) => (
@@ -193,7 +192,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 					<select
 						onChange={(e) => switchDevice({ kind: 'videoinput', deviceId: e.target.value })}
 						value={activeVideoDevice}
-						disabled={!isMediaSwitchingEnabled || !isVideoOpened}
+						disabled={!isVideoOpened}
 						className='active-call__select active-call__select--video'
 					>
 						{videoDevices.map((device) => (
@@ -233,7 +232,6 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 
 				<div className={`active-call__bottom-menu ${isFullScreen ? 'active-call__bottom-menu--big' : ''}`}>
 					<button
-						disabled={!isMediaSwitchingEnabled}
 						onClick={changeAudioStatus}
 						className={`active-call__call-btn 
 												${isFullScreen ? 'active-call__call-btn--big' : ''}
@@ -247,7 +245,6 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 					</button>
 
 					<button
-						disabled={!isMediaSwitchingEnabled}
 						onClick={changeVideoStatus}
 						className={`active-call__call-btn 
 												${isFullScreen ? 'active-call__call-btn--big' : ''}
@@ -261,7 +258,6 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 					</button>
 
 					<button
-						disabled={!isMediaSwitchingEnabled}
 						onClick={changeScreenShareStatus}
 						className={`active-call__call-btn 
 												${isFullScreen ? 'active-call__call-btn--big' : ''}

@@ -211,6 +211,8 @@ const messages = createReducer<MessagesState>(initialState)
 	.handleAction(
 		MessageActions.editMessage,
 		produce((draft: MessagesState, { payload }: ReturnType<typeof MessageActions.editMessage>) => {
+			draft.selectedMessageIds = [];
+
 			const chatIndex = getChatIndex(draft, payload.chatId);
 
 			const message = getMessage(draft.messages[chatIndex].messages, payload.messageId);

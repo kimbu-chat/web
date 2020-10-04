@@ -134,6 +134,16 @@ export interface CopyMessagesReq {
 	chatId: number;
 }
 
+export interface EditMessageReq {
+	messageId: number;
+	chatId: number;
+}
+
+export interface ReplyMessageReq {
+	messageId: number;
+	chatId: number;
+}
+
 export interface ResetSelectedMessagesReq {
 	chatId: number;
 }

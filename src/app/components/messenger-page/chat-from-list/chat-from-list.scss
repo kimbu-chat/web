@@ -95,11 +95,9 @@
 		line-height: 16px;
 		padding: 3px 7px;
 		font-weight: 500;
-		margin-top: -10px;
-		text-align: center;
-		float: right;
-		align-self: baseline;
-		margin-left: auto;
+		position: absolute;
+		right: 20px;
+		bottom: 18px;
 
 		&--muted {
 			background-color: #6d7885;

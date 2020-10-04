@@ -59,15 +59,28 @@ const PhoneConfirmation = () => {
 		})();
 	}, []);
 
+	//!Temporal code
+	//TODO:Remove im production
+	const [areNumbersDisplayed, setNumbersDisplayed] = useState(false);
+	const changeNumbersDisplayedState = useCallback(() => {
+		setNumbersDisplayed((oldState) => !oldState);
+	}, [setNumbersDisplayed]);
+
 	return (
 		<div className='phone-confirmation'>
 			<div className='phone-confirmation__container'>
 				<img src='' alt='' className='phone-confirmation__logo' />
-				<p className='phone-confirmation__confirm-phone'>{t('loginPage.confirm_phone')}</p>
-				<p>+375445446331</p>
-				<p>+375292725607</p>
-				<p>+375445446388</p>
-				<p>+375445446399</p>
+				<p onClick={changeNumbersDisplayedState} className='phone-confirmation__confirm-phone'>
+					{t('loginPage.confirm_phone')}
+				</p>
+				{areNumbersDisplayed && (
+					<>
+						<p>+375445446331</p>
+						<p>+375292725607</p>
+						<p>+375445446388</p>
+						<p>+375445446399</p>
+					</>
+				)}
 				<div className='phone-confirmation__credentials'>
 					<CountrySelect
 						setRef={setCountrySelectRef}

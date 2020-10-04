@@ -1,0 +1,44 @@
+.responding-message {
+	padding: 10px 20px 10px 8px;
+	display: flex;
+	position: absolute;
+	width: 100%;
+	bottom: 65px;
+	background-color: white;
+	left: 0;
+	box-sizing: border-box;
+	border-top: 1px solid rgb(224, 228, 232);
+
+	&__line {
+		width: 2px;
+		background-color: rgb(63, 138, 224);
+		margin-right: 10px;
+	}
+
+	&__message-sender {
+		font-size: 13px;
+		line-height: 16px;
+		font-weight: 500;
+		color: rgb(109, 120, 133);
+		margin-bottom: 4px;
+	}
+
+	&__message-contents {
+		font-size: 13px;
+		line-height: 18px;
+		font-weight: 400;
+		color: rgb(109, 120, 133);
+		max-width: 800px;
+	}
+
+	&__close {
+		right: 20px;
+		position: absolute;
+		top: 20px;
+
+		svg {
+			width: 16px;
+			height: 16px;
+		}
+	}
+}

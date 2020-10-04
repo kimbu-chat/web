@@ -35,4 +35,21 @@
 			background: none;
 		}
 	}
+
+	&__delete-check {
+		margin-top: 24px;
+		margin-bottom: 18px;
+
+		&__btn {
+			width: 16px;
+			height: 16px;
+			margin-right: 10px;
+		}
+
+		&__btn-description {
+			font-weight: 400;
+			font-size: 14px;
+			line-height: 18px;
+		}
+	}
 }

@@ -18,7 +18,7 @@ export const ChatHttpRequests = {
 		HttpRequestMethod.Post,
 	),
 	removeChat: httpRequestFactory<AxiosResponse, HideChatRequest>(
-		`${ApiBasePath.MainApi}​/api​/chats​/change-hidden-status`,
+		`${ApiBasePath.MainApi}​/api/chats/change-hidden-status`,
 		HttpRequestMethod.Put,
 	),
 	muteChat: httpRequestFactory<AxiosResponse, MuteChatRequest>(

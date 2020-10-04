@@ -32,5 +32,4 @@ export namespace CallActions {
 	export const changeScreenShareStatusAction = createEmptyAction('CHANGE_SCREEN_SHARE_STATUS');
 	export const gotDevicesInfoAction = createAction('GOT_DEVICES_INFO')<GotMediaDevicesInfoActionPayload>();
 	export const switchDeviceAction = createAction('SWITCH_DEVICE')<SwitchDeviceActionPayload>();
-	export const enableMediaSwitchingAction = createEmptyAction('ENABLE_MEDIA');
 }

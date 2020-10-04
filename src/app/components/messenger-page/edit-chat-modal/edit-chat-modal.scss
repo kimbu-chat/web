@@ -1,0 +1,119 @@
+.edit-chat-modal {
+	margin-bottom: 18px;
+
+	&__change-photo {
+		display: flex;
+	}
+
+	&__current-photo-wrapper {
+		height: 76px;
+		width: 76px;
+		position: relative;
+	}
+
+	&__remove-photo {
+		width: 20px;
+		height: 20px;
+		border-radius: 50%;
+		background-color: #efeff0;
+		position: absolute;
+		top: 0;
+		right: 0;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		svg {
+			width: 12px;
+			height: 12px;
+		}
+	}
+
+	&__current-photo {
+		height: 76px;
+		width: 76px;
+		border-radius: 50%;
+	}
+
+	&__change-photo-data {
+		margin-left: 20px;
+		display: flex;
+		flex-direction: column;
+	}
+
+	&__change-photo__btn {
+		padding: 11px 30px;
+		border: 1px solid rgb(215, 216, 217);
+		border-radius: 19px;
+		color: rgb(109, 120, 133);
+		font-size: 13px;
+		line-height: 16px;
+		font-weight: 500;
+		margin-top: auto;
+		margin-bottom: 6px;
+		align-self: flex-start;
+
+		&:focus {
+			border: 1px solid rgb(215, 216, 217);
+		}
+	}
+
+	&__change-photo__description {
+		font-size: 11px;
+		line-height: 18px;
+		font-weight: 400px;
+		color: rgb(151, 151, 151);
+	}
+
+	&__name {
+		margin-top: 20px;
+
+		&__label {
+			display: block;
+			font-weight: 400px;
+			font-size: 11px;
+			line-height: 16px;
+			color: rgb(151, 151, 151);
+			margin-bottom: 2px;
+		}
+
+		&__input {
+			display: block;
+			height: 48px;
+			border-radius: 4px;
+			border: 1px solid rgb(215, 216, 217);
+			padding: 14px 13px;
+			font-size: 13px;
+			line-height: 16px;
+			font-weight: 400;
+			box-sizing: border-box;
+			width: 100%;
+		}
+	}
+
+	&__description {
+		margin-top: 20px;
+
+		&__label {
+			display: block;
+			font-weight: 400px;
+			font-size: 11px;
+			line-height: 16px;
+			color: rgb(151, 151, 151);
+			margin-bottom: 2px;
+		}
+
+		&__input {
+			display: block;
+			height: 96px;
+			border-radius: 4px;
+			border: 1px solid rgb(215, 216, 217);
+			padding: 14px 13px;
+			font-size: 13px;
+			line-height: 16px;
+			font-weight: 400;
+			box-sizing: border-box;
+			width: 100%;
+			resize: none;
+		}
+	}
+}

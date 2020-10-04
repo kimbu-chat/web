@@ -14,8 +14,8 @@ namespace Modal {
 	}
 	export interface Props {
 		title: string;
-		contents: string;
-		highlightedInContents: string;
+		contents: string | JSX.Element;
+		highlightedInContents?: string;
 		buttons: Modal.Button[];
 		closeModal: () => void;
 	}
@@ -39,19 +39,21 @@ const Modal = ({ title, contents, buttons, highlightedInContents, closeModal }: 
 		<div className='modal'>
 			<header className='modal__header'>
 				<div className='modal__title'>{title}</div>
-				<CloseSVG onClick={closeModal} className='modal__close-btn' />
+				<CloseSVG onClick={closeModal} viewBox='0 0 25 25' className='modal__close-btn' />
 			</header>
 			<div className='modal__contents'>
-				{contents.split(highlightedInContents).map((text, index, arr) => (
-					<React.Fragment key={index}>
-						<span className='modal__contents__text'>{text}</span>
-						{index < arr.length - 1 && (
-							<span className='modal__contents__text modal__contents__text--highlighted'>
-								{highlightedInContents}
-							</span>
-						)}
-					</React.Fragment>
-				))}
+				{typeof contents === 'string'
+					? contents.split(highlightedInContents || '').map((text, index, arr) => (
+							<React.Fragment key={index}>
+								<span className='modal__contents__text'>{text}</span>
+								{index < arr.length - 1 && (
+									<span className='modal__contents__text modal__contents__text--highlighted'>
+										{highlightedInContents}
+									</span>
+								)}
+							</React.Fragment>
+					  ))
+					: contents}
 				<span></span>
 			</div>
 			<div className='modal__btn-block'>

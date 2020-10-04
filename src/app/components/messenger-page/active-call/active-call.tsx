@@ -9,6 +9,7 @@ import { RootState } from 'app/store/root-reducer';
 import { tracks } from 'app/store/calls/sagas';
 import moment from 'moment';
 import { Rnd } from 'react-rnd';
+import Avatar from 'app/components/shared/avatar/avatar';
 import ReactDOM from 'react-dom';
 
 //SVG
@@ -18,9 +19,9 @@ import VideoEnableSvg from 'app/assets/icons/ic-video-call.svg';
 import VideoDisableSvg from 'app/assets/icons/ic-video-call-mute.svg';
 import ScreenSharingEnableSvg from 'app/assets/icons/ic-screen-share.svg';
 import ScreenSharingDisableSvg from 'app/assets/icons/ic-screen-share-mute.svg';
-import ChatSvg from 'app/assets/icons/ic-chat-outline.svg';
 import HangUpSvg from 'app/assets/icons/ic-call-out.svg';
-import Avatar from 'app/components/shared/avatar/avatar';
+import FullScreenSvg from 'app/assets/icons/ic-fullscreen.svg';
+import ExitFullScreenSvg from 'app/assets/icons/ic-fullscreen-exit.svg';
 
 namespace IActiveCall {
 	export interface Props {
@@ -33,7 +34,6 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 	const videoConstraints = useSelector((state: RootState) => state.calls.videoConstraints);
 	const audioConstraints = useSelector((state: RootState) => state.calls.audioConstraints);
 	const isScreenSharingOpened = useSelector((state: RootState) => state.calls.isScreenSharingOpened);
-	const isMediaSwitchingEnabled = useSelector((state: RootState) => state.calls.isMediaSwitchingEnabled);
 	const audioDevices = useSelector((state: RootState) => state.calls.audioDevicesList);
 	const videoDevices = useSelector((state: RootState) => state.calls.videoDevicesList);
 	const isInterlocutorVideoEnabled = useSelector((state: RootState) => state.calls.isInterlocutorVideoEnabled);
@@ -114,17 +114,21 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 				}
 			}
 		}
-	}, [isVideoOpened, tracks.videoTracks[0]]);
+	}, [isVideoOpened, tracks.videoTracks[0]?.id]);
 
 	//component did mount effect
 	useEffect(() => {
-		setCallDuration(0);
+		if (isDisplayed) {
+			setCallDuration(0);
 
-		const callDurationIntervalCode = setInterval(() => setCallDuration((old) => old + 1), 1000);
+			const callDurationIntervalCode = setInterval(() => setCallDuration((old) => old + 1), 1000);
 
-		return () => {
-			clearInterval(callDurationIntervalCode);
-		};
+			return () => {
+				clearInterval(callDurationIntervalCode);
+			};
+		}
+
+		return () => {};
 	}, [isDisplayed]);
 
 	useEffect(() => {
@@ -163,13 +167,17 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 					<div className='active-call__duration'>{moment.utc(callDuration * 1000).format('HH:mm:ss')}</div>
 				</div>
 
+				<button onClick={changeFullScreenStatus} className='active-call__change-screen'>
+					{isFullScreen ? <ExitFullScreenSvg viewBox='0 0 25 25' /> : <FullScreenSvg viewBox='0 0 25 25' />}
+				</button>
+
 				<audio autoPlay playsInline ref={remoteAudioRef} className='active-call__remote-audio'></audio>
 
 				{isFullScreen && (
 					<select
 						onChange={(e) => switchDevice({ kind: 'audioinput', deviceId: e.target.value })}
 						value={activeAudioDevice}
-						disabled={!isMediaSwitchingEnabled || !isAudioOpened}
+						disabled={!isAudioOpened}
 						className='active-call__select active-call__select--audio'
 					>
 						{audioDevices.map((device) => (
@@ -184,7 +192,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 					<select
 						onChange={(e) => switchDevice({ kind: 'videoinput', deviceId: e.target.value })}
 						value={activeVideoDevice}
-						disabled={!isMediaSwitchingEnabled || !isVideoOpened}
+						disabled={!isVideoOpened}
 						className='active-call__select active-call__select--video'
 					>
 						{videoDevices.map((device) => (
@@ -224,7 +232,6 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 
 				<div className={`active-call__bottom-menu ${isFullScreen ? 'active-call__bottom-menu--big' : ''}`}>
 					<button
-						disabled={!isMediaSwitchingEnabled}
 						onClick={changeAudioStatus}
 						className={`active-call__call-btn 
 												${isFullScreen ? 'active-call__call-btn--big' : ''}
@@ -238,7 +245,6 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 					</button>
 
 					<button
-						disabled={!isMediaSwitchingEnabled}
 						onClick={changeVideoStatus}
 						className={`active-call__call-btn 
 												${isFullScreen ? 'active-call__call-btn--big' : ''}
@@ -252,7 +258,6 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 					</button>
 
 					<button
-						disabled={!isMediaSwitchingEnabled}
 						onClick={changeScreenShareStatus}
 						className={`active-call__call-btn 
 												${isFullScreen ? 'active-call__call-btn--big' : ''}
@@ -263,15 +268,6 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 						) : (
 							<ScreenSharingDisableSvg viewBox='0 0 25 25' />
 						)}
-					</button>
-
-					<button
-						onClick={changeFullScreenStatus}
-						className={`active-call__call-btn ${
-							isFullScreen ? 'active-call__call-btn--big' : 'active-call__call-btn--active'
-						}`}
-					>
-						<ChatSvg viewBox='0 0 25 25' />
 					</button>
 
 					<button

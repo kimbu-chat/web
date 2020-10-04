@@ -18,6 +18,7 @@ import AddSvg from 'app/assets/icons/ic-add-new.svg';
 import SmilesSvg from 'app/assets/icons/ic-smile.svg';
 import VoiceSvg from 'app/assets/icons/ic-microphone.svg';
 import moment from 'moment';
+import { useEffect } from 'react';
 
 const CreateMessageInput = () => {
 	const { t } = useContext(LocalizationContext);
@@ -27,12 +28,20 @@ const CreateMessageInput = () => {
 
 	const currentUser = useSelector<RootState, UserPreview | undefined>((state) => state.myProfile.user);
 	const selectedChat = useSelector(getSelectedChatSelector);
+	const messageToEdit = useSelector((state: RootState) => state.messages.messageToEdit);
+
 	const [text, setText] = useState('');
 	const [smilesDisplayed, setSmilesDisplayed] = useState<boolean>(false);
 	const [isRecording, setIsRecording] = useState(false);
 	const [recordedSeconds, setRecordedSeconds] = useState(0);
 
 	const registerAudioBtnRef = useRef<HTMLButtonElement>(null);
+
+	useEffect(() => {
+		if (messageToEdit) {
+			setText(messageToEdit.text);
+		}
+	}, [messageToEdit]);
 
 	useInterval(
 		() => {
@@ -189,6 +198,38 @@ const CreateMessageInput = () => {
 			document.addEventListener('mouseup', handleMouseUp);
 		});
 	};
+
+	if (messageToEdit) {
+		return (
+			<div className='message-input__send-message'>
+				{selectedChat && (
+					<>
+						{!isRecording && (
+							<button className='message-input__add'>
+								<AddSvg />
+							</button>
+						)}
+						<div className='message-input__input-group' onSubmit={sendMessageToServer}>
+							{!isRecording && (
+								<input
+									placeholder={t('messageInput.write')}
+									type='text'
+									value={text}
+									onChange={(event) => {
+										setText(event.target.value);
+										handleTextChange(event.target.value);
+									}}
+									className='message-input__input-message'
+									onKeyPress={handleKeyPress}
+								/>
+							)}
+						</div>
+						<button className='message-input__edit-confirm'>Save</button>
+					</>
+				)}
+			</div>
+		);
+	}
 
 	return (
 		<div className='message-input__send-message'>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>ic-checkbox</title>
-    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="ic-checkbox">
-            <rect id="Rectangle" x="0" y="0" width="16" height="16"></rect>
-            <path d="M10.7715528,5.29655281 L6.76250281,9.30561406 L5.22845281,7.77155281 C4.83303781,7.37614906 4.19196781,7.37614906 3.79655281,7.77155281 C3.40114906,8.16696781 3.40114906,8.80803781 3.79655281,9.20345281 L6.04655281,11.4534528 C6.44196781,11.8488903 7.08303781,11.8488903 7.47845281,11.4534528 L12.2034528,6.72845281 C12.5988903,6.33303781 12.5988903,5.69196781 12.2034528,5.29655281 C11.8080153,4.90114906 11.1669903,4.90114906 10.7715528,5.29655281 Z" id="Path" fill="#FFFFFF"></path>
+    <title>Selection Controls/Checkbox/Active</title>
+    <g id="Selection-Controls/Checkbox/Active" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Selection-Controls/Checkbox/Activ">
+            <rect id="Rectangle" fill="#3F8AE0" x="0" y="0" width="16" height="16" rx="4"></rect>
+            <path d="M10.7715528,5.29655281 L6.76250281,9.30561406 L5.22845281,7.77155281 C4.83303781,7.37614906 4.19196781,7.37614906 3.79655281,7.77155281 C3.40114906,8.16696781 3.40114906,8.80803781 3.79655281,9.20345281 L6.04655281,11.4534528 C6.44196781,11.8488903 7.08303781,11.8488903 7.47845281,11.4534528 L12.2034528,6.72845281 C12.5988903,6.33303781 12.5988903,5.69196781 12.2034528,5.29655281 C11.8080153,4.90114906 11.1669903,4.90114906 10.7715528,5.29655281 Z" id="Icons/ic-checkbox" fill="#FFFFFF"></path>
         </g>
     </g>
 </svg>

@@ -118,6 +118,7 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 
 			reader.onload = () => {
 				setImageUrl(reader.result);
+				console.log(reader.result);
 				displayChangePhoto({ onSubmit: changeAvatar });
 			};
 
@@ -175,7 +176,12 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 
 				<ChatVideo isDisplayed={chatVideoDisplayed} close={closeChatVideo} />
 
-				<EditChatModal isDisplayed={editConferenceDisplayed} close={changeEditConferenceDisplayedState} />
+				<EditChatModal
+					setImageUrl={setImageUrl}
+					displayChangePhoto={displayChangePhoto}
+					isDisplayed={editConferenceDisplayed}
+					close={changeEditConferenceDisplayedState}
+				/>
 			</React.Fragment>
 		);
 	} else {

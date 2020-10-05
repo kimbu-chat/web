@@ -31,7 +31,7 @@ export function* uploadUserAvatar(action: ReturnType<typeof MyProfileActions.upd
 
 	const uploadRequest: FileUploadRequest<UpdateAvatarResponse> = {
 		path: image.imagePath,
-		url: 'http://files.ravudi.com/api/user-avatars/',
+		url: 'https://files.ravudi.com/api/user-avatars/',
 		fileName: 'File',
 		parameters: {
 			'Square.Point.X': offsetX.toString(),

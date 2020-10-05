@@ -174,6 +174,13 @@ const calls = createReducer<CallState>(initialState)
 		}),
 	)
 	.handleAction(
+		CallActions.closeScreenShareStatusAction,
+		produce((draft: CallState) => {
+			draft.isScreenSharingOpened = false;
+			return draft;
+		}),
+	)
+	.handleAction(
 		CallActions.gotDevicesInfoAction,
 		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.gotDevicesInfoAction>) => {
 			if (payload.kind === 'videoinput') {

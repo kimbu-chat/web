@@ -30,6 +30,7 @@ export namespace CallActions {
 	export const candidateAction = createAction('CANDIDATE')<CandidateActionPayload>();
 	export const changeMediaStatusAction = createAction('CHANGE_MEDIA_STATUS')<ChangeMediaStatusActionPayload>();
 	export const changeScreenShareStatusAction = createEmptyAction('CHANGE_SCREEN_SHARE_STATUS');
+	export const closeScreenShareStatusAction = createEmptyAction('CLOSE_SCREEN_SHARE_STATUS');
 	export const gotDevicesInfoAction = createAction('GOT_DEVICES_INFO')<GotMediaDevicesInfoActionPayload>();
 	export const switchDeviceAction = createAction('SWITCH_DEVICE')<SwitchDeviceActionPayload>();
 }

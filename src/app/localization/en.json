@@ -114,7 +114,9 @@
 		"reply": "Reply",
 		"edit": "Edit",
 		"copy": "Copy",
-		"cancel": "Cancel"
+		"cancel": "Cancel",
+		"deleteConfirmation": "Are you sure you want to delete {{count}} message?",
+		"deleteConfirmation_plural": "Are you sure you want to delete {{count}} messages?"
 	},
 	"back": "Back",
 	"emojiMart": {

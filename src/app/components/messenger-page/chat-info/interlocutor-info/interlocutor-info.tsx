@@ -1,14 +1,12 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useContext } from 'react';
 import './interlocutor-info.scss';
 
 import InfoSvg from 'app/assets/icons/ic-info.svg';
 import LinkSvg from 'app/assets/icons/ic-links.svg';
 
 import { useSelector } from 'react-redux';
-import { ChatActions } from 'app/store/chats/actions';
 import { Chat } from 'app/store/chats/models';
 import { getSelectedChatSelector } from 'app/store/chats/selectors';
-import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { parsePhoneNumber } from 'libphonenumber-js';
 import { LocalizationContext } from 'app/app';
 import { Link } from 'react-router-dom';
@@ -17,15 +15,6 @@ const InterlocutorInfo = () => {
 	const { t } = useContext(LocalizationContext);
 
 	const selectedChat = useSelector(getSelectedChatSelector) as Chat;
-
-	const renameConference = useActionWithDispatch(ChatActions.renameConference);
-
-	//TODO: This function is actually working well, just place it in the right place when ui is implemented
-	//@ts-ignore
-	const setNewConferenceName = useCallback((newName: string) => renameConference({ newName, chat: selectedChat }), [
-		renameConference,
-		selectedChat,
-	]);
 
 	return (
 		<div className='interlocutor-info'>

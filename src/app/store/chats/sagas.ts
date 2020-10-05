@@ -102,7 +102,7 @@ function* updloadConferenceAvatar(
 
 		const uploadRequest: FileUploadRequest<UpdateAvatarResponse> = {
 			path: imagePath,
-			url: 'http://files.ravudi.com/api/conference-avatars/',
+			url: 'https://files.ravudi.com/api/conference-avatars/',
 			fileName: 'file',
 			parameters: {
 				'Square.Point.X': offsetX.toString(),

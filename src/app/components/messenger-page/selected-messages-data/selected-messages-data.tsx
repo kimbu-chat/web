@@ -9,6 +9,8 @@ import { LocalizationContext } from 'app/app';
 import Modal from 'app/components/shared/modal/modal';
 import WithBackground from 'app/components/shared/with-background';
 
+import CheckBoxSvg from 'app/assets/icons/ic-checkbox.svg';
+
 const SelectedMessagesData = () => {
 	const selectedMessages = useSelector((state: RootState) => state.messages.selectedMessageIds);
 	const selectedMessagesCount = selectedMessages.length;
@@ -99,18 +101,29 @@ const SelectedMessagesData = () => {
 						contents={
 							<div>
 								<div className=''>
-									<span className='modal__contents__text'>Are you sure you want to delete</span>
-									<span className='modal__contents__text modal__contents__text--highlighted'>
-										{' '}
-										1 message?
-									</span>
+									{t('selectedMessagesData.deleteConfirmation', { count: selectedMessagesCount })
+										.split(selectedMessagesCount + '')
+										.map((text, index, arr) => (
+											<React.Fragment key={index}>
+												<span className='modal__contents__text'>{text}</span>
+												{index < arr.length - 1 && (
+													<span className='modal__contents__text modal__contents__text--highlighted'>
+														{selectedMessagesCount}
+													</span>
+												)}
+											</React.Fragment>
+										))}
 								</div>
 								<div className='selected-messages-data__delete-check'>
 									<button
-										className='selected-messages-data__delete-check__btn'
+										className={`selected-messages-data__delete-check__btn ${
+											deleteForInterlocutor
+												? 'selected-messages-data__delete-check__btn--active'
+												: ''
+										}`}
 										onClick={changeDeleteForInterlocutorState}
 									>
-										{deleteForInterlocutor ? 1 : 0}
+										{deleteForInterlocutor && <CheckBoxSvg viewBox='0 0 25 25' />}
 									</button>
 									<span className='selected-messages-data__delete-check__btn-description'>{`Delete for ${
 										selectedChat?.interlocutor

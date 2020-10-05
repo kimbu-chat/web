@@ -397,6 +397,8 @@ export function* changeScreenSharingStatus(): SagaIterator {
 
 		tracks.videoTracks.forEach((track) => track.stop());
 		tracks.videoTracks = [];
+
+		yield spawn(trackEndedWatcher);
 	} else if (tracks.screenSharingTracks.length > 0) {
 		tracks.screenSharingTracks.forEach((track) => track.stop());
 		tracks.screenSharingTracks = [];
@@ -410,6 +412,55 @@ export function* changeScreenSharingStatus(): SagaIterator {
 			videoSender = null;
 		}
 	}
+}
+
+export function* trackEndedWatcher() {
+	const channel = createTrackEndedChannel();
+	console.log('spawned');
+	while (true) {
+		const action = yield take(channel);
+		if (action === true) {
+			tracks.screenSharingTracks.forEach((track) => track.stop());
+			tracks.screenSharingTracks = [];
+
+			if (videoSender) {
+				try {
+					peerConnection?.removeTrack(videoSender);
+				} catch (e) {
+					console.warn(e);
+				}
+				videoSender = null;
+			}
+
+			yield put(CallActions.closeScreenShareStatusAction());
+		}
+	}
+}
+
+function createTrackEndedChannel() {
+	return eventChannel((emit) => {
+		console.log(tracks.screenSharingTracks);
+		const onEnd = () => {
+			emit(true);
+			emit(END);
+			console.log('onEnd');
+		};
+		tracks.screenSharingTracks[0].addEventListener('ended', onEnd);
+
+		const clearIntervalCode = setInterval(() => {
+			if (!tracks.screenSharingTracks[0]) {
+				clearInterval(clearIntervalCode);
+				console.log('clearIntervalCode');
+				emit(END);
+			}
+		}, 1000);
+
+		return () => {
+			if (tracks.screenSharingTracks[0]) {
+				tracks.screenSharingTracks[0].removeEventListener('ended', onEnd);
+			}
+		};
+	}, buffers.expanding(100));
 }
 
 export function* negociationSaga(action: ReturnType<typeof CallActions.incomingCallAction>): SagaIterator {

@@ -73,6 +73,8 @@ const chats = createReducer<ChatsState>(initialState)
 
 			clearTimeout(draft.chats[chatIndex].timeoutId as NodeJS.Timeout);
 
+			console.log(payload);
+
 			(draft.chats[chatIndex].draftMessage = payload.text),
 				(draft.chats[chatIndex].timeoutId = payload.timeoutId),
 				(draft.chats[chatIndex].isInterlocutorTyping = true);

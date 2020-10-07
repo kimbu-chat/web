@@ -71,9 +71,9 @@ export enum SystemMessageType {
 }
 
 export interface UserMessageTypingRequest {
-	interlocutorId?: number;
-	isConference?: boolean;
-	text?: string;
+	chatId: number;
+	text: string;
+	interlocutorName: string;
 }
 
 export interface EntityCreation {}

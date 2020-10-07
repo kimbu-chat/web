@@ -103,9 +103,9 @@ const CreateMessageInput = () => {
 		const isChat = Boolean(selectedChat?.interlocutor);
 
 		notifyAboutTyping({
-			interlocutorId: isChat ? selectedChat?.interlocutor?.id : selectedChat?.conference?.id,
-			isConference: !isChat,
+			chatId: isChat ? selectedChat?.interlocutor?.id! : selectedChat?.conference?.id!,
 			text: newText,
+			interlocutorName: 'Denis',
 		});
 	};
 

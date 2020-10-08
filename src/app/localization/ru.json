@@ -35,11 +35,12 @@
 		"last-time": "Последний раз был в сети"
 	},
 	"chatFromList": {
-		"you": "Вы",
-		"typing": "Печатает..."
+		"you": "Вы"
 	},
 	"chat": {
-		"typing": "Печатает...",
+		"typing": "{{firstInterlocutorName}} печатает...",
+		"typing_two": "{{firstInterlocutorName}} и  {{secondInterlocutorName}} печатает...",
+		"typing_many": "{{firstInterlocutorName}},  {{secondInterlocutorName}} и ещё {{remainingCount}} печатает...",
 		"empty": "В этом чате нет новых сообщений. Ваше может быть первым!"
 	},
 	"chatActions": {

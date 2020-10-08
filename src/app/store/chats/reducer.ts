@@ -33,22 +33,25 @@ const chats = createReducer<ChatsState>(initialState)
 	.handleAction(
 		ChatActions.interlocutorStoppedTyping,
 		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.interlocutorStoppedTyping>) => {
-			const { isConference, interlocutorId, objectId } = payload;
+			const { chatId, interlocutorName, objectId } = payload;
 
-			const chatId: number = ChatService.getChatIdentifier(
-				isConference ? undefined : objectId,
-				isConference ? interlocutorId : undefined,
+			const chatIdentificator: number = ChatService.getChatIdentifier(
+				chatId.interlocutorType === InterlocutorType.USER ? objectId : undefined,
+				chatId.interlocutorType === InterlocutorType.CONFERENCE ? chatId.conferenceId : undefined,
 			);
 
-			const isChatExists: boolean = checkChatExists(chatId, draft);
+			const isChatExists: boolean = checkChatExists(chatIdentificator, draft);
 
 			if (!isChatExists) {
 				return draft;
 			}
 
-			const chatIndex: number = getChatArrayIndex(chatId, draft);
+			const chatIndex: number = getChatArrayIndex(chatIdentificator, draft);
 
-			(draft.chats[chatIndex].timeoutId = undefined), (draft.chats[chatIndex].isInterlocutorTyping = false);
+			(draft.chats[chatIndex].timeoutId = undefined),
+				(draft.chats[chatIndex].typingInterlocutors = draft.chats[chatIndex].typingInterlocutors!.filter(
+					(user) => user.fullName !== interlocutorName,
+				));
 
 			return draft;
 		}),
@@ -56,28 +59,36 @@ const chats = createReducer<ChatsState>(initialState)
 	.handleAction(
 		ChatActions.interlocutorMessageTyping,
 		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.interlocutorMessageTyping>) => {
-			const { isConference, interlocutorId, objectId } = payload;
+			const { chatId, interlocutorName, timeoutId, objectId } = payload;
 
-			const chatId: number = ChatService.getChatIdentifier(
-				isConference ? undefined : objectId,
-				isConference ? interlocutorId : undefined,
+			const chatIdentificator: number = ChatService.getChatIdentifier(
+				chatId.interlocutorType === InterlocutorType.USER ? objectId : undefined,
+				chatId.interlocutorType === InterlocutorType.CONFERENCE ? chatId.conferenceId : undefined,
 			);
 
-			const isChatExists: boolean = checkChatExists(chatId, draft);
+			const isChatExists: boolean = checkChatExists(chatIdentificator, draft);
 
 			if (!isChatExists) {
 				return draft;
 			}
 
-			const chatIndex: number = getChatArrayIndex(chatId, draft);
+			const chatIndex: number = getChatArrayIndex(chatIdentificator, draft);
 
 			clearTimeout(draft.chats[chatIndex].timeoutId as NodeJS.Timeout);
 
-			console.log(payload);
+			const typingUser = {
+				timeoutId: timeoutId,
+				fullName: interlocutorName,
+			};
 
-			(draft.chats[chatIndex].draftMessage = payload.text),
-				(draft.chats[chatIndex].timeoutId = payload.timeoutId),
-				(draft.chats[chatIndex].isInterlocutorTyping = true);
+			(draft.chats[chatIndex].draftMessage = payload.text), (draft.chats[chatIndex].timeoutId = timeoutId);
+
+			if (!draft.chats[chatIndex].typingInterlocutors.find(({ fullName }) => fullName === interlocutorName)) {
+				draft.chats[chatIndex].typingInterlocutors = [
+					...draft.chats[chatIndex].typingInterlocutors,
+					typingUser,
+				];
+			}
 
 			return draft;
 		}),
@@ -266,6 +277,7 @@ const chats = createReducer<ChatsState>(initialState)
 					ownUnreadMessagesCount: !isCurrentUserMessageCreator ? 1 : 0,
 					interlocutorLastReadMessageId: 0,
 					interlocutor: chat.interlocutor,
+					typingInterlocutors: [],
 				};
 
 				draft.chats.unshift(newChat);
@@ -372,6 +384,7 @@ const chats = createReducer<ChatsState>(initialState)
 					ownUnreadMessagesCount: 0,
 					interlocutorLastReadMessageId: 0,
 					interlocutor: payload,
+					typingInterlocutors: [],
 				};
 
 				draft.chats.unshift(newDialog);

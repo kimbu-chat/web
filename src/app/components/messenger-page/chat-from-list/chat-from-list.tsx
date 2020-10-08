@@ -21,6 +21,7 @@ import truncate from 'lodash/truncate';
 import MessageQeuedSvg from 'app/assets/icons/ic-time.svg';
 import MessageSentSvg from 'app/assets/icons/ic-tick.svg';
 import MessageReadSvg from 'app/assets/icons/ic-double_tick.svg';
+import { getTypingString } from 'app/store/chats/selectors';
 
 namespace ChatFromList {
 	export interface Props {
@@ -116,7 +117,7 @@ const ChatFromList = ({ chat }: ChatFromList.Props) => {
 					</div>
 				</div>
 				<div className='chat-from-list__last-message'>
-					{chat.isInterlocutorTyping ? t('chatFromList.typing') : getMessageText()}
+					{chat.typingInterlocutors.length > 0 ? getTypingString(t, chat) : getMessageText()}
 				</div>
 				{(chat.ownUnreadMessagesCount || false) && (
 					<div

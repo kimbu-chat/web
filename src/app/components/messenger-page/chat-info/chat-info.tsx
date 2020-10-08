@@ -118,7 +118,6 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 
 			reader.onload = () => {
 				setImageUrl(reader.result);
-				console.log(reader.result);
 				displayChangePhoto({ onSubmit: changeAvatar });
 			};
 

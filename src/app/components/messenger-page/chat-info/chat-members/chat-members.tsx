@@ -44,6 +44,8 @@ const ChatMembers = ({ addMembers }: ChatMembers.Props) => {
 		};
 	}, [selectedChat.id]);
 
+	//!remove when will be implemented
+	//@ts-ignore
 	const loadMore = useCallback(() => {
 		getConferenceUsers({
 			conferenceId: selectedChat.conference?.id || -1,
@@ -54,9 +56,6 @@ const ChatMembers = ({ addMembers }: ChatMembers.Props) => {
 			},
 		});
 	}, [selectedChat]);
-
-	//!remove when will be implemented
-	console.log(loadMore);
 
 	return (
 		<div className='chat-members'>

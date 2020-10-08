@@ -34,6 +34,7 @@ export function* getChatsSaga(action: ReturnType<typeof ChatActions.getChats>): 
 				: (MessageState.SENT as MessageState);
 		chat.interlocutorType = ChatService.getInterlocutorType(chat);
 		chat.id = ChatService.getChatIdentifier(chat.interlocutor?.id, chat.conference?.id);
+		chat.typingInterlocutors = [];
 	});
 
 	const chatList: GetChatsResponse = {
@@ -173,6 +174,7 @@ function* createConferenceSaga(action: ReturnType<typeof ChatActions.createConfe
 				name: name,
 				avatarUrl: undefined,
 			},
+			typingInterlocutors: [],
 			lastMessage: {
 				creationDateTime: new Date(),
 				id: new Date().getTime(),
@@ -227,6 +229,7 @@ function* createConferenceFromEventSaga(
 			name: action.payload.name,
 		},
 		lastMessage: message,
+		typingInterlocutors: [],
 	};
 
 	const createMessageRequest: CreateMessageRequest = {

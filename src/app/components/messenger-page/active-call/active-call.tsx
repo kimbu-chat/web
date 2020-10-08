@@ -144,8 +144,6 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 		);
 	}, [isFullScreen, isDisplayed]);
 
-	console.log('rere');
-
 	return (
 		<Rnd
 			ref={dragRef}

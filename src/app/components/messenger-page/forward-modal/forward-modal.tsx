@@ -8,8 +8,8 @@ import { useState } from 'react';
 import SelectedSvg from 'app/assets/icons/ic-check-filled.svg';
 import UnSelectedSvg from 'app/assets/icons/ic-check-outline.svg';
 import { useSelector } from 'react-redux';
-import SearchSvg from 'app/assets/icons/ic-search.svg';
 import './forward-modal.scss';
+import SearchBox from '../search-box/search-box';
 
 namespace ForwardModal {
 	export interface Props {
@@ -44,13 +44,7 @@ const ForwardModal = ({ close, isDisplayed }: ForwardModal.Props) => {
 					closeModal={close}
 					contents={
 						<div className={'forward-modal'}>
-							<div className='forward-modal__input-wrapper'>
-								<input placeholder='   ' type='text' className='forward-modal__input' />
-								<div className='forward-modal__input__placeholder'>
-									<SearchSvg className={'forward-modal__input__svg'} viewBox='0 0 25 25' />
-									<span>Search</span>
-								</div>
-							</div>
+							<SearchBox onChange={() => {}} />
 							<div className='forward-modal__chats-block'>
 								{friends.map((friend) => {
 									return (

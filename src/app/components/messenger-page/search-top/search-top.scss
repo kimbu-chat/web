@@ -1,9 +1,7 @@
-.messenger {
-	&__search-top {
-		display: flex;
-		justify-content: flex-start;
-		border-right: 1px solid rgba(0, 0, 0, 0.2);
-	}
+.search-top {
+	display: flex;
+	justify-content: flex-start;
+	border-right: 1px solid rgba(0, 0, 0, 0.2);
 
 	&__burger {
 		height: 24px;
@@ -23,37 +21,6 @@
 		width: 67.5%;
 		height: 36px;
 		position: relative;
-
-		div {
-			position: absolute;
-			top: 50%;
-			left: 43%;
-			transform: translate(-50%, -50%);
-			pointer-events: none;
-		}
-
-		svg {
-			height: 16px;
-			width: 16px;
-			margin-right: 16px;
-			fill: rgb(153, 162, 173);
-		}
-		input {
-			height: 16px;
-			border: none;
-			border-radius: 0;
-			background: transparent;
-			width: 100%;
-			&:focus {
-				border: none;
-				outline: none;
-			}
-
-			&::placeholder {
-				text-align: center;
-				text-indent: 11%;
-			}
-		}
 	}
 
 	&__create-chat-btn {

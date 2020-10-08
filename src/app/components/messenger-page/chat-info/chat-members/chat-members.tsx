@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './chat-members.scss';
 import Member from './chat-member/chat-member';
 import { useSelector } from 'react-redux';
@@ -8,10 +8,9 @@ import { ChatActions } from 'app/store/chats/actions';
 import { getSelectedChatSelector } from 'app/store/chats/selectors';
 import { UserPreview } from 'app/store/my-profile/models';
 import { RootState } from 'app/store/root-reducer';
-import { LocalizationContext } from 'app/app';
 
 import AddSvg from 'app/assets/icons/ic-add-new.svg';
-import SearchSvg from 'app/assets/icons/ic-search.svg';
+import SearchBox from '../../search-box/search-box';
 
 namespace ChatMembers {
 	export interface Props {
@@ -20,8 +19,6 @@ namespace ChatMembers {
 }
 
 const ChatMembers = ({ addMembers }: ChatMembers.Props) => {
-	const { t } = useContext(LocalizationContext);
-
 	const [searchStr, setSearchStr] = useState<string>('');
 
 	const getConferenceUsers = useActionWithDispatch(ChatActions.getConferenceUsers);
@@ -68,25 +65,20 @@ const ChatMembers = ({ addMembers }: ChatMembers.Props) => {
 					<AddSvg viewBox='0 0 25 25' />
 				</button>
 			</div>
-			<div className='chat-members__input-wrapper'>
-				<SearchSvg viewBox='0 0 25 25' />
-				<input
-					onChange={(e) => {
-						setSearchStr(e.target.value);
-						getConferenceUsers({
-							conferenceId: selectedChat.conference?.id || -1,
-							initiatedByScrolling: false,
-							page: { offset: 0, limit: 15 },
-							filters: {
-								name: e.target.value,
-							},
-						});
-					}}
-					type='text'
-					placeholder={t('chatMembers.search')}
-					className='chat-members__search'
-				/>
-			</div>
+
+			<SearchBox
+				onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+					setSearchStr(e.target.value);
+					getConferenceUsers({
+						conferenceId: selectedChat.conference?.id || -1,
+						initiatedByScrolling: false,
+						page: { offset: 0, limit: 15 },
+						filters: {
+							name: e.target.value,
+						},
+					});
+				}}
+			/>
 			<div className='chat-members__members-list'>
 				{membersForConference.map((member) => (
 					<Member member={member} key={member?.id} />

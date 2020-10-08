@@ -1,0 +1,24 @@
+import React from 'react';
+import './search-box.scss';
+import SearchSvg from 'app/assets/icons/ic-search.svg';
+
+namespace SearchBox {
+	export interface Props {
+		onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+		wrapperClassName?: string;
+	}
+}
+
+const SearchBox = ({ onChange, wrapperClassName }: SearchBox.Props) => {
+	return (
+		<div className={`search-box__input-wrapper ${wrapperClassName || ''}`}>
+			<input onChange={onChange} placeholder='   ' type='text' className='search-box__input' />
+			<div className='search-box__input__placeholder'>
+				<SearchSvg className={'search-box__input__svg'} viewBox='0 0 25 25' />
+				<span>Search</span>
+			</div>
+		</div>
+	);
+};
+
+export default SearchBox;

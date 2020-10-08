@@ -1,13 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import './search-top.scss';
 
 import BurgerSvg from 'app/assets/icons/ic-menu.svg';
-import SearchSvg from 'app/assets/icons/ic-search_16.svg';
 import CreateChatSvg from 'app/assets/icons/ic-write-message.svg';
 
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { ChatActions } from 'app/store/chats/actions';
-import { LocalizationContext } from 'app/app';
+import SearchBox from '../search-box/search-box';
 
 namespace SearchTop {
 	export interface Props {
@@ -19,8 +18,6 @@ namespace SearchTop {
 export const DIALOGS_LIMIT = 25;
 
 const SearchTop = ({ displaySlider, displayCreateChat }: SearchTop.Props) => {
-	const { t } = useContext(LocalizationContext);
-
 	const getChats = useActionWithDispatch(ChatActions.getChats);
 
 	const handleChatSearchChange = (name: string): void => {
@@ -35,21 +32,15 @@ const SearchTop = ({ displaySlider, displayCreateChat }: SearchTop.Props) => {
 	};
 
 	return (
-		<div className='messenger__search-top'>
-			<button className='messenger__burger' onClick={displaySlider}>
+		<div className='search-top'>
+			<button className='search-top__burger' onClick={displaySlider}>
 				<BurgerSvg />
 			</button>
-			<div className='messenger__search'>
-				<div className=''>
-					<SearchSvg />
-				</div>
-				<input
-					onChange={(e) => handleChatSearchChange(e.target.value)}
-					type='text'
-					placeholder={t('searchTop.search')}
-				/>
-			</div>
-			<button onClick={displayCreateChat} className='messenger__create-chat-btn'>
+			<SearchBox
+				wrapperClassName='search-top__search'
+				onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChatSearchChange(e.target.value)}
+			/>
+			<button onClick={displayCreateChat} className='search-top__create-chat-btn'>
 				<CreateChatSvg />
 			</button>
 		</div>

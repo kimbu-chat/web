@@ -19,6 +19,7 @@ import SmilesSvg from 'app/assets/icons/ic-smile.svg';
 import VoiceSvg from 'app/assets/icons/ic-microphone.svg';
 import moment from 'moment';
 import { useEffect } from 'react';
+import { getMyProfileSelector } from 'app/store/my-profile/selectors';
 
 const CreateMessageInput = () => {
 	const { t } = useContext(LocalizationContext);
@@ -28,6 +29,7 @@ const CreateMessageInput = () => {
 
 	const currentUser = useSelector<RootState, UserPreview | undefined>((state) => state.myProfile.user);
 	const selectedChat = useSelector(getSelectedChatSelector);
+	const myProfile = useSelector(getMyProfileSelector);
 	const messageToEdit = useSelector((state: RootState) => state.messages.messageToEdit);
 
 	const [text, setText] = useState('');
@@ -47,7 +49,6 @@ const CreateMessageInput = () => {
 		() => {
 			if (isRecording) {
 				setRecordedSeconds((x) => x + 1);
-				console.log('+1');
 			}
 		},
 		isRecording ? 1000 : null,
@@ -76,7 +77,7 @@ const CreateMessageInput = () => {
 		[setSmilesDisplayed, emojiRef],
 	);
 
-	const sendMessageToServer = () => {
+	const sendMessageToServer = useCallback(() => {
 		const chatId = selectedChat?.id;
 
 		if (text.trim().length > 0 && selectedChat && currentUser) {
@@ -97,17 +98,18 @@ const CreateMessageInput = () => {
 		}
 
 		setText('');
-	};
+	}, [selectedChat?.id, currentUser, text]);
 
-	const handleTextChange = (newText: string): void => {
-		const isChat = Boolean(selectedChat?.interlocutor);
-
-		notifyAboutTyping({
-			interlocutorId: isChat ? selectedChat?.interlocutor?.id : selectedChat?.conference?.id,
-			isConference: !isChat,
-			text: newText,
-		});
-	};
+	const handleTextChange = useCallback(
+		(newText: string): void => {
+			notifyAboutTyping({
+				chatId: selectedChat?.id || -1,
+				text: newText,
+				interlocutorName: `${myProfile?.firstName} ${myProfile?.lastName}`,
+			});
+		},
+		[selectedChat?.id, myProfile],
+	);
 
 	const handleKeyPress = (event: KeyboardEvent) => {
 		if (event.key === 'Enter') {
@@ -159,7 +161,6 @@ const CreateMessageInput = () => {
 
 			const handleMouseUp = (event: MouseEvent) => {
 				document.removeEventListener('mouseup', handleMouseUp);
-				console.log('upup');
 				console.log(registerAudioBtnRef.current?.contains(event.target as Node));
 				if (registerAudioBtnRef.current?.contains(event.target as Node)) {
 					if (recorderData.isRecording) {
@@ -172,10 +173,7 @@ const CreateMessageInput = () => {
 						recorderData.tracks = [];
 					} else {
 						setTimeout(() => {
-							console.log('interval');
 							if (recorderData.isRecording) {
-								console.log('stopped');
-
 								if (recorderData.mediaRecorder?.state === 'recording') {
 									recorderData.needToSubmit = false;
 									recorderData.mediaRecorder?.stop();

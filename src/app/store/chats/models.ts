@@ -95,7 +95,7 @@ export interface Chat {
 	interlocutorLastReadMessageId?: number;
 	draftMessage?: string;
 	timeoutId?: NodeJS.Timeout;
-	isInterlocutorTyping?: boolean;
+	typingInterlocutors: { timeoutId: NodeJS.Timeout; fullName: string }[];
 	isDeleted?: boolean;
 	isMuted?: boolean;
 }

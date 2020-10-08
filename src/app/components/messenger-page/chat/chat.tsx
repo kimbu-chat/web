@@ -6,7 +6,7 @@ import { Message, MessageList } from 'app/store/messages/models';
 import { MessageActions } from 'app/store/messages/actions';
 import { RootState } from 'app/store/root-reducer';
 import { LocalizationContext } from 'app/app';
-import { getSelectedChatSelector } from 'app/store/chats/selectors';
+import { getSelectedChatSelector, getTypingString } from 'app/store/chats/selectors';
 import MessageItem from '../message-item/message-item';
 import InfiniteScroll from 'react-infinite-scroller';
 import SelectedMessagesData from '../selected-messages-data/selected-messages-data';
@@ -88,10 +88,8 @@ const Chat = () => {
 	return (
 		<div className='messenger__messages-list'>
 			<div ref={messagesContainerRef} className='messenger__messages-container'>
-				{selectedChat.isInterlocutorTyping && (
-					<div className='messenger__typing-notification'>{`${selectedChat.interlocutor?.firstName} ${
-						selectedChat.interlocutor?.lastName
-					} ${t('chat.typing')}`}</div>
+				{selectedChat?.typingInterlocutors.length > 0 && (
+					<div className='messenger__typing-notification'>{getTypingString(t, selectedChat)}</div>
 				)}
 
 				{itemsWithUserInfo.length === 0 && (

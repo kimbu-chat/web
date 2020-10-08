@@ -10,6 +10,7 @@ import Modal from 'app/components/shared/modal/modal';
 import WithBackground from 'app/components/shared/with-background';
 
 import CheckBoxSvg from 'app/assets/icons/ic-checkbox.svg';
+import ForwardModal from '../forward-modal/forward-modal';
 
 const SelectedMessagesData = () => {
 	const selectedMessages = useSelector((state: RootState) => state.messages.selectedMessageIds);
@@ -57,9 +58,19 @@ const SelectedMessagesData = () => {
 		setDeleteForInterlocutor((oldState) => !oldState);
 	}, [setDeleteForInterlocutor]);
 
+	//--Forward Message Logic
+	const [messageIdsToForward, setMessageIdsToForward] = useState<number[]>([]);
+	const changeForwardMessagesState = useCallback(() => {
+		if (messageIdsToForward.length > 0) {
+			setMessageIdsToForward([]);
+		} else {
+			setMessageIdsToForward(selectedMessages);
+		}
+	}, [setMessageIdsToForward, messageIdsToForward]);
+
 	return (
 		<div className='selected-messages-data'>
-			<button className='selected-messages-data__btn'>
+			<button onClick={changeForwardMessagesState} className='selected-messages-data__btn'>
 				{t('selectedMessagesData.forward', { count: selectedMessagesCount })}
 			</button>
 			<button
@@ -165,6 +176,14 @@ const SelectedMessagesData = () => {
 					/>
 				)}
 			</WithBackground>
+
+			{messageIdsToForward?.length > 0 && (
+				<ForwardModal
+					isDisplayed={messageIdsToForward?.length > 0}
+					messageIdsToForward={messageIdsToForward}
+					close={changeForwardMessagesState}
+				/>
+			)}
 		</div>
 	);
 };

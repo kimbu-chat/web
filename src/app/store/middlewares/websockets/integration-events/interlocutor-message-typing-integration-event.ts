@@ -1,8 +1,14 @@
+import { InterlocutorType } from 'app/store/chats/models';
 import { BaseIntegrationEvent } from './base-integration-event';
 
 export interface IntercolutorMessageTypingIntegrationEvent extends BaseIntegrationEvent {
-	isConference: boolean;
 	text: string;
 	timeoutId: NodeJS.Timeout;
-	interlocutorId: number;
+	objectId: number;
+	interlocutorName: string;
+	chatId: {
+		interlocutorType: InterlocutorType;
+		userId?: number;
+		conferenceId?: number;
+	};
 }

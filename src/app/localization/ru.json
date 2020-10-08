@@ -39,8 +39,8 @@
 	},
 	"chat": {
 		"typing": "{{firstInterlocutorName}} печатает...",
-		"typing_two": "{{firstInterlocutorName}} и  {{secondInterlocutorName}} печатает...",
-		"typing_many": "{{firstInterlocutorName}},  {{secondInterlocutorName}} и ещё {{remainingCount}} печатает...",
+		"typing_two": "{{firstInterlocutorName}} и {{secondInterlocutorName}} печатают...",
+		"typing_many": "{{firstInterlocutorName}}, {{secondInterlocutorName}} и ещё {{remainingCount}} печатают...",
 		"empty": "В этом чате нет новых сообщений. Ваше может быть первым!"
 	},
 	"chatActions": {

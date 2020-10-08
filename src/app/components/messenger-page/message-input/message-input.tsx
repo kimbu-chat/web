@@ -77,7 +77,7 @@ const CreateMessageInput = () => {
 		[setSmilesDisplayed, emojiRef],
 	);
 
-	const sendMessageToServer = () => {
+	const sendMessageToServer = useCallback(() => {
 		const chatId = selectedChat?.id;
 
 		if (text.trim().length > 0 && selectedChat && currentUser) {
@@ -98,19 +98,18 @@ const CreateMessageInput = () => {
 		}
 
 		setText('');
-	};
+	}, [selectedChat?.id, currentUser, text]);
 
-	const handleTextChange = (newText: string): void => {
-		const isChat = Boolean(selectedChat?.interlocutor);
-
-		notifyAboutTyping({
-			chatId: isChat
-				? Number(selectedChat?.interlocutor?.id! + '1')
-				: Number(selectedChat?.conference?.id! + '2'),
-			text: newText,
-			interlocutorName: `${myProfile?.firstName} ${myProfile?.lastName}`,
-		});
-	};
+	const handleTextChange = useCallback(
+		(newText: string): void => {
+			notifyAboutTyping({
+				chatId: selectedChat?.id || -1,
+				text: newText,
+				interlocutorName: `${myProfile?.firstName} ${myProfile?.lastName}`,
+			});
+		},
+		[selectedChat?.id, myProfile],
+	);
 
 	const handleKeyPress = (event: KeyboardEvent) => {
 		if (event.key === 'Enter') {

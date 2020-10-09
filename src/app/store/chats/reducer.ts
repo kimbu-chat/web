@@ -35,6 +35,8 @@ const chats = createReducer<ChatsState>(initialState)
 		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.interlocutorStoppedTyping>) => {
 			const { chatId, interlocutorName, objectId } = payload;
 
+			console.log(chatId);
+
 			const chatIdentificator: number = ChatService.getChatIdentifier(
 				chatId.interlocutorType === InterlocutorType.USER ? objectId : undefined,
 				chatId.interlocutorType === InterlocutorType.CONFERENCE ? chatId.conferenceId : undefined,

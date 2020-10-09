@@ -66,19 +66,22 @@ const ChatMembers = ({ addMembers }: ChatMembers.Props) => {
 				</button>
 			</div>
 
-			<SearchBox
-				onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-					setSearchStr(e.target.value);
-					getConferenceUsers({
-						conferenceId: selectedChat.conference?.id || -1,
-						initiatedByScrolling: false,
-						page: { offset: 0, limit: 15 },
-						filters: {
-							name: e.target.value,
-						},
-					});
-				}}
-			/>
+			<div className='chat-members__search'>
+				<SearchBox
+					onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+						setSearchStr(e.target.value);
+						getConferenceUsers({
+							conferenceId: selectedChat.conference?.id || -1,
+							initiatedByScrolling: false,
+							page: { offset: 0, limit: 15 },
+							filters: {
+								name: e.target.value,
+							},
+						});
+					}}
+				/>
+			</div>
+
 			<div className='chat-members__members-list'>
 				{membersForConference.map((member) => (
 					<Member member={member} key={member?.id} />

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useParams, useHistory } from 'react-router';
+import { useParams } from 'react-router';
 import './Messenger.scss';
 
 import SearchTop from '../../components/messenger-page/search-top/search-top';
@@ -18,6 +18,7 @@ import OutgoingCall from 'app/components/messenger-page/outgoing-call/outgoing-c
 import IncomingCall from 'app/components/messenger-page/incoming-call/incoming-call';
 import ActiveCall from 'app/components/messenger-page/active-call/active-call';
 import ContactSearch from 'app/components/messenger-page/contact-search/contact-search';
+import RoutingChats from 'app/components/messenger-page/routing-chats/routing-chats';
 
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { AvatarSelectedData } from 'app/store/my-profile/models';
@@ -45,14 +46,6 @@ const Messenger = () => {
 	const replyingMessage = useSelector((state: RootState) => state.messages.messageToReply);
 
 	const { id: chatId } = useParams<{ id: string }>();
-	const history = useHistory();
-
-	//redux sync with history
-	history.listen((location) => {
-		if (location.pathname.split('/')[2]) {
-			changeSelectedChat(Number(location.pathname.split('/')[2]));
-		}
-	});
 
 	const [photoSelected, setPhotoSelected] = useState<Messenger.photoSelect>({
 		isDisplayed: false,
@@ -68,7 +61,7 @@ const Messenger = () => {
 	useEffect(() => {
 		if (chatId) changeSelectedChat(Number(chatId));
 		else changeSelectedChat(-1);
-	}, []);
+	}, [chatId]);
 
 	//hide chatInfo on chat change
 	useEffect(() => hideChatInfo(), [selectedChat?.id]);
@@ -131,7 +124,12 @@ const Messenger = () => {
 
 			<InternetError />
 
-			<SearchTop displaySlider={displaySlider} displayCreateChat={changeCreateChatDisplayed} />
+			<RoutingChats />
+
+			<div className='messenger__chat-list'>
+				<SearchTop displaySlider={displaySlider} displayCreateChat={changeCreateChatDisplayed} />
+				<ChatList />
+			</div>
 
 			<WithBackground
 				isBackgroundDisplayed={Boolean(photoSelected.isDisplayed)}
@@ -159,8 +157,6 @@ const Messenger = () => {
 			</WithBackground>
 
 			<ChatData chatInfoDisplayed={infoDisplayed} displayChatInfo={displayChatInfo} />
-
-			<ChatList />
 
 			<WithBackground isBackgroundDisplayed={createChatDisplayed} onBackgroundClick={changeCreateChatDisplayed}>
 				<CreateChat

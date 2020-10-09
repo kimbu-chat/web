@@ -49,7 +49,7 @@ const ChatList = () => {
 	const chatListRef = useRef(null);
 
 	return (
-		<div ref={chatListRef} className='messenger__chat-list'>
+		<div ref={chatListRef} className='chat-list'>
 			<InfiniteScroll
 				pageStart={0}
 				loadMore={loadPage}

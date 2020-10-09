@@ -17,4 +17,9 @@
 
 		transition: all 0.3s;
 	}
+
+	&__chat-list {
+		grid-row: 2/3;
+		grid-column: 1/2;
+	}
 }

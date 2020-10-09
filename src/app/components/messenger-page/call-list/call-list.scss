@@ -1,0 +1,51 @@
+.call-list {
+	grid-row: 2/3;
+	grid-column: 1/2;
+
+	&__call {
+		display: flex;
+		align-items: center;
+		padding: 14px 20px;
+		cursor: pointer;
+
+		&:hover {
+			background-color: rgba($color: #3f8ae0, $alpha: 0.1);
+		}
+
+		&__type-icon {
+			width: 24px;
+			height: 24px;
+			margin-right: 10px;
+			color: rgb(153, 162, 173);
+		}
+
+		&__interlocutor-avatar {
+			height: 40px;
+			width: 40px;
+			margin-right: 10px;
+		}
+
+		&__name {
+			font-size: 14px;
+			font-weight: 500;
+			margin-bottom: 6px;
+
+			&--missed {
+				color: rgb(209, 36, 51);
+			}
+		}
+
+		&__type {
+			font-size: 14px;
+			font-weight: 400;
+			color: rgb(109, 120, 133);
+		}
+
+		&__day {
+			margin-left: auto;
+			font-size: 14px;
+			font-weight: 400;
+			color: rgb(109, 120, 133);
+		}
+	}
+}

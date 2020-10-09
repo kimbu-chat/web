@@ -28,6 +28,7 @@ import { getSelectedChatSelector } from 'app/store/chats/selectors';
 import { isCallingMe, amCallingI, doIhaveCall } from 'app/store/calls/selectors';
 import RespondingMessage from 'app/components/messenger-page/responding-message/responding-message';
 import { RootState } from 'app/store/root-reducer';
+import CallList from 'app/components/messenger-page/call-list/call-list';
 
 export namespace Messenger {
 	export interface photoSelect {
@@ -127,8 +128,13 @@ const Messenger = () => {
 			<RoutingChats />
 
 			<div className='messenger__chat-list'>
-				<SearchTop displaySlider={displaySlider} displayCreateChat={changeCreateChatDisplayed} />
-				<ChatList />
+				{false && (
+					<>
+						<SearchTop displaySlider={displaySlider} displayCreateChat={changeCreateChatDisplayed} />{' '}
+						<ChatList />{' '}
+					</>
+				)}
+				{true && <CallList />}
 			</div>
 
 			<WithBackground

@@ -22,6 +22,7 @@ import ScreenSharingDisableSvg from 'app/assets/icons/ic-screen-share-mute.svg';
 import HangUpSvg from 'app/assets/icons/ic-call-out.svg';
 import FullScreenSvg from 'app/assets/icons/ic-fullscreen.svg';
 import ExitFullScreenSvg from 'app/assets/icons/ic-fullscreen-exit.svg';
+import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 
 namespace IActiveCall {
 	export interface Props {
@@ -215,7 +216,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 						}`}
 						src={interlocutor?.avatarUrl}
 					>
-						{/*getUserInitials(interlocutor)*/ 'AA'}
+						{getUserInitials(interlocutor)}
 					</Avatar>
 				)}
 

@@ -46,6 +46,19 @@
 		}
 	}
 
+	&__video-container {
+		max-height: calc(100vh - 68px);
+		overflow-y: scroll;
+		&::-webkit-scrollbar {
+			display: none;
+		}
+
+		.loader {
+			display: flex;
+			justify-content: center;
+		}
+	}
+
 	&__video-list {
 		display: flex;
 		flex-wrap: wrap;

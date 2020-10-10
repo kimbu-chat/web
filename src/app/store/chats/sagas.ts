@@ -15,7 +15,7 @@ import { FriendActions } from '../friends/actions';
 import { MyProfileService } from 'app/services/my-profile-service';
 import { getType } from 'typesafe-actions';
 import { MessageUtils } from 'app/utils/message-utils';
-import { photoToDisplay } from './temporal';
+import { photoToDisplay, videoToDisplay } from './temporal';
 
 export function* getChatsSaga(action: ReturnType<typeof ChatActions.getChats>): SagaIterator {
 	const chatsRequestData = action.payload;
@@ -37,6 +37,7 @@ export function* getChatsSaga(action: ReturnType<typeof ChatActions.getChats>): 
 		chat.id = ChatService.getChatIdentifier(chat.interlocutor?.id, chat.conference?.id);
 		chat.typingInterlocutors = [];
 		chat.photos = { photos: [], hasMore: true };
+		chat.videos = { videos: [], hasMore: true };
 	});
 
 	const chatList: GetChatsResponse = {
@@ -314,7 +315,7 @@ function* getVideoSaga(action: ReturnType<typeof ChatActions.getVideo>): SagaIte
 
 	//TODO:Replace this with HTTP request logic
 	yield delay(3000);
-	const response = photoToDisplay.slice(page.offset, page.offset + page.limit);
+	const response = videoToDisplay.slice(page.offset, page.offset + page.limit);
 	const hasMore = response.length >= page.limit;
 
 	yield put(ChatActions.getVideoSuccess({ videos: response, hasMore, chatId }));

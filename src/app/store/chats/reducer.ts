@@ -424,5 +424,19 @@ const chats = createReducer<ChatsState>(initialState)
 			}
 			return draft;
 		}),
+	)
+	.handleAction(
+		ChatActions.getVideoSuccess,
+		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.getVideoSuccess>) => {
+			const { videos, chatId, hasMore } = payload;
+
+			const chatIndex: number = getChatArrayIndex(chatId, draft);
+
+			if (chatIndex >= 0) {
+				draft.chats[chatIndex].videos.videos.push(...videos);
+				draft.chats[chatIndex].videos.hasMore = hasMore;
+			}
+			return draft;
+		}),
 	);
 export default chats;

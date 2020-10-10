@@ -16,6 +16,7 @@
 	&__contact-data {
 		display: flex;
 		cursor: pointer;
+		user-select: none;
 	}
 
 	&__contact-img {

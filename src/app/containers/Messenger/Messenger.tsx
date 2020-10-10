@@ -128,13 +128,13 @@ const Messenger = () => {
 			<RoutingChats />
 
 			<div className='messenger__chat-list'>
-				{false && (
+				{true && (
 					<>
 						<SearchTop displaySlider={displaySlider} displayCreateChat={changeCreateChatDisplayed} />{' '}
 						<ChatList />{' '}
 					</>
 				)}
-				{true && <CallList />}
+				{false && <CallList />}
 			</div>
 
 			<WithBackground

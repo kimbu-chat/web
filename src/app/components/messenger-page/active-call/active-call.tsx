@@ -2,7 +2,7 @@ import React, { useRef, useCallback, useEffect, useState } from 'react';
 import './active-call.scss';
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import { useSelector } from 'react-redux';
-import { getCallInterlocutorSelector } from 'app/store/calls/selectors';
+import { amCallingI, getCallInterlocutorSelector } from 'app/store/calls/selectors';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { CallActions } from 'app/store/calls/actions';
 import { RootState } from 'app/store/root-reducer';
@@ -25,6 +25,9 @@ import FullScreenSvg from 'app/assets/icons/ic-fullscreen.svg';
 import ExitFullScreenSvg from 'app/assets/icons/ic-fullscreen-exit.svg';
 import DropDownSvg from 'app/assets/icons/ic-chevron-down.svg';
 
+//sounds
+import callingBeep from 'app/assets/sounds/calls/outgoing-call.ogg';
+
 namespace IActiveCall {
 	export interface Props {
 		isDisplayed: boolean;
@@ -39,6 +42,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 	const audioDevices = useSelector((state: RootState) => state.calls.audioDevicesList);
 	const videoDevices = useSelector((state: RootState) => state.calls.videoDevicesList);
 	const isInterlocutorVideoEnabled = useSelector((state: RootState) => state.calls.isInterlocutorVideoEnabled);
+	const amICaling = useSelector(amCallingI);
 
 	const isVideoOpened = videoConstraints.isOpened;
 	const isAudioOpened = audioConstraints.isOpened;
@@ -49,6 +53,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 	const endCall = useActionWithDispatch(CallActions.endCallAction);
 	const changeScreenShareStatus = useActionWithDispatch(CallActions.changeScreenShareStatusAction);
 	const switchDevice = useActionWithDispatch(CallActions.switchDeviceAction);
+	const cancelCall = useActionWithDispatch(CallActions.cancelCallAction);
 
 	const remoteVideoRef = useRef<HTMLVideoElement>(null);
 	const remoteAudioRef = useRef<HTMLAudioElement>(null);
@@ -140,18 +145,42 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 
 	//component did mount effect
 	useEffect(() => {
-		if (isDisplayed) {
+		if (isDisplayed && !amICaling) {
 			setCallDuration(0);
 
 			const callDurationIntervalCode = setInterval(() => setCallDuration((old) => old + 1), 1000);
 
 			return () => {
 				clearInterval(callDurationIntervalCode);
+				setIsFullScreen(false);
 			};
 		}
 
 		return () => {};
-	}, [isDisplayed]);
+	}, [isDisplayed, amICaling]);
+
+	//audio playing when outgoing call
+	useEffect(() => {
+		if (amICaling) {
+			const audio = new Audio(callingBeep);
+
+			const repeatAudio = function () {
+				audio.play();
+			};
+
+			audio.addEventListener('ended', repeatAudio, false);
+
+			audio.play();
+
+			return () => {
+				audio.pause();
+				audio.removeEventListener('ended', repeatAudio);
+				audio.currentTime = 0;
+			};
+		}
+
+		return () => {};
+	}, [amICaling]);
 
 	useEffect(() => {
 		dragRef.current?.updatePosition(
@@ -184,7 +213,11 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 			>
 				<div className={`active-call__main-data ${isFullScreen ? 'active-call__main-data--big' : ''}`}>
 					<h3 className='active-call__interlocutor-name'>{`${interlocutor?.firstName} ${interlocutor?.lastName}`}</h3>
-					<div className='active-call__duration'>{moment.utc(callDuration * 1000).format('HH:mm:ss')}</div>
+					{!amICaling && (
+						<div className='active-call__duration'>
+							{moment.utc(callDuration * 1000).format('HH:mm:ss')}
+						</div>
+					)}
 				</div>
 
 				<button onClick={changeFullScreenStatus} className='active-call__change-screen'>
@@ -286,37 +319,47 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 						)}
 					</button>
 
-					<button
-						onClick={changeVideoStatus}
-						className={`active-call__call-btn 
+					{!amICaling && (
+						<button
+							onClick={changeVideoStatus}
+							className={`active-call__call-btn 
 												${isFullScreen ? 'active-call__call-btn--big' : ''}
 												${isVideoOpened ? 'active-call__call-btn--active' : ''}`}
-					>
-						{isVideoOpened ? (
-							<VideoEnableSvg viewBox='0 0 25 25' />
-						) : (
-							<VideoDisableSvg viewBox='0 0 25 25' />
-						)}
-					</button>
+						>
+							{isVideoOpened ? (
+								<VideoEnableSvg viewBox='0 0 25 25' />
+							) : (
+								<VideoDisableSvg viewBox='0 0 25 25' />
+							)}
+						</button>
+					)}
 
-					<button
-						onClick={changeScreenShareStatus}
-						className={`active-call__call-btn 
+					{!amICaling && (
+						<button
+							onClick={changeScreenShareStatus}
+							className={`active-call__call-btn 
 												${isFullScreen ? 'active-call__call-btn--big' : ''}
 												${isScreenSharingOpened ? 'active-call__call-btn--active' : ''}`}
-					>
-						{isScreenSharingOpened ? (
-							<ScreenSharingEnableSvg viewBox='0 0 25 25' />
-						) : (
-							<ScreenSharingDisableSvg viewBox='0 0 25 25' />
-						)}
-					</button>
+						>
+							{isScreenSharingOpened ? (
+								<ScreenSharingEnableSvg viewBox='0 0 25 25' />
+							) : (
+								<ScreenSharingDisableSvg viewBox='0 0 25 25' />
+							)}
+						</button>
+					)}
 
 					<button
 						className={`active-call__call-btn active-call__call-btn--end-call ${
 							isFullScreen ? 'active-call__call-btn--big' : ''
 						}`}
-						onClick={() => endCall({ seconds: callDuration })}
+						onClick={() => {
+							if (amICaling) {
+								cancelCall();
+							} else {
+								endCall({ seconds: callDuration });
+							}
+						}}
 					>
 						<HangUpSvg viewBox='0 0 25 25' />
 					</button>

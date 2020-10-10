@@ -14,7 +14,6 @@ import ChatInfo from '../../components/messenger-page/chat-info/chat-info';
 import ChangePhoto from '../../components/messenger-page/change-photo/change-photo';
 import AccountSettings from 'app/components/messenger-page/account-settings/account-settings';
 import InternetError from 'app/components/shared/internet-error/internet-error';
-import OutgoingCall from 'app/components/messenger-page/outgoing-call/outgoing-call';
 import IncomingCall from 'app/components/messenger-page/incoming-call/incoming-call';
 import ActiveCall from 'app/components/messenger-page/active-call/active-call';
 import ContactSearch from 'app/components/messenger-page/contact-search/contact-search';
@@ -119,9 +118,8 @@ const Messenger = () => {
 
 	return (
 		<div className='messenger'>
-			{amICaling && <OutgoingCall />}
 			{amICalled && <IncomingCall />}
-			<ActiveCall isDisplayed={amISpeaking} />
+			<ActiveCall isDisplayed={amISpeaking || amICaling} />
 
 			<InternetError />
 

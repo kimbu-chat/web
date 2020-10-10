@@ -36,6 +36,7 @@ export function* getChatsSaga(action: ReturnType<typeof ChatActions.getChats>): 
 		chat.interlocutorType = ChatService.getInterlocutorType(chat);
 		chat.id = ChatService.getChatIdentifier(chat.interlocutor?.id, chat.conference?.id);
 		chat.typingInterlocutors = [];
+		chat.photos = { photos: [], hasMore: true };
 	});
 
 	const chatList: GetChatsResponse = {
@@ -300,14 +301,23 @@ function* renameConferenceSaga(action: ReturnType<typeof ChatActions.renameConfe
 function* getPhotoSaga(action: ReturnType<typeof ChatActions.getPhoto>): SagaIterator {
 	const { chatId, page } = action.payload;
 
-	//TODO:Replace this console.log with HTTP request logic
-	console.log(chatId);
-
-	yield delay(2000);
+	//TODO:Replace this with HTTP request logic
+	yield delay(3000);
 	const response = photoToDisplay.slice(page.offset, page.offset + page.limit);
-	const hasMore = response.length < page.limit;
+	const hasMore = response.length >= page.limit;
 
 	yield put(ChatActions.getPhotoSuccess({ photos: response, hasMore, chatId }));
+}
+
+function* getVideoSaga(action: ReturnType<typeof ChatActions.getVideo>): SagaIterator {
+	const { chatId, page } = action.payload;
+
+	//TODO:Replace this with HTTP request logic
+	yield delay(3000);
+	const response = photoToDisplay.slice(page.offset, page.offset + page.limit);
+	const hasMore = response.length >= page.limit;
+
+	yield put(ChatActions.getVideoSuccess({ videos: response, hasMore, chatId }));
 }
 
 export const ChatSagas = [
@@ -322,4 +332,5 @@ export const ChatSagas = [
 	takeLatest(ChatActions.addUsersToConference, addUsersToConferenceSaga),
 	takeLatest(ChatActions.muteChat, muteChatSaga),
 	takeLatest(ChatActions.getPhoto, getPhotoSaga),
+	takeLatest(ChatActions.getVideo, getVideoSaga),
 ];

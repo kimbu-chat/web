@@ -419,10 +419,8 @@ const chats = createReducer<ChatsState>(initialState)
 			const chatIndex: number = getChatArrayIndex(chatId, draft);
 
 			if (chatIndex >= 0) {
-				draft.chats[chatIndex].photos = {
-					photos,
-					hasMore,
-				};
+				draft.chats[chatIndex].photos.photos.push(...photos);
+				draft.chats[chatIndex].photos.hasMore = hasMore;
 			}
 			return draft;
 		}),

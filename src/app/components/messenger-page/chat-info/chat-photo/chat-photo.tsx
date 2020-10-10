@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useCallback, useContext, useRef } from 'react';
 import './chat-photo.scss';
 
 import ReturnSvg from 'app/assets/icons/ic-arrow-left.svg';
@@ -29,17 +29,20 @@ namespace ChatPhoto {
 const ChatPhoto = ({ isDisplayed, close }: ChatPhoto.Props) => {
 	const { t } = useContext(LocalizationContext);
 
+	const photoContainerRef = useRef<HTMLDivElement>(null);
+
 	const getPhotos = useActionWithDispatch(ChatActions.getPhoto);
 	const selectedChat = useSelector(getSelectedChatSelector);
 	const photoForSelectedDialog = selectedChat!.photos;
 
 	const loadMore = useCallback(() => {
+		console.log('call');
 		const page: Page = {
 			offset: photoForSelectedDialog?.photos!.length || 0,
 			limit: 20,
 		};
 
-		console.log('called');
+		console.log(page);
 
 		getPhotos({
 			page,
@@ -47,12 +50,8 @@ const ChatPhoto = ({ isDisplayed, close }: ChatPhoto.Props) => {
 		});
 	}, [selectedChat!.id, photoForSelectedDialog?.photos]);
 
-	useEffect(() => {
-		loadMore();
-	}, []);
-
-	const photosWithSeparators = photoForSelectedDialog?.photos.reduce(
-		(prevValue, currentValue, currentIndex, array) => {
+	const photosWithSeparators =
+		photoForSelectedDialog?.photos.reduce((prevValue, currentValue, currentIndex, array) => {
 			if (
 				currentIndex === 0 ||
 				new Date(array[currentIndex - 1].creationDateTime).getMonth() !==
@@ -64,9 +63,7 @@ const ChatPhoto = ({ isDisplayed, close }: ChatPhoto.Props) => {
 			}
 
 			return prevValue;
-		},
-		[] as ChatPhoto.Photo[][],
-	);
+		}, [] as ChatPhoto.Photo[][]) || [];
 
 	return (
 		<div className={isDisplayed ? 'chat-photo chat-photo--active' : 'chat-photo'}>
@@ -76,38 +73,47 @@ const ChatPhoto = ({ isDisplayed, close }: ChatPhoto.Props) => {
 				</button>
 				<div className='chat-photo__heading'>{t('chatPhoto.photo')}</div>
 			</div>
-			<InfiniteScroll
-				pageStart={0}
-				loadMore={loadMore}
-				hasMore={photoForSelectedDialog?.hasMore}
-				loader={
-					<div className='loader ' key={0}>
-						<div className=''>
-							<div className='lds-ellipsis'>
-								<div></div>
-								<div></div>
-								<div></div>
-								<div></div>
+			<div ref={photoContainerRef} className='chat-photo__photo-container'>
+				<InfiniteScroll
+					pageStart={0}
+					initialLoad={true}
+					loadMore={loadMore}
+					hasMore={photoForSelectedDialog.hasMore}
+					getScrollParent={() => photoContainerRef.current}
+					loader={
+						<div className='loader ' key={0}>
+							<div className=''>
+								<div className='lds-ellipsis'>
+									<div></div>
+									<div></div>
+									<div></div>
+									<div></div>
+								</div>
 							</div>
 						</div>
-					</div>
-				}
-				useWindow={false}
-				isReverse={false}
-			>
-				{photosWithSeparators?.map((photoGroup) => (
-					<React.Fragment key={photoGroup[0].id + 'group'}>
-						<div className='chat-photo__separator'>
-							{moment(photoGroup[0].creationDateTime).format('MMMM')}
-						</div>
-						<div className='chat-photo__photo-list'>
-							{photoGroup.map((photo) => (
-								<img key={photo.id} className='chat-photo__photo' src={photo.url} alt={photo.alt} />
-							))}
-						</div>
-					</React.Fragment>
-				)) || ''}
-			</InfiniteScroll>
+					}
+					useWindow={false}
+					isReverse={false}
+				>
+					{photosWithSeparators?.map((photoGroup) => (
+						<React.Fragment
+							key={
+								String(new Date(photoGroup[0].creationDateTime).getUTCMonth()) +
+								String(new Date(photoGroup[0].creationDateTime).getFullYear())
+							}
+						>
+							<div className='chat-photo__separator'>
+								{moment(photoGroup[0].creationDateTime).format('MMMM')}
+							</div>
+							<div className='chat-photo__photo-list'>
+								{photoGroup.map((photo) => (
+									<img key={photo.id} className='chat-photo__photo' src={photo.url} alt={photo.alt} />
+								))}
+							</div>
+						</React.Fragment>
+					))}
+				</InfiniteScroll>
+			</div>
 		</div>
 	);
 };

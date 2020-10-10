@@ -280,6 +280,14 @@ const chats = createReducer<ChatsState>(initialState)
 					interlocutorLastReadMessageId: 0,
 					interlocutor: chat.interlocutor,
 					typingInterlocutors: [],
+					photos: {
+						hasMore: true,
+						photos: [],
+					},
+					videos: {
+						hasMore: true,
+						videos: [],
+					},
 				};
 
 				draft.chats.unshift(newChat);
@@ -387,12 +395,36 @@ const chats = createReducer<ChatsState>(initialState)
 					interlocutorLastReadMessageId: 0,
 					interlocutor: payload,
 					typingInterlocutors: [],
+					photos: {
+						hasMore: true,
+						photos: [],
+					},
+					videos: {
+						hasMore: true,
+						videos: [],
+					},
 				};
 
 				draft.chats.unshift(newDialog);
 
 				return draft;
 			}
+		}),
+	)
+	.handleAction(
+		ChatActions.getPhotoSuccess,
+		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.getPhotoSuccess>) => {
+			const { photos, chatId, hasMore } = payload;
+
+			const chatIndex: number = getChatArrayIndex(chatId, draft);
+
+			if (chatIndex >= 0) {
+				draft.chats[chatIndex].photos = {
+					photos,
+					hasMore,
+				};
+			}
+			return draft;
 		}),
 	);
 export default chats;

@@ -42,6 +42,14 @@ export class MessageCreatedEventHandler implements IEventHandler<MessageCreatedI
 			conference: interlocutorType === InterlocutorType.CONFERENCE ? { id: eventData.destinationId } : undefined,
 			lastMessage: message,
 			typingInterlocutors: [],
+			photos: {
+				hasMore: true,
+				photos: [],
+			},
+			videos: {
+				hasMore: true,
+				videos: [],
+			},
 		};
 
 		if (eventData.systemMessageType === SystemMessageType.ConferenceMemberRemoved) {

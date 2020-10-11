@@ -34,13 +34,16 @@ const MessageItem = ({ message }: Message.Props) => {
 	const isSelectState = useSelector(setSelectedMessagesLength) > 0;
 	const myId = useSelector(getMyIdSelector) as number;
 
-	const messageIsFrom = useCallback((id: Number | undefined) => {
-		if (id === myId) {
-			return messageFrom.me;
-		} else {
-			return messageFrom.others;
-		}
-	}, []);
+	const messageIsFrom = useCallback(
+		(id: Number | undefined) => {
+			if (id === myId) {
+				return messageFrom.me;
+			} else {
+				return messageFrom.others;
+			}
+		},
+		[myId],
+	);
 
 	const from = messageIsFrom(message.userCreator?.id);
 
@@ -81,67 +84,51 @@ const MessageItem = ({ message }: Message.Props) => {
 
 	if (message?.systemMessageType !== SystemMessageType.None) {
 		return (
-			<React.Fragment>
-				{message.needToShowDateSeparator && (
-					<div className='message__separator message__separator--capitalized'>
-						<span>
-							{moment.utc(message.creationDateTime).local().format('dddd, MMMM D, YYYY').toString()}
-						</span>
-					</div>
-				)}
-				<div className='message__separator'>
-					<span>{MessageUtils.constructSystemMessageText(message as Message, t, currentUserId)}</span>
-				</div>
-			</React.Fragment>
+			<div className='message__separator'>
+				<span>{MessageUtils.constructSystemMessageText(message as Message, t, currentUserId)}</span>
+			</div>
 		);
 	}
 
 	return (
-		<React.Fragment>
-			{message.needToShowDateSeparator && (
-				<div className='message__separator message__separator--capitalized'>
-					<span>{moment.utc(message.creationDateTime).local().format('dddd, MMMM D, YYYY').toString()}</span>
-				</div>
-			)}
-			<div
-				className={`message__container 
+		<div
+			className={`message__container 
 				${message.isSelected ? 'message__container--selected' : ''}`}
-				onClick={isSelectState ? selectThisMessage : () => {}}
-			>
-				<div className={`message__item ${!message.needToShowCreator ? 'message__item--upcoming' : ''} }`}>
-					{message.needToShowCreator && (
-						<p className='message__sender-name'>{`${message.userCreator?.firstName} ${message.userCreator?.lastName}`}</p>
-					)}
-					<div className='message__item-apart'>
-						<span className='message__contents'>{message.text}</span>
+			onClick={isSelectState ? selectThisMessage : () => {}}
+		>
+			<div className={`message__item ${!message.needToShowCreator ? 'message__item--upcoming' : ''} }`}>
+				{message.needToShowCreator && (
+					<p className='message__sender-name'>{`${message.userCreator?.firstName} ${message.userCreator?.lastName}`}</p>
+				)}
+				<div className='message__item-apart'>
+					<span className='message__contents'>{message.text}</span>
 
-						<div className='message__time-status'>
-							{from === messageFrom.me &&
-								(message.state === MessageState.READ ? (
-									<MessageReadSvg viewBox='0 0 25 25' className='message__read' />
-								) : message.state === MessageState.QUEUED ? (
-									<MessageQeuedSvg viewBox='0 0 25 25' className='message__read' />
-								) : (
-									<MessageSentSvg viewBox='0 0 25 25' className='message__read' />
-								))}
+					<div className='message__time-status'>
+						{from === messageFrom.me &&
+							(message.state === MessageState.READ ? (
+								<MessageReadSvg viewBox='0 0 25 25' className='message__read' />
+							) : message.state === MessageState.QUEUED ? (
+								<MessageQeuedSvg viewBox='0 0 25 25' className='message__read' />
+							) : (
+								<MessageSentSvg viewBox='0 0 25 25' className='message__read' />
+							))}
 
-							<span className={`message__time`}>
-								{moment.utc(message.creationDateTime).local().format('LT')}
-							</span>
-						</div>
+						<span className={`message__time`}>
+							{moment.utc(message.creationDateTime).local().format('LT')}
+						</span>
 					</div>
 				</div>
-				{message.needToShowCreator && (
-					<Avatar className={`message__sender-photo `} src={message.userCreator?.avatarUrl}>
-						{getUserInitials(message.userCreator as UserPreview)}
-					</Avatar>
-				)}
-
-				<div onClick={selectThisMessage} className={`message__selected`}>
-					{message.isSelected ? <SelectedSvg /> : <UnSelectedSvg className={`message__unselected`} />}
-				</div>
 			</div>
-		</React.Fragment>
+			{message.needToShowCreator && (
+				<Avatar className={`message__sender-photo `} src={message.userCreator?.avatarUrl}>
+					{getUserInitials(message.userCreator as UserPreview)}
+				</Avatar>
+			)}
+
+			<div onClick={selectThisMessage} className={`message__selected`}>
+				{message.isSelected ? <SelectedSvg /> : <UnSelectedSvg className={`message__unselected`} />}
+			</div>
+		</div>
 	);
 };
 

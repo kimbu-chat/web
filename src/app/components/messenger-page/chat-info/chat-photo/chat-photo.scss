@@ -21,6 +21,8 @@
 	&__photo-container {
 		max-height: calc(100vh - 68px);
 		overflow-y: scroll;
+		margin: 0 12px 0 20px;
+
 		&::-webkit-scrollbar {
 			display: none;
 		}
@@ -59,22 +61,13 @@
 		}
 	}
 
-	&__photo-list {
-		display: flex;
-		flex-wrap: wrap;
-		margin: 0 20px;
-	}
-
 	&__photo {
 		width: 126px;
 		height: 120px;
 		object-fit: cover;
 		margin-bottom: 8px;
 		border-radius: 4px;
-
-		&:nth-of-type(2n + 1) {
-			margin-right: 8px;
-		}
+		margin-right: 8px;
 	}
 
 	&__separator {

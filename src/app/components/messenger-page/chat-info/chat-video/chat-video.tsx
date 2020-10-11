@@ -53,20 +53,16 @@ const ChatVideo = ({ isDisplayed, close }: ChatVideo.Props) => {
 		});
 	}, [selectedChat!.id, videoForSelectedDialog?.videos]);
 
-	const videosWithSeparators =
-		videoForSelectedDialog?.videos.reduce((prevValue, currentValue, currentIndex, array) => {
-			if (
-				currentIndex === 0 ||
-				new Date(array[currentIndex - 1].creationDateTime).getMonth() !==
-					new Date(currentValue.creationDateTime).getMonth()
-			) {
-				prevValue.push([currentValue]);
-			} else {
-				prevValue[prevValue.length - 1].push(currentValue);
-			}
-
-			return prevValue;
-		}, [] as ChatVideo.Video[][]) || [];
+	const videosWithSeparators = videoForSelectedDialog?.videos.map((elem, index, array) => {
+		const elemCopy = { ...elem };
+		if (
+			index === 0 ||
+			new Date(array[index - 1].creationDateTime).getMonth() !== new Date(elem.creationDateTime).getMonth()
+		) {
+			elemCopy.needToShowSeparator = true;
+		}
+		return elemCopy;
+	});
 
 	return (
 		<div className={isDisplayed ? 'chat-video chat-video--active' : 'chat-video'}>
@@ -98,24 +94,22 @@ const ChatVideo = ({ isDisplayed, close }: ChatVideo.Props) => {
 					useWindow={false}
 					isReverse={false}
 				>
-					{videosWithSeparators.map((videoGroup) => (
-						<React.Fragment key={videoGroup[0].id + 'group'}>
-							<div className='chat-video__separator'>
-								{moment(videoGroup[0].creationDateTime).format('MMMM')}
-							</div>
-							<div className='chat-video__video-list'>
-								{videoGroup.map((video) => (
-									<div key={video.id} className='chat-video__video-wrapper'>
-										<img className='chat-video__video' src={video.previewImgUrl} alt={video.alt} />
-										<button className='chat-video__play'>
-											<PlaySvg viewBox='0 0 25 25' />
-											<span className='chat-video__duration'>
-												{moment.utc(video.duration * 1000).format('mm:ss')}
-											</span>
-										</button>
-									</div>
-								))}
-							</div>
+					{videosWithSeparators?.map((video) => (
+						<React.Fragment key={video.id}>
+							{video.needToShowSeparator && (
+								<div className='chat-video__separator'>
+									{moment(video.creationDateTime).format('MMMM')}
+								</div>
+							)}
+							<div className='chat-video__video-wrapper'>
+								<img className='chat-video__video' src={video.previewImgUrl} alt={video.alt} />
+								<button className='chat-video__play'>
+									<PlaySvg viewBox='0 0 25 25' />
+									<span className='chat-video__duration'>
+										{moment.utc(video.duration * 1000).format('mm:ss')}
+									</span>
+								</button>
+							</div>{' '}
 						</React.Fragment>
 					))}
 				</InfiniteScroll>

@@ -49,20 +49,20 @@
 	&__video-container {
 		max-height: calc(100vh - 68px);
 		overflow-y: scroll;
+		margin: 0 12px 0 20px;
 		&::-webkit-scrollbar {
 			display: none;
+		}
+
+		& > div {
+			display: flex;
+			flex-wrap: wrap;
 		}
 
 		.loader {
 			display: flex;
 			justify-content: center;
 		}
-	}
-
-	&__video-list {
-		display: flex;
-		flex-wrap: wrap;
-		margin: 0 20px;
 	}
 
 	&__video {
@@ -76,10 +76,7 @@
 		border-radius: 4px;
 		position: relative;
 		overflow: hidden;
-
-		&:nth-of-type(2n + 1) {
-			margin-right: 8px;
-		}
+		margin-right: 8px;
 	}
 
 	&__separator {

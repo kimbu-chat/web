@@ -50,20 +50,16 @@ const ChatPhoto = ({ isDisplayed, close }: ChatPhoto.Props) => {
 		});
 	}, [selectedChat!.id, photoForSelectedDialog?.photos]);
 
-	const photosWithSeparators =
-		photoForSelectedDialog?.photos.reduce((prevValue, currentValue, currentIndex, array) => {
-			if (
-				currentIndex === 0 ||
-				new Date(array[currentIndex - 1].creationDateTime).getMonth() !==
-					new Date(currentValue.creationDateTime).getMonth()
-			) {
-				prevValue.push([currentValue]);
-			} else {
-				prevValue[prevValue.length - 1].push(currentValue);
-			}
-
-			return prevValue;
-		}, [] as ChatPhoto.Photo[][]) || [];
+	const photosWithSeparators = photoForSelectedDialog?.photos.map((elem, index, array) => {
+		const elemCopy = { ...elem };
+		if (
+			index === 0 ||
+			new Date(array[index - 1].creationDateTime).getMonth() !== new Date(elem.creationDateTime).getMonth()
+		) {
+			elemCopy.needToShowSeparator = true;
+		}
+		return elemCopy;
+	});
 
 	return (
 		<div className={isDisplayed ? 'chat-photo chat-photo--active' : 'chat-photo'}>
@@ -95,21 +91,14 @@ const ChatPhoto = ({ isDisplayed, close }: ChatPhoto.Props) => {
 					useWindow={false}
 					isReverse={false}
 				>
-					{photosWithSeparators?.map((photoGroup) => (
-						<React.Fragment
-							key={
-								String(new Date(photoGroup[0].creationDateTime).getUTCMonth()) +
-								String(new Date(photoGroup[0].creationDateTime).getFullYear())
-							}
-						>
-							<div className='chat-photo__separator'>
-								{moment(photoGroup[0].creationDateTime).format('MMMM')}
-							</div>
-							<div className='chat-photo__photo-list'>
-								{photoGroup.map((photo) => (
-									<img key={photo.id} className='chat-photo__photo' src={photo.url} alt={photo.alt} />
-								))}
-							</div>
+					{photosWithSeparators?.map((photo) => (
+						<React.Fragment key={photo.id}>
+							{photo.needToShowSeparator && (
+								<div className='chat-photo__separator'>
+									{moment(photo.creationDateTime).format('MMMM')}
+								</div>
+							)}
+							<img key={photo.id} className='chat-photo__photo' src={photo.url} alt={photo.alt} />
 						</React.Fragment>
 					))}
 				</InfiniteScroll>

@@ -1,4 +1,4 @@
-import React, { useContext, useCallback } from 'react';
+import React, { useContext, useCallback, useEffect } from 'react';
 import { messageFrom } from '../chat/chat';
 import { Message, SystemMessageType, MessageState } from 'app/store/messages/models';
 import { MessageUtils } from 'app/utils/message-utils';
@@ -33,6 +33,8 @@ const MessageItem = ({ message }: Message.Props) => {
 	const selectedChatId = useSelector(getSelectedChatSelector)?.id;
 	const isSelectState = useSelector(setSelectedMessagesLength) > 0;
 	const myId = useSelector(getMyIdSelector) as number;
+
+	useEffect(() => console.log('rerender'), []);
 
 	const messageIsFrom = useCallback(
 		(id: Number | undefined) => {

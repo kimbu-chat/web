@@ -306,7 +306,6 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 				<div className={`active-call__bottom-menu ${isFullScreen ? 'active-call__bottom-menu--big' : ''}`}>
 					<button
 						onClick={changeAudioStatus}
-						disabled={audioDevices.length === 0}
 						className={`active-call__call-btn 
 												${isFullScreen ? 'active-call__call-btn--big' : ''}
 												${isAudioOpened ? 'active-call__call-btn--active' : ''}`}
@@ -320,7 +319,6 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 
 					<button
 						onClick={changeVideoStatus}
-						disabled={videoDevices.length === 0}
 						className={`active-call__call-btn 
 												${isFullScreen ? 'active-call__call-btn--big' : ''}
 												${isVideoOpened ? 'active-call__call-btn--active' : ''}`}

@@ -80,6 +80,16 @@ export interface MuteChatRequest {
 	isMuted: boolean;
 }
 
+export interface GetPhotoRequest {
+	chatId: number;
+	page: Page;
+}
+
+export interface GetVideoRequest {
+	chatId: number;
+	page: Page;
+}
+
 export enum ChatType {
 	User = 'User',
 	Conference = 'Conference',
@@ -98,6 +108,25 @@ export interface Chat {
 	typingInterlocutors: { timeoutId: NodeJS.Timeout; fullName: string }[];
 	isDeleted?: boolean;
 	isMuted?: boolean;
+	photos: PhotoList;
+	videos: VideoList;
+}
+
+export interface Photo {
+	id: string;
+	url: string;
+	creationDateTime: Date;
+	alt?: string;
+	needToShowSeparator?: boolean;
+}
+
+export interface Video {
+	id: string;
+	previewImgUrl: string;
+	creationDateTime: Date;
+	duration: number;
+	alt?: string;
+	needToShowSeparator?: boolean;
 }
 
 export interface ChatList {
@@ -105,8 +134,26 @@ export interface ChatList {
 	hasMore: boolean;
 }
 
+export interface PhotoList {
+	photos: Photo[];
+	hasMore: boolean;
+}
+
+export interface VideoList {
+	videos: Video[];
+	hasMore: boolean;
+}
+
 export interface GetChatsResponse extends ChatList {
 	initializedBySearch: boolean;
+}
+
+export interface GetPhotoResponse extends PhotoList {
+	chatId: number;
+}
+
+export interface GetVideoResponse extends VideoList {
+	chatId: number;
 }
 
 export interface ConferenceCreationReqData {

@@ -5,7 +5,6 @@ import { MessageActions } from './actions';
 import { ChatActions } from '../chats/actions';
 import { ChatService } from '../chats/chat-service';
 import unionBy from 'lodash/unionBy';
-import { MessageUtils } from 'app/utils/message-utils';
 
 export interface MessagesState {
 	loading: boolean;
@@ -59,16 +58,14 @@ const messages = createReducer<MessagesState>(initialState)
 				draft.messages.push({
 					chatId: chatId,
 					hasMoreMessages: hasMoreMessages,
-					messages: MessageUtils.signAndSeparate(messages),
+					messages: messages,
 				});
 			} else {
 				const chatIndex = getChatIndex(draft, chatId);
 
 				draft.messages[chatIndex].hasMoreMessages = hasMoreMessages;
 
-				draft.messages[chatIndex].messages = MessageUtils.signAndSeparate(
-					unionBy(draft.messages[chatIndex].messages, messages, 'id'),
-				);
+				draft.messages[chatIndex].messages = unionBy(draft.messages[chatIndex].messages, messages, 'id');
 			}
 
 			return draft;
@@ -100,7 +97,7 @@ const messages = createReducer<MessagesState>(initialState)
 
 			draft.messages[chatIndex].messages.unshift(message);
 
-			draft.messages[chatIndex].messages = MessageUtils.signAndSeparate(draft.messages[chatIndex].messages);
+			draft.messages[chatIndex].messages = draft.messages[chatIndex].messages;
 			return draft;
 		}),
 	)

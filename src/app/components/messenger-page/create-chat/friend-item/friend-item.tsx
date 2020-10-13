@@ -23,14 +23,14 @@ const FriendItem = ({ user }: FriendItem.Props) => {
 	}
 
 	return (
-		<div className='messenger__friend-item' onClick={selectUser}>
-			<StatusBadge user={user} additionalClassNames={'messenger__friend-item__avatar'} />
-			<div className='messenger__friend-item__name'>{`${user.firstName} ${user.lastName}`}</div>
+		<div className='friend-item' onClick={selectUser}>
+			<StatusBadge user={user} additionalClassNames={'friend-item__avatar'} />
+			<div className='friend-item__name'>{`${user.firstName} ${user.lastName}`}</div>
 			<div
 				className={
 					user.supposedToAddIntoConference
-						? 'messenger__friend-item__supposed messenger__friend-item__supposed--true'
-						: 'messenger__friend-item__supposed messenger__friend-item__supposed--false'
+						? 'friend-item__supposed friend-item__supposed--true'
+						: 'friend-item__supposed friend-item__supposed--false'
 				}
 			>
 				<div className='svg'>

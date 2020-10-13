@@ -8,6 +8,10 @@ import {
 	RenameConferenceActionData,
 	ChangeConferenceAvatarActionData,
 	ChangeConferenceAvatarSuccessActionData,
+	GetPhotoRequest,
+	GetVideoRequest,
+	GetPhotoResponse,
+	GetVideoResponse,
 } from './models';
 import { IntercolutorMessageTypingIntegrationEvent } from '../middlewares/websockets/integration-events/interlocutor-message-typing-integration-event';
 import { ConferenceCreatedIntegrationEvent } from '../middlewares/websockets/integration-events/conference-сreated-integration-event';
@@ -27,6 +31,10 @@ import { GetConferenceUsersSuccessActionData } from '../friends/models';
 
 export namespace ChatActions {
 	export const getChats = createAction('GET_CHATS')<GetChatsActionData>();
+	export const getPhoto = createAction('GET_PHOTO')<GetPhotoRequest>();
+	export const getVideo = createAction('GET_VIDEO')<GetVideoRequest>();
+	export const getPhotoSuccess = createAction('GET_PHOTO_SUCCESS')<GetPhotoResponse>();
+	export const getVideoSuccess = createAction('GET_VIDEO_SUCCESS')<GetVideoResponse>();
 	export const changeSelectedChat = createAction('CHANGE_SELECTED_CHAT')<number>();
 	export const getChatsSuccess = createAction('GET_CHATS_SUCCESS')<GetChatsResponse>();
 	export const getChatsFailure = createEmptyAction('GET_CHATS_FAILURE');

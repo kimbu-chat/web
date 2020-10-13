@@ -11,6 +11,8 @@ import MessageItem from '../message-item/message-item';
 import InfiniteScroll from 'react-infinite-scroller';
 import SelectedMessagesData from '../selected-messages-data/selected-messages-data';
 import { setSelectedMessagesLength } from 'app/store/messages/selectors';
+import { MessageUtils } from 'app/utils/message-utils';
+import moment from 'moment';
 
 export const MESSAGES_LIMIT = 25;
 
@@ -83,7 +85,7 @@ const Chat = () => {
 
 	const messagesCopy: Message[] = JSON.parse(JSON.stringify(messages));
 
-	const itemsWithUserInfo = messagesCopy.reverse();
+	const itemsWithUserInfo = MessageUtils.signAndSeparate(messagesCopy).reverse();
 
 	return (
 		<div className='messenger__messages-list'>
@@ -122,7 +124,22 @@ const Chat = () => {
 					isReverse={true}
 				>
 					{itemsWithUserInfo.map((msg) => {
-						return <MessageItem message={msg} key={msg.id} />;
+						return (
+							<React.Fragment key={msg.id}>
+								{msg.needToShowDateSeparator && (
+									<div className='message__separator message__separator--capitalized'>
+										<span>
+											{moment
+												.utc(msg.creationDateTime)
+												.local()
+												.format('dddd, MMMM D, YYYY')
+												.toString()}
+										</span>
+									</div>
+								)}
+								<MessageItem message={msg} key={msg.id} />
+							</React.Fragment>
+						);
 					})}
 				</InfiniteScroll>
 			</div>

@@ -23,26 +23,18 @@ import Avatar from 'app/components/shared/avatar/avatar';
 import EditSvg from 'app/assets/icons/ic-edit.svg';
 import PhotoSvg from 'app/assets/icons/ic-photo.svg';
 import EditChatModal from '../edit-chat-modal/edit-chat-modal';
+import ConferenceAddFriendModal from '../conference-add-friend/conference-add-friend';
 
 namespace ChatInfo {
 	export interface Props {
 		displayCreateChat: () => void;
-		hideContactSearch: () => void;
-		displayContactSearch: (action?: Messenger.contactSearchActions) => void;
 		setImageUrl: (url: string | null | ArrayBuffer) => void;
 		displayChangePhoto: (data: Messenger.photoSelect) => void;
 		isDisplayed: boolean;
 	}
 }
 
-const ChatInfo: React.FC<ChatInfo.Props> = ({
-	displayCreateChat,
-	displayContactSearch,
-	hideContactSearch,
-	setImageUrl,
-	displayChangePhoto,
-	isDisplayed,
-}) => {
+const ChatInfo: React.FC<ChatInfo.Props> = ({ displayCreateChat, setImageUrl, displayChangePhoto, isDisplayed }) => {
 	const [chatPhotoDisplayed, setChatPhotoDisplayed] = useState(false);
 	const closeChatPhoto = useCallback(() => setChatPhotoDisplayed(false), [setChatPhotoDisplayed]);
 	const displayChatPhoto = useCallback(() => setChatPhotoDisplayed(true), [setChatPhotoDisplayed]);
@@ -56,6 +48,11 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 		setEditConferenceDisplayed((oldState) => !oldState);
 	}, [setEditConferenceDisplayed]);
 
+	const [addFriendsModalDisplayed, setAddFriendsModalDisplayed] = useState(false);
+	const changeSetAddFriendsModalDisplayedState = useCallback(() => {
+		setAddFriendsModalDisplayed((oldState) => !oldState);
+	}, [setAddFriendsModalDisplayed]);
+
 	useEffect(() => {
 		return () => {
 			closeChatPhoto();
@@ -65,29 +62,8 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 
 	const selectedChat = useSelector(getSelectedChatSelector) as Chat;
 
-	const addUsersToConferece = useActionWithDeferred(ChatActions.addUsersToConference);
 	const changeConferenceAvatar = useActionWithDeferred(ChatActions.changeConferenceAvatar);
 
-	const addUsers = useCallback(
-		(userIds: number[]): void => {
-			addUsersToConferece({ chat: selectedChat, userIds }).then(hideContactSearch);
-		},
-		[addUsersToConferece, hideContactSearch, selectedChat],
-	);
-
-	const searchContactsToAdd = useCallback(
-		(args?: Messenger.optionalContactSearchActions) => {
-			displayContactSearch({
-				isDisplayed: true,
-				isSelectable: true,
-				onSubmit: addUsers,
-				displayMyself: false,
-				onClickOnContact: undefined,
-				...args,
-			});
-		},
-		[addUsers, displayContactSearch],
-	);
 	const changeAvatar = useCallback(
 		(data: AvatarSelectedData) => {
 			changeConferenceAvatar({
@@ -164,11 +140,14 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 
 					<InterlocutorInfo />
 
-					<ChatInfoActions displayCreateChat={displayCreateChat} addMembers={searchContactsToAdd} />
+					<ChatInfoActions
+						displayCreateChat={displayCreateChat}
+						addMembers={changeSetAddFriendsModalDisplayedState}
+					/>
 
 					<ChatMedia displayChatPhoto={displayChatPhoto} displayChatVideo={displayChatVideo} />
 
-					{conference && <ChatMembers addMembers={searchContactsToAdd} />}
+					{conference && <ChatMembers addMembers={changeSetAddFriendsModalDisplayedState} />}
 				</div>
 
 				<ChatPhoto isDisplayed={chatPhotoDisplayed} close={closeChatPhoto} />
@@ -180,6 +159,11 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({
 					displayChangePhoto={displayChangePhoto}
 					isDisplayed={editConferenceDisplayed}
 					close={changeEditConferenceDisplayedState}
+				/>
+
+				<ConferenceAddFriendModal
+					isDisplayed={addFriendsModalDisplayed}
+					close={changeSetAddFriendsModalDisplayedState}
 				/>
 			</React.Fragment>
 		);

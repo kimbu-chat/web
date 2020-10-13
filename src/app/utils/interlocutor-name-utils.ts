@@ -33,7 +33,6 @@ export const getInterlocutorInitials = (chat: Chat): string => {
 
 export const getUserInitials = (user?: UserPreview) => {
 	if (!user) {
-		alert('getUserInitials error');
 		return '';
 	}
 

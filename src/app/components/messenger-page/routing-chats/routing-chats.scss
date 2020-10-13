@@ -1,0 +1,18 @@
+.routing-chats {
+	grid-row: 1/1;
+	grid-column: 1/1;
+	padding: 20px;
+	display: flex;
+	justify-content: space-between;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+	border-right: 1px solid rgba(0, 0, 0, 0.2);
+
+	&__link {
+		display: block;
+		color: rgb(153, 162, 173);
+
+		&--active {
+			color: rgb(63, 138, 224);
+		}
+	}
+}

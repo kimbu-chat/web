@@ -36,10 +36,12 @@ const SearchTop = ({ displaySlider, displayCreateChat }: SearchTop.Props) => {
 			<button className='search-top__burger' onClick={displaySlider}>
 				<BurgerSvg />
 			</button>
-			<SearchBox
-				wrapperClassName='search-top__search'
-				onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChatSearchChange(e.target.value)}
-			/>
+			<div className='search-top__search'>
+				<SearchBox
+					onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChatSearchChange(e.target.value)}
+				/>
+			</div>
+
 			<button onClick={displayCreateChat} className='search-top__create-chat-btn'>
 				<CreateChatSvg />
 			</button>

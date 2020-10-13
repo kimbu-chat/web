@@ -35,6 +35,8 @@ const chats = createReducer<ChatsState>(initialState)
 		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.interlocutorStoppedTyping>) => {
 			const { chatId, interlocutorName, objectId } = payload;
 
+			console.log(chatId);
+
 			const chatIdentificator: number = ChatService.getChatIdentifier(
 				chatId.interlocutorType === InterlocutorType.USER ? objectId : undefined,
 				chatId.interlocutorType === InterlocutorType.CONFERENCE ? chatId.conferenceId : undefined,
@@ -278,6 +280,14 @@ const chats = createReducer<ChatsState>(initialState)
 					interlocutorLastReadMessageId: 0,
 					interlocutor: chat.interlocutor,
 					typingInterlocutors: [],
+					photos: {
+						hasMore: true,
+						photos: [],
+					},
+					videos: {
+						hasMore: true,
+						videos: [],
+					},
 				};
 
 				draft.chats.unshift(newChat);
@@ -385,12 +395,48 @@ const chats = createReducer<ChatsState>(initialState)
 					interlocutorLastReadMessageId: 0,
 					interlocutor: payload,
 					typingInterlocutors: [],
+					photos: {
+						hasMore: true,
+						photos: [],
+					},
+					videos: {
+						hasMore: true,
+						videos: [],
+					},
 				};
 
 				draft.chats.unshift(newDialog);
 
 				return draft;
 			}
+		}),
+	)
+	.handleAction(
+		ChatActions.getPhotoSuccess,
+		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.getPhotoSuccess>) => {
+			const { photos, chatId, hasMore } = payload;
+
+			const chatIndex: number = getChatArrayIndex(chatId, draft);
+
+			if (chatIndex >= 0) {
+				draft.chats[chatIndex].photos.photos.push(...photos);
+				draft.chats[chatIndex].photos.hasMore = hasMore;
+			}
+			return draft;
+		}),
+	)
+	.handleAction(
+		ChatActions.getVideoSuccess,
+		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.getVideoSuccess>) => {
+			const { videos, chatId, hasMore } = payload;
+
+			const chatIndex: number = getChatArrayIndex(chatId, draft);
+
+			if (chatIndex >= 0) {
+				draft.chats[chatIndex].videos.videos.push(...videos);
+				draft.chats[chatIndex].videos.hasMore = hasMore;
+			}
+			return draft;
 		}),
 	);
 export default chats;

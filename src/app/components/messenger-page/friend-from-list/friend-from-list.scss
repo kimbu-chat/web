@@ -1,0 +1,25 @@
+.friend-from-list {
+	&__friend {
+		display: flex;
+		align-items: center;
+		padding: 14px 0;
+	}
+
+	&__selected-holder {
+		display: block;
+		margin-right: 25px;
+		color: rgb(153, 162, 173);
+		cursor: pointer;
+	}
+
+	&__avatar {
+		margin-right: 14px;
+		height: 52px;
+		width: 52px;
+	}
+
+	&__friend-name {
+		font-size: 14px;
+		font-weight: 500;
+	}
+}

@@ -9,47 +9,37 @@ import { FriendActions } from 'app/store/friends/actions';
 import { RootState } from 'app/store/root-reducer';
 import { UserPreview } from 'app/store/my-profile/models';
 import { LocalizationContext } from 'app/app';
+import { MessageActions } from 'app/store/messages/actions';
+import { useHistory } from 'react-router';
 
 namespace ContactSearch {
 	export interface Props {
 		hide: () => void;
-		onSubmit?: (userIds: number[]) => void;
-		onClickOnContact?: (user: UserPreview) => void;
-		isSelectable?: boolean;
-		displayMyself?: boolean;
-		excludeIds?: (number | undefined)[];
 		isDisplayed: boolean;
 	}
 }
 
-const ContactSearch = ({
-	hide,
-	isSelectable,
-	displayMyself,
-	excludeIds,
-	onSubmit,
-	isDisplayed,
-	onClickOnContact,
-}: ContactSearch.Props) => {
+const ContactSearch = ({ hide, isDisplayed }: ContactSearch.Props) => {
 	const { t } = useContext(LocalizationContext);
 	const loadFriends = useActionWithDispatch(FriendActions.getFriends);
-	const unsetFriends = useActionWithDispatch(FriendActions.unsetSelectedUserIdsForNewConference);
-
-	const [searchFriendStr, setSearchFriendStr] = useState<string>('');
+	const createChat = useActionWithDispatch(MessageActions.createChat);
 
 	const friends = useSelector<RootState, UserPreview[]>((state) => state.friends.friends);
-	const userIdsToAddIntoConference = useSelector<RootState, number[]>(
-		(state) => state.friends.userIdsToAddIntoConference,
-	);
+
+	const history = useHistory();
+
+	const [searchFriendStr, setSearchFriendStr] = useState<string>('');
 
 	const searchFriends = useCallback((name: string) => {
 		setSearchFriendStr(name);
 		loadFriends({ page: { offset: 0, limit: 25 }, name, initializedBySearch: true });
 	}, []);
 
-	const reject = useCallback(() => {
+	const createEmptyChat = useCallback((user: UserPreview) => {
+		createChat(user);
+		const chatId = Number(`${user.id}1`);
+		history.push(`/chats/${chatId}`);
 		hide();
-		unsetFriends();
 	}, []);
 
 	useEffect(() => {
@@ -59,10 +49,6 @@ const ContactSearch = ({
 			loadFriends({ page: { offset: 0, limit: 100 }, name, initializedBySearch: true });
 		};
 	}, [isDisplayed]);
-
-	const submit = (): void => {
-		onSubmit && onSubmit(userIdsToAddIntoConference);
-	};
 
 	return (
 		<div className={isDisplayed ? 'contact-search contact-search--active' : 'contact-search'}>
@@ -87,30 +73,11 @@ const ContactSearch = ({
 					value={searchFriendStr}
 				/>
 				<div className='contact-search__contacts-list'>
-					{friends.map(
-						(friend) =>
-							excludeIds?.includes(friend.id) || (
-								<ContactItem
-									displayMyself={displayMyself}
-									isSelectable={isSelectable}
-									onClick={onClickOnContact}
-									user={friend}
-									key={friend.id}
-								/>
-							),
-					)}
+					{friends.map((friend) => (
+						<ContactItem key={friend.id} onClick={createEmptyChat} user={friend} />
+					))}
 				</div>
 			</div>
-			{onSubmit && (
-				<div className='messenger__create-chat__confirm-chat'>
-					<button onClick={submit} className='messenger__create-chat__confirm-chat-btn'>
-						{t('contactsSearch.create_chat')}
-					</button>
-					<button onClick={reject} className='messenger__create-chat__dismiss-chat-btn'>
-						{t('contactsSearch.reject')}
-					</button>
-				</div>
-			)}
 		</div>
 	);
 };

@@ -1,9 +1,15 @@
-import React, { useContext } from 'react';
+import React, { useCallback, useContext, useRef } from 'react';
 import './chat-photo.scss';
 
 import ReturnSvg from 'app/assets/icons/ic-arrow-left.svg';
 import { LocalizationContext } from 'app/app';
 import moment from 'moment';
+import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+import { useSelector } from 'react-redux';
+import { ChatActions } from 'app/store/chats/actions';
+import { getSelectedChatSelector } from 'app/store/chats/selectors';
+import { Page } from 'app/store/common/models';
+import InfiniteScroll from 'react-infinite-scroller';
 
 namespace ChatPhoto {
 	export interface Props {
@@ -23,84 +29,37 @@ namespace ChatPhoto {
 const ChatPhoto = ({ isDisplayed, close }: ChatPhoto.Props) => {
 	const { t } = useContext(LocalizationContext);
 
-	//TODO: when endpoint will be done replace with useSelector
-	const photoToDisplay: ChatPhoto.Photo[] = [
-		{
-			id: 'aa',
-			url: 'https://i.imgur.com/t0x900S.jpg',
-			creationDateTime: new Date('January 17, 2020 03:24:00'),
-		},
-		{
-			id: 'ab',
-			url: 'https://i.imgur.com/LonSqFi.png',
-			creationDateTime: new Date('January 17, 2020 03:24:00'),
-		},
-		{
-			id: 'ac',
-			url: 'https://i.imgur.com/FklkvSE.jpg',
-			creationDateTime: new Date('January 17, 2020 03:24:00'),
-		},
-		{ id: 'ad', url: 'https://i.imgur.com/lbLmdpg.jpg', creationDateTime: new Date('January 17, 2020 03:24:00') },
-		{
-			id: 'ae',
-			url: 'https://i.imgur.com/ZtRulbn.jpg',
-			creationDateTime: new Date('January 17, 2020 03:24:00'),
-		},
-		{
-			id: 'af',
-			url: 'https://i.imgur.com/YD0MOmZ.jpg',
-			creationDateTime: new Date('February 17, 2020 03:24:00'),
-		},
-		{
-			id: 'ag',
-			url: 'https://i.imgur.com/6CZ2LLB.jpeg',
-			creationDateTime: new Date('February 17, 2020 03:24:00'),
-		},
-		{
-			id: 'ah',
-			url: 'https://i.imgur.com/HNLMF0P.jpg',
-			creationDateTime: new Date('February 17, 2020 03:24:00'),
-		},
-		{
-			id: 'ak',
-			url: 'https://i.imgur.com/0vb5W9m.jpg',
-			creationDateTime: new Date('February 17, 2020 03:24:00'),
-		},
-		{
-			id: 'al',
-			url: 'https://i.imgur.com/r3inDL8.jpg',
-			creationDateTime: new Date('February 17, 2020 03:24:00'),
-		},
-		{
-			id: 'am',
-			url: 'https://i.imgur.com/u0TXr08.jpeg',
-			creationDateTime: new Date('February 17, 2020 03:24:00'),
-		},
-		{
-			id: 'an',
-			url: 'https://i.imgur.com/N325EqP.jpg',
-			creationDateTime: new Date('June 17, 2020 03:24:00'),
-		},
-		{
-			id: 'ap',
-			url: 'https://i.imgur.com/zpmoEhg.jpg',
-			creationDateTime: new Date('June 17, 2020 03:24:00'),
-		},
-	];
+	const photoContainerRef = useRef<HTMLDivElement>(null);
 
-	const photosWithSeparators = photoToDisplay.reduce((prevValue, currentValue, currentIndex, array) => {
+	const getPhotos = useActionWithDispatch(ChatActions.getPhoto);
+	const selectedChat = useSelector(getSelectedChatSelector);
+	const photoForSelectedDialog = selectedChat!.photos;
+
+	const loadMore = useCallback(() => {
+		console.log('call');
+		const page: Page = {
+			offset: photoForSelectedDialog?.photos!.length || 0,
+			limit: 20,
+		};
+
+		console.log(page);
+
+		getPhotos({
+			page,
+			chatId: selectedChat!.id,
+		});
+	}, [selectedChat!.id, photoForSelectedDialog?.photos]);
+
+	const photosWithSeparators = photoForSelectedDialog?.photos.map((elem, index, array) => {
+		const elemCopy = { ...elem };
 		if (
-			currentIndex === 0 ||
-			new Date(array[currentIndex - 1].creationDateTime).getMonth() !==
-				new Date(currentValue.creationDateTime).getMonth()
+			index === 0 ||
+			new Date(array[index - 1].creationDateTime).getMonth() !== new Date(elem.creationDateTime).getMonth()
 		) {
-			prevValue.push([currentValue]);
-		} else {
-			prevValue[prevValue.length - 1].push(currentValue);
+			elemCopy.needToShowSeparator = true;
 		}
-
-		return prevValue;
-	}, [] as ChatPhoto.Photo[][]);
+		return elemCopy;
+	});
 
 	return (
 		<div className={isDisplayed ? 'chat-photo chat-photo--active' : 'chat-photo'}>
@@ -110,16 +69,40 @@ const ChatPhoto = ({ isDisplayed, close }: ChatPhoto.Props) => {
 				</button>
 				<div className='chat-photo__heading'>{t('chatPhoto.photo')}</div>
 			</div>
-			{photosWithSeparators.map((photoGroup) => (
-				<React.Fragment key={photoGroup[0].id + 'group'}>
-					<div className='chat-photo__separator'>{moment(photoGroup[0].creationDateTime).format('MMMM')}</div>
-					<div className='chat-photo__photo-list'>
-						{photoGroup.map((photo) => (
+			<div ref={photoContainerRef} className='chat-photo__photo-container'>
+				<InfiniteScroll
+					pageStart={0}
+					initialLoad={true}
+					loadMore={loadMore}
+					hasMore={photoForSelectedDialog.hasMore}
+					getScrollParent={() => photoContainerRef.current}
+					loader={
+						<div className='loader ' key={0}>
+							<div className=''>
+								<div className='lds-ellipsis'>
+									<div></div>
+									<div></div>
+									<div></div>
+									<div></div>
+								</div>
+							</div>
+						</div>
+					}
+					useWindow={false}
+					isReverse={false}
+				>
+					{photosWithSeparators?.map((photo) => (
+						<React.Fragment key={photo.id}>
+							{photo.needToShowSeparator && (
+								<div className='chat-photo__separator'>
+									{moment(photo.creationDateTime).format('MMMM')}
+								</div>
+							)}
 							<img key={photo.id} className='chat-photo__photo' src={photo.url} alt={photo.alt} />
-						))}
-					</div>
-				</React.Fragment>
-			))}
+						</React.Fragment>
+					))}
+				</InfiniteScroll>
+			</div>
 		</div>
 	);
 };

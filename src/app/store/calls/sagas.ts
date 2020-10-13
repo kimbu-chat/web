@@ -45,14 +45,17 @@ const getUserMedia = async (constraints: ICompleteConstraints) => {
 			video: constraints.video.isOpened && constraints.video,
 			audio: constraints.audio.deviceId ? constraints.audio : constraints.audio.isOpened,
 		});
-	} catch (e) {
-		alert('No device found, sorry...');
-		console.log(e);
+	} catch {
 		try {
 			localMediaStream = await navigator.mediaDevices.getUserMedia({
 				audio: constraints.audio.deviceId ? constraints.audio : constraints.audio.isOpened,
 			});
-		} catch {}
+			console.log('reach');
+			throw 'NO_VIDEO';
+		} catch (e) {
+			if (e === 'NO_VIDEO') throw e;
+			throw 'NO_AUDIO';
+		}
 	}
 
 	if (localMediaStream) {
@@ -80,19 +83,33 @@ export function* outgoingCallSaga(action: ReturnType<typeof CallActions.outgoing
 
 	createPeerConnection();
 	yield spawn(peerWatcher);
+	yield spawn(deviceUpdateWatcher);
 
 	//setup local stream
-	yield call(getUserMedia, { video: videoConstraints, audio: audioConstraints });
+	try {
+		yield call(getUserMedia, { video: videoConstraints, audio: audioConstraints });
+	} catch (e) {
+		if (e === 'NO_AUDIO') {
+			yield put(CallActions.closeAudioStatusAction());
+			yield put(CallActions.closeVideoStatusAction());
+		}
+
+		if (e === 'NO_VIDEO') {
+			yield put(CallActions.closeVideoStatusAction());
+		}
+	}
 	//---
 
 	//gathering data about media devices
 	if (action.payload.constraints.audio.isOpened) {
 		const audioDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'audioinput');
 		yield put(CallActions.gotDevicesInfoAction({ kind: 'audioinput', devices: audioDevices }));
+		yield put(CallActions.changeActiveDeviceIdAction({ kind: 'audioinput', deviceId: audioDevices[0].deviceId }));
 	}
 	if (action.payload.constraints.video.isOpened) {
 		const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'videoinput');
 		yield put(CallActions.gotDevicesInfoAction({ kind: 'videoinput', devices: videoDevices }));
+		yield put(CallActions.changeActiveDeviceIdAction({ kind: 'videoinput', deviceId: videoDevices[0].deviceId }));
 	}
 
 	const interlocutorId = action.payload.calling.id;
@@ -298,28 +315,27 @@ export function* candidateSaga(action: ReturnType<typeof CallActions.candidateAc
 export function* changeMediaStatusSaga(action: ReturnType<typeof CallActions.changeMediaStatusAction>): SagaIterator {
 	const handleVideoStatusChange = async ({ videoConstraints, audioConstraints }: any) => {
 		if (videoConstraints.isOpened) {
-			try {
-				if (audioConstraints.isOpened || videoConstraints.isOpened) {
-					localMediaStream = await navigator.mediaDevices.getUserMedia({
-						video: videoConstraints.isOpened && videoConstraints,
-						audio: audioConstraints.deviceId ? audioConstraints : audioConstraints.isOpened,
-					});
-				}
-			} catch (e) {
-				console.log(e);
+			if (audioConstraints.isOpened || videoConstraints.isOpened) {
+				localMediaStream = await navigator.mediaDevices.getUserMedia({
+					video: videoConstraints.isOpened && videoConstraints,
+					audio: audioConstraints.deviceId ? audioConstraints : audioConstraints.isOpened,
+				});
 			}
 
 			stopTracks();
-			assignStreams(localMediaStream);
 
-			if (tracks.audioTracks.length > 0) {
-				audioSender?.replaceTrack(tracks.audioTracks[0]);
-			}
+			if (localMediaStream) {
+				assignStreams(localMediaStream);
 
-			if (videoSender) {
-				videoSender?.replaceTrack(tracks.videoTracks[0]);
-			} else {
-				videoSender = peerConnection?.addTrack(tracks.videoTracks[0], localMediaStream) as RTCRtpSender;
+				if (tracks.audioTracks.length > 0) {
+					audioSender?.replaceTrack(tracks.audioTracks[0]);
+				}
+
+				if (videoSender) {
+					videoSender?.replaceTrack(tracks.videoTracks[0]);
+				} else {
+					videoSender = peerConnection?.addTrack(tracks.videoTracks[0], localMediaStream) as RTCRtpSender;
+				}
 			}
 		} else if (tracks.videoTracks.length > 0) {
 			tracks.videoTracks.forEach((track) => track.stop());
@@ -349,7 +365,9 @@ export function* changeMediaStatusSaga(action: ReturnType<typeof CallActions.cha
 			}
 
 			stopTracks();
-			assignStreams(localMediaStream);
+			if (localMediaStream) {
+				assignStreams(localMediaStream);
+			}
 
 			if (tracks.audioTracks.length >= 0) {
 				audioSender?.replaceTrack(tracks.audioTracks[0]);
@@ -389,7 +407,7 @@ export function* changeScreenSharingStatus(): SagaIterator {
 			if (videoSender) {
 				videoSender?.replaceTrack(tracks.screenSharingTracks[0]);
 			} else {
-				videoSender = peerConnection?.addTrack(tracks.screenSharingTracks[0], localMediaStream) as RTCRtpSender;
+				videoSender = peerConnection?.addTrack(tracks.screenSharingTracks[0]) as RTCRtpSender;
 			}
 		} catch (e) {
 			console.log(e);
@@ -485,6 +503,7 @@ export function* negociationSaga(action: ReturnType<typeof CallActions.incomingC
 	} else {
 		createPeerConnection();
 		yield spawn(peerWatcher);
+		yield spawn(deviceUpdateWatcher);
 	}
 }
 
@@ -509,7 +528,9 @@ export function* switchDeviceSaga(action: ReturnType<typeof CallActions.switchDe
 		}
 
 		stopTracks();
-		assignStreams(localMediaStream);
+		if (localMediaStream) {
+			assignStreams(localMediaStream);
+		}
 
 		if (tracks.audioTracks.length >= 0) {
 			audioSender?.replaceTrack(tracks.audioTracks[0]);
@@ -609,6 +630,48 @@ export function* peerWatcher() {
 			}
 		}
 	}
+}
+
+export function* deviceUpdateWatcher() {
+	const channel = deviceUpdateChannel();
+	while (true) {
+		const prevAudioDevices = yield select((state: RootState) => state.calls.audioDevicesList);
+		const action = yield take(channel);
+		console.log(action);
+		const audioDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'audioinput');
+		const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'videoinput');
+
+		if (prevAudioDevices.length === 0) {
+			yield put(CallActions.switchDeviceAction({ kind: 'audioinput', deviceId: audioDevices[0].deviceId }));
+			yield put(CallActions.changeMediaStatusAction({ kind: 'audioinput' }));
+		}
+
+		yield put(CallActions.gotDevicesInfoAction({ kind: 'audioinput', devices: audioDevices }));
+		yield put(CallActions.gotDevicesInfoAction({ kind: 'videoinput', devices: videoDevices }));
+	}
+}
+
+function deviceUpdateChannel() {
+	return eventChannel((emit) => {
+		const onDeviceChange = (event: Event) => {
+			emit(event);
+		};
+
+		//!TO CHECK
+		const clearIntervalCode = setInterval(() => {
+			const state = peerConnection?.connectionState;
+			if (!state || state === 'closed' || state === 'disconnected') {
+				clearInterval(clearIntervalCode);
+				emit(END);
+			}
+		}, 1000);
+
+		navigator.mediaDevices.addEventListener('devicechange', onDeviceChange);
+
+		return () => {
+			navigator.mediaDevices.removeEventListener('devicechange', onDeviceChange);
+		};
+	}, buffers.expanding(10));
 }
 
 export const CallsSagas = [

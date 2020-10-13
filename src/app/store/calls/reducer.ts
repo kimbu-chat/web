@@ -181,6 +181,20 @@ const calls = createReducer<CallState>(initialState)
 		}),
 	)
 	.handleAction(
+		CallActions.closeAudioStatusAction,
+		produce((draft: CallState) => {
+			draft.audioConstraints.isOpened = false;
+			return draft;
+		}),
+	)
+	.handleAction(
+		CallActions.closeVideoStatusAction,
+		produce((draft: CallState) => {
+			draft.videoConstraints.isOpened = false;
+			return draft;
+		}),
+	)
+	.handleAction(
 		CallActions.gotDevicesInfoAction,
 		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.gotDevicesInfoAction>) => {
 			if (payload.kind === 'videoinput') {
@@ -197,6 +211,20 @@ const calls = createReducer<CallState>(initialState)
 	.handleAction(
 		CallActions.switchDeviceAction,
 		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.switchDeviceAction>) => {
+			if (payload.kind === 'videoinput') {
+				draft.videoConstraints.deviceId = payload.deviceId;
+			}
+
+			if (payload.kind === 'audioinput') {
+				draft.audioConstraints.deviceId = payload.deviceId;
+			}
+
+			return draft;
+		}),
+	)
+	.handleAction(
+		CallActions.changeActiveDeviceIdAction,
+		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.changeActiveDeviceIdAction>) => {
 			if (payload.kind === 'videoinput') {
 				draft.videoConstraints.deviceId = payload.deviceId;
 			}

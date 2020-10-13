@@ -232,8 +232,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 							className={`active-call__select ${isAudioOpened ? '' : 'active-call__select--disabled'}`}
 							onClick={isAudioOpened ? changeAudioDevicesListOpenedStatus : () => {}}
 						>
-							{audioDevices.find(({ deviceId }) => deviceId === activeAudioDevice)?.label ||
-								audioDevices[0]?.label}
+							{audioDevices.find(({ deviceId }) => deviceId === activeAudioDevice)?.label || ''}
 							<DropDownSvg viewBox='0 0 25 25' />
 						</div>
 						{isAudioDevicesListOpened && (
@@ -258,8 +257,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 							className={`active-call__select ${isVideoOpened ? '' : 'active-call__select--disabled'}`}
 							onClick={isVideoOpened ? changeVideoDevicesListOpenedStatus : () => {}}
 						>
-							{videoDevices.find(({ deviceId }) => deviceId === activeVideoDevice)?.label ||
-								videoDevices[0]?.label}
+							{videoDevices.find(({ deviceId }) => deviceId === activeVideoDevice)?.label || ''}
 							<DropDownSvg viewBox='0 0 25 25' />
 						</div>
 						{isVideoDevicesListOpened && (
@@ -308,6 +306,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 				<div className={`active-call__bottom-menu ${isFullScreen ? 'active-call__bottom-menu--big' : ''}`}>
 					<button
 						onClick={changeAudioStatus}
+						disabled={audioDevices.length === 0}
 						className={`active-call__call-btn 
 												${isFullScreen ? 'active-call__call-btn--big' : ''}
 												${isAudioOpened ? 'active-call__call-btn--active' : ''}`}
@@ -319,20 +318,19 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 						)}
 					</button>
 
-					{!amICaling && (
-						<button
-							onClick={changeVideoStatus}
-							className={`active-call__call-btn 
+					<button
+						onClick={changeVideoStatus}
+						disabled={videoDevices.length === 0}
+						className={`active-call__call-btn 
 												${isFullScreen ? 'active-call__call-btn--big' : ''}
 												${isVideoOpened ? 'active-call__call-btn--active' : ''}`}
-						>
-							{isVideoOpened ? (
-								<VideoEnableSvg viewBox='0 0 25 25' />
-							) : (
-								<VideoDisableSvg viewBox='0 0 25 25' />
-							)}
-						</button>
-					)}
+					>
+						{isVideoOpened ? (
+							<VideoEnableSvg viewBox='0 0 25 25' />
+						) : (
+							<VideoDisableSvg viewBox='0 0 25 25' />
+						)}
+					</button>
 
 					{!amICaling && (
 						<button

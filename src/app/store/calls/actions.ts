@@ -15,6 +15,7 @@ import { createEmptyAction } from '../common/actions';
 export namespace CallActions {
 	export const outgoingCallAction = createAction('OUTGOING_CALL')<OutgoingCallActionPayload>();
 	export const incomingCallAction = createAction('INCOMING_CALL')<IncomingCallActionPayload>();
+	export const changeActiveDeviceIdAction = createAction('CHANGE_ACTIVE_DEVICE_ID')<SwitchDeviceActionPayload>();
 	export const cancelCallAction = createEmptyAction('CANCEL_CALL');
 	export const declineCallAction = createEmptyAction('DECLINE_CALL');
 	export const endCallAction = createAction('END_CALL')<EndCallActionPayload>();
@@ -31,6 +32,8 @@ export namespace CallActions {
 	export const changeMediaStatusAction = createAction('CHANGE_MEDIA_STATUS')<ChangeMediaStatusActionPayload>();
 	export const changeScreenShareStatusAction = createEmptyAction('CHANGE_SCREEN_SHARE_STATUS');
 	export const closeScreenShareStatusAction = createEmptyAction('CLOSE_SCREEN_SHARE_STATUS');
+	export const closeVideoStatusAction = createEmptyAction('CLOSE_VIDEO_STATUS');
+	export const closeAudioStatusAction = createEmptyAction('CLOSE_AUDIO_STATUS');
 	export const gotDevicesInfoAction = createAction('GOT_DEVICES_INFO')<GotMediaDevicesInfoActionPayload>();
 	export const switchDeviceAction = createAction('SWITCH_DEVICE')<SwitchDeviceActionPayload>();
 }

@@ -57,6 +57,7 @@
 	&__right-btns {
 		margin-right: 16px;
 		display: flex;
+		position: relative;
 		margin-left: auto;
 	}
 
@@ -84,20 +85,6 @@
 		line-height: 16px;
 		font-weight: 500;
 	}
-}
-
-.emoji-wrapper {
-	position: absolute;
-	bottom: 56px;
-	right: 25px;
-}
-
-svg.blue {
-	fill: blue;
-}
-
-svg.black {
-	fill: black;
 }
 
 @keyframes pulse {

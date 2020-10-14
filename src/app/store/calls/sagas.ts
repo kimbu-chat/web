@@ -270,10 +270,12 @@ export function* acceptCallSaga(action: ReturnType<typeof CallActions.acceptCall
 	if (audioConstraints.isOpened) {
 		const audioDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'audioinput');
 		yield put(CallActions.gotDevicesInfoAction({ kind: 'audioinput', devices: audioDevices }));
+		yield put(CallActions.changeActiveDeviceIdAction({ kind: 'audioinput', deviceId: audioDevices[0].deviceId }));
 	}
 	if (videoConstraints.isOpened) {
 		const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'videoinput');
 		yield put(CallActions.gotDevicesInfoAction({ kind: 'videoinput', devices: videoDevices }));
+		yield put(CallActions.changeActiveDeviceIdAction({ kind: 'videoinput', deviceId: videoDevices[0].deviceId }));
 	}
 	//---
 
@@ -390,6 +392,7 @@ export function* changeMediaStatusSaga(action: ReturnType<typeof CallActions.cha
 		yield call(handleVideoStatusChange, { videoConstraints, audioConstraints });
 		const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'videoinput');
 		yield put(CallActions.gotDevicesInfoAction({ kind: 'videoinput', devices: videoDevices }));
+		yield put(CallActions.changeActiveDeviceIdAction({ kind: 'videoinput', deviceId: videoDevices[0].deviceId }));
 	}
 	if (action.payload.kind === 'audioinput') {
 		yield call(handleAudioStatusChange, { videoConstraints, audioConstraints });

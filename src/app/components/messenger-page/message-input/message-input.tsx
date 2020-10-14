@@ -2,9 +2,6 @@ import React, { useState, useRef, useContext, useCallback, KeyboardEvent } from 
 import { useSelector } from 'react-redux';
 import './message-input.scss';
 
-import { Picker, BaseEmoji } from 'emoji-mart';
-import 'emoji-mart/css/emoji-mart.css';
-
 import { UserPreview } from 'app/store/my-profile/models';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { MessageActions } from 'app/store/messages/actions';
@@ -15,11 +12,11 @@ import { RootState } from 'app/store/root-reducer';
 import useInterval from 'use-interval';
 
 import AddSvg from 'app/assets/icons/ic-add-new.svg';
-import SmilesSvg from 'app/assets/icons/ic-smile.svg';
 import VoiceSvg from 'app/assets/icons/ic-microphone.svg';
 import moment from 'moment';
 import { useEffect } from 'react';
 import { getMyProfileSelector } from 'app/store/my-profile/selectors';
+import MessageSmiles from './message-smiles/message-smiles';
 
 const CreateMessageInput = () => {
 	const { t } = useContext(LocalizationContext);
@@ -33,7 +30,6 @@ const CreateMessageInput = () => {
 	const messageToEdit = useSelector((state: RootState) => state.messages.messageToEdit);
 
 	const [text, setText] = useState('');
-	const [smilesDisplayed, setSmilesDisplayed] = useState<boolean>(false);
 	const [isRecording, setIsRecording] = useState(false);
 	const [recordedSeconds, setRecordedSeconds] = useState(0);
 
@@ -53,28 +49,6 @@ const CreateMessageInput = () => {
 		},
 		isRecording ? 1000 : null,
 		true,
-	);
-
-	const emojiRef = useRef<HTMLDivElement>(null);
-
-	const handleClick = () => {
-		if (!smilesDisplayed) {
-			setSmilesDisplayed(true);
-			document.addEventListener('click', handleOutsideClick, false);
-			return;
-		}
-		setSmilesDisplayed(false);
-		document.removeEventListener('click', handleOutsideClick, false);
-	};
-
-	const handleOutsideClick = useCallback(
-		(e: MouseEvent) => {
-			if (!emojiRef.current?.contains(e.target as Node)) {
-				setSmilesDisplayed(false);
-				document.removeEventListener('click', handleOutsideClick, false);
-			}
-		},
-		[setSmilesDisplayed, emojiRef],
 	);
 
 	const sendMessageToServer = useCallback(() => {
@@ -264,11 +238,7 @@ const CreateMessageInput = () => {
 							<div className='message-input__recording-info'>Release outside this field to cancel</div>
 						)}
 						<div className='message-input__right-btns'>
-							{!isRecording && (
-								<button onClick={handleClick} className='message-input__smiles-btn'>
-									<SmilesSvg />
-								</button>
-							)}
+							{!isRecording && <MessageSmiles setText={setText} />}
 							<button
 								onMouseDown={registerAudio}
 								ref={registerAudioBtnRef}
@@ -280,35 +250,6 @@ const CreateMessageInput = () => {
 							</button>
 						</div>
 					</div>
-					{smilesDisplayed && !isRecording && (
-						<div ref={emojiRef} className='emoji-wrapper'>
-							<Picker
-								set='apple'
-								showSkinTones={false}
-								showPreview={false}
-								//problems with typization detected
-								i18n={{
-									search: t('emojiMart.search'),
-									notfound: t('emojiMart.notfound'),
-									categories: {
-										search: t('emojiMart.categories.search'),
-										recent: t('emojiMart.categories.recent'),
-										people: t('emojiMart.categories.people'),
-										nature: t('emojiMart.categories.nature'),
-										foods: t('emojiMart.categories.foods'),
-										activity: t('emojiMart.categories.activity'),
-										places: t('emojiMart.categories.places'),
-										objects: t('emojiMart.categories.objects'),
-										symbols: t('emojiMart.categories.symbols'),
-										flags: t('emojiMart.categories.flags'),
-									},
-								}}
-								onSelect={(emoji: BaseEmoji) => {
-									setText((oldText) => oldText + (emoji.native as string));
-								}}
-							/>
-						</div>
-					)}
 				</React.Fragment>
 			)}
 		</div>

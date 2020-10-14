@@ -23,10 +23,10 @@ import ScreenSharingDisableSvg from 'app/assets/icons/ic-screen-share-mute.svg';
 import HangUpSvg from 'app/assets/icons/ic-call-out.svg';
 import FullScreenSvg from 'app/assets/icons/ic-fullscreen.svg';
 import ExitFullScreenSvg from 'app/assets/icons/ic-fullscreen-exit.svg';
-import DropDownSvg from 'app/assets/icons/ic-chevron-down.svg';
 
 //sounds
 import callingBeep from 'app/assets/sounds/calls/outgoing-call.ogg';
+import Dropdown from './dropdown/dropdown';
 
 namespace IActiveCall {
 	export interface Props {
@@ -62,21 +62,10 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 
 	const [callDuration, setCallDuration] = useState(0);
 	const [isFullScreen, setIsFullScreen] = useState(false);
-	const [isAudioDevicesListOpened, setIsAudioDevicesListOpened] = useState(false);
-	const [isVideoDevicesListOpened, setIsVideoDevicesListOpened] = useState(false);
 
 	const changeFullScreenStatus = useCallback(() => {
 		setIsFullScreen((oldStatus) => !oldStatus);
 	}, [setIsFullScreen]);
-
-	const changeAudioDevicesListOpenedStatus = useCallback(() => {
-		setIsAudioDevicesListOpened((oldStatus) => !oldStatus);
-		console.log('click');
-	}, [setIsAudioDevicesListOpened]);
-
-	const changeVideoDevicesListOpenedStatus = useCallback(() => {
-		setIsVideoDevicesListOpened((oldStatus) => !oldStatus);
-	}, [setIsVideoDevicesListOpened]);
 
 	const changeAudioStatus = useCallback(() => {
 		changeMediaStatus({ kind: 'audioinput' });
@@ -133,15 +122,6 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 			}
 		}
 	}, [isVideoOpened, tracks.videoTracks[0]?.id]);
-
-	//closing dropdowns
-	useEffect(() => {
-		setIsVideoDevicesListOpened(isVideoOpened && isVideoDevicesListOpened);
-	}, [isVideoOpened]);
-
-	useEffect(() => {
-		setIsAudioDevicesListOpened(isAudioOpened && isAudioDevicesListOpened);
-	}, [isAudioOpened]);
 
 	//component did mount effect
 	useEffect(() => {
@@ -227,52 +207,32 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 				<audio autoPlay playsInline ref={remoteAudioRef} className='active-call__remote-audio'></audio>
 
 				{isFullScreen && (
-					<div className='active-call__select-wrapper active-call__select-wrapper--audio'>
-						<div
-							className={`active-call__select ${isAudioOpened ? '' : 'active-call__select--disabled'}`}
-							onClick={isAudioOpened ? changeAudioDevicesListOpenedStatus : () => {}}
-						>
-							{audioDevices.find(({ deviceId }) => deviceId === activeAudioDevice)?.label || 'default'}
-							<DropDownSvg viewBox='0 0 25 25' />
-						</div>
-						{isAudioDevicesListOpened && (
-							<div className='active-call__select-block'>
-								{audioDevices.map((device) => (
-									<div
-										className='active-call__select-block__option'
-										key={device.deviceId}
-										onClick={() => switchDevice({ kind: 'audioinput', deviceId: device.deviceId })}
-									>
-										{device.label}
-									</div>
-								))}
-							</div>
-						)}
+					<div className='active-call__dropdown-wrapper active-call__dropdown-wrapper--audio'>
+						<Dropdown
+							selectedString={
+								audioDevices.find(({ deviceId }) => deviceId === activeAudioDevice)?.label || 'default'
+							}
+							disabled={!isAudioOpened}
+							options={audioDevices.map((device) => ({
+								title: device.label,
+								onClick: () => switchDevice({ kind: 'audioinput', deviceId: device.deviceId }),
+							}))}
+						/>
 					</div>
 				)}
 
 				{isFullScreen && (
-					<div className='active-call__select-wrapper active-call__select-wrapper--video'>
-						<div
-							className={`active-call__select ${isVideoOpened ? '' : 'active-call__select--disabled'}`}
-							onClick={isVideoOpened ? changeVideoDevicesListOpenedStatus : () => {}}
-						>
-							{videoDevices.find(({ deviceId }) => deviceId === activeVideoDevice)?.label || 'default'}
-							<DropDownSvg viewBox='0 0 25 25' />
-						</div>
-						{isVideoDevicesListOpened && (
-							<div className='active-call__select-block'>
-								{videoDevices.map((device) => (
-									<div
-										className='active-call__select-block__option'
-										key={device.deviceId}
-										onClick={() => switchDevice({ kind: 'videoinput', deviceId: device.deviceId })}
-									>
-										{device.label}
-									</div>
-								))}
-							</div>
-						)}
+					<div className='active-call__dropdown-wrapper active-call__dropdown-wrapper--video'>
+						<Dropdown
+							selectedString={
+								videoDevices.find(({ deviceId }) => deviceId === activeVideoDevice)?.label || 'default'
+							}
+							disabled={!isVideoOpened}
+							options={videoDevices.map((device) => ({
+								title: device.label,
+								onClick: () => switchDevice({ kind: 'videoinput', deviceId: device.deviceId }),
+							}))}
+						/>
 					</div>
 				)}
 

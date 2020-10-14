@@ -21,11 +21,14 @@ const MessageSmiles = ({ setText }: MessageSmiles.Props) => {
 	const changeSmilesDisplayedStatus = useCallback(() => {
 		setSmilesDisplayed((oldState) => !oldState);
 	}, [setSmilesDisplayed]);
+	const closeSmilesDisplayedStatus = useCallback(() => {
+		setSmilesDisplayed(() => false);
+	}, [setSmilesDisplayed]);
 
 	const emojiRef = useRef<HTMLDivElement>(null);
 	const openEmojiRef = useRef<HTMLButtonElement>(null);
 
-	useOnClickOutside(emojiRef, changeSmilesDisplayedStatus, openEmojiRef);
+	useOnClickOutside(emojiRef, closeSmilesDisplayedStatus, openEmojiRef);
 
 	useEffect(() => {
 		setTimeout(() => {

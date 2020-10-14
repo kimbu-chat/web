@@ -232,7 +232,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 							className={`active-call__select ${isAudioOpened ? '' : 'active-call__select--disabled'}`}
 							onClick={isAudioOpened ? changeAudioDevicesListOpenedStatus : () => {}}
 						>
-							{audioDevices.find(({ deviceId }) => deviceId === activeAudioDevice)?.label || ''}
+							{audioDevices.find(({ deviceId }) => deviceId === activeAudioDevice)?.label || 'default'}
 							<DropDownSvg viewBox='0 0 25 25' />
 						</div>
 						{isAudioDevicesListOpened && (
@@ -257,7 +257,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 							className={`active-call__select ${isVideoOpened ? '' : 'active-call__select--disabled'}`}
 							onClick={isVideoOpened ? changeVideoDevicesListOpenedStatus : () => {}}
 						>
-							{videoDevices.find(({ deviceId }) => deviceId === activeVideoDevice)?.label || ''}
+							{videoDevices.find(({ deviceId }) => deviceId === activeVideoDevice)?.label || 'default'}
 							<DropDownSvg viewBox='0 0 25 25' />
 						</div>
 						{isVideoDevicesListOpened && (

@@ -88,6 +88,7 @@ const calls = createReducer<CallState>(initialState)
 			draft.isSpeaking = false;
 			draft.offer = undefined;
 			draft.answer = undefined;
+			draft.isInterlocutorVideoEnabled = false;
 			draft.videoConstraints.isOpened = false;
 			draft.videoConstraints.isOpened = false;
 			draft.isScreenSharingOpened = false;
@@ -122,6 +123,7 @@ const calls = createReducer<CallState>(initialState)
 			draft.answer = undefined;
 			draft.videoConstraints.isOpened = false;
 			draft.videoConstraints.isOpened = false;
+			draft.isInterlocutorVideoEnabled = false;
 			draft.isScreenSharingOpened = false;
 			return draft;
 		}),
@@ -146,6 +148,7 @@ const calls = createReducer<CallState>(initialState)
 			draft.isSpeaking = false;
 			draft.videoConstraints.isOpened = false;
 			draft.videoConstraints.isOpened = false;
+			draft.isInterlocutorVideoEnabled = false;
 			draft.isScreenSharingOpened = false;
 			return draft;
 		}),

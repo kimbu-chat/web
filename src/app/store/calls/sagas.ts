@@ -314,11 +314,12 @@ export function* candidateSaga(action: ReturnType<typeof CallActions.candidateAc
 
 export function* changeMediaStatusSaga(action: ReturnType<typeof CallActions.changeMediaStatusAction>): SagaIterator {
 	const handleVideoStatusChange = async ({ videoConstraints, audioConstraints }: any) => {
+		console.log(audioConstraints);
 		if (videoConstraints.isOpened) {
 			if (audioConstraints.isOpened || videoConstraints.isOpened) {
 				localMediaStream = await navigator.mediaDevices.getUserMedia({
 					video: videoConstraints.isOpened && videoConstraints,
-					audio: audioConstraints.deviceId ? audioConstraints : audioConstraints.isOpened,
+					audio: audioConstraints.isOpened && audioConstraints,
 				});
 			}
 
@@ -357,7 +358,7 @@ export function* changeMediaStatusSaga(action: ReturnType<typeof CallActions.cha
 				if (audioConstraints.isOpened || videoConstraints.isOpened) {
 					localMediaStream = await navigator.mediaDevices.getUserMedia({
 						video: videoConstraints.isOpened && videoConstraints,
-						audio: audioConstraints.deviceId ? audioConstraints : audioConstraints.isOpened,
+						audio: audioConstraints.isOpened && audioConstraints,
 					});
 				}
 			} catch (e) {
@@ -520,7 +521,7 @@ export function* switchDeviceSaga(action: ReturnType<typeof CallActions.switchDe
 				async () =>
 					await navigator.mediaDevices.getUserMedia({
 						video: videoConstraints.isOpened && videoConstraints,
-						audio: audioConstraints.deviceId ? audioConstraints : audioConstraints.isOpened,
+						audio: audioConstraints.isOpened && audioConstraints,
 					}),
 			);
 		} catch (e) {

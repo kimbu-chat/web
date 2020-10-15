@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, useEffect, useState } from 'react';
+import React, { useRef, useCallback, useEffect, useState, useContext } from 'react';
 import './active-call.scss';
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import { useSelector } from 'react-redux';
@@ -27,6 +27,7 @@ import ExitFullScreenSvg from 'app/assets/icons/ic-fullscreen-exit.svg';
 //sounds
 import callingBeep from 'app/assets/sounds/calls/outgoing-call.ogg';
 import Dropdown from './dropdown/dropdown';
+import { LocalizationContext } from 'app/app';
 
 namespace IActiveCall {
 	export interface Props {
@@ -44,6 +45,8 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 	const isInterlocutorVideoEnabled = useSelector((state: RootState) => state.calls.isInterlocutorVideoEnabled);
 	const amICalingSomebody = useSelector(amICaling);
 	const amISpeaking = useSelector(doIhaveCall);
+
+	const { t } = useContext(LocalizationContext);
 
 	const isVideoOpened = videoConstraints.isOpened;
 	const isAudioOpened = audioConstraints.isOpened;
@@ -126,7 +129,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 
 	//component did mount effect
 	useEffect(() => {
-		if (isDisplayed && !amICaling) {
+		if (isDisplayed && amISpeaking) {
 			setCallDuration(0);
 
 			const callDurationIntervalCode = setInterval(() => setCallDuration((old) => old + 1), 1000);
@@ -138,7 +141,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 		}
 
 		return () => {};
-	}, [isDisplayed, amICaling]);
+	}, [isDisplayed, amISpeaking]);
 
 	//audio playing when outgoing call
 	useEffect(() => {
@@ -211,7 +214,8 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 					<div className='active-call__dropdown-wrapper active-call__dropdown-wrapper--audio'>
 						<Dropdown
 							selectedString={
-								audioDevices.find(({ deviceId }) => deviceId === activeAudioDevice)?.label || 'default'
+								audioDevices.find(({ deviceId }) => deviceId === activeAudioDevice)?.label ||
+								t('activeCall.default')
 							}
 							disabled={!isAudioOpened}
 							options={audioDevices.map((device) => ({
@@ -226,7 +230,8 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 					<div className='active-call__dropdown-wrapper active-call__dropdown-wrapper--video'>
 						<Dropdown
 							selectedString={
-								videoDevices.find(({ deviceId }) => deviceId === activeVideoDevice)?.label || 'default'
+								videoDevices.find(({ deviceId }) => deviceId === activeVideoDevice)?.label ||
+								t('activeCall.default')
 							}
 							disabled={!isVideoOpened}
 							options={videoDevices.map((device) => ({

@@ -13,6 +13,9 @@
 		"ravudi_terms": " Условиями Ravudi",
 		"reset_timer": "Код можно повторно отправить через {{time}}"
 	},
+	"activeCall": {
+		"default": "По умолчанию"
+	},
 	"accountInfo": {
 		"create_chat": "Создать чат",
 		"create_channel": "Создать канал",

@@ -229,6 +229,8 @@ export function* outgoingCallSaga(action: ReturnType<typeof CallActions.outgoing
 export function* cancelCallSaga(): SagaIterator {
 	const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
 
+	stopAllTracks();
+
 	const request = {
 		interlocutorId,
 	};

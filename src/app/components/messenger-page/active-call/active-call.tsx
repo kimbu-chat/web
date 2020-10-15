@@ -167,6 +167,12 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 	}, [amICaling]);
 
 	useEffect(() => {
+		return () => {
+			setIsFullScreen(false);
+		};
+	}, [isDisplayed]);
+
+	useEffect(() => {
 		dragRef.current?.updatePosition(
 			isFullScreen ? { x: 0, y: 0 } : { x: window.innerWidth / 2 - 120, y: window.innerHeight / 2 - 120 },
 		);

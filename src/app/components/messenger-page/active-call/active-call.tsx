@@ -2,7 +2,7 @@ import React, { useRef, useCallback, useEffect, useState } from 'react';
 import './active-call.scss';
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import { useSelector } from 'react-redux';
-import { amICaling, getCallInterlocutorSelector } from 'app/store/calls/selectors';
+import { amICaling, doIhaveCall, getCallInterlocutorSelector } from 'app/store/calls/selectors';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { CallActions } from 'app/store/calls/actions';
 import { RootState } from 'app/store/root-reducer';
@@ -43,6 +43,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 	const videoDevices = useSelector((state: RootState) => state.calls.videoDevicesList);
 	const isInterlocutorVideoEnabled = useSelector((state: RootState) => state.calls.isInterlocutorVideoEnabled);
 	const amICalingSomebody = useSelector(amICaling);
+	const amISpeaking = useSelector(doIhaveCall);
 
 	const isVideoOpened = videoConstraints.isOpened;
 	const isAudioOpened = audioConstraints.isOpened;
@@ -193,7 +194,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 			>
 				<div className={`active-call__main-data ${isFullScreen ? 'active-call__main-data--big' : ''}`}>
 					<h3 className='active-call__interlocutor-name'>{`${interlocutor?.firstName} ${interlocutor?.lastName}`}</h3>
-					{!amICaling && (
+					{amISpeaking && (
 						<div className='active-call__duration'>
 							{moment.utc(callDuration * 1000).format('HH:mm:ss')}
 						</div>
@@ -290,7 +291,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 						)}
 					</button>
 
-					{!amICaling && (
+					{amISpeaking && (
 						<button
 							onClick={changeScreenShareStatus}
 							className={`active-call__call-btn 

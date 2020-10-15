@@ -477,6 +477,7 @@ export function* changeMediaStatusSaga(action: ReturnType<typeof CallActions.cha
 
 export function* changeScreenSharingStatus(): SagaIterator {
 	const screenSharingState = yield select((state: RootState) => state.calls.isScreenSharingOpened);
+	let isErrorPresent = false;
 
 	if (screenSharingState) {
 		try {
@@ -484,20 +485,32 @@ export function* changeScreenSharingStatus(): SagaIterator {
 		} catch (e) {
 			if (e === 'NO_DISPLAY') {
 				yield put(CallActions.closeScreenShareStatusAction());
-			}
-		}
-
-		if (videoSender) {
-			videoSender?.replaceTrack(tracks.screenSharingTracks[0]);
-		} else {
-			if (tracks.videoTracks[0]) {
-				videoSender = peerConnection?.addTrack(tracks.screenSharingTracks[0]) as RTCRtpSender;
+				isErrorPresent = true;
 			}
 		}
 
 		stopVideoTracks();
 
-		yield spawn(trackEndedWatcher);
+		if (!isErrorPresent) {
+			if (videoSender) {
+				videoSender?.replaceTrack(tracks.screenSharingTracks[0]);
+			} else {
+				if (tracks.screenSharingTracks[0]) {
+					videoSender = peerConnection?.addTrack(tracks.screenSharingTracks[0]) as RTCRtpSender;
+				}
+			}
+
+			yield spawn(trackEndedWatcher);
+		} else {
+			if (videoSender) {
+				try {
+					peerConnection?.removeTrack(videoSender);
+				} catch (e) {
+					console.warn(e);
+				}
+				videoSender = null;
+			}
+		}
 	} else if (tracks.screenSharingTracks.length > 0) {
 		stopScreenSharingTracks();
 

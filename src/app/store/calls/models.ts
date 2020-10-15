@@ -21,6 +21,18 @@ export interface ICompleteConstraints {
 		deviceId?: string;
 	};
 }
+export interface IInCompleteConstraints {
+	video?: {
+		isOpened: boolean;
+		width?: { min: number; ideal: number; max: number };
+		height?: { min: number; ideal: number; max: number };
+		deviceId?: string;
+	};
+	audio?: {
+		isOpened: boolean;
+		deviceId?: string;
+	};
+}
 
 export interface EndCallActionPayload {
 	seconds: number;

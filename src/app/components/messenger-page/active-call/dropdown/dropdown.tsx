@@ -39,7 +39,14 @@ const Dropdown = ({ selectedString, options, disabled }: Dropdown.Props) => {
 			{optionsOpened && (
 				<div className='dropdown__select-block'>
 					{options.map((option) => (
-						<div className='dropdown__select-block__option' key={option.title} onClick={option.onClick}>
+						<div
+							className='dropdown__select-block__option'
+							key={option.title}
+							onClick={() => {
+								option.onClick();
+								closeOptionsOpenedStatus();
+							}}
+						>
 							{option.title}
 						</div>
 					))}

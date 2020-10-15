@@ -2,7 +2,7 @@ import React, { useRef, useCallback, useEffect, useState } from 'react';
 import './active-call.scss';
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import { useSelector } from 'react-redux';
-import { amCallingI, getCallInterlocutorSelector } from 'app/store/calls/selectors';
+import { amICaling, getCallInterlocutorSelector } from 'app/store/calls/selectors';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { CallActions } from 'app/store/calls/actions';
 import { RootState } from 'app/store/root-reducer';
@@ -42,7 +42,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 	const audioDevices = useSelector((state: RootState) => state.calls.audioDevicesList);
 	const videoDevices = useSelector((state: RootState) => state.calls.videoDevicesList);
 	const isInterlocutorVideoEnabled = useSelector((state: RootState) => state.calls.isInterlocutorVideoEnabled);
-	const amICaling = useSelector(amCallingI);
+	const amICalingSomebody = useSelector(amICaling);
 
 	const isVideoOpened = videoConstraints.isOpened;
 	const isAudioOpened = audioConstraints.isOpened;
@@ -141,7 +141,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 
 	//audio playing when outgoing call
 	useEffect(() => {
-		if (amICaling) {
+		if (amICalingSomebody) {
 			const audio = new Audio(callingBeep);
 
 			const repeatAudio = function () {
@@ -310,7 +310,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 							isFullScreen ? 'active-call__call-btn--big' : ''
 						}`}
 						onClick={() => {
-							if (amICaling) {
+							if (amICalingSomebody) {
 								cancelCall();
 							} else {
 								endCall({ seconds: callDuration });

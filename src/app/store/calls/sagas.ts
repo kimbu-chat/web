@@ -78,8 +78,14 @@ const getMediaDevicesList = async (kind: string) => {
 
 //!USED
 export function* outgoingCallSaga(action: ReturnType<typeof CallActions.outgoingCallAction>): SagaIterator {
+	const amISpeaking = yield select((state: RootState) => state.calls.isSpeaking);
 	const videoConstraints = yield select((state: RootState) => state.calls.videoConstraints);
 	const audioConstraints = yield select((state: RootState) => state.calls.audioConstraints);
+
+	if (amISpeaking) {
+		//Prevention of 'double-call'
+		return;
+	}
 
 	createPeerConnection();
 	yield spawn(peerWatcher);
@@ -150,20 +156,6 @@ export function* cancelCallSaga(): SagaIterator {
 
 	const httpRequest = CallsHttpRequests.cancelCall;
 	httpRequest.call(yield call(() => httpRequest.generator(request)));
-
-	if (videoSender) {
-		try {
-			peerConnection?.removeTrack(videoSender);
-		} catch (e) {
-			console.warn(e);
-		}
-		videoSender = null;
-	}
-
-	peerConnection?.close();
-	resetPeerConnection();
-
-	stopTracks();
 
 	yield put(CallActions.cancelCallSuccessAction());
 }
@@ -263,6 +255,10 @@ export function* callEndedSaga(): SagaIterator {
 export function* acceptCallSaga(action: ReturnType<typeof CallActions.acceptCallAction>): SagaIterator {
 	const videoConstraints = yield select((state: RootState) => state.calls.videoConstraints);
 	const audioConstraints = yield select((state: RootState) => state.calls.audioConstraints);
+
+	createPeerConnection();
+	yield spawn(peerWatcher);
+	yield spawn(deviceUpdateWatcher);
 
 	//setup local stream
 	yield call(getUserMedia, { video: videoConstraints, audio: audioConstraints });
@@ -504,10 +500,15 @@ export function* negociationSaga(action: ReturnType<typeof CallActions.incomingC
 
 		const httpRequest = CallsHttpRequests.acceptCall;
 		httpRequest.call(yield call(() => httpRequest.generator(request)));
-	} else {
-		createPeerConnection();
-		yield spawn(peerWatcher);
-		yield spawn(deviceUpdateWatcher);
+	} else if (isCallActive) {
+		const interlocutorId: number = action.payload.caller.id;
+
+		const request = {
+			interlocutorId,
+		};
+
+		const httpRequest = CallsHttpRequests.cancelCall;
+		httpRequest.call(yield call(() => httpRequest.generator(request)));
 	}
 }
 

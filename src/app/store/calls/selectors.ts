@@ -9,8 +9,8 @@ export const isCallingMe = (state: RootState): boolean => {
 	return state.calls.isCalling;
 };
 
-export const amCallingI = (state: RootState): boolean => {
-	return state.calls.amCalling;
+export const amICaling = (state: RootState): boolean => {
+	return state.calls.amICaling;
 };
 
 export const doIhaveCall = (state: RootState): boolean => {

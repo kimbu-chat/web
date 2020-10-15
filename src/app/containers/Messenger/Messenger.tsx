@@ -24,7 +24,7 @@ import { AvatarSelectedData } from 'app/store/my-profile/models';
 import { ChatActions } from 'app/store/chats/actions';
 import { useSelector } from 'react-redux';
 import { getSelectedChatSelector } from 'app/store/chats/selectors';
-import { isCallingMe, amCallingI, doIhaveCall } from 'app/store/calls/selectors';
+import { isCallingMe, amICaling, doIhaveCall } from 'app/store/calls/selectors';
 import RespondingMessage from 'app/components/messenger-page/responding-message/responding-message';
 import { RootState } from 'app/store/root-reducer';
 import CallList from 'app/components/messenger-page/call-list/call-list';
@@ -41,7 +41,7 @@ const Messenger = () => {
 
 	const selectedChat = useSelector(getSelectedChatSelector);
 	const amICalled = useSelector(isCallingMe);
-	const amICaling = useSelector(amCallingI);
+	const amICalingSomebody = useSelector(amICaling);
 	const amISpeaking = useSelector(doIhaveCall);
 	const replyingMessage = useSelector((state: RootState) => state.messages.messageToReply);
 
@@ -119,7 +119,7 @@ const Messenger = () => {
 	return (
 		<div className='messenger'>
 			{amICalled && <IncomingCall />}
-			<ActiveCall isDisplayed={amISpeaking || amICaling} />
+			<ActiveCall isDisplayed={amISpeaking || amICalingSomebody} />
 
 			<InternetError />
 

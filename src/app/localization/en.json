@@ -12,6 +12,9 @@
 		"ravudi_terms": "Ravudi Terms and Conditions",
 		"reset_timer": "Code can be re-sent in {{time}}"
 	},
+	"activeCall": {
+		"default": "Default"
+	},
 	"accountInfo": {
 		"create_chat": "Create chat",
 		"create_channel": "Create channel",

@@ -7,7 +7,7 @@ export interface CallState {
 	isActiveCallIncoming?: boolean;
 	isCalling: boolean;
 	isInterlocutorVideoEnabled: boolean;
-	amCalling: boolean;
+	amICaling: boolean;
 	isSpeaking: boolean;
 	interlocutor?: UserPreview;
 	videoConstraints: {
@@ -38,7 +38,7 @@ const initialState: CallState = {
 	},
 	audioConstraints: { isOpened: true },
 	isScreenSharingOpened: false,
-	amCalling: false,
+	amICaling: false,
 	interlocutor: undefined,
 	offer: undefined,
 	answer: undefined,
@@ -52,7 +52,7 @@ const calls = createReducer<CallState>(initialState)
 		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.incomingCallAction>) => {
 			draft.isInterlocutorVideoEnabled = payload.isVideoEnabled;
 
-			if (draft.interlocutor?.id === payload.caller.id && draft.isSpeaking) {
+			if (draft.isSpeaking) {
 				//if it matches this condition then it's negociation
 				return draft;
 			}
@@ -72,7 +72,7 @@ const calls = createReducer<CallState>(initialState)
 		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.outgoingCallAction>) => {
 			const interlocutor = payload.calling;
 			draft.interlocutor = interlocutor;
-			draft.amCalling = true;
+			draft.amICaling = true;
 			draft.isActiveCallIncoming = false;
 			draft.audioConstraints = { ...draft.audioConstraints, ...payload.constraints.audio };
 			draft.videoConstraints = { ...draft.videoConstraints, ...payload.constraints.video };
@@ -83,7 +83,7 @@ const calls = createReducer<CallState>(initialState)
 		CallActions.cancelCallSuccessAction,
 		produce((draft: CallState) => {
 			draft.interlocutor = undefined;
-			draft.amCalling = false;
+			draft.amICaling = false;
 			draft.isCalling = false;
 			draft.isSpeaking = false;
 			draft.offer = undefined;
@@ -108,7 +108,7 @@ const calls = createReducer<CallState>(initialState)
 		produce((draft: CallState) => {
 			draft.isSpeaking = true;
 			draft.isCalling = false;
-			draft.amCalling = false;
+			draft.amICaling = false;
 			return draft;
 		}),
 	)
@@ -116,7 +116,7 @@ const calls = createReducer<CallState>(initialState)
 		CallActions.interlocutorCanceledCallAction,
 		produce((draft: CallState) => {
 			draft.interlocutor = undefined;
-			draft.amCalling = false;
+			draft.amICaling = false;
 			draft.isCalling = false;
 			draft.isSpeaking = false;
 			draft.offer = undefined;
@@ -133,7 +133,7 @@ const calls = createReducer<CallState>(initialState)
 		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.interlocutorAcceptedCallAction>) => {
 			draft.isSpeaking = true;
 			draft.isCalling = false;
-			draft.amCalling = false;
+			draft.amICaling = false;
 			draft.answer = payload.answer;
 			draft.isInterlocutorVideoEnabled = payload.isVideoEnabled;
 			return draft;
@@ -143,7 +143,7 @@ const calls = createReducer<CallState>(initialState)
 		CallActions.callEndedAction,
 		produce((draft: CallState) => {
 			draft.interlocutor = undefined;
-			draft.amCalling = false;
+			draft.amICaling = false;
 			draft.isCalling = false;
 			draft.isSpeaking = false;
 			draft.videoConstraints.isOpened = false;

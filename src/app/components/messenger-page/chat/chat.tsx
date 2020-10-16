@@ -12,6 +12,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import SelectedMessagesData from '../selected-messages-data/selected-messages-data';
 import { setSelectedMessagesLength } from 'app/store/messages/selectors';
 import { MessageUtils } from 'app/utils/message-utils';
+import { FileType } from 'app/store/messages/models';
 import moment from 'moment';
 
 export const MESSAGES_LIMIT = 25;
@@ -83,9 +84,21 @@ const Chat = () => {
 		return <div className='messenger__messages-list'></div>;
 	}
 
-	const messagesCopy: Message[] = JSON.parse(JSON.stringify(messages));
+	const itemsWithUserInfo = MessageUtils.signAndSeparate(messages || []).reverse();
 
-	const itemsWithUserInfo = MessageUtils.signAndSeparate(messagesCopy).reverse();
+	//!HARDCODE - remove in deploy
+	itemsWithUserInfo[itemsWithUserInfo.length - 1] = {
+		...itemsWithUserInfo[itemsWithUserInfo.length - 1],
+		attachments: [
+			{
+				fileName: 'Домашка',
+				byteSize: 228,
+				url:
+					'https://psv4.userapi.com/c856424/u516280711/docs/d9/a8e133a68bf7/Alaman_Mircea_-_Mentananata_-_MI-1.doc',
+				type: FileType.file,
+			},
+		],
+	};
 
 	return (
 		<div className='messenger__messages-list'>

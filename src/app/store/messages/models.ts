@@ -28,18 +28,18 @@ export interface ConfereceMemberAddedSystemMessageContent extends SystemMessageB
 	conferenceAvatarUrl: string;
 }
 
-export interface Content {
-	type?: string;
-	originalUrl?: string;
-	thumbnailLargeUrl?: string;
-	thumbnailMediumUrl?: string;
-	thumbnailSmallUrl?: string;
-	votesCount?: string;
-	commentsCount?: string;
-	id?: number;
-	isVoted?: boolean;
-	userCreator?: UserPreview;
-	creationDateTime?: Date;
+export enum FileType {
+	music = 'music',
+	file = 'file',
+	photo = 'photo',
+	recording = 'recording',
+}
+
+interface FileBase {
+	fileName: string;
+	byteSize: number;
+	url: string;
+	type: FileType;
 }
 
 export interface Message {
@@ -48,7 +48,6 @@ export interface Message {
 	userCreator: UserPreview;
 	creationDateTime?: Date;
 	text: string;
-	attachments?: Array<Content>;
 	attachmentsJson?: string;
 	systemMessageType?: SystemMessageType;
 	state?: MessageState;
@@ -56,6 +55,7 @@ export interface Message {
 	dateSeparator?: string;
 	isSelected?: boolean;
 	needToShowDateSeparator?: boolean;
+	attachments?: FileBase[];
 }
 
 export enum SystemMessageType {

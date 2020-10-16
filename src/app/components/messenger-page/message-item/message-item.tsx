@@ -1,6 +1,6 @@
 import React, { useContext, useCallback, useEffect } from 'react';
 import { messageFrom } from '../chat/chat';
-import { Message, SystemMessageType, MessageState } from 'app/store/messages/models';
+import { Message, SystemMessageType, MessageState, FileType } from 'app/store/messages/models';
 import { MessageUtils } from 'app/utils/message-utils';
 import { useSelector } from 'react-redux';
 import './message-item.scss';
@@ -120,6 +120,15 @@ const MessageItem = ({ message }: Message.Props) => {
 						</span>
 					</div>
 				</div>
+				{message.attachments && (
+					<div className='message__item-apart'>
+						{message.attachments.map((attachment) => {
+							if (attachment.type === FileType.file) {
+								return <FileAttachment />;
+							}
+						})}
+					</div>
+				)}
 			</div>
 			{message.needToShowCreator && (
 				<Avatar className={`message__sender-photo `} src={message.userCreator?.avatarUrl}>

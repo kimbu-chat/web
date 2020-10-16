@@ -92,7 +92,21 @@ const Chat = () => {
 		attachments: [
 			{
 				fileName: 'Домашка',
-				byteSize: 228,
+				byteSize: 227778,
+				url:
+					'https://psv4.userapi.com/c856424/u516280711/docs/d9/a8e133a68bf7/Alaman_Mircea_-_Mentananata_-_MI-1.doc',
+				type: FileType.file,
+			},
+			{
+				fileName: 'Udemy',
+				byteSize: 22777899,
+				url:
+					'https://psv4.userapi.com/c856424/u516280711/docs/d9/a8e133a68bf7/Alaman_Mircea_-_Mentananata_-_MI-1.doc',
+				type: FileType.file,
+			},
+			{
+				fileName: 'app',
+				byteSize: 22777899,
 				url:
 					'https://psv4.userapi.com/c856424/u516280711/docs/d9/a8e133a68bf7/Alaman_Mircea_-_Mentananata_-_MI-1.doc',
 				type: FileType.file,

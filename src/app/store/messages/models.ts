@@ -35,7 +35,7 @@ export enum FileType {
 	recording = 'recording',
 }
 
-interface FileBase {
+export interface FileBase {
 	fileName: string;
 	byteSize: number;
 	url: string;

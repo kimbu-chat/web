@@ -1,0 +1,27 @@
+.file-attachment {
+	display: flex;
+	align-items: center;
+	margin-top: 10px;
+
+	&__download {
+		background: rgba(218, 228, 234, 0.5);
+		border-radius: 50%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: gray;
+		margin-right: 15px;
+		height: 42px;
+		width: 42px;
+	}
+
+	&__file-data {
+		display: flex;
+	}
+
+	&__file-name {
+		margin-bottom: 5px;
+		margin-right: 10px;
+		cursor: pointer;
+	}
+}

@@ -21,6 +21,7 @@ import MessageSentSvg from 'app/assets/icons/ic-tick.svg';
 import MessageReadSvg from 'app/assets/icons/ic-double_tick.svg';
 import SelectedSvg from 'app/assets/icons/ic-check-filled.svg';
 import UnSelectedSvg from 'app/assets/icons/ic-check-outline.svg';
+import FileAttachment from './attachments/file-attachment/file-attachment';
 
 namespace Message {
 	export interface Props {
@@ -121,11 +122,13 @@ const MessageItem = ({ message }: Message.Props) => {
 					</div>
 				</div>
 				{message.attachments && (
-					<div className='message__item-apart'>
+					<div className='message__item-attachment'>
 						{message.attachments.map((attachment) => {
 							if (attachment.type === FileType.file) {
-								return <FileAttachment />;
+								return <FileAttachment attachment={attachment} />;
 							}
+
+							return;
 						})}
 					</div>
 				)}

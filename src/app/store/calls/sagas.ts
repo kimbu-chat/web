@@ -172,7 +172,6 @@ export function* outgoingCallSaga(action: ReturnType<typeof CallActions.outgoing
 	} catch (e) {
 		if (e === 'NO_AUDIO') {
 			yield put(CallActions.closeAudioStatusAction());
-			yield put(CallActions.closeVideoStatusAction());
 		}
 
 		if (e === 'NO_VIDEO') {

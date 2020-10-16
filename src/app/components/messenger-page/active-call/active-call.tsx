@@ -164,7 +164,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 		}
 
 		return () => {};
-	}, [amICaling]);
+	}, [amICalingSomebody]);
 
 	useEffect(() => {
 		return () => {

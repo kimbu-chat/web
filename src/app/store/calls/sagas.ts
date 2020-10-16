@@ -6,7 +6,7 @@ import { UserPreview } from '../my-profile/models';
 import { CallsHttpRequests } from './http-requests';
 import { peerConnection, createPeerConnection, resetPeerConnection } from '../middlewares/webRTC/peerConnectionFactory';
 import { RootState } from '../root-reducer';
-import { ICompleteConstraints, IInCompleteConstraints } from './models';
+import { IInCompleteConstraints } from './models';
 import { doIhaveCall, getCallInterlocutorSelector } from './selectors';
 
 export const tracks: {
@@ -111,27 +111,38 @@ const getUserDisplay = async () => {
 	}
 };
 
-const getAndSendUserMedia = async (constraints: ICompleteConstraints) => {
+export function* getAndSendUserMedia(): SagaIterator {
+	const videoConstraints = yield select((state: RootState) => state.calls.videoConstraints);
+	const audioConstraints = yield select((state: RootState) => state.calls.audioConstraints);
+
+	const constraints = { audio: audioConstraints, video: videoConstraints };
+
 	let localMediaStream: MediaStream;
 	try {
-		localMediaStream = await navigator.mediaDevices.getUserMedia({
-			video: constraints.video.isOpened && constraints.video,
-			audio: constraints.audio.isOpened && constraints.audio,
-		});
+		localMediaStream = yield call(
+			async () =>
+				await navigator.mediaDevices.getUserMedia({
+					video: constraints.video.isOpened && constraints.video,
+					audio: constraints.audio.isOpened && constraints.audio,
+				}),
+		);
 	} catch {
 		try {
-			localMediaStream = await navigator.mediaDevices.getUserMedia({
-				audio: constraints.audio.isOpened && constraints.audio,
-			});
+			localMediaStream = yield call(
+				async () =>
+					await navigator.mediaDevices.getUserMedia({
+						audio: constraints.audio.isOpened && constraints.audio,
+					}),
+			);
 			console.log('reach');
-			throw 'NO_VIDEO';
+			yield put(CallActions.closeVideoStatusAction());
 		} catch (e) {
-			if (e === 'NO_VIDEO') throw e;
-			throw 'NO_AUDIO';
+			yield put(CallActions.closeAudioStatusAction());
 		}
 	}
 	stopAllTracks();
 
+	//@ts-ignore
 	if (localMediaStream) {
 		assignStreams(localMediaStream);
 
@@ -142,7 +153,7 @@ const getAndSendUserMedia = async (constraints: ICompleteConstraints) => {
 			audioSender = peerConnection?.addTrack(tracks.audioTracks[0], localMediaStream) as RTCRtpSender;
 		}
 	}
-};
+}
 
 const getMediaDevicesList = async (kind: string) => {
 	const devices = await navigator.mediaDevices.enumerateDevices();
@@ -153,8 +164,6 @@ const getMediaDevicesList = async (kind: string) => {
 //!USED
 export function* outgoingCallSaga(action: ReturnType<typeof CallActions.outgoingCallAction>): SagaIterator {
 	const amISpeaking = yield select((state: RootState) => state.calls.isSpeaking);
-	const videoConstraints = yield select((state: RootState) => state.calls.videoConstraints);
-	const audioConstraints = yield select((state: RootState) => state.calls.audioConstraints);
 	let isVideoError = false;
 
 	if (amISpeaking) {
@@ -167,19 +176,7 @@ export function* outgoingCallSaga(action: ReturnType<typeof CallActions.outgoing
 	yield spawn(deviceUpdateWatcher);
 
 	//setup local stream
-	try {
-		yield call(getAndSendUserMedia, { video: videoConstraints, audio: audioConstraints });
-	} catch (e) {
-		if (e === 'NO_AUDIO') {
-			yield put(CallActions.closeAudioStatusAction());
-			yield put(CallActions.closeVideoStatusAction());
-		}
-
-		if (e === 'NO_VIDEO') {
-			yield put(CallActions.closeVideoStatusAction());
-			isVideoError = true;
-		}
-	}
+	yield spawn(getAndSendUserMedia);
 	//---
 
 	const audioOpened = yield select((state: RootState) => state.calls.audioConstraints.isOpened);
@@ -343,18 +340,9 @@ export function* acceptCallSaga(action: ReturnType<typeof CallActions.acceptCall
 	yield spawn(deviceUpdateWatcher);
 
 	//setup local stream
-	try {
-		yield call(getAndSendUserMedia, { video: videoConstraints, audio: audioConstraints });
-	} catch (e) {
-		if (e === 'NO_AUDIO') {
-			yield put(CallActions.closeAudioStatusAction());
-		}
 
-		if (e === 'NO_VIDEO') {
-			yield put(CallActions.closeVideoStatusAction());
-			isVideoError = true;
-		}
-	}
+	yield spawn(getAndSendUserMedia);
+
 	//gathering data about media devices
 	if (audioConstraints.isOpened) {
 		const audioDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'audioinput');

@@ -127,14 +127,10 @@ const SelectedMessagesData = () => {
 								</div>
 								<div className='selected-messages-data__delete-check'>
 									<button
-										className={`selected-messages-data__delete-check__btn ${
-											deleteForInterlocutor
-												? 'selected-messages-data__delete-check__btn--active'
-												: ''
-										}`}
+										className={`selected-messages-data__delete-check__btn`}
 										onClick={changeDeleteForInterlocutorState}
 									>
-										{deleteForInterlocutor && <CheckBoxSvg viewBox='0 0 25 25' />}
+										{deleteForInterlocutor && <CheckBoxSvg />}
 									</button>
 									<span className='selected-messages-data__delete-check__btn-description'>{`Delete for ${
 										selectedChat?.interlocutor

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useContext, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import './chat.scss';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
-import { Message, MessageList } from 'app/store/messages/models';
+import { FileBase, Message, MessageList } from 'app/store/messages/models';
 import { MessageActions } from 'app/store/messages/actions';
 import { RootState } from 'app/store/root-reducer';
 import { LocalizationContext } from 'app/app';
@@ -12,6 +12,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import SelectedMessagesData from '../selected-messages-data/selected-messages-data';
 import { setSelectedMessagesLength } from 'app/store/messages/selectors';
 import { MessageUtils } from 'app/utils/message-utils';
+import { FileType } from 'app/store/messages/models';
 import moment from 'moment';
 
 export const MESSAGES_LIMIT = 25;
@@ -83,9 +84,55 @@ const Chat = () => {
 		return <div className='messenger__messages-list'></div>;
 	}
 
-	const messagesCopy: Message[] = JSON.parse(JSON.stringify(messages));
+	const itemsWithUserInfo = MessageUtils.signAndSeparate(messages || []).reverse();
 
-	const itemsWithUserInfo = MessageUtils.signAndSeparate(messagesCopy).reverse();
+	//!HARDCODE - remove in deploy
+	itemsWithUserInfo[itemsWithUserInfo.length - 1] = {
+		...itemsWithUserInfo[itemsWithUserInfo.length - 1],
+		attachments: [
+			{
+				fileName: 'Домашка',
+				byteSize: 227778,
+				url:
+					'https://psv4.userapi.com/c856424/u516280711/docs/d9/a8e133a68bf7/Alaman_Mircea_-_Mentananata_-_MI-1.doc',
+				type: FileType.file,
+				id: 1,
+			},
+			{
+				fileName: 'Udemy',
+				byteSize: 22777899,
+				url:
+					'https://psv4.userapi.com/c856424/u516280711/docs/d9/a8e133a68bf7/Alaman_Mircea_-_Mentananata_-_MI-1.doc',
+				type: FileType.file,
+				id: 2,
+			},
+			{
+				fileName: 'Музыка',
+				byteSize: 22777899,
+				url: 'https://dll.z1.fm/music/2/14/islam_itljashev_-_na_nervah.mp3?download=force',
+				durationInSeconds: 201,
+				type: FileType.music,
+				id: 3,
+			} as FileBase,
+			{
+				fileName: 'Not displayed',
+				byteSize: 2277780099,
+				url: 'https://dll.z1.fm/music/4/36/hiti_2020_-_tajpan__agunda_-_luna_ne_znaet_puti.mp3?download=force',
+				durationInSeconds: 201,
+				type: FileType.recording,
+				id: 3,
+			} as FileBase,
+			{
+				fileName: 'Displayed',
+				byteSize: 22777780099,
+				firstFrameUrl: 'https://i.imgur.com/sxuhpRX_d.webp?maxwidth=728&fidelity=grand',
+				url: '',
+				durationInSeconds: 228,
+				type: FileType.video,
+				id: 3,
+			} as FileBase,
+		],
+	};
 
 	return (
 		<div className='messenger__messages-list'>

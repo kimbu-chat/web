@@ -28,18 +28,33 @@ export interface ConfereceMemberAddedSystemMessageContent extends SystemMessageB
 	conferenceAvatarUrl: string;
 }
 
-export interface Content {
-	type?: string;
-	originalUrl?: string;
-	thumbnailLargeUrl?: string;
-	thumbnailMediumUrl?: string;
-	thumbnailSmallUrl?: string;
-	votesCount?: string;
-	commentsCount?: string;
-	id?: number;
-	isVoted?: boolean;
-	userCreator?: UserPreview;
-	creationDateTime?: Date;
+export enum FileType {
+	music = 'music',
+	file = 'file',
+	photo = 'photo',
+	recording = 'recording',
+	video = 'video',
+}
+
+export interface FileBase {
+	fileName: string;
+	byteSize: number;
+	url: string;
+	type: FileType;
+	id: number;
+}
+
+export interface AudioBase extends FileBase {
+	durationInSeconds: number;
+}
+
+export interface RecordingBase extends FileBase {
+	durationInSeconds: number;
+}
+
+export interface VideoBase extends FileBase {
+	durationInSeconds: number;
+	firstFrameUrl: string;
 }
 
 export interface Message {
@@ -48,7 +63,6 @@ export interface Message {
 	userCreator: UserPreview;
 	creationDateTime?: Date;
 	text: string;
-	attachments?: Array<Content>;
 	attachmentsJson?: string;
 	systemMessageType?: SystemMessageType;
 	state?: MessageState;
@@ -56,6 +70,7 @@ export interface Message {
 	dateSeparator?: string;
 	isSelected?: boolean;
 	needToShowDateSeparator?: boolean;
+	attachments?: FileBase[];
 }
 
 export enum SystemMessageType {
@@ -163,11 +178,4 @@ export interface UploadingFileInfo {
 	uploadId: string;
 	progress: number;
 	fileType: FileType;
-}
-
-export enum FileType {
-	Photo = 1,
-	Video = 2,
-	Audio = 3,
-	RawFile = 4,
 }

@@ -1,6 +1,14 @@
 import React, { useContext, useCallback, useEffect } from 'react';
 import { messageFrom } from '../chat/chat';
-import { Message, SystemMessageType, MessageState } from 'app/store/messages/models';
+import {
+	Message,
+	SystemMessageType,
+	MessageState,
+	FileType,
+	AudioBase,
+	VideoBase,
+	RecordingBase,
+} from 'app/store/messages/models';
 import { MessageUtils } from 'app/utils/message-utils';
 import { useSelector } from 'react-redux';
 import './message-item.scss';
@@ -15,6 +23,11 @@ import Avatar from 'app/components/shared/avatar/avatar';
 import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 import { UserPreview } from 'app/store/my-profile/models';
 import moment from 'moment';
+
+import FileAttachment from './attachments/file-attachment/file-attachment';
+import AudioAttachment from './attachments/audio-attachment/audio-attachment';
+import RecordingAttachment from './attachments/recording-attachment/recording-attachment';
+import VideoAttachment from './attachments/video-attachment/video-attachment';
 
 import MessageQeuedSvg from 'app/assets/icons/ic-time.svg';
 import MessageSentSvg from 'app/assets/icons/ic-tick.svg';
@@ -120,6 +133,29 @@ const MessageItem = ({ message }: Message.Props) => {
 						</span>
 					</div>
 				</div>
+				{message.attachments && (
+					<div className='message__item-attachment'>
+						{message.attachments.map((attachment) => {
+							if (attachment.type === FileType.file) {
+								return <FileAttachment attachment={attachment} />;
+							}
+
+							if (attachment.type === FileType.music) {
+								return <AudioAttachment attachment={attachment as AudioBase} />;
+							}
+
+							if (attachment.type === FileType.recording) {
+								return <RecordingAttachment attachment={attachment as RecordingBase} />;
+							}
+
+							if (attachment.type === FileType.video) {
+								return <VideoAttachment attachment={attachment as VideoBase} />;
+							}
+
+							return;
+						})}
+					</div>
+				)}
 			</div>
 			{message.needToShowCreator && (
 				<Avatar className={`message__sender-photo `} src={message.userCreator?.avatarUrl}>

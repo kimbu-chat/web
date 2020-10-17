@@ -47,6 +47,10 @@ export interface AudioBase extends FileBase {
 	durationInSeconds: number;
 }
 
+export interface RecordingBase extends FileBase {
+	durationInSeconds: number;
+}
+
 export interface Message {
 	id: number;
 	needToShowCreator?: boolean;
@@ -168,11 +172,4 @@ export interface UploadingFileInfo {
 	uploadId: string;
 	progress: number;
 	fileType: FileType;
-}
-
-export enum FileType {
-	Photo = 1,
-	Video = 2,
-	Audio = 3,
-	RawFile = 4,
 }

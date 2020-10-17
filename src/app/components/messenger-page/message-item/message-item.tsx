@@ -23,6 +23,7 @@ import SelectedSvg from 'app/assets/icons/ic-check-filled.svg';
 import UnSelectedSvg from 'app/assets/icons/ic-check-outline.svg';
 import FileAttachment from './attachments/file-attachment/file-attachment';
 import AudioAttachment from './attachments/audio-attachment/audio-attachment';
+import RecordingAttachment from './attachments/recording-attachment/recording-attachment';
 
 namespace Message {
 	export interface Props {
@@ -129,8 +130,12 @@ const MessageItem = ({ message }: Message.Props) => {
 								return <FileAttachment attachment={attachment} />;
 							}
 
-							if (attachment.type === FileType.Audio) {
+							if (attachment.type === FileType.music) {
 								return <AudioAttachment attachment={attachment as AudioBase} />;
+							}
+
+							if (attachment.type === FileType.recording) {
+								return <RecordingAttachment attachment={attachment as AudioBase} />;
 							}
 
 							return;

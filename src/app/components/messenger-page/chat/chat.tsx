@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useContext, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import './chat.scss';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
-import { Message, MessageList } from 'app/store/messages/models';
+import { FileBase, Message, MessageList } from 'app/store/messages/models';
 import { MessageActions } from 'app/store/messages/actions';
 import { RootState } from 'app/store/root-reducer';
 import { LocalizationContext } from 'app/app';
@@ -96,6 +96,7 @@ const Chat = () => {
 				url:
 					'https://psv4.userapi.com/c856424/u516280711/docs/d9/a8e133a68bf7/Alaman_Mircea_-_Mentananata_-_MI-1.doc',
 				type: FileType.file,
+				id: 1,
 			},
 			{
 				fileName: 'Udemy',
@@ -103,14 +104,16 @@ const Chat = () => {
 				url:
 					'https://psv4.userapi.com/c856424/u516280711/docs/d9/a8e133a68bf7/Alaman_Mircea_-_Mentananata_-_MI-1.doc',
 				type: FileType.file,
+				id: 2,
 			},
 			{
-				fileName: 'app',
+				fileName: 'Музыка',
 				byteSize: 22777899,
-				url:
-					'https://psv4.userapi.com/c856424/u516280711/docs/d9/a8e133a68bf7/Alaman_Mircea_-_Mentananata_-_MI-1.doc',
-				type: FileType.file,
-			},
+				url: 'https://dll.z1.fm/music/2/14/islam_itljashev_-_na_nervah.mp3?download=force',
+				durationInSeconds: 201,
+				type: FileType.Audio,
+				id: 3,
+			} as FileBase,
 		],
 	};
 

@@ -1,0 +1,16 @@
+.audio-attachment {
+	width: 300px;
+	margin-top: 10px;
+
+	&__title {
+		color: #3f8ae0;
+		font-weight: 500;
+		font-size: 14px;
+		line-height: 16px;
+	}
+}
+
+$rhap_theme-color: #3f8ae0;
+$rhap_bar-color: #ebf3fc;
+
+@import '../../../../../../../node_modules/react-h5-audio-player/src/styles.scss';

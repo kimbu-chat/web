@@ -40,6 +40,11 @@ export interface FileBase {
 	byteSize: number;
 	url: string;
 	type: FileType;
+	id: number;
+}
+
+export interface AudioBase extends FileBase {
+	durationInSeconds: number;
 }
 
 export interface Message {

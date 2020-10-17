@@ -122,6 +122,15 @@ const Chat = () => {
 				type: FileType.recording,
 				id: 3,
 			} as FileBase,
+			{
+				fileName: 'Displayed',
+				byteSize: 22777780099,
+				firstFrameUrl: 'https://i.imgur.com/sxuhpRX_d.webp?maxwidth=728&fidelity=grand',
+				url: '',
+				durationInSeconds: 228,
+				type: FileType.video,
+				id: 3,
+			} as FileBase,
 		],
 	};
 

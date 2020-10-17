@@ -1,6 +1,14 @@
 import React, { useContext, useCallback, useEffect } from 'react';
 import { messageFrom } from '../chat/chat';
-import { Message, SystemMessageType, MessageState, FileType, AudioBase } from 'app/store/messages/models';
+import {
+	Message,
+	SystemMessageType,
+	MessageState,
+	FileType,
+	AudioBase,
+	VideoBase,
+	RecordingBase,
+} from 'app/store/messages/models';
 import { MessageUtils } from 'app/utils/message-utils';
 import { useSelector } from 'react-redux';
 import './message-item.scss';
@@ -16,14 +24,16 @@ import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 import { UserPreview } from 'app/store/my-profile/models';
 import moment from 'moment';
 
+import FileAttachment from './attachments/file-attachment/file-attachment';
+import AudioAttachment from './attachments/audio-attachment/audio-attachment';
+import RecordingAttachment from './attachments/recording-attachment/recording-attachment';
+import VideoAttachment from './attachments/video-attachment/video-attachment';
+
 import MessageQeuedSvg from 'app/assets/icons/ic-time.svg';
 import MessageSentSvg from 'app/assets/icons/ic-tick.svg';
 import MessageReadSvg from 'app/assets/icons/ic-double_tick.svg';
 import SelectedSvg from 'app/assets/icons/ic-check-filled.svg';
 import UnSelectedSvg from 'app/assets/icons/ic-check-outline.svg';
-import FileAttachment from './attachments/file-attachment/file-attachment';
-import AudioAttachment from './attachments/audio-attachment/audio-attachment';
-import RecordingAttachment from './attachments/recording-attachment/recording-attachment';
 
 namespace Message {
 	export interface Props {
@@ -135,7 +145,11 @@ const MessageItem = ({ message }: Message.Props) => {
 							}
 
 							if (attachment.type === FileType.recording) {
-								return <RecordingAttachment attachment={attachment as AudioBase} />;
+								return <RecordingAttachment attachment={attachment as RecordingBase} />;
+							}
+
+							if (attachment.type === FileType.video) {
+								return <VideoAttachment attachment={attachment as VideoBase} />;
 							}
 
 							return;

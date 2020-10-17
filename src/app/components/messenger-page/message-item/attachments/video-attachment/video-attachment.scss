@@ -1,0 +1,60 @@
+.video-attachment {
+	margin-top: 10px;
+	display: flex;
+
+	&__preview {
+		position: relative;
+		height: 70px;
+		width: 70px;
+		svg {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			color: #3f8ae0;
+		}
+	}
+
+	&__img {
+		height: 100%;
+		width: 100%;
+		object-fit: cover;
+		border-radius: 20%;
+	}
+
+	&__duration {
+		display: inline-block;
+		position: absolute;
+		bottom: 5px;
+		right: 5px;
+		background: rgba(255, 255, 255, 0.4);
+		padding: 3px;
+		border-radius: 13px;
+	}
+
+	&__aside {
+		margin-left: 10px;
+	}
+
+	&__buttons {
+		display: flex;
+	}
+
+	&__details {
+		display: flex;
+		margin-bottom: 15px;
+	}
+
+	&__btn {
+		&:not(:last-child) {
+			margin-right: 5px;
+		}
+	}
+
+	&__name {
+		margin-right: 5px;
+		color: #3f8ae0;
+		font-weight: 500;
+		font-size: 14px;
+	}
+}

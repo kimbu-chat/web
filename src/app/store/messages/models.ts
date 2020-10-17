@@ -33,6 +33,7 @@ export enum FileType {
 	file = 'file',
 	photo = 'photo',
 	recording = 'recording',
+	video = 'video',
 }
 
 export interface FileBase {
@@ -49,6 +50,11 @@ export interface AudioBase extends FileBase {
 
 export interface RecordingBase extends FileBase {
 	durationInSeconds: number;
+}
+
+export interface VideoBase extends FileBase {
+	durationInSeconds: number;
+	firstFrameUrl: string;
 }
 
 export interface Message {

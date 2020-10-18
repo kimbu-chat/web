@@ -156,6 +156,11 @@
 		"new_message": "Новое сообщение",
 		"new_group": "Новая группа"
 	},
+	"createConference": {
+		"add_members": "Добавить участников",
+		"cancel": "Отмена",
+		"create": "Создать"
+	},
 	"systemMessage": {
 		"you_created_group": "Вы создали группу",
 		"created_group": "{{name}} создал группу",

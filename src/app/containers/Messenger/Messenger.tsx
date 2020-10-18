@@ -115,7 +115,11 @@ const Messenger = () => {
 			<div className='messenger__chat-list'>
 				{true && (
 					<>
-						<SearchTop displaySlider={displaySlider} />
+						<SearchTop
+							displayChangePhoto={displayChangePhoto}
+							setImageUrl={setImageUrl}
+							displaySlider={displaySlider}
+						/>
 						<ChatList />
 					</>
 				)}

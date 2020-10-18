@@ -13,7 +13,7 @@ namespace Modal {
 		onClick: () => void;
 	}
 	export interface Props {
-		title: string;
+		title: string | JSX.Element;
 		contents: string | JSX.Element;
 		highlightedInContents?: string;
 		buttons: Modal.Button[];

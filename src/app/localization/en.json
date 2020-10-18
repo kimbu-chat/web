@@ -155,6 +155,11 @@
 		"new_message": "New message",
 		"new_group": "New group"
 	},
+	"createConference": {
+		"add_members": "Add members",
+		"cancel": "Cancel",
+		"create": "Create"
+	},
 	"systemMessage": {
 		"you_created_group": "You created group",
 		"created_group": "{{name}} created group",

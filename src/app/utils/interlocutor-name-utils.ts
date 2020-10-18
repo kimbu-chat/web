@@ -44,3 +44,17 @@ export const getUserInitials = (user?: UserPreview) => {
 
 	return shortedInitials;
 };
+
+export const getStringInitials = (userName?: string) => {
+	if (!userName) {
+		return '';
+	}
+
+	const initials = userName.split(' ').reduce((accum, current) => {
+		return accum + current[0];
+	}, '');
+
+	const shortedInitials = initials.substr(0, 2);
+
+	return shortedInitials;
+};

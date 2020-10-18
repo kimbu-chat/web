@@ -8,20 +8,29 @@ import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { ChatActions } from 'app/store/chats/actions';
 import SearchBox from '../search-box/search-box';
 import NewChatModal from '../new-chat/new-chat';
+import CreateConference from '../create-conference/create-conference';
+import { Messenger } from 'app/containers/messenger/messenger';
 
 namespace SearchTop {
 	export interface Props {
 		displaySlider: () => void;
+		displayChangePhoto: (data: Messenger.photoSelect) => void;
+		setImageUrl: (url: string | null | ArrayBuffer) => void;
 	}
 }
 
 export const DIALOGS_LIMIT = 25;
 
-const SearchTop = ({ displaySlider }: SearchTop.Props) => {
+const SearchTop = ({ displaySlider, displayChangePhoto, setImageUrl }: SearchTop.Props) => {
 	const getChats = useActionWithDispatch(ChatActions.getChats);
 	const [newChatDisplayed, setNewChatDisplayed] = useState(false);
 	const changeNewChatDisplayedState = useCallback(() => {
 		setNewChatDisplayed((oldState) => !oldState);
+	}, [setNewChatDisplayed]);
+
+	const [createConferenceDisplayed, setCreateConferenceDisplayed] = useState(false);
+	const changeCreateConferenceDisplayedState = useCallback(() => {
+		setCreateConferenceDisplayed((oldState) => !oldState);
 	}, [setNewChatDisplayed]);
 
 	const handleChatSearchChange = (name: string): void => {
@@ -50,7 +59,17 @@ const SearchTop = ({ displaySlider }: SearchTop.Props) => {
 				<CreateChatSvg />
 			</button>
 
-			<NewChatModal isDisplayed={newChatDisplayed} close={changeNewChatDisplayedState} />
+			<NewChatModal
+				displayCreateConference={changeCreateConferenceDisplayedState}
+				isDisplayed={newChatDisplayed}
+				close={changeNewChatDisplayedState}
+			/>
+			<CreateConference
+				displayChangePhoto={displayChangePhoto}
+				setImageUrl={setImageUrl}
+				isDisplayed={createConferenceDisplayed}
+				close={changeCreateConferenceDisplayedState}
+			/>
 		</div>
 	);
 };

@@ -18,14 +18,18 @@ import PeopleSvg from 'app/assets/icons/ic-group.svg';
 namespace NewChatModal {
 	export interface Props {
 		close: () => void;
+		displayCreateConference: () => void;
 		isDisplayed: boolean;
 	}
 }
 
-const NewChatModal = ({ close, isDisplayed }: NewChatModal.Props) => {
+const NewChatModal = ({ close, isDisplayed, displayCreateConference }: NewChatModal.Props) => {
 	const { t } = useContext(LocalizationContext);
 
+	const friends = useSelector((state: RootState) => state.friends.friends);
+
 	const createChat = useActionWithDispatch(MessageActions.createChat);
+	const loadFriends = useActionWithDispatch(FriendActions.getFriends);
 
 	const history = useHistory();
 
@@ -36,13 +40,14 @@ const NewChatModal = ({ close, isDisplayed }: NewChatModal.Props) => {
 		close();
 	}, []);
 
-	const friends = useSelector((state: RootState) => state.friends.friends);
-
-	const loadFriends = useActionWithDispatch(FriendActions.getFriends);
-
 	const searchFriends = useCallback((name: string) => {
 		loadFriends({ page: { offset: 0, limit: 25 }, name, initializedBySearch: true });
 	}, []);
+
+	const createConference = useCallback(() => {
+		displayCreateConference();
+		close();
+	}, [displayCreateConference]);
 
 	return (
 		<WithBackground isBackgroundDisplayed={isDisplayed} onBackgroundClick={close}>
@@ -54,7 +59,7 @@ const NewChatModal = ({ close, isDisplayed }: NewChatModal.Props) => {
 						<div className={'new-chat'}>
 							<SearchBox onChange={(e) => searchFriends(e.target.value)} />
 							<div className='new-chat__friends-block'>
-								<div className='new-chat__new-group'>
+								<div onClick={createConference} className='new-chat__new-group'>
 									<div className='new-chat__new-group__img'>
 										<PeopleSvg viewBox='0 0 25 25' />
 									</div>

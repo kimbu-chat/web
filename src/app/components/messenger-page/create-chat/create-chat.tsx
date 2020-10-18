@@ -6,7 +6,7 @@ import { UserPreview, AvatarSelectedData } from 'app/store/my-profile/models';
 import FriendItem from './friend-item/friend-item';
 
 import './create-chat.scss';
-import { Messenger } from 'app/containers/Messenger/Messenger';
+import { Messenger } from 'app/containers/messenger/messenger';
 import { FriendActions } from 'app/store/friends/actions';
 import { ChatActions } from 'app/store/chats/actions';
 import { RootState } from 'app/store/root-reducer';

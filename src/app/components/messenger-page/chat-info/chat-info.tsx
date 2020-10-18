@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Chat } from 'app/store/chats/models';
 import { getInterlocutorInitials, getChatInterlocutor } from '../../../utils/interlocutor-name-utils';
 import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
-import { Messenger } from 'app/containers/Messenger/Messenger';
+import { Messenger } from 'app/containers/messenger/messenger';
 import { AvatarSelectedData } from 'app/store/my-profile/models';
 
 import { getSelectedChatSelector } from 'app/store/chats/selectors';

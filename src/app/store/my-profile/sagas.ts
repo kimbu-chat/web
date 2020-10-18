@@ -1,4 +1,4 @@
-import { call, put, takeLatest, takeEvery, select } from 'redux-saga/effects';
+import { call, put, takeLatest, select } from 'redux-saga/effects';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { FileUploadRequest, ErrorUploadResponse, uploadFileSaga } from '../../utils/file-uploader/file-uploader';
@@ -84,5 +84,5 @@ export const MyProfileSagas = [
 	takeLatest(MyProfileActions.updateMyAvatar, uploadUserAvatarSaga),
 	takeLatest(MyProfileActions.updateMyProfile, updateMyProfileSaga),
 	takeLatest(MyProfileActions.getMyProfile, getMyProfileSaga),
-	takeEvery(MyProfileActions.changeUserOnlineStatus, changeOnlineStatus),
+	//takeEvery(MyProfileActions.changeUserOnlineStatus, changeOnlineStatus),
 ];

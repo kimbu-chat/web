@@ -139,12 +139,13 @@
 	}
 
 	&__local-video {
-		height: 80px;
-		width: 80px;
+		height: 100px;
+		width: 100px;
 		border-radius: 15px;
 		position: absolute;
-		bottom: 57px;
-		right: 20px;
+		bottom: 70px;
+		right: 7px;
+		-o-object-fit: cover;
 		object-fit: cover;
 
 		&--big {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import './friend-from-list.scss';
 
 import Avatar from 'app/components/shared/avatar/avatar';
@@ -10,16 +10,31 @@ import UnSelectedSvg from 'app/assets/icons/ic-check-outline.svg';
 
 namespace FriendFromList {
 	export interface Props {
-		changeSelectedState: (id: number) => void;
-		isSelected: boolean;
+		changeSelectedState?: (id: number) => void;
+		isSelected?: boolean;
 		friend: UserPreview;
+		onClick?: (user: UserPreview) => void;
 	}
 }
 
-const FriendFromList = ({ changeSelectedState, friend, isSelected }: FriendFromList.Props) => {
+const FriendFromList = ({ changeSelectedState, friend, isSelected, onClick }: FriendFromList.Props) => {
+	const onClickOnThisContact = useCallback(() => {
+		if (onClick) {
+			onClick(friend);
+		}
+
+		if (changeSelectedState) {
+			changeSelectedState(friend.id);
+		}
+	}, [changeSelectedState, onClick]);
+
 	return (
-		<div onClick={() => changeSelectedState(friend.id)} className='friend-from-list__friend'>
-			<div className='friend-from-list__selected-holder'>{isSelected ? <SelectedSvg /> : <UnSelectedSvg />}</div>
+		<div onClick={onClickOnThisContact} className='friend-from-list__friend'>
+			{changeSelectedState && (
+				<div className='friend-from-list__selected-holder'>
+					{isSelected ? <SelectedSvg /> : <UnSelectedSvg />}
+				</div>
+			)}
 			<Avatar className={'friend-from-list__avatar'} src={friend.avatarUrl}>
 				{getUserInitials(friend)}
 			</Avatar>

@@ -9,14 +9,12 @@ import Chat from '../../components/messenger-page/chat/chat';
 import CreateMessageInput from '../../components/messenger-page/message-input/message-input';
 import AccountInfo from '../account-info/account-info';
 import WithBackground from '../../components/shared/with-background';
-import CreateChat from '../../components/messenger-page/create-chat/create-chat';
 import ChatInfo from '../../components/messenger-page/chat-info/chat-info';
 import ChangePhoto from '../../components/messenger-page/change-photo/change-photo';
 import AccountSettings from 'app/components/messenger-page/account-settings/account-settings';
 import InternetError from 'app/components/shared/internet-error/internet-error';
 import IncomingCall from 'app/components/messenger-page/incoming-call/incoming-call';
 import ActiveCall from 'app/components/messenger-page/active-call/active-call';
-import ContactSearch from 'app/components/messenger-page/contact-search/contact-search';
 import RoutingChats from 'app/components/messenger-page/routing-chats/routing-chats';
 
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
@@ -51,7 +49,6 @@ const Messenger = () => {
 		isDisplayed: false,
 	});
 	const [createChatDisplayed, setCreateChatDisplayed] = useState(false);
-	const [contactSearchDisplayed, setContactSearchDisplayed] = useState(false);
 	const [infoDisplayed, setInfoDisplayed] = useState(false);
 	const [accountInfoIsDisplayed, setAccountInfoIsDisplayed] = useState(false);
 	const [settingsDisplayed, setSettingsDisplayed] = useState(false);
@@ -67,12 +64,7 @@ const Messenger = () => {
 	useEffect(() => hideChatInfo(), [selectedChat?.id]);
 
 	//hide slider on other modals are displayed
-	useEffect(() => hideSlider(), [
-		createChatDisplayed,
-		contactSearchDisplayed,
-		createChatDisplayed,
-		settingsDisplayed,
-	]);
+	useEffect(() => hideSlider(), [createChatDisplayed, createChatDisplayed, settingsDisplayed]);
 	//!--
 
 	//Slider display and hide
@@ -111,11 +103,6 @@ const Messenger = () => {
 		[setPhotoSelected, hideSlider],
 	);
 
-	//Contact search displayed
-	const changeContactSearchDisplayed = useCallback(() => {
-		setContactSearchDisplayed((oldState) => !oldState);
-	}, [setContactSearchDisplayed]);
-
 	return (
 		<div className='messenger'>
 			{amICalled && <IncomingCall />}
@@ -128,8 +115,8 @@ const Messenger = () => {
 			<div className='messenger__chat-list'>
 				{true && (
 					<>
-						<SearchTop displaySlider={displaySlider} displayCreateChat={changeCreateChatDisplayed} />{' '}
-						<ChatList />{' '}
+						<SearchTop displaySlider={displaySlider} />
+						<ChatList />
 					</>
 				)}
 				{false && <CallList />}
@@ -152,7 +139,6 @@ const Messenger = () => {
 				<AccountInfo
 					isDisplayed={accountInfoIsDisplayed}
 					hideSlider={hideSlider}
-					displayContactSearch={changeContactSearchDisplayed}
 					displayCreateChat={changeCreateChatDisplayed}
 					displaySettings={changeSettingsDisplayed}
 					displayChangePhoto={displayChangePhoto}
@@ -162,25 +148,8 @@ const Messenger = () => {
 
 			<ChatData chatInfoDisplayed={infoDisplayed} displayChatInfo={displayChatInfo} />
 
-			<WithBackground isBackgroundDisplayed={createChatDisplayed} onBackgroundClick={changeCreateChatDisplayed}>
-				<CreateChat
-					setImageUrl={setImageUrl}
-					displayChangePhoto={displayChangePhoto}
-					hide={changeCreateChatDisplayed}
-					isDisplayed={createChatDisplayed}
-				/>
-			</WithBackground>
-
 			<WithBackground isBackgroundDisplayed={settingsDisplayed} onBackgroundClick={changeSettingsDisplayed}>
 				<AccountSettings isDisplayed={settingsDisplayed} hide={changeSettingsDisplayed} />
-			</WithBackground>
-
-			{/* Contact search modal */}
-			<WithBackground
-				isBackgroundDisplayed={contactSearchDisplayed}
-				onBackgroundClick={changeContactSearchDisplayed}
-			>
-				<ContactSearch hide={changeContactSearchDisplayed} isDisplayed={contactSearchDisplayed} />
 			</WithBackground>
 
 			<div className={`messenger__chat-send ${infoDisplayed ? 'messenger__chat-send--little' : ''}`}>

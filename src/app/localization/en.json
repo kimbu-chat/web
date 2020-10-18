@@ -151,6 +151,10 @@
 		"incoming_audio": "Incoming audio call",
 		"incoming_video": "Incoming video call"
 	},
+	"newChat": {
+		"new_message": "New message",
+		"new_group": "New group"
+	},
 	"systemMessage": {
 		"you_created_group": "You created group",
 		"created_group": "{{name}} created group",

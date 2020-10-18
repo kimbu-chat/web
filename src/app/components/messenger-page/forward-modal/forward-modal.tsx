@@ -22,21 +22,29 @@ namespace ForwardModal {
 const ForwardModal = ({ close, isDisplayed }: ForwardModal.Props) => {
 	const { t } = useContext(LocalizationContext);
 	const [selectedChatIds, setSelectedChatIds] = useState<number[]>([]);
+
 	const friends = useSelector((state: RootState) => state.friends.friends);
 
 	const loadFriends = useActionWithDispatch(FriendActions.getFriends);
 
-	const isSelected = useCallback((id: number) => selectedChatIds.includes(id), [selectedChatIds]);
+	const isSelected = useCallback(
+		(id: number) => {
+			return selectedChatIds.includes(id);
+		},
+		[selectedChatIds],
+	);
 
 	const changeSelectedState = useCallback(
 		(id: number) => {
-			if (isSelected(id)) {
+			console.log(selectedChatIds);
+
+			if (selectedChatIds.includes(id)) {
 				setSelectedChatIds((oldChatIds) => oldChatIds.filter((idToCheck) => idToCheck !== id));
 			} else {
 				setSelectedChatIds((oldChatIds) => [...oldChatIds, id]);
 			}
 		},
-		[setSelectedChatIds, isSelected],
+		[selectedChatIds],
 	);
 
 	const searchFriends = useCallback((name: string) => {
@@ -47,7 +55,7 @@ const ForwardModal = ({ close, isDisplayed }: ForwardModal.Props) => {
 		<WithBackground isBackgroundDisplayed={isDisplayed} onBackgroundClick={close}>
 			{isDisplayed && (
 				<Modal
-					title='Forward'
+					title={t('forwardModal.forward')}
 					closeModal={close}
 					contents={
 						<div className={'forward-modal'}>

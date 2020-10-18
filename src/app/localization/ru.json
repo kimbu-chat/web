@@ -152,6 +152,10 @@
 		"incoming_audio": "Входящий аудиовызов",
 		"incoming_video": "Входящий видеовызов"
 	},
+	"newChat": {
+		"new_message": "Новое сообщение",
+		"new_group": "Новая группа"
+	},
 	"systemMessage": {
 		"you_created_group": "Вы создали группу",
 		"created_group": "{{name}} создал группу",

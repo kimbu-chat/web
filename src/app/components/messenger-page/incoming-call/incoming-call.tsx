@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useContext } from 'react';
 import './incoming-call.scss';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { CallActions } from 'app/store/calls/actions';
@@ -17,8 +17,10 @@ import ReactDOM from 'react-dom';
 import AcceptWithAudioSvg from 'app/assets/icons/ic-call-filled.svg';
 import AcceptWithVideoSvg from 'app/assets/icons/ic-video-call-filled.svg';
 import DeclineCallSvg from 'app/assets/icons/ic-call-out.svg';
+import { LocalizationContext } from 'app/app';
 
 const IncomingCall = () => {
+	const { t } = useContext(LocalizationContext);
 	const declineCallAction = useActionWithDispatch(CallActions.declineCallAction);
 	const acceptCall = useActionWithDispatch(CallActions.acceptCallAction);
 
@@ -91,7 +93,7 @@ const IncomingCall = () => {
 				<div className='incoming-call__info'>
 					<h1 className='incoming-call__calling-name'>{`${interlocutor?.firstName} ${interlocutor?.lastName}`}</h1>
 					<h3 className='incoming-call__additional-data'>
-						{isCallingWithVideo ? 'Входящий видеовызов' : 'Входящий аудиовызов'}
+						{isCallingWithVideo ? t('incomingCall.incoming_video') : t('incomingCall.incoming_audio')}
 					</h3>
 				</div>
 				<div className='incoming-call__right-btns'>

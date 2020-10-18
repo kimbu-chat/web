@@ -144,6 +144,14 @@
 			"flags": "Флаги"
 		}
 	},
+	"forwardModal": {
+		"forward": "Переслать",
+		"send": "Отправить"
+	},
+	"incomingCall": {
+		"incoming_audio": "Входящий аудиовызов",
+		"incoming_video": "Входящий видеовызов"
+	},
 	"systemMessage": {
 		"you_created_group": "Вы создали группу",
 		"created_group": "{{name}} создал группу",

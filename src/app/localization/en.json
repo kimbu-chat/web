@@ -143,6 +143,14 @@
 			"custom": "Custom"
 		}
 	},
+	"forwardModal": {
+		"forward": "Forward",
+		"send": "Send"
+	},
+	"incomingCall": {
+		"incoming_audio": "Incoming audio call",
+		"incoming_video": "Incoming video call"
+	},
 	"systemMessage": {
 		"you_created_group": "You created group",
 		"created_group": "{{name}} created group",

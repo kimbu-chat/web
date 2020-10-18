@@ -2,20 +2,21 @@
 	&__friend {
 		display: flex;
 		align-items: center;
-		padding: 14px 0;
+
+		margin-top: 20px;
 	}
 
 	&__selected-holder {
 		display: block;
-		margin-right: 25px;
+		margin-right: 10px;
 		color: rgb(153, 162, 173);
 		cursor: pointer;
 	}
 
 	&__avatar {
-		margin-right: 14px;
-		height: 52px;
-		width: 52px;
+		margin-right: 10px;
+		height: 40px;
+		width: 40px;
 	}
 
 	&__friend-name {

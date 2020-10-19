@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Route, Switch } from 'react-router';
-import './Messenger.scss';
+import './messenger.scss';
 
 import SearchTop from '../../components/messenger-page/search-top/search-top';
 import ChatData from '../../components/messenger-page/chat-data/chat-data';

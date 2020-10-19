@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
-import { Messenger } from 'app/containers/Messenger/Messenger';
+import { Messenger } from 'app/containers/messenger/messenger';
 import { RootState } from 'app/store/root-reducer';
 import { AuthActions } from 'app/store/auth/actions';
 import { MyProfileActions } from 'app/store/my-profile/actions';

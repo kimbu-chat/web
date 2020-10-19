@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Route, Switch } from 'react-router';
+import { Redirect, Route, Switch } from 'react-router';
 import './messenger.scss';
 
 import SearchTop from '../../components/messenger-page/search-top/search-top';
@@ -118,6 +118,13 @@ const Messenger = () => {
 					</Route>
 					<Route path='/settings' exact>
 						<Settings />
+					</Route>
+					<Route path='/'>
+						<Redirect
+							to={{
+								pathname: '/chats',
+							}}
+						/>
 					</Route>
 				</Switch>
 			</div>

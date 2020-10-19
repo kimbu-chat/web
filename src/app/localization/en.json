@@ -148,6 +148,8 @@
 	},
 	"createConference": {
 		"add_members": "Add members",
+		"new_group": "New Group",
+		"next": "Next",
 		"cancel": "Cancel",
 		"create": "Create"
 	},

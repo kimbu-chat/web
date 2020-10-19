@@ -150,10 +150,14 @@ const CreateConference = ({
 			{isDisplayed && (
 				<Modal
 					title={
-						<div className='create-conference__heading'>
-							<div className='create-conference__title'>{t('createConference.add_members')}</div>
-							<div className='create-conference__selected-count'>{`${selectedUserIds.length} / 1000`}</div>
-						</div>
+						currentStage === ICreateConference.conferenceCreationStage.userSelect ? (
+							<div className='create-conference__heading'>
+								<div className='create-conference__title'>{t('createConference.add_members')}</div>
+								<div className='create-conference__selected-count'>{`${selectedUserIds.length} / 1000`}</div>
+							</div>
+						) : (
+							t('createConference.new_group')
+						)
 					}
 					closeModal={close}
 					contents={
@@ -248,7 +252,7 @@ const CreateConference = ({
 							text: t('createConference.create'),
 							style: {
 								color: '#fff',
-								backgroundColor: '#3F8AE0',
+								backgroundColor: selectedUserIds.length === 0 ? '#6ea2de' : '#3F8AE0',
 								padding: '11px 88px',
 								display:
 									currentStage === ICreateConference.conferenceCreationStage.userSelect
@@ -257,10 +261,11 @@ const CreateConference = ({
 							},
 
 							position: 'left',
+							disabled: selectedUserIds.length === 0,
 							onClick: goToNexStage,
 						},
 						{
-							text: t('createConference.create'),
+							text: t('createConference.next'),
 							style: {
 								color: '#fff',
 								backgroundColor: '#3F8AE0',

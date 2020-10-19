@@ -149,6 +149,8 @@
 	},
 	"createConference": {
 		"add_members": "Добавить участников",
+		"new_group": "Новая группа",
+		"next": "Далее",
 		"cancel": "Отмена",
 		"create": "Создать"
 	},

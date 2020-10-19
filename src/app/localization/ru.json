@@ -154,6 +154,13 @@
 		"cancel": "Отмена",
 		"create": "Создать"
 	},
+	"settings": {
+		"online": "Онлайн",
+		"edit_profile": "Редактировать профиль",
+		"notifications": "Уведомления",
+		"text_typing": "Набор текста",
+		"language": "Язык"
+	},
 	"systemMessage": {
 		"you_created_group": "Вы создали группу",
 		"created_group": "{{name}} создал группу",

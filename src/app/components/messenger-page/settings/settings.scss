@@ -1,0 +1,51 @@
+.settings {
+	grid-row: 2/3;
+	grid-column: 1/2;
+
+	&__account-info {
+		padding-top: 20px;
+		padding-bottom: 20px;
+		display: flex;
+		align-items: center;
+		border-bottom: 4px solid #d7d8d9;
+	}
+
+	&__account-avatar {
+		height: 60px;
+		width: 60px;
+	}
+
+	&__account-avatar {
+		margin-left: 20px;
+		margin-right: 20px;
+	}
+
+	&__account-name {
+		font-size: 15px;
+		line-height: 16px;
+		font-weight: 500;
+		margin-bottom: 4px;
+	}
+
+	&__account-status {
+		font-size: 13px;
+		line-height: 16px;
+		color: #3f8ae0;
+	}
+
+	&__link {
+		padding: 16px 20px;
+		display: flex;
+		align-items: center;
+		svg {
+			margin-right: 10px;
+		}
+	}
+
+	&__link-name {
+		font-size: 13px;
+		line-height: 18px;
+		color: #3f8ae0;
+		font-weight: 400;
+	}
+}

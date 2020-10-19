@@ -26,6 +26,7 @@ import { isCallingMe, amICaling, doIhaveCall } from 'app/store/calls/selectors';
 import RespondingMessage from 'app/components/messenger-page/responding-message/responding-message';
 import { RootState } from 'app/store/root-reducer';
 import CallList from 'app/components/messenger-page/call-list/call-list';
+import Settings from 'app/components/messenger-page/settings/settings';
 
 export namespace Messenger {
 	export interface photoSelect {
@@ -113,7 +114,7 @@ const Messenger = () => {
 			<RoutingChats />
 
 			<div className='messenger__chat-list'>
-				{true && (
+				{false && (
 					<>
 						<SearchTop
 							displayChangePhoto={displayChangePhoto}
@@ -124,6 +125,7 @@ const Messenger = () => {
 					</>
 				)}
 				{false && <CallList />}
+				{true && <Settings />}
 			</div>
 
 			<WithBackground

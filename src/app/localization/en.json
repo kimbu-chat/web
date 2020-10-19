@@ -153,6 +153,13 @@
 		"cancel": "Cancel",
 		"create": "Create"
 	},
+	"settings": {
+		"online": "Online",
+		"edit_profile": "Edit profile",
+		"notifications": "Notifications",
+		"text_typing": "Text typing",
+		"language": "Language"
+	},
 	"systemMessage": {
 		"you_created_group": "You created group",
 		"created_group": "{{name}} created group",

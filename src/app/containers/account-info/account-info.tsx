@@ -18,7 +18,6 @@ namespace AccountInfoNS {
 		hideSlider: () => void;
 		displayCreateChat: () => void;
 		displaySettings: () => void;
-		displayContactSearch: () => void;
 		setImageUrl: (url: string | null | ArrayBuffer) => void;
 		displayChangePhoto: (data: Messenger.photoSelect) => void;
 		isDisplayed: boolean;
@@ -50,7 +49,6 @@ const AccountInfo = ({
 	setImageUrl,
 	displayChangePhoto,
 	displaySettings,
-	displayContactSearch,
 	isDisplayed,
 }: AccountInfoNS.Props) => {
 	const { t } = useContext(LocalizationContext);
@@ -186,7 +184,7 @@ const AccountInfo = ({
 						</div>
 						<span>{t('accountInfo.to_main')}</span>
 					</button>
-					<button onClick={displayContactSearch} className='messenger__account-info__btn'>
+					<button className='messenger__account-info__btn'>
 						<div className='svg'>
 							<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'>
 								<path

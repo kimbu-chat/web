@@ -120,7 +120,7 @@ const Chat = () => {
 				url: 'https://dll.z1.fm/music/4/36/hiti_2020_-_tajpan__agunda_-_luna_ne_znaet_puti.mp3?download=force',
 				durationInSeconds: 201,
 				type: FileType.recording,
-				id: 3,
+				id: 4,
 			} as FileBase,
 			{
 				fileName: 'Displayed',
@@ -129,7 +129,7 @@ const Chat = () => {
 				url: '',
 				durationInSeconds: 228,
 				type: FileType.video,
-				id: 3,
+				id: 5,
 			} as FileBase,
 		],
 	};

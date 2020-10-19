@@ -11,9 +11,10 @@ namespace Modal {
 		style: React.CSSProperties;
 		position: 'left' | 'right';
 		onClick: () => void;
+		disabled?: boolean;
 	}
 	export interface Props {
-		title: string;
+		title: string | JSX.Element;
 		contents: string | JSX.Element;
 		highlightedInContents?: string;
 		buttons: Modal.Button[];
@@ -63,6 +64,7 @@ const Modal = ({ title, contents, buttons, highlightedInContents, closeModal }: 
 						key={index}
 						onClick={btn.onClick}
 						style={{ marginRight: index === arr.length - 1 ? 'auto' : '0', ...btn.style }}
+						disabled={btn.disabled}
 					>
 						{btn.text}
 					</button>
@@ -74,6 +76,7 @@ const Modal = ({ title, contents, buttons, highlightedInContents, closeModal }: 
 						key={index}
 						onClick={btn.onClick}
 						style={{ marginLeft: index === 0 ? 'auto' : '0', ...btn.style }}
+						disabled={btn.disabled}
 					>
 						{btn.text}
 					</button>

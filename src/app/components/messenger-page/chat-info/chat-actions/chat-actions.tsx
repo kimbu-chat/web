@@ -36,7 +36,6 @@ const ChatActions = ({ addMembers, displayCreateChat }: ChatActions.Props) => {
 	const removeChat = useActionWithDispatch(DialogActions.removeChat);
 	const muteChat = useActionWithDispatch(DialogActions.muteChat);
 	const deleteFriend = useActionWithDispatch(FriendActions.deleteFriend);
-	const markUser = useActionWithDispatch(FriendActions.markUserAsAddedToConference);
 
 	const leaveConference = useActionWithDeferred(DialogActions.leaveConference);
 
@@ -66,8 +65,7 @@ const ChatActions = ({ addMembers, displayCreateChat }: ChatActions.Props) => {
 	]);
 	const createConference = useCallback(() => {
 		displayCreateChat();
-		markUser(selectedChat.interlocutor?.id || -1);
-	}, [displayCreateChat, markUser, selectedChat?.interlocutor?.id]);
+	}, [displayCreateChat, selectedChat?.interlocutor?.id]);
 
 	return (
 		<div className='chat-actions'>

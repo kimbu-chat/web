@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react';
-import { Redirect, Switch } from 'react-router';
+import { Switch } from 'react-router';
 
 import './base.scss';
 
@@ -36,7 +36,7 @@ export const App = () => {
 		<LocalizationContext.Provider value={{ t, i18n }}>
 			<Switch>
 				<PrivateRoute
-					path='/chats/:id?'
+					path='/'
 					isAllowed={isAuthenticated}
 					fallback={'/login'}
 					Component={
@@ -60,16 +60,6 @@ export const App = () => {
 						<Suspense fallback={<div>Загрузка...</div>}>
 							<ConfirmPhone />
 						</Suspense>
-					}
-				/>
-				<PublicRoute
-					path='/'
-					Component={
-						<Redirect
-							to={{
-								pathname: '/login',
-							}}
-						/>
 					}
 				/>
 			</Switch>

@@ -94,15 +94,6 @@
 		"create_chat": "Создать чат",
 		"reject": "Отмена"
 	},
-	"createChat": {
-		"createChat": "Создание нового чата",
-		"confirm": "Создать чат",
-		"reject": "Отменить",
-		"chat_name": "Название чата",
-		"search-friends": "Поиск по контактам",
-		"no_name_error": "Название чата должно включать в себя как минимум 1 символ",
-		"no_members_error": "Выберите как минимум 1 участника"
-	},
 	"searchTop": {
 		"search": "Поиск"
 	},
@@ -143,6 +134,32 @@
 			"symbols": "Символы",
 			"flags": "Флаги"
 		}
+	},
+	"forwardModal": {
+		"forward": "Переслать",
+		"send": "Отправить"
+	},
+	"incomingCall": {
+		"incoming_audio": "Входящий аудиовызов",
+		"incoming_video": "Входящий видеовызов"
+	},
+	"newChat": {
+		"new_message": "Новое сообщение",
+		"new_group": "Новая группа"
+	},
+	"createConference": {
+		"add_members": "Добавить участников",
+		"new_group": "Новая группа",
+		"next": "Далее",
+		"cancel": "Отмена",
+		"create": "Создать"
+	},
+	"settings": {
+		"online": "Онлайн",
+		"edit_profile": "Редактировать профиль",
+		"notifications": "Уведомления",
+		"text_typing": "Набор текста",
+		"language": "Язык"
 	},
 	"systemMessage": {
 		"you_created_group": "Вы создали группу",

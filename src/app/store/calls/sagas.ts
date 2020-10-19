@@ -176,7 +176,7 @@ export function* outgoingCallSaga(action: ReturnType<typeof CallActions.outgoing
 	yield spawn(deviceUpdateWatcher);
 
 	//setup local stream
-	yield spawn(getAndSendUserMedia);
+	yield call(getAndSendUserMedia);
 	//---
 
 	const audioOpened = yield select((state: RootState) => state.calls.audioConstraints.isOpened);
@@ -272,6 +272,8 @@ export function* declineCallSaga(): SagaIterator {
 		interlocutorId,
 	};
 
+	console.log('CANCELEВ1');
+
 	const httpRequest = CallsHttpRequests.declineCall;
 	httpRequest.call(yield call(() => httpRequest.generator(request)));
 
@@ -341,7 +343,7 @@ export function* acceptCallSaga(action: ReturnType<typeof CallActions.acceptCall
 
 	//setup local stream
 
-	yield spawn(getAndSendUserMedia);
+	yield call(getAndSendUserMedia);
 
 	//gathering data about media devices
 	if (audioConstraints.isOpened) {
@@ -580,6 +582,8 @@ export function* negociationSaga(action: ReturnType<typeof CallActions.incomingC
 		const httpRequest = CallsHttpRequests.acceptCall;
 		httpRequest.call(yield call(() => httpRequest.generator(request)));
 	} else if (isCallActive) {
+		//@ts-ignore
+		console.log('BUUUSYYYYYYYYY', interlocutorId);
 		const interlocutorId: number = action.payload.caller.id;
 
 		const request = {

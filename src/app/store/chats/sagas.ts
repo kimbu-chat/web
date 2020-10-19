@@ -11,7 +11,6 @@ import { ConferenceCreatedIntegrationEvent } from '../middlewares/websockets/int
 import { MessageActions } from '../messages/actions';
 import { ChatHttpRequests } from './http-requests';
 import { UpdateAvatarResponse } from '../common/models';
-import { FriendActions } from '../friends/actions';
 import { MyProfileService } from 'app/services/my-profile-service';
 import { getType } from 'typesafe-actions';
 import { MessageUtils } from 'app/utils/message-utils';
@@ -148,7 +147,6 @@ function* addUsersToConferenceSaga(action: ReturnType<typeof ChatActions.addUser
 		);
 
 		if (status === HTTPStatusCode.OK) {
-			yield put(FriendActions.unsetSelectedUserIdsForNewConference());
 			yield put(ChatActions.addUsersToConferenceSuccess(chat));
 
 			action.meta.deferred?.resolve(action.payload.chat);
@@ -200,7 +198,6 @@ function* createConferenceSaga(action: ReturnType<typeof ChatActions.createConfe
 		action.payload.conferenceId = data;
 		action.payload.avatarData = avatar;
 
-		yield put(FriendActions.unsetSelectedUserIdsForNewConference());
 		yield put(ChatActions.createConferenceSuccess(chat));
 		yield put(ChatActions.changeSelectedChat(chat.id));
 		action.meta.deferred?.resolve(chat);

@@ -137,19 +137,21 @@ const MessageItem = ({ message }: Message.Props) => {
 					<div className='message__item-attachment'>
 						{message.attachments.map((attachment) => {
 							if (attachment.type === FileType.file) {
-								return <FileAttachment attachment={attachment} />;
+								return <FileAttachment key={attachment.id} attachment={attachment} />;
 							}
 
 							if (attachment.type === FileType.music) {
-								return <AudioAttachment attachment={attachment as AudioBase} />;
+								return <AudioAttachment key={attachment.id} attachment={attachment as AudioBase} />;
 							}
 
 							if (attachment.type === FileType.recording) {
-								return <RecordingAttachment attachment={attachment as RecordingBase} />;
+								return (
+									<RecordingAttachment key={attachment.id} attachment={attachment as RecordingBase} />
+								);
 							}
 
 							if (attachment.type === FileType.video) {
-								return <VideoAttachment attachment={attachment as VideoBase} />;
+								return <VideoAttachment key={attachment.id} attachment={attachment as VideoBase} />;
 							}
 
 							return;

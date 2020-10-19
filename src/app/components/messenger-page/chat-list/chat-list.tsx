@@ -9,15 +9,26 @@ import { useSelector } from 'react-redux';
 import { Chat } from 'app/store/chats/models';
 import { RootState } from 'app/store/root-reducer';
 import { ChatActions } from 'app/store/chats/actions';
+import { useParams } from 'react-router';
 
 export const DIALOGS_LIMIT = 25;
 
 const ChatList = () => {
+	const changeSelectedChat = useActionWithDispatch(ChatActions.changeSelectedChat);
 	const getChats = useActionWithDispatch(ChatActions.getChats);
+
+	const { chatId } = useParams<{ chatId: string }>();
 
 	const chats = useSelector<RootState, Chat[]>((rootState) => rootState.chats.chats);
 	const hasMoreChats = useSelector<RootState, boolean>((rootState) => rootState.chats.hasMore);
 	const searchString = useSelector<RootState, string>((rootState) => rootState.chats.searchString);
+
+	useEffect(() => {
+		if (chatId) changeSelectedChat(Number(chatId));
+		else changeSelectedChat(-1);
+
+		console.log(chatId);
+	}, [chatId]);
 
 	useEffect(() => {
 		getChats({

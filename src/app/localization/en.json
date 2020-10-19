@@ -93,15 +93,6 @@
 		"create_chat": "Create chat",
 		"reject": "Reject"
 	},
-	"createChat": {
-		"createChat": "Create new chat",
-		"confirm": "Create chat",
-		"reject": "Reject",
-		"chat_name": "Chat name",
-		"search-friends": "Search in contacts",
-		"no_name_error": "Chat name must inlude at least 1 character instead of empty spaces",
-		"no_members_error": "You have to choose at least 1 conference member"
-	},
 	"searchTop": {
 		"search": "Search"
 	},
@@ -142,6 +133,32 @@
 			"flags": "Flags",
 			"custom": "Custom"
 		}
+	},
+	"forwardModal": {
+		"forward": "Forward",
+		"send": "Send"
+	},
+	"incomingCall": {
+		"incoming_audio": "Incoming audio call",
+		"incoming_video": "Incoming video call"
+	},
+	"newChat": {
+		"new_message": "New message",
+		"new_group": "New group"
+	},
+	"createConference": {
+		"add_members": "Add members",
+		"new_group": "New Group",
+		"next": "Next",
+		"cancel": "Cancel",
+		"create": "Create"
+	},
+	"settings": {
+		"online": "Online",
+		"edit_profile": "Edit profile",
+		"notifications": "Notifications",
+		"text_typing": "Text typing",
+		"language": "Language"
 	},
 	"systemMessage": {
 		"you_created_group": "You created group",

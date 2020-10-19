@@ -8,7 +8,6 @@ import unionBy from 'lodash/unionBy';
 export interface FriendsState {
 	loading: boolean;
 	friends: UserPreview[];
-	userIdsToAddIntoConference: number[];
 	usersForSelectedConference: UserPreview[];
 	conferenceUsersLoading: boolean;
 }
@@ -17,7 +16,6 @@ const initialState: FriendsState = {
 	loading: true,
 	friends: [],
 	usersForSelectedConference: [],
-	userIdsToAddIntoConference: [],
 	conferenceUsersLoading: false,
 };
 
@@ -42,20 +40,6 @@ const friends = createReducer<FriendsState>(initialState)
 		ChatActions.getConferenceUsers,
 		produce((draft: FriendsState) => {
 			draft.conferenceUsersLoading = true;
-			return draft;
-		}),
-	)
-	.handleAction(
-		FriendActions.unsetSelectedUserIdsForNewConference,
-		produce((draft: FriendsState) => {
-			for (const userId of draft.userIdsToAddIntoConference) {
-				const userIndex = findUserIndex(userId, draft);
-				if (draft.friends[userIndex]) {
-					draft.friends[userIndex].supposedToAddIntoConference = false;
-				}
-			}
-
-			draft.userIdsToAddIntoConference = [];
 			return draft;
 		}),
 	)
@@ -91,25 +75,6 @@ const friends = createReducer<FriendsState>(initialState)
 
 			draft.usersForSelectedConference = unionBy(draft.usersForSelectedConference, payload.users, 'id');
 
-			return draft;
-		}),
-	)
-	.handleAction(
-		FriendActions.markUserAsAddedToConference,
-		produce((draft: FriendsState, { payload }: ReturnType<typeof FriendActions.markUserAsAddedToConference>) => {
-			const userId: number = payload;
-			const userIndex = findUserIndex(userId, draft);
-			const user: UserPreview = draft.friends[userIndex];
-
-			const updatedAddedUserIdsForNewConference = draft.userIdsToAddIntoConference.includes(userId)
-				? draft.userIdsToAddIntoConference.filter((x) => x !== userId)
-				: draft.userIdsToAddIntoConference.concat(userId);
-
-			if (draft.friends[userIndex]) {
-				draft.friends[userIndex].supposedToAddIntoConference = !user.supposedToAddIntoConference;
-			}
-
-			draft.userIdsToAddIntoConference = updatedAddedUserIdsForNewConference;
 			return draft;
 		}),
 	)

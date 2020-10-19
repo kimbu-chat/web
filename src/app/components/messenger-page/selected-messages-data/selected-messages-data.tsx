@@ -173,13 +173,11 @@ const SelectedMessagesData = () => {
 				)}
 			</WithBackground>
 
-			{messageIdsToForward?.length > 0 && (
-				<ForwardModal
-					isDisplayed={messageIdsToForward?.length > 0}
-					messageIdsToForward={messageIdsToForward}
-					close={changeForwardMessagesState}
-				/>
-			)}
+			<ForwardModal
+				isDisplayed={messageIdsToForward?.length > 0}
+				messageIdsToForward={messageIdsToForward}
+				close={changeForwardMessagesState}
+			/>
 		</div>
 	);
 };

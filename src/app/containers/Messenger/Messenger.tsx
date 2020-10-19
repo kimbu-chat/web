@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useParams } from 'react-router';
+import { Route, Switch } from 'react-router';
 import './Messenger.scss';
 
 import SearchTop from '../../components/messenger-page/search-top/search-top';
@@ -17,9 +17,7 @@ import IncomingCall from 'app/components/messenger-page/incoming-call/incoming-c
 import ActiveCall from 'app/components/messenger-page/active-call/active-call';
 import RoutingChats from 'app/components/messenger-page/routing-chats/routing-chats';
 
-import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { AvatarSelectedData } from 'app/store/my-profile/models';
-import { ChatActions } from 'app/store/chats/actions';
 import { useSelector } from 'react-redux';
 import { getSelectedChatSelector } from 'app/store/chats/selectors';
 import { isCallingMe, amICaling, doIhaveCall } from 'app/store/calls/selectors';
@@ -36,15 +34,11 @@ export namespace Messenger {
 }
 
 const Messenger = () => {
-	const changeSelectedChat = useActionWithDispatch(ChatActions.changeSelectedChat);
-
 	const selectedChat = useSelector(getSelectedChatSelector);
 	const amICalled = useSelector(isCallingMe);
 	const amICalingSomebody = useSelector(amICaling);
 	const amISpeaking = useSelector(doIhaveCall);
 	const replyingMessage = useSelector((state: RootState) => state.messages.messageToReply);
-
-	const { id: chatId } = useParams<{ id: string }>();
 
 	const [photoSelected, setPhotoSelected] = useState<Messenger.photoSelect>({
 		isDisplayed: false,
@@ -54,12 +48,6 @@ const Messenger = () => {
 	const [accountInfoIsDisplayed, setAccountInfoIsDisplayed] = useState(false);
 	const [settingsDisplayed, setSettingsDisplayed] = useState(false);
 	const [imageUrl, setImageUrl] = useState<string | ArrayBuffer | null>('');
-
-	//!Side EFFECTS
-	useEffect(() => {
-		if (chatId) changeSelectedChat(Number(chatId));
-		else changeSelectedChat(-1);
-	}, [chatId]);
 
 	//hide chatInfo on chat change
 	useEffect(() => hideChatInfo(), [selectedChat?.id]);
@@ -114,18 +102,24 @@ const Messenger = () => {
 			<RoutingChats />
 
 			<div className='messenger__chat-list'>
-				{false && (
-					<>
-						<SearchTop
-							displayChangePhoto={displayChangePhoto}
-							setImageUrl={setImageUrl}
-							displaySlider={displaySlider}
-						/>
-						<ChatList />
-					</>
-				)}
-				{false && <CallList />}
-				{true && <Settings />}
+				<Switch>
+					<Route path='/chats/:chatId?' exact>
+						<>
+							<SearchTop
+								displayChangePhoto={displayChangePhoto}
+								setImageUrl={setImageUrl}
+								displaySlider={displaySlider}
+							/>
+							<ChatList />
+						</>
+					</Route>
+					<Route path='/calls' exact>
+						<CallList />
+					</Route>
+					<Route path='/settings' exact>
+						<Settings />
+					</Route>
+				</Switch>
 			</div>
 
 			<WithBackground

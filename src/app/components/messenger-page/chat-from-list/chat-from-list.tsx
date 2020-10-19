@@ -3,15 +3,12 @@ import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 
-import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
-
 import './chat-from-list.scss';
 import { Chat } from 'app/store/chats/models';
 import { MessageUtils } from 'app/utils/message-utils';
 import { getChatInterlocutor, getInterlocutorInitials } from '../../../utils/interlocutor-name-utils';
 
 import StatusBadge from 'app/components/shared/status-badge/status-badge';
-import { ChatActions } from 'app/store/chats/actions';
 import { SystemMessageType, Message, MessageState } from 'app/store/messages/models';
 import { LocalizationContext } from 'app/app';
 import { getMyIdSelector } from 'app/store/my-profile/selectors';
@@ -34,7 +31,6 @@ const ChatFromList = ({ chat }: ChatFromList.Props) => {
 	const { t } = useContext(LocalizationContext);
 	const currentUserId = useSelector(getMyIdSelector) as number;
 	const isMessageCreatorCurrentUser: boolean = lastMessage?.userCreator?.id === currentUserId;
-	const changeSelectedChat = useActionWithDispatch(ChatActions.changeSelectedChat);
 
 	const getChatAvatar = (): string => {
 		if (interlocutor) {
@@ -74,13 +70,8 @@ const ChatFromList = ({ chat }: ChatFromList.Props) => {
 		return shortedText;
 	};
 
-	const setSelectedChat = (): void => {
-		changeSelectedChat(chat.id);
-	};
-
 	return (
 		<NavLink
-			onClick={setSelectedChat}
 			to={`/chats/${chat.id}`}
 			className='chat-from-list'
 			activeClassName='chat-from-list chat-from-list--active'

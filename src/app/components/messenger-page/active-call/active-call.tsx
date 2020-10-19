@@ -180,7 +180,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 			isDisplayed
 				? isFullScreen
 					? { width: window.innerWidth, height: window.innerHeight }
-					: { width: 304, height: 264 }
+					: { width: 304, height: 328 }
 				: { width: 0, height: 0 },
 		);
 	}, [isFullScreen, isDisplayed]);
@@ -249,12 +249,17 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 				)}
 
 				{isInterlocutorVideoEnabled ? (
-					<video
-						autoPlay
-						playsInline
-						ref={remoteVideoRef}
-						className={`active-call__remote-video ${isFullScreen ? 'active-call__remote-video--big' : ''}`}
-					></video>
+					<>
+						<video
+							autoPlay
+							playsInline
+							ref={remoteVideoRef}
+							className={`active-call__remote-video ${
+								isFullScreen ? 'active-call__remote-video--big' : ''
+							}`}
+						/>
+						<div className='active-call__gradient'></div>
+					</>
 				) : (
 					<Avatar
 						className={`active-call__interlocutor-avatar ${
@@ -279,8 +284,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 					<button
 						onClick={changeAudioStatus}
 						className={`active-call__call-btn 
-												${isFullScreen ? 'active-call__call-btn--big' : ''}
-												${isAudioOpened ? 'active-call__call-btn--active' : ''}`}
+												${isFullScreen ? 'active-call__call-btn--big' : ''}`}
 					>
 						{isAudioOpened ? (
 							<MicrophoneEnableSvg viewBox='0 0 25 25' />
@@ -292,8 +296,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 					<button
 						onClick={changeVideoStatus}
 						className={`active-call__call-btn 
-												${isFullScreen ? 'active-call__call-btn--big' : ''}
-												${isVideoOpened ? 'active-call__call-btn--active' : ''}`}
+												${isFullScreen ? 'active-call__call-btn--big' : ''}`}
 					>
 						{isVideoOpened ? (
 							<VideoEnableSvg viewBox='0 0 25 25' />
@@ -306,8 +309,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 						<button
 							onClick={changeScreenShareStatus}
 							className={`active-call__call-btn 
-												${isFullScreen ? 'active-call__call-btn--big' : ''}
-												${isScreenSharingOpened ? 'active-call__call-btn--active' : ''}`}
+												${isFullScreen ? 'active-call__call-btn--big' : ''}`}
 						>
 							{isScreenSharingOpened ? (
 								<ScreenSharingEnableSvg viewBox='0 0 25 25' />

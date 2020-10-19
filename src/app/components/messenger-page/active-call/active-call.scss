@@ -8,9 +8,8 @@
 	transition: all 0.1s ease-in-out;
 	background-color: rgba(2, 0, 22, 0.9);
 	border-radius: 10px;
-	padding: 20px;
 	box-sizing: border-box;
-	min-height: 264px;
+	min-height: 328px;
 	min-width: 304px;
 	display: flex;
 	flex-direction: column;
@@ -23,10 +22,20 @@
 		background-color: #1b192d;
 	}
 
+	&__gradient {
+		position: absolute;
+		height: 66px;
+		background: linear-gradient(to top, rgba(26, 24, 44, 0) 0%, rgba(0, 0, 0, 0.6) 100%);
+		width: 100%;
+		left: 0;
+		top: 0;
+	}
+
 	&__change-screen {
 		position: absolute;
 		top: 20px;
 		right: 20px;
+		z-index: 55;
 		svg {
 			width: 16px;
 			height: 16px;
@@ -36,10 +45,13 @@
 
 	&__bottom-menu {
 		display: flex;
-		bottom: 30px;
+		bottom: 20px;
 		justify-content: center;
 		margin: 0 auto;
 		margin-top: auto;
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
 
 		&--big {
 			position: absolute;
@@ -72,10 +84,6 @@
 			background-color: rgb(209, 36, 51);
 		}
 
-		&--active {
-			background-color: rgba(255, 255, 255, 0.4);
-		}
-
 		&--big {
 			width: 60px;
 			height: 60px;
@@ -88,6 +96,10 @@
 	}
 
 	&__main-data {
+		position: absolute;
+		top: 11px;
+		left: 14px;
+		z-index: 55;
 		&--big {
 			position: absolute;
 			top: 30px;
@@ -105,8 +117,8 @@
 
 	&__duration {
 		font-weight: 400;
-		font-size: 14px;
-		color: rgb(109, 120, 133);
+		font-size: 12px;
+		color: #fff;
 	}
 
 	&__interlocutor-avatar {
@@ -124,7 +136,7 @@
 	}
 
 	&__remote-video {
-		height: 264px;
+		height: 328px;
 		width: 304px;
 		object-fit: cover;
 		z-index: -1;
@@ -140,13 +152,13 @@
 
 	&__local-video {
 		height: 100px;
-		width: 100px;
-		border-radius: 15px;
+		width: 80px;
 		position: absolute;
-		bottom: 70px;
-		right: 7px;
+		bottom: 81px;
+		right: 20px;
 		-o-object-fit: cover;
 		object-fit: cover;
+		border-radius: 6px;
 
 		&--big {
 			height: 150px;

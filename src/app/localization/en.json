@@ -93,15 +93,6 @@
 		"create_chat": "Create chat",
 		"reject": "Reject"
 	},
-	"createChat": {
-		"createChat": "Create new chat",
-		"confirm": "Create chat",
-		"reject": "Reject",
-		"chat_name": "Chat name",
-		"search-friends": "Search in contacts",
-		"no_name_error": "Chat name must inlude at least 1 character instead of empty spaces",
-		"no_members_error": "You have to choose at least 1 conference member"
-	},
 	"searchTop": {
 		"search": "Search"
 	},

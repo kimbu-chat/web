@@ -4,7 +4,7 @@ import Modal from 'app/components/shared/modal/modal';
 import WithBackground from 'app/components/shared/with-background';
 import { Messenger } from 'app/containers/messenger/messenger';
 import { FriendActions } from 'app/store/friends/actions';
-import { AvatarSelectedData } from 'app/store/my-profile/models';
+import { AvatarSelectedData, UserPreview } from 'app/store/my-profile/models';
 import { RootState } from 'app/store/root-reducer';
 import { getStringInitials } from 'app/utils/interlocutor-name-utils';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
@@ -14,6 +14,10 @@ import FriendFromList from '../friend-from-list/friend-from-list';
 import SearchBox from '../search-box/search-box';
 import CloseSVG from 'app/assets/icons/ic-close.svg';
 import './create-conference.scss';
+import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
+import { ChatActions } from 'app/store/chats/actions';
+import { Chat } from 'app/store/chats/models';
+import { useHistory } from 'react-router';
 
 namespace ICreateConference {
 	export interface Props {
@@ -39,43 +43,41 @@ const CreateConference = ({
 }: ICreateConference.Props) => {
 	const { t } = useContext(LocalizationContext);
 
-	const [selectedChatIds, setSelectedChatIds] = useState<number[]>(preSelectedUserIds ? preSelectedUserIds : []);
+	const currentUser = useSelector<RootState, UserPreview | undefined>((state) => state.myProfile.user);
+
+	const history = useHistory();
+
+	const submitConferenceCreation = useActionWithDeferred(ChatActions.createConference);
+
+	const [selectedUserIds, setSelectedUserIds] = useState<number[]>(preSelectedUserIds ? preSelectedUserIds : []);
 	const [currentStage, setCurrrentStage] = useState(ICreateConference.conferenceCreationStage.userSelect);
-	const [newAvatarData, setNewAvatarData] = useState<AvatarSelectedData | null>(null);
-	const [newName, setNewName] = useState('');
+	const [avatarData, setAvatarData] = useState<AvatarSelectedData | null>(null);
+	const [name, setName] = useState('');
+	//@ts-ignore
+	const [error, setError] = useState('');
 
 	const friends = useSelector((state: RootState) => state.friends.friends);
 
 	const loadFriends = useActionWithDispatch(FriendActions.getFriends);
 
-	const goToNexStage = useCallback(() => {
-		setCurrrentStage((oldStage) => {
-			if (oldStage === ICreateConference.conferenceCreationStage.userSelect) {
-				return ICreateConference.conferenceCreationStage.conferenceCreation;
-			}
-
-			return ICreateConference.conferenceCreationStage.conferenceCreation;
-		});
-	}, [setCurrrentStage]);
-
 	const isSelected = useCallback(
 		(id: number) => {
-			return selectedChatIds.includes(id);
+			return selectedUserIds.includes(id);
 		},
-		[selectedChatIds],
+		[selectedUserIds],
 	);
 
 	const changeSelectedState = useCallback(
 		(id: number) => {
-			console.log(selectedChatIds);
+			console.log(selectedUserIds);
 
-			if (selectedChatIds.includes(id)) {
-				setSelectedChatIds((oldChatIds) => oldChatIds.filter((idToCheck) => idToCheck !== id));
+			if (selectedUserIds.includes(id)) {
+				setSelectedUserIds((oldChatIds) => oldChatIds.filter((idToCheck) => idToCheck !== id));
 			} else {
-				setSelectedChatIds((oldChatIds) => [...oldChatIds, id]);
+				setSelectedUserIds((oldChatIds) => [...oldChatIds, id]);
 			}
 		},
-		[selectedChatIds],
+		[selectedUserIds],
 	);
 
 	const searchFriends = useCallback((name: string) => {
@@ -92,19 +94,56 @@ const CreateConference = ({
 
 			reader.onload = () => {
 				setImageUrl(reader.result);
-				displayChangePhoto({ onSubmit: (data) => setNewAvatarData(data) });
+				displayChangePhoto({ onSubmit: (data) => setAvatarData(data) });
 			};
 
 			if (e.target.files) reader.readAsDataURL(e.target.files[0]);
 		},
-		[displayChangePhoto, setImageUrl, setNewAvatarData],
+		[displayChangePhoto, setImageUrl, setAvatarData],
 	);
+
+	const discardAvatar = useCallback(() => setAvatarData(null), [setAvatarData]);
+
 	const onSubmit = useCallback(() => {
-		close();
-		if (newAvatarData) {
-			//avatar set logic here
+		let validationPassed = true;
+
+		if (name.trim().length > 0) {
+			validationPassed = validationPassed && true;
+			setError('');
+		} else {
+			validationPassed = false;
+			setError(t('createChat.no_name_error'));
 		}
-	}, [newAvatarData, newName]);
+
+		if (selectedUserIds.length > 0) {
+			validationPassed = validationPassed && true;
+			setError('');
+		} else {
+			validationPassed = false;
+			setError(t('createChat.no_members_error'));
+		}
+
+		if (validationPassed) {
+			submitConferenceCreation({
+				name,
+				currentUser: currentUser!,
+				userIds: selectedUserIds,
+				avatar: avatarData,
+			})
+				.then((payload: Chat) => history.push(`/chats/${payload.id}`))
+				.then(close);
+		}
+	}, [avatarData, name, close, setError, t]);
+
+	const goToNexStage = useCallback(() => {
+		setCurrrentStage((oldStage) => {
+			if (oldStage === ICreateConference.conferenceCreationStage.conferenceCreation) {
+				onSubmit();
+			}
+
+			return ICreateConference.conferenceCreationStage.conferenceCreation;
+		});
+	}, [setCurrrentStage, onSubmit]);
 
 	return (
 		<WithBackground isBackgroundDisplayed={isDisplayed} onBackgroundClick={close}>
@@ -113,7 +152,7 @@ const CreateConference = ({
 					title={
 						<div className='create-conference__heading'>
 							<div className='create-conference__title'>{t('createConference.add_members')}</div>
-							<div className='create-conference__selected-count'>{`${selectedChatIds.length} / 1000`}</div>
+							<div className='create-conference__selected-count'>{`${selectedUserIds.length} / 1000`}</div>
 						</div>
 					}
 					closeModal={close}
@@ -142,12 +181,12 @@ const CreateConference = ({
 									<div className='edit-chat-modal__change-photo'>
 										<div className='edit-chat-modal__current-photo-wrapper'>
 											<Avatar
-												src={newAvatarData?.croppedImagePath}
+												src={avatarData?.croppedImagePath}
 												className='edit-chat-modal__current-photo'
 											>
-												{getStringInitials(newName)}
+												{getStringInitials(name)}
 											</Avatar>
-											<button className='edit-chat-modal__remove-photo'>
+											<button onClick={discardAvatar} className='edit-chat-modal__remove-photo'>
 												<CloseSVG viewBox='0 0 25 25' />
 											</button>
 										</div>
@@ -175,8 +214,8 @@ const CreateConference = ({
 									<div className='edit-chat-modal__name'>
 										<span className='edit-chat-modal__name__label'>Name</span>
 										<input
-											value={newName}
-											onChange={(e) => setNewName(e.target.value)}
+											value={name}
+											onChange={(e) => setName(e.target.value)}
 											type='text'
 											className='edit-chat-modal__name__input'
 										/>

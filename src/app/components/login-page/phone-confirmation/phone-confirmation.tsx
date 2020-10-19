@@ -6,13 +6,15 @@ import { country, countryList } from 'app/common/countries';
 import { LocalizationContext } from 'app/app';
 import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
 import { AuthActions } from 'app/store/auth/actions';
-import { history } from '../../../../main';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import { useSelector } from 'react-redux';
 import { RootState } from 'app/store/root-reducer';
+import { useHistory } from 'react-router';
 
 const PhoneConfirmation = () => {
 	const { t } = useContext(LocalizationContext);
+
+	const history = useHistory();
 
 	const isLoading = useSelector((state: RootState) => state.auth.loading);
 

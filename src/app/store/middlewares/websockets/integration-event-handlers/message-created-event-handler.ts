@@ -32,7 +32,7 @@ export class MessageCreatedEventHandler implements IEventHandler<MessageCreatedI
 			creationDateTime: new Date(new Date().toUTCString()),
 			id: eventData.objectId,
 			state: MessageState.READ,
-			userCreator: eventData.userCreator,
+			userCreator: { ...eventData.userCreator, id: eventData.userCreatorId },
 		};
 
 		const chat: Chat = {

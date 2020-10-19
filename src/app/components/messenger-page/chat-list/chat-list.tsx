@@ -26,8 +26,6 @@ const ChatList = () => {
 	useEffect(() => {
 		if (chatId) changeSelectedChat(Number(chatId));
 		else changeSelectedChat(-1);
-
-		console.log(chatId);
 	}, [chatId]);
 
 	useEffect(() => {
@@ -44,7 +42,7 @@ const ChatList = () => {
 	const loadPage = useCallback(() => {
 		const pageData = {
 			limit: 25,
-			offset: DIALOGS_LIMIT,
+			offset: chats.length,
 		};
 
 		getChats({

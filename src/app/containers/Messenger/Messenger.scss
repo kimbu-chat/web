@@ -22,5 +22,41 @@
 		grid-row: 2/3;
 		grid-column: 1/2;
 		border-right: 1px solid rgba(0, 0, 0, 0.2);
+		overflow: hidden;
+
+		&__animated {
+			width: 346px;
+			overflow: hidden;
+			max-width: 346px;
+		}
+
+		.slide-enter,
+		.slide-exit {
+			transition: transform 300ms linear !important;
+		}
+
+		.slide-enter.slide-enter-active {
+			transform: translateX(0%);
+		}
+
+		.slide-enter {
+			transform: translateX(100%);
+		}
+
+		.slide-exit {
+			position: absolute;
+			top: 64px;
+			left: 0;
+			width: 100%;
+			transform: translateX(0%);
+		}
+
+		.slide-exit-active {
+			transform: translateX(-100%);
+		}
+	}
+
+	&__chats {
+		width: 346px;
 	}
 }

@@ -65,56 +65,55 @@ const ConferenceAddFriendModal = ({ close, isDisplayed }: ConferenceAddFriendMod
 
 	return (
 		<WithBackground isBackgroundDisplayed={isDisplayed} onBackgroundClick={close}>
-			{isDisplayed && (
-				<Modal
-					title='Add friend'
-					closeModal={close}
-					contents={
-						<div className={'conference-add-friend-modal'}>
-							<SearchBox onChange={(e) => searchFriends(e.target.value)} />
-							<div className='conference-add-friend-modal__friend-block'>
-								{friends.map(
-									(friend) =>
-										!idsToExclude.includes(friend.id) && (
-											<FriendFromList
-												key={friend.id}
-												friend={friend}
-												isSelected={isSelected(friend.id)}
-												changeSelectedState={changeSelectedState}
-											/>
-										),
-								)}
-							</div>
+			<Modal
+				isDisplayed={isDisplayed}
+				title='Add friend'
+				closeModal={close}
+				contents={
+					<div className={'conference-add-friend-modal'}>
+						<SearchBox onChange={(e) => searchFriends(e.target.value)} />
+						<div className='conference-add-friend-modal__friend-block'>
+							{friends.map(
+								(friend) =>
+									!idsToExclude.includes(friend.id) && (
+										<FriendFromList
+											key={friend.id}
+											friend={friend}
+											isSelected={isSelected(friend.id)}
+											changeSelectedState={changeSelectedState}
+										/>
+									),
+							)}
 						</div>
-					}
-					buttons={[
-						{
-							text: 'Add friends',
-							style: {
-								backgroundColor: 'rgb(63, 138, 224)',
-								color: '#fff',
-								padding: '16px 49.5px',
-								margin: '0',
-							},
-							position: 'left',
-							onClick: addUsers,
+					</div>
+				}
+				buttons={[
+					{
+						text: 'Add friends',
+						style: {
+							backgroundColor: 'rgb(63, 138, 224)',
+							color: '#fff',
+							padding: '16px 49.5px',
+							margin: '0',
 						},
-						{
-							text: 'Cancel',
-							style: {
-								color: 'rgb(109, 120, 133)',
-								backgroundColor: 'rgb(255, 255, 255)',
-								padding: '16px 38px',
-								margin: '0 0 0 10px',
-								border: '1px solid rgb(215, 216, 217)',
-							},
+						position: 'left',
+						onClick: addUsers,
+					},
+					{
+						text: 'Cancel',
+						style: {
+							color: 'rgb(109, 120, 133)',
+							backgroundColor: 'rgb(255, 255, 255)',
+							padding: '16px 38px',
+							margin: '0 0 0 10px',
+							border: '1px solid rgb(215, 216, 217)',
+						},
 
-							position: 'left',
-							onClick: close,
-						},
-					]}
-				/>
-			)}
+						position: 'left',
+						onClick: close,
+					},
+				]}
+			/>
 		</WithBackground>
 	);
 };

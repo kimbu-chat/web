@@ -68,85 +68,84 @@ const EditChatModal = ({ isDisplayed, setImageUrl, close, displayChangePhoto }: 
 
 	return (
 		<WithBackground isBackgroundDisplayed={isDisplayed} onBackgroundClick={close}>
-			{isDisplayed && (
-				<Modal
-					title='Edit group'
-					contents={
-						<div className='edit-chat-modal'>
-							<div className='edit-chat-modal__change-photo'>
-								<div className='edit-chat-modal__current-photo-wrapper'>
-									<Avatar
-										src={newAvatarData?.croppedImagePath || selectedChat.conference?.avatarUrl}
-										className='edit-chat-modal__current-photo'
-									>
-										{getInterlocutorInitials(selectedChat)}
-									</Avatar>
-									<button className='edit-chat-modal__remove-photo'>
-										<CloseSVG viewBox='0 0 25 25' />
-									</button>
-								</div>
-								<div className='edit-chat-modal__change-photo-data'>
-									<input
-										onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleImageChange(e)}
-										ref={fileInputRef}
-										type='file'
-										hidden
-										accept='image/*'
-									/>
-									<button
-										onClick={() => fileInputRef.current?.click()}
-										className='edit-chat-modal__change-photo__btn'
-									>
-										Upload New Photo
-									</button>
-									<span className='edit-chat-modal__change-photo__description'>
-										At least 256 x 256px PNG or JPG file.
-									</span>
-								</div>
+			<Modal
+				isDisplayed={isDisplayed}
+				title='Edit group'
+				contents={
+					<div className='edit-chat-modal'>
+						<div className='edit-chat-modal__change-photo'>
+							<div className='edit-chat-modal__current-photo-wrapper'>
+								<Avatar
+									src={newAvatarData?.croppedImagePath || selectedChat.conference?.avatarUrl}
+									className='edit-chat-modal__current-photo'
+								>
+									{getInterlocutorInitials(selectedChat)}
+								</Avatar>
+								<button className='edit-chat-modal__remove-photo'>
+									<CloseSVG viewBox='0 0 25 25' />
+								</button>
 							</div>
-							<div className='edit-chat-modal__name'>
-								<span className='edit-chat-modal__name__label'>Name</span>
+							<div className='edit-chat-modal__change-photo-data'>
 								<input
-									value={newName}
-									onChange={(e) => setNewName(e.target.value)}
-									type='text'
-									className='edit-chat-modal__name__input'
+									onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleImageChange(e)}
+									ref={fileInputRef}
+									type='file'
+									hidden
+									accept='image/*'
 								/>
-							</div>
-							<div className='edit-chat-modal__description'>
-								<span className='edit-chat-modal__description__label'>Description (optional)</span>
-								<textarea className='edit-chat-modal__description__input' />
+								<button
+									onClick={() => fileInputRef.current?.click()}
+									className='edit-chat-modal__change-photo__btn'
+								>
+									Upload New Photo
+								</button>
+								<span className='edit-chat-modal__change-photo__description'>
+									At least 256 x 256px PNG or JPG file.
+								</span>
 							</div>
 						</div>
-					}
-					closeModal={close}
-					buttons={[
-						{
-							text: 'Save',
-							style: {
-								color: '#fff',
-								backgroundColor: 'rgb(63, 138, 224)',
-								padding: '11px 92.5px',
-								marginRight: '20px',
-							},
-							position: 'left',
-							onClick: onSubmit,
+						<div className='edit-chat-modal__name'>
+							<span className='edit-chat-modal__name__label'>Name</span>
+							<input
+								value={newName}
+								onChange={(e) => setNewName(e.target.value)}
+								type='text'
+								className='edit-chat-modal__name__input'
+							/>
+						</div>
+						<div className='edit-chat-modal__description'>
+							<span className='edit-chat-modal__description__label'>Description (optional)</span>
+							<textarea className='edit-chat-modal__description__input' />
+						</div>
+					</div>
+				}
+				closeModal={close}
+				buttons={[
+					{
+						text: 'Save',
+						style: {
+							color: '#fff',
+							backgroundColor: 'rgb(63, 138, 224)',
+							padding: '11px 92.5px',
+							marginRight: '20px',
 						},
-						{
-							text: 'Cancel',
-							style: {
-								color: 'rgb(109, 120, 133)',
-								backgroundColor: 'white',
-								padding: '11px 48px',
-								border: '1px solid rgb(215, 216, 217)',
-							},
+						position: 'left',
+						onClick: onSubmit,
+					},
+					{
+						text: 'Cancel',
+						style: {
+							color: 'rgb(109, 120, 133)',
+							backgroundColor: 'white',
+							padding: '11px 48px',
+							border: '1px solid rgb(215, 216, 217)',
+						},
 
-							position: 'left',
-							onClick: close,
-						},
-					]}
-				/>
-			)}
+						position: 'left',
+						onClick: close,
+					},
+				]}
+			/>
 		</WithBackground>
 	);
 };

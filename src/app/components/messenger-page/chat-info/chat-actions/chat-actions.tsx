@@ -132,40 +132,39 @@ const ChatActions = ({ addMembers, displayCreateChat }: ChatActions.Props) => {
 				isBackgroundDisplayed={leaveConferenceModalOpened}
 				onBackgroundClick={changeLeaveConferenceModalOpenedState}
 			>
-				{leaveConferenceModalOpened && (
-					<Modal
-						title='Delete chat'
-						contents={t('chatInfo.leave-confirmation', { conferenceName: selectedChat.conference?.name })}
-						highlightedInContents={`‘${selectedChat.conference?.name}‘`}
-						closeModal={changeLeaveConferenceModalOpenedState}
-						buttons={[
-							{
-								text: t('chatInfo.confirm'),
-								style: {
-									color: 'rgb(255, 255, 255)',
-									backgroundColor: 'rgb(209, 36, 51)',
-									padding: '16px 49.5px',
-									margin: '0',
-								},
-								position: 'left',
-								onClick: deleteConference,
+				<Modal
+					isDisplayed={leaveConferenceModalOpened}
+					title='Delete chat'
+					contents={t('chatInfo.leave-confirmation', { conferenceName: selectedChat.conference?.name })}
+					highlightedInContents={`‘${selectedChat.conference?.name}‘`}
+					closeModal={changeLeaveConferenceModalOpenedState}
+					buttons={[
+						{
+							text: t('chatInfo.confirm'),
+							style: {
+								color: 'rgb(255, 255, 255)',
+								backgroundColor: 'rgb(209, 36, 51)',
+								padding: '16px 49.5px',
+								margin: '0',
 							},
-							{
-								text: t('chatInfo.cancel'),
-								style: {
-									color: 'rgb(109, 120, 133)',
-									backgroundColor: 'rgb(255, 255, 255)',
-									padding: '16px 38px',
-									margin: '0 0 0 10px',
-									border: '1px solid rgb(215, 216, 217)',
-								},
+							position: 'left',
+							onClick: deleteConference,
+						},
+						{
+							text: t('chatInfo.cancel'),
+							style: {
+								color: 'rgb(109, 120, 133)',
+								backgroundColor: 'rgb(255, 255, 255)',
+								padding: '16px 38px',
+								margin: '0 0 0 10px',
+								border: '1px solid rgb(215, 216, 217)',
+							},
 
-								position: 'left',
-								onClick: changeLeaveConferenceModalOpenedState,
-							},
-						]}
-					/>
-				)}
+							position: 'left',
+							onClick: changeLeaveConferenceModalOpenedState,
+						},
+					]}
+				/>
 			</WithBackground>
 		</div>
 	);

@@ -106,7 +106,7 @@ const Messenger = () => {
 
 			<div className='messenger__chat-list'>
 				<TransitionGroup>
-					<CSSTransition key={location.key} timeout={{ enter: 300, exit: 300 }} classNames={'slide'}>
+					<CSSTransition key={location.key} timeout={{ enter: 200, exit: 200 }} classNames={'slide'}>
 						<div className='messenger__chat-list__animated'>
 							<Switch location={location}>
 								<Route path='/calls'>

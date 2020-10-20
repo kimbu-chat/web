@@ -53,45 +53,44 @@ const ForwardModal = ({ close, isDisplayed }: ForwardModal.Props) => {
 
 	return (
 		<WithBackground isBackgroundDisplayed={isDisplayed} onBackgroundClick={close}>
-			{isDisplayed && (
-				<Modal
-					title={t('forwardModal.forward')}
-					closeModal={close}
-					contents={
-						<div className={'forward-modal'}>
-							<SearchBox onChange={(e) => searchFriends(e.target.value)} />
-							<div className='forward-modal__chats-block'>
-								{friends.map((friend) => {
-									return (
-										<FriendFromList
-											key={friend.id}
-											friend={friend}
-											isSelected={isSelected(friend.id)}
-											changeSelectedState={changeSelectedState}
-										/>
-									);
-								})}
-							</div>
+			<Modal
+				isDisplayed={isDisplayed}
+				title={t('forwardModal.forward')}
+				closeModal={close}
+				contents={
+					<div className={'forward-modal'}>
+						<SearchBox onChange={(e) => searchFriends(e.target.value)} />
+						<div className='forward-modal__chats-block'>
+							{friends.map((friend) => {
+								return (
+									<FriendFromList
+										key={friend.id}
+										friend={friend}
+										isSelected={isSelected(friend.id)}
+										changeSelectedState={changeSelectedState}
+									/>
+								);
+							})}
 						</div>
-					}
-					buttons={[
-						{
-							text: t('forwardModal.send'),
-							style: {
-								color: '#fff',
-								backgroundColor: '#3F8AE0',
-								padding: '11px 0px',
-								border: '1px solid rgb(215, 216, 217)',
-								width: '100%',
-								marginBottom: '-6px',
-							},
-
-							position: 'left',
-							onClick: () => {},
+					</div>
+				}
+				buttons={[
+					{
+						text: t('forwardModal.send'),
+						style: {
+							color: '#fff',
+							backgroundColor: '#3F8AE0',
+							padding: '11px 0px',
+							border: '1px solid rgb(215, 216, 217)',
+							width: '100%',
+							marginBottom: '-6px',
 						},
-					]}
-				/>
-			)}
+
+						position: 'left',
+						onClick: () => {},
+					},
+				]}
+			/>
 		</WithBackground>
 	);
 };

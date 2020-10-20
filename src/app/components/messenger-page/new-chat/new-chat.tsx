@@ -51,29 +51,28 @@ const NewChatModal = ({ close, isDisplayed, displayCreateConference }: NewChatMo
 
 	return (
 		<WithBackground isBackgroundDisplayed={isDisplayed} onBackgroundClick={close}>
-			{isDisplayed && (
-				<Modal
-					title={t('newChat.new_message')}
-					closeModal={close}
-					contents={
-						<div className={'new-chat'}>
-							<SearchBox onChange={(e) => searchFriends(e.target.value)} />
-							<div className='new-chat__friends-block'>
-								<div onClick={createConference} className='new-chat__new-group'>
-									<div className='new-chat__new-group__img'>
-										<PeopleSvg viewBox='0 0 25 25' />
-									</div>
-									<span className='new-chat__new-group__title'>{t('newChat.new_group')}</span>
+			<Modal
+				isDisplayed={isDisplayed}
+				title={t('newChat.new_message')}
+				closeModal={close}
+				contents={
+					<div className={'new-chat'}>
+						<SearchBox onChange={(e) => searchFriends(e.target.value)} />
+						<div className='new-chat__friends-block'>
+							<div onClick={createConference} className='new-chat__new-group'>
+								<div className='new-chat__new-group__img'>
+									<PeopleSvg viewBox='0 0 25 25' />
 								</div>
-								{friends.map((friend) => {
-									return <FriendFromList key={friend.id} friend={friend} onClick={createEmptyChat} />;
-								})}
+								<span className='new-chat__new-group__title'>{t('newChat.new_group')}</span>
 							</div>
+							{friends.map((friend) => {
+								return <FriendFromList key={friend.id} friend={friend} onClick={createEmptyChat} />;
+							})}
 						</div>
-					}
-					buttons={[]}
-				/>
-			)}
+					</div>
+				}
+				buttons={[]}
+			/>
 		</WithBackground>
 	);
 };

@@ -1,6 +1,8 @@
 import Modal from 'app/components/shared/modal/modal';
 import WithBackground from 'app/components/shared/with-background';
+import { getMyProfileSelector } from 'app/store/my-profile/selectors';
 import React, { useCallback, useState } from 'react';
+import { useSelector } from 'react-redux';
 import './edit-name-modal.scss';
 
 namespace EditNameModal {
@@ -11,8 +13,10 @@ namespace EditNameModal {
 }
 
 const EditNameModal = ({ close, isDisplayed }: EditNameModal.Props) => {
-	const [firstName, setFirstName] = useState('');
-	const [lastName, setLastName] = useState('');
+	const myProfile = useSelector(getMyProfileSelector);
+
+	const [firstName, setFirstName] = useState(myProfile?.firstName || '');
+	const [lastName, setLastName] = useState(myProfile?.lastName || '');
 
 	const changeFirstName = useCallback(
 		(event: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,6 +30,7 @@ const EditNameModal = ({ close, isDisplayed }: EditNameModal.Props) => {
 		},
 		[setLastName],
 	);
+
 	return (
 		<WithBackground isBackgroundDisplayed={isDisplayed} onBackgroundClick={close}>
 			<Modal
@@ -35,7 +40,7 @@ const EditNameModal = ({ close, isDisplayed }: EditNameModal.Props) => {
 				contents={
 					<div className={'edit-name-modal'}>
 						<div className='edit-name-modal__input-block'>
-							<span className='edit-name-modal__input-label'></span>
+							<span className='edit-name-modal__input-label'>First Name</span>
 							<input
 								value={firstName}
 								onChange={changeFirstName}
@@ -44,7 +49,7 @@ const EditNameModal = ({ close, isDisplayed }: EditNameModal.Props) => {
 							/>
 						</div>
 						<div className='edit-name-modal__input-block'>
-							<span className='edit-name-modal__input-label'></span>
+							<span className='edit-name-modal__input-label'>Last Name</span>
 							<input
 								value={lastName}
 								onChange={changeLastName}
@@ -63,7 +68,7 @@ const EditNameModal = ({ close, isDisplayed }: EditNameModal.Props) => {
 							padding: '11px 0px',
 							border: '1px solid rgb(215, 216, 217)',
 							width: '100%',
-							marginBottom: '-6px',
+							marginBottom: '10px',
 						},
 
 						position: 'left',

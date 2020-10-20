@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Redirect, Route, Switch } from 'react-router';
+import { Redirect, Route, Switch, withRouter } from 'react-router';
 import './messenger.scss';
 
 import SearchTop from '../../components/messenger-page/search-top/search-top';
 import ChatData from '../../components/messenger-page/chat-data/chat-data';
+
 import ChatList from '../../components/messenger-page/chat-list/chat-list';
 import Chat from '../../components/messenger-page/chat/chat';
 import CreateMessageInput from '../../components/messenger-page/message-input/message-input';
@@ -25,6 +26,7 @@ import RespondingMessage from 'app/components/messenger-page/responding-message/
 import { RootState } from 'app/store/root-reducer';
 import CallList from 'app/components/messenger-page/call-list/call-list';
 import Settings from 'app/components/messenger-page/settings/settings';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 export namespace Messenger {
 	export interface photoSelect {
@@ -33,7 +35,7 @@ export namespace Messenger {
 	}
 }
 
-const Messenger = () => {
+const Messenger = withRouter(({ location }: any) => {
 	const selectedChat = useSelector(getSelectedChatSelector);
 	const amICalled = useSelector(isCallingMe);
 	const amICalingSomebody = useSelector(amICaling);
@@ -102,31 +104,44 @@ const Messenger = () => {
 			<RoutingChats />
 
 			<div className='messenger__chat-list'>
-				<Switch>
-					<Route path='/chats/:chatId?' exact>
-						<>
-							<SearchTop
-								displayChangePhoto={displayChangePhoto}
-								setImageUrl={setImageUrl}
-								displaySlider={displaySlider}
-							/>
-							<ChatList />
-						</>
-					</Route>
-					<Route path='/calls' exact>
-						<CallList />
-					</Route>
-					<Route path='/settings' exact>
-						<Settings />
-					</Route>
-					<Route path='/'>
-						<Redirect
-							to={{
-								pathname: '/chats',
-							}}
-						/>
-					</Route>
-				</Switch>
+				<TransitionGroup>
+					<CSSTransition key={location.key} timeout={{ enter: 300, exit: 300 }} classNames={'slide'}>
+						<div className='messenger__chat-list__animated'>
+							<Switch location={location}>
+								<Route path='/calls'>
+									<CallList />
+								</Route>
+
+								<Route path='/settings'>
+									<Settings />
+								</Route>
+
+								<Route path='/chats/:chatId?'>
+									<div className='messenger__chats'>
+										<SearchTop
+											displayChangePhoto={displayChangePhoto}
+											setImageUrl={setImageUrl}
+											displaySlider={displaySlider}
+										/>
+										<ChatList />
+									</div>
+								</Route>
+
+								<Route path='/contacts'>
+									<div className='messenger__chats'>FRIENDS</div>
+								</Route>
+
+								<Route path='/'>
+									<Redirect
+										to={{
+											pathname: '/chats',
+										}}
+									/>
+								</Route>
+							</Switch>
+						</div>
+					</CSSTransition>
+				</TransitionGroup>
 			</div>
 
 			<WithBackground
@@ -172,6 +187,6 @@ const Messenger = () => {
 			/>
 		</div>
 	);
-};
+});
 
 export default React.memo(Messenger);

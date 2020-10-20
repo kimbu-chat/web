@@ -59,30 +59,36 @@ const ChatList = () => {
 
 	return (
 		<div ref={chatListRef} className='chat-list'>
-			<InfiniteScroll
-				pageStart={0}
-				loadMore={loadPage}
-				hasMore={hasMoreChats}
-				loader={
-					<div className='loader ' key={0}>
-						<div className=''>
-							<div className='lds-ellipsis'>
-								<div></div>
-								<div></div>
-								<div></div>
-								<div></div>
+			{false && (
+				<InfiniteScroll
+					pageStart={0}
+					loadMore={loadPage}
+					hasMore={hasMoreChats}
+					loader={
+						<div className='loader ' key={0}>
+							<div className=''>
+								<div className='lds-ellipsis'>
+									<div></div>
+									<div></div>
+									<div></div>
+									<div></div>
+								</div>
 							</div>
 						</div>
-					</div>
-				}
-				useWindow={false}
-				getScrollParent={() => chatListRef.current}
-				isReverse={false}
-			>
-				{chats?.map((chat: Chat) => {
-					return <ChatFromList chat={chat} key={chat.id} />;
-				})}
-			</InfiniteScroll>
+					}
+					useWindow={false}
+					getScrollParent={() => chatListRef.current}
+					isReverse={false}
+				>
+					{chats?.map((chat: Chat) => {
+						return <ChatFromList chat={chat} key={chat.id} />;
+					})}
+				</InfiniteScroll>
+			)}
+
+			{chats?.map((chat: Chat) => {
+				return <ChatFromList chat={chat} key={chat.id} />;
+			})}
 		</div>
 	);
 };

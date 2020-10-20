@@ -35,16 +35,6 @@ export const App = () => {
 	return (
 		<LocalizationContext.Provider value={{ t, i18n }}>
 			<Switch>
-				<PrivateRoute
-					path='/'
-					isAllowed={isAuthenticated}
-					fallback={'/login'}
-					Component={
-						<Suspense fallback={<div>Загрузка...</div>}>
-							<Messenger />
-						</Suspense>
-					}
-				/>
 				<PublicRoute
 					path='/confirm-code'
 					isAllowed={phoneNumber.length > 0}
@@ -59,6 +49,16 @@ export const App = () => {
 					Component={
 						<Suspense fallback={<div>Загрузка...</div>}>
 							<ConfirmPhone />
+						</Suspense>
+					}
+				/>
+				<PrivateRoute
+					path='/'
+					isAllowed={isAuthenticated}
+					fallback={'/login'}
+					Component={
+						<Suspense fallback={<div>Загрузка...</div>}>
+							<Messenger />
 						</Suspense>
 					}
 				/>

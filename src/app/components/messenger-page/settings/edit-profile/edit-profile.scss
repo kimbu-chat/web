@@ -4,6 +4,7 @@
 		display: flex;
 		align-items: center;
 		border-bottom: 1px solid #d7d8d9;
+		border-right: 1px solid #d7d8d9;
 	}
 
 	&__back {
@@ -69,7 +70,7 @@
 		color: #979797;
 		font-size: 11px;
 		line-height: 18px;
-		margin-bottom: 20px;
+		margin-bottom: 18px;
 	}
 
 	&__data-category {
@@ -77,6 +78,8 @@
 		margin-left: 20px;
 		margin-right: 20px;
 		display: flex;
+		flex-direction: row;
+		align-items: flex-start;
 		&:first-child {
 			margin-top: 20px;
 		}
@@ -90,6 +93,7 @@
 
 	&__data-field {
 		margin-left: 10px;
+		margin-top: 4px;
 	}
 
 	&__data-value {
@@ -97,11 +101,12 @@
 		font-weight: 18px;
 		font-weight: 400;
 		color: black;
-		margin-bottom: 4px;
+
+		margin-bottom: 8px;
 	}
 
 	&__data-category {
-		font-size: 13px;
+		font-size: 16px;
 		font-weight: 18px;
 		font-weight: 400;
 		color: #6d7885;

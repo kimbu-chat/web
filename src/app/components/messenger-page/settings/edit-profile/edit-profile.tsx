@@ -6,6 +6,8 @@ import { useSelector } from 'react-redux';
 import './edit-profile.scss';
 import CloseSVG from 'app/assets/icons/ic-close.svg';
 import InfoSvg from 'app/assets/icons/ic-info.svg';
+import PhoneSvg from 'app/assets/icons/ic-call.svg';
+import EmailSvg from 'app/assets/icons/ic-email.svg';
 import EditSvg from 'app/assets/icons/ic-edit.svg';
 import { Messenger } from 'app/containers/messenger/messenger';
 import { MyProfileActions } from 'app/store/my-profile/actions';
@@ -78,7 +80,7 @@ const EditProfile = ({ setImageUrl, displayChangePhoto }: EditProfile.Props) => 
 					</button>
 				</div>
 				<div className='edit-profile__data-category'>
-					<InfoSvg className='edit-profile__data-category__info-svg' viewBox='0 0 25 25' />
+					<PhoneSvg className='edit-profile__data-category__info-svg' viewBox='0 0 25 25' />
 					<div className='edit-profile__data-field'>
 						<div className='edit-profile__data-value'>{myProfile?.phoneNumber}</div>
 						<div className='edit-profile__data-name'>Mobile</div>
@@ -88,7 +90,7 @@ const EditProfile = ({ setImageUrl, displayChangePhoto }: EditProfile.Props) => 
 					</button>
 				</div>
 				<div className='edit-profile__data-category'>
-					<InfoSvg className='edit-profile__data-category__info-svg' viewBox='0 0 25 25' />
+					<EmailSvg className='edit-profile__data-category__info-svg' viewBox='0 0 25 25' />
 					<div className='edit-profile__data-field'>
 						<div className='edit-profile__data-value'>{`@${myProfile?.nickname}`}</div>
 						<div className='edit-profile__data-name'>Username</div>

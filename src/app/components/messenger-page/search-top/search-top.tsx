@@ -13,7 +13,6 @@ import { Messenger } from 'app/containers/messenger/messenger';
 
 namespace SearchTop {
 	export interface Props {
-		displaySlider: () => void;
 		displayChangePhoto: (data: Messenger.photoSelect) => void;
 		setImageUrl: (url: string | null | ArrayBuffer) => void;
 	}
@@ -21,7 +20,7 @@ namespace SearchTop {
 
 export const DIALOGS_LIMIT = 25;
 
-const SearchTop = ({ displaySlider, displayChangePhoto, setImageUrl }: SearchTop.Props) => {
+const SearchTop = ({ displayChangePhoto, setImageUrl }: SearchTop.Props) => {
 	const getChats = useActionWithDispatch(ChatActions.getChats);
 	const [newChatDisplayed, setNewChatDisplayed] = useState(false);
 	const changeNewChatDisplayedState = useCallback(() => {
@@ -46,7 +45,7 @@ const SearchTop = ({ displaySlider, displayChangePhoto, setImageUrl }: SearchTop
 
 	return (
 		<div className='search-top'>
-			<button className='search-top__burger' onClick={displaySlider}>
+			<button className='search-top__burger'>
 				<BurgerSvg />
 			</button>
 			<div className='search-top__search'>

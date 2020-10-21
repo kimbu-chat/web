@@ -1,24 +1,8 @@
 .edit-profile {
-	&__header {
-		padding: 20px 20px;
-		display: flex;
-		align-items: center;
-		border-bottom: 1px solid #d7d8d9;
-		border-right: 1px solid #d7d8d9;
-	}
-
 	&__back {
 		svg {
 			color: #3f8ae0;
 		}
-	}
-
-	&__title {
-		margin-left: 20px;
-		font-size: 15px;
-		line-height: 16px;
-		font-weight: 500;
-		color: #3f8ae0;
 	}
 
 	&__photo-data {

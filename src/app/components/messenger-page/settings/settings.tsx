@@ -13,6 +13,7 @@ import LangSvg from 'app/assets/icons/ic-language.svg';
 import { NavLink, Route, Switch, useLocation } from 'react-router-dom';
 import EditProfile from './edit-profile/edit-profile';
 import { Messenger } from 'app/containers/messenger/messenger';
+import NotificationsSettings from './notifications-settings/notifications-settings';
 
 namespace Settings {
 	export interface Props {
@@ -64,6 +65,10 @@ const Settings = ({ displayChangePhoto, setImageUrl }: Settings.Props) => {
 
 			<Route path='/settings/edit-profile'>
 				<EditProfile displayChangePhoto={displayChangePhoto} setImageUrl={setImageUrl} />
+			</Route>
+
+			<Route path='/settings/notifications'>
+				<NotificationsSettings />
 			</Route>
 		</Switch>
 	);

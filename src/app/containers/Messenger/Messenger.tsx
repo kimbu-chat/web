@@ -17,8 +17,6 @@ import IncomingCall from 'app/components/messenger-page/incoming-call/incoming-c
 import ActiveCall from 'app/components/messenger-page/active-call/active-call';
 import RoutingChats from 'app/components/messenger-page/routing-chats/routing-chats';
 
-import ReturnSvg from 'app/assets/icons/ic-arrow-left.svg';
-
 import { AvatarSelectedData } from 'app/store/my-profile/models';
 import { useSelector } from 'react-redux';
 import { getSelectedChatSelector } from 'app/store/chats/selectors';
@@ -28,7 +26,7 @@ import { RootState } from 'app/store/root-reducer';
 import CallList from 'app/components/messenger-page/call-list/call-list';
 import Settings from 'app/components/messenger-page/settings/settings';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { Link } from 'react-router-dom';
+import SettingsHeader from 'app/components/messenger-page/settings/settings-header';
 
 export namespace Messenger {
 	export interface photoSelect {
@@ -96,12 +94,11 @@ const Messenger = () => {
 			</Route>
 
 			<Route exact path={'/settings/edit-profile'}>
-				<div className='edit-profile__header'>
-					<Link to='/settings' className='edit-profile__back'>
-						<ReturnSvg viewBox='0 0 25 25' />
-					</Link>
-					<div className='edit-profile__title'>Edit Profile</div>
-				</div>
+				<SettingsHeader title='Edit Profile' />
+			</Route>
+
+			<Route exact path={'/settings/notifications'}>
+				<SettingsHeader title='Notifications' />
 			</Route>
 
 			<div className='messenger__chat-list'>

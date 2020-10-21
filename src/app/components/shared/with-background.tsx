@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import CSSTransition from 'react-transition-group/CSSTransition';
 
 namespace BackgroundBlur {
 	export interface Props {
@@ -25,7 +26,14 @@ namespace WithBackground {
 const WithBackground = ({ isBackgroundDisplayed, children, onBackgroundClick }: WithBackground.Props) => {
 	return (
 		<React.Fragment>
-			{isBackgroundDisplayed && <BackgroundBlur onClick={onBackgroundClick} />}
+			<CSSTransition
+				unmountOnExit
+				in={isBackgroundDisplayed}
+				timeout={{ enter: 200, exit: 200 }}
+				classNames={'fade'}
+			>
+				<BackgroundBlur onClick={onBackgroundClick} />
+			</CSSTransition>
 			{children}
 		</React.Fragment>
 	);

@@ -55,3 +55,29 @@
 		border-radius: 4px;
 	}
 }
+
+.fade-enter {
+	opacity: 0;
+	transition: opacity 0.2s;
+}
+
+.fade-enter-active {
+	opacity: 1;
+}
+
+.fade-done {
+	opacity: 1;
+}
+
+.fade-exit {
+	opacity: 1;
+}
+
+.fade-exit-active {
+	opacity: 0;
+	transition: opacity 0.2s;
+}
+
+.fade-exit-done {
+	opacity: 0;
+}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Redirect, Route, Switch, withRouter } from 'react-router';
+import { Redirect, Route, Switch, useLocation } from 'react-router';
 import './messenger.scss';
 
 import SearchTop from '../../components/messenger-page/search-top/search-top';
@@ -8,7 +8,6 @@ import ChatData from '../../components/messenger-page/chat-data/chat-data';
 import ChatList from '../../components/messenger-page/chat-list/chat-list';
 import Chat from '../../components/messenger-page/chat/chat';
 import CreateMessageInput from '../../components/messenger-page/message-input/message-input';
-import AccountInfo from '../account-info/account-info';
 import WithBackground from '../../components/shared/with-background';
 import ChatInfo from '../../components/messenger-page/chat-info/chat-info';
 import ChangePhoto from '../../components/messenger-page/change-photo/change-photo';
@@ -17,6 +16,8 @@ import InternetError from 'app/components/shared/internet-error/internet-error';
 import IncomingCall from 'app/components/messenger-page/incoming-call/incoming-call';
 import ActiveCall from 'app/components/messenger-page/active-call/active-call';
 import RoutingChats from 'app/components/messenger-page/routing-chats/routing-chats';
+
+import ReturnSvg from 'app/assets/icons/ic-arrow-left.svg';
 
 import { AvatarSelectedData } from 'app/store/my-profile/models';
 import { useSelector } from 'react-redux';
@@ -27,6 +28,7 @@ import { RootState } from 'app/store/root-reducer';
 import CallList from 'app/components/messenger-page/call-list/call-list';
 import Settings from 'app/components/messenger-page/settings/settings';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { Link } from 'react-router-dom';
 
 export namespace Messenger {
 	export interface photoSelect {
@@ -35,7 +37,7 @@ export namespace Messenger {
 	}
 }
 
-const Messenger = withRouter(({ location }: any) => {
+const Messenger = () => {
 	const selectedChat = useSelector(getSelectedChatSelector);
 	const amICalled = useSelector(isCallingMe);
 	const amICalingSomebody = useSelector(amICaling);
@@ -45,26 +47,14 @@ const Messenger = withRouter(({ location }: any) => {
 	const [photoSelected, setPhotoSelected] = useState<Messenger.photoSelect>({
 		isDisplayed: false,
 	});
+	//@ts-ignore
 	const [createChatDisplayed, setCreateChatDisplayed] = useState(false);
 	const [infoDisplayed, setInfoDisplayed] = useState(false);
-	const [accountInfoIsDisplayed, setAccountInfoIsDisplayed] = useState(false);
 	const [settingsDisplayed, setSettingsDisplayed] = useState(false);
 	const [imageUrl, setImageUrl] = useState<string | ArrayBuffer | null>('');
 
 	//hide chatInfo on chat change
 	useEffect(() => hideChatInfo(), [selectedChat?.id]);
-
-	//hide slider on other modals are displayed
-	useEffect(() => hideSlider(), [createChatDisplayed, createChatDisplayed, settingsDisplayed]);
-	//!--
-
-	//Slider display and hide
-	const displaySlider = useCallback(() => {
-		setAccountInfoIsDisplayed(true);
-	}, [setAccountInfoIsDisplayed]);
-	const hideSlider = useCallback(() => {
-		setAccountInfoIsDisplayed(false);
-	}, [setAccountInfoIsDisplayed]);
 
 	//Create chat display and hide
 	const changeCreateChatDisplayed = useCallback(() => {
@@ -89,10 +79,10 @@ const Messenger = withRouter(({ location }: any) => {
 	const displayChangePhoto = useCallback(
 		({ onSubmit }: Messenger.photoSelect) => {
 			setPhotoSelected({ ...photoSelected, isDisplayed: true, onSubmit });
-			hideSlider();
 		},
-		[setPhotoSelected, hideSlider],
+		[setPhotoSelected],
 	);
+	const location = useLocation();
 
 	return (
 		<div className='messenger'>
@@ -101,11 +91,22 @@ const Messenger = withRouter(({ location }: any) => {
 
 			<InternetError />
 
-			<RoutingChats />
+			<Route exact path={['/calls', '/settings', '/chats/:chatId?', '/contacts']}>
+				<RoutingChats />
+			</Route>
+
+			<Route exact path={'/settings/edit-profile'}>
+				<div className='edit-profile__header'>
+					<Link to='/settings' className='edit-profile__back'>
+						<ReturnSvg viewBox='0 0 25 25' />
+					</Link>
+					<div className='edit-profile__title'>Edit Profile</div>
+				</div>
+			</Route>
 
 			<div className='messenger__chat-list'>
 				<TransitionGroup>
-					<CSSTransition key={location.key} timeout={{ enter: 300, exit: 300 }} classNames={'slide'}>
+					<CSSTransition key={location.key} timeout={{ enter: 200, exit: 200 }} classNames={'slide'}>
 						<div className='messenger__chat-list__animated'>
 							<Switch location={location}>
 								<Route path='/calls'>
@@ -113,16 +114,12 @@ const Messenger = withRouter(({ location }: any) => {
 								</Route>
 
 								<Route path='/settings'>
-									<Settings />
+									<Settings displayChangePhoto={displayChangePhoto} setImageUrl={setImageUrl} />
 								</Route>
 
 								<Route path='/chats/:chatId?'>
 									<div className='messenger__chats'>
-										<SearchTop
-											displayChangePhoto={displayChangePhoto}
-											setImageUrl={setImageUrl}
-											displaySlider={displaySlider}
-										/>
+										<SearchTop displayChangePhoto={displayChangePhoto} setImageUrl={setImageUrl} />
 										<ChatList />
 									</div>
 								</Route>
@@ -157,17 +154,6 @@ const Messenger = withRouter(({ location }: any) => {
 				)}
 			</WithBackground>
 
-			<WithBackground isBackgroundDisplayed={accountInfoIsDisplayed} onBackgroundClick={hideSlider}>
-				<AccountInfo
-					isDisplayed={accountInfoIsDisplayed}
-					hideSlider={hideSlider}
-					displayCreateChat={changeCreateChatDisplayed}
-					displaySettings={changeSettingsDisplayed}
-					displayChangePhoto={displayChangePhoto}
-					setImageUrl={setImageUrl}
-				/>
-			</WithBackground>
-
 			<ChatData chatInfoDisplayed={infoDisplayed} displayChatInfo={displayChatInfo} />
 
 			<WithBackground isBackgroundDisplayed={settingsDisplayed} onBackgroundClick={changeSettingsDisplayed}>
@@ -187,6 +173,6 @@ const Messenger = withRouter(({ location }: any) => {
 			/>
 		</div>
 	);
-});
+};
 
 export default React.memo(Messenger);

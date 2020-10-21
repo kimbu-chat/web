@@ -147,141 +147,136 @@ const CreateConference = ({
 
 	return (
 		<WithBackground isBackgroundDisplayed={isDisplayed} onBackgroundClick={close}>
-			{isDisplayed && (
-				<Modal
-					title={
-						currentStage === ICreateConference.conferenceCreationStage.userSelect ? (
-							<div className='create-conference__heading'>
-								<div className='create-conference__title'>{t('createConference.add_members')}</div>
-								<div className='create-conference__selected-count'>{`${selectedUserIds.length} / 1000`}</div>
-							</div>
-						) : (
-							t('createConference.new_group')
-						)
-					}
-					closeModal={close}
-					contents={
-						<>
-							{currentStage === ICreateConference.conferenceCreationStage.userSelect && (
-								<div className={'create-conference__select-friends'}>
-									<SearchBox onChange={(e) => searchFriends(e.target.value)} />
-									<div className='create-conference__friends-block'>
-										{friends.map((friend) => {
-											return (
-												<FriendFromList
-													key={friend.id}
-													friend={friend}
-													isSelected={isSelected(friend.id)}
-													changeSelectedState={changeSelectedState}
-												/>
-											);
-										})}
-									</div>
-								</div>
-							)}
-
-							{currentStage === ICreateConference.conferenceCreationStage.conferenceCreation && (
-								<div className='edit-chat-modal'>
-									<div className='edit-chat-modal__change-photo'>
-										<div className='edit-chat-modal__current-photo-wrapper'>
-											<Avatar
-												src={avatarData?.croppedImagePath}
-												className='edit-chat-modal__current-photo'
-											>
-												{getStringInitials(name)}
-											</Avatar>
-											<button onClick={discardAvatar} className='edit-chat-modal__remove-photo'>
-												<CloseSVG viewBox='0 0 25 25' />
-											</button>
-										</div>
-										<div className='edit-chat-modal__change-photo-data'>
-											<input
-												onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-													handleImageChange(e)
-												}
-												ref={fileInputRef}
-												type='file'
-												hidden
-												accept='image/*'
+			<Modal
+				isDisplayed={isDisplayed}
+				title={
+					currentStage === ICreateConference.conferenceCreationStage.userSelect ? (
+						<div className='create-conference__heading'>
+							<div className='create-conference__title'>{t('createConference.add_members')}</div>
+							<div className='create-conference__selected-count'>{`${selectedUserIds.length} / 1000`}</div>
+						</div>
+					) : (
+						t('createConference.new_group')
+					)
+				}
+				closeModal={close}
+				contents={
+					<>
+						{currentStage === ICreateConference.conferenceCreationStage.userSelect && (
+							<div className={'create-conference__select-friends'}>
+								<SearchBox onChange={(e) => searchFriends(e.target.value)} />
+								<div className='create-conference__friends-block'>
+									{friends.map((friend) => {
+										return (
+											<FriendFromList
+												key={friend.id}
+												friend={friend}
+												isSelected={isSelected(friend.id)}
+												changeSelectedState={changeSelectedState}
 											/>
-											<button
-												onClick={() => fileInputRef.current?.click()}
-												className='edit-chat-modal__change-photo__btn'
-											>
-												Upload New Photo
-											</button>
-											<span className='edit-chat-modal__change-photo__description'>
-												At least 256 x 256px PNG or JPG file.
-											</span>
-										</div>
+										);
+									})}
+								</div>
+							</div>
+						)}
+
+						{currentStage === ICreateConference.conferenceCreationStage.conferenceCreation && (
+							<div className='edit-chat-modal'>
+								<div className='edit-chat-modal__change-photo'>
+									<div className='edit-chat-modal__current-photo-wrapper'>
+										<Avatar
+											src={avatarData?.croppedImagePath}
+											className='edit-chat-modal__current-photo'
+										>
+											{getStringInitials(name)}
+										</Avatar>
+										<button onClick={discardAvatar} className='edit-chat-modal__remove-photo'>
+											<CloseSVG viewBox='0 0 25 25' />
+										</button>
 									</div>
-									<div className='edit-chat-modal__name'>
-										<span className='edit-chat-modal__name__label'>Name</span>
+									<div className='edit-chat-modal__change-photo-data'>
 										<input
-											value={name}
-											onChange={(e) => setName(e.target.value)}
-											type='text'
-											className='edit-chat-modal__name__input'
+											onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleImageChange(e)}
+											ref={fileInputRef}
+											type='file'
+											hidden
+											accept='image/*'
 										/>
-									</div>
-									<div className='edit-chat-modal__description'>
-										<span className='edit-chat-modal__description__label'>
-											Description (optional)
+										<button
+											onClick={() => fileInputRef.current?.click()}
+											className='edit-chat-modal__change-photo__btn'
+										>
+											Upload New Photo
+										</button>
+										<span className='edit-chat-modal__change-photo__description'>
+											At least 256 x 256px PNG or JPG file.
 										</span>
-										<textarea className='edit-chat-modal__description__input' />
 									</div>
 								</div>
-							)}
-						</>
-					}
-					buttons={[
-						{
-							text: t('createConference.cancel'),
-							style: {
-								color: '#6D7885',
-								backgroundColor: '#fff',
-								padding: '11px 48px',
-								border: '1px solid #D7D8D9',
-								marginRight: '20px',
-							},
-
-							position: 'left',
-							onClick: close,
+								<div className='edit-chat-modal__name'>
+									<span className='edit-chat-modal__name__label'>Name</span>
+									<input
+										value={name}
+										onChange={(e) => setName(e.target.value)}
+										type='text'
+										className='edit-chat-modal__name__input'
+									/>
+								</div>
+								<div className='edit-chat-modal__description'>
+									<span className='edit-chat-modal__description__label'>Description (optional)</span>
+									<textarea className='edit-chat-modal__description__input' />
+								</div>
+							</div>
+						)}
+					</>
+				}
+				buttons={[
+					{
+						text: t('createConference.cancel'),
+						style: {
+							color: '#6D7885',
+							backgroundColor: '#fff',
+							padding: '11px 48px',
+							border: '1px solid #D7D8D9',
+							marginRight: '20px',
 						},
-						{
-							text: t('createConference.create'),
-							style: {
-								color: '#fff',
-								backgroundColor: selectedUserIds.length === 0 ? '#6ea2de' : '#3F8AE0',
-								padding: '11px 88px',
-								display:
-									currentStage === ICreateConference.conferenceCreationStage.userSelect
-										? 'block'
-										: 'none',
-							},
 
-							position: 'left',
-							disabled: selectedUserIds.length === 0,
-							onClick: goToNexStage,
+						position: 'left',
+						onClick: close,
+					},
+					{
+						text: t('createConference.create'),
+						style: {
+							color: '#fff',
+							backgroundColor: selectedUserIds.length === 0 ? '#6ea2de' : '#3F8AE0',
+							padding: '11px 88px',
+							display:
+								currentStage === ICreateConference.conferenceCreationStage.userSelect
+									? 'block'
+									: 'none',
 						},
-						{
-							text: t('createConference.next'),
-							style: {
-								color: '#fff',
-								backgroundColor: '#3F8AE0',
-								padding: '11px 88px',
-								display:
-									currentStage === ICreateConference.conferenceCreationStage.conferenceCreation
-										? 'block'
-										: 'none',
-							},
 
-							position: 'left',
-							onClick: onSubmit,
+						position: 'left',
+						disabled: selectedUserIds.length === 0,
+						onClick: goToNexStage,
+					},
+					{
+						text: t('createConference.next'),
+						style: {
+							color: '#fff',
+							backgroundColor: '#3F8AE0',
+							padding: '11px 88px',
+							display:
+								currentStage === ICreateConference.conferenceCreationStage.conferenceCreation
+									? 'block'
+									: 'none',
 						},
-					]}
-				/>
-			)}
+
+						position: 'left',
+						onClick: onSubmit,
+					},
+				]}
+			/>
 		</WithBackground>
 	);
 };

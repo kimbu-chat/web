@@ -27,7 +27,7 @@ namespace EditProfile {
 const EditProfile = ({ setImageUrl, displayChangePhoto }: EditProfile.Props) => {
 	const myProfile = useSelector(getMyProfileSelector);
 
-	const changePhoto = useActionWithDeferred(MyProfileActions.updateMyAvatar);
+	const changePhoto = useActionWithDeferred(MyProfileActions.updateMyAvatarAction);
 
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
 

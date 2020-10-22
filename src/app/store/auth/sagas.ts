@@ -138,7 +138,7 @@ function* authenticate(action: ReturnType<typeof AuthActions.confirmPhone>): Sag
 		nickname: '',
 		status: UserStatus.Online,
 	};
-	yield put(MyProfileActions.getMyProfileSuccess(myProfile));
+	yield put(MyProfileActions.getMyProfileSuccessAction(myProfile));
 	profileService.setMyProfile(myProfile);
 	const securityTokens: SecurityTokens = {
 		accessToken: data.accessToken,

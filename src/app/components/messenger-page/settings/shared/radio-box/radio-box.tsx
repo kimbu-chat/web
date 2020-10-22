@@ -7,13 +7,14 @@ namespace RadioBox {
 		onClick: () => void;
 		title: string;
 		groupName: string;
+		defaultChecked?: boolean;
 	}
 }
 
-const RadioBox = ({ groupName, title, onClick, nestingLevel }: RadioBox.Props) => {
+const RadioBox = ({ defaultChecked, groupName, title, onClick, nestingLevel }: RadioBox.Props) => {
 	return (
 		<label style={{ marginLeft: nestingLevel * 30 + 'px' }} onClick={onClick} className='radio-box'>
-			<input name={groupName} className={`radio-box__radio-input`} type='radio' />
+			<input defaultChecked={defaultChecked} name={groupName} className={`radio-box__radio-input`} type='radio' />
 
 			<div className={`radio-box__radio-box`}></div>
 			<span className='radio-box__title'>{title}</span>

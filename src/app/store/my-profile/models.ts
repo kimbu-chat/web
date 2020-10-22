@@ -33,7 +33,7 @@ export interface UpdateMyProfileActionData {
 }
 
 export interface UpdateNicknameActionData {
-	nickName: string;
+	nickname: string;
 }
 
 export interface AvatarSelectedData {

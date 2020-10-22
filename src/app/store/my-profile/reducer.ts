@@ -44,6 +44,16 @@ const myProfile = createReducer<MyProfileState>(initialState)
 				return draft;
 			},
 		),
+	)
+	.handleAction(
+		[MyProfileActions.updateMyNicknameActionSuccess],
+		produce(
+			(draft: MyProfileState, { payload }: ReturnType<typeof MyProfileActions.updateMyNicknameActionSuccess>) => {
+				draft.user!.nickname = payload.nickname;
+
+				return draft;
+			},
+		),
 	);
 
 export default myProfile;

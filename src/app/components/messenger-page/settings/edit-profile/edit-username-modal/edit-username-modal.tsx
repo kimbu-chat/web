@@ -7,6 +7,8 @@ import { useSelector } from 'react-redux';
 import ValidSvg from 'app/assets/icons/ic-check-filled.svg';
 import InValidSvg from 'app/assets/icons/ic-dismiss.svg';
 import './edit-username-modal.scss';
+import { MyProfileActions } from 'app/store/my-profile/actions';
+import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
 
 namespace EditUserNameModal {
 	export interface Props {
@@ -18,18 +20,28 @@ namespace EditUserNameModal {
 const EditUserNameModal = ({ close, isDisplayed }: EditUserNameModal.Props) => {
 	const myProfile = useSelector(getMyProfileSelector);
 
-	const [userName, setUserName] = useState(myProfile?.nickname || '');
+	const updateMyNickname = useActionWithDeferred(MyProfileActions.updateMyNicknameAction);
+
+	const [nickname, setNickname] = useState(myProfile?.nickname || '');
 
 	useEffect(() => {
-		setUserName(myProfile?.nickname || '');
+		setNickname(myProfile?.nickname || '');
 	}, [isDisplayed]);
 
 	const changeUserName = useCallback(
 		(event: React.ChangeEvent<HTMLInputElement>) => {
-			setUserName(event.target.value);
+			setNickname(event.target.value);
 		},
-		[setUserName],
+		[setNickname],
 	);
+
+	const onSubmit = useCallback(() => {
+		if (nickname !== myProfile?.nickname) {
+			updateMyNickname({ nickname });
+		}
+		close();
+	}, [nickname, updateMyNickname, myProfile]);
+
 	return (
 		<WithBackground isBackgroundDisplayed={isDisplayed} onBackgroundClick={close}>
 			<Modal
@@ -42,7 +54,7 @@ const EditUserNameModal = ({ close, isDisplayed }: EditUserNameModal.Props) => {
 							<span className='edit-username-modal__input-label'>Username</span>
 							<div className='edit-username-modal__input-wrapper'>
 								<input
-									value={userName}
+									value={nickname}
 									onChange={changeUserName}
 									type='text'
 									className='edit-username-modal__input'
@@ -76,7 +88,7 @@ const EditUserNameModal = ({ close, isDisplayed }: EditUserNameModal.Props) => {
 						},
 
 						position: 'left',
-						onClick: () => {},
+						onClick: onSubmit,
 					},
 				]}
 			/>

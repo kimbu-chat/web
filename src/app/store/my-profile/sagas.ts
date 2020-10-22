@@ -70,6 +70,26 @@ export function* updateMyProfileSaga(action: ReturnType<typeof MyProfileActions.
 	}
 }
 
+export function* updateMyNicknameSaga(
+	action: ReturnType<typeof MyProfileActions.updateMyNicknameAction>,
+): SagaIterator {
+	try {
+		const updateNicknameRequest = MyProfileHttpRequests.updateMyNickName;
+		const { status } = updateNicknameRequest.call(
+			yield call(() => updateNicknameRequest.generator(action.payload)),
+		);
+
+		if (status === 200) {
+			yield put(MyProfileActions.updateMyNicknameActionSuccess(action.payload));
+			action.meta.deferred?.resolve();
+		} else {
+			action.meta.deferred?.reject();
+		}
+	} catch {
+		action.meta.deferred?.reject();
+	}
+}
+
 export function* getMyProfileSaga(): SagaIterator {
 	const profileService = new MyProfileService();
 	const currentUserId = profileService.myProfile.id;
@@ -83,6 +103,7 @@ export function* getMyProfileSaga(): SagaIterator {
 export const MyProfileSagas = [
 	takeLatest(MyProfileActions.updateMyAvatarAction, uploadUserAvatarSaga),
 	takeLatest(MyProfileActions.updateMyProfileAction, updateMyProfileSaga),
+	takeLatest(MyProfileActions.updateMyNicknameAction, updateMyNicknameSaga),
 	takeLatest(MyProfileActions.getMyProfileAction, getMyProfileSaga),
 	//takeEvery(MyProfileActions.changeUserOnlineStatus, changeOnlineStatus),
 ];

@@ -43,9 +43,9 @@ const EditNameModal = ({ close, isDisplayed }: EditNameModal.Props) => {
 	const onSubmit = useCallback(() => {
 		if (firstName !== myProfile?.firstName || lastName !== myProfile?.lastName) {
 			updateMyProfile({ firstName, lastName });
-			close();
 		}
-	}, [firstName, lastName, updateMyProfile]);
+		close();
+	}, [firstName, lastName, updateMyProfile, myProfile]);
 
 	return (
 		<WithBackground isBackgroundDisplayed={isDisplayed} onBackgroundClick={close}>

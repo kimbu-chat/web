@@ -30,7 +30,10 @@ export interface GetFriendsSuccessActionData {
 export interface UpdateMyProfileActionData {
 	firstName: string;
 	lastName: string;
-	nickName: string;
+}
+
+export interface UpdateNicknameActionData {
+	nickname: string;
 }
 
 export interface AvatarSelectedData {

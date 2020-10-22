@@ -11,7 +11,6 @@ import CreateMessageInput from '../../components/messenger-page/message-input/me
 import WithBackground from '../../components/shared/with-background';
 import ChatInfo from '../../components/messenger-page/chat-info/chat-info';
 import ChangePhoto from '../../components/messenger-page/change-photo/change-photo';
-import AccountSettings from 'app/components/messenger-page/account-settings/account-settings';
 import InternetError from 'app/components/shared/internet-error/internet-error';
 import IncomingCall from 'app/components/messenger-page/incoming-call/incoming-call';
 import ActiveCall from 'app/components/messenger-page/active-call/active-call';
@@ -48,7 +47,6 @@ const Messenger = () => {
 	//@ts-ignore
 	const [createChatDisplayed, setCreateChatDisplayed] = useState(false);
 	const [infoDisplayed, setInfoDisplayed] = useState(false);
-	const [settingsDisplayed, setSettingsDisplayed] = useState(false);
 	const [imageUrl, setImageUrl] = useState<string | ArrayBuffer | null>('');
 
 	//hide chatInfo on chat change
@@ -67,11 +65,6 @@ const Messenger = () => {
 		setInfoDisplayed(false);
 	}, [setInfoDisplayed]);
 
-	//Settings dispay and hide settings
-	const changeSettingsDisplayed = useCallback(() => {
-		setSettingsDisplayed((oldState) => !oldState);
-	}, [setSettingsDisplayed]);
-
 	//Cropper display and hide
 	const hideChangePhoto = useCallback(() => setPhotoSelected({ isDisplayed: false }), []);
 	const displayChangePhoto = useCallback(
@@ -89,21 +82,35 @@ const Messenger = () => {
 
 			<InternetError />
 
-			<Route exact path={['/calls', '/settings', '/chats/:chatId?', '/contacts']}>
-				<RoutingChats />
-			</Route>
+			<Switch location={location}>
+				<Route exact path={['/calls', '/settings', '/chats/:chatId?', '/contacts']}>
+					<RoutingChats />
+				</Route>
 
-			<Route exact path={'/settings/edit-profile'}>
-				<SettingsHeader title='Edit Profile' />
-			</Route>
+				<Route exact path={'/settings/edit-profile'}>
+					<SettingsHeader title='Edit Profile' />
+				</Route>
 
-			<Route exact path={'/settings/notifications'}>
-				<SettingsHeader title='Notifications' />
-			</Route>
+				<Route exact path={'/settings/notifications'}>
+					<SettingsHeader title='Notifications' />
+				</Route>
+
+				<Route exact path={'/settings/language'}>
+					<SettingsHeader title='Language' />
+				</Route>
+
+				<Route exact path={'/settings/typing'}>
+					<SettingsHeader title='Text Typing' />
+				</Route>
+			</Switch>
 
 			<div className='messenger__chat-list'>
 				<TransitionGroup>
-					<CSSTransition key={location.key} timeout={{ enter: 200, exit: 200 }} classNames={'slide'}>
+					<CSSTransition
+						key={location.pathname.split('/')[1]}
+						timeout={{ enter: 200, exit: 200 }}
+						classNames={'slide'}
+					>
 						<div className='messenger__chat-list__animated'>
 							<Switch location={location}>
 								<Route path='/calls'>
@@ -152,10 +159,6 @@ const Messenger = () => {
 			</WithBackground>
 
 			<ChatData chatInfoDisplayed={infoDisplayed} displayChatInfo={displayChatInfo} />
-
-			<WithBackground isBackgroundDisplayed={settingsDisplayed} onBackgroundClick={changeSettingsDisplayed}>
-				<AccountSettings isDisplayed={settingsDisplayed} hide={changeSettingsDisplayed} />
-			</WithBackground>
 
 			<div className={`messenger__chat-send ${infoDisplayed ? 'messenger__chat-send--little' : ''}`}>
 				<Chat />

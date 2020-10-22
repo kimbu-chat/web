@@ -4,8 +4,8 @@ import en from './en.json';
 import ru from './ru.json';
 
 // todo: load only needed local at runtime
-import { LangService } from 'app/services/lang-service';
 import moment from 'moment';
+import { SettingsService } from 'app/services/settings-service';
 
 i18n.on('languageChanged', (lng: string) => {
 	moment.locale(lng);
@@ -17,7 +17,7 @@ i18n.use(initReactI18next)
 		initImmediate: false,
 		preload: ['en'],
 		fallbackLng: 'en',
-		lng: new LangService().currentLang?.language || navigator.language,
+		lng: new SettingsService().settings?.language || navigator.language,
 		resources: {
 			en: {
 				translation: en,

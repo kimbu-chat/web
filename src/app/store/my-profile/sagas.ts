@@ -1,8 +1,6 @@
 import { call, put, takeLatest, select } from 'redux-saga/effects';
-import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { FileUploadRequest, ErrorUploadResponse, uploadFileSaga } from '../../utils/file-uploader/file-uploader';
-import { HTTPStatusCode } from 'app/common/http-status-code';
 import { AvatarSelectedData, UserPreview } from './models';
 import { MyProfileActions } from './actions';
 import { MyProfileHttpRequests } from './http-requests';
@@ -12,7 +10,7 @@ import { RootState } from '../root-reducer';
 
 export function* changeOnlineStatus({
 	payload,
-}: ReturnType<typeof MyProfileActions.changeUserOnlineStatus>): SagaIterator {
+}: ReturnType<typeof MyProfileActions.changeUserOnlineStatusAction>): SagaIterator {
 	try {
 		const httpRequest = MyProfileHttpRequests.changeOnlineStatus;
 		httpRequest.call(yield call(() => httpRequest.generator({ isOnline: payload })));
@@ -21,7 +19,7 @@ export function* changeOnlineStatus({
 	}
 }
 
-export function* uploadUserAvatar(action: ReturnType<typeof MyProfileActions.updateMyAvatar>): SagaIterator {
+export function* uploadUserAvatar(action: ReturnType<typeof MyProfileActions.updateMyAvatarAction>): SagaIterator {
 	const image: AvatarSelectedData = action.payload;
 
 	const { croppedImagePath, imagePath, offsetY, offsetX, width } = image;
@@ -42,7 +40,7 @@ export function* uploadUserAvatar(action: ReturnType<typeof MyProfileActions.upd
 			alert(response.error);
 		},
 		*completedCallback(response) {
-			yield put(MyProfileActions.updateMyAvatarSuccess(response.data));
+			yield put(MyProfileActions.updateMyAvatarSuccessAction(response.data));
 			// action.payload.deferred?.resolve();
 		},
 	};
@@ -50,17 +48,39 @@ export function* uploadUserAvatar(action: ReturnType<typeof MyProfileActions.upd
 	yield call(uploadFileSaga, uploadRequest);
 }
 
-export function* uploadUserAvatarSaga(action: ReturnType<typeof MyProfileActions.updateMyAvatar>): SagaIterator {
+export function* uploadUserAvatarSaga(action: ReturnType<typeof MyProfileActions.updateMyAvatarAction>): SagaIterator {
 	yield call(uploadUserAvatar, action);
 	const updatedProfile: UserPreview = yield select((state: RootState) => state.myProfile.user);
 	new MyProfileService().setMyProfile(updatedProfile);
 }
 
-export function* updateMyProfileSaga(action: ReturnType<typeof MyProfileActions.updateMyProfile>): SagaIterator {
+export function* updateMyProfileSaga(action: ReturnType<typeof MyProfileActions.updateMyProfileAction>): SagaIterator {
 	try {
-		// @ts-ignore
-		const { status }: AxiosResponse = yield call(updateMyProfileApi, action.payload);
-		if (status === HTTPStatusCode.OK) {
+		const updateProfileRequest = MyProfileHttpRequests.updateMyProfile;
+		const { status } = updateProfileRequest.call(yield call(() => updateProfileRequest.generator(action.payload)));
+
+		if (status === 200) {
+			yield put(MyProfileActions.updateMyProfileSuccessAction(action.payload));
+			action.meta.deferred?.resolve();
+		} else {
+			action.meta.deferred?.reject();
+		}
+	} catch {
+		action.meta.deferred?.reject();
+	}
+}
+
+export function* updateMyNicknameSaga(
+	action: ReturnType<typeof MyProfileActions.updateMyNicknameAction>,
+): SagaIterator {
+	try {
+		const updateNicknameRequest = MyProfileHttpRequests.updateMyNickName;
+		const { status } = updateNicknameRequest.call(
+			yield call(() => updateNicknameRequest.generator(action.payload)),
+		);
+
+		if (status === 200) {
+			yield put(MyProfileActions.updateMyNicknameActionSuccess(action.payload));
 			action.meta.deferred?.resolve();
 		} else {
 			action.meta.deferred?.reject();
@@ -77,12 +97,13 @@ export function* getMyProfileSaga(): SagaIterator {
 	const httpRequest = MyProfileHttpRequests.getUserProfile;
 	const { data } = httpRequest.call(yield call(() => httpRequest.generator(currentUserId)));
 	profileService.setMyProfile(data);
-	yield put(MyProfileActions.getMyProfileSuccess(data));
+	yield put(MyProfileActions.getMyProfileSuccessAction(data));
 }
 
 export const MyProfileSagas = [
-	takeLatest(MyProfileActions.updateMyAvatar, uploadUserAvatarSaga),
-	takeLatest(MyProfileActions.updateMyProfile, updateMyProfileSaga),
-	takeLatest(MyProfileActions.getMyProfile, getMyProfileSaga),
+	takeLatest(MyProfileActions.updateMyAvatarAction, uploadUserAvatarSaga),
+	takeLatest(MyProfileActions.updateMyProfileAction, updateMyProfileSaga),
+	takeLatest(MyProfileActions.updateMyNicknameAction, updateMyNicknameSaga),
+	takeLatest(MyProfileActions.getMyProfileAction, getMyProfileSaga),
 	//takeEvery(MyProfileActions.changeUserOnlineStatus, changeOnlineStatus),
 ];

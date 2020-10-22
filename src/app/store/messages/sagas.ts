@@ -57,18 +57,21 @@ export function* createMessage(action: ReturnType<typeof MessageActions.createMe
 		//notifications play
 		const currentUserId = yield select((state: RootState) => state.myProfile.user?.id);
 		const chatOfMessage = yield select((state: RootState) => state.chats.chats.find(({ id }) => id === chat.id));
+		const isAudioPlayAllowed = yield select((state: RootState) => state.settings.notificationSound);
 
-		if (
-			message.userCreator?.id !== currentUserId &&
-			!(selectedChatId !== message.chatId) &&
-			!document.hidden &&
-			!chatOfMessage.isMuted
-		) {
-			audioSelected.play();
-		}
+		if (isAudioPlayAllowed) {
+			if (
+				message.userCreator?.id !== currentUserId &&
+				!(selectedChatId !== message.chatId) &&
+				!document.hidden &&
+				!chatOfMessage.isMuted
+			) {
+				audioSelected.play();
+			}
 
-		if ((selectedChatId !== message.chatId || document.hidden) && !chatOfMessage.isMuted) {
-			audioUnselected.play();
+			if ((selectedChatId !== message.chatId || document.hidden) && !chatOfMessage.isMuted) {
+				audioUnselected.play();
+			}
 		}
 	} else {
 		try {

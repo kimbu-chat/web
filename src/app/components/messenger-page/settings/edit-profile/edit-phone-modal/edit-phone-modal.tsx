@@ -1,8 +1,10 @@
 import { country, countryList } from 'app/common/countries';
 import Modal from 'app/components/shared/modal/modal';
 import WithBackground from 'app/components/shared/with-background';
-import { parsePhoneNumberFromString } from 'libphonenumber-js';
-import React, { useCallback, useRef, useState } from 'react';
+import { RootState } from 'app/store/root-reducer';
+import { parsePhoneNumber, parsePhoneNumberFromString } from 'libphonenumber-js';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import './edit-phone-modal.scss';
 import ModalCountrySelect from './modal-country-select/modal-country-select';
 import ModalPhoneInput from './modal-phone-input/modal-phone-input';
@@ -15,11 +17,19 @@ namespace EditPhoneModal {
 }
 
 const EditPhoneModal = ({ close, isDisplayed }: EditPhoneModal.Props) => {
-	const [country, setCountry] = useState<country>(countryList[230]);
-	const [phone, setPhone] = useState<string>('');
+	const currentNumber = useSelector((state: RootState) => state.myProfile.user?.phoneNumber);
+	const currentNumberCountry = parsePhoneNumber(currentNumber!).country;
 
+	const [country, setCountry] = useState<country>(countryList.find(({ code }) => currentNumberCountry === code)!);
+	const [phone, setPhone] = useState<string>('');
 	const [countrySelectRef, setCountrySelectRef] = useState<React.RefObject<HTMLInputElement> | null>(null);
+
 	const phoneInputRef = useRef<HTMLInputElement>(null);
+
+	useEffect(() => {
+		setCountry(countryList.find(({ code }) => currentNumberCountry === code)!);
+		setPhone('');
+	}, [isDisplayed]);
 
 	const sendSms = useCallback(() => {
 		const phoneNumber = parsePhoneNumberFromString(phone);

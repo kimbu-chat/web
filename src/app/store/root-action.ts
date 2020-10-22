@@ -6,6 +6,7 @@ import { MyProfileActions } from './my-profile/actions';
 import { FriendActions } from './friends/actions';
 import { CallActions } from './calls/actions';
 import { InternetActions } from './internet/actions';
+import { SettingsActions } from './settings/actions';
 
 export type RootAction =
 	| ActionUnionType<typeof MessageActions>
@@ -14,4 +15,5 @@ export type RootAction =
 	| ActionUnionType<typeof ChatActions>
 	| ActionUnionType<typeof MyProfileActions>
 	| ActionUnionType<typeof CallActions>
-	| ActionUnionType<typeof InternetActions>;
+	| ActionUnionType<typeof InternetActions>
+	| ActionUnionType<typeof SettingsActions>;

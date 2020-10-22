@@ -6,6 +6,7 @@ import { SagaIterator, eventChannel } from 'redux-saga';
 import { WebSocketActions } from '../sockets/actions';
 import { intervalInternetConnectionCheckSaga } from '../internet/sagas';
 import { RootState } from '../root-reducer';
+import { SettingsActions } from '../settings/actions';
 
 export function* initializeSaga(): SagaIterator {
 	const authService = new AuthService();
@@ -16,9 +17,10 @@ export function* initializeSaga(): SagaIterator {
 	}
 
 	yield put(WebSocketActions.initSocketConnection());
-	yield put(MyProfileActions.changeUserOnlineStatus(true));
+	yield put(SettingsActions.getUserSettingsAction());
+	yield put(MyProfileActions.changeUserOnlineStatusAction(true));
 
-	yield put(MyProfileActions.getMyProfile());
+	yield put(MyProfileActions.getMyProfileAction());
 
 	yield put(
 		FriendActions.getFriends({
@@ -57,8 +59,8 @@ function* watcher() {
 	while (true) {
 		const action =
 			(yield take(channel)) && amIauthenticated
-				? MyProfileActions.changeUserOnlineStatus(true)
-				: MyProfileActions.changeUserOnlineStatus(false);
+				? MyProfileActions.changeUserOnlineStatusAction(true)
+				: MyProfileActions.changeUserOnlineStatusAction(false);
 		yield put(action);
 	}
 }

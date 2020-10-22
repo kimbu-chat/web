@@ -1,7 +1,9 @@
 import Modal from 'app/components/shared/modal/modal';
 import WithBackground from 'app/components/shared/with-background';
+import { MyProfileActions } from 'app/store/my-profile/actions';
 import { getMyProfileSelector } from 'app/store/my-profile/selectors';
-import React, { useCallback, useState } from 'react';
+import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import './edit-name-modal.scss';
 
@@ -15,8 +17,15 @@ namespace EditNameModal {
 const EditNameModal = ({ close, isDisplayed }: EditNameModal.Props) => {
 	const myProfile = useSelector(getMyProfileSelector);
 
+	const updateMyProfile = useActionWithDeferred(MyProfileActions.updateMyProfileAction);
+
 	const [firstName, setFirstName] = useState(myProfile?.firstName || '');
 	const [lastName, setLastName] = useState(myProfile?.lastName || '');
+
+	useEffect(() => {
+		setFirstName(myProfile?.firstName || '');
+		setLastName(myProfile?.lastName || '');
+	}, [isDisplayed]);
 
 	const changeFirstName = useCallback(
 		(event: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,6 +39,13 @@ const EditNameModal = ({ close, isDisplayed }: EditNameModal.Props) => {
 		},
 		[setLastName],
 	);
+
+	const onSubmit = useCallback(() => {
+		if (firstName !== myProfile?.firstName || lastName !== myProfile?.lastName) {
+			updateMyProfile({ firstName, lastName });
+		}
+		close();
+	}, [firstName, lastName, updateMyProfile, myProfile]);
 
 	return (
 		<WithBackground isBackgroundDisplayed={isDisplayed} onBackgroundClick={close}>
@@ -72,7 +88,7 @@ const EditNameModal = ({ close, isDisplayed }: EditNameModal.Props) => {
 						},
 
 						position: 'left',
-						onClick: () => {},
+						onClick: onSubmit,
 					},
 				]}
 			/>

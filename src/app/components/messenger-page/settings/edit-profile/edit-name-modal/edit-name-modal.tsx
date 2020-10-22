@@ -1,7 +1,7 @@
 import Modal from 'app/components/shared/modal/modal';
 import WithBackground from 'app/components/shared/with-background';
 import { getMyProfileSelector } from 'app/store/my-profile/selectors';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import './edit-name-modal.scss';
 
@@ -17,6 +17,11 @@ const EditNameModal = ({ close, isDisplayed }: EditNameModal.Props) => {
 
 	const [firstName, setFirstName] = useState(myProfile?.firstName || '');
 	const [lastName, setLastName] = useState(myProfile?.lastName || '');
+
+	useEffect(() => {
+		setFirstName(myProfile?.firstName || '');
+		setLastName(myProfile?.lastName || '');
+	}, [isDisplayed]);
 
 	const changeFirstName = useCallback(
 		(event: React.ChangeEvent<HTMLInputElement>) => {

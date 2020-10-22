@@ -1,7 +1,7 @@
 import Modal from 'app/components/shared/modal/modal';
 import WithBackground from 'app/components/shared/with-background';
 import { getMyProfileSelector } from 'app/store/my-profile/selectors';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import ValidSvg from 'app/assets/icons/ic-check-filled.svg';
@@ -19,6 +19,10 @@ const EditUserNameModal = ({ close, isDisplayed }: EditUserNameModal.Props) => {
 	const myProfile = useSelector(getMyProfileSelector);
 
 	const [userName, setUserName] = useState(myProfile?.nickname || '');
+
+	useEffect(() => {
+		setUserName(myProfile?.nickname || '');
+	}, [isDisplayed]);
 
 	const changeUserName = useCallback(
 		(event: React.ChangeEvent<HTMLInputElement>) => {

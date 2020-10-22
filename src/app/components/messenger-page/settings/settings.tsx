@@ -14,6 +14,7 @@ import { NavLink, Route, Switch, useLocation } from 'react-router-dom';
 import EditProfile from './edit-profile/edit-profile';
 import { Messenger } from 'app/containers/messenger/messenger';
 import NotificationsSettings from './notifications-settings/notifications-settings';
+import LanguageSettings from './language-settings/language-settings';
 
 namespace Settings {
 	export interface Props {
@@ -69,6 +70,10 @@ const Settings = ({ displayChangePhoto, setImageUrl }: Settings.Props) => {
 
 			<Route path='/settings/notifications'>
 				<NotificationsSettings />
+			</Route>
+
+			<Route path='/settings/language'>
+				<LanguageSettings />
 			</Route>
 		</Switch>
 	);

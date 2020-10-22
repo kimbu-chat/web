@@ -1,5 +1,5 @@
 import React from 'react';
-import CheckBox from './check-box/check-box';
+import CheckBox from '../shared/check-box/check-box';
 import './notifications-settings.scss';
 
 const NotificationsSettings = () => {

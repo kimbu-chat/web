@@ -101,6 +101,10 @@ const Messenger = () => {
 				<SettingsHeader title='Notifications' />
 			</Route>
 
+			<Route exact path={'/settings/language'}>
+				<SettingsHeader title='Language' />
+			</Route>
+
 			<div className='messenger__chat-list'>
 				<TransitionGroup>
 					<CSSTransition key={location.key} timeout={{ enter: 200, exit: 200 }} classNames={'slide'}>

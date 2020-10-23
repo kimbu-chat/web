@@ -2,10 +2,14 @@
 	&__friend {
 		display: flex;
 		align-items: center;
-
-		margin-top: 20px;
+		padding-top: 10px;
+		padding-bottom: 10px;
 		cursor: pointer;
 		user-select: none;
+
+		&:first-child {
+			margin-top: 5px;
+		}
 
 		&:hover {
 			background-color: rgba(63, 138, 224, 0.1);

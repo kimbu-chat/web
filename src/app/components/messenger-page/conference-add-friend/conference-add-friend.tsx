@@ -1,7 +1,7 @@
 import Modal from 'app/components/shared/modal/modal';
 import WithBackground from 'app/components/shared/with-background';
 import { RootState } from 'app/store/root-reducer';
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import './conference-add-friend.scss';
@@ -14,6 +14,7 @@ import { getSelectedChatSelector } from 'app/store/chats/selectors';
 import { useEffect } from 'react';
 import { FriendActions } from 'app/store/friends/actions';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+import { LocalizationContext } from 'app/app';
 
 namespace ConferenceAddFriendModal {
 	export interface Props {
@@ -23,6 +24,8 @@ namespace ConferenceAddFriendModal {
 }
 
 const ConferenceAddFriendModal = ({ close, isDisplayed }: ConferenceAddFriendModal.Props) => {
+	const { t } = useContext(LocalizationContext);
+
 	const [selectedUserIds, setselectedUserIds] = useState<number[]>([]);
 
 	const friends = useSelector((state: RootState) => state.friends.friends);
@@ -67,7 +70,7 @@ const ConferenceAddFriendModal = ({ close, isDisplayed }: ConferenceAddFriendMod
 		<WithBackground isBackgroundDisplayed={isDisplayed} onBackgroundClick={close}>
 			<Modal
 				isDisplayed={isDisplayed}
-				title='Add friend'
+				title={t('conferenceAddFriendModal.add_members')}
 				closeModal={close}
 				contents={
 					<div className={'conference-add-friend-modal'}>
@@ -89,28 +92,16 @@ const ConferenceAddFriendModal = ({ close, isDisplayed }: ConferenceAddFriendMod
 				}
 				buttons={[
 					{
-						text: 'Add friends',
+						text: t('conferenceAddFriendModal.add_members'),
 						style: {
 							backgroundColor: 'rgb(63, 138, 224)',
 							color: '#fff',
 							padding: '16px 49.5px',
 							margin: '0',
+							width: '100%',
 						},
 						position: 'left',
 						onClick: addUsers,
-					},
-					{
-						text: 'Cancel',
-						style: {
-							color: 'rgb(109, 120, 133)',
-							backgroundColor: 'rgb(255, 255, 255)',
-							padding: '16px 38px',
-							margin: '0 0 0 10px',
-							border: '1px solid rgb(215, 216, 217)',
-						},
-
-						position: 'left',
-						onClick: close,
 					},
 				]}
 			/>

@@ -72,45 +72,45 @@ const ChatActions = ({ addMembers, displayCreateChat }: ChatActions.Props) => {
 			<div className='chat-actions__heading'>{t('chatActions.actions')}</div>
 			<button onClick={muteThisChat} className='chat-actions__action'>
 				{selectedChat.isMuted ? (
-					<UnmuteSvg className='chat-actions__action__svg' />
+					<UnmuteSvg viewBox='0 0 25 25' className='chat-actions__action__svg' />
 				) : (
-					<MuteSvg className='chat-actions__action__svg' />
+					<MuteSvg viewBox='0 0 25 25' className='chat-actions__action__svg' />
 				)}
 				<span className='chat-actions__action__name'>
 					{selectedChat.isMuted ? t('chatActions.unmute') : t('chatActions.mute')}
 				</span>
 			</button>
 			<button className='chat-actions__action'>
-				<ClearSvg className='chat-actions__action__svg' />
+				<ClearSvg viewBox='0 0 25 25' className='chat-actions__action__svg' />
 				<span className='chat-actions__action__name'>{t('chatActions.clear-history')}</span>
 			</button>
 			{selectedChat.interlocutor && (
 				<button className='chat-actions__action'>
-					<EditSvg className='chat-actions__action__svg' />
+					<EditSvg viewBox='0 0 25 25' className='chat-actions__action__svg' />
 					<span className='chat-actions__action__name'>{t('chatActions.edit-contact')}</span>
 				</button>
 			)}
 			{selectedChat.interlocutor && selectedIsFriend() && (
 				<button onClick={deleteContact} className='chat-actions__action'>
-					<DeleteSvg className='chat-actions__action__svg' />
+					<DeleteSvg viewBox='0 0 25 25' className='chat-actions__action__svg' />
 					<span className='chat-actions__action__name'>{t('chatActions.delete-contact')}</span>
 				</button>
 			)}
 			{selectedChat.interlocutor && selectedIsFriend() && (
 				<button onClick={createConference} className='chat-actions__action'>
-					<UnmuteSvg className='chat-actions__action__svg' />
+					<UnmuteSvg viewBox='0 0 25 25' className='chat-actions__action__svg' />
 					<span className='chat-actions__action__name'>{t('chatActions.create-group')}</span>
 				</button>
 			)}
 			{selectedChat.interlocutor && (
 				<button onClick={deleteChat} className='chat-actions__action'>
-					<UnmuteSvg className='chat-actions__action__svg' />
+					<UnmuteSvg viewBox='0 0 25 25' className='chat-actions__action__svg' />
 					<span className='chat-actions__action__name'>{t('chatActions.delete-chat')}</span>
 				</button>
 			)}
 			{selectedChat.conference && (
 				<button onClick={changeLeaveConferenceModalOpenedState} className='chat-actions__action'>
-					<LeaveSvg className='chat-actions__action__svg' />
+					<LeaveSvg viewBox='0 0 25 25' className='chat-actions__action__svg' />
 					<span className='chat-actions__action__name'>{t('chatActions.leave-chat')}</span>
 				</button>
 			)}
@@ -119,7 +119,7 @@ const ChatActions = ({ addMembers, displayCreateChat }: ChatActions.Props) => {
 					onClick={() => addMembers({ excludeIds: membersIdsForConference })}
 					className='chat-actions__action'
 				>
-					<LeaveSvg className='chat-actions__action__svg' />
+					<LeaveSvg viewBox='0 0 25 25' className='chat-actions__action__svg' />
 					<span className='chat-actions__action__name'>{t('chatActions.add-users')}</span>
 				</button>
 			)}

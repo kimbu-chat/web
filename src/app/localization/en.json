@@ -177,6 +177,9 @@
 		"username": "Username",
 		"requirements": "You can use a-z, 0-9 and underscores."
 	},
+	"conferenceAddFriendModal": {
+		"add_members": "Add Members"
+	},
 	"systemMessage": {
 		"you_created_group": "You created group",
 		"created_group": "{{name}} created group",

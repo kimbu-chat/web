@@ -190,6 +190,9 @@
 		"username": "Имя пользователя",
 		"requirements": "Вы можете использовать символы a-z, 0-9 и нижние подчеркивания."
 	},
+	"conferenceAddFriendModal": {
+		"add_members": "Добавить участников"
+	},
 	"systemMessage": {
 		"you_created_group": "Вы создали группу",
 		"created_group": "{{name}} создал группу",

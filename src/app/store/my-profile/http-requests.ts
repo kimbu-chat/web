@@ -1,6 +1,6 @@
 ﻿import { AxiosResponse } from 'axios';
 import { httpRequestFactory, HttpRequestMethod } from '../common/http-factory';
-import { UpdateMyProfileActionData, UpdateNicknameActionData, UserPreview } from './models';
+import { CheckNicknameActionData, UpdateMyProfileActionData, UpdateNicknameActionData, UserPreview } from './models';
 import { ApiBasePath } from '../root-api';
 
 export const MyProfileHttpRequests = {
@@ -19,6 +19,12 @@ export const MyProfileHttpRequests = {
 
 	getUserProfile: httpRequestFactory<AxiosResponse<UserPreview>, number>(
 		(userId: number) => `${ApiBasePath.MainApi}/api/users/${userId}`,
+		HttpRequestMethod.Get,
+	),
+
+	checkNicknameAvailability: httpRequestFactory<AxiosResponse<boolean>, CheckNicknameActionData>(
+		(nickname: CheckNicknameActionData) =>
+			`${ApiBasePath.MainApi}/api/is-nick-name-available?nickname=${nickname.nickname}`,
 		HttpRequestMethod.Get,
 	),
 };

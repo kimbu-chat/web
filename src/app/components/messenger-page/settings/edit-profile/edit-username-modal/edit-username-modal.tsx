@@ -21,9 +21,14 @@ namespace EditUserNameModal {
 const EditUserNameModal = ({ close, isDisplayed }: EditUserNameModal.Props) => {
 	const { t } = useContext(LocalizationContext);
 
+	const [isNickNameAvailable, setIsNickNameAvailable] = useState(true);
+
+	const nicknamePattern = /^[a-z0-9_]{5,}$/;
+
 	const myProfile = useSelector(getMyProfileSelector);
 
 	const updateMyNickname = useActionWithDeferred(MyProfileActions.updateMyNicknameAction);
+	const checkNicknameAvailability = useActionWithDeferred(MyProfileActions.checkNicknameAvailabilityAction);
 
 	const [nickname, setNickname] = useState(myProfile?.nickname || '');
 
@@ -31,11 +36,19 @@ const EditUserNameModal = ({ close, isDisplayed }: EditUserNameModal.Props) => {
 		setNickname(myProfile?.nickname || '');
 	}, [isDisplayed]);
 
-	const changeUserName = useCallback(
+	const changeNickname = useCallback(
 		(event: React.ChangeEvent<HTMLInputElement>) => {
-			setNickname(event.target.value);
+			const newNickName = event.target.value;
+			setNickname(newNickName);
+			if (newNickName === myProfile?.nickname) {
+				setIsNickNameAvailable(true);
+			} else {
+				checkNicknameAvailability({ nickname: newNickName }).then(({ isAvailable }) => {
+					setIsNickNameAvailable(isAvailable);
+				});
+			}
 		},
-		[setNickname],
+		[setNickname, setIsNickNameAvailable, checkNicknameAvailability],
 	);
 
 	const onSubmit = useCallback(() => {
@@ -58,16 +71,16 @@ const EditUserNameModal = ({ close, isDisplayed }: EditUserNameModal.Props) => {
 							<div className='edit-username-modal__input-wrapper'>
 								<input
 									value={nickname}
-									onChange={changeUserName}
+									onChange={changeNickname}
 									type='text'
 									className='edit-username-modal__input'
 								/>
-								{false && (
+								{nickname.match(nicknamePattern) && isNickNameAvailable && (
 									<div className='edit-username-modal__valid'>
 										<ValidSvg viewBox='0 0 25 25' />
 									</div>
 								)}
-								{true && (
+								{(!nickname.match(nicknamePattern) || !isNickNameAvailable) && (
 									<div className='edit-username-modal__invalid'>
 										<InValidSvg viewBox='0 0 25 25' />
 									</div>
@@ -82,14 +95,15 @@ const EditUserNameModal = ({ close, isDisplayed }: EditUserNameModal.Props) => {
 						text: 'Save',
 						style: {
 							color: '#fff',
-							backgroundColor: '#3F8AE0',
+							backgroundColor:
+								!nickname.match(nicknamePattern) || !isNickNameAvailable ? '#6ea2de' : '#3F8AE0',
 							padding: '11px 0px',
 							border: '1px solid rgb(215, 216, 217)',
 							width: '100%',
 							marginBottom: '10px',
 							marginTop: '-5px',
 						},
-
+						disabled: !nickname.match(nicknamePattern) || !isNickNameAvailable,
 						position: 'left',
 						onClick: onSubmit,
 					},

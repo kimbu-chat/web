@@ -2,8 +2,18 @@
 	&__friend {
 		display: flex;
 		align-items: center;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		cursor: pointer;
+		user-select: none;
 
-		margin-top: 20px;
+		&:first-child {
+			margin-top: 5px;
+		}
+
+		&:hover {
+			background-color: rgba(63, 138, 224, 0.1);
+		}
 	}
 
 	&__selected-holder {

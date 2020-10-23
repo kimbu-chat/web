@@ -41,7 +41,6 @@ export function* uploadUserAvatar(action: ReturnType<typeof MyProfileActions.upd
 		},
 		*completedCallback(response) {
 			yield put(MyProfileActions.updateMyAvatarSuccessAction(response.data));
-			// action.payload.deferred?.resolve();
 		},
 	};
 
@@ -61,13 +60,9 @@ export function* updateMyProfileSaga(action: ReturnType<typeof MyProfileActions.
 
 		if (status === 200) {
 			yield put(MyProfileActions.updateMyProfileSuccessAction(action.payload));
-			action.meta.deferred?.resolve();
 		} else {
-			action.meta.deferred?.reject();
 		}
-	} catch {
-		action.meta.deferred?.reject();
-	}
+	} catch {}
 }
 
 export function* updateMyNicknameSaga(
@@ -100,10 +95,20 @@ export function* getMyProfileSaga(): SagaIterator {
 	yield put(MyProfileActions.getMyProfileSuccessAction(data));
 }
 
+export function* checkNicknameAvailabilitySaga(
+	action: ReturnType<typeof MyProfileActions.checkNicknameAvailabilityAction>,
+): SagaIterator {
+	const httpRequest = MyProfileHttpRequests.checkNicknameAvailability;
+	const { data } = httpRequest.call(yield call(() => httpRequest.generator({ nickname: action.payload.nickname })));
+
+	action.meta.deferred?.resolve({ isAvailable: data });
+}
+
 export const MyProfileSagas = [
 	takeLatest(MyProfileActions.updateMyAvatarAction, uploadUserAvatarSaga),
 	takeLatest(MyProfileActions.updateMyProfileAction, updateMyProfileSaga),
 	takeLatest(MyProfileActions.updateMyNicknameAction, updateMyNicknameSaga),
 	takeLatest(MyProfileActions.getMyProfileAction, getMyProfileSaga),
+	takeLatest(MyProfileActions.checkNicknameAvailabilityAction, checkNicknameAvailabilitySaga),
 	//takeEvery(MyProfileActions.changeUserOnlineStatus, changeOnlineStatus),
 ];

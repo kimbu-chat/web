@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import { Redirect, Route, Switch, useLocation } from 'react-router';
 import './messenger.scss';
 
@@ -8,9 +8,7 @@ import ChatData from '../../components/messenger-page/chat-data/chat-data';
 import ChatList from '../../components/messenger-page/chat-list/chat-list';
 import Chat from '../../components/messenger-page/chat/chat';
 import CreateMessageInput from '../../components/messenger-page/message-input/message-input';
-import WithBackground from '../../components/shared/with-background';
 import ChatInfo from '../../components/messenger-page/chat-info/chat-info';
-import ChangePhoto from '../../components/messenger-page/change-photo/change-photo';
 import InternetError from 'app/components/shared/internet-error/internet-error';
 import IncomingCall from 'app/components/messenger-page/incoming-call/incoming-call';
 import ActiveCall from 'app/components/messenger-page/active-call/active-call';
@@ -26,6 +24,7 @@ import CallList from 'app/components/messenger-page/call-list/call-list';
 import Settings from 'app/components/messenger-page/settings/settings';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import SettingsHeader from 'app/components/messenger-page/settings/settings-header';
+import { LocalizationContext } from 'app/app';
 
 export namespace Messenger {
 	export interface photoSelect {
@@ -35,27 +34,18 @@ export namespace Messenger {
 }
 
 const Messenger = () => {
+	const { t } = useContext(LocalizationContext);
+
 	const selectedChat = useSelector(getSelectedChatSelector);
 	const amICalled = useSelector(isCallingMe);
 	const amICalingSomebody = useSelector(amICaling);
 	const amISpeaking = useSelector(doIhaveCall);
 	const replyingMessage = useSelector((state: RootState) => state.messages.messageToReply);
 
-	const [photoSelected, setPhotoSelected] = useState<Messenger.photoSelect>({
-		isDisplayed: false,
-	});
-	//@ts-ignore
-	const [createChatDisplayed, setCreateChatDisplayed] = useState(false);
 	const [infoDisplayed, setInfoDisplayed] = useState(false);
-	const [imageUrl, setImageUrl] = useState<string | ArrayBuffer | null>('');
 
 	//hide chatInfo on chat change
 	useEffect(() => hideChatInfo(), [selectedChat?.id]);
-
-	//Create chat display and hide
-	const changeCreateChatDisplayed = useCallback(() => {
-		setCreateChatDisplayed((oldState) => !oldState);
-	}, [setCreateChatDisplayed]);
 
 	//Chat info display and hide
 	const displayChatInfo = useCallback(() => {
@@ -65,14 +55,6 @@ const Messenger = () => {
 		setInfoDisplayed(false);
 	}, [setInfoDisplayed]);
 
-	//Cropper display and hide
-	const hideChangePhoto = useCallback(() => setPhotoSelected({ isDisplayed: false }), []);
-	const displayChangePhoto = useCallback(
-		({ onSubmit }: Messenger.photoSelect) => {
-			setPhotoSelected({ ...photoSelected, isDisplayed: true, onSubmit });
-		},
-		[setPhotoSelected],
-	);
 	const location = useLocation();
 
 	return (
@@ -88,19 +70,19 @@ const Messenger = () => {
 				</Route>
 
 				<Route exact path={'/settings/edit-profile'}>
-					<SettingsHeader title='Edit Profile' />
+					<SettingsHeader title={t('settings.edit_profile')} />
 				</Route>
 
 				<Route exact path={'/settings/notifications'}>
-					<SettingsHeader title='Notifications' />
+					<SettingsHeader title={t('settings.notifications')} />
 				</Route>
 
 				<Route exact path={'/settings/language'}>
-					<SettingsHeader title='Language' />
+					<SettingsHeader title={t('settings.language')} />
 				</Route>
 
 				<Route exact path={'/settings/typing'}>
-					<SettingsHeader title='Text Typing' />
+					<SettingsHeader title={t('settings.text_typing')} />
 				</Route>
 			</Switch>
 
@@ -118,12 +100,12 @@ const Messenger = () => {
 								</Route>
 
 								<Route path='/settings'>
-									<Settings displayChangePhoto={displayChangePhoto} setImageUrl={setImageUrl} />
+									<Settings />
 								</Route>
 
 								<Route path='/chats/:chatId?'>
 									<div className='messenger__chats'>
-										<SearchTop displayChangePhoto={displayChangePhoto} setImageUrl={setImageUrl} />
+										<SearchTop />
 										<ChatList />
 									</div>
 								</Route>
@@ -145,19 +127,6 @@ const Messenger = () => {
 				</TransitionGroup>
 			</div>
 
-			<WithBackground
-				isBackgroundDisplayed={Boolean(photoSelected.isDisplayed)}
-				onBackgroundClick={hideChangePhoto}
-			>
-				{photoSelected.isDisplayed && (
-					<ChangePhoto
-						imageUrl={imageUrl}
-						hideChangePhoto={hideChangePhoto}
-						onSubmit={photoSelected.onSubmit}
-					/>
-				)}
-			</WithBackground>
-
 			<ChatData chatInfoDisplayed={infoDisplayed} displayChatInfo={displayChatInfo} />
 
 			<div className={`messenger__chat-send ${infoDisplayed ? 'messenger__chat-send--little' : ''}`}>
@@ -165,12 +134,7 @@ const Messenger = () => {
 				{replyingMessage && <RespondingMessage />}
 				<CreateMessageInput />
 			</div>
-			<ChatInfo
-				displayCreateChat={changeCreateChatDisplayed}
-				setImageUrl={setImageUrl}
-				displayChangePhoto={displayChangePhoto}
-				isDisplayed={infoDisplayed}
-			/>
+			<ChatInfo isDisplayed={infoDisplayed} />
 		</div>
 	);
 };

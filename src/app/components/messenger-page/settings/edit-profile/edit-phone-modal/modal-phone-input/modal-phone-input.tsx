@@ -1,7 +1,8 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 import './modal-phone-input.scss';
 import { country } from 'app/common/countries';
 import { AsYouType } from 'libphonenumber-js';
+import { LocalizationContext } from 'app/app';
 
 namespace ModalPhoneInput {
 	export interface Props {
@@ -18,6 +19,8 @@ const ModalPhoneInput = React.forwardRef(
 		{ country, phone, setPhone, displayCountries, sendSms }: ModalPhoneInput.Props,
 		ref: React.Ref<HTMLInputElement>,
 	) => {
+		const { t } = useContext(LocalizationContext);
+
 		const trimCountryCode = useCallback((countryCode: string, phone: string) => {
 			let regex = '';
 			const countryCodeArr = String(countryCode).split('');
@@ -33,7 +36,7 @@ const ModalPhoneInput = React.forwardRef(
 
 		return (
 			<div className='modal-phone-input'>
-				<div className='modal-phone-input__label'>Phone Number</div>
+				<div className='modal-phone-input__label'>{t('editPhoneModal.phone_number')}</div>
 				<div className='modal-phone-input__inputs-wrapper'>
 					<input
 						onClick={displayCountries}

@@ -36,6 +36,10 @@ export interface UpdateNicknameActionData {
 	nickname: string;
 }
 
+export interface CheckNicknameActionData {
+	nickname: string;
+}
+
 export interface AvatarSelectedData {
 	offsetY: number;
 	offsetX: number;

@@ -9,18 +9,10 @@ import { ChatActions } from 'app/store/chats/actions';
 import SearchBox from '../search-box/search-box';
 import NewChatModal from '../new-chat/new-chat';
 import CreateConference from '../create-conference/create-conference';
-import { Messenger } from 'app/containers/messenger/messenger';
-
-namespace SearchTop {
-	export interface Props {
-		displayChangePhoto: (data: Messenger.photoSelect) => void;
-		setImageUrl: (url: string | null | ArrayBuffer) => void;
-	}
-}
 
 export const DIALOGS_LIMIT = 25;
 
-const SearchTop = ({ displayChangePhoto, setImageUrl }: SearchTop.Props) => {
+const SearchTop = () => {
 	const getChats = useActionWithDispatch(ChatActions.getChats);
 	const [newChatDisplayed, setNewChatDisplayed] = useState(false);
 	const changeNewChatDisplayedState = useCallback(() => {
@@ -63,12 +55,7 @@ const SearchTop = ({ displayChangePhoto, setImageUrl }: SearchTop.Props) => {
 				isDisplayed={newChatDisplayed}
 				close={changeNewChatDisplayedState}
 			/>
-			<CreateConference
-				displayChangePhoto={displayChangePhoto}
-				setImageUrl={setImageUrl}
-				isDisplayed={createConferenceDisplayed}
-				close={changeCreateConferenceDisplayedState}
-			/>
+			<CreateConference isDisplayed={createConferenceDisplayed} close={changeCreateConferenceDisplayedState} />
 		</div>
 	);
 };

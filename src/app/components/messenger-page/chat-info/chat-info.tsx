@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import { Chat } from 'app/store/chats/models';
 import { getInterlocutorInitials, getChatInterlocutor } from '../../../utils/interlocutor-name-utils';
 import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
-import { Messenger } from 'app/containers/messenger/messenger';
 import { AvatarSelectedData } from 'app/store/my-profile/models';
 
 import { getSelectedChatSelector } from 'app/store/chats/selectors';
@@ -24,17 +23,15 @@ import EditSvg from 'app/assets/icons/ic-edit.svg';
 import PhotoSvg from 'app/assets/icons/ic-photo.svg';
 import EditChatModal from '../edit-chat-modal/edit-chat-modal';
 import ConferenceAddFriendModal from '../conference-add-friend/conference-add-friend';
+import ChangePhoto from 'app/components/messenger-page/change-photo/change-photo';
 
 namespace ChatInfo {
 	export interface Props {
-		displayCreateChat: () => void;
-		setImageUrl: (url: string | null | ArrayBuffer) => void;
-		displayChangePhoto: (data: Messenger.photoSelect) => void;
 		isDisplayed: boolean;
 	}
 }
 
-const ChatInfo: React.FC<ChatInfo.Props> = ({ displayCreateChat, setImageUrl, displayChangePhoto, isDisplayed }) => {
+const ChatInfo: React.FC<ChatInfo.Props> = ({ isDisplayed }) => {
 	const [chatPhotoDisplayed, setChatPhotoDisplayed] = useState(false);
 	const closeChatPhoto = useCallback(() => setChatPhotoDisplayed(false), [setChatPhotoDisplayed]);
 	const displayChatPhoto = useCallback(() => setChatPhotoDisplayed(true), [setChatPhotoDisplayed]);
@@ -64,6 +61,28 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({ displayCreateChat, setImageUrl, di
 
 	const changeConferenceAvatar = useActionWithDeferred(ChatActions.changeConferenceAvatar);
 
+	const [imageUrl, setImageUrl] = useState<string | null | ArrayBuffer>(null);
+	const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
+
+	const displayChangePhoto = useCallback(() => setChangePhotoDisplayed(true), [setChangePhotoDisplayed]);
+	const hideChangePhoto = useCallback(() => setChangePhotoDisplayed(false), [setChangePhotoDisplayed]);
+
+	const handleImageChange = useCallback(
+		(e: React.ChangeEvent<HTMLInputElement>) => {
+			e.preventDefault();
+
+			const reader = new FileReader();
+
+			reader.onload = () => {
+				setImageUrl(reader.result);
+				displayChangePhoto();
+			};
+
+			if (e.target.files) reader.readAsDataURL(e.target.files[0]);
+		},
+		[displayChangePhoto, setImageUrl],
+	);
+
 	const changeAvatar = useCallback(
 		(data: AvatarSelectedData) => {
 			changeConferenceAvatar({
@@ -85,19 +104,6 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({ displayCreateChat, setImageUrl, di
 			}
 
 			return conference?.avatarUrl as string;
-		};
-
-		const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-			e.preventDefault();
-
-			const reader = new FileReader();
-
-			reader.onload = () => {
-				setImageUrl(reader.result);
-				displayChangePhoto({ onSubmit: changeAvatar });
-			};
-
-			if (e.target.files) reader.readAsDataURL(e.target.files[0]);
 		};
 
 		return (
@@ -140,10 +146,7 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({ displayCreateChat, setImageUrl, di
 
 					<InterlocutorInfo />
 
-					<ChatInfoActions
-						displayCreateChat={displayCreateChat}
-						addMembers={changeSetAddFriendsModalDisplayedState}
-					/>
+					<ChatInfoActions addMembers={changeSetAddFriendsModalDisplayedState} />
 
 					<ChatMedia displayChatPhoto={displayChatPhoto} displayChatVideo={displayChatVideo} />
 
@@ -154,17 +157,16 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({ displayCreateChat, setImageUrl, di
 
 				<ChatVideo isDisplayed={chatVideoDisplayed} close={closeChatVideo} />
 
-				<EditChatModal
-					setImageUrl={setImageUrl}
-					displayChangePhoto={displayChangePhoto}
-					isDisplayed={editConferenceDisplayed}
-					close={changeEditConferenceDisplayedState}
-				/>
+				<EditChatModal isDisplayed={editConferenceDisplayed} close={changeEditConferenceDisplayedState} />
 
 				<ConferenceAddFriendModal
 					isDisplayed={addFriendsModalDisplayed}
 					close={changeSetAddFriendsModalDisplayedState}
 				/>
+
+				{changePhotoDisplayed && (
+					<ChangePhoto hideChangePhoto={hideChangePhoto} imageUrl={imageUrl} onSubmit={changeAvatar} />
+				)}
 			</React.Fragment>
 		);
 	} else {

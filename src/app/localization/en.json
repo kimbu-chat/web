@@ -15,18 +15,6 @@
 	"activeCall": {
 		"default": "Default"
 	},
-	"accountInfo": {
-		"create_chat": "Create chat",
-		"create_channel": "Create channel",
-		"create_call": "Create call",
-		"to_main": "Main",
-		"contacts": "Contacts",
-		"settings": "Settings",
-		"exit": "Exit"
-	},
-	"accountSettings": {
-		"settings": "Settings"
-	},
 	"langCategory": {
 		"language": "Language"
 	},
@@ -159,6 +147,38 @@
 		"notifications": "Notifications",
 		"text_typing": "Text typing",
 		"language": "Language"
+	},
+	"textTyping": {
+		"nlce": "Send a message by Enter, insert a new line by Shift/Ctrl/Alt + Enter",
+		"nle": "Send a message by Shift/Ctrl/Alt + Enter, insert a new line by Enter"
+	},
+	"notificationsSettings": {
+		"newMessageSound": "New messages sound notification"
+	},
+	"editProfile": {
+		"upload_new_photo": "Upload New Photo",
+		"requirements": "At least 256 x 256px PNG or JPG file.",
+		"name": "Name",
+		"mobile": "Mobile",
+		"username": "Username"
+	},
+	"editNameModal": {
+		"edit_name": "Edit Name",
+		"first_name": "First Name",
+		"last_name": "Last Name"
+	},
+	"editPhoneModal": {
+		"edit_phone": "Edit Phone",
+		"country": "Country",
+		"phone_number": "Phone Number"
+	},
+	"editUsernameModal": {
+		"edit_username": "Edit Username",
+		"username": "Username",
+		"requirements": "You can use a-z, 0-9 and underscores."
+	},
+	"conferenceAddFriendModal": {
+		"add_members": "Add Members"
 	},
 	"systemMessage": {
 		"you_created_group": "You created group",

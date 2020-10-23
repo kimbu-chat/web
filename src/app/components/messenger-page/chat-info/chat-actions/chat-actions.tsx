@@ -15,29 +15,35 @@ import ClearSvg from 'app/assets/icons/ic-clear.svg';
 import EditSvg from 'app/assets/icons/ic-edit.svg';
 import DeleteSvg from 'app/assets/icons/ic-delete.svg';
 import LeaveSvg from 'app/assets/icons/ic-leave-chat.svg';
-import Modal from 'app/components/shared/modal/modal';
-import WithBackground from 'app/components/shared/with-background';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
-import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
 import { FriendActions } from 'app/store/friends/actions';
+import DeleteChatModal from './delete-chat-modal/delete-chat-modal';
+import CreateConference from '../../create-conference/create-conference';
 
 namespace ChatActions {
 	export interface Props {
 		addMembers: (params: { excludeIds: (number | undefined)[] }) => void;
-		displayCreateChat: () => void;
 	}
 }
 
-const ChatActions = ({ addMembers, displayCreateChat }: ChatActions.Props) => {
+const ChatActions = ({ addMembers }: ChatActions.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const [leaveConferenceModalOpened, setLeaveConferenceModalOpened] = useState<boolean>(false);
+	const changeLeaveConferenceModalOpenedState = useCallback(
+		() => setLeaveConferenceModalOpened((oldState) => !oldState),
+		[setLeaveConferenceModalOpened],
+	);
+
+	const [createConferenceModalOpened, setCreateConferenceModalOpened] = useState<boolean>(false);
+	const changeCreateConferenceModalOpenedState = useCallback(
+		() => setCreateConferenceModalOpened((oldState) => !oldState),
+		[setCreateConferenceModalOpened],
+	);
 
 	const removeChat = useActionWithDispatch(DialogActions.removeChat);
 	const muteChat = useActionWithDispatch(DialogActions.muteChat);
 	const deleteFriend = useActionWithDispatch(FriendActions.deleteFriend);
-
-	const leaveConference = useActionWithDeferred(DialogActions.leaveConference);
 
 	const membersForConference = useSelector<RootState, UserPreview[]>(
 		(state) => state.friends.usersForSelectedConference,
@@ -46,71 +52,61 @@ const ChatActions = ({ addMembers, displayCreateChat }: ChatActions.Props) => {
 	const selectedChat = useSelector(getSelectedChatSelector) as Chat;
 	const friends = useSelector<RootState, UserPreview[]>((state) => state.friends.friends);
 
-	const selectedIsFriend = (): boolean => {
+	const selectedIsFriend = useCallback((): boolean => {
 		return friends.findIndex((friend: UserPreview) => friend.id === selectedChat.interlocutor?.id) > -1;
-	};
+	}, [friends, selectedChat.interlocutor?.id]);
 
 	const deleteChat = useCallback(() => removeChat(selectedChat), [removeChat, selectedChat]);
-	const changeLeaveConferenceModalOpenedState = useCallback(
-		() => setLeaveConferenceModalOpened((oldState) => !oldState),
-		[setLeaveConferenceModalOpened],
-	);
-	const deleteConference = useCallback(async () => {
-		await leaveConference(selectedChat);
-	}, [leaveConference, changeLeaveConferenceModalOpenedState, selectedChat]);
 	const muteThisChat = useCallback(() => muteChat(selectedChat), [muteChat, selectedChat]);
 	const deleteContact = useCallback(() => deleteFriend({ userIds: [selectedChat?.interlocutor?.id || -1] }), [
 		deleteFriend,
 		selectedChat?.interlocutor?.id,
 	]);
-	const createConference = useCallback(() => {
-		displayCreateChat();
-	}, [displayCreateChat, selectedChat?.interlocutor?.id]);
 
 	return (
 		<div className='chat-actions'>
 			<div className='chat-actions__heading'>{t('chatActions.actions')}</div>
 			<button onClick={muteThisChat} className='chat-actions__action'>
 				{selectedChat.isMuted ? (
-					<UnmuteSvg className='chat-actions__action__svg' />
+					<UnmuteSvg viewBox='0 0 25 25' className='chat-actions__action__svg' />
 				) : (
-					<MuteSvg className='chat-actions__action__svg' />
+					<MuteSvg viewBox='0 0 25 25' className='chat-actions__action__svg' />
 				)}
 				<span className='chat-actions__action__name'>
 					{selectedChat.isMuted ? t('chatActions.unmute') : t('chatActions.mute')}
 				</span>
 			</button>
 			<button className='chat-actions__action'>
-				<ClearSvg className='chat-actions__action__svg' />
+				<ClearSvg viewBox='0 0 25 25' className='chat-actions__action__svg' />
 				<span className='chat-actions__action__name'>{t('chatActions.clear-history')}</span>
 			</button>
 			{selectedChat.interlocutor && (
 				<button className='chat-actions__action'>
-					<EditSvg className='chat-actions__action__svg' />
+					<EditSvg viewBox='0 0 25 25' className='chat-actions__action__svg' />
 					<span className='chat-actions__action__name'>{t('chatActions.edit-contact')}</span>
 				</button>
 			)}
 			{selectedChat.interlocutor && selectedIsFriend() && (
 				<button onClick={deleteContact} className='chat-actions__action'>
-					<DeleteSvg className='chat-actions__action__svg' />
+					<DeleteSvg viewBox='0 0 25 25' className='chat-actions__action__svg' />
 					<span className='chat-actions__action__name'>{t('chatActions.delete-contact')}</span>
 				</button>
 			)}
 			{selectedChat.interlocutor && selectedIsFriend() && (
-				<button onClick={createConference} className='chat-actions__action'>
-					<UnmuteSvg className='chat-actions__action__svg' />
+				<button onClick={changeCreateConferenceModalOpenedState} className='chat-actions__action'>
+					<UnmuteSvg viewBox='0 0 25 25' className='chat-actions__action__svg' />
 					<span className='chat-actions__action__name'>{t('chatActions.create-group')}</span>
 				</button>
 			)}
 			{selectedChat.interlocutor && (
 				<button onClick={deleteChat} className='chat-actions__action'>
-					<UnmuteSvg className='chat-actions__action__svg' />
+					<UnmuteSvg viewBox='0 0 25 25' className='chat-actions__action__svg' />
 					<span className='chat-actions__action__name'>{t('chatActions.delete-chat')}</span>
 				</button>
 			)}
 			{selectedChat.conference && (
 				<button onClick={changeLeaveConferenceModalOpenedState} className='chat-actions__action'>
-					<LeaveSvg className='chat-actions__action__svg' />
+					<LeaveSvg viewBox='0 0 25 25' className='chat-actions__action__svg' />
 					<span className='chat-actions__action__name'>{t('chatActions.leave-chat')}</span>
 				</button>
 			)}
@@ -119,7 +115,7 @@ const ChatActions = ({ addMembers, displayCreateChat }: ChatActions.Props) => {
 					onClick={() => addMembers({ excludeIds: membersIdsForConference })}
 					className='chat-actions__action'
 				>
-					<LeaveSvg className='chat-actions__action__svg' />
+					<LeaveSvg viewBox='0 0 25 25' className='chat-actions__action__svg' />
 					<span className='chat-actions__action__name'>{t('chatActions.add-users')}</span>
 				</button>
 			)}
@@ -128,44 +124,14 @@ const ChatActions = ({ addMembers, displayCreateChat }: ChatActions.Props) => {
 				//!Modal rendered with portal
 			}
 
-			<WithBackground
-				isBackgroundDisplayed={leaveConferenceModalOpened}
-				onBackgroundClick={changeLeaveConferenceModalOpenedState}
-			>
-				<Modal
-					isDisplayed={leaveConferenceModalOpened}
-					title='Delete chat'
-					contents={t('chatInfo.leave-confirmation', { conferenceName: selectedChat.conference?.name })}
-					highlightedInContents={`‘${selectedChat.conference?.name}‘`}
-					closeModal={changeLeaveConferenceModalOpenedState}
-					buttons={[
-						{
-							text: t('chatInfo.confirm'),
-							style: {
-								color: 'rgb(255, 255, 255)',
-								backgroundColor: 'rgb(209, 36, 51)',
-								padding: '16px 49.5px',
-								margin: '0',
-							},
-							position: 'left',
-							onClick: deleteConference,
-						},
-						{
-							text: t('chatInfo.cancel'),
-							style: {
-								color: 'rgb(109, 120, 133)',
-								backgroundColor: 'rgb(255, 255, 255)',
-								padding: '16px 38px',
-								margin: '0 0 0 10px',
-								border: '1px solid rgb(215, 216, 217)',
-							},
-
-							position: 'left',
-							onClick: changeLeaveConferenceModalOpenedState,
-						},
-					]}
+			<DeleteChatModal isDisplayed={leaveConferenceModalOpened} hide={changeLeaveConferenceModalOpenedState} />
+			{selectedChat.interlocutor && (
+				<CreateConference
+					isDisplayed={createConferenceModalOpened}
+					preSelectedUserIds={[selectedChat.interlocutor!.id]}
+					close={changeCreateConferenceModalOpenedState}
 				/>
-			</WithBackground>
+			)}
 		</div>
 	);
 };

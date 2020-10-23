@@ -59,13 +59,18 @@ const ModalCountrySelect = ({ country, setCountry, setPhone, setRef, focusPhoneI
 
 	return (
 		<div {...getRootProps()} className='modal-country-select'>
-			<div className='modal-country-select__label'>Country</div>
+			<div className='modal-country-select__label'>{t('editPhoneModal.country')}</div>
 			<div
 				className={`modal-country-select__input-wrapper ${
 					popupOpen ? 'modal-country-select__input-wrapper--acute' : ''
 				}`}
 			>
-				<input placeholder={t('country')} type='text' className='modal-country-select__input' {...inputProps} />
+				<input
+					placeholder={t('editPhoneModal.country')}
+					type='text'
+					className='modal-country-select__input'
+					{...inputProps}
+				/>
 				<DownSvg viewBox='0 0 25 25' className='modal-country-select__input-svg' />
 				{groupedOptions.length > 0 ? (
 					<div className='modal-country-select__countries' {...getListboxProps()}>

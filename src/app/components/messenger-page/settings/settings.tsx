@@ -12,21 +12,13 @@ import TextSvg from 'app/assets/icons/ic-text-typing.svg';
 import LangSvg from 'app/assets/icons/ic-language.svg';
 import { NavLink, Route, Switch, useLocation } from 'react-router-dom';
 import EditProfile from './edit-profile/edit-profile';
-import { Messenger } from 'app/containers/messenger/messenger';
 import NotificationsSettings from './notifications-settings/notifications-settings';
 import LanguageSettings from './language-settings/language-settings';
 import TransitionGroup from 'react-transition-group/TransitionGroup';
 import { CSSTransition } from 'react-transition-group';
 import TextTyping from './text-typing/text-typing';
 
-namespace Settings {
-	export interface Props {
-		setImageUrl: (url: string | null | ArrayBuffer) => void;
-		displayChangePhoto: (data: Messenger.photoSelect) => void;
-	}
-}
-
-const Settings = ({ displayChangePhoto, setImageUrl }: Settings.Props) => {
+const Settings = () => {
 	const { t } = useContext(LocalizationContext);
 
 	const myProfile = useSelector(getMyProfileSelector);
@@ -74,7 +66,7 @@ const Settings = ({ displayChangePhoto, setImageUrl }: Settings.Props) => {
 					</Route>
 
 					<Route path='/settings/edit-profile'>
-						<EditProfile displayChangePhoto={displayChangePhoto} setImageUrl={setImageUrl} />
+						<EditProfile />
 					</Route>
 
 					<Route path='/settings/notifications'>

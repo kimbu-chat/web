@@ -9,44 +9,46 @@ import InfoSvg from 'app/assets/icons/ic-info.svg';
 import PhoneSvg from 'app/assets/icons/ic-call.svg';
 import EmailSvg from 'app/assets/icons/ic-email.svg';
 import EditSvg from 'app/assets/icons/ic-edit.svg';
-import { Messenger } from 'app/containers/messenger/messenger';
 import { MyProfileActions } from 'app/store/my-profile/actions';
 import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
 import { useRef } from 'react';
 import EditNameModal from './edit-name-modal/edit-name-modal';
 import EditUserNameModal from './edit-username-modal/edit-username-modal';
 import EditPhoneModal from './edit-phone-modal/edit-phone-modal';
+import ChangePhoto from 'app/components/messenger-page/change-photo/change-photo';
 import { LocalizationContext } from 'app/app';
 
-namespace EditProfile {
-	export interface Props {
-		setImageUrl: (url: string | null | ArrayBuffer) => void;
-		displayChangePhoto: (data: Messenger.photoSelect) => void;
-	}
-}
-
-const EditProfile = ({ setImageUrl, displayChangePhoto }: EditProfile.Props) => {
+const EditProfile = () => {
 	const { t } = useContext(LocalizationContext);
 	const myProfile = useSelector(getMyProfileSelector);
 
-	const changePhoto = useActionWithDeferred(MyProfileActions.updateMyAvatarAction);
+	const changeMyAvatar = useActionWithDeferred(MyProfileActions.updateMyAvatarAction);
 
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		e.preventDefault();
+	const [imageUrl, setImageUrl] = useState<string | null | ArrayBuffer>(null);
+	const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
 
-		const reader = new FileReader();
+	const displayChangePhoto = useCallback(() => setChangePhotoDisplayed(true), [setChangePhotoDisplayed]);
+	const hideChangePhoto = useCallback(() => setChangePhotoDisplayed(false), [setChangePhotoDisplayed]);
 
-		reader.onload = () => {
-			setImageUrl(reader.result);
-			displayChangePhoto({ onSubmit: changePhoto });
-		};
+	const handleImageChange = useCallback(
+		(e: React.ChangeEvent<HTMLInputElement>) => {
+			e.preventDefault();
 
-		if (e.target.files) {
-			reader.readAsDataURL(e.target.files[0]);
-		}
-	};
+			const reader = new FileReader();
+
+			reader.onload = () => {
+				setImageUrl(reader.result);
+				displayChangePhoto();
+			};
+
+			if (e.target.files) {
+				reader.readAsDataURL(e.target.files[0]);
+			}
+		},
+		[setImageUrl, displayChangePhoto],
+	);
 
 	const openFileExplorer = useCallback(() => fileInputRef.current?.click(), [fileInputRef]);
 
@@ -63,6 +65,7 @@ const EditProfile = ({ setImageUrl, displayChangePhoto }: EditProfile.Props) => 
 	const changeIsEditPhoneDisplayed = useCallback(() => {
 		setIsEditPhoneDisplayed((oldState) => !oldState);
 	}, [setIsEditPhoneDisplayed]);
+
 	return (
 		<>
 			<div className='edit-profile'>
@@ -123,6 +126,9 @@ const EditProfile = ({ setImageUrl, displayChangePhoto }: EditProfile.Props) => 
 			<EditNameModal close={changeIsEditNameDisplayed} isDisplayed={isEditNameDisplayed} />
 			<EditUserNameModal close={changeIsEditUsernameDisplayed} isDisplayed={isEditUsernameDisplayed} />
 			<EditPhoneModal close={changeIsEditPhoneDisplayed} isDisplayed={isEditPhoneDisplayed} />
+			{changePhotoDisplayed && (
+				<ChangePhoto hideChangePhoto={hideChangePhoto} imageUrl={imageUrl} onSubmit={changeMyAvatar} />
+			)}
 		</>
 	);
 };

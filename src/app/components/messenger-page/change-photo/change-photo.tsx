@@ -7,6 +7,7 @@ import { LocalizationContext } from 'app/app';
 
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
+import WithBackground from 'app/components/shared/with-background';
 
 namespace ChangePhoto {
 	export interface Props {
@@ -149,35 +150,37 @@ const ChangePhotoComponent = ({ imageUrl, onSubmit, hideChangePhoto }: ChangePho
 	}, [completedCrop]);
 
 	return typeof imageUrl === 'string' ? (
-		<div>
-			<div className='crop-container'>
-				<ReactCrop
-					className={stage === ChangePhoto.Stage.imageCrop ? 'visible' : 'hidden'}
-					src={imageUrl}
-					onImageLoaded={onLoad}
-					crop={crop}
-					onChange={(c: ReactCrop.Crop) => setCrop(c)}
-					circularCrop={true}
-					onComplete={(c) => setCompletedCrop(c)}
-				/>
-				<canvas
-					className={
-						stage === ChangePhoto.Stage.imagePreview
-							? 'crop-container__canvas visible'
-							: 'crop-container__canvas hidden'
-					}
-					ref={previewCanvasRef}
-					style={{
-						width: completedCrop?.width || 0,
-						height: completedCrop?.height || 0,
-					}}
-				/>
+		<WithBackground isBackgroundDisplayed={true} onBackgroundClick={hideChangePhoto}>
+			<div>
+				<div className='crop-container'>
+					<ReactCrop
+						className={stage === ChangePhoto.Stage.imageCrop ? 'visible' : 'hidden'}
+						src={imageUrl}
+						onImageLoaded={onLoad}
+						crop={crop}
+						onChange={(c: ReactCrop.Crop) => setCrop(c)}
+						circularCrop={true}
+						onComplete={(c) => setCompletedCrop(c)}
+					/>
+					<canvas
+						className={
+							stage === ChangePhoto.Stage.imagePreview
+								? 'crop-container__canvas visible'
+								: 'crop-container__canvas hidden'
+						}
+						ref={previewCanvasRef}
+						style={{
+							width: completedCrop?.width || 0,
+							height: completedCrop?.height || 0,
+						}}
+					/>
+				</div>
+				<div className='change-photo__btn-group'>
+					<button onClick={submitChange}>{t('changePhoto.confirm')}</button>
+					<button onClick={hideChangePhoto}>{t('changePhoto.reject')}</button>
+				</div>
 			</div>
-			<div className='change-photo__btn-group'>
-				<button onClick={submitChange}>{t('changePhoto.confirm')}</button>
-				<button onClick={hideChangePhoto}>{t('changePhoto.reject')}</button>
-			</div>
-		</div>
+		</WithBackground>
 	) : (
 		<div></div>
 	);

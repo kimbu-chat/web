@@ -1,7 +1,7 @@
 import Modal from 'app/components/shared/modal/modal';
 import WithBackground from 'app/components/shared/with-background';
 import { getMyProfileSelector } from 'app/store/my-profile/selectors';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import ValidSvg from 'app/assets/icons/ic-check-filled.svg';
@@ -9,6 +9,7 @@ import InValidSvg from 'app/assets/icons/ic-dismiss.svg';
 import './edit-username-modal.scss';
 import { MyProfileActions } from 'app/store/my-profile/actions';
 import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
+import { LocalizationContext } from 'app/app';
 
 namespace EditUserNameModal {
 	export interface Props {
@@ -18,6 +19,8 @@ namespace EditUserNameModal {
 }
 
 const EditUserNameModal = ({ close, isDisplayed }: EditUserNameModal.Props) => {
+	const { t } = useContext(LocalizationContext);
+
 	const myProfile = useSelector(getMyProfileSelector);
 
 	const updateMyNickname = useActionWithDeferred(MyProfileActions.updateMyNicknameAction);
@@ -46,12 +49,12 @@ const EditUserNameModal = ({ close, isDisplayed }: EditUserNameModal.Props) => {
 		<WithBackground isBackgroundDisplayed={isDisplayed} onBackgroundClick={close}>
 			<Modal
 				isDisplayed={isDisplayed}
-				title={'Edit Username'}
+				title={t('editUsernameModal.edit_username')}
 				closeModal={close}
 				contents={
 					<div className={'edit-username-modal'}>
 						<div className='edit-username-modal__input-block'>
-							<span className='edit-username-modal__input-label'>Username</span>
+							<span className='edit-username-modal__input-label'>{t('editUsernameModal.username')}</span>
 							<div className='edit-username-modal__input-wrapper'>
 								<input
 									value={nickname}
@@ -71,7 +74,7 @@ const EditUserNameModal = ({ close, isDisplayed }: EditUserNameModal.Props) => {
 								)}
 							</div>
 						</div>
-						<span className='edit-username-modal__requirements'>You can use a-z, 0-9 and underscores.</span>
+						<span className='edit-username-modal__requirements'>{t('editUsernameModal.requirements')}</span>
 					</div>
 				}
 				buttons={[

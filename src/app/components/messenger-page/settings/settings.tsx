@@ -38,7 +38,7 @@ const Settings = ({ displayChangePhoto, setImageUrl }: Settings.Props) => {
 			<CSSTransition
 				key={location.pathname.split('/')[2]}
 				timeout={{ enter: 200, exit: 200 }}
-				classNames={'settings-slide'}
+				classNames={'slide'}
 			>
 				<Switch location={location}>
 					<Route path='/settings' exact>

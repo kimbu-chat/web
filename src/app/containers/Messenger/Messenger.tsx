@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import { Redirect, Route, Switch, useLocation } from 'react-router';
 import './messenger.scss';
 
@@ -26,6 +26,7 @@ import CallList from 'app/components/messenger-page/call-list/call-list';
 import Settings from 'app/components/messenger-page/settings/settings';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import SettingsHeader from 'app/components/messenger-page/settings/settings-header';
+import { LocalizationContext } from 'app/app';
 
 export namespace Messenger {
 	export interface photoSelect {
@@ -35,6 +36,8 @@ export namespace Messenger {
 }
 
 const Messenger = () => {
+	const { t } = useContext(LocalizationContext);
+
 	const selectedChat = useSelector(getSelectedChatSelector);
 	const amICalled = useSelector(isCallingMe);
 	const amICalingSomebody = useSelector(amICaling);
@@ -88,19 +91,19 @@ const Messenger = () => {
 				</Route>
 
 				<Route exact path={'/settings/edit-profile'}>
-					<SettingsHeader title='Edit Profile' />
+					<SettingsHeader title={t('settings.edit_profile')} />
 				</Route>
 
 				<Route exact path={'/settings/notifications'}>
-					<SettingsHeader title='Notifications' />
+					<SettingsHeader title={t('settings.notifications')} />
 				</Route>
 
 				<Route exact path={'/settings/language'}>
-					<SettingsHeader title='Language' />
+					<SettingsHeader title={t('settings.language')} />
 				</Route>
 
 				<Route exact path={'/settings/typing'}>
-					<SettingsHeader title='Text Typing' />
+					<SettingsHeader title={t('settings.text_typing')} />
 				</Route>
 			</Switch>
 

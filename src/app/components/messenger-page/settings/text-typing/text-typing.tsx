@@ -9,7 +9,6 @@ import RadioBox from '../shared/radio-box/radio-box';
 import './text-typing.scss';
 
 const TextTyping = () => {
-	//@ts-ignore
 	const { t } = useContext(LocalizationContext);
 
 	const currentStrategy = useSelector(getTypingStrategy);
@@ -31,14 +30,14 @@ const TextTyping = () => {
 					nestingLevel={0}
 					onClick={setNlce}
 					defaultChecked={currentStrategy === typingStrategy.nlce}
-					title={'Send a message by Enter, insert a new line by Shift/Ctrl/Alt + Enter'}
+					title={t('textTyping.nlce')}
 				/>
 				<RadioBox
 					groupName='text-typing'
 					nestingLevel={0}
 					onClick={setNle}
 					defaultChecked={currentStrategy === typingStrategy.nle}
-					title={'Send a message by Shift/Ctrl/Alt + Enter, insert a new line by Enter'}
+					title={t('textTyping.nle')}
 				/>
 			</form>
 		</div>

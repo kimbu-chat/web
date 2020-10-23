@@ -1,9 +1,10 @@
+import { LocalizationContext } from 'app/app';
 import Modal from 'app/components/shared/modal/modal';
 import WithBackground from 'app/components/shared/with-background';
 import { MyProfileActions } from 'app/store/my-profile/actions';
 import { getMyProfileSelector } from 'app/store/my-profile/selectors';
 import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import './edit-name-modal.scss';
 
@@ -16,6 +17,8 @@ namespace EditNameModal {
 
 const EditNameModal = ({ close, isDisplayed }: EditNameModal.Props) => {
 	const myProfile = useSelector(getMyProfileSelector);
+
+	const { t } = useContext(LocalizationContext);
 
 	const updateMyProfile = useActionWithDeferred(MyProfileActions.updateMyProfileAction);
 
@@ -51,12 +54,12 @@ const EditNameModal = ({ close, isDisplayed }: EditNameModal.Props) => {
 		<WithBackground isBackgroundDisplayed={isDisplayed} onBackgroundClick={close}>
 			<Modal
 				isDisplayed={isDisplayed}
-				title={'Edit Name'}
+				title={t('editNameModal.edit_name')}
 				closeModal={close}
 				contents={
 					<div className={'edit-name-modal'}>
 						<div className='edit-name-modal__input-block'>
-							<span className='edit-name-modal__input-label'>First Name</span>
+							<span className='edit-name-modal__input-label'>{t('editNameModal.first_name')}</span>
 							<input
 								value={firstName}
 								onChange={changeFirstName}
@@ -65,7 +68,7 @@ const EditNameModal = ({ close, isDisplayed }: EditNameModal.Props) => {
 							/>
 						</div>
 						<div className='edit-name-modal__input-block'>
-							<span className='edit-name-modal__input-label'>Last Name</span>
+							<span className='edit-name-modal__input-label'>{t('editNameModal.last_name')}</span>
 							<input
 								value={lastName}
 								onChange={changeLastName}

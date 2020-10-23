@@ -1,9 +1,10 @@
+import { LocalizationContext } from 'app/app';
 import { country, countryList } from 'app/common/countries';
 import Modal from 'app/components/shared/modal/modal';
 import WithBackground from 'app/components/shared/with-background';
 import { RootState } from 'app/store/root-reducer';
 import { parsePhoneNumber, parsePhoneNumberFromString } from 'libphonenumber-js';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import './edit-phone-modal.scss';
 import ModalCountrySelect from './modal-country-select/modal-country-select';
@@ -17,6 +18,8 @@ namespace EditPhoneModal {
 }
 
 const EditPhoneModal = ({ close, isDisplayed }: EditPhoneModal.Props) => {
+	const { t } = useContext(LocalizationContext);
+
 	const currentNumber = useSelector((state: RootState) => state.myProfile.user?.phoneNumber);
 	const currentNumberCountry = parsePhoneNumber(currentNumber!).country;
 
@@ -52,7 +55,7 @@ const EditPhoneModal = ({ close, isDisplayed }: EditPhoneModal.Props) => {
 		<WithBackground isBackgroundDisplayed={isDisplayed} onBackgroundClick={close}>
 			<Modal
 				isDisplayed={isDisplayed}
-				title={'Edit Phone Number'}
+				title={t('editPhoneModal.edit_phone')}
 				closeModal={close}
 				contents={
 					<div className={'edit-phone-modal'}>

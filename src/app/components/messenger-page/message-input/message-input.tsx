@@ -18,6 +18,7 @@ import { useEffect } from 'react';
 import { getMyProfileSelector } from 'app/store/my-profile/selectors';
 import MessageSmiles from './message-smiles/message-smiles';
 import Mousetrap from 'mousetrap';
+import useReferredState from 'app/utils/hooks/useReferredState';
 
 const CreateMessageInput = () => {
 	const { t } = useContext(LocalizationContext);
@@ -30,7 +31,7 @@ const CreateMessageInput = () => {
 	const myProfile = useSelector(getMyProfileSelector);
 	const messageToEdit = useSelector((state: RootState) => state.messages.messageToEdit);
 
-	const [text, setText] = useState<{ text: string }>({ text: '' });
+	const { reference: refferedText, state: text, setState: setText } = useReferredState<string>('');
 	const [isRecording, setIsRecording] = useState(false);
 	const [recordedSeconds, setRecordedSeconds] = useState(0);
 
@@ -38,7 +39,7 @@ const CreateMessageInput = () => {
 
 	useEffect(() => {
 		if (messageToEdit) {
-			setText({ text: messageToEdit.text });
+			setText(messageToEdit.text);
 		}
 	}, [messageToEdit]);
 
@@ -55,15 +56,15 @@ const CreateMessageInput = () => {
 	const sendMessageToServer = useCallback(() => {
 		const chatId = selectedChat?.id;
 
-		console.log(text.text);
+		const text = refferedText.current;
 
-		if (text.text.trim().length > 0 && selectedChat && currentUser) {
+		if (text.trim().length > 0 && selectedChat && currentUser) {
 			sendMessage({
 				currentUser: currentUser,
 				selectedChatId: chatId || -1,
 				chat: selectedChat,
 				message: {
-					text: text.text,
+					text,
 					systemMessageType: SystemMessageType.None,
 					userCreator: currentUser,
 					creationDateTime: new Date(new Date().toUTCString()),
@@ -74,8 +75,8 @@ const CreateMessageInput = () => {
 			});
 		}
 
-		setText({ text: '' });
-	}, [selectedChat?.id, currentUser, text.text, sendMessage]);
+		setText('');
+	}, [selectedChat?.id, currentUser, refferedText, sendMessage]);
 
 	const handleTextChange = useCallback(
 		(newText: string): void => {
@@ -182,7 +183,7 @@ const CreateMessageInput = () => {
 
 	const onType = useCallback(
 		(event) => {
-			setText({ text: event.target.value });
+			setText(event.target.value);
 			handleTextChange(event.target.value);
 		},
 		[setText, handleTextChange],
@@ -202,7 +203,7 @@ const CreateMessageInput = () => {
 							{!isRecording && (
 								<textarea
 									placeholder={t('messageInput.write')}
-									value={text.text}
+									value={text}
 									onChange={onType}
 									className='mousetrap  message-input__input-message'
 									onFocus={handleFocus}
@@ -238,7 +239,7 @@ const CreateMessageInput = () => {
 						{!isRecording && (
 							<textarea
 								placeholder={t('messageInput.write')}
-								value={text.text}
+								value={text}
 								onChange={onType}
 								className='mousetrap message-input__input-message'
 								onFocus={handleFocus}

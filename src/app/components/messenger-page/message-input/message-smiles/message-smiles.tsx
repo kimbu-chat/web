@@ -8,11 +8,7 @@ import './message-smiles.scss';
 
 namespace MessageSmiles {
 	export interface Props {
-		setText: React.Dispatch<
-			React.SetStateAction<{
-				text: string;
-			}>
-		>;
+		setText: React.Dispatch<React.SetStateAction<string>>;
 	}
 }
 
@@ -42,7 +38,7 @@ const MessageSmiles = ({ setText }: MessageSmiles.Props) => {
 
 	const addNewSmile = useCallback(
 		(emoji: BaseEmoji) => {
-			setText((oldText) => ({ text: oldText.text + (emoji.native as string) }));
+			setText((oldText) => oldText + (emoji.native as string));
 		},
 		[setText],
 	);

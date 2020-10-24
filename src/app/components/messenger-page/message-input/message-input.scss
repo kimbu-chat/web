@@ -2,6 +2,8 @@
 	&__send-message {
 		display: flex;
 		align-items: center;
+		border-top: 1px solid rgba(#000, 0.2);
+		min-height: 64px;
 	}
 
 	&__add {
@@ -22,7 +24,6 @@
 
 	&__input-group {
 		width: calc(100% - 52px);
-		height: 50px;
 		display: flex;
 		align-items: center;
 	}
@@ -32,10 +33,12 @@
 		display: block;
 		border: none;
 		width: calc(100% - 52px);
-		margin-left: 20px;
+		margin-left: 15px;
 		font-size: 13px;
 		white-space: pre-line;
 		font-weight: 400;
+		height: 18px;
+		resize: none;
 		&:focus {
 			outline: none;
 		}

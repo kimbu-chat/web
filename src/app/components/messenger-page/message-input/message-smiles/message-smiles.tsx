@@ -36,6 +36,13 @@ const MessageSmiles = ({ setText }: MessageSmiles.Props) => {
 		}, 3000);
 	}, []);
 
+	const addNewSmile = useCallback(
+		(emoji: BaseEmoji) => {
+			setText((oldText) => oldText + (emoji.native as string));
+		},
+		[setText],
+	);
+
 	return (
 		<>
 			<button ref={openEmojiRef} onClick={changeSmilesDisplayedStatus} className='message-input__smiles-btn'>
@@ -64,9 +71,7 @@ const MessageSmiles = ({ setText }: MessageSmiles.Props) => {
 								flags: t('emojiMart.categories.flags'),
 							},
 						}}
-						onSelect={(emoji: BaseEmoji) => {
-							setText((oldText) => oldText + (emoji.native as string));
-						}}
+						onSelect={addNewSmile}
 					/>
 				</div>
 			)}

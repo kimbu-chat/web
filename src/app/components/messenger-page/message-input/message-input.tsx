@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext, useCallback, KeyboardEvent } from 'react';
+import React, { useState, useRef, useContext, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import './message-input.scss';
 
@@ -17,6 +17,8 @@ import moment from 'moment';
 import { useEffect } from 'react';
 import { getMyProfileSelector } from 'app/store/my-profile/selectors';
 import MessageSmiles from './message-smiles/message-smiles';
+import Mousetrap from 'mousetrap';
+import useReferredState from 'app/utils/hooks/useReferredState';
 
 const CreateMessageInput = () => {
 	const { t } = useContext(LocalizationContext);
@@ -29,7 +31,7 @@ const CreateMessageInput = () => {
 	const myProfile = useSelector(getMyProfileSelector);
 	const messageToEdit = useSelector((state: RootState) => state.messages.messageToEdit);
 
-	const [text, setText] = useState('');
+	const { reference: refferedText, state: text, setState: setText } = useReferredState<string>('');
 	const [isRecording, setIsRecording] = useState(false);
 	const [recordedSeconds, setRecordedSeconds] = useState(0);
 
@@ -54,6 +56,8 @@ const CreateMessageInput = () => {
 	const sendMessageToServer = useCallback(() => {
 		const chatId = selectedChat?.id;
 
+		const text = refferedText.current;
+
 		if (text.trim().length > 0 && selectedChat && currentUser) {
 			sendMessage({
 				currentUser: currentUser,
@@ -72,7 +76,7 @@ const CreateMessageInput = () => {
 		}
 
 		setText('');
-	}, [selectedChat?.id, currentUser, text]);
+	}, [selectedChat?.id, currentUser, refferedText, sendMessage]);
 
 	const handleTextChange = useCallback(
 		(newText: string): void => {
@@ -85,11 +89,17 @@ const CreateMessageInput = () => {
 		[selectedChat?.id, myProfile],
 	);
 
-	const handleKeyPress = (event: KeyboardEvent) => {
-		if (event.key === 'Enter') {
+	const handleFocus = useCallback(() => {
+		Mousetrap.bind(['command+enter', 'ctrl+enter', 'alt+enter', 'shift+enter'], () => {
 			sendMessageToServer();
-		}
-	};
+		});
+		Mousetrap.bind('enter', () => {});
+	}, [setText, sendMessageToServer]);
+
+	const handleBlur = useCallback(() => {
+		Mousetrap.unbind(['command+enter', 'ctrl+enter', 'alt+enter', 'shift+enter']);
+		Mousetrap.unbind('enter');
+	}, []);
 
 	const registerAudio = () => {
 		const recorderData: {
@@ -171,6 +181,14 @@ const CreateMessageInput = () => {
 		});
 	};
 
+	const onType = useCallback(
+		(event) => {
+			setText(event.target.value);
+			handleTextChange(event.target.value);
+		},
+		[setText, handleTextChange],
+	);
+
 	if (messageToEdit) {
 		return (
 			<div className='message-input__send-message'>
@@ -181,18 +199,15 @@ const CreateMessageInput = () => {
 								<AddSvg />
 							</button>
 						)}
-						<div className='message-input__input-group' onSubmit={sendMessageToServer}>
+						<div className='message-input__input-group'>
 							{!isRecording && (
-								<input
+								<textarea
 									placeholder={t('messageInput.write')}
-									type='text'
 									value={text}
-									onChange={(event) => {
-										setText(event.target.value);
-										handleTextChange(event.target.value);
-									}}
-									className='message-input__input-message'
-									onKeyPress={handleKeyPress}
+									onChange={onType}
+									className='mousetrap  message-input__input-message'
+									onFocus={handleFocus}
+									onBlur={handleBlur}
 								/>
 							)}
 						</div>
@@ -220,18 +235,15 @@ const CreateMessageInput = () => {
 							</div>
 						</>
 					)}
-					<div className='message-input__input-group' onSubmit={sendMessageToServer}>
+					<div className='message-input__input-group'>
 						{!isRecording && (
-							<input
+							<textarea
 								placeholder={t('messageInput.write')}
-								type='text'
 								value={text}
-								onChange={(event) => {
-									setText(event.target.value);
-									handleTextChange(event.target.value);
-								}}
-								className='message-input__input-message'
-								onKeyPress={handleKeyPress}
+								onChange={onType}
+								className='mousetrap message-input__input-message'
+								onFocus={handleFocus}
+								onBlur={handleBlur}
 							/>
 						)}
 						{isRecording && (

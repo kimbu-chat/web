@@ -19,6 +19,8 @@ import { getMyProfileSelector } from 'app/store/my-profile/selectors';
 import MessageSmiles from './message-smiles/message-smiles';
 import Mousetrap from 'mousetrap';
 import useReferredState from 'app/utils/hooks/useReferredState';
+import { getTypingStrategy } from 'app/store/settings/selectors';
+import { typingStrategy } from 'app/store/settings/models';
 
 const CreateMessageInput = () => {
 	const { t } = useContext(LocalizationContext);
@@ -30,6 +32,7 @@ const CreateMessageInput = () => {
 	const selectedChat = useSelector(getSelectedChatSelector);
 	const myProfile = useSelector(getMyProfileSelector);
 	const messageToEdit = useSelector((state: RootState) => state.messages.messageToEdit);
+	const myTypingStrategy = useSelector(getTypingStrategy);
 
 	const { reference: refferedText, state: text, setState: setText } = useReferredState<string>('');
 	const [isRecording, setIsRecording] = useState(false);
@@ -90,11 +93,20 @@ const CreateMessageInput = () => {
 	);
 
 	const handleFocus = useCallback(() => {
-		Mousetrap.bind(['command+enter', 'ctrl+enter', 'alt+enter', 'shift+enter'], () => {
-			sendMessageToServer();
-		});
-		Mousetrap.bind('enter', () => {});
-	}, [setText, sendMessageToServer]);
+		if (myTypingStrategy === typingStrategy.nle) {
+			Mousetrap.bind(['command+enter', 'ctrl+enter', 'alt+enter', 'shift+enter'], () => {
+				sendMessageToServer();
+			});
+			Mousetrap.bind('enter', () => {});
+		} else {
+			Mousetrap.bind(['command+enter', 'ctrl+enter', 'alt+enter', 'shift+enter'], () => {
+				setText((oldText) => oldText + '\n');
+			});
+			Mousetrap.bind('enter', () => {
+				sendMessageToServer();
+			});
+		}
+	}, [setText, sendMessageToServer, myTypingStrategy]);
 
 	const handleBlur = useCallback(() => {
 		Mousetrap.unbind(['command+enter', 'ctrl+enter', 'alt+enter', 'shift+enter']);

@@ -7,8 +7,8 @@ import CreateChatSvg from 'app/assets/icons/ic-write-message.svg';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { ChatActions } from 'app/store/chats/actions';
 import SearchBox from '../search-box/search-box';
-import NewChatModal from '../new-chat/new-chat';
-import CreateConference from '../create-conference/create-conference';
+import NewChatModal from '../new-chat-modal/new-chat-modal';
+import CreateConference from '../create-conference-modal/create-conference-modal';
 
 export const DIALOGS_LIMIT = 25;
 

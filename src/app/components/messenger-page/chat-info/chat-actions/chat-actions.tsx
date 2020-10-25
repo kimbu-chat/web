@@ -18,7 +18,7 @@ import LeaveSvg from 'app/assets/icons/ic-leave-chat.svg';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { FriendActions } from 'app/store/friends/actions';
 import DeleteChatModal from './delete-chat-modal/delete-chat-modal';
-import CreateConference from '../../create-conference/create-conference';
+import CreateConference from '../../create-conference-modal/create-conference-modal';
 
 namespace ChatActions {
 	export interface Props {

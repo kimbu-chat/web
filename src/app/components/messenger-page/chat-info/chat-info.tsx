@@ -22,7 +22,7 @@ import Avatar from 'app/components/shared/avatar/avatar';
 import EditSvg from 'app/assets/icons/ic-edit.svg';
 import PhotoSvg from 'app/assets/icons/ic-photo.svg';
 import EditChatModal from '../edit-chat-modal/edit-chat-modal';
-import ConferenceAddFriendModal from '../conference-add-friend/conference-add-friend';
+import ConferenceAddFriendModal from '../conference-add-friend-modal/conference-add-friend-modal';
 import ChangePhoto from 'app/components/messenger-page/change-photo/change-photo';
 import { Route, Switch, useLocation } from 'react-router';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';

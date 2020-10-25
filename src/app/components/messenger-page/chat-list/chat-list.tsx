@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, useRef } from 'react';
 import './chat-list.scss';
 
-import ChatFromList from '../chat-from-list/chat-from-list';
+import ChatFromList from './chat-from-list/chat-from-list';
 import InfiniteScroll from 'react-infinite-scroller';
 
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';

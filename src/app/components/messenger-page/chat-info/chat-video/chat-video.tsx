@@ -12,13 +12,9 @@ import { useSelector } from 'react-redux';
 import { getSelectedChatSelector } from 'app/store/chats/selectors';
 import { Page } from 'app/store/common/models';
 import InfiniteScroll from 'react-infinite-scroller';
+import { Link, useLocation } from 'react-router-dom';
 
 namespace ChatVideo {
-	export interface Props {
-		isDisplayed: boolean;
-		close: () => void;
-	}
-
 	export interface Video {
 		id: string;
 		previewImgUrl: string;
@@ -29,7 +25,7 @@ namespace ChatVideo {
 	}
 }
 
-const ChatVideo = ({ isDisplayed, close }: ChatVideo.Props) => {
+const ChatVideo = () => {
 	const { t } = useContext(LocalizationContext);
 
 	const videoContainerRef = useRef<HTMLDivElement>(null);
@@ -37,6 +33,8 @@ const ChatVideo = ({ isDisplayed, close }: ChatVideo.Props) => {
 	const getVideos = useActionWithDispatch(ChatActions.getVideo);
 	const selectedChat = useSelector(getSelectedChatSelector);
 	const videoForSelectedDialog = selectedChat!.videos;
+
+	const location = useLocation();
 
 	const loadMore = useCallback(() => {
 		console.log('call');
@@ -65,11 +63,11 @@ const ChatVideo = ({ isDisplayed, close }: ChatVideo.Props) => {
 	});
 
 	return (
-		<div className={isDisplayed ? 'chat-video chat-video--active' : 'chat-video'}>
+		<div className={'chat-video'}>
 			<div className='chat-video__top'>
-				<button onClick={close} className='chat-video__back'>
+				<Link to={location.pathname.replace('/video', '')} className='chat-video__back'>
 					<ReturnSvg viewBox='0 0 25 25' />
-				</button>
+				</Link>
 				<div className='chat-video__heading'>{t('chatVideo.video')}</div>
 			</div>
 			<div className='chat-video__video-container'>

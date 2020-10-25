@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Redirect, Route, Switch, useLocation } from 'react-router';
 import './messenger.scss';
 
@@ -16,7 +16,6 @@ import RoutingChats from 'app/components/messenger-page/routing-chats/routing-ch
 
 import { AvatarSelectedData } from 'app/store/my-profile/models';
 import { useSelector } from 'react-redux';
-import { getSelectedChatSelector } from 'app/store/chats/selectors';
 import { isCallingMe, amICaling, doIhaveCall } from 'app/store/calls/selectors';
 import RespondingMessage from 'app/components/messenger-page/responding-message/responding-message';
 import { RootState } from 'app/store/root-reducer';
@@ -36,24 +35,10 @@ export namespace Messenger {
 const Messenger = () => {
 	const { t } = useContext(LocalizationContext);
 
-	const selectedChat = useSelector(getSelectedChatSelector);
 	const amICalled = useSelector(isCallingMe);
 	const amICalingSomebody = useSelector(amICaling);
 	const amISpeaking = useSelector(doIhaveCall);
 	const replyingMessage = useSelector((state: RootState) => state.messages.messageToReply);
-
-	const [infoDisplayed, setInfoDisplayed] = useState(false);
-
-	//hide chatInfo on chat change
-	useEffect(() => hideChatInfo(), [selectedChat?.id]);
-
-	//Chat info display and hide
-	const displayChatInfo = useCallback(() => {
-		setInfoDisplayed((oldDisplayedState) => !oldDisplayedState);
-	}, [setInfoDisplayed]);
-	const hideChatInfo = useCallback(() => {
-		setInfoDisplayed(false);
-	}, [setInfoDisplayed]);
 
 	const location = useLocation();
 
@@ -65,24 +50,24 @@ const Messenger = () => {
 			<InternetError />
 
 			<Switch location={location}>
-				<Route exact path={['/calls', '/settings', '/chats/:chatId?', '/contacts']}>
-					<RoutingChats />
-				</Route>
-
-				<Route exact path={'/settings/edit-profile'}>
+				<Route path={'/settings/edit-profile'}>
 					<SettingsHeader title={t('settings.edit_profile')} />
 				</Route>
 
-				<Route exact path={'/settings/notifications'}>
+				<Route path={'/settings/notifications'}>
 					<SettingsHeader title={t('settings.notifications')} />
 				</Route>
 
-				<Route exact path={'/settings/language'}>
+				<Route path={'/settings/language'}>
 					<SettingsHeader title={t('settings.language')} />
 				</Route>
 
-				<Route exact path={'/settings/typing'}>
+				<Route path={'/settings/typing'}>
 					<SettingsHeader title={t('settings.text_typing')} />
+				</Route>
+
+				<Route exact path={['/(calls|settings|chats|contacts)/:chatId?/(info)?/(photo|video)?']}>
+					<RoutingChats />
 				</Route>
 			</Switch>
 
@@ -95,22 +80,22 @@ const Messenger = () => {
 					>
 						<div className='messenger__chat-list__animated'>
 							<Switch location={location}>
-								<Route path='/calls'>
+								<Route path='/calls/(info)?/(photo|video)?'>
 									<CallList />
 								</Route>
 
-								<Route path='/settings'>
+								<Route path='/settings*'>
 									<Settings />
 								</Route>
 
-								<Route path='/chats/:chatId?'>
+								<Route path='/chats/:chatId?/(info)?/(photo|video)?'>
 									<div className='messenger__chats'>
 										<SearchTop />
 										<ChatList />
 									</div>
 								</Route>
 
-								<Route path='/contacts'>
+								<Route path='/contacts/(info)?/(photo|video)?'>
 									<div className='messenger__chats'>FRIENDS</div>
 								</Route>
 
@@ -127,14 +112,29 @@ const Messenger = () => {
 				</TransitionGroup>
 			</div>
 
-			<ChatData chatInfoDisplayed={infoDisplayed} displayChatInfo={displayChatInfo} />
+			<ChatData />
 
-			<div className={`messenger__chat-send ${infoDisplayed ? 'messenger__chat-send--little' : ''}`}>
+			<div className={`messenger__chat-send`}>
 				<Chat />
 				{replyingMessage && <RespondingMessage />}
 				<CreateMessageInput />
 			</div>
-			<ChatInfo isDisplayed={infoDisplayed} />
+
+			<TransitionGroup style={{ gridRow: '1/3' }}>
+				<CSSTransition
+					key={String(location.pathname.includes('info'))}
+					timeout={{ enter: 200, exit: 200 }}
+					classNames={'chat-info-slide'}
+				>
+					<Switch location={location}>
+						<Route path='/(contacts|calls|settings|chats)/:chatId?/info*'>
+							<div className='chat-info--animated'>
+								<ChatInfo />
+							</div>
+						</Route>
+					</Switch>
+				</CSSTransition>
+			</TransitionGroup>
 		</div>
 	);
 };

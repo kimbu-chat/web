@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import './chat-info.scss';
 import { useSelector } from 'react-redux';
 import { Chat } from 'app/store/chats/models';
@@ -24,22 +24,10 @@ import PhotoSvg from 'app/assets/icons/ic-photo.svg';
 import EditChatModal from '../edit-chat-modal/edit-chat-modal';
 import ConferenceAddFriendModal from '../conference-add-friend/conference-add-friend';
 import ChangePhoto from 'app/components/messenger-page/change-photo/change-photo';
+import { Route, Switch, useLocation } from 'react-router';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
-namespace ChatInfo {
-	export interface Props {
-		isDisplayed: boolean;
-	}
-}
-
-const ChatInfo: React.FC<ChatInfo.Props> = ({ isDisplayed }) => {
-	const [chatPhotoDisplayed, setChatPhotoDisplayed] = useState(false);
-	const closeChatPhoto = useCallback(() => setChatPhotoDisplayed(false), [setChatPhotoDisplayed]);
-	const displayChatPhoto = useCallback(() => setChatPhotoDisplayed(true), [setChatPhotoDisplayed]);
-
-	const [chatVideoDisplayed, setChatVideoDisplayed] = useState(false);
-	const closeChatVideo = useCallback(() => setChatVideoDisplayed(false), [setChatVideoDisplayed]);
-	const displayChatVideo = useCallback(() => setChatVideoDisplayed(true), [setChatVideoDisplayed]);
-
+const ChatInfo: React.FC = () => {
 	const [editConferenceDisplayed, setEditConferenceDisplayed] = useState(false);
 	const changeEditConferenceDisplayedState = useCallback(() => {
 		setEditConferenceDisplayed((oldState) => !oldState);
@@ -50,12 +38,7 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({ isDisplayed }) => {
 		setAddFriendsModalDisplayed((oldState) => !oldState);
 	}, [setAddFriendsModalDisplayed]);
 
-	useEffect(() => {
-		return () => {
-			closeChatPhoto();
-			closeChatVideo();
-		};
-	}, [isDisplayed]);
+	const location = useLocation();
 
 	const selectedChat = useSelector(getSelectedChatSelector) as Chat;
 
@@ -108,7 +91,7 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({ isDisplayed }) => {
 
 		return (
 			<React.Fragment>
-				<div className={isDisplayed ? 'chat-info chat-info--active' : 'chat-info'}>
+				<div className={'chat-info'}>
 					<div className='chat-info__main-data'>
 						{!conference && selectedChat?.interlocutor ? (
 							<Avatar className='chat-info__avatar' src={getChatAvatar()}>
@@ -143,19 +126,32 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({ isDisplayed }) => {
 							</button>
 						)}
 					</div>
-
 					<InterlocutorInfo />
 
 					<ChatInfoActions addMembers={changeSetAddFriendsModalDisplayedState} />
 
-					<ChatMedia displayChatPhoto={displayChatPhoto} displayChatVideo={displayChatVideo} />
+					<ChatMedia />
 
 					{conference && <ChatMembers addMembers={changeSetAddFriendsModalDisplayedState} />}
 				</div>
 
-				<ChatPhoto isDisplayed={chatPhotoDisplayed} close={closeChatPhoto} />
+				<TransitionGroup>
+					<CSSTransition
+						key={location.key}
+						timeout={{ enter: 200, exit: 200 }}
+						classNames={'chat-info__nested-slide'}
+					>
+						<Switch location={location}>
+							<Route path='/(contacts|calls|settings|chats)/:chatId?/info/photo' exact>
+								<ChatPhoto />
+							</Route>
 
-				<ChatVideo isDisplayed={chatVideoDisplayed} close={closeChatVideo} />
+							<Route path='/(contacts|calls|settings|chats)/:chatId?/info/video' exact>
+								<ChatVideo />
+							</Route>
+						</Switch>
+					</CSSTransition>
+				</TransitionGroup>
 
 				<EditChatModal isDisplayed={editConferenceDisplayed} close={changeEditConferenceDisplayedState} />
 
@@ -174,4 +170,4 @@ const ChatInfo: React.FC<ChatInfo.Props> = ({ isDisplayed }) => {
 	}
 };
 
-export default React.memo(ChatInfo, (prevProps, nextProps) => prevProps.isDisplayed === nextProps.isDisplayed);
+export default React.memo(ChatInfo);

@@ -1,0 +1,23 @@
+.friend {
+	padding: 14px 20px;
+	display: flex;
+	&:hover {
+		background-color: rgba($color: #3f8ae0, $alpha: 0.1);
+	}
+
+	&__contents {
+		margin-left: 10px;
+	}
+
+	&__name {
+		font-size: 14px;
+		font-weight: 500;
+		margin-bottom: 6px;
+	}
+
+	&__status {
+		font-size: 14px;
+		font-weight: 400;
+		color: #3f8ae0;
+	}
+}

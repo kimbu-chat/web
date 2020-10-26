@@ -16,18 +16,14 @@ import VoiceCallSvg from 'app/assets/icons/ic-call.svg';
 import VideoCallSvg from 'app/assets/icons/ic-video-call.svg';
 import ChatSearchSvg from 'app/assets/icons/ic-search.svg';
 import ChatInfoSvg from 'app/assets/icons/ic-info.svg';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 
-namespace ChatData {
-	export interface Props {
-		displayChatInfo: () => void;
-		chatInfoDisplayed: boolean;
-	}
-}
-
-const ChatData = ({ displayChatInfo, chatInfoDisplayed }: ChatData.Props) => {
+const ChatData = () => {
 	const { t } = useContext(LocalizationContext);
 	const selectedChat = useSelector(getSelectedChatSelector);
 	const callInterlocutor = useActionWithDispatch(CallActions.outgoingCallAction);
+
+	const location = useLocation();
 
 	const callWithVideo = () =>
 		callInterlocutor({
@@ -67,8 +63,8 @@ const ChatData = ({ displayChatInfo, chatInfoDisplayed }: ChatData.Props) => {
 					.fromNow()}`;
 
 		return (
-			<div className={`chat-data__chat-data ${chatInfoDisplayed ? 'chat-data__chat-data--little' : ''}`}>
-				<div onClick={displayChatInfo} className='chat-data__contact-data'>
+			<div className={`chat-data__chat-data`}>
+				<Link to={`/chats/${selectedChat.id}/info`} className='chat-data__contact-data'>
 					<Avatar className='chat-data__contact-img' src={imageUrl}>
 						{getInterlocutorInitials(selectedChat)}
 					</Avatar>
@@ -77,7 +73,7 @@ const ChatData = ({ displayChatInfo, chatInfoDisplayed }: ChatData.Props) => {
 						<h1>{getChatInterlocutor(selectedChat)}</h1>
 						<p>{status}</p>
 					</div>
-				</div>
+				</Link>
 				<div className='chat-data__buttons-group'>
 					{selectedChat.interlocutor && (
 						<button className='chat-data__button' onClick={callWithAudio}>
@@ -92,21 +88,21 @@ const ChatData = ({ displayChatInfo, chatInfoDisplayed }: ChatData.Props) => {
 					<button className='chat-data__button'>
 						<ChatSearchSvg />
 					</button>
-					<button
-						onClick={displayChatInfo}
-						className={
-							chatInfoDisplayed ? 'chat-data__button chat-data__button--active' : 'chat-data__button'
+					<NavLink
+						to={
+							location.pathname.includes('info')
+								? location.pathname.replace('/info', '')
+								: `${location.pathname}/info`
 						}
+						className='chat-data__button'
+						activeClassName='chat-data__button--active'
 					>
 						<ChatInfoSvg />
-					</button>
+					</NavLink>
 				</div>
 			</div>
 		);
 	} else return <div className='chat-data__chat-data'></div>;
 };
 
-export default React.memo(
-	ChatData,
-	(prevProps, nextProps) => prevProps.chatInfoDisplayed === nextProps.chatInfoDisplayed,
-);
+export default React.memo(ChatData);

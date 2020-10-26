@@ -10,16 +10,16 @@ import { getStringInitials } from 'app/utils/interlocutor-name-utils';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import React, { useCallback, useContext, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import FriendFromList from '../friend-from-list/friend-from-list';
+import FriendFromList from '../shared/friend-from-list/friend-from-list';
 import SearchBox from '../search-box/search-box';
 import CloseSVG from 'app/assets/icons/ic-close.svg';
-import './create-conference.scss';
+import './create-conference-modal.scss';
 import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
 import { ChatActions } from 'app/store/chats/actions';
 import { Chat } from 'app/store/chats/models';
 import { useHistory } from 'react-router';
 
-namespace ICreateConference {
+namespace ICreateConferenceModal {
 	export interface Props {
 		close: () => void;
 		isDisplayed: boolean;
@@ -32,7 +32,7 @@ namespace ICreateConference {
 	}
 }
 
-const CreateConference = ({ close, isDisplayed, preSelectedUserIds }: ICreateConference.Props) => {
+const CreateConferenceModal = ({ close, isDisplayed, preSelectedUserIds }: ICreateConferenceModal.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const currentUser = useSelector<RootState, UserPreview | undefined>((state) => state.myProfile.user);
@@ -42,7 +42,7 @@ const CreateConference = ({ close, isDisplayed, preSelectedUserIds }: ICreateCon
 	const submitConferenceCreation = useActionWithDeferred(ChatActions.createConference);
 
 	const [selectedUserIds, setSelectedUserIds] = useState<number[]>(preSelectedUserIds ? preSelectedUserIds : []);
-	const [currentStage, setCurrrentStage] = useState(ICreateConference.conferenceCreationStage.userSelect);
+	const [currentStage, setCurrrentStage] = useState(ICreateConferenceModal.conferenceCreationStage.userSelect);
 	const [avatarData, setAvatarData] = useState<AvatarSelectedData | null>(null);
 	const [imageUrl, setImageUrl] = useState<string | null | ArrayBuffer>(null);
 	const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
@@ -114,11 +114,11 @@ const CreateConference = ({ close, isDisplayed, preSelectedUserIds }: ICreateCon
 
 	const goToNexStage = useCallback(() => {
 		setCurrrentStage((oldStage) => {
-			if (oldStage === ICreateConference.conferenceCreationStage.conferenceCreation) {
+			if (oldStage === ICreateConferenceModal.conferenceCreationStage.conferenceCreation) {
 				onSubmit();
 			}
 
-			return ICreateConference.conferenceCreationStage.conferenceCreation;
+			return ICreateConferenceModal.conferenceCreationStage.conferenceCreation;
 		});
 	}, [setCurrrentStage, onSubmit]);
 
@@ -128,19 +128,19 @@ const CreateConference = ({ close, isDisplayed, preSelectedUserIds }: ICreateCon
 				<Modal
 					isDisplayed={isDisplayed}
 					title={
-						currentStage === ICreateConference.conferenceCreationStage.userSelect ? (
+						currentStage === ICreateConferenceModal.conferenceCreationStage.userSelect ? (
 							<div className='create-conference__heading'>
-								<div className='create-conference__title'>{t('createConference.add_members')}</div>
+								<div className='create-conference__title'>{t('CreateConferenceModal.add_members')}</div>
 								<div className='create-conference__selected-count'>{`${selectedUserIds.length} / 1000`}</div>
 							</div>
 						) : (
-							t('createConference.new_group')
+							t('CreateConferenceModal.new_group')
 						)
 					}
 					closeModal={close}
 					contents={
 						<>
-							{currentStage === ICreateConference.conferenceCreationStage.userSelect && (
+							{currentStage === ICreateConferenceModal.conferenceCreationStage.userSelect && (
 								<div className={'create-conference__select-friends'}>
 									<SearchBox onChange={(e) => searchFriends(e.target.value)} />
 									<div className='create-conference__friends-block'>
@@ -158,7 +158,7 @@ const CreateConference = ({ close, isDisplayed, preSelectedUserIds }: ICreateCon
 								</div>
 							)}
 
-							{currentStage === ICreateConference.conferenceCreationStage.conferenceCreation && (
+							{currentStage === ICreateConferenceModal.conferenceCreationStage.conferenceCreation && (
 								<div className='edit-chat-modal'>
 									<div className='edit-chat-modal__change-photo'>
 										<div className='edit-chat-modal__current-photo-wrapper'>
@@ -214,7 +214,7 @@ const CreateConference = ({ close, isDisplayed, preSelectedUserIds }: ICreateCon
 					}
 					buttons={[
 						{
-							text: t('createConference.cancel'),
+							text: t('CreateConferenceModal.cancel'),
 							style: {
 								color: '#6D7885',
 								backgroundColor: '#fff',
@@ -227,13 +227,13 @@ const CreateConference = ({ close, isDisplayed, preSelectedUserIds }: ICreateCon
 							onClick: close,
 						},
 						{
-							text: t('createConference.create'),
+							text: t('CreateConferenceModal.create'),
 							style: {
 								color: '#fff',
 								backgroundColor: selectedUserIds.length === 0 ? '#6ea2de' : '#3F8AE0',
 								padding: '11px 88px',
 								display:
-									currentStage === ICreateConference.conferenceCreationStage.userSelect
+									currentStage === ICreateConferenceModal.conferenceCreationStage.userSelect
 										? 'block'
 										: 'none',
 							},
@@ -243,13 +243,13 @@ const CreateConference = ({ close, isDisplayed, preSelectedUserIds }: ICreateCon
 							onClick: goToNexStage,
 						},
 						{
-							text: t('createConference.next'),
+							text: t('CreateConferenceModal.next'),
 							style: {
 								color: '#fff',
 								backgroundColor: '#3F8AE0',
 								padding: '11px 88px',
 								display:
-									currentStage === ICreateConference.conferenceCreationStage.conferenceCreation
+									currentStage === ICreateConferenceModal.conferenceCreationStage.conferenceCreation
 										? 'block'
 										: 'none',
 							},
@@ -267,4 +267,4 @@ const CreateConference = ({ close, isDisplayed, preSelectedUserIds }: ICreateCon
 	);
 };
 
-export default CreateConference;
+export default CreateConferenceModal;

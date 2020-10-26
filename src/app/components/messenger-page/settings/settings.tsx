@@ -33,7 +33,7 @@ const Settings = () => {
 				classNames={'slide'}
 			>
 				<Switch location={location}>
-					<Route path='/settings' exact>
+					<Route path='/settings/(info)?/(photo|video)?' exact>
 						<div className='settings'>
 							<div className='settings__account-info'>
 								<Avatar className='settings__account-avatar' src={myProfile?.avatarUrl}>
@@ -65,19 +65,19 @@ const Settings = () => {
 						</div>
 					</Route>
 
-					<Route path='/settings/edit-profile'>
+					<Route path='/settings/edit-profile' exact>
 						<EditProfile />
 					</Route>
 
-					<Route path='/settings/notifications'>
+					<Route path='/settings/notifications' exact>
 						<NotificationsSettings />
 					</Route>
 
-					<Route path='/settings/language'>
+					<Route path='/settings/language' exact>
 						<LanguageSettings />
 					</Route>
 
-					<Route path='/settings/typing'>
+					<Route path='/settings/typing' exact>
 						<TextTyping />
 					</Route>
 				</Switch>

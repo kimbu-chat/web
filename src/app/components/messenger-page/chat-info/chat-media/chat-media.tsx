@@ -9,28 +9,25 @@ import MicrophoneSvg from 'app/assets/icons/ic-microphone.svg';
 import PeopleSvg from 'app/assets/icons/ic-group.svg';
 
 import { LocalizationContext } from 'app/app';
+import { useLocation } from 'react-router';
+import { Link } from 'react-router-dom';
 
-namespace ChatMedia {
-	export interface Props {
-		displayChatPhoto: () => void;
-		displayChatVideo: () => void;
-	}
-}
-
-const ChatMedia = ({ displayChatPhoto, displayChatVideo }: ChatMedia.Props) => {
+const ChatMedia = () => {
 	const { t } = useContext(LocalizationContext);
+
+	const location = useLocation();
 
 	return (
 		<div className='chat-media'>
 			<div className='chat-media__heading'>{t('chatMedia.media')}</div>
-			<button onClick={displayChatPhoto} className='chat-media__media-type'>
+			<Link to={`${location.pathname}/photo`} className='chat-media__media-type'>
 				<PhotoSvg viewBox='0 0 25 25' className='chat-media__media-type__svg' />
 				<span className='chat-media__media-type__name'>{t('chatMedia.photos', { count: 155 })}</span>
-			</button>
-			<button onClick={displayChatVideo} className='chat-media__media-type'>
+			</Link>
+			<Link to={`${location.pathname}/video`} className='chat-media__media-type'>
 				<VideoSvg viewBox='0 0 25 25' className='chat-media__media-type__svg' />
 				<span className='chat-media__media-type__name'>{t('chatMedia.videos', { count: 7 })}</span>
-			</button>
+			</Link>
 			<button className='chat-media__media-type'>
 				<FileSvg viewBox='0 0 25 25' className='chat-media__media-type__svg' />
 				<span className='chat-media__media-type__name'>{t('chatMedia.files', { count: 43 })}</span>

@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import './forward-modal.scss';
 import SearchBox from '../search-box/search-box';
-import FriendFromList from '../friend-from-list/friend-from-list';
+import FriendFromList from '../shared/friend-from-list/friend-from-list';
 import { FriendActions } from 'app/store/friends/actions';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { LocalizationContext } from 'app/app';

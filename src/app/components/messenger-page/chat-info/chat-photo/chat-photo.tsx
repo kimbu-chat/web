@@ -10,13 +10,9 @@ import { ChatActions } from 'app/store/chats/actions';
 import { getSelectedChatSelector } from 'app/store/chats/selectors';
 import { Page } from 'app/store/common/models';
 import InfiniteScroll from 'react-infinite-scroller';
+import { Link, useLocation } from 'react-router-dom';
 
 namespace ChatPhoto {
-	export interface Props {
-		isDisplayed: boolean;
-		close: () => void;
-	}
-
 	export interface Photo {
 		id: string;
 		url: string;
@@ -26,7 +22,7 @@ namespace ChatPhoto {
 	}
 }
 
-const ChatPhoto = ({ isDisplayed, close }: ChatPhoto.Props) => {
+const ChatPhoto = () => {
 	const { t } = useContext(LocalizationContext);
 
 	const photoContainerRef = useRef<HTMLDivElement>(null);
@@ -34,6 +30,8 @@ const ChatPhoto = ({ isDisplayed, close }: ChatPhoto.Props) => {
 	const getPhotos = useActionWithDispatch(ChatActions.getPhoto);
 	const selectedChat = useSelector(getSelectedChatSelector);
 	const photoForSelectedDialog = selectedChat!.photos;
+
+	const location = useLocation();
 
 	const loadMore = useCallback(() => {
 		console.log('call');
@@ -62,11 +60,11 @@ const ChatPhoto = ({ isDisplayed, close }: ChatPhoto.Props) => {
 	});
 
 	return (
-		<div className={isDisplayed ? 'chat-photo chat-photo--active' : 'chat-photo'}>
+		<div className={'chat-photo'}>
 			<div className='chat-photo__top'>
-				<button onClick={close} className='chat-photo__back'>
+				<Link to={location.pathname.replace('/photo', '')} className='chat-photo__back'>
 					<ReturnSvg viewBox='0 0 25 25' />
-				</button>
+				</Link>
 				<div className='chat-photo__heading'>{t('chatPhoto.photo')}</div>
 			</div>
 			<div ref={photoContainerRef} className='chat-photo__photo-container'>

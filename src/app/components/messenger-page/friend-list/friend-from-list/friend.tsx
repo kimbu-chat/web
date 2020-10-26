@@ -1,5 +1,6 @@
 import { LocalizationContext } from 'app/app';
 import Avatar from 'app/components/shared/avatar/avatar';
+import { ChatService } from 'app/store/chats/chat-service';
 import { UserStatus } from 'app/store/friends/models';
 import { UserPreview } from 'app/store/my-profile/models';
 import { getUserInitials } from 'app/utils/interlocutor-name-utils';
@@ -18,7 +19,11 @@ const Friend = ({ friend }: Friend.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	return (
-		<NavLink to={`/chat/${friend.id}1`} className='friend' activeClassName='friend--active'>
+		<NavLink
+			to={`/contacts/${ChatService.getChatIdentifier(friend.id)}`}
+			className='friend'
+			activeClassName='friend--active'
+		>
 			<div className='friend__active-line'></div>
 			<Avatar className={'friend__avatar'} src={friend.avatarUrl}>
 				{getUserInitials(friend)}

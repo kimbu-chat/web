@@ -96,7 +96,7 @@ const Messenger = () => {
 									</div>
 								</Route>
 
-								<Route path='/contacts/(info)?/(photo|video)?'>
+								<Route path='/contacts/:chatId?/(info)?/(photo|video)?'>
 									<div className='messenger__chats'>
 										<FriendList />
 									</div>

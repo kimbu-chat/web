@@ -128,11 +128,11 @@ const CreateConferenceModal = ({ close, preSelectedUserIds }: ICreateConferenceM
 					title={
 						currentStage === ICreateConferenceModal.conferenceCreationStage.userSelect ? (
 							<div className='create-conference__heading'>
-								<div className='create-conference__title'>{t('CreateConferenceModal.add_members')}</div>
+								<div className='create-conference__title'>{t('createConferenceModal.add_members')}</div>
 								<div className='create-conference__selected-count'>{`${selectedUserIds.length} / 1000`}</div>
 							</div>
 						) : (
-							t('CreateConferenceModal.new_group')
+							t('createConferenceModal.new_group')
 						)
 					}
 					closeModal={close}
@@ -212,7 +212,7 @@ const CreateConferenceModal = ({ close, preSelectedUserIds }: ICreateConferenceM
 					}
 					buttons={[
 						{
-							text: t('CreateConferenceModal.cancel'),
+							text: t('createConferenceModal.cancel'),
 							style: {
 								color: '#6D7885',
 								backgroundColor: '#fff',
@@ -225,7 +225,7 @@ const CreateConferenceModal = ({ close, preSelectedUserIds }: ICreateConferenceM
 							onClick: close,
 						},
 						{
-							text: t('CreateConferenceModal.create'),
+							text: t('createConferenceModal.create'),
 							style: {
 								color: '#fff',
 								backgroundColor: selectedUserIds.length === 0 ? '#6ea2de' : '#3F8AE0',
@@ -241,7 +241,7 @@ const CreateConferenceModal = ({ close, preSelectedUserIds }: ICreateConferenceM
 							onClick: goToNexStage,
 						},
 						{
-							text: t('CreateConferenceModal.next'),
+							text: t('createConferenceModal.next'),
 							style: {
 								color: '#fff',
 								backgroundColor: '#3F8AE0',

@@ -10,12 +10,11 @@ import { useSelector } from 'react-redux';
 
 namespace DeleteChatModal {
 	export interface Props {
-		isDisplayed: boolean;
 		hide: () => void;
 	}
 }
 
-const DeleteChatModal = ({ isDisplayed, hide }: DeleteChatModal.Props) => {
+const DeleteChatModal = ({ hide }: DeleteChatModal.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const selectedChat = useSelector(getSelectedChatSelector) as Chat;
@@ -27,9 +26,8 @@ const DeleteChatModal = ({ isDisplayed, hide }: DeleteChatModal.Props) => {
 	}, [leaveConference, selectedChat]);
 
 	return (
-		<WithBackground isBackgroundDisplayed={isDisplayed} onBackgroundClick={hide}>
+		<WithBackground onBackgroundClick={hide}>
 			<Modal
-				isDisplayed={isDisplayed}
 				title='Delete chat'
 				contents={t('chatInfo.leave-confirmation', { conferenceName: selectedChat.conference?.name })}
 				highlightedInContents={`‘${selectedChat.conference?.name}‘`}

@@ -1,7 +1,7 @@
 import Modal from 'app/components/shared/modal/modal';
 import WithBackground from 'app/components/shared/with-background';
 import { getMyProfileSelector } from 'app/store/my-profile/selectors';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import ValidSvg from 'app/assets/icons/ic-check-filled.svg';
@@ -14,11 +14,10 @@ import { LocalizationContext } from 'app/app';
 namespace EditUserNameModal {
 	export interface Props {
 		close: () => void;
-		isDisplayed: boolean;
 	}
 }
 
-const EditUserNameModal = ({ close, isDisplayed }: EditUserNameModal.Props) => {
+const EditUserNameModal = ({ close }: EditUserNameModal.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const [isNickNameAvailable, setIsNickNameAvailable] = useState(true);
@@ -31,10 +30,6 @@ const EditUserNameModal = ({ close, isDisplayed }: EditUserNameModal.Props) => {
 	const checkNicknameAvailability = useActionWithDeferred(MyProfileActions.checkNicknameAvailabilityAction);
 
 	const [nickname, setNickname] = useState(myProfile?.nickname || '');
-
-	useEffect(() => {
-		setNickname(myProfile?.nickname || '');
-	}, [isDisplayed]);
 
 	const changeNickname = useCallback(
 		(event: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,9 +54,8 @@ const EditUserNameModal = ({ close, isDisplayed }: EditUserNameModal.Props) => {
 	}, [nickname, updateMyNickname, myProfile]);
 
 	return (
-		<WithBackground isBackgroundDisplayed={isDisplayed} onBackgroundClick={close}>
+		<WithBackground onBackgroundClick={close}>
 			<Modal
-				isDisplayed={isDisplayed}
 				title={t('editUsernameModal.edit_username')}
 				closeModal={close}
 				contents={

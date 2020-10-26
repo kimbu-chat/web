@@ -150,7 +150,7 @@ const ChangePhotoComponent = ({ imageUrl, onSubmit, hideChangePhoto }: ChangePho
 	}, [completedCrop]);
 
 	return typeof imageUrl === 'string' ? (
-		<WithBackground isBackgroundDisplayed={true} onBackgroundClick={hideChangePhoto}>
+		<WithBackground onBackgroundClick={hideChangePhoto}>
 			<div>
 				<div className='crop-container'>
 					<ReactCrop

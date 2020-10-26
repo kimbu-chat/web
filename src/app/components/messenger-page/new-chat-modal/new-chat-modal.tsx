@@ -19,11 +19,10 @@ namespace NewChatModal {
 	export interface Props {
 		close: () => void;
 		displayCreateConference: () => void;
-		isDisplayed: boolean;
 	}
 }
 
-const NewChatModal = ({ close, isDisplayed, displayCreateConference }: NewChatModal.Props) => {
+const NewChatModal = ({ close, displayCreateConference }: NewChatModal.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const friends = useSelector((state: RootState) => state.friends.friends);
@@ -50,9 +49,8 @@ const NewChatModal = ({ close, isDisplayed, displayCreateConference }: NewChatMo
 	}, [displayCreateConference]);
 
 	return (
-		<WithBackground isBackgroundDisplayed={isDisplayed} onBackgroundClick={close}>
+		<WithBackground onBackgroundClick={close}>
 			<Modal
-				isDisplayed={isDisplayed}
 				title={t('newChat.new_message')}
 				closeModal={close}
 				contents={

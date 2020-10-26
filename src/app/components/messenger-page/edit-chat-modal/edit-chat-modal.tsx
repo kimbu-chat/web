@@ -19,12 +19,11 @@ import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 
 namespace EditChatModal {
 	export interface Props {
-		isDisplayed: boolean;
 		close: () => void;
 	}
 }
 
-const EditChatModal = ({ isDisplayed, close }: EditChatModal.Props) => {
+const EditChatModal = ({ close }: EditChatModal.Props) => {
 	const selectedChat = useSelector(getSelectedChatSelector) as Chat;
 
 	const changeConferenceAvatar = useActionWithDeferred(ChatActions.changeConferenceAvatar);
@@ -74,9 +73,8 @@ const EditChatModal = ({ isDisplayed, close }: EditChatModal.Props) => {
 
 	return (
 		<>
-			<WithBackground isBackgroundDisplayed={isDisplayed} onBackgroundClick={close}>
+			<WithBackground onBackgroundClick={close}>
 				<Modal
-					isDisplayed={isDisplayed}
 					title='Edit group'
 					contents={
 						<div className='edit-chat-modal'>

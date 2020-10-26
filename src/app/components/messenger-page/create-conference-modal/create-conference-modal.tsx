@@ -22,7 +22,6 @@ import { useHistory } from 'react-router';
 namespace ICreateConferenceModal {
 	export interface Props {
 		close: () => void;
-		isDisplayed: boolean;
 		preSelectedUserIds?: number[];
 	}
 
@@ -32,7 +31,7 @@ namespace ICreateConferenceModal {
 	}
 }
 
-const CreateConferenceModal = ({ close, isDisplayed, preSelectedUserIds }: ICreateConferenceModal.Props) => {
+const CreateConferenceModal = ({ close, preSelectedUserIds }: ICreateConferenceModal.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const currentUser = useSelector<RootState, UserPreview | undefined>((state) => state.myProfile.user);
@@ -124,9 +123,8 @@ const CreateConferenceModal = ({ close, isDisplayed, preSelectedUserIds }: ICrea
 
 	return (
 		<>
-			<WithBackground isBackgroundDisplayed={isDisplayed} onBackgroundClick={close}>
+			<WithBackground onBackgroundClick={close}>
 				<Modal
-					isDisplayed={isDisplayed}
 					title={
 						currentStage === ICreateConferenceModal.conferenceCreationStage.userSelect ? (
 							<div className='create-conference__heading'>

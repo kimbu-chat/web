@@ -14,12 +14,11 @@ import { LocalizationContext } from 'app/app';
 namespace ForwardModal {
 	export interface Props {
 		close: () => void;
-		isDisplayed: boolean;
 		messageIdsToForward: number[];
 	}
 }
 
-const ForwardModal = ({ close, isDisplayed }: ForwardModal.Props) => {
+const ForwardModal = ({ close }: ForwardModal.Props) => {
 	const { t } = useContext(LocalizationContext);
 	const [selectedChatIds, setSelectedChatIds] = useState<number[]>([]);
 
@@ -52,9 +51,8 @@ const ForwardModal = ({ close, isDisplayed }: ForwardModal.Props) => {
 	}, []);
 
 	return (
-		<WithBackground isBackgroundDisplayed={isDisplayed} onBackgroundClick={close}>
+		<WithBackground onBackgroundClick={close}>
 			<Modal
-				isDisplayed={isDisplayed}
 				title={t('forwardModal.forward')}
 				closeModal={close}
 				contents={

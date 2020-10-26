@@ -5,15 +5,18 @@ import { SagaIterator } from 'redux-saga';
 import { FriendsHttpRequests } from './http-requests';
 
 function* getFriendsSaga(action: ReturnType<typeof FriendActions.getFriends>): SagaIterator {
-	const { name, initializedBySearch } = action.payload;
+	const { name, initializedBySearch, page } = action.payload;
 	const request = FriendsHttpRequests.getFriends;
 	const { data } = request.call(yield call(() => request.generator(action.payload)));
+
+	const hasMore = data.length >= page.limit;
 
 	yield put(
 		FriendActions.getFriendsSuccess({
 			users: data,
 			name,
 			initializedBySearch,
+			hasMore,
 		}),
 	);
 }

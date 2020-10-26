@@ -25,6 +25,7 @@ export interface GetFriendsSuccessActionData {
 	users: Array<UserPreview>;
 	name?: string;
 	initializedBySearch?: boolean;
+	hasMore: boolean;
 }
 
 export interface UpdateMyProfileActionData {

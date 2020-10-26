@@ -11,6 +11,7 @@ import './friend-list.scss';
 
 const FriendList = () => {
 	const friends = useSelector<RootState, UserPreview[]>((state) => state.friends.friends);
+	const hasMoreFriends = useSelector<RootState, boolean>((state) => state.friends.hasMoreFriends);
 	const listRef = useRef<HTMLDivElement>(null);
 	const loadFriends = useActionWithDeferred(FriendActions.getFriends);
 

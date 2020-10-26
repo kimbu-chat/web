@@ -147,7 +147,7 @@
 		"new_message": "Новое сообщение",
 		"new_group": "Новая группа"
 	},
-	"createConference": {
+	"createConferenceModal": {
 		"add_members": "Добавить участников",
 		"new_group": "Новая группа",
 		"next": "Далее",

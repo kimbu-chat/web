@@ -19,6 +19,7 @@ import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { FriendActions } from 'app/store/friends/actions';
 import DeleteChatModal from './delete-chat-modal/delete-chat-modal';
 import CreateConference from '../../create-conference-modal/create-conference-modal';
+import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
 
 namespace ChatActions {
 	export interface Props {
@@ -123,14 +124,17 @@ const ChatActions = ({ addMembers }: ChatActions.Props) => {
 			{
 				//!Modal rendered with portal
 			}
+			<FadeAnimationWrapper isDisplayed={leaveConferenceModalOpened}>
+				<DeleteChatModal hide={changeLeaveConferenceModalOpenedState} />
+			</FadeAnimationWrapper>
 
-			<DeleteChatModal isDisplayed={leaveConferenceModalOpened} hide={changeLeaveConferenceModalOpenedState} />
 			{selectedChat.interlocutor && (
-				<CreateConference
-					isDisplayed={createConferenceModalOpened}
-					preSelectedUserIds={[selectedChat.interlocutor!.id]}
-					close={changeCreateConferenceModalOpenedState}
-				/>
+				<FadeAnimationWrapper isDisplayed={createConferenceModalOpened}>
+					<CreateConference
+						preSelectedUserIds={[selectedChat.interlocutor!.id]}
+						close={changeCreateConferenceModalOpenedState}
+					/>
+				</FadeAnimationWrapper>
 			)}
 		</div>
 	);

@@ -22,7 +22,6 @@ import { useHistory } from 'react-router';
 namespace ICreateConferenceModal {
 	export interface Props {
 		close: () => void;
-		isDisplayed: boolean;
 		preSelectedUserIds?: number[];
 	}
 
@@ -32,7 +31,7 @@ namespace ICreateConferenceModal {
 	}
 }
 
-const CreateConferenceModal = ({ close, isDisplayed, preSelectedUserIds }: ICreateConferenceModal.Props) => {
+const CreateConferenceModal = ({ close, preSelectedUserIds }: ICreateConferenceModal.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const currentUser = useSelector<RootState, UserPreview | undefined>((state) => state.myProfile.user);
@@ -124,17 +123,16 @@ const CreateConferenceModal = ({ close, isDisplayed, preSelectedUserIds }: ICrea
 
 	return (
 		<>
-			<WithBackground isBackgroundDisplayed={isDisplayed} onBackgroundClick={close}>
+			<WithBackground onBackgroundClick={close}>
 				<Modal
-					isDisplayed={isDisplayed}
 					title={
 						currentStage === ICreateConferenceModal.conferenceCreationStage.userSelect ? (
 							<div className='create-conference__heading'>
-								<div className='create-conference__title'>{t('CreateConferenceModal.add_members')}</div>
+								<div className='create-conference__title'>{t('createConferenceModal.add_members')}</div>
 								<div className='create-conference__selected-count'>{`${selectedUserIds.length} / 1000`}</div>
 							</div>
 						) : (
-							t('CreateConferenceModal.new_group')
+							t('createConferenceModal.new_group')
 						)
 					}
 					closeModal={close}
@@ -214,7 +212,7 @@ const CreateConferenceModal = ({ close, isDisplayed, preSelectedUserIds }: ICrea
 					}
 					buttons={[
 						{
-							text: t('CreateConferenceModal.cancel'),
+							text: t('createConferenceModal.cancel'),
 							style: {
 								color: '#6D7885',
 								backgroundColor: '#fff',
@@ -227,7 +225,7 @@ const CreateConferenceModal = ({ close, isDisplayed, preSelectedUserIds }: ICrea
 							onClick: close,
 						},
 						{
-							text: t('CreateConferenceModal.create'),
+							text: t('createConferenceModal.create'),
 							style: {
 								color: '#fff',
 								backgroundColor: selectedUserIds.length === 0 ? '#6ea2de' : '#3F8AE0',
@@ -243,7 +241,7 @@ const CreateConferenceModal = ({ close, isDisplayed, preSelectedUserIds }: ICrea
 							onClick: goToNexStage,
 						},
 						{
-							text: t('CreateConferenceModal.next'),
+							text: t('createConferenceModal.next'),
 							style: {
 								color: '#fff',
 								backgroundColor: '#3F8AE0',

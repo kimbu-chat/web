@@ -17,6 +17,7 @@ import EditUserNameModal from './edit-username-modal/edit-username-modal';
 import EditPhoneModal from './edit-phone-modal/edit-phone-modal';
 import ChangePhoto from 'app/components/messenger-page/change-photo/change-photo';
 import { LocalizationContext } from 'app/app';
+import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
 
 const EditProfile = () => {
 	const { t } = useContext(LocalizationContext);
@@ -123,9 +124,18 @@ const EditProfile = () => {
 					</div>
 				</div>
 			</div>
-			<EditNameModal close={changeIsEditNameDisplayed} isDisplayed={isEditNameDisplayed} />
-			<EditUserNameModal close={changeIsEditUsernameDisplayed} isDisplayed={isEditUsernameDisplayed} />
-			<EditPhoneModal close={changeIsEditPhoneDisplayed} isDisplayed={isEditPhoneDisplayed} />
+			<FadeAnimationWrapper isDisplayed={isEditNameDisplayed}>
+				<EditNameModal close={changeIsEditNameDisplayed} />
+			</FadeAnimationWrapper>
+
+			<FadeAnimationWrapper isDisplayed={isEditUsernameDisplayed}>
+				<EditUserNameModal close={changeIsEditUsernameDisplayed} />
+			</FadeAnimationWrapper>
+
+			<FadeAnimationWrapper isDisplayed={isEditPhoneDisplayed}>
+				<EditPhoneModal close={changeIsEditPhoneDisplayed} />
+			</FadeAnimationWrapper>
+
 			{changePhotoDisplayed && (
 				<ChangePhoto hideChangePhoto={hideChangePhoto} imageUrl={imageUrl} onSubmit={changeMyAvatar} />
 			)}

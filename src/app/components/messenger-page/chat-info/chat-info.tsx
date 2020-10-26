@@ -26,6 +26,7 @@ import ConferenceAddFriendModal from '../conference-add-friend-modal/conference-
 import ChangePhoto from 'app/components/messenger-page/change-photo/change-photo';
 import { Route, Switch, useLocation } from 'react-router';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
 
 const ChatInfo: React.FC = () => {
 	const [editConferenceDisplayed, setEditConferenceDisplayed] = useState(false);
@@ -153,12 +154,13 @@ const ChatInfo: React.FC = () => {
 					</CSSTransition>
 				</TransitionGroup>
 
-				<EditChatModal isDisplayed={editConferenceDisplayed} close={changeEditConferenceDisplayedState} />
+				<FadeAnimationWrapper isDisplayed={editConferenceDisplayed}>
+					<EditChatModal close={changeEditConferenceDisplayedState} />
+				</FadeAnimationWrapper>
 
-				<ConferenceAddFriendModal
-					isDisplayed={addFriendsModalDisplayed}
-					close={changeSetAddFriendsModalDisplayedState}
-				/>
+				<FadeAnimationWrapper isDisplayed={addFriendsModalDisplayed}>
+					<ConferenceAddFriendModal close={changeSetAddFriendsModalDisplayedState} />
+				</FadeAnimationWrapper>
 
 				{changePhotoDisplayed && (
 					<ChangePhoto hideChangePhoto={hideChangePhoto} imageUrl={imageUrl} onSubmit={changeAvatar} />

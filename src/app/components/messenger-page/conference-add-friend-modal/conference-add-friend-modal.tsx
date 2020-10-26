@@ -11,7 +11,6 @@ import { Chat } from 'app/store/chats/models';
 import { ChatActions } from 'app/store/chats/actions';
 import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
 import { getSelectedChatSelector } from 'app/store/chats/selectors';
-import { useEffect } from 'react';
 import { FriendActions } from 'app/store/friends/actions';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { LocalizationContext } from 'app/app';
@@ -19,11 +18,10 @@ import { LocalizationContext } from 'app/app';
 namespace ConferenceAddFriendModal {
 	export interface Props {
 		close: () => void;
-		isDisplayed: boolean;
 	}
 }
 
-const ConferenceAddFriendModal = ({ close, isDisplayed }: ConferenceAddFriendModal.Props) => {
+const ConferenceAddFriendModal = ({ close }: ConferenceAddFriendModal.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const [selectedUserIds, setselectedUserIds] = useState<number[]>([]);
@@ -33,10 +31,6 @@ const ConferenceAddFriendModal = ({ close, isDisplayed }: ConferenceAddFriendMod
 	const idsToExclude = useSelector((state: RootState) => state.friends.usersForSelectedConference).map(
 		(user) => user.id,
 	);
-
-	useEffect(() => {
-		setselectedUserIds([]);
-	}, [isDisplayed]);
 
 	const addUsersToConferece = useActionWithDeferred(ChatActions.addUsersToConference);
 	const loadFriends = useActionWithDispatch(FriendActions.getFriends);
@@ -67,9 +61,8 @@ const ConferenceAddFriendModal = ({ close, isDisplayed }: ConferenceAddFriendMod
 	}, []);
 
 	return (
-		<WithBackground isBackgroundDisplayed={isDisplayed} onBackgroundClick={close}>
+		<WithBackground onBackgroundClick={close}>
 			<Modal
-				isDisplayed={isDisplayed}
 				title={t('conferenceAddFriendModal.add_members')}
 				closeModal={close}
 				contents={

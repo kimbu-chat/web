@@ -8,6 +8,7 @@ import unionBy from 'lodash/unionBy';
 export interface FriendsState {
 	loading: boolean;
 	friends: UserPreview[];
+	hasMoreFriends: boolean;
 	usersForSelectedConference: UserPreview[];
 	conferenceUsersLoading: boolean;
 }
@@ -15,6 +16,7 @@ export interface FriendsState {
 const initialState: FriendsState = {
 	loading: true,
 	friends: [],
+	hasMoreFriends: true,
 	usersForSelectedConference: [],
 	conferenceUsersLoading: false,
 };
@@ -88,7 +90,9 @@ const friends = createReducer<FriendsState>(initialState)
 	.handleAction(
 		FriendActions.getFriendsSuccess,
 		produce((draft: FriendsState, { payload }: ReturnType<typeof FriendActions.getFriendsSuccess>) => {
-			const { users, initializedBySearch } = payload;
+			const { users, hasMore, initializedBySearch } = payload;
+
+			draft.hasMoreFriends = hasMore;
 
 			if (initializedBySearch) {
 				draft.loading = false;

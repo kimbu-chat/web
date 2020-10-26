@@ -14,6 +14,7 @@ import { setSelectedMessagesLength } from 'app/store/messages/selectors';
 import { MessageUtils } from 'app/utils/message-utils';
 import { FileType } from 'app/store/messages/models';
 import moment from 'moment';
+import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
 
 export const MESSAGES_LIMIT = 25;
 
@@ -147,7 +148,9 @@ const Chat = () => {
 					</div>
 				)}
 
-				{isSelectState && <SelectedMessagesData />}
+				<FadeAnimationWrapper isDisplayed={isSelectState}>
+					<SelectedMessagesData />
+				</FadeAnimationWrapper>
 
 				<InfiniteScroll
 					pageStart={0}

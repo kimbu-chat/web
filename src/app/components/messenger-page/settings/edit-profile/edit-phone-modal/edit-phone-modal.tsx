@@ -13,11 +13,10 @@ import ModalPhoneInput from './modal-phone-input/modal-phone-input';
 namespace EditPhoneModal {
 	export interface Props {
 		close: () => void;
-		isDisplayed: boolean;
 	}
 }
 
-const EditPhoneModal = ({ close, isDisplayed }: EditPhoneModal.Props) => {
+const EditPhoneModal = ({ close }: EditPhoneModal.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const currentNumber = useSelector((state: RootState) => state.myProfile.user?.phoneNumber);
@@ -31,8 +30,7 @@ const EditPhoneModal = ({ close, isDisplayed }: EditPhoneModal.Props) => {
 
 	useEffect(() => {
 		setCountry(countryList.find(({ code }) => currentNumberCountry === code)!);
-		setPhone('');
-	}, [isDisplayed]);
+	}, []);
 
 	const sendSms = useCallback(() => {
 		const phoneNumber = parsePhoneNumberFromString(phone);
@@ -52,9 +50,8 @@ const EditPhoneModal = ({ close, isDisplayed }: EditPhoneModal.Props) => {
 	}, [phoneInputRef]);
 
 	return (
-		<WithBackground isBackgroundDisplayed={isDisplayed} onBackgroundClick={close}>
+		<WithBackground onBackgroundClick={close}>
 			<Modal
-				isDisplayed={isDisplayed}
 				title={t('editPhoneModal.edit_phone')}
 				closeModal={close}
 				contents={

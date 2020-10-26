@@ -9,6 +9,7 @@ import { ChatActions } from 'app/store/chats/actions';
 import SearchBox from '../search-box/search-box';
 import NewChatModal from '../new-chat-modal/new-chat-modal';
 import CreateConference from '../create-conference-modal/create-conference-modal';
+import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
 
 export const DIALOGS_LIMIT = 25;
 
@@ -50,12 +51,16 @@ const SearchTop = () => {
 				<CreateChatSvg />
 			</button>
 
-			<NewChatModal
-				displayCreateConference={changeCreateConferenceDisplayedState}
-				isDisplayed={newChatDisplayed}
-				close={changeNewChatDisplayedState}
-			/>
-			<CreateConference isDisplayed={createConferenceDisplayed} close={changeCreateConferenceDisplayedState} />
+			<FadeAnimationWrapper isDisplayed={newChatDisplayed}>
+				<NewChatModal
+					displayCreateConference={changeCreateConferenceDisplayedState}
+					close={changeNewChatDisplayedState}
+				/>
+			</FadeAnimationWrapper>
+
+			<FadeAnimationWrapper isDisplayed={createConferenceDisplayed}>
+				<CreateConference close={changeCreateConferenceDisplayedState} />
+			</FadeAnimationWrapper>
 		</div>
 	);
 };

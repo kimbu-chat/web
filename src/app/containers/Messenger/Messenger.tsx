@@ -24,6 +24,7 @@ import Settings from 'app/components/messenger-page/settings/settings';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import SettingsHeader from 'app/components/messenger-page/settings/settings-header';
 import { LocalizationContext } from 'app/app';
+import FriendList from 'app/components/messenger-page/friend-list/friend-list';
 
 export namespace Messenger {
 	export interface photoSelect {
@@ -95,8 +96,10 @@ const Messenger = () => {
 									</div>
 								</Route>
 
-								<Route path='/contacts/(info)?/(photo|video)?'>
-									<div className='messenger__chats'>FRIENDS</div>
+								<Route path='/contacts/:chatId?/(info)?/(photo|video)?'>
+									<div className='messenger__chats'>
+										<FriendList />
+									</div>
 								</Route>
 
 								<Route path='/'>

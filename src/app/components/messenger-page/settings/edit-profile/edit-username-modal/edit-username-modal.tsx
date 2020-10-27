@@ -13,11 +13,11 @@ import { LocalizationContext } from 'app/app';
 
 namespace EditUserNameModal {
 	export interface Props {
-		close: () => void;
+		onClose: () => void;
 	}
 }
 
-const EditUserNameModal = ({ close }: EditUserNameModal.Props) => {
+const EditUserNameModal = ({ onClose }: EditUserNameModal.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const [isNickNameAvailable, setIsNickNameAvailable] = useState(true);
@@ -50,14 +50,14 @@ const EditUserNameModal = ({ close }: EditUserNameModal.Props) => {
 		if (nickname !== myProfile?.nickname) {
 			updateMyNickname({ nickname });
 		}
-		close();
+		onClose();
 	}, [nickname, updateMyNickname, myProfile]);
 
 	return (
-		<WithBackground onBackgroundClick={close}>
+		<WithBackground onBackgroundClick={onClose}>
 			<Modal
 				title={t('editUsernameModal.edit_username')}
-				closeModal={close}
+				closeModal={onClose}
 				contents={
 					<div className={'edit-username-modal'}>
 						<div className='edit-username-modal__input-block'>

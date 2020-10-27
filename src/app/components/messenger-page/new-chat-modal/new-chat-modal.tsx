@@ -17,12 +17,12 @@ import PeopleSvg from 'app/assets/icons/ic-group.svg';
 
 namespace NewChatModal {
 	export interface Props {
-		close: () => void;
+		onClose: () => void;
 		displayCreateConference: () => void;
 	}
 }
 
-const NewChatModal = ({ close, displayCreateConference }: NewChatModal.Props) => {
+const NewChatModal = ({ onClose, displayCreateConference }: NewChatModal.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const friends = useSelector((state: RootState) => state.friends.friends);
@@ -36,7 +36,7 @@ const NewChatModal = ({ close, displayCreateConference }: NewChatModal.Props) =>
 		createChat(user);
 		const chatId = Number(`${user.id}1`);
 		history.push(`/chats/${chatId}`);
-		close();
+		onClose();
 	}, []);
 
 	const searchFriends = useCallback((name: string) => {
@@ -45,14 +45,14 @@ const NewChatModal = ({ close, displayCreateConference }: NewChatModal.Props) =>
 
 	const createConference = useCallback(() => {
 		displayCreateConference();
-		close();
+		onClose();
 	}, [displayCreateConference]);
 
 	return (
-		<WithBackground onBackgroundClick={close}>
+		<WithBackground onBackgroundClick={onClose}>
 			<Modal
 				title={t('newChat.new_message')}
-				closeModal={close}
+				closeModal={onClose}
 				contents={
 					<div className={'new-chat'}>
 						<SearchBox onChange={(e) => searchFriends(e.target.value)} />

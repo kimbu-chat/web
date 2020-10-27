@@ -11,12 +11,12 @@ import { LocalizationContext } from 'app/app';
 
 namespace DeleteMessageModal {
 	export interface Props {
-		close: () => void;
+		onClose: () => void;
 		selectedMessages: number[];
 	}
 }
 
-const DeleteMessageModal: React.FC<DeleteMessageModal.Props> = ({ close, selectedMessages }) => {
+const DeleteMessageModal: React.FC<DeleteMessageModal.Props> = ({ onClose, selectedMessages }) => {
 	const { t } = useContext(LocalizationContext);
 
 	const deleteMessage = useActionWithDispatch(MessageActions.deleteMessageSuccess);
@@ -34,7 +34,7 @@ const DeleteMessageModal: React.FC<DeleteMessageModal.Props> = ({ close, selecte
 	}, [selectedChatId, selectedMessages]);
 
 	return (
-		<WithBackground onBackgroundClick={close}>
+		<WithBackground onBackgroundClick={onClose}>
 			<Modal
 				title='Delete message'
 				contents={
@@ -68,7 +68,7 @@ const DeleteMessageModal: React.FC<DeleteMessageModal.Props> = ({ close, selecte
 						</div>
 					</div>
 				}
-				closeModal={close}
+				closeModal={onClose}
 				buttons={[
 					{
 						text: t('chatInfo.confirm'),
@@ -92,7 +92,7 @@ const DeleteMessageModal: React.FC<DeleteMessageModal.Props> = ({ close, selecte
 						},
 
 						position: 'left',
-						onClick: close,
+						onClick: onClose,
 					},
 				]}
 			/>

@@ -30,7 +30,7 @@ const Settings = () => {
 			<CSSTransition
 				key={location.pathname.split('/')[2]}
 				timeout={{ enter: 200, exit: 200 }}
-				classNames={'slide'}
+				classNames={'settings-slide'}
 			>
 				<Switch location={location}>
 					<Route path='/settings/(info)?/(photo|video)?' exact>

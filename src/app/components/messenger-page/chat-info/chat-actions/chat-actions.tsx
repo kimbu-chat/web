@@ -132,7 +132,7 @@ const ChatActions = ({ addMembers }: ChatActions.Props) => {
 				<FadeAnimationWrapper isDisplayed={createConferenceModalOpened}>
 					<CreateConference
 						preSelectedUserIds={[selectedChat.interlocutor!.id]}
-						close={changeCreateConferenceModalOpenedState}
+						onClose={changeCreateConferenceModalOpenedState}
 					/>
 				</FadeAnimationWrapper>
 			)}

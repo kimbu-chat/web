@@ -10,11 +10,11 @@ import './edit-name-modal.scss';
 
 namespace EditNameModal {
 	export interface Props {
-		close: () => void;
+		onClose: () => void;
 	}
 }
 
-const EditNameModal = ({ close }: EditNameModal.Props) => {
+const EditNameModal = ({ onClose }: EditNameModal.Props) => {
 	const myProfile = useSelector(getMyProfileSelector);
 
 	const { t } = useContext(LocalizationContext);
@@ -41,14 +41,14 @@ const EditNameModal = ({ close }: EditNameModal.Props) => {
 		if (firstName !== myProfile?.firstName || lastName !== myProfile?.lastName) {
 			updateMyProfile({ firstName, lastName });
 		}
-		close();
+		onClose();
 	}, [firstName, lastName, updateMyProfile, myProfile]);
 
 	return (
-		<WithBackground onBackgroundClick={close}>
+		<WithBackground onBackgroundClick={onClose}>
 			<Modal
 				title={t('editNameModal.edit_name')}
-				closeModal={close}
+				closeModal={onClose}
 				contents={
 					<div className={'edit-name-modal'}>
 						<div className='edit-name-modal__input-block'>

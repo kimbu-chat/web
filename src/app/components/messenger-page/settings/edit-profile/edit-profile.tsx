@@ -125,15 +125,15 @@ const EditProfile = () => {
 				</div>
 			</div>
 			<FadeAnimationWrapper isDisplayed={isEditNameDisplayed}>
-				<EditNameModal close={changeIsEditNameDisplayed} />
+				<EditNameModal onClose={changeIsEditNameDisplayed} />
 			</FadeAnimationWrapper>
 
 			<FadeAnimationWrapper isDisplayed={isEditUsernameDisplayed}>
-				<EditUserNameModal close={changeIsEditUsernameDisplayed} />
+				<EditUserNameModal onClose={changeIsEditUsernameDisplayed} />
 			</FadeAnimationWrapper>
 
 			<FadeAnimationWrapper isDisplayed={isEditPhoneDisplayed}>
-				<EditPhoneModal close={changeIsEditPhoneDisplayed} />
+				<EditPhoneModal onClose={changeIsEditPhoneDisplayed} />
 			</FadeAnimationWrapper>
 
 			{changePhotoDisplayed && (

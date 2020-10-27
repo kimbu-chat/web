@@ -13,12 +13,12 @@ import { LocalizationContext } from 'app/app';
 
 namespace ForwardModal {
 	export interface Props {
-		close: () => void;
+		onClose: () => void;
 		messageIdsToForward: number[];
 	}
 }
 
-const ForwardModal = ({ close }: ForwardModal.Props) => {
+const ForwardModal = ({ onClose }: ForwardModal.Props) => {
 	const { t } = useContext(LocalizationContext);
 	const [selectedChatIds, setSelectedChatIds] = useState<number[]>([]);
 
@@ -51,10 +51,10 @@ const ForwardModal = ({ close }: ForwardModal.Props) => {
 	}, []);
 
 	return (
-		<WithBackground onBackgroundClick={close}>
+		<WithBackground onBackgroundClick={onClose}>
 			<Modal
 				title={t('forwardModal.forward')}
-				closeModal={close}
+				closeModal={onClose}
 				contents={
 					<div className={'forward-modal'}>
 						<SearchBox onChange={(e) => searchFriends(e.target.value)} />

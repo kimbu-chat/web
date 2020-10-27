@@ -155,11 +155,11 @@ const ChatInfo: React.FC = () => {
 				</TransitionGroup>
 
 				<FadeAnimationWrapper isDisplayed={editConferenceDisplayed}>
-					<EditChatModal close={changeEditConferenceDisplayedState} />
+					<EditChatModal onClose={changeEditConferenceDisplayedState} />
 				</FadeAnimationWrapper>
 
 				<FadeAnimationWrapper isDisplayed={addFriendsModalDisplayed}>
-					<ConferenceAddFriendModal close={changeSetAddFriendsModalDisplayedState} />
+					<ConferenceAddFriendModal onClose={changeSetAddFriendsModalDisplayedState} />
 				</FadeAnimationWrapper>
 
 				{changePhotoDisplayed && (

@@ -21,7 +21,7 @@ import { useHistory } from 'react-router';
 
 namespace ICreateConferenceModal {
 	export interface Props {
-		close: () => void;
+		onClose: () => void;
 		preSelectedUserIds?: number[];
 	}
 
@@ -31,7 +31,7 @@ namespace ICreateConferenceModal {
 	}
 }
 
-const CreateConferenceModal = ({ close, preSelectedUserIds }: ICreateConferenceModal.Props) => {
+const CreateConferenceModal = ({ onClose, preSelectedUserIds }: ICreateConferenceModal.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const currentUser = useSelector<RootState, UserPreview | undefined>((state) => state.myProfile.user);
@@ -109,7 +109,7 @@ const CreateConferenceModal = ({ close, preSelectedUserIds }: ICreateConferenceM
 		})
 			.then((payload: Chat) => history.push(`/chats/${payload.id}`))
 			.then(close);
-	}, [avatarData, name, close, t]);
+	}, [avatarData, name, onClose, t]);
 
 	const goToNexStage = useCallback(() => {
 		setCurrrentStage((oldStage) => {
@@ -123,7 +123,7 @@ const CreateConferenceModal = ({ close, preSelectedUserIds }: ICreateConferenceM
 
 	return (
 		<>
-			<WithBackground onBackgroundClick={close}>
+			<WithBackground onBackgroundClick={onClose}>
 				<Modal
 					title={
 						currentStage === ICreateConferenceModal.conferenceCreationStage.userSelect ? (
@@ -135,7 +135,7 @@ const CreateConferenceModal = ({ close, preSelectedUserIds }: ICreateConferenceM
 							t('createConferenceModal.new_group')
 						)
 					}
-					closeModal={close}
+					closeModal={onClose}
 					contents={
 						<>
 							{currentStage === ICreateConferenceModal.conferenceCreationStage.userSelect && (
@@ -222,7 +222,7 @@ const CreateConferenceModal = ({ close, preSelectedUserIds }: ICreateConferenceM
 							},
 
 							position: 'left',
-							onClick: close,
+							onClick: onClose,
 						},
 						{
 							text: t('createConferenceModal.create'),

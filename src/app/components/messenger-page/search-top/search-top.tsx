@@ -54,12 +54,12 @@ const SearchTop = () => {
 			<FadeAnimationWrapper isDisplayed={newChatDisplayed}>
 				<NewChatModal
 					displayCreateConference={changeCreateConferenceDisplayedState}
-					close={changeNewChatDisplayedState}
+					onClose={changeNewChatDisplayedState}
 				/>
 			</FadeAnimationWrapper>
 
 			<FadeAnimationWrapper isDisplayed={createConferenceDisplayed}>
-				<CreateConference close={changeCreateConferenceDisplayedState} />
+				<CreateConference onClose={changeCreateConferenceDisplayedState} />
 			</FadeAnimationWrapper>
 		</div>
 	);

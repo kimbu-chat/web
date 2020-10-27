@@ -93,13 +93,13 @@ const SelectedMessagesData = () => {
 
 			<FadeAnimationWrapper isDisplayed={deleteMessagesModalDisplayed}>
 				<DeleteMessageModal
-					close={changeDeleteMessagesModalDisplayedState}
+					onClose={changeDeleteMessagesModalDisplayedState}
 					selectedMessages={selectedMessages}
 				/>
 			</FadeAnimationWrapper>
 
 			<FadeAnimationWrapper isDisplayed={messageIdsToForward?.length > 0}>
-				<ForwardModal messageIdsToForward={messageIdsToForward} close={changeForwardMessagesState} />
+				<ForwardModal messageIdsToForward={messageIdsToForward} onClose={changeForwardMessagesState} />
 			</FadeAnimationWrapper>
 		</div>
 	);

@@ -92,8 +92,8 @@ const Chat = () => {
 		...itemsWithUserInfo[itemsWithUserInfo.length - 1],
 		attachments: [
 			{
-				fileName: 'Домашка',
-				byteSize: 227778,
+				fileName: 'calendar-app.zip',
+				byteSize: 1342177,
 				url:
 					'https://psv4.userapi.com/c856424/u516280711/docs/d9/a8e133a68bf7/Alaman_Mircea_-_Mentananata_-_MI-1.doc',
 				type: FileType.file,

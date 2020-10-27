@@ -12,11 +12,11 @@ import ModalPhoneInput from './modal-phone-input/modal-phone-input';
 
 namespace EditPhoneModal {
 	export interface Props {
-		close: () => void;
+		onClose: () => void;
 	}
 }
 
-const EditPhoneModal = ({ close }: EditPhoneModal.Props) => {
+const EditPhoneModal = ({ onClose }: EditPhoneModal.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const currentNumber = useSelector((state: RootState) => state.myProfile.user?.phoneNumber);
@@ -50,10 +50,10 @@ const EditPhoneModal = ({ close }: EditPhoneModal.Props) => {
 	}, [phoneInputRef]);
 
 	return (
-		<WithBackground onBackgroundClick={close}>
+		<WithBackground onBackgroundClick={onClose}>
 			<Modal
 				title={t('editPhoneModal.edit_phone')}
-				closeModal={close}
+				closeModal={onClose}
 				contents={
 					<div className={'edit-phone-modal'}>
 						<ModalCountrySelect

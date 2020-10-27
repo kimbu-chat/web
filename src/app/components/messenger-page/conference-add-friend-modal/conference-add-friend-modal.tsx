@@ -17,11 +17,11 @@ import { LocalizationContext } from 'app/app';
 
 namespace ConferenceAddFriendModal {
 	export interface Props {
-		close: () => void;
+		onClose: () => void;
 	}
 }
 
-const ConferenceAddFriendModal = ({ close }: ConferenceAddFriendModal.Props) => {
+const ConferenceAddFriendModal = ({ onClose }: ConferenceAddFriendModal.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const [selectedUserIds, setselectedUserIds] = useState<number[]>([]);
@@ -49,7 +49,7 @@ const ConferenceAddFriendModal = ({ close }: ConferenceAddFriendModal.Props) => 
 	);
 
 	const addUsers = useCallback((): void => {
-		close();
+		onClose();
 
 		if (selectedUserIds.length > 0) {
 			addUsersToConferece({ chat: selectedChat, userIds: selectedUserIds });
@@ -61,10 +61,10 @@ const ConferenceAddFriendModal = ({ close }: ConferenceAddFriendModal.Props) => 
 	}, []);
 
 	return (
-		<WithBackground onBackgroundClick={close}>
+		<WithBackground onBackgroundClick={onClose}>
 			<Modal
 				title={t('conferenceAddFriendModal.add_members')}
-				closeModal={close}
+				closeModal={onClose}
 				contents={
 					<div className={'conference-add-friend-modal'}>
 						<SearchBox onChange={(e) => searchFriends(e.target.value)} />

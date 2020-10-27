@@ -19,11 +19,11 @@ import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 
 namespace EditChatModal {
 	export interface Props {
-		close: () => void;
+		onClose: () => void;
 	}
 }
 
-const EditChatModal = ({ close }: EditChatModal.Props) => {
+const EditChatModal = ({ onClose }: EditChatModal.Props) => {
 	const selectedChat = useSelector(getSelectedChatSelector) as Chat;
 
 	const changeConferenceAvatar = useActionWithDeferred(ChatActions.changeConferenceAvatar);
@@ -58,7 +58,7 @@ const EditChatModal = ({ close }: EditChatModal.Props) => {
 	);
 
 	const onSubmit = useCallback(() => {
-		close();
+		onClose();
 		if (avatarData) {
 			changeConferenceAvatar({
 				conferenceId: selectedChat?.conference?.id!,
@@ -73,7 +73,7 @@ const EditChatModal = ({ close }: EditChatModal.Props) => {
 
 	return (
 		<>
-			<WithBackground onBackgroundClick={close}>
+			<WithBackground onBackgroundClick={onClose}>
 				<Modal
 					title='Edit group'
 					contents={
@@ -124,7 +124,7 @@ const EditChatModal = ({ close }: EditChatModal.Props) => {
 							</div>
 						</div>
 					}
-					closeModal={close}
+					closeModal={onClose}
 					buttons={[
 						{
 							text: 'Save',
@@ -147,7 +147,7 @@ const EditChatModal = ({ close }: EditChatModal.Props) => {
 							},
 
 							position: 'left',
-							onClick: close,
+							onClick: onClose,
 						},
 					]}
 				/>

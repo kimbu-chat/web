@@ -94,24 +94,15 @@ const Chat = () => {
 			{
 				fileName: 'calendar-app.zip',
 				byteSize: 1342177,
-				url:
-					'https://psv4.userapi.com/c856424/u516280711/docs/d9/a8e133a68bf7/Alaman_Mircea_-_Mentananata_-_MI-1.doc',
+				url: 'https://download.www21.filehosting.org/930dd8c6578ff1067bf88a9929b529b3/UserDL.rar',
 				type: FileType.file,
 				id: 1,
 			},
 			{
-				fileName: 'Udemy',
-				byteSize: 22777899,
-				url:
-					'https://psv4.userapi.com/c856424/u516280711/docs/d9/a8e133a68bf7/Alaman_Mircea_-_Mentananata_-_MI-1.doc',
-				type: FileType.file,
-				id: 2,
-			},
-			{
-				fileName: 'Музыка',
+				fileName: 'blablabla.mp3',
 				byteSize: 22777899,
 				url: 'https://dll.z1.fm/music/2/14/islam_itljashev_-_na_nervah.mp3?download=force',
-				durationInSeconds: 201,
+				durationInSeconds: 157,
 				type: FileType.music,
 				id: 3,
 			} as FileBase,

@@ -8,6 +8,7 @@ import {
 	AudioBase,
 	VideoBase,
 	RecordingBase,
+	FileBase,
 } from 'app/store/messages/models';
 import { MessageUtils } from 'app/utils/message-utils';
 import { useSelector } from 'react-redux';
@@ -27,7 +28,7 @@ import moment from 'moment';
 import FileAttachment from './attachments/file-attachment/file-attachment';
 import AudioAttachment from './attachments/audio-attachment/audio-attachment';
 import RecordingAttachment from './attachments/recording-attachment/recording-attachment';
-import VideoAttachment from './attachments/video-attachment/video-attachment';
+import MediaGrid from './attachments/media-grid/media-grid';
 
 import MessageQeuedSvg from 'app/assets/icons/ic-time.svg';
 import MessageSentSvg from 'app/assets/icons/ic-tick.svg';
@@ -64,9 +65,7 @@ const MessageItem = ({ message }: Message.Props) => {
 
 	const { t } = useContext(LocalizationContext);
 
-	const deleteMessage = useActionWithDispatch(MessageActions.deleteMessageSuccess);
 	const selectMessage = useActionWithDispatch(MessageActions.selectMessage);
-	const copyMessage = useActionWithDispatch(MessageActions.copyMessages);
 
 	const selectThisMessage = useCallback(
 		(event?: React.MouseEvent<HTMLButtonElement | HTMLDivElement, MouseEvent>) => {
@@ -76,25 +75,47 @@ const MessageItem = ({ message }: Message.Props) => {
 		[selectedChatId, message.id],
 	);
 
-	//TODO: This function is actually working well, just place it in the right place when ui is implemented
-	//@ts-ignore
-	const deleteThisMessage = useCallback(
-		(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-			event.stopPropagation();
+	const structuredAttachments = message.attachments?.reduce(
+		(
+			accum: {
+				files: FileBase[];
+				media: (FileBase | VideoBase)[];
+				audios: AudioBase[];
+				recordings: RecordingBase[];
+			},
+			currentAttachment,
+		) => {
+			switch (currentAttachment.type) {
+				case FileType.file:
+					{
+						accum.files.push(currentAttachment);
+					}
+					break;
+				case FileType.photo:
+					{
+						accum.media.push(currentAttachment);
+					}
+					break;
+				case FileType.video:
+					{
+						accum.media.push(currentAttachment as VideoBase);
+					}
+					break;
+				case FileType.music:
+					{
+						accum.audios.push(currentAttachment as AudioBase);
+					}
+					break;
+				case FileType.recording:
+					{
+						accum.recordings.push(currentAttachment as RecordingBase);
+					}
+					break;
+			}
 
-			deleteMessage({ chatId: selectedChatId as number, messageIds: [message.id] });
+			return accum;
 		},
-		[selectedChatId, message.id],
-	);
-
-	//TODO: This function is actually working well, just place it in the right place when ui is implemented
-	//@ts-ignore
-	const copyThisMessage = useCallback(
-		(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-			event.stopPropagation();
-			copyMessage({ chatId: selectedChatId || -1, messageIds: [message.id] });
-		},
-		[selectedChatId, message.id],
+		{ files: [], media: [], audios: [], recordings: [] },
 	);
 
 	if (message?.systemMessageType !== SystemMessageType.None) {
@@ -133,31 +154,19 @@ const MessageItem = ({ message }: Message.Props) => {
 						</span>
 					</div>
 				</div>
-				{message.attachments && (
-					<div className='message__item-attachment'>
-						{message.attachments.map((attachment) => {
-							if (attachment.type === FileType.file) {
-								return <FileAttachment key={attachment.id} attachment={attachment} />;
-							}
+				{structuredAttachments?.files.map((file) => (
+					<FileAttachment key={file.id} attachment={file} />
+				))}
 
-							if (attachment.type === FileType.music) {
-								return <AudioAttachment key={attachment.id} attachment={attachment as AudioBase} />;
-							}
+				{structuredAttachments?.recordings.map((recording) => (
+					<RecordingAttachment key={recording.id} attachment={recording} />
+				))}
 
-							if (attachment.type === FileType.recording) {
-								return (
-									<RecordingAttachment key={attachment.id} attachment={attachment as RecordingBase} />
-								);
-							}
+				{structuredAttachments?.audios.map((audio) => (
+					<AudioAttachment key={audio.id} attachment={audio} />
+				))}
 
-							if (attachment.type === FileType.video) {
-								return <VideoAttachment key={attachment.id} attachment={attachment as VideoBase} />;
-							}
-
-							return;
-						})}
-					</div>
-				)}
+				{(structuredAttachments?.media.length || 0) > 0 && <MediaGrid media={structuredAttachments!.media} />}
 			</div>
 			{message.needToShowCreator && (
 				<Avatar className={`message__sender-photo `} src={message.userCreator?.avatarUrl}>

@@ -61,4 +61,39 @@
 			}
 		}
 	}
+
+	&--6 {
+		grid-template-columns: 300px 300px;
+		grid-template-rows: 200px 200px 200px;
+	}
+
+	&--7 {
+		grid-template-columns: 300px 300px;
+		grid-template-rows: 200px 200px 200px 300px;
+		& > * {
+			&:last-child {
+				grid-column: 1/-1;
+			}
+		}
+	}
+
+	&--8 {
+		grid-template-columns: 300px 300px;
+		grid-template-rows: 200px 200px 200px 200px;
+	}
+
+	&--9 {
+		grid-template-columns: 300px 300px;
+		grid-template-rows: 200px 200px 200px 200px 300px;
+		& > * {
+			&:last-child {
+				grid-column: 1/-1;
+			}
+		}
+	}
+
+	&--10 {
+		grid-template-columns: 300px 300px;
+		grid-template-rows: 200px 200px 200px 200px 200px;
+	}
 }

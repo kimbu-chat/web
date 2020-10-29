@@ -15,24 +15,24 @@ namespace VideoAttachment {
 
 const VideoAttachment = ({ attachment }: VideoAttachment.Props) => {
 	const [videoPlayerDisplayed, setVideoPlayerDisplayed] = useState(false);
-	const changeVideoPlayerDisplayed = useCallback(() => {
-		setVideoPlayerDisplayed((oldState) => !oldState);
-		console.log('78');
-	}, [setVideoPlayerDisplayed]);
+	const changeVideoPlayerDisplayed = useCallback(() => setVideoPlayerDisplayed((oldState) => !oldState), [
+		setVideoPlayerDisplayed,
+	]);
 
 	return (
-		<div onClick={changeVideoPlayerDisplayed} className='video-attachment'>
-			<img src={attachment.firstFrameUrl} alt='' className='video-attachment__img' />
-			<div className='video-attachment__blur'></div>
-			<PlaySvg className='video-attachment__svg' viewBox='0 0 25 25' />
-			<div className='video-attachment__duration'>
-				{moment.utc(attachment.durationInSeconds * 1000).format('mm:ss')}
+		<>
+			<div onClick={changeVideoPlayerDisplayed} className='video-attachment'>
+				<img src={attachment.firstFrameUrl} alt='' className='video-attachment__img' />
+				<div className='video-attachment__blur'></div>
+				<PlaySvg className='video-attachment__svg' viewBox='0 0 25 25' />
+				<div className='video-attachment__duration'>
+					{moment.utc(attachment.durationInSeconds * 1000).format('mm:ss')}
+				</div>
 			</div>
-
 			<FadeAnimationWrapper isDisplayed={videoPlayerDisplayed}>
 				<VideoPlayer url={attachment.url} onClose={changeVideoPlayerDisplayed} />
 			</FadeAnimationWrapper>
-		</div>
+		</>
 	);
 };
 

@@ -2,24 +2,16 @@
 	display: flex;
 	justify-content: flex-start;
 
-	&__burger {
-		height: 24px;
-		width: 24px;
-		margin-top: 26px;
-		margin-left: 20px;
-		margin-right: 10px;
-		color: rgb(153, 162, 173);
-	}
-
 	&__search {
 		display: flex;
 		align-items: center;
 		border-radius: 10px;
-		background: rgb(235, 237, 240);
+		background: #ebedf0;
 		margin-top: 20px;
-		width: 67.5%;
+		width: 79%;
 		height: 36px;
 		position: relative;
+		margin-left: 18px;
 	}
 
 	&__create-chat-btn {

@@ -4,7 +4,7 @@ import { SettingsActions } from './actions';
 import { langs, typingStrategy, UserSettings } from './models';
 
 const initialState: UserSettings = {
-	language: langs.ru,
+	language: navigator.language.includes('ru') ? langs.ru : langs.en,
 	typingStrategy: typingStrategy.nlce,
 	notificationSound: false,
 };

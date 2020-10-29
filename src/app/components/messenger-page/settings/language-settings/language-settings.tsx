@@ -32,14 +32,14 @@ const LanguageSettings = () => {
 					groupName='language'
 					nestingLevel={0}
 					onClick={setEnLang}
-					title={'🇺🇸 English'}
+					title={'English'}
 				/>
 				<RadioBox
 					defaultChecked={currentLanguage === langs.ru}
 					groupName='language'
 					nestingLevel={0}
 					onClick={setRuLang}
-					title={'🇷🇺 Russian'}
+					title={'Русский'}
 				/>
 			</form>
 		</div>

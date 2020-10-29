@@ -1,6 +1,7 @@
 .check-box {
 	display: flex;
 	align-items: center;
+	cursor: pointer;
 
 	&__check-box {
 		width: 16px;

@@ -209,28 +209,12 @@ const CreateConferenceModal = ({ onClose, preSelectedUserIds }: ICreateConferenc
 					}
 					buttons={[
 						{
-							text: t('createConferenceModal.cancel'),
-							style: {
-								color: '#6D7885',
-								backgroundColor: '#fff',
-								padding: '11px 48px',
-								border: '1px solid #D7D8D9',
-								marginRight: '20px',
-								display:
-									currentStage === ICreateConferenceModal.conferenceCreationStage.userSelect
-										? 'block'
-										: 'none',
-							},
-
-							position: 'left',
-							onClick: onClose,
-						},
-						{
-							text: t('createConferenceModal.create'),
+							text: t('createConferenceModal.next'),
 							style: {
 								color: '#fff',
 								backgroundColor: selectedUserIds.length === 0 ? '#6ea2de' : '#3F8AE0',
 								padding: '11px 88px',
+								width: '100%',
 								display:
 									currentStage === ICreateConferenceModal.conferenceCreationStage.userSelect
 										? 'block'

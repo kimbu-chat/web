@@ -3,7 +3,6 @@ import './chat-photo.scss';
 
 import ReturnSvg from 'app/assets/icons/ic-arrow-left.svg';
 import { LocalizationContext } from 'app/app';
-import moment from 'moment';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { useSelector } from 'react-redux';
 import { ChatActions } from 'app/store/chats/actions';
@@ -11,16 +10,7 @@ import { getSelectedChatSelector } from 'app/store/chats/selectors';
 import { Page } from 'app/store/common/models';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Link, useLocation } from 'react-router-dom';
-
-namespace ChatPhoto {
-	export interface Photo {
-		id: string;
-		url: string;
-		creationDateTime: Date;
-		alt?: string;
-		needToShowSeparator?: boolean;
-	}
-}
+import Photo from './photo/photo';
 
 const ChatPhoto = () => {
 	const { t } = useContext(LocalizationContext);
@@ -90,14 +80,7 @@ const ChatPhoto = () => {
 					isReverse={false}
 				>
 					{photosWithSeparators?.map((photo) => (
-						<React.Fragment key={photo.id}>
-							{photo.needToShowSeparator && (
-								<div className='chat-photo__separator'>
-									{moment(photo.creationDateTime).format('MMMM')}
-								</div>
-							)}
-							<img key={photo.id} className='chat-photo__photo' src={photo.url} alt={photo.alt} />
-						</React.Fragment>
+						<Photo photo={photo} key={photo.id} />
 					))}
 				</InfiniteScroll>
 			</div>

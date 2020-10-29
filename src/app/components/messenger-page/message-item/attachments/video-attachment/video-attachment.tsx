@@ -5,7 +5,7 @@ import PlaySvg from 'app/assets/icons/ic-play.svg';
 import { VideoBase } from 'app/store/messages/models';
 import moment from 'moment';
 import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
-import VideoPlayer from './video-player/video-player';
+import VideoPlayer from '../../../shared/video-player/video-player';
 
 namespace VideoAttachment {
 	export interface Props {

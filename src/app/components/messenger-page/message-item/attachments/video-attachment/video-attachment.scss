@@ -1,6 +1,7 @@
 .video-attachment {
 	position: relative;
 	overflow: hidden;
+	cursor: pointer;
 	&__svg {
 		color: white;
 		position: absolute;

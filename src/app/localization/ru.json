@@ -193,6 +193,9 @@
 	"conferenceAddFriendModal": {
 		"add_members": "Добавить участников"
 	},
+	"chatRecordings": {
+		"recordings": "Голосовые Cообщения"
+	},
 	"systemMessage": {
 		"you_created_group": "Вы создали группу",
 		"created_group": "{{name}} создал группу",

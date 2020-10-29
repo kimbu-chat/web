@@ -33,7 +33,7 @@ const Settings = () => {
 				classNames={'settings-slide'}
 			>
 				<Switch location={location}>
-					<Route path='/settings/(info)?/(photo|video)?' exact>
+					<Route path='/settings/(info)?/(photo|video|audio-recordings)?' exact>
 						<div className='settings'>
 							<div className='settings__account-info'>
 								<Avatar className='settings__account-avatar' src={myProfile?.avatarUrl}>

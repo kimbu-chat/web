@@ -180,6 +180,9 @@
 	"conferenceAddFriendModal": {
 		"add_members": "Add Members"
 	},
+	"chatRecordings": {
+		"recordings": "Audio Recordings"
+	},
 	"systemMessage": {
 		"you_created_group": "You created group",
 		"created_group": "{{name}} created group",

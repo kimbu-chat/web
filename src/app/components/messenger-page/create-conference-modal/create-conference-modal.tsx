@@ -216,6 +216,10 @@ const CreateConferenceModal = ({ onClose, preSelectedUserIds }: ICreateConferenc
 								padding: '11px 48px',
 								border: '1px solid #D7D8D9',
 								marginRight: '20px',
+								display:
+									currentStage === ICreateConferenceModal.conferenceCreationStage.userSelect
+										? 'block'
+										: 'none',
 							},
 
 							position: 'left',
@@ -238,11 +242,12 @@ const CreateConferenceModal = ({ onClose, preSelectedUserIds }: ICreateConferenc
 							onClick: goToNexStage,
 						},
 						{
-							text: t('createConferenceModal.next'),
+							text: t('createConferenceModal.create_conference'),
 							style: {
 								color: '#fff',
 								backgroundColor: name.length === 0 ? '#6ea2de' : '#3F8AE0',
 								padding: '11px 88px',
+								width: '100%',
 								display:
 									currentStage === ICreateConferenceModal.conferenceCreationStage.conferenceCreation
 										? 'block'

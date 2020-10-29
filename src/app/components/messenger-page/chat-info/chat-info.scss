@@ -47,7 +47,7 @@
 		}
 
 		&-slide-exit {
-			transform: translateX(0px) translateZ(0);
+			transform: translateX(0px) translateZ(0) !important;
 		}
 
 		&-slide-exit-active {

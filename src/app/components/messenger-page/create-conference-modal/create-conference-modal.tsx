@@ -106,20 +106,17 @@ const CreateConferenceModal = ({ onClose, preSelectedUserIds }: ICreateConferenc
 			currentUser: currentUser!,
 			userIds: selectedUserIds,
 			avatar: avatarData,
-		})
-			.then((payload: Chat) => history.push(`/chats/${payload.id}`))
-			.then(close);
+		}).then((payload: Chat) => {
+			history.push(`/chats/${payload.id}`);
+			onClose();
+		});
 	}, [avatarData, name, onClose, t]);
 
 	const goToNexStage = useCallback(() => {
-		setCurrrentStage((oldStage) => {
-			if (oldStage === ICreateConferenceModal.conferenceCreationStage.conferenceCreation) {
-				onSubmit();
-			}
-
+		setCurrrentStage(() => {
 			return ICreateConferenceModal.conferenceCreationStage.conferenceCreation;
 		});
-	}, [setCurrrentStage, onSubmit]);
+	}, [setCurrrentStage]);
 
 	return (
 		<>
@@ -212,24 +209,12 @@ const CreateConferenceModal = ({ onClose, preSelectedUserIds }: ICreateConferenc
 					}
 					buttons={[
 						{
-							text: t('createConferenceModal.cancel'),
-							style: {
-								color: '#6D7885',
-								backgroundColor: '#fff',
-								padding: '11px 48px',
-								border: '1px solid #D7D8D9',
-								marginRight: '20px',
-							},
-
-							position: 'left',
-							onClick: onClose,
-						},
-						{
-							text: t('createConferenceModal.create'),
+							text: t('createConferenceModal.next'),
 							style: {
 								color: '#fff',
 								backgroundColor: selectedUserIds.length === 0 ? '#6ea2de' : '#3F8AE0',
 								padding: '11px 88px',
+								width: '100%',
 								display:
 									currentStage === ICreateConferenceModal.conferenceCreationStage.userSelect
 										? 'block'
@@ -241,17 +226,18 @@ const CreateConferenceModal = ({ onClose, preSelectedUserIds }: ICreateConferenc
 							onClick: goToNexStage,
 						},
 						{
-							text: t('createConferenceModal.next'),
+							text: t('createConferenceModal.create_conference'),
 							style: {
 								color: '#fff',
-								backgroundColor: '#3F8AE0',
+								backgroundColor: name.length === 0 ? '#6ea2de' : '#3F8AE0',
 								padding: '11px 88px',
+								width: '100%',
 								display:
 									currentStage === ICreateConferenceModal.conferenceCreationStage.conferenceCreation
 										? 'block'
 										: 'none',
 							},
-
+							disabled: name.length === 0,
 							position: 'left',
 							onClick: onSubmit,
 						},

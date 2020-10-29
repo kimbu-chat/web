@@ -3,9 +3,7 @@ import './chat-video.scss';
 
 import ReturnSvg from 'app/assets/icons/ic-arrow-left.svg';
 import { LocalizationContext } from 'app/app';
-import moment from 'moment';
 
-import PlaySvg from 'app/assets/icons/ic-play.svg';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { ChatActions } from 'app/store/chats/actions';
 import { useSelector } from 'react-redux';
@@ -13,6 +11,7 @@ import { getSelectedChatSelector } from 'app/store/chats/selectors';
 import { Page } from 'app/store/common/models';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Link, useLocation } from 'react-router-dom';
+import VideoFromList from './video/video-from-list';
 
 namespace ChatVideo {
 	export interface Video {
@@ -93,22 +92,7 @@ const ChatVideo = () => {
 					isReverse={false}
 				>
 					{videosWithSeparators?.map((video) => (
-						<React.Fragment key={video.id}>
-							{video.needToShowSeparator && (
-								<div className='chat-video__separator'>
-									{moment(video.creationDateTime).format('MMMM')}
-								</div>
-							)}
-							<div className='chat-video__video-wrapper'>
-								<img className='chat-video__video' src={video.previewImgUrl} alt={video.alt} />
-								<button className='chat-video__play'>
-									<PlaySvg viewBox='0 0 25 25' />
-									<span className='chat-video__duration'>
-										{moment.utc(video.duration * 1000).format('mm:ss')}
-									</span>
-								</button>
-							</div>{' '}
-						</React.Fragment>
+						<VideoFromList key={video.id} video={video} />
 					))}
 				</InfiniteScroll>
 			</div>

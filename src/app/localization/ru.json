@@ -152,7 +152,7 @@
 		"new_group": "Новая группа",
 		"next": "Далее",
 		"cancel": "Отмена",
-		"create": "Создать"
+		"create_conference": "Создать Конференцию"
 	},
 	"settings": {
 		"online": "Онлайн",
@@ -192,6 +192,9 @@
 	},
 	"conferenceAddFriendModal": {
 		"add_members": "Добавить участников"
+	},
+	"chatRecordings": {
+		"recordings": "Голосовые Cообщения"
 	},
 	"systemMessage": {
 		"you_created_group": "Вы создали группу",

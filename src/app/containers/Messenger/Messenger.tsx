@@ -67,7 +67,10 @@ const Messenger = () => {
 					<SettingsHeader title={t('settings.text_typing')} />
 				</Route>
 
-				<Route exact path={['/(calls|settings|chats|contacts)/:chatId?/(info)?/(photo|video)?']}>
+				<Route
+					exact
+					path={['/(calls|settings|chats|contacts)/:chatId?/(info)?/(photo|video|audio-recordings)?']}
+				>
 					<RoutingChats />
 				</Route>
 			</Switch>
@@ -81,7 +84,7 @@ const Messenger = () => {
 					>
 						<div className='messenger__chat-list__animated'>
 							<Switch location={location}>
-								<Route path='/calls/(info)?/(photo|video)?'>
+								<Route path='/calls/(info)?/(photo|video|audio-recordings)?'>
 									<CallList />
 								</Route>
 
@@ -89,14 +92,14 @@ const Messenger = () => {
 									<Settings />
 								</Route>
 
-								<Route path='/chats/:chatId?/(info)?/(photo|video)?'>
+								<Route path='/chats/:chatId?/(info)?/(photo|video|audio-recordings)?'>
 									<div className='messenger__chats'>
 										<SearchTop />
 										<ChatList />
 									</div>
 								</Route>
 
-								<Route path='/contacts/:chatId?/(info)?/(photo|video)?'>
+								<Route path='/contacts/:chatId?/(info)?/(photo|video|audio-recordings)?'>
 									<div className='messenger__chats'>
 										<FriendList />
 									</div>

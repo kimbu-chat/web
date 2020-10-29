@@ -139,7 +139,7 @@
 		"new_group": "New Group",
 		"next": "Next",
 		"cancel": "Cancel",
-		"create": "Create"
+		"create_conference": "Create Conference"
 	},
 	"settings": {
 		"online": "Online",
@@ -179,6 +179,9 @@
 	},
 	"conferenceAddFriendModal": {
 		"add_members": "Add Members"
+	},
+	"chatRecordings": {
+		"recordings": "Audio Recordings"
 	},
 	"systemMessage": {
 		"you_created_group": "You created group",

@@ -3,7 +3,7 @@ import './photo-attachment.scss';
 
 import { FileBase } from 'app/store/messages/models';
 import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
-import BigPhoto from './big-photo/big-photo';
+import BigPhoto from '../../../shared/big-photo/big-photo';
 
 namespace PhotoAttachment {
 	export interface Props {

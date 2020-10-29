@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import './search-top.scss';
 
-import BurgerSvg from 'app/assets/icons/ic-menu.svg';
 import CreateChatSvg from 'app/assets/icons/ic-write-message.svg';
 
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
@@ -38,26 +37,20 @@ const SearchTop = () => {
 
 	return (
 		<div className='search-top'>
-			<button className='search-top__burger'>
-				<BurgerSvg />
-			</button>
 			<div className='search-top__search'>
 				<SearchBox
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChatSearchChange(e.target.value)}
 				/>
 			</div>
-
 			<button onClick={changeNewChatDisplayedState} className='search-top__create-chat-btn'>
 				<CreateChatSvg />
 			</button>
-
 			<FadeAnimationWrapper isDisplayed={newChatDisplayed}>
 				<NewChatModal
 					displayCreateConference={changeCreateConferenceDisplayedState}
 					onClose={changeNewChatDisplayedState}
 				/>
 			</FadeAnimationWrapper>
-
 			<FadeAnimationWrapper isDisplayed={createConferenceDisplayed}>
 				<CreateConference onClose={changeCreateConferenceDisplayedState} />
 			</FadeAnimationWrapper>

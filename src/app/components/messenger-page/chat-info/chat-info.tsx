@@ -27,6 +27,7 @@ import ChangePhoto from 'app/components/messenger-page/change-photo/change-photo
 import { Route, Switch, useLocation } from 'react-router';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
+import ChatRecordings from './chat-recordings/chat-recordings';
 
 const ChatInfo: React.FC = () => {
 	const [editConferenceDisplayed, setEditConferenceDisplayed] = useState(false);
@@ -145,6 +146,10 @@ const ChatInfo: React.FC = () => {
 						<Switch location={location}>
 							<Route path='/(contacts|calls|settings|chats)/:chatId?/info/photo' exact>
 								<ChatPhoto />
+							</Route>
+
+							<Route path='/(contacts|calls|settings|chats)/:chatId?/info/audio-recordings' exact>
+								<ChatRecordings />
 							</Route>
 
 							<Route path='/(contacts|calls|settings|chats)/:chatId?/info/video' exact>

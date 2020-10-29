@@ -102,7 +102,8 @@ const CreateMessageInput = () => {
 			Mousetrap.bind(['command+enter', 'ctrl+enter', 'alt+enter', 'shift+enter'], () => {
 				setText((oldText) => oldText + '\n');
 			});
-			Mousetrap.bind('enter', () => {
+			Mousetrap.bind('enter', (e) => {
+				e.preventDefault();
 				sendMessageToServer();
 			});
 		}

@@ -36,10 +36,10 @@ const ChatMedia = () => {
 				<LinkSvg viewBox='0 0 25 25' className='chat-media__media-type__svg' />
 				<span className='chat-media__media-type__name'>{t('chatMedia.shared-links', { count: 29 })}</span>
 			</button>
-			<button className='chat-media__media-type'>
+			<Link to={`${location.pathname}/audio-recordings`} className='chat-media__media-type'>
 				<MicrophoneSvg viewBox='0 0 25 25' className='chat-media__media-type__svg' />
 				<span className='chat-media__media-type__name'>{t('chatMedia.voice-messages', { count: 129 })}</span>
-			</button>
+			</Link>
 			<button className='chat-media__media-type'>
 				<PeopleSvg viewBox='0 0 25 25' className='chat-media__media-type__svg' />
 				<span className='chat-media__media-type__name'>{t('chatMedia.common-groups', { count: 4 })}</span>

@@ -126,6 +126,7 @@ export interface Video {
 	creationDateTime: Date;
 	duration: number;
 	alt?: string;
+	url: string;
 	needToShowSeparator?: boolean;
 }
 

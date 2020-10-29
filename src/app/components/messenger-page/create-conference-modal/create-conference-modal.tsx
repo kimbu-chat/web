@@ -106,20 +106,17 @@ const CreateConferenceModal = ({ onClose, preSelectedUserIds }: ICreateConferenc
 			currentUser: currentUser!,
 			userIds: selectedUserIds,
 			avatar: avatarData,
-		})
-			.then((payload: Chat) => history.push(`/chats/${payload.id}`))
-			.then(close);
+		}).then((payload: Chat) => {
+			history.push(`/chats/${payload.id}`);
+			onClose();
+		});
 	}, [avatarData, name, onClose, t]);
 
 	const goToNexStage = useCallback(() => {
-		setCurrrentStage((oldStage) => {
-			if (oldStage === ICreateConferenceModal.conferenceCreationStage.conferenceCreation) {
-				onSubmit();
-			}
-
+		setCurrrentStage(() => {
 			return ICreateConferenceModal.conferenceCreationStage.conferenceCreation;
 		});
-	}, [setCurrrentStage, onSubmit]);
+	}, [setCurrrentStage]);
 
 	return (
 		<>
@@ -244,14 +241,14 @@ const CreateConferenceModal = ({ onClose, preSelectedUserIds }: ICreateConferenc
 							text: t('createConferenceModal.next'),
 							style: {
 								color: '#fff',
-								backgroundColor: '#3F8AE0',
+								backgroundColor: name.length === 0 ? '#6ea2de' : '#3F8AE0',
 								padding: '11px 88px',
 								display:
 									currentStage === ICreateConferenceModal.conferenceCreationStage.conferenceCreation
 										? 'block'
 										: 'none',
 							},
-
+							disabled: name.length === 0,
 							position: 'left',
 							onClick: onSubmit,
 						},

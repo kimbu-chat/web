@@ -149,9 +149,11 @@ const ChangePhotoComponent = ({ imageUrl, onSubmit, hideChangePhoto }: ChangePho
 		);
 	}, [completedCrop]);
 
+	const stopPropagation = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => e.stopPropagation(), []);
+
 	return typeof imageUrl === 'string' ? (
 		<WithBackground onBackgroundClick={hideChangePhoto}>
-			<div>
+			<div onClick={stopPropagation}>
 				<div className='crop-container'>
 					<ReactCrop
 						className={stage === ChangePhoto.Stage.imageCrop ? 'visible' : 'hidden'}

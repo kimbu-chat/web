@@ -57,7 +57,7 @@ const FriendList = () => {
 				isReverse={false}
 			>
 				{friends.map((friend) => (
-					<Friend friend={friend} />
+					<Friend key={friend.id} friend={friend} />
 				))}
 			</InfiniteScroll>
 		</div>

@@ -112,10 +112,8 @@ const CreateConferenceModal = ({ onClose, preSelectedUserIds }: ICreateConferenc
 		});
 	}, [avatarData, name, onClose, t]);
 
-	const goToNexStage = useCallback(() => {
-		setCurrrentStage(() => {
-			return ICreateConferenceModal.conferenceCreationStage.conferenceCreation;
-		});
+	const goToConferenceCreationStage = useCallback(() => {
+		setCurrrentStage(ICreateConferenceModal.conferenceCreationStage.conferenceCreation);
 	}, [setCurrrentStage]);
 
 	return (
@@ -223,7 +221,7 @@ const CreateConferenceModal = ({ onClose, preSelectedUserIds }: ICreateConferenc
 
 							position: 'left',
 							disabled: selectedUserIds.length === 0,
-							onClick: goToNexStage,
+							onClick: goToConferenceCreationStage,
 						},
 						{
 							text: t('createConferenceModal.create_conference'),

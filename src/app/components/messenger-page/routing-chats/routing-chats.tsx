@@ -16,7 +16,7 @@ const RoutingChats = () => {
 			<NavLink
 				className='routing-chats__link'
 				activeClassName='routing-chats__link routing-chats__link--active'
-				to='/contacts'
+				to={selectedChatId ? `/contacts/${selectedChatId}` : '/contacts'}
 			>
 				<ContactSvg viewBox='0 0 25 25' />
 			</NavLink>

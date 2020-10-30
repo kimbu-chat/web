@@ -6,6 +6,7 @@
 		background-color: white;
 		width: 300px;
 		overflow-y: auto;
+		will-change: margin;
 	}
 
 	&-slide-enter,
@@ -14,12 +15,13 @@
 		will-change: margin;
 	}
 
-	&-slide-enter-active {
-		margin-right: 0px;
-	}
-
 	&-slide-enter {
 		margin-right: -300px;
+		transition: margin 200ms linear;
+	}
+
+	&-slide-enter-active {
+		margin-right: 0px;
 	}
 
 	&-slide-exit {

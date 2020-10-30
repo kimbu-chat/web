@@ -5,6 +5,7 @@ import { AudioBase } from 'app/store/messages/models';
 import PlaySvg from 'app/assets/icons/ic-play.svg';
 import PauseSvg from 'app/assets/icons/ic-pause.svg';
 import moment from 'moment';
+import { changeMusic } from 'app/utils/current-music';
 
 namespace AudioAttachment {
 	export interface Props {
@@ -21,17 +22,9 @@ const AudioAttachment = ({ attachment }: AudioAttachment.Props) => {
 		if (!audio.current) {
 			audio.current = new Audio(attachment.url);
 		}
-		if (audio.current) {
-			if (isPlaying) {
-				console.log('pause');
-				audio.current?.pause();
-			} else {
-				audio.current?.play();
-			}
-		}
-
-		setIsPlaying((oldState) => !oldState);
+		changeMusic(audio.current, setIsPlaying, true);
 	}, [setIsPlaying, isPlaying, attachment]);
+
 	return (
 		<div className='audio-attachment'>
 			<button onClick={playPauseAudio} className='audio-attachment__download'>

@@ -1,4 +1,5 @@
-import React from 'react';
+import Mousetrap from 'mousetrap';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
 namespace BackgroundBlur {
@@ -8,6 +9,16 @@ namespace BackgroundBlur {
 }
 
 export const BackgroundBlur: React.FC<BackgroundBlur.Props> = ({ onClick, children }) => {
+	useEffect(() => {
+		Mousetrap.bind('esc', (e) => {
+			e.preventDefault();
+			onClick();
+		});
+
+		return () => {
+			Mousetrap.unbind('esc');
+		};
+	}, [onClick]);
 	return ReactDOM.createPortal(
 		<div onClick={onClick} className='background-blur'>
 			{children}

@@ -1,5 +1,5 @@
 .media-grid {
-	display: inline-grid;
+	display: inline-flex;
 	border-radius: 3px;
 	overflow: hidden;
 	margin-top: 10px;
@@ -31,69 +31,29 @@
 		}
 	}
 
-	&--2 {
-		grid-template-columns: 300px 300px;
-		grid-template-rows: 200px;
-	}
-
-	&--3 {
-		grid-template-columns: 300px 300px;
-		grid-template-rows: 200px 300px;
+	&--even {
+		width: 601px;
+		flex-wrap: wrap;
+		display: flex;
 
 		& > * {
-			&:last-child {
-				grid-column: 1/-1;
-			}
+			height: 200px;
+			width: 300px;
 		}
 	}
 
-	&--4 {
-		grid-template-columns: 300px 300px;
-		grid-template-rows: 200px 200px;
-	}
+	&--odd {
+		width: 601px;
+		flex-wrap: wrap;
+		display: flex;
 
-	&--5 {
-		grid-template-columns: 300px 300px;
-		grid-template-rows: 200px 200px 300px;
 		& > * {
+			height: 200px;
+			width: 300px;
 			&:last-child {
-				grid-column: 1/-1;
+				height: 300px;
+				width: 600px;
 			}
 		}
-	}
-
-	&--6 {
-		grid-template-columns: 300px 300px;
-		grid-template-rows: 200px 200px 200px;
-	}
-
-	&--7 {
-		grid-template-columns: 300px 300px;
-		grid-template-rows: 200px 200px 200px 300px;
-		& > * {
-			&:last-child {
-				grid-column: 1/-1;
-			}
-		}
-	}
-
-	&--8 {
-		grid-template-columns: 300px 300px;
-		grid-template-rows: 200px 200px 200px 200px;
-	}
-
-	&--9 {
-		grid-template-columns: 300px 300px;
-		grid-template-rows: 200px 200px 200px 200px 300px;
-		& > * {
-			&:last-child {
-				grid-column: 1/-1;
-			}
-		}
-	}
-
-	&--10 {
-		grid-template-columns: 300px 300px;
-		grid-template-rows: 200px 200px 200px 200px 200px;
 	}
 }

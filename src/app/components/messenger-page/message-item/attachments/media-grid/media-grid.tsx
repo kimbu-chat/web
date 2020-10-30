@@ -12,7 +12,7 @@ namespace MediaGrid {
 
 const MediaGrid: React.FC<MediaGrid.Props> = ({ media }) => {
 	return (
-		<div className={`media-grid media-grid--${media.length}`}>
+		<div className={`media-grid media-grid--${media.length === 1 ? 1 : media.length % 2 === 1 ? 'odd' : 'even'}`}>
 			{media.map((media) => {
 				if (media.type === FileType.photo) {
 					return <PhotoAttachment key={media.id} attachment={media} />;

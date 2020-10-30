@@ -107,6 +107,14 @@ const Chat = () => {
 				id: 3,
 			} as FileBase,
 			{
+				fileName: 'blablabla.mp3',
+				byteSize: 22777899,
+				url: 'https://dll.z1.fm/music/2/14/islam_itljashev_-_na_nervah.mp3?download=force',
+				durationInSeconds: 157,
+				type: FileType.music,
+				id: 395,
+			} as FileBase,
+			{
 				fileName: 'Not displayed',
 				byteSize: 2277780099,
 				url: 'https://dll.z1.fm/music/4/36/hiti_2020_-_tajpan__agunda_-_luna_ne_znaet_puti.mp3?download=force',

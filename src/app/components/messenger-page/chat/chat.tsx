@@ -92,9 +92,10 @@ const Chat = () => {
 		...itemsWithUserInfo[itemsWithUserInfo.length - 1],
 		attachments: [
 			{
-				fileName: 'calendar-app.zip',
+				fileName: 'calendar-ap.zip',
 				byteSize: 1342177,
-				url: 'https://download.www21.filehosting.org/930dd8c6578ff1067bf88a9929b529b3/UserDL.rar',
+				url:
+					'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/10/30/89d274de698944938f3d61add4d37c04',
 				type: FileType.file,
 				id: 1,
 			},

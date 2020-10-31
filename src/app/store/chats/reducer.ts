@@ -288,6 +288,10 @@ const chats = createReducer<ChatsState>(initialState)
 						hasMore: true,
 						videos: [],
 					},
+					files: {
+						hasMore: true,
+						files: [],
+					},
 				};
 
 				draft.chats.unshift(newChat);
@@ -403,6 +407,10 @@ const chats = createReducer<ChatsState>(initialState)
 						hasMore: true,
 						videos: [],
 					},
+					files: {
+						hasMore: true,
+						files: [],
+					},
 				};
 
 				draft.chats.unshift(newDialog);
@@ -435,6 +443,20 @@ const chats = createReducer<ChatsState>(initialState)
 			if (chatIndex >= 0) {
 				draft.chats[chatIndex].videos.videos.push(...videos);
 				draft.chats[chatIndex].videos.hasMore = hasMore;
+			}
+			return draft;
+		}),
+	)
+	.handleAction(
+		ChatActions.getFilesSuccess,
+		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.getFilesSuccess>) => {
+			const { files, chatId, hasMore } = payload;
+
+			const chatIndex: number = getChatArrayIndex(chatId, draft);
+
+			if (chatIndex >= 0) {
+				draft.chats[chatIndex].files.files.push(...files);
+				draft.chats[chatIndex].files.hasMore = hasMore;
 			}
 			return draft;
 		}),

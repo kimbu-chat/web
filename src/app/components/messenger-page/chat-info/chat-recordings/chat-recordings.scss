@@ -6,13 +6,17 @@
 	width: 300px;
 	overflow-y: auto;
 	position: absolute;
+	transform: translateX(300px);
 	top: 0;
-	transition: all 0.2s;
-	transform: translateX(300px) translateZ(0);
 
 	&::-webkit-scrollbar {
 		width: 0px;
 		height: 0px;
+	}
+
+	.loader {
+		display: flex;
+		justify-content: center;
 	}
 
 	&__top {
@@ -33,13 +37,26 @@
 		line-height: 16px;
 		font-weight: 500;
 		color: #3f8ae0;
-		margin-left: 50px;
+		margin-left: 89px;
 	}
 
 	&__back {
 		svg {
 			width: 20px;
 			height: 20px;
+		}
+	}
+
+	&__separator {
+		width: 100%;
+		margin-bottom: 10px;
+		font-size: 11px;
+		font-weight: 500;
+		line-height: 16px;
+		margin: 0 20px 10px 20px;
+
+		&:not(:nth-child(2)) {
+			margin-top: 20px;
 		}
 	}
 

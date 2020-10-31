@@ -90,6 +90,11 @@ export interface GetVideoRequest {
 	page: Page;
 }
 
+export interface GetFilesRequest {
+	chatId: number;
+	page: Page;
+}
+
 export enum ChatType {
 	User = 'User',
 	Conference = 'Conference',
@@ -110,6 +115,7 @@ export interface Chat {
 	isMuted?: boolean;
 	photos: PhotoList;
 	videos: VideoList;
+	files: FileList;
 }
 
 export interface Photo {
@@ -130,6 +136,15 @@ export interface Video {
 	needToShowSeparator?: boolean;
 }
 
+export interface AttachedFile {
+	id: string;
+	byteSize: number;
+	creationDateTime: Date;
+	title: string;
+	url: string;
+	needToShowSeparator?: boolean;
+}
+
 export interface ChatList {
 	chats: Array<Chat>;
 	hasMore: boolean;
@@ -145,11 +160,20 @@ export interface VideoList {
 	hasMore: boolean;
 }
 
+export interface FileList {
+	files: AttachedFile[];
+	hasMore: boolean;
+}
+
 export interface GetChatsResponse extends ChatList {
 	initializedBySearch: boolean;
 }
 
 export interface GetPhotoResponse extends PhotoList {
+	chatId: number;
+}
+
+export interface GetFilesResponse extends FileList {
 	chatId: number;
 }
 

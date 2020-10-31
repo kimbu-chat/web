@@ -196,6 +196,9 @@
 	"chatRecordings": {
 		"recordings": "Голосовые Cообщения"
 	},
+	"chatFiles": {
+		"files": "Файлы"
+	},
 	"systemMessage": {
 		"you_created_group": "Вы создали группу",
 		"created_group": "{{name}} создал группу",

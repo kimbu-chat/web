@@ -92,15 +92,14 @@ const Chat = () => {
 		...itemsWithUserInfo[itemsWithUserInfo.length - 1],
 		attachments: [
 			{
-				fileName: 'calendar-ap.zip',
+				title: 'calendar-ap.zip',
 				byteSize: 1342177,
-				url:
-					'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/10/30/89d274de698944938f3d61add4d37c04',
+				url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 				type: FileType.file,
 				id: 1,
 			},
 			{
-				fileName: 'blablabla.mp3',
+				title: 'blablabla.mp3',
 				byteSize: 22777899,
 				url: 'https://dll.z1.fm/music/2/14/islam_itljashev_-_na_nervah.mp3?download=force',
 				durationInSeconds: 157,
@@ -108,7 +107,7 @@ const Chat = () => {
 				id: 3,
 			} as FileBase,
 			{
-				fileName: 'blablabla.mp3',
+				title: 'blablabla.mp3',
 				byteSize: 22777899,
 				url: 'https://dll.z1.fm/music/2/14/islam_itljashev_-_na_nervah.mp3?download=force',
 				durationInSeconds: 157,
@@ -116,7 +115,7 @@ const Chat = () => {
 				id: 395,
 			} as FileBase,
 			{
-				fileName: 'Not displayed',
+				title: 'Not displayed',
 				byteSize: 2277780099,
 				url: 'https://dll.z1.fm/music/4/36/hiti_2020_-_tajpan__agunda_-_luna_ne_znaet_puti.mp3?download=force',
 				durationInSeconds: 201,
@@ -124,7 +123,7 @@ const Chat = () => {
 				id: 4,
 			} as FileBase,
 			{
-				fileName: 'Displayed',
+				title: 'Displayed',
 				byteSize: 22777780099,
 				firstFrameUrl: 'https://zvuk-m.com/wp-content/uploads/2020/08/7459378-1068x556.jpg',
 				url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
@@ -133,7 +132,7 @@ const Chat = () => {
 				id: 5,
 			} as FileBase,
 			{
-				fileName: 'Displayed',
+				title: 'Displayed',
 				byteSize: 22777780099,
 				url:
 					'https://avatars.mds.yandex.net/get-zen_doc/1641493/pub_5d24a067a2d6ed00ad034894_5d24a368a98a2a00ade706b2/scale_1200',
@@ -141,7 +140,7 @@ const Chat = () => {
 				id: 6,
 			} as FileBase,
 			{
-				fileName: 'Displayed',
+				title: 'Displayed',
 				byteSize: 22777780099,
 				firstFrameUrl: 'https://i.ytimg.com/vi/RqT9szfGEDw/maxresdefault.jpg',
 				url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
@@ -150,7 +149,7 @@ const Chat = () => {
 				id: 7,
 			} as FileBase,
 			{
-				fileName: 'Displayed',
+				title: 'Displayed',
 				byteSize: 22777780099,
 				firstFrameUrl: 'https://muzcard.ru/images/muzrus14/rustam_nahushev_druzya.jpg',
 				url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
@@ -159,14 +158,14 @@ const Chat = () => {
 				id: 8,
 			} as FileBase,
 			{
-				fileName: 'Displayed',
+				title: 'Displayed',
 				byteSize: 22777780099,
 				url: 'https://www.kino-teatr.ru/person/750/9219.jpg',
 				type: FileType.photo,
 				id: 9,
 			} as FileBase,
 			{
-				fileName: 'Displayed',
+				title: 'Displayed',
 				byteSize: 22777780099,
 				firstFrameUrl: 'https://zvuk-m.com/wp-content/uploads/2020/08/7459378-1068x556.jpg',
 				url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
@@ -175,7 +174,7 @@ const Chat = () => {
 				id: 10,
 			} as FileBase,
 			{
-				fileName: 'Displayed',
+				title: 'Displayed',
 				byteSize: 22777780099,
 				firstFrameUrl: 'https://i.ytimg.com/vi/RqT9szfGEDw/maxresdefault.jpg',
 				url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
@@ -184,7 +183,7 @@ const Chat = () => {
 				id: 11,
 			} as FileBase,
 			{
-				fileName: 'Displayed',
+				title: 'Displayed',
 				byteSize: 22777780099,
 				firstFrameUrl: 'https://zvuk-m.com/wp-content/uploads/2020/08/7459378-1068x556.jpg',
 				url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4',
@@ -193,14 +192,14 @@ const Chat = () => {
 				id: 12,
 			} as FileBase,
 			{
-				fileName: 'Displayed',
+				title: 'Displayed',
 				byteSize: 22777780099,
 				url: 'https://www.kino-teatr.ru/person/750/9219.jpg',
 				type: FileType.photo,
 				id: 13,
 			} as FileBase,
 			{
-				fileName: 'Displayed',
+				title: 'Displayed',
 				byteSize: 22777780099,
 				firstFrameUrl: 'https://i.ytimg.com/vi/RqT9szfGEDw/maxresdefault.jpg',
 				url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',

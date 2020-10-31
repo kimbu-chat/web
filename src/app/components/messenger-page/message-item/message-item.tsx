@@ -25,7 +25,7 @@ import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 import { UserPreview } from 'app/store/my-profile/models';
 import moment from 'moment';
 
-import FileAttachment from './attachments/file-attachment/file-attachment';
+import FileAttachment from '../shared/file-attachment/file-attachment';
 import AudioAttachment from './attachments/audio-attachment/audio-attachment';
 import RecordingAttachment from './attachments/recording-attachment/recording-attachment';
 import MediaGrid from './attachments/media-grid/media-grid';

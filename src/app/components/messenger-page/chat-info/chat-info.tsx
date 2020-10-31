@@ -24,8 +24,8 @@ import PhotoSvg from 'app/assets/icons/ic-photo.svg';
 import EditChatModal from '../edit-chat-modal/edit-chat-modal';
 import ConferenceAddFriendModal from '../conference-add-friend-modal/conference-add-friend-modal';
 import ChangePhoto from 'app/components/messenger-page/change-photo/change-photo';
-import { Route, Switch, useLocation } from 'react-router';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import { Route } from 'react-router';
+import { CSSTransition } from 'react-transition-group';
 import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
 import ChatRecordings from './chat-recordings/chat-recordings';
 import ChatFiles from './chat-files/chat-files';
@@ -40,8 +40,6 @@ const ChatInfo: React.FC = () => {
 	const changeSetAddFriendsModalDisplayedState = useCallback(() => {
 		setAddFriendsModalDisplayed((oldState) => !oldState);
 	}, [setAddFriendsModalDisplayed]);
-
-	const location = useLocation();
 
 	const selectedChat = useSelector(getSelectedChatSelector) as Chat;
 
@@ -138,31 +136,57 @@ const ChatInfo: React.FC = () => {
 					{conference && <ChatMembers addMembers={changeSetAddFriendsModalDisplayedState} />}
 				</div>
 
-				<TransitionGroup>
-					<CSSTransition
-						key={location.key}
-						timeout={{ enter: 200, exit: 200 }}
-						classNames={'chat-info__nested-slide'}
-					>
-						<Switch location={location}>
-							<Route path='/(contacts|calls|settings|chats)/:chatId?/info/photo' exact>
-								<ChatPhoto />
-							</Route>
+				<Route path='/(contacts|calls|settings|chats)/:chatId?/info/photo' exact>
+					{({ match }) => (
+						<CSSTransition
+							in={match != null}
+							timeout={200}
+							classNames='chat-info__nested-slide'
+							unmountOnExit
+						>
+							<ChatPhoto />
+						</CSSTransition>
+					)}
+				</Route>
 
-							<Route path='/(contacts|calls|settings|chats)/:chatId?/info/audio-recordings' exact>
-								<ChatRecordings />
-							</Route>
+				<Route path='/(contacts|calls|settings|chats)/:chatId?/info/audio-recordings' exact>
+					{({ match }) => (
+						<CSSTransition
+							in={match != null}
+							timeout={200}
+							classNames='chat-info__nested-slide'
+							unmountOnExit
+						>
+							<ChatRecordings />
+						</CSSTransition>
+					)}
+				</Route>
 
-							<Route path='/(contacts|calls|settings|chats)/:chatId?/info/video' exact>
-								<ChatVideo />
-							</Route>
+				<Route path='/(contacts|calls|settings|chats)/:chatId?/info/video' exact>
+					{({ match }) => (
+						<CSSTransition
+							in={match != null}
+							timeout={200}
+							classNames='chat-info__nested-slide'
+							unmountOnExit
+						>
+							<ChatVideo />
+						</CSSTransition>
+					)}
+				</Route>
 
-							<Route path='/(contacts|calls|settings|chats)/:chatId?/info/files' exact>
-								<ChatFiles />
-							</Route>
-						</Switch>
-					</CSSTransition>
-				</TransitionGroup>
+				<Route path='/(contacts|calls|settings|chats)/:chatId?/info/files' exact>
+					{({ match }) => (
+						<CSSTransition
+							in={match != null}
+							timeout={200}
+							classNames='chat-info__nested-slide'
+							unmountOnExit
+						>
+							<ChatFiles />
+						</CSSTransition>
+					)}
+				</Route>
 
 				<FadeAnimationWrapper isDisplayed={editConferenceDisplayed}>
 					<EditChatModal onClose={changeEditConferenceDisplayedState} />

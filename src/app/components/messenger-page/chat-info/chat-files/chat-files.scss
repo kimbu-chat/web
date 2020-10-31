@@ -6,7 +6,6 @@
 	width: 300px;
 	overflow-y: auto;
 	position: absolute;
-	transform: translateX(300px);
 	top: 0;
 
 	&::-webkit-scrollbar {
@@ -58,5 +57,9 @@
 		&:not(:nth-child(2)) {
 			margin-top: 20px;
 		}
+	}
+
+	&__file-container {
+		margin: 0 20px;
 	}
 }

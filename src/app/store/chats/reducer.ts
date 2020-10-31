@@ -160,7 +160,9 @@ const chats = createReducer<ChatsState>(initialState)
 				);
 			});
 
-			draft.selectedChatId = payload;
+			if (payload !== -1) {
+				draft.selectedChatId = payload;
+			}
 
 			return draft;
 		}),

@@ -31,7 +31,7 @@ const AudioAttachment = ({ attachment }: AudioAttachment.Props) => {
 				{isPlaying ? <PauseSvg viewBox='0 0 25 25' /> : <PlaySvg viewBox='0 0 25 25' />}
 			</button>
 			<div className='audio-attachment__data'>
-				<h4 className='audio-attachment__file-name'>{attachment.fileName}</h4>
+				<h4 className='audio-attachment__file-name'>{attachment.title}</h4>
 				<div className='audio-attachment__duration'>
 					{moment.utc(attachment.durationInSeconds * 1000).format('mm:ss')}
 				</div>

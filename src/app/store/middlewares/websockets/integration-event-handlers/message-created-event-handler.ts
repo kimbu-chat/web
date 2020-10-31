@@ -50,6 +50,10 @@ export class MessageCreatedEventHandler implements IEventHandler<MessageCreatedI
 				hasMore: true,
 				videos: [],
 			},
+			files: {
+				hasMore: true,
+				files: [],
+			},
 		};
 
 		if (eventData.systemMessageType === SystemMessageType.ConferenceMemberRemoved) {

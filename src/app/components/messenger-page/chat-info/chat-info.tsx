@@ -28,6 +28,7 @@ import { Route, Switch, useLocation } from 'react-router';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
 import ChatRecordings from './chat-recordings/chat-recordings';
+import ChatFiles from './chat-files/chat-files';
 
 const ChatInfo: React.FC = () => {
 	const [editConferenceDisplayed, setEditConferenceDisplayed] = useState(false);
@@ -154,6 +155,10 @@ const ChatInfo: React.FC = () => {
 
 							<Route path='/(contacts|calls|settings|chats)/:chatId?/info/video' exact>
 								<ChatVideo />
+							</Route>
+
+							<Route path='/(contacts|calls|settings|chats)/:chatId?/info/files' exact>
+								<ChatFiles />
 							</Route>
 						</Switch>
 					</CSSTransition>

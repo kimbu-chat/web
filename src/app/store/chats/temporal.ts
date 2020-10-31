@@ -1,4 +1,4 @@
-import { Photo, Video } from './models';
+import { AttachedFile, Photo, Video } from './models';
 
 export const photoToDisplay: Photo[] = [
 	{
@@ -185,6 +185,362 @@ export const photoToDisplay: Photo[] = [
 	},
 ];
 
+export const filesToDisplay: AttachedFile[] = [
+	{
+		id: 'aa1',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('January 17, 2020 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'ab1',
+
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('January 17, 2020 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'ac1',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('January 17, 2020 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'ad1',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('January 17, 2020 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'ae1',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('January 17, 2020 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'af1',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('February 17, 2020 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'ag1',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('February 17, 2020 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'ah1',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('February 17, 2020 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'ak1',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('February 17, 2020 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'al1',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('February 17, 2020 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'am1',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('February 17, 2020 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'an1',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('June 17, 2020 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'ap1',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('June 17, 2020 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'aa12',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('January 17, 2019 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'ab12',
+
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('January 17, 2019 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'ac12',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('January 17, 2019 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'ad12',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('January 17, 2019 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'ae12',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('January 17, 2019 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'af12',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('February 17, 2019 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'ag12',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('February 17, 2019 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'ah12',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('February 17, 2019 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'ak12',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('February 17, 2019 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'al12',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('February 17, 2019 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'am12',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('February 17, 2019 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'an12',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('June 17, 2019 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'ap12',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('June 17, 2019 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'aa13',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('January 17, 2018 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'ab3',
+
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('January 17, 2018 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'ac3',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('January 17, 2018 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'a3d',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('January 17, 2018 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'ae3',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('January 17, 2018 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'af3',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('February 17, 2018 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'ag3',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('February 17, 2018 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'ah3',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('February 17, 2018 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'ak3',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('February 17, 2018 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'al3',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('February 17, 2018 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'am3',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('February 17, 2018 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'an3',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('June 17, 2018 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'ap3',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('June 17, 2018 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'aa4',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('January 17, 2017 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'ab4',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('January 17, 2017 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'ac4',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('January 17, 2017 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'ad4',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('January 17, 2017 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'ae4',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('January 17, 2017 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'af4',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('February 17, 2017 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'ag4',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('February 17, 2017 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'ah4',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('February 17, 2017 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'ak4',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('February 17, 2017 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'al4',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('February 17, 2017 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+	{
+		id: 'am4',
+		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+		creationDateTime: new Date('February 17, 2017 03:24:00'),
+		byteSize: 555555555,
+		title: 'File',
+	},
+];
+
 export const videoToDisplay: Video[] = [
 	{
 		id: 'aa1',
@@ -198,6 +554,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/LonSqFi.png',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('January 17, 2020 03:24:00'),
+
 		duration: 118,
 	},
 	{
@@ -205,6 +562,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/FklkvSE.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('January 17, 2020 03:24:00'),
+
 		duration: 192,
 	},
 	{
@@ -212,6 +570,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/lbLmdpg.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('January 17, 2020 03:24:00'),
+
 		duration: 131,
 	},
 	{
@@ -219,6 +578,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/ZtRulbn.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('January 17, 2020 03:24:00'),
+
 		duration: 1256,
 	},
 	{
@@ -226,6 +586,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/YD0MOmZ.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('February 17, 2020 03:24:00'),
+
 		duration: 2287,
 	},
 	{
@@ -233,6 +594,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/6CZ2LLB.jpeg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('February 17, 2020 03:24:00'),
+
 		duration: 287,
 	},
 	{
@@ -240,6 +602,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/HNLMF0P.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('February 17, 2020 03:24:00'),
+
 		duration: 1687,
 	},
 	{
@@ -247,6 +610,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/0vb5W9m.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('February 17, 2020 03:24:00'),
+
 		duration: 1023,
 	},
 	{
@@ -254,6 +618,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/r3inDL8.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('February 17, 2020 03:24:00'),
+
 		duration: 1753,
 	},
 	{
@@ -261,6 +626,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/u0TXr08.jpeg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('February 17, 2020 03:24:00'),
+
 		duration: 12569,
 	},
 	{
@@ -268,6 +634,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/N325EqP.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('June 17, 2020 03:24:00'),
+
 		duration: 56,
 	},
 	{
@@ -275,6 +642,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/zpmoEhg.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('June 17, 2020 03:24:00'),
+
 		duration: 1,
 	},
 	{
@@ -282,6 +650,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/t0x900S.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('January 17, 2019 03:24:00'),
+
 		duration: 120,
 	},
 	{
@@ -289,6 +658,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/LonSqFi.png',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('January 17, 2019 03:24:00'),
+
 		duration: 118,
 	},
 	{
@@ -296,6 +666,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/FklkvSE.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('January 17, 2019 03:24:00'),
+
 		duration: 192,
 	},
 	{
@@ -303,6 +674,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/lbLmdpg.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('January 17, 2019 03:24:00'),
+
 		duration: 131,
 	},
 	{
@@ -310,6 +682,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/ZtRulbn.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('January 17, 2019 03:24:00'),
+
 		duration: 1256,
 	},
 	{
@@ -317,6 +690,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/YD0MOmZ.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('February 17, 2019 03:24:00'),
+
 		duration: 2287,
 	},
 	{
@@ -324,6 +698,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/6CZ2LLB.jpeg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('February 17, 2019 03:24:00'),
+
 		duration: 287,
 	},
 	{
@@ -331,6 +706,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/HNLMF0P.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('February 17, 2019 03:24:00'),
+
 		duration: 1687,
 	},
 	{
@@ -338,6 +714,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/0vb5W9m.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('February 17, 2019 03:24:00'),
+
 		duration: 1023,
 	},
 	{
@@ -345,6 +722,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/r3inDL8.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('February 17, 2019 03:24:00'),
+
 		duration: 1753,
 	},
 	{
@@ -352,6 +730,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/u0TXr08.jpeg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('February 17, 2019 03:24:00'),
+
 		duration: 12569,
 	},
 	{
@@ -359,6 +738,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/N325EqP.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('June 17, 2019 03:24:00'),
+
 		duration: 56,
 	},
 	{
@@ -366,6 +746,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/zpmoEhg.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('June 17, 2019 03:24:00'),
+
 		duration: 1,
 	},
 	{
@@ -373,6 +754,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/t0x900S.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('January 17, 2018 03:24:00'),
+
 		duration: 120,
 	},
 	{
@@ -380,6 +762,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/LonSqFi.png',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('January 17, 2018 03:24:00'),
+
 		duration: 118,
 	},
 	{
@@ -387,6 +770,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/FklkvSE.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('January 17, 2018 03:24:00'),
+
 		duration: 192,
 	},
 	{
@@ -394,6 +778,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/lbLmdpg.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('January 17, 2018 03:24:00'),
+
 		duration: 131,
 	},
 	{
@@ -401,6 +786,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/ZtRulbn.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('January 17, 2018 03:24:00'),
+
 		duration: 1256,
 	},
 	{
@@ -408,6 +794,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/YD0MOmZ.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('February 17, 2018 03:24:00'),
+
 		duration: 2287,
 	},
 	{
@@ -415,6 +802,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/6CZ2LLB.jpeg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('February 17, 2018 03:24:00'),
+
 		duration: 287,
 	},
 	{
@@ -422,6 +810,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/HNLMF0P.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('February 17, 2018 03:24:00'),
+
 		duration: 1687,
 	},
 	{
@@ -429,6 +818,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/0vb5W9m.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('February 17, 2018 03:24:00'),
+
 		duration: 1023,
 	},
 	{
@@ -436,6 +826,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/r3inDL8.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('February 17, 2018 03:24:00'),
+
 		duration: 1753,
 	},
 	{
@@ -443,6 +834,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/u0TXr08.jpeg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('February 17, 2018 03:24:00'),
+
 		duration: 12569,
 	},
 	{
@@ -450,6 +842,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/N325EqP.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('June 17, 2018 03:24:00'),
+
 		duration: 56,
 	},
 	{
@@ -457,6 +850,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/zpmoEhg.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('June 17, 2018 03:24:00'),
+
 		duration: 1,
 	},
 	{
@@ -464,6 +858,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/t0x900S.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('January 17, 2017 03:24:00'),
+
 		duration: 120,
 	},
 	{
@@ -471,6 +866,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/LonSqFi.png',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('January 17, 2017 03:24:00'),
+
 		duration: 118,
 	},
 	{
@@ -478,6 +874,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/FklkvSE.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('January 17, 2017 03:24:00'),
+
 		duration: 192,
 	},
 	{
@@ -485,6 +882,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/lbLmdpg.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('January 17, 2017 03:24:00'),
+
 		duration: 131,
 	},
 	{
@@ -492,6 +890,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/ZtRulbn.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('January 17, 2017 03:24:00'),
+
 		duration: 1256,
 	},
 	{
@@ -499,6 +898,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/YD0MOmZ.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('February 17, 2017 03:24:00'),
+
 		duration: 2287,
 	},
 	{
@@ -506,6 +906,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/6CZ2LLB.jpeg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('February 17, 2017 03:24:00'),
+
 		duration: 287,
 	},
 	{
@@ -513,6 +914,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/HNLMF0P.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('February 17, 2017 03:24:00'),
+
 		duration: 1687,
 	},
 	{
@@ -520,6 +922,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/0vb5W9m.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('February 17, 2017 03:24:00'),
+
 		duration: 1023,
 	},
 	{
@@ -527,6 +930,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/r3inDL8.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('February 17, 2017 03:24:00'),
+
 		duration: 1753,
 	},
 	{
@@ -534,6 +938,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/u0TXr08.jpeg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('February 17, 2017 03:24:00'),
+
 		duration: 12569,
 	},
 	{
@@ -541,6 +946,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/N325EqP.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('June 17, 2017 03:24:00'),
+
 		duration: 56,
 	},
 	{
@@ -548,6 +954,7 @@ export const videoToDisplay: Video[] = [
 		previewImgUrl: 'https://i.imgur.com/zpmoEhg.jpg',
 		url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
 		creationDateTime: new Date('June 17, 2017 03:24:00'),
+
 		duration: 1,
 	},
 ];

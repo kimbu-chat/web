@@ -53,7 +53,7 @@
 		}
 
 		&-slide-exit-active {
-			transform: translateX(300px) translateZ(0);
+			transform: translateX(300px) translateZ(0) !important;
 		}
 	}
 

@@ -14,7 +14,7 @@ import { UpdateAvatarResponse } from '../common/models';
 import { MyProfileService } from 'app/services/my-profile-service';
 import { getType } from 'typesafe-actions';
 import { MessageUtils } from 'app/utils/message-utils';
-import { photoToDisplay, videoToDisplay } from './temporal';
+import { filesToDisplay, photoToDisplay, videoToDisplay } from './temporal';
 
 export function* getChatsSaga(action: ReturnType<typeof ChatActions.getChats>): SagaIterator {
 	const chatsRequestData = action.payload;
@@ -37,6 +37,7 @@ export function* getChatsSaga(action: ReturnType<typeof ChatActions.getChats>): 
 		chat.typingInterlocutors = [];
 		chat.photos = { photos: [], hasMore: true };
 		chat.videos = { videos: [], hasMore: true };
+		chat.files = { files: [], hasMore: true };
 	});
 
 	const chatList: GetChatsResponse = {
@@ -193,6 +194,10 @@ function* createConferenceSaga(action: ReturnType<typeof ChatActions.createConfe
 				hasMore: true,
 				videos: [],
 			},
+			files: {
+				hasMore: true,
+				files: [],
+			},
 		};
 
 		action.payload.conferenceId = data;
@@ -245,6 +250,10 @@ function* createConferenceFromEventSaga(
 		videos: {
 			hasMore: true,
 			videos: [],
+		},
+		files: {
+			hasMore: true,
+			files: [],
 		},
 	};
 
@@ -318,6 +327,17 @@ function* getVideoSaga(action: ReturnType<typeof ChatActions.getVideo>): SagaIte
 	yield put(ChatActions.getVideoSuccess({ videos: response, hasMore, chatId }));
 }
 
+function* getFilesSaga(action: ReturnType<typeof ChatActions.getFiles>): SagaIterator {
+	const { chatId, page } = action.payload;
+
+	//TODO:Replace this with HTTP request logic
+	yield delay(3000);
+	const response = filesToDisplay.slice(page.offset, page.offset + page.limit);
+	const hasMore = response.length >= page.limit;
+
+	yield put(ChatActions.getFilesSuccess({ files: response, hasMore, chatId }));
+}
+
 export const ChatSagas = [
 	takeLatest(ChatActions.getChats, getChatsSaga),
 	takeLatest(ChatActions.renameConference, renameConferenceSaga),
@@ -331,4 +351,5 @@ export const ChatSagas = [
 	takeLatest(ChatActions.muteChat, muteChatSaga),
 	takeLatest(ChatActions.getPhoto, getPhotoSaga),
 	takeLatest(ChatActions.getVideo, getVideoSaga),
+	takeLatest(ChatActions.getFiles, getFilesSaga),
 ];

@@ -25,6 +25,7 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import SettingsHeader from 'app/components/messenger-page/settings/settings-header';
 import { LocalizationContext } from 'app/app';
 import FriendList from 'app/components/messenger-page/friend-list/friend-list';
+import { getSelectedChatSelector } from 'app/store/chats/selectors';
 
 export namespace Messenger {
 	export interface photoSelect {
@@ -40,6 +41,7 @@ const Messenger = () => {
 	const amICalingSomebody = useSelector(amICaling);
 	const amISpeaking = useSelector(doIhaveCall);
 	const replyingMessage = useSelector((state: RootState) => state.messages.messageToReply);
+	const selectedChat = useSelector(getSelectedChatSelector);
 
 	const location = useLocation();
 
@@ -51,27 +53,35 @@ const Messenger = () => {
 			<InternetError />
 
 			<Switch location={location}>
-				<Route path={'/settings/edit-profile'}>
+				<Route exact path={'/settings/edit-profile'}>
 					<SettingsHeader title={t('settings.edit_profile')} />
 				</Route>
 
-				<Route path={'/settings/notifications'}>
+				<Route exact path={'/settings/notifications'}>
 					<SettingsHeader title={t('settings.notifications')} />
 				</Route>
 
-				<Route path={'/settings/language'}>
+				<Route exact path={'/settings/language'}>
 					<SettingsHeader title={t('settings.language')} />
 				</Route>
 
-				<Route path={'/settings/typing'}>
+				<Route exact path={'/settings/typing'}>
 					<SettingsHeader title={t('settings.text_typing')} />
 				</Route>
 
 				<Route
 					exact
-					path={['/(calls|settings|chats|contacts)/:chatId?/(info)?/(photo|video|audio-recordings)?']}
+					path={['/(calls|settings|chats|contacts)/:chatId?/(info)?/(photo|video|audio-recordings|files)?']}
 				>
 					<RoutingChats />
+				</Route>
+
+				<Route path='/'>
+					<Redirect
+						to={{
+							pathname: `/chats${selectedChat ? `/${selectedChat.id}` : ''}`,
+						}}
+					/>
 				</Route>
 			</Switch>
 
@@ -84,22 +94,22 @@ const Messenger = () => {
 					>
 						<div className='messenger__chat-list__animated'>
 							<Switch location={location}>
-								<Route path='/calls/(info)?/(photo|video|audio-recordings)?'>
+								<Route path='/calls/(info)?/(photo|video|audio-recordings|files)?'>
 									<CallList />
 								</Route>
 
-								<Route path='/settings*'>
+								<Route path='/settings/(info)?/(photo|video|audio-recordings|files)?'>
 									<Settings />
 								</Route>
 
-								<Route path='/chats/:chatId?/(info)?/(photo|video|audio-recordings)?'>
+								<Route path='/chats/:chatId?/(info)?/(photo|video|audio-recordings|files)?'>
 									<div className='messenger__chats'>
 										<SearchTop />
 										<ChatList />
 									</div>
 								</Route>
 
-								<Route path='/contacts/:chatId?/(info)?/(photo|video|audio-recordings)?'>
+								<Route path='/contacts/:chatId?/(info)?/(photo|video|audio-recordings|files)?'>
 									<div className='messenger__chats'>
 										<FriendList />
 									</div>

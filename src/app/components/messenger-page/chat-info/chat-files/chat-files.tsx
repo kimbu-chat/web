@@ -10,7 +10,7 @@ import { getSelectedChatSelector } from 'app/store/chats/selectors';
 import { Page } from 'app/store/common/models';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Link, useLocation } from 'react-router-dom';
-import ChatFile from './chat-file/chat-file';
+import FileAttachment from '../../shared/file-attachment/file-attachment';
 
 const ChatFiles = () => {
 	const { t } = useContext(LocalizationContext);
@@ -27,7 +27,7 @@ const ChatFiles = () => {
 		console.log('call');
 		const page: Page = {
 			offset: filesForSelectedDialog?.files!.length || 0,
-			limit: 20,
+			limit: 25,
 		};
 
 		console.log(page);
@@ -80,7 +80,7 @@ const ChatFiles = () => {
 					isReverse={false}
 				>
 					{filesWithSeparators?.map((file) => (
-						<ChatFile file={file} key={file.id} />
+						<FileAttachment attachment={file} key={file.id} />
 					))}
 				</InfiniteScroll>
 			</div>

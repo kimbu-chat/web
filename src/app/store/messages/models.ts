@@ -37,7 +37,7 @@ export enum FileType {
 }
 
 export interface FileBase {
-	fileName: string;
+	title: string;
 	byteSize: number;
 	url: string;
 	type: FileType;

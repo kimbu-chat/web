@@ -94,6 +94,13 @@ const ChatData = () => {
 								? location.pathname.replace('/info', '')
 								: `${location.pathname}/info`
 						}
+						isActive={(match, location) => {
+							if (match || location.pathname.includes('info')) {
+								return true;
+							} else {
+								return false;
+							}
+						}}
 						className='chat-data__button'
 						activeClassName='chat-data__button--active'
 					>

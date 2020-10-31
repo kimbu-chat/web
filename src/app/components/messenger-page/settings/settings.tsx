@@ -10,11 +10,10 @@ import InfoSvg from 'app/assets/icons/ic-info.svg';
 import NotificationSvg from 'app/assets/icons/ic-notifications-on.svg';
 import TextSvg from 'app/assets/icons/ic-text-typing.svg';
 import LangSvg from 'app/assets/icons/ic-language.svg';
-import { NavLink, Route, Switch, useLocation } from 'react-router-dom';
+import { NavLink, Route } from 'react-router-dom';
 import EditProfile from './edit-profile/edit-profile';
 import NotificationsSettings from './notifications-settings/notifications-settings';
 import LanguageSettings from './language-settings/language-settings';
-import TransitionGroup from 'react-transition-group/TransitionGroup';
 import { CSSTransition } from 'react-transition-group';
 import TextTyping from './text-typing/text-typing';
 
@@ -23,17 +22,11 @@ const Settings = () => {
 
 	const myProfile = useSelector(getMyProfileSelector);
 
-	const location = useLocation();
-
 	return (
-		<TransitionGroup>
-			<CSSTransition
-				key={location.pathname.split('/')[2]}
-				timeout={{ enter: 200, exit: 200 }}
-				classNames={'settings-slide'}
-			>
-				<Switch location={location}>
-					<Route path='/settings/(info)?/(photo|video|audio-recordings|files)?' exact>
+		<>
+			<Route path='/settings/(info)?/(photo|video|audio-recordings|files)?' exact>
+				{({ match }) => (
+					<CSSTransition in={match != null} timeout={200} classNames='settings-slide' unmountOnExit>
 						<div className='settings'>
 							<div className='settings__account-info'>
 								<Avatar className='settings__account-avatar' src={myProfile?.avatarUrl}>
@@ -63,26 +56,42 @@ const Settings = () => {
 								</NavLink>
 							</div>
 						</div>
-					</Route>
+					</CSSTransition>
+				)}
+			</Route>
 
-					<Route path='/settings/edit-profile' exact>
+			<Route path='/settings/edit-profile' exact>
+				{({ match }) => (
+					<CSSTransition in={match != null} timeout={200} classNames='settings-slide' unmountOnExit>
 						<EditProfile />
-					</Route>
+					</CSSTransition>
+				)}
+			</Route>
 
-					<Route path='/settings/notifications' exact>
+			<Route path='/settings/notifications' exact>
+				{({ match }) => (
+					<CSSTransition in={match != null} timeout={200} classNames='settings-slide' unmountOnExit>
 						<NotificationsSettings />
-					</Route>
+					</CSSTransition>
+				)}
+			</Route>
 
-					<Route path='/settings/language' exact>
+			<Route path='/settings/language' exact>
+				{({ match }) => (
+					<CSSTransition in={match != null} timeout={200} classNames='settings-slide' unmountOnExit>
 						<LanguageSettings />
-					</Route>
+					</CSSTransition>
+				)}
+			</Route>
 
-					<Route path='/settings/typing' exact>
+			<Route path='/settings/typing' exact>
+				{({ match }) => (
+					<CSSTransition in={match != null} timeout={200} classNames='settings-slide' unmountOnExit>
 						<TextTyping />
-					</Route>
-				</Switch>
-			</CSSTransition>
-		</TransitionGroup>
+					</CSSTransition>
+				)}
+			</Route>
+		</>
 	);
 };
 

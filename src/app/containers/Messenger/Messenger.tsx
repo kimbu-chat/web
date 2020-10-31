@@ -21,7 +21,7 @@ import RespondingMessage from 'app/components/messenger-page/responding-message/
 import { RootState } from 'app/store/root-reducer';
 import CallList from 'app/components/messenger-page/call-list/call-list';
 import Settings from 'app/components/messenger-page/settings/settings';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { CSSTransition } from 'react-transition-group';
 import SettingsHeader from 'app/components/messenger-page/settings/settings-header';
 import { LocalizationContext } from 'app/app';
 import FriendList from 'app/components/messenger-page/friend-list/friend-list';
@@ -86,46 +86,44 @@ const Messenger = () => {
 			</Switch>
 
 			<div className='messenger__chat-list'>
-				<TransitionGroup>
-					<CSSTransition
-						key={location.pathname.split('/')[1]}
-						timeout={{ enter: 200, exit: 200 }}
-						classNames={'slide'}
-					>
-						<div className='messenger__chat-list__animated'>
-							<Switch location={location}>
-								<Route path='/calls/(info)?/(photo|video|audio-recordings|files)?'>
-									<CallList />
-								</Route>
+				<div className='messenger__chat-list__animated'>
+					<Route path='/calls/(info)?/(photo|video|audio-recordings|files)?'>
+						{({ match }) => (
+							<CSSTransition in={match != null} timeout={200} classNames='slide' unmountOnExit>
+								<CallList />
+							</CSSTransition>
+						)}
+					</Route>
 
-								<Route path='/settings/(info)?/(photo|video|audio-recordings|files)?'>
-									<Settings />
-								</Route>
+					<Route path='/settings/(info)?/(photo|video|audio-recordings|files)?'>
+						{({ match }) => (
+							<CSSTransition in={match != null} timeout={200} classNames='slide' unmountOnExit>
+								<Settings />
+							</CSSTransition>
+						)}
+					</Route>
 
-								<Route path='/chats/:chatId?/(info)?/(photo|video|audio-recordings|files)?'>
-									<div className='messenger__chats'>
-										<SearchTop />
-										<ChatList />
-									</div>
-								</Route>
+					<Route path='/chats/:chatId?/(info)?/(photo|video|audio-recordings|files)?'>
+						{({ match }) => (
+							<CSSTransition in={match != null} timeout={200} classNames='slide' unmountOnExit>
+								<div className='messenger__chats'>
+									<SearchTop />
+									<ChatList />
+								</div>
+							</CSSTransition>
+						)}
+					</Route>
 
-								<Route path='/contacts/:chatId?/(info)?/(photo|video|audio-recordings|files)?'>
-									<div className='messenger__chats'>
-										<FriendList />
-									</div>
-								</Route>
-
-								<Route path='/'>
-									<Redirect
-										to={{
-											pathname: '/chats',
-										}}
-									/>
-								</Route>
-							</Switch>
-						</div>
-					</CSSTransition>
-				</TransitionGroup>
+					<Route path='/contacts/:chatId?/(info)?/(photo|video|audio-recordings|files)?'>
+						{({ match }) => (
+							<CSSTransition in={match != null} timeout={200} classNames='slide' unmountOnExit>
+								<div className='messenger__chats'>
+									<FriendList />
+								</div>
+							</CSSTransition>
+						)}
+					</Route>
+				</div>
 			</div>
 
 			<ChatData />
@@ -136,21 +134,15 @@ const Messenger = () => {
 				<CreateMessageInput />
 			</div>
 
-			<TransitionGroup style={{ gridRow: '1/3' }}>
-				<CSSTransition
-					key={String(location.pathname.includes('info'))}
-					timeout={{ enter: 200, exit: 200 }}
-					classNames={'chat-info-slide'}
-				>
-					<Switch location={location}>
-						<Route path='/(contacts|calls|settings|chats)/:chatId?/info*'>
-							<div className='chat-info--animated'>
-								<ChatInfo />
-							</div>
-						</Route>
-					</Switch>
-				</CSSTransition>
-			</TransitionGroup>
+			<Route path='/(contacts|calls|settings|chats)/:chatId?/info'>
+				{({ match }) => (
+					<CSSTransition in={match != null} timeout={200} classNames='chat-info-slide' unmountOnExit>
+						<div className='messenger__info'>
+							<ChatInfo />
+						</div>
+					</CSSTransition>
+				)}
+			</Route>
 		</div>
 	);
 };

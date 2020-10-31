@@ -60,7 +60,7 @@ const Settings = () => {
 				)}
 			</Route>
 
-			<Route path='/settings/edit-profile' exact>
+			<Route path='/settings/edit-profile/(info)?/(photo|video|audio-recordings|files)?' exact>
 				{({ match }) => (
 					<CSSTransition in={match != null} timeout={200} classNames='settings-slide' unmountOnExit>
 						<EditProfile />
@@ -68,7 +68,7 @@ const Settings = () => {
 				)}
 			</Route>
 
-			<Route path='/settings/notifications' exact>
+			<Route path='/settings/notifications/(info)?/(photo|video|audio-recordings|files)?' exact>
 				{({ match }) => (
 					<CSSTransition in={match != null} timeout={200} classNames='settings-slide' unmountOnExit>
 						<NotificationsSettings />
@@ -76,7 +76,7 @@ const Settings = () => {
 				)}
 			</Route>
 
-			<Route path='/settings/language' exact>
+			<Route path='/settings/language/(info)?/(photo|video|audio-recordings|files)?' exact>
 				{({ match }) => (
 					<CSSTransition in={match != null} timeout={200} classNames='settings-slide' unmountOnExit>
 						<LanguageSettings />
@@ -84,7 +84,7 @@ const Settings = () => {
 				)}
 			</Route>
 
-			<Route path='/settings/typing' exact>
+			<Route path='/settings/typing/(info)?/(photo|video|audio-recordings|files)?' exact>
 				{({ match }) => (
 					<CSSTransition in={match != null} timeout={200} classNames='settings-slide' unmountOnExit>
 						<TextTyping />

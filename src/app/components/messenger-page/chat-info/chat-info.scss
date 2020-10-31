@@ -39,11 +39,11 @@
 			will-change: transform;
 		}
 
-		&-slide-enter,
-		&-slide-enter-done {
-			transform: translateX(0px) translateZ(0) !important;
+		&-slide-enter {
+			transform: translateX(300px) translateZ(0) !important;
 		}
 
+		&-slide-enter-done,
 		&-slide-enter-active {
 			transform: translateX(0px) translateZ(0) !important;
 		}

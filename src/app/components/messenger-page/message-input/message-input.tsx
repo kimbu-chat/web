@@ -37,6 +37,7 @@ const CreateMessageInput = () => {
 	const { reference: refferedText, state: text, setState: setText } = useReferredState<string>('');
 	const [isRecording, setIsRecording] = useState(false);
 	const [recordedSeconds, setRecordedSeconds] = useState(0);
+	const [rows, setRows] = useState(1);
 
 	const registerAudioBtnRef = useRef<HTMLButtonElement>(null);
 
@@ -196,10 +197,32 @@ const CreateMessageInput = () => {
 
 	const onType = useCallback(
 		(event) => {
+			const minRows = 1;
+			const maxRows = 20;
+			const textareaLineHeight = 18;
+			const previousRows = event.target.rows;
+
+			event.target.rows = minRows;
+
+			const currentRows = ~~(event.target.scrollHeight / textareaLineHeight);
+
+			if (currentRows === previousRows) {
+				event.target.rows = currentRows;
+			}
+
+			if (currentRows >= maxRows) {
+				event.target.rows = maxRows;
+				event.target.scrollTop = event.target.scrollHeight;
+			}
+
 			setText(event.target.value);
 			handleTextChange(event.target.value);
+
+			console.log(currentRows < maxRows ? currentRows : maxRows);
+
+			setRows(currentRows < maxRows ? currentRows : maxRows);
 		},
-		[setText, handleTextChange],
+		[setText, handleTextChange, setRows],
 	);
 
 	if (messageToEdit) {
@@ -215,6 +238,7 @@ const CreateMessageInput = () => {
 						<div className='message-input__input-group'>
 							{!isRecording && (
 								<textarea
+									rows={rows}
 									placeholder={t('messageInput.write')}
 									value={text}
 									onChange={onType}
@@ -251,6 +275,7 @@ const CreateMessageInput = () => {
 					<div className='message-input__input-group'>
 						{!isRecording && (
 							<textarea
+								rows={rows}
 								placeholder={t('messageInput.write')}
 								value={text}
 								onChange={onType}

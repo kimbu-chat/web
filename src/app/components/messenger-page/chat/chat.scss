@@ -1,8 +1,10 @@
 .messenger {
 	&__messages-list {
+		flex: 1 1;
 		display: grid;
 		align-items: end;
 		border-bottom: 1px solid rgba(#000, 0.2);
+		overflow: auto;
 
 		&__empty {
 			margin: auto;
@@ -19,7 +21,8 @@
 	&__messages-container {
 		display: flex;
 		flex-direction: column-reverse;
-		height: calc(100vh - 129px);
+		max-height: calc(100vh - 129px);
+		height: 100%;
 		overflow: auto;
 
 		.loader {

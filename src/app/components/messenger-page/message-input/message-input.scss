@@ -1,8 +1,8 @@
 .message-input {
 	&__send-message {
+		flex: 0 1 64px;
 		display: flex;
 		align-items: center;
-		height: 64px;
 	}
 
 	&__add {
@@ -24,10 +24,13 @@
 	&__input-group {
 		width: calc(100% - 52px);
 		display: flex;
+		margin: 19px 0;
 		align-items: center;
 	}
 
 	&__input-message {
+		overflow: auto;
+		height: auto;
 		line-height: 18px;
 		display: block;
 		border: none;
@@ -36,7 +39,6 @@
 		font-size: 13px;
 		white-space: pre-line;
 		font-weight: 400;
-		height: 18px;
 		resize: none;
 		&:focus {
 			outline: none;

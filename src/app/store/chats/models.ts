@@ -1,4 +1,4 @@
-import { Message } from '../messages/models';
+import { FileType, Message } from '../messages/models';
 import { Page } from '../common/models';
 import { UserPreview, AvatarSelectedData } from '../my-profile/models';
 
@@ -116,6 +116,19 @@ export interface Chat {
 	photos: PhotoList;
 	videos: VideoList;
 	files: FileList;
+	attachmentsToSend?: AttachmentToSend[];
+}
+
+export interface AttachmentToSend {
+	type: FileType;
+	file: File;
+	id: string;
+	title: string;
+	byteSize: number;
+	progress: number;
+	success?: boolean;
+	failure?: boolean;
+	url?: string;
 }
 
 export interface Photo {
@@ -199,4 +212,87 @@ export interface ChangeConferenceAvatarSuccessActionData {
 	conferenceId: number;
 	fullAvatarUrl: string;
 	croppedAvatarUrl: string;
+}
+
+export interface UploadAttachmentReqData {
+	chatId: number;
+	type: FileType;
+	attachmentId: string;
+	file: File;
+}
+
+export interface UploadAttachmentProgressData {
+	chatId: number;
+	attachmentId: string;
+	progress: number;
+}
+
+export interface UploadAttachmentSagaProgressData {
+	progress: number;
+}
+
+export interface UploadAttachmentFailedData {
+	chatId: number;
+	attachmentId: string;
+}
+
+export interface RemoveAttachmentReqData {
+	chatId: number;
+	attachmentId: string;
+}
+
+export interface UploadAttachmentSuccessData {
+	chatId: number;
+	attachmentId: string;
+	title: string;
+	byteSize: number;
+	newId: string;
+	url: string;
+}
+
+export interface UploadAttachmentSagaSuccessData {
+	title: string;
+	byteSize: number;
+	id: string;
+	url: string;
+}
+
+//Upload files
+export interface UploadFileRequest {
+	file: File;
+}
+
+export interface UploadAudioRequest extends UploadFileRequest {}
+
+export interface UploadPictureRequest extends UploadFileRequest {}
+
+export interface UploadVoiceRequest extends UploadFileRequest {}
+
+export interface UploadVideoRequest extends UploadFileRequest {}
+
+export interface UploadBaseResponse {
+	id: string;
+	byteSize: number;
+	url: string;
+}
+
+export interface UploadFileResponse extends UploadBaseResponse {
+	title: string;
+}
+
+export interface UploadAudioResponse extends UploadBaseResponse {
+	title: string;
+	duration: number;
+}
+
+export interface UploadPictureResponse extends UploadBaseResponse {
+	previewUrl: string;
+}
+
+export interface UploadVideoResponse extends UploadBaseResponse {
+	previewUrl: string;
+}
+
+export interface UploadVoiceResponse extends UploadBaseResponse {
+	duration: string;
 }

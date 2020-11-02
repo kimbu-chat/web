@@ -6,7 +6,7 @@ import { UserPreview } from 'app/store/my-profile/models';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { MessageActions } from 'app/store/messages/actions';
 import { getSelectedChatSelector } from 'app/store/chats/selectors';
-import { SystemMessageType, MessageState } from 'app/store/messages/models';
+import { SystemMessageType, MessageState, FileType } from 'app/store/messages/models';
 import { LocalizationContext } from 'app/app';
 import { RootState } from 'app/store/root-reducer';
 import useInterval from 'use-interval';
@@ -21,12 +21,15 @@ import Mousetrap from 'mousetrap';
 import useReferredState from 'app/utils/hooks/useReferredState';
 import { getTypingStrategy } from 'app/store/settings/selectors';
 import { typingStrategy } from 'app/store/settings/models';
+import { ChatActions } from 'app/store/chats/actions';
+import MessageInputAttachment from './message-input-attachment/message-input-attachment';
 
 const CreateMessageInput = () => {
 	const { t } = useContext(LocalizationContext);
 
 	const sendMessage = useActionWithDispatch(MessageActions.createMessage);
 	const notifyAboutTyping = useActionWithDispatch(MessageActions.messageTyping);
+	const uploadAttachmentRequest = useActionWithDispatch(ChatActions.uploadAttachmentRequestAction);
 
 	const currentUser = useSelector<RootState, UserPreview | undefined>((state) => state.myProfile.user);
 	const selectedChat = useSelector(getSelectedChatSelector);
@@ -38,6 +41,8 @@ const CreateMessageInput = () => {
 	const [isRecording, setIsRecording] = useState(false);
 	const [recordedSeconds, setRecordedSeconds] = useState(0);
 	const [rows, setRows] = useState(1);
+
+	const fileInputRef = useRef<HTMLInputElement>(null);
 
 	const registerAudioBtnRef = useRef<HTMLButtonElement>(null);
 
@@ -225,44 +230,86 @@ const CreateMessageInput = () => {
 		[setText, handleTextChange, setRows],
 	);
 
+	const openSelectFiles = useCallback(() => {
+		console.log('eeeeZZ');
+		fileInputRef.current?.click();
+	}, [fileInputRef]);
+
+	const uploadFile = useCallback(
+		(event: React.ChangeEvent<HTMLInputElement>) => {
+			if (event.target.files?.length! > 0) {
+				for (var index = 0; index < event.target.files!.length; ++index) {
+					const file = event.target.files!.item(index) as File;
+					uploadAttachmentRequest({
+						chatId: selectedChat!.id,
+						type: FileType.file,
+						file,
+						attachmentId: String(new Date().getTime()),
+					});
+				}
+			}
+		},
+		[uploadAttachmentRequest, selectedChat],
+	);
+
 	if (messageToEdit) {
 		return (
-			<div className='message-input__send-message'>
-				{selectedChat && (
-					<>
-						{!isRecording && (
-							<button className='message-input__add'>
-								<AddSvg />
-							</button>
-						)}
-						<div className='message-input__input-group'>
+			<div>
+				{selectedChat?.attachmentsToSend?.map((attachment) => {
+					return <MessageInputAttachment attachment={attachment} key={attachment.id} />;
+				})}
+				<div className='message-input__send-message'>
+					{selectedChat && (
+						<>
 							{!isRecording && (
-								<textarea
-									rows={rows}
-									placeholder={t('messageInput.write')}
-									value={text}
-									onChange={onType}
-									className='mousetrap  message-input__input-message'
-									onFocus={handleFocus}
-									onBlur={handleBlur}
-								/>
+								<>
+									<input
+										multiple
+										className='hidden'
+										type='file'
+										onChange={uploadFile}
+										ref={fileInputRef}
+									/>
+									<button onClick={openSelectFiles} className='message-input__add'>
+										<AddSvg />
+									</button>
+								</>
 							)}
-						</div>
-						<button className='message-input__edit-confirm'>Save</button>
-					</>
-				)}
+							<div className='message-input__input-group'>
+								{!isRecording && (
+									<textarea
+										rows={rows}
+										placeholder={t('messageInput.write')}
+										value={text}
+										onChange={onType}
+										className='mousetrap  message-input__input-message'
+										onFocus={handleFocus}
+										onBlur={handleBlur}
+									/>
+								)}
+							</div>
+							<button className='message-input__edit-confirm'>Save</button>
+						</>
+					)}
+				</div>
 			</div>
 		);
 	}
 
 	return (
-		<div className='message-input__send-message'>
+		<div>
+			{selectedChat?.attachmentsToSend?.map((attachment) => {
+				return <MessageInputAttachment attachment={attachment} key={attachment.id} />;
+			})}
 			{selectedChat && (
-				<React.Fragment>
+				<div className='message-input__send-message'>
 					{!isRecording && (
-						<button className='message-input__add'>
-							<AddSvg />
-						</button>
+						<>
+							<input multiple className='hidden' type='file' onChange={uploadFile} ref={fileInputRef} />
+							<button onClick={openSelectFiles} className='message-input__add'>
+								<AddSvg />
+							</button>
+						</>
 					)}
 					{isRecording && (
 						<>
@@ -300,7 +347,7 @@ const CreateMessageInput = () => {
 							</button>
 						</div>
 					</div>
-				</React.Fragment>
+				</div>
 			)}
 		</div>
 	);

@@ -462,5 +462,125 @@ const chats = createReducer<ChatsState>(initialState)
 			}
 			return draft;
 		}),
+	)
+	.handleAction(
+		ChatActions.uploadAttachmentRequestAction,
+		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.uploadAttachmentRequestAction>) => {
+			const { type, chatId, attachmentId, file } = payload;
+			console.log(attachmentId);
+
+			const chatIndex: number = getChatArrayIndex(chatId, draft);
+
+			if (chatIndex >= 0) {
+				if (!draft.chats[chatIndex].attachmentsToSend) {
+					draft.chats[chatIndex].attachmentsToSend = [];
+				}
+
+				draft.chats[chatIndex].attachmentsToSend?.push({
+					type,
+					file,
+					id: attachmentId,
+					title: file.name,
+					byteSize: file.size,
+					progress: 0,
+				});
+			}
+			return draft;
+		}),
+	)
+	.handleAction(
+		ChatActions.uploadAttachmentProgressAction,
+		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.uploadAttachmentProgressAction>) => {
+			const { progress, chatId, attachmentId } = payload;
+
+			const chatIndex: number = getChatArrayIndex(chatId, draft);
+
+			if (chatIndex >= 0) {
+				if (!draft.chats[chatIndex].attachmentsToSend) {
+					return;
+				}
+
+				const currentAttachment = draft.chats[chatIndex].attachmentsToSend?.find(
+					({ id }) => id === attachmentId,
+				);
+
+				if (currentAttachment) {
+					currentAttachment.progress = progress;
+				}
+			}
+			return draft;
+		}),
+	)
+	.handleAction(
+		ChatActions.uploadAttachmentSuccessAction,
+		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.uploadAttachmentSuccessAction>) => {
+			const { chatId, attachmentId, title, byteSize, newId, url } = payload;
+
+			const chatIndex: number = getChatArrayIndex(chatId, draft);
+
+			if (chatIndex >= 0) {
+				if (!draft.chats[chatIndex].attachmentsToSend) {
+					return;
+				}
+
+				const currentAttachment = draft.chats[chatIndex].attachmentsToSend?.find(
+					({ id }) => id === attachmentId,
+				);
+
+				if (currentAttachment) {
+					currentAttachment.progress = 100;
+					currentAttachment.success = true;
+					currentAttachment.title = title;
+					currentAttachment.byteSize = byteSize;
+					currentAttachment.id = newId;
+					currentAttachment.url = url;
+				}
+			}
+			return draft;
+		}),
+	)
+	.handleAction(
+		ChatActions.uploadAttachmentFailureAction,
+		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.uploadAttachmentFailureAction>) => {
+			const { chatId, attachmentId } = payload;
+
+			const chatIndex: number = getChatArrayIndex(chatId, draft);
+
+			if (chatIndex >= 0) {
+				if (!draft.chats[chatIndex].attachmentsToSend) {
+					return;
+				}
+
+				const currentAttachment = draft.chats[chatIndex].attachmentsToSend?.find(
+					({ id }) => id === attachmentId,
+				);
+
+				if (currentAttachment) {
+					currentAttachment.success = false;
+					currentAttachment.failure = true;
+				}
+			}
+			return draft;
+		}),
+	)
+	.handleAction(
+		ChatActions.removeAttachmentAction,
+		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.removeAttachmentAction>) => {
+			const { chatId, attachmentId } = payload;
+
+			const chatIndex: number = getChatArrayIndex(chatId, draft);
+
+			if (chatIndex >= 0) {
+				if (!draft.chats[chatIndex].attachmentsToSend) {
+					return;
+				}
+
+				draft.chats[chatIndex].attachmentsToSend = draft.chats[chatIndex].attachmentsToSend?.filter(
+					({ id }) => id !== attachmentId,
+				);
+			}
+			return draft;
+		}),
 	);
+
 export default chats;

@@ -1,0 +1,65 @@
+.message-input-attachment {
+	padding: 5px;
+	border-radius: 3px;
+	background-color: rgba(63, 138, 224, 0.1);
+	display: inline-block;
+	position: relative;
+	margin: 20px;
+
+	&__icon {
+		background-color: rgba(63, 138, 224, 0.3);
+		padding: 10px;
+		border-radius: 5px;
+		svg {
+			color: #3f8ae0;
+			width: 30px;
+			height: 30px;
+		}
+	}
+
+	&__progress-container {
+		margin-top: 5px;
+		margin-bottom: 5px;
+		width: 100%;
+		height: 5px;
+		border-radius: 2px;
+		background-color: rgba(63, 138, 224, 0.1);
+		overflow: hidden;
+	}
+
+	&__progress {
+		background-color: #3f8ae0;
+		transition: all 0.1s;
+		height: 100%;
+	}
+
+	&__title {
+		color: #3f8ae0;
+		font-weight: 500;
+		font-size: 11px;
+		max-width: 50px;
+		white-space: nowrap;
+		width: 50px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	&__close {
+		position: absolute;
+		top: -6px;
+		right: -6px;
+		background-color: white;
+		padding: 3px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+
+		svg {
+			width: 12px;
+			color: #bdbdbd;
+			height: 12px;
+		}
+	}
+}

@@ -1,12 +1,12 @@
 import React, { useCallback, useContext } from 'react';
 import './modal-phone-input.scss';
-import { country } from 'app/common/countries';
+import { Country } from 'app/common/countries';
 import { AsYouType } from 'libphonenumber-js';
 import { LocalizationContext } from 'app/app';
 
 namespace ModalPhoneInput {
 	export interface Props {
-		country: country;
+		country: Country;
 		phone: string;
 		setPhone: Function;
 		displayCountries: () => void;

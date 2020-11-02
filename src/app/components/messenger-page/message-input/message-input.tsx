@@ -23,6 +23,16 @@ import { getTypingStrategy } from 'app/store/settings/selectors';
 import { typingStrategy } from 'app/store/settings/models';
 import { ChatActions } from 'app/store/chats/actions';
 import MessageInputAttachment from './message-input-attachment/message-input-attachment';
+import useOnClickOutside from 'app/utils/hooks/useOnClickOutside';
+
+namespace CreateMessageInput {
+	export interface RecordedData {
+		mediaRecorder: MediaRecorder | null;
+		tracks: MediaStreamTrack[];
+		isRecording: boolean;
+		needToSubmit: boolean;
+	}
+}
 
 const CreateMessageInput = () => {
 	const { t } = useContext(LocalizationContext);
@@ -43,8 +53,13 @@ const CreateMessageInput = () => {
 	const [rows, setRows] = useState(1);
 
 	const fileInputRef = useRef<HTMLInputElement>(null);
-
 	const registerAudioBtnRef = useRef<HTMLButtonElement>(null);
+	const recorderData = useRef<CreateMessageInput.RecordedData>({
+		mediaRecorder: null,
+		tracks: [],
+		isRecording: false,
+		needToSubmit: false,
+	});
 
 	useEffect(() => {
 		if (messageToEdit) {
@@ -120,85 +135,78 @@ const CreateMessageInput = () => {
 		Mousetrap.unbind('enter');
 	}, []);
 
-	const registerAudio = () => {
-		const recorderData: {
-			mediaRecorder: MediaRecorder | null;
-			tracks: MediaStreamTrack[];
-			isRecording: boolean;
-			needToSubmit: boolean;
-		} = { mediaRecorder: null, tracks: [], isRecording: false, needToSubmit: false };
-
-		recorderData.tracks.forEach((track) => track.stop());
-		recorderData.tracks = [];
+	const startRecording = useCallback(() => {
+		Mousetrap.bind('esc', cancelRecording);
+		recorderData.current.tracks.forEach((track) => track.stop());
+		recorderData.current.tracks = [];
 
 		navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-			recorderData.mediaRecorder = new MediaRecorder(stream);
-			recorderData.mediaRecorder?.start();
+			recorderData.current.mediaRecorder = new MediaRecorder(stream);
+			recorderData.current.mediaRecorder?.start();
 			const tracks = stream.getTracks();
-			recorderData.tracks.push(...tracks);
+			recorderData.current.tracks.push(...tracks);
 
-			recorderData.isRecording = true;
+			recorderData.current.isRecording = true;
 			setIsRecording(true);
 
 			let audioChunks: Blob[] = [];
-			recorderData.mediaRecorder?.addEventListener('dataavailable', (event) => {
+			recorderData.current.mediaRecorder?.addEventListener('dataavailable', (event) => {
 				audioChunks.push(event.data);
 			});
 
-			recorderData.mediaRecorder?.addEventListener('stop', () => {
+			recorderData.current.mediaRecorder?.addEventListener('stop', () => {
 				setIsRecording(false);
-				recorderData.isRecording = false;
+				recorderData.current.isRecording = false;
 
-				recorderData.tracks.forEach((track) => track.stop());
-				recorderData.tracks = [];
+				recorderData.current.tracks.forEach((track) => track.stop());
+				recorderData.current.tracks = [];
 
-				if (audioChunks[0]?.size > 0 && recorderData.needToSubmit) {
+				if (audioChunks[0]?.size > 0 && recorderData.current.needToSubmit) {
 					const audioBlob = new Blob(audioChunks);
-					const audioUrl = URL.createObjectURL(audioBlob);
-					const audio = new Audio(audioUrl);
-					audio.play();
+					uploadAttachmentRequest({
+						chatId: selectedChat!.id,
+						type: FileType.recording,
+						file: audioBlob as File,
+						attachmentId: String(new Date().getTime()),
+					});
 				}
 
 				setRecordedSeconds(0);
 			});
-
-			const handleMouseUp = (event: MouseEvent) => {
-				document.removeEventListener('mouseup', handleMouseUp);
-				console.log(registerAudioBtnRef.current?.contains(event.target as Node));
-				if (registerAudioBtnRef.current?.contains(event.target as Node)) {
-					if (recorderData.isRecording) {
-						if (recorderData.mediaRecorder?.state === 'recording') {
-							recorderData.needToSubmit = true;
-							recorderData.mediaRecorder?.stop();
-						}
-
-						recorderData.tracks.forEach((track) => track.stop());
-						recorderData.tracks = [];
-					} else {
-						setTimeout(() => {
-							if (recorderData.isRecording) {
-								if (recorderData.mediaRecorder?.state === 'recording') {
-									recorderData.needToSubmit = false;
-									recorderData.mediaRecorder?.stop();
-								}
-
-								recorderData.tracks.forEach((track) => track.stop());
-								recorderData.tracks = [];
-							}
-						}, 100);
-					}
-				} else {
-					recorderData.isRecording = false;
-					recorderData.tracks.forEach((track) => track.stop());
-					recorderData.tracks = [];
-					recorderData.needToSubmit = false;
-					recorderData.mediaRecorder?.stop();
-				}
-			};
-
-			document.addEventListener('mouseup', handleMouseUp);
 		});
-	};
+	}, [selectedChat, setRecordedSeconds, uploadAttachmentRequest, recorderData.current]);
+
+	const stopRecording = useCallback(() => {
+		Mousetrap.unbind('esc');
+		if (recorderData.current.isRecording) {
+			if (recorderData.current.mediaRecorder?.state === 'recording') {
+				recorderData.current.needToSubmit = true;
+				recorderData.current.mediaRecorder?.stop();
+			}
+
+			recorderData.current.tracks.forEach((track) => track.stop());
+			recorderData.current.tracks = [];
+		}
+	}, [recorderData.current]);
+
+	const cancelRecording = useCallback(() => {
+		Mousetrap.unbind('esc');
+		recorderData.current.isRecording = false;
+		recorderData.current.tracks.forEach((track) => track.stop());
+		recorderData.current.tracks = [];
+		recorderData.current.needToSubmit = false;
+		recorderData.current.mediaRecorder?.stop();
+	}, [recorderData.current]);
+
+	useOnClickOutside(registerAudioBtnRef, cancelRecording);
+
+	const handleRegisterAudioBtnClick = useCallback(() => {
+		if (recorderData.current.isRecording) {
+			stopRecording();
+		} else {
+			startRecording();
+		}
+	}, [startRecording, stopRecording, recorderData.current]);
 
 	const onType = useCallback(
 		(event) => {
@@ -337,7 +345,7 @@ const CreateMessageInput = () => {
 						<div className='message-input__right-btns'>
 							{!isRecording && <MessageSmiles setText={setText} />}
 							<button
-								onMouseDown={registerAudio}
+								onClick={handleRegisterAudioBtnClick}
 								ref={registerAudioBtnRef}
 								className={`message-input__voice-btn ${
 									isRecording ? 'message-input__voice-btn--active' : ''

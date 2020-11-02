@@ -55,7 +55,9 @@ const MessageInputAttachment: React.FC<MessageInputAttachment.Props> = ({ attach
 			<div className='message-input-attachment__progress-container'>
 				<div style={{ width: `${attachment.progress}%` }} className='message-input-attachment__progress'></div>
 			</div>
-			<div className='message-input-attachment__title'>{attachment.title}</div>
+			{(attachment.type === FileType.music || attachment.type === FileType.file) && (
+				<div className='message-input-attachment__title'>{attachment.title}</div>
+			)}
 			<button onClick={removeThisAttachment} className='message-input-attachment__close'>
 				<CloseSVG viewBox='0 0 25 25' />
 			</button>

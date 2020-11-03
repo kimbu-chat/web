@@ -1,4 +1,4 @@
-export const countryList: country[] = [
+export const countryList: Country[] = [
 	{
 		title: 'Afghanistan',
 		number: '+93',
@@ -1216,7 +1216,7 @@ export const countryList: country[] = [
 	},
 ];
 
-export interface country {
+export interface Country {
 	title: string;
 	code: string;
 	number: string;

@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useState, useRef, useEffect } from 'rea
 import './phone-confirmation.scss';
 import CountrySelect from './components/country-select/country-select';
 import PhoneInput from './components/phone-input/phone-input';
-import { country, countryList } from 'app/common/countries';
+import { Country, countryList } from 'app/common/countries';
 import { LocalizationContext } from 'app/app';
 import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
 import { AuthActions } from 'app/store/auth/actions';
@@ -18,7 +18,7 @@ const PhoneConfirmation = () => {
 
 	const isLoading = useSelector((state: RootState) => state.auth.loading);
 
-	const [country, setCountry] = useState<country>(countryList[countryList.length - 1]);
+	const [country, setCountry] = useState<Country>(countryList[countryList.length - 1]);
 	const [phone, setPhone] = useState<string>('');
 
 	const [countrySelectRef, setCountrySelectRef] = useState<React.RefObject<HTMLInputElement> | null>(null);

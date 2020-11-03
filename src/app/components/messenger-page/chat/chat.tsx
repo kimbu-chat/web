@@ -18,11 +18,6 @@ import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/f
 
 export const MESSAGES_LIMIT = 25;
 
-export enum messageFrom {
-	me,
-	others,
-}
-
 const Chat = () => {
 	const getMessages = useActionWithDispatch(MessageActions.getMessages);
 	const markMessagesAsRead = useActionWithDispatch(MessageActions.markMessagesAsRead);
@@ -51,18 +46,16 @@ const Chat = () => {
 				chat: selectedChat,
 				initiatedByScrolling: false,
 			});
-
-			//marking as read
-			const markAsRead = (): void => {
-				const { ownUnreadMessagesCount } = selectedChat;
-				if (Boolean(ownUnreadMessagesCount) && (ownUnreadMessagesCount || 0) > 0) {
-					markMessagesAsRead(selectedChat);
-				}
-			};
-
 			markAsRead();
 		}
 	}, [selectedChat?.id]);
+
+	const markAsRead = useCallback((): void => {
+		const { ownUnreadMessagesCount } = selectedChat!;
+		if (Boolean(ownUnreadMessagesCount) && (ownUnreadMessagesCount || 0) > 0) {
+			markMessagesAsRead(selectedChat!);
+		}
+	}, [selectedChat]);
 
 	const loadPage = useCallback(() => {
 		const pageData = {
@@ -74,7 +67,7 @@ const Chat = () => {
 			getMessages({
 				page: pageData,
 				chat: selectedChat,
-				initiatedByScrolling: false,
+				initiatedByScrolling: true,
 			});
 		}
 	}, [messages?.length, selectedChat]);

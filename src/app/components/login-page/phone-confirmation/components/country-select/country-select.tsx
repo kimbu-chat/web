@@ -4,15 +4,15 @@ import './country-select.scss';
 
 import useAutocomplete, { createFilterOptions } from '@material-ui/lab/useAutocomplete';
 
-import { countryList, country } from '../../../../../common/countries';
+import { countryList, Country } from '../../../../../common/countries';
 import { LocalizationContext } from 'app/app';
 
 import DownSvg from 'app/assets/icons/ic-chevron-down.svg';
 
 namespace CountrySelect {
 	export interface Props {
-		country?: country;
-		setCountry: React.Dispatch<React.SetStateAction<country>>;
+		country?: Country;
+		setCountry: React.Dispatch<React.SetStateAction<Country>>;
 		setPhone: (setNewPhone: ((oldPhone: string) => string) | string) => void;
 		setRef: React.Dispatch<React.SetStateAction<React.RefObject<HTMLInputElement> | null>>;
 		focusPhoneInput: () => void;
@@ -23,7 +23,7 @@ const CountrySelect = ({ country, setCountry, setPhone, setRef, focusPhoneInput 
 	const { t } = useContext(LocalizationContext);
 
 	const handleCountryChange = useCallback(
-		(newCountry: country) => {
+		(newCountry: Country) => {
 			setCountry((oldCountry) => {
 				setPhone((oldPhone) => {
 					focusPhoneInput();

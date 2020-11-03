@@ -1,5 +1,4 @@
 import React, { useContext, useCallback, useEffect } from 'react';
-import { messageFrom } from '../chat/chat';
 import {
 	Message,
 	SystemMessageType,
@@ -50,18 +49,7 @@ const MessageItem = ({ message }: Message.Props) => {
 
 	useEffect(() => console.log('rerender'), []);
 
-	const messageIsFrom = useCallback(
-		(id: Number | undefined) => {
-			if (id === myId) {
-				return messageFrom.me;
-			} else {
-				return messageFrom.others;
-			}
-		},
-		[myId],
-	);
-
-	const from = messageIsFrom(message.userCreator?.id);
+	const isCurrentUserMessageCreator = message.userCreator?.id === myId;
 
 	const { t } = useContext(LocalizationContext);
 
@@ -140,7 +128,7 @@ const MessageItem = ({ message }: Message.Props) => {
 					<span className='message__contents'>{message.text}</span>
 
 					<div className='message__time-status'>
-						{from === messageFrom.me &&
+						{isCurrentUserMessageCreator &&
 							(message.state === MessageState.READ ? (
 								<MessageReadSvg viewBox='0 0 25 25' className='message__read' />
 							) : message.state === MessageState.QUEUED ? (

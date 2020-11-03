@@ -2,12 +2,12 @@ import React, { useCallback, useContext } from 'react';
 import { AsYouType } from 'libphonenumber-js';
 import './phone-input.scss';
 
-import { country } from 'app/common/countries';
+import { Country } from 'app/common/countries';
 import { LocalizationContext } from 'app/app';
 
 namespace PhoneInput {
 	export interface Props {
-		country: country;
+		country: Country;
 		phone: string;
 		setPhone: Function;
 		displayCountries: () => void;

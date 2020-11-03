@@ -1,6 +1,15 @@
-import { call, delay, put, takeLatest } from 'redux-saga/effects';
+import { FileType } from 'app/store/messages/models';
+import { call, delay, put, takeEvery, takeLatest } from 'redux-saga/effects';
 import { AxiosResponse } from 'axios';
-import { Chat, MuteChatRequest, GetChatsResponse, HideChatRequest, InterlocutorType } from './models';
+import {
+	Chat,
+	MuteChatRequest,
+	GetChatsResponse,
+	HideChatRequest,
+	InterlocutorType,
+	UploadAttachmentSagaSuccessData,
+	UploadAttachmentSagaProgressData,
+} from './models';
 import { MessageState, SystemMessageType, Message, CreateMessageRequest } from '../messages/models';
 import { ChatService } from './chat-service';
 import { ChatActions } from './actions';
@@ -9,12 +18,13 @@ import { FileUploadRequest, ErrorUploadResponse, uploadFileSaga } from 'app/util
 import { HTTPStatusCode } from 'app/common/http-status-code';
 import { ConferenceCreatedIntegrationEvent } from '../middlewares/websockets/integration-events/conference-сreated-integration-event';
 import { MessageActions } from '../messages/actions';
-import { ChatHttpRequests } from './http-requests';
+import { ChatHttpFileRequest, ChatHttpRequests } from './http-requests';
 import { UpdateAvatarResponse } from '../common/models';
 import { MyProfileService } from 'app/services/my-profile-service';
 import { getType } from 'typesafe-actions';
 import { MessageUtils } from 'app/utils/message-utils';
 import { filesToDisplay, photoToDisplay, videoToDisplay } from './temporal';
+import { IFilesRequestGenerator } from '../common/http-file-factory';
 
 export function* getChatsSaga(action: ReturnType<typeof ChatActions.getChats>): SagaIterator {
 	const chatsRequestData = action.payload;
@@ -338,6 +348,66 @@ function* getFilesSaga(action: ReturnType<typeof ChatActions.getFiles>): SagaIte
 	yield put(ChatActions.getFilesSuccess({ files: response, hasMore, chatId }));
 }
 
+// Upload the specified file
+export function* uploadAttachmentSaga(
+	action: ReturnType<typeof ChatActions.uploadAttachmentRequestAction>,
+): SagaIterator {
+	const { file, type, chatId, attachmentId } = action.payload;
+	let uploadRequest: IFilesRequestGenerator<AxiosResponse<any>, any>;
+
+	switch (type) {
+		case FileType.music:
+			{
+				uploadRequest = ChatHttpFileRequest.uploadAudioAttachment;
+			}
+			break;
+		case FileType.file:
+			{
+				uploadRequest = ChatHttpFileRequest.uploadFileAttachment;
+			}
+			break;
+		case FileType.photo:
+			{
+				uploadRequest = ChatHttpFileRequest.uploadPictureAttachment;
+			}
+			break;
+		case FileType.recording:
+			{
+				uploadRequest = ChatHttpFileRequest.uploadVoiceAttachment;
+			}
+			break;
+		case FileType.video:
+			{
+				uploadRequest = ChatHttpFileRequest.uploadVideoAttachment;
+			}
+			break;
+	}
+
+	const data = new FormData();
+
+	const uploadData = { file };
+
+	for (let k of Object.entries(uploadData)) {
+		data.append(k[0], k[1]);
+	}
+
+	yield call(() =>
+		uploadRequest.generator(data, {
+			onProgress: function* (payload: UploadAttachmentSagaProgressData): SagaIterator {
+				yield put(ChatActions.uploadAttachmentProgressAction({ chatId, attachmentId, ...payload }));
+			},
+			onSuccess: function* (payload: UploadAttachmentSagaSuccessData): SagaIterator {
+				yield put(
+					ChatActions.uploadAttachmentSuccessAction({ chatId, attachmentId, newId: payload.id, ...payload }),
+				);
+			},
+			onFailure: function* (): SagaIterator {
+				yield put(ChatActions.uploadAttachmentFailureAction({ chatId, attachmentId }));
+			},
+		}),
+	);
+}
+
 export const ChatSagas = [
 	takeLatest(ChatActions.getChats, getChatsSaga),
 	takeLatest(ChatActions.renameConference, renameConferenceSaga),
@@ -352,4 +422,5 @@ export const ChatSagas = [
 	takeLatest(ChatActions.getPhoto, getPhotoSaga),
 	takeLatest(ChatActions.getVideo, getVideoSaga),
 	takeLatest(ChatActions.getFiles, getFilesSaga),
+	takeEvery(ChatActions.uploadAttachmentRequestAction, uploadAttachmentSaga),
 ];

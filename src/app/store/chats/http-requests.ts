@@ -8,9 +8,20 @@ import {
 	GetConferenceUsersRequest,
 	RenameConferenceApiRequest,
 	ConferenceCreationReqData,
+	UploadAudioRequest,
+	UploadAudioResponse,
+	UploadFileRequest,
+	UploadFileResponse,
+	UploadPictureRequest,
+	UploadPictureResponse,
+	UploadVideoRequest,
+	UploadVideoResponse,
+	UploadVoiceRequest,
+	UploadVoiceResponse,
 } from './models';
 import { ApiBasePath } from '../root-api';
 import { UserPreview } from '../my-profile/models';
+import { httpFilesRequestFactory } from '../common/http-file-factory';
 
 export const ChatHttpRequests = {
 	getChats: httpRequestFactory<AxiosResponse<Chat[]>, GetChatsRequestData>(
@@ -44,5 +55,28 @@ export const ChatHttpRequests = {
 	renameConference: httpRequestFactory<AxiosResponse, RenameConferenceApiRequest>(
 		`${ApiBasePath.MainApi}/api/conference`,
 		HttpRequestMethod.Put,
+	),
+};
+
+export const ChatHttpFileRequest = {
+	uploadAudioAttachment: httpFilesRequestFactory<AxiosResponse<UploadAudioResponse>, UploadAudioRequest>(
+		`${ApiBasePath.FilesAPI}/api/audio-attachments`,
+		HttpRequestMethod.Post,
+	),
+	uploadPictureAttachment: httpFilesRequestFactory<AxiosResponse<UploadPictureResponse>, UploadPictureRequest>(
+		`${ApiBasePath.FilesAPI}/api/picture-attachments`,
+		HttpRequestMethod.Post,
+	),
+	uploadFileAttachment: httpFilesRequestFactory<AxiosResponse<UploadFileResponse>, UploadFileRequest>(
+		`${ApiBasePath.FilesAPI}/api/raw-attachments`,
+		HttpRequestMethod.Post,
+	),
+	uploadVideoAttachment: httpFilesRequestFactory<AxiosResponse<UploadVideoResponse>, UploadVideoRequest>(
+		`${ApiBasePath.FilesAPI}/api/video-attachments`,
+		HttpRequestMethod.Post,
+	),
+	uploadVoiceAttachment: httpFilesRequestFactory<AxiosResponse<UploadVoiceResponse>, UploadVoiceRequest>(
+		`${ApiBasePath.FilesAPI}/api/voice-attachments`,
+		HttpRequestMethod.Post,
 	),
 };

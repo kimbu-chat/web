@@ -6,7 +6,7 @@ import { UserPreview } from 'app/store/my-profile/models';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import { MessageActions } from 'app/store/messages/actions';
 import { getSelectedChatSelector } from 'app/store/chats/selectors';
-import { SystemMessageType, MessageState } from 'app/store/messages/models';
+import { SystemMessageType, MessageState, FileType } from 'app/store/messages/models';
 import { LocalizationContext } from 'app/app';
 import { RootState } from 'app/store/root-reducer';
 import useInterval from 'use-interval';
@@ -21,12 +21,25 @@ import Mousetrap from 'mousetrap';
 import useReferredState from 'app/utils/hooks/useReferredState';
 import { getTypingStrategy } from 'app/store/settings/selectors';
 import { typingStrategy } from 'app/store/settings/models';
+import { ChatActions } from 'app/store/chats/actions';
+import MessageInputAttachment from './message-input-attachment/message-input-attachment';
+import useOnClickOutside from 'app/utils/hooks/useOnClickOutside';
+
+namespace CreateMessageInput {
+	export interface RecordedData {
+		mediaRecorder: MediaRecorder | null;
+		tracks: MediaStreamTrack[];
+		isRecording: boolean;
+		needToSubmit: boolean;
+	}
+}
 
 const CreateMessageInput = () => {
 	const { t } = useContext(LocalizationContext);
 
 	const sendMessage = useActionWithDispatch(MessageActions.createMessage);
 	const notifyAboutTyping = useActionWithDispatch(MessageActions.messageTyping);
+	const uploadAttachmentRequest = useActionWithDispatch(ChatActions.uploadAttachmentRequestAction);
 
 	const currentUser = useSelector<RootState, UserPreview | undefined>((state) => state.myProfile.user);
 	const selectedChat = useSelector(getSelectedChatSelector);
@@ -37,8 +50,16 @@ const CreateMessageInput = () => {
 	const { reference: refferedText, state: text, setState: setText } = useReferredState<string>('');
 	const [isRecording, setIsRecording] = useState(false);
 	const [recordedSeconds, setRecordedSeconds] = useState(0);
+	const [rows, setRows] = useState(1);
 
+	const fileInputRef = useRef<HTMLInputElement>(null);
 	const registerAudioBtnRef = useRef<HTMLButtonElement>(null);
+	const recorderData = useRef<CreateMessageInput.RecordedData>({
+		mediaRecorder: null,
+		tracks: [],
+		isRecording: false,
+		needToSubmit: false,
+	});
 
 	useEffect(() => {
 		if (messageToEdit) {
@@ -114,131 +135,189 @@ const CreateMessageInput = () => {
 		Mousetrap.unbind('enter');
 	}, []);
 
-	const registerAudio = () => {
-		const recorderData: {
-			mediaRecorder: MediaRecorder | null;
-			tracks: MediaStreamTrack[];
-			isRecording: boolean;
-			needToSubmit: boolean;
-		} = { mediaRecorder: null, tracks: [], isRecording: false, needToSubmit: false };
-
-		recorderData.tracks.forEach((track) => track.stop());
-		recorderData.tracks = [];
+	const startRecording = useCallback(() => {
+		Mousetrap.bind('esc', cancelRecording);
+		recorderData.current.tracks.forEach((track) => track.stop());
+		recorderData.current.tracks = [];
 
 		navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-			recorderData.mediaRecorder = new MediaRecorder(stream);
-			recorderData.mediaRecorder?.start();
+			recorderData.current.mediaRecorder = new MediaRecorder(stream);
+			recorderData.current.mediaRecorder?.start();
 			const tracks = stream.getTracks();
-			recorderData.tracks.push(...tracks);
+			recorderData.current.tracks.push(...tracks);
 
-			recorderData.isRecording = true;
+			recorderData.current.isRecording = true;
 			setIsRecording(true);
 
 			let audioChunks: Blob[] = [];
-			recorderData.mediaRecorder?.addEventListener('dataavailable', (event) => {
+			recorderData.current.mediaRecorder?.addEventListener('dataavailable', (event) => {
 				audioChunks.push(event.data);
 			});
 
-			recorderData.mediaRecorder?.addEventListener('stop', () => {
+			recorderData.current.mediaRecorder?.addEventListener('stop', () => {
 				setIsRecording(false);
-				recorderData.isRecording = false;
+				recorderData.current.isRecording = false;
 
-				recorderData.tracks.forEach((track) => track.stop());
-				recorderData.tracks = [];
+				recorderData.current.tracks.forEach((track) => track.stop());
+				recorderData.current.tracks = [];
 
-				if (audioChunks[0]?.size > 0 && recorderData.needToSubmit) {
+				if (audioChunks[0]?.size > 0 && recorderData.current.needToSubmit) {
 					const audioBlob = new Blob(audioChunks);
-					const audioUrl = URL.createObjectURL(audioBlob);
-					const audio = new Audio(audioUrl);
-					audio.play();
+					uploadAttachmentRequest({
+						chatId: selectedChat!.id,
+						type: FileType.recording,
+						file: audioBlob as File,
+						attachmentId: String(new Date().getTime()),
+					});
 				}
 
 				setRecordedSeconds(0);
 			});
-
-			const handleMouseUp = (event: MouseEvent) => {
-				document.removeEventListener('mouseup', handleMouseUp);
-				console.log(registerAudioBtnRef.current?.contains(event.target as Node));
-				if (registerAudioBtnRef.current?.contains(event.target as Node)) {
-					if (recorderData.isRecording) {
-						if (recorderData.mediaRecorder?.state === 'recording') {
-							recorderData.needToSubmit = true;
-							recorderData.mediaRecorder?.stop();
-						}
-
-						recorderData.tracks.forEach((track) => track.stop());
-						recorderData.tracks = [];
-					} else {
-						setTimeout(() => {
-							if (recorderData.isRecording) {
-								if (recorderData.mediaRecorder?.state === 'recording') {
-									recorderData.needToSubmit = false;
-									recorderData.mediaRecorder?.stop();
-								}
-
-								recorderData.tracks.forEach((track) => track.stop());
-								recorderData.tracks = [];
-							}
-						}, 100);
-					}
-				} else {
-					recorderData.isRecording = false;
-					recorderData.tracks.forEach((track) => track.stop());
-					recorderData.tracks = [];
-					recorderData.needToSubmit = false;
-					recorderData.mediaRecorder?.stop();
-				}
-			};
-
-			document.addEventListener('mouseup', handleMouseUp);
 		});
-	};
+	}, [selectedChat, setRecordedSeconds, uploadAttachmentRequest, recorderData.current]);
+
+	const stopRecording = useCallback(() => {
+		Mousetrap.unbind('esc');
+		if (recorderData.current.isRecording) {
+			if (recorderData.current.mediaRecorder?.state === 'recording') {
+				recorderData.current.needToSubmit = true;
+				recorderData.current.mediaRecorder?.stop();
+			}
+
+			recorderData.current.tracks.forEach((track) => track.stop());
+			recorderData.current.tracks = [];
+		}
+	}, [recorderData.current]);
+
+	const cancelRecording = useCallback(() => {
+		Mousetrap.unbind('esc');
+		recorderData.current.isRecording = false;
+		recorderData.current.tracks.forEach((track) => track.stop());
+		recorderData.current.tracks = [];
+		recorderData.current.needToSubmit = false;
+		recorderData.current.mediaRecorder?.stop();
+	}, [recorderData.current]);
+
+	useOnClickOutside(registerAudioBtnRef, cancelRecording);
+
+	const handleRegisterAudioBtnClick = useCallback(() => {
+		if (recorderData.current.isRecording) {
+			stopRecording();
+		} else {
+			startRecording();
+		}
+	}, [startRecording, stopRecording, recorderData.current]);
 
 	const onType = useCallback(
 		(event) => {
+			const minRows = 1;
+			const maxRows = 20;
+			const textareaLineHeight = 18;
+			const previousRows = event.target.rows;
+
+			event.target.rows = minRows;
+
+			const currentRows = ~~(event.target.scrollHeight / textareaLineHeight);
+
+			if (currentRows === previousRows) {
+				event.target.rows = currentRows;
+			}
+
+			if (currentRows >= maxRows) {
+				event.target.rows = maxRows;
+				event.target.scrollTop = event.target.scrollHeight;
+			}
+
 			setText(event.target.value);
 			handleTextChange(event.target.value);
+
+			console.log(currentRows < maxRows ? currentRows : maxRows);
+
+			setRows(currentRows < maxRows ? currentRows : maxRows);
 		},
-		[setText, handleTextChange],
+		[setText, handleTextChange, setRows],
+	);
+
+	const openSelectFiles = useCallback(() => {
+		console.log('eeeeZZ');
+		fileInputRef.current?.click();
+	}, [fileInputRef]);
+
+	const uploadFile = useCallback(
+		(event: React.ChangeEvent<HTMLInputElement>) => {
+			if (event.target.files?.length! > 0) {
+				for (var index = 0; index < event.target.files!.length; ++index) {
+					const file = event.target.files!.item(index) as File;
+					uploadAttachmentRequest({
+						chatId: selectedChat!.id,
+						type: FileType.file,
+						file,
+						attachmentId: String(new Date().getTime()),
+					});
+				}
+			}
+		},
+		[uploadAttachmentRequest, selectedChat],
 	);
 
 	if (messageToEdit) {
 		return (
-			<div className='message-input__send-message'>
-				{selectedChat && (
-					<>
-						{!isRecording && (
-							<button className='message-input__add'>
-								<AddSvg />
-							</button>
-						)}
-						<div className='message-input__input-group'>
+			<div>
+				{selectedChat?.attachmentsToSend?.map((attachment) => {
+					return <MessageInputAttachment attachment={attachment} key={attachment.id} />;
+				})}
+				<div className='message-input__send-message'>
+					{selectedChat && (
+						<>
 							{!isRecording && (
-								<textarea
-									placeholder={t('messageInput.write')}
-									value={text}
-									onChange={onType}
-									className='mousetrap  message-input__input-message'
-									onFocus={handleFocus}
-									onBlur={handleBlur}
-								/>
+								<>
+									<input
+										multiple
+										className='hidden'
+										type='file'
+										onChange={uploadFile}
+										ref={fileInputRef}
+									/>
+									<button onClick={openSelectFiles} className='message-input__add'>
+										<AddSvg />
+									</button>
+								</>
 							)}
-						</div>
-						<button className='message-input__edit-confirm'>Save</button>
-					</>
-				)}
+							<div className='message-input__input-group'>
+								{!isRecording && (
+									<textarea
+										rows={rows}
+										placeholder={t('messageInput.write')}
+										value={text}
+										onChange={onType}
+										className='mousetrap  message-input__input-message'
+										onFocus={handleFocus}
+										onBlur={handleBlur}
+									/>
+								)}
+							</div>
+							<button className='message-input__edit-confirm'>Save</button>
+						</>
+					)}
+				</div>
 			</div>
 		);
 	}
 
 	return (
-		<div className='message-input__send-message'>
+		<div>
+			{selectedChat?.attachmentsToSend?.map((attachment) => {
+				return <MessageInputAttachment attachment={attachment} key={attachment.id} />;
+			})}
 			{selectedChat && (
-				<React.Fragment>
+				<div className='message-input__send-message'>
 					{!isRecording && (
-						<button className='message-input__add'>
-							<AddSvg />
-						</button>
+						<>
+							<input multiple className='hidden' type='file' onChange={uploadFile} ref={fileInputRef} />
+							<button onClick={openSelectFiles} className='message-input__add'>
+								<AddSvg />
+							</button>
+						</>
 					)}
 					{isRecording && (
 						<>
@@ -251,6 +330,7 @@ const CreateMessageInput = () => {
 					<div className='message-input__input-group'>
 						{!isRecording && (
 							<textarea
+								rows={rows}
 								placeholder={t('messageInput.write')}
 								value={text}
 								onChange={onType}
@@ -265,7 +345,7 @@ const CreateMessageInput = () => {
 						<div className='message-input__right-btns'>
 							{!isRecording && <MessageSmiles setText={setText} />}
 							<button
-								onMouseDown={registerAudio}
+								onClick={handleRegisterAudioBtnClick}
 								ref={registerAudioBtnRef}
 								className={`message-input__voice-btn ${
 									isRecording ? 'message-input__voice-btn--active' : ''
@@ -275,7 +355,7 @@ const CreateMessageInput = () => {
 							</button>
 						</div>
 					</div>
-				</React.Fragment>
+				</div>
 			)}
 		</div>
 	);

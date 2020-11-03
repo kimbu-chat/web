@@ -52,9 +52,9 @@
 		font-size: 11px;
 		font-weight: 500;
 		line-height: 16px;
-		margin: 0 20px 10px 20px;
+		margin: 0 0px 10px 20px;
 
-		&:not(:nth-child(2)) {
+		&:not(:first-child) {
 			margin-top: 20px;
 		}
 	}

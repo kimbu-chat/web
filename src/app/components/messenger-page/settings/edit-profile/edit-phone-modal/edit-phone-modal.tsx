@@ -1,5 +1,5 @@
 import { LocalizationContext } from 'app/app';
-import { country, countryList } from 'app/common/countries';
+import { Country, countryList } from 'app/common/countries';
 import Modal from 'app/components/shared/modal/modal';
 import WithBackground from 'app/components/shared/with-background';
 import { RootState } from 'app/store/root-reducer';
@@ -22,7 +22,7 @@ const EditPhoneModal = ({ onClose }: EditPhoneModal.Props) => {
 	const currentNumber = useSelector((state: RootState) => state.myProfile.user?.phoneNumber);
 	const currentNumberCountry = parsePhoneNumber(currentNumber!).country;
 
-	const [country, setCountry] = useState<country>(countryList.find(({ code }) => currentNumberCountry === code)!);
+	const [country, setCountry] = useState<Country>(countryList.find(({ code }) => currentNumberCountry === code)!);
 	const [phone, setPhone] = useState<string>('');
 	const [countrySelectRef, setCountrySelectRef] = useState<React.RefObject<HTMLInputElement> | null>(null);
 

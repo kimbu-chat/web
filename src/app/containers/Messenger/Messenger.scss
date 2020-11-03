@@ -5,16 +5,13 @@
 	min-height: 100vh;
 
 	&__chat-send {
-		display: grid;
+		overflow: auto;
+		display: flex;
+		flex-direction: column;
+		height: calc(100vh - 64px);
 		position: relative;
 		grid-row: 2/3;
 		grid-column: 2/3;
-		grid-template-rows: 1fr 64px;
-
-		&--little {
-			width: calc(100% - 300px);
-		}
-
 		transition: all 0.3s;
 	}
 

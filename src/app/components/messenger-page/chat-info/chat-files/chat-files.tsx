@@ -11,6 +11,7 @@ import { Page } from 'app/store/common/models';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Link, useLocation } from 'react-router-dom';
 import FileAttachment from '../../shared/file-attachment/file-attachment';
+import moment from 'moment';
 
 const ChatFiles = () => {
 	const { t } = useContext(LocalizationContext);
@@ -80,7 +81,14 @@ const ChatFiles = () => {
 					isReverse={false}
 				>
 					{filesWithSeparators?.map((file) => (
-						<FileAttachment attachment={file} key={file.id} />
+						<React.Fragment key={file.id}>
+							{file.needToShowSeparator && (
+								<div className='chat-files__separator'>
+									{moment(file.creationDateTime).format('MMMM')}
+								</div>
+							)}
+							<FileAttachment attachment={file} />
+						</React.Fragment>
 					))}
 				</InfiniteScroll>
 			</div>

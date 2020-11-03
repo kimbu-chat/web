@@ -14,6 +14,11 @@ import {
 	GetVideoResponse,
 	GetFilesRequest,
 	GetFilesResponse,
+	UploadAttachmentReqData,
+	UploadAttachmentProgressData,
+	UploadAttachmentFailedData,
+	UploadAttachmentSuccessData,
+	RemoveAttachmentReqData,
 } from './models';
 import { IntercolutorMessageTypingIntegrationEvent } from '../middlewares/websockets/integration-events/interlocutor-message-typing-integration-event';
 import { ConferenceCreatedIntegrationEvent } from '../middlewares/websockets/integration-events/conference-сreated-integration-event';
@@ -77,4 +82,15 @@ export namespace ChatActions {
 	export const interlocutorMessageTyping = createAction('INTERLOCUTOR_MESSAGE_TYPING_EVENT')<
 		IntercolutorMessageTypingIntegrationEvent
 	>();
+	export const uploadAttachmentRequestAction = createAction('UPLOAD_ATTACHMENT_REQUEST')<UploadAttachmentReqData>();
+	export const uploadAttachmentProgressAction = createAction('UPLOAD_ATTACHMENT_PROGRESS')<
+		UploadAttachmentProgressData
+	>();
+	export const uploadAttachmentSuccessAction = createAction('UPLOAD_ATTACHMENT_SUCCESS')<
+		UploadAttachmentSuccessData
+	>();
+	export const uploadAttachmentFailureAction = createAction('UPLOAD_ATTACHMENT_FAILURE')<
+		UploadAttachmentFailedData
+	>();
+	export const removeAttachmentAction = createAction('REMOVE_ATTACHMENT')<RemoveAttachmentReqData>();
 }

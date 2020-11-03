@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect } from 'react';
-import { country, countryList } from 'app/common/countries';
+import { Country, countryList } from 'app/common/countries';
 import './modal-country-select.scss';
 import { useAutocomplete, createFilterOptions } from '@material-ui/lab';
 import { LocalizationContext } from 'app/app';
@@ -7,8 +7,8 @@ import DownSvg from 'app/assets/icons/ic-chevron-down.svg';
 
 namespace ModalCountrySelect {
 	export interface Props {
-		country?: country;
-		setCountry: React.Dispatch<React.SetStateAction<country>>;
+		country?: Country;
+		setCountry: React.Dispatch<React.SetStateAction<Country>>;
 		setPhone: (setNewPhone: ((oldPhone: string) => string) | string) => void;
 		setRef: React.Dispatch<React.SetStateAction<React.RefObject<HTMLInputElement> | null>>;
 		focusPhoneInput: () => void;
@@ -19,7 +19,7 @@ const ModalCountrySelect = ({ country, setCountry, setPhone, setRef, focusPhoneI
 	const { t } = useContext(LocalizationContext);
 
 	const handleCountryChange = useCallback(
-		(newCountry: country) => {
+		(newCountry: Country) => {
 			setCountry((oldCountry) => {
 				setPhone((oldPhone) => {
 					focusPhoneInput();

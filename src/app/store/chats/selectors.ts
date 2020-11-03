@@ -6,6 +6,10 @@ export const getSelectedChatSelector = (state: RootState): Chat | undefined => {
 	return state.chats?.chats?.find((x: Chat) => x?.id === state?.chats?.selectedChatId) || undefined;
 };
 
+export const getSelectedChatIdSelector = (state: RootState): number | undefined => {
+	return state.chats.selectedChatId;
+};
+
 export const getTypingString = (t: TFunction, chat: Chat): string | undefined => {
 	const typingUsers = chat?.typingInterlocutors;
 	if (typingUsers) {

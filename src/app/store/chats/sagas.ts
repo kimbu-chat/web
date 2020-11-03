@@ -1,5 +1,6 @@
+import { RootState } from './../root-reducer';
 import { FileType } from 'app/store/messages/models';
-import { call, delay, put, takeEvery, takeLatest } from 'redux-saga/effects';
+import { call, delay, put, select, takeEvery, takeLatest } from 'redux-saga/effects';
 import { AxiosResponse } from 'axios';
 import {
 	Chat,
@@ -9,6 +10,8 @@ import {
 	InterlocutorType,
 	UploadAttachmentSagaSuccessData,
 	UploadAttachmentSagaProgressData,
+	UploadAttachmentSagaStartedData,
+	AttachmentToSend,
 } from './models';
 import { MessageState, SystemMessageType, Message, CreateMessageRequest } from '../messages/models';
 import { ChatService } from './chat-service';
@@ -393,6 +396,9 @@ export function* uploadAttachmentSaga(
 
 	yield call(() =>
 		uploadRequest.generator(data, {
+			onStart: function* (payload: UploadAttachmentSagaStartedData): SagaIterator {
+				yield put(ChatActions.uploadAttachmentStartedAction({ chatId, attachmentId, ...payload }));
+			},
 			onProgress: function* (payload: UploadAttachmentSagaProgressData): SagaIterator {
 				yield put(ChatActions.uploadAttachmentProgressAction({ chatId, attachmentId, ...payload }));
 			},
@@ -406,6 +412,16 @@ export function* uploadAttachmentSaga(
 			},
 		}),
 	);
+}
+
+function* cancelUploadSaga(action: ReturnType<typeof ChatActions.removeAttachmentAction>): SagaIterator {
+	const { chatId, attachmentId } = action.payload;
+	const currentAttachment: AttachmentToSend | undefined = yield select((state: RootState) =>
+		state.chats.chats.find(({ id }) => id === chatId)?.attachmentsToSend?.find(({ id }) => id === attachmentId),
+	);
+
+	currentAttachment?.cancelTokenSource?.cancel();
+	console.log(currentAttachment);
 }
 
 export const ChatSagas = [
@@ -423,4 +439,5 @@ export const ChatSagas = [
 	takeLatest(ChatActions.getVideo, getVideoSaga),
 	takeLatest(ChatActions.getFiles, getFilesSaga),
 	takeEvery(ChatActions.uploadAttachmentRequestAction, uploadAttachmentSaga),
+	takeEvery(ChatActions.removeAttachmentAction, cancelUploadSaga),
 ];

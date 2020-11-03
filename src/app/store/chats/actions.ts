@@ -19,6 +19,7 @@ import {
 	UploadAttachmentFailedData,
 	UploadAttachmentSuccessData,
 	RemoveAttachmentReqData,
+	UploadAttachmentStartedData,
 } from './models';
 import { IntercolutorMessageTypingIntegrationEvent } from '../middlewares/websockets/integration-events/interlocutor-message-typing-integration-event';
 import { ConferenceCreatedIntegrationEvent } from '../middlewares/websockets/integration-events/conference-сreated-integration-event';
@@ -83,6 +84,9 @@ export namespace ChatActions {
 		IntercolutorMessageTypingIntegrationEvent
 	>();
 	export const uploadAttachmentRequestAction = createAction('UPLOAD_ATTACHMENT_REQUEST')<UploadAttachmentReqData>();
+	export const uploadAttachmentStartedAction = createAction('UPLOAD_ATTACHMENT_STARTED')<
+		UploadAttachmentStartedData
+	>();
 	export const uploadAttachmentProgressAction = createAction('UPLOAD_ATTACHMENT_PROGRESS')<
 		UploadAttachmentProgressData
 	>();

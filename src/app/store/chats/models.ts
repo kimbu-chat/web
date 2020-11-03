@@ -1,6 +1,7 @@
 import { FileType, Message } from '../messages/models';
 import { Page } from '../common/models';
 import { UserPreview, AvatarSelectedData } from '../my-profile/models';
+import { CancelTokenSource } from 'axios';
 
 export interface Conference {
 	id: number;
@@ -131,6 +132,7 @@ export interface AttachmentToSend {
 	previewUrl?: string;
 	firstFrameUrl?: string;
 	url?: string;
+	cancelTokenSource?: CancelTokenSource;
 }
 
 export interface Photo {
@@ -221,6 +223,16 @@ export interface UploadAttachmentReqData {
 	type: FileType;
 	attachmentId: string;
 	file: File;
+}
+
+export interface UploadAttachmentStartedData {
+	chatId: number;
+	attachmentId: string;
+	cancelTokenSource: CancelTokenSource;
+}
+
+export interface UploadAttachmentSagaStartedData {
+	cancelTokenSource: CancelTokenSource;
 }
 
 export interface UploadAttachmentProgressData {

@@ -163,10 +163,13 @@ const CreateMessageInput = () => {
 
 				if (audioChunks[0]?.size > 0 && recorderData.current.needToSubmit) {
 					const audioBlob = new Blob(audioChunks);
+					const audioFile = new File([audioBlob], 'audio.ogg', {
+						type: 'audio/ogg; codecs="opus"',
+					});
 					uploadAttachmentRequest({
 						chatId: selectedChat!.id,
 						type: FileType.recording,
-						file: audioBlob as File,
+						file: audioFile as File,
 						attachmentId: String(new Date().getTime()),
 					});
 				}

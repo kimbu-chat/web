@@ -1,6 +1,6 @@
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, CancelToken, CancelTokenSource } from 'axios';
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, CancelTokenSource } from 'axios';
 import { call, cancelled, put, select, take } from 'redux-saga/effects';
-import { END, eventChannel, SagaIterator } from 'redux-saga';
+import { END, eventChannel, SagaIterator, buffers } from 'redux-saga';
 import { SecurityTokens } from '../auth/types';
 import { AuthActions } from '../auth/actions';
 import { isNetworkError } from 'app/utils/error-utils';
@@ -19,14 +19,14 @@ export function* httpRequest<T>(
 	url: string,
 	method: HttpRequestMethod,
 	body?: T,
-	token?: CancelToken,
+	cancelTokenSource?: CancelTokenSource,
 	headers?: HttpHeaders,
 	callbacks?: IFilesRequestGeneratorCallbacks,
 ) {
 	const requestConfig: AxiosRequestConfig = {
 		url,
 		method,
-		cancelToken: token,
+		cancelToken: cancelTokenSource?.token,
 		responseType: 'json',
 	};
 
@@ -61,17 +61,22 @@ export function* httpRequest<T>(
 			throw new Error('Unknown method.');
 	}
 
-	yield call(uploadFileSaga, requestConfig, callbacks);
+	yield call(uploadFileSaga, requestConfig, callbacks, cancelTokenSource);
 }
 
 export function* uploadFileSaga(
 	requestConfig: AxiosRequestConfig,
 	callbacks?: IFilesRequestGeneratorCallbacks,
+	cancelTokenSource?: CancelTokenSource,
 ): SagaIterator {
 	const channel = yield call(createUploadFileChannel, requestConfig);
 
 	while (true) {
-		const { progress = 0, err, response } = yield take(channel);
+		const { start, progress = 0, err, response } = yield take(channel);
+
+		if (start) {
+			yield call(() => callbacks?.onStart({ cancelTokenSource }));
+		}
 		if (err) {
 			yield call(() => callbacks?.onFailure());
 			return;
@@ -80,12 +85,17 @@ export function* uploadFileSaga(
 			yield call(() => callbacks?.onSuccess(response));
 			return;
 		}
+
 		yield call(() => callbacks?.onProgress({ progress }));
 	}
 }
 
 function createUploadFileChannel(requestConfig: AxiosRequestConfig) {
 	return eventChannel((emit) => {
+		const onStart = () => {
+			emit({ start: true });
+		};
+
 		const onSuccess = (response: AxiosResponse<any>) => {
 			emit({ response: response.data });
 			emit(END);
@@ -106,11 +116,14 @@ function createUploadFileChannel(requestConfig: AxiosRequestConfig) {
 
 		axios.create().request(requestConfig).then(onSuccess).catch(onFailure);
 
+		onStart();
+
 		return () => {};
-	});
+	}, buffers.expanding(0));
 }
 
 export interface IFilesRequestGeneratorCallbacks {
+	onStart: (payload: any) => SagaIterator<any>;
 	onProgress: (payload: any) => SagaIterator<any>;
 	onSuccess: (payload: any) => SagaIterator<any>;
 	onFailure: () => SagaIterator<any>;
@@ -142,7 +155,7 @@ export const httpFilesRequestFactory = <T, B>(
 
 			try {
 				cancelTokenSource = axios.CancelToken.source();
-				return yield call(httpRequest, finalUrl, method, body, cancelTokenSource.token, headers, callbacks);
+				return yield call(httpRequest, finalUrl, method, body, cancelTokenSource, headers, callbacks);
 			} catch (e) {
 				const error = e as AxiosError;
 				if (isNetworkError(e)) {
@@ -156,15 +169,7 @@ export const httpFilesRequestFactory = <T, B>(
 
 					if (auth.isAuthenticated) {
 						cancelTokenSource = axios.CancelToken.source();
-						return yield call(
-							httpRequest,
-							finalUrl,
-							method,
-							body,
-							cancelTokenSource.token,
-							headers,
-							callbacks,
-						);
+						return yield call(httpRequest, finalUrl, method, body, cancelTokenSource, headers, callbacks);
 					}
 				}
 

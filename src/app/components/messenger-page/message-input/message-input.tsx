@@ -248,9 +248,35 @@ const CreateMessageInput = () => {
 			if (event.target.files?.length! > 0) {
 				for (var index = 0; index < event.target.files!.length; ++index) {
 					const file = event.target.files!.item(index) as File;
+
+					//extension test
+					const imgRegex = new RegExp(/\.+(jpg|jpeg|gif|tiff|png)$/, 'i');
+					const videoRegex = new RegExp(
+						/\.+(mkv|ogv|avi|wmv|asf|mp4|m4p|m4v|mpeg|mpg|mpe|mpv|mpg|m2v)$/,
+						'i',
+					);
+					const audioRegex = new RegExp(
+						/\.+(aa|aax|aac|aiff|ape|dsf|flac|m4a|m4b|m4p|mp3|mpc|mpp|ogg|oga|wav|wma|wv|webm)$/,
+						'i',
+					);
+					let fileType: FileType = FileType.file;
+
+					if (file.name.match(imgRegex)) {
+						fileType = FileType.photo;
+					}
+
+					if (file.name.match(videoRegex)) {
+						fileType = FileType.video;
+					}
+
+					if (file.name.match(audioRegex)) {
+						fileType = FileType.music;
+					}
+
+					console.log(file.name);
 					uploadAttachmentRequest({
 						chatId: selectedChat!.id,
-						type: FileType.file,
+						type: fileType,
 						file,
 						attachmentId: String(new Date().getTime()),
 					});

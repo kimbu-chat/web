@@ -514,7 +514,7 @@ const chats = createReducer<ChatsState>(initialState)
 	.handleAction(
 		ChatActions.uploadAttachmentSuccessAction,
 		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.uploadAttachmentSuccessAction>) => {
-			const { chatId, attachmentId, title, byteSize, newId, url } = payload;
+			const { chatId, attachmentId, title, byteSize, newId, url, previewUrl, firstFrameUrl } = payload;
 
 			const chatIndex: number = getChatArrayIndex(chatId, draft);
 
@@ -534,6 +534,14 @@ const chats = createReducer<ChatsState>(initialState)
 					currentAttachment.byteSize = byteSize;
 					currentAttachment.id = newId;
 					currentAttachment.url = url;
+
+					if (previewUrl) {
+						currentAttachment.previewUrl = previewUrl;
+					}
+
+					if (firstFrameUrl) {
+						currentAttachment.firstFrameUrl = firstFrameUrl;
+					}
 				}
 			}
 			return draft;

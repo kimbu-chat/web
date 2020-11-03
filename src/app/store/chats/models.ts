@@ -128,6 +128,8 @@ export interface AttachmentToSend {
 	progress: number;
 	success?: boolean;
 	failure?: boolean;
+	previewUrl?: string;
+	firstFrameUrl?: string;
 	url?: string;
 }
 
@@ -248,6 +250,8 @@ export interface UploadAttachmentSuccessData {
 	byteSize: number;
 	newId: string;
 	url: string;
+	previewUrl?: string;
+	firstFrameUrl?: string;
 }
 
 export interface UploadAttachmentSagaSuccessData {

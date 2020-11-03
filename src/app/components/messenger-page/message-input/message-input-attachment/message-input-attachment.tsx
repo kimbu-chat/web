@@ -46,6 +46,14 @@ const MessageInputAttachment: React.FC<MessageInputAttachment.Props> = ({ attach
 			className='message-input-attachment'
 		>
 			<div className='message-input-attachment__icon'>
+				{(attachment.type === FileType.photo || attachment.type === FileType.video) &&
+					(attachment.previewUrl || attachment.firstFrameUrl) && (
+						<img
+							src={attachment.previewUrl || attachment.firstFrameUrl}
+							alt=''
+							className='message-input-attachment__bg'
+						/>
+					)}
 				{attachment.type === FileType.file && <FileSVG viewBox='0 0 25 25' />}
 				{attachment.type === FileType.video && <VideoSVG viewBox='0 0 25 25' />}
 				{attachment.type === FileType.recording && <MicrophoneSVG viewBox='0 0 25 25' />}

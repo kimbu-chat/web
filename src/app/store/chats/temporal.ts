@@ -958,3 +958,276 @@ export const videoToDisplay: Video[] = [
 		duration: 1,
 	},
 ];
+
+export const audioRecordingsToDisplay = [
+	{
+		url: 'https://ringon.site/?do=download&id=5693',
+		durationInSeconds: 29,
+		id: 77,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=26266',
+		durationInSeconds: 29,
+		id: 771,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=25935',
+		durationInSeconds: 29,
+		id: 72,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=53224',
+		durationInSeconds: 29,
+		id: 773,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=5693',
+		durationInSeconds: 29,
+		id: 7711,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=26266',
+		durationInSeconds: 29,
+		id: 77112,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=25935',
+		durationInSeconds: 29,
+		id: 7213,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=53224',
+		durationInSeconds: 29,
+		id: 77314,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=5693',
+		durationInSeconds: 29,
+		id: 7715,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=26266',
+		durationInSeconds: 29,
+		id: 77116,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=25935',
+		durationInSeconds: 29,
+		id: 7217,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=53224',
+		durationInSeconds: 29,
+		id: 77318,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=5693',
+		durationInSeconds: 29,
+		id: 7719,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=26266',
+		durationInSeconds: 29,
+		id: 77120,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=25935',
+		durationInSeconds: 29,
+		id: 7221,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=53224',
+		durationInSeconds: 29,
+		id: 77322,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=5693',
+		durationInSeconds: 29,
+		id: 7723,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=26266',
+		durationInSeconds: 29,
+		id: 77124,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=25935',
+		durationInSeconds: 29,
+		id: 7225,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=53224',
+		durationInSeconds: 29,
+		id: 77326,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=5693',
+		durationInSeconds: 29,
+		id: 7727,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=26266',
+		durationInSeconds: 29,
+		id: 77128,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=25935',
+		durationInSeconds: 29,
+		id: 7229,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=53224',
+		durationInSeconds: 29,
+		id: 77330,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=5693',
+		durationInSeconds: 29,
+		id: 7731,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=26266',
+		durationInSeconds: 29,
+		id: 77132,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=25935',
+		durationInSeconds: 29,
+		id: 7233,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=53224',
+		durationInSeconds: 29,
+		id: 77334,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=5693',
+		durationInSeconds: 29,
+		id: 7735,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=26266',
+		durationInSeconds: 29,
+		id: 77136,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=25935',
+		durationInSeconds: 29,
+		id: 7237,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=53224',
+		durationInSeconds: 29,
+		id: 77338,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=5693',
+		durationInSeconds: 29,
+		id: 7739,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=26266',
+		durationInSeconds: 29,
+		id: 77140,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=25935',
+		durationInSeconds: 29,
+		id: 7241,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=53224',
+		durationInSeconds: 29,
+		id: 77342,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=5693',
+		durationInSeconds: 29,
+		id: 7743,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=26266',
+		durationInSeconds: 29,
+		id: 77144,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=25935',
+		durationInSeconds: 29,
+		id: 7245,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=53224',
+		durationInSeconds: 29,
+		id: 77346,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=5693',
+		durationInSeconds: 29,
+		id: 7747,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=26266',
+		durationInSeconds: 29,
+		id: 77148,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=25935',
+		durationInSeconds: 29,
+		id: 7249,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=53224',
+		durationInSeconds: 29,
+		id: 77350,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=5693',
+		durationInSeconds: 29,
+		id: 7751,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=26266',
+		durationInSeconds: 29,
+		id: 77152,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=25935',
+		durationInSeconds: 29,
+		id: 7253,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=53224',
+		durationInSeconds: 29,
+		id: 77354,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=5693',
+		durationInSeconds: 29,
+		id: 7755,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=26266',
+		durationInSeconds: 29,
+		id: 77156,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=25935',
+		durationInSeconds: 29,
+		id: 7257,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=53224',
+		durationInSeconds: 29,
+		id: 77358,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=5693',
+		durationInSeconds: 29,
+		id: 7759,
+	},
+	{
+		url: 'https://ringon.site/?do=download&id=26266',
+		durationInSeconds: 29,
+		id: 77160,
+	},
+];

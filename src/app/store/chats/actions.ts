@@ -20,6 +20,8 @@ import {
 	UploadAttachmentSuccessData,
 	RemoveAttachmentReqData,
 	UploadAttachmentStartedData,
+	GetRecordingsRequest,
+	GetRecordingsResponse,
 } from './models';
 import { IntercolutorMessageTypingIntegrationEvent } from '../middlewares/websockets/integration-events/interlocutor-message-typing-integration-event';
 import { ConferenceCreatedIntegrationEvent } from '../middlewares/websockets/integration-events/conference-сreated-integration-event';
@@ -42,6 +44,8 @@ export namespace ChatActions {
 	export const getPhoto = createAction('GET_PHOTO')<GetPhotoRequest>();
 	export const getVideo = createAction('GET_VIDEO')<GetVideoRequest>();
 	export const getFiles = createAction('GET_FILES')<GetFilesRequest>();
+	export const getRecordings = createAction('GET_AUDIO_RECORDINGS')<GetRecordingsRequest>();
+	export const getRecordingsSuccess = createAction('GET_AUDIO_RECORDINGS_SUCCESS')<GetRecordingsResponse>();
 	export const getFilesSuccess = createAction('GET_FILES_SUCCESS')<GetFilesResponse>();
 	export const getPhotoSuccess = createAction('GET_PHOTO_SUCCESS')<GetPhotoResponse>();
 	export const getVideoSuccess = createAction('GET_VIDEO_SUCCESS')<GetVideoResponse>();

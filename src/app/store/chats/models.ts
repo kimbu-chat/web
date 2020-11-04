@@ -86,6 +86,11 @@ export interface GetPhotoRequest {
 	page: Page;
 }
 
+export interface GetRecordingsRequest {
+	chatId: number;
+	page: Page;
+}
+
 export interface GetVideoRequest {
 	chatId: number;
 	page: Page;
@@ -117,6 +122,7 @@ export interface Chat {
 	photos: PhotoList;
 	videos: VideoList;
 	files: FileList;
+	recordings: AudioRecordingList;
 	attachmentsToSend?: AttachmentToSend[];
 }
 
@@ -153,6 +159,12 @@ export interface Video {
 	needToShowSeparator?: boolean;
 }
 
+export interface AudioRecording {
+	id: number;
+	url: string;
+	durationInSeconds: number;
+}
+
 export interface AttachedFile {
 	id: string;
 	byteSize: number;
@@ -182,6 +194,11 @@ export interface FileList {
 	hasMore: boolean;
 }
 
+export interface AudioRecordingList {
+	recordings: AudioRecording[];
+	hasMore: boolean;
+}
+
 export interface GetChatsResponse extends ChatList {
 	initializedBySearch: boolean;
 }
@@ -195,6 +212,10 @@ export interface GetFilesResponse extends FileList {
 }
 
 export interface GetVideoResponse extends VideoList {
+	chatId: number;
+}
+
+export interface GetRecordingsResponse extends AudioRecordingList {
 	chatId: number;
 }
 

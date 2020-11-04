@@ -26,7 +26,7 @@ import { UpdateAvatarResponse } from '../common/models';
 import { MyProfileService } from 'app/services/my-profile-service';
 import { getType } from 'typesafe-actions';
 import { MessageUtils } from 'app/utils/message-utils';
-import { filesToDisplay, photoToDisplay, videoToDisplay } from './temporal';
+import { audioRecordingsToDisplay, filesToDisplay, photoToDisplay, videoToDisplay } from './temporal';
 import { IFilesRequestGenerator } from '../common/http-file-factory';
 
 export function* getChatsSaga(action: ReturnType<typeof ChatActions.getChats>): SagaIterator {
@@ -51,6 +51,10 @@ export function* getChatsSaga(action: ReturnType<typeof ChatActions.getChats>): 
 		chat.photos = { photos: [], hasMore: true };
 		chat.videos = { videos: [], hasMore: true };
 		chat.files = { files: [], hasMore: true };
+		chat.recordings = {
+			hasMore: true,
+			recordings: [],
+		};
 	});
 
 	const chatList: GetChatsResponse = {
@@ -211,6 +215,10 @@ function* createConferenceSaga(action: ReturnType<typeof ChatActions.createConfe
 				hasMore: true,
 				files: [],
 			},
+			recordings: {
+				hasMore: true,
+				recordings: [],
+			},
 		};
 
 		action.payload.conferenceId = data;
@@ -267,6 +275,10 @@ function* createConferenceFromEventSaga(
 		files: {
 			hasMore: true,
 			files: [],
+		},
+		recordings: {
+			hasMore: true,
+			recordings: [],
 		},
 	};
 
@@ -349,6 +361,17 @@ function* getFilesSaga(action: ReturnType<typeof ChatActions.getFiles>): SagaIte
 	const hasMore = response.length >= page.limit;
 
 	yield put(ChatActions.getFilesSuccess({ files: response, hasMore, chatId }));
+}
+
+function* getRecordingsSaga(action: ReturnType<typeof ChatActions.getRecordings>): SagaIterator {
+	const { chatId, page } = action.payload;
+
+	//TODO:Replace this with HTTP request logic
+	yield delay(3000);
+	const response = audioRecordingsToDisplay.slice(page.offset, page.offset + page.limit);
+	const hasMore = response.length >= page.limit;
+
+	yield put(ChatActions.getRecordingsSuccess({ recordings: response, hasMore, chatId }));
 }
 
 // Upload the specified file
@@ -438,6 +461,7 @@ export const ChatSagas = [
 	takeLatest(ChatActions.getPhoto, getPhotoSaga),
 	takeLatest(ChatActions.getVideo, getVideoSaga),
 	takeLatest(ChatActions.getFiles, getFilesSaga),
+	takeLatest(ChatActions.getRecordings, getRecordingsSaga),
 	takeEvery(ChatActions.uploadAttachmentRequestAction, uploadAttachmentSaga),
 	takeEvery(ChatActions.removeAttachmentAction, cancelUploadSaga),
 ];

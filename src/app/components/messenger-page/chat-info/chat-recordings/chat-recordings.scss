@@ -59,12 +59,13 @@
 		}
 	}
 
+	&__recording {
+		margin-top: 20px;
+		margin: 20px 20px 0 20px;
+		max-width: calc(100% - 40px);
+	}
+
 	&__recordings {
-		& > * {
-			margin-top: 20px;
-			margin: 20px 20px 0 20px;
-			max-width: calc(100% - 40px);
-		}
 		.rhap {
 			&_container {
 				padding: 0 0;

@@ -199,6 +199,12 @@
 	"chatFiles": {
 		"files": "Файлы"
 	},
+	"callFromList": {
+		"outgoing": "Исходящий",
+		"incoming": "Входящий",
+		"canceled": "Отказан",
+		"declined": "Отменённ"
+	},
 	"systemMessage": {
 		"you_created_group": "Вы создали группу",
 		"created_group": "{{name}} создал группу",

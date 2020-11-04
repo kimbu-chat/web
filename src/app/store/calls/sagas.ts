@@ -8,6 +8,7 @@ import { peerConnection, createPeerConnection, resetPeerConnection } from '../mi
 import { RootState } from '../root-reducer';
 import { IInCompleteConstraints } from './models';
 import { doIhaveCall, getCallInterlocutorSelector } from './selectors';
+import { callsToDisplay } from './temporal';
 
 export const tracks: {
 	[thingName: string]: MediaStreamTrack[];
@@ -762,6 +763,17 @@ function deviceUpdateChannel() {
 	}, buffers.expanding(10));
 }
 
+function* getCallsSaga(action: ReturnType<typeof CallActions.getCallsAction>): SagaIterator {
+	const { page } = action.payload;
+
+	//TODO:Replace this with HTTP request logic
+	yield delay(3000);
+	const response = callsToDisplay.slice(page.offset, page.offset + page.limit);
+	const hasMore = response.length >= page.limit;
+
+	yield put(CallActions.getCallsSuccessAction({ calls: response, hasMore }));
+}
+
 export const CallsSagas = [
 	takeLatest(CallActions.outgoingCallAction, outgoingCallSaga),
 	takeLatest(CallActions.cancelCallAction, cancelCallSaga),
@@ -777,4 +789,5 @@ export const CallsSagas = [
 	takeLatest(CallActions.switchDeviceAction, switchDeviceSaga),
 	takeLatest(CallActions.incomingCallAction, negociationSaga),
 	takeEvery(CallActions.changeMediaStatusAction, changeMediaStatusSaga),
+	takeLatest(CallActions.getCallsAction, getCallsSaga),
 ];

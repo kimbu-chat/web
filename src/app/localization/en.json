@@ -186,6 +186,12 @@
 	"chatFiles": {
 		"files": "Files"
 	},
+	"callFromList": {
+		"outgoing": "Outgoing",
+		"incoming": "Incoming",
+		"canceled": "Canceled",
+		"declined": "Declined"
+	},
 	"systemMessage": {
 		"you_created_group": "You created group",
 		"created_group": "{{name}} created group",

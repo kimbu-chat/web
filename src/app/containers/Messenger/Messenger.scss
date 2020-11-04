@@ -25,6 +25,9 @@
 			width: 346px;
 			max-width: 346px;
 			position: relative;
+			overflow-x: hidden;
+			overflow-y: auto;
+			height: 100%;
 
 			& > * {
 				position: absolute !important;

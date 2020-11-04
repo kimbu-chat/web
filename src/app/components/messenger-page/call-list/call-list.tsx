@@ -1,56 +1,54 @@
-import Avatar from 'app/components/shared/avatar/avatar';
-import React from 'react';
+import React, { useCallback, useRef } from 'react';
 import './call-list.scss';
 
-import OutgoingCallSvg from 'app/assets/icons/ic-outgoing-call.svg';
+import { RootState } from 'app/store/root-reducer';
+import InfiniteScroll from 'react-infinite-scroller';
+import { useSelector } from 'react-redux';
+import CallFromList from './call-from-list/call-from-list';
+import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+import { CallActions } from 'app/store/calls/actions';
 
 const CallList = () => {
+	const calls = useSelector((state: RootState) => state.calls);
+	const callListRef = useRef<HTMLDivElement>(null);
+
+	const getCalls = useActionWithDispatch(CallActions.getCallsAction);
+
+	const loadMore = useCallback(() => {
+		getCalls({
+			page: {
+				offset: calls.calls.length,
+				limit: 20,
+			},
+		});
+	}, [getCalls, calls.calls]);
 	return (
-		<div className='call-list'>
-			<div className='call-list__call'>
-				<div className='call-list__call__type-icon'>
-					<OutgoingCallSvg />
-				</div>
-				<Avatar
-					className='call-list__call__interlocutor-avatar'
-					src={'https://i.imgur.com/2zQpfSB_d.webp?maxwidth=728&fidelity=grand'}
-				>
-					A E
-				</Avatar>
-				<div className='call-list__call__data'>
-					<div className='call-list__call__name'>Leonard Bell</div>
-					<div className='call-list__call__type'>Outgoing</div>
-				</div>
-				<div className='call-list__call__day'>10.09.20</div>
-			</div>
-			<div className='call-list__call'>
-				<div className='call-list__call__type-icon'></div>
-				<Avatar
-					className='call-list__call__interlocutor-avatar'
-					src={'https://i.imgur.com/2zQpfSB_d.webp?maxwidth=728&fidelity=grand'}
-				>
-					A E
-				</Avatar>
-				<div className='call-list__call__data'>
-					<div className='call-list__call__name'>Addie Estrada</div>
-					<div className='call-list__call__type'>Incoming (2 min)</div>
-				</div>
-				<div className='call-list__call__day'>10.09.20</div>
-			</div>
-			<div className='call-list__call'>
-				<div className='call-list__call__type-icon'></div>
-				<Avatar
-					className='call-list__call__interlocutor-avatar'
-					src={'https://i.imgur.com/2zQpfSB_d.webp?maxwidth=728&fidelity=grand'}
-				>
-					A E
-				</Avatar>
-				<div className='call-list__call__data'>
-					<div className='call-list__call__name call-list__call__name--missed'>Franklin Gordon</div>
-					<div className='call-list__call__type'>Missed</div>
-				</div>
-				<div className='call-list__call__day'>10.09.20</div>
-			</div>
+		<div ref={callListRef} className='call-list'>
+			<InfiniteScroll
+				pageStart={0}
+				initialLoad={true}
+				loadMore={loadMore}
+				hasMore={calls.hasMore}
+				getScrollParent={() => callListRef.current}
+				loader={
+					<div className='loader ' key={0}>
+						<div className=''>
+							<div className='lds-ellipsis'>
+								<div></div>
+								<div></div>
+								<div></div>
+								<div></div>
+							</div>
+						</div>
+					</div>
+				}
+				useWindow={false}
+				isReverse={false}
+			>
+				{calls.calls.map((call) => (
+					<CallFromList key={call.id} call={call} />
+				))}
+			</InfiniteScroll>
 		</div>
 	);
 };

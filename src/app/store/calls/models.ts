@@ -1,4 +1,14 @@
+import { Page } from '../common/models';
 import { UserPreview } from '../my-profile/models';
+
+export enum CallType {
+	incoming = 1,
+	outgoing = 2,
+	missed = 3,
+	declined = 4,
+	canceled = 5,
+	ignored = 6,
+}
 
 export interface IConstraints {
 	video: {
@@ -117,3 +127,22 @@ export interface CallNotAnsweredApiRequest {
 export interface AcceptCallApiRequest {
 	interlocutorId: number;
 }
+
+export interface GetCallsActionData {
+	page: Page;
+}
+
+export interface Call {
+	interlocutor: UserPreview;
+	durationInsSeconds?: number;
+	type: CallType;
+	id: number;
+	date: Date;
+}
+
+export interface CallList {
+	calls: Array<Call>;
+	hasMore: boolean;
+}
+
+export interface GetCallsResponse extends CallList {}

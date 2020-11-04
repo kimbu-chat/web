@@ -2,6 +2,7 @@ import { createReducer } from 'typesafe-actions';
 import { CallActions } from './actions';
 import { produce } from 'immer';
 import { UserPreview } from '../my-profile/models';
+import { Call } from './models';
 
 export interface CallState {
 	isActiveCallIncoming?: boolean;
@@ -25,6 +26,8 @@ export interface CallState {
 	answer?: RTCSessionDescriptionInit;
 	audioDevicesList: MediaDeviceInfo[];
 	videoDevicesList: MediaDeviceInfo[];
+	calls: Call[];
+	hasMore: boolean;
 }
 
 const initialState: CallState = {
@@ -44,6 +47,8 @@ const initialState: CallState = {
 	answer: undefined,
 	audioDevicesList: [],
 	videoDevicesList: [],
+	calls: [],
+	hasMore: true,
 };
 
 const calls = createReducer<CallState>(initialState)
@@ -235,6 +240,17 @@ const calls = createReducer<CallState>(initialState)
 			if (payload.kind === 'audioinput') {
 				draft.audioConstraints.deviceId = payload.deviceId;
 			}
+
+			return draft;
+		}),
+	)
+	.handleAction(
+		CallActions.getCallsSuccessAction,
+		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.getCallsSuccessAction>) => {
+			const { calls, hasMore } = payload;
+
+			draft.calls.push(...calls);
+			draft.hasMore = hasMore;
 
 			return draft;
 		}),

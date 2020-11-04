@@ -9,10 +9,14 @@ import {
 	GotMediaDevicesInfoActionPayload,
 	SwitchDeviceActionPayload,
 	EndCallActionPayload,
+	GetCallsActionData,
+	GetCallsResponse,
 } from './models';
 import { createEmptyAction } from '../common/actions';
 
 export namespace CallActions {
+	export const getCallsAction = createAction('GET_CALLS')<GetCallsActionData>();
+	export const getCallsSuccessAction = createAction('GET_CALLS_SUCCESS')<GetCallsResponse>();
 	export const outgoingCallAction = createAction('OUTGOING_CALL')<OutgoingCallActionPayload>();
 	export const incomingCallAction = createAction('INCOMING_CALL')<IncomingCallActionPayload>();
 	export const changeActiveDeviceIdAction = createAction('CHANGE_ACTIVE_DEVICE_ID')<SwitchDeviceActionPayload>();

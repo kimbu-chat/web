@@ -51,9 +51,17 @@
 	}
 
 	&__status {
-		position: absolute;
-		left: 74%;
-		top: 15%;
+		margin-left: auto;
+		margin-top: auto;
+		margin-bottom: -3px;
+		margin-right: 8px;
+	}
+
+	&__time {
+		font-size: 11px;
+		font-weight: 400px;
+		color: #868686;
+		white-space: nowrap;
 	}
 
 	&__avatar {
@@ -79,13 +87,6 @@
 		margin-top: 2px;
 		word-break: break-all;
 		max-width: 90%;
-	}
-
-	&__time {
-		font-size: 11px;
-		font-weight: 400px;
-		color: #868686;
-		white-space: nowrap;
 	}
 
 	&__count {

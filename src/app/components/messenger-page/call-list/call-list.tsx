@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import './call-list.scss';
 
 import { RootState } from 'app/store/root-reducer';
@@ -22,33 +22,42 @@ const CallList = () => {
 			},
 		});
 	}, [getCalls, calls.calls]);
+
+	useEffect(loadMore, [loadMore]);
+
 	return (
 		<div ref={callListRef} className='call-list'>
-			<InfiniteScroll
-				pageStart={0}
-				initialLoad={true}
-				loadMore={loadMore}
-				hasMore={calls.hasMore}
-				getScrollParent={() => callListRef.current}
-				loader={
-					<div className='loader ' key={0}>
-						<div className=''>
-							<div className='lds-ellipsis'>
-								<div></div>
-								<div></div>
-								<div></div>
-								<div></div>
+			{false && (
+				<InfiniteScroll
+					pageStart={0}
+					initialLoad={true}
+					loadMore={loadMore}
+					hasMore={calls.hasMore}
+					getScrollParent={() => callListRef.current}
+					loader={
+						<div className='loader ' key={0}>
+							<div className=''>
+								<div className='lds-ellipsis'>
+									<div></div>
+									<div></div>
+									<div></div>
+									<div></div>
+								</div>
 							</div>
 						</div>
-					</div>
-				}
-				useWindow={false}
-				isReverse={false}
-			>
-				{calls.calls.map((call) => (
-					<CallFromList key={call.id} call={call} />
-				))}
-			</InfiniteScroll>
+					}
+					useWindow={false}
+					isReverse={false}
+				>
+					{calls.calls.map((call) => (
+						<CallFromList key={call.id} call={call} />
+					))}
+				</InfiniteScroll>
+			)}
+
+			{calls.calls.map((call) => (
+				<CallFromList key={call.id} call={call} />
+			))}
 		</div>
 	);
 };

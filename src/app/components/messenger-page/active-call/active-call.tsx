@@ -261,12 +261,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 						<div className='active-call__gradient'></div>
 					</>
 				) : (
-					<Avatar
-						className={`active-call__interlocutor-avatar ${
-							isFullScreen ? 'active-call__interlocutor-avatar--big' : ''
-						}`}
-						src={interlocutor?.avatarUrl}
-					>
+					<Avatar className={`active-call__interlocutor-avatar`} src={interlocutor?.avatarUrl}>
 						{getUserInitials(interlocutor)}
 					</Avatar>
 				)}

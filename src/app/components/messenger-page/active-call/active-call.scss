@@ -97,8 +97,8 @@
 
 	&__main-data {
 		position: absolute;
-		top: 11px;
-		left: 14px;
+		top: 20px;
+		left: 20px;
 		z-index: 55;
 		&--big {
 			position: absolute;
@@ -124,15 +124,10 @@
 	&__interlocutor-avatar {
 		height: 100px;
 		width: 100px;
-		margin: 30px 82px 20px 82px;
-
-		&--big {
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			margin: 0;
-		}
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
 	}
 
 	&__remote-video {

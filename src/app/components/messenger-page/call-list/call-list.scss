@@ -1,3 +1,19 @@
 .call-list {
-	width: 346px;
+	overflow-y: scroll;
+	max-height: calc(100vh - 64px);
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+
+	.loader {
+		& > * {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			padding: 15px;
+		}
+	}
 }

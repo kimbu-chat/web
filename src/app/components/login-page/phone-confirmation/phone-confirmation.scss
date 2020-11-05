@@ -27,21 +27,6 @@
 		margin-bottom: 20px;
 	}
 
-	&__button {
-		background-color: rgb(63, 138, 224);
-		color: white;
-		border-radius: 4px;
-		width: 100%;
-		padding: 16px 1px;
-		margin-top: 20px;
-		width: 400px;
-
-		&:disabled {
-			background-color: rgba(rgb(63, 138, 224), 0.7);
-			cursor: not-allowed;
-		}
-	}
-
 	&__credentials {
 		border: 1px solid rgb(215, 216, 217);
 		border-radius: 8px;

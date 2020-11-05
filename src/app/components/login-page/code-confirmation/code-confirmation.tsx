@@ -11,6 +11,7 @@ import { history } from '../../../../main';
 import moment from 'moment';
 import { parsePhoneNumber } from 'libphonenumber-js';
 import ResendSvg from 'app/assets/icons/ic-resend.svg';
+import BaseBtn from 'app/components/shared/base-btn/base-btn';
 
 const NUMBER_OF_DIGITS = [0, 1, 2, 3];
 
@@ -158,23 +159,34 @@ const CodeConfirmation = () => {
 					{t('loginPage.reset_timer', { time: moment.utc(remainingSeconds * 1000).format('mm:ss') })}
 				</p>
 
-				<button
+				<BaseBtn
 					disabled={isConfirmationCodeWrong || !code.every((element) => element.length === 1)}
 					onClick={() => checkCode(code)}
-					className='phone-confirmation__button'
+					variant={'contained'}
+					color={'primary'}
+					width={'contained'}
 				>
 					{t('loginPage.next')}
-				</button>
+				</BaseBtn>
 
 				{remainingSeconds === 0 && (
-					<button
+					<BaseBtn
+						icon={<ResendSvg viewBox='0 0 25 25' className='code-confirmation__resend-svg' />}
 						disabled={remainingSeconds > 0}
 						onClick={() => resendPhoneConfirmationCode()}
-						className='code-confirmation__button code-confirmation__button--resend-code'
+						variant={'outlined'}
+						color={'primary'}
+						width={'auto'}
+						style={{
+							backgroundColor: 'rgba(63, 138, 224, 0.1)',
+							fontWeight: 500,
+							padding: '12px 30px',
+							display: 'flex',
+							marginTop: '20px',
+						}}
 					>
-						<ResendSvg className='code-confirmation__resend-svg' />
 						{t('loginPage.resend')}
-					</button>
+					</BaseBtn>
 				)}
 			</div>
 		</div>

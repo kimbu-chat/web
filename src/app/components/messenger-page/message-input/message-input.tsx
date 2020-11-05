@@ -24,6 +24,7 @@ import { typingStrategy } from 'app/store/settings/models';
 import { ChatActions } from 'app/store/chats/actions';
 import MessageInputAttachment from './message-input-attachment/message-input-attachment';
 import useOnClickOutside from 'app/utils/hooks/useOnClickOutside';
+import { getFileType } from 'app/utils/get-file-extension';
 
 namespace CreateMessageInput {
 	export interface RecordedData {
@@ -253,28 +254,7 @@ const CreateMessageInput = () => {
 					const file = event.target.files!.item(index) as File;
 
 					//extension test
-					const imgRegex = new RegExp(/\.+(jpg|jpeg|gif|tiff|png)$/, 'i');
-					const videoRegex = new RegExp(
-						/\.+(mkv|ogv|avi|wmv|asf|mp4|m4p|m4v|mpeg|mpg|mpe|mpv|mpg|m2v)$/,
-						'i',
-					);
-					const audioRegex = new RegExp(
-						/\.+(aa|aax|aac|aiff|ape|dsf|flac|m4a|m4b|m4p|mp3|mpc|mpp|ogg|oga|wav|wma|wv|webm)$/,
-						'i',
-					);
-					let fileType: FileType = FileType.file;
-
-					if (file.name.match(imgRegex)) {
-						fileType = FileType.photo;
-					}
-
-					if (file.name.match(videoRegex)) {
-						fileType = FileType.video;
-					}
-
-					if (file.name.match(audioRegex)) {
-						fileType = FileType.music;
-					}
+					const fileType = getFileType(file.name);
 
 					console.log(file.name);
 					uploadAttachmentRequest({
@@ -293,7 +273,7 @@ const CreateMessageInput = () => {
 		return (
 			<div>
 				{selectedChat?.attachmentsToSend?.map((attachment) => {
-					return <MessageInputAttachment attachment={attachment} key={attachment.id} />;
+					return <MessageInputAttachment attachment={attachment} key={attachment.attachment.id} />;
 				})}
 				<div className='message-input__send-message'>
 					{selectedChat && (
@@ -336,7 +316,7 @@ const CreateMessageInput = () => {
 	return (
 		<div>
 			{selectedChat?.attachmentsToSend?.map((attachment) => {
-				return <MessageInputAttachment attachment={attachment} key={attachment.id} />;
+				return <MessageInputAttachment attachment={attachment} key={attachment.attachment.id} />;
 			})}
 			{selectedChat && (
 				<div className='message-input__send-message'>

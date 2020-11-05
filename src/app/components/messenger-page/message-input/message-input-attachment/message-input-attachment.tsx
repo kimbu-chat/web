@@ -1,4 +1,11 @@
-import { AttachmentToSend } from 'app/store/chats/models';
+import {
+	AttachmentToSend,
+	AudioAttachment,
+	BaseAttachment,
+	PictureAttachment,
+	RawAttachment,
+	VideoAttachment,
+} from 'app/store/chats/models';
 import { FileType } from 'app/store/messages/models';
 import React, { useCallback } from 'react';
 import './message-input-attachment.scss';
@@ -13,11 +20,10 @@ import { getSelectedChatIdSelector } from 'app/store/chats/selectors';
 import { useSelector } from 'react-redux';
 import { ChatActions } from 'app/store/chats/actions';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
-//import PauseSVG from 'app/assets/icons/ic-pause.svg';
 
 namespace MessageInputAttachment {
 	export interface Props {
-		attachment: AttachmentToSend;
+		attachment: AttachmentToSend<BaseAttachment>;
 	}
 }
 
@@ -28,9 +34,9 @@ const MessageInputAttachment: React.FC<MessageInputAttachment.Props> = ({ attach
 	const removeThisAttachment = useCallback(() => {
 		removeAttachment({
 			chatId: selectedChatId!,
-			attachmentId: attachment.id,
+			attachmentId: attachment.attachment.id,
 		});
-	}, [selectedChatId, attachment.id]);
+	}, [selectedChatId, attachment.attachment.id]);
 
 	return (
 		<div
@@ -46,25 +52,37 @@ const MessageInputAttachment: React.FC<MessageInputAttachment.Props> = ({ attach
 			className='message-input-attachment'
 		>
 			<div className='message-input-attachment__icon'>
-				{(attachment.type === FileType.photo || attachment.type === FileType.video) &&
-					(attachment.previewUrl || attachment.firstFrameUrl) && (
+				{attachment.attachment.type === FileType.file && <FileSVG viewBox='0 0 25 25' />}
+				{attachment.attachment.type === FileType.video && (
+					<>
 						<img
-							src={attachment.previewUrl || attachment.firstFrameUrl}
+							src={(attachment.attachment as VideoAttachment).firstFrameUrl}
 							alt=''
 							className='message-input-attachment__bg'
 						/>
-					)}
-				{attachment.type === FileType.file && <FileSVG viewBox='0 0 25 25' />}
-				{attachment.type === FileType.video && <VideoSVG viewBox='0 0 25 25' />}
-				{attachment.type === FileType.recording && <MicrophoneSVG viewBox='0 0 25 25' />}
-				{attachment.type === FileType.photo && <PhotoSVG viewBox='0 0 25 25' />}
-				{attachment.type === FileType.music && <PlaySVG viewBox='0 0 25 25' />}
+						<VideoSVG viewBox='0 0 25 25' />
+					</>
+				)}
+				{attachment.attachment.type === FileType.recording && <MicrophoneSVG viewBox='0 0 25 25' />}
+				{attachment.attachment.type === FileType.photo && (
+					<>
+						<img
+							src={(attachment.attachment as PictureAttachment).previewUrl}
+							alt=''
+							className='message-input-attachment__bg'
+						/>
+						<PhotoSVG viewBox='0 0 25 25' />
+					</>
+				)}
+				{attachment.attachment.type === FileType.music && <PlaySVG viewBox='0 0 25 25' />}
 			</div>
 			<div className='message-input-attachment__progress-container'>
 				<div style={{ width: `${attachment.progress}%` }} className='message-input-attachment__progress'></div>
 			</div>
-			{(attachment.type === FileType.music || attachment.type === FileType.file) && (
-				<div className='message-input-attachment__title'>{attachment.title}</div>
+			{(attachment.attachment.type === FileType.music || attachment.attachment.type === FileType.file) && (
+				<div className='message-input-attachment__title'>
+					{(attachment.attachment as AudioAttachment | RawAttachment).title}
+				</div>
 			)}
 			<button onClick={removeThisAttachment} className='message-input-attachment__close'>
 				<CloseSVG viewBox='0 0 25 25' />

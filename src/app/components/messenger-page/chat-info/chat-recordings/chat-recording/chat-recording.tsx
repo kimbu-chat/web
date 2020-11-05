@@ -11,7 +11,7 @@ namespace ChatRecordingNS {
 	export interface Props {
 		recording: {
 			url: string;
-			durationInSeconds: number;
+			duration: number;
 		};
 	}
 }
@@ -24,7 +24,7 @@ const ChatRecording: React.FC<ChatRecordingNS.Props> = ({ recording }) => {
 			onPlay={() => changeMusic(audioRef.current?.audio.current!)}
 			src={recording.url}
 			preload='none'
-			defaultCurrentTime={<span>{moment.utc(recording.durationInSeconds * 1000).format('mm:ss')}</span>}
+			defaultCurrentTime={<span>{moment.utc(recording.duration * 1000).format('mm:ss')}</span>}
 			showSkipControls={false}
 			showJumpControls={false}
 			autoPlayAfterSrcChange={false}

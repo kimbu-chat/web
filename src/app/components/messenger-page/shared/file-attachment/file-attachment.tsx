@@ -1,14 +1,13 @@
 import React, { useCallback } from 'react';
 import './file-attachment.scss';
-import { FileBase } from 'app/store/messages/models';
 
 import DownloadSvg from 'app/assets/icons/ic-download.svg';
-import { AttachedFile } from 'app/store/chats/models';
 import { fileDownload } from 'app/utils/file-download';
+import { RawAttachment } from 'app/store/chats/models';
 
 namespace FileAttachment {
 	export interface Props {
-		attachment: FileBase | AttachedFile;
+		attachment: RawAttachment;
 	}
 }
 

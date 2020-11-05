@@ -122,55 +122,51 @@ export interface Chat {
 	photos: PhotoList;
 	videos: VideoList;
 	files: FileList;
-	recordings: AudioRecordingList;
-	attachmentsToSend?: AttachmentToSend[];
+	recordings: VoiceRecordingList;
+	attachmentsToSend?: AttachmentToSend<BaseAttachment>[];
 }
 
-export interface AttachmentToSend {
-	type: FileType;
+export interface AttachmentToSend<T> {
+	attachment: T;
 	file: File;
-	id: string;
-	title: string;
-	byteSize: number;
+	fileName: string;
 	progress: number;
 	success?: boolean;
 	failure?: boolean;
-	previewUrl?: string;
-	firstFrameUrl?: string;
-	url?: string;
-	cancelTokenSource?: CancelTokenSource;
 }
 
-export interface Photo {
-	id: string;
-	url: string;
-	creationDateTime: Date;
-	alt?: string;
-	needToShowSeparator?: boolean;
-}
-
-export interface Video {
-	id: string;
-	previewImgUrl: string;
-	creationDateTime: Date;
-	duration: number;
-	alt?: string;
-	url: string;
-	needToShowSeparator?: boolean;
-}
-
-export interface AudioRecording {
-	id: number;
-	url: string;
-	durationInSeconds: number;
-}
-
-export interface AttachedFile {
-	id: string;
+export interface BaseAttachment {
 	byteSize: number;
-	creationDateTime: Date;
-	title: string;
+	type: FileType;
 	url: string;
+	id: string;
+}
+
+export interface AudioAttachment extends BaseAttachment {
+	title: string;
+	duration: number;
+}
+
+export interface PictureAttachment extends BaseAttachment {
+	previewUrl: string;
+}
+
+export interface RawAttachment extends BaseAttachment {
+	title: string;
+}
+
+export interface VideoAttachment extends BaseAttachment {
+	duration: number;
+	firstFrameUrl: string;
+	name: string;
+}
+
+export interface VoiceAttachment extends BaseAttachment {
+	duration: number;
+}
+
+export interface IGroupable {
+	creationDateTime: Date;
 	needToShowSeparator?: boolean;
 }
 
@@ -180,22 +176,22 @@ export interface ChatList {
 }
 
 export interface PhotoList {
-	photos: Photo[];
+	photos: (PictureAttachment & IGroupable)[];
 	hasMore: boolean;
 }
 
 export interface VideoList {
-	videos: Video[];
+	videos: (VideoAttachment & IGroupable)[];
 	hasMore: boolean;
 }
 
 export interface FileList {
-	files: AttachedFile[];
+	files: (RawAttachment & IGroupable)[];
 	hasMore: boolean;
 }
 
-export interface AudioRecordingList {
-	recordings: AudioRecording[];
+export interface VoiceRecordingList {
+	recordings: (VoiceAttachment & IGroupable)[];
 	hasMore: boolean;
 }
 
@@ -215,7 +211,7 @@ export interface GetVideoResponse extends VideoList {
 	chatId: number;
 }
 
-export interface GetRecordingsResponse extends AudioRecordingList {
+export interface GetRecordingsResponse extends VoiceRecordingList {
 	chatId: number;
 }
 
@@ -276,22 +272,10 @@ export interface RemoveAttachmentReqData {
 	attachmentId: string;
 }
 
-export interface UploadAttachmentSuccessData {
+export interface UploadAttachmentSuccessData<T = BaseAttachment> {
 	chatId: number;
 	attachmentId: string;
-	title: string;
-	byteSize: number;
-	newId: string;
-	url: string;
-	previewUrl?: string;
-	firstFrameUrl?: string;
-}
-
-export interface UploadAttachmentSagaSuccessData {
-	title: string;
-	byteSize: number;
-	id: string;
-	url: string;
+	attachment: T;
 }
 
 //Upload files

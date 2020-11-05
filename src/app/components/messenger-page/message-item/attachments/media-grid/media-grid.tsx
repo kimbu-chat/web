@@ -1,12 +1,13 @@
-import { FileBase, FileType, VideoBase } from 'app/store/messages/models';
+import { PictureAttachment, VideoAttachment } from 'app/store/chats/models';
+import { FileType } from 'app/store/messages/models';
 import React from 'react';
-import PhotoAttachment from '../photo-attachment/photo-attachment';
-import VideoAttachment from '../video-attachment/video-attachment';
+import MessagePhotoAttachment from '../photo-attachment/photo-attachment';
+import MesageVideoAttachment from '../video-attachment/video-attachment';
 import './media-grid.scss';
 
 namespace MediaGrid {
 	export interface Props {
-		media: (FileBase | VideoBase)[];
+		media: (PictureAttachment | VideoAttachment)[];
 	}
 }
 
@@ -15,9 +16,9 @@ const MediaGrid: React.FC<MediaGrid.Props> = ({ media }) => {
 		<div className={`media-grid media-grid--${media.length === 1 ? 1 : media.length % 2 === 1 ? 'odd' : 'even'}`}>
 			{media.map((media) => {
 				if (media.type === FileType.photo) {
-					return <PhotoAttachment key={media.id} attachment={media} />;
+					return <MessagePhotoAttachment key={media.id} attachment={media} />;
 				} else {
-					return <VideoAttachment key={media.id} attachment={media as VideoBase} />;
+					return <MesageVideoAttachment key={media.id} attachment={media as VideoAttachment} />;
 				}
 			})}
 		</div>

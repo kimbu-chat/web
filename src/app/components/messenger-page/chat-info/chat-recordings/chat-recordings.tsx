@@ -10,6 +10,7 @@ import { getSelectedChatSelector } from 'app/store/chats/selectors';
 import { ChatActions } from 'app/store/chats/actions';
 import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
 import InfiniteScroll from 'react-infinite-scroller';
+import moment from 'moment';
 
 const ChatRecordings = () => {
 	const { t } = useContext(LocalizationContext);
@@ -23,6 +24,17 @@ const ChatRecordings = () => {
 	}, [getRecordings, selectedChat, recordings]);
 
 	const recordingsContainerRef = useRef<HTMLDivElement>(null);
+
+	const recordingsWithSeparators = recordings?.recordings.map((elem, index, array) => {
+		const elemCopy = { ...elem };
+		if (
+			index === 0 ||
+			new Date(array[index - 1].creationDateTime).getMonth() !== new Date(elem.creationDateTime).getMonth()
+		) {
+			elemCopy.needToShowSeparator = true;
+		}
+		return elemCopy;
+	});
 
 	return (
 		<div className='chat-recordings'>
@@ -54,8 +66,13 @@ const ChatRecordings = () => {
 					useWindow={false}
 					isReverse={false}
 				>
-					{recordings?.recordings.map((recording) => (
-						<div className='chat-recordings__recording'>
+					{recordingsWithSeparators?.map((recording) => (
+						<div key={recording.id} className='chat-recordings__recording'>
+							{recording.needToShowSeparator && (
+								<div className='chat-files__separator'>
+									{moment(recording.creationDateTime).format('MMMM')}
+								</div>
+							)}
 							<ChatRecording key={recording.id} recording={recording} />
 						</div>
 					))}

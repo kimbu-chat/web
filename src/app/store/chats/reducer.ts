@@ -1,4 +1,4 @@
-import { Chat } from './models';
+import { Chat, BaseAttachment, AttachmentToSend } from './models';
 import produce from 'immer';
 import { ChatService } from './chat-service';
 import { InterlocutorType } from './models';
@@ -498,14 +498,19 @@ const chats = createReducer<ChatsState>(initialState)
 					draft.chats[chatIndex].attachmentsToSend = [];
 				}
 
-				draft.chats[chatIndex].attachmentsToSend?.push({
-					type,
-					file,
-					id: attachmentId,
-					title: file.name,
-					byteSize: file.size,
+				const attachmentToAdd: AttachmentToSend<BaseAttachment> = {
+					attachment: {
+						id: attachmentId,
+						byteSize: file.size,
+						url: '',
+						type,
+					},
 					progress: 0,
-				});
+					fileName: file.name,
+					file: file,
+				};
+
+				draft.chats[chatIndex].attachmentsToSend?.push(attachmentToAdd);
 			}
 			return draft;
 		}),
@@ -513,7 +518,7 @@ const chats = createReducer<ChatsState>(initialState)
 	.handleAction(
 		ChatActions.uploadAttachmentStartedAction,
 		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.uploadAttachmentStartedAction>) => {
-			const { chatId, attachmentId, cancelTokenSource } = payload;
+			const { chatId, attachmentId } = payload;
 
 			const chatIndex: number = getChatArrayIndex(chatId, draft);
 
@@ -523,11 +528,11 @@ const chats = createReducer<ChatsState>(initialState)
 				}
 
 				const currentAttachment = draft.chats[chatIndex].attachmentsToSend?.find(
-					({ id }) => id === attachmentId,
+					({ attachment }) => attachment.id === attachmentId,
 				);
-
+				//TODO: look to optimixe here
 				if (currentAttachment) {
-					currentAttachment.cancelTokenSource = cancelTokenSource;
+					console.log('uploadStarted');
 				}
 			}
 			return draft;
@@ -546,7 +551,7 @@ const chats = createReducer<ChatsState>(initialState)
 				}
 
 				const currentAttachment = draft.chats[chatIndex].attachmentsToSend?.find(
-					({ id }) => id === attachmentId,
+					({ attachment }) => attachment.id === attachmentId,
 				);
 
 				if (currentAttachment) {
@@ -559,7 +564,7 @@ const chats = createReducer<ChatsState>(initialState)
 	.handleAction(
 		ChatActions.uploadAttachmentSuccessAction,
 		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.uploadAttachmentSuccessAction>) => {
-			const { chatId, attachmentId, title, byteSize, newId, url, previewUrl, firstFrameUrl } = payload;
+			const { chatId, attachmentId, attachment } = payload;
 
 			const chatIndex: number = getChatArrayIndex(chatId, draft);
 
@@ -569,24 +574,13 @@ const chats = createReducer<ChatsState>(initialState)
 				}
 
 				const currentAttachment = draft.chats[chatIndex].attachmentsToSend?.find(
-					({ id }) => id === attachmentId,
+					({ attachment }) => attachment.id === attachmentId,
 				);
 
 				if (currentAttachment) {
 					currentAttachment.progress = 100;
 					currentAttachment.success = true;
-					currentAttachment.title = title;
-					currentAttachment.byteSize = byteSize;
-					currentAttachment.id = newId;
-					currentAttachment.url = url;
-
-					if (previewUrl) {
-						currentAttachment.previewUrl = previewUrl;
-					}
-
-					if (firstFrameUrl) {
-						currentAttachment.firstFrameUrl = firstFrameUrl;
-					}
+					currentAttachment.attachment = attachment;
 				}
 			}
 			return draft;
@@ -605,7 +599,7 @@ const chats = createReducer<ChatsState>(initialState)
 				}
 
 				const currentAttachment = draft.chats[chatIndex].attachmentsToSend?.find(
-					({ id }) => id === attachmentId,
+					({ attachment }) => attachment.id === attachmentId,
 				);
 
 				if (currentAttachment) {
@@ -629,7 +623,7 @@ const chats = createReducer<ChatsState>(initialState)
 				}
 
 				draft.chats[chatIndex].attachmentsToSend = draft.chats[chatIndex].attachmentsToSend?.filter(
-					({ id }) => id !== attachmentId,
+					({ attachment }) => attachment.id !== attachmentId,
 				);
 			}
 			return draft;

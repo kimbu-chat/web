@@ -1,5 +1,5 @@
 import { UserPreview } from '../my-profile/models';
-import { Chat } from '../chats/models';
+import { BaseAttachment, Chat } from '../chats/models';
 import { Page } from '../common/models';
 
 export interface MessageList {
@@ -36,27 +36,6 @@ export enum FileType {
 	video = 'video',
 }
 
-export interface FileBase {
-	title: string;
-	byteSize: number;
-	url: string;
-	type: FileType;
-	id: number;
-}
-
-export interface AudioBase extends FileBase {
-	durationInSeconds: number;
-}
-
-export interface RecordingBase extends FileBase {
-	durationInSeconds: number;
-}
-
-export interface VideoBase extends FileBase {
-	durationInSeconds: number;
-	firstFrameUrl: string;
-}
-
 export interface Message {
 	id: number;
 	needToShowCreator?: boolean;
@@ -70,7 +49,7 @@ export interface Message {
 	dateSeparator?: string;
 	isSelected?: boolean;
 	needToShowDateSeparator?: boolean;
-	attachments?: FileBase[];
+	attachments?: BaseAttachment[];
 }
 
 export enum SystemMessageType {

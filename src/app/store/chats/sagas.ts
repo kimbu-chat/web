@@ -8,10 +8,9 @@ import {
 	GetChatsResponse,
 	HideChatRequest,
 	InterlocutorType,
-	UploadAttachmentSagaSuccessData,
 	UploadAttachmentSagaProgressData,
 	UploadAttachmentSagaStartedData,
-	AttachmentToSend,
+	BaseAttachment,
 } from './models';
 import { MessageState, SystemMessageType, Message, CreateMessageRequest } from '../messages/models';
 import { ChatService } from './chat-service';
@@ -425,9 +424,13 @@ export function* uploadAttachmentSaga(
 			onProgress: function* (payload: UploadAttachmentSagaProgressData): SagaIterator {
 				yield put(ChatActions.uploadAttachmentProgressAction({ chatId, attachmentId, ...payload }));
 			},
-			onSuccess: function* (payload: UploadAttachmentSagaSuccessData): SagaIterator {
+			onSuccess: function* (payload: BaseAttachment): SagaIterator {
 				yield put(
-					ChatActions.uploadAttachmentSuccessAction({ chatId, attachmentId, newId: payload.id, ...payload }),
+					ChatActions.uploadAttachmentSuccessAction({
+						chatId,
+						attachmentId,
+						attachment: payload,
+					}),
 				);
 			},
 			onFailure: function* (): SagaIterator {
@@ -439,11 +442,12 @@ export function* uploadAttachmentSaga(
 
 function* cancelUploadSaga(action: ReturnType<typeof ChatActions.removeAttachmentAction>): SagaIterator {
 	const { chatId, attachmentId } = action.payload;
-	const currentAttachment: AttachmentToSend | undefined = yield select((state: RootState) =>
-		state.chats.chats.find(({ id }) => id === chatId)?.attachmentsToSend?.find(({ id }) => id === attachmentId),
+	const currentAttachment: BaseAttachment = yield select((state: RootState) =>
+		state.chats.chats
+			.find(({ id }) => id === chatId)
+			?.attachmentsToSend?.find(({ attachment }) => attachment.id === attachmentId),
 	);
 
-	currentAttachment?.cancelTokenSource?.cancel();
 	console.log(currentAttachment);
 }
 

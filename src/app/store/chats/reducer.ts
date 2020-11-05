@@ -580,7 +580,7 @@ const chats = createReducer<ChatsState>(initialState)
 				if (currentAttachment) {
 					currentAttachment.progress = 100;
 					currentAttachment.success = true;
-					currentAttachment.attachment = attachment;
+					currentAttachment.attachment = { ...currentAttachment.attachment, ...attachment };
 				}
 			}
 			return draft;

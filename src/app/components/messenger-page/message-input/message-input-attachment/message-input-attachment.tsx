@@ -1,11 +1,4 @@
-import {
-	AttachmentToSend,
-	AudioAttachment,
-	BaseAttachment,
-	PictureAttachment,
-	RawAttachment,
-	VideoAttachment,
-} from 'app/store/chats/models';
+import { AttachmentToSend, BaseAttachment, PictureAttachment, VideoAttachment } from 'app/store/chats/models';
 import { FileType } from 'app/store/messages/models';
 import React, { useCallback } from 'react';
 import './message-input-attachment.scss';
@@ -80,9 +73,7 @@ const MessageInputAttachment: React.FC<MessageInputAttachment.Props> = ({ attach
 				<div style={{ width: `${attachment.progress}%` }} className='message-input-attachment__progress'></div>
 			</div>
 			{(attachment.attachment.type === FileType.music || attachment.attachment.type === FileType.file) && (
-				<div className='message-input-attachment__title'>
-					{(attachment.attachment as AudioAttachment | RawAttachment).title}
-				</div>
+				<div className='message-input-attachment__title'>{attachment.fileName}</div>
 			)}
 			<button onClick={removeThisAttachment} className='message-input-attachment__close'>
 				<CloseSVG viewBox='0 0 25 25' />

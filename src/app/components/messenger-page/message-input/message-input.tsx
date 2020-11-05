@@ -101,6 +101,7 @@ const CreateMessageInput = () => {
 		}
 
 		setText('');
+		setRows(1);
 	}, [selectedChat?.id, currentUser, refferedText, sendMessage]);
 
 	const handleTextChange = useCallback(

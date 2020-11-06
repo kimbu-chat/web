@@ -8,7 +8,6 @@ import { MessageActions } from 'app/store/messages/actions';
 import { getSelectedChatSelector } from 'app/store/chats/selectors';
 import { SystemMessageType, MessageState, FileType } from 'app/store/messages/models';
 import { LocalizationContext } from 'app/app';
-import { RootState } from 'app/store/root-reducer';
 import useInterval from 'use-interval';
 
 import AddSvg from 'app/assets/icons/ic-add-new.svg';
@@ -25,6 +24,8 @@ import { ChatActions } from 'app/store/chats/actions';
 import MessageInputAttachment from './message-input-attachment/message-input-attachment';
 import useOnClickOutside from 'app/utils/hooks/useOnClickOutside';
 import { getFileType } from 'app/utils/get-file-extension';
+import RespondingMessage from 'app/components/messenger-page/responding-message/responding-message';
+import { RootState } from 'app/store/root-reducer';
 
 namespace CreateMessageInput {
 	export interface RecordedData {
@@ -47,6 +48,7 @@ const CreateMessageInput = () => {
 	const myProfile = useSelector(getMyProfileSelector);
 	const messageToEdit = useSelector((state: RootState) => state.messages.messageToEdit);
 	const myTypingStrategy = useSelector(getTypingStrategy);
+	const replyingMessage = useSelector((state: RootState) => state.messages.messageToReply);
 
 	const { reference: refferedText, state: text, setState: setText } = useReferredState<string>('');
 	const [isRecording, setIsRecording] = useState(false);
@@ -276,6 +278,7 @@ const CreateMessageInput = () => {
 				{selectedChat?.attachmentsToSend?.map((attachment) => {
 					return <MessageInputAttachment attachment={attachment} key={attachment.attachment.id} />;
 				})}
+				{replyingMessage && <RespondingMessage />}
 				<div className='message-input__send-message'>
 					{selectedChat && (
 						<>
@@ -320,52 +323,63 @@ const CreateMessageInput = () => {
 				return <MessageInputAttachment attachment={attachment} key={attachment.attachment.id} />;
 			})}
 			{selectedChat && (
-				<div className='message-input__send-message'>
-					{!isRecording && (
-						<>
-							<input multiple className='hidden' type='file' onChange={uploadFile} ref={fileInputRef} />
-							<button onClick={openSelectFiles} className='message-input__add'>
-								<AddSvg />
-							</button>
-						</>
-					)}
-					{isRecording && (
-						<>
-							<div className='message-input__red-dot'></div>
-							<div className='message-input__counter'>
-								{moment.utc(recordedSeconds * 1000).format('mm:ss')}
-							</div>
-						</>
-					)}
-					<div className='message-input__input-group'>
+				<>
+					{replyingMessage && <RespondingMessage />}
+					<div className='message-input__send-message'>
 						{!isRecording && (
-							<textarea
-								rows={rows}
-								placeholder={t('messageInput.write')}
-								value={text}
-								onChange={onType}
-								className='mousetrap message-input__input-message'
-								onFocus={handleFocus}
-								onBlur={handleBlur}
-							/>
+							<>
+								<input
+									multiple
+									className='hidden'
+									type='file'
+									onChange={uploadFile}
+									ref={fileInputRef}
+								/>
+								<button onClick={openSelectFiles} className='message-input__add'>
+									<AddSvg />
+								</button>
+							</>
 						)}
 						{isRecording && (
-							<div className='message-input__recording-info'>Release outside this field to cancel</div>
+							<>
+								<div className='message-input__red-dot'></div>
+								<div className='message-input__counter'>
+									{moment.utc(recordedSeconds * 1000).format('mm:ss')}
+								</div>
+							</>
 						)}
-						<div className='message-input__right-btns'>
-							{!isRecording && <MessageSmiles setText={setText} />}
-							<button
-								onClick={handleRegisterAudioBtnClick}
-								ref={registerAudioBtnRef}
-								className={`message-input__voice-btn ${
-									isRecording ? 'message-input__voice-btn--active' : ''
-								}`}
-							>
-								<VoiceSvg />
-							</button>
+						<div className='message-input__input-group'>
+							{!isRecording && (
+								<textarea
+									rows={rows}
+									placeholder={t('messageInput.write')}
+									value={text}
+									onChange={onType}
+									className='mousetrap message-input__input-message'
+									onFocus={handleFocus}
+									onBlur={handleBlur}
+								/>
+							)}
+							{isRecording && (
+								<div className='message-input__recording-info'>
+									Release outside this field to cancel
+								</div>
+							)}
+							<div className='message-input__right-btns'>
+								{!isRecording && <MessageSmiles setText={setText} />}
+								<button
+									onClick={handleRegisterAudioBtnClick}
+									ref={registerAudioBtnRef}
+									className={`message-input__voice-btn ${
+										isRecording ? 'message-input__voice-btn--active' : ''
+									}`}
+								>
+									<VoiceSvg />
+								</button>
+							</div>
 						</div>
 					</div>
-				</div>
+				</>
 			)}
 		</div>
 	);

@@ -1,13 +1,13 @@
 import React, { useCallback, useState } from 'react';
 import './photo-attachment.scss';
 
-import { FileBase } from 'app/store/messages/models';
 import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
 import BigPhoto from '../../../shared/big-photo/big-photo';
+import { BaseAttachment } from 'app/store/chats/models';
 
 namespace PhotoAttachment {
 	export interface Props {
-		attachment: FileBase;
+		attachment: BaseAttachment;
 	}
 }
 

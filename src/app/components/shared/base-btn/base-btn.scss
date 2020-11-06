@@ -1,0 +1,26 @@
+.base-btn {
+	padding: 14px 0;
+	text-align: center;
+	border-radius: 4px;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+
+	&:disabled {
+		cursor: revert;
+	}
+
+	&__icon {
+		svg {
+			height: 16px;
+			width: 16px;
+		}
+		margin-right: 6px;
+	}
+
+	&__text {
+		font-weight: 500px;
+		font-size: 13px;
+		line-height: 16px;
+	}
+}

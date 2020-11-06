@@ -17,8 +17,6 @@ import RoutingChats from 'app/components/messenger-page/routing-chats/routing-ch
 import { AvatarSelectedData } from 'app/store/my-profile/models';
 import { useSelector } from 'react-redux';
 import { isCallingMe, amICaling, doIhaveCall } from 'app/store/calls/selectors';
-import RespondingMessage from 'app/components/messenger-page/responding-message/responding-message';
-import { RootState } from 'app/store/root-reducer';
 import CallList from 'app/components/messenger-page/call-list/call-list';
 import Settings from 'app/components/messenger-page/settings/settings';
 import { CSSTransition } from 'react-transition-group';
@@ -40,7 +38,6 @@ const Messenger = () => {
 	const amICalled = useSelector(isCallingMe);
 	const amICalingSomebody = useSelector(amICaling);
 	const amISpeaking = useSelector(doIhaveCall);
-	const replyingMessage = useSelector((state: RootState) => state.messages.messageToReply);
 	const selectedChat = useSelector(getSelectedChatSelector);
 
 	const location = useLocation();
@@ -130,7 +127,6 @@ const Messenger = () => {
 
 			<div className={`messenger__chat-send`}>
 				<Chat />
-				{replyingMessage && <RespondingMessage />}
 				<CreateMessageInput />
 			</div>
 

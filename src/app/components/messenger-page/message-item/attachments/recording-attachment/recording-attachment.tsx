@@ -1,4 +1,3 @@
-import { RecordingBase } from 'app/store/messages/models';
 import React, { useRef } from 'react';
 import './recording-attachment.scss';
 
@@ -9,14 +8,15 @@ import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
 import moment from 'moment';
 import H5AudioPlayer from 'react-h5-audio-player';
 import { changeMusic } from 'app/utils/current-music';
+import { VoiceAttachment } from 'app/store/chats/models';
 
-namespace RecordingAttachment {
+namespace RecordingAttachmentNS {
 	export interface Props {
-		attachment: RecordingBase;
+		attachment: VoiceAttachment;
 	}
 }
 
-const RecordingAttachment = ({ attachment }: RecordingAttachment.Props) => {
+const MessageRecordingAttachment = ({ attachment }: RecordingAttachmentNS.Props) => {
 	const audioRef = useRef<H5AudioPlayer>();
 	return (
 		<div className='recording-attachment'>
@@ -25,7 +25,7 @@ const RecordingAttachment = ({ attachment }: RecordingAttachment.Props) => {
 				onPlay={() => changeMusic(audioRef.current?.audio.current!)}
 				src={attachment.url}
 				preload='none'
-				defaultCurrentTime={<span>{moment.utc(attachment.durationInSeconds * 1000).format('mm:ss')}</span>}
+				defaultCurrentTime={<span>{moment.utc(attachment.duration * 1000).format('mm:ss')}</span>}
 				showSkipControls={false}
 				showJumpControls={false}
 				autoPlayAfterSrcChange={false}
@@ -50,4 +50,4 @@ const RecordingAttachment = ({ attachment }: RecordingAttachment.Props) => {
 	);
 };
 
-export default RecordingAttachment;
+export default MessageRecordingAttachment;

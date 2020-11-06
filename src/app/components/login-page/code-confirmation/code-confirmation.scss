@@ -47,39 +47,6 @@
 		margin-bottom: 14px;
 	}
 
-	&__button {
-		background-color: rgb(63, 138, 224);
-		color: white;
-		border-radius: 4px;
-		width: 100%;
-		padding: 16px 1px;
-		margin-top: 20px;
-		width: 400px;
-
-		&--code-confirmation {
-			margin-bottom: 160px;
-
-			&:disabled {
-				background-color: rgba(63, 138, 224, 0.7);
-			}
-		}
-
-		&--resend-code {
-			padding: 7px 25px;
-			width: auto;
-			border-radius: 4px;
-			border: 1px solid #3f8ae0;
-			color: #3f8ae0;
-			background-color: rgba(63, 138, 224, 0.1);
-			display: flex;
-			align-items: center;
-		}
-	}
-
-	&__resend-svg {
-		margin-right: 8px;
-	}
-
 	&__inputs-container {
 		display: flex;
 		margin-bottom: 20px;

@@ -1,13 +1,10 @@
 .responding-message {
 	padding: 10px 20px 10px 8px;
 	display: flex;
-	position: absolute;
-	width: 100%;
-	bottom: 65px;
 	background-color: white;
-	left: 0;
 	box-sizing: border-box;
-	border-top: 1px solid rgb(224, 228, 232);
+	border-bottom: 1px solid rgb(224, 228, 232);
+	position: relative;
 
 	&__line {
 		width: 2px;

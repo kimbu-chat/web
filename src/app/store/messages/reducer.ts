@@ -200,7 +200,6 @@ const messages = createReducer<MessagesState>(initialState)
 			const chatIndex = getChatIndex(draft, payload.chatId);
 
 			const message = getMessage(draft.messages[chatIndex].messages, payload.messageId);
-
 			message!.isSelected = false;
 
 			draft.messageToReply = message;

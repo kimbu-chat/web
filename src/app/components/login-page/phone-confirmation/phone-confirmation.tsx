@@ -10,6 +10,7 @@ import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import { useSelector } from 'react-redux';
 import { RootState } from 'app/store/root-reducer';
 import { useHistory } from 'react-router';
+import BaseBtn from 'app/components/shared/base-btn/base-btn';
 
 const PhoneConfirmation = () => {
 	const { t } = useContext(LocalizationContext);
@@ -100,9 +101,16 @@ const PhoneConfirmation = () => {
 						sendSms={sendSms}
 					/>
 				</div>
-				<button disabled={isLoading} onClick={sendSms} className='phone-confirmation__button'>
+				<BaseBtn
+					disabled={isLoading}
+					onClick={sendSms}
+					variant={'contained'}
+					color={'primary'}
+					width={'contained'}
+					style={{ marginTop: '20px' }}
+				>
 					{t('loginPage.next')}
-				</button>
+				</BaseBtn>
 				<p className='phone-confirmation__conditions'>
 					{t('loginPage.agree_to')} <a href='#'>{t('loginPage.ravudi_terms')}</a>
 				</p>

@@ -1,14 +1,5 @@
 import React, { useContext, useCallback, useEffect } from 'react';
-import {
-	Message,
-	SystemMessageType,
-	MessageState,
-	FileType,
-	AudioBase,
-	VideoBase,
-	RecordingBase,
-	FileBase,
-} from 'app/store/messages/models';
+import { Message, SystemMessageType, MessageState, FileType } from 'app/store/messages/models';
 import { MessageUtils } from 'app/utils/message-utils';
 import { useSelector } from 'react-redux';
 import './message-item.scss';
@@ -25,7 +16,7 @@ import { UserPreview } from 'app/store/my-profile/models';
 import moment from 'moment';
 
 import FileAttachment from '../shared/file-attachment/file-attachment';
-import AudioAttachment from './attachments/audio-attachment/audio-attachment';
+import MessageAudioAttachment from './attachments/audio-attachment/audio-attachment';
 import RecordingAttachment from './attachments/recording-attachment/recording-attachment';
 import MediaGrid from './attachments/media-grid/media-grid';
 
@@ -34,6 +25,13 @@ import MessageSentSvg from 'app/assets/icons/ic-tick.svg';
 import MessageReadSvg from 'app/assets/icons/ic-double_tick.svg';
 import SelectedSvg from 'app/assets/icons/ic-check-filled.svg';
 import UnSelectedSvg from 'app/assets/icons/ic-check-outline.svg';
+import {
+	RawAttachment,
+	PictureAttachment,
+	VoiceAttachment,
+	VideoAttachment,
+	AudioAttachment,
+} from 'app/store/chats/models';
 
 namespace Message {
 	export interface Props {
@@ -66,37 +64,37 @@ const MessageItem = ({ message }: Message.Props) => {
 	const structuredAttachments = message.attachments?.reduce(
 		(
 			accum: {
-				files: FileBase[];
-				media: (FileBase | VideoBase)[];
-				audios: AudioBase[];
-				recordings: RecordingBase[];
+				files: RawAttachment[];
+				media: (VideoAttachment | PictureAttachment)[];
+				audios: AudioAttachment[];
+				recordings: VoiceAttachment[];
 			},
 			currentAttachment,
 		) => {
 			switch (currentAttachment.type) {
 				case FileType.file:
 					{
-						accum.files.push(currentAttachment);
+						accum.files.push(currentAttachment as RawAttachment);
 					}
 					break;
 				case FileType.photo:
 					{
-						accum.media.push(currentAttachment);
+						accum.media.push(currentAttachment as PictureAttachment);
 					}
 					break;
 				case FileType.video:
 					{
-						accum.media.push(currentAttachment as VideoBase);
+						accum.media.push(currentAttachment as VideoAttachment);
 					}
 					break;
 				case FileType.music:
 					{
-						accum.audios.push(currentAttachment as AudioBase);
+						accum.audios.push(currentAttachment as AudioAttachment);
 					}
 					break;
 				case FileType.recording:
 					{
-						accum.recordings.push(currentAttachment as RecordingBase);
+						accum.recordings.push(currentAttachment as VoiceAttachment);
 					}
 					break;
 			}
@@ -151,7 +149,7 @@ const MessageItem = ({ message }: Message.Props) => {
 				))}
 
 				{structuredAttachments?.audios.map((audio) => (
-					<AudioAttachment key={audio.id} attachment={audio} />
+					<MessageAudioAttachment key={audio.id} attachment={audio} />
 				))}
 
 				{(structuredAttachments?.media.length || 0) > 0 && <MediaGrid media={structuredAttachments!.media} />}

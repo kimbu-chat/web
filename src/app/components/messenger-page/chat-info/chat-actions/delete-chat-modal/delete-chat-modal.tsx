@@ -40,6 +40,7 @@ const DeleteChatModal = ({ hide }: DeleteChatModal.Props) => {
 							backgroundColor: 'rgb(209, 36, 51)',
 							padding: '16px 49.5px',
 							margin: '0',
+							width: '50%',
 						},
 						position: 'left',
 						onClick: deleteConference,
@@ -52,6 +53,7 @@ const DeleteChatModal = ({ hide }: DeleteChatModal.Props) => {
 							padding: '16px 38px',
 							margin: '0 0 0 10px',
 							border: '1px solid rgb(215, 216, 217)',
+							width: '50%',
 						},
 
 						position: 'left',

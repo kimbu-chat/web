@@ -127,27 +127,29 @@ const EditChatModal = ({ onClose }: EditChatModal.Props) => {
 					closeModal={onClose}
 					buttons={[
 						{
-							text: 'Save',
+							children: 'Save',
 							style: {
-								color: '#fff',
-								backgroundColor: 'rgb(63, 138, 224)',
-								padding: '11px 92.5px',
 								marginRight: '20px',
+								width: '50%',
 							},
-							position: 'left',
 							onClick: onSubmit,
+							position: 'left',
+							width: 'contained',
+							variant: 'contained',
+							color: 'primary',
 						},
 						{
-							text: 'Cancel',
+							children: 'Cancel',
 							style: {
-								color: 'rgb(109, 120, 133)',
-								backgroundColor: 'white',
-								padding: '11px 48px',
-								border: '1px solid rgb(215, 216, 217)',
+								margin: '0 0 0 10px',
+								color: '#6D7885',
+								width: '50%',
 							},
-
-							position: 'left',
 							onClick: onClose,
+							position: 'left',
+							width: 'auto',
+							variant: 'outlined',
+							color: 'default',
 						},
 					]}
 				/>

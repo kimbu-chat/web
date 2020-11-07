@@ -86,20 +86,17 @@ const EditUserNameModal = ({ onClose }: EditUserNameModal.Props) => {
 				}
 				buttons={[
 					{
-						text: 'Save',
+						children: 'Save',
 						style: {
-							color: '#fff',
-							backgroundColor:
-								!nickname.match(nicknamePattern) || !isNickNameAvailable ? '#6ea2de' : '#3F8AE0',
-							padding: '11px 0px',
-							border: '1px solid rgb(215, 216, 217)',
-							width: '100%',
 							marginBottom: '10px',
 							marginTop: '-5px',
 						},
 						disabled: !nickname.match(nicknamePattern) || !isNickNameAvailable,
-						position: 'left',
 						onClick: onSubmit,
+						position: 'left',
+						width: 'contained',
+						variant: 'contained',
+						color: 'primary',
 					},
 				]}
 			/>

@@ -74,18 +74,15 @@ const ForwardModal = ({ onClose }: ForwardModal.Props) => {
 				}
 				buttons={[
 					{
-						text: t('forwardModal.send'),
+						children: t('forwardModal.send'),
 						style: {
-							color: '#fff',
-							backgroundColor: '#3F8AE0',
-							padding: '11px 0px',
-							border: '1px solid rgb(215, 216, 217)',
-							width: '100%',
 							marginBottom: '-6px',
 						},
-
-						position: 'left',
 						onClick: () => {},
+						position: 'left',
+						width: 'contained',
+						variant: 'contained',
+						color: 'primary',
 					},
 				]}
 			/>

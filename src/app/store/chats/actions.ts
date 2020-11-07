@@ -70,7 +70,9 @@ export namespace ChatActions {
 	export const leaveConference = createAction('LEAVE_CONFERENCE')<Chat, Meta>();
 	export const leaveConferenceSuccess = createAction('LEAVE_CONFERENCE_SUCCESS')<Chat>();
 	export const addUsersToConference = createAction('ADD_USERS_TO_CONFERENCE')<AddUsersToConferenceActionData, Meta>();
-	export const addUsersToConferenceSuccess = createAction('ADD_USERS_TO_CONFERENCE_SUCCESS')<Chat>();
+	export const addUsersToConferenceSuccess = createAction('ADD_USERS_TO_CONFERENCE_SUCCESS')<
+		AddUsersToConferenceActionData
+	>();
 
 	export const renameConference = createAction('RENAME_CONFERENCE')<RenameConferenceActionData>();
 	export const renameConferenceSuccess = createAction('RENAME_CONFERENCE_SUCCESS')<RenameConferenceActionData>();

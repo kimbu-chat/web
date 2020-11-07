@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import './base-btn.scss';
 
-namespace BaseBtnNS {
+export namespace BaseBtnNS {
 	export interface Props
 		extends React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
 		width: 'contained' | 'auto';

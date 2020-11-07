@@ -52,9 +52,12 @@ const ConferenceAddFriendModal = ({ onClose }: ConferenceAddFriendModal.Props) =
 		onClose();
 
 		if (selectedUserIds.length > 0) {
-			addUsersToConferece({ chat: selectedChat, userIds: selectedUserIds });
+			addUsersToConferece({
+				chat: selectedChat,
+				users: friends.filter((friend) => selectedUserIds.includes(friend.id)),
+			});
 		}
-	}, [addUsersToConferece, selectedChat, selectedUserIds, close]);
+	}, [addUsersToConferece, selectedChat, selectedUserIds, close, friends]);
 
 	const searchFriends = useCallback((name: string) => {
 		loadFriends({ page: { offset: 0, limit: 25 }, name, initializedBySearch: true });
@@ -85,16 +88,13 @@ const ConferenceAddFriendModal = ({ onClose }: ConferenceAddFriendModal.Props) =
 				}
 				buttons={[
 					{
-						text: t('conferenceAddFriendModal.add_members'),
-						style: {
-							backgroundColor: 'rgb(63, 138, 224)',
-							color: '#fff',
-							padding: '16px 49.5px',
-							margin: '0',
-							width: '100%',
-						},
-						position: 'left',
+						children: t('conferenceAddFriendModal.add_members'),
 						onClick: addUsers,
+						disabled: selectedUserIds.length === 0,
+						position: 'left',
+						width: 'contained',
+						variant: 'contained',
+						color: 'primary',
 					},
 				]}
 			/>

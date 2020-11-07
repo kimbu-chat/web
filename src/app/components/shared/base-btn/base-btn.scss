@@ -5,6 +5,7 @@
 	display: inline-flex;
 	justify-content: center;
 	align-items: center;
+	transition: all 0.2s;
 
 	&:disabled {
 		cursor: revert;
@@ -16,11 +17,34 @@
 			width: 16px;
 		}
 		margin-right: 6px;
+		transition: all 0.2s;
 	}
 
 	&__text {
 		font-weight: 500px;
 		font-size: 13px;
 		line-height: 16px;
+		transition: all 0.2s;
+	}
+
+	&__loader {
+		border: 2px solid #f3f3f3; /* Light grey */
+		border-top: 2px solid #3f8ae0; /* Blue */
+		border-radius: 50%;
+		width: 12px;
+		height: 12px;
+		animation: spin 2s linear infinite;
+		transition: all 0.2s;
+		will-change: transform;
+		margin-right: 6px;
+
+		@keyframes spin {
+			0% {
+				transform: rotate(0deg);
+			}
+			100% {
+				transform: rotate(360deg);
+			}
+		}
 	}
 }

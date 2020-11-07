@@ -8,12 +8,22 @@ export namespace BaseBtnNS {
 		color: 'primary' | 'secondary' | 'default';
 		variant: 'contained' | 'outlined';
 		disabled?: boolean;
+		isLoading?: boolean;
 		children: string;
 		icon?: JSX.Element;
 	}
 }
 
-const BaseBtn: React.FC<BaseBtnNS.Props> = ({ width, color, disabled, variant, icon, children, ...props }) => {
+const BaseBtn: React.FC<BaseBtnNS.Props> = ({
+	width,
+	color,
+	disabled,
+	variant,
+	icon,
+	children,
+	isLoading,
+	...props
+}) => {
 	const style = useMemo(() => {
 		const btnColor: string = color === 'primary' ? '#3F8AE0' : color === 'secondary' ? '#D12433' : '#D7D8D9';
 		const bluredBtnColor: string =
@@ -41,6 +51,7 @@ const BaseBtn: React.FC<BaseBtnNS.Props> = ({ width, color, disabled, variant, i
 	return (
 		<button {...props} disabled={disabled} className='base-btn' style={{ ...style, ...props.style }}>
 			<span className='base-btn__icon'>{icon}</span>
+			{isLoading && <span className='base-btn__loader'>{icon}</span>}
 			<span className='base-btn__text'>{children}</span>
 		</button>
 	);

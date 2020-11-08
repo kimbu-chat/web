@@ -152,8 +152,10 @@ function* changeConferenceAvatarSaga(action: ReturnType<typeof ChatActions.chang
 
 function* addUsersToConferenceSaga(action: ReturnType<typeof ChatActions.addUsersToConference>): SagaIterator {
 	try {
-		const { chat, userIds } = action.payload;
+		const { chat, users } = action.payload;
 		const httpRequest = ChatHttpRequests.addMembersIntoConference;
+		const userIds = users.map(({ id }) => id);
+
 		const { status } = httpRequest.call(
 			yield call(() =>
 				httpRequest.generator({
@@ -164,7 +166,7 @@ function* addUsersToConferenceSaga(action: ReturnType<typeof ChatActions.addUser
 		);
 
 		if (status === HTTPStatusCode.OK) {
-			yield put(ChatActions.addUsersToConferenceSuccess(chat));
+			yield put(ChatActions.addUsersToConferenceSuccess({ chat, users }));
 
 			action.meta.deferred?.resolve(action.payload.chat);
 		} else {

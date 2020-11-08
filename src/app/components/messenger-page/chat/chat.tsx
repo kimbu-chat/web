@@ -88,7 +88,8 @@ const Chat = () => {
 			{
 				title: 'calendar-ap.zip',
 				byteSize: 1342177,
-				url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+				url:
+					'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/07/58a1008852a54f1b823e2d8791e658cf',
 				type: FileType.file,
 				id: '1',
 			} as RawAttachment,

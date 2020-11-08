@@ -42,7 +42,7 @@ export interface GetConferenceUsersRequest {
 }
 
 export interface AddUsersToConferenceActionData {
-	userIds: number[];
+	users: UserPreview[];
 	chat: Chat;
 }
 

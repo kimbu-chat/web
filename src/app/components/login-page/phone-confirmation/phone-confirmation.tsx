@@ -103,6 +103,7 @@ const PhoneConfirmation = () => {
 				</div>
 				<BaseBtn
 					disabled={isLoading}
+					isLoading={isLoading}
 					onClick={sendSms}
 					variant={'contained'}
 					color={'primary'}

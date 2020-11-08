@@ -71,28 +71,29 @@ const DeleteMessageModal: React.FC<DeleteMessageModal.Props> = ({ onClose, selec
 				closeModal={onClose}
 				buttons={[
 					{
-						text: t('chatInfo.confirm'),
+						children: t('chatInfo.confirm'),
 						style: {
-							color: 'rgb(255, 255, 255)',
-							backgroundColor: 'rgb(209, 36, 51)',
-							padding: '16px 49.5px',
 							margin: '0',
+							width: '50%',
 						},
-						position: 'left',
 						onClick: deleteTheseMessages,
+						position: 'left',
+						width: 'auto',
+						variant: 'contained',
+						color: 'secondary',
 					},
 					{
-						text: t('chatInfo.cancel'),
+						children: t('chatInfo.cancel'),
 						style: {
-							color: 'rgb(109, 120, 133)',
-							backgroundColor: 'rgb(255, 255, 255)',
-							padding: '16px 38px',
 							margin: '0 0 0 10px',
-							border: '1px solid rgb(215, 216, 217)',
+							color: '#6D7885',
+							width: '50%',
 						},
-
-						position: 'left',
 						onClick: onClose,
+						position: 'left',
+						width: 'auto',
+						variant: 'outlined',
+						color: 'default',
 					},
 				]}
 			/>

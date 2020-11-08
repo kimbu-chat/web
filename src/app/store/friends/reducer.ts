@@ -105,6 +105,16 @@ const friends = createReducer<FriendsState>(initialState)
 
 			return draft;
 		}),
+	)
+	.handleAction(
+		ChatActions.addUsersToConferenceSuccess,
+		produce((draft: FriendsState, { payload }: ReturnType<typeof ChatActions.addUsersToConferenceSuccess>) => {
+			const { users } = payload;
+
+			draft.usersForSelectedConference.push(...users);
+
+			return draft;
+		}),
 	);
 
 export default friends;

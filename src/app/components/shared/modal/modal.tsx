@@ -3,14 +3,11 @@ import React, { useCallback } from 'react';
 import './modal.scss';
 
 import CloseSVG from 'app/assets/icons/ic-close.svg';
+import BaseBtn, { BaseBtnNS } from '../base-btn/base-btn';
 
 namespace Modal {
-	export interface Button {
-		text: string;
-		style: React.CSSProperties;
+	export interface Button extends BaseBtnNS.Props {
 		position: 'left' | 'right';
-		onClick: () => void;
-		disabled?: boolean;
 	}
 	export interface Props {
 		title: string | JSX.Element;
@@ -60,27 +57,15 @@ const Modal = ({ title, contents, buttons, highlightedInContents, closeModal }: 
 			</div>
 			<div className='modal__btn-block'>
 				{leftBtns.map((btn, index, arr) => (
-					<button
-						className='modal__btn-base'
+					<BaseBtn
 						key={index}
-						onClick={btn.onClick}
+						{...btn}
 						style={{ marginRight: index === arr.length - 1 ? 'auto' : '0', ...btn.style }}
-						disabled={btn.disabled}
-					>
-						{btn.text}
-					</button>
+					/>
 				))}
 
 				{rightBtns.map((btn, index) => (
-					<button
-						className='modal__btn-base'
-						key={index}
-						onClick={btn.onClick}
-						style={{ marginLeft: index === 0 ? 'auto' : '0', ...btn.style }}
-						disabled={btn.disabled}
-					>
-						{btn.text}
-					</button>
+					<BaseBtn key={index} {...btn} style={{ marginLeft: index === 0 ? 'auto' : '0', ...btn.style }} />
 				))}
 			</div>
 		</div>

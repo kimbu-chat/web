@@ -113,9 +113,9 @@ const chats = createReducer<ChatsState>(initialState)
 	.handleAction(
 		ChatActions.addUsersToConferenceSuccess,
 		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.addUsersToConferenceSuccess>) => {
-			const { id } = payload;
+			const { chat } = payload;
 
-			const chatIndex: number = getChatArrayIndex(id, draft);
+			const chatIndex: number = getChatArrayIndex(chat.id, draft);
 
 			const conference = draft.chats[chatIndex].conference || { membersCount: 0 };
 

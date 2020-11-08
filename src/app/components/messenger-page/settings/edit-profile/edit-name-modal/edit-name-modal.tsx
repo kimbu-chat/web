@@ -73,18 +73,15 @@ const EditNameModal = ({ onClose }: EditNameModal.Props) => {
 				}
 				buttons={[
 					{
-						text: 'Save',
+						children: 'Save',
 						style: {
-							color: '#fff',
-							backgroundColor: '#3F8AE0',
-							padding: '11px 0px',
-							border: '1px solid rgb(215, 216, 217)',
-							width: '100%',
 							marginBottom: '10px',
 						},
-
-						position: 'left',
 						onClick: onSubmit,
+						position: 'left',
+						width: 'contained',
+						variant: 'contained',
+						color: 'primary',
 					},
 				]}
 			/>

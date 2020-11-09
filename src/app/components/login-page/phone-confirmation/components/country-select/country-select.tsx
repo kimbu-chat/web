@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useCallback, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import './country-select.scss';
 
 import useAutocomplete, { createFilterOptions } from '@material-ui/lab/useAutocomplete';
@@ -12,34 +12,13 @@ import DownSvg from 'app/assets/icons/ic-chevron-down.svg';
 namespace CountrySelect {
 	export interface Props {
 		country?: Country;
-		setCountry: React.Dispatch<React.SetStateAction<Country>>;
-		setPhone: (setNewPhone: ((oldPhone: string) => string) | string) => void;
+		handleCountryChange: (newCountry: Country) => void;
 		setRef: React.Dispatch<React.SetStateAction<React.RefObject<HTMLInputElement> | null>>;
-		focusPhoneInput: () => void;
 	}
 }
 
-const CountrySelect = ({ country, setCountry, setPhone, setRef, focusPhoneInput }: CountrySelect.Props) => {
+const CountrySelect = ({ country, handleCountryChange, setRef }: CountrySelect.Props) => {
 	const { t } = useContext(LocalizationContext);
-
-	const handleCountryChange = useCallback(
-		(newCountry: Country) => {
-			setCountry((oldCountry) => {
-				setPhone((oldPhone) => {
-					focusPhoneInput();
-					if (oldCountry.title.length > 0) {
-						const onlyNumber = oldPhone.split(' ').join('').split(oldCountry.number)[1];
-						const newCode = newCountry ? newCountry.number : '';
-						return onlyNumber ? newCode + onlyNumber : newCode;
-					} else {
-						return newCountry ? newCountry.number + oldPhone : '';
-					}
-				});
-				return newCountry ? newCountry : oldCountry;
-			});
-		},
-		[setCountry, setPhone],
-	);
 
 	const { getRootProps, getInputProps, getListboxProps, getOptionProps, groupedOptions } = useAutocomplete({
 		id: 'use-autocomplete-demo',

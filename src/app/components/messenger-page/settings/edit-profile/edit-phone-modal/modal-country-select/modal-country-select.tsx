@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Country, countryList } from 'app/common/countries';
 import './modal-country-select.scss';
 import { useAutocomplete, createFilterOptions } from '@material-ui/lab';
@@ -8,34 +8,13 @@ import DownSvg from 'app/assets/icons/ic-chevron-down.svg';
 namespace ModalCountrySelect {
 	export interface Props {
 		country?: Country;
-		setCountry: React.Dispatch<React.SetStateAction<Country>>;
-		setPhone: (setNewPhone: ((oldPhone: string) => string) | string) => void;
 		setRef: React.Dispatch<React.SetStateAction<React.RefObject<HTMLInputElement> | null>>;
-		focusPhoneInput: () => void;
+		handleCountryChange: (newCountry: Country) => void;
 	}
 }
 
-const ModalCountrySelect = ({ country, setCountry, setPhone, setRef, focusPhoneInput }: ModalCountrySelect.Props) => {
+const ModalCountrySelect = ({ country, handleCountryChange, setRef }: ModalCountrySelect.Props) => {
 	const { t } = useContext(LocalizationContext);
-
-	const handleCountryChange = useCallback(
-		(newCountry: Country) => {
-			setCountry((oldCountry) => {
-				setPhone((oldPhone) => {
-					focusPhoneInput();
-					if (oldCountry.title.length > 0) {
-						const onlyNumber = oldPhone.split(' ').join('').split(oldCountry.number)[1];
-						const newCode = newCountry ? newCountry.number : '';
-						return onlyNumber ? newCode + onlyNumber : newCode;
-					} else {
-						return newCountry ? newCountry.number + oldPhone : '';
-					}
-				});
-				return newCountry ? newCountry : oldCountry;
-			});
-		},
-		[setCountry, setPhone],
-	);
 
 	const { getRootProps, getInputProps, getListboxProps, getOptionProps, groupedOptions, popupOpen } = useAutocomplete(
 		{

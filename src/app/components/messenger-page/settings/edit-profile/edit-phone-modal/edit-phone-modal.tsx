@@ -49,6 +49,25 @@ const EditPhoneModal = ({ onClose }: EditPhoneModal.Props) => {
 		phoneInputRef.current?.focus();
 	}, [phoneInputRef]);
 
+	const handleCountryChange = useCallback(
+		(newCountry: Country) => {
+			setCountry((oldCountry) => {
+				setPhone((oldPhone) => {
+					focusPhoneInput();
+					if (oldCountry.title.length > 0) {
+						const onlyNumber = oldPhone.split(' ').join('').split(oldCountry.number)[1];
+						const newCode = newCountry ? newCountry.number : '';
+						return onlyNumber ? newCode + onlyNumber : newCode;
+					} else {
+						return newCountry ? newCountry.number + oldPhone : '';
+					}
+				});
+				return newCountry ? newCountry : oldCountry;
+			});
+		},
+		[setCountry, setPhone, focusPhoneInput],
+	);
+
 	return (
 		<WithBackground onBackgroundClick={onClose}>
 			<Modal
@@ -59,9 +78,7 @@ const EditPhoneModal = ({ onClose }: EditPhoneModal.Props) => {
 						<ModalCountrySelect
 							setRef={setCountrySelectRef}
 							country={country}
-							setCountry={setCountry}
-							setPhone={setPhone}
-							focusPhoneInput={focusPhoneInput}
+							handleCountryChange={handleCountryChange}
 						/>
 						<ModalPhoneInput
 							ref={phoneInputRef}

@@ -51,6 +51,25 @@ const PhoneConfirmation = () => {
 		phoneInputRef.current?.focus();
 	}, [phoneInputRef]);
 
+	const handleCountryChange = useCallback(
+		(newCountry: Country) => {
+			setCountry((oldCountry) => {
+				setPhone((oldPhone) => {
+					focusPhoneInput();
+					if (oldCountry.title.length > 0) {
+						const onlyNumber = oldPhone.split(' ').join('').split(oldCountry.number)[1];
+						const newCode = newCountry ? newCountry.number : '';
+						return onlyNumber ? newCode + onlyNumber : newCode;
+					} else {
+						return newCountry ? newCountry.number + oldPhone : '';
+					}
+				});
+				return newCountry ? newCountry : oldCountry;
+			});
+		},
+		[setCountry, setPhone, focusPhoneInput],
+	);
+
 	useEffect(() => {
 		setCountry(countryList[0]);
 		getCountry().then((country) => setCountry(country));
@@ -82,9 +101,7 @@ const PhoneConfirmation = () => {
 					<CountrySelect
 						setRef={setCountrySelectRef}
 						country={country}
-						setCountry={setCountry}
-						setPhone={setPhone}
-						focusPhoneInput={focusPhoneInput}
+						handleCountryChange={handleCountryChange}
 					/>
 					<PhoneInput
 						ref={phoneInputRef}

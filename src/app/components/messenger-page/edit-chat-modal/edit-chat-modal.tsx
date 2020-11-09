@@ -128,10 +128,7 @@ const EditChatModal = ({ onClose }: EditChatModal.Props) => {
 					buttons={[
 						{
 							children: 'Save',
-							style: {
-								marginRight: '20px',
-								width: '50%',
-							},
+							className: 'edit-chat-modal__confirm-btn',
 							onClick: onSubmit,
 							position: 'left',
 							width: 'contained',
@@ -140,11 +137,7 @@ const EditChatModal = ({ onClose }: EditChatModal.Props) => {
 						},
 						{
 							children: 'Cancel',
-							style: {
-								margin: '0 0 0 10px',
-								color: '#6D7885',
-								width: '50%',
-							},
+							className: 'edit-chat-modal__cancel-btn',
 							onClick: onClose,
 							position: 'left',
 							width: 'auto',

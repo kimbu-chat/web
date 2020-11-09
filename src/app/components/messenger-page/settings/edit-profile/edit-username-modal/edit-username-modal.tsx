@@ -87,10 +87,7 @@ const EditUserNameModal = ({ onClose }: EditUserNameModal.Props) => {
 				buttons={[
 					{
 						children: 'Save',
-						style: {
-							marginBottom: '10px',
-							marginTop: '-5px',
-						},
+						className: 'edit-username-modal__confirm-btn',
 						disabled: !nickname.match(nicknamePattern) || !isNickNameAvailable,
 						onClick: onSubmit,
 						position: 'left',

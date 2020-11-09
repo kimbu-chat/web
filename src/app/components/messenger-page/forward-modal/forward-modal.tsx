@@ -75,9 +75,7 @@ const ForwardModal = ({ onClose }: ForwardModal.Props) => {
 				buttons={[
 					{
 						children: t('forwardModal.send'),
-						style: {
-							marginBottom: '-6px',
-						},
+						className: 'forward-modal__confirm-btn',
 						onClick: () => {},
 						position: 'left',
 						width: 'contained',

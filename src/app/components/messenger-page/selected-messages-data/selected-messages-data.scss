@@ -37,28 +37,5 @@
 	}
 
 	&__delete-check {
-		margin-top: 24px;
-		margin-bottom: 18px;
-		display: flex;
-		align-items: center;
-
-		&__btn {
-			width: 16px;
-			height: 16px;
-			border: 1px solid rgb(215, 216, 217);
-			border-radius: 4px;
-			margin-right: 10px;
-			box-sizing: content-box;
-
-			&:focus {
-				border: 1px solid rgb(215, 216, 217);
-			}
-		}
-
-		&__btn-description {
-			font-weight: 400;
-			font-size: 14px;
-			line-height: 18px;
-		}
 	}
 }

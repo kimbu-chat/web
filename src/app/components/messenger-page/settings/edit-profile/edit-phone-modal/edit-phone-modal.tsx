@@ -76,9 +76,7 @@ const EditPhoneModal = ({ onClose }: EditPhoneModal.Props) => {
 				buttons={[
 					{
 						children: 'Save',
-						style: {
-							marginBottom: '10px',
-						},
+						className: 'edit-phone-modal__confirm-btn',
 						onClick: () => {},
 						position: 'left',
 						width: 'contained',

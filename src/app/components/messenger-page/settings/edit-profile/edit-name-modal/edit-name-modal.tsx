@@ -74,9 +74,7 @@ const EditNameModal = ({ onClose }: EditNameModal.Props) => {
 				buttons={[
 					{
 						children: 'Save',
-						style: {
-							marginBottom: '10px',
-						},
+						className: 'edit-name-modal__confirm-btn',
 						onClick: onSubmit,
 						position: 'left',
 						width: 'contained',

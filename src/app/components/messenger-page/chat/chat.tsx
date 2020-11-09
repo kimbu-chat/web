@@ -12,10 +12,8 @@ import InfiniteScroll from 'react-infinite-scroller';
 import SelectedMessagesData from '../selected-messages-data/selected-messages-data';
 import { setSelectedMessagesLength } from 'app/store/messages/selectors';
 import { MessageUtils } from 'app/utils/message-utils';
-import { FileType } from 'app/store/messages/models';
 import moment from 'moment';
 import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
-import { AudioAttachment, PictureAttachment, RawAttachment, VideoAttachment } from 'app/store/chats/models';
 
 export const MESSAGES_LIMIT = 25;
 
@@ -80,75 +78,6 @@ const Chat = () => {
 	}
 
 	const itemsWithUserInfo = MessageUtils.signAndSeparate(messages || []).reverse();
-
-	//!HARDCODE - remove in deploy
-	itemsWithUserInfo[itemsWithUserInfo.length - 1] = {
-		...itemsWithUserInfo[itemsWithUserInfo.length - 1],
-		attachments: [
-			{
-				title: 'calendar-ap.zip',
-				byteSize: 1342177,
-				url:
-					'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/07/58a1008852a54f1b823e2d8791e658cf',
-				type: FileType.file,
-				id: '1',
-			} as RawAttachment,
-			{
-				title: 'blablabla.mp3',
-				byteSize: 22777899,
-				url: 'https://dll.z1.fm/music/2/14/islam_itljashev_-_na_nervah.mp3?download=force',
-				duration: 157,
-				type: FileType.music,
-				id: '3',
-			} as AudioAttachment,
-			{
-				title: 'blablabla.mp3',
-				byteSize: 22777899,
-				url: 'https://dll.z1.fm/music/2/14/islam_itljashev_-_na_nervah.mp3?download=force',
-				duration: 157,
-				type: FileType.music,
-				id: '395',
-			} as AudioAttachment,
-			{
-				title: 'Not displayed',
-				byteSize: 2277780099,
-				url: 'https://dll.z1.fm/music/4/36/hiti_2020_-_tajpan__agunda_-_luna_ne_znaet_puti.mp3?download=force',
-				duration: 201,
-				type: FileType.recording,
-				id: '4',
-			} as AudioAttachment,
-			{
-				title: 'Displayed',
-				name: 'Displayed',
-				byteSize: 22777780099,
-				firstFrameUrl: 'https://zvuk-m.com/wp-content/uploads/2020/08/7459378-1068x556.jpg',
-				url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-				duration: 228,
-				type: FileType.video,
-				id: '5',
-			} as VideoAttachment,
-			{
-				title: 'Displayed',
-				byteSize: 22777780099,
-				url:
-					'https://avatars.mds.yandex.net/get-zen_doc/1641493/pub_5d24a067a2d6ed00ad034894_5d24a368a98a2a00ade706b2/scale_1200',
-				previewUrl:
-					'https://avatars.mds.yandex.net/get-zen_doc/1641493/pub_5d24a067a2d6ed00ad034894_5d24a368a98a2a00ade706b2/scale_1200',
-				type: FileType.photo,
-				id: '6',
-			} as PictureAttachment,
-			{
-				title: 'Displayed',
-				name: 'Displayed',
-				byteSize: 22777780099,
-				firstFrameUrl: 'https://i.ytimg.com/vi/RqT9szfGEDw/maxresdefault.jpg',
-				url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
-				duration: 228,
-				type: FileType.video,
-				id: '14',
-			} as VideoAttachment,
-		],
-	};
 
 	return (
 		<div className='messenger__messages-list'>

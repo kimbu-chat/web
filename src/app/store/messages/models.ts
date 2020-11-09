@@ -78,6 +78,7 @@ export interface CreateMessageRequest extends EntityCreation {
 	selectedChatId: number;
 	message: Message;
 	isFromEvent?: boolean;
+	attachments?: BaseAttachment[];
 }
 
 export interface CreateMessageResponse {

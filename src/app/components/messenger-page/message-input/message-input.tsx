@@ -86,6 +86,7 @@ const CreateMessageInput = () => {
 		const text = refferedText.current;
 
 		if (text.trim().length > 0 && selectedChat && currentUser) {
+			const attachments = selectedChat?.attachmentsToSend?.map(({ attachment }) => attachment);
 			sendMessage({
 				currentUser: currentUser,
 				selectedChatId: chatId || -1,
@@ -98,13 +99,14 @@ const CreateMessageInput = () => {
 					state: MessageState.QUEUED,
 					id: new Date().getTime(),
 					chatId: chatId,
+					attachments: attachments,
 				},
 			});
 		}
 
 		setText('');
 		setRows(1);
-	}, [selectedChat?.id, currentUser, refferedText, sendMessage]);
+	}, [selectedChat?.id, currentUser, refferedText, sendMessage, selectedChat?.attachmentsToSend]);
 
 	const handleTextChange = useCallback(
 		(newText: string): void => {

@@ -6,15 +6,15 @@ import ChangePhoto from 'app/components/messenger-page/change-photo/change-photo
 import { FriendActions } from 'app/store/friends/actions';
 import { AvatarSelectedData, UserPreview } from 'app/store/my-profile/models';
 import { RootState } from 'app/store/root-reducer';
-import { getStringInitials } from 'app/utils/interlocutor-name-utils';
-import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+import { getStringInitials } from 'app/utils/functions/interlocutor-name-utils';
+import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
 import React, { useCallback, useContext, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import FriendFromList from '../shared/friend-from-list/friend-from-list';
 import SearchBox from '../search-box/search-box';
 import CloseSVG from 'app/assets/icons/ic-close.svg';
 import './create-conference-modal.scss';
-import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
+import { useActionWithDeferred } from 'app/utils/hooks/use-action-with-deferred';
 import { ChatActions } from 'app/store/chats/actions';
 import { Chat } from 'app/store/chats/models';
 import { useHistory } from 'react-router';

@@ -1,11 +1,11 @@
 import React, { useEffect, useCallback, useContext } from 'react';
 import './incoming-call.scss';
-import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
 import { CallActions } from 'app/store/calls/actions';
 import { useSelector } from 'react-redux';
 import { getCallInterlocutorSelector } from 'app/store/calls/selectors';
 import Avatar from 'app/components/shared/avatar/avatar';
-import { getUserInitials } from 'app/utils/interlocutor-name-utils';
+import { getUserInitials } from 'app/utils/functions/interlocutor-name-utils';
 
 //sounds
 import incomingCallSound from 'app/assets/sounds/calls/imcoming-call.ogg';

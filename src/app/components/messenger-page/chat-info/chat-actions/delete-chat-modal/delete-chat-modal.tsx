@@ -4,7 +4,7 @@ import WithBackground from 'app/components/shared/with-background';
 import { ChatActions } from 'app/store/chats/actions';
 import { Chat } from 'app/store/chats/models';
 import { getSelectedChatSelector } from 'app/store/chats/selectors';
-import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
+import { useActionWithDeferred } from 'app/utils/hooks/use-action-with-deferred';
 import React, { useCallback, useContext } from 'react';
 import './delete-chat-modal.scss';
 import { useSelector } from 'react-redux';

@@ -12,7 +12,7 @@ import CloseSVG from 'app/assets/icons/ic-close.svg';
 import { getSelectedChatIdSelector } from 'app/store/chats/selectors';
 import { useSelector } from 'react-redux';
 import { ChatActions } from 'app/store/chats/actions';
-import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
 
 namespace MessageInputAttachment {
 	export interface Props {

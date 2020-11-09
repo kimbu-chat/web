@@ -5,9 +5,9 @@ import DownloadSvg from 'app/assets/icons/ic-download.svg';
 import ProgressSVG from 'app/assets/icons/ic-circular-progress.svg';
 import CloseSVG from 'app/assets/icons/ic-close.svg';
 
-import { fileDownload } from 'app/utils/file-download';
+import { fileDownload } from 'app/utils/functions/file-download';
 import { RawAttachment } from 'app/store/chats/models';
-import { getFileSizeUnit } from 'app/utils/get-file-size-unit';
+import { getFileSizeUnit } from 'app/utils/functions/get-file-size-unit';
 
 namespace FileAttachment {
 	export interface Props {

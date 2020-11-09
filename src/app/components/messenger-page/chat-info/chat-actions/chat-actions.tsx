@@ -15,7 +15,7 @@ import ClearSvg from 'app/assets/icons/ic-clear.svg';
 import EditSvg from 'app/assets/icons/ic-edit.svg';
 import DeleteSvg from 'app/assets/icons/ic-delete.svg';
 import LeaveSvg from 'app/assets/icons/ic-leave-chat.svg';
-import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
 import { FriendActions } from 'app/store/friends/actions';
 import DeleteChatModal from './delete-chat-modal/delete-chat-modal';
 import CreateConference from '../../create-conference-modal/create-conference-modal';

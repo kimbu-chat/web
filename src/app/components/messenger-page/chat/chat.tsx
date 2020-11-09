@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useContext, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import './chat.scss';
-import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
-import { Message, MessageList } from 'app/store/messages/models';
+import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
+import { MessageList } from 'app/store/messages/models';
 import { MessageActions } from 'app/store/messages/actions';
 import { RootState } from 'app/store/root-reducer';
 import { LocalizationContext } from 'app/app';
@@ -11,7 +11,7 @@ import MessageItem from '../message-item/message-item';
 import InfiniteScroll from 'react-infinite-scroller';
 import SelectedMessagesData from '../selected-messages-data/selected-messages-data';
 import { setSelectedMessagesLength } from 'app/store/messages/selectors';
-import { MessageUtils } from 'app/utils/message-utils';
+import { MessageUtils } from 'app/utils/functions/message-utils';
 import moment from 'moment';
 import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
 
@@ -24,15 +24,14 @@ const Chat = () => {
 	const { t } = useContext(LocalizationContext);
 
 	const selectedChat = useSelector(getSelectedChatSelector);
-	const messages = useSelector<RootState, Message[]>(
-		(state) =>
-			state.messages.messages.find((x: MessageList) => x.chatId == selectedChat?.id)?.messages as Message[],
-	);
-	const hasMoreMessages = useSelector<RootState, boolean>(
-		(state) =>
-			state.messages.messages.find((x: MessageList) => x.chatId == selectedChat?.id)?.hasMoreMessages as boolean,
-	);
 	const isSelectState = useSelector(setSelectedMessagesLength) > 0;
+	const messageList = useSelector<RootState, MessageList | undefined>((state) =>
+		state.messages.messages.find((x: MessageList) => x.chatId == selectedChat?.id),
+	);
+	const areMessagesLoading = useSelector<RootState, boolean>((state) => state.messages.loading);
+
+	const messages = messageList?.messages;
+	const hasMoreMessages = messageList?.hasMoreMessages;
 
 	useEffect(() => {
 		if (selectedChat) {
@@ -90,7 +89,7 @@ const Chat = () => {
 					<div className='messenger__typing-notification'>{getTypingString(t, selectedChat)}</div>
 				)}
 
-				{itemsWithUserInfo.length === 0 && (
+				{itemsWithUserInfo.length === 0 && !areMessagesLoading && (
 					<div className='messenger__messages-list__empty'>
 						<p>{t('chat.empty')}</p>
 					</div>

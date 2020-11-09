@@ -4,14 +4,14 @@ import CountrySelect from './components/country-select/country-select';
 import PhoneInput from './components/phone-input/phone-input';
 import { Country, countryList } from 'app/common/countries';
 import { LocalizationContext } from 'app/app';
-import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
+import { useActionWithDeferred } from 'app/utils/hooks/use-action-with-deferred';
 import { AuthActions } from 'app/store/auth/actions';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import { useSelector } from 'react-redux';
 import { RootState } from 'app/store/root-reducer';
 import { useHistory } from 'react-router';
 import BaseBtn from 'app/components/shared/base-btn/base-btn';
-import { getCountry } from 'app/utils/get-country';
+import { getCountryByIp } from 'app/utils/functions/get-country-by-ip';
 
 const PhoneConfirmation = () => {
 	const { t } = useContext(LocalizationContext);
@@ -71,8 +71,12 @@ const PhoneConfirmation = () => {
 	);
 
 	useEffect(() => {
-		setCountry(countryList[0]);
-		getCountry().then((country) => setCountry(country));
+		(async () => {
+			setCountry(countryList[0]);
+			const countryCode = await getCountryByIp();
+			const country = countryList.find(({ code }) => code === countryCode) || countryList[0];
+			setCountry(country);
+		})();
 	}, []);
 
 	//!Temporal code

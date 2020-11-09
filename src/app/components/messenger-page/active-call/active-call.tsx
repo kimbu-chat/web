@@ -3,14 +3,14 @@ import './active-call.scss';
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import { useSelector } from 'react-redux';
 import { amICaling, doIhaveCall, getCallInterlocutorSelector } from 'app/store/calls/selectors';
-import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
 import { CallActions } from 'app/store/calls/actions';
 import { RootState } from 'app/store/root-reducer';
 import { tracks } from 'app/store/calls/sagas';
 import moment from 'moment';
 import { Rnd } from 'react-rnd';
 import Avatar from 'app/components/shared/avatar/avatar';
-import { getUserInitials } from 'app/utils/interlocutor-name-utils';
+import { getUserInitials } from 'app/utils/functions/interlocutor-name-utils';
 import ReactDOM from 'react-dom';
 
 //SVG

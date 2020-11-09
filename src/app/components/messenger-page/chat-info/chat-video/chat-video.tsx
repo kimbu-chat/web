@@ -4,7 +4,7 @@ import './chat-video.scss';
 import ReturnSvg from 'app/assets/icons/ic-arrow-left.svg';
 import { LocalizationContext } from 'app/app';
 
-import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
 import { ChatActions } from 'app/store/chats/actions';
 import { useSelector } from 'react-redux';
 import { getSelectedChatSelector } from 'app/store/chats/selectors';
@@ -12,6 +12,7 @@ import { Page } from 'app/store/common/models';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Link, useLocation } from 'react-router-dom';
 import VideoFromList from './video/video-from-list';
+import { setSeparators } from 'app/utils/functions/set-separators';
 
 namespace ChatVideo {
 	export interface Video {
@@ -31,14 +32,14 @@ const ChatVideo = () => {
 
 	const getVideos = useActionWithDispatch(ChatActions.getVideo);
 	const selectedChat = useSelector(getSelectedChatSelector);
-	const videoForSelectedDialog = selectedChat!.videos;
+	const videosForSelectedDialog = selectedChat!.videos;
 
 	const location = useLocation();
 
 	const loadMore = useCallback(() => {
 		console.log('call');
 		const page: Page = {
-			offset: videoForSelectedDialog?.videos!.length || 0,
+			offset: videosForSelectedDialog?.videos!.length || 0,
 			limit: 20,
 		};
 
@@ -48,18 +49,9 @@ const ChatVideo = () => {
 			page,
 			chatId: selectedChat!.id,
 		});
-	}, [selectedChat!.id, videoForSelectedDialog?.videos]);
+	}, [selectedChat!.id, videosForSelectedDialog?.videos]);
 
-	const videosWithSeparators = videoForSelectedDialog?.videos.map((elem, index, array) => {
-		const elemCopy = { ...elem };
-		if (
-			index === 0 ||
-			new Date(array[index - 1].creationDateTime).getMonth() !== new Date(elem.creationDateTime).getMonth()
-		) {
-			elemCopy.needToShowSeparator = true;
-		}
-		return elemCopy;
-	});
+	const videosWithSeparators = setSeparators(videosForSelectedDialog?.videos, 'month');
 
 	return (
 		<div className={'chat-video'}>
@@ -74,7 +66,7 @@ const ChatVideo = () => {
 					pageStart={0}
 					initialLoad={true}
 					loadMore={loadMore}
-					hasMore={videoForSelectedDialog.hasMore}
+					hasMore={videosForSelectedDialog.hasMore}
 					getScrollParent={() => videoContainerRef.current}
 					loader={
 						<div className='loader ' key={0}>

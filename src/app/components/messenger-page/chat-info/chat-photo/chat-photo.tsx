@@ -3,7 +3,7 @@ import './chat-photo.scss';
 
 import ReturnSvg from 'app/assets/icons/ic-arrow-left.svg';
 import { LocalizationContext } from 'app/app';
-import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
 import { useSelector } from 'react-redux';
 import { ChatActions } from 'app/store/chats/actions';
 import { getSelectedChatSelector } from 'app/store/chats/selectors';
@@ -11,6 +11,7 @@ import { Page } from 'app/store/common/models';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Link, useLocation } from 'react-router-dom';
 import Photo from './photo/photo';
+import { setSeparators } from 'app/utils/functions/set-separators';
 
 const ChatPhoto = () => {
 	const { t } = useContext(LocalizationContext);
@@ -38,16 +39,7 @@ const ChatPhoto = () => {
 		});
 	}, [selectedChat!.id, photoForSelectedDialog?.photos]);
 
-	const photosWithSeparators = photoForSelectedDialog?.photos.map((elem, index, array) => {
-		const elemCopy = { ...elem };
-		if (
-			index === 0 ||
-			new Date(array[index - 1].creationDateTime).getMonth() !== new Date(elem.creationDateTime).getMonth()
-		) {
-			elemCopy.needToShowSeparator = true;
-		}
-		return elemCopy;
-	});
+	const photosWithSeparators = setSeparators(photoForSelectedDialog?.photos, 'month');
 
 	return (
 		<div className={'chat-photo'}>

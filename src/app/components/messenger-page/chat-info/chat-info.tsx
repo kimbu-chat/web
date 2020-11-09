@@ -2,8 +2,8 @@ import React, { useState, useRef, useCallback } from 'react';
 import './chat-info.scss';
 import { useSelector } from 'react-redux';
 import { Chat } from 'app/store/chats/models';
-import { getInterlocutorInitials, getChatInterlocutor } from '../../../utils/interlocutor-name-utils';
-import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
+import { getInterlocutorInitials, getChatInterlocutor } from '../../../utils/functions/interlocutor-name-utils';
+import { useActionWithDeferred } from 'app/utils/hooks/use-action-with-deferred';
 import { AvatarSelectedData } from 'app/store/my-profile/models';
 
 import { getSelectedChatSelector } from 'app/store/chats/selectors';

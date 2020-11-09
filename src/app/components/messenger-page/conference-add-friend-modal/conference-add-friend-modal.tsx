@@ -9,10 +9,10 @@ import SearchBox from '../search-box/search-box';
 import FriendFromList from '../shared/friend-from-list/friend-from-list';
 import { Chat } from 'app/store/chats/models';
 import { ChatActions } from 'app/store/chats/actions';
-import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
+import { useActionWithDeferred } from 'app/utils/hooks/use-action-with-deferred';
 import { getSelectedChatSelector } from 'app/store/chats/selectors';
 import { FriendActions } from 'app/store/friends/actions';
-import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
 import { LocalizationContext } from 'app/app';
 
 namespace ConferenceAddFriendModal {

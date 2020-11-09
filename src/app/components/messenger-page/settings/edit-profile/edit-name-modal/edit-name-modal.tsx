@@ -3,7 +3,7 @@ import Modal from 'app/components/shared/modal/modal';
 import WithBackground from 'app/components/shared/with-background';
 import { MyProfileActions } from 'app/store/my-profile/actions';
 import { getMyProfileSelector } from 'app/store/my-profile/selectors';
-import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
+import { useActionWithDeferred } from 'app/utils/hooks/use-action-with-deferred';
 import React, { useCallback, useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
 import './edit-name-modal.scss';

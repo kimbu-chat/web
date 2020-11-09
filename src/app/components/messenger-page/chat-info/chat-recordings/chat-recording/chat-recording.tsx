@@ -4,7 +4,7 @@ import PlaySvg from 'app/assets/icons/ic-play.svg';
 import PauseSvg from 'app/assets/icons/ic-pause.svg';
 
 import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
-import { changeMusic } from 'app/utils/current-music';
+import { changeMusic } from 'app/utils/functions/current-music';
 import H5AudioPlayer from 'react-h5-audio-player';
 
 namespace ChatRecordingNS {

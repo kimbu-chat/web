@@ -4,7 +4,7 @@ import './chat-list.scss';
 import ChatFromList from './chat-from-list/chat-from-list';
 import InfiniteScroll from 'react-infinite-scroller';
 
-import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
 import { useSelector } from 'react-redux';
 import { Chat } from 'app/store/chats/models';
 import { RootState } from 'app/store/root-reducer';

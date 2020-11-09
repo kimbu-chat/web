@@ -2,11 +2,11 @@ import React, { useContext } from 'react';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { getSelectedChatSelector } from 'app/store/chats/selectors';
-import { getChatInterlocutor, getInterlocutorInitials } from '../../../utils/interlocutor-name-utils';
+import { getChatInterlocutor, getInterlocutorInitials } from '../../../utils/functions/interlocutor-name-utils';
 
 import './chat-data.scss';
 import { LocalizationContext } from 'app/app';
-import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
 import { CallActions } from 'app/store/calls/actions';
 import { UserPreview } from 'app/store/my-profile/models';
 import { UserStatus } from 'app/store/friends/models';

@@ -8,7 +8,7 @@ import ValidSvg from 'app/assets/icons/ic-check-filled.svg';
 import InValidSvg from 'app/assets/icons/ic-dismiss.svg';
 import './edit-username-modal.scss';
 import { MyProfileActions } from 'app/store/my-profile/actions';
-import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
+import { useActionWithDeferred } from 'app/utils/hooks/use-action-with-deferred';
 import { LocalizationContext } from 'app/app';
 
 namespace EditUserNameModal {

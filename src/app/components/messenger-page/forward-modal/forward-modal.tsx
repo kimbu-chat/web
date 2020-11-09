@@ -8,7 +8,7 @@ import './forward-modal.scss';
 import SearchBox from '../search-box/search-box';
 import FriendFromList from '../shared/friend-from-list/friend-from-list';
 import { FriendActions } from 'app/store/friends/actions';
-import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
 import { LocalizationContext } from 'app/app';
 
 namespace ForwardModal {

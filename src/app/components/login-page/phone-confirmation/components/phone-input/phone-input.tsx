@@ -1,9 +1,10 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useContext } from 'react';
 import { AsYouType } from 'libphonenumber-js';
 import './phone-input.scss';
 
 import { Country } from 'app/common/countries';
 import { LocalizationContext } from 'app/app';
+import { removeCountryCodeFromPhoneNumber } from 'app/utils/remove-country-code';
 
 namespace PhoneInput {
 	export interface Props {
@@ -19,19 +20,6 @@ const PhoneInput = React.forwardRef(
 	({ country, phone, setPhone, displayCountries, sendSms }: PhoneInput.Props, ref: React.Ref<HTMLInputElement>) => {
 		const { t } = useContext(LocalizationContext);
 
-		const trimCountryCode = useCallback((countryCode: string, phone: string) => {
-			let regex = '';
-			const countryCodeArr = String(countryCode).split('');
-
-			countryCodeArr.forEach((char) => {
-				regex += `[${char}]\\s?`;
-			});
-
-			const replaceRegex = new RegExp(regex);
-
-			return phone.replace(replaceRegex, '');
-		}, []);
-
 		return (
 			<div className='phone-input'>
 				<input
@@ -44,7 +32,7 @@ const PhoneInput = React.forwardRef(
 				<input
 					ref={ref}
 					placeholder={t('loginPage.phone')}
-					value={trimCountryCode(country.number, new AsYouType().input(phone))}
+					value={removeCountryCodeFromPhoneNumber(country.number, new AsYouType().input(phone))}
 					onChange={(e) => {
 						setPhone(new AsYouType().input(country.number + e.target.value));
 					}}

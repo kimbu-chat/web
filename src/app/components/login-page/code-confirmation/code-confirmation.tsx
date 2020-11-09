@@ -26,9 +26,9 @@ const CodeConfirmation = () => {
 
 	const phoneNumber = useSelector((state: RootState) => state.auth.phoneNumber);
 	const codeFromServer = useSelector<RootState, string>((rootState) => rootState.auth.confirmationCode);
-	const isConfirmationCodeWrong =
-		useSelector<RootState, boolean>((rootState) => rootState.auth.isConfirmationCodeWrong) &&
-		!code.some((element) => element.length === 1);
+	const isConfirmationCodeWrong = useSelector<RootState, boolean>(
+		(rootState) => rootState.auth.isConfirmationCodeWrong,
+	);
 
 	const sendSmsCode = useActionWithDeferred(AuthActions.sendSmsCode);
 	const checkConfirmationCode = useActionWithDeferred(AuthActions.confirmPhone);
@@ -60,7 +60,7 @@ const CodeConfirmation = () => {
 	}, []);
 
 	const checkCode = useCallback(
-		async (code: string[]) => {
+		(code: string[]) => {
 			if (code.every((element) => element.length === 1)) {
 				checkConfirmationCode({ code: code!.join(''), phoneNumber })
 					.then(() => {
@@ -103,18 +103,18 @@ const CodeConfirmation = () => {
 
 		setCode(codeClone);
 
-		if (codeClone.every((element) => element.length === 1)) {
-			boxElements[key].current?.blur();
-
-			checkCode(codeClone);
-		}
-
 		if (codeClone[key] && key < 3) {
 			boxElements[key + 1].current?.focus();
 		}
 
 		if (text === '' && key !== 0) {
 			boxElements[key - 1].current?.focus();
+		}
+
+		if (codeClone.every((element) => element.length === 1)) {
+			boxElements[key].current?.blur();
+
+			checkCode(codeClone);
 		}
 	};
 
@@ -171,19 +171,13 @@ const CodeConfirmation = () => {
 
 				{remainingSeconds === 0 && (
 					<BaseBtn
-						icon={<ResendSvg viewBox='0 0 25 25' className='code-confirmation__resend-svg' />}
+						icon={<ResendSvg viewBox='0 0 25 25' />}
 						disabled={remainingSeconds > 0}
 						onClick={() => resendPhoneConfirmationCode()}
 						variant={'outlined'}
 						color={'primary'}
 						width={'auto'}
-						style={{
-							backgroundColor: 'rgba(63, 138, 224, 0.1)',
-							fontWeight: 500,
-							padding: '12px 30px',
-							display: 'flex',
-							marginTop: '20px',
-						}}
+						className='code-confirmation__resend-btn'
 					>
 						{t('loginPage.resend')}
 					</BaseBtn>

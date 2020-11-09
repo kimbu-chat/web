@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'app/store/root-reducer';
 import { useHistory } from 'react-router';
 import BaseBtn from 'app/components/shared/base-btn/base-btn';
+import { getCountry } from 'app/utils/get-country';
 
 const PhoneConfirmation = () => {
 	const { t } = useContext(LocalizationContext);
@@ -29,9 +30,13 @@ const PhoneConfirmation = () => {
 	const sendSms = useCallback(() => {
 		const phoneNumber = parsePhoneNumberFromString(phone);
 		if (phoneNumber?.isValid) {
-			sendSmsCode({ phoneNumber: phoneNumber!.number as string }).then(() => {
-				history.push('/confirm-code');
-			});
+			sendSmsCode({ phoneNumber: phoneNumber!.number as string })
+				.then(() => {
+					history.push('/confirm-code');
+				})
+				.catch(() => {
+					alert('sms limit');
+				});
 		}
 	}, [phone]);
 
@@ -48,18 +53,7 @@ const PhoneConfirmation = () => {
 
 	useEffect(() => {
 		setCountry(countryList[0]);
-		(async () => {
-			const result = await fetch('https://ipapi.co/json/');
-
-			if (result.ok) {
-				const countryData = await result.json();
-
-				const country =
-					countryList.find(({ code }) => countryData.country_code === code) ||
-					countryList[countryList.length - 1];
-				setCountry(country);
-			}
-		})();
+		getCountry().then((country) => setCountry(country));
 	}, []);
 
 	//!Temporal code
@@ -108,7 +102,7 @@ const PhoneConfirmation = () => {
 					variant={'contained'}
 					color={'primary'}
 					width={'contained'}
-					style={{ marginTop: '20px' }}
+					className='phone-confirmation__btn'
 				>
 					{t('loginPage.next')}
 				</BaseBtn>

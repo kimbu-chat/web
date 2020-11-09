@@ -1,8 +1,9 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useContext } from 'react';
 import './modal-phone-input.scss';
 import { Country } from 'app/common/countries';
 import { AsYouType } from 'libphonenumber-js';
 import { LocalizationContext } from 'app/app';
+import { removeCountryCodeFromPhoneNumber } from 'app/utils/remove-country-code';
 
 namespace ModalPhoneInput {
 	export interface Props {
@@ -21,19 +22,6 @@ const ModalPhoneInput = React.forwardRef(
 	) => {
 		const { t } = useContext(LocalizationContext);
 
-		const trimCountryCode = useCallback((countryCode: string, phone: string) => {
-			let regex = '';
-			const countryCodeArr = String(countryCode).split('');
-
-			countryCodeArr.forEach((char) => {
-				regex += `[${char}]\\s?`;
-			});
-
-			const replaceRegex = new RegExp(regex);
-
-			return phone.replace(replaceRegex, '');
-		}, []);
-
 		return (
 			<div className='modal-phone-input'>
 				<div className='modal-phone-input__label'>{t('editPhoneModal.phone_number')}</div>
@@ -48,7 +36,7 @@ const ModalPhoneInput = React.forwardRef(
 					<input
 						ref={ref}
 						placeholder={'234-56-789'}
-						value={trimCountryCode(country.number, new AsYouType().input(phone))}
+						value={removeCountryCodeFromPhoneNumber(country.number, new AsYouType().input(phone))}
 						onChange={(e) => {
 							setPhone(new AsYouType().input(country.number + e.target.value));
 						}}

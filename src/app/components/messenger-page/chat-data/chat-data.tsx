@@ -29,12 +29,8 @@ const ChatData = () => {
 		callInterlocutor({
 			calling: selectedChat?.interlocutor as UserPreview,
 			constraints: {
-				video: {
-					isOpened: true,
-				},
-				audio: {
-					isOpened: true,
-				},
+				videoEnabled: true,
+				audioEnabled: true,
 			},
 		});
 
@@ -42,12 +38,8 @@ const ChatData = () => {
 		callInterlocutor({
 			calling: selectedChat?.interlocutor as UserPreview,
 			constraints: {
-				video: {
-					isOpened: false,
-				},
-				audio: {
-					isOpened: true,
-				},
+				videoEnabled: false,
+				audioEnabled: true,
 			},
 		});
 

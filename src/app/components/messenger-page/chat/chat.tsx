@@ -73,8 +73,12 @@ const Chat = () => {
 
 	const messagesContainerRef = useRef(null);
 
-	if (!selectedChat || !messages) {
-		return <div className='messenger__messages-list'></div>;
+	if (!selectedChat) {
+		return (
+			<div className='messenger__messages-list'>
+				<div className='messenger__select-chat'>{t('chat.select_chat')}</div>
+			</div>
+		);
 	}
 
 	const itemsWithUserInfo = MessageUtils.signAndSeparate(messages || []).reverse();

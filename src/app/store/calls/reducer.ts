@@ -79,8 +79,8 @@ const calls = createReducer<CallState>(initialState)
 			draft.interlocutor = interlocutor;
 			draft.amICaling = true;
 			draft.isActiveCallIncoming = false;
-			draft.audioConstraints = { ...draft.audioConstraints, ...payload.constraints.audio };
-			draft.videoConstraints = { ...draft.videoConstraints, ...payload.constraints.video };
+			draft.audioConstraints = { ...draft.audioConstraints, isOpened: payload.constraints.audioEnabled };
+			draft.videoConstraints = { ...draft.videoConstraints, isOpened: payload.constraints.videoEnabled };
 			return draft;
 		}),
 	)
@@ -103,8 +103,8 @@ const calls = createReducer<CallState>(initialState)
 	.handleAction(
 		CallActions.acceptCallAction,
 		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.acceptCallAction>) => {
-			draft.audioConstraints = { ...draft.audioConstraints, ...payload.constraints.audio };
-			draft.videoConstraints = { ...draft.videoConstraints, ...payload.constraints.video };
+			draft.audioConstraints = { ...draft.audioConstraints, isOpened: payload.constraints.audioEnabled };
+			draft.videoConstraints = { ...draft.videoConstraints, isOpened: payload.constraints.videoEnabled };
 			return draft;
 		}),
 	)

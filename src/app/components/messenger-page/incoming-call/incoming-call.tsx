@@ -46,35 +46,23 @@ const IncomingCall = () => {
 		};
 	});
 
-	const acceptWithVideo = useCallback(
-		() =>
-			acceptCall({
-				constraints: {
-					video: {
-						isOpened: true,
-					},
-					audio: {
-						isOpened: true,
-					},
-				},
-			}),
-		[],
-	);
+	const acceptWithVideo = useCallback(() => {
+		acceptCall({
+			constraints: {
+				videoEnabled: true,
+				audioEnabled: true,
+			},
+		});
+	}, []);
 
-	const acceptWithAudio = useCallback(
-		() =>
-			acceptCall({
-				constraints: {
-					video: {
-						isOpened: false,
-					},
-					audio: {
-						isOpened: true,
-					},
-				},
-			}),
-		[],
-	);
+	const acceptWithAudio = useCallback(() => {
+		acceptCall({
+			constraints: {
+				videoEnabled: false,
+				audioEnabled: true,
+			},
+		});
+	}, []);
 
 	return (
 		<Rnd

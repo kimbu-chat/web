@@ -110,7 +110,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 		return () => {
 			peerConnection?.removeEventListener('track', onTrack);
 		};
-	}, [onTrack, isDisplayed]);
+	}, [onTrack, isDisplayed, peerConnection]);
 
 	//local video stream assigning
 	useEffect(() => {

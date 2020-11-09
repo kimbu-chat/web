@@ -1,6 +1,6 @@
 import { AttachmentToSend, BaseAttachment, PictureAttachment, VideoAttachment } from 'app/store/chats/models';
 import { FileType } from 'app/store/messages/models';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import './message-input-attachment.scss';
 
 import PhotoSVG from 'app/assets/icons/ic-photo.svg';
@@ -24,12 +24,26 @@ const MessageInputAttachment: React.FC<MessageInputAttachment.Props> = ({ attach
 	const selectedChatId = useSelector(getSelectedChatIdSelector);
 	const removeAttachment = useActionWithDispatch(ChatActions.removeAttachmentAction);
 
+	const [previewUrl, setPreviewUr] = useState<string>('');
+
 	const removeThisAttachment = useCallback(() => {
 		removeAttachment({
 			chatId: selectedChatId!,
 			attachmentId: attachment.attachment.id,
 		});
 	}, [selectedChatId, attachment.attachment.id]);
+
+	useEffect(() => {
+		if (attachment.attachment.type === FileType.photo) {
+			var reader = new FileReader();
+
+			reader.onload = function (e) {
+				setPreviewUr(e.target?.result as string);
+			};
+
+			reader.readAsDataURL(attachment.file);
+		}
+	}, [setPreviewUr]);
 
 	return (
 		<div
@@ -60,7 +74,7 @@ const MessageInputAttachment: React.FC<MessageInputAttachment.Props> = ({ attach
 				{attachment.attachment.type === FileType.photo && (
 					<>
 						<img
-							src={(attachment.attachment as PictureAttachment).previewUrl}
+							src={(attachment.attachment as PictureAttachment).previewUrl || previewUrl}
 							alt=''
 							className='message-input-attachment__bg'
 						/>

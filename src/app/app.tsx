@@ -13,6 +13,7 @@ import PublicRoute from './routing/PublicRoute';
 import PrivateRoute from './routing/PrivateRoute';
 
 import { i18n, TFunction } from 'i18next';
+import CubeLoader from './containers/cube-loader/cube-loader';
 
 const ConfirmPhone = lazy(() => import('./components/login-page/phone-confirmation/phone-confirmation'));
 const ConfirmCode = lazy(() => import('./components/login-page/code-confirmation/code-confirmation'));
@@ -39,7 +40,7 @@ export const App = () => {
 					path='/confirm-code'
 					isAllowed={phoneNumber.length > 0}
 					Component={
-						<Suspense fallback={<div>Загрузка...</div>}>
+						<Suspense fallback={<CubeLoader />}>
 							<ConfirmCode />
 						</Suspense>
 					}
@@ -47,7 +48,7 @@ export const App = () => {
 				<PublicRoute
 					path='/login'
 					Component={
-						<Suspense fallback={<div>Загрузка...</div>}>
+						<Suspense fallback={<CubeLoader />}>
 							<ConfirmPhone />
 						</Suspense>
 					}
@@ -57,7 +58,7 @@ export const App = () => {
 					isAllowed={isAuthenticated}
 					fallback={'/login'}
 					Component={
-						<Suspense fallback={<div>Загрузка...</div>}>
+						<Suspense fallback={<CubeLoader />}>
 							<Messenger />
 						</Suspense>
 					}

@@ -27,7 +27,7 @@ const ChatRecordings = () => {
 
 	const recordingsContainerRef = useRef<HTMLDivElement>(null);
 
-	const recordingsWithSeparators = setSeparators(recordings?.recordings, 'month');
+	const recordingsWithSeparators = setSeparators(recordings?.recordings, 'month', true);
 
 	return (
 		<div className='chat-recordings'>

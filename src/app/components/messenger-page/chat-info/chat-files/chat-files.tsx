@@ -41,7 +41,7 @@ const ChatFiles = () => {
 		});
 	}, [selectedChat!.id, filesForSelectedDialog?.files]);
 
-	const filesWithSeparators = setSeparators(filesForSelectedDialog?.files, 'month');
+	const filesWithSeparators = setSeparators(filesForSelectedDialog?.files, 'month', true);
 
 	return (
 		<div className={'chat-files'}>

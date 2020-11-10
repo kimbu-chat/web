@@ -12,6 +12,9 @@ import { RootState } from 'app/store/root-reducer';
 import { useHistory } from 'react-router';
 import BaseBtn from 'app/components/shared/base-btn/base-btn';
 import { getCountryByIp } from 'app/utils/functions/get-country-by-ip';
+import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
+import PrivacyPolicy from 'app/components/shared/privacy-policy/privacy-policy';
+import WithBackground from 'app/components/shared/with-background';
 
 const PhoneConfirmation = () => {
 	const { t } = useContext(LocalizationContext);
@@ -22,8 +25,9 @@ const PhoneConfirmation = () => {
 
 	const [country, setCountry] = useState<Country>(countryList[countryList.length - 1]);
 	const [phone, setPhone] = useState<string>('');
-
 	const [countrySelectRef, setCountrySelectRef] = useState<React.RefObject<HTMLInputElement> | null>(null);
+	const [policyDisplayed, setPolicyDisplayed] = useState(false);
+
 	const phoneInputRef = useRef<HTMLInputElement>(null);
 
 	const sendSmsCode = useActionWithDeferred(AuthActions.sendSmsCode);
@@ -39,6 +43,10 @@ const PhoneConfirmation = () => {
 				});
 		}
 	}, [phone]);
+
+	const changePolicyDisplayedState = useCallback(() => {
+		setPolicyDisplayed((oldState) => !oldState);
+	}, [setPolicyDisplayed]);
 
 	const displayCountries = useCallback(() => {
 		countrySelectRef?.current?.focus();
@@ -87,51 +95,59 @@ const PhoneConfirmation = () => {
 	}, [setNumbersDisplayed]);
 
 	return (
-		<div className='phone-confirmation'>
-			<div className='phone-confirmation__container'>
-				<img src='' alt='' className='phone-confirmation__logo' />
-				<p onClick={changeNumbersDisplayedState} className='phone-confirmation__confirm-phone'>
-					{t('loginPage.confirm_phone')}
-				</p>
-				{areNumbersDisplayed && (
-					<>
-						<p>+375445446331</p>
-						<p>+375292725607</p>
-						<p>+375445446388</p>
-						<p>+375445446399</p>
-					</>
-				)}
-				<div className='phone-confirmation__credentials'>
-					<CountrySelect
-						setRef={setCountrySelectRef}
-						country={country}
-						handleCountryChange={handleCountryChange}
-					/>
-					<PhoneInput
-						ref={phoneInputRef}
-						displayCountries={displayCountries}
-						country={country}
-						phone={phone}
-						setPhone={setPhone}
-						sendSms={sendSms}
-					/>
+		<>
+			<div className='phone-confirmation'>
+				<div className='phone-confirmation__container'>
+					<img src='' alt='' className='phone-confirmation__logo' />
+					<p onClick={changeNumbersDisplayedState} className='phone-confirmation__confirm-phone'>
+						{t('loginPage.confirm_phone')}
+					</p>
+					{areNumbersDisplayed && (
+						<>
+							<p>+375445446331</p>
+							<p>+375292725607</p>
+							<p>+375445446388</p>
+							<p>+375445446399</p>
+						</>
+					)}
+					<div className='phone-confirmation__credentials'>
+						<CountrySelect
+							setRef={setCountrySelectRef}
+							country={country}
+							handleCountryChange={handleCountryChange}
+						/>
+						<PhoneInput
+							ref={phoneInputRef}
+							displayCountries={displayCountries}
+							country={country}
+							phone={phone}
+							setPhone={setPhone}
+							sendSms={sendSms}
+						/>
+					</div>
+					<BaseBtn
+						disabled={isLoading}
+						isLoading={isLoading}
+						onClick={sendSms}
+						variant={'contained'}
+						color={'primary'}
+						width={'contained'}
+						className='phone-confirmation__btn'
+					>
+						{t('loginPage.next')}
+					</BaseBtn>
+					<p className='phone-confirmation__conditions'>
+						{t('loginPage.agree_to')}{' '}
+						<span onClick={changePolicyDisplayedState}>{t('loginPage.ravudi_terms')}</span>
+					</p>
 				</div>
-				<BaseBtn
-					disabled={isLoading}
-					isLoading={isLoading}
-					onClick={sendSms}
-					variant={'contained'}
-					color={'primary'}
-					width={'contained'}
-					className='phone-confirmation__btn'
-				>
-					{t('loginPage.next')}
-				</BaseBtn>
-				<p className='phone-confirmation__conditions'>
-					{t('loginPage.agree_to')} <a href='#'>{t('loginPage.ravudi_terms')}</a>
-				</p>
 			</div>
-		</div>
+			<FadeAnimationWrapper isDisplayed={policyDisplayed}>
+				<WithBackground onBackgroundClick={changePolicyDisplayedState}>
+					<PrivacyPolicy close={changePolicyDisplayedState} />
+				</WithBackground>
+			</FadeAnimationWrapper>
+		</>
 	);
 };
 

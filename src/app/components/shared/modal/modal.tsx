@@ -1,9 +1,10 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 
 import './modal.scss';
 
 import CloseSVG from 'app/assets/icons/ic-close.svg';
 import BaseBtn, { BaseBtnNS } from '../base-btn/base-btn';
+import { stopPropagation } from 'app/utils/functions/stop-propagation';
 
 namespace Modal {
 	export interface Button extends BaseBtnNS.Props {
@@ -31,8 +32,6 @@ const Modal = ({ title, contents, buttons, highlightedInContents, closeModal }: 
 			rightBtns.push(btn);
 		}
 	});
-
-	const stopPropagation = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => e.stopPropagation(), []);
 
 	return (
 		<div onClick={stopPropagation} className='modal'>

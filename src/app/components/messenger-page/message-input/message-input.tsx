@@ -26,6 +26,7 @@ import useOnClickOutside from 'app/utils/hooks/useOnClickOutside';
 import { getFileType } from 'app/utils/functions/get-file-extension';
 import RespondingMessage from 'app/components/messenger-page/responding-message/responding-message';
 import { RootState } from 'app/store/root-reducer';
+import { Chat } from 'app/store/chats/models';
 
 namespace CreateMessageInput {
 	export interface RecordedData {
@@ -63,12 +64,17 @@ const CreateMessageInput = () => {
 		isRecording: false,
 		needToSubmit: false,
 	});
+	const updatedSelectedChat = useRef<Chat | undefined>();
 
 	useEffect(() => {
 		if (messageToEdit) {
 			setText(messageToEdit.text);
 		}
 	}, [messageToEdit]);
+
+	useEffect(() => {
+		updatedSelectedChat.current = selectedChat;
+	}, [selectedChat]);
 
 	useInterval(
 		() => {
@@ -80,17 +86,18 @@ const CreateMessageInput = () => {
 		true,
 	);
 
-	const sendMessageToServer = useCallback(() => {
-		const chatId = selectedChat?.id;
+	const sendMessageToServer = () => {
+		const chatId = updatedSelectedChat.current?.id;
 
 		const text = refferedText.current;
 
-		if (text.trim().length > 0 && selectedChat && currentUser) {
-			const attachments = selectedChat?.attachmentsToSend?.map(({ attachment }) => attachment);
+		if (text.trim().length > 0 && updatedSelectedChat.current && currentUser) {
+			const attachments = updatedSelectedChat.current?.attachmentsToSend?.map(({ attachment }) => attachment);
+
 			sendMessage({
 				currentUser: currentUser,
 				selectedChatId: chatId || -1,
-				chat: selectedChat,
+				chat: updatedSelectedChat.current,
 				message: {
 					text,
 					systemMessageType: SystemMessageType.None,
@@ -106,7 +113,7 @@ const CreateMessageInput = () => {
 
 		setText('');
 		setRows(1);
-	}, [selectedChat?.id, currentUser, refferedText, sendMessage, selectedChat?.attachmentsToSend]);
+	};
 
 	const handleTextChange = useCallback(
 		(newText: string): void => {
@@ -119,22 +126,55 @@ const CreateMessageInput = () => {
 		[selectedChat?.id, myProfile],
 	);
 
+	const onType = useCallback(
+		(event) => {
+			const minRows = 1;
+			const maxRows = 20;
+			const textareaLineHeight = 18;
+			const previousRows = event.target.rows;
+
+			event.target.rows = minRows;
+
+			const currentRows = ~~(event.target.scrollHeight / textareaLineHeight);
+
+			if (currentRows === previousRows) {
+				event.target.rows = currentRows;
+			}
+
+			if (currentRows >= maxRows) {
+				event.target.rows = maxRows;
+				event.target.scrollTop = event.target.scrollHeight;
+			}
+
+			setText(event.target.value);
+			handleTextChange(event.target.value);
+
+			console.log(currentRows < maxRows ? currentRows : maxRows);
+
+			setRows(currentRows < maxRows ? currentRows : maxRows);
+		},
+		[setText, handleTextChange, setRows],
+	);
+
 	const handleFocus = useCallback(() => {
 		if (myTypingStrategy === typingStrategy.nle) {
 			Mousetrap.bind(['command+enter', 'ctrl+enter', 'alt+enter', 'shift+enter'], () => {
 				sendMessageToServer();
 			});
-			Mousetrap.bind('enter', () => {});
+			Mousetrap.bind('enter', (e) => {
+				onType(e);
+			});
 		} else {
-			Mousetrap.bind(['command+enter', 'ctrl+enter', 'alt+enter', 'shift+enter'], () => {
+			Mousetrap.bind(['command+enter', 'ctrl+enter', 'alt+enter', 'shift+enter'], (e) => {
 				setText((oldText) => oldText + '\n');
+				onType(e);
 			});
 			Mousetrap.bind('enter', (e) => {
 				e.preventDefault();
 				sendMessageToServer();
 			});
 		}
-	}, [setText, sendMessageToServer, myTypingStrategy]);
+	}, [setText, onType, sendMessageToServer, myTypingStrategy]);
 
 	const handleBlur = useCallback(() => {
 		Mousetrap.unbind(['command+enter', 'ctrl+enter', 'alt+enter', 'shift+enter']);
@@ -216,36 +256,6 @@ const CreateMessageInput = () => {
 			startRecording();
 		}
 	}, [startRecording, stopRecording, recorderData.current]);
-
-	const onType = useCallback(
-		(event) => {
-			const minRows = 1;
-			const maxRows = 20;
-			const textareaLineHeight = 18;
-			const previousRows = event.target.rows;
-
-			event.target.rows = minRows;
-
-			const currentRows = ~~(event.target.scrollHeight / textareaLineHeight);
-
-			if (currentRows === previousRows) {
-				event.target.rows = currentRows;
-			}
-
-			if (currentRows >= maxRows) {
-				event.target.rows = maxRows;
-				event.target.scrollTop = event.target.scrollHeight;
-			}
-
-			setText(event.target.value);
-			handleTextChange(event.target.value);
-
-			console.log(currentRows < maxRows ? currentRows : maxRows);
-
-			setRows(currentRows < maxRows ? currentRows : maxRows);
-		},
-		[setText, handleTextChange, setRows],
-	);
 
 	const openSelectFiles = useCallback(() => {
 		console.log('eeeeZZ');

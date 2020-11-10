@@ -3,11 +3,11 @@ import './photo-attachment.scss';
 
 import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
 import BigPhoto from '../../../shared/big-photo/big-photo';
-import { BaseAttachment } from 'app/store/chats/models';
+import { PictureAttachment } from 'app/store/chats/models';
 
 namespace PhotoAttachment {
 	export interface Props {
-		attachment: BaseAttachment;
+		attachment: PictureAttachment;
 	}
 }
 
@@ -20,7 +20,7 @@ const PhotoAttachment = ({ attachment }: PhotoAttachment.Props) => {
 	return (
 		<>
 			<div onClick={changeBigPhotoDisplayed} className='photo-attachment'>
-				<img src={attachment.url} alt='' className='photo-attachment__img' />
+				<img src={attachment.previewUrl} alt='' className='photo-attachment__img' />
 			</div>
 			<FadeAnimationWrapper isDisplayed={bigPhotoDisplayed}>
 				<BigPhoto url={attachment.url} onClose={changeBigPhotoDisplayed} />

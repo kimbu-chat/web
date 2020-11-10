@@ -108,6 +108,7 @@ module.exports = {
 				use: [
 					{
 						loader: '@svgr/webpack',
+						options: { ref: true, memo: true },
 					},
 				],
 			},

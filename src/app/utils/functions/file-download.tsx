@@ -1,4 +1,9 @@
-export const fileDownload = (url: string, fileName: string, onProgress?: (loaded: number, total: number) => void) => {
+export const fileDownload = (
+	url: string,
+	fileName: string,
+	onProgress?: (loaded: number, total: number) => void,
+	onEnd?: () => void,
+) => {
 	var xhr = new XMLHttpRequest();
 	xhr.open('GET', url, true);
 	xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
@@ -17,8 +22,11 @@ export const fileDownload = (url: string, fileName: string, onProgress?: (loaded
 		document.body.appendChild(tag);
 		tag.click();
 		document.body.removeChild(tag);
+		if (onEnd) {
+			onEnd();
+		}
 	};
 	xhr.send();
 
-	return xhr.abort;
+	return xhr;
 };

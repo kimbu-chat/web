@@ -18,7 +18,7 @@ const FileAttachment = ({ attachment }: FileAttachment.Props) => {
 	const [isDownloading, setIsDownloading] = useState(false);
 	const [downloaded, setDownloaded] = useState(0);
 
-	const abortDownloadingRef = useRef<() => void>();
+	const abortDownloadingRef = useRef<XMLHttpRequest>();
 	const progressSvgRef = useRef<SVGElement>(null);
 
 	useEffect(() => {
@@ -41,7 +41,7 @@ const FileAttachment = ({ attachment }: FileAttachment.Props) => {
 
 	const abortDownloading = useCallback(() => {
 		if (abortDownloadingRef.current) {
-			abortDownloadingRef.current();
+			abortDownloadingRef.current.abort();
 		}
 		setDownloaded(0);
 		setIsDownloading(false);

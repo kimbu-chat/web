@@ -28,5 +28,5 @@ export const fileDownload = (
 	};
 	xhr.send();
 
-	return xhr.abort;
+	return xhr;
 };

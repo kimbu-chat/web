@@ -36,7 +36,7 @@
 		line-height: 16px;
 		font-weight: 500;
 		color: #3f8ae0;
-		margin-left: 89px;
+		margin-left: 47px;
 	}
 
 	&__back {
@@ -47,6 +47,7 @@
 	}
 
 	&__separator {
+		text-transform: capitalize;
 		width: 100%;
 		margin-bottom: 10px;
 		font-size: 11px;
@@ -67,7 +68,13 @@
 
 	&__recordings {
 		max-height: calc(100vh - 68px);
-		overflow-y: scroll;
+		overflow-y: auto;
+
+		&::-webkit-scrollbar {
+			display: none;
+		}
+		-ms-overflow-style: none; /* IE and Edge */
+		scrollbar-width: none; /* Firefox */
 
 		.rhap {
 			&_container {

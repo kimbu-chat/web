@@ -12,8 +12,6 @@ namespace VideoPlayer {
 }
 
 const VideoPlayer: React.FC<VideoPlayer.Props> = ({ url, onClose }) => {
-	//const stopPropagation = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => e.stopPropagation(), []);
-
 	return (
 		<BackgroundBlur onClick={onClose}>
 			<video preload='metadata' controls src={`${url}#t=5`} className='video-player' />

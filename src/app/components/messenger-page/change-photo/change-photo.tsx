@@ -8,6 +8,7 @@ import { LocalizationContext } from 'app/app';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import WithBackground from 'app/components/shared/with-background';
+import { stopPropagation } from 'app/utils/functions/stop-propagation';
 
 namespace ChangePhoto {
 	export interface Props {
@@ -148,8 +149,6 @@ const ChangePhotoComponent = ({ imageUrl, onSubmit, hideChangePhoto }: ChangePho
 			crop?.height || 0,
 		);
 	}, [completedCrop]);
-
-	const stopPropagation = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => e.stopPropagation(), []);
 
 	return typeof imageUrl === 'string' ? (
 		<WithBackground onBackgroundClick={hideChangePhoto}>

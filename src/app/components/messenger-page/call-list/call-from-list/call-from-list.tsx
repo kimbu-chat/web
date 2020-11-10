@@ -4,7 +4,7 @@ import React, { useContext } from 'react';
 
 import OutgoingCallSvg from 'app/assets/icons/ic-outgoing-call.svg';
 import Avatar from 'app/components/shared/avatar/avatar';
-import { getUserInitials } from 'app/utils/interlocutor-name-utils';
+import { getUserInitials } from 'app/utils/functions/interlocutor-name-utils';
 import { LocalizationContext } from 'app/app';
 import moment from 'moment';
 

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import './message-input.scss';
 
 import { UserPreview } from 'app/store/my-profile/models';
-import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
 import { MessageActions } from 'app/store/messages/actions';
 import { getSelectedChatSelector } from 'app/store/chats/selectors';
 import { SystemMessageType, MessageState, FileType } from 'app/store/messages/models';
@@ -23,7 +23,7 @@ import { typingStrategy } from 'app/store/settings/models';
 import { ChatActions } from 'app/store/chats/actions';
 import MessageInputAttachment from './message-input-attachment/message-input-attachment';
 import useOnClickOutside from 'app/utils/hooks/useOnClickOutside';
-import { getFileType } from 'app/utils/get-file-extension';
+import { getFileType } from 'app/utils/functions/get-file-extension';
 import RespondingMessage from 'app/components/messenger-page/responding-message/responding-message';
 import { RootState } from 'app/store/root-reducer';
 
@@ -86,6 +86,7 @@ const CreateMessageInput = () => {
 		const text = refferedText.current;
 
 		if (text.trim().length > 0 && selectedChat && currentUser) {
+			const attachments = selectedChat?.attachmentsToSend?.map(({ attachment }) => attachment);
 			sendMessage({
 				currentUser: currentUser,
 				selectedChatId: chatId || -1,
@@ -98,13 +99,14 @@ const CreateMessageInput = () => {
 					state: MessageState.QUEUED,
 					id: new Date().getTime(),
 					chatId: chatId,
+					attachments: attachments,
 				},
 			});
 		}
 
 		setText('');
 		setRows(1);
-	}, [selectedChat?.id, currentUser, refferedText, sendMessage]);
+	}, [selectedChat?.id, currentUser, refferedText, sendMessage, selectedChat?.attachmentsToSend]);
 
 	const handleTextChange = useCallback(
 		(newText: string): void => {
@@ -167,8 +169,8 @@ const CreateMessageInput = () => {
 
 				if (audioChunks[0]?.size > 0 && recorderData.current.needToSubmit) {
 					const audioBlob = new Blob(audioChunks);
-					const audioFile = new File([audioBlob], 'audio.ogg', {
-						type: 'audio/ogg; codecs="opus"',
+					const audioFile = new File([audioBlob], 'audio.mp3', {
+						type: 'audio/mp3; codecs="opus"',
 					});
 					uploadAttachmentRequest({
 						chatId: selectedChat!.id,

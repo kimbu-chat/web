@@ -8,14 +8,16 @@ import ChatRecording from './chat-recording/chat-recording';
 import { useSelector } from 'react-redux';
 import { getSelectedChatSelector } from 'app/store/chats/selectors';
 import { ChatActions } from 'app/store/chats/actions';
-import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
 import InfiniteScroll from 'react-infinite-scroller';
 import moment from 'moment';
+
+import { setSeparators } from 'app/utils/functions/set-separators';
 
 const ChatRecordings = () => {
 	const { t } = useContext(LocalizationContext);
 	const selectedChat = useSelector(getSelectedChatSelector);
-	const recordings = selectedChat?.recordings;
+	const recordings = selectedChat!.recordings;
 
 	const getRecordings = useActionWithDispatch(ChatActions.getRecordings);
 
@@ -25,16 +27,7 @@ const ChatRecordings = () => {
 
 	const recordingsContainerRef = useRef<HTMLDivElement>(null);
 
-	const recordingsWithSeparators = recordings?.recordings.map((elem, index, array) => {
-		const elemCopy = { ...elem };
-		if (
-			index === 0 ||
-			new Date(array[index - 1].creationDateTime).getMonth() !== new Date(elem.creationDateTime).getMonth()
-		) {
-			elemCopy.needToShowSeparator = true;
-		}
-		return elemCopy;
-	});
+	const recordingsWithSeparators = setSeparators(recordings?.recordings, 'month');
 
 	return (
 		<div className='chat-recordings'>

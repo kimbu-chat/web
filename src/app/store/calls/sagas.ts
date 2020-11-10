@@ -206,7 +206,7 @@ export function* outgoingCallSaga(action: ReturnType<typeof CallActions.outgoing
 		offer,
 		interlocutorId,
 		caller: myProfile,
-		isVideoEnabled: action.payload.constraints.video.isOpened && !isVideoError,
+		isVideoEnabled: action.payload.constraints.videoEnabled && !isVideoError,
 	};
 
 	const httpRequest = CallsHttpRequests.call;

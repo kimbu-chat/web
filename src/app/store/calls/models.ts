@@ -9,16 +9,6 @@ export enum CallType {
 	canceled = 5,
 	ignored = 6,
 }
-
-export interface IConstraints {
-	video: {
-		isOpened: boolean;
-	};
-	audio: {
-		isOpened: boolean;
-	};
-}
-
 export interface ICompleteConstraints {
 	video: {
 		isOpened: boolean;
@@ -56,11 +46,17 @@ export interface IncomingCallActionPayload {
 
 export interface OutgoingCallActionPayload {
 	calling: UserPreview;
-	constraints: IConstraints;
+	constraints: {
+		videoEnabled: boolean;
+		audioEnabled: boolean;
+	};
 }
 
 export interface AcceptIncomingCallActionPayload {
-	constraints: IConstraints;
+	constraints: {
+		videoEnabled: boolean;
+		audioEnabled: boolean;
+	};
 }
 
 export interface InterlocutorAcceptCallActionPayload {

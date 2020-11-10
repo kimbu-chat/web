@@ -260,8 +260,9 @@ const chats = createReducer<ChatsState>(initialState)
 						? previousOwnUnreadMessagesCount
 						: previousOwnUnreadMessagesCount + 1;
 
-				(draft.chats[chatIndex].lastMessage = { ...message }),
-					(draft.chats[chatIndex].ownUnreadMessagesCount = ownUnreadMessagesCount);
+				draft.chats[chatIndex].attachmentsToSend = [];
+				draft.chats[chatIndex].lastMessage = { ...message };
+				draft.chats[chatIndex].ownUnreadMessagesCount = ownUnreadMessagesCount;
 
 				const chatWithNewMessage = draft.chats[chatIndex];
 

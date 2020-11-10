@@ -4,13 +4,14 @@ import CountrySelect from './components/country-select/country-select';
 import PhoneInput from './components/phone-input/phone-input';
 import { Country, countryList } from 'app/common/countries';
 import { LocalizationContext } from 'app/app';
-import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
+import { useActionWithDeferred } from 'app/utils/hooks/use-action-with-deferred';
 import { AuthActions } from 'app/store/auth/actions';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import { useSelector } from 'react-redux';
 import { RootState } from 'app/store/root-reducer';
 import { useHistory } from 'react-router';
 import BaseBtn from 'app/components/shared/base-btn/base-btn';
+import { getCountryByIp } from 'app/utils/functions/get-country-by-ip';
 
 const PhoneConfirmation = () => {
 	const { t } = useContext(LocalizationContext);
@@ -29,9 +30,13 @@ const PhoneConfirmation = () => {
 	const sendSms = useCallback(() => {
 		const phoneNumber = parsePhoneNumberFromString(phone);
 		if (phoneNumber?.isValid) {
-			sendSmsCode({ phoneNumber: phoneNumber!.number as string }).then(() => {
-				history.push('/confirm-code');
-			});
+			sendSmsCode({ phoneNumber: phoneNumber!.number as string })
+				.then(() => {
+					history.push('/confirm-code');
+				})
+				.catch(() => {
+					alert('sms limit');
+				});
 		}
 	}, [phone]);
 
@@ -46,19 +51,31 @@ const PhoneConfirmation = () => {
 		phoneInputRef.current?.focus();
 	}, [phoneInputRef]);
 
+	const handleCountryChange = useCallback(
+		(newCountry: Country) => {
+			setCountry((oldCountry) => {
+				setPhone((oldPhone) => {
+					focusPhoneInput();
+					if (oldCountry.title.length > 0) {
+						const onlyNumber = oldPhone.split(' ').join('').split(oldCountry.number)[1];
+						const newCode = newCountry ? newCountry.number : '';
+						return onlyNumber ? newCode + onlyNumber : newCode;
+					} else {
+						return newCountry ? newCountry.number + oldPhone : '';
+					}
+				});
+				return newCountry ? newCountry : oldCountry;
+			});
+		},
+		[setCountry, setPhone, focusPhoneInput],
+	);
+
 	useEffect(() => {
-		setCountry(countryList[0]);
 		(async () => {
-			const result = await fetch('https://ipapi.co/json/');
-
-			if (result.ok) {
-				const countryData = await result.json();
-
-				const country =
-					countryList.find(({ code }) => countryData.country_code === code) ||
-					countryList[countryList.length - 1];
-				setCountry(country);
-			}
+			setCountry(countryList[0]);
+			const countryCode = await getCountryByIp();
+			const country = countryList.find(({ code }) => code === countryCode) || countryList[0];
+			setCountry(country);
 		})();
 	}, []);
 
@@ -88,9 +105,7 @@ const PhoneConfirmation = () => {
 					<CountrySelect
 						setRef={setCountrySelectRef}
 						country={country}
-						setCountry={setCountry}
-						setPhone={setPhone}
-						focusPhoneInput={focusPhoneInput}
+						handleCountryChange={handleCountryChange}
 					/>
 					<PhoneInput
 						ref={phoneInputRef}
@@ -108,7 +123,7 @@ const PhoneConfirmation = () => {
 					variant={'contained'}
 					color={'primary'}
 					width={'contained'}
-					style={{ marginTop: '20px' }}
+					className='phone-confirmation__btn'
 				>
 					{t('loginPage.next')}
 				</BaseBtn>

@@ -4,8 +4,9 @@ import WithBackground from 'app/components/shared/with-background';
 import { ChatActions } from 'app/store/chats/actions';
 import { Chat } from 'app/store/chats/models';
 import { getSelectedChatSelector } from 'app/store/chats/selectors';
-import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
+import { useActionWithDeferred } from 'app/utils/hooks/use-action-with-deferred';
 import React, { useCallback, useContext } from 'react';
+import './delete-chat-modal.scss';
 import { useSelector } from 'react-redux';
 
 namespace DeleteChatModal {
@@ -35,10 +36,7 @@ const DeleteChatModal = ({ hide }: DeleteChatModal.Props) => {
 				buttons={[
 					{
 						children: t('chatInfo.confirm'),
-						style: {
-							margin: '0',
-							width: '50%',
-						},
+						className: 'delete-chat-modal__confirm-btn',
 						onClick: deleteConference,
 						position: 'left',
 						width: 'contained',
@@ -47,11 +45,7 @@ const DeleteChatModal = ({ hide }: DeleteChatModal.Props) => {
 					},
 					{
 						children: t('chatInfo.cancel'),
-						style: {
-							margin: '0 0 0 10px',
-							color: '#6D7885',
-							width: '50%',
-						},
+						className: 'delete-chat-modal__cancel-btn',
 						onClick: hide,
 						position: 'left',
 						width: 'auto',

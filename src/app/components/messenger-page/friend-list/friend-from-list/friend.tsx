@@ -3,7 +3,7 @@ import Avatar from 'app/components/shared/avatar/avatar';
 import { ChatService } from 'app/store/chats/chat-service';
 import { UserStatus } from 'app/store/friends/models';
 import { UserPreview } from 'app/store/my-profile/models';
-import { getUserInitials } from 'app/utils/interlocutor-name-utils';
+import { getUserInitials } from 'app/utils/functions/interlocutor-name-utils';
 import moment from 'moment';
 import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';

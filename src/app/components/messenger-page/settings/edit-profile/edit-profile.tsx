@@ -1,6 +1,6 @@
 import Avatar from 'app/components/shared/avatar/avatar';
 import { getMyProfileSelector } from 'app/store/my-profile/selectors';
-import { getUserInitials } from 'app/utils/interlocutor-name-utils';
+import { getUserInitials } from 'app/utils/functions/interlocutor-name-utils';
 import React, { useCallback, useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
 import './edit-profile.scss';
@@ -10,7 +10,7 @@ import PhoneSvg from 'app/assets/icons/ic-call.svg';
 import EmailSvg from 'app/assets/icons/ic-email.svg';
 import EditSvg from 'app/assets/icons/ic-edit.svg';
 import { MyProfileActions } from 'app/store/my-profile/actions';
-import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
+import { useActionWithDeferred } from 'app/utils/hooks/use-action-with-deferred';
 import { useRef } from 'react';
 import EditNameModal from './edit-name-modal/edit-name-modal';
 import EditUserNameModal from './edit-username-modal/edit-username-modal';

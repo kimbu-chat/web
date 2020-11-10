@@ -6,8 +6,9 @@ import { useSelector } from 'react-redux';
 
 import CheckBoxSvg from 'app/assets/icons/ic-checkbox.svg';
 import { MessageActions } from 'app/store/messages/actions';
-import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
 import { LocalizationContext } from 'app/app';
+import './delete-message-modal.scss';
 
 namespace DeleteMessageModal {
 	export interface Props {
@@ -53,14 +54,11 @@ const DeleteMessageModal: React.FC<DeleteMessageModal.Props> = ({ onClose, selec
 									</React.Fragment>
 								))}
 						</div>
-						<div className='selected-messages-data__delete-check'>
-							<button
-								className={`selected-messages-data__delete-check__btn`}
-								onClick={changeDeleteForInterlocutorState}
-							>
+						<div className='delete-message-modal'>
+							<button className={`delete-message-modal__btn`} onClick={changeDeleteForInterlocutorState}>
 								{deleteForInterlocutor && <CheckBoxSvg />}
 							</button>
-							<span className='selected-messages-data__delete-check__btn-description'>{`Delete for ${
+							<span className='delete-message-modal__btn-description'>{`Delete for ${
 								selectedChat?.interlocutor
 									? selectedChat?.interlocutor?.firstName + ' ' + selectedChat?.interlocutor?.lastName
 									: selectedChat?.conference?.name
@@ -72,10 +70,7 @@ const DeleteMessageModal: React.FC<DeleteMessageModal.Props> = ({ onClose, selec
 				buttons={[
 					{
 						children: t('chatInfo.confirm'),
-						style: {
-							margin: '0',
-							width: '50%',
-						},
+						className: 'delete-message-modal__confirm-btn',
 						onClick: deleteTheseMessages,
 						position: 'left',
 						width: 'auto',
@@ -84,11 +79,7 @@ const DeleteMessageModal: React.FC<DeleteMessageModal.Props> = ({ onClose, selec
 					},
 					{
 						children: t('chatInfo.cancel'),
-						style: {
-							margin: '0 0 0 10px',
-							color: '#6D7885',
-							width: '50%',
-						},
+						className: 'delete-message-modal__cancel-btn',
 						onClick: onClose,
 						position: 'left',
 						width: 'auto',

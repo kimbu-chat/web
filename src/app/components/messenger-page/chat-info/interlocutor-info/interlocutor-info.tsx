@@ -21,24 +21,24 @@ const InterlocutorInfo = () => {
 			<h3 className='interlocutor-info__heading'>{t('interlocutorInfo.information')}</h3>
 			{/* interlocutor block */}
 			{selectedChat.interlocutor && (
-				<div className='interlocutor-info__info-block'>
-					<InfoSvg className='interlocutor-info__info-svg' />
-					<div className='interlocutor-info__data'>
-						<div className='interlocutor-info__data-value'>
-							{parsePhoneNumber(selectedChat.interlocutor?.phoneNumber).formatInternational()}
+				<>
+					<div className='interlocutor-info__info-block'>
+						<InfoSvg className='interlocutor-info__info-svg' />
+						<div className='interlocutor-info__data'>
+							<div className='interlocutor-info__data-value'>
+								{parsePhoneNumber(selectedChat.interlocutor?.phoneNumber).formatInternational()}
+							</div>
+							<div className='interlocutor-info__data-name'>{t('interlocutorInfo.mobile')}</div>
 						</div>
-						<div className='interlocutor-info__data-name'>{t('interlocutorInfo.mobile')}</div>
 					</div>
-				</div>
-			)}
-			{selectedChat.interlocutor && (
-				<div className='interlocutor-info__info-block'>
-					<InfoSvg className='interlocutor-info__info-svg' />
-					<div className='interlocutor-info__data'>
-						<div className='interlocutor-info__data-value'>{`@${selectedChat.interlocutor?.nickname}`}</div>
-						<div className='interlocutor-info__data-name'>{t('interlocutorInfo.username')}</div>
+					<div className='interlocutor-info__info-block'>
+						<InfoSvg className='interlocutor-info__info-svg' />
+						<div className='interlocutor-info__data'>
+							<div className='interlocutor-info__data-value'>{`@${selectedChat.interlocutor?.nickname}`}</div>
+							<div className='interlocutor-info__data-name'>{t('interlocutorInfo.username')}</div>
+						</div>
 					</div>
-				</div>
+				</>
 			)}
 
 			{/* conference block */}

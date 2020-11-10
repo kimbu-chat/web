@@ -1,0 +1,35 @@
+.delete-message-modal {
+	margin-top: 24px;
+	margin-bottom: 18px;
+	display: flex;
+	align-items: center;
+
+	&__btn {
+		width: 16px;
+		height: 16px;
+		border: 1px solid rgb(215, 216, 217);
+		border-radius: 4px;
+		margin-right: 10px;
+		box-sizing: content-box;
+
+		&:focus {
+			border: 1px solid rgb(215, 216, 217);
+		}
+	}
+
+	&__btn-description {
+		font-weight: 400;
+		font-size: 14px;
+		line-height: 18px;
+	}
+
+	&__confirm-btn {
+		margin: 0 !important;
+		width: 50% !important;
+	}
+	&__cancel-btn {
+		margin: 0 0 0 10px !important;
+		color: #6d7885 !important;
+		width: 50% !important;
+	}
+}

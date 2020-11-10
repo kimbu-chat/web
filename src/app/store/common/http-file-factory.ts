@@ -3,7 +3,7 @@ import { call, cancelled, put, select, take } from 'redux-saga/effects';
 import { END, eventChannel, SagaIterator, buffers } from 'redux-saga';
 import { SecurityTokens } from '../auth/types';
 import { AuthActions } from '../auth/actions';
-import { isNetworkError } from 'app/utils/error-utils';
+import { isNetworkError } from 'app/utils/functions/error-utils';
 import { selectSecurityTokens } from '../auth/selectors';
 
 export enum HttpRequestMethod {

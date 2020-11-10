@@ -24,7 +24,7 @@ import { ChatHttpFileRequest, ChatHttpRequests } from './http-requests';
 import { UpdateAvatarResponse } from '../common/models';
 import { MyProfileService } from 'app/services/my-profile-service';
 import { getType } from 'typesafe-actions';
-import { MessageUtils } from 'app/utils/message-utils';
+import { MessageUtils } from 'app/utils/functions/message-utils';
 import { audioRecordingsToDisplay, filesToDisplay, photoToDisplay, videoToDisplay } from './temporal';
 import { IFilesRequestGenerator } from '../common/http-file-factory';
 

@@ -12,10 +12,10 @@ import { Chat } from 'app/store/chats/models';
 import { getSelectedChatSelector } from 'app/store/chats/selectors';
 import { useSelector } from 'react-redux';
 import Avatar from 'app/components/shared/avatar/avatar';
-import { getInterlocutorInitials } from 'app/utils/interlocutor-name-utils';
+import { getInterlocutorInitials } from 'app/utils/functions/interlocutor-name-utils';
 import { ChatActions } from 'app/store/chats/actions';
-import { useActionWithDeferred } from 'app/utils/use-action-with-deferred';
-import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+import { useActionWithDeferred } from 'app/utils/hooks/use-action-with-deferred';
+import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
 
 namespace EditChatModal {
 	export interface Props {
@@ -128,10 +128,7 @@ const EditChatModal = ({ onClose }: EditChatModal.Props) => {
 					buttons={[
 						{
 							children: 'Save',
-							style: {
-								marginRight: '20px',
-								width: '50%',
-							},
+							className: 'edit-chat-modal__confirm-btn',
 							onClick: onSubmit,
 							position: 'left',
 							width: 'contained',
@@ -140,11 +137,7 @@ const EditChatModal = ({ onClose }: EditChatModal.Props) => {
 						},
 						{
 							children: 'Cancel',
-							style: {
-								margin: '0 0 0 10px',
-								color: '#6D7885',
-								width: '50%',
-							},
+							className: 'edit-chat-modal__cancel-btn',
 							onClick: onClose,
 							position: 'left',
 							width: 'auto',

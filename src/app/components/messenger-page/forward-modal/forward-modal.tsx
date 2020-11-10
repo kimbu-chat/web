@@ -8,7 +8,7 @@ import './forward-modal.scss';
 import SearchBox from '../search-box/search-box';
 import FriendFromList from '../shared/friend-from-list/friend-from-list';
 import { FriendActions } from 'app/store/friends/actions';
-import { useActionWithDispatch } from 'app/utils/use-action-with-dispatch';
+import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
 import { LocalizationContext } from 'app/app';
 
 namespace ForwardModal {
@@ -75,9 +75,7 @@ const ForwardModal = ({ onClose }: ForwardModal.Props) => {
 				buttons={[
 					{
 						children: t('forwardModal.send'),
-						style: {
-							marginBottom: '-6px',
-						},
+						className: 'forward-modal__confirm-btn',
 						onClick: () => {},
 						position: 'left',
 						width: 'contained',

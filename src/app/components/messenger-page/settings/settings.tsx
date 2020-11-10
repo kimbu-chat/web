@@ -1,6 +1,6 @@
 import Avatar from 'app/components/shared/avatar/avatar';
 import { getMyProfileSelector } from 'app/store/my-profile/selectors';
-import { getUserInitials } from 'app/utils/interlocutor-name-utils';
+import { getUserInitials } from 'app/utils/functions/interlocutor-name-utils';
 import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { LocalizationContext } from 'app/app';

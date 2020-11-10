@@ -5,8 +5,8 @@ import moment from 'moment';
 
 import './chat-from-list.scss';
 import { Chat } from 'app/store/chats/models';
-import { MessageUtils } from 'app/utils/message-utils';
-import { getChatInterlocutor, getInterlocutorInitials } from '../../../../utils/interlocutor-name-utils';
+import { MessageUtils } from 'app/utils/functions/message-utils';
+import { getChatInterlocutor, getInterlocutorInitials } from '../../../../utils/functions/interlocutor-name-utils';
 
 import StatusBadge from 'app/components/shared/status-badge/status-badge';
 import { SystemMessageType, Message, MessageState } from 'app/store/messages/models';

@@ -3,7 +3,7 @@ import './friend-from-list.scss';
 
 import Avatar from 'app/components/shared/avatar/avatar';
 import { UserPreview } from 'app/store/my-profile/models';
-import { getUserInitials } from 'app/utils/interlocutor-name-utils';
+import { getUserInitials } from 'app/utils/functions/interlocutor-name-utils';
 
 import SelectedSvg from 'app/assets/icons/ic-check-filled.svg';
 import UnSelectedSvg from 'app/assets/icons/ic-check-outline.svg';

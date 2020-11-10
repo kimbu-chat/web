@@ -76,4 +76,12 @@
 			background: rgba($color: #d12433, $alpha: 0.05);
 		}
 	}
+
+	&__resend-btn {
+		background-color: rgba(63, 138, 224, 0.1);
+		font-weight: 500;
+		padding: 12px 30px;
+		display: flex;
+		margin-top: 20px;
+	}
 }

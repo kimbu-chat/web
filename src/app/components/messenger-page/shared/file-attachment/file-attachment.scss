@@ -34,33 +34,16 @@
 		width: 40px;
 	}
 
-	&__close-svg {
-		width: 16px;
-		height: 16px;
-		color: #3f8ae0;
-	}
-
 	&__progress-svg {
-		color: #3f8ae0;
 		position: absolute;
 		top: 50%;
 		left: 50%;
-		transform: translate(-50%, -50%);
-		width: 100%;
-		height: 100%;
-
+		transform: translate(-50%, -50%) rotate(-90deg);
+		height: 24px;
+		width: 24px;
+		transition: all 0.1s;
 		circle {
-			position: absolute;
-			fill: none;
-			stroke-width: 2;
-			transform: translate(2px, 2px);
-			stroke-dasharray: 440;
-			stroke-linecap: round;
-		}
-
-		circle:nth-child(1) {
-			stroke-dashoffset: 0;
-			stroke: #424242;
+			transition: all 0.1s;
 		}
 	}
 

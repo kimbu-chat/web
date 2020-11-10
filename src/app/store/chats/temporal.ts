@@ -858,7 +858,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 6245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '2',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -868,7 +868,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 5245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '1',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -878,7 +878,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 12245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '13',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -888,7 +888,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 18245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '19',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -898,7 +898,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 24245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '25',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -908,7 +908,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 30245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '31',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -918,7 +918,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 35245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '36',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -928,7 +928,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 40245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '41',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -938,7 +938,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 44245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '45',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -948,7 +948,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 48245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '49',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -958,7 +958,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 52245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '53',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -968,7 +968,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 56245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '57',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -978,7 +978,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 61245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '62',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -988,7 +988,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 65245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '66',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -998,7 +998,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 69245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '70',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1008,7 +1008,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 73245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '74',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1018,7 +1018,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 77245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '78',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1028,7 +1028,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 82245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '83',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1038,7 +1038,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 86245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '87',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1048,7 +1048,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 90245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '91',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1058,7 +1058,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 94245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '95',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1068,7 +1068,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 98245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '99',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1078,7 +1078,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 103245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '104',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1088,7 +1088,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 107245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '108',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1098,7 +1098,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 111245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '112',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1108,7 +1108,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 115245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '116',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1118,7 +1118,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 119245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '120',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1128,7 +1128,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 124245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '125',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1138,7 +1138,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 128245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '129',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1148,7 +1148,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 132245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '133',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1158,7 +1158,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 136245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '137',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1168,7 +1168,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 140245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '141',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1178,7 +1178,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 145245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '146',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1188,7 +1188,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 149245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '150',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1198,7 +1198,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 153245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '154',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1208,7 +1208,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 157245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '158',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1218,7 +1218,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 161245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '162',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1228,7 +1228,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 166245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '167',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1238,7 +1238,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 170245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '171',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1248,7 +1248,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 174245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '175',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1258,7 +1258,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 178245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '179',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1268,7 +1268,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 182245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '183',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1278,7 +1278,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 187245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '188',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1288,7 +1288,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 191245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '192',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1298,7 +1298,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 195245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '196',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1308,7 +1308,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 199245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '200',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1318,7 +1318,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 204245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '205',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1328,7 +1328,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 211245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '212',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1338,7 +1338,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 217245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '218',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1348,7 +1348,7 @@ export const videoToDisplay: (VideoAttachment & IGroupable)[] = [
 	{
 		byteSize: 223245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '224',
 		firstFrameUrl: 'https://i.imgur.com/hIoIACY_d.webp?maxwidth=728&fidelity=grand',
 		name: 'video',
@@ -1361,7 +1361,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 6245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '2',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-9-05T29:00:30.047Z'),
@@ -1369,7 +1369,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 5245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '1',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-78-05T99:00:102.0117Z'),
@@ -1377,7 +1377,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 12245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '13',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-143-05T159:00:164.0177Z'),
@@ -1385,7 +1385,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 18245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '19',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-205-05T219:00:226.0237Z'),
@@ -1393,7 +1393,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 24245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '25',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-267-05T279:00:288.0297Z'),
@@ -1401,7 +1401,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 30245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '31',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-329-05T339:00:20.0347Z'),
@@ -1409,7 +1409,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 35245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '36',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-237-05T389:00:22.0397Z'),
@@ -1417,7 +1417,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 40245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '41',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-23-05T429:00:24.0437Z'),
@@ -1425,7 +1425,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 44245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '45',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-25-05T469:00:26.0477Z'),
@@ -1433,7 +1433,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 48245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '49',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-27-05T509:00:28.0517Z'),
@@ -1441,7 +1441,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 52245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '53',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-29-05T549:00:30.0557Z'),
@@ -1449,7 +1449,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 56245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '57',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-358-05T599:00:32.0607Z'),
@@ -1457,7 +1457,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 61245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '62',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-33-05T639:00:34.0647Z'),
@@ -1465,7 +1465,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 65245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '66',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-35-05T679:00:36.0687Z'),
@@ -1473,7 +1473,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 69245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '70',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-37-05T719:00:38.0727Z'),
@@ -1481,7 +1481,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 73245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '74',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-39-05T759:00:40.0767Z'),
@@ -1489,7 +1489,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 77245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '78',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-479-05T809:00:42.0817Z'),
@@ -1497,7 +1497,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 82245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '83',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-43-05T849:00:44.0857Z'),
@@ -1505,7 +1505,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 86245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '87',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-45-05T889:00:46.0897Z'),
@@ -1513,7 +1513,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 90245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '91',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-47-05T929:00:48.0937Z'),
@@ -1521,7 +1521,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 94245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '95',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-49-05T969:00:50.0977Z'),
@@ -1529,7 +1529,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 98245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '99',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-5100-05T1019:00:52.01027Z'),
@@ -1537,7 +1537,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 103245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '104',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-53-05T1059:00:54.01067Z'),
@@ -1545,7 +1545,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 107245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '108',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-55-05T1099:00:56.01107Z'),
@@ -1553,7 +1553,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 111245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '112',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-57-05T1139:00:58.01147Z'),
@@ -1561,7 +1561,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 115245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '116',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-59-05T1179:00:60.01187Z'),
@@ -1569,7 +1569,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 119245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '120',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-6121-05T1229:00:62.01237Z'),
@@ -1577,7 +1577,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 124245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '125',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-63-05T1269:00:64.01277Z'),
@@ -1585,7 +1585,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 128245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '129',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-65-05T1309:00:66.01317Z'),
@@ -1593,7 +1593,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 132245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '133',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-67-05T1349:00:68.01357Z'),
@@ -1601,7 +1601,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 136245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '137',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-69-05T1389:00:70.01397Z'),
@@ -1609,7 +1609,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 140245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '141',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-7142-05T1439:00:72.01447Z'),
@@ -1617,7 +1617,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 145245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '146',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-73-05T1479:00:74.01487Z'),
@@ -1625,7 +1625,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 149245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '150',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-75-05T1519:00:76.01527Z'),
@@ -1633,7 +1633,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 153245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '154',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-77-05T1559:00:78.01567Z'),
@@ -1641,7 +1641,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 157245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '158',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-79-05T1599:00:80.01607Z'),
@@ -1649,7 +1649,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 161245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '162',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-8163-05T1649:00:82.01657Z'),
@@ -1657,7 +1657,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 166245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '167',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-83-05T1689:00:84.01697Z'),
@@ -1665,7 +1665,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 170245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '171',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-85-05T1729:00:86.01737Z'),
@@ -1673,7 +1673,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 174245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '175',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-87-05T1769:00:88.01777Z'),
@@ -1681,7 +1681,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 178245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '179',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-89-05T1809:00:90.01817Z'),
@@ -1689,7 +1689,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 182245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '183',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-9184-05T1859:00:92.01867Z'),
@@ -1697,7 +1697,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 187245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '188',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-93-05T1899:00:94.01907Z'),
@@ -1705,7 +1705,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 191245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '192',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-95-05T1939:00:96.01947Z'),
@@ -1713,7 +1713,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 195245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '196',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-97-05T1979:00:98.01987Z'),
@@ -1721,7 +1721,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 199245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '200',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-99-05T2019:00:20200.02037Z'),
@@ -1729,7 +1729,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 204245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '205',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-2060207-05T2089:00:20902.02107Z'),
@@ -1737,7 +1737,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 211245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '212',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-21303-05T2149:00:21504.02167Z'),
@@ -1745,7 +1745,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 217245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '218',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-21905-05T2209:00:22106.02227Z'),
@@ -1753,7 +1753,7 @@ export const filesToDisplay: (RawAttachment & IGroupable)[] = [
 	{
 		byteSize: 223245,
 		type: FileType.video,
-		url: 'https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_1920_18MG.mp4',
+		url: 'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/10/36b0c0b80f6248a39320f845f8bb6b2f',
 		id: '224',
 		title: 'TestFile',
 		creationDateTime: new Date('2020-22507-05T2269:00:22708.02287Z'),

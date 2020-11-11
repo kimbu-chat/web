@@ -102,6 +102,11 @@
 		"deleteConfirmation": "Are you sure you want to delete {{count}} message?",
 		"deleteConfirmation_plural": "Are you sure you want to delete {{count}} messages?"
 	},
+	"notFound": {
+		"back": "BACK TO HOMEPAGE",
+		"title": "Ooups, page not found",
+		"description": "We are very sory for the inconvenience. It looks like you're trying to access a page that has been deleted or never even existed."
+	},
 	"back": "Back",
 	"emojiMart": {
 		"search": "Search",

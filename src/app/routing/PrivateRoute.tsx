@@ -1,12 +1,12 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router';
+import { Route, Redirect, RouteProps } from 'react-router';
 
 namespace PrivateRoute {
-	export interface Props {
+	export interface Props extends RouteProps {
 		Component: any;
 		path: string;
 		isAllowed: boolean;
-		fallback: string;
+		fallback?: string;
 	}
 }
 

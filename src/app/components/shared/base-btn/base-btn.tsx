@@ -7,7 +7,6 @@ export namespace BaseBtnNS {
 		width: 'contained' | 'auto';
 		color: 'primary' | 'secondary' | 'default';
 		variant: 'contained' | 'outlined';
-		disabled?: boolean;
 		isLoading?: boolean;
 		children: string;
 		icon?: JSX.Element;

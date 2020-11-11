@@ -1,10 +1,10 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router';
+import { Route, Redirect, RouteProps } from 'react-router';
 import { useSelector } from 'react-redux';
 import { RootState } from 'app/store/root-reducer';
 
 namespace PublicRoute {
-	export interface Props {
+	export interface Props extends RouteProps {
 		Component: any;
 		path: string;
 		isAllowed?: boolean;

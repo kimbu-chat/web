@@ -41,7 +41,7 @@ export const App = () => {
 					isAllowed={phoneNumber.length > 0}
 					Component={
 						<Suspense fallback={<CubeLoader />}>
-							<ConfirmCode />
+							<ConfirmCode preloadNext={() => import('./containers/messenger/messenger')} />
 						</Suspense>
 					}
 				/>
@@ -49,7 +49,11 @@ export const App = () => {
 					path='/login'
 					Component={
 						<Suspense fallback={<CubeLoader />}>
-							<ConfirmPhone />
+							<ConfirmPhone
+								preloadNext={() =>
+									import('./components/login-page/code-confirmation/code-confirmation')
+								}
+							/>
 						</Suspense>
 					}
 				/>

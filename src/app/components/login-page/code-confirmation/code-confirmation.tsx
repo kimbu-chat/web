@@ -15,7 +15,13 @@ import BaseBtn from 'app/components/shared/base-btn/base-btn';
 
 const NUMBER_OF_DIGITS = [0, 1, 2, 3];
 
-const CodeConfirmation = () => {
+namespace CodeConfirmation {
+	export interface Props {
+		preloadNext: () => void;
+	}
+}
+
+const CodeConfirmation: React.FC<CodeConfirmation.Props> = ({ preloadNext }) => {
 	const { t } = useContext(LocalizationContext);
 
 	const checkIfCharacterIsNumeric = (character: string): boolean => /^[0-9]+$/.test(character);
@@ -54,6 +60,8 @@ const CodeConfirmation = () => {
 	);
 
 	useEffect(() => {
+		preloadNext();
+
 		return () => {
 			setIsIntervalRunning(false);
 		};

@@ -16,7 +16,13 @@ import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/f
 import PrivacyPolicy from 'app/components/shared/privacy-policy/privacy-policy';
 import WithBackground from 'app/components/shared/with-background';
 
-const PhoneConfirmation = () => {
+namespace PhoneConfirmation {
+	export interface Props {
+		preloadNext: () => void;
+	}
+}
+
+const PhoneConfirmation: React.FC<PhoneConfirmation.Props> = ({ preloadNext }) => {
 	const { t } = useContext(LocalizationContext);
 
 	const history = useHistory();
@@ -79,8 +85,9 @@ const PhoneConfirmation = () => {
 	);
 
 	useEffect(() => {
+		preloadNext();
+		setCountry(countryList[0]);
 		(async () => {
-			setCountry(countryList[0]);
 			const countryCode = await getCountryByIp();
 			const country = countryList.find(({ code }) => code === countryCode) || countryList[0];
 			setCountry(country);

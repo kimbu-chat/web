@@ -3,6 +3,11 @@
 	position: relative;
 	background-color: rgb(63, 138, 224);
 
+	&__logo {
+		font-size: 26px;
+		color: #3f8ae0;
+	}
+
 	&__container {
 		display: inline-block;
 		position: absolute;

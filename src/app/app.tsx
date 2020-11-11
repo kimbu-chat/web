@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react';
-import { Switch } from 'react-router';
+import { Route, Switch } from 'react-router';
 
 import './base.scss';
 
@@ -14,10 +14,12 @@ import PrivateRoute from './routing/PrivateRoute';
 
 import { i18n, TFunction } from 'i18next';
 import CubeLoader from './containers/cube-loader/cube-loader';
+import { loadPhoneConfirmation, loadCodeConfirmation, loadMessenger, loadNotFound } from './routing/module-loader';
 
-const ConfirmPhone = lazy(() => import('./components/login-page/phone-confirmation/phone-confirmation'));
-const ConfirmCode = lazy(() => import('./components/login-page/code-confirmation/code-confirmation'));
-const Messenger = lazy(() => import('./containers/messenger/messenger'));
+const ConfirmPhone = lazy(loadPhoneConfirmation);
+const ConfirmCode = lazy(loadCodeConfirmation);
+const Messenger = lazy(loadMessenger);
+const NotFound = lazy(loadNotFound);
 
 namespace App {
 	export interface localization {
@@ -37,28 +39,27 @@ export const App = () => {
 		<LocalizationContext.Provider value={{ t, i18n }}>
 			<Switch>
 				<PublicRoute
+					exact
 					path='/confirm-code'
 					isAllowed={phoneNumber.length > 0}
 					Component={
 						<Suspense fallback={<CubeLoader />}>
-							<ConfirmCode preloadNext={() => import('./containers/messenger/messenger')} />
+							<ConfirmCode preloadNext={loadMessenger} />
 						</Suspense>
 					}
 				/>
 				<PublicRoute
-					path='/login'
+					exact
+					path='/login/'
 					Component={
 						<Suspense fallback={<CubeLoader />}>
-							<ConfirmPhone
-								preloadNext={() =>
-									import('./components/login-page/code-confirmation/code-confirmation')
-								}
-							/>
+							<ConfirmPhone preloadNext={loadCodeConfirmation} />
 						</Suspense>
 					}
 				/>
 				<PrivateRoute
-					path='/'
+					path='/(contacts|calls|settings|chats)/:chatId?/(info)?/(photo|audio-recordings|video|files)?'
+					exact
 					isAllowed={isAuthenticated}
 					fallback={'/login'}
 					Component={
@@ -66,6 +67,15 @@ export const App = () => {
 							<Messenger />
 						</Suspense>
 					}
+				/>
+				<Route
+					path='/'
+					isAllowed={true}
+					render={() => (
+						<Suspense fallback={<CubeLoader />}>
+							<NotFound />
+						</Suspense>
+					)}
 				/>
 			</Switch>
 		</LocalizationContext.Provider>

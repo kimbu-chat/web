@@ -21,7 +21,6 @@ const PrivacyPolicy: React.FC<PrivacyPolicy.Props> = ({ close }) => {
 				</div>
 				<div className='policy-modal__h-line'></div>
 			</div>
-			<div className='gradient'></div>
 			<div className='policy-modal__text-container'>
 				<p>
 					This Privacy Policy explains what information is collected by ARKONI when you visit the arkoni.io
@@ -240,24 +239,10 @@ const PrivacyPolicy: React.FC<PrivacyPolicy.Props> = ({ close }) => {
 					existing law or changes to security standards and best practices for third-party services or tools
 					that we use. We will update this Privacy Policy as we consider it necessary.
 				</p>
-				<br />
-				<br />
-				<br />
-				<br />
-				<br />
-				<br />
-				<br />
-				<br />
-				<br />
-				<br />
-				<br />
-				<br />
-				<br />
-				<br />
-				<br />
-				<br />
 			</div>
-			<button className='policy-modal__btn blue-btn'>I accept</button>
+			<button onClick={close} className='policy-modal__btn blue-btn'>
+				Close
+			</button>
 		</div>
 	);
 };

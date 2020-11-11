@@ -58,13 +58,27 @@ const auth = createReducer<AuthState>(initialState)
 		}),
 	)
 	.handleAction(
+		AuthActions.confirmPhone,
+		produce((draft: AuthState) => {
+			draft.loading = true;
+
+			return draft;
+		}),
+	)
+	.handleAction(
+		AuthActions.confirmPhoneSuccess,
+		produce((draft: AuthState) => {
+			draft.loading = false;
+
+			return draft;
+		}),
+	)
+	.handleAction(
 		AuthActions.confirmPhoneFailure,
 		produce((draft: AuthState) => {
-			return {
-				...draft,
-				loading: false,
-				isConfirmationCodeWrong: true,
-			};
+			draft.loading = false;
+			draft.isConfirmationCodeWrong = true;
+			return draft;
 		}),
 	);
 

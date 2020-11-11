@@ -19,11 +19,10 @@
 
 	@media (max-width: 950px) {
 		width: 87%;
-		max-height: 65vh;
 	}
 
 	@media (max-width: 400px) {
-		width: 90%;
+		width: 84%;
 	}
 
 	&__top-group {
@@ -42,15 +41,15 @@
 	&__btn {
 		z-index: 505;
 		padding: 16px 52px;
-		position: fixed;
-		bottom: 20px !important;
-		right: 20px;
+		width: 100%;
 		background-color: rgb(63, 138, 224);
 		font-weight: 500;
 		color: #fff;
 		font-size: 16px;
 		line-height: 1.125;
-		border-radius: 0.4rem;
+		border-radius: 4px;
+		margin: 14px auto 0 auto;
+		display: block;
 
 		@media (max-width: 400px) {
 			width: calc(100% - 40px);
@@ -60,24 +59,13 @@
 	&__text-container {
 		position: relative;
 		overflow: auto;
-		max-height: 637px;
+		max-height: 84%;
+		border-bottom: 1px solid #f0f0f0;
 
 		&::-webkit-scrollbar {
 			display: none;
 			-ms-overflow-style: none;
 		}
-	}
-
-	.gradient {
-		position: absolute;
-		bottom: 0;
-		// height: 55%;
-		height: 30%;
-		width: calc(100% - 40px);
-		z-index: 100;
-		content: '';
-		background: linear-gradient(to top, rgba(255, 255, 255, 1) 20%, rgba(255, 255, 255, 0) 80%);
-		pointer-events: none; /* so the text is still selectable */
 	}
 
 	h1 {

@@ -20,16 +20,18 @@ namespace CountrySelect {
 const CountrySelect = ({ country, handleCountryChange, setRef }: CountrySelect.Props) => {
 	const { t } = useContext(LocalizationContext);
 
-	const { getRootProps, getInputProps, getListboxProps, getOptionProps, groupedOptions } = useAutocomplete({
-		id: 'use-autocomplete-demo',
-		options: countryList,
-		getOptionLabel: (option) => option.title,
-		value: country,
-		onChange: (_event, newCountry) => handleCountryChange(newCountry!),
-		filterOptions: createFilterOptions({
-			stringify: (option) => option.title + option.number,
-		}),
-	});
+	const { getRootProps, getInputProps, getListboxProps, getOptionProps, groupedOptions, popupOpen } = useAutocomplete(
+		{
+			id: 'use-autocomplete-demo',
+			options: countryList,
+			getOptionLabel: (option) => option.title,
+			value: country,
+			onChange: (_event, newCountry) => handleCountryChange(newCountry!),
+			filterOptions: createFilterOptions({
+				stringify: (option) => option.title + option.number,
+			}),
+		},
+	);
 
 	const inputProps = getInputProps();
 
@@ -41,7 +43,10 @@ const CountrySelect = ({ country, handleCountryChange, setRef }: CountrySelect.P
 	return (
 		<div {...getRootProps()} className='country-select'>
 			<input placeholder={t('loginPage.country')} type='text' className='country-select__input' {...inputProps} />
-			<DownSvg className='country-select__input-svg' />
+			<DownSvg
+				viewBox='0 0 25 25'
+				className={`country-select__input-svg ${popupOpen ? 'country-select__input-svg--open' : ''}`}
+			/>
 
 			{groupedOptions.length > 0 ? (
 				<div className='country-select__countries' {...getListboxProps()}>

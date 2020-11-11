@@ -14,9 +14,19 @@
 	&__input-svg {
 		display: block;
 		position: absolute;
-		top: 14px;
+		top: 18px;
 		right: 16px;
+		height: 16px;
+		width: 16px;
 		pointer-events: none;
+		color: #3f8ae0;
+		display: block;
+		cursor: pointer;
+		transition: all 0.2s;
+
+		&--open {
+			transform: rotate(180deg);
+		}
 	}
 
 	&__country {

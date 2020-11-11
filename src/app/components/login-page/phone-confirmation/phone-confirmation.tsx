@@ -107,7 +107,7 @@ const PhoneConfirmation: React.FC<PhoneConfirmation.Props> = ({ preloadNext }) =
 		<>
 			<div className='phone-confirmation'>
 				<div className='phone-confirmation__container'>
-					<img src='' alt='' className='phone-confirmation__logo' />
+					<h1 className='phone-confirmation__logo'>RAVUDI</h1>
 					<p onClick={changeNumbersDisplayedState} className='phone-confirmation__confirm-phone'>
 						{t('loginPage.confirm_phone')}
 					</p>

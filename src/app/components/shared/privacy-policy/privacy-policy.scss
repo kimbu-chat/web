@@ -60,24 +60,12 @@
 	&__text-container {
 		position: relative;
 		overflow: auto;
-		max-height: 637px;
+		max-height: 76%;
 
 		&::-webkit-scrollbar {
 			display: none;
 			-ms-overflow-style: none;
 		}
-	}
-
-	.gradient {
-		position: absolute;
-		bottom: 0;
-		// height: 55%;
-		height: 30%;
-		width: calc(100% - 40px);
-		z-index: 100;
-		content: '';
-		background: linear-gradient(to top, rgba(255, 255, 255, 1) 20%, rgba(255, 255, 255, 0) 80%);
-		pointer-events: none; /* so the text is still selectable */
 	}
 
 	h1 {

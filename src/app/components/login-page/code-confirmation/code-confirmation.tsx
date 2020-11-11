@@ -35,6 +35,7 @@ const CodeConfirmation: React.FC<CodeConfirmation.Props> = ({ preloadNext }) => 
 	const isConfirmationCodeWrong = useSelector<RootState, boolean>(
 		(rootState) => rootState.auth.isConfirmationCodeWrong,
 	);
+	const isLoading = useSelector((state: RootState) => state.auth.loading);
 
 	const sendSmsCode = useActionWithDeferred(AuthActions.sendSmsCode);
 	const checkConfirmationCode = useActionWithDeferred(AuthActions.confirmPhone);
@@ -168,11 +169,12 @@ const CodeConfirmation: React.FC<CodeConfirmation.Props> = ({ preloadNext }) => 
 				</p>
 
 				<BaseBtn
-					disabled={isConfirmationCodeWrong || !code.every((element) => element.length === 1)}
+					disabled={isConfirmationCodeWrong || !code.every((element) => element.length === 1) || isLoading}
 					onClick={() => checkCode(code)}
 					variant={'contained'}
 					color={'primary'}
 					width={'contained'}
+					isLoading={isLoading}
 				>
 					{t('loginPage.next')}
 				</BaseBtn>

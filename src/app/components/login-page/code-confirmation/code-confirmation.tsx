@@ -164,20 +164,26 @@ const CodeConfirmation: React.FC<CodeConfirmation.Props> = ({ preloadNext }) => 
 					<p className='code-confirmation__wrong-code'>{t('loginPage.wrong_code')}</p>
 				)}
 				<div className='code-confirmation__inputs-container'>{NUMBER_OF_DIGITS.map(input)}</div>
-				<p className='code-confirmation__timer'>
-					{t('loginPage.reset_timer', { time: moment.utc(remainingSeconds * 1000).format('mm:ss') })}
-				</p>
+				{!(remainingSeconds === 0) && (
+					<>
+						<p className='code-confirmation__timer'>
+							{t('loginPage.reset_timer', { time: moment.utc(remainingSeconds * 1000).format('mm:ss') })}
+						</p>
 
-				<BaseBtn
-					disabled={isConfirmationCodeWrong || !code.every((element) => element.length === 1) || isLoading}
-					onClick={() => checkCode(code)}
-					variant={'contained'}
-					color={'primary'}
-					width={'contained'}
-					isLoading={isLoading}
-				>
-					{t('loginPage.next')}
-				</BaseBtn>
+						<BaseBtn
+							disabled={
+								isConfirmationCodeWrong || !code.every((element) => element.length === 1) || isLoading
+							}
+							onClick={() => checkCode(code)}
+							variant={'contained'}
+							color={'primary'}
+							width={'contained'}
+							isLoading={isLoading}
+						>
+							{t('loginPage.next')}
+						</BaseBtn>
+					</>
+				)}
 
 				{remainingSeconds === 0 && (
 					<BaseBtn

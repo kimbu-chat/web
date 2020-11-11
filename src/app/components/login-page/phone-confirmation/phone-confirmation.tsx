@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState, useRef, useEffect } from 'react';
+import React, { useCallback, useContext, useState, useRef, useEffect, lazy, Suspense } from 'react';
 import './phone-confirmation.scss';
 import CountrySelect from './components/country-select/country-select';
 import PhoneInput from './components/phone-input/phone-input';
@@ -13,8 +13,10 @@ import { useHistory } from 'react-router';
 import BaseBtn from 'app/components/shared/base-btn/base-btn';
 import { getCountryByIp } from 'app/utils/functions/get-country-by-ip';
 import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
-import PrivacyPolicy from 'app/components/shared/privacy-policy/privacy-policy';
 import WithBackground from 'app/components/shared/with-background';
+import CubeLoader from 'app/containers/cube-loader/cube-loader';
+
+const PrivacyPolicy = lazy(() => import('app/components/shared/privacy-policy/privacy-policy'));
 
 namespace PhoneConfirmation {
 	export interface Props {
@@ -151,7 +153,9 @@ const PhoneConfirmation: React.FC<PhoneConfirmation.Props> = ({ preloadNext }) =
 			</div>
 			<FadeAnimationWrapper isDisplayed={policyDisplayed}>
 				<WithBackground onBackgroundClick={changePolicyDisplayedState}>
-					<PrivacyPolicy close={changePolicyDisplayedState} />
+					<Suspense fallback={<CubeLoader />}>
+						<PrivacyPolicy close={changePolicyDisplayedState} />
+					</Suspense>
 				</WithBackground>
 			</FadeAnimationWrapper>
 		</>

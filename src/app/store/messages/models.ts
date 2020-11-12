@@ -99,8 +99,8 @@ export interface MessageCreationReqData {
 }
 
 export interface AttachmentCreation {
-	id: number;
-	type: string;
+	id: string;
+	type: FileType;
 }
 
 export interface MessagesReqData {

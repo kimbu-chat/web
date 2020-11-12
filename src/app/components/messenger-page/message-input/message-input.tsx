@@ -56,6 +56,7 @@ const CreateMessageInput = () => {
 	const [recordedSeconds, setRecordedSeconds] = useState(0);
 	const [rows, setRows] = useState(1);
 
+	const mainInputRef = useRef<HTMLTextAreaElement>(null);
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const registerAudioBtnRef = useRef<HTMLButtonElement>(null);
 	const recorderData = useRef<CreateMessageInput.RecordedData>({
@@ -75,6 +76,34 @@ const CreateMessageInput = () => {
 	useEffect(() => {
 		updatedSelectedChat.current = selectedChat;
 	}, [selectedChat]);
+
+	useEffect(() => {
+		const onPaste = (event: ClipboardEvent) => {
+			console.log(event.clipboardData);
+			if (event.clipboardData?.files.length! > 0) {
+				for (var index = 0; index < event.clipboardData?.files.length!; ++index) {
+					const file = event.clipboardData?.files!.item(index) as File;
+
+					//extension test
+					const fileType = getFileType(file.name);
+
+					console.log(file.name);
+					uploadAttachmentRequest({
+						chatId: selectedChat!.id,
+						type: fileType,
+						file,
+						attachmentId: String(new Date().getTime()),
+					});
+				}
+			}
+		};
+
+		mainInputRef.current?.addEventListener('paste', onPaste);
+
+		return () => {
+			mainInputRef.current?.removeEventListener('paste', onPaste);
+		};
+	}, [mainInputRef, uploadAttachmentRequest, selectedChat?.id]);
 
 	useInterval(
 		() => {
@@ -312,6 +341,7 @@ const CreateMessageInput = () => {
 								{!isRecording && (
 									<textarea
 										rows={rows}
+										ref={mainInputRef}
 										placeholder={t('messageInput.write')}
 										value={text}
 										onChange={onType}
@@ -363,6 +393,7 @@ const CreateMessageInput = () => {
 						<div className='message-input__input-group'>
 							{!isRecording && (
 								<textarea
+									ref={mainInputRef}
 									rows={rows}
 									placeholder={t('messageInput.write')}
 									value={text}

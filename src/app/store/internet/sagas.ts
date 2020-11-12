@@ -3,34 +3,22 @@ import { delay, call, put } from 'redux-saga/effects';
 import { InternetActions } from './actions';
 
 export function* intervalInternetConnectionCheckSaga(): SagaIterator {
-	const ping = (timeout: number): Promise<boolean> => {
+	const ping = (): Promise<boolean> => {
 		return new Promise((resolve) => {
 			const isOnline = () => resolve(true);
 			const isOffline = () => resolve(false);
 
-			const xhr = new XMLHttpRequest();
-
-			xhr.onerror = isOffline;
-			xhr.ontimeout = isOffline;
-			xhr.onreadystatechange = () => {
-				if (xhr.readyState === xhr.HEADERS_RECEIVED) {
-					if (xhr.status) {
-						isOnline();
-					} else {
-						isOffline();
-					}
-				}
-			};
-
-			xhr.open('HEAD', 'https://notifications.ravudi.com/');
-			xhr.timeout = timeout;
-			xhr.send();
+			fetch(
+				'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/12/191fdb61cdf041999622cd8b9387d91b',
+			)
+				.then(isOnline)
+				.catch(isOffline);
 		});
 	};
 
 	while (true) {
 		yield delay(10000);
-		const internetState = yield call(ping, 500);
+		const internetState = yield call(ping);
 		yield put(InternetActions.internetConnectionCheck({ state: internetState }));
 	}
 }

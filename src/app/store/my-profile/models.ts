@@ -53,3 +53,18 @@ export interface UpdateAvatarSuccess {
 	fullAvatarUrl: string;
 	croppedAvatarUrl: string;
 }
+
+export interface UploadAvararResponse {
+	url: string;
+	previewUrl: string;
+	id: string;
+}
+
+export interface UploadAvatarReqData {
+	pathToFile: string;
+	onProgress: (progress: number) => void;
+}
+
+export interface UploadAvatarSagaProgressData {
+	progress: number;
+}

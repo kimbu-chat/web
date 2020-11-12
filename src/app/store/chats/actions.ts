@@ -73,7 +73,6 @@ export namespace ChatActions {
 	export const addUsersToConferenceSuccess = createAction('ADD_USERS_TO_CONFERENCE_SUCCESS')<
 		AddUsersToConferenceActionData
 	>();
-
 	export const renameConference = createAction('RENAME_CONFERENCE')<RenameConferenceActionData>();
 	export const renameConferenceSuccess = createAction('RENAME_CONFERENCE_SUCCESS')<RenameConferenceActionData>();
 	export const changeConferenceAvatar = createAction('CHANGE_CONFERENCE_AVATAR')<ChangeConferenceAvatarActionData>();

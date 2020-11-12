@@ -4,7 +4,7 @@ import {
 	PhoneConfirmationData,
 	PhoneConfirmationApiResponse,
 	SubscribeToPushNotificationsRequest,
-} from './types';
+} from './models';
 import { authRequestFactory, HttpRequestMethod } from '../common/http-factory';
 import { ApiBasePath } from '../root-api';
 

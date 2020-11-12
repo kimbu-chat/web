@@ -1,6 +1,6 @@
 import { FileType, Message } from '../messages/models';
 import { Page } from '../common/models';
-import { UserPreview, AvatarSelectedData } from '../my-profile/models';
+import { UserPreview, AvatarSelectedData, UploadAvararResponse } from '../my-profile/models';
 import { CancelTokenSource } from 'axios';
 
 export interface Conference {
@@ -217,11 +217,18 @@ export interface GetRecordingsResponse extends VoiceRecordingList {
 
 export interface ConferenceCreationReqData {
 	name: string;
+	description?: string;
 	userIds: Array<number>;
 	currentUser: UserPreview;
-	avatar: AvatarSelectedData | null;
-	conferenceId?: number;
-	avatarData?: AvatarSelectedData | null;
+	avatar?: UploadAvararResponse | null;
+}
+
+export interface ConferenceCreationHTTPReqData {
+	name: string;
+	description?: string;
+	userIds: Array<number>;
+	currentUser: UserPreview;
+	avatarId?: string | null;
 }
 
 export interface ChangeConferenceAvatarActionData {
@@ -234,7 +241,6 @@ export interface ChangeConferenceAvatarSuccessActionData {
 	fullAvatarUrl: string;
 	croppedAvatarUrl: string;
 }
-
 export interface UploadAttachmentReqData {
 	chatId: number;
 	type: FileType;
@@ -277,19 +283,6 @@ export interface UploadAttachmentSuccessData<T = BaseAttachment> {
 	attachmentId: string;
 	attachment: T;
 }
-
-//Upload files
-export interface UploadFileRequest {
-	file: File;
-}
-
-export interface UploadAudioRequest extends UploadFileRequest {}
-
-export interface UploadPictureRequest extends UploadFileRequest {}
-
-export interface UploadVoiceRequest extends UploadFileRequest {}
-
-export interface UploadVideoRequest extends UploadFileRequest {}
 
 export interface UploadBaseResponse {
 	id: string;

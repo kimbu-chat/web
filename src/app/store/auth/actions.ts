@@ -1,4 +1,4 @@
-import { SendSmsCodeActionData, PhoneConfirmationActionData, LoginResponse } from './types';
+import { SendSmsCodeActionData, PhoneConfirmationActionData, LoginResponse } from './models';
 import { createAction } from 'typesafe-actions';
 import { createEmptyAction, Meta, createEmptyActionWithDeffered } from '../common/actions';
 

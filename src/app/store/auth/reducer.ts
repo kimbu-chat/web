@@ -1,4 +1,4 @@
-import { SecurityTokens } from './types';
+import { SecurityTokens } from './models';
 import { AuthActions } from './actions';
 import { AuthService } from 'app/services/auth-service';
 import produce from 'immer';

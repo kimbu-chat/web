@@ -9,6 +9,7 @@ import { getSelectedChatSelector } from 'app/store/chats/selectors';
 import { SystemMessageType, MessageState, FileType } from 'app/store/messages/models';
 import { LocalizationContext } from 'app/app';
 import useInterval from 'use-interval';
+import useOnPaste from 'app/utils/hooks/use-on-paste';
 
 import AddSvg from 'app/assets/icons/ic-add-new.svg';
 import VoiceSvg from 'app/assets/icons/ic-microphone.svg';
@@ -17,12 +18,12 @@ import { useEffect } from 'react';
 import { getMyProfileSelector } from 'app/store/my-profile/selectors';
 import MessageSmiles from './message-smiles/message-smiles';
 import Mousetrap from 'mousetrap';
-import useReferredState from 'app/utils/hooks/useReferredState';
+import useReferredState from 'app/utils/hooks/use-referred-state';
 import { getTypingStrategy } from 'app/store/settings/selectors';
 import { typingStrategy } from 'app/store/settings/models';
 import { ChatActions } from 'app/store/chats/actions';
 import MessageInputAttachment from './message-input-attachment/message-input-attachment';
-import useOnClickOutside from 'app/utils/hooks/useOnClickOutside';
+import useOnClickOutside from 'app/utils/hooks/use-on-click-outside';
 import { getFileType } from 'app/utils/functions/get-file-extension';
 import RespondingMessage from 'app/components/messenger-page/responding-message/responding-message';
 import { RootState } from 'app/store/root-reducer';
@@ -77,34 +78,6 @@ const CreateMessageInput = () => {
 		updatedSelectedChat.current = selectedChat;
 	}, [selectedChat]);
 
-	useEffect(() => {
-		const onPaste = (event: ClipboardEvent) => {
-			console.log(event.clipboardData);
-			if (event.clipboardData?.files.length! > 0) {
-				for (var index = 0; index < event.clipboardData?.files.length!; ++index) {
-					const file = event.clipboardData?.files!.item(index) as File;
-
-					//extension test
-					const fileType = getFileType(file.name);
-
-					console.log(file.name);
-					uploadAttachmentRequest({
-						chatId: selectedChat!.id,
-						type: fileType,
-						file,
-						attachmentId: String(new Date().getTime()),
-					});
-				}
-			}
-		};
-
-		mainInputRef.current?.addEventListener('paste', onPaste);
-
-		return () => {
-			mainInputRef.current?.removeEventListener('paste', onPaste);
-		};
-	}, [mainInputRef, uploadAttachmentRequest, selectedChat?.id]);
-
 	useInterval(
 		() => {
 			if (isRecording) {
@@ -143,6 +116,31 @@ const CreateMessageInput = () => {
 		setText('');
 		setRows(1);
 	};
+
+	const onPaste = useCallback(
+		(event: ClipboardEvent) => {
+			console.log(event.clipboardData);
+			if (event.clipboardData?.files.length! > 0) {
+				for (var index = 0; index < event.clipboardData?.files.length!; ++index) {
+					const file = event.clipboardData?.files!.item(index) as File;
+
+					//extension test
+					const fileType = getFileType(file.name);
+
+					console.log(file.name);
+					uploadAttachmentRequest({
+						chatId: selectedChat!.id,
+						type: fileType,
+						file,
+						attachmentId: String(new Date().getTime()),
+					});
+				}
+			}
+		},
+		[uploadAttachmentRequest, selectedChat?.id],
+	);
+
+	useOnPaste(mainInputRef, onPaste);
 
 	const handleTextChange = useCallback(
 		(newText: string): void => {

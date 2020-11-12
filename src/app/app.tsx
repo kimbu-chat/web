@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react';
-import { Route, Switch } from 'react-router';
+import { Redirect, Route, Switch } from 'react-router';
 
 import './base.scss';
 
@@ -68,6 +68,7 @@ export const App = () => {
 						</Suspense>
 					}
 				/>
+				<Route path='/' exact render={() => <Redirect to='/chats' />} />
 				<Route
 					path='/'
 					isAllowed={true}

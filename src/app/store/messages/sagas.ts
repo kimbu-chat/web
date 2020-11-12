@@ -74,10 +74,13 @@ export function* createMessage(action: ReturnType<typeof MessageActions.createMe
 			}
 		}
 	} else {
+		console.log(message.attachments);
+		const attachmentsToSend = message.attachments?.map(({ id, type }) => ({ id, type })) || [];
 		try {
 			const messageCreationReq: MessageCreationReqData = {
 				text: message.text,
 				chatId: chat.id,
+				attachments: attachmentsToSend,
 			};
 
 			const httpRequest = MessagesHttpRequests.createMessage;

@@ -8,10 +8,14 @@ export function* intervalInternetConnectionCheckSaga(): SagaIterator {
 			const isOnline = () => resolve(true);
 			const isOffline = () => resolve(false);
 
-			fetch(
-				'https://kimbu-bucket.s3.eu-west-3.amazonaws.com/kimbu-bucket/2020/11/12/191fdb61cdf041999622cd8b9387d91b',
-			)
-				.then(isOnline)
+			fetch(`/file-for-ping?d=${Date.now()}`)
+				.then((response) => {
+					if (response.ok) {
+						isOnline();
+					} else {
+						isOffline();
+					}
+				})
 				.catch(isOffline);
 		});
 	};

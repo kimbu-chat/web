@@ -88,9 +88,7 @@ const CodeConfirmation: React.FC<CodeConfirmation.Props> = ({ preloadNext }) => 
 		if (key === 0 && code[key] === '') {
 			return;
 		}
-		if (code[key] === '') {
-			boxElements[key - 1].current?.focus();
-		} else {
+		if (!(code[key] === '')) {
 			const codeCopy = code.slice();
 			codeCopy[key] = '';
 			setCode(codeCopy);
@@ -114,10 +112,6 @@ const CodeConfirmation: React.FC<CodeConfirmation.Props> = ({ preloadNext }) => 
 
 		if (codeClone[key] && key < 3) {
 			boxElements[key + 1].current?.focus();
-		}
-
-		if (text === '' && key !== 0) {
-			boxElements[key - 1].current?.focus();
 		}
 
 		if (codeClone.every((element) => element.length === 1)) {

@@ -41,7 +41,7 @@ const PhoneConfirmation: React.FC<PhoneConfirmation.Props> = ({ preloadNext }) =
 	const sendSmsCode = useActionWithDeferred(AuthActions.sendSmsCode);
 	const sendSms = useCallback(() => {
 		const phoneNumber = parsePhoneNumberFromString(phone);
-		if (phoneNumber?.isValid) {
+		if (phoneNumber?.isValid()) {
 			sendSmsCode({ phoneNumber: phoneNumber!.number as string })
 				.then(() => {
 					history.push('/confirm-code');
@@ -135,7 +135,7 @@ const PhoneConfirmation: React.FC<PhoneConfirmation.Props> = ({ preloadNext }) =
 						/>
 					</div>
 					<BaseBtn
-						disabled={isLoading}
+						disabled={isLoading || !parsePhoneNumberFromString(phone)?.isValid()}
 						isLoading={isLoading}
 						onClick={sendSms}
 						variant={'contained'}

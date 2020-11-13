@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, CancelTokenSource } from 'axios';
 import { call, cancelled, put, select, take } from 'redux-saga/effects';
 import { END, eventChannel, SagaIterator, buffers } from 'redux-saga';
-import { SecurityTokens } from '../auth/types';
+import { SecurityTokens } from '../auth/models';
 import { AuthActions } from '../auth/actions';
 import { isNetworkError } from 'app/utils/functions/error-utils';
 import { selectSecurityTokens } from '../auth/selectors';
@@ -75,18 +75,26 @@ export function* uploadFileSaga(
 		const { start, progress = 0, err, response } = yield take(channel);
 
 		if (start) {
-			yield call(() => callbacks?.onStart({ cancelTokenSource }));
+			if (callbacks?.onStart) {
+				yield call(() => callbacks.onStart!({ cancelTokenSource }));
+			}
 		}
 		if (err) {
-			yield call(() => callbacks?.onFailure());
+			if (callbacks?.onFailure) {
+				yield call(() => callbacks.onFailure!());
+			}
 			return;
 		}
 		if (response) {
-			yield call(() => callbacks?.onSuccess(response));
+			if (callbacks?.onSuccess) {
+				yield call(() => callbacks.onSuccess!(response));
+			}
 			return;
 		}
 
-		yield call(() => callbacks?.onProgress({ progress }));
+		if (callbacks?.onProgress) {
+			yield call(() => callbacks.onProgress!({ progress }));
+		}
 	}
 }
 
@@ -123,10 +131,10 @@ function createUploadFileChannel(requestConfig: AxiosRequestConfig) {
 }
 
 export interface IFilesRequestGeneratorCallbacks {
-	onStart: (payload: any) => SagaIterator<any>;
-	onProgress: (payload: any) => SagaIterator<any>;
-	onSuccess: (payload: any) => SagaIterator<any>;
-	onFailure: () => SagaIterator<any>;
+	onStart?: (payload: any) => SagaIterator<any>;
+	onProgress?: (payload: any) => SagaIterator<any>;
+	onSuccess?: (payload: any) => SagaIterator<any>;
+	onFailure?: () => SagaIterator<any>;
 }
 
 export interface IFilesRequestGenerator<T, B> {

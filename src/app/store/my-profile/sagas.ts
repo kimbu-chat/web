@@ -1,12 +1,11 @@
 import { call, put, takeLatest, select } from 'redux-saga/effects';
 import { SagaIterator } from 'redux-saga';
-import { FileUploadRequest, ErrorUploadResponse, uploadFileSaga } from '../../utils/file-uploader/file-uploader';
-import { AvatarSelectedData, UserPreview } from './models';
+import { AvatarSelectedData, UploadAvararResponse, UploadAvatarSagaProgressData, UserPreview } from './models';
 import { MyProfileActions } from './actions';
-import { MyProfileHttpRequests } from './http-requests';
-import { UpdateAvatarResponse } from '../common/models';
+import { MyProfileHttpFileRequest, MyProfileHttpRequests } from './http-requests';
 import { MyProfileService } from 'app/services/my-profile-service';
 import { RootState } from '../root-reducer';
+import { getFileFromUrl } from 'app/utils/functions/get-file-from-url';
 
 export function* changeOnlineStatus({
 	payload,
@@ -22,29 +21,7 @@ export function* changeOnlineStatus({
 export function* uploadUserAvatar(action: ReturnType<typeof MyProfileActions.updateMyAvatarAction>): SagaIterator {
 	const image: AvatarSelectedData = action.payload;
 
-	const { croppedImagePath, imagePath, offsetY, offsetX, width } = image;
-	if (!image || !imagePath || !croppedImagePath) {
-		return;
-	}
-
-	const uploadRequest: FileUploadRequest<UpdateAvatarResponse> = {
-		path: image.imagePath,
-		url: 'https://files.ravudi.com/api/user-avatars/',
-		fileName: 'File',
-		parameters: {
-			'Square.Point.X': offsetX.toString(),
-			'Square.Point.Y': offsetY.toString(),
-			'Square.Size': width.toString(),
-		},
-		errorCallback(response: ErrorUploadResponse): void {
-			alert(response.error);
-		},
-		*completedCallback(response) {
-			yield put(MyProfileActions.updateMyAvatarSuccessAction(response.data));
-		},
-	};
-
-	yield call(uploadFileSaga, uploadRequest);
+	console.log(image);
 }
 
 export function* uploadUserAvatarSaga(action: ReturnType<typeof MyProfileActions.updateMyAvatarAction>): SagaIterator {
@@ -104,11 +81,42 @@ export function* checkNicknameAvailabilitySaga(
 	action.meta.deferred?.resolve({ isAvailable: data });
 }
 
+function* uploadAvatarSaga(action: ReturnType<typeof MyProfileActions.uploadAvatarRequestAction>): SagaIterator {
+	const { pathToFile, onProgress } = action.payload;
+
+	const file = yield call(getFileFromUrl, pathToFile);
+
+	const uploadRequest = MyProfileHttpFileRequest.uploadAvatar;
+
+	const data = new FormData();
+
+	const uploadData = { file };
+
+	for (let k of Object.entries(uploadData)) {
+		data.append(k[0], k[1]);
+	}
+
+	yield call(() =>
+		uploadRequest.generator(data, {
+			onSuccess: function* (payload: UploadAvararResponse): SagaIterator {
+				action.meta.deferred.resolve(payload);
+			},
+			onProgress: function* (payload: UploadAvatarSagaProgressData): SagaIterator {
+				onProgress(payload.progress);
+			},
+			onFailure: function* (): SagaIterator {
+				action.meta.deferred.reject();
+			},
+		}),
+	);
+}
+
 export const MyProfileSagas = [
 	takeLatest(MyProfileActions.updateMyAvatarAction, uploadUserAvatarSaga),
 	takeLatest(MyProfileActions.updateMyProfileAction, updateMyProfileSaga),
 	takeLatest(MyProfileActions.updateMyNicknameAction, updateMyNicknameSaga),
 	takeLatest(MyProfileActions.getMyProfileAction, getMyProfileSaga),
 	takeLatest(MyProfileActions.checkNicknameAvailabilityAction, checkNicknameAvailabilitySaga),
+	takeLatest(MyProfileActions.uploadAvatarRequestAction, uploadAvatarSaga),
 	//takeEvery(MyProfileActions.changeUserOnlineStatus, changeOnlineStatus),
 ];

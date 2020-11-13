@@ -11,19 +11,17 @@ import {
 	UploadAttachmentSagaProgressData,
 	UploadAttachmentSagaStartedData,
 	BaseAttachment,
+	ConferenceCreationHTTPReqData,
 } from './models';
 import { MessageState, SystemMessageType, Message, CreateMessageRequest } from '../messages/models';
 import { ChatService } from './chat-service';
 import { ChatActions } from './actions';
 import { SagaIterator } from 'redux-saga';
-import { FileUploadRequest, ErrorUploadResponse, uploadFileSaga } from 'app/utils/file-uploader/file-uploader';
 import { HTTPStatusCode } from 'app/common/http-status-code';
 import { ConferenceCreatedIntegrationEvent } from '../middlewares/websockets/integration-events/conference-сreated-integration-event';
 import { MessageActions } from '../messages/actions';
 import { ChatHttpFileRequest, ChatHttpRequests } from './http-requests';
-import { UpdateAvatarResponse } from '../common/models';
 import { MyProfileService } from 'app/services/my-profile-service';
-import { getType } from 'typesafe-actions';
 import { MessageUtils } from 'app/utils/functions/message-utils';
 import { audioRecordingsToDisplay, filesToDisplay, photoToDisplay, videoToDisplay } from './temporal';
 import { IFilesRequestGenerator } from '../common/http-file-factory';
@@ -110,46 +108,6 @@ export function* removeChatSaga(action: ReturnType<typeof ChatActions.removeChat
 	}
 }
 
-function* updloadConferenceAvatar(
-	action: ReturnType<typeof ChatActions.changeConferenceAvatar> | ReturnType<typeof ChatActions.createConference>,
-): SagaIterator {
-	const { avatarData, conferenceId } = action.payload;
-	if (avatarData && conferenceId) {
-		const { imagePath, offsetX, offsetY, width } = avatarData;
-		if (!imagePath) {
-			return;
-		}
-
-		const uploadRequest: FileUploadRequest<UpdateAvatarResponse> = {
-			path: imagePath,
-			url: 'https://files.ravudi.com/api/conference-avatars/',
-			fileName: 'file',
-			parameters: {
-				'Square.Point.X': offsetX.toString(),
-				'Square.Point.Y': offsetY.toString(),
-				'Square.Size': width.toString(),
-				ConferenceId: conferenceId.toString(),
-			},
-			errorCallback(response: ErrorUploadResponse): void {
-				alert('Error' + response.error);
-			},
-			*completedCallback(response) {
-				yield put(ChatActions.changeConferenceAvatarSuccess({ conferenceId, ...response.data }));
-				alert('Upload succes');
-
-				if (action.type === getType(ChatActions.createConference)) {
-					action.meta.deferred?.resolve();
-				}
-			},
-		};
-		yield call(uploadFileSaga, uploadRequest);
-	}
-}
-
-function* changeConferenceAvatarSaga(action: ReturnType<typeof ChatActions.changeConferenceAvatar>): SagaIterator {
-	yield call(updloadConferenceAvatar, action);
-}
-
 function* addUsersToConferenceSaga(action: ReturnType<typeof ChatActions.addUsersToConference>): SagaIterator {
 	try {
 		const { chat, users } = action.payload;
@@ -178,11 +136,19 @@ function* addUsersToConferenceSaga(action: ReturnType<typeof ChatActions.addUser
 }
 
 function* createConferenceSaga(action: ReturnType<typeof ChatActions.createConference>): SagaIterator {
-	const { userIds, name, avatar } = action.payload;
+	const { userIds, name, avatar, description, currentUser } = action.payload;
 
 	try {
 		const httpRequest = ChatHttpRequests.createConference;
-		const { data } = httpRequest.call(yield call(() => httpRequest.generator(action.payload)));
+		const conferenceCreationRequest: ConferenceCreationHTTPReqData = {
+			name,
+			description,
+			userIds,
+			currentUser,
+			avatarId: avatar?.id,
+		};
+
+		const { data } = httpRequest.call(yield call(() => httpRequest.generator(conferenceCreationRequest)));
 
 		const chatId: number = ChatService.getChatIdentifier(undefined, data);
 		const chat: Chat = {
@@ -192,7 +158,7 @@ function* createConferenceSaga(action: ReturnType<typeof ChatActions.createConfe
 				id: data,
 				membersCount: userIds.length + 1,
 				name: name,
-				avatarUrl: undefined,
+				avatarUrl: avatar?.url,
 			},
 			typingInterlocutors: [],
 			lastMessage: {
@@ -222,20 +188,17 @@ function* createConferenceSaga(action: ReturnType<typeof ChatActions.createConfe
 			},
 		};
 
-		action.payload.conferenceId = data;
-		action.payload.avatarData = avatar;
-
 		yield put(ChatActions.createConferenceSuccess(chat));
 		yield put(ChatActions.changeSelectedChat(chat.id));
 		action.meta.deferred?.resolve(chat);
-
-		if (avatar) {
-			yield call(updloadConferenceAvatar, action);
-		}
 	} catch (e) {
 		console.warn(e);
 		alert('createConferenceSaga error');
 	}
+}
+
+function* changeConferenceAvatarSaga(action: ReturnType<typeof ChatActions.changeConferenceAvatar>): SagaIterator {
+	console.log('avatar change requested', action);
 }
 
 function* createConferenceFromEventSaga(
@@ -424,6 +387,7 @@ export function* uploadAttachmentSaga(
 				yield put(ChatActions.uploadAttachmentStartedAction({ chatId, attachmentId, ...payload }));
 			},
 			onProgress: function* (payload: UploadAttachmentSagaProgressData): SagaIterator {
+				console.log('lOOOOOOOOOOOOOOOG');
 				yield put(ChatActions.uploadAttachmentProgressAction({ chatId, attachmentId, ...payload }));
 			},
 			onSuccess: function* (payload: BaseAttachment): SagaIterator {

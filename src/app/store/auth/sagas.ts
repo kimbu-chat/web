@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { HTTPStatusCode } from 'app/common/http-status-code';
-import { PhoneConfirmationApiResponse, SecurityTokens, LoginResponse } from './types';
+import { PhoneConfirmationApiResponse, SecurityTokens, LoginResponse } from './models';
 import { call, put, takeLatest, fork, spawn } from 'redux-saga/effects';
 import jwtDecode from 'jwt-decode';
 import { AuthService } from 'app/services/auth-service';

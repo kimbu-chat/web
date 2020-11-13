@@ -21,6 +21,7 @@ const EditUserNameModal = ({ onClose }: EditUserNameModal.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const [isNickNameAvailable, setIsNickNameAvailable] = useState(true);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const nicknamePattern = /^[a-z0-9_]{5,}$/;
 
@@ -38,12 +39,14 @@ const EditUserNameModal = ({ onClose }: EditUserNameModal.Props) => {
 			if (newNickName === myProfile?.nickname) {
 				setIsNickNameAvailable(true);
 			} else {
+				setIsLoading(true);
 				checkNicknameAvailability({ nickname: newNickName }).then(({ isAvailable }) => {
 					setIsNickNameAvailable(isAvailable);
+					setIsLoading(false);
 				});
 			}
 		},
-		[setNickname, setIsNickNameAvailable, checkNicknameAvailability],
+		[setNickname, setIsNickNameAvailable, checkNicknameAvailability, setIsLoading],
 	);
 
 	const onSubmit = useCallback(() => {
@@ -88,11 +91,12 @@ const EditUserNameModal = ({ onClose }: EditUserNameModal.Props) => {
 					{
 						children: 'Save',
 						className: 'edit-username-modal__confirm-btn',
-						disabled: !nickname.match(nicknamePattern) || !isNickNameAvailable,
+						disabled: !nickname.match(nicknamePattern) || !isNickNameAvailable || isLoading,
 						onClick: onSubmit,
 						position: 'left',
 						width: 'contained',
 						variant: 'contained',
+						isLoading: isLoading,
 						color: 'primary',
 					},
 				]}

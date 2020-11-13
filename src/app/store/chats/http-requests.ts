@@ -7,16 +7,11 @@ import {
 	MuteChatRequest,
 	GetConferenceUsersRequest,
 	RenameConferenceApiRequest,
-	ConferenceCreationReqData,
-	UploadAudioRequest,
+	ConferenceCreationHTTPReqData,
 	UploadAudioResponse,
-	UploadFileRequest,
 	UploadFileResponse,
-	UploadPictureRequest,
 	UploadPictureResponse,
-	UploadVideoRequest,
 	UploadVideoResponse,
-	UploadVoiceRequest,
 	UploadVoiceResponse,
 } from './models';
 import { ApiBasePath } from '../root-api';
@@ -36,7 +31,7 @@ export const ChatHttpRequests = {
 		`${ApiBasePath.MainApi}/api/chats/change-muted-status`,
 		HttpRequestMethod.Put,
 	),
-	createConference: httpRequestFactory<AxiosResponse<number>, ConferenceCreationReqData>(
+	createConference: httpRequestFactory<AxiosResponse<number>, ConferenceCreationHTTPReqData>(
 		`${ApiBasePath.MainApi}/api/conferences`,
 		HttpRequestMethod.Post,
 	),
@@ -59,23 +54,23 @@ export const ChatHttpRequests = {
 };
 
 export const ChatHttpFileRequest = {
-	uploadAudioAttachment: httpFilesRequestFactory<AxiosResponse<UploadAudioResponse>, UploadAudioRequest>(
+	uploadAudioAttachment: httpFilesRequestFactory<AxiosResponse<UploadAudioResponse>, FormData>(
 		`${ApiBasePath.FilesAPI}/api/audio-attachments`,
 		HttpRequestMethod.Post,
 	),
-	uploadPictureAttachment: httpFilesRequestFactory<AxiosResponse<UploadPictureResponse>, UploadPictureRequest>(
+	uploadPictureAttachment: httpFilesRequestFactory<AxiosResponse<UploadPictureResponse>, FormData>(
 		`${ApiBasePath.FilesAPI}/api/picture-attachments`,
 		HttpRequestMethod.Post,
 	),
-	uploadFileAttachment: httpFilesRequestFactory<AxiosResponse<UploadFileResponse>, UploadFileRequest>(
+	uploadFileAttachment: httpFilesRequestFactory<AxiosResponse<UploadFileResponse>, FormData>(
 		`${ApiBasePath.FilesAPI}/api/raw-attachments`,
 		HttpRequestMethod.Post,
 	),
-	uploadVideoAttachment: httpFilesRequestFactory<AxiosResponse<UploadVideoResponse>, UploadVideoRequest>(
+	uploadVideoAttachment: httpFilesRequestFactory<AxiosResponse<UploadVideoResponse>, FormData>(
 		`${ApiBasePath.FilesAPI}/api/video-attachments`,
 		HttpRequestMethod.Post,
 	),
-	uploadVoiceAttachment: httpFilesRequestFactory<AxiosResponse<UploadVoiceResponse>, UploadVoiceRequest>(
+	uploadVoiceAttachment: httpFilesRequestFactory<AxiosResponse<UploadVoiceResponse>, FormData>(
 		`${ApiBasePath.FilesAPI}/api/voice-attachments`,
 		HttpRequestMethod.Post,
 	),

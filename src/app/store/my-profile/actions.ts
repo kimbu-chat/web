@@ -5,6 +5,7 @@ import {
 	UpdateAvatarSuccess,
 	UpdateNicknameActionData,
 	CheckNicknameActionData,
+	UploadAvatarReqData,
 } from './models';
 import { Meta, createEmptyAction } from '../common/actions';
 import { createAction } from 'typesafe-actions';
@@ -25,4 +26,5 @@ export namespace MyProfileActions {
 	export const getMyProfileAction = createEmptyAction('GET_MY_PROFILE');
 	export const getMyProfileSuccessAction = createAction('GET_MY_PROFILE_SUCCESS')<UserPreview>();
 	export const changeUserOnlineStatusAction = createAction('CHANGE_ONLINE_STATUS')<boolean>();
+	export const uploadAvatarRequestAction = createAction('UPLOAD_AVATAR')<UploadAvatarReqData, Meta>();
 }

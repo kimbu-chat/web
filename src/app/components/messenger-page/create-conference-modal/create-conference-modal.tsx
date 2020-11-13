@@ -4,7 +4,7 @@ import Modal from 'app/components/shared/modal/modal';
 import WithBackground from 'app/components/shared/with-background';
 import ChangePhoto from 'app/components/messenger-page/change-photo/change-photo';
 import { FriendActions } from 'app/store/friends/actions';
-import { AvatarSelectedData, UserPreview } from 'app/store/my-profile/models';
+import { AvatarSelectedData, UploadAvararResponse, UserPreview } from 'app/store/my-profile/models';
 import { RootState } from 'app/store/root-reducer';
 import { getStringInitials } from 'app/utils/functions/interlocutor-name-utils';
 import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
@@ -16,8 +16,10 @@ import CloseSVG from 'app/assets/icons/ic-close.svg';
 import './create-conference-modal.scss';
 import { useActionWithDeferred } from 'app/utils/hooks/use-action-with-deferred';
 import { ChatActions } from 'app/store/chats/actions';
-import { Chat } from 'app/store/chats/models';
+import { Chat, ConferenceCreationReqData } from 'app/store/chats/models';
 import { useHistory } from 'react-router';
+import { MyProfileActions } from 'app/store/my-profile/actions';
+import CircularProgress from 'app/components/messenger-page/shared/circular-progress/circular-progress';
 
 namespace ICreateConferenceModal {
 	export interface Props {
@@ -38,14 +40,19 @@ const CreateConferenceModal = ({ onClose, preSelectedUserIds }: ICreateConferenc
 
 	const history = useHistory();
 
+	const uploadConferenceAvatar = useActionWithDeferred(MyProfileActions.uploadAvatarRequestAction);
 	const submitConferenceCreation = useActionWithDeferred(ChatActions.createConference);
 
 	const [selectedUserIds, setSelectedUserIds] = useState<number[]>(preSelectedUserIds ? preSelectedUserIds : []);
 	const [currentStage, setCurrrentStage] = useState(ICreateConferenceModal.conferenceCreationStage.userSelect);
 	const [avatarData, setAvatarData] = useState<AvatarSelectedData | null>(null);
+	const [avararUploadResponse, setAvatarUploadResponse] = useState<UploadAvararResponse | null>(null);
 	const [imageUrl, setImageUrl] = useState<string | null | ArrayBuffer>(null);
 	const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
 	const [name, setName] = useState('');
+	const [description, setDescription] = useState('');
+	const [uploaded, setUploaded] = useState(0);
+	const [uploadEnded, setUploadEnded] = useState(true);
 
 	const friends = useSelector((state: RootState) => state.friends.friends);
 
@@ -58,7 +65,17 @@ const CreateConferenceModal = ({ onClose, preSelectedUserIds }: ICreateConferenc
 		[selectedUserIds],
 	);
 
-	const applyAvatarData = useCallback((data) => setAvatarData(data), [setAvatarData]);
+	const applyAvatarData = useCallback(
+		(data: AvatarSelectedData) => {
+			setAvatarData(data);
+			setUploadEnded(false);
+			uploadConferenceAvatar({ pathToFile: data.croppedImagePath, onProgress: setUploaded }).then((response) => {
+				setAvatarUploadResponse(response);
+				setUploadEnded(true);
+			});
+		},
+		[setAvatarData, setUploaded, uploadConferenceAvatar, setAvatarUploadResponse],
+	);
 
 	const displayChangePhoto = useCallback(() => setChangePhotoDisplayed(true), [setChangePhotoDisplayed]);
 	const hideChangePhoto = useCallback(() => setChangePhotoDisplayed(false), [setChangePhotoDisplayed]);
@@ -98,19 +115,26 @@ const CreateConferenceModal = ({ onClose, preSelectedUserIds }: ICreateConferenc
 		[displayChangePhoto, setImageUrl],
 	);
 
-	const discardAvatar = useCallback(() => setAvatarData(null), [setAvatarData]);
+	const discardAvatar = useCallback(() => {
+		setAvatarData(null);
+		setAvatarUploadResponse(null);
+		setUploadEnded(true);
+	}, [setAvatarData, setAvatarUploadResponse, setUploadEnded]);
 
 	const onSubmit = useCallback(() => {
-		submitConferenceCreation({
+		const conferenceToCreate: ConferenceCreationReqData = {
 			name,
 			currentUser: currentUser!,
 			userIds: selectedUserIds,
-			avatar: avatarData,
-		}).then((payload: Chat) => {
+			description,
+			avatar: avararUploadResponse,
+		};
+
+		submitConferenceCreation(conferenceToCreate).then((payload: Chat) => {
 			history.push(`/chats/${payload.id}`);
 			onClose();
 		});
-	}, [avatarData, name, onClose, t]);
+	}, [avararUploadResponse, description, name, onClose]);
 
 	const goToConferenceCreationStage = useCallback(() => {
 		setCurrrentStage(ICreateConferenceModal.conferenceCreationStage.conferenceCreation);
@@ -152,20 +176,28 @@ const CreateConferenceModal = ({ onClose, preSelectedUserIds }: ICreateConferenc
 							)}
 
 							{currentStage === ICreateConferenceModal.conferenceCreationStage.conferenceCreation && (
-								<div className='edit-chat-modal'>
-									<div className='edit-chat-modal__change-photo'>
-										<div className='edit-chat-modal__current-photo-wrapper'>
+								<div className='create-conference'>
+									<div className='create-conference__change-photo'>
+										<div className='create-conference__current-photo-wrapper'>
 											<Avatar
 												src={avatarData?.croppedImagePath}
-												className='edit-chat-modal__current-photo'
+												className='create-conference__current-photo'
 											>
 												{getStringInitials(name)}
 											</Avatar>
-											<button onClick={discardAvatar} className='edit-chat-modal__remove-photo'>
-												<CloseSVG viewBox='0 0 25 25' />
-											</button>
+											{avatarData && (
+												<>
+													<CircularProgress progress={uploaded} />
+													<button
+														onClick={discardAvatar}
+														className='create-conference__remove-photo'
+													>
+														<CloseSVG viewBox='0 0 25 25' />
+													</button>
+												</>
+											)}
 										</div>
-										<div className='edit-chat-modal__change-photo-data'>
+										<div className='create-conference__change-photo-data'>
 											<input
 												onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 													handleImageChange(e)
@@ -177,29 +209,33 @@ const CreateConferenceModal = ({ onClose, preSelectedUserIds }: ICreateConferenc
 											/>
 											<button
 												onClick={() => fileInputRef.current?.click()}
-												className='edit-chat-modal__change-photo__btn'
+												className='create-conference__change-photo__btn'
 											>
 												Upload New Photo
 											</button>
-											<span className='edit-chat-modal__change-photo__description'>
+											<span className='create-conference__change-photo__description'>
 												At least 256 x 256px PNG or JPG file.
 											</span>
 										</div>
 									</div>
-									<div className='edit-chat-modal__name'>
-										<span className='edit-chat-modal__name__label'>Name</span>
+									<div className='create-conference__name'>
+										<span className='create-conference__name__label'>Name</span>
 										<input
 											value={name}
 											onChange={(e) => setName(e.target.value)}
 											type='text'
-											className='edit-chat-modal__name__input'
+											className='create-conference__name__input'
 										/>
 									</div>
-									<div className='edit-chat-modal__description'>
-										<span className='edit-chat-modal__description__label'>
+									<div className='create-conference__description'>
+										<span className='create-conference__description__label'>
 											Description (optional)
 										</span>
-										<textarea className='edit-chat-modal__description__input' />
+										<textarea
+											value={description}
+											onChange={(e) => setDescription(e.target.value)}
+											className='create-conference__description__input'
+										/>
 									</div>
 								</div>
 							)}
@@ -229,7 +265,7 @@ const CreateConferenceModal = ({ onClose, preSelectedUserIds }: ICreateConferenc
 										? 'block'
 										: 'none',
 							},
-							disabled: name.length === 0,
+							disabled: name.length === 0 || !uploadEnded,
 							position: 'left',
 							onClick: onSubmit,
 							width: 'contained',

@@ -1,3 +1,4 @@
+import { UserPreview } from './../my-profile/models';
 import { GetFriendsActionData, GetFriendsSuccessActionData } from '../my-profile/models';
 import { createAction } from 'typesafe-actions';
 import { StatusChangedIntegrationEvent } from '../middlewares/websockets/integration-events/status-changed-integration-event';
@@ -9,4 +10,6 @@ export namespace FriendActions {
 	export const deleteFriend = createAction('DELETE_FRIEND')<DeleteFriendsActionData>();
 	export const deleteFriendSuccess = createAction('DELETE_FRIEND_SUCCESS')<DeleteFriendsActionData>();
 	export const userStatusChangedEvent = createAction('USER_STATUS_CHANGED_EVENT')<StatusChangedIntegrationEvent>();
+	export const addFriend = createAction('ADD_FRIEND')<UserPreview>();
+	export const addFriendSuccess = createAction('ADD_FRIEND_SUCCESS')<UserPreview>();
 }

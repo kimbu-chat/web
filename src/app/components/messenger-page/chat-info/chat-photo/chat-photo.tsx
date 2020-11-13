@@ -18,7 +18,7 @@ const ChatPhoto = () => {
 
 	const photoContainerRef = useRef<HTMLDivElement>(null);
 
-	const getPhotos = useActionWithDispatch(ChatActions.getPhoto);
+	const getPhotoAttachmentss = useActionWithDispatch(ChatActions.getPhotoAttachments);
 	const selectedChat = useSelector(getSelectedChatSelector);
 	const photoForSelectedDialog = selectedChat!.photos;
 
@@ -33,7 +33,7 @@ const ChatPhoto = () => {
 
 		console.log(page);
 
-		getPhotos({
+		getPhotoAttachmentss({
 			page,
 			chatId: selectedChat!.id,
 		});

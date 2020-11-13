@@ -1,4 +1,4 @@
-export const getFileSizeUnit = (byteSize: number) => {
+export const getRawAttachmentsizeUnit = (byteSize: number) => {
 	return byteSize > 1048576
 		? `${(byteSize / 1048576).toFixed(2)} Mb`
 		: byteSize > 1024

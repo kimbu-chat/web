@@ -19,7 +19,7 @@ const ChatRecordings = () => {
 	const selectedChat = useSelector(getSelectedChatSelector);
 	const recordings = selectedChat!.recordings;
 
-	const getRecordings = useActionWithDispatch(ChatActions.getVoiceAttachment);
+	const getRecordings = useActionWithDispatch(ChatActions.getVoiceAttachments);
 
 	const loadMore = useCallback(() => {
 		getRecordings({ chatId: selectedChat?.id!, page: { offset: recordings?.recordings.length!, limit: 20 } });

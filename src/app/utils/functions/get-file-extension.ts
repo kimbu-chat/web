@@ -7,10 +7,10 @@ export const getFileType = (fileName: string): FileType => {
 		/\.+(aa|aax|aac|aiff|ape|dsf|flac|m4a|m4b|m4p|mp3|mpc|mpp|ogg|oga|wav|wma|wv|webm)$/,
 		'i',
 	);
-	let fileType: FileType = FileType.file;
+	let fileType: FileType = FileType.raw;
 
 	if (fileName.match(imgRegex)) {
-		fileType = FileType.photo;
+		fileType = FileType.picture;
 	}
 
 	if (fileName.match(videoRegex)) {
@@ -18,7 +18,7 @@ export const getFileType = (fileName: string): FileType => {
 	}
 
 	if (fileName.match(audioRegex)) {
-		fileType = FileType.music;
+		fileType = FileType.audio;
 	}
 
 	return fileType;

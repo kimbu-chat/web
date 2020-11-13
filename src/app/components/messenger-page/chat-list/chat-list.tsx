@@ -32,7 +32,7 @@ const ChatList = () => {
 		getChats({
 			page: { offset: 0, limit: DIALOGS_LIMIT },
 			initializedBySearch: true,
-			initiatedByScrolling: false,
+
 			name: searchString,
 			showOnlyHidden: false,
 			showAll: true,
@@ -48,7 +48,6 @@ const ChatList = () => {
 		getChats({
 			page: pageData,
 			initializedBySearch: false,
-			initiatedByScrolling: true,
 			name: searchString,
 			showOnlyHidden: false,
 			showAll: true,

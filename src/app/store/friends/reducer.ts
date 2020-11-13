@@ -66,15 +66,6 @@ const friends = createReducer<FriendsState>(initialState)
 	.handleAction(
 		ChatActions.getConferenceUsersSuccess,
 		produce((draft: FriendsState, { payload }: ReturnType<typeof ChatActions.getConferenceUsersSuccess>) => {
-			const { initiatedByScrolling } = payload;
-
-			if (!initiatedByScrolling) {
-				draft.conferenceUsersLoading = false;
-				draft.usersForSelectedConference = payload.users;
-
-				return draft;
-			}
-
 			draft.usersForSelectedConference = unionBy(draft.usersForSelectedConference, payload.users, 'id');
 
 			return draft;

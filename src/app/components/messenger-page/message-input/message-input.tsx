@@ -241,7 +241,7 @@ const CreateMessageInput = () => {
 					});
 					uploadAttachmentRequest({
 						chatId: selectedChat!.id,
-						type: FileType.recording,
+						type: FileType.voice,
 						file: audioFile as File,
 						attachmentId: String(new Date().getTime()),
 					});

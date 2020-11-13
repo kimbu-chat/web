@@ -110,7 +110,7 @@ const ChatFromList = ({ chat }: ChatFromList.Props) => {
 					</div>
 				</div>
 				<div className='chat-from-list__last-message'>
-					{chat.typingInterlocutors.length > 0 ? getTypingString(t, chat) : getMessageText()}
+					{(chat.typingInterlocutors?.length || 0) > 0 ? getTypingString(t, chat) : getMessageText()}
 				</div>
 				{(chat.ownUnreadMessagesCount || false) && (
 					<div

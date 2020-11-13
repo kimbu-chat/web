@@ -29,7 +29,7 @@ const ChatFiles = () => {
 	const loadMore = useCallback(() => {
 		console.log('call');
 		const page: Page = {
-			offset: filesForSelectedDialog?.files!.length || 0,
+			offset: filesForSelectedDialog.files.length || 0,
 			limit: 25,
 		};
 
@@ -39,9 +39,9 @@ const ChatFiles = () => {
 			page,
 			chatId: selectedChat!.id,
 		});
-	}, [selectedChat!.id, filesForSelectedDialog?.files]);
+	}, [selectedChat?.id, filesForSelectedDialog.files]);
 
-	const filesWithSeparators = setSeparators(filesForSelectedDialog?.files, 'month', true);
+	const filesWithSeparators = setSeparators(filesForSelectedDialog.files, 'month', true);
 
 	return (
 		<div className={'chat-files'}>

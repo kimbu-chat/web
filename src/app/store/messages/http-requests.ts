@@ -1,12 +1,6 @@
 ﻿import { AxiosResponse } from 'axios';
 import { httpRequestFactory, HttpRequestMethod } from '../common/http-factory';
-import {
-	Message,
-	MessagesReqData,
-	MessageCreationReqData,
-	MarkMessagesAsReadRequest,
-	UserMessageTypingRequest,
-} from './models';
+import { Message, MessagesReqData, MessageCreationReqData, UserMessageTypingRequest } from './models';
 import { ApiBasePath } from '../root-api';
 
 export const MessagesHttpRequests = {
@@ -16,10 +10,6 @@ export const MessagesHttpRequests = {
 	),
 	createMessage: httpRequestFactory<AxiosResponse<number>, MessageCreationReqData>(
 		`${ApiBasePath.MainApi}/api/messages`,
-		HttpRequestMethod.Post,
-	),
-	markMessagesAsRead: httpRequestFactory<AxiosResponse, MarkMessagesAsReadRequest>(
-		`${ApiBasePath.MainApi}/api/chats/mark-as-read`,
 		HttpRequestMethod.Post,
 	),
 	messageTyping: httpRequestFactory<AxiosResponse, UserMessageTypingRequest>(

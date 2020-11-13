@@ -7,6 +7,7 @@ import { ChatActions } from './actions';
 import { MessageActions } from '../messages/actions';
 import { FriendActions } from '../friends/actions';
 import { MessageState } from '../messages/models';
+import { unionBy } from 'lodash';
 
 export interface ChatsState {
 	loading: boolean;
@@ -85,9 +86,9 @@ const chats = createReducer<ChatsState>(initialState)
 
 			(draft.chats[chatIndex].draftMessage = payload.text), (draft.chats[chatIndex].timeoutId = timeoutId);
 
-			if (!draft.chats[chatIndex].typingInterlocutors.find(({ fullName }) => fullName === interlocutorName)) {
+			if (!draft.chats[chatIndex].typingInterlocutors?.find(({ fullName }) => fullName === interlocutorName)) {
 				draft.chats[chatIndex].typingInterlocutors = [
-					...draft.chats[chatIndex].typingInterlocutors,
+					...(draft.chats[chatIndex].typingInterlocutors || []),
 					typingUser,
 				];
 			}
@@ -168,15 +169,6 @@ const chats = createReducer<ChatsState>(initialState)
 		}),
 	)
 	.handleAction(
-		ChatActions.unsetSelectedChat,
-		produce((draft: ChatsState) => {
-			return {
-				...draft,
-				selectedChatId: -1,
-			};
-		}),
-	)
-	.handleAction(
 		ChatActions.getChats,
 		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.getChats>) => {
 			return {
@@ -196,7 +188,7 @@ const chats = createReducer<ChatsState>(initialState)
 			if (initializedBySearch) {
 				draft.chats = chats;
 			} else {
-				draft.chats = draft.chats.concat(chats);
+				draft.chats = unionBy(draft.chats, chats, 'id');
 			}
 
 			return draft;
@@ -212,7 +204,7 @@ const chats = createReducer<ChatsState>(initialState)
 		}),
 	)
 	.handleAction(
-		[ChatActions.leaveConferenceSuccess, ChatActions.removeChatSuccess],
+		[ChatActions.leaveConferenceSuccess, ChatActions.changeChatVisibilityStateSuccess],
 		produce(
 			(
 				draft: ChatsState,
@@ -220,7 +212,7 @@ const chats = createReducer<ChatsState>(initialState)
 					payload,
 				}:
 					| ReturnType<typeof ChatActions.leaveConferenceSuccess>
-					| ReturnType<typeof ChatActions.removeChatSuccess>,
+					| ReturnType<typeof ChatActions.changeChatVisibilityStateSuccess>,
 			) => {
 				const chatIndex: number = getChatArrayIndex(payload.id, draft);
 				draft.chats.splice(chatIndex, 1);
@@ -230,9 +222,9 @@ const chats = createReducer<ChatsState>(initialState)
 		),
 	)
 	.handleAction(
-		MessageActions.markMessagesAsRead,
-		produce((draft: ChatsState, { payload }: ReturnType<typeof MessageActions.markMessagesAsRead>) => {
-			const chatId = payload.id;
+		ChatActions.markMessagesAsRead,
+		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.markMessagesAsRead>) => {
+			const chatId = payload.chatId;
 			const chatIndex: number = getChatArrayIndex(chatId, draft);
 			draft.chats[chatIndex].ownUnreadMessagesCount = 0;
 			return draft;
@@ -473,8 +465,8 @@ const chats = createReducer<ChatsState>(initialState)
 		}),
 	)
 	.handleAction(
-		ChatActions.getRecordingsSuccess,
-		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.getRecordingsSuccess>) => {
+		ChatActions.getVoiceSuccess,
+		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.getVoiceSuccess>) => {
 			const { recordings, chatId, hasMore } = payload;
 
 			const chatIndex: number = getChatArrayIndex(chatId, draft);
@@ -626,6 +618,30 @@ const chats = createReducer<ChatsState>(initialState)
 				draft.chats[chatIndex].attachmentsToSend = draft.chats[chatIndex].attachmentsToSend?.filter(
 					({ attachment }) => attachment.id !== attachmentId,
 				);
+			}
+			return draft;
+		}),
+	)
+	.handleAction(
+		ChatActions.getChatInfoSuccess,
+		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.getChatInfoSuccess>) => {
+			const {
+				chatId,
+				rawAttachmentsCount,
+				voiceAttachmentsCount,
+				videoAttachmentsCount,
+				audioAttachmentsCount,
+				pictureAttachmentsCount,
+			} = payload;
+
+			const chatIndex: number = getChatArrayIndex(chatId, draft);
+
+			if (chatIndex >= 0) {
+				draft.chats[chatIndex].rawAttachmentsCount = rawAttachmentsCount;
+				draft.chats[chatIndex].voiceAttachmentsCount = voiceAttachmentsCount;
+				draft.chats[chatIndex].videoAttachmentsCount = videoAttachmentsCount;
+				draft.chats[chatIndex].audioAttachmentsCount = audioAttachmentsCount;
+				draft.chats[chatIndex].pictureAttachmentsCount = pictureAttachmentsCount;
 			}
 			return draft;
 		}),

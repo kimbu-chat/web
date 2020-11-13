@@ -8,7 +8,6 @@ import {
 	SystemMessageType,
 	MessagesReqData,
 	MessageList,
-	MarkMessagesAsReadRequest,
 } from './models';
 
 import { ChatService } from '../chats/chat-service';
@@ -19,6 +18,8 @@ import moment from 'moment';
 
 import messageCameSelected from 'app/assets/sounds/notifications/messsage-came-selected.ogg';
 import messageCameUnselected from 'app/assets/sounds/notifications/messsage-came-unselected.ogg';
+import { MarkMessagesAsReadRequest } from '../chats/models';
+import { ChatHttpRequests } from '../chats/http-requests';
 
 const audioSelected = new Audio(messageCameSelected);
 const audioUnselected = new Audio(messageCameUnselected);
@@ -120,23 +121,13 @@ export function* notifyInterlocutorThatMessageWasRead(createMessageRequest: Crea
 	if (isChatCurrentInterlocutor) {
 		const httpRequestPayload: MarkMessagesAsReadRequest = {
 			chatId: selectedChatId,
+			lastReadMessageId: message.id,
 		};
-		const httpRequest = MessagesHttpRequests.markMessagesAsRead;
+		const httpRequest = ChatHttpRequests.markMessagesAsRead;
 		httpRequest.call(yield call(() => httpRequest.generator(httpRequestPayload)));
 	} else {
 		console.warn('notifyInterlocutorThatMessageWasRead Error');
 	}
-}
-
-export function* resetUnreadMessagesCountSaga(
-	action: ReturnType<typeof MessageActions.markMessagesAsRead>,
-): SagaIterator {
-	const request: MarkMessagesAsReadRequest = {
-		chatId: action.payload.id,
-	};
-
-	const httpRequest = MessagesHttpRequests.markMessagesAsRead;
-	httpRequest.call(yield call(() => httpRequest.generator(request)));
 }
 
 export function* copyMessagesSaga(action: ReturnType<typeof MessageActions.copyMessages>): SagaIterator {
@@ -163,8 +154,7 @@ export function* copyMessagesSaga(action: ReturnType<typeof MessageActions.copyM
 }
 
 export const MessageSagas = [
-	takeLatest(MessageActions.markMessagesAsRead, resetUnreadMessagesCountSaga),
-	takeLatest(MessageActions.messageTyping, messageTyping),
+	//	takeLatest(MessageActions.messageTyping, messageTyping),
 	takeLatest(MessageActions.getMessages, getMessages),
 	takeEvery(MessageActions.createMessage, createMessage),
 	takeEvery(MessageActions.copyMessages, copyMessagesSaga),

@@ -22,6 +22,9 @@ import {
 	UploadAttachmentStartedData,
 	GetRecordingsRequest,
 	GetRecordingsResponse,
+	MarkMessagesAsReadReqData,
+	GetChatInfoRequest,
+	GetChatInfoResponse,
 } from './models';
 import { IntercolutorMessageTypingIntegrationEvent } from '../middlewares/websockets/integration-events/interlocutor-message-typing-integration-event';
 import { ConferenceCreatedIntegrationEvent } from '../middlewares/websockets/integration-events/conference-сreated-integration-event';
@@ -44,19 +47,20 @@ export namespace ChatActions {
 	export const getPhoto = createAction('GET_PHOTO')<GetPhotoRequest>();
 	export const getVideo = createAction('GET_VIDEO')<GetVideoRequest>();
 	export const getFiles = createAction('GET_FILES')<GetFilesRequest>();
-	export const getRecordings = createAction('GET_AUDIO_RECORDINGS')<GetRecordingsRequest>();
-	export const getRecordingsSuccess = createAction('GET_AUDIO_RECORDINGS_SUCCESS')<GetRecordingsResponse>();
-	export const getFilesSuccess = createAction('GET_FILES_SUCCESS')<GetFilesResponse>();
-	export const getPhotoSuccess = createAction('GET_PHOTO_SUCCESS')<GetPhotoResponse>();
-	export const getVideoSuccess = createAction('GET_VIDEO_SUCCESS')<GetVideoResponse>();
-	export const changeSelectedChat = createAction('CHANGE_SELECTED_CHAT')<number>();
+	export const getVoice = createAction('GET_VOICE')<GetRecordingsRequest>();
+	export const getChatInfo = createAction('GET_CHAT_INFO')<GetChatInfoRequest>();
 	export const getChatsSuccess = createAction('GET_CHATS_SUCCESS')<GetChatsResponse>();
 	export const getChatsFailure = createEmptyAction('GET_CHATS_FAILURE');
-	export const removeChat = createAction('REMOVE_CHAT')<Chat>();
-	export const removeChatSuccess = createAction('REMOVE_CHAT_SUCCESS')<Chat>();
+	export const getPhotoSuccess = createAction('GET_PHOTO_SUCCESS')<GetPhotoResponse>();
+	export const getVideoSuccess = createAction('GET_VIDEO_SUCCESS')<GetVideoResponse>();
+	export const getFilesSuccess = createAction('GET_FILES_SUCCESS')<GetFilesResponse>();
+	export const getVoiceSuccess = createAction('GET_VOICE_SUCCESS')<GetRecordingsResponse>();
+	export const getChatInfoSuccess = createAction('GET_CHAT_INFO_SUCCESS')<GetChatInfoResponse>();
+	export const changeSelectedChat = createAction('CHANGE_SELECTED_CHAT')<number>();
+	export const changeChatVisibilityState = createAction('CHANGE_CHAT_VISIBILITY_STATE')<Chat>();
+	export const changeChatVisibilityStateSuccess = createAction('CHANGE_CHAT_VISIBILITY_STATE_SUCCESS')<Chat>();
 	export const muteChat = createAction('MUTE_CHAT')<Chat>();
 	export const muteChatSuccess = createAction('MUTE_CHAT_SUCCESS')<Chat>();
-	export const unsetSelectedChat = createEmptyAction('UNSET_SELECTED_CHAT');
 	export const createConference = createAction('CREATE_CONFERENCE')<ConferenceCreationReqData, Meta>();
 	export const createConferenceSuccess = createAction('CREATE_CONFERENCE_SUCCESS')<Chat>();
 	export const createConferenceFromEvent = createAction('CREATE_CONFERENCE_FROM_EVENT')<
@@ -66,7 +70,6 @@ export namespace ChatActions {
 	export const getConferenceUsersSuccess = createAction('GET_CONFERENCE_USERS_SUCCESS')<
 		GetConferenceUsersSuccessActionData
 	>();
-	export const unsetConferenceUsers = createEmptyAction('UNSET_CONFERENCE_USERS');
 	export const leaveConference = createAction('LEAVE_CONFERENCE')<Chat, Meta>();
 	export const leaveConferenceSuccess = createAction('LEAVE_CONFERENCE_SUCCESS')<Chat>();
 	export const addUsersToConference = createAction('ADD_USERS_TO_CONFERENCE')<AddUsersToConferenceActionData, Meta>();
@@ -102,4 +105,5 @@ export namespace ChatActions {
 		UploadAttachmentFailedData
 	>();
 	export const removeAttachmentAction = createAction('REMOVE_ATTACHMENT')<RemoveAttachmentReqData>();
+	export const markMessagesAsRead = createAction('RESET_UNREAD_MESSAGES_COUNT')<MarkMessagesAsReadReqData>();
 }

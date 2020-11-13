@@ -1,6 +1,6 @@
 import { RootState } from './../root-reducer';
 import { FileType } from 'app/store/messages/models';
-import { call, delay, put, select, takeEvery, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeEvery, takeLatest } from 'redux-saga/effects';
 import { AxiosResponse } from 'axios';
 import {
 	Chat,
@@ -23,7 +23,6 @@ import { MessageActions } from '../messages/actions';
 import { ChatHttpFileRequest, ChatHttpRequests } from './http-requests';
 import { MyProfileService } from 'app/services/my-profile-service';
 import { MessageUtils } from 'app/utils/functions/message-utils';
-import { audioRecordingsToDisplay, filesToDisplay, photoToDisplay, videoToDisplay } from './temporal';
 import { IFilesRequestGenerator } from '../common/http-file-factory';
 
 export function* getChatsSaga(action: ReturnType<typeof ChatActions.getChats>): SagaIterator {
@@ -85,7 +84,9 @@ export function* muteChatSaga(action: ReturnType<typeof ChatActions.muteChat>) {
 	}
 }
 
-export function* removeChatSaga(action: ReturnType<typeof ChatActions.removeChat>): SagaIterator {
+export function* changeChatVisibilityStateSaga(
+	action: ReturnType<typeof ChatActions.changeChatVisibilityState>,
+): SagaIterator {
 	const chat: Chat = action.payload;
 	let response: AxiosResponse;
 
@@ -95,11 +96,11 @@ export function* removeChatSaga(action: ReturnType<typeof ChatActions.removeChat
 			isHidden: true,
 		};
 
-		const removeChatRequest = ChatHttpRequests.removeChat;
+		const removeChatRequest = ChatHttpRequests.changeChatVisibilityState;
 		response = removeChatRequest.call(yield call(() => removeChatRequest.generator(request)));
 
 		if (response.status === 200) {
-			yield put(ChatActions.removeChatSuccess(chat));
+			yield put(ChatActions.changeChatVisibilityStateSuccess(chat));
 		} else {
 			alert('Error chat deletion');
 		}
@@ -258,10 +259,9 @@ function* createConferenceFromEventSaga(
 }
 
 function* getConferenceUsersSaga(action: ReturnType<typeof ChatActions.getConferenceUsers>): SagaIterator {
-	const { initiatedByScrolling } = action.payload;
 	const httpRequest = ChatHttpRequests.getConferenceMembers;
 	const { data } = httpRequest.call(yield call(() => httpRequest.generator(action.payload)));
-	yield put(ChatActions.getConferenceUsersSuccess({ users: data, initiatedByScrolling: initiatedByScrolling }));
+	yield put(ChatActions.getConferenceUsersSuccess({ users: data }));
 }
 
 function* leaveConferenceSaga(action: ReturnType<typeof ChatActions.leaveConference>): SagaIterator {
@@ -297,45 +297,61 @@ function* renameConferenceSaga(action: ReturnType<typeof ChatActions.renameConfe
 function* getPhotoSaga(action: ReturnType<typeof ChatActions.getPhoto>): SagaIterator {
 	const { chatId, page } = action.payload;
 
-	//TODO:Replace this with HTTP request logic
-	yield delay(3000);
-	const response = photoToDisplay.slice(page.offset, page.offset + page.limit);
-	const hasMore = response.length >= page.limit;
+	const httpRequest = ChatHttpRequests.getChatPictureAttachments;
+	const { data, status } = httpRequest.call(yield call(() => httpRequest.generator(action.payload)));
 
-	yield put(ChatActions.getPhotoSuccess({ photos: response, hasMore, chatId }));
+	const hasMore = data.length >= page.limit;
+
+	if (status === HTTPStatusCode.OK) {
+		yield put(ChatActions.getPhotoSuccess({ photos: data, hasMore, chatId }));
+	} else {
+		alert('getPhotoSaga error');
+	}
 }
 
 function* getVideoSaga(action: ReturnType<typeof ChatActions.getVideo>): SagaIterator {
 	const { chatId, page } = action.payload;
 
-	//TODO:Replace this with HTTP request logic
-	yield delay(3000);
-	const response = videoToDisplay.slice(page.offset, page.offset + page.limit);
-	const hasMore = response.length >= page.limit;
+	const httpRequest = ChatHttpRequests.getChatVideoAttachments;
+	const { data, status } = httpRequest.call(yield call(() => httpRequest.generator(action.payload)));
 
-	yield put(ChatActions.getVideoSuccess({ videos: response, hasMore, chatId }));
+	const hasMore = data.length >= page.limit;
+
+	if (status === HTTPStatusCode.OK) {
+		yield put(ChatActions.getVideoSuccess({ videos: data, hasMore, chatId }));
+	} else {
+		alert('getVideoSaga error');
+	}
 }
 
 function* getFilesSaga(action: ReturnType<typeof ChatActions.getFiles>): SagaIterator {
 	const { chatId, page } = action.payload;
 
-	//TODO:Replace this with HTTP request logic
-	yield delay(3000);
-	const response = filesToDisplay.slice(page.offset, page.offset + page.limit);
-	const hasMore = response.length >= page.limit;
+	const httpRequest = ChatHttpRequests.getChatRawAttachments;
+	const { data, status } = httpRequest.call(yield call(() => httpRequest.generator(action.payload)));
 
-	yield put(ChatActions.getFilesSuccess({ files: response, hasMore, chatId }));
+	const hasMore = data.length >= page.limit;
+
+	if (status === HTTPStatusCode.OK) {
+		yield put(ChatActions.getFilesSuccess({ files: data, hasMore, chatId }));
+	} else {
+		alert('getFilesSaga error');
+	}
 }
 
-function* getRecordingsSaga(action: ReturnType<typeof ChatActions.getRecordings>): SagaIterator {
+function* getRecordingsSaga(action: ReturnType<typeof ChatActions.getVoice>): SagaIterator {
 	const { chatId, page } = action.payload;
 
-	//TODO:Replace this with HTTP request logic
-	yield delay(3000);
-	const response = audioRecordingsToDisplay.slice(page.offset, page.offset + page.limit);
-	const hasMore = response.length >= page.limit;
+	const httpRequest = ChatHttpRequests.getChatAudioAttachments;
+	const { data, status } = httpRequest.call(yield call(() => httpRequest.generator(action.payload)));
 
-	yield put(ChatActions.getRecordingsSuccess({ recordings: response, hasMore, chatId }));
+	const hasMore = data.length >= page.limit;
+
+	if (status === HTTPStatusCode.OK) {
+		yield put(ChatActions.getVoiceSuccess({ recordings: data, hasMore, chatId }));
+	} else {
+		alert('getRecordingsSaga error');
+	}
 }
 
 // Upload the specified file
@@ -346,22 +362,22 @@ export function* uploadAttachmentSaga(
 	let uploadRequest: IFilesRequestGenerator<AxiosResponse<any>, any>;
 
 	switch (type) {
-		case FileType.music:
+		case FileType.audio:
 			{
 				uploadRequest = ChatHttpFileRequest.uploadAudioAttachment;
 			}
 			break;
-		case FileType.file:
+		case FileType.raw:
 			{
 				uploadRequest = ChatHttpFileRequest.uploadFileAttachment;
 			}
 			break;
-		case FileType.photo:
+		case FileType.picture:
 			{
 				uploadRequest = ChatHttpFileRequest.uploadPictureAttachment;
 			}
 			break;
-		case FileType.recording:
+		case FileType.voice:
 			{
 				uploadRequest = ChatHttpFileRequest.uploadVoiceAttachment;
 			}
@@ -387,7 +403,6 @@ export function* uploadAttachmentSaga(
 				yield put(ChatActions.uploadAttachmentStartedAction({ chatId, attachmentId, ...payload }));
 			},
 			onProgress: function* (payload: UploadAttachmentSagaProgressData): SagaIterator {
-				console.log('lOOOOOOOOOOOOOOOG');
 				yield put(ChatActions.uploadAttachmentProgressAction({ chatId, attachmentId, ...payload }));
 			},
 			onSuccess: function* (payload: BaseAttachment): SagaIterator {
@@ -413,8 +428,53 @@ function* cancelUploadSaga(action: ReturnType<typeof ChatActions.removeAttachmen
 			.find(({ id }) => id === chatId)
 			?.attachmentsToSend?.find(({ attachment }) => attachment.id === attachmentId),
 	);
-
 	console.log(currentAttachment);
+}
+
+export function* resetUnreadMessagesCountSaga(action: ReturnType<typeof ChatActions.markMessagesAsRead>): SagaIterator {
+	const httpRequest = ChatHttpRequests.markMessagesAsRead;
+	httpRequest.call(yield call(() => httpRequest.generator(action.payload)));
+}
+
+export function* getChatInfoSaga(action: ReturnType<typeof ChatActions.getChatInfo>): SagaIterator {
+	const httpRequest = ChatHttpRequests.getChatInfo;
+	const { data, status } = httpRequest.call(yield call(() => httpRequest.generator(action.payload)));
+
+	if (status === HTTPStatusCode.OK) {
+		yield put(ChatActions.getChatInfoSuccess({ ...data, ...action.payload }));
+	} else {
+		alert('getChatInfoSaga error');
+	}
+}
+
+export function* changeSelectedChatSaga(action: ReturnType<typeof ChatActions.changeSelectedChat>): SagaIterator {
+	if (action.payload !== -1) {
+		const httpRequest = ChatHttpRequests.getChatById;
+
+		const chatExists =
+			(yield select((state: RootState) => state.chats.chats.findIndex(({ id }) => id === action.payload))) > -1;
+
+		console.log(chatExists);
+
+		if (!chatExists) {
+			const hasMore = yield select((state: RootState) => state.chats.hasMore);
+			const { data, status } = httpRequest.call(
+				yield call(() => httpRequest.generator({ chatId: action.payload })),
+			);
+
+			if (status === HTTPStatusCode.OK) {
+				const chatList: GetChatsResponse = {
+					chats: [data],
+					hasMore,
+					initializedBySearch: false,
+				};
+
+				yield put(ChatActions.getChatsSuccess(chatList));
+			} else {
+				alert('getChatInfoSaga error');
+			}
+		}
+	}
 }
 
 export const ChatSagas = [
@@ -425,13 +485,16 @@ export const ChatSagas = [
 	takeLatest(ChatActions.createConferenceFromEvent, createConferenceFromEventSaga),
 	takeLatest(ChatActions.createConference, createConferenceSaga),
 	takeLatest(ChatActions.changeConferenceAvatar, changeConferenceAvatarSaga),
-	takeLatest(ChatActions.removeChat, removeChatSaga),
+	takeLatest(ChatActions.changeChatVisibilityState, changeChatVisibilityStateSaga),
 	takeLatest(ChatActions.addUsersToConference, addUsersToConferenceSaga),
 	takeLatest(ChatActions.muteChat, muteChatSaga),
 	takeLatest(ChatActions.getPhoto, getPhotoSaga),
 	takeLatest(ChatActions.getVideo, getVideoSaga),
 	takeLatest(ChatActions.getFiles, getFilesSaga),
-	takeLatest(ChatActions.getRecordings, getRecordingsSaga),
+	takeLatest(ChatActions.getVoice, getRecordingsSaga),
+	takeLatest(ChatActions.markMessagesAsRead, resetUnreadMessagesCountSaga),
+	takeLatest(ChatActions.getChatInfo, getChatInfoSaga),
+	takeLatest(ChatActions.changeSelectedChat, changeSelectedChatSaga),
 	takeEvery(ChatActions.uploadAttachmentRequestAction, uploadAttachmentSaga),
 	takeEvery(ChatActions.removeAttachmentAction, cancelUploadSaga),
 ];

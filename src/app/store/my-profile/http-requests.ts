@@ -16,11 +16,11 @@ export const MyProfileHttpRequests = {
 		HttpRequestMethod.Put,
 	),
 	updateMyNickName: httpRequestFactory<AxiosResponse, UpdateNicknameActionData>(
-		`${ApiBasePath.MainApi}/api/nick-name`,
+		`${ApiBasePath.MainApi}/api/users/nick-name`,
 		HttpRequestMethod.Put,
 	),
 	changeOnlineStatus: httpRequestFactory<AxiosResponse, { isOnline: boolean }>(
-		`${ApiBasePath.MainApi}/api/users/changeOnlineStatus`,
+		`${ApiBasePath.MainApi}/api/users/change-online-status`,
 		HttpRequestMethod.Post,
 	),
 
@@ -31,7 +31,7 @@ export const MyProfileHttpRequests = {
 
 	checkNicknameAvailability: httpRequestFactory<AxiosResponse<boolean>, CheckNicknameActionData>(
 		(nickname: CheckNicknameActionData) =>
-			`${ApiBasePath.MainApi}/api/is-nick-name-available?nickname=${nickname.nickname}`,
+			`${ApiBasePath.MainApi}/api/users/check-if-nickname-is-available/${nickname.nickname}`,
 		HttpRequestMethod.Get,
 	),
 };

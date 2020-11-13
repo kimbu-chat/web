@@ -14,12 +14,13 @@ import { setSelectedMessagesLength } from 'app/store/messages/selectors';
 import { MessageUtils } from 'app/utils/functions/message-utils';
 import moment from 'moment';
 import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
+import { ChatActions } from 'app/store/chats/actions';
 
 export const MESSAGES_LIMIT = 25;
 
 const Chat = () => {
 	const getMessages = useActionWithDispatch(MessageActions.getMessages);
-	const markMessagesAsRead = useActionWithDispatch(MessageActions.markMessagesAsRead);
+	const markMessagesAsRead = useActionWithDispatch(ChatActions.markMessagesAsRead);
 
 	const { t } = useContext(LocalizationContext);
 
@@ -42,16 +43,17 @@ const Chat = () => {
 					offset: 0,
 				},
 				chat: selectedChat,
-				initiatedByScrolling: false,
 			});
 			markAsRead();
 		}
 	}, [selectedChat?.id]);
 
 	const markAsRead = useCallback((): void => {
-		const { ownUnreadMessagesCount } = selectedChat!;
-		if (Boolean(ownUnreadMessagesCount) && (ownUnreadMessagesCount || 0) > 0) {
-			markMessagesAsRead(selectedChat!);
+		if (selectedChat && messages) {
+			markMessagesAsRead({
+				chatId: selectedChat.id,
+				lastReadMessageId: messages[0].id,
+			});
 		}
 	}, [selectedChat]);
 
@@ -65,7 +67,6 @@ const Chat = () => {
 			getMessages({
 				page: pageData,
 				chat: selectedChat,
-				initiatedByScrolling: true,
 			});
 		}
 	}, [messages?.length, selectedChat]);
@@ -85,7 +86,7 @@ const Chat = () => {
 	return (
 		<div className='messenger__messages-list'>
 			<div ref={messagesContainerRef} className='messenger__messages-container'>
-				{selectedChat?.typingInterlocutors.length > 0 && (
+				{(selectedChat?.typingInterlocutors?.length || 0) > 0 && (
 					<div className='messenger__typing-notification'>{getTypingString(t, selectedChat)}</div>
 				)}
 

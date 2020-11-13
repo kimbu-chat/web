@@ -13,6 +13,19 @@ import {
 	UploadPictureResponse,
 	UploadVideoResponse,
 	UploadVoiceResponse,
+	AudioAttachment,
+	IGroupable,
+	GetChatAudiosHTTPRequest,
+	PictureAttachment,
+	GetChatPicturesHTTPRequest,
+	RawAttachment,
+	GetChatFilesHTTPRequest,
+	VideoAttachment,
+	GetChatVideosHTTPRequest,
+	GetChatByIdRequestData,
+	MarkMessagesAsReadRequest,
+	GetChatInfoRequest,
+	GetChatInfoApiResponse,
 } from './models';
 import { ApiBasePath } from '../root-api';
 import { UserPreview } from '../my-profile/models';
@@ -23,13 +36,25 @@ export const ChatHttpRequests = {
 		`${ApiBasePath.MainApi}/api/chats/search`,
 		HttpRequestMethod.Post,
 	),
-	removeChat: httpRequestFactory<AxiosResponse, HideChatRequest>(
+	getChatById: httpRequestFactory<AxiosResponse<Chat>, GetChatByIdRequestData>(
+		({ chatId }: GetChatByIdRequestData) => `${ApiBasePath.MainApi}/api/chats/${chatId}`,
+		HttpRequestMethod.Get,
+	),
+	markMessagesAsRead: httpRequestFactory<AxiosResponse, MarkMessagesAsReadRequest>(
+		`${ApiBasePath.MainApi}/api/chats/mark-as-read`,
+		HttpRequestMethod.Post,
+	),
+	changeChatVisibilityState: httpRequestFactory<AxiosResponse, HideChatRequest>(
 		`${ApiBasePath.MainApi}​/api/chats/change-hidden-status`,
 		HttpRequestMethod.Put,
 	),
 	muteChat: httpRequestFactory<AxiosResponse, MuteChatRequest>(
 		`${ApiBasePath.MainApi}/api/chats/change-muted-status`,
 		HttpRequestMethod.Put,
+	),
+	getChatInfo: httpRequestFactory<AxiosResponse<GetChatInfoApiResponse>, GetChatInfoRequest>(
+		({ chatId }: GetChatInfoRequest) => `${ApiBasePath.MainApi}/api/chats/${chatId}/info`,
+		HttpRequestMethod.Get,
 	),
 	createConference: httpRequestFactory<AxiosResponse<number>, ConferenceCreationHTTPReqData>(
 		`${ApiBasePath.MainApi}/api/conferences`,
@@ -51,6 +76,26 @@ export const ChatHttpRequests = {
 		`${ApiBasePath.MainApi}/api/conference`,
 		HttpRequestMethod.Put,
 	),
+	//attachment lists
+	getChatAudioAttachments: httpRequestFactory<
+		AxiosResponse<Array<AudioAttachment & IGroupable>>,
+		GetChatAudiosHTTPRequest
+	>(`${ApiBasePath.MainApi}/api/audio-attachments/search`, HttpRequestMethod.Post),
+
+	getChatPictureAttachments: httpRequestFactory<
+		AxiosResponse<Array<PictureAttachment & IGroupable>>,
+		GetChatPicturesHTTPRequest
+	>(`${ApiBasePath.MainApi}/api/picture-attachments/search`, HttpRequestMethod.Post),
+
+	getChatRawAttachments: httpRequestFactory<
+		AxiosResponse<Array<RawAttachment & IGroupable>>,
+		GetChatFilesHTTPRequest
+	>(`${ApiBasePath.MainApi}/api/raw-attachments/search`, HttpRequestMethod.Post),
+
+	getChatVideoAttachments: httpRequestFactory<
+		AxiosResponse<Array<VideoAttachment & IGroupable>>,
+		GetChatVideosHTTPRequest
+	>(`${ApiBasePath.MainApi}/api/video-attachments/search`, HttpRequestMethod.Post),
 };
 
 export const ChatHttpFileRequest = {

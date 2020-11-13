@@ -1,9 +1,9 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import './chat-info.scss';
 import { useSelector } from 'react-redux';
-import { Chat } from 'app/store/chats/models';
 import { getInterlocutorInitials, getChatInterlocutor } from '../../../utils/functions/interlocutor-name-utils';
 import { useActionWithDeferred } from 'app/utils/hooks/use-action-with-deferred';
+import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
 import { AvatarSelectedData } from 'app/store/my-profile/models';
 
 import { getSelectedChatSelector } from 'app/store/chats/selectors';
@@ -41,15 +41,22 @@ const ChatInfo: React.FC = () => {
 		setAddFriendsModalDisplayed((oldState) => !oldState);
 	}, [setAddFriendsModalDisplayed]);
 
-	const selectedChat = useSelector(getSelectedChatSelector) as Chat;
-
-	const changeConferenceAvatar = useActionWithDeferred(ChatActions.changeConferenceAvatar);
-
 	const [imageUrl, setImageUrl] = useState<string | null | ArrayBuffer>(null);
-	const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
 
+	const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
 	const displayChangePhoto = useCallback(() => setChangePhotoDisplayed(true), [setChangePhotoDisplayed]);
 	const hideChangePhoto = useCallback(() => setChangePhotoDisplayed(false), [setChangePhotoDisplayed]);
+
+	const selectedChat = useSelector(getSelectedChatSelector);
+
+	const changeConferenceAvatar = useActionWithDeferred(ChatActions.changeConferenceAvatar);
+	const getChatInfo = useActionWithDispatch(ChatActions.getChatInfo);
+
+	useEffect(() => {
+		if (selectedChat) {
+			getChatInfo({ chatId: selectedChat?.id });
+		}
+	}, [selectedChat?.id]);
 
 	const handleImageChange = useCallback(
 		(e: React.ChangeEvent<HTMLInputElement>) => {

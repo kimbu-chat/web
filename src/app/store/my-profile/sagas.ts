@@ -118,5 +118,5 @@ export const MyProfileSagas = [
 	takeLatest(MyProfileActions.getMyProfileAction, getMyProfileSaga),
 	takeLatest(MyProfileActions.checkNicknameAvailabilityAction, checkNicknameAvailabilitySaga),
 	takeLatest(MyProfileActions.uploadAvatarRequestAction, uploadAvatarSaga),
-	//takeEvery(MyProfileActions.changeUserOnlineStatus, changeOnlineStatus),
+	//	takeEvery(MyProfileActions.changeUserOnlineStatusAction, changeOnlineStatus),
 ];

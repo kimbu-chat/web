@@ -10,11 +10,11 @@ import { ApiBasePath } from '../root-api';
 
 export const AuthHttpRequests = {
 	login: authRequestFactory<AxiosResponse<LoginResponse>, PhoneConfirmationData>(
-		`${ApiBasePath.MainApi}/api/users/login`,
+		`${ApiBasePath.MainApi}/api/users/tokens`,
 		HttpRequestMethod.Post,
 	),
 	refreshToken: authRequestFactory<AxiosResponse<LoginResponse>, { refreshToken: string }>(
-		`${ApiBasePath.MainApi}/api/users/refresh`,
+		`${ApiBasePath.MainApi}/api/users/refresh-tokens`,
 		HttpRequestMethod.Post,
 	),
 	confirmPhone: authRequestFactory<AxiosResponse<PhoneConfirmationApiResponse>, PhoneConfirmationData>(

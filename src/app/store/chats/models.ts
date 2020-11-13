@@ -25,9 +25,28 @@ export interface RenameConferenceApiRequest {
 	id: number;
 }
 
+export interface GetChatAudiosHTTPRequest {
+	page: Page;
+	chatId: number;
+}
+
+export interface GetChatPicturesHTTPRequest {
+	page: Page;
+	chatId: number;
+}
+
+export interface GetChatFilesHTTPRequest {
+	page: Page;
+	chatId: number;
+}
+
+export interface GetChatVideosHTTPRequest {
+	page: Page;
+	chatId: number;
+}
+
 export interface GetConferenceUsersRequest {
 	conferenceId: number;
-	initiatedByScrolling: boolean;
 	page: Page;
 	filters?: {
 		name?: string;
@@ -53,19 +72,25 @@ export interface RenameConferenceActionData {
 
 export interface GetChatsRequestData {
 	page: Page;
-	unreadOnly?: boolean;
 	showOnlyHidden: boolean;
 	showAll: boolean;
-	initiatedByScrolling?: boolean;
 	initializedBySearch?: boolean;
 	name?: string;
+}
+
+export interface GetChatByIdRequestData {
+	chatId: number;
+}
+
+export interface MarkMessagesAsReadRequest {
+	chatId: number;
+	lastReadMessageId: number;
 }
 
 export interface GetChatsActionData {
 	page: Page;
 	unreadOnly?: boolean;
 	showOnlyHidden: boolean;
-	initiatedByScrolling: boolean;
 	showAll: boolean;
 	initializedBySearch: boolean;
 	name?: string;
@@ -74,6 +99,27 @@ export interface GetChatsActionData {
 export interface HideChatRequest {
 	chatIds: (number | undefined)[];
 	isHidden: boolean;
+}
+
+export interface GetChatInfoRequest {
+	chatId: number;
+}
+
+export interface GetChatInfoApiResponse {
+	rawAttachmentsCount: number;
+	voiceAttachmentsCount: number;
+	videoAttachmentsCount: number;
+	audioAttachmentsCount: number;
+	pictureAttachmentsCount: number;
+}
+
+export interface GetChatInfoResponse {
+	chatId: number;
+	rawAttachmentsCount: number;
+	voiceAttachmentsCount: number;
+	videoAttachmentsCount: number;
+	audioAttachmentsCount: number;
+	pictureAttachmentsCount: number;
 }
 
 export interface MuteChatRequest {
@@ -116,7 +162,7 @@ export interface Chat {
 	interlocutorLastReadMessageId?: number;
 	draftMessage?: string;
 	timeoutId?: NodeJS.Timeout;
-	typingInterlocutors: { timeoutId: NodeJS.Timeout; fullName: string }[];
+	typingInterlocutors?: { timeoutId: NodeJS.Timeout; fullName: string }[];
 	isDeleted?: boolean;
 	isMuted?: boolean;
 	photos: PhotoList;
@@ -124,6 +170,11 @@ export interface Chat {
 	files: FileList;
 	recordings: VoiceRecordingList;
 	attachmentsToSend?: AttachmentToSend<BaseAttachment>[];
+	rawAttachmentsCount?: number;
+	videoAttachmentsCount?: number;
+	voiceAttachmentsCount?: number;
+	audioAttachmentsCount?: number;
+	pictureAttachmentsCount?: number;
 }
 
 export interface AttachmentToSend<T> {
@@ -309,4 +360,9 @@ export interface UploadVideoResponse extends UploadBaseResponse {
 
 export interface UploadVoiceResponse extends UploadBaseResponse {
 	duration: string;
+}
+
+export interface MarkMessagesAsReadReqData {
+	chatId: number;
+	lastReadMessageId: number;
 }

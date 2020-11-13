@@ -29,11 +29,11 @@ export interface ConfereceMemberAddedSystemMessageContent extends SystemMessageB
 }
 
 export enum FileType {
-	music = 'music',
-	file = 'file',
-	photo = 'photo',
-	recording = 'recording',
-	video = 'video',
+	audio = 'Audio',
+	raw = 'Raw',
+	picture = 'Picture',
+	voice = 'Voice',
+	video = 'Video',
 }
 
 export interface Message {
@@ -88,10 +88,6 @@ export interface CreateMessageResponse {
 	chatId: number;
 }
 
-export interface MarkMessagesAsReadRequest {
-	chatId: number;
-}
-
 export interface MessageCreationReqData {
 	text?: string;
 	chatId?: number;
@@ -111,7 +107,6 @@ export interface MessagesReqData {
 export interface MessagesReq {
 	page: Page;
 	chat: Chat;
-	initiatedByScrolling: boolean;
 }
 
 export interface DeleteMessageReq {

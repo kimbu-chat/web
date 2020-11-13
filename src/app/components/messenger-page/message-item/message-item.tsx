@@ -72,12 +72,12 @@ const MessageItem = ({ message }: Message.Props) => {
 			currentAttachment,
 		) => {
 			switch (currentAttachment.type) {
-				case FileType.file:
+				case FileType.raw:
 					{
 						accum.files.push(currentAttachment as RawAttachment);
 					}
 					break;
-				case FileType.photo:
+				case FileType.picture:
 					{
 						accum.media.push(currentAttachment as PictureAttachment);
 					}
@@ -87,12 +87,12 @@ const MessageItem = ({ message }: Message.Props) => {
 						accum.media.push(currentAttachment as VideoAttachment);
 					}
 					break;
-				case FileType.music:
+				case FileType.audio:
 					{
 						accum.audios.push(currentAttachment as AudioAttachment);
 					}
 					break;
-				case FileType.recording:
+				case FileType.voice:
 					{
 						accum.recordings.push(currentAttachment as VoiceAttachment);
 					}

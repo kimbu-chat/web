@@ -29,7 +29,6 @@ const SearchTop = () => {
 			name,
 			page: { offset: 0, limit: DIALOGS_LIMIT },
 			initializedBySearch: true,
-			initiatedByScrolling: false,
 			showOnlyHidden: false,
 			showAll: true,
 		});

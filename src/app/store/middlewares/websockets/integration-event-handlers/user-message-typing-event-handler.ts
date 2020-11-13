@@ -15,6 +15,7 @@ export class UserMessageTypingEventHandler implements IEventHandler<Intercolutor
 			eventData.chatId.interlocutorType === InterlocutorType.CONFERENCE &&
 			eventData.objectId === store.getState().myProfile.user?.id
 		) {
+			console.log('not match');
 			return;
 		}
 		store.dispatch(ChatActions.interlocutorMessageTyping(eventData));

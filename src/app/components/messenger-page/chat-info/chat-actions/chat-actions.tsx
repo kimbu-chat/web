@@ -42,7 +42,7 @@ const ChatActions = ({ addMembers }: ChatActions.Props) => {
 		[setCreateConferenceModalOpened],
 	);
 
-	const removeChat = useActionWithDispatch(DialogActions.removeChat);
+	const changeChatVisibilityState = useActionWithDispatch(DialogActions.changeChatVisibilityState);
 	const muteChat = useActionWithDispatch(DialogActions.muteChat);
 	const deleteFriend = useActionWithDispatch(FriendActions.deleteFriend);
 
@@ -57,7 +57,10 @@ const ChatActions = ({ addMembers }: ChatActions.Props) => {
 		return friends.findIndex((friend: UserPreview) => friend.id === selectedChat.interlocutor?.id) > -1;
 	}, [friends, selectedChat.interlocutor?.id]);
 
-	const deleteChat = useCallback(() => removeChat(selectedChat), [removeChat, selectedChat]);
+	const changeSelectedChatVisibilityState = useCallback(() => changeChatVisibilityState(selectedChat), [
+		changeChatVisibilityState,
+		selectedChat,
+	]);
 	const muteThisChat = useCallback(() => muteChat(selectedChat), [muteChat, selectedChat]);
 	const deleteContact = useCallback(() => deleteFriend({ userIds: [selectedChat?.interlocutor?.id || -1] }), [
 		deleteFriend,
@@ -100,7 +103,7 @@ const ChatActions = ({ addMembers }: ChatActions.Props) => {
 				</button>
 			)}
 			{selectedChat.interlocutor && (
-				<button onClick={deleteChat} className='chat-actions__action'>
+				<button onClick={changeSelectedChatVisibilityState} className='chat-actions__action'>
 					<UnmuteSvg viewBox='0 0 25 25' className='chat-actions__action__svg' />
 					<span className='chat-actions__action__name'>{t('chatActions.delete-chat')}</span>
 				</button>

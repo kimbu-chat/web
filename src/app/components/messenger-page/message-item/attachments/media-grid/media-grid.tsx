@@ -15,7 +15,7 @@ const MediaGrid: React.FC<MediaGrid.Props> = ({ media }) => {
 	return (
 		<div className={`media-grid media-grid--${media.length === 1 ? 1 : media.length % 2 === 1 ? 'odd' : 'even'}`}>
 			{media.map((media) => {
-				if (media.type === FileType.photo) {
+				if (media.type === FileType.picture) {
 					return <MessagePhotoAttachment key={media.id} attachment={media as PictureAttachment} />;
 				} else {
 					return <MesageVideoAttachment key={media.id} attachment={media as VideoAttachment} />;

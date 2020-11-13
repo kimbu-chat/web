@@ -31,7 +31,6 @@ const ChatMembers = ({ addMembers }: ChatMembers.Props) => {
 	useEffect(() => {
 		getConferenceUsers({
 			conferenceId: selectedChat.conference?.id || -1,
-			initiatedByScrolling: false,
 			page: { offset: 0, limit: 15 },
 		});
 		return () => {
@@ -44,7 +43,6 @@ const ChatMembers = ({ addMembers }: ChatMembers.Props) => {
 	const loadMore = useCallback(() => {
 		getConferenceUsers({
 			conferenceId: selectedChat.conference?.id || -1,
-			initiatedByScrolling: true,
 			page: { offset: membersForConference.length, limit: 15 },
 			filters: {
 				name: searchStr,
@@ -67,7 +65,6 @@ const ChatMembers = ({ addMembers }: ChatMembers.Props) => {
 						setSearchStr(e.target.value);
 						getConferenceUsers({
 							conferenceId: selectedChat.conference?.id || -1,
-							initiatedByScrolling: false,
 							page: { offset: 0, limit: 15 },
 							filters: {
 								name: e.target.value,

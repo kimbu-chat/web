@@ -118,7 +118,7 @@ const MessageItem = ({ message }: Message.Props) => {
 				${message.isSelected ? 'message__container--selected' : ''}`}
 			onClick={isSelectState ? selectThisMessage : () => {}}
 		>
-			<div className={`message__item ${!message.needToShowCreator ? 'message__item--upcoming' : ''} }`}>
+			<div className={`message__item ${!message.needToShowCreator ? 'message__item--upcoming' : ''}`}>
 				{message.needToShowCreator && (
 					<p className='message__sender-name'>{`${message.userCreator?.firstName} ${message.userCreator?.lastName}`}</p>
 				)}

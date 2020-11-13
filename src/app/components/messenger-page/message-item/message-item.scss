@@ -29,7 +29,13 @@
 		}
 	}
 
+	&__contents {
+		display: block;
+		max-width: 60%;
+	}
+
 	&__item {
+		max-width: calc(100% - 90px);
 		display: inline-block;
 		line-height: 18px;
 		word-wrap: break-word;

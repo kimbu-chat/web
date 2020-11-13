@@ -465,8 +465,8 @@ const chats = createReducer<ChatsState>(initialState)
 		}),
 	)
 	.handleAction(
-		ChatActions.getVoiceSuccess,
-		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.getVoiceSuccess>) => {
+		ChatActions.getVoiceAttachmentSuccess,
+		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.getVoiceAttachmentSuccess>) => {
 			const { recordings, chatId, hasMore } = payload;
 
 			const chatIndex: number = getChatArrayIndex(chatId, draft);
@@ -495,6 +495,7 @@ const chats = createReducer<ChatsState>(initialState)
 					attachment: {
 						id: attachmentId,
 						byteSize: file.size,
+						creationDateTime: new Date(),
 						url: '',
 						type,
 					},

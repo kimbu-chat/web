@@ -47,14 +47,14 @@ export namespace ChatActions {
 	export const getPhoto = createAction('GET_PHOTO')<GetPhotoRequest>();
 	export const getVideo = createAction('GET_VIDEO')<GetVideoRequest>();
 	export const getFiles = createAction('GET_FILES')<GetFilesRequest>();
-	export const getVoice = createAction('GET_VOICE')<GetRecordingsRequest>();
+	export const getVoiceAttachment = createAction('GET_VOICE')<GetRecordingsRequest>();
 	export const getChatInfo = createAction('GET_CHAT_INFO')<GetChatInfoRequest>();
 	export const getChatsSuccess = createAction('GET_CHATS_SUCCESS')<GetChatsResponse>();
 	export const getChatsFailure = createEmptyAction('GET_CHATS_FAILURE');
 	export const getPhotoSuccess = createAction('GET_PHOTO_SUCCESS')<GetPhotoResponse>();
 	export const getVideoSuccess = createAction('GET_VIDEO_SUCCESS')<GetVideoResponse>();
 	export const getFilesSuccess = createAction('GET_FILES_SUCCESS')<GetFilesResponse>();
-	export const getVoiceSuccess = createAction('GET_VOICE_SUCCESS')<GetRecordingsResponse>();
+	export const getVoiceAttachmentSuccess = createAction('GET_VOICE_SUCCESS')<GetRecordingsResponse>();
 	export const getChatInfoSuccess = createAction('GET_CHAT_INFO_SUCCESS')<GetChatInfoResponse>();
 	export const changeSelectedChat = createAction('CHANGE_SELECTED_CHAT')<number>();
 	export const changeChatVisibilityState = createAction('CHANGE_CHAT_VISIBILITY_STATE')<Chat>();

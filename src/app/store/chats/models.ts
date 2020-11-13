@@ -189,6 +189,7 @@ export interface AttachmentToSend<T> {
 export interface BaseAttachment {
 	byteSize: number;
 	type: FileType;
+	creationDateTime: Date;
 	url: string;
 	id: string;
 }

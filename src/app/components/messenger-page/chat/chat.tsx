@@ -49,7 +49,7 @@ const Chat = () => {
 	}, [selectedChat?.id]);
 
 	const markAsRead = useCallback((): void => {
-		if (selectedChat && messages) {
+		if (selectedChat && (selectedChat.ownUnreadMessagesCount || 0) > 0 && messages) {
 			markMessagesAsRead({
 				chatId: selectedChat.id,
 				lastReadMessageId: messages[0].id,

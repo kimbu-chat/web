@@ -339,7 +339,7 @@ function* getFilesSaga(action: ReturnType<typeof ChatActions.getFiles>): SagaIte
 	}
 }
 
-function* getRecordingsSaga(action: ReturnType<typeof ChatActions.getVoice>): SagaIterator {
+function* getRecordingsSaga(action: ReturnType<typeof ChatActions.getVoiceAttachment>): SagaIterator {
 	const { chatId, page } = action.payload;
 
 	const httpRequest = ChatHttpRequests.getChatAudioAttachments;
@@ -348,7 +348,7 @@ function* getRecordingsSaga(action: ReturnType<typeof ChatActions.getVoice>): Sa
 	const hasMore = data.length >= page.limit;
 
 	if (status === HTTPStatusCode.OK) {
-		yield put(ChatActions.getVoiceSuccess({ recordings: data, hasMore, chatId }));
+		yield put(ChatActions.getVoiceAttachmentSuccess({ recordings: data, hasMore, chatId }));
 	} else {
 		alert('getRecordingsSaga error');
 	}
@@ -491,7 +491,7 @@ export const ChatSagas = [
 	takeLatest(ChatActions.getPhoto, getPhotoSaga),
 	takeLatest(ChatActions.getVideo, getVideoSaga),
 	takeLatest(ChatActions.getFiles, getFilesSaga),
-	takeLatest(ChatActions.getVoice, getRecordingsSaga),
+	takeLatest(ChatActions.getVoiceAttachment, getRecordingsSaga),
 	takeLatest(ChatActions.markMessagesAsRead, resetUnreadMessagesCountSaga),
 	takeLatest(ChatActions.getChatInfo, getChatInfoSaga),
 	takeLatest(ChatActions.changeSelectedChat, changeSelectedChatSaga),

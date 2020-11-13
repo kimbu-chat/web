@@ -8,7 +8,7 @@ export function* intervalInternetConnectionCheckSaga(): SagaIterator {
 			const isOnline = () => resolve(true);
 			const isOffline = () => resolve(false);
 
-			fetch(`/file-for-ping?d=${Date.now()}`)
+			fetch(`/file-for-ping.txt?d=${Date.now()}`)
 				.then((response) => {
 					if (response.ok) {
 						isOnline();

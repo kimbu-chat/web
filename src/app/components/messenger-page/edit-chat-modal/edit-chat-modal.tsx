@@ -6,15 +6,17 @@ import WithBackground from 'app/components/shared/with-background';
 
 import CloseSVG from 'app/assets/icons/ic-close.svg';
 import ChangePhoto from 'app/components/messenger-page/change-photo/change-photo';
-import { AvatarSelectedData } from 'app/store/my-profile/models';
+import { AvatarSelectedData, UploadAvatarResponse } from 'app/store/my-profile/models';
 import { useState } from 'react';
-import { Chat } from 'app/store/chats/models';
+import { Chat, EditGroupChatReqData } from 'app/store/chats/models';
 import { getSelectedChatSelector } from 'app/store/chats/selectors';
 import { useSelector } from 'react-redux';
 import Avatar from 'app/components/shared/avatar/avatar';
 import { getInterlocutorInitials } from 'app/utils/functions/interlocutor-name-utils';
 import { ChatActions } from 'app/store/chats/actions';
 import { useActionWithDeferred } from 'app/utils/hooks/use-action-with-deferred';
+import { MyProfileActions } from 'app/store/my-profile/actions';
+import CircularProgress from 'app/components/messenger-page/shared/circular-progress/circular-progress';
 import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
 
 namespace EditChatModal {
@@ -26,17 +28,33 @@ namespace EditChatModal {
 const EditChatModal = ({ onClose }: EditChatModal.Props) => {
 	const selectedChat = useSelector(getSelectedChatSelector) as Chat;
 
-	const changeConferenceAvatar = useActionWithDeferred(ChatActions.changeConferenceAvatar);
-	const renameConference = useActionWithDispatch(ChatActions.renameConference);
+	const uploadGroupChatAvatar = useActionWithDeferred(MyProfileActions.uploadAvatarRequestAction);
+	const editGroupChat = useActionWithDispatch(ChatActions.editGroupChat);
 
 	const fileInputRef = useRef<HTMLInputElement>(null);
 
+	const [newName, setNewName] = useState(selectedChat.groupChat?.name!);
 	const [avatarData, setAvatarData] = useState<AvatarSelectedData | null>(null);
+	const [avararUploadResponse, setAvatarUploadResponse] = useState<UploadAvatarResponse | null>(null);
 	const [imageUrl, setImageUrl] = useState<string | null | ArrayBuffer>(null);
 	const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
-	const [newName, setNewName] = useState(selectedChat.conference?.name!);
+	const [newDescription, setNewDescription] = useState(selectedChat.groupChat?.description || '');
+	const [uploaded, setUploaded] = useState(0);
+	const [uploadEnded, setUploadEnded] = useState(true);
 
-	const applyAvatarData = useCallback((data) => setAvatarData(data), [setAvatarData]);
+	const applyAvatarData = useCallback(
+		(data: AvatarSelectedData) => {
+			setAvatarData(data);
+			setUploadEnded(false);
+			uploadGroupChatAvatar({ pathToFile: data.croppedImagePath, onProgress: setUploaded }).then(
+				(response: UploadAvatarResponse) => {
+					setAvatarUploadResponse(response);
+					setUploadEnded(true);
+				},
+			);
+		},
+		[setAvatarData, setUploaded, uploadGroupChatAvatar, setAvatarUploadResponse],
+	);
 
 	const displayChangePhoto = useCallback(() => setChangePhotoDisplayed(true), [setChangePhotoDisplayed]);
 	const hideChangePhoto = useCallback(() => setChangePhotoDisplayed(false), [setChangePhotoDisplayed]);
@@ -59,17 +77,22 @@ const EditChatModal = ({ onClose }: EditChatModal.Props) => {
 
 	const onSubmit = useCallback(() => {
 		onClose();
-		if (avatarData) {
-			changeConferenceAvatar({
-				conferenceId: selectedChat?.conference?.id!,
-				avatarData: avatarData,
-			});
-		}
 
-		if (newName !== selectedChat.conference?.name) {
-			renameConference({ newName, chat: selectedChat });
-		}
-	}, [avatarData, newName, selectedChat.id]);
+		const changes: EditGroupChatReqData = {
+			id: selectedChat.groupChat!.id,
+			avatar: avararUploadResponse,
+			name: newName,
+			description: newDescription,
+		};
+
+		editGroupChat(changes);
+	}, [selectedChat, avararUploadResponse, newName, newDescription]);
+
+	const discardNewAvatar = useCallback(() => {
+		setAvatarData({ offsetY: 0, offsetX: 0, width: 0, imagePath: '', croppedImagePath: '' });
+		setAvatarUploadResponse({ url: '', previewUrl: '', id: '' });
+		setUploadEnded(true);
+	}, [setAvatarData, setAvatarUploadResponse, setUploadEnded]);
 
 	return (
 		<>
@@ -81,14 +104,22 @@ const EditChatModal = ({ onClose }: EditChatModal.Props) => {
 							<div className='edit-chat-modal__change-photo'>
 								<div className='edit-chat-modal__current-photo-wrapper'>
 									<Avatar
-										src={avatarData?.croppedImagePath || selectedChat.conference?.avatarUrl}
+										src={
+											typeof avatarData?.croppedImagePath === 'string'
+												? avatarData?.croppedImagePath
+												: selectedChat.groupChat?.avatar?.url
+										}
 										className='edit-chat-modal__current-photo'
 									>
 										{getInterlocutorInitials(selectedChat)}
 									</Avatar>
-									<button className='edit-chat-modal__remove-photo'>
-										<CloseSVG viewBox='0 0 25 25' />
-									</button>
+									{avatarData?.croppedImagePath && <CircularProgress progress={uploaded} />}
+
+									{(avatarData || selectedChat.groupChat?.avatar) && (
+										<button onClick={discardNewAvatar} className='edit-chat-modal__remove-photo'>
+											<CloseSVG viewBox='0 0 25 25' />
+										</button>
+									)}
 								</div>
 								<div className='edit-chat-modal__change-photo-data'>
 									<input
@@ -120,7 +151,11 @@ const EditChatModal = ({ onClose }: EditChatModal.Props) => {
 							</div>
 							<div className='edit-chat-modal__description'>
 								<span className='edit-chat-modal__description__label'>Description (optional)</span>
-								<textarea className='edit-chat-modal__description__input' />
+								<textarea
+									value={newDescription}
+									onChange={(e) => setNewDescription(e.target.value)}
+									className='edit-chat-modal__description__input'
+								/>
 							</div>
 						</div>
 					}
@@ -130,6 +165,7 @@ const EditChatModal = ({ onClose }: EditChatModal.Props) => {
 							children: 'Save',
 							className: 'edit-chat-modal__confirm-btn',
 							onClick: onSubmit,
+							disabled: !uploadEnded,
 							position: 'left',
 							width: 'contained',
 							variant: 'contained',

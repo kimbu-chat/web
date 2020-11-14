@@ -40,7 +40,7 @@ const chats = createReducer<ChatsState>(initialState)
 
 			const chatIdentificator: number = ChatService.getChatIdentifier(
 				chatId.interlocutorType === InterlocutorType.USER ? objectId : undefined,
-				chatId.interlocutorType === InterlocutorType.CONFERENCE ? chatId.conferenceId : undefined,
+				chatId.interlocutorType === InterlocutorType.GROUP_CHAT ? chatId.groupChatId : undefined,
 			);
 
 			const isChatExists: boolean = checkChatExists(chatIdentificator, draft);
@@ -66,7 +66,7 @@ const chats = createReducer<ChatsState>(initialState)
 
 			const chatIdentificator: number = ChatService.getChatIdentifier(
 				chatId.interlocutorType === InterlocutorType.USER ? objectId : undefined,
-				chatId.interlocutorType === InterlocutorType.CONFERENCE ? chatId.conferenceId : undefined,
+				chatId.interlocutorType === InterlocutorType.GROUP_CHAT ? chatId.groupChatId : undefined,
 			);
 
 			const isChatExists: boolean = checkChatExists(chatIdentificator, draft);
@@ -97,8 +97,8 @@ const chats = createReducer<ChatsState>(initialState)
 		}),
 	)
 	.handleAction(
-		ChatActions.createConferenceSuccess,
-		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.createConferenceSuccess>) => {
+		ChatActions.createGroupChatSuccess,
+		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.createGroupChatSuccess>) => {
 			const newChat = payload;
 
 			const isChatExists: boolean = checkChatExists(newChat.id, draft);
@@ -112,15 +112,13 @@ const chats = createReducer<ChatsState>(initialState)
 		}),
 	)
 	.handleAction(
-		ChatActions.addUsersToConferenceSuccess,
-		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.addUsersToConferenceSuccess>) => {
+		ChatActions.addUsersToGroupChatSuccess,
+		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.addUsersToGroupChatSuccess>) => {
 			const { chat } = payload;
 
 			const chatIndex: number = getChatArrayIndex(chat.id, draft);
 
-			const conference = draft.chats[chatIndex].conference || { membersCount: 0 };
-
-			conference.membersCount = (conference.membersCount || 0) + 1;
+			draft.chats[chatIndex].groupChat!.membersCount = draft.chats[chatIndex].groupChat!.membersCount + 1;
 
 			return draft;
 		}),
@@ -134,20 +132,6 @@ const chats = createReducer<ChatsState>(initialState)
 
 			draft.chats[chatIndex].isMuted = !draft.chats[chatIndex].isMuted;
 
-			return draft;
-		}),
-	)
-	.handleAction(
-		ChatActions.renameConferenceSuccess,
-		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.renameConferenceSuccess>) => {
-			const { chat, newName } = payload;
-			const { id } = chat;
-
-			const chatIndex: number = getChatArrayIndex(id, draft);
-
-			const conference = draft.chats[chatIndex].conference || { name: '' };
-
-			conference.name = newName;
 			return draft;
 		}),
 	)
@@ -204,14 +188,14 @@ const chats = createReducer<ChatsState>(initialState)
 		}),
 	)
 	.handleAction(
-		[ChatActions.leaveConferenceSuccess, ChatActions.changeChatVisibilityStateSuccess],
+		[ChatActions.leaveGroupChatSuccess, ChatActions.changeChatVisibilityStateSuccess],
 		produce(
 			(
 				draft: ChatsState,
 				{
 					payload,
 				}:
-					| ReturnType<typeof ChatActions.leaveConferenceSuccess>
+					| ReturnType<typeof ChatActions.leaveGroupChatSuccess>
 					| ReturnType<typeof ChatActions.changeChatVisibilityStateSuccess>,
 			) => {
 				const chatIndex: number = getChatArrayIndex(payload.id, draft);
@@ -269,7 +253,7 @@ const chats = createReducer<ChatsState>(initialState)
 				let newChat: Chat = {
 					id: chat.id,
 					interlocutorType: interlocutorType,
-					conference: chat.conference,
+					groupChat: chat.groupChat,
 					lastMessage: message,
 					ownUnreadMessagesCount: !isCurrentUserMessageCreator ? 1 : 0,
 					interlocutorLastReadMessageId: 0,
@@ -300,22 +284,6 @@ const chats = createReducer<ChatsState>(initialState)
 		}),
 	)
 	.handleAction(
-		ChatActions.changeConferenceAvatarSuccess,
-		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.changeConferenceAvatarSuccess>) => {
-			const { conferenceId, croppedAvatarUrl } = payload;
-
-			const chatId: number = ChatService.getChatIdentifier(undefined, conferenceId);
-
-			const chatIndex: number = getChatArrayIndex(chatId, draft);
-
-			const conference = draft.chats[chatIndex].conference || { avatarUrl: '' };
-
-			conference.avatarUrl = croppedAvatarUrl;
-
-			return draft;
-		}),
-	)
-	.handleAction(
 		FriendActions.userStatusChangedEvent,
 		produce((draft: ChatsState, { payload }: ReturnType<typeof FriendActions.userStatusChangedEvent>) => {
 			const { status, objectId } = payload;
@@ -337,11 +305,11 @@ const chats = createReducer<ChatsState>(initialState)
 		ChatActions.changeInterlocutorLastReadMessageId,
 		produce(
 			(draft: ChatsState, { payload }: ReturnType<typeof ChatActions.changeInterlocutorLastReadMessageId>) => {
-				const { lastReadMessageId, userReaderId, objectType, conferenceId } = payload;
+				const { lastReadMessageId, userReaderId, objectType, groupChatId } = payload;
 
 				const chatId = ChatService.getChatId(
 					objectType === 'User' ? userReaderId : undefined,
-					objectType === 'Conference' ? conferenceId : undefined,
+					objectType === 'GroupChat' ? groupChatId : undefined,
 				);
 
 				const chatIndex = getChatArrayIndex(chatId, draft);
@@ -643,6 +611,23 @@ const chats = createReducer<ChatsState>(initialState)
 				draft.chats[chatIndex].videoAttachmentsCount = videoAttachmentsCount;
 				draft.chats[chatIndex].audioAttachmentsCount = audioAttachmentsCount;
 				draft.chats[chatIndex].pictureAttachmentsCount = pictureAttachmentsCount;
+			}
+			return draft;
+		}),
+	)
+	.handleAction(
+		ChatActions.editGroupChatSuccess,
+		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.editGroupChatSuccess>) => {
+			const { id, name, description, avatar } = payload;
+
+			const chatId: number = ChatService.getChatIdentifier(undefined, id);
+
+			const chatIndex: number = getChatArrayIndex(chatId, draft);
+
+			if (chatIndex >= 0) {
+				draft.chats[chatIndex].groupChat!.name = name;
+				draft.chats[chatIndex].groupChat!.description = description;
+				draft.chats[chatIndex].groupChat!.avatar = avatar;
 			}
 			return draft;
 		}),

@@ -10,22 +10,22 @@ export interface MessageList {
 
 export interface SystemMessageBase {}
 
-export interface ConfereceMemberRemovedSystemMessageContent extends SystemMessageBase {
+export interface GroupChatMemberRemovedSystemMessageContent extends SystemMessageBase {
 	removedUserId: number;
 	removedUserName: string;
 }
 
-export interface ConfereceNameChangedSystemMessageContent extends SystemMessageBase {
+export interface GroupChatNameChangedSystemMessageContent extends SystemMessageBase {
 	oldName: string;
 	newName: string;
 }
 
-export interface ConfereceMemberAddedSystemMessageContent extends SystemMessageBase {
+export interface GroupChatMemberAddedSystemMessageContent extends SystemMessageBase {
 	addedUserId: number;
 	addedUserName: string;
-	conferenceName: string;
-	conferenceMembersNumber: number;
-	conferenceAvatarUrl: string;
+	groupChatName: string;
+	groupChatMembersNumber: number;
+	groupChatAvatarUrl: string;
 }
 
 export enum FileType {
@@ -54,14 +54,14 @@ export interface Message {
 
 export enum SystemMessageType {
 	None = 'None',
-	ConferenceMemberRemoved = 1,
-	ConferenceAvatarChanged = 2,
-	ConferenceCreated = 3,
-	ConferenceMemberAdded = 4,
-	ConferenceNameChanged = 5,
-	ConferenceAvatarRemoved = 6,
-	UserCreated = 7,
-	MissedCall = 8,
+	GroupChatMemberRemoved = 'GroupChatMemberRemoved',
+	GroupChatAvatarChanged = 'GroupChatAvatarChanged',
+	GroupChatCreated = 'GroupChatCreated',
+	GroupChatMemberAdded = 'GroupChatMemberAdded',
+	GroupChatNameChanged = 'GroupChatNameChanged',
+	GroupChatAvatarRemoved = 'GroupChatAvatarRemoved',
+	UserCreated = 'UserCreated',
+	MissedCall = 'MissedCall',
 }
 
 export interface UserMessageTypingRequest {

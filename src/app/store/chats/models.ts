@@ -1,13 +1,19 @@
 import { FileType, Message } from '../messages/models';
 import { Page } from '../common/models';
-import { UserPreview, AvatarSelectedData, UploadAvararResponse } from '../my-profile/models';
+import { UserPreview, UploadAvatarResponse } from '../my-profile/models';
 import { CancelTokenSource } from 'axios';
 
-export interface Conference {
+export interface GroupChat {
 	id: number;
-	avatarUrl?: string;
-	name?: string;
-	membersCount?: number;
+	avatar?: {
+		id: string;
+		url: string;
+		previewUrl: string;
+	} | null;
+	name: string;
+	description?: string;
+	membersCount: number;
+	userCreatorId: number;
 }
 
 export interface ParsedInterlocutorId {
@@ -17,12 +23,7 @@ export interface ParsedInterlocutorId {
 
 export enum InterlocutorType {
 	USER = 1,
-	CONFERENCE = 2,
-}
-
-export interface RenameConferenceApiRequest {
-	name: string;
-	id: number;
+	GROUP_CHAT = 2,
 }
 
 export interface GetChatAudiosHTTPRequest {
@@ -45,28 +46,14 @@ export interface GetChatVideosHTTPRequest {
 	chatId: number;
 }
 
-export interface GetConferenceUsersRequest {
-	conferenceId: number;
+export interface GetGroupChatUsersRequest {
+	groupChatId: number;
 	page: Page;
-	filters?: {
-		name?: string;
-		age?: {
-			from?: number;
-			to?: number;
-		};
-		friendsOnly?: boolean;
-		country?: string;
-		city?: string;
-	};
+	name?: string;
 }
 
-export interface AddUsersToConferenceActionData {
+export interface AddUsersToGroupChatActionData {
 	users: UserPreview[];
-	chat: Chat;
-}
-
-export interface RenameConferenceActionData {
-	newName: string;
 	chat: Chat;
 }
 
@@ -85,6 +72,24 @@ export interface GetChatByIdRequestData {
 export interface MarkMessagesAsReadRequest {
 	chatId: number;
 	lastReadMessageId: number;
+}
+
+export interface EditGroupChatHTTPReqData {
+	id: number;
+	name?: string;
+	description?: string;
+	avatarId?: string;
+}
+
+export interface EditGroupChatReqData {
+	id: number;
+	name: string;
+	description?: string;
+	avatar: {
+		id: string;
+		url: string;
+		previewUrl: string;
+	} | null;
 }
 
 export interface GetChatsActionData {
@@ -147,15 +152,10 @@ export interface getRawAttachmentsRequest {
 	page: Page;
 }
 
-export enum ChatType {
-	User = 'User',
-	Conference = 'Conference',
-}
-
 export interface Chat {
 	id: number;
 	interlocutorType?: InterlocutorType;
-	conference?: Conference;
+	groupChat?: GroupChat;
 	lastMessage?: Message;
 	interlocutor?: UserPreview;
 	ownUnreadMessagesCount?: number;
@@ -267,31 +267,20 @@ export interface GetRecordingsResponse extends VoiceRecordingList {
 	chatId: number;
 }
 
-export interface ConferenceCreationReqData {
+export interface GroupChatCreationReqData {
 	name: string;
 	description?: string;
 	userIds: Array<number>;
 	currentUser: UserPreview;
-	avatar?: UploadAvararResponse | null;
+	avatar?: UploadAvatarResponse | null;
 }
 
-export interface ConferenceCreationHTTPReqData {
+export interface GroupChatCreationHTTPReqData {
 	name: string;
 	description?: string;
 	userIds: Array<number>;
 	currentUser: UserPreview;
 	avatarId?: string | null;
-}
-
-export interface ChangeConferenceAvatarActionData {
-	conferenceId: number;
-	avatarData: AvatarSelectedData;
-}
-
-export interface ChangeConferenceAvatarSuccessActionData {
-	conferenceId: number;
-	fullAvatarUrl: string;
-	croppedAvatarUrl: string;
 }
 export interface UploadAttachmentReqData {
 	chatId: number;

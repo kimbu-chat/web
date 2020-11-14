@@ -9,16 +9,16 @@ export interface FriendsState {
 	loading: boolean;
 	friends: UserPreview[];
 	hasMoreFriends: boolean;
-	usersForSelectedConference: UserPreview[];
-	conferenceUsersLoading: boolean;
+	usersForSelectedGroupChat: UserPreview[];
+	groupChatUsersLoading: boolean;
 }
 
 const initialState: FriendsState = {
 	loading: true,
 	friends: [],
 	hasMoreFriends: true,
-	usersForSelectedConference: [],
-	conferenceUsersLoading: false,
+	usersForSelectedGroupChat: [],
+	groupChatUsersLoading: false,
 };
 
 const checkUserExist = (userId: number, state: FriendsState): boolean => {
@@ -39,9 +39,9 @@ const friends = createReducer<FriendsState>(initialState)
 		}),
 	)
 	.handleAction(
-		ChatActions.getConferenceUsers,
+		ChatActions.getGroupChatUsers,
 		produce((draft: FriendsState) => {
-			draft.conferenceUsersLoading = true;
+			draft.groupChatUsersLoading = true;
 			return draft;
 		}),
 	)
@@ -64,9 +64,9 @@ const friends = createReducer<FriendsState>(initialState)
 		}),
 	)
 	.handleAction(
-		ChatActions.getConferenceUsersSuccess,
-		produce((draft: FriendsState, { payload }: ReturnType<typeof ChatActions.getConferenceUsersSuccess>) => {
-			draft.usersForSelectedConference = unionBy(draft.usersForSelectedConference, payload.users, 'id');
+		ChatActions.getGroupChatUsersSuccess,
+		produce((draft: FriendsState, { payload }: ReturnType<typeof ChatActions.getGroupChatUsersSuccess>) => {
+			draft.usersForSelectedGroupChat = unionBy(draft.usersForSelectedGroupChat, payload.users, 'id');
 
 			return draft;
 		}),
@@ -98,11 +98,11 @@ const friends = createReducer<FriendsState>(initialState)
 		}),
 	)
 	.handleAction(
-		ChatActions.addUsersToConferenceSuccess,
-		produce((draft: FriendsState, { payload }: ReturnType<typeof ChatActions.addUsersToConferenceSuccess>) => {
+		ChatActions.addUsersToGroupChatSuccess,
+		produce((draft: FriendsState, { payload }: ReturnType<typeof ChatActions.addUsersToGroupChatSuccess>) => {
 			const { users } = payload;
 
-			draft.usersForSelectedConference.push(...users);
+			draft.usersForSelectedGroupChat.push(...users);
 
 			return draft;
 		}),

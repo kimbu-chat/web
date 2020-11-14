@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { getInterlocutorInitials, getChatInterlocutor } from '../../../utils/functions/interlocutor-name-utils';
 import { useActionWithDeferred } from 'app/utils/hooks/use-action-with-deferred';
 import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
-import { AvatarSelectedData } from 'app/store/my-profile/models';
+import { AvatarSelectedData, UploadAvatarResponse } from 'app/store/my-profile/models';
 
 import { getSelectedChatSelector } from 'app/store/chats/selectors';
 
@@ -22,19 +22,26 @@ import Avatar from 'app/components/shared/avatar/avatar';
 import EditSvg from 'app/assets/icons/ic-edit.svg';
 import PhotoSvg from 'app/assets/icons/ic-photo.svg';
 import EditChatModal from '../edit-chat-modal/edit-chat-modal';
-import ConferenceAddFriendModal from '../conference-add-friend-modal/conference-add-friend-modal';
+import GroupChatAddFriendModal from '../group-chat-add-friend-modal/group-chat-add-friend-modal';
 import ChangePhoto from 'app/components/messenger-page/change-photo/change-photo';
 import { Route } from 'react-router';
 import { CSSTransition } from 'react-transition-group';
 import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
 import ChatRecordings from './chat-recordings/chat-recordings';
 import ChatFiles from './chat-files/chat-files';
+import { MyProfileActions } from 'app/store/my-profile/actions';
 
 const ChatInfo: React.FC = () => {
-	const [editConferenceDisplayed, setEditConferenceDisplayed] = useState(false);
-	const changeEditConferenceDisplayedState = useCallback(() => {
-		setEditConferenceDisplayed((oldState) => !oldState);
-	}, [setEditConferenceDisplayed]);
+	const selectedChat = useSelector(getSelectedChatSelector);
+
+	const getChatInfo = useActionWithDispatch(ChatActions.getChatInfo);
+	const editGroupChat = useActionWithDispatch(ChatActions.editGroupChat);
+	const uploadGroupChatAvatar = useActionWithDeferred(MyProfileActions.uploadAvatarRequestAction);
+
+	const [editGroupChatDisplayed, setEditGroupChatDisplayed] = useState(false);
+	const changeEditGroupChatDisplayedState = useCallback(() => {
+		setEditGroupChatDisplayed((oldState) => !oldState);
+	}, [setEditGroupChatDisplayed]);
 
 	const [addFriendsModalDisplayed, setAddFriendsModalDisplayed] = useState(false);
 	const changeSetAddFriendsModalDisplayedState = useCallback(() => {
@@ -46,11 +53,6 @@ const ChatInfo: React.FC = () => {
 	const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
 	const displayChangePhoto = useCallback(() => setChangePhotoDisplayed(true), [setChangePhotoDisplayed]);
 	const hideChangePhoto = useCallback(() => setChangePhotoDisplayed(false), [setChangePhotoDisplayed]);
-
-	const selectedChat = useSelector(getSelectedChatSelector);
-
-	const changeConferenceAvatar = useActionWithDeferred(ChatActions.changeConferenceAvatar);
-	const getChatInfo = useActionWithDispatch(ChatActions.getChatInfo);
 
 	useEffect(() => {
 		if (selectedChat) {
@@ -76,32 +78,38 @@ const ChatInfo: React.FC = () => {
 
 	const changeAvatar = useCallback(
 		(data: AvatarSelectedData) => {
-			changeConferenceAvatar({
-				conferenceId: selectedChat?.conference?.id!,
-				avatarData: data,
+			uploadGroupChatAvatar({
+				pathToFile: data.croppedImagePath,
+			}).then((response: UploadAvatarResponse) => {
+				editGroupChat({
+					id: selectedChat!.groupChat!.id,
+					avatar: response,
+					name: selectedChat!.groupChat!.name,
+					description: selectedChat!.groupChat!.description,
+				});
 			});
 		},
-		[changeConferenceAvatar, selectedChat?.conference?.id],
+		[uploadGroupChatAvatar, editGroupChat, selectedChat?.groupChat?.id],
 	);
 
 	const fileInputRef = useRef<HTMLInputElement>(null);
 
 	if (selectedChat) {
-		const { interlocutor, conference } = selectedChat;
+		const { interlocutor, groupChat } = selectedChat;
 
 		const getChatAvatar = (): string => {
 			if (interlocutor) {
-				return interlocutor.avatarUrl as string;
+				return interlocutor.avatar?.url as string;
 			}
 
-			return conference?.avatarUrl as string;
+			return groupChat?.avatar?.url as string;
 		};
 
 		return (
 			<React.Fragment>
 				<div className={'chat-info'}>
 					<div className='chat-info__main-data'>
-						{!conference && selectedChat?.interlocutor ? (
+						{!groupChat && selectedChat?.interlocutor ? (
 							<Avatar className='chat-info__avatar' src={getChatAvatar()}>
 								{getInterlocutorInitials(selectedChat)}
 							</Avatar>
@@ -128,8 +136,8 @@ const ChatInfo: React.FC = () => {
 							accept='image/*'
 						/>
 						<span className='chat-info__interlocutor'>{getChatInterlocutor(selectedChat)}</span>
-						{conference && (
-							<button onClick={changeEditConferenceDisplayedState} className='chat-info__rename-btn'>
+						{groupChat && (
+							<button onClick={changeEditGroupChatDisplayedState} className='chat-info__rename-btn'>
 								<EditSvg />
 							</button>
 						)}
@@ -140,7 +148,7 @@ const ChatInfo: React.FC = () => {
 
 					<ChatMedia />
 
-					{conference && <ChatMembers addMembers={changeSetAddFriendsModalDisplayedState} />}
+					{groupChat && <ChatMembers addMembers={changeSetAddFriendsModalDisplayedState} />}
 				</div>
 
 				<Route path='/(contacts|calls|settings|chats)/:chatId?/info/photo' exact>
@@ -195,12 +203,12 @@ const ChatInfo: React.FC = () => {
 					)}
 				</Route>
 
-				<FadeAnimationWrapper isDisplayed={editConferenceDisplayed}>
-					<EditChatModal onClose={changeEditConferenceDisplayedState} />
+				<FadeAnimationWrapper isDisplayed={editGroupChatDisplayed}>
+					<EditChatModal onClose={changeEditGroupChatDisplayedState} />
 				</FadeAnimationWrapper>
 
 				<FadeAnimationWrapper isDisplayed={addFriendsModalDisplayed}>
-					<ConferenceAddFriendModal onClose={changeSetAddFriendsModalDisplayedState} />
+					<GroupChatAddFriendModal onClose={changeSetAddFriendsModalDisplayedState} />
 				</FadeAnimationWrapper>
 
 				{changePhotoDisplayed && (

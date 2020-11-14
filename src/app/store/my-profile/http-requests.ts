@@ -2,16 +2,16 @@
 import { httpRequestFactory, HttpRequestMethod } from '../common/http-factory';
 import {
 	CheckNicknameActionData,
-	UpdateMyProfileActionData,
+	UpdateMyProfileApiRequestData,
 	UpdateNicknameActionData,
-	UploadAvararResponse,
+	UploadAvatarResponse,
 	UserPreview,
 } from './models';
 import { ApiBasePath } from '../root-api';
 import { httpFilesRequestFactory } from '../common/http-file-factory';
 
 export const MyProfileHttpRequests = {
-	updateMyProfile: httpRequestFactory<AxiosResponse, UpdateMyProfileActionData>(
+	updateMyProfile: httpRequestFactory<AxiosResponse, UpdateMyProfileApiRequestData>(
 		`${ApiBasePath.MainApi}/api/users`,
 		HttpRequestMethod.Put,
 	),
@@ -37,7 +37,7 @@ export const MyProfileHttpRequests = {
 };
 
 export const MyProfileHttpFileRequest = {
-	uploadAvatar: httpFilesRequestFactory<AxiosResponse<UploadAvararResponse>, FormData>(
+	uploadAvatar: httpFilesRequestFactory<AxiosResponse<UploadAvatarResponse>, FormData>(
 		`${ApiBasePath.FilesAPI}/api/avatars`,
 		HttpRequestMethod.Post,
 	),

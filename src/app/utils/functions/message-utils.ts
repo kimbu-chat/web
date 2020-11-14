@@ -3,9 +3,9 @@ import {
 	SystemMessageBase,
 	Message,
 	SystemMessageType,
-	ConfereceMemberRemovedSystemMessageContent,
-	ConfereceMemberAddedSystemMessageContent,
-	ConfereceNameChangedSystemMessageContent,
+	GroupChatMemberRemovedSystemMessageContent,
+	GroupChatMemberAddedSystemMessageContent,
+	GroupChatNameChangedSystemMessageContent,
 } from 'app/store/messages/models';
 import { UserStatus } from 'app/store/friends/models';
 import { TFunction } from 'i18next';
@@ -22,57 +22,57 @@ export class MessageUtils {
 	};
 
 	static constructSystemMessageText(message: Message, t: TFunction, myId: number): string {
-		if (message.systemMessageType === SystemMessageType.ConferenceCreated) {
+		if (message.systemMessageType === SystemMessageType.GroupChatCreated) {
 			return message?.userCreator?.id === myId
 				? t('systemMessage.you_created_group')
 				: t('systemMessage.created_group', {
 						name: `${message?.userCreator?.firstName} ${message?.userCreator?.lastName}`,
 				  });
 		}
-		if (message.systemMessageType === SystemMessageType.ConferenceMemberRemoved) {
+		if (message.systemMessageType === SystemMessageType.GroupChatMemberRemoved) {
 			const systemMessageContent = MessageUtils.getSystemMessageContent(message.text);
-			const confereceMemberRemovedSystemMessageContent = <ConfereceMemberRemovedSystemMessageContent>(
+			const GroupChatMemberRemovedSystemMessageContent = <GroupChatMemberRemovedSystemMessageContent>(
 				systemMessageContent
 			);
-			return message.userCreator?.id === confereceMemberRemovedSystemMessageContent.removedUserId
+			return message.userCreator?.id === GroupChatMemberRemovedSystemMessageContent.removedUserId
 				? t('systemMessage.left_group', {
-						name: confereceMemberRemovedSystemMessageContent.removedUserName,
+						name: GroupChatMemberRemovedSystemMessageContent.removedUserName,
 				  })
 				: t('systemMessage.left_group', {
-						name: confereceMemberRemovedSystemMessageContent.removedUserName,
+						name: GroupChatMemberRemovedSystemMessageContent.removedUserName,
 				  }); // change
 		}
-		if (message.systemMessageType === SystemMessageType.ConferenceMemberAdded) {
+		if (message.systemMessageType === SystemMessageType.GroupChatMemberAdded) {
 			const systemMessageContent = MessageUtils.getSystemMessageContent(message.text);
-			const confereceMemberRemovedSystemMessageContent = <ConfereceMemberAddedSystemMessageContent>(
+			const GroupChatMemberRemovedSystemMessageContent = <GroupChatMemberAddedSystemMessageContent>(
 				systemMessageContent
 			);
 			return message?.userCreator?.id === myId
 				? t('systemMessage.you_added', {
-						name: confereceMemberRemovedSystemMessageContent.addedUserName,
+						name: GroupChatMemberRemovedSystemMessageContent.addedUserName,
 				  })
 				: t('systemMessage.someone_added', {
 						someonesName: `${message.userCreator?.firstName} ${message.userCreator?.lastName}`,
-						addedName: confereceMemberRemovedSystemMessageContent.addedUserName,
+						addedName: GroupChatMemberRemovedSystemMessageContent.addedUserName,
 				  });
 		}
-		if (message.systemMessageType === SystemMessageType.ConferenceNameChanged) {
+		if (message.systemMessageType === SystemMessageType.GroupChatNameChanged) {
 			const systemMessageContent = MessageUtils.getSystemMessageContent(message.text);
-			const confereceMemberRemovedSystemMessageContent = <ConfereceNameChangedSystemMessageContent>(
+			const GroupChatMemberRemovedSystemMessageContent = <GroupChatNameChangedSystemMessageContent>(
 				systemMessageContent
 			);
 			return message?.userCreator?.id === myId
 				? t('systemMessage.you_changed_name', {
-						oldName: confereceMemberRemovedSystemMessageContent.oldName,
-						newName: confereceMemberRemovedSystemMessageContent.newName,
+						oldName: GroupChatMemberRemovedSystemMessageContent.oldName,
+						newName: GroupChatMemberRemovedSystemMessageContent.newName,
 				  })
 				: t('systemMessage.someone_changed_name', {
-						oldName: confereceMemberRemovedSystemMessageContent.oldName,
-						newName: confereceMemberRemovedSystemMessageContent.newName,
+						oldName: GroupChatMemberRemovedSystemMessageContent.oldName,
+						newName: GroupChatMemberRemovedSystemMessageContent.newName,
 						someonesName: `${message.userCreator?.firstName} ${message.userCreator?.lastName}`,
 				  });
 		}
-		if (message.systemMessageType === SystemMessageType.ConferenceAvatarChanged) {
+		if (message.systemMessageType === SystemMessageType.GroupChatAvatarChanged) {
 			return message?.userCreator?.id === myId
 				? t('systemMessage.you_changed_avatar')
 				: t('systemMessage.someone_changed_avatar', {

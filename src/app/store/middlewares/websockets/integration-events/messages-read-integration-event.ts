@@ -3,7 +3,7 @@ import { BaseIntegrationEvent } from './base-integration-event';
 export interface MessagesReadIntegrationEvent extends BaseIntegrationEvent {
 	lastReadMessageId: number;
 	readMessagesCount: number;
-	objectType: 'User' | 'Conference';
+	objectType: 'User' | 'GroupChat';
 	userReaderId: number;
-	conferenceId: number;
+	groupChatId: number;
 }

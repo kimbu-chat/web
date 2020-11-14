@@ -25,7 +25,7 @@ const Friend = ({ friend }: Friend.Props) => {
 			activeClassName='friend--active'
 		>
 			<div className='friend__active-line'></div>
-			<Avatar className={'friend__avatar'} src={friend.avatarUrl}>
+			<Avatar className={'friend__avatar'} src={friend.avatar?.url}>
 				{getUserInitials(friend)}
 			</Avatar>
 			<div className='friend__contents'>

@@ -44,9 +44,9 @@ const ChatData = () => {
 		});
 
 	if (selectedChat) {
-		const imageUrl: string = selectedChat.conference?.avatarUrl || selectedChat?.interlocutor?.avatarUrl || '';
-		const status = selectedChat.conference
-			? `${selectedChat.conference.membersCount} ${t('chatData.members')}`
+		const imageUrl: string = selectedChat.groupChat?.avatar?.url || selectedChat?.interlocutor?.avatar?.url || '';
+		const status = selectedChat.groupChat
+			? `${selectedChat.groupChat.membersCount} ${t('chatData.members')}`
 			: selectedChat?.interlocutor?.status === UserStatus.Online
 			? t('chatData.online')
 			: `${t('chatData.last-time')} ${moment

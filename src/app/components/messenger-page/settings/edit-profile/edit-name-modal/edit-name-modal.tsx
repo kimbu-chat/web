@@ -39,7 +39,7 @@ const EditNameModal = ({ onClose }: EditNameModal.Props) => {
 
 	const onSubmit = useCallback(() => {
 		if (firstName !== myProfile?.firstName || lastName !== myProfile?.lastName) {
-			updateMyProfile({ firstName, lastName });
+			updateMyProfile({ firstName, lastName, avatar: myProfile?.avatar });
 		}
 		onClose();
 	}, [firstName, lastName, updateMyProfile, myProfile]);

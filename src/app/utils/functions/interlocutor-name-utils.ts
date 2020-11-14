@@ -12,8 +12,8 @@ export const getChatInterlocutor = (chat: Chat): string => {
 		return interlocutorName;
 	}
 
-	if (chat.conference?.name) {
-		return chat.conference.name;
+	if (chat.groupChat?.name) {
+		return chat.groupChat.name;
 	}
 
 	return '';

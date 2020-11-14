@@ -22,7 +22,7 @@ const Member = ({ member }: Member.Props) => {
 
 	return (
 		<div className='chat-member'>
-			<Avatar className='chat-member__avatar' src={member?.avatarUrl}>
+			<Avatar className='chat-member__avatar' src={member.avatar?.url}>
 				{getUserInitials(member)}
 			</Avatar>
 			<div className='chat-member__data'>
@@ -37,7 +37,7 @@ const Member = ({ member }: Member.Props) => {
 					</span>
 				)}
 			</div>
-			<h3 className={`chat-member__conference-status`}>
+			<h3 className={`chat-member__groupChat-status`}>
 				{member.firstName.includes('77') ? (
 					'Owner'
 				) : (

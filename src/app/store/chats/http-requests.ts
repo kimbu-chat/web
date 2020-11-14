@@ -5,9 +5,8 @@ import {
 	GetChatsRequestData,
 	HideChatRequest,
 	MuteChatRequest,
-	GetConferenceUsersRequest,
-	RenameConferenceApiRequest,
-	ConferenceCreationHTTPReqData,
+	GetGroupChatUsersRequest,
+	GroupChatCreationHTTPReqData,
 	UploadAudioResponse,
 	UploadFileResponse,
 	UploadPictureResponse,
@@ -25,6 +24,7 @@ import {
 	MarkMessagesAsReadRequest,
 	GetChatInfoRequest,
 	GetChatInfoApiResponse,
+	EditGroupChatHTTPReqData,
 } from './models';
 import { ApiBasePath } from '../root-api';
 import { UserPreview } from '../my-profile/models';
@@ -55,24 +55,25 @@ export const ChatHttpRequests = {
 		({ chatId }: GetChatInfoRequest) => `${ApiBasePath.MainApi}/api/chats/${chatId}/info`,
 		HttpRequestMethod.Get,
 	),
-	createConference: httpRequestFactory<AxiosResponse<number>, ConferenceCreationHTTPReqData>(
-		`${ApiBasePath.MainApi}/api/conferences`,
+	createGroupChat: httpRequestFactory<AxiosResponse<number>, GroupChatCreationHTTPReqData>(
+		`${ApiBasePath.MainApi}/api/group-chats`,
 		HttpRequestMethod.Post,
 	),
-	getConferenceMembers: httpRequestFactory<AxiosResponse<Array<UserPreview>>, GetConferenceUsersRequest>(
-		`${ApiBasePath.MainApi}/api/conferences/members`,
+	getGroupChatMembers: httpRequestFactory<AxiosResponse<Array<UserPreview>>, GetGroupChatUsersRequest>(
+		`${ApiBasePath.MainApi}/api/group-chats/search-members`,
 		HttpRequestMethod.Post,
 	),
-	leaveConferece: httpRequestFactory<AxiosResponse, number>(
-		(id: number) => `${ApiBasePath.MainApi}/api/conferences?id=${id}`,
+	leaveGroupChat: httpRequestFactory<AxiosResponse, number>(
+		(id: number) => `${ApiBasePath.MainApi}/api/group-chats/${id}`,
 		HttpRequestMethod.Delete,
 	),
-	addMembersIntoConference: httpRequestFactory<AxiosResponse, { conferenceId: number; userIds: number[] }>(
-		`${ApiBasePath.MainApi}/api/conferences/users`,
+	addMembersIntoGroupChat: httpRequestFactory<AxiosResponse, { groupChatId: number; userIds: number[] }>(
+		`${ApiBasePath.MainApi}/api/group-chats/users`,
 		HttpRequestMethod.Post,
 	),
-	renameConference: httpRequestFactory<AxiosResponse, RenameConferenceApiRequest>(
-		`${ApiBasePath.MainApi}/api/conference`,
+
+	editGroupChat: httpRequestFactory<AxiosResponse, EditGroupChatHTTPReqData>(
+		`${ApiBasePath.MainApi}/api/group-chats`,
 		HttpRequestMethod.Put,
 	),
 	//attachment lists

@@ -5,7 +5,7 @@ import { MessagesReadIntegrationEvent } from '../integration-events/messages-rea
 import { ChatActions } from 'app/store/chats/actions';
 import { RootState } from 'app/store/root-reducer';
 
-export class ConferenceMessageReadEventHandler implements IEventHandler<MessagesReadIntegrationEvent> {
+export class GroupChatMessageReadEventHandler implements IEventHandler<MessagesReadIntegrationEvent> {
 	public handle(store: Store<RootState>, eventData: MessagesReadIntegrationEvent): void {
 		store.dispatch(ChatActions.changeInterlocutorLastReadMessageId(eventData));
 	}

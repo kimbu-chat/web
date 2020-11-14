@@ -5,14 +5,14 @@ export interface UserPreview {
 	id: number;
 	firstName: string;
 	lastName: string;
-	avatarUrl?: string;
+	avatar?: { url: string; previewUrl: string; id: string };
 	nickname: string;
 	status: UserStatus;
 	gender?: number;
 	lastOnlineTime: Date;
 	phoneNumber: string;
 
-	supposedToAddIntoConference?: boolean;
+	supposedToAddIntoGroupChat?: boolean;
 }
 
 export interface GetFriendsActionData {
@@ -31,6 +31,13 @@ export interface GetFriendsSuccessActionData {
 export interface UpdateMyProfileActionData {
 	firstName: string;
 	lastName: string;
+	avatar?: { url: string; previewUrl: string; id: string };
+}
+
+export interface UpdateMyProfileApiRequestData {
+	firstName: string;
+	lastName: string;
+	avatarId?: string;
 }
 
 export interface UpdateNicknameActionData {
@@ -54,7 +61,7 @@ export interface UpdateAvatarSuccess {
 	croppedAvatarUrl: string;
 }
 
-export interface UploadAvararResponse {
+export interface UploadAvatarResponse {
 	url: string;
 	previewUrl: string;
 	id: string;
@@ -62,7 +69,7 @@ export interface UploadAvararResponse {
 
 export interface UploadAvatarReqData {
 	pathToFile: string;
-	onProgress: (progress: number) => void;
+	onProgress?: (progress: number) => void;
 }
 
 export interface UploadAvatarSagaProgressData {

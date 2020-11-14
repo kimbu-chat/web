@@ -26,19 +26,19 @@ const ChatMedia = () => {
 			<Link to={`${location.pathname}/photo`} className='chat-media__media-type'>
 				<PhotoSvg viewBox='0 0 25 25' className='chat-media__media-type__svg' />
 				<span className='chat-media__media-type__name'>
-					{t('chatMedia.photos', { count: selectedChat?.pictureAttachmentsCount })}
+					{t('chatMedia.photos', { count: selectedChat?.pictureAttachmentsCount || 0 })}
 				</span>
 			</Link>
 			<Link to={`${location.pathname}/video`} className='chat-media__media-type'>
 				<VideoSvg viewBox='0 0 25 25' className='chat-media__media-type__svg' />
 				<span className='chat-media__media-type__name'>
-					{t('chatMedia.videos', { count: selectedChat?.videoAttachmentsCount })}
+					{t('chatMedia.videos', { count: selectedChat?.videoAttachmentsCount || 0 })}
 				</span>
 			</Link>
 			<Link to={`${location.pathname}/files`} className='chat-media__media-type'>
 				<FileSvg viewBox='0 0 25 25' className='chat-media__media-type__svg' />
 				<span className='chat-media__media-type__name'>
-					{t('chatMedia.files', { count: selectedChat?.rawAttachmentsCount })}
+					{t('chatMedia.files', { count: selectedChat?.rawAttachmentsCount || 0 })}
 				</span>
 			</Link>
 			{/* <button className='chat-media__media-type'>
@@ -48,7 +48,7 @@ const ChatMedia = () => {
 			<Link to={`${location.pathname}/audio-recordings`} className='chat-media__media-type'>
 				<MicrophoneSvg viewBox='0 0 25 25' className='chat-media__media-type__svg' />
 				<span className='chat-media__media-type__name'>
-					{t('chatMedia.voice-messages', { count: selectedChat?.voiceAttachmentsCount })}
+					{t('chatMedia.voice-messages', { count: selectedChat?.voiceAttachmentsCount || 0 })}
 				</span>
 			</Link>
 			{/* <button className='chat-media__media-type'>

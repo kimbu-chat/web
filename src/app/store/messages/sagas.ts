@@ -29,7 +29,7 @@ export function* getMessages(action: ReturnType<typeof MessageActions.getMessage
 
 	const request: MessagesReqData = {
 		page: page,
-		chatId: ChatService.getChatId(chat.interlocutor?.id!, chat.conference?.id!),
+		chatId: ChatService.getChatId(chat.interlocutor?.id!, chat.groupChat?.id!),
 	};
 
 	const httpRequest = MessagesHttpRequests.getMessages;
@@ -154,7 +154,7 @@ export function* copyMessagesSaga(action: ReturnType<typeof MessageActions.copyM
 }
 
 export const MessageSagas = [
-	//	takeLatest(MessageActions.messageTyping, messageTyping),
+	takeLatest(MessageActions.messageTyping, messageTyping),
 	takeLatest(MessageActions.getMessages, getMessages),
 	takeEvery(MessageActions.createMessage, createMessage),
 	takeEvery(MessageActions.copyMessages, copyMessagesSaga),

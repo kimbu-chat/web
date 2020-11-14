@@ -155,7 +155,7 @@ const MessageItem = ({ message }: Message.Props) => {
 				{(structuredAttachments?.media.length || 0) > 0 && <MediaGrid media={structuredAttachments!.media} />}
 			</div>
 			{message.needToShowCreator && (
-				<Avatar className={`message__sender-photo `} src={message.userCreator?.avatarUrl}>
+				<Avatar className={`message__sender-photo `} src={message.userCreator.avatar?.url}>
 					{getUserInitials(message.userCreator as UserPreview)}
 				</Avatar>
 			)}

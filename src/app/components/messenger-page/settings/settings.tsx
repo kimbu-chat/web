@@ -29,7 +29,7 @@ const Settings = () => {
 					<CSSTransition in={match != null} timeout={200} classNames='settings-slide' unmountOnExit>
 						<div className='settings'>
 							<div className='settings__account-info'>
-								<Avatar className='settings__account-avatar' src={myProfile?.avatarUrl}>
+								<Avatar className='settings__account-avatar' src={myProfile?.avatar?.url}>
 									{getUserInitials(myProfile)}
 								</Avatar>
 								<div className='settings__account-data'>

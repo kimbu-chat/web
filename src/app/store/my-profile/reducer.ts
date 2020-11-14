@@ -15,17 +15,6 @@ const initialState: MyProfileState = {
 
 const myProfile = createReducer<MyProfileState>(initialState)
 	.handleAction(
-		[MyProfileActions.updateMyAvatarSuccessAction],
-		produce(
-			(draft: MyProfileState, { payload }: ReturnType<typeof MyProfileActions.updateMyAvatarSuccessAction>) => {
-				if (draft.user) {
-					draft.user.avatarUrl = payload.fullAvatarUrl;
-				}
-				return draft;
-			},
-		),
-	)
-	.handleAction(
 		[MyProfileActions.getMyProfileSuccessAction],
 		produce((draft: MyProfileState, { payload }: ReturnType<typeof MyProfileActions.getMyProfileSuccessAction>) => {
 			return {
@@ -40,6 +29,7 @@ const myProfile = createReducer<MyProfileState>(initialState)
 			(draft: MyProfileState, { payload }: ReturnType<typeof MyProfileActions.updateMyProfileSuccessAction>) => {
 				draft.user!.firstName = payload.firstName;
 				draft.user!.lastName = payload.lastName;
+				draft.user!.avatar = payload.avatar;
 
 				return draft;
 			},

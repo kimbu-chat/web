@@ -61,7 +61,7 @@ const DeleteMessageModal: React.FC<DeleteMessageModal.Props> = ({ onClose, selec
 							<span className='delete-message-modal__btn-description'>{`Delete for ${
 								selectedChat?.interlocutor
 									? selectedChat?.interlocutor?.firstName + ' ' + selectedChat?.interlocutor?.lastName
-									: selectedChat?.conference?.name
+									: selectedChat?.groupChat?.name
 							}`}</span>
 						</div>
 					</div>

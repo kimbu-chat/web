@@ -20,24 +20,24 @@ const DeleteChatModal = ({ hide }: DeleteChatModal.Props) => {
 
 	const selectedChat = useSelector(getSelectedChatSelector) as Chat;
 
-	const leaveConference = useActionWithDeferred(ChatActions.leaveConference);
+	const leaveGroupChat = useActionWithDeferred(ChatActions.leaveGroupChat);
 
-	const deleteConference = useCallback(async () => {
-		await leaveConference(selectedChat);
-	}, [leaveConference, selectedChat]);
+	const deleteGroupChat = useCallback(async () => {
+		await leaveGroupChat(selectedChat);
+	}, [leaveGroupChat, selectedChat]);
 
 	return (
 		<WithBackground onBackgroundClick={hide}>
 			<Modal
 				title='Delete chat'
-				contents={t('chatInfo.leave-confirmation', { conferenceName: selectedChat.conference?.name })}
-				highlightedInContents={`‘${selectedChat.conference?.name}‘`}
+				contents={t('chatInfo.leave-confirmation', { groupChatName: selectedChat.groupChat?.name })}
+				highlightedInContents={`‘${selectedChat.groupChat?.name}‘`}
 				closeModal={hide}
 				buttons={[
 					{
 						children: t('chatInfo.confirm'),
 						className: 'delete-chat-modal__confirm-btn',
-						onClick: deleteConference,
+						onClick: deleteGroupChat,
 						position: 'left',
 						width: 'contained',
 						variant: 'contained',

@@ -27,21 +27,21 @@ namespace ChatFromList {
 }
 
 const ChatFromList = ({ chat }: ChatFromList.Props) => {
-	const { interlocutor, lastMessage, conference } = chat;
+	const { interlocutor, lastMessage, groupChat } = chat;
 	const { t } = useContext(LocalizationContext);
 	const currentUserId = useSelector(getMyIdSelector) as number;
 	const isMessageCreatorCurrentUser: boolean = lastMessage?.userCreator?.id === currentUserId;
 
 	const getChatAvatar = (): string => {
 		if (interlocutor) {
-			return interlocutor.avatarUrl as string;
+			return interlocutor.avatar?.url as string;
 		}
 
-		return conference?.avatarUrl as string;
+		return groupChat?.avatar?.url as string;
 	};
 
 	const getMessageText = (): string => {
-		const { lastMessage, conference } = chat;
+		const { lastMessage, groupChat } = chat;
 		if (lastMessage && lastMessage?.systemMessageType !== SystemMessageType.None) {
 			return truncate(MessageUtils.constructSystemMessageText(lastMessage as Message, t, currentUserId), {
 				length: 53,
@@ -49,7 +49,7 @@ const ChatFromList = ({ chat }: ChatFromList.Props) => {
 			});
 		}
 
-		if (conference) {
+		if (groupChat) {
 			if (isMessageCreatorCurrentUser) {
 				return truncate(`${t('chatFromList.you')}: ${lastMessage?.text}`, {
 					length: 53,
@@ -77,7 +77,7 @@ const ChatFromList = ({ chat }: ChatFromList.Props) => {
 			activeClassName='chat-from-list chat-from-list--active'
 		>
 			<div className='chat-from-list__active-line'></div>
-			{!conference ? (
+			{!groupChat ? (
 				<StatusBadge
 					containerClassName='chat-from-list__avatar-container'
 					additionalClassNames={'chat-from-list__avatar'}

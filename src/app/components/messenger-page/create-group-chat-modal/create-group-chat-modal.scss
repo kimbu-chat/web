@@ -1,4 +1,4 @@
-.create-conference {
+.create-group-chat {
 	&__current-photo-wrapper {
 		.circular-progress {
 			position: absolute;
@@ -6,7 +6,14 @@
 			width: 125%;
 			top: 48%;
 			left: 48%;
-			transform: translate(-50%, -50%);
+			transform: translate(-50%, -50%) rotate(-90deg);
+			circle {
+				stroke-width: 1px;
+
+				&:first-child {
+					stroke: #bdbdbd;
+				}
+			}
 		}
 	}
 	&__friends-block {

@@ -106,6 +106,13 @@ const friends = createReducer<FriendsState>(initialState)
 
 			return draft;
 		}),
+	)
+	.handleAction(
+		FriendActions.addFriendSuccess,
+		produce((draft: FriendsState, { payload }: ReturnType<typeof FriendActions.addFriendSuccess>) => {
+			draft.friends.push(payload);
+			return draft;
+		}),
 	);
 
 export default friends;

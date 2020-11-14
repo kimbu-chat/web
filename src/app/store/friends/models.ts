@@ -26,3 +26,7 @@ export interface GetConferenceUsersSuccessActionData {
 export interface DeleteFriendsActionData {
 	userIds: number[];
 }
+
+export interface UpdateFriendListActionData {
+	phoneNumbers: string[];
+}

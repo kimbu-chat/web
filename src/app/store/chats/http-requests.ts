@@ -14,7 +14,6 @@ import {
 	UploadVideoResponse,
 	UploadVoiceResponse,
 	AudioAttachment,
-	IGroupable,
 	GetChatAudiosHTTPRequest,
 	PictureAttachment,
 	GetChatPicturesHTTPRequest,
@@ -77,25 +76,25 @@ export const ChatHttpRequests = {
 		HttpRequestMethod.Put,
 	),
 	//attachment lists
-	getChatAudioAttachments: httpRequestFactory<
-		AxiosResponse<Array<AudioAttachment & IGroupable>>,
-		GetChatAudiosHTTPRequest
-	>(`${ApiBasePath.MainApi}/api/audio-attachments/search`, HttpRequestMethod.Post),
+	getChatAudioAttachments: httpRequestFactory<AxiosResponse<Array<AudioAttachment>>, GetChatAudiosHTTPRequest>(
+		`${ApiBasePath.MainApi}/api/audio-attachments/search`,
+		HttpRequestMethod.Post,
+	),
 
-	getChatPictureAttachments: httpRequestFactory<
-		AxiosResponse<Array<PictureAttachment & IGroupable>>,
-		GetChatPicturesHTTPRequest
-	>(`${ApiBasePath.MainApi}/api/picture-attachments/search`, HttpRequestMethod.Post),
+	getChatPictureAttachments: httpRequestFactory<AxiosResponse<Array<PictureAttachment>>, GetChatPicturesHTTPRequest>(
+		`${ApiBasePath.MainApi}/api/picture-attachments/search`,
+		HttpRequestMethod.Post,
+	),
 
-	getChatRawAttachments: httpRequestFactory<
-		AxiosResponse<Array<RawAttachment & IGroupable>>,
-		GetChatFilesHTTPRequest
-	>(`${ApiBasePath.MainApi}/api/raw-attachments/search`, HttpRequestMethod.Post),
+	getChatRawAttachments: httpRequestFactory<AxiosResponse<Array<RawAttachment>>, GetChatFilesHTTPRequest>(
+		`${ApiBasePath.MainApi}/api/raw-attachments/search`,
+		HttpRequestMethod.Post,
+	),
 
-	getChatVideoAttachments: httpRequestFactory<
-		AxiosResponse<Array<VideoAttachment & IGroupable>>,
-		GetChatVideosHTTPRequest
-	>(`${ApiBasePath.MainApi}/api/video-attachments/search`, HttpRequestMethod.Post),
+	getChatVideoAttachments: httpRequestFactory<AxiosResponse<Array<VideoAttachment>>, GetChatVideosHTTPRequest>(
+		`${ApiBasePath.MainApi}/api/video-attachments/search`,
+		HttpRequestMethod.Post,
+	),
 };
 
 export const ChatHttpFileRequest = {

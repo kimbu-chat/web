@@ -6,7 +6,7 @@ import ProgressSVG from 'app/assets/icons/ic-progress.svg';
 
 import { fileDownload } from 'app/utils/functions/file-download';
 import { RawAttachment } from 'app/store/chats/models';
-import { getFileSizeUnit } from 'app/utils/functions/get-file-size-unit';
+import { getRawAttachmentsizeUnit } from 'app/utils/functions/get-file-size-unit';
 
 namespace FileAttachment {
 	export interface Props {
@@ -62,8 +62,8 @@ const FileAttachment = ({ attachment }: FileAttachment.Props) => {
 				<h4 className='file-attachment__file-name'>{attachment.title}</h4>
 				<div className='file-attachment__file-size'>
 					{isDownloading
-						? `${getFileSizeUnit(downloaded)}/${getFileSizeUnit(attachment.byteSize)}`
-						: getFileSizeUnit(attachment.byteSize)}
+						? `${getRawAttachmentsizeUnit(downloaded)}/${getRawAttachmentsizeUnit(attachment.byteSize)}`
+						: getRawAttachmentsizeUnit(attachment.byteSize)}
 				</div>
 			</div>
 		</div>

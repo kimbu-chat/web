@@ -423,8 +423,8 @@ const chats = createReducer<ChatsState>(initialState)
 		}),
 	)
 	.handleAction(
-		ChatActions.getPhotoSuccess,
-		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.getPhotoSuccess>) => {
+		ChatActions.getPhotoAttachmentsSuccess,
+		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.getPhotoAttachmentsSuccess>) => {
 			const { photos, chatId, hasMore } = payload;
 
 			const chatIndex: number = getChatArrayIndex(chatId, draft);
@@ -437,8 +437,8 @@ const chats = createReducer<ChatsState>(initialState)
 		}),
 	)
 	.handleAction(
-		ChatActions.getVideoSuccess,
-		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.getVideoSuccess>) => {
+		ChatActions.getVideoAttachmentsSuccess,
+		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.getVideoAttachmentsSuccess>) => {
 			const { videos, chatId, hasMore } = payload;
 
 			const chatIndex: number = getChatArrayIndex(chatId, draft);
@@ -451,8 +451,8 @@ const chats = createReducer<ChatsState>(initialState)
 		}),
 	)
 	.handleAction(
-		ChatActions.getFilesSuccess,
-		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.getFilesSuccess>) => {
+		ChatActions.getRawAttachmentsSuccess,
+		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.getRawAttachmentsSuccess>) => {
 			const { files, chatId, hasMore } = payload;
 
 			const chatIndex: number = getChatArrayIndex(chatId, draft);
@@ -465,8 +465,8 @@ const chats = createReducer<ChatsState>(initialState)
 		}),
 	)
 	.handleAction(
-		ChatActions.getVoiceSuccess,
-		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.getVoiceSuccess>) => {
+		ChatActions.getVoiceAttachmentsSuccess,
+		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.getVoiceAttachmentsSuccess>) => {
 			const { recordings, chatId, hasMore } = payload;
 
 			const chatIndex: number = getChatArrayIndex(chatId, draft);
@@ -495,6 +495,7 @@ const chats = createReducer<ChatsState>(initialState)
 					attachment: {
 						id: attachmentId,
 						byteSize: file.size,
+						creationDateTime: new Date(),
 						url: '',
 						type,
 					},

@@ -127,7 +127,7 @@ export interface MuteChatRequest {
 	isMuted: boolean;
 }
 
-export interface GetPhotoRequest {
+export interface getPhotoAttachmentsRequest {
 	chatId: number;
 	page: Page;
 }
@@ -137,12 +137,12 @@ export interface GetRecordingsRequest {
 	page: Page;
 }
 
-export interface GetVideoRequest {
+export interface getVideoAttachmentsRequest {
 	chatId: number;
 	page: Page;
 }
 
-export interface GetFilesRequest {
+export interface getRawAttachmentsRequest {
 	chatId: number;
 	page: Page;
 }
@@ -189,6 +189,7 @@ export interface AttachmentToSend<T> {
 export interface BaseAttachment {
 	byteSize: number;
 	type: FileType;
+	creationDateTime: Date;
 	url: string;
 	id: string;
 }
@@ -250,15 +251,15 @@ export interface GetChatsResponse extends ChatList {
 	initializedBySearch: boolean;
 }
 
-export interface GetPhotoResponse extends PhotoList {
+export interface getPhotoAttachmentsResponse extends PhotoList {
 	chatId: number;
 }
 
-export interface GetFilesResponse extends FileList {
+export interface getRawAttachmentsResponse extends FileList {
 	chatId: number;
 }
 
-export interface GetVideoResponse extends VideoList {
+export interface getVideoAttachmentsResponse extends VideoList {
 	chatId: number;
 }
 

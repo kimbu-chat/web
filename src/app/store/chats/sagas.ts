@@ -294,7 +294,7 @@ function* renameConferenceSaga(action: ReturnType<typeof ChatActions.renameConfe
 	}
 }
 
-function* getPhotoSaga(action: ReturnType<typeof ChatActions.getPhoto>): SagaIterator {
+function* getPhotoAttachmentsSaga(action: ReturnType<typeof ChatActions.getPhotoAttachments>): SagaIterator {
 	const { chatId, page } = action.payload;
 
 	const httpRequest = ChatHttpRequests.getChatPictureAttachments;
@@ -303,13 +303,13 @@ function* getPhotoSaga(action: ReturnType<typeof ChatActions.getPhoto>): SagaIte
 	const hasMore = data.length >= page.limit;
 
 	if (status === HTTPStatusCode.OK) {
-		yield put(ChatActions.getPhotoSuccess({ photos: data, hasMore, chatId }));
+		yield put(ChatActions.getPhotoAttachmentsSuccess({ photos: data, hasMore, chatId }));
 	} else {
-		alert('getPhotoSaga error');
+		alert('getPhotoAttachmentsSaga error');
 	}
 }
 
-function* getVideoSaga(action: ReturnType<typeof ChatActions.getVideo>): SagaIterator {
+function* getVideoAttachmentsSaga(action: ReturnType<typeof ChatActions.getVideoAttachments>): SagaIterator {
 	const { chatId, page } = action.payload;
 
 	const httpRequest = ChatHttpRequests.getChatVideoAttachments;
@@ -318,13 +318,13 @@ function* getVideoSaga(action: ReturnType<typeof ChatActions.getVideo>): SagaIte
 	const hasMore = data.length >= page.limit;
 
 	if (status === HTTPStatusCode.OK) {
-		yield put(ChatActions.getVideoSuccess({ videos: data, hasMore, chatId }));
+		yield put(ChatActions.getVideoAttachmentsSuccess({ videos: data, hasMore, chatId }));
 	} else {
-		alert('getVideoSaga error');
+		alert('getVideoAttachmentsSaga error');
 	}
 }
 
-function* getFilesSaga(action: ReturnType<typeof ChatActions.getFiles>): SagaIterator {
+function* getRawAttachmentsSaga(action: ReturnType<typeof ChatActions.getRawAttachments>): SagaIterator {
 	const { chatId, page } = action.payload;
 
 	const httpRequest = ChatHttpRequests.getChatRawAttachments;
@@ -333,13 +333,13 @@ function* getFilesSaga(action: ReturnType<typeof ChatActions.getFiles>): SagaIte
 	const hasMore = data.length >= page.limit;
 
 	if (status === HTTPStatusCode.OK) {
-		yield put(ChatActions.getFilesSuccess({ files: data, hasMore, chatId }));
+		yield put(ChatActions.getRawAttachmentsSuccess({ files: data, hasMore, chatId }));
 	} else {
-		alert('getFilesSaga error');
+		alert('getRawAttachmentsSaga error');
 	}
 }
 
-function* getRecordingsSaga(action: ReturnType<typeof ChatActions.getVoice>): SagaIterator {
+function* getRecordingsSaga(action: ReturnType<typeof ChatActions.getVoiceAttachments>): SagaIterator {
 	const { chatId, page } = action.payload;
 
 	const httpRequest = ChatHttpRequests.getChatAudioAttachments;
@@ -348,7 +348,7 @@ function* getRecordingsSaga(action: ReturnType<typeof ChatActions.getVoice>): Sa
 	const hasMore = data.length >= page.limit;
 
 	if (status === HTTPStatusCode.OK) {
-		yield put(ChatActions.getVoiceSuccess({ recordings: data, hasMore, chatId }));
+		yield put(ChatActions.getVoiceAttachmentsSuccess({ recordings: data, hasMore, chatId }));
 	} else {
 		alert('getRecordingsSaga error');
 	}
@@ -488,10 +488,10 @@ export const ChatSagas = [
 	takeLatest(ChatActions.changeChatVisibilityState, changeChatVisibilityStateSaga),
 	takeLatest(ChatActions.addUsersToConference, addUsersToConferenceSaga),
 	takeLatest(ChatActions.muteChat, muteChatSaga),
-	takeLatest(ChatActions.getPhoto, getPhotoSaga),
-	takeLatest(ChatActions.getVideo, getVideoSaga),
-	takeLatest(ChatActions.getFiles, getFilesSaga),
-	takeLatest(ChatActions.getVoice, getRecordingsSaga),
+	takeLatest(ChatActions.getPhotoAttachments, getPhotoAttachmentsSaga),
+	takeLatest(ChatActions.getVideoAttachments, getVideoAttachmentsSaga),
+	takeLatest(ChatActions.getRawAttachments, getRawAttachmentsSaga),
+	takeLatest(ChatActions.getVoiceAttachments, getRecordingsSaga),
 	takeLatest(ChatActions.markMessagesAsRead, resetUnreadMessagesCountSaga),
 	takeLatest(ChatActions.getChatInfo, getChatInfoSaga),
 	takeLatest(ChatActions.changeSelectedChat, changeSelectedChatSaga),

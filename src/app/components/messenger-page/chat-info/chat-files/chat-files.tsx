@@ -20,7 +20,7 @@ const ChatFiles = () => {
 
 	const filesContainerRef = useRef<HTMLDivElement>(null);
 
-	const getFiles = useActionWithDispatch(ChatActions.getFiles);
+	const getRawAttachments = useActionWithDispatch(ChatActions.getRawAttachments);
 	const selectedChat = useSelector(getSelectedChatSelector);
 	const filesForSelectedDialog = selectedChat!.files;
 
@@ -35,7 +35,7 @@ const ChatFiles = () => {
 
 		console.log(page);
 
-		getFiles({
+		getRawAttachments({
 			page,
 			chatId: selectedChat!.id,
 		});

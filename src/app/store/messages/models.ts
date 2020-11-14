@@ -53,7 +53,7 @@ export interface Message {
 }
 
 export enum SystemMessageType {
-	None = 0,
+	None = 'None',
 	ConferenceMemberRemoved = 1,
 	ConferenceAvatarChanged = 2,
 	ConferenceCreated = 3,

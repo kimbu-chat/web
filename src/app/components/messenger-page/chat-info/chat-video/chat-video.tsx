@@ -30,7 +30,7 @@ const ChatVideo = () => {
 
 	const videoContainerRef = useRef<HTMLDivElement>(null);
 
-	const getVideos = useActionWithDispatch(ChatActions.getVideo);
+	const getVideoAttachmentss = useActionWithDispatch(ChatActions.getVideoAttachments);
 	const selectedChat = useSelector(getSelectedChatSelector);
 	const videosForSelectedDialog = selectedChat!.videos;
 
@@ -45,7 +45,7 @@ const ChatVideo = () => {
 
 		console.log(page);
 
-		getVideos({
+		getVideoAttachmentss({
 			page,
 			chatId: selectedChat!.id,
 		});

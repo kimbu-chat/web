@@ -7,8 +7,6 @@ import { getSelectedChatSelector } from 'app/store/chats/selectors';
 import { RootState } from 'app/store/root-reducer';
 import { LocalizationContext } from 'app/app';
 import { ChatActions as DialogActions } from 'app/store/chats/actions';
-
-//svg
 import MuteSvg from 'app/assets/icons/ic-notifications-on.svg';
 import UnmuteSvg from 'app/assets/icons/ic-notifications-off.svg';
 import ClearSvg from 'app/assets/icons/ic-clear.svg';
@@ -20,6 +18,7 @@ import { FriendActions } from 'app/store/friends/actions';
 import DeleteChatModal from './delete-chat-modal/delete-chat-modal';
 import CreateConference from '../../create-conference-modal/create-conference-modal';
 import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
+import PeopleSvg from 'app/assets/icons/ic-group.svg';
 
 namespace ChatActions {
 	export interface Props {
@@ -45,6 +44,7 @@ const ChatActions = ({ addMembers }: ChatActions.Props) => {
 	const changeChatVisibilityState = useActionWithDispatch(DialogActions.changeChatVisibilityState);
 	const muteChat = useActionWithDispatch(DialogActions.muteChat);
 	const deleteFriend = useActionWithDispatch(FriendActions.deleteFriend);
+	const addFriend = useActionWithDispatch(FriendActions.addFriend);
 
 	const membersForConference = useSelector<RootState, UserPreview[]>(
 		(state) => state.friends.usersForSelectedConference,
@@ -65,6 +65,10 @@ const ChatActions = ({ addMembers }: ChatActions.Props) => {
 	const deleteContact = useCallback(() => deleteFriend({ userIds: [selectedChat?.interlocutor?.id || -1] }), [
 		deleteFriend,
 		selectedChat?.interlocutor?.id,
+	]);
+	const addContact = useCallback(() => addFriend(selectedChat.interlocutor!), [
+		addFriend,
+		selectedChat?.interlocutor,
 	]);
 
 	return (
@@ -96,6 +100,14 @@ const ChatActions = ({ addMembers }: ChatActions.Props) => {
 					<span className='chat-actions__action__name'>{t('chatActions.delete-contact')}</span>
 				</button>
 			)}
+
+			{selectedChat.interlocutor && !selectedIsFriend() && (
+				<button onClick={addContact} className='chat-actions__action'>
+					<PeopleSvg viewBox='0 0 25 25' className='chat-actions__action__svg' />
+					<span className='chat-actions__action__name'>{t('chatActions.add-contact')}</span>
+				</button>
+			)}
+
 			{selectedChat.interlocutor && selectedIsFriend() && (
 				<button onClick={changeCreateConferenceModalOpenedState} className='chat-actions__action'>
 					<UnmuteSvg viewBox='0 0 25 25' className='chat-actions__action__svg' />

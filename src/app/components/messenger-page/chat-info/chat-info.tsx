@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { getInterlocutorInitials, getChatInterlocutor } from '../../../utils/functions/interlocutor-name-utils';
 import { useActionWithDeferred } from 'app/utils/hooks/use-action-with-deferred';
 import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
-import { AvatarSelectedData } from 'app/store/my-profile/models';
+import { AvatarSelectedData, UploadAvatarResponse } from 'app/store/my-profile/models';
 
 import { getSelectedChatSelector } from 'app/store/chats/selectors';
 
@@ -32,6 +32,12 @@ import ChatFiles from './chat-files/chat-files';
 import { MyProfileActions } from 'app/store/my-profile/actions';
 
 const ChatInfo: React.FC = () => {
+	const selectedChat = useSelector(getSelectedChatSelector);
+
+	const getChatInfo = useActionWithDispatch(ChatActions.getChatInfo);
+	const editGroupChat = useActionWithDispatch(ChatActions.editGroupChat);
+	const uploadGroupChatAvatar = useActionWithDeferred(MyProfileActions.uploadAvatarRequestAction);
+
 	const [editGroupChatDisplayed, setEditGroupChatDisplayed] = useState(false);
 	const changeEditGroupChatDisplayedState = useCallback(() => {
 		setEditGroupChatDisplayed((oldState) => !oldState);
@@ -47,11 +53,6 @@ const ChatInfo: React.FC = () => {
 	const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
 	const displayChangePhoto = useCallback(() => setChangePhotoDisplayed(true), [setChangePhotoDisplayed]);
 	const hideChangePhoto = useCallback(() => setChangePhotoDisplayed(false), [setChangePhotoDisplayed]);
-
-	const selectedChat = useSelector(getSelectedChatSelector);
-
-	const getChatInfo = useActionWithDispatch(ChatActions.getChatInfo);
-	const uploadGroupChatAvatar = useActionWithDeferred(MyProfileActions.uploadAvatarRequestAction);
 
 	useEffect(() => {
 		if (selectedChat) {
@@ -79,9 +80,16 @@ const ChatInfo: React.FC = () => {
 		(data: AvatarSelectedData) => {
 			uploadGroupChatAvatar({
 				pathToFile: data.croppedImagePath,
+			}).then((response: UploadAvatarResponse) => {
+				editGroupChat({
+					id: selectedChat!.groupChat!.id,
+					avatar: response,
+					name: selectedChat!.groupChat!.name,
+					description: selectedChat!.groupChat!.description,
+				});
 			});
 		},
-		[uploadGroupChatAvatar, selectedChat?.groupChat?.id],
+		[uploadGroupChatAvatar, editGroupChat, selectedChat?.groupChat?.id],
 	);
 
 	const fileInputRef = useRef<HTMLInputElement>(null);

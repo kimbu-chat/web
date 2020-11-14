@@ -54,7 +54,7 @@ export interface UpdateAvatarSuccess {
 	croppedAvatarUrl: string;
 }
 
-export interface UploadAvararResponse {
+export interface UploadAvatarResponse {
 	url: string;
 	previewUrl: string;
 	id: string;

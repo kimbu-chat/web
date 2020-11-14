@@ -47,10 +47,7 @@ const InterlocutorInfo = () => {
 				<div className='interlocutor-info__info-block'>
 					<InfoSvg className='interlocutor-info__info-svg' />
 					<div className='interlocutor-info__data'>
-						<div className='interlocutor-info__data-value'>
-							Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-							been the industry's standard dummy text ever since the 1500s, when an unknown printer.
-						</div>
+						<div className='interlocutor-info__data-value'>{selectedChat.groupChat!.description}</div>
 						<div className='interlocutor-info__data-name'>{t('interlocutorInfo.about')}</div>
 					</div>
 				</div>

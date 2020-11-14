@@ -614,6 +614,23 @@ const chats = createReducer<ChatsState>(initialState)
 			}
 			return draft;
 		}),
+	)
+	.handleAction(
+		ChatActions.editGroupChatSuccess,
+		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.editGroupChatSuccess>) => {
+			const { id, name, description, avatar } = payload;
+
+			const chatId: number = ChatService.getChatIdentifier(undefined, id);
+
+			const chatIndex: number = getChatArrayIndex(chatId, draft);
+
+			if (chatIndex >= 0) {
+				draft.chats[chatIndex].groupChat!.name = name;
+				draft.chats[chatIndex].groupChat!.description = description;
+				draft.chats[chatIndex].groupChat!.avatar = avatar;
+			}
+			return draft;
+		}),
 	);
 
 export default chats;

@@ -6,7 +6,7 @@ import WithBackground from 'app/components/shared/with-background';
 
 import CloseSVG from 'app/assets/icons/ic-close.svg';
 import ChangePhoto from 'app/components/messenger-page/change-photo/change-photo';
-import { AvatarSelectedData, UploadAvararResponse } from 'app/store/my-profile/models';
+import { AvatarSelectedData, UploadAvatarResponse } from 'app/store/my-profile/models';
 import { useState } from 'react';
 import { Chat, EditGroupChatReqData } from 'app/store/chats/models';
 import { getSelectedChatSelector } from 'app/store/chats/selectors';
@@ -35,10 +35,10 @@ const EditChatModal = ({ onClose }: EditChatModal.Props) => {
 
 	const [newName, setNewName] = useState(selectedChat.groupChat?.name!);
 	const [avatarData, setAvatarData] = useState<AvatarSelectedData | null>(null);
-	const [avararUploadResponse, setAvatarUploadResponse] = useState<UploadAvararResponse | null>(null);
+	const [avararUploadResponse, setAvatarUploadResponse] = useState<UploadAvatarResponse | null>(null);
 	const [imageUrl, setImageUrl] = useState<string | null | ArrayBuffer>(null);
 	const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
-	const [newDescription, setNewDescription] = useState('');
+	const [newDescription, setNewDescription] = useState(selectedChat.groupChat?.description || '');
 	const [uploaded, setUploaded] = useState(0);
 	const [uploadEnded, setUploadEnded] = useState(true);
 
@@ -46,10 +46,12 @@ const EditChatModal = ({ onClose }: EditChatModal.Props) => {
 		(data: AvatarSelectedData) => {
 			setAvatarData(data);
 			setUploadEnded(false);
-			uploadGroupChatAvatar({ pathToFile: data.croppedImagePath, onProgress: setUploaded }).then((response) => {
-				setAvatarUploadResponse(response);
-				setUploadEnded(true);
-			});
+			uploadGroupChatAvatar({ pathToFile: data.croppedImagePath, onProgress: setUploaded }).then(
+				(response: UploadAvatarResponse) => {
+					setAvatarUploadResponse(response);
+					setUploadEnded(true);
+				},
+			);
 		},
 		[setAvatarData, setUploaded, uploadGroupChatAvatar, setAvatarUploadResponse],
 	);
@@ -77,22 +79,18 @@ const EditChatModal = ({ onClose }: EditChatModal.Props) => {
 		onClose();
 
 		const changes: EditGroupChatReqData = {
-			id: selectedChat.id,
+			id: selectedChat.groupChat!.id,
 			avatar: avararUploadResponse,
+			name: newName,
+			description: newDescription,
 		};
-		if (newName !== selectedChat.groupChat?.name) {
-			changes.name = newName;
-		}
-		if (newDescription !== selectedChat.groupChat?.description) {
-			changes.description = newDescription;
-		}
 
 		editGroupChat(changes);
-	}, [selectedChat]);
+	}, [selectedChat, avararUploadResponse, newName, newDescription]);
 
 	const discardNewAvatar = useCallback(() => {
-		setAvatarData(null);
-		setAvatarUploadResponse(null);
+		setAvatarData({ offsetY: 0, offsetX: 0, width: 0, imagePath: '', croppedImagePath: '' });
+		setAvatarUploadResponse({ url: '', previewUrl: '', id: '' });
 		setUploadEnded(true);
 	}, [setAvatarData, setAvatarUploadResponse, setUploadEnded]);
 
@@ -106,21 +104,21 @@ const EditChatModal = ({ onClose }: EditChatModal.Props) => {
 							<div className='edit-chat-modal__change-photo'>
 								<div className='edit-chat-modal__current-photo-wrapper'>
 									<Avatar
-										src={avatarData?.croppedImagePath || selectedChat.groupChat?.avatar?.url}
+										src={
+											typeof avatarData?.croppedImagePath === 'string'
+												? avatarData?.croppedImagePath
+												: selectedChat.groupChat?.avatar?.url
+										}
 										className='edit-chat-modal__current-photo'
 									>
 										{getInterlocutorInitials(selectedChat)}
 									</Avatar>
-									{avatarData && (
-										<>
-											<CircularProgress progress={uploaded} />
-											<button
-												onClick={discardNewAvatar}
-												className='edit-chat-modal__remove-photo'
-											>
-												<CloseSVG viewBox='0 0 25 25' />
-											</button>
-										</>
+									{avatarData?.croppedImagePath && <CircularProgress progress={uploaded} />}
+
+									{(avatarData || selectedChat.groupChat?.avatar) && (
+										<button onClick={discardNewAvatar} className='edit-chat-modal__remove-photo'>
+											<CloseSVG viewBox='0 0 25 25' />
+										</button>
 									)}
 								</div>
 								<div className='edit-chat-modal__change-photo-data'>

@@ -4,7 +4,7 @@ import Modal from 'app/components/shared/modal/modal';
 import WithBackground from 'app/components/shared/with-background';
 import ChangePhoto from 'app/components/messenger-page/change-photo/change-photo';
 import { FriendActions } from 'app/store/friends/actions';
-import { AvatarSelectedData, UploadAvararResponse, UserPreview } from 'app/store/my-profile/models';
+import { AvatarSelectedData, UploadAvatarResponse, UserPreview } from 'app/store/my-profile/models';
 import { RootState } from 'app/store/root-reducer';
 import { getStringInitials } from 'app/utils/functions/interlocutor-name-utils';
 import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
@@ -46,7 +46,7 @@ const CreateGroupChatModal = ({ onClose, preSelectedUserIds }: ICreateGroupChatM
 	const [selectedUserIds, setSelectedUserIds] = useState<number[]>(preSelectedUserIds ? preSelectedUserIds : []);
 	const [currentStage, setCurrrentStage] = useState(ICreateGroupChatModal.groupChatCreationStage.userSelect);
 	const [avatarData, setAvatarData] = useState<AvatarSelectedData | null>(null);
-	const [avararUploadResponse, setAvatarUploadResponse] = useState<UploadAvararResponse | null>(null);
+	const [avararUploadResponse, setAvatarUploadResponse] = useState<UploadAvatarResponse | null>(null);
 	const [imageUrl, setImageUrl] = useState<string | null | ArrayBuffer>(null);
 	const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
 	const [name, setName] = useState('');

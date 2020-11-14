@@ -1,6 +1,6 @@
 import { FileType, Message } from '../messages/models';
 import { Page } from '../common/models';
-import { UserPreview, UploadAvararResponse } from '../my-profile/models';
+import { UserPreview, UploadAvatarResponse } from '../my-profile/models';
 import { CancelTokenSource } from 'axios';
 
 export interface GroupChat {
@@ -83,7 +83,7 @@ export interface EditGroupChatHTTPReqData {
 
 export interface EditGroupChatReqData {
 	id: number;
-	name?: string;
+	name: string;
 	description?: string;
 	avatar: {
 		id: string;
@@ -272,7 +272,7 @@ export interface GroupChatCreationReqData {
 	description?: string;
 	userIds: Array<number>;
 	currentUser: UserPreview;
-	avatar?: UploadAvararResponse | null;
+	avatar?: UploadAvatarResponse | null;
 }
 
 export interface GroupChatCreationHTTPReqData {

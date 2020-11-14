@@ -1,6 +1,6 @@
 import { call, put, takeLatest, select } from 'redux-saga/effects';
 import { SagaIterator } from 'redux-saga';
-import { AvatarSelectedData, UploadAvararResponse, UploadAvatarSagaProgressData, UserPreview } from './models';
+import { AvatarSelectedData, UploadAvatarResponse, UploadAvatarSagaProgressData, UserPreview } from './models';
 import { MyProfileActions } from './actions';
 import { MyProfileHttpFileRequest, MyProfileHttpRequests } from './http-requests';
 import { MyProfileService } from 'app/services/my-profile-service';
@@ -98,7 +98,7 @@ function* uploadAvatarSaga(action: ReturnType<typeof MyProfileActions.uploadAvat
 
 	yield call(() =>
 		uploadRequest.generator(data, {
-			onSuccess: function* (payload: UploadAvararResponse): SagaIterator {
+			onSuccess: function* (payload: UploadAvatarResponse): SagaIterator {
 				action.meta.deferred.resolve(payload);
 			},
 			onProgress: function* (payload: UploadAvatarSagaProgressData): SagaIterator {

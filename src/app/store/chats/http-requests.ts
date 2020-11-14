@@ -73,7 +73,7 @@ export const ChatHttpRequests = {
 	),
 
 	editGroupChat: httpRequestFactory<AxiosResponse, EditGroupChatHTTPReqData>(
-		`${ApiBasePath.MainApi}/api/group-chats/users`,
+		`${ApiBasePath.MainApi}/api/group-chats`,
 		HttpRequestMethod.Put,
 	),
 	//attachment lists

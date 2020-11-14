@@ -4,7 +4,7 @@ import {
 	CheckNicknameActionData,
 	UpdateMyProfileActionData,
 	UpdateNicknameActionData,
-	UploadAvararResponse,
+	UploadAvatarResponse,
 	UserPreview,
 } from './models';
 import { ApiBasePath } from '../root-api';
@@ -37,7 +37,7 @@ export const MyProfileHttpRequests = {
 };
 
 export const MyProfileHttpFileRequest = {
-	uploadAvatar: httpFilesRequestFactory<AxiosResponse<UploadAvararResponse>, FormData>(
+	uploadAvatar: httpFilesRequestFactory<AxiosResponse<UploadAvatarResponse>, FormData>(
 		`${ApiBasePath.FilesAPI}/api/avatars`,
 		HttpRequestMethod.Post,
 	),

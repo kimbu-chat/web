@@ -54,14 +54,14 @@ export interface Message {
 
 export enum SystemMessageType {
 	None = 'None',
-	GroupChatMemberRemoved = 1,
-	GroupChatAvatarChanged = 2,
+	GroupChatMemberRemoved = 'GroupChatMemberRemoved',
+	GroupChatAvatarChanged = 'GroupChatAvatarChanged',
 	GroupChatCreated = 'GroupChatCreated',
-	GroupChatMemberAdded = 4,
-	GroupChatNameChanged = 5,
-	GroupChatAvatarRemoved = 6,
-	UserCreated = 7,
-	MissedCall = 8,
+	GroupChatMemberAdded = 'GroupChatMemberAdded',
+	GroupChatNameChanged = 'GroupChatNameChanged',
+	GroupChatAvatarRemoved = 'GroupChatAvatarRemoved',
+	UserCreated = 'UserCreated',
+	MissedCall = 'MissedCall',
 }
 
 export interface UserMessageTypingRequest {

@@ -2,7 +2,7 @@
 import { httpRequestFactory, HttpRequestMethod } from '../common/http-factory';
 import {
 	CheckNicknameActionData,
-	UpdateMyProfileActionData,
+	UpdateMyProfileApiRequestData,
 	UpdateNicknameActionData,
 	UploadAvatarResponse,
 	UserPreview,
@@ -11,7 +11,7 @@ import { ApiBasePath } from '../root-api';
 import { httpFilesRequestFactory } from '../common/http-file-factory';
 
 export const MyProfileHttpRequests = {
-	updateMyProfile: httpRequestFactory<AxiosResponse, UpdateMyProfileActionData>(
+	updateMyProfile: httpRequestFactory<AxiosResponse, UpdateMyProfileApiRequestData>(
 		`${ApiBasePath.MainApi}/api/users`,
 		HttpRequestMethod.Put,
 	),

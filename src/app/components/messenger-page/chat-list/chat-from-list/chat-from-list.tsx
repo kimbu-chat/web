@@ -34,7 +34,7 @@ const ChatFromList = ({ chat }: ChatFromList.Props) => {
 
 	const getChatAvatar = (): string => {
 		if (interlocutor) {
-			return interlocutor.avatarUrl as string;
+			return interlocutor.avatar?.url as string;
 		}
 
 		return groupChat?.avatar?.url as string;

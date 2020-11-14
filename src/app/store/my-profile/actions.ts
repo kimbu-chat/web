@@ -1,8 +1,6 @@
 import {
 	UpdateMyProfileActionData,
 	UserPreview,
-	AvatarSelectedData,
-	UpdateAvatarSuccess,
 	UpdateNicknameActionData,
 	CheckNicknameActionData,
 	UploadAvatarReqData,
@@ -21,8 +19,6 @@ export namespace MyProfileActions {
 		CheckNicknameActionData,
 		Meta
 	>();
-	export const updateMyAvatarAction = createAction('UPDATE_MY_AVATAR')<AvatarSelectedData, Meta>();
-	export const updateMyAvatarSuccessAction = createAction('UPDATE_MY_AVATAR_SUCCESS')<UpdateAvatarSuccess>();
 	export const getMyProfileAction = createEmptyAction('GET_MY_PROFILE');
 	export const getMyProfileSuccessAction = createAction('GET_MY_PROFILE_SUCCESS')<UserPreview>();
 	export const changeUserOnlineStatusAction = createAction('CHANGE_ONLINE_STATUS')<boolean>();

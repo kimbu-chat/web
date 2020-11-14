@@ -44,7 +44,7 @@ const ChatData = () => {
 		});
 
 	if (selectedChat) {
-		const imageUrl: string = selectedChat.groupChat?.avatar?.url || selectedChat?.interlocutor?.avatarUrl || '';
+		const imageUrl: string = selectedChat.groupChat?.avatar?.url || selectedChat?.interlocutor?.avatar?.url || '';
 		const status = selectedChat.groupChat
 			? `${selectedChat.groupChat.membersCount} ${t('chatData.members')}`
 			: selectedChat?.interlocutor?.status === UserStatus.Online

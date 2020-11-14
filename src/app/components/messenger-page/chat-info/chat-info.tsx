@@ -99,7 +99,7 @@ const ChatInfo: React.FC = () => {
 
 		const getChatAvatar = (): string => {
 			if (interlocutor) {
-				return interlocutor.avatarUrl as string;
+				return interlocutor.avatar?.url as string;
 			}
 
 			return groupChat?.avatar?.url as string;

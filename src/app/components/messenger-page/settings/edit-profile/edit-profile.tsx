@@ -18,12 +18,15 @@ import EditPhoneModal from './edit-phone-modal/edit-phone-modal';
 import ChangePhoto from 'app/components/messenger-page/change-photo/change-photo';
 import { LocalizationContext } from 'app/app';
 import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
+import { AvatarSelectedData, UploadAvatarResponse } from 'app/store/my-profile/models';
+import { parsePhoneNumber } from 'libphonenumber-js';
 
 const EditProfile = () => {
 	const { t } = useContext(LocalizationContext);
 	const myProfile = useSelector(getMyProfileSelector);
 
-	const changeMyAvatar = useActionWithDeferred(MyProfileActions.updateMyAvatarAction);
+	const uploadAvatar = useActionWithDeferred(MyProfileActions.uploadAvatarRequestAction);
+	const updateMyProfile = useActionWithDeferred(MyProfileActions.updateMyProfileAction);
 
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -67,12 +70,24 @@ const EditProfile = () => {
 		setIsEditPhoneDisplayed((oldState) => !oldState);
 	}, [setIsEditPhoneDisplayed]);
 
+	const changeMyAvatar = useCallback((data: AvatarSelectedData) => {
+		uploadAvatar({
+			pathToFile: data.croppedImagePath,
+		}).then((response: UploadAvatarResponse) => {
+			updateMyProfile({
+				avatar: response,
+				firstName: myProfile!.firstName,
+				lastName: myProfile!.lastName,
+			});
+		});
+	}, []);
+
 	return (
 		<>
 			<div className='edit-profile'>
 				<div className='edit-profile__photo-data'>
 					<div className='edit-profile__avatar-wrapper'>
-						<Avatar className='edit-profile__account-avatar' src={myProfile?.avatarUrl}>
+						<Avatar className='edit-profile__account-avatar' src={myProfile?.avatar?.previewUrl}>
 							{getUserInitials(myProfile)}
 						</Avatar>
 						<div className='edit-profile__remove-photo'>
@@ -105,7 +120,9 @@ const EditProfile = () => {
 					<div className='edit-profile__data-category'>
 						<PhoneSvg className='edit-profile__data-category__info-svg' viewBox='0 0 25 25' />
 						<div className='edit-profile__data-field'>
-							<div className='edit-profile__data-value'>{myProfile?.phoneNumber}</div>
+							<div className='edit-profile__data-value'>
+								{parsePhoneNumber(myProfile?.phoneNumber!).formatInternational()}
+							</div>
 							<div className='edit-profile__data-name'>{t('editProfile.mobile')}</div>
 						</div>
 						<button onClick={changeIsEditPhoneDisplayed} className='edit-profile__edit'>

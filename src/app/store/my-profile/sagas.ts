@@ -1,10 +1,9 @@
-import { call, put, takeLatest, select } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { SagaIterator } from 'redux-saga';
-import { AvatarSelectedData, UploadAvatarResponse, UploadAvatarSagaProgressData, UserPreview } from './models';
+import { UpdateMyProfileApiRequestData, UploadAvatarResponse, UploadAvatarSagaProgressData } from './models';
 import { MyProfileActions } from './actions';
 import { MyProfileHttpFileRequest, MyProfileHttpRequests } from './http-requests';
 import { MyProfileService } from 'app/services/my-profile-service';
-import { RootState } from '../root-reducer';
 import { getFileFromUrl } from 'app/utils/functions/get-file-from-url';
 
 export function* changeOnlineStatus({
@@ -18,22 +17,15 @@ export function* changeOnlineStatus({
 	}
 }
 
-export function* uploadUserAvatar(action: ReturnType<typeof MyProfileActions.updateMyAvatarAction>): SagaIterator {
-	const image: AvatarSelectedData = action.payload;
-
-	console.log(image);
-}
-
-export function* uploadUserAvatarSaga(action: ReturnType<typeof MyProfileActions.updateMyAvatarAction>): SagaIterator {
-	yield call(uploadUserAvatar, action);
-	const updatedProfile: UserPreview = yield select((state: RootState) => state.myProfile.user);
-	new MyProfileService().setMyProfile(updatedProfile);
-}
-
 export function* updateMyProfileSaga(action: ReturnType<typeof MyProfileActions.updateMyProfileAction>): SagaIterator {
 	try {
+		const requestData: UpdateMyProfileApiRequestData = {
+			firstName: action.payload.firstName,
+			lastName: action.payload.lastName,
+			avatarId: action.payload.avatar?.id,
+		};
 		const updateProfileRequest = MyProfileHttpRequests.updateMyProfile;
-		const { status } = updateProfileRequest.call(yield call(() => updateProfileRequest.generator(action.payload)));
+		const { status } = updateProfileRequest.call(yield call(() => updateProfileRequest.generator(requestData)));
 
 		if (status === 200) {
 			yield put(MyProfileActions.updateMyProfileSuccessAction(action.payload));
@@ -86,6 +78,8 @@ function* uploadAvatarSaga(action: ReturnType<typeof MyProfileActions.uploadAvat
 
 	const file = yield call(getFileFromUrl, pathToFile);
 
+	console.log(file);
+
 	const uploadRequest = MyProfileHttpFileRequest.uploadAvatar;
 
 	const data = new FormData();
@@ -114,7 +108,6 @@ function* uploadAvatarSaga(action: ReturnType<typeof MyProfileActions.uploadAvat
 }
 
 export const MyProfileSagas = [
-	takeLatest(MyProfileActions.updateMyAvatarAction, uploadUserAvatarSaga),
 	takeLatest(MyProfileActions.updateMyProfileAction, updateMyProfileSaga),
 	takeLatest(MyProfileActions.updateMyNicknameAction, updateMyNicknameSaga),
 	takeLatest(MyProfileActions.getMyProfileAction, getMyProfileSaga),

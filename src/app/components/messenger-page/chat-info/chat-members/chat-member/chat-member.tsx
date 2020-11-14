@@ -37,7 +37,7 @@ const Member = ({ member }: Member.Props) => {
 					</span>
 				)}
 			</div>
-			<h3 className={`chat-member__conference-status`}>
+			<h3 className={`chat-member__groupChat-status`}>
 				{member.firstName.includes('77') ? (
 					'Owner'
 				) : (

@@ -19,7 +19,7 @@ export interface GetFriendsSuccessActionData {
 	initializedBySearch?: boolean;
 }
 
-export interface GetConferenceUsersSuccessActionData {
+export interface GetGroupChatUsersSuccessActionData {
 	users: Array<UserPreview>;
 }
 

@@ -2,12 +2,9 @@ import {
 	GetChatsActionData,
 	Chat,
 	GetChatsResponse,
-	ConferenceCreationReqData,
-	GetConferenceUsersRequest,
-	AddUsersToConferenceActionData,
-	RenameConferenceActionData,
-	ChangeConferenceAvatarActionData,
-	ChangeConferenceAvatarSuccessActionData,
+	GroupChatCreationReqData,
+	GetGroupChatUsersRequest,
+	AddUsersToGroupChatActionData,
 	getPhotoAttachmentsRequest,
 	getVideoAttachmentsRequest,
 	getPhotoAttachmentsResponse,
@@ -25,13 +22,14 @@ import {
 	MarkMessagesAsReadReqData,
 	GetChatInfoRequest,
 	GetChatInfoResponse,
+	EditGroupChatReqData,
 } from './models';
 import { IntercolutorMessageTypingIntegrationEvent } from '../middlewares/websockets/integration-events/interlocutor-message-typing-integration-event';
-import { ConferenceCreatedIntegrationEvent } from '../middlewares/websockets/integration-events/conference-сreated-integration-event';
+import { GroupChatCreatedIntegrationEvent } from '../middlewares/websockets/integration-events/group-chat-сreated-integration-event';
 import { createAction } from 'typesafe-actions';
 import { createEmptyAction, Meta } from '../common/actions';
 import { MessagesReadIntegrationEvent } from '../middlewares/websockets/integration-events/messages-read-integration-event';
-import { GetConferenceUsersSuccessActionData } from '../friends/models';
+import { GetGroupChatUsersSuccessActionData } from '../friends/models';
 
 // export const createMessageSuccessAction = (createMessageResponse: CreateMessageResponse) =>
 //   createAction(ChatsActionTypes.CREATE_MESSAGE_SUCCESS, createMessageResponse);
@@ -65,28 +63,24 @@ export namespace ChatActions {
 	export const changeChatVisibilityStateSuccess = createAction('CHANGE_CHAT_VISIBILITY_STATE_SUCCESS')<Chat>();
 	export const muteChat = createAction('MUTE_CHAT')<Chat>();
 	export const muteChatSuccess = createAction('MUTE_CHAT_SUCCESS')<Chat>();
-	export const createConference = createAction('CREATE_CONFERENCE')<ConferenceCreationReqData, Meta>();
-	export const createConferenceSuccess = createAction('CREATE_CONFERENCE_SUCCESS')<Chat>();
-	export const createConferenceFromEvent = createAction('CREATE_CONFERENCE_FROM_EVENT')<
-		ConferenceCreatedIntegrationEvent
+	export const createGroupChat = createAction('CREATE_GROUP_CHAT')<GroupChatCreationReqData, Meta>();
+	export const createGroupChatSuccess = createAction('CREATE_GROUP_CHAT_SUCCESS')<Chat>();
+	export const editGroupChat = createAction('EDIT_GROUP_CHAT')<EditGroupChatReqData>();
+	export const editGroupChatSuccess = createAction('EDIT_GROUP_CHAT_SUCCESS')<EditGroupChatReqData>();
+	export const createGroupChatFromEvent = createAction('CREATE_GROUP_CHAT_FROM_EVENT')<
+		GroupChatCreatedIntegrationEvent
 	>();
-	export const getConferenceUsers = createAction('GET_CONFERENCE_USERS')<GetConferenceUsersRequest>();
-	export const getConferenceUsersSuccess = createAction('GET_CONFERENCE_USERS_SUCCESS')<
-		GetConferenceUsersSuccessActionData
+	export const getGroupChatUsers = createAction('GET_GROUP_CHAT_USERS')<GetGroupChatUsersRequest>();
+	export const getGroupChatUsersSuccess = createAction('GET_GROUP_CHAT_USERS_SUCCESS')<
+		GetGroupChatUsersSuccessActionData
 	>();
-	export const leaveConference = createAction('LEAVE_CONFERENCE')<Chat, Meta>();
-	export const leaveConferenceSuccess = createAction('LEAVE_CONFERENCE_SUCCESS')<Chat>();
-	export const addUsersToConference = createAction('ADD_USERS_TO_CONFERENCE')<AddUsersToConferenceActionData, Meta>();
-	export const addUsersToConferenceSuccess = createAction('ADD_USERS_TO_CONFERENCE_SUCCESS')<
-		AddUsersToConferenceActionData
+	export const leaveGroupChat = createAction('LEAVE_GROUP_CHAT')<Chat, Meta>();
+	export const leaveGroupChatSuccess = createAction('LEAVE_GROUP_CHAT_SUCCESS')<Chat>();
+	export const addUsersToGroupChat = createAction('ADD_USERS_TO_GROUP_CHAT')<AddUsersToGroupChatActionData, Meta>();
+	export const addUsersToGroupChatSuccess = createAction('ADD_USERS_TO_GROUP_CHAT_SUCCESS')<
+		AddUsersToGroupChatActionData
 	>();
-	export const renameConference = createAction('RENAME_CONFERENCE')<RenameConferenceActionData>();
-	export const renameConferenceSuccess = createAction('RENAME_CONFERENCE_SUCCESS')<RenameConferenceActionData>();
-	export const changeConferenceAvatar = createAction('CHANGE_CONFERENCE_AVATAR')<ChangeConferenceAvatarActionData>();
-	export const changeConferenceAvatarSuccess = createAction('CHANGE_CONFERENCE_AVATAR_SUCCESS')<
-		ChangeConferenceAvatarSuccessActionData
-	>();
-	export const changeInterlocutorLastReadMessageId = createAction('CONFERENCE_MESSAGE_READ_FROM_EVENT')<
+	export const changeInterlocutorLastReadMessageId = createAction('GROUP_CHAT_MESSAGE_READ_FROM_EVENT')<
 		MessagesReadIntegrationEvent
 	>();
 	export const interlocutorStoppedTyping = createAction('INTERLOCUTOR_STOPPED_TYPING')<

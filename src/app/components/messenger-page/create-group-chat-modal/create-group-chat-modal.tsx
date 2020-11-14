@@ -13,38 +13,38 @@ import { useSelector } from 'react-redux';
 import FriendFromList from '../shared/friend-from-list/friend-from-list';
 import SearchBox from '../search-box/search-box';
 import CloseSVG from 'app/assets/icons/ic-close.svg';
-import './create-conference-modal.scss';
+import './create-group-chat-modal.scss';
 import { useActionWithDeferred } from 'app/utils/hooks/use-action-with-deferred';
 import { ChatActions } from 'app/store/chats/actions';
-import { Chat, ConferenceCreationReqData } from 'app/store/chats/models';
+import { Chat, GroupChatCreationReqData } from 'app/store/chats/models';
 import { useHistory } from 'react-router';
 import { MyProfileActions } from 'app/store/my-profile/actions';
 import CircularProgress from 'app/components/messenger-page/shared/circular-progress/circular-progress';
 
-namespace ICreateConferenceModal {
+namespace ICreateGroupChatModal {
 	export interface Props {
 		onClose: () => void;
 		preSelectedUserIds?: number[];
 	}
 
-	export enum conferenceCreationStage {
+	export enum groupChatCreationStage {
 		userSelect,
-		conferenceCreation,
+		groupChatCreation,
 	}
 }
 
-const CreateConferenceModal = ({ onClose, preSelectedUserIds }: ICreateConferenceModal.Props) => {
+const CreateGroupChatModal = ({ onClose, preSelectedUserIds }: ICreateGroupChatModal.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const currentUser = useSelector<RootState, UserPreview | undefined>((state) => state.myProfile.user);
 
 	const history = useHistory();
 
-	const uploadConferenceAvatar = useActionWithDeferred(MyProfileActions.uploadAvatarRequestAction);
-	const submitConferenceCreation = useActionWithDeferred(ChatActions.createConference);
+	const uploadGroupChatAvatar = useActionWithDeferred(MyProfileActions.uploadAvatarRequestAction);
+	const submitGroupChatCreation = useActionWithDeferred(ChatActions.createGroupChat);
 
 	const [selectedUserIds, setSelectedUserIds] = useState<number[]>(preSelectedUserIds ? preSelectedUserIds : []);
-	const [currentStage, setCurrrentStage] = useState(ICreateConferenceModal.conferenceCreationStage.userSelect);
+	const [currentStage, setCurrrentStage] = useState(ICreateGroupChatModal.groupChatCreationStage.userSelect);
 	const [avatarData, setAvatarData] = useState<AvatarSelectedData | null>(null);
 	const [avararUploadResponse, setAvatarUploadResponse] = useState<UploadAvararResponse | null>(null);
 	const [imageUrl, setImageUrl] = useState<string | null | ArrayBuffer>(null);
@@ -69,12 +69,12 @@ const CreateConferenceModal = ({ onClose, preSelectedUserIds }: ICreateConferenc
 		(data: AvatarSelectedData) => {
 			setAvatarData(data);
 			setUploadEnded(false);
-			uploadConferenceAvatar({ pathToFile: data.croppedImagePath, onProgress: setUploaded }).then((response) => {
+			uploadGroupChatAvatar({ pathToFile: data.croppedImagePath, onProgress: setUploaded }).then((response) => {
 				setAvatarUploadResponse(response);
 				setUploadEnded(true);
 			});
 		},
-		[setAvatarData, setUploaded, uploadConferenceAvatar, setAvatarUploadResponse],
+		[setAvatarData, setUploaded, uploadGroupChatAvatar, setAvatarUploadResponse],
 	);
 
 	const displayChangePhoto = useCallback(() => setChangePhotoDisplayed(true), [setChangePhotoDisplayed]);
@@ -122,7 +122,7 @@ const CreateConferenceModal = ({ onClose, preSelectedUserIds }: ICreateConferenc
 	}, [setAvatarData, setAvatarUploadResponse, setUploadEnded]);
 
 	const onSubmit = useCallback(() => {
-		const conferenceToCreate: ConferenceCreationReqData = {
+		const groupChatToCreate: GroupChatCreationReqData = {
 			name,
 			currentUser: currentUser!,
 			userIds: selectedUserIds,
@@ -130,14 +130,14 @@ const CreateConferenceModal = ({ onClose, preSelectedUserIds }: ICreateConferenc
 			avatar: avararUploadResponse,
 		};
 
-		submitConferenceCreation(conferenceToCreate).then((payload: Chat) => {
+		submitGroupChatCreation(groupChatToCreate).then((payload: Chat) => {
 			history.push(`/chats/${payload.id}`);
 			onClose();
 		});
 	}, [avararUploadResponse, description, name, onClose]);
 
-	const goToConferenceCreationStage = useCallback(() => {
-		setCurrrentStage(ICreateConferenceModal.conferenceCreationStage.conferenceCreation);
+	const goToGroupChatCreationStage = useCallback(() => {
+		setCurrrentStage(ICreateGroupChatModal.groupChatCreationStage.groupChatCreation);
 	}, [setCurrrentStage]);
 
 	return (
@@ -145,22 +145,22 @@ const CreateConferenceModal = ({ onClose, preSelectedUserIds }: ICreateConferenc
 			<WithBackground onBackgroundClick={onClose}>
 				<Modal
 					title={
-						currentStage === ICreateConferenceModal.conferenceCreationStage.userSelect ? (
-							<div className='create-conference__heading'>
-								<div className='create-conference__title'>{t('createConferenceModal.add_members')}</div>
-								<div className='create-conference__selected-count'>{`${selectedUserIds.length} / 1000`}</div>
+						currentStage === ICreateGroupChatModal.groupChatCreationStage.userSelect ? (
+							<div className='create-group-chat__heading'>
+								<div className='create-group-chat__title'>{t('createGroupChatModal.add_members')}</div>
+								<div className='create-group-chat__selected-count'>{`${selectedUserIds.length} / 1000`}</div>
 							</div>
 						) : (
-							t('createConferenceModal.new_group')
+							t('createGroupChatModal.new_group')
 						)
 					}
 					closeModal={onClose}
 					contents={
 						<>
-							{currentStage === ICreateConferenceModal.conferenceCreationStage.userSelect && (
-								<div className={'create-conference__select-friends'}>
+							{currentStage === ICreateGroupChatModal.groupChatCreationStage.userSelect && (
+								<div className={'create-group-chat__select-friends'}>
 									<SearchBox onChange={(e) => searchFriends(e.target.value)} />
-									<div className='create-conference__friends-block'>
+									<div className='create-group-chat__friends-block'>
 										{friends.map((friend) => {
 											return (
 												<FriendFromList
@@ -175,13 +175,13 @@ const CreateConferenceModal = ({ onClose, preSelectedUserIds }: ICreateConferenc
 								</div>
 							)}
 
-							{currentStage === ICreateConferenceModal.conferenceCreationStage.conferenceCreation && (
-								<div className='create-conference'>
-									<div className='create-conference__change-photo'>
-										<div className='create-conference__current-photo-wrapper'>
+							{currentStage === ICreateGroupChatModal.groupChatCreationStage.groupChatCreation && (
+								<div className='create-group-chat'>
+									<div className='create-group-chat__change-photo'>
+										<div className='create-group-chat__current-photo-wrapper'>
 											<Avatar
 												src={avatarData?.croppedImagePath}
-												className='create-conference__current-photo'
+												className='create-group-chat__current-photo'
 											>
 												{getStringInitials(name)}
 											</Avatar>
@@ -190,14 +190,14 @@ const CreateConferenceModal = ({ onClose, preSelectedUserIds }: ICreateConferenc
 													<CircularProgress progress={uploaded} />
 													<button
 														onClick={discardAvatar}
-														className='create-conference__remove-photo'
+														className='create-group-chat__remove-photo'
 													>
 														<CloseSVG viewBox='0 0 25 25' />
 													</button>
 												</>
 											)}
 										</div>
-										<div className='create-conference__change-photo-data'>
+										<div className='create-group-chat__change-photo-data'>
 											<input
 												onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 													handleImageChange(e)
@@ -209,32 +209,32 @@ const CreateConferenceModal = ({ onClose, preSelectedUserIds }: ICreateConferenc
 											/>
 											<button
 												onClick={() => fileInputRef.current?.click()}
-												className='create-conference__change-photo__btn'
+												className='create-group-chat__change-photo__btn'
 											>
 												Upload New Photo
 											</button>
-											<span className='create-conference__change-photo__description'>
+											<span className='create-group-chat__change-photo__description'>
 												At least 256 x 256px PNG or JPG file.
 											</span>
 										</div>
 									</div>
-									<div className='create-conference__name'>
-										<span className='create-conference__name__label'>Name</span>
+									<div className='create-group-chat__name'>
+										<span className='create-group-chat__name__label'>Name</span>
 										<input
 											value={name}
 											onChange={(e) => setName(e.target.value)}
 											type='text'
-											className='create-conference__name__input'
+											className='create-group-chat__name__input'
 										/>
 									</div>
-									<div className='create-conference__description'>
-										<span className='create-conference__description__label'>
+									<div className='create-group-chat__description'>
+										<span className='create-group-chat__description__label'>
 											Description (optional)
 										</span>
 										<textarea
 											value={description}
 											onChange={(e) => setDescription(e.target.value)}
-											className='create-conference__description__input'
+											className='create-group-chat__description__input'
 										/>
 									</div>
 								</div>
@@ -243,25 +243,25 @@ const CreateConferenceModal = ({ onClose, preSelectedUserIds }: ICreateConferenc
 					}
 					buttons={[
 						{
-							children: t('createConferenceModal.next'),
+							children: t('createGroupChatModal.next'),
 							style: {
 								display:
-									currentStage === ICreateConferenceModal.conferenceCreationStage.userSelect
+									currentStage === ICreateGroupChatModal.groupChatCreationStage.userSelect
 										? 'block'
 										: 'none',
 							},
 							position: 'left',
 							disabled: selectedUserIds.length === 0,
-							onClick: goToConferenceCreationStage,
+							onClick: goToGroupChatCreationStage,
 							width: 'contained',
 							variant: 'contained',
 							color: 'primary',
 						},
 						{
-							children: t('createConferenceModal.create_conference'),
+							children: t('createGroupChatModal.create_groupChat'),
 							style: {
 								display:
-									currentStage === ICreateConferenceModal.conferenceCreationStage.conferenceCreation
+									currentStage === ICreateGroupChatModal.groupChatCreationStage.groupChatCreation
 										? 'block'
 										: 'none',
 							},
@@ -282,4 +282,4 @@ const CreateConferenceModal = ({ onClose, preSelectedUserIds }: ICreateConferenc
 	);
 };
 
-export default CreateConferenceModal;
+export default CreateGroupChatModal;

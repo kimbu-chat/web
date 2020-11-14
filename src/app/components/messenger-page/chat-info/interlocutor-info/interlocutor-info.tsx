@@ -41,9 +41,9 @@ const InterlocutorInfo = () => {
 				</>
 			)}
 
-			{/* conference block */}
+			{/* groupChat block */}
 
-			{selectedChat.conference && (
+			{selectedChat.groupChat && (
 				<div className='interlocutor-info__info-block'>
 					<InfoSvg className='interlocutor-info__info-svg' />
 					<div className='interlocutor-info__data'>
@@ -55,14 +55,14 @@ const InterlocutorInfo = () => {
 					</div>
 				</div>
 			)}
-			{selectedChat.conference && (
+			{selectedChat.groupChat && (
 				<div className='interlocutor-info__info-block'>
 					<LinkSvg className='interlocutor-info__info-svg' />
 					<div className='interlocutor-info__data'>
 						<Link
-							to={`/chats/${selectedChat.conference.id}2`}
+							to={`/chats/${selectedChat.groupChat.id}2`}
 							className='interlocutor-info__data-value interlocutor-info__data-value--link'
-						>{`ravudi.com/chats/${selectedChat.conference.id}2`}</Link>
+						>{`ravudi.com/chats/${selectedChat.groupChat.id}2`}</Link>
 						<div className='interlocutor-info__data-name'>{t('interlocutorInfo.link')}</div>
 					</div>
 				</div>

@@ -12,7 +12,7 @@ export interface UserPreview {
 	lastOnlineTime: Date;
 	phoneNumber: string;
 
-	supposedToAddIntoConference?: boolean;
+	supposedToAddIntoGroupChat?: boolean;
 }
 
 export interface GetFriendsActionData {
@@ -62,7 +62,7 @@ export interface UploadAvararResponse {
 
 export interface UploadAvatarReqData {
 	pathToFile: string;
-	onProgress: (progress: number) => void;
+	onProgress?: (progress: number) => void;
 }
 
 export interface UploadAvatarSagaProgressData {

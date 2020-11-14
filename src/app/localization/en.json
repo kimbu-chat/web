@@ -64,7 +64,7 @@
 		"common-groups": "{{count}} groups in common"
 	},
 	"chatInfo": {
-		"leave-confirmation": "Are you sure you want to delete ‘{{conferenceName}}‘ chat? All the data will be lost",
+		"leave-confirmation": "Are you sure you want to delete ‘{{groupChatName}}‘ chat? All the data will be lost",
 		"confirm": "Delete",
 		"cancel": "Cancel"
 	},
@@ -141,12 +141,12 @@
 		"new_message": "New message",
 		"new_group": "New group"
 	},
-	"createConferenceModal": {
+	"createGroupChatModal": {
 		"add_members": "Add members",
 		"new_group": "New Group",
 		"next": "Next",
 		"cancel": "Cancel",
-		"create_conference": "Create Group"
+		"create_groupChat": "Create Group"
 	},
 	"settings": {
 		"online": "Online",
@@ -184,7 +184,7 @@
 		"username": "Username",
 		"requirements": "You can use a-z, 0-9 and underscores."
 	},
-	"conferenceAddFriendModal": {
+	"groupChatAddFriendModal": {
 		"add_members": "Add Members"
 	},
 	"chatRecordings": {

@@ -2,10 +2,10 @@ import { IEventHandler } from './event-handler';
 
 export enum EVENTS_NAMES {
 	MESSAGE_CREATED = 'MessageCreated',
-	CONFERENCE_MESSAGE_CREATED = 'ConferenceMessageCreated',
+	GROUP_CHAT_MESSAGE_CREATED = 'GroupChatMessageCreated',
 	USER_STATUS_CHANGED = 'UserStatusChanged',
-	CONFERENCE_CREATED = 'ConferenceCreated',
-	CONFERENCE_MESSAGE_READ = 'ConferenceMessagesRead',
+	GROUP_CHAT_CREATED = 'GroupChatCreated',
+	GROUP_CHAT_MESSAGE_READ = 'GroupChatMessagesRead',
 	USER_MESSAGE_READ = 'UserMessagesRead',
 	INTEROCUTOR_MESSAGE_TYPING = 'MessageTyping',
 	//Event names for WEBRTC

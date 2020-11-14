@@ -16,7 +16,7 @@ import LeaveSvg from 'app/assets/icons/ic-leave-chat.svg';
 import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
 import { FriendActions } from 'app/store/friends/actions';
 import DeleteChatModal from './delete-chat-modal/delete-chat-modal';
-import CreateConference from '../../create-conference-modal/create-conference-modal';
+import CreateGroupChat from '../../create-group-chat-modal/create-group-chat-modal';
 import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
 import PeopleSvg from 'app/assets/icons/ic-group.svg';
 
@@ -29,16 +29,16 @@ namespace ChatActions {
 const ChatActions = ({ addMembers }: ChatActions.Props) => {
 	const { t } = useContext(LocalizationContext);
 
-	const [leaveConferenceModalOpened, setLeaveConferenceModalOpened] = useState<boolean>(false);
-	const changeLeaveConferenceModalOpenedState = useCallback(
-		() => setLeaveConferenceModalOpened((oldState) => !oldState),
-		[setLeaveConferenceModalOpened],
+	const [leaveGroupChatModalOpened, setLeaveGroupChatModalOpened] = useState<boolean>(false);
+	const changeLeaveGroupChatModalOpenedState = useCallback(
+		() => setLeaveGroupChatModalOpened((oldState) => !oldState),
+		[setLeaveGroupChatModalOpened],
 	);
 
-	const [createConferenceModalOpened, setCreateConferenceModalOpened] = useState<boolean>(false);
-	const changeCreateConferenceModalOpenedState = useCallback(
-		() => setCreateConferenceModalOpened((oldState) => !oldState),
-		[setCreateConferenceModalOpened],
+	const [createGroupChatModalOpened, setCreateGroupChatModalOpened] = useState<boolean>(false);
+	const changeCreateGroupChatModalOpenedState = useCallback(
+		() => setCreateGroupChatModalOpened((oldState) => !oldState),
+		[setCreateGroupChatModalOpened],
 	);
 
 	const changeChatVisibilityState = useActionWithDispatch(DialogActions.changeChatVisibilityState);
@@ -46,10 +46,10 @@ const ChatActions = ({ addMembers }: ChatActions.Props) => {
 	const deleteFriend = useActionWithDispatch(FriendActions.deleteFriend);
 	const addFriend = useActionWithDispatch(FriendActions.addFriend);
 
-	const membersForConference = useSelector<RootState, UserPreview[]>(
-		(state) => state.friends.usersForSelectedConference,
+	const membersForGroupChat = useSelector<RootState, UserPreview[]>(
+		(state) => state.friends.usersForSelectedGroupChat,
 	);
-	const membersIdsForConference: (number | undefined)[] = membersForConference.map((user) => user?.id);
+	const membersIdsForGroupChat: (number | undefined)[] = membersForGroupChat.map((user) => user?.id);
 	const selectedChat = useSelector(getSelectedChatSelector) as Chat;
 	const friends = useSelector<RootState, UserPreview[]>((state) => state.friends.friends);
 
@@ -109,7 +109,7 @@ const ChatActions = ({ addMembers }: ChatActions.Props) => {
 			)}
 
 			{selectedChat.interlocutor && selectedIsFriend() && (
-				<button onClick={changeCreateConferenceModalOpenedState} className='chat-actions__action'>
+				<button onClick={changeCreateGroupChatModalOpenedState} className='chat-actions__action'>
 					<UnmuteSvg viewBox='0 0 25 25' className='chat-actions__action__svg' />
 					<span className='chat-actions__action__name'>{t('chatActions.create-group')}</span>
 				</button>
@@ -120,15 +120,15 @@ const ChatActions = ({ addMembers }: ChatActions.Props) => {
 					<span className='chat-actions__action__name'>{t('chatActions.delete-chat')}</span>
 				</button>
 			)}
-			{selectedChat.conference && (
-				<button onClick={changeLeaveConferenceModalOpenedState} className='chat-actions__action'>
+			{selectedChat.groupChat && (
+				<button onClick={changeLeaveGroupChatModalOpenedState} className='chat-actions__action'>
 					<LeaveSvg viewBox='0 0 25 25' className='chat-actions__action__svg' />
 					<span className='chat-actions__action__name'>{t('chatActions.leave-chat')}</span>
 				</button>
 			)}
-			{selectedChat.conference && (
+			{selectedChat.groupChat && (
 				<button
-					onClick={() => addMembers({ excludeIds: membersIdsForConference })}
+					onClick={() => addMembers({ excludeIds: membersIdsForGroupChat })}
 					className='chat-actions__action'
 				>
 					<LeaveSvg viewBox='0 0 25 25' className='chat-actions__action__svg' />
@@ -139,15 +139,15 @@ const ChatActions = ({ addMembers }: ChatActions.Props) => {
 			{
 				//!Modal rendered with portal
 			}
-			<FadeAnimationWrapper isDisplayed={leaveConferenceModalOpened}>
-				<DeleteChatModal hide={changeLeaveConferenceModalOpenedState} />
+			<FadeAnimationWrapper isDisplayed={leaveGroupChatModalOpened}>
+				<DeleteChatModal hide={changeLeaveGroupChatModalOpenedState} />
 			</FadeAnimationWrapper>
 
 			{selectedChat.interlocutor && (
-				<FadeAnimationWrapper isDisplayed={createConferenceModalOpened}>
-					<CreateConference
+				<FadeAnimationWrapper isDisplayed={createGroupChatModalOpened}>
+					<CreateGroupChat
 						preSelectedUserIds={[selectedChat.interlocutor!.id]}
-						onClose={changeCreateConferenceModalOpenedState}
+						onClose={changeCreateGroupChatModalOpenedState}
 					/>
 				</FadeAnimationWrapper>
 			)}

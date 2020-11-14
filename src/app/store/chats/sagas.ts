@@ -11,14 +11,16 @@ import {
 	UploadAttachmentSagaProgressData,
 	UploadAttachmentSagaStartedData,
 	BaseAttachment,
-	ConferenceCreationHTTPReqData,
+	GroupChatCreationHTTPReqData,
+	GroupChat,
+	EditGroupChatHTTPReqData,
 } from './models';
 import { MessageState, SystemMessageType, Message, CreateMessageRequest } from '../messages/models';
 import { ChatService } from './chat-service';
 import { ChatActions } from './actions';
 import { SagaIterator } from 'redux-saga';
 import { HTTPStatusCode } from 'app/common/http-status-code';
-import { ConferenceCreatedIntegrationEvent } from '../middlewares/websockets/integration-events/conference-сreated-integration-event';
+import { GroupChatCreatedIntegrationEvent } from '../middlewares/websockets/integration-events/group-chat-сreated-integration-event';
 import { MessageActions } from '../messages/actions';
 import { ChatHttpFileRequest, ChatHttpRequests } from './http-requests';
 import { MyProfileService } from 'app/services/my-profile-service';
@@ -42,7 +44,7 @@ export function* getChatsSaga(action: ReturnType<typeof ChatActions.getChats>): 
 				? (MessageState.READ as MessageState)
 				: (MessageState.SENT as MessageState);
 		chat.interlocutorType = ChatService.getInterlocutorType(chat);
-		chat.id = ChatService.getChatIdentifier(chat.interlocutor?.id, chat.conference?.id);
+		chat.id = ChatService.getChatIdentifier(chat.interlocutor?.id, chat.groupChat?.id);
 		chat.typingInterlocutors = [];
 		chat.photos = { photos: [], hasMore: true };
 		chat.videos = { videos: [], hasMore: true };
@@ -109,39 +111,39 @@ export function* changeChatVisibilityStateSaga(
 	}
 }
 
-function* addUsersToConferenceSaga(action: ReturnType<typeof ChatActions.addUsersToConference>): SagaIterator {
+function* addUsersToGroupChatSaga(action: ReturnType<typeof ChatActions.addUsersToGroupChat>): SagaIterator {
 	try {
 		const { chat, users } = action.payload;
-		const httpRequest = ChatHttpRequests.addMembersIntoConference;
+		const httpRequest = ChatHttpRequests.addMembersIntoGroupChat;
 		const userIds = users.map(({ id }) => id);
 
 		const { status } = httpRequest.call(
 			yield call(() =>
 				httpRequest.generator({
-					conferenceId: chat.conference?.id!,
+					groupChatId: chat.groupChat!.id,
 					userIds: userIds,
 				}),
 			),
 		);
 
 		if (status === HTTPStatusCode.OK) {
-			yield put(ChatActions.addUsersToConferenceSuccess({ chat, users }));
+			yield put(ChatActions.addUsersToGroupChatSuccess({ chat, users }));
 
 			action.meta.deferred?.resolve(action.payload.chat);
 		} else {
-			console.warn('Failed to add users to conference');
+			console.warn('Failed to add users to groupChat');
 		}
 	} catch {
-		alert('addUsersToConferenceSaga error');
+		alert('addUsersToGroupChatSaga error');
 	}
 }
 
-function* createConferenceSaga(action: ReturnType<typeof ChatActions.createConference>): SagaIterator {
+function* createGroupChatSaga(action: ReturnType<typeof ChatActions.createGroupChat>): SagaIterator {
 	const { userIds, name, avatar, description, currentUser } = action.payload;
 
 	try {
-		const httpRequest = ChatHttpRequests.createConference;
-		const conferenceCreationRequest: ConferenceCreationHTTPReqData = {
+		const httpRequest = ChatHttpRequests.createGroupChat;
+		const groupChatCreationRequest: GroupChatCreationHTTPReqData = {
 			name,
 			description,
 			userIds,
@@ -149,23 +151,24 @@ function* createConferenceSaga(action: ReturnType<typeof ChatActions.createConfe
 			avatarId: avatar?.id,
 		};
 
-		const { data } = httpRequest.call(yield call(() => httpRequest.generator(conferenceCreationRequest)));
+		const { data } = httpRequest.call(yield call(() => httpRequest.generator(groupChatCreationRequest)));
 
 		const chatId: number = ChatService.getChatIdentifier(undefined, data);
 		const chat: Chat = {
-			interlocutorType: InterlocutorType.CONFERENCE,
+			interlocutorType: InterlocutorType.GROUP_CHAT,
 			id: chatId,
-			conference: {
+			groupChat: {
 				id: data,
 				membersCount: userIds.length + 1,
 				name: name,
-				avatarUrl: avatar?.url,
+				avatar: action.payload.avatar,
+				userCreatorId: currentUser.id,
 			},
 			typingInterlocutors: [],
 			lastMessage: {
 				creationDateTime: new Date(),
 				id: new Date().getTime(),
-				systemMessageType: SystemMessageType.ConferenceCreated,
+				systemMessageType: SystemMessageType.GroupChatCreated,
 				text: MessageUtils.createSystemMessage({}),
 				chatId: chatId,
 				state: MessageState.LOCALMESSAGE,
@@ -189,28 +192,22 @@ function* createConferenceSaga(action: ReturnType<typeof ChatActions.createConfe
 			},
 		};
 
-		yield put(ChatActions.createConferenceSuccess(chat));
+		yield put(ChatActions.createGroupChatSuccess(chat));
 		yield put(ChatActions.changeSelectedChat(chat.id));
 		action.meta.deferred?.resolve(chat);
 	} catch (e) {
 		console.warn(e);
-		alert('createConferenceSaga error');
+		alert('createGroupChatSaga error');
 	}
 }
 
-function* changeConferenceAvatarSaga(action: ReturnType<typeof ChatActions.changeConferenceAvatar>): SagaIterator {
-	console.log('avatar change requested', action);
-}
-
-function* createConferenceFromEventSaga(
-	action: ReturnType<typeof ChatActions.createConferenceFromEvent>,
-): SagaIterator {
-	const payload: ConferenceCreatedIntegrationEvent = action.payload;
+function* createGroupChatFromEventSaga(action: ReturnType<typeof ChatActions.createGroupChatFromEvent>): SagaIterator {
+	const payload: GroupChatCreatedIntegrationEvent = action.payload;
 	const chatId: number = ChatService.getChatIdentifier(undefined, payload.objectId);
 	const currentUser = new MyProfileService().myProfile;
 
 	const message: Message = {
-		systemMessageType: SystemMessageType.ConferenceCreated,
+		systemMessageType: SystemMessageType.GroupChatCreated,
 		text: MessageUtils.createSystemMessage({}),
 		creationDateTime: new Date(new Date().toUTCString()),
 		userCreator: action.payload.userCreator,
@@ -220,13 +217,13 @@ function* createConferenceFromEventSaga(
 	};
 
 	const chat: Chat = {
-		interlocutorType: InterlocutorType.CONFERENCE,
+		interlocutorType: InterlocutorType.GROUP_CHAT,
 		id: chatId,
-		conference: {
+		groupChat: {
 			id: payload.objectId,
 			membersCount: payload.memberIds.length,
 			name: action.payload.name,
-		},
+		} as GroupChat,
 		lastMessage: message,
 		typingInterlocutors: [],
 		photos: {
@@ -258,39 +255,25 @@ function* createConferenceFromEventSaga(
 	yield put(MessageActions.createMessage(createMessageRequest));
 }
 
-function* getConferenceUsersSaga(action: ReturnType<typeof ChatActions.getConferenceUsers>): SagaIterator {
-	const httpRequest = ChatHttpRequests.getConferenceMembers;
+function* getGroupChatUsersSaga(action: ReturnType<typeof ChatActions.getGroupChatUsers>): SagaIterator {
+	const httpRequest = ChatHttpRequests.getGroupChatMembers;
 	const { data } = httpRequest.call(yield call(() => httpRequest.generator(action.payload)));
-	yield put(ChatActions.getConferenceUsersSuccess({ users: data }));
+	yield put(ChatActions.getGroupChatUsersSuccess({ users: data }));
 }
 
-function* leaveConferenceSaga(action: ReturnType<typeof ChatActions.leaveConference>): SagaIterator {
+function* leaveGroupChatSaga(action: ReturnType<typeof ChatActions.leaveGroupChat>): SagaIterator {
 	try {
 		const chat: Chat = action.payload;
-		const httpRequest = ChatHttpRequests.leaveConferece;
-		const { status } = httpRequest.call(yield call(() => httpRequest.generator(chat?.conference?.id)));
+		const httpRequest = ChatHttpRequests.leaveGroupChat;
+		const { status } = httpRequest.call(yield call(() => httpRequest.generator(chat.groupChat!.id)));
 		if (status === HTTPStatusCode.OK) {
-			yield put(ChatActions.leaveConferenceSuccess(action.payload));
+			yield put(ChatActions.leaveGroupChatSuccess(action.payload));
 			action.meta.deferred?.resolve();
 		} else {
 			alert('Error. http status is ' + status);
 		}
 	} catch {
-		alert('leaveConferenceSaga error');
-	}
-}
-
-function* renameConferenceSaga(action: ReturnType<typeof ChatActions.renameConference>): SagaIterator {
-	const { chat, newName } = action.payload;
-	const httpRequest = ChatHttpRequests.renameConference;
-	const { status } = httpRequest.call(
-		yield call(() => httpRequest.generator({ id: chat?.conference?.id!, name: newName })),
-	);
-
-	if (status === HTTPStatusCode.OK) {
-		yield put(ChatActions.renameConferenceSuccess(action.payload));
-	} else {
-		alert('renameConferenceSaga error');
+		alert('leaveGroupChatSaga error');
 	}
 }
 
@@ -477,16 +460,33 @@ export function* changeSelectedChatSaga(action: ReturnType<typeof ChatActions.ch
 	}
 }
 
+export function* editGroupChatSaga(action: ReturnType<typeof ChatActions.editGroupChat>): SagaIterator {
+	const httpRequest = ChatHttpRequests.editGroupChat;
+
+	const requestData: EditGroupChatHTTPReqData = {
+		id: action.payload.id,
+		name: action.payload.name,
+		description: action.payload.description,
+		avatarId: action.payload.avatar?.id,
+	};
+
+	const { status } = httpRequest.call(yield call(() => httpRequest.generator(requestData)));
+
+	if (status === HTTPStatusCode.OK) {
+		yield put(ChatActions.editGroupChatSuccess(action.payload));
+	} else {
+		alert('getChatInfoSaga error');
+	}
+}
+
 export const ChatSagas = [
 	takeLatest(ChatActions.getChats, getChatsSaga),
-	takeLatest(ChatActions.renameConference, renameConferenceSaga),
-	takeLatest(ChatActions.leaveConference, leaveConferenceSaga),
-	takeLatest(ChatActions.getConferenceUsers, getConferenceUsersSaga),
-	takeLatest(ChatActions.createConferenceFromEvent, createConferenceFromEventSaga),
-	takeLatest(ChatActions.createConference, createConferenceSaga),
-	takeLatest(ChatActions.changeConferenceAvatar, changeConferenceAvatarSaga),
+	takeLatest(ChatActions.leaveGroupChat, leaveGroupChatSaga),
+	takeLatest(ChatActions.getGroupChatUsers, getGroupChatUsersSaga),
+	takeLatest(ChatActions.createGroupChatFromEvent, createGroupChatFromEventSaga),
+	takeLatest(ChatActions.createGroupChat, createGroupChatSaga),
 	takeLatest(ChatActions.changeChatVisibilityState, changeChatVisibilityStateSaga),
-	takeLatest(ChatActions.addUsersToConference, addUsersToConferenceSaga),
+	takeLatest(ChatActions.addUsersToGroupChat, addUsersToGroupChatSaga),
 	takeLatest(ChatActions.muteChat, muteChatSaga),
 	takeLatest(ChatActions.getPhotoAttachments, getPhotoAttachmentsSaga),
 	takeLatest(ChatActions.getVideoAttachments, getVideoAttachmentsSaga),
@@ -495,6 +495,7 @@ export const ChatSagas = [
 	takeLatest(ChatActions.markMessagesAsRead, resetUnreadMessagesCountSaga),
 	takeLatest(ChatActions.getChatInfo, getChatInfoSaga),
 	takeLatest(ChatActions.changeSelectedChat, changeSelectedChatSaga),
+	takeLatest(ChatActions.editGroupChat, editGroupChatSaga),
 	takeEvery(ChatActions.uploadAttachmentRequestAction, uploadAttachmentSaga),
 	takeEvery(ChatActions.removeAttachmentAction, cancelUploadSaga),
 ];

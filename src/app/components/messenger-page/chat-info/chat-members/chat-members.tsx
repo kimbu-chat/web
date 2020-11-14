@@ -21,16 +21,16 @@ namespace ChatMembers {
 const ChatMembers = ({ addMembers }: ChatMembers.Props) => {
 	const [searchStr, setSearchStr] = useState<string>('');
 
-	const getConferenceUsers = useActionWithDispatch(ChatActions.getConferenceUsers);
+	const getGroupChatUsers = useActionWithDispatch(ChatActions.getGroupChatUsers);
 	const selectedChat = useSelector(getSelectedChatSelector) as Chat;
 
-	const membersForConference = useSelector<RootState, UserPreview[]>(
-		(state) => state.friends.usersForSelectedConference,
+	const membersForGroupChat = useSelector<RootState, UserPreview[]>(
+		(state) => state.friends.usersForSelectedGroupChat,
 	);
 
 	useEffect(() => {
-		getConferenceUsers({
-			conferenceId: selectedChat.conference?.id || -1,
+		getGroupChatUsers({
+			groupChatId: selectedChat.groupChat?.id || -1,
 			page: { offset: 0, limit: 15 },
 		});
 		return () => {
@@ -41,12 +41,10 @@ const ChatMembers = ({ addMembers }: ChatMembers.Props) => {
 	//!remove when will be implemented
 	//@ts-ignore
 	const loadMore = useCallback(() => {
-		getConferenceUsers({
-			conferenceId: selectedChat.conference?.id || -1,
-			page: { offset: membersForConference.length, limit: 15 },
-			filters: {
-				name: searchStr,
-			},
+		getGroupChatUsers({
+			groupChatId: selectedChat.groupChat?.id || -1,
+			page: { offset: membersForGroupChat.length, limit: 15 },
+			name: searchStr,
 		});
 	}, [selectedChat]);
 
@@ -63,19 +61,17 @@ const ChatMembers = ({ addMembers }: ChatMembers.Props) => {
 				<SearchBox
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
 						setSearchStr(e.target.value);
-						getConferenceUsers({
-							conferenceId: selectedChat.conference?.id || -1,
+						getGroupChatUsers({
+							groupChatId: selectedChat.groupChat?.id || -1,
 							page: { offset: 0, limit: 15 },
-							filters: {
-								name: e.target.value,
-							},
+							name: e.target.value,
 						});
 					}}
 				/>
 			</div>
 
 			<div className='chat-members__members-list'>
-				{membersForConference.map((member) => (
+				{membersForGroupChat.map((member) => (
 					<Member member={member} key={member?.id} />
 				))}
 			</div>

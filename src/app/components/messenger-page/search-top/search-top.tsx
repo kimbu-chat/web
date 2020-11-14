@@ -7,7 +7,7 @@ import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch'
 import { ChatActions } from 'app/store/chats/actions';
 import SearchBox from '../search-box/search-box';
 import NewChatModal from '../new-chat-modal/new-chat-modal';
-import CreateConference from '../create-conference-modal/create-conference-modal';
+import CreateGroupChat from '../create-group-chat-modal/create-group-chat-modal';
 import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
 
 export const DIALOGS_LIMIT = 25;
@@ -19,9 +19,9 @@ const SearchTop = () => {
 		setNewChatDisplayed((oldState) => !oldState);
 	}, [setNewChatDisplayed]);
 
-	const [createConferenceDisplayed, setCreateConferenceDisplayed] = useState(false);
-	const changeCreateConferenceDisplayedState = useCallback(() => {
-		setCreateConferenceDisplayed((oldState) => !oldState);
+	const [createGroupChatDisplayed, setCreateGroupChatDisplayed] = useState(false);
+	const changeCreateGroupChatDisplayedState = useCallback(() => {
+		setCreateGroupChatDisplayed((oldState) => !oldState);
 	}, [setNewChatDisplayed]);
 
 	const handleChatSearchChange = (name: string): void => {
@@ -46,12 +46,12 @@ const SearchTop = () => {
 			</button>
 			<FadeAnimationWrapper isDisplayed={newChatDisplayed}>
 				<NewChatModal
-					displayCreateConference={changeCreateConferenceDisplayedState}
+					displayCreateGroupChat={changeCreateGroupChatDisplayedState}
 					onClose={changeNewChatDisplayedState}
 				/>
 			</FadeAnimationWrapper>
-			<FadeAnimationWrapper isDisplayed={createConferenceDisplayed}>
-				<CreateConference onClose={changeCreateConferenceDisplayedState} />
+			<FadeAnimationWrapper isDisplayed={createGroupChatDisplayed}>
+				<CreateGroupChat onClose={changeCreateGroupChatDisplayedState} />
 			</FadeAnimationWrapper>
 		</div>
 	);

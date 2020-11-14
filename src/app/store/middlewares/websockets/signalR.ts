@@ -5,8 +5,8 @@ import { Store } from 'redux';
 import { MessageCreatedEventHandler } from './integration-event-handlers/message-created-event-handler';
 import { UserMessageTypingEventHandler } from './integration-event-handlers/user-message-typing-event-handler';
 import { UserStatusChangedEventHandler } from './integration-event-handlers/user-status-changed-event-handler';
-import { ConferenceCreatedEventHandler } from './integration-event-handlers/conference-created-event-handler';
-import { ConferenceMessageReadEventHandler } from './integration-event-handlers/conference-message-read-event-handler';
+import { GroupChatCreatedEventHandler } from './integration-event-handlers/group-chat-created-event-handler';
+import { GroupChatMessageReadEventHandler } from './integration-event-handlers/group-chat-message-read-event-handler';
 import { UserMessageReadEventHandler } from './integration-event-handlers/user-message-read-event-handler';
 import { getType } from 'typesafe-actions';
 import { AuthActions } from 'app/store/auth/actions';
@@ -51,8 +51,8 @@ function openConnection(store: Store<RootState>): void {
 	eventManager.registerEventHandler(EVENTS_NAMES.MESSAGE_CREATED, new MessageCreatedEventHandler());
 	eventManager.registerEventHandler(EVENTS_NAMES.INTEROCUTOR_MESSAGE_TYPING, new UserMessageTypingEventHandler());
 	eventManager.registerEventHandler(EVENTS_NAMES.USER_STATUS_CHANGED, new UserStatusChangedEventHandler());
-	eventManager.registerEventHandler(EVENTS_NAMES.CONFERENCE_CREATED, new ConferenceCreatedEventHandler());
-	eventManager.registerEventHandler(EVENTS_NAMES.CONFERENCE_MESSAGE_READ, new ConferenceMessageReadEventHandler());
+	eventManager.registerEventHandler(EVENTS_NAMES.GROUP_CHAT_CREATED, new GroupChatCreatedEventHandler());
+	eventManager.registerEventHandler(EVENTS_NAMES.GROUP_CHAT_MESSAGE_READ, new GroupChatMessageReadEventHandler());
 	eventManager.registerEventHandler(EVENTS_NAMES.USER_MESSAGE_READ, new UserMessageReadEventHandler());
 	//WebRTC
 	eventManager.registerEventHandler(EVENTS_NAMES.INCOMING_CALL, new IncomingCallEventHandler());

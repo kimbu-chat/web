@@ -4,7 +4,7 @@ import { RootState } from 'app/store/root-reducer';
 import React, { useCallback, useContext } from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import './conference-add-friend-modal.scss';
+import './group-chat-add-friend-modal.scss';
 import SearchBox from '../search-box/search-box';
 import FriendFromList from '../shared/friend-from-list/friend-from-list';
 import { Chat } from 'app/store/chats/models';
@@ -15,24 +15,24 @@ import { FriendActions } from 'app/store/friends/actions';
 import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
 import { LocalizationContext } from 'app/app';
 
-namespace ConferenceAddFriendModal {
+namespace GroupChatAddFriendModal {
 	export interface Props {
 		onClose: () => void;
 	}
 }
 
-const ConferenceAddFriendModal = ({ onClose }: ConferenceAddFriendModal.Props) => {
+const GroupChatAddFriendModal = ({ onClose }: GroupChatAddFriendModal.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const [selectedUserIds, setselectedUserIds] = useState<number[]>([]);
 
 	const friends = useSelector((state: RootState) => state.friends.friends);
 	const selectedChat = useSelector(getSelectedChatSelector) as Chat;
-	const idsToExclude = useSelector((state: RootState) => state.friends.usersForSelectedConference).map(
+	const idsToExclude = useSelector((state: RootState) => state.friends.usersForSelectedGroupChat).map(
 		(user) => user.id,
 	);
 
-	const addUsersToConferece = useActionWithDeferred(ChatActions.addUsersToConference);
+	const addUsersToGroupChat = useActionWithDeferred(ChatActions.addUsersToGroupChat);
 	const loadFriends = useActionWithDispatch(FriendActions.getFriends);
 
 	const isSelected = useCallback((id: number) => selectedUserIds.includes(id), [selectedUserIds]);
@@ -52,12 +52,12 @@ const ConferenceAddFriendModal = ({ onClose }: ConferenceAddFriendModal.Props) =
 		onClose();
 
 		if (selectedUserIds.length > 0) {
-			addUsersToConferece({
+			addUsersToGroupChat({
 				chat: selectedChat,
 				users: friends.filter((friend) => selectedUserIds.includes(friend.id)),
 			});
 		}
-	}, [addUsersToConferece, selectedChat, selectedUserIds, close, friends]);
+	}, [addUsersToGroupChat, selectedChat, selectedUserIds, close, friends]);
 
 	const searchFriends = useCallback((name: string) => {
 		loadFriends({ page: { offset: 0, limit: 25 }, name, initializedBySearch: true });
@@ -66,12 +66,12 @@ const ConferenceAddFriendModal = ({ onClose }: ConferenceAddFriendModal.Props) =
 	return (
 		<WithBackground onBackgroundClick={onClose}>
 			<Modal
-				title={t('conferenceAddFriendModal.add_members')}
+				title={t('groupChatAddFriendModal.add_members')}
 				closeModal={onClose}
 				contents={
-					<div className={'conference-add-friend-modal'}>
+					<div className={'group-chat-add-friend-modal'}>
 						<SearchBox onChange={(e) => searchFriends(e.target.value)} />
-						<div className='conference-add-friend-modal__friend-block'>
+						<div className='group-chat-add-friend-modal__friend-block'>
 							{friends.map(
 								(friend) =>
 									!idsToExclude.includes(friend.id) && (
@@ -88,7 +88,7 @@ const ConferenceAddFriendModal = ({ onClose }: ConferenceAddFriendModal.Props) =
 				}
 				buttons={[
 					{
-						children: t('conferenceAddFriendModal.add_members'),
+						children: t('groupChatAddFriendModal.add_members'),
 						onClick: addUsers,
 						disabled: selectedUserIds.length === 0,
 						position: 'left',
@@ -102,4 +102,4 @@ const ConferenceAddFriendModal = ({ onClose }: ConferenceAddFriendModal.Props) =
 	);
 };
 
-export default ConferenceAddFriendModal;
+export default GroupChatAddFriendModal;

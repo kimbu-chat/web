@@ -9,6 +9,6 @@ export interface IntercolutorMessageTypingIntegrationEvent extends BaseIntegrati
 	chatId: {
 		interlocutorType: InterlocutorType;
 		userId?: number;
-		conferenceId?: number;
+		groupChatId?: number;
 	};
 }

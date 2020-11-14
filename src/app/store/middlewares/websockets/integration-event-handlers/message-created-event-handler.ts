@@ -1,7 +1,7 @@
 import { Store } from 'redux';
 import { MessageCreatedIntegrationEvent } from '../integration-events/message-created-integration-event';
 import { SystemMessageType, Message, MessageState, CreateMessageRequest } from 'app/store/messages/models';
-import { InterlocutorType, Chat } from 'app/store/chats/models';
+import { InterlocutorType, Chat, GroupChat } from 'app/store/chats/models';
 import { ChatService } from 'app/store/chats/chat-service';
 import { IEventHandler } from '../event-handler';
 import { RootState } from 'app/store/root-reducer';
@@ -18,11 +18,11 @@ export class MessageCreatedEventHandler implements IEventHandler<MessageCreatedI
 		}
 
 		const interlocutorType: InterlocutorType =
-			eventData.destinationType === 'Conference' ? InterlocutorType.CONFERENCE : InterlocutorType.USER;
+			eventData.destinationType === 'GroupChat' ? InterlocutorType.GROUP_CHAT : InterlocutorType.USER;
 
 		const chatId: number = ChatService.getChatId(
 			eventData.destinationType === 'User' ? eventData.userCreatorId : undefined,
-			eventData.destinationType === 'Conference' ? eventData.destinationId : undefined,
+			eventData.destinationType === 'GroupChat' ? eventData.destinationId : undefined,
 		);
 
 		const message: Message = {
@@ -37,9 +37,12 @@ export class MessageCreatedEventHandler implements IEventHandler<MessageCreatedI
 
 		const chat: Chat = {
 			id: chatId,
-			interlocutor: interlocutorType === InterlocutorType.CONFERENCE ? undefined : eventData.userCreator,
+			interlocutor: interlocutorType === InterlocutorType.GROUP_CHAT ? undefined : eventData.userCreator,
 			interlocutorType: interlocutorType,
-			conference: interlocutorType === InterlocutorType.CONFERENCE ? { id: eventData.destinationId } : undefined,
+			groupChat:
+				interlocutorType === InterlocutorType.GROUP_CHAT
+					? ({ id: eventData.destinationId } as GroupChat)
+					: undefined,
 			lastMessage: message,
 			typingInterlocutors: [],
 			photos: {
@@ -60,19 +63,19 @@ export class MessageCreatedEventHandler implements IEventHandler<MessageCreatedI
 			},
 		};
 
-		if (eventData.systemMessageType === SystemMessageType.ConferenceMemberRemoved) {
+		if (eventData.systemMessageType === SystemMessageType.GroupChatMemberRemoved) {
 			if (eventData.userCreatorId === currentUserId) {
 				// if (ChatRepository.getChatExistence(chatId)) {
 				//   //delete local chat on another device on the same user
 				// }
 				return;
 			}
-		} else if (eventData.systemMessageType === SystemMessageType.ConferenceMemberAdded) {
+		} else if (eventData.systemMessageType === SystemMessageType.GroupChatMemberAdded) {
 			// if (!ChatRepository.getChatExistence(chatId)) {
-			//   const messageContent = Helpers.getSystemMessageContent(eventData.text) as ConfereceMemberAddedSystemMessageContent;
-			//   chat.conference.membersCount = messageContent.conferenceMembersNumber;
-			//   chat.conference.avatarUrl = messageContent.conferenceAvatarUrl;
-			//   chat.conference.name = messageContent.conferenceName;
+			//   const messageContent = Helpers.getSystemMessageContent(eventData.text) as GroupChatMemberAddedSystemMessageContent;
+			//   chat.groupChat.membersCount = messageContent.groupChatMembersNumber;
+			//   chat.groupChat.avatarUrl = messageContent.groupChatAvatarUrl;
+			//   chat.groupChat.name = messageContent.groupChatName;
 			//   chat.lastMessage = message;
 			//   ChatRepository.addOrUpdateChats([chat]);
 			// }

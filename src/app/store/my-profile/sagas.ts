@@ -102,7 +102,9 @@ function* uploadAvatarSaga(action: ReturnType<typeof MyProfileActions.uploadAvat
 				action.meta.deferred.resolve(payload);
 			},
 			onProgress: function* (payload: UploadAvatarSagaProgressData): SagaIterator {
-				onProgress(payload.progress);
+				if (onProgress) {
+					onProgress(payload.progress);
+				}
 			},
 			onFailure: function* (): SagaIterator {
 				action.meta.deferred.reject();

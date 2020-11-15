@@ -28,6 +28,7 @@ import { getFileType } from 'app/utils/functions/get-file-extension';
 import RespondingMessage from 'app/components/messenger-page/responding-message/responding-message';
 import { RootState } from 'app/store/root-reducer';
 import { Chat } from 'app/store/chats/models';
+import { useDrop, useGlobalDrop } from 'app/utils/hooks/use-drop';
 
 namespace CreateMessageInput {
 	export interface RecordedData {
@@ -54,6 +55,8 @@ const CreateMessageInput = () => {
 
 	const { reference: refferedText, state: text, setState: setText } = useReferredState<string>('');
 	const [isRecording, setIsRecording] = useState(false);
+	const [isDraggingOver, setIsDraggingOver] = useState(false);
+	const [isDragging, setIsDragging] = useState(false);
 	const [recordedSeconds, setRecordedSeconds] = useState(0);
 	const [rows, setRows] = useState(1);
 
@@ -67,6 +70,62 @@ const CreateMessageInput = () => {
 		needToSubmit: false,
 	});
 	const updatedSelectedChat = useRef<Chat | undefined>();
+
+	const dragRef = useDrop({
+		onDragOver: (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+			setIsDraggingOver(true);
+		},
+		onDragEnter: (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+			setIsDraggingOver(true);
+		},
+		onDragLeave: (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+			setIsDraggingOver(false);
+		},
+		onDrop: (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+			setIsDraggingOver(false);
+
+			if (e.dataTransfer?.files?.length! > 0) {
+				for (var index = 0; index < e.dataTransfer!.files!.length; ++index) {
+					const file = e.dataTransfer?.files[index] as File;
+
+					const fileType = getFileType(file.name);
+
+					uploadAttachmentRequest({
+						chatId: selectedChat!.id,
+						type: fileType,
+						file,
+						attachmentId: String(new Date().getTime()),
+					});
+				}
+			}
+		},
+	});
+
+	useGlobalDrop({
+		onDragEnter: (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+			setIsDragging(true);
+		},
+		onDragOver: (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+			setIsDragging(true);
+		},
+		onDragLeave: (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+			setIsDragging(false);
+		},
+	});
 
 	useEffect(() => {
 		if (messageToEdit) {
@@ -285,7 +344,6 @@ const CreateMessageInput = () => {
 	}, [startRecording, stopRecording, recorderData.current]);
 
 	const openSelectFiles = useCallback(() => {
-		console.log('eeeeZZ');
 		fileInputRef.current?.click();
 	}, [fileInputRef]);
 
@@ -295,10 +353,8 @@ const CreateMessageInput = () => {
 				for (var index = 0; index < event.target.files!.length; ++index) {
 					const file = event.target.files!.item(index) as File;
 
-					//extension test
 					const fileType = getFileType(file.name);
 
-					console.log(file.name);
 					uploadAttachmentRequest({
 						chatId: selectedChat!.id,
 						type: fileType,
@@ -358,11 +414,18 @@ const CreateMessageInput = () => {
 	}
 
 	return (
-		<div>
+		<div className='message-input' ref={dragRef}>
 			{selectedChat?.attachmentsToSend?.map((attachment) => {
 				return <MessageInputAttachment attachment={attachment} key={attachment.attachment.id} />;
 			})}
-			{selectedChat && (
+
+			{(isDragging || isDraggingOver) && (
+				<div className={`message-input__drag ${isDraggingOver ? 'message-input__drag--active' : ''}`}>
+					Drop files here to send them
+				</div>
+			)}
+
+			{selectedChat && !(isDragging || isDraggingOver) && (
 				<>
 					{replyingMessage && <RespondingMessage />}
 					<div className='message-input__send-message'>

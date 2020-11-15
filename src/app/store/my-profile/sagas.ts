@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 import { SagaIterator } from 'redux-saga';
 import { UpdateMyProfileApiRequestData, UploadAvatarResponse, UploadAvatarSagaProgressData } from './models';
 import { MyProfileActions } from './actions';
@@ -113,5 +113,5 @@ export const MyProfileSagas = [
 	takeLatest(MyProfileActions.getMyProfileAction, getMyProfileSaga),
 	takeLatest(MyProfileActions.checkNicknameAvailabilityAction, checkNicknameAvailabilitySaga),
 	takeLatest(MyProfileActions.uploadAvatarRequestAction, uploadAvatarSaga),
-	//	takeEvery(MyProfileActions.changeUserOnlineStatusAction, changeOnlineStatus),
+	takeEvery(MyProfileActions.changeUserOnlineStatusAction, changeOnlineStatus),
 ];

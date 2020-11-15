@@ -45,11 +45,6 @@ button {
 	}
 }
 
-.flat {
-	display: flex;
-	flex-direction: row;
-}
-
 .background-blur {
 	width: 100vw;
 	height: 100vh;
@@ -92,6 +87,10 @@ a {
 .react-draggable {
 	z-index: 500 !important;
 	overflow: hidden;
+}
+
+.dragging {
+	pointer-events: none;
 }
 
 //fonts

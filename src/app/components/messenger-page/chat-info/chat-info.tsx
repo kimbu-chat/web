@@ -30,6 +30,7 @@ import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/f
 import ChatRecordings from './chat-recordings/chat-recordings';
 import ChatFiles from './chat-files/chat-files';
 import { MyProfileActions } from 'app/store/my-profile/actions';
+import BigPhoto from '../shared/big-photo/big-photo';
 
 const ChatInfo: React.FC = () => {
 	const selectedChat = useSelector(getSelectedChatSelector);
@@ -53,6 +54,13 @@ const ChatInfo: React.FC = () => {
 	const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
 	const displayChangePhoto = useCallback(() => setChangePhotoDisplayed(true), [setChangePhotoDisplayed]);
 	const hideChangePhoto = useCallback(() => setChangePhotoDisplayed(false), [setChangePhotoDisplayed]);
+
+	const [isAvatarMaximized, setIsAvatarMaximized] = useState(false);
+	const changeIsAvatarMaximizedState = useCallback(() => {
+		if (getChatAvatar()) {
+			setIsAvatarMaximized((oldState) => !oldState);
+		}
+	}, [setIsAvatarMaximized]);
 
 	useEffect(() => {
 		if (selectedChat) {
@@ -94,28 +102,42 @@ const ChatInfo: React.FC = () => {
 
 	const fileInputRef = useRef<HTMLInputElement>(null);
 
+	const getChatAvatar = useCallback((): string => {
+		if (selectedChat?.interlocutor) {
+			return selectedChat.interlocutor.avatar?.previewUrl as string;
+		}
+
+		return selectedChat?.groupChat?.avatar?.previewUrl as string;
+	}, [selectedChat]);
+
+	const getChatFullSizeAvatar = useCallback((): string => {
+		if (selectedChat?.interlocutor) {
+			return selectedChat.interlocutor.avatar?.url as string;
+		}
+
+		return selectedChat?.groupChat?.avatar?.url as string;
+	}, [selectedChat]);
+
 	if (selectedChat) {
-		const { interlocutor, groupChat } = selectedChat;
-
-		const getChatAvatar = (): string => {
-			if (interlocutor) {
-				return interlocutor.avatar?.url as string;
-			}
-
-			return groupChat?.avatar?.url as string;
-		};
-
 		return (
-			<React.Fragment>
+			<>
 				<div className={'chat-info'}>
 					<div className='chat-info__main-data'>
-						{!groupChat && selectedChat?.interlocutor ? (
-							<Avatar className='chat-info__avatar' src={getChatAvatar()}>
+						{!selectedChat?.groupChat && selectedChat?.interlocutor ? (
+							<Avatar
+								onClick={changeIsAvatarMaximizedState}
+								className='chat-info__avatar'
+								src={getChatAvatar()}
+							>
 								{getInterlocutorInitials(selectedChat)}
 							</Avatar>
 						) : (
 							<div className='chat-info__avatar-group'>
-								<Avatar className='chat-info__avatar' src={getChatAvatar()}>
+								<Avatar
+									onClick={changeIsAvatarMaximizedState}
+									className='chat-info__avatar'
+									src={getChatAvatar()}
+								>
 									{getInterlocutorInitials(selectedChat)}
 								</Avatar>
 								<div
@@ -136,7 +158,7 @@ const ChatInfo: React.FC = () => {
 							accept='image/*'
 						/>
 						<span className='chat-info__interlocutor'>{getChatInterlocutor(selectedChat)}</span>
-						{groupChat && (
+						{selectedChat?.groupChat && (
 							<button onClick={changeEditGroupChatDisplayedState} className='chat-info__rename-btn'>
 								<EditSvg />
 							</button>
@@ -148,7 +170,7 @@ const ChatInfo: React.FC = () => {
 
 					<ChatMedia />
 
-					{groupChat && <ChatMembers addMembers={changeSetAddFriendsModalDisplayedState} />}
+					{selectedChat?.groupChat && <ChatMembers addMembers={changeSetAddFriendsModalDisplayedState} />}
 				</div>
 
 				<Route path='/(contacts|calls|settings|chats)/:chatId?/info/photo' exact>
@@ -211,10 +233,14 @@ const ChatInfo: React.FC = () => {
 					<GroupChatAddFriendModal onClose={changeSetAddFriendsModalDisplayedState} />
 				</FadeAnimationWrapper>
 
+				<FadeAnimationWrapper isDisplayed={isAvatarMaximized}>
+					<BigPhoto url={getChatFullSizeAvatar()} onClose={changeIsAvatarMaximizedState} />
+				</FadeAnimationWrapper>
+
 				{changePhotoDisplayed && (
 					<ChangePhoto hideChangePhoto={hideChangePhoto} imageUrl={imageUrl} onSubmit={changeAvatar} />
 				)}
-			</React.Fragment>
+			</>
 		);
 	} else {
 		return <div></div>;

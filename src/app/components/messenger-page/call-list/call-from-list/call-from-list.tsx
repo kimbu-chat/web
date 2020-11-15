@@ -20,7 +20,7 @@ const CallFromList: React.FC<CallFromList.Props> = ({ call }) => {
 	return (
 		<div className='call-from-list'>
 			<div className='call-from-list__type-icon'>{call.type === CallType.outgoing && <OutgoingCallSvg />}</div>
-			<Avatar className='call-from-list__interlocutor-avatar' src={call.interlocutor.avatar?.url}>
+			<Avatar className='call-from-list__interlocutor-avatar' src={call.interlocutor.avatar?.previewUrl}>
 				{getUserInitials(call.interlocutor)}
 			</Avatar>
 			<div className='call-from-list__data'>

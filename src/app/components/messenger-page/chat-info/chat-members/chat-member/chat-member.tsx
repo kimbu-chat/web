@@ -22,7 +22,7 @@ const Member = ({ member }: Member.Props) => {
 
 	return (
 		<div className='chat-member'>
-			<Avatar className='chat-member__avatar' src={member.avatar?.url}>
+			<Avatar className='chat-member__avatar' src={member.avatar?.previewUrl}>
 				{getUserInitials(member)}
 			</Avatar>
 			<div className='chat-member__data'>

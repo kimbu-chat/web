@@ -261,7 +261,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 						<div className='active-call__gradient'></div>
 					</>
 				) : (
-					<Avatar className={`active-call__interlocutor-avatar`} src={interlocutor?.avatar?.url}>
+					<Avatar className={`active-call__interlocutor-avatar`} src={interlocutor?.avatar?.previewUrl}>
 						{getUserInitials(interlocutor)}
 					</Avatar>
 				)}

@@ -75,7 +75,7 @@ const IncomingCall = () => {
 			bounds='body'
 		>
 			<div className='incoming-call'>
-				<Avatar className='incoming-call__img' src={interlocutor?.avatar?.url}>
+				<Avatar className='incoming-call__img' src={interlocutor?.avatar?.previewUrl}>
 					{getUserInitials(interlocutor)}
 				</Avatar>
 				<div className='incoming-call__info'>

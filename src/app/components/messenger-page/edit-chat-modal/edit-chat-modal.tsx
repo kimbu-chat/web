@@ -107,7 +107,7 @@ const EditChatModal = ({ onClose }: EditChatModal.Props) => {
 										src={
 											typeof avatarData?.croppedImagePath === 'string'
 												? avatarData?.croppedImagePath
-												: selectedChat.groupChat?.avatar?.url
+												: selectedChat.groupChat?.avatar?.previewUrl
 										}
 										className='edit-chat-modal__current-photo'
 									>

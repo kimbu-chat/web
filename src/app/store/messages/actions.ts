@@ -10,6 +10,7 @@ import {
 	CopyMessagesReq,
 	EditMessageReq,
 	ReplyMessageReq,
+	SubmitEditMessageReq,
 } from './models';
 import { createAction } from 'typesafe-actions';
 import { createEmptyAction } from '../common/actions';
@@ -31,5 +32,7 @@ export namespace MessageActions {
 	export const replyToMessage = createAction('REPLY_TO_MESSAGE')<ReplyMessageReq>();
 	export const resetReplyToMessage = createEmptyAction('RESET_REPLY_TO_MESSAGE');
 	export const editMessage = createAction('EDIT_MESSAGE')<EditMessageReq>();
+	export const submitEditMessage = createAction('SUBMIT_EDIT_MESSAGE')<SubmitEditMessageReq>();
+	export const submitEditMessageSuccess = createAction('SUBMIT_EDIT_MESSAGE_SUCCESS')<SubmitEditMessageReq>();
 	export const resetEditMessage = createEmptyAction('RESET_EDIT_MESSAGE');
 }

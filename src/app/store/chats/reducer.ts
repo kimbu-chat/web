@@ -221,14 +221,12 @@ const chats = createReducer<ChatsState>(initialState)
 
 			const chatId: number = chat.id;
 
-			const isChatExists: boolean = checkChatExists(chatId, draft);
-
 			const chatIndex: number = getChatArrayIndex(chatId, draft);
 
 			const isCurrentUserMessageCreator: boolean = currentUser.id === message.userCreator?.id;
 
 			// if user already has chats with interlocutor - update chat
-			if (isChatExists) {
+			if (chatIndex >= 0) {
 				const isInterlocutorCurrentSelectedChat: boolean = draft.selectedChatId === chatId;
 				const previousOwnUnreadMessagesCount = draft.chats[chatIndex].ownUnreadMessagesCount || 0;
 				let ownUnreadMessagesCount =
@@ -629,6 +627,19 @@ const chats = createReducer<ChatsState>(initialState)
 				draft.chats[chatIndex].groupChat!.description = description;
 				draft.chats[chatIndex].groupChat!.avatar = avatar;
 			}
+			return draft;
+		}),
+	)
+	.handleAction(
+		MessageActions.submitEditMessage,
+		produce((draft: ChatsState, { payload }: ReturnType<typeof MessageActions.submitEditMessage>) => {
+			const { chatId } = payload;
+			const chatIndex: number = getChatArrayIndex(chatId, draft);
+
+			if (chatIndex >= 0) {
+				draft.chats[chatIndex].attachmentsToSend = [];
+			}
+
 			return draft;
 		}),
 	);

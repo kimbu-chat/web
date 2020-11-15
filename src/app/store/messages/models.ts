@@ -70,9 +70,7 @@ export interface UserMessageTypingRequest {
 	interlocutorName: string;
 }
 
-export interface EntityCreation {}
-
-export interface CreateMessageRequest extends EntityCreation {
+export interface CreateMessageRequest {
 	chat: Chat;
 	currentUser: { id: number };
 	selectedChatId: number;
@@ -91,7 +89,7 @@ export interface CreateMessageResponse {
 export interface MessageCreationReqData {
 	text?: string;
 	chatId?: number;
-	attachments?: Array<AttachmentCreation>;
+	attachments?: AttachmentCreation[];
 }
 
 export interface AttachmentCreation {
@@ -129,6 +127,21 @@ export interface EditMessageReq {
 	chatId: number;
 }
 
+export interface SubmitEditMessageReq {
+	messageId: number;
+	chatId: number;
+	text: string;
+	removedAttachments?: AttachmentCreation[];
+	newAttachments?: BaseAttachment[];
+}
+
+export interface SubmitEditMessageHTTPReq {
+	messageId: number;
+	text: string;
+	removedAttachments?: AttachmentCreation[];
+	newAttachments?: AttachmentCreation[];
+}
+
 export interface ReplyMessageReq {
 	messageId: number;
 	chatId: number;
@@ -153,4 +166,11 @@ export interface UploadingFileInfo {
 	uploadId: string;
 	progress: number;
 	fileType: FileType;
+}
+
+export interface EditMessageApiReq {
+	text: string;
+	messageId: number;
+	removedAttachments?: AttachmentCreation[];
+	newAttachments?: AttachmentCreation[];
 }

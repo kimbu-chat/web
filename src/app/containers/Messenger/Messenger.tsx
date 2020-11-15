@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Redirect, Route, Switch, useLocation } from 'react-router';
+import { Redirect, Route, Switch } from 'react-router';
 import './messenger.scss';
 
 import SearchTop from '../../components/messenger-page/search-top/search-top';
@@ -24,6 +24,8 @@ import SettingsHeader from 'app/components/messenger-page/settings/settings-head
 import { LocalizationContext } from 'app/app';
 import FriendList from 'app/components/messenger-page/friend-list/friend-list';
 import { getSelectedChatSelector } from 'app/store/chats/selectors';
+import EditMessage from 'app/components/messenger-page/message-input/edit-message/edit-message';
+import { RootState } from 'app/store/root-reducer';
 
 export namespace Messenger {
 	export interface photoSelect {
@@ -39,8 +41,7 @@ const Messenger = () => {
 	const amICalingSomebody = useSelector(amICaling);
 	const amISpeaking = useSelector(doIhaveCall);
 	const selectedChat = useSelector(getSelectedChatSelector);
-
-	const location = useLocation();
+	const messageToEdit = useSelector((state: RootState) => state.messages.messageToEdit);
 
 	return (
 		<div className='messenger'>
@@ -49,7 +50,7 @@ const Messenger = () => {
 
 			<InternetError />
 
-			<Switch location={location}>
+			<Switch>
 				<Route exact path={'/settings/edit-profile'}>
 					<SettingsHeader title={t('settings.edit_profile')} />
 				</Route>
@@ -127,7 +128,8 @@ const Messenger = () => {
 
 			<div className={`messenger__chat-send`}>
 				<Chat />
-				<CreateMessageInput />
+				{!messageToEdit && <CreateMessageInput />}
+				{messageToEdit && <EditMessage />}
 			</div>
 
 			<Route path='/(contacts|calls|settings|chats)/:chatId?/info'>

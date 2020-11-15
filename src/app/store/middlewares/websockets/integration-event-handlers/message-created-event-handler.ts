@@ -37,6 +37,7 @@ export class MessageCreatedEventHandler implements IEventHandler<MessageCreatedI
 
 		const chat: Chat = {
 			id: chatId,
+			draftMessage: '',
 			interlocutor: interlocutorType === InterlocutorType.GROUP_CHAT ? undefined : eventData.userCreator,
 			interlocutorType: interlocutorType,
 			groupChat:

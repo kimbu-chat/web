@@ -130,6 +130,10 @@ const CreateMessageInput = () => {
 		updatedSelectedChat.current = selectedChat;
 	}, [selectedChat]);
 
+	useEffect(() => {
+		setText((oldText) => (typeof selectedChat?.draftMessage === 'string' ? selectedChat?.draftMessage : oldText));
+	}, [selectedChat?.id, setText]);
+
 	useInterval(
 		() => {
 			if (isRecording) {

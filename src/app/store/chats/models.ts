@@ -160,7 +160,7 @@ export interface Chat {
 	interlocutor?: UserPreview;
 	ownUnreadMessagesCount?: number;
 	interlocutorLastReadMessageId?: number;
-	draftMessage?: string;
+	draftMessage: string;
 	timeoutId?: NodeJS.Timeout;
 	typingInterlocutors?: { timeoutId: NodeJS.Timeout; fullName: string }[];
 	isDeleted?: boolean;

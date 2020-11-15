@@ -250,6 +250,7 @@ const chats = createReducer<ChatsState>(initialState)
 				const interlocutorType: InterlocutorType = ChatService.getInterlocutorType(payload.chat);
 				let newChat: Chat = {
 					id: chat.id,
+					draftMessage: '',
 					interlocutorType: interlocutorType,
 					groupChat: chat.groupChat,
 					lastMessage: message,
@@ -359,6 +360,7 @@ const chats = createReducer<ChatsState>(initialState)
 				//user does not have dialog with interlocutor - create dialog
 				let newDialog: Chat = {
 					id: dialogId,
+					draftMessage: '',
 					interlocutorType: 1,
 					ownUnreadMessagesCount: 0,
 					interlocutorLastReadMessageId: 0,
@@ -638,6 +640,19 @@ const chats = createReducer<ChatsState>(initialState)
 
 			if (chatIndex >= 0) {
 				draft.chats[chatIndex].attachmentsToSend = [];
+			}
+
+			return draft;
+		}),
+	)
+	.handleAction(
+		MessageActions.messageTyping,
+		produce((draft: ChatsState, { payload }: ReturnType<typeof MessageActions.messageTyping>) => {
+			const { chatId, text } = payload;
+			const chatIndex: number = getChatArrayIndex(chatId, draft);
+
+			if (chatIndex >= 0) {
+				draft.chats[chatIndex].draftMessage = text;
 			}
 
 			return draft;

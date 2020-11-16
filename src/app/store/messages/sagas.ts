@@ -153,9 +153,28 @@ export function* copyMessagesSaga(action: ReturnType<typeof MessageActions.copyM
 	document.body.removeChild(el);
 }
 
+export function* editMessageSaga(action: ReturnType<typeof MessageActions.submitEditMessage>): SagaIterator {
+	// const httpRequest = MessagesHttpRequests.editMessage;
+	// const editRequest: EditMessageApiReq = {
+	// 	text: action.payload.text,
+	// 	messageId: action.payload.messageId,
+	// 	removedAttachments: action.payload.removedAttachments,
+	// 	newAttachments: action.payload.newAttachments,
+	// };
+
+	// const { status } = httpRequest.call(yield call(() => httpRequest.generator(editRequest)));
+
+	// if (status === HTTPStatusCode.OK) {
+	yield put(MessageActions.submitEditMessageSuccess(action.payload));
+	// } else {
+	// 	alert('editMessageSaga error');
+	// }
+}
+
 export const MessageSagas = [
 	takeLatest(MessageActions.messageTyping, messageTyping),
 	takeLatest(MessageActions.getMessages, getMessages),
 	takeEvery(MessageActions.createMessage, createMessage),
 	takeEvery(MessageActions.copyMessages, copyMessagesSaga),
+	takeEvery(MessageActions.submitEditMessage, editMessageSaga),
 ];

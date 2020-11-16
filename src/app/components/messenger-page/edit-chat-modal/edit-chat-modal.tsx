@@ -107,7 +107,7 @@ const EditChatModal = ({ onClose }: EditChatModal.Props) => {
 										src={
 											typeof avatarData?.croppedImagePath === 'string'
 												? avatarData?.croppedImagePath
-												: selectedChat.groupChat?.avatar?.url
+												: selectedChat.groupChat?.avatar?.previewUrl
 										}
 										className='edit-chat-modal__current-photo'
 									>
@@ -115,7 +115,9 @@ const EditChatModal = ({ onClose }: EditChatModal.Props) => {
 									</Avatar>
 									{avatarData?.croppedImagePath && <CircularProgress progress={uploaded} />}
 
-									{(avatarData || selectedChat.groupChat?.avatar) && (
+									{(avatarData?.croppedImagePath.length! === 0
+										? false
+										: selectedChat.groupChat?.avatar?.url.length! > 0) && (
 										<button onClick={discardNewAvatar} className='edit-chat-modal__remove-photo'>
 											<CloseSVG viewBox='0 0 25 25' />
 										</button>

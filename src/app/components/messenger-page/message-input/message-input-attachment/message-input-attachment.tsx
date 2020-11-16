@@ -1,5 +1,11 @@
-import { AttachmentToSend, BaseAttachment, PictureAttachment, VideoAttachment } from 'app/store/chats/models';
-import { FileType } from 'app/store/messages/models';
+import {
+	AttachmentToSend,
+	BaseAttachment,
+	PictureAttachment,
+	RawAttachment,
+	VideoAttachment,
+} from 'app/store/chats/models';
+import { AttachmentCreation, FileType } from 'app/store/messages/models';
 import React, { useCallback, useEffect, useState } from 'react';
 import './message-input-attachment.scss';
 
@@ -17,16 +23,29 @@ import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch'
 namespace MessageInputAttachment {
 	export interface Props {
 		attachment: AttachmentToSend<BaseAttachment>;
+		isFromEdit?: boolean;
+		removeSelectedAttachment?: (attachmentToRemove: AttachmentCreation) => void;
 	}
 }
 
-const MessageInputAttachment: React.FC<MessageInputAttachment.Props> = ({ attachment }) => {
+const MessageInputAttachment: React.FC<MessageInputAttachment.Props> = ({
+	attachment,
+	isFromEdit,
+	removeSelectedAttachment,
+}) => {
 	const selectedChatId = useSelector(getSelectedChatIdSelector);
 	const removeAttachment = useActionWithDispatch(ChatActions.removeAttachmentAction);
 
 	const [previewUrl, setPreviewUr] = useState<string>('');
 
 	const removeThisAttachment = useCallback(() => {
+		if (removeSelectedAttachment) {
+			removeSelectedAttachment({
+				type: attachment.attachment.type,
+				id: attachment.attachment.id,
+			});
+		}
+
 		removeAttachment({
 			chatId: selectedChatId!,
 			attachmentId: attachment.attachment.id,
@@ -34,7 +53,7 @@ const MessageInputAttachment: React.FC<MessageInputAttachment.Props> = ({ attach
 	}, [selectedChatId, attachment.attachment.id]);
 
 	useEffect(() => {
-		if (attachment.attachment.type === FileType.picture) {
+		if (attachment.attachment.type === FileType.picture && !isFromEdit) {
 			var reader = new FileReader();
 
 			reader.onload = function (e) {
@@ -43,7 +62,7 @@ const MessageInputAttachment: React.FC<MessageInputAttachment.Props> = ({ attach
 
 			reader.readAsDataURL(attachment.file);
 		}
-	}, [setPreviewUr]);
+	}, [setPreviewUr, isFromEdit]);
 
 	return (
 		<div
@@ -87,7 +106,9 @@ const MessageInputAttachment: React.FC<MessageInputAttachment.Props> = ({ attach
 				<div style={{ width: `${attachment.progress}%` }} className='message-input-attachment__progress'></div>
 			</div>
 			{(attachment.attachment.type === FileType.audio || attachment.attachment.type === FileType.raw) && (
-				<div className='message-input-attachment__title'>{attachment.fileName}</div>
+				<div className='message-input-attachment__title'>
+					{attachment.fileName || (attachment.attachment as RawAttachment).title}
+				</div>
 			)}
 			<button onClick={removeThisAttachment} className='message-input-attachment__close'>
 				<CloseSVG viewBox='0 0 25 25' />

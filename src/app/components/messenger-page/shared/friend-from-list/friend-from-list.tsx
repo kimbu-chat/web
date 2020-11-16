@@ -35,7 +35,7 @@ const FriendFromList = ({ changeSelectedState, friend, isSelected, onClick }: Fr
 					{isSelected ? <SelectedSvg /> : <UnSelectedSvg />}
 				</div>
 			)}
-			<Avatar className={'friend-from-list__avatar'} src={friend.avatar?.url}>
+			<Avatar className={'friend-from-list__avatar'} src={friend.avatar?.previewUrl}>
 				{getUserInitials(friend)}
 			</Avatar>
 			<span className='friend-from-list__friend-name'>{`${friend.firstName} ${friend.lastName}`}</span>

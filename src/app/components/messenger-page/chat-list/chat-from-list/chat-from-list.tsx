@@ -34,10 +34,10 @@ const ChatFromList = ({ chat }: ChatFromList.Props) => {
 
 	const getChatAvatar = (): string => {
 		if (interlocutor) {
-			return interlocutor.avatar?.url as string;
+			return interlocutor.avatar?.previewUrl as string;
 		}
 
-		return groupChat?.avatar?.url as string;
+		return groupChat?.avatar?.previewUrl as string;
 	};
 
 	const getMessageText = (): string => {

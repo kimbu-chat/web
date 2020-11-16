@@ -19,7 +19,7 @@ const StatusBadge = ({ user, additionalClassNames, containerClassName }: StatusB
 		return (
 			<div className={`status-badge ${containerClassName}`}>
 				<span className='status-badge__indicator status-badge__indicator--online'></span>
-				<Avatar className={additionalClassNames} src={user.avatar?.url}>
+				<Avatar className={additionalClassNames} src={user.avatar?.previewUrl}>
 					{getUserInitials(user)}
 				</Avatar>
 			</div>
@@ -28,7 +28,7 @@ const StatusBadge = ({ user, additionalClassNames, containerClassName }: StatusB
 		return (
 			<div className={`status-badge ${containerClassName}`}>
 				<span className='status-badge__indicator status-badge__indicator--offline'></span>
-				<Avatar className={additionalClassNames} src={user.avatar?.url}>
+				<Avatar className={additionalClassNames} src={user.avatar?.previewUrl}>
 					{getUserInitials(user)}
 				</Avatar>
 			</div>

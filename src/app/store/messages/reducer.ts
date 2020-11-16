@@ -203,6 +203,7 @@ const messages = createReducer<MessagesState>(initialState)
 			message!.isSelected = false;
 
 			draft.messageToReply = message;
+			draft.messageToEdit = undefined;
 
 			return draft;
 		}),
@@ -219,6 +220,31 @@ const messages = createReducer<MessagesState>(initialState)
 			message!.isSelected = false;
 
 			draft.messageToEdit = message;
+			draft.messageToReply = undefined;
+
+			return draft;
+		}),
+	)
+	.handleAction(
+		MessageActions.submitEditMessageSuccess,
+		produce((draft: MessagesState, { payload }: ReturnType<typeof MessageActions.submitEditMessageSuccess>) => {
+			draft.selectedMessageIds = [];
+
+			const chatIndex = getChatIndex(draft, payload.chatId);
+
+			const message = getMessage(draft.messages[chatIndex].messages, payload.messageId);
+
+			draft.messageToEdit = undefined;
+
+			message!.text = payload.text;
+			message!.attachments = [
+				...message!.attachments?.filter(
+					({ id }) =>
+						payload.removedAttachments?.findIndex((removedAttachment) => removedAttachment.id === id) ===
+						-1,
+				)!,
+				...payload.newAttachments!,
+			];
 
 			return draft;
 		}),

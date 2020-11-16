@@ -33,7 +33,7 @@ const MessageSmiles = ({ setText }: MessageSmiles.Props) => {
 	useEffect(() => {
 		setTimeout(() => {
 			setSmilesRendered(true);
-		}, 3000);
+		}, 200);
 	}, []);
 
 	const addNewSmile = useCallback(

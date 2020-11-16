@@ -49,7 +49,6 @@ const CreateMessageInput = () => {
 	const currentUser = useSelector<RootState, UserPreview | undefined>((state) => state.myProfile.user);
 	const selectedChat = useSelector(getSelectedChatSelector);
 	const myProfile = useSelector(getMyProfileSelector);
-	const messageToEdit = useSelector((state: RootState) => state.messages.messageToEdit);
 	const myTypingStrategy = useSelector(getTypingStrategy);
 	const replyingMessage = useSelector((state: RootState) => state.messages.messageToReply);
 
@@ -128,14 +127,12 @@ const CreateMessageInput = () => {
 	});
 
 	useEffect(() => {
-		if (messageToEdit) {
-			setText(messageToEdit.text);
-		}
-	}, [messageToEdit]);
-
-	useEffect(() => {
 		updatedSelectedChat.current = selectedChat;
 	}, [selectedChat]);
+
+	useEffect(() => {
+		setText((oldText) => (typeof selectedChat?.draftMessage === 'string' ? selectedChat?.draftMessage : oldText));
+	}, [selectedChat?.id, setText]);
 
 	useInterval(
 		() => {
@@ -366,52 +363,6 @@ const CreateMessageInput = () => {
 		},
 		[uploadAttachmentRequest, selectedChat],
 	);
-
-	if (messageToEdit) {
-		return (
-			<div>
-				{selectedChat?.attachmentsToSend?.map((attachment) => {
-					return <MessageInputAttachment attachment={attachment} key={attachment.attachment.id} />;
-				})}
-				{replyingMessage && <RespondingMessage />}
-				<div className='message-input__send-message'>
-					{selectedChat && (
-						<>
-							{!isRecording && (
-								<>
-									<input
-										multiple
-										className='hidden'
-										type='file'
-										onChange={uploadFile}
-										ref={fileInputRef}
-									/>
-									<button onClick={openSelectFiles} className='message-input__add'>
-										<AddSvg />
-									</button>
-								</>
-							)}
-							<div className='message-input__input-group'>
-								{!isRecording && (
-									<textarea
-										rows={rows}
-										ref={mainInputRef}
-										placeholder={t('messageInput.write')}
-										value={text}
-										onChange={onType}
-										className='mousetrap  message-input__input-message'
-										onFocus={handleFocus}
-										onBlur={handleBlur}
-									/>
-								)}
-							</div>
-							<button className='message-input__edit-confirm'>Save</button>
-						</>
-					)}
-				</div>
-			</div>
-		);
-	}
 
 	return (
 		<div className='message-input' ref={dragRef}>

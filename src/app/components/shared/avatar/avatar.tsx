@@ -13,7 +13,7 @@ namespace IAvatar {
 
 const Avatar = ({ src, children, className, onClick, ...props }: IAvatar.Props) => {
 	return (
-		<React.Fragment>
+		<>
 			{src ? (
 				<img src={src} {...props} onClick={onClick} className={`avatar ${className ? className : ''}`}></img>
 			) : (
@@ -21,7 +21,7 @@ const Avatar = ({ src, children, className, onClick, ...props }: IAvatar.Props) 
 					{children}
 				</div>
 			)}
-		</React.Fragment>
+		</>
 	);
 };
 

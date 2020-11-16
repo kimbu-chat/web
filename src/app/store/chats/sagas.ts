@@ -49,6 +49,7 @@ export function* getChatsSaga(action: ReturnType<typeof ChatActions.getChats>): 
 		chat.photos = { photos: [], hasMore: true };
 		chat.videos = { videos: [], hasMore: true };
 		chat.files = { files: [], hasMore: true };
+		chat.draftMessage = '';
 		chat.recordings = {
 			hasMore: true,
 			recordings: [],
@@ -157,6 +158,7 @@ function* createGroupChatSaga(action: ReturnType<typeof ChatActions.createGroupC
 		const chat: Chat = {
 			interlocutorType: InterlocutorType.GROUP_CHAT,
 			id: chatId,
+			draftMessage: '',
 			groupChat: {
 				id: data,
 				membersCount: userIds.length + 1,
@@ -219,6 +221,7 @@ function* createGroupChatFromEventSaga(action: ReturnType<typeof ChatActions.cre
 	const chat: Chat = {
 		interlocutorType: InterlocutorType.GROUP_CHAT,
 		id: chatId,
+		draftMessage: '',
 		groupChat: {
 			id: payload.objectId,
 			membersCount: payload.memberIds.length,

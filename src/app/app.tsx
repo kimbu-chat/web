@@ -58,7 +58,7 @@ export const App = () => {
 					}
 				/>
 				<PrivateRoute
-					path='/(contacts|calls|settings|chats)/:chatId?/(info)?/(photo|audio-recordings|video|files)?'
+					path='/(contacts|calls|settings|chats)/:chatId?/(info)?/(photo|audio-recordings|audios|video|files)?'
 					exact
 					isAllowed={isAuthenticated}
 					fallback={'/login'}

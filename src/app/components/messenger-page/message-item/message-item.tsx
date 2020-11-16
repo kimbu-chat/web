@@ -16,7 +16,7 @@ import { UserPreview } from 'app/store/my-profile/models';
 import moment from 'moment';
 
 import FileAttachment from '../shared/file-attachment/file-attachment';
-import MessageAudioAttachment from './attachments/audio-attachment/audio-attachment';
+import MessageAudioAttachment from '../shared/audio-attachment/audio-attachment';
 import RecordingAttachment from './attachments/recording-attachment/recording-attachment';
 import MediaGrid from './attachments/media-grid/media-grid';
 

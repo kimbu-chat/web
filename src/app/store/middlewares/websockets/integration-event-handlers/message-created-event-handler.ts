@@ -58,6 +58,10 @@ export class MessageCreatedEventHandler implements IEventHandler<MessageCreatedI
 				hasMore: true,
 				files: [],
 			},
+			audios: {
+				hasMore: true,
+				audios: [],
+			},
 			recordings: {
 				hasMore: true,
 				recordings: [],

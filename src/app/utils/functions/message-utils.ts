@@ -80,6 +80,14 @@ export class MessageUtils {
 				  });
 		}
 
+		if (message.systemMessageType === SystemMessageType.GroupChatAvatarRemoved) {
+			return message?.userCreator?.id === myId
+				? t('systemMessage.you_removed_avatar')
+				: t('systemMessage.someone_removed_avatar', {
+						someonesName: `${message.userCreator?.firstName} ${message.userCreator?.lastName}`,
+				  });
+		}
+
 		if (message.systemMessageType === SystemMessageType.MissedCall) {
 			try {
 				const callMessage = JSON.parse(message.text);

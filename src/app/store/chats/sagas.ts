@@ -49,6 +49,7 @@ export function* getChatsSaga(action: ReturnType<typeof ChatActions.getChats>): 
 		chat.photos = { photos: [], hasMore: true };
 		chat.videos = { videos: [], hasMore: true };
 		chat.files = { files: [], hasMore: true };
+		chat.audios = { audios: [], hasMore: true };
 		chat.draftMessage = '';
 		chat.recordings = {
 			hasMore: true,
@@ -188,6 +189,10 @@ function* createGroupChatSaga(action: ReturnType<typeof ChatActions.createGroupC
 				hasMore: true,
 				files: [],
 			},
+			audios: {
+				hasMore: true,
+				audios: [],
+			},
 			recordings: {
 				hasMore: true,
 				recordings: [],
@@ -240,6 +245,10 @@ function* createGroupChatFromEventSaga(action: ReturnType<typeof ChatActions.cre
 		files: {
 			hasMore: true,
 			files: [],
+		},
+		audios: {
+			hasMore: true,
+			audios: [],
 		},
 		recordings: {
 			hasMore: true,
@@ -328,13 +337,28 @@ function* getRawAttachmentsSaga(action: ReturnType<typeof ChatActions.getRawAtta
 function* getRecordingsSaga(action: ReturnType<typeof ChatActions.getVoiceAttachments>): SagaIterator {
 	const { chatId, page } = action.payload;
 
-	const httpRequest = ChatHttpRequests.getChatAudioAttachments;
+	const httpRequest = ChatHttpRequests.getChatVoiceAttachments;
 	const { data, status } = httpRequest.call(yield call(() => httpRequest.generator(action.payload)));
 
 	const hasMore = data.length >= page.limit;
 
 	if (status === HTTPStatusCode.OK) {
 		yield put(ChatActions.getVoiceAttachmentsSuccess({ recordings: data, hasMore, chatId }));
+	} else {
+		alert('getRecordingsSaga error');
+	}
+}
+
+function* getAudioAttachmentsSaga(action: ReturnType<typeof ChatActions.getAudioAttachments>): SagaIterator {
+	const { chatId, page } = action.payload;
+
+	const httpRequest = ChatHttpRequests.getChatAudioAttachments;
+	const { data, status } = httpRequest.call(yield call(() => httpRequest.generator(action.payload)));
+
+	const hasMore = data.length >= page.limit;
+
+	if (status === HTTPStatusCode.OK) {
+		yield put(ChatActions.getAudioAttachmentsSuccess({ audios: data, hasMore, chatId }));
 	} else {
 		alert('getRecordingsSaga error');
 	}
@@ -495,6 +519,7 @@ export const ChatSagas = [
 	takeLatest(ChatActions.getVideoAttachments, getVideoAttachmentsSaga),
 	takeLatest(ChatActions.getRawAttachments, getRawAttachmentsSaga),
 	takeLatest(ChatActions.getVoiceAttachments, getRecordingsSaga),
+	takeLatest(ChatActions.getAudioAttachments, getAudioAttachmentsSaga),
 	takeLatest(ChatActions.markMessagesAsRead, resetUnreadMessagesCountSaga),
 	takeLatest(ChatActions.getChatInfo, getChatInfoSaga),
 	takeLatest(ChatActions.changeSelectedChat, changeSelectedChatSaga),

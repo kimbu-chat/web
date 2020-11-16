@@ -270,6 +270,10 @@ const chats = createReducer<ChatsState>(initialState)
 						hasMore: true,
 						files: [],
 					},
+					audios: {
+						hasMore: true,
+						audios: [],
+					},
 					recordings: {
 						hasMore: true,
 						recordings: [],
@@ -382,6 +386,10 @@ const chats = createReducer<ChatsState>(initialState)
 						hasMore: true,
 						recordings: [],
 					},
+					audios: {
+						hasMore: true,
+						audios: [],
+					},
 				};
 
 				draft.chats.unshift(newDialog);
@@ -442,6 +450,20 @@ const chats = createReducer<ChatsState>(initialState)
 			if (chatIndex >= 0) {
 				draft.chats[chatIndex].recordings.recordings.push(...recordings);
 				draft.chats[chatIndex].recordings.hasMore = hasMore;
+			}
+			return draft;
+		}),
+	)
+	.handleAction(
+		ChatActions.getAudioAttachmentsSuccess,
+		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.getAudioAttachmentsSuccess>) => {
+			const { audios, chatId, hasMore } = payload;
+
+			const chatIndex: number = getChatArrayIndex(chatId, draft);
+
+			if (chatIndex >= 0) {
+				draft.chats[chatIndex].audios.audios.push(...audios);
+				draft.chats[chatIndex].audios.hasMore = hasMore;
 			}
 			return draft;
 		}),

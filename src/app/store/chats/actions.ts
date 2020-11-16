@@ -23,6 +23,8 @@ import {
 	GetChatInfoRequest,
 	GetChatInfoResponse,
 	EditGroupChatReqData,
+	GetAudioAttachmentsRequest,
+	GetAudioAttachmentsResponse,
 } from './models';
 import { IntercolutorMessageTypingIntegrationEvent } from '../middlewares/websockets/integration-events/interlocutor-message-typing-integration-event';
 import { GroupChatCreatedIntegrationEvent } from '../middlewares/websockets/integration-events/group-chat-сreated-integration-event';
@@ -46,6 +48,7 @@ export namespace ChatActions {
 	export const getVideoAttachments = createAction('GET_VIDEO_ATTACHMENTS')<getVideoAttachmentsRequest>();
 	export const getRawAttachments = createAction('GET_RAW_ATTACHMENTS')<getRawAttachmentsRequest>();
 	export const getVoiceAttachments = createAction('GET_VOICE_ATTACHMENTS')<GetRecordingsRequest>();
+	export const getAudioAttachments = createAction('GET_AUDIO_ATTACHMENTS')<GetAudioAttachmentsRequest>();
 	export const getChatInfo = createAction('GET_CHAT_INFO')<GetChatInfoRequest>();
 	export const getChatsSuccess = createAction('GET_CHATS_SUCCESS')<GetChatsResponse>();
 	export const getChatsFailure = createEmptyAction('GET_CHATS_FAILURE');
@@ -57,6 +60,9 @@ export namespace ChatActions {
 	>();
 	export const getRawAttachmentsSuccess = createAction('GET_FILES_ATTACHMENTS_SUCCESS')<getRawAttachmentsResponse>();
 	export const getVoiceAttachmentsSuccess = createAction('GET_VOICE_ATTACHMENTS_SUCCESS')<GetRecordingsResponse>();
+	export const getAudioAttachmentsSuccess = createAction('GET_AUDIO_ATTACHMENTS_SUCCESS')<
+		GetAudioAttachmentsResponse
+	>();
 	export const getChatInfoSuccess = createAction('GET_CHAT_INFO_SUCCESS')<GetChatInfoResponse>();
 	export const changeSelectedChat = createAction('CHANGE_SELECTED_CHAT')<number>();
 	export const changeChatVisibilityState = createAction('CHANGE_CHAT_VISIBILITY_STATE')<Chat>();

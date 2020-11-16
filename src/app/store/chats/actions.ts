@@ -16,7 +16,6 @@ import {
 	UploadAttachmentFailedData,
 	UploadAttachmentSuccessData,
 	RemoveAttachmentReqData,
-	UploadAttachmentStartedData,
 	GetRecordingsRequest,
 	GetRecordingsResponse,
 	MarkMessagesAsReadReqData,
@@ -96,9 +95,6 @@ export namespace ChatActions {
 		IntercolutorMessageTypingIntegrationEvent
 	>();
 	export const uploadAttachmentRequestAction = createAction('UPLOAD_ATTACHMENT_REQUEST')<UploadAttachmentReqData>();
-	export const uploadAttachmentStartedAction = createAction('UPLOAD_ATTACHMENT_STARTED')<
-		UploadAttachmentStartedData
-	>();
 	export const uploadAttachmentProgressAction = createAction('UPLOAD_ATTACHMENT_PROGRESS')<
 		UploadAttachmentProgressData
 	>();

@@ -500,29 +500,6 @@ const chats = createReducer<ChatsState>(initialState)
 		}),
 	)
 	.handleAction(
-		ChatActions.uploadAttachmentStartedAction,
-		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.uploadAttachmentStartedAction>) => {
-			const { chatId, attachmentId } = payload;
-
-			const chatIndex: number = getChatArrayIndex(chatId, draft);
-
-			if (chatIndex >= 0) {
-				if (!draft.chats[chatIndex].attachmentsToSend) {
-					return;
-				}
-
-				const currentAttachment = draft.chats[chatIndex].attachmentsToSend?.find(
-					({ attachment }) => attachment.id === attachmentId,
-				);
-				//TODO: look to optimixe here
-				if (currentAttachment) {
-					console.log('uploadStarted');
-				}
-			}
-			return draft;
-		}),
-	)
-	.handleAction(
 		ChatActions.uploadAttachmentProgressAction,
 		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.uploadAttachmentProgressAction>) => {
 			const { progress, chatId, attachmentId } = payload;

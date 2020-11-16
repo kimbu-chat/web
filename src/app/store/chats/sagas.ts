@@ -1,7 +1,7 @@
 import { RootState } from './../root-reducer';
 import { FileType } from 'app/store/messages/models';
 import { call, put, select, takeEvery, takeLatest } from 'redux-saga/effects';
-import { AxiosResponse } from 'axios';
+import { AxiosResponse, CancelTokenSource } from 'axios';
 import {
 	Chat,
 	MuteChatRequest,
@@ -9,7 +9,6 @@ import {
 	HideChatRequest,
 	InterlocutorType,
 	UploadAttachmentSagaProgressData,
-	UploadAttachmentSagaStartedData,
 	BaseAttachment,
 	GroupChatCreationHTTPReqData,
 	GroupChat,
@@ -26,6 +25,8 @@ import { ChatHttpFileRequest, ChatHttpRequests } from './http-requests';
 import { MyProfileService } from 'app/services/my-profile-service';
 import { MessageUtils } from 'app/utils/functions/message-utils';
 import { IFilesRequestGenerator } from '../common/http-file-factory';
+
+const uploadingAttachments: { id: string; cancelTokenSource: CancelTokenSource }[] = [];
 
 export function* getChatsSaga(action: ReturnType<typeof ChatActions.getChats>): SagaIterator {
 	const chatsRequestData = action.payload;
@@ -409,13 +410,15 @@ export function* uploadAttachmentSaga(
 
 	yield call(() =>
 		uploadRequest.generator(data, {
-			onStart: function* (payload: UploadAttachmentSagaStartedData): SagaIterator {
-				yield put(ChatActions.uploadAttachmentStartedAction({ chatId, attachmentId, ...payload }));
+			onStart: function* ({ cancelTokenSource }): SagaIterator {
+				uploadingAttachments.push({ cancelTokenSource, id: attachmentId });
 			},
 			onProgress: function* (payload: UploadAttachmentSagaProgressData): SagaIterator {
 				yield put(ChatActions.uploadAttachmentProgressAction({ chatId, attachmentId, ...payload }));
 			},
 			onSuccess: function* (payload: BaseAttachment): SagaIterator {
+				uploadingAttachments.filter(({ id }) => id === attachmentId);
+
 				yield put(
 					ChatActions.uploadAttachmentSuccessAction({
 						chatId,
@@ -423,8 +426,10 @@ export function* uploadAttachmentSaga(
 						attachment: payload,
 					}),
 				);
+				console.log(uploadingAttachments.length);
 			},
 			onFailure: function* (): SagaIterator {
+				uploadingAttachments.filter(({ id }) => id === attachmentId);
 				yield put(ChatActions.uploadAttachmentFailureAction({ chatId, attachmentId }));
 			},
 		}),
@@ -432,13 +437,11 @@ export function* uploadAttachmentSaga(
 }
 
 function* cancelUploadSaga(action: ReturnType<typeof ChatActions.removeAttachmentAction>): SagaIterator {
-	const { chatId, attachmentId } = action.payload;
-	const currentAttachment: BaseAttachment = yield select((state: RootState) =>
-		state.chats.chats
-			.find(({ id }) => id === chatId)
-			?.attachmentsToSend?.find(({ attachment }) => attachment.id === attachmentId),
-	);
-	console.log(currentAttachment);
+	const { attachmentId } = action.payload;
+
+	const uploadingAttachment = uploadingAttachments.find(({ id }) => id === attachmentId);
+
+	uploadingAttachment?.cancelTokenSource.cancel();
 }
 
 export function* resetUnreadMessagesCountSaga(action: ReturnType<typeof ChatActions.markMessagesAsRead>): SagaIterator {

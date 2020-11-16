@@ -1,10 +1,13 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 import { SagaIterator } from 'redux-saga';
 import { UpdateMyProfileApiRequestData, UploadAvatarResponse, UploadAvatarSagaProgressData } from './models';
 import { MyProfileActions } from './actions';
 import { MyProfileHttpFileRequest, MyProfileHttpRequests } from './http-requests';
 import { MyProfileService } from 'app/services/my-profile-service';
 import { getFileFromUrl } from 'app/utils/functions/get-file-from-url';
+import { CancelTokenSource } from 'axios';
+
+let avatarUploadCancelTokenSource: CancelTokenSource | undefined;
 
 export function* changeOnlineStatus({
 	payload,
@@ -92,7 +95,11 @@ function* uploadAvatarSaga(action: ReturnType<typeof MyProfileActions.uploadAvat
 
 	yield call(() =>
 		uploadRequest.generator(data, {
+			onStart: function* ({ cancelTokenSource }): SagaIterator {
+				avatarUploadCancelTokenSource = cancelTokenSource;
+			},
 			onSuccess: function* (payload: UploadAvatarResponse): SagaIterator {
+				avatarUploadCancelTokenSource = undefined;
 				action.meta.deferred.resolve(payload);
 			},
 			onProgress: function* (payload: UploadAvatarSagaProgressData): SagaIterator {
@@ -101,10 +108,15 @@ function* uploadAvatarSaga(action: ReturnType<typeof MyProfileActions.uploadAvat
 				}
 			},
 			onFailure: function* (): SagaIterator {
+				avatarUploadCancelTokenSource = undefined;
 				action.meta.deferred.reject();
 			},
 		}),
 	);
+}
+
+function* cancelAvatarUploadingSaga(): SagaIterator {
+	avatarUploadCancelTokenSource?.cancel();
 }
 
 export const MyProfileSagas = [
@@ -113,5 +125,6 @@ export const MyProfileSagas = [
 	takeLatest(MyProfileActions.getMyProfileAction, getMyProfileSaga),
 	takeLatest(MyProfileActions.checkNicknameAvailabilityAction, checkNicknameAvailabilitySaga),
 	takeLatest(MyProfileActions.uploadAvatarRequestAction, uploadAvatarSaga),
-	//	takeEvery(MyProfileActions.changeUserOnlineStatusAction, changeOnlineStatus),
+	takeEvery(MyProfileActions.cancelAvatarUploadingRequestAction, cancelAvatarUploadingSaga),
+	takeEvery(MyProfileActions.changeUserOnlineStatusAction, changeOnlineStatus),
 ];

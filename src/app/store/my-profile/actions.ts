@@ -23,4 +23,5 @@ export namespace MyProfileActions {
 	export const getMyProfileSuccessAction = createAction('GET_MY_PROFILE_SUCCESS')<UserPreview>();
 	export const changeUserOnlineStatusAction = createAction('CHANGE_ONLINE_STATUS')<boolean>();
 	export const uploadAvatarRequestAction = createAction('UPLOAD_AVATAR')<UploadAvatarReqData, Meta>();
+	export const cancelAvatarUploadingRequestAction = createEmptyAction('CANCEL_AVATAR_UPLOADING');
 }

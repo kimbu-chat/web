@@ -1,8 +1,6 @@
 import { FileType, Message } from '../messages/models';
 import { Page } from '../common/models';
 import { UserPreview, UploadAvatarResponse } from '../my-profile/models';
-import { CancelTokenSource } from 'axios';
-
 export interface GroupChat {
 	id: number;
 	avatar?: {
@@ -312,11 +310,6 @@ export interface UploadAttachmentReqData {
 export interface UploadAttachmentStartedData {
 	chatId: number;
 	attachmentId: string;
-	cancelTokenSource: CancelTokenSource;
-}
-
-export interface UploadAttachmentSagaStartedData {
-	cancelTokenSource: CancelTokenSource;
 }
 
 export interface UploadAttachmentProgressData {

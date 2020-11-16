@@ -31,6 +31,7 @@ import ChatRecordings from './chat-recordings/chat-recordings';
 import ChatFiles from './chat-files/chat-files';
 import { MyProfileActions } from 'app/store/my-profile/actions';
 import BigPhoto from '../shared/big-photo/big-photo';
+import ChatAudios from './chat-audios/chat-audios';
 
 const ChatInfo: React.FC = () => {
 	const selectedChat = useSelector(getSelectedChatSelector);
@@ -221,6 +222,19 @@ const ChatInfo: React.FC = () => {
 							unmountOnExit
 						>
 							<ChatFiles />
+						</CSSTransition>
+					)}
+				</Route>
+
+				<Route path='/(contacts|calls|settings|chats)/:chatId?/info/audios' exact>
+					{({ match }) => (
+						<CSSTransition
+							in={match != null}
+							timeout={200}
+							classNames='chat-info__nested-slide'
+							unmountOnExit
+						>
+							<ChatAudios />
 						</CSSTransition>
 					)}
 				</Route>

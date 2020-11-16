@@ -24,7 +24,7 @@ const Settings = () => {
 
 	return (
 		<>
-			<Route path='/settings/(info)?/(photo|video|audio-recordings|files)?' exact>
+			<Route path='/settings/(info)?/(photo|video|audio-recordings|files|audios)?' exact>
 				{({ match }) => (
 					<CSSTransition in={match != null} timeout={200} classNames='settings-slide' unmountOnExit>
 						<div className='settings'>
@@ -60,7 +60,7 @@ const Settings = () => {
 				)}
 			</Route>
 
-			<Route path='/settings/edit-profile/(info)?/(photo|video|audio-recordings|files)?' exact>
+			<Route path='/settings/edit-profile/(info)?/(photo|video|audio-recordings|files|audios)?' exact>
 				{({ match }) => (
 					<CSSTransition in={match != null} timeout={200} classNames='settings-slide' unmountOnExit>
 						<EditProfile />
@@ -68,7 +68,7 @@ const Settings = () => {
 				)}
 			</Route>
 
-			<Route path='/settings/notifications/(info)?/(photo|video|audio-recordings|files)?' exact>
+			<Route path='/settings/notifications/(info)?/(photo|video|audio-recordings|files|audios)?' exact>
 				{({ match }) => (
 					<CSSTransition in={match != null} timeout={200} classNames='settings-slide' unmountOnExit>
 						<NotificationsSettings />
@@ -76,7 +76,7 @@ const Settings = () => {
 				)}
 			</Route>
 
-			<Route path='/settings/language/(info)?/(photo|video|audio-recordings|files)?' exact>
+			<Route path='/settings/language/(info)?/(photo|video|audio-recordings|files|audios)?' exact>
 				{({ match }) => (
 					<CSSTransition in={match != null} timeout={200} classNames='settings-slide' unmountOnExit>
 						<LanguageSettings />
@@ -84,7 +84,7 @@ const Settings = () => {
 				)}
 			</Route>
 
-			<Route path='/settings/typing/(info)?/(photo|video|audio-recordings|files)?' exact>
+			<Route path='/settings/typing/(info)?/(photo|video|audio-recordings|files|audios)?' exact>
 				{({ match }) => (
 					<CSSTransition in={match != null} timeout={200} classNames='settings-slide' unmountOnExit>
 						<TextTyping />

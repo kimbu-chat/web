@@ -1,8 +1,6 @@
 import { FileType, Message } from '../messages/models';
 import { Page } from '../common/models';
 import { UserPreview, UploadAvatarResponse } from '../my-profile/models';
-import { CancelTokenSource } from 'axios';
-
 export interface GroupChat {
 	id: number;
 	avatar?: {
@@ -27,6 +25,11 @@ export enum InterlocutorType {
 }
 
 export interface GetChatAudiosHTTPRequest {
+	page: Page;
+	chatId: number;
+}
+
+export interface GetVoiceAttachmentsHTTPRequest {
 	page: Page;
 	chatId: number;
 }
@@ -152,6 +155,11 @@ export interface getRawAttachmentsRequest {
 	page: Page;
 }
 
+export interface GetAudioAttachmentsRequest {
+	chatId: number;
+	page: Page;
+}
+
 export interface Chat {
 	id: number;
 	interlocutorType?: InterlocutorType;
@@ -167,6 +175,7 @@ export interface Chat {
 	isMuted?: boolean;
 	photos: PhotoList;
 	videos: VideoList;
+	audios: AudioList;
 	files: FileList;
 	recordings: VoiceRecordingList;
 	attachmentsToSend?: AttachmentToSend<BaseAttachment>[];
@@ -247,6 +256,11 @@ export interface VoiceRecordingList {
 	hasMore: boolean;
 }
 
+export interface AudioList {
+	audios: (AudioAttachment & IGroupable)[];
+	hasMore: boolean;
+}
+
 export interface GetChatsResponse extends ChatList {
 	initializedBySearch: boolean;
 }
@@ -264,6 +278,10 @@ export interface getVideoAttachmentsResponse extends VideoList {
 }
 
 export interface GetRecordingsResponse extends VoiceRecordingList {
+	chatId: number;
+}
+
+export interface GetAudioAttachmentsResponse extends AudioList {
 	chatId: number;
 }
 
@@ -292,11 +310,6 @@ export interface UploadAttachmentReqData {
 export interface UploadAttachmentStartedData {
 	chatId: number;
 	attachmentId: string;
-	cancelTokenSource: CancelTokenSource;
-}
-
-export interface UploadAttachmentSagaStartedData {
-	cancelTokenSource: CancelTokenSource;
 }
 
 export interface UploadAttachmentProgressData {

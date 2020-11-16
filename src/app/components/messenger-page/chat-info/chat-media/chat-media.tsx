@@ -6,6 +6,7 @@ import VideoSvg from 'app/assets/icons/ic-video-call.svg';
 import FileSvg from 'app/assets/icons/ic-documents.svg';
 // import LinkSvg from 'app/assets/icons/ic-links.svg';
 import MicrophoneSvg from 'app/assets/icons/ic-microphone.svg';
+import PlaySvg from 'app/assets/icons/ic-play.svg';
 // import PeopleSvg from 'app/assets/icons/ic-group.svg';
 
 import { LocalizationContext } from 'app/app';
@@ -49,6 +50,12 @@ const ChatMedia = () => {
 				<MicrophoneSvg viewBox='0 0 25 25' className='chat-media__media-type__svg' />
 				<span className='chat-media__media-type__name'>
 					{t('chatMedia.voice-messages', { count: selectedChat?.voiceAttachmentsCount || 0 })}
+				</span>
+			</Link>
+			<Link to={`${location.pathname}/audios`} className='chat-media__media-type'>
+				<PlaySvg viewBox='0 0 25 25' className='chat-media__media-type__svg' />
+				<span className='chat-media__media-type__name'>
+					{t('chatMedia.audios', { count: selectedChat?.audioAttachmentsCount || 0 })}
 				</span>
 			</Link>
 			{/* <button className='chat-media__media-type'>

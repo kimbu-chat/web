@@ -41,6 +41,7 @@ const CreateGroupChatModal = ({ onClose, preSelectedUserIds }: ICreateGroupChatM
 	const history = useHistory();
 
 	const uploadGroupChatAvatar = useActionWithDeferred(MyProfileActions.uploadAvatarRequestAction);
+	const cancelAvatarUploading = useActionWithDispatch(MyProfileActions.cancelAvatarUploadingRequestAction);
 	const submitGroupChatCreation = useActionWithDeferred(ChatActions.createGroupChat);
 
 	const [selectedUserIds, setSelectedUserIds] = useState<number[]>(preSelectedUserIds ? preSelectedUserIds : []);
@@ -116,6 +117,7 @@ const CreateGroupChatModal = ({ onClose, preSelectedUserIds }: ICreateGroupChatM
 	);
 
 	const discardAvatar = useCallback(() => {
+		cancelAvatarUploading();
 		setAvatarData(null);
 		setAvatarUploadResponse(null);
 		setUploadEnded(true);

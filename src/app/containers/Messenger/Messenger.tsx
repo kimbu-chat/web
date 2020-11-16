@@ -69,7 +69,9 @@ const Messenger = () => {
 
 				<Route
 					exact
-					path={['/(calls|settings|chats|contacts)/:chatId?/(info)?/(photo|video|audio-recordings|files)?']}
+					path={[
+						'/(calls|settings|chats|contacts)/:chatId?/(info)?/(photo|video|audio-recordings|files|audios)?',
+					]}
 				>
 					<RoutingChats />
 				</Route>
@@ -85,7 +87,7 @@ const Messenger = () => {
 
 			<div className='messenger__chat-list'>
 				<div className='messenger__chat-list__animated'>
-					<Route path='/calls/(info)?/(photo|video|audio-recordings|files)?'>
+					<Route path='/calls/(info)?/(photo|video|audio-recordings|files|audios)?'>
 						{({ match }) => (
 							<CSSTransition in={match != null} timeout={200} classNames='slide' unmountOnExit>
 								<CallList />
@@ -93,7 +95,7 @@ const Messenger = () => {
 						)}
 					</Route>
 
-					<Route path='/settings/(info)?/(photo|video|audio-recordings|files)?'>
+					<Route path='/settings/(info)?/(photo|video|audio-recordings|files|audios)?'>
 						{({ match }) => (
 							<CSSTransition in={match != null} timeout={200} classNames='slide' unmountOnExit>
 								<Settings />
@@ -101,7 +103,7 @@ const Messenger = () => {
 						)}
 					</Route>
 
-					<Route path='/chats/:chatId?/(info)?/(photo|video|audio-recordings|files)?'>
+					<Route path='/chats/:chatId?/(info)?/(photo|video|audio-recordings|files|audios)?'>
 						{({ match }) => (
 							<CSSTransition in={match != null} timeout={200} classNames='slide' unmountOnExit>
 								<div className='messenger__chats'>
@@ -112,7 +114,7 @@ const Messenger = () => {
 						)}
 					</Route>
 
-					<Route path='/contacts/:chatId?/(info)?/(photo|video|audio-recordings|files)?'>
+					<Route path='/contacts/:chatId?/(info)?/(photo|video|audio-recordings|files|audios)?'>
 						{({ match }) => (
 							<CSSTransition in={match != null} timeout={200} classNames='slide' unmountOnExit>
 								<div className='messenger__chats'>

@@ -18,8 +18,8 @@ export type HttpHeaders = { [key: string]: string };
 export function* httpRequest<T>(
 	url: string,
 	method: HttpRequestMethod,
-	body?: T,
-	cancelTokenSource?: CancelTokenSource,
+	body: T,
+	cancelTokenSource: CancelTokenSource,
 	headers?: HttpHeaders,
 	callbacks?: IFilesRequestGeneratorCallbacks,
 ) {
@@ -61,13 +61,13 @@ export function* httpRequest<T>(
 			throw new Error('Unknown method.');
 	}
 
-	yield call(uploadFileSaga, requestConfig, callbacks, cancelTokenSource);
+	yield call(uploadFileSaga, requestConfig, cancelTokenSource, callbacks);
 }
 
 export function* uploadFileSaga(
 	requestConfig: AxiosRequestConfig,
+	cancelTokenSource: CancelTokenSource,
 	callbacks?: IFilesRequestGeneratorCallbacks,
-	cancelTokenSource?: CancelTokenSource,
 ): SagaIterator {
 	const channel = yield call(createUploadFileChannel, requestConfig);
 
@@ -131,7 +131,7 @@ function createUploadFileChannel(requestConfig: AxiosRequestConfig) {
 }
 
 export interface IFilesRequestGeneratorCallbacks {
-	onStart?: (payload: any) => SagaIterator<any>;
+	onStart?: (payload: { cancelTokenSource: CancelTokenSource }) => SagaIterator<any>;
 	onProgress?: (payload: any) => SagaIterator<any>;
 	onSuccess?: (payload: any) => SagaIterator<any>;
 	onFailure?: () => SagaIterator<any>;
@@ -180,7 +180,6 @@ export const httpFilesRequestFactory = <T, B>(
 						return yield call(httpRequest, finalUrl, method, body, cancelTokenSource, headers, callbacks);
 					}
 				}
-
 				throw e;
 			}
 		} finally {

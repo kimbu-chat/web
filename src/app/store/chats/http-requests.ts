@@ -25,6 +25,8 @@ import {
 	GetChatInfoRequest,
 	GetChatInfoApiResponse,
 	EditGroupChatHTTPReqData,
+	GetVoiceAttachmentsHTTPRequest,
+	VoiceAttachment,
 } from './models';
 import { ApiBasePath } from '../root-api';
 import { UserPreview } from '../my-profile/models';
@@ -79,6 +81,11 @@ export const ChatHttpRequests = {
 	//attachment lists
 	getChatAudioAttachments: httpRequestFactory<AxiosResponse<Array<AudioAttachment>>, GetChatAudiosHTTPRequest>(
 		`${ApiBasePath.MainApi}/api/audio-attachments/search`,
+		HttpRequestMethod.Post,
+	),
+
+	getChatVoiceAttachments: httpRequestFactory<AxiosResponse<Array<VoiceAttachment>>, GetVoiceAttachmentsHTTPRequest>(
+		`${ApiBasePath.MainApi}/api/voice-attachments/search`,
 		HttpRequestMethod.Post,
 	),
 

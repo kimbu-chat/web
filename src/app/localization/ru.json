@@ -74,6 +74,7 @@
 		"files": "{{count}} файлов",
 		"shared-links": "{{count}} ссылок",
 		"voice-messages": "{{count}} голосовых сообщений",
+		"audios": "{{count}} аудио сообщений",
 		"common-groups": "{{count}} общих груп"
 	},
 	"chatInfo": {
@@ -87,6 +88,9 @@
 
 	"chatVideo": {
 		"video": "Видео"
+	},
+	"chatAudios": {
+		"audios": "Аудио"
 	},
 	"chatMembers": {
 		"search": "Поиск"
@@ -222,6 +226,8 @@
 		"someone_changed_name": "{{someonesName}} изменил название с {{oldName}} на {{newName}}",
 		"you_changed_avatar": "Вы изменили аватар",
 		"someone_changed_avatar": "{{someonesName}} изменил аватар",
+		"you_removed_avatar": "Вы удалили аватар",
+		"someone_removed_avatar": "{{someonesName}} удалил аватар",
 		"incoming_call_success_ended": "Входящий вызов: {{duration}}",
 		"outgoing_call_success_ended": "Исходящий вызов: {{duration}}",
 		"you_canceled_call": "Вы отменили вызов",

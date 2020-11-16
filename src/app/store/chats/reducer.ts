@@ -270,6 +270,10 @@ const chats = createReducer<ChatsState>(initialState)
 						hasMore: true,
 						files: [],
 					},
+					audios: {
+						hasMore: true,
+						audios: [],
+					},
 					recordings: {
 						hasMore: true,
 						recordings: [],
@@ -382,6 +386,10 @@ const chats = createReducer<ChatsState>(initialState)
 						hasMore: true,
 						recordings: [],
 					},
+					audios: {
+						hasMore: true,
+						audios: [],
+					},
 				};
 
 				draft.chats.unshift(newDialog);
@@ -447,6 +455,20 @@ const chats = createReducer<ChatsState>(initialState)
 		}),
 	)
 	.handleAction(
+		ChatActions.getAudioAttachmentsSuccess,
+		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.getAudioAttachmentsSuccess>) => {
+			const { audios, chatId, hasMore } = payload;
+
+			const chatIndex: number = getChatArrayIndex(chatId, draft);
+
+			if (chatIndex >= 0) {
+				draft.chats[chatIndex].audios.audios.push(...audios);
+				draft.chats[chatIndex].audios.hasMore = hasMore;
+			}
+			return draft;
+		}),
+	)
+	.handleAction(
 		ChatActions.uploadAttachmentRequestAction,
 		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.uploadAttachmentRequestAction>) => {
 			const { type, chatId, attachmentId, file } = payload;
@@ -473,29 +495,6 @@ const chats = createReducer<ChatsState>(initialState)
 				};
 
 				draft.chats[chatIndex].attachmentsToSend?.push(attachmentToAdd);
-			}
-			return draft;
-		}),
-	)
-	.handleAction(
-		ChatActions.uploadAttachmentStartedAction,
-		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.uploadAttachmentStartedAction>) => {
-			const { chatId, attachmentId } = payload;
-
-			const chatIndex: number = getChatArrayIndex(chatId, draft);
-
-			if (chatIndex >= 0) {
-				if (!draft.chats[chatIndex].attachmentsToSend) {
-					return;
-				}
-
-				const currentAttachment = draft.chats[chatIndex].attachmentsToSend?.find(
-					({ attachment }) => attachment.id === attachmentId,
-				);
-				//TODO: look to optimixe here
-				if (currentAttachment) {
-					console.log('uploadStarted');
-				}
 			}
 			return draft;
 		}),

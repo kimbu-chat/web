@@ -61,6 +61,7 @@
 		"files": "{{count}} files",
 		"shared-links": "{{count}} shared links",
 		"voice-messages": "{{count}} voice messages",
+		"audios": "{{count}} audios",
 		"common-groups": "{{count}} groups in common"
 	},
 	"chatInfo": {
@@ -74,6 +75,9 @@
 
 	"chatVideo": {
 		"video": "Video"
+	},
+	"chatAudios": {
+		"audios": "Audios"
 	},
 	"chatMembers": {
 		"search": "Search"
@@ -209,6 +213,8 @@
 		"someone_changed_name": "{{someonesName}} changed name from {{oldName}} to {{newName}}",
 		"you_changed_avatar": "You changed avatar",
 		"someone_changed_avatar": "{{someonesName}} changed avatar",
+		"you_removed_avatar": "You removed avatar",
+		"someone_removed_avatar": "{{someonesName}} removed avatar",
 		"outgoing_call_success_ended": "Outgoing call: {{duration}}",
 		"incoming_call_success_ended": "Incoming call: {{duration}}",
 		"you_canceled_call": "You canceled call",

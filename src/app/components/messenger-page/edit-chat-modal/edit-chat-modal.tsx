@@ -29,6 +29,7 @@ const EditChatModal = ({ onClose }: EditChatModal.Props) => {
 	const selectedChat = useSelector(getSelectedChatSelector) as Chat;
 
 	const uploadGroupChatAvatar = useActionWithDeferred(MyProfileActions.uploadAvatarRequestAction);
+	const cancelAvatarUploading = useActionWithDispatch(MyProfileActions.cancelAvatarUploadingRequestAction);
 	const editGroupChat = useActionWithDispatch(ChatActions.editGroupChat);
 
 	const fileInputRef = useRef<HTMLInputElement>(null);
@@ -89,6 +90,7 @@ const EditChatModal = ({ onClose }: EditChatModal.Props) => {
 	}, [selectedChat, avararUploadResponse, newName, newDescription]);
 
 	const discardNewAvatar = useCallback(() => {
+		cancelAvatarUploading();
 		setAvatarData({ offsetY: 0, offsetX: 0, width: 0, imagePath: '', croppedImagePath: '' });
 		setAvatarUploadResponse({ url: '', previewUrl: '', id: '' });
 		setUploadEnded(true);
@@ -117,7 +119,8 @@ const EditChatModal = ({ onClose }: EditChatModal.Props) => {
 
 									{(avatarData?.croppedImagePath.length! === 0
 										? false
-										: selectedChat.groupChat?.avatar?.url.length! > 0) && (
+										: selectedChat.groupChat?.avatar?.url.length! > 0 ||
+										  avatarData?.croppedImagePath.length! > 0) && (
 										<button onClick={discardNewAvatar} className='edit-chat-modal__remove-photo'>
 											<CloseSVG viewBox='0 0 25 25' />
 										</button>

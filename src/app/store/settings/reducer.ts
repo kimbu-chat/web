@@ -12,7 +12,6 @@ const initialState: UserSettings = {
 const settings = createReducer<UserSettings>(initialState)
 	.handleAction(
 		SettingsActions.getUserSettingsSuccessAction,
-		//@ts-ignore
 		produce((draft: UserSettings, { payload }: ReturnType<typeof SettingsActions.getUserSettingsSuccessAction>) => {
 			return { ...draft, ...payload };
 		}),

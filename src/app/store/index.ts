@@ -16,9 +16,7 @@ export default function (): ReduxStore {
 	const store: ReduxStore = createStore(rootReducer, enchancers);
 
 	sagaMiddleware.run(rootSaga);
-	//@ts-ignore
 	if (process.env.NODE_ENV !== 'production' && (module as any).hot) {
-		//@ts-ignore
 		(module as any).hot.accept('./root-reducer', () => store.replaceReducer(rootReducer));
 	}
 

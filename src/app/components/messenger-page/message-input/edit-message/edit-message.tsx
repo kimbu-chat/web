@@ -182,12 +182,12 @@ const EditMessage = () => {
 
 		submitEditMessage({
 			messageId: messageToEdit!.id,
-			chatId: selectedChat!.id,
+			chatId: updatedSelectedChat.current!.id,
 			text: newText,
 			removedAttachments: removedAttachments,
 			newAttachments: newAttachments,
 		});
-	}, [messageToEdit, selectedChat, updatedSelectedChat, newText]);
+	}, [messageToEdit, updatedSelectedChat, newText, removedAttachments]);
 
 	const openSelectFiles = useCallback(() => {
 		fileInputRef.current?.click();

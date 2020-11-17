@@ -226,6 +226,16 @@ const messages = createReducer<MessagesState>(initialState)
 		}),
 	)
 	.handleAction(
+		MessageActions.submitEditMessage,
+		produce((draft: MessagesState) => {
+			draft.selectedMessageIds = [];
+
+			draft.messageToEdit = undefined;
+
+			return draft;
+		}),
+	)
+	.handleAction(
 		MessageActions.submitEditMessageSuccess,
 		produce((draft: MessagesState, { payload }: ReturnType<typeof MessageActions.submitEditMessageSuccess>) => {
 			draft.selectedMessageIds = [];
@@ -233,8 +243,6 @@ const messages = createReducer<MessagesState>(initialState)
 			const chatIndex = getChatIndex(draft, payload.chatId);
 
 			const message = getMessage(draft.messages[chatIndex].messages, payload.messageId);
-
-			draft.messageToEdit = undefined;
 
 			message!.text = payload.text;
 			message!.attachments = [

@@ -59,7 +59,18 @@
 	&__sender-photo {
 		height: 36px;
 		width: 36px;
+		transition: all 0.3s;
+
+		&--me {
+			margin-bottom: auto;
+			margin-right: 10px;
+			margin-left: 20px;
+		}
+	}
+
+	&__sender-photo-wrapper {
 		margin-bottom: auto;
+		display: block;
 		margin-right: 10px;
 		margin-left: 20px;
 		transition: all 0.3s;

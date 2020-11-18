@@ -32,6 +32,7 @@ import {
 	VideoAttachment,
 	AudioAttachment,
 } from 'app/store/chats/models';
+import { Link } from 'react-router-dom';
 
 namespace Message {
 	export interface Props {
@@ -119,9 +120,15 @@ const MessageItem = ({ message }: Message.Props) => {
 			onClick={isSelectState ? selectThisMessage : () => {}}
 		>
 			<div className={`message__item ${!message.needToShowCreator ? 'message__item--upcoming' : ''}`}>
-				{message.needToShowCreator && (
-					<p className='message__sender-name'>{`${message.userCreator?.firstName} ${message.userCreator?.lastName}`}</p>
-				)}
+				{message.needToShowCreator &&
+					(myId === message.userCreator.id ? (
+						<p className='message__sender-name'>{`${message.userCreator?.firstName} ${message.userCreator?.lastName}`}</p>
+					) : (
+						<Link
+							to={`/chats/${message.userCreator.id}1`}
+							className='message__sender-name'
+						>{`${message.userCreator?.firstName} ${message.userCreator?.lastName}`}</Link>
+					))}
 				<div className='message__item-apart'>
 					<span className='message__contents'>{message.text}</span>
 
@@ -154,11 +161,21 @@ const MessageItem = ({ message }: Message.Props) => {
 
 				{(structuredAttachments?.media.length || 0) > 0 && <MediaGrid media={structuredAttachments!.media} />}
 			</div>
-			{message.needToShowCreator && (
-				<Avatar className={`message__sender-photo `} src={message.userCreator.avatar?.previewUrl}>
-					{getUserInitials(message.userCreator as UserPreview)}
-				</Avatar>
-			)}
+			{message.needToShowCreator &&
+				(myId === message.userCreator.id ? (
+					<Avatar
+						className={`message__sender-photo message__sender-photo--me `}
+						src={message.userCreator.avatar?.previewUrl}
+					>
+						{getUserInitials(message.userCreator as UserPreview)}
+					</Avatar>
+				) : (
+					<Link className={`message__sender-photo-wrapper`} to={`/chats/${message.userCreator.id}1`}>
+						<Avatar className={`message__sender-photo `} src={message.userCreator.avatar?.previewUrl}>
+							{getUserInitials(message.userCreator as UserPreview)}
+						</Avatar>
+					</Link>
+				))}
 
 			<div onClick={selectThisMessage} className={`message__selected`}>
 				{message.isSelected ? <SelectedSvg /> : <UnSelectedSvg className={`message__unselected`} />}

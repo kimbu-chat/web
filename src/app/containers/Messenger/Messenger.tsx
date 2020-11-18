@@ -51,19 +51,19 @@ const Messenger = () => {
 			<InternetError />
 
 			<Switch>
-				<Route exact path={'/settings/edit-profile'}>
+				<Route exact path={'/settings/edit-profile/(info)?/(photo|video|audio-recordings|files|audios)?'}>
 					<SettingsHeader title={t('settings.edit_profile')} />
 				</Route>
 
-				<Route exact path={'/settings/notifications'}>
+				<Route exact path={'/settings/notifications/(info)?/(photo|video|audio-recordings|files|audios)?'}>
 					<SettingsHeader title={t('settings.notifications')} />
 				</Route>
 
-				<Route exact path={'/settings/language'}>
+				<Route exact path={'/settings/language/(info)?/(photo|video|audio-recordings|files|audios)?'}>
 					<SettingsHeader title={t('settings.language')} />
 				</Route>
 
-				<Route exact path={'/settings/typing'}>
+				<Route exact path={'/settings/typing/(info)?/(photo|video|audio-recordings|files|audios)?'}>
 					<SettingsHeader title={t('settings.text_typing')} />
 				</Route>
 
@@ -95,7 +95,7 @@ const Messenger = () => {
 						)}
 					</Route>
 
-					<Route path='/settings/(info)?/(photo|video|audio-recordings|files|audios)?'>
+					<Route path='/settings/(edit-profile|notifications|language|typing)?/(info)?/(photo|video|audio-recordings|files|audios)?'>
 						{({ match }) => (
 							<CSSTransition in={match != null} timeout={200} classNames='slide' unmountOnExit>
 								<Settings />

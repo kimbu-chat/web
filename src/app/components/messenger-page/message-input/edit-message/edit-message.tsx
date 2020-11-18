@@ -93,7 +93,7 @@ const EditMessage = () => {
 						chatId: selectedChat!.id,
 						type: fileType,
 						file,
-						attachmentId: String(new Date().getTime()),
+						attachmentId: new Date().getTime(),
 					});
 				}
 			}
@@ -132,7 +132,7 @@ const EditMessage = () => {
 						chatId: selectedChat!.id,
 						type: fileType,
 						file,
-						attachmentId: String(new Date().getTime()),
+						attachmentId: new Date().getTime(),
 					});
 				}
 			}
@@ -169,7 +169,7 @@ const EditMessage = () => {
 						chatId: selectedChat!.id,
 						type: fileType,
 						file,
-						attachmentId: String(new Date().getTime()),
+						attachmentId: new Date().getTime(),
 					});
 				}
 			}
@@ -182,12 +182,12 @@ const EditMessage = () => {
 
 		submitEditMessage({
 			messageId: messageToEdit!.id,
-			chatId: selectedChat!.id,
+			chatId: updatedSelectedChat.current!.id,
 			text: newText,
 			removedAttachments: removedAttachments,
 			newAttachments: newAttachments,
 		});
-	}, [messageToEdit, selectedChat, updatedSelectedChat, newText]);
+	}, [messageToEdit, updatedSelectedChat, newText, removedAttachments]);
 
 	const openSelectFiles = useCallback(() => {
 		fileInputRef.current?.click();

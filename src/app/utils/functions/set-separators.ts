@@ -10,8 +10,8 @@ export const setSeparators = <T extends { creationDateTime?: Date; needToShowSep
 			elemCopy.needToShowSeparator = true;
 		}
 
-		const currentDate = new Date(elem?.creationDateTime!);
-		const prevDate = new Date(array[index - 1]?.creationDateTime!);
+		const currentDate = new Date(new Date(elem?.creationDateTime!).toString());
+		const prevDate = new Date(new Date(array[index - 1]?.creationDateTime!).toString());
 
 		const condition =
 			separateBy === 'day'

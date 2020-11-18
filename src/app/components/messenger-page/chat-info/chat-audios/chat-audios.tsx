@@ -36,7 +36,7 @@ const ChatAudios = () => {
 	return (
 		<div className='chat-audios'>
 			<div className='chat-audios__top'>
-				<Link to={location.pathname.replace('/audios', '')} className='chat-audios__back'>
+				<Link to={location.pathname.replace(/audios\/?/, '')} className='chat-audios__back'>
 					<ReturnSvg viewBox='0 0 25 25' />
 				</Link>
 				<div className='chat-audios__heading'>{t('chatAudios.audios')}</div>

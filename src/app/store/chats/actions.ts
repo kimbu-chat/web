@@ -32,15 +32,6 @@ import { createEmptyAction, Meta } from '../common/actions';
 import { MessagesReadIntegrationEvent } from '../middlewares/websockets/integration-events/messages-read-integration-event';
 import { GetGroupChatUsersSuccessActionData } from '../friends/models';
 
-// export const createMessageSuccessAction = (createMessageResponse: CreateMessageResponse) =>
-//   createAction(ChatsActionTypes.CREATE_MESSAGE_SUCCESS, createMessageResponse);
-
-// export const createMessageAction = (data: CreateMessageRequest) =>
-//   createAction(ChatsActionTypes.CREATE_MESSAGE, data);
-
-// export const userStatusChangedEventAction = (data: StatusChangedIntegrationEvent) =>
-//   createAction(ChatsActionTypes.USER_STATUS_CHANGED_EVENT, data);
-
 export namespace ChatActions {
 	export const getChats = createAction('GET_CHATS')<GetChatsActionData>();
 	export const getPhotoAttachments = createAction('GET_PHOTO_ATTACHMENTS')<getPhotoAttachmentsRequest>();

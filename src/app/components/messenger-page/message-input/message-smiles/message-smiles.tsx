@@ -54,7 +54,6 @@ const MessageSmiles = ({ setText }: MessageSmiles.Props) => {
 						set='apple'
 						showSkinTones={false}
 						showPreview={false}
-						//problems with typization detected
 						i18n={{
 							search: t('emojiMart.search'),
 							notfound: t('emojiMart.notfound'),

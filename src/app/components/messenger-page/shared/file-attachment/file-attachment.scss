@@ -3,6 +3,10 @@
 	align-items: center;
 	margin-top: 10px;
 
+	&__data {
+		max-width: 60%;
+	}
+
 	&__download {
 		background: rgba(218, 228, 234, 0.5);
 		display: flex;

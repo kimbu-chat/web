@@ -56,7 +56,7 @@ const ChatVideo = () => {
 	return (
 		<div className={'chat-video'}>
 			<div className='chat-video__top'>
-				<Link to={location.pathname.replace('/video', '')} className='chat-video__back'>
+				<Link to={location.pathname.replace(/video\/?/, '')} className='chat-video__back'>
 					<ReturnSvg viewBox='0 0 25 25' />
 				</Link>
 				<div className='chat-video__heading'>{t('chatVideo.video')}</div>

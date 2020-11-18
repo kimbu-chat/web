@@ -8,6 +8,7 @@ import {
 	SystemMessageType,
 	MessagesReqData,
 	MessageList,
+	EditMessageApiReq,
 } from './models';
 
 import { ChatService } from '../chats/chat-service';
@@ -20,6 +21,7 @@ import messageCameSelected from 'app/assets/sounds/notifications/messsage-came-s
 import messageCameUnselected from 'app/assets/sounds/notifications/messsage-came-unselected.ogg';
 import { MarkMessagesAsReadRequest } from '../chats/models';
 import { ChatHttpRequests } from '../chats/http-requests';
+import { HTTPStatusCode } from 'app/common/http-status-code';
 
 const audioSelected = new Audio(messageCameSelected);
 const audioUnselected = new Audio(messageCameUnselected);
@@ -76,12 +78,12 @@ export function* createMessage(action: ReturnType<typeof MessageActions.createMe
 		}
 	} else {
 		console.log(message.attachments);
-		//const attachmentsToSend = message.attachments?.map(({ id, type }) => ({ id, type })) || [];
+		const attachmentsToSend = message.attachments?.map(({ id, type }) => ({ id, type })) || [];
 		try {
 			const messageCreationReq: MessageCreationReqData = {
 				text: message.text,
 				chatId: chat.id,
-				//attachments: attachmentsToSend,
+				attachments: attachmentsToSend,
 			};
 
 			const httpRequest = MessagesHttpRequests.createMessage;
@@ -154,21 +156,21 @@ export function* copyMessagesSaga(action: ReturnType<typeof MessageActions.copyM
 }
 
 export function* editMessageSaga(action: ReturnType<typeof MessageActions.submitEditMessage>): SagaIterator {
-	// const httpRequest = MessagesHttpRequests.editMessage;
-	// const editRequest: EditMessageApiReq = {
-	// 	text: action.payload.text,
-	// 	messageId: action.payload.messageId,
-	// 	removedAttachments: action.payload.removedAttachments,
-	// 	newAttachments: action.payload.newAttachments,
-	// };
+	const httpRequest = MessagesHttpRequests.editMessage;
+	const editRequest: EditMessageApiReq = {
+		text: action.payload.text,
+		messageId: action.payload.messageId,
+		removedAttachments: action.payload.removedAttachments,
+		newAttachments: action.payload.newAttachments,
+	};
 
-	// const { status } = httpRequest.call(yield call(() => httpRequest.generator(editRequest)));
+	const { status } = httpRequest.call(yield call(() => httpRequest.generator(editRequest)));
 
-	// if (status === HTTPStatusCode.OK) {
-	yield put(MessageActions.submitEditMessageSuccess(action.payload));
-	// } else {
-	// 	alert('editMessageSaga error');
-	// }
+	if (status === HTTPStatusCode.OK) {
+		yield put(MessageActions.submitEditMessageSuccess(action.payload));
+	} else {
+		alert('editMessageSaga error');
+	}
 }
 
 export const MessageSagas = [

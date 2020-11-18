@@ -32,8 +32,7 @@ const ModalCountrySelect = ({ country, handleCountryChange, setRef }: ModalCount
 	const inputProps = getInputProps();
 
 	useEffect(() => {
-		//@ts-ignore
-		setRef(inputProps.ref);
+		setRef((inputProps as { ref: React.RefObject<HTMLInputElement> }).ref);
 	}, [inputProps]);
 
 	return (

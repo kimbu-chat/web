@@ -32,7 +32,7 @@ const ChatRecordings = () => {
 	return (
 		<div className='chat-recordings'>
 			<div className='chat-recordings__top'>
-				<Link to={location.pathname.replace('/audio-recordings', '')} className='chat-recordings__back'>
+				<Link to={location.pathname.replace(/audio-recordings\/?/, '')} className='chat-recordings__back'>
 					<ReturnSvg viewBox='0 0 25 25' />
 				</Link>
 				<div className='chat-recordings__heading'>{t('chatRecordings.recordings')}</div>

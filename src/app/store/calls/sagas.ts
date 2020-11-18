@@ -99,8 +99,7 @@ const getUserVideo = async (constraints: IInCompleteConstraints) => {
 const getUserDisplay = async () => {
 	let localDisplayStream: MediaStream;
 	try {
-		//@ts-ignore
-		localDisplayStream = await navigator.mediaDevices.getDisplayMedia();
+		localDisplayStream = await (navigator.mediaDevices as any).getDisplayMedia();
 	} catch {
 		throw 'NO_DISPLAY';
 	}
@@ -583,8 +582,6 @@ export function* negociationSaga(action: ReturnType<typeof CallActions.incomingC
 		const httpRequest = CallsHttpRequests.acceptCall;
 		httpRequest.call(yield call(() => httpRequest.generator(request)));
 	} else if (isCallActive) {
-		//@ts-ignore
-		console.log('BUUUSYYYYYYYYY', interlocutorId);
 		const interlocutorId: number = action.payload.caller.id;
 
 		const request = {
@@ -644,7 +641,6 @@ function createPeerConnectionChannel() {
 			}
 		};
 
-		//!TO CHECK
 		const clearIntervalCode = setInterval(() => {
 			const state = peerConnection?.connectionState;
 			if (!state || state === 'closed' || state === 'disconnected') {
@@ -746,7 +742,6 @@ function deviceUpdateChannel() {
 			emit(event);
 		};
 
-		//!TO CHECK
 		const clearIntervalCode = setInterval(() => {
 			const state = peerConnection?.connectionState;
 			if (!state || state === 'closed' || state === 'disconnected') {

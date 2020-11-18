@@ -36,8 +36,7 @@ const CountrySelect = ({ country, handleCountryChange, setRef }: CountrySelect.P
 	const inputProps = getInputProps();
 
 	useEffect(() => {
-		//@ts-ignore
-		setRef(inputProps.ref);
+		setRef((inputProps as { ref: React.RefObject<HTMLInputElement> }).ref);
 	}, []);
 
 	return (

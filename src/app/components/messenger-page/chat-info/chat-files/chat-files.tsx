@@ -46,7 +46,7 @@ const ChatFiles = () => {
 	return (
 		<div className={'chat-files'}>
 			<div className='chat-files__top'>
-				<Link to={location.pathname.replace('/files', '')} className='chat-files__back'>
+				<Link to={location.pathname.replace(/files\/?/, '')} className='chat-files__back'>
 					<ReturnSvg viewBox='0 0 25 25' />
 				</Link>
 				<div className='chat-files__heading'>{t('chatFiles.files')}</div>

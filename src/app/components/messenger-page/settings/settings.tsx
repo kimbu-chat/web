@@ -10,7 +10,7 @@ import InfoSvg from 'app/assets/icons/ic-info.svg';
 import NotificationSvg from 'app/assets/icons/ic-notifications-on.svg';
 import TextSvg from 'app/assets/icons/ic-text-typing.svg';
 import LangSvg from 'app/assets/icons/ic-language.svg';
-import { NavLink, Route } from 'react-router-dom';
+import { Link, Route, useLocation } from 'react-router-dom';
 import EditProfile from './edit-profile/edit-profile';
 import NotificationsSettings from './notifications-settings/notifications-settings';
 import LanguageSettings from './language-settings/language-settings';
@@ -21,6 +21,8 @@ const Settings = () => {
 	const { t } = useContext(LocalizationContext);
 
 	const myProfile = useSelector(getMyProfileSelector);
+
+	const location = useLocation();
 
 	return (
 		<>
@@ -38,22 +40,34 @@ const Settings = () => {
 								</div>
 							</div>
 							<div className='settings__links'>
-								<NavLink to='/settings/edit-profile' className='settings__link'>
+								<Link
+									to={location.pathname.replace('settings', 'settings/edit-profile')}
+									className='settings__link'
+								>
 									<InfoSvg />
 									<span className='settings__link-name'>{t('settings.edit_profile')}</span>
-								</NavLink>
-								<NavLink to='/settings/notifications' className='settings__link'>
+								</Link>
+								<Link
+									to={location.pathname.replace('settings', 'settings/notifications')}
+									className='settings__link'
+								>
 									<NotificationSvg />
 									<span className='settings__link-name'>{t('settings.notifications')}</span>
-								</NavLink>
-								<NavLink to='/settings/typing' className='settings__link'>
+								</Link>
+								<Link
+									to={location.pathname.replace('settings', 'settings/typing')}
+									className='settings__link'
+								>
 									<TextSvg />
 									<span className='settings__link-name'>{t('settings.text_typing')}</span>
-								</NavLink>
-								<NavLink to='/settings/language' className='settings__link'>
+								</Link>
+								<Link
+									to={location.pathname.replace('settings', 'settings/language')}
+									className='settings__link'
+								>
 									<LangSvg />
 									<span className='settings__link-name'>{t('settings.language')}</span>
-								</NavLink>
+								</Link>
 							</div>
 						</div>
 					</CSSTransition>

@@ -26,7 +26,7 @@ import { MyProfileService } from 'app/services/my-profile-service';
 import { MessageUtils } from 'app/utils/functions/message-utils';
 import { IFilesRequestGenerator } from '../common/http-file-factory';
 
-const uploadingAttachments: { id: string; cancelTokenSource: CancelTokenSource }[] = [];
+let uploadingAttachments: { id: number; cancelTokenSource: CancelTokenSource }[] = [];
 
 export function* getChatsSaga(action: ReturnType<typeof ChatActions.getChats>): SagaIterator {
 	const chatsRequestData = action.payload;
@@ -417,7 +417,7 @@ export function* uploadAttachmentSaga(
 				yield put(ChatActions.uploadAttachmentProgressAction({ chatId, attachmentId, ...payload }));
 			},
 			onSuccess: function* (payload: BaseAttachment): SagaIterator {
-				uploadingAttachments.filter(({ id }) => id === attachmentId);
+				uploadingAttachments = uploadingAttachments.filter(({ id }) => id === attachmentId);
 
 				yield put(
 					ChatActions.uploadAttachmentSuccessAction({
@@ -429,7 +429,7 @@ export function* uploadAttachmentSaga(
 				console.log(uploadingAttachments.length);
 			},
 			onFailure: function* (): SagaIterator {
-				uploadingAttachments.filter(({ id }) => id === attachmentId);
+				uploadingAttachments = uploadingAttachments.filter(({ id }) => id === attachmentId);
 				yield put(ChatActions.uploadAttachmentFailureAction({ chatId, attachmentId }));
 			},
 		}),

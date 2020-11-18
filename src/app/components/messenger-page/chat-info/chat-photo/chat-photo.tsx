@@ -44,7 +44,7 @@ const ChatPhoto = () => {
 	return (
 		<div className={'chat-photo'}>
 			<div className='chat-photo__top'>
-				<Link to={location.pathname.replace('/photo', '')} className='chat-photo__back'>
+				<Link to={location.pathname.replace(/photo\/?/, '')} className='chat-photo__back'>
 					<ReturnSvg viewBox='0 0 25 25' />
 				</Link>
 				<div className='chat-photo__heading'>{t('chatPhoto.photo')}</div>

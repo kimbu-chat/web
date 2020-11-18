@@ -101,7 +101,7 @@ const CreateMessageInput = () => {
 						chatId: selectedChat!.id,
 						type: fileType,
 						file,
-						attachmentId: String(new Date().getTime()),
+						attachmentId: new Date().getTime(),
 					});
 				}
 			}
@@ -188,7 +188,7 @@ const CreateMessageInput = () => {
 						chatId: selectedChat!.id,
 						type: fileType,
 						file,
-						attachmentId: String(new Date().getTime()),
+						attachmentId: new Date().getTime(),
 					});
 				}
 			}
@@ -299,7 +299,7 @@ const CreateMessageInput = () => {
 						chatId: selectedChat!.id,
 						type: FileType.voice,
 						file: audioFile as File,
-						attachmentId: String(new Date().getTime()),
+						attachmentId: new Date().getTime(),
 					});
 				}
 
@@ -356,7 +356,7 @@ const CreateMessageInput = () => {
 						chatId: selectedChat!.id,
 						type: fileType,
 						file,
-						attachmentId: String(new Date().getTime()),
+						attachmentId: new Date().getTime(),
 					});
 				}
 			}

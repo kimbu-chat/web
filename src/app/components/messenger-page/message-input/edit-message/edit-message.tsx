@@ -93,7 +93,7 @@ const EditMessage = () => {
 						chatId: selectedChat!.id,
 						type: fileType,
 						file,
-						attachmentId: String(new Date().getTime()),
+						attachmentId: new Date().getTime(),
 					});
 				}
 			}
@@ -132,7 +132,7 @@ const EditMessage = () => {
 						chatId: selectedChat!.id,
 						type: fileType,
 						file,
-						attachmentId: String(new Date().getTime()),
+						attachmentId: new Date().getTime(),
 					});
 				}
 			}
@@ -169,7 +169,7 @@ const EditMessage = () => {
 						chatId: selectedChat!.id,
 						type: fileType,
 						file,
-						attachmentId: String(new Date().getTime()),
+						attachmentId: new Date().getTime(),
 					});
 				}
 			}

@@ -57,7 +57,17 @@ const ChatData = () => {
 
 		return (
 			<div className={`chat-data__chat-data`}>
-				<Link to={`/chats/${selectedChat.id}/info`} className='chat-data__contact-data'>
+				<Link
+					to={
+						location.pathname.includes('info')
+							? location.pathname.replace(/info\/?(photo|video|files|audio-recordings|audios)?\/?/, '')
+							: location.pathname.replace(
+									/(chats|contacts|settings|calls)\/?([0-9]{1,}|edit-profile|notifications|language|typing)?\/?/,
+									(_all, groupOne, groupTwo) => `${groupOne}${groupTwo ? `/${groupTwo}` : ''}/info`,
+							  )
+					}
+					className='chat-data__contact-data'
+				>
 					<Avatar className='chat-data__contact-img' src={imageUrl}>
 						{getInterlocutorInitials(selectedChat)}
 					</Avatar>
@@ -84,11 +94,18 @@ const ChatData = () => {
 					<NavLink
 						to={
 							location.pathname.includes('info')
-								? location.pathname.replace('/info', '')
-								: `${location.pathname}/info`
+								? location.pathname.replace(
+										/info\/?(photo|video|files|audio-recordings|audios)?\/?/,
+										'',
+								  )
+								: location.pathname.replace(
+										/(chats|contacts|settings|calls)\/?([0-9]{1,}|edit-profile|notifications|language|typing)?\/?/,
+										(_all, groupOne, groupTwo) =>
+											`${groupOne}${groupTwo ? `/${groupTwo}` : ''}/info`,
+								  )
 						}
 						isActive={(match, location) => {
-							if (match || location.pathname.includes('info')) {
+							if (match && location.pathname.includes('info')) {
 								return true;
 							} else {
 								return false;

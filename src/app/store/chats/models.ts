@@ -200,7 +200,7 @@ export interface BaseAttachment {
 	type: FileType;
 	creationDateTime: Date;
 	url: string;
-	id: string;
+	id: number;
 }
 
 export interface AudioAttachment extends BaseAttachment {
@@ -303,18 +303,18 @@ export interface GroupChatCreationHTTPReqData {
 export interface UploadAttachmentReqData {
 	chatId: number;
 	type: FileType;
-	attachmentId: string;
+	attachmentId: number;
 	file: File;
 }
 
 export interface UploadAttachmentStartedData {
 	chatId: number;
-	attachmentId: string;
+	attachmentId: number;
 }
 
 export interface UploadAttachmentProgressData {
 	chatId: number;
-	attachmentId: string;
+	attachmentId: number;
 	progress: number;
 }
 
@@ -324,17 +324,17 @@ export interface UploadAttachmentSagaProgressData {
 
 export interface UploadAttachmentFailedData {
 	chatId: number;
-	attachmentId: string;
+	attachmentId: number;
 }
 
 export interface RemoveAttachmentReqData {
 	chatId: number;
-	attachmentId: string;
+	attachmentId: number;
 }
 
 export interface UploadAttachmentSuccessData<T = BaseAttachment> {
 	chatId: number;
-	attachmentId: string;
+	attachmentId: number;
 	attachment: T;
 }
 

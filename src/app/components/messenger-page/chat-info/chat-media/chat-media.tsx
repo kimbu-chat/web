@@ -24,19 +24,19 @@ const ChatMedia = () => {
 	return (
 		<div className='chat-media'>
 			<div className='chat-media__heading'>{t('chatMedia.media')}</div>
-			<Link to={`${location.pathname}/photo`} className='chat-media__media-type'>
+			<Link to={location.pathname.replace('info', 'info/photo')} className='chat-media__media-type'>
 				<PhotoSvg viewBox='0 0 25 25' className='chat-media__media-type__svg' />
 				<span className='chat-media__media-type__name'>
 					{t('chatMedia.photos', { count: selectedChat?.pictureAttachmentsCount || 0 })}
 				</span>
 			</Link>
-			<Link to={`${location.pathname}/video`} className='chat-media__media-type'>
+			<Link to={location.pathname.replace('info', 'info/video')} className='chat-media__media-type'>
 				<VideoSvg viewBox='0 0 25 25' className='chat-media__media-type__svg' />
 				<span className='chat-media__media-type__name'>
 					{t('chatMedia.videos', { count: selectedChat?.videoAttachmentsCount || 0 })}
 				</span>
 			</Link>
-			<Link to={`${location.pathname}/files`} className='chat-media__media-type'>
+			<Link to={location.pathname.replace('info', 'info/files')} className='chat-media__media-type'>
 				<FileSvg viewBox='0 0 25 25' className='chat-media__media-type__svg' />
 				<span className='chat-media__media-type__name'>
 					{t('chatMedia.files', { count: selectedChat?.rawAttachmentsCount || 0 })}
@@ -46,13 +46,13 @@ const ChatMedia = () => {
 				<LinkSvg viewBox='0 0 25 25' className='chat-media__media-type__svg' />
 				<span className='chat-media__media-type__name'>{t('chatMedia.shared-links', { count: 29 })}</span>
 			</button> */}
-			<Link to={`${location.pathname}/audio-recordings`} className='chat-media__media-type'>
+			<Link to={location.pathname.replace('info', 'info/audio-recordings')} className='chat-media__media-type'>
 				<MicrophoneSvg viewBox='0 0 25 25' className='chat-media__media-type__svg' />
 				<span className='chat-media__media-type__name'>
 					{t('chatMedia.voice-messages', { count: selectedChat?.voiceAttachmentsCount || 0 })}
 				</span>
 			</Link>
-			<Link to={`${location.pathname}/audios`} className='chat-media__media-type'>
+			<Link to={location.pathname.replace('info', 'info/audios')} className='chat-media__media-type'>
 				<PlaySvg viewBox='0 0 25 25' className='chat-media__media-type__svg' />
 				<span className='chat-media__media-type__name'>
 					{t('chatMedia.audios', { count: selectedChat?.audioAttachmentsCount || 0 })}

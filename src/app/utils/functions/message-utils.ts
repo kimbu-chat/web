@@ -143,8 +143,8 @@ export class MessageUtils {
 				if (
 					index === arr.length - 1 ||
 					MessageUtils.dateDifference(
-						new Date(arr[index + 1].creationDateTime || ''),
-						new Date(message.creationDateTime || ''),
+						new Date(new Date(arr[index + 1].creationDateTime || '').toString()),
+						new Date(new Date(message.creationDateTime || '').toString()),
 					)
 				) {
 					message = { ...message, needToShowDateSeparator: true, needToShowCreator: true };

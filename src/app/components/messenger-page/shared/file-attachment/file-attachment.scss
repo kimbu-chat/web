@@ -57,6 +57,9 @@
 		font-size: 13px;
 		line-height: 18px;
 		font-weight: 400;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 
 	&__file-size {

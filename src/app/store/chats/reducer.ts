@@ -34,22 +34,15 @@ const chats = createReducer<ChatsState>(initialState)
 	.handleAction(
 		ChatActions.interlocutorStoppedTyping,
 		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.interlocutorStoppedTyping>) => {
-			const { chatId, interlocutorName, objectId } = payload;
+			const { chatId, interlocutorName } = payload;
 
-			console.log(chatId);
-
-			const chatIdentificator: number = ChatService.getChatIdentifier(
-				chatId.interlocutorType === InterlocutorType.USER ? objectId : undefined,
-				chatId.interlocutorType === InterlocutorType.GROUP_CHAT ? chatId.groupChatId : undefined,
-			);
-
-			const isChatExists: boolean = checkChatExists(chatIdentificator, draft);
+			const isChatExists: boolean = checkChatExists(chatId, draft);
 
 			if (!isChatExists) {
 				return draft;
 			}
 
-			const chatIndex: number = getChatArrayIndex(chatIdentificator, draft);
+			const chatIndex: number = getChatArrayIndex(chatId, draft);
 
 			(draft.chats[chatIndex].timeoutId = undefined),
 				(draft.chats[chatIndex].typingInterlocutors = draft.chats[chatIndex].typingInterlocutors!.filter(
@@ -62,20 +55,15 @@ const chats = createReducer<ChatsState>(initialState)
 	.handleAction(
 		ChatActions.interlocutorMessageTyping,
 		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.interlocutorMessageTyping>) => {
-			const { chatId, interlocutorName, timeoutId, objectId } = payload;
+			const { chatId, interlocutorName, timeoutId } = payload;
 
-			const chatIdentificator: number = ChatService.getChatIdentifier(
-				chatId.interlocutorType === InterlocutorType.USER ? objectId : undefined,
-				chatId.interlocutorType === InterlocutorType.GROUP_CHAT ? chatId.groupChatId : undefined,
-			);
-
-			const isChatExists: boolean = checkChatExists(chatIdentificator, draft);
+			const isChatExists: boolean = checkChatExists(chatId, draft);
 
 			if (!isChatExists) {
 				return draft;
 			}
 
-			const chatIndex: number = getChatArrayIndex(chatIdentificator, draft);
+			const chatIndex: number = getChatArrayIndex(chatId, draft);
 
 			clearTimeout(draft.chats[chatIndex].timeoutId as NodeJS.Timeout);
 

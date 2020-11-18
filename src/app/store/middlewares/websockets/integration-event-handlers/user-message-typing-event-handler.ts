@@ -12,8 +12,8 @@ export class UserMessageTypingEventHandler implements IEventHandler<Intercolutor
 		}, 1500) as unknown) as NodeJS.Timeout;
 
 		if (
-			eventData.chatId.interlocutorType === InterlocutorType.GROUP_CHAT &&
-			eventData.objectId === store.getState().myProfile.user?.id
+			eventData.chatId % 10 === InterlocutorType.GROUP_CHAT &&
+			eventData.interlocutorId === store.getState().myProfile.user?.id
 		) {
 			console.log('not match');
 			return;

@@ -143,10 +143,17 @@ export class MessageUtils {
 				if (
 					index === arr.length - 1 ||
 					MessageUtils.dateDifference(
-						new Date(new Date(arr[index + 1].creationDateTime || '').toString()),
-						new Date(new Date(message.creationDateTime || '').toString()),
+						moment
+							.utc(arr[index + 1].creationDateTime || '')
+							.local()
+							.toDate(),
+						moment
+							.utc(message.creationDateTime || '')
+							.local()
+							.toDate(),
 					)
 				) {
+					if (arr[index + 1]) console.log(new Date(arr[index + 1].creationDateTime || '').toString());
 					message = { ...message, needToShowDateSeparator: true, needToShowCreator: true };
 					return message;
 				}

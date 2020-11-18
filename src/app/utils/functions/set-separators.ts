@@ -1,15 +1,34 @@
+import { IGroupable } from 'app/store/chats/models';
 import moment from 'moment';
 
-export const setSeparators = <T extends { creationDateTime?: Date; needToShowSeparator?: boolean }>(
+export const setSeparators = <T extends IGroupable>(
 	elements: T[],
-	separateBy: 'day' | 'month' | 'year',
-	separateFirst?: boolean,
+	separateBy: {
+		separateByDate?: boolean;
+		separateByMonth?: boolean;
+		separateByYear?: boolean;
+	},
+	separateFirst?: {
+		separateByDate?: boolean;
+		separateByMonth?: boolean;
+		separateByYear?: boolean;
+	},
 ) => {
 	return elements.map((elem, index, array) => {
 		const elemCopy = { ...elem };
 
 		if (index === 0 && separateFirst) {
-			elemCopy.needToShowSeparator = true;
+			if (separateFirst.separateByDate) {
+				elemCopy.needToShowDateSeparator = true;
+			}
+
+			if (separateFirst.separateByMonth) {
+				elemCopy.needToShowMonthSeparator = true;
+			}
+
+			if (separateFirst.separateByYear) {
+				elemCopy.needToShowYearSeparator = true;
+			}
 		}
 
 		const currentDate = new Date(moment.utc(elem?.creationDateTime!).local().toDate());
@@ -20,20 +39,25 @@ export const setSeparators = <T extends { creationDateTime?: Date; needToShowSep
 				.toDate(),
 		);
 
-		const condition =
-			separateBy === 'day'
-				? `${prevDate.getDate()} ${prevDate.getMonth()} ${prevDate.getFullYear()}` ===
-				  `${currentDate.getDate()} ${currentDate.getMonth()} ${currentDate.getFullYear()}`
-				: separateBy === 'month'
-				? `${prevDate.getMonth()} ${prevDate.getFullYear()}` ===
-				  `${currentDate.getMonth()} ${currentDate.getFullYear()}`
-				: separateBy === 'year'
-				? `${prevDate.getFullYear()}` === `${currentDate.getFullYear()}`
-				: false;
+		if (separateBy.separateByDate && prevDate.toDateString() === currentDate.toDateString()) {
+			elemCopy.needToShowDateSeparator = true;
+		}
 
-		if (!condition) {
-			elemCopy.needToShowSeparator = true;
+		if (
+			separateBy.separateByMonth &&
+			`${prevDate.getMonth()} ${prevDate.getFullYear()}` ===
+				`${currentDate.getMonth()} ${currentDate.getFullYear()}`
+		) {
+			elemCopy.needToShowMonthSeparator = true;
+		}
+
+		if (separateBy.separateByYear && `${prevDate.getFullYear()}` === `${currentDate.getFullYear()}`) {
+			elemCopy.needToShowYearSeparator = true;
 		}
 		return elemCopy;
 	});
+};
+
+export const doesYearDifferFromCurrent = (date: Date) => {
+	return new Date().getFullYear() !== new Date(date).getFullYear();
 };

@@ -1,6 +1,7 @@
 import BigPhoto from 'app/components/messenger-page/shared/big-photo/big-photo';
 import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
 import { IGroupable, PictureAttachment } from 'app/store/chats/models';
+import { doesYearDifferFromCurrent } from 'app/utils/functions/set-separators';
 import moment from 'moment';
 import React, { useCallback, useState } from 'react';
 
@@ -18,8 +19,14 @@ const Photo: React.FC<PhotoNS.Props> = ({ photo }) => {
 
 	return (
 		<>
-			{photo.needToShowSeparator && (
-				<div className='chat-photo__separator'>{moment(photo.creationDateTime).format('MMMM')}</div>
+			{photo.needToShowMonthSeparator && (
+				<div className='chat-photo__separator'>
+					{photo.needToShowYearSeparator || doesYearDifferFromCurrent(photo.creationDateTime)
+						? `${moment(photo.creationDateTime).format('MMMM')} (${moment(photo.creationDateTime).format(
+								'YYYY',
+						  )})`
+						: moment(photo.creationDateTime).format('MMMM')}
+				</div>
 			)}
 			<img onClick={changeBigPhotoDisplayed} key={photo.id} className='chat-photo__photo' src={photo.url} />
 			<FadeAnimationWrapper isDisplayed={bigPhotoDisplayed}>

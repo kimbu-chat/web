@@ -12,7 +12,7 @@ import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch'
 import InfiniteScroll from 'react-infinite-scroller';
 import moment from 'moment';
 
-import { setSeparators } from 'app/utils/functions/set-separators';
+import { doesYearDifferFromCurrent, setSeparators } from 'app/utils/functions/set-separators';
 
 const ChatRecordings = () => {
 	const { t } = useContext(LocalizationContext);
@@ -27,7 +27,11 @@ const ChatRecordings = () => {
 
 	const recordingsContainerRef = useRef<HTMLDivElement>(null);
 
-	const recordingsWithSeparators = setSeparators(recordings?.recordings, 'month', true);
+	const recordingsWithSeparators = setSeparators(
+		recordings?.recordings,
+		{ separateByMonth: true, separateByYear: true },
+		{ separateByMonth: true },
+	);
 
 	return (
 		<div className='chat-recordings'>
@@ -61,9 +65,14 @@ const ChatRecordings = () => {
 				>
 					{recordingsWithSeparators?.map((recording) => (
 						<div key={recording.id} className='chat-recordings__recording'>
-							{recording.needToShowSeparator && (
+							{recording.needToShowMonthSeparator && (
 								<div className='chat-files__separator'>
-									{moment(recording.creationDateTime).format('MMMM')}
+									{recording.needToShowYearSeparator ||
+									doesYearDifferFromCurrent(recording.creationDateTime)
+										? `${moment(recording.creationDateTime).format('MMMM')} (${moment(
+												recording.creationDateTime,
+										  ).format('YYYY')})`
+										: moment(recording.creationDateTime).format('MMMM')}
 								</div>
 							)}
 							<ChatRecording key={recording.id} recording={recording} />

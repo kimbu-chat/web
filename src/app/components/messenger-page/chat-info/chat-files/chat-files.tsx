@@ -13,7 +13,7 @@ import { Link, useLocation } from 'react-router-dom';
 import FileAttachment from '../../shared/file-attachment/file-attachment';
 import moment from 'moment';
 
-import { setSeparators } from 'app/utils/functions/set-separators';
+import { doesYearDifferFromCurrent, setSeparators } from 'app/utils/functions/set-separators';
 
 const ChatFiles = () => {
 	const { t } = useContext(LocalizationContext);
@@ -41,7 +41,11 @@ const ChatFiles = () => {
 		});
 	}, [selectedChat?.id, filesForSelectedDialog.files]);
 
-	const filesWithSeparators = setSeparators(filesForSelectedDialog.files, 'month', true);
+	const filesWithSeparators = setSeparators(
+		filesForSelectedDialog.files,
+		{ separateByMonth: true, separateByYear: true },
+		{ separateByMonth: true },
+	);
 
 	return (
 		<div className={'chat-files'}>
@@ -75,9 +79,13 @@ const ChatFiles = () => {
 				>
 					{filesWithSeparators?.map((file) => (
 						<React.Fragment key={file.id}>
-							{file.needToShowSeparator && (
+							{file.needToShowMonthSeparator && (
 								<div className='chat-files__separator'>
-									{moment(file.creationDateTime).format('MMMM')}
+									{file.needToShowYearSeparator || doesYearDifferFromCurrent(file.creationDateTime)
+										? `${moment(file.creationDateTime).format('MMMM')} (${moment(
+												file.creationDateTime,
+										  ).format('YYYY')})`
+										: moment(file.creationDateTime).format('MMMM')}
 								</div>
 							)}
 							<FileAttachment attachment={file} />

@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const setSeparators = <T extends { creationDateTime?: Date; needToShowSeparator?: boolean }>(
 	elements: T[],
 	separateBy: 'day' | 'month' | 'year',
@@ -10,8 +12,13 @@ export const setSeparators = <T extends { creationDateTime?: Date; needToShowSep
 			elemCopy.needToShowSeparator = true;
 		}
 
-		const currentDate = new Date(new Date(elem?.creationDateTime!).toString());
-		const prevDate = new Date(new Date(array[index - 1]?.creationDateTime!).toString());
+		const currentDate = new Date(moment.utc(elem?.creationDateTime!).local().toDate());
+		const prevDate = new Date(
+			moment
+				.utc(array[index - 1]?.creationDateTime!)
+				.local()
+				.toDate(),
+		);
 
 		const condition =
 			separateBy === 'day'

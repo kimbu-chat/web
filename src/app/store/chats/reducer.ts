@@ -1,4 +1,13 @@
-import { Chat, BaseAttachment, AttachmentToSend } from './models';
+import {
+	Chat,
+	BaseAttachment,
+	AttachmentToSend,
+	AudioAttachment,
+	PictureAttachment,
+	RawAttachment,
+	VideoAttachment,
+	VoiceAttachment,
+} from './models';
 import produce from 'immer';
 import { ChatService } from './chat-service';
 import { InterlocutorType } from './models';
@@ -6,7 +15,7 @@ import { createReducer } from 'typesafe-actions';
 import { ChatActions } from './actions';
 import { MessageActions } from '../messages/actions';
 import { FriendActions } from '../friends/actions';
-import { MessageState } from '../messages/models';
+import { FileType, MessageState } from '../messages/models';
 import { unionBy } from 'lodash';
 
 export interface ChatsState {
@@ -320,16 +329,76 @@ const chats = createReducer<ChatsState>(initialState)
 	.handleAction(
 		MessageActions.createMessageSuccess,
 		produce((draft: ChatsState, { payload }: ReturnType<typeof MessageActions.createMessageSuccess>) => {
-			const { messageState, chatId, oldMessageId, newMessageId } = payload;
+			const { messageState, chatId, oldMessageId, newMessageId, attachments } = payload;
 
 			const chatIndex: number = getChatArrayIndex(chatId, draft);
 
-			if (chatIndex >= 0 && draft.chats[chatIndex].lastMessage?.id === oldMessageId) {
-				const lastMessage = draft.chats[chatIndex].lastMessage || { id: 0, state: '' };
+			if (chatIndex >= 0) {
+				if (draft.chats[chatIndex].lastMessage?.id === oldMessageId) {
+					const lastMessage = draft.chats[chatIndex].lastMessage || { id: 0, state: '' };
 
-				lastMessage.id = newMessageId;
+					lastMessage.id = newMessageId;
 
-				lastMessage.state = messageState;
+					lastMessage.state = messageState;
+				}
+
+				if (
+					attachments?.forEach((attachment) => {
+						switch (attachment.type) {
+							case FileType.audio:
+								{
+									draft.chats[chatIndex].audioAttachmentsCount =
+										(draft.chats[chatIndex].audioAttachmentsCount || 0) + 1;
+									draft.chats[chatIndex].audios.audios.unshift({
+										...(attachment as AudioAttachment),
+										creationDateTime: new Date(),
+									});
+								}
+								break;
+							case FileType.picture:
+								{
+									draft.chats[chatIndex].pictureAttachmentsCount =
+										(draft.chats[chatIndex].pictureAttachmentsCount || 0) + 1;
+									draft.chats[chatIndex].photos.photos.unshift({
+										...(attachment as PictureAttachment),
+										creationDateTime: new Date(),
+									});
+								}
+								break;
+							case FileType.raw:
+								{
+									draft.chats[chatIndex].rawAttachmentsCount =
+										(draft.chats[chatIndex].rawAttachmentsCount || 0) + 1;
+									draft.chats[chatIndex].files.files.unshift({
+										...(attachment as RawAttachment),
+										creationDateTime: new Date(),
+									});
+								}
+								break;
+							case FileType.video:
+								{
+									draft.chats[chatIndex].videoAttachmentsCount =
+										(draft.chats[chatIndex].videoAttachmentsCount || 0) + 1;
+									draft.chats[chatIndex].videos.videos.unshift({
+										...(attachment as VideoAttachment),
+										creationDateTime: new Date(),
+									});
+								}
+								break;
+							case FileType.voice:
+								{
+									draft.chats[chatIndex].voiceAttachmentsCount =
+										(draft.chats[chatIndex].voiceAttachmentsCount || 0) + 1;
+									draft.chats[chatIndex].recordings.recordings.unshift({
+										...(attachment as VoiceAttachment),
+										creationDateTime: new Date(),
+									});
+								}
+								break;
+						}
+					})
+				) {
+				}
 			}
 
 			return draft;

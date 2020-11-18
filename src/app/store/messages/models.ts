@@ -83,6 +83,7 @@ export interface CreateMessageResponse {
 	oldMessageId: number;
 	newMessageId: number;
 	messageState: MessageState;
+	attachments?: BaseAttachment[];
 	chatId: number;
 }
 

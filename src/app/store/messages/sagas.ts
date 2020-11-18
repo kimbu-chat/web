@@ -95,6 +95,7 @@ export function* createMessage(action: ReturnType<typeof MessageActions.createMe
 					oldMessageId: message.id,
 					newMessageId: data,
 					messageState: MessageState.SENT,
+					attachments: message.attachments,
 				}),
 			);
 		} catch {

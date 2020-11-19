@@ -6,7 +6,6 @@ import { MessageCreatedEventHandler } from './integration-event-handlers/message
 import { UserMessageTypingEventHandler } from './integration-event-handlers/user-message-typing-event-handler';
 import { UserStatusChangedEventHandler } from './integration-event-handlers/user-status-changed-event-handler';
 import { GroupChatCreatedEventHandler } from './integration-event-handlers/group-chat-created-event-handler';
-import { GroupChatMessageReadEventHandler } from './integration-event-handlers/group-chat-message-read-event-handler';
 import { UserMessageReadEventHandler } from './integration-event-handlers/user-message-read-event-handler';
 import { getType } from 'typesafe-actions';
 import { AuthActions } from 'app/store/auth/actions';
@@ -52,8 +51,7 @@ function openConnection(store: Store<RootState>): void {
 	eventManager.registerEventHandler(EVENTS_NAMES.INTEROCUTOR_MESSAGE_TYPING, new UserMessageTypingEventHandler());
 	eventManager.registerEventHandler(EVENTS_NAMES.USER_STATUS_CHANGED, new UserStatusChangedEventHandler());
 	eventManager.registerEventHandler(EVENTS_NAMES.GROUP_CHAT_CREATED, new GroupChatCreatedEventHandler());
-	eventManager.registerEventHandler(EVENTS_NAMES.GROUP_CHAT_MESSAGE_READ, new GroupChatMessageReadEventHandler());
-	eventManager.registerEventHandler(EVENTS_NAMES.USER_MESSAGE_READ, new UserMessageReadEventHandler());
+	eventManager.registerEventHandler(EVENTS_NAMES.MESSAGES_READ, new UserMessageReadEventHandler());
 	//WebRTC
 	eventManager.registerEventHandler(EVENTS_NAMES.INCOMING_CALL, new IncomingCallEventHandler());
 	eventManager.registerEventHandler(

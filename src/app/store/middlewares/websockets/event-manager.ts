@@ -24,15 +24,13 @@ export class EventManager {
 		this.intergrationEventHandlers.set(eventName, eventHandler);
 	}
 
-	public getEventHandler(eventName: EVENTS_NAMES): IEventHandler {
+	public getEventHandler(eventName: EVENTS_NAMES): IEventHandler | null {
 		const eventHandler = this.intergrationEventHandlers.get(eventName);
 
-		console.log(eventName);
-
 		if (!eventHandler) {
-			alert('Event handler not found ' + eventName);
+			return null;
 		}
 
-		return this.intergrationEventHandlers.get(eventName) as IEventHandler;
+		return eventHandler as IEventHandler;
 	}
 }

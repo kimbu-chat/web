@@ -33,7 +33,7 @@ const Member = ({ member }: Member.Props) => {
 				) : (
 					<span className='chat-member__status chat-member__status--online'>
 						{' '}
-						{moment.utc(member?.lastOnlineTime).startOf('hour').fromNow()}
+						{moment.utc(member?.lastOnlineTime).local().startOf('hour').fromNow()}
 					</span>
 				)}
 			</div>

@@ -296,8 +296,8 @@ const chats = createReducer<ChatsState>(initialState)
 			}
 
 			const interlocutor = draft.chats[chatIndex].interlocutor!;
-			(interlocutor.status = status), (interlocutor.lastOnlineTime = new Date());
-
+			interlocutor.status = status;
+			interlocutor.lastOnlineTime = new Date();
 			return draft;
 		}),
 	)

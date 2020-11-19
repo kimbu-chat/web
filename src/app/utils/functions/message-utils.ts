@@ -17,7 +17,7 @@ export class MessageUtils {
 		return systemMessage;
 	}
 
-	static dateDifference = (startDate: Date, endDate: Date): boolean => {
+	static checkIfDatesAreSameDate = (startDate: Date, endDate: Date): boolean => {
 		return !(startDate.toDateString() === endDate.toDateString());
 	};
 
@@ -142,7 +142,7 @@ export class MessageUtils {
 			if (index <= arr.length - 1) {
 				if (
 					index === arr.length - 1 ||
-					MessageUtils.dateDifference(
+					MessageUtils.checkIfDatesAreSameDate(
 						moment
 							.utc(arr[index + 1].creationDateTime || '')
 							.local()

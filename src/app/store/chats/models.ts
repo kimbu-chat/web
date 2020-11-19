@@ -228,7 +228,9 @@ export interface VoiceAttachment extends BaseAttachment {
 
 export interface IGroupable {
 	creationDateTime: Date;
-	needToShowSeparator?: boolean;
+	needToShowDateSeparator?: boolean;
+	needToShowMonthSeparator?: boolean;
+	needToShowYearSeparator?: boolean;
 }
 
 export interface ChatList {

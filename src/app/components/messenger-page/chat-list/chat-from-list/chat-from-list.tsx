@@ -104,7 +104,7 @@ const ChatFromList = ({ chat }: ChatFromList.Props) => {
 						)}
 					</div>
 					<div className='chat-from-list__time'>
-						{MessageUtils.dateDifference(new Date(lastMessage?.creationDateTime!), new Date())
+						{MessageUtils.checkIfDatesAreSameDate(new Date(lastMessage?.creationDateTime!), new Date())
 							? moment.utc(lastMessage?.creationDateTime).local().format('dd MMM YY')
 							: moment.utc(lastMessage?.creationDateTime).local().format('LT')}
 					</div>

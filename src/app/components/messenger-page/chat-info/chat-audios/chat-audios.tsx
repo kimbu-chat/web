@@ -11,7 +11,7 @@ import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch'
 import InfiniteScroll from 'react-infinite-scroller';
 import moment from 'moment';
 
-import { setSeparators } from 'app/utils/functions/set-separators';
+import { doesYearDifferFromCurrent, setSeparators } from 'app/utils/functions/set-separators';
 import MessageAudioAttachment from '../../shared/audio-attachment/audio-attachment';
 
 const ChatAudios = () => {
@@ -29,7 +29,11 @@ const ChatAudios = () => {
 
 	const audiosContainerRef = useRef<HTMLDivElement>(null);
 
-	const audiosWithSeparators = setSeparators(audios?.audios, 'month', true);
+	const audiosWithSeparators = setSeparators(
+		audios?.audios,
+		{ separateByMonth: true, separateByYear: true },
+		{ separateByMonth: true },
+	);
 
 	useEffect(loadMore, []);
 
@@ -65,9 +69,14 @@ const ChatAudios = () => {
 				>
 					{audiosWithSeparators?.map((attachment) => (
 						<div key={attachment.id} className='chat-audios__audio'>
-							{attachment.needToShowSeparator && (
+							{attachment.needToShowMonthSeparator && (
 								<div className='chat-audios__separator'>
-									{moment(attachment.creationDateTime).format('MMMM')}
+									{attachment.needToShowYearSeparator ||
+									doesYearDifferFromCurrent(attachment.creationDateTime)
+										? `${moment(attachment.creationDateTime).format('MMMM')} (${moment(
+												attachment.creationDateTime,
+										  ).format('YYYY')})`
+										: moment(attachment.creationDateTime).format('MMMM')}
 								</div>
 							)}
 							<MessageAudioAttachment key={attachment.id} attachment={attachment} />

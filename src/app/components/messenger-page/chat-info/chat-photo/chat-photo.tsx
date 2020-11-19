@@ -39,7 +39,11 @@ const ChatPhoto = () => {
 		});
 	}, [selectedChat!.id, photoForSelectedDialog?.photos]);
 
-	const photosWithSeparators = setSeparators(photoForSelectedDialog?.photos, 'month', true);
+	const photosWithSeparators = setSeparators(
+		photoForSelectedDialog?.photos,
+		{ separateByMonth: true, separateByYear: true },
+		{ separateByMonth: true },
+	);
 
 	return (
 		<div className={'chat-photo'}>

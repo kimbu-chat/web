@@ -4,6 +4,7 @@ import moment from 'moment';
 import VideoPlayer from 'app/components/messenger-page/shared/video-player/video-player';
 import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
 import { IGroupable, VideoAttachment } from 'app/store/chats/models';
+import { doesYearDifferFromCurrent } from 'app/utils/functions/set-separators';
 
 namespace VideoNS {
 	export interface Props {
@@ -19,8 +20,14 @@ const VideoFromList: React.FC<VideoNS.Props> = ({ video }) => {
 
 	return (
 		<React.Fragment key={video.id}>
-			{video.needToShowSeparator && (
-				<div className='chat-video__separator'>{moment(video.creationDateTime).format('MMMM')}</div>
+			{video.needToShowMonthSeparator && (
+				<div className='chat-video__separator'>
+					{video.needToShowYearSeparator || doesYearDifferFromCurrent(video.creationDateTime)
+						? `${moment(video.creationDateTime).format('MMMM')} (${moment(video.creationDateTime).format(
+								'YYYY',
+						  )})`
+						: moment(video.creationDateTime).format('MMMM')}
+				</div>
 			)}
 			<div onClick={changeVideoPlayerDisplayed} className='chat-video__video-wrapper'>
 				<img className='chat-video__video' src={video.firstFrameUrl} />

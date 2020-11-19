@@ -51,7 +51,11 @@ const ChatVideo = () => {
 		});
 	}, [selectedChat!.id, videosForSelectedDialog?.videos]);
 
-	const videosWithSeparators = setSeparators(videosForSelectedDialog?.videos, 'month', true);
+	const videosWithSeparators = setSeparators(
+		videosForSelectedDialog?.videos,
+		{ separateByMonth: true, separateByYear: true },
+		{ separateByMonth: true },
+	);
 
 	return (
 		<div className={'chat-video'}>

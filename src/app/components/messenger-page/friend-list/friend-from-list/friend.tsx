@@ -36,6 +36,7 @@ const Friend = ({ friend }: Friend.Props) => {
 							? t('chatData.online')
 							: `${t('chatData.last-time')} ${moment
 									.utc(friend.lastOnlineTime)
+									.local()
 									.startOf('hour')
 									.fromNow()}`}
 					</div>

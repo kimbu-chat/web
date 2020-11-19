@@ -4,6 +4,7 @@ import { UserPreview } from '../my-profile/models';
 import { FriendActions } from './actions';
 import { ChatActions } from '../chats/actions';
 import unionBy from 'lodash/unionBy';
+import moment from 'moment';
 
 export interface FriendsState {
 	loading: boolean;

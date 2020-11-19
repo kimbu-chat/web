@@ -87,9 +87,11 @@ function openConnection(store: Store<RootState>): void {
 		});
 
 	connection.on('notify', (event: IntegrationEvent) => {
-		console.warn('connection.on(EVENTS_NAMES.NOTIFY');
+		console.warn(`Event received. Data: ${event}`);
 		const eventHandler = eventManager.getEventHandler(event.name as EVENTS_NAMES);
-		eventHandler.handle(store, event.object);
+		if (!eventHandler) {
+			eventHandler!.handle(store, event.object);
+		}
 	});
 	connection.onreconnecting(() => {
 		console.warn('RECONNECTING WEBSOCKETS');

@@ -53,7 +53,7 @@ const ChatData = () => {
 			: `${t('chatData.last-time')} ${moment
 					.utc(selectedChat?.interlocutor?.lastOnlineTime)
 					.local()
-					.startOf('hour')
+					.startOf('minute')
 					.fromNow()}`;
 
 		return (

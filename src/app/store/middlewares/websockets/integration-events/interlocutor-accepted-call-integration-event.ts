@@ -1,6 +1,4 @@
-import { BaseIntegrationEvent } from './base-integration-event';
-
-export interface InterlocutorAcceptedCallIntegrationEvent extends BaseIntegrationEvent {
+export interface InterlocutorAcceptedCallIntegrationEvent {
 	answer: RTCSessionDescriptionInit;
 	isVideoEnabled: boolean;
 }

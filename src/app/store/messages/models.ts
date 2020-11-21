@@ -153,12 +153,12 @@ export interface ResetSelectedMessagesReq {
 }
 
 export enum MessageState {
-	QUEUED = 1,
-	SENT = 2,
-	READ = 3,
-	ERROR = 4,
-	DELETED = 5,
-	LOCALMESSAGE = 6,
+	QUEUED = 'QUEUED',
+	SENT = 'SENT',
+	READ = 'READ',
+	ERROR = 'ERROR',
+	DELETED = 'DELETED',
+	LOCALMESSAGE = 'LOCALMESSAGE',
 }
 
 export interface UploadingFileInfo {

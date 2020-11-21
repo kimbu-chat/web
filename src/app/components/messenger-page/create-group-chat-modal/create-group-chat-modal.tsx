@@ -28,8 +28,8 @@ namespace ICreateGroupChatModal {
 	}
 
 	export enum groupChatCreationStage {
-		userSelect,
-		groupChatCreation,
+		userSelect = 'userSelect',
+		groupChatCreation = 'groupChatCreation',
 	}
 }
 
@@ -70,10 +70,16 @@ const CreateGroupChatModal = ({ onClose, preSelectedUserIds }: ICreateGroupChatM
 		(data: AvatarSelectedData) => {
 			setAvatarData(data);
 			setUploadEnded(false);
-			uploadGroupChatAvatar({ pathToFile: data.croppedImagePath, onProgress: setUploaded }).then((response) => {
-				setAvatarUploadResponse(response);
-				setUploadEnded(true);
-			});
+			uploadGroupChatAvatar({ pathToFile: data.croppedImagePath, onProgress: setUploaded })
+				.then((response) => {
+					setAvatarUploadResponse(response);
+					setUploadEnded(true);
+				})
+				.catch(() => {
+					setAvatarData(null);
+					setAvatarUploadResponse(null);
+					setUploadEnded(true);
+				});
 		},
 		[setAvatarData, setUploaded, uploadGroupChatAvatar, setAvatarUploadResponse],
 	);

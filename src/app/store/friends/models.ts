@@ -2,9 +2,9 @@ import { Page } from '../common/models';
 import { UserPreview } from '../my-profile/models';
 
 export enum UserStatus {
-	Offline = 0,
-	Away = 1,
-	Online = 2,
+	Offline = 'Offline',
+	Away = 'Away',
+	Online = 'Online',
 }
 
 export interface GetFriendsActionData {

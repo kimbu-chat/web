@@ -1,6 +1,4 @@
-import { BaseIntegrationEvent } from './base-integration-event';
-
-export interface IntercolutorMessageTypingIntegrationEvent extends BaseIntegrationEvent {
+export interface IntercolutorMessageTypingIntegrationEvent {
 	text: string;
 	timeoutId: NodeJS.Timeout;
 	interlocutorName: string;

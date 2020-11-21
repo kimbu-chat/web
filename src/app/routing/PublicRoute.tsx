@@ -5,7 +5,7 @@ import { RootState } from 'app/store/root-reducer';
 
 namespace PublicRoute {
 	export interface Props extends RouteProps {
-		Component: any;
+		Component: JSX.Element;
 		path: string;
 		isAllowed?: boolean;
 	}

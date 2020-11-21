@@ -1,13 +1,12 @@
 import { Page } from '../common/models';
 import { UserPreview } from '../my-profile/models';
 
-export enum CallType {
-	incoming = 1,
-	outgoing = 2,
-	missed = 3,
-	declined = 4,
-	canceled = 5,
-	ignored = 6,
+export enum CallStatus {
+	Successfull = 'Successfull',
+	Missed = 'Missed',
+	Declined = 'Declined',
+	Cancelled = 'Cancelled',
+	NotAnswered = 'NotAnswered',
 }
 export interface ICompleteConstraints {
 	video: {
@@ -82,13 +81,6 @@ export interface SwitchDeviceActionPayload {
 	deviceId: string;
 }
 
-export enum CallStatus {
-	Successfull = 0,
-	Cancelled = 1,
-	Declined = 2,
-	NotAnswered = 3,
-}
-
 //Http requests
 
 export interface CandidateApiRequest {
@@ -129,11 +121,11 @@ export interface GetCallsActionData {
 }
 
 export interface Call {
-	interlocutor: UserPreview;
-	durationInsSeconds?: number;
-	type: CallType;
+	userInterlocutor: UserPreview;
+	seconds: number;
+	status: CallStatus;
 	id: number;
-	date: Date;
+	callDateTime: Date;
 }
 
 export interface CallList {
@@ -142,3 +134,7 @@ export interface CallList {
 }
 
 export interface GetCallsResponse extends CallList {}
+
+export interface GetCallsApiRequest {
+	page: Page;
+}

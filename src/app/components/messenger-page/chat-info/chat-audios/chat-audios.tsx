@@ -32,7 +32,7 @@ const ChatAudios = () => {
 	const audiosWithSeparators = setSeparators(
 		audios?.audios,
 		{ separateByMonth: true, separateByYear: true },
-		{ separateByMonth: true },
+		{ separateByMonth: true, separateByYear: true },
 	);
 
 	useEffect(loadMore, []);
@@ -73,9 +73,7 @@ const ChatAudios = () => {
 								<div className='chat-audios__separator'>
 									{attachment.needToShowYearSeparator ||
 									doesYearDifferFromCurrent(attachment.creationDateTime)
-										? `${moment(attachment.creationDateTime).format('MMMM')} (${moment(
-												attachment.creationDateTime,
-										  ).format('YYYY')})`
+										? moment(attachment.creationDateTime).format('MMMM YYYY')
 										: moment(attachment.creationDateTime).format('MMMM')}
 								</div>
 							)}

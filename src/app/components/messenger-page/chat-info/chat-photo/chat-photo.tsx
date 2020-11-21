@@ -42,7 +42,7 @@ const ChatPhoto = () => {
 	const photosWithSeparators = setSeparators(
 		photoForSelectedDialog?.photos,
 		{ separateByMonth: true, separateByYear: true },
-		{ separateByMonth: true },
+		{ separateByMonth: true, separateByYear: true },
 	);
 
 	return (

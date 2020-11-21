@@ -16,9 +16,14 @@ import NotificationsSettings from './notifications-settings/notifications-settin
 import LanguageSettings from './language-settings/language-settings';
 import { CSSTransition } from 'react-transition-group';
 import TextTyping from './text-typing/text-typing';
+import BaseBtn from 'app/components/shared/base-btn/base-btn';
+import { AuthActions } from 'app/store/auth/actions';
+import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
 
 const Settings = () => {
 	const { t } = useContext(LocalizationContext);
+
+	const logout = useActionWithDispatch(AuthActions.logout);
 
 	const myProfile = useSelector(getMyProfileSelector);
 
@@ -69,6 +74,15 @@ const Settings = () => {
 									<span className='settings__link-name'>{t('settings.language')}</span>
 								</Link>
 							</div>
+							<BaseBtn
+								onClick={logout}
+								width='contained'
+								variant={'contained'}
+								color='primary'
+								className='settings__logout-btn'
+							>
+								{t('settings.logout')}
+							</BaseBtn>
 						</div>
 					</CSSTransition>
 				)}

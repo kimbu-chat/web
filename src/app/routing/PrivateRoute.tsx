@@ -3,7 +3,7 @@ import { Route, Redirect, RouteProps } from 'react-router';
 
 namespace PrivateRoute {
 	export interface Props extends RouteProps {
-		Component: any;
+		Component: JSX.Element;
 		path: string;
 		isAllowed: boolean;
 		fallback?: string;

@@ -82,6 +82,18 @@ const EditProfile = () => {
 		});
 	}, []);
 
+	const removeAvatar = useCallback(() => {
+		updateMyProfile({
+			avatar: {
+				url: '',
+				previewUrl: '',
+				id: '',
+			},
+			firstName: myProfile!.firstName,
+			lastName: myProfile!.lastName,
+		});
+	}, [updateMyProfile, myProfile]);
+
 	return (
 		<>
 			<div className='edit-profile'>
@@ -90,9 +102,11 @@ const EditProfile = () => {
 						<Avatar className='edit-profile__account-avatar' src={myProfile?.avatar?.previewUrl}>
 							{getUserInitials(myProfile)}
 						</Avatar>
-						<div className='edit-profile__remove-photo'>
-							<CloseSVG viewBox='0 0 25 25' />
-						</div>
+						{myProfile?.avatar?.previewUrl && (
+							<button onClick={removeAvatar} className='edit-profile__remove-photo'>
+								<CloseSVG viewBox='0 0 25 25' />
+							</button>
+						)}
 					</div>
 					<input
 						onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleImageChange(e)}

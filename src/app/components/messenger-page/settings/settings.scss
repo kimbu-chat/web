@@ -1,5 +1,8 @@
 .settings {
 	width: 346px;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
 
 	&-slide-enter {
 		transform: translateX(100%) translateZ(0);
@@ -85,5 +88,9 @@
 		line-height: 18px;
 		color: #3f8ae0;
 		font-weight: 400;
+	}
+
+	&__logout-btn {
+		margin-top: auto;
 	}
 }

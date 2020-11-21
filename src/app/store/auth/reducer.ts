@@ -43,6 +43,7 @@ const auth = createReducer<AuthState>(initialState)
 			return {
 				...draft,
 				isAuthenticated: true,
+				loading: false,
 				securityTokens: payload,
 			};
 		}),

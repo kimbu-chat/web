@@ -48,7 +48,7 @@ const friends = createReducer<FriendsState>(initialState)
 	.handleAction(
 		FriendActions.userStatusChangedEvent,
 		produce((draft: FriendsState, { payload }: ReturnType<typeof FriendActions.userStatusChangedEvent>) => {
-			const userId = payload.objectId;
+			const userId = payload.userId;
 			const isUserExist = checkUserExist(userId, draft);
 
 			if (!isUserExist) {

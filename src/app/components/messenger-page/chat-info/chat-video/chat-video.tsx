@@ -54,7 +54,7 @@ const ChatVideo = () => {
 	const videosWithSeparators = setSeparators(
 		videosForSelectedDialog?.videos,
 		{ separateByMonth: true, separateByYear: true },
-		{ separateByMonth: true },
+		{ separateByMonth: true, separateByYear: true },
 	);
 
 	return (

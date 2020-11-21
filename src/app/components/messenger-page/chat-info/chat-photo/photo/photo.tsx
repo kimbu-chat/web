@@ -21,11 +21,10 @@ const Photo: React.FC<PhotoNS.Props> = ({ photo }) => {
 		<>
 			{photo.needToShowMonthSeparator && (
 				<div className='chat-photo__separator'>
-					{photo.needToShowYearSeparator || doesYearDifferFromCurrent(photo.creationDateTime)
-						? `${moment(photo.creationDateTime).format('MMMM')} (${moment(photo.creationDateTime).format(
-								'YYYY',
-						  )})`
-						: moment(photo.creationDateTime).format('MMMM')}
+					{photo.needToShowMonthSeparator &&
+						(photo.needToShowYearSeparator || doesYearDifferFromCurrent(photo.creationDateTime)
+							? moment(photo.creationDateTime).format('MMMM YYYY')
+							: moment(photo.creationDateTime).format('MMMM'))}
 				</div>
 			)}
 			<img onClick={changeBigPhotoDisplayed} key={photo.id} className='chat-photo__photo' src={photo.url} />

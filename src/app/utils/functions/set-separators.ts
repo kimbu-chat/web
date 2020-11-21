@@ -32,26 +32,23 @@ export const setSeparators = <T extends IGroupable>(
 		}
 
 		const currentDate = new Date(moment.utc(elem?.creationDateTime!).local().toDate());
-		const prevDate = new Date(
-			moment
-				.utc(array[index - 1]?.creationDateTime!)
-				.local()
-				.toDate(),
-		);
-
+		const prevDate = moment
+			.utc(array[index - 1]?.creationDateTime!)
+			.local()
+			.toDate();
 		if (separateBy.separateByDate && prevDate.toDateString() === currentDate.toDateString()) {
 			elemCopy.needToShowDateSeparator = true;
 		}
 
 		if (
 			separateBy.separateByMonth &&
-			`${prevDate.getMonth()} ${prevDate.getFullYear()}` ===
+			`${prevDate.getMonth()} ${prevDate.getFullYear()}` !==
 				`${currentDate.getMonth()} ${currentDate.getFullYear()}`
 		) {
 			elemCopy.needToShowMonthSeparator = true;
 		}
 
-		if (separateBy.separateByYear && `${prevDate.getFullYear()}` === `${currentDate.getFullYear()}`) {
+		if (separateBy.separateByYear && prevDate.getFullYear() !== currentDate.getFullYear()) {
 			elemCopy.needToShowYearSeparator = true;
 		}
 		return elemCopy;

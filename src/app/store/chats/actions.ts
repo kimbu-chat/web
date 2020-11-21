@@ -40,6 +40,7 @@ export namespace ChatActions {
 	export const getVoiceAttachments = createAction('GET_VOICE_ATTACHMENTS')<GetRecordingsRequest>();
 	export const getAudioAttachments = createAction('GET_AUDIO_ATTACHMENTS')<GetAudioAttachmentsRequest>();
 	export const getChatInfo = createAction('GET_CHAT_INFO')<GetChatInfoRequest>();
+
 	export const getChatsSuccess = createAction('GET_CHATS_SUCCESS')<GetChatsResponse>();
 	export const getChatsFailure = createEmptyAction('GET_CHATS_FAILURE');
 	export const getPhotoAttachmentsSuccess = createAction('GET_PHOTO_ATTACHMENTS_SUCCESS')<
@@ -54,8 +55,10 @@ export namespace ChatActions {
 		GetAudioAttachmentsResponse
 	>();
 	export const getChatInfoSuccess = createAction('GET_CHAT_INFO_SUCCESS')<GetChatInfoResponse>();
+
 	export const changeSelectedChat = createAction('CHANGE_SELECTED_CHAT')<number>();
 	export const changeChatVisibilityState = createAction('CHANGE_CHAT_VISIBILITY_STATE')<Chat>();
+	export const unshiftChat = createAction('UNSHIFT_CHAT')<Chat>();
 	export const changeChatVisibilityStateSuccess = createAction('CHANGE_CHAT_VISIBILITY_STATE_SUCCESS')<Chat>();
 	export const muteChat = createAction('MUTE_CHAT')<Chat>();
 	export const muteChatSuccess = createAction('MUTE_CHAT_SUCCESS')<Chat>();
@@ -85,6 +88,7 @@ export namespace ChatActions {
 	export const interlocutorMessageTyping = createAction('INTERLOCUTOR_MESSAGE_TYPING_EVENT')<
 		IntercolutorMessageTypingIntegrationEvent
 	>();
+
 	export const uploadAttachmentRequestAction = createAction('UPLOAD_ATTACHMENT_REQUEST')<UploadAttachmentReqData>();
 	export const uploadAttachmentProgressAction = createAction('UPLOAD_ATTACHMENT_PROGRESS')<
 		UploadAttachmentProgressData
@@ -96,5 +100,6 @@ export namespace ChatActions {
 		UploadAttachmentFailedData
 	>();
 	export const removeAttachmentAction = createAction('REMOVE_ATTACHMENT')<RemoveAttachmentReqData>();
+
 	export const markMessagesAsRead = createAction('RESET_UNREAD_MESSAGES_COUNT')<MarkMessagesAsReadReqData>();
 }

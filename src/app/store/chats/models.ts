@@ -20,8 +20,8 @@ export interface ParsedInterlocutorId {
 }
 
 export enum InterlocutorType {
-	USER = 'user',
-	GROUP_CHAT = 'groupChat',
+	USER = 1,
+	GROUP_CHAT = 2,
 }
 
 export interface GetChatAudiosHTTPRequest {

@@ -153,9 +153,7 @@ const CreateMessageInput = () => {
 			const attachments = updatedSelectedChat.current?.attachmentsToSend?.map(({ attachment }) => attachment);
 
 			sendMessage({
-				currentUser: currentUser,
-				selectedChatId: chatId || -1,
-				chat: updatedSelectedChat.current,
+				chatId: updatedSelectedChat.current!.id,
 				message: {
 					text,
 					systemMessageType: SystemMessageType.None,

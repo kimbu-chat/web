@@ -1,3 +1,4 @@
+import { getSelectedChatIdSelector } from './../chats/selectors';
 import { call, put, takeLatest, takeEvery, select } from 'redux-saga/effects';
 import { RootState } from 'app/store/root-reducer';
 
@@ -19,9 +20,10 @@ import moment from 'moment';
 
 import messageCameSelected from 'app/assets/sounds/notifications/messsage-came-selected.ogg';
 import messageCameUnselected from 'app/assets/sounds/notifications/messsage-came-unselected.ogg';
-import { MarkMessagesAsReadRequest } from '../chats/models';
+import { Chat, MarkMessagesAsReadRequest } from '../chats/models';
 import { ChatHttpRequests } from '../chats/http-requests';
 import { HTTPStatusCode } from 'app/common/http-status-code';
+import { ChatActions } from '../chats/actions';
 
 const audioSelected = new Audio(messageCameSelected);
 const audioUnselected = new Audio(messageCameUnselected);
@@ -53,14 +55,18 @@ export function* getMessages(action: ReturnType<typeof MessageActions.getMessage
 }
 
 export function* createMessage(action: ReturnType<typeof MessageActions.createMessage>): SagaIterator {
-	let { message, chat, isFromEvent, selectedChatId } = { ...action.payload };
+	let { message, chatId, isFromEvent } = action.payload;
+	const selectedChatId = yield select(getSelectedChatIdSelector);
 
 	if (isFromEvent) {
-		yield call(notifyInterlocutorThatMessageWasRead, action.payload);
+		if (selectedChatId === chatId) {
+			yield call(notifyInterlocutorThatMessageWasRead, action.payload);
+		}
 		//notifications play
 		const currentUserId = yield select((state: RootState) => state.myProfile.user?.id);
-		const chatOfMessage = yield select((state: RootState) => state.chats.chats.find(({ id }) => id === chat.id));
+		const chatOfMessage = yield select((state: RootState) => state.chats.chats.find(({ id }) => id === chatId));
 		const isAudioPlayAllowed = yield select((state: RootState) => state.settings.notificationSound);
+		const chats: Chat[] = yield select((state: RootState) => state.chats.chats);
 
 		if (isAudioPlayAllowed) {
 			if (
@@ -76,13 +82,28 @@ export function* createMessage(action: ReturnType<typeof MessageActions.createMe
 				audioUnselected.play();
 			}
 		}
+
+		if (chats.findIndex(({ id }) => id === chatId) === -1) {
+			console.log(
+				chats.findIndex((chat) => chat.id === chatId),
+				chatId,
+			);
+			const httpRequest = ChatHttpRequests.getChatById;
+
+			const { data, status } = httpRequest.call(yield call(() => httpRequest.generator({ chatId })));
+
+			if (status === HTTPStatusCode.OK) {
+				yield put(ChatActions.unshiftChat(data));
+			} else {
+				alert('getChatInfoSaga error');
+			}
+		}
 	} else {
-		console.log(message.attachments);
 		const attachmentsToSend = message.attachments?.map(({ id, type }) => ({ id, type })) || [];
 		try {
 			const messageCreationReq: MessageCreationReqData = {
 				text: message.text,
-				chatId: chat.id,
+				chatId,
 				attachments: attachmentsToSend,
 			};
 
@@ -110,17 +131,19 @@ export function* messageTyping({ payload }: ReturnType<typeof MessageActions.mes
 }
 
 export function* notifyInterlocutorThatMessageWasRead(createMessageRequest: CreateMessageRequest): SagaIterator {
-	const { chat, currentUser, selectedChatId, message } = createMessageRequest;
+	const { chatId, message } = createMessageRequest;
+	const selectedChatId = yield select(getSelectedChatIdSelector);
+	const currentUserId = yield select((state: RootState) => state.myProfile.user?.id);
 
 	if (
 		!selectedChatId ||
 		!Boolean(message.userCreator) ||
-		currentUser.id === message.userCreator?.id ||
+		currentUserId === message.userCreator?.id ||
 		message.systemMessageType !== SystemMessageType.None
 	) {
 		return;
 	}
-	const isChatCurrentInterlocutor: boolean = chat.id == selectedChatId;
+	const isChatCurrentInterlocutor: boolean = chatId == selectedChatId;
 	if (isChatCurrentInterlocutor) {
 		const httpRequestPayload: MarkMessagesAsReadRequest = {
 			chatId: selectedChatId,

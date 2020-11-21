@@ -71,12 +71,10 @@ export interface UserMessageTypingRequest {
 }
 
 export interface CreateMessageRequest {
-	chat: Chat;
-	currentUser: { id: number };
-	selectedChatId: number;
+	chatId: number;
 	message: Message;
 	isFromEvent?: boolean;
-	attachments?: BaseAttachment[];
+	currentUserId?: number;
 }
 
 export interface CreateMessageResponse {

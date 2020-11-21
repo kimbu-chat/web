@@ -1,5 +1,3 @@
-import { BaseIntegrationEvent } from './base-integration-event';
-
-export interface CandidateIntegrationEvent extends BaseIntegrationEvent {
+export interface CandidateIntegrationEvent {
 	candidate: RTCIceCandidate;
 }

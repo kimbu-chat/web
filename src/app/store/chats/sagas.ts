@@ -211,7 +211,7 @@ function* createGroupChatSaga(action: ReturnType<typeof ChatActions.createGroupC
 
 function* createGroupChatFromEventSaga(action: ReturnType<typeof ChatActions.createGroupChatFromEvent>): SagaIterator {
 	const payload: GroupChatCreatedIntegrationEvent = action.payload;
-	const chatId: number = ChatService.getChatIdentifier(undefined, payload.objectId);
+	const chatId: number = ChatService.getChatIdentifier(undefined, payload.id);
 	const currentUser = new MyProfileService().myProfile;
 
 	const message: Message = {
@@ -229,7 +229,7 @@ function* createGroupChatFromEventSaga(action: ReturnType<typeof ChatActions.cre
 		id: chatId,
 		draftMessage: '',
 		groupChat: {
-			id: payload.objectId,
+			id: payload.id,
 			membersCount: payload.memberIds.length,
 			name: action.payload.name,
 		} as GroupChat,

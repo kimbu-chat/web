@@ -1,6 +1,4 @@
-import { BaseIntegrationEvent } from './base-integration-event';
-
-export interface MessagesReadIntegrationEvent extends BaseIntegrationEvent {
+export interface MessagesReadIntegrationEvent {
 	lastReadMessageId: number;
 	readMessagesCount: number;
 	objectType: 'User' | 'GroupChat';

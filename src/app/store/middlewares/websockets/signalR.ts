@@ -85,9 +85,9 @@ function openConnection(store: Store<RootState>): void {
 		});
 
 	connection.on('notify', (event: IntegrationEvent) => {
-		console.warn(`Event received. Data: ${JSON.stringify(event)}`);
+		console.warn(`Event received. Data: `, event);
 		const eventHandler = eventManager.getEventHandler(event.name as EVENTS_NAMES);
-		if (!eventHandler) {
+		if (eventHandler) {
 			eventHandler!.handle(store, event.object);
 		}
 	});

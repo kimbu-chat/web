@@ -1,9 +1,9 @@
-import { BaseIntegrationEvent } from './base-integration-event';
 import { SystemMessageType } from 'app/store/messages/models';
 import { UserPreview } from 'app/store/my-profile/models';
 
-export interface MessageCreatedIntegrationEvent extends BaseIntegrationEvent {
+export interface MessageCreatedIntegrationEvent {
 	destinationId: number;
+	id: number;
 	text: string;
 	userCreator: UserPreview;
 	destinationType: string;

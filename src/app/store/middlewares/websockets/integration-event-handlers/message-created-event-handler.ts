@@ -30,7 +30,7 @@ export class MessageCreatedEventHandler implements IEventHandler<MessageCreatedI
 			systemMessageType: eventData.systemMessageType,
 			chatId: chatId,
 			creationDateTime: new Date(new Date().toUTCString()),
-			id: eventData.objectId,
+			id: eventData.id,
 			state: MessageState.READ,
 			userCreator: { ...eventData.userCreator, id: eventData.userCreatorId },
 		};

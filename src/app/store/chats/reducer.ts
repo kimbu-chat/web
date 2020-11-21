@@ -671,6 +671,14 @@ const chats = createReducer<ChatsState>(initialState)
 
 			return draft;
 		}),
+	)
+	.handleAction(
+		ChatActions.unshiftChat,
+		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.unshiftChat>) => {
+			draft.chats.unshift(payload);
+
+			return draft;
+		}),
 	);
 
 export default chats;

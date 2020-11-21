@@ -20,9 +20,10 @@ import moment from 'moment';
 
 import messageCameSelected from 'app/assets/sounds/notifications/messsage-came-selected.ogg';
 import messageCameUnselected from 'app/assets/sounds/notifications/messsage-came-unselected.ogg';
-import { MarkMessagesAsReadRequest } from '../chats/models';
+import { Chat, MarkMessagesAsReadRequest } from '../chats/models';
 import { ChatHttpRequests } from '../chats/http-requests';
 import { HTTPStatusCode } from 'app/common/http-status-code';
+import { ChatActions } from '../chats/actions';
 
 const audioSelected = new Audio(messageCameSelected);
 const audioUnselected = new Audio(messageCameUnselected);
@@ -58,11 +59,14 @@ export function* createMessage(action: ReturnType<typeof MessageActions.createMe
 	const selectedChatId = yield select(getSelectedChatIdSelector);
 
 	if (isFromEvent) {
-		yield call(notifyInterlocutorThatMessageWasRead, action.payload);
+		if (selectedChatId === chatId) {
+			yield call(notifyInterlocutorThatMessageWasRead, action.payload);
+		}
 		//notifications play
 		const currentUserId = yield select((state: RootState) => state.myProfile.user?.id);
 		const chatOfMessage = yield select((state: RootState) => state.chats.chats.find(({ id }) => id === chatId));
 		const isAudioPlayAllowed = yield select((state: RootState) => state.settings.notificationSound);
+		const chats: Chat[] = yield select((state: RootState) => state.chats.chats);
 
 		if (isAudioPlayAllowed) {
 			if (
@@ -78,8 +82,23 @@ export function* createMessage(action: ReturnType<typeof MessageActions.createMe
 				audioUnselected.play();
 			}
 		}
+
+		if (chats.findIndex(({ id }) => id === chatId) === -1) {
+			console.log(
+				chats.findIndex((chat) => chat.id === chatId),
+				chatId,
+			);
+			const httpRequest = ChatHttpRequests.getChatById;
+
+			const { data, status } = httpRequest.call(yield call(() => httpRequest.generator({ chatId })));
+
+			if (status === HTTPStatusCode.OK) {
+				yield put(ChatActions.unshiftChat(data));
+			} else {
+				alert('getChatInfoSaga error');
+			}
+		}
 	} else {
-		console.log(message.attachments);
 		const attachmentsToSend = message.attachments?.map(({ id, type }) => ({ id, type })) || [];
 		try {
 			const messageCreationReq: MessageCreationReqData = {

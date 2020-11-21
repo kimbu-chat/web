@@ -28,8 +28,8 @@ namespace ICreateGroupChatModal {
 	}
 
 	export enum groupChatCreationStage {
-		userSelect,
-		groupChatCreation,
+		userSelect = 'userSelect',
+		groupChatCreation = 'groupChatCreation',
 	}
 }
 

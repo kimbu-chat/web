@@ -23,8 +23,8 @@ namespace ChangePhoto {
 	}
 
 	export enum Stage {
-		imageCrop,
-		imagePreview,
+		imageCrop = 'imageCrop',
+		imagePreview = 'imagePreview',
 	}
 }
 

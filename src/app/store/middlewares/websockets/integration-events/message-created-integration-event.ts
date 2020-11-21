@@ -1,13 +1,14 @@
-import { SystemMessageType } from 'app/store/messages/models';
+import { SystemMessageType } from './../../../messages/models';
+import { BaseAttachment } from 'app/store/chats/models';
 import { UserPreview } from 'app/store/my-profile/models';
 
 export interface MessageCreatedIntegrationEvent {
-	destinationId: number;
+	attachments: BaseAttachment[];
+	chatId: number;
+	creationDateTime: Date;
 	id: number;
+	systemMessageType: SystemMessageType;
 	text: string;
 	userCreator: UserPreview;
-	destinationType: string;
-	systemMessageType: SystemMessageType;
-	attachments: Array<number>;
 	userCreatorId: number;
 }

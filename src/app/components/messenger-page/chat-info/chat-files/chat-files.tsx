@@ -44,7 +44,7 @@ const ChatFiles = () => {
 	const filesWithSeparators = setSeparators(
 		filesForSelectedDialog.files,
 		{ separateByMonth: true, separateByYear: true },
-		{ separateByMonth: true },
+		{ separateByMonth: true, separateByYear: true },
 	);
 
 	return (
@@ -82,9 +82,7 @@ const ChatFiles = () => {
 							{file.needToShowMonthSeparator && (
 								<div className='chat-files__separator'>
 									{file.needToShowYearSeparator || doesYearDifferFromCurrent(file.creationDateTime)
-										? `${moment(file.creationDateTime).format('MMMM')} (${moment(
-												file.creationDateTime,
-										  ).format('YYYY')})`
+										? moment(file.creationDateTime).format('MMMM YYYY')
 										: moment(file.creationDateTime).format('MMMM')}
 								</div>
 							)}

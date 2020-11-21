@@ -30,7 +30,7 @@ const ChatRecordings = () => {
 	const recordingsWithSeparators = setSeparators(
 		recordings?.recordings,
 		{ separateByMonth: true, separateByYear: true },
-		{ separateByMonth: true },
+		{ separateByMonth: true, separateByYear: true },
 	);
 
 	return (
@@ -66,12 +66,10 @@ const ChatRecordings = () => {
 					{recordingsWithSeparators?.map((recording) => (
 						<div key={recording.id} className='chat-recordings__recording'>
 							{recording.needToShowMonthSeparator && (
-								<div className='chat-files__separator'>
+								<div className='chat-recordings__separator'>
 									{recording.needToShowYearSeparator ||
 									doesYearDifferFromCurrent(recording.creationDateTime)
-										? `${moment(recording.creationDateTime).format('MMMM')} (${moment(
-												recording.creationDateTime,
-										  ).format('YYYY')})`
+										? moment(recording.creationDateTime).format('MMMM YYYY')
 										: moment(recording.creationDateTime).format('MMMM')}
 								</div>
 							)}

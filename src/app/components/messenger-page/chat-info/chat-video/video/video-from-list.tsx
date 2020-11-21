@@ -22,11 +22,10 @@ const VideoFromList: React.FC<VideoNS.Props> = ({ video }) => {
 		<React.Fragment key={video.id}>
 			{video.needToShowMonthSeparator && (
 				<div className='chat-video__separator'>
-					{video.needToShowYearSeparator || doesYearDifferFromCurrent(video.creationDateTime)
-						? `${moment(video.creationDateTime).format('MMMM')} (${moment(video.creationDateTime).format(
-								'YYYY',
-						  )})`
-						: moment(video.creationDateTime).format('MMMM')}
+					{video.needToShowMonthSeparator &&
+						(video.needToShowYearSeparator || doesYearDifferFromCurrent(video.creationDateTime)
+							? moment(video.creationDateTime).format('MMMM YYYY')
+							: moment(video.creationDateTime).format('MMMM'))}
 				</div>
 			)}
 			<div onClick={changeVideoPlayerDisplayed} className='chat-video__video-wrapper'>

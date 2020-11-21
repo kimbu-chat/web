@@ -16,24 +16,8 @@
 	"activeCall": {
 		"default": "По умолчанию"
 	},
-	"accountInfo": {
-		"create_chat": "Создать чат",
-		"create_channel": "Создать канал",
-		"create_call": "Создать звонок",
-		"to_main": "На главную",
-		"contacts": "Контакты",
-		"settings": "Настройки",
-		"exit": "Выход"
-	},
-	"accountSettings": {
-		"settings": "Настройки"
-	},
-	"langCategory": {
-		"language": "Язык"
-	},
 	"chatData": {
 		"members": "участника",
-		"member": "участник",
 		"online": "Онлайн",
 		"last-time": "Последний раз был в сети"
 	},
@@ -92,17 +76,6 @@
 	"chatAudios": {
 		"audios": "Аудио"
 	},
-	"chatMembers": {
-		"search": "Поиск"
-	},
-	"contactsSearch": {
-		"contactsSearch": "Поиск по контактам",
-		"create_chat": "Создать чат",
-		"reject": "Отмена"
-	},
-	"searchTop": {
-		"search": "Поиск"
-	},
 	"changePhoto": {
 		"confirm": "Подтвердить",
 		"reject": "Отмена"
@@ -126,7 +99,6 @@
 		"title": "Ошибка, страница не найдена",
 		"description": "Приносим извинения за неудобства. Похоже, вы пытаетесь получить доступ к странице, которая была удалена или даже не существовала."
 	},
-	"back": "Назад",
 	"emojiMart": {
 		"search": "Поиск",
 		"clear": "Отчистить",
@@ -170,7 +142,8 @@
 		"edit_profile": "Редактировать профиль",
 		"notifications": "Уведомления",
 		"text_typing": "Набор текста",
-		"language": "Язык"
+		"language": "Язык",
+		"logout": "Выход"
 	},
 	"textTyping": {
 		"nlce": "Отправьте сообщение с помощью Enter, вставьте новую строку с помощью Shift / Ctrl / Alt + Enter",

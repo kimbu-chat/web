@@ -155,7 +155,7 @@ function* authenticate(action: ReturnType<typeof AuthActions.confirmPhone>): Sag
 	action?.meta.deferred?.resolve();
 }
 
-function* logout(action: ReturnType<typeof AuthActions.logout>): SagaIterator {
+function* logout(): SagaIterator {
 	new AuthService().clear();
 	new MyProfileService().clear();
 
@@ -175,8 +175,6 @@ function* logout(action: ReturnType<typeof AuthActions.logout>): SagaIterator {
 	}
 
 	yield call(async () => await messaging().deleteToken);
-
-	action.meta.deferred?.resolve();
 }
 
 export const AuthSagas = [

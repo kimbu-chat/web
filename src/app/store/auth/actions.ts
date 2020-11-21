@@ -1,6 +1,6 @@
 import { SendSmsCodeActionData, PhoneConfirmationActionData, LoginResponse } from './models';
 import { createAction } from 'typesafe-actions';
-import { createEmptyAction, Meta, createEmptyActionWithDeffered } from '../common/actions';
+import { createEmptyAction, Meta } from '../common/actions';
 
 export namespace AuthActions {
 	export const loginSuccess = createAction('LOGIN_SUCCESS')<LoginResponse>();
@@ -15,5 +15,5 @@ export namespace AuthActions {
 	export const confirmPhone = createAction('CONFIRM_PHONE')<PhoneConfirmationActionData, Meta>();
 	export const confirmPhoneSuccess = createEmptyAction('CONFIRM_PHONE_SUCCESS');
 	export const confirmPhoneFailure = createEmptyAction('CONFIRM_PHONE_FAILURE');
-	export const logout = createEmptyActionWithDeffered('LOGOUT');
+	export const logout = createEmptyAction('LOGOUT');
 }

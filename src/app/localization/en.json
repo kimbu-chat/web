@@ -15,12 +15,8 @@
 	"activeCall": {
 		"default": "Default"
 	},
-	"langCategory": {
-		"language": "Language"
-	},
 	"chatData": {
 		"members": "members",
-		"member": "member",
 		"online": "Online",
 		"last-time": "Last seen online"
 	},
@@ -79,17 +75,6 @@
 	"chatAudios": {
 		"audios": "Audios"
 	},
-	"chatMembers": {
-		"search": "Search"
-	},
-	"contactsSearch": {
-		"contactsSearch": "Search in contacts",
-		"create_chat": "Create chat",
-		"reject": "Reject"
-	},
-	"searchTop": {
-		"search": "Search"
-	},
 	"changePhoto": {
 		"confirm": "Confirm",
 		"reject": "Reject"
@@ -112,7 +97,6 @@
 		"title": "Ooups, page not found",
 		"description": "We are very sory for the inconvenience. It looks like you're trying to access a page that has been deleted or never even existed."
 	},
-	"back": "Back",
 	"emojiMart": {
 		"search": "Search",
 		"clear": "Clear",
@@ -157,7 +141,8 @@
 		"edit_profile": "Edit profile",
 		"notifications": "Notifications",
 		"text_typing": "Text typing",
-		"language": "Language"
+		"language": "Language",
+		"logout": "Выход"
 	},
 	"textTyping": {
 		"nlce": "Send a message by Enter, insert a new line by Shift/Ctrl/Alt + Enter",

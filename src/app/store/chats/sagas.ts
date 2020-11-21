@@ -260,9 +260,8 @@ function* createGroupChatFromEventSaga(action: ReturnType<typeof ChatActions.cre
 	const createMessageRequest: CreateMessageRequest = {
 		message: message,
 		isFromEvent: true,
-		chat: chat,
-		currentUser,
-		selectedChatId: chat.id,
+		currentUserId: currentUser.id,
+		chatId: chat.id,
 	};
 
 	yield put(MessageActions.createMessage(createMessageRequest));

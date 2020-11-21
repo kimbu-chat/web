@@ -10,7 +10,6 @@ import {
 } from './models';
 import produce from 'immer';
 import { ChatService } from './chat-service';
-import { InterlocutorType } from './models';
 import { createReducer } from 'typesafe-actions';
 import { ChatActions } from './actions';
 import { MessageActions } from '../messages/actions';
@@ -214,13 +213,11 @@ const chats = createReducer<ChatsState>(initialState)
 	.handleAction(
 		MessageActions.createMessage,
 		produce((draft: ChatsState, { payload }: ReturnType<typeof MessageActions.createMessage>) => {
-			const { message, chat, currentUser } = payload;
-
-			const chatId: number = chat.id;
+			const { message, chatId, currentUserId } = payload;
 
 			const chatIndex: number = getChatArrayIndex(chatId, draft);
 
-			const isCurrentUserMessageCreator: boolean = currentUser.id === message.userCreator?.id;
+			const isCurrentUserMessageCreator: boolean = currentUserId === message.userCreator?.id;
 
 			// if user already has chats with interlocutor - update chat
 			if (chatIndex >= 0) {
@@ -240,47 +237,8 @@ const chats = createReducer<ChatsState>(initialState)
 				draft.chats.splice(chatIndex, 1);
 
 				draft.chats.unshift(chatWithNewMessage);
-
-				return draft;
-			} else {
-				//if user does not have chat with interlocutor - create chat
-				const interlocutorType: InterlocutorType = ChatService.getInterlocutorType(payload.chat);
-				let newChat: Chat = {
-					id: chat.id,
-					draftMessage: '',
-					interlocutorType: interlocutorType,
-					groupChat: chat.groupChat,
-					lastMessage: message,
-					ownUnreadMessagesCount: !isCurrentUserMessageCreator ? 1 : 0,
-					interlocutorLastReadMessageId: 0,
-					interlocutor: chat.interlocutor,
-					typingInterlocutors: [],
-					photos: {
-						hasMore: true,
-						photos: [],
-					},
-					videos: {
-						hasMore: true,
-						videos: [],
-					},
-					files: {
-						hasMore: true,
-						files: [],
-					},
-					audios: {
-						hasMore: true,
-						audios: [],
-					},
-					recordings: {
-						hasMore: true,
-						recordings: [],
-					},
-				};
-
-				draft.chats.unshift(newChat);
-
-				return draft;
 			}
+			return draft;
 		}),
 	)
 	.handleAction(

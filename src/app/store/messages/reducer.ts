@@ -81,12 +81,12 @@ const messages = createReducer<MessagesState>(initialState)
 	.handleAction(
 		MessageActions.createMessage,
 		produce((draft: MessagesState, { payload }: ReturnType<typeof MessageActions.createMessage>) => {
-			const { chat, message } = payload;
-			const chatIndex = getChatIndex(draft, chat.id);
+			const { chatId, message } = payload;
+			const chatIndex = getChatIndex(draft, chatId);
 
 			if (chatIndex === -1) {
 				const messageList: MessageList = {
-					chatId: chat.id,
+					chatId,
 					messages: [message],
 					hasMoreMessages: false,
 				};
@@ -95,9 +95,9 @@ const messages = createReducer<MessagesState>(initialState)
 				return draft;
 			}
 
-			draft.messages[chatIndex].messages.unshift(message);
-
-			draft.messages[chatIndex].messages = draft.messages[chatIndex].messages;
+			if (draft.messages[chatIndex].messages.findIndex(({ id }) => id === message.id) === -1) {
+				draft.messages[chatIndex].messages.unshift(message);
+			}
 			return draft;
 		}),
 	)

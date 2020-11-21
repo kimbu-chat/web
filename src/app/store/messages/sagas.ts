@@ -1,3 +1,4 @@
+import { getSelectedChatIdSelector } from './../chats/selectors';
 import { call, put, takeLatest, takeEvery, select } from 'redux-saga/effects';
 import { RootState } from 'app/store/root-reducer';
 
@@ -53,13 +54,14 @@ export function* getMessages(action: ReturnType<typeof MessageActions.getMessage
 }
 
 export function* createMessage(action: ReturnType<typeof MessageActions.createMessage>): SagaIterator {
-	let { message, chat, isFromEvent, selectedChatId } = { ...action.payload };
+	let { message, chatId, isFromEvent } = action.payload;
+	const selectedChatId = yield select(getSelectedChatIdSelector);
 
 	if (isFromEvent) {
 		yield call(notifyInterlocutorThatMessageWasRead, action.payload);
 		//notifications play
 		const currentUserId = yield select((state: RootState) => state.myProfile.user?.id);
-		const chatOfMessage = yield select((state: RootState) => state.chats.chats.find(({ id }) => id === chat.id));
+		const chatOfMessage = yield select((state: RootState) => state.chats.chats.find(({ id }) => id === chatId));
 		const isAudioPlayAllowed = yield select((state: RootState) => state.settings.notificationSound);
 
 		if (isAudioPlayAllowed) {
@@ -82,7 +84,7 @@ export function* createMessage(action: ReturnType<typeof MessageActions.createMe
 		try {
 			const messageCreationReq: MessageCreationReqData = {
 				text: message.text,
-				chatId: chat.id,
+				chatId,
 				attachments: attachmentsToSend,
 			};
 
@@ -110,17 +112,19 @@ export function* messageTyping({ payload }: ReturnType<typeof MessageActions.mes
 }
 
 export function* notifyInterlocutorThatMessageWasRead(createMessageRequest: CreateMessageRequest): SagaIterator {
-	const { chat, currentUser, selectedChatId, message } = createMessageRequest;
+	const { chatId, message } = createMessageRequest;
+	const selectedChatId = yield select(getSelectedChatIdSelector);
+	const currentUserId = yield select((state: RootState) => state.myProfile.user?.id);
 
 	if (
 		!selectedChatId ||
 		!Boolean(message.userCreator) ||
-		currentUser.id === message.userCreator?.id ||
+		currentUserId === message.userCreator?.id ||
 		message.systemMessageType !== SystemMessageType.None
 	) {
 		return;
 	}
-	const isChatCurrentInterlocutor: boolean = chat.id == selectedChatId;
+	const isChatCurrentInterlocutor: boolean = chatId == selectedChatId;
 	if (isChatCurrentInterlocutor) {
 		const httpRequestPayload: MarkMessagesAsReadRequest = {
 			chatId: selectedChatId,

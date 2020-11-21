@@ -30,4 +30,8 @@ export class ChatService {
 		}
 		return InterlocutorType.GROUP_CHAT;
 	}
+
+	public static getInterlocutorTypeById(chatId: number): InterlocutorType {
+		return chatId % 10 === InterlocutorType.USER ? InterlocutorType.USER : InterlocutorType.GROUP_CHAT;
+	}
 }

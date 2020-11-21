@@ -8,7 +8,7 @@ import { peerConnection, createPeerConnection, resetPeerConnection } from '../mi
 import { RootState } from '../root-reducer';
 import { IInCompleteConstraints } from './models';
 import { doIhaveCall, getCallInterlocutorSelector } from './selectors';
-import { callsToDisplay } from './temporal';
+import { HTTPStatusCode } from 'app/common/http-status-code';
 
 export const tracks: {
 	[thingName: string]: MediaStreamTrack[];
@@ -761,12 +761,16 @@ function deviceUpdateChannel() {
 function* getCallsSaga(action: ReturnType<typeof CallActions.getCallsAction>): SagaIterator {
 	const { page } = action.payload;
 
-	//TODO:Replace this with HTTP request logic
-	yield delay(3000);
-	const response = callsToDisplay.slice(page.offset, page.offset + page.limit);
-	const hasMore = response.length >= page.limit;
+	const httpRequest = CallsHttpRequests.getCalls;
+	const { data, status } = httpRequest.call(yield call(() => httpRequest.generator(action.payload)));
 
-	yield put(CallActions.getCallsSuccessAction({ calls: response, hasMore }));
+	const hasMore = data.length >= page.limit;
+
+	if (status === HTTPStatusCode.OK) {
+		yield put(CallActions.getCallsSuccessAction({ calls: data, hasMore }));
+	} else {
+		alert('getCallsSaga error');
+	}
 }
 
 export const CallsSagas = [

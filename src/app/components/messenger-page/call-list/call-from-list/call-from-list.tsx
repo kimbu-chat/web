@@ -1,4 +1,4 @@
-import { Call, CallType } from 'app/store/calls/models';
+import { Call, CallStatus } from 'app/store/calls/models';
 import './call-from-list.scss';
 import React, { useContext } from 'react';
 
@@ -19,22 +19,24 @@ const CallFromList: React.FC<CallFromList.Props> = ({ call }) => {
 
 	return (
 		<div className='call-from-list'>
-			<div className='call-from-list__type-icon'>{call.type === CallType.outgoing && <OutgoingCallSvg />}</div>
-			<Avatar className='call-from-list__interlocutor-avatar' src={call.interlocutor.avatar?.previewUrl}>
-				{getUserInitials(call.interlocutor)}
+			<div className='call-from-list__type-icon'>
+				{call.status === CallStatus.Successfull && <OutgoingCallSvg />}
+			</div>
+			<Avatar className='call-from-list__interlocutor-avatar' src={call.userInterlocutor.avatar?.previewUrl}>
+				{getUserInitials(call.userInterlocutor)}
 			</Avatar>
 			<div className='call-from-list__data'>
 				<div
 					className={`call-from-list__name`}
-				>{`${call.interlocutor.firstName} ${call.interlocutor.lastName}`}</div>
+				>{`${call.userInterlocutor.firstName} ${call.userInterlocutor.lastName}`}</div>
 				<div className='call-from-list__type'>
-					{call.type === CallType.canceled && t('callFromList.canceled')}
-					{call.type === CallType.declined && t('callFromList.declined')}
-					{call.type === CallType.incoming && t('callFromList.incoming')}
-					{call.type === CallType.outgoing && t('callFromList.outgoing')}
+					{call.status === CallStatus.Cancelled && t('callFromList.canceled')}
+					{call.status === CallStatus.Declined && t('callFromList.declined')}
+					{call.status === CallStatus.Successfull && t('callFromList.incoming')}
+					{call.status === CallStatus.Successfull && t('callFromList.outgoing')}
 				</div>
 			</div>
-			<div className='call-from-list__day'>{moment(call.date).format('DD.MM.YYYY')}</div>
+			<div className='call-from-list__day'>{moment(call.callDateTime).format('DD.MM.YYYY')}</div>
 		</div>
 	);
 };

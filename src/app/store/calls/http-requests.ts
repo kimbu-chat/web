@@ -10,6 +10,8 @@ import {
 	AcceptCallApiRequest,
 	DeclineCallApiRequest,
 	CallNotAnsweredApiRequest,
+	Call,
+	GetCallsApiRequest,
 } from './models';
 
 export const CallsHttpRequests = {
@@ -39,6 +41,10 @@ export const CallsHttpRequests = {
 	),
 	acceptCall: httpRequestFactory<AxiosResponse, AcceptCallApiRequest>(
 		`${ApiBasePath.NotificationsApi}/api/calls/accept-call`,
+		HttpRequestMethod.Post,
+	),
+	getCalls: httpRequestFactory<AxiosResponse<Call[]>, GetCallsApiRequest>(
+		`${ApiBasePath.MainApi}/api/calls/search`,
 		HttpRequestMethod.Post,
 	),
 };

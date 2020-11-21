@@ -20,13 +20,14 @@ export class MessageCreatedEventHandler implements IEventHandler<MessageCreatedI
 			eventData.chatId % 10 === InterlocutorType.GROUP_CHAT ? InterlocutorType.GROUP_CHAT : InterlocutorType.USER;
 
 		const message: Message = {
+			attachments: eventData.attachments,
 			text: eventData.text,
 			systemMessageType: eventData.systemMessageType,
 			chatId: eventData.chatId,
 			creationDateTime: new Date(new Date().toUTCString()),
 			id: eventData.id,
 			state: MessageState.READ,
-			userCreator: { ...eventData.userCreator, id: eventData.userCreatorId },
+			userCreator: eventData.userCreator,
 		};
 
 		const chat: Chat = {

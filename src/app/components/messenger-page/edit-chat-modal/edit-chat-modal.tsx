@@ -47,12 +47,17 @@ const EditChatModal = ({ onClose }: EditChatModal.Props) => {
 		(data: AvatarSelectedData) => {
 			setAvatarData(data);
 			setUploadEnded(false);
-			uploadGroupChatAvatar({ pathToFile: data.croppedImagePath, onProgress: setUploaded }).then(
-				(response: UploadAvatarResponse) => {
+			uploadGroupChatAvatar({ pathToFile: data.croppedImagePath, onProgress: setUploaded })
+				.then((response: UploadAvatarResponse) => {
 					setAvatarUploadResponse(response);
 					setUploadEnded(true);
-				},
-			);
+				})
+				.catch(() => {
+					cancelAvatarUploading();
+					setAvatarData({ offsetY: 0, offsetX: 0, width: 0, imagePath: '', croppedImagePath: '' });
+					setAvatarUploadResponse({ url: '', previewUrl: '', id: '' });
+					setUploadEnded(true);
+				});
 		},
 		[setAvatarData, setUploaded, uploadGroupChatAvatar, setAvatarUploadResponse],
 	);

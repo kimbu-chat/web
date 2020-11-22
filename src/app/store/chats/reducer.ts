@@ -53,7 +53,7 @@ const chats = createReducer<ChatsState>(initialState)
 			const chatIndex: number = getChatArrayIndex(chatId, draft);
 
 			(draft.chats[chatIndex].timeoutId = undefined),
-				(draft.chats[chatIndex].typingInterlocutors = draft.chats[chatIndex].typingInterlocutors!.filter(
+				(draft.chats[chatIndex].typingInterlocutors = draft.chats[chatIndex].typingInterlocutors?.filter(
 					(user) => user.fullName !== interlocutorName,
 				));
 

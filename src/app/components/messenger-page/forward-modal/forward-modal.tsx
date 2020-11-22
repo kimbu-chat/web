@@ -6,10 +6,11 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import './forward-modal.scss';
 import SearchBox from '../search-box/search-box';
-import FriendFromList from '../shared/friend-from-list/friend-from-list';
-import { FriendActions } from 'app/store/friends/actions';
 import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
 import { LocalizationContext } from 'app/app';
+import { ChatActions } from 'app/store/chats/actions';
+import { Chat } from 'app/store/chats/models';
+import ForwardEntity from './forward-entity/forward-entity';
 
 namespace ForwardModal {
 	export interface Props {
@@ -20,11 +21,10 @@ namespace ForwardModal {
 
 const ForwardModal = ({ onClose }: ForwardModal.Props) => {
 	const { t } = useContext(LocalizationContext);
+	const chats = useSelector<RootState, Chat[]>((rootState) => rootState.chats.chats);
 	const [selectedChatIds, setSelectedChatIds] = useState<number[]>([]);
 
-	const friends = useSelector((state: RootState) => state.friends.friends);
-
-	const loadFriends = useActionWithDispatch(FriendActions.getFriends);
+	const loadChats = useActionWithDispatch(ChatActions.getChats);
 
 	const isSelected = useCallback(
 		(id: number) => {
@@ -44,8 +44,14 @@ const ForwardModal = ({ onClose }: ForwardModal.Props) => {
 		[selectedChatIds],
 	);
 
-	const searchFriends = useCallback((name: string) => {
-		loadFriends({ page: { offset: 0, limit: 25 }, name, initializedBySearch: true });
+	const searchChats = useCallback((name: string) => {
+		loadChats({
+			page: { offset: 0, limit: 25 },
+			name,
+			initializedBySearch: true,
+			showOnlyHidden: false,
+			showAll: true,
+		});
 	}, []);
 
 	return (
@@ -55,14 +61,14 @@ const ForwardModal = ({ onClose }: ForwardModal.Props) => {
 				closeModal={onClose}
 				contents={
 					<div className={'forward-modal'}>
-						<SearchBox onChange={(e) => searchFriends(e.target.value)} />
+						<SearchBox onChange={(e) => searchChats(e.target.value)} />
 						<div className='forward-modal__chats-block'>
-							{friends.map((friend) => {
+							{chats.map((chat) => {
 								return (
-									<FriendFromList
-										key={friend.id}
-										friend={friend}
-										isSelected={isSelected(friend.id)}
+									<ForwardEntity
+										key={chat.id}
+										chat={chat}
+										isSelected={isSelected(chat.id)}
 										changeSelectedState={changeSelectedState}
 									/>
 								);

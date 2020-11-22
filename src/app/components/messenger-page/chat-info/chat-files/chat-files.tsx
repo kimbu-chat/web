@@ -27,13 +27,10 @@ const ChatFiles = () => {
 	const location = useLocation();
 
 	const loadMore = useCallback(() => {
-		console.log('call');
 		const page: Page = {
 			offset: filesForSelectedDialog.files.length || 0,
 			limit: 25,
 		};
-
-		console.log(page);
 
 		getRawAttachments({
 			page,

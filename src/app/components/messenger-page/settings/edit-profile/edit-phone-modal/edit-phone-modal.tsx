@@ -33,9 +33,9 @@ const EditPhoneModal = ({ onClose }: EditPhoneModal.Props) => {
 	}, []);
 
 	const sendSms = useCallback(() => {
+		//@ts-ignore
 		const phoneNumber = parsePhoneNumberFromString(phone);
 		//!TODO: Replace here with send sms code logic
-		console.log(phoneNumber);
 	}, [phone]);
 
 	const displayCountries = useCallback(() => {

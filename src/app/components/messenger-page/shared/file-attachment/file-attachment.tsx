@@ -26,8 +26,6 @@ const FileAttachment = ({ attachment }: FileAttachment.Props) => {
 			progressSvgRef.current.querySelectorAll('circle')[1].style.strokeDashoffset = String(
 				76 - (downloaded / attachment.byteSize) * 63,
 			);
-
-			console.log(String(76 - (downloaded / attachment.byteSize) * 63));
 		}
 	}, [downloaded, progressSvgRef]);
 

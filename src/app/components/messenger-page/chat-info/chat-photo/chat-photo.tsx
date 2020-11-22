@@ -25,13 +25,10 @@ const ChatPhoto = () => {
 	const location = useLocation();
 
 	const loadMore = useCallback(() => {
-		console.log('call');
 		const page: Page = {
 			offset: photoForSelectedDialog?.photos!.length || 0,
 			limit: 20,
 		};
-
-		console.log(page);
 
 		getPhotoAttachmentss({
 			page,

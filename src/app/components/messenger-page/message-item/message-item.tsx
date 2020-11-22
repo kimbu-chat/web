@@ -46,8 +46,6 @@ const MessageItem = ({ message }: Message.Props) => {
 	const isSelectState = useSelector(setSelectedMessagesLength) > 0;
 	const myId = useSelector(getMyIdSelector) as number;
 
-	useEffect(() => console.log('rerender'), []);
-
 	const isCurrentUserMessageCreator = message.userCreator?.id === myId;
 
 	const { t } = useContext(LocalizationContext);

@@ -37,13 +37,10 @@ const ChatVideo = () => {
 	const location = useLocation();
 
 	const loadMore = useCallback(() => {
-		console.log('call');
 		const page: Page = {
 			offset: videosForSelectedDialog?.videos!.length || 0,
 			limit: 20,
 		};
-
-		console.log(page);
 
 		getVideoAttachmentss({
 			page,

@@ -89,8 +89,6 @@ const CreateGroupChatModal = ({ onClose, preSelectedUserIds }: ICreateGroupChatM
 
 	const changeSelectedState = useCallback(
 		(id: number) => {
-			console.log(selectedUserIds);
-
 			if (selectedUserIds.includes(id)) {
 				setSelectedUserIds((oldChatIds) => oldChatIds.filter((idToCheck) => idToCheck !== id));
 			} else {

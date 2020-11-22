@@ -35,8 +35,6 @@ const ForwardModal = ({ onClose }: ForwardModal.Props) => {
 
 	const changeSelectedState = useCallback(
 		(id: number) => {
-			console.log(selectedChatIds);
-
 			if (selectedChatIds.includes(id)) {
 				setSelectedChatIds((oldChatIds) => oldChatIds.filter((idToCheck) => idToCheck !== id));
 			} else {

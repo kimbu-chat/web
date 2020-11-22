@@ -16,7 +16,6 @@ export class UserMessageTypingEventHandler implements IEventHandler<Intercolutor
 			new ChatId().From(eventData.chatId).interlocutorType === InterlocutorType.GROUP_CHAT &&
 			eventData.interlocutorId === store.getState().myProfile.user?.id
 		) {
-			console.log('not match');
 			return;
 		}
 		store.dispatch(ChatActions.interlocutorMessageTyping(eventData));

@@ -425,7 +425,6 @@ export function* uploadAttachmentSaga(
 						attachment: payload,
 					}),
 				);
-				console.log(uploadingAttachments.length);
 			},
 			onFailure: function* (): SagaIterator {
 				uploadingAttachments = uploadingAttachments.filter(({ id }) => id === attachmentId);
@@ -465,8 +464,6 @@ export function* changeSelectedChatSaga(action: ReturnType<typeof ChatActions.ch
 
 		const chatExists =
 			(yield select((state: RootState) => state.chats.chats.findIndex(({ id }) => id === action.payload))) > -1;
-
-		console.log(chatExists);
 
 		if (!chatExists) {
 			const hasMore = yield select((state: RootState) => state.chats.hasMore);

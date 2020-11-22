@@ -67,8 +67,6 @@ const getUserAudio = async (constraints: IInCompleteConstraints) => {
 			audio: constraints.audio?.isOpened && constraints.audio,
 		});
 	} catch (e) {
-		console.log(e);
-		console.log(constraints.audio);
 		throw 'NO_AUDIO';
 	}
 
@@ -134,7 +132,6 @@ export function* getAndSendUserMedia(): SagaIterator {
 						audio: constraints.audio.isOpened && constraints.audio,
 					}),
 			);
-			console.log('reach');
 			yield put(CallActions.closeVideoStatusAction());
 		} catch (e) {
 			yield put(CallActions.closeAudioStatusAction());
@@ -271,8 +268,6 @@ export function* declineCallSaga(): SagaIterator {
 	const request = {
 		interlocutorId,
 	};
-
-	console.log('CANCELEВ1');
 
 	const httpRequest = CallsHttpRequests.declineCall;
 	httpRequest.call(yield call(() => httpRequest.generator(request)));
@@ -549,7 +544,6 @@ function createTrackEndedChannel() {
 		const clearIntervalCode = setInterval(() => {
 			if (!tracks.screenSharingTracks[0]) {
 				clearInterval(clearIntervalCode);
-				console.log('clearIntervalCode');
 				emit(END);
 			}
 		}, 1000);
@@ -666,8 +660,6 @@ export function* peerWatcher() {
 	while (true) {
 		const action = yield take(channel);
 
-		console.log(action.type);
-
 		switch (action.type) {
 			case 'icecandidate':
 				{
@@ -720,13 +712,11 @@ export function* deviceUpdateWatcher() {
 	const channel = deviceUpdateChannel();
 	while (true) {
 		const action = yield take(channel);
-		console.log(action);
 		const audioDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'audioinput');
 		const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'videoinput');
 		const prevAudioDevices = yield select((state: RootState) => state.calls.audioDevicesList);
 
 		if (prevAudioDevices.length === 0) {
-			console.log(prevAudioDevices);
 			yield put(CallActions.switchDeviceAction({ kind: 'audioinput', deviceId: audioDevices[0].deviceId }));
 			yield put(CallActions.changeMediaStatusAction({ kind: 'audioinput' }));
 		}

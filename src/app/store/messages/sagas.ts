@@ -84,10 +84,6 @@ export function* createMessage(action: ReturnType<typeof MessageActions.createMe
 		}
 
 		if (chats.findIndex(({ id }) => id === chatId) === -1) {
-			console.log(
-				chats.findIndex((chat) => chat.id === chatId),
-				chatId,
-			);
 			const httpRequest = ChatHttpRequests.getChatById;
 
 			const { data, status } = httpRequest.call(yield call(() => httpRequest.generator({ chatId })));

@@ -487,7 +487,6 @@ const chats = createReducer<ChatsState>(initialState)
 		ChatActions.uploadAttachmentRequestAction,
 		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.uploadAttachmentRequestAction>) => {
 			const { type, chatId, attachmentId, file } = payload;
-			console.log(attachmentId);
 
 			const chatIndex: number = getChatArrayIndex(chatId, draft);
 

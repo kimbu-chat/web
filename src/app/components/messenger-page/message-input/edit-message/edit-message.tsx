@@ -71,8 +71,6 @@ const EditMessage = () => {
 
 			setNewText(event.target.value);
 
-			console.log(currentRows < maxRows ? currentRows : maxRows);
-
 			setRows(currentRows < maxRows ? currentRows : maxRows);
 		},
 		[setNewText, setRows],
@@ -80,7 +78,6 @@ const EditMessage = () => {
 
 	const onPaste = useCallback(
 		(event: ClipboardEvent) => {
-			console.log(event.clipboardData);
 			if (event.clipboardData?.files.length! > 0) {
 				for (var index = 0; index < event.clipboardData?.files.length!; ++index) {
 					const file = event.clipboardData?.files!.item(index) as File;
@@ -88,7 +85,6 @@ const EditMessage = () => {
 					//extension test
 					const fileType = getFileType(file.name);
 
-					console.log(file.name);
 					uploadAttachmentRequest({
 						chatId: selectedChat!.id,
 						type: fileType,

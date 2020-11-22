@@ -15,7 +15,7 @@ import BaseBtn from 'app/components/shared/base-btn/base-btn';
 
 namespace ChangePhoto {
 	export interface Props {
-		imageUrl: string | null | ArrayBuffer;
+		imageUrl: string;
 		hideChangePhoto: () => void;
 		onSubmit?: (data: AvatarSelectedData) => void;
 	}
@@ -86,7 +86,7 @@ const ChangePhotoComponent = ({ imageUrl, onSubmit, hideChangePhoto }: ChangePho
 				offsetY: crop.y,
 				offsetX: crop.x,
 				width: crop.width,
-				imagePath: imageUrl as string,
+				imagePath: imageUrl,
 				croppedImagePath: croppedUrl,
 			});
 		}
@@ -162,7 +162,7 @@ const ChangePhotoComponent = ({ imageUrl, onSubmit, hideChangePhoto }: ChangePho
 				<CloseSVG onClick={hideChangePhoto} className='change-photo__close' viewBox='0 0 25 25' />
 				<div className='crop-container'>
 					<ReactCrop
-						src={imageUrl as string}
+						src={imageUrl}
 						onImageLoaded={onLoad}
 						crop={crop}
 						onChange={(c: ReactCrop.Crop) => setCrop(c)}

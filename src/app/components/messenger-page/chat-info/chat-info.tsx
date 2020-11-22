@@ -50,7 +50,7 @@ const ChatInfo: React.FC = () => {
 		setAddFriendsModalDisplayed((oldState) => !oldState);
 	}, [setAddFriendsModalDisplayed]);
 
-	const [imageUrl, setImageUrl] = useState<string | null | ArrayBuffer>(null);
+	const [imageUrl, setImageUrl] = useState<string>('');
 
 	const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
 	const displayChangePhoto = useCallback(() => setChangePhotoDisplayed(true), [setChangePhotoDisplayed]);
@@ -76,7 +76,7 @@ const ChatInfo: React.FC = () => {
 			const reader = new FileReader();
 
 			reader.onload = () => {
-				setImageUrl(reader.result);
+				setImageUrl(reader.result as string);
 				displayChangePhoto();
 			};
 

@@ -194,17 +194,6 @@ const CreateMessageInput = () => {
 
 	useOnPaste(mainInputRef, onPaste);
 
-	const handleTextChange = useCallback(
-		(newText: string): void => {
-			notifyAboutTyping({
-				chatId: selectedChat?.id || -1,
-				text: newText,
-				interlocutorName: `${myProfile?.firstName} ${myProfile?.lastName}`,
-			});
-		},
-		[selectedChat?.id, myProfile],
-	);
-
 	const onType = useCallback(
 		(event) => {
 			const minRows = 1;
@@ -226,11 +215,15 @@ const CreateMessageInput = () => {
 			}
 
 			setText(event.target.value);
-			handleTextChange(event.target.value);
+			notifyAboutTyping({
+				chatId: selectedChat?.id || -1,
+				text: event.target.value,
+				interlocutorName: `${myProfile?.firstName} ${myProfile?.lastName}`,
+			});
 
 			setRows(currentRows < maxRows ? currentRows : maxRows);
 		},
-		[setText, handleTextChange, setRows],
+		[setText, selectedChat?.id, myProfile, setRows],
 	);
 
 	const handleFocus = useCallback(() => {

@@ -459,7 +459,7 @@ export function* getChatInfoSaga(action: ReturnType<typeof ChatActions.getChatIn
 }
 
 export function* changeSelectedChatSaga(action: ReturnType<typeof ChatActions.changeSelectedChat>): SagaIterator {
-	if (action.payload !== -1) {
+	if (action.payload !== -1 && !isNaN(action.payload)) {
 		const httpRequest = ChatHttpRequests.getChatById;
 
 		const chatExists =

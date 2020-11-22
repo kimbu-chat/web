@@ -81,8 +81,6 @@ function* uploadAvatarSaga(action: ReturnType<typeof MyProfileActions.uploadAvat
 
 	const file = yield call(getFileFromUrl, pathToFile);
 
-	console.log(file);
-
 	const uploadRequest = MyProfileHttpFileRequest.uploadAvatar;
 
 	const data = new FormData();

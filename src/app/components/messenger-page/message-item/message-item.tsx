@@ -1,4 +1,4 @@
-import React, { useContext, useCallback, useEffect } from 'react';
+import React, { useContext, useCallback } from 'react';
 import { Message, SystemMessageType, MessageState, FileType } from 'app/store/messages/models';
 import { MessageUtils } from 'app/utils/functions/message-utils';
 import { useSelector } from 'react-redux';
@@ -45,8 +45,6 @@ const MessageItem = ({ message }: Message.Props) => {
 	const selectedChatId = useSelector(getSelectedChatSelector)?.id;
 	const isSelectState = useSelector(setSelectedMessagesLength) > 0;
 	const myId = useSelector(getMyIdSelector) as number;
-
-	useEffect(() => console.log('rerender'), []);
 
 	const isCurrentUserMessageCreator = message.userCreator?.id === myId;
 

@@ -21,7 +21,6 @@ const Dropdown = ({ selectedString, options, disabled }: Dropdown.Props) => {
 	}, []);
 	const closeOptionsOpenedStatus = useCallback(() => {
 		setOptionsOpened(() => false);
-		console.log('open');
 	}, []);
 
 	const dropdownRef = useRef<HTMLDivElement>(null);

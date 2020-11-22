@@ -32,27 +32,24 @@ const ChatVideo = () => {
 
 	const getVideoAttachmentss = useActionWithDispatch(ChatActions.getVideoAttachments);
 	const selectedChat = useSelector(getSelectedChatSelector);
-	const videosForSelectedDialog = selectedChat!.videos;
+	const videosForSelectedChat = selectedChat!.videos;
 
 	const location = useLocation();
 
 	const loadMore = useCallback(() => {
-		console.log('call');
 		const page: Page = {
-			offset: videosForSelectedDialog?.videos!.length || 0,
+			offset: videosForSelectedChat?.videos!.length || 0,
 			limit: 20,
 		};
-
-		console.log(page);
 
 		getVideoAttachmentss({
 			page,
 			chatId: selectedChat!.id,
 		});
-	}, [selectedChat!.id, videosForSelectedDialog?.videos]);
+	}, [selectedChat!.id, videosForSelectedChat?.videos]);
 
 	const videosWithSeparators = setSeparators(
-		videosForSelectedDialog?.videos,
+		videosForSelectedChat?.videos,
 		{ separateByMonth: true, separateByYear: true },
 		{ separateByMonth: true, separateByYear: true },
 	);
@@ -70,7 +67,7 @@ const ChatVideo = () => {
 					pageStart={0}
 					initialLoad={true}
 					loadMore={loadMore}
-					hasMore={videosForSelectedDialog.hasMore}
+					hasMore={videosForSelectedChat.hasMore}
 					getScrollParent={() => videoContainerRef.current}
 					loader={
 						<div className='loader ' key={0}>

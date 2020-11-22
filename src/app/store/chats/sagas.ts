@@ -15,7 +15,7 @@ import {
 	EditGroupChatHTTPReqData,
 } from './models';
 import { MessageState, SystemMessageType, Message, CreateMessageRequest } from '../messages/models';
-import { ChatService } from './chat-service';
+import { ChatId } from './chat-id';
 import { ChatActions } from './actions';
 import { SagaIterator } from 'redux-saga';
 import { HTTPStatusCode } from 'app/common/http-status-code';
@@ -44,8 +44,8 @@ export function* getChatsSaga(action: ReturnType<typeof ChatActions.getChats>): 
 			chat.interlocutorLastReadMessageId && chat.interlocutorLastReadMessageId >= Number(chat?.lastMessage?.id)
 				? (MessageState.READ as MessageState)
 				: (MessageState.SENT as MessageState);
-		chat.interlocutorType = ChatService.getInterlocutorType(chat);
-		chat.id = ChatService.getChatIdentifier(chat.interlocutor?.id, chat.groupChat?.id);
+		chat.interlocutorType = new ChatId().From(chat.id).interlocutorType;
+		chat.id = new ChatId().From(chat.interlocutor?.id, chat.groupChat?.id).entireId;
 		chat.typingInterlocutors = [];
 		chat.photos = { photos: [], hasMore: true };
 		chat.videos = { videos: [], hasMore: true };
@@ -156,7 +156,7 @@ function* createGroupChatSaga(action: ReturnType<typeof ChatActions.createGroupC
 
 		const { data } = httpRequest.call(yield call(() => httpRequest.generator(groupChatCreationRequest)));
 
-		const chatId: number = ChatService.getChatIdentifier(undefined, data);
+		const chatId: number = new ChatId().From(undefined, data).entireId;
 		const chat: Chat = {
 			interlocutorType: InterlocutorType.GROUP_CHAT,
 			id: chatId,
@@ -211,7 +211,7 @@ function* createGroupChatSaga(action: ReturnType<typeof ChatActions.createGroupC
 
 function* createGroupChatFromEventSaga(action: ReturnType<typeof ChatActions.createGroupChatFromEvent>): SagaIterator {
 	const payload: GroupChatCreatedIntegrationEvent = action.payload;
-	const chatId: number = ChatService.getChatIdentifier(undefined, payload.id);
+	const chatId: number = new ChatId().From(undefined, payload.id).entireId;
 	const currentUser = new MyProfileService().myProfile;
 
 	const message: Message = {
@@ -425,7 +425,6 @@ export function* uploadAttachmentSaga(
 						attachment: payload,
 					}),
 				);
-				console.log(uploadingAttachments.length);
 			},
 			onFailure: function* (): SagaIterator {
 				uploadingAttachments = uploadingAttachments.filter(({ id }) => id === attachmentId);
@@ -465,8 +464,6 @@ export function* changeSelectedChatSaga(action: ReturnType<typeof ChatActions.ch
 
 		const chatExists =
 			(yield select((state: RootState) => state.chats.chats.findIndex(({ id }) => id === action.payload))) > -1;
-
-		console.log(chatExists);
 
 		if (!chatExists) {
 			const hasMore = yield select((state: RootState) => state.chats.hasMore);

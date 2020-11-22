@@ -24,7 +24,6 @@ const ChatAudios = () => {
 
 	const loadMore = useCallback(() => {
 		getAudios({ chatId: selectedChat?.id!, page: { offset: audios.audios.length, limit: 20 } });
-		console.log('loas');
 	}, [getAudios, selectedChat?.id, audios.audios.length]);
 
 	const audiosContainerRef = useRef<HTMLDivElement>(null);

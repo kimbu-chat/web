@@ -20,27 +20,24 @@ const ChatPhoto = () => {
 
 	const getPhotoAttachmentss = useActionWithDispatch(ChatActions.getPhotoAttachments);
 	const selectedChat = useSelector(getSelectedChatSelector);
-	const photoForSelectedDialog = selectedChat!.photos;
+	const photoForSelectedChat = selectedChat!.photos;
 
 	const location = useLocation();
 
 	const loadMore = useCallback(() => {
-		console.log('call');
 		const page: Page = {
-			offset: photoForSelectedDialog?.photos!.length || 0,
+			offset: photoForSelectedChat?.photos!.length || 0,
 			limit: 20,
 		};
-
-		console.log(page);
 
 		getPhotoAttachmentss({
 			page,
 			chatId: selectedChat!.id,
 		});
-	}, [selectedChat!.id, photoForSelectedDialog?.photos]);
+	}, [selectedChat!.id, photoForSelectedChat?.photos]);
 
 	const photosWithSeparators = setSeparators(
-		photoForSelectedDialog?.photos,
+		photoForSelectedChat?.photos,
 		{ separateByMonth: true, separateByYear: true },
 		{ separateByMonth: true, separateByYear: true },
 	);
@@ -58,7 +55,7 @@ const ChatPhoto = () => {
 					pageStart={0}
 					initialLoad={true}
 					loadMore={loadMore}
-					hasMore={photoForSelectedDialog.hasMore}
+					hasMore={photoForSelectedChat.hasMore}
 					getScrollParent={() => photoContainerRef.current}
 					loader={
 						<div className='loader ' key={0}>

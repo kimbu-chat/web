@@ -48,7 +48,7 @@ const CreateGroupChatModal = ({ onClose, preSelectedUserIds }: ICreateGroupChatM
 	const [currentStage, setCurrrentStage] = useState(ICreateGroupChatModal.groupChatCreationStage.userSelect);
 	const [avatarData, setAvatarData] = useState<AvatarSelectedData | null>(null);
 	const [avararUploadResponse, setAvatarUploadResponse] = useState<UploadAvatarResponse | null>(null);
-	const [imageUrl, setImageUrl] = useState<string | null | ArrayBuffer>(null);
+	const [imageUrl, setImageUrl] = useState<string>('');
 	const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
 	const [name, setName] = useState('');
 	const [description, setDescription] = useState('');
@@ -89,8 +89,6 @@ const CreateGroupChatModal = ({ onClose, preSelectedUserIds }: ICreateGroupChatM
 
 	const changeSelectedState = useCallback(
 		(id: number) => {
-			console.log(selectedUserIds);
-
 			if (selectedUserIds.includes(id)) {
 				setSelectedUserIds((oldChatIds) => oldChatIds.filter((idToCheck) => idToCheck !== id));
 			} else {
@@ -113,7 +111,7 @@ const CreateGroupChatModal = ({ onClose, preSelectedUserIds }: ICreateGroupChatM
 			const reader = new FileReader();
 
 			reader.onload = () => {
-				setImageUrl(reader.result);
+				setImageUrl(reader.result as string);
 				displayChangePhoto();
 			};
 

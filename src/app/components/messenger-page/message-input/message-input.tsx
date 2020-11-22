@@ -173,7 +173,6 @@ const CreateMessageInput = () => {
 
 	const onPaste = useCallback(
 		(event: ClipboardEvent) => {
-			console.log(event.clipboardData);
 			if (event.clipboardData?.files.length! > 0) {
 				for (var index = 0; index < event.clipboardData?.files.length!; ++index) {
 					const file = event.clipboardData?.files!.item(index) as File;
@@ -181,7 +180,6 @@ const CreateMessageInput = () => {
 					//extension test
 					const fileType = getFileType(file.name);
 
-					console.log(file.name);
 					uploadAttachmentRequest({
 						chatId: selectedChat!.id,
 						type: fileType,
@@ -229,8 +227,6 @@ const CreateMessageInput = () => {
 
 			setText(event.target.value);
 			handleTextChange(event.target.value);
-
-			console.log(currentRows < maxRows ? currentRows : maxRows);
 
 			setRows(currentRows < maxRows ? currentRows : maxRows);
 		},

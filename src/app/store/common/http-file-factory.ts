@@ -116,7 +116,6 @@ function createUploadFileChannel(requestConfig: AxiosRequestConfig) {
 
 		const onProgress = (progressEvent: ProgressEvent<EventTarget>) => {
 			const progress = (progressEvent.loaded / progressEvent.total) * 100;
-			console.log(progress);
 			emit({ progress });
 		};
 

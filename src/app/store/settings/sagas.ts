@@ -21,7 +21,6 @@ export function* changeTypingStrategySaga(
 
 export function* changeSoundNotificationsStateSaga(): SagaIterator {
 	const state = yield select(areNotificationsEnabled);
-	console.log(state);
 	new SettingsService().initializeOrUpdate({ notificationSound: state });
 }
 

@@ -12,7 +12,7 @@ import {
 	EditMessageApiReq,
 } from './models';
 
-import { ChatService } from '../chats/chat-service';
+import { ChatId } from '../chats/chat-id';
 import { MessageActions } from './actions';
 import { MessagesHttpRequests } from './http-requests';
 import { SagaIterator } from 'redux-saga';
@@ -33,7 +33,7 @@ export function* getMessages(action: ReturnType<typeof MessageActions.getMessage
 
 	const request: MessagesReqData = {
 		page: page,
-		chatId: ChatService.getChatId(chat.interlocutor?.id!, chat.groupChat?.id!),
+		chatId: new ChatId().From(chat.interlocutor?.id!, chat.groupChat?.id!).entireId,
 	};
 
 	const httpRequest = MessagesHttpRequests.getMessages;
@@ -84,10 +84,6 @@ export function* createMessage(action: ReturnType<typeof MessageActions.createMe
 		}
 
 		if (chats.findIndex(({ id }) => id === chatId) === -1) {
-			console.log(
-				chats.findIndex((chat) => chat.id === chatId),
-				chatId,
-			);
 			const httpRequest = ChatHttpRequests.getChatById;
 
 			const { data, status } = httpRequest.call(yield call(() => httpRequest.generator({ chatId })));

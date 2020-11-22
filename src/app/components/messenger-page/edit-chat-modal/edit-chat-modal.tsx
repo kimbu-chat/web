@@ -37,7 +37,7 @@ const EditChatModal = ({ onClose }: EditChatModal.Props) => {
 	const [newName, setNewName] = useState(selectedChat.groupChat?.name!);
 	const [avatarData, setAvatarData] = useState<AvatarSelectedData | null>(null);
 	const [avararUploadResponse, setAvatarUploadResponse] = useState<UploadAvatarResponse | null>(null);
-	const [imageUrl, setImageUrl] = useState<string | null | ArrayBuffer>(null);
+	const [imageUrl, setImageUrl] = useState<string>('');
 	const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
 	const [newDescription, setNewDescription] = useState(selectedChat.groupChat?.description || '');
 	const [uploaded, setUploaded] = useState(0);
@@ -72,7 +72,7 @@ const EditChatModal = ({ onClose }: EditChatModal.Props) => {
 			const reader = new FileReader();
 
 			reader.onload = () => {
-				setImageUrl(reader.result);
+				setImageUrl(reader.result as string);
 				displayChangePhoto();
 			};
 

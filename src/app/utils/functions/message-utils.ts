@@ -153,7 +153,6 @@ export class MessageUtils {
 							.toDate(),
 					)
 				) {
-					if (arr[index + 1]) console.log(new Date(arr[index + 1].creationDateTime || '').toString());
 					message = { ...message, needToShowDateSeparator: true, needToShowCreator: true };
 					return message;
 				}

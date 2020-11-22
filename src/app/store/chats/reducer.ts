@@ -9,7 +9,7 @@ import {
 	VoiceAttachment,
 } from './models';
 import produce from 'immer';
-import { ChatService } from './chat-service';
+import { ChatId } from './chat-id';
 import { createReducer } from 'typesafe-actions';
 import { ChatActions } from './actions';
 import { MessageActions } from '../messages/actions';
@@ -245,7 +245,7 @@ const chats = createReducer<ChatsState>(initialState)
 		FriendActions.userStatusChangedEvent,
 		produce((draft: ChatsState, { payload }: ReturnType<typeof FriendActions.userStatusChangedEvent>) => {
 			const { status, userId } = payload;
-			const chatId: number = ChatService.getChatId(userId);
+			const chatId: number = new ChatId().From(userId).entireId;
 			const isChatExists = checkChatExists(chatId, draft);
 			const chatIndex = getChatArrayIndex(chatId, draft);
 
@@ -265,10 +265,10 @@ const chats = createReducer<ChatsState>(initialState)
 			(draft: ChatsState, { payload }: ReturnType<typeof ChatActions.changeInterlocutorLastReadMessageId>) => {
 				const { lastReadMessageId, userReaderId, objectType, groupChatId } = payload;
 
-				const chatId = ChatService.getChatId(
+				const chatId = new ChatId().From(
 					objectType === 'User' ? userReaderId : undefined,
 					objectType === 'GroupChat' ? groupChatId : undefined,
-				);
+				).entireId;
 
 				const chatIndex = getChatArrayIndex(chatId, draft);
 
@@ -367,7 +367,7 @@ const chats = createReducer<ChatsState>(initialState)
 		produce((draft: ChatsState, { payload }: ReturnType<typeof MessageActions.createChat>) => {
 			const { id } = payload;
 
-			const dialogId: number = ChatService.getChatId(id);
+			const dialogId: number = new ChatId().From(id).entireId;
 
 			const isDialogExists = checkChatExists(dialogId, draft);
 
@@ -634,7 +634,7 @@ const chats = createReducer<ChatsState>(initialState)
 		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.editGroupChatSuccess>) => {
 			const { id, name, description, avatar } = payload;
 
-			const chatId: number = ChatService.getChatIdentifier(undefined, id);
+			const chatId: number = new ChatId().From(undefined, id).entireId;
 
 			const chatIndex: number = getChatArrayIndex(chatId, draft);
 

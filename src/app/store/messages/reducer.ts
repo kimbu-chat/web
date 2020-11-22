@@ -3,7 +3,7 @@ import produce from 'immer';
 import { createReducer } from 'typesafe-actions';
 import { MessageActions } from './actions';
 import { ChatActions } from '../chats/actions';
-import { ChatService } from '../chats/chat-service';
+import { ChatId } from '../chats/chat-id';
 import unionBy from 'lodash/unionBy';
 
 export interface MessagesState {
@@ -107,7 +107,7 @@ const messages = createReducer<MessagesState>(initialState)
 			(draft: MessagesState, { payload }: ReturnType<typeof ChatActions.changeInterlocutorLastReadMessageId>) => {
 				const { lastReadMessageId, userReaderId } = payload;
 
-				const chatId = ChatService.getChatId(userReaderId, undefined);
+				const chatId = new ChatId().From(userReaderId, undefined).entireId;
 
 				const chatIndex = getChatIndex(draft, chatId);
 

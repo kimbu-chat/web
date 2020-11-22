@@ -49,9 +49,9 @@ export interface CheckNicknameActionData {
 }
 
 export interface AvatarSelectedData {
-	offsetY: number;
-	offsetX: number;
-	width: number;
+	offsetY?: number;
+	offsetX?: number;
+	width?: number;
 	imagePath: string;
 	croppedImagePath: string;
 }

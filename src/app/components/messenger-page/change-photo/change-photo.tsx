@@ -83,9 +83,9 @@ const ChangePhotoComponent = ({ imageUrl, onSubmit, hideChangePhoto }: ChangePho
 			hideChangePhoto();
 			const croppedUrl = generateDownload(previewCanvasRef.current, completedCrop || {});
 			onSubmit({
-				offsetY: crop.y || 250,
-				offsetX: crop.x || 250,
-				width: crop.width || 500,
+				offsetY: crop.y,
+				offsetX: crop.x,
+				width: crop.width,
 				imagePath: imageUrl as string,
 				croppedImagePath: croppedUrl,
 			});

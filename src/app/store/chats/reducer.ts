@@ -367,18 +367,18 @@ const chats = createReducer<ChatsState>(initialState)
 		produce((draft: ChatsState, { payload }: ReturnType<typeof MessageActions.createChat>) => {
 			const { id } = payload;
 
-			const dialogId: number = new ChatId().From(id).entireId;
+			const chatId: number = new ChatId().From(id).entireId;
 
-			const isDialogExists = checkChatExists(dialogId, draft);
+			const isChatExists = checkChatExists(chatId, draft);
 
-			draft.selectedChatId = dialogId;
+			draft.selectedChatId = chatId;
 
-			if (isDialogExists) {
+			if (isChatExists) {
 				return draft;
 			} else {
 				//user does not have dialog with interlocutor - create dialog
-				let newDialog: Chat = {
-					id: dialogId,
+				let newChat: Chat = {
+					id: chatId,
 					draftMessage: '',
 					interlocutorType: 1,
 					ownUnreadMessagesCount: 0,
@@ -407,7 +407,7 @@ const chats = createReducer<ChatsState>(initialState)
 					},
 				};
 
-				draft.chats.unshift(newDialog);
+				draft.chats.unshift(newChat);
 
 				return draft;
 			}

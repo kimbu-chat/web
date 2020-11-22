@@ -22,13 +22,13 @@ const ChatFiles = () => {
 
 	const getRawAttachments = useActionWithDispatch(ChatActions.getRawAttachments);
 	const selectedChat = useSelector(getSelectedChatSelector);
-	const filesForSelectedDialog = selectedChat!.files;
+	const filesForSelectedChat = selectedChat!.files;
 
 	const location = useLocation();
 
 	const loadMore = useCallback(() => {
 		const page: Page = {
-			offset: filesForSelectedDialog.files.length || 0,
+			offset: filesForSelectedChat.files.length || 0,
 			limit: 25,
 		};
 
@@ -36,10 +36,10 @@ const ChatFiles = () => {
 			page,
 			chatId: selectedChat!.id,
 		});
-	}, [selectedChat?.id, filesForSelectedDialog.files]);
+	}, [selectedChat?.id, filesForSelectedChat.files]);
 
 	const filesWithSeparators = setSeparators(
-		filesForSelectedDialog.files,
+		filesForSelectedChat.files,
 		{ separateByMonth: true, separateByYear: true },
 		{ separateByMonth: true, separateByYear: true },
 	);
@@ -57,7 +57,7 @@ const ChatFiles = () => {
 					pageStart={0}
 					initialLoad={true}
 					loadMore={loadMore}
-					hasMore={filesForSelectedDialog.hasMore}
+					hasMore={filesForSelectedChat.hasMore}
 					getScrollParent={() => filesContainerRef.current}
 					loader={
 						<div className='loader ' key={0}>

@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { getSelectedChatSelector } from 'app/store/chats/selectors';
 import { RootState } from 'app/store/root-reducer';
 import { LocalizationContext } from 'app/app';
-import { ChatActions as DialogActions } from 'app/store/chats/actions';
+import { ChatActions as SelectedChatActions } from 'app/store/chats/actions';
 import MuteSvg from 'app/assets/icons/ic-notifications-on.svg';
 import UnmuteSvg from 'app/assets/icons/ic-notifications-off.svg';
 import ClearSvg from 'app/assets/icons/ic-clear.svg';
@@ -41,8 +41,8 @@ const ChatActions = ({ addMembers }: ChatActions.Props) => {
 		[setCreateGroupChatModalOpened],
 	);
 
-	const changeChatVisibilityState = useActionWithDispatch(DialogActions.changeChatVisibilityState);
-	const muteChat = useActionWithDispatch(DialogActions.muteChat);
+	const changeChatVisibilityState = useActionWithDispatch(SelectedChatActions.changeChatVisibilityState);
+	const muteChat = useActionWithDispatch(SelectedChatActions.muteChat);
 	const deleteFriend = useActionWithDispatch(FriendActions.deleteFriend);
 	const addFriend = useActionWithDispatch(FriendActions.addFriend);
 

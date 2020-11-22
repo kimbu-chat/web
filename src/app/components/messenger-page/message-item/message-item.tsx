@@ -1,4 +1,4 @@
-import React, { useContext, useCallback, useEffect } from 'react';
+import React, { useContext, useCallback } from 'react';
 import { Message, SystemMessageType, MessageState, FileType } from 'app/store/messages/models';
 import { MessageUtils } from 'app/utils/functions/message-utils';
 import { useSelector } from 'react-redux';

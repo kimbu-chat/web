@@ -42,6 +42,7 @@ export class ChatId {
 
 	public FromId(chatId: number) {
 		this.chatId = chatId;
+		return this;
 	}
 
 	private chatId: number = 0;

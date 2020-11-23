@@ -1,5 +1,5 @@
 import { getSelectedChatIdSelector } from './../chats/selectors';
-import { call, put, takeLatest, takeEvery, select } from 'redux-saga/effects';
+import { call, put, takeLatest, takeEvery, select, throttle } from 'redux-saga/effects';
 import { RootState } from 'app/store/root-reducer';
 
 import {
@@ -194,7 +194,7 @@ export function* editMessageSaga(action: ReturnType<typeof MessageActions.submit
 }
 
 export const MessageSagas = [
-	takeLatest(MessageActions.messageTyping, messageTyping),
+	throttle(1500, MessageActions.messageTyping, messageTyping),
 	takeLatest(MessageActions.getMessages, getMessages),
 	takeEvery(MessageActions.createMessage, createMessage),
 	takeEvery(MessageActions.copyMessages, copyMessagesSaga),

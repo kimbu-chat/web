@@ -42,7 +42,7 @@ const RoutingChats = () => {
 				to={location.pathname.replace(
 					/\/?(contacts|calls|settings|chats)\/?([0-9]*)?\/?(edit-profile|notifications|language|typing)?\/?(info\/?(photo|video|files|audio-recordings|audios)?\/?)?/,
 					(_all, _groupOne, _groupTwo, _groupThree, groupFour) =>
-						`/chats${selectedChatId ? `/${selectedChatId}` : ''}/${groupFour ? groupFour : ''}`,
+						`/chats${selectedChatId ? `/${selectedChatId}/${groupFour ? groupFour : ''}` : ''}`,
 				)}
 			>
 				<ChatsSvg viewBox='0 0 25 25' />

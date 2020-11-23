@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useEffect, useContext } from 'react';
+import React, { useState, useCallback, useRef, useContext } from 'react';
 import ReactDOM from 'react-dom';
 import './change-photo.scss';
 
@@ -24,41 +24,39 @@ namespace ChangePhoto {
 		x: number;
 		y: number;
 	}
-
-	export enum Stage {
-		imageCrop = 'imageCrop',
-		imagePreview = 'imagePreview',
-	}
 }
 
-const pixelRatio = 4;
-
-function getResizedCanvas(canvas: HTMLCanvasElement, newWidth?: number, newHeight?: number) {
-	const tmpCanvas = document.createElement('canvas');
-	tmpCanvas.width = newWidth || 0;
-	tmpCanvas.height = newHeight || 0;
-
-	const ctx = tmpCanvas.getContext('2d');
-	ctx?.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, newWidth || 0, newHeight || 0);
-
-	return tmpCanvas;
-}
-
-function generateDownload(previewCanvas: HTMLCanvasElement | null, crop: ReactCrop.Crop): string {
-	if (!crop || !previewCanvas) {
+function generateDownload(image?: HTMLImageElement, crop?: ReactCrop.Crop): string {
+	if (!crop || !image) {
 		return '';
 	}
 
-	const canvas = getResizedCanvas(previewCanvas, crop.width, crop.height);
-	let previewUrl = canvas.toDataURL('image/png');
+	const canvas = document.createElement('canvas');
+	const scaleX = image.naturalWidth / image.width;
+	const scaleY = image.naturalHeight / image.height;
+	canvas.width = crop.width!;
+	canvas.height = crop.height!;
+	const ctx = canvas.getContext('2d');
 
-	return previewUrl;
+	ctx!.drawImage(
+		image,
+		crop.x! * scaleX,
+		crop.y! * scaleY,
+		crop.width! * scaleX,
+		crop.height! * scaleY,
+		0,
+		0,
+		crop.width!,
+		crop.height!,
+	);
+
+	return canvas.toDataURL('image/png');
 }
 
 const ChangePhotoComponent = ({ imageUrl, onSubmit, hideChangePhoto }: ChangePhoto.Props) => {
 	const { t } = useContext(LocalizationContext);
 
-	const imgRef = useRef<HTMLImageElement | null>(null);
+	const imgRef = useRef<HTMLImageElement>();
 	const [crop, setCrop] = useState<ReactCrop.Crop>({
 		aspect: 1,
 		x: 0,
@@ -76,12 +74,10 @@ const ChangePhotoComponent = ({ imageUrl, onSubmit, hideChangePhoto }: ChangePho
 		setMirrored((oldMirrored) => !oldMirrored);
 	}, [setMirrored]);
 
-	const previewCanvasRef = useRef<HTMLCanvasElement | null>(null);
-
 	const submitChange = useCallback(() => {
 		if (onSubmit) {
 			hideChangePhoto();
-			const croppedUrl = generateDownload(previewCanvasRef.current, completedCrop || {});
+			const croppedUrl = generateDownload(imgRef.current, completedCrop);
 			onSubmit({
 				offsetY: crop.y,
 				offsetX: crop.x,
@@ -90,7 +86,7 @@ const ChangePhotoComponent = ({ imageUrl, onSubmit, hideChangePhoto }: ChangePho
 				croppedImagePath: croppedUrl,
 			});
 		}
-	}, [onSubmit]);
+	}, [onSubmit, completedCrop]);
 
 	const onLoad = useCallback((img) => {
 		imgRef.current = img;
@@ -122,39 +118,6 @@ const ChangePhotoComponent = ({ imageUrl, onSubmit, hideChangePhoto }: ChangePho
 
 		return false;
 	}, []);
-
-	useEffect(() => {
-		if (!completedCrop || !previewCanvasRef.current || !imgRef.current) {
-			return;
-		}
-
-		const image = imgRef.current;
-		const canvas = previewCanvasRef.current;
-		const crop = completedCrop;
-
-		const scaleX = image.naturalWidth / image.width;
-		const scaleY = image.naturalHeight / image.height;
-		const ctx = canvas.getContext('2d');
-
-		canvas.width = (crop?.width || 500) * pixelRatio;
-		canvas.height = (crop?.height || 500) * pixelRatio;
-
-		ctx?.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-
-		ctx ? (ctx.imageSmoothingEnabled = false) : '';
-
-		ctx?.drawImage(
-			image,
-			(crop?.x || 0) * scaleX,
-			(crop?.y || 0) * scaleY,
-			(crop?.width || 100) * scaleX,
-			(crop?.height || 100) * scaleY,
-			0,
-			0,
-			crop?.width || 0,
-			crop?.height || 0,
-		);
-	}, [completedCrop]);
 
 	return (
 		<WithBackground onBackgroundClick={hideChangePhoto}>

@@ -23,7 +23,7 @@ export const MessagesHttpRequests = {
 		HttpRequestMethod.Post,
 	),
 	editMessage: httpRequestFactory<AxiosResponse, EditMessageApiReq>(
-		`${ApiBasePath.NotificationsApi}/api/messages`,
+		`${ApiBasePath.MainApi}/api/messages`,
 		HttpRequestMethod.Put,
 	),
 };

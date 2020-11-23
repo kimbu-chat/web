@@ -9,7 +9,6 @@ import { getSelectedChatSelector } from 'app/store/chats/selectors';
 import { SystemMessageType, MessageState, FileType } from 'app/store/messages/models';
 import { LocalizationContext } from 'app/app';
 import useInterval from 'use-interval';
-import useOnPaste from 'app/utils/hooks/use-on-paste';
 
 import AddSvg from 'app/assets/icons/ic-add-new.svg';
 import VoiceSvg from 'app/assets/icons/ic-microphone.svg';
@@ -18,7 +17,6 @@ import { useEffect } from 'react';
 import { getMyProfileSelector } from 'app/store/my-profile/selectors';
 import MessageSmiles from './message-smiles/message-smiles';
 import Mousetrap from 'mousetrap';
-import useReferredState from 'app/utils/hooks/use-referred-state';
 import { getTypingStrategy } from 'app/store/settings/selectors';
 import { typingStrategy } from 'app/store/settings/models';
 import { ChatActions } from 'app/store/chats/actions';
@@ -28,7 +26,9 @@ import { getFileType } from 'app/utils/functions/get-file-extension';
 import RespondingMessage from 'app/components/messenger-page/responding-message/responding-message';
 import { RootState } from 'app/store/root-reducer';
 import { Chat } from 'app/store/chats/models';
-import { useDrop, useGlobalDrop } from 'app/utils/hooks/use-drop';
+import { useGlobalDrop } from 'app/utils/hooks/use-drop';
+import useReferState from 'app/utils/hooks/use-referred-state';
+import { throttle } from 'lodash';
 
 namespace CreateMessageInput {
 	export interface RecordedData {
@@ -52,14 +52,14 @@ const CreateMessageInput = () => {
 	const myTypingStrategy = useSelector(getTypingStrategy);
 	const replyingMessage = useSelector((state: RootState) => state.messages.messageToReply);
 
-	const { reference: refferedText, state: text, setState: setText } = useReferredState<string>('');
+	const [text, setText] = useState('');
+	const refferedText = useReferState(text);
 	const [isRecording, setIsRecording] = useState(false);
 	const [isDraggingOver, setIsDraggingOver] = useState(false);
 	const [isDragging, setIsDragging] = useState(false);
 	const [recordedSeconds, setRecordedSeconds] = useState(0);
 	const [rows, setRows] = useState(1);
 
-	const mainInputRef = useRef<HTMLTextAreaElement>(null);
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const registerAudioBtnRef = useRef<HTMLButtonElement>(null);
 	const recorderData = useRef<CreateMessageInput.RecordedData>({
@@ -69,44 +69,6 @@ const CreateMessageInput = () => {
 		needToSubmit: false,
 	});
 	const updatedSelectedChat = useRef<Chat | undefined>();
-
-	const dragRef = useDrop({
-		onDragOver: (e) => {
-			e.preventDefault();
-			e.stopPropagation();
-			setIsDraggingOver(true);
-		},
-		onDragEnter: (e) => {
-			e.preventDefault();
-			e.stopPropagation();
-			setIsDraggingOver(true);
-		},
-		onDragLeave: (e) => {
-			e.preventDefault();
-			e.stopPropagation();
-			setIsDraggingOver(false);
-		},
-		onDrop: (e) => {
-			e.preventDefault();
-			e.stopPropagation();
-			setIsDraggingOver(false);
-
-			if (e.dataTransfer?.files?.length! > 0) {
-				for (var index = 0; index < e.dataTransfer!.files!.length; ++index) {
-					const file = e.dataTransfer?.files[index] as File;
-
-					const fileType = getFileType(file.name);
-
-					uploadAttachmentRequest({
-						chatId: selectedChat!.id,
-						type: fileType,
-						file,
-						attachmentId: new Date().getTime(),
-					});
-				}
-			}
-		},
-	});
 
 	useGlobalDrop({
 		onDragEnter: (e) => {
@@ -171,8 +133,59 @@ const CreateMessageInput = () => {
 		setRows(1);
 	};
 
+	const onDragOver = useCallback(
+		(e: React.DragEvent<HTMLDivElement>) => {
+			e.preventDefault();
+			e.stopPropagation();
+			setIsDraggingOver(true);
+		},
+		[setIsDraggingOver],
+	);
+
+	const onDragEnter = useCallback(
+		(e: React.DragEvent<HTMLDivElement>) => {
+			e.preventDefault();
+			e.stopPropagation();
+			setIsDraggingOver(true);
+		},
+		[setIsDraggingOver],
+	);
+
+	const onDragLeave = useCallback(
+		(e: React.DragEvent<HTMLDivElement>) => {
+			e.preventDefault();
+			e.stopPropagation();
+			setIsDraggingOver(false);
+		},
+		[setIsDraggingOver],
+	);
+
+	const onDrop = useCallback(
+		(e: React.DragEvent<HTMLDivElement>) => {
+			e.preventDefault();
+			e.stopPropagation();
+			setIsDraggingOver(false);
+
+			if (e.dataTransfer?.files?.length! > 0) {
+				for (var index = 0; index < e.dataTransfer!.files!.length; ++index) {
+					const file = e.dataTransfer?.files[index] as File;
+
+					const fileType = getFileType(file.name);
+
+					uploadAttachmentRequest({
+						chatId: selectedChat!.id,
+						type: fileType,
+						file,
+						attachmentId: new Date().getTime(),
+					});
+				}
+			}
+		},
+		[setIsDraggingOver, selectedChat?.id, uploadAttachmentRequest],
+	);
+
 	const onPaste = useCallback(
-		(event: ClipboardEvent) => {
+		(event: React.ClipboardEvent<HTMLTextAreaElement>) => {
 			if (event.clipboardData?.files.length! > 0) {
 				for (var index = 0; index < event.clipboardData?.files.length!; ++index) {
 					const file = event.clipboardData?.files!.item(index) as File;
@@ -192,7 +205,16 @@ const CreateMessageInput = () => {
 		[uploadAttachmentRequest, selectedChat?.id],
 	);
 
-	useOnPaste(mainInputRef, onPaste);
+	const throttledNotifyAboutTyping = useCallback(
+		throttle((text: string) => {
+			notifyAboutTyping({
+				chatId: selectedChat?.id || -1,
+				text: text,
+				interlocutorName: `${myProfile?.firstName} ${myProfile?.lastName}`,
+			});
+		}, 1000),
+		[selectedChat?.id, myProfile],
+	);
 
 	const onType = useCallback(
 		(event) => {
@@ -215,15 +237,12 @@ const CreateMessageInput = () => {
 			}
 
 			setText(event.target.value);
-			notifyAboutTyping({
-				chatId: selectedChat?.id || -1,
-				text: event.target.value,
-				interlocutorName: `${myProfile?.firstName} ${myProfile?.lastName}`,
-			});
+
+			throttledNotifyAboutTyping(event.target.value);
 
 			setRows(currentRows < maxRows ? currentRows : maxRows);
 		},
-		[setText, selectedChat?.id, myProfile, setRows],
+		[setText, setRows, throttledNotifyAboutTyping],
 	);
 
 	const handleFocus = useCallback(() => {
@@ -314,7 +333,9 @@ const CreateMessageInput = () => {
 		recorderData.current.tracks.forEach((track) => track.stop());
 		recorderData.current.tracks = [];
 		recorderData.current.needToSubmit = false;
-		recorderData.current.mediaRecorder?.stop();
+		if (recorderData.current.mediaRecorder?.state !== 'inactive') {
+			recorderData.current.mediaRecorder?.stop();
+		}
 	}, [recorderData.current]);
 
 	useOnClickOutside(registerAudioBtnRef, cancelRecording);
@@ -352,7 +373,13 @@ const CreateMessageInput = () => {
 	);
 
 	return (
-		<div className='message-input' ref={dragRef}>
+		<div
+			className='message-input'
+			onDrop={onDrop}
+			onDragOver={onDragOver}
+			onDragEnter={onDragEnter}
+			onDragLeave={onDragLeave}
+		>
 			{selectedChat?.attachmentsToSend?.map((attachment) => {
 				return <MessageInputAttachment attachment={attachment} key={attachment.attachment.id} />;
 			})}
@@ -392,11 +419,11 @@ const CreateMessageInput = () => {
 						<div className='message-input__input-group'>
 							{!isRecording && (
 								<textarea
-									ref={mainInputRef}
+									value={text}
 									rows={rows}
 									placeholder={t('messageInput.write')}
-									value={text}
 									onChange={onType}
+									onPaste={onPaste}
 									className='mousetrap message-input__input-message'
 									onFocus={handleFocus}
 									onBlur={handleBlur}

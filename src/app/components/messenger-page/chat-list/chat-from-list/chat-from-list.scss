@@ -82,11 +82,15 @@
 
 	&__last-message {
 		font-size: 14px;
+		line-height: 16px;
+		height: 30px;
 		font-weight: 400;
 		color: #6d7885;
 		margin-top: 2px;
 		word-break: break-all;
 		max-width: 90%;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 
 	&__count {

@@ -5,7 +5,6 @@ import { typingStrategy } from 'app/store/settings/models';
 import { getTypingStrategy } from 'app/store/settings/selectors';
 import { getFileType } from 'app/utils/functions/get-file-extension';
 import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
-import useOnPaste from 'app/utils/hooks/use-on-paste';
 import Mousetrap from 'mousetrap';
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -16,7 +15,7 @@ import { LocalizationContext } from 'app/app';
 import { MessageActions } from 'app/store/messages/actions';
 import { AttachmentToSend, BaseAttachment, Chat } from 'app/store/chats/models';
 import { AttachmentCreation } from 'app/store/messages/models';
-import { useDrop, useGlobalDrop } from 'app/utils/hooks/use-drop';
+import { useGlobalDrop } from 'app/utils/hooks/use-drop';
 
 const EditMessage = () => {
 	const { t } = useContext(LocalizationContext);
@@ -77,7 +76,7 @@ const EditMessage = () => {
 	);
 
 	const onPaste = useCallback(
-		(event: ClipboardEvent) => {
+		(event: React.ClipboardEvent<HTMLTextAreaElement>) => {
 			if (event.clipboardData?.files.length! > 0) {
 				for (var index = 0; index < event.clipboardData?.files.length!; ++index) {
 					const file = event.clipboardData?.files!.item(index) as File;
@@ -96,44 +95,6 @@ const EditMessage = () => {
 		},
 		[uploadAttachmentRequest, selectedChat?.id],
 	);
-
-	const dragRef = useDrop({
-		onDragOver: (e) => {
-			e.preventDefault();
-			e.stopPropagation();
-			setIsDraggingOver(true);
-		},
-		onDragEnter: (e) => {
-			e.preventDefault();
-			e.stopPropagation();
-			setIsDraggingOver(true);
-		},
-		onDragLeave: (e) => {
-			e.preventDefault();
-			e.stopPropagation();
-			setIsDraggingOver(false);
-		},
-		onDrop: (e) => {
-			e.preventDefault();
-			e.stopPropagation();
-			setIsDraggingOver(false);
-
-			if (e.dataTransfer?.files?.length! > 0) {
-				for (var index = 0; index < e.dataTransfer!.files!.length; ++index) {
-					const file = e.dataTransfer?.files[index] as File;
-
-					const fileType = getFileType(file.name);
-
-					uploadAttachmentRequest({
-						chatId: selectedChat!.id,
-						type: fileType,
-						file,
-						attachmentId: new Date().getTime(),
-					});
-				}
-			}
-		},
-	});
 
 	useGlobalDrop({
 		onDragEnter: (e) => {
@@ -214,10 +175,59 @@ const EditMessage = () => {
 		Mousetrap.unbind('enter');
 	}, []);
 
-	useOnPaste(mainInputRef, onPaste);
+	const onDragOver = useCallback(
+		(e: React.DragEvent<HTMLDivElement>) => {
+			e.preventDefault();
+			e.stopPropagation();
+			setIsDraggingOver(true);
+		},
+		[setIsDraggingOver],
+	);
+
+	const onDragEnter = useCallback(
+		(e: React.DragEvent<HTMLDivElement>) => {
+			e.preventDefault();
+			e.stopPropagation();
+			setIsDraggingOver(true);
+		},
+		[setIsDraggingOver],
+	);
+
+	const onDragLeave = useCallback(
+		(e: React.DragEvent<HTMLDivElement>) => {
+			e.preventDefault();
+			e.stopPropagation();
+			setIsDraggingOver(false);
+		},
+		[setIsDraggingOver],
+	);
+
+	const onDrop = useCallback(
+		(e: React.DragEvent<HTMLDivElement>) => {
+			e.preventDefault();
+			e.stopPropagation();
+			setIsDraggingOver(false);
+
+			if (e.dataTransfer?.files?.length! > 0) {
+				for (var index = 0; index < e.dataTransfer!.files!.length; ++index) {
+					const file = e.dataTransfer?.files[index] as File;
+
+					const fileType = getFileType(file.name);
+
+					uploadAttachmentRequest({
+						chatId: selectedChat!.id,
+						type: fileType,
+						file,
+						attachmentId: new Date().getTime(),
+					});
+				}
+			}
+		},
+		[setIsDraggingOver, selectedChat?.id, uploadAttachmentRequest],
+	);
 
 	return (
-		<div ref={dragRef}>
+		<div onDrop={onDrop} onDragOver={onDragOver} onDragEnter={onDragEnter} onDragLeave={onDragLeave}>
 			{messageToEdit?.attachments
 				?.filter(
 					({ id }) => removedAttachments.findIndex((removedAttachment) => removedAttachment.id === id) === -1,
@@ -259,6 +269,7 @@ const EditMessage = () => {
 							className='mousetrap  message-input__input-message'
 							onFocus={handleFocus}
 							onBlur={handleBlur}
+							onPaste={onPaste}
 						/>
 					</div>
 					<button onClick={submitEditedMessage} className='message-input__edit-confirm'>

@@ -1,12 +1,11 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 
-export default function useReferredState<T>(initialValue: T) {
-	const [state, setState] = useState<T>(initialValue);
-	const reference = useRef<T>(state);
+export default function useReferState<T>(stateValue: T) {
+	const reference = useRef<T>(stateValue);
 
 	useEffect(() => {
-		reference.current = state;
-	}, [state]);
+		reference.current = stateValue;
+	}, [stateValue]);
 
-	return { reference, state, setState };
+	return reference;
 }

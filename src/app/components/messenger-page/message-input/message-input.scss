@@ -21,7 +21,8 @@
 	}
 	&__send-message {
 		flex: 0 1 64px;
-		height: 64px;
+		height: auto;
+		min-height: 64px;
 		display: flex;
 		align-items: center;
 	}

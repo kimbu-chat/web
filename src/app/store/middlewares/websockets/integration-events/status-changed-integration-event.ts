@@ -1,4 +1,4 @@
-import { UserStatus } from 'app/store/friends/models';
+import { UserStatus } from 'store/friends/models';
 
 export interface StatusChangedIntegrationEvent {
 	status: UserStatus;

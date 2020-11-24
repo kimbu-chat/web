@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import './interlocutor-info.scss';
 
-import InfoSvg from 'app/assets/icons/ic-info.svg';
-import LinkSvg from 'app/assets/icons/ic-links.svg';
+import InfoSvg from 'icons/ic-info.svg';
+import LinkSvg from 'icons/ic-links.svg';
 
 import { useSelector } from 'react-redux';
-import { Chat } from 'app/store/chats/models';
-import { getSelectedChatSelector } from 'app/store/chats/selectors';
+import { Chat } from 'store/chats/models';
+import { getSelectedChatSelector } from 'store/chats/selectors';
 import { parsePhoneNumber } from 'libphonenumber-js';
 import { LocalizationContext } from 'app/app';
 import { Link } from 'react-router-dom';

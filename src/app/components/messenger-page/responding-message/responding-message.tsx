@@ -1,11 +1,11 @@
 import React from 'react';
 import './responding-message.scss';
 
-import CloseSVG from 'app/assets/icons/ic-close.svg';
-import { RootState } from 'app/store/root-reducer';
+import CloseSVG from 'icons/ic-close.svg';
+import { RootState } from 'store/root-reducer';
 import { useSelector } from 'react-redux';
-import { MessageActions } from 'app/store/messages/actions';
-import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
+import { MessageActions } from 'store/messages/actions';
+import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 
 const RespondingMessage = () => {
 	const replyingMessage = useSelector((state: RootState) => state.messages.messageToReply);

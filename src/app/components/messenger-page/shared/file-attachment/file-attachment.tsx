@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import './file-attachment.scss';
 
-import DownloadSvg from 'app/assets/icons/ic-download.svg';
-import ProgressSVG from 'app/assets/icons/ic-progress.svg';
+import DownloadSvg from 'icons/ic-download.svg';
+import ProgressSVG from 'icons/ic-progress.svg';
 
-import { fileDownload } from 'app/utils/functions/file-download';
-import { RawAttachment } from 'app/store/chats/models';
-import { getRawAttachmentsizeUnit } from 'app/utils/functions/get-file-size-unit';
+import { fileDownload } from 'utils/functions/file-download';
+import { RawAttachment } from 'store/chats/models';
+import { getRawAttachmentsizeUnit } from 'utils/functions/get-file-size-unit';
 
 namespace FileAttachment {
 	export interface Props {

@@ -1,14 +1,14 @@
 import Modal from 'app/components/shared/modal/modal';
 import WithBackground from 'app/components/shared/with-background';
-import { getMyProfileSelector } from 'app/store/my-profile/selectors';
+import { getMyProfileSelector } from 'store/my-profile/selectors';
 import React, { useContext, useState } from 'react';
 import { useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import ValidSvg from 'app/assets/icons/ic-check-filled.svg';
-import InValidSvg from 'app/assets/icons/ic-dismiss.svg';
+import ValidSvg from 'icons/ic-check-filled.svg';
+import InValidSvg from 'icons/ic-dismiss.svg';
 import './edit-username-modal.scss';
-import { MyProfileActions } from 'app/store/my-profile/actions';
-import { useActionWithDeferred } from 'app/utils/hooks/use-action-with-deferred';
+import { MyProfileActions } from 'store/my-profile/actions';
+import { useActionWithDeferred } from 'utils/hooks/use-action-with-deferred';
 import { LocalizationContext } from 'app/app';
 
 namespace EditUserNameModal {

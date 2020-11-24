@@ -1,10 +1,10 @@
 import { LocalizationContext } from 'app/app';
 import Modal from 'app/components/shared/modal/modal';
 import WithBackground from 'app/components/shared/with-background';
-import { ChatActions } from 'app/store/chats/actions';
-import { Chat } from 'app/store/chats/models';
-import { getSelectedChatSelector } from 'app/store/chats/selectors';
-import { useActionWithDeferred } from 'app/utils/hooks/use-action-with-deferred';
+import { ChatActions } from 'store/chats/actions';
+import { Chat } from 'store/chats/models';
+import { getSelectedChatSelector } from 'store/chats/selectors';
+import { useActionWithDeferred } from 'utils/hooks/use-action-with-deferred';
 import React, { useCallback, useContext } from 'react';
 import './delete-chat-modal.scss';
 import { useSelector } from 'react-redux';

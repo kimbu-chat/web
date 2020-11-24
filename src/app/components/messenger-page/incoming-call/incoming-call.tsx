@@ -1,22 +1,22 @@
 import React, { useEffect, useCallback, useContext } from 'react';
 import './incoming-call.scss';
-import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
-import { CallActions } from 'app/store/calls/actions';
+import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
+import { CallActions } from 'store/calls/actions';
 import { useSelector } from 'react-redux';
-import { getCallInterlocutorSelector } from 'app/store/calls/selectors';
+import { getCallInterlocutorSelector } from 'store/calls/selectors';
 import Avatar from 'app/components/shared/avatar/avatar';
-import { getUserInitials } from 'app/utils/functions/interlocutor-name-utils';
+import { getUserInitials } from 'utils/functions/interlocutor-name-utils';
 
 //sounds
 import incomingCallSound from 'app/assets/sounds/calls/imcoming-call.ogg';
-import { RootState } from 'app/store/root-reducer';
+import { RootState } from 'store/root-reducer';
 import { Rnd } from 'react-rnd';
 import ReactDOM from 'react-dom';
 
 //svgs
-import AcceptWithAudioSvg from 'app/assets/icons/ic-call-filled.svg';
-import AcceptWithVideoSvg from 'app/assets/icons/ic-video-call-filled.svg';
-import DeclineCallSvg from 'app/assets/icons/ic-call-out.svg';
+import AcceptWithAudioSvg from 'icons/ic-call-filled.svg';
+import AcceptWithVideoSvg from 'icons/ic-video-call-filled.svg';
+import DeclineCallSvg from 'icons/ic-call-out.svg';
 import { LocalizationContext } from 'app/app';
 
 const IncomingCall = () => {

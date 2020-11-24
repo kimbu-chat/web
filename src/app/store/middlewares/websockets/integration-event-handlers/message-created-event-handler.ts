@@ -1,9 +1,9 @@
 import { Store } from 'redux';
 import { MessageCreatedIntegrationEvent } from '../integration-events/message-created-integration-event';
-import { SystemMessageType, Message, MessageState, CreateMessageRequest } from 'app/store/messages/models';
+import { SystemMessageType, Message, MessageState, CreateMessageRequest } from 'store/messages/models';
 import { IEventHandler } from '../event-handler';
-import { RootState } from 'app/store/root-reducer';
-import { MessageActions } from 'app/store/messages/actions';
+import { RootState } from 'store/root-reducer';
+import { MessageActions } from 'store/messages/actions';
 
 export class MessageCreatedEventHandler implements IEventHandler<MessageCreatedIntegrationEvent> {
 	public handle(store: Store<RootState>, eventData: MessageCreatedIntegrationEvent): void {

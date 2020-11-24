@@ -1,6 +1,6 @@
 import { SystemMessageType } from './../../../messages/models';
-import { BaseAttachment } from 'app/store/chats/models';
-import { UserPreview } from 'app/store/my-profile/models';
+import { BaseAttachment } from 'store/chats/models';
+import { UserPreview } from 'store/my-profile/models';
 
 export interface MessageCreatedIntegrationEvent {
 	attachments: BaseAttachment[];

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ReturnSvg from 'app/assets/icons/ic-arrow-left.svg';
+import ReturnSvg from 'icons/ic-arrow-left.svg';
 import { Link, useLocation } from 'react-router-dom';
 
 namespace SettingsHeader {

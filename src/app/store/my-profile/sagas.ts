@@ -4,7 +4,7 @@ import { UpdateMyProfileApiRequestData, UploadAvatarResponse, UploadAvatarSagaPr
 import { MyProfileActions } from './actions';
 import { MyProfileHttpFileRequest, MyProfileHttpRequests } from './http-requests';
 import { MyProfileService } from 'app/services/my-profile-service';
-import { getFileFromUrl } from 'app/utils/functions/get-file-from-url';
+import { getFileFromUrl } from 'utils/functions/get-file-from-url';
 import { CancelTokenSource } from 'axios';
 
 let avatarUploadCancelTokenSource: CancelTokenSource | undefined;

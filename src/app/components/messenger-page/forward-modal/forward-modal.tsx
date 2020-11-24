@@ -1,15 +1,15 @@
 import Modal from 'app/components/shared/modal/modal';
 import WithBackground from 'app/components/shared/with-background';
-import { RootState } from 'app/store/root-reducer';
+import { RootState } from 'store/root-reducer';
 import React, { useCallback, useContext } from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import './forward-modal.scss';
 import SearchBox from '../search-box/search-box';
-import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
+import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import { LocalizationContext } from 'app/app';
-import { ChatActions } from 'app/store/chats/actions';
-import { Chat } from 'app/store/chats/models';
+import { ChatActions } from 'store/chats/actions';
+import { Chat } from 'store/chats/models';
 import ForwardEntity from './forward-entity/forward-entity';
 
 namespace ForwardModal {

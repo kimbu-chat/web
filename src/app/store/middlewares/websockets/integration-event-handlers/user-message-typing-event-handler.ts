@@ -1,10 +1,10 @@
 import { IntercolutorMessageTypingIntegrationEvent } from '../integration-events/interlocutor-message-typing-integration-event';
 import { Store } from 'redux';
 import { IEventHandler } from '../event-handler';
-import { RootState } from 'app/store/root-reducer';
-import { ChatActions } from 'app/store/chats/actions';
-import { InterlocutorType } from 'app/store/chats/models';
-import { ChatId } from 'app/store/chats/chat-id';
+import { RootState } from 'store/root-reducer';
+import { ChatActions } from 'store/chats/actions';
+import { InterlocutorType } from 'store/chats/models';
+import { ChatId } from 'store/chats/chat-id';
 
 export class UserMessageTypingEventHandler implements IEventHandler<IntercolutorMessageTypingIntegrationEvent> {
 	public handle(store: Store<RootState>, eventData: IntercolutorMessageTypingIntegrationEvent): void {

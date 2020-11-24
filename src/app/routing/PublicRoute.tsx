@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Redirect, RouteProps } from 'react-router';
 import { useSelector } from 'react-redux';
-import { RootState } from 'app/store/root-reducer';
+import { RootState } from 'store/root-reducer';
 
 namespace PublicRoute {
 	export interface Props extends RouteProps {

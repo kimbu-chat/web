@@ -1,6 +1,6 @@
 import React from 'react';
 import './search-box.scss';
-import SearchSvg from 'app/assets/icons/ic-search.svg';
+import SearchSvg from 'icons/ic-search.svg';
 
 namespace SearchBox {
 	export interface Props {

@@ -1,12 +1,12 @@
 import Modal from 'app/components/shared/modal/modal';
 import WithBackground from 'app/components/shared/with-background';
-import { getSelectedChatSelector } from 'app/store/chats/selectors';
+import { getSelectedChatSelector } from 'store/chats/selectors';
 import React, { useCallback, useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import CheckBoxSvg from 'app/assets/icons/ic-checkbox.svg';
-import { MessageActions } from 'app/store/messages/actions';
-import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
+import CheckBoxSvg from 'icons/ic-checkbox.svg';
+import { MessageActions } from 'store/messages/actions';
+import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import { LocalizationContext } from 'app/app';
 import './delete-message-modal.scss';
 

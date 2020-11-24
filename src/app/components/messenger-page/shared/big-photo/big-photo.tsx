@@ -1,9 +1,9 @@
 import { BackgroundBlur } from 'app/components/shared/with-background';
 import React from 'react';
-import CloseSVG from 'app/assets/icons/ic-close.svg';
+import CloseSVG from 'icons/ic-close.svg';
 
 import './big-photo.scss';
-import { stopPropagation } from 'app/utils/functions/stop-propagation';
+import { stopPropagation } from 'utils/functions/stop-propagation';
 
 namespace BigPhoto {
 	export interface Props {

@@ -3,7 +3,7 @@ import './photo-attachment.scss';
 
 import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
 import BigPhoto from '../../../shared/big-photo/big-photo';
-import { PictureAttachment } from 'app/store/chats/models';
+import { PictureAttachment } from 'store/chats/models';
 
 namespace PhotoAttachment {
 	export interface Props {

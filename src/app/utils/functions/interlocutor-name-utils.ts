@@ -1,5 +1,5 @@
-import { Chat } from 'app/store/chats/models';
-import { UserPreview } from 'app/store/my-profile/models';
+import { Chat } from 'store/chats/models';
+import { UserPreview } from 'store/my-profile/models';
 
 export const getChatInterlocutor = (chat: Chat): string => {
 	const { interlocutor } = chat;

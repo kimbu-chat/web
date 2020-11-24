@@ -1,20 +1,20 @@
 import React, { useEffect, useRef, useContext, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import './chat.scss';
-import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
-import { MessageList } from 'app/store/messages/models';
-import { MessageActions } from 'app/store/messages/actions';
-import { RootState } from 'app/store/root-reducer';
+import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
+import { MessageList } from 'store/messages/models';
+import { MessageActions } from 'store/messages/actions';
+import { RootState } from 'store/root-reducer';
 import { LocalizationContext } from 'app/app';
-import { getSelectedChatSelector, getTypingString } from 'app/store/chats/selectors';
+import { getSelectedChatSelector, getTypingString } from 'store/chats/selectors';
 import MessageItem from '../message-item/message-item';
 import InfiniteScroll from 'react-infinite-scroller';
 import SelectedMessagesData from '../selected-messages-data/selected-messages-data';
-import { setSelectedMessagesLength } from 'app/store/messages/selectors';
-import { MessageUtils } from 'app/utils/functions/message-utils';
+import { setSelectedMessagesLength } from 'store/messages/selectors';
+import { MessageUtils } from 'utils/functions/message-utils';
 import moment from 'moment';
 import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
-import { ChatActions } from 'app/store/chats/actions';
+import { ChatActions } from 'store/chats/actions';
 
 export const MESSAGES_LIMIT = 25;
 

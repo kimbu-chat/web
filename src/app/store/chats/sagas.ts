@@ -1,5 +1,5 @@
 import { RootState } from './../root-reducer';
-import { FileType } from 'app/store/messages/models';
+import { FileType } from 'store/messages/models';
 import { call, put, select, takeEvery, takeLatest } from 'redux-saga/effects';
 import { AxiosResponse, CancelTokenSource } from 'axios';
 import {
@@ -23,7 +23,7 @@ import { GroupChatCreatedIntegrationEvent } from '../middlewares/websockets/inte
 import { MessageActions } from '../messages/actions';
 import { ChatHttpFileRequest, ChatHttpRequests } from './http-requests';
 import { MyProfileService } from 'app/services/my-profile-service';
-import { MessageUtils } from 'app/utils/functions/message-utils';
+import { MessageUtils } from 'utils/functions/message-utils';
 import { IFilesRequestGenerator } from '../common/http-file-factory';
 
 let uploadingAttachments: { id: number; cancelTokenSource: CancelTokenSource }[] = [];

@@ -2,11 +2,11 @@ import React, { useCallback } from 'react';
 import './friend-from-list.scss';
 
 import Avatar from 'app/components/shared/avatar/avatar';
-import { UserPreview } from 'app/store/my-profile/models';
-import { getUserInitials } from 'app/utils/functions/interlocutor-name-utils';
+import { UserPreview } from 'store/my-profile/models';
+import { getUserInitials } from 'utils/functions/interlocutor-name-utils';
 
-import SelectedSvg from 'app/assets/icons/ic-check-filled.svg';
-import UnSelectedSvg from 'app/assets/icons/ic-check-outline.svg';
+import SelectedSvg from 'icons/ic-check-filled.svg';
+import UnSelectedSvg from 'icons/ic-check-outline.svg';
 
 namespace FriendFromList {
 	export interface Props {

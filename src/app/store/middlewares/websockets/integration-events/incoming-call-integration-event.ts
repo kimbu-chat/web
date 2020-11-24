@@ -1,4 +1,4 @@
-import { UserPreview } from 'app/store/my-profile/models';
+import { UserPreview } from 'store/my-profile/models';
 
 export interface IncomingCallIntegrationEvent {
 	caller: UserPreview;

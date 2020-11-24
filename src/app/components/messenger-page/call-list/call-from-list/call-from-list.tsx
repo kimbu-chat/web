@@ -1,10 +1,10 @@
-import { Call, CallStatus } from 'app/store/calls/models';
+import { Call, CallStatus } from 'store/calls/models';
 import './call-from-list.scss';
 import React, { useContext } from 'react';
 
-import OutgoingCallSvg from 'app/assets/icons/ic-outgoing-call.svg';
+import OutgoingCallSvg from 'icons/ic-outgoing-call.svg';
 import Avatar from 'app/components/shared/avatar/avatar';
-import { getUserInitials } from 'app/utils/functions/interlocutor-name-utils';
+import { getUserInitials } from 'utils/functions/interlocutor-name-utils';
 import { LocalizationContext } from 'app/app';
 import moment from 'moment';
 

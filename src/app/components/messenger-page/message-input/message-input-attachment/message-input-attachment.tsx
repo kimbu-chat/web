@@ -4,21 +4,21 @@ import {
 	PictureAttachment,
 	RawAttachment,
 	VideoAttachment,
-} from 'app/store/chats/models';
-import { AttachmentCreation, FileType } from 'app/store/messages/models';
+} from 'store/chats/models';
+import { AttachmentCreation, FileType } from 'store/messages/models';
 import React, { useCallback, useEffect, useState } from 'react';
 import './message-input-attachment.scss';
 
-import PhotoSVG from 'app/assets/icons/ic-photo.svg';
-import VideoSVG from 'app/assets/icons/ic-video-call.svg';
-import FileSVG from 'app/assets/icons/ic-documents.svg';
-import MicrophoneSVG from 'app/assets/icons/ic-microphone.svg';
-import PlaySVG from 'app/assets/icons/ic-play.svg';
-import CloseSVG from 'app/assets/icons/ic-close.svg';
-import { getSelectedChatIdSelector } from 'app/store/chats/selectors';
+import PhotoSVG from 'icons/ic-photo.svg';
+import VideoSVG from 'icons/ic-video-call.svg';
+import FileSVG from 'icons/ic-documents.svg';
+import MicrophoneSVG from 'icons/ic-microphone.svg';
+import PlaySVG from 'icons/ic-play.svg';
+import CloseSVG from 'icons/ic-close.svg';
+import { getSelectedChatIdSelector } from 'store/chats/selectors';
 import { useSelector } from 'react-redux';
-import { ChatActions } from 'app/store/chats/actions';
-import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
+import { ChatActions } from 'store/chats/actions';
+import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 
 namespace MessageInputAttachment {
 	export interface Props {

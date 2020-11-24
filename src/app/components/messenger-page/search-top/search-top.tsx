@@ -1,10 +1,10 @@
 import React, { useCallback, useState } from 'react';
 import './search-top.scss';
 
-import CreateChatSvg from 'app/assets/icons/ic-write-message.svg';
+import CreateChatSvg from 'icons/ic-write-message.svg';
 
-import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
-import { ChatActions } from 'app/store/chats/actions';
+import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
+import { ChatActions } from 'store/chats/actions';
 import SearchBox from '../search-box/search-box';
 import NewChatModal from '../new-chat-modal/new-chat-modal';
 import CreateGroupChat from '../create-group-chat-modal/create-group-chat-modal';

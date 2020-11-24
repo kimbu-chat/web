@@ -1,15 +1,15 @@
 import Avatar from 'app/components/shared/avatar/avatar';
-import { getMyProfileSelector } from 'app/store/my-profile/selectors';
-import { getUserInitials } from 'app/utils/functions/interlocutor-name-utils';
+import { getMyProfileSelector } from 'store/my-profile/selectors';
+import { getUserInitials } from 'utils/functions/interlocutor-name-utils';
 import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { LocalizationContext } from 'app/app';
 import './settings.scss';
 
-import InfoSvg from 'app/assets/icons/ic-info.svg';
-import NotificationSvg from 'app/assets/icons/ic-notifications-on.svg';
-import TextSvg from 'app/assets/icons/ic-text-typing.svg';
-import LangSvg from 'app/assets/icons/ic-language.svg';
+import InfoSvg from 'icons/ic-info.svg';
+import NotificationSvg from 'icons/ic-notifications-on.svg';
+import TextSvg from 'icons/ic-text-typing.svg';
+import LangSvg from 'icons/ic-language.svg';
 import { Link, Route, useLocation } from 'react-router-dom';
 import EditProfile from './edit-profile/edit-profile';
 import NotificationsSettings from './notifications-settings/notifications-settings';
@@ -17,8 +17,8 @@ import LanguageSettings from './language-settings/language-settings';
 import { CSSTransition } from 'react-transition-group';
 import TextTyping from './text-typing/text-typing';
 import BaseBtn from 'app/components/shared/base-btn/base-btn';
-import { AuthActions } from 'app/store/auth/actions';
-import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
+import { AuthActions } from 'store/auth/actions';
+import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 
 const Settings = () => {
 	const { t } = useContext(LocalizationContext);

@@ -4,7 +4,7 @@ import './phone-input.scss';
 
 import { Country } from 'app/common/countries';
 import { LocalizationContext } from 'app/app';
-import { removeCountryCodeFromPhoneNumber } from 'app/utils/functions/phone-number-utils';
+import { removeCountryCodeFromPhoneNumber } from 'utils/functions/phone-number-utils';
 
 namespace PhoneInput {
 	export interface Props {

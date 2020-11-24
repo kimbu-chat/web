@@ -36,6 +36,13 @@ module.exports = {
 		mainFields: ['module', 'browser', 'main'],
 		alias: {
 			app: path.resolve(__dirname, 'src/app/'),
+			icons: path.resolve(__dirname, 'src/app/assets/icons/'),
+			store: path.resolve(__dirname, 'src/app/store/'),
+			sounds: path.resolve(__dirname, 'src/app/assets/sounds/'),
+			utils: path.resolve(__dirname, 'src/app/utils/'),
+			shared_components: path.resolve(__dirname, 'src/app/components/shared/'),
+			messenger_components: path.resolve(__dirname, 'src/app/components/messenger-page/'),
+			login_components: path.resolve(__dirname, 'src/app/components/login-page/'),
 		},
 	},
 	module: {

@@ -6,10 +6,10 @@ import {
 	GroupChatMemberRemovedSystemMessageContent,
 	GroupChatMemberAddedSystemMessageContent,
 	GroupChatNameChangedSystemMessageContent,
-} from 'app/store/messages/models';
-import { UserStatus } from 'app/store/friends/models';
+} from 'store/messages/models';
+import { UserStatus } from 'store/friends/models';
 import { TFunction } from 'i18next';
-import { CallStatus } from 'app/store/calls/models';
+import { CallStatus } from 'store/calls/models';
 
 export class MessageUtils {
 	static getSystemMessageContent(text: string): SystemMessageBase {

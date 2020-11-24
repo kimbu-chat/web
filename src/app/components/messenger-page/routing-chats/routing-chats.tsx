@@ -2,11 +2,11 @@ import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import './routing-chats.scss';
 
-import ContactSvg from 'app/assets/icons/ic-contacts.svg';
-import CallSvg from 'app/assets/icons/ic-call-filled.svg';
-import ChatsSvg from 'app/assets/icons/ic-chat.svg';
-import SettingsSvg from 'app/assets/icons/ic-settings.svg';
-import { getSelectedChatSelector } from 'app/store/chats/selectors';
+import ContactSvg from 'icons/ic-contacts.svg';
+import CallSvg from 'icons/ic-call-filled.svg';
+import ChatsSvg from 'icons/ic-chat.svg';
+import SettingsSvg from 'icons/ic-settings.svg';
+import { getSelectedChatSelector } from 'store/chats/selectors';
 import { useSelector } from 'react-redux';
 
 const RoutingChats = () => {

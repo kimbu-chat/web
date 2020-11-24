@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { getInternetStateSelector } from 'app/store/internet/selectors';
+import { getInternetStateSelector } from 'store/internet/selectors';
 
 import './internet-error.scss';
 

@@ -1,21 +1,21 @@
-import { ChatActions } from 'app/store/chats/actions';
-import { getSelectedChatSelector } from 'app/store/chats/selectors';
-import { RootState } from 'app/store/root-reducer';
-import { typingStrategy } from 'app/store/settings/models';
-import { getTypingStrategy } from 'app/store/settings/selectors';
-import { getFileType } from 'app/utils/functions/get-file-extension';
-import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
+import { ChatActions } from 'store/chats/actions';
+import { getSelectedChatSelector } from 'store/chats/selectors';
+import { RootState } from 'store/root-reducer';
+import { typingStrategy } from 'store/settings/models';
+import { getTypingStrategy } from 'store/settings/selectors';
+import { getFileType } from 'utils/functions/get-file-extension';
+import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import Mousetrap from 'mousetrap';
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import MessageInputAttachment from '../message-input-attachment/message-input-attachment';
-import AddSvg from 'app/assets/icons/ic-add-new.svg';
+import AddSvg from 'icons/ic-add-new.svg';
 import './edit-message.scss';
 import { LocalizationContext } from 'app/app';
-import { MessageActions } from 'app/store/messages/actions';
-import { AttachmentToSend, BaseAttachment, Chat } from 'app/store/chats/models';
-import { AttachmentCreation } from 'app/store/messages/models';
-import { useGlobalDrop } from 'app/utils/hooks/use-drop';
+import { MessageActions } from 'store/messages/actions';
+import { AttachmentToSend, BaseAttachment, Chat } from 'store/chats/models';
+import { AttachmentCreation } from 'store/messages/models';
+import { useGlobalDrop } from 'utils/hooks/use-drop';
 
 const EditMessage = () => {
 	const { t } = useContext(LocalizationContext);

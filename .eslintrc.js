@@ -31,7 +31,21 @@ module.exports = {
 			'error',
 			{ exceptMethods: ['componentDidCatch', 'componentDidAppear', 'componentDidDisappear', 'handle'] },
 		],
-		'import/no-unresolved': ['error', { ignore: ['@app'] }], // ignore import with @app & .
+		'import/no-unresolved': [
+			'error',
+			{
+				ignore: [
+					'@app',
+					'@icons',
+					'@store',
+					'@sounds',
+					'@utils',
+					'@shared_components',
+					'@messenger_components',
+					'@login_components',
+				],
+			},
+		], // ignore import with @app & .
 		'max-len': ['error', 140], // change max length for a line to 120
 		'no-console': 'error', // don't allow console
 		'no-param-reassign': 0,

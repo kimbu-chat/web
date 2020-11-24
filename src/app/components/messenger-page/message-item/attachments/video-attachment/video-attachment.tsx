@@ -1,11 +1,11 @@
 import React, { useCallback, useState } from 'react';
 import './video-attachment.scss';
 
-import PlaySvg from 'app/assets/icons/ic-play.svg';
+import PlaySvg from 'icons/ic-play.svg';
 import moment from 'moment';
 import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
 import VideoPlayer from '../../../shared/video-player/video-player';
-import { VideoAttachment } from 'app/store/chats/models';
+import { VideoAttachment } from 'store/chats/models';
 
 namespace VideoAttachmentNS {
 	export interface Props {

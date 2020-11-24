@@ -2,9 +2,9 @@ import React from 'react';
 
 import './modal.scss';
 
-import CloseSVG from 'app/assets/icons/ic-close.svg';
+import CloseSVG from 'icons/ic-close.svg';
 import BaseBtn, { BaseBtnNS } from '../base-btn/base-btn';
-import { stopPropagation } from 'app/utils/functions/stop-propagation';
+import { stopPropagation } from 'utils/functions/stop-propagation';
 
 namespace Modal {
 	export interface Button extends BaseBtnNS.Props {

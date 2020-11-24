@@ -43,6 +43,10 @@ export const CallsHttpRequests = {
 		`${ApiBasePath.NotificationsApi}/api/calls/accept-call`,
 		HttpRequestMethod.Post,
 	),
+	busyCall: httpRequestFactory<AxiosResponse, AcceptCallApiRequest>(
+		`${ApiBasePath.NotificationsApi}/api/calls/busy-call`,
+		HttpRequestMethod.Post,
+	),
 	getCalls: httpRequestFactory<AxiosResponse<Call[]>, GetCallsApiRequest>(
 		`${ApiBasePath.MainApi}/api/calls/search`,
 		HttpRequestMethod.Post,

@@ -19,7 +19,11 @@ const Friend = ({ friend }: Friend.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	return (
-		<NavLink to={`/contacts/${new ChatId().From(friend.id)}`} className='friend' activeClassName='friend--active'>
+		<NavLink
+			to={`/contacts/${new ChatId().From(friend.id).entireId}`}
+			className='friend'
+			activeClassName='friend--active'
+		>
 			<div className='friend__active-line'></div>
 			<Avatar className={'friend__avatar'} src={friend.avatar?.previewUrl}>
 				{getUserInitials(friend)}

@@ -23,11 +23,15 @@ import ScreenSharingDisableSvg from 'app/assets/icons/ic-screen-share-mute.svg';
 import HangUpSvg from 'app/assets/icons/ic-call-out.svg';
 import FullScreenSvg from 'app/assets/icons/ic-fullscreen.svg';
 import ExitFullScreenSvg from 'app/assets/icons/ic-fullscreen-exit.svg';
+import VoiceCallSvg from 'app/assets/icons/ic-call.svg';
 
 //sounds
 import callingBeep from 'app/assets/sounds/calls/outgoing-call.ogg';
+import busySound from 'app/assets/sounds/calls/busy-sound.ogg';
 import Dropdown from './dropdown/dropdown';
 import { LocalizationContext } from 'app/app';
+import { getSelectedChatSelector } from 'app/store/chats/selectors';
+import { UserPreview } from 'app/store/my-profile/models';
 
 namespace IActiveCall {
 	export interface Props {
@@ -43,8 +47,10 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 	const audioDevices = useSelector((state: RootState) => state.calls.audioDevicesList);
 	const videoDevices = useSelector((state: RootState) => state.calls.videoDevicesList);
 	const isInterlocutorVideoEnabled = useSelector((state: RootState) => state.calls.isInterlocutorVideoEnabled);
+	const selectedChat = useSelector(getSelectedChatSelector);
 	const amICalingSomebody = useSelector(amICaling);
 	const amISpeaking = useSelector(doIhaveCall);
+	const isInterlocutorBusy = useSelector((state: RootState) => state.calls.isInterlocutorBusy);
 
 	const { t } = useContext(LocalizationContext);
 
@@ -55,6 +61,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 
 	const changeMediaStatus = useActionWithDispatch(CallActions.changeMediaStatusAction);
 	const endCall = useActionWithDispatch(CallActions.endCallAction);
+	const callInterlocutor = useActionWithDispatch(CallActions.outgoingCallAction);
 	const changeScreenShareStatus = useActionWithDispatch(CallActions.changeScreenShareStatusAction);
 	const switchDevice = useActionWithDispatch(CallActions.switchDeviceAction);
 	const cancelCall = useActionWithDispatch(CallActions.cancelCallAction);
@@ -145,7 +152,7 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 
 	//audio playing when outgoing call
 	useEffect(() => {
-		if (amICalingSomebody) {
+		if (amICalingSomebody && !isInterlocutorBusy) {
 			const audio = new Audio(callingBeep);
 
 			const repeatAudio = function () {
@@ -163,8 +170,17 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 			};
 		}
 
+		if (isInterlocutorBusy) {
+			const audio = new Audio(busySound);
+			audio.play();
+
+			return () => {
+				audio.pause();
+			};
+		}
+
 		return () => {};
-	}, [amICalingSomebody]);
+	}, [amICalingSomebody, isInterlocutorBusy]);
 
 	useEffect(() => {
 		return () => {
@@ -184,6 +200,24 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 				: { width: 0, height: 0 },
 		);
 	}, [isFullScreen, isDisplayed]);
+
+	const callWithVideo = () =>
+		callInterlocutor({
+			calling: selectedChat?.interlocutor as UserPreview,
+			constraints: {
+				videoEnabled: true,
+				audioEnabled: true,
+			},
+		});
+
+	const callWithAudio = () =>
+		callInterlocutor({
+			calling: selectedChat?.interlocutor as UserPreview,
+			constraints: {
+				videoEnabled: false,
+				audioEnabled: true,
+			},
+		});
 
 	return (
 		<Rnd
@@ -266,6 +300,8 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 					</Avatar>
 				)}
 
+				{isInterlocutorBusy && <span>{t('activeCall.busy')}</span>}
+
 				{isVideoOpened && (
 					<video
 						autoPlay
@@ -276,31 +312,35 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 				)}
 
 				<div className={`active-call__bottom-menu ${isFullScreen ? 'active-call__bottom-menu--big' : ''}`}>
-					<button
-						onClick={changeAudioStatus}
-						className={`active-call__call-btn 
+					{amISpeaking && !isInterlocutorBusy && (
+						<button
+							onClick={changeAudioStatus}
+							className={`active-call__call-btn 
 												${isFullScreen ? 'active-call__call-btn--big' : ''}`}
-					>
-						{isAudioOpened ? (
-							<MicrophoneEnableSvg viewBox='0 0 25 25' />
-						) : (
-							<MicrophoneDisableSvg viewBox='0 0 25 25' />
-						)}
-					</button>
+						>
+							{isAudioOpened ? (
+								<MicrophoneEnableSvg viewBox='0 0 25 25' />
+							) : (
+								<MicrophoneDisableSvg viewBox='0 0 25 25' />
+							)}
+						</button>
+					)}
 
-					<button
-						onClick={changeVideoStatus}
-						className={`active-call__call-btn 
+					{amISpeaking && !isInterlocutorBusy && (
+						<button
+							onClick={changeVideoStatus}
+							className={`active-call__call-btn 
 												${isFullScreen ? 'active-call__call-btn--big' : ''}`}
-					>
-						{isVideoOpened ? (
-							<VideoEnableSvg viewBox='0 0 25 25' />
-						) : (
-							<VideoDisableSvg viewBox='0 0 25 25' />
-						)}
-					</button>
+						>
+							{isVideoOpened ? (
+								<VideoEnableSvg viewBox='0 0 25 25' />
+							) : (
+								<VideoDisableSvg viewBox='0 0 25 25' />
+							)}
+						</button>
+					)}
 
-					{amISpeaking && (
+					{amISpeaking && !isInterlocutorBusy && (
 						<button
 							onClick={changeScreenShareStatus}
 							className={`active-call__call-btn 
@@ -314,12 +354,32 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 						</button>
 					)}
 
+					{amISpeaking && isInterlocutorBusy && (
+						<button
+							onClick={callWithVideo}
+							className={`active-call__call-btn 
+												${isFullScreen ? 'active-call__call-btn--big' : ''}`}
+						>
+							<VideoEnableSvg viewBox='0 0 25 25' />
+						</button>
+					)}
+
+					{isInterlocutorBusy && (
+						<button
+							onClick={callWithAudio}
+							className={`active-call__call-btn 
+												${isFullScreen ? 'active-call__call-btn--big' : ''}`}
+						>
+							<VoiceCallSvg viewBox='0 0 25 25' />
+						</button>
+					)}
+
 					<button
 						className={`active-call__call-btn active-call__call-btn--end-call ${
 							isFullScreen ? 'active-call__call-btn--big' : ''
 						}`}
 						onClick={() => {
-							if (amICalingSomebody) {
+							if (amICalingSomebody || isInterlocutorBusy) {
 								cancelCall();
 							} else {
 								endCall({ seconds: callDuration });

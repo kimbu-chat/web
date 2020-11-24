@@ -17,6 +17,7 @@ import { InterlocutorCanceledCallEventHandler } from './integration-event-handle
 import { CallEndedEventHandler } from './integration-event-handlers/call-ended-event-handler';
 import { CandidateEventHandler } from './integration-event-handlers/candidate-event-handler';
 import { ApiBasePath } from 'app/store/root-api';
+import { BusyCallEvenHandler } from './integration-event-handlers/busy-call-event-handler';
 
 let connection: HubConnection;
 
@@ -65,6 +66,7 @@ function openConnection(store: Store<RootState>): void {
 	eventManager.registerEventHandler(EVENTS_NAMES.CALL_NOT_ANSWERED, new InterlocutorCanceledCallEventHandler());
 	eventManager.registerEventHandler(EVENTS_NAMES.CALL_ENDED, new CallEndedEventHandler());
 	eventManager.registerEventHandler(EVENTS_NAMES.CANDIDATE, new CandidateEventHandler());
+	eventManager.registerEventHandler(EVENTS_NAMES.BUSY_CALL, new BusyCallEvenHandler());
 
 	connection = new HubConnectionBuilder()
 		.withUrl(`${ApiBasePath.NotificationsApi}/signalr`, {

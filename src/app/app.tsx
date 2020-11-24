@@ -4,7 +4,7 @@ import { Redirect, Route, Switch } from 'react-router';
 import './base.scss';
 
 import { useSelector } from 'react-redux';
-import { RootState } from 'app/store/root-reducer';
+import { RootState } from 'store/root-reducer';
 
 import i18nConfiguration from 'app/localization/i18n';
 import { useTranslation } from 'react-i18next';

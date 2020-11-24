@@ -1,10 +1,10 @@
 import React, { useCallback, useContext, useState } from 'react';
 import './selected-messages-data.scss';
 import { useSelector } from 'react-redux';
-import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
-import { getSelectedChatSelector } from 'app/store/chats/selectors';
-import { MessageActions } from 'app/store/messages/actions';
-import { RootState } from 'app/store/root-reducer';
+import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
+import { getSelectedChatSelector } from 'store/chats/selectors';
+import { MessageActions } from 'store/messages/actions';
+import { RootState } from 'store/root-reducer';
 import { LocalizationContext } from 'app/app';
 import ForwardModal from '../forward-modal/forward-modal';
 import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';

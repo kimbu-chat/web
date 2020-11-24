@@ -2,7 +2,7 @@ import { LocalizationContext } from 'app/app';
 import { Country, countryList } from 'app/common/countries';
 import Modal from 'app/components/shared/modal/modal';
 import WithBackground from 'app/components/shared/with-background';
-import { RootState } from 'app/store/root-reducer';
+import { RootState } from 'store/root-reducer';
 import { parsePhoneNumber, parsePhoneNumberFromString } from 'libphonenumber-js';
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';

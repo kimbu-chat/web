@@ -10,22 +10,22 @@ import Chat from '../../components/messenger-page/chat/chat';
 import CreateMessageInput from '../../components/messenger-page/message-input/message-input';
 import ChatInfo from '../../components/messenger-page/chat-info/chat-info';
 import InternetError from 'app/components/shared/internet-error/internet-error';
-import IncomingCall from 'app/components/messenger-page/incoming-call/incoming-call';
-import ActiveCall from 'app/components/messenger-page/active-call/active-call';
-import RoutingChats from 'app/components/messenger-page/routing-chats/routing-chats';
+import IncomingCall from 'messenger_components/incoming-call/incoming-call';
+import ActiveCall from 'messenger_components/active-call/active-call';
+import RoutingChats from 'messenger_components/routing-chats/routing-chats';
 
-import { AvatarSelectedData } from 'app/store/my-profile/models';
+import { AvatarSelectedData } from 'store/my-profile/models';
 import { useSelector } from 'react-redux';
-import { isCallingMe, amICaling, doIhaveCall } from 'app/store/calls/selectors';
-import CallList from 'app/components/messenger-page/call-list/call-list';
-import Settings from 'app/components/messenger-page/settings/settings';
+import { isCallingMe, amICaling, doIhaveCall } from 'store/calls/selectors';
+import CallList from 'messenger_components/call-list/call-list';
+import Settings from 'messenger_components/settings/settings';
 import { CSSTransition } from 'react-transition-group';
-import SettingsHeader from 'app/components/messenger-page/settings/settings-header';
+import SettingsHeader from 'messenger_components/settings/settings-header';
 import { LocalizationContext } from 'app/app';
-import FriendList from 'app/components/messenger-page/friend-list/friend-list';
-import { getSelectedChatSelector } from 'app/store/chats/selectors';
-import EditMessage from 'app/components/messenger-page/message-input/edit-message/edit-message';
-import { RootState } from 'app/store/root-reducer';
+import FriendList from 'messenger_components/friend-list/friend-list';
+import { getSelectedChatSelector } from 'store/chats/selectors';
+import EditMessage from 'messenger_components/message-input/edit-message/edit-message';
+import { RootState } from 'store/root-reducer';
 
 export namespace Messenger {
 	export interface photoSelect {

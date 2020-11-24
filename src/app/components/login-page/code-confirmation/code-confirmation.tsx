@@ -2,15 +2,15 @@ import React, { useContext, useState, useRef, useCallback, useEffect } from 'rea
 import './code-confirmation.scss';
 
 import { LocalizationContext } from 'app/app';
-import { AuthActions } from 'app/store/auth/actions';
-import { RootState } from 'app/store/root-reducer';
-import { useActionWithDeferred } from 'app/utils/hooks/use-action-with-deferred';
+import { AuthActions } from 'store/auth/actions';
+import { RootState } from 'store/root-reducer';
+import { useActionWithDeferred } from 'utils/hooks/use-action-with-deferred';
 import { useSelector } from 'react-redux';
 import useInterval from 'use-interval';
 import { history } from '../../../../main';
 import moment from 'moment';
 import { parsePhoneNumber } from 'libphonenumber-js';
-import ResendSvg from 'app/assets/icons/ic-resend.svg';
+import ResendSvg from 'icons/ic-resend.svg';
 import BaseBtn from 'app/components/shared/base-btn/base-btn';
 
 const NUMBER_OF_DIGITS = [0, 1, 2, 3];

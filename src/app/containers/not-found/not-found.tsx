@@ -3,8 +3,8 @@ import BaseBtn from 'app/components/shared/base-btn/base-btn';
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import './not-found.scss';
-import SadSmilePNG from 'app/assets/icons/sad-emoji.png';
-import NotFoundBackgroundPNG from 'app/assets/icons/404-bg.png';
+import SadSmilePNG from 'icons/sad-emoji.png';
+import NotFoundBackgroundPNG from 'icons/404-bg.png';
 
 const NotFound = () => {
 	const { t } = useContext(LocalizationContext);

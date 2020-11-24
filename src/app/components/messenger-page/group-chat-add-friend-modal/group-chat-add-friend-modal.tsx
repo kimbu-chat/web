@@ -1,18 +1,18 @@
 import Modal from 'app/components/shared/modal/modal';
 import WithBackground from 'app/components/shared/with-background';
-import { RootState } from 'app/store/root-reducer';
+import { RootState } from 'store/root-reducer';
 import React, { useCallback, useContext } from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import './group-chat-add-friend-modal.scss';
 import SearchBox from '../search-box/search-box';
 import FriendFromList from '../shared/friend-from-list/friend-from-list';
-import { Chat } from 'app/store/chats/models';
-import { ChatActions } from 'app/store/chats/actions';
-import { useActionWithDeferred } from 'app/utils/hooks/use-action-with-deferred';
-import { getSelectedChatSelector } from 'app/store/chats/selectors';
-import { FriendActions } from 'app/store/friends/actions';
-import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
+import { Chat } from 'store/chats/models';
+import { ChatActions } from 'store/chats/actions';
+import { useActionWithDeferred } from 'utils/hooks/use-action-with-deferred';
+import { getSelectedChatSelector } from 'store/chats/selectors';
+import { FriendActions } from 'store/friends/actions';
+import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import { LocalizationContext } from 'app/app';
 
 namespace GroupChatAddFriendModal {

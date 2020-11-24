@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 import './dropdown.scss';
-import DropDownSvg from 'app/assets/icons/ic-chevron-down.svg';
-import useOnClickOutside from 'app/utils/hooks/use-on-click-outside';
+import DropDownSvg from 'icons/ic-chevron-down.svg';
+import useOnClickOutside from 'utils/hooks/use-on-click-outside';
 
 namespace Dropdown {
 	export interface Props {

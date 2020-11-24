@@ -1,7 +1,7 @@
 import React from 'react';
 import './check-box.scss';
 
-import CheckBoxSvg from 'app/assets/icons/ic-checkbox.svg';
+import CheckBoxSvg from 'icons/ic-checkbox.svg';
 
 namespace CheckBox {
 	export interface Props {

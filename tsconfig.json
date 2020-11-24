@@ -18,7 +18,14 @@
 		"lib": ["es6", "es7", "dom"],
 		"baseUrl": "src",
 		"paths": {
-			"app/*": ["./app/*"]
+			"app/*": ["./app/*"],
+			"icons/*": ["./src/app/assets/icons/*"],
+			"store/*": ["./src/app/store/*"],
+			"sounds/*": ["./src/app/assets/sounds/*"],
+			"utils/*": ["./src/app/utils/*"],
+			"shared_components/*": ["./src/app/components/shared/*"],
+			"messenger_components/*": ["./src/app/components/messenger-page/*"],
+			"login_components/*": ["./src/app/components/login-page/*"]
 		},
 		"allowSyntheticDefaultImports": true
 	},

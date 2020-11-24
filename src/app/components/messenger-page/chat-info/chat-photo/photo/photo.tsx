@@ -1,7 +1,7 @@
-import BigPhoto from 'app/components/messenger-page/shared/big-photo/big-photo';
+import BigPhoto from 'messenger_components/shared/big-photo/big-photo';
 import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
-import { IGroupable, PictureAttachment } from 'app/store/chats/models';
-import { doesYearDifferFromCurrent } from 'app/utils/functions/set-separators';
+import { IGroupable, PictureAttachment } from 'store/chats/models';
+import { doesYearDifferFromCurrent } from 'utils/functions/set-separators';
 import moment from 'moment';
 import React, { useCallback, useState } from 'react';
 

@@ -1,18 +1,18 @@
 import React, { useContext } from 'react';
 import './chat-media.scss';
 
-import PhotoSvg from 'app/assets/icons/ic-photo.svg';
-import VideoSvg from 'app/assets/icons/ic-video-call.svg';
-import FileSvg from 'app/assets/icons/ic-documents.svg';
-// import LinkSvg from 'app/assets/icons/ic-links.svg';
-import MicrophoneSvg from 'app/assets/icons/ic-microphone.svg';
-import PlaySvg from 'app/assets/icons/ic-play.svg';
-// import PeopleSvg from 'app/assets/icons/ic-group.svg';
+import PhotoSvg from 'icons/ic-photo.svg';
+import VideoSvg from 'icons/ic-video-call.svg';
+import FileSvg from 'icons/ic-documents.svg';
+// import LinkSvg from 'icons/ic-links.svg';
+import MicrophoneSvg from 'icons/ic-microphone.svg';
+import PlaySvg from 'icons/ic-play.svg';
+// import PeopleSvg from 'icons/ic-group.svg';
 
 import { LocalizationContext } from 'app/app';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
-import { getSelectedChatSelector } from 'app/store/chats/selectors';
+import { getSelectedChatSelector } from 'store/chats/selectors';
 import { useSelector } from 'react-redux';
 
 const ChatMedia = () => {

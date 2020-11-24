@@ -1,17 +1,17 @@
 import React, { useCallback, useContext, useRef } from 'react';
 import './chat-photo.scss';
 
-import ReturnSvg from 'app/assets/icons/ic-arrow-left.svg';
+import ReturnSvg from 'icons/ic-arrow-left.svg';
 import { LocalizationContext } from 'app/app';
-import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
+import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import { useSelector } from 'react-redux';
-import { ChatActions } from 'app/store/chats/actions';
-import { getSelectedChatSelector } from 'app/store/chats/selectors';
-import { Page } from 'app/store/common/models';
+import { ChatActions } from 'store/chats/actions';
+import { getSelectedChatSelector } from 'store/chats/selectors';
+import { Page } from 'store/common/models';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Link, useLocation } from 'react-router-dom';
 import Photo from './photo/photo';
-import { setSeparators } from 'app/utils/functions/set-separators';
+import { setSeparators } from 'utils/functions/set-separators';
 
 const ChatPhoto = () => {
 	const { t } = useContext(LocalizationContext);

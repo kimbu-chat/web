@@ -1,7 +1,7 @@
 import React from 'react';
-import CloseSVG from 'app/assets/icons/ic-close.svg';
+import CloseSVG from 'icons/ic-close.svg';
 import './privacy-policy.scss';
-import { stopPropagation } from 'app/utils/functions/stop-propagation';
+import { stopPropagation } from 'utils/functions/stop-propagation';
 
 namespace PrivacyPolicy {
 	export interface Props {

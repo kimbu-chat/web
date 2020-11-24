@@ -8,15 +8,15 @@ import { UserStatusChangedEventHandler } from './integration-event-handlers/user
 import { GroupChatCreatedEventHandler } from './integration-event-handlers/group-chat-created-event-handler';
 import { UserMessageReadEventHandler } from './integration-event-handlers/user-message-read-event-handler';
 import { getType } from 'typesafe-actions';
-import { AuthActions } from 'app/store/auth/actions';
-import { RootState } from 'app/store/root-reducer';
-import { WebSocketActions } from 'app/store/sockets/actions';
+import { AuthActions } from 'store/auth/actions';
+import { RootState } from 'store/root-reducer';
+import { WebSocketActions } from 'store/sockets/actions';
 import { IncomingCallEventHandler } from './integration-event-handlers/incoming-call-event-handler';
 import { InterlocutorAcceptedCallEventHandler } from './integration-event-handlers/interlocutor-accepted-call-event-handler';
 import { InterlocutorCanceledCallEventHandler } from './integration-event-handlers/interlocutor-canceled-call-event-handler';
 import { CallEndedEventHandler } from './integration-event-handlers/call-ended-event-handler';
 import { CandidateEventHandler } from './integration-event-handlers/candidate-event-handler';
-import { ApiBasePath } from 'app/store/root-api';
+import { ApiBasePath } from 'store/root-api';
 import { BusyCallEvenHandler } from './integration-event-handlers/busy-call-event-handler';
 
 let connection: HubConnection;

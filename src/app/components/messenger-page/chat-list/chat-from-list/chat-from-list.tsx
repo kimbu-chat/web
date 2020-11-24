@@ -4,21 +4,21 @@ import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 
 import './chat-from-list.scss';
-import { Chat } from 'app/store/chats/models';
-import { MessageUtils } from 'app/utils/functions/message-utils';
+import { Chat } from 'store/chats/models';
+import { MessageUtils } from 'utils/functions/message-utils';
 import { getChatInterlocutor, getInterlocutorInitials } from '../../../../utils/functions/interlocutor-name-utils';
 
 import StatusBadge from 'app/components/shared/status-badge/status-badge';
-import { SystemMessageType, Message, MessageState } from 'app/store/messages/models';
+import { SystemMessageType, Message, MessageState } from 'store/messages/models';
 import { LocalizationContext } from 'app/app';
-import { getMyIdSelector } from 'app/store/my-profile/selectors';
+import { getMyIdSelector } from 'store/my-profile/selectors';
 import Avatar from 'app/components/shared/avatar/avatar';
 import truncate from 'lodash/truncate';
 
-import MessageQeuedSvg from 'app/assets/icons/ic-time.svg';
-import MessageSentSvg from 'app/assets/icons/ic-tick.svg';
-import MessageReadSvg from 'app/assets/icons/ic-double_tick.svg';
-import { getTypingString } from 'app/store/chats/selectors';
+import MessageQeuedSvg from 'icons/ic-time.svg';
+import MessageSentSvg from 'icons/ic-tick.svg';
+import MessageReadSvg from 'icons/ic-double_tick.svg';
+import { getTypingString } from 'store/chats/selectors';
 
 namespace ChatFromList {
 	export interface Props {

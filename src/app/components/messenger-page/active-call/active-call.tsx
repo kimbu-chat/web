@@ -1,37 +1,37 @@
 import React, { useRef, useCallback, useEffect, useState, useContext } from 'react';
 import './active-call.scss';
-import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
+import { peerConnection } from 'store/middlewares/webRTC/peerConnectionFactory';
 import { useSelector } from 'react-redux';
-import { amICaling, doIhaveCall, getCallInterlocutorSelector } from 'app/store/calls/selectors';
-import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
-import { CallActions } from 'app/store/calls/actions';
-import { RootState } from 'app/store/root-reducer';
-import { tracks } from 'app/store/calls/sagas';
+import { amICaling, doIhaveCall, getCallInterlocutorSelector } from 'store/calls/selectors';
+import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
+import { CallActions } from 'store/calls/actions';
+import { RootState } from 'store/root-reducer';
+import { tracks } from 'store/calls/sagas';
 import moment from 'moment';
 import { Rnd } from 'react-rnd';
 import Avatar from 'app/components/shared/avatar/avatar';
-import { getUserInitials } from 'app/utils/functions/interlocutor-name-utils';
+import { getUserInitials } from 'utils/functions/interlocutor-name-utils';
 import ReactDOM from 'react-dom';
 
 //SVG
-import MicrophoneEnableSvg from 'app/assets/icons/ic-microphone.svg';
-import MicrophoneDisableSvg from 'app/assets/icons/ic-microphone-mute.svg';
-import VideoEnableSvg from 'app/assets/icons/ic-video-call.svg';
-import VideoDisableSvg from 'app/assets/icons/ic-video-call-mute.svg';
-import ScreenSharingEnableSvg from 'app/assets/icons/ic-screen-share.svg';
-import ScreenSharingDisableSvg from 'app/assets/icons/ic-screen-share-mute.svg';
-import HangUpSvg from 'app/assets/icons/ic-call-out.svg';
-import FullScreenSvg from 'app/assets/icons/ic-fullscreen.svg';
-import ExitFullScreenSvg from 'app/assets/icons/ic-fullscreen-exit.svg';
-import VoiceCallSvg from 'app/assets/icons/ic-call.svg';
+import MicrophoneEnableSvg from 'icons/ic-microphone.svg';
+import MicrophoneDisableSvg from 'icons/ic-microphone-mute.svg';
+import VideoEnableSvg from 'icons/ic-video-call.svg';
+import VideoDisableSvg from 'icons/ic-video-call-mute.svg';
+import ScreenSharingEnableSvg from 'icons/ic-screen-share.svg';
+import ScreenSharingDisableSvg from 'icons/ic-screen-share-mute.svg';
+import HangUpSvg from 'icons/ic-call-out.svg';
+import FullScreenSvg from 'icons/ic-fullscreen.svg';
+import ExitFullScreenSvg from 'icons/ic-fullscreen-exit.svg';
+import VoiceCallSvg from 'icons/ic-call.svg';
 
 //sounds
 import callingBeep from 'app/assets/sounds/calls/outgoing-call.ogg';
 import busySound from 'app/assets/sounds/calls/busy-sound.ogg';
 import Dropdown from './dropdown/dropdown';
 import { LocalizationContext } from 'app/app';
-import { getSelectedChatSelector } from 'app/store/chats/selectors';
-import { UserPreview } from 'app/store/my-profile/models';
+import { getSelectedChatSelector } from 'store/chats/selectors';
+import { UserPreview } from 'store/my-profile/models';
 
 namespace IActiveCall {
 	export interface Props {

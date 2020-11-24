@@ -1,11 +1,11 @@
 import React, { useCallback, useRef, useState } from 'react';
 import './audio-attachment.scss';
 
-import PlaySvg from 'app/assets/icons/ic-play.svg';
-import PauseSvg from 'app/assets/icons/ic-pause.svg';
+import PlaySvg from 'icons/ic-play.svg';
+import PauseSvg from 'icons/ic-pause.svg';
 import moment from 'moment';
-import { changeMusic } from 'app/utils/functions/current-music';
-import { AudioAttachment } from 'app/store/chats/models';
+import { changeMusic } from 'utils/functions/current-music';
+import { AudioAttachment } from 'store/chats/models';
 
 namespace AudioAttachmentNS {
 	export interface Props {

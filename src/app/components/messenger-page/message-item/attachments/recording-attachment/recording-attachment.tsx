@@ -1,14 +1,14 @@
 import React, { useRef } from 'react';
 import './recording-attachment.scss';
 
-import PlaySvg from 'app/assets/icons/ic-play.svg';
-import PauseSvg from 'app/assets/icons/ic-pause.svg';
+import PlaySvg from 'icons/ic-play.svg';
+import PauseSvg from 'icons/ic-pause.svg';
 
 import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
 import moment from 'moment';
 import H5AudioPlayer from 'react-h5-audio-player';
-import { changeMusic } from 'app/utils/functions/current-music';
-import { VoiceAttachment } from 'app/store/chats/models';
+import { changeMusic } from 'utils/functions/current-music';
+import { VoiceAttachment } from 'store/chats/models';
 
 namespace RecordingAttachmentNS {
 	export interface Props {

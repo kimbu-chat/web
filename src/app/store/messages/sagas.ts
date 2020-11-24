@@ -1,6 +1,6 @@
 import { getSelectedChatIdSelector } from './../chats/selectors';
 import { call, put, takeLatest, takeEvery, select, throttle } from 'redux-saga/effects';
-import { RootState } from 'app/store/root-reducer';
+import { RootState } from 'store/root-reducer';
 
 import {
 	CreateMessageRequest,

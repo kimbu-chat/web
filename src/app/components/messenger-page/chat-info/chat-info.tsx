@@ -2,11 +2,11 @@ import React, { useState, useRef, useCallback, useEffect } from 'react';
 import './chat-info.scss';
 import { useSelector } from 'react-redux';
 import { getInterlocutorInitials, getChatInterlocutor } from '../../../utils/functions/interlocutor-name-utils';
-import { useActionWithDeferred } from 'app/utils/hooks/use-action-with-deferred';
-import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
-import { AvatarSelectedData, UploadAvatarResponse } from 'app/store/my-profile/models';
+import { useActionWithDeferred } from 'utils/hooks/use-action-with-deferred';
+import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
+import { AvatarSelectedData, UploadAvatarResponse } from 'store/my-profile/models';
 
-import { getSelectedChatSelector } from 'app/store/chats/selectors';
+import { getSelectedChatSelector } from 'store/chats/selectors';
 
 import InterlocutorInfo from './interlocutor-info/interlocutor-info';
 import ChatInfoActions from './chat-actions/chat-actions';
@@ -15,21 +15,21 @@ import ChatMedia from './chat-media/chat-media';
 import ChatPhoto from './chat-photo/chat-photo';
 import ChatVideo from './chat-video/chat-video';
 
-import { ChatActions } from 'app/store/chats/actions';
+import { ChatActions } from 'store/chats/actions';
 
 import Avatar from 'app/components/shared/avatar/avatar';
 
-import EditSvg from 'app/assets/icons/ic-edit.svg';
-import PhotoSvg from 'app/assets/icons/ic-photo.svg';
+import EditSvg from 'icons/ic-edit.svg';
+import PhotoSvg from 'icons/ic-photo.svg';
 import EditChatModal from '../edit-chat-modal/edit-chat-modal';
 import GroupChatAddFriendModal from '../group-chat-add-friend-modal/group-chat-add-friend-modal';
-import ChangePhoto from 'app/components/messenger-page/change-photo/change-photo';
+import ChangePhoto from 'messenger_components/change-photo/change-photo';
 import { Route } from 'react-router';
 import { CSSTransition } from 'react-transition-group';
 import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
 import ChatRecordings from './chat-recordings/chat-recordings';
 import ChatFiles from './chat-files/chat-files';
-import { MyProfileActions } from 'app/store/my-profile/actions';
+import { MyProfileActions } from 'store/my-profile/actions';
 import BigPhoto from '../shared/big-photo/big-photo';
 import ChatAudios from './chat-audios/chat-audios';
 

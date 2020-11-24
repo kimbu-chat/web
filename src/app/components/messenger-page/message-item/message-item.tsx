@@ -1,18 +1,18 @@
 import React, { useContext, useCallback } from 'react';
-import { Message, SystemMessageType, MessageState, FileType } from 'app/store/messages/models';
-import { MessageUtils } from 'app/utils/functions/message-utils';
+import { Message, SystemMessageType, MessageState, FileType } from 'store/messages/models';
+import { MessageUtils } from 'utils/functions/message-utils';
 import { useSelector } from 'react-redux';
 import './message-item.scss';
 
-import { getMyIdSelector } from 'app/store/my-profile/selectors';
+import { getMyIdSelector } from 'store/my-profile/selectors';
 import { LocalizationContext } from 'app/app';
-import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
-import { getSelectedChatSelector } from 'app/store/chats/selectors';
-import { MessageActions } from 'app/store/messages/actions';
-import { setSelectedMessagesLength } from 'app/store/messages/selectors';
+import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
+import { getSelectedChatSelector } from 'store/chats/selectors';
+import { MessageActions } from 'store/messages/actions';
+import { setSelectedMessagesLength } from 'store/messages/selectors';
 import Avatar from 'app/components/shared/avatar/avatar';
-import { getUserInitials } from 'app/utils/functions/interlocutor-name-utils';
-import { UserPreview } from 'app/store/my-profile/models';
+import { getUserInitials } from 'utils/functions/interlocutor-name-utils';
+import { UserPreview } from 'store/my-profile/models';
 import moment from 'moment';
 
 import FileAttachment from '../shared/file-attachment/file-attachment';
@@ -20,18 +20,18 @@ import MessageAudioAttachment from '../shared/audio-attachment/audio-attachment'
 import RecordingAttachment from './attachments/recording-attachment/recording-attachment';
 import MediaGrid from './attachments/media-grid/media-grid';
 
-import MessageQeuedSvg from 'app/assets/icons/ic-time.svg';
-import MessageSentSvg from 'app/assets/icons/ic-tick.svg';
-import MessageReadSvg from 'app/assets/icons/ic-double_tick.svg';
-import SelectedSvg from 'app/assets/icons/ic-check-filled.svg';
-import UnSelectedSvg from 'app/assets/icons/ic-check-outline.svg';
+import MessageQeuedSvg from 'icons/ic-time.svg';
+import MessageSentSvg from 'icons/ic-tick.svg';
+import MessageReadSvg from 'icons/ic-double_tick.svg';
+import SelectedSvg from 'icons/ic-check-filled.svg';
+import UnSelectedSvg from 'icons/ic-check-outline.svg';
 import {
 	RawAttachment,
 	PictureAttachment,
 	VoiceAttachment,
 	VideoAttachment,
 	AudioAttachment,
-} from 'app/store/chats/models';
+} from 'store/chats/models';
 import { Link } from 'react-router-dom';
 
 namespace Message {

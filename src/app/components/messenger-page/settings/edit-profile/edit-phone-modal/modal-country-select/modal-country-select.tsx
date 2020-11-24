@@ -3,7 +3,7 @@ import { Country, countryList } from 'app/common/countries';
 import './modal-country-select.scss';
 import { useAutocomplete, createFilterOptions } from '@material-ui/lab';
 import { LocalizationContext } from 'app/app';
-import DownSvg from 'app/assets/icons/ic-chevron-down.svg';
+import DownSvg from 'icons/ic-chevron-down.svg';
 
 namespace ModalCountrySelect {
 	export interface Props {

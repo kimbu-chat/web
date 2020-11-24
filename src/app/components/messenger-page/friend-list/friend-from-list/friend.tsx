@@ -1,9 +1,9 @@
 import { LocalizationContext } from 'app/app';
 import Avatar from 'app/components/shared/avatar/avatar';
-import { ChatId } from 'app/store/chats/chat-id';
-import { UserStatus } from 'app/store/friends/models';
-import { UserPreview } from 'app/store/my-profile/models';
-import { getUserInitials } from 'app/utils/functions/interlocutor-name-utils';
+import { ChatId } from 'store/chats/chat-id';
+import { UserStatus } from 'store/friends/models';
+import { UserPreview } from 'store/my-profile/models';
+import { getUserInitials } from 'utils/functions/interlocutor-name-utils';
 import moment from 'moment';
 import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';

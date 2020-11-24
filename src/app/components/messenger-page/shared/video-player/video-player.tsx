@@ -1,6 +1,6 @@
 import { BackgroundBlur } from 'app/components/shared/with-background';
 import React from 'react';
-import CloseSVG from 'app/assets/icons/ic-close.svg';
+import CloseSVG from 'icons/ic-close.svg';
 
 import './video-player.scss';
 

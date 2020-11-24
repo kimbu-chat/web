@@ -2,15 +2,15 @@ import React, { useState, useCallback, useRef, useContext } from 'react';
 import ReactDOM from 'react-dom';
 import './change-photo.scss';
 
-import { AvatarSelectedData } from 'app/store/my-profile/models';
+import { AvatarSelectedData } from 'store/my-profile/models';
 import { LocalizationContext } from 'app/app';
 
-import CloseSVG from 'app/assets/icons/ic-close.svg';
+import CloseSVG from 'icons/ic-close.svg';
 
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import WithBackground from 'app/components/shared/with-background';
-import { stopPropagation } from 'app/utils/functions/stop-propagation';
+import { stopPropagation } from 'utils/functions/stop-propagation';
 import BaseBtn from 'app/components/shared/base-btn/base-btn';
 
 namespace ChangePhoto {

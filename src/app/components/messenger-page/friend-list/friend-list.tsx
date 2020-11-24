@@ -1,10 +1,10 @@
-import { ChatActions } from 'app/store/chats/actions';
-import { Page } from 'app/store/common/models';
-import { FriendActions } from 'app/store/friends/actions';
-import { UserPreview } from 'app/store/my-profile/models';
-import { RootState } from 'app/store/root-reducer';
-import { useActionWithDeferred } from 'app/utils/hooks/use-action-with-deferred';
-import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
+import { ChatActions } from 'store/chats/actions';
+import { Page } from 'store/common/models';
+import { FriendActions } from 'store/friends/actions';
+import { UserPreview } from 'store/my-profile/models';
+import { RootState } from 'store/root-reducer';
+import { useActionWithDeferred } from 'utils/hooks/use-action-with-deferred';
+import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import React, { useCallback, useEffect, useRef } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 import { useSelector } from 'react-redux';

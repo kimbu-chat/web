@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import './call-list.scss';
 
-import { RootState } from 'app/store/root-reducer';
+import { RootState } from 'store/root-reducer';
 import InfiniteScroll from 'react-infinite-scroller';
 import { useSelector } from 'react-redux';
 import CallFromList from './call-from-list/call-from-list';
-import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
-import { CallActions } from 'app/store/calls/actions';
+import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
+import { CallActions } from 'store/calls/actions';
 
 const CallList = () => {
 	const calls = useSelector((state: RootState) => state.calls);

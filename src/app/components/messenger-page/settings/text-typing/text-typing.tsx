@@ -1,8 +1,8 @@
 import { LocalizationContext } from 'app/app';
-import { SettingsActions } from 'app/store/settings/actions';
-import { typingStrategy } from 'app/store/settings/models';
-import { getTypingStrategy } from 'app/store/settings/selectors';
-import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
+import { SettingsActions } from 'store/settings/actions';
+import { typingStrategy } from 'store/settings/models';
+import { getTypingStrategy } from 'store/settings/selectors';
+import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import React, { useCallback, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import RadioBox from '../shared/radio-box/radio-box';

@@ -1,24 +1,24 @@
 import React, { useCallback, useContext, useState } from 'react';
 import './chat-actions.scss';
-import { UserPreview } from 'app/store/my-profile/models';
-import { Chat } from 'app/store/chats/models';
+import { UserPreview } from 'store/my-profile/models';
+import { Chat } from 'store/chats/models';
 import { useSelector } from 'react-redux';
-import { getSelectedChatSelector } from 'app/store/chats/selectors';
-import { RootState } from 'app/store/root-reducer';
+import { getSelectedChatSelector } from 'store/chats/selectors';
+import { RootState } from 'store/root-reducer';
 import { LocalizationContext } from 'app/app';
-import { ChatActions as SelectedChatActions } from 'app/store/chats/actions';
-import MuteSvg from 'app/assets/icons/ic-notifications-on.svg';
-import UnmuteSvg from 'app/assets/icons/ic-notifications-off.svg';
-import ClearSvg from 'app/assets/icons/ic-clear.svg';
-import EditSvg from 'app/assets/icons/ic-edit.svg';
-import DeleteSvg from 'app/assets/icons/ic-delete.svg';
-import LeaveSvg from 'app/assets/icons/ic-leave-chat.svg';
-import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
-import { FriendActions } from 'app/store/friends/actions';
+import { ChatActions as SelectedChatActions } from 'store/chats/actions';
+import MuteSvg from 'icons/ic-notifications-on.svg';
+import UnmuteSvg from 'icons/ic-notifications-off.svg';
+import ClearSvg from 'icons/ic-clear.svg';
+import EditSvg from 'icons/ic-edit.svg';
+import DeleteSvg from 'icons/ic-delete.svg';
+import LeaveSvg from 'icons/ic-leave-chat.svg';
+import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
+import { FriendActions } from 'store/friends/actions';
 import DeleteChatModal from './delete-chat-modal/delete-chat-modal';
 import CreateGroupChat from '../../create-group-chat-modal/create-group-chat-modal';
 import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
-import PeopleSvg from 'app/assets/icons/ic-group.svg';
+import PeopleSvg from 'icons/ic-group.svg';
 
 namespace ChatActions {
 	export interface Props {

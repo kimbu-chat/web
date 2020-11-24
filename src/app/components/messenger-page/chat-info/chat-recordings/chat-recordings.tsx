@@ -1,18 +1,18 @@
 import React, { useCallback, useContext, useRef } from 'react';
 import './chat-recordings.scss';
 
-import ReturnSvg from 'app/assets/icons/ic-arrow-left.svg';
+import ReturnSvg from 'icons/ic-arrow-left.svg';
 import { Link } from 'react-router-dom';
 import { LocalizationContext } from 'app/app';
 import ChatRecording from './chat-recording/chat-recording';
 import { useSelector } from 'react-redux';
-import { getSelectedChatSelector } from 'app/store/chats/selectors';
-import { ChatActions } from 'app/store/chats/actions';
-import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
+import { getSelectedChatSelector } from 'store/chats/selectors';
+import { ChatActions } from 'store/chats/actions';
+import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import InfiniteScroll from 'react-infinite-scroller';
 import moment from 'moment';
 
-import { doesYearDifferFromCurrent, setSeparators } from 'app/utils/functions/set-separators';
+import { doesYearDifferFromCurrent, setSeparators } from 'utils/functions/set-separators';
 
 const ChatRecordings = () => {
 	const { t } = useContext(LocalizationContext);

@@ -1,4 +1,4 @@
-import { IGroupable } from 'app/store/chats/models';
+import { IGroupable } from 'store/chats/models';
 import moment from 'moment';
 
 export const setSeparators = <T extends IGroupable>(

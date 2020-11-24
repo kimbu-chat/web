@@ -1,21 +1,21 @@
 import React, { useContext } from 'react';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
-import { getSelectedChatSelector } from 'app/store/chats/selectors';
+import { getSelectedChatSelector } from 'store/chats/selectors';
 import { getChatInterlocutor, getInterlocutorInitials } from '../../../utils/functions/interlocutor-name-utils';
 
 import './chat-data.scss';
 import { LocalizationContext } from 'app/app';
-import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
-import { CallActions } from 'app/store/calls/actions';
-import { UserPreview } from 'app/store/my-profile/models';
-import { UserStatus } from 'app/store/friends/models';
+import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
+import { CallActions } from 'store/calls/actions';
+import { UserPreview } from 'store/my-profile/models';
+import { UserStatus } from 'store/friends/models';
 import Avatar from 'app/components/shared/avatar/avatar';
 
-import VoiceCallSvg from 'app/assets/icons/ic-call.svg';
-import VideoCallSvg from 'app/assets/icons/ic-video-call.svg';
-import ChatSearchSvg from 'app/assets/icons/ic-search.svg';
-import ChatInfoSvg from 'app/assets/icons/ic-info.svg';
+import VoiceCallSvg from 'icons/ic-call.svg';
+import VideoCallSvg from 'icons/ic-video-call.svg';
+import ChatSearchSvg from 'icons/ic-search.svg';
+import ChatInfoSvg from 'icons/ic-info.svg';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 
 const ChatData = () => {

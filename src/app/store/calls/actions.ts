@@ -20,6 +20,7 @@ export namespace CallActions {
 	export const outgoingCallAction = createAction('OUTGOING_CALL')<OutgoingCallActionPayload>();
 	export const incomingCallAction = createAction('INCOMING_CALL')<IncomingCallActionPayload>();
 	export const changeActiveDeviceIdAction = createAction('CHANGE_ACTIVE_DEVICE_ID')<SwitchDeviceActionPayload>();
+	export const interlocutorBusyAction = createEmptyAction('INTERLOCUTOR_BUSY');
 	export const cancelCallAction = createEmptyAction('CANCEL_CALL');
 	export const declineCallAction = createEmptyAction('DECLINE_CALL');
 	export const endCallAction = createAction('END_CALL')<EndCallActionPayload>();

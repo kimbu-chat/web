@@ -7,6 +7,7 @@ import { Call } from './models';
 export interface CallState {
 	isActiveCallIncoming?: boolean;
 	isCalling: boolean;
+	isInterlocutorBusy: boolean;
 	isInterlocutorVideoEnabled: boolean;
 	amICaling: boolean;
 	isSpeaking: boolean;
@@ -33,6 +34,7 @@ export interface CallState {
 const initialState: CallState = {
 	isInterlocutorVideoEnabled: false,
 	isCalling: false,
+	isInterlocutorBusy: false,
 	isSpeaking: false,
 	videoConstraints: {
 		isOpened: false,
@@ -77,6 +79,7 @@ const calls = createReducer<CallState>(initialState)
 		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.outgoingCallAction>) => {
 			const interlocutor = payload.calling;
 			draft.interlocutor = interlocutor;
+			draft.isInterlocutorBusy = false;
 			draft.amICaling = true;
 			draft.isActiveCallIncoming = false;
 			draft.audioConstraints = { ...draft.audioConstraints, isOpened: payload.constraints.audioEnabled };
@@ -88,6 +91,7 @@ const calls = createReducer<CallState>(initialState)
 		CallActions.cancelCallSuccessAction,
 		produce((draft: CallState) => {
 			draft.interlocutor = undefined;
+			draft.isInterlocutorBusy = true;
 			draft.amICaling = false;
 			draft.isCalling = false;
 			draft.isSpeaking = false;
@@ -251,6 +255,14 @@ const calls = createReducer<CallState>(initialState)
 
 			draft.calls.push(...calls);
 			draft.hasMore = hasMore;
+
+			return draft;
+		}),
+	)
+	.handleAction(
+		CallActions.interlocutorBusyAction,
+		produce((draft: CallState) => {
+			draft.isInterlocutorBusy = true;
 
 			return draft;
 		}),

@@ -246,12 +246,12 @@ const messages = createReducer<MessagesState>(initialState)
 
 			message!.text = payload.text;
 			message!.attachments = [
-				...message!.attachments?.filter(
+				...(message!.attachments?.filter(
 					({ id }) =>
 						payload.removedAttachments?.findIndex((removedAttachment) => removedAttachment.id === id) ===
 						-1,
-				)!,
-				...payload.newAttachments!,
+				) || []),
+				...(payload.newAttachments || []),
 			];
 
 			return draft;

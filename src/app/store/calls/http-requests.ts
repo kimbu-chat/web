@@ -44,7 +44,7 @@ export const CallsHttpRequests = {
 		HttpRequestMethod.Post,
 	),
 	busyCall: httpRequestFactory<AxiosResponse, AcceptCallApiRequest>(
-		`${ApiBasePath.NotificationsApi}/api/calls/busy-call`,
+		`${ApiBasePath.NotificationsApi}/api/calls/call-busy`,
 		HttpRequestMethod.Post,
 	),
 	getCalls: httpRequestFactory<AxiosResponse<Call[]>, GetCallsApiRequest>(

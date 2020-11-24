@@ -275,7 +275,7 @@ const chats = createReducer<ChatsState>(initialState)
 				if (chatIndex >= 0) {
 					draft.chats[chatIndex].interlocutorLastReadMessageId = lastReadMessageId;
 
-					if (draft.chats[chatIndex].lastMessage?.id === lastReadMessageId) {
+					if (draft.chats[chatIndex].lastMessage?.id! <= lastReadMessageId) {
 						draft.chats[chatIndex].lastMessage!.state = MessageState.READ;
 					}
 				}

@@ -131,6 +131,8 @@ const MessageItem = ({ message }: Message.Props) => {
 					<span className='message__contents'>{message.text}</span>
 
 					<div className='message__time-status'>
+						{message.isEdited && <span className={`message__edited`}>Edited •</span>}
+
 						{isCurrentUserMessageCreator &&
 							(message.state === MessageState.READ ? (
 								<MessageReadSvg viewBox='0 0 25 25' className='message__read' />

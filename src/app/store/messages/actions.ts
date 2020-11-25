@@ -11,6 +11,7 @@ import {
 	EditMessageReq,
 	ReplyMessageReq,
 	SubmitEditMessageReq,
+	MessageEdited,
 } from './models';
 import { createAction } from 'typesafe-actions';
 import { createEmptyAction } from '../common/actions';
@@ -34,5 +35,6 @@ export namespace MessageActions {
 	export const editMessage = createAction('EDIT_MESSAGE')<EditMessageReq>();
 	export const submitEditMessage = createAction('SUBMIT_EDIT_MESSAGE')<SubmitEditMessageReq>();
 	export const submitEditMessageSuccess = createAction('SUBMIT_EDIT_MESSAGE_SUCCESS')<SubmitEditMessageReq>();
+	export const messageEdited = createAction('MESSAGE_EDITED')<MessageEdited>();
 	export const resetEditMessage = createEmptyAction('RESET_EDIT_MESSAGE');
 }

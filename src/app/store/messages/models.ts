@@ -39,6 +39,7 @@ export enum FileType {
 export interface Message {
 	id: number;
 	needToShowCreator?: boolean;
+	isEdited?: boolean;
 	userCreator: UserPreview;
 	creationDateTime?: Date;
 	text: string;
@@ -172,4 +173,12 @@ export interface EditMessageApiReq {
 	messageId: number;
 	removedAttachments?: AttachmentCreation[];
 	newAttachments?: AttachmentCreation[];
+}
+
+export interface MessageEdited {
+	attachments: BaseAttachment[];
+	chatId: number;
+	messageId: number;
+	text: string;
+	userEditorId: number;
 }

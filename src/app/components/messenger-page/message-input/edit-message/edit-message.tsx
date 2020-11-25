@@ -16,6 +16,7 @@ import { MessageActions } from 'store/messages/actions';
 import { AttachmentToSend, BaseAttachment, Chat } from 'store/chats/models';
 import { AttachmentCreation } from 'store/messages/models';
 import { useGlobalDrop } from 'utils/hooks/use-drop';
+import useReferState from 'app/utils/hooks/use-referred-state';
 
 const EditMessage = () => {
 	const { t } = useContext(LocalizationContext);
@@ -28,7 +29,9 @@ const EditMessage = () => {
 	const myTypingStrategy = useSelector(getTypingStrategy);
 
 	const [newText, setNewText] = useState(messageToEdit?.text || '');
+	const refferedNewText = useReferState(newText);
 	const [removedAttachments, setRemovedAttachments] = useState<AttachmentCreation[]>([]);
+	const refferedRemovedAttachments = useReferState(removedAttachments);
 	const [rows, setRows] = useState(1);
 	const [isDraggingOver, setIsDraggingOver] = useState(false);
 	const [isDragging, setIsDragging] = useState(false);
@@ -140,11 +143,11 @@ const EditMessage = () => {
 		submitEditMessage({
 			messageId: messageToEdit!.id,
 			chatId: updatedSelectedChat.current!.id,
-			text: newText,
-			removedAttachments: removedAttachments,
+			text: refferedNewText.current,
+			removedAttachments: refferedRemovedAttachments.current,
 			newAttachments: newAttachments,
 		});
-	}, [messageToEdit, updatedSelectedChat, newText, removedAttachments]);
+	}, [messageToEdit, updatedSelectedChat, refferedNewText, refferedRemovedAttachments]);
 
 	const openSelectFiles = useCallback(() => {
 		fileInputRef.current?.click();

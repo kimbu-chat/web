@@ -62,7 +62,7 @@ export enum SystemMessageType {
 	GroupChatNameChanged = 'GroupChatNameChanged',
 	GroupChatAvatarRemoved = 'GroupChatAvatarRemoved',
 	UserCreated = 'UserCreated',
-	MissedCall = 'MissedCall',
+	CallEnded = 'CallEnded',
 }
 
 export interface UserMessageTypingRequest {

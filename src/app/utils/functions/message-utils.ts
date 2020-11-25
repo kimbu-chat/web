@@ -88,7 +88,7 @@ export class MessageUtils {
 				  });
 		}
 
-		if (message.systemMessageType === SystemMessageType.MissedCall) {
+		if (message.systemMessageType === SystemMessageType.CallEnded) {
 			try {
 				const callMessage = JSON.parse(message.text);
 				if (callMessage.status === CallStatus.Successfull) {
@@ -122,7 +122,6 @@ export class MessageUtils {
 		}
 
 		return message.toString() || '';
-		throw 'Construct System MessageText function error';
 	}
 
 	static createSystemMessage(systemMessage: SystemMessageBase): string {

@@ -131,6 +131,14 @@
 		width: 20px;
 	}
 
+	&__edited {
+		margin-right: 5px;
+		font-size: 13px;
+		color: #868686;
+		line-height: 16px;
+		font-weight: 400;
+	}
+
 	&__selected {
 		height: 24px;
 		cursor: pointer;

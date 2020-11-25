@@ -2,6 +2,7 @@ import { IEventHandler } from './event-handler';
 
 export enum EVENTS_NAMES {
 	MESSAGE_CREATED = 'MessageCreated',
+	MESSAGE_EDITED = 'MessageEdited',
 	GROUP_CHAT_MESSAGE_CREATED = 'GroupChatMessageCreated',
 	USER_STATUS_CHANGED = 'UserStatusChanged',
 	GROUP_CHAT_CREATED = 'GroupChatCreated',

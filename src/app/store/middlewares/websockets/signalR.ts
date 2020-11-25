@@ -18,6 +18,7 @@ import { CallEndedEventHandler } from './integration-event-handlers/call-ended-e
 import { CandidateEventHandler } from './integration-event-handlers/candidate-event-handler';
 import { ApiBasePath } from 'store/root-api';
 import { BusyCallEvenHandler } from './integration-event-handlers/busy-call-event-handler';
+import { MessageEditedEventHandler } from './integration-event-handlers/message-edited-event-handler';
 
 let connection: HubConnection;
 
@@ -67,6 +68,7 @@ function openConnection(store: Store<RootState>): void {
 	eventManager.registerEventHandler(EVENTS_NAMES.CALL_ENDED, new CallEndedEventHandler());
 	eventManager.registerEventHandler(EVENTS_NAMES.CANDIDATE, new CandidateEventHandler());
 	eventManager.registerEventHandler(EVENTS_NAMES.BUSY_CALL, new BusyCallEvenHandler());
+	eventManager.registerEventHandler(EVENTS_NAMES.MESSAGE_EDITED, new MessageEditedEventHandler());
 
 	connection = new HubConnectionBuilder()
 		.withUrl(`${ApiBasePath.NotificationsApi}/signalr`, {

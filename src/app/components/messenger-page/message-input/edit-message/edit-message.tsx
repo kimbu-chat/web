@@ -29,9 +29,9 @@ const EditMessage = () => {
 	const myTypingStrategy = useSelector(getTypingStrategy);
 
 	const [newText, setNewText] = useState(messageToEdit?.text || '');
-	const refferedNewText = useReferState(newText);
+	const referredNewText = useReferState(newText);
 	const [removedAttachments, setRemovedAttachments] = useState<AttachmentCreation[]>([]);
-	const refferedRemovedAttachments = useReferState(removedAttachments);
+	const referredRemovedAttachments = useReferState(removedAttachments);
 	const [rows, setRows] = useState(1);
 	const [isDraggingOver, setIsDraggingOver] = useState(false);
 	const [isDragging, setIsDragging] = useState(false);
@@ -51,29 +51,31 @@ const EditMessage = () => {
 		[setRemovedAttachments],
 	);
 
+	useEffect(() => {
+		const minRows = 1;
+		const maxRows = 20;
+		const textareaLineHeight = 18;
+		const previousRows = mainInputRef.current?.rows;
+
+		mainInputRef.current!.rows = minRows;
+
+		const currentRows = ~~(mainInputRef.current!.scrollHeight / textareaLineHeight);
+
+		if (currentRows === previousRows) {
+			mainInputRef.current!.rows = currentRows;
+		}
+
+		if (currentRows >= maxRows) {
+			mainInputRef.current!.rows = maxRows;
+			mainInputRef.current!.scrollTop = mainInputRef.current!.scrollHeight;
+		}
+
+		setRows(currentRows < maxRows ? currentRows : maxRows);
+	}, [newText, mainInputRef]);
+
 	const onType = useCallback(
 		(event) => {
-			const minRows = 1;
-			const maxRows = 20;
-			const textareaLineHeight = 18;
-			const previousRows = event.target.rows;
-
-			event.target.rows = minRows;
-
-			const currentRows = ~~(event.target.scrollHeight / textareaLineHeight);
-
-			if (currentRows === previousRows) {
-				event.target.rows = currentRows;
-			}
-
-			if (currentRows >= maxRows) {
-				event.target.rows = maxRows;
-				event.target.scrollTop = event.target.scrollHeight;
-			}
-
 			setNewText(event.target.value);
-
-			setRows(currentRows < maxRows ? currentRows : maxRows);
 		},
 		[setNewText, setRows],
 	);
@@ -81,7 +83,7 @@ const EditMessage = () => {
 	const onPaste = useCallback(
 		(event: React.ClipboardEvent<HTMLTextAreaElement>) => {
 			if (event.clipboardData?.files.length! > 0) {
-				for (var index = 0; index < event.clipboardData?.files.length!; ++index) {
+				for (let index = 0; index < event.clipboardData?.files.length!; ++index) {
 					const file = event.clipboardData?.files!.item(index) as File;
 
 					//extension test
@@ -120,7 +122,7 @@ const EditMessage = () => {
 	const uploadFile = useCallback(
 		(event: React.ChangeEvent<HTMLInputElement>) => {
 			if (event.target.files?.length! > 0) {
-				for (var index = 0; index < event.target.files!.length; ++index) {
+				for (let index = 0; index < event.target.files!.length; ++index) {
 					const file = event.target.files!.item(index) as File;
 
 					const fileType = getFileType(file.name);
@@ -143,11 +145,11 @@ const EditMessage = () => {
 		submitEditMessage({
 			messageId: messageToEdit!.id,
 			chatId: updatedSelectedChat.current!.id,
-			text: refferedNewText.current,
-			removedAttachments: refferedRemovedAttachments.current,
+			text: referredNewText.current,
+			removedAttachments: referredRemovedAttachments.current,
 			newAttachments: newAttachments,
 		});
-	}, [messageToEdit, updatedSelectedChat, refferedNewText, refferedRemovedAttachments]);
+	}, [messageToEdit, updatedSelectedChat, referredNewText, referredRemovedAttachments]);
 
 	const openSelectFiles = useCallback(() => {
 		fileInputRef.current?.click();
@@ -212,7 +214,7 @@ const EditMessage = () => {
 			setIsDraggingOver(false);
 
 			if (e.dataTransfer?.files?.length! > 0) {
-				for (var index = 0; index < e.dataTransfer!.files!.length; ++index) {
+				for (let index = 0; index < e.dataTransfer!.files!.length; ++index) {
 					const file = e.dataTransfer?.files[index] as File;
 
 					const fileType = getFileType(file.name);

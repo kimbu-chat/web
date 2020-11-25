@@ -40,9 +40,7 @@ module.exports = {
 			store: path.resolve(__dirname, 'src/app/store/'),
 			sounds: path.resolve(__dirname, 'src/app/assets/sounds/'),
 			utils: path.resolve(__dirname, 'src/app/utils/'),
-			shared_components: path.resolve(__dirname, 'src/app/components/shared/'),
-			messenger_components: path.resolve(__dirname, 'src/app/components/messenger-page/'),
-			login_components: path.resolve(__dirname, 'src/app/components/login-page/'),
+			components: path.resolve(__dirname, 'src/app/components/*'),
 		},
 	},
 	module: {

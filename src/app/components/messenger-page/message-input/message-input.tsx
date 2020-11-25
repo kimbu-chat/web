@@ -61,6 +61,7 @@ const CreateMessageInput = () => {
 	const [rows, setRows] = useState(1);
 
 	const fileInputRef = useRef<HTMLInputElement>(null);
+	const mainInputRef = useRef<HTMLTextAreaElement>(null);
 	const registerAudioBtnRef = useRef<HTMLButtonElement>(null);
 	const recorderData = useRef<CreateMessageInput.RecordedData>({
 		mediaRecorder: null,
@@ -95,6 +96,32 @@ const CreateMessageInput = () => {
 	useEffect(() => {
 		setText((oldText) => (typeof selectedChat?.draftMessage === 'string' ? selectedChat?.draftMessage : oldText));
 	}, [selectedChat?.id, setText]);
+
+	useEffect(() => {
+		if (mainInputRef.current) {
+			{
+				const minRows = 1;
+				const maxRows = 20;
+				const textareaLineHeight = 18;
+				const previousRows = mainInputRef.current?.rows;
+
+				mainInputRef.current.rows = minRows;
+
+				const currentRows = ~~(mainInputRef.current!.scrollHeight / textareaLineHeight);
+
+				if (currentRows === previousRows) {
+					mainInputRef.current.rows = currentRows;
+				}
+
+				if (currentRows >= maxRows) {
+					mainInputRef.current.rows = maxRows;
+					mainInputRef.current.scrollTop = mainInputRef.current!.scrollHeight;
+				}
+
+				setRows(currentRows < maxRows ? currentRows : maxRows);
+			}
+		}
+	}, [text, mainInputRef]);
 
 	useInterval(
 		() => {
@@ -218,29 +245,9 @@ const CreateMessageInput = () => {
 
 	const onType = useCallback(
 		(event) => {
-			const minRows = 1;
-			const maxRows = 20;
-			const textareaLineHeight = 18;
-			const previousRows = event.target.rows;
-
-			event.target.rows = minRows;
-
-			const currentRows = ~~(event.target.scrollHeight / textareaLineHeight);
-
-			if (currentRows === previousRows) {
-				event.target.rows = currentRows;
-			}
-
-			if (currentRows >= maxRows) {
-				event.target.rows = maxRows;
-				event.target.scrollTop = event.target.scrollHeight;
-			}
-
 			setText(event.target.value);
 
 			throttledNotifyAboutTyping(event.target.value);
-
-			setRows(currentRows < maxRows ? currentRows : maxRows);
 		},
 		[setText, setRows, throttledNotifyAboutTyping],
 	);
@@ -355,7 +362,7 @@ const CreateMessageInput = () => {
 	const uploadFile = useCallback(
 		(event: React.ChangeEvent<HTMLInputElement>) => {
 			if (event.target.files?.length! > 0) {
-				for (var index = 0; index < event.target.files!.length; ++index) {
+				for (let index = 0; index < event.target.files!.length; ++index) {
 					const file = event.target.files!.item(index) as File;
 
 					const fileType = getFileType(file.name);
@@ -419,6 +426,7 @@ const CreateMessageInput = () => {
 						<div className='message-input__input-group'>
 							{!isRecording && (
 								<textarea
+									ref={mainInputRef}
 									value={text}
 									rows={rows}
 									placeholder={t('messageInput.write')}

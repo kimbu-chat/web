@@ -52,10 +52,10 @@ const chats = createReducer<ChatsState>(initialState)
 
 			const chatIndex: number = getChatArrayIndex(chatId, draft);
 
-			(draft.chats[chatIndex].timeoutId = undefined),
-				(draft.chats[chatIndex].typingInterlocutors = draft.chats[chatIndex].typingInterlocutors?.filter(
-					(user) => user.fullName !== interlocutorName,
-				));
+			draft.chats[chatIndex].timeoutId = undefined;
+			draft.chats[chatIndex].typingInterlocutors = draft.chats[chatIndex].typingInterlocutors?.filter(
+				(user) => user.fullName !== interlocutorName,
+			);
 
 			return draft;
 		}),
@@ -80,7 +80,8 @@ const chats = createReducer<ChatsState>(initialState)
 				fullName: interlocutorName,
 			};
 
-			(draft.chats[chatIndex].draftMessage = payload.text), (draft.chats[chatIndex].timeoutId = timeoutId);
+			draft.chats[chatIndex].draftMessage = payload.text;
+			draft.chats[chatIndex].timeoutId = timeoutId;
 
 			if (!draft.chats[chatIndex].typingInterlocutors?.find(({ fullName }) => fullName === interlocutorName)) {
 				draft.chats[chatIndex].typingInterlocutors = [
@@ -163,7 +164,8 @@ const chats = createReducer<ChatsState>(initialState)
 		produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.getChatsSuccess>) => {
 			const { chats, hasMore, initializedBySearch } = payload;
 
-			(draft.loading = false), (draft.hasMore = hasMore);
+			draft.loading = false;
+			draft.hasMore = hasMore;
 
 			if (initializedBySearch) {
 				draft.chats = chats;
@@ -231,6 +233,7 @@ const chats = createReducer<ChatsState>(initialState)
 				draft.chats[chatIndex].attachmentsToSend = [];
 				draft.chats[chatIndex].lastMessage = { ...message };
 				draft.chats[chatIndex].ownUnreadMessagesCount = ownUnreadMessagesCount;
+				draft.chats[chatIndex].draftMessage = '';
 
 				const chatWithNewMessage = draft.chats[chatIndex];
 

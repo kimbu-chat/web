@@ -30,7 +30,6 @@ import callingBeep from 'app/assets/sounds/calls/outgoing-call.ogg';
 import busySound from 'app/assets/sounds/calls/busy-sound.ogg';
 import { Dropdown } from './dropdown/dropdown';
 import { LocalizationContext } from 'app/app';
-import { getSelectedChatSelector } from 'store/chats/selectors';
 import { UserPreview } from 'store/my-profile/models';
 
 namespace IActiveCall {
@@ -47,7 +46,6 @@ export const ActiveCall: React.FC<IActiveCall.Props> = ({ isDisplayed }) => {
 	const audioDevices = useSelector((state: RootState) => state.calls.audioDevicesList);
 	const videoDevices = useSelector((state: RootState) => state.calls.videoDevicesList);
 	const isInterlocutorVideoEnabled = useSelector((state: RootState) => state.calls.isInterlocutorVideoEnabled);
-	const selectedChat = useSelector(getSelectedChatSelector);
 	const amICalingSomebody = useSelector(amICaling);
 	const amISpeaking = useSelector(doIhaveCall);
 	const isInterlocutorBusy = useSelector((state: RootState) => state.calls.isInterlocutorBusy);

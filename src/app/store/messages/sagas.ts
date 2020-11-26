@@ -193,10 +193,23 @@ export function* editMessageSaga(action: ReturnType<typeof MessageActions.submit
 	}
 }
 
+export function* deleteMessageSaga(action: ReturnType<typeof MessageActions.deleteMessage>): SagaIterator {
+	const httpRequest = MessagesHttpRequests.deleteMessage;
+
+	const { status } = httpRequest.call(yield call(() => httpRequest.generator({ ids: action.payload.messageIds })));
+
+	if (status === HTTPStatusCode.OK) {
+		yield put(MessageActions.deleteMessageSuccess(action.payload));
+	} else {
+		alert('deleteMessageSaga error');
+	}
+}
+
 export const MessageSagas = [
 	throttle(1500, MessageActions.messageTyping, messageTyping),
 	takeLatest(MessageActions.getMessages, getMessages),
 	takeEvery(MessageActions.createMessage, createMessage),
 	takeEvery(MessageActions.copyMessages, copyMessagesSaga),
 	takeEvery(MessageActions.submitEditMessage, editMessageSaga),
+	takeEvery(MessageActions.deleteMessage, deleteMessageSaga),
 ];

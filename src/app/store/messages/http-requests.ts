@@ -6,6 +6,7 @@ import {
 	MessageCreationReqData,
 	UserMessageTypingRequest,
 	EditMessageApiReq,
+	DeleteMessagesApiReq,
 } from './models';
 import { ApiBasePath } from '../root-api';
 
@@ -25,5 +26,9 @@ export const MessagesHttpRequests = {
 	editMessage: httpRequestFactory<AxiosResponse, EditMessageApiReq>(
 		`${ApiBasePath.MainApi}/api/messages`,
 		HttpRequestMethod.Put,
+	),
+	deleteMessage: httpRequestFactory<AxiosResponse, DeleteMessagesApiReq>(
+		`${ApiBasePath.MainApi}/api/messages/delete-message-list`,
+		HttpRequestMethod.Post,
 	),
 };

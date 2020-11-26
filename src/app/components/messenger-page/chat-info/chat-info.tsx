@@ -17,16 +17,14 @@ import { ChatVideo } from './chat-video/chat-video';
 
 import { ChatActions } from 'store/chats/actions';
 
-import { Avatar } from 'components';
+import { Avatar, ChangePhoto, FadeAnimationWrapper } from 'components';
 
 import EditSvg from 'icons/ic-edit.svg';
 import PhotoSvg from 'icons/ic-photo.svg';
 import { EditChatModal } from '../edit-chat-modal/edit-chat-modal';
 import { GroupChatAddFriendModal } from '../group-chat-add-friend-modal/group-chat-add-friend-modal';
-import { ChangePhoto } from 'components';
 import { Route } from 'react-router';
 import { CSSTransition } from 'react-transition-group';
-import { FadeAnimationWrapper } from 'components';
 import { ChatRecordings } from './chat-recordings/chat-recordings';
 import { ChatFiles } from './chat-files/chat-files';
 import { MyProfileActions } from 'store/my-profile/actions';

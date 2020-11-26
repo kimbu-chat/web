@@ -1,6 +1,5 @@
 import { LocalizationContext } from 'app/app';
-import { Modal } from 'components';
-import { WithBackground } from 'components';
+import { Modal, WithBackground } from 'components';
 import { ChatActions } from 'store/chats/actions';
 import { Chat } from 'store/chats/models';
 import { getSelectedChatSelector } from 'store/chats/selectors';

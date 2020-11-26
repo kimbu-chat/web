@@ -1,8 +1,5 @@
 import { LocalizationContext } from 'app/app';
-import { Avatar } from 'components';
-import { Modal } from 'components';
-import { WithBackground } from 'components';
-import { ChangePhoto } from 'components';
+import { Avatar, Modal, WithBackground, ChangePhoto, FriendFromList, SearchBox, CircularProgress } from 'components';
 import { FriendActions } from 'store/friends/actions';
 import { AvatarSelectedData, UploadAvatarResponse, UserPreview } from 'store/my-profile/models';
 import { RootState } from 'store/root-reducer';
@@ -10,8 +7,6 @@ import { getStringInitials } from 'utils/functions/interlocutor-name-utils';
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import React, { useCallback, useContext, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { FriendFromList } from 'components';
-import { SearchBox } from 'components';
 import CloseSVG from 'icons/ic-close.svg';
 import './create-group-chat-modal.scss';
 import { useActionWithDeferred } from 'utils/hooks/use-action-with-deferred';
@@ -19,8 +14,6 @@ import { ChatActions } from 'store/chats/actions';
 import { Chat, GroupChatCreationReqData } from 'store/chats/models';
 import { useHistory } from 'react-router';
 import { MyProfileActions } from 'store/my-profile/actions';
-import { CircularProgress } from 'components';
-
 namespace ICreateGroupChatModal {
 	export interface Props {
 		onClose: () => void;

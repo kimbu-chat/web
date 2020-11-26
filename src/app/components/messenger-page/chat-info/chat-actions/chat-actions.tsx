@@ -16,8 +16,7 @@ import LeaveSvg from 'icons/ic-leave-chat.svg';
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import { FriendActions } from 'store/friends/actions';
 import { DeleteChatModal } from './delete-chat-modal/delete-chat-modal';
-import { CreateGroupChat } from 'components';
-import { FadeAnimationWrapper } from 'components';
+import { CreateGroupChat, FadeAnimationWrapper } from 'components';
 import PeopleSvg from 'icons/ic-group.svg';
 
 namespace ChatActions {

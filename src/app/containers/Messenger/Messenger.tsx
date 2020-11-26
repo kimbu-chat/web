@@ -2,21 +2,23 @@ import React, { useContext } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
 import './messenger.scss';
 
-import { SearchTop } from 'components';
-import { ChatData } from 'components';
-import { ChatList } from 'components';
-import { Chat } from 'components';
-import { CreateMessageInput } from 'components';
-import { ChatInfo } from 'components';
-import { InternetError } from 'components';
-import { IncomingCall } from 'components';
-import { ActiveCall } from 'components';
-import { RoutingChats } from 'components';
-import { CallList } from 'components';
-import { Settings } from 'components';
-import { FriendList } from 'components';
-import { SettingsHeader } from 'components';
-import { EditMessage } from 'components';
+import {
+	EditMessage,
+	SettingsHeader,
+	FriendList,
+	Settings,
+	CallList,
+	RoutingChats,
+	ActiveCall,
+	IncomingCall,
+	InternetError,
+	ChatInfo,
+	CreateMessageInput,
+	Chat,
+	ChatList,
+	ChatData,
+	SearchTop,
+} from 'components';
 
 import { AvatarSelectedData } from 'store/my-profile/models';
 import { useSelector } from 'react-redux';

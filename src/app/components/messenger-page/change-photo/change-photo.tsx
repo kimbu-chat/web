@@ -9,10 +9,8 @@ import CloseSVG from 'icons/ic-close.svg';
 
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
-import { WithBackground } from 'components';
+import { WithBackground, BaseBtn } from 'components';
 import { stopPropagation } from 'utils/functions/stop-propagation';
-import { BaseBtn } from 'components';
-
 namespace ChangePhoto {
 	export interface Props {
 		imageUrl: string;

@@ -1,22 +1,18 @@
 import React, { useCallback, useRef } from 'react';
 import './edit-chat-modal.scss';
 
-import { Modal } from 'components';
-import { WithBackground } from 'components';
+import { Modal, WithBackground, ChangePhoto, Avatar, CircularProgress } from 'components';
 
 import CloseSVG from 'icons/ic-close.svg';
-import { ChangePhoto } from 'components';
 import { AvatarSelectedData, UploadAvatarResponse } from 'store/my-profile/models';
 import { useState } from 'react';
 import { Chat, EditGroupChatReqData } from 'store/chats/models';
 import { getSelectedChatSelector } from 'store/chats/selectors';
 import { useSelector } from 'react-redux';
-import { Avatar } from 'components';
 import { getInterlocutorInitials } from 'utils/functions/interlocutor-name-utils';
 import { ChatActions } from 'store/chats/actions';
 import { useActionWithDeferred } from 'utils/hooks/use-action-with-deferred';
 import { MyProfileActions } from 'store/my-profile/actions';
-import { CircularProgress } from 'components';
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 
 namespace EditChatModal {

@@ -1,7 +1,6 @@
 import { LocalizationContext } from 'app/app';
 import { Country, countryList } from 'app/common/countries';
-import { Modal } from 'components';
-import { WithBackground } from 'components';
+import { Modal, WithBackground } from 'components';
 import { RootState } from 'store/root-reducer';
 import { parsePhoneNumber, parsePhoneNumberFromString } from 'libphonenumber-js';
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';

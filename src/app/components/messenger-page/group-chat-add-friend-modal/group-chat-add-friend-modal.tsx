@@ -1,5 +1,4 @@
-import { Modal } from 'components';
-import { WithBackground } from 'components';
+import { Modal, WithBackground } from 'components';
 import { RootState } from 'store/root-reducer';
 import React, { useCallback, useContext } from 'react';
 import { useState } from 'react';

@@ -1,8 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import PlaySvg from 'icons/ic-play.svg';
 import moment from 'moment';
-import { VideoPlayer } from 'components';
-import { FadeAnimationWrapper } from 'components';
+import { FadeAnimationWrapper, VideoPlayer } from 'components';
 import { IGroupable, VideoAttachment } from 'store/chats/models';
 import { doesYearDifferFromCurrent } from 'utils/functions/set-separators';
 

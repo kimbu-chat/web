@@ -1,5 +1,4 @@
-import { Modal } from 'components';
-import { WithBackground } from 'components';
+import { WithBackground, Modal } from 'components';
 import { getMyProfileSelector } from 'store/my-profile/selectors';
 import React, { useContext, useState } from 'react';
 import { useCallback } from 'react';

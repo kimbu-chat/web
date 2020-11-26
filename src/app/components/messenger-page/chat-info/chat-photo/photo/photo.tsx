@@ -1,5 +1,4 @@
-import { BigPhoto } from 'components';
-import { FadeAnimationWrapper } from 'components';
+import { BigPhoto, FadeAnimationWrapper } from 'components';
 import { IGroupable, PictureAttachment } from 'store/chats/models';
 import { doesYearDifferFromCurrent } from 'utils/functions/set-separators';
 import moment from 'moment';

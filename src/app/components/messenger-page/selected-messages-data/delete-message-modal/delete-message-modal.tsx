@@ -1,5 +1,4 @@
-import { Modal } from 'components';
-import { WithBackground } from 'components';
+import { Modal, WithBackground } from 'components';
 import { getSelectedChatSelector } from 'store/chats/selectors';
 import React, { useCallback, useContext, useState } from 'react';
 import { useSelector } from 'react-redux';

@@ -1,4 +1,4 @@
-import { Avatar } from 'components';
+import { Avatar, BaseBtn } from 'components';
 import { getMyProfileSelector } from 'store/my-profile/selectors';
 import { getUserInitials } from 'utils/functions/interlocutor-name-utils';
 import React, { useContext } from 'react';
@@ -15,7 +15,6 @@ import { EditProfile } from './edit-profile/edit-profile';
 import { NotificationsSettings } from './notifications-settings/notifications-settings';
 import { LanguageSettings } from './language-settings/language-settings';
 import { TextTyping } from './text-typing/text-typing';
-import { BaseBtn } from 'components';
 
 import { CSSTransition } from 'react-transition-group';
 import { AuthActions } from 'store/auth/actions';

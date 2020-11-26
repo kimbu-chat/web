@@ -1,4 +1,4 @@
-import { Avatar } from 'components';
+import { Avatar, ChangePhoto, FadeAnimationWrapper } from 'components';
 import { getMyProfileSelector } from 'store/my-profile/selectors';
 import { getUserInitials } from 'utils/functions/interlocutor-name-utils';
 import React, { useCallback, useContext, useState } from 'react';
@@ -15,9 +15,7 @@ import { useRef } from 'react';
 import { EditNameModal } from './edit-name-modal/edit-name-modal';
 import { EditUserNameModal } from './edit-username-modal/edit-username-modal';
 import { EditPhoneModal } from './edit-phone-modal/edit-phone-modal';
-import { ChangePhoto } from 'components';
 import { LocalizationContext } from 'app/app';
-import { FadeAnimationWrapper } from 'components';
 import { AvatarSelectedData, UploadAvatarResponse } from 'store/my-profile/models';
 import { parsePhoneNumber } from 'libphonenumber-js';
 

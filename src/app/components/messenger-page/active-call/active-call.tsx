@@ -201,23 +201,29 @@ export const ActiveCall: React.FC<IActiveCall.Props> = ({ isDisplayed }) => {
 		);
 	}, [isFullScreen, isDisplayed]);
 
-	const callWithVideo = () =>
-		callInterlocutor({
-			calling: selectedChat?.interlocutor as UserPreview,
-			constraints: {
-				videoEnabled: true,
-				audioEnabled: true,
-			},
-		});
+	const reCallWithVideo = useCallback(
+		() =>
+			callInterlocutor({
+				calling: interlocutor as UserPreview,
+				constraints: {
+					videoEnabled: true,
+					audioEnabled: true,
+				},
+			}),
+		[interlocutor],
+	);
 
-	const callWithAudio = () =>
-		callInterlocutor({
-			calling: selectedChat?.interlocutor as UserPreview,
-			constraints: {
-				videoEnabled: false,
-				audioEnabled: true,
-			},
-		});
+	const reCallWithAudio = useCallback(
+		() =>
+			callInterlocutor({
+				calling: interlocutor as UserPreview,
+				constraints: {
+					videoEnabled: false,
+					audioEnabled: true,
+				},
+			}),
+		[interlocutor],
+	);
 
 	return ReactDOM.createPortal(
 		<Rnd
@@ -356,7 +362,7 @@ export const ActiveCall: React.FC<IActiveCall.Props> = ({ isDisplayed }) => {
 
 					{amISpeaking && isInterlocutorBusy && (
 						<button
-							onClick={callWithVideo}
+							onClick={reCallWithVideo}
 							className={`active-call__call-btn 
 												${isFullScreen ? 'active-call__call-btn--big' : ''}`}
 						>
@@ -366,7 +372,7 @@ export const ActiveCall: React.FC<IActiveCall.Props> = ({ isDisplayed }) => {
 
 					{isInterlocutorBusy && (
 						<button
-							onClick={callWithAudio}
+							onClick={reCallWithAudio}
 							className={`active-call__call-btn 
 												${isFullScreen ? 'active-call__call-btn--big' : ''}`}
 						>

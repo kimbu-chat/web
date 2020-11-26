@@ -1,1 +1,3 @@
-export interface InterlocutorCanceledCallIntegrationEvent {}
+export interface InterlocutorCanceledCallIntegrationEvent {
+	interlocutorId: number;
+}

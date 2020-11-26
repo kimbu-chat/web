@@ -1,8 +1,8 @@
 import { LocalizationContext } from 'app/app';
-import Avatar from 'app/components/shared/avatar/avatar';
-import Modal from 'app/components/shared/modal/modal';
-import WithBackground from 'app/components/shared/with-background';
-import ChangePhoto from 'messenger_components/change-photo/change-photo';
+import { Avatar } from 'components';
+import { Modal } from 'components';
+import { WithBackground } from 'components';
+import { ChangePhoto } from 'components';
 import { FriendActions } from 'store/friends/actions';
 import { AvatarSelectedData, UploadAvatarResponse, UserPreview } from 'store/my-profile/models';
 import { RootState } from 'store/root-reducer';
@@ -10,8 +10,8 @@ import { getStringInitials } from 'utils/functions/interlocutor-name-utils';
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import React, { useCallback, useContext, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import FriendFromList from '../shared/friend-from-list/friend-from-list';
-import SearchBox from '../search-box/search-box';
+import { FriendFromList } from 'components';
+import { SearchBox } from 'components';
 import CloseSVG from 'icons/ic-close.svg';
 import './create-group-chat-modal.scss';
 import { useActionWithDeferred } from 'utils/hooks/use-action-with-deferred';
@@ -19,7 +19,7 @@ import { ChatActions } from 'store/chats/actions';
 import { Chat, GroupChatCreationReqData } from 'store/chats/models';
 import { useHistory } from 'react-router';
 import { MyProfileActions } from 'store/my-profile/actions';
-import CircularProgress from 'messenger_components/shared/circular-progress/circular-progress';
+import { CircularProgress } from 'components';
 
 namespace ICreateGroupChatModal {
 	export interface Props {
@@ -33,7 +33,7 @@ namespace ICreateGroupChatModal {
 	}
 }
 
-export const CreateGroupChatModal = React.memo(({ onClose, preSelectedUserIds }: ICreateGroupChatModal.Props) => {
+export const CreateGroupChat = React.memo(({ onClose, preSelectedUserIds }: ICreateGroupChatModal.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const currentUser = useSelector<RootState, UserPreview | undefined>((state) => state.myProfile.user);

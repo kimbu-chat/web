@@ -1,6 +1,6 @@
 import { LocalizationContext } from 'app/app';
-import Modal from 'app/components/shared/modal/modal';
-import WithBackground from 'app/components/shared/with-background';
+import { Modal } from 'components';
+import { WithBackground } from 'components';
 import { MyProfileActions } from 'store/my-profile/actions';
 import { getMyProfileSelector } from 'store/my-profile/selectors';
 import { useActionWithDeferred } from 'utils/hooks/use-action-with-deferred';

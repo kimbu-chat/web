@@ -40,7 +40,7 @@ module.exports = {
 			store: path.resolve(__dirname, 'src/app/store/'),
 			sounds: path.resolve(__dirname, 'src/app/assets/sounds/'),
 			utils: path.resolve(__dirname, 'src/app/utils/'),
-			components: path.resolve(__dirname, 'src/app/components/*'),
+			components: path.resolve(__dirname, 'src/app/components/index'),
 		},
 	},
 	module: {

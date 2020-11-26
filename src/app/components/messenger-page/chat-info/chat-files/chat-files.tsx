@@ -10,7 +10,7 @@ import { getSelectedChatSelector } from 'store/chats/selectors';
 import { Page } from 'store/common/models';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Link, useLocation } from 'react-router-dom';
-import FileAttachment from '../../shared/file-attachment/file-attachment';
+import { FileAttachment } from '../../shared/file-attachment/file-attachment';
 import moment from 'moment';
 
 import { doesYearDifferFromCurrent, setSeparators } from 'utils/functions/set-separators';

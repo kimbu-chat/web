@@ -9,11 +9,11 @@ import { RootState } from 'store/root-reducer';
 import i18nConfiguration from 'app/localization/i18n';
 import { useTranslation } from 'react-i18next';
 
-import PublicRoute from './routing/PublicRoute';
-import PrivateRoute from './routing/PrivateRoute';
+import { PublicRoute } from 'app/routing/private-route';
+import { PrivateRoute } from 'app/routing/public-route';
 
 import { i18n, TFunction } from 'i18next';
-import CubeLoader from './containers/cube-loader/cube-loader';
+import { CubeLoader } from './containers/cube-loader/cube-loader';
 import { loadPhoneConfirmation, loadCodeConfirmation, loadMessenger, loadNotFound } from './routing/module-loader';
 
 const ConfirmPhone = lazy(loadPhoneConfirmation);

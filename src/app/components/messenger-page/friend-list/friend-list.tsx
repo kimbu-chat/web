@@ -9,7 +9,7 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import Friend from './friend-from-list/friend';
+import { Friend } from './friend-from-list/friend';
 import './friend-list.scss';
 
 export const FriendList = React.memo(() => {

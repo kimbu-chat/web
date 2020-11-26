@@ -8,11 +8,11 @@ import { Chat } from 'store/chats/models';
 import { MessageUtils } from 'utils/functions/message-utils';
 import { getChatInterlocutor, getInterlocutorInitials } from '../../../../utils/functions/interlocutor-name-utils';
 
-import StatusBadge from 'app/components/shared/status-badge/status-badge';
+import { StatusBadge } from 'components';
 import { SystemMessageType, Message, MessageState } from 'store/messages/models';
 import { LocalizationContext } from 'app/app';
 import { getMyIdSelector } from 'store/my-profile/selectors';
-import Avatar from 'app/components/shared/avatar/avatar';
+import { Avatar } from 'components';
 import truncate from 'lodash/truncate';
 
 import MessageQeuedSvg from 'icons/ic-time.svg';

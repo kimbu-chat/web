@@ -16,7 +16,7 @@ namespace RecordingAttachmentNS {
 	}
 }
 
-export const MessageRecordingAttachment = React.memo(({ attachment }: RecordingAttachmentNS.Props) => {
+export const RecordingAttachment = React.memo(({ attachment }: RecordingAttachmentNS.Props) => {
 	const audioRef = useRef<H5AudioPlayer>();
 	return (
 		<div className='recording-attachment'>

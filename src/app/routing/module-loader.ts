@@ -1,4 +1,4 @@
-export const loadPhoneConfirmation = () => import('login_components/phone-confirmation/phone-confirmation');
-export const loadCodeConfirmation = () => import('login_components/code-confirmation/code-confirmation');
+export const loadPhoneConfirmation = () => import('app/components/login-page/phone-confirmation/phone-confirmation');
+export const loadCodeConfirmation = () => import('app/components/login-page/code-confirmation/code-confirmation');
 export const loadMessenger = () => import('app/containers/messenger/messenger');
 export const loadNotFound = () => import('app/containers/not-found/not-found');

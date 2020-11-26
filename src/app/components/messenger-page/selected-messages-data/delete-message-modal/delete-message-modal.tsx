@@ -1,5 +1,5 @@
-import Modal from 'app/components/shared/modal/modal';
-import WithBackground from 'app/components/shared/with-background';
+import { Modal } from 'components';
+import { WithBackground } from 'components';
 import { getSelectedChatSelector } from 'store/chats/selectors';
 import React, { useCallback, useContext, useState } from 'react';
 import { useSelector } from 'react-redux';

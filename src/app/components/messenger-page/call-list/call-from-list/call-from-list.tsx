@@ -3,7 +3,7 @@ import './call-from-list.scss';
 import React, { useContext } from 'react';
 
 import OutgoingCallSvg from 'icons/ic-outgoing-call.svg';
-import Avatar from 'app/components/shared/avatar/avatar';
+import { Avatar } from 'components';
 import { getUserInitials } from 'utils/functions/interlocutor-name-utils';
 import { LocalizationContext } from 'app/app';
 import moment from 'moment';

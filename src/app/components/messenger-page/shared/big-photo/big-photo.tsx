@@ -1,4 +1,4 @@
-import { BackgroundBlur } from 'app/components/shared/with-background';
+import { BackgroundBlur } from 'components';
 import React from 'react';
 import CloseSVG from 'icons/ic-close.svg';
 

@@ -11,7 +11,7 @@ import { getSelectedChatSelector } from 'store/chats/selectors';
 import { Page } from 'store/common/models';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Link, useLocation } from 'react-router-dom';
-import VideoFromList from './video/video-from-list';
+import { VideoFromList } from './video/video-from-list';
 import { setSeparators } from 'utils/functions/set-separators';
 
 namespace ChatVideo {

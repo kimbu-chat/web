@@ -9,7 +9,7 @@ namespace PrivacyPolicy {
 	}
 }
 
-export const PrivacyPolicy: React.FC<PrivacyPolicy.Props> = React.memo(({ close }) => {
+const PrivacyPolicy: React.FC<PrivacyPolicy.Props> = React.memo(({ close }) => {
 	return (
 		<div onClick={stopPropagation} className='policy-modal'>
 			<div className='policy-modal__header'>
@@ -246,3 +246,5 @@ export const PrivacyPolicy: React.FC<PrivacyPolicy.Props> = React.memo(({ close 
 		</div>
 	);
 });
+
+export default PrivacyPolicy;

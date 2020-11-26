@@ -4,7 +4,7 @@ import './call-list.scss';
 import { RootState } from 'store/root-reducer';
 import InfiniteScroll from 'react-infinite-scroller';
 import { useSelector } from 'react-redux';
-import CallFromList from './call-from-list/call-from-list';
+import { CallFromList } from './call-from-list/call-from-list';
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import { CallActions } from 'store/calls/actions';
 

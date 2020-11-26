@@ -5,7 +5,7 @@ import './chat-member.scss';
 
 import { UserPreview } from 'store/my-profile/models';
 import { LocalizationContext } from 'app/app';
-import Avatar from 'app/components/shared/avatar/avatar';
+import { Avatar } from 'components';
 import { getUserInitials } from 'utils/functions/interlocutor-name-utils';
 import { UserStatus } from 'store/friends/models';
 

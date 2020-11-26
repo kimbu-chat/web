@@ -11,7 +11,7 @@ import { history } from '../../../../main';
 import moment from 'moment';
 import { parsePhoneNumber } from 'libphonenumber-js';
 import ResendSvg from 'icons/ic-resend.svg';
-import BaseBtn from 'app/components/shared/base-btn/base-btn';
+import { BaseBtn } from 'components';
 
 const NUMBER_OF_DIGITS = [0, 1, 2, 3];
 
@@ -21,7 +21,7 @@ namespace CodeConfirmation {
 	}
 }
 
-export const CodeConfirmation: React.FC<CodeConfirmation.Props> = ({ preloadNext }) => {
+const CodeConfirmation: React.FC<CodeConfirmation.Props> = ({ preloadNext }) => {
 	const { t } = useContext(LocalizationContext);
 
 	const checkIfCharacterIsNumeric = (character: string): boolean => /^[0-9]+$/.test(character);
@@ -196,3 +196,5 @@ export const CodeConfirmation: React.FC<CodeConfirmation.Props> = ({ preloadNext
 		</div>
 	);
 };
+
+export default CodeConfirmation;

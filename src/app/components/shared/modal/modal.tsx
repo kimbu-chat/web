@@ -3,7 +3,7 @@ import React from 'react';
 import './modal.scss';
 
 import CloseSVG from 'icons/ic-close.svg';
-import BaseBtn, { BaseBtnNS } from '../base-btn/base-btn';
+import { BaseBtn, BaseBtnNS } from '../base-btn/base-btn';
 import { stopPropagation } from 'utils/functions/stop-propagation';
 
 namespace Modal {

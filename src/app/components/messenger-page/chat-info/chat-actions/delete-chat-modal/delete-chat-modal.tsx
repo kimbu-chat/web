@@ -1,6 +1,6 @@
 import { LocalizationContext } from 'app/app';
-import Modal from 'app/components/shared/modal/modal';
-import WithBackground from 'app/components/shared/with-background';
+import { Modal } from 'components';
+import { WithBackground } from 'components';
 import { ChatActions } from 'store/chats/actions';
 import { Chat } from 'store/chats/models';
 import { getSelectedChatSelector } from 'store/chats/selectors';
@@ -15,7 +15,7 @@ namespace DeleteChatModal {
 	}
 }
 
-export const DeleteChatModal = React.Memo(({ hide }: DeleteChatModal.Props) => {
+export const DeleteChatModal = React.memo(({ hide }: DeleteChatModal.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const selectedChat = useSelector(getSelectedChatSelector) as Chat;

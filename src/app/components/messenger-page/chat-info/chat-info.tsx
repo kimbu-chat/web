@@ -8,30 +8,30 @@ import { AvatarSelectedData, UploadAvatarResponse } from 'store/my-profile/model
 
 import { getSelectedChatSelector } from 'store/chats/selectors';
 
-import InterlocutorInfo from './interlocutor-info/interlocutor-info';
-import ChatInfoActions from './chat-actions/chat-actions';
-import ChatMembers from './chat-members/chat-members';
-import ChatMedia from './chat-media/chat-media';
-import ChatPhoto from './chat-photo/chat-photo';
-import ChatVideo from './chat-video/chat-video';
+import { InterlocutorInfo } from './interlocutor-info/interlocutor-info';
+import { ChatActions as ChatInfoActions } from './chat-actions/chat-actions';
+import { ChatMembers } from './chat-members/chat-members';
+import { ChatMedia } from './chat-media/chat-media';
+import { ChatPhoto } from './chat-photo/chat-photo';
+import { ChatVideo } from './chat-video/chat-video';
 
 import { ChatActions } from 'store/chats/actions';
 
-import Avatar from 'app/components/shared/avatar/avatar';
+import { Avatar } from 'components';
 
 import EditSvg from 'icons/ic-edit.svg';
 import PhotoSvg from 'icons/ic-photo.svg';
-import EditChatModal from '../edit-chat-modal/edit-chat-modal';
-import GroupChatAddFriendModal from '../group-chat-add-friend-modal/group-chat-add-friend-modal';
-import ChangePhoto from 'messenger_components/change-photo/change-photo';
+import { EditChatModal } from '../edit-chat-modal/edit-chat-modal';
+import { GroupChatAddFriendModal } from '../group-chat-add-friend-modal/group-chat-add-friend-modal';
+import { ChangePhoto } from 'components';
 import { Route } from 'react-router';
 import { CSSTransition } from 'react-transition-group';
-import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
-import ChatRecordings from './chat-recordings/chat-recordings';
-import ChatFiles from './chat-files/chat-files';
+import { FadeAnimationWrapper } from 'components';
+import { ChatRecordings } from './chat-recordings/chat-recordings';
+import { ChatFiles } from './chat-files/chat-files';
 import { MyProfileActions } from 'store/my-profile/actions';
-import BigPhoto from '../shared/big-photo/big-photo';
-import ChatAudios from './chat-audios/chat-audios';
+import { BigPhoto } from '../shared/big-photo/big-photo';
+import { ChatAudios } from './chat-audios/chat-audios';
 
 export const ChatInfo: React.FC = React.memo(() => {
 	const selectedChat = useSelector(getSelectedChatSelector);

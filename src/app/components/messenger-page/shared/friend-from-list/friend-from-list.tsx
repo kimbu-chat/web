@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import './friend-from-list.scss';
 
-import Avatar from 'app/components/shared/avatar/avatar';
+import { Avatar } from 'components';
 import { UserPreview } from 'store/my-profile/models';
 import { getUserInitials } from 'utils/functions/interlocutor-name-utils';
 

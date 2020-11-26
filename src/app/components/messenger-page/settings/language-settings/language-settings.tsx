@@ -5,7 +5,7 @@ import { getCurrentLanguage } from 'store/settings/selectors';
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import React, { useCallback, useContext } from 'react';
 import { useSelector } from 'react-redux';
-import RadioBox from '../shared/radio-box/radio-box';
+import { RadioBox } from '../shared/radio-box/radio-box';
 import './language-settings.scss';
 
 export const LanguageSettings = React.memo(() => {

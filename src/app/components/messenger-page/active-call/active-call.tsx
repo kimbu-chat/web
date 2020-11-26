@@ -9,7 +9,7 @@ import { RootState } from 'store/root-reducer';
 import { tracks } from 'store/calls/sagas';
 import moment from 'moment';
 import { Rnd } from 'react-rnd';
-import Avatar from 'app/components/shared/avatar/avatar';
+import { Avatar } from 'components';
 import { getUserInitials } from 'utils/functions/interlocutor-name-utils';
 import ReactDOM from 'react-dom';
 
@@ -28,7 +28,7 @@ import VoiceCallSvg from 'icons/ic-call.svg';
 //sounds
 import callingBeep from 'app/assets/sounds/calls/outgoing-call.ogg';
 import busySound from 'app/assets/sounds/calls/busy-sound.ogg';
-import Dropdown from './dropdown/dropdown';
+import { Dropdown } from './dropdown/dropdown';
 import { LocalizationContext } from 'app/app';
 import { getSelectedChatSelector } from 'store/chats/selectors';
 import { UserPreview } from 'store/my-profile/models';
@@ -39,7 +39,7 @@ namespace IActiveCall {
 	}
 }
 
-export const ActiveCall = ReactDOM.createPortal(({ isDisplayed }: IActiveCall.Props) => {
+export const ActiveCall: React.FC<IActiveCall.Props> = ({ isDisplayed }) => {
 	const interlocutor = useSelector(getCallInterlocutorSelector);
 	const videoConstraints = useSelector((state: RootState) => state.calls.videoConstraints);
 	const audioConstraints = useSelector((state: RootState) => state.calls.audioConstraints);
@@ -219,7 +219,7 @@ export const ActiveCall = ReactDOM.createPortal(({ isDisplayed }: IActiveCall.Pr
 			},
 		});
 
-	return (
+	return ReactDOM.createPortal(
 		<Rnd
 			ref={dragRef}
 			default={{
@@ -390,6 +390,8 @@ export const ActiveCall = ReactDOM.createPortal(({ isDisplayed }: IActiveCall.Pr
 					</button>
 				</div>
 			</div>
-		</Rnd>
+		</Rnd>,
+
+		document.getElementById('root') || document.createElement('div'),
 	);
-}, document.getElementById('root') || document.createElement('div'));
+};

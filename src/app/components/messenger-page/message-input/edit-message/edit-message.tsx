@@ -8,7 +8,7 @@ import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import Mousetrap from 'mousetrap';
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import MessageInputAttachment from '../message-input-attachment/message-input-attachment';
+import { MessageInputAttachment } from '../message-input-attachment/message-input-attachment';
 import AddSvg from 'icons/ic-add-new.svg';
 import './edit-message.scss';
 import { LocalizationContext } from 'app/app';

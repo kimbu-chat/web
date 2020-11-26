@@ -13,7 +13,7 @@ namespace ModalCountrySelect {
 	}
 }
 
-const ModalCountrySelect = React.memo(({ country, handleCountryChange, setRef }: ModalCountrySelect.Props) => {
+export const ModalCountrySelect = React.memo(({ country, handleCountryChange, setRef }: ModalCountrySelect.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const { getRootProps, getInputProps, getListboxProps, getOptionProps, groupedOptions, popupOpen } = useAutocomplete(

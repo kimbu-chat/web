@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import './forward-entity.scss';
 
-import Avatar from 'app/components/shared/avatar/avatar';
+import { Avatar } from 'components';
 import { getInterlocutorInitials } from 'utils/functions/interlocutor-name-utils';
 
 import SelectedSvg from 'icons/ic-check-filled.svg';

@@ -2,7 +2,7 @@ import React from 'react';
 import { getUserInitials } from 'utils/functions/interlocutor-name-utils';
 import { UserPreview } from 'store/my-profile/models';
 import { UserStatus } from 'store/friends/models';
-import Avatar from '../avatar/avatar';
+import { Avatar } from '../avatar/avatar';
 
 import './status-badge.scss';
 

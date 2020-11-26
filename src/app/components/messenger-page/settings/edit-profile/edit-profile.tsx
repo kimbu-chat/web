@@ -1,4 +1,4 @@
-import Avatar from 'app/components/shared/avatar/avatar';
+import { Avatar } from 'components';
 import { getMyProfileSelector } from 'store/my-profile/selectors';
 import { getUserInitials } from 'utils/functions/interlocutor-name-utils';
 import React, { useCallback, useContext, useState } from 'react';
@@ -12,12 +12,12 @@ import EditSvg from 'icons/ic-edit.svg';
 import { MyProfileActions } from 'store/my-profile/actions';
 import { useActionWithDeferred } from 'utils/hooks/use-action-with-deferred';
 import { useRef } from 'react';
-import EditNameModal from './edit-name-modal/edit-name-modal';
-import EditUserNameModal from './edit-username-modal/edit-username-modal';
-import EditPhoneModal from './edit-phone-modal/edit-phone-modal';
-import ChangePhoto from 'messenger_components/change-photo/change-photo';
+import { EditNameModal } from './edit-name-modal/edit-name-modal';
+import { EditUserNameModal } from './edit-username-modal/edit-username-modal';
+import { EditPhoneModal } from './edit-phone-modal/edit-phone-modal';
+import { ChangePhoto } from 'components';
 import { LocalizationContext } from 'app/app';
-import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
+import { FadeAnimationWrapper } from 'components';
 import { AvatarSelectedData, UploadAvatarResponse } from 'store/my-profile/models';
 import { parsePhoneNumber } from 'libphonenumber-js';
 

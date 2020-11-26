@@ -10,7 +10,7 @@ import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import { CallActions } from 'store/calls/actions';
 import { UserPreview } from 'store/my-profile/models';
 import { UserStatus } from 'store/friends/models';
-import Avatar from 'app/components/shared/avatar/avatar';
+import { Avatar } from 'components';
 
 import VoiceCallSvg from 'icons/ic-call.svg';
 import VideoCallSvg from 'icons/ic-video-call.svg';

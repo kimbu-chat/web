@@ -14,7 +14,7 @@ namespace EditNameModal {
 	}
 }
 
-const EditNameModal = ({ onClose }: EditNameModal.Props) => {
+export const EditNameModal = React.memo(({ onClose }: EditNameModal.Props) => {
 	const myProfile = useSelector(getMyProfileSelector);
 
 	const { t } = useContext(LocalizationContext);
@@ -85,6 +85,4 @@ const EditNameModal = ({ onClose }: EditNameModal.Props) => {
 			/>
 		</WithBackground>
 	);
-};
-
-export default EditNameModal;
+});

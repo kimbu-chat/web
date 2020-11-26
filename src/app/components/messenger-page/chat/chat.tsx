@@ -18,7 +18,7 @@ import { ChatActions } from 'store/chats/actions';
 
 export const MESSAGES_LIMIT = 25;
 
-const Chat = () => {
+export const Chat = React.memo(() => {
 	const getMessages = useActionWithDispatch(MessageActions.getMessages);
 	const markMessagesAsRead = useActionWithDispatch(ChatActions.markMessagesAsRead);
 
@@ -143,6 +143,4 @@ const Chat = () => {
 			</div>
 		</div>
 	);
-};
-
-export default React.memo(Chat);
+});

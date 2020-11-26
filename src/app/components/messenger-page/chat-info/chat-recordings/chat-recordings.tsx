@@ -14,7 +14,7 @@ import moment from 'moment';
 
 import { doesYearDifferFromCurrent, setSeparators } from 'utils/functions/set-separators';
 
-const ChatRecordings = () => {
+export const ChatRecordings = React.memo(() => {
 	const { t } = useContext(LocalizationContext);
 	const selectedChat = useSelector(getSelectedChatSelector);
 	const recordings = selectedChat!.recordings;
@@ -80,6 +80,4 @@ const ChatRecordings = () => {
 			</div>
 		</div>
 	);
-};
-
-export default ChatRecordings;
+});

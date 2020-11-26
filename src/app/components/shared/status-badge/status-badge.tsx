@@ -14,7 +14,7 @@ namespace StatusBadge {
 	}
 }
 
-const StatusBadge = ({ user, additionalClassNames, containerClassName }: StatusBadge.Props) => {
+export const StatusBadge = React.memo(({ user, additionalClassNames, containerClassName }: StatusBadge.Props) => {
 	if (user?.status === UserStatus.Online) {
 		return (
 			<div className={`status-badge ${containerClassName}`}>
@@ -34,6 +34,4 @@ const StatusBadge = ({ user, additionalClassNames, containerClassName }: StatusB
 			</div>
 		);
 	}
-};
-
-export default StatusBadge;
+});

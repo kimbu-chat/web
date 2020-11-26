@@ -33,7 +33,7 @@ import { MyProfileActions } from 'store/my-profile/actions';
 import BigPhoto from '../shared/big-photo/big-photo';
 import ChatAudios from './chat-audios/chat-audios';
 
-const ChatInfo: React.FC = () => {
+export const ChatInfo: React.FC = React.memo(() => {
 	const selectedChat = useSelector(getSelectedChatSelector);
 
 	const getChatInfo = useActionWithDispatch(ChatActions.getChatInfo);
@@ -259,6 +259,4 @@ const ChatInfo: React.FC = () => {
 	} else {
 		return <div></div>;
 	}
-};
-
-export default React.memo(ChatInfo);
+});

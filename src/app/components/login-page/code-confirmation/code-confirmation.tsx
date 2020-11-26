@@ -21,7 +21,7 @@ namespace CodeConfirmation {
 	}
 }
 
-const CodeConfirmation: React.FC<CodeConfirmation.Props> = ({ preloadNext }) => {
+export const CodeConfirmation: React.FC<CodeConfirmation.Props> = ({ preloadNext }) => {
 	const { t } = useContext(LocalizationContext);
 
 	const checkIfCharacterIsNumeric = (character: string): boolean => /^[0-9]+$/.test(character);
@@ -196,5 +196,3 @@ const CodeConfirmation: React.FC<CodeConfirmation.Props> = ({ preloadNext }) => 
 		</div>
 	);
 };
-
-export default CodeConfirmation;

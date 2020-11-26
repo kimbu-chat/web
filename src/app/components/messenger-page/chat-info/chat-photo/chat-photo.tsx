@@ -13,7 +13,7 @@ import { Link, useLocation } from 'react-router-dom';
 import Photo from './photo/photo';
 import { setSeparators } from 'utils/functions/set-separators';
 
-const ChatPhoto = () => {
+export const ChatPhoto = React.memo(() => {
 	const { t } = useContext(LocalizationContext);
 
 	const photoContainerRef = useRef<HTMLDivElement>(null);
@@ -79,6 +79,4 @@ const ChatPhoto = () => {
 			</div>
 		</div>
 	);
-};
-
-export default ChatPhoto;
+});

@@ -12,7 +12,7 @@ import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/f
 
 export const DIALOGS_LIMIT = 25;
 
-const SearchTop = () => {
+export const SearchTop = React.memo(() => {
 	const getChats = useActionWithDispatch(ChatActions.getChats);
 	const [newChatDisplayed, setNewChatDisplayed] = useState(false);
 	const changeNewChatDisplayedState = useCallback(() => {
@@ -55,6 +55,4 @@ const SearchTop = () => {
 			</FadeAnimationWrapper>
 		</div>
 	);
-};
-
-export default React.memo(SearchTop);
+});

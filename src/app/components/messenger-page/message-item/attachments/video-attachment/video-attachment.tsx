@@ -13,7 +13,7 @@ namespace VideoAttachmentNS {
 	}
 }
 
-const MessageVideoAttachment = ({ attachment }: VideoAttachmentNS.Props) => {
+export const MessageVideoAttachment = React.memo(({ attachment }: VideoAttachmentNS.Props) => {
 	const [videoPlayerDisplayed, setVideoPlayerDisplayed] = useState(false);
 	const changeVideoPlayerDisplayed = useCallback(() => setVideoPlayerDisplayed((oldState) => !oldState), [
 		setVideoPlayerDisplayed,
@@ -34,6 +34,4 @@ const MessageVideoAttachment = ({ attachment }: VideoAttachmentNS.Props) => {
 			</FadeAnimationWrapper>
 		</>
 	);
-};
-
-export default MessageVideoAttachment;
+});

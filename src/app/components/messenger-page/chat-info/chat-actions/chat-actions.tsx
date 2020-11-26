@@ -26,7 +26,7 @@ namespace ChatActions {
 	}
 }
 
-const ChatActions = ({ addMembers }: ChatActions.Props) => {
+export const ChatActions = React.memo(({ addMembers }: ChatActions.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const [leaveGroupChatModalOpened, setLeaveGroupChatModalOpened] = useState<boolean>(false);
@@ -153,6 +153,4 @@ const ChatActions = ({ addMembers }: ChatActions.Props) => {
 			)}
 		</div>
 	);
-};
-
-export default React.memo(ChatActions);
+});

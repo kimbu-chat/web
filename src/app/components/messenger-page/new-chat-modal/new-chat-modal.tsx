@@ -22,7 +22,7 @@ namespace NewChatModal {
 	}
 }
 
-const NewChatModal = ({ onClose, displayCreateGroupChat }: NewChatModal.Props) => {
+export const NewChatModal = React.memo(({ onClose, displayCreateGroupChat }: NewChatModal.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const friends = useSelector((state: RootState) => state.friends.friends);
@@ -73,6 +73,4 @@ const NewChatModal = ({ onClose, displayCreateGroupChat }: NewChatModal.Props) =
 			/>
 		</WithBackground>
 	);
-};
-
-export default NewChatModal;
+});

@@ -17,30 +17,30 @@ namespace FriendFromList {
 	}
 }
 
-const FriendFromList = ({ changeSelectedState, friend, isSelected, onClick }: FriendFromList.Props) => {
-	const onClickOnThisContact = useCallback(() => {
-		if (onClick) {
-			onClick(friend);
-		}
+export const FriendFromList = React.memo(
+	({ changeSelectedState, friend, isSelected, onClick }: FriendFromList.Props) => {
+		const onClickOnThisContact = useCallback(() => {
+			if (onClick) {
+				onClick(friend);
+			}
 
-		if (changeSelectedState) {
-			changeSelectedState(friend.id);
-		}
-	}, [changeSelectedState, onClick]);
+			if (changeSelectedState) {
+				changeSelectedState(friend.id);
+			}
+		}, [changeSelectedState, onClick]);
 
-	return (
-		<div onClick={onClickOnThisContact} className='friend-from-list__friend'>
-			{changeSelectedState && (
-				<div className='friend-from-list__selected-holder'>
-					{isSelected ? <SelectedSvg /> : <UnSelectedSvg />}
-				</div>
-			)}
-			<Avatar className={'friend-from-list__avatar'} src={friend.avatar?.previewUrl}>
-				{getUserInitials(friend)}
-			</Avatar>
-			<span className='friend-from-list__friend-name'>{`${friend.firstName} ${friend.lastName}`}</span>
-		</div>
-	);
-};
-
-export default FriendFromList;
+		return (
+			<div onClick={onClickOnThisContact} className='friend-from-list__friend'>
+				{changeSelectedState && (
+					<div className='friend-from-list__selected-holder'>
+						{isSelected ? <SelectedSvg /> : <UnSelectedSvg />}
+					</div>
+				)}
+				<Avatar className={'friend-from-list__avatar'} src={friend.avatar?.previewUrl}>
+					{getUserInitials(friend)}
+				</Avatar>
+				<span className='friend-from-list__friend-name'>{`${friend.firstName} ${friend.lastName}`}</span>
+			</div>
+		);
+	},
+);

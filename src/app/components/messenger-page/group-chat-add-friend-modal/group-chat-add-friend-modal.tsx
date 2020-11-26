@@ -21,7 +21,7 @@ namespace GroupChatAddFriendModal {
 	}
 }
 
-const GroupChatAddFriendModal = ({ onClose }: GroupChatAddFriendModal.Props) => {
+exprot const GroupChatAddFriendModal = React.memo(({ onClose }: GroupChatAddFriendModal.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const [selectedUserIds, setselectedUserIds] = useState<number[]>([]);
@@ -100,6 +100,4 @@ const GroupChatAddFriendModal = ({ onClose }: GroupChatAddFriendModal.Props) => 
 			/>
 		</WithBackground>
 	);
-};
-
-export default GroupChatAddFriendModal;
+});

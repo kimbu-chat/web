@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { MessageActions } from 'store/messages/actions';
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 
-const RespondingMessage = () => {
+export const RespondingMessage = React.memo(() => {
 	const replyingMessage = useSelector((state: RootState) => state.messages.messageToReply);
 
 	const resetReplyToMessage = useActionWithDispatch(MessageActions.resetReplyToMessage);
@@ -24,6 +24,4 @@ const RespondingMessage = () => {
 			</button>
 		</div>
 	);
-};
-
-export default RespondingMessage;
+});

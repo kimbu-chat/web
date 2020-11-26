@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import CheckBox from '../shared/check-box/check-box';
 import './notifications-settings.scss';
 
-const NotificationsSettings = () => {
+export const NotificationsSettings = React.memo(() => {
 	const { t } = useContext(LocalizationContext);
 
 	const areSoundNotificationsEnabled = useSelector(areNotificationsEnabled);
@@ -23,6 +23,4 @@ const NotificationsSettings = () => {
 			/>
 		</div>
 	);
-};
-
-export default NotificationsSettings;
+});

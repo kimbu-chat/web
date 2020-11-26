@@ -17,7 +17,7 @@ namespace ForwardEntity {
 	}
 }
 
-const ForwardEntity = ({ changeSelectedState, chat, isSelected, onClick }: ForwardEntity.Props) => {
+export const ForwardEntity = React.memo(({ changeSelectedState, chat, isSelected, onClick }: ForwardEntity.Props) => {
 	const onClickOnThisContact = useCallback(() => {
 		if (onClick) {
 			onClick(chat);
@@ -48,6 +48,4 @@ const ForwardEntity = ({ changeSelectedState, chat, isSelected, onClick }: Forwa
 			</span>
 		</div>
 	);
-};
-
-export default ForwardEntity;
+});

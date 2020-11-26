@@ -15,7 +15,7 @@ import moment from 'moment';
 
 import { doesYearDifferFromCurrent, setSeparators } from 'utils/functions/set-separators';
 
-const ChatFiles = () => {
+export const ChatFiles = React.memo(() => {
 	const { t } = useContext(LocalizationContext);
 
 	const filesContainerRef = useRef<HTMLDivElement>(null);
@@ -90,6 +90,4 @@ const ChatFiles = () => {
 			</div>
 		</div>
 	);
-};
-
-export default ChatFiles;
+});

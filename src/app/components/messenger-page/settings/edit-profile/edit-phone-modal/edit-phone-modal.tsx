@@ -16,7 +16,7 @@ namespace EditPhoneModal {
 	}
 }
 
-const EditPhoneModal = ({ onClose }: EditPhoneModal.Props) => {
+export const EditPhoneModal = React.memo(({ onClose }: EditPhoneModal.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const currentNumber = useSelector((state: RootState) => state.myProfile.user?.phoneNumber);
@@ -104,6 +104,4 @@ const EditPhoneModal = ({ onClose }: EditPhoneModal.Props) => {
 			/>
 		</WithBackground>
 	);
-};
-
-export default EditPhoneModal;
+});

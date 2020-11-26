@@ -16,7 +16,7 @@ namespace PhoneInput {
 	}
 }
 
-const PhoneInput = React.forwardRef(
+export const PhoneInput = React.forwardRef(
 	({ country, phone, setPhone, displayCountries, sendSms }: PhoneInput.Props, ref: React.Ref<HTMLInputElement>) => {
 		const { t } = useContext(LocalizationContext);
 
@@ -43,5 +43,3 @@ const PhoneInput = React.forwardRef(
 		);
 	},
 );
-
-export default PhoneInput;

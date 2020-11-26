@@ -16,7 +16,7 @@ namespace ChatRecordingNS {
 	}
 }
 
-const ChatRecording: React.FC<ChatRecordingNS.Props> = ({ recording }) => {
+export const ChatRecording: React.FC<ChatRecordingNS.Props> = React.memo(({ recording }) => {
 	const audioRef = useRef<H5AudioPlayer>();
 	return (
 		<AudioPlayer
@@ -46,6 +46,4 @@ const ChatRecording: React.FC<ChatRecordingNS.Props> = ({ recording }) => {
 			}}
 		/>
 	);
-};
-
-export default ChatRecording;
+});

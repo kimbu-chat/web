@@ -15,7 +15,7 @@ namespace DeleteChatModal {
 	}
 }
 
-const DeleteChatModal = ({ hide }: DeleteChatModal.Props) => {
+export const DeleteChatModal = React.Memo(({ hide }: DeleteChatModal.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const selectedChat = useSelector(getSelectedChatSelector) as Chat;
@@ -56,6 +56,4 @@ const DeleteChatModal = ({ hide }: DeleteChatModal.Props) => {
 			/>
 		</WithBackground>
 	);
-};
-
-export default DeleteChatModal;
+});

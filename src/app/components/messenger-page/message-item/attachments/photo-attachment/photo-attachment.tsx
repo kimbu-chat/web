@@ -11,7 +11,7 @@ namespace PhotoAttachment {
 	}
 }
 
-const PhotoAttachment = ({ attachment }: PhotoAttachment.Props) => {
+export const PhotoAttachment = React.memo(({ attachment }: PhotoAttachment.Props) => {
 	const [bigPhotoDisplayed, setBigPhotoDisplayed] = useState(false);
 	const changeBigPhotoDisplayed = useCallback(() => setBigPhotoDisplayed((oldState) => !oldState), [
 		setBigPhotoDisplayed,
@@ -27,6 +27,4 @@ const PhotoAttachment = ({ attachment }: PhotoAttachment.Props) => {
 			</FadeAnimationWrapper>
 		</>
 	);
-};
-
-export default PhotoAttachment;
+});

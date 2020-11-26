@@ -17,7 +17,7 @@ namespace DeleteMessageModal {
 	}
 }
 
-const DeleteMessageModal: React.FC<DeleteMessageModal.Props> = ({ onClose, selectedMessages }) => {
+export const DeleteMessageModal: React.FC<DeleteMessageModal.Props> = React.memo(({ onClose, selectedMessages }) => {
 	const { t } = useContext(LocalizationContext);
 
 	const deleteMessage = useActionWithDispatch(MessageActions.deleteMessageSuccess);
@@ -90,6 +90,4 @@ const DeleteMessageModal: React.FC<DeleteMessageModal.Props> = ({ onClose, selec
 			/>
 		</WithBackground>
 	);
-};
-
-export default DeleteMessageModal;
+});

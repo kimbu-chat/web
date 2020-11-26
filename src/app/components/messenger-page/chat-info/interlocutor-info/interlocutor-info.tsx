@@ -11,7 +11,7 @@ import { parsePhoneNumber } from 'libphonenumber-js';
 import { LocalizationContext } from 'app/app';
 import { Link } from 'react-router-dom';
 
-const InterlocutorInfo = () => {
+export const InterlocutorInfo = React.memo(() => {
 	const { t } = useContext(LocalizationContext);
 
 	const selectedChat = useSelector(getSelectedChatSelector) as Chat;
@@ -66,6 +66,4 @@ const InterlocutorInfo = () => {
 			)}
 		</div>
 	);
-};
-
-export default InterlocutorInfo;
+});

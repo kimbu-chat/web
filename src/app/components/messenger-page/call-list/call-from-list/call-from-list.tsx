@@ -14,7 +14,7 @@ namespace CallFromList {
 	}
 }
 
-const CallFromList: React.FC<CallFromList.Props> = ({ call }) => {
+export const CallFromList: React.FC<CallFromList.Props> = ({ call }) => {
 	const { t } = useContext(LocalizationContext);
 
 	return (
@@ -40,5 +40,3 @@ const CallFromList: React.FC<CallFromList.Props> = ({ call }) => {
 		</div>
 	);
 };
-
-export default CallFromList;

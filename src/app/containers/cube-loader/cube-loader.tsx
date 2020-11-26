@@ -1,7 +1,7 @@
 import React from 'react';
 import './cube-loader.scss';
 
-const CubeLoader = () => {
+export const CubeLoader = React.memo(() => {
 	return (
 		<div id='cube-loader'>
 			<div className='caption'>
@@ -14,6 +14,4 @@ const CubeLoader = () => {
 			</div>
 		</div>
 	);
-};
-
-export default CubeLoader;
+});

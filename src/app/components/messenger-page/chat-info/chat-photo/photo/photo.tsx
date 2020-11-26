@@ -11,7 +11,7 @@ namespace PhotoNS {
 	}
 }
 
-const Photo: React.FC<PhotoNS.Props> = ({ photo }) => {
+export const Photo: React.FC<PhotoNS.Props> = React.memo(({ photo }) => {
 	const [bigPhotoDisplayed, setBigPhotoDisplayed] = useState(false);
 	const changeBigPhotoDisplayed = useCallback(() => setBigPhotoDisplayed((oldState) => !oldState), [
 		setBigPhotoDisplayed,
@@ -33,6 +33,4 @@ const Photo: React.FC<PhotoNS.Props> = ({ photo }) => {
 			</FadeAnimationWrapper>
 		</>
 	);
-};
-
-export default Photo;
+});

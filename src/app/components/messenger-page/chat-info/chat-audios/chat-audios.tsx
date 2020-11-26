@@ -14,7 +14,7 @@ import moment from 'moment';
 import { doesYearDifferFromCurrent, setSeparators } from 'utils/functions/set-separators';
 import MessageAudioAttachment from '../../shared/audio-attachment/audio-attachment';
 
-const ChatAudios = () => {
+export const ChatAudios = React.Memo(() => {
 	const { t } = useContext(LocalizationContext);
 
 	const selectedChat = useSelector(getSelectedChatSelector);
@@ -83,6 +83,4 @@ const ChatAudios = () => {
 			</div>
 		</div>
 	);
-};
-
-export default ChatAudios;
+});

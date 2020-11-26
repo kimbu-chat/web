@@ -25,7 +25,7 @@ namespace EditChatModal {
 	}
 }
 
-const EditChatModal = ({ onClose }: EditChatModal.Props) => {
+export const EditChatModal = React.memo(({ onClose }: EditChatModal.Props) => {
 	const selectedChat = useSelector(getSelectedChatSelector) as Chat;
 
 	const uploadGroupChatAvatar = useActionWithDeferred(MyProfileActions.uploadAvatarRequestAction);
@@ -198,6 +198,4 @@ const EditChatModal = ({ onClose }: EditChatModal.Props) => {
 			)}
 		</>
 	);
-};
-
-export default EditChatModal;
+});

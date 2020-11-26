@@ -40,7 +40,7 @@ namespace Message {
 	}
 }
 
-const MessageItem = ({ message }: Message.Props) => {
+export const MessageItem = React.memo(({ message }: Message.Props) => {
 	const currentUserId = useSelector(getMyIdSelector) as number;
 	const selectedChatId = useSelector(getSelectedChatSelector)?.id;
 	const isSelectState = useSelector(setSelectedMessagesLength) > 0;
@@ -182,6 +182,4 @@ const MessageItem = ({ message }: Message.Props) => {
 			</div>
 		</div>
 	);
-};
-
-export default React.memo(MessageItem);
+});

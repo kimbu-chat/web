@@ -19,7 +19,7 @@ namespace Modal {
 	}
 }
 
-const Modal = ({ title, contents, buttons, highlightedInContents, closeModal }: Modal.Props) => {
+export const Modal = React.memo(({ title, contents, buttons, highlightedInContents, closeModal }: Modal.Props) => {
 	const leftBtns: Modal.Button[] = [],
 		rightBtns: Modal.Button[] = [];
 
@@ -69,6 +69,4 @@ const Modal = ({ title, contents, buttons, highlightedInContents, closeModal }: 
 			</div>
 		</div>
 	);
-};
-
-export default Modal;
+});

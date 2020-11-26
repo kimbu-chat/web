@@ -39,7 +39,7 @@ namespace CreateMessageInput {
 	}
 }
 
-const CreateMessageInput = () => {
+export const CreateMessageInput = React.memo(() => {
 	const { t } = useContext(LocalizationContext);
 
 	const sendMessage = useActionWithDispatch(MessageActions.createMessage);
@@ -460,6 +460,4 @@ const CreateMessageInput = () => {
 			)}
 		</div>
 	);
-};
-
-export default React.memo(CreateMessageInput);
+});

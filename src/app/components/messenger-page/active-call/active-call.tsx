@@ -39,7 +39,7 @@ namespace IActiveCall {
 	}
 }
 
-const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
+export const ActiveCall = ReactDOM.createPortal(({ isDisplayed }: IActiveCall.Props) => {
 	const interlocutor = useSelector(getCallInterlocutorSelector);
 	const videoConstraints = useSelector((state: RootState) => state.calls.videoConstraints);
 	const audioConstraints = useSelector((state: RootState) => state.calls.audioConstraints);
@@ -392,13 +392,4 @@ const ActiveCall = ({ isDisplayed }: IActiveCall.Props) => {
 			</div>
 		</Rnd>
 	);
-};
-
-const ActiveCallPortal = (props: IActiveCall.Props) => {
-	return ReactDOM.createPortal(
-		<ActiveCall {...props} />,
-		document.getElementById('root') || document.createElement('div'),
-	);
-};
-
-export default ActiveCallPortal;
+}, document.getElementById('root') || document.createElement('div'));

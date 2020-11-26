@@ -13,7 +13,7 @@ import { useParams } from 'react-router';
 
 export const DIALOGS_LIMIT = 25;
 
-const ChatList = () => {
+export const ChatList = React.memo(() => {
 	const changeSelectedChat = useActionWithDispatch(ChatActions.changeSelectedChat);
 	const getChats = useActionWithDispatch(ChatActions.getChats);
 
@@ -90,6 +90,4 @@ const ChatList = () => {
 			})}
 		</div>
 	);
-};
-
-export default React.memo(ChatList);
+});

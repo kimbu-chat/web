@@ -11,7 +11,7 @@ namespace MediaGrid {
 	}
 }
 
-const MediaGrid: React.FC<MediaGrid.Props> = ({ media }) => {
+export const MediaGrid: React.FC<MediaGrid.Props> = React.memo(({ media }) => {
 	return (
 		<div className={`media-grid media-grid--${media.length === 1 ? 1 : media.length % 2 === 1 ? 'odd' : 'even'}`}>
 			{media.map((media) => {
@@ -23,6 +23,4 @@ const MediaGrid: React.FC<MediaGrid.Props> = ({ media }) => {
 			})}
 		</div>
 	);
-};
-
-export default MediaGrid;
+});

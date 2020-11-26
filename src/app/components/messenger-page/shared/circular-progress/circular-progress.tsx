@@ -9,7 +9,7 @@ namespace CircularProgress {
 	}
 }
 
-const CircularProgress: React.FC<CircularProgress.Props> = ({ progress }) => {
+export const CircularProgress: React.FC<CircularProgress.Props> = React.memo(({ progress }) => {
 	const progressSvgRef = useRef<SVGElement>(null);
 
 	useEffect(() => {
@@ -21,6 +21,4 @@ const CircularProgress: React.FC<CircularProgress.Props> = ({ progress }) => {
 	}, [progress, progressSvgRef]);
 
 	return <CircularProgressSVG ref={progressSvgRef} className={'circular-progress'} viewBox='0 0 25 25' />;
-};
-
-export default React.memo(CircularProgress);
+});

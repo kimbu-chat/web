@@ -19,7 +19,7 @@ import AcceptWithVideoSvg from 'icons/ic-video-call-filled.svg';
 import DeclineCallSvg from 'icons/ic-call-out.svg';
 import { LocalizationContext } from 'app/app';
 
-const IncomingCall = () => {
+export const IncomingCall =  ReactDOM.createPortal(() => {
 	const { t } = useContext(LocalizationContext);
 	const declineCallAction = useActionWithDispatch(CallActions.declineCallAction);
 	const acceptCall = useActionWithDispatch(CallActions.acceptCallAction);
@@ -107,10 +107,4 @@ const IncomingCall = () => {
 			</div>
 		</Rnd>
 	);
-};
-
-const IncomingCallPortal = () => {
-	return ReactDOM.createPortal(<IncomingCall />, document.getElementById('root') || document.createElement('div'));
-};
-
-export default IncomingCallPortal;
+}, document.getElementById('root') || document.createElement('div')));

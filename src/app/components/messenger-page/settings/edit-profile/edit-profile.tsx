@@ -21,7 +21,7 @@ import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/f
 import { AvatarSelectedData, UploadAvatarResponse } from 'store/my-profile/models';
 import { parsePhoneNumber } from 'libphonenumber-js';
 
-const EditProfile = () => {
+export const EditProfile = React.memo(() => {
 	const { t } = useContext(LocalizationContext);
 	const myProfile = useSelector(getMyProfileSelector);
 
@@ -172,6 +172,4 @@ const EditProfile = () => {
 			)}
 		</>
 	);
-};
-
-export default EditProfile;
+});

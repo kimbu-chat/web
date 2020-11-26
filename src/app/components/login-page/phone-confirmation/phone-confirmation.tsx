@@ -24,7 +24,7 @@ namespace PhoneConfirmation {
 	}
 }
 
-const PhoneConfirmation: React.FC<PhoneConfirmation.Props> = ({ preloadNext }) => {
+export const PhoneConfirmation: React.FC<PhoneConfirmation.Props> = ({ preloadNext }) => {
 	const { t } = useContext(LocalizationContext);
 
 	const history = useHistory();
@@ -161,5 +161,3 @@ const PhoneConfirmation: React.FC<PhoneConfirmation.Props> = ({ preloadNext }) =
 		</>
 	);
 };
-
-export default PhoneConfirmation;

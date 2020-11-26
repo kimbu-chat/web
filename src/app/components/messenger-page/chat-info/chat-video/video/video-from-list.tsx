@@ -12,7 +12,7 @@ namespace VideoNS {
 	}
 }
 
-const VideoFromList: React.FC<VideoNS.Props> = ({ video }) => {
+export const VideoFromList: React.FC<VideoNS.Props> = React.memo(({ video }) => {
 	const [videoPlayerDisplayed, setVideoPlayerDisplayed] = useState(false);
 	const changeVideoPlayerDisplayed = useCallback(() => setVideoPlayerDisplayed((oldState) => !oldState), [
 		setVideoPlayerDisplayed,
@@ -41,6 +41,4 @@ const VideoFromList: React.FC<VideoNS.Props> = ({ video }) => {
 			</FadeAnimationWrapper>
 		</React.Fragment>
 	);
-};
-
-export default VideoFromList;
+});

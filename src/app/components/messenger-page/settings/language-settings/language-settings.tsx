@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import RadioBox from '../shared/radio-box/radio-box';
 import './language-settings.scss';
 
-const LanguageSettings = () => {
+export const LanguageSettings = React.memo(() => {
 	const { i18n } = useContext(LocalizationContext);
 
 	const currentLanguage = useSelector(getCurrentLanguage);
@@ -44,6 +44,4 @@ const LanguageSettings = () => {
 			</form>
 		</div>
 	);
-};
-
-export default LanguageSettings;
+});

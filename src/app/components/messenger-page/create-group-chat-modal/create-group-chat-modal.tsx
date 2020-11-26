@@ -33,7 +33,7 @@ namespace ICreateGroupChatModal {
 	}
 }
 
-const CreateGroupChatModal = ({ onClose, preSelectedUserIds }: ICreateGroupChatModal.Props) => {
+export const CreateGroupChatModal = React.memo(({ onClose, preSelectedUserIds }: ICreateGroupChatModal.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const currentUser = useSelector<RootState, UserPreview | undefined>((state) => state.myProfile.user);
@@ -286,6 +286,4 @@ const CreateGroupChatModal = ({ onClose, preSelectedUserIds }: ICreateGroupChatM
 			)}
 		</>
 	);
-};
-
-export default CreateGroupChatModal;
+});

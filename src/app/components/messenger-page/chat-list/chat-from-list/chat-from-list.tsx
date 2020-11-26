@@ -26,7 +26,7 @@ namespace ChatFromList {
 	}
 }
 
-const ChatFromList = ({ chat }: ChatFromList.Props) => {
+export const ChatFromList = React.memo(({ chat }: ChatFromList.Props) => {
 	const { interlocutor, lastMessage, groupChat } = chat;
 	const { t } = useContext(LocalizationContext);
 	const currentUserId = useSelector(getMyIdSelector) as number;
@@ -126,6 +126,4 @@ const ChatFromList = ({ chat }: ChatFromList.Props) => {
 			</div>
 		</NavLink>
 	);
-};
-
-export default React.memo(ChatFromList);
+});

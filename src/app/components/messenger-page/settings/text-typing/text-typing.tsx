@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import RadioBox from '../shared/radio-box/radio-box';
 import './text-typing.scss';
 
-const TextTyping = () => {
+export const TextTyping = React.memo(() => {
 	const { t } = useContext(LocalizationContext);
 
 	const currentStrategy = useSelector(getTypingStrategy);
@@ -42,6 +42,4 @@ const TextTyping = () => {
 			</form>
 		</div>
 	);
-};
-
-export default TextTyping;
+});

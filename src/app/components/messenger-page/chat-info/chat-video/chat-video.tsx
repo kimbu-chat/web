@@ -25,7 +25,7 @@ namespace ChatVideo {
 	}
 }
 
-const ChatVideo = () => {
+export const ChatVideo = React.memo(() => {
 	const { t } = useContext(LocalizationContext);
 
 	const videoContainerRef = useRef<HTMLDivElement>(null);
@@ -91,6 +91,4 @@ const ChatVideo = () => {
 			</div>
 		</div>
 	);
-};
-
-export default ChatVideo;
+});

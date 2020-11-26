@@ -20,7 +20,7 @@ import BaseBtn from 'app/components/shared/base-btn/base-btn';
 import { AuthActions } from 'store/auth/actions';
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 
-const Settings = () => {
+export const Settings = React.memo(() => {
 	const { t } = useContext(LocalizationContext);
 
 	const logout = useActionWithDispatch(AuthActions.logout);
@@ -121,6 +121,4 @@ const Settings = () => {
 			</Route>
 		</>
 	);
-};
-
-export default Settings;
+});

@@ -12,13 +12,11 @@ namespace CheckBox {
 	}
 }
 
-const CheckBox = ({ isChecked, title, onClick, nestingLevel }: CheckBox.Props) => {
+export const CheckBox = React.memo(({ isChecked, title, onClick, nestingLevel }: CheckBox.Props) => {
 	return (
 		<div style={{ marginLeft: nestingLevel * 30 + 'px' }} onClick={onClick} className='check-box'>
 			<div className='check-box__check-box'>{isChecked && <CheckBoxSvg />}</div>
 			<span className='check-box__title'>{title}</span>
 		</div>
 	);
-};
-
-export default CheckBox;
+});

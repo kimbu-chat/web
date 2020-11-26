@@ -13,7 +13,7 @@ namespace AudioAttachmentNS {
 	}
 }
 
-const MessageAudioAttachment = ({ attachment }: AudioAttachmentNS.Props) => {
+export const MessageAudioAttachment = React.memo(({ attachment }: AudioAttachmentNS.Props) => {
 	const [isPlaying, setIsPlaying] = useState(false);
 
 	const audio = useRef<HTMLAudioElement | null>(null);
@@ -38,6 +38,4 @@ const MessageAudioAttachment = ({ attachment }: AudioAttachmentNS.Props) => {
 			</div>
 		</div>
 	);
-};
-
-export default MessageAudioAttachment;
+});

@@ -15,7 +15,7 @@ import { Link } from 'react-router-dom';
 import { getSelectedChatSelector } from 'store/chats/selectors';
 import { useSelector } from 'react-redux';
 
-const ChatMedia = () => {
+export const ChatMedia = React.memo(() => {
 	const { t } = useContext(LocalizationContext);
 	const selectedChat = useSelector(getSelectedChatSelector);
 
@@ -64,6 +64,4 @@ const ChatMedia = () => {
 			</button> */}
 		</div>
 	);
-};
-
-export default ChatMedia;
+});

@@ -14,7 +14,7 @@ namespace Dropdown {
 	}
 }
 
-const Dropdown = ({ selectedString, options, disabled }: Dropdown.Props) => {
+export const Dropdown = ({ selectedString, options, disabled }: Dropdown.Props) => {
 	const [optionsOpened, setOptionsOpened] = useState(false);
 	const changeOptionsOpenedStatus = useCallback(() => {
 		setOptionsOpened((oldState) => !oldState);
@@ -54,5 +54,3 @@ const Dropdown = ({ selectedString, options, disabled }: Dropdown.Props) => {
 		</div>
 	);
 };
-
-export default Dropdown;

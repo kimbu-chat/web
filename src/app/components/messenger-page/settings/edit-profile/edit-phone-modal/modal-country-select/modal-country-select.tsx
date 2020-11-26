@@ -13,7 +13,7 @@ namespace ModalCountrySelect {
 	}
 }
 
-const ModalCountrySelect = ({ country, handleCountryChange, setRef }: ModalCountrySelect.Props) => {
+const ModalCountrySelect = React.memo(({ country, handleCountryChange, setRef }: ModalCountrySelect.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const { getRootProps, getInputProps, getListboxProps, getOptionProps, groupedOptions, popupOpen } = useAutocomplete(
@@ -71,6 +71,4 @@ const ModalCountrySelect = ({ country, handleCountryChange, setRef }: ModalCount
 			</div>
 		</div>
 	);
-};
-
-export default ModalCountrySelect;
+});

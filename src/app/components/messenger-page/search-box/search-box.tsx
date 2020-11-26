@@ -8,7 +8,7 @@ namespace SearchBox {
 	}
 }
 
-const SearchBox = ({ onChange }: SearchBox.Props) => {
+export const SearchBox = React.memo(({ onChange }: SearchBox.Props) => {
 	return (
 		<div className={`search-box__input-wrapper `}>
 			<input onChange={onChange} placeholder='   ' type='text' className='search-box__input' />
@@ -18,6 +18,4 @@ const SearchBox = ({ onChange }: SearchBox.Props) => {
 			</div>
 		</div>
 	);
-};
-
-export default SearchBox;
+});

@@ -19,7 +19,7 @@ namespace ForwardModal {
 	}
 }
 
-const ForwardModal = ({ onClose }: ForwardModal.Props) => {
+export const ForwardModal = React.memo(({ onClose }: ForwardModal.Props) => {
 	const { t } = useContext(LocalizationContext);
 	const chats = useSelector<RootState, Chat[]>((rootState) => rootState.chats.chats);
 	const [selectedChatIds, setSelectedChatIds] = useState<number[]>([]);
@@ -90,6 +90,4 @@ const ForwardModal = ({ onClose }: ForwardModal.Props) => {
 			/>
 		</WithBackground>
 	);
-};
-
-export default ForwardModal;
+});

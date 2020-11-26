@@ -11,7 +11,7 @@ namespace RadioBox {
 	}
 }
 
-const RadioBox = ({ defaultChecked, groupName, title, onClick, nestingLevel }: RadioBox.Props) => {
+export const RadioBox = React.memo(({ defaultChecked, groupName, title, onClick, nestingLevel }: RadioBox.Props) => {
 	return (
 		<label style={{ marginLeft: nestingLevel * 30 + 'px' }} onClick={onClick} className='radio-box'>
 			<input defaultChecked={defaultChecked} name={groupName} className={`radio-box__radio-input`} type='radio' />
@@ -20,6 +20,4 @@ const RadioBox = ({ defaultChecked, groupName, title, onClick, nestingLevel }: R
 			<span className='radio-box__title'>{title}</span>
 		</label>
 	);
-};
-
-export default RadioBox;
+});

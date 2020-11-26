@@ -17,7 +17,7 @@ namespace Member {
 	}
 }
 
-const Member = ({ member }: Member.Props) => {
+export const Member = React.memo(({ member }: Member.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	return (
@@ -48,6 +48,4 @@ const Member = ({ member }: Member.Props) => {
 			</h3>
 		</div>
 	);
-};
-
-export default React.memo(Member);
+});

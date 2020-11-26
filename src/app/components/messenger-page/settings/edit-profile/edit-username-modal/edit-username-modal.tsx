@@ -17,7 +17,7 @@ namespace EditUserNameModal {
 	}
 }
 
-const EditUserNameModal = ({ onClose }: EditUserNameModal.Props) => {
+export const EditUserNameModal = React.memo(({ onClose }: EditUserNameModal.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const [isNickNameAvailable, setIsNickNameAvailable] = useState(true);
@@ -103,6 +103,4 @@ const EditUserNameModal = ({ onClose }: EditUserNameModal.Props) => {
 			/>
 		</WithBackground>
 	);
-};
-
-export default EditUserNameModal;
+});

@@ -18,7 +18,7 @@ import { AttachmentCreation } from 'store/messages/models';
 import { useGlobalDrop } from 'utils/hooks/use-drop';
 import useReferState from 'app/utils/hooks/use-referred-state';
 
-const EditMessage = () => {
+export const EditMessage = React.memo(() => {
 	const { t } = useContext(LocalizationContext);
 
 	const uploadAttachmentRequest = useActionWithDispatch(ChatActions.uploadAttachmentRequestAction);
@@ -284,6 +284,4 @@ const EditMessage = () => {
 			)}
 		</div>
 	);
-};
-
-export default EditMessage;
+});

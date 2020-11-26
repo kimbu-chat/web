@@ -6,7 +6,7 @@ import './not-found.scss';
 import SadSmilePNG from 'icons/sad-emoji.png';
 import NotFoundBackgroundPNG from 'icons/404-bg.png';
 
-const NotFound = () => {
+export const NotFound = React.memo(() => {
 	const { t } = useContext(LocalizationContext);
 
 	return (
@@ -24,6 +24,4 @@ const NotFound = () => {
 			</div>
 		</div>
 	);
-};
-
-export default NotFound;
+});

@@ -9,7 +9,7 @@ import SettingsSvg from 'icons/ic-settings.svg';
 import { getSelectedChatSelector } from 'store/chats/selectors';
 import { useSelector } from 'react-redux';
 
-const RoutingChats = () => {
+export const RoutingChats = React.memo(() => {
 	const selectedChatId = useSelector(getSelectedChatSelector)?.id;
 	const location = useLocation();
 
@@ -59,6 +59,4 @@ const RoutingChats = () => {
 			</NavLink>
 		</div>
 	);
-};
-
-export default React.memo(RoutingChats);
+});

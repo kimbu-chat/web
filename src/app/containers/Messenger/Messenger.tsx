@@ -34,7 +34,7 @@ export namespace Messenger {
 	}
 }
 
-const Messenger = () => {
+export const Messenger = React.memo(() => {
 	const { t } = useContext(LocalizationContext);
 
 	const amICalled = useSelector(isCallingMe);
@@ -145,6 +145,4 @@ const Messenger = () => {
 			</Route>
 		</div>
 	);
-};
-
-export default React.memo(Messenger);
+});

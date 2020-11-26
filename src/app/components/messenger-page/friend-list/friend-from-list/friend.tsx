@@ -15,7 +15,7 @@ namespace Friend {
 	}
 }
 
-const Friend = ({ friend }: Friend.Props) => {
+export const Friend = React.memo(({ friend }: Friend.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	return (
@@ -44,6 +44,4 @@ const Friend = ({ friend }: Friend.Props) => {
 			</div>
 		</NavLink>
 	);
-};
-
-export default Friend;
+});

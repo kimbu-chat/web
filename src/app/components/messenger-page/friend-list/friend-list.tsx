@@ -12,7 +12,7 @@ import { useParams } from 'react-router';
 import Friend from './friend-from-list/friend';
 import './friend-list.scss';
 
-const FriendList = () => {
+export const FriendList = React.memo(() => {
 	const friends = useSelector<RootState, UserPreview[]>((state) => state.friends.friends);
 	const hasMoreFriends = useSelector<RootState, boolean>((state) => state.friends.hasMoreFriends);
 	const listRef = useRef<HTMLDivElement>(null);
@@ -62,6 +62,4 @@ const FriendList = () => {
 			</InfiniteScroll>
 		</div>
 	);
-};
-
-export default FriendList;
+});

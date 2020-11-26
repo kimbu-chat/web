@@ -27,13 +27,17 @@ export const CallFromList: React.FC<CallFromList.Props> = ({ call }) => {
 			</Avatar>
 			<div className='call-from-list__data'>
 				<div
-					className={`call-from-list__name`}
+					className={`call-from-list__name ${
+						call.status === CallStatus.Missed ? 'call-from-list__name--missed' : ''
+					}`}
 				>{`${call.userInterlocutor.firstName} ${call.userInterlocutor.lastName}`}</div>
 				<div className='call-from-list__type'>
 					{call.status === CallStatus.Cancelled && t('callFromList.canceled')}
 					{call.status === CallStatus.Declined && t('callFromList.declined')}
 					{call.status === CallStatus.Successfull && t('callFromList.incoming')}
 					{call.status === CallStatus.Successfull && t('callFromList.outgoing')}
+					{call.status === CallStatus.Missed && t('callFromList.missed')}
+					{call.status === CallStatus.NotAnswered && t('callFromList.notAnswered')}
 				</div>
 			</div>
 			<div className='call-from-list__day'>{moment(call.callDateTime).format('DD.MM.YYYY')}</div>

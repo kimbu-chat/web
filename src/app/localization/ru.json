@@ -187,7 +187,9 @@
 		"outgoing": "Исходящий",
 		"incoming": "Входящий",
 		"canceled": "Отказан",
-		"declined": "Отменённ"
+		"declined": "Отменён",
+		"missed": "Пропущен",
+		"notAnswered": "Без ответа"
 	},
 	"systemMessage": {
 		"you_created_group": "Вы создали группу",

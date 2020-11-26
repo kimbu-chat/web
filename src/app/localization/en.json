@@ -186,7 +186,9 @@
 		"outgoing": "Outgoing",
 		"incoming": "Incoming",
 		"canceled": "Canceled",
-		"declined": "Declined"
+		"declined": "Declined",
+		"missed": "Missed",
+		"notAnswered": "Not Answered"
 	},
 	"systemMessage": {
 		"you_created_group": "You created group",

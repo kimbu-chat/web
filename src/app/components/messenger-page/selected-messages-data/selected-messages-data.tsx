@@ -6,11 +6,11 @@ import { getSelectedChatSelector } from 'store/chats/selectors';
 import { MessageActions } from 'store/messages/actions';
 import { RootState } from 'store/root-reducer';
 import { LocalizationContext } from 'app/app';
-import ForwardModal from '../forward-modal/forward-modal';
-import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
-import DeleteMessageModal from './delete-message-modal/delete-message-modal';
 
-const SelectedMessagesData = () => {
+import { FadeAnimationWrapper, ForwardModal } from 'components';
+import { DeleteMessageModal } from './delete-message-modal/delete-message-modal';
+
+export const SelectedMessagesData = React.memo(() => {
 	const selectedMessages = useSelector((state: RootState) => state.messages.selectedMessageIds);
 	const selectedMessagesCount = selectedMessages.length;
 	const selectedChat = useSelector(getSelectedChatSelector);
@@ -103,6 +103,4 @@ const SelectedMessagesData = () => {
 			</FadeAnimationWrapper>
 		</div>
 	);
-};
-
-export default SelectedMessagesData;
+});

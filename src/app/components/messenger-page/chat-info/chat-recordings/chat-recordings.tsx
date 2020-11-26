@@ -4,7 +4,7 @@ import './chat-recordings.scss';
 import ReturnSvg from 'icons/ic-arrow-left.svg';
 import { Link } from 'react-router-dom';
 import { LocalizationContext } from 'app/app';
-import ChatRecording from './chat-recording/chat-recording';
+import { ChatRecording } from './chat-recording/chat-recording';
 import { useSelector } from 'react-redux';
 import { getSelectedChatSelector } from 'store/chats/selectors';
 import { ChatActions } from 'store/chats/actions';
@@ -14,7 +14,7 @@ import moment from 'moment';
 
 import { doesYearDifferFromCurrent, setSeparators } from 'utils/functions/set-separators';
 
-const ChatRecordings = () => {
+export const ChatRecordings = React.memo(() => {
 	const { t } = useContext(LocalizationContext);
 	const selectedChat = useSelector(getSelectedChatSelector);
 	const recordings = selectedChat!.recordings;
@@ -80,6 +80,4 @@ const ChatRecordings = () => {
 			</div>
 		</div>
 	);
-};
-
-export default ChatRecordings;
+});

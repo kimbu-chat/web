@@ -2,29 +2,30 @@ import React, { useContext } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
 import './messenger.scss';
 
-import SearchTop from '../../components/messenger-page/search-top/search-top';
-import ChatData from '../../components/messenger-page/chat-data/chat-data';
-
-import ChatList from '../../components/messenger-page/chat-list/chat-list';
-import Chat from '../../components/messenger-page/chat/chat';
-import CreateMessageInput from '../../components/messenger-page/message-input/message-input';
-import ChatInfo from '../../components/messenger-page/chat-info/chat-info';
-import InternetError from 'app/components/shared/internet-error/internet-error';
-import IncomingCall from 'messenger_components/incoming-call/incoming-call';
-import ActiveCall from 'messenger_components/active-call/active-call';
-import RoutingChats from 'messenger_components/routing-chats/routing-chats';
+import {
+	EditMessage,
+	SettingsHeader,
+	FriendList,
+	Settings,
+	CallList,
+	RoutingChats,
+	ActiveCall,
+	IncomingCall,
+	InternetError,
+	ChatInfo,
+	CreateMessageInput,
+	Chat,
+	ChatList,
+	ChatData,
+	SearchTop,
+} from 'components';
 
 import { AvatarSelectedData } from 'store/my-profile/models';
 import { useSelector } from 'react-redux';
 import { isCallingMe, amICaling, doIhaveCall } from 'store/calls/selectors';
-import CallList from 'messenger_components/call-list/call-list';
-import Settings from 'messenger_components/settings/settings';
 import { CSSTransition } from 'react-transition-group';
-import SettingsHeader from 'messenger_components/settings/settings-header';
 import { LocalizationContext } from 'app/app';
-import FriendList from 'messenger_components/friend-list/friend-list';
 import { getSelectedChatSelector } from 'store/chats/selectors';
-import EditMessage from 'messenger_components/message-input/edit-message/edit-message';
 import { RootState } from 'store/root-reducer';
 
 export namespace Messenger {
@@ -34,7 +35,7 @@ export namespace Messenger {
 	}
 }
 
-const Messenger = () => {
+const Messenger = React.memo(() => {
 	const { t } = useContext(LocalizationContext);
 
 	const amICalled = useSelector(isCallingMe);
@@ -145,6 +146,6 @@ const Messenger = () => {
 			</Route>
 		</div>
 	);
-};
+});
 
-export default React.memo(Messenger);
+export default Messenger;

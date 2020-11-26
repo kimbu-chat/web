@@ -34,16 +34,7 @@ module.exports = {
 		'import/no-unresolved': [
 			'error',
 			{
-				ignore: [
-					'@app',
-					'@icons',
-					'@store',
-					'@sounds',
-					'@utils',
-					'@shared_components',
-					'@messenger_components',
-					'@login_components',
-				],
+				ignore: ['@app', '@icons', '@store', '@sounds', '@utils', '@components'],
 			},
 		], // ignore import with @app & .
 		'max-len': ['error', 140], // change max length for a line to 120

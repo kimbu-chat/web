@@ -12,7 +12,7 @@ namespace MessageSmiles {
 	}
 }
 
-const MessageSmiles = ({ setText }: MessageSmiles.Props) => {
+export const MessageSmiles = React.memo(({ setText }: MessageSmiles.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const [smilesDisplayed, setSmilesDisplayed] = useState(false);
@@ -76,6 +76,4 @@ const MessageSmiles = ({ setText }: MessageSmiles.Props) => {
 			)}
 		</>
 	);
-};
-
-export default MessageSmiles;
+});

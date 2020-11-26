@@ -7,18 +7,18 @@ import { MessageActions } from 'store/messages/actions';
 import { RootState } from 'store/root-reducer';
 import { LocalizationContext } from 'app/app';
 import { getSelectedChatSelector, getTypingString } from 'store/chats/selectors';
-import MessageItem from '../message-item/message-item';
+import { MessageItem } from '../message-item/message-item';
 import InfiniteScroll from 'react-infinite-scroller';
-import SelectedMessagesData from '../selected-messages-data/selected-messages-data';
+import { SelectedMessagesData } from '../selected-messages-data/selected-messages-data';
 import { setSelectedMessagesLength } from 'store/messages/selectors';
 import { MessageUtils } from 'utils/functions/message-utils';
 import moment from 'moment';
-import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
+import { FadeAnimationWrapper } from 'components';
 import { ChatActions } from 'store/chats/actions';
 
 export const MESSAGES_LIMIT = 25;
 
-const Chat = () => {
+export const Chat = React.memo(() => {
 	const getMessages = useActionWithDispatch(MessageActions.getMessages);
 	const markMessagesAsRead = useActionWithDispatch(ChatActions.markMessagesAsRead);
 
@@ -143,6 +143,4 @@ const Chat = () => {
 			</div>
 		</div>
 	);
-};
-
-export default React.memo(Chat);
+});

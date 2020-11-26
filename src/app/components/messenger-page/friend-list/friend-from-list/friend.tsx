@@ -1,5 +1,5 @@
 import { LocalizationContext } from 'app/app';
-import Avatar from 'app/components/shared/avatar/avatar';
+import { Avatar } from 'components';
 import { ChatId } from 'store/chats/chat-id';
 import { UserStatus } from 'store/friends/models';
 import { UserPreview } from 'store/my-profile/models';
@@ -15,7 +15,7 @@ namespace Friend {
 	}
 }
 
-const Friend = ({ friend }: Friend.Props) => {
+export const Friend = React.memo(({ friend }: Friend.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	return (
@@ -44,6 +44,4 @@ const Friend = ({ friend }: Friend.Props) => {
 			</div>
 		</NavLink>
 	);
-};
-
-export default Friend;
+});

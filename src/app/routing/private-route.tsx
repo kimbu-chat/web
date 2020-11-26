@@ -11,7 +11,7 @@ namespace PublicRoute {
 	}
 }
 
-function PublicRoute({ Component, path, isAllowed = true, ...rest }: PublicRoute.Props) {
+export const PublicRoute = React.memo(({ Component, path, isAllowed = true, ...rest }: PublicRoute.Props) => {
 	const isAuthenticated = useSelector<RootState, boolean>((rootState) => rootState.auth.isAuthenticated);
 	return (
 		<Route
@@ -31,6 +31,4 @@ function PublicRoute({ Component, path, isAllowed = true, ...rest }: PublicRoute
 			}
 		/>
 	);
-}
-
-export default PublicRoute;
+});

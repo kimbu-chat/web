@@ -3,17 +3,17 @@ import './video-attachment.scss';
 
 import PlaySvg from 'icons/ic-play.svg';
 import moment from 'moment';
-import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
-import VideoPlayer from '../../../shared/video-player/video-player';
+import { FadeAnimationWrapper } from 'components';
+import { VideoPlayer } from '../../../shared/video-player/video-player';
 import { VideoAttachment } from 'store/chats/models';
 
-namespace VideoAttachmentNS {
+namespace MessageVideoAttachmentNS {
 	export interface Props {
 		attachment: VideoAttachment;
 	}
 }
 
-const MessageVideoAttachment = ({ attachment }: VideoAttachmentNS.Props) => {
+export const MessageVideoAttachment = React.memo(({ attachment }: MessageVideoAttachmentNS.Props) => {
 	const [videoPlayerDisplayed, setVideoPlayerDisplayed] = useState(false);
 	const changeVideoPlayerDisplayed = useCallback(() => setVideoPlayerDisplayed((oldState) => !oldState), [
 		setVideoPlayerDisplayed,
@@ -34,6 +34,4 @@ const MessageVideoAttachment = ({ attachment }: VideoAttachmentNS.Props) => {
 			</FadeAnimationWrapper>
 		</>
 	);
-};
-
-export default MessageVideoAttachment;
+});

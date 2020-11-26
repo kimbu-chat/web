@@ -14,7 +14,7 @@ namespace FileAttachment {
 	}
 }
 
-const FileAttachment = ({ attachment }: FileAttachment.Props) => {
+export const FileAttachment = React.memo(({ attachment }: FileAttachment.Props) => {
 	const [isDownloading, setIsDownloading] = useState(false);
 	const [downloaded, setDownloaded] = useState(0);
 
@@ -66,6 +66,4 @@ const FileAttachment = ({ attachment }: FileAttachment.Props) => {
 			</div>
 		</div>
 	);
-};
-
-export default FileAttachment;
+});

@@ -10,15 +10,15 @@ import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import { getSelectedChatSelector } from 'store/chats/selectors';
 import { MessageActions } from 'store/messages/actions';
 import { setSelectedMessagesLength } from 'store/messages/selectors';
-import Avatar from 'app/components/shared/avatar/avatar';
+import { Avatar } from 'components';
 import { getUserInitials } from 'utils/functions/interlocutor-name-utils';
 import { UserPreview } from 'store/my-profile/models';
 import moment from 'moment';
 
-import FileAttachment from '../shared/file-attachment/file-attachment';
-import MessageAudioAttachment from '../shared/audio-attachment/audio-attachment';
-import RecordingAttachment from './attachments/recording-attachment/recording-attachment';
-import MediaGrid from './attachments/media-grid/media-grid';
+import { FileAttachment } from '../shared/file-attachment/file-attachment';
+import { MessageAudioAttachment } from '../shared/audio-attachment/audio-attachment';
+import { RecordingAttachment } from './attachments/recording-attachment/recording-attachment';
+import { MediaGrid } from './attachments/media-grid/media-grid';
 
 import MessageQeuedSvg from 'icons/ic-time.svg';
 import MessageSentSvg from 'icons/ic-tick.svg';
@@ -40,7 +40,7 @@ namespace Message {
 	}
 }
 
-const MessageItem = ({ message }: Message.Props) => {
+export const MessageItem = React.memo(({ message }: Message.Props) => {
 	const currentUserId = useSelector(getMyIdSelector) as number;
 	const selectedChatId = useSelector(getSelectedChatSelector)?.id;
 	const isSelectState = useSelector(setSelectedMessagesLength) > 0;
@@ -182,6 +182,4 @@ const MessageItem = ({ message }: Message.Props) => {
 			</div>
 		</div>
 	);
-};
-
-export default React.memo(MessageItem);
+});

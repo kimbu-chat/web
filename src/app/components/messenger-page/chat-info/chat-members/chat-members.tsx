@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './chat-members.scss';
-import Member from './chat-member/chat-member';
+import { Member } from './chat-member/chat-member';
 import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import { Chat } from 'store/chats/models';
@@ -8,9 +8,9 @@ import { ChatActions } from 'store/chats/actions';
 import { getSelectedChatSelector } from 'store/chats/selectors';
 import { UserPreview } from 'store/my-profile/models';
 import { RootState } from 'store/root-reducer';
+import { SearchBox } from '../../search-box/search-box';
 
 import AddSvg from 'icons/ic-add-new.svg';
-import SearchBox from '../../search-box/search-box';
 
 namespace ChatMembers {
 	export interface Props {
@@ -18,7 +18,7 @@ namespace ChatMembers {
 	}
 }
 
-const ChatMembers = ({ addMembers }: ChatMembers.Props) => {
+export const ChatMembers = React.memo(({ addMembers }: ChatMembers.Props) => {
 	const [searchStr, setSearchStr] = useState<string>('');
 
 	const getGroupChatUsers = useActionWithDispatch(ChatActions.getGroupChatUsers);
@@ -77,6 +77,4 @@ const ChatMembers = ({ addMembers }: ChatMembers.Props) => {
 			</div>
 		</div>
 	);
-};
-
-export default React.memo(ChatMembers);
+});

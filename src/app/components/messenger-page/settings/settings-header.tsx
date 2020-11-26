@@ -9,7 +9,7 @@ namespace SettingsHeader {
 	}
 }
 
-const SettingsHeader = ({ title }: SettingsHeader.Props) => {
+export const SettingsHeader = React.memo(({ title }: SettingsHeader.Props) => {
 	const location = useLocation();
 
 	return (
@@ -26,6 +26,4 @@ const SettingsHeader = ({ title }: SettingsHeader.Props) => {
 			<div className='settings__title'>{title}</div>
 		</div>
 	);
-};
-
-export default SettingsHeader;
+});

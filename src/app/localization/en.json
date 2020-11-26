@@ -65,6 +65,13 @@
 		"confirm": "Delete",
 		"cancel": "Cancel"
 	},
+	"deleteMessageModal": {
+		"delete-confirmation": "Are you sure you want to delete {{count}} message?",
+		"delete-confirmation_plural": "Are you sure you want to delete {{count}} messages?",
+		"delete-confirm": "Delete",
+		"cancel": "Cancel",
+		"delete-for": "Delete for {{name}}"
+	},
 	"chatPhoto": {
 		"photo": "Photo"
 	},
@@ -88,9 +95,7 @@
 		"reply": "Reply",
 		"edit": "Edit",
 		"copy": "Copy",
-		"cancel": "Cancel",
-		"deleteConfirmation": "Are you sure you want to delete {{count}} message?",
-		"deleteConfirmation_plural": "Are you sure you want to delete {{count}} messages?"
+		"cancel": "Cancel"
 	},
 	"notFound": {
 		"back": "BACK TO HOMEPAGE",
@@ -186,7 +191,9 @@
 		"outgoing": "Outgoing",
 		"incoming": "Incoming",
 		"canceled": "Canceled",
-		"declined": "Declined"
+		"declined": "Declined",
+		"missed": "Missed",
+		"notAnswered": "Not Answered"
 	},
 	"systemMessage": {
 		"you_created_group": "You created group",

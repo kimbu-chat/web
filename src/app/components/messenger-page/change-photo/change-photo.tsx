@@ -9,10 +9,8 @@ import CloseSVG from 'icons/ic-close.svg';
 
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
-import WithBackground from 'app/components/shared/with-background';
+import { WithBackground, BaseBtn } from 'components';
 import { stopPropagation } from 'utils/functions/stop-propagation';
-import BaseBtn from 'app/components/shared/base-btn/base-btn';
-
 namespace ChangePhoto {
 	export interface Props {
 		imageUrl: string;
@@ -53,7 +51,7 @@ function generateDownload(image?: HTMLImageElement, crop?: ReactCrop.Crop): stri
 	return canvas.toDataURL('image/png');
 }
 
-const ChangePhotoComponent = ({ imageUrl, onSubmit, hideChangePhoto }: ChangePhoto.Props) => {
+export const ChangePhoto = ({ imageUrl, onSubmit, hideChangePhoto }: ChangePhoto.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const imgRef = useRef<HTMLImageElement>();
@@ -119,7 +117,7 @@ const ChangePhotoComponent = ({ imageUrl, onSubmit, hideChangePhoto }: ChangePho
 		return false;
 	}, []);
 
-	return (
+	return ReactDOM.createPortal(
 		<WithBackground onBackgroundClick={hideChangePhoto}>
 			<div onClick={stopPropagation}>
 				<CloseSVG onClick={hideChangePhoto} className='change-photo__close' viewBox='0 0 25 25' />
@@ -180,15 +178,7 @@ const ChangePhotoComponent = ({ imageUrl, onSubmit, hideChangePhoto }: ChangePho
 					</div>
 				</div>
 			</div>
-		</WithBackground>
-	);
-};
-
-const ChangePhotoPortal = (props: ChangePhoto.Props) => {
-	return ReactDOM.createPortal(
-		<ChangePhotoComponent {...props} />,
+		</WithBackground>,
 		document.getElementById('root') || document.createElement('div'),
 	);
 };
-
-export default React.memo(ChangePhotoPortal);

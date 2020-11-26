@@ -1,12 +1,12 @@
 import { LocalizationContext } from 'app/app';
-import BaseBtn from 'app/components/shared/base-btn/base-btn';
+import { BaseBtn } from 'components';
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import './not-found.scss';
 import SadSmilePNG from 'icons/sad-emoji.png';
 import NotFoundBackgroundPNG from 'icons/404-bg.png';
 
-const NotFound = () => {
+const NotFound = React.memo(() => {
 	const { t } = useContext(LocalizationContext);
 
 	return (
@@ -24,6 +24,6 @@ const NotFound = () => {
 			</div>
 		</div>
 	);
-};
+});
 
 export default NotFound;

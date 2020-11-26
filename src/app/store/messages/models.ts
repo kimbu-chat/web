@@ -182,3 +182,7 @@ export interface MessageEdited {
 	text: string;
 	userEditorId: number;
 }
+
+export interface DeleteMessagesApiReq {
+	ids: number[];
+}

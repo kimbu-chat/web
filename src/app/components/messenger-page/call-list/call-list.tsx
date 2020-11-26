@@ -4,11 +4,11 @@ import './call-list.scss';
 import { RootState } from 'store/root-reducer';
 import InfiniteScroll from 'react-infinite-scroller';
 import { useSelector } from 'react-redux';
-import CallFromList from './call-from-list/call-from-list';
+import { CallFromList } from './call-from-list/call-from-list';
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import { CallActions } from 'store/calls/actions';
 
-const CallList = () => {
+export const CallList = () => {
 	const calls = useSelector((state: RootState) => state.calls);
 	const callListRef = useRef<HTMLDivElement>(null);
 
@@ -61,5 +61,3 @@ const CallList = () => {
 		</div>
 	);
 };
-
-export default CallList;

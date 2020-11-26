@@ -11,7 +11,7 @@ import { history } from '../../../../main';
 import moment from 'moment';
 import { parsePhoneNumber } from 'libphonenumber-js';
 import ResendSvg from 'icons/ic-resend.svg';
-import BaseBtn from 'app/components/shared/base-btn/base-btn';
+import { BaseBtn } from 'components';
 
 const NUMBER_OF_DIGITS = [0, 1, 2, 3];
 

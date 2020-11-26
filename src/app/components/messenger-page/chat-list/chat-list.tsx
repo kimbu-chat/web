@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, useRef } from 'react';
 import './chat-list.scss';
 
-import ChatFromList from './chat-from-list/chat-from-list';
+import { ChatFromList } from './chat-from-list/chat-from-list';
 import InfiniteScroll from 'react-infinite-scroller';
 
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
@@ -13,7 +13,7 @@ import { useParams } from 'react-router';
 
 export const DIALOGS_LIMIT = 25;
 
-const ChatList = () => {
+export const ChatList = React.memo(() => {
 	const changeSelectedChat = useActionWithDispatch(ChatActions.changeSelectedChat);
 	const getChats = useActionWithDispatch(ChatActions.getChats);
 
@@ -90,6 +90,4 @@ const ChatList = () => {
 			})}
 		</div>
 	);
-};
-
-export default React.memo(ChatList);
+});

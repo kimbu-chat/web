@@ -10,7 +10,7 @@ namespace PrivateRoute {
 	}
 }
 
-function PrivateRoute({ Component, path, fallback, isAllowed, ...rest }: PrivateRoute.Props) {
+export const PrivateRoute = React.memo(({ Component, path, fallback, isAllowed, ...rest }: PrivateRoute.Props) => {
 	return (
 		<Route
 			path={path}
@@ -29,6 +29,4 @@ function PrivateRoute({ Component, path, fallback, isAllowed, ...rest }: Private
 			}
 		/>
 	);
-}
-
-export default PrivateRoute;
+});

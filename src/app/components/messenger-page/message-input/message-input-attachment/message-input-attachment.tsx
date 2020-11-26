@@ -28,93 +28,92 @@ namespace MessageInputAttachment {
 	}
 }
 
-const MessageInputAttachment: React.FC<MessageInputAttachment.Props> = ({
-	attachment,
-	isFromEdit,
-	removeSelectedAttachment,
-}) => {
-	const selectedChatId = useSelector(getSelectedChatIdSelector);
-	const removeAttachment = useActionWithDispatch(ChatActions.removeAttachmentAction);
+export const MessageInputAttachment: React.FC<MessageInputAttachment.Props> = React.memo(
+	({ attachment, isFromEdit, removeSelectedAttachment }) => {
+		const selectedChatId = useSelector(getSelectedChatIdSelector);
+		const removeAttachment = useActionWithDispatch(ChatActions.removeAttachmentAction);
 
-	const [previewUrl, setPreviewUr] = useState<string>('');
+		const [previewUrl, setPreviewUr] = useState<string>('');
 
-	const removeThisAttachment = useCallback(() => {
-		if (removeSelectedAttachment) {
-			removeSelectedAttachment({
-				type: attachment.attachment.type,
-				id: attachment.attachment.id,
+		const removeThisAttachment = useCallback(() => {
+			if (removeSelectedAttachment) {
+				removeSelectedAttachment({
+					type: attachment.attachment.type,
+					id: attachment.attachment.id,
+				});
+			}
+
+			removeAttachment({
+				chatId: selectedChatId!,
+				attachmentId: attachment.attachment.id,
 			});
-		}
+		}, [selectedChatId, attachment.attachment.id]);
 
-		removeAttachment({
-			chatId: selectedChatId!,
-			attachmentId: attachment.attachment.id,
-		});
-	}, [selectedChatId, attachment.attachment.id]);
+		useEffect(() => {
+			if (attachment.attachment.type === FileType.picture && !isFromEdit) {
+				var reader = new FileReader();
 
-	useEffect(() => {
-		if (attachment.attachment.type === FileType.picture && !isFromEdit) {
-			var reader = new FileReader();
+				reader.onload = function (e) {
+					setPreviewUr(e.target?.result as string);
+				};
 
-			reader.onload = function (e) {
-				setPreviewUr(e.target?.result as string);
-			};
+				reader.readAsDataURL(attachment.file);
+			}
+		}, [setPreviewUr, isFromEdit]);
 
-			reader.readAsDataURL(attachment.file);
-		}
-	}, [setPreviewUr, isFromEdit]);
-
-	return (
-		<div
-			style={{
-				backgroundColor: `${
-					attachment.success
-						? 'rgba(50, 168, 82, 0.4)'
-						: attachment.failure
-						? 'rgba(168, 50, 83, 0,4)'
-						: ' rgba(63, 138, 224, 0.1)'
-				}`,
-			}}
-			className='message-input-attachment'
-		>
-			<div className='message-input-attachment__icon'>
-				{attachment.attachment.type === FileType.raw && <FileSVG viewBox='0 0 25 25' />}
-				{attachment.attachment.type === FileType.video && (
-					<>
-						<img
-							src={(attachment.attachment as VideoAttachment).firstFrameUrl}
-							alt=''
-							className='message-input-attachment__bg'
-						/>
-						<VideoSVG viewBox='0 0 25 25' />
-					</>
-				)}
-				{attachment.attachment.type === FileType.voice && <MicrophoneSVG viewBox='0 0 25 25' />}
-				{attachment.attachment.type === FileType.picture && (
-					<>
-						<img
-							src={(attachment.attachment as PictureAttachment).previewUrl || previewUrl}
-							alt=''
-							className='message-input-attachment__bg'
-						/>
-						<PhotoSVG viewBox='0 0 25 25' />
-					</>
-				)}
-				{attachment.attachment.type === FileType.audio && <PlaySVG viewBox='0 0 25 25' />}
-			</div>
-			<div className='message-input-attachment__progress-container'>
-				<div style={{ width: `${attachment.progress}%` }} className='message-input-attachment__progress'></div>
-			</div>
-			{(attachment.attachment.type === FileType.audio || attachment.attachment.type === FileType.raw) && (
-				<div className='message-input-attachment__title'>
-					{attachment.fileName || (attachment.attachment as RawAttachment).title}
+		return (
+			<div
+				style={{
+					backgroundColor: `${
+						attachment.success
+							? 'rgba(50, 168, 82, 0.4)'
+							: attachment.failure
+							? 'rgba(168, 50, 83, 0,4)'
+							: ' rgba(63, 138, 224, 0.1)'
+					}`,
+				}}
+				className='message-input-attachment'
+			>
+				<div className='message-input-attachment__icon'>
+					{attachment.attachment.type === FileType.raw && <FileSVG viewBox='0 0 25 25' />}
+					{attachment.attachment.type === FileType.video && (
+						<>
+							<img
+								src={(attachment.attachment as VideoAttachment).firstFrameUrl}
+								alt=''
+								className='message-input-attachment__bg'
+							/>
+							<VideoSVG viewBox='0 0 25 25' />
+						</>
+					)}
+					{attachment.attachment.type === FileType.voice && <MicrophoneSVG viewBox='0 0 25 25' />}
+					{attachment.attachment.type === FileType.picture && (
+						<>
+							<img
+								src={(attachment.attachment as PictureAttachment).previewUrl || previewUrl}
+								alt=''
+								className='message-input-attachment__bg'
+							/>
+							<PhotoSVG viewBox='0 0 25 25' />
+						</>
+					)}
+					{attachment.attachment.type === FileType.audio && <PlaySVG viewBox='0 0 25 25' />}
 				</div>
-			)}
-			<button onClick={removeThisAttachment} className='message-input-attachment__close'>
-				<CloseSVG viewBox='0 0 25 25' />
-			</button>
-		</div>
-	);
-};
-
-export default MessageInputAttachment;
+				<div className='message-input-attachment__progress-container'>
+					<div
+						style={{ width: `${attachment.progress}%` }}
+						className='message-input-attachment__progress'
+					></div>
+				</div>
+				{(attachment.attachment.type === FileType.audio || attachment.attachment.type === FileType.raw) && (
+					<div className='message-input-attachment__title'>
+						{attachment.fileName || (attachment.attachment as RawAttachment).title}
+					</div>
+				)}
+				<button onClick={removeThisAttachment} className='message-input-attachment__close'>
+					<CloseSVG viewBox='0 0 25 25' />
+				</button>
+			</div>
+		);
+	},
+);

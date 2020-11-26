@@ -1,12 +1,11 @@
-import Modal from 'app/components/shared/modal/modal';
-import WithBackground from 'app/components/shared/with-background';
+import { Modal, WithBackground } from 'components';
 import { RootState } from 'store/root-reducer';
 import React, { useCallback, useContext } from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import './group-chat-add-friend-modal.scss';
-import SearchBox from '../search-box/search-box';
-import FriendFromList from '../shared/friend-from-list/friend-from-list';
+import { SearchBox } from '../search-box/search-box';
+import { FriendFromList } from '../shared/friend-from-list/friend-from-list';
 import { Chat } from 'store/chats/models';
 import { ChatActions } from 'store/chats/actions';
 import { useActionWithDeferred } from 'utils/hooks/use-action-with-deferred';
@@ -21,7 +20,7 @@ namespace GroupChatAddFriendModal {
 	}
 }
 
-const GroupChatAddFriendModal = ({ onClose }: GroupChatAddFriendModal.Props) => {
+export const GroupChatAddFriendModal = React.memo(({ onClose }: GroupChatAddFriendModal.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const [selectedUserIds, setselectedUserIds] = useState<number[]>([]);
@@ -100,6 +99,4 @@ const GroupChatAddFriendModal = ({ onClose }: GroupChatAddFriendModal.Props) => 
 			/>
 		</WithBackground>
 	);
-};
-
-export default GroupChatAddFriendModal;
+});

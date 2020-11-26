@@ -4,7 +4,7 @@ import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import { CallActions } from 'store/calls/actions';
 import { useSelector } from 'react-redux';
 import { getCallInterlocutorSelector } from 'store/calls/selectors';
-import Avatar from 'app/components/shared/avatar/avatar';
+import { Avatar } from 'components';
 import { getUserInitials } from 'utils/functions/interlocutor-name-utils';
 
 //sounds
@@ -19,7 +19,7 @@ import AcceptWithVideoSvg from 'icons/ic-video-call-filled.svg';
 import DeclineCallSvg from 'icons/ic-call-out.svg';
 import { LocalizationContext } from 'app/app';
 
-const IncomingCall = () => {
+export const IncomingCall: React.FC = () => {
 	const { t } = useContext(LocalizationContext);
 	const declineCallAction = useActionWithDispatch(CallActions.declineCallAction);
 	const acceptCall = useActionWithDispatch(CallActions.acceptCallAction);
@@ -64,7 +64,7 @@ const IncomingCall = () => {
 		});
 	}, []);
 
-	return (
+	return ReactDOM.createPortal(
 		<Rnd
 			default={{
 				x: 20,
@@ -105,12 +105,7 @@ const IncomingCall = () => {
 					</button>
 				</div>
 			</div>
-		</Rnd>
+		</Rnd>,
+		document.getElementById('root') || document.createElement('div'),
 	);
 };
-
-const IncomingCallPortal = () => {
-	return ReactDOM.createPortal(<IncomingCall />, document.getElementById('root') || document.createElement('div'));
-};
-
-export default IncomingCallPortal;

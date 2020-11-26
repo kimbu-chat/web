@@ -1,5 +1,4 @@
-import Modal from 'app/components/shared/modal/modal';
-import WithBackground from 'app/components/shared/with-background';
+import { Modal, WithBackground } from 'components';
 import { getSelectedChatSelector } from 'store/chats/selectors';
 import React, { useCallback, useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -17,10 +16,10 @@ namespace DeleteMessageModal {
 	}
 }
 
-const DeleteMessageModal: React.FC<DeleteMessageModal.Props> = ({ onClose, selectedMessages }) => {
+export const DeleteMessageModal: React.FC<DeleteMessageModal.Props> = React.memo(({ onClose, selectedMessages }) => {
 	const { t } = useContext(LocalizationContext);
 
-	const deleteMessage = useActionWithDispatch(MessageActions.deleteMessageSuccess);
+	const deleteMessage = useActionWithDispatch(MessageActions.deleteMessage);
 
 	const [deleteForInterlocutor, setDeleteForInterlocutor] = useState(false);
 	const changeDeleteForInterlocutorState = useCallback(() => {
@@ -32,6 +31,7 @@ const DeleteMessageModal: React.FC<DeleteMessageModal.Props> = ({ onClose, selec
 
 	const deleteTheseMessages = useCallback(() => {
 		deleteMessage({ chatId: selectedChatId as number, messageIds: selectedMessages });
+		onClose();
 	}, [selectedChatId, selectedMessages]);
 
 	return (
@@ -41,7 +41,7 @@ const DeleteMessageModal: React.FC<DeleteMessageModal.Props> = ({ onClose, selec
 				contents={
 					<div>
 						<div className=''>
-							{t('selectedMessagesData.deleteConfirmation', { count: selectedMessages.length })
+							{t('deleteMessageModal.delete-confirmation', { count: selectedMessages.length })
 								.split(selectedMessages.length + '')
 								.map((text, index, arr) => (
 									<React.Fragment key={index}>
@@ -58,18 +58,22 @@ const DeleteMessageModal: React.FC<DeleteMessageModal.Props> = ({ onClose, selec
 							<button className={`delete-message-modal__btn`} onClick={changeDeleteForInterlocutorState}>
 								{deleteForInterlocutor && <CheckBoxSvg />}
 							</button>
-							<span className='delete-message-modal__btn-description'>{`Delete for ${
-								selectedChat?.interlocutor
-									? selectedChat?.interlocutor?.firstName + ' ' + selectedChat?.interlocutor?.lastName
-									: selectedChat?.groupChat?.name
-							}`}</span>
+							<span className='delete-message-modal__btn-description'>
+								{t('deleteMessageModal.delete-for', {
+									name: selectedChat?.interlocutor
+										? selectedChat?.interlocutor?.firstName +
+										  ' ' +
+										  selectedChat?.interlocutor?.lastName
+										: selectedChat?.groupChat?.name,
+								})}
+							</span>
 						</div>
 					</div>
 				}
 				closeModal={onClose}
 				buttons={[
 					{
-						children: t('chatInfo.confirm'),
+						children: t('deleteMessageModal.delete-confirm'),
 						className: 'delete-message-modal__confirm-btn',
 						onClick: deleteTheseMessages,
 						position: 'left',
@@ -78,7 +82,7 @@ const DeleteMessageModal: React.FC<DeleteMessageModal.Props> = ({ onClose, selec
 						color: 'secondary',
 					},
 					{
-						children: t('chatInfo.cancel'),
+						children: t('deleteMessageModal.cancel'),
 						className: 'delete-message-modal__cancel-btn',
 						onClick: onClose,
 						position: 'left',
@@ -90,6 +94,4 @@ const DeleteMessageModal: React.FC<DeleteMessageModal.Props> = ({ onClose, selec
 			/>
 		</WithBackground>
 	);
-};
-
-export default DeleteMessageModal;
+});

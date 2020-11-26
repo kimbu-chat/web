@@ -5,7 +5,7 @@ import './chat-member.scss';
 
 import { UserPreview } from 'store/my-profile/models';
 import { LocalizationContext } from 'app/app';
-import Avatar from 'app/components/shared/avatar/avatar';
+import { Avatar } from 'components';
 import { getUserInitials } from 'utils/functions/interlocutor-name-utils';
 import { UserStatus } from 'store/friends/models';
 
@@ -17,7 +17,7 @@ namespace Member {
 	}
 }
 
-const Member = ({ member }: Member.Props) => {
+export const Member = React.memo(({ member }: Member.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	return (
@@ -48,6 +48,4 @@ const Member = ({ member }: Member.Props) => {
 			</h3>
 		</div>
 	);
-};
-
-export default React.memo(Member);
+});

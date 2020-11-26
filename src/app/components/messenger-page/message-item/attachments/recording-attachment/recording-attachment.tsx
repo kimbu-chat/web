@@ -16,7 +16,7 @@ namespace RecordingAttachmentNS {
 	}
 }
 
-const MessageRecordingAttachment = ({ attachment }: RecordingAttachmentNS.Props) => {
+export const RecordingAttachment = React.memo(({ attachment }: RecordingAttachmentNS.Props) => {
 	const audioRef = useRef<H5AudioPlayer>();
 	return (
 		<div className='recording-attachment'>
@@ -48,6 +48,4 @@ const MessageRecordingAttachment = ({ attachment }: RecordingAttachmentNS.Props)
 			/>
 		</div>
 	);
-};
-
-export default MessageRecordingAttachment;
+});

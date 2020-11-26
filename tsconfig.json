@@ -23,11 +23,8 @@
 			"store/*": ["./app/store/*"],
 			"sounds/*": ["./app/assets/sounds/*"],
 			"utils/*": ["./app/utils/*"],
-			"shared_components/*": ["./app/components/shared/*"],
-			"messenger_components/*": ["./app/components/messenger-page/*"],
-			"login_components/*": ["./app/components/login-page/*"]
+			"components": ["./app/components"]
 		},
-		"skipLibCheck": true,
 		"allowSyntheticDefaultImports": true
 	},
 	"exclude": ["build", "node_modules"]

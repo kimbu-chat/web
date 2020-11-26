@@ -1,7 +1,6 @@
 import React, { useCallback, useContext, useState, useRef, useEffect, lazy, Suspense } from 'react';
 import './phone-confirmation.scss';
-import CountrySelect from './components/country-select/country-select';
-import PhoneInput from './components/phone-input/phone-input';
+import { CountrySelect, PhoneInput, BaseBtn, WithBackground, FadeAnimationWrapper } from 'components';
 import { Country, countryList } from 'app/common/countries';
 import { LocalizationContext } from 'app/app';
 import { useActionWithDeferred } from 'utils/hooks/use-action-with-deferred';
@@ -10,11 +9,8 @@ import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/root-reducer';
 import { useHistory } from 'react-router';
-import BaseBtn from 'app/components/shared/base-btn/base-btn';
 import { getCountryByIp } from 'utils/functions/get-country-by-ip';
-import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
-import WithBackground from 'app/components/shared/with-background';
-import CubeLoader from 'app/containers/cube-loader/cube-loader';
+import { CubeLoader } from 'app/containers/cube-loader/cube-loader';
 
 const PrivacyPolicy = lazy(() => import('app/components/shared/privacy-policy/privacy-policy'));
 

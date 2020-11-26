@@ -10,12 +10,12 @@ import { getSelectedChatSelector } from 'store/chats/selectors';
 import { Page } from 'store/common/models';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Link, useLocation } from 'react-router-dom';
-import FileAttachment from '../../shared/file-attachment/file-attachment';
+import { FileAttachment } from '../../shared/file-attachment/file-attachment';
 import moment from 'moment';
 
 import { doesYearDifferFromCurrent, setSeparators } from 'utils/functions/set-separators';
 
-const ChatFiles = () => {
+export const ChatFiles = React.memo(() => {
 	const { t } = useContext(LocalizationContext);
 
 	const filesContainerRef = useRef<HTMLDivElement>(null);
@@ -90,6 +90,4 @@ const ChatFiles = () => {
 			</div>
 		</div>
 	);
-};
-
-export default ChatFiles;
+});

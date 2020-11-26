@@ -2,7 +2,7 @@ import React from 'react';
 import { getUserInitials } from 'utils/functions/interlocutor-name-utils';
 import { UserPreview } from 'store/my-profile/models';
 import { UserStatus } from 'store/friends/models';
-import Avatar from '../avatar/avatar';
+import { Avatar } from '../avatar/avatar';
 
 import './status-badge.scss';
 
@@ -14,7 +14,7 @@ namespace StatusBadge {
 	}
 }
 
-const StatusBadge = ({ user, additionalClassNames, containerClassName }: StatusBadge.Props) => {
+export const StatusBadge = React.memo(({ user, additionalClassNames, containerClassName }: StatusBadge.Props) => {
 	if (user?.status === UserStatus.Online) {
 		return (
 			<div className={`status-badge ${containerClassName}`}>
@@ -34,6 +34,4 @@ const StatusBadge = ({ user, additionalClassNames, containerClassName }: StatusB
 			</div>
 		);
 	}
-};
-
-export default StatusBadge;
+});

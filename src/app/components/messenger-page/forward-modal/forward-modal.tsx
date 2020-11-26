@@ -1,16 +1,15 @@
-import Modal from 'app/components/shared/modal/modal';
-import WithBackground from 'app/components/shared/with-background';
+import { Modal, WithBackground } from 'components';
 import { RootState } from 'store/root-reducer';
 import React, { useCallback, useContext } from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import './forward-modal.scss';
-import SearchBox from '../search-box/search-box';
+import { SearchBox } from '../search-box/search-box';
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import { LocalizationContext } from 'app/app';
 import { ChatActions } from 'store/chats/actions';
 import { Chat } from 'store/chats/models';
-import ForwardEntity from './forward-entity/forward-entity';
+import { ForwardEntity } from './forward-entity/forward-entity';
 
 namespace ForwardModal {
 	export interface Props {
@@ -19,7 +18,7 @@ namespace ForwardModal {
 	}
 }
 
-const ForwardModal = ({ onClose }: ForwardModal.Props) => {
+export const ForwardModal = React.memo(({ onClose }: ForwardModal.Props) => {
 	const { t } = useContext(LocalizationContext);
 	const chats = useSelector<RootState, Chat[]>((rootState) => rootState.chats.chats);
 	const [selectedChatIds, setSelectedChatIds] = useState<number[]>([]);
@@ -90,6 +89,4 @@ const ForwardModal = ({ onClose }: ForwardModal.Props) => {
 			/>
 		</WithBackground>
 	);
-};
-
-export default ForwardModal;
+});

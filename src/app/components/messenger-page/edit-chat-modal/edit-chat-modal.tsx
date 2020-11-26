@@ -1,22 +1,18 @@
 import React, { useCallback, useRef } from 'react';
 import './edit-chat-modal.scss';
 
-import Modal from 'app/components/shared/modal/modal';
-import WithBackground from 'app/components/shared/with-background';
+import { Modal, WithBackground, ChangePhoto, Avatar, CircularProgress } from 'components';
 
 import CloseSVG from 'icons/ic-close.svg';
-import ChangePhoto from 'messenger_components/change-photo/change-photo';
 import { AvatarSelectedData, UploadAvatarResponse } from 'store/my-profile/models';
 import { useState } from 'react';
 import { Chat, EditGroupChatReqData } from 'store/chats/models';
 import { getSelectedChatSelector } from 'store/chats/selectors';
 import { useSelector } from 'react-redux';
-import Avatar from 'app/components/shared/avatar/avatar';
 import { getInterlocutorInitials } from 'utils/functions/interlocutor-name-utils';
 import { ChatActions } from 'store/chats/actions';
 import { useActionWithDeferred } from 'utils/hooks/use-action-with-deferred';
 import { MyProfileActions } from 'store/my-profile/actions';
-import CircularProgress from 'messenger_components/shared/circular-progress/circular-progress';
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 
 namespace EditChatModal {
@@ -25,7 +21,7 @@ namespace EditChatModal {
 	}
 }
 
-const EditChatModal = ({ onClose }: EditChatModal.Props) => {
+export const EditChatModal = React.memo(({ onClose }: EditChatModal.Props) => {
 	const selectedChat = useSelector(getSelectedChatSelector) as Chat;
 
 	const uploadGroupChatAvatar = useActionWithDeferred(MyProfileActions.uploadAvatarRequestAction);
@@ -198,6 +194,4 @@ const EditChatModal = ({ onClose }: EditChatModal.Props) => {
 			)}
 		</>
 	);
-};
-
-export default EditChatModal;
+});

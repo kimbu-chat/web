@@ -1,8 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import PlaySvg from 'icons/ic-play.svg';
 import moment from 'moment';
-import VideoPlayer from 'messenger_components/shared/video-player/video-player';
-import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
+import { FadeAnimationWrapper, VideoPlayer } from 'components';
 import { IGroupable, VideoAttachment } from 'store/chats/models';
 import { doesYearDifferFromCurrent } from 'utils/functions/set-separators';
 
@@ -12,7 +11,7 @@ namespace VideoNS {
 	}
 }
 
-const VideoFromList: React.FC<VideoNS.Props> = ({ video }) => {
+export const VideoFromList: React.FC<VideoNS.Props> = React.memo(({ video }) => {
 	const [videoPlayerDisplayed, setVideoPlayerDisplayed] = useState(false);
 	const changeVideoPlayerDisplayed = useCallback(() => setVideoPlayerDisplayed((oldState) => !oldState), [
 		setVideoPlayerDisplayed,
@@ -41,6 +40,4 @@ const VideoFromList: React.FC<VideoNS.Props> = ({ video }) => {
 			</FadeAnimationWrapper>
 		</React.Fragment>
 	);
-};
-
-export default VideoFromList;
+});

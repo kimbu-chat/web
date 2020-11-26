@@ -15,9 +15,8 @@ import DeleteSvg from 'icons/ic-delete.svg';
 import LeaveSvg from 'icons/ic-leave-chat.svg';
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import { FriendActions } from 'store/friends/actions';
-import DeleteChatModal from './delete-chat-modal/delete-chat-modal';
-import CreateGroupChat from '../../create-group-chat-modal/create-group-chat-modal';
-import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
+import { DeleteChatModal } from './delete-chat-modal/delete-chat-modal';
+import { CreateGroupChat, FadeAnimationWrapper } from 'components';
 import PeopleSvg from 'icons/ic-group.svg';
 
 namespace ChatActions {
@@ -26,7 +25,7 @@ namespace ChatActions {
 	}
 }
 
-const ChatActions = ({ addMembers }: ChatActions.Props) => {
+export const ChatActions = React.memo(({ addMembers }: ChatActions.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const [leaveGroupChatModalOpened, setLeaveGroupChatModalOpened] = useState<boolean>(false);
@@ -153,6 +152,4 @@ const ChatActions = ({ addMembers }: ChatActions.Props) => {
 			)}
 		</div>
 	);
-};
-
-export default React.memo(ChatActions);
+});

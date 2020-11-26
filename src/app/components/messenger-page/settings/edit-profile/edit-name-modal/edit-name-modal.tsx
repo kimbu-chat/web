@@ -1,6 +1,5 @@
 import { LocalizationContext } from 'app/app';
-import Modal from 'app/components/shared/modal/modal';
-import WithBackground from 'app/components/shared/with-background';
+import { Modal, WithBackground } from 'components';
 import { MyProfileActions } from 'store/my-profile/actions';
 import { getMyProfileSelector } from 'store/my-profile/selectors';
 import { useActionWithDeferred } from 'utils/hooks/use-action-with-deferred';
@@ -14,7 +13,7 @@ namespace EditNameModal {
 	}
 }
 
-const EditNameModal = ({ onClose }: EditNameModal.Props) => {
+export const EditNameModal = React.memo(({ onClose }: EditNameModal.Props) => {
 	const myProfile = useSelector(getMyProfileSelector);
 
 	const { t } = useContext(LocalizationContext);
@@ -85,6 +84,4 @@ const EditNameModal = ({ onClose }: EditNameModal.Props) => {
 			/>
 		</WithBackground>
 	);
-};
-
-export default EditNameModal;
+});

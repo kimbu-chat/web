@@ -1,4 +1,4 @@
-import { BackgroundBlur } from 'app/components/shared/with-background';
+import { BackgroundBlur } from 'components';
 import React from 'react';
 import CloseSVG from 'icons/ic-close.svg';
 
@@ -12,13 +12,11 @@ namespace BigPhoto {
 	}
 }
 
-const BigPhoto: React.FC<BigPhoto.Props> = ({ url, onClose }) => {
+export const BigPhoto: React.FC<BigPhoto.Props> = React.memo(({ url, onClose }) => {
 	return (
 		<BackgroundBlur onClick={onClose}>
 			<img onClick={stopPropagation} src={url} alt='' className='big-photo' />
 			<CloseSVG className='big-photo__close' viewBox='0 0 25 25' />
 		</BackgroundBlur>
 	);
-};
-
-export default BigPhoto;
+});

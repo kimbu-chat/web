@@ -8,7 +8,7 @@ import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import Mousetrap from 'mousetrap';
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import MessageInputAttachment from '../message-input-attachment/message-input-attachment';
+import { MessageInputAttachment } from '../message-input-attachment/message-input-attachment';
 import AddSvg from 'icons/ic-add-new.svg';
 import './edit-message.scss';
 import { LocalizationContext } from 'app/app';
@@ -17,8 +17,9 @@ import { AttachmentToSend, BaseAttachment, Chat } from 'store/chats/models';
 import { AttachmentCreation } from 'store/messages/models';
 import { useGlobalDrop } from 'utils/hooks/use-drop';
 import useReferState from 'app/utils/hooks/use-referred-state';
+import { ExpandingTextarea } from '../expanding-textarea/expanding-textarea';
 
-const EditMessage = () => {
+export const EditMessage = React.memo(() => {
 	const { t } = useContext(LocalizationContext);
 
 	const uploadAttachmentRequest = useActionWithDispatch(ChatActions.uploadAttachmentRequestAction);
@@ -32,11 +33,9 @@ const EditMessage = () => {
 	const referredNewText = useReferState(newText);
 	const [removedAttachments, setRemovedAttachments] = useState<AttachmentCreation[]>([]);
 	const referredRemovedAttachments = useReferState(removedAttachments);
-	const [rows, setRows] = useState(1);
 	const [isDraggingOver, setIsDraggingOver] = useState(false);
 	const [isDragging, setIsDragging] = useState(false);
 
-	const mainInputRef = useRef<HTMLTextAreaElement>(null);
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const updatedSelectedChat = useRef<Chat | undefined>();
 
@@ -51,33 +50,11 @@ const EditMessage = () => {
 		[setRemovedAttachments],
 	);
 
-	useEffect(() => {
-		const minRows = 1;
-		const maxRows = 20;
-		const textareaLineHeight = 18;
-		const previousRows = mainInputRef.current?.rows;
-
-		mainInputRef.current!.rows = minRows;
-
-		const currentRows = ~~(mainInputRef.current!.scrollHeight / textareaLineHeight);
-
-		if (currentRows === previousRows) {
-			mainInputRef.current!.rows = currentRows;
-		}
-
-		if (currentRows >= maxRows) {
-			mainInputRef.current!.rows = maxRows;
-			mainInputRef.current!.scrollTop = mainInputRef.current!.scrollHeight;
-		}
-
-		setRows(currentRows < maxRows ? currentRows : maxRows);
-	}, [newText, mainInputRef]);
-
 	const onType = useCallback(
 		(event) => {
 			setNewText(event.target.value);
 		},
-		[setNewText, setRows],
+		[setNewText],
 	);
 
 	const onPaste = useCallback(
@@ -265,9 +242,7 @@ const EditMessage = () => {
 					</button>
 
 					<div className='message-input__input-group'>
-						<textarea
-							rows={rows}
-							ref={mainInputRef}
+						<ExpandingTextarea
 							placeholder={t('messageInput.write')}
 							value={newText}
 							onChange={onType}
@@ -284,6 +259,4 @@ const EditMessage = () => {
 			)}
 		</div>
 	);
-};
-
-export default EditMessage;
+});

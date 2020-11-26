@@ -1,5 +1,4 @@
-import BigPhoto from 'messenger_components/shared/big-photo/big-photo';
-import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
+import { BigPhoto, FadeAnimationWrapper } from 'components';
 import { IGroupable, PictureAttachment } from 'store/chats/models';
 import { doesYearDifferFromCurrent } from 'utils/functions/set-separators';
 import moment from 'moment';
@@ -11,7 +10,7 @@ namespace PhotoNS {
 	}
 }
 
-const Photo: React.FC<PhotoNS.Props> = ({ photo }) => {
+export const Photo: React.FC<PhotoNS.Props> = React.memo(({ photo }) => {
 	const [bigPhotoDisplayed, setBigPhotoDisplayed] = useState(false);
 	const changeBigPhotoDisplayed = useCallback(() => setBigPhotoDisplayed((oldState) => !oldState), [
 		setBigPhotoDisplayed,
@@ -33,6 +32,4 @@ const Photo: React.FC<PhotoNS.Props> = ({ photo }) => {
 			</FadeAnimationWrapper>
 		</>
 	);
-};
-
-export default Photo;
+});

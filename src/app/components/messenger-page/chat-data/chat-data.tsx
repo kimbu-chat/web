@@ -10,7 +10,7 @@ import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import { CallActions } from 'store/calls/actions';
 import { UserPreview } from 'store/my-profile/models';
 import { UserStatus } from 'store/friends/models';
-import Avatar from 'app/components/shared/avatar/avatar';
+import { Avatar } from 'components';
 
 import VoiceCallSvg from 'icons/ic-call.svg';
 import VideoCallSvg from 'icons/ic-video-call.svg';
@@ -18,7 +18,7 @@ import ChatSearchSvg from 'icons/ic-search.svg';
 import ChatInfoSvg from 'icons/ic-info.svg';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 
-const ChatData = () => {
+export const ChatData = React.memo(() => {
 	const { t } = useContext(LocalizationContext);
 	const selectedChat = useSelector(getSelectedChatSelector);
 	const callInterlocutor = useActionWithDispatch(CallActions.outgoingCallAction);
@@ -121,6 +121,4 @@ const ChatData = () => {
 			</div>
 		);
 	} else return <div className='chat-data__chat-data'></div>;
-};
-
-export default React.memo(ChatData);
+});

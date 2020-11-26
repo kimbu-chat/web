@@ -34,12 +34,10 @@ namespace WithBackground {
 	}
 }
 
-const WithBackground = ({ children, onBackgroundClick }: WithBackground.Props) => {
+export const WithBackground = React.memo(({ children, onBackgroundClick }: WithBackground.Props) => {
 	return (
 		<React.Fragment>
 			<BackgroundBlur onClick={onBackgroundClick}>{children}</BackgroundBlur>
 		</React.Fragment>
 	);
-};
-
-export default WithBackground;
+});

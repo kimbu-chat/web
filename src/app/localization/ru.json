@@ -66,6 +66,14 @@
 		"confirm": "Покинуть",
 		"cancel": "Отмена"
 	},
+	"deleteMessageModal": {
+		"delete-confirmation_0": "Вы уверенны что хотите удалить {{count}} сообщение?",
+		"delete-confirmation_1": "Вы уверенны что хотите удалить {{count}} сообщения?",
+		"delete-confirmation": "Вы уверенны что хотите удалить {{count}} сообщений?",
+		"delete-confirm": "Удалить",
+		"cancel": "Отмена",
+		"delete-for": "Удалить для {{name}}"
+	},
 	"chatPhoto": {
 		"photo": "Фото"
 	},
@@ -89,10 +97,7 @@
 		"reply": "Ответить",
 		"edit": "Редактировать",
 		"copy": "Копировать",
-		"cancel": "Отмена",
-		"deleteConfirmation_0": "Вы уверенны что хотите удалить {{count}} сообщение?",
-		"deleteConfirmation_1": "Вы уверенны что хотите удалить {{count}} сообщения?",
-		"deleteConfirmation": "Вы уверенны что хотите удалить {{count}} сообщений?"
+		"cancel": "Отмена"
 	},
 	"notFound": {
 		"back": "НАЗАД НА ГЛАВНУЮ СТРАНИЦУ",
@@ -187,7 +192,9 @@
 		"outgoing": "Исходящий",
 		"incoming": "Входящий",
 		"canceled": "Отказан",
-		"declined": "Отменённ"
+		"declined": "Отменён",
+		"missed": "Пропущен",
+		"notAnswered": "Без ответа"
 	},
 	"systemMessage": {
 		"you_created_group": "Вы создали группу",

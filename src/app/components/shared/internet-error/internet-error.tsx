@@ -4,7 +4,7 @@ import { getInternetStateSelector } from 'store/internet/selectors';
 
 import './internet-error.scss';
 
-const InternetError = () => {
+export const InternetError = React.memo(() => {
 	const internetState = useSelector(getInternetStateSelector);
 	return (
 		<React.Fragment>
@@ -17,6 +17,4 @@ const InternetError = () => {
 			)}
 		</React.Fragment>
 	);
-};
-
-export default InternetError;
+});

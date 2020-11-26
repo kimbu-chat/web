@@ -15,20 +15,21 @@ import VoiceSvg from 'icons/ic-microphone.svg';
 import moment from 'moment';
 import { useEffect } from 'react';
 import { getMyProfileSelector } from 'store/my-profile/selectors';
-import MessageSmiles from './message-smiles/message-smiles';
+import { MessageSmiles } from './message-smiles/message-smiles';
 import Mousetrap from 'mousetrap';
 import { getTypingStrategy } from 'store/settings/selectors';
 import { typingStrategy } from 'store/settings/models';
 import { ChatActions } from 'store/chats/actions';
-import MessageInputAttachment from './message-input-attachment/message-input-attachment';
+import { MessageInputAttachment } from './message-input-attachment/message-input-attachment';
 import useOnClickOutside from 'utils/hooks/use-on-click-outside';
 import { getFileType } from 'utils/functions/get-file-extension';
-import RespondingMessage from 'messenger_components/responding-message/responding-message';
+import { RespondingMessage } from 'components';
 import { RootState } from 'store/root-reducer';
 import { Chat } from 'store/chats/models';
 import { useGlobalDrop } from 'utils/hooks/use-drop';
 import useReferState from 'utils/hooks/use-referred-state';
 import { throttle } from 'lodash';
+import { ExpandingTextarea } from './expanding-textarea/expanding-textarea';
 
 namespace CreateMessageInput {
 	export interface RecordedData {
@@ -39,7 +40,7 @@ namespace CreateMessageInput {
 	}
 }
 
-const CreateMessageInput = () => {
+export const CreateMessageInput = React.memo(() => {
 	const { t } = useContext(LocalizationContext);
 
 	const sendMessage = useActionWithDispatch(MessageActions.createMessage);
@@ -58,10 +59,8 @@ const CreateMessageInput = () => {
 	const [isDraggingOver, setIsDraggingOver] = useState(false);
 	const [isDragging, setIsDragging] = useState(false);
 	const [recordedSeconds, setRecordedSeconds] = useState(0);
-	const [rows, setRows] = useState(1);
 
 	const fileInputRef = useRef<HTMLInputElement>(null);
-	const mainInputRef = useRef<HTMLTextAreaElement>(null);
 	const registerAudioBtnRef = useRef<HTMLButtonElement>(null);
 	const recorderData = useRef<CreateMessageInput.RecordedData>({
 		mediaRecorder: null,
@@ -97,32 +96,6 @@ const CreateMessageInput = () => {
 		setText((oldText) => (typeof selectedChat?.draftMessage === 'string' ? selectedChat?.draftMessage : oldText));
 	}, [selectedChat?.id, setText]);
 
-	useEffect(() => {
-		if (mainInputRef.current) {
-			{
-				const minRows = 1;
-				const maxRows = 20;
-				const textareaLineHeight = 18;
-				const previousRows = mainInputRef.current?.rows;
-
-				mainInputRef.current.rows = minRows;
-
-				const currentRows = ~~(mainInputRef.current!.scrollHeight / textareaLineHeight);
-
-				if (currentRows === previousRows) {
-					mainInputRef.current.rows = currentRows;
-				}
-
-				if (currentRows >= maxRows) {
-					mainInputRef.current.rows = maxRows;
-					mainInputRef.current.scrollTop = mainInputRef.current!.scrollHeight;
-				}
-
-				setRows(currentRows < maxRows ? currentRows : maxRows);
-			}
-		}
-	}, [text, mainInputRef]);
-
 	useInterval(
 		() => {
 			if (isRecording) {
@@ -157,7 +130,6 @@ const CreateMessageInput = () => {
 		}
 
 		setText('');
-		setRows(1);
 	};
 
 	const onDragOver = useCallback(
@@ -249,7 +221,7 @@ const CreateMessageInput = () => {
 
 			throttledNotifyAboutTyping(event.target.value);
 		},
-		[setText, setRows, throttledNotifyAboutTyping],
+		[setText, throttledNotifyAboutTyping],
 	);
 
 	const handleFocus = useCallback(() => {
@@ -425,10 +397,8 @@ const CreateMessageInput = () => {
 						)}
 						<div className='message-input__input-group'>
 							{!isRecording && (
-								<textarea
-									ref={mainInputRef}
+								<ExpandingTextarea
 									value={text}
-									rows={rows}
 									placeholder={t('messageInput.write')}
 									onChange={onType}
 									onPaste={onPaste}
@@ -460,6 +430,4 @@ const CreateMessageInput = () => {
 			)}
 		</div>
 	);
-};
-
-export default React.memo(CreateMessageInput);
+});

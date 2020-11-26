@@ -5,14 +5,10 @@ import CreateChatSvg from 'icons/ic-write-message.svg';
 
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import { ChatActions } from 'store/chats/actions';
-import SearchBox from '../search-box/search-box';
-import NewChatModal from '../new-chat-modal/new-chat-modal';
-import CreateGroupChat from '../create-group-chat-modal/create-group-chat-modal';
-import FadeAnimationWrapper from 'app/components/shared/fade-animation-wrapper/fade-animation-wrapper';
 
-export const DIALOGS_LIMIT = 25;
+import { FadeAnimationWrapper, CreateGroupChat, NewChatModal, SearchBox } from 'components';
 
-const SearchTop = () => {
+export const SearchTop = React.memo(() => {
 	const getChats = useActionWithDispatch(ChatActions.getChats);
 	const [newChatDisplayed, setNewChatDisplayed] = useState(false);
 	const changeNewChatDisplayedState = useCallback(() => {
@@ -27,7 +23,7 @@ const SearchTop = () => {
 	const handleChatSearchChange = (name: string): void => {
 		getChats({
 			name,
-			page: { offset: 0, limit: DIALOGS_LIMIT },
+			page: { offset: 0, limit: 25 },
 			initializedBySearch: true,
 			showOnlyHidden: false,
 			showAll: true,
@@ -55,6 +51,4 @@ const SearchTop = () => {
 			</FadeAnimationWrapper>
 		</div>
 	);
-};
-
-export default React.memo(SearchTop);
+});

@@ -1,5 +1,4 @@
-import Modal from 'app/components/shared/modal/modal';
-import WithBackground from 'app/components/shared/with-background';
+import { WithBackground, Modal } from 'components';
 import { getMyProfileSelector } from 'store/my-profile/selectors';
 import React, { useContext, useState } from 'react';
 import { useCallback } from 'react';
@@ -17,7 +16,7 @@ namespace EditUserNameModal {
 	}
 }
 
-const EditUserNameModal = ({ onClose }: EditUserNameModal.Props) => {
+export const EditUserNameModal = React.memo(({ onClose }: EditUserNameModal.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const [isNickNameAvailable, setIsNickNameAvailable] = useState(true);
@@ -103,6 +102,4 @@ const EditUserNameModal = ({ onClose }: EditUserNameModal.Props) => {
 			/>
 		</WithBackground>
 	);
-};
-
-export default EditUserNameModal;
+});

@@ -21,7 +21,7 @@ namespace GroupChatAddFriendModal {
 	}
 }
 
-exprot const GroupChatAddFriendModal = React.memo(({ onClose }: GroupChatAddFriendModal.Props) => {
+export const GroupChatAddFriendModal = React.memo(({ onClose }: GroupChatAddFriendModal.Props) => {
 	const { t } = useContext(LocalizationContext);
 
 	const [selectedUserIds, setselectedUserIds] = useState<number[]>([]);

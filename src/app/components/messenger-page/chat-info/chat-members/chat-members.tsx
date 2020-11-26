@@ -18,7 +18,7 @@ namespace ChatMembers {
 	}
 }
 
-export const ChatMembers =  React.memo(({ addMembers }: ChatMembers.Props) => {
+export const ChatMembers = React.memo(({ addMembers }: ChatMembers.Props) => {
 	const [searchStr, setSearchStr] = useState<string>('');
 
 	const getGroupChatUsers = useActionWithDispatch(ChatActions.getGroupChatUsers);
@@ -77,4 +77,4 @@ export const ChatMembers =  React.memo(({ addMembers }: ChatMembers.Props) => {
 			</div>
 		</div>
 	);
-};
+});

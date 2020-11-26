@@ -17,6 +17,7 @@ import { AttachmentToSend, BaseAttachment, Chat } from 'store/chats/models';
 import { AttachmentCreation } from 'store/messages/models';
 import { useGlobalDrop } from 'utils/hooks/use-drop';
 import useReferState from 'app/utils/hooks/use-referred-state';
+import { ExpandingTextarea } from '../expanding-textarea/expanding-textarea';
 
 export const EditMessage = React.memo(() => {
 	const { t } = useContext(LocalizationContext);
@@ -32,11 +33,9 @@ export const EditMessage = React.memo(() => {
 	const referredNewText = useReferState(newText);
 	const [removedAttachments, setRemovedAttachments] = useState<AttachmentCreation[]>([]);
 	const referredRemovedAttachments = useReferState(removedAttachments);
-	const [rows, setRows] = useState(1);
 	const [isDraggingOver, setIsDraggingOver] = useState(false);
 	const [isDragging, setIsDragging] = useState(false);
 
-	const mainInputRef = useRef<HTMLTextAreaElement>(null);
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const updatedSelectedChat = useRef<Chat | undefined>();
 
@@ -51,33 +50,11 @@ export const EditMessage = React.memo(() => {
 		[setRemovedAttachments],
 	);
 
-	useEffect(() => {
-		const minRows = 1;
-		const maxRows = 20;
-		const textareaLineHeight = 18;
-		const previousRows = mainInputRef.current?.rows;
-
-		mainInputRef.current!.rows = minRows;
-
-		const currentRows = ~~(mainInputRef.current!.scrollHeight / textareaLineHeight);
-
-		if (currentRows === previousRows) {
-			mainInputRef.current!.rows = currentRows;
-		}
-
-		if (currentRows >= maxRows) {
-			mainInputRef.current!.rows = maxRows;
-			mainInputRef.current!.scrollTop = mainInputRef.current!.scrollHeight;
-		}
-
-		setRows(currentRows < maxRows ? currentRows : maxRows);
-	}, [newText, mainInputRef]);
-
 	const onType = useCallback(
 		(event) => {
 			setNewText(event.target.value);
 		},
-		[setNewText, setRows],
+		[setNewText],
 	);
 
 	const onPaste = useCallback(
@@ -265,9 +242,7 @@ export const EditMessage = React.memo(() => {
 					</button>
 
 					<div className='message-input__input-group'>
-						<textarea
-							rows={rows}
-							ref={mainInputRef}
+						<ExpandingTextarea
 							placeholder={t('messageInput.write')}
 							value={newText}
 							onChange={onType}

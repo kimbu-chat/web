@@ -29,6 +29,7 @@ import { Chat } from 'store/chats/models';
 import { useGlobalDrop } from 'utils/hooks/use-drop';
 import useReferState from 'utils/hooks/use-referred-state';
 import { throttle } from 'lodash';
+import { ExpandingTextarea } from './expanding-textarea/expanding-textarea';
 
 namespace CreateMessageInput {
 	export interface RecordedData {
@@ -58,10 +59,8 @@ export const CreateMessageInput = React.memo(() => {
 	const [isDraggingOver, setIsDraggingOver] = useState(false);
 	const [isDragging, setIsDragging] = useState(false);
 	const [recordedSeconds, setRecordedSeconds] = useState(0);
-	const [rows, setRows] = useState(1);
 
 	const fileInputRef = useRef<HTMLInputElement>(null);
-	const mainInputRef = useRef<HTMLTextAreaElement>(null);
 	const registerAudioBtnRef = useRef<HTMLButtonElement>(null);
 	const recorderData = useRef<CreateMessageInput.RecordedData>({
 		mediaRecorder: null,
@@ -97,32 +96,6 @@ export const CreateMessageInput = React.memo(() => {
 		setText((oldText) => (typeof selectedChat?.draftMessage === 'string' ? selectedChat?.draftMessage : oldText));
 	}, [selectedChat?.id, setText]);
 
-	useEffect(() => {
-		if (mainInputRef.current) {
-			{
-				const minRows = 1;
-				const maxRows = 20;
-				const textareaLineHeight = 18;
-				const previousRows = mainInputRef.current?.rows;
-
-				mainInputRef.current.rows = minRows;
-
-				const currentRows = ~~(mainInputRef.current!.scrollHeight / textareaLineHeight);
-
-				if (currentRows === previousRows) {
-					mainInputRef.current.rows = currentRows;
-				}
-
-				if (currentRows >= maxRows) {
-					mainInputRef.current.rows = maxRows;
-					mainInputRef.current.scrollTop = mainInputRef.current!.scrollHeight;
-				}
-
-				setRows(currentRows < maxRows ? currentRows : maxRows);
-			}
-		}
-	}, [text, mainInputRef]);
-
 	useInterval(
 		() => {
 			if (isRecording) {
@@ -157,7 +130,6 @@ export const CreateMessageInput = React.memo(() => {
 		}
 
 		setText('');
-		setRows(1);
 	};
 
 	const onDragOver = useCallback(
@@ -249,7 +221,7 @@ export const CreateMessageInput = React.memo(() => {
 
 			throttledNotifyAboutTyping(event.target.value);
 		},
-		[setText, setRows, throttledNotifyAboutTyping],
+		[setText, throttledNotifyAboutTyping],
 	);
 
 	const handleFocus = useCallback(() => {
@@ -425,10 +397,8 @@ export const CreateMessageInput = React.memo(() => {
 						)}
 						<div className='message-input__input-group'>
 							{!isRecording && (
-								<textarea
-									ref={mainInputRef}
+								<ExpandingTextarea
 									value={text}
-									rows={rows}
 									placeholder={t('messageInput.write')}
 									onChange={onType}
 									onPaste={onPaste}

@@ -55,13 +55,13 @@
 	}
 
 	&__confirm {
-		padding: 11px 13px;
-		text-align: center;
+		padding: 11px 13px !important;
+		text-align: center !important;
 		margin-right: 20px;
 	}
 
 	&__cancel {
-		padding: 11px 13px;
+		padding: 11px 13px !important;
 		text-align: center;
 	}
 }

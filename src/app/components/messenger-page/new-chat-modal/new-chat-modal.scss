@@ -1,40 +1,40 @@
 .new-chat {
-	margin-bottom: -42px;
+  margin-bottom: -42px;
 
-	&__new-group {
-		display: flex;
-		margin-top: 4px;
-		align-items: center;
-		cursor: pointer;
-		user-select: none;
-		padding-top: 8px;
-		padding-bottom: 8px;
+  &__new-group {
+    display: flex;
+    margin-top: 4px;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    padding-top: 8px;
+    padding-bottom: 8px;
 
-		&:hover {
-			background-color: rgba(63, 138, 224, 0.1);
-		}
+    &:hover {
+      background-color: rgba(63, 138, 224, 0.1);
+    }
 
-		&__img {
-			background-color: #3f8ae0;
-			height: 40px;
-			width: 40px;
-			border-radius: 50%;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			svg {
-				color: white;
-				height: 20px;
-				width: 20px;
-			}
-		}
+    &__img {
+      background-color: #3f8ae0;
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      svg {
+        color: white;
+        height: 20px;
+        width: 20px;
+      }
+    }
 
-		&__title {
-			color: #3f8ae0;
-			margin-left: 10px;
-			font-weight: 500;
-			font-size: 13px;
-			line-height: 18px;
-		}
-	}
+    &__title {
+      color: #3f8ae0;
+      margin-left: 10px;
+      font-weight: 500;
+      font-size: 13px;
+      line-height: 18px;
+    }
+  }
 }

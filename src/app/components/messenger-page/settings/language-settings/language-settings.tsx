@@ -1,6 +1,6 @@
 import { LocalizationContext } from 'app/app';
 import { SettingsActions } from 'store/settings/actions';
-import { langs } from 'store/settings/models';
+import { Langs } from 'store/settings/models';
 import { getCurrentLanguage } from 'store/settings/selectors';
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import React, { useCallback, useContext } from 'react';
@@ -9,39 +9,27 @@ import { RadioBox } from '../shared/radio-box/radio-box';
 import './language-settings.scss';
 
 export const LanguageSettings = React.memo(() => {
-	const { i18n } = useContext(LocalizationContext);
+  const { i18n } = useContext(LocalizationContext);
 
-	const currentLanguage = useSelector(getCurrentLanguage);
+  const currentLanguage = useSelector(getCurrentLanguage);
 
-	const changeLanguage = useActionWithDispatch(SettingsActions.changeLanguageAction);
-	const setEnLang = useCallback(() => {
-		i18n?.changeLanguage(langs.en);
-		changeLanguage({ language: langs.en });
-	}, []);
+  const changeLanguage = useActionWithDispatch(SettingsActions.changeLanguageAction);
+  const setEnLang = useCallback(() => {
+    i18n?.changeLanguage(Langs.en);
+    changeLanguage({ language: Langs.en });
+  }, []);
 
-	const setRuLang = useCallback(() => {
-		i18n?.changeLanguage(langs.ru);
-		changeLanguage({ language: langs.ru });
-	}, []);
+  const setRuLang = useCallback(() => {
+    i18n?.changeLanguage(Langs.ru);
+    changeLanguage({ language: Langs.ru });
+  }, []);
 
-	return (
-		<div className='language-settings'>
-			<form>
-				<RadioBox
-					defaultChecked={currentLanguage === langs.en}
-					groupName='language'
-					nestingLevel={0}
-					onClick={setEnLang}
-					title={'English'}
-				/>
-				<RadioBox
-					defaultChecked={currentLanguage === langs.ru}
-					groupName='language'
-					nestingLevel={0}
-					onClick={setRuLang}
-					title={'Русский'}
-				/>
-			</form>
-		</div>
-	);
+  return (
+    <div className='language-settings'>
+      <form>
+        <RadioBox defaultChecked={currentLanguage === Langs.en} groupName='language' nestingLevel={0} onClick={setEnLang} title='English' />
+        <RadioBox defaultChecked={currentLanguage === Langs.ru} groupName='language' nestingLevel={0} onClick={setRuLang} title='Русский' />
+      </form>
+    </div>
+  );
 });

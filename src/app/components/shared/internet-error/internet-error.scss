@@ -1,39 +1,39 @@
 .internet-state {
-	position: absolute;
-	bottom: 60px;
-	right: 50px;
-	z-index: 500000000000;
-	padding: 15px 20px;
-	border-radius: 0px 155px;
+  position: absolute;
+  bottom: 60px;
+  right: 50px;
+  z-index: 500000000000;
+  padding: 15px 20px;
+  border-radius: 0px 155px;
 
-	&--online {
-		background-color: rgba(30, 255, 133, 0.55);
-		animation: appearanceAndHiding ease-in 2s forwards;
-	}
-	&--offline {
-		background-color: rgba(255, 0, 0, 0.7);
-		animation: appearanceAndHiding ease-in 2s forwards;
-	}
+  &--online {
+    background-color: rgba(30, 255, 133, 0.55);
+    animation: appearanceAndHiding ease-in 2s forwards;
+  }
+  &--offline {
+    background-color: rgba(255, 0, 0, 0.7);
+    animation: appearanceAndHiding ease-in 2s forwards;
+  }
 }
 
 @keyframes appearanceAndHiding {
-	0% {
-		right: -200px;
-	}
+  0% {
+    right: -200px;
+  }
 
-	40% {
-		right: 60px;
-	}
+  40% {
+    right: 60px;
+  }
 
-	50% {
-		right: 40px;
-	}
+  50% {
+    right: 40px;
+  }
 
-	60% {
-		right: 50px;
-	}
+  60% {
+    right: 50px;
+  }
 
-	100% {
-		right: -200px;
-	}
+  100% {
+    right: -200px;
+  }
 }

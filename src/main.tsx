@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-//import * as Sentry from '@sentry/react';
-//import { Integrations } from '@sentry/tracing';
+// import * as Sentry from '@sentry/react';
+// import { Integrations } from '@sentry/tracing';
 import { Provider } from 'react-redux';
-import { createBrowserHistory } from 'history';
+import { BrowserRouter } from 'react-router-dom';
 import createStore from './app/store';
-import { Router } from 'react-router';
 import { App } from './app/app';
 
 // Sentry.init({
@@ -18,16 +17,13 @@ import { App } from './app/app';
 // 	tracesSampleRate: 1.0,
 // });
 
-// prepare store
-export const history = createBrowserHistory();
-
 const store = createStore();
 
 ReactDOM.render(
-	<Provider store={store}>
-		<Router history={history}>
-			<App />
-		</Router>
-	</Provider>,
-	document.getElementById('root'),
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>,
+  document.getElementById('root'),
 );

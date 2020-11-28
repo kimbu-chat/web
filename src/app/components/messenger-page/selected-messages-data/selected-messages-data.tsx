@@ -11,96 +11,87 @@ import { FadeAnimationWrapper, ForwardModal } from 'components';
 import { DeleteMessageModal } from './delete-message-modal/delete-message-modal';
 
 export const SelectedMessagesData = React.memo(() => {
-	const selectedMessages = useSelector((state: RootState) => state.messages.selectedMessageIds);
-	const selectedMessagesCount = selectedMessages.length;
-	const selectedChat = useSelector(getSelectedChatSelector);
-	const selectedChatId = selectedChat?.id;
+  const selectedMessages = useSelector((state: RootState) => state.messages.selectedMessageIds);
+  const selectedMessagesCount = selectedMessages.length;
+  const selectedChat = useSelector(getSelectedChatSelector);
+  const selectedChatId = selectedChat?.id;
 
-	const { t } = useContext(LocalizationContext);
+  const { t } = useContext(LocalizationContext);
 
-	const copyMessage = useActionWithDispatch(MessageActions.copyMessages);
-	const resetSelectedMessages = useActionWithDispatch(MessageActions.resetSelectedMessages);
-	const replyToMessage = useActionWithDispatch(MessageActions.replyToMessage);
-	const editMessage = useActionWithDispatch(MessageActions.editMessage);
+  const copyMessage = useActionWithDispatch(MessageActions.copyMessages);
+  const resetSelectedMessages = useActionWithDispatch(MessageActions.resetSelectedMessages);
+  const replyToMessage = useActionWithDispatch(MessageActions.replyToMessage);
+  const editMessage = useActionWithDispatch(MessageActions.editMessage);
 
-	const resetSelectedMessagesForChat = useCallback(() => {
-		resetSelectedMessages({ chatId: selectedChatId || -1 });
-	}, [selectedChatId]);
+  const resetSelectedMessagesForChat = useCallback(() => {
+    resetSelectedMessages({ chatId: selectedChatId || -1 });
+  }, [selectedChatId]);
 
-	const copyTheseMessages = useCallback(() => {
-		copyMessage({ chatId: selectedChatId || -1, messageIds: selectedMessages });
-		resetSelectedMessagesForChat();
-	}, [selectedChatId, selectedMessages]);
+  const copyTheseMessages = useCallback(() => {
+    copyMessage({ chatId: selectedChatId || -1, messageIds: selectedMessages });
+    resetSelectedMessagesForChat();
+  }, [selectedChatId, selectedMessages]);
 
-	const replyToSelectedMessage = useCallback(() => {
-		replyToMessage({ messageId: selectedMessages[0], chatId: selectedChatId as number });
-	}, [replyToMessage, selectedMessages, selectedChatId]);
+  const replyToSelectedMessage = useCallback(() => {
+    replyToMessage({ messageId: selectedMessages[0], chatId: selectedChatId as number });
+  }, [replyToMessage, selectedMessages, selectedChatId]);
 
-	const editSelectedMessage = useCallback(() => {
-		editMessage({ messageId: selectedMessages[0], chatId: selectedChatId as number });
-	}, [editMessage, selectedMessages, selectedChatId]);
+  const editSelectedMessage = useCallback(() => {
+    editMessage({ messageId: selectedMessages[0], chatId: selectedChatId as number });
+  }, [editMessage, selectedMessages, selectedChatId]);
 
-	//--Delete message logic
-	const [deleteMessagesModalDisplayed, setDeleteMessagesModalDisplayed] = useState(false);
-	const changeDeleteMessagesModalDisplayedState = useCallback(() => {
-		setDeleteMessagesModalDisplayed((oldState) => !oldState);
-	}, [setDeleteMessagesModalDisplayed]);
+  // --Delete message logic
+  const [deleteMessagesModalDisplayed, setDeleteMessagesModalDisplayed] = useState(false);
+  const changeDeleteMessagesModalDisplayedState = useCallback(() => {
+    setDeleteMessagesModalDisplayed((oldState) => !oldState);
+  }, [setDeleteMessagesModalDisplayed]);
 
-	//--Forward Message Logic
-	const [messageIdsToForward, setMessageIdsToForward] = useState<number[]>([]);
-	const changeForwardMessagesState = useCallback(() => {
-		if (messageIdsToForward.length > 0) {
-			setMessageIdsToForward([]);
-		} else {
-			setMessageIdsToForward(selectedMessages);
-		}
-	}, [setMessageIdsToForward, messageIdsToForward]);
+  // --Forward Message Logic
+  const [messageIdsToForward, setMessageIdsToForward] = useState<number[]>([]);
+  const changeForwardMessagesState = useCallback(() => {
+    if (messageIdsToForward.length > 0) {
+      setMessageIdsToForward([]);
+    } else {
+      setMessageIdsToForward(selectedMessages);
+    }
+  }, [setMessageIdsToForward, messageIdsToForward]);
 
-	return (
-		<div className='selected-messages-data'>
-			<button onClick={changeForwardMessagesState} className='selected-messages-data__btn'>
-				{t('selectedMessagesData.forward', { count: selectedMessagesCount })}
-			</button>
-			<button
-				onClick={changeDeleteMessagesModalDisplayedState}
-				className='selected-messages-data__btn selected-messages-data__btn--delete'
-			>
-				{t('selectedMessagesData.delete', { count: selectedMessagesCount })}
-			</button>
-			{selectedMessagesCount === 1 && (
-				<button onClick={replyToSelectedMessage} className='selected-messages-data__btn'>
-					{t('selectedMessagesData.reply')}
-				</button>
-			)}
-			{selectedMessagesCount === 1 && (
-				<button onClick={editSelectedMessage} className='selected-messages-data__btn '>
-					{t('selectedMessagesData.edit')}
-				</button>
-			)}
-			<button onClick={copyTheseMessages} className='selected-messages-data__btn'>
-				{t('selectedMessagesData.copy')}
-			</button>
-			<button
-				onClick={resetSelectedMessagesForChat}
-				className='selected-messages-data__btn selected-messages-data__btn--cancel'
-			>
-				{t('selectedMessagesData.cancel')}
-			</button>
+  return (
+    <div className='selected-messages-data'>
+      <button type='button' onClick={changeForwardMessagesState} className='selected-messages-data__btn'>
+        {t('selectedMessagesData.forward', { count: selectedMessagesCount })}
+      </button>
+      <button type='button' onClick={changeDeleteMessagesModalDisplayedState} className='selected-messages-data__btn selected-messages-data__btn--delete'>
+        {t('selectedMessagesData.delete', { count: selectedMessagesCount })}
+      </button>
+      {selectedMessagesCount === 1 && (
+        <button type='button' onClick={replyToSelectedMessage} className='selected-messages-data__btn'>
+          {t('selectedMessagesData.reply')}
+        </button>
+      )}
+      {selectedMessagesCount === 1 && (
+        <button type='button' onClick={editSelectedMessage} className='selected-messages-data__btn '>
+          {t('selectedMessagesData.edit')}
+        </button>
+      )}
+      <button type='button' onClick={copyTheseMessages} className='selected-messages-data__btn'>
+        {t('selectedMessagesData.copy')}
+      </button>
+      <button type='button' onClick={resetSelectedMessagesForChat} className='selected-messages-data__btn selected-messages-data__btn--cancel'>
+        {t('selectedMessagesData.cancel')}
+      </button>
 
-			{
-				//!Dynamically displayed modal using React.Portal
-			}
+      {
+        //! Dynamically displayed modal using React.Portal
+      }
 
-			<FadeAnimationWrapper isDisplayed={deleteMessagesModalDisplayed}>
-				<DeleteMessageModal
-					onClose={changeDeleteMessagesModalDisplayedState}
-					selectedMessages={selectedMessages}
-				/>
-			</FadeAnimationWrapper>
+      <FadeAnimationWrapper isDisplayed={deleteMessagesModalDisplayed}>
+        <DeleteMessageModal onClose={changeDeleteMessagesModalDisplayedState} selectedMessages={selectedMessages} />
+      </FadeAnimationWrapper>
 
-			<FadeAnimationWrapper isDisplayed={messageIdsToForward?.length > 0}>
-				<ForwardModal messageIdsToForward={messageIdsToForward} onClose={changeForwardMessagesState} />
-			</FadeAnimationWrapper>
-		</div>
-	);
+      <FadeAnimationWrapper isDisplayed={messageIdsToForward?.length > 0}>
+        <ForwardModal messageIdsToForward={messageIdsToForward} onClose={changeForwardMessagesState} />
+      </FadeAnimationWrapper>
+    </div>
+  );
 });

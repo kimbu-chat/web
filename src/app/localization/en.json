@@ -1,219 +1,219 @@
 {
-	"loginPage": {
-		"confirm_phone": "Enter your number to log in",
-		"confirm_code": "We sent you a code to verify your phone number",
-		"code_sent_to": "Sent to",
-		"next": "Next",
-		"resend": "Send code again",
-		"wrong_code": "Wrong code",
-		"country": "Country",
-		"phone": "Phone",
-		"agree_to": "By signing in you agree to ",
-		"ravudi_terms": "Ravudi Terms and Conditions",
-		"reset_timer": "Code can be re-sent in {{time}}"
-	},
-	"activeCall": {
-		"default": "Default"
-	},
-	"chatData": {
-		"members": "members",
-		"online": "Online",
-		"last-time": "Last seen online"
-	},
-	"chatFromList": {
-		"you": "You"
-	},
-	"chat": {
-		"typing": "{{firstInterlocutorName}} is typing...",
-		"typing_two": "{{firstInterlocutorName}} and  {{secondInterlocutorName}} are typing...",
-		"typing_many": "{{firstInterlocutorName}}, {{secondInterlocutorName}} and {{remainingCount}} more are typing...",
-		"empty": "There are no messages in this chat. Yours may be the first!",
-		"select_chat": "Please select  a chat to start messaging"
-	},
-	"chatActions": {
-		"actions": "Actions",
-		"mute": "Mute",
-		"unmute": "Unmute",
-		"clear-history": "Clear history",
-		"edit-contact": "Edit contact",
-		"delete-contact": "Delete contact",
-		"add-contact": "Add contact",
-		"create-group": "Create group",
-		"delete-chat": "Delete chat",
-		"leave-chat": "Leave chat",
-		"add-users": "Add users to chat"
-	},
-	"interlocutorInfo": {
-		"information": "Information",
-		"mobile": "Mobile",
-		"username": "Username",
-		"about": "About",
-		"link": "Link"
-	},
-	"chatMedia": {
-		"media": "Media",
-		"photos": "{{count}} photos",
-		"videos": "{{count}} videos",
-		"files": "{{count}} files",
-		"shared-links": "{{count}} shared links",
-		"voice-messages": "{{count}} voice messages",
-		"audios": "{{count}} audios",
-		"common-groups": "{{count}} groups in common"
-	},
-	"chatInfo": {
-		"leave-confirmation": "Are you sure you want to delete ‘{{groupChatName}}‘ chat? All the data will be lost",
-		"confirm": "Delete",
-		"cancel": "Cancel"
-	},
-	"deleteMessageModal": {
-		"delete-confirmation": "Are you sure you want to delete {{count}} message?",
-		"delete-confirmation_plural": "Are you sure you want to delete {{count}} messages?",
-		"delete-confirm": "Delete",
-		"cancel": "Cancel",
-		"delete-for": "Delete for {{name}}"
-	},
-	"chatPhoto": {
-		"photo": "Photo"
-	},
+  "loginPage": {
+    "confirm_phone": "Enter your number to log in",
+    "confirm_code": "We sent you a code to verify your phone number",
+    "code_sent_to": "Sent to",
+    "next": "Next",
+    "resend": "Send code again",
+    "wrong_code": "Wrong code",
+    "country": "Country",
+    "phone": "Phone",
+    "agree_to": "By signing in you agree to ",
+    "ravudi_terms": "Ravudi Terms and Conditions",
+    "reset_timer": "Code can be re-sent in {{time}}"
+  },
+  "activeCall": {
+    "default": "Default"
+  },
+  "chatData": {
+    "members": "members",
+    "online": "Online",
+    "last-time": "Last seen online"
+  },
+  "chatFromList": {
+    "you": "You"
+  },
+  "chat": {
+    "typing": "{{firstInterlocutorName}} is typing...",
+    "typing_two": "{{firstInterlocutorName}} and  {{secondInterlocutorName}} are typing...",
+    "typing_many": "{{firstInterlocutorName}}, {{secondInterlocutorName}} and {{remainingCount}} more are typing...",
+    "empty": "There are no messages in this chat. Yours may be the first!",
+    "select_chat": "Please select  a chat to start messaging"
+  },
+  "chatActions": {
+    "actions": "Actions",
+    "mute": "Mute",
+    "unmute": "Unmute",
+    "clear-history": "Clear history",
+    "edit-contact": "Edit contact",
+    "delete-contact": "Delete contact",
+    "add-contact": "Add contact",
+    "create-group": "Create group",
+    "delete-chat": "Delete chat",
+    "leave-chat": "Leave chat",
+    "add-users": "Add users to chat"
+  },
+  "interlocutorInfo": {
+    "information": "Information",
+    "mobile": "Mobile",
+    "username": "Username",
+    "about": "About",
+    "link": "Link"
+  },
+  "chatMedia": {
+    "media": "Media",
+    "photos": "{{count}} photos",
+    "videos": "{{count}} videos",
+    "files": "{{count}} files",
+    "shared-links": "{{count}} shared links",
+    "voice-messages": "{{count}} voice messages",
+    "audios": "{{count}} audios",
+    "common-groups": "{{count}} groups in common"
+  },
+  "chatInfo": {
+    "leave-confirmation": "Are you sure you want to delete ‘{{groupChatName}}‘ chat? All the data will be lost",
+    "confirm": "Delete",
+    "cancel": "Cancel"
+  },
+  "deleteMessageModal": {
+    "delete-confirmation": "Are you sure you want to delete {{count}} message?",
+    "delete-confirmation_plural": "Are you sure you want to delete {{count}} messages?",
+    "delete-confirm": "Delete",
+    "cancel": "Cancel",
+    "delete-for": "Delete for {{name}}"
+  },
+  "chatPhoto": {
+    "photo": "Photo"
+  },
 
-	"chatVideo": {
-		"video": "Video"
-	},
-	"chatAudios": {
-		"audios": "Audios"
-	},
-	"changePhoto": {
-		"confirm": "Confirm",
-		"reject": "Reject"
-	},
-	"messageInput": {
-		"write": "Write a message…..."
-	},
-	"selectedMessagesData": {
-		"forward": "Forward ({{count}})",
-		"delete": "Delete ({{count}})",
-		"reply": "Reply",
-		"edit": "Edit",
-		"copy": "Copy",
-		"cancel": "Cancel"
-	},
-	"notFound": {
-		"back": "BACK TO HOMEPAGE",
-		"title": "Ooups, page not found",
-		"description": "We are very sory for the inconvenience. It looks like you're trying to access a page that has been deleted or never even existed."
-	},
-	"emojiMart": {
-		"search": "Search",
-		"clear": "Clear",
-		"notfound": "No Emoji Found",
-		"skintext": "Choose your default skin tone",
-		"categories": {
-			"search": "Search Results",
-			"recent": "Frequently Used",
-			"smileys": "Smileys & Emotion",
-			"people": "People & Body",
-			"nature": "Animals & Nature",
-			"foods": "Food & Drink",
-			"activity": "Activity",
-			"places": "Travel & Places",
-			"objects": "Objects",
-			"symbols": "Symbols",
-			"flags": "Flags",
-			"custom": "Custom"
-		}
-	},
-	"forwardModal": {
-		"forward": "Forward",
-		"send": "Send"
-	},
-	"incomingCall": {
-		"incoming_audio": "Incoming audio call",
-		"incoming_video": "Incoming video call"
-	},
-	"newChat": {
-		"new_message": "New message",
-		"new_group": "New group"
-	},
-	"createGroupChatModal": {
-		"add_members": "Add members",
-		"new_group": "New Group",
-		"next": "Next",
-		"cancel": "Cancel",
-		"create_groupChat": "Create Group"
-	},
-	"settings": {
-		"online": "Online",
-		"edit_profile": "Edit profile",
-		"notifications": "Notifications",
-		"text_typing": "Text typing",
-		"language": "Language",
-		"logout": "Выход"
-	},
-	"textTyping": {
-		"nlce": "Send a message by Enter, insert a new line by Shift/Ctrl/Alt + Enter",
-		"nle": "Send a message by Shift/Ctrl/Alt + Enter, insert a new line by Enter"
-	},
-	"notificationsSettings": {
-		"newMessageSound": "New messages sound notification"
-	},
-	"editProfile": {
-		"upload_new_photo": "Upload New Photo",
-		"requirements": "At least 256 x 256px PNG or JPG file.",
-		"name": "Name",
-		"mobile": "Mobile",
-		"username": "Username"
-	},
-	"editNameModal": {
-		"edit_name": "Edit Name",
-		"first_name": "First Name",
-		"last_name": "Last Name"
-	},
-	"editPhoneModal": {
-		"edit_phone": "Edit Phone",
-		"country": "Country",
-		"phone_number": "Phone Number"
-	},
-	"editUsernameModal": {
-		"edit_username": "Edit Username",
-		"username": "Username",
-		"requirements": "You can use a-z, 0-9 and underscores."
-	},
-	"groupChatAddFriendModal": {
-		"add_members": "Add Members"
-	},
-	"chatRecordings": {
-		"recordings": "Audio Recordings"
-	},
-	"chatFiles": {
-		"files": "Files"
-	},
-	"callFromList": {
-		"outgoing": "Outgoing",
-		"incoming": "Incoming",
-		"canceled": "Canceled",
-		"declined": "Declined",
-		"missed": "Missed",
-		"notAnswered": "Not Answered"
-	},
-	"systemMessage": {
-		"you_created_group": "You created group",
-		"created_group": "{{name}} created group",
-		"left_group": "{{name}} left group",
-		"you_added": "You added {{name}}",
-		"someone_added": "{{someonesName}} added {{addedName}}",
-		"you_changed_name": "You changed name from {{oldName}} to {{newName}}",
-		"someone_changed_name": "{{someonesName}} changed name from {{oldName}} to {{newName}}",
-		"you_changed_avatar": "You changed avatar",
-		"someone_changed_avatar": "{{someonesName}} changed avatar",
-		"you_removed_avatar": "You removed avatar",
-		"someone_removed_avatar": "{{someonesName}} removed avatar",
-		"outgoing_call_success_ended": "Outgoing call: {{duration}}",
-		"incoming_call_success_ended": "Incoming call: {{duration}}",
-		"you_canceled_call": "You canceled call",
-		"someone_canceled_call": "Interlocutor canceled call",
-		"you_missed_call": "You missed call",
-		"someone_missed_call": "Interlocutor missed call",
-		"you_declined_call": "You declined incoming call",
-		"someone_declined_call": "Interlocutor declined incoming call"
-	}
+  "chatVideo": {
+    "video": "Video"
+  },
+  "chatAudios": {
+    "audios": "Audios"
+  },
+  "changePhoto": {
+    "confirm": "Confirm",
+    "reject": "Reject"
+  },
+  "messageInput": {
+    "write": "Write a message…..."
+  },
+  "selectedMessagesData": {
+    "forward": "Forward ({{count}})",
+    "delete": "Delete ({{count}})",
+    "reply": "Reply",
+    "edit": "Edit",
+    "copy": "Copy",
+    "cancel": "Cancel"
+  },
+  "notFound": {
+    "back": "BACK TO HOMEPAGE",
+    "title": "Ooups, page not found",
+    "description": "We are very sory for the inconvenience. It looks like you're trying to access a page that has been deleted or never even existed."
+  },
+  "emojiMart": {
+    "search": "Search",
+    "clear": "Clear",
+    "notfound": "No Emoji Found",
+    "skintext": "Choose your default skin tone",
+    "categories": {
+      "search": "Search Results",
+      "recent": "Frequently Used",
+      "smileys": "Smileys & Emotion",
+      "people": "People & Body",
+      "nature": "Animals & Nature",
+      "foods": "Food & Drink",
+      "activity": "Activity",
+      "places": "Travel & Places",
+      "objects": "Objects",
+      "symbols": "Symbols",
+      "flags": "Flags",
+      "custom": "Custom"
+    }
+  },
+  "forwardModal": {
+    "forward": "Forward",
+    "send": "Send"
+  },
+  "incomingCall": {
+    "incoming_audio": "Incoming audio call",
+    "incoming_video": "Incoming video call"
+  },
+  "newChat": {
+    "new_message": "New message",
+    "new_group": "New group"
+  },
+  "createGroupChatModal": {
+    "add_members": "Add members",
+    "new_group": "New Group",
+    "next": "Next",
+    "cancel": "Cancel",
+    "create_groupChat": "Create Group"
+  },
+  "settings": {
+    "online": "Online",
+    "edit_profile": "Edit profile",
+    "notifications": "Notifications",
+    "text_typing": "Text typing",
+    "language": "Language",
+    "logout": "Выход"
+  },
+  "textTyping": {
+    "nlce": "Send a message by Enter, insert a new line by Shift/Ctrl/Alt + Enter",
+    "nle": "Send a message by Shift/Ctrl/Alt + Enter, insert a new line by Enter"
+  },
+  "notificationsSettings": {
+    "newMessageSound": "New messages sound notification"
+  },
+  "editProfile": {
+    "upload_new_photo": "Upload New Photo",
+    "requirements": "At least 256 x 256px PNG or JPG file.",
+    "name": "Name",
+    "mobile": "Mobile",
+    "username": "Username"
+  },
+  "editNameModal": {
+    "edit_name": "Edit Name",
+    "first_name": "First Name",
+    "last_name": "Last Name"
+  },
+  "editPhoneModal": {
+    "edit_phone": "Edit Phone",
+    "country": "Country",
+    "phone_number": "Phone Number"
+  },
+  "editUsernameModal": {
+    "edit_username": "Edit Username",
+    "username": "Username",
+    "requirements": "You can use a-z, 0-9 and underscores."
+  },
+  "groupChatAddFriendModal": {
+    "add_members": "Add Members"
+  },
+  "chatRecordings": {
+    "recordings": "Audio Recordings"
+  },
+  "chatFiles": {
+    "files": "Files"
+  },
+  "callFromList": {
+    "outgoing": "Outgoing",
+    "incoming": "Incoming",
+    "canceled": "Canceled",
+    "declined": "Declined",
+    "missed": "Missed",
+    "notAnswered": "Not Answered"
+  },
+  "systemMessage": {
+    "you_created_group": "You created group",
+    "created_group": "{{name}} created group",
+    "left_group": "{{name}} left group",
+    "you_added": "You added {{name}}",
+    "someone_added": "{{someonesName}} added {{addedName}}",
+    "you_changed_name": "You changed name from {{oldName}} to {{newName}}",
+    "someone_changed_name": "{{someonesName}} changed name from {{oldName}} to {{newName}}",
+    "you_changed_avatar": "You changed avatar",
+    "someone_changed_avatar": "{{someonesName}} changed avatar",
+    "you_removed_avatar": "You removed avatar",
+    "someone_removed_avatar": "{{someonesName}} removed avatar",
+    "outgoing_call_success_ended": "Outgoing call: {{duration}}",
+    "incoming_call_success_ended": "Incoming call: {{duration}}",
+    "you_canceled_call": "You canceled call",
+    "someone_canceled_call": "Interlocutor canceled call",
+    "you_missed_call": "You missed call",
+    "someone_missed_call": "Interlocutor missed call",
+    "you_declined_call": "You declined incoming call",
+    "someone_declined_call": "Interlocutor declined incoming call"
+  }
 }

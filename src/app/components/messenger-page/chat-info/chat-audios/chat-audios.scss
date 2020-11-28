@@ -1,78 +1,78 @@
 .chat-audios {
-	border-left: 1px solid #e0e4e8;
-	grid-row: 1/3;
-	height: 100vh;
-	background-color: white;
-	width: 300px;
-	overflow-y: auto;
-	position: absolute;
-	top: 0;
+  border-left: 1px solid #e0e4e8;
+  grid-row: 1/3;
+  height: 100vh;
+  background-color: white;
+  width: 300px;
+  overflow-y: auto;
+  position: absolute;
+  top: 0;
 
-	&::-webkit-scrollbar {
-		display: none;
-	}
-	-ms-overflow-style: none; /* IE and Edge */
-	scrollbar-width: none; /* Firefox */
-	.loader {
-		display: flex;
-		justify-content: center;
-	}
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  .loader {
+    display: flex;
+    justify-content: center;
+  }
 
-	&__top {
-		display: flex;
-		align-items: center;
-		width: 100%;
-		justify-content: flex-start;
-		margin: 0 20px;
-		padding: 23px 0;
-		position: sticky;
-		top: 0;
-		z-index: 1;
-		background: white;
-	}
+  &__top {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: flex-start;
+    margin: 0 20px;
+    padding: 23px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: white;
+  }
 
-	&__heading {
-		font-size: 13px;
-		line-height: 16px;
-		font-weight: 500;
-		color: #3f8ae0;
-		margin-left: 47px;
-	}
+  &__heading {
+    font-size: 13px;
+    line-height: 16px;
+    font-weight: 500;
+    color: #3f8ae0;
+    margin-left: 47px;
+  }
 
-	&__back {
-		svg {
-			width: 20px;
-			height: 20px;
-		}
-	}
+  &__back {
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
 
-	&__separator {
-		text-transform: capitalize;
-		width: 100%;
-		margin-bottom: 10px;
-		font-size: 11px;
-		font-weight: 500;
-		line-height: 16px;
+  &__separator {
+    text-transform: capitalize;
+    width: 100%;
+    margin-bottom: 10px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 16px;
 
-		&:not(:nth-child(2)) {
-			margin-top: 20px;
-		}
-	}
+    &:not(:nth-child(2)) {
+      margin-top: 20px;
+    }
+  }
 
-	&__audio {
-		margin-top: 20px;
-		margin: 20px 20px 0 20px;
-		max-width: calc(100% - 40px);
-	}
+  &__audio {
+    margin-top: 20px;
+    margin: 20px 20px 0 20px;
+    max-width: calc(100% - 40px);
+  }
 
-	&__audios {
-		max-height: calc(100vh - 68px);
-		overflow-y: auto;
+  &__audios {
+    max-height: calc(100vh - 68px);
+    overflow-y: auto;
 
-		&::-webkit-scrollbar {
-			display: none;
-		}
-		-ms-overflow-style: none; /* IE and Edge */
-		scrollbar-width: none; /* Firefox */
-	}
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
 }

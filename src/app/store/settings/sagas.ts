@@ -5,28 +5,26 @@ import { SettingsActions } from './actions';
 import { areNotificationsEnabled } from './selectors';
 
 export function* getUserSettings(): SagaIterator {
-	const savedSettings = new SettingsService().settings;
-	yield put(SettingsActions.getUserSettingsSuccessAction(savedSettings));
+  const savedSettings = new SettingsService().settings;
+  yield put(SettingsActions.getUserSettingsSuccessAction(savedSettings));
 }
 
 export function* changeUserLanguageSaga(action: ReturnType<typeof SettingsActions.changeLanguageAction>): SagaIterator {
-	new SettingsService().initializeOrUpdate({ language: action.payload.language });
+  new SettingsService().initializeOrUpdate({ language: action.payload.language });
 }
 
-export function* changeTypingStrategySaga(
-	action: ReturnType<typeof SettingsActions.changeTypingStrategyAction>,
-): SagaIterator {
-	new SettingsService().initializeOrUpdate({ typingStrategy: action.payload.strategy });
+export function* changeTypingStrategySaga(action: ReturnType<typeof SettingsActions.changeTypingStrategyAction>): SagaIterator {
+  new SettingsService().initializeOrUpdate({ TypingStrategy: action.payload.strategy });
 }
 
 export function* changeSoundNotificationsStateSaga(): SagaIterator {
-	const state = yield select(areNotificationsEnabled);
-	new SettingsService().initializeOrUpdate({ notificationSound: state });
+  const state = yield select(areNotificationsEnabled);
+  new SettingsService().initializeOrUpdate({ notificationSound: state });
 }
 
 export const SettingsSagas = [
-	takeLatest(SettingsActions.getUserSettingsAction, getUserSettings),
-	takeLatest(SettingsActions.changeLanguageAction, changeUserLanguageSaga),
-	takeLatest(SettingsActions.changeTypingStrategyAction, changeTypingStrategySaga),
-	takeLatest(SettingsActions.changeNotificationsSoundStateAction, changeSoundNotificationsStateSaga),
+  takeLatest(SettingsActions.getUserSettingsAction, getUserSettings),
+  takeLatest(SettingsActions.changeLanguageAction, changeUserLanguageSaga),
+  takeLatest(SettingsActions.changeTypingStrategyAction, changeTypingStrategySaga),
+  takeLatest(SettingsActions.changeNotificationsSoundStateAction, changeSoundNotificationsStateSaga),
 ];

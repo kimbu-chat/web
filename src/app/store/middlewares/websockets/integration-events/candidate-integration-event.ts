@@ -1,3 +1,3 @@
 export interface CandidateIntegrationEvent {
-	candidate: RTCIceCandidate;
+  candidate: RTCIceCandidate;
 }

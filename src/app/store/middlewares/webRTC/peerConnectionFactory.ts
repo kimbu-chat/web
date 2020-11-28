@@ -1,13 +1,13 @@
 export const peerConfiguration = {
-	iceServers: [{ urls: 'stun:stun.l.google.com:19302' }],
+  iceServers: [{ urls: 'stun:stun.l.google.com:19302' }],
 };
 
 export let peerConnection: RTCPeerConnection | null = null;
 
 export const createPeerConnection = () => {
-	peerConnection = new RTCPeerConnection(peerConfiguration);
+  peerConnection = new RTCPeerConnection(peerConfiguration);
 };
 
 export const resetPeerConnection = () => {
-	peerConnection = null;
+  peerConnection = null;
 };

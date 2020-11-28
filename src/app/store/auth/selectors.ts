@@ -1,6 +1,4 @@
-﻿import { SecurityTokens } from './models';
+import { SecurityTokens } from './models';
 import { RootState } from '../root-reducer';
 
-export const selectSecurityTokens = (state: RootState): SecurityTokens => {
-	return state.auth?.securityTokens;
-};
+export const selectSecurityTokens = (state: RootState): SecurityTokens => state.auth?.securityTokens;

@@ -1,18 +1,18 @@
 .chat-list {
-	overflow-y: scroll;
-	max-height: calc(100vh - 128px);
-	&::-webkit-scrollbar {
-		display: none;
-	}
-	-ms-overflow-style: none; /* IE and Edge */
-	scrollbar-width: none; /* Firefox */
+  overflow-y: scroll;
+  max-height: calc(100vh - 128px);
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 
-	.loader {
-		& > * {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			padding: 15px;
-		}
-	}
+  .loader {
+    & > * {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+    }
+  }
 }

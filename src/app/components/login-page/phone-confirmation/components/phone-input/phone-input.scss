@@ -1,22 +1,22 @@
 .phone-input {
-	width: 398px;
-	&__country-code {
-		width: 15%;
-		border: none;
-		height: 52px;
-		text-align: center;
-		border-right: 1px solid rgb(215, 216, 217);
-		background: transparent;
-	}
-	&__input {
-		width: 84.6%;
-		height: 52px;
-		border: none;
-		text-indent: 20px;
-		background: transparent;
+  width: 398px;
+  &__country-code {
+    width: 15%;
+    border: none;
+    height: 52px;
+    text-align: center;
+    border-right: 1px solid rgb(215, 216, 217);
+    background: transparent;
+  }
+  &__input {
+    width: 84.6%;
+    height: 52px;
+    border: none;
+    text-indent: 20px;
+    background: transparent;
 
-		&::placeholder {
-			color: rgb(151, 151, 151);
-		}
-	}
+    &::placeholder {
+      color: rgb(151, 151, 151);
+    }
+  }
 }

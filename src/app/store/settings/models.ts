@@ -1,29 +1,29 @@
-export enum langs {
-	en = 'en',
-	ru = 'ru',
+export enum Langs {
+  en = 'en',
+  ru = 'ru',
 }
 
-export enum typingStrategy {
-	nle = 'NewLineEnter',
-	nlce = 'NewLineCtrlEnter',
+export enum TypingStrategy {
+  nle = 'NewLineEnter',
+  nlce = 'NewLineCtrlEnter',
 }
 
 export interface UserSettings {
-	language: langs;
-	typingStrategy: typingStrategy;
-	notificationSound: boolean;
+  language: Langs;
+  TypingStrategy: TypingStrategy;
+  notificationSound: boolean;
 }
 
 export interface OptionalUserSettings {
-	language?: langs;
-	typingStrategy?: typingStrategy;
-	notificationSound?: boolean;
+  language?: Langs;
+  TypingStrategy?: TypingStrategy;
+  notificationSound?: boolean;
 }
 
 export interface ChangeLanguageReq {
-	language: langs;
+  language: Langs;
 }
 
 export interface ChangeTypingStrategyReq {
-	strategy: typingStrategy;
+  strategy: TypingStrategy;
 }

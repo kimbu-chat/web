@@ -1,44 +1,44 @@
 .audio-attachment {
-	display: flex;
-	align-items: center;
-	margin-top: 10px;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
 
-	&__download {
-		background: rgba(218, 228, 234, 0.5);
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		color: rgba($color: #3f8ae0, $alpha: 0.2);
-		margin-right: 10px;
-		height: 40px;
-		width: 40px;
+  &__download {
+    background: rgba(218, 228, 234, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgba($color: #3f8ae0, $alpha: 0.2);
+    margin-right: 10px;
+    height: 40px;
+    width: 40px;
 
-		svg {
-			width: 20px;
-			height: 20px;
-			color: #3f8ae0;
-		}
-	}
+    svg {
+      width: 20px;
+      height: 20px;
+      color: #3f8ae0;
+    }
+  }
 
-	&__data {
-		max-width: 60%;
-	}
+  &__data {
+    max-width: 60%;
+  }
 
-	&__file-name {
-		margin-bottom: 4px;
-		cursor: pointer;
-		font-size: 13px;
-		line-height: 18px;
-		font-weight: 400;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
+  &__file-name {
+    margin-bottom: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    line-height: 18px;
+    font-weight: 400;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
-	&__duration {
-		font-size: 11px;
-		line-height: 14px;
-		color: #6d7885;
-		font-weight: 400;
-	}
+  &__duration {
+    font-size: 11px;
+    line-height: 14px;
+    color: #6d7885;
+    font-weight: 400;
+  }
 }

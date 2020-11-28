@@ -21,64 +21,64 @@ const ConfirmCode = lazy(loadCodeConfirmation);
 const Messenger = lazy(loadMessenger);
 const NotFound = lazy(loadNotFound);
 
-namespace App {
-	export interface localization {
-		t: TFunction;
-		i18n?: i18n;
-	}
+namespace AppNS {
+  export interface Localization {
+    t: TFunction;
+    i18n?: i18n;
+  }
 }
 
-export const LocalizationContext = React.createContext<App.localization>({ t: (str: string) => str });
+export const LocalizationContext = React.createContext<AppNS.Localization>({ t: (str: string) => str });
 
 export const App = () => {
-	const { t, i18n } = useTranslation(undefined, { i18n: i18nConfiguration });
-	const isAuthenticated = useSelector<RootState, boolean>((rootState) => rootState.auth.isAuthenticated);
-	const phoneNumber = useSelector((state: RootState) => state.auth.phoneNumber);
+  const { t, i18n } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const isAuthenticated = useSelector<RootState, boolean>((rootState) => rootState.auth.isAuthenticated);
+  const phoneNumber = useSelector((state: RootState) => state.auth.phoneNumber);
 
-	return (
-		<LocalizationContext.Provider value={{ t, i18n }}>
-			<Switch>
-				<PublicRoute
-					exact
-					path='/confirm-code'
-					isAllowed={phoneNumber.length > 0}
-					Component={
-						<Suspense fallback={<CubeLoader />}>
-							<ConfirmCode preloadNext={loadMessenger} />
-						</Suspense>
-					}
-				/>
-				<PublicRoute
-					exact
-					path='/login/'
-					Component={
-						<Suspense fallback={<CubeLoader />}>
-							<ConfirmPhone preloadNext={loadCodeConfirmation} />
-						</Suspense>
-					}
-				/>
-				<PrivateRoute
-					path='/(contacts|calls|settings|chats)/:chatId?/(edit-profile|notifications|language|typing)?/(info)?/(photo|audio-recordings|audios|video|files)?'
-					exact
-					isAllowed={isAuthenticated}
-					fallback={'/login'}
-					Component={
-						<Suspense fallback={<CubeLoader />}>
-							<Messenger />
-						</Suspense>
-					}
-				/>
-				<Route path='/' exact render={() => <Redirect to='/chats' />} />
-				<Route
-					path='/'
-					isAllowed={true}
-					render={() => (
-						<Suspense fallback={<CubeLoader />}>
-							<NotFound />
-						</Suspense>
-					)}
-				/>
-			</Switch>
-		</LocalizationContext.Provider>
-	);
+  return (
+    <LocalizationContext.Provider value={{ t, i18n }}>
+      <Switch>
+        <PublicRoute
+          exact
+          path='/confirm-code'
+          isAllowed={phoneNumber.length > 0}
+          Component={
+            <Suspense fallback={<CubeLoader />}>
+              <ConfirmCode preloadNext={loadMessenger} />
+            </Suspense>
+          }
+        />
+        <PublicRoute
+          exact
+          path='/login/'
+          Component={
+            <Suspense fallback={<CubeLoader />}>
+              <ConfirmPhone preloadNext={loadCodeConfirmation} />
+            </Suspense>
+          }
+        />
+        <PrivateRoute
+          path='/(contacts|calls|settings|chats)/:chatId?/(edit-profile|notifications|language|typing)?/(info)?/(photo|audio-recordings|audios|video|files)?'
+          exact
+          isAllowed={isAuthenticated}
+          fallback='/login'
+          Component={
+            <Suspense fallback={<CubeLoader />}>
+              <Messenger />
+            </Suspense>
+          }
+        />
+        <Route path='/' exact render={() => <Redirect to='/chats' />} />
+        <Route
+          path='/'
+          isAllowed
+          render={() => (
+            <Suspense fallback={<CubeLoader />}>
+              <NotFound />
+            </Suspense>
+          )}
+        />
+      </Switch>
+    </LocalizationContext.Provider>
+  );
 };

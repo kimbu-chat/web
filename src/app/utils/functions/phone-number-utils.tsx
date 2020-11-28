@@ -1,12 +1,12 @@
 export const removeCountryCodeFromPhoneNumber = (countryCode: string, phone: string) => {
-	let regex = '';
-	const countryCodeArr = String(countryCode).split('');
+  let regex = '';
+  const countryCodeArr = String(countryCode).split('');
 
-	countryCodeArr.forEach((char) => {
-		regex += `[${char}]\\s?`;
-	});
+  countryCodeArr.forEach((char) => {
+    regex += `[${char}]\\s?`;
+  });
 
-	const replaceRegex = new RegExp(regex);
+  const replaceRegex = new RegExp(regex);
 
-	return phone.replace(replaceRegex, '');
+  return phone.replace(replaceRegex, '');
 };

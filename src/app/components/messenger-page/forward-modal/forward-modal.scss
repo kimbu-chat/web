@@ -1,11 +1,11 @@
 .forward-modal {
-	margin-bottom: -2px;
-	&__chats-block {
-		max-height: 400px;
-		overflow: auto;
-	}
+  margin-bottom: -2px;
+  &__chats-block {
+    max-height: 400px;
+    overflow: auto;
+  }
 
-	&__confirm-btn {
-		margin-bottom: -6px !important;
-	}
+  &__confirm-btn {
+    margin-bottom: -6px !important;
+  }
 }

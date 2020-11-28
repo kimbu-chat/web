@@ -1,3 +1,4 @@
+export * from './shared';
 export * from './active-call/active-call';
 export * from './call-list/call-list';
 export * from './change-photo/change-photo';
@@ -22,4 +23,3 @@ export * from './search-top/search-top';
 export * from './selected-messages-data/selected-messages-data';
 export * from './settings/settings';
 export * from './settings/settings-header';
-export * from './shared';

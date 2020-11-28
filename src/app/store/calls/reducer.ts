@@ -91,7 +91,7 @@ const calls = createReducer<CallState>(initialState)
 		CallActions.cancelCallSuccessAction,
 		produce((draft: CallState) => {
 			draft.interlocutor = undefined;
-			draft.isInterlocutorBusy = true;
+			draft.isInterlocutorBusy = false;
 			draft.amICaling = false;
 			draft.isCalling = false;
 			draft.isSpeaking = false;
@@ -123,17 +123,19 @@ const calls = createReducer<CallState>(initialState)
 	)
 	.handleAction(
 		CallActions.interlocutorCanceledCallAction,
-		produce((draft: CallState) => {
-			draft.interlocutor = undefined;
-			draft.amICaling = false;
-			draft.isCalling = false;
-			draft.isSpeaking = false;
-			draft.offer = undefined;
-			draft.answer = undefined;
-			draft.videoConstraints.isOpened = false;
-			draft.videoConstraints.isOpened = false;
-			draft.isInterlocutorVideoEnabled = false;
-			draft.isScreenSharingOpened = false;
+		produce((draft: CallState, { payload }: ReturnType<typeof CallActions.interlocutorCanceledCallAction>) => {
+			if (draft.interlocutor?.id === payload.interlocutorId) {
+				draft.interlocutor = undefined;
+				draft.amICaling = false;
+				draft.isCalling = false;
+				draft.isSpeaking = false;
+				draft.offer = undefined;
+				draft.answer = undefined;
+				draft.videoConstraints.isOpened = false;
+				draft.videoConstraints.isOpened = false;
+				draft.isInterlocutorVideoEnabled = false;
+				draft.isScreenSharingOpened = false;
+			}
 			return draft;
 		}),
 	)

@@ -311,7 +311,27 @@ export function* endCallSaga(action: ReturnType<typeof CallActions.endCallAction
 	yield put(CallActions.cancelCallSuccessAction());
 }
 
-export function* callEndedSaga(): SagaIterator {
+export function* callEndedSaga(action: ReturnType<typeof CallActions.interlocutorCanceledCallAction>): SagaIterator {
+	const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
+
+	if (interlocutorId === action.payload.interlocutorId) {
+		peerConnection?.close();
+		resetPeerConnection();
+
+		stopAllTracks();
+
+		if (videoSender) {
+			try {
+				peerConnection?.removeTrack(videoSender);
+			} catch (e) {
+				console.warn(e);
+			}
+			videoSender = null;
+		}
+	}
+}
+
+export function* closePeerConnection(): SagaIterator {
 	peerConnection?.close();
 	resetPeerConnection();
 
@@ -582,7 +602,7 @@ export function* negociationSaga(action: ReturnType<typeof CallActions.incomingC
 			interlocutorId,
 		};
 
-		const httpRequest = CallsHttpRequests.cancelCall;
+		const httpRequest = CallsHttpRequests.busyCall;
 		httpRequest.call(yield call(() => httpRequest.generator(request)));
 	}
 }
@@ -711,7 +731,7 @@ export function* peerWatcher() {
 export function* deviceUpdateWatcher() {
 	const channel = deviceUpdateChannel();
 	while (true) {
-		const action = yield take(channel);
+		yield take(channel);
 		const audioDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'audioinput');
 		const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'videoinput');
 		const prevAudioDevices = yield select((state: RootState) => state.calls.audioDevicesList);
@@ -773,7 +793,7 @@ export const CallsSagas = [
 	takeLatest(CallActions.interlocutorAcceptedCallAction, callAcceptedSaga),
 	takeEvery(CallActions.candidateAction, candidateSaga),
 	takeLatest(CallActions.interlocutorCanceledCallAction, callEndedSaga),
-	takeLatest(CallActions.callEndedAction, callEndedSaga),
+	takeLatest(CallActions.callEndedAction, closePeerConnection),
 	takeLatest(CallActions.changeScreenShareStatusAction, changeScreenSharingStatus),
 	takeLatest(CallActions.switchDeviceAction, switchDeviceSaga),
 	takeLatest(CallActions.incomingCallAction, negociationSaga),

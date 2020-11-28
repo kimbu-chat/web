@@ -13,6 +13,7 @@ import {
 	GetCallsResponse,
 } from './models';
 import { createEmptyAction } from '../common/actions';
+import { InterlocutorCanceledCallIntegrationEvent } from '../middlewares/websockets/integration-events/interlocutor-canceled-call-integration-event';
 
 export namespace CallActions {
 	export const getCallsAction = createAction('GET_CALLS')<GetCallsActionData>();
@@ -28,7 +29,9 @@ export namespace CallActions {
 	export const cancelCallSuccessAction = createEmptyAction('CANCEL_CALL_SUCCESS');
 	export const acceptCallAction = createAction('ACCEPT_CALL')<AcceptIncomingCallActionPayload>();
 	export const acceptCallSuccessAction = createAction('ACCEPT_CALL_SUCCESS')<AcceptIncomingCallActionPayload>();
-	export const interlocutorCanceledCallAction = createEmptyAction('INTERLOCUTOR_CANCELED_CALL');
+	export const interlocutorCanceledCallAction = createAction('INTERLOCUTOR_CANCELED_CALL')<
+		InterlocutorCanceledCallIntegrationEvent
+	>();
 	export const interlocutorAcceptedCallAction = createAction('INTERLOCUTOR_ACCEPTED_CALL')<
 		InterlocutorAcceptCallActionPayload
 	>();

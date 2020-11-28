@@ -22,6 +22,7 @@ module.exports = {
   },
   output: {
     path: outPath,
+    publicPath: '',
     filename: isProduction ? '[contenthash].app.js' : '[name].[fullhash].app.js',
     chunkFilename: '[id].[chunkhash].chunk.js',
   },
@@ -162,7 +163,7 @@ module.exports = {
   },
   optimization: {
     splitChunks: {
-      name: '[id].[fullhash:8].chunk.js',
+      name: false,
       cacheGroups: {
         commons: {
           chunks: 'initial',
@@ -191,9 +192,11 @@ module.exports = {
     }),
     new CleanWebpackPlugin(),
     ...(isProduction
-      ? new MiniCssExtractPlugin({
-          filename: '[fullhash].css',
-        })
+      ? [
+          new MiniCssExtractPlugin({
+            filename: '[fullhash].css',
+          }),
+        ]
       : []),
     new HtmlWebpackPlugin({
       template: 'assets/index.html',

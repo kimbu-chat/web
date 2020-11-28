@@ -58,7 +58,6 @@ export const App = () => {
           }
         />
         <PrivateRoute
-          // next line is test one
           path='/(contacts|calls|settings|chats)/:chatId?/(edit-profile|notifications|language|typing)?/(info)?/(photo|audio-recordings|audios|video|files)?'
           exact
           isAllowed={isAuthenticated}

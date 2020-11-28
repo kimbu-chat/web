@@ -16,7 +16,7 @@ import { UserStatus } from '../friends/models';
 import { initializeSaga } from '../initiation/sagas';
 import { messaging } from '../middlewares/firebase/firebase';
 //@ts-ignore
-import Fingerprint2 from '@fingerprintjs/fingerprintjs';
+import FingerprintJS from '@fingerprintjs/fingerprintjs';
 // import  FirebaseMessagingTypes  from 'firebase/messaging';
 
 function* requestRefreshToken(): SagaIterator {
@@ -37,16 +37,11 @@ function* requestRefreshToken(): SagaIterator {
 }
 
 async function getPushNotificationTokens(): Promise<{ tokenId: string; deviceId: string } | undefined> {
-	const retrieveUniqueId = () =>
-		new Promise<string>((resolve) => {
-			new Fingerprint2.getV18({}, function (result: string) {
-				resolve(result);
-			});
-		});
-
 	async function retrieveApplicationToken(): Promise<{ tokenId: string; deviceId: string }> {
 		const tokenId: string = await messaging().getToken();
-		const deviceId: string = await retrieveUniqueId();
+		const fp = await FingerprintJS.load();
+		const result = await fp.get();
+		const deviceId: string = result.visitorId;
 		return Promise.resolve({ tokenId, deviceId });
 	}
 

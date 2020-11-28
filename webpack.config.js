@@ -25,8 +25,8 @@ module.exports = {
 	},
 	output: {
 		path: outPath,
-		filename: isProduction ? '[contenthash].js' : '[hash].js',
-		chunkFilename: isProduction ? '[name].[contenthash].js' : '[name].[hash].js',
+		filename: isProduction ? '[contenthash].app.js' : '[name].[fullhash].app.js',
+		chunkFilename: '[id].[chunkhash].chunk.js',
 	},
 	target: 'web',
 	resolve: {
@@ -45,6 +45,12 @@ module.exports = {
 	},
 	module: {
 		rules: [
+			{
+				test: /\.m?js/,
+				resolve: {
+					fullySpecified: false,
+				},
+			},
 			// .ts, .tsx
 			{
 				test: /\.tsx?$/,
@@ -81,7 +87,7 @@ module.exports = {
 					isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
 					{
 						loader: 'css-loader',
-						query: {
+						options: {
 							sourceMap: !isProduction,
 							importLoaders: 1,
 						},
@@ -123,7 +129,7 @@ module.exports = {
 					isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
 					{
 						loader: 'css-loader',
-						query: {
+						options: {
 							sourceMap: !isProduction,
 							importLoaders: 1,
 						},
@@ -151,16 +157,15 @@ module.exports = {
 			},
 			// static assets
 			{ test: /\.html$/, use: 'html-loader' },
-			{ test: /\.(a?png)$/, use: 'url-loader?limit=10000' },
 			{
-				test: /\.(jpe?g|gif|bmp|mp3|mp4|ogg|wav|eot|ttf|woff|woff2)$/,
-				use: 'file-loader',
+				test: /\.(jpe?g|gif|bmp|mp3|mp4|ogg|wav|eot|ttf|woff|woff2|png)$/,
+				type: 'asset/resource',
 			},
 		],
 	},
 	optimization: {
 		splitChunks: {
-			name: true,
+			name: '[id].[fullhash:8].chunk.js',
 			cacheGroups: {
 				commons: {
 					chunks: 'initial',
@@ -188,10 +193,11 @@ module.exports = {
 			DEBUG: false,
 		}),
 		new CleanWebpackPlugin(),
-		new MiniCssExtractPlugin({
-			filename: '[hash].css',
-			disable: !isProduction,
-		}),
+		...(isProduction
+			? new MiniCssExtractPlugin({
+					filename: '[fullhash].css',
+			  })
+			: []),
 		new HtmlWebpackPlugin({
 			template: 'assets/index.html',
 			minify: {
@@ -229,11 +235,5 @@ module.exports = {
 		https: true,
 	},
 	// https://webpack.js.org/configuration/devtool/
-	devtool: isProduction ? 'source-map' : 'cheap-module-eval-source-map',
-	node: {
-		// workaround for webpack-dev-server issue
-		// https://github.com/webpack/webpack-dev-server/issues/60#issuecomment-103411179
-		fs: 'empty',
-		net: 'empty',
-	},
+	devtool: isProduction ? 'source-map' : 'eval-cheap-module-source-map',
 };

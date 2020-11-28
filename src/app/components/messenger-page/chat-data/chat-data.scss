@@ -1,76 +1,76 @@
 .chat-data {
-	&__chat-data {
-		grid-row: 1/2;
-		grid-column: 2/3;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		border-bottom: 1px solid rgba(#000, 0.2);
+  &__chat-data {
+    grid-row: 1/2;
+    grid-column: 2/3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(#000, 0.2);
 
-		&--little {
-			width: calc(100% - 300px);
-		}
-		transition: all 0.3s;
-	}
+    &--little {
+      width: calc(100% - 300px);
+    }
+    transition: all 0.3s;
+  }
 
-	&__contact-data {
-		display: flex;
-		cursor: pointer;
-		user-select: none;
-	}
+  &__contact-data {
+    display: flex;
+    cursor: pointer;
+    user-select: none;
+  }
 
-	&__contact-img {
-		margin-left: 20px;
-		width: 32px;
-		height: 32px;
-		border-radius: 50%;
-		margin-right: 10px;
-		height: 36px;
-		width: 36px;
-		object-fit: cover;
-	}
+  &__contact-img {
+    margin-left: 20px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 10px;
+    height: 36px;
+    width: 36px;
+    object-fit: cover;
+  }
 
-	&__chat-info {
-		h1 {
-			font-size: 15px;
-			line-height: 16px;
-			font-weight: 500;
-		}
+  &__chat-info {
+    h1 {
+      font-size: 15px;
+      line-height: 16px;
+      font-weight: 500;
+    }
 
-		p {
-			margin-top: 4px;
-			font-size: 13px;
-			line-height: 16px;
-			color: rgb(63, 138, 224);
-			font-weight: 400;
-		}
-	}
+    p {
+      margin-top: 4px;
+      font-size: 13px;
+      line-height: 16px;
+      color: rgb(63, 138, 224);
+      font-weight: 400;
+    }
+  }
 
-	&__buttons-group {
-		display: flex;
-		justify-content: flex-end;
-	}
+  &__buttons-group {
+    display: flex;
+    justify-content: flex-end;
+  }
 
-	&__button {
-		color: #3f8ae0;
-		width: 36px;
-		height: 36px;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		border-radius: 50%;
-		margin-right: 4px;
-		transition: all 0.2s;
-		&:last-child {
-			margin-right: 14px;
-		}
+  &__button {
+    color: #3f8ae0;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    margin-right: 4px;
+    transition: all 0.2s;
+    &:last-child {
+      margin-right: 14px;
+    }
 
-		&:hover {
-			background-color: rgba($color: rgb(63, 138, 224), $alpha: 0.1);
-		}
+    &:hover {
+      background-color: rgba($color: rgb(63, 138, 224), $alpha: 0.1);
+    }
 
-		&--active {
-			background-color: rgba($color: rgb(63, 138, 224), $alpha: 0.1);
-		}
-	}
+    &--active {
+      background-color: rgba($color: rgb(63, 138, 224), $alpha: 0.1);
+    }
+  }
 }

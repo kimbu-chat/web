@@ -1,70 +1,70 @@
 .edit-username-modal {
-	&__input-label {
-		color: rgb(151, 151, 151);
-		font-size: 11px;
-		line-height: 16px;
-		font-weight: 400;
-		margin-bottom: 2px;
-	}
+  &__input-label {
+    color: rgb(151, 151, 151);
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: 400;
+    margin-bottom: 2px;
+  }
 
-	&__input-block {
-		display: flex;
-		flex-direction: column;
-		margin-bottom: -5px;
-		position: relative;
-		&:first-child {
-			margin-bottom: 20px;
-		}
-	}
+  &__input-block {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: -5px;
+    position: relative;
+    &:first-child {
+      margin-bottom: 20px;
+    }
+  }
 
-	&__input-wrapper {
-		position: relative;
-		display: flex;
-	}
+  &__input-wrapper {
+    position: relative;
+    display: flex;
+  }
 
-	&__input {
-		padding: 11px 14px;
-		border: 1px solid rgb(215, 216, 217);
-		border-radius: 4px;
-		font-size: 13px;
-		line-height: 16px;
-		font-weight: 400;
-		flex-grow: 1;
-	}
+  &__input {
+    padding: 11px 14px;
+    border: 1px solid rgb(215, 216, 217);
+    border-radius: 4px;
+    font-size: 13px;
+    line-height: 16px;
+    font-weight: 400;
+    flex-grow: 1;
+  }
 
-	&__requirements {
-		margin-top: -10px;
-		font-size: 13px;
-		line-height: 16px;
-		font-weight: 400;
-		color: #6d7885;
+  &__requirements {
+    margin-top: -10px;
+    font-size: 13px;
+    line-height: 16px;
+    font-weight: 400;
+    color: #6d7885;
 
-		display: block;
-	}
+    display: block;
+  }
 
-	&__valid {
-		svg {
-			width: 20px;
-			height: 20px;
-			right: 14px;
-			top: 9px;
-			position: absolute;
-		}
-	}
+  &__valid {
+    svg {
+      width: 20px;
+      height: 20px;
+      right: 14px;
+      top: 9px;
+      position: absolute;
+    }
+  }
 
-	&__invalid {
-		svg {
-			width: 20px;
-			height: 20px;
-			right: 14px;
-			top: 9px;
-			position: absolute;
-			color: #d12433;
-		}
-	}
+  &__invalid {
+    svg {
+      width: 20px;
+      height: 20px;
+      right: 14px;
+      top: 9px;
+      position: absolute;
+      color: #d12433;
+    }
+  }
 
-	&__confirm-btn {
-		margin-bottom: 10px;
-		margin-top: -5px;
-	}
+  &__confirm-btn {
+    margin-bottom: 10px;
+    margin-top: -5px;
+  }
 }

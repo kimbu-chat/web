@@ -1,220 +1,220 @@
 {
-	"loginPage": {
-		"confirm_phone": "Введите ваш номер телефона для входа",
-		"confirm_code": "Мы отправили вам код для подтверждения вашего номера телефона",
-		"code_sent_to": "Код отправлен на",
-		"next": "Далее",
-		"resend": "Отправить повторно",
-		"wrong_code": "Неверный код",
-		"country": "Cтрана",
-		"phone": "Телефон",
-		"code": "Код",
-		"agree_to": "Выполняя вход, вы соглашаетесь с",
-		"ravudi_terms": " Условиями Ravudi",
-		"reset_timer": "Код можно повторно отправить через {{time}}"
-	},
-	"activeCall": {
-		"default": "По умолчанию"
-	},
-	"chatData": {
-		"members": "участника",
-		"online": "Онлайн",
-		"last-time": "Последний раз был в сети"
-	},
-	"chatFromList": {
-		"you": "Вы"
-	},
-	"chat": {
-		"typing": "{{firstInterlocutorName}} печатает...",
-		"typing_two": "{{firstInterlocutorName}} и {{secondInterlocutorName}} печатают...",
-		"typing_many": "{{firstInterlocutorName}}, {{secondInterlocutorName}} и ещё {{remainingCount}} печатают...",
-		"empty": "В этом чате нет новых сообщений. Ваше может быть первым!",
-		"select_chat": "Пожалуйста выберите чат для начала переписки"
-	},
-	"chatActions": {
-		"actions": "Действия",
-		"mute": "Отключить уведомления",
-		"unmute": "Включить уведомления",
-		"clear-history": "Отчистить историю собщений",
-		"edit-contact": "Редактировать контакт",
-		"delete-contact": "Удалить контакт",
-		"add-contact": "Добавить контакт",
-		"create-group": "Создать чат",
-		"delete-chat": "Удалить чат",
-		"leave-chat": "Покинуть чат",
-		"add-users": "Добавить в чат"
-	},
-	"interlocutorInfo": {
-		"information": "Информация",
-		"mobile": "Мобильный",
-		"username": "Имя пользователя",
-		"about": "Подробности",
-		"link": "Ссылка"
-	},
-	"chatMedia": {
-		"media": "Медия",
-		"photos": "{{count}} фото",
-		"videos": "{{count}} видео",
-		"files": "{{count}} файлов",
-		"shared-links": "{{count}} ссылок",
-		"voice-messages": "{{count}} голосовых сообщений",
-		"audios": "{{count}} аудио сообщений",
-		"common-groups": "{{count}} общих груп"
-	},
-	"chatInfo": {
-		"leave-confirmation": "Вы уверенны что хотите покинуть ‘{{groupChatName}}‘ ? Все данные будут потерянны",
-		"confirm": "Покинуть",
-		"cancel": "Отмена"
-	},
-	"deleteMessageModal": {
-		"delete-confirmation_0": "Вы уверенны что хотите удалить {{count}} сообщение?",
-		"delete-confirmation_1": "Вы уверенны что хотите удалить {{count}} сообщения?",
-		"delete-confirmation": "Вы уверенны что хотите удалить {{count}} сообщений?",
-		"delete-confirm": "Удалить",
-		"cancel": "Отмена",
-		"delete-for": "Удалить для {{name}}"
-	},
-	"chatPhoto": {
-		"photo": "Фото"
-	},
+  "loginPage": {
+    "confirm_phone": "Введите ваш номер телефона для входа",
+    "confirm_code": "Мы отправили вам код для подтверждения вашего номера телефона",
+    "code_sent_to": "Код отправлен на",
+    "next": "Далее",
+    "resend": "Отправить повторно",
+    "wrong_code": "Неверный код",
+    "country": "Cтрана",
+    "phone": "Телефон",
+    "code": "Код",
+    "agree_to": "Выполняя вход, вы соглашаетесь с",
+    "ravudi_terms": " Условиями Ravudi",
+    "reset_timer": "Код можно повторно отправить через {{time}}"
+  },
+  "activeCall": {
+    "default": "По умолчанию"
+  },
+  "chatData": {
+    "members": "участника",
+    "online": "Онлайн",
+    "last-time": "Последний раз был в сети"
+  },
+  "chatFromList": {
+    "you": "Вы"
+  },
+  "chat": {
+    "typing": "{{firstInterlocutorName}} печатает...",
+    "typing_two": "{{firstInterlocutorName}} и {{secondInterlocutorName}} печатают...",
+    "typing_many": "{{firstInterlocutorName}}, {{secondInterlocutorName}} и ещё {{remainingCount}} печатают...",
+    "empty": "В этом чате нет новых сообщений. Ваше может быть первым!",
+    "select_chat": "Пожалуйста выберите чат для начала переписки"
+  },
+  "chatActions": {
+    "actions": "Действия",
+    "mute": "Отключить уведомления",
+    "unmute": "Включить уведомления",
+    "clear-history": "Отчистить историю собщений",
+    "edit-contact": "Редактировать контакт",
+    "delete-contact": "Удалить контакт",
+    "add-contact": "Добавить контакт",
+    "create-group": "Создать чат",
+    "delete-chat": "Удалить чат",
+    "leave-chat": "Покинуть чат",
+    "add-users": "Добавить в чат"
+  },
+  "interlocutorInfo": {
+    "information": "Информация",
+    "mobile": "Мобильный",
+    "username": "Имя пользователя",
+    "about": "Подробности",
+    "link": "Ссылка"
+  },
+  "chatMedia": {
+    "media": "Медия",
+    "photos": "{{count}} фото",
+    "videos": "{{count}} видео",
+    "files": "{{count}} файлов",
+    "shared-links": "{{count}} ссылок",
+    "voice-messages": "{{count}} голосовых сообщений",
+    "audios": "{{count}} аудио сообщений",
+    "common-groups": "{{count}} общих груп"
+  },
+  "chatInfo": {
+    "leave-confirmation": "Вы уверенны что хотите покинуть ‘{{groupChatName}}‘ ? Все данные будут потерянны",
+    "confirm": "Покинуть",
+    "cancel": "Отмена"
+  },
+  "deleteMessageModal": {
+    "delete-confirmation_0": "Вы уверенны что хотите удалить {{count}} сообщение?",
+    "delete-confirmation_1": "Вы уверенны что хотите удалить {{count}} сообщения?",
+    "delete-confirmation": "Вы уверенны что хотите удалить {{count}} сообщений?",
+    "delete-confirm": "Удалить",
+    "cancel": "Отмена",
+    "delete-for": "Удалить для {{name}}"
+  },
+  "chatPhoto": {
+    "photo": "Фото"
+  },
 
-	"chatVideo": {
-		"video": "Видео"
-	},
-	"chatAudios": {
-		"audios": "Аудио"
-	},
-	"changePhoto": {
-		"confirm": "Подтвердить",
-		"reject": "Отмена"
-	},
-	"messageInput": {
-		"write": "Напишите сообщение..."
-	},
-	"selectedMessagesData": {
-		"forward": "Переслать ({{count}})",
-		"delete": "Удалить ({{count}})",
-		"reply": "Ответить",
-		"edit": "Редактировать",
-		"copy": "Копировать",
-		"cancel": "Отмена"
-	},
-	"notFound": {
-		"back": "НАЗАД НА ГЛАВНУЮ СТРАНИЦУ",
-		"title": "Ошибка, страница не найдена",
-		"description": "Приносим извинения за неудобства. Похоже, вы пытаетесь получить доступ к странице, которая была удалена или даже не существовала."
-	},
-	"emojiMart": {
-		"search": "Поиск",
-		"clear": "Отчистить",
-		"notfound": "Не найденно эмоджи",
-		"skintext": "Выберете стандартный цвет кожи",
-		"categories": {
-			"search": "Результаты поиска",
-			"recent": "Часто используемые",
-			"smileys": "Смайлики и эмоции",
-			"people": "Люди и тело",
-			"nature": "Животные и природа",
-			"foods": "Еда и Напитки",
-			"activity": "Действия",
-			"places": "Путешествия и Места",
-			"objects": "Обьекты",
-			"symbols": "Символы",
-			"flags": "Флаги"
-		}
-	},
-	"forwardModal": {
-		"forward": "Переслать",
-		"send": "Отправить"
-	},
-	"incomingCall": {
-		"incoming_audio": "Входящий аудиовызов",
-		"incoming_video": "Входящий видеовызов"
-	},
-	"newChat": {
-		"new_message": "Новое сообщение",
-		"new_group": "Новая группа"
-	},
-	"createGroupChatModal": {
-		"add_members": "Добавить участников",
-		"new_group": "Новая группа",
-		"next": "Далее",
-		"cancel": "Отмена",
-		"create_groupChat": "Создать Конференцию"
-	},
-	"settings": {
-		"online": "Онлайн",
-		"edit_profile": "Редактировать профиль",
-		"notifications": "Уведомления",
-		"text_typing": "Набор текста",
-		"language": "Язык",
-		"logout": "Выход"
-	},
-	"textTyping": {
-		"nlce": "Отправьте сообщение с помощью Enter, вставьте новую строку с помощью Shift / Ctrl / Alt + Enter",
-		"nle": "Отправьте сообщение с помощью Shift / Ctrl / Alt + Enter, вставьте новую строку с помощью Enter"
-	},
-	"notificationsSettings": {
-		"newMessageSound": "Звуковое уведомление при получении сообщения"
-	},
-	"editProfile": {
-		"upload_new_photo": "Загрузить новое фото",
-		"requirements": "Не менее 256 x 256 пикселей в формате PNG или JPG.",
-		"name": "Имя",
-		"mobile": "Мобильный",
-		"username": "Имя пользователя"
-	},
-	"editNameModal": {
-		"edit_name": "Редоктировать Имя",
-		"first_name": "Имя",
-		"last_name": "Фамилия"
-	},
-	"editPhoneModal": {
-		"edit_phone": "Редактировать номер телефона",
-		"country": "Страна",
-		"phone_number": "Номер телефона"
-	},
-	"editUsernameModal": {
-		"edit_username": "Редактировать имя пользователя",
-		"username": "Имя пользователя",
-		"requirements": "Вы можете использовать символы a-z, 0-9 и нижние подчеркивания."
-	},
-	"groupChatAddFriendModal": {
-		"add_members": "Добавить участников"
-	},
-	"chatRecordings": {
-		"recordings": "Голосовые Cообщения"
-	},
-	"chatFiles": {
-		"files": "Файлы"
-	},
-	"callFromList": {
-		"outgoing": "Исходящий",
-		"incoming": "Входящий",
-		"canceled": "Отказан",
-		"declined": "Отменён",
-		"missed": "Пропущен",
-		"notAnswered": "Без ответа"
-	},
-	"systemMessage": {
-		"you_created_group": "Вы создали группу",
-		"created_group": "{{name}} создал группу",
-		"left_group": "{{name}} покинул группу",
-		"you_added": "Вы добавили {{name}}",
-		"someone_added": "{{someonesName}} добавил {{addedName}}",
-		"you_changed_name": "Вы изменили название с {{oldName}} на {{newName}}",
-		"someone_changed_name": "{{someonesName}} изменил название с {{oldName}} на {{newName}}",
-		"you_changed_avatar": "Вы изменили аватар",
-		"someone_changed_avatar": "{{someonesName}} изменил аватар",
-		"you_removed_avatar": "Вы удалили аватар",
-		"someone_removed_avatar": "{{someonesName}} удалил аватар",
-		"incoming_call_success_ended": "Входящий вызов: {{duration}}",
-		"outgoing_call_success_ended": "Исходящий вызов: {{duration}}",
-		"you_canceled_call": "Вы отменили вызов",
-		"someone_canceled_call": "Собеседник отменил вызов",
-		"you_missed_call": "Вы пропустили звонок",
-		"someone_missed_call": "Собеседник пропустил звонок",
-		"you_declined_call": "Вы отклонили входящий вызов",
-		"someone_declined_call": "Собеедник отменил входящий вызов"
-	}
+  "chatVideo": {
+    "video": "Видео"
+  },
+  "chatAudios": {
+    "audios": "Аудио"
+  },
+  "changePhoto": {
+    "confirm": "Подтвердить",
+    "reject": "Отмена"
+  },
+  "messageInput": {
+    "write": "Напишите сообщение..."
+  },
+  "selectedMessagesData": {
+    "forward": "Переслать ({{count}})",
+    "delete": "Удалить ({{count}})",
+    "reply": "Ответить",
+    "edit": "Редактировать",
+    "copy": "Копировать",
+    "cancel": "Отмена"
+  },
+  "notFound": {
+    "back": "НАЗАД НА ГЛАВНУЮ СТРАНИЦУ",
+    "title": "Ошибка, страница не найдена",
+    "description": "Приносим извинения за неудобства. Похоже, вы пытаетесь получить доступ к странице, которая была удалена или даже не существовала."
+  },
+  "emojiMart": {
+    "search": "Поиск",
+    "clear": "Отчистить",
+    "notfound": "Не найденно эмоджи",
+    "skintext": "Выберете стандартный цвет кожи",
+    "categories": {
+      "search": "Результаты поиска",
+      "recent": "Часто используемые",
+      "smileys": "Смайлики и эмоции",
+      "people": "Люди и тело",
+      "nature": "Животные и природа",
+      "foods": "Еда и Напитки",
+      "activity": "Действия",
+      "places": "Путешествия и Места",
+      "objects": "Обьекты",
+      "symbols": "Символы",
+      "flags": "Флаги"
+    }
+  },
+  "forwardModal": {
+    "forward": "Переслать",
+    "send": "Отправить"
+  },
+  "incomingCall": {
+    "incoming_audio": "Входящий аудиовызов",
+    "incoming_video": "Входящий видеовызов"
+  },
+  "newChat": {
+    "new_message": "Новое сообщение",
+    "new_group": "Новая группа"
+  },
+  "createGroupChatModal": {
+    "add_members": "Добавить участников",
+    "new_group": "Новая группа",
+    "next": "Далее",
+    "cancel": "Отмена",
+    "create_groupChat": "Создать Конференцию"
+  },
+  "settings": {
+    "online": "Онлайн",
+    "edit_profile": "Редактировать профиль",
+    "notifications": "Уведомления",
+    "text_typing": "Набор текста",
+    "language": "Язык",
+    "logout": "Выход"
+  },
+  "textTyping": {
+    "nlce": "Отправьте сообщение с помощью Enter, вставьте новую строку с помощью Shift / Ctrl / Alt + Enter",
+    "nle": "Отправьте сообщение с помощью Shift / Ctrl / Alt + Enter, вставьте новую строку с помощью Enter"
+  },
+  "notificationsSettings": {
+    "newMessageSound": "Звуковое уведомление при получении сообщения"
+  },
+  "editProfile": {
+    "upload_new_photo": "Загрузить новое фото",
+    "requirements": "Не менее 256 x 256 пикселей в формате PNG или JPG.",
+    "name": "Имя",
+    "mobile": "Мобильный",
+    "username": "Имя пользователя"
+  },
+  "editNameModal": {
+    "edit_name": "Редоктировать Имя",
+    "first_name": "Имя",
+    "last_name": "Фамилия"
+  },
+  "editPhoneModal": {
+    "edit_phone": "Редактировать номер телефона",
+    "country": "Страна",
+    "phone_number": "Номер телефона"
+  },
+  "editUsernameModal": {
+    "edit_username": "Редактировать имя пользователя",
+    "username": "Имя пользователя",
+    "requirements": "Вы можете использовать символы a-z, 0-9 и нижние подчеркивания."
+  },
+  "groupChatAddFriendModal": {
+    "add_members": "Добавить участников"
+  },
+  "chatRecordings": {
+    "recordings": "Голосовые Cообщения"
+  },
+  "chatFiles": {
+    "files": "Файлы"
+  },
+  "callFromList": {
+    "outgoing": "Исходящий",
+    "incoming": "Входящий",
+    "canceled": "Отказан",
+    "declined": "Отменён",
+    "missed": "Пропущен",
+    "notAnswered": "Без ответа"
+  },
+  "systemMessage": {
+    "you_created_group": "Вы создали группу",
+    "created_group": "{{name}} создал группу",
+    "left_group": "{{name}} покинул группу",
+    "you_added": "Вы добавили {{name}}",
+    "someone_added": "{{someonesName}} добавил {{addedName}}",
+    "you_changed_name": "Вы изменили название с {{oldName}} на {{newName}}",
+    "someone_changed_name": "{{someonesName}} изменил название с {{oldName}} на {{newName}}",
+    "you_changed_avatar": "Вы изменили аватар",
+    "someone_changed_avatar": "{{someonesName}} изменил аватар",
+    "you_removed_avatar": "Вы удалили аватар",
+    "someone_removed_avatar": "{{someonesName}} удалил аватар",
+    "incoming_call_success_ended": "Входящий вызов: {{duration}}",
+    "outgoing_call_success_ended": "Исходящий вызов: {{duration}}",
+    "you_canceled_call": "Вы отменили вызов",
+    "someone_canceled_call": "Собеседник отменил вызов",
+    "you_missed_call": "Вы пропустили звонок",
+    "someone_missed_call": "Собеседник пропустил звонок",
+    "you_declined_call": "Вы отклонили входящий вызов",
+    "someone_declined_call": "Собеедник отменил входящий вызов"
+  }
 }

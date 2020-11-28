@@ -1,41 +1,41 @@
 .video-attachment {
-	position: relative;
-	overflow: hidden;
-	cursor: pointer;
-	&__svg {
-		color: white;
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		width: 24px;
-		height: 24px;
-		transform: translate(-50%, -50%);
-	}
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  &__svg {
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 24px;
+    height: 24px;
+    transform: translate(-50%, -50%);
+  }
 
-	&__duration {
-		position: absolute;
-		bottom: 10px;
-		left: 10px;
-		padding: 3px 8px;
-		background-color: rgba($color: #000000, $alpha: 0.4);
-		font-size: 11px;
-		font-weight: 500px;
-		border-radius: 10px;
-		color: white;
-	}
+  &__duration {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    padding: 3px 8px;
+    background-color: rgba($color: #000000, $alpha: 0.4);
+    font-size: 11px;
+    font-weight: 500px;
+    border-radius: 10px;
+    color: white;
+  }
 
-	&__blur {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		background-color: rgba($color: #000000, $alpha: 0.4);
-		top: 0;
-		left: 0;
-	}
+  &__blur {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba($color: #000000, $alpha: 0.4);
+    top: 0;
+    left: 0;
+  }
 
-	&__img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-	}
+  &__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }

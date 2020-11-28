@@ -1,41 +1,41 @@
 .status-badge {
-	position: relative;
+  position: relative;
 
-	&__indicator {
-		height: 8px;
-		width: 8px;
-		border-radius: 50%;
-		display: block;
-		position: absolute;
-		right: 0px;
-		bottom: 0px;
-		z-index: 7;
-		border: 2px solid white;
-		&--online {
-			background-color: #3f8ae0;
-			box-shadow: 0 0 0 0 rgba(0, 0, 0, 1);
-			transform: scale(1);
-			animation: pulse 2s infinite;
-		}
-		&--offline {
-			background-color: red;
-		}
-	}
+  &__indicator {
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    display: block;
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    z-index: 7;
+    border: 2px solid white;
+    &--online {
+      background-color: #3f8ae0;
+      box-shadow: 0 0 0 0 rgba(0, 0, 0, 1);
+      transform: scale(1);
+      animation: pulse 2s infinite;
+    }
+    &--offline {
+      background-color: red;
+    }
+  }
 }
 
 @keyframes pulse {
-	0% {
-		transform: scale(0.95);
-		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
-	}
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+  }
 
-	70% {
-		transform: scale(1);
-		box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
-	}
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+  }
 
-	100% {
-		transform: scale(0.95);
-		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
-	}
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
 }

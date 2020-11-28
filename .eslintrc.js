@@ -1,58 +1,48 @@
 module.exports = {
-	root: true,
-	extends: ['@react-native-community', 'airbnb', 'airbnb/hooks', 'prettier', 'prettier/@typescript-eslint'],
-	parser: '@typescript-eslint/parser',
-	plugins: ['@typescript-eslint'],
-	rules: {
-		'import/no-extraneous-dependencies': [
-			'error',
-			{
-				devDependencies: true,
-				optionalDependencies: false,
-				peerDependencies: false,
-				packageDir: __dirname,
-			},
-		],
-		'react/jsx-filename-extension': ['error', { extensions: ['.tsx'] }],
-		'import/extensions': [
-			'error',
-			'ignorePackages',
-			{
-				ts: 'never',
-				tsx: 'never',
-			},
-		],
-		'import/prefer-default-export': 'off',
-		'@typescript-eslint/explicit-function-return-type': [
-			'error',
-			{ allowExpressions: true, allowTypedFunctionExpressions: true },
-		], // force to define function return type
-		'class-methods-use-this': [
-			'error',
-			{ exceptMethods: ['componentDidCatch', 'componentDidAppear', 'componentDidDisappear', 'handle'] },
-		],
-		'import/no-unresolved': [
-			'error',
-			{
-				ignore: ['@app', '@icons', '@store', '@sounds', '@utils', '@components'],
-			},
-		], // ignore import with @app & .
-		'max-len': ['error', 140], // change max length for a line to 120
-		'no-console': 'error', // don't allow console
-		'no-param-reassign': 0,
-		'no-unused-expressions': ['error', { allowShortCircuit: true }], // don't use unused expressions except short circuit
-		'no-unused-vars': ['error', { argsIgnorePattern: '^_' }], // don't use unused var except with _ prefix
-		'@typescript-eslint/no-explicit-any': ['error'], // forbid to use 'any' type
-		'react/jsx-props-no-spreading': 0,
-		'react/jsx-indent': [2, 'tab'],
-		'react/jsx-indent-props': [2, 'tab'],
-	},
-	settings: {
-		'import/resolver': {
-			'babel-module': {},
-			node: {
-				extensions: ['.js', '.jsx', '.ts', '.tsx'],
-			},
-		},
-	},
+  env: {
+    browser: true,
+  },
+  extends: ['plugin:react/recommended', 'airbnb-typescript', 'prettier', 'prettier/react'],
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+    ecmaVersion: 12,
+    sourceType: 'module',
+    project: ['./tsconfig.json'],
+  },
+  plugins: ['react', '@typescript-eslint', 'prettier'],
+  rules: {
+    'react/jsx-filename-extension': [1, { extensions: ['.jsx', '.tsx'] }],
+    'react/jsx-props-no-spreading': 0,
+    'react/prop-types': 0,
+    'react/destructuring-assignment': 0,
+    '@typescript-eslint/indent': 0,
+    '@typescript-eslint/no-shadow': 0,
+    'prettier/prettier': ['warn'],
+    'import/prefer-default-export': 0,
+    'import/extensions': 0,
+    'import/no-unresolved': ['error', { ignore: ['app,icons,store,sounds,utils,components'] }],
+    'import/no-mutable-exports': 0,
+    'no-param-reassign': 0,
+    'no-plusplus': 0,
+    'no-return-await': 0,
+    'no-nested-ternary': 0,
+    'require-yield': 0,
+    indent: [0],
+    'class-methods-use-this': 0,
+    'jsx-a11y/no-noninteractive-element-interactions': 0,
+    'jsx-a11y/click-events-have-key-events': 0,
+    'jsx-a11y/no-static-element-interactions': 0,
+    'jsx-a11y/media-has-caption': 0,
+    'jsx-a11y/label-has-associated-control': 0,
+  },
+  settings: {
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
+    },
+  },
 };

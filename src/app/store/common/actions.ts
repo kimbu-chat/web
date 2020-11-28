@@ -1,16 +1,16 @@
 import { ActionCreatorBuilder, createAction, TypeConstant } from 'typesafe-actions';
 
 type Deferred<TData = object, TException = undefined> = {
-	resolve: (data?: TData) => void;
-	reject: (e?: TException) => void;
+  resolve: (data?: TData) => void;
+  reject: (e?: TException) => void;
 };
 
 export type Meta = {
-	deferred: Deferred;
+  deferred: Deferred;
 };
 
 export function createEmptyAction<TType extends TypeConstant>(type: TType): ActionCreatorBuilder<TType> {
-	return createAction(type)<undefined>();
+  return createAction(type)<undefined>();
 }
 
 export type Fn = (...args: any[]) => any;

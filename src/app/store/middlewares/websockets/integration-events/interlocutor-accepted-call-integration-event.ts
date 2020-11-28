@@ -1,4 +1,4 @@
 export interface InterlocutorAcceptedCallIntegrationEvent {
-	answer: RTCSessionDescriptionInit;
-	isVideoEnabled: boolean;
+  answer: RTCSessionDescriptionInit;
+  isVideoEnabled: boolean;
 }

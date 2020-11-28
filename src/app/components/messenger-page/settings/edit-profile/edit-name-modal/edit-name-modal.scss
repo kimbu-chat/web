@@ -1,31 +1,31 @@
 .edit-name-modal {
-	&__input-label {
-		color: rgb(151, 151, 151);
-		font-size: 11px;
-		line-height: 16px;
-		font-weight: 400;
-		margin-bottom: 2px;
-	}
+  &__input-label {
+    color: rgb(151, 151, 151);
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: 400;
+    margin-bottom: 2px;
+  }
 
-	&__input-block {
-		display: flex;
-		flex-direction: column;
-		margin-bottom: -5px;
-		&:first-child {
-			margin-bottom: 20px;
-		}
-	}
+  &__input-block {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: -5px;
+    &:first-child {
+      margin-bottom: 20px;
+    }
+  }
 
-	&__input {
-		padding: 11px 14px;
-		border: 1px solid rgb(215, 216, 217);
-		border-radius: 4px;
-		font-size: 13px;
-		line-height: 16px;
-		font-weight: 400;
-	}
+  &__input {
+    padding: 11px 14px;
+    border: 1px solid rgb(215, 216, 217);
+    border-radius: 4px;
+    font-size: 13px;
+    line-height: 16px;
+    font-weight: 400;
+  }
 
-	&__confirm-btn {
-		margin-bottom: 10px !important;
-	}
+  &__confirm-btn {
+    margin-bottom: 10px !important;
+  }
 }

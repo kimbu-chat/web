@@ -1,132 +1,132 @@
 .message-input {
-	position: relative;
-	&__drag {
-		flex: 0 1 64px;
-		display: flex;
-		align-items: center;
-		height: 64px;
-		justify-content: center;
-		box-sizing: border-box;
-		color: #99a2ad;
-		border: 2px solid #99a2ad;
-		font-weight: 500;
-		font-size: 20px;
-		text-align: center;
-		pointer-events: none;
+  position: relative;
+  &__drag {
+    flex: 0 1 64px;
+    display: flex;
+    align-items: center;
+    height: 64px;
+    justify-content: center;
+    box-sizing: border-box;
+    color: #99a2ad;
+    border: 2px solid #99a2ad;
+    font-weight: 500;
+    font-size: 20px;
+    text-align: center;
+    pointer-events: none;
 
-		&--active {
-			color: #3f8ae0;
-			border: 2px dashed #3f8ae0;
-		}
-	}
-	&__send-message {
-		flex: 0 1 64px;
-		height: auto;
-		min-height: 64px;
-		display: flex;
-		align-items: center;
-	}
+    &--active {
+      color: #3f8ae0;
+      border: 2px dashed #3f8ae0;
+    }
+  }
+  &__send-message {
+    flex: 0 1 64px;
+    height: auto;
+    min-height: 64px;
+    display: flex;
+    align-items: center;
+  }
 
-	&__add {
-		width: 32px;
-		height: 32px;
-		border-radius: 50%;
-		margin-left: 16px;
-	}
+  &__add {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-left: 16px;
+  }
 
-	&__red-dot {
-		width: 15px;
-		height: 15px;
-		border-radius: 50%;
-		margin-left: 40px;
-		background-color: red;
-		animation: pulse 2s infinite;
-	}
+  &__red-dot {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-left: 40px;
+    background-color: red;
+    animation: pulse 2s infinite;
+  }
 
-	&__input-group {
-		width: calc(100% - 52px);
-		display: flex;
-		margin: 19px 0;
-		align-items: center;
-	}
+  &__input-group {
+    width: calc(100% - 52px);
+    display: flex;
+    margin: 19px 0;
+    align-items: center;
+  }
 
-	&__input-message {
-		overflow: auto;
-		height: auto;
-		line-height: 18px;
-		display: block;
-		border: none;
-		width: calc(100% - 52px);
-		margin-left: 15px;
-		font-size: 13px;
-		white-space: pre-line;
-		font-weight: 400;
-		resize: none;
-		&:focus {
-			outline: none;
-		}
+  &__input-message {
+    overflow: auto;
+    height: auto;
+    line-height: 18px;
+    display: block;
+    border: none;
+    width: calc(100% - 52px);
+    margin-left: 15px;
+    font-size: 13px;
+    white-space: pre-line;
+    font-weight: 400;
+    resize: none;
+    &:focus {
+      outline: none;
+    }
 
-		&::placeholder {
-			color: #a7a7af;
-		}
-	}
+    &::placeholder {
+      color: #a7a7af;
+    }
+  }
 
-	&__recording-info {
-		line-height: 20px;
-		text-align: center;
-		width: 100%;
-	}
+  &__recording-info {
+    line-height: 20px;
+    text-align: center;
+    width: 100%;
+  }
 
-	&__counter {
-		margin-left: 15px;
-	}
+  &__counter {
+    margin-left: 15px;
+  }
 
-	&__right-btns {
-		margin-right: 16px;
-		display: flex;
-		position: relative;
-		margin-left: auto;
-	}
+  &__right-btns {
+    margin-right: 16px;
+    display: flex;
+    position: relative;
+    margin-left: auto;
+  }
 
-	&__smiles-btn {
-		margin-right: 10px;
-	}
+  &__smiles-btn {
+    margin-right: 10px;
+  }
 
-	&__voice-btn {
-		border-radius: 50%;
-		color: #3f8ae0;
+  &__voice-btn {
+    border-radius: 50%;
+    color: #3f8ae0;
 
-		&--active {
-			background-color: #ebf3fc;
-			color: black;
-		}
-	}
+    &--active {
+      background-color: #ebf3fc;
+      color: black;
+    }
+  }
 
-	&__edit-confirm {
-		padding: 11px 30px;
-		background-color: rgb(63, 138, 224);
-		border-radius: 4px;
-		color: white;
-		margin-right: 20px;
-		font-size: 13px;
-		line-height: 16px;
-		font-weight: 500;
-	}
+  &__edit-confirm {
+    padding: 11px 30px;
+    background-color: rgb(63, 138, 224);
+    border-radius: 4px;
+    color: white;
+    margin-right: 20px;
+    font-size: 13px;
+    line-height: 16px;
+    font-weight: 500;
+  }
 }
 
 @keyframes pulse {
-	0% {
-		transform: scale(0.95);
-		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
-	}
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+  }
 
-	70% {
-		transform: scale(1);
-		box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
-	}
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+  }
 
-	100% {
-		transform: scale(0.95);
-		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
-	}
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
 }

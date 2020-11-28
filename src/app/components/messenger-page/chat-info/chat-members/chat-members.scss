@@ -1,26 +1,26 @@
 .chat-members {
-	margin: 0px 20px 0px 20px;
+  margin: 0px 20px 0px 20px;
 
-	&__heading-block {
-		display: flex;
-		justify-content: space-between;
-		margin-bottom: 3px;
-	}
+  &__heading-block {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 3px;
+  }
 
-	&__heading {
-		font-weight: 500;
-		font-size: 15px;
-		line-height: 16px;
-	}
+  &__heading {
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 16px;
+  }
 
-	&__add {
-		svg {
-			height: 20px;
-			width: 20px;
-		}
-	}
+  &__add {
+    svg {
+      height: 20px;
+      width: 20px;
+    }
+  }
 
-	&__search {
-		margin-bottom: 20px;
-	}
+  &__search {
+    margin-bottom: 20px;
+  }
 }

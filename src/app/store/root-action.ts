@@ -1,4 +1,4 @@
-﻿import { ActionUnionType } from './common/actions';
+import { ActionUnionType } from './common/actions';
 import { AuthActions } from './auth/actions';
 import { MessageActions } from './messages/actions';
 import { ChatActions } from './chats/actions';
@@ -9,11 +9,11 @@ import { InternetActions } from './internet/actions';
 import { SettingsActions } from './settings/actions';
 
 export type RootAction =
-	| ActionUnionType<typeof MessageActions>
-	| ActionUnionType<typeof AuthActions>
-	| ActionUnionType<typeof FriendActions>
-	| ActionUnionType<typeof ChatActions>
-	| ActionUnionType<typeof MyProfileActions>
-	| ActionUnionType<typeof CallActions>
-	| ActionUnionType<typeof InternetActions>
-	| ActionUnionType<typeof SettingsActions>;
+  | ActionUnionType<typeof MessageActions>
+  | ActionUnionType<typeof AuthActions>
+  | ActionUnionType<typeof FriendActions>
+  | ActionUnionType<typeof ChatActions>
+  | ActionUnionType<typeof MyProfileActions>
+  | ActionUnionType<typeof CallActions>
+  | ActionUnionType<typeof InternetActions>
+  | ActionUnionType<typeof SettingsActions>;

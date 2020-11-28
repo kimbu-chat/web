@@ -1,3 +1,3 @@
 export interface IInternetState {
-	state: boolean;
+  state: boolean;
 }

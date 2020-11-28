@@ -1,32 +1,26 @@
 import { Page } from '../common/models';
 import { UserPreview } from '../my-profile/models';
 
-export enum UserStatus {
-	Offline = 'Offline',
-	Away = 'Away',
-	Online = 'Online',
-}
-
 export interface GetFriendsActionData {
-	page: Page;
-	name?: string;
-	initializedBySearch?: boolean;
+  page: Page;
+  name?: string;
+  initializedBySearch?: boolean;
 }
 
 export interface GetFriendsSuccessActionData {
-	users: Array<UserPreview>;
-	name?: string;
-	initializedBySearch?: boolean;
+  users: Array<UserPreview>;
+  name?: string;
+  initializedBySearch?: boolean;
 }
 
 export interface GetGroupChatUsersSuccessActionData {
-	users: Array<UserPreview>;
+  users: Array<UserPreview>;
 }
 
 export interface DeleteFriendsActionData {
-	userIds: number[];
+  userIds: number[];
 }
 
 export interface UpdateFriendListActionData {
-	phoneNumbers: string[];
+  phoneNumbers: string[];
 }

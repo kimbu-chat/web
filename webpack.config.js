@@ -195,6 +195,7 @@ module.exports = {
       ? [
           new MiniCssExtractPlugin({
             filename: '[fullhash].css',
+            chunkFilename: '[id].[chunkhash].css',
           }),
         ]
       : []),

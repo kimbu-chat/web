@@ -1,11 +1,13 @@
-import { createAction } from 'typesafe-actions';
-import { createEmptyAction } from '../common/actions';
-import { UserSettings, ChangeLanguageReq, ChangeTypingStrategyReq } from './models';
+import { ChangeLanguage } from './change-language';
+import { ChangeNotificationSoundState } from './change-notification-sound-state';
+import { ChangeTypingStrategy } from './change-typing-strategy';
+import { GetUserSettings } from './get-user-settings';
+import { GetUserSettingsSuccess } from './get-user-settings-success';
 
 export namespace SettingsActions {
-  export const getUserSettingsAction = createEmptyAction('GET_USER_SETTINGS');
-  export const getUserSettingsSuccessAction = createAction('GET_USER_SETTINGS_SUCCESS')<UserSettings>();
-  export const changeLanguageAction = createAction('CHANGE_LANGUAGE')<ChangeLanguageReq>();
-  export const changeNotificationsSoundStateAction = createEmptyAction('CHANGE_NOTIFICATIONS_SOUND_STATE');
-  export const changeTypingStrategyAction = createAction('CHANGE_TYPING_STRATEGY')<ChangeTypingStrategyReq>();
+  export const changeLanguageAction = ChangeLanguage.action;
+  export const changeNotificationSoundStateAction = ChangeNotificationSoundState.action;
+  export const changeTypingStrategyAction = ChangeTypingStrategy.action;
+  export const getUserSettingsSuccessAction = GetUserSettingsSuccess.action;
+  export const getUserSettingsAction = GetUserSettings.action;
 }

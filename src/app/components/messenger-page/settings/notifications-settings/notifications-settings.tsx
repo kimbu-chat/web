@@ -11,7 +11,7 @@ export const NotificationsSettings = React.memo(() => {
   const { t } = useContext(LocalizationContext);
 
   const areSoundNotificationsEnabled = useSelector(areNotificationsEnabled);
-  const changeSoundNotificationState = useActionWithDispatch(SettingsActions.changeNotificationsSoundStateAction);
+  const changeSoundNotificationState = useActionWithDispatch(SettingsActions.changeNotificationSoundStateAction);
 
   return (
     <div className='notifications-settings'>

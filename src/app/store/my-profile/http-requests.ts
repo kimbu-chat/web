@@ -1,8 +1,9 @@
 import { AxiosResponse } from 'axios';
-import { httpRequestFactory, HttpRequestMethod } from '../common/http-factory';
+import { httpRequestFactory } from '../common/http-factory';
+import { httpFilesRequestFactory } from '../common/http-file-factory';
 import { CheckNicknameActionData, UpdateMyProfileApiRequestData, UpdateNicknameActionData, UploadAvatarResponse, UserPreview } from './models';
 import { ApiBasePath } from '../root-api';
-import { httpFilesRequestFactory } from '../common/http-file-factory';
+import { HttpRequestMethod } from '../common/models';
 
 export const MyProfileHttpRequests = {
   updateMyProfile: httpRequestFactory<AxiosResponse, UpdateMyProfileApiRequestData>(`${ApiBasePath.MainApi}/api/users`, HttpRequestMethod.Put),

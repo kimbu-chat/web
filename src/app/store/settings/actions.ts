@@ -1,8 +1,8 @@
-import { ChangeLanguage } from './change-language';
-import { ChangeNotificationSoundState } from './change-notification-sound-state';
-import { ChangeTypingStrategy } from './change-typing-strategy';
-import { GetUserSettings } from './get-user-settings';
-import { GetUserSettingsSuccess } from './get-user-settings-success';
+import { ChangeLanguage } from './features/change-language';
+import { ChangeNotificationSoundState } from './features/change-notification-sound-state';
+import { ChangeTypingStrategy } from './features/change-typing-strategy';
+import { GetUserSettings } from './features/get-user-settings';
+import { GetUserSettingsSuccess } from './features/get-user-settings-success';
 
 export namespace SettingsActions {
   export const changeLanguageAction = ChangeLanguage.action;

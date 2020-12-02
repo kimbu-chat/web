@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { httpRequestFactory, HttpRequestMethod } from '../common/http-factory';
+import { httpRequestFactory } from '../common/http-factory';
 import {
   Chat,
   GetChatsRequestData,
@@ -31,6 +31,7 @@ import {
 import { ApiBasePath } from '../root-api';
 import { httpFilesRequestFactory } from '../common/http-file-factory';
 import { UserPreview } from '../my-profile/models';
+import { HttpRequestMethod } from '../common/models';
 
 export const ChatHttpRequests = {
   getChats: httpRequestFactory<AxiosResponse<Chat[]>, GetChatsRequestData>(`${ApiBasePath.MainApi}/api/chats/search`, HttpRequestMethod.Post),

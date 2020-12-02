@@ -9,7 +9,7 @@ import myProfile from './my-profile/reducer';
 import calls from './calls/reducer';
 import internet from './internet/reducer';
 import settings from './settings/reducer';
-import { AuthActions } from './auth/actions';
+import { Logout } from './auth/features/logout';
 
 const rootReducer = combineReducers({
   auth,
@@ -25,7 +25,7 @@ const rootReducer = combineReducers({
 export type RootState = ReturnType<typeof rootReducer>;
 
 export default (state: any, action: any): ReturnType<typeof rootReducer> => {
-  if (action.type === getType(AuthActions.logout)) {
+  if (action.type === getType(Logout.action)) {
     return {
       ...state,
       auth: {

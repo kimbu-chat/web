@@ -1,7 +1,8 @@
 import { AxiosResponse } from 'axios';
-import { httpRequestFactory, HttpRequestMethod } from '../common/http-factory';
+import { httpRequestFactory } from '../common/http-factory';
 import { Message, MessagesReqData, MessageCreationReqData, UserMessageTypingRequest, EditMessageApiReq, DeleteMessagesApiReq } from './models';
 import { ApiBasePath } from '../root-api';
+import { HttpRequestMethod } from '../common/models';
 
 export const MessagesHttpRequests = {
   getMessages: httpRequestFactory<AxiosResponse<Message[]>, MessagesReqData>(`${ApiBasePath.MainApi}/api/messages/search`, HttpRequestMethod.Post),

@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
-import { httpRequestFactory, HttpRequestMethod } from '../common/http-factory';
+import { httpRequestFactory } from '../common/http-factory';
+import { HttpRequestMethod } from '../common/models';
 
 import { ApiBasePath } from '../root-api';
 import {

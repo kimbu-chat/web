@@ -1,19 +1,25 @@
-import { createAction } from 'typesafe-actions';
-import { SendSmsCodeActionData, PhoneConfirmationActionData, LoginResponse } from './models';
-import { createEmptyAction, Meta } from '../common/actions';
+import { ConfirmPhone } from './features/confirm-phone';
+import { ConfirmPhoneFailure } from './features/confirm-phone-failure';
+import { ConfirmPhoneSuccess } from './features/confirm-phone-success';
+import { LoginSuccess } from './features/login-success';
+import { Logout } from './features/logout';
+import { RefreshToken } from './features/refresh-token';
+import { RefreshTokenFailure } from './features/refresh-token-failure';
+import { RefreshTokenSuccess } from './features/refresh-token-success';
+import { SendSmsCode } from './features/send-sms-code';
+import { SendSmsCodeFailure } from './features/send-sms-code-failure';
+import { SendSmsCodeSuccess } from './features/send-sms-code-success';
 
 export namespace AuthActions {
-  export const loginSuccess = createAction('LOGIN_SUCCESS')<LoginResponse>();
-  export const refreshToken = createEmptyAction('REFRESH_TOKEN');
-  export const refreshTokenSuccess = createAction('REFRESH_TOKEN_SUCCESS')<LoginResponse>();
-  export const refreshTokenFailure = createEmptyAction('REFRESH_TOKEN_FAILURE');
-  export const registerSuccess = createEmptyAction('REGISTER_SUCCESS');
-  export const registerFailure = createEmptyAction('REGISTER_FAILURE');
-  export const sendSmsCode = createAction('SEND_PHONE_CONFIRMATION_CODE')<SendSmsCodeActionData, Meta>();
-  export const sendSmsCodeFailure = createEmptyAction('SEND_PHONE_CONFIRMATION_CODE_FAILURE');
-  export const sendSmsCodeSuccess = createAction('SEND_PHONE_CONFIRMATION_CODE_SUCCESS')<string>();
-  export const confirmPhone = createAction('CONFIRM_PHONE')<PhoneConfirmationActionData, Meta>();
-  export const confirmPhoneSuccess = createEmptyAction('CONFIRM_PHONE_SUCCESS');
-  export const confirmPhoneFailure = createEmptyAction('CONFIRM_PHONE_FAILURE');
-  export const logout = createEmptyAction('LOGOUT');
+  export const loginSuccess = LoginSuccess.action;
+  export const refreshToken = RefreshToken.action;
+  export const refreshTokenSuccess = RefreshTokenSuccess.action;
+  export const refreshTokenFailure = RefreshTokenFailure.action;
+  export const sendSmsCode = SendSmsCode.action;
+  export const sendSmsCodeFailure = SendSmsCodeFailure.action;
+  export const sendSmsCodeSuccess = SendSmsCodeSuccess.action;
+  export const confirmPhone = ConfirmPhone.action;
+  export const confirmPhoneSuccess = ConfirmPhoneSuccess.action;
+  export const confirmPhoneFailure = ConfirmPhoneFailure.action;
+  export const logout = Logout.action;
 }

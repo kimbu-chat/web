@@ -1,7 +1,8 @@
 import { AxiosResponse } from 'axios';
 import { LoginResponse, PhoneConfirmationData, PhoneConfirmationApiResponse, SubscribeToPushNotificationsRequest } from './models';
-import { authRequestFactory, HttpRequestMethod } from '../common/http-factory';
+import { authRequestFactory } from '../common/http-factory';
 import { ApiBasePath } from '../root-api';
+import { HttpRequestMethod } from '../common/models';
 
 export const AuthHttpRequests = {
   login: authRequestFactory<AxiosResponse<LoginResponse>, PhoneConfirmationData>(`${ApiBasePath.MainApi}/api/users/tokens`, HttpRequestMethod.Post),

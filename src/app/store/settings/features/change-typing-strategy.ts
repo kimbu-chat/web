@@ -2,7 +2,7 @@ import { createAction } from 'typesafe-actions';
 import produce from 'immer';
 import { SettingsService } from 'app/services/settings-service';
 import { SagaIterator } from 'redux-saga';
-import { ChangeTypingStrategyReq, UserSettings } from './models';
+import { ChangeTypingStrategyReq, UserSettings } from '../models';
 
 export class ChangeTypingStrategy {
   static get action() {

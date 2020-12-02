@@ -1,6 +1,6 @@
 import { createAction } from 'typesafe-actions';
 import produce from 'immer';
-import { UserSettings } from './models';
+import { UserSettings } from '../models';
 
 export class GetUserSettingsSuccess {
   static get action() {

@@ -1,7 +1,7 @@
 import { SettingsService } from 'app/services/settings-service';
 import { SagaIterator } from 'redux-saga';
 import { put } from 'redux-saga/effects';
-import { createEmptyAction } from '../common/actions';
+import { createEmptyAction } from '../../common/actions';
 import { GetUserSettingsSuccess } from './get-user-settings-success';
 
 export class GetUserSettings {

@@ -2,7 +2,7 @@ import { SettingsService } from 'app/services/settings-service';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { createAction } from 'typesafe-actions';
-import { ChangeLanguageReq, UserSettings } from './models';
+import { ChangeLanguageReq, UserSettings } from '../models';
 
 export class ChangeLanguage {
   static get action() {

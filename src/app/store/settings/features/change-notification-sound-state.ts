@@ -2,9 +2,9 @@ import { SettingsService } from 'app/services/settings-service';
 import { SagaIterator } from 'redux-saga';
 import { select } from 'redux-saga/effects';
 import produce from 'immer';
-import { createEmptyAction } from '../common/actions';
-import { UserSettings } from './models';
-import { areNotificationsEnabled } from './selectors';
+import { createEmptyAction } from '../../common/actions';
+import { UserSettings } from '../models';
+import { areNotificationsEnabled } from '../selectors';
 
 export class ChangeNotificationSoundState {
   static get action() {

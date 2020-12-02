@@ -1,30 +1,12 @@
-import { SettingsService } from 'app/services/settings-service';
-import { SagaIterator } from 'redux-saga';
-import { put, select, takeLatest } from 'redux-saga/effects';
-import { SettingsActions } from './actions';
-import { areNotificationsEnabled } from './selectors';
-
-export function* getUserSettings(): SagaIterator {
-  const savedSettings = new SettingsService().settings;
-  yield put(SettingsActions.getUserSettingsSuccessAction(savedSettings));
-}
-
-export function* changeUserLanguageSaga(action: ReturnType<typeof SettingsActions.changeLanguageAction>): SagaIterator {
-  new SettingsService().initializeOrUpdate({ language: action.payload.language });
-}
-
-export function* changeTypingStrategySaga(action: ReturnType<typeof SettingsActions.changeTypingStrategyAction>): SagaIterator {
-  new SettingsService().initializeOrUpdate({ TypingStrategy: action.payload.strategy });
-}
-
-export function* changeSoundNotificationsStateSaga(): SagaIterator {
-  const state = yield select(areNotificationsEnabled);
-  new SettingsService().initializeOrUpdate({ notificationSound: state });
-}
+import { takeLatest } from 'redux-saga/effects';
+import { ChangeLanguage } from './change-language';
+import { ChangeNotificationSoundState } from './change-notification-sound-state';
+import { ChangeTypingStrategy } from './change-typing-strategy';
+import { GetUserSettings } from './get-user-settings';
 
 export const SettingsSagas = [
-  takeLatest(SettingsActions.getUserSettingsAction, getUserSettings),
-  takeLatest(SettingsActions.changeLanguageAction, changeUserLanguageSaga),
-  takeLatest(SettingsActions.changeTypingStrategyAction, changeTypingStrategySaga),
-  takeLatest(SettingsActions.changeNotificationsSoundStateAction, changeSoundNotificationsStateSaga),
+  takeLatest(ChangeLanguage.action, ChangeLanguage.saga),
+  takeLatest(ChangeNotificationSoundState.action, ChangeNotificationSoundState.saga),
+  takeLatest(ChangeTypingStrategy.action, ChangeTypingStrategy.saga),
+  takeLatest(GetUserSettings.action, GetUserSettings.saga),
 ];

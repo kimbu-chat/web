@@ -1,12 +1,9 @@
-import produce from 'immer';
 import { createReducer } from 'typesafe-actions';
 import { MyProfileService } from 'app/services/my-profile-service';
-import { UserPreview } from './models';
-import { MyProfileActions } from './actions';
-
-export interface MyProfileState {
-  user?: UserPreview;
-}
+import { MyProfileState } from './models';
+import { GetMyProfileSuccess } from './features/get-my-profile-success';
+import { UpdateMyNicknameSuccess } from './features/update-my-nickname-success';
+import { UpdateMyProfileSuccess } from './features/update-my-profile-success';
 
 const authService = new MyProfileService();
 const initialState: MyProfileState = {
@@ -14,30 +11,8 @@ const initialState: MyProfileState = {
 };
 
 const myProfile = createReducer<MyProfileState>(initialState)
-  .handleAction(
-    [MyProfileActions.getMyProfileSuccessAction],
-    produce((draft: MyProfileState, { payload }: ReturnType<typeof MyProfileActions.getMyProfileSuccessAction>) => ({
-      ...draft,
-      user: payload,
-    })),
-  )
-  .handleAction(
-    [MyProfileActions.updateMyProfileSuccessAction],
-    produce((draft: MyProfileState, { payload }: ReturnType<typeof MyProfileActions.updateMyProfileSuccessAction>) => {
-      draft.user!.firstName = payload.firstName;
-      draft.user!.lastName = payload.lastName;
-      draft.user!.avatar = payload.avatar;
-
-      return draft;
-    }),
-  )
-  .handleAction(
-    [MyProfileActions.updateMyNicknameActionSuccess],
-    produce((draft: MyProfileState, { payload }: ReturnType<typeof MyProfileActions.updateMyNicknameActionSuccess>) => {
-      draft.user!.nickname = payload.nickname;
-
-      return draft;
-    }),
-  );
+  .handleAction(GetMyProfileSuccess.action, GetMyProfileSuccess.reducer)
+  .handleAction(UpdateMyProfileSuccess.action, UpdateMyProfileSuccess.reducer)
+  .handleAction(UpdateMyNicknameSuccess.action, UpdateMyNicknameSuccess.reducer);
 
 export default myProfile;

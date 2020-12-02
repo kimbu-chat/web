@@ -11,11 +11,12 @@ import { PhoneConfirmationApiResponse, SecurityTokens, LoginResponse } from './m
 import { AuthActions } from './actions';
 import { AuthHttpRequests } from './http-requests';
 import { InitActions } from '../initiation/actions';
-import { getMyProfileSaga } from '../my-profile/sagas';
 import { MyProfileActions } from '../my-profile/actions';
 import { UserStatus } from '../common/models';
 import { initializeSaga } from '../initiation/sagas';
 import { messaging } from '../middlewares/firebase/firebase';
+import { GetMyProfileSuccess } from '../my-profile/features/get-my-profile-success';
+import { MyProfileHttpRequests } from '../my-profile/http-requests';
 // @ts-ignore
 // import  FirebaseMessagingTypes  from 'firebase/messaging';
 
@@ -117,7 +118,13 @@ function* authenticate(action: ReturnType<typeof AuthActions.confirmPhone>): Sag
   yield put(AuthActions.loginSuccess(securityTokens));
   yield put(InitActions.init());
   yield fork(initializeSaga);
-  yield call(getMyProfileSaga);
+
+  const currentUserId = profileService.myProfile.id;
+
+  const httpRequest = MyProfileHttpRequests.getUserProfile;
+  const { data: profileData } = httpRequest.call(yield call(() => httpRequest.generator(currentUserId)));
+  profileService.setMyProfile(profileData);
+  yield put(GetMyProfileSuccess.action(profileData));
   yield spawn(initializePushNotifications);
   action?.meta.deferred?.resolve();
 }

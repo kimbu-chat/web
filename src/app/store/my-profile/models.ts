@@ -1,5 +1,9 @@
 import { Page, UserStatus } from '../common/models';
 
+export interface MyProfileState {
+  user?: UserPreview;
+}
+
 export interface UserPreview {
   id: number;
   firstName: string;

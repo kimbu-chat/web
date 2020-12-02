@@ -4,8 +4,8 @@ import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
 import { createEmptyAction } from '../../common/actions';
 import { messaging } from '../../middlewares/firebase/firebase';
+import { getPushNotificationTokens } from '../get-push-notification-tokens';
 import { AuthHttpRequests } from '../http-requests';
-import { getPushNotificationTokens } from '../sagas';
 
 export class Logout {
   static get action() {

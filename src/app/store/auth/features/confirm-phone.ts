@@ -14,10 +14,10 @@ import { UserPreview } from '../../my-profile/models';
 import { ConfirmPhoneFailure } from './confirm-phone-failure';
 import { LoginSuccess } from './login-success';
 import { AuthState, LoginResponse, PhoneConfirmationActionData, PhoneConfirmationApiResponse, SecurityTokens } from '../models';
-import { getPushNotificationTokens } from '../sagas';
 import { AuthHttpRequests } from '../http-requests';
 import { initializeSaga } from '../../initiation/sagas';
 import { getMyProfileSaga } from '../../my-profile/sagas';
+import { getPushNotificationTokens } from '../get-push-notification-tokens';
 
 export class ConfirmPhone {
   static get action() {

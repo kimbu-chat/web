@@ -1,12 +1,12 @@
 import { AuthService } from 'app/services/auth-service';
 import { createReducer } from 'typesafe-actions';
-import { ConfirmPhone } from './features/confirm-phone';
 import { ConfirmPhoneFailure } from './features/confirm-phone-failure';
 import { ConfirmPhoneSuccess } from './features/confirm-phone-success';
 import { LoginSuccess } from './features/login-success';
 import { AuthState } from './models';
-import { SendSmsCode } from './features/send-sms-code';
 import { SendSmsCodeSuccess } from './features/send-sms-code-success';
+import { SendSmsCode } from './features/send-sms-code';
+import { ConfirmPhone } from './features/confirm-phone';
 
 const authService = new AuthService();
 const securityTokens = authService?.securityTokens;

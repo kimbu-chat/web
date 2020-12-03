@@ -1,7 +1,9 @@
 import produce from 'immer';
+import { SagaIterator } from 'redux-saga';
 import { createAction } from 'typesafe-actions';
 import { getChatArrayIndex } from '../chats-utils';
 import { RemoveAttachmentReqData, ChatsState } from '../models';
+import { uploadingAttachments, removeUploadingAttachment } from '../upload-qeue';
 
 export class RemoveAttachment {
   static get action() {
@@ -24,5 +26,17 @@ export class RemoveAttachment {
 
       return draft;
     });
+  }
+
+  static get saga() {
+    return function* (action: ReturnType<typeof RemoveAttachment.action>): SagaIterator {
+      const { attachmentId } = action.payload;
+
+      const uploadingAttachment = uploadingAttachments.find(({ id }) => id === attachmentId);
+
+      uploadingAttachment?.cancelTokenSource.cancel();
+
+      removeUploadingAttachment(attachmentId);
+    };
   }
 }

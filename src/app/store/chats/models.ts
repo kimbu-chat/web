@@ -3,6 +3,14 @@ import { Page } from '../common/models';
 import { Message, FileType } from '../messages/models';
 import { UploadAvatarResponse, UserPreview } from '../my-profile/models';
 
+export interface ChatsState {
+  loading: boolean;
+  hasMore: boolean;
+  searchString: string;
+  chats: Chat[];
+  selectedChatId?: number;
+}
+
 export interface GroupChat {
   id: number;
   avatar?: {

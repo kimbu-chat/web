@@ -15,9 +15,7 @@ export class DeleteMessage {
 
   static get saga() {
     return function* deleteMessageSaga(action: ReturnType<typeof DeleteMessage.action>): SagaIterator {
-      const { httpRequest } = DeleteMessage;
-
-      const { status } = httpRequest.call(yield call(() => httpRequest.generator({ ids: action.payload.messageIds })));
+      const { status } = DeleteMessage.httpRequest.call(yield call(() => DeleteMessage.httpRequest.generator({ ids: action.payload.messageIds })));
 
       if (status === HTTPStatusCode.OK) {
         yield put(DeleteMessageSuccess.action(action.payload));

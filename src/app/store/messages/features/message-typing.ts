@@ -13,8 +13,7 @@ export class MessageTyping {
 
   static get saga() {
     return function* ({ payload }: ReturnType<typeof MessageTyping.action>): SagaIterator {
-      const { httpRequest } = MessageTyping;
-      httpRequest.call(yield call(() => httpRequest.generator(payload)));
+      MessageTyping.httpRequest.call(yield call(() => MessageTyping.httpRequest.generator(payload)));
     };
   }
 

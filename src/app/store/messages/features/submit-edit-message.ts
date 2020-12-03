@@ -26,7 +26,6 @@ export class SubmitEditMessage {
 
   static get saga() {
     return function* (action: ReturnType<typeof SubmitEditMessage.action>): SagaIterator {
-      const { httpRequest } = SubmitEditMessage;
       const editRequest: EditMessageApiReq = {
         text: action.payload.text,
         messageId: action.payload.messageId,
@@ -34,7 +33,7 @@ export class SubmitEditMessage {
         newAttachments: action.payload.newAttachments,
       };
 
-      const { status } = httpRequest.call(yield call(() => httpRequest.generator(editRequest)));
+      const { status } = SubmitEditMessage.httpRequest.call(yield call(() => SubmitEditMessage.httpRequest.generator(editRequest)));
 
       if (status === HTTPStatusCode.OK) {
         yield put(SubmitEditMessageSuccess.action(action.payload));

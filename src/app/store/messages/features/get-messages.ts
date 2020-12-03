@@ -30,8 +30,7 @@ export class GetMessages {
         chatId: new ChatId().From(chat.interlocutor?.id!, chat.groupChat?.id!).entireId,
       };
 
-      const { httpRequest } = GetMessages;
-      const { data } = httpRequest.call(yield call(() => httpRequest.generator(request)));
+      const { data } = GetMessages.httpRequest.call(yield call(() => GetMessages.httpRequest.generator(request)));
 
       data.forEach((message) => {
         message.state = chat.interlocutorLastReadMessageId && chat.interlocutorLastReadMessageId >= message.id ? MessageState.READ : MessageState.SENT;

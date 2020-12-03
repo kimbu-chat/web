@@ -17,8 +17,7 @@ export class DeleteFriend {
     return function* (action: ReturnType<typeof DeleteFriend.action>): SagaIterator {
       const userId = action.payload;
       try {
-        const { httpRequest } = DeleteFriend;
-        const { status } = httpRequest.call(yield call(() => httpRequest.generator(action.payload)));
+        const { status } = DeleteFriend.httpRequest.call(yield call(() => DeleteFriend.httpRequest.generator(action.payload)));
 
         if (status === HTTPStatusCode.OK) {
           yield put(DeleteFriendSuccess.action(userId));

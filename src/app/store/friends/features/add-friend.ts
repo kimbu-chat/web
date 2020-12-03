@@ -19,8 +19,7 @@ export class AddFriend {
       const user = action.payload;
       try {
         const phoneToAdd: UpdateFriendListActionData = { phoneNumbers: [user.phoneNumber] };
-        const { httpRequest } = AddFriend;
-        const { status } = httpRequest.call(yield call(() => httpRequest.generator(phoneToAdd)));
+        const { status } = AddFriend.httpRequest.call(yield call(() => AddFriend.httpRequest.generator(phoneToAdd)));
 
         if (status === HTTPStatusCode.OK) {
           yield put(AddFriendSuccess.action(user));

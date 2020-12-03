@@ -1,20 +1,42 @@
 import produce from 'immer';
 import { createReducer } from 'typesafe-actions';
-import { unionBy } from 'lodash';
-import { Chat, BaseAttachment, AttachmentToSend, AudioAttachment, PictureAttachment, RawAttachment, VideoAttachment, VoiceAttachment } from './models';
+import { AudioAttachment, PictureAttachment, RawAttachment, VideoAttachment, VoiceAttachment, ChatsState } from './models';
 import { ChatId } from './chat-id';
-import { ChatActions } from './actions';
 import { MessageActions } from '../messages/actions';
 import { FriendActions } from '../friends/actions';
-import { FileType, MessageState } from '../messages/models';
-
-export interface ChatsState {
-  loading: boolean;
-  hasMore: boolean;
-  searchString: string;
-  chats: Chat[];
-  selectedChatId?: number;
-}
+import { FileType } from '../messages/models';
+import { UserStatusChangedEvent } from '../friends/features/user-status-changed-event';
+import { CreateChat } from './features/create-chat';
+import { CreateMessage } from '../messages/features/create-message';
+import { CreateMessageSuccess } from '../messages/features/create-message-success';
+import { getChatArrayIndex, checkChatExists } from './chats-utils';
+import { AddUsersToGroupChatSuccess } from './features/add-users-to-group-chat-success';
+import { ChangeChatVisibilityStateSuccess } from './features/change-chat-visibility-state-success';
+import { ChangeInterlocutorLastReadMessageId } from './features/change-interlocutor-last-read-message-id';
+import { ChangeSelectedChat } from './features/change-selected-chat';
+import { CreateGroupChatSuccess } from './features/create-group-chat-success';
+import { EditGroupChatSuccess } from './features/edit-group-chat-success';
+import { GetAudioAttachmentsSuccess } from './features/get-audio-attachments-success';
+import { GetChatInfoSuccess } from './features/get-chat-info-success';
+import { GetChats } from './features/get-chats';
+import { GetChatsFailure } from './features/get-chats-failure';
+import { GetChatsSuccess } from './features/get-chats-success';
+import { GetPhotoAttachmentsSuccess } from './features/get-photo-attachments-success';
+import { GetRawAttachmentsSuccess } from './features/get-raw-attachments-success';
+import { GetVoiceAttachmentsSuccess } from './features/get-voice-attachments-success';
+import { InterlocutorMessageTyping } from './features/interlocutor-message-typing';
+import { InterlocutorStoppedTyping } from './features/interlocutor-stopped-typing';
+import { LeaveGroupChatSuccess } from './features/leave-group-chat-success';
+import { MarkMessagesAsRead } from './features/mark-messages-as-read';
+import { MuteChatSuccess } from './features/mute-chat-success';
+import { RemoveAttachment } from './features/remove-attachment';
+import { UnshiftChat } from './features/unshift-chat';
+import { UploadAttachmentFailure } from './features/upload-attachment-failure';
+import { UploadAttachmentProgress } from './features/upload-attachment-progress';
+import { UploadAttachmentRequest } from './features/upload-attachment-request';
+import { UploadAttachmentSuccess } from './features/upload-attachment-success';
+import { MessageTyping } from '../messages/features/message-typing';
+import { SubmitEditMessage } from '../messages/features/submit-edit-message';
 
 const initialState: ChatsState = {
   loading: false,
@@ -23,171 +45,34 @@ const initialState: ChatsState = {
   chats: [],
 };
 
-const checkChatExists = (chatId: number, state: ChatsState): boolean => Boolean(state.chats.find(({ id }) => id === chatId));
-
-const getChatArrayIndex = (chatId: number, state: ChatsState): number => state.chats.findIndex(({ id }) => id === chatId);
-
 const chats = createReducer<ChatsState>(initialState)
+  .handleAction(InterlocutorStoppedTyping.action, InterlocutorStoppedTyping.reducer)
+  .handleAction(InterlocutorMessageTyping.action, InterlocutorMessageTyping.reducer)
+  .handleAction(CreateGroupChatSuccess.action, CreateGroupChatSuccess.reducer)
+  .handleAction(AddUsersToGroupChatSuccess.action, AddUsersToGroupChatSuccess.reducer)
+  .handleAction(MuteChatSuccess.action, MuteChatSuccess.reducer)
+  .handleAction(ChangeSelectedChat.action, ChangeSelectedChat.reducer)
+  .handleAction(GetChats.action, GetChats.reducer)
+  .handleAction(GetChatsSuccess.action, GetChatsSuccess.reducer)
+  .handleAction(GetChatsFailure.action, GetChatsFailure.reducer)
+  .handleAction(LeaveGroupChatSuccess.action, LeaveGroupChatSuccess.reducer)
+  .handleAction(ChangeChatVisibilityStateSuccess.action, ChangeChatVisibilityStateSuccess.reducer)
+  .handleAction(MarkMessagesAsRead.action, MarkMessagesAsRead.reducer)
+  .handleAction(ChangeInterlocutorLastReadMessageId.action, ChangeInterlocutorLastReadMessageId.reducer)
+  .handleAction(CreateChat.action, CreateChat.reducer)
+  .handleAction(GetPhotoAttachmentsSuccess.action, GetPhotoAttachmentsSuccess.reducer)
+  .handleAction(GetVoiceAttachmentsSuccess.action, GetVoiceAttachmentsSuccess.reducer)
+  .handleAction(GetRawAttachmentsSuccess.action, GetRawAttachmentsSuccess.reducer)
+  .handleAction(GetAudioAttachmentsSuccess.action, GetAudioAttachmentsSuccess.reducer)
+  .handleAction(UploadAttachmentRequest.action, UploadAttachmentRequest.reducer)
+  .handleAction(UploadAttachmentProgress.action, UploadAttachmentProgress.reducer)
+  .handleAction(UploadAttachmentSuccess.action, UploadAttachmentSuccess.reducer)
+  .handleAction(UploadAttachmentFailure.action, UploadAttachmentFailure.reducer)
+  .handleAction(RemoveAttachment.action, RemoveAttachment.reducer)
+  .handleAction(GetChatInfoSuccess.action, GetChatInfoSuccess.reducer)
+  .handleAction(EditGroupChatSuccess.action, EditGroupChatSuccess.reducer)
   .handleAction(
-    ChatActions.interlocutorStoppedTyping,
-    produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.interlocutorStoppedTyping>) => {
-      const { chatId, interlocutorName } = payload;
-
-      const isChatExists: boolean = checkChatExists(chatId, draft);
-
-      if (!isChatExists) {
-        return draft;
-      }
-
-      const chatIndex: number = getChatArrayIndex(chatId, draft);
-
-      draft.chats[chatIndex].timeoutId = undefined;
-      draft.chats[chatIndex].typingInterlocutors = draft.chats[chatIndex].typingInterlocutors?.filter((user) => user.fullName !== interlocutorName);
-
-      return draft;
-    }),
-  )
-  .handleAction(
-    ChatActions.interlocutorMessageTyping,
-    produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.interlocutorMessageTyping>) => {
-      const { chatId, interlocutorName, timeoutId } = payload;
-
-      const isChatExists: boolean = checkChatExists(chatId, draft);
-
-      if (!isChatExists) {
-        return draft;
-      }
-
-      const chatIndex: number = getChatArrayIndex(chatId, draft);
-
-      clearTimeout(draft.chats[chatIndex].timeoutId as NodeJS.Timeout);
-
-      const typingUser = {
-        timeoutId,
-        fullName: interlocutorName,
-      };
-
-      draft.chats[chatIndex].draftMessage = payload.text;
-      draft.chats[chatIndex].timeoutId = timeoutId;
-
-      if (!draft.chats[chatIndex].typingInterlocutors?.find(({ fullName }) => fullName === interlocutorName)) {
-        draft.chats[chatIndex].typingInterlocutors = [...(draft.chats[chatIndex].typingInterlocutors || []), typingUser];
-      }
-
-      return draft;
-    }),
-  )
-  .handleAction(
-    ChatActions.createGroupChatSuccess,
-    produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.createGroupChatSuccess>) => {
-      const newChat = payload;
-
-      const isChatExists: boolean = checkChatExists(newChat.id, draft);
-
-      if (!isChatExists) {
-        draft.chats.unshift(newChat);
-        return draft;
-      }
-
-      return draft;
-    }),
-  )
-  .handleAction(
-    ChatActions.addUsersToGroupChatSuccess,
-    produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.addUsersToGroupChatSuccess>) => {
-      const { chat } = payload;
-
-      const chatIndex: number = getChatArrayIndex(chat.id, draft);
-
-      draft.chats[chatIndex].groupChat!.membersCount = draft.chats[chatIndex].groupChat!.membersCount + 1;
-
-      return draft;
-    }),
-  )
-  .handleAction(
-    ChatActions.muteChatSuccess,
-    produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.muteChatSuccess>) => {
-      const { id } = payload;
-
-      const chatIndex: number = getChatArrayIndex(id, draft);
-
-      draft.chats[chatIndex].isMuted = !draft.chats[chatIndex].isMuted;
-
-      return draft;
-    }),
-  )
-  .handleAction(
-    ChatActions.changeSelectedChat,
-    produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.changeSelectedChat>) => {
-      draft.chats.sort(
-        ({ lastMessage: lastMessageA }, { lastMessage: lastMessageB }) =>
-          new Date(lastMessageB?.creationDateTime!).getTime() - new Date(lastMessageA?.creationDateTime!).getTime(),
-      );
-
-      if (payload !== -1) {
-        draft.selectedChatId = payload;
-      }
-
-      return draft;
-    }),
-  )
-  .handleAction(
-    ChatActions.getChats,
-    produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.getChats>) => ({
-      ...draft,
-      loading: true,
-      searchString: payload.name || '',
-    })),
-  )
-  .handleAction(
-    ChatActions.getChatsSuccess,
-    produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.getChatsSuccess>) => {
-      const { chats, hasMore, initializedBySearch } = payload;
-
-      draft.loading = false;
-      draft.hasMore = hasMore;
-
-      if (initializedBySearch) {
-        draft.chats = chats;
-      } else {
-        draft.chats = unionBy(draft.chats, chats, 'id');
-      }
-
-      return draft;
-    }),
-  )
-  .handleAction(
-    ChatActions.getChatsFailure,
-    produce((draft: ChatsState) => ({
-      ...draft,
-      loading: false,
-    })),
-  )
-  .handleAction(
-    [ChatActions.leaveGroupChatSuccess, ChatActions.changeChatVisibilityStateSuccess],
-    produce(
-      (
-        draft: ChatsState,
-        { payload }: ReturnType<typeof ChatActions.leaveGroupChatSuccess> | ReturnType<typeof ChatActions.changeChatVisibilityStateSuccess>,
-      ) => {
-        const chatIndex: number = getChatArrayIndex(payload.id, draft);
-        draft.chats.splice(chatIndex, 1);
-        draft.selectedChatId = -1;
-        return draft;
-      },
-    ),
-  )
-  .handleAction(
-    ChatActions.markMessagesAsRead,
-    produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.markMessagesAsRead>) => {
-      const { chatId } = payload;
-      const chatIndex: number = getChatArrayIndex(chatId, draft);
-      draft.chats[chatIndex].ownUnreadMessagesCount = 0;
-      return draft;
-    }),
-  )
-  .handleAction(
-    MessageActions.createMessage,
+    CreateMessage.action,
     produce((draft: ChatsState, { payload }: ReturnType<typeof MessageActions.createMessage>) => {
       const { message, chatId, currentUserId } = payload;
 
@@ -217,7 +102,7 @@ const chats = createReducer<ChatsState>(initialState)
     }),
   )
   .handleAction(
-    FriendActions.userStatusChangedEvent,
+    UserStatusChangedEvent.action,
     produce((draft: ChatsState, { payload }: ReturnType<typeof FriendActions.userStatusChangedEvent>) => {
       const { status, userId } = payload;
       const chatId: number = new ChatId().From(userId).entireId;
@@ -235,27 +120,7 @@ const chats = createReducer<ChatsState>(initialState)
     }),
   )
   .handleAction(
-    ChatActions.changeInterlocutorLastReadMessageId,
-    produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.changeInterlocutorLastReadMessageId>) => {
-      const { lastReadMessageId, userReaderId, objectType, groupChatId } = payload;
-
-      const chatId = new ChatId().From(objectType === 'User' ? userReaderId : undefined, objectType === 'GroupChat' ? groupChatId : undefined).entireId;
-
-      const chatIndex = getChatArrayIndex(chatId, draft);
-
-      if (chatIndex >= 0) {
-        draft.chats[chatIndex].interlocutorLastReadMessageId = lastReadMessageId;
-
-        if (draft.chats[chatIndex].lastMessage?.id! <= lastReadMessageId) {
-          draft.chats[chatIndex].lastMessage!.state = MessageState.READ;
-        }
-      }
-
-      return draft;
-    }),
-  )
-  .handleAction(
-    MessageActions.createMessageSuccess,
+    CreateMessageSuccess.action,
     produce((draft: ChatsState, { payload }: ReturnType<typeof MessageActions.createMessageSuccess>) => {
       const { messageState, chatId, oldMessageId, newMessageId, attachments } = payload;
 
@@ -322,288 +187,24 @@ const chats = createReducer<ChatsState>(initialState)
     }),
   )
   .handleAction(
-    ChatActions.createChat,
-    produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.createChat>) => {
-      const { id } = payload;
-
-      const chatId: number = new ChatId().From(id).entireId;
-
-      const isChatExists = checkChatExists(chatId, draft);
-
-      draft.selectedChatId = chatId;
-
-      if (isChatExists) {
-        return draft;
-      }
-      // user does not have dialog with interlocutor - create dialog
-      const newChat: Chat = {
-        id: chatId,
-        draftMessage: '',
-        interlocutorType: 1,
-        ownUnreadMessagesCount: 0,
-        interlocutorLastReadMessageId: 0,
-        interlocutor: payload,
-        typingInterlocutors: [],
-        photos: {
-          hasMore: true,
-          photos: [],
-        },
-        videos: {
-          hasMore: true,
-          videos: [],
-        },
-        files: {
-          hasMore: true,
-          files: [],
-        },
-        recordings: {
-          hasMore: true,
-          recordings: [],
-        },
-        audios: {
-          hasMore: true,
-          audios: [],
-        },
-      };
-
-      draft.chats.unshift(newChat);
-
-      return draft;
-    }),
-  )
-  .handleAction(
-    ChatActions.getPhotoAttachmentsSuccess,
-    produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.getPhotoAttachmentsSuccess>) => {
-      const { photos, chatId, hasMore } = payload;
-
-      const chatIndex: number = getChatArrayIndex(chatId, draft);
-
-      if (chatIndex >= 0) {
-        draft.chats[chatIndex].photos.photos.push(...photos);
-        draft.chats[chatIndex].photos.hasMore = hasMore;
-      }
-      return draft;
-    }),
-  )
-  .handleAction(
-    ChatActions.getVideoAttachmentsSuccess,
-    produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.getVideoAttachmentsSuccess>) => {
-      const { videos, chatId, hasMore } = payload;
-
-      const chatIndex: number = getChatArrayIndex(chatId, draft);
-
-      if (chatIndex >= 0) {
-        draft.chats[chatIndex].videos.videos.push(...videos);
-        draft.chats[chatIndex].videos.hasMore = hasMore;
-      }
-      return draft;
-    }),
-  )
-  .handleAction(
-    ChatActions.getRawAttachmentsSuccess,
-    produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.getRawAttachmentsSuccess>) => {
-      const { files, chatId, hasMore } = payload;
-
-      const chatIndex: number = getChatArrayIndex(chatId, draft);
-
-      if (chatIndex >= 0) {
-        draft.chats[chatIndex].files.files.push(...files);
-        draft.chats[chatIndex].files.hasMore = hasMore;
-      }
-      return draft;
-    }),
-  )
-  .handleAction(
-    ChatActions.getVoiceAttachmentsSuccess,
-    produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.getVoiceAttachmentsSuccess>) => {
-      const { recordings, chatId, hasMore } = payload;
-
-      const chatIndex: number = getChatArrayIndex(chatId, draft);
-
-      if (chatIndex >= 0) {
-        draft.chats[chatIndex].recordings.recordings.push(...recordings);
-        draft.chats[chatIndex].recordings.hasMore = hasMore;
-      }
-      return draft;
-    }),
-  )
-  .handleAction(
-    ChatActions.getAudioAttachmentsSuccess,
-    produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.getAudioAttachmentsSuccess>) => {
-      const { audios, chatId, hasMore } = payload;
-
-      const chatIndex: number = getChatArrayIndex(chatId, draft);
-
-      if (chatIndex >= 0) {
-        draft.chats[chatIndex].audios.audios.push(...audios);
-        draft.chats[chatIndex].audios.hasMore = hasMore;
-      }
-      return draft;
-    }),
-  )
-  .handleAction(
-    ChatActions.uploadAttachmentRequestAction,
-    produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.uploadAttachmentRequestAction>) => {
-      const { type, chatId, attachmentId, file } = payload;
-
-      const chatIndex: number = getChatArrayIndex(chatId, draft);
-
-      if (chatIndex >= 0) {
-        if (!draft.chats[chatIndex].attachmentsToSend) {
-          draft.chats[chatIndex].attachmentsToSend = [];
-        }
-
-        const attachmentToAdd: AttachmentToSend<BaseAttachment> = {
-          attachment: {
-            id: attachmentId,
-            byteSize: file.size,
-            creationDateTime: new Date(),
-            url: '',
-            type,
-          },
-          progress: 0,
-          fileName: file.name,
-          file,
-        };
-
-        draft.chats[chatIndex].attachmentsToSend?.push(attachmentToAdd);
-      }
-      return draft;
-    }),
-  )
-  .handleAction(
-    ChatActions.uploadAttachmentProgressAction,
-    produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.uploadAttachmentProgressAction>) => {
-      const { progress, chatId, attachmentId } = payload;
-
-      const chatIndex: number = getChatArrayIndex(chatId, draft);
-
-      if (chatIndex >= 0) {
-        if (!draft.chats[chatIndex].attachmentsToSend) {
-          return draft;
-        }
-
-        const currentAttachment = draft.chats[chatIndex].attachmentsToSend?.find(({ attachment }) => attachment.id === attachmentId);
-
-        if (currentAttachment) {
-          currentAttachment.progress = progress;
-        }
-      }
-      return draft;
-    }),
-  )
-  .handleAction(
-    ChatActions.uploadAttachmentSuccessAction,
-    produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.uploadAttachmentSuccessAction>) => {
-      const { chatId, attachmentId, attachment } = payload;
-
-      const chatIndex: number = getChatArrayIndex(chatId, draft);
-
-      if (chatIndex >= 0) {
-        if (!draft.chats[chatIndex].attachmentsToSend) {
-          return draft;
-        }
-
-        const currentAttachment = draft.chats[chatIndex].attachmentsToSend?.find(({ attachment }) => attachment.id === attachmentId);
-
-        if (currentAttachment) {
-          currentAttachment.progress = 100;
-          currentAttachment.success = true;
-          currentAttachment.attachment = { ...currentAttachment.attachment, ...attachment };
-        }
-      }
-      return draft;
-    }),
-  )
-  .handleAction(
-    ChatActions.uploadAttachmentFailureAction,
-    produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.uploadAttachmentFailureAction>) => {
-      const { chatId, attachmentId } = payload;
-
-      const chatIndex: number = getChatArrayIndex(chatId, draft);
-
-      if (chatIndex >= 0) {
-        if (!draft.chats[chatIndex].attachmentsToSend) {
-          return draft;
-        }
-
-        const currentAttachment = draft.chats[chatIndex].attachmentsToSend?.find(({ attachment }) => attachment.id === attachmentId);
-
-        if (currentAttachment) {
-          currentAttachment.success = false;
-          currentAttachment.failure = true;
-        }
-      }
-      return draft;
-    }),
-  )
-  .handleAction(
-    ChatActions.removeAttachmentAction,
-    produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.removeAttachmentAction>) => {
-      const { chatId, attachmentId } = payload;
-
-      const chatIndex: number = getChatArrayIndex(chatId, draft);
-
-      if (chatIndex >= 0) {
-        if (!draft.chats[chatIndex].attachmentsToSend) {
-          return draft;
-        }
-
-        draft.chats[chatIndex].attachmentsToSend = draft.chats[chatIndex].attachmentsToSend?.filter(({ attachment }) => attachment.id !== attachmentId);
-      }
-
-      return draft;
-    }),
-  )
-  .handleAction(
-    ChatActions.getChatInfoSuccess,
-    produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.getChatInfoSuccess>) => {
-      const { chatId, rawAttachmentsCount, voiceAttachmentsCount, videoAttachmentsCount, audioAttachmentsCount, pictureAttachmentsCount } = payload;
-
-      const chatIndex: number = getChatArrayIndex(chatId, draft);
-
-      if (chatIndex >= 0) {
-        draft.chats[chatIndex].rawAttachmentsCount = rawAttachmentsCount;
-        draft.chats[chatIndex].voiceAttachmentsCount = voiceAttachmentsCount;
-        draft.chats[chatIndex].videoAttachmentsCount = videoAttachmentsCount;
-        draft.chats[chatIndex].audioAttachmentsCount = audioAttachmentsCount;
-        draft.chats[chatIndex].pictureAttachmentsCount = pictureAttachmentsCount;
-      }
-      return draft;
-    }),
-  )
-  .handleAction(
-    ChatActions.editGroupChatSuccess,
-    produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.editGroupChatSuccess>) => {
-      const { id, name, description, avatar } = payload;
-
-      const chatId: number = new ChatId().From(undefined, id).entireId;
-
-      const chatIndex: number = getChatArrayIndex(chatId, draft);
-
-      if (chatIndex >= 0) {
-        draft.chats[chatIndex].groupChat!.name = name;
-        draft.chats[chatIndex].groupChat!.description = description;
-        draft.chats[chatIndex].groupChat!.avatar = avatar;
-      }
-      return draft;
-    }),
-  )
-  .handleAction(
-    MessageActions.submitEditMessage,
+    SubmitEditMessage.action,
     produce((draft: ChatsState, { payload }: ReturnType<typeof MessageActions.submitEditMessage>) => {
-      const { chatId } = payload;
+      const { chatId, messageId, text } = payload;
       const chatIndex: number = getChatArrayIndex(chatId, draft);
 
       if (chatIndex >= 0) {
         draft.chats[chatIndex].attachmentsToSend = [];
+
+        if (draft.chats[chatIndex].lastMessage?.id === messageId) {
+          draft.chats[chatIndex].lastMessage!.text = text;
+        }
       }
 
       return draft;
     }),
   )
   .handleAction(
-    MessageActions.messageTyping,
+    MessageTyping.action,
     produce((draft: ChatsState, { payload }: ReturnType<typeof MessageActions.messageTyping>) => {
       const { chatId, text } = payload;
       const chatIndex: number = getChatArrayIndex(chatId, draft);
@@ -615,13 +216,6 @@ const chats = createReducer<ChatsState>(initialState)
       return draft;
     }),
   )
-  .handleAction(
-    ChatActions.unshiftChat,
-    produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.unshiftChat>) => {
-      draft.chats.unshift(payload);
-
-      return draft;
-    }),
-  );
+  .handleAction(UnshiftChat.action, UnshiftChat.reducer);
 
 export default chats;

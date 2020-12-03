@@ -1,6 +1,5 @@
 import { HTTPStatusCode } from 'app/common/http-status-code';
 import { ChatActions } from 'app/store/chats/actions';
-import { ChatHttpRequests } from 'app/store/chats/http-requests';
 import { Chat, MarkMessagesAsReadRequest } from 'app/store/chats/models';
 import { getSelectedChatIdSelector } from 'app/store/chats/selectors';
 import { RootState } from 'app/store/root-reducer';
@@ -13,6 +12,8 @@ import messageCameUnselected from 'app/assets/sounds/notifications/messsage-came
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
 import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
+import { MarkMessagesAsRead } from 'app/store/chats/features/mark-messages-as-read';
+import { ChangeSelectedChat } from 'app/store/chats/features/change-selected-chat';
 import { getChatIndex } from '../messages-utils';
 import { CreateMessageRequest, MessageCreationReqData, MessageList, MessagesState, MessageState, SystemMessageType } from '../models';
 import { CreateMessageSuccess } from './create-message-success';
@@ -65,8 +66,8 @@ export class CreateMessage {
               chatId: selectedChatId,
               lastReadMessageId: message.id,
             };
-            const httpRequest = ChatHttpRequests.markMessagesAsRead;
-            httpRequest.call(yield call(() => httpRequest.generator(httpRequestPayload)));
+
+            MarkMessagesAsRead.httpRequest.call(yield call(() => MarkMessagesAsRead.httpRequest.generator(httpRequestPayload)));
           } else {
             console.warn('notifyInterlocutorThatMessageWasRead Error');
           }
@@ -90,9 +91,7 @@ export class CreateMessage {
         }
 
         if (chats.findIndex(({ id }) => id === chatId) === -1) {
-          const httpRequest = ChatHttpRequests.getChatById;
-
-          const { data, status } = httpRequest.call(yield call(() => httpRequest.generator({ chatId })));
+          const { data, status } = ChangeSelectedChat.httpRequest.call(yield call(() => ChangeSelectedChat.httpRequest.generator({ chatId })));
 
           if (status === HTTPStatusCode.OK) {
             yield put(ChatActions.unshiftChat(data));
@@ -109,8 +108,7 @@ export class CreateMessage {
             attachments: attachmentsToSend,
           };
 
-          const { httpRequest } = CreateMessage;
-          const { data } = httpRequest.call(yield call(() => httpRequest.generator(messageCreationReq)));
+          const { data } = CreateMessage.httpRequest.call(yield call(() => CreateMessage.httpRequest.generator(messageCreationReq)));
 
           yield put(
             CreateMessageSuccess.action({

@@ -1,5 +1,5 @@
-import { createEmptyAction } from '../common/actions';
+import { InitSocketConnection } from './features/init-socket-connection';
 
 export namespace WebSocketActions {
-  export const initSocketConnection = createEmptyAction('INIT_SOCKET_CONNECTION');
+  export const initSocketConnection = InitSocketConnection.action;
 }

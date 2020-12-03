@@ -3,10 +3,10 @@ import { put, fork, spawn, take, select } from 'redux-saga/effects';
 import { SagaIterator, eventChannel } from 'redux-saga';
 import { MyProfileActions } from '../my-profile/actions';
 import { FriendActions } from '../friends/actions';
-import { WebSocketActions } from '../sockets/actions';
 import { RootState } from '../root-reducer';
 import { SettingsActions } from '../settings/actions';
 import { InternetConnectionCheck } from '../internet/features/internet-connection-check';
+import { InitSocketConnection } from '../sockets/features/init-socket-connection';
 
 function createVisibilityChannel() {
   return eventChannel((emit) => {
@@ -46,7 +46,7 @@ export function* initializeSaga(): SagaIterator {
     return;
   }
 
-  yield put(WebSocketActions.initSocketConnection());
+  yield put(InitSocketConnection.action());
   yield put(SettingsActions.getUserSettingsAction());
   yield put(MyProfileActions.changeUserOnlineStatusAction(true));
 

@@ -1,6 +1,5 @@
-import { createAction } from 'typesafe-actions';
-import { IInternetState } from './models';
+import { InternetConnectionCheck } from './features/internet-connection-check';
 
 export namespace InternetActions {
-  export const internetConnectionCheck = createAction('INTERNET_CONNECTION_CHECK')<IInternetState>();
+  export const internetConnectionCheck = InternetConnectionCheck.action;
 }

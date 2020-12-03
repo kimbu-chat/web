@@ -4,9 +4,9 @@ import { SagaIterator, eventChannel } from 'redux-saga';
 import { MyProfileActions } from '../my-profile/actions';
 import { FriendActions } from '../friends/actions';
 import { WebSocketActions } from '../sockets/actions';
-import { intervalInternetConnectionCheckSaga } from '../internet/sagas';
 import { RootState } from '../root-reducer';
 import { SettingsActions } from '../settings/actions';
+import { InternetConnectionCheck } from '../internet/features/internet-connection-check';
 
 function createVisibilityChannel() {
   return eventChannel((emit) => {
@@ -59,7 +59,7 @@ export function* initializeSaga(): SagaIterator {
     }),
   );
 
-  yield spawn(intervalInternetConnectionCheckSaga);
+  yield spawn(InternetConnectionCheck.saga);
   yield spawn(watcher);
 }
 

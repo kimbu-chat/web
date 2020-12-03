@@ -3,6 +3,14 @@ import { BaseAttachment, Chat } from '../chats/models';
 import { Page } from '../common/models';
 import { UserPreview } from '../my-profile/models';
 
+export interface MessagesState {
+  loading: boolean;
+  messages: MessageList[];
+  selectedMessageIds: number[];
+  messageToReply?: Message;
+  messageToEdit?: Message;
+}
+
 export interface MessageList {
   messages: Message[];
   hasMoreMessages: boolean;

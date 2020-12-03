@@ -322,8 +322,8 @@ const chats = createReducer<ChatsState>(initialState)
     }),
   )
   .handleAction(
-    MessageActions.createChat,
-    produce((draft: ChatsState, { payload }: ReturnType<typeof MessageActions.createChat>) => {
+    ChatActions.createChat,
+    produce((draft: ChatsState, { payload }: ReturnType<typeof ChatActions.createChat>) => {
       const { id } = payload;
 
       const chatId: number = new ChatId().From(id).entireId;

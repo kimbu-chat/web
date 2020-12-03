@@ -15,7 +15,6 @@ import {
   MessageEdited,
 } from './models';
 import { createEmptyAction } from '../common/actions';
-import { UserPreview } from '../my-profile/models';
 
 export namespace MessageActions {
   export const getMessages = createAction('GET_MESSAGES')<MessagesReq>();
@@ -24,7 +23,6 @@ export namespace MessageActions {
   export const createMessage = createAction('CREATE_MESSAGE')<CreateMessageRequest>();
   export const createMessageSuccess = createAction('CREATE_MESSAGE_SUCCESS')<CreateMessageResponse>();
   export const messageTyping = createAction('NOTIFY_USER_ABOUT_MESSAGE_TYPING')<UserMessageTypingRequest>();
-  export const createChat = createAction('CREATE_DIALOG')<UserPreview>();
   export const deleteMessage = createAction('DELETE_MESSAGE')<DeleteMessageReq>();
   export const deleteMessageSuccess = createAction('DELETE_MESSAGE_SUCCESS')<DeleteMessageReq>();
   export const selectMessage = createAction('SELECT_MESSAGE')<SelectMessageReq>();

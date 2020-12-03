@@ -31,6 +31,7 @@ import { GroupChatCreatedIntegrationEvent } from '../middlewares/websockets/inte
 import { createEmptyAction, Meta } from '../common/actions';
 import { MessagesReadIntegrationEvent } from '../middlewares/websockets/integration-events/messages-read-integration-event';
 import { GetGroupChatUsersSuccessActionData } from '../friends/models';
+import { UserPreview } from '../my-profile/models';
 
 export namespace ChatActions {
   export const getChats = createAction('GET_CHATS')<GetChatsActionData>();
@@ -53,6 +54,7 @@ export namespace ChatActions {
   export const changeSelectedChat = createAction('CHANGE_SELECTED_CHAT')<number>();
   export const changeChatVisibilityState = createAction('CHANGE_CHAT_VISIBILITY_STATE')<Chat>();
   export const unshiftChat = createAction('UNSHIFT_CHAT')<Chat>();
+  export const createChat = createAction('CREATE_DIALOG')<UserPreview>();
   export const changeChatVisibilityStateSuccess = createAction('CHANGE_CHAT_VISIBILITY_STATE_SUCCESS')<Chat>();
   export const muteChat = createAction('MUTE_CHAT')<Chat>();
   export const muteChatSuccess = createAction('MUTE_CHAT_SUCCESS')<Chat>();

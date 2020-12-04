@@ -7,6 +7,14 @@ export interface GetFriendsActionData {
   initializedBySearch?: boolean;
 }
 
+export interface FriendsState {
+  loading: boolean;
+  friends: UserPreview[];
+  hasMoreFriends: boolean;
+  usersForSelectedGroupChat: UserPreview[];
+  groupChatUsersLoading: boolean;
+}
+
 export interface GetFriendsSuccessActionData {
   users: Array<UserPreview>;
   name?: string;

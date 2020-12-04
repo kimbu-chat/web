@@ -1,18 +1,24 @@
 import produce from 'immer';
 import { createReducer } from 'typesafe-actions';
-import unionBy from 'lodash/unionBy';
-import { MessageList, MessageState, Message } from './models';
-import { MessageActions } from './actions';
+import { MessageState, MessagesState } from './models';
 import { ChatActions } from '../chats/actions';
 import { ChatId } from '../chats/chat-id';
-
-export interface MessagesState {
-  loading: boolean;
-  messages: MessageList[];
-  selectedMessageIds: number[];
-  messageToReply?: Message;
-  messageToEdit?: Message;
-}
+import { GetMessages } from './features/get-messages';
+import { CreateMessageSuccess } from './features/create-message-success';
+import { CreateMessage } from './features/create-message';
+import { DeleteMessageSuccess } from './features/delete-message-success';
+import { GetMessagesFailure } from './features/get-messages-failure';
+import { GetMessagesSuccess } from './features/get-messages-success';
+import { ReplyToMessage } from './features/reply-to-message';
+import { ResetSelecedMessages } from './features/reset-selected-messages';
+import { SelectMessage } from './features/select-message';
+import { getChatIndex } from './messages-utils';
+import { EditMessage } from './features/edit-message';
+import { MessageEdited } from './features/message-edited';
+import { ResetEditMessage } from './features/reset-edit-message';
+import { ResetReplyToMessage } from './features/reset-reply-to-message';
+import { SubmitEditMessage } from './features/submit-edit-message';
+import { SubmitEditMessageSuccess } from './features/sumbit-edit-message-success';
 
 const initialState: MessagesState = {
   loading: false,
@@ -20,151 +26,22 @@ const initialState: MessagesState = {
   selectedMessageIds: [],
 };
 
-const checkIfChatExists = (state: MessagesState, chatId: number): boolean =>
-  state.messages && state.messages.length > 0 && state?.messages?.findIndex((x) => x.chatId === chatId) > -1;
-const getChatIndex = (state: MessagesState, chatId: number): number => state?.messages?.findIndex((x) => x.chatId === chatId);
-
-const getMessage = (messages: Message[], messageId: number) => messages.find(({ id }) => id === messageId);
-
 const messages = createReducer<MessagesState>(initialState)
-  .handleAction(
-    MessageActions.createMessageSuccess,
-    produce((draft: MessagesState, { payload }: ReturnType<typeof MessageActions.createMessageSuccess>) => {
-      const { messageState, chatId, oldMessageId, newMessageId } = payload;
-      const chatIndex = getChatIndex(draft, chatId);
-      const messageIndex = draft.messages[chatIndex].messages.findIndex((x) => x.id === oldMessageId);
-      draft.messages[chatIndex].messages[messageIndex].id = newMessageId;
-      draft.messages[chatIndex].messages[messageIndex].state = messageState;
-
-      return draft;
-    }),
-  )
-  .handleAction(
-    MessageActions.getMessages,
-    produce((draft: MessagesState) => {
-      draft.loading = true;
-      return draft;
-    }),
-  )
-  .handleAction(
-    MessageActions.getMessagesSuccess,
-    produce((draft: MessagesState, { payload }: ReturnType<typeof MessageActions.getMessagesSuccess>) => {
-      const { chatId, hasMoreMessages, messages }: MessageList = payload;
-      const isChatExists = checkIfChatExists(draft, chatId);
-
-      draft.loading = false;
-      if (!isChatExists) {
-        draft.messages.push({
-          chatId,
-          hasMoreMessages,
-          messages,
-        });
-      } else {
-        const chatIndex = getChatIndex(draft, chatId);
-
-        draft.messages[chatIndex].hasMoreMessages = hasMoreMessages;
-
-        draft.messages[chatIndex].messages = unionBy(draft.messages[chatIndex].messages, messages, 'id');
-      }
-
-      return draft;
-    }),
-  )
-  .handleAction(
-    MessageActions.getMessagesFailure,
-    produce((draft: MessagesState) => {
-      draft.loading = false;
-      return draft;
-    }),
-  )
-  .handleAction(
-    MessageActions.createMessage,
-    produce((draft: MessagesState, { payload }: ReturnType<typeof MessageActions.createMessage>) => {
-      const { chatId, message } = payload;
-      const chatIndex = getChatIndex(draft, chatId);
-
-      if (chatIndex === -1) {
-        const messageList: MessageList = {
-          chatId,
-          messages: [message],
-          hasMoreMessages: false,
-        };
-        draft.messages.unshift(messageList);
-
-        return draft;
-      }
-
-      if (draft.messages[chatIndex].messages.findIndex(({ id }) => id === message.id) === -1) {
-        draft.messages[chatIndex].messages.unshift(message);
-      }
-      return draft;
-    }),
-  )
-  .handleAction(
-    ChatActions.changeInterlocutorLastReadMessageId,
-    produce((draft: MessagesState, { payload }: ReturnType<typeof ChatActions.changeInterlocutorLastReadMessageId>) => {
-      const { lastReadMessageId, userReaderId } = payload;
-
-      const chatId = new ChatId().From(userReaderId, undefined).entireId;
-
-      const chatIndex = getChatIndex(draft, chatId);
-
-      if (chatIndex !== -1) {
-        draft.messages[chatIndex].messages.map((message) => {
-          if (message.id <= lastReadMessageId) message.state = MessageState.READ;
-          return message;
-        });
-      }
-
-      return draft;
-    }),
-  )
-  .handleAction(
-    MessageActions.deleteMessageSuccess,
-    produce((draft: MessagesState, { payload }: ReturnType<typeof MessageActions.deleteMessageSuccess>) => {
-      const chatIndex = getChatIndex(draft, payload.chatId);
-
-      payload.messageIds.forEach((msgIdToDelete) => {
-        if (getMessage(draft.messages[chatIndex].messages, msgIdToDelete)?.isSelected) {
-          draft.selectedMessageIds = draft.selectedMessageIds.filter((id) => id !== msgIdToDelete);
-        }
-
-        draft.messages[chatIndex].messages = draft.messages[chatIndex].messages.filter(({ id }) => id !== msgIdToDelete);
-      });
-      return draft;
-    }),
-  )
-  .handleAction(
-    MessageActions.selectMessage,
-    produce((draft: MessagesState, { payload }: ReturnType<typeof MessageActions.selectMessage>) => {
-      const chatIndex = getChatIndex(draft, payload.chatId as number);
-      const selectedMessage = draft.messages[chatIndex].messages.find(({ id }) => id === payload.messageId) as Message;
-      const isMessageSelected = draft.selectedMessageIds.includes(selectedMessage?.id as number) && selectedMessage?.isSelected;
-
-      if (!isMessageSelected) {
-        selectedMessage.isSelected = true;
-        draft.selectedMessageIds.push(payload.messageId);
-      } else {
-        selectedMessage.isSelected = false;
-        draft.selectedMessageIds = draft.selectedMessageIds.filter((id) => id !== payload.messageId);
-      }
-
-      return draft;
-    }),
-  )
-  .handleAction(
-    MessageActions.resetSelectedMessages,
-    produce((draft: MessagesState, { payload }: ReturnType<typeof MessageActions.resetSelectedMessages>) => {
-      const chatIndex = getChatIndex(draft, payload.chatId as number);
-
-      draft.messages[chatIndex].messages.forEach((message) => {
-        message.isSelected = false;
-      });
-      draft.selectedMessageIds = [];
-
-      return draft;
-    }),
-  )
+  .handleAction(CreateMessageSuccess.action, CreateMessageSuccess.reducer)
+  .handleAction(GetMessages.action, GetMessages.reducer)
+  .handleAction(GetMessagesSuccess.action, GetMessagesSuccess.reducer)
+  .handleAction(GetMessagesFailure.action, GetMessagesFailure.reducer)
+  .handleAction(CreateMessage.action, CreateMessage.reducer)
+  .handleAction(DeleteMessageSuccess.action, DeleteMessageSuccess.reducer)
+  .handleAction(SelectMessage.action, SelectMessage.reducer)
+  .handleAction(ResetSelecedMessages.action, ResetSelecedMessages.reducer)
+  .handleAction(ReplyToMessage.action, ReplyToMessage.reducer)
+  .handleAction(EditMessage.action, EditMessage.reducer)
+  .handleAction(SubmitEditMessage.action, SubmitEditMessage.reducer)
+  .handleAction(SubmitEditMessageSuccess.action, SubmitEditMessageSuccess.reducer)
+  .handleAction(ResetReplyToMessage.action, ResetReplyToMessage.reducer)
+  .handleAction(ResetEditMessage.action, ResetEditMessage.reducer)
+  .handleAction(MessageEdited.action, MessageEdited.reducer)
   .handleAction(
     ChatActions.changeSelectedChat,
     produce((draft: MessagesState) => {
@@ -186,94 +63,19 @@ const messages = createReducer<MessagesState>(initialState)
     }),
   )
   .handleAction(
-    MessageActions.replyToMessage,
-    produce((draft: MessagesState, { payload }: ReturnType<typeof MessageActions.replyToMessage>) => {
-      draft.selectedMessageIds = [];
+    ChatActions.changeInterlocutorLastReadMessageId,
+    produce((draft: MessagesState, { payload }: ReturnType<typeof ChatActions.changeInterlocutorLastReadMessageId>) => {
+      const { lastReadMessageId, userReaderId } = payload;
 
-      const chatIndex = getChatIndex(draft, payload.chatId);
+      const chatId = new ChatId().From(userReaderId, undefined).entireId;
 
-      const message = getMessage(draft.messages[chatIndex].messages, payload.messageId);
-      message!.isSelected = false;
-
-      draft.messageToReply = message;
-      draft.messageToEdit = undefined;
-
-      return draft;
-    }),
-  )
-  .handleAction(
-    MessageActions.editMessage,
-    produce((draft: MessagesState, { payload }: ReturnType<typeof MessageActions.editMessage>) => {
-      draft.selectedMessageIds = [];
-
-      const chatIndex = getChatIndex(draft, payload.chatId);
-
-      const message = getMessage(draft.messages[chatIndex].messages, payload.messageId);
-
-      message!.isSelected = false;
-
-      draft.messageToEdit = message;
-      draft.messageToReply = undefined;
-
-      return draft;
-    }),
-  )
-  .handleAction(
-    MessageActions.submitEditMessage,
-    produce((draft: MessagesState) => {
-      draft.selectedMessageIds = [];
-
-      draft.messageToEdit = undefined;
-
-      return draft;
-    }),
-  )
-  .handleAction(
-    MessageActions.submitEditMessageSuccess,
-    produce((draft: MessagesState, { payload }: ReturnType<typeof MessageActions.submitEditMessageSuccess>) => {
-      draft.selectedMessageIds = [];
-
-      const chatIndex = getChatIndex(draft, payload.chatId);
-
-      const message = getMessage(draft.messages[chatIndex].messages, payload.messageId);
-
-      message!.text = payload.text;
-      message!.attachments = [
-        ...(message!.attachments?.filter(({ id }) => payload.removedAttachments?.findIndex((removedAttachment) => removedAttachment.id === id) === -1) || []),
-        ...(payload.newAttachments || []),
-      ];
-
-      return draft;
-    }),
-  )
-  .handleAction(
-    MessageActions.resetReplyToMessage,
-    produce((draft: MessagesState) => {
-      draft.messageToReply = undefined;
-      return draft;
-    }),
-  )
-  .handleAction(
-    MessageActions.resetEditMessage,
-    produce((draft: MessagesState) => {
-      draft.messageToEdit = undefined;
-      return draft;
-    }),
-  )
-  .handleAction(
-    MessageActions.messageEdited,
-    produce((draft: MessagesState, { payload }: ReturnType<typeof MessageActions.messageEdited>) => {
-      const { chatId, messageId, text, attachments } = payload;
       const chatIndex = getChatIndex(draft, chatId);
 
       if (chatIndex !== -1) {
-        const message = getMessage(draft.messages[chatIndex].messages, messageId);
-
-        if (message) {
-          message.text = text;
-          message.attachments = attachments;
-          message.isEdited = true;
-        }
+        draft.messages[chatIndex].messages.map((message) => {
+          if (message.id <= lastReadMessageId) message.state = MessageState.READ;
+          return message;
+        });
       }
 
       return draft;

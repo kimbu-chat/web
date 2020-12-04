@@ -1,81 +1,90 @@
-import { createAction } from 'typesafe-actions';
-import {
-  GetChatsActionData,
-  Chat,
-  GetChatsResponse,
-  GroupChatCreationReqData,
-  GetGroupChatUsersRequest,
-  AddUsersToGroupChatActionData,
-  GetPhotoAttachmentsRequest,
-  GetVideoAttachmentsRequest,
-  GetPhotoAttachmentsResponse,
-  GetVideoAttachmentsResponse,
-  GetRawAttachmentsRequest,
-  GetRawAttachmentsResponse,
-  UploadAttachmentReqData,
-  UploadAttachmentProgressData,
-  UploadAttachmentFailedData,
-  UploadAttachmentSuccessData,
-  RemoveAttachmentReqData,
-  GetRecordingsRequest,
-  GetRecordingsResponse,
-  MarkMessagesAsReadReqData,
-  GetChatInfoRequest,
-  GetChatInfoResponse,
-  EditGroupChatReqData,
-  GetAudioAttachmentsRequest,
-  GetAudioAttachmentsResponse,
-} from './models';
-import { IntercolutorMessageTypingIntegrationEvent } from '../middlewares/websockets/integration-events/interlocutor-message-typing-integration-event';
-import { GroupChatCreatedIntegrationEvent } from '../middlewares/websockets/integration-events/group-chat-сreated-integration-event';
-import { createEmptyAction, Meta } from '../common/actions';
-import { MessagesReadIntegrationEvent } from '../middlewares/websockets/integration-events/messages-read-integration-event';
-import { GetGroupChatUsersSuccessActionData } from '../friends/models';
+import { UploadAttachmentRequest } from './features/upload-attachment-request';
+import { AddUsersToGroupChat } from './features/add-users-to-group-chat';
+import { AddUsersToGroupChatSuccess } from './features/add-users-to-group-chat-success';
+import { ChangeChatVisibilityState } from './features/change-chat-visibility-state';
+import { ChangeChatVisibilityStateSuccess } from './features/change-chat-visibility-state-success';
+import { ChangeInterlocutorLastReadMessageId } from './features/change-interlocutor-last-read-message-id';
+import { ChangeSelectedChat } from './features/change-selected-chat';
+import { CreateChat } from './features/create-chat';
+import { CreateGroupChat } from './features/create-group-chat';
+import { CreateGroupChatFromEvent } from './features/create-group-chat-from-event';
+import { CreateGroupChatSuccess } from './features/create-group-chat-success';
+import { EditGroupChat } from './features/edit-group-chat';
+import { EditGroupChatSuccess } from './features/edit-group-chat-success';
+import { GetAudioAttachments } from './features/get-audio-attachments';
+import { GetAudioAttachmentsSuccess } from './features/get-audio-attachments-success';
+import { GetChatInfo } from './features/get-chat-info';
+import { GetChatInfoSuccess } from './features/get-chat-info-success';
+import { GetChats } from './features/get-chats';
+import { GetChatsFailure } from './features/get-chats-failure';
+import { GetChatsSuccess } from './features/get-chats-success';
+import { GetGroupChatUsers } from './features/get-group-chat-users';
+import { GetGroupChatUsersSuccess } from './features/get-group-chat-users-success';
+import { GetPhotoAttachments } from './features/get-photo-attachments';
+import { GetPhotoAttachmentsSuccess } from './features/get-photo-attachments-success';
+import { GetRawAttachmentsSuccess } from './features/get-raw-attachments-success';
+import { GetVideoAttachments } from './features/get-video-attachments';
+import { GetVideoAttachmentsSuccess } from './features/get-video-attachments-success';
+import { GetVoiceAttachments } from './features/get-voice-attachments';
+import { GetVoiceAttachmentsSuccess } from './features/get-voice-attachments-success';
+import { InterlocutorMessageTyping } from './features/interlocutor-message-typing';
+import { InterlocutorStoppedTyping } from './features/interlocutor-stopped-typing';
+import { LeaveGroupChat } from './features/leave-group-chat';
+import { LeaveGroupChatSuccess } from './features/leave-group-chat-success';
+import { MarkMessagesAsRead } from './features/mark-messages-as-read';
+import { MuteChat } from './features/mute-chat';
+import { MuteChatSuccess } from './features/mute-chat-success';
+import { UnshiftChat } from './features/unshift-chat';
+import { RemoveAttachment } from './features/remove-attachment';
+import { UploadAttachmentFailure } from './features/upload-attachment-failure';
+import { UploadAttachmentProgress } from './features/upload-attachment-progress';
+import { UploadAttachmentSuccess } from './features/upload-attachment-success';
 
 export namespace ChatActions {
-  export const getChats = createAction('GET_CHATS')<GetChatsActionData>();
-  export const getPhotoAttachments = createAction('GET_PHOTO_ATTACHMENTS')<GetPhotoAttachmentsRequest>();
-  export const getVideoAttachments = createAction('GET_VIDEO_ATTACHMENTS')<GetVideoAttachmentsRequest>();
-  export const getRawAttachments = createAction('GET_RAW_ATTACHMENTS')<GetRawAttachmentsRequest>();
-  export const getVoiceAttachments = createAction('GET_VOICE_ATTACHMENTS')<GetRecordingsRequest>();
-  export const getAudioAttachments = createAction('GET_AUDIO_ATTACHMENTS')<GetAudioAttachmentsRequest>();
-  export const getChatInfo = createAction('GET_CHAT_INFO')<GetChatInfoRequest>();
+  export const getChats = GetChats.action;
+  export const getPhotoAttachments = GetPhotoAttachments.action;
+  export const getVideoAttachments = GetVideoAttachments.action;
+  export const getRawAttachments = GetVideoAttachments.action;
+  export const getVoiceAttachments = GetVoiceAttachments.action;
+  export const getAudioAttachments = GetAudioAttachments.action;
+  export const getChatInfo = GetChatInfo.action;
 
-  export const getChatsSuccess = createAction('GET_CHATS_SUCCESS')<GetChatsResponse>();
-  export const getChatsFailure = createEmptyAction('GET_CHATS_FAILURE');
-  export const getPhotoAttachmentsSuccess = createAction('GET_PHOTO_ATTACHMENTS_SUCCESS')<GetPhotoAttachmentsResponse>();
-  export const getVideoAttachmentsSuccess = createAction('GET_VIDEO_ATTACHMENTS_SUCCESS')<GetVideoAttachmentsResponse>();
-  export const getRawAttachmentsSuccess = createAction('GET_FILES_ATTACHMENTS_SUCCESS')<GetRawAttachmentsResponse>();
-  export const getVoiceAttachmentsSuccess = createAction('GET_VOICE_ATTACHMENTS_SUCCESS')<GetRecordingsResponse>();
-  export const getAudioAttachmentsSuccess = createAction('GET_AUDIO_ATTACHMENTS_SUCCESS')<GetAudioAttachmentsResponse>();
-  export const getChatInfoSuccess = createAction('GET_CHAT_INFO_SUCCESS')<GetChatInfoResponse>();
+  export const getChatsSuccess = GetChatsSuccess.action;
+  export const getChatsFailure = GetChatsFailure.action;
+  export const getPhotoAttachmentsSuccess = GetPhotoAttachmentsSuccess.action;
+  export const getVideoAttachmentsSuccess = GetVideoAttachmentsSuccess.action;
+  export const getRawAttachmentsSuccess = GetRawAttachmentsSuccess.action;
+  export const getVoiceAttachmentsSuccess = GetVoiceAttachmentsSuccess.action;
+  export const getAudioAttachmentsSuccess = GetAudioAttachmentsSuccess.action;
+  export const getChatInfoSuccess = GetChatInfoSuccess.action;
 
-  export const changeSelectedChat = createAction('CHANGE_SELECTED_CHAT')<number>();
-  export const changeChatVisibilityState = createAction('CHANGE_CHAT_VISIBILITY_STATE')<Chat>();
-  export const unshiftChat = createAction('UNSHIFT_CHAT')<Chat>();
-  export const changeChatVisibilityStateSuccess = createAction('CHANGE_CHAT_VISIBILITY_STATE_SUCCESS')<Chat>();
-  export const muteChat = createAction('MUTE_CHAT')<Chat>();
-  export const muteChatSuccess = createAction('MUTE_CHAT_SUCCESS')<Chat>();
-  export const createGroupChat = createAction('CREATE_GROUP_CHAT')<GroupChatCreationReqData, Meta>();
-  export const createGroupChatSuccess = createAction('CREATE_GROUP_CHAT_SUCCESS')<Chat>();
-  export const editGroupChat = createAction('EDIT_GROUP_CHAT')<EditGroupChatReqData>();
-  export const editGroupChatSuccess = createAction('EDIT_GROUP_CHAT_SUCCESS')<EditGroupChatReqData>();
-  export const createGroupChatFromEvent = createAction('CREATE_GROUP_CHAT_FROM_EVENT')<GroupChatCreatedIntegrationEvent>();
-  export const getGroupChatUsers = createAction('GET_GROUP_CHAT_USERS')<GetGroupChatUsersRequest>();
-  export const getGroupChatUsersSuccess = createAction('GET_GROUP_CHAT_USERS_SUCCESS')<GetGroupChatUsersSuccessActionData>();
-  export const leaveGroupChat = createAction('LEAVE_GROUP_CHAT')<Chat, Meta>();
-  export const leaveGroupChatSuccess = createAction('LEAVE_GROUP_CHAT_SUCCESS')<Chat>();
-  export const addUsersToGroupChat = createAction('ADD_USERS_TO_GROUP_CHAT')<AddUsersToGroupChatActionData, Meta>();
-  export const addUsersToGroupChatSuccess = createAction('ADD_USERS_TO_GROUP_CHAT_SUCCESS')<AddUsersToGroupChatActionData>();
-  export const changeInterlocutorLastReadMessageId = createAction('GROUP_CHAT_MESSAGE_READ_FROM_EVENT')<MessagesReadIntegrationEvent>();
-  export const interlocutorStoppedTyping = createAction('INTERLOCUTOR_STOPPED_TYPING')<IntercolutorMessageTypingIntegrationEvent>();
-  export const interlocutorMessageTyping = createAction('INTERLOCUTOR_MESSAGE_TYPING_EVENT')<IntercolutorMessageTypingIntegrationEvent>();
+  export const changeSelectedChat = ChangeSelectedChat.action;
+  export const changeChatVisibilityState = ChangeChatVisibilityState.action;
+  export const unshiftChat = UnshiftChat.action;
+  export const createChat = CreateChat.action;
+  export const changeChatVisibilityStateSuccess = ChangeChatVisibilityStateSuccess.action;
+  export const muteChat = MuteChat.action;
+  export const muteChatSuccess = MuteChatSuccess.action;
+  export const createGroupChat = CreateGroupChat.action;
+  export const createGroupChatSuccess = CreateGroupChatSuccess.action;
+  export const editGroupChat = EditGroupChat.action;
+  export const editGroupChatSuccess = EditGroupChatSuccess.action;
+  export const createGroupChatFromEvent = CreateGroupChatFromEvent.action;
+  export const getGroupChatUsers = GetGroupChatUsers.action;
+  export const getGroupChatUsersSuccess = GetGroupChatUsersSuccess.action;
+  export const leaveGroupChat = LeaveGroupChat.action;
+  export const leaveGroupChatSuccess = LeaveGroupChatSuccess.action;
+  export const addUsersToGroupChat = AddUsersToGroupChat.action;
+  export const addUsersToGroupChatSuccess = AddUsersToGroupChatSuccess.action;
+  export const changeInterlocutorLastReadMessageId = ChangeInterlocutorLastReadMessageId.action;
+  export const interlocutorStoppedTyping = InterlocutorStoppedTyping.action;
+  export const interlocutorMessageTyping = InterlocutorMessageTyping.action;
 
-  export const uploadAttachmentRequestAction = createAction('UPLOAD_ATTACHMENT_REQUEST')<UploadAttachmentReqData>();
-  export const uploadAttachmentProgressAction = createAction('UPLOAD_ATTACHMENT_PROGRESS')<UploadAttachmentProgressData>();
-  export const uploadAttachmentSuccessAction = createAction('UPLOAD_ATTACHMENT_SUCCESS')<UploadAttachmentSuccessData>();
-  export const uploadAttachmentFailureAction = createAction('UPLOAD_ATTACHMENT_FAILURE')<UploadAttachmentFailedData>();
-  export const removeAttachmentAction = createAction('REMOVE_ATTACHMENT')<RemoveAttachmentReqData>();
+  export const uploadAttachmentRequestAction = UploadAttachmentRequest.action;
+  export const uploadAttachmentProgressAction = UploadAttachmentProgress.action;
+  export const uploadAttachmentSuccessAction = UploadAttachmentSuccess.action;
+  export const uploadAttachmentFailureAction = UploadAttachmentFailure.action;
+  export const removeAttachmentAction = RemoveAttachment.action;
 
-  export const markMessagesAsRead = createAction('RESET_UNREAD_MESSAGES_COUNT')<MarkMessagesAsReadReqData>();
+  export const markMessagesAsRead = MarkMessagesAsRead.action;
 }

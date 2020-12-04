@@ -1,15 +1,17 @@
-import { createAction } from 'typesafe-actions';
-import { UserPreview, GetFriendsActionData, GetFriendsSuccessActionData } from '../my-profile/models';
-
-import { StatusChangedIntegrationEvent } from '../middlewares/websockets/integration-events/status-changed-integration-event';
-import { DeleteFriendsActionData } from './models';
+import { AddFriend } from './features/add-friend';
+import { AddFriendSuccess } from './features/add-friend-success';
+import { DeleteFriend } from './features/delete-friend';
+import { DeleteFriendSuccess } from './features/delete-friend-success';
+import { GetFriends } from './features/get-friends';
+import { GetFriendsSuccess } from './features/get-friends-success';
+import { UserStatusChangedEvent } from './features/user-status-changed-event';
 
 export namespace FriendActions {
-  export const getFriends = createAction('GET_FRIENDS')<GetFriendsActionData>();
-  export const getFriendsSuccess = createAction('GET_FRIENDS_SUCCESS')<GetFriendsSuccessActionData>();
-  export const deleteFriend = createAction('DELETE_FRIEND')<DeleteFriendsActionData>();
-  export const deleteFriendSuccess = createAction('DELETE_FRIEND_SUCCESS')<DeleteFriendsActionData>();
-  export const userStatusChangedEvent = createAction('USER_STATUS_CHANGED_EVENT')<StatusChangedIntegrationEvent>();
-  export const addFriend = createAction('ADD_FRIEND')<UserPreview>();
-  export const addFriendSuccess = createAction('ADD_FRIEND_SUCCESS')<UserPreview>();
+  export const getFriends = GetFriends.action;
+  export const getFriendsSuccess = GetFriendsSuccess.action;
+  export const deleteFriend = DeleteFriend.action;
+  export const deleteFriendSuccess = DeleteFriendSuccess.action;
+  export const userStatusChangedEvent = UserStatusChangedEvent.action;
+  export const addFriend = AddFriend.action;
+  export const addFriendSuccess = AddFriendSuccess.action;
 }

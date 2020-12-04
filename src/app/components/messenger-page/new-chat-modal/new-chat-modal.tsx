@@ -6,11 +6,11 @@ import './new-chat-modal.scss';
 import { FriendActions } from 'store/friends/actions';
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import { LocalizationContext } from 'app/app';
-import { MessageActions } from 'store/messages/actions';
 import { UserPreview } from 'store/my-profile/models';
 import { useHistory } from 'react-router';
 
 import PeopleSvg from 'icons/ic-group.svg';
+import { ChatActions } from 'app/store/chats/actions';
 import { FriendFromList } from '../shared/friend-from-list/friend-from-list';
 import { SearchBox } from '../search-box/search-box';
 
@@ -26,7 +26,7 @@ export const NewChatModal = React.memo(({ onClose, displayCreateGroupChat }: New
 
   const friends = useSelector((state: RootState) => state.friends.friends);
 
-  const createChat = useActionWithDispatch(MessageActions.createChat);
+  const createChat = useActionWithDispatch(ChatActions.createChat);
   const loadFriends = useActionWithDispatch(FriendActions.getFriends);
 
   const history = useHistory();

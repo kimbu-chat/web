@@ -1,7 +1,21 @@
+import { CancelTokenSource } from 'axios';
 import { Page } from '../common/models';
 // eslint-disable-next-line import/no-cycle
 import { Message, FileType } from '../messages/models';
 import { UploadAvatarResponse, UserPreview } from '../my-profile/models';
+
+export interface UploadingAttachment {
+  id: number;
+  cancelTokenSource: CancelTokenSource;
+}
+
+export interface ChatsState {
+  loading: boolean;
+  hasMore: boolean;
+  searchString: string;
+  chats: Chat[];
+  selectedChatId?: number;
+}
 
 export interface GroupChat {
   id: number;

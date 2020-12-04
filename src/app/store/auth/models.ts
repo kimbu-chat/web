@@ -43,3 +43,12 @@ export interface SubscribeToPushNotificationsRequest {
   tokenId: string;
   deviceId: string;
 }
+
+export interface AuthState {
+  loading: boolean;
+  confirmationCode: string;
+  phoneNumber: string;
+  isConfirmationCodeWrong: boolean;
+  isAuthenticated: boolean;
+  securityTokens: SecurityTokens;
+}

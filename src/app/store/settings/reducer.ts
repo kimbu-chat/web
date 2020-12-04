@@ -1,6 +1,8 @@
-import produce from 'immer';
 import { createReducer } from 'typesafe-actions';
-import { SettingsActions } from './actions';
+import { ChangeLanguage } from './features/change-language';
+import { ChangeNotificationSoundState } from './features/change-notification-sound-state';
+import { ChangeTypingStrategy } from './features/change-typing-strategy';
+import { GetUserSettingsSuccess } from './features/get-user-settings-success';
 import { Langs, TypingStrategy, UserSettings } from './models';
 
 const initialState: UserSettings = {
@@ -10,33 +12,9 @@ const initialState: UserSettings = {
 };
 
 const settings = createReducer<UserSettings>(initialState)
-  .handleAction(
-    SettingsActions.getUserSettingsSuccessAction,
-    produce((draft: UserSettings, { payload }: ReturnType<typeof SettingsActions.getUserSettingsSuccessAction>) => ({
-      ...draft,
-      ...payload,
-    })),
-  )
-  .handleAction(
-    SettingsActions.changeLanguageAction,
-    produce((draft: UserSettings, { payload }: ReturnType<typeof SettingsActions.changeLanguageAction>) => {
-      draft.language = payload.language;
-      return draft;
-    }),
-  )
-  .handleAction(
-    SettingsActions.changeNotificationsSoundStateAction,
-    produce((draft: UserSettings) => {
-      draft.notificationSound = !draft.notificationSound;
-      return draft;
-    }),
-  )
-  .handleAction(
-    SettingsActions.changeTypingStrategyAction,
-    produce((draft: UserSettings, { payload }: ReturnType<typeof SettingsActions.changeTypingStrategyAction>) => {
-      draft.TypingStrategy = payload.strategy;
-      return draft;
-    }),
-  );
+  .handleAction(ChangeNotificationSoundState.action, ChangeNotificationSoundState.reducer)
+  .handleAction(ChangeTypingStrategy.action, ChangeTypingStrategy.reducer)
+  .handleAction(ChangeLanguage.action, ChangeLanguage.reducer)
+  .handleAction(GetUserSettingsSuccess.action, GetUserSettingsSuccess.reducer);
 
 export default settings;

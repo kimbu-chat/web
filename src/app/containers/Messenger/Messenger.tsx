@@ -22,7 +22,7 @@ import {
 
 import { AvatarSelectedData } from 'store/my-profile/models';
 import { useSelector } from 'react-redux';
-import { isCallingMe, amICaling, doIhaveCall } from 'store/calls/selectors';
+import { amICalled as isCallingMe, amICaling, doIhaveCall } from 'store/calls/selectors';
 import { CSSTransition } from 'react-transition-group';
 import { LocalizationContext } from 'app/app';
 import { getSelectedChatSelector } from 'store/chats/selectors';

@@ -13,3 +13,10 @@ export enum UserStatus {
   Away = 'Away',
   Online = 'Online',
 }
+
+export enum HttpRequestMethod {
+  Get = 'GET',
+  Post = 'POST',
+  Put = 'PUT',
+  Delete = 'DELETE',
+}

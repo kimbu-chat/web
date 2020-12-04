@@ -1,12 +1,13 @@
 import { AuthService } from 'app/services/auth-service';
 import { put, fork, spawn, take, select } from 'redux-saga/effects';
 import { SagaIterator, eventChannel } from 'redux-saga';
-import { MyProfileActions } from '../my-profile/actions';
+import { RootState } from 'app/store/root-reducer';
 import { FriendActions } from '../friends/actions';
-import { WebSocketActions } from '../sockets/actions';
-import { intervalInternetConnectionCheckSaga } from '../internet/sagas';
-import { RootState } from '../root-reducer';
 import { SettingsActions } from '../settings/actions';
+import { InternetConnectionCheck } from '../internet/features/internet-connection-check';
+import { InitSocketConnection } from '../sockets/features/init-socket-connection';
+import { ChangeUserOnlineStatus } from '../my-profile/features/change-user-online-status';
+import { GetMyProfile } from '../my-profile/features/get-my-profile';
 
 function createVisibilityChannel() {
   return eventChannel((emit) => {
@@ -32,8 +33,7 @@ function* watcher() {
   const channel = createVisibilityChannel();
   const amIauthenticated = yield select((state: RootState) => state.auth.isAuthenticated);
   while (true) {
-    const action =
-      (yield take(channel)) && amIauthenticated ? MyProfileActions.changeUserOnlineStatusAction(true) : MyProfileActions.changeUserOnlineStatusAction(false);
+    const action = (yield take(channel)) && amIauthenticated ? ChangeUserOnlineStatus.action(true) : ChangeUserOnlineStatus.action(false);
     yield put(action);
   }
 }
@@ -46,11 +46,11 @@ export function* initializeSaga(): SagaIterator {
     return;
   }
 
-  yield put(WebSocketActions.initSocketConnection());
+  yield put(InitSocketConnection.action());
   yield put(SettingsActions.getUserSettingsAction());
-  yield put(MyProfileActions.changeUserOnlineStatusAction(true));
+  yield put(ChangeUserOnlineStatus.action(true));
 
-  yield put(MyProfileActions.getMyProfileAction());
+  yield put(GetMyProfile.action());
 
   yield put(
     FriendActions.getFriends({
@@ -59,7 +59,7 @@ export function* initializeSaga(): SagaIterator {
     }),
   );
 
-  yield spawn(intervalInternetConnectionCheckSaga);
+  yield spawn(InternetConnectionCheck.saga);
   yield spawn(watcher);
 }
 

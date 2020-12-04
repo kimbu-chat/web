@@ -1,43 +1,53 @@
-import { createAction } from 'typesafe-actions';
-import {
-  OutgoingCallActionPayload,
-  IncomingCallActionPayload,
-  AcceptIncomingCallActionPayload,
-  InterlocutorAcceptCallActionPayload,
-  CandidateActionPayload,
-  ChangeMediaStatusActionPayload,
-  GotMediaDevicesInfoActionPayload,
-  SwitchDeviceActionPayload,
-  EndCallActionPayload,
-  GetCallsActionData,
-  GetCallsResponse,
-} from './models';
-import { createEmptyAction } from '../common/actions';
-import { InterlocutorCanceledCallIntegrationEvent } from '../middlewares/websockets/integration-events/interlocutor-canceled-call-integration-event';
+import { AcceptCall } from './features/accept-call';
+import { AcceptCallSuccess } from './features/accept-call-success';
+import { CallEnded } from './features/call-ended';
+import { CancelCall } from './features/cancel-call';
+import { CancelCallSuccess } from './features/cancel-call-success';
+import { Candidate } from './features/candidate';
+import { ChangeActiveDeviceId } from './features/change-active-device-id';
+import { ChangeMediaStatus } from './features/change-media-status';
+import { ChangeScreenShareStatus } from './features/change-screen-share-status';
+import { CloseAudioStatus } from './features/close-audio-status';
+import { CloseScreenShareStatus } from './features/close-screen-share-status';
+import { CloseVideoStatus } from './features/close-video-status';
+import { DeclineCall } from './features/decline-call';
+import { EndCall } from './features/end-call';
+import { GetCalls } from './features/get-calls';
+import { GetCallsSuccess } from './features/get-calls-success';
+import { GotDevicesInfo } from './features/got-devices-info';
+import { IncomingCall } from './features/incoming-call';
+import { InterlocutorAcceptedCall } from './features/interlocutor-accepted-call';
+import { InterlocutorAcceptedCallSuccess } from './features/interlocutor-accepted-call-success';
+import { InterlocutorBusy } from './features/interlocutor-busy';
+import { InterlocutorCanceledCall } from './features/interlocutor-canceled-call';
+import { OutgoingCall } from './features/outgoing-call';
+import { SwitchDevice } from './features/switch-device';
+import { TimeoutCall } from './features/timeout-call';
 
 export namespace CallActions {
-  export const getCallsAction = createAction('GET_CALLS')<GetCallsActionData>();
-  export const getCallsSuccessAction = createAction('GET_CALLS_SUCCESS')<GetCallsResponse>();
-  export const outgoingCallAction = createAction('OUTGOING_CALL')<OutgoingCallActionPayload>();
-  export const incomingCallAction = createAction('INCOMING_CALL')<IncomingCallActionPayload>();
-  export const changeActiveDeviceIdAction = createAction('CHANGE_ACTIVE_DEVICE_ID')<SwitchDeviceActionPayload>();
-  export const interlocutorBusyAction = createEmptyAction('INTERLOCUTOR_BUSY');
-  export const cancelCallAction = createEmptyAction('CANCEL_CALL');
-  export const declineCallAction = createEmptyAction('DECLINE_CALL');
-  export const endCallAction = createAction('END_CALL')<EndCallActionPayload>();
-  export const timeoutCallAction = createEmptyAction('TIMEOUT_CALL');
-  export const cancelCallSuccessAction = createEmptyAction('CANCEL_CALL_SUCCESS');
-  export const acceptCallAction = createAction('ACCEPT_CALL')<AcceptIncomingCallActionPayload>();
-  export const acceptCallSuccessAction = createAction('ACCEPT_CALL_SUCCESS')<AcceptIncomingCallActionPayload>();
-  export const interlocutorCanceledCallAction = createAction('INTERLOCUTOR_CANCELED_CALL')<InterlocutorCanceledCallIntegrationEvent>();
-  export const interlocutorAcceptedCallAction = createAction('INTERLOCUTOR_ACCEPTED_CALL')<InterlocutorAcceptCallActionPayload>();
-  export const callEndedAction = createEmptyAction('CALL_ENDED');
-  export const candidateAction = createAction('CANDIDATE')<CandidateActionPayload>();
-  export const changeMediaStatusAction = createAction('CHANGE_MEDIA_STATUS')<ChangeMediaStatusActionPayload>();
-  export const changeScreenShareStatusAction = createEmptyAction('CHANGE_SCREEN_SHARE_STATUS');
-  export const closeScreenShareStatusAction = createEmptyAction('CLOSE_SCREEN_SHARE_STATUS');
-  export const closeVideoStatusAction = createEmptyAction('CLOSE_VIDEO_STATUS');
-  export const closeAudioStatusAction = createEmptyAction('CLOSE_AUDIO_STATUS');
-  export const gotDevicesInfoAction = createAction('GOT_DEVICES_INFO')<GotMediaDevicesInfoActionPayload>();
-  export const switchDeviceAction = createAction('SWITCH_DEVICE')<SwitchDeviceActionPayload>();
+  export const getCallsAction = GetCalls.action;
+  export const getCallsSuccessAction = GetCallsSuccess.action;
+  export const outgoingCallAction = OutgoingCall.action;
+  export const incomingCallAction = IncomingCall.action;
+  export const changeActiveDeviceIdAction = ChangeActiveDeviceId.action;
+  export const interlocutorBusyAction = InterlocutorBusy.action;
+  export const cancelCallAction = CancelCall.action;
+  export const declineCallAction = DeclineCall.action;
+  export const endCallAction = EndCall.action;
+  export const timeoutCallAction = TimeoutCall.action;
+  export const cancelCallSuccessAction = CancelCallSuccess.action;
+  export const acceptCallAction = AcceptCall.action;
+  export const acceptCallSuccessAction = AcceptCallSuccess.action;
+  export const interlocutorCanceledCallAction = InterlocutorCanceledCall.action;
+  export const interlocutorAcceptedCallAction = InterlocutorAcceptedCall.action;
+  export const interlocutorAcceptedCallSuccessAction = InterlocutorAcceptedCallSuccess.action;
+  export const callEndedAction = CallEnded.action;
+  export const candidateAction = Candidate.action;
+  export const changeMediaStatusAction = ChangeMediaStatus.action;
+  export const changeScreenShareStatusAction = ChangeScreenShareStatus.action;
+  export const closeScreenShareStatusAction = CloseScreenShareStatus.action;
+  export const closeVideoStatusAction = CloseVideoStatus.action;
+  export const closeAudioStatusAction = CloseAudioStatus.action;
+  export const gotDevicesInfoAction = GotDevicesInfo.action;
+  export const switchDeviceAction = SwitchDevice.action;
 }

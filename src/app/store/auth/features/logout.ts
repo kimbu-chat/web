@@ -1,11 +1,15 @@
 import { AuthService } from 'app/services/auth-service';
 import { MyProfileService } from 'app/services/my-profile-service';
+import { authRequestFactory } from 'app/store/common/http-factory';
+import { HttpRequestMethod } from 'app/store/common/models';
+import { ApiBasePath } from 'app/store/root-api';
+import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
 import { createEmptyAction } from '../../common/actions';
 import { messaging } from '../../middlewares/firebase/firebase';
 import { getPushNotificationTokens } from '../get-push-notification-tokens';
-import { AuthHttpRequests } from '../http-requests';
+import { SubscribeToPushNotificationsRequest } from '../models';
 
 export class Logout {
   static get action() {
@@ -18,8 +22,7 @@ export class Logout {
       new MyProfileService().clear();
 
       const tokens = yield call(getPushNotificationTokens);
-      const httpRequest = AuthHttpRequests.unsubscribeFromPushNotifications;
-      yield call(() => httpRequest.generator(tokens));
+      yield call(() => Logout.httpRequest.generator(tokens));
 
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker
@@ -36,5 +39,12 @@ export class Logout {
 
       yield call(async () => await messaging().deleteToken());
     };
+  }
+
+  static get httpRequest() {
+    return authRequestFactory<AxiosResponse, SubscribeToPushNotificationsRequest>(
+      `${ApiBasePath.NotificationsApi}/api/notifications/unsubscribe`,
+      HttpRequestMethod.Post,
+    );
   }
 }

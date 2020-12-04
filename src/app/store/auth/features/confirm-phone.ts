@@ -6,15 +6,24 @@ import jwt_decode from 'jwt-decode';
 import { SagaIterator } from 'redux-saga';
 import { put, call, fork } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+import { authRequestFactory } from 'app/store/common/http-factory';
+import { ApiBasePath } from 'app/store/root-api';
 import { Meta } from '../../common/actions';
-import { UserStatus } from '../../common/models';
+import { HttpRequestMethod, UserStatus } from '../../common/models';
 import { InitActions } from '../../initiation/actions';
 import { MyProfileActions } from '../../my-profile/actions';
 import { UserPreview } from '../../my-profile/models';
 import { ConfirmPhoneFailure } from './confirm-phone-failure';
 import { LoginSuccess } from './login-success';
-import { AuthState, LoginResponse, PhoneConfirmationActionData, PhoneConfirmationApiResponse, SecurityTokens } from '../models';
-import { AuthHttpRequests } from '../http-requests';
+import {
+  AuthState,
+  LoginResponse,
+  PhoneConfirmationActionData,
+  PhoneConfirmationApiResponse,
+  PhoneConfirmationData,
+  SecurityTokens,
+  SubscribeToPushNotificationsRequest,
+} from '../models';
 import { initializeSaga } from '../../initiation/sagas';
 import { getMyProfileSaga } from '../../my-profile/sagas';
 import { getPushNotificationTokens } from '../get-push-notification-tokens';
@@ -33,12 +42,14 @@ export class ConfirmPhone {
 
   static get saga() {
     return function* confirmPhoneNumberSaga(action: ReturnType<typeof ConfirmPhone.action>): SagaIterator {
-      const request = AuthHttpRequests.confirmPhone;
-      const { data }: AxiosResponse<PhoneConfirmationApiResponse> = request.call(yield call(() => request.generator(action.payload)));
+      const { data }: AxiosResponse<PhoneConfirmationApiResponse> = ConfirmPhone.httpRequest.confirmPhone.call(
+        yield call(() => ConfirmPhone.httpRequest.confirmPhone.generator(action.payload)),
+      );
 
       if (data.isCodeCorrect && data.userExists) {
-        const request = AuthHttpRequests.login;
-        const { data }: AxiosResponse<LoginResponse> = request.call(yield call(() => request.generator(action.payload)));
+        const { data }: AxiosResponse<LoginResponse> = ConfirmPhone.httpRequest.login.call(
+          yield call(() => ConfirmPhone.httpRequest.login.generator(action.payload)),
+        );
 
         const profileService = new MyProfileService();
         const myProfile: UserPreview = {
@@ -64,8 +75,7 @@ export class ConfirmPhone {
         yield fork(initializeSaga);
         yield call(getMyProfileSaga);
         const tokens = yield call(getPushNotificationTokens);
-        const httpRequest = AuthHttpRequests.subscribeToPushNotifications;
-        httpRequest.call(yield call(() => httpRequest.generator(tokens)));
+        ConfirmPhone.httpRequest.subscribeToPushNotifications.call(yield call(() => ConfirmPhone.httpRequest.subscribeToPushNotifications.generator(tokens)));
         action?.meta.deferred?.resolve();
       } else if (data.isCodeCorrect && !data.userExists) {
         alert('User can be registered using mobile app');
@@ -75,6 +85,20 @@ export class ConfirmPhone {
         action?.meta.deferred.reject();
         yield put(ConfirmPhoneFailure.action());
       }
+    };
+  }
+
+  static get httpRequest() {
+    return {
+      login: authRequestFactory<AxiosResponse<LoginResponse>, PhoneConfirmationData>(`${ApiBasePath.MainApi}/api/users/tokens`, HttpRequestMethod.Post),
+      confirmPhone: authRequestFactory<AxiosResponse<PhoneConfirmationApiResponse>, PhoneConfirmationData>(
+        `${ApiBasePath.MainApi}/api/users/verify-sms-code`,
+        HttpRequestMethod.Post,
+      ),
+      subscribeToPushNotifications: authRequestFactory<AxiosResponse, SubscribeToPushNotificationsRequest>(
+        `${ApiBasePath.NotificationsApi}/api/notifications/subscribe`,
+        HttpRequestMethod.Post,
+      ),
     };
   }
 }

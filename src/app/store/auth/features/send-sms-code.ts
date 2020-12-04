@@ -1,11 +1,13 @@
 import { HTTPStatusCode } from 'app/common/http-status-code';
+import { authRequestFactory } from 'app/store/common/http-factory';
+import { HttpRequestMethod } from 'app/store/common/models';
+import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { Meta } from '../../common/actions';
-import { AuthHttpRequests } from '../http-requests';
 import { SendSmsCodeActionData, AuthState } from '../models';
 import { SendSmsCodeFailure } from './send-sms-code-failure';
 import { SendSmsCodeSuccess } from './send-sms-code-success';
@@ -26,8 +28,9 @@ export class SendSmsCode {
 
   static get saga() {
     return function* sendSmsPhoneConfirmationCodeSaga(action: ReturnType<typeof SendSmsCode.action>): SagaIterator {
-      const request = AuthHttpRequests.sendSmsConfirmationCode;
-      const { data, status }: AxiosResponse<string> = request.call(yield call(() => request.generator({ phoneNumber: action.payload.phoneNumber })));
+      const { data, status }: AxiosResponse<string> = SendSmsCode.httpRequest.call(
+        yield call(() => SendSmsCode.httpRequest.generator({ phoneNumber: action.payload.phoneNumber })),
+      );
 
       if (status !== HTTPStatusCode.OK) {
         yield put(SendSmsCodeFailure.action());
@@ -38,5 +41,12 @@ export class SendSmsCode {
       yield put(SendSmsCodeSuccess.action(data));
       action?.meta.deferred.resolve();
     };
+  }
+
+  static get httpRequest() {
+    return authRequestFactory<AxiosResponse<string>, { phoneNumber: string }>(
+      `${ApiBasePath.MainApi}/api/users/send-sms-confirmation-code`,
+      HttpRequestMethod.Post,
+    );
   }
 }

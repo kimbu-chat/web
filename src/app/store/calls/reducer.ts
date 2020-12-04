@@ -1,40 +1,29 @@
 import { createReducer } from 'typesafe-actions';
-import { produce } from 'immer';
-import { CallActions } from './actions';
-import { Call } from './models';
-import { UserPreview } from '../my-profile/models';
-
-export interface CallState {
-  isActiveCallIncoming?: boolean;
-  isCalling: boolean;
-  isInterlocutorBusy: boolean;
-  isInterlocutorVideoEnabled: boolean;
-  amICaling: boolean;
-  isSpeaking: boolean;
-  interlocutor?: UserPreview;
-  videoConstraints: {
-    isOpened: boolean;
-    width?: { min: number; ideal: number; max: number };
-    height?: { min: number; ideal: number; max: number };
-    deviceId?: string;
-  };
-  audioConstraints: {
-    isOpened: boolean;
-    deviceId?: string;
-  };
-  isScreenSharingOpened: boolean;
-  offer?: RTCSessionDescriptionInit;
-  answer?: RTCSessionDescriptionInit;
-  audioDevicesList: MediaDeviceInfo[];
-  videoDevicesList: MediaDeviceInfo[];
-  calls: Call[];
-  hasMore: boolean;
-}
+import { CallState } from './models';
+import { IncomingCall } from './features/incoming-call';
+import { AcceptCall } from './features/accept-call';
+import { CallEnded } from './features/call-ended';
+import { CancelCallSuccess } from './features/cancel-call-success';
+import { ChangeActiveDeviceId } from './features/change-active-device-id';
+import { ChangeMediaStatus } from './features/change-media-status';
+import { CloseAudioStatus } from './features/close-audio-status';
+import { CloseScreenShareStatus } from './features/close-screen-share-status';
+import { CloseVideoStatus } from './features/close-video-status';
+import { GetCallsSuccess } from './features/get-calls-success';
+import { GotDevicesInfo } from './features/got-devices-info';
+import { InterlocutorBusy } from './features/interlocutor-busy';
+import { InterlocutorCanceledCall } from './features/interlocutor-canceled-call';
+import { ChangeScreenShareStatus } from './features/change-screen-share-status';
+import { OutgoingCall } from './features/outgoing-call';
+import { AcceptCallSuccess } from './features/accept-call-success';
+import { SwitchDevice } from './features/switch-device';
+import { InterlocutorAcceptedCallSuccess } from './features/interlocutor-accepted-call-success';
 
 const initialState: CallState = {
   isInterlocutorVideoEnabled: false,
-  isCalling: false,
+  amICalled: false,
   isInterlocutorBusy: false,
+  isScreenSharingOpened: false,
   isSpeaking: false,
   videoConstraints: {
     isOpened: false,
@@ -42,7 +31,6 @@ const initialState: CallState = {
     height: { min: 480, ideal: 1440, max: 1440 },
   },
   audioConstraints: { isOpened: true },
-  isScreenSharingOpened: false,
   amICaling: false,
   interlocutor: undefined,
   offer: undefined,
@@ -54,220 +42,23 @@ const initialState: CallState = {
 };
 
 const calls = createReducer<CallState>(initialState)
-  .handleAction(
-    CallActions.incomingCallAction,
-    produce((draft: CallState, { payload }: ReturnType<typeof CallActions.incomingCallAction>) => {
-      draft.isInterlocutorVideoEnabled = payload.isVideoEnabled;
-
-      if (draft.isSpeaking) {
-        // if it matches this condition then it's negociation
-        return draft;
-      }
-
-      const interlocutor = payload.caller;
-      const { offer } = payload;
-      draft.interlocutor = interlocutor;
-      draft.isCalling = true;
-      draft.isActiveCallIncoming = true;
-      draft.offer = offer;
-
-      return draft;
-    }),
-  )
-  .handleAction(
-    CallActions.outgoingCallAction,
-    produce((draft: CallState, { payload }: ReturnType<typeof CallActions.outgoingCallAction>) => {
-      const interlocutor = payload.calling;
-      draft.interlocutor = interlocutor;
-      draft.isInterlocutorBusy = false;
-      draft.amICaling = true;
-      draft.isActiveCallIncoming = false;
-      draft.audioConstraints = { ...draft.audioConstraints, isOpened: payload.constraints.audioEnabled };
-      draft.videoConstraints = { ...draft.videoConstraints, isOpened: payload.constraints.videoEnabled };
-      return draft;
-    }),
-  )
-  .handleAction(
-    CallActions.cancelCallSuccessAction,
-    produce((draft: CallState) => {
-      draft.interlocutor = undefined;
-      draft.isInterlocutorBusy = false;
-      draft.amICaling = false;
-      draft.isCalling = false;
-      draft.isSpeaking = false;
-      draft.offer = undefined;
-      draft.answer = undefined;
-      draft.isInterlocutorVideoEnabled = false;
-      draft.videoConstraints.isOpened = false;
-      draft.videoConstraints.isOpened = false;
-      draft.isScreenSharingOpened = false;
-      return draft;
-    }),
-  )
-  .handleAction(
-    CallActions.acceptCallAction,
-    produce((draft: CallState, { payload }: ReturnType<typeof CallActions.acceptCallAction>) => {
-      draft.audioConstraints = { ...draft.audioConstraints, isOpened: payload.constraints.audioEnabled };
-      draft.videoConstraints = { ...draft.videoConstraints, isOpened: payload.constraints.videoEnabled };
-      return draft;
-    }),
-  )
-  .handleAction(
-    CallActions.acceptCallSuccessAction,
-    produce((draft: CallState) => {
-      draft.isSpeaking = true;
-      draft.isCalling = false;
-      draft.amICaling = false;
-      return draft;
-    }),
-  )
-  .handleAction(
-    CallActions.interlocutorCanceledCallAction,
-    produce((draft: CallState, { payload }: ReturnType<typeof CallActions.interlocutorCanceledCallAction>) => {
-      if (draft.interlocutor?.id === payload.interlocutorId) {
-        draft.interlocutor = undefined;
-        draft.amICaling = false;
-        draft.isCalling = false;
-        draft.isSpeaking = false;
-        draft.offer = undefined;
-        draft.answer = undefined;
-        draft.videoConstraints.isOpened = false;
-        draft.videoConstraints.isOpened = false;
-        draft.isInterlocutorVideoEnabled = false;
-        draft.isScreenSharingOpened = false;
-      }
-      return draft;
-    }),
-  )
-  .handleAction(
-    CallActions.interlocutorAcceptedCallAction,
-    produce((draft: CallState, { payload }: ReturnType<typeof CallActions.interlocutorAcceptedCallAction>) => {
-      draft.isSpeaking = true;
-      draft.isCalling = false;
-      draft.amICaling = false;
-      draft.answer = payload.answer;
-      draft.isInterlocutorVideoEnabled = payload.isVideoEnabled;
-      return draft;
-    }),
-  )
-  .handleAction(
-    CallActions.callEndedAction,
-    produce((draft: CallState) => {
-      draft.interlocutor = undefined;
-      draft.amICaling = false;
-      draft.isCalling = false;
-      draft.isSpeaking = false;
-      draft.videoConstraints.isOpened = false;
-      draft.videoConstraints.isOpened = false;
-      draft.isInterlocutorVideoEnabled = false;
-      draft.isScreenSharingOpened = false;
-      return draft;
-    }),
-  )
-  .handleAction(
-    CallActions.changeMediaStatusAction,
-    produce((draft: CallState, { payload }: ReturnType<typeof CallActions.changeMediaStatusAction>) => {
-      if (payload.kind === 'videoinput') {
-        draft.isScreenSharingOpened = false;
-        draft.videoConstraints.isOpened = !draft.videoConstraints.isOpened;
-      }
-
-      if (payload.kind === 'audioinput') {
-        draft.audioConstraints.isOpened = !draft.audioConstraints.isOpened;
-      }
-
-      return draft;
-    }),
-  )
-  .handleAction(
-    CallActions.changeScreenShareStatusAction,
-    produce((draft: CallState) => {
-      draft.isScreenSharingOpened = !draft.isScreenSharingOpened;
-      draft.videoConstraints.isOpened = false;
-      return draft;
-    }),
-  )
-  .handleAction(
-    CallActions.closeScreenShareStatusAction,
-    produce((draft: CallState) => {
-      draft.isScreenSharingOpened = false;
-      return draft;
-    }),
-  )
-  .handleAction(
-    CallActions.closeAudioStatusAction,
-    produce((draft: CallState) => {
-      draft.audioConstraints.isOpened = false;
-      return draft;
-    }),
-  )
-  .handleAction(
-    CallActions.closeVideoStatusAction,
-    produce((draft: CallState) => {
-      draft.videoConstraints.isOpened = false;
-      return draft;
-    }),
-  )
-  .handleAction(
-    CallActions.gotDevicesInfoAction,
-    produce((draft: CallState, { payload }: ReturnType<typeof CallActions.gotDevicesInfoAction>) => {
-      if (payload.kind === 'videoinput') {
-        draft.videoDevicesList = payload.devices;
-      }
-
-      if (payload.kind === 'audioinput') {
-        draft.audioDevicesList = payload.devices;
-      }
-
-      return draft;
-    }),
-  )
-  .handleAction(
-    CallActions.switchDeviceAction,
-    produce((draft: CallState, { payload }: ReturnType<typeof CallActions.switchDeviceAction>) => {
-      if (payload.kind === 'videoinput') {
-        draft.videoConstraints.deviceId = payload.deviceId;
-      }
-
-      if (payload.kind === 'audioinput') {
-        draft.audioConstraints.deviceId = payload.deviceId;
-      }
-
-      return draft;
-    }),
-  )
-  .handleAction(
-    CallActions.changeActiveDeviceIdAction,
-    produce((draft: CallState, { payload }: ReturnType<typeof CallActions.changeActiveDeviceIdAction>) => {
-      if (payload.kind === 'videoinput') {
-        draft.videoConstraints.deviceId = payload.deviceId;
-      }
-
-      if (payload.kind === 'audioinput') {
-        draft.audioConstraints.deviceId = payload.deviceId;
-      }
-
-      return draft;
-    }),
-  )
-  .handleAction(
-    CallActions.getCallsSuccessAction,
-    produce((draft: CallState, { payload }: ReturnType<typeof CallActions.getCallsSuccessAction>) => {
-      const { calls, hasMore } = payload;
-
-      draft.calls.push(...calls);
-      draft.hasMore = hasMore;
-
-      return draft;
-    }),
-  )
-  .handleAction(
-    CallActions.interlocutorBusyAction,
-    produce((draft: CallState) => {
-      draft.isInterlocutorBusy = true;
-
-      return draft;
-    }),
-  );
+  .handleAction(IncomingCall.action, IncomingCall.reducer)
+  .handleAction(OutgoingCall.action, OutgoingCall.reducer)
+  .handleAction(CancelCallSuccess.action, CancelCallSuccess.reducer)
+  .handleAction(AcceptCall.action, AcceptCall.reducer)
+  .handleAction(AcceptCallSuccess.action, AcceptCallSuccess.reducer)
+  .handleAction(InterlocutorCanceledCall.action, InterlocutorCanceledCall.reducer)
+  .handleAction(InterlocutorAcceptedCallSuccess.action, InterlocutorAcceptedCallSuccess.reducer)
+  .handleAction(CallEnded.action, CallEnded.reducer)
+  .handleAction(ChangeMediaStatus.action, ChangeMediaStatus.reducer)
+  .handleAction(ChangeScreenShareStatus.action, ChangeScreenShareStatus.reducer)
+  .handleAction(CloseScreenShareStatus.action, CloseScreenShareStatus.reducer)
+  .handleAction(CloseAudioStatus.action, CloseAudioStatus.reducer)
+  .handleAction(CloseVideoStatus.action, CloseVideoStatus.reducer)
+  .handleAction(GotDevicesInfo.action, GotDevicesInfo.reducer)
+  .handleAction(SwitchDevice.action, SwitchDevice.reducer)
+  .handleAction(ChangeActiveDeviceId.action, ChangeActiveDeviceId.reducer)
+  .handleAction(GetCallsSuccess.action, GetCallsSuccess.reducer)
+  .handleAction(InterlocutorBusy.action, InterlocutorBusy.reducer);
 
 export default calls;

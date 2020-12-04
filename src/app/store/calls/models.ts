@@ -1,6 +1,33 @@
 import { Page } from '../common/models';
 import { UserPreview } from '../my-profile/models';
 
+export interface CallState {
+  isActiveCallIncoming?: boolean;
+  amICalled: boolean;
+  isInterlocutorBusy: boolean;
+  isInterlocutorVideoEnabled: boolean;
+  amICaling: boolean;
+  isSpeaking: boolean;
+  interlocutor?: UserPreview;
+  videoConstraints: {
+    isOpened: boolean;
+    width?: { min: number; ideal: number; max: number };
+    height?: { min: number; ideal: number; max: number };
+    deviceId?: string;
+  };
+  audioConstraints: {
+    isOpened: boolean;
+    deviceId?: string;
+  };
+  isScreenSharingOpened: boolean;
+  offer?: RTCSessionDescriptionInit;
+  answer?: RTCSessionDescriptionInit;
+  audioDevicesList: MediaDeviceInfo[];
+  videoDevicesList: MediaDeviceInfo[];
+  calls: Call[];
+  hasMore: boolean;
+}
+
 export enum CallStatus {
   Successfull = 'Successfull',
   Missed = 'Missed',
@@ -61,6 +88,7 @@ export interface AcceptIncomingCallActionPayload {
 export interface InterlocutorAcceptCallActionPayload {
   answer: RTCSessionDescriptionInit;
   isVideoEnabled: boolean;
+  isRenegotiation?: boolean;
 }
 
 export interface CandidateActionPayload {
@@ -91,6 +119,7 @@ export interface CandidateApiRequest {
 export interface CallApiRequest {
   interlocutorId: number;
   offer: RTCSessionDescriptionInit;
+  isRenegociation?: boolean;
   caller: UserPreview;
 }
 

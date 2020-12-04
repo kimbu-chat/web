@@ -6,7 +6,6 @@ import { amICaling, doIhaveCall, getCallInterlocutorSelector } from 'store/calls
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import { CallActions } from 'store/calls/actions';
 import { RootState } from 'store/root-reducer';
-import { tracks } from 'store/calls/sagas';
 import moment from 'moment';
 import { Rnd } from 'react-rnd';
 import { Avatar } from 'components';
@@ -30,6 +29,7 @@ import callingBeep from 'app/assets/sounds/calls/outgoing-call.ogg';
 import busySound from 'app/assets/sounds/calls/busy-sound.ogg';
 import { LocalizationContext } from 'app/app';
 import { UserPreview } from 'store/my-profile/models';
+import { tracks } from 'app/store/calls/utils/user-media';
 import { Dropdown } from './dropdown/dropdown';
 
 namespace IActiveCall {

@@ -1,7 +1,10 @@
+import { httpRequestFactory } from 'app/store/common/http-factory';
+import { HttpRequestMethod } from 'app/store/common/models';
+import { ApiBasePath } from 'app/store/root-api';
+import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { MyProfileHttpRequests } from '../http-requests';
 import { UpdateMyProfileActionData, UpdateMyProfileApiRequestData } from '../models';
 import { UpdateMyProfileSuccess } from './update-my-profile-success';
 
@@ -18,8 +21,7 @@ export class UpdateMyProfile {
           lastName: action.payload.lastName,
           avatarId: action.payload.avatar?.id,
         };
-        const updateProfileRequest = MyProfileHttpRequests.updateMyProfile;
-        const { status } = updateProfileRequest.call(yield call(() => updateProfileRequest.generator(requestData)));
+        const { status } = UpdateMyProfile.httpRequest.call(yield call(() => UpdateMyProfile.httpRequest.generator(requestData)));
 
         if (status === 200) {
           yield put(UpdateMyProfileSuccess.action(action.payload));
@@ -28,5 +30,9 @@ export class UpdateMyProfile {
         alert(err);
       }
     };
+  }
+
+  static get httpRequest() {
+    return httpRequestFactory<AxiosResponse, UpdateMyProfileApiRequestData>(`${ApiBasePath.MainApi}/api/users`, HttpRequestMethod.Put);
   }
 }

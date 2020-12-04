@@ -1,8 +1,11 @@
 import { Meta } from 'app/store/common/actions';
+import { httpRequestFactory } from 'app/store/common/http-factory';
+import { HttpRequestMethod } from 'app/store/common/models';
+import { ApiBasePath } from 'app/store/root-api';
+import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { MyProfileHttpRequests } from '../http-requests';
 import { UpdateNicknameActionData } from '../models';
 import { UpdateMyNicknameSuccess } from './update-my-nickname-success';
 
@@ -14,8 +17,7 @@ export class UpdateMyNickname {
   static get saga() {
     return function* (action: ReturnType<typeof UpdateMyNickname.action>): SagaIterator {
       try {
-        const updateNicknameRequest = MyProfileHttpRequests.updateMyNickName;
-        const { status } = updateNicknameRequest.call(yield call(() => updateNicknameRequest.generator(action.payload)));
+        const { status } = UpdateMyNickname.httpRequest.call(yield call(() => UpdateMyNickname.httpRequest.generator(action.payload)));
 
         if (status === 200) {
           yield put(UpdateMyNicknameSuccess.action(action.payload));
@@ -27,5 +29,9 @@ export class UpdateMyNickname {
         action.meta.deferred?.reject();
       }
     };
+  }
+
+  static get httpRequest() {
+    return httpRequestFactory<AxiosResponse, UpdateNicknameActionData>(`${ApiBasePath.MainApi}/api/users/nick-name`, HttpRequestMethod.Put);
   }
 }

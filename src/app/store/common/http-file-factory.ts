@@ -3,8 +3,9 @@ import { call, cancelled, put, select, take } from 'redux-saga/effects';
 import { END, eventChannel, SagaIterator, buffers } from 'redux-saga';
 import { isNetworkError } from 'utils/functions/error-utils';
 import { SecurityTokens } from '../auth/models';
-import { AuthActions } from '../auth/actions';
 import { selectSecurityTokens } from '../auth/selectors';
+import { RefreshToken } from '../auth/features/refresh-token';
+import { RefreshTokenSuccess } from '../auth/features/refresh-token-success';
 
 export enum HttpRequestMethod {
   Get = 'GET',
@@ -155,7 +156,7 @@ export const httpFilesRequestFactory = <T, B>(
       let auth: SecurityTokens = yield select(selectSecurityTokens);
 
       if (auth?.refreshTokenRequestLoading) {
-        yield take(AuthActions.refreshTokenSuccess);
+        yield take(RefreshTokenSuccess.action);
       }
 
       const finalUrl: string = typeof url === 'function' ? (url as UrlGenerator<B>)(body!) : url;
@@ -168,9 +169,9 @@ export const httpFilesRequestFactory = <T, B>(
         if (isNetworkError(e)) {
           alert('Network Error.');
         } else if (error?.response?.status === 401) {
-          yield put(AuthActions.refreshToken());
+          yield put(RefreshToken.action());
 
-          yield take(AuthActions.refreshTokenSuccess);
+          yield take(RefreshTokenSuccess.action);
 
           auth = yield select(selectSecurityTokens);
 

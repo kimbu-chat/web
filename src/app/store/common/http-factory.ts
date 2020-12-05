@@ -4,8 +4,8 @@ import { SagaIterator } from 'redux-saga';
 import { isNetworkError } from 'utils/functions/error-utils';
 import { SecurityTokens } from '../auth/models';
 import { selectSecurityTokens } from '../auth/selectors';
-import { RefreshToken } from '../auth/features/refresh-token';
-import { RefreshTokenSuccess } from '../auth/features/refresh-token-success';
+import { RefreshToken } from '../auth/features/refresh-token/refresh-token';
+import { RefreshTokenSuccess } from '../auth/features/refresh-token/refresh-token-success';
 
 export enum HttpRequestMethod {
   Get = 'GET',

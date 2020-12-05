@@ -1,9 +1,9 @@
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
-import { RootState } from 'app/store/root-reducer';
+import { getVideoConstraints, getAudioConstraints } from 'app/store/calls/selectors';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
-import { CloseAudioStatus } from '../features/close-audio-status';
-import { CloseVideoStatus } from '../features/close-video-status';
+import { CloseAudioStatus } from '../features/close-audio-status/close-audio-status';
+import { CloseVideoStatus } from '../features/close-video-status/close-video-status';
 import { IInCompleteConstraints } from '../models';
 
 export const tracks: {
@@ -115,8 +115,8 @@ export const getUserDisplay = async () => {
 };
 
 export function* getAndSendUserMedia(): SagaIterator {
-  const videoConstraints = yield select((state: RootState) => state.calls.videoConstraints);
-  const audioConstraints = yield select((state: RootState) => state.calls.audioConstraints);
+  const videoConstraints = yield select(getVideoConstraints);
+  const audioConstraints = yield select(getAudioConstraints);
 
   const constraints = { audio: audioConstraints, video: videoConstraints };
 

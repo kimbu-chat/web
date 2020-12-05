@@ -1,4 +1,4 @@
-import { InternetConnectionCheck } from './features/internet-connection-check';
+import { InternetConnectionCheck } from './features/internet-connection-check/internet-connection-check';
 
 export namespace InternetActions {
   export const internetConnectionCheck = InternetConnectionCheck.action;

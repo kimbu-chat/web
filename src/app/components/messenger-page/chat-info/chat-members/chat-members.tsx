@@ -5,9 +5,8 @@ import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import { Chat } from 'store/chats/models';
 import { ChatActions } from 'store/chats/actions';
 import { getSelectedChatSelector } from 'store/chats/selectors';
-import { UserPreview } from 'store/my-profile/models';
-import { RootState } from 'store/root-reducer';
 import AddSvg from 'icons/ic-add-new.svg';
+import { getMembersForSelectedGroupChat } from 'app/store/friends/selectors';
 import { SearchBox } from '../../search-box/search-box';
 
 import { Member } from './chat-member/chat-member';
@@ -24,7 +23,7 @@ export const ChatMembers = React.memo(({ addMembers }: ChatMembersNS.Props) => {
   const getGroupChatUsers = useActionWithDispatch(ChatActions.getGroupChatUsers);
   const selectedChat = useSelector(getSelectedChatSelector) as Chat;
 
-  const membersForGroupChat = useSelector<RootState, UserPreview[]>((state) => state.friends.usersForSelectedGroupChat);
+  const membersForGroupChat = useSelector(getMembersForSelectedGroupChat);
 
   useEffect(() => {
     getGroupChatUsers({

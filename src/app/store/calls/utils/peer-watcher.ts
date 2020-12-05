@@ -2,11 +2,18 @@ import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/http-file-factory';
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import { UserPreview } from 'app/store/my-profile/models';
+import { getMyProfileSelector } from 'app/store/my-profile/selectors';
 import { ApiBasePath } from 'app/store/root-api';
-import { RootState } from 'app/store/root-reducer';
 import { AxiosResponse } from 'axios';
 import { eventChannel, END, buffers } from 'redux-saga';
 import { take, select, call } from 'redux-saga/effects';
+import {
+  getCallInterlocutorSelector,
+  getCallInterlocutorIdSelector,
+  doIhaveCall,
+  getIsVideoEnabled,
+  getIsScreenSharingEnabled,
+} from 'app/store/calls/selectors';
 import { CandidateApiRequest, CallApiRequest } from '../models';
 
 const CallsHttpRequests = {
@@ -58,7 +65,7 @@ export function* peerWatcher() {
     switch (action.type) {
       case 'icecandidate':
         {
-          const interlocutor = yield select((state: RootState): UserPreview | undefined => state.calls.interlocutor);
+          const interlocutor = yield select(getCallInterlocutorSelector);
 
           if (action.event.candidate) {
             const request = {
@@ -73,11 +80,11 @@ export function* peerWatcher() {
       case 'negotiationneeded':
         {
           console.log('negociateeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
-          const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
-          const myProfile: UserPreview = yield select((state: RootState): UserPreview | undefined => state.myProfile.user);
-          const isCallActive: boolean = yield select((state: RootState): boolean => state.calls.isSpeaking);
-          const isVideoEnabled = yield select((state: RootState) => state.calls.videoConstraints.isOpened);
-          const isScreenSharingEnabled = yield select((state: RootState) => state.calls.isScreenSharingOpened);
+          const interlocutorId: number = yield select(getCallInterlocutorIdSelector);
+          const myProfile: UserPreview = yield select(getMyProfileSelector);
+          const isCallActive: boolean = yield select(doIhaveCall);
+          const isVideoEnabled = yield select(getIsVideoEnabled);
+          const isScreenSharingEnabled = yield select(getIsScreenSharingEnabled);
 
           if (isCallActive) {
             const offer = yield call(

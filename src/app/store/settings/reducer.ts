@@ -1,8 +1,8 @@
 import { createReducer } from 'typesafe-actions';
-import { ChangeLanguage } from './features/change-language';
-import { ChangeNotificationSoundState } from './features/change-notification-sound-state';
-import { ChangeTypingStrategy } from './features/change-typing-strategy';
-import { GetUserSettingsSuccess } from './features/get-user-settings-success';
+import { ChangeLanguage } from './features/change-language/change-language';
+import { ChangeNotificationSoundState } from './features/change-notification-sound-state/change-notification-sound-state';
+import { ChangeTypingStrategy } from './features/change-typing-strategy/change-typing-strategy';
+import { GetUserSettingsSuccess } from './features/get-user-settings/get-user-settings-success';
 import { Langs, TypingStrategy, UserSettings } from './models';
 
 const initialState: UserSettings = {

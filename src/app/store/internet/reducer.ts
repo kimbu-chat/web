@@ -1,5 +1,5 @@
 import { createReducer } from 'typesafe-actions';
-import { InternetConnectionCheck } from './features/internet-connection-check';
+import { InternetConnectionCheck } from './features/internet-connection-check/internet-connection-check';
 import { InternetState } from './models';
 
 const initialState: InternetState = {

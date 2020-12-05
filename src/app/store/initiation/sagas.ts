@@ -1,13 +1,13 @@
 import { AuthService } from 'app/services/auth-service';
 import { put, fork, spawn, take, select } from 'redux-saga/effects';
 import { SagaIterator, eventChannel } from 'redux-saga';
-import { RootState } from 'app/store/root-reducer';
 import { FriendActions } from '../friends/actions';
 import { SettingsActions } from '../settings/actions';
-import { InternetConnectionCheck } from '../internet/features/internet-connection-check';
-import { InitSocketConnection } from '../sockets/features/init-socket-connection';
-import { ChangeUserOnlineStatus } from '../my-profile/features/change-user-online-status';
-import { GetMyProfile } from '../my-profile/features/get-my-profile';
+import { InternetConnectionCheck } from '../internet/features/internet-connection-check/internet-connection-check';
+import { InitSocketConnection } from '../sockets/features/init-socked-connection/init-socket-connection';
+import { ChangeUserOnlineStatus } from '../my-profile/features/change-user-online-status/change-user-online-status';
+import { GetMyProfile } from '../my-profile/features/get-my-profile/get-my-profile';
+import { amIlogged } from '../auth/selectors';
 
 function createVisibilityChannel() {
   return eventChannel((emit) => {
@@ -31,7 +31,7 @@ function createVisibilityChannel() {
 
 function* watcher() {
   const channel = createVisibilityChannel();
-  const amIauthenticated = yield select((state: RootState) => state.auth.isAuthenticated);
+  const amIauthenticated = yield select(amIlogged);
   while (true) {
     const action = (yield take(channel)) && amIauthenticated ? ChangeUserOnlineStatus.action(true) : ChangeUserOnlineStatus.action(false);
     yield put(action);

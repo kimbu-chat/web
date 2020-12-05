@@ -12,6 +12,7 @@ import { parsePhoneNumber } from 'libphonenumber-js';
 import ResendSvg from 'icons/ic-resend.svg';
 import { BaseBtn } from 'components';
 import { useHistory } from 'react-router';
+import { getAuthPhoneNumber, getIsConfirmationCodeWrong, getAuthIsLoading } from 'app/store/auth/selectors';
 
 const NUMBER_OF_DIGITS = [0, 1, 2, 3];
 
@@ -32,10 +33,10 @@ const CodeConfirmation: React.FC<CodeConfirmationNS.Props> = ({ preloadNext }) =
   const [remainingSeconds, setRemainingSeconds] = useState<number>(60);
   const [isIntervalRunning, setIsIntervalRunning] = useState(true);
 
-  const phoneNumber = useSelector((state: RootState) => state.auth.phoneNumber);
+  const phoneNumber = useSelector(getAuthPhoneNumber);
   const codeFromServer = useSelector<RootState, string>((rootState) => rootState.auth.confirmationCode);
-  const isConfirmationCodeWrong = useSelector<RootState, boolean>((rootState) => rootState.auth.isConfirmationCodeWrong);
-  const isLoading = useSelector((state: RootState) => state.auth.loading);
+  const isConfirmationCodeWrong = useSelector(getIsConfirmationCodeWrong);
+  const isLoading = useSelector(getAuthIsLoading);
 
   const sendSmsCode = useActionWithDeferred(AuthActions.sendSmsCode);
   const checkConfirmationCode = useActionWithDeferred(AuthActions.confirmPhone);

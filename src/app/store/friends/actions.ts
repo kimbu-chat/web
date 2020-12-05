@@ -1,10 +1,10 @@
-import { AddFriend } from './features/add-friend';
-import { AddFriendSuccess } from './features/add-friend-success';
-import { DeleteFriend } from './features/delete-friend';
-import { DeleteFriendSuccess } from './features/delete-friend-success';
-import { GetFriends } from './features/get-friends';
-import { GetFriendsSuccess } from './features/get-friends-success';
-import { UserStatusChangedEvent } from './features/user-status-changed-event';
+import { AddFriend } from './features/add-friend/add-friend';
+import { AddFriendSuccess } from './features/add-friend/add-friend-success';
+import { DeleteFriend } from './features/delete-friend/delete-friend';
+import { DeleteFriendSuccess } from './features/delete-friend/delete-friend-success';
+import { GetFriends } from './features/get-friends/get-friends';
+import { GetFriendsSuccess } from './features/get-friends/get-friends-success';
+import { UserStatusChangedEvent } from './features/user-status-changed-event/user-status-changed-event';
 
 export namespace FriendActions {
   export const getFriends = GetFriends.action;

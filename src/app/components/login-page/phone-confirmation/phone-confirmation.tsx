@@ -7,10 +7,10 @@ import { useActionWithDeferred } from 'utils/hooks/use-action-with-deferred';
 import { AuthActions } from 'store/auth/actions';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import { useSelector } from 'react-redux';
-import { RootState } from 'store/root-reducer';
 import { useHistory } from 'react-router';
 import { getCountryByIp } from 'utils/functions/get-country-by-ip';
 import { CubeLoader } from 'app/containers/cube-loader/cube-loader';
+import { getAuthIsLoading } from 'app/store/auth/selectors';
 
 const PrivacyPolicy = lazy(() => import('app/components/shared/privacy-policy/privacy-policy'));
 
@@ -25,7 +25,7 @@ const PhoneConfirmation: React.FC<PhoneConfirmationNS.Props> = ({ preloadNext })
 
   const history = useHistory();
 
-  const isLoading = useSelector((state: RootState) => state.auth.loading);
+  const isLoading = useSelector(getAuthIsLoading);
 
   const [country, setCountry] = useState<Country>(countryList[countryList.length - 1]);
   const [phone, setPhone] = useState<string>('');

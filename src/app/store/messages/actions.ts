@@ -1,38 +1,39 @@
-import { createAction } from 'typesafe-actions';
-import {
-  CreateMessageRequest,
-  MessagesReq,
-  UserMessageTypingRequest,
-  CreateMessageResponse,
-  MessageList,
-  DeleteMessageReq,
-  SelectMessageReq,
-  ResetSelectedMessagesReq,
-  CopyMessagesReq,
-  EditMessageReq,
-  ReplyMessageReq,
-  SubmitEditMessageReq,
-  MessageEdited,
-} from './models';
-import { createEmptyAction } from '../common/actions';
+import { CopyMessages } from './features/copy-messages/copy-messages';
+import { CreateMessage } from './features/create-message/create-message';
+import { CreateMessageSuccess } from './features/create-message/create-message-success';
+import { DeleteMessage } from './features/delete-message/delete-message';
+import { DeleteMessageSuccess } from './features/delete-message/delete-message-success';
+import { EditMessage } from './features/edit-message/edit-message';
+import { GetMessages } from './features/get-messages/get-messages';
+import { GetMessagesFailure } from './features/get-messages/get-messages-failure';
+import { GetMessagesSuccess } from './features/get-messages/get-messages-success';
+import { MessageEdited } from './features/message-edited/message-edited';
+import { MessageTyping } from './features/message-typing/message-typing';
+import { ReplyToMessage } from './features/reply-to-message/reply-to-message';
+import { ResetEditMessage } from './features/edit-message/reset-edit-message';
+import { ResetReplyToMessage } from './features/reply-to-message/reset-reply-to-message';
+import { SelectMessage } from './features/select-message/select-message';
+import { SubmitEditMessage } from './features/edit-message/submit-edit-message';
+import { SubmitEditMessageSuccess } from './features/edit-message/sumbit-edit-message-success';
+import { ResetSelectedMessages } from './features/select-message/reset-selected-messages';
 
 export namespace MessageActions {
-  export const getMessages = createAction('GET_MESSAGES')<MessagesReq>();
-  export const getMessagesSuccess = createAction('GET_MESSAGES_SUCCESS')<MessageList>();
-  export const getMessagesFailure = createEmptyAction('GET_MESSAGES_FAILURE');
-  export const createMessage = createAction('CREATE_MESSAGE')<CreateMessageRequest>();
-  export const createMessageSuccess = createAction('CREATE_MESSAGE_SUCCESS')<CreateMessageResponse>();
-  export const messageTyping = createAction('NOTIFY_USER_ABOUT_MESSAGE_TYPING')<UserMessageTypingRequest>();
-  export const deleteMessage = createAction('DELETE_MESSAGE')<DeleteMessageReq>();
-  export const deleteMessageSuccess = createAction('DELETE_MESSAGE_SUCCESS')<DeleteMessageReq>();
-  export const selectMessage = createAction('SELECT_MESSAGE')<SelectMessageReq>();
-  export const resetSelectedMessages = createAction('RESET_SELECTED_MESSAGES')<ResetSelectedMessagesReq>();
-  export const copyMessages = createAction('COPY_MESSAGES')<CopyMessagesReq>();
-  export const replyToMessage = createAction('REPLY_TO_MESSAGE')<ReplyMessageReq>();
-  export const resetReplyToMessage = createEmptyAction('RESET_REPLY_TO_MESSAGE');
-  export const editMessage = createAction('EDIT_MESSAGE')<EditMessageReq>();
-  export const submitEditMessage = createAction('SUBMIT_EDIT_MESSAGE')<SubmitEditMessageReq>();
-  export const submitEditMessageSuccess = createAction('SUBMIT_EDIT_MESSAGE_SUCCESS')<SubmitEditMessageReq>();
-  export const messageEdited = createAction('MESSAGE_EDITED')<MessageEdited>();
-  export const resetEditMessage = createEmptyAction('RESET_EDIT_MESSAGE');
+  export const getMessages = GetMessages.action;
+  export const getMessagesSuccess = GetMessagesSuccess.action;
+  export const getMessagesFailure = GetMessagesFailure.action;
+  export const createMessage = CreateMessage.action;
+  export const createMessageSuccess = CreateMessageSuccess.action;
+  export const messageTyping = MessageTyping.action;
+  export const deleteMessage = DeleteMessage.action;
+  export const deleteMessageSuccess = DeleteMessageSuccess.action;
+  export const selectMessage = SelectMessage.action;
+  export const resetSelectedMessages = ResetSelectedMessages.action;
+  export const copyMessages = CopyMessages.action;
+  export const replyToMessage = ReplyToMessage.action;
+  export const resetReplyToMessage = ResetReplyToMessage.action;
+  export const editMessage = EditMessage.action;
+  export const submitEditMessage = SubmitEditMessage.action;
+  export const submitEditMessageSuccess = SubmitEditMessageSuccess.action;
+  export const messageEdited = MessageEdited.action;
+  export const resetEditMessage = ResetEditMessage.action;
 }

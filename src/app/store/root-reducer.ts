@@ -9,7 +9,7 @@ import myProfile from './my-profile/reducer';
 import calls from './calls/reducer';
 import internet from './internet/reducer';
 import settings from './settings/reducer';
-import { Logout } from './auth/features/logout';
+import { Logout } from './auth/features/logout/logout';
 
 const rootReducer = combineReducers({
   auth,

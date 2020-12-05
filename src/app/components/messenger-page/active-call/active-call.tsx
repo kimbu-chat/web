@@ -2,10 +2,20 @@ import React, { useRef, useCallback, useEffect, useState, useContext } from 'rea
 import './active-call.scss';
 import { peerConnection } from 'store/middlewares/webRTC/peerConnectionFactory';
 import { useSelector } from 'react-redux';
-import { amICaling, doIhaveCall, getCallInterlocutorSelector } from 'store/calls/selectors';
+import {
+  amICaling,
+  doIhaveCall,
+  getAudioConstraints,
+  getAudioDevices,
+  getCallInterlocutorSelector,
+  getIsInterlocutorBusy,
+  getIsInterlocutorVideoEnabled,
+  getIsScreenSharingEnabled,
+  getVideoConstraints,
+  getVideoDevices,
+} from 'store/calls/selectors';
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import { CallActions } from 'store/calls/actions';
-import { RootState } from 'store/root-reducer';
 import moment from 'moment';
 import { Rnd } from 'react-rnd';
 import { Avatar } from 'components';
@@ -40,15 +50,15 @@ namespace IActiveCall {
 
 export const ActiveCall: React.FC<IActiveCall.Props> = ({ isDisplayed }) => {
   const interlocutor = useSelector(getCallInterlocutorSelector);
-  const videoConstraints = useSelector((state: RootState) => state.calls.videoConstraints);
-  const audioConstraints = useSelector((state: RootState) => state.calls.audioConstraints);
-  const isScreenSharingOpened = useSelector((state: RootState) => state.calls.isScreenSharingOpened);
-  const audioDevices = useSelector((state: RootState) => state.calls.audioDevicesList);
-  const videoDevices = useSelector((state: RootState) => state.calls.videoDevicesList);
-  const isInterlocutorVideoEnabled = useSelector((state: RootState) => state.calls.isInterlocutorVideoEnabled);
+  const videoConstraints = useSelector(getVideoConstraints);
+  const audioConstraints = useSelector(getAudioConstraints);
+  const isScreenSharingOpened = useSelector(getIsScreenSharingEnabled);
+  const audioDevices = useSelector(getAudioDevices);
+  const videoDevices = useSelector(getVideoDevices);
+  const isInterlocutorVideoEnabled = useSelector(getIsInterlocutorVideoEnabled);
   const amICalingSomebody = useSelector(amICaling);
   const amISpeaking = useSelector(doIhaveCall);
-  const isInterlocutorBusy = useSelector((state: RootState) => state.calls.isInterlocutorBusy);
+  const isInterlocutorBusy = useSelector(getIsInterlocutorBusy);
 
   const { t } = useContext(LocalizationContext);
 

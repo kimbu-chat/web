@@ -4,7 +4,6 @@ import { Redirect, Route, Switch } from 'react-router';
 import './base.scss';
 
 import { useSelector } from 'react-redux';
-import { RootState } from 'store/root-reducer';
 
 import i18nConfiguration from 'app/localization/i18n';
 import { useTranslation } from 'react-i18next';
@@ -15,6 +14,7 @@ import { PrivateRoute } from 'app/routing/public-route';
 import { i18n, TFunction } from 'i18next';
 import { CubeLoader } from './containers/cube-loader/cube-loader';
 import { loadPhoneConfirmation, loadCodeConfirmation, loadMessenger, loadNotFound } from './routing/module-loader';
+import { amIlogged, getAuthPhoneNumber } from './store/auth/selectors';
 
 const ConfirmPhone = lazy(loadPhoneConfirmation);
 const ConfirmCode = lazy(loadCodeConfirmation);
@@ -32,8 +32,8 @@ export const LocalizationContext = React.createContext<AppNS.Localization>({ t: 
 
 export const App = () => {
   const { t, i18n } = useTranslation(undefined, { i18n: i18nConfiguration });
-  const isAuthenticated = useSelector<RootState, boolean>((rootState) => rootState.auth.isAuthenticated);
-  const phoneNumber = useSelector((state: RootState) => state.auth.phoneNumber);
+  const isAuthenticated = useSelector(amIlogged);
+  const phoneNumber = useSelector(getAuthPhoneNumber);
 
   return (
     <LocalizationContext.Provider value={{ t, i18n }}>

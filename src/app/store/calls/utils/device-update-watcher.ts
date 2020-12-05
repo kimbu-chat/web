@@ -1,11 +1,11 @@
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
-import { RootState } from 'app/store/root-reducer';
 import { eventChannel, END, buffers } from 'redux-saga';
 import { take, select, put, call } from 'redux-saga/effects';
+import { getAudioDevices } from 'app/store/calls/selectors';
 import { getMediaDevicesList } from './user-media';
-import { ChangeMediaStatus } from '../features/change-media-status';
-import { GotDevicesInfo } from '../features/got-devices-info';
-import { SwitchDevice } from '../features/switch-device';
+import { ChangeMediaStatus } from '../features/change-media-status/change-media-status';
+import { GotDevicesInfo } from '../features/got-devices-info/got-devices-info';
+import { SwitchDevice } from '../features/switch-device/switch-device';
 
 function deviceUpdateChannel() {
   return eventChannel((emit) => {
@@ -35,7 +35,7 @@ export function* deviceUpdateWatcher() {
     yield take(channel);
     const audioDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'audioinput');
     const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'videoinput');
-    const prevAudioDevices = yield select((state: RootState) => state.calls.audioDevicesList);
+    const prevAudioDevices = yield select(getAudioDevices);
 
     if (prevAudioDevices.length === 0) {
       yield put(SwitchDevice.action({ kind: 'audioinput', deviceId: audioDevices[0].deviceId }));

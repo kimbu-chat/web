@@ -4,7 +4,6 @@ import { UserPreview } from 'store/my-profile/models';
 import { Chat } from 'store/chats/models';
 import { useSelector } from 'react-redux';
 import { getSelectedChatSelector } from 'store/chats/selectors';
-import { RootState } from 'store/root-reducer';
 import { LocalizationContext } from 'app/app';
 import { ChatActions as SelectedChatActions } from 'store/chats/actions';
 import MuteSvg from 'icons/ic-notifications-on.svg';
@@ -17,6 +16,7 @@ import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import { FriendActions } from 'store/friends/actions';
 import { CreateGroupChat, FadeAnimationWrapper } from 'components';
 import PeopleSvg from 'icons/ic-group.svg';
+import { getMembersForSelectedGroupChat, getMyFriends } from 'app/store/friends/selectors';
 import { DeleteChatModal } from './delete-chat-modal/delete-chat-modal';
 
 namespace ChatActionsNS {
@@ -39,10 +39,10 @@ export const ChatActions = React.memo(({ addMembers }: ChatActionsNS.Props) => {
   const deleteFriend = useActionWithDispatch(FriendActions.deleteFriend);
   const addFriend = useActionWithDispatch(FriendActions.addFriend);
 
-  const membersForGroupChat = useSelector<RootState, UserPreview[]>((state) => state.friends.usersForSelectedGroupChat);
+  const membersForGroupChat = useSelector(getMembersForSelectedGroupChat);
   const membersIdsForGroupChat: (number | undefined)[] = membersForGroupChat.map((user) => user?.id);
   const selectedChat = useSelector(getSelectedChatSelector) as Chat;
-  const friends = useSelector<RootState, UserPreview[]>((state) => state.friends.friends);
+  const friends = useSelector(getMyFriends);
 
   const selectedIsFriend = useCallback((): boolean => friends.findIndex((friend: UserPreview) => friend.id === selectedChat.interlocutor?.id) > -1, [
     friends,

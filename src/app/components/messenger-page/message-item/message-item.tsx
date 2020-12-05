@@ -9,7 +9,7 @@ import { LocalizationContext } from 'app/app';
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import { getSelectedChatSelector } from 'store/chats/selectors';
 import { MessageActions } from 'store/messages/actions';
-import { setSelectedMessagesLength } from 'store/messages/selectors';
+import { getSelectedMessagesLength } from 'store/messages/selectors';
 import { Avatar } from 'components';
 import { getUserInitials } from 'utils/functions/interlocutor-name-utils';
 import { UserPreview } from 'store/my-profile/models';
@@ -36,7 +36,7 @@ namespace MessageNS {
 export const MessageItem = React.memo(({ message }: MessageNS.Props) => {
   const currentUserId = useSelector(getMyIdSelector) as number;
   const selectedChatId = useSelector(getSelectedChatSelector)?.id;
-  const isSelectState = useSelector(setSelectedMessagesLength) > 0;
+  const isSelectState = useSelector(getSelectedMessagesLength) > 0;
   const myId = useSelector(getMyIdSelector) as number;
 
   const isCurrentUserMessageCreator = message.userCreator?.id === myId;

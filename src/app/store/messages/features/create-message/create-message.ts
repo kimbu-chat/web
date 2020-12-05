@@ -14,7 +14,7 @@ import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
 import { MarkMessagesAsRead } from 'app/store/chats/features/mark-messages-as-read/mark-messages-as-read';
 import { ChangeSelectedChat } from 'app/store/chats/features/change-selected-chat/change-selected-chat';
-import { getChatIndex } from '../../messages-utils';
+import { getChatIndex } from 'app/store/messages/selectors';
 import { CreateMessageRequest, MessageCreationReqData, MessageList, MessagesState, MessageState, SystemMessageType } from '../../models';
 import { CreateMessageSuccess } from './create-message-success';
 

@@ -1,7 +1,7 @@
 import produce from 'immer';
 import { unionBy } from 'lodash';
 import { createAction } from 'typesafe-actions';
-import { checkIfChatExists, getChatIndex } from '../../messages-utils';
+import { checkIfChatExists, getChatIndex } from 'app/store/messages/selectors';
 import { MessageList, MessagesState } from '../../models';
 
 export class GetMessagesSuccess {

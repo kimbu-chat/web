@@ -12,13 +12,13 @@ import { GetMessagesSuccess } from './features/get-messages/get-messages-success
 import { ReplyToMessage } from './features/reply-to-message/reply-to-message';
 import { ResetSelectedMessages } from './features/select-message/reset-selected-messages';
 import { SelectMessage } from './features/select-message/select-message';
-import { getChatIndex } from './messages-utils';
 import { EditMessage } from './features/edit-message/edit-message';
 import { MessageEdited } from './features/message-edited/message-edited';
 import { ResetEditMessage } from './features/edit-message/reset-edit-message';
 import { ResetReplyToMessage } from './features/reply-to-message/reset-reply-to-message';
 import { SubmitEditMessage } from './features/edit-message/submit-edit-message';
 import { SubmitEditMessageSuccess } from './features/edit-message/sumbit-edit-message-success';
+import { getChatIndex } from './selectors';
 
 const initialState: MessagesState = {
   loading: false,

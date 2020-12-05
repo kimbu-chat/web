@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { getChatIndex } from '../../messages-utils';
+import { getChatIndex } from 'app/store/messages/selectors';
 import { MessagesState, ResetSelectedMessagesReq } from '../../models';
 
 export class ResetSelectedMessages {

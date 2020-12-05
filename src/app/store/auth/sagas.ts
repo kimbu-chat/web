@@ -1,8 +1,8 @@
 import { takeLatest } from 'redux-saga/effects';
-import { Logout } from './features/logout';
-import { ConfirmPhone } from './features/confirm-phone';
-import { RefreshToken } from './features/refresh-token';
-import { SendSmsCode } from './features/send-sms-code';
+import { Logout } from './features/logout/logout';
+import { ConfirmPhone } from './features/confirm-phone/confirm-phone';
+import { RefreshToken } from './features/refresh-token/refresh-token';
+import { SendSmsCode } from './features/send-sms-code/send-sms-code';
 
 export const AuthSagas = [
   takeLatest(Logout.action, Logout.saga),

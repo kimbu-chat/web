@@ -2,8 +2,8 @@ import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFacto
 import { RootState } from 'app/store/root-reducer';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
-import { CloseAudioStatus } from '../features/close-audio-status';
-import { CloseVideoStatus } from '../features/close-video-status';
+import { CloseAudioStatus } from '../features/close-audio-status/close-audio-status';
+import { CloseVideoStatus } from '../features/close-video-status/close-video-status';
 import { IInCompleteConstraints } from '../models';
 
 export const tracks: {

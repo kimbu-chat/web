@@ -4,10 +4,10 @@ import { SagaIterator, eventChannel } from 'redux-saga';
 import { RootState } from 'app/store/root-reducer';
 import { FriendActions } from '../friends/actions';
 import { SettingsActions } from '../settings/actions';
-import { InternetConnectionCheck } from '../internet/features/internet-connection-check';
-import { InitSocketConnection } from '../sockets/features/init-socket-connection';
-import { ChangeUserOnlineStatus } from '../my-profile/features/change-user-online-status';
-import { GetMyProfile } from '../my-profile/features/get-my-profile';
+import { InternetConnectionCheck } from '../internet/features/internet-connection-check/internet-connection-check';
+import { InitSocketConnection } from '../sockets/features/init-socked-connection/init-socket-connection';
+import { ChangeUserOnlineStatus } from '../my-profile/features/change-user-online-status/change-user-online-status';
+import { GetMyProfile } from '../my-profile/features/get-my-profile/get-my-profile';
 
 function createVisibilityChannel() {
   return eventChannel((emit) => {

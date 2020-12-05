@@ -1,23 +1,23 @@
 import { createReducer } from 'typesafe-actions';
 import { CallState } from './models';
-import { IncomingCall } from './features/incoming-call';
-import { AcceptCall } from './features/accept-call';
-import { CallEnded } from './features/call-ended';
-import { CancelCallSuccess } from './features/cancel-call-success';
-import { ChangeActiveDeviceId } from './features/change-active-device-id';
-import { ChangeMediaStatus } from './features/change-media-status';
-import { CloseAudioStatus } from './features/close-audio-status';
-import { CloseScreenShareStatus } from './features/close-screen-share-status';
-import { CloseVideoStatus } from './features/close-video-status';
-import { GetCallsSuccess } from './features/get-calls-success';
-import { GotDevicesInfo } from './features/got-devices-info';
-import { InterlocutorBusy } from './features/interlocutor-busy';
-import { InterlocutorCanceledCall } from './features/interlocutor-canceled-call';
-import { ChangeScreenShareStatus } from './features/change-screen-share-status';
-import { OutgoingCall } from './features/outgoing-call';
-import { AcceptCallSuccess } from './features/accept-call-success';
-import { SwitchDevice } from './features/switch-device';
-import { InterlocutorAcceptedCallSuccess } from './features/interlocutor-accepted-call-success';
+import { IncomingCall } from './features/incoming-call/incoming-call';
+import { AcceptCall } from './features/accept-call/accept-call';
+import { CallEnded } from './features/call-ended/call-ended';
+import { CancelCallSuccess } from './features/cancel-call/cancel-call-success';
+import { ChangeActiveDeviceId } from './features/change-active-device-id/change-active-device-id';
+import { ChangeMediaStatus } from './features/change-media-status/change-media-status';
+import { CloseAudioStatus } from './features/close-audio-status/close-audio-status';
+import { CloseScreenShareStatus } from './features/close-screen-share-status/close-screen-share-status';
+import { CloseVideoStatus } from './features/close-video-status/close-video-status';
+import { GetCallsSuccess } from './features/get-calls/get-calls-success';
+import { GotDevicesInfo } from './features/got-devices-info/got-devices-info';
+import { InterlocutorBusy } from './features/interlocutor-busy/interlocutor-busy';
+import { InterlocutorCanceledCall } from './features/interlocutor-canceled-call/interlocutor-canceled-call';
+import { ChangeScreenShareStatus } from './features/change-screen-share-status/change-screen-share-status';
+import { OutgoingCall } from './features/outgoing-call/outgoing-call';
+import { AcceptCallSuccess } from './features/accept-call/accept-call-success';
+import { SwitchDevice } from './features/switch-device/switch-device';
+import { InterlocutorAcceptedCallSuccess } from './features/interlocutor-accepted-call/interlocutor-accepted-call-success';
 
 const initialState: CallState = {
   isInterlocutorVideoEnabled: false,

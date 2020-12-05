@@ -3,11 +3,11 @@ import { createReducer } from 'typesafe-actions';
 import unionBy from 'lodash/unionBy';
 import { ChatActions } from '../chats/actions';
 import { FriendsState } from './models';
-import { AddFriendSuccess } from './features/add-friend-success';
-import { DeleteFriendSuccess } from './features/delete-friend-success';
-import { GetFriends } from './features/get-friends';
-import { GetFriendsSuccess } from './features/get-friends-success';
-import { UserStatusChangedEvent } from './features/user-status-changed-event';
+import { AddFriendSuccess } from './features/add-friend/add-friend-success';
+import { DeleteFriendSuccess } from './features/delete-friend/delete-friend-success';
+import { GetFriends } from './features/get-friends/get-friends';
+import { GetFriendsSuccess } from './features/get-friends/get-friends-success';
+import { UserStatusChangedEvent } from './features/user-status-changed-event/user-status-changed-event';
 
 const initialState: FriendsState = {
   loading: true,

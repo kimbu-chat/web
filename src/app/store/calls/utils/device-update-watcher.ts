@@ -3,9 +3,9 @@ import { RootState } from 'app/store/root-reducer';
 import { eventChannel, END, buffers } from 'redux-saga';
 import { take, select, put, call } from 'redux-saga/effects';
 import { getMediaDevicesList } from './user-media';
-import { ChangeMediaStatus } from '../features/change-media-status';
-import { GotDevicesInfo } from '../features/got-devices-info';
-import { SwitchDevice } from '../features/switch-device';
+import { ChangeMediaStatus } from '../features/change-media-status/change-media-status';
+import { GotDevicesInfo } from '../features/got-devices-info/got-devices-info';
+import { SwitchDevice } from '../features/switch-device/switch-device';
 
 function deviceUpdateChannel() {
   return eventChannel((emit) => {

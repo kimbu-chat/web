@@ -1,9 +1,9 @@
 import { createReducer } from 'typesafe-actions';
 import { MyProfileService } from 'app/services/my-profile-service';
 import { MyProfileState } from './models';
-import { GetMyProfileSuccess } from './features/get-my-profile-success';
-import { UpdateMyNicknameSuccess } from './features/update-my-nickname-success';
-import { UpdateMyProfileSuccess } from './features/update-my-profile-success';
+import { GetMyProfileSuccess } from './features/get-my-profile/get-my-profile-success';
+import { UpdateMyNicknameSuccess } from './features/update-my-nickname/update-my-nickname-success';
+import { UpdateMyProfileSuccess } from './features/update-my-profile/update-my-profile-success';
 
 const authService = new MyProfileService();
 const initialState: MyProfileState = {

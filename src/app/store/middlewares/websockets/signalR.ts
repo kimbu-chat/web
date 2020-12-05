@@ -5,7 +5,7 @@ import { getType } from 'typesafe-actions';
 import { AuthActions } from 'store/auth/actions';
 import { RootState } from 'store/root-reducer';
 import { ApiBasePath } from 'store/root-api';
-import { InitSocketConnection } from 'app/store/sockets/features/init-socket-connection';
+import { InitSocketConnection } from 'app/store/sockets/features/init-socked-connection/init-socket-connection';
 import { EventsNames, EventManager } from './event-manager';
 import { MessageCreatedEventHandler } from './integration-event-handlers/message-created-event-handler';
 import { UserMessageTypingEventHandler } from './integration-event-handlers/user-message-typing-event-handler';

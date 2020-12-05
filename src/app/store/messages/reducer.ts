@@ -3,22 +3,22 @@ import { createReducer } from 'typesafe-actions';
 import { MessageState, MessagesState } from './models';
 import { ChatActions } from '../chats/actions';
 import { ChatId } from '../chats/chat-id';
-import { GetMessages } from './features/get-messages';
-import { CreateMessageSuccess } from './features/create-message-success';
-import { CreateMessage } from './features/create-message';
-import { DeleteMessageSuccess } from './features/delete-message-success';
-import { GetMessagesFailure } from './features/get-messages-failure';
-import { GetMessagesSuccess } from './features/get-messages-success';
-import { ReplyToMessage } from './features/reply-to-message';
-import { ResetSelecedMessages } from './features/reset-selected-messages';
-import { SelectMessage } from './features/select-message';
+import { GetMessages } from './features/get-messages/get-messages';
+import { CreateMessageSuccess } from './features/create-message/create-message-success';
+import { CreateMessage } from './features/create-message/create-message';
+import { DeleteMessageSuccess } from './features/delete-message/delete-message-success';
+import { GetMessagesFailure } from './features/get-messages/get-messages-failure';
+import { GetMessagesSuccess } from './features/get-messages/get-messages-success';
+import { ReplyToMessage } from './features/reply-to-message/reply-to-message';
+import { ResetSelectedMessages } from './features/select-message/reset-selected-messages';
+import { SelectMessage } from './features/select-message/select-message';
 import { getChatIndex } from './messages-utils';
-import { EditMessage } from './features/edit-message';
-import { MessageEdited } from './features/message-edited';
-import { ResetEditMessage } from './features/reset-edit-message';
-import { ResetReplyToMessage } from './features/reset-reply-to-message';
-import { SubmitEditMessage } from './features/submit-edit-message';
-import { SubmitEditMessageSuccess } from './features/sumbit-edit-message-success';
+import { EditMessage } from './features/edit-message/edit-message';
+import { MessageEdited } from './features/message-edited/message-edited';
+import { ResetEditMessage } from './features/edit-message/reset-edit-message';
+import { ResetReplyToMessage } from './features/reply-to-message/reset-reply-to-message';
+import { SubmitEditMessage } from './features/edit-message/submit-edit-message';
+import { SubmitEditMessageSuccess } from './features/edit-message/sumbit-edit-message-success';
 
 const initialState: MessagesState = {
   loading: false,
@@ -34,7 +34,7 @@ const messages = createReducer<MessagesState>(initialState)
   .handleAction(CreateMessage.action, CreateMessage.reducer)
   .handleAction(DeleteMessageSuccess.action, DeleteMessageSuccess.reducer)
   .handleAction(SelectMessage.action, SelectMessage.reducer)
-  .handleAction(ResetSelecedMessages.action, ResetSelecedMessages.reducer)
+  .handleAction(ResetSelectedMessages.action, ResetSelectedMessages.reducer)
   .handleAction(ReplyToMessage.action, ReplyToMessage.reducer)
   .handleAction(EditMessage.action, EditMessage.reducer)
   .handleAction(SubmitEditMessage.action, SubmitEditMessage.reducer)

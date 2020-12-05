@@ -7,6 +7,14 @@ export const getSelectedChatSelector = (state: RootState): Chat | undefined =>
 
 export const getSelectedChatIdSelector = (state: RootState): number | undefined => state.chats.selectedChatId;
 
+export const getChatById = (chatId: number) => (state: RootState) => state.chats.chats.find(({ id }) => id === chatId);
+
+export const getChats = (state: RootState): Chat[] => state.chats.chats;
+
+export const getHasMoreChats = (state: RootState): boolean => state.chats.hasMore;
+
+export const getSearchString = (state: RootState) => state.chats.searchString;
+
 export const getTypingString = (t: TFunction, chat: Chat): string | undefined => {
   const typingUsers = chat?.typingInterlocutors;
   if (typingUsers) {

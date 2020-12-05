@@ -3,6 +3,16 @@ import { MessagesState, Message } from './models';
 
 export const getSelectedMessagesLength = (state: RootState): number => state.messages.selectedMessageIds.length;
 
+export const getMessageToEdit = (state: RootState) => state.messages.messageToEdit;
+
+export const getMessageToReply = (state: RootState) => state.messages.messageToReply;
+
+export const getSelectedMessagesId = (state: RootState) => state.messages.selectedMessageIds;
+
+export const getMessagesLoading = (state: RootState) => state.messages.loading;
+
+export const getMessagesByChatId = (messagesChatId: number) => (state: RootState) => state.messages.messages.find(({ chatId }) => chatId === messagesChatId);
+
 export const checkIfChatExists = (state: MessagesState, chatId: number): boolean =>
   state.messages && state.messages.length > 0 && state?.messages?.findIndex((x) => x.chatId === chatId) > -1;
 export const getChatIndex = (state: MessagesState, chatId: number): number => state?.messages?.findIndex((x) => x.chatId === chatId);

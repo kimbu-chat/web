@@ -1,12 +1,12 @@
 import { HTTPStatusCode } from 'app/common/http-status-code';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
 import { ApiBasePath } from 'app/store/root-api';
-import { RootState } from 'app/store/root-reducer';
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+import { getChatById, getHasMoreChats } from 'app/store/chats/selectors';
 import { ChatsState, GetChatsResponse, Chat, GetChatByIdRequestData } from '../../models';
 import { GetChatsSuccess } from '../get-chats/get-chats-success';
 
@@ -33,10 +33,10 @@ export class ChangeSelectedChat {
   static get saga() {
     return function* changeSelectedChatSaga(action: ReturnType<typeof ChangeSelectedChat.action>): SagaIterator {
       if (action.payload !== -1 && !Number.isNaN(action.payload)) {
-        const chatExists = (yield select((state: RootState) => state.chats.chats.findIndex(({ id }) => id === action.payload))) > -1;
+        const chatExists = (yield select(getChatById(action.payload))) !== undefined;
 
         if (!chatExists) {
-          const hasMore = yield select((state: RootState) => state.chats.hasMore);
+          const hasMore = yield select(getHasMoreChats);
           const { data, status } = ChangeSelectedChat.httpRequest.call(yield call(() => ChangeSelectedChat.httpRequest.generator({ chatId: action.payload })));
 
           if (status === HTTPStatusCode.OK) {

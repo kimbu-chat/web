@@ -2,7 +2,6 @@ import React, { useState, useRef, useContext, useCallback, useEffect } from 'rea
 import { useSelector } from 'react-redux';
 import './message-input.scss';
 
-import { UserPreview } from 'store/my-profile/models';
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import { MessageActions } from 'store/messages/actions';
 import { getSelectedChatSelector } from 'store/chats/selectors';
@@ -22,11 +21,11 @@ import { ChatActions } from 'store/chats/actions';
 import useOnClickOutside from 'utils/hooks/use-on-click-outside';
 import { getFileType } from 'utils/functions/get-file-extension';
 import { RespondingMessage } from 'components';
-import { RootState } from 'store/root-reducer';
 import { Chat } from 'store/chats/models';
 import { useGlobalDrop } from 'utils/hooks/use-drop';
 import useReferState from 'utils/hooks/use-referred-state';
 import { throttle } from 'lodash';
+import { getMessageToReply } from 'app/store/messages/selectors';
 import { MessageInputAttachment } from './message-input-attachment/message-input-attachment';
 import { MessageSmiles } from './message-smiles/message-smiles';
 import { ExpandingTextarea } from './expanding-textarea/expanding-textarea';
@@ -47,11 +46,11 @@ export const CreateMessageInput = React.memo(() => {
   const notifyAboutTyping = useActionWithDispatch(MessageActions.messageTyping);
   const uploadAttachmentRequest = useActionWithDispatch(ChatActions.uploadAttachmentRequestAction);
 
-  const currentUser = useSelector<RootState, UserPreview | undefined>((state) => state.myProfile.user);
+  const currentUser = useSelector(getMyProfileSelector);
   const selectedChat = useSelector(getSelectedChatSelector);
   const myProfile = useSelector(getMyProfileSelector);
   const myTypingStrategy = useSelector(getTypingStrategy);
-  const replyingMessage = useSelector((state: RootState) => state.messages.messageToReply);
+  const replyingMessage = useSelector(getMessageToReply);
 
   const [text, setText] = useState('');
   const refferedText = useReferState(text);

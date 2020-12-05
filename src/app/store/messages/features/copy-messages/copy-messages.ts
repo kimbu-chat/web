@@ -1,9 +1,9 @@
-import { RootState } from 'app/store/root-reducer';
 import moment from 'moment';
 import { SagaIterator } from 'redux-saga';
 import { select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { CopyMessagesReq, MessageList } from '../../models';
+import { getMessagesByChatId } from '../../selectors';
 
 export class CopyMessages {
   static get action() {
@@ -12,7 +12,7 @@ export class CopyMessages {
 
   static get saga() {
     return function* (action: ReturnType<typeof CopyMessages.action>): SagaIterator {
-      const chat: MessageList = yield select((state: RootState) => state.messages.messages.find(({ chatId }) => chatId === action.payload.chatId));
+      const chat: MessageList = yield select(getMessagesByChatId(action.payload.chatId));
 
       const content = chat.messages.reduce((accum: string, current) => {
         if (action.payload.messageIds.includes(current.id)) {

@@ -1,5 +1,4 @@
 import { Modal, WithBackground } from 'components';
-import { RootState } from 'store/root-reducer';
 import React, { useCallback, useContext, useState } from 'react';
 
 import { useSelector } from 'react-redux';
@@ -7,7 +6,7 @@ import './forward-modal.scss';
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import { LocalizationContext } from 'app/app';
 import { ChatActions } from 'store/chats/actions';
-import { Chat } from 'store/chats/models';
+import { getChats } from 'app/store/chats/selectors';
 import { SearchBox } from '../search-box/search-box';
 import { ForwardEntity } from './forward-entity/forward-entity';
 
@@ -20,7 +19,7 @@ namespace ForwardModalNS {
 
 export const ForwardModal = React.memo(({ onClose }: ForwardModalNS.Props) => {
   const { t } = useContext(LocalizationContext);
-  const chats = useSelector<RootState, Chat[]>((rootState) => rootState.chats.chats);
+  const chats = useSelector(getChats);
   const [selectedChatIds, setSelectedChatIds] = useState<number[]>([]);
 
   const loadChats = useActionWithDispatch(ChatActions.getChats);

@@ -1,8 +1,7 @@
 import { LocalizationContext } from 'app/app';
 import { Avatar, Modal, WithBackground, ChangePhoto, FriendFromList, SearchBox, CircularProgress } from 'components';
 import { FriendActions } from 'store/friends/actions';
-import { AvatarSelectedData, UploadAvatarResponse, UserPreview } from 'store/my-profile/models';
-import { RootState } from 'store/root-reducer';
+import { AvatarSelectedData, UploadAvatarResponse } from 'store/my-profile/models';
 import { getStringInitials } from 'utils/functions/interlocutor-name-utils';
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import React, { useCallback, useContext, useRef, useState } from 'react';
@@ -14,6 +13,8 @@ import { ChatActions } from 'store/chats/actions';
 import { Chat, GroupChatCreationReqData } from 'store/chats/models';
 import { useHistory } from 'react-router';
 import { MyProfileActions } from 'store/my-profile/actions';
+import { getMyFriends } from 'app/store/friends/selectors';
+import { getMyProfileSelector } from 'app/store/my-profile/selectors';
 
 namespace ICreateGroupChatModal {
   export interface Props {
@@ -30,7 +31,7 @@ namespace ICreateGroupChatModal {
 export const CreateGroupChat = React.memo(({ onClose, preSelectedUserIds }: ICreateGroupChatModal.Props) => {
   const { t } = useContext(LocalizationContext);
 
-  const currentUser = useSelector<RootState, UserPreview | undefined>((state) => state.myProfile.user);
+  const currentUser = useSelector(getMyProfileSelector);
 
   const history = useHistory();
 
@@ -49,7 +50,7 @@ export const CreateGroupChat = React.memo(({ onClose, preSelectedUserIds }: ICre
   const [uploaded, setUploaded] = useState(0);
   const [uploadEnded, setUploadEnded] = useState(true);
 
-  const friends = useSelector((state: RootState) => state.friends.friends);
+  const friends = useSelector(getMyFriends);
 
   const loadFriends = useActionWithDispatch(FriendActions.getFriends);
 

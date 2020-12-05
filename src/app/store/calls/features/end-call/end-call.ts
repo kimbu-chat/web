@@ -4,12 +4,12 @@ import { peerConnection, resetPeerConnection } from 'app/store/middlewares/webRT
 import { UserPreview } from 'app/store/my-profile/models';
 import { getMyProfileSelector } from 'app/store/my-profile/selectors';
 import { ApiBasePath } from 'app/store/root-api';
-import { RootState } from 'app/store/root-reducer';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { select, put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { EndCallActionPayload, EndCallApiRequest } from '../../models';
+import { getCallInterlocutorIdSelector, getIsActiveCallIncoming } from '../../selectors';
 import { videoSender, setVideoSender, stopAllTracks } from '../../utils/user-media';
 import { CancelCallSuccess } from '../cancel-call/cancel-call-success';
 
@@ -20,10 +20,10 @@ export class EndCall {
 
   static get saga() {
     return function* endCallSaga(action: ReturnType<typeof EndCall.action>): SagaIterator {
-      const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
+      const interlocutorId: number = yield select(getCallInterlocutorIdSelector);
       const myProfile: UserPreview = yield select(getMyProfileSelector);
       const myId = myProfile.id;
-      const isActiveCallIncoming: boolean = yield select((state: RootState) => state.calls.isActiveCallIncoming);
+      const isActiveCallIncoming: boolean = yield select(getIsActiveCallIncoming);
 
       const request = {
         callerId: isActiveCallIncoming ? interlocutorId : myId,

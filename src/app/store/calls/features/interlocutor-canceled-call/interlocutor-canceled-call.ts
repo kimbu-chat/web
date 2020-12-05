@@ -1,10 +1,10 @@
 import { peerConnection, resetPeerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import { InterlocutorCanceledCallIntegrationEvent } from 'app/store/middlewares/websockets/integration-events/interlocutor-canceled-call-integration-event';
-import { RootState } from 'app/store/root-reducer';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+import { getCallInterlocutorIdSelector } from 'app/store/calls/selectors';
 import { CallState } from '../../models';
 import { stopAllTracks, videoSender, setVideoSender } from '../../utils/user-media';
 
@@ -33,7 +33,7 @@ export class InterlocutorCanceledCall {
 
   static get saga() {
     return function* (action: ReturnType<typeof InterlocutorCanceledCall.action>): SagaIterator {
-      const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
+      const interlocutorId: number = yield select(getCallInterlocutorIdSelector);
 
       if (interlocutorId === action.payload.interlocutorId) {
         peerConnection?.close();

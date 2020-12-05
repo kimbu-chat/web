@@ -2,13 +2,13 @@ import React from 'react';
 import './responding-message.scss';
 
 import CloseSVG from 'icons/ic-close.svg';
-import { RootState } from 'store/root-reducer';
 import { useSelector } from 'react-redux';
 import { MessageActions } from 'store/messages/actions';
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
+import { getMessageToReply } from 'app/store/messages/selectors';
 
 export const RespondingMessage = React.memo(() => {
-  const replyingMessage = useSelector((state: RootState) => state.messages.messageToReply);
+  const replyingMessage = useSelector(getMessageToReply);
 
   const resetReplyToMessage = useActionWithDispatch(MessageActions.resetReplyToMessage);
 

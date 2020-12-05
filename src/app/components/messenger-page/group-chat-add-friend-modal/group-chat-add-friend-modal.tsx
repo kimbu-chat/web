@@ -11,6 +11,7 @@ import { getSelectedChatSelector } from 'store/chats/selectors';
 import { FriendActions } from 'store/friends/actions';
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import { LocalizationContext } from 'app/app';
+import { getMyFriends } from 'app/store/friends/selectors';
 import { FriendFromList } from '../shared/friend-from-list/friend-from-list';
 import { SearchBox } from '../search-box/search-box';
 
@@ -25,7 +26,7 @@ export const GroupChatAddFriendModal = React.memo(({ onClose }: GroupChatAddFrie
 
   const [selectedUserIds, setselectedUserIds] = useState<number[]>([]);
 
-  const friends = useSelector((state: RootState) => state.friends.friends);
+  const friends = useSelector(getMyFriends);
   const selectedChat = useSelector(getSelectedChatSelector) as Chat;
   const idsToExclude = useSelector((state: RootState) => state.friends.usersForSelectedGroupChat).map((user) => user.id);
 

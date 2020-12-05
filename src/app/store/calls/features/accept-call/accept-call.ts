@@ -2,12 +2,12 @@ import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/http-file-factory';
 import { createPeerConnection, peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import { ApiBasePath } from 'app/store/root-api';
-import { RootState } from 'app/store/root-reducer';
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select, spawn } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+import { getVideoConstraints, getAudioConstraints, getCallInterlocutorIdSelector, getOffer } from 'app/store/calls/selectors';
 import { AcceptCallApiRequest, AcceptIncomingCallActionPayload, CallState } from '../../models';
 import { deviceUpdateWatcher } from '../../utils/device-update-watcher';
 import { peerWatcher } from '../../utils/peer-watcher';
@@ -31,8 +31,8 @@ export class AcceptCall {
 
   static get saga() {
     return function* acceptCallSaga(action: ReturnType<typeof AcceptCall.action>): SagaIterator {
-      const videoConstraints = yield select((state: RootState) => state.calls.videoConstraints);
-      const audioConstraints = yield select((state: RootState) => state.calls.audioConstraints);
+      const videoConstraints = yield select(getVideoConstraints);
+      const audioConstraints = yield select(getAudioConstraints);
       const isVideoError = false;
 
       createPeerConnection();
@@ -59,8 +59,8 @@ export class AcceptCall {
       }
       //---
 
-      const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
-      const offer: RTCSessionDescriptionInit = yield select((state: RootState) => state.calls.offer);
+      const interlocutorId: number = yield select(getCallInterlocutorIdSelector);
+      const offer: RTCSessionDescriptionInit = yield select(getOffer);
 
       peerConnection?.setRemoteDescription(new RTCSessionDescription(offer));
       const answer = yield call(async () => await peerConnection?.createAnswer());

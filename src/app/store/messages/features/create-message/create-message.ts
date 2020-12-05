@@ -1,8 +1,7 @@
 import { HTTPStatusCode } from 'app/common/http-status-code';
 import { ChatActions } from 'app/store/chats/actions';
 import { Chat, MarkMessagesAsReadRequest } from 'app/store/chats/models';
-import { getSelectedChatIdSelector } from 'app/store/chats/selectors';
-import { RootState } from 'app/store/root-reducer';
+import { getChatById, getChats, getSelectedChatIdSelector } from 'app/store/chats/selectors';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { select, put, call } from 'redux-saga/effects';
@@ -15,6 +14,8 @@ import { AxiosResponse } from 'axios';
 import { MarkMessagesAsRead } from 'app/store/chats/features/mark-messages-as-read/mark-messages-as-read';
 import { ChangeSelectedChat } from 'app/store/chats/features/change-selected-chat/change-selected-chat';
 import { getChatIndex } from 'app/store/messages/selectors';
+import { getMyIdSelector } from 'app/store/my-profile/selectors';
+import { areNotificationsEnabled } from 'app/store/settings/selectors';
 import { CreateMessageRequest, MessageCreationReqData, MessageList, MessagesState, MessageState, SystemMessageType } from '../../models';
 import { CreateMessageSuccess } from './create-message-success';
 
@@ -55,7 +56,7 @@ export class CreateMessage {
         if (selectedChatId === chatId) {
           const { chatId, message } = action.payload;
           const selectedChatId = yield select(getSelectedChatIdSelector);
-          const currentUserId = yield select((state: RootState) => state.myProfile.user?.id);
+          const currentUserId = yield select(getMyIdSelector);
 
           if (!selectedChatId || !message.userCreator || currentUserId === message.userCreator?.id || message.systemMessageType !== SystemMessageType.None) {
             return;
@@ -73,10 +74,10 @@ export class CreateMessage {
           }
         }
         // notifications play
-        const currentUserId = yield select((state: RootState) => state.myProfile.user?.id);
-        const chatOfMessage = yield select((state: RootState) => state.chats.chats.find(({ id }) => id === chatId));
-        const isAudioPlayAllowed = yield select((state: RootState) => state.settings.notificationSound);
-        const chats: Chat[] = yield select((state: RootState) => state.chats.chats);
+        const currentUserId = yield select(getMyIdSelector);
+        const chatOfMessage = yield select(getChatById(chatId));
+        const isAudioPlayAllowed = yield select(areNotificationsEnabled);
+        const chats: Chat[] = yield select(getChats);
 
         if (isAudioPlayAllowed) {
           if (message.userCreator?.id !== currentUserId && !(selectedChatId !== message.chatId) && !document.hidden && !chatOfMessage.isMuted) {

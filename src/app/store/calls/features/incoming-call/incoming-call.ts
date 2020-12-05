@@ -1,5 +1,4 @@
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
-import { RootState } from 'app/store/root-reducer';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { select, call } from 'redux-saga/effects';
@@ -8,6 +7,7 @@ import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/http-file-factory';
 import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
+import { doIhaveCall, getCallInterlocutorIdSelector, getIsScreenSharingEnabled, getVideoConstraints } from 'app/store/calls/selectors';
 import { IncomingCallActionPayload, CallState, AcceptCallApiRequest } from '../../models';
 
 export class IncomingCall {
@@ -37,12 +37,12 @@ export class IncomingCall {
 
   static get saga() {
     return function* negociationSaga(action: ReturnType<typeof IncomingCall.action>): SagaIterator {
-      const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
-      const isCallActive: boolean = yield select((state: RootState): boolean => state.calls.isSpeaking);
+      const interlocutorId: number = yield select(getCallInterlocutorIdSelector);
+      const isCallActive: boolean = yield select(doIhaveCall);
 
       if (isCallActive && interlocutorId === action.payload.caller.id) {
-        const videoConstraints = yield select((state: RootState) => state.calls.videoConstraints);
-        const isScreenSharingEnabled = yield select((state: RootState) => state.calls.isScreenSharingOpened);
+        const videoConstraints = yield select(getVideoConstraints);
+        const isScreenSharingEnabled = yield select(getIsScreenSharingEnabled);
 
         peerConnection?.setRemoteDescription(new RTCSessionDescription(action.payload.offer));
         const answer = yield call(async () => await peerConnection?.createAnswer());

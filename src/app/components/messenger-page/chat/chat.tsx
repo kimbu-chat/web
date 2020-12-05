@@ -2,13 +2,11 @@ import React, { useEffect, useRef, useContext, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import './chat.scss';
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
-import { MessageList } from 'store/messages/models';
 import { MessageActions } from 'store/messages/actions';
-import { RootState } from 'store/root-reducer';
 import { LocalizationContext } from 'app/app';
 import { getSelectedChatSelector, getTypingString } from 'store/chats/selectors';
 import InfiniteScroll from 'react-infinite-scroller';
-import { getSelectedMessagesLength } from 'store/messages/selectors';
+import { getMessagesLoading, getMessagesByChatId, getSelectedMessagesLength } from 'store/messages/selectors';
 import { MessageUtils } from 'utils/functions/message-utils';
 import moment from 'moment';
 import { FadeAnimationWrapper } from 'components';
@@ -26,10 +24,8 @@ export const Chat = React.memo(() => {
 
   const selectedChat = useSelector(getSelectedChatSelector);
   const isSelectState = useSelector(getSelectedMessagesLength) > 0;
-  const messageList = useSelector<RootState, MessageList | undefined>((state) =>
-    state.messages.messages.find((x: MessageList) => x.chatId === selectedChat?.id),
-  );
-  const areMessagesLoading = useSelector<RootState, boolean>((state) => state.messages.loading);
+  const messageList = useSelector(getMessagesByChatId(selectedChat?.id!));
+  const areMessagesLoading = useSelector(getMessagesLoading);
 
   const messages = messageList?.messages;
   const hasMoreMessages = messageList?.hasMoreMessages;

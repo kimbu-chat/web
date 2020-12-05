@@ -3,13 +3,12 @@ import './incoming-call.scss';
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import { CallActions } from 'store/calls/actions';
 import { useSelector } from 'react-redux';
-import { getCallInterlocutorSelector } from 'store/calls/selectors';
+import { getCallInterlocutorSelector, getIsInterlocutorVideoEnabled } from 'store/calls/selectors';
 import { Avatar } from 'components';
 import { getUserInitials } from 'utils/functions/interlocutor-name-utils';
 
 // sounds
 import incomingCallSound from 'app/assets/sounds/calls/imcoming-call.ogg';
-import { RootState } from 'store/root-reducer';
 import { Rnd } from 'react-rnd';
 import ReactDOM from 'react-dom';
 
@@ -25,7 +24,7 @@ export const IncomingCall: React.FC = () => {
   const acceptCall = useActionWithDispatch(CallActions.acceptCallAction);
 
   const interlocutor = useSelector(getCallInterlocutorSelector);
-  const isCallingWithVideo = useSelector((state: RootState) => state.calls.isInterlocutorVideoEnabled);
+  const isCallingWithVideo = useSelector(getIsInterlocutorVideoEnabled);
 
   useEffect(() => {
     // repeatable playing beep-beep

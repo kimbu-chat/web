@@ -26,7 +26,7 @@ import { amICalled as isCallingMe, amICaling, doIhaveCall } from 'store/calls/se
 import { CSSTransition } from 'react-transition-group';
 import { LocalizationContext } from 'app/app';
 import { getSelectedChatSelector } from 'store/chats/selectors';
-import { RootState } from 'store/root-reducer';
+import { getMessageToEdit } from 'app/store/messages/selectors';
 
 export namespace MessengerNS {
   export interface PhotoSelect {
@@ -42,7 +42,7 @@ const Messenger = React.memo(() => {
   const amICalingSomebody = useSelector(amICaling);
   const amISpeaking = useSelector(doIhaveCall);
   const selectedChat = useSelector(getSelectedChatSelector);
-  const messageToEdit = useSelector((state: RootState) => state.messages.messageToEdit);
+  const messageToEdit = useSelector(getMessageToEdit);
 
   return (
     <div className='messenger'>

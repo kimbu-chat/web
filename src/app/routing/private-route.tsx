@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Redirect, RouteProps } from 'react-router';
 import { useSelector } from 'react-redux';
-import { RootState } from 'store/root-reducer';
+import { amIlogged } from 'app/store/auth/selectors';
 
 namespace PublicRouteNS {
   export interface Props extends RouteProps {
@@ -12,7 +12,7 @@ namespace PublicRouteNS {
 }
 
 export const PublicRoute = React.memo(({ Component, path, isAllowed = true, ...rest }: PublicRouteNS.Props) => {
-  const isAuthenticated = useSelector<RootState, boolean>((rootState) => rootState.auth.isAuthenticated);
+  const isAuthenticated = useSelector(amIlogged);
   return (
     <Route
       path={path}

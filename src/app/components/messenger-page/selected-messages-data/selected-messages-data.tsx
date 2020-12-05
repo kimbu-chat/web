@@ -4,14 +4,14 @@ import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import { getSelectedChatSelector } from 'store/chats/selectors';
 import { MessageActions } from 'store/messages/actions';
-import { RootState } from 'store/root-reducer';
 import { LocalizationContext } from 'app/app';
 
 import { FadeAnimationWrapper, ForwardModal } from 'components';
+import { getSelectedMessagesId } from 'app/store/messages/selectors';
 import { DeleteMessageModal } from './delete-message-modal/delete-message-modal';
 
 export const SelectedMessagesData = React.memo(() => {
-  const selectedMessages = useSelector((state: RootState) => state.messages.selectedMessageIds);
+  const selectedMessages = useSelector(getSelectedMessagesId);
   const selectedMessagesCount = selectedMessages.length;
   const selectedChat = useSelector(getSelectedChatSelector);
   const selectedChatId = selectedChat?.id;

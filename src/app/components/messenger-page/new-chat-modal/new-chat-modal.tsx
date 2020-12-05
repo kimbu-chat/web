@@ -1,5 +1,4 @@
 import { Modal, WithBackground } from 'components';
-import { RootState } from 'store/root-reducer';
 import React, { useCallback, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import './new-chat-modal.scss';
@@ -11,6 +10,7 @@ import { useHistory } from 'react-router';
 
 import PeopleSvg from 'icons/ic-group.svg';
 import { ChatActions } from 'app/store/chats/actions';
+import { getMyFriends } from 'app/store/friends/selectors';
 import { FriendFromList } from '../shared/friend-from-list/friend-from-list';
 import { SearchBox } from '../search-box/search-box';
 
@@ -24,7 +24,7 @@ namespace NewChatModalNS {
 export const NewChatModal = React.memo(({ onClose, displayCreateGroupChat }: NewChatModalNS.Props) => {
   const { t } = useContext(LocalizationContext);
 
-  const friends = useSelector((state: RootState) => state.friends.friends);
+  const friends = useSelector(getMyFriends);
 
   const createChat = useActionWithDispatch(ChatActions.createChat);
   const loadFriends = useActionWithDispatch(FriendActions.getFriends);

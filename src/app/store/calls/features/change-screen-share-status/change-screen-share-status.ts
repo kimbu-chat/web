@@ -1,9 +1,9 @@
 import { createEmptyAction } from 'app/store/common/actions';
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
-import { RootState } from 'app/store/root-reducer';
 import produce from 'immer';
 import { buffers, END, eventChannel, SagaIterator } from 'redux-saga';
 import { call, put, select, spawn, take } from 'redux-saga/effects';
+import { getIsScreenSharingEnabled } from 'app/store/calls/selectors';
 import { CallState } from '../../models';
 import { tracks, stopScreenSharingTracks, videoSender, setVideoSender, getUserDisplay, stopVideoTracks } from '../../utils/user-media';
 import { CloseScreenShareStatus } from '../close-screen-share-status/close-screen-share-status';
@@ -67,7 +67,7 @@ export class ChangeScreenShareStatus {
     }
 
     return function* (): SagaIterator {
-      const screenSharingState = yield select((state: RootState) => state.calls.isScreenSharingOpened);
+      const screenSharingState = yield select(getIsScreenSharingEnabled);
       let isErrorPresent = false;
 
       if (screenSharingState) {

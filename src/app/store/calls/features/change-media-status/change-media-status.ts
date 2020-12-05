@@ -1,9 +1,9 @@
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
-import { RootState } from 'app/store/root-reducer';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { select, put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+import { getVideoConstraints, getAudioConstraints } from 'app/store/calls/selectors';
 import { ChangeMediaStatusActionPayload, CallState } from '../../models';
 import {
   getUserVideo,
@@ -43,8 +43,8 @@ export class ChangeMediaStatus {
 
   static get saga() {
     return function* (action: ReturnType<typeof ChangeMediaStatus.action>): SagaIterator {
-      const videoConstraints = yield select((state: RootState) => state.calls.videoConstraints);
-      const audioConstraints = yield select((state: RootState) => state.calls.audioConstraints);
+      const videoConstraints = yield select(getVideoConstraints);
+      const audioConstraints = yield select(getAudioConstraints);
 
       if (action.payload.kind === 'videoinput') {
         if (videoConstraints.isOpened) {

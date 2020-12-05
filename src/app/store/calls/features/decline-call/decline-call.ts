@@ -3,10 +3,10 @@ import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/http-file-factory';
 import { peerConnection, resetPeerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import { ApiBasePath } from 'app/store/root-api';
-import { RootState } from 'app/store/root-reducer';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
+import { getCallInterlocutorIdSelector } from 'app/store/calls/selectors';
 import { DeclineCallApiRequest } from '../../models';
 import { stopAllTracks } from '../../utils/user-media';
 import { CancelCallSuccess } from '../cancel-call/cancel-call-success';
@@ -18,7 +18,7 @@ export class DeclineCall {
 
   static get saga() {
     return function* (): SagaIterator {
-      const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
+      const interlocutorId: number = yield select(getCallInterlocutorIdSelector);
 
       const request = {
         interlocutorId,

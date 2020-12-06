@@ -13,6 +13,12 @@ export const getMessagesLoading = (state: RootState) => state.messages.loading;
 
 export const getMessagesByChatId = (messagesChatId: number) => (state: RootState) => state.messages.messages.find(({ chatId }) => chatId === messagesChatId);
 
+export const getLastMessageByChatId = (messagesChatId: number) => (state: RootState) => {
+  const messagesForChat = state.messages.messages.find(({ chatId }) => chatId === messagesChatId)?.messages;
+
+  return messagesForChat ? messagesForChat[0] : undefined;
+};
+
 export const checkIfChatExists = (state: MessagesState, chatId: number): boolean =>
   state.messages && state.messages.length > 0 && state?.messages?.findIndex((x) => x.chatId === chatId) > -1;
 export const getChatIndex = (state: MessagesState, chatId: number): number => state?.messages?.findIndex((x) => x.chatId === chatId);

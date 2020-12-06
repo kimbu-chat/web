@@ -39,6 +39,7 @@ import { RemoveAttachment } from './features/remove-attachment/remove-attachment
 import { UploadAttachmentFailure } from './features/upload-attachment/upload-attachment-failure';
 import { UploadAttachmentProgress } from './features/upload-attachment/upload-attachment-progress';
 import { UploadAttachmentSuccess } from './features/upload-attachment/upload-attachment-success';
+import { ChangeLastMessage } from './features/change-last-message/change-last-message';
 
 export namespace ChatActions {
   export const getChats = GetChats.action;
@@ -87,4 +88,6 @@ export namespace ChatActions {
   export const removeAttachmentAction = RemoveAttachment.action;
 
   export const markMessagesAsRead = MarkMessagesAsRead.action;
+
+  export const changeLastMessageAction = ChangeLastMessage.action;
 }

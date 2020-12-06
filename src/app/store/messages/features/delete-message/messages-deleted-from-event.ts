@@ -1,7 +1,12 @@
+import { ChangeLastMessage } from 'app/store/chats/features/change-last-message/change-last-message';
+import { Chat } from 'app/store/chats/models';
+import { getChatById } from 'app/store/chats/selectors';
 import produce from 'immer';
+import { SagaIterator } from 'redux-saga';
+import { select, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { MessageDeletedFromEventReq, MessagesState } from '../../models';
-import { getChatIndex, getMessage } from '../../selectors';
+import { getChatIndex, getLastMessageByChatId, getMessage } from '../../selectors';
 
 export class MessagesDeletedFromEvent {
   static get action() {
@@ -21,5 +26,16 @@ export class MessagesDeletedFromEvent {
       });
       return draft;
     });
+  }
+
+  static get saga() {
+    return function* deleteMessageSuccessSaga(action: ReturnType<typeof MessagesDeletedFromEvent.action>): SagaIterator {
+      const chatOfMessage: Chat = yield select(getChatById(action.payload.chatId));
+
+      if (action.payload.messageIds.includes(chatOfMessage.lastMessage?.id!)) {
+        const newMessage = yield select(getLastMessageByChatId(action.payload.chatId));
+        yield put(ChangeLastMessage.action({ chatId: action.payload.chatId, newMessage }));
+      }
+    };
   }
 }

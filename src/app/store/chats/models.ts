@@ -207,6 +207,11 @@ export interface Chat {
   searchMembers?: UserPreview[];
 }
 
+export interface ChangeLastMessageReq {
+  newMessage: Message;
+  chatId: number;
+}
+
 export interface AttachmentToSend<T> {
   attachment: T;
   file: File;

@@ -39,6 +39,7 @@ import { MessageTyping } from '../messages/features/message-typing/message-typin
 import { SubmitEditMessage } from '../messages/features/edit-message/submit-edit-message';
 import { GetGroupChatUsers } from './features/get-group-chat-users/get-group-chat-users';
 import { GetGroupChatUsersSuccess } from './features/get-group-chat-users/get-group-chat-users-success';
+import { ChangeLastMessage } from './features/change-last-message/change-last-message';
 
 const initialState: ChatsState = {
   loading: false,
@@ -75,6 +76,7 @@ const chats = createReducer<ChatsState>(initialState)
   .handleAction(EditGroupChatSuccess.action, EditGroupChatSuccess.reducer)
   .handleAction(GetGroupChatUsers.action, GetGroupChatUsers.reducer)
   .handleAction(GetGroupChatUsersSuccess.action, GetGroupChatUsersSuccess.reducer)
+  .handleAction(ChangeLastMessage.action, ChangeLastMessage.reducer)
   .handleAction(
     CreateMessage.action,
     produce((draft: ChatsState, { payload }: ReturnType<typeof MessageActions.createMessage>) => {

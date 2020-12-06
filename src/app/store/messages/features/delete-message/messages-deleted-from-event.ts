@@ -1,20 +1,20 @@
-import produce from 'immer';
-import { createAction } from 'typesafe-actions';
-import { getChatIndex, getLastMessageByChatId, getMessage } from 'app/store/messages/selectors';
-import { SagaIterator } from 'redux-saga';
-import { put, select } from 'redux-saga/effects';
 import { ChangeLastMessage } from 'app/store/chats/features/change-last-message/change-last-message';
-import { getChatById } from 'app/store/chats/selectors';
 import { Chat } from 'app/store/chats/models';
-import { DeleteMessageReq, MessagesState } from '../../models';
+import { getChatById } from 'app/store/chats/selectors';
+import produce from 'immer';
+import { SagaIterator } from 'redux-saga';
+import { select, put } from 'redux-saga/effects';
+import { createAction } from 'typesafe-actions';
+import { MessageDeletedFromEventReq, MessagesState } from '../../models';
+import { getChatIndex, getLastMessageByChatId, getMessage } from '../../selectors';
 
-export class DeleteMessageSuccess {
+export class MessagesDeletedFromEvent {
   static get action() {
-    return createAction('DELETE_MESSAGE_SUCCESS')<DeleteMessageReq>();
+    return createAction('MESSAGE_DELETED_FROM_EVENT')<MessageDeletedFromEventReq>();
   }
 
   static get reducer() {
-    return produce((draft: MessagesState, { payload }: ReturnType<typeof DeleteMessageSuccess.action>) => {
+    return produce((draft: MessagesState, { payload }: ReturnType<typeof MessagesDeletedFromEvent.action>) => {
       const chatIndex = getChatIndex(draft, payload.chatId);
 
       payload.messageIds.forEach((msgIdToDelete) => {
@@ -29,7 +29,7 @@ export class DeleteMessageSuccess {
   }
 
   static get saga() {
-    return function* deleteMessageSuccessSaga(action: ReturnType<typeof DeleteMessageSuccess.action>): SagaIterator {
+    return function* deleteMessageSuccessSaga(action: ReturnType<typeof MessagesDeletedFromEvent.action>): SagaIterator {
       const chatOfMessage: Chat = yield select(getChatById(action.payload.chatId));
 
       if (action.payload.messageIds.includes(chatOfMessage.lastMessage?.id!)) {

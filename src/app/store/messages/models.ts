@@ -119,6 +119,7 @@ export interface MessagesReq {
 export interface DeleteMessageReq {
   messageIds: number[];
   chatId: number;
+  forEveryone: boolean;
 }
 
 export interface SelectMessageReq {
@@ -134,6 +135,11 @@ export interface CopyMessagesReq {
 export interface EditMessageReq {
   messageId: number;
   chatId: number;
+}
+
+export interface MessageDeletedFromEventReq {
+  chatId: number;
+  messageIds: number[];
 }
 
 export interface SubmitEditMessageReq {
@@ -194,4 +200,5 @@ export interface MessageEdited {
 
 export interface DeleteMessagesApiReq {
   ids: number[];
+  forEveryone: boolean;
 }

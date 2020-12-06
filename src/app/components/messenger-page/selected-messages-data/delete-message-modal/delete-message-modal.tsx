@@ -30,9 +30,9 @@ export const DeleteMessageModal: React.FC<DeleteMessageModalNS.Props> = React.me
   const selectedChatId = selectedChat?.id;
 
   const deleteTheseMessages = useCallback(() => {
-    deleteMessage({ chatId: selectedChatId as number, messageIds: selectedMessages });
+    deleteMessage({ chatId: selectedChatId as number, messageIds: selectedMessages, forEveryone: deleteForInterlocutor });
     onClose();
-  }, [selectedChatId, selectedMessages]);
+  }, [selectedChatId, selectedMessages, deleteForInterlocutor]);
 
   return (
     <WithBackground onBackgroundClick={onClose}>

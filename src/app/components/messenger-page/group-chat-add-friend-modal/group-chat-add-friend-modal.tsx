@@ -1,5 +1,4 @@
 import { Modal, WithBackground } from 'components';
-import { RootState } from 'store/root-reducer';
 import React, { useCallback, useContext, useState } from 'react';
 
 import { useSelector } from 'react-redux';
@@ -7,7 +6,7 @@ import './group-chat-add-friend-modal.scss';
 import { Chat } from 'store/chats/models';
 import { ChatActions } from 'store/chats/actions';
 import { useActionWithDeferred } from 'utils/hooks/use-action-with-deferred';
-import { getSelectedChatSelector } from 'store/chats/selectors';
+import { getMembersForSelectedGroupChat, getSelectedChatSelector } from 'store/chats/selectors';
 import { FriendActions } from 'store/friends/actions';
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import { LocalizationContext } from 'app/app';
@@ -28,7 +27,7 @@ export const GroupChatAddFriendModal = React.memo(({ onClose }: GroupChatAddFrie
 
   const friends = useSelector(getMyFriends);
   const selectedChat = useSelector(getSelectedChatSelector) as Chat;
-  const idsToExclude = useSelector((state: RootState) => state.friends.usersForSelectedGroupChat).map((user) => user.id);
+  const idsToExclude = useSelector(getMembersForSelectedGroupChat)?.map((user) => user.id) || [];
 
   const addUsersToGroupChat = useActionWithDeferred(ChatActions.addUsersToGroupChat);
   const loadFriends = useActionWithDispatch(FriendActions.getFriends);

@@ -11,8 +11,6 @@ export interface FriendsState {
   loading: boolean;
   friends: UserPreview[];
   hasMoreFriends: boolean;
-  usersForSelectedGroupChat: UserPreview[];
-  groupChatUsersLoading: boolean;
 }
 
 export interface GetFriendsSuccessActionData {
@@ -22,6 +20,9 @@ export interface GetFriendsSuccessActionData {
 }
 
 export interface GetGroupChatUsersSuccessActionData {
+  chatId: number;
+  isFromSearch?: boolean;
+  isFromScroll?: boolean;
   users: Array<UserPreview>;
 }
 

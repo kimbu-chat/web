@@ -4,9 +4,8 @@ import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import { Chat } from 'store/chats/models';
 import { ChatActions } from 'store/chats/actions';
-import { getSelectedChatSelector } from 'store/chats/selectors';
+import { getMembersForSelectedGroupChat, getSearchMembersForSelectedGroupChat, getSelectedChatSelector } from 'store/chats/selectors';
 import AddSvg from 'icons/ic-add-new.svg';
-import { getMembersForSelectedGroupChat } from 'app/store/friends/selectors';
 import { SearchBox } from '../../search-box/search-box';
 
 import { Member } from './chat-member/chat-member';
@@ -24,6 +23,7 @@ export const ChatMembers = React.memo(({ addMembers }: ChatMembersNS.Props) => {
   const selectedChat = useSelector(getSelectedChatSelector) as Chat;
 
   const membersForGroupChat = useSelector(getMembersForSelectedGroupChat);
+  const searchMembersForGroupChat = useSelector(getSearchMembersForSelectedGroupChat);
 
   useEffect(() => {
     getGroupChatUsers({
@@ -41,7 +41,7 @@ export const ChatMembers = React.memo(({ addMembers }: ChatMembersNS.Props) => {
   const loadMore = useCallback(() => {
     getGroupChatUsers({
       groupChatId: selectedChat.groupChat?.id || -1,
-      page: { offset: membersForGroupChat.length, limit: 15 },
+      page: { offset: (searchMembersForGroupChat || membersForGroupChat)?.length || 0, limit: 15 },
       name: searchStr,
     });
   }, [selectedChat]);
@@ -69,7 +69,7 @@ export const ChatMembers = React.memo(({ addMembers }: ChatMembersNS.Props) => {
       </div>
 
       <div className='chat-members__members-list'>
-        {membersForGroupChat.map((member) => (
+        {(searchMembersForGroupChat || membersForGroupChat)?.map((member) => (
           <Member member={member} key={member?.id} />
         ))}
       </div>

@@ -10,6 +10,7 @@ export interface UploadingAttachment {
 }
 
 export interface ChatsState {
+  groupChatUsersLoading?: boolean;
   loading: boolean;
   hasMore: boolean;
   searchString: string;
@@ -68,6 +69,8 @@ export interface GetChatVideosHTTPRequest {
 export interface GetGroupChatUsersRequest {
   groupChatId: number;
   page: Page;
+  isFromSearch?: boolean;
+  isFromScroll?: boolean;
   name?: string;
 }
 
@@ -200,6 +203,8 @@ export interface Chat {
   voiceAttachmentsCount?: number;
   audioAttachmentsCount?: number;
   pictureAttachmentsCount?: number;
+  members?: UserPreview[];
+  searchMembers?: UserPreview[];
 }
 
 export interface AttachmentToSend<T> {

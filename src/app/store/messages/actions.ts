@@ -17,6 +17,8 @@ import { SubmitEditMessage } from './features/edit-message/submit-edit-message';
 import { SubmitEditMessageSuccess } from './features/edit-message/sumbit-edit-message-success';
 import { ResetSelectedMessages } from './features/select-message/reset-selected-messages';
 import { MessagesDeletedFromEvent } from './features/delete-message/messages-deleted-from-event';
+import { ClearChatHistory } from './features/clear-history/clear-chat-history';
+import { ClearChatHistorySuccess } from './features/clear-history/clear-chat-history-success';
 
 export namespace MessageActions {
   export const getMessages = GetMessages.action;
@@ -38,4 +40,6 @@ export namespace MessageActions {
   export const messageEdited = MessageEdited.action;
   export const resetEditMessage = ResetEditMessage.action;
   export const messagesDeletedFromEvent = MessagesDeletedFromEvent.action;
+  export const clearChatHistory = ClearChatHistory.action;
+  export const clearChatHistorySuccess = ClearChatHistorySuccess.action;
 }

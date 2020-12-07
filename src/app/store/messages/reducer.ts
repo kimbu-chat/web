@@ -20,6 +20,7 @@ import { SubmitEditMessage } from './features/edit-message/submit-edit-message';
 import { SubmitEditMessageSuccess } from './features/edit-message/sumbit-edit-message-success';
 import { getChatIndex } from './selectors';
 import { MessagesDeletedFromEvent } from './features/delete-message/messages-deleted-from-event';
+import { ClearChatHistorySuccess } from './features/clear-history/clear-chat-history-success';
 
 const initialState: MessagesState = {
   loading: false,
@@ -44,6 +45,7 @@ const messages = createReducer<MessagesState>(initialState)
   .handleAction(ResetEditMessage.action, ResetEditMessage.reducer)
   .handleAction(MessageEdited.action, MessageEdited.reducer)
   .handleAction(MessagesDeletedFromEvent.action, MessagesDeletedFromEvent.reducer)
+  .handleAction(ClearChatHistorySuccess.action, ClearChatHistorySuccess.reducer)
   .handleAction(
     ChatActions.changeSelectedChat,
     produce((draft: MessagesState) => {

@@ -62,6 +62,9 @@
   },
   "chatInfo": {
     "leave-confirmation": "Are you sure you want to delete ‘{{groupChatName}}‘ chat? All the data will be lost",
+    "clear-confirmation": "Are you sure you want to clear selected chat? All messages will be lost",
+    "clear": "Clear",
+    "clear-for-everybody": "Clear for everybody",
     "confirm": "Delete",
     "cancel": "Cancel"
   },

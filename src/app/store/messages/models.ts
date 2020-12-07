@@ -121,6 +121,10 @@ export interface DeleteMessageReq {
   chatId: number;
   forEveryone: boolean;
 }
+export interface CleatChatHistoryReq {
+  chatId: number;
+  forEveryone: boolean;
+}
 
 export interface SelectMessageReq {
   messageId: number;

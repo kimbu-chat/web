@@ -18,6 +18,7 @@ import { CreateGroupChat, FadeAnimationWrapper } from 'components';
 import PeopleSvg from 'icons/ic-group.svg';
 import { getMyFriends } from 'app/store/friends/selectors';
 import { DeleteChatModal } from './delete-chat-modal/delete-chat-modal';
+import { ClearChatModal } from './clear-chat-modal/clear-chat-modal';
 
 namespace ChatActionsNS {
   export interface Props {
@@ -30,6 +31,9 @@ export const ChatActions = React.memo(({ addMembers }: ChatActionsNS.Props) => {
 
   const [leaveGroupChatModalOpened, setLeaveGroupChatModalOpened] = useState<boolean>(false);
   const changeLeaveGroupChatModalOpenedState = useCallback(() => setLeaveGroupChatModalOpened((oldState) => !oldState), [setLeaveGroupChatModalOpened]);
+
+  const [clearChatModalOpened, setClearChatModalOpened] = useState<boolean>(false);
+  const changeClearChatModalOpenedState = useCallback(() => setClearChatModalOpened((oldState) => !oldState), [setClearChatModalOpened]);
 
   const [createGroupChatModalOpened, setCreateGroupChatModalOpened] = useState<boolean>(false);
   const changeCreateGroupChatModalOpenedState = useCallback(() => setCreateGroupChatModalOpened((oldState) => !oldState), [setCreateGroupChatModalOpened]);
@@ -65,7 +69,7 @@ export const ChatActions = React.memo(({ addMembers }: ChatActionsNS.Props) => {
         )}
         <span className='chat-actions__action__name'>{selectedChat.isMuted ? t('chatActions.unmute') : t('chatActions.mute')}</span>
       </button>
-      <button type='button' className='chat-actions__action'>
+      <button onClick={changeClearChatModalOpenedState} type='button' className='chat-actions__action'>
         <ClearSvg viewBox='0 0 25 25' className='chat-actions__action__svg' />
         <span className='chat-actions__action__name'>{t('chatActions.clear-history')}</span>
       </button>
@@ -126,6 +130,10 @@ export const ChatActions = React.memo(({ addMembers }: ChatActionsNS.Props) => {
           <CreateGroupChat preSelectedUserIds={[selectedChat.interlocutor!.id]} onClose={changeCreateGroupChatModalOpenedState} />
         </FadeAnimationWrapper>
       )}
+
+      <FadeAnimationWrapper isDisplayed={clearChatModalOpened}>
+        <ClearChatModal hide={changeClearChatModalOpenedState} />
+      </FadeAnimationWrapper>
     </div>
   );
 });

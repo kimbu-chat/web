@@ -41,32 +41,36 @@ export const ChatFromList = React.memo(({ chat }: ChatFromListNS.Props) => {
 
   const getMessageText = (): string => {
     const { lastMessage, groupChat } = chat;
-    if (lastMessage && lastMessage?.systemMessageType !== SystemMessageType.None) {
-      return truncate(MessageUtils.constructSystemMessageText(lastMessage as Message, t, currentUserId), {
-        length: 53,
-        omission: '...',
-      });
-    }
-
-    if (groupChat) {
-      if (isMessageCreatorCurrentUser) {
-        return truncate(`${t('chatFromList.you')}: ${lastMessage?.text}`, {
+    if (lastMessage) {
+      if (lastMessage && lastMessage?.systemMessageType !== SystemMessageType.None) {
+        return truncate(MessageUtils.constructSystemMessageText(lastMessage as Message, t, currentUserId), {
           length: 53,
           omission: '...',
         });
       }
-      return truncate(`${lastMessage?.userCreator?.firstName}: ${lastMessage?.text}`, {
+
+      if (groupChat) {
+        if (isMessageCreatorCurrentUser) {
+          return truncate(`${t('chatFromList.you')}: ${lastMessage?.text}`, {
+            length: 53,
+            omission: '...',
+          });
+        }
+        return truncate(`${lastMessage?.userCreator?.firstName}: ${lastMessage?.text}`, {
+          length: 53,
+          omission: '...',
+        });
+      }
+
+      const shortedText = truncate(lastMessage?.text, {
         length: 53,
         omission: '...',
       });
+
+      return shortedText;
     }
 
-    const shortedText = truncate(lastMessage?.text, {
-      length: 53,
-      omission: '...',
-    });
-
-    return shortedText;
+    return '';
   };
 
   return (

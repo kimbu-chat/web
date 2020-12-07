@@ -24,19 +24,6 @@ export class Logout {
       const tokens = yield call(getPushNotificationTokens);
       yield call(() => Logout.httpRequest.generator(tokens));
 
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker
-          .getRegistrations()
-          .then((registrations) => {
-            registrations.forEach((registration) => {
-              registration.unregister();
-            });
-          })
-          .catch((err) => {
-            console.log('Service Worker registration failed: ', err);
-          });
-      }
-
       yield call(async () => await messaging().deleteToken());
     };
   }

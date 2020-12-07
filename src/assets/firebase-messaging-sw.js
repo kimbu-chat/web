@@ -1,5 +1,6 @@
-window.importScripts('https://www.gstatic.com/firebasejs/7.18.0/firebase-app.js');
-window.importScripts('https://www.gstatic.com/firebasejs/7.18.0/firebase-messaging.js');
+/* eslint-disable */
+importScripts('https://www.gstatic.com/firebasejs/7.18.0/firebase-app.js');
+importScripts('https://www.gstatic.com/firebasejs/7.18.0/firebase-messaging.js');
 
 const config = {
   apiKey: 'AIzaSyBndllDIwxwEq0S4Dls5pNVslmJIgmfO4o',
@@ -11,4 +12,4 @@ const config = {
   appId: '1:104186841570:web:d96d94528e19aa12d5d1bb',
 };
 
-window.firebase.initializeApp(config);
+firebase.initializeApp(config);

@@ -183,7 +183,7 @@ export interface Chat {
   id: number;
   interlocutorType?: InterlocutorType;
   groupChat?: GroupChat;
-  lastMessage?: Message;
+  lastMessage?: Message | null;
   interlocutor?: UserPreview;
   ownUnreadMessagesCount?: number;
   interlocutorLastReadMessageId?: number;

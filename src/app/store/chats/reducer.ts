@@ -78,6 +78,19 @@ const chats = createReducer<ChatsState>(initialState)
   .handleAction(GetGroupChatUsersSuccess.action, GetGroupChatUsersSuccess.reducer)
   .handleAction(ChangeLastMessage.action, ChangeLastMessage.reducer)
   .handleAction(
+    MessageActions.clearChatHistorySuccess,
+    produce((draft: ChatsState, { payload }: ReturnType<typeof MessageActions.clearChatHistorySuccess>) => {
+      const { chatId } = payload;
+      const chatIndex: number = getChatArrayIndex(chatId, draft);
+
+      if (chatIndex >= 0) {
+        draft.chats[chatIndex].lastMessage = null;
+      }
+
+      return draft;
+    }),
+  )
+  .handleAction(
     CreateMessage.action,
     produce((draft: ChatsState, { payload }: ReturnType<typeof MessageActions.createMessage>) => {
       const { message, chatId, currentUserId } = payload;

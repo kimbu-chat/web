@@ -1,10 +1,11 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { GotMediaDevicesInfoActionPayload, CallState } from '../../models';
+import { CallState } from '../../models';
+import { GotDevicesInfoActionPayload } from './got-devices-info-action-payload';
 
 export class GotDevicesInfo {
   static get action() {
-    return createAction('GOT_DEVICES_INFO')<GotMediaDevicesInfoActionPayload>();
+    return createAction('GOT_DEVICES_INFO')<GotDevicesInfoActionPayload>();
   }
 
   static get reducer() {

@@ -8,7 +8,8 @@ import { HttpRequestMethod } from 'app/store/common/http-file-factory';
 import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
 import { doIhaveCall, getCallInterlocutorIdSelector, getIsScreenSharingEnabled, getVideoConstraints } from 'app/store/calls/selectors';
-import { IncomingCallActionPayload, CallState, AcceptCallApiRequest } from '../../models';
+import { CallState, AcceptCallApiRequest } from '../../models';
+import { IncomingCallActionPayload } from './incoming-call-action-payload';
 
 export class IncomingCall {
   static get action() {

@@ -3,10 +3,11 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { getVideoConstraints, getAudioConstraints } from 'app/store/calls/selectors';
-import { SwitchDeviceActionPayload, CallState } from '../../models';
+import { CallState } from '../../models';
 import { getUserAudio, tracks, audioSender, getUserVideo, videoSender } from '../../utils/user-media';
 import { CloseAudioStatus } from '../close-audio-status/close-audio-status';
 import { CloseVideoStatus } from '../close-video-status/close-video-status';
+import { SwitchDeviceActionPayload } from './switch-device-action-payload';
 
 export class SwitchDevice {
   static get action() {

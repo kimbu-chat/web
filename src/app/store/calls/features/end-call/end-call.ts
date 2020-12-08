@@ -8,10 +8,11 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { select, put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { EndCallActionPayload, EndCallApiRequest } from '../../models';
+import { EndCallApiRequest } from '../../models';
 import { getCallInterlocutorIdSelector, getIsActiveCallIncoming } from '../../selectors';
 import { videoSender, setVideoSender, stopAllTracks } from '../../utils/user-media';
 import { CancelCallSuccess } from '../cancel-call/cancel-call-success';
+import { EndCallActionPayload } from './end-call-action-payload';
 
 export class EndCall {
   static get action() {

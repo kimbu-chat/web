@@ -1,5 +1,4 @@
 import { peerConnection, resetPeerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
-import { InterlocutorCanceledCallIntegrationEvent } from 'app/store/middlewares/websockets/integration-events/interlocutor-canceled-call-integration-event';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { select } from 'redux-saga/effects';
@@ -7,10 +6,11 @@ import { createAction } from 'typesafe-actions';
 import { getCallInterlocutorIdSelector } from 'app/store/calls/selectors';
 import { CallState } from '../../models';
 import { stopAllTracks, videoSender, setVideoSender } from '../../utils/user-media';
+import { InterlocutorCanceledCallActionPayload } from './interlocutor-canceled-call-action-payload';
 
 export class InterlocutorCanceledCall {
   static get action() {
-    return createAction('INTERLOCUTOR_CANCELED_CALL')<InterlocutorCanceledCallIntegrationEvent>();
+    return createAction('INTERLOCUTOR_CANCELED_CALL')<InterlocutorCanceledCallActionPayload>();
   }
 
   static get reducer() {

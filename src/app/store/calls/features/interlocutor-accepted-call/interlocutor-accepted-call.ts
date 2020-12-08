@@ -4,12 +4,12 @@ import { call, select, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { doIhaveCall, amICaling, amICalled } from 'app/store/calls/selectors';
 import { CancelCallSuccess } from '../cancel-call/cancel-call-success';
-import { InterlocutorAcceptCallActionPayload } from '../../models';
 import { InterlocutorAcceptedCallSuccess } from './interlocutor-accepted-call-success';
+import { InterlocutorAcceptedCallActionPayload } from './interlocutor-accepted-call-action-payload';
 
 export class InterlocutorAcceptedCall {
   static get action() {
-    return createAction('INTERLOCUTOR_ACCEPTED_CALL')<InterlocutorAcceptCallActionPayload>();
+    return createAction('INTERLOCUTOR_ACCEPTED_CALL')<InterlocutorAcceptedCallActionPayload>();
   }
 
   static get saga() {

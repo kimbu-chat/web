@@ -1,10 +1,11 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { SwitchDeviceActionPayload, CallState } from '../../models';
+import { ChangeActiveDeviceIdActionPayload } from './change-active-device-id-action-payload';
+import { CallState } from '../../models';
 
 export class ChangeActiveDeviceId {
   static get action() {
-    return createAction('CHANGE_ACTIVE_DEVICE_ID')<SwitchDeviceActionPayload>();
+    return createAction('CHANGE_ACTIVE_DEVICE_ID')<ChangeActiveDeviceIdActionPayload>();
   }
 
   static get reducer() {

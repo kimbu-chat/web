@@ -1,10 +1,11 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { MyProfileState, UpdateMyProfileActionData } from '../../models';
+import { MyProfileState } from '../../models';
+import { UpdateMyProfileSuccessActionPayload } from './update-my-profile-success-action-payload';
 
 export class UpdateMyProfileSuccess {
   static get action() {
-    return createAction('UPDATE_MY_PROFILE_INFO_SUCCESS')<UpdateMyProfileActionData>();
+    return createAction('UPDATE_MY_PROFILE_INFO_SUCCESS')<UpdateMyProfileSuccessActionPayload>();
   }
 
   static get reducer() {

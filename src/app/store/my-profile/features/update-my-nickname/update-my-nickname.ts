@@ -6,12 +6,12 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { UpdateNicknameActionData } from '../../models';
+import { UpdateMyNicknameActionPayload } from './update-my-nickname-action-payload';
 import { UpdateMyNicknameSuccess } from './update-my-nickname-success';
 
 export class UpdateMyNickname {
   static get action() {
-    return createAction('UPDATE_MY_NICKNAME')<UpdateNicknameActionData, Meta>();
+    return createAction('UPDATE_MY_NICKNAME')<UpdateMyNicknameActionPayload, Meta>();
   }
 
   static get saga() {
@@ -32,6 +32,6 @@ export class UpdateMyNickname {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, UpdateNicknameActionData>(`${ApiBasePath.MainApi}/api/users/nick-name`, HttpRequestMethod.Put);
+    return httpRequestFactory<AxiosResponse, UpdateMyNicknameActionPayload>(`${ApiBasePath.MainApi}/api/users/nick-name`, HttpRequestMethod.Put);
   }
 }

@@ -7,11 +7,12 @@ import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { Chat } from '../../models';
+import { LeaveGroupChatActionPayload } from './leave-group-chat-action-payload';
 import { LeaveGroupChatSuccess } from './leave-group-chat-success';
 
 export class LeaveGroupChat {
   static get action() {
-    return createAction('LEAVE_GROUP_CHAT')<Chat, Meta>();
+    return createAction('LEAVE_GROUP_CHAT')<LeaveGroupChatActionPayload, Meta>();
   }
 
   static get saga() {

@@ -1,11 +1,12 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { checkChatExists } from '../../chats-utils';
-import { Chat, ChatsState } from '../../models';
+import { ChatsState } from '../../models';
+import { CreateGroupChatSuccessActionPayload } from './create-group-chat-success-action-payload';
 
 export class CreateGroupChatSuccess {
   static get action() {
-    return createAction('CREATE_GROUP_CHAT_SUCCESS')<Chat>();
+    return createAction('CREATE_GROUP_CHAT_SUCCESS')<CreateGroupChatSuccessActionPayload>();
   }
 
   static get reducer() {

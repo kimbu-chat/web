@@ -7,12 +7,13 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { UploadAvatarReqData, UploadAvatarResponse, UploadAvatarSagaProgressData } from '../../models';
+import { UploadAvatarResponse } from '../../models';
 import { setAvatarUploadCancelTokenSource } from '../../my-profile-utils';
+import { UploadAvatarActionPayload } from './upload-avatar-action-payload';
 
 export class UploadAvatar {
   static get action() {
-    return createAction('UPLOAD_AVATAR')<UploadAvatarReqData, Meta>();
+    return createAction('UPLOAD_AVATAR')<UploadAvatarActionPayload, Meta>();
   }
 
   static get saga() {
@@ -38,7 +39,7 @@ export class UploadAvatar {
             setAvatarUploadCancelTokenSource(undefined);
             action.meta.deferred.resolve(payload);
           },
-          *onProgress(payload: UploadAvatarSagaProgressData): SagaIterator {
+          *onProgress(payload): SagaIterator {
             if (onProgress) {
               onProgress(payload.progress);
             }

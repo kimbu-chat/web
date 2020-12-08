@@ -1,11 +1,12 @@
 import { MyProfileService } from 'app/services/my-profile-service';
 import { CreateMessage } from 'app/store/messages/features/create-message/create-message';
-import { Message, SystemMessageType, MessageState, CreateMessageRequest } from 'app/store/messages/models';
+import { Message, SystemMessageType, MessageState } from 'app/store/messages/models';
 import { GroupChatCreatedIntegrationEvent } from 'app/store/middlewares/websockets/integration-events/group-chat-сreated-integration-event';
 import { MessageUtils } from 'app/utils/functions/message-utils';
 import { SagaIterator } from 'redux-saga';
 import { put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+import { CreateMessageActionPayload } from '../../../messages/features/create-message/create-message-action-payload';
 import { ChatId } from '../../chat-id';
 import { Chat, InterlocutorType, GroupChat } from '../../models';
 
@@ -63,7 +64,7 @@ export class CreateGroupChatFromEvent {
         },
       };
 
-      const createMessageRequest: CreateMessageRequest = {
+      const createMessageRequest: CreateMessageActionPayload = {
         message,
         isFromEvent: true,
         currentUserId: currentUser.id,

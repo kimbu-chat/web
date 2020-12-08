@@ -5,12 +5,13 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { GetAudioAttachmentsRequest, AudioAttachment, GetChatAudiosHTTPRequest } from '../../models';
+import { AudioAttachment, GetChatAudiosHTTPRequest } from '../../models';
+import { GetAudioAttachmentsActionPayload } from './get-audio-attachments-action-payload';
 import { GetAudioAttachmentsSuccess } from './get-audio-attachments-success';
 
 export class GetAudioAttachments {
   static get action() {
-    return createAction('GET_AUDIO_ATTACHMENTS')<GetAudioAttachmentsRequest>();
+    return createAction('GET_AUDIO_ATTACHMENTS')<GetAudioAttachmentsActionPayload>();
   }
 
   static get saga() {

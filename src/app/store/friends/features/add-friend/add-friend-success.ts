@@ -1,11 +1,11 @@
-import { UserPreview } from 'app/store/my-profile/models';
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { FriendsState } from '../../models';
+import { AddFriendSuccessActionPayload } from './add-friend-success-action-payload';
 
 export class AddFriendSuccess {
   static get action() {
-    return createAction('ADD_FRIEND_SUCCESS')<UserPreview>();
+    return createAction('ADD_FRIEND_SUCCESS')<AddFriendSuccessActionPayload>();
   }
 
   static get reducer() {

@@ -5,12 +5,13 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { GetChatInfoRequest, GetChatInfoApiResponse } from '../../models';
+import { GetChatInfoApiResponse } from '../../models';
+import { GetChatInfoActionPayload } from './get-chat-info-action-payload';
 import { GetChatInfoSuccess } from './get-chat-info-success';
 
 export class GetChatInfo {
   static get action() {
-    return createAction('GET_CHAT_INFO')<GetChatInfoRequest>();
+    return createAction('GET_CHAT_INFO')<GetChatInfoActionPayload>();
   }
 
   static get saga() {
@@ -26,8 +27,8 @@ export class GetChatInfo {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<GetChatInfoApiResponse>, GetChatInfoRequest>(
-      ({ chatId }: GetChatInfoRequest) => `${ApiBasePath.MainApi}/api/chats/${chatId}/info`,
+    return httpRequestFactory<AxiosResponse<GetChatInfoApiResponse>, GetChatInfoActionPayload>(
+      ({ chatId }: GetChatInfoActionPayload) => `${ApiBasePath.MainApi}/api/chats/${chatId}/info`,
       HttpRequestMethod.Get,
     );
   }

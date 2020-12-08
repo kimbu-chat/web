@@ -1,11 +1,12 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { getChatIndex } from 'app/store/messages/selectors';
-import { MessagesState, ResetSelectedMessagesReq } from '../../models';
+import { MessagesState } from '../../models';
+import { ResetSelectedMessagesActionPAyload } from './reset-selected-messages-action-payload';
 
 export class ResetSelectedMessages {
   static get action() {
-    return createAction('RESET_SELECTED_MESSAGES')<ResetSelectedMessagesReq>();
+    return createAction('RESET_SELECTED_MESSAGES')<ResetSelectedMessagesActionPAyload>();
   }
 
   static get reducer() {

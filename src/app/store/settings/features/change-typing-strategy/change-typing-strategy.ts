@@ -2,11 +2,12 @@ import { createAction } from 'typesafe-actions';
 import produce from 'immer';
 import { SettingsService } from 'app/services/settings-service';
 import { SagaIterator } from 'redux-saga';
-import { ChangeTypingStrategyReq, UserSettings } from '../../models';
+import { UserSettings } from '../../models';
+import { ChangeTypingStrategyActionPayload } from './change-typing-strategy-action-payload';
 
 export class ChangeTypingStrategy {
   static get action() {
-    return createAction('CHANGE_TYPING_STRATEGY')<ChangeTypingStrategyReq>();
+    return createAction('CHANGE_TYPING_STRATEGY')<ChangeTypingStrategyActionPayload>();
   }
 
   static get reducer() {

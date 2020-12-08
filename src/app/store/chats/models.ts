@@ -2,7 +2,7 @@ import { CancelTokenSource } from 'axios';
 import { Page } from '../common/models';
 // eslint-disable-next-line import/no-cycle
 import { Message, FileType } from '../messages/models';
-import { UploadAvatarResponse, UserPreview } from '../my-profile/models';
+import { UserPreview } from '../my-profile/models';
 
 export interface UploadingAttachment {
   id: number;
@@ -66,19 +66,6 @@ export interface GetChatVideosHTTPRequest {
   chatId: number;
 }
 
-export interface GetGroupChatUsersRequest {
-  groupChatId: number;
-  page: Page;
-  isFromSearch?: boolean;
-  isFromScroll?: boolean;
-  name?: string;
-}
-
-export interface AddUsersToGroupChatActionData {
-  users: UserPreview[];
-  chat: Chat;
-}
-
 export interface GetChatsRequestData {
   page: Page;
   showOnlyHidden: boolean;
@@ -103,33 +90,9 @@ export interface EditGroupChatHTTPReqData {
   avatarId?: string;
 }
 
-export interface EditGroupChatReqData {
-  id: number;
-  name: string;
-  description?: string;
-  avatar: {
-    id: string;
-    url: string;
-    previewUrl: string;
-  } | null;
-}
-
-export interface GetChatsActionData {
-  page: Page;
-  unreadOnly?: boolean;
-  showOnlyHidden: boolean;
-  showAll: boolean;
-  initializedBySearch: boolean;
-  name?: string;
-}
-
 export interface HideChatRequest {
   chatIds: (number | undefined)[];
   isHidden: boolean;
-}
-
-export interface GetChatInfoRequest {
-  chatId: number;
 }
 
 export interface GetChatInfoApiResponse {
@@ -140,43 +103,9 @@ export interface GetChatInfoApiResponse {
   pictureAttachmentsCount: number;
 }
 
-export interface GetChatInfoResponse {
-  chatId: number;
-  rawAttachmentsCount: number;
-  voiceAttachmentsCount: number;
-  videoAttachmentsCount: number;
-  audioAttachmentsCount: number;
-  pictureAttachmentsCount: number;
-}
-
 export interface MuteChatRequest {
   chatIds: (number | undefined)[];
   isMuted: boolean;
-}
-
-export interface GetPhotoAttachmentsRequest {
-  chatId: number;
-  page: Page;
-}
-
-export interface GetRecordingsRequest {
-  chatId: number;
-  page: Page;
-}
-
-export interface GetVideoAttachmentsRequest {
-  chatId: number;
-  page: Page;
-}
-
-export interface GetRawAttachmentsRequest {
-  chatId: number;
-  page: Page;
-}
-
-export interface GetAudioAttachmentsRequest {
-  chatId: number;
-  page: Page;
 }
 
 export interface Chat {
@@ -195,7 +124,7 @@ export interface Chat {
   photos: PhotoList;
   videos: VideoList;
   audios: AudioList;
-  files: FileList;
+  files: FilesList;
   recordings: VoiceRecordingList;
   attachmentsToSend?: AttachmentToSend<BaseAttachment>[];
   rawAttachmentsCount?: number;
@@ -274,7 +203,7 @@ export interface VideoList {
   hasMore: boolean;
 }
 
-export interface FileList {
+export interface FilesList {
   files: (RawAttachment & IGroupable)[];
   hasMore: boolean;
 }
@@ -288,39 +217,6 @@ export interface AudioList {
   audios: (AudioAttachment & IGroupable)[];
   hasMore: boolean;
 }
-
-export interface GetChatsResponse extends ChatList {
-  initializedBySearch: boolean;
-}
-
-export interface GetPhotoAttachmentsResponse extends PhotoList {
-  chatId: number;
-}
-
-export interface GetRawAttachmentsResponse extends FileList {
-  chatId: number;
-}
-
-export interface GetVideoAttachmentsResponse extends VideoList {
-  chatId: number;
-}
-
-export interface GetRecordingsResponse extends VoiceRecordingList {
-  chatId: number;
-}
-
-export interface GetAudioAttachmentsResponse extends AudioList {
-  chatId: number;
-}
-
-export interface GroupChatCreationReqData {
-  name: string;
-  description?: string;
-  userIds: Array<number>;
-  currentUser: UserPreview;
-  avatar?: UploadAvatarResponse | null;
-}
-
 export interface GroupChatCreationHTTPReqData {
   name: string;
   description?: string;
@@ -328,42 +224,14 @@ export interface GroupChatCreationHTTPReqData {
   currentUser: UserPreview;
   avatarId?: string | null;
 }
-export interface UploadAttachmentReqData {
-  chatId: number;
-  type: FileType;
-  attachmentId: number;
-  file: File;
-}
 
 export interface UploadAttachmentStartedData {
   chatId: number;
   attachmentId: number;
 }
 
-export interface UploadAttachmentProgressData {
-  chatId: number;
-  attachmentId: number;
-  progress: number;
-}
-
 export interface UploadAttachmentSagaProgressData {
   progress: number;
-}
-
-export interface UploadAttachmentFailedData {
-  chatId: number;
-  attachmentId: number;
-}
-
-export interface RemoveAttachmentReqData {
-  chatId: number;
-  attachmentId: number;
-}
-
-export interface UploadAttachmentSuccessData<T = BaseAttachment> {
-  chatId: number;
-  attachmentId: number;
-  attachment: T;
 }
 
 export interface UploadBaseResponse {
@@ -391,9 +259,4 @@ export interface UploadVideoResponse extends UploadBaseResponse {
 
 export interface UploadVoiceResponse extends UploadBaseResponse {
   duration: string;
-}
-
-export interface MarkMessagesAsReadReqData {
-  chatId: number;
-  lastReadMessageId: number;
 }

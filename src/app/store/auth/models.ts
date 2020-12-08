@@ -14,11 +14,6 @@ export interface PhoneConfirmationData {
   code: string;
 }
 
-export interface PhoneConfirmationActionData {
-  phoneNumber: string;
-  code: string;
-}
-
 export interface LoginResponse {
   accessToken: string;
   refreshToken: string;
@@ -28,10 +23,6 @@ export interface LoginResponse {
 export interface SecurityTokens extends LoginResponse {
   refreshTokenRequestLoading?: boolean;
   isAuthenticated?: boolean;
-}
-
-export interface SendSmsCodeActionData {
-  phoneNumber: string;
 }
 
 export interface PhoneConfirmationApiResponse {

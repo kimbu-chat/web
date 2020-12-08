@@ -1,11 +1,12 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { getChatIndex, getMessage } from 'app/store/messages/selectors';
-import { MessagesState, ReplyMessageReq } from '../../models';
+import { ReplyToMessageActionPayload } from './reply-to-message-action-payload';
+import { MessagesState } from '../../models';
 
 export class ReplyToMessage {
   static get action() {
-    return createAction('REPLY_TO_MESSAGE')<ReplyMessageReq>();
+    return createAction('REPLY_TO_MESSAGE')<ReplyToMessageActionPayload>();
   }
 
   static get reducer() {

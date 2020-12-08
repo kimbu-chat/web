@@ -5,12 +5,13 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { GetPhotoAttachmentsRequest, PictureAttachment, GetChatPicturesHTTPRequest } from '../../models';
+import { PictureAttachment, GetChatPicturesHTTPRequest } from '../../models';
+import { GetPhotoAttachmentsActionPayload } from './get-photo-attachments-action-payload';
 import { GetPhotoAttachmentsSuccess } from './get-photo-attachments-success';
 
 export class GetPhotoAttachments {
   static get action() {
-    return createAction('GET_PHOTO_ATTACHMENTS')<GetPhotoAttachmentsRequest>();
+    return createAction('GET_PHOTO_ATTACHMENTS')<GetPhotoAttachmentsActionPayload>();
   }
 
   static get saga() {

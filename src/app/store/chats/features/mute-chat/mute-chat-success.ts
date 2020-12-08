@@ -1,11 +1,12 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { getChatArrayIndex } from '../../chats-utils';
-import { Chat, ChatsState } from '../../models';
+import { ChatsState } from '../../models';
+import { MuteChatSuccessActionPayload } from './mute-chat-success-action-payload';
 
 export class MuteChatSuccess {
   static get action() {
-    return createAction('MUTE_CHAT_SUCCESS')<Chat>();
+    return createAction('MUTE_CHAT_SUCCESS')<MuteChatSuccessActionPayload>();
   }
 
   static get reducer() {

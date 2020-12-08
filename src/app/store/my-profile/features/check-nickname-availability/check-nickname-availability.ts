@@ -6,11 +6,11 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { CheckNicknameActionData } from '../../models';
+import { CheckNicknameAvailabilityActionPayload } from './check-nickname-availability-action-payload';
 
 export class CheckNicknameAvailability {
   static get action() {
-    return createAction('CHECK_NICKNAME_AVAILABILITY')<CheckNicknameActionData, Meta>();
+    return createAction('CHECK_NICKNAME_AVAILABILITY')<CheckNicknameAvailabilityActionPayload, Meta>();
   }
 
   static get saga() {
@@ -24,8 +24,8 @@ export class CheckNicknameAvailability {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<boolean>, CheckNicknameActionData>(
-      (nickname: CheckNicknameActionData) => `${ApiBasePath.MainApi}/api/users/check-if-nickname-is-available/${nickname.nickname}`,
+    return httpRequestFactory<AxiosResponse<boolean>, CheckNicknameAvailabilityActionPayload>(
+      (nickname: CheckNicknameAvailabilityActionPayload) => `${ApiBasePath.MainApi}/api/users/check-if-nickname-is-available/${nickname.nickname}`,
       HttpRequestMethod.Get,
     );
   }

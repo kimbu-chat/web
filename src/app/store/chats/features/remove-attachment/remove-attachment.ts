@@ -2,12 +2,13 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { createAction } from 'typesafe-actions';
 import { getChatArrayIndex } from '../../chats-utils';
-import { RemoveAttachmentReqData, ChatsState } from '../../models';
+import { ChatsState } from '../../models';
 import { uploadingAttachments, removeUploadingAttachment } from '../../upload-qeue';
+import { RemoveAttachmentctionPayload } from './remove-attachment-action-payload';
 
 export class RemoveAttachment {
   static get action() {
-    return createAction('REMOVE_ATTACHMENT')<RemoveAttachmentReqData>();
+    return createAction('REMOVE_ATTACHMENT')<RemoveAttachmentctionPayload>();
   }
 
   static get reducer() {

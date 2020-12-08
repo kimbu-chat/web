@@ -1,4 +1,4 @@
-import { Page, UserStatus } from '../common/models';
+import { UserStatus } from '../common/models';
 
 export interface MyProfileState {
   user?: UserPreview;
@@ -17,38 +17,10 @@ export interface UserPreview {
 
   supposedToAddIntoGroupChat?: boolean;
 }
-
-export interface GetFriendsActionData {
-  page: Page;
-  name?: string;
-  initializedBySearch?: boolean;
-}
-
-export interface GetFriendsSuccessActionData {
-  users: Array<UserPreview>;
-  name?: string;
-  initializedBySearch?: boolean;
-  hasMore: boolean;
-}
-
-export interface UpdateMyProfileActionData {
-  firstName: string;
-  lastName: string;
-  avatar?: { url: string; previewUrl: string; id: string };
-}
-
 export interface UpdateMyProfileApiRequestData {
   firstName: string;
   lastName: string;
   avatarId?: string;
-}
-
-export interface UpdateNicknameActionData {
-  nickname: string;
-}
-
-export interface CheckNicknameActionData {
-  nickname: string;
 }
 
 export interface AvatarSelectedData {
@@ -68,13 +40,4 @@ export interface UploadAvatarResponse {
   url: string;
   previewUrl: string;
   id: string;
-}
-
-export interface UploadAvatarReqData {
-  pathToFile: string;
-  onProgress?: (progress: number) => void;
-}
-
-export interface UploadAvatarSagaProgressData {
-  progress: number;
 }

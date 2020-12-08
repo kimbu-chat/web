@@ -6,12 +6,13 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { Message, MessageList, MessagesReq, MessagesReqData, MessagesState, MessageState } from '../../models';
+import { Message, MessageList, MessagesReqData, MessagesState, MessageState } from '../../models';
+import { GetMessagesActionPayload } from './get-messages-action-payload';
 import { GetMessagesSuccess } from './get-messages-success';
 
 export class GetMessages {
   static get action() {
-    return createAction('GET_MESSAGES')<MessagesReq>();
+    return createAction('GET_MESSAGES')<GetMessagesActionPayload>();
   }
 
   static get reducer() {

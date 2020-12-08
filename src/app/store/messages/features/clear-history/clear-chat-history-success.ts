@@ -1,11 +1,12 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { CleatChatHistoryReq, MessagesState } from '../../models';
+import { MessagesState } from '../../models';
 import { getChatIndex } from '../../selectors';
+import { ClearChatHistorySuccessActionPayload } from './clear-chat-history-success-action-payload';
 
 export class ClearChatHistorySuccess {
   static get action() {
-    return createAction('CLEAR_CHAT_HISTORY_SUCCESS')<CleatChatHistoryReq>();
+    return createAction('CLEAR_CHAT_HISTORY_SUCCESS')<ClearChatHistorySuccessActionPayload>();
   }
 
   static get reducer() {

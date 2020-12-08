@@ -1,11 +1,12 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { getChatArrayIndex } from '../../chats-utils';
-import { UploadAttachmentProgressData, ChatsState } from '../../models';
+import { ChatsState } from '../../models';
+import { UploadAttachmentProgressActionPayload } from './upload-attachment-progress-action-payload';
 
 export class UploadAttachmentProgress {
   static get action() {
-    return createAction('UPLOAD_ATTACHMENT_PROGRESS')<UploadAttachmentProgressData>();
+    return createAction('UPLOAD_ATTACHMENT_PROGRESS')<UploadAttachmentProgressActionPayload>();
   }
 
   static get reducer() {

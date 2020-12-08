@@ -1,5 +1,5 @@
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
-import { GetFriendsActionData, UserPreview } from 'app/store/my-profile/models';
+import { UserPreview } from 'app/store/my-profile/models';
 import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
@@ -7,11 +7,12 @@ import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { FriendsState } from '../../models';
+import { GetFriendsActionPayload } from './get-friends-action-payload';
 import { GetFriendsSuccess } from './get-friends-success';
 
 export class GetFriends {
   static get action() {
-    return createAction('GET_FRIENDS')<GetFriendsActionData>();
+    return createAction('GET_FRIENDS')<GetFriendsActionPayload>();
   }
 
   static get reducer() {
@@ -41,6 +42,6 @@ export class GetFriends {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<UserPreview[]>, GetFriendsActionData>(`${ApiBasePath.MainApi}/api/contacts/search`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse<UserPreview[]>, GetFriendsActionPayload>(`${ApiBasePath.MainApi}/api/contacts/search`, HttpRequestMethod.Post);
   }
 }

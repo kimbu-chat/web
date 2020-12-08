@@ -20,17 +20,17 @@ import { LoginSuccess } from '../login-sucess/login-success';
 import {
   AuthState,
   LoginResponse,
-  PhoneConfirmationActionData,
   PhoneConfirmationApiResponse,
   PhoneConfirmationData,
   SecurityTokens,
   SubscribeToPushNotificationsRequest,
 } from '../../models';
 import { getPushNotificationTokens } from '../../get-push-notification-tokens';
+import { ConfirmPhoneActionPayload } from './confirm-phone-action-payload';
 
 export class ConfirmPhone {
   static get action() {
-    return createAction('CONFIRM_PHONE')<PhoneConfirmationActionData, Meta>();
+    return createAction('CONFIRM_PHONE')<ConfirmPhoneActionPayload, Meta>();
   }
 
   static get reducer() {

@@ -4,11 +4,11 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { UserMessageTypingRequest } from '../../models';
+import { MessageTypingActionPayload } from './message-typing-action-payload';
 
 export class MessageTyping {
   static get action() {
-    return createAction('NOTIFY_USER_ABOUT_MESSAGE_TYPING')<UserMessageTypingRequest>();
+    return createAction('NOTIFY_USER_ABOUT_MESSAGE_TYPING')<MessageTypingActionPayload>();
   }
 
   static get saga() {
@@ -18,7 +18,7 @@ export class MessageTyping {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, UserMessageTypingRequest>(
+    return httpRequestFactory<AxiosResponse, MessageTypingActionPayload>(
       `${ApiBasePath.NotificationsApi}/api/message/notify-interlocutor-about-message-typing`,
       HttpRequestMethod.Post,
     );

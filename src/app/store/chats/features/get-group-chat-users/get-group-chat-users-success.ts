@@ -1,13 +1,13 @@
-import { GetGroupChatUsersSuccessActionData } from 'app/store/friends/models';
 import produce from 'immer';
 import { unionBy } from 'lodash';
 import { createAction } from 'typesafe-actions';
 import { getChatArrayIndex } from '../../chats-utils';
 import { ChatsState } from '../../models';
+import { GetGroupChatUsersSuccessActionPayload } from './get-group-chat-users-success-action-payload';
 
 export class GetGroupChatUsersSuccess {
   static get action() {
-    return createAction('GET_GROUP_CHAT_USERS_SUCCESS')<GetGroupChatUsersSuccessActionData>();
+    return createAction('GET_GROUP_CHAT_USERS_SUCCESS')<GetGroupChatUsersSuccessActionPayload>();
   }
 
   static get reducer() {

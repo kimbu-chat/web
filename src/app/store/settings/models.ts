@@ -19,11 +19,3 @@ export interface OptionalUserSettings {
   TypingStrategy?: TypingStrategy;
   notificationSound?: boolean;
 }
-
-export interface ChangeLanguageReq {
-  language: Langs;
-}
-
-export interface ChangeTypingStrategyReq {
-  strategy: TypingStrategy;
-}

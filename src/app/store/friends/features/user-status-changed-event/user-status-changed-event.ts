@@ -1,12 +1,12 @@
-import { StatusChangedIntegrationEvent } from 'app/store/middlewares/websockets/integration-events/status-changed-integration-event';
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { checkUserExist, findUserIndex } from '../../friends-utils';
 import { FriendsState } from '../../models';
+import { UserStatusChangedEventActionPayload } from './user-status-changed-event-action-payload';
 
 export class UserStatusChangedEvent {
   static get action() {
-    return createAction('USER_STATUS_CHANGED_EVENT')<StatusChangedIntegrationEvent>();
+    return createAction('USER_STATUS_CHANGED_EVENT')<UserStatusChangedEventActionPayload>();
   }
 
   static get reducer() {

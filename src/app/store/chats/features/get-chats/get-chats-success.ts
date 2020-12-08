@@ -1,11 +1,12 @@
 import produce from 'immer';
 import { unionBy } from 'lodash';
 import { createAction } from 'typesafe-actions';
-import { GetChatsResponse, ChatsState } from '../../models';
+import { ChatsState } from '../../models';
+import { GetChatsSuccessActionPayload } from './get-chats-success-action-payload';
 
 export class GetChatsSuccess {
   static get action() {
-    return createAction('GET_CHATS_SUCCESS')<GetChatsResponse>();
+    return createAction('GET_CHATS_SUCCESS')<GetChatsSuccessActionPayload>();
   }
 
   static get reducer() {

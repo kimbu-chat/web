@@ -7,12 +7,14 @@ import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { ChatId } from '../../chat-id';
-import { GetChatsActionData, ChatsState, Chat, GetChatsResponse, GetChatsRequestData } from '../../models';
+import { ChatsState, Chat, GetChatsRequestData } from '../../models';
+import { GetChatsActionPayload } from './get-chats-action-payload';
 import { GetChatsSuccess } from './get-chats-success';
+import { GetChatsSuccessActionPayload } from './get-chats-success-action-payload';
 
 export class GetChats {
   static get action() {
-    return createAction('GET_CHATS')<GetChatsActionData>();
+    return createAction('GET_CHATS')<GetChatsActionPayload>();
   }
 
   static get reducer() {
@@ -58,7 +60,7 @@ export class GetChats {
         };
       });
 
-      const chatList: GetChatsResponse = {
+      const chatList: GetChatsSuccessActionPayload = {
         chats: data,
         hasMore: data.length >= action.payload.page.limit,
         initializedBySearch: chatsRequestData.initializedBySearch,

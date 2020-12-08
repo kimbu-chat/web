@@ -1,11 +1,12 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { getChatArrayIndex } from '../../chats-utils';
-import { Chat, ChatsState } from '../../models';
+import { ChatsState } from '../../models';
+import { ChangeChatVisibilityStateSuccessActionPayload } from './change-chat-visibility-state-success-action-payload';
 
 export class ChangeChatVisibilityStateSuccess {
   static get action() {
-    return createAction('CHANGE_CHAT_VISIBILITY_STATE_SUCCESS')<Chat>();
+    return createAction('CHANGE_CHAT_VISIBILITY_STATE_SUCCESS')<ChangeChatVisibilityStateSuccessActionPayload>();
   }
 
   static get reducer() {

@@ -1,11 +1,12 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { getChatIndex, getMessage } from 'app/store/messages/selectors';
-import { MessagesState, SubmitEditMessageReq } from '../../models';
+import { SumbitEditMessageSuccessActionPayload } from './sumbit-edit-message-success-action-payload';
+import { MessagesState } from '../../models';
 
 export class SubmitEditMessageSuccess {
   static get action() {
-    return createAction('SUBMIT_EDIT_MESSAGE_SUCCESS')<SubmitEditMessageReq>();
+    return createAction('SUBMIT_EDIT_MESSAGE_SUCCESS')<SumbitEditMessageSuccessActionPayload>();
   }
 
   static get reducer() {

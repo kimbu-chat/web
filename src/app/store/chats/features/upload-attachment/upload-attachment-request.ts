@@ -8,7 +8,6 @@ import { put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { getChatArrayIndex } from '../../chats-utils';
 import {
-  UploadAttachmentReqData,
   ChatsState,
   AttachmentToSend,
   BaseAttachment,
@@ -22,11 +21,12 @@ import {
 import { addUploadingAttachment, removeUploadingAttachment } from '../../upload-qeue';
 import { UploadAttachmentFailure } from './upload-attachment-failure';
 import { UploadAttachmentProgress } from './upload-attachment-progress';
+import { UploadAttachmentRequestActionPayload } from './upload-attachment-request-action-payload';
 import { UploadAttachmentSuccess } from './upload-attachment-success';
 
 export class UploadAttachmentRequest {
   static get action() {
-    return createAction('UPLOAD_ATTACHMENT_REQUEST')<UploadAttachmentReqData>();
+    return createAction('UPLOAD_ATTACHMENT_REQUEST')<UploadAttachmentRequestActionPayload>();
   }
 
   static get reducer() {

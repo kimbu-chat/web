@@ -2,12 +2,13 @@ import moment from 'moment';
 import { SagaIterator } from 'redux-saga';
 import { select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { CopyMessagesReq, MessageList } from '../../models';
+import { MessageList } from '../../models';
 import { getMessagesByChatId } from '../../selectors';
+import { CopyMessagesActionPayload } from './copy-messages-action-payload';
 
 export class CopyMessages {
   static get action() {
-    return createAction('COPY_MESSAGES')<CopyMessagesReq>();
+    return createAction('COPY_MESSAGES')<CopyMessagesActionPayload>();
   }
 
   static get saga() {

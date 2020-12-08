@@ -2,16 +2,17 @@ import produce from 'immer';
 import { unionBy } from 'lodash';
 import { createAction } from 'typesafe-actions';
 import { checkIfChatExists, getChatIndex } from 'app/store/messages/selectors';
-import { MessageList, MessagesState } from '../../models';
+import { MessagesState } from '../../models';
+import { GetMessagesSuccessActionPayload } from './get-messages-success-action-payload';
 
 export class GetMessagesSuccess {
   static get action() {
-    return createAction('GET_MESSAGES_SUCCESS')<MessageList>();
+    return createAction('GET_MESSAGES_SUCCESS')<GetMessagesSuccessActionPayload>();
   }
 
   static get reducer() {
     return produce((draft: MessagesState, { payload }: ReturnType<typeof GetMessagesSuccess.action>) => {
-      const { chatId, hasMoreMessages, messages }: MessageList = payload;
+      const { chatId, hasMoreMessages, messages }: GetMessagesSuccessActionPayload = payload;
       const isChatExists = checkIfChatExists(draft, chatId);
 
       draft.loading = false;

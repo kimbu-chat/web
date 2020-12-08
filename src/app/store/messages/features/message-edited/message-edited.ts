@@ -1,7 +1,8 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { getChatIndex, getMessage } from 'app/store/messages/selectors';
-import { MessageEdited as MessageEditedActionPayload, MessagesState } from '../../models';
+import { MessagesState } from '../../models';
+import { MessageEditedActionPayload } from './message-edited-action-payload';
 
 export class MessageEdited {
   static get action() {

@@ -1,11 +1,12 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
+import { GetVoiceAttachmentsSuccessActionPayload } from './get-voice-attachments-success-action-payload';
 import { getChatArrayIndex } from '../../chats-utils';
-import { GetRecordingsResponse, ChatsState } from '../../models';
+import { ChatsState } from '../../models';
 
 export class GetVoiceAttachmentsSuccess {
   static get action() {
-    return createAction('GET_VOICE_ATTACHMENTS_SUCCESS')<GetRecordingsResponse>();
+    return createAction('GET_VOICE_ATTACHMENTS_SUCCESS')<GetVoiceAttachmentsSuccessActionPayload>();
   }
 
   static get reducer() {

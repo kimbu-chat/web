@@ -2,11 +2,12 @@ import { SettingsService } from 'app/services/settings-service';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { createAction } from 'typesafe-actions';
-import { ChangeLanguageReq, UserSettings } from '../../models';
+import { UserSettings } from '../../models';
+import { ChangeLanguageActionPayload } from './change-language-action-payload';
 
 export class ChangeLanguage {
   static get action() {
-    return createAction('CHANGE_LANGUAGE')<ChangeLanguageReq>();
+    return createAction('CHANGE_LANGUAGE')<ChangeLanguageActionPayload>();
   }
 
   static get reducer() {

@@ -6,7 +6,7 @@ import { Modal, WithBackground, ChangePhoto, Avatar, CircularProgress } from 'co
 import CloseSVG from 'icons/ic-close.svg';
 import { AvatarSelectedData, UploadAvatarResponse } from 'store/my-profile/models';
 
-import { Chat, EditGroupChatReqData } from 'store/chats/models';
+import { Chat } from 'store/chats/models';
 import { getSelectedChatSelector } from 'store/chats/selectors';
 import { useSelector } from 'react-redux';
 import { getInterlocutorInitials } from 'utils/functions/interlocutor-name-utils';
@@ -14,6 +14,7 @@ import { ChatActions } from 'store/chats/actions';
 import { useActionWithDeferred } from 'utils/hooks/use-action-with-deferred';
 import { MyProfileActions } from 'store/my-profile/actions';
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
+import { EditGroupChatActionPayload } from 'app/store/chats/features/edit-group-chat/edit-group-chat-action-payload';
 
 namespace EditChatModalNS {
   export interface Props {
@@ -86,7 +87,7 @@ export const EditChatModal = React.memo(({ onClose }: EditChatModalNS.Props) => 
   const onSubmit = useCallback(() => {
     onClose();
 
-    const changes: EditGroupChatReqData = {
+    const changes: EditGroupChatActionPayload = {
       id: selectedChat.groupChat!.id,
       avatar: avararUploadResponse,
       name: newName,

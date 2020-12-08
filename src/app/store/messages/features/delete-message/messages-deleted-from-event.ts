@@ -5,12 +5,13 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { select, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { MessageDeletedFromEventReq, MessagesState } from '../../models';
+import { MessagesState } from '../../models';
 import { getChatIndex, getLastMessageByChatId, getMessage } from '../../selectors';
+import { MessagesDeletedFromEventActionPayload } from './messages-deleted-from-event-action-payload';
 
 export class MessagesDeletedFromEvent {
   static get action() {
-    return createAction('MESSAGE_DELETED_FROM_EVENT')<MessageDeletedFromEventReq>();
+    return createAction('MESSAGE_DELETED_FROM_EVENT')<MessagesDeletedFromEventActionPayload>();
   }
 
   static get reducer() {

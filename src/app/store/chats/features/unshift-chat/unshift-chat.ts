@@ -1,10 +1,11 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { Chat, ChatsState } from '../../models';
+import { UnshiftChatActionPayload } from './unshift-chat-action-payload';
+import { ChatsState } from '../../models';
 
 export class UnshiftChat {
   static get action() {
-    return createAction('UNSHIFT_CHAT')<Chat>();
+    return createAction('UNSHIFT_CHAT')<UnshiftChatActionPayload>();
   }
 
   static get reducer() {

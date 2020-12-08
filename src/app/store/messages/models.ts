@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-cycle
-import { BaseAttachment, Chat } from '../chats/models';
+import { BaseAttachment } from '../chats/models';
 import { Page } from '../common/models';
 import { UserPreview } from '../my-profile/models';
 
@@ -74,27 +74,6 @@ export enum SystemMessageType {
   CallEnded = 'CallEnded',
 }
 
-export interface UserMessageTypingRequest {
-  chatId: number;
-  text: string;
-  interlocutorName: string;
-}
-
-export interface CreateMessageRequest {
-  chatId: number;
-  message: Message;
-  isFromEvent?: boolean;
-  currentUserId?: number;
-}
-
-export interface CreateMessageResponse {
-  oldMessageId: number;
-  newMessageId: number;
-  messageState: MessageState;
-  attachments?: BaseAttachment[];
-  chatId: number;
-}
-
 export interface MessageCreationReqData {
   text?: string;
   chatId?: number;
@@ -106,54 +85,6 @@ export interface AttachmentCreation {
   type: FileType;
 }
 
-export interface MessagesReqData {
-  page: Page;
-  chatId: number;
-}
-
-export interface MessagesReq {
-  page: Page;
-  chat: Chat;
-}
-
-export interface DeleteMessageReq {
-  messageIds: number[];
-  chatId: number;
-  forEveryone: boolean;
-}
-export interface CleatChatHistoryReq {
-  chatId: number;
-  forEveryone: boolean;
-}
-
-export interface SelectMessageReq {
-  messageId: number;
-  chatId: number;
-}
-
-export interface CopyMessagesReq {
-  messageIds: number[];
-  chatId: number;
-}
-
-export interface EditMessageReq {
-  messageId: number;
-  chatId: number;
-}
-
-export interface MessageDeletedFromEventReq {
-  chatId: number;
-  messageIds: number[];
-}
-
-export interface SubmitEditMessageReq {
-  messageId: number;
-  chatId: number;
-  text: string;
-  removedAttachments?: AttachmentCreation[];
-  newAttachments?: BaseAttachment[];
-}
-
 export interface SubmitEditMessageHTTPReq {
   messageId: number;
   text: string;
@@ -161,12 +92,8 @@ export interface SubmitEditMessageHTTPReq {
   newAttachments?: AttachmentCreation[];
 }
 
-export interface ReplyMessageReq {
-  messageId: number;
-  chatId: number;
-}
-
-export interface ResetSelectedMessagesReq {
+export interface MessagesReqData {
+  page: Page;
   chatId: number;
 }
 
@@ -193,15 +120,6 @@ export interface EditMessageApiReq {
   removedAttachments?: AttachmentCreation[];
   newAttachments?: AttachmentCreation[];
 }
-
-export interface MessageEdited {
-  attachments: BaseAttachment[];
-  chatId: number;
-  messageId: number;
-  text: string;
-  userEditorId: number;
-}
-
 export interface DeleteMessagesApiReq {
   ids: number[];
   forEveryone: boolean;

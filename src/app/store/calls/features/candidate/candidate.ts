@@ -1,7 +1,7 @@
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import { SagaIterator } from 'redux-saga';
 import { createAction } from 'typesafe-actions';
-import { CandidateActionPayload } from '../../models';
+import { CandidateActionPayload } from './candidate-action-payload';
 
 export class Candidate {
   static get action() {

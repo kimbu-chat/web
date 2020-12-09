@@ -1,10 +1,11 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { DeleteFriendsActionData, FriendsState } from '../../models';
+import { FriendsState } from '../../models';
+import { DeleteFriendSuccessActionPayload } from './delete-friend-success-action-payload';
 
 export class DeleteFriendSuccess {
   static get action() {
-    return createAction('DELETE_FRIEND_SUCCESS')<DeleteFriendsActionData>();
+    return createAction('DELETE_FRIEND_SUCCESS')<DeleteFriendSuccessActionPayload>();
   }
 
   static get reducer() {

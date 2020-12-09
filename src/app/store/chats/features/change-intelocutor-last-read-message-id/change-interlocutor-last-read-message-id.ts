@@ -1,14 +1,14 @@
 import { MessageState } from 'app/store/messages/models';
-import { MessagesReadIntegrationEvent } from 'app/store/middlewares/websockets/integration-events/messages-read-integration-event';
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { ChatId } from '../../chat-id';
 import { getChatArrayIndex } from '../../chats-utils';
 import { ChatsState } from '../../models';
+import { ChangeInterlocutorLastReadMessageIdActionPayload } from './change-interlocutor-last-read-message-id-action-payload';
 
 export class ChangeInterlocutorLastReadMessageId {
   static get action() {
-    return createAction('GROUP_CHAT_MESSAGE_READ_FROM_EVENT')<MessagesReadIntegrationEvent>();
+    return createAction('GROUP_CHAT_MESSAGE_READ_FROM_EVENT')<ChangeInterlocutorLastReadMessageIdActionPayload>();
   }
 
   static get reducer() {

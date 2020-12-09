@@ -6,11 +6,12 @@ import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { getChatArrayIndex } from '../../chats-utils';
-import { MarkMessagesAsReadReqData, ChatsState, MarkMessagesAsReadRequest } from '../../models';
+import { ChatsState, MarkMessagesAsReadRequest } from '../../models';
+import { MarkMessagesAsReadActionPayload } from './mark-messages-as-read-action-payload';
 
 export class MarkMessagesAsRead {
   static get action() {
-    return createAction('RESET_UNREAD_MESSAGES_COUNT')<MarkMessagesAsReadReqData>();
+    return createAction('RESET_UNREAD_MESSAGES_COUNT')<MarkMessagesAsReadActionPayload>();
   }
 
   static get reducer() {

@@ -6,11 +6,12 @@ import { put, select } from 'redux-saga/effects';
 import { ChangeLastMessage } from 'app/store/chats/features/change-last-message/change-last-message';
 import { getChatById } from 'app/store/chats/selectors';
 import { Chat } from 'app/store/chats/models';
-import { DeleteMessageReq, MessagesState } from '../../models';
+import { DeleteMessageSuccessActionPayload } from './delete-message-success-action-payload';
+import { MessagesState } from '../../models';
 
 export class DeleteMessageSuccess {
   static get action() {
-    return createAction('DELETE_MESSAGE_SUCCESS')<DeleteMessageReq>();
+    return createAction('DELETE_MESSAGE_SUCCESS')<DeleteMessageSuccessActionPayload>();
   }
 
   static get reducer() {

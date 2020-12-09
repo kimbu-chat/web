@@ -7,7 +7,8 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { getChatById, getHasMoreChats } from 'app/store/chats/selectors';
-import { ChatsState, GetChatsResponse, Chat, GetChatByIdRequestData } from '../../models';
+import { GetChatsSuccessActionPayload } from '../get-chats/get-chats-success-action-payload';
+import { ChatsState, Chat, GetChatByIdRequestData } from '../../models';
 import { GetChatsSuccess } from '../get-chats/get-chats-success';
 
 export class ChangeSelectedChat {
@@ -40,7 +41,7 @@ export class ChangeSelectedChat {
           const { data, status } = ChangeSelectedChat.httpRequest.call(yield call(() => ChangeSelectedChat.httpRequest.generator({ chatId: action.payload })));
 
           if (status === HTTPStatusCode.OK) {
-            const chatList: GetChatsResponse = {
+            const chatList: GetChatsSuccessActionPayload = {
               chats: [data],
               hasMore,
               initializedBySearch: false,

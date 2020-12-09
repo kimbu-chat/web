@@ -1,11 +1,12 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { getChatIndex, getMessage } from 'app/store/messages/selectors';
-import { EditMessageReq, MessagesState } from '../../models';
+import { MessagesState } from '../../models';
+import { EditMessageActionPayload } from './edit-message-action-payload';
 
 export class EditMessage {
   static get action() {
-    return createAction('EDIT_MESSAGE')<EditMessageReq>();
+    return createAction('EDIT_MESSAGE')<EditMessageActionPayload>();
   }
 
   static get reducer() {

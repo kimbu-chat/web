@@ -8,13 +8,14 @@ import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { Meta } from '../../../common/actions';
-import { SendSmsCodeActionData, AuthState } from '../../models';
+import { AuthState } from '../../models';
+import { SendSmsCodeActionPayload } from './send-sms-code-action-payload';
 import { SendSmsCodeFailure } from './send-sms-code-failure';
 import { SendSmsCodeSuccess } from './send-sms-code-success';
 
 export class SendSmsCode {
   static get action() {
-    return createAction('SEND_PHONE_CONFIRMATION_CODE')<SendSmsCodeActionData, Meta>();
+    return createAction('SEND_PHONE_CONFIRMATION_CODE')<SendSmsCodeActionPayload, Meta>();
   }
 
   static get reducer() {

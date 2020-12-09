@@ -16,12 +16,13 @@ import { ChangeSelectedChat } from 'app/store/chats/features/change-selected-cha
 import { getChatIndex } from 'app/store/messages/selectors';
 import { getMyIdSelector } from 'app/store/my-profile/selectors';
 import { areNotificationsEnabled } from 'app/store/settings/selectors';
-import { CreateMessageRequest, MessageCreationReqData, MessageList, MessagesState, MessageState, SystemMessageType } from '../../models';
+import { MessageCreationReqData, MessageList, MessagesState, MessageState, SystemMessageType } from '../../models';
 import { CreateMessageSuccess } from './create-message-success';
+import { CreateMessageActionPayload } from './create-message-action-payload';
 
 export class CreateMessage {
   static get action() {
-    return createAction('CREATE_MESSAGE')<CreateMessageRequest>();
+    return createAction('CREATE_MESSAGE')<CreateMessageActionPayload>();
   }
 
   static get reducer() {

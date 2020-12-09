@@ -1,10 +1,11 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { InterlocutorAcceptCallActionPayload, CallState } from '../../models';
+import { CallState } from '../../models';
+import { InterlocutorAcceptedCallSuccessActionPayload } from './interlocutor-accepted-call-success-action-payload';
 
 export class InterlocutorAcceptedCallSuccess {
   static get action() {
-    return createAction('INTERLOCUTOR_ACCEPTED_CALL_SUCCESS')<InterlocutorAcceptCallActionPayload>();
+    return createAction('INTERLOCUTOR_ACCEPTED_CALL_SUCCESS')<InterlocutorAcceptedCallSuccessActionPayload>();
   }
 
   static get reducer() {

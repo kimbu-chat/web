@@ -6,12 +6,13 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { EditMessageApiReq, MessagesState, SubmitEditMessageReq } from '../../models';
+import { EditMessageApiReq, MessagesState } from '../../models';
+import { SumbitEditMessageActionPayload } from './submit-edit-message-action-payload';
 import { SubmitEditMessageSuccess } from './sumbit-edit-message-success';
 
 export class SubmitEditMessage {
   static get action() {
-    return createAction('SUBMIT_EDIT_MESSAGE')<SubmitEditMessageReq>();
+    return createAction('SUBMIT_EDIT_MESSAGE')<SumbitEditMessageActionPayload>();
   }
 
   static get reducer() {

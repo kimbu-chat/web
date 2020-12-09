@@ -8,17 +8,18 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, select, spawn } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { getVideoConstraints, getAudioConstraints, getCallInterlocutorIdSelector, getOffer } from 'app/store/calls/selectors';
-import { AcceptCallApiRequest, AcceptIncomingCallActionPayload, CallState } from '../../models';
+import { AcceptCallApiRequest, CallState } from '../../models';
 import { deviceUpdateWatcher } from '../../utils/device-update-watcher';
 import { peerWatcher } from '../../utils/peer-watcher';
 import { getAndSendUserMedia, getMediaDevicesList } from '../../utils/user-media';
 import { AcceptCallSuccess } from './accept-call-success';
 import { ChangeActiveDeviceId } from '../change-active-device-id/change-active-device-id';
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
+import { AcceptCallActionPayload } from './accept-call-action-payload';
 
 export class AcceptCall {
   static get action() {
-    return createAction('ACCEPT_CALL')<AcceptIncomingCallActionPayload>();
+    return createAction('ACCEPT_CALL')<AcceptCallActionPayload>();
   }
 
   static get reducer() {

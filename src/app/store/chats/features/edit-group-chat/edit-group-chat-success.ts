@@ -2,11 +2,12 @@ import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { ChatId } from '../../chat-id';
 import { getChatArrayIndex } from '../../chats-utils';
-import { EditGroupChatReqData, ChatsState } from '../../models';
+import { ChatsState } from '../../models';
+import { EditGroupChatSuccessActionPayload } from './edit-group-chat-success-action-payload';
 
 export class EditGroupChatSuccess {
   static get action() {
-    return createAction('EDIT_GROUP_CHAT_SUCCESS')<EditGroupChatReqData>();
+    return createAction('EDIT_GROUP_CHAT_SUCCESS')<EditGroupChatSuccessActionPayload>();
   }
 
   static get reducer() {

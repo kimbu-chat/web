@@ -4,7 +4,7 @@ import { SagaIterator } from 'redux-saga';
 import { select, put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { getVideoConstraints, getAudioConstraints } from 'app/store/calls/selectors';
-import { ChangeMediaStatusActionPayload, CallState } from '../../models';
+import { CallState } from '../../models';
 import {
   getUserVideo,
   videoSender,
@@ -20,6 +20,7 @@ import { ChangeActiveDeviceId } from '../change-active-device-id/change-active-d
 import { CloseAudioStatus } from '../close-audio-status/close-audio-status';
 import { CloseVideoStatus } from '../close-video-status/close-video-status';
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
+import { ChangeMediaStatusActionPayload } from './change-media-status-action-payload';
 
 export class ChangeMediaStatus {
   static get action() {

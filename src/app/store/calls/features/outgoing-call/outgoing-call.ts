@@ -10,7 +10,7 @@ import { SagaIterator } from 'redux-saga';
 import { call, delay, put, race, select, spawn, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { doIhaveCall, getIsAudioEnabled, getIsVideoEnabled } from 'app/store/calls/selectors';
-import { OutgoingCallActionPayload, CallState, CallApiRequest } from '../../models';
+import { CallState, CallApiRequest } from '../../models';
 import { deviceUpdateWatcher } from '../../utils/device-update-watcher';
 import { peerWatcher } from '../../utils/peer-watcher';
 import { getAndSendUserMedia, getMediaDevicesList } from '../../utils/user-media';
@@ -20,6 +20,7 @@ import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
 import { InterlocutorAcceptedCall } from '../interlocutor-accepted-call/interlocutor-accepted-call';
 import { InterlocutorCanceledCall } from '../interlocutor-canceled-call/interlocutor-canceled-call';
 import { TimeoutCall } from '../timeout-call/timeout-call';
+import { OutgoingCallActionPayload } from './outgoing-call-action-payload';
 
 export class OutgoingCall {
   static get action() {

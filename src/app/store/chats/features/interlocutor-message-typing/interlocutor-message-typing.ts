@@ -1,12 +1,12 @@
-import { IntercolutorMessageTypingIntegrationEvent } from 'app/store/middlewares/websockets/integration-events/interlocutor-message-typing-integration-event';
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { checkChatExists, getChatArrayIndex } from '../../chats-utils';
 import { ChatsState } from '../../models';
+import { InterlocutorMessageTypingActionPayload } from './interlocutor-message-typing-action-payload';
 
 export class InterlocutorMessageTyping {
   static get action() {
-    return createAction('INTERLOCUTOR_MESSAGE_TYPING_EVENT')<IntercolutorMessageTypingIntegrationEvent>();
+    return createAction('INTERLOCUTOR_MESSAGE_TYPING_EVENT')<InterlocutorMessageTypingActionPayload>();
   }
 
   static get reducer() {

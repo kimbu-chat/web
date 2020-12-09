@@ -1,13 +1,13 @@
-import { UserPreview } from 'app/store/my-profile/models';
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { ChatId } from '../../chat-id';
 import { checkChatExists } from '../../chats-utils';
 import { ChatsState, Chat } from '../../models';
+import { CreateChatActionPayload } from './create-chat-action-payload';
 
 export class CreateChat {
   static get action() {
-    return createAction('CREATE_CHAT')<UserPreview>();
+    return createAction('CREATE_CHAT')<CreateChatActionPayload>();
   }
 
   static get reducer() {

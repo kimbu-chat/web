@@ -3,12 +3,13 @@ import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+import { MuteChatActionPayload } from './mute-chat-action-payload';
 import { Chat, MuteChatRequest } from '../../models';
 import { MuteChatSuccess } from './mute-chat-success';
 
 export class MuteChat {
   static get action() {
-    return createAction('MUTE_CHAT')<Chat>();
+    return createAction('MUTE_CHAT')<MuteChatActionPayload>();
   }
 
   static get saga() {

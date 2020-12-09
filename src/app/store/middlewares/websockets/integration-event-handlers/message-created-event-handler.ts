@@ -1,7 +1,8 @@
 import { Store } from 'redux';
-import { SystemMessageType, Message, MessageState, CreateMessageRequest } from 'store/messages/models';
+import { SystemMessageType, Message, MessageState } from 'store/messages/models';
 import { RootState } from 'store/root-reducer';
 import { MessageActions } from 'store/messages/actions';
+import { CreateMessageActionPayload } from '../../../messages/features/create-message/create-message-action-payload';
 import { IEventHandler } from '../event-handler';
 import { MessageCreatedIntegrationEvent } from '../integration-events/message-created-integration-event';
 
@@ -26,7 +27,7 @@ export class MessageCreatedEventHandler implements IEventHandler<MessageCreatedI
       }
     }
 
-    const messageCreation: CreateMessageRequest = {
+    const messageCreation: CreateMessageActionPayload = {
       message,
       isFromEvent: true,
       chatId: eventData.chatId,

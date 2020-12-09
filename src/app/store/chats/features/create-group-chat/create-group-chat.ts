@@ -8,13 +8,14 @@ import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { ChatId } from '../../chat-id';
-import { GroupChatCreationReqData, GroupChatCreationHTTPReqData, Chat, InterlocutorType } from '../../models';
+import { GroupChatCreationHTTPReqData, Chat, InterlocutorType } from '../../models';
 import { ChangeSelectedChat } from '../change-selected-chat/change-selected-chat';
+import { CreateGroupChatActionPayload } from './create-group-chat-action-payload';
 import { CreateGroupChatSuccess } from './create-group-chat-success';
 
 export class CreateGroupChat {
   static get action() {
-    return createAction('CREATE_GROUP_CHAT')<GroupChatCreationReqData, Meta>();
+    return createAction('CREATE_GROUP_CHAT')<CreateGroupChatActionPayload, Meta>();
   }
 
   static get saga() {

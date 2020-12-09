@@ -5,12 +5,13 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { UpdateMyProfileActionData, UpdateMyProfileApiRequestData } from '../../models';
+import { UpdateMyProfileApiRequestData } from '../../models';
+import { UpdateMyProfileActionPayload } from './update-my-profile-action-payload';
 import { UpdateMyProfileSuccess } from './update-my-profile-success';
 
 export class UpdateMyProfile {
   static get action() {
-    return createAction('UPDATE_MY_PROFILE_INFO')<UpdateMyProfileActionData>();
+    return createAction('UPDATE_MY_PROFILE_INFO')<UpdateMyProfileActionPayload>();
   }
 
   static get saga() {

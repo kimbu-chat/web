@@ -5,12 +5,13 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { EditGroupChatReqData, EditGroupChatHTTPReqData } from '../../models';
+import { EditGroupChatHTTPReqData } from '../../models';
+import { EditGroupChatActionPayload } from './edit-group-chat-action-payload';
 import { EditGroupChatSuccess } from './edit-group-chat-success';
 
 export class EditGroupChat {
   static get action() {
-    return createAction('EDIT_GROUP_CHAT')<EditGroupChatReqData>();
+    return createAction('EDIT_GROUP_CHAT')<EditGroupChatActionPayload>();
   }
 
   static get saga() {

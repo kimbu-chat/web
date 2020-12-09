@@ -1,12 +1,12 @@
-import { GetFriendsSuccessActionData } from 'app/store/my-profile/models';
 import produce from 'immer';
 import { unionBy } from 'lodash';
 import { createAction } from 'typesafe-actions';
+import { GetFriendsSuccessActionPayload } from './get-friends-success-action-payload';
 import { FriendsState } from '../../models';
 
 export class GetFriendsSuccess {
   static get action() {
-    return createAction('GET_FRIENDS_SUCCESS')<GetFriendsSuccessActionData>();
+    return createAction('GET_FRIENDS_SUCCESS')<GetFriendsSuccessActionPayload>();
   }
 
   static get reducer() {

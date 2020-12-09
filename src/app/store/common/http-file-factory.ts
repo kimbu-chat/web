@@ -83,7 +83,7 @@ export function* uploadFileSaga(
 
 export interface IFilesRequestGeneratorCallbacks {
   onStart?: (payload: { cancelTokenSource: CancelTokenSource }) => SagaIterator<any>;
-  onProgress?: (payload: any) => SagaIterator<any>;
+  onProgress?: (payload: { progress: number }) => SagaIterator<any>;
   onSuccess?: (payload: any) => SagaIterator<any>;
   onFailure?: () => SagaIterator<any>;
 }

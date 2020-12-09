@@ -10,11 +10,12 @@ import CloseSVG from 'icons/ic-close.svg';
 import './create-group-chat-modal.scss';
 import { useActionWithDeferred } from 'utils/hooks/use-action-with-deferred';
 import { ChatActions } from 'store/chats/actions';
-import { Chat, GroupChatCreationReqData } from 'store/chats/models';
+import { Chat } from 'store/chats/models';
 import { useHistory } from 'react-router';
 import { MyProfileActions } from 'store/my-profile/actions';
 import { getMyFriends } from 'app/store/friends/selectors';
 import { getMyProfileSelector } from 'app/store/my-profile/selectors';
+import { CreateGroupChatActionPayload } from 'app/store/chats/features/create-group-chat/create-group-chat-action-payload';
 
 namespace ICreateGroupChatModal {
   export interface Props {
@@ -118,7 +119,7 @@ export const CreateGroupChat = React.memo(({ onClose, preSelectedUserIds }: ICre
   }, [setAvatarData, setAvatarUploadResponse, setUploadEnded]);
 
   const onSubmit = useCallback(() => {
-    const groupChatToCreate: GroupChatCreationReqData = {
+    const groupChatToCreate: CreateGroupChatActionPayload = {
       name,
       currentUser: currentUser!,
       userIds: selectedUserIds,

@@ -1,11 +1,12 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { getChatArrayIndex } from '../../chats-utils';
-import { UploadAttachmentFailedData, ChatsState } from '../../models';
+import { ChatsState } from '../../models';
+import { UploadAttachmentFailureActionPayload } from './upload-attachment-failure-action-payload';
 
 export class UploadAttachmentFailure {
   static get action() {
-    return createAction('UPLOAD_ATTACHMENT_FAILURE')<UploadAttachmentFailedData>();
+    return createAction('UPLOAD_ATTACHMENT_FAILURE')<UploadAttachmentFailureActionPayload>();
   }
 
   static get reducer() {

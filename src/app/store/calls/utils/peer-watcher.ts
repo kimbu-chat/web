@@ -1,19 +1,14 @@
-import { httpRequestFactory } from 'app/store/common/http-factory';
-import { HttpRequestMethod } from 'app/store/common/http-file-factory';
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import { UserPreview } from 'app/store/my-profile/models';
 import { getMyProfileSelector } from 'app/store/my-profile/selectors';
-import { ApiBasePath } from 'app/store/root-api';
-import { AxiosResponse } from 'axios';
+import { RootState } from 'app/store/root-reducer';
 import { eventChannel, END, buffers } from 'redux-saga';
 import { take, select, call } from 'redux-saga/effects';
-import {
-  getCallInterlocutorSelector,
-  getCallInterlocutorIdSelector,
-  doIhaveCall,
-  getIsVideoEnabled,
-  getIsScreenSharingEnabled,
-} from 'app/store/calls/selectors';
+import { getCallInterlocutorSelector, doIhaveCall } from 'app/store/calls/selectors';
+import { httpRequestFactory } from 'app/store/common/http-factory';
+import { HttpRequestMethod } from 'app/store/common/models';
+import { ApiBasePath } from 'app/store/root-api';
+import { AxiosResponse } from 'axios';
 import { CandidateApiRequest, CallApiRequest } from '../models';
 
 const CallsHttpRequests = {
@@ -72,19 +67,17 @@ export function* peerWatcher() {
               interlocutorId: interlocutor?.id || -1,
               candidate: action.event.candidate,
             };
-            const httpRequest = CallsHttpRequests.candidate;
-            httpRequest.call(yield call(() => httpRequest.generator(request)));
+            CallsHttpRequests.candidate.call(yield call(() => CallsHttpRequests.candidate.generator(request)));
           }
         }
         break;
       case 'negotiationneeded':
         {
-          console.log('negociateeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
-          const interlocutorId: number = yield select(getCallInterlocutorIdSelector);
+          const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
           const myProfile: UserPreview = yield select(getMyProfileSelector);
           const isCallActive: boolean = yield select(doIhaveCall);
-          const isVideoEnabled = yield select(getIsVideoEnabled);
-          const isScreenSharingEnabled = yield select(getIsScreenSharingEnabled);
+          const isVideoEnabled = yield select((state: RootState) => state.calls.videoConstraints.isOpened);
+          const isScreenSharingEnabled = yield select((state: RootState) => state.calls.isScreenSharingOpened);
 
           if (isCallActive) {
             const offer = yield call(
@@ -98,14 +91,12 @@ export function* peerWatcher() {
 
             const request = {
               offer,
-              isRenegociation: true,
               interlocutorId,
               caller: myProfile,
               isVideoEnabled: isVideoEnabled || isScreenSharingEnabled,
             };
 
-            const httpRequest = CallsHttpRequests.call;
-            httpRequest.call(yield call(() => httpRequest.generator(request)));
+            CallsHttpRequests.call.call(yield call(() => CallsHttpRequests.call.generator(request)));
           }
         }
         break;

@@ -5,7 +5,7 @@ import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
-import { getCallInterlocutorIdSelector } from 'app/store/calls/selectors';
+import { RootState } from 'app/store/root-reducer';
 import { CancelCallApiRequest } from '../../models';
 import { stopAllTracks } from '../../utils/user-media';
 import { CancelCallSuccess } from './cancel-call-success';
@@ -17,7 +17,7 @@ export class CancelCall {
 
   static get saga() {
     return function* cancelCallSaga(): SagaIterator {
-      const interlocutorId: number = yield select(getCallInterlocutorIdSelector);
+      const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
 
       stopAllTracks();
 

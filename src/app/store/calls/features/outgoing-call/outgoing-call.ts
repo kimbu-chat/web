@@ -9,7 +9,7 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, delay, put, race, select, spawn, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { doIhaveCall, getIsAudioEnabled, getIsVideoEnabled } from 'app/store/calls/selectors';
+import { RootState } from 'app/store/root-reducer';
 import { CallState, CallApiRequest } from '../../models';
 import { deviceUpdateWatcher } from '../../utils/device-update-watcher';
 import { peerWatcher } from '../../utils/peer-watcher';
@@ -42,7 +42,7 @@ export class OutgoingCall {
 
   static get saga() {
     return function* outgoingCallSaga(action: ReturnType<typeof OutgoingCall.action>): SagaIterator {
-      const amISpeaking = yield select(doIhaveCall);
+      const amISpeaking = yield select((state: RootState) => state.calls.isSpeaking);
       const isVideoError = false;
 
       if (amISpeaking) {
@@ -58,8 +58,8 @@ export class OutgoingCall {
       yield call(getAndSendUserMedia);
       //---
 
-      const audioOpened = yield select(getIsAudioEnabled);
-      const videoOpened = yield select(getIsVideoEnabled);
+      const audioOpened = yield select((state: RootState) => state.calls.audioConstraints.isOpened);
+      const videoOpened = yield select((state: RootState) => state.calls.videoConstraints.isOpened);
 
       // gathering data about media devices
       if (audioOpened) {

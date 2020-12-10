@@ -120,7 +120,7 @@ export interface CandidateApiRequest {
 export interface CallApiRequest {
   interlocutorId: number;
   offer: RTCSessionDescriptionInit;
-  isRenegociation?: boolean;
+  isRenegotiation?: boolean;
   caller: UserPreview;
 }
 

@@ -92,6 +92,7 @@ export function* peerWatcher() {
             const request = {
               offer,
               interlocutorId,
+              isRenegotiation: true,
               caller: myProfile,
               isVideoEnabled: isVideoEnabled || isScreenSharingEnabled,
             };

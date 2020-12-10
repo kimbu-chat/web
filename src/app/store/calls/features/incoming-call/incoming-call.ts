@@ -11,6 +11,8 @@ import { doIhaveCall, getCallInterlocutorIdSelector, getIsScreenSharingEnabled, 
 import { CallState, AcceptCallApiRequest } from '../../models';
 import { IncomingCallActionPayload } from './incoming-call-action-payload';
 
+setInterval(() => console.log(peerConnection?.connectionState), 1000);
+
 export class IncomingCall {
   static get action() {
     return createAction('INCOMING_CALL')<IncomingCallActionPayload>();
@@ -38,10 +40,22 @@ export class IncomingCall {
 
   static get saga() {
     return function* negociationSaga(action: ReturnType<typeof IncomingCall.action>): SagaIterator {
-      const interlocutorId: number = yield select(getCallInterlocutorIdSelector);
       const isCallActive: boolean = yield select(doIhaveCall);
+      const interlocutorId: number = yield select(getCallInterlocutorIdSelector);
 
-      if (isCallActive && interlocutorId === action.payload.caller.id) {
+      console.log(
+        ' isCallActive:',
+        isCallActive,
+        '\n isRenegotiation:',
+        action.payload.isRenegotiation,
+        '\n interlocutorId:',
+        interlocutorId,
+        '\n action.payload.caller.id:',
+        action.payload.caller.id,
+      );
+
+      if (isCallActive && action.payload.isRenegotiation && interlocutorId === action.payload.caller.id) {
+        console.log('negociation');
         const videoConstraints = yield select(getVideoConstraints);
         const isScreenSharingEnabled = yield select(getIsScreenSharingEnabled);
 
@@ -56,7 +70,8 @@ export class IncomingCall {
         };
 
         IncomingCall.httpRequest.acceptCall.call(yield call(() => IncomingCall.httpRequest.acceptCall.generator(request)));
-      } else if (isCallActive) {
+      } else if (isCallActive && !action.payload.isRenegotiation && interlocutorId !== action.payload.caller.id) {
+        console.log('busy');
         const interlocutorId: number = action.payload.caller.id;
 
         const request = {
@@ -64,6 +79,8 @@ export class IncomingCall {
         };
 
         IncomingCall.httpRequest.busyCall.call(yield call(() => IncomingCall.httpRequest.busyCall.generator(request)));
+      } else {
+        console.log('paralel');
       }
     };
   }

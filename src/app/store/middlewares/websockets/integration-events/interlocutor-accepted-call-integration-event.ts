@@ -1,6 +1,6 @@
 export interface InterlocutorAcceptedCallIntegrationEvent {
   answer: RTCSessionDescriptionInit;
   interlocutorId: number;
-  isRenegociation: boolean;
+  isRenegotiation: boolean;
   isVideoEnabled: boolean;
 }

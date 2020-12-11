@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useEffect } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
 
 import './base.scss';
@@ -34,6 +34,19 @@ export const App = () => {
   const { t, i18n } = useTranslation(undefined, { i18n: i18nConfiguration });
   const isAuthenticated = useSelector(amIlogged);
   const phoneNumber = useSelector(getAuthPhoneNumber);
+
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+        .register('./firebase-messaging-sw.js')
+        .then(function (registration) {
+          console.log('Registration successful, scope is:', registration.scope);
+        })
+        .catch(function (err) {
+          console.log('Service worker registration failed, error:', err);
+        });
+    }
+  }, []);
 
   return (
     <LocalizationContext.Provider value={{ t, i18n }}>

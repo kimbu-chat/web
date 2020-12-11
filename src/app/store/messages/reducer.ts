@@ -2,7 +2,6 @@ import produce from 'immer';
 import { createReducer } from 'typesafe-actions';
 import { MessageState, MessagesState } from './models';
 import { ChatActions } from '../chats/actions';
-import { ChatId } from '../chats/chat-id';
 import { GetMessages } from './features/get-messages/get-messages';
 import { CreateMessageSuccess } from './features/create-message/create-message-success';
 import { CreateMessage } from './features/create-message/create-message';
@@ -69,9 +68,7 @@ const messages = createReducer<MessagesState>(initialState)
   .handleAction(
     ChatActions.changeInterlocutorLastReadMessageId,
     produce((draft: MessagesState, { payload }: ReturnType<typeof ChatActions.changeInterlocutorLastReadMessageId>) => {
-      const { lastReadMessageId, userReaderId } = payload;
-
-      const chatId = new ChatId().From(userReaderId, undefined).entireId;
+      const { lastReadMessageId, chatId } = payload;
 
       const chatIndex = getChatIndex(draft, chatId);
 

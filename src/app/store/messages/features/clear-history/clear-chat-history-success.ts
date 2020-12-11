@@ -16,6 +16,7 @@ export class ClearChatHistorySuccess {
 
       if (chatIndex >= 0) {
         draft.messages[chatIndex].messages = [];
+        draft.messages[chatIndex].hasMoreMessages = false;
       }
 
       return draft;

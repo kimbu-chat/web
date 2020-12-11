@@ -22,9 +22,12 @@ export class Logout {
       new MyProfileService().clear();
 
       const tokens = yield call(getPushNotificationTokens);
-      yield call(() => Logout.httpRequest.generator(tokens));
 
-      yield call(async () => await messaging().deleteToken());
+      if (tokens) {
+        yield call(() => Logout.httpRequest.generator(tokens));
+
+        yield call(async () => await messaging.deleteToken());
+      }
     };
   }
 

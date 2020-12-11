@@ -60,6 +60,56 @@ export interface IInCompleteConstraints {
   };
 }
 
+export interface EndCallActionPayload {
+  seconds: number;
+}
+
+export interface IncomingCallActionPayload {
+  caller: UserPreview;
+  offer: RTCSessionDescriptionInit;
+  isVideoEnabled: boolean;
+}
+
+export interface OutgoingCallActionPayload {
+  calling: UserPreview;
+  constraints: {
+    videoEnabled: boolean;
+    audioEnabled: boolean;
+  };
+}
+
+export interface AcceptIncomingCallActionPayload {
+  constraints: {
+    videoEnabled: boolean;
+    audioEnabled: boolean;
+  };
+}
+
+export interface InterlocutorAcceptedCallActionPayload {
+  answer: RTCSessionDescriptionInit;
+  isVideoEnabled: boolean;
+  interlocutorId: number;
+  isRenegotiation?: boolean;
+}
+
+export interface CandidateActionPayload {
+  candidate: RTCIceCandidate;
+}
+
+export interface GotMediaDevicesInfoActionPayload {
+  kind: 'videoinput' | 'audioinput';
+  devices: MediaDeviceInfo[];
+}
+
+export interface ChangeMediaStatusActionPayload {
+  kind: 'videoinput' | 'audioinput';
+}
+
+export interface SwitchDeviceActionPayload {
+  kind: 'videoinput' | 'audioinput';
+  deviceId: string;
+}
+
 // Http requests
 
 export interface CandidateApiRequest {
@@ -70,7 +120,7 @@ export interface CandidateApiRequest {
 export interface CallApiRequest {
   interlocutorId: number;
   offer: RTCSessionDescriptionInit;
-  isRenegociation?: boolean;
+  isRenegotiation?: boolean;
   caller: UserPreview;
 }
 

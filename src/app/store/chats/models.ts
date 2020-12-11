@@ -114,7 +114,7 @@ export interface Chat {
   groupChat?: GroupChat;
   lastMessage?: Message | null;
   interlocutor?: UserPreview;
-  ownUnreadMessagesCount?: number;
+  unreadMessagesCount?: number;
   interlocutorLastReadMessageId?: number;
   draftMessage: string;
   timeoutId?: NodeJS.Timeout;

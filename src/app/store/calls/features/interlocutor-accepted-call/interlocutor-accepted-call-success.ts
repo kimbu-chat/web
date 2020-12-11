@@ -10,7 +10,7 @@ export class InterlocutorAcceptedCallSuccess {
 
   static get reducer() {
     return produce((draft: CallState, { payload }: ReturnType<typeof InterlocutorAcceptedCallSuccess.action>) => {
-      if (draft.amICaling || (draft.isSpeaking && payload.isRenegotiation)) {
+      if (payload.interlocutorId !== payload.myId) {
         draft.isSpeaking = true;
         draft.amICalled = false;
         draft.amICaling = false;

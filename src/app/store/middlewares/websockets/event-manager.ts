@@ -9,6 +9,7 @@ export enum EventsNames {
   GROUP_CHAT_CREATED = 'GroupChatCreated',
   MESSAGES_READ = 'MessagesRead',
   INTEROCUTOR_MESSAGE_TYPING = 'MessageTyping',
+  CHAT_CLEARED = 'ClearChat',
   // Event names for WEBRTC
   INCOMING_CALL = 'CallInit',
   INTERLOCUTOR_ACCEPTED_CALL = 'CallAccepted',

@@ -28,7 +28,7 @@ export class CreateChat {
         id: chatId,
         draftMessage: '',
         interlocutorType: 1,
-        ownUnreadMessagesCount: 0,
+        unreadMessagesCount: 0,
         interlocutorLastReadMessageId: 0,
         interlocutor: payload,
         typingInterlocutors: [],

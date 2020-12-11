@@ -18,7 +18,7 @@ export class MarkMessagesAsRead {
     return produce((draft: ChatsState, { payload }: ReturnType<typeof MarkMessagesAsRead.action>) => {
       const { chatId } = payload;
       const chatIndex: number = getChatArrayIndex(chatId, draft);
-      draft.chats[chatIndex].ownUnreadMessagesCount = 0;
+      draft.chats[chatIndex].unreadMessagesCount = 0;
       return draft;
     });
   }

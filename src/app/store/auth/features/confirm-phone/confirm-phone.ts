@@ -75,7 +75,9 @@ export class ConfirmPhone {
         yield fork(initializeSaga);
         yield call(GetMyProfile.saga);
         const tokens = yield call(getPushNotificationTokens);
-        ConfirmPhone.httpRequest.subscribeToPushNotifications.call(yield call(() => ConfirmPhone.httpRequest.subscribeToPushNotifications.generator(tokens)));
+        if (tokens) {
+          ConfirmPhone.httpRequest.subscribeToPushNotifications.call(yield call(() => ConfirmPhone.httpRequest.subscribeToPushNotifications.generator(tokens)));
+        }
         action?.meta.deferred?.resolve();
       } else if (data.isCodeCorrect && !data.userExists) {
         alert('User can be registered using mobile app');

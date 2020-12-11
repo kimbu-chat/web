@@ -113,6 +113,8 @@ export const ActiveCall: React.FC<IActiveCall.Props> = ({ isDisplayed }) => {
         remoteAudioRef.current.srcObject = remoteAudioStream;
         remoteAudioRef.current.play();
       }
+
+      console.log(event.track);
     },
     [remoteVideoRef, remoteAudioRef, peerConnection],
   );

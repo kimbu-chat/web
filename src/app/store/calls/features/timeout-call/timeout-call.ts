@@ -17,7 +17,7 @@ export class TimeoutCall {
   }
 
   static get saga() {
-    return function* callNotAnsweredSaga(): SagaIterator {
+    return function* timeoutCallSaga(): SagaIterator {
       const interlocutorId: number = yield select(getCallInterlocutorIdSelector);
 
       const request = {

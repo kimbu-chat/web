@@ -102,13 +102,13 @@ const chats = createReducer<ChatsState>(initialState)
       // if user already has chats with interlocutor - update chat
       if (chatIndex >= 0) {
         const isInterlocutorCurrentSelectedChat: boolean = draft.selectedChatId === chatId;
-        const previousOwnUnreadMessagesCount = draft.chats[chatIndex].ownUnreadMessagesCount || 0;
-        const ownUnreadMessagesCount =
-          isInterlocutorCurrentSelectedChat || isCurrentUserMessageCreator ? previousOwnUnreadMessagesCount : previousOwnUnreadMessagesCount + 1;
+        const previousUnreadMessagesCount = draft.chats[chatIndex].unreadMessagesCount || 0;
+        const unreadMessagesCount =
+          isInterlocutorCurrentSelectedChat || isCurrentUserMessageCreator ? previousUnreadMessagesCount : previousUnreadMessagesCount + 1;
 
         draft.chats[chatIndex].attachmentsToSend = [];
         draft.chats[chatIndex].lastMessage = { ...message };
-        draft.chats[chatIndex].ownUnreadMessagesCount = ownUnreadMessagesCount;
+        draft.chats[chatIndex].unreadMessagesCount = unreadMessagesCount;
         draft.chats[chatIndex].draftMessage = '';
 
         const chatWithNewMessage = draft.chats[chatIndex];

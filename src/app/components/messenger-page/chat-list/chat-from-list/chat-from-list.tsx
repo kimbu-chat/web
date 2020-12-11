@@ -103,8 +103,8 @@ export const ChatFromList = React.memo(({ chat }: ChatFromListNS.Props) => {
           </div>
         </div>
         <div className='chat-from-list__last-message'>{(chat.typingInterlocutors?.length || 0) > 0 ? getTypingString(t, chat) : getMessageText()}</div>
-        {(chat.ownUnreadMessagesCount || false) && (
-          <div className={chat.isMuted ? 'chat-from-list__count chat-from-list__count--muted' : 'chat-from-list__count'}>{chat.ownUnreadMessagesCount}</div>
+        {(chat.unreadMessagesCount || false) && (
+          <div className={chat.isMuted ? 'chat-from-list__count chat-from-list__count--muted' : 'chat-from-list__count'}>{chat.unreadMessagesCount}</div>
         )}
       </div>
     </NavLink>

@@ -1,6 +1,6 @@
 /* eslint-disable */
-importScripts('https://www.gstatic.com/firebasejs/7.18.0/firebase-app.js');
-importScripts('https://www.gstatic.com/firebasejs/7.18.0/firebase-messaging.js');
+importScripts('https://www.gstatic.com/firebasejs/8.1.2/firebase-app.js');
+importScripts('https://www.gstatic.com/firebasejs/8.1.2/firebase-messaging.js');
 
 const config = {
   apiKey: 'AIzaSyBndllDIwxwEq0S4Dls5pNVslmJIgmfO4o',
@@ -13,3 +13,5 @@ const config = {
 };
 
 firebase.initializeApp(config);
+
+firebase.messaging();

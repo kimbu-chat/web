@@ -3,7 +3,7 @@ import { messaging } from '../middlewares/firebase/firebase';
 
 export async function getPushNotificationTokens() {
   async function retrieveApplicationToken() {
-    const tokenId: string = await messaging().getToken();
+    const tokenId: string = await messaging.getToken();
     const fp = await FingerprintJS.load();
     const result = await fp.get();
     const deviceId: string = result.visitorId;

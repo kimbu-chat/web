@@ -24,7 +24,7 @@ export class Logout {
       const tokens = yield call(getPushNotificationTokens);
       yield call(() => Logout.httpRequest.generator(tokens));
 
-      yield call(async () => await messaging().deleteToken());
+      yield call(async () => await messaging.deleteToken());
     };
   }
 

@@ -221,7 +221,6 @@ export interface GroupChatCreationHTTPReqData {
   name: string;
   description?: string;
   userIds: Array<number>;
-  currentUser: UserPreview;
   avatarId?: string | null;
 }
 

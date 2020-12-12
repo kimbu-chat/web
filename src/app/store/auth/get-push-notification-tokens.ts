@@ -3,11 +3,20 @@ import { messaging } from '../middlewares/firebase/firebase';
 
 export async function getPushNotificationTokens() {
   async function retrieveApplicationToken() {
-    const tokenId: string = await messaging.getToken();
-    const fp = await FingerprintJS.load();
-    const result = await fp.get();
-    const deviceId: string = result.visitorId;
-    return { tokenId, deviceId };
+    if ('serviceWorker' in navigator) {
+      try {
+        const registration = await navigator.serviceWorker.register('./firebase-messaging-sw.js');
+        const tokenId: string = await messaging.getToken({ serviceWorkerRegistration: registration });
+        const fp = await FingerprintJS.load();
+        const result = await fp.get();
+        const deviceId: string = result.visitorId;
+        return { tokenId, deviceId };
+      } catch {
+        return undefined;
+      }
+    }
+
+    return undefined;
   }
 
   if (!('Notification' in window)) {

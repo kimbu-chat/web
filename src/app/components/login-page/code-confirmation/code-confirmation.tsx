@@ -69,11 +69,11 @@ const CodeConfirmation: React.FC<CodeConfirmationNS.Props> = ({ preloadNext }) =
     (code: string[]) => {
       if (code.every((element) => element.length === 1)) {
         checkConfirmationCode({ code: code!.join(''), phoneNumber })
-          .then(({ registrationNeeded }) => {
-            if (!registrationNeeded) {
+          .then(({ userRegistered }) => {
+            if (userRegistered) {
               history.push('/chats');
             } else {
-              history.push('/registration');
+              history.push('/signup');
             }
           })
           .catch(() => {

@@ -1,4 +1,5 @@
 import { HTTPStatusCode } from 'app/common/http-status-code';
+import { createEmptyDefferedAction } from 'app/store/common/actions';
 import { authRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/models';
 import { ApiBasePath } from 'app/store/root-api';
@@ -6,8 +7,6 @@ import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
-import { Meta } from '../../../common/actions';
 import { AuthState } from '../../models';
 import { getAuthPhoneNumber } from '../../selectors';
 import { SendSmsCodeFailure } from './send-sms-code-failure';
@@ -15,7 +14,7 @@ import { SendSmsCodeSuccess } from './send-sms-code-success';
 
 export class ReSendSmsCode {
   static get action() {
-    return createAction('RE_SEND_PHONE_CONFIRMATION_CODE')<undefined, Meta>();
+    return createEmptyDefferedAction('RE_SEND_PHONE_CONFIRMATION_CODE');
   }
 
   static get reducer() {

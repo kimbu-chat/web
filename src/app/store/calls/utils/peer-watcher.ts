@@ -10,6 +10,7 @@ import { HttpRequestMethod } from 'app/store/common/models';
 import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
 import { CandidateApiRequest, CallApiRequest } from '../models';
+import { assignInterlocurorVideoTrack, assignInterlocurorAudioTrack } from './user-media';
 
 const CallsHttpRequests = {
   candidate: httpRequestFactory<AxiosResponse, CandidateApiRequest>(`${ApiBasePath.NotificationsApi}/api/calls/candidate`, HttpRequestMethod.Post),
@@ -24,6 +25,10 @@ function createPeerConnectionChannel() {
 
     const onNegotiationNeeded = () => {
       emit({ type: 'negotiationneeded' });
+    };
+
+    const onTrack = (event: RTCTrackEvent) => {
+      emit({ type: 'track', event });
     };
 
     const onConnectionStateChange = () => {
@@ -43,11 +48,13 @@ function createPeerConnectionChannel() {
     peerConnection?.addEventListener('icecandidate', onIceCandidate);
     peerConnection?.addEventListener('negotiationneeded', onNegotiationNeeded);
     peerConnection?.addEventListener('connectionstatechange', onConnectionStateChange);
+    peerConnection?.addEventListener('track', onTrack);
 
     return () => {
       peerConnection?.removeEventListener('icecandidate', onIceCandidate);
       peerConnection?.removeEventListener('negotiationneeded', onNegotiationNeeded);
       peerConnection?.removeEventListener('connectionstatechange', onConnectionStateChange);
+      peerConnection?.removeEventListener('track', onTrack);
     };
   }, buffers.expanding(100));
 }
@@ -98,6 +105,19 @@ export function* peerWatcher() {
             };
 
             CallsHttpRequests.call.call(yield call(() => CallsHttpRequests.call.generator(request)));
+          }
+        }
+        break;
+      case 'track':
+        {
+          const { track } = action.event;
+
+          if (track.kind === 'video') {
+            assignInterlocurorVideoTrack(track);
+          }
+
+          if (track.kind === 'audio') {
+            assignInterlocurorAudioTrack(track);
           }
         }
         break;

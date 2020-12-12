@@ -1,6 +1,5 @@
 import React, { useRef, useCallback, useEffect, useState, useContext } from 'react';
 import './active-call.scss';
-import { peerConnection } from 'store/middlewares/webRTC/peerConnectionFactory';
 import { useSelector } from 'react-redux';
 import {
   amICaling,
@@ -39,7 +38,7 @@ import callingBeep from 'app/assets/sounds/calls/outgoing-call.ogg';
 import busySound from 'app/assets/sounds/calls/busy-sound.ogg';
 import { LocalizationContext } from 'app/app';
 import { UserPreview } from 'store/my-profile/models';
-import { tracks } from 'app/store/calls/utils/user-media';
+import { interlocurorAudioTrack, interlocurorVideoTrack, tracks } from 'app/store/calls/utils/user-media';
 import { Dropdown } from './dropdown/dropdown';
 
 namespace IActiveCall {
@@ -94,55 +93,44 @@ export const ActiveCall: React.FC<IActiveCall.Props> = ({ isDisplayed }) => {
     changeMediaStatus({ kind: 'videoinput' });
   }, []);
 
-  //! PEER connection callbacks
-
-  const onTrack = useCallback(
-    (event: RTCTrackEvent) => {
-      if (event.track.kind === 'video' && remoteVideoRef.current) {
-        const remoteVideoStream = new MediaStream();
-        remoteVideoStream.addTrack(event.track);
-        remoteVideoRef.current.pause();
-        remoteVideoRef.current.srcObject = remoteVideoStream;
-        remoteVideoRef.current.play();
-      }
-
-      if (event.track.kind === 'audio' && remoteAudioRef.current) {
-        const remoteAudioStream = new MediaStream();
-        remoteAudioStream.addTrack(event.track);
-        remoteAudioRef.current.pause();
-        remoteAudioRef.current.srcObject = remoteAudioStream;
-        remoteAudioRef.current.play();
-      }
-
-      console.log(event.track);
-    },
-    [remoteVideoRef, remoteAudioRef, peerConnection],
-  );
-
-  // binding peer connection events
   useEffect(() => {
-    peerConnection?.addEventListener('track', onTrack);
+    if (remoteVideoRef.current) {
+      if (interlocurorVideoTrack) {
+        const mediaStream = new MediaStream();
+        mediaStream.addTrack(interlocurorVideoTrack);
+        remoteVideoRef.current.pause();
+        remoteVideoRef.current.srcObject = mediaStream;
+        remoteVideoRef.current.play();
+        console.log('video');
+      }
+    }
+  }, [interlocurorVideoTrack, remoteVideoRef]);
 
-    // removing peer connection events
-    return () => {
-      peerConnection?.removeEventListener('track', onTrack);
-    };
-  }, [onTrack, isDisplayed, peerConnection]);
+  useEffect(() => {
+    if (remoteAudioRef.current) {
+      if (interlocurorAudioTrack) {
+        const mediaStream = new MediaStream();
+        mediaStream.addTrack(interlocurorAudioTrack);
+        remoteAudioRef.current.pause();
+        remoteAudioRef.current.srcObject = mediaStream;
+        remoteAudioRef.current.play();
+        console.log('audio');
+      }
+    }
+  }, [interlocurorAudioTrack, remoteAudioRef]);
 
   // local video stream assigning
   useEffect(() => {
-    if (isVideoOpened) {
-      const localVideoStream = new MediaStream();
-      if (tracks.videoTracks[0]) {
-        localVideoStream.addTrack(tracks.videoTracks[0]);
-        if (localVideoRef.current) {
-          localVideoRef.current.pause();
-          localVideoRef.current.srcObject = localVideoStream;
-          localVideoRef.current.play();
-        }
+    const localVideoStream = new MediaStream();
+    if (tracks.videoTracks[0]) {
+      localVideoStream.addTrack(tracks.videoTracks[0]);
+      if (localVideoRef.current) {
+        localVideoRef.current.pause();
+        localVideoRef.current.srcObject = localVideoStream;
+        localVideoRef.current.play();
       }
     }
-  }, [isVideoOpened, tracks.videoTracks[0]?.id]);
+  }, [tracks.videoTracks[0]?.id]);
 
   // component did mount effect
   useEffect(() => {

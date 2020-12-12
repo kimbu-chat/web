@@ -16,7 +16,6 @@ export class ChangeChatVisibilityState {
   static get saga() {
     return function* (action: ReturnType<typeof ChangeChatVisibilityState.action>): SagaIterator {
       const chat: Chat = action.payload;
-      let response: AxiosResponse;
 
       try {
         const request: HideChatRequest = {
@@ -24,7 +23,7 @@ export class ChangeChatVisibilityState {
           isHidden: true,
         };
 
-        response = ChangeChatVisibilityState.httpRequest.call(yield call(() => ChangeChatVisibilityState.httpRequest.generator(request)));
+        const response = ChangeChatVisibilityState.httpRequest.call(yield call(() => ChangeChatVisibilityState.httpRequest.generator(request)));
 
         if (response.status === 200) {
           yield put(ChangeChatVisibilityStateSuccess.action(chat));

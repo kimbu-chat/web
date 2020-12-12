@@ -1,3 +1,3 @@
-import { LoginResponse } from '../../models';
+import { LoginResponse } from '../../../models';
 
 export interface LoginSuccessActionPayload extends LoginResponse {}

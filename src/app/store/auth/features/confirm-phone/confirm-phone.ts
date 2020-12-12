@@ -16,7 +16,7 @@ import { Meta } from '../../../common/actions';
 import { HttpRequestMethod, UserStatus } from '../../../common/models';
 import { UserPreview } from '../../../my-profile/models';
 import { ConfirmPhoneFailure } from './confirm-phone-failure';
-import { LoginSuccess } from '../login-sucess/login-success';
+import { LoginSuccess } from '../logout/login-sucess/login-success';
 import {
   AuthState,
   LoginResponse,
@@ -27,10 +27,11 @@ import {
 } from '../../models';
 import { getPushNotificationTokens } from '../../get-push-notification-tokens';
 import { ConfirmPhoneActionPayload } from './confirm-phone-action-payload';
+import { ConfirmPhoneRegistrationNeeded } from './confirm-phone-registration-needed';
 
 export class ConfirmPhone {
   static get action() {
-    return createAction('CONFIRM_PHONE')<ConfirmPhoneActionPayload, Meta>();
+    return createAction('CONFIRM_PHONE')<ConfirmPhoneActionPayload, Meta | undefined>();
   }
 
   static get reducer() {
@@ -78,13 +79,12 @@ export class ConfirmPhone {
         if (tokens) {
           ConfirmPhone.httpRequest.subscribeToPushNotifications.call(yield call(() => ConfirmPhone.httpRequest.subscribeToPushNotifications.generator(tokens)));
         }
-        action?.meta.deferred?.resolve();
+        action?.meta?.deferred?.resolve();
       } else if (data.isCodeCorrect && !data.userExists) {
-        alert('User can be registered using mobile app');
-        // yield put(confirmPhoneSuccessAction());
-        action?.meta.deferred.resolve();
+        yield put(ConfirmPhoneRegistrationNeeded.action({ confirmationCode: action.payload.code }));
+        action?.meta?.deferred.resolve({ registrationNeeded: true });
       } else {
-        action?.meta.deferred.reject();
+        action?.meta?.deferred.reject();
         yield put(ConfirmPhoneFailure.action());
       }
     };

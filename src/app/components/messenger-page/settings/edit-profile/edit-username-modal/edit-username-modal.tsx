@@ -31,7 +31,7 @@ export const EditUserNameModal = React.memo(({ onClose }: EditUserNameModalNS.Pr
 
   const [nickname, setNickname] = useState(myProfile?.nickname || '');
 
-  const changeNickname = useCallback(
+  const onChangeNickname = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const newNickName = event.target.value;
       setNickname(newNickName);
@@ -65,7 +65,7 @@ export const EditUserNameModal = React.memo(({ onClose }: EditUserNameModalNS.Pr
             <div className='edit-username-modal__input-block'>
               <span className='edit-username-modal__input-label'>{t('editUsernameModal.username')}</span>
               <div className='edit-username-modal__input-wrapper'>
-                <input value={nickname} onChange={changeNickname} type='text' className='edit-username-modal__input' />
+                <input value={nickname} onChange={onChangeNickname} type='text' className='edit-username-modal__input' />
                 {nickname.match(nicknamePattern) && isNickNameAvailable && (
                   <div className='edit-username-modal__valid'>
                     <ValidSvg viewBox='0 0 25 25' />

@@ -5,34 +5,32 @@ import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { put, call } from 'redux-saga/effects';
+import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { Meta } from '../../../common/actions';
 import { AuthState } from '../../models';
-import { SendSmsCodeActionPayload } from './send-sms-code-action-payload';
+import { getAuthPhoneNumber } from '../../selectors';
 import { SendSmsCodeFailure } from './send-sms-code-failure';
 import { SendSmsCodeSuccess } from './send-sms-code-success';
 
-export class SendSmsCode {
+export class ReSendSmsCode {
   static get action() {
-    return createAction('SEND_PHONE_CONFIRMATION_CODE')<SendSmsCodeActionPayload, Meta>();
+    return createAction('RE_SEND_PHONE_CONFIRMATION_CODE')<undefined, Meta>();
   }
 
   static get reducer() {
-    return produce((draft: AuthState, { payload }: ReturnType<typeof SendSmsCode.action>) => ({
+    return produce((draft: AuthState) => ({
       ...draft,
       loading: true,
       isConfirmationCodeWrong: false,
-      phoneNumber: payload.phoneNumber,
-      twoLetterCountryCode: payload.twoLetterCountryCode,
     }));
   }
 
   static get saga() {
-    return function* sendSmsPhoneConfirmationCodeSaga(action: ReturnType<typeof SendSmsCode.action>): SagaIterator {
-      const { data, status }: AxiosResponse<string> = SendSmsCode.httpRequest.call(
-        yield call(() => SendSmsCode.httpRequest.generator({ phoneNumber: action.payload.phoneNumber })),
-      );
+    return function* sendSmsPhoneConfirmationCodeSaga(action: ReturnType<typeof ReSendSmsCode.action>): SagaIterator {
+      const phoneNumber = yield select(getAuthPhoneNumber);
+
+      const { data, status }: AxiosResponse<string> = ReSendSmsCode.httpRequest.call(yield call(() => ReSendSmsCode.httpRequest.generator({ phoneNumber })));
 
       if (status !== HTTPStatusCode.OK) {
         yield put(SendSmsCodeFailure.action());

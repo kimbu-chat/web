@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { AuthState } from '../../models';
+import { AuthState } from '../../../models';
 import { LoginSuccessActionPayload } from './login-success-action-payload';
 
 export class LoginSuccess {

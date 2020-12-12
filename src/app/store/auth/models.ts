@@ -38,8 +38,19 @@ export interface SubscribeToPushNotificationsRequest {
 export interface AuthState {
   loading: boolean;
   confirmationCode: string;
+  twoLetterCountryCode: string;
   phoneNumber: string;
   isConfirmationCodeWrong: boolean;
   isAuthenticated: boolean;
   securityTokens: SecurityTokens;
+  registrationNeeded?: boolean;
+}
+
+export interface RegisterApiRequest {
+  lastName: string;
+  firstName: string;
+  nickname: string;
+  twoLetterCountryCode: string;
+  phoneNumber: string;
+  avatarId?: string;
 }

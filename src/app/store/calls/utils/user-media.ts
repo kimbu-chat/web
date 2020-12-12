@@ -10,6 +10,17 @@ export const tracks: {
   [thingName: string]: MediaStreamTrack[];
 } = { videoTracks: [], audioTracks: [], screenSharingTracks: [] };
 
+export let interlocurorVideoTrack: MediaStreamTrack;
+export let interlocurorAudioTrack: MediaStreamTrack;
+
+export const assignInterlocurorVideoTrack = (track: MediaStreamTrack) => {
+  interlocurorVideoTrack = track;
+};
+
+export const assignInterlocurorAudioTrack = (track: MediaStreamTrack) => {
+  interlocurorAudioTrack = track;
+};
+
 export let videoSender: RTCRtpSender | null;
 export let audioSender: RTCRtpSender | null;
 

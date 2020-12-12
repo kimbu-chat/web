@@ -27,7 +27,6 @@ export class CreateGroupChat {
           name,
           description,
           userIds,
-          currentUser,
           avatarId: avatar?.id,
         };
 

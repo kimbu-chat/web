@@ -4,6 +4,7 @@ module.exports = {
   },
   extends: ['plugin:react/recommended', 'airbnb-typescript', 'prettier', 'prettier/react'],
   parser: '@typescript-eslint/parser',
+  ignorePatterns: ['.eslintrc.js'],
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -23,7 +24,7 @@ module.exports = {
     'prettier/prettier': ['warn'],
     'import/prefer-default-export': 0,
     'import/extensions': 0,
-    'import/no-unresolved': ['error', { ignore: ['app,icons,store,sounds,utils,components'] }],
+    'import/no-unresolved': ['error', { ignore: ['app', 'icons', 'store', 'sounds', 'utils', 'components'] }],
     'import/no-mutable-exports': 0,
     'no-param-reassign': 0,
     'no-plusplus': 0,

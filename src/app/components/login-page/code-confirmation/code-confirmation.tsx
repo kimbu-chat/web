@@ -38,7 +38,7 @@ const CodeConfirmation: React.FC<CodeConfirmationNS.Props> = ({ preloadNext }) =
   const isConfirmationCodeWrong = useSelector(getIsConfirmationCodeWrong);
   const isLoading = useSelector(getAuthIsLoading);
 
-  const sendSmsCode = useActionWithDeferred(AuthActions.sendSmsCode);
+  const reSendSmsCode = useActionWithDeferred(AuthActions.reSendSmsCode);
   const checkConfirmationCode = useActionWithDeferred(AuthActions.confirmPhone);
 
   const boxElements: React.RefObject<HTMLInputElement>[] = [
@@ -63,19 +63,18 @@ const CodeConfirmation: React.FC<CodeConfirmationNS.Props> = ({ preloadNext }) =
 
   useEffect(() => {
     preloadNext();
-
-    return () => {
-      setIsIntervalRunning(false);
-    };
   }, []);
 
   const checkCode = useCallback(
     (code: string[]) => {
       if (code.every((element) => element.length === 1)) {
         checkConfirmationCode({ code: code!.join(''), phoneNumber })
-          .then(() => {
-            history.push('/chats');
-            setIsIntervalRunning(false);
+          .then(({ registrationNeeded }) => {
+            if (!registrationNeeded) {
+              history.push('/chats');
+            } else {
+              history.push('/registration');
+            }
           })
           .catch(() => {
             setCode(['', '', '', '']);
@@ -134,11 +133,12 @@ const CodeConfirmation: React.FC<CodeConfirmationNS.Props> = ({ preloadNext }) =
     />
   );
 
-  const resendPhoneConfirmationCode = (): void => {
-    sendSmsCode({ phoneNumber });
+  const resendPhoneConfirmationCode = useCallback((): void => {
+    reSendSmsCode(undefined);
+    // TODO: check how can I combine meta+emptyAction
     setRemainingSeconds(60);
     setIsIntervalRunning(true);
-  };
+  }, [reSendSmsCode, setRemainingSeconds, setIsIntervalRunning]);
 
   return (
     <div className='code-confirmation'>

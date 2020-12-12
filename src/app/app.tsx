@@ -13,13 +13,14 @@ import { PrivateRoute } from 'app/routing/public-route';
 
 import { i18n, TFunction } from 'i18next';
 import { CubeLoader } from './containers/cube-loader/cube-loader';
-import { loadPhoneConfirmation, loadCodeConfirmation, loadMessenger, loadNotFound } from './routing/module-loader';
-import { amIlogged, getAuthPhoneNumber } from './store/auth/selectors';
+import { loadPhoneConfirmation, loadCodeConfirmation, loadMessenger, loadNotFound, loadRegistration } from './routing/module-loader';
+import { amIlogged, getAuthPhoneNumber, getRegistrationNeeded } from './store/auth/selectors';
 
 const ConfirmPhone = lazy(loadPhoneConfirmation);
 const ConfirmCode = lazy(loadCodeConfirmation);
 const Messenger = lazy(loadMessenger);
 const NotFound = lazy(loadNotFound);
+const Registration = lazy(loadRegistration);
 
 namespace AppNS {
   export interface Localization {
@@ -34,15 +35,16 @@ export const App = () => {
   const { t, i18n } = useTranslation(undefined, { i18n: i18nConfiguration });
   const isAuthenticated = useSelector(amIlogged);
   const phoneNumber = useSelector(getAuthPhoneNumber);
+  const registrationNeeded = useSelector(getRegistrationNeeded);
 
   useEffect(() => {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker
         .register('./firebase-messaging-sw.js')
-        .then(function (registration) {
+        .then((registration) => {
           console.log('Registration successful, scope is:', registration.scope);
         })
-        .catch(function (err) {
+        .catch((err) => {
           console.log('Service worker registration failed, error:', err);
         });
     }
@@ -51,6 +53,16 @@ export const App = () => {
   return (
     <LocalizationContext.Provider value={{ t, i18n }}>
       <Switch>
+        <PublicRoute
+          exact
+          path='/registration'
+          isAllowed={phoneNumber.length > 0 && registrationNeeded}
+          Component={
+            <Suspense fallback={<CubeLoader />}>
+              <Registration preloadNext={loadMessenger} />
+            </Suspense>
+          }
+        />
         <PublicRoute
           exact
           path='/confirm-code'
@@ -84,7 +96,6 @@ export const App = () => {
         <Route path='/' exact render={() => <Redirect to='/chats' />} />
         <Route
           path='/'
-          isAllowed
           render={() => (
             <Suspense fallback={<CubeLoader />}>
               <NotFound />

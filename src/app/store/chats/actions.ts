@@ -41,6 +41,7 @@ import { UploadAttachmentProgress } from './features/upload-attachment/upload-at
 import { UploadAttachmentSuccess } from './features/upload-attachment/upload-attachment-success';
 import { ChangeLastMessage } from './features/change-last-message/change-last-message';
 import { GetRawAttachments } from './features/get-raw-attachments/get-raw-attachments';
+import { MarkMessagesAsReadSuccess } from './features/mark-messages-as-read/mark-messages-as-read-success';
 
 export namespace ChatActions {
   export const getChats = GetChats.action;
@@ -89,6 +90,7 @@ export namespace ChatActions {
   export const removeAttachmentAction = RemoveAttachment.action;
 
   export const markMessagesAsRead = MarkMessagesAsRead.action;
+  export const markMessagesAsReadSuccess = MarkMessagesAsReadSuccess.action;
 
   export const changeLastMessageAction = ChangeLastMessage.action;
 }

@@ -1,31 +1,23 @@
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
 import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
-import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { call } from 'redux-saga/effects';
+import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { getChatArrayIndex } from '../../chats-utils';
-import { ChatsState, MarkMessagesAsReadRequest } from '../../models';
+import { MarkMessagesAsReadRequest } from '../../models';
 import { MarkMessagesAsReadActionPayload } from './mark-messages-as-read-action-payload';
+import { MarkMessagesAsReadSuccess } from './mark-messages-as-read-success';
 
 export class MarkMessagesAsRead {
   static get action() {
     return createAction('RESET_UNREAD_MESSAGES_COUNT')<MarkMessagesAsReadActionPayload>();
   }
 
-  static get reducer() {
-    return produce((draft: ChatsState, { payload }: ReturnType<typeof MarkMessagesAsRead.action>) => {
-      const { chatId } = payload;
-      const chatIndex: number = getChatArrayIndex(chatId, draft);
-      draft.chats[chatIndex].unreadMessagesCount = 0;
-      return draft;
-    });
-  }
-
   static get saga() {
     return function* (action: ReturnType<typeof MarkMessagesAsRead.action>): SagaIterator {
       MarkMessagesAsRead.httpRequest.call(yield call(() => MarkMessagesAsRead.httpRequest.generator(action.payload)));
+
+      yield put(MarkMessagesAsReadSuccess.action(action.payload));
     };
   }
 

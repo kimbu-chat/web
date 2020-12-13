@@ -30,14 +30,14 @@ export const Chat = React.memo(() => {
   const messages = messageList?.messages;
   const hasMoreMessages = messageList?.hasMoreMessages;
 
-  const markAsRead = useCallback((): void => {
+  useEffect(() => {
     if (selectedChat && (selectedChat.unreadMessagesCount || 0) > 0 && messages) {
       markMessagesAsRead({
         chatId: selectedChat.id,
         lastReadMessageId: messages[0].id,
       });
     }
-  }, [selectedChat]);
+  }, [selectedChat?.id, selectedChat?.unreadMessagesCount, messages]);
 
   useEffect(() => {
     if (selectedChat) {
@@ -49,7 +49,6 @@ export const Chat = React.memo(() => {
         },
         chat: selectedChat,
       });
-      markAsRead();
     }
   }, [selectedChat?.id]);
 

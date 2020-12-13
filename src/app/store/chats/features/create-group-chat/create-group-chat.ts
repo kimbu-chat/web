@@ -41,6 +41,7 @@ export class CreateGroupChat {
             id: data,
             membersCount: userIds.length + 1,
             name,
+            description,
             avatar: action.payload.avatar,
             userCreatorId: currentUser.id,
           },

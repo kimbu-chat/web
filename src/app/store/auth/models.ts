@@ -43,7 +43,7 @@ export interface AuthState {
   isConfirmationCodeWrong: boolean;
   isAuthenticated: boolean;
   securityTokens: SecurityTokens;
-  registrationNeeded?: boolean;
+  registrationAllowed?: boolean;
 }
 
 export interface RegisterApiRequest {

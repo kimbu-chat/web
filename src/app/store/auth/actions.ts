@@ -1,6 +1,6 @@
 import { ConfirmPhone } from './features/confirm-phone/confirm-phone';
 import { ConfirmPhoneFailure } from './features/confirm-phone/confirm-phone-failure';
-import { ConfirmPhoneRegistrationNeeded } from './features/confirm-phone/confirm-phone-registration-needed';
+import { ConfirmPhoneRegistrationAllowed } from './features/confirm-phone/confirm-phone-registration-allowed';
 import { ConfirmPhoneSuccess } from './features/confirm-phone/confirm-phone-success';
 import { LoginSuccess } from './features/logout/login-sucess/login-success';
 import { Logout } from './features/logout/logout';
@@ -27,5 +27,5 @@ export namespace AuthActions {
   export const logout = Logout.action;
   export const reSendSmsCode = ReSendSmsCode.action;
   export const register = Register.action;
-  export const confirmPhoneRegistrationNeeded = ConfirmPhoneRegistrationNeeded.action;
+  export const confirmPhoneregistrationAllowed = ConfirmPhoneRegistrationAllowed.action;
 }

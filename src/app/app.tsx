@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useEffect } from 'react';
+import React, { Suspense, lazy } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
 
 import './base.scss';
@@ -14,7 +14,7 @@ import { PrivateRoute } from 'app/routing/public-route';
 import { i18n, TFunction } from 'i18next';
 import { CubeLoader } from './containers/cube-loader/cube-loader';
 import { loadPhoneConfirmation, loadCodeConfirmation, loadMessenger, loadNotFound, loadRegistration } from './routing/module-loader';
-import { amIlogged, getAuthPhoneNumber, getRegistrationNeeded } from './store/auth/selectors';
+import { amIlogged, getAuthPhoneNumber, getregistrationAllowed } from './store/auth/selectors';
 
 const ConfirmPhone = lazy(loadPhoneConfirmation);
 const ConfirmCode = lazy(loadCodeConfirmation);
@@ -35,28 +35,15 @@ export const App = () => {
   const { t, i18n } = useTranslation(undefined, { i18n: i18nConfiguration });
   const isAuthenticated = useSelector(amIlogged);
   const phoneNumber = useSelector(getAuthPhoneNumber);
-  const registrationNeeded = useSelector(getRegistrationNeeded);
-
-  useEffect(() => {
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker
-        .register('./firebase-messaging-sw.js')
-        .then((registration) => {
-          console.log('Registration successful, scope is:', registration.scope);
-        })
-        .catch((err) => {
-          console.log('Service worker registration failed, error:', err);
-        });
-    }
-  }, []);
+  const registrationAllowed = useSelector(getregistrationAllowed);
 
   return (
     <LocalizationContext.Provider value={{ t, i18n }}>
       <Switch>
         <PublicRoute
           exact
-          path='/registration'
-          isAllowed={phoneNumber.length > 0 && registrationNeeded}
+          path='/signup'
+          isAllowed={phoneNumber.length > 0 && registrationAllowed}
           Component={
             <Suspense fallback={<CubeLoader />}>
               <Registration preloadNext={loadMessenger} />

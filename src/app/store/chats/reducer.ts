@@ -27,7 +27,6 @@ import { GetVoiceAttachmentsSuccess } from './features/get-voice-attachments/get
 import { InterlocutorMessageTyping } from './features/interlocutor-message-typing/interlocutor-message-typing';
 import { InterlocutorStoppedTyping } from './features/interlocutor-message-typing/interlocutor-stopped-typing';
 import { LeaveGroupChatSuccess } from './features/leave-group-chat/leave-group-chat-success';
-import { MarkMessagesAsRead } from './features/mark-messages-as-read/mark-messages-as-read';
 import { MuteChatSuccess } from './features/mute-chat/mute-chat-success';
 import { RemoveAttachment } from './features/remove-attachment/remove-attachment';
 import { UnshiftChat } from './features/unshift-chat/unshift-chat';
@@ -45,6 +44,7 @@ import { GetVideoAttachments } from './features/get-video-attachments/get-video-
 import { GetRawAttachments } from './features/get-raw-attachments/get-raw-attachments';
 import { GetPhotoAttachments } from './features/get-photo-attachments/get-photo-attachments';
 import { GetVideoAttachmentsSuccess } from './features/get-video-attachments/get-video-attachments-success';
+import { MarkMessagesAsReadSuccess } from './features/mark-messages-as-read/mark-messages-as-read-success';
 
 const initialState: ChatsState = {
   loading: false,
@@ -65,7 +65,7 @@ const chats = createReducer<ChatsState>(initialState)
   .handleAction(GetChatsFailure.action, GetChatsFailure.reducer)
   .handleAction(LeaveGroupChatSuccess.action, LeaveGroupChatSuccess.reducer)
   .handleAction(ChangeChatVisibilityStateSuccess.action, ChangeChatVisibilityStateSuccess.reducer)
-  .handleAction(MarkMessagesAsRead.action, MarkMessagesAsRead.reducer)
+  .handleAction(MarkMessagesAsReadSuccess.action, MarkMessagesAsReadSuccess.reducer)
   .handleAction(ChangeInterlocutorLastReadMessageId.action, ChangeInterlocutorLastReadMessageId.reducer)
   .handleAction(CreateChat.action, CreateChat.reducer)
   .handleAction(GetPhotoAttachmentsSuccess.action, GetPhotoAttachmentsSuccess.reducer)

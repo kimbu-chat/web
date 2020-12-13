@@ -115,12 +115,12 @@ export const Chat = React.memo(() => {
         >
           {itemsWithUserInfo.map((msg) => (
             <React.Fragment key={msg.id}>
+              <MessageItem message={msg} key={msg.id} />
               {msg.needToShowDateSeparator && (
                 <div className='message__separator message__separator--capitalized'>
                   <span>{moment.utc(msg.creationDateTime).local().format('dddd, MMMM D, YYYY').toString()}</span>
                 </div>
               )}
-              <MessageItem message={msg} key={msg.id} />
             </React.Fragment>
           ))}
         </InfiniteScroll>

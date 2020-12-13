@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useRef } from 'react';
+import React, { useCallback, useContext } from 'react';
 import './chat-video.scss';
 
 import ReturnSvg from 'icons/ic-arrow-left.svg';
@@ -9,19 +9,18 @@ import { ChatActions } from 'store/chats/actions';
 import { useSelector } from 'react-redux';
 import { getSelectedChatSelector } from 'store/chats/selectors';
 import { Page } from 'store/common/models';
-import InfiniteScroll from 'react-infinite-scroller';
 import { Link, useLocation } from 'react-router-dom';
 import { setSeparators } from 'utils/functions/set-separators';
+import { InfiniteScroll } from 'app/utils/infinite-scroll/infinite-scroll';
 import { VideoFromList } from './video/video-from-list';
 
 export const ChatVideo = React.memo(() => {
   const { t } = useContext(LocalizationContext);
 
-  const videoContainerRef = useRef<HTMLDivElement>(null);
-
   const getVideoAttachmentss = useActionWithDispatch(ChatActions.getVideoAttachments);
+
   const selectedChat = useSelector(getSelectedChatSelector);
-  const videosForSelectedChat = selectedChat!.videos;
+  const videosForSelectedChat = selectedChat?.videos;
 
   const location = useLocation();
 
@@ -51,33 +50,29 @@ export const ChatVideo = React.memo(() => {
         </Link>
         <div className='chat-video__heading'>{t('chatVideo.video')}</div>
       </div>
-      <div className='chat-video__video-container'>
-        <InfiniteScroll
-          pageStart={0}
-          initialLoad
-          loadMore={loadMore}
-          hasMore={videosForSelectedChat.hasMore}
-          getScrollParent={() => videoContainerRef.current}
-          loader={
-            <div className='loader ' key={0}>
-              <div className=''>
-                <div className='lds-ellipsis'>
-                  <div />
-                  <div />
-                  <div />
-                  <div />
-                </div>
+      <InfiniteScroll
+        className='chat-video__video-container'
+        onReachExtreme={loadMore}
+        hasMore={videosForSelectedChat?.hasMore}
+        isLoading={videosForSelectedChat?.loading}
+        threshold={0.3}
+        loader={
+          <div className='loader ' key={0}>
+            <div className=''>
+              <div className='lds-ellipsis'>
+                <div />
+                <div />
+                <div />
+                <div />
               </div>
             </div>
-          }
-          useWindow={false}
-          isReverse={false}
-        >
-          {videosWithSeparators?.map((video) => (
-            <VideoFromList key={video.id} video={video} />
-          ))}
-        </InfiniteScroll>
-      </div>
+          </div>
+        }
+      >
+        {videosWithSeparators?.map((video) => (
+          <VideoFromList key={video.id} video={video} />
+        ))}
+      </InfiniteScroll>
     </div>
   );
 });

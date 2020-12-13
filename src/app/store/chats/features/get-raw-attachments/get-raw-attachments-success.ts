@@ -18,6 +18,7 @@ export class GetRawAttachmentsSuccess {
       if (chatIndex >= 0) {
         draft.chats[chatIndex].files.files.push(...files);
         draft.chats[chatIndex].files.hasMore = hasMore;
+        draft.chats[chatIndex].files.loading = false;
       }
       return draft;
     });

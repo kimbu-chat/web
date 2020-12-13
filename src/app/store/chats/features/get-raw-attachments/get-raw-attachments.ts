@@ -2,16 +2,31 @@ import { HTTPStatusCode } from 'app/common/http-status-code';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
 import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
+import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { RawAttachment, GetChatFilesHTTPRequest } from '../../models';
+import { getChatArrayIndex } from '../../chats-utils';
+import { RawAttachment, GetChatFilesHTTPRequest, ChatsState } from '../../models';
 import { GetRawAttachmentsActionPayload } from './get-raw-attachments-action-payload';
 import { GetRawAttachmentsSuccess } from './get-raw-attachments-success';
 
 export class GetRawAttachments {
   static get action() {
     return createAction('GET_RAW_ATTACHMENTS')<GetRawAttachmentsActionPayload>();
+  }
+
+  static get reducer() {
+    return produce((draft: ChatsState, { payload }: ReturnType<typeof GetRawAttachments.action>) => {
+      const { chatId } = payload;
+
+      const chatIndex: number = getChatArrayIndex(chatId, draft);
+
+      if (chatIndex >= 0) {
+        draft.chats[chatIndex].files.loading = true;
+      }
+      return draft;
+    });
   }
 
   static get saga() {

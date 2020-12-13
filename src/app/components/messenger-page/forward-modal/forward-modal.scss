@@ -3,6 +3,15 @@
   &__chats-block {
     max-height: 400px;
     overflow: auto;
+
+    .loader {
+      & > * {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 15px;
+      }
+    }
   }
 
   &__confirm-btn {

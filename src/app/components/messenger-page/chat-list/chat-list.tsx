@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useRef } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import './chat-list.scss';
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import { useSelector } from 'react-redux';
@@ -53,10 +53,8 @@ export const ChatList = React.memo(() => {
     });
   }, [searchString, chats]);
 
-  const chatListRef = useRef(null);
-
   return (
-    <div ref={chatListRef} className='chat-list'>
+    <div className='chat-list'>
       <InfiniteScroll
         onReachExtreme={loadMore}
         hasMore={hasMoreChats}

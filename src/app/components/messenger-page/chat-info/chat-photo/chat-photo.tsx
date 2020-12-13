@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useRef } from 'react';
+import React, { useCallback, useContext } from 'react';
 import './chat-photo.scss';
 
 import ReturnSvg from 'icons/ic-arrow-left.svg';
@@ -8,19 +8,18 @@ import { useSelector } from 'react-redux';
 import { ChatActions } from 'store/chats/actions';
 import { getSelectedChatSelector } from 'store/chats/selectors';
 import { Page } from 'store/common/models';
-import InfiniteScroll from 'react-infinite-scroller';
 import { Link, useLocation } from 'react-router-dom';
 import { setSeparators } from 'utils/functions/set-separators';
+import { InfiniteScroll } from 'app/utils/infinite-scroll/infinite-scroll';
 import { Photo } from './photo/photo';
 
 export const ChatPhoto = React.memo(() => {
   const { t } = useContext(LocalizationContext);
 
-  const photoContainerRef = useRef<HTMLDivElement>(null);
-
   const getPhotoAttachmentss = useActionWithDispatch(ChatActions.getPhotoAttachments);
+
   const selectedChat = useSelector(getSelectedChatSelector);
-  const photoForSelectedChat = selectedChat!.photos;
+  const photoForSelectedChat = selectedChat?.photos;
 
   const location = useLocation();
 
@@ -50,33 +49,29 @@ export const ChatPhoto = React.memo(() => {
         </Link>
         <div className='chat-photo__heading'>{t('chatPhoto.photo')}</div>
       </div>
-      <div ref={photoContainerRef} className='chat-photo__photo-container'>
-        <InfiniteScroll
-          pageStart={0}
-          initialLoad
-          loadMore={loadMore}
-          hasMore={photoForSelectedChat.hasMore}
-          getScrollParent={() => photoContainerRef.current}
-          loader={
-            <div className='loader ' key={0}>
-              <div className=''>
-                <div className='lds-ellipsis'>
-                  <div />
-                  <div />
-                  <div />
-                  <div />
-                </div>
+      <InfiniteScroll
+        className='chat-photo__photo-container'
+        onReachExtreme={loadMore}
+        hasMore={photoForSelectedChat?.hasMore}
+        isLoading={photoForSelectedChat?.loading}
+        threshold={0.3}
+        loader={
+          <div className='loader ' key={0}>
+            <div className=''>
+              <div className='lds-ellipsis'>
+                <div />
+                <div />
+                <div />
+                <div />
               </div>
             </div>
-          }
-          useWindow={false}
-          isReverse={false}
-        >
-          {photosWithSeparators?.map((photo) => (
-            <Photo photo={photo} key={photo.id} />
-          ))}
-        </InfiniteScroll>
-      </div>
+          </div>
+        }
+      >
+        {photosWithSeparators?.map((photo) => (
+          <Photo photo={photo} key={photo.id} />
+        ))}
+      </InfiniteScroll>
     </div>
   );
 });

@@ -18,6 +18,7 @@ export class GetVoiceAttachmentsSuccess {
       if (chatIndex >= 0) {
         draft.chats[chatIndex].recordings.recordings.push(...recordings);
         draft.chats[chatIndex].recordings.hasMore = hasMore;
+        draft.chats[chatIndex].recordings.loading = false;
       }
       return draft;
     });

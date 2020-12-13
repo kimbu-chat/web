@@ -5,13 +5,28 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+import produce from 'immer';
 import { GetVideoAttachmentsActionPayload } from './get-video-attachments-action-payload';
-import { VideoAttachment, GetChatVideosHTTPRequest } from '../../models';
+import { VideoAttachment, GetChatVideosHTTPRequest, ChatsState } from '../../models';
 import { GetVideoAttachmentsSuccess } from './get-video-attachments-success';
+import { getChatArrayIndex } from '../../chats-utils';
 
 export class GetVideoAttachments {
   static get action() {
     return createAction('GET_VIDEO_ATTACHMENTS')<GetVideoAttachmentsActionPayload>();
+  }
+
+  static get reducer() {
+    return produce((draft: ChatsState, { payload }: ReturnType<typeof GetVideoAttachments.action>) => {
+      const { chatId } = payload;
+
+      const chatIndex: number = getChatArrayIndex(chatId, draft);
+
+      if (chatIndex >= 0) {
+        draft.chats[chatIndex].videos.loading = true;
+      }
+      return draft;
+    });
   }
 
   static get saga() {

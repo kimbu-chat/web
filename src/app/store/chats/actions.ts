@@ -40,12 +40,13 @@ import { UploadAttachmentFailure } from './features/upload-attachment/upload-att
 import { UploadAttachmentProgress } from './features/upload-attachment/upload-attachment-progress';
 import { UploadAttachmentSuccess } from './features/upload-attachment/upload-attachment-success';
 import { ChangeLastMessage } from './features/change-last-message/change-last-message';
+import { GetRawAttachments } from './features/get-raw-attachments/get-raw-attachments';
 
 export namespace ChatActions {
   export const getChats = GetChats.action;
   export const getPhotoAttachments = GetPhotoAttachments.action;
   export const getVideoAttachments = GetVideoAttachments.action;
-  export const getRawAttachments = GetVideoAttachments.action;
+  export const getRawAttachments = GetRawAttachments.action;
   export const getVoiceAttachments = GetVoiceAttachments.action;
   export const getAudioAttachments = GetAudioAttachments.action;
   export const getChatInfo = GetChatInfo.action;

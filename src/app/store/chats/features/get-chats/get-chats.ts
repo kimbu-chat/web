@@ -49,13 +49,15 @@ export class GetChats {
         chat.interlocutorType = new ChatId().From(chat.id).interlocutorType;
         chat.id = new ChatId().From(chat.interlocutor?.id, chat.groupChat?.id).entireId;
         chat.typingInterlocutors = [];
-        chat.photos = { photos: [], hasMore: true };
-        chat.videos = { videos: [], hasMore: true };
-        chat.files = { files: [], hasMore: true };
-        chat.audios = { audios: [], hasMore: true };
+        chat.photos = { photos: [], loading: false, hasMore: true };
+        chat.videos = { videos: [], loading: false, hasMore: true };
+        chat.members = { searchMembers: [], members: [], loading: false, hasMore: true };
+        chat.files = { files: [], loading: false, hasMore: true };
+        chat.audios = { audios: [], loading: false, hasMore: true };
         chat.draftMessage = '';
         chat.recordings = {
           hasMore: true,
+          loading: false,
           recordings: [],
         };
       });

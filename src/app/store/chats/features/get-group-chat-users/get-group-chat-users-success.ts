@@ -12,22 +12,27 @@ export class GetGroupChatUsersSuccess {
 
   static get reducer() {
     return produce((draft: ChatsState, { payload }: ReturnType<typeof GetGroupChatUsersSuccess.action>) => {
-      const { chatId, isFromSearch, isFromScroll, users } = payload;
+      const { chatId, isFromSearch, isFromScroll, users, hasMore } = payload;
 
       const chatIndex: number = getChatArrayIndex(chatId, draft);
 
+      draft.chats[chatIndex].members.hasMore = hasMore;
+
       if (isFromSearch) {
         if (isFromScroll) {
-          draft.chats[chatIndex].searchMembers = unionBy(draft.chats[chatIndex].searchMembers, users, 'id');
+          draft.chats[chatIndex].members.searchMembers = unionBy(draft.chats[chatIndex].members.searchMembers, users, 'id');
           return draft;
         }
 
-        draft.chats[chatIndex].searchMembers = users;
+        draft.chats[chatIndex].members.searchMembers = users;
         return draft;
       }
 
-      draft.chats[chatIndex].members = users;
-      draft.chats[chatIndex].searchMembers = undefined;
+      if (!isFromSearch) {
+        draft.chats[chatIndex].members.searchMembers = [];
+        draft.chats[chatIndex].members.members = unionBy(draft.chats[chatIndex].members.members, users, 'id');
+        return draft;
+      }
 
       return draft;
     });

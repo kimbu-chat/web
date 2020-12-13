@@ -23,4 +23,15 @@
   &__search {
     margin-bottom: 20px;
   }
+
+  &__members-list {
+    .loader {
+      & > * {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 15px;
+      }
+    }
+  }
 }

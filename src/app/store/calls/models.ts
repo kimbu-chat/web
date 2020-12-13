@@ -24,8 +24,7 @@ export interface CallState {
   answer?: RTCSessionDescriptionInit;
   audioDevicesList: MediaDeviceInfo[];
   videoDevicesList: MediaDeviceInfo[];
-  calls: Call[];
-  hasMore: boolean;
+  calls: CallList;
 }
 
 export enum CallStatus {
@@ -155,8 +154,9 @@ export interface Call {
 }
 
 export interface CallList {
-  calls: Array<Call>;
+  calls: Call[];
   hasMore: boolean;
+  loading: boolean;
 }
 
 export interface GetCallsApiRequest {

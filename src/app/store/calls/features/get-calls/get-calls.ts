@@ -6,13 +6,20 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { Call, GetCallsApiRequest } from '../../models';
+import produce from 'immer';
+import { Call, GetCallsApiRequest, CallState } from '../../models';
 import { GetCallsActionPayload } from './get-calls-action-payload';
 import { GetCallsSuccess } from './get-calls-success';
 
 export class GetCalls {
   static get action() {
     return createAction('GET_CALLS')<GetCallsActionPayload>();
+  }
+
+  static get reducer() {
+    return produce((draft: CallState) => {
+      draft.calls.loading = false;
+    });
   }
 
   static get saga() {

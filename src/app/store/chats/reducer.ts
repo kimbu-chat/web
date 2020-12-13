@@ -40,6 +40,11 @@ import { SubmitEditMessage } from '../messages/features/edit-message/submit-edit
 import { GetGroupChatUsers } from './features/get-group-chat-users/get-group-chat-users';
 import { GetGroupChatUsersSuccess } from './features/get-group-chat-users/get-group-chat-users-success';
 import { ChangeLastMessage } from './features/change-last-message/change-last-message';
+import { GetVoiceAttachments } from './features/get-voice-attachments/get-voice-attachments';
+import { GetVideoAttachments } from './features/get-video-attachments/get-video-attachments';
+import { GetRawAttachments } from './features/get-raw-attachments/get-raw-attachments';
+import { GetPhotoAttachments } from './features/get-photo-attachments/get-photo-attachments';
+import { GetVideoAttachmentsSuccess } from './features/get-video-attachments/get-video-attachments-success';
 
 const initialState: ChatsState = {
   loading: false,
@@ -66,6 +71,8 @@ const chats = createReducer<ChatsState>(initialState)
   .handleAction(GetPhotoAttachmentsSuccess.action, GetPhotoAttachmentsSuccess.reducer)
   .handleAction(GetVoiceAttachmentsSuccess.action, GetVoiceAttachmentsSuccess.reducer)
   .handleAction(GetRawAttachmentsSuccess.action, GetRawAttachmentsSuccess.reducer)
+  .handleAction(GetRawAttachments.action, GetRawAttachments.reducer)
+  .handleAction(GetPhotoAttachments.action, GetPhotoAttachments.reducer)
   .handleAction(GetAudioAttachmentsSuccess.action, GetAudioAttachmentsSuccess.reducer)
   .handleAction(UploadAttachmentRequest.action, UploadAttachmentRequest.reducer)
   .handleAction(UploadAttachmentProgress.action, UploadAttachmentProgress.reducer)
@@ -77,6 +84,9 @@ const chats = createReducer<ChatsState>(initialState)
   .handleAction(GetGroupChatUsers.action, GetGroupChatUsers.reducer)
   .handleAction(GetGroupChatUsersSuccess.action, GetGroupChatUsersSuccess.reducer)
   .handleAction(ChangeLastMessage.action, ChangeLastMessage.reducer)
+  .handleAction(GetVoiceAttachments.action, GetVoiceAttachments.reducer)
+  .handleAction(GetVideoAttachments.action, GetVideoAttachments.reducer)
+  .handleAction(GetVideoAttachmentsSuccess.action, GetVideoAttachmentsSuccess.reducer)
   .handleAction(
     MessageActions.clearChatHistorySuccess,
     produce((draft: ChatsState, { payload }: ReturnType<typeof MessageActions.clearChatHistorySuccess>) => {

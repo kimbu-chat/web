@@ -34,22 +34,33 @@ export class CreateChat {
         typingInterlocutors: [],
         photos: {
           hasMore: true,
+          loading: false,
           photos: [],
         },
         videos: {
           hasMore: true,
+          loading: false,
           videos: [],
         },
         files: {
           hasMore: true,
+          loading: false,
           files: [],
+        },
+        members: {
+          hasMore: true,
+          loading: false,
+          members: [],
+          searchMembers: [],
         },
         recordings: {
           hasMore: true,
+          loading: false,
           recordings: [],
         },
         audios: {
           hasMore: true,
+          loading: false,
           audios: [],
         },
       };

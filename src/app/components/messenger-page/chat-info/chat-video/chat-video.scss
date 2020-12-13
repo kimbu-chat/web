@@ -48,19 +48,19 @@
   }
 
   &__video-container {
-    max-height: calc(100vh - 68px);
     overflow-y: scroll;
     margin: 0 12px 0 20px;
+
     &::-webkit-scrollbar {
       display: none;
     }
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
 
-    & > div {
-      display: flex;
-      flex-wrap: wrap;
-    }
+    display: flex;
+    flex-direction: row !important;
+    justify-content: center;
+    flex-wrap: wrap;
   }
 
   &__video {

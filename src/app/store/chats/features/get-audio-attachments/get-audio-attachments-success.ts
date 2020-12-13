@@ -18,6 +18,7 @@ export class GetAudioAttachmentsSuccess {
       if (chatIndex >= 0) {
         draft.chats[chatIndex].audios.audios.push(...audios);
         draft.chats[chatIndex].audios.hasMore = hasMore;
+        draft.chats[chatIndex].audios.loading = false;
       }
       return draft;
     });

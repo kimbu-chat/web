@@ -4,8 +4,10 @@ import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import { Chat } from 'store/chats/models';
 import { ChatActions } from 'store/chats/actions';
-import { getMembersForSelectedGroupChat, getSearchMembersForSelectedGroupChat, getSelectedChatSelector } from 'store/chats/selectors';
+import { getMembersListForSelectedGroupChat, getSelectedChatSelector } from 'store/chats/selectors';
 import AddSvg from 'icons/ic-add-new.svg';
+import { InfiniteScroll } from 'app/utils/infinite-scroll/infinite-scroll';
+import { Page } from 'app/store/common/models';
 import { SearchBox } from '../../search-box/search-box';
 
 import { Member } from './chat-member/chat-member';
@@ -22,8 +24,7 @@ export const ChatMembers = React.memo(({ addMembers }: ChatMembersNS.Props) => {
   const getGroupChatUsers = useActionWithDispatch(ChatActions.getGroupChatUsers);
   const selectedChat = useSelector(getSelectedChatSelector) as Chat;
 
-  const membersForGroupChat = useSelector(getMembersForSelectedGroupChat);
-  const searchMembersForGroupChat = useSelector(getSearchMembersForSelectedGroupChat);
+  const membersListForGroupChat = useSelector(getMembersListForSelectedGroupChat);
 
   useEffect(() => {
     getGroupChatUsers({
@@ -39,12 +40,20 @@ export const ChatMembers = React.memo(({ addMembers }: ChatMembersNS.Props) => {
   // @ts-ignore
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const loadMore = useCallback(() => {
+    const page: Page = {
+      offset:
+        ((membersListForGroupChat?.searchMembers?.length || 0) > 0 ? membersListForGroupChat?.searchMembers : membersListForGroupChat?.members)?.length || 0,
+      limit: 15,
+    };
+
     getGroupChatUsers({
       groupChatId: selectedChat.groupChat?.id || -1,
-      page: { offset: (searchMembersForGroupChat || membersForGroupChat)?.length || 0, limit: 15 },
+      page,
       name: searchStr,
+      isFromScroll: true,
+      isFromSearch: searchStr.length > 0,
     });
-  }, [selectedChat]);
+  }, [selectedChat, membersListForGroupChat]);
 
   return (
     <div className='chat-members'>
@@ -68,11 +77,31 @@ export const ChatMembers = React.memo(({ addMembers }: ChatMembersNS.Props) => {
         />
       </div>
 
-      <div className='chat-members__members-list'>
-        {(searchMembersForGroupChat || membersForGroupChat)?.map((member) => (
-          <Member member={member} key={member?.id} />
-        ))}
-      </div>
+      <InfiniteScroll
+        className='chat-members__members-list'
+        onReachExtreme={loadMore}
+        hasMore={membersListForGroupChat?.hasMore}
+        isLoading={membersListForGroupChat?.loading}
+        threshold={0.3}
+        loader={
+          <div className='loader ' key={0}>
+            <div className=''>
+              <div className='lds-ellipsis'>
+                <div />
+                <div />
+                <div />
+                <div />
+              </div>
+            </div>
+          </div>
+        }
+      >
+        {((membersListForGroupChat?.searchMembers?.length || 0) > 0 ? membersListForGroupChat?.searchMembers : membersListForGroupChat?.members)?.map(
+          (member) => (
+            <Member member={member} key={member?.id} />
+          ),
+        )}
+      </InfiniteScroll>
     </div>
   );
 });

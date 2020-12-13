@@ -6,7 +6,7 @@ namespace InfiniteScrollNS {
     loader: React.ReactNode;
     className?: string;
     hasMore?: boolean;
-    isLoading: boolean;
+    isLoading?: boolean;
     onReachExtreme: Function;
     isReverse?: boolean;
     threshold?: number | Array<number>;

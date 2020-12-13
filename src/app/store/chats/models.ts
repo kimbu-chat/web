@@ -119,12 +119,12 @@ export interface Chat {
   draftMessage: string;
   timeoutId?: NodeJS.Timeout;
   typingInterlocutors?: { timeoutId: NodeJS.Timeout; fullName: string }[];
-  isDeleted?: boolean;
   isMuted?: boolean;
   photos: PhotoList;
   videos: VideoList;
   audios: AudioList;
   files: FilesList;
+  members: MembersList;
   recordings: VoiceRecordingList;
   attachmentsToSend?: AttachmentToSend<BaseAttachment>[];
   rawAttachmentsCount?: number;
@@ -132,8 +132,6 @@ export interface Chat {
   voiceAttachmentsCount?: number;
   audioAttachmentsCount?: number;
   pictureAttachmentsCount?: number;
-  members?: UserPreview[];
-  searchMembers?: UserPreview[];
 }
 
 export interface ChangeLastMessageReq {
@@ -188,6 +186,13 @@ export interface IGroupable {
   needToShowYearSeparator?: boolean;
 }
 
+export interface MembersList {
+  members: UserPreview[];
+  searchMembers: UserPreview[];
+  loading: boolean;
+  hasMore: boolean;
+}
+
 export interface ChatList {
   chats: Array<Chat>;
   hasMore: boolean;
@@ -195,26 +200,31 @@ export interface ChatList {
 
 export interface PhotoList {
   photos: (PictureAttachment & IGroupable)[];
+  loading: boolean;
   hasMore: boolean;
 }
 
 export interface VideoList {
   videos: (VideoAttachment & IGroupable)[];
+  loading: boolean;
   hasMore: boolean;
 }
 
 export interface FilesList {
   files: (RawAttachment & IGroupable)[];
+  loading: boolean;
   hasMore: boolean;
 }
 
 export interface VoiceRecordingList {
   recordings: (VoiceAttachment & IGroupable)[];
+  loading: boolean;
   hasMore: boolean;
 }
 
 export interface AudioList {
   audios: (AudioAttachment & IGroupable)[];
+  loading: boolean;
   hasMore: boolean;
 }
 export interface GroupChatCreationHTTPReqData {

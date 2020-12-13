@@ -34,6 +34,7 @@ export class GetGroupChatUsers {
           chatId: new ChatId().From(undefined, action.payload.groupChatId).entireId,
           isFromSearch: action.payload.isFromSearch,
           isFromScroll: action.payload.isFromScroll,
+          hasMore: data.length >= action.payload.page.limit,
         }),
       );
     };

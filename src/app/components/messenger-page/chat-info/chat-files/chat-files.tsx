@@ -8,11 +8,11 @@ import { useSelector } from 'react-redux';
 import { ChatActions } from 'store/chats/actions';
 import { getSelectedChatSelector } from 'store/chats/selectors';
 import { Page } from 'store/common/models';
-import InfiniteScroll from 'react-infinite-scroller';
 import { Link, useLocation } from 'react-router-dom';
 import moment from 'moment';
 
 import { doesYearDifferFromCurrent, setSeparators } from 'utils/functions/set-separators';
+import { InfiniteScroll } from 'app/utils/infinite-scroll/infinite-scroll';
 import { FileAttachment } from '../../shared/file-attachment/file-attachment';
 
 export const ChatFiles = React.memo(() => {
@@ -21,14 +21,15 @@ export const ChatFiles = React.memo(() => {
   const filesContainerRef = useRef<HTMLDivElement>(null);
 
   const getRawAttachments = useActionWithDispatch(ChatActions.getRawAttachments);
+
   const selectedChat = useSelector(getSelectedChatSelector);
-  const filesForSelectedChat = selectedChat!.files;
+  const filesForSelectedChat = selectedChat?.files;
 
   const location = useLocation();
 
   const loadMore = useCallback(() => {
     const page: Page = {
-      offset: filesForSelectedChat.files.length || 0,
+      offset: filesForSelectedChat?.files.length || 0,
       limit: 25,
     };
 
@@ -36,10 +37,10 @@ export const ChatFiles = React.memo(() => {
       page,
       chatId: selectedChat!.id,
     });
-  }, [selectedChat?.id, filesForSelectedChat.files]);
+  }, [selectedChat?.id, filesForSelectedChat?.files]);
 
   const filesWithSeparators = setSeparators(
-    filesForSelectedChat.files,
+    filesForSelectedChat?.files,
     { separateByMonth: true, separateByYear: true },
     { separateByMonth: true, separateByYear: true },
   );
@@ -54,11 +55,10 @@ export const ChatFiles = React.memo(() => {
       </div>
       <div ref={filesContainerRef} className='chat-files__file-container'>
         <InfiniteScroll
-          pageStart={0}
-          initialLoad
-          loadMore={loadMore}
-          hasMore={filesForSelectedChat.hasMore}
-          getScrollParent={() => filesContainerRef.current}
+          onReachExtreme={loadMore}
+          hasMore={filesForSelectedChat?.hasMore}
+          isLoading={filesForSelectedChat?.loading}
+          threshold={0.3}
           loader={
             <div className='loader ' key={0}>
               <div className=''>
@@ -71,8 +71,6 @@ export const ChatFiles = React.memo(() => {
               </div>
             </div>
           }
-          useWindow={false}
-          isReverse={false}
         >
           {filesWithSeparators?.map((file) => (
             <React.Fragment key={file.id}>

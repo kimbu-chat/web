@@ -1,5 +1,7 @@
-import { FilesList } from '../../models';
+import { RawAttachment, IGroupable } from '../../models';
 
-export interface GetRawAttachmentsSuccessActionPayload extends FilesList {
+export interface GetRawAttachmentsSuccessActionPayload {
   chatId: number;
+  files: (RawAttachment & IGroupable)[];
+  hasMore: boolean;
 }

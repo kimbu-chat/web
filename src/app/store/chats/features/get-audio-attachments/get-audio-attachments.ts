@@ -2,16 +2,31 @@ import { HTTPStatusCode } from 'app/common/http-status-code';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
 import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
+import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { AudioAttachment, GetChatAudiosHTTPRequest } from '../../models';
+import { getChatArrayIndex } from '../../chats-utils';
+import { AudioAttachment, ChatsState, GetChatAudiosHTTPRequest } from '../../models';
 import { GetAudioAttachmentsActionPayload } from './get-audio-attachments-action-payload';
 import { GetAudioAttachmentsSuccess } from './get-audio-attachments-success';
 
 export class GetAudioAttachments {
   static get action() {
     return createAction('GET_AUDIO_ATTACHMENTS')<GetAudioAttachmentsActionPayload>();
+  }
+
+  static get reducer() {
+    return produce((draft: ChatsState, { payload }: ReturnType<typeof GetAudioAttachments.action>) => {
+      const { chatId } = payload;
+
+      const chatIndex: number = getChatArrayIndex(chatId, draft);
+
+      if (chatIndex >= 0) {
+        draft.chats[chatIndex].audios.loading = true;
+      }
+      return draft;
+    });
   }
 
   static get saga() {

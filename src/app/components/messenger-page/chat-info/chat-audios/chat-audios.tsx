@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useRef } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 import './chat-audios.scss';
 
 import ReturnSvg from 'icons/ic-arrow-left.svg';
@@ -8,29 +8,31 @@ import { useSelector } from 'react-redux';
 import { getSelectedChatSelector } from 'store/chats/selectors';
 import { ChatActions } from 'store/chats/actions';
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
-import InfiniteScroll from 'react-infinite-scroller';
 import moment from 'moment';
 
 import { doesYearDifferFromCurrent, setSeparators } from 'utils/functions/set-separators';
+import { InfiniteScroll } from 'app/utils/infinite-scroll/infinite-scroll';
 import { MessageAudioAttachment } from '../../shared/audio-attachment/audio-attachment';
 
 export const ChatAudios = React.memo(() => {
   const { t } = useContext(LocalizationContext);
 
   const selectedChat = useSelector(getSelectedChatSelector);
-  const { audios } = selectedChat!;
+  const audiosForSelectedChat = selectedChat?.audios;
 
   const location = useLocation();
 
   const getAudios = useActionWithDispatch(ChatActions.getAudioAttachments);
 
   const loadMore = useCallback(() => {
-    getAudios({ chatId: selectedChat?.id!, page: { offset: audios.audios.length, limit: 20 } });
-  }, [getAudios, selectedChat?.id, audios.audios.length]);
+    getAudios({ chatId: selectedChat?.id!, page: { offset: audiosForSelectedChat?.audios.length || 0, limit: 20 } });
+  }, [getAudios, selectedChat?.id, audiosForSelectedChat?.audios.length]);
 
-  const audiosContainerRef = useRef<HTMLDivElement>(null);
-
-  const audiosWithSeparators = setSeparators(audios?.audios, { separateByMonth: true, separateByYear: true }, { separateByMonth: true, separateByYear: true });
+  const audiosWithSeparators = setSeparators(
+    audiosForSelectedChat?.audios,
+    { separateByMonth: true, separateByYear: true },
+    { separateByMonth: true, separateByYear: true },
+  );
 
   useEffect(loadMore, []);
 
@@ -42,13 +44,12 @@ export const ChatAudios = React.memo(() => {
         </Link>
         <div className='chat-audios__heading'>{t('chatAudios.audios')}</div>
       </div>
-      <div ref={audiosContainerRef} className='chat-audios__audios'>
+      <div className='chat-audios__audios'>
         <InfiniteScroll
-          pageStart={0}
-          initialLoad={false}
-          loadMore={loadMore}
-          hasMore={audios?.hasMore}
-          getScrollParent={() => audiosContainerRef.current}
+          onReachExtreme={loadMore}
+          hasMore={audiosForSelectedChat?.hasMore}
+          isLoading={audiosForSelectedChat?.loading}
+          threshold={0.3}
           loader={
             <div className='loader ' key={0}>
               <div className=''>
@@ -61,8 +62,6 @@ export const ChatAudios = React.memo(() => {
               </div>
             </div>
           }
-          useWindow={false}
-          isReverse={false}
         >
           {audiosWithSeparators?.map((attachment) => (
             <div key={attachment.id} className='chat-audios__audio'>

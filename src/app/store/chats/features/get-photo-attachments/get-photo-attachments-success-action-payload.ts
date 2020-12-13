@@ -1,5 +1,7 @@
-import { PhotoList } from '../../models';
+import { PictureAttachment, IGroupable } from '../../models';
 
-export interface GetPhotoAttachmentsSuccessActionPayload extends PhotoList {
+export interface GetPhotoAttachmentsSuccessActionPayload {
   chatId: number;
+  photos: (PictureAttachment & IGroupable)[];
+  hasMore: boolean;
 }

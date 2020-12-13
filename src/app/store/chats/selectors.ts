@@ -11,14 +11,16 @@ export const getChatById = (chatId: number) => (state: RootState) => state.chats
 
 export const getChats = (state: RootState): Chat[] => state.chats.chats;
 
+export const getChatsLoading = (state: RootState): boolean => state.chats.loading;
+
 export const getHasMoreChats = (state: RootState): boolean => state.chats.hasMore;
 
 export const getSearchString = (state: RootState) => state.chats.searchString;
 
-export const getMembersForSelectedGroupChat = (state: RootState) => state.chats?.chats?.find((x: Chat) => x?.id === state?.chats?.selectedChatId)?.members;
+export const getMembersForSelectedGroupChat = (state: RootState) =>
+  state.chats?.chats?.find((x: Chat) => x?.id === state?.chats?.selectedChatId)?.members?.members;
 
-export const getSearchMembersForSelectedGroupChat = (state: RootState) =>
-  state.chats?.chats?.find((x: Chat) => x?.id === state?.chats?.selectedChatId)?.searchMembers;
+export const getMembersListForSelectedGroupChat = (state: RootState) => state.chats?.chats?.find((x: Chat) => x?.id === state?.chats?.selectedChatId)?.members;
 
 export const getTypingString = (t: TFunction, chat: Chat): string | undefined => {
   const typingUsers = chat?.typingInterlocutors;

@@ -18,6 +18,7 @@ export class GetPhotoAttachmentsSuccess {
       if (chatIndex >= 0) {
         draft.chats[chatIndex].photos.photos.push(...photos);
         draft.chats[chatIndex].photos.hasMore = hasMore;
+        draft.chats[chatIndex].photos.loading = false;
       }
       return draft;
     });

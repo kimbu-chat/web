@@ -1,3 +1,6 @@
-import { CallList } from '../../models';
+import { Call } from '../../models';
 
-export interface GetCallsSuccessActionPayload extends CallList {}
+export interface GetCallsSuccessActionPayload {
+  calls: Call[];
+  hasMore: boolean;
+}

@@ -1,63 +1,53 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback } from 'react';
 import './call-list.scss';
 
-import InfiniteScroll from 'react-infinite-scroller';
 import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import { CallActions } from 'store/calls/actions';
-import { getCallList } from 'app/store/calls/selectors';
+import { getCallsList, gethasMoreCalls, getCallsAreLoading } from 'app/store/calls/selectors';
+import { InfiniteScroll } from 'app/utils/infinite-scroll/infinite-scroll';
 import { CallFromList } from './call-from-list/call-from-list';
 
 export const CallList = () => {
-  const calls = useSelector(getCallList);
-  const callListRef = useRef<HTMLDivElement>(null);
+  const calls = useSelector(getCallsList);
+  const hasMoreCalls = useSelector(gethasMoreCalls);
+  const areCallsLoading = useSelector(getCallsAreLoading);
 
   const getCalls = useActionWithDispatch(CallActions.getCallsAction);
 
   const loadMore = useCallback(() => {
     getCalls({
       page: {
-        offset: calls.calls.length,
+        offset: calls.length,
         limit: 20,
       },
     });
-  }, [getCalls, calls.calls]);
-
-  useEffect(loadMore, [loadMore]);
+  }, [calls]);
 
   return (
-    <div ref={callListRef} className='call-list'>
-      {false && (
-        <InfiniteScroll
-          pageStart={0}
-          initialLoad
-          loadMore={loadMore}
-          hasMore={calls.hasMore}
-          getScrollParent={() => callListRef.current}
-          loader={
-            <div className='loader ' key={0}>
-              <div className=''>
-                <div className='lds-ellipsis'>
-                  <div />
-                  <div />
-                  <div />
-                  <div />
-                </div>
+    <div className='call-list'>
+      <InfiniteScroll
+        onReachExtreme={loadMore}
+        hasMore={hasMoreCalls}
+        isLoading={areCallsLoading}
+        threshold={0.3}
+        loader={
+          <div className='loader ' key={0}>
+            <div className=''>
+              <div className='lds-ellipsis'>
+                <div />
+                <div />
+                <div />
+                <div />
               </div>
             </div>
-          }
-          useWindow={false}
-          isReverse={false}
-        >
-          {calls.calls.map((call) => (
-            <CallFromList key={call.id} call={call} />
-          ))}
-        </InfiniteScroll>
-      )}
-
-      {calls.calls.map((call) => (
-        <CallFromList key={call.id} call={call} />
-      ))}
+          </div>
+        }
+      >
+        {calls.map((call) => (
+          <CallFromList key={call.id} call={call} />
+        ))}
+      </InfiniteScroll>
     </div>
   );
 };

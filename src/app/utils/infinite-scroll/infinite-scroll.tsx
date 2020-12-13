@@ -6,7 +6,7 @@ namespace InfiniteScrollNS {
     loader: React.ReactNode;
     className?: string;
     hasMore?: boolean;
-    isLoading: boolean;
+    isLoading?: boolean;
     onReachExtreme: Function;
     isReverse?: boolean;
     threshold?: number | Array<number>;
@@ -50,14 +50,9 @@ export const InfiniteScroll: React.FC<InfiniteScrollNS.Props> = ({
   }, [hasMore, isLoading, onReachExtreme, threshold]);
 
   return (
-    <div className={`endless-scroll-wrapper ${className}`}>
-      {hasMore && isReverse && (
-        <div ref={loaderRef} className='endless-scroll-loader-wrapper'>
-          {loader}
-        </div>
-      )}
+    <div style={{ display: 'flex', flexDirection: isReverse ? 'column-reverse' : 'column' }} className={`endless-scroll-wrapper ${className}`}>
       {children}
-      {hasMore && !isReverse && (
+      {hasMore && (
         <div ref={loaderRef} className='endless-scroll-loader-wrapper'>
           {loader}
         </div>

@@ -56,22 +56,33 @@ export class CreateGroupChat {
           },
           photos: {
             hasMore: true,
+            loading: false,
             photos: [],
+          },
+          members: {
+            hasMore: true,
+            loading: false,
+            members: [],
+            searchMembers: [],
           },
           videos: {
             hasMore: true,
+            loading: false,
             videos: [],
           },
           files: {
             hasMore: true,
+            loading: false,
             files: [],
           },
           audios: {
             hasMore: true,
+            loading: false,
             audios: [],
           },
           recordings: {
             hasMore: true,
+            loading: false,
             recordings: [],
           },
         };

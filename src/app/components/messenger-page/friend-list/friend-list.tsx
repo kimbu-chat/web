@@ -4,17 +4,20 @@ import { FriendActions } from 'store/friends/actions';
 import { useActionWithDeferred } from 'utils/hooks/use-action-with-deferred';
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import React, { useCallback, useEffect, useRef } from 'react';
-import InfiniteScroll from 'react-infinite-scroller';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import { getMyFriends, getHasMoreFriends } from 'app/store/friends/selectors';
+import { getMyFriends, getHasMoreFriends, getFriendsLoading } from 'app/store/friends/selectors';
+import { InfiniteScroll } from 'app/utils/infinite-scroll/infinite-scroll';
 import { Friend } from './friend-from-list/friend';
 import './friend-list.scss';
 
 export const FriendList = React.memo(() => {
   const friends = useSelector(getMyFriends);
   const hasMoreFriends = useSelector(getHasMoreFriends);
+  const friendsLoading = useSelector(getFriendsLoading);
+
   const listRef = useRef<HTMLDivElement>(null);
+
   const loadFriends = useActionWithDeferred(FriendActions.getFriends);
   const changeSelectedChat = useActionWithDispatch(ChatActions.changeSelectedChat);
 
@@ -25,7 +28,7 @@ export const FriendList = React.memo(() => {
     else changeSelectedChat(-1);
   }, [chatId]);
 
-  const loadMoreFriends = useCallback(() => {
+  const loadMore = useCallback(() => {
     const page: Page = {
       offset: friends.length,
       limit: 25,
@@ -36,9 +39,10 @@ export const FriendList = React.memo(() => {
   return (
     <div ref={listRef} className='friend-list'>
       <InfiniteScroll
-        pageStart={0}
-        loadMore={loadMoreFriends}
+        onReachExtreme={loadMore}
         hasMore={hasMoreFriends}
+        isLoading={friendsLoading}
+        threshold={0.3}
         loader={
           <div className='loader ' key={0}>
             <div className=''>
@@ -51,9 +55,6 @@ export const FriendList = React.memo(() => {
             </div>
           </div>
         }
-        useWindow={false}
-        getScrollParent={() => listRef.current}
-        isReverse={false}
       >
         {friends.map((friend) => (
           <Friend key={friend.id} friend={friend} />

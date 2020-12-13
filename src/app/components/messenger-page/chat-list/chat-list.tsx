@@ -1,14 +1,12 @@
-import React, { useEffect, useCallback, useRef } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import './chat-list.scss';
-
-import InfiniteScroll from 'react-infinite-scroller';
-
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import { useSelector } from 'react-redux';
 import { Chat } from 'store/chats/models';
 import { ChatActions } from 'store/chats/actions';
+import { InfiniteScroll } from 'app/utils/infinite-scroll/infinite-scroll';
 import { useParams } from 'react-router';
-import { getChats, getHasMoreChats, getSearchString } from 'app/store/chats/selectors';
+import { getChats, getChatsLoading, getHasMoreChats, getSearchString } from 'app/store/chats/selectors';
 import { ChatFromList } from './chat-from-list/chat-from-list';
 
 export const DIALOGS_LIMIT = 25;
@@ -21,6 +19,7 @@ export const ChatList = React.memo(() => {
 
   const chats = useSelector(getChats);
   const hasMoreChats = useSelector(getHasMoreChats);
+  const areChatsLoading = useSelector(getChatsLoading);
   const searchString = useSelector(getSearchString);
 
   useEffect(() => {
@@ -39,7 +38,7 @@ export const ChatList = React.memo(() => {
     });
   }, [searchString]);
 
-  const loadPage = useCallback(() => {
+  const loadMore = useCallback(() => {
     const pageData = {
       limit: 25,
       offset: chats.length,
@@ -54,40 +53,30 @@ export const ChatList = React.memo(() => {
     });
   }, [searchString, chats]);
 
-  const chatListRef = useRef(null);
-
   return (
-    <div ref={chatListRef} className='chat-list'>
-      {false && (
-        <InfiniteScroll
-          pageStart={0}
-          loadMore={loadPage}
-          hasMore={hasMoreChats}
-          loader={
-            <div className='loader ' key={0}>
-              <div className=''>
-                <div className='lds-ellipsis'>
-                  <div />
-                  <div />
-                  <div />
-                  <div />
-                </div>
+    <div className='chat-list'>
+      <InfiniteScroll
+        onReachExtreme={loadMore}
+        hasMore={hasMoreChats}
+        isLoading={areChatsLoading}
+        threshold={0.3}
+        loader={
+          <div className='loader ' key={0}>
+            <div className=''>
+              <div className='lds-ellipsis'>
+                <div />
+                <div />
+                <div />
+                <div />
               </div>
             </div>
-          }
-          useWindow={false}
-          getScrollParent={() => chatListRef.current}
-          isReverse={false}
-        >
-          {chats?.map((chat: Chat) => (
-            <ChatFromList chat={chat} key={chat.id} />
-          ))}
-        </InfiniteScroll>
-      )}
-
-      {chats?.map((chat: Chat) => (
-        <ChatFromList chat={chat} key={chat.id} />
-      ))}
+          </div>
+        }
+      >
+        {chats?.map((chat: Chat) => (
+          <ChatFromList chat={chat} key={chat.id} />
+        ))}
+      </InfiniteScroll>
     </div>
   );
 });

@@ -18,6 +18,7 @@ export class GetVideoAttachmentsSuccess {
       if (chatIndex >= 0) {
         draft.chats[chatIndex].videos.videos.push(...videos);
         draft.chats[chatIndex].videos.hasMore = hasMore;
+        draft.chats[chatIndex].videos.loading = false;
       }
       return draft;
     });

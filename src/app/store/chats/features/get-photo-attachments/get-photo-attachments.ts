@@ -2,16 +2,31 @@ import { HTTPStatusCode } from 'app/common/http-status-code';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
 import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
+import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { PictureAttachment, GetChatPicturesHTTPRequest } from '../../models';
+import { getChatArrayIndex } from '../../chats-utils';
+import { PictureAttachment, GetChatPicturesHTTPRequest, ChatsState } from '../../models';
 import { GetPhotoAttachmentsActionPayload } from './get-photo-attachments-action-payload';
 import { GetPhotoAttachmentsSuccess } from './get-photo-attachments-success';
 
 export class GetPhotoAttachments {
   static get action() {
     return createAction('GET_PHOTO_ATTACHMENTS')<GetPhotoAttachmentsActionPayload>();
+  }
+
+  static get reducer() {
+    return produce((draft: ChatsState, { payload }: ReturnType<typeof GetPhotoAttachments.action>) => {
+      const { chatId } = payload;
+
+      const chatIndex: number = getChatArrayIndex(chatId, draft);
+
+      if (chatIndex >= 0) {
+        draft.chats[chatIndex].photos.loading = true;
+      }
+      return draft;
+    });
   }
 
   static get saga() {

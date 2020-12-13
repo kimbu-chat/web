@@ -18,6 +18,7 @@ import { OutgoingCall } from './features/outgoing-call/outgoing-call';
 import { AcceptCallSuccess } from './features/accept-call/accept-call-success';
 import { SwitchDevice } from './features/switch-device/switch-device';
 import { InterlocutorAcceptedCallSuccess } from './features/interlocutor-accepted-call/interlocutor-accepted-call-success';
+import { GetCalls } from './features/get-calls/get-calls';
 
 const initialState: CallState = {
   isInterlocutorVideoEnabled: false,
@@ -37,8 +38,11 @@ const initialState: CallState = {
   answer: undefined,
   audioDevicesList: [],
   videoDevicesList: [],
-  calls: [],
-  hasMore: true,
+  calls: {
+    calls: [],
+    loading: false,
+    hasMore: true,
+  },
 };
 
 const calls = createReducer<CallState>(initialState)
@@ -58,6 +62,7 @@ const calls = createReducer<CallState>(initialState)
   .handleAction(GotDevicesInfo.action, GotDevicesInfo.reducer)
   .handleAction(SwitchDevice.action, SwitchDevice.reducer)
   .handleAction(ChangeActiveDeviceId.action, ChangeActiveDeviceId.reducer)
+  .handleAction(GetCalls.action, GetCalls.reducer)
   .handleAction(GetCallsSuccess.action, GetCallsSuccess.reducer)
   .handleAction(InterlocutorBusy.action, InterlocutorBusy.reducer);
 

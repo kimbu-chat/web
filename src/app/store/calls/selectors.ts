@@ -33,4 +33,8 @@ export const getAudioDevices = (state: RootState) => state.calls.audioDevicesLis
 
 export const getVideoDevices = (state: RootState) => state.calls.videoDevicesList;
 
-export const getCallList = (state: RootState) => state.calls;
+export const getCallsList = (state: RootState) => state.calls.calls.calls;
+
+export const getCallsAreLoading = (state: RootState) => state.calls.calls.loading;
+
+export const gethasMoreCalls = (state: RootState) => state.calls.calls.hasMore;

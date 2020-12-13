@@ -1,5 +1,7 @@
-import { VideoList } from '../../models';
+import { VideoAttachment, IGroupable } from '../../models';
 
-export interface GetVideoAttachmentsSuccessActionPayload extends VideoList {
+export interface GetVideoAttachmentsSuccessActionPayload {
   chatId: number;
+  videos: (VideoAttachment & IGroupable)[];
+  hasMore: boolean;
 }

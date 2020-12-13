@@ -2,7 +2,7 @@ import { IGroupable } from 'store/chats/models';
 import moment from 'moment';
 
 export const setSeparators = <T extends IGroupable>(
-  elements: T[],
+  elements: T[] | undefined,
   separateBy: {
     separateByDate?: boolean;
     separateByMonth?: boolean;
@@ -13,8 +13,8 @@ export const setSeparators = <T extends IGroupable>(
     separateByMonth?: boolean;
     separateByYear?: boolean;
   },
-): T[] => {
-  elements.map((elem, index, array) => {
+): T[] | undefined => {
+  elements?.map((elem, index, array) => {
     const elemCopy = { ...elem };
 
     if (index === 0 && separateFirst) {

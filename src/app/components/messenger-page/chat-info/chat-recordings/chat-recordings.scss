@@ -69,12 +69,6 @@
     max-height: calc(100vh - 68px);
     overflow-y: auto;
 
-    &::-webkit-scrollbar {
-      display: none;
-    }
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-
     .rhap {
       &_container {
         padding: 0 0;

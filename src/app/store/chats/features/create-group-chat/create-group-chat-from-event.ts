@@ -44,23 +44,34 @@ export class CreateGroupChatFromEvent {
         typingInterlocutors: [],
         photos: {
           hasMore: true,
+          loading: false,
           photos: [],
         },
         videos: {
           hasMore: true,
+          loading: false,
           videos: [],
         },
         files: {
           hasMore: true,
+          loading: false,
           files: [],
         },
         audios: {
           hasMore: true,
+          loading: false,
           audios: [],
         },
         recordings: {
           hasMore: true,
+          loading: false,
           recordings: [],
+        },
+        members: {
+          hasMore: true,
+          loading: false,
+          members: [],
+          searchMembers: [],
         },
       };
 

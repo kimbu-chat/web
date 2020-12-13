@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useRef } from 'react';
+import React, { useCallback, useContext } from 'react';
 import './chat-recordings.scss';
 
 import ReturnSvg from 'icons/ic-arrow-left.svg';
@@ -8,29 +8,28 @@ import { useSelector } from 'react-redux';
 import { getSelectedChatSelector } from 'store/chats/selectors';
 import { ChatActions } from 'store/chats/actions';
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
-import InfiniteScroll from 'react-infinite-scroller';
 import moment from 'moment';
 
 import { doesYearDifferFromCurrent, setSeparators } from 'utils/functions/set-separators';
+import { InfiniteScroll } from 'app/utils/infinite-scroll/infinite-scroll';
 import { ChatRecording } from './chat-recording/chat-recording';
 
 export const ChatRecordings = React.memo(() => {
   const { t } = useContext(LocalizationContext);
+
   const selectedChat = useSelector(getSelectedChatSelector);
-  const { recordings } = selectedChat!;
+  const recordingsForSelectedChat = selectedChat?.recordings;
 
   const location = useLocation();
 
   const getRecordings = useActionWithDispatch(ChatActions.getVoiceAttachments);
 
   const loadMore = useCallback(() => {
-    getRecordings({ chatId: selectedChat?.id!, page: { offset: recordings?.recordings.length!, limit: 20 } });
-  }, [getRecordings, selectedChat, recordings]);
-
-  const recordingsContainerRef = useRef<HTMLDivElement>(null);
+    getRecordings({ chatId: selectedChat?.id!, page: { offset: recordingsForSelectedChat?.recordings.length!, limit: 20 } });
+  }, [getRecordings, selectedChat, recordingsForSelectedChat]);
 
   const recordingsWithSeparators = setSeparators(
-    recordings?.recordings,
+    recordingsForSelectedChat?.recordings,
     { separateByMonth: true, separateByYear: true },
     { separateByMonth: true, separateByYear: true },
   );
@@ -43,13 +42,12 @@ export const ChatRecordings = React.memo(() => {
         </Link>
         <div className='chat-recordings__heading'>{t('chatRecordings.recordings')}</div>
       </div>
-      <div ref={recordingsContainerRef} className='chat-recordings__recordings'>
+      <div className='chat-recordings__recordings'>
         <InfiniteScroll
-          pageStart={0}
-          initialLoad
-          loadMore={loadMore}
-          hasMore={recordings?.hasMore}
-          getScrollParent={() => recordingsContainerRef.current}
+          onReachExtreme={loadMore}
+          hasMore={recordingsForSelectedChat?.hasMore}
+          isLoading={recordingsForSelectedChat?.loading}
+          threshold={0.3}
           loader={
             <div className='loader ' key={0}>
               <div className=''>
@@ -62,8 +60,6 @@ export const ChatRecordings = React.memo(() => {
               </div>
             </div>
           }
-          useWindow={false}
-          isReverse={false}
         >
           {recordingsWithSeparators?.map((recording) => (
             <div key={recording.id} className='chat-recordings__recording'>

@@ -12,8 +12,9 @@ export class GetCallsSuccess {
     return produce((draft: CallState, { payload }: ReturnType<typeof GetCallsSuccess.action>) => {
       const { calls, hasMore } = payload;
 
-      draft.calls.push(...calls);
-      draft.hasMore = hasMore;
+      draft.calls.calls.push(...calls);
+      draft.calls.hasMore = hasMore;
+      draft.calls.loading = false;
 
       return draft;
     });

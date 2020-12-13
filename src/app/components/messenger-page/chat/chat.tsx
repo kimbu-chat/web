@@ -5,12 +5,12 @@ import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import { MessageActions } from 'store/messages/actions';
 import { LocalizationContext } from 'app/app';
 import { getSelectedChatSelector, getTypingString } from 'store/chats/selectors';
-import InfiniteScroll from 'react-infinite-scroller';
 import { getMessagesLoading, getMessagesByChatId, getSelectedMessagesLength } from 'store/messages/selectors';
 import { MessageUtils } from 'utils/functions/message-utils';
 import moment from 'moment';
 import { FadeAnimationWrapper } from 'components';
 import { ChatActions } from 'store/chats/actions';
+import { InfiniteScroll } from 'utils/infinite-scroll/infinite-scroll';
 import { SelectedMessagesData } from '../selected-messages-data/selected-messages-data';
 import { MessageItem } from '../message-item/message-item';
 
@@ -53,7 +53,7 @@ export const Chat = React.memo(() => {
     }
   }, [selectedChat?.id]);
 
-  const loadPage = useCallback(() => {
+  const loadMore = useCallback(() => {
     const pageData = {
       limit: MESSAGES_LIMIT,
       offset: messages?.length || 0,
@@ -95,10 +95,9 @@ export const Chat = React.memo(() => {
         </FadeAnimationWrapper>
 
         <InfiniteScroll
-          pageStart={0}
-          loadMore={loadPage}
+          onReachExtreme={loadMore}
           hasMore={hasMoreMessages}
-          initialLoad={false}
+          isLoading={areMessagesLoading}
           loader={
             <div className='loader ' key={0}>
               <div className=''>
@@ -111,8 +110,6 @@ export const Chat = React.memo(() => {
               </div>
             </div>
           }
-          useWindow={false}
-          getScrollParent={() => messagesContainerRef.current}
           isReverse
         >
           {itemsWithUserInfo.map((msg) => (

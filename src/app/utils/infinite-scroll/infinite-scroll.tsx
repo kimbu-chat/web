@@ -50,14 +50,9 @@ export const InfiniteScroll: React.FC<InfiniteScrollNS.Props> = ({
   }, [hasMore, isLoading, onReachExtreme, threshold]);
 
   return (
-    <div className={`endless-scroll-wrapper ${className}`}>
-      {hasMore && isReverse && (
-        <div ref={loaderRef} className='endless-scroll-loader-wrapper'>
-          {loader}
-        </div>
-      )}
+    <div style={{ display: 'flex', flexDirection: isReverse ? 'column-reverse' : 'column' }} className={`endless-scroll-wrapper ${className}`}>
       {children}
-      {hasMore && !isReverse && (
+      {hasMore && (
         <div ref={loaderRef} className='endless-scroll-loader-wrapper'>
           {loader}
         </div>

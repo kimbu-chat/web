@@ -77,7 +77,7 @@ export const Chat = React.memo(() => {
     );
   }
 
-  const itemsWithUserInfo = MessageUtils.signAndSeparate(messages || []).reverse();
+  const itemsWithUserInfo = MessageUtils.signAndSeparate(messages || []);
 
   return (
     <div className='messenger__messages-list'>
@@ -98,6 +98,7 @@ export const Chat = React.memo(() => {
           onReachExtreme={loadMore}
           hasMore={hasMoreMessages}
           isLoading={areMessagesLoading}
+          threshold={0.3}
           loader={
             <div className='loader ' key={0}>
               <div className=''>

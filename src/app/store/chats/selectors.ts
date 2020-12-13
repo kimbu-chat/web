@@ -11,6 +11,8 @@ export const getChatById = (chatId: number) => (state: RootState) => state.chats
 
 export const getChats = (state: RootState): Chat[] => state.chats.chats;
 
+export const getChatsLoading = (state: RootState): boolean => state.chats.loading;
+
 export const getHasMoreChats = (state: RootState): boolean => state.chats.hasMore;
 
 export const getSearchString = (state: RootState) => state.chats.searchString;

@@ -174,7 +174,7 @@ export const CreateMessageInput = React.memo(() => {
             chatId: selectedChat!.id,
             type: fileType,
             file,
-            attachmentId: new Date().getTime(),
+            attachmentId: Number(`${new Date().getTime()}${index}`),
           });
         }
       }
@@ -195,7 +195,7 @@ export const CreateMessageInput = React.memo(() => {
             chatId: selectedChat!.id,
             type: fileType,
             file,
-            attachmentId: new Date().getTime(),
+            attachmentId: Number(`${new Date().getTime()}${index}`),
           });
         }
       }
@@ -342,7 +342,7 @@ export const CreateMessageInput = React.memo(() => {
             chatId: selectedChat!.id,
             type: fileType,
             file,
-            attachmentId: new Date().getTime(),
+            attachmentId: Number(`${new Date().getTime()}${index}`),
           });
         }
       }

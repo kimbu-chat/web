@@ -55,24 +55,7 @@ export const ChatList = React.memo(() => {
 
   return (
     <div className='chat-list'>
-      <InfiniteScroll
-        onReachExtreme={loadMore}
-        hasMore={hasMoreChats}
-        isLoading={areChatsLoading}
-        threshold={0.3}
-        loader={
-          <div className='loader ' key={0}>
-            <div className=''>
-              <div className='lds-ellipsis'>
-                <div />
-                <div />
-                <div />
-                <div />
-              </div>
-            </div>
-          </div>
-        }
-      >
+      <InfiniteScroll onReachExtreme={loadMore} hasMore={hasMoreChats} isLoading={areChatsLoading}>
         {chats?.map((chat: Chat) => (
           <ChatFromList chat={chat} key={chat.id} />
         ))}

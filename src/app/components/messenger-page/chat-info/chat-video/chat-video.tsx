@@ -55,19 +55,6 @@ export const ChatVideo = React.memo(() => {
         onReachExtreme={loadMore}
         hasMore={videosForSelectedChat?.hasMore}
         isLoading={videosForSelectedChat?.loading}
-        threshold={0.3}
-        loader={
-          <div className='loader ' key={0}>
-            <div className=''>
-              <div className='lds-ellipsis'>
-                <div />
-                <div />
-                <div />
-                <div />
-              </div>
-            </div>
-          </div>
-        }
       >
         {videosWithSeparators?.map((video) => (
           <VideoFromList key={video.id} video={video} />

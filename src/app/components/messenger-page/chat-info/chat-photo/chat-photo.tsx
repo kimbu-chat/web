@@ -54,19 +54,6 @@ export const ChatPhoto = React.memo(() => {
         onReachExtreme={loadMore}
         hasMore={photoForSelectedChat?.hasMore}
         isLoading={photoForSelectedChat?.loading}
-        threshold={0.3}
-        loader={
-          <div className='loader ' key={0}>
-            <div className=''>
-              <div className='lds-ellipsis'>
-                <div />
-                <div />
-                <div />
-                <div />
-              </div>
-            </div>
-          </div>
-        }
       >
         {photosWithSeparators?.map((photo) => (
           <Photo photo={photo} key={photo.id} />

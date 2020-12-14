@@ -43,24 +43,7 @@ export const ChatRecordings = React.memo(() => {
         <div className='chat-recordings__heading'>{t('chatRecordings.recordings')}</div>
       </div>
       <div className='chat-recordings__recordings'>
-        <InfiniteScroll
-          onReachExtreme={loadMore}
-          hasMore={recordingsForSelectedChat?.hasMore}
-          isLoading={recordingsForSelectedChat?.loading}
-          threshold={0.3}
-          loader={
-            <div className='loader ' key={0}>
-              <div className=''>
-                <div className='lds-ellipsis'>
-                  <div />
-                  <div />
-                  <div />
-                  <div />
-                </div>
-              </div>
-            </div>
-          }
-        >
+        <InfiniteScroll onReachExtreme={loadMore} hasMore={recordingsForSelectedChat?.hasMore} isLoading={recordingsForSelectedChat?.loading}>
           {recordingsWithSeparators?.map((recording) => (
             <div key={recording.id} className='chat-recordings__recording'>
               {recording.needToShowMonthSeparator && (

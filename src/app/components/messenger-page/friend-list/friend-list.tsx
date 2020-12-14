@@ -38,24 +38,7 @@ export const FriendList = React.memo(() => {
 
   return (
     <div ref={listRef} className='friend-list'>
-      <InfiniteScroll
-        onReachExtreme={loadMore}
-        hasMore={hasMoreFriends}
-        isLoading={friendsLoading}
-        threshold={0.3}
-        loader={
-          <div className='loader ' key={0}>
-            <div className=''>
-              <div className='lds-ellipsis'>
-                <div />
-                <div />
-                <div />
-                <div />
-              </div>
-            </div>
-          </div>
-        }
-      >
+      <InfiniteScroll onReachExtreme={loadMore} hasMore={hasMoreFriends} isLoading={friendsLoading}>
         {friends.map((friend) => (
           <Friend key={friend.id} friend={friend} />
         ))}

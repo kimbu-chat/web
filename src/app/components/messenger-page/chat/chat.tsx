@@ -93,25 +93,7 @@ export const Chat = React.memo(() => {
           <SelectedMessagesData />
         </FadeAnimationWrapper>
 
-        <InfiniteScroll
-          onReachExtreme={loadMore}
-          hasMore={hasMoreMessages}
-          isLoading={areMessagesLoading}
-          threshold={0.3}
-          loader={
-            <div className='loader ' key={0}>
-              <div className=''>
-                <div className='lds-ellipsis'>
-                  <div />
-                  <div />
-                  <div />
-                  <div />
-                </div>
-              </div>
-            </div>
-          }
-          isReverse
-        >
+        <InfiniteScroll onReachExtreme={loadMore} hasMore={hasMoreMessages} isLoading={areMessagesLoading} isReverse>
           {itemsWithUserInfo.map((msg) => (
             <React.Fragment key={msg.id}>
               <MessageItem message={msg} key={msg.id} />

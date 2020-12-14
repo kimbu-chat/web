@@ -21,7 +21,6 @@ export class InterlocutorCanceledCall {
         draft.amICalled = false;
         draft.isSpeaking = false;
         draft.offer = undefined;
-        draft.answer = undefined;
         draft.videoConstraints.isOpened = false;
         draft.videoConstraints.isOpened = false;
         draft.isInterlocutorVideoEnabled = false;

@@ -14,7 +14,6 @@ export class InterlocutorAcceptedCallSuccess {
         draft.isSpeaking = true;
         draft.amICalled = false;
         draft.amICaling = false;
-        draft.answer = payload.answer;
         draft.isInterlocutorVideoEnabled = payload.isVideoEnabled;
       }
       return draft;

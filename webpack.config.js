@@ -200,7 +200,7 @@ module.exports = {
         ]
       : []),
     new HtmlWebpackPlugin({
-      template: 'assets/index.html',
+      template: 'assets/html-assets/index.html',
       minify: {
         minifyJS: true,
         minifyCSS: true,

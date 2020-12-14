@@ -54,24 +54,7 @@ export const ChatFiles = React.memo(() => {
         <div className='chat-files__heading'>{t('chatFiles.files')}</div>
       </div>
       <div ref={filesContainerRef} className='chat-files__file-container'>
-        <InfiniteScroll
-          onReachExtreme={loadMore}
-          hasMore={filesForSelectedChat?.hasMore}
-          isLoading={filesForSelectedChat?.loading}
-          threshold={0.3}
-          loader={
-            <div className='loader ' key={0}>
-              <div className=''>
-                <div className='lds-ellipsis'>
-                  <div />
-                  <div />
-                  <div />
-                  <div />
-                </div>
-              </div>
-            </div>
-          }
-        >
+        <InfiniteScroll onReachExtreme={loadMore} hasMore={filesForSelectedChat?.hasMore} isLoading={filesForSelectedChat?.loading} threshold={0.3}>
           {filesWithSeparators?.map((file) => (
             <React.Fragment key={file.id}>
               {file.needToShowMonthSeparator && (

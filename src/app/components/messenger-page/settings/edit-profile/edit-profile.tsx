@@ -48,8 +48,12 @@ export const EditProfile = React.memo(() => {
       if (e.target.files) {
         reader.readAsDataURL(e.target.files[0]);
       }
+
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     },
-    [setImageUrl, displayChangePhoto],
+    [setImageUrl, displayChangePhoto, fileInputRef],
   );
 
   const openFileExplorer = useCallback(() => fileInputRef.current?.click(), [fileInputRef]);
@@ -106,7 +110,7 @@ export const EditProfile = React.memo(() => {
               </button>
             )}
           </div>
-          <input onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleImageChange(e)} ref={fileInputRef} type='file' hidden accept='image/*' />
+          <input onChange={handleImageChange} ref={fileInputRef} type='file' hidden accept='image/*' />
           <button type='button' onClick={openFileExplorer} className='edit-profile__upload-photo'>
             {t('editProfile.upload_new_photo')}
           </button>

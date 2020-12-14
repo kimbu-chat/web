@@ -80,8 +80,12 @@ export const EditChatModal = React.memo(({ onClose }: EditChatModalNS.Props) => 
       };
 
       if (e.target.files) reader.readAsDataURL(e.target.files[0]);
+
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     },
-    [displayChangePhoto, setImageUrl],
+    [displayChangePhoto, setImageUrl, fileInputRef],
   );
 
   const onSubmit = useCallback(() => {
@@ -136,7 +140,7 @@ export const EditChatModal = React.memo(({ onClose }: EditChatModalNS.Props) => 
                   )}
                 </div>
                 <div className='edit-chat-modal__change-photo-data'>
-                  <input onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleImageChange(e)} ref={fileInputRef} type='file' hidden accept='image/*' />
+                  <input onChange={handleImageChange} ref={fileInputRef} type='file' hidden accept='image/*' />
                   <button type='button' onClick={() => fileInputRef.current?.click()} className='edit-chat-modal__change-photo__btn'>
                     Upload New Photo
                   </button>

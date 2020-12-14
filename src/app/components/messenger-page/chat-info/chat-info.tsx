@@ -35,6 +35,8 @@ export const ChatInfo: React.FC = React.memo(() => {
   const editGroupChat = useActionWithDispatch(ChatActions.editGroupChat);
   const uploadGroupChatAvatar = useActionWithDeferred(MyProfileActions.uploadAvatarRequestAction);
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const [editGroupChatDisplayed, setEditGroupChatDisplayed] = useState(false);
   const changeEditGroupChatDisplayedState = useCallback(() => {
     setEditGroupChatDisplayed((oldState) => !oldState);
@@ -85,8 +87,12 @@ export const ChatInfo: React.FC = React.memo(() => {
       };
 
       if (e.target.files) reader.readAsDataURL(e.target.files[0]);
+
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     },
-    [displayChangePhoto, setImageUrl],
+    [displayChangePhoto, setImageUrl, fileInputRef],
   );
 
   const changeAvatar = useCallback(
@@ -104,8 +110,6 @@ export const ChatInfo: React.FC = React.memo(() => {
     },
     [uploadGroupChatAvatar, editGroupChat, selectedChat?.groupChat?.id],
   );
-
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const getChatFullSizeAvatar = useCallback((): string => {
     if (selectedChat?.interlocutor) {
@@ -134,7 +138,7 @@ export const ChatInfo: React.FC = React.memo(() => {
                 </div>
               </div>
             )}
-            <input onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleImageChange(e)} ref={fileInputRef} type='file' hidden accept='image/*' />
+            <input onChange={handleImageChange} ref={fileInputRef} type='file' hidden accept='image/*' />
             <span className='chat-info__interlocutor'>{getChatInterlocutor(selectedChat)}</span>
             {selectedChat?.groupChat && (
               <button type='button' onClick={changeEditGroupChatDisplayedState} className='chat-info__rename-btn'>

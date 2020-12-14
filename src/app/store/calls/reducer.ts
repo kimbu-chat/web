@@ -35,7 +35,6 @@ const initialState: CallState = {
   amICaling: false,
   interlocutor: undefined,
   offer: undefined,
-  answer: undefined,
   audioDevicesList: [],
   videoDevicesList: [],
   calls: {

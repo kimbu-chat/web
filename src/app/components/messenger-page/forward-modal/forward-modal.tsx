@@ -77,25 +77,7 @@ export const ForwardModal = React.memo(({ onClose }: ForwardModalNS.Props) => {
         contents={
           <div className='forward-modal'>
             <SearchBox onChange={searchChats} />
-            <InfiniteScroll
-              className='forward-modal__chats-block'
-              onReachExtreme={loadMore}
-              hasMore={hasMoreChats}
-              isLoading={chatsAreLoading}
-              threshold={0.3}
-              loader={
-                <div className='loader ' key={0}>
-                  <div className=''>
-                    <div className='lds-ellipsis'>
-                      <div />
-                      <div />
-                      <div />
-                      <div />
-                    </div>
-                  </div>
-                </div>
-              }
-            >
+            <InfiniteScroll className='forward-modal__chats-block' onReachExtreme={loadMore} hasMore={hasMoreChats} isLoading={chatsAreLoading}>
               {chats.map((chat) => (
                 <ForwardEntity key={chat.id} chat={chat} isSelected={isSelected(chat.id)} changeSelectedState={changeSelectedState} />
               ))}

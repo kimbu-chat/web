@@ -83,18 +83,6 @@ export const ChatMembers = React.memo(({ addMembers }: ChatMembersNS.Props) => {
         hasMore={membersListForGroupChat?.hasMore}
         isLoading={membersListForGroupChat?.loading}
         threshold={0.3}
-        loader={
-          <div className='loader ' key={0}>
-            <div className=''>
-              <div className='lds-ellipsis'>
-                <div />
-                <div />
-                <div />
-                <div />
-              </div>
-            </div>
-          </div>
-        }
       >
         {((membersListForGroupChat?.searchMembers?.length || 0) > 0 ? membersListForGroupChat?.searchMembers : membersListForGroupChat?.members)?.map(
           (member) => (

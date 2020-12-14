@@ -26,24 +26,7 @@ export const CallList = () => {
 
   return (
     <div className='call-list'>
-      <InfiniteScroll
-        onReachExtreme={loadMore}
-        hasMore={hasMoreCalls}
-        isLoading={areCallsLoading}
-        threshold={0.3}
-        loader={
-          <div className='loader ' key={0}>
-            <div className=''>
-              <div className='lds-ellipsis'>
-                <div />
-                <div />
-                <div />
-                <div />
-              </div>
-            </div>
-          </div>
-        }
-      >
+      <InfiniteScroll onReachExtreme={loadMore} hasMore={hasMoreCalls} isLoading={areCallsLoading}>
         {calls.map((call) => (
           <CallFromList key={call.id} call={call} />
         ))}

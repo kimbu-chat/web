@@ -346,8 +346,12 @@ export const CreateMessageInput = React.memo(() => {
           });
         }
       }
+
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     },
-    [uploadAttachmentRequest, selectedChat],
+    [uploadAttachmentRequest, selectedChat, fileInputRef],
   );
 
   return (

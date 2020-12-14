@@ -3,7 +3,7 @@ import * as React from 'react';
 namespace InfiniteScrollNS {
   export interface Props {
     children: React.ReactNode;
-    loader: React.ReactNode;
+    loader?: React.ReactNode;
     className?: string;
     hasMore?: boolean;
     isLoading?: boolean;
@@ -15,7 +15,18 @@ namespace InfiniteScrollNS {
 
 export const InfiniteScroll: React.FC<InfiniteScrollNS.Props> = ({
   children,
-  loader,
+  loader = (
+    <div className='loader ' key={0}>
+      <div className=''>
+        <div className='lds-ellipsis'>
+          <div />
+          <div />
+          <div />
+          <div />
+        </div>
+      </div>
+    </div>
+  ),
   className = '',
   hasMore,
   isLoading,

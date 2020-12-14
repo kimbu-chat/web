@@ -45,24 +45,7 @@ export const ChatAudios = React.memo(() => {
         <div className='chat-audios__heading'>{t('chatAudios.audios')}</div>
       </div>
       <div className='chat-audios__audios'>
-        <InfiniteScroll
-          onReachExtreme={loadMore}
-          hasMore={audiosForSelectedChat?.hasMore}
-          isLoading={audiosForSelectedChat?.loading}
-          threshold={0.3}
-          loader={
-            <div className='loader ' key={0}>
-              <div className=''>
-                <div className='lds-ellipsis'>
-                  <div />
-                  <div />
-                  <div />
-                  <div />
-                </div>
-              </div>
-            </div>
-          }
-        >
+        <InfiniteScroll onReachExtreme={loadMore} hasMore={audiosForSelectedChat?.hasMore} isLoading={audiosForSelectedChat?.loading} threshold={0.3}>
           {audiosWithSeparators?.map((attachment) => (
             <div key={attachment.id} className='chat-audios__audio'>
               {attachment.needToShowMonthSeparator && (

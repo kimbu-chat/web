@@ -112,8 +112,12 @@ export const EditMessage = React.memo(() => {
           });
         }
       }
+
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     },
-    [uploadAttachmentRequest, selectedChat],
+    [uploadAttachmentRequest, selectedChat, fileInputRef],
   );
 
   const submitEditedMessage = useCallback(() => {

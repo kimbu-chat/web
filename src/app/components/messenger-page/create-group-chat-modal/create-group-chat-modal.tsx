@@ -107,8 +107,12 @@ export const CreateGroupChat = React.memo(({ onClose, preSelectedUserIds }: ICre
       };
 
       if (e.target.files) reader.readAsDataURL(e.target.files[0]);
+
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     },
-    [displayChangePhoto, setImageUrl],
+    [displayChangePhoto, setImageUrl, fileInputRef],
   );
 
   const discardAvatar = useCallback(() => {
@@ -182,13 +186,7 @@ export const CreateGroupChat = React.memo(({ onClose, preSelectedUserIds }: ICre
                       )}
                     </div>
                     <div className='create-group-chat__change-photo-data'>
-                      <input
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleImageChange(e)}
-                        ref={fileInputRef}
-                        type='file'
-                        hidden
-                        accept='image/*'
-                      />
+                      <input onChange={handleImageChange} ref={fileInputRef} type='file' hidden accept='image/*' />
                       <button type='button' onClick={() => fileInputRef.current?.click()} className='create-group-chat__change-photo__btn'>
                         Upload New Photo
                       </button>

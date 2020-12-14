@@ -80,8 +80,12 @@ export const Registration: React.FC<RegistrationNS.Props> = ({ preloadNext }) =>
       };
 
       if (e.target.files) reader.readAsDataURL(e.target.files[0]);
+
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     },
-    [displayChangePhoto, setImageUrl],
+    [displayChangePhoto, setImageUrl, fileInputRef],
   );
 
   const applyAvatarData = useCallback(
@@ -137,7 +141,7 @@ export const Registration: React.FC<RegistrationNS.Props> = ({ preloadNext }) =>
                   </>
                 )}
               </div>
-              <input onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleImageChange(e)} ref={fileInputRef} type='file' hidden accept='image/*' />
+              <input onChange={handleImageChange} ref={fileInputRef} type='file' hidden accept='image/*' />
               <button type='button' onClick={openFileExplorer} className='create-group-chat__change-photo__btn'>
                 Upload New Photo
               </button>

@@ -19,15 +19,9 @@ export class InterlocutorAcceptedCall {
       const isCallActive = yield select(doIhaveCall);
 
       if (action.payload.interlocutorId !== myId && (doICall || isCallActive)) {
-        console.log('setRemoteDescriptionsetRemoteDescription');
-        try {
-          const remoteDesc = new RTCSessionDescription(action.payload.answer);
-          yield call(async () => await peerConnection?.setRemoteDescription(remoteDesc));
-        } catch (e) {
-          console.log(e);
-        }
+        const remoteDesc = new RTCSessionDescription(action.payload.answer);
+        yield call(async () => await peerConnection?.setRemoteDescription(remoteDesc));
 
-        console.log('accepted');
         yield put(InterlocutorAcceptedCallSuccess.action({ ...action.payload, myId }));
       }
     };

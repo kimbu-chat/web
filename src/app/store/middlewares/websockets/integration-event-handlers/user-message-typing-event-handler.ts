@@ -12,8 +12,6 @@ export class UserMessageTypingEventHandler implements IEventHandler<Intercolutor
       store.dispatch(ChatActions.interlocutorStoppedTyping(eventData));
     }, 1500) as unknown) as NodeJS.Timeout;
 
-    console.log('Chatid', new ChatId().FromId(eventData.chatId).interlocutorType);
-
     if (
       new ChatId().FromId(eventData.chatId).interlocutorType === InterlocutorType.GROUP_CHAT &&
       eventData.interlocutorId === store.getState().myProfile.user?.id

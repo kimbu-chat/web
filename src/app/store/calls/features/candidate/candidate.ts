@@ -1,6 +1,8 @@
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import { SagaIterator } from 'redux-saga';
+import { call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+import { ignoreOffer } from '../../utils/user-media';
 import { CandidateActionPayload } from './candidate-action-payload';
 
 export class Candidate {
@@ -10,7 +12,13 @@ export class Candidate {
 
   static get saga() {
     return function* candidateSaga(action: ReturnType<typeof Candidate.action>): SagaIterator {
-      peerConnection?.addIceCandidate(new RTCIceCandidate(action.payload.candidate));
+      try {
+        console.log('candidate');
+        yield call(async () => await peerConnection?.addIceCandidate(new RTCIceCandidate(action.payload.candidate)));
+      } catch (err) {
+        console.log('catcheeedEEE');
+        if (!ignoreOffer) throw err; // Suppress ignored offer's candidates
+      }
     };
   }
 }

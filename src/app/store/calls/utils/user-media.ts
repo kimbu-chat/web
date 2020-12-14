@@ -9,9 +9,25 @@ import { IInCompleteConstraints } from '../models';
 export const tracks: {
   [thingName: string]: MediaStreamTrack[];
 } = { videoTracks: [], audioTracks: [], screenSharingTracks: [] };
-
 export let interlocurorVideoTrack: MediaStreamTrack;
 export let interlocurorAudioTrack: MediaStreamTrack;
+export let videoSender: RTCRtpSender | null;
+export let audioSender: RTCRtpSender | null;
+export let makingOffer = false;
+export let ignoreOffer = false;
+export let isSettingRemoteAnswerPending = false;
+
+export const setMakingOffer = (state: boolean) => {
+  makingOffer = state;
+};
+
+export const setIgnoreOffer = (state: boolean) => {
+  ignoreOffer = state;
+};
+
+export const setIsSettingRemoteAnswerPending = (state: boolean) => {
+  isSettingRemoteAnswerPending = state;
+};
 
 export const assignInterlocurorVideoTrack = (track: MediaStreamTrack) => {
   interlocurorVideoTrack = track;
@@ -20,9 +36,6 @@ export const assignInterlocurorVideoTrack = (track: MediaStreamTrack) => {
 export const assignInterlocurorAudioTrack = (track: MediaStreamTrack) => {
   interlocurorAudioTrack = track;
 };
-
-export let videoSender: RTCRtpSender | null;
-export let audioSender: RTCRtpSender | null;
 
 export const setVideoSender = (sender: RTCRtpSender | null) => {
   videoSender = sender;

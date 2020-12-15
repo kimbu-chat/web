@@ -10,10 +10,11 @@ import { getChatById, getHasMoreChats } from 'app/store/chats/selectors';
 import { GetChatsSuccessActionPayload } from '../get-chats/get-chats-success-action-payload';
 import { ChatsState, Chat, GetChatByIdRequestData } from '../../models';
 import { GetChatsSuccess } from '../get-chats/get-chats-success';
+import { ChangeSelectedChatActionPayload } from './change-selected-chat-action-payload';
 
 export class ChangeSelectedChat {
   static get action() {
-    return createAction('CHANGE_SELECTED_CHAT')<number>();
+    return createAction('CHANGE_SELECTED_CHAT')<ChangeSelectedChatActionPayload>();
   }
 
   static get reducer() {
@@ -23,8 +24,8 @@ export class ChangeSelectedChat {
           new Date(lastMessageB?.creationDateTime!).getTime() - new Date(lastMessageA?.creationDateTime!).getTime(),
       );
 
-      if (payload !== -1) {
-        draft.selectedChatId = payload;
+      if (payload.newChatId !== -1) {
+        draft.selectedChatId = payload.newChatId;
       }
 
       return draft;
@@ -33,12 +34,14 @@ export class ChangeSelectedChat {
 
   static get saga() {
     return function* changeSelectedChatSaga(action: ReturnType<typeof ChangeSelectedChat.action>): SagaIterator {
-      if (action.payload !== -1 && !Number.isNaN(action.payload)) {
-        const chatExists = (yield select(getChatById(action.payload))) !== undefined;
+      if (action.payload.newChatId !== -1 && !Number.isNaN(action.payload)) {
+        const chatExists = (yield select(getChatById(action.payload.newChatId))) !== undefined;
 
         if (!chatExists) {
           const hasMore = yield select(getHasMoreChats);
-          const { data, status } = ChangeSelectedChat.httpRequest.call(yield call(() => ChangeSelectedChat.httpRequest.generator({ chatId: action.payload })));
+          const { data, status } = ChangeSelectedChat.httpRequest.call(
+            yield call(() => ChangeSelectedChat.httpRequest.generator({ chatId: action.payload.newChatId })),
+          );
 
           if (status === HTTPStatusCode.OK) {
             const chatList: GetChatsSuccessActionPayload = {

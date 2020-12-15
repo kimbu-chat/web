@@ -47,17 +47,21 @@ const messages = createReducer<MessagesState>(initialState)
   .handleAction(ClearChatHistorySuccess.action, ClearChatHistorySuccess.reducer)
   .handleAction(
     ChatActions.changeSelectedChat,
-    produce((draft: MessagesState) => {
-      draft.messages.forEach((currentMessageList) => {
-        if (currentMessageList.messages.length > 30) {
-          currentMessageList.messages = currentMessageList.messages.slice(0, 30);
+    produce((draft: MessagesState, { payload }: ReturnType<typeof ChatActions.changeSelectedChat>) => {
+      const { oldChatId } = payload;
+
+      if (oldChatId) {
+        const chatIndex = getChatIndex(draft, oldChatId);
+
+        if (draft.messages[chatIndex].messages.length > 30) {
+          draft.messages[chatIndex].messages = draft.messages[chatIndex].messages.slice(0, 30);
         }
 
-        currentMessageList.messages.map((message) => {
+        draft.messages[chatIndex].messages.map((message) => {
           message.isSelected = false;
           return message;
         });
-      });
+      }
 
       draft.selectedMessageIds = [];
 

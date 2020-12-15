@@ -2,8 +2,6 @@
   &__messages-list {
     position: relative;
     flex: 1 1;
-    display: grid;
-    align-items: end;
     border-bottom: 1px solid rgba(#000, 0.2);
     overflow: auto;
 

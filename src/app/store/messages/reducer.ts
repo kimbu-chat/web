@@ -48,13 +48,15 @@ const messages = createReducer<MessagesState>(initialState)
   .handleAction(
     ChatActions.changeSelectedChat,
     produce((draft: MessagesState) => {
-      draft.messages = draft.messages.map((messages) => {
-        messages.messages.map((message) => {
+      draft.messages.forEach((currentMessageList) => {
+        if (currentMessageList.messages.length > 30) {
+          currentMessageList.messages = currentMessageList.messages.slice(0, 30);
+        }
+
+        currentMessageList.messages.map((message) => {
           message.isSelected = false;
           return message;
         });
-
-        return messages;
       });
 
       draft.selectedMessageIds = [];

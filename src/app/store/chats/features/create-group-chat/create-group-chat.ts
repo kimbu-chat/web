@@ -5,8 +5,9 @@ import { ApiBasePath } from 'app/store/root-api';
 import { MessageUtils } from 'app/utils/functions/message-utils';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
-import { call, put } from 'redux-saga/effects';
+import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+import { getSelectedChatIdSelector } from 'app/store/chats/selectors';
 import { ChatId } from '../../chat-id';
 import { GroupChatCreationHTTPReqData, Chat, InterlocutorType } from '../../models';
 import { ChangeSelectedChat } from '../change-selected-chat/change-selected-chat';
@@ -21,6 +22,7 @@ export class CreateGroupChat {
   static get saga() {
     return function* (action: ReturnType<typeof CreateGroupChat.action>): SagaIterator {
       const { userIds, name, avatar, description, currentUser } = action.payload;
+      const selectedChatId = yield select(getSelectedChatIdSelector);
 
       try {
         const groupChatCreationRequest: GroupChatCreationHTTPReqData = {
@@ -89,7 +91,7 @@ export class CreateGroupChat {
         };
 
         yield put(CreateGroupChatSuccess.action(chat));
-        yield put(ChangeSelectedChat.action(chat.id));
+        yield put(ChangeSelectedChat.action({ newChatId: chat.id, oldChatId: selectedChatId }));
         action.meta.deferred?.resolve(chat);
       } catch (e) {
         console.warn(e);

@@ -6,7 +6,7 @@ import { Chat } from 'store/chats/models';
 import { ChatActions } from 'store/chats/actions';
 import { InfiniteScroll } from 'app/utils/infinite-scroll/infinite-scroll';
 import { useParams } from 'react-router';
-import { getChats, getChatsLoading, getHasMoreChats, getSearchString } from 'app/store/chats/selectors';
+import { getChats, getChatsLoading, getHasMoreChats, getSearchString, getSelectedChatIdSelector } from 'app/store/chats/selectors';
 import { ChatFromList } from './chat-from-list/chat-from-list';
 
 export const DIALOGS_LIMIT = 25;
@@ -21,10 +21,11 @@ export const ChatList = React.memo(() => {
   const hasMoreChats = useSelector(getHasMoreChats);
   const areChatsLoading = useSelector(getChatsLoading);
   const searchString = useSelector(getSearchString);
+  const selectedChatId = useSelector(getSelectedChatIdSelector);
 
   useEffect(() => {
-    if (chatId) changeSelectedChat(Number(chatId));
-    else changeSelectedChat(-1);
+    if (chatId) changeSelectedChat({ newChatId: Number(chatId), oldChatId: selectedChatId });
+    else changeSelectedChat({ newChatId: -1, oldChatId: selectedChatId });
   }, [chatId]);
 
   useEffect(() => {

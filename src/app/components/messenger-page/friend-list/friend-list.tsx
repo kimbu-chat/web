@@ -7,6 +7,7 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { getMyFriends, getHasMoreFriends, getFriendsLoading } from 'app/store/friends/selectors';
+import { getSelectedChatIdSelector } from 'app/store/chats/selectors';
 import { InfiniteScroll } from 'app/utils/infinite-scroll/infinite-scroll';
 import { Friend } from './friend-from-list/friend';
 import './friend-list.scss';
@@ -15,6 +16,7 @@ export const FriendList = React.memo(() => {
   const friends = useSelector(getMyFriends);
   const hasMoreFriends = useSelector(getHasMoreFriends);
   const friendsLoading = useSelector(getFriendsLoading);
+  const selectedChatId = useSelector(getSelectedChatIdSelector);
 
   const listRef = useRef<HTMLDivElement>(null);
 
@@ -24,8 +26,8 @@ export const FriendList = React.memo(() => {
   const { chatId } = useParams<{ chatId: string }>();
 
   useEffect(() => {
-    if (chatId) changeSelectedChat(Number(chatId));
-    else changeSelectedChat(-1);
+    if (chatId) changeSelectedChat({ newChatId: Number(chatId), oldChatId: selectedChatId });
+    else changeSelectedChat({ newChatId: -1, oldChatId: selectedChatId });
   }, [chatId]);
 
   const loadMore = useCallback(() => {

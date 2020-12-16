@@ -13,9 +13,11 @@ import { ChatActions } from 'store/chats/actions';
 import { Chat } from 'store/chats/models';
 import { useHistory } from 'react-router';
 import { MyProfileActions } from 'store/my-profile/actions';
-import { getMyFriends } from 'app/store/friends/selectors';
+import { getFriendsLoading, getHasMoreFriends, getMyFriends } from 'app/store/friends/selectors';
 import { getMyProfileSelector } from 'app/store/my-profile/selectors';
 import { CreateGroupChatActionPayload } from 'app/store/chats/features/create-group-chat/create-group-chat-action-payload';
+import { InfiniteScroll } from 'app/utils/infinite-scroll/infinite-scroll';
+import { Page } from 'app/store/common/models';
 
 namespace ICreateGroupChatModal {
   export interface Props {
@@ -33,10 +35,14 @@ export const CreateGroupChat = React.memo(({ onClose, preSelectedUserIds }: ICre
   const { t } = useContext(LocalizationContext);
 
   const currentUser = useSelector(getMyProfileSelector);
+  const friends = useSelector(getMyFriends);
+  const hasMoreFriends = useSelector(getHasMoreFriends);
+  const friendsLoading = useSelector(getFriendsLoading);
 
   const history = useHistory();
 
   const uploadGroupChatAvatar = useActionWithDeferred(MyProfileActions.uploadAvatarRequestAction);
+  const loadFriends = useActionWithDeferred(FriendActions.getFriends);
   const cancelAvatarUploading = useActionWithDispatch(MyProfileActions.cancelAvatarUploadingRequestAction);
   const submitGroupChatCreation = useActionWithDeferred(ChatActions.createGroupChat);
 
@@ -50,10 +56,6 @@ export const CreateGroupChat = React.memo(({ onClose, preSelectedUserIds }: ICre
   const [description, setDescription] = useState('');
   const [uploaded, setUploaded] = useState(0);
   const [uploadEnded, setUploadEnded] = useState(true);
-
-  const friends = useSelector(getMyFriends);
-
-  const loadFriends = useActionWithDispatch(FriendActions.getFriends);
 
   const isSelected = useCallback((id: number) => selectedUserIds.includes(id), [selectedUserIds]);
 
@@ -88,6 +90,14 @@ export const CreateGroupChat = React.memo(({ onClose, preSelectedUserIds }: ICre
     },
     [selectedUserIds],
   );
+
+  const loadMore = useCallback(() => {
+    const page: Page = {
+      offset: friends.length,
+      limit: 25,
+    };
+    loadFriends({ page });
+  }, [friends, loadFriends]);
 
   const searchFriends = useCallback((name: string) => {
     loadFriends({ page: { offset: 0, limit: 25 }, name, initializedBySearch: true });
@@ -161,11 +171,11 @@ export const CreateGroupChat = React.memo(({ onClose, preSelectedUserIds }: ICre
               {currentStage === ICreateGroupChatModal.GroupChatCreationStage.userSelect && (
                 <div className='create-group-chat__select-friends'>
                   <SearchBox onChange={(e) => searchFriends(e.target.value)} />
-                  <div className='create-group-chat__friends-block'>
+                  <InfiniteScroll className='create-group-chat__friends-block' onReachExtreme={loadMore} hasMore={hasMoreFriends} isLoading={friendsLoading}>
                     {friends.map((friend) => (
                       <FriendFromList key={friend.id} friend={friend} isSelected={isSelected(friend.id)} changeSelectedState={changeSelectedState} />
                     ))}
-                  </div>
+                  </InfiniteScroll>
                 </div>
               )}
 

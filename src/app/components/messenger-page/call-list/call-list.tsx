@@ -6,6 +6,7 @@ import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import { CallActions } from 'store/calls/actions';
 import { getCallsList, gethasMoreCalls, getCallsAreLoading } from 'app/store/calls/selectors';
 import { InfiniteScroll } from 'app/utils/infinite-scroll/infinite-scroll';
+import { CALL_LIMIT } from 'app/utils/pagination-limits';
 import { CallFromList } from './call-from-list/call-from-list';
 
 export const CallList = () => {
@@ -19,7 +20,7 @@ export const CallList = () => {
     getCalls({
       page: {
         offset: calls.length,
-        limit: 20,
+        limit: CALL_LIMIT,
       },
     });
   }, [calls]);

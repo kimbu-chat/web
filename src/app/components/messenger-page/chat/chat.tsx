@@ -11,10 +11,9 @@ import moment from 'moment';
 import { FadeAnimationWrapper } from 'components';
 import { ChatActions } from 'store/chats/actions';
 import { InfiniteScroll } from 'utils/infinite-scroll/infinite-scroll';
+import { MESSAGES_LIMIT } from 'app/utils/pagination-limits';
 import { SelectedMessagesData } from '../selected-messages-data/selected-messages-data';
 import { MessageItem } from '../message-item/message-item';
-
-export const MESSAGES_LIMIT = 25;
 
 export const Chat = React.memo(() => {
   const getMessages = useActionWithDispatch(MessageActions.getMessages);

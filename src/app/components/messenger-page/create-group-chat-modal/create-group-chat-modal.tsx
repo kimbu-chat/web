@@ -18,6 +18,7 @@ import { getMyProfileSelector } from 'app/store/my-profile/selectors';
 import { CreateGroupChatActionPayload } from 'app/store/chats/features/create-group-chat/create-group-chat-action-payload';
 import { InfiniteScroll } from 'app/utils/infinite-scroll/infinite-scroll';
 import { Page } from 'app/store/common/models';
+import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
 
 namespace ICreateGroupChatModal {
   export interface Props {
@@ -94,13 +95,13 @@ export const CreateGroupChat = React.memo(({ onClose, preSelectedUserIds }: ICre
   const loadMore = useCallback(() => {
     const page: Page = {
       offset: friends.length,
-      limit: 25,
+      limit: FRIENDS_LIMIT,
     };
     loadFriends({ page });
   }, [friends, loadFriends]);
 
   const searchFriends = useCallback((name: string) => {
-    loadFriends({ page: { offset: 0, limit: 25 }, name, initializedBySearch: true });
+    loadFriends({ page: { offset: 0, limit: FRIENDS_LIMIT }, name, initializedBySearch: true });
   }, []);
 
   const fileInputRef = useRef<HTMLInputElement>(null);

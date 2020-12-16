@@ -7,9 +7,8 @@ import { ChatActions } from 'store/chats/actions';
 import { InfiniteScroll } from 'app/utils/infinite-scroll/infinite-scroll';
 import { useParams } from 'react-router';
 import { getChats, getChatsLoading, getHasMoreChats, getSearchString, getSelectedChatIdSelector } from 'app/store/chats/selectors';
+import { CHATS_LIMIT } from 'app/utils/pagination-limits';
 import { ChatFromList } from './chat-from-list/chat-from-list';
-
-export const DIALOGS_LIMIT = 25;
 
 export const ChatList = React.memo(() => {
   const changeSelectedChat = useActionWithDispatch(ChatActions.changeSelectedChat);
@@ -30,7 +29,7 @@ export const ChatList = React.memo(() => {
 
   useEffect(() => {
     getChatsRequest({
-      page: { offset: 0, limit: DIALOGS_LIMIT },
+      page: { offset: 0, limit: CHATS_LIMIT },
       initializedBySearch: true,
 
       name: searchString,
@@ -41,7 +40,7 @@ export const ChatList = React.memo(() => {
 
   const loadMore = useCallback(() => {
     const pageData = {
-      limit: 25,
+      limit: CHATS_LIMIT,
       offset: chats.length,
     };
 

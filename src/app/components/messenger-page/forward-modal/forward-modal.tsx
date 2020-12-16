@@ -8,6 +8,7 @@ import { LocalizationContext } from 'app/app';
 import { ChatActions } from 'store/chats/actions';
 import { getChats, getHasMoreChats, getChatsLoading } from 'app/store/chats/selectors';
 import { InfiniteScroll } from 'app/utils/infinite-scroll/infinite-scroll';
+import { CHATS_LIMIT } from 'app/utils/pagination-limits';
 import { SearchBox } from '../search-box/search-box';
 import { ForwardEntity } from './forward-entity/forward-entity';
 
@@ -33,7 +34,7 @@ export const ForwardModal = React.memo(({ onClose }: ForwardModalNS.Props) => {
 
   useEffect(() => {
     loadChats({
-      page: { offset: 0, limit: 25 },
+      page: { offset: 0, limit: CHATS_LIMIT },
       name: searchString,
       initializedBySearch: true,
       showOnlyHidden: false,
@@ -61,7 +62,7 @@ export const ForwardModal = React.memo(({ onClose }: ForwardModalNS.Props) => {
 
   const loadMore = useCallback(() => {
     loadChats({
-      page: { offset: chats.length, limit: 25 },
+      page: { offset: chats.length, limit: CHATS_LIMIT },
       name: searchString,
       showOnlyHidden: false,
       initializedBySearch: false,

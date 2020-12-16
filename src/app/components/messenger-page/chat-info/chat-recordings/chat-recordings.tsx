@@ -12,6 +12,7 @@ import moment from 'moment';
 
 import { doesYearDifferFromCurrent, setSeparators } from 'utils/functions/set-separators';
 import { InfiniteScroll } from 'app/utils/infinite-scroll/infinite-scroll';
+import { VOICE_ATTACHMENTS_LIMIT } from 'app/utils/pagination-limits';
 import { ChatRecording } from './chat-recording/chat-recording';
 
 export const ChatRecordings = React.memo(() => {
@@ -25,7 +26,7 @@ export const ChatRecordings = React.memo(() => {
   const getRecordings = useActionWithDispatch(ChatActions.getVoiceAttachments);
 
   const loadMore = useCallback(() => {
-    getRecordings({ chatId: selectedChat?.id!, page: { offset: recordingsForSelectedChat?.recordings.length!, limit: 20 } });
+    getRecordings({ chatId: selectedChat?.id!, page: { offset: recordingsForSelectedChat?.recordings.length!, limit: VOICE_ATTACHMENTS_LIMIT } });
   }, [getRecordings, selectedChat, recordingsForSelectedChat]);
 
   const recordingsWithSeparators = setSeparators(

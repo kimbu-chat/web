@@ -12,6 +12,7 @@ import { Page } from 'store/common/models';
 import { Link, useLocation } from 'react-router-dom';
 import { setSeparators } from 'utils/functions/set-separators';
 import { InfiniteScroll } from 'app/utils/infinite-scroll/infinite-scroll';
+import { VIDEO_ATTACHMENTS_LIMIT } from 'app/utils/pagination-limits';
 import { VideoFromList } from './video/video-from-list';
 
 export const ChatVideo = React.memo(() => {
@@ -27,7 +28,7 @@ export const ChatVideo = React.memo(() => {
   const loadMore = useCallback(() => {
     const page: Page = {
       offset: videosForSelectedChat?.videos!.length || 0,
-      limit: 20,
+      limit: VIDEO_ATTACHMENTS_LIMIT,
     };
 
     getVideoAttachmentss({

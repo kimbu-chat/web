@@ -12,6 +12,7 @@ import moment from 'moment';
 
 import { doesYearDifferFromCurrent, setSeparators } from 'utils/functions/set-separators';
 import { InfiniteScroll } from 'app/utils/infinite-scroll/infinite-scroll';
+import { AUDIO_ATTACHMENTS_LIMIT } from 'app/utils/pagination-limits';
 import { MessageAudioAttachment } from '../../shared/audio-attachment/audio-attachment';
 
 export const ChatAudios = React.memo(() => {
@@ -25,7 +26,7 @@ export const ChatAudios = React.memo(() => {
   const getAudios = useActionWithDispatch(ChatActions.getAudioAttachments);
 
   const loadMore = useCallback(() => {
-    getAudios({ chatId: selectedChat?.id!, page: { offset: audiosForSelectedChat?.audios.length || 0, limit: 20 } });
+    getAudios({ chatId: selectedChat?.id!, page: { offset: audiosForSelectedChat?.audios.length || 0, limit: AUDIO_ATTACHMENTS_LIMIT } });
   }, [getAudios, selectedChat?.id, audiosForSelectedChat?.audios.length]);
 
   const audiosWithSeparators = setSeparators(

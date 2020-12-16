@@ -11,6 +11,7 @@ import { Page } from 'store/common/models';
 import { Link, useLocation } from 'react-router-dom';
 import { setSeparators } from 'utils/functions/set-separators';
 import { InfiniteScroll } from 'app/utils/infinite-scroll/infinite-scroll';
+import { PHOTO_ATTACHMENTS_LIMIT } from 'app/utils/pagination-limits';
 import { Photo } from './photo/photo';
 
 export const ChatPhoto = React.memo(() => {
@@ -26,7 +27,7 @@ export const ChatPhoto = React.memo(() => {
   const loadMore = useCallback(() => {
     const page: Page = {
       offset: photoForSelectedChat?.photos!.length || 0,
-      limit: 20,
+      limit: PHOTO_ATTACHMENTS_LIMIT,
     };
 
     getPhotoAttachmentss({

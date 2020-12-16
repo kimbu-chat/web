@@ -9,6 +9,7 @@ import { useParams } from 'react-router';
 import { getMyFriends, getHasMoreFriends, getFriendsLoading } from 'app/store/friends/selectors';
 import { getSelectedChatIdSelector } from 'app/store/chats/selectors';
 import { InfiniteScroll } from 'app/utils/infinite-scroll/infinite-scroll';
+import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
 import { Friend } from './friend-from-list/friend';
 import './friend-list.scss';
 
@@ -33,7 +34,7 @@ export const FriendList = React.memo(() => {
   const loadMore = useCallback(() => {
     const page: Page = {
       offset: friends.length,
-      limit: 25,
+      limit: FRIENDS_LIMIT,
     };
     loadFriends({ page });
   }, [friends, loadFriends]);

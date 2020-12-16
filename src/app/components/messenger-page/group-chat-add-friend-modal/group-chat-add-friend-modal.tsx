@@ -13,6 +13,7 @@ import { LocalizationContext } from 'app/app';
 import { getFriendsLoading, getHasMoreFriends, getMyFriends } from 'app/store/friends/selectors';
 import { Page } from 'app/store/common/models';
 import { InfiniteScroll } from 'app/utils/infinite-scroll/infinite-scroll';
+import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
 import { FriendFromList } from '../shared/friend-from-list/friend-from-list';
 import { SearchBox } from '../search-box/search-box';
 
@@ -63,13 +64,13 @@ export const GroupChatAddFriendModal = React.memo(({ onClose }: GroupChatAddFrie
   const loadMore = useCallback(() => {
     const page: Page = {
       offset: friends.length,
-      limit: 25,
+      limit: FRIENDS_LIMIT,
     };
     loadFriends({ page });
   }, [friends, loadFriends]);
 
   const searchFriends = useCallback((name: string) => {
-    loadFriends({ page: { offset: 0, limit: 25 }, name, initializedBySearch: true });
+    loadFriends({ page: { offset: 0, limit: FRIENDS_LIMIT }, name, initializedBySearch: true });
   }, []);
 
   return (

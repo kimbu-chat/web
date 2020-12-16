@@ -1,7 +1,7 @@
 import produce from 'immer';
 import { unionBy } from 'lodash';
 import { createAction } from 'typesafe-actions';
-import { getChatArrayIndex } from '../../chats-utils';
+import { getChatArrayIndex } from 'app/store/chats/selectors';
 import { ChatsState } from '../../models';
 import { GetGroupChatUsersSuccessActionPayload } from './get-group-chat-users-success-action-payload';
 

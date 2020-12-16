@@ -24,9 +24,9 @@ export class ChangeSelectedChat {
           new Date(lastMessageB?.creationDateTime!).getTime() - new Date(lastMessageA?.creationDateTime!).getTime(),
       );
 
-      if (payload.newChatId !== -1) {
-        draft.selectedChatId = payload.newChatId;
-      }
+      console.log(payload);
+
+      draft.selectedChatId = payload.newChatId;
 
       return draft;
     });
@@ -34,13 +34,13 @@ export class ChangeSelectedChat {
 
   static get saga() {
     return function* changeSelectedChatSaga(action: ReturnType<typeof ChangeSelectedChat.action>): SagaIterator {
-      if (action.payload.newChatId !== -1 && !Number.isNaN(action.payload)) {
+      if (action.payload.newChatId !== null && !Number.isNaN(action.payload)) {
         const chatExists = (yield select(getChatById(action.payload.newChatId))) !== undefined;
 
         if (!chatExists) {
           const hasMore = yield select(getHasMoreChats);
           const { data, status } = ChangeSelectedChat.httpRequest.call(
-            yield call(() => ChangeSelectedChat.httpRequest.generator({ chatId: action.payload.newChatId })),
+            yield call(() => ChangeSelectedChat.httpRequest.generator({ chatId: action.payload.newChatId as number })),
           );
 
           if (status === HTTPStatusCode.OK) {

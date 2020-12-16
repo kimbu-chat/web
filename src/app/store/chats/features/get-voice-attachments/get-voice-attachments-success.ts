@@ -1,7 +1,7 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
+import { getChatArrayIndex } from 'app/store/chats/selectors';
 import { GetVoiceAttachmentsSuccessActionPayload } from './get-voice-attachments-success-action-payload';
-import { getChatArrayIndex } from '../../chats-utils';
 import { ChatsState } from '../../models';
 
 export class GetVoiceAttachmentsSuccess {

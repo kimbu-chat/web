@@ -1,4 +1,4 @@
 export interface ChangeSelectedChatActionPayload {
-  newChatId: number;
-  oldChatId?: number;
+  newChatId: number | null;
+  oldChatId: number | null;
 }

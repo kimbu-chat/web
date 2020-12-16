@@ -14,6 +14,7 @@ import { getFriendsLoading, getHasMoreFriends, getMyFriends } from 'app/store/fr
 import { Page } from 'app/store/common/models';
 import { InfiniteScroll } from 'app/utils/infinite-scroll/infinite-scroll';
 import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
+import { ChatId } from 'app/store/chats/chat-id';
 import { FriendFromList } from '../shared/friend-from-list/friend-from-list';
 import { SearchBox } from '../search-box/search-box';
 
@@ -38,7 +39,7 @@ export const NewChatModal = React.memo(({ onClose, displayCreateGroupChat }: New
 
   const createEmptyChat = useCallback((user: UserPreview) => {
     createChat(user);
-    const chatId = Number(`${user.id}1`);
+    const chatId = new ChatId().From(user.id).entireId;
     history.push(`/chats/${chatId}`);
     onClose();
   }, []);

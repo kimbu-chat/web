@@ -70,6 +70,7 @@ export default (state: any, action: any): ReturnType<typeof rootReducer> => {
         hasMore: true,
         searchString: '',
         chats: [],
+        selectedChatId: null,
       },
       friends: {
         loading: true,

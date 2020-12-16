@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { getChatArrayIndex } from '../../chats-utils';
+import { getChatArrayIndex } from 'app/store/chats/selectors';
 import { ChatsState } from '../../models';
 import { UploadAttachmentSuccessActionPayload } from './upload-attachment-success-action-payload';
 

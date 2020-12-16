@@ -1,7 +1,7 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
+import { getChatArrayIndex } from 'app/store/chats/selectors';
 import { ChatId } from '../../chat-id';
-import { getChatArrayIndex } from '../../chats-utils';
 import { ChatsState } from '../../models';
 import { EditGroupChatSuccessActionPayload } from './edit-group-chat-success-action-payload';
 

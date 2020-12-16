@@ -1,11 +1,15 @@
 import { TFunction } from 'i18next';
 import { RootState } from '../root-reducer';
-import { Chat } from './models';
+import { Chat, ChatsState } from './models';
+
+export const checkChatExists = (chatId: number, state: ChatsState): boolean => chatId !== null && Boolean(state.chats.find(({ id }) => id === chatId));
+
+export const getChatArrayIndex = (chatId: number, state: ChatsState): number => state.chats.findIndex(({ id }) => id === chatId);
 
 export const getSelectedChatSelector = (state: RootState): Chat | undefined =>
   state.chats?.chats?.find((x: Chat) => x?.id === state?.chats?.selectedChatId) || undefined;
 
-export const getSelectedChatIdSelector = (state: RootState): number | undefined => state.chats.selectedChatId;
+export const getSelectedChatIdSelector = (state: RootState): number | null => state.chats.selectedChatId;
 
 export const getChatById = (chatId: number) => (state: RootState) => state.chats.chats.find(({ id }) => id === chatId);
 

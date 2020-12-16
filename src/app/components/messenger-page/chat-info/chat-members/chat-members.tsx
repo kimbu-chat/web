@@ -29,7 +29,7 @@ export const ChatMembers = React.memo(({ addMembers }: ChatMembersNS.Props) => {
 
   useEffect(() => {
     getGroupChatUsers({
-      groupChatId: selectedChat.groupChat?.id || -1,
+      groupChatId: selectedChat.groupChat?.id!,
       page: { offset: 0, limit: CHAT_MEMBERS_LIMIT },
     });
     return () => {
@@ -45,7 +45,7 @@ export const ChatMembers = React.memo(({ addMembers }: ChatMembersNS.Props) => {
     };
 
     getGroupChatUsers({
-      groupChatId: selectedChat.groupChat?.id || -1,
+      groupChatId: selectedChat.groupChat?.id!,
       page,
       name: searchStr,
       isFromScroll: true,
@@ -67,7 +67,7 @@ export const ChatMembers = React.memo(({ addMembers }: ChatMembersNS.Props) => {
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setSearchStr(e.target.value);
             getGroupChatUsers({
-              groupChatId: selectedChat.groupChat?.id || -1,
+              groupChatId: selectedChat.groupChat?.id!,
               page: { offset: 0, limit: CHAT_MEMBERS_LIMIT },
               name: e.target.value,
             });

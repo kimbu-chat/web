@@ -6,10 +6,10 @@ import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import produce from 'immer';
+import { getChatArrayIndex } from 'app/store/chats/selectors';
 import { GetVoiceAttachmentsActionPayload } from './get-voice-attachments-action-payload';
 import { VoiceAttachment, GetVoiceAttachmentsHTTPRequest, ChatsState } from '../../models';
 import { GetVoiceAttachmentsSuccess } from './get-voice-attachments-success';
-import { getChatArrayIndex } from '../../chats-utils';
 
 export class GetVoiceAttachments {
   static get action() {

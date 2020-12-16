@@ -12,7 +12,7 @@ export class ChangeNotificationSoundState {
   }
 
   static get reducer() {
-    return produce(function (draft: UserSettings) {
+    return produce((draft: UserSettings) => {
       draft.notificationSound = !draft.notificationSound;
       return draft;
     });

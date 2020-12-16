@@ -9,11 +9,9 @@ export class GetUserSettingsSuccess {
   }
 
   static get reducer() {
-    return produce(function (draft: UserSettings, { payload }: ReturnType<typeof GetUserSettingsSuccess.action>) {
-      return {
-        ...draft,
-        ...payload,
-      };
-    });
+    return produce((draft: UserSettings, { payload }: ReturnType<typeof GetUserSettingsSuccess.action>) => ({
+      ...draft,
+      ...payload,
+    }));
   }
 }

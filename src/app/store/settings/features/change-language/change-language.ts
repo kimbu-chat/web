@@ -11,7 +11,7 @@ export class ChangeLanguage {
   }
 
   static get reducer() {
-    return produce(function (draft: UserSettings, { payload }: ReturnType<typeof ChangeLanguage.action>) {
+    return produce((draft: UserSettings, { payload }: ReturnType<typeof ChangeLanguage.action>) => {
       draft.language = payload.language;
       return draft;
     });

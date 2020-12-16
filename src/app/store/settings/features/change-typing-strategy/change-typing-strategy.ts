@@ -11,7 +11,7 @@ export class ChangeTypingStrategy {
   }
 
   static get reducer() {
-    return produce(function (draft: UserSettings, { payload }: ReturnType<typeof ChangeTypingStrategy.action>) {
+    return produce((draft: UserSettings, { payload }: ReturnType<typeof ChangeTypingStrategy.action>) => {
       draft.TypingStrategy = payload.strategy;
       return draft;
     });

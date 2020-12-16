@@ -9,6 +9,7 @@ import './edit-username-modal.scss';
 import { MyProfileActions } from 'store/my-profile/actions';
 import { useActionWithDeferred } from 'utils/hooks/use-action-with-deferred';
 import { LocalizationContext } from 'app/app';
+import { validateNickname } from 'app/utils/functions/validate-nick-name';
 
 namespace EditUserNameModalNS {
   export interface Props {
@@ -20,9 +21,8 @@ export const EditUserNameModal = React.memo(({ onClose }: EditUserNameModalNS.Pr
   const { t } = useContext(LocalizationContext);
 
   const [isNickNameAvailable, setIsNickNameAvailable] = useState(true);
+  const [isNickNameValid, setIsNickNameValid] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-
-  const nicknamePattern = /^[a-z0-9_]{5,}$/;
 
   const myProfile = useSelector(getMyProfileSelector);
 
@@ -35,17 +35,25 @@ export const EditUserNameModal = React.memo(({ onClose }: EditUserNameModalNS.Pr
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const newNickName = event.target.value;
       setNickname(newNickName);
+
       if (newNickName === myProfile?.nickname) {
         setIsNickNameAvailable(true);
-      } else {
+        return;
+      }
+
+      if (validateNickname(newNickName)) {
+        setIsNickNameValid(true);
+
         setIsLoading(true);
         checkNicknameAvailability({ nickname: newNickName }).then(({ isAvailable }) => {
           setIsNickNameAvailable(isAvailable);
           setIsLoading(false);
         });
+      } else {
+        setIsNickNameValid(false);
       }
     },
-    [setNickname, setIsNickNameAvailable, checkNicknameAvailability, setIsLoading],
+    [setNickname, setIsNickNameAvailable, checkNicknameAvailability, setIsLoading, setIsNickNameValid],
   );
 
   const onSubmit = useCallback(() => {
@@ -64,14 +72,15 @@ export const EditUserNameModal = React.memo(({ onClose }: EditUserNameModalNS.Pr
           <div className='edit-username-modal'>
             <div className='edit-username-modal__input-block'>
               <span className='edit-username-modal__input-label'>{t('editUsernameModal.username')}</span>
+              {!isNickNameValid && <div>This nick name is not acceptable</div>}
               <div className='edit-username-modal__input-wrapper'>
                 <input value={nickname} onChange={onChangeNickname} type='text' className='edit-username-modal__input' />
-                {nickname.match(nicknamePattern) && isNickNameAvailable && (
+                {isNickNameValid && isNickNameAvailable && (
                   <div className='edit-username-modal__valid'>
                     <ValidSvg viewBox='0 0 25 25' />
                   </div>
                 )}
-                {(!nickname.match(nicknamePattern) || !isNickNameAvailable) && (
+                {(!isNickNameValid || !isNickNameAvailable) && (
                   <div className='edit-username-modal__invalid'>
                     <InValidSvg viewBox='0 0 25 25' />
                   </div>
@@ -85,7 +94,7 @@ export const EditUserNameModal = React.memo(({ onClose }: EditUserNameModalNS.Pr
           {
             children: 'Save',
             className: 'edit-username-modal__confirm-btn',
-            disabled: !nickname.match(nicknamePattern) || !isNickNameAvailable || isLoading,
+            disabled: !isNickNameAvailable || isLoading || !isNickNameValid,
             onClick: onSubmit,
             position: 'left',
             width: 'contained',

@@ -86,7 +86,9 @@ export const ChatInfo: React.FC = React.memo(() => {
         displayChangePhoto();
       };
 
-      if (e.target.files) reader.readAsDataURL(e.target.files[0]);
+      if (e.target.files) {
+        reader.readAsDataURL(e.target.files[0]);
+      }
 
       if (fileInputRef.current) {
         fileInputRef.current.value = '';

@@ -27,8 +27,11 @@ export const FriendList = React.memo(() => {
   const { chatId } = useParams<{ chatId: string }>();
 
   useEffect(() => {
-    if (chatId) changeSelectedChat({ newChatId: Number(chatId), oldChatId: selectedChatId });
-    else changeSelectedChat({ newChatId: null, oldChatId: selectedChatId });
+    if (chatId) {
+      changeSelectedChat({ newChatId: Number(chatId), oldChatId: selectedChatId });
+    } else {
+      changeSelectedChat({ newChatId: null, oldChatId: selectedChatId });
+    }
   }, [chatId]);
 
   const loadMore = useCallback(() => {

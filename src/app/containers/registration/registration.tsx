@@ -88,7 +88,9 @@ export const Registration: React.FC<RegistrationNS.Props> = ({ preloadNext }) =>
         displayChangePhoto();
       };
 
-      if (e.target.files) reader.readAsDataURL(e.target.files[0]);
+      if (e.target.files) {
+        reader.readAsDataURL(e.target.files[0]);
+      }
 
       if (fileInputRef.current) {
         fileInputRef.current.value = '';

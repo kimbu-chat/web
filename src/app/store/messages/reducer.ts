@@ -80,7 +80,9 @@ const messages = createReducer<MessagesState>(initialState)
 
       if (chatIndex !== -1) {
         draft.messages[chatIndex].messages.map((message) => {
-          if (message.id <= lastReadMessageId) message.state = MessageState.READ;
+          if (message.id <= lastReadMessageId) {
+            message.state = MessageState.READ;
+          }
           return message;
         });
       }

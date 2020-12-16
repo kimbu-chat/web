@@ -117,7 +117,9 @@ export const CreateGroupChat = React.memo(({ onClose, preSelectedUserIds }: ICre
         displayChangePhoto();
       };
 
-      if (e.target.files) reader.readAsDataURL(e.target.files[0]);
+      if (e.target.files) {
+        reader.readAsDataURL(e.target.files[0]);
+      }
 
       if (fileInputRef.current) {
         fileInputRef.current.value = '';

@@ -10,7 +10,9 @@ import { useHistory } from 'react-router';
 
 import PeopleSvg from 'icons/ic-group.svg';
 import { ChatActions } from 'app/store/chats/actions';
-import { getMyFriends } from 'app/store/friends/selectors';
+import { getFriendsLoading, getHasMoreFriends, getMyFriends } from 'app/store/friends/selectors';
+import { Page } from 'app/store/common/models';
+import { InfiniteScroll } from 'app/utils/infinite-scroll/infinite-scroll';
 import { FriendFromList } from '../shared/friend-from-list/friend-from-list';
 import { SearchBox } from '../search-box/search-box';
 
@@ -25,6 +27,8 @@ export const NewChatModal = React.memo(({ onClose, displayCreateGroupChat }: New
   const { t } = useContext(LocalizationContext);
 
   const friends = useSelector(getMyFriends);
+  const hasMoreFriends = useSelector(getHasMoreFriends);
+  const friendsLoading = useSelector(getFriendsLoading);
 
   const createChat = useActionWithDispatch(ChatActions.createChat);
   const loadFriends = useActionWithDispatch(FriendActions.getFriends);
@@ -37,6 +41,14 @@ export const NewChatModal = React.memo(({ onClose, displayCreateGroupChat }: New
     history.push(`/chats/${chatId}`);
     onClose();
   }, []);
+
+  const loadMore = useCallback(() => {
+    const page: Page = {
+      offset: friends.length,
+      limit: 25,
+    };
+    loadFriends({ page });
+  }, [friends, loadFriends]);
 
   const searchFriends = useCallback((name: string) => {
     loadFriends({ page: { offset: 0, limit: 25 }, name, initializedBySearch: true });
@@ -62,9 +74,11 @@ export const NewChatModal = React.memo(({ onClose, displayCreateGroupChat }: New
                 </div>
                 <span className='new-chat__new-group__title'>{t('newChat.new_group')}</span>
               </div>
-              {friends.map((friend) => (
-                <FriendFromList key={friend.id} friend={friend} onClick={createEmptyChat} />
-              ))}
+              <InfiniteScroll className='create-group-chat__friends-block' onReachExtreme={loadMore} hasMore={hasMoreFriends} isLoading={friendsLoading}>
+                {friends.map((friend) => (
+                  <FriendFromList key={friend.id} friend={friend} onClick={createEmptyChat} />
+                ))}
+              </InfiniteScroll>
             </div>
           </div>
         }

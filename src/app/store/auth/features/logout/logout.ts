@@ -4,16 +4,25 @@ import { authRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/models';
 import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
+import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { call } from 'redux-saga/effects';
+import { call, put } from 'redux-saga/effects';
 import { createEmptyAction } from '../../../common/actions';
 import { messaging } from '../../../middlewares/firebase/firebase';
 import { getPushNotificationTokens } from '../../get-push-notification-tokens';
-import { SubscribeToPushNotificationsRequest } from '../../models';
+import { AuthState, SubscribeToPushNotificationsRequest } from '../../models';
+import { LogoutSuccess } from './logout-success';
 
 export class Logout {
   static get action() {
     return createEmptyAction('LOGOUT');
+  }
+
+  static get reducer() {
+    return produce((draft: AuthState) => ({
+      ...draft,
+      loading: true,
+    }));
   }
 
   static get saga() {
@@ -28,6 +37,8 @@ export class Logout {
 
         yield call(async () => await messaging.deleteToken());
       }
+
+      yield put(LogoutSuccess.action());
     };
   }
 

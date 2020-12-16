@@ -10,6 +10,7 @@ import { ConfirmPhone } from './features/confirm-phone/confirm-phone';
 import { Register } from './features/register/register';
 import { ReSendSmsCode } from './features/send-sms-code/re-send-sms-code';
 import { ConfirmPhoneRegistrationAllowed } from './features/confirm-phone/confirm-phone-registration-allowed';
+import { Logout } from './features/logout/logout';
 
 const authService = new AuthService();
 const securityTokens = authService?.securityTokens;
@@ -33,6 +34,7 @@ const auth = createReducer<AuthState>(initialState)
   .handleAction(ConfirmPhoneFailure.action, ConfirmPhoneFailure.reducer)
   .handleAction(Register.action, Register.reducer)
   .handleAction(ReSendSmsCode.action, ReSendSmsCode.reducer)
-  .handleAction(ConfirmPhoneRegistrationAllowed.action, ConfirmPhoneRegistrationAllowed.reducer);
+  .handleAction(ConfirmPhoneRegistrationAllowed.action, ConfirmPhoneRegistrationAllowed.reducer)
+  .handleAction(Logout.action, Logout.reducer);
 
 export default auth;

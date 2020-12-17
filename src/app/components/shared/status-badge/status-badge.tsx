@@ -1,5 +1,5 @@
 import React from 'react';
-import { getUserInitials } from 'utils/functions/interlocutor-name-utils';
+import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 import { UserPreview } from 'store/my-profile/models';
 import { UserStatus } from 'app/store/common/models';
 import { Avatar } from '../avatar/avatar';

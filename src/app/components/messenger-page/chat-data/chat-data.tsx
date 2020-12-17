@@ -5,7 +5,7 @@ import { getSelectedChatSelector } from 'store/chats/selectors';
 
 import './chat-data.scss';
 import { LocalizationContext } from 'app/app';
-import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
+import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { CallActions } from 'store/calls/actions';
 import { UserPreview } from 'store/my-profile/models';
 import { Avatar } from 'components';
@@ -16,7 +16,7 @@ import ChatSearchSvg from 'icons/ic-search.svg';
 import ChatInfoSvg from 'icons/ic-info.svg';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { UserStatus } from 'app/store/common/models';
-import { getChatInterlocutor, getInterlocutorInitials } from '../../../utils/functions/interlocutor-name-utils';
+import { getChatInterlocutor, getInterlocutorInitials } from '../../../utils/interlocutor-name-utils';
 
 export const ChatData = React.memo(() => {
   const { t } = useContext(LocalizationContext);

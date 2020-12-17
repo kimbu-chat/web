@@ -1,4 +1,4 @@
-import { FileType } from '../../store/messages/models';
+import { FileType } from '../store/messages/models';
 
 export const getFileType = (fileName: string): FileType => {
   const imgRegex = new RegExp(/\.+(jpg|jpeg|gif|tiff|png)$/, 'i');

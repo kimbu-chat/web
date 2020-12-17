@@ -1,6 +1,6 @@
 import { Avatar, ChangePhoto, FadeAnimationWrapper } from 'components';
 import { getMyProfileSelector } from 'store/my-profile/selectors';
-import { getUserInitials } from 'utils/functions/interlocutor-name-utils';
+import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 import React, { useCallback, useContext, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import './edit-profile.scss';
@@ -10,7 +10,7 @@ import PhoneSvg from 'icons/ic-call.svg';
 import EmailSvg from 'icons/ic-email.svg';
 import EditSvg from 'icons/ic-edit.svg';
 import { MyProfileActions } from 'store/my-profile/actions';
-import { useActionWithDeferred } from 'utils/hooks/use-action-with-deferred';
+import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
 
 import { LocalizationContext } from 'app/app';
 import { AvatarSelectedData, UploadAvatarResponse } from 'store/my-profile/models';

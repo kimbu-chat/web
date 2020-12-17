@@ -8,6 +8,8 @@ import { getUserAudio, tracks, audioSender, getUserVideo, videoSender } from '..
 import { CloseAudioStatus } from '../close-audio-status/close-audio-status';
 import { CloseVideoStatus } from '../close-video-status/close-video-status';
 import { SwitchDeviceActionPayload } from './switch-device-action-payload';
+import { InputType } from '../../common/enums/input-type';
+import { GetUserMediaError } from '../../common/enums/get-user-media-error';
 
 export class SwitchDevice {
   static get action() {
@@ -16,11 +18,11 @@ export class SwitchDevice {
 
   static get reducer() {
     return produce((draft: CallState, { payload }: ReturnType<typeof SwitchDevice.action>) => {
-      if (payload.kind === 'videoinput') {
+      if (payload.kind === InputType.videoInput) {
         draft.videoConstraints.deviceId = payload.deviceId;
       }
 
-      if (payload.kind === 'audioinput') {
+      if (payload.kind === InputType.audioInput) {
         draft.audioConstraints.deviceId = payload.deviceId;
       }
 
@@ -33,11 +35,11 @@ export class SwitchDevice {
       const videoConstraints = yield select(getVideoConstraints);
       const audioConstraints = yield select(getAudioConstraints);
 
-      if (action.payload.kind === 'audioinput' && audioConstraints.isOpened) {
+      if (action.payload.kind === InputType.audioInput && audioConstraints.isOpened) {
         try {
           yield call(getUserAudio, { audio: audioConstraints });
         } catch (e) {
-          if (e.message === 'NO_AUDIO') {
+          if (e.message === GetUserMediaError.NO_AUDIO) {
             yield put(CloseAudioStatus.action());
           }
         }
@@ -47,11 +49,11 @@ export class SwitchDevice {
         }
       }
 
-      if (action.payload.kind === 'videoinput' && videoConstraints.isOpened) {
+      if (action.payload.kind === InputType.videoInput && videoConstraints.isOpened) {
         try {
           yield call(getUserVideo, { video: videoConstraints });
         } catch (e) {
-          if (e.message === 'NO_VIDEO') {
+          if (e.message === GetUserMediaError.NO_VIDEO) {
             yield put(CloseVideoStatus.action());
           }
         }

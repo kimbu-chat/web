@@ -1,5 +1,6 @@
 import { Page } from '../common/models';
 import { UserPreview } from '../my-profile/models';
+import { InputType } from './common/enums/input-type';
 
 export interface CallState {
   isActiveCallIncoming?: boolean;
@@ -96,16 +97,16 @@ export interface CandidateActionPayload {
 }
 
 export interface GotMediaDevicesInfoActionPayload {
-  kind: 'videoinput' | 'audioinput';
+  kind: InputType.videoInput | InputType.audioInput;
   devices: MediaDeviceInfo[];
 }
 
 export interface ChangeMediaStatusActionPayload {
-  kind: 'videoinput' | 'audioinput';
+  kind: InputType.videoInput | InputType.audioInput;
 }
 
 export interface SwitchDeviceActionPayload {
-  kind: 'videoinput' | 'audioinput';
+  kind: InputType.videoInput | InputType.audioInput;
   deviceId: string;
 }
 

@@ -7,9 +7,9 @@ import ValidSvg from 'icons/ic-check-filled.svg';
 import InValidSvg from 'icons/ic-dismiss.svg';
 import './edit-username-modal.scss';
 import { MyProfileActions } from 'store/my-profile/actions';
-import { useActionWithDeferred } from 'utils/hooks/use-action-with-deferred';
+import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
 import { LocalizationContext } from 'app/app';
-import { validateNickname } from 'app/utils/functions/validate-nick-name';
+import { validateNickname } from 'app/utils/validate-nick-name';
 
 namespace EditUserNameModalNS {
   export interface Props {

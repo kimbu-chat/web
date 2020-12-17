@@ -1,8 +1,8 @@
 import { Register } from 'app/store/auth/features/register/register';
 import { AvatarSelectedData, UploadAvatarResponse } from 'app/store/my-profile/models';
-import { getStringInitials } from 'app/utils/functions/interlocutor-name-utils';
-import { useActionWithDeferred } from 'app/utils/hooks/use-action-with-deferred';
-import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
+import { getStringInitials } from 'app/utils/interlocutor-name-utils';
+import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
+import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import CloseSVG from 'icons/ic-close.svg';
 import { LocalizationContext } from 'app/app';
@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 import { CheckNicknameAvailability } from 'app/store/my-profile/features/check-nickname-availability/check-nickname-availability';
 import { CancelAvatarUploading } from 'app/store/my-profile/features/cancel-avatar-uploading/cancel-avatar-uploading';
 import { UploadAvatar } from 'app/store/my-profile/features/upload-avatar/upload-avatar';
-import { validateNickname } from 'app/utils/functions/validate-nick-name';
+import { validateNickname } from 'app/utils/validate-nick-name';
 import { Avatar, BaseBtn, ChangePhoto, CircularProgress } from '../../components';
 
 namespace RegistrationNS {

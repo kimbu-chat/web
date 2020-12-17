@@ -4,7 +4,7 @@ import './code-confirmation.scss';
 import { LocalizationContext } from 'app/app';
 import { AuthActions } from 'store/auth/actions';
 import { RootState } from 'store/root-reducer';
-import { useActionWithDeferred } from 'utils/hooks/use-action-with-deferred';
+import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
 import { useSelector } from 'react-redux';
 import useInterval from 'use-interval';
 import moment from 'moment';
@@ -135,7 +135,6 @@ const CodeConfirmation: React.FC<CodeConfirmationNS.Props> = ({ preloadNext }) =
 
   const resendPhoneConfirmationCode = useCallback((): void => {
     reSendSmsCode(undefined);
-    // TODO: check how can I combine meta+emptyAction
     setRemainingSeconds(60);
     setIsIntervalRunning(true);
   }, [reSendSmsCode, setRemainingSeconds, setIsIntervalRunning]);

@@ -4,9 +4,9 @@ import './file-attachment.scss';
 import DownloadSvg from 'icons/ic-download.svg';
 import ProgressSVG from 'icons/ic-progress.svg';
 
-import { fileDownload } from 'utils/functions/file-download';
+import { fileDownload } from 'app/utils/file-download';
 import { RawAttachment } from 'store/chats/models';
-import { getRawAttachmentsizeUnit } from 'utils/functions/get-file-size-unit';
+import { getRawAttachmentsizeUnit } from 'app/utils/get-file-size-unit';
 
 namespace FileAttachmentNS {
   export interface Props {

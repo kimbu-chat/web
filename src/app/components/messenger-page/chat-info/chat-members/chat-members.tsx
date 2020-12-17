@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './chat-members.scss';
 import { useSelector } from 'react-redux';
-import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
+import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { Chat } from 'store/chats/models';
 import { ChatActions } from 'store/chats/actions';
 import { getMembersListForSelectedGroupChat, getSelectedChatSelector } from 'store/chats/selectors';
 import AddSvg from 'icons/ic-add-new.svg';
-import { InfiniteScroll } from 'app/utils/infinite-scroll/infinite-scroll';
+import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
 import { Page } from 'app/store/common/models';
 import { CHAT_MEMBERS_LIMIT } from 'app/utils/pagination-limits';
 import { SearchBox } from '../../search-box/search-box';

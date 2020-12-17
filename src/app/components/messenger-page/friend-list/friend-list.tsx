@@ -1,14 +1,14 @@
 import { ChatActions } from 'store/chats/actions';
 import { Page } from 'store/common/models';
 import { FriendActions } from 'store/friends/actions';
-import { useActionWithDeferred } from 'utils/hooks/use-action-with-deferred';
-import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
+import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
+import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import React, { useCallback, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { getMyFriends, getHasMoreFriends, getFriendsLoading } from 'app/store/friends/selectors';
 import { getSelectedChatIdSelector } from 'app/store/chats/selectors';
-import { InfiniteScroll } from 'app/utils/infinite-scroll/infinite-scroll';
+import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
 import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
 import { Friend } from './friend-from-list/friend';
 import './friend-list.scss';

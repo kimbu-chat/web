@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import './chat-from-list.scss';
 import { Chat } from 'store/chats/models';
-import { MessageUtils } from 'utils/functions/message-utils';
+import { MessageUtils } from 'app/utils/message-utils';
 
 import { StatusBadge, Avatar } from 'components';
 import { SystemMessageType, Message, MessageState } from 'store/messages/models';
@@ -17,7 +17,7 @@ import MessageQeuedSvg from 'icons/ic-time.svg';
 import MessageSentSvg from 'icons/ic-tick.svg';
 import MessageReadSvg from 'icons/ic-double_tick.svg';
 import { getTypingString } from 'store/chats/selectors';
-import { getChatInterlocutor, getInterlocutorInitials } from '../../../../utils/functions/interlocutor-name-utils';
+import { getChatInterlocutor, getInterlocutorInitials } from '../../../../utils/interlocutor-name-utils';
 
 namespace ChatFromListNS {
   export interface Props {

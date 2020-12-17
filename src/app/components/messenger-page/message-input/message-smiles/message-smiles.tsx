@@ -3,7 +3,7 @@ import { Picker, BaseEmoji } from 'emoji-mart';
 import SmilesSvg from 'icons/ic-smile.svg';
 import 'emoji-mart/css/emoji-mart.css';
 import { LocalizationContext } from 'app/app';
-import useOnClickOutside from 'utils/hooks/use-on-click-outside';
+import useOnClickOutside from 'app/hooks/use-on-click-outside';
 import './message-smiles.scss';
 
 namespace MessageSmilesNS {

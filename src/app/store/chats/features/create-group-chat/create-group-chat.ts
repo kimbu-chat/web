@@ -2,7 +2,7 @@ import { Meta } from 'app/store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
 import { SystemMessageType, MessageState } from 'app/store/messages/models';
 import { ApiBasePath } from 'app/store/root-api';
-import { MessageUtils } from 'app/utils/functions/message-utils';
+import { MessageUtils } from 'app/utils/message-utils';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';

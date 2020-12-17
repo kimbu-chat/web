@@ -5,6 +5,7 @@ import { call, put, select } from 'redux-saga/effects';
 import { CloseAudioStatus } from '../features/close-audio-status/close-audio-status';
 import { CloseVideoStatus } from '../features/close-video-status/close-video-status';
 import { IInCompleteConstraints } from '../models';
+import { GetUserMediaError } from '../common/enums/get-user-media-error';
 
 export const tracks: {
   [thingName: string]: MediaStreamTrack[];
@@ -96,7 +97,7 @@ export const getUserAudio = async (constraints: IInCompleteConstraints) => {
       audio: constraints.audio?.isOpened && constraints.audio,
     });
   } catch (e) {
-    throw new Error('NO_AUDIO');
+    throw new Error(GetUserMediaError.NO_AUDIO);
   }
 
   stopAudioTracks();
@@ -113,7 +114,7 @@ export const getUserVideo = async (constraints: IInCompleteConstraints) => {
       video: constraints.video?.isOpened && constraints.video,
     });
   } catch {
-    throw new Error('NO_VIDEO');
+    throw new Error(GetUserMediaError.NO_VIDEO);
   }
 
   stopVideoTracks();

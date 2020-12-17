@@ -2,7 +2,7 @@ import { LocalizationContext } from 'app/app';
 import { Avatar } from 'components';
 import { ChatId } from 'store/chats/chat-id';
 import { UserPreview } from 'store/my-profile/models';
-import { getUserInitials } from 'utils/functions/interlocutor-name-utils';
+import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 import moment from 'moment';
 import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';

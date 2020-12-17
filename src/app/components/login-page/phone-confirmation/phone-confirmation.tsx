@@ -3,12 +3,12 @@ import './phone-confirmation.scss';
 import { CountrySelect, PhoneInput, BaseBtn, WithBackground, FadeAnimationWrapper } from 'components';
 import { Country, countryList } from 'app/common/countries';
 import { LocalizationContext } from 'app/app';
-import { useActionWithDeferred } from 'utils/hooks/use-action-with-deferred';
+import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
 import { AuthActions } from 'store/auth/actions';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import { getCountryByIp } from 'utils/functions/get-country-by-ip';
+import { getCountryByIp } from 'app/utils/get-country-by-ip';
 import { CubeLoader } from 'app/containers/cube-loader/cube-loader';
 import { getAuthIsLoading } from 'app/store/auth/selectors';
 

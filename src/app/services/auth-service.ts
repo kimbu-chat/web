@@ -1,4 +1,4 @@
-import { BrowserStorage } from 'utils/functions/browser-storage';
+import { BrowserStorage } from 'app/utils/browser-storage';
 import { SecurityTokens } from 'store/auth/models';
 
 export class AuthService {

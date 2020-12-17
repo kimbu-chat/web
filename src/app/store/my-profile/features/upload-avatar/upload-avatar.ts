@@ -2,7 +2,7 @@ import { Meta } from 'app/store/common/actions';
 import { httpFilesRequestFactory } from 'app/store/common/http-file-factory';
 import { HttpRequestMethod } from 'app/store/common/models';
 import { ApiBasePath } from 'app/store/root-api';
-import { getFileFromUrl } from 'app/utils/functions/get-file-from-url';
+import { getFileFromUrl } from 'app/utils/get-file-from-url';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';

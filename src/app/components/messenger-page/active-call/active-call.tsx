@@ -13,12 +13,12 @@ import {
   getVideoConstraints,
   getVideoDevices,
 } from 'store/calls/selectors';
-import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
+import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { CallActions } from 'store/calls/actions';
 import moment from 'moment';
 import { Rnd } from 'react-rnd';
 import { Avatar } from 'components';
-import { getUserInitials } from 'utils/functions/interlocutor-name-utils';
+import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 import ReactDOM from 'react-dom';
 
 // SVG
@@ -39,6 +39,7 @@ import busySound from 'app/assets/sounds/calls/busy-sound.ogg';
 import { LocalizationContext } from 'app/app';
 import { UserPreview } from 'store/my-profile/models';
 import { interlocurorAudioTrack, interlocurorVideoTrack, tracks } from 'app/store/calls/utils/user-media';
+import { InputType } from 'app/store/calls/common/enums/input-type';
 import { Dropdown } from './dropdown/dropdown';
 
 namespace IActiveCall {
@@ -86,11 +87,11 @@ export const ActiveCall: React.FC<IActiveCall.Props> = ({ isDisplayed }) => {
   }, [setIsFullScreen]);
 
   const changeAudioStatus = useCallback(() => {
-    changeMediaStatus({ kind: 'audioinput' });
+    changeMediaStatus({ kind: InputType.audioInput });
   }, []);
 
   const changeVideoStatus = useCallback(() => {
-    changeMediaStatus({ kind: 'videoinput' });
+    changeMediaStatus({ kind: InputType.videoInput });
   }, []);
 
   useEffect(() => {
@@ -248,7 +249,7 @@ export const ActiveCall: React.FC<IActiveCall.Props> = ({ isDisplayed }) => {
               disabled={!isAudioOpened}
               options={audioDevices.map((device) => ({
                 title: device.label,
-                onClick: () => switchDevice({ kind: 'audioinput', deviceId: device.deviceId }),
+                onClick: () => switchDevice({ kind: InputType.audioInput, deviceId: device.deviceId }),
               }))}
             />
           </div>
@@ -261,7 +262,7 @@ export const ActiveCall: React.FC<IActiveCall.Props> = ({ isDisplayed }) => {
               disabled={!isVideoOpened}
               options={videoDevices.map((device) => ({
                 title: device.label,
-                onClick: () => switchDevice({ kind: 'videoinput', deviceId: device.deviceId }),
+                onClick: () => switchDevice({ kind: InputType.videoInput, deviceId: device.deviceId }),
               }))}
             />
           </div>

@@ -3,7 +3,7 @@ import PlaySvg from 'icons/ic-play.svg';
 import moment from 'moment';
 import { FadeAnimationWrapper, VideoPlayer } from 'components';
 import { IGroupable, VideoAttachment } from 'store/chats/models';
-import { doesYearDifferFromCurrent } from 'utils/functions/set-separators';
+import { doesYearDifferFromCurrent } from 'app/utils/set-separators';
 
 namespace VideoNS {
   export interface Props {

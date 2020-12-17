@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 import CheckBoxSvg from 'icons/ic-checkbox.svg';
 import { MessageActions } from 'store/messages/actions';
-import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
+import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { LocalizationContext } from 'app/app';
 import './delete-message-modal.scss';
 

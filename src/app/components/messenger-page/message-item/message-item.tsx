@@ -1,17 +1,17 @@
 import React, { useContext, useCallback } from 'react';
 import { Message, SystemMessageType, MessageState, FileType } from 'store/messages/models';
-import { MessageUtils } from 'utils/functions/message-utils';
+import { MessageUtils } from 'app/utils/message-utils';
 import { useSelector } from 'react-redux';
 import './message-item.scss';
 
 import { getMyIdSelector } from 'store/my-profile/selectors';
 import { LocalizationContext } from 'app/app';
-import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
+import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { getSelectedChatSelector } from 'store/chats/selectors';
 import { MessageActions } from 'store/messages/actions';
 import { getSelectedMessagesLength } from 'store/messages/selectors';
 import { Avatar } from 'components';
-import { getUserInitials } from 'utils/functions/interlocutor-name-utils';
+import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 import { UserPreview } from 'store/my-profile/models';
 import moment from 'moment';
 

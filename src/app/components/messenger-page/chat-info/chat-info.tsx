@@ -1,8 +1,8 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import './chat-info.scss';
 import { useSelector } from 'react-redux';
-import { useActionWithDeferred } from 'utils/hooks/use-action-with-deferred';
-import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
+import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
+import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { AvatarSelectedData, UploadAvatarResponse } from 'store/my-profile/models';
 import { getSelectedChatSelector } from 'store/chats/selectors';
 import { ChatActions } from 'store/chats/actions';
@@ -12,7 +12,7 @@ import PhotoSvg from 'icons/ic-photo.svg';
 import { Route } from 'react-router';
 import { CSSTransition } from 'react-transition-group';
 import { MyProfileActions } from 'store/my-profile/actions';
-import { getInterlocutorInitials, getChatInterlocutor } from '../../../utils/functions/interlocutor-name-utils';
+import { getInterlocutorInitials, getChatInterlocutor } from '../../../utils/interlocutor-name-utils';
 
 import { InterlocutorInfo } from './interlocutor-info/interlocutor-info';
 import { ChatActions as ChatInfoActions } from './chat-actions/chat-actions';

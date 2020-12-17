@@ -3,11 +3,11 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 
 import { useSelector } from 'react-redux';
 import './forward-modal.scss';
-import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
+import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { LocalizationContext } from 'app/app';
 import { ChatActions } from 'store/chats/actions';
 import { getChats, getHasMoreChats, getChatsLoading } from 'app/store/chats/selectors';
-import { InfiniteScroll } from 'app/utils/infinite-scroll/infinite-scroll';
+import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
 import { CHATS_LIMIT } from 'app/utils/pagination-limits';
 import { SearchBox } from '../search-box/search-box';
 import { ForwardEntity } from './forward-entity/forward-entity';

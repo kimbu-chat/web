@@ -3,7 +3,7 @@ import './chat-files.scss';
 
 import ReturnSvg from 'icons/ic-arrow-left.svg';
 import { LocalizationContext } from 'app/app';
-import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
+import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { useSelector } from 'react-redux';
 import { ChatActions } from 'store/chats/actions';
 import { getSelectedChatSelector } from 'store/chats/selectors';
@@ -11,8 +11,8 @@ import { Page } from 'store/common/models';
 import { Link, useLocation } from 'react-router-dom';
 import moment from 'moment';
 
-import { doesYearDifferFromCurrent, setSeparators } from 'utils/functions/set-separators';
-import { InfiniteScroll } from 'app/utils/infinite-scroll/infinite-scroll';
+import { doesYearDifferFromCurrent, setSeparators } from 'app/utils/set-separators';
+import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
 import { FILE_ATTACHMENTS_LIMIT } from 'app/utils/pagination-limits';
 import { FileAttachment } from '../../shared/file-attachment/file-attachment';
 

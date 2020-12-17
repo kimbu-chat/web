@@ -6,7 +6,7 @@ import PauseSvg from 'icons/ic-pause.svg';
 
 import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
 import moment from 'moment';
-import { changeMusic } from 'utils/functions/current-music';
+import { changeMusic } from 'app/utils/current-music';
 import { VoiceAttachment } from 'store/chats/models';
 
 namespace RecordingAttachmentNS {

@@ -3,7 +3,7 @@ import React from 'react';
 import CloseSVG from 'icons/ic-close.svg';
 
 import './big-photo.scss';
-import { stopPropagation } from 'utils/functions/stop-propagation';
+import { stopPropagation } from 'app/utils/stop-propagation';
 
 namespace BigPhotoNS {
   export interface Props {

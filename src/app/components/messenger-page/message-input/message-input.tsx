@@ -2,7 +2,7 @@ import React, { useState, useRef, useContext, useCallback, useEffect } from 'rea
 import { useSelector } from 'react-redux';
 import './message-input.scss';
 
-import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
+import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { MessageActions } from 'store/messages/actions';
 import { getSelectedChatSelector } from 'store/chats/selectors';
 import { SystemMessageType, MessageState, FileType } from 'store/messages/models';
@@ -18,12 +18,12 @@ import Mousetrap from 'mousetrap';
 import { getTypingStrategy } from 'store/settings/selectors';
 import { TypingStrategy } from 'store/settings/models';
 import { ChatActions } from 'store/chats/actions';
-import useOnClickOutside from 'utils/hooks/use-on-click-outside';
-import { getFileType } from 'utils/functions/get-file-extension';
+import useOnClickOutside from 'app/hooks/use-on-click-outside';
+import { getFileType } from 'app/utils/get-file-extension';
 import { RespondingMessage } from 'components';
 import { Chat } from 'store/chats/models';
-import { useGlobalDrop } from 'utils/hooks/use-drop';
-import useReferState from 'utils/hooks/use-referred-state';
+import { useGlobalDrop } from 'app/hooks/use-drop';
+import useReferState from 'app/hooks/use-referred-state';
 import { throttle } from 'lodash';
 import { getMessageToReply } from 'app/store/messages/selectors';
 import { MessageInputAttachment } from './message-input-attachment/message-input-attachment';

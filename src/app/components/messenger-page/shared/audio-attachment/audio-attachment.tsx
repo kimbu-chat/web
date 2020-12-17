@@ -4,7 +4,7 @@ import './audio-attachment.scss';
 import PlaySvg from 'icons/ic-play.svg';
 import PauseSvg from 'icons/ic-pause.svg';
 import moment from 'moment';
-import { changeMusic } from 'utils/functions/current-music';
+import { changeMusic } from 'app/utils/current-music';
 import { AudioAttachment } from 'store/chats/models';
 
 namespace AudioAttachmentNS {

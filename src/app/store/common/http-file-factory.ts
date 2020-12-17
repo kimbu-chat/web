@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, CancelTokenSource } from 'axios';
 import { call, cancelled, put, select, take } from 'redux-saga/effects';
 import { END, eventChannel, SagaIterator, buffers } from 'redux-saga';
-import { isNetworkError } from 'utils/functions/error-utils';
+import { isNetworkError } from 'app/utils/error-utils';
 import { SecurityTokens } from '../auth/models';
 import { selectSecurityTokens } from '../auth/selectors';
 import { RefreshToken } from '../auth/features/refresh-token/refresh-token';

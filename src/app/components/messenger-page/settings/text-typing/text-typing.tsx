@@ -2,7 +2,7 @@ import { LocalizationContext } from 'app/app';
 import { SettingsActions } from 'store/settings/actions';
 import { TypingStrategy } from 'store/settings/models';
 import { getTypingStrategy } from 'store/settings/selectors';
-import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
+import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import React, { useCallback, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { RadioBox } from '../shared/radio-box/radio-box';

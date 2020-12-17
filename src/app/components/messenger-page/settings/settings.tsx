@@ -1,6 +1,6 @@
 import { Avatar, BaseBtn } from 'components';
 import { getMyProfileSelector } from 'store/my-profile/selectors';
-import { getUserInitials } from 'utils/functions/interlocutor-name-utils';
+import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { LocalizationContext } from 'app/app';
@@ -13,7 +13,7 @@ import LangSvg from 'icons/ic-language.svg';
 import { Link, Route, useLocation } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 import { AuthActions } from 'store/auth/actions';
-import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
+import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { EditProfile } from './edit-profile/edit-profile';
 import { NotificationsSettings } from './notifications-settings/notifications-settings';
 import { LanguageSettings } from './language-settings/language-settings';

@@ -6,7 +6,7 @@ import './chat-member.scss';
 import { UserPreview } from 'store/my-profile/models';
 import { LocalizationContext } from 'app/app';
 import { Avatar } from 'components';
-import { getUserInitials } from 'utils/functions/interlocutor-name-utils';
+import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 
 import DeleteSvg from 'icons/ic-delete.svg';
 import { UserStatus } from 'app/store/common/models';

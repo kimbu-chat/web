@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useState } from 'react';
 import './selected-messages-data.scss';
 import { useSelector } from 'react-redux';
-import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
+import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { getSelectedChatSelector } from 'store/chats/selectors';
 import { MessageActions } from 'store/messages/actions';
 import { LocalizationContext } from 'app/app';

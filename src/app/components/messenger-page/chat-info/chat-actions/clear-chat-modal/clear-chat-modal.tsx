@@ -6,7 +6,7 @@ import React, { useCallback, useContext, useState } from 'react';
 import './clear-chat-modal.scss';
 import { useSelector } from 'react-redux';
 import { ClearChatHistory } from 'app/store/messages/features/clear-history/clear-chat-history';
-import { useActionWithDispatch } from 'app/utils/hooks/use-action-with-dispatch';
+import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import CheckBoxSvg from 'icons/ic-checkbox.svg';
 
 namespace ClearChatModalNS {

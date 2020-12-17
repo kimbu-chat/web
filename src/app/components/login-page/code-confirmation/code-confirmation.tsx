@@ -4,7 +4,7 @@ import './code-confirmation.scss';
 import { LocalizationContext } from 'app/app';
 import { AuthActions } from 'store/auth/actions';
 import { RootState } from 'store/root-reducer';
-import { useActionWithDeferred } from 'utils/hooks/use-action-with-deferred';
+import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
 import { useSelector } from 'react-redux';
 import useInterval from 'use-interval';
 import moment from 'moment';

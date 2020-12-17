@@ -3,7 +3,7 @@ import './search-top.scss';
 
 import CreateChatSvg from 'icons/ic-write-message.svg';
 
-import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
+import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { ChatActions } from 'store/chats/actions';
 
 import { FadeAnimationWrapper, CreateGroupChat, NewChatModal, SearchBox } from 'components';

@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import './forward-entity.scss';
 
 import { Avatar } from 'components';
-import { getInterlocutorInitials } from 'utils/functions/interlocutor-name-utils';
+import { getInterlocutorInitials } from 'app/utils/interlocutor-name-utils';
 
 import SelectedSvg from 'icons/ic-check-filled.svg';
 import UnSelectedSvg from 'icons/ic-check-outline.svg';

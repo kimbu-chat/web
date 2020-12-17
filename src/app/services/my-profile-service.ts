@@ -1,4 +1,4 @@
-import { BrowserStorage } from 'utils/functions/browser-storage';
+import { BrowserStorage } from 'app/utils/browser-storage';
 import { UserPreview } from 'store/my-profile/models';
 
 export class MyProfileService {

@@ -12,7 +12,7 @@ import ClearSvg from 'icons/ic-clear.svg';
 import EditSvg from 'icons/ic-edit.svg';
 import DeleteSvg from 'icons/ic-delete.svg';
 import LeaveSvg from 'icons/ic-leave-chat.svg';
-import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
+import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { FriendActions } from 'store/friends/actions';
 import { CreateGroupChat, FadeAnimationWrapper } from 'components';
 import PeopleSvg from 'icons/ic-group.svg';

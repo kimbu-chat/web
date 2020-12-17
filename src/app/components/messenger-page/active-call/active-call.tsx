@@ -13,12 +13,12 @@ import {
   getVideoConstraints,
   getVideoDevices,
 } from 'store/calls/selectors';
-import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
+import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { CallActions } from 'store/calls/actions';
 import moment from 'moment';
 import { Rnd } from 'react-rnd';
 import { Avatar } from 'components';
-import { getUserInitials } from 'utils/functions/interlocutor-name-utils';
+import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 import ReactDOM from 'react-dom';
 
 // SVG

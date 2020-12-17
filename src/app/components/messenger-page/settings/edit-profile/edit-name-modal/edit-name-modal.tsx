@@ -2,7 +2,7 @@ import { LocalizationContext } from 'app/app';
 import { Modal, WithBackground } from 'components';
 import { MyProfileActions } from 'store/my-profile/actions';
 import { getMyProfileSelector } from 'store/my-profile/selectors';
-import { useActionWithDeferred } from 'utils/hooks/use-action-with-deferred';
+import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
 import React, { useCallback, useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
 import './edit-name-modal.scss';

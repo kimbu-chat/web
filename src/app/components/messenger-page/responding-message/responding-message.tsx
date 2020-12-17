@@ -4,7 +4,7 @@ import './responding-message.scss';
 import CloseSVG from 'icons/ic-close.svg';
 import { useSelector } from 'react-redux';
 import { MessageActions } from 'store/messages/actions';
-import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
+import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { getMessageToReply } from 'app/store/messages/selectors';
 
 export const RespondingMessage = React.memo(() => {

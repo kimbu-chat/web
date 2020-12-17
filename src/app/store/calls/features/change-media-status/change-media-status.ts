@@ -1,7 +1,7 @@
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { select, put, call } from 'redux-saga/effects';
+import { select, put, call, actionChannel, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { getVideoConstraints, getAudioConstraints } from 'app/store/calls/selectors';
 import { CallState } from '../../models';
@@ -43,67 +43,74 @@ export class ChangeMediaStatus {
   }
 
   static get saga() {
-    return function* (action: ReturnType<typeof ChangeMediaStatus.action>): SagaIterator {
-      const videoConstraints = yield select(getVideoConstraints);
-      const audioConstraints = yield select(getAudioConstraints);
+    return function* (): SagaIterator {
+      const requestChan = yield actionChannel(ChangeMediaStatus.action);
 
-      if (action.payload.kind === 'videoinput') {
-        if (videoConstraints.isOpened) {
+      while (true) {
+        const { payload } = yield take(requestChan);
+
+        const videoConstraints = yield select(getVideoConstraints);
+        const audioConstraints = yield select(getAudioConstraints);
+
+        if (payload.kind === 'videoinput') {
           if (videoConstraints.isOpened) {
-            try {
-              yield call(getUserVideo, { video: videoConstraints });
-            } catch (e) {
-              if (e.message === 'NO_VIDEO') {
-                yield put(CloseVideoStatus.action());
+            if (videoConstraints.isOpened) {
+              try {
+                yield call(getUserVideo, { video: videoConstraints });
+              } catch (e) {
+                if (e.message === 'NO_VIDEO') {
+                  yield put(CloseVideoStatus.action());
+                }
               }
             }
+
+            if (videoSender) {
+              videoSender?.replaceTrack(tracks.videoTracks[0]);
+            } else if (tracks.videoTracks[0]) {
+              setVideoSender(peerConnection?.addTrack(tracks.videoTracks[0]) as RTCRtpSender);
+            }
+
+            stopScreenSharingTracks();
+          } else if (tracks.videoTracks.length > 0) {
+            stopVideoTracks();
+            console.log('video off');
+            if (videoSender) {
+              try {
+                peerConnection?.removeTrack(videoSender);
+              } catch (e) {
+                console.warn(e);
+              }
+              setVideoSender(null);
+            }
           }
 
-          if (videoSender) {
-            videoSender?.replaceTrack(tracks.videoTracks[0]);
-          } else if (tracks.videoTracks[0]) {
-            setVideoSender(peerConnection?.addTrack(tracks.videoTracks[0]) as RTCRtpSender);
-          }
+          const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'videoinput');
+          yield put(GotDevicesInfo.action({ kind: 'videoinput', devices: videoDevices }));
 
-          stopScreenSharingTracks();
-        } else if (tracks.videoTracks.length > 0) {
-          stopVideoTracks();
-          if (videoSender) {
+          if (!videoConstraints.deviceId && videoDevices[0]) {
+            yield put(ChangeActiveDeviceId.action({ kind: 'videoinput', deviceId: videoDevices[0].deviceId }));
+          }
+        }
+        if (payload.kind === 'audioinput') {
+          if (audioConstraints.isOpened) {
             try {
-              peerConnection?.removeTrack(videoSender);
+              yield call(getUserAudio, {
+                audio: audioConstraints,
+              });
             } catch (e) {
-              console.warn(e);
+              if (e.message === 'NO_AUDIO') {
+                yield put(CloseAudioStatus.action());
+              }
             }
-            setVideoSender(null);
-          }
-        }
 
-        const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'videoinput');
-        yield put(GotDevicesInfo.action({ kind: 'videoinput', devices: videoDevices }));
-
-        if (!videoConstraints.deviceId && videoDevices[0]) {
-          yield put(ChangeActiveDeviceId.action({ kind: 'videoinput', deviceId: videoDevices[0].deviceId }));
-        }
-      }
-      if (action.payload.kind === 'audioinput') {
-        if (audioConstraints.isOpened) {
-          try {
-            yield call(getUserAudio, {
-              audio: audioConstraints,
-            });
-          } catch (e) {
-            if (e.message === 'NO_AUDIO') {
-              yield put(CloseAudioStatus.action());
+            if (tracks.audioTracks.length >= 0) {
+              audioSender?.replaceTrack(tracks.audioTracks[0]);
             }
+          } else {
+            tracks.audioTracks.forEach((track) => track.stop());
+            tracks.audioTracks = [];
+            audioSender?.replaceTrack(null);
           }
-
-          if (tracks.audioTracks.length >= 0) {
-            audioSender?.replaceTrack(tracks.audioTracks[0]);
-          }
-        } else {
-          tracks.audioTracks.forEach((track) => track.stop());
-          tracks.audioTracks = [];
-          audioSender?.replaceTrack(null);
         }
       }
     };

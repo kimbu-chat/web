@@ -8,7 +8,7 @@ import { MessageCreatedIntegrationEvent } from '../integration-events/message-cr
 
 export class MessageCreatedEventHandler implements IEventHandler<MessageCreatedIntegrationEvent> {
   public handle(store: Store<RootState>, eventData: MessageCreatedIntegrationEvent): void {
-    const currentUserId: number = store.getState().myProfile.user?.id || -1;
+    const currentUserId: number = store.getState().myProfile.user?.id!;
 
     const message: Message = {
       attachments: eventData.attachments,

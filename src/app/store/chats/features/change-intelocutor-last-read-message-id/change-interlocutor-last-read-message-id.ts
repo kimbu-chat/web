@@ -1,7 +1,7 @@
 import { MessageState } from 'app/store/messages/models';
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { getChatArrayIndex } from '../../chats-utils';
+import { getChatArrayIndex } from 'app/store/chats/selectors';
 import { ChatsState } from '../../models';
 import { ChangeInterlocutorLastReadMessageIdActionPayload } from './change-interlocutor-last-read-message-id-action-payload';
 

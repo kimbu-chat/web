@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { checkChatExists, getChatArrayIndex } from '../../chats-utils';
+import { checkChatExists, getChatArrayIndex } from 'app/store/chats/selectors';
 import { ChatsState } from '../../models';
 import { InterlocutorMessageTypingActionPayload } from './interlocutor-message-typing-action-payload';
 

@@ -1,6 +1,11 @@
 .new-chat {
   margin-bottom: -42px;
 
+  &__friends-block {
+    max-height: 301px;
+    overflow: auto;
+  }
+
   &__new-group {
     display: flex;
     margin-top: 4px;

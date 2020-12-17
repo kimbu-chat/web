@@ -6,7 +6,7 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { getChatArrayIndex } from '../../chats-utils';
+import { getChatArrayIndex } from 'app/store/chats/selectors';
 import { RawAttachment, GetChatFilesHTTPRequest, ChatsState } from '../../models';
 import { GetRawAttachmentsActionPayload } from './get-raw-attachments-action-payload';
 import { GetRawAttachmentsSuccess } from './get-raw-attachments-success';

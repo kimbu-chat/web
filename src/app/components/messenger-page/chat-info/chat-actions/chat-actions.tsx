@@ -55,7 +55,7 @@ export const ChatActions = React.memo(({ addMembers }: ChatActionsNS.Props) => {
 
   const changeSelectedChatVisibilityState = useCallback(() => changeChatVisibilityState(selectedChat), [changeChatVisibilityState, selectedChat]);
   const muteThisChat = useCallback(() => muteChat(selectedChat), [muteChat, selectedChat]);
-  const deleteContact = useCallback(() => deleteFriend({ userIds: [selectedChat?.interlocutor?.id || -1] }), [deleteFriend, selectedChat?.interlocutor?.id]);
+  const deleteContact = useCallback(() => deleteFriend({ userIds: [selectedChat?.interlocutor?.id!] }), [deleteFriend, selectedChat?.interlocutor?.id]);
   const addContact = useCallback(() => addFriend(selectedChat.interlocutor!), [addFriend, selectedChat?.interlocutor]);
 
   return (

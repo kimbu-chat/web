@@ -1,7 +1,7 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
+import { checkChatExists } from 'app/store/chats/selectors';
 import { ChatId } from '../../chat-id';
-import { checkChatExists } from '../../chats-utils';
 import { ChatsState, Chat } from '../../models';
 import { CreateChatActionPayload } from './create-chat-action-payload';
 

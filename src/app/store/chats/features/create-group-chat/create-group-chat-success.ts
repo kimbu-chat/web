@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { checkChatExists } from '../../chats-utils';
+import { checkChatExists } from 'app/store/chats/selectors';
 import { ChatsState } from '../../models';
 import { CreateGroupChatSuccessActionPayload } from './create-group-chat-success-action-payload';
 

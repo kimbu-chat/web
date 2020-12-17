@@ -10,7 +10,10 @@ import { getMembersForSelectedGroupChat, getSelectedChatSelector } from 'store/c
 import { FriendActions } from 'store/friends/actions';
 import { useActionWithDispatch } from 'utils/hooks/use-action-with-dispatch';
 import { LocalizationContext } from 'app/app';
-import { getMyFriends } from 'app/store/friends/selectors';
+import { getFriendsLoading, getHasMoreFriends, getMyFriends } from 'app/store/friends/selectors';
+import { Page } from 'app/store/common/models';
+import { InfiniteScroll } from 'app/utils/infinite-scroll/infinite-scroll';
+import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
 import { FriendFromList } from '../shared/friend-from-list/friend-from-list';
 import { SearchBox } from '../search-box/search-box';
 
@@ -26,6 +29,8 @@ export const GroupChatAddFriendModal = React.memo(({ onClose }: GroupChatAddFrie
   const [selectedUserIds, setselectedUserIds] = useState<number[]>([]);
 
   const friends = useSelector(getMyFriends);
+  const hasMoreFriends = useSelector(getHasMoreFriends);
+  const friendsLoading = useSelector(getFriendsLoading);
   const selectedChat = useSelector(getSelectedChatSelector) as Chat;
   const idsToExclude = useSelector(getMembersForSelectedGroupChat)?.map((user) => user.id) || [];
 
@@ -56,8 +61,16 @@ export const GroupChatAddFriendModal = React.memo(({ onClose }: GroupChatAddFrie
     }
   }, [addUsersToGroupChat, selectedChat, selectedUserIds, onClose, friends]);
 
+  const loadMore = useCallback(() => {
+    const page: Page = {
+      offset: friends.length,
+      limit: FRIENDS_LIMIT,
+    };
+    loadFriends({ page });
+  }, [friends, loadFriends]);
+
   const searchFriends = useCallback((name: string) => {
-    loadFriends({ page: { offset: 0, limit: 25 }, name, initializedBySearch: true });
+    loadFriends({ page: { offset: 0, limit: FRIENDS_LIMIT }, name, initializedBySearch: true });
   }, []);
 
   return (
@@ -68,14 +81,14 @@ export const GroupChatAddFriendModal = React.memo(({ onClose }: GroupChatAddFrie
         contents={
           <div className='group-chat-add-friend-modal'>
             <SearchBox onChange={(e) => searchFriends(e.target.value)} />
-            <div className='group-chat-add-friend-modal__friend-block'>
+            <InfiniteScroll onReachExtreme={loadMore} hasMore={hasMoreFriends} isLoading={friendsLoading} className='group-chat-add-friend-modal__friend-block'>
               {friends.map(
                 (friend) =>
                   !idsToExclude.includes(friend.id) && (
                     <FriendFromList key={friend.id} friend={friend} isSelected={isSelected(friend.id)} changeSelectedState={changeSelectedState} />
                   ),
               )}
-            </div>
+            </InfiniteScroll>
           </div>
         }
         buttons={[

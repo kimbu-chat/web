@@ -1,6 +1,7 @@
 import { AuthService } from 'app/services/auth-service';
 import { put, fork, spawn, take, select } from 'redux-saga/effects';
 import { SagaIterator, eventChannel } from 'redux-saga';
+import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
 import { FriendActions } from '../friends/actions';
 import { SettingsActions } from '../settings/actions';
 import { InternetConnectionCheck } from '../internet/features/internet-connection-check/internet-connection-check';
@@ -54,7 +55,7 @@ export function* initializeSaga(): SagaIterator {
 
   yield put(
     FriendActions.getFriends({
-      page: { offset: 0, limit: 100 },
+      page: { offset: 0, limit: FRIENDS_LIMIT },
       initializedBySearch: false,
     }),
   );

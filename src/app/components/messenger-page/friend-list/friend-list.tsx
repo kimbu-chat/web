@@ -9,6 +9,7 @@ import { useParams } from 'react-router';
 import { getMyFriends, getHasMoreFriends, getFriendsLoading } from 'app/store/friends/selectors';
 import { getSelectedChatIdSelector } from 'app/store/chats/selectors';
 import { InfiniteScroll } from 'app/utils/infinite-scroll/infinite-scroll';
+import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
 import { Friend } from './friend-from-list/friend';
 import './friend-list.scss';
 
@@ -26,14 +27,17 @@ export const FriendList = React.memo(() => {
   const { chatId } = useParams<{ chatId: string }>();
 
   useEffect(() => {
-    if (chatId) changeSelectedChat({ newChatId: Number(chatId), oldChatId: selectedChatId });
-    else changeSelectedChat({ newChatId: -1, oldChatId: selectedChatId });
+    if (chatId) {
+      changeSelectedChat({ newChatId: Number(chatId), oldChatId: selectedChatId });
+    } else {
+      changeSelectedChat({ newChatId: null, oldChatId: selectedChatId });
+    }
   }, [chatId]);
 
   const loadMore = useCallback(() => {
     const page: Page = {
       offset: friends.length,
-      limit: 25,
+      limit: FRIENDS_LIMIT,
     };
     loadFriends({ page });
   }, [friends, loadFriends]);

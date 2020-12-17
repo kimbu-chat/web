@@ -8,6 +8,7 @@ import { getMembersListForSelectedGroupChat, getSelectedChatSelector } from 'sto
 import AddSvg from 'icons/ic-add-new.svg';
 import { InfiniteScroll } from 'app/utils/infinite-scroll/infinite-scroll';
 import { Page } from 'app/store/common/models';
+import { CHAT_MEMBERS_LIMIT } from 'app/utils/pagination-limits';
 import { SearchBox } from '../../search-box/search-box';
 
 import { Member } from './chat-member/chat-member';
@@ -28,26 +29,23 @@ export const ChatMembers = React.memo(({ addMembers }: ChatMembersNS.Props) => {
 
   useEffect(() => {
     getGroupChatUsers({
-      groupChatId: selectedChat.groupChat?.id || -1,
-      page: { offset: 0, limit: 15 },
+      groupChatId: selectedChat.groupChat?.id!,
+      page: { offset: 0, limit: CHAT_MEMBERS_LIMIT },
     });
     return () => {
       setSearchStr('');
     };
   }, [selectedChat.id]);
 
-  //! remove when will be implemented
-  // @ts-ignore
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const loadMore = useCallback(() => {
     const page: Page = {
       offset:
         ((membersListForGroupChat?.searchMembers?.length || 0) > 0 ? membersListForGroupChat?.searchMembers : membersListForGroupChat?.members)?.length || 0,
-      limit: 15,
+      limit: CHAT_MEMBERS_LIMIT,
     };
 
     getGroupChatUsers({
-      groupChatId: selectedChat.groupChat?.id || -1,
+      groupChatId: selectedChat.groupChat?.id!,
       page,
       name: searchStr,
       isFromScroll: true,
@@ -69,8 +67,8 @@ export const ChatMembers = React.memo(({ addMembers }: ChatMembersNS.Props) => {
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setSearchStr(e.target.value);
             getGroupChatUsers({
-              groupChatId: selectedChat.groupChat?.id || -1,
-              page: { offset: 0, limit: 15 },
+              groupChatId: selectedChat.groupChat?.id!,
+              page: { offset: 0, limit: CHAT_MEMBERS_LIMIT },
               name: e.target.value,
             });
           }}

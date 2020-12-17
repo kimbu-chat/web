@@ -15,7 +15,7 @@ export interface ChatsState {
   hasMore: boolean;
   searchString: string;
   chats: Chat[];
-  selectedChatId?: number;
+  selectedChatId: number | null;
 }
 
 export interface GroupChat {

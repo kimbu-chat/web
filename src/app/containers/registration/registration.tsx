@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux';
 import { CheckNicknameAvailability } from 'app/store/my-profile/features/check-nickname-availability/check-nickname-availability';
 import { CancelAvatarUploading } from 'app/store/my-profile/features/cancel-avatar-uploading/cancel-avatar-uploading';
 import { UploadAvatar } from 'app/store/my-profile/features/upload-avatar/upload-avatar';
+import { validateNickname } from 'app/utils/functions/validate-nick-name';
 import { Avatar, BaseBtn, ChangePhoto, CircularProgress } from '../../components';
 
 namespace RegistrationNS {
@@ -48,6 +49,7 @@ export const Registration: React.FC<RegistrationNS.Props> = ({ preloadNext }) =>
   const [lastName, setLastName] = useState('');
   const [nickName, setNickName] = useState('');
   const [isNickNameAvailable, setIsNickNameAvailable] = useState(true);
+  const [isNickNameValid, setIsNickNameValid] = useState(true);
   const [isNickNameCheckLoading, setIsNickNameCheckLoading] = useState(true);
 
   const displayChangePhoto = useCallback(() => setChangePhotoDisplayed(true), [setChangePhotoDisplayed]);
@@ -59,13 +61,20 @@ export const Registration: React.FC<RegistrationNS.Props> = ({ preloadNext }) =>
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const newNickName = event.target.value;
       setNickName(newNickName);
-      setIsNickNameCheckLoading(true);
-      checkNicknameAvailability({ nickname: newNickName }).then(({ isAvailable }) => {
-        setIsNickNameAvailable(isAvailable);
-        setIsNickNameCheckLoading(false);
-      });
+
+      if (validateNickname(newNickName)) {
+        setIsNickNameCheckLoading(true);
+        setIsNickNameValid(true);
+
+        checkNicknameAvailability({ nickname: newNickName }).then(({ isAvailable }) => {
+          setIsNickNameAvailable(isAvailable);
+          setIsNickNameCheckLoading(false);
+        });
+      } else {
+        setIsNickNameValid(false);
+      }
     },
-    [setNickName, setIsNickNameAvailable, checkNicknameAvailability, setIsNickNameCheckLoading],
+    [setNickName, setIsNickNameAvailable, checkNicknameAvailability, setIsNickNameCheckLoading, setIsNickNameValid],
   );
 
   const handleImageChange = useCallback(
@@ -79,7 +88,9 @@ export const Registration: React.FC<RegistrationNS.Props> = ({ preloadNext }) =>
         displayChangePhoto();
       };
 
-      if (e.target.files) reader.readAsDataURL(e.target.files[0]);
+      if (e.target.files) {
+        reader.readAsDataURL(e.target.files[0]);
+      }
 
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
@@ -154,6 +165,7 @@ export const Registration: React.FC<RegistrationNS.Props> = ({ preloadNext }) =>
               <input onChange={changeLastName} placeholder='Last name' type='text' className='registrtion__input' />
             </div>
             <div className='registration__input-group'>
+              {!isNickNameValid && <div>This nick name is not acceptable</div>}
               <input onChange={onChangeNickname} placeholder='Nickname' type='text' className='registrtion__input' />
             </div>
           </div>

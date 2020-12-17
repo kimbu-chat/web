@@ -13,6 +13,7 @@ import moment from 'moment';
 
 import { doesYearDifferFromCurrent, setSeparators } from 'utils/functions/set-separators';
 import { InfiniteScroll } from 'app/utils/infinite-scroll/infinite-scroll';
+import { FILE_ATTACHMENTS_LIMIT } from 'app/utils/pagination-limits';
 import { FileAttachment } from '../../shared/file-attachment/file-attachment';
 
 export const ChatFiles = React.memo(() => {
@@ -30,7 +31,7 @@ export const ChatFiles = React.memo(() => {
   const loadMore = useCallback(() => {
     const page: Page = {
       offset: filesForSelectedChat?.files.length || 0,
-      limit: 25,
+      limit: FILE_ATTACHMENTS_LIMIT,
     };
 
     getRawAttachments({

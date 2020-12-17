@@ -79,7 +79,9 @@ export const EditChatModal = React.memo(({ onClose }: EditChatModalNS.Props) => 
         displayChangePhoto();
       };
 
-      if (e.target.files) reader.readAsDataURL(e.target.files[0]);
+      if (e.target.files) {
+        reader.readAsDataURL(e.target.files[0]);
+      }
 
       if (fileInputRef.current) {
         fileInputRef.current.value = '';

@@ -14,7 +14,9 @@ export const changeMusic = (newMusic: HTMLAudioElement, changePlayStatus?: React
     newMusic.pause();
   }
 
-  if (currentChangePlayStatus) currentChangePlayStatus(false);
+  if (currentChangePlayStatus) {
+    currentChangePlayStatus(false);
+  }
 
   currentMusic = newMusic;
 
@@ -22,5 +24,7 @@ export const changeMusic = (newMusic: HTMLAudioElement, changePlayStatus?: React
     currentChangePlayStatus = changePlayStatus;
   }
 
-  if (changePlayStatus) changePlayStatus(!currentMusic.paused);
+  if (changePlayStatus) {
+    changePlayStatus(!currentMusic.paused);
+  }
 };

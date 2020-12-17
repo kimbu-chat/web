@@ -1,5 +1,6 @@
 import produce from 'immer';
 import { createReducer } from 'typesafe-actions';
+import { getChatArrayIndex, checkChatExists } from 'app/store/chats/selectors';
 import { AudioAttachment, PictureAttachment, RawAttachment, VideoAttachment, VoiceAttachment, ChatsState } from './models';
 import { ChatId } from './chat-id';
 import { MessageActions } from '../messages/actions';
@@ -9,7 +10,6 @@ import { UserStatusChangedEvent } from '../friends/features/user-status-changed-
 import { CreateChat } from './features/create-chat/create-chat';
 import { CreateMessage } from '../messages/features/create-message/create-message';
 import { CreateMessageSuccess } from '../messages/features/create-message/create-message-success';
-import { getChatArrayIndex, checkChatExists } from './chats-utils';
 import { AddUsersToGroupChatSuccess } from './features/add-users-to-group-chat/add-users-to-group-chat-success';
 import { ChangeChatVisibilityStateSuccess } from './features/change-chat-visibility-state/change-chat-visibility-state-success';
 import { ChangeInterlocutorLastReadMessageId } from './features/change-intelocutor-last-read-message-id/change-interlocutor-last-read-message-id';
@@ -51,6 +51,7 @@ const initialState: ChatsState = {
   hasMore: true,
   searchString: '',
   chats: [],
+  selectedChatId: null,
 };
 
 const chats = createReducer<ChatsState>(initialState)

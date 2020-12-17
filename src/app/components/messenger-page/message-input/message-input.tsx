@@ -206,7 +206,7 @@ export const CreateMessageInput = React.memo(() => {
   const throttledNotifyAboutTyping = useCallback(
     throttle((text: string) => {
       notifyAboutTyping({
-        chatId: selectedChat?.id || -1,
+        chatId: selectedChat?.id!,
         text,
         interlocutorName: `${myProfile?.firstName} ${myProfile?.lastName}`,
       });

@@ -24,11 +24,11 @@ export const SelectedMessagesData = React.memo(() => {
   const editMessage = useActionWithDispatch(MessageActions.editMessage);
 
   const resetSelectedMessagesForChat = useCallback(() => {
-    resetSelectedMessages({ chatId: selectedChatId || -1 });
+    resetSelectedMessages({ chatId: selectedChatId! });
   }, [selectedChatId]);
 
   const copyTheseMessages = useCallback(() => {
-    copyMessage({ chatId: selectedChatId || -1, messageIds: selectedMessages });
+    copyMessage({ chatId: selectedChatId!, messageIds: selectedMessages });
     resetSelectedMessagesForChat();
   }, [selectedChatId, selectedMessages]);
 

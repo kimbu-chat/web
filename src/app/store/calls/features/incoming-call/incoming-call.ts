@@ -7,9 +7,10 @@ import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/http-file-factory';
 import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
-import { doIhaveCall, getCallInterlocutorIdSelector, getIsScreenSharingEnabled, getVideoConstraints } from 'app/store/calls/selectors';
+import { doIhaveCall, getCallInterlocutorIdSelector, getIsActiveCallIncoming, getIsScreenSharingEnabled, getVideoConstraints } from 'app/store/calls/selectors';
 import { CallState, AcceptCallApiRequest } from '../../models';
 import { IncomingCallActionPayload } from './incoming-call-action-payload';
+import { makingOffer, isSettingRemoteAnswerPending, ignoreOffer, setIgnoreOffer, setIsSettingRemoteAnswerPending } from '../../utils/user-media';
 
 setInterval(() => console.log(peerConnection?.connectionState), 1000);
 
@@ -55,11 +56,22 @@ export class IncomingCall {
       );
 
       if (isCallActive && action.payload.isRenegotiation && interlocutorId === action.payload.caller.id) {
-        console.log('negociation');
+        const polite = !(yield select(getIsActiveCallIncoming));
+        const readyForOffer = !makingOffer && (peerConnection?.signalingState === 'stable' || isSettingRemoteAnswerPending);
+        const offerCollision = !readyForOffer;
+
+        setIgnoreOffer(!polite && offerCollision);
+        if (ignoreOffer) {
+          return;
+        }
+
         const videoConstraints = yield select(getVideoConstraints);
         const isScreenSharingEnabled = yield select(getIsScreenSharingEnabled);
 
+        setIsSettingRemoteAnswerPending(true);
         peerConnection?.setRemoteDescription(new RTCSessionDescription(action.payload.offer));
+        setIsSettingRemoteAnswerPending(false);
+
         const answer = yield call(async () => await peerConnection?.createAnswer());
         yield call(async () => await peerConnection?.setLocalDescription(answer));
 

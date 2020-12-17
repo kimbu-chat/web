@@ -10,7 +10,7 @@ import { HttpRequestMethod } from 'app/store/common/models';
 import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
 import { CandidateApiRequest, CallApiRequest } from '../models';
-import { assignInterlocurorVideoTrack, assignInterlocurorAudioTrack } from './user-media';
+import { assignInterlocurorVideoTrack, assignInterlocurorAudioTrack, setMakingOffer } from './user-media';
 
 const CallsHttpRequests = {
   candidate: httpRequestFactory<AxiosResponse, CandidateApiRequest>(`${ApiBasePath.NotificationsApi}/api/calls/candidate`, HttpRequestMethod.Post),
@@ -87,6 +87,7 @@ export function* peerWatcher() {
           const isScreenSharingEnabled = yield select((state: RootState) => state.calls.isScreenSharingOpened);
 
           if (isCallActive) {
+            setMakingOffer(true);
             const offer = yield call(
               async () =>
                 await peerConnection?.createOffer({
@@ -105,6 +106,7 @@ export function* peerWatcher() {
             };
 
             CallsHttpRequests.call.call(yield call(() => CallsHttpRequests.call.generator(request)));
+            setMakingOffer(false);
           }
         }
         break;

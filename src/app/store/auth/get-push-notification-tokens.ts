@@ -23,8 +23,6 @@ export async function getPushNotificationTokens() {
     alert('This browser does not support desktop notification');
   }
 
-  console.log('CALEEEEED');
-
   if (Notification.permission === 'denied' || Notification.permission === 'default') {
     await Notification.requestPermission();
   }

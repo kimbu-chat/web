@@ -11,7 +11,6 @@ export class GetUserSettings {
 
   static get saga() {
     return function* (): SagaIterator {
-      console.log('sagasaga');
       const savedSettings = new SettingsService().settings;
       yield put(GetUserSettingsSuccess.action(savedSettings));
     };

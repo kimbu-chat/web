@@ -15,6 +15,8 @@ import { InterlocutorCanceledCall } from './features/interlocutor-canceled-call/
 import { SwitchDevice } from './features/switch-device/switch-device';
 import { ChangeMediaStatus } from './features/change-media-status/change-media-status';
 
+//! important peer whitch has initiated the call  is the polite one
+
 export const CallsSagas = [
   takeLatest(OutgoingCall.action, OutgoingCall.saga),
   takeLatest(CancelCall.action, CancelCall.saga),
@@ -28,7 +30,8 @@ export const CallsSagas = [
   takeLatest(CallEnded.action, CallEnded.saga),
   takeLatest(ChangeScreenShareStatus.action, ChangeScreenShareStatus.saga),
   takeLatest(SwitchDevice.action, SwitchDevice.saga),
-  takeLatest(IncomingCall.action, IncomingCall.saga),
+  takeEvery(IncomingCall.action, IncomingCall.saga),
+  takeEvery(ChangeMediaStatus.action, ChangeMediaStatus.saga),
   takeLatest(GetCalls.action, GetCalls.saga),
   spawn(ChangeMediaStatus.saga),
 ];

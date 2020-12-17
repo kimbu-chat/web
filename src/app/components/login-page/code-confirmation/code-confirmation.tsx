@@ -135,7 +135,6 @@ const CodeConfirmation: React.FC<CodeConfirmationNS.Props> = ({ preloadNext }) =
 
   const resendPhoneConfirmationCode = useCallback((): void => {
     reSendSmsCode(undefined);
-    // TODO: check how can I combine meta+emptyAction
     setRemainingSeconds(60);
     setIsIntervalRunning(true);
   }, [reSendSmsCode, setRemainingSeconds, setIsIntervalRunning]);

@@ -6,6 +6,7 @@ import { getMediaDevicesList } from './user-media';
 import { ChangeMediaStatus } from '../features/change-media-status/change-media-status';
 import { GotDevicesInfo } from '../features/got-devices-info/got-devices-info';
 import { SwitchDevice } from '../features/switch-device/switch-device';
+import { InputType } from '../common/enums/input-type';
 
 function deviceUpdateChannel() {
   return eventChannel((emit) => {
@@ -33,16 +34,16 @@ export function* deviceUpdateWatcher() {
   const channel = deviceUpdateChannel();
   while (true) {
     yield take(channel);
-    const audioDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'audioinput');
-    const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'videoinput');
+    const audioDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.audioInput);
+    const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.videoInput);
     const prevAudioDevices = yield select(getAudioDevices);
 
     if (prevAudioDevices.length === 0) {
-      yield put(SwitchDevice.action({ kind: 'audioinput', deviceId: audioDevices[0].deviceId }));
-      yield put(ChangeMediaStatus.action({ kind: 'audioinput' }));
+      yield put(SwitchDevice.action({ kind: InputType.audioInput, deviceId: audioDevices[0].deviceId }));
+      yield put(ChangeMediaStatus.action({ kind: InputType.audioInput }));
     }
 
-    yield put(GotDevicesInfo.action({ kind: 'audioinput', devices: audioDevices }));
-    yield put(GotDevicesInfo.action({ kind: 'videoinput', devices: videoDevices }));
+    yield put(GotDevicesInfo.action({ kind: InputType.audioInput, devices: audioDevices }));
+    yield put(GotDevicesInfo.action({ kind: InputType.videoInput, devices: videoDevices }));
   }
 }

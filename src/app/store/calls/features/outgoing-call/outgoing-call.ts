@@ -21,6 +21,7 @@ import { InterlocutorAcceptedCall } from '../interlocutor-accepted-call/interloc
 import { InterlocutorCanceledCall } from '../interlocutor-canceled-call/interlocutor-canceled-call';
 import { TimeoutCall } from '../timeout-call/timeout-call';
 import { OutgoingCallActionPayload } from './outgoing-call-action-payload';
+import { InputType } from '../../common/enums/input-type';
 
 export class OutgoingCall {
   static get action() {
@@ -63,14 +64,14 @@ export class OutgoingCall {
 
       // gathering data about media devices
       if (audioOpened) {
-        const audioDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'audioinput');
-        yield put(GotDevicesInfo.action({ kind: 'audioinput', devices: audioDevices }));
-        yield put(ChangeActiveDeviceId.action({ kind: 'audioinput', deviceId: audioDevices[0].deviceId }));
+        const audioDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.audioInput);
+        yield put(GotDevicesInfo.action({ kind: InputType.audioInput, devices: audioDevices }));
+        yield put(ChangeActiveDeviceId.action({ kind: InputType.audioInput, deviceId: audioDevices[0].deviceId }));
       }
       if (videoOpened) {
-        const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'videoinput');
-        yield put(GotDevicesInfo.action({ kind: 'videoinput', devices: videoDevices }));
-        yield put(ChangeActiveDeviceId.action({ kind: 'videoinput', deviceId: videoDevices[0].deviceId }));
+        const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.videoInput);
+        yield put(GotDevicesInfo.action({ kind: InputType.videoInput, devices: videoDevices }));
+        yield put(ChangeActiveDeviceId.action({ kind: InputType.videoInput, deviceId: videoDevices[0].deviceId }));
       }
 
       const interlocutorId = action.payload.calling.id;

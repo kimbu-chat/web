@@ -16,6 +16,7 @@ import { AcceptCallSuccess } from './accept-call-success';
 import { ChangeActiveDeviceId } from '../change-active-device-id/change-active-device-id';
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
 import { AcceptCallActionPayload } from './accept-call-action-payload';
+import { InputType } from '../../common/enums/input-type';
 
 export class AcceptCall {
   static get action() {
@@ -46,16 +47,16 @@ export class AcceptCall {
 
       // gathering data about media devices
       if (audioConstraints.isOpened) {
-        const audioDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'audioinput');
-        yield put(GotDevicesInfo.action({ kind: 'audioinput', devices: audioDevices }));
-        yield put(ChangeActiveDeviceId.action({ kind: 'audioinput', deviceId: audioDevices[0].deviceId }));
+        const audioDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.audioInput);
+        yield put(GotDevicesInfo.action({ kind: InputType.audioInput, devices: audioDevices }));
+        yield put(ChangeActiveDeviceId.action({ kind: InputType.audioInput, deviceId: audioDevices[0].deviceId }));
       }
       if (videoConstraints.isOpened) {
-        const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'videoinput');
-        yield put(GotDevicesInfo.action({ kind: 'videoinput', devices: videoDevices }));
+        const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.videoInput);
+        yield put(GotDevicesInfo.action({ kind: InputType.videoInput, devices: videoDevices }));
 
         if (videoDevices[0]) {
-          yield put(ChangeActiveDeviceId.action({ kind: 'videoinput', deviceId: videoDevices[0].deviceId }));
+          yield put(ChangeActiveDeviceId.action({ kind: InputType.videoInput, deviceId: videoDevices[0].deviceId }));
         }
       }
       //---

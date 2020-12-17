@@ -21,6 +21,8 @@ import { CloseAudioStatus } from '../close-audio-status/close-audio-status';
 import { CloseVideoStatus } from '../close-video-status/close-video-status';
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
 import { ChangeMediaStatusActionPayload } from './change-media-status-action-payload';
+import { InputType } from '../../common/enums/input-type';
+import { GetUserMediaError } from '../../common/enums/get-user-media-error';
 
 export class ChangeMediaStatus {
   static get action() {
@@ -29,12 +31,12 @@ export class ChangeMediaStatus {
 
   static get reducer() {
     return produce((draft: CallState, { payload }: ReturnType<typeof ChangeMediaStatus.action>) => {
-      if (payload.kind === 'videoinput') {
+      if (payload.kind === InputType.videoInput) {
         draft.isScreenSharingOpened = false;
         draft.videoConstraints.isOpened = !draft.videoConstraints.isOpened;
       }
 
-      if (payload.kind === 'audioinput') {
+      if (payload.kind === InputType.audioInput) {
         draft.audioConstraints.isOpened = !draft.audioConstraints.isOpened;
       }
 
@@ -52,13 +54,13 @@ export class ChangeMediaStatus {
         const videoConstraints = yield select(getVideoConstraints);
         const audioConstraints = yield select(getAudioConstraints);
 
-        if (payload.kind === 'videoinput') {
+        if (payload.kind === InputType.videoInput) {
           if (videoConstraints.isOpened) {
             if (videoConstraints.isOpened) {
               try {
                 yield call(getUserVideo, { video: videoConstraints });
               } catch (e) {
-                if (e.message === 'NO_VIDEO') {
+                if (e.message === GetUserMediaError.NO_VIDEO) {
                   yield put(CloseVideoStatus.action());
                 }
               }
@@ -84,21 +86,21 @@ export class ChangeMediaStatus {
             }
           }
 
-          const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, 'videoinput');
-          yield put(GotDevicesInfo.action({ kind: 'videoinput', devices: videoDevices }));
+          const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.videoInput);
+          yield put(GotDevicesInfo.action({ kind: InputType.videoInput, devices: videoDevices }));
 
           if (!videoConstraints.deviceId && videoDevices[0]) {
-            yield put(ChangeActiveDeviceId.action({ kind: 'videoinput', deviceId: videoDevices[0].deviceId }));
+            yield put(ChangeActiveDeviceId.action({ kind: InputType.videoInput, deviceId: videoDevices[0].deviceId }));
           }
         }
-        if (payload.kind === 'audioinput') {
+        if (payload.kind === InputType.audioInput) {
           if (audioConstraints.isOpened) {
             try {
               yield call(getUserAudio, {
                 audio: audioConstraints,
               });
             } catch (e) {
-              if (e.message === 'NO_AUDIO') {
+              if (e.message === GetUserMediaError.NO_AUDIO) {
                 yield put(CloseAudioStatus.action());
               }
             }

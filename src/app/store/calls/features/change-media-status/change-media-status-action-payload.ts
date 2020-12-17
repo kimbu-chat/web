@@ -1,3 +1,5 @@
+import { InputType } from '../../common/enums/input-type';
+
 export interface ChangeMediaStatusActionPayload {
-  kind: 'videoinput' | 'audioinput';
+  kind: InputType.videoInput | InputType.audioInput;
 }

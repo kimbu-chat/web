@@ -14,7 +14,8 @@ import VoiceCallSvg from 'icons/ic-call.svg';
 import VideoCallSvg from 'icons/ic-video-call.svg';
 import ChatSearchSvg from 'icons/ic-search.svg';
 import ChatInfoSvg from 'icons/ic-info.svg';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
+import { Link, NavLink } from 'react-router-dom';
 import { UserStatus } from 'app/store/common/models';
 import { getChatInterlocutor, getInterlocutorInitials } from '../../../utils/interlocutor-name-utils';
 

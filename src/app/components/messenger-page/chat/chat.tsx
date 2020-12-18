@@ -15,7 +15,7 @@ import { MESSAGES_LIMIT } from 'app/utils/pagination-limits';
 import { SelectedMessagesData } from '../selected-messages-data/selected-messages-data';
 import { MessageItem } from '../message-item/message-item';
 
-export const Chat = React.memo(() => {
+const Chat = React.memo(() => {
   const getMessages = useActionWithDispatch(MessageActions.getMessages);
   const markMessagesAsRead = useActionWithDispatch(ChatActions.markMessagesAsRead);
 
@@ -108,3 +108,7 @@ export const Chat = React.memo(() => {
     </div>
   );
 });
+
+Chat.displayName = 'Chat';
+
+export { Chat };

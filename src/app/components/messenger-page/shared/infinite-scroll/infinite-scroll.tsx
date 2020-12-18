@@ -13,61 +13,67 @@ namespace InfiniteScrollNS {
   }
 }
 
-export const InfiniteScroll: React.FC<InfiniteScrollNS.Props> = ({
-  children,
-  loader = (
-    <div className='loader ' key={0}>
-      <div className=''>
-        <div className='lds-ellipsis'>
-          <div />
-          <div />
-          <div />
-          <div />
+const InfiniteScroll: React.FC<InfiniteScrollNS.Props> = React.memo(
+  ({
+    children,
+    loader = (
+      <div className='loader ' key={0}>
+        <div className=''>
+          <div className='lds-ellipsis'>
+            <div />
+            <div />
+            <div />
+            <div />
+          </div>
         </div>
       </div>
-    </div>
-  ),
-  className = '',
-  hasMore,
-  isLoading,
-  onReachExtreme,
-  isReverse,
-  threshold = 0.0,
-}) => {
-  const loaderRef = React.useRef<HTMLDivElement>(null);
+    ),
+    className = '',
+    hasMore,
+    isLoading,
+    onReachExtreme,
+    isReverse,
+    threshold = 0.0,
+  }) => {
+    const loaderRef = React.useRef<HTMLDivElement>(null);
 
-  React.useEffect(() => {
-    const loadMore = (entries: Array<IntersectionObserverEntry>) => {
-      const [first] = entries;
+    React.useEffect(() => {
+      const loadMore = (entries: Array<IntersectionObserverEntry>) => {
+        const [first] = entries;
 
-      if (!isLoading && hasMore && first.isIntersecting) {
-        onReachExtreme();
-      }
-    };
+        if (!isLoading && hasMore && first.isIntersecting) {
+          onReachExtreme();
+        }
+      };
 
-    const options = { threshold };
-    const observer = new IntersectionObserver(loadMore, options);
+      const options = { threshold };
+      const observer = new IntersectionObserver(loadMore, options);
 
-    const loaderCurrent = loaderRef.current;
-    if (loaderCurrent) {
-      observer.observe(loaderCurrent);
-    }
-
-    return () => {
+      const loaderCurrent = loaderRef.current;
       if (loaderCurrent) {
-        observer.unobserve(loaderCurrent);
+        observer.observe(loaderCurrent);
       }
-    };
-  }, [hasMore, isLoading, onReachExtreme, threshold]);
 
-  return (
-    <div style={{ display: 'flex', flexDirection: isReverse ? 'column-reverse' : 'column' }} className={`endless-scroll-wrapper ${className}`}>
-      {children}
-      {hasMore && (
-        <div ref={loaderRef} className='endless-scroll-loader-wrapper'>
-          {loader}
-        </div>
-      )}
-    </div>
-  );
-};
+      return () => {
+        if (loaderCurrent) {
+          observer.unobserve(loaderCurrent);
+        }
+      };
+    }, [hasMore, isLoading, onReachExtreme, threshold]);
+
+    return (
+      <div style={{ display: 'flex', flexDirection: isReverse ? 'column-reverse' : 'column' }} className={`endless-scroll-wrapper ${className}`}>
+        {children}
+        {hasMore && (
+          <div ref={loaderRef} className='endless-scroll-loader-wrapper'>
+            {loader}
+          </div>
+        )}
+      </div>
+    );
+  },
+);
+
+InfiniteScroll.displayName = 'InfiniteScroll';
+
+export { InfiniteScroll };

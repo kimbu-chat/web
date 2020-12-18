@@ -42,13 +42,7 @@ import { interlocurorAudioTrack, interlocurorVideoTrack, tracks } from 'app/stor
 import { InputType } from 'app/store/calls/common/enums/input-type';
 import { Dropdown } from './dropdown/dropdown';
 
-namespace IActiveCall {
-  export interface Props {
-    isDisplayed: boolean;
-  }
-}
-
-export const ActiveCall: React.FC<IActiveCall.Props> = ({ isDisplayed }) => {
+export const ActiveCall: React.FC = () => {
   const interlocutor = useSelector(getCallInterlocutorSelector);
   const videoConstraints = useSelector(getVideoConstraints);
   const audioConstraints = useSelector(getAudioConstraints);
@@ -135,7 +129,7 @@ export const ActiveCall: React.FC<IActiveCall.Props> = ({ isDisplayed }) => {
 
   // component did mount effect
   useEffect(() => {
-    if (isDisplayed && amISpeaking) {
+    if (amISpeaking) {
       setCallDuration(0);
 
       const callDurationIntervalCode = setInterval(() => setCallDuration((old) => old + 1), 1000);
@@ -147,7 +141,7 @@ export const ActiveCall: React.FC<IActiveCall.Props> = ({ isDisplayed }) => {
     }
 
     return () => {};
-  }, [isDisplayed, amISpeaking]);
+  }, [amISpeaking]);
 
   // audio playing when outgoing call
   useEffect(() => {
@@ -177,19 +171,9 @@ export const ActiveCall: React.FC<IActiveCall.Props> = ({ isDisplayed }) => {
     return () => {};
   }, [amICalingSomebody, isInterlocutorBusy]);
 
-  useEffect(
-    () => () => {
-      setIsFullScreen(false);
-    },
-    [isDisplayed],
-  );
-
   useEffect(() => {
     dragRef.current?.updatePosition(isFullScreen ? { x: 0, y: 0 } : { x: window.innerWidth / 2 - 120, y: window.innerHeight / 2 - 120 });
-    dragRef.current?.updateSize(
-      isDisplayed ? (isFullScreen ? { width: window.innerWidth, height: window.innerHeight } : { width: 304, height: 328 }) : { width: 0, height: 0 },
-    );
-  }, [isFullScreen, isDisplayed]);
+  }, [isFullScreen]);
 
   const reCallWithVideo = useCallback(
     () =>
@@ -227,10 +211,7 @@ export const ActiveCall: React.FC<IActiveCall.Props> = ({ isDisplayed }) => {
       bounds='body'
       disableDragging={isFullScreen}
     >
-      <div
-        className={`${isDisplayed ? 'active-call' : 'completly-hidden'}
-										${isFullScreen ? 'active-call--big' : ''}`}
-      >
+      <div className={`active-call ${isFullScreen ? 'active-call--big' : ''}`}>
         <div className={`active-call__main-data ${isFullScreen ? 'active-call__main-data--big' : ''}`}>
           <h3 className='active-call__interlocutor-name'>{`${interlocutor?.firstName} ${interlocutor?.lastName}`}</h3>
           {amISpeaking && <div className='active-call__duration'>{moment.utc(callDuration * 1000).format('HH:mm:ss')}</div>}

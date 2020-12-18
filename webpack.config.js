@@ -39,6 +39,9 @@ module.exports = {
       sounds: path.resolve(__dirname, 'src/app/assets/sounds/'),
       utils: path.resolve(__dirname, 'src/app/utils/'),
       components: path.resolve(__dirname, 'src/app/components/index'),
+      'react-redux': !isProduction ? 'react-redux/dist/react-redux.js' : 'react-redux',
+      'react-router': !isProduction ? 'react-router/cjs/react-router.js' : 'react-redux',
+      'react-router': !isProduction ? 'react-router-dom/cjs/react-router-dom.js' : 'react-redux',
     },
   },
   module: {

@@ -1,5 +1,6 @@
 import React from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
+import { NavLink } from 'react-router-dom';
 import './routing-chats.scss';
 
 import ContactSvg from 'icons/ic-contacts.svg';

@@ -47,7 +47,7 @@ const Messenger = React.memo(() => {
   return (
     <div className='messenger'>
       {amICalled && <IncomingCall />}
-      <ActiveCall isDisplayed={amISpeaking || amICalingSomebody} />
+      {amISpeaking || (amICalingSomebody && <ActiveCall />)}
 
       <InternetError />
 

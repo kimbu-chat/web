@@ -9,8 +9,12 @@ namespace FadeAnimationWrapperNS {
   }
 }
 
-export const FadeAnimationWrapper: React.FC<FadeAnimationWrapperNS.Props> = React.memo(({ isDisplayed, children }) => (
+const FadeAnimationWrapper: React.FC<FadeAnimationWrapperNS.Props> = React.memo(({ isDisplayed, children }) => (
   <CSSTransition unmountOnExit in={isDisplayed} timeout={{ enter: 200, exit: 200 }} classNames='fade'>
     {children}
   </CSSTransition>
 ));
+
+FadeAnimationWrapper.displayName = 'FadeAnimationWrapper';
+
+export { FadeAnimationWrapper };

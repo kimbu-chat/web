@@ -1,9 +1,10 @@
 import * as React from 'react';
+import { InfiniteScrollLoader } from './infinite-scroll-loader/infinite-scroll-loader';
 
 namespace InfiniteScrollNS {
   export interface Props {
     children: React.ReactNode;
-    loader?: React.ReactNode;
+    Loader?: () => JSX.Element;
     className?: string;
     hasMore?: boolean;
     isLoading?: boolean;
@@ -14,27 +15,7 @@ namespace InfiniteScrollNS {
 }
 
 const InfiniteScroll: React.FC<InfiniteScrollNS.Props> = React.memo(
-  ({
-    children,
-    loader = (
-      <div className='loader ' key={0}>
-        <div className=''>
-          <div className='lds-ellipsis'>
-            <div />
-            <div />
-            <div />
-            <div />
-          </div>
-        </div>
-      </div>
-    ),
-    className = '',
-    hasMore,
-    isLoading,
-    onReachExtreme,
-    isReverse,
-    threshold = 0.0,
-  }) => {
+  ({ children, Loader = InfiniteScrollLoader, className = '', hasMore, isLoading, onReachExtreme, isReverse, threshold = 0.0 }) => {
     const loaderRef = React.useRef<HTMLDivElement>(null);
 
     React.useEffect(() => {
@@ -66,12 +47,13 @@ const InfiniteScroll: React.FC<InfiniteScrollNS.Props> = React.memo(
         {children}
         {hasMore && (
           <div ref={loaderRef} className='endless-scroll-loader-wrapper'>
-            {loader}
+            <Loader />
           </div>
         )}
       </div>
     );
   },
+  (prevProps, nextProps) => !(prevProps.children !== nextProps.children || prevProps.hasMore !== nextProps.hasMore),
 );
 
 InfiniteScroll.displayName = 'InfiniteScroll';

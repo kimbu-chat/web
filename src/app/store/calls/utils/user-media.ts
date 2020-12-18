@@ -184,6 +184,7 @@ export function* getAndSendUserMedia(): SagaIterator {
 
 export const getMediaDevicesList = async (kind: string) => {
   const devices = await navigator.mediaDevices.enumerateDevices();
+  console.log(devices);
   const deviceList = devices.filter((device) => device.kind === kind);
   return deviceList;
 };

@@ -1,4 +1,4 @@
 export enum InputType {
-  audioInput = 'audioInput',
+  audioInput = 'audioinput',
   videoInput = 'videoinput',
 }

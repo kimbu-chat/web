@@ -18,7 +18,7 @@ import { CallActions } from 'store/calls/actions';
 import moment from 'moment';
 import { Rnd } from 'react-rnd';
 import { Avatar } from 'components';
-import { getUserInitials } from 'app/utils/interlocutor-name-utils';
+import { getUserInitials } from 'utils/interlocutor-name-utils';
 import ReactDOM from 'react-dom';
 
 // SVG
@@ -82,11 +82,11 @@ export const ActiveCall: React.FC = () => {
 
   const changeAudioStatus = useCallback(() => {
     changeMediaStatus({ kind: InputType.audioInput });
-  }, []);
+  }, [changeMediaStatus]);
 
   const changeVideoStatus = useCallback(() => {
     changeMediaStatus({ kind: InputType.videoInput });
-  }, []);
+  }, [changeMediaStatus]);
 
   useEffect(() => {
     if (remoteVideoRef.current) {
@@ -173,6 +173,7 @@ export const ActiveCall: React.FC = () => {
 
   useEffect(() => {
     dragRef.current?.updatePosition(isFullScreen ? { x: 0, y: 0 } : { x: window.innerWidth / 2 - 120, y: window.innerHeight / 2 - 120 });
+    dragRef.current?.updateSize(isFullScreen ? { width: window.innerWidth, height: window.innerHeight } : { width: 304, height: 328 });
   }, [isFullScreen]);
 
   const reCallWithVideo = useCallback(

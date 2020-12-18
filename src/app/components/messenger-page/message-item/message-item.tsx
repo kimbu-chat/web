@@ -22,7 +22,6 @@ import SelectedSvg from 'icons/ic-check-filled.svg';
 import UnSelectedSvg from 'icons/ic-check-outline.svg';
 import { RawAttachment, PictureAttachment, VoiceAttachment, VideoAttachment, AudioAttachment } from 'store/chats/models';
 import { Link } from 'react-router-dom';
-import { xorBy } from 'lodash';
 import { MediaGrid } from './attachments/media-grid/media-grid';
 import { RecordingAttachment } from './attachments/recording-attachment/recording-attachment';
 import { MessageAudioAttachment } from '../shared/audio-attachment/audio-attachment';
@@ -175,13 +174,11 @@ const MessageItem = React.memo(
     );
   },
   (prevProps, nextProps) =>
-    !(
-      prevProps.message.text !== nextProps.message.text ||
-      prevProps.message.id !== nextProps.message.id ||
-      prevProps.message.isEdited !== nextProps.message.isEdited ||
-      prevProps.message.state !== nextProps.message.state ||
-      xorBy([prevProps.message.attachments, nextProps.message.attachments], 'id').length !== 0
-    ),
+    prevProps.message.text === nextProps.message.text &&
+    prevProps.message.isSelected === nextProps.message.isSelected &&
+    prevProps.message.isEdited === nextProps.message.isEdited &&
+    prevProps.message.state === nextProps.message.state,
+  // xorBy([prevProps.message.attachments, nextProps.message.attachments], 'id').length === 0,
 );
 
 MessageItem.displayName = 'MessageItem';

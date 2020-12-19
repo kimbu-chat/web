@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { Country, countryList } from 'app/common/countries';
 import './modal-country-select.scss';
-import { useAutocomplete, createFilterOptions } from '@material-ui/lab';
+import useAutocomplete, { createFilterOptions } from '@material-ui/lab/useAutocomplete';
 import { LocalizationContext } from 'app/app';
 import DownSvg from 'icons/ic-chevron-down.svg';
 

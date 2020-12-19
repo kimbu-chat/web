@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react';
 
-export default function useReferState<T>(stateValue: T) {
+export function useReferState<T>(stateValue: T) {
   const reference = useRef<T>(stateValue);
 
   useEffect(() => {

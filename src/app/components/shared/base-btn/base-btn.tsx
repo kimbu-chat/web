@@ -12,7 +12,7 @@ export namespace BaseBtnNS {
   }
 }
 
-export const BaseBtn: React.FC<BaseBtnNS.Props> = React.memo(({ width, color, disabled, variant, icon, children, className, isLoading, ...props }) => {
+const BaseBtn: React.FC<BaseBtnNS.Props> = React.memo(({ width, color, disabled, variant, icon, children, className, isLoading, ...props }) => {
   const style = useMemo(() => {
     const btnColor: string = color === 'primary' ? '#3F8AE0' : color === 'secondary' ? '#D12433' : '#D7D8D9';
     const bluredBtnColor: string = color === 'primary' ? 'rgba(63, 138, 224,0.7)' : color === 'secondary' ? 'rgba(209, 36, 51,0.7)' : 'rgba(215, 216, 217,0.7)';
@@ -33,3 +33,7 @@ export const BaseBtn: React.FC<BaseBtnNS.Props> = React.memo(({ width, color, di
     </button>
   );
 });
+
+BaseBtn.displayName = 'BaseBtn';
+
+export { BaseBtn };

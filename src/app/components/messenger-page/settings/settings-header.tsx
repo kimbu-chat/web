@@ -1,7 +1,8 @@
 import React from 'react';
 
 import ReturnSvg from 'icons/ic-arrow-left.svg';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
+import { Link } from 'react-router-dom';
 
 namespace SettingsHeaderNS {
   export interface Props {

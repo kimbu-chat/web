@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
 import './messenger.scss';
 
@@ -44,10 +44,14 @@ const Messenger = React.memo(() => {
   const selectedChat = useSelector(getSelectedChatSelector);
   const messageToEdit = useSelector(getMessageToEdit);
 
+  useEffect(() => {
+    console.log(amISpeaking || amICalingSomebody);
+  }, [amISpeaking, amICalingSomebody]);
+
   return (
     <div className='messenger'>
       {amICalled && <IncomingCall />}
-      <ActiveCall isDisplayed={amISpeaking || amICalingSomebody} />
+      {(amISpeaking || amICalingSomebody) && <ActiveCall />}
 
       <InternetError />
 

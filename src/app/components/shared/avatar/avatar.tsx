@@ -11,7 +11,7 @@ namespace IAvatar {
   }
 }
 
-export const Avatar = React.memo(({ src, children, className, onClick, ...props }: IAvatar.Props) => (
+const Avatar = React.memo(({ src, children, className, onClick, ...props }: IAvatar.Props) => (
   <>
     {src ? (
       <img alt={children} src={src} {...props} onClick={onClick} className={`avatar ${className || ''}`} />
@@ -22,3 +22,7 @@ export const Avatar = React.memo(({ src, children, className, onClick, ...props 
     )}
   </>
 ));
+
+Avatar.displayName = 'Avatar';
+
+export { Avatar };

@@ -18,6 +18,7 @@ export class SubmitEditMessageSuccess {
       const message = getMessage(draft.messages[chatIndex].messages, payload.messageId);
 
       message!.text = payload.text;
+      message!.isEdited = true;
       message!.attachments = [
         ...(message!.attachments?.filter(({ id }) => payload.removedAttachments?.findIndex((removedAttachment) => removedAttachment.id === id) === -1) || []),
         ...(payload.newAttachments || []),

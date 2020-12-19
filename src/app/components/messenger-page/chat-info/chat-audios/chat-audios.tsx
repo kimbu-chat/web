@@ -2,7 +2,8 @@ import React, { useCallback, useContext, useEffect } from 'react';
 import './chat-audios.scss';
 
 import ReturnSvg from 'icons/ic-arrow-left.svg';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import { LocalizationContext } from 'app/app';
 import { useSelector } from 'react-redux';
 import { getSelectedChatSelector } from 'store/chats/selectors';

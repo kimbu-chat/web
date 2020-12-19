@@ -8,7 +8,7 @@ namespace BackgroundBlurNS {
   }
 }
 
-export const BackgroundBlur: React.FC<BackgroundBlurNS.Props> = ({ onClick, children }) => {
+export const BackgroundBlur: React.FC<BackgroundBlurNS.Props> = React.memo(({ onClick, children }) => {
   useEffect(() => {
     Mousetrap.bind('esc', (e) => {
       e.preventDefault();
@@ -25,7 +25,7 @@ export const BackgroundBlur: React.FC<BackgroundBlurNS.Props> = ({ onClick, chil
     </div>,
     document.getElementById('root') || document.createElement('div'),
   );
-};
+});
 
 namespace WithBackgroundNS {
   export interface Props {
@@ -34,8 +34,12 @@ namespace WithBackgroundNS {
   }
 }
 
-export const WithBackground = React.memo(({ children, onBackgroundClick }: WithBackgroundNS.Props) => (
+const WithBackground = React.memo(({ children, onBackgroundClick }: WithBackgroundNS.Props) => (
   <>
     <BackgroundBlur onClick={onBackgroundClick}>{children}</BackgroundBlur>
   </>
 ));
+
+WithBackground.displayName = 'WithBackground';
+
+export { WithBackground };

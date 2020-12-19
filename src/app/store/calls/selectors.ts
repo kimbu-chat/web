@@ -25,9 +25,9 @@ export const getIsInterlocutorBusy = (state: RootState) => state.calls.isInterlo
 
 export const getIsScreenSharingEnabled = (state: RootState) => state.calls.isScreenSharingOpened;
 
-export const getIsVideoEnabled = (state: RootState) => state.calls.audioConstraints.isOpened;
+export const getIsAudioEnabled = (state: RootState) => state.calls.audioConstraints.isOpened;
 
-export const getIsAudioEnabled = (state: RootState) => state.calls.videoConstraints.isOpened;
+export const getIsVideoEnabled = (state: RootState) => state.calls.videoConstraints.isOpened;
 
 export const getAudioDevices = (state: RootState) => state.calls.audioDevicesList;
 

@@ -43,19 +43,15 @@ export const IncomingCall: React.FC = () => {
 
   const acceptWithVideo = useCallback(() => {
     acceptCall({
-      constraints: {
-        videoEnabled: true,
-        audioEnabled: true,
-      },
+      videoEnabled: true,
+      audioEnabled: true,
     });
   }, []);
 
   const acceptWithAudio = useCallback(() => {
     acceptCall({
-      constraints: {
-        videoEnabled: false,
-        audioEnabled: true,
-      },
+      videoEnabled: false,
+      audioEnabled: true,
     });
   }, []);
 

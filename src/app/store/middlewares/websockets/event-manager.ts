@@ -11,13 +11,12 @@ export enum EventsNames {
   INTEROCUTOR_MESSAGE_TYPING = 'MessageTyping',
   CHAT_CLEARED = 'ClearChat',
   // Event names for WEBRTC
-  INCOMING_CALL = 'CallInit',
-  INTERLOCUTOR_ACCEPTED_CALL = 'CallAccepted',
-  INTERLOCUTOR_CANCELED_CALL = 'CallCancelled',
+  INCOMING_CALL = 'SendCallOffer',
+  INTERLOCUTOR_ACCEPTED_CALL = 'AcceptCall',
   CALL_NOT_ANSWERED = 'CallNotAnswered',
-  CALL_ENDED = 'CallEnded',
+  CALL_ENDED = 'EndCall',
   BUSY_CALL = 'CallBusy',
-  CANDIDATE = 'Candidate',
+  CANDIDATE = 'SendIceCandidate',
 }
 
 export class EventManager {

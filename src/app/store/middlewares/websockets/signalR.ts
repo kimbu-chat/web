@@ -14,7 +14,6 @@ import { GroupChatCreatedEventHandler } from './integration-event-handlers/group
 import { UserMessageReadEventHandler } from './integration-event-handlers/user-message-read-event-handler';
 import { IncomingCallEventHandler } from './integration-event-handlers/incoming-call-event-handler';
 import { InterlocutorAcceptedCallEventHandler } from './integration-event-handlers/interlocutor-accepted-call-event-handler';
-import { InterlocutorCanceledCallEventHandler } from './integration-event-handlers/interlocutor-canceled-call-event-handler';
 import { CallEndedEventHandler } from './integration-event-handlers/call-ended-event-handler';
 import { CandidateEventHandler } from './integration-event-handlers/candidate-event-handler';
 import { BusyCallEvenHandler } from './integration-event-handlers/busy-call-event-handler';
@@ -34,8 +33,6 @@ function openConnection(store: Store<RootState>): void {
   // WebRTC
   eventManager.registerEventHandler(EventsNames.INCOMING_CALL, new IncomingCallEventHandler());
   eventManager.registerEventHandler(EventsNames.INTERLOCUTOR_ACCEPTED_CALL, new InterlocutorAcceptedCallEventHandler());
-  eventManager.registerEventHandler(EventsNames.INTERLOCUTOR_CANCELED_CALL, new InterlocutorCanceledCallEventHandler());
-  eventManager.registerEventHandler(EventsNames.CALL_NOT_ANSWERED, new InterlocutorCanceledCallEventHandler());
   eventManager.registerEventHandler(EventsNames.CALL_ENDED, new CallEndedEventHandler());
   eventManager.registerEventHandler(EventsNames.CANDIDATE, new CandidateEventHandler());
   eventManager.registerEventHandler(EventsNames.BUSY_CALL, new BusyCallEvenHandler());

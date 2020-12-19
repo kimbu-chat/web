@@ -1,4 +1,5 @@
 import { Page } from '../common/models';
+import { InterlocutorAcceptedCallIntegrationEvent } from '../middlewares/websockets/integration-events/interlocutor-accepted-call-integration-event';
 import { UserPreview } from '../my-profile/models';
 import { InputType } from './common/enums/input-type';
 
@@ -85,12 +86,7 @@ export interface AcceptIncomingCallActionPayload {
   };
 }
 
-export interface InterlocutorAcceptedCallActionPayload {
-  answer: RTCSessionDescriptionInit;
-  isVideoEnabled: boolean;
-  interlocutorId: number;
-  isRenegotiation?: boolean;
-}
+export interface InterlocutorAcceptedCallActionPayload extends InterlocutorAcceptedCallIntegrationEvent {}
 
 export interface CandidateActionPayload {
   candidate: RTCIceCandidate;
@@ -118,10 +114,15 @@ export interface CandidateApiRequest {
 }
 
 export interface CallApiRequest {
+  userInterlocutorId: number;
+  offer: RTCSessionDescriptionInit;
+  isVideoEnabled: boolean;
+}
+
+export interface RenegociateApiRequest {
   interlocutorId: number;
   offer: RTCSessionDescriptionInit;
-  isRenegotiation?: boolean;
-  caller: UserPreview;
+  isVideoEnabled: boolean;
 }
 
 export interface CancelCallApiRequest {
@@ -133,9 +134,7 @@ export interface DeclineCallApiRequest {
 }
 
 export interface EndCallApiRequest {
-  callerId: number;
-  calleeId: number;
-  seconds: number;
+  interlocutorId: number;
 }
 
 export interface CallNotAnsweredApiRequest {
@@ -144,6 +143,8 @@ export interface CallNotAnsweredApiRequest {
 
 export interface AcceptCallApiRequest {
   interlocutorId: number;
+  answer: RTCSessionDescriptionInit;
+  isVideoEnabled: boolean;
 }
 
 export interface Call {

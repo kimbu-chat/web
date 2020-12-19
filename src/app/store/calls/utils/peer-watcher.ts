@@ -1,6 +1,4 @@
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
-import { UserPreview } from 'app/store/my-profile/models';
-import { getMyProfileSelector } from 'app/store/my-profile/selectors';
 import { RootState } from 'app/store/root-reducer';
 import { eventChannel, END, buffers } from 'redux-saga';
 import { take, select, call } from 'redux-saga/effects';
@@ -9,12 +7,12 @@ import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/models';
 import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
-import { CandidateApiRequest, CallApiRequest } from '../models';
+import { CandidateApiRequest, RenegociateApiRequest } from '../models';
 import { assignInterlocurorVideoTrack, assignInterlocurorAudioTrack, setMakingOffer } from './user-media';
 
 const CallsHttpRequests = {
-  candidate: httpRequestFactory<AxiosResponse, CandidateApiRequest>(`${ApiBasePath.NotificationsApi}/api/calls/candidate`, HttpRequestMethod.Post),
-  call: httpRequestFactory<AxiosResponse, CallApiRequest>(`${ApiBasePath.NotificationsApi}/api/calls/call`, HttpRequestMethod.Post),
+  candidate: httpRequestFactory<AxiosResponse, CandidateApiRequest>(`${ApiBasePath.MainApi}/api/calls/send-ice-candidate`, HttpRequestMethod.Post),
+  renegociate: httpRequestFactory<AxiosResponse, RenegociateApiRequest>(`${ApiBasePath.MainApi}/api/calls/send-renegotiation`, HttpRequestMethod.Post),
 };
 
 function createPeerConnectionChannel() {
@@ -81,7 +79,6 @@ export function* peerWatcher() {
       case 'negotiationneeded':
         {
           const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
-          const myProfile: UserPreview = yield select(getMyProfileSelector);
           const isCallActive: boolean = yield select(doIhaveCall);
           const isVideoEnabled = yield select((state: RootState) => state.calls.videoConstraints.isOpened);
           const isScreenSharingEnabled = yield select((state: RootState) => state.calls.isScreenSharingOpened);
@@ -97,15 +94,13 @@ export function* peerWatcher() {
             );
             yield call(async () => await peerConnection?.setLocalDescription(offer));
 
-            const request = {
+            const request: RenegociateApiRequest = {
               offer,
               interlocutorId,
-              isRenegotiation: true,
-              caller: myProfile,
               isVideoEnabled: isVideoEnabled || isScreenSharingEnabled,
             };
 
-            CallsHttpRequests.call.call(yield call(() => CallsHttpRequests.call.generator(request)));
+            CallsHttpRequests.renegociate.call(yield call(() => CallsHttpRequests.renegociate.generator(request)));
             setMakingOffer(false);
           }
         }

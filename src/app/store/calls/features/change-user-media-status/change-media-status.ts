@@ -17,8 +17,8 @@ import {
   audioSender,
 } from '../../utils/user-media';
 import { ChangeActiveDeviceId } from '../change-active-device-id/change-active-device-id';
-import { CloseAudioStatus } from '../close-audio-status/close-audio-status';
-import { CloseVideoStatus } from '../close-video-status/close-video-status';
+import { CloseAudioStatus } from './close-audio-status';
+import { CloseVideoStatus } from './close-video-status';
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
 import { ChangeMediaStatusActionPayload } from './change-media-status-action-payload';
 import { InputType } from '../../common/enums/input-type';

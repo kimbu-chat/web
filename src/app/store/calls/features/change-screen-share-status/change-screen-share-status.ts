@@ -6,7 +6,7 @@ import { call, put, select, spawn, take } from 'redux-saga/effects';
 import { getIsScreenSharingEnabled } from 'app/store/calls/selectors';
 import { CallState } from '../../models';
 import { tracks, stopScreenSharingTracks, videoSender, setVideoSender, getUserDisplay, stopVideoTracks } from '../../utils/user-media';
-import { CloseScreenShareStatus } from '../close-screen-share-status/close-screen-share-status';
+import { CloseScreenShareStatus } from './close-screen-share-status';
 
 export class ChangeScreenShareStatus {
   static get action() {

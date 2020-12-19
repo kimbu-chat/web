@@ -1,9 +1,8 @@
 import { createEmptyAction } from 'app/store/common/actions';
-import { peerConnection, resetPeerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
+import { resetPeerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { CallState } from '../../models';
-import { stopAllTracks, videoSender, setVideoSender } from '../../utils/user-media';
 
 export class CallEnded {
   static get action() {
@@ -26,19 +25,7 @@ export class CallEnded {
 
   static get saga() {
     return function* (): SagaIterator {
-      peerConnection?.close();
       resetPeerConnection();
-
-      stopAllTracks();
-
-      if (videoSender) {
-        try {
-          peerConnection?.removeTrack(videoSender);
-        } catch (e) {
-          console.warn(e);
-        }
-        setVideoSender(null);
-      }
     };
   }
 }

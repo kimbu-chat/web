@@ -7,7 +7,7 @@ import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/http-file-factory';
 import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
-import { doIhaveCall, getCallInterlocutorIdSelector, getIsActiveCallIncoming, getIsScreenSharingEnabled, getVideoConstraints } from 'app/store/calls/selectors';
+import { getCallInterlocutorIdSelector, getIsActiveCallIncoming, getIsScreenSharingEnabled, getVideoConstraints } from 'app/store/calls/selectors';
 import { CallState, AcceptCallApiRequest } from '../../models';
 import { IncomingCallActionPayload } from './incoming-call-action-payload';
 import { makingOffer, isSettingRemoteAnswerPending, ignoreOffer, setIgnoreOffer, setIsSettingRemoteAnswerPending } from '../../utils/user-media';
@@ -41,12 +41,9 @@ export class IncomingCall {
 
   static get saga() {
     return function* negociationSaga(action: ReturnType<typeof IncomingCall.action>): SagaIterator {
-      const isCallActive: boolean = yield select(doIhaveCall);
       const interlocutorId: number = yield select(getCallInterlocutorIdSelector);
 
       console.log(
-        ' isCallActive:',
-        isCallActive,
         '\n isRenegotiation:',
         action.payload.isRenegotiation,
         '\n interlocutorId:',
@@ -55,7 +52,7 @@ export class IncomingCall {
         action.payload.caller.id,
       );
 
-      if (isCallActive && action.payload.isRenegotiation && interlocutorId === action.payload.caller.id) {
+      if (action.payload.isRenegotiation && interlocutorId === action.payload.caller.id) {
         const polite = !(yield select(getIsActiveCallIncoming));
         const readyForOffer = !makingOffer && (peerConnection?.signalingState === 'stable' || isSettingRemoteAnswerPending);
         const offerCollision = !readyForOffer;
@@ -81,16 +78,7 @@ export class IncomingCall {
           isVideoEnabled: videoConstraints.isOpened || isScreenSharingEnabled,
         };
 
-        IncomingCall.httpRequest.acceptCall.call(yield call(() => IncomingCall.httpRequest.acceptCall.generator(request)));
-      } else if (isCallActive && !action.payload.isRenegotiation && interlocutorId !== action.payload.caller.id) {
-        console.log('busy');
-        const interlocutorId: number = action.payload.caller.id;
-
-        const request = {
-          interlocutorId,
-        };
-
-        IncomingCall.httpRequest.busyCall.call(yield call(() => IncomingCall.httpRequest.busyCall.generator(request)));
+        IncomingCall.httpRequest.call(yield call(() => IncomingCall.httpRequest.generator(request)));
       } else {
         console.log('paralel');
       }
@@ -98,9 +86,6 @@ export class IncomingCall {
   }
 
   static get httpRequest() {
-    return {
-      busyCall: httpRequestFactory<AxiosResponse, AcceptCallApiRequest>(`${ApiBasePath.NotificationsApi}/api/calls/call-busy`, HttpRequestMethod.Post),
-      acceptCall: httpRequestFactory<AxiosResponse, AcceptCallApiRequest>(`${ApiBasePath.NotificationsApi}/api/calls/accept-call`, HttpRequestMethod.Post),
-    };
+    return httpRequestFactory<AxiosResponse, AcceptCallApiRequest>(`${ApiBasePath.NotificationsApi}/api/calls/accept-call`, HttpRequestMethod.Post);
   }
 }

@@ -7,12 +7,11 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select, spawn } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { getVideoConstraints, getAudioConstraints, getCallInterlocutorIdSelector, getOffer } from 'app/store/calls/selectors';
+import { getVideoConstraints, getAudioConstraints, getCallInterlocutorIdSelector, getOffer, getIsVideoEnabled } from 'app/store/calls/selectors';
 import { AcceptCallApiRequest, CallState } from '../../models';
 import { deviceUpdateWatcher } from '../../utils/device-update-watcher';
 import { peerWatcher } from '../../utils/peer-watcher';
 import { getAndSendUserMedia, getMediaDevicesList } from '../../utils/user-media';
-import { AcceptCallSuccess } from './accept-call-success';
 import { ChangeActiveDeviceId } from '../change-active-device-id/change-active-device-id';
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
 import { AcceptCallActionPayload } from './accept-call-action-payload';
@@ -25,17 +24,21 @@ export class AcceptCall {
 
   static get reducer() {
     return produce((draft: CallState, { payload }: ReturnType<typeof AcceptCall.action>) => {
-      draft.audioConstraints = { ...draft.audioConstraints, isOpened: payload.constraints.audioEnabled };
-      draft.videoConstraints = { ...draft.videoConstraints, isOpened: payload.constraints.videoEnabled };
+      draft.audioConstraints = { ...draft.audioConstraints, isOpened: payload.audioEnabled };
+      draft.videoConstraints = { ...draft.videoConstraints, isOpened: payload.videoEnabled };
+
+      draft.isSpeaking = true;
+      draft.amICalled = false;
+      draft.amICaling = false;
+
       return draft;
     });
   }
 
   static get saga() {
-    return function* acceptCallSaga(action: ReturnType<typeof AcceptCall.action>): SagaIterator {
+    return function* acceptCallSaga(): SagaIterator {
       const videoConstraints = yield select(getVideoConstraints);
       const audioConstraints = yield select(getAudioConstraints);
-      const isVideoError = false;
 
       createPeerConnection();
       yield spawn(peerWatcher);
@@ -48,14 +51,18 @@ export class AcceptCall {
       // gathering data about media devices
       if (audioConstraints.isOpened) {
         const audioDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.audioInput);
-        yield put(GotDevicesInfo.action({ kind: InputType.audioInput, devices: audioDevices }));
-        yield put(ChangeActiveDeviceId.action({ kind: InputType.audioInput, deviceId: audioDevices[0].deviceId }));
+
+        if (audioDevices.length > 0) {
+          yield put(GotDevicesInfo.action({ kind: InputType.audioInput, devices: audioDevices }));
+          yield put(ChangeActiveDeviceId.action({ kind: InputType.audioInput, deviceId: audioDevices[0].deviceId }));
+        }
       }
+
       if (videoConstraints.isOpened) {
         const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.videoInput);
-        yield put(GotDevicesInfo.action({ kind: InputType.videoInput, devices: videoDevices }));
 
-        if (videoDevices[0]) {
+        if (videoDevices.length > 0) {
+          yield put(GotDevicesInfo.action({ kind: InputType.videoInput, devices: videoDevices }));
           yield put(ChangeActiveDeviceId.action({ kind: InputType.videoInput, deviceId: videoDevices[0].deviceId }));
         }
       }
@@ -64,23 +71,24 @@ export class AcceptCall {
       const interlocutorId: number = yield select(getCallInterlocutorIdSelector);
       const offer: RTCSessionDescriptionInit = yield select(getOffer);
 
-      peerConnection?.setRemoteDescription(new RTCSessionDescription(offer));
+      //! CHECK: peerConnection?.setRemoteDescription(new RTCSessionDescription(offer));
+      peerConnection?.setRemoteDescription(offer);
       const answer = yield call(async () => await peerConnection?.createAnswer());
       yield call(async () => await peerConnection?.setLocalDescription(answer));
+
+      const isVideoEnabled = yield select(getIsVideoEnabled);
 
       const request = {
         interlocutorId,
         answer,
-        isVideoEnabled: videoConstraints.isOpened && !isVideoError,
+        isVideoEnabled,
       };
 
       AcceptCall.httpRequest.call(yield call(() => AcceptCall.httpRequest.generator(request)));
-
-      yield put(AcceptCallSuccess.action(action.payload));
     };
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, AcceptCallApiRequest>(`${ApiBasePath.NotificationsApi}/api/calls/accept-call`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse, AcceptCallApiRequest>(`${ApiBasePath.MainApi}/api/calls/accept-call`, HttpRequestMethod.Post);
   }
 }

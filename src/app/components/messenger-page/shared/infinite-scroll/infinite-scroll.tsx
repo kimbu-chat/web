@@ -53,7 +53,7 @@ const InfiniteScroll: React.FC<InfiniteScrollNS.Props> = React.memo(
       </div>
     );
   },
-  (prevProps, nextProps) => !(prevProps.children !== nextProps.children || prevProps.hasMore !== nextProps.hasMore),
+  (prevProps, nextProps) => prevProps.children === nextProps.children && prevProps.hasMore === nextProps.hasMore,
 );
 
 InfiniteScroll.displayName = 'InfiniteScroll';

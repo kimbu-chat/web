@@ -6,6 +6,12 @@ export const peerConfiguration = {
 
 export let peerConnection: RTCPeerConnection | null = null;
 
+export let interlocutorOffer: RTCSessionDescriptionInit | null = null;
+
+export const setInterlocutorOffer = (offer: RTCSessionDescriptionInit | null) => {
+  interlocutorOffer = offer;
+};
+
 export const createPeerConnection = () => {
   peerConnection = new RTCPeerConnection(peerConfiguration);
 };
@@ -15,4 +21,5 @@ export const resetPeerConnection = () => {
   peerConnection?.close();
   peerConnection = null;
   setVideoSender(null);
+  setInterlocutorOffer(null);
 };

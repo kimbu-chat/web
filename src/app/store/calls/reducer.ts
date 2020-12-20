@@ -22,19 +22,17 @@ import { InterlocutorAcceptedCall } from './features/interlocutor-accepted-call/
 
 const initialState: CallState = {
   isInterlocutorVideoEnabled: false,
-  amICalled: false,
   isInterlocutorBusy: false,
-  isScreenSharingOpened: false,
+  amICalled: false,
+  amICaling: false,
   isSpeaking: false,
   videoConstraints: {
     isOpened: false,
-    width: { min: 640, ideal: 1920, max: 1920 },
-    height: { min: 480, ideal: 1440, max: 1440 },
+    width: { min: 640, ideal: window.innerWidth, max: 1920 },
+    height: { min: 480, ideal: window.innerHeight, max: 1440 },
   },
   audioConstraints: { isOpened: true },
-  amICaling: false,
-  interlocutor: undefined,
-  offer: undefined,
+  isScreenSharingOpened: false,
   audioDevicesList: [],
   videoDevicesList: [],
   calls: {

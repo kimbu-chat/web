@@ -22,7 +22,6 @@ export class DeclineCall {
       draft.amICaling = false;
       draft.amICalled = false;
       draft.isSpeaking = false;
-      draft.offer = undefined;
       draft.isInterlocutorVideoEnabled = false;
       draft.videoConstraints.isOpened = false;
       draft.videoConstraints.isOpened = false;

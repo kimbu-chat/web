@@ -7,7 +7,8 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select, spawn } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { getVideoConstraints, getAudioConstraints, getCallInterlocutorIdSelector, getOffer, getIsVideoEnabled } from 'app/store/calls/selectors';
+import { getVideoConstraints, getAudioConstraints, getCallInterlocutorIdSelector, getIsVideoEnabled } from 'app/store/calls/selectors';
+import { interlocutorOffer } from '../../../middlewares/webRTC/peerConnectionFactory';
 import { AcceptCallApiRequest, CallState } from '../../models';
 import { deviceUpdateWatcher } from '../../utils/device-update-watcher';
 import { peerWatcher } from '../../utils/peer-watcher';
@@ -27,6 +28,7 @@ export class AcceptCall {
       draft.audioConstraints = { ...draft.audioConstraints, isOpened: payload.audioEnabled };
       draft.videoConstraints = { ...draft.videoConstraints, isOpened: payload.videoEnabled };
 
+      draft.isActiveCallIncoming = true;
       draft.isSpeaking = true;
       draft.amICalled = false;
       draft.amICaling = false;
@@ -45,7 +47,6 @@ export class AcceptCall {
       yield spawn(deviceUpdateWatcher);
 
       // setup local stream
-
       yield call(getAndSendUserMedia);
 
       // gathering data about media devices
@@ -69,10 +70,9 @@ export class AcceptCall {
       //---
 
       const interlocutorId: number = yield select(getCallInterlocutorIdSelector);
-      const offer: RTCSessionDescriptionInit = yield select(getOffer);
 
       //! CHECK: peerConnection?.setRemoteDescription(new RTCSessionDescription(offer));
-      peerConnection?.setRemoteDescription(offer);
+      peerConnection?.setRemoteDescription(interlocutorOffer as RTCSessionDescriptionInit);
       const answer = yield call(async () => await peerConnection?.createAnswer());
       yield call(async () => await peerConnection?.setLocalDescription(answer));
 

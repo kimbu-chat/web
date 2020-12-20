@@ -33,7 +33,6 @@ export class OutgoingCall {
       draft.interlocutor = interlocutor;
       draft.isInterlocutorBusy = false;
       draft.amICaling = true;
-      draft.isActiveCallIncoming = false;
       draft.audioConstraints = { ...draft.audioConstraints, isOpened: payload.constraints.audioEnabled };
       draft.videoConstraints = { ...draft.videoConstraints, isOpened: payload.constraints.videoEnabled };
       return draft;

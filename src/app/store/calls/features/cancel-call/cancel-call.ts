@@ -6,8 +6,8 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { RootState } from 'app/store/root-reducer';
+import { resetPeerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import { CancelCallApiRequest } from '../../models';
-import { stopAllTracks } from '../../utils/user-media';
 import { CancelCallSuccess } from './cancel-call-success';
 
 export class CancelCall {
@@ -17,9 +17,9 @@ export class CancelCall {
 
   static get saga() {
     return function* cancelCallSaga(): SagaIterator {
-      const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
+      resetPeerConnection();
 
-      stopAllTracks();
+      const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
 
       const request = {
         interlocutorId,

@@ -5,8 +5,6 @@ export const getCallInterlocutorSelector = (state: RootState): UserPreview | und
 
 export const getCallInterlocutorIdSelector = (state: RootState): number | undefined => state.calls.interlocutor?.id;
 
-export const getOffer = (state: RootState) => state.calls.offer;
-
 export const amICalled = (state: RootState): boolean => state.calls.amICalled;
 
 export const amICaling = (state: RootState): boolean => state.calls.amICaling;

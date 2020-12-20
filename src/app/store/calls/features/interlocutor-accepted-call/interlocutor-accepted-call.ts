@@ -17,6 +17,8 @@ export class InterlocutorAcceptedCall {
       draft.isSpeaking = true;
       draft.amICalled = false;
       draft.amICaling = false;
+
+      draft.isActiveCallIncoming = false;
       draft.isInterlocutorVideoEnabled = payload.isVideoEnabled;
       return draft;
     });

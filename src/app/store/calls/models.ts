@@ -5,12 +5,12 @@ import { InputType } from './common/enums/input-type';
 
 export interface CallState {
   isActiveCallIncoming?: boolean;
-  amICalled: boolean;
-  isInterlocutorBusy: boolean;
   isInterlocutorVideoEnabled: boolean;
+  isInterlocutorBusy: boolean;
+  interlocutor?: UserPreview;
+  amICalled: boolean;
   amICaling: boolean;
   isSpeaking: boolean;
-  interlocutor?: UserPreview;
   videoConstraints: {
     isOpened: boolean;
     width?: { min: number; ideal: number; max: number };
@@ -22,11 +22,27 @@ export interface CallState {
     deviceId?: string;
   };
   isScreenSharingOpened: boolean;
-  offer?: RTCSessionDescriptionInit;
-  answer?: RTCSessionDescriptionInit;
   audioDevicesList: MediaDeviceInfo[];
   videoDevicesList: MediaDeviceInfo[];
   calls: CallList;
+}
+
+export interface Call {
+  userInterlocutor: UserPreview;
+  seconds: number;
+  status: CallStatus;
+  id: number;
+  callDateTime: Date;
+}
+
+export interface CallList {
+  calls: Call[];
+  hasMore: boolean;
+  loading: boolean;
+}
+
+export interface GetCallsApiRequest {
+  page: Page;
 }
 
 export enum CallStatus {
@@ -145,22 +161,4 @@ export interface AcceptCallApiRequest {
   interlocutorId: number;
   answer: RTCSessionDescriptionInit;
   isVideoEnabled: boolean;
-}
-
-export interface Call {
-  userInterlocutor: UserPreview;
-  seconds: number;
-  status: CallStatus;
-  id: number;
-  callDateTime: Date;
-}
-
-export interface CallList {
-  calls: Call[];
-  hasMore: boolean;
-  loading: boolean;
-}
-
-export interface GetCallsApiRequest {
-  page: Page;
 }

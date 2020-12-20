@@ -1,4 +1,4 @@
-import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
+import { peerConnection, setInterlocutorOffer } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { select, call } from 'redux-saga/effects';
@@ -7,7 +7,7 @@ import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/http-file-factory';
 import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
-import { getCallInterlocutorIdSelector, getIsActiveCallIncoming, getIsScreenSharingEnabled, getVideoConstraints } from 'app/store/calls/selectors';
+import { getCallInterlocutorIdSelector, getIsScreenSharingEnabled, getVideoConstraints, getIsActiveCallIncoming } from 'app/store/calls/selectors';
 import { CallState, AcceptCallApiRequest } from '../../models';
 import { IncomingCallActionPayload } from './incoming-call-action-payload';
 import { makingOffer, isSettingRemoteAnswerPending, ignoreOffer, setIgnoreOffer, setIsSettingRemoteAnswerPending } from '../../utils/user-media';
@@ -22,18 +22,9 @@ export class IncomingCall {
   static get reducer() {
     return produce((draft: CallState, { payload }: ReturnType<typeof IncomingCall.action>) => {
       draft.isInterlocutorVideoEnabled = payload.isVideoEnabled;
-
-      if (draft.isSpeaking) {
-        // if it matches this condition then it's negociation
-        return draft;
-      }
-
       const interlocutor = payload.caller;
-      const { offer } = payload;
       draft.interlocutor = interlocutor;
       draft.amICalled = true;
-      draft.isActiveCallIncoming = true;
-      draft.offer = offer;
 
       return draft;
     });
@@ -42,6 +33,8 @@ export class IncomingCall {
   static get saga() {
     return function* negociationSaga(action: ReturnType<typeof IncomingCall.action>): SagaIterator {
       const interlocutorId: number = yield select(getCallInterlocutorIdSelector);
+
+      setInterlocutorOffer(action.payload.offer);
 
       console.log(
         '\n isRenegotiation:',

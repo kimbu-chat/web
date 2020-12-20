@@ -12,7 +12,7 @@ export enum EventsNames {
   CHAT_CLEARED = 'ClearChat',
   // Event names for WEBRTC
   INCOMING_CALL = 'CallOfferSent',
-  RENEGOCIATION_SENT = 'RenegociationSent',
+  RENEGOTIATION_SENT = 'RenegotiationSent',
   INTERLOCUTOR_ACCEPTED_CALL = 'CallAccepted',
   CALL_ENDED = 'CallEnded',
   BUSY_CALL = 'CallBusy',

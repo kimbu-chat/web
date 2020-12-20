@@ -30,7 +30,7 @@ export class InterlocutorAcceptedCall {
       const doICall = yield select(amICaling);
       const isCallActive = yield select(doIhaveCall);
 
-      if (action.payload.userCalleeId !== myId && (doICall || isCallActive)) {
+      if (action.payload.userInterlocutorId !== myId && (doICall || isCallActive)) {
         const remoteDesc = new RTCSessionDescription(action.payload.answer);
         yield call(async () => await peerConnection?.setRemoteDescription(remoteDesc));
       }

@@ -4,7 +4,6 @@ import { CancelCall } from './features/cancel-call/cancel-call';
 import { AcceptCall } from './features/accept-call/accept-call';
 import { GetCalls } from './features/get-calls/get-calls';
 import { DeclineCall } from './features/decline-call/decline-call';
-import { IncomingCall } from './features/incoming-call/incoming-call';
 import { InterlocutorAcceptedCall } from './features/interlocutor-accepted-call/interlocutor-accepted-call';
 import { OutgoingCall } from './features/outgoing-call/outgoing-call';
 import { TimeoutCall } from './features/timeout-call/timeout-call';
@@ -28,7 +27,6 @@ export const CallsSagas = [
   takeLatest(CallEnded.action, CallEnded.saga),
   takeLatest(ChangeScreenShareStatus.action, ChangeScreenShareStatus.saga),
   takeLatest(SwitchDevice.action, SwitchDevice.saga),
-  takeEvery(IncomingCall.action, IncomingCall.saga),
   takeEvery(ChangeMediaStatus.action, ChangeMediaStatus.saga),
   takeLatest(GetCalls.action, GetCalls.saga),
   spawn(ChangeMediaStatus.saga),

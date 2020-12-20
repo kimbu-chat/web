@@ -69,7 +69,7 @@ export class AcceptCall {
       }
       //---
 
-      const interlocutorId: number = yield select(getCallInterlocutorIdSelector);
+      const userInterlocutorId: number = yield select(getCallInterlocutorIdSelector);
 
       //! CHECK: peerConnection?.setRemoteDescription(new RTCSessionDescription(offer));
       peerConnection?.setRemoteDescription(interlocutorOffer as RTCSessionDescriptionInit);
@@ -79,7 +79,7 @@ export class AcceptCall {
       const isVideoEnabled = yield select(getIsVideoEnabled);
 
       const request = {
-        interlocutorId,
+        userInterlocutorId,
         answer,
         isVideoEnabled,
       };

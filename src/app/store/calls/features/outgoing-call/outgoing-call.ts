@@ -71,7 +71,7 @@ export class OutgoingCall {
         yield put(ChangeActiveDeviceId.action({ kind: InputType.videoInput, deviceId: videoDevices[0].deviceId }));
       }
 
-      const interlocutorId = action.payload.calling.id;
+      const userInterlocutorId = action.payload.calling.id;
 
       const offer: RTCSessionDescriptionInit = yield call(
         async () => await peerConnection?.createOffer({ offerToReceiveAudio: true, offerToReceiveVideo: true }),
@@ -83,7 +83,7 @@ export class OutgoingCall {
 
       const request = {
         offer,
-        userInterlocutorId: interlocutorId,
+        userInterlocutorId,
         isVideoEnabled,
       };
 

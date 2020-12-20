@@ -7,6 +7,8 @@ import { Avatar } from 'components';
 import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 import { LocalizationContext } from 'app/app';
 import moment from 'moment';
+import { useSelector } from 'react-redux';
+import { getMyIdSelector } from 'app/store/my-profile/selectors';
 
 namespace CallFromListNS {
   export interface Props {
@@ -17,26 +19,28 @@ namespace CallFromListNS {
 export const CallFromList: React.FC<CallFromListNS.Props> = ({ call }) => {
   const { t } = useContext(LocalizationContext);
 
+  const myId = useSelector(getMyIdSelector);
+
   return (
     <div className='call-from-list'>
-      <div className='call-from-list__type-icon'>{call.status === CallStatus.Successfull && <OutgoingCallSvg />}</div>
+      <div className='call-from-list__type-icon'>{call.status === CallStatus.Ended && myId === call.userCallerId && <OutgoingCallSvg />}</div>
       <Avatar className='call-from-list__interlocutor-avatar' src={call.userInterlocutor.avatar?.previewUrl}>
         {getUserInitials(call.userInterlocutor)}
       </Avatar>
       <div className='call-from-list__data'>
-        <div className={`call-from-list__name ${call.status === CallStatus.Missed ? 'call-from-list__name--missed' : ''}`}>
+        <div className={`call-from-list__name ${call.status === CallStatus.NotAnswered && myId === call.userCallerId ? 'call-from-list__name--missed' : ''}`}>
           {`${call.userInterlocutor.firstName} ${call.userInterlocutor.lastName}`}
         </div>
         <div className='call-from-list__type'>
           {call.status === CallStatus.Cancelled && t('callFromList.canceled')}
           {call.status === CallStatus.Declined && t('callFromList.declined')}
-          {call.status === CallStatus.Successfull && t('callFromList.incoming')}
-          {call.status === CallStatus.Successfull && t('callFromList.outgoing')}
-          {call.status === CallStatus.Missed && t('callFromList.missed')}
-          {call.status === CallStatus.NotAnswered && t('callFromList.notAnswered')}
+          {call.status === CallStatus.Ended && myId !== call.userCallerId && t('callFromList.incoming')}
+          {call.status === CallStatus.Ended && myId === call.userCallerId && t('callFromList.outgoing')}
+          {call.status === CallStatus.NotAnswered && myId === call.userCallerId && t('callFromList.missed')}
+          {call.status === CallStatus.NotAnswered && myId !== call.userCallerId && t('callFromList.notAnswered')}
         </div>
       </div>
-      <div className='call-from-list__day'>{moment(call.callDateTime).format('DD.MM.YYYY')}</div>
+      <div className='call-from-list__day'>{moment.utc(call.duration * 1000).format('HH:mm:ss')}</div>
     </div>
   );
 };

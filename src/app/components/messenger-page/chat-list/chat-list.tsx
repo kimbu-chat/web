@@ -33,7 +33,7 @@ const ChatList = React.memo(() => {
   useEffect(() => {
     getChatsRequest({
       page: { offset: 0, limit: CHATS_LIMIT },
-      initializedBySearch: false,
+      initializedBySearch: true,
 
       name: searchString,
       showOnlyHidden: false,

@@ -28,11 +28,11 @@ export interface CallState {
 }
 
 export interface Call {
-  userInterlocutor: UserPreview;
-  seconds: number;
-  status: CallStatus;
   id: number;
-  callDateTime: Date;
+  userInterlocutor: UserPreview;
+  userCallerId: number;
+  duration: number;
+  status: CallStatus;
 }
 
 export interface CallList {
@@ -46,10 +46,11 @@ export interface GetCallsApiRequest {
 }
 
 export enum CallStatus {
-  Successfull = 'Successfull',
-  Missed = 'Missed',
-  Declined = 'Declined',
+  Negotiating = 'Negotiating',
+  Active = 'Active',
+  Ended = 'Ended',
   Cancelled = 'Cancelled',
+  Declined = 'Declined',
   NotAnswered = 'NotAnswered',
 }
 export interface ICompleteConstraints {
@@ -158,7 +159,7 @@ export interface CallNotAnsweredApiRequest {
 }
 
 export interface AcceptCallApiRequest {
-  interlocutorId: number;
+  userInterlocutorId: number;
   answer: RTCSessionDescriptionInit;
   isVideoEnabled: boolean;
 }

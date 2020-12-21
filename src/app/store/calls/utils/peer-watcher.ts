@@ -23,6 +23,7 @@ function createPeerConnectionChannel() {
 
     const onNegotiationNeeded = () => {
       emit({ type: 'negotiationneeded' });
+      console.log('negotiationneeded');
     };
 
     const onTrack = (event: RTCTrackEvent) => {

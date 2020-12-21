@@ -71,8 +71,8 @@ export class AcceptCall {
 
       const userInterlocutorId: number = yield select(getCallInterlocutorIdSelector);
 
-      //! CHECK: peerConnection?.setRemoteDescription(new RTCSessionDescription(offer));
-      peerConnection?.setRemoteDescription(interlocutorOffer as RTCSessionDescriptionInit);
+      console.log(interlocutorOffer);
+      yield call(async () => await peerConnection?.setRemoteDescription(interlocutorOffer as RTCSessionDescriptionInit));
       const answer = yield call(async () => await peerConnection?.createAnswer());
       yield call(async () => await peerConnection?.setLocalDescription(answer));
 

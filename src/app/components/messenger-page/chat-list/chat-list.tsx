@@ -29,10 +29,11 @@ const ChatList = React.memo(() => {
       changeSelectedChat({ newChatId: null, oldChatId: selectedChatId });
     }
   }, [chatId]);
+
   useEffect(() => {
     getChatsRequest({
       page: { offset: 0, limit: CHATS_LIMIT },
-      initializedBySearch: true,
+      initializedBySearch: false,
 
       name: searchString,
       showOnlyHidden: false,
@@ -41,19 +42,21 @@ const ChatList = React.memo(() => {
   }, [searchString]);
 
   const loadMore = useCallback(() => {
-    const pageData = {
-      limit: CHATS_LIMIT,
-      offset: chats.length,
-    };
+    if (!areChatsLoading) {
+      const pageData = {
+        limit: CHATS_LIMIT,
+        offset: chats.length,
+      };
 
-    getChatsRequest({
-      page: pageData,
-      initializedBySearch: false,
-      name: searchString,
-      showOnlyHidden: false,
-      showAll: true,
-    });
-  }, [searchString, chats.length]);
+      getChatsRequest({
+        page: pageData,
+        initializedBySearch: false,
+        name: searchString,
+        showOnlyHidden: false,
+        showAll: true,
+      });
+    }
+  }, [searchString, chats.length, areChatsLoading]);
 
   const memoizedChats = useMemo(() => chats?.map((chat: Chat) => <ChatFromList chat={chat} key={chat.id} />), [chats]);
 

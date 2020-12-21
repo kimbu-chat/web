@@ -69,6 +69,7 @@ export class ChangeMediaStatus {
             if (videoSender) {
               videoSender?.replaceTrack(tracks.videoTracks[0]);
             } else if (tracks.videoTracks[0]) {
+              console.log('track added');
               setVideoSender(peerConnection?.addTrack(tracks.videoTracks[0]) as RTCRtpSender);
             }
 

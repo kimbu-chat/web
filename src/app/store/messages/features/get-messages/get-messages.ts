@@ -1,4 +1,3 @@
-import { ChatId } from 'app/store/chats/chat-id';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
 import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
@@ -28,7 +27,7 @@ export class GetMessages {
 
       const request: MessagesReqData = {
         page,
-        chatId: ChatId.from(chat.interlocutor?.id!, chat.groupChat?.id!).id,
+        chatId: chat.id,
       };
 
       const { data } = GetMessages.httpRequest.call(yield call(() => GetMessages.httpRequest.generator(request)));

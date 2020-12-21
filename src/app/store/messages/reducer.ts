@@ -1,5 +1,6 @@
 import produce from 'immer';
 import { createReducer } from 'typesafe-actions';
+import { MESSAGES_LIMIT } from '../../utils/pagination-limits';
 import { MessageState, MessagesState } from './models';
 import { ChatActions } from '../chats/actions';
 import { GetMessages } from './features/get-messages/get-messages';
@@ -53,14 +54,16 @@ const messages = createReducer<MessagesState>(initialState)
       if (oldChatId) {
         const chatIndex = getChatIndex(draft, oldChatId);
 
-        if (draft.messages[chatIndex] && draft.messages[chatIndex].messages.length > 30) {
+        if (draft.messages[chatIndex] && draft.messages[chatIndex].messages.length > MESSAGES_LIMIT) {
           draft.messages[chatIndex].messages = draft.messages[chatIndex].messages.slice(0, 30);
         }
 
-        draft.messages[chatIndex].messages.map((message) => {
-          message.isSelected = false;
-          return message;
-        });
+        if (draft.messages[chatIndex]) {
+          draft.messages[chatIndex].messages.map((message) => {
+            message.isSelected = false;
+            return message;
+          });
+        }
       }
 
       draft.selectedMessageIds = [];

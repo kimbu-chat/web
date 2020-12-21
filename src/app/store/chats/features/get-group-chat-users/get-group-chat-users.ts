@@ -28,6 +28,7 @@ export class GetGroupChatUsers {
   static get saga() {
     return function* getGroupChatUsersSaga(action: ReturnType<typeof GetGroupChatUsers.action>): SagaIterator {
       const { data } = GetGroupChatUsers.httpRequest.call(yield call(() => GetGroupChatUsers.httpRequest.generator(action.payload)));
+      console.log(ChatId.from(undefined, action.payload.groupChatId).id);
       yield put(
         GetGroupChatUsersSuccess.action({
           users: data,

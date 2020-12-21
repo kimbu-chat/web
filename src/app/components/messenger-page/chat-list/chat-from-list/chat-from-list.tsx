@@ -75,7 +75,7 @@ const ChatFromList = React.memo(
     };
 
     return (
-      <NavLink to={`/chats/${chat.id}`} className='chat-from-list' activeClassName='chat-from-list chat-from-list--active'>
+      <NavLink to={`/chats/${chat.id.toString()}`} className='chat-from-list' activeClassName='chat-from-list chat-from-list--active'>
         <div className='chat-from-list__active-line' />
         {!groupChat ? (
           <StatusBadge containerClassName='chat-from-list__avatar-container' additionalClassNames='chat-from-list__avatar' user={chat.interlocutor!} />

@@ -46,8 +46,8 @@ export class GetChats {
           chat.interlocutorLastReadMessageId && chat.interlocutorLastReadMessageId >= Number(chat?.lastMessage?.id)
             ? (MessageState.READ as MessageState)
             : (MessageState.SENT as MessageState);
-        chat.interlocutorType = new ChatId().From(chat.id).interlocutorType;
-        chat.id = new ChatId().From(chat.interlocutor?.id, chat.groupChat?.id).entireId;
+        chat.interlocutorType = ChatId.from(chat.id).interlocutorType;
+        chat.id = ChatId.from(chat.interlocutor?.id, chat.groupChat?.id).id;
         chat.typingInterlocutors = [];
         chat.photos = { photos: [], loading: false, hasMore: true };
         chat.videos = { videos: [], loading: false, hasMore: true };

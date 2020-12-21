@@ -31,7 +31,7 @@ export class GetGroupChatUsers {
       yield put(
         GetGroupChatUsersSuccess.action({
           users: data,
-          chatId: new ChatId().From(undefined, action.payload.groupChatId).entireId,
+          chatId: ChatId.from(undefined, action.payload.groupChatId).id,
           isFromSearch: action.payload.isFromSearch,
           isFromScroll: action.payload.isFromScroll,
           hasMore: data.length >= action.payload.page.limit,

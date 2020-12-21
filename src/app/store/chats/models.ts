@@ -78,6 +78,10 @@ export interface GetChatByIdRequestData {
   chatId: number;
 }
 
+export interface GetUserByIdRequestData {
+  userId: number;
+}
+
 export interface MarkMessagesAsReadRequest {
   chatId: number;
   lastReadMessageId: number;

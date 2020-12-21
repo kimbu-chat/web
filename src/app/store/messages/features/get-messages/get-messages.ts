@@ -28,7 +28,7 @@ export class GetMessages {
 
       const request: MessagesReqData = {
         page,
-        chatId: new ChatId().From(chat.interlocutor?.id!, chat.groupChat?.id!).entireId,
+        chatId: ChatId.from(chat.interlocutor?.id!, chat.groupChat?.id!).id,
       };
 
       const { data } = GetMessages.httpRequest.call(yield call(() => GetMessages.httpRequest.generator(request)));

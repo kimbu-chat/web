@@ -1,55 +1,49 @@
 import { InterlocutorType } from './models';
 
+export class ChatIdDetails {
+  public readonly id: number;
+
+  public readonly interlocutorId: number;
+
+  public readonly interlocutorType: InterlocutorType;
+
+  public readonly userId: number | null;
+
+  public readonly groupChatId: number | null;
+
+  constructor(id: number, interlocutorId: number, interlocutorType: InterlocutorType, userId: number | null, groupChatId: number | null) {
+    this.id = id;
+    this.interlocutorId = interlocutorId;
+    this.interlocutorType = interlocutorType;
+    this.userId = userId;
+    this.groupChatId = groupChatId;
+  }
+}
+
 export class ChatId {
-  public get interlocutorId(): number {
-    this.CheckIfChatIdIsInitialized();
-    // last digit stores interlocutor type
-    return +this.chatId.toString().substring(0, this.chatId.toString().length - 1);
-  }
-
-  public get entireId(): number {
-    this.CheckIfChatIdIsInitialized();
-    return this.chatId;
-  }
-
-  public get interlocutorType(): InterlocutorType {
-    this.CheckIfChatIdIsInitialized();
-    // last digit stores interlocutor type
-    return this.chatId % 10;
-  }
-
-  public get userId(): number | null {
-    this.CheckIfChatIdIsInitialized();
-    return this.interlocutorType === InterlocutorType.USER ? this.interlocutorId : null;
-  }
-
-  public get groupChatId(): number | null {
-    this.CheckIfChatIdIsInitialized();
-    return this.interlocutorType === InterlocutorType.GROUP_CHAT ? this.interlocutorId : null;
-  }
-
-  public From(userId?: number, groupChatId?: number): ChatId {
+  public static from(userId?: number, groupChatId?: number): ChatIdDetails {
     if (userId && !Number.isNaN(userId)) {
-      this.chatId = +`${userId}${InterlocutorType.USER}`;
-      return this;
+      const id: number = +`${userId}${InterlocutorType.USER}`;
+      return new ChatIdDetails(id, userId, InterlocutorType.USER, userId, null);
     }
     if (groupChatId && !Number.isNaN(groupChatId)) {
-      this.chatId = +`${groupChatId}${InterlocutorType.GROUP_CHAT}`;
-      return this;
+      const id: number = +`${userId}${InterlocutorType.USER}`;
+      return new ChatIdDetails(id, groupChatId, InterlocutorType.GROUP_CHAT, null, groupChatId);
     }
-    throw new Error('Params are invalid');
+    throw new Error(`Invalid params: userId = ${userId}, groupChatId = ${groupChatId}`);
   }
 
-  public FromId(chatId: number) {
-    this.chatId = chatId;
-    return this;
-  }
+  public static fromId(chatId: number): ChatIdDetails {
+    // last digit stores interlocutor type
+    const interlocutorId = +chatId.toString().substring(0, chatId.toString().length - 1);
+    const interlocutorType: InterlocutorType = chatId % 10;
 
-  private chatId: number = 0;
-
-  public CheckIfChatIdIsInitialized() {
-    if (this.chatId === 0) {
-      throw new Error('ChatId is not initialized');
+    if (interlocutorType === InterlocutorType.USER) {
+      return new ChatIdDetails(chatId, interlocutorId, InterlocutorType.USER, interlocutorId, null);
     }
+    if (interlocutorType === InterlocutorType.GROUP_CHAT) {
+      return new ChatIdDetails(chatId, interlocutorId, InterlocutorType.GROUP_CHAT, null, interlocutorId);
+    }
+    throw new Error(`Unknown interlocutorType: chatId = ${chatId}`);
   }
 }

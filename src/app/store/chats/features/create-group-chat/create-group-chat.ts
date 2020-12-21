@@ -34,7 +34,7 @@ export class CreateGroupChat {
 
         const { data } = CreateGroupChat.httpRequest.call(yield call(() => CreateGroupChat.httpRequest.generator(groupChatCreationRequest)));
 
-        const chatId: number = new ChatId().From(undefined, data).entireId;
+        const chatId: number = ChatId.from(undefined, data).id;
         const chat: Chat = {
           interlocutorType: InterlocutorType.GROUP_CHAT,
           id: chatId,

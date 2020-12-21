@@ -135,7 +135,7 @@ const chats = createReducer<ChatsState>(initialState)
     UserStatusChangedEvent.action,
     produce((draft: ChatsState, { payload }: ReturnType<typeof FriendActions.userStatusChangedEvent>) => {
       const { status, userId } = payload;
-      const chatId: number = new ChatId().From(userId).entireId;
+      const chatId: number = ChatId.from(userId).id;
       const isChatExists = checkChatExists(chatId, draft);
       const chatIndex = getChatArrayIndex(chatId, draft);
 

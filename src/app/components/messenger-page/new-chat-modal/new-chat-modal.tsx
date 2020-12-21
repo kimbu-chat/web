@@ -39,7 +39,7 @@ export const NewChatModal = React.memo(({ onClose, displayCreateGroupChat }: New
 
   const createEmptyChat = useCallback((user: UserPreview) => {
     createChat(user);
-    const chatId = new ChatId().From(user.id).entireId;
+    const chatId = ChatId.from(user.id).id;
     history.push(`/chats/${chatId}`);
     onClose();
   }, []);

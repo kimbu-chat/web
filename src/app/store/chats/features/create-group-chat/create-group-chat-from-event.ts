@@ -18,7 +18,7 @@ export class CreateGroupChatFromEvent {
   static get saga() {
     return function* (action: ReturnType<typeof CreateGroupChatFromEvent.action>): SagaIterator {
       const { payload } = action;
-      const chatId: number = new ChatId().From(undefined, payload.id).entireId;
+      const chatId: number = ChatId.from(undefined, payload.id).id;
       const currentUser = new MyProfileService().myProfile;
 
       const message: Message = {

@@ -28,7 +28,7 @@ export class EditGroupChat {
       if (status === HTTPStatusCode.OK) {
         yield put(EditGroupChatSuccess.action(action.payload));
       } else {
-        alert('getChatInfoSaga error');
+        alert('editGroupChat error');
       }
     };
   }

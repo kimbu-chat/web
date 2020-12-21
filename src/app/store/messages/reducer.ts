@@ -53,7 +53,7 @@ const messages = createReducer<MessagesState>(initialState)
       if (oldChatId) {
         const chatIndex = getChatIndex(draft, oldChatId);
 
-        if (draft.messages[chatIndex].messages.length > 30) {
+        if (draft.messages[chatIndex] && draft.messages[chatIndex].messages.length > 30) {
           draft.messages[chatIndex].messages = draft.messages[chatIndex].messages.slice(0, 30);
         }
 

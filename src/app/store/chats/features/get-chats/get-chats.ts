@@ -7,7 +7,7 @@ import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { ChatId } from '../../chat-id';
-import { ChatsState, Chat, GetChatsRequestData } from '../../models';
+import { ChatsState, Chat, GetChatsRequestData, InterlocutorType } from '../../models';
 import { GetChatsActionPayload } from './get-chats-action-payload';
 import { GetChatsSuccess } from './get-chats-success';
 import { GetChatsSuccessActionPayload } from './get-chats-success-action-payload';
@@ -40,18 +40,17 @@ export class GetChats {
 
       const { data }: AxiosResponse<Chat[]> = GetChats.httpRequest.call(yield call(() => GetChats.httpRequest.generator(request)));
       data.forEach((chat: Chat) => {
-        const lastMessage = chat.lastMessage || { state: {} };
+        if (chat.lastMessage) {
+          chat.lastMessage.state =
+            chat.interlocutorLastReadMessageId && chat.interlocutorLastReadMessageId >= Number(chat?.lastMessage?.id)
+              ? (MessageState.READ as MessageState)
+              : (MessageState.SENT as MessageState);
+        }
 
-        lastMessage.state =
-          chat.interlocutorLastReadMessageId && chat.interlocutorLastReadMessageId >= Number(chat?.lastMessage?.id)
-            ? (MessageState.READ as MessageState)
-            : (MessageState.SENT as MessageState);
-        chat.interlocutorType = ChatId.from(chat.id).interlocutorType;
-        chat.id = ChatId.from(chat.interlocutor?.id, chat.groupChat?.id).id;
+        chat.interlocutorType = ChatId.fromId(chat.id).interlocutorType;
         chat.typingInterlocutors = [];
         chat.photos = { photos: [], loading: false, hasMore: true };
         chat.videos = { videos: [], loading: false, hasMore: true };
-        chat.members = { searchMembers: [], members: [], loading: false, hasMore: true };
         chat.files = { files: [], loading: false, hasMore: true };
         chat.audios = { audios: [], loading: false, hasMore: true };
         chat.draftMessage = '';
@@ -60,6 +59,10 @@ export class GetChats {
           loading: false,
           recordings: [],
         };
+
+        if (chat.interlocutorType === InterlocutorType.GROUP_CHAT) {
+          chat.members = { searchMembers: [], members: [], loading: false, hasMore: true };
+        }
       });
 
       const chatList: GetChatsSuccessActionPayload = {

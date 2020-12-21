@@ -5,22 +5,22 @@ import { useSelector } from 'react-redux';
 import { Chat } from 'store/chats/models';
 import { ChatActions } from 'store/chats/actions';
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
-import { useParams } from 'react-router';
 import { getChats, getChatsLoading, getHasMoreChats, getSearchString, getSelectedChatIdSelector } from 'app/store/chats/selectors';
 import { CHATS_LIMIT } from 'app/utils/pagination-limits';
+import { useParams } from 'react-router';
 import { ChatFromList } from './chat-from-list/chat-from-list';
 
 const ChatList = React.memo(() => {
-  const changeSelectedChat = useActionWithDispatch(ChatActions.changeSelectedChat);
-  const getChatsRequest = useActionWithDispatch(ChatActions.getChats);
-
-  const { chatId } = useParams<{ chatId: string }>();
-
   const chats = useSelector(getChats);
   const hasMoreChats = useSelector(getHasMoreChats);
   const areChatsLoading = useSelector(getChatsLoading);
   const searchString = useSelector(getSearchString);
   const selectedChatId = useSelector(getSelectedChatIdSelector);
+
+  const getChatsRequest = useActionWithDispatch(ChatActions.getChats);
+  const changeSelectedChat = useActionWithDispatch(ChatActions.changeSelectedChat);
+
+  const { chatId } = useParams<{ chatId: string }>();
 
   useEffect(() => {
     if (chatId) {
@@ -29,7 +29,6 @@ const ChatList = React.memo(() => {
       changeSelectedChat({ newChatId: null, oldChatId: selectedChatId });
     }
   }, [chatId]);
-
   useEffect(() => {
     getChatsRequest({
       page: { offset: 0, limit: CHATS_LIMIT },

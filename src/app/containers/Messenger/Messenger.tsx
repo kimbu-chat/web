@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
 import './messenger.scss';
 
@@ -25,7 +25,7 @@ import { useSelector } from 'react-redux';
 import { amICalled as isCallingMe, amICaling, doIhaveCall } from 'store/calls/selectors';
 import { CSSTransition } from 'react-transition-group';
 import { LocalizationContext } from 'app/app';
-import { getSelectedChatSelector } from 'store/chats/selectors';
+import { getSelectedChatIdSelector } from 'store/chats/selectors';
 import { getMessageToEdit } from 'app/store/messages/selectors';
 
 export namespace MessengerNS {
@@ -41,12 +41,8 @@ const Messenger = React.memo(() => {
   const amICalled = useSelector(isCallingMe);
   const amICalingSomebody = useSelector(amICaling);
   const amISpeaking = useSelector(doIhaveCall);
-  const selectedChat = useSelector(getSelectedChatSelector);
+  const selectedChatId = useSelector(getSelectedChatIdSelector);
   const messageToEdit = useSelector(getMessageToEdit);
-
-  useEffect(() => {
-    console.log(amISpeaking || amICalingSomebody);
-  }, [amISpeaking, amICalingSomebody]);
 
   return (
     <div className='messenger'>
@@ -79,7 +75,7 @@ const Messenger = React.memo(() => {
         <Route path='/'>
           <Redirect
             to={{
-              pathname: `/chats${selectedChat ? `/${selectedChat.id}` : ''}`,
+              pathname: `/chats${selectedChatId ? `/${selectedChatId}` : ''}`,
             }}
           />
         </Route>

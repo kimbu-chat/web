@@ -19,7 +19,7 @@ export const Friend = React.memo(({ friend }: FriendNS.Props) => {
   const { t } = useContext(LocalizationContext);
 
   return (
-    <NavLink to={`/contacts/${ChatId.from(friend.id).id}`} className='friend' activeClassName='friend--active'>
+    <NavLink to={`/contacts/${ChatId.from(friend.id).id}/`} className='friend' activeClassName='friend--active'>
       <div className='friend__active-line' />
       <Avatar className='friend__avatar' src={friend.avatar?.previewUrl}>
         {getUserInitials(friend)}

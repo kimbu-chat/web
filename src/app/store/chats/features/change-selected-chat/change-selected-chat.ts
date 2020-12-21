@@ -43,11 +43,11 @@ export class ChangeSelectedChat {
         if (!chatExists) {
           const hasMore = yield select(getHasMoreChats);
 
-          const chatIdDetails = ChatId.fromId(action.payload.newChatId);
+          const chatIdDetails = action.payload.newChatId ? ChatId.fromId(action.payload.newChatId) : null;
 
           let chatList: GetChatsSuccessActionPayload;
 
-          if (chatIdDetails.interlocutorType === InterlocutorType.GROUP_CHAT) {
+          if (chatIdDetails?.interlocutorType === InterlocutorType.GROUP_CHAT) {
             const { data, status } = ChangeSelectedChat.httpRequest.getChat.call(
               yield call(() => ChangeSelectedChat.httpRequest.getChat.generator({ chatId: action.payload.newChatId as number })),
             );
@@ -62,7 +62,7 @@ export class ChangeSelectedChat {
             }
           }
 
-          if (chatIdDetails.interlocutorType === InterlocutorType.USER && chatIdDetails.userId) {
+          if (chatIdDetails?.interlocutorType === InterlocutorType.USER && chatIdDetails?.userId) {
             let interlocutor = yield select(getFriendById(chatIdDetails.userId));
 
             if (!interlocutor) {
@@ -72,7 +72,7 @@ export class ChangeSelectedChat {
             }
 
             const requestedChat: Chat = {
-              id: chatIdDetails.id,
+              id: chatIdDetails!.id,
               draftMessage: '',
               interlocutorType: InterlocutorType.USER,
               unreadMessagesCount: 0,
@@ -121,8 +121,6 @@ export class ChangeSelectedChat {
               yield put(GetChatsSuccess.action(chatList));
             }
           }
-        } else {
-          alert('getChatInfoSaga error');
         }
       }
     };

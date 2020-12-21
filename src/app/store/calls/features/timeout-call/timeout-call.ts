@@ -8,7 +8,6 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { getCallInterlocutorIdSelector } from 'app/store/calls/selectors';
 import { CallNotAnsweredApiRequest } from '../../models';
-import { videoSender, setVideoSender, stopAllTracks } from '../../utils/user-media';
 import { CancelCallSuccess } from '../cancel-call/cancel-call-success';
 
 export class TimeoutCall {
@@ -26,19 +25,8 @@ export class TimeoutCall {
 
       TimeoutCall.httpRequest.call(yield call(() => TimeoutCall.httpRequest.generator(request)));
 
-      if (videoSender) {
-        try {
-          peerConnection?.removeTrack(videoSender);
-        } catch (e) {
-          console.warn(e);
-        }
-        setVideoSender(null);
-      }
-
       peerConnection?.close();
       resetPeerConnection();
-
-      stopAllTracks();
 
       yield put(CancelCallSuccess.action());
     };

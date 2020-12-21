@@ -80,7 +80,7 @@ export class MessageUtils {
 
     if (message.systemMessageType === SystemMessageType.CallEnded) {
       const callMessage = JSON.parse(message.text);
-      if (callMessage.status === CallStatus.Successfull) {
+      if (callMessage.status === CallStatus.Ended) {
         if (callMessage.userCallerId === myId) {
           return t('systemMessage.outgoing_call_success_ended', {
             duration: moment.utc(callMessage.seconds * 1000).format('HH:mm:ss'),

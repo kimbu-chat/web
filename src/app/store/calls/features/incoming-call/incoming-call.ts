@@ -1,16 +1,8 @@
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import produce from 'immer';
-import { SagaIterator } from 'redux-saga';
-import { select, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { httpRequestFactory } from 'app/store/common/http-factory';
-import { HttpRequestMethod } from 'app/store/common/http-file-factory';
-import { ApiBasePath } from 'app/store/root-api';
-import { AxiosResponse } from 'axios';
-import { doIhaveCall, getCallInterlocutorIdSelector, getIsActiveCallIncoming, getIsScreenSharingEnabled, getVideoConstraints } from 'app/store/calls/selectors';
-import { CallState, AcceptCallApiRequest } from '../../models';
+import { CallState } from '../../models';
 import { IncomingCallActionPayload } from './incoming-call-action-payload';
-import { makingOffer, isSettingRemoteAnswerPending, ignoreOffer, setIgnoreOffer, setIsSettingRemoteAnswerPending } from '../../utils/user-media';
 
 setInterval(() => console.log(peerConnection?.connectionState), 1000);
 
@@ -22,85 +14,11 @@ export class IncomingCall {
   static get reducer() {
     return produce((draft: CallState, { payload }: ReturnType<typeof IncomingCall.action>) => {
       draft.isInterlocutorVideoEnabled = payload.isVideoEnabled;
-
-      if (draft.isSpeaking) {
-        // if it matches this condition then it's negociation
-        return draft;
-      }
-
-      const interlocutor = payload.caller;
-      const { offer } = payload;
+      const interlocutor = payload.userInterlocutor;
       draft.interlocutor = interlocutor;
       draft.amICalled = true;
-      draft.isActiveCallIncoming = true;
-      draft.offer = offer;
 
       return draft;
     });
-  }
-
-  static get saga() {
-    return function* negociationSaga(action: ReturnType<typeof IncomingCall.action>): SagaIterator {
-      const isCallActive: boolean = yield select(doIhaveCall);
-      const interlocutorId: number = yield select(getCallInterlocutorIdSelector);
-
-      console.log(
-        ' isCallActive:',
-        isCallActive,
-        '\n isRenegotiation:',
-        action.payload.isRenegotiation,
-        '\n interlocutorId:',
-        interlocutorId,
-        '\n action.payload.caller.id:',
-        action.payload.caller.id,
-      );
-
-      if (isCallActive && action.payload.isRenegotiation && interlocutorId === action.payload.caller.id) {
-        const polite = !(yield select(getIsActiveCallIncoming));
-        const readyForOffer = !makingOffer && (peerConnection?.signalingState === 'stable' || isSettingRemoteAnswerPending);
-        const offerCollision = !readyForOffer;
-
-        setIgnoreOffer(!polite && offerCollision);
-        if (ignoreOffer) {
-          return;
-        }
-
-        const videoConstraints = yield select(getVideoConstraints);
-        const isScreenSharingEnabled = yield select(getIsScreenSharingEnabled);
-
-        setIsSettingRemoteAnswerPending(true);
-        peerConnection?.setRemoteDescription(new RTCSessionDescription(action.payload.offer));
-        setIsSettingRemoteAnswerPending(false);
-
-        const answer = yield call(async () => await peerConnection?.createAnswer());
-        yield call(async () => await peerConnection?.setLocalDescription(answer));
-
-        const request = {
-          interlocutorId,
-          answer,
-          isVideoEnabled: videoConstraints.isOpened || isScreenSharingEnabled,
-        };
-
-        IncomingCall.httpRequest.acceptCall.call(yield call(() => IncomingCall.httpRequest.acceptCall.generator(request)));
-      } else if (isCallActive && !action.payload.isRenegotiation && interlocutorId !== action.payload.caller.id) {
-        console.log('busy');
-        const interlocutorId: number = action.payload.caller.id;
-
-        const request = {
-          interlocutorId,
-        };
-
-        IncomingCall.httpRequest.busyCall.call(yield call(() => IncomingCall.httpRequest.busyCall.generator(request)));
-      } else {
-        console.log('paralel');
-      }
-    };
-  }
-
-  static get httpRequest() {
-    return {
-      busyCall: httpRequestFactory<AxiosResponse, AcceptCallApiRequest>(`${ApiBasePath.NotificationsApi}/api/calls/call-busy`, HttpRequestMethod.Post),
-      acceptCall: httpRequestFactory<AxiosResponse, AcceptCallApiRequest>(`${ApiBasePath.NotificationsApi}/api/calls/accept-call`, HttpRequestMethod.Post),
-    };
   }
 }

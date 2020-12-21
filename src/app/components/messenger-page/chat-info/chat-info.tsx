@@ -28,7 +28,7 @@ import { ChatFiles } from './chat-files/chat-files';
 import { BigPhoto } from '../shared/big-photo/big-photo';
 import { ChatAudios } from './chat-audios/chat-audios';
 
-export const ChatInfo: React.FC = React.memo(() => {
+const ChatInfo: React.FC = React.memo(() => {
   const selectedChat = useSelector(getSelectedChatSelector);
 
   const getChatInfo = useActionWithDispatch(ChatActions.getChatInfo);
@@ -215,3 +215,7 @@ export const ChatInfo: React.FC = React.memo(() => {
   }
   return <div />;
 });
+
+ChatInfo.displayName = 'ChatInfo';
+
+export { ChatInfo };

@@ -330,7 +330,7 @@ export const ActiveCall: React.FC = () => {
               if (amICalingSomebody || isInterlocutorBusy) {
                 cancelCall();
               } else {
-                endCall({ seconds: callDuration });
+                endCall();
               }
             }}
           >

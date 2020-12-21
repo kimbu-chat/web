@@ -3,7 +3,7 @@ import { eventChannel, END, buffers } from 'redux-saga';
 import { take, select, put, call } from 'redux-saga/effects';
 import { getAudioDevices } from 'app/store/calls/selectors';
 import { getMediaDevicesList } from './user-media';
-import { ChangeMediaStatus } from '../features/change-media-status/change-media-status';
+import { ChangeMediaStatus } from '../features/change-user-media-status/change-media-status';
 import { GotDevicesInfo } from '../features/got-devices-info/got-devices-info';
 import { SwitchDevice } from '../features/switch-device/switch-device';
 import { InputType } from '../common/enums/input-type';

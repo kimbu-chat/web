@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useMemo } from 'react';
 import './chat-list.scss';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { useSelector } from 'react-redux';
@@ -10,7 +10,7 @@ import { getChats, getChatsLoading, getHasMoreChats, getSearchString, getSelecte
 import { CHATS_LIMIT } from 'app/utils/pagination-limits';
 import { ChatFromList } from './chat-from-list/chat-from-list';
 
-export const ChatList = React.memo(() => {
+const ChatList = React.memo(() => {
   const changeSelectedChat = useActionWithDispatch(ChatActions.changeSelectedChat);
   const getChatsRequest = useActionWithDispatch(ChatActions.getChats);
 
@@ -54,15 +54,19 @@ export const ChatList = React.memo(() => {
       showOnlyHidden: false,
       showAll: true,
     });
-  }, [searchString, chats]);
+  }, [searchString, chats.length]);
+
+  const memoizedChats = useMemo(() => chats?.map((chat: Chat) => <ChatFromList chat={chat} key={chat.id} />), [chats]);
 
   return (
     <div className='chat-list'>
       <InfiniteScroll onReachExtreme={loadMore} hasMore={hasMoreChats} isLoading={areChatsLoading}>
-        {chats?.map((chat: Chat) => (
-          <ChatFromList chat={chat} key={chat.id} />
-        ))}
+        {memoizedChats}
       </InfiniteScroll>
     </div>
   );
 });
+
+ChatList.displayName = 'ChatList';
+
+export { ChatList };

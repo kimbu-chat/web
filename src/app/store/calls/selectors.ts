@@ -5,8 +5,6 @@ export const getCallInterlocutorSelector = (state: RootState): UserPreview | und
 
 export const getCallInterlocutorIdSelector = (state: RootState): number | undefined => state.calls.interlocutor?.id;
 
-export const getOffer = (state: RootState) => state.calls.offer;
-
 export const amICalled = (state: RootState): boolean => state.calls.amICalled;
 
 export const amICaling = (state: RootState): boolean => state.calls.amICaling;
@@ -25,9 +23,9 @@ export const getIsInterlocutorBusy = (state: RootState) => state.calls.isInterlo
 
 export const getIsScreenSharingEnabled = (state: RootState) => state.calls.isScreenSharingOpened;
 
-export const getIsVideoEnabled = (state: RootState) => state.calls.audioConstraints.isOpened;
+export const getIsAudioEnabled = (state: RootState) => state.calls.audioConstraints.isOpened;
 
-export const getIsAudioEnabled = (state: RootState) => state.calls.videoConstraints.isOpened;
+export const getIsVideoEnabled = (state: RootState) => state.calls.videoConstraints.isOpened;
 
 export const getAudioDevices = (state: RootState) => state.calls.audioDevicesList;
 

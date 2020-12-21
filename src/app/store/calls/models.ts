@@ -1,15 +1,16 @@
 import { Page } from '../common/models';
+import { InterlocutorAcceptedCallIntegrationEvent } from '../middlewares/websockets/integration-events/interlocutor-accepted-call-integration-event';
 import { UserPreview } from '../my-profile/models';
 import { InputType } from './common/enums/input-type';
 
 export interface CallState {
   isActiveCallIncoming?: boolean;
-  amICalled: boolean;
-  isInterlocutorBusy: boolean;
   isInterlocutorVideoEnabled: boolean;
+  isInterlocutorBusy: boolean;
+  interlocutor?: UserPreview;
+  amICalled: boolean;
   amICaling: boolean;
   isSpeaking: boolean;
-  interlocutor?: UserPreview;
   videoConstraints: {
     isOpened: boolean;
     width?: { min: number; ideal: number; max: number };
@@ -21,18 +22,35 @@ export interface CallState {
     deviceId?: string;
   };
   isScreenSharingOpened: boolean;
-  offer?: RTCSessionDescriptionInit;
-  answer?: RTCSessionDescriptionInit;
   audioDevicesList: MediaDeviceInfo[];
   videoDevicesList: MediaDeviceInfo[];
   calls: CallList;
 }
 
+export interface Call {
+  id: number;
+  userInterlocutor: UserPreview;
+  userCallerId: number;
+  duration: number;
+  status: CallStatus;
+}
+
+export interface CallList {
+  calls: Call[];
+  hasMore: boolean;
+  loading: boolean;
+}
+
+export interface GetCallsApiRequest {
+  page: Page;
+}
+
 export enum CallStatus {
-  Successfull = 'Successfull',
-  Missed = 'Missed',
-  Declined = 'Declined',
+  Negotiating = 'Negotiating',
+  Active = 'Active',
+  Ended = 'Ended',
   Cancelled = 'Cancelled',
+  Declined = 'Declined',
   NotAnswered = 'NotAnswered',
 }
 export interface ICompleteConstraints {
@@ -85,12 +103,7 @@ export interface AcceptIncomingCallActionPayload {
   };
 }
 
-export interface InterlocutorAcceptedCallActionPayload {
-  answer: RTCSessionDescriptionInit;
-  isVideoEnabled: boolean;
-  interlocutorId: number;
-  isRenegotiation?: boolean;
-}
+export interface InterlocutorAcceptedCallActionPayload extends InterlocutorAcceptedCallIntegrationEvent {}
 
 export interface CandidateActionPayload {
   candidate: RTCIceCandidate;
@@ -118,10 +131,15 @@ export interface CandidateApiRequest {
 }
 
 export interface CallApiRequest {
+  userInterlocutorId: number;
+  offer: RTCSessionDescriptionInit;
+  isVideoEnabled: boolean;
+}
+
+export interface RenegociateApiRequest {
   interlocutorId: number;
   offer: RTCSessionDescriptionInit;
-  isRenegotiation?: boolean;
-  caller: UserPreview;
+  isVideoEnabled: boolean;
 }
 
 export interface CancelCallApiRequest {
@@ -133,9 +151,7 @@ export interface DeclineCallApiRequest {
 }
 
 export interface EndCallApiRequest {
-  callerId: number;
-  calleeId: number;
-  seconds: number;
+  interlocutorId: number;
 }
 
 export interface CallNotAnsweredApiRequest {
@@ -143,23 +159,7 @@ export interface CallNotAnsweredApiRequest {
 }
 
 export interface AcceptCallApiRequest {
-  interlocutorId: number;
-}
-
-export interface Call {
-  userInterlocutor: UserPreview;
-  seconds: number;
-  status: CallStatus;
-  id: number;
-  callDateTime: Date;
-}
-
-export interface CallList {
-  calls: Call[];
-  hasMore: boolean;
-  loading: boolean;
-}
-
-export interface GetCallsApiRequest {
-  page: Page;
+  userInterlocutorId: number;
+  answer: RTCSessionDescriptionInit;
+  isVideoEnabled: boolean;
 }

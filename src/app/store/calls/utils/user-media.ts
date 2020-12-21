@@ -2,8 +2,8 @@ import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFacto
 import { getVideoConstraints, getAudioConstraints } from 'app/store/calls/selectors';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
-import { CloseAudioStatus } from '../features/close-audio-status/close-audio-status';
-import { CloseVideoStatus } from '../features/close-video-status/close-video-status';
+import { CloseAudioStatus } from '../features/change-user-media-status/close-audio-status';
+import { CloseVideoStatus } from '../features/change-user-media-status/close-video-status';
 import { IInCompleteConstraints } from '../models';
 import { GetUserMediaError } from '../common/enums/get-user-media-error';
 
@@ -155,6 +155,8 @@ export function* getAndSendUserMedia(): SagaIterator {
         }),
     );
   } catch {
+    yield put(CloseVideoStatus.action());
+
     try {
       localMediaStream = yield call(
         async () =>
@@ -162,7 +164,6 @@ export function* getAndSendUserMedia(): SagaIterator {
             audio: constraints.audio.isOpened && constraints.audio,
           }),
       );
-      yield put(CloseVideoStatus.action());
     } catch (e) {
       yield put(CloseAudioStatus.action());
     }

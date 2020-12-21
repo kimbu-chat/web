@@ -14,7 +14,7 @@ export class EditGroupChatSuccess {
     return produce((draft: ChatsState, { payload }: ReturnType<typeof EditGroupChatSuccess.action>) => {
       const { id, name, description, avatar } = payload;
 
-      const chatId: number = new ChatId().From(undefined, id).entireId;
+      const chatId: number = ChatId.from(undefined, id).id;
 
       const chatIndex: number = getChatArrayIndex(chatId, draft);
 

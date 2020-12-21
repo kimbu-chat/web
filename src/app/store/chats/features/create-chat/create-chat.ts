@@ -14,7 +14,7 @@ export class CreateChat {
     return produce((draft: ChatsState, { payload }: ReturnType<typeof CreateChat.action>) => {
       const { id } = payload;
 
-      const chatId: number = new ChatId().From(id).entireId;
+      const chatId: number = ChatId.from(id).id;
 
       const isChatExists = checkChatExists(chatId, draft);
 

@@ -93,12 +93,12 @@ export class CreateMessage {
         }
 
         if (chats.findIndex(({ id }) => id === chatId) === -1) {
-          const { data, status } = ChangeSelectedChat.httpRequest.call(yield call(() => ChangeSelectedChat.httpRequest.generator({ chatId })));
+          const { data, status } = ChangeSelectedChat.httpRequest.getChat.call(yield call(() => ChangeSelectedChat.httpRequest.getChat.generator({ chatId })));
 
           if (status === HTTPStatusCode.OK) {
             yield put(ChatActions.unshiftChat(data));
           } else {
-            alert('getChatInfoSaga error');
+            alert('getChatInfo in createMessageSaga error');
           }
         }
       } else {

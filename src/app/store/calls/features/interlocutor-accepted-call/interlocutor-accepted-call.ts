@@ -1,10 +1,9 @@
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
-import { getMyIdSelector } from 'app/store/my-profile/selectors';
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { amICaling, doIhaveCall } from 'app/store/calls/selectors';
 import produce from 'immer';
+import { getIsActiveCallIncoming } from 'app/store/calls/selectors';
 import { CallState, InterlocutorAcceptedCallActionPayload } from '../../models';
 
 export class InterlocutorAcceptedCall {
@@ -26,11 +25,9 @@ export class InterlocutorAcceptedCall {
 
   static get saga() {
     return function* callAcceptedSaga(action: ReturnType<typeof InterlocutorAcceptedCall.action>): SagaIterator {
-      const myId = yield select(getMyIdSelector);
-      const doICall = yield select(amICaling);
-      const isCallActive = yield select(doIhaveCall);
+      const shouldHandle = yield select(getIsActiveCallIncoming);
 
-      if (action.payload.userInterlocutorId !== myId && (doICall || isCallActive)) {
+      if (shouldHandle) {
         const remoteDesc = new RTCSessionDescription(action.payload.answer);
         yield call(async () => await peerConnection?.setRemoteDescription(remoteDesc));
       }

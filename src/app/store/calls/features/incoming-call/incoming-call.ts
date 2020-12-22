@@ -1,5 +1,6 @@
-import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
+import { peerConnection, setInterlocutorOffer } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import produce from 'immer';
+import { SagaIterator } from 'redux-saga';
 import { createAction } from 'typesafe-actions';
 import { CallState } from '../../models';
 import { IncomingCallActionPayload } from './incoming-call-action-payload';
@@ -20,5 +21,11 @@ export class IncomingCall {
 
       return draft;
     });
+  }
+
+  static get saga() {
+    return function* incomingCallSaga(action: ReturnType<typeof IncomingCall.action>): SagaIterator {
+      setInterlocutorOffer(action.payload.offer);
+    };
   }
 }

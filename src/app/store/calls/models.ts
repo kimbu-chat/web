@@ -136,6 +136,10 @@ export interface CallApiRequest {
   isVideoEnabled: boolean;
 }
 
+export interface CallApiResponse {
+  isInterlocutorBusy: boolean;
+}
+
 export interface RenegociateApiRequest {
   interlocutorId: number;
   offer: RTCSessionDescriptionInit;

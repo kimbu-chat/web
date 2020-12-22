@@ -1,5 +1,5 @@
 import { AuthService } from 'app/services/auth-service';
-import { put, fork, spawn, take, select } from 'redux-saga/effects';
+import { put, fork, spawn, take, select, takeEvery } from 'redux-saga/effects';
 import { SagaIterator, eventChannel } from 'redux-saga';
 import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
 import { FriendActions } from '../friends/actions';
@@ -9,6 +9,7 @@ import { InitSocketConnection } from '../sockets/features/init-socked-connection
 import { ChangeUserOnlineStatus } from '../my-profile/features/change-user-online-status/change-user-online-status';
 import { GetMyProfile } from '../my-profile/features/get-my-profile/get-my-profile';
 import { amIlogged } from '../auth/selectors';
+import { Logout } from '../auth/features/logout/logout';
 
 function createVisibilityChannel() {
   return eventChannel((emit) => {
@@ -31,12 +32,20 @@ function createVisibilityChannel() {
 }
 
 function* watcher() {
-  const channel = createVisibilityChannel();
-  const amIauthenticated = yield select(amIlogged);
-  while (true) {
-    const action = (yield take(channel)) && amIauthenticated ? ChangeUserOnlineStatus.action(true) : ChangeUserOnlineStatus.action(false);
+  const visibilityChannel = createVisibilityChannel();
+
+  yield takeEvery(visibilityChannel, function* () {
+    const amIauthenticated = yield select(amIlogged);
+
+    const action = amIauthenticated ? ChangeUserOnlineStatus.action(true) : ChangeUserOnlineStatus.action(false);
     yield put(action);
-  }
+  });
+
+  yield take(Logout.action);
+
+  visibilityChannel.close();
+
+  console.log('visibilityChannel.close');
 }
 
 export function* initializeSaga(): SagaIterator {

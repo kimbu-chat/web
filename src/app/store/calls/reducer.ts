@@ -1,5 +1,6 @@
 import { createReducer } from 'typesafe-actions';
 import { DeclineCall } from 'app/store/calls/features/decline-call/decline-call';
+import { Renegotiation } from 'app/store/calls/features/renegotiation/renegotiation';
 import { CallState } from './models';
 import { IncomingCall } from './features/incoming-call/incoming-call';
 import { AcceptCall } from './features/accept-call/accept-call';
@@ -63,6 +64,7 @@ const calls = createReducer<CallState>(initialState)
   .handleAction(InterlocutorBusy.action, InterlocutorBusy.reducer)
   .handleAction(DeclineCall.action, DeclineCall.reducer)
   .handleAction(EndCall.action, EndCall.reducer)
-  .handleAction(AcceptCallSuccess.action, AcceptCallSuccess.reducer);
+  .handleAction(AcceptCallSuccess.action, AcceptCallSuccess.reducer)
+  .handleAction(Renegotiation.action, Renegotiation.reducer);
 
 export default calls;

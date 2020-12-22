@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, CancelTokenSource } from 'axios';
-import { call, cancelled, put, select, take } from 'redux-saga/effects';
+import { call, cancelled, put, select, take, takeEvery } from 'redux-saga/effects';
 import { END, eventChannel, SagaIterator, buffers } from 'redux-saga';
 import { isNetworkError } from 'app/utils/error-utils';
 import { SecurityTokens } from '../auth/models';
@@ -24,11 +24,13 @@ function createUploadFileChannel(requestConfig: AxiosRequestConfig) {
 
     const onSuccess = (response: AxiosResponse<any>) => {
       emit({ response: response.data });
+      console.log('upload ended');
       emit(END);
     };
 
     const onFailure = (err: string) => {
       emit({ err });
+      console.log('upload canceled');
       emit(END);
     };
 
@@ -52,33 +54,34 @@ export function* uploadFileSaga(
   cancelTokenSource: CancelTokenSource,
   callbacks?: IFilesRequestGeneratorCallbacks,
 ): SagaIterator {
-  const channel = yield call(createUploadFileChannel, requestConfig);
+  const uploadFileChannel = yield call(createUploadFileChannel, requestConfig);
 
-  while (true) {
-    const { start, progress = 0, err, response } = yield take(channel);
+  yield takeEvery(
+    uploadFileChannel,
+    function* ({ start, progress = 0, err, response }: { start: number; progress: number; err: string; response: AxiosResponse<any> }) {
+      if (start) {
+        if (callbacks?.onStart) {
+          yield call(() => callbacks.onStart!({ cancelTokenSource }));
+        }
+      }
+      if (err) {
+        if (callbacks?.onFailure) {
+          yield call(() => callbacks.onFailure!());
+        }
+        return;
+      }
+      if (response) {
+        if (callbacks?.onSuccess) {
+          yield call(() => callbacks.onSuccess!(response));
+        }
+        return;
+      }
 
-    if (start) {
-      if (callbacks?.onStart) {
-        yield call(() => callbacks.onStart!({ cancelTokenSource }));
+      if (callbacks?.onProgress) {
+        yield call(() => callbacks.onProgress!({ progress }));
       }
-    }
-    if (err) {
-      if (callbacks?.onFailure) {
-        yield call(() => callbacks.onFailure!());
-      }
-      return;
-    }
-    if (response) {
-      if (callbacks?.onSuccess) {
-        yield call(() => callbacks.onSuccess!(response));
-      }
-      return;
-    }
-
-    if (callbacks?.onProgress) {
-      yield call(() => callbacks.onProgress!({ progress }));
-    }
-  }
+    },
+  );
 }
 
 export interface IFilesRequestGeneratorCallbacks {

@@ -1,16 +1,15 @@
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import { RootState } from 'app/store/root-reducer';
 import { eventChannel, END, buffers } from 'redux-saga';
-import { take, select, call, race, takeEvery } from 'redux-saga/effects';
+import { take, select, call } from 'redux-saga/effects';
 import { getCallInterlocutorSelector, doIhaveCall } from 'app/store/calls/selectors';
 import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/models';
 import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
-import { AcceptCallSuccess } from 'app/store/calls/features/accept-call/accept-call-success';
-import { InterlocutorAcceptedCall } from '../features/interlocutor-accepted-call/interlocutor-accepted-call';
 import { CandidateApiRequest, RenegociateApiRequest } from '../models';
 import { assignInterlocurorVideoTrack, assignInterlocurorAudioTrack, setMakingOffer } from './user-media';
+import { InterlocutorAcceptedCall } from '../features/interlocutor-accepted-call/interlocutor-accepted-call';
 
 const CallsHttpRequests = {
   candidate: httpRequestFactory<AxiosResponse, CandidateApiRequest>(`${ApiBasePath.MainApi}/api/calls/send-ice-candidate`, HttpRequestMethod.Post),
@@ -53,29 +52,19 @@ function createPeerConnectionChannel() {
 
 export function* peerWatcher() {
   const channel = createPeerConnectionChannel();
+  while (true) {
+    const action = yield take(channel);
 
-  yield takeEvery(channel, function* (action: { type: string; event: RTCTrackEvent | RTCPeerConnectionIceEvent }) {
-    console.log('action');
-    console.log(action);
     switch (action.type) {
       case 'icecandidate':
         {
-          console.log('candidate buffered');
-          yield race({
-            acceptedByMe: take(InterlocutorAcceptedCall.action),
-            acceptedByInterlocutor: take(AcceptCallSuccess.action),
-          });
-
-          console.log('candidate sent');
-
-          const { candidate } = action.event as RTCPeerConnectionIceEvent;
-
+          yield take(InterlocutorAcceptedCall.action);
           const interlocutor = yield select(getCallInterlocutorSelector);
 
-          if (candidate && interlocutor.id) {
+          if (action.event.candidate) {
             const request = {
-              interlocutorId: interlocutor.id,
-              candidate,
+              interlocutorId: interlocutor?.id || -1,
+              candidate: action.event.candidate,
             };
             CallsHttpRequests.candidate.call(yield call(() => CallsHttpRequests.candidate.generator(request)));
           }
@@ -90,7 +79,6 @@ export function* peerWatcher() {
 
           if (isCallActive) {
             setMakingOffer(true);
-
             const offer = yield call(
               async () =>
                 await peerConnection?.createOffer({
@@ -101,36 +89,33 @@ export function* peerWatcher() {
             yield call(async () => await peerConnection?.setLocalDescription(offer));
 
             const request: RenegociateApiRequest = {
-              offer: peerConnection?.localDescription as RTCSessionDescription,
+              offer,
               interlocutorId,
               isVideoEnabled: isVideoEnabled || isScreenSharingEnabled,
             };
 
             CallsHttpRequests.renegociate.call(yield call(() => CallsHttpRequests.renegociate.generator(request)));
-
             setMakingOffer(false);
           }
         }
         break;
       case 'track':
         {
-          const { track } = action.event as RTCTrackEvent;
+          const { track } = action.event;
 
           if (track.kind === 'video') {
-            track.onunmute = () => {
-              assignInterlocurorVideoTrack(track);
-            };
+            assignInterlocurorVideoTrack(track);
+            console.log('video track received');
           }
 
           if (track.kind === 'audio') {
-            track.onunmute = () => {
-              assignInterlocurorAudioTrack(track);
-            };
+            assignInterlocurorAudioTrack(track);
+            console.log('audio track received');
           }
         }
         break;
       default:
         break;
     }
-  });
+  }
 }

@@ -29,11 +29,6 @@ export class AcceptCall {
       draft.audioConstraints = { ...draft.audioConstraints, isOpened: payload.audioEnabled };
       draft.videoConstraints = { ...draft.videoConstraints, isOpened: payload.videoEnabled };
 
-      draft.isActiveCallIncoming = true;
-      draft.isSpeaking = true;
-      draft.amICalled = false;
-      draft.amICaling = false;
-
       return draft;
     });
   }
@@ -81,7 +76,7 @@ export class AcceptCall {
 
       const request = {
         userInterlocutorId: interlocutorId,
-        answer: peerConnection?.localDescription as RTCSessionDescription,
+        answer,
         isVideoEnabled,
       };
 

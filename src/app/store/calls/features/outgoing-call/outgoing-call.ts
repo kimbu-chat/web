@@ -1,3 +1,4 @@
+import { DeclineCall } from 'app/store/calls/features/decline-call/decline-call';
 import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/http-file-factory';
 import { createPeerConnection, peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
@@ -9,7 +10,7 @@ import { RootState } from 'app/store/root-reducer';
 import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
 import { getIsVideoEnabled } from 'app/store/calls/selectors';
-import { CallState, CallApiRequest } from '../../models';
+import { CallState, CallApiRequest, CallApiResponse } from '../../models';
 import { deviceUpdateWatcher } from '../../utils/device-update-watcher';
 import { peerWatcher } from '../../utils/peer-watcher';
 import { getAndSendUserMedia, getMediaDevicesList } from '../../utils/user-media';
@@ -21,6 +22,7 @@ import { TimeoutCall } from '../timeout-call/timeout-call';
 import { OutgoingCallActionPayload } from './outgoing-call-action-payload';
 import { InputType } from '../../common/enums/input-type';
 import { CallEnded } from '../end-call/call-ended';
+import { InterlocutorBusy } from '../interlocutor-busy/interlocutor-busy';
 
 export class OutgoingCall {
   static get action() {
@@ -29,8 +31,7 @@ export class OutgoingCall {
 
   static get reducer() {
     return produce((draft: CallState, { payload }: ReturnType<typeof OutgoingCall.action>) => {
-      const interlocutor = payload.calling;
-      draft.interlocutor = interlocutor;
+      draft.interlocutor = payload.calling;
       draft.isInterlocutorBusy = false;
       draft.amICaling = true;
       draft.audioConstraints = { ...draft.audioConstraints, isOpened: payload.constraints.audioEnabled };
@@ -62,13 +63,19 @@ export class OutgoingCall {
       // gathering data about media devices
       if (audioOpened) {
         const audioDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.audioInput);
-        yield put(GotDevicesInfo.action({ kind: InputType.audioInput, devices: audioDevices }));
-        yield put(ChangeActiveDeviceId.action({ kind: InputType.audioInput, deviceId: audioDevices[0].deviceId }));
+
+        if (audioDevices.length > 0) {
+          yield put(GotDevicesInfo.action({ kind: InputType.audioInput, devices: audioDevices }));
+          yield put(ChangeActiveDeviceId.action({ kind: InputType.audioInput, deviceId: audioDevices[0].deviceId }));
+        }
       }
       if (videoOpened) {
         const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.videoInput);
-        yield put(GotDevicesInfo.action({ kind: InputType.videoInput, devices: videoDevices }));
-        yield put(ChangeActiveDeviceId.action({ kind: InputType.videoInput, deviceId: videoDevices[0].deviceId }));
+
+        if (videoDevices.length > 0) {
+          yield put(GotDevicesInfo.action({ kind: InputType.videoInput, devices: videoDevices }));
+          yield put(ChangeActiveDeviceId.action({ kind: InputType.videoInput, deviceId: videoDevices[0].deviceId }));
+        }
       }
 
       const userInterlocutorId = action.payload.calling.id;
@@ -82,16 +89,22 @@ export class OutgoingCall {
       const isVideoEnabled = yield select(getIsVideoEnabled);
 
       const request = {
-        offer: peerConnection?.localDescription as RTCSessionDescription,
+        offer,
         userInterlocutorId,
         isVideoEnabled,
       };
 
-      OutgoingCall.httpRequest.call(yield call(() => OutgoingCall.httpRequest.generator(request)));
+      const { isInterlocutorBusy } = OutgoingCall.httpRequest.call(yield call(() => OutgoingCall.httpRequest.generator(request))).data;
+
+      if (isInterlocutorBusy) {
+        yield put(InterlocutorBusy.action());
+        return;
+      }
 
       const { timeout } = yield race({
         canceled: take(CancelCall.action),
         interlocutorCanceled: take(CallEnded.action),
+        declined: take(DeclineCall.action),
         answered: take(InterlocutorAcceptedCall.action),
         timeout: delay(15000),
       });
@@ -103,6 +116,6 @@ export class OutgoingCall {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, CallApiRequest>(`${ApiBasePath.MainApi}/api/calls/send-call-offer`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse<CallApiResponse>, CallApiRequest>(`${ApiBasePath.MainApi}/api/calls/send-call-offer`, HttpRequestMethod.Post);
   }
 }

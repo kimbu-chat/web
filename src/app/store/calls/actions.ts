@@ -1,3 +1,4 @@
+import { Renegotiation } from './features/renegotiation/renegotiation';
 import { AcceptCall } from './features/accept-call/accept-call';
 import { CallEnded } from './features/end-call/call-ended';
 import { CancelCall } from './features/cancel-call/cancel-call';
@@ -46,4 +47,5 @@ export namespace CallActions {
   export const gotDevicesInfoAction = GotDevicesInfo.action;
   export const switchDeviceAction = SwitchDevice.action;
   export const acceptCallSuccessAction = AcceptCallSuccess.action;
+  export const renegotiationAction = Renegotiation.action;
 }

@@ -27,12 +27,6 @@ export class AcceptCall {
     return produce((draft: CallState, { payload }: ReturnType<typeof AcceptCall.action>) => {
       draft.audioConstraints = { ...draft.audioConstraints, isOpened: payload.audioEnabled };
       draft.videoConstraints = { ...draft.videoConstraints, isOpened: payload.videoEnabled };
-
-      draft.isActiveCallIncoming = true;
-      draft.isSpeaking = true;
-      draft.amICalled = false;
-      draft.amICaling = false;
-
       return draft;
     });
   }
@@ -68,19 +62,19 @@ export class AcceptCall {
         }
       }
       //---
+      const interlocutorId: number = yield select(getCallInterlocutorIdSelector);
 
-      const userInterlocutorId: number = yield select(getCallInterlocutorIdSelector);
-
-      console.log(interlocutorOffer);
       yield call(async () => await peerConnection?.setRemoteDescription(interlocutorOffer as RTCSessionDescriptionInit));
+      console.log('remote description set');
+
       const answer = yield call(async () => await peerConnection?.createAnswer());
       yield call(async () => await peerConnection?.setLocalDescription(answer));
 
       const isVideoEnabled = yield select(getIsVideoEnabled);
 
       const request = {
-        userInterlocutorId,
-        answer,
+        userInterlocutorId: interlocutorId,
+        answer: peerConnection?.localDescription as RTCSessionDescription,
         isVideoEnabled,
       };
 

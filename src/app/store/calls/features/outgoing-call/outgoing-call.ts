@@ -82,7 +82,7 @@ export class OutgoingCall {
       const isVideoEnabled = yield select(getIsVideoEnabled);
 
       const request = {
-        offer,
+        offer: peerConnection?.localDescription as RTCSessionDescription,
         userInterlocutorId,
         isVideoEnabled,
       };

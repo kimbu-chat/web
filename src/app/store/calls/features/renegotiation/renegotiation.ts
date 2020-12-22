@@ -53,7 +53,7 @@ export class Renegotiation {
 
         const request = {
           userInterlocutorId: interlocutorId,
-          answer,
+          answer: peerConnection?.localDescription as RTCSessionDescription,
           isVideoEnabled: videoConstraints.isOpened || isScreenSharingEnabled,
         };
 

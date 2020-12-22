@@ -68,9 +68,9 @@ export function* peerWatcher() {
         {
           const interlocutor = yield select(getCallInterlocutorSelector);
 
-          if (action.event.candidate) {
+          if (action.event.candidate && interlocutor.id) {
             const request = {
-              interlocutorId: interlocutor?.id || -1,
+              interlocutorId: interlocutor.id,
               candidate: action.event.candidate,
             };
             CallsHttpRequests.candidate.call(yield call(() => CallsHttpRequests.candidate.generator(request)));
@@ -86,6 +86,7 @@ export function* peerWatcher() {
 
           if (isCallActive) {
             setMakingOffer(true);
+
             const offer = yield call(
               async () =>
                 await peerConnection?.createOffer({
@@ -96,12 +97,13 @@ export function* peerWatcher() {
             yield call(async () => await peerConnection?.setLocalDescription(offer));
 
             const request: RenegociateApiRequest = {
-              offer,
+              offer: peerConnection?.localDescription as RTCSessionDescription,
               interlocutorId,
               isVideoEnabled: isVideoEnabled || isScreenSharingEnabled,
             };
 
             CallsHttpRequests.renegociate.call(yield call(() => CallsHttpRequests.renegociate.generator(request)));
+
             setMakingOffer(false);
           }
         }
@@ -111,11 +113,15 @@ export function* peerWatcher() {
           const { track } = action.event;
 
           if (track.kind === 'video') {
-            assignInterlocurorVideoTrack(track);
+            track.onunmute = () => {
+              assignInterlocurorVideoTrack(track);
+            };
           }
 
           if (track.kind === 'audio') {
-            assignInterlocurorAudioTrack(track);
+            track.onunmute = () => {
+              assignInterlocurorAudioTrack(track);
+            };
           }
         }
         break;

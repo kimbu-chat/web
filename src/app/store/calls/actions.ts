@@ -20,6 +20,7 @@ import { InterlocutorBusy } from './features/interlocutor-busy/interlocutor-busy
 import { OutgoingCall } from './features/outgoing-call/outgoing-call';
 import { SwitchDevice } from './features/switch-device/switch-device';
 import { TimeoutCall } from './features/timeout-call/timeout-call';
+import { AcceptCallSuccess } from './features/accept-call/accept-call-success';
 
 export namespace CallActions {
   export const getCallsAction = GetCalls.action;
@@ -44,4 +45,5 @@ export namespace CallActions {
   export const closeAudioStatusAction = CloseAudioStatus.action;
   export const gotDevicesInfoAction = GotDevicesInfo.action;
   export const switchDeviceAction = SwitchDevice.action;
+  export const acceptCallSuccessAction = AcceptCallSuccess.action;
 }

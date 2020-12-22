@@ -7,7 +7,6 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { getCallInterlocutorIdSelector } from 'app/store/calls/selectors';
-import { CallNotAnsweredApiRequest } from '../../models';
 import { CancelCallSuccess } from '../cancel-call/cancel-call-success';
 
 export class TimeoutCall {
@@ -33,6 +32,6 @@ export class TimeoutCall {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, CallNotAnsweredApiRequest>(`${ApiBasePath.NotificationsApi}/api/calls/call-not-answered`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse, {}>(`${ApiBasePath.MainApi}/api/calls/mark-call-as-not-answered`, HttpRequestMethod.Post);
   }
 }

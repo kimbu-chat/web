@@ -19,7 +19,6 @@ import { SwitchDevice } from './features/switch-device/switch-device';
 import { GetCalls } from './features/get-calls/get-calls';
 import { EndCall } from './features/end-call/end-call';
 import { InterlocutorAcceptedCall } from './features/interlocutor-accepted-call/interlocutor-accepted-call';
-import { AcceptCallSuccess } from './features/accept-call/accept-call-success';
 
 const initialState: CallState = {
   isInterlocutorVideoEnabled: false,
@@ -62,7 +61,6 @@ const calls = createReducer<CallState>(initialState)
   .handleAction(GetCallsSuccess.action, GetCallsSuccess.reducer)
   .handleAction(InterlocutorBusy.action, InterlocutorBusy.reducer)
   .handleAction(DeclineCall.action, DeclineCall.reducer)
-  .handleAction(EndCall.action, EndCall.reducer)
-  .handleAction(AcceptCallSuccess.action, AcceptCallSuccess.reducer);
+  .handleAction(EndCall.action, EndCall.reducer);
 
 export default calls;

@@ -1,12 +1,14 @@
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import { RootState } from 'app/store/root-reducer';
 import { eventChannel, END, buffers } from 'redux-saga';
-import { take, select, call } from 'redux-saga/effects';
+import { take, select, call, race, takeEvery } from 'redux-saga/effects';
 import { getCallInterlocutorSelector, doIhaveCall } from 'app/store/calls/selectors';
 import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/models';
 import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
+import { AcceptCallSuccess } from 'app/store/calls/features/accept-call/accept-call-success';
+import { InterlocutorAcceptedCall } from '../features/interlocutor-accepted-call/interlocutor-accepted-call';
 import { CandidateApiRequest, RenegociateApiRequest } from '../models';
 import { assignInterlocurorVideoTrack, assignInterlocurorAudioTrack, setMakingOffer } from './user-media';
 
@@ -23,17 +25,10 @@ function createPeerConnectionChannel() {
 
     const onNegotiationNeeded = () => {
       emit({ type: 'negotiationneeded' });
-      console.log('negotiationneeded');
     };
 
     const onTrack = (event: RTCTrackEvent) => {
       emit({ type: 'track', event });
-    };
-
-    const onConnectionStateChange = () => {
-      if (peerConnection?.connectionState === 'connected') {
-        console.log('connected');
-      }
     };
 
     const clearIntervalCode = setInterval(() => {
@@ -46,13 +41,11 @@ function createPeerConnectionChannel() {
 
     peerConnection?.addEventListener('icecandidate', onIceCandidate);
     peerConnection?.addEventListener('negotiationneeded', onNegotiationNeeded);
-    peerConnection?.addEventListener('connectionstatechange', onConnectionStateChange);
     peerConnection?.addEventListener('track', onTrack);
 
     return () => {
       peerConnection?.removeEventListener('icecandidate', onIceCandidate);
       peerConnection?.removeEventListener('negotiationneeded', onNegotiationNeeded);
-      peerConnection?.removeEventListener('connectionstatechange', onConnectionStateChange);
       peerConnection?.removeEventListener('track', onTrack);
     };
   }, buffers.expanding(100));
@@ -60,18 +53,29 @@ function createPeerConnectionChannel() {
 
 export function* peerWatcher() {
   const channel = createPeerConnectionChannel();
-  while (true) {
-    const action = yield take(channel);
 
+  yield takeEvery(channel, function* (action: { type: string; event: RTCTrackEvent | RTCPeerConnectionIceEvent }) {
+    console.log('action');
+    console.log(action);
     switch (action.type) {
       case 'icecandidate':
         {
+          console.log('candidate buffered');
+          yield race({
+            acceptedByMe: take(InterlocutorAcceptedCall.action),
+            acceptedByInterlocutor: take(AcceptCallSuccess.action),
+          });
+
+          console.log('candidate sent');
+
+          const { candidate } = action.event as RTCPeerConnectionIceEvent;
+
           const interlocutor = yield select(getCallInterlocutorSelector);
 
-          if (action.event.candidate && interlocutor.id) {
+          if (candidate && interlocutor.id) {
             const request = {
               interlocutorId: interlocutor.id,
-              candidate: action.event.candidate,
+              candidate,
             };
             CallsHttpRequests.candidate.call(yield call(() => CallsHttpRequests.candidate.generator(request)));
           }
@@ -110,7 +114,7 @@ export function* peerWatcher() {
         break;
       case 'track':
         {
-          const { track } = action.event;
+          const { track } = action.event as RTCTrackEvent;
 
           if (track.kind === 'video') {
             track.onunmute = () => {
@@ -128,5 +132,5 @@ export function* peerWatcher() {
       default:
         break;
     }
-  }
+  });
 }

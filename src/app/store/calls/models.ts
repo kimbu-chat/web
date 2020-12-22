@@ -154,10 +154,6 @@ export interface EndCallApiRequest {
   interlocutorId: number;
 }
 
-export interface CallNotAnsweredApiRequest {
-  interlocutorId: number;
-}
-
 export interface AcceptCallApiRequest {
   userInterlocutorId: number;
   answer: RTCSessionDescriptionInit;

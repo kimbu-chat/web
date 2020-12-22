@@ -17,6 +17,7 @@ import { ChangeActiveDeviceId } from '../change-active-device-id/change-active-d
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
 import { AcceptCallActionPayload } from './accept-call-action-payload';
 import { InputType } from '../../common/enums/input-type';
+import { AcceptCallSuccess } from './accept-call-success';
 
 export class AcceptCall {
   static get action() {
@@ -27,6 +28,12 @@ export class AcceptCall {
     return produce((draft: CallState, { payload }: ReturnType<typeof AcceptCall.action>) => {
       draft.audioConstraints = { ...draft.audioConstraints, isOpened: payload.audioEnabled };
       draft.videoConstraints = { ...draft.videoConstraints, isOpened: payload.videoEnabled };
+
+      draft.isActiveCallIncoming = true;
+      draft.isSpeaking = true;
+      draft.amICalled = false;
+      draft.amICaling = false;
+
       return draft;
     });
   }
@@ -79,6 +86,8 @@ export class AcceptCall {
       };
 
       AcceptCall.httpRequest.call(yield call(() => AcceptCall.httpRequest.generator(request)));
+
+      yield put(AcceptCallSuccess.action());
     };
   }
 

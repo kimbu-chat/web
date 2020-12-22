@@ -45,7 +45,7 @@ export class Renegotiation {
         const isScreenSharingEnabled = yield select(getIsScreenSharingEnabled);
 
         setIsSettingRemoteAnswerPending(true);
-        peerConnection?.setRemoteDescription(new RTCSessionDescription(action.payload.offer));
+        yield call(async () => await peerConnection?.setRemoteDescription(new RTCSessionDescription(action.payload.offer)));
         setIsSettingRemoteAnswerPending(false);
 
         const answer = yield call(async () => await peerConnection?.createAnswer());

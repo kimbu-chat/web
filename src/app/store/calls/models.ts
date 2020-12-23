@@ -136,6 +136,10 @@ export interface CallApiRequest {
   isVideoEnabled: boolean;
 }
 
+export interface CallApiResponse {
+  isInterlocutorBusy: boolean;
+}
+
 export interface RenegociateApiRequest {
   interlocutorId: number;
   offer: RTCSessionDescriptionInit;
@@ -151,10 +155,6 @@ export interface DeclineCallApiRequest {
 }
 
 export interface EndCallApiRequest {
-  interlocutorId: number;
-}
-
-export interface CallNotAnsweredApiRequest {
   interlocutorId: number;
 }
 

@@ -17,6 +17,7 @@ import { ChangeActiveDeviceId } from '../change-active-device-id/change-active-d
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
 import { AcceptCallActionPayload } from './accept-call-action-payload';
 import { InputType } from '../../common/enums/input-type';
+import { AcceptCallSuccess } from './accept-call-success';
 
 export class AcceptCall {
   static get action() {
@@ -27,11 +28,6 @@ export class AcceptCall {
     return produce((draft: CallState, { payload }: ReturnType<typeof AcceptCall.action>) => {
       draft.audioConstraints = { ...draft.audioConstraints, isOpened: payload.audioEnabled };
       draft.videoConstraints = { ...draft.videoConstraints, isOpened: payload.videoEnabled };
-
-      draft.isActiveCallIncoming = true;
-      draft.isSpeaking = true;
-      draft.amICalled = false;
-      draft.amICaling = false;
 
       return draft;
     });
@@ -68,23 +64,25 @@ export class AcceptCall {
         }
       }
       //---
+      const interlocutorId: number = yield select(getCallInterlocutorIdSelector);
 
-      const userInterlocutorId: number = yield select(getCallInterlocutorIdSelector);
-
-      console.log(interlocutorOffer);
       yield call(async () => await peerConnection?.setRemoteDescription(interlocutorOffer as RTCSessionDescriptionInit));
+      console.log('remote description set');
+
       const answer = yield call(async () => await peerConnection?.createAnswer());
       yield call(async () => await peerConnection?.setLocalDescription(answer));
 
       const isVideoEnabled = yield select(getIsVideoEnabled);
 
       const request = {
-        userInterlocutorId,
+        userInterlocutorId: interlocutorId,
         answer,
         isVideoEnabled,
       };
 
       AcceptCall.httpRequest.call(yield call(() => AcceptCall.httpRequest.generator(request)));
+
+      yield put(AcceptCallSuccess.action());
     };
   }
 

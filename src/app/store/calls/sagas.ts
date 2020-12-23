@@ -13,6 +13,7 @@ import { ChangeScreenShareStatus } from './features/change-screen-share-status/c
 import { SwitchDevice } from './features/switch-device/switch-device';
 import { ChangeMediaStatus } from './features/change-user-media-status/change-media-status';
 import { IncomingCall } from './features/incoming-call/incoming-call';
+import { Renegotiation } from './features/renegotiation/renegotiation';
 
 //! important peer whitch has initiated the call  is the polite one
 
@@ -31,5 +32,6 @@ export const CallsSagas = [
   takeEvery(ChangeMediaStatus.action, ChangeMediaStatus.saga),
   takeLatest(GetCalls.action, GetCalls.saga),
   takeLatest(IncomingCall.action, IncomingCall.saga),
+  takeEvery(Renegotiation.action, Renegotiation.saga),
   spawn(ChangeMediaStatus.saga),
 ];

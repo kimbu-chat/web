@@ -9,6 +9,7 @@ import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
 import { CandidateApiRequest, RenegociateApiRequest } from '../models';
 import { assignInterlocurorVideoTrack, assignInterlocurorAudioTrack, setMakingOffer } from './user-media';
+import { InterlocutorAcceptedCall } from '../features/interlocutor-accepted-call/interlocutor-accepted-call';
 
 const CallsHttpRequests = {
   candidate: httpRequestFactory<AxiosResponse, CandidateApiRequest>(`${ApiBasePath.MainApi}/api/calls/send-ice-candidate`, HttpRequestMethod.Post),
@@ -23,17 +24,10 @@ function createPeerConnectionChannel() {
 
     const onNegotiationNeeded = () => {
       emit({ type: 'negotiationneeded' });
-      console.log('negotiationneeded');
     };
 
     const onTrack = (event: RTCTrackEvent) => {
       emit({ type: 'track', event });
-    };
-
-    const onConnectionStateChange = () => {
-      if (peerConnection?.connectionState === 'connected') {
-        console.log('connected');
-      }
     };
 
     const clearIntervalCode = setInterval(() => {
@@ -46,13 +40,11 @@ function createPeerConnectionChannel() {
 
     peerConnection?.addEventListener('icecandidate', onIceCandidate);
     peerConnection?.addEventListener('negotiationneeded', onNegotiationNeeded);
-    peerConnection?.addEventListener('connectionstatechange', onConnectionStateChange);
     peerConnection?.addEventListener('track', onTrack);
 
     return () => {
       peerConnection?.removeEventListener('icecandidate', onIceCandidate);
       peerConnection?.removeEventListener('negotiationneeded', onNegotiationNeeded);
-      peerConnection?.removeEventListener('connectionstatechange', onConnectionStateChange);
       peerConnection?.removeEventListener('track', onTrack);
     };
   }, buffers.expanding(100));
@@ -66,6 +58,7 @@ export function* peerWatcher() {
     switch (action.type) {
       case 'icecandidate':
         {
+          yield take(InterlocutorAcceptedCall.action);
           const interlocutor = yield select(getCallInterlocutorSelector);
 
           if (action.event.candidate) {
@@ -112,10 +105,12 @@ export function* peerWatcher() {
 
           if (track.kind === 'video') {
             assignInterlocurorVideoTrack(track);
+            console.log('video track received');
           }
 
           if (track.kind === 'audio') {
             assignInterlocurorAudioTrack(track);
+            console.log('audio track received');
           }
         }
         break;

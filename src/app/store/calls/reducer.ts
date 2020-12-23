@@ -1,5 +1,6 @@
 import { createReducer } from 'typesafe-actions';
 import { DeclineCall } from 'app/store/calls/features/decline-call/decline-call';
+import { Renegotiation } from 'app/store/calls/features/renegotiation/renegotiation';
 import { CallState } from './models';
 import { IncomingCall } from './features/incoming-call/incoming-call';
 import { AcceptCall } from './features/accept-call/accept-call';
@@ -19,6 +20,7 @@ import { SwitchDevice } from './features/switch-device/switch-device';
 import { GetCalls } from './features/get-calls/get-calls';
 import { EndCall } from './features/end-call/end-call';
 import { InterlocutorAcceptedCall } from './features/interlocutor-accepted-call/interlocutor-accepted-call';
+import { AcceptCallSuccess } from './features/accept-call/accept-call-success';
 
 const initialState: CallState = {
   isInterlocutorVideoEnabled: false,
@@ -61,6 +63,8 @@ const calls = createReducer<CallState>(initialState)
   .handleAction(GetCallsSuccess.action, GetCallsSuccess.reducer)
   .handleAction(InterlocutorBusy.action, InterlocutorBusy.reducer)
   .handleAction(DeclineCall.action, DeclineCall.reducer)
-  .handleAction(EndCall.action, EndCall.reducer);
+  .handleAction(EndCall.action, EndCall.reducer)
+  .handleAction(AcceptCallSuccess.action, AcceptCallSuccess.reducer)
+  .handleAction(Renegotiation.action, Renegotiation.reducer);
 
 export default calls;

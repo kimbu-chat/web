@@ -25,7 +25,7 @@ export class InterlocutorAcceptedCall {
   static get saga() {
     return function* callAcceptedSaga(action: ReturnType<typeof InterlocutorAcceptedCall.action>): SagaIterator {
       if (action.payload.answer) {
-        yield call(async () => await peerConnection?.setRemoteDescription(new RTCSessionDescription(action.payload.answer)));
+        yield call(async () => await peerConnection?.setRemoteDescription(action.payload.answer));
       }
     };
   }

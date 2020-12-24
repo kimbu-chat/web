@@ -1,7 +1,7 @@
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import { RootState } from 'app/store/root-reducer';
-import { eventChannel, END, buffers } from 'redux-saga';
-import { take, select, call } from 'redux-saga/effects';
+import { eventChannel, buffers } from 'redux-saga';
+import { take, select, call, takeEvery, race } from 'redux-saga/effects';
 import { getCallInterlocutorSelector, doIhaveCall } from 'app/store/calls/selectors';
 import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/models';
@@ -9,7 +9,9 @@ import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
 import { CandidateApiRequest, RenegociateApiRequest } from '../models';
 import { assignInterlocurorVideoTrack, assignInterlocurorAudioTrack, setMakingOffer } from './user-media';
-import { InterlocutorAcceptedCall } from '../features/interlocutor-accepted-call/interlocutor-accepted-call';
+import { CancelCall } from '../features/cancel-call/cancel-call';
+import { DeclineCall } from '../features/decline-call/decline-call';
+import { CallEnded } from '../features/end-call/call-ended';
 
 const CallsHttpRequests = {
   candidate: httpRequestFactory<AxiosResponse, CandidateApiRequest>(`${ApiBasePath.MainApi}/api/calls/send-ice-candidate`, HttpRequestMethod.Post),
@@ -30,14 +32,6 @@ function createPeerConnectionChannel() {
       emit({ type: 'track', event });
     };
 
-    const clearIntervalCode = setInterval(() => {
-      const state = peerConnection?.connectionState;
-      if (!state || state === 'closed' || state === 'disconnected') {
-        clearInterval(clearIntervalCode);
-        emit(END);
-      }
-    }, 1000);
-
     peerConnection?.addEventListener('icecandidate', onIceCandidate);
     peerConnection?.addEventListener('negotiationneeded', onNegotiationNeeded);
     peerConnection?.addEventListener('track', onTrack);
@@ -51,20 +45,21 @@ function createPeerConnectionChannel() {
 }
 
 export function* peerWatcher() {
-  const channel = createPeerConnectionChannel();
-  while (true) {
-    const action = yield take(channel);
+  console.log('peer watcher spawned');
+  const peerChannel = createPeerConnectionChannel();
 
+  yield takeEvery(peerChannel, function* (action: { type: string; event: RTCTrackEvent | RTCPeerConnectionIceEvent }) {
     switch (action.type) {
       case 'icecandidate':
         {
-          yield take(InterlocutorAcceptedCall.action);
+          const { candidate } = action.event as RTCPeerConnectionIceEvent;
           const interlocutor = yield select(getCallInterlocutorSelector);
 
-          if (action.event.candidate) {
+          if (candidate) {
+            console.log('candidate sent');
             const request = {
               interlocutorId: interlocutor?.id || -1,
-              candidate: action.event.candidate,
+              candidate,
             };
             CallsHttpRequests.candidate.call(yield call(() => CallsHttpRequests.candidate.generator(request)));
           }
@@ -76,6 +71,7 @@ export function* peerWatcher() {
           const isCallActive: boolean = yield select(doIhaveCall);
           const isVideoEnabled = yield select((state: RootState) => state.calls.videoConstraints.isOpened);
           const isScreenSharingEnabled = yield select((state: RootState) => state.calls.isScreenSharingOpened);
+          console.log('negotiationneeded');
 
           if (isCallActive) {
             setMakingOffer(true);
@@ -101,7 +97,7 @@ export function* peerWatcher() {
         break;
       case 'track':
         {
-          const { track } = action.event;
+          const { track } = action.event as RTCTrackEvent;
 
           if (track.kind === 'video') {
             assignInterlocurorVideoTrack(track);
@@ -117,5 +113,13 @@ export function* peerWatcher() {
       default:
         break;
     }
-  }
+  });
+
+  yield race({
+    callEnded: take(CallEnded.action),
+    callCanceled: take(CancelCall.action),
+    callDeclined: take(DeclineCall.action),
+  });
+
+  peerChannel.close();
 }

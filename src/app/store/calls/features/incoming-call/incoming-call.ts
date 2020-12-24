@@ -1,8 +1,10 @@
 import { peerConnection, setInterlocutorOffer } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
+import { spawn } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { CallState } from '../../models';
+import { peerWatcher } from '../../utils/peer-watcher';
 import { IncomingCallActionPayload } from './incoming-call-action-payload';
 
 setInterval(() => console.log(peerConnection?.connectionState), 1000);
@@ -25,6 +27,7 @@ export class IncomingCall {
 
   static get saga() {
     return function* incomingCallSaga(action: ReturnType<typeof IncomingCall.action>): SagaIterator {
+      yield spawn(peerWatcher);
       setInterlocutorOffer(action.payload.offer);
     };
   }

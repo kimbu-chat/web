@@ -27,7 +27,7 @@ import { GetVoiceAttachmentsSuccess } from './features/get-voice-attachments/get
 import { InterlocutorMessageTyping } from './features/interlocutor-message-typing/interlocutor-message-typing';
 import { InterlocutorStoppedTyping } from './features/interlocutor-message-typing/interlocutor-stopped-typing';
 import { LeaveGroupChatSuccess } from './features/leave-group-chat/leave-group-chat-success';
-import { MuteChatSuccess } from './features/mute-chat/mute-chat-success';
+import { ChangeChatMutedStatusSuccess } from './features/change-chat-muted-status/change-chat-muted-status-success';
 import { RemoveAttachment } from './features/remove-attachment/remove-attachment';
 import { UnshiftChat } from './features/unshift-chat/unshift-chat';
 import { UploadAttachmentFailure } from './features/upload-attachment/upload-attachment-failure';
@@ -47,6 +47,7 @@ import { GetVideoAttachmentsSuccess } from './features/get-video-attachments/get
 import { MarkMessagesAsReadSuccess } from './features/mark-messages-as-read/mark-messages-as-read-success';
 import { GroupChatEdited } from './features/edit-group-chat/group-chat-edited';
 import { MemberLeftGroupChat } from './features/leave-group-chat/member-left-group-chat';
+import { ChatMutedStatusChanged } from './features/change-chat-muted-status/chat-muted-status-changed';
 
 const initialState: ChatsState = {
   loading: false,
@@ -61,7 +62,7 @@ const chats = createReducer<ChatsState>(initialState)
   .handleAction(InterlocutorMessageTyping.action, InterlocutorMessageTyping.reducer)
   .handleAction(CreateGroupChatSuccess.action, CreateGroupChatSuccess.reducer)
   .handleAction(AddUsersToGroupChatSuccess.action, AddUsersToGroupChatSuccess.reducer)
-  .handleAction(MuteChatSuccess.action, MuteChatSuccess.reducer)
+  .handleAction(ChangeChatMutedStatusSuccess.action, ChangeChatMutedStatusSuccess.reducer)
   .handleAction(ChangeSelectedChat.action, ChangeSelectedChat.reducer)
   .handleAction(GetChats.action, GetChats.reducer)
   .handleAction(GetChatsSuccess.action, GetChatsSuccess.reducer)
@@ -92,6 +93,7 @@ const chats = createReducer<ChatsState>(initialState)
   .handleAction(GetVideoAttachmentsSuccess.action, GetVideoAttachmentsSuccess.reducer)
   .handleAction(GroupChatEdited.action, GroupChatEdited.reducer)
   .handleAction(MemberLeftGroupChat.action, MemberLeftGroupChat.reducer)
+  .handleAction(ChatMutedStatusChanged.action, ChatMutedStatusChanged.reducer)
   .handleAction(
     MessageActions.clearChatHistorySuccess,
     produce((draft: ChatsState, { payload }: ReturnType<typeof MessageActions.clearChatHistorySuccess>) => {

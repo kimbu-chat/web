@@ -39,7 +39,7 @@ export const ChatActions = React.memo(({ addMembers }: ChatActionsNS.Props) => {
   const changeCreateGroupChatModalOpenedState = useCallback(() => setCreateGroupChatModalOpened((oldState) => !oldState), [setCreateGroupChatModalOpened]);
 
   const changeChatVisibilityState = useActionWithDispatch(SelectedChatActions.changeChatVisibilityState);
-  const muteChat = useActionWithDispatch(SelectedChatActions.muteChat);
+  const changeChatMutedStatus = useActionWithDispatch(SelectedChatActions.changeChatMutedStatus);
   const deleteFriend = useActionWithDispatch(FriendActions.deleteFriend);
   const addFriend = useActionWithDispatch(FriendActions.addFriend);
 
@@ -54,7 +54,11 @@ export const ChatActions = React.memo(({ addMembers }: ChatActionsNS.Props) => {
   ]);
 
   const changeSelectedChatVisibilityState = useCallback(() => changeChatVisibilityState(selectedChat), [changeChatVisibilityState, selectedChat]);
-  const muteThisChat = useCallback(() => muteChat(selectedChat), [muteChat, selectedChat]);
+  const muteThisChat = useCallback(() => changeChatMutedStatus({ chatId: selectedChat.id, isMuted: selectedChat.isMuted! }), [
+    changeChatMutedStatus,
+    selectedChat.id,
+    selectedChat.isMuted,
+  ]);
   const deleteContact = useCallback(() => deleteFriend({ userIds: [selectedChat?.interlocutor?.id!] }), [deleteFriend, selectedChat?.interlocutor?.id]);
   const addContact = useCallback(() => addFriend(selectedChat.interlocutor!), [addFriend, selectedChat?.interlocutor]);
 

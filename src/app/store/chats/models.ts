@@ -103,7 +103,7 @@ export interface GetChatInfoApiResponse {
   pictureAttachmentsCount: number;
 }
 
-export interface MuteChatRequest {
+export interface ChangeChatMutedStatusRequest {
   chatIds: (number | undefined)[];
   isMuted: boolean;
 }

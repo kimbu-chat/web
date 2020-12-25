@@ -115,7 +115,8 @@ const ChatFromList = React.memo(
     prevProps.chat.groupChat?.avatar?.previewUrl === nextProps.chat.groupChat?.avatar?.previewUrl &&
     prevProps.chat.groupChat?.name === nextProps.chat.groupChat?.name &&
     prevProps.chat.lastMessage?.state === nextProps.chat.lastMessage?.state &&
-    prevProps.chat.lastMessage?.text === nextProps.chat.lastMessage?.text,
+    prevProps.chat.lastMessage?.text === nextProps.chat.lastMessage?.text &&
+    prevProps.chat.unreadMessagesCount === nextProps.chat.unreadMessagesCount,
 );
 
 ChatFromList.displayName = 'ChatFromList';

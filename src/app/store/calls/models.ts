@@ -52,6 +52,7 @@ export enum CallStatus {
   Cancelled = 'Cancelled',
   Declined = 'Declined',
   NotAnswered = 'NotAnswered',
+  Interrupted = 'Interrupted',
 }
 export interface ICompleteConstraints {
   video: {

@@ -217,6 +217,8 @@
     "you_missed_call": "You missed call",
     "someone_missed_call": "Interlocutor missed call",
     "you_declined_call": "You declined incoming call",
-    "someone_declined_call": "Interlocutor declined incoming call"
+    "someone_declined_call": "Interlocutor declined incoming call",
+    "outgoing_call_intrrerupted": "Outgoing call intrrerupted",
+    "incoming_call_intrrerupted": "Incoming call intrrerupted"
   }
 }

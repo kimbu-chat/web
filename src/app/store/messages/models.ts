@@ -1,3 +1,4 @@
+import { CallStatus } from '../calls/models';
 // eslint-disable-next-line import/no-cycle
 import { BaseAttachment } from '../chats/models';
 import { Page } from '../common/models';
@@ -9,6 +10,13 @@ export interface MessagesState {
   selectedMessageIds: number[];
   messageToReply?: Message;
   messageToEdit?: Message;
+}
+
+export interface CallMessage {
+  userCallerId: number;
+  userCalleeId: number;
+  duration: number;
+  status: CallStatus;
 }
 
 export interface MessageList {

@@ -14,7 +14,7 @@ namespace BigPhotoNS {
 
 export const BigPhoto: React.FC<BigPhotoNS.Props> = React.memo(({ url, onClose }) => (
   <BackgroundBlur onClick={onClose}>
-    <img onClick={stopPropagation} src={url} alt='' className='big-photo' />
+    <img draggable='false' onClick={stopPropagation} src={url} alt='' className='big-photo' />
     <CloseSVG className='big-photo__close' viewBox='0 0 25 25' />
   </BackgroundBlur>
 ));

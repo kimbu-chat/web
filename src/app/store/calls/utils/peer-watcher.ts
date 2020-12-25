@@ -5,6 +5,7 @@ import { take, select, call, takeEvery, race } from 'redux-saga/effects';
 import { getCallInterlocutorSelector, doIhaveCall } from 'app/store/calls/selectors';
 import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/models';
+import { UserPreview } from 'app/store/my-profile/models';
 import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
 import { CandidateApiRequest, RenegociateApiRequest } from '../models';
@@ -50,21 +51,26 @@ export function* peerWatcher() {
 
   yield takeEvery(peerChannel, function* (action: { type: string; event: RTCTrackEvent | RTCPeerConnectionIceEvent }) {
     switch (action.type) {
-      case 'icecandidate':
-        {
-          const { candidate } = action.event as RTCPeerConnectionIceEvent;
-          const interlocutor = yield select(getCallInterlocutorSelector);
+      case 'icecandidate': {
+        const myCandidate = (action.event as RTCPeerConnectionIceEvent).candidate;
+        const interlocutor: UserPreview = yield select(getCallInterlocutorSelector);
 
-          if (candidate) {
-            console.log('candidate sent');
-            const request = {
-              interlocutorId: interlocutor?.id || -1,
-              candidate,
-            };
-            CallsHttpRequests.candidate.call(yield call(() => CallsHttpRequests.candidate.generator(request)));
+        if (myCandidate) {
+          console.log('candidate sent');
+          const request: CandidateApiRequest = {
+            interlocutorId: interlocutor?.id || -1,
+            candidate: myCandidate,
+          };
+
+          if (myCandidate.port) {
+            console.log('JSON', myCandidate);
           }
+
+          CallsHttpRequests.candidate.call(yield call(() => CallsHttpRequests.candidate.generator(request)));
         }
+
         break;
+      }
       case 'negotiationneeded':
         {
           const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);

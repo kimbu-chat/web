@@ -17,6 +17,7 @@ import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
 import { AcceptCallActionPayload } from './accept-call-action-payload';
 import { InputType } from '../../common/enums/input-type';
 import { AcceptCallSuccess } from './accept-call-success';
+import { peerWatcher } from '../../utils/peer-watcher';
 
 export class AcceptCall {
   static get action() {
@@ -38,6 +39,7 @@ export class AcceptCall {
       const audioConstraints = yield select(getAudioConstraints);
 
       createPeerConnection();
+      yield spawn(peerWatcher);
       yield spawn(deviceUpdateWatcher);
 
       // setup local stream

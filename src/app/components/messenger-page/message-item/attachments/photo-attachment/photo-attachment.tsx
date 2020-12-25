@@ -18,7 +18,7 @@ export const MessagePhotoAttachment = React.memo(({ attachment }: PhotoAttachmen
   return (
     <>
       <div onClick={changeBigPhotoDisplayed} className='photo-attachment'>
-        <img src={attachment.previewUrl} alt='' className='photo-attachment__img' />
+        <img draggable='false' src={attachment.previewUrl} alt='' className='photo-attachment__img' />
       </div>
       <FadeAnimationWrapper isDisplayed={bigPhotoDisplayed}>
         <BigPhoto url={attachment.url} onClose={changeBigPhotoDisplayed} />

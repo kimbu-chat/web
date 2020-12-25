@@ -12,8 +12,8 @@ const NotFound = React.memo(() => {
   return (
     <div className='not-found'>
       <img alt='Not Found' src={NotFoundBackgroundPNG} className='not-found__bg' />
-      <div className='not-found__wrapper'>
-        <img alt='Not Found' src={SadSmilePNG} className='not-found__svg' />
+      <div draggable='false' className='not-found__wrapper'>
+        <img draggable='false' alt='Not Found' src={SadSmilePNG} className='not-found__svg' />
         <div className='not-found__title'>{t('notFound.title')}</div>
         <div className='not-found__description'>{t('notFound.description')}</div>
         <Link to='/chats'>

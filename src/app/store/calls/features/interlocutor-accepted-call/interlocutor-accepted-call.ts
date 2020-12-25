@@ -26,6 +26,7 @@ export class InterlocutorAcceptedCall {
     return function* callAcceptedSaga(action: ReturnType<typeof InterlocutorAcceptedCall.action>): SagaIterator {
       if (action.payload.answer) {
         yield call(async () => await peerConnection?.setRemoteDescription(action.payload.answer));
+        console.log('remote description set');
       }
     };
   }

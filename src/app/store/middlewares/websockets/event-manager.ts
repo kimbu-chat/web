@@ -11,7 +11,7 @@ export enum EventsNames {
   // GroupChats
   GROUP_CHAT_CREATED = 'GroupChatCreated',
   GROUP_CHAT_EDITED = 'GroupChatEdited',
-  CHAT_CLEARED = 'ClearChat',
+  CHAT_CLEARED = 'ChatCleared',
   MEMBER_LEFT_GROUP_CHAT = 'MemberLeftGroupChat',
   CHAT_MUTE_STATUS_CHANGED = 'ChatsMuteStatusChanged',
 

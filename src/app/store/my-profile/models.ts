@@ -20,7 +20,7 @@ export interface UserPreview {
 export interface UpdateMyProfileApiRequestData {
   firstName: string;
   lastName: string;
-  avatarId?: string;
+  avatarId?: number;
 }
 
 export interface AvatarSelectedData {
@@ -39,11 +39,11 @@ export interface UpdateAvatarSuccess {
 export interface Avatar {
   url: string;
   previewUrl: string;
-  id: string;
+  id: number;
 }
 
 export interface UploadAvatarResponse {
   url: string;
   previewUrl: string;
-  id: string;
+  id: number;
 }

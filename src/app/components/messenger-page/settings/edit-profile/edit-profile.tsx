@@ -86,11 +86,6 @@ export const EditProfile = React.memo(() => {
 
   const removeAvatar = useCallback(() => {
     updateMyProfile({
-      avatar: {
-        url: '',
-        previewUrl: '',
-        id: '',
-      },
       firstName: myProfile!.firstName,
       lastName: myProfile!.lastName,
     });

@@ -52,5 +52,5 @@ export interface RegisterApiRequest {
   nickname: string;
   twoLetterCountryCode: string;
   phoneNumber: string;
-  avatarId?: string;
+  avatarId?: number;
 }

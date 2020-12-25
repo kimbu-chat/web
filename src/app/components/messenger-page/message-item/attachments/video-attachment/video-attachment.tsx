@@ -20,7 +20,7 @@ export const MessageVideoAttachment = React.memo(({ attachment }: MessageVideoAt
   return (
     <>
       <div onClick={changeVideoPlayerDisplayed} className='video-attachment'>
-        <img draggable='false' src={attachment.firstFrameUrl} alt='' className='video-attachment__img' />
+        <img src={attachment.firstFrameUrl} alt='' className='video-attachment__img' />
         <div className='video-attachment__blur' />
         <PlaySvg className='video-attachment__svg' viewBox='0 0 25 25' />
         <div className='video-attachment__duration'>{moment.utc(attachment.duration * 1000).format('mm:ss')}</div>

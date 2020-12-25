@@ -24,7 +24,7 @@ export class GroupChatEdited {
         draft.chats[chatIndex].groupChat!.avatar = {
           url: avatarUrl,
           previewUrl: avatarPreviewUrl,
-          id: String(avatarId),
+          id: avatarId,
         };
       }
       return draft;

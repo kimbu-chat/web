@@ -26,7 +26,7 @@ export const VideoFromList: React.FC<VideoNS.Props> = React.memo(({ video }) => 
         </div>
       )}
       <div onClick={changeVideoPlayerDisplayed} className='chat-video__video-wrapper'>
-        <img draggable='false' alt='' className='chat-video__video' src={video.firstFrameUrl} />
+        <img alt='' className='chat-video__video' src={video.firstFrameUrl} />
         <button type='button' className='chat-video__play'>
           <PlaySvg viewBox='0 0 25 25' />
           <span className='chat-video__duration'>{moment.utc(video.duration * 1000).format('mm:ss')}</span>

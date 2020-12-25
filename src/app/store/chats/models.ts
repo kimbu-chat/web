@@ -87,7 +87,7 @@ export interface EditGroupChatHTTPReqData {
   id: number;
   name?: string;
   description?: string;
-  avatarId?: string;
+  avatarId?: number;
 }
 
 export interface HideChatRequest {
@@ -231,7 +231,7 @@ export interface GroupChatCreationHTTPReqData {
   name: string;
   description?: string;
   userIds: Array<number>;
-  avatarId?: string | null;
+  avatarId?: number | null;
 }
 
 export interface UploadAttachmentStartedData {

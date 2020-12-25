@@ -65,19 +65,14 @@ export const MessageInputAttachment: React.FC<MessageInputAttachmentNS.Props> = 
         {attachment.attachment.type === FileType.raw && <FileSVG viewBox='0 0 25 25' />}
         {attachment.attachment.type === FileType.video && (
           <>
-            <img draggable='false' src={(attachment.attachment as VideoAttachment).firstFrameUrl} alt='' className='message-input-attachment__bg' />
+            <img src={(attachment.attachment as VideoAttachment).firstFrameUrl} alt='' className='message-input-attachment__bg' />
             <VideoSVG viewBox='0 0 25 25' />
           </>
         )}
         {attachment.attachment.type === FileType.voice && <MicrophoneSVG viewBox='0 0 25 25' />}
         {attachment.attachment.type === FileType.picture && (
           <>
-            <img
-              draggable='false'
-              src={(attachment.attachment as PictureAttachment).previewUrl || previewUrl}
-              alt=''
-              className='message-input-attachment__bg'
-            />
+            <img src={(attachment.attachment as PictureAttachment).previewUrl || previewUrl} alt='' className='message-input-attachment__bg' />
             <PhotoSVG viewBox='0 0 25 25' />
           </>
         )}

@@ -24,7 +24,7 @@ export const Photo: React.FC<PhotoNS.Props> = React.memo(({ photo }) => {
               : moment(photo.creationDateTime).format('MMMM'))}
         </div>
       )}
-      <img draggable='false' alt='low speed' onClick={changeBigPhotoDisplayed} key={photo.id} className='chat-photo__photo' src={photo.url} />
+      <img alt='low speed' onClick={changeBigPhotoDisplayed} key={photo.id} className='chat-photo__photo' src={photo.url} />
       <FadeAnimationWrapper isDisplayed={bigPhotoDisplayed}>
         <BigPhoto url={photo.url} onClose={changeBigPhotoDisplayed} />
       </FadeAnimationWrapper>

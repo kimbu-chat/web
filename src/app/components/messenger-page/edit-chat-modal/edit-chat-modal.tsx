@@ -33,7 +33,7 @@ export const EditChatModal = React.memo(({ onClose }: EditChatModalNS.Props) => 
 
   const [newName, setNewName] = useState(selectedChat.groupChat?.name!);
   const [avatarData, setAvatarData] = useState<AvatarSelectedData | null>(null);
-  const [avararUploadResponse, setAvatarUploadResponse] = useState<UploadAvatarResponse | null>(null);
+  const [avararUploadResponse, setAvatarUploadResponse] = useState<UploadAvatarResponse | null>(selectedChat.groupChat?.avatar || null);
   const [imageUrl, setImageUrl] = useState<string>('');
   const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
   const [newDescription, setNewDescription] = useState(selectedChat.groupChat?.description || '');
@@ -58,7 +58,7 @@ export const EditChatModal = React.memo(({ onClose }: EditChatModalNS.Props) => 
             imagePath: '',
             croppedImagePath: '',
           });
-          setAvatarUploadResponse({ url: '', previewUrl: '', id: '' });
+          setAvatarUploadResponse(null);
           setUploadEnded(true);
         });
     },
@@ -95,7 +95,7 @@ export const EditChatModal = React.memo(({ onClose }: EditChatModalNS.Props) => 
 
     const changes: EditGroupChatActionPayload = {
       id: selectedChat.groupChat!.id,
-      avatar: avararUploadResponse || selectedChat.groupChat?.avatar || null,
+      avatar: avararUploadResponse,
       name: newName,
       description: newDescription,
     };
@@ -112,7 +112,7 @@ export const EditChatModal = React.memo(({ onClose }: EditChatModalNS.Props) => 
       imagePath: '',
       croppedImagePath: '',
     });
-    setAvatarUploadResponse({ url: '', previewUrl: '', id: '' });
+    setAvatarUploadResponse(null);
     setUploadEnded(true);
   }, [setAvatarData, setAvatarUploadResponse, setUploadEnded]);
 
@@ -133,9 +133,7 @@ export const EditChatModal = React.memo(({ onClose }: EditChatModalNS.Props) => 
                   </Avatar>
                   {avatarData?.croppedImagePath && <CircularProgress progress={uploaded} />}
 
-                  {(avatarData?.croppedImagePath.length! === 0
-                    ? false
-                    : selectedChat.groupChat?.avatar?.url.length! > 0 || avatarData?.croppedImagePath.length! > 0) && (
+                  {avararUploadResponse && (
                     <button type='button' onClick={discardNewAvatar} className='edit-chat-modal__remove-photo'>
                       <CloseSVG viewBox='0 0 25 25' />
                     </button>

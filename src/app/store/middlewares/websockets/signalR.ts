@@ -21,6 +21,7 @@ import { MessagesDeletedIntegrationEventHandler } from './integration-event-hand
 import { ChatClearedIntegrationEventHandler } from './integration-event-handlers/chat-cleared-integration-event-handler';
 import { RenegotiationEventHandler } from './integration-event-handlers/renegociation-event-hander';
 import { GroupChatEditedEventHandler } from './integration-event-handlers/group-chat-edited-integration-event-handler';
+import { MemberLeftGroupChatEventHandler } from './integration-event-handlers/member-left-group-chat-event-handler';
 
 let connection: HubConnection;
 
@@ -38,6 +39,7 @@ function openConnection(store: Store<RootState>): void {
   eventManager.registerEventHandler(EventsNames.GROUP_CHAT_CREATED, new GroupChatCreatedEventHandler());
   eventManager.registerEventHandler(EventsNames.GROUP_CHAT_EDITED, new GroupChatEditedEventHandler());
   eventManager.registerEventHandler(EventsNames.CHAT_CLEARED, new ChatClearedIntegrationEventHandler());
+  eventManager.registerEventHandler(EventsNames.MEMBER_LEFT_GROUP_CHAT, new MemberLeftGroupChatEventHandler());
 
   // Friends
   eventManager.registerEventHandler(EventsNames.USER_STATUS_CHANGED, new UserStatusChangedEventHandler());

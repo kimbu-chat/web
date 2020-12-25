@@ -43,6 +43,7 @@ import { ChangeLastMessage } from './features/change-last-message/change-last-me
 import { GetRawAttachments } from './features/get-raw-attachments/get-raw-attachments';
 import { MarkMessagesAsReadSuccess } from './features/mark-messages-as-read/mark-messages-as-read-success';
 import { GroupChatEdited } from './features/edit-group-chat/group-chat-edited';
+import { MemberLeftGroupChat } from './features/leave-group-chat/member-left-group-chat';
 
 export namespace ChatActions {
   export const getChats = GetChats.action;
@@ -78,6 +79,7 @@ export namespace ChatActions {
   export const getGroupChatUsers = GetGroupChatUsers.action;
   export const getGroupChatUsersSuccess = GetGroupChatUsersSuccess.action;
   export const leaveGroupChat = LeaveGroupChat.action;
+  export const memberLeftGroupChat = MemberLeftGroupChat.action;
   export const leaveGroupChatSuccess = LeaveGroupChatSuccess.action;
   export const addUsersToGroupChat = AddUsersToGroupChat.action;
   export const addUsersToGroupChatSuccess = AddUsersToGroupChatSuccess.action;

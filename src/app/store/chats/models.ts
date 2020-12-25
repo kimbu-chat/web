@@ -2,7 +2,7 @@ import { CancelTokenSource } from 'axios';
 import { Page } from '../common/models';
 // eslint-disable-next-line import/no-cycle
 import { Message, FileType } from '../messages/models';
-import { UserPreview } from '../my-profile/models';
+import { Avatar, UserPreview } from '../my-profile/models';
 
 export interface UploadingAttachment {
   id: number;
@@ -20,11 +20,7 @@ export interface ChatsState {
 
 export interface GroupChat {
   id: number;
-  avatar?: {
-    id: string;
-    url: string;
-    previewUrl: string;
-  } | null;
+  avatar?: Avatar | null;
   name: string;
   description?: string;
   membersCount: number;

@@ -8,7 +8,7 @@ export interface UserPreview {
   id: number;
   firstName: string;
   lastName: string;
-  avatar?: { url: string; previewUrl: string; id: string };
+  avatar?: Avatar;
   nickname: string;
   status: UserStatus;
   gender?: number;
@@ -34,6 +34,12 @@ export interface AvatarSelectedData {
 export interface UpdateAvatarSuccess {
   fullAvatarUrl: string;
   croppedAvatarUrl: string;
+}
+
+export interface Avatar {
+  url: string;
+  previewUrl: string;
+  id: string;
 }
 
 export interface UploadAvatarResponse {

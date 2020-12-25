@@ -16,7 +16,7 @@ const Avatar = React.memo(({ src, children, className, onClick, ...props }: IAva
     {src ? (
       <img draggable='false' alt={children} src={src} {...props} onClick={onClick} className={`avatar ${className || ''}`} />
     ) : (
-      <div {...props} onClick={onClick} className={`avatar ${className || ''}`}>
+      <div draggable='false' {...props} onClick={onClick} className={`avatar ${className || ''}`}>
         {children}
       </div>
     )}

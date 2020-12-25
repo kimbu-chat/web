@@ -1,6 +1,5 @@
 import { DeclineCall } from 'app/store/calls/features/decline-call/decline-call';
-import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
-import { eventChannel, END, buffers } from 'redux-saga';
+import { eventChannel, buffers } from 'redux-saga';
 import { take, select, put, call, race, takeEvery } from 'redux-saga/effects';
 import { getAudioDevices } from 'app/store/calls/selectors';
 import { getMediaDevicesList } from './user-media';
@@ -16,14 +15,6 @@ function createDeviceUpdateChannel() {
     const onDeviceChange = (event: Event) => {
       emit(event);
     };
-
-    const clearIntervalCode = setInterval(() => {
-      const state = peerConnection?.connectionState;
-      if (!state || state === 'closed' || state === 'disconnected') {
-        clearInterval(clearIntervalCode);
-        emit(END);
-      }
-    }, 1000);
 
     navigator.mediaDevices.addEventListener('devicechange', onDeviceChange);
 

@@ -32,8 +32,8 @@ import { InterlocutorStoppedTyping } from './features/interlocutor-message-typin
 import { LeaveGroupChat } from './features/leave-group-chat/leave-group-chat';
 import { LeaveGroupChatSuccess } from './features/leave-group-chat/leave-group-chat-success';
 import { MarkMessagesAsRead } from './features/mark-messages-as-read/mark-messages-as-read';
-import { MuteChat } from './features/mute-chat/mute-chat';
-import { MuteChatSuccess } from './features/mute-chat/mute-chat-success';
+import { ChangeChatMutedStatus } from './features/change-chat-muted-status/change-chat-muted-status';
+import { ChangeChatMutedStatusSuccess } from './features/change-chat-muted-status/change-chat-muted-status-success';
 import { UnshiftChat } from './features/unshift-chat/unshift-chat';
 import { RemoveAttachment } from './features/remove-attachment/remove-attachment';
 import { UploadAttachmentFailure } from './features/upload-attachment/upload-attachment-failure';
@@ -42,6 +42,9 @@ import { UploadAttachmentSuccess } from './features/upload-attachment/upload-att
 import { ChangeLastMessage } from './features/change-last-message/change-last-message';
 import { GetRawAttachments } from './features/get-raw-attachments/get-raw-attachments';
 import { MarkMessagesAsReadSuccess } from './features/mark-messages-as-read/mark-messages-as-read-success';
+import { GroupChatEdited } from './features/edit-group-chat/group-chat-edited';
+import { MemberLeftGroupChat } from './features/leave-group-chat/member-left-group-chat';
+import { ChatMutedStatusChanged } from './features/change-chat-muted-status/chat-muted-status-changed';
 
 export namespace ChatActions {
   export const getChats = GetChats.action;
@@ -66,16 +69,19 @@ export namespace ChatActions {
   export const unshiftChat = UnshiftChat.action;
   export const createChat = CreateChat.action;
   export const changeChatVisibilityStateSuccess = ChangeChatVisibilityStateSuccess.action;
-  export const muteChat = MuteChat.action;
-  export const muteChatSuccess = MuteChatSuccess.action;
+  export const changeChatMutedStatus = ChangeChatMutedStatus.action;
+  export const changeChatMutedStatusSuccess = ChangeChatMutedStatusSuccess.action;
+  export const chatMutedStatusChanged = ChatMutedStatusChanged.action;
   export const createGroupChat = CreateGroupChat.action;
   export const createGroupChatSuccess = CreateGroupChatSuccess.action;
   export const editGroupChat = EditGroupChat.action;
+  export const groupChatEdited = GroupChatEdited.action;
   export const editGroupChatSuccess = EditGroupChatSuccess.action;
   export const createGroupChatFromEvent = CreateGroupChatFromEvent.action;
   export const getGroupChatUsers = GetGroupChatUsers.action;
   export const getGroupChatUsersSuccess = GetGroupChatUsersSuccess.action;
   export const leaveGroupChat = LeaveGroupChat.action;
+  export const memberLeftGroupChat = MemberLeftGroupChat.action;
   export const leaveGroupChatSuccess = LeaveGroupChatSuccess.action;
   export const addUsersToGroupChat = AddUsersToGroupChat.action;
   export const addUsersToGroupChatSuccess = AddUsersToGroupChatSuccess.action;

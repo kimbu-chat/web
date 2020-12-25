@@ -15,7 +15,7 @@ import { GetVideoAttachments } from './features/get-video-attachments/get-video-
 import { GetVoiceAttachments } from './features/get-voice-attachments/get-voice-attachments';
 import { LeaveGroupChat } from './features/leave-group-chat/leave-group-chat';
 import { MarkMessagesAsRead } from './features/mark-messages-as-read/mark-messages-as-read';
-import { MuteChat } from './features/mute-chat/mute-chat';
+import { ChangeChatMutedStatus } from './features/change-chat-muted-status/change-chat-muted-status';
 import { RemoveAttachment } from './features/remove-attachment/remove-attachment';
 import { UploadAttachmentRequest } from './features/upload-attachment/upload-attachment-request';
 
@@ -27,7 +27,7 @@ export const ChatSagas = [
   takeLatest(CreateGroupChat.action, CreateGroupChat.saga),
   takeLatest(ChangeChatVisibilityState.action, ChangeChatVisibilityState.saga),
   takeLatest(AddUsersToGroupChat.action, AddUsersToGroupChat.saga),
-  takeLatest(MuteChat.action, MuteChat.saga),
+  takeLatest(ChangeChatMutedStatus.action, ChangeChatMutedStatus.saga),
   takeLatest(GetPhotoAttachments.action, GetPhotoAttachments.saga),
   takeLatest(GetVideoAttachments.action, GetVideoAttachments.saga),
   takeLatest(GetRawAttachments.action, GetRawAttachments.saga),

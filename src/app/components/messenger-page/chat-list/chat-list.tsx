@@ -25,8 +25,6 @@ const ChatList = React.memo(() => {
   useEffect(() => {
     if (chatId) {
       changeSelectedChat({ newChatId: Number(chatId), oldChatId: selectedChatId });
-    } else {
-      changeSelectedChat({ newChatId: null, oldChatId: selectedChatId });
     }
   }, [chatId]);
 

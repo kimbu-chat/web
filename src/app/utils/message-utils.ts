@@ -6,6 +6,7 @@ import {
   GroupChatMemberRemovedSystemMessageContent,
   GroupChatMemberAddedSystemMessageContent,
   GroupChatNameChangedSystemMessageContent,
+  CallMessage,
 } from 'store/messages/models';
 import { UserStatus } from 'store/common/models';
 import { TFunction } from 'i18next';
@@ -79,15 +80,16 @@ export class MessageUtils {
     }
 
     if (message.systemMessageType === SystemMessageType.CallEnded) {
-      const callMessage = JSON.parse(message.text);
+      const callMessage: CallMessage = JSON.parse(message.text);
+
       if (callMessage.status === CallStatus.Ended) {
         if (callMessage.userCallerId === myId) {
           return t('systemMessage.outgoing_call_success_ended', {
-            duration: moment.utc(callMessage.seconds * 1000).format('HH:mm:ss'),
+            duration: moment.utc(callMessage.duration * 1000).format('HH:mm:ss'),
           });
         }
         return t('systemMessage.incoming_call_success_ended', {
-          duration: moment.utc(callMessage.seconds * 1000).format('HH:mm:ss'),
+          duration: moment.utc(callMessage.duration * 1000).format('HH:mm:ss'),
         });
       }
 
@@ -96,7 +98,11 @@ export class MessageUtils {
       }
 
       if (callMessage.status === CallStatus.Declined) {
-        return callMessage.userCallerId === myId ? t('systemMessage.you_declined_call') : t('systemMessage.someone_declined_call');
+        return callMessage.userCallerId === myId ? t('systemMessage.someone_declined_call') : t('systemMessage.you_declined_call');
+      }
+
+      if (callMessage.status === CallStatus.Interrupted) {
+        return callMessage.userCallerId === myId ? t('systemMessage.outgoing_call_intrrerupted') : t('systemMessage.incoming_call_intrrerupted');
       }
 
       if (callMessage.status === CallStatus.NotAnswered) {

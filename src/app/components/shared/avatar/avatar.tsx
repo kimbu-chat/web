@@ -14,7 +14,7 @@ namespace IAvatar {
 const Avatar = React.memo(({ src, children, className, onClick, ...props }: IAvatar.Props) => (
   <>
     {src ? (
-      <img draggable='false' alt={children} src={src} {...props} onClick={onClick} className={`avatar ${className || ''}`} />
+      <img alt={children} src={src} {...props} onClick={onClick} className={`avatar ${className || ''}`} />
     ) : (
       <div {...props} onClick={onClick} className={`avatar ${className || ''}`}>
         {children}

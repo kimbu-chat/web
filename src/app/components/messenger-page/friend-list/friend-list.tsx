@@ -26,11 +26,11 @@ export const FriendList = React.memo(() => {
 
   useEffect(() => {
     if (chatId) {
+      console.log('chatId', chatId);
       changeSelectedChat({ newChatId: Number(chatId), oldChatId: selectedChatId });
-    } else {
-      changeSelectedChat({ newChatId: null, oldChatId: selectedChatId });
     }
   }, [chatId]);
+
   const loadMore = useCallback(() => {
     const page: Page = {
       offset: friends.length,

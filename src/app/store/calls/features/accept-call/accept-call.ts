@@ -11,13 +11,13 @@ import { getVideoConstraints, getAudioConstraints, getCallInterlocutorIdSelector
 import { interlocutorOffer } from '../../../middlewares/webRTC/peerConnectionFactory';
 import { AcceptCallApiRequest, CallState } from '../../models';
 import { deviceUpdateWatcher } from '../../utils/device-update-watcher';
-import { peerWatcher } from '../../utils/peer-watcher';
 import { getAndSendUserMedia, getMediaDevicesList } from '../../utils/user-media';
 import { ChangeActiveDeviceId } from '../change-active-device-id/change-active-device-id';
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
 import { AcceptCallActionPayload } from './accept-call-action-payload';
 import { InputType } from '../../common/enums/input-type';
 import { AcceptCallSuccess } from './accept-call-success';
+import { peerWatcher } from '../../utils/peer-watcher';
 
 export class AcceptCall {
   static get action() {

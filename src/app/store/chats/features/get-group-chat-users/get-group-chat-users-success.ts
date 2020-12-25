@@ -16,22 +16,24 @@ export class GetGroupChatUsersSuccess {
 
       const chatIndex: number = getChatArrayIndex(chatId, draft);
 
-      draft.chats[chatIndex].members.hasMore = hasMore;
+      if (chatIndex > -1) {
+        draft.chats[chatIndex].members.hasMore = hasMore;
 
-      if (isFromSearch) {
-        if (isFromScroll) {
-          draft.chats[chatIndex].members.searchMembers = unionBy(draft.chats[chatIndex].members.searchMembers, users, 'id');
+        if (isFromSearch) {
+          if (isFromScroll) {
+            draft.chats[chatIndex].members.searchMembers = unionBy(draft.chats[chatIndex].members.searchMembers, users, 'id');
+            return draft;
+          }
+
+          draft.chats[chatIndex].members.searchMembers = users;
           return draft;
         }
 
-        draft.chats[chatIndex].members.searchMembers = users;
-        return draft;
-      }
-
-      if (!isFromSearch) {
-        draft.chats[chatIndex].members.searchMembers = [];
-        draft.chats[chatIndex].members.members = unionBy(draft.chats[chatIndex].members.members, users, 'id');
-        return draft;
+        if (!isFromSearch) {
+          draft.chats[chatIndex].members.searchMembers = [];
+          draft.chats[chatIndex].members.members = unionBy(draft.chats[chatIndex].members.members, users, 'id');
+          return draft;
+        }
       }
 
       return draft;

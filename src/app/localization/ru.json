@@ -218,6 +218,8 @@
     "you_missed_call": "Вы пропустили звонок",
     "someone_missed_call": "Собеседник пропустил звонок",
     "you_declined_call": "Вы отклонили входящий вызов",
-    "someone_declined_call": "Собеедник отменил входящий вызов"
+    "someone_declined_call": "Собеедник отменил входящий вызов",
+    "outgoing_call_intrrerupted": "Исходящий вызов был прерван",
+    "incoming_call_intrrerupted": "Входящий вызов был прерван"
   }
 }

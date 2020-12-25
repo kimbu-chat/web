@@ -45,6 +45,7 @@ import { GetRawAttachments } from './features/get-raw-attachments/get-raw-attach
 import { GetPhotoAttachments } from './features/get-photo-attachments/get-photo-attachments';
 import { GetVideoAttachmentsSuccess } from './features/get-video-attachments/get-video-attachments-success';
 import { MarkMessagesAsReadSuccess } from './features/mark-messages-as-read/mark-messages-as-read-success';
+import { GroupChatEdited } from './features/edit-group-chat/group-chat-edited';
 
 const initialState: ChatsState = {
   loading: false,
@@ -88,6 +89,7 @@ const chats = createReducer<ChatsState>(initialState)
   .handleAction(GetVoiceAttachments.action, GetVoiceAttachments.reducer)
   .handleAction(GetVideoAttachments.action, GetVideoAttachments.reducer)
   .handleAction(GetVideoAttachmentsSuccess.action, GetVideoAttachmentsSuccess.reducer)
+  .handleAction(GroupChatEdited.action, GroupChatEdited.reducer)
   .handleAction(
     MessageActions.clearChatHistorySuccess,
     produce((draft: ChatsState, { payload }: ReturnType<typeof MessageActions.clearChatHistorySuccess>) => {

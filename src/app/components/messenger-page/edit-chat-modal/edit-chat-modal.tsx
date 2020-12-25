@@ -95,7 +95,7 @@ export const EditChatModal = React.memo(({ onClose }: EditChatModalNS.Props) => 
 
     const changes: EditGroupChatActionPayload = {
       id: selectedChat.groupChat!.id,
-      avatar: avararUploadResponse,
+      avatar: avararUploadResponse || selectedChat.groupChat?.avatar || null,
       name: newName,
       description: newDescription,
     };

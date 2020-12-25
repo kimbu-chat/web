@@ -8,6 +8,7 @@ import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { getChatById, getHasMoreChats } from 'app/store/chats/selectors';
 import { getFriendById } from 'app/store/friends/selectors';
+import { MessageState } from 'app/store/messages/models';
 import { UserPreview } from '../../../my-profile/models';
 import { GetChatsSuccessActionPayload } from '../get-chats/get-chats-success-action-payload';
 import { ChatsState, Chat, GetChatByIdRequestData, InterlocutorType, GetUserByIdRequestData } from '../../models';
@@ -53,6 +54,27 @@ export class ChangeSelectedChat {
             );
 
             if (status === HTTPStatusCode.OK) {
+              if (data.lastMessage) {
+                data.lastMessage.state =
+                  data.interlocutorLastReadMessageId && data.interlocutorLastReadMessageId >= Number(data?.lastMessage?.id)
+                    ? MessageState.READ
+                    : MessageState.SENT;
+              }
+
+              data.interlocutorType = ChatId.fromId(data.id).interlocutorType;
+              data.typingInterlocutors = [];
+              data.photos = { photos: [], loading: false, hasMore: true };
+              data.videos = { videos: [], loading: false, hasMore: true };
+              data.files = { files: [], loading: false, hasMore: true };
+              data.audios = { audios: [], loading: false, hasMore: true };
+              data.draftMessage = '';
+              data.recordings = {
+                hasMore: true,
+                loading: false,
+                recordings: [],
+              };
+              data.members = { searchMembers: [], members: [], loading: false, hasMore: true };
+
               chatList = {
                 chats: [data],
                 hasMore,

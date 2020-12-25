@@ -1,21 +1,26 @@
 import { IEventHandler } from './event-handler';
 
 export enum EventsNames {
+  // Messages
   MESSAGE_CREATED = 'MessageCreated',
   MESSAGE_EDITED = 'MessageEdited',
   MESSAGES_DELETED = 'MessagesDeleted',
-  GROUP_CHAT_MESSAGE_CREATED = 'GroupChatMessageCreated',
-  USER_STATUS_CHANGED = 'UserStatusChanged',
-  GROUP_CHAT_CREATED = 'GroupChatCreated',
   MESSAGES_READ = 'MessagesRead',
   INTEROCUTOR_MESSAGE_TYPING = 'MessageTyping',
+
+  // GroupChats
+  GROUP_CHAT_CREATED = 'GroupChatCreated',
+  GROUP_CHAT_EDITED = 'GroupChatEdited',
   CHAT_CLEARED = 'ClearChat',
-  // Event names for WEBRTC
+
+  // Friends
+  USER_STATUS_CHANGED = 'UserStatusChanged',
+
+  // WebRTC
   INCOMING_CALL = 'CallOfferSent',
   RENEGOTIATION_SENT = 'RenegotiationSent',
   INTERLOCUTOR_ACCEPTED_CALL = 'CallAccepted',
   CALL_ENDED = 'CallEnded',
-  BUSY_CALL = 'CallBusy',
   ICE_CANDIDATE_SENT = 'IceCandidateSent',
 }
 

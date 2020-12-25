@@ -42,6 +42,7 @@ import { UploadAttachmentSuccess } from './features/upload-attachment/upload-att
 import { ChangeLastMessage } from './features/change-last-message/change-last-message';
 import { GetRawAttachments } from './features/get-raw-attachments/get-raw-attachments';
 import { MarkMessagesAsReadSuccess } from './features/mark-messages-as-read/mark-messages-as-read-success';
+import { GroupChatEdited } from './features/edit-group-chat/group-chat-edited';
 
 export namespace ChatActions {
   export const getChats = GetChats.action;
@@ -71,6 +72,7 @@ export namespace ChatActions {
   export const createGroupChat = CreateGroupChat.action;
   export const createGroupChatSuccess = CreateGroupChatSuccess.action;
   export const editGroupChat = EditGroupChat.action;
+  export const groupChatEdited = GroupChatEdited.action;
   export const editGroupChatSuccess = EditGroupChatSuccess.action;
   export const createGroupChatFromEvent = CreateGroupChatFromEvent.action;
   export const getGroupChatUsers = GetGroupChatUsers.action;

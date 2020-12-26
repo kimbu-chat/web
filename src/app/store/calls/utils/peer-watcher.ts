@@ -108,7 +108,7 @@ export function* peerWatcher() {
 
             CallsHttpRequests.renegociate.call(yield call(() => CallsHttpRequests.renegociate.generator(request)));
             setMakingOffer(false);
-            console.log('reached end of negotiationneeded');
+            console.log('reached end of negotiationneeded', peerConnection);
           }
           break;
         case 'track':

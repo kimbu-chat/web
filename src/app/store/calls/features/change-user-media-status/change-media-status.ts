@@ -40,16 +40,16 @@ export class ChangeMediaStatus {
           yield call(getUserVideo, { video: { ...videoConstraints, isOpened: isVideoOpened } });
 
           if (videoSender) {
-            console.log('video track replaced', tracks.videoTracks.length);
-            videoSender?.replaceTrack(tracks.videoTracks[0]);
-          } else if (tracks.videoTracks.length > 0) {
-            setVideoSender(peerConnection?.addTrack(tracks.videoTracks[0]) as RTCRtpSender);
-            console.log('video track added');
+            console.log('video track replaced', tracks.videoTrack);
+            videoSender?.replaceTrack(tracks.videoTrack);
+          } else if (tracks.videoTrack) {
+            setVideoSender(peerConnection?.addTrack(tracks.videoTrack) as RTCRtpSender);
+            console.log('video track added', tracks.videoTrack);
           }
 
           stopScreenSharingTracks();
           yield put(CloseScreenShareStatus.action());
-        } else if (tracks.videoTracks.length > 0) {
+        } else if (tracks.videoTrack) {
           stopVideoTracks();
           yield put(CloseVideoStatus.action());
 
@@ -81,8 +81,8 @@ export class ChangeMediaStatus {
             audio: { ...audioConstraints, isOpened: isAudioOpened },
           });
 
-          if (tracks.audioTracks.length >= 0) {
-            audioSender?.replaceTrack(tracks.audioTracks[0]);
+          if (tracks.audioTrack) {
+            audioSender?.replaceTrack(tracks.audioTrack);
           }
         } else {
           audioSender?.replaceTrack(null);

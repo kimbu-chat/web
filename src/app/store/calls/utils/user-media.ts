@@ -11,8 +11,11 @@ import { OpenVideoStatus } from '../features/change-user-media-status/open-video
 import { OpenScreenShareStatus } from '../features/change-screen-share-status/open-screen-share-status';
 
 export const tracks: {
-  [thingName: string]: MediaStreamTrack[];
-} = { videoTracks: [], audioTracks: [], screenSharingTracks: [] };
+  videoTrack: MediaStreamTrack | null;
+  audioTrack: MediaStreamTrack | null;
+  screenSharingTrack: MediaStreamTrack | null;
+} = { videoTrack: null, audioTrack: null, screenSharingTrack: null };
+
 export let interlocurorVideoTrack: MediaStreamTrack;
 export let interlocurorAudioTrack: MediaStreamTrack;
 export let videoSender: RTCRtpSender | null;
@@ -50,41 +53,38 @@ export const setAudioSender = (sender: RTCRtpSender | null) => {
 };
 
 export const assignAudioStreams = (stream: MediaStream) => {
-  tracks.audioTracks.push(...stream.getAudioTracks());
+  [tracks.audioTrack] = stream.getAudioTracks();
 };
 
 export const assignVideoStreams = (stream: MediaStream) => {
-  tracks.videoTracks = stream.getVideoTracks();
-
-  console.log('getVideoTracks');
+  [tracks.videoTrack] = stream.getVideoTracks();
 };
 
 export const assignScreenSharingTracks = (stream: MediaStream) => {
-  tracks.screenSharingTracks.push(...stream.getTracks());
+  [tracks.screenSharingTrack] = stream.getTracks();
 };
 
 export const assignStreams = (stream: MediaStream) => {
-  tracks.videoTracks.push(...stream.getVideoTracks());
-  tracks.audioTracks.push(...stream.getAudioTracks());
+  [tracks.videoTrack] = stream.getVideoTracks();
+  [tracks.audioTrack] = stream.getAudioTracks();
 };
 
 export const stopVideoTracks = () => {
-  tracks.videoTracks.forEach((track) => {
-    track.stop();
-  });
-  tracks.videoTracks = [];
+  tracks.videoTrack?.stop();
+
+  tracks.videoTrack = null;
 };
 
 export const stopAudioTracks = () => {
-  tracks.audioTracks.forEach((track) => track.stop());
-  tracks.audioTracks = [];
+  tracks.audioTrack?.stop();
+
+  tracks.audioTrack = null;
 };
 
 export const stopScreenSharingTracks = () => {
-  tracks.screenSharingTracks.forEach((track) => {
-    track.stop();
-  });
-  tracks.screenSharingTracks = [];
+  tracks.screenSharingTrack?.stop();
+
+  tracks.screenSharingTrack = null;
 };
 
 export const stopAllTracks = () => {
@@ -197,11 +197,11 @@ export function* getAndSendUserMedia(): SagaIterator {
   if (localMediaStream) {
     assignStreams(localMediaStream);
 
-    if (tracks.videoTracks.length > 0) {
-      videoSender = peerConnection?.addTrack(tracks.videoTracks[0], localMediaStream) as RTCRtpSender;
+    if (tracks.videoTrack) {
+      videoSender = peerConnection?.addTrack(tracks.videoTrack, localMediaStream) as RTCRtpSender;
     }
-    if (tracks.audioTracks.length > 0) {
-      audioSender = peerConnection?.addTrack(tracks.audioTracks[0], localMediaStream) as RTCRtpSender;
+    if (tracks.audioTrack) {
+      audioSender = peerConnection?.addTrack(tracks.audioTrack, localMediaStream) as RTCRtpSender;
     }
   }
 }

@@ -24,11 +24,13 @@ export class ChangeScreenShareStatus {
           emit(END);
         };
 
-        tracks.screenSharingTracks[0].addEventListener('ended', onEnd);
+        if (tracks.screenSharingTrack) {
+          tracks.screenSharingTrack.addEventListener('ended', onEnd);
+        }
 
         return () => {
-          if (tracks.screenSharingTracks[0]) {
-            tracks.screenSharingTracks[0].removeEventListener('ended', onEnd);
+          if (tracks.screenSharingTrack) {
+            tracks.screenSharingTrack.removeEventListener('ended', onEnd);
           }
         };
       }, buffers.expanding(100));
@@ -74,15 +76,15 @@ export class ChangeScreenShareStatus {
         yield put(CloseVideoStatus.action());
 
         if (videoSender) {
-          videoSender?.replaceTrack(tracks.screenSharingTracks[0]);
-        } else if (tracks.screenSharingTracks[0]) {
-          setVideoSender(peerConnection?.addTrack(tracks.screenSharingTracks[0]) as RTCRtpSender);
+          videoSender?.replaceTrack(tracks.screenSharingTrack);
+        } else if (tracks.screenSharingTrack) {
+          setVideoSender(peerConnection?.addTrack(tracks.screenSharingTrack) as RTCRtpSender);
         }
 
-        if (tracks.screenSharingTracks[0]) {
+        if (tracks.screenSharingTrack) {
           yield spawn(trackEndedWatcher);
         }
-      } else if (tracks.screenSharingTracks.length > 0) {
+      } else if (tracks.screenSharingTrack) {
         stopScreenSharingTracks();
         yield put(CloseScreenShareStatus.action());
 

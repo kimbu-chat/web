@@ -35,16 +35,16 @@ export class SwitchDevice {
       if (action.payload.kind === InputType.audioInput && audioConstraints.isOpened) {
         yield call(getUserAudio, { audio: audioConstraints });
 
-        if (tracks.audioTracks.length >= 0) {
-          audioSender?.replaceTrack(tracks.audioTracks[0]);
+        if (tracks.audioTrack) {
+          audioSender?.replaceTrack(tracks.audioTrack);
         }
       }
 
       if (action.payload.kind === InputType.videoInput && videoConstraints.isOpened) {
         yield call(getUserVideo, { video: videoConstraints });
 
-        if (tracks.videoTracks.length > 0) {
-          videoSender?.replaceTrack(tracks.videoTracks[0]);
+        if (tracks.videoTrack) {
+          videoSender?.replaceTrack(tracks.videoTrack);
         }
       }
     };

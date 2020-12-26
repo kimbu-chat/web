@@ -22,6 +22,7 @@ import { OutgoingCallActionPayload } from './outgoing-call-action-payload';
 import { InputType } from '../../common/enums/input-type';
 import { CallEnded } from '../end-call/call-ended';
 import { InterlocutorBusy } from '../interlocutor-busy/interlocutor-busy';
+import { peerWatcher } from '../../utils/peer-watcher';
 
 export class OutgoingCall {
   static get action() {
@@ -36,7 +37,7 @@ export class OutgoingCall {
 
       draft.interlocutor = payload.calling;
       draft.isInterlocutorBusy = false;
-      draft.amICaling = true;
+      draft.amICalling = true;
       draft.audioConstraints = { ...draft.audioConstraints, isOpened: payload.constraints.audioEnabled };
       draft.videoConstraints = { ...draft.videoConstraints, isOpened: payload.constraints.videoEnabled };
       return draft;
@@ -86,6 +87,7 @@ export class OutgoingCall {
         async () => await peerConnection?.createOffer({ offerToReceiveAudio: true, offerToReceiveVideo: true }),
       );
 
+      yield spawn(peerWatcher);
       yield call(async () => await peerConnection?.setLocalDescription(offer));
 
       const isVideoEnabled = yield select(getIsVideoEnabled);

@@ -22,7 +22,7 @@ import {
 
 import { AvatarSelectedData } from 'store/my-profile/models';
 import { useSelector } from 'react-redux';
-import { amICalled as isCallingMe, amICaling, doIhaveCall } from 'store/calls/selectors';
+import { amICalled as isCallingMe, amICalling, doIhaveCall } from 'store/calls/selectors';
 import { CSSTransition } from 'react-transition-group';
 import { LocalizationContext } from 'app/app';
 import { getSelectedChatIdSelector } from 'store/chats/selectors';
@@ -39,7 +39,7 @@ const Messenger = React.memo(() => {
   const { t } = useContext(LocalizationContext);
 
   const amICalled = useSelector(isCallingMe);
-  const amICalingSomebody = useSelector(amICaling);
+  const amICallingSomebody = useSelector(amICalling);
   const amISpeaking = useSelector(doIhaveCall);
   const selectedChatId = useSelector(getSelectedChatIdSelector);
   const messageToEdit = useSelector(getMessageToEdit);
@@ -47,7 +47,7 @@ const Messenger = React.memo(() => {
   return (
     <div className='messenger'>
       {amICalled && <IncomingCall />}
-      {(amISpeaking || amICalingSomebody) && <ActiveCall />}
+      {(amISpeaking || amICallingSomebody) && <ActiveCall />}
 
       <InternetError />
 

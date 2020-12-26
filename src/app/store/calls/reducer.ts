@@ -26,7 +26,7 @@ const initialState: CallState = {
   isInterlocutorVideoEnabled: false,
   isInterlocutorBusy: false,
   amICalled: false,
-  amICaling: false,
+  amICalling: false,
   isSpeaking: false,
   videoConstraints: {
     isOpened: false,

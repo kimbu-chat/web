@@ -7,7 +7,7 @@ export const getCallInterlocutorIdSelector = (state: RootState): number | undefi
 
 export const amICalled = (state: RootState): boolean => state.calls.amICalled;
 
-export const amICaling = (state: RootState): boolean => state.calls.amICaling;
+export const amICalling = (state: RootState): boolean => state.calls.amICalling;
 
 export const doIhaveCall = (state: RootState): boolean => state.calls.isSpeaking;
 

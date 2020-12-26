@@ -14,6 +14,7 @@ export class IncomingCall {
 
   static get reducer() {
     return produce((draft: CallState, { payload }: ReturnType<typeof IncomingCall.action>) => {
+      console.log(payload.isVideoEnabled);
       draft.isInterlocutorVideoEnabled = payload.isVideoEnabled;
       const interlocutor = payload.userInterlocutor;
       draft.interlocutor = interlocutor;

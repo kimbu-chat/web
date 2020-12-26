@@ -54,7 +54,7 @@ export default (state: any, action: any): ReturnType<typeof rootReducer> => {
           height: { min: 480, ideal: 1440, max: 1440 },
         },
         audioConstraints: { isOpened: true },
-        amICaling: false,
+        amICalling: false,
         interlocutor: undefined,
         audioDevicesList: [],
         videoDevicesList: [],

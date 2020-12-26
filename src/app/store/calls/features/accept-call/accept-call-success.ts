@@ -12,7 +12,7 @@ export class AcceptCallSuccess {
       draft.isActiveCallIncoming = true;
       draft.isSpeaking = true;
       draft.amICalled = false;
-      draft.amICaling = false;
+      draft.amICalling = false;
 
       return draft;
     });

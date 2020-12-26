@@ -11,7 +11,7 @@ export class CancelCallSuccess {
     return produce((draft: CallState) => {
       draft.interlocutor = undefined;
       draft.isInterlocutorBusy = false;
-      draft.amICaling = false;
+      draft.amICalling = false;
       draft.amICalled = false;
       draft.isSpeaking = false;
       draft.isInterlocutorVideoEnabled = false;

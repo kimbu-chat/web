@@ -12,7 +12,7 @@ export class CallEnded {
   static get reducer() {
     return produce((draft: CallState) => {
       draft.interlocutor = undefined;
-      draft.amICaling = false;
+      draft.amICalling = false;
       draft.amICalled = false;
       draft.isSpeaking = false;
       draft.videoConstraints.isOpened = false;

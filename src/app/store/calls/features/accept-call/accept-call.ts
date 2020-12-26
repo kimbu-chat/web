@@ -39,7 +39,6 @@ export class AcceptCall {
       const audioConstraints = yield select(getAudioConstraints);
 
       createPeerConnection();
-      yield spawn(peerWatcher);
       yield spawn(deviceUpdateWatcher);
 
       // setup local stream
@@ -66,6 +65,7 @@ export class AcceptCall {
       //---
       const interlocutorId: number = yield select(getCallInterlocutorIdSelector);
 
+      yield spawn(peerWatcher);
       yield call(async () => await peerConnection?.setRemoteDescription(interlocutorOffer as RTCSessionDescriptionInit));
       console.log('remote description set');
 

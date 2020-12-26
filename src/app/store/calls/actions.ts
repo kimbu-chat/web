@@ -22,6 +22,9 @@ import { OutgoingCall } from './features/outgoing-call/outgoing-call';
 import { SwitchDevice } from './features/switch-device/switch-device';
 import { TimeoutCall } from './features/timeout-call/timeout-call';
 import { AcceptCallSuccess } from './features/accept-call/accept-call-success';
+import { OpenAudioStatus } from './features/change-user-media-status/open-audio-status';
+import { OpenVideoStatus } from './features/change-user-media-status/open-video-status';
+import { OpenScreenShareStatus } from './features/change-screen-share-status/open-screen-share-status';
 
 export namespace CallActions {
   export const getCallsAction = GetCalls.action;
@@ -42,8 +45,11 @@ export namespace CallActions {
   export const changeMediaStatusAction = ChangeMediaStatus.action;
   export const changeScreenShareStatusAction = ChangeScreenShareStatus.action;
   export const closeScreenShareStatusAction = CloseScreenShareStatus.action;
+  export const openScreenShareStatus = OpenScreenShareStatus.action;
   export const closeVideoStatusAction = CloseVideoStatus.action;
+  export const openVideoStatusAction = OpenVideoStatus.action;
   export const closeAudioStatusAction = CloseAudioStatus.action;
+  export const openAudioStatusAction = OpenAudioStatus.action;
   export const gotDevicesInfoAction = GotDevicesInfo.action;
   export const switchDeviceAction = SwitchDevice.action;
   export const acceptCallSuccessAction = AcceptCallSuccess.action;

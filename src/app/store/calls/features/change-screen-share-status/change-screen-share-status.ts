@@ -1,10 +1,8 @@
 import { createEmptyAction } from 'app/store/common/actions';
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
-import produce from 'immer';
 import { buffers, END, eventChannel, SagaIterator } from 'redux-saga';
 import { call, put, race, select, spawn, take, takeEvery } from 'redux-saga/effects';
 import { getIsScreenSharingEnabled } from 'app/store/calls/selectors';
-import { CallState } from '../../models';
 import { tracks, stopScreenSharingTracks, videoSender, setVideoSender, getUserDisplay, stopVideoTracks } from '../../utils/user-media';
 import { CloseScreenShareStatus } from './close-screen-share-status';
 import { CloseVideoStatus } from '../change-user-media-status/close-video-status';
@@ -17,14 +15,6 @@ export class ChangeScreenShareStatus {
     return createEmptyAction('CHANGE_SCREEN_SHARE_STATUS');
   }
 
-  static get reducer() {
-    return produce((draft: CallState) => {
-      draft.isScreenSharingOpened = !draft.isScreenSharingOpened;
-      draft.videoConstraints.isOpened = false;
-      return draft;
-    });
-  }
-
   static get saga() {
     function createTrackEndedChannel() {
       return eventChannel((emit) => {
@@ -34,11 +24,13 @@ export class ChangeScreenShareStatus {
           emit(END);
         };
 
-        tracks.screenSharingTracks[0].addEventListener('ended', onEnd);
+        if (tracks.screenSharingTrack) {
+          tracks.screenSharingTrack.addEventListener('ended', onEnd);
+        }
 
         return () => {
-          if (tracks.screenSharingTracks[0]) {
-            tracks.screenSharingTracks[0].removeEventListener('ended', onEnd);
+          if (tracks.screenSharingTrack) {
+            tracks.screenSharingTrack.removeEventListener('ended', onEnd);
           }
         };
       }, buffers.expanding(100));
@@ -50,13 +42,11 @@ export class ChangeScreenShareStatus {
       yield takeEvery(trackEndedChannel, function* (action) {
         if (action === true) {
           stopScreenSharingTracks();
+          yield put(CloseScreenShareStatus.action());
 
           if (videoSender) {
-            try {
-              peerConnection?.removeTrack(videoSender);
-            } catch (e) {
-              console.warn(e);
-            }
+            peerConnection?.removeTrack(videoSender);
+
             setVideoSender(null);
           }
 
@@ -77,46 +67,30 @@ export class ChangeScreenShareStatus {
     }
 
     return function* (): SagaIterator {
-      const screenSharingState = yield select(getIsScreenSharingEnabled);
-      let isErrorPresent = false;
+      const isScreenSharingOpened = !(yield select(getIsScreenSharingEnabled));
 
-      if (screenSharingState) {
-        try {
-          yield call(getUserDisplay);
-        } catch (e) {
-          if (e.message === 'NO_DISPLAY') {
-            yield put(CloseScreenShareStatus.action());
-            isErrorPresent = true;
-          }
-        }
+      if (isScreenSharingOpened) {
+        yield call(getUserDisplay);
 
-        stopVideoTracks();
-
-        if (!isErrorPresent) {
-          if (videoSender) {
-            videoSender?.replaceTrack(tracks.screenSharingTracks[0]);
-          } else if (tracks.screenSharingTracks[0]) {
-            setVideoSender(peerConnection?.addTrack(tracks.screenSharingTracks[0]) as RTCRtpSender);
-          }
-
-          yield spawn(trackEndedWatcher);
-        } else if (videoSender) {
-          try {
-            peerConnection?.removeTrack(videoSender);
-          } catch (e) {
-            console.warn(e);
-          }
-          setVideoSender(null);
-        }
-      } else if (tracks.screenSharingTracks.length > 0) {
-        stopScreenSharingTracks();
+        yield call(stopVideoTracks);
+        yield put(CloseVideoStatus.action());
 
         if (videoSender) {
-          try {
-            peerConnection?.removeTrack(videoSender);
-          } catch (e) {
-            console.warn(e);
-          }
+          videoSender?.replaceTrack(tracks.screenSharingTrack);
+        } else if (tracks.screenSharingTrack) {
+          setVideoSender(peerConnection?.addTrack(tracks.screenSharingTrack) as RTCRtpSender);
+        }
+
+        if (tracks.screenSharingTrack) {
+          yield spawn(trackEndedWatcher);
+        }
+      } else if (tracks.screenSharingTrack) {
+        stopScreenSharingTracks();
+        yield put(CloseScreenShareStatus.action());
+
+        if (videoSender) {
+          peerConnection?.removeTrack(videoSender);
+
           setVideoSender(null);
         }
       }

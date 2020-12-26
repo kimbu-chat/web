@@ -9,7 +9,7 @@ export interface CallState {
   isInterlocutorBusy: boolean;
   interlocutor?: UserPreview;
   amICalled: boolean;
-  amICaling: boolean;
+  amICalling: boolean;
   isSpeaking: boolean;
   videoConstraints: {
     isOpened: boolean;

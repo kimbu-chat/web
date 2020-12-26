@@ -12,12 +12,14 @@ export class InterlocutorAcceptedCall {
 
   static get reducer() {
     return produce((draft: CallState, { payload }: ReturnType<typeof InterlocutorAcceptedCall.action>) => {
-      draft.isSpeaking = true;
-      draft.amICalled = false;
-      draft.amICaling = false;
+      if (payload.answer) {
+        draft.isSpeaking = true;
+        draft.amICalled = false;
+        draft.amICalling = false;
 
-      draft.isActiveCallIncoming = false;
-      draft.isInterlocutorVideoEnabled = payload.isVideoEnabled;
+        draft.isActiveCallIncoming = false;
+        draft.isInterlocutorVideoEnabled = payload.isVideoEnabled;
+      }
       return draft;
     });
   }
@@ -26,7 +28,6 @@ export class InterlocutorAcceptedCall {
     return function* callAcceptedSaga(action: ReturnType<typeof InterlocutorAcceptedCall.action>): SagaIterator {
       if (action.payload.answer) {
         yield call(async () => await peerConnection?.setRemoteDescription(action.payload.answer));
-        console.log('remote description set');
       }
     };
   }

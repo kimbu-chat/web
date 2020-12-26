@@ -2,14 +2,20 @@ import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFacto
 import { getVideoConstraints, getAudioConstraints } from 'app/store/calls/selectors';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
+import { CloseScreenShareStatus } from '../features/change-screen-share-status/close-screen-share-status';
 import { CloseAudioStatus } from '../features/change-user-media-status/close-audio-status';
 import { CloseVideoStatus } from '../features/change-user-media-status/close-video-status';
 import { IInCompleteConstraints } from '../models';
-import { GetUserMediaError } from '../common/enums/get-user-media-error';
+import { OpenAudioStatus } from '../features/change-user-media-status/open-audio-status';
+import { OpenVideoStatus } from '../features/change-user-media-status/open-video-status';
+import { OpenScreenShareStatus } from '../features/change-screen-share-status/open-screen-share-status';
 
 export const tracks: {
-  [thingName: string]: MediaStreamTrack[];
-} = { videoTracks: [], audioTracks: [], screenSharingTracks: [] };
+  videoTrack: MediaStreamTrack | null;
+  audioTrack: MediaStreamTrack | null;
+  screenSharingTrack: MediaStreamTrack | null;
+} = { videoTrack: null, audioTrack: null, screenSharingTrack: null };
+
 export let interlocurorVideoTrack: MediaStreamTrack;
 export let interlocurorAudioTrack: MediaStreamTrack;
 export let videoSender: RTCRtpSender | null;
@@ -47,41 +53,38 @@ export const setAudioSender = (sender: RTCRtpSender | null) => {
 };
 
 export const assignAudioStreams = (stream: MediaStream) => {
-  tracks.audioTracks.push(...stream.getAudioTracks());
+  [tracks.audioTrack] = stream.getAudioTracks();
 };
 
 export const assignVideoStreams = (stream: MediaStream) => {
-  tracks.videoTracks.push(...stream.getVideoTracks());
+  [tracks.videoTrack] = stream.getVideoTracks();
 };
 
 export const assignScreenSharingTracks = (stream: MediaStream) => {
-  tracks.screenSharingTracks.push(...stream.getTracks());
+  [tracks.screenSharingTrack] = stream.getTracks();
 };
 
 export const assignStreams = (stream: MediaStream) => {
-  tracks.videoTracks.push(...stream.getVideoTracks());
-  tracks.audioTracks.push(...stream.getAudioTracks());
-};
-
-export const stopAudioTracks = () => {
-  tracks.audioTracks.forEach((track) => {
-    track.stop();
-  });
-  tracks.audioTracks = [];
+  [tracks.videoTrack] = stream.getVideoTracks();
+  [tracks.audioTrack] = stream.getAudioTracks();
 };
 
 export const stopVideoTracks = () => {
-  tracks.videoTracks.forEach((track) => {
-    track.stop();
-  });
-  tracks.videoTracks = [];
+  tracks.videoTrack?.stop();
+
+  tracks.videoTrack = null;
+};
+
+export const stopAudioTracks = () => {
+  tracks.audioTrack?.stop();
+
+  tracks.audioTrack = null;
 };
 
 export const stopScreenSharingTracks = () => {
-  tracks.screenSharingTracks.forEach((track) => {
-    track.stop();
-  });
-  tracks.screenSharingTracks = [];
+  tracks.screenSharingTrack?.stop();
+
+  tracks.screenSharingTrack = null;
 };
 
 export const stopAllTracks = () => {
@@ -90,31 +93,44 @@ export const stopAllTracks = () => {
   stopScreenSharingTracks();
 };
 
-export const getUserAudio = async (constraints: IInCompleteConstraints) => {
-  let localMediaStream: MediaStream;
+export const getUserAudio = function* (constraints: IInCompleteConstraints) {
+  let localMediaStream: MediaStream | null = null;
   try {
-    localMediaStream = await navigator.mediaDevices.getUserMedia({
-      audio: constraints.audio?.isOpened && constraints.audio,
-    });
+    console.log(constraints.audio?.isOpened && constraints.audio);
+
+    localMediaStream = yield call(
+      async () =>
+        await navigator.mediaDevices.getUserMedia({
+          audio: constraints.audio?.isOpened && constraints.audio,
+        }),
+    );
+
+    yield put(OpenAudioStatus.action());
   } catch (e) {
-    throw new Error(GetUserMediaError.NO_AUDIO);
+    console.log(e);
+    yield put(CloseAudioStatus.action());
   }
 
-  stopAudioTracks();
+  yield call(stopAudioTracks);
 
   if (localMediaStream) {
     assignAudioStreams(localMediaStream);
   }
 };
 
-export const getUserVideo = async (constraints: IInCompleteConstraints) => {
-  let localMediaStream: MediaStream;
+export const getUserVideo = function* (constraints: IInCompleteConstraints) {
+  let localMediaStream: MediaStream | null = null;
   try {
-    localMediaStream = await navigator.mediaDevices.getUserMedia({
-      video: constraints.video?.isOpened && constraints.video,
-    });
+    localMediaStream = yield call(
+      async () =>
+        await navigator.mediaDevices.getUserMedia({
+          video: constraints.video?.isOpened && constraints.video,
+        }),
+    );
+
+    yield put(OpenVideoStatus.action());
   } catch {
-    throw new Error(GetUserMediaError.NO_VIDEO);
+    yield put(CloseVideoStatus.action());
   }
 
   stopVideoTracks();
@@ -124,12 +140,20 @@ export const getUserVideo = async (constraints: IInCompleteConstraints) => {
   }
 };
 
-export const getUserDisplay = async () => {
-  let localDisplayStream: MediaStream;
+export const getUserDisplay = function* () {
+  let localDisplayStream: MediaStream | null = null;
   try {
-    localDisplayStream = await (navigator.mediaDevices as any).getDisplayMedia();
+    localDisplayStream = yield call(async () => await (navigator.mediaDevices as any).getDisplayMedia());
+
+    yield put(OpenScreenShareStatus.action());
   } catch {
-    throw new Error('NO_DISPLAY');
+    yield put(CloseScreenShareStatus.action());
+
+    if (videoSender) {
+      peerConnection?.removeTrack(videoSender);
+
+      setVideoSender(null);
+    }
   }
 
   stopScreenSharingTracks();
@@ -145,7 +169,7 @@ export function* getAndSendUserMedia(): SagaIterator {
 
   const constraints = { audio: audioConstraints, video: videoConstraints };
 
-  let localMediaStream: MediaStream;
+  let localMediaStream: MediaStream | null = null;
   try {
     localMediaStream = yield call(
       async () =>
@@ -168,17 +192,16 @@ export function* getAndSendUserMedia(): SagaIterator {
       yield put(CloseAudioStatus.action());
     }
   }
-  stopAllTracks();
+  yield call(stopAllTracks);
 
-  // @ts-ignore
   if (localMediaStream) {
     assignStreams(localMediaStream);
 
-    if (tracks.videoTracks.length > 0) {
-      videoSender = peerConnection?.addTrack(tracks.videoTracks[0], localMediaStream) as RTCRtpSender;
+    if (tracks.videoTrack) {
+      videoSender = peerConnection?.addTrack(tracks.videoTrack, localMediaStream) as RTCRtpSender;
     }
-    if (tracks.audioTracks.length > 0) {
-      audioSender = peerConnection?.addTrack(tracks.audioTracks[0], localMediaStream) as RTCRtpSender;
+    if (tracks.audioTrack) {
+      audioSender = peerConnection?.addTrack(tracks.audioTrack, localMediaStream) as RTCRtpSender;
     }
   }
 }

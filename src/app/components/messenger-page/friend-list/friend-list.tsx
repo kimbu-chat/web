@@ -26,7 +26,6 @@ export const FriendList = React.memo(() => {
 
   useEffect(() => {
     if (chatId) {
-      console.log('chatId', chatId);
       changeSelectedChat({ newChatId: Number(chatId), oldChatId: selectedChatId });
     }
   }, [chatId]);

@@ -1,13 +1,15 @@
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import { RootState } from 'app/store/root-reducer';
 import { eventChannel, buffers } from 'redux-saga';
-import { take, select, call, race, fork, cancel } from 'redux-saga/effects';
-import { getCallInterlocutorSelector, doIhaveCall } from 'app/store/calls/selectors';
+import { take, select, call, race, cancel, takeEvery } from 'redux-saga/effects';
+import { getCallInterlocutorSelector, amICalled, amICalling } from 'app/store/calls/selectors';
 import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/models';
 import { UserPreview } from 'app/store/my-profile/models';
 import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
+import { InterlocutorAcceptedCall } from '../features/interlocutor-accepted-call/interlocutor-accepted-call';
+import { AcceptCallSuccess } from '../features/accept-call/accept-call-success';
 import { CandidateApiRequest, RenegociateApiRequest } from '../models';
 import { assignInterlocurorVideoTrack, assignInterlocurorAudioTrack, setMakingOffer } from './user-media';
 import { CancelCall } from '../features/cancel-call/cancel-call';
@@ -49,78 +51,81 @@ export function* peerWatcher() {
   console.log('peer watcher spawned');
   const peerChannel = createPeerConnectionChannel();
 
-  const peerWatcherTask = yield fork(function* () {
-    while (true) {
-      const action: { type: string; event?: RTCPeerConnectionIceEvent | RTCTrackEvent } = yield take(peerChannel);
-      switch (action.type) {
-        case 'icecandidate': {
-          const myCandidate = (action.event as RTCPeerConnectionIceEvent).candidate;
-          const interlocutor: UserPreview = yield select(getCallInterlocutorSelector);
+  const peerWatcherTask = yield takeEvery(peerChannel, function* (action: { type: string; event?: RTCPeerConnectionIceEvent | RTCTrackEvent }) {
+    switch (action.type) {
+      case 'icecandidate': {
+        const myCandidate = (action.event as RTCPeerConnectionIceEvent).candidate;
+        const interlocutor: UserPreview = yield select(getCallInterlocutorSelector);
+        const inclomingCallActive = yield select(amICalled);
+        const outgoingCallActive = yield select(amICalling);
 
-          if (myCandidate) {
-            console.log('candidate sent');
-            const request: CandidateApiRequest = {
-              interlocutorId: interlocutor?.id || -1,
-              candidate: myCandidate,
-            };
-
-            if (myCandidate.port) {
-              console.log('JSON', myCandidate);
-            }
-
-            CallsHttpRequests.candidate.call(yield call(() => CallsHttpRequests.candidate.generator(request)));
-          }
-
-          break;
+        if (inclomingCallActive) {
+          yield take(AcceptCallSuccess.action);
         }
-        case 'negotiationneeded':
-          {
-            const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
-            const isCallActive: boolean = yield select(doIhaveCall);
-            const isVideoEnabled = yield select((state: RootState) => state.calls.videoConstraints.isOpened);
-            const isScreenSharingEnabled = yield select((state: RootState) => state.calls.isScreenSharingOpened);
-            console.log('negotiationneeded');
 
-            if (isCallActive) {
-              setMakingOffer(true);
-              const offer = yield call(
-                async () =>
-                  await peerConnection?.createOffer({
-                    offerToReceiveAudio: true,
-                    offerToReceiveVideo: true,
-                  }),
-              );
-              yield call(async () => await peerConnection?.setLocalDescription(offer));
+        if (outgoingCallActive) {
+          yield take(InterlocutorAcceptedCall.action);
+        }
 
-              const request: RenegociateApiRequest = {
-                offer,
-                interlocutorId,
-                isVideoEnabled: isVideoEnabled || isScreenSharingEnabled,
-              };
+        if (myCandidate) {
+          console.log('candidate sent');
+          const request: CandidateApiRequest = {
+            interlocutorId: interlocutor?.id || -1,
+            candidate: myCandidate,
+          };
 
-              CallsHttpRequests.renegociate.call(yield call(() => CallsHttpRequests.renegociate.generator(request)));
-              setMakingOffer(false);
-            }
-          }
-          break;
-        case 'track':
-          {
-            const { track } = action.event as RTCTrackEvent;
+          CallsHttpRequests.candidate.call(yield call(() => CallsHttpRequests.candidate.generator(request)));
+        }
 
-            if (track.kind === 'video') {
-              assignInterlocurorVideoTrack(track);
-              console.log('video track received');
-            }
-
-            if (track.kind === 'audio') {
-              assignInterlocurorAudioTrack(track);
-              console.log('audio track received');
-            }
-          }
-          break;
-        default:
-          break;
+        break;
       }
+      case 'negotiationneeded':
+        {
+          console.log('negotiationneeded');
+          const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
+
+          setMakingOffer(true);
+
+          const offer = yield call(
+            async () =>
+              await peerConnection?.createOffer({
+                offerToReceiveAudio: true,
+                offerToReceiveVideo: true,
+              }),
+          );
+          yield call(async () => await peerConnection?.setLocalDescription(offer));
+          console.log('local description set');
+
+          const isScreenSharingEnabled = yield select((state: RootState) => state.calls.isScreenSharingOpened);
+          const isVideoEnabled = yield select((state: RootState) => state.calls.videoConstraints.isOpened);
+          const request: RenegociateApiRequest = {
+            offer,
+            interlocutorId,
+            isVideoEnabled: isVideoEnabled || isScreenSharingEnabled,
+          };
+
+          CallsHttpRequests.renegociate.call(yield call(() => CallsHttpRequests.renegociate.generator(request)));
+          setMakingOffer(false);
+          console.log('reached end of negotiationneeded', peerConnection);
+        }
+        break;
+      case 'track':
+        {
+          const { track } = action.event as RTCTrackEvent;
+
+          if (track.kind === 'video') {
+            assignInterlocurorVideoTrack(track);
+            console.log('video track received');
+          }
+
+          if (track.kind === 'audio') {
+            assignInterlocurorAudioTrack(track);
+            console.log('audio track received');
+          }
+        }
+        break;
+      default:
+        break;
     }
   });
 
@@ -129,6 +134,8 @@ export function* peerWatcher() {
     callCanceled: take(CancelCall.action),
     callDeclined: take(DeclineCall.action),
   });
+
+  console.log('CANCEL-CANCEL-CANCEL-CANCEL-CANCEL');
 
   yield cancel(peerWatcherTask);
 

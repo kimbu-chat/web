@@ -12,7 +12,6 @@ import { AxiosResponse } from 'axios';
 import { getIsVideoEnabled } from 'app/store/calls/selectors';
 import { CallState, CallApiRequest, CallApiResponse } from '../../models';
 import { deviceUpdateWatcher } from '../../utils/device-update-watcher';
-import { peerWatcher } from '../../utils/peer-watcher';
 import { getAndSendUserMedia, getMediaDevicesList } from '../../utils/user-media';
 import { CancelCall } from '../cancel-call/cancel-call';
 import { ChangeActiveDeviceId } from '../change-active-device-id/change-active-device-id';
@@ -23,6 +22,7 @@ import { OutgoingCallActionPayload } from './outgoing-call-action-payload';
 import { InputType } from '../../common/enums/input-type';
 import { CallEnded } from '../end-call/call-ended';
 import { InterlocutorBusy } from '../interlocutor-busy/interlocutor-busy';
+import { peerWatcher } from '../../utils/peer-watcher';
 
 export class OutgoingCall {
   static get action() {
@@ -31,9 +31,13 @@ export class OutgoingCall {
 
   static get reducer() {
     return produce((draft: CallState, { payload }: ReturnType<typeof OutgoingCall.action>) => {
+      if (draft.isSpeaking) {
+        return draft;
+      }
+
       draft.interlocutor = payload.calling;
       draft.isInterlocutorBusy = false;
-      draft.amICaling = true;
+      draft.amICalling = true;
       draft.audioConstraints = { ...draft.audioConstraints, isOpened: payload.constraints.audioEnabled };
       draft.videoConstraints = { ...draft.videoConstraints, isOpened: payload.constraints.videoEnabled };
       return draft;
@@ -50,7 +54,6 @@ export class OutgoingCall {
       }
 
       createPeerConnection();
-      yield spawn(peerWatcher);
       yield spawn(deviceUpdateWatcher);
 
       // setup local stream
@@ -84,6 +87,7 @@ export class OutgoingCall {
         async () => await peerConnection?.createOffer({ offerToReceiveAudio: true, offerToReceiveVideo: true }),
       );
 
+      yield spawn(peerWatcher);
       yield call(async () => await peerConnection?.setLocalDescription(offer));
 
       const isVideoEnabled = yield select(getIsVideoEnabled);

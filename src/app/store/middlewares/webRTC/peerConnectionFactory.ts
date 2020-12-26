@@ -23,3 +23,5 @@ export const resetPeerConnection = () => {
   setVideoSender(null);
   setInterlocutorOffer(null);
 };
+
+setInterval(() => console.log(peerConnection?.connectionState), 1000);

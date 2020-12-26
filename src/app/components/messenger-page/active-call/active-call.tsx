@@ -2,7 +2,7 @@ import React, { useRef, useCallback, useEffect, useState, useContext } from 'rea
 import './active-call.scss';
 import { useSelector } from 'react-redux';
 import {
-  amICaling,
+  amICalling,
   doIhaveCall,
   getAudioConstraints,
   getAudioDevices,
@@ -50,7 +50,7 @@ export const ActiveCall: React.FC = () => {
   const audioDevices = useSelector(getAudioDevices);
   const videoDevices = useSelector(getVideoDevices);
   const isInterlocutorVideoEnabled = useSelector(getIsInterlocutorVideoEnabled);
-  const amICalingSomebody = useSelector(amICaling);
+  const amICallingSomebody = useSelector(amICalling);
   const amISpeaking = useSelector(doIhaveCall);
   const isInterlocutorBusy = useSelector(getIsInterlocutorBusy);
 
@@ -117,15 +117,15 @@ export const ActiveCall: React.FC = () => {
   // local video stream assigning
   useEffect(() => {
     const localVideoStream = new MediaStream();
-    if (tracks.videoTracks[0]) {
-      localVideoStream.addTrack(tracks.videoTracks[0]);
+    if (tracks.videoTrack) {
+      localVideoStream.addTrack(tracks.videoTrack);
       if (localVideoRef.current) {
         localVideoRef.current.pause();
         localVideoRef.current.srcObject = localVideoStream;
         localVideoRef.current.play();
       }
     }
-  }, [tracks.videoTracks[0]?.id]);
+  }, [tracks.videoTrack]);
 
   // component did mount effect
   useEffect(() => {
@@ -145,7 +145,7 @@ export const ActiveCall: React.FC = () => {
 
   // audio playing when outgoing call
   useEffect(() => {
-    if (amICalingSomebody && !isInterlocutorBusy) {
+    if (amICallingSomebody && !isInterlocutorBusy) {
       const audio = new Audio(callingBeep);
 
       audio.addEventListener('ended', audio.play, false);
@@ -169,7 +169,7 @@ export const ActiveCall: React.FC = () => {
     }
 
     return () => {};
-  }, [amICalingSomebody, isInterlocutorBusy]);
+  }, [amICallingSomebody, isInterlocutorBusy]);
 
   useEffect(() => {
     dragRef.current?.updatePosition(isFullScreen ? { x: 0, y: 0 } : { x: window.innerWidth / 2 - 120, y: window.innerHeight / 2 - 120 });
@@ -327,7 +327,7 @@ export const ActiveCall: React.FC = () => {
             type='button'
             className={`active-call__call-btn active-call__call-btn--end-call ${isFullScreen ? 'active-call__call-btn--big' : ''}`}
             onClick={() => {
-              if (amICalingSomebody || isInterlocutorBusy) {
+              if (amICallingSomebody || isInterlocutorBusy) {
                 cancelCall();
               } else {
                 endCall();

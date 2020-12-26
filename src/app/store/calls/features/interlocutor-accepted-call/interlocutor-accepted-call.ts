@@ -1,8 +1,9 @@
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import { SagaIterator } from 'redux-saga';
-import { call } from 'redux-saga/effects';
+import { call, spawn } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import produce from 'immer';
+import { peerWatcher } from '../../utils/peer-watcher';
 import { CallState, InterlocutorAcceptedCallActionPayload } from '../../models';
 
 export class InterlocutorAcceptedCall {
@@ -26,7 +27,7 @@ export class InterlocutorAcceptedCall {
     return function* callAcceptedSaga(action: ReturnType<typeof InterlocutorAcceptedCall.action>): SagaIterator {
       if (action.payload.answer) {
         yield call(async () => await peerConnection?.setRemoteDescription(action.payload.answer));
-        console.log('remote description set');
+        yield spawn(peerWatcher);
       }
     };
   }

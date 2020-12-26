@@ -2,12 +2,13 @@ import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFacto
 import { RootState } from 'app/store/root-reducer';
 import { eventChannel, buffers } from 'redux-saga';
 import { take, select, call, race, fork, cancel } from 'redux-saga/effects';
-import { getCallInterlocutorSelector, doIhaveCall } from 'app/store/calls/selectors';
+import { getCallInterlocutorSelector, doIhaveCall, amICalled } from 'app/store/calls/selectors';
 import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/models';
 import { UserPreview } from 'app/store/my-profile/models';
 import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
+import { AcceptCallSuccess } from '../features/accept-call/accept-call-success';
 import { CandidateApiRequest, RenegociateApiRequest } from '../models';
 import { assignInterlocurorVideoTrack, assignInterlocurorAudioTrack, setMakingOffer } from './user-media';
 import { CancelCall } from '../features/cancel-call/cancel-call';
@@ -56,6 +57,11 @@ export function* peerWatcher() {
         case 'icecandidate': {
           const myCandidate = (action.event as RTCPeerConnectionIceEvent).candidate;
           const interlocutor: UserPreview = yield select(getCallInterlocutorSelector);
+          const inclomingCallActive = yield select(amICalled);
+
+          if (inclomingCallActive) {
+            yield take(AcceptCallSuccess.action);
+          }
 
           if (myCandidate) {
             console.log('candidate sent');
@@ -63,10 +69,6 @@ export function* peerWatcher() {
               interlocutorId: interlocutor?.id || -1,
               candidate: myCandidate,
             };
-
-            if (myCandidate.port) {
-              console.log('JSON', myCandidate);
-            }
 
             CallsHttpRequests.candidate.call(yield call(() => CallsHttpRequests.candidate.generator(request)));
           }

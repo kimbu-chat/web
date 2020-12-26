@@ -1,4 +1,4 @@
-import { takeLatest, takeEvery, spawn } from 'redux-saga/effects';
+import { takeLatest, takeEvery, takeLeading } from 'redux-saga/effects';
 import { EndCall } from './features/end-call/end-call';
 import { CancelCall } from './features/cancel-call/cancel-call';
 import { AcceptCall } from './features/accept-call/accept-call';
@@ -29,9 +29,8 @@ export const CallsSagas = [
   takeLatest(CallEnded.action, CallEnded.saga),
   takeLatest(ChangeScreenShareStatus.action, ChangeScreenShareStatus.saga),
   takeLatest(SwitchDevice.action, SwitchDevice.saga),
-  takeEvery(ChangeMediaStatus.action, ChangeMediaStatus.saga),
+  takeLeading(ChangeMediaStatus.action, ChangeMediaStatus.saga),
   takeLatest(GetCalls.action, GetCalls.saga),
   takeLatest(IncomingCall.action, IncomingCall.saga),
   takeEvery(Renegotiation.action, Renegotiation.saga),
-  spawn(ChangeMediaStatus.saga),
 ];

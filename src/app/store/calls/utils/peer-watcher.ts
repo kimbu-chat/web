@@ -83,6 +83,7 @@ export function* peerWatcher() {
         }
         case 'negotiationneeded':
           {
+            console.log('negotiationneeded');
             const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
 
             setMakingOffer(true);
@@ -107,6 +108,7 @@ export function* peerWatcher() {
 
             CallsHttpRequests.renegociate.call(yield call(() => CallsHttpRequests.renegociate.generator(request)));
             setMakingOffer(false);
+            console.log('reached end of negotiationneeded');
           }
           break;
         case 'track':

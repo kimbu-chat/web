@@ -1,15 +1,12 @@
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { call, put, select } from 'redux-saga/effects';
+import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { getVideoConstraints, getAudioConstraints } from 'app/store/calls/selectors';
 import { CallState } from '../../models';
 import { getUserAudio, tracks, audioSender, getUserVideo, videoSender } from '../../utils/user-media';
-import { CloseAudioStatus } from '../change-user-media-status/close-audio-status';
-import { CloseVideoStatus } from '../change-user-media-status/close-video-status';
 import { SwitchDeviceActionPayload } from './switch-device-action-payload';
 import { InputType } from '../../common/enums/input-type';
-import { GetUserMediaError } from '../../common/enums/get-user-media-error';
 
 export class SwitchDevice {
   static get action() {
@@ -36,13 +33,7 @@ export class SwitchDevice {
       const audioConstraints = yield select(getAudioConstraints);
 
       if (action.payload.kind === InputType.audioInput && audioConstraints.isOpened) {
-        try {
-          yield call(getUserAudio, { audio: audioConstraints });
-        } catch (e) {
-          if (e.message === GetUserMediaError.NO_AUDIO) {
-            yield put(CloseAudioStatus.action());
-          }
-        }
+        yield call(getUserAudio, { audio: audioConstraints });
 
         if (tracks.audioTracks.length >= 0) {
           audioSender?.replaceTrack(tracks.audioTracks[0]);
@@ -50,13 +41,7 @@ export class SwitchDevice {
       }
 
       if (action.payload.kind === InputType.videoInput && videoConstraints.isOpened) {
-        try {
-          yield call(getUserVideo, { video: videoConstraints });
-        } catch (e) {
-          if (e.message === GetUserMediaError.NO_VIDEO) {
-            yield put(CloseVideoStatus.action());
-          }
-        }
+        yield call(getUserVideo, { video: videoConstraints });
 
         if (tracks.videoTracks.length > 0) {
           videoSender?.replaceTrack(tracks.videoTracks[0]);

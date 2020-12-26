@@ -49,7 +49,7 @@ export class ChangeMediaStatus {
 
           stopScreenSharingTracks();
           yield put(CloseScreenShareStatus.action());
-        } else if (tracks.videoTrack) {
+        } else {
           stopVideoTracks();
           yield put(CloseVideoStatus.action());
 

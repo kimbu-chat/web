@@ -1,5 +1,5 @@
 import { AuthService } from 'app/services/auth-service';
-import { put, fork, spawn, take, select, takeEvery } from 'redux-saga/effects';
+import { put, fork, spawn, take, select, takeEvery, cancel } from 'redux-saga/effects';
 import { SagaIterator, eventChannel } from 'redux-saga';
 import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
 import { FriendActions } from '../friends/actions';
@@ -34,7 +34,7 @@ function createVisibilityChannel() {
 function* watcher() {
   const visibilityChannel = createVisibilityChannel();
 
-  yield takeEvery(visibilityChannel, function* () {
+  const visibilityTask = yield takeEvery(visibilityChannel, function* () {
     const amIauthenticated = yield select(amIlogged);
 
     const action = amIauthenticated ? ChangeUserOnlineStatus.action(true) : ChangeUserOnlineStatus.action(false);
@@ -44,6 +44,7 @@ function* watcher() {
   yield take(Logout.action);
 
   visibilityChannel.close();
+  yield cancel(visibilityTask);
 
   console.log('visibilityChannel.close');
 }

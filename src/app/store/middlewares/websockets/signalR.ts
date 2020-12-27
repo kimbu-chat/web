@@ -19,10 +19,11 @@ import { IceCandidateSentEventHandler } from './integration-event-handlers/ice-c
 import { MessageEditedEventHandler } from './integration-event-handlers/message-edited-event-handler';
 import { MessagesDeletedIntegrationEventHandler } from './integration-event-handlers/messages-deleted-integration-event-handler';
 import { ChatClearedIntegrationEventHandler } from './integration-event-handlers/chat-cleared-integration-event-handler';
-import { RenegotiationEventHandler } from './integration-event-handlers/renegociation-event-hander';
+import { RenegotiationEventHandler } from './integration-event-handlers/renegotiation-event-hander';
 import { GroupChatEditedEventHandler } from './integration-event-handlers/group-chat-edited-integration-event-handler';
 import { MemberLeftGroupChatEventHandler } from './integration-event-handlers/member-left-group-chat-event-handler';
 import { ChatMutedStatusChangedEventHandler } from './integration-event-handlers/chat-mute-status-changed-event-handler';
+import { RenegotiationAcceptedEventHandler } from './integration-event-handlers/renegotiation-accepted-event-handler';
 
 let connection: HubConnection;
 
@@ -52,6 +53,7 @@ function openConnection(store: Store<RootState>): void {
   eventManager.registerEventHandler(EventsNames.CALL_ENDED, new CallEndedEventHandler());
   eventManager.registerEventHandler(EventsNames.ICE_CANDIDATE_SENT, new IceCandidateSentEventHandler());
   eventManager.registerEventHandler(EventsNames.RENEGOTIATION_SENT, new RenegotiationEventHandler());
+  eventManager.registerEventHandler(EventsNames.RENEGOTIATION_ACCEPTED, new RenegotiationAcceptedEventHandler());
 
   connection = new HubConnectionBuilder()
     .withUrl(`${ApiBasePath.NotificationsApi}/signalr`, {

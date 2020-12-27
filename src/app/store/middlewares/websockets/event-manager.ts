@@ -24,6 +24,7 @@ export enum EventsNames {
   INTERLOCUTOR_ACCEPTED_CALL = 'CallAccepted',
   CALL_ENDED = 'CallEnded',
   ICE_CANDIDATE_SENT = 'IceCandidateSent',
+  RENEGOTIATION_ACCEPTED = 'RenegotiationAccepted',
 }
 
 export class EventManager {

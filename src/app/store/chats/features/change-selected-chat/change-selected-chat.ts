@@ -1,4 +1,3 @@
-import { HTTPStatusCode } from 'app/common/http-status-code';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
 import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
@@ -48,35 +47,45 @@ export class ChangeSelectedChat {
 
           let chatList: GetChatsSuccessActionPayload;
 
-          if (chatIdDetails?.interlocutorType === InterlocutorType.GROUP_CHAT) {
-            const { data, status } = ChangeSelectedChat.httpRequest.getChat.call(
-              yield call(() => ChangeSelectedChat.httpRequest.getChat.generator({ chatId: action.payload.newChatId as number })),
-            );
+          let data: UserPreview | Chat;
 
-            if (status === HTTPStatusCode.OK) {
-              if (data.lastMessage) {
-                data.lastMessage.state =
-                  data.interlocutorLastReadMessageId && data.interlocutorLastReadMessageId >= Number(data?.lastMessage?.id)
+          try {
+            data = ChangeSelectedChat.httpRequest.getChat.call(
+              yield call(() => ChangeSelectedChat.httpRequest.getChat.generator({ chatId: action.payload.newChatId as number })),
+            ).data;
+          } catch {
+            data = ChangeSelectedChat.httpRequest.getUser.call(
+              yield call(() => ChangeSelectedChat.httpRequest.getUser.generator({ userId: action.payload.newChatId as number })),
+            ).data;
+          }
+
+          if (chatIdDetails?.interlocutorType === InterlocutorType.GROUP_CHAT) {
+            if (data) {
+              const chat = data as Chat;
+
+              if (chat.lastMessage) {
+                chat.lastMessage.state =
+                  chat.interlocutorLastReadMessageId && chat.interlocutorLastReadMessageId >= Number(chat?.lastMessage?.id)
                     ? MessageState.READ
                     : MessageState.SENT;
               }
 
-              data.interlocutorType = ChatId.fromId(data.id).interlocutorType;
-              data.typingInterlocutors = [];
-              data.photos = { photos: [], loading: false, hasMore: true };
-              data.videos = { videos: [], loading: false, hasMore: true };
-              data.files = { files: [], loading: false, hasMore: true };
-              data.audios = { audios: [], loading: false, hasMore: true };
-              data.draftMessage = '';
-              data.recordings = {
+              chat.interlocutorType = ChatId.fromId(chat.id).interlocutorType;
+              chat.typingInterlocutors = [];
+              chat.photos = { photos: [], loading: false, hasMore: true };
+              chat.videos = { videos: [], loading: false, hasMore: true };
+              chat.files = { files: [], loading: false, hasMore: true };
+              chat.audios = { audios: [], loading: false, hasMore: true };
+              chat.draftMessage = '';
+              chat.recordings = {
                 hasMore: true,
                 loading: false,
                 recordings: [],
               };
-              data.members = { searchMembers: [], members: [], loading: false, hasMore: true };
+              chat.members = { searchMembers: [], members: [], loading: false, hasMore: true };
 
               chatList = {
-                chats: [data],
+                chats: [chat],
                 hasMore,
                 initializedBySearch: false,
               };
@@ -88,59 +97,59 @@ export class ChangeSelectedChat {
             let interlocutor = yield select(getFriendById(chatIdDetails.userId));
 
             if (!interlocutor) {
-              interlocutor = ChangeSelectedChat.httpRequest.getUser.call(
-                yield call(() => ChangeSelectedChat.httpRequest.getUser.generator({ userId: action.payload.newChatId as number })),
-              ).data;
+              interlocutor = data;
             }
 
-            const requestedChat: Chat = {
-              id: chatIdDetails!.id,
-              draftMessage: '',
-              interlocutorType: InterlocutorType.USER,
-              unreadMessagesCount: 0,
-              interlocutorLastReadMessageId: 0,
-              interlocutor,
-              typingInterlocutors: [],
-              photos: {
-                hasMore: true,
-                loading: false,
-                photos: [],
-              },
-              videos: {
-                hasMore: true,
-                loading: false,
-                videos: [],
-              },
-              files: {
-                hasMore: true,
-                loading: false,
-                files: [],
-              },
-              members: {
-                hasMore: true,
-                loading: false,
-                members: [],
-                searchMembers: [],
-              },
-              recordings: {
-                hasMore: true,
-                loading: false,
-                recordings: [],
-              },
-              audios: {
-                hasMore: true,
-                loading: false,
-                audios: [],
-              },
-            };
-
-            if (interlocutor) {
-              chatList = {
-                chats: [requestedChat],
-                hasMore,
-                initializedBySearch: false,
+            if (data) {
+              const requestedChat: Chat = {
+                id: chatIdDetails!.id,
+                draftMessage: '',
+                interlocutorType: InterlocutorType.USER,
+                unreadMessagesCount: 0,
+                interlocutorLastReadMessageId: 0,
+                interlocutor,
+                typingInterlocutors: [],
+                photos: {
+                  hasMore: true,
+                  loading: false,
+                  photos: [],
+                },
+                videos: {
+                  hasMore: true,
+                  loading: false,
+                  videos: [],
+                },
+                files: {
+                  hasMore: true,
+                  loading: false,
+                  files: [],
+                },
+                members: {
+                  hasMore: true,
+                  loading: false,
+                  members: [],
+                  searchMembers: [],
+                },
+                recordings: {
+                  hasMore: true,
+                  loading: false,
+                  recordings: [],
+                },
+                audios: {
+                  hasMore: true,
+                  loading: false,
+                  audios: [],
+                },
               };
-              yield put(GetChatsSuccess.action(chatList));
+
+              if (interlocutor) {
+                chatList = {
+                  chats: [requestedChat],
+                  hasMore,
+                  initializedBySearch: false,
+                };
+                yield put(GetChatsSuccess.action(chatList));
+              }
             }
           }
         }

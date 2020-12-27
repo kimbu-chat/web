@@ -1,7 +1,7 @@
 import { createEmptyAction } from 'app/store/common/actions';
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import { buffers, END, eventChannel, SagaIterator } from 'redux-saga';
-import { call, put, race, select, spawn, take, takeEvery } from 'redux-saga/effects';
+import { call, cancel, put, race, select, spawn, take, takeEvery } from 'redux-saga/effects';
 import { getIsScreenSharingEnabled } from 'app/store/calls/selectors';
 import { tracks, stopScreenSharingTracks, videoSender, setVideoSender, getUserDisplay, stopVideoTracks } from '../../utils/user-media';
 import { CloseScreenShareStatus } from './close-screen-share-status';
@@ -39,7 +39,7 @@ export class ChangeScreenShareStatus {
     function* trackEndedWatcher() {
       const trackEndedChannel = createTrackEndedChannel();
 
-      yield takeEvery(trackEndedChannel, function* (action) {
+      const trackEndedTask = yield takeEvery(trackEndedChannel, function* (action) {
         if (action === true) {
           stopScreenSharingTracks();
           yield put(CloseScreenShareStatus.action());
@@ -63,6 +63,7 @@ export class ChangeScreenShareStatus {
       });
 
       trackEndedChannel.close();
+      yield cancel(trackEndedTask);
       console.log('trackEndedchannel.close');
     }
 

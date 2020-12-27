@@ -25,6 +25,7 @@ import { AcceptCallSuccess } from './features/accept-call/accept-call-success';
 import { OpenAudioStatus } from './features/change-user-media-status/open-audio-status';
 import { OpenVideoStatus } from './features/change-user-media-status/open-video-status';
 import { OpenScreenShareStatus } from './features/change-screen-share-status/open-screen-share-status';
+import { RenegotiationAccepted } from './features/renegotiation/renegotiation-accepted';
 
 export namespace CallActions {
   export const getCallsAction = GetCalls.action;
@@ -34,13 +35,13 @@ export namespace CallActions {
   export const changeActiveDeviceIdAction = ChangeActiveDeviceId.action;
   export const interlocutorBusyAction = InterlocutorBusy.action;
   export const cancelCallAction = CancelCall.action;
+  export const cancelCallSuccessAction = CancelCallSuccess.action;
   export const declineCallAction = DeclineCall.action;
   export const endCallAction = EndCall.action;
+  export const callEndedAction = CallEnded.action;
   export const timeoutCallAction = TimeoutCall.action;
-  export const cancelCallSuccessAction = CancelCallSuccess.action;
   export const acceptCallAction = AcceptCall.action;
   export const interlocutorAcceptedCallAction = InterlocutorAcceptedCall.action;
-  export const callEndedAction = CallEnded.action;
   export const candidateAction = Candidate.action;
   export const changeMediaStatusAction = ChangeMediaStatus.action;
   export const changeScreenShareStatusAction = ChangeScreenShareStatus.action;
@@ -54,4 +55,5 @@ export namespace CallActions {
   export const switchDeviceAction = SwitchDevice.action;
   export const acceptCallSuccessAction = AcceptCallSuccess.action;
   export const renegotiationAction = Renegotiation.action;
+  export const renegotiationAccepted = RenegotiationAccepted.action;
 }

@@ -47,14 +47,15 @@ export class ChangeSelectedChat {
 
           let chatList: GetChatsSuccessActionPayload;
 
-          let data: UserPreview | Chat;
+          let data: Chat | null = null;
+          let user: UserPreview | null = null;
 
           try {
             data = ChangeSelectedChat.httpRequest.getChat.call(
               yield call(() => ChangeSelectedChat.httpRequest.getChat.generator({ chatId: action.payload.newChatId as number })),
             ).data;
           } catch {
-            data = ChangeSelectedChat.httpRequest.getUser.call(
+            user = ChangeSelectedChat.httpRequest.getUser.call(
               yield call(() => ChangeSelectedChat.httpRequest.getUser.generator({ userId: action.payload.newChatId as number })),
             ).data;
           }
@@ -94,20 +95,20 @@ export class ChangeSelectedChat {
           }
 
           if (chatIdDetails?.interlocutorType === InterlocutorType.USER && chatIdDetails?.userId) {
-            let interlocutor = yield select(getFriendById(chatIdDetails.userId));
-
-            if (!interlocutor) {
-              interlocutor = data;
+            if (!(data || user)) {
+              user = yield select(getFriendById(chatIdDetails.userId));
             }
 
-            if (data) {
+            if (data || user) {
               const requestedChat: Chat = {
                 id: chatIdDetails!.id,
                 draftMessage: '',
+                lastMessage: data?.lastMessage,
+                isMuted: data?.isMuted || false,
                 interlocutorType: InterlocutorType.USER,
-                unreadMessagesCount: 0,
-                interlocutorLastReadMessageId: 0,
-                interlocutor,
+                unreadMessagesCount: data?.unreadMessagesCount || 0,
+                interlocutorLastReadMessageId: data?.interlocutorLastReadMessageId || 0,
+                interlocutor: (data?.interlocutor || user) as UserPreview,
                 typingInterlocutors: [],
                 photos: {
                   hasMore: true,
@@ -142,14 +143,19 @@ export class ChangeSelectedChat {
                 },
               };
 
-              if (interlocutor) {
-                chatList = {
-                  chats: [requestedChat],
-                  hasMore,
-                  initializedBySearch: false,
-                };
-                yield put(GetChatsSuccess.action(chatList));
+              if (requestedChat.lastMessage) {
+                requestedChat.lastMessage.state =
+                  requestedChat.interlocutorLastReadMessageId && requestedChat.interlocutorLastReadMessageId >= Number(requestedChat?.lastMessage?.id)
+                    ? MessageState.READ
+                    : MessageState.SENT;
               }
+
+              chatList = {
+                chats: [requestedChat],
+                hasMore,
+                initializedBySearch: false,
+              };
+              yield put(GetChatsSuccess.action(chatList));
             }
           }
         }

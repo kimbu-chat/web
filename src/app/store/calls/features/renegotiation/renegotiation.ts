@@ -65,6 +65,6 @@ export class Renegotiation {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, AcceptCallApiRequest>(`${ApiBasePath.MainApi}/api/calls/accept-call`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse, AcceptCallApiRequest>(`${ApiBasePath.MainApi}/api/calls/accept-renegotiation`, HttpRequestMethod.Post);
   }
 }

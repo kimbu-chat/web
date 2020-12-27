@@ -18,7 +18,7 @@ import { CallEnded } from '../features/end-call/call-ended';
 
 const CallsHttpRequests = {
   candidate: httpRequestFactory<AxiosResponse, CandidateApiRequest>(`${ApiBasePath.MainApi}/api/calls/send-ice-candidate`, HttpRequestMethod.Post),
-  renegociate: httpRequestFactory<AxiosResponse, RenegociateApiRequest>(`${ApiBasePath.MainApi}/api/calls/send-renegotiation`, HttpRequestMethod.Post),
+  renegotiate: httpRequestFactory<AxiosResponse, RenegociateApiRequest>(`${ApiBasePath.MainApi}/api/calls/send-renegotiation`, HttpRequestMethod.Post),
 };
 
 function createPeerConnectionChannel() {
@@ -104,7 +104,7 @@ export function* peerWatcher() {
             isVideoEnabled: isVideoEnabled || isScreenSharingEnabled,
           };
 
-          CallsHttpRequests.renegociate.call(yield call(() => CallsHttpRequests.renegociate.generator(request)));
+          CallsHttpRequests.renegotiate.call(yield call(() => CallsHttpRequests.renegotiate.generator(request)));
           setMakingOffer(false);
           console.log('reached end of negotiationneeded', peerConnection);
         }

@@ -1,8 +1,9 @@
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import { SagaIterator } from 'redux-saga';
-import { call } from 'redux-saga/effects';
+import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import produce from 'immer';
+import { doIhaveCall } from 'app/store/calls/selectors';
 import { CallState, InterlocutorAcceptedCallActionPayload } from '../../models';
 
 export class InterlocutorAcceptedCall {
@@ -12,7 +13,7 @@ export class InterlocutorAcceptedCall {
 
   static get reducer() {
     return produce((draft: CallState, { payload }: ReturnType<typeof InterlocutorAcceptedCall.action>) => {
-      if (payload.answer) {
+      if (payload.answer && draft.amICalling) {
         draft.isSpeaking = true;
         draft.amICalled = false;
         draft.amICalling = false;
@@ -26,7 +27,9 @@ export class InterlocutorAcceptedCall {
 
   static get saga() {
     return function* callAcceptedSaga(action: ReturnType<typeof InterlocutorAcceptedCall.action>): SagaIterator {
-      if (action.payload.answer) {
+      const callActive = yield select(doIhaveCall);
+
+      if (action.payload.answer && callActive) {
         yield call(async () => await peerConnection?.setRemoteDescription(action.payload.answer));
       }
     };

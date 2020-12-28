@@ -8,8 +8,7 @@ import { SagaIterator } from 'redux-saga';
 import { select, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { AcceptCallApiRequest, CallState } from '../../models';
-import { getCallInterlocutorIdSelector, getIsActiveCallIncoming, getVideoConstraints, getIsScreenSharingEnabled } from '../../selectors';
-import { makingOffer, isSettingRemoteAnswerPending, setIgnoreOffer, ignoreOffer, setIsSettingRemoteAnswerPending } from '../../utils/user-media';
+import { getCallInterlocutorIdSelector, getVideoConstraints, getIsScreenSharingEnabled } from '../../selectors';
 import { RenegotiationActionPayload } from './renegotiation-action-payload';
 
 export class Renegotiation {
@@ -32,21 +31,10 @@ export class Renegotiation {
       const interlocutorId: number = yield select(getCallInterlocutorIdSelector);
 
       if (interlocutorId === action.payload.userInterlocutorId) {
-        const polite = !(yield select(getIsActiveCallIncoming));
-        const readyForOffer = !makingOffer && (peerConnection?.signalingState === 'stable' || isSettingRemoteAnswerPending);
-        const offerCollision = !readyForOffer;
-
-        setIgnoreOffer(!polite && offerCollision);
-        if (ignoreOffer) {
-          return;
-        }
-
         const videoConstraints = yield select(getVideoConstraints);
         const isScreenSharingEnabled = yield select(getIsScreenSharingEnabled);
 
-        setIsSettingRemoteAnswerPending(true);
         yield call(async () => await peerConnection?.setRemoteDescription(action.payload.offer));
-        setIsSettingRemoteAnswerPending(false);
 
         const answer = yield call(async () => await peerConnection?.createAnswer());
         yield call(async () => await peerConnection?.setLocalDescription(answer));

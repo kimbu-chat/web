@@ -41,9 +41,6 @@ export class AcceptCall {
       createPeerConnection();
       yield spawn(deviceUpdateWatcher);
 
-      // setup local stream
-      yield call(getAndSendUserMedia);
-
       // gathering data about media devices
       if (audioConstraints.isOpened) {
         const audioDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.audioInput);
@@ -65,9 +62,12 @@ export class AcceptCall {
       //---
       const interlocutorId: number = yield select(getCallInterlocutorIdSelector);
 
-      yield spawn(peerWatcher);
       yield call(async () => await peerConnection?.setRemoteDescription(interlocutorOffer as RTCSessionDescriptionInit));
       console.log('remote description set');
+
+      // setup local stream
+      yield call(getAndSendUserMedia);
+      yield spawn(peerWatcher);
 
       const answer = yield call(async () => await peerConnection?.createAnswer());
       yield call(async () => await peerConnection?.setLocalDescription(answer));

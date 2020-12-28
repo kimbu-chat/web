@@ -11,7 +11,7 @@ import { AxiosResponse } from 'axios';
 import { InterlocutorAcceptedCall } from '../features/interlocutor-accepted-call/interlocutor-accepted-call';
 import { AcceptCallSuccess } from '../features/accept-call/accept-call-success';
 import { CandidateApiRequest, RenegociateApiRequest } from '../models';
-import { assignInterlocurorVideoTrack, assignInterlocurorAudioTrack, setMakingOffer } from './user-media';
+import { assignInterlocurorVideoTrack, assignInterlocurorAudioTrack } from './user-media';
 import { CancelCall } from '../features/cancel-call/cancel-call';
 import { DeclineCall } from '../features/decline-call/decline-call';
 import { CallEnded } from '../features/end-call/call-ended';
@@ -84,8 +84,6 @@ export function* peerWatcher() {
           console.log('negotiationneeded');
           const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
 
-          setMakingOffer(true);
-
           const offer = yield call(
             async () =>
               await peerConnection?.createOffer({
@@ -105,7 +103,7 @@ export function* peerWatcher() {
           };
 
           CallsHttpRequests.renegotiate.call(yield call(() => CallsHttpRequests.renegotiate.generator(request)));
-          setMakingOffer(false);
+
           console.log('reached end of negotiationneeded', peerConnection);
         }
         break;

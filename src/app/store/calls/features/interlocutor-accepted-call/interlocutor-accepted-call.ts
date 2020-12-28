@@ -13,14 +13,30 @@ export class InterlocutorAcceptedCall {
 
   static get reducer() {
     return produce((draft: CallState, { payload }: ReturnType<typeof InterlocutorAcceptedCall.action>) => {
-      if (payload.answer && draft.amICalling) {
-        draft.isSpeaking = true;
-        draft.amICalled = false;
-        draft.amICalling = false;
+      console.log(draft.interlocutor?.firstName);
 
-        draft.isActiveCallIncoming = false;
-        draft.isInterlocutorVideoEnabled = payload.isVideoEnabled;
+      if (!draft.isSpeaking) {
+        if (payload.answer && draft.amICalling) {
+          console.log('first instance');
+          draft.isSpeaking = true;
+          draft.amICalled = false;
+          draft.amICalling = false;
+          draft.isActiveCallIncoming = false;
+          draft.isInterlocutorVideoEnabled = payload.isVideoEnabled;
+        } else if (!draft.amICalling) {
+          console.log('second instance');
+          draft.interlocutor = undefined;
+          draft.isInterlocutorBusy = false;
+          draft.amICalling = false;
+          draft.amICalled = false;
+          draft.isSpeaking = false;
+          draft.isInterlocutorVideoEnabled = false;
+          draft.videoConstraints.isOpened = false;
+          draft.videoConstraints.isOpened = false;
+          draft.isScreenSharingOpened = false;
+        }
       }
+
       return draft;
     });
   }

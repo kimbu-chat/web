@@ -17,7 +17,6 @@ export class Candidate {
 
       try {
         if (action.payload.userInterlocutorId === interlocutorId) {
-          console.log('added');
           yield call(async () => await peerConnection?.addIceCandidate(new RTCIceCandidate(action.payload.candidate)));
         }
       } catch (err) {

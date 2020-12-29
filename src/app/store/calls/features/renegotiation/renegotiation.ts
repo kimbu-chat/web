@@ -3,27 +3,16 @@ import { HttpRequestMethod } from 'app/store/common/models';
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
-import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { select, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { AcceptCallApiRequest, CallState } from '../../models';
+import { AcceptCallApiRequest } from '../../models';
 import { getCallInterlocutorIdSelector, getVideoConstraints, getIsScreenSharingEnabled } from '../../selectors';
 import { RenegotiationActionPayload } from './renegotiation-action-payload';
 
 export class Renegotiation {
   static get action() {
     return createAction('RENEGOTIATION')<RenegotiationActionPayload>();
-  }
-
-  static get reducer() {
-    return produce((draft: CallState, { payload }: ReturnType<typeof Renegotiation.action>) => {
-      if (draft.interlocutor?.id === payload.userInterlocutorId) {
-        draft.isInterlocutorVideoEnabled = payload.isVideoEnabled;
-      }
-
-      return draft;
-    });
   }
 
   static get saga() {

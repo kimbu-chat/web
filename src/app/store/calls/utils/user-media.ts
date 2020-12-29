@@ -16,17 +16,17 @@ export const tracks: {
   screenSharingTrack: MediaStreamTrack | null;
 } = { videoTrack: null, audioTrack: null, screenSharingTrack: null };
 
-export let interlocurorVideoTrack: MediaStreamTrack;
-export let interlocurorAudioTrack: MediaStreamTrack;
+export let interlocutorVideoTrack: MediaStreamTrack | null;
+export let interlocutorAudioTrack: MediaStreamTrack | null;
 export let videoSender: RTCRtpSender | null;
 export let audioSender: RTCRtpSender | null;
 
-export const assignInterlocurorVideoTrack = (track: MediaStreamTrack) => {
-  interlocurorVideoTrack = track;
+export const assignInterlocutorVideoTrack = (track: MediaStreamTrack | null) => {
+  interlocutorVideoTrack = track;
 };
 
-export const assignInterlocurorAudioTrack = (track: MediaStreamTrack) => {
-  interlocurorAudioTrack = track;
+export const assignInterlocutorAudioTrack = (track: MediaStreamTrack | null) => {
+  interlocutorAudioTrack = track;
 };
 
 export const setVideoSender = (sender: RTCRtpSender | null) => {
@@ -135,9 +135,7 @@ export const getUserDisplay = function* () {
     yield put(CloseScreenShareStatus.action());
 
     if (videoSender) {
-      peerConnection?.removeTrack(videoSender);
-
-      setVideoSender(null);
+      videoSender.replaceTrack(null);
     }
   }
 

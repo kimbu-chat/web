@@ -26,6 +26,8 @@ import { OpenAudioStatus } from './features/change-user-media-status/open-audio-
 import { OpenVideoStatus } from './features/change-user-media-status/open-video-status';
 import { OpenScreenShareStatus } from './features/change-screen-share-status/open-screen-share-status';
 import { RenegotiationAccepted } from './features/renegotiation/renegotiation-accepted';
+import { CloseInterlocutorVideoStatus } from './features/change-interlocutor-media-status/close-interlocutor-video-status';
+import { OpenInterlocutorVideoStatus } from './features/change-interlocutor-media-status/open-interlocutor-video-status';
 
 export namespace CallActions {
   export const getCallsAction = GetCalls.action;
@@ -55,5 +57,7 @@ export namespace CallActions {
   export const switchDeviceAction = SwitchDevice.action;
   export const acceptCallSuccessAction = AcceptCallSuccess.action;
   export const renegotiationAction = Renegotiation.action;
-  export const renegotiationAccepted = RenegotiationAccepted.action;
+  export const renegotiationAcceptedAction = RenegotiationAccepted.action;
+  export const closeInterlocutorVideoStatusAction = CloseInterlocutorVideoStatus.action;
+  export const openInterlocutorVideoStatusAction = OpenInterlocutorVideoStatus.action;
 }

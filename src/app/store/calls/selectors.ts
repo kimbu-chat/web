@@ -17,6 +17,8 @@ export const getAudioConstraints = (state: RootState) => state.calls.audioConstr
 
 export const getIsActiveCallIncoming = (state: RootState) => state.calls.isActiveCallIncoming;
 
+export const getIsIncomingCallVideoEnabled = (state: RootState) => state.calls.isIncomingCallVideoEnbaled;
+
 export const getIsInterlocutorVideoEnabled = (state: RootState) => state.calls.isInterlocutorVideoEnabled;
 
 export const getIsInterlocutorBusy = (state: RootState) => state.calls.isInterlocutorBusy;

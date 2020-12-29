@@ -38,7 +38,7 @@ import callingBeep from 'app/assets/sounds/calls/outgoing-call.ogg';
 import busySound from 'app/assets/sounds/calls/busy-sound.ogg';
 import { LocalizationContext } from 'app/app';
 import { UserPreview } from 'store/my-profile/models';
-import { interlocurorAudioTrack, interlocurorVideoTrack, tracks } from 'app/store/calls/utils/user-media';
+import { interlocutorAudioTrack, interlocutorVideoTrack, tracks } from 'app/store/calls/utils/user-media';
 import { InputType } from 'app/store/calls/common/enums/input-type';
 import { Dropdown } from './dropdown/dropdown';
 
@@ -90,29 +90,29 @@ export const ActiveCall: React.FC = () => {
 
   useEffect(() => {
     if (remoteVideoRef.current) {
-      if (interlocurorVideoTrack) {
+      if (interlocutorVideoTrack) {
         const mediaStream = new MediaStream();
-        mediaStream.addTrack(interlocurorVideoTrack);
+        mediaStream.addTrack(interlocutorVideoTrack);
         remoteVideoRef.current.pause();
         remoteVideoRef.current.srcObject = mediaStream;
         remoteVideoRef.current.play();
         console.log('video');
       }
     }
-  }, [interlocurorVideoTrack, remoteVideoRef]);
+  }, [interlocutorVideoTrack, isInterlocutorVideoEnabled, remoteVideoRef]);
 
   useEffect(() => {
     if (remoteAudioRef.current) {
-      if (interlocurorAudioTrack) {
+      if (interlocutorAudioTrack) {
         const mediaStream = new MediaStream();
-        mediaStream.addTrack(interlocurorAudioTrack);
+        mediaStream.addTrack(interlocutorAudioTrack);
         remoteAudioRef.current.pause();
         remoteAudioRef.current.srcObject = mediaStream;
         remoteAudioRef.current.play();
         console.log('audio');
       }
     }
-  }, [interlocurorAudioTrack, remoteAudioRef]);
+  }, [interlocutorAudioTrack, remoteAudioRef]);
 
   // local video stream assigning
   useEffect(() => {

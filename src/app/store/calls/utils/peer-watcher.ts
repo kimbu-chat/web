@@ -1,20 +1,22 @@
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import { RootState } from 'app/store/root-reducer';
 import { eventChannel, buffers } from 'redux-saga';
-import { take, select, call, race, cancel, takeEvery } from 'redux-saga/effects';
+import { take, select, call, race, cancel, takeEvery, put } from 'redux-saga/effects';
 import { getCallInterlocutorSelector, amICalled, amICalling } from 'app/store/calls/selectors';
 import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/models';
 import { UserPreview } from 'app/store/my-profile/models';
 import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
+import { OpenInterlocutorVideoStatus } from '../features/change-interlocutor-media-status/open-interlocutor-video-status';
 import { InterlocutorAcceptedCall } from '../features/interlocutor-accepted-call/interlocutor-accepted-call';
 import { AcceptCallSuccess } from '../features/accept-call/accept-call-success';
 import { CandidateApiRequest, RenegociateApiRequest } from '../models';
-import { assignInterlocurorVideoTrack, assignInterlocurorAudioTrack } from './user-media';
+import { assignInterlocutorVideoTrack, assignInterlocutorAudioTrack, interlocutorVideoTrack } from './user-media';
 import { CancelCall } from '../features/cancel-call/cancel-call';
 import { DeclineCall } from '../features/decline-call/decline-call';
 import { CallEnded } from '../features/end-call/call-ended';
+import { CloseInterlocutorVideoStatus } from '../features/change-interlocutor-media-status/close-interlocutor-video-status';
 
 const CallsHttpRequests = {
   candidate: httpRequestFactory<AxiosResponse, CandidateApiRequest>(`${ApiBasePath.MainApi}/api/calls/send-ice-candidate`, HttpRequestMethod.Post),
@@ -32,7 +34,23 @@ function createPeerConnectionChannel() {
     };
 
     const onTrack = (event: RTCTrackEvent) => {
-      emit({ type: 'track', event });
+      if (event.track.kind === 'video') {
+        console.log('videoTrackReceived');
+        event.track.onunmute = () => {
+          console.log('videoTrackUnmuted');
+          emit({ type: 'videoTrackUnmuted', event });
+        };
+
+        event.track.onmute = () => {
+          console.log('videoTrackMuted');
+          emit({ type: 'videoTrackMuted' });
+        };
+      }
+
+      if (event.track.kind === 'audio') {
+        emit({ type: 'audioTrack', event });
+        console.log('audioTrack');
+      }
     };
 
     peerConnection?.addEventListener('icecandidate', onIceCandidate);
@@ -60,6 +78,7 @@ export function* peerWatcher() {
         const outgoingCallActive = yield select(amICalling);
 
         if (inclomingCallActive) {
+          // console.log('inclomingCallActive');
           yield take(AcceptCallSuccess.action);
         }
 
@@ -107,20 +126,26 @@ export function* peerWatcher() {
           console.log('reached end of negotiationneeded', peerConnection);
         }
         break;
-      case 'track':
+      case 'audioTrack':
         {
           const { track } = action.event as RTCTrackEvent;
 
-          if (track.kind === 'video') {
-            assignInterlocurorVideoTrack(track);
-            console.log('video track received');
+          assignInterlocutorAudioTrack(track);
+        }
+        break;
+      case 'videoTrackUnmuted':
+        {
+          const { track } = action.event as RTCTrackEvent;
+
+          if (!interlocutorVideoTrack) {
+            assignInterlocutorVideoTrack(track);
           }
 
-          if (track.kind === 'audio') {
-            assignInterlocurorAudioTrack(track);
-            console.log('audio track received');
-          }
+          yield put(OpenInterlocutorVideoStatus.action());
         }
+        break;
+      case 'videoTrackMuted':
+        yield put(CloseInterlocutorVideoStatus.action());
         break;
       default:
         break;

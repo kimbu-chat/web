@@ -5,6 +5,7 @@ import { InputType } from './common/enums/input-type';
 
 export interface CallState {
   isActiveCallIncoming?: boolean;
+  isIncomingCallVideoEnbaled?: boolean;
   isInterlocutorVideoEnabled: boolean;
   isInterlocutorBusy: boolean;
   interlocutor?: UserPreview;

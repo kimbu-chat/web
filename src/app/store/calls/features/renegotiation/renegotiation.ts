@@ -6,8 +6,10 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { select, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+import { getIsActiveCallIncoming, getCallInterlocutorIdSelector, getVideoConstraints, getIsScreenSharingEnabled } from '../../selectors';
 import { AcceptCallApiRequest } from '../../models';
-import { getCallInterlocutorIdSelector, getVideoConstraints, getIsScreenSharingEnabled } from '../../selectors';
+
+import { makingOffer, isSettingRemoteAnswerPending, setIgnoreOffer, ignoreOffer } from '../../utils/glare-utils';
 import { RenegotiationActionPayload } from './renegotiation-action-payload';
 
 export class Renegotiation {
@@ -17,7 +19,16 @@ export class Renegotiation {
 
   static get saga() {
     return function* negociationSaga(action: ReturnType<typeof Renegotiation.action>): SagaIterator {
+      const polite = yield select(getIsActiveCallIncoming);
       const interlocutorId: number = yield select(getCallInterlocutorIdSelector);
+      const readyForOffer = !makingOffer && (peerConnection?.signalingState === 'stable' || isSettingRemoteAnswerPending);
+      const offerCollision = !readyForOffer;
+
+      setIgnoreOffer(!polite && offerCollision);
+      if (ignoreOffer) {
+        console.log('oofeerr IGNORED');
+        return;
+      }
 
       if (interlocutorId === action.payload.userInterlocutorId) {
         const videoConstraints = yield select(getVideoConstraints);

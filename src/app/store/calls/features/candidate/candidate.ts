@@ -3,6 +3,7 @@ import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { getCallInterlocutorIdSelector } from '../../selectors';
+import { ignoreOffer } from '../../utils/glare-utils';
 import { CandidateActionPayload } from './candidate-action-payload';
 
 export class Candidate {
@@ -15,7 +16,14 @@ export class Candidate {
       const interlocutorId = yield select(getCallInterlocutorIdSelector);
 
       if (action.payload.userInterlocutorId === interlocutorId) {
-        yield call(async () => await peerConnection?.addIceCandidate(new RTCIceCandidate(action.payload.candidate)));
+        try {
+          yield call(async () => await peerConnection?.addIceCandidate(new RTCIceCandidate(action.payload.candidate)));
+        } catch (err) {
+          if (!ignoreOffer) {
+            console.log('offer is ignored and candidate error is catched');
+            throw err;
+          } // Suppress ignored offer's candidates
+        }
       }
     };
   }

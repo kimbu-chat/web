@@ -17,6 +17,7 @@ import { CancelCall } from '../features/cancel-call/cancel-call';
 import { DeclineCall } from '../features/decline-call/decline-call';
 import { CallEnded } from '../features/end-call/call-ended';
 import { CloseInterlocutorVideoStatus } from '../features/change-interlocutor-media-status/close-interlocutor-video-status';
+import { setMakingOffer } from './glare-utils';
 
 const CallsHttpRequests = {
   candidate: httpRequestFactory<AxiosResponse, CandidateApiRequest>(`${ApiBasePath.MainApi}/api/calls/send-ice-candidate`, HttpRequestMethod.Post),
@@ -100,9 +101,9 @@ export function* peerWatcher() {
       }
       case 'negotiationneeded':
         {
-          console.log('negotiationneeded');
           const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
 
+          setMakingOffer(true);
           const offer = yield call(
             async () =>
               await peerConnection?.createOffer({
@@ -113,15 +114,14 @@ export function* peerWatcher() {
           yield call(async () => await peerConnection?.setLocalDescription(offer));
           console.log('local description set');
 
-          const isScreenSharingEnabled = yield select((state: RootState) => state.calls.isScreenSharingOpened);
-          const isVideoEnabled = yield select((state: RootState) => state.calls.videoConstraints.isOpened);
           const request: RenegociateApiRequest = {
             offer,
             interlocutorId,
-            isVideoEnabled: isVideoEnabled || isScreenSharingEnabled,
+            isVideoEnabled: false,
           };
 
           CallsHttpRequests.renegotiate.call(yield call(() => CallsHttpRequests.renegotiate.generator(request)));
+          setMakingOffer(false);
 
           console.log('reached end of negotiationneeded', peerConnection);
         }

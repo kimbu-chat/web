@@ -1,4 +1,4 @@
-import { setVideoSender, stopAllTracks } from '../../calls/utils/user-media';
+import { assignInterlocutorVideoTrack, assignInterlocutorAudioTrack, setVideoSender, stopAllTracks } from '../../calls/utils/user-media';
 
 export const peerConfiguration = {
   iceServers: [{ urls: 'stun:stun.l.google.com:19302' }],
@@ -22,6 +22,8 @@ export const resetPeerConnection = () => {
   peerConnection = null;
   setVideoSender(null);
   setInterlocutorOffer(null);
+  assignInterlocutorVideoTrack(null);
+  assignInterlocutorAudioTrack(null);
 };
 
 setInterval(() => console.log(peerConnection?.connectionState), 1000);

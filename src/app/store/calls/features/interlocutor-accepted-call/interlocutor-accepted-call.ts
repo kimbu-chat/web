@@ -15,14 +15,13 @@ export class InterlocutorAcceptedCall {
     return produce((draft: CallState, { payload }: ReturnType<typeof InterlocutorAcceptedCall.action>) => {
       console.log(draft.interlocutor?.firstName);
 
-      if (!draft.isSpeaking) {
+      if (!draft.isSpeaking && !draft.amICalled) {
         if (payload.answer && draft.amICalling) {
           console.log('first instance');
           draft.isSpeaking = true;
           draft.amICalled = false;
           draft.amICalling = false;
           draft.isActiveCallIncoming = false;
-          draft.isInterlocutorVideoEnabled = payload.isVideoEnabled;
         } else if (!draft.amICalling) {
           console.log('second instance');
           draft.interlocutor = undefined;
@@ -35,6 +34,12 @@ export class InterlocutorAcceptedCall {
           draft.videoConstraints.isOpened = false;
           draft.isScreenSharingOpened = false;
         }
+      } else if (draft.amICalled) {
+        console.log('third instance');
+        draft.isActiveCallIncoming = true;
+        draft.isSpeaking = true;
+        draft.amICalled = false;
+        draft.amICalling = false;
       }
 
       return draft;

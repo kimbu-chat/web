@@ -56,9 +56,8 @@ export class ChangeMediaStatus {
           console.log('video off');
 
           if (videoSender) {
-            peerConnection?.removeTrack(videoSender);
+            videoSender.replaceTrack(null);
             console.log('video track removed');
-            setVideoSender(null);
           }
         }
 

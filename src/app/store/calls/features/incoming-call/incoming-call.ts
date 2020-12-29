@@ -12,7 +12,7 @@ export class IncomingCall {
 
   static get reducer() {
     return produce((draft: CallState, { payload }: ReturnType<typeof IncomingCall.action>) => {
-      draft.isInterlocutorVideoEnabled = payload.isVideoEnabled;
+      draft.isIncomingCallVideoEnbaled = payload.isVideoEnabled;
       const interlocutor = payload.userInterlocutor;
       draft.interlocutor = interlocutor;
       draft.amICalled = true;

@@ -3,12 +3,13 @@ import { HttpRequestMethod } from 'app/store/common/models';
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
-import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { select, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { AcceptCallApiRequest, CallState } from '../../models';
-import { getCallInterlocutorIdSelector, getVideoConstraints, getIsScreenSharingEnabled } from '../../selectors';
+import { getIsActiveCallIncoming, getCallInterlocutorIdSelector, getVideoConstraints, getIsScreenSharingEnabled } from '../../selectors';
+import { AcceptCallApiRequest } from '../../models';
+
+import { makingOffer, isSettingRemoteAnswerPending, setIgnoreOffer, ignoreOffer } from '../../utils/glare-utils';
 import { RenegotiationActionPayload } from './renegotiation-action-payload';
 
 export class Renegotiation {
@@ -16,19 +17,18 @@ export class Renegotiation {
     return createAction('RENEGOTIATION')<RenegotiationActionPayload>();
   }
 
-  static get reducer() {
-    return produce((draft: CallState, { payload }: ReturnType<typeof Renegotiation.action>) => {
-      if (draft.interlocutor?.id === payload.userInterlocutorId) {
-        draft.isInterlocutorVideoEnabled = payload.isVideoEnabled;
-      }
-
-      return draft;
-    });
-  }
-
   static get saga() {
     return function* negociationSaga(action: ReturnType<typeof Renegotiation.action>): SagaIterator {
+      const polite = yield select(getIsActiveCallIncoming);
       const interlocutorId: number = yield select(getCallInterlocutorIdSelector);
+      const readyForOffer = !makingOffer && (peerConnection?.signalingState === 'stable' || isSettingRemoteAnswerPending);
+      const offerCollision = !readyForOffer;
+
+      setIgnoreOffer(!polite && offerCollision);
+      if (ignoreOffer) {
+        console.log('oofeerr IGNORED');
+        return;
+      }
 
       if (interlocutorId === action.payload.userInterlocutorId) {
         const videoConstraints = yield select(getVideoConstraints);

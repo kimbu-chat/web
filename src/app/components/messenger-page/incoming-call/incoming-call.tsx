@@ -3,7 +3,7 @@ import './incoming-call.scss';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { CallActions } from 'store/calls/actions';
 import { useSelector } from 'react-redux';
-import { getCallInterlocutorSelector, getIsInterlocutorVideoEnabled } from 'store/calls/selectors';
+import { getCallInterlocutorSelector, getIsIncomingCallVideoEnabled } from 'store/calls/selectors';
 import { Avatar } from 'components';
 import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 
@@ -24,7 +24,7 @@ export const IncomingCall: React.FC = () => {
   const acceptCall = useActionWithDispatch(CallActions.acceptCallAction);
 
   const interlocutor = useSelector(getCallInterlocutorSelector);
-  const isCallingWithVideo = useSelector(getIsInterlocutorVideoEnabled);
+  const isIncomingCallVideoEnabled = useSelector(getIsIncomingCallVideoEnabled);
 
   useEffect(() => {
     // repeatable playing beep-beep
@@ -71,7 +71,7 @@ export const IncomingCall: React.FC = () => {
         </Avatar>
         <div className='incoming-call__info'>
           <h1 className='incoming-call__calling-name'>{`${interlocutor?.firstName} ${interlocutor?.lastName}`}</h1>
-          <h3 className='incoming-call__additional-data'>{isCallingWithVideo ? t('incomingCall.incoming_video') : t('incomingCall.incoming_audio')}</h3>
+          <h3 className='incoming-call__additional-data'>{isIncomingCallVideoEnabled ? t('incomingCall.incoming_video') : t('incomingCall.incoming_audio')}</h3>
         </div>
         <div className='incoming-call__right-btns'>
           <button type='button' onClick={acceptWithAudio} className='incoming-call__call-btn incoming-call__call-btn--accept'>

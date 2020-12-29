@@ -35,10 +35,12 @@ export class AcceptCall {
 
   static get saga() {
     return function* acceptCallSaga(): SagaIterator {
+      createPeerConnection();
+      yield spawn(peerWatcher);
+
       const videoConstraints = yield select(getVideoConstraints);
       const audioConstraints = yield select(getAudioConstraints);
 
-      createPeerConnection();
       yield spawn(deviceUpdateWatcher);
 
       // gathering data about media devices
@@ -67,7 +69,6 @@ export class AcceptCall {
 
       // setup local stream
       yield call(getAndSendUserMedia);
-      yield spawn(peerWatcher);
 
       const answer = yield call(async () => await peerConnection?.createAnswer());
       yield call(async () => await peerConnection?.setLocalDescription(answer));

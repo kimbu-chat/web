@@ -3,8 +3,8 @@ import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { doIhaveCall } from 'app/store/calls/selectors';
+import { setIsRenegotiationAccepted, setIgnoreOffer, setIsSettingRemoteAnswerPending } from '../../utils/glare-utils';
 import { RenegotiationAcceptedActionPayload } from './renegotiation-accepted-action-payload';
-import { setIgnoreOffer, setIsSettingRemoteAnswerPending } from '../../utils/glare-utils';
 
 export class RenegotiationAccepted {
   static get action() {
@@ -16,6 +16,7 @@ export class RenegotiationAccepted {
       const callActive = yield select(doIhaveCall);
 
       if (action.payload.answer && callActive) {
+        setIsRenegotiationAccepted(true);
         setIgnoreOffer(false);
 
         setIsSettingRemoteAnswerPending(false);

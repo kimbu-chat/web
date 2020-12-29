@@ -11,3 +11,11 @@ export const setIgnoreOffer = (newValue: boolean) => {
 export const setIsSettingRemoteAnswerPending = (newValue: boolean) => {
   isSettingRemoteAnswerPending = newValue;
 };
+
+// renegotiation
+
+export let isRenegotiationAccepted = true;
+
+export const setIsRenegotiationAccepted = (newValue: boolean) => {
+  isRenegotiationAccepted = newValue;
+};

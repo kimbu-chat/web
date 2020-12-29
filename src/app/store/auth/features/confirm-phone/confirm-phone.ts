@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { put, call } from 'redux-saga/effects';
+import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { authRequestFactory } from 'app/store/common/http-factory';
 import { ApiBasePath } from 'app/store/root-api';

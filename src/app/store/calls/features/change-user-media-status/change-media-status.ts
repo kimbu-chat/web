@@ -1,19 +1,19 @@
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import { SagaIterator } from 'redux-saga';
-import { select, put, call } from 'redux-saga/effects';
+import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { getVideoConstraints, getAudioConstraints } from 'app/store/calls/selectors';
+import { getAudioConstraints, getVideoConstraints } from 'app/store/calls/selectors';
 import {
-  getUserVideo,
-  videoSender,
-  tracks,
-  setVideoSender,
-  stopScreenSharingTracks,
-  stopVideoTracks,
+  audioSender,
   getMediaDevicesList,
   getUserAudio,
-  audioSender,
+  getUserVideo,
+  setVideoSender,
   stopAudioTracks,
+  stopScreenSharingTracks,
+  stopVideoTracks,
+  tracks,
+  videoSender,
 } from '../../utils/user-media';
 import { ChangeActiveDeviceId } from '../change-active-device-id/change-active-device-id';
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';

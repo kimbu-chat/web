@@ -4,7 +4,7 @@ import { HttpRequestMethod } from 'app/store/common/models';
 import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
-import { put, call } from 'redux-saga/effects';
+import { call, put } from 'redux-saga/effects';
 import { createEmptyAction } from '../../../common/actions';
 import { LoginResponse } from '../../models';
 import { RefreshTokenFailure } from './refresh-token-failure';

@@ -7,7 +7,7 @@ import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { ChatId } from '../../chat-id';
-import { ChatsState, Chat, GetChatsRequestData, InterlocutorType } from '../../models';
+import { Chat, ChatsState, GetChatsRequestData, InterlocutorType } from '../../models';
 import { GetChatsActionPayload } from './get-chats-action-payload';
 import { GetChatsSuccess } from './get-chats-success';
 import { GetChatsSuccessActionPayload } from './get-chats-success-action-payload';

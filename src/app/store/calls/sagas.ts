@@ -1,4 +1,4 @@
-import { takeLatest, takeEvery, takeLeading } from 'redux-saga/effects';
+import { takeEvery, takeLatest, takeLeading } from 'redux-saga/effects';
 import { EndCall } from './features/end-call/end-call';
 import { CancelCall } from './features/cancel-call/cancel-call';
 import { AcceptCall } from './features/accept-call/accept-call';

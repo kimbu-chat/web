@@ -1,5 +1,5 @@
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
-import { getVideoConstraints, getAudioConstraints } from 'app/store/calls/selectors';
+import { getAudioConstraints, getVideoConstraints } from 'app/store/calls/selectors';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { CloseScreenShareStatus } from '../features/change-screen-share-status/close-screen-share-status';

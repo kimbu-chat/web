@@ -6,7 +6,7 @@ import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { put, call, select } from 'redux-saga/effects';
+import { call, put, select } from 'redux-saga/effects';
 import { AuthState } from '../../models';
 import { getAuthPhoneNumber } from '../../selectors';
 import { SendSmsCodeFailure } from './send-sms-code-failure';

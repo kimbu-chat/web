@@ -1,5 +1,5 @@
 import { BrowserStorage } from 'app/utils/browser-storage';
-import { UserSettings, OptionalUserSettings } from '../store/settings/models';
+import { UserSettings, OptionalUserSettings } from 'store/settings/models';
 
 export class SettingsService {
   private readonly userSettings = 'userSettings';

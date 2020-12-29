@@ -12,9 +12,9 @@ import { PublicRoute } from 'app/routing/private-route';
 import { PrivateRoute } from 'app/routing/public-route';
 
 import { i18n, TFunction } from 'i18next';
+import { amIlogged, getAuthPhoneNumber, getregistrationAllowed } from 'store/auth/selectors';
 import { CubeLoader } from './containers/cube-loader/cube-loader';
 import { loadPhoneConfirmation, loadCodeConfirmation, loadMessenger, loadNotFound, loadRegistration } from './routing/module-loader';
-import { amIlogged, getAuthPhoneNumber, getregistrationAllowed } from './store/auth/selectors';
 
 const ConfirmPhone = lazy(loadPhoneConfirmation);
 const ConfirmCode = lazy(loadCodeConfirmation);

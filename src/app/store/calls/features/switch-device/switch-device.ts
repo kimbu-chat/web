@@ -2,9 +2,9 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { getVideoConstraints, getAudioConstraints } from 'app/store/calls/selectors';
+import { getAudioConstraints, getVideoConstraints } from 'app/store/calls/selectors';
 import { CallState } from '../../models';
-import { getUserAudio, tracks, audioSender, getUserVideo, videoSender } from '../../utils/user-media';
+import { audioSender, getUserAudio, getUserVideo, tracks, videoSender } from '../../utils/user-media';
 import { SwitchDeviceActionPayload } from './switch-device-action-payload';
 import { InputType } from '../../common/enums/input-type';
 

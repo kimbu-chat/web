@@ -7,7 +7,7 @@ import { RootState } from 'app/store/root-reducer';
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { select, call } from 'redux-saga/effects';
+import { call, select } from 'redux-saga/effects';
 import { CallState, EndCallApiRequest } from '../../models';
 
 export class EndCall {

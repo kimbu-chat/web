@@ -4,12 +4,12 @@ import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFacto
 import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
-import { select, call } from 'redux-saga/effects';
+import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { getIsActiveCallIncoming, getCallInterlocutorIdSelector, getVideoConstraints, getIsScreenSharingEnabled } from '../../selectors';
+import { getCallInterlocutorIdSelector, getIsActiveCallIncoming, getIsScreenSharingEnabled, getVideoConstraints } from '../../selectors';
 import { AcceptCallApiRequest } from '../../models';
 
-import { makingOffer, isSettingRemoteAnswerPending, setIgnoreOffer, ignoreOffer } from '../../utils/glare-utils';
+import { ignoreOffer, isSettingRemoteAnswerPending, makingOffer, setIgnoreOffer } from '../../utils/glare-utils';
 import { RenegotiationActionPayload } from './renegotiation-action-payload';
 
 export class Renegotiation {

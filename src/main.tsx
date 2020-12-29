@@ -6,8 +6,8 @@ import ReactDOM from 'react-dom';
 // import { Integrations } from '@sentry/tracing';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import { App } from 'app/app';
 import createStore from './app/store';
-import { App } from './app/app';
 
 // Sentry.init({
 // 	dsn: 'https://88240f4812e54397a554e2e35bc7ef32@o116167.ingest.sentry.io/5524434',

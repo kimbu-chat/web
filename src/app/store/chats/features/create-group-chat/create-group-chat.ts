@@ -1,6 +1,6 @@
 import { Meta } from 'app/store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
-import { SystemMessageType, MessageState } from 'app/store/messages/models';
+import { MessageState, SystemMessageType } from 'app/store/messages/models';
 import { ApiBasePath } from 'app/store/root-api';
 import { MessageUtils } from 'app/utils/message-utils';
 import { AxiosResponse } from 'axios';
@@ -9,7 +9,7 @@ import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { getSelectedChatIdSelector } from 'app/store/chats/selectors';
 import { ChatId } from '../../chat-id';
-import { GroupChatCreationHTTPReqData, Chat, InterlocutorType } from '../../models';
+import { Chat, GroupChatCreationHTTPReqData, InterlocutorType } from '../../models';
 import { ChangeSelectedChat } from '../change-selected-chat/change-selected-chat';
 import { CreateGroupChatActionPayload } from './create-group-chat-action-payload';
 import { CreateGroupChatSuccess } from './create-group-chat-success';

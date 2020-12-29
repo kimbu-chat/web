@@ -9,7 +9,7 @@ import { ChatActions } from 'store/chats/actions';
 import { getChats, getHasMoreChats, getChatsLoading } from 'app/store/chats/selectors';
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
 import { CHATS_LIMIT } from 'app/utils/pagination-limits';
-import { SearchBox } from '../search-box/search-box';
+import { SearchBox } from 'app/components';
 import { ForwardEntity } from './forward-entity/forward-entity';
 
 namespace ForwardModalNS {

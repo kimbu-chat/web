@@ -15,8 +15,7 @@ import { Page } from 'app/store/common/models';
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
 import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
 import { ChatId } from 'app/store/chats/chat-id';
-import { FriendFromList } from '../shared/friend-from-list/friend-from-list';
-import { SearchBox } from '../search-box/search-box';
+import { FriendFromList, SearchBox } from 'app/components';
 
 namespace NewChatModalNS {
   export interface Props {

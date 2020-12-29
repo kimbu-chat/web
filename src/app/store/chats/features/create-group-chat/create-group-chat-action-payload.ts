@@ -1,4 +1,4 @@
-import { UserPreview, UploadAvatarResponse } from 'app/store/my-profile/models';
+import { UploadAvatarResponse, UserPreview } from 'app/store/my-profile/models';
 
 export interface CreateGroupChatActionPayload {
   name: string;

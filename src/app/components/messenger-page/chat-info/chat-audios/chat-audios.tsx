@@ -14,7 +14,7 @@ import moment from 'moment';
 import { doesYearDifferFromCurrent, setSeparators } from 'app/utils/set-separators';
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
 import { AUDIO_ATTACHMENTS_LIMIT } from 'app/utils/pagination-limits';
-import { MessageAudioAttachment } from '../../shared/audio-attachment/audio-attachment';
+import { MessageAudioAttachment } from 'components';
 
 export const ChatAudios = React.memo(() => {
   const { t } = useContext(LocalizationContext);

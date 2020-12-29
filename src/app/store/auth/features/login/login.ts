@@ -9,7 +9,7 @@ import { UserPreview } from 'app/store/my-profile/models';
 import { AxiosResponse } from 'axios';
 import jwt_decode from 'jwt-decode';
 import { SagaIterator } from 'redux-saga';
-import { put, call, fork } from 'redux-saga/effects';
+import { call, fork, put } from 'redux-saga/effects';
 import { getPushNotificationTokens } from '../../get-push-notification-tokens';
 import { LoginResponse, PhoneConfirmationData, SecurityTokens } from '../../models';
 import { ConfirmPhone } from '../confirm-phone/confirm-phone';

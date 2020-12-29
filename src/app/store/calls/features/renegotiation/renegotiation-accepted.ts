@@ -3,7 +3,7 @@ import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { doIhaveCall } from 'app/store/calls/selectors';
-import { setIsRenegotiationAccepted, setIgnoreOffer, setIsSettingRemoteAnswerPending } from '../../utils/glare-utils';
+import { setIgnoreOffer, setIsRenegotiationAccepted, setIsSettingRemoteAnswerPending } from '../../utils/glare-utils';
 import { RenegotiationAcceptedActionPayload } from './renegotiation-accepted-action-payload';
 
 export class RenegotiationAccepted {

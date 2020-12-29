@@ -8,7 +8,7 @@ import { createAction } from 'typesafe-actions';
 import { getChatById, getHasMoreChats } from 'app/store/chats/selectors';
 import { getFriendById } from 'app/store/friends/selectors';
 import { MessageState } from 'app/store/messages/models';
-import { UserPreview } from '../../../my-profile/models';
+import { UserPreview } from 'store/my-profile/models';
 import { GetChatsSuccessActionPayload } from '../get-chats/get-chats-success-action-payload';
 import { ChatsState, Chat, GetChatByIdRequestData, InterlocutorType, GetUserByIdRequestData } from '../../models';
 import { GetChatsSuccess } from '../get-chats/get-chats-success';

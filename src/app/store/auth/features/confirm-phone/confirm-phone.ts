@@ -1,13 +1,13 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { put, call } from 'redux-saga/effects';
+import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { authRequestFactory } from 'app/store/common/http-factory';
 import { ApiBasePath } from 'app/store/root-api';
 import { Login } from 'app/store/auth/features/login/login';
-import { Meta } from '../../../common/actions';
-import { HttpRequestMethod } from '../../../common/models';
+import { Meta } from 'store/common/actions';
+import { HttpRequestMethod } from 'store/common/models';
 import { ConfirmPhoneFailure } from './confirm-phone-failure';
 import { AuthState, LoginResponse, PhoneConfirmationApiResponse, PhoneConfirmationData, SubscribeToPushNotificationsRequest } from '../../models';
 import { ConfirmPhoneActionPayload } from './confirm-phone-action-payload';

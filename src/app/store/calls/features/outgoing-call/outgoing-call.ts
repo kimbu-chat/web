@@ -10,7 +10,7 @@ import { RootState } from 'app/store/root-reducer';
 import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
 import { getIsVideoEnabled } from 'app/store/calls/selectors';
-import { CallState, CallApiRequest, CallApiResponse } from '../../models';
+import { CallApiRequest, CallApiResponse, CallState } from '../../models';
 import { deviceUpdateWatcher } from '../../utils/device-update-watcher';
 import { getAndSendUserMedia, getMediaDevicesList } from '../../utils/user-media';
 import { CancelCall } from '../cancel-call/cancel-call';

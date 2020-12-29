@@ -12,7 +12,7 @@ import { CheckNicknameAvailability } from 'app/store/my-profile/features/check-n
 import { CancelAvatarUploading } from 'app/store/my-profile/features/cancel-avatar-uploading/cancel-avatar-uploading';
 import { UploadAvatar } from 'app/store/my-profile/features/upload-avatar/upload-avatar';
 import { validateNickname } from 'app/utils/validate-nick-name';
-import { Avatar, BaseBtn, ChangePhoto, CircularProgress } from '../../components';
+import { Avatar, BaseBtn, ChangePhoto, CircularProgress } from 'components';
 
 namespace RegistrationNS {
   export interface Props {

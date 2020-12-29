@@ -1,9 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import './photo-attachment.scss';
 
-import { FadeAnimationWrapper } from 'components';
+import { FadeAnimationWrapper, BigPhoto } from 'components';
 import { PictureAttachment } from 'store/chats/models';
-import { BigPhoto } from '../../../shared/big-photo/big-photo';
 
 namespace PhotoAttachment {
   export interface Props {

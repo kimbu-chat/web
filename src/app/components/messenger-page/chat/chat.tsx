@@ -12,8 +12,7 @@ import { FadeAnimationWrapper } from 'components';
 import { ChatActions } from 'store/chats/actions';
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
 import { MESSAGES_LIMIT } from 'app/utils/pagination-limits';
-import { SelectedMessagesData } from '../selected-messages-data/selected-messages-data';
-import { MessageItem } from '../message-item/message-item';
+import { SelectedMessagesData, MessageItem } from 'app/components';
 
 const Chat = React.memo(() => {
   const getMessages = useActionWithDispatch(MessageActions.getMessages);

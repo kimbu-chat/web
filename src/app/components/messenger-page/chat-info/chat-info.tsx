@@ -12,8 +12,9 @@ import PhotoSvg from 'icons/ic-photo.svg';
 import { Route } from 'react-router';
 import { CSSTransition } from 'react-transition-group';
 import { MyProfileActions } from 'store/my-profile/actions';
-import { getInterlocutorInitials, getChatInterlocutor } from '../../../utils/interlocutor-name-utils';
+import { getInterlocutorInitials, getChatInterlocutor } from 'utils/interlocutor-name-utils';
 
+import { EditChatModal, GroupChatAddFriendModal, BigPhoto } from 'app/components';
 import { InterlocutorInfo } from './interlocutor-info/interlocutor-info';
 import { ChatActions as ChatInfoActions } from './chat-actions/chat-actions';
 import { ChatMembers } from './chat-members/chat-members';
@@ -21,11 +22,9 @@ import { ChatMedia } from './chat-media/chat-media';
 import { ChatPhoto } from './chat-photo/chat-photo';
 import { ChatVideo } from './chat-video/chat-video';
 
-import { EditChatModal } from '../edit-chat-modal/edit-chat-modal';
-import { GroupChatAddFriendModal } from '../group-chat-add-friend-modal/group-chat-add-friend-modal';
 import { ChatRecordings } from './chat-recordings/chat-recordings';
 import { ChatFiles } from './chat-files/chat-files';
-import { BigPhoto } from '../shared/big-photo/big-photo';
+
 import { ChatAudios } from './chat-audios/chat-audios';
 
 const ChatInfo: React.FC = React.memo(() => {

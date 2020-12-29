@@ -1,4 +1,4 @@
-import { createEmptyAction } from '../../../common/actions';
+import { createEmptyAction } from 'store/common/actions';
 
 export class SendSmsCodeFailure {
   static get action() {

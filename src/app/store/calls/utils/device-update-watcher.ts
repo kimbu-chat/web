@@ -1,6 +1,6 @@
 import { DeclineCall } from 'app/store/calls/features/decline-call/decline-call';
-import { eventChannel, buffers } from 'redux-saga';
-import { take, select, put, call, race, takeEvery, cancel } from 'redux-saga/effects';
+import { buffers, eventChannel } from 'redux-saga';
+import { call, cancel, put, race, select, take, takeEvery } from 'redux-saga/effects';
 import { getAudioDevices } from 'app/store/calls/selectors';
 import { getMediaDevicesList } from './user-media';
 import { ChangeMediaStatus } from '../features/change-user-media-status/change-media-status';

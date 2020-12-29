@@ -17,7 +17,7 @@ import ChatInfoSvg from 'icons/ic-info.svg';
 import { useLocation } from 'react-router';
 import { Link, NavLink } from 'react-router-dom';
 import { UserStatus } from 'app/store/common/models';
-import { getChatInterlocutor, getInterlocutorInitials } from '../../../utils/interlocutor-name-utils';
+import { getChatInterlocutor, getInterlocutorInitials } from 'utils/interlocutor-name-utils';
 
 export const ChatData = React.memo(() => {
   const { t } = useContext(LocalizationContext);

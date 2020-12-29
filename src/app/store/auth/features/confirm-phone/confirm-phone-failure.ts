@@ -1,5 +1,5 @@
 import produce from 'immer';
-import { createEmptyAction } from '../../../common/actions';
+import { createEmptyAction } from 'store/common/actions';
 import { AuthState } from '../../models';
 
 export class ConfirmPhoneFailure {

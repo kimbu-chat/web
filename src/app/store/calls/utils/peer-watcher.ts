@@ -1,8 +1,8 @@
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import { RootState } from 'app/store/root-reducer';
-import { eventChannel, buffers } from 'redux-saga';
-import { take, select, call, race, cancel, takeEvery, put } from 'redux-saga/effects';
-import { getCallInterlocutorSelector, amICalled } from 'app/store/calls/selectors';
+import { buffers, eventChannel } from 'redux-saga';
+import { call, cancel, put, race, select, take, takeEvery } from 'redux-saga/effects';
+import { amICalled, getCallInterlocutorSelector } from 'app/store/calls/selectors';
 import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/models';
 import { UserPreview } from 'app/store/my-profile/models';
@@ -13,12 +13,12 @@ import { OpenInterlocutorVideoStatus } from '../features/change-interlocutor-med
 import { InterlocutorAcceptedCall } from '../features/interlocutor-accepted-call/interlocutor-accepted-call';
 import { AcceptCallSuccess } from '../features/accept-call/accept-call-success';
 import { CandidateApiRequest, RenegociateApiRequest } from '../models';
-import { assignInterlocutorVideoTrack, assignInterlocutorAudioTrack, interlocutorVideoTrack } from './user-media';
+import { assignInterlocutorAudioTrack, assignInterlocutorVideoTrack, interlocutorVideoTrack } from './user-media';
 import { CancelCall } from '../features/cancel-call/cancel-call';
 import { DeclineCall } from '../features/decline-call/decline-call';
 import { CallEnded } from '../features/end-call/call-ended';
 import { CloseInterlocutorVideoStatus } from '../features/change-interlocutor-media-status/close-interlocutor-video-status';
-import { setIsRenegotiationAccepted, setMakingOffer, isRenegotiationAccepted } from './glare-utils';
+import { isRenegotiationAccepted, setIsRenegotiationAccepted, setMakingOffer } from './glare-utils';
 
 const CallsHttpRequests = {
   candidate: httpRequestFactory<AxiosResponse, CandidateApiRequest>(`${ApiBasePath.MainApi}/api/calls/send-ice-candidate`, HttpRequestMethod.Post),

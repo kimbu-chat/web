@@ -15,7 +15,7 @@ import moment from 'moment';
 import { doesYearDifferFromCurrent, setSeparators } from 'app/utils/set-separators';
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
 import { FILE_ATTACHMENTS_LIMIT } from 'app/utils/pagination-limits';
-import { FileAttachment } from '../../shared/file-attachment/file-attachment';
+import { FileAttachment } from 'components';
 
 export const ChatFiles = React.memo(() => {
   const { t } = useContext(LocalizationContext);

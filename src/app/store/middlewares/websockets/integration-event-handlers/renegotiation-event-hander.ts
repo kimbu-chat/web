@@ -1,6 +1,6 @@
 import { Store } from 'redux';
 import { RootState } from 'store/root-reducer';
-import { Renegotiation } from '../../../calls/features/renegotiation/renegotiation';
+import { Renegotiation } from 'store/calls/features/renegotiation/renegotiation';
 import { IEventHandler } from '../event-handler';
 import { RenegotiationIntegrationEvent } from '../integration-events/renegotiation-integration-event';
 

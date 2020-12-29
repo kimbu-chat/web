@@ -17,7 +17,7 @@ import MessageQeuedSvg from 'icons/ic-time.svg';
 import MessageSentSvg from 'icons/ic-tick.svg';
 import MessageReadSvg from 'icons/ic-double_tick.svg';
 import { getTypingString } from 'store/chats/selectors';
-import { getChatInterlocutor, getInterlocutorInitials } from '../../../../utils/interlocutor-name-utils';
+import { getChatInterlocutor, getInterlocutorInitials } from 'utils/interlocutor-name-utils';
 
 namespace ChatFromListNS {
   export interface Props {

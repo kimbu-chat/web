@@ -5,6 +5,7 @@ import { createAction } from 'typesafe-actions';
 import produce from 'immer';
 import { doIhaveCall } from 'app/store/calls/selectors';
 import { CallState, InterlocutorAcceptedCallActionPayload } from '../../models';
+import { setIsRenegotiationAccepted } from '../../utils/glare-utils';
 
 export class InterlocutorAcceptedCall {
   static get action() {
@@ -51,6 +52,7 @@ export class InterlocutorAcceptedCall {
       const callActive = yield select(doIhaveCall);
 
       if (action.payload.answer && callActive) {
+        setIsRenegotiationAccepted(true);
         yield call(async () => await peerConnection?.setRemoteDescription(action.payload.answer));
       }
     };

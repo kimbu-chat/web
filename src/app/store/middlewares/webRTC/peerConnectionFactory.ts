@@ -1,3 +1,4 @@
+import { setIsRenegotiationAccepted, setMakingOffer, setIgnoreOffer, setIsSettingRemoteAnswerPending } from 'app/store/calls/utils/glare-utils';
 import { assignInterlocutorVideoTrack, assignInterlocutorAudioTrack, setVideoSender, stopAllTracks } from '../../calls/utils/user-media';
 
 export const peerConfiguration = {
@@ -24,6 +25,10 @@ export const resetPeerConnection = () => {
   setInterlocutorOffer(null);
   assignInterlocutorVideoTrack(null);
   assignInterlocutorAudioTrack(null);
+  setIsRenegotiationAccepted(true);
+  setMakingOffer(false);
+  setIgnoreOffer(false);
+  setIsSettingRemoteAnswerPending(false);
 };
 
 setInterval(() => console.log(peerConnection?.connectionState), 1000);

@@ -23,6 +23,7 @@ import { InputType } from '../../common/enums/input-type';
 import { CallEnded } from '../end-call/call-ended';
 import { InterlocutorBusy } from '../interlocutor-busy/interlocutor-busy';
 import { peerWatcher } from '../../utils/peer-watcher';
+import { setIsRenegotiationAccepted } from '../../utils/glare-utils';
 
 export class OutgoingCall {
   static get action() {
@@ -47,6 +48,7 @@ export class OutgoingCall {
   static get saga() {
     return function* outgoingCallSaga(action: ReturnType<typeof OutgoingCall.action>): SagaIterator {
       const amISpeaking = yield select((state: RootState) => state.calls.isSpeaking);
+      setIsRenegotiationAccepted(false);
 
       if (amISpeaking) {
         // Prevention of 'double-call'

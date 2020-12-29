@@ -2,12 +2,13 @@ import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFacto
 import { RootState } from 'app/store/root-reducer';
 import { eventChannel, buffers } from 'redux-saga';
 import { take, select, call, race, cancel, takeEvery, put } from 'redux-saga/effects';
-import { getCallInterlocutorSelector, amICalled, amICalling } from 'app/store/calls/selectors';
+import { getCallInterlocutorSelector, amICalled } from 'app/store/calls/selectors';
 import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/models';
 import { UserPreview } from 'app/store/my-profile/models';
 import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
+import { RenegotiationAccepted } from '../features/renegotiation/renegotiation-accepted';
 import { OpenInterlocutorVideoStatus } from '../features/change-interlocutor-media-status/open-interlocutor-video-status';
 import { InterlocutorAcceptedCall } from '../features/interlocutor-accepted-call/interlocutor-accepted-call';
 import { AcceptCallSuccess } from '../features/accept-call/accept-call-success';
@@ -17,7 +18,7 @@ import { CancelCall } from '../features/cancel-call/cancel-call';
 import { DeclineCall } from '../features/decline-call/decline-call';
 import { CallEnded } from '../features/end-call/call-ended';
 import { CloseInterlocutorVideoStatus } from '../features/change-interlocutor-media-status/close-interlocutor-video-status';
-import { setMakingOffer } from './glare-utils';
+import { setIsRenegotiationAccepted, setMakingOffer, isRenegotiationAccepted } from './glare-utils';
 
 const CallsHttpRequests = {
   candidate: httpRequestFactory<AxiosResponse, CandidateApiRequest>(`${ApiBasePath.MainApi}/api/calls/send-ice-candidate`, HttpRequestMethod.Post),
@@ -76,15 +77,13 @@ export function* peerWatcher() {
         const myCandidate = (action.event as RTCPeerConnectionIceEvent).candidate;
         const interlocutor: UserPreview = yield select(getCallInterlocutorSelector);
         const inclomingCallActive = yield select(amICalled);
-        const outgoingCallActive = yield select(amICalling);
 
         if (inclomingCallActive) {
-          // console.log('inclomingCallActive');
           yield take(AcceptCallSuccess.action);
         }
 
-        if (outgoingCallActive) {
-          yield take(InterlocutorAcceptedCall.action);
+        if (!isRenegotiationAccepted) {
+          yield race([take(RenegotiationAccepted.action), take(InterlocutorAcceptedCall.action)]);
         }
 
         if (myCandidate) {
@@ -101,6 +100,8 @@ export function* peerWatcher() {
       }
       case 'negotiationneeded':
         {
+          setIsRenegotiationAccepted(false);
+
           const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
 
           setMakingOffer(true);
@@ -111,6 +112,7 @@ export function* peerWatcher() {
                 offerToReceiveVideo: true,
               }),
           );
+
           yield call(async () => await peerConnection?.setLocalDescription(offer));
           console.log('local description set');
 

@@ -22,10 +22,9 @@ import SelectedSvg from 'icons/ic-check-filled.svg';
 import UnSelectedSvg from 'icons/ic-check-outline.svg';
 import { RawAttachment, PictureAttachment, VoiceAttachment, VideoAttachment, AudioAttachment } from 'store/chats/models';
 import { Link } from 'react-router-dom';
+import { MessageAudioAttachment, FileAttachment } from 'app/components';
 import { MediaGrid } from './attachments/media-grid/media-grid';
 import { RecordingAttachment } from './attachments/recording-attachment/recording-attachment';
-import { MessageAudioAttachment } from '../shared/audio-attachment/audio-attachment';
-import { FileAttachment } from '../shared/file-attachment/file-attachment';
 
 namespace MessageNS {
   export interface Props {
@@ -109,7 +108,7 @@ const MessageItem = React.memo(
 
     return (
       <div
-        className={`message__container 
+        className={`message__container
 				${message.isSelected ? 'message__container--selected' : ''}`}
         onClick={isSelectState ? selectThisMessage : () => {}}
       >

@@ -8,7 +8,7 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, select, spawn } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { getAudioConstraints, getCallInterlocutorIdSelector, getIsVideoEnabled, getVideoConstraints } from 'app/store/calls/selectors';
-import { interlocutorOffer } from '../../../middlewares/webRTC/peerConnectionFactory';
+import { interlocutorOffer } from 'store/middlewares/webRTC/peerConnectionFactory';
 import { AcceptCallApiRequest, CallState } from '../../models';
 import { deviceUpdateWatcher } from '../../utils/device-update-watcher';
 import { getAndSendUserMedia, getMediaDevicesList } from '../../utils/user-media';

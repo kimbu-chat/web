@@ -9,7 +9,7 @@ import AddSvg from 'icons/ic-add-new.svg';
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
 import { Page } from 'app/store/common/models';
 import { CHAT_MEMBERS_LIMIT } from 'app/utils/pagination-limits';
-import { SearchBox } from '../../search-box/search-box';
+import { SearchBox } from 'components';
 
 import { Member } from './chat-member/chat-member';
 

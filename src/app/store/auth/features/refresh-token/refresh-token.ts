@@ -5,7 +5,7 @@ import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
-import { createEmptyAction } from '../../../common/actions';
+import { createEmptyAction } from 'store/common/actions';
 import { LoginResponse } from '../../models';
 import { RefreshTokenFailure } from './refresh-token-failure';
 import { RefreshTokenSuccess } from './refresh-token-success';

@@ -3,9 +3,8 @@ import './video-attachment.scss';
 
 import PlaySvg from 'icons/ic-play.svg';
 import moment from 'moment';
-import { FadeAnimationWrapper } from 'components';
+import { FadeAnimationWrapper, VideoPlayer } from 'components';
 import { VideoAttachment } from 'store/chats/models';
-import { VideoPlayer } from '../../../shared/video-player/video-player';
 
 namespace MessageVideoAttachmentNS {
   export interface Props {

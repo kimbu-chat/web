@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { createReducer } from 'typesafe-actions';
-import { MESSAGES_LIMIT } from '../../utils/pagination-limits';
+import { MESSAGES_LIMIT } from 'utils/pagination-limits';
 import { MessageState, MessagesState } from './models';
 import { ChatActions } from '../chats/actions';
 import { GetMessages } from './features/get-messages/get-messages';

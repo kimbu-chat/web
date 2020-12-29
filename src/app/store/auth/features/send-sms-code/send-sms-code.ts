@@ -7,7 +7,7 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { Meta } from '../../../common/actions';
+import { Meta } from 'store/common/actions';
 import { AuthState } from '../../models';
 import { SendSmsCodeActionPayload } from './send-sms-code-action-payload';
 import { SendSmsCodeFailure } from './send-sms-code-failure';

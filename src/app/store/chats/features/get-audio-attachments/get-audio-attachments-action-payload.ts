@@ -1,4 +1,4 @@
-import { Page } from '../../../common/models';
+import { Page } from 'store/common/models';
 
 export interface GetAudioAttachmentsActionPayload {
   chatId: number;

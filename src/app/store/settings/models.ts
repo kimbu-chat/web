@@ -8,13 +8,13 @@ export enum TypingStrategy {
   nlce = 'NewLineCtrlEnter',
 }
 
-export interface UserSettings {
+export interface IUserSettings {
   language: Langs;
   TypingStrategy: TypingStrategy;
   notificationSound: boolean;
 }
 
-export interface OptionalUserSettings {
+export interface IOptionalUserSettings {
   language?: Langs;
   TypingStrategy?: TypingStrategy;
   notificationSound?: boolean;

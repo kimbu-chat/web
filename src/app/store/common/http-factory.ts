@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosRequestConfig, CancelToken, CancelTokenSource }
 import { call, cancelled, put, select, take } from 'redux-saga/effects';
 import { SagaIterator } from 'redux-saga';
 import { isNetworkError } from 'app/utils/error-utils';
-import { SecurityTokens } from '../auth/models';
+import { ISecurityTokens } from '../auth/models';
 import { selectSecurityTokens } from '../auth/selectors';
 import { RefreshToken } from '../auth/features/refresh-token/refresh-token';
 import { RefreshTokenSuccess } from '../auth/features/refresh-token/refresh-token-success';
@@ -24,7 +24,7 @@ export function* httpRequest<T>(url: string, method: HttpRequestMethod, body?: T
     responseType: 'json',
   };
 
-  const auth: SecurityTokens = yield select(selectSecurityTokens);
+  const auth: ISecurityTokens = yield select(selectSecurityTokens);
 
   if (auth && auth.accessToken) {
     requestConfig.headers = {
@@ -71,7 +71,7 @@ export const httpRequestFactory = <T, B>(url: string | UrlGenerator<B>, method: 
     let cancelTokenSource: CancelTokenSource;
 
     try {
-      let auth: SecurityTokens = yield select(selectSecurityTokens);
+      let auth: ISecurityTokens = yield select(selectSecurityTokens);
 
       if (auth?.refreshTokenRequestLoading) {
         yield take(RefreshTokenSuccess.action);

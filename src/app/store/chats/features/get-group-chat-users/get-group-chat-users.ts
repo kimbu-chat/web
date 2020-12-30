@@ -1,24 +1,24 @@
 import { produce } from 'immer';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
-import { UserPreview } from 'app/store/my-profile/models';
+import { IUserPreview } from 'app/store/my-profile/models';
 import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { ChatsState } from '../../models';
+import { IChatsState } from '../../models';
 import { GetGroupChatUsersSuccess } from './get-group-chat-users-success';
 import { ChatId } from '../../chat-id';
-import { GetGroupChatUsersActionPayload } from './get-group-chat-users-action-payload';
+import { IGetGroupChatUsersActionPayload } from './get-group-chat-users-action-payload';
 
 export class GetGroupChatUsers {
   static get action() {
-    return createAction('GET_GROUP_CHAT_USERS')<GetGroupChatUsersActionPayload>();
+    return createAction('GET_GROUP_CHAT_USERS')<IGetGroupChatUsersActionPayload>();
   }
 
   static get reducer() {
     return produce(
-      produce((draft: ChatsState) => {
+      produce((draft: IChatsState) => {
         draft.groupChatUsersLoading = true;
         return draft;
       }),
@@ -42,7 +42,7 @@ export class GetGroupChatUsers {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<Array<UserPreview>>, GetGroupChatUsersActionPayload>(
+    return httpRequestFactory<AxiosResponse<Array<IUserPreview>>, IGetGroupChatUsersActionPayload>(
       `${ApiBasePath.MainApi}/api/group-chats/search-members`,
       HttpRequestMethod.Post,
     );

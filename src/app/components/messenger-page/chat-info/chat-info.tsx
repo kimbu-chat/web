@@ -3,7 +3,7 @@ import './chat-info.scss';
 import { useSelector } from 'react-redux';
 import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { AvatarSelectedData, UploadAvatarResponse } from 'store/my-profile/models';
+import { IAvatarSelectedData, IUploadAvatarResponse } from 'store/my-profile/models';
 import { getSelectedChatSelector } from 'store/chats/selectors';
 import { ChatActions } from 'store/chats/actions';
 import { Avatar, ChangePhoto, FadeAnimationWrapper } from 'components';
@@ -97,10 +97,10 @@ const ChatInfo: React.FC = React.memo(() => {
   );
 
   const changeAvatar = useCallback(
-    (data: AvatarSelectedData) => {
+    (data: IAvatarSelectedData) => {
       uploadGroupChatAvatar({
         pathToFile: data.croppedImagePath,
-      }).then((response: UploadAvatarResponse) => {
+      }).then((response: IUploadAvatarResponse) => {
         editGroupChat({
           id: selectedChat!.groupChat!.id,
           avatar: response,

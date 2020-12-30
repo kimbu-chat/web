@@ -1,6 +1,6 @@
 import { LocalizationContext } from 'app/app';
 import { Modal, WithBackground } from 'components';
-import { Chat } from 'store/chats/models';
+import { IChat } from 'store/chats/models';
 import { getSelectedChatSelector } from 'store/chats/selectors';
 import React, { useCallback, useContext, useState } from 'react';
 import './clear-chat-modal.scss';
@@ -10,15 +10,15 @@ import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import CheckBoxSvg from 'icons/ic-checkbox.svg';
 
 namespace ClearChatModalNS {
-  export interface Props {
+  export interface IProps {
     hide: () => void;
   }
 }
 
-export const ClearChatModal = React.memo(({ hide }: ClearChatModalNS.Props) => {
+export const ClearChatModal = React.memo(({ hide }: ClearChatModalNS.IProps) => {
   const { t } = useContext(LocalizationContext);
 
-  const selectedChat = useSelector(getSelectedChatSelector) as Chat;
+  const selectedChat = useSelector(getSelectedChatSelector) as IChat;
 
   const [deleteForInterlocutor, setDeleteForInterlocutor] = useState(false);
   const changeDeleteForInterlocutorState = useCallback(() => {

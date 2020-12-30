@@ -5,14 +5,14 @@ import { call, cancel, put, race, select, take, takeEvery } from 'redux-saga/eff
 import { amICalled, getCallInterlocutorSelector } from 'app/store/calls/selectors';
 import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/models';
-import { UserPreview } from 'app/store/my-profile/models';
+import { IUserPreview } from 'app/store/my-profile/models';
 import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
 import { RenegotiationAccepted } from '../features/renegotiation/renegotiation-accepted';
 import { OpenInterlocutorVideoStatus } from '../features/change-interlocutor-media-status/open-interlocutor-video-status';
 import { InterlocutorAcceptedCall } from '../features/interlocutor-accepted-call/interlocutor-accepted-call';
 import { AcceptCallSuccess } from '../features/accept-call/accept-call-success';
-import { CandidateApiRequest, RenegociateApiRequest } from '../models';
+import { ICandidateApiRequest, IRenegociateApiRequest } from '../models';
 import { assignInterlocutorAudioTrack, assignInterlocutorVideoTrack, interlocutorVideoTrack } from './user-media';
 import { CancelCall } from '../features/cancel-call/cancel-call';
 import { DeclineCall } from '../features/decline-call/decline-call';
@@ -21,8 +21,8 @@ import { CloseInterlocutorVideoStatus } from '../features/change-interlocutor-me
 import { isRenegotiationAccepted, setIsRenegotiationAccepted, setMakingOffer } from './glare-utils';
 
 const CallsHttpRequests = {
-  candidate: httpRequestFactory<AxiosResponse, CandidateApiRequest>(`${ApiBasePath.MainApi}/api/calls/send-ice-candidate`, HttpRequestMethod.Post),
-  renegotiate: httpRequestFactory<AxiosResponse, RenegociateApiRequest>(`${ApiBasePath.MainApi}/api/calls/send-renegotiation`, HttpRequestMethod.Post),
+  candidate: httpRequestFactory<AxiosResponse, ICandidateApiRequest>(`${ApiBasePath.MainApi}/api/calls/send-ice-candidate`, HttpRequestMethod.Post),
+  renegotiate: httpRequestFactory<AxiosResponse, IRenegociateApiRequest>(`${ApiBasePath.MainApi}/api/calls/send-renegotiation`, HttpRequestMethod.Post),
 };
 
 function createPeerConnectionChannel() {
@@ -75,7 +75,7 @@ export function* peerWatcher() {
     switch (action.type) {
       case 'icecandidate': {
         const myCandidate = (action.event as RTCPeerConnectionIceEvent).candidate;
-        const interlocutor: UserPreview = yield select(getCallInterlocutorSelector);
+        const interlocutor: IUserPreview = yield select(getCallInterlocutorSelector);
         const inclomingCallActive = yield select(amICalled);
 
         if (inclomingCallActive) {
@@ -88,7 +88,7 @@ export function* peerWatcher() {
 
         if (myCandidate) {
           console.log('candidate sent');
-          const request: CandidateApiRequest = {
+          const request: ICandidateApiRequest = {
             interlocutorId: interlocutor?.id || -1,
             candidate: myCandidate,
           };
@@ -116,7 +116,7 @@ export function* peerWatcher() {
           yield call(async () => await peerConnection?.setLocalDescription(offer));
           console.log('local description set');
 
-          const request: RenegociateApiRequest = {
+          const request: IRenegociateApiRequest = {
             offer,
             interlocutorId,
             isVideoEnabled: false,

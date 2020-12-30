@@ -2,28 +2,28 @@ import React, { useState, useEffect, useCallback } from 'react';
 import './chat-members.scss';
 import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { Chat } from 'store/chats/models';
+import { IChat } from 'store/chats/models';
 import { ChatActions } from 'store/chats/actions';
 import { getMembersListForSelectedGroupChat, getSelectedChatSelector } from 'store/chats/selectors';
 import AddSvg from 'icons/ic-add-new.svg';
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
-import { Page } from 'app/store/common/models';
+import { IPage } from 'app/store/common/models';
 import { CHAT_MEMBERS_LIMIT } from 'app/utils/pagination-limits';
 import { SearchBox } from 'components';
 
 import { Member } from './chat-member/chat-member';
 
 namespace ChatMembersNS {
-  export interface Props {
+  export interface IProps {
     addMembers: () => void;
   }
 }
 
-export const ChatMembers = React.memo(({ addMembers }: ChatMembersNS.Props) => {
+export const ChatMembers = React.memo(({ addMembers }: ChatMembersNS.IProps) => {
   const [searchStr, setSearchStr] = useState<string>('');
 
   const getGroupChatUsers = useActionWithDispatch(ChatActions.getGroupChatUsers);
-  const selectedChat = useSelector(getSelectedChatSelector) as Chat;
+  const selectedChat = useSelector(getSelectedChatSelector) as IChat;
 
   const membersListForGroupChat = useSelector(getMembersListForSelectedGroupChat);
 
@@ -38,7 +38,7 @@ export const ChatMembers = React.memo(({ addMembers }: ChatMembersNS.Props) => {
   }, [selectedChat.id]);
 
   const loadMore = useCallback(() => {
-    const page: Page = {
+    const page: IPage = {
       offset:
         ((membersListForGroupChat?.searchMembers?.length || 0) > 0 ? membersListForGroupChat?.searchMembers : membersListForGroupChat?.members)?.length || 0,
       limit: CHAT_MEMBERS_LIMIT,

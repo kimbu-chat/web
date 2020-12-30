@@ -1,8 +1,8 @@
-import { Message } from '../../models';
+import { IMessage } from '../../models';
 
-export interface CreateMessageActionPayload {
+export interface ICreateMessageActionPayload {
   chatId: number;
-  message: Message;
+  message: IMessage;
   isFromEvent?: boolean;
   currentUserId?: number;
 }

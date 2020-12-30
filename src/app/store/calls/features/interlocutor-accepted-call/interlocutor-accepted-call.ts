@@ -4,16 +4,16 @@ import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import produce from 'immer';
 import { doIhaveCall } from 'app/store/calls/selectors';
-import { CallState, InterlocutorAcceptedCallActionPayload } from '../../models';
+import { ICallState, IInterlocutorAcceptedCallActionPayload } from '../../models';
 import { setIsRenegotiationAccepted } from '../../utils/glare-utils';
 
 export class InterlocutorAcceptedCall {
   static get action() {
-    return createAction('INTERLOCUTOR_ACCEPTED_CALL')<InterlocutorAcceptedCallActionPayload>();
+    return createAction('INTERLOCUTOR_ACCEPTED_CALL')<IInterlocutorAcceptedCallActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: CallState, { payload }: ReturnType<typeof InterlocutorAcceptedCall.action>) => {
+    return produce((draft: ICallState, { payload }: ReturnType<typeof InterlocutorAcceptedCall.action>) => {
       console.log(draft.interlocutor?.firstName);
 
       if (!draft.isSpeaking && !draft.amICalled) {

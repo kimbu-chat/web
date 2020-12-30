@@ -1,8 +1,8 @@
-import { Page } from 'app/store/common/models';
+import { IPage } from 'app/store/common/models';
 
-export interface GetGroupChatUsersActionPayload {
+export interface IGetGroupChatUsersActionPayload {
   groupChatId: number;
-  page: Page;
+  page: IPage;
   isFromSearch?: boolean;
   isFromScroll?: boolean;
   name?: string;

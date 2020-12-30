@@ -5,19 +5,19 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { UpdateMyProfileApiRequestData } from '../../models';
-import { UpdateMyProfileActionPayload } from './update-my-profile-action-payload';
+import { IUpdateMyProfileApiRequestData } from '../../models';
+import { IUpdateMyProfileActionPayload } from './update-my-profile-action-payload';
 import { UpdateMyProfileSuccess } from './update-my-profile-success';
 
 export class UpdateMyProfile {
   static get action() {
-    return createAction('UPDATE_MY_PROFILE_INFO')<UpdateMyProfileActionPayload>();
+    return createAction('UPDATE_MY_PROFILE_INFO')<IUpdateMyProfileActionPayload>();
   }
 
   static get saga() {
     return function* (action: ReturnType<typeof UpdateMyProfile.action>): SagaIterator {
       try {
-        const requestData: UpdateMyProfileApiRequestData = {
+        const requestData: IUpdateMyProfileApiRequestData = {
           firstName: action.payload.firstName,
           lastName: action.payload.lastName,
           avatarId: action.payload.avatar?.id,
@@ -34,6 +34,6 @@ export class UpdateMyProfile {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, UpdateMyProfileApiRequestData>(`${ApiBasePath.MainApi}/api/users`, HttpRequestMethod.Put);
+    return httpRequestFactory<AxiosResponse, IUpdateMyProfileApiRequestData>(`${ApiBasePath.MainApi}/api/users`, HttpRequestMethod.Put);
   }
 }

@@ -1,6 +1,6 @@
 import { InputType } from '../../common/enums/input-type';
 
-export interface SwitchDeviceActionPayload {
+export interface ISwitchDeviceActionPayload {
   kind: InputType.videoInput | InputType.audioInput;
   deviceId: string;
 }

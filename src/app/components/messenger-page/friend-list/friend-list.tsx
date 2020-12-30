@@ -1,4 +1,4 @@
-import { Page } from 'store/common/models';
+import { IPage } from 'store/common/models';
 import { FriendActions } from 'store/friends/actions';
 import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
 import React, { useCallback, useEffect } from 'react';
@@ -31,7 +31,7 @@ export const FriendList = React.memo(() => {
   }, [chatId]);
 
   const loadMore = useCallback(() => {
-    const page: Page = {
+    const page: IPage = {
       offset: friends.length,
       limit: FRIENDS_LIMIT,
     };

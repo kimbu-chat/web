@@ -1,7 +1,7 @@
-import { VideoAttachment, IGroupable } from '../../models';
+import { IVideoAttachment, IGroupable } from '../../models';
 
-export interface GetVideoAttachmentsSuccessActionPayload {
+export interface IGetVideoAttachmentsSuccessActionPayload {
   chatId: number;
-  videos: (VideoAttachment & IGroupable)[];
+  videos: (IVideoAttachment & IGroupable)[];
   hasMore: boolean;
 }

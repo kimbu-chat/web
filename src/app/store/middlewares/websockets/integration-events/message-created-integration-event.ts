@@ -1,14 +1,14 @@
-import { BaseAttachment } from 'store/chats/models';
-import { UserPreview } from 'store/my-profile/models';
+import { IBaseAttachment } from 'store/chats/models';
+import { IUserPreview } from 'store/my-profile/models';
 import { SystemMessageType } from 'store/messages/models';
 
-export interface MessageCreatedIntegrationEvent {
-  attachments: BaseAttachment[];
+export interface IMessageCreatedIntegrationEvent {
+  attachments: IBaseAttachment[];
   chatId: number;
   creationDateTime: Date;
   id: number;
   systemMessageType: SystemMessageType;
   text: string;
-  userCreator: UserPreview;
+  userCreator: IUserPreview;
   userCreatorId: number;
 }

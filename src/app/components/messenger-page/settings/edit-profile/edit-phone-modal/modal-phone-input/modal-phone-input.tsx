@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import './modal-phone-input.scss';
-import { Country } from 'app/common/countries';
+import { ICountry } from 'app/common/countries';
 import { AsYouType } from 'libphonenumber-js';
 import { LocalizationContext } from 'app/app';
 import { removeCountryCodeFromPhoneNumber } from 'app/utils/phone-number-utils';
 
 namespace ModalPhoneInputNS {
-  export interface Props {
-    country: Country;
+  export interface IProps {
+    country: ICountry;
     phone: string;
     setPhone: Function;
     displayCountries: () => void;
@@ -16,7 +16,7 @@ namespace ModalPhoneInputNS {
 }
 
 export const ModalPhoneInput = React.memo(
-  React.forwardRef(({ country, phone, setPhone, displayCountries, sendSms }: ModalPhoneInputNS.Props, ref: React.Ref<HTMLInputElement>) => {
+  React.forwardRef(({ country, phone, setPhone, displayCountries, sendSms }: ModalPhoneInputNS.IProps, ref: React.Ref<HTMLInputElement>) => {
     const { t } = useContext(LocalizationContext);
 
     return (

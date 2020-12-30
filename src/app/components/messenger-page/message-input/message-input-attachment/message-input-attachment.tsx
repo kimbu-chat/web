@@ -1,5 +1,5 @@
-import { AttachmentToSend, BaseAttachment, PictureAttachment, RawAttachment, VideoAttachment } from 'store/chats/models';
-import { AttachmentCreation, FileType } from 'store/messages/models';
+import { IAttachmentToSend, IBaseAttachment, IPictureAttachment, IRawAttachment, IVideoAttachment } from 'store/chats/models';
+import { IAttachmentCreation, FileType } from 'store/messages/models';
 import React, { useCallback, useEffect, useState } from 'react';
 import './message-input-attachment.scss';
 
@@ -15,14 +15,14 @@ import { ChatActions } from 'store/chats/actions';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 
 namespace MessageInputAttachmentNS {
-  export interface Props {
-    attachment: AttachmentToSend<BaseAttachment>;
+  export interface IProps {
+    attachment: IAttachmentToSend<IBaseAttachment>;
     isFromEdit?: boolean;
-    removeSelectedAttachment?: (attachmentToRemove: AttachmentCreation) => void;
+    removeSelectedAttachment?: (attachmentToRemove: IAttachmentCreation) => void;
   }
 }
 
-export const MessageInputAttachment: React.FC<MessageInputAttachmentNS.Props> = React.memo(({ attachment, isFromEdit, removeSelectedAttachment }) => {
+export const MessageInputAttachment: React.FC<MessageInputAttachmentNS.IProps> = React.memo(({ attachment, isFromEdit, removeSelectedAttachment }) => {
   const selectedChatId = useSelector(getSelectedChatIdSelector);
   const removeAttachment = useActionWithDispatch(ChatActions.removeAttachmentAction);
 
@@ -65,14 +65,14 @@ export const MessageInputAttachment: React.FC<MessageInputAttachmentNS.Props> = 
         {attachment.attachment.type === FileType.raw && <FileSVG viewBox='0 0 25 25' />}
         {attachment.attachment.type === FileType.video && (
           <>
-            <img src={(attachment.attachment as VideoAttachment).firstFrameUrl} alt='' className='message-input-attachment__bg' />
+            <img src={(attachment.attachment as IVideoAttachment).firstFrameUrl} alt='' className='message-input-attachment__bg' />
             <VideoSVG viewBox='0 0 25 25' />
           </>
         )}
         {attachment.attachment.type === FileType.voice && <MicrophoneSVG viewBox='0 0 25 25' />}
         {attachment.attachment.type === FileType.picture && (
           <>
-            <img src={(attachment.attachment as PictureAttachment).previewUrl || previewUrl} alt='' className='message-input-attachment__bg' />
+            <img src={(attachment.attachment as IPictureAttachment).previewUrl || previewUrl} alt='' className='message-input-attachment__bg' />
             <PhotoSVG viewBox='0 0 25 25' />
           </>
         )}
@@ -82,7 +82,7 @@ export const MessageInputAttachment: React.FC<MessageInputAttachmentNS.Props> = 
         <div style={{ width: `${attachment.progress}%` }} className='message-input-attachment__progress' />
       </div>
       {(attachment.attachment.type === FileType.audio || attachment.attachment.type === FileType.raw) && (
-        <div className='message-input-attachment__title'>{attachment.fileName || (attachment.attachment as RawAttachment).title}</div>
+        <div className='message-input-attachment__title'>{attachment.fileName || (attachment.attachment as IRawAttachment).title}</div>
       )}
       <button type='button' onClick={removeThisAttachment} className='message-input-attachment__close'>
         <CloseSVG viewBox='0 0 25 25' />

@@ -7,7 +7,7 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { RootState } from 'app/store/root-reducer';
 import { resetPeerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
-import { CancelCallApiRequest } from '../../models';
+import { ICancelCallApiRequest } from '../../models';
 import { CancelCallSuccess } from './cancel-call-success';
 
 export class CancelCall {
@@ -32,6 +32,6 @@ export class CancelCall {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, CancelCallApiRequest>(`${ApiBasePath.MainApi}/api/calls/cancel-call`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse, ICancelCallApiRequest>(`${ApiBasePath.MainApi}/api/calls/cancel-call`, HttpRequestMethod.Post);
   }
 }

@@ -1,7 +1,7 @@
-import { Page } from 'app/store/common/models';
+import { IPage } from 'app/store/common/models';
 
-export interface GetFriendsActionPayload {
-  page: Page;
+export interface IGetFriendsActionPayload {
+  page: IPage;
   name?: string;
   initializedBySearch?: boolean;
 }

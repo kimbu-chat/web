@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { createEmptyAction } from 'store/common/actions';
-import { AuthState } from '../../models';
+import { IAuthState } from '../../models';
 
 export class ConfirmPhoneFailure {
   static get action() {
@@ -8,7 +8,7 @@ export class ConfirmPhoneFailure {
   }
 
   static get reducer() {
-    return produce((draft: AuthState) => {
+    return produce((draft: IAuthState) => {
       draft.loading = false;
       draft.isConfirmationCodeWrong = true;
       return draft;

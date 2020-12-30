@@ -6,12 +6,12 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { ClearChatHistoryActionPayload } from './clear-chat-history-action-payload';
+import { IClearChatHistoryActionPayload } from './clear-chat-history-action-payload';
 import { ClearChatHistorySuccess } from './clear-chat-history-success';
 
 export class ClearChatHistory {
   static get action() {
-    return createAction('CLEAR_CHAT_HISTORY')<ClearChatHistoryActionPayload>();
+    return createAction('CLEAR_CHAT_HISTORY')<IClearChatHistoryActionPayload>();
   }
 
   static get saga() {
@@ -27,6 +27,6 @@ export class ClearChatHistory {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, ClearChatHistoryActionPayload>(`${ApiBasePath.MainApi}/api/chats/clear`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse, IClearChatHistoryActionPayload>(`${ApiBasePath.MainApi}/api/chats/clear`, HttpRequestMethod.Post);
   }
 }

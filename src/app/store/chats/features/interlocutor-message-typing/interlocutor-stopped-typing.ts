@@ -1,7 +1,7 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { checkChatExists, getChatArrayIndex } from 'app/store/chats/selectors';
-import { ChatsState } from '../../models';
+import { IChatsState } from '../../models';
 import { InterlocutorStoppedTypingActionPayload } from './interlocutor-stopped-typing-action-payload';
 
 export class InterlocutorStoppedTyping {
@@ -10,7 +10,7 @@ export class InterlocutorStoppedTyping {
   }
 
   static get reducer() {
-    return produce((draft: ChatsState, { payload }: ReturnType<typeof InterlocutorStoppedTyping.action>) => {
+    return produce((draft: IChatsState, { payload }: ReturnType<typeof InterlocutorStoppedTyping.action>) => {
       const { chatId, interlocutorName } = payload;
 
       const isChatExists: boolean = checkChatExists(chatId, draft);

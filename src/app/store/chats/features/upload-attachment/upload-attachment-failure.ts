@@ -1,16 +1,16 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { getChatArrayIndex } from 'app/store/chats/selectors';
-import { ChatsState } from '../../models';
-import { UploadAttachmentFailureActionPayload } from './upload-attachment-failure-action-payload';
+import { IChatsState } from '../../models';
+import { IUploadAttachmentFailureActionPayload } from './upload-attachment-failure-action-payload';
 
 export class UploadAttachmentFailure {
   static get action() {
-    return createAction('UPLOAD_ATTACHMENT_FAILURE')<UploadAttachmentFailureActionPayload>();
+    return createAction('UPLOAD_ATTACHMENT_FAILURE')<IUploadAttachmentFailureActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: ChatsState, { payload }: ReturnType<typeof UploadAttachmentFailure.action>) => {
+    return produce((draft: IChatsState, { payload }: ReturnType<typeof UploadAttachmentFailure.action>) => {
       const { chatId, attachmentId } = payload;
 
       const chatIndex: number = getChatArrayIndex(chatId, draft);

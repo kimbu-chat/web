@@ -1,7 +1,7 @@
 import { LocalizationContext } from 'app/app';
 import { Avatar, Modal, WithBackground, ChangePhoto, FriendFromList, SearchBox, CircularProgress } from 'components';
 import { FriendActions } from 'store/friends/actions';
-import { AvatarSelectedData, UploadAvatarResponse } from 'store/my-profile/models';
+import { IAvatarSelectedData, IUploadAvatarResponse } from 'store/my-profile/models';
 import { getStringInitials } from 'app/utils/interlocutor-name-utils';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import React, { useCallback, useContext, useRef, useState } from 'react';
@@ -10,18 +10,18 @@ import CloseSVG from 'icons/ic-close.svg';
 import './create-group-chat-modal.scss';
 import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
 import { ChatActions } from 'store/chats/actions';
-import { Chat } from 'store/chats/models';
+import { IChat } from 'store/chats/models';
 import { useHistory } from 'react-router';
 import { MyProfileActions } from 'store/my-profile/actions';
 import { getFriendsLoading, getHasMoreFriends, getMyFriends } from 'app/store/friends/selectors';
 import { getMyProfileSelector } from 'app/store/my-profile/selectors';
-import { CreateGroupChatActionPayload } from 'app/store/chats/features/create-group-chat/create-group-chat-action-payload';
+import { ICreateGroupChatActionPayload } from 'app/store/chats/features/create-group-chat/create-group-chat-action-payload';
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
-import { Page } from 'app/store/common/models';
+import { IPage } from 'app/store/common/models';
 import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
 
-namespace ICreateGroupChatModal {
-  export interface Props {
+namespace CreateGroupChatModalNS {
+  export interface IProps {
     onClose: () => void;
     preSelectedUserIds?: number[];
   }
@@ -32,7 +32,7 @@ namespace ICreateGroupChatModal {
   }
 }
 
-export const CreateGroupChat = React.memo(({ onClose, preSelectedUserIds }: ICreateGroupChatModal.Props) => {
+export const CreateGroupChat = React.memo(({ onClose, preSelectedUserIds }: CreateGroupChatModalNS.IProps) => {
   const { t } = useContext(LocalizationContext);
 
   const currentUser = useSelector(getMyProfileSelector);
@@ -48,9 +48,9 @@ export const CreateGroupChat = React.memo(({ onClose, preSelectedUserIds }: ICre
   const submitGroupChatCreation = useActionWithDeferred(ChatActions.createGroupChat);
 
   const [selectedUserIds, setSelectedUserIds] = useState<number[]>(preSelectedUserIds || []);
-  const [currentStage, setCurrrentStage] = useState(ICreateGroupChatModal.GroupChatCreationStage.userSelect);
-  const [avatarData, setAvatarData] = useState<AvatarSelectedData | null>(null);
-  const [avararUploadResponse, setAvatarUploadResponse] = useState<UploadAvatarResponse | null>(null);
+  const [currentStage, setCurrrentStage] = useState(CreateGroupChatModalNS.GroupChatCreationStage.userSelect);
+  const [avatarData, setAvatarData] = useState<IAvatarSelectedData | null>(null);
+  const [avararUploadResponse, setAvatarUploadResponse] = useState<IUploadAvatarResponse | null>(null);
   const [imageUrl, setImageUrl] = useState<string>('');
   const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
   const [name, setName] = useState('');
@@ -61,7 +61,7 @@ export const CreateGroupChat = React.memo(({ onClose, preSelectedUserIds }: ICre
   const isSelected = useCallback((id: number) => selectedUserIds.includes(id), [selectedUserIds]);
 
   const applyAvatarData = useCallback(
-    (data: AvatarSelectedData) => {
+    (data: IAvatarSelectedData) => {
       setAvatarData(data);
       setUploadEnded(false);
       uploadGroupChatAvatar({ pathToFile: data.croppedImagePath, onProgress: setUploaded })
@@ -93,7 +93,7 @@ export const CreateGroupChat = React.memo(({ onClose, preSelectedUserIds }: ICre
   );
 
   const loadMore = useCallback(() => {
-    const page: Page = {
+    const page: IPage = {
       offset: friends.length,
       limit: FRIENDS_LIMIT,
     };
@@ -136,7 +136,7 @@ export const CreateGroupChat = React.memo(({ onClose, preSelectedUserIds }: ICre
   }, [setAvatarData, setAvatarUploadResponse, setUploadEnded]);
 
   const onSubmit = useCallback(() => {
-    const groupChatToCreate: CreateGroupChatActionPayload = {
+    const groupChatToCreate: ICreateGroupChatActionPayload = {
       name,
       currentUser: currentUser!,
       userIds: selectedUserIds,
@@ -144,14 +144,14 @@ export const CreateGroupChat = React.memo(({ onClose, preSelectedUserIds }: ICre
       avatar: avararUploadResponse,
     };
 
-    submitGroupChatCreation(groupChatToCreate).then((payload: Chat) => {
+    submitGroupChatCreation(groupChatToCreate).then((payload: IChat) => {
       history.push(`/chats/${payload.id}`);
       onClose();
     });
   }, [avararUploadResponse, description, name, onClose]);
 
   const goToGroupChatCreationStage = useCallback(() => {
-    setCurrrentStage(ICreateGroupChatModal.GroupChatCreationStage.groupChatCreation);
+    setCurrrentStage(CreateGroupChatModalNS.GroupChatCreationStage.groupChatCreation);
   }, [setCurrrentStage]);
 
   return (
@@ -159,7 +159,7 @@ export const CreateGroupChat = React.memo(({ onClose, preSelectedUserIds }: ICre
       <WithBackground onBackgroundClick={onClose}>
         <Modal
           title={
-            currentStage === ICreateGroupChatModal.GroupChatCreationStage.userSelect ? (
+            currentStage === CreateGroupChatModalNS.GroupChatCreationStage.userSelect ? (
               <div className='create-group-chat__heading'>
                 <div className='create-group-chat__title'>{t('createGroupChatModal.add_members')}</div>
                 <div className='create-group-chat__selected-count'>{`${selectedUserIds.length} / 1000`}</div>
@@ -171,7 +171,7 @@ export const CreateGroupChat = React.memo(({ onClose, preSelectedUserIds }: ICre
           closeModal={onClose}
           contents={
             <>
-              {currentStage === ICreateGroupChatModal.GroupChatCreationStage.userSelect && (
+              {currentStage === CreateGroupChatModalNS.GroupChatCreationStage.userSelect && (
                 <div className='create-group-chat__select-friends'>
                   <SearchBox onChange={(e) => searchFriends(e.target.value)} />
                   <InfiniteScroll className='create-group-chat__friends-block' onReachExtreme={loadMore} hasMore={hasMoreFriends} isLoading={friendsLoading}>
@@ -182,7 +182,7 @@ export const CreateGroupChat = React.memo(({ onClose, preSelectedUserIds }: ICre
                 </div>
               )}
 
-              {currentStage === ICreateGroupChatModal.GroupChatCreationStage.groupChatCreation && (
+              {currentStage === CreateGroupChatModalNS.GroupChatCreationStage.groupChatCreation && (
                 <div className='create-group-chat'>
                   <div className='create-group-chat__change-photo'>
                     <div className='create-group-chat__current-photo-wrapper'>
@@ -222,7 +222,7 @@ export const CreateGroupChat = React.memo(({ onClose, preSelectedUserIds }: ICre
             {
               children: t('createGroupChatModal.next'),
               style: {
-                display: currentStage === ICreateGroupChatModal.GroupChatCreationStage.userSelect ? 'block' : 'none',
+                display: currentStage === CreateGroupChatModalNS.GroupChatCreationStage.userSelect ? 'block' : 'none',
               },
               position: 'left',
               disabled: selectedUserIds.length === 0,
@@ -234,7 +234,7 @@ export const CreateGroupChat = React.memo(({ onClose, preSelectedUserIds }: ICre
             {
               children: t('createGroupChatModal.create_groupChat'),
               style: {
-                display: currentStage === ICreateGroupChatModal.GroupChatCreationStage.groupChatCreation ? 'block' : 'none',
+                display: currentStage === CreateGroupChatModalNS.GroupChatCreationStage.groupChatCreation ? 'block' : 'none',
               },
               disabled: name.length === 0 || !uploadEnded,
               position: 'left',

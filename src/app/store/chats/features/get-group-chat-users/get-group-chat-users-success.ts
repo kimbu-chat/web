@@ -2,16 +2,16 @@ import produce from 'immer';
 import { unionBy } from 'lodash';
 import { createAction } from 'typesafe-actions';
 import { getChatArrayIndex } from 'app/store/chats/selectors';
-import { ChatsState } from '../../models';
-import { GetGroupChatUsersSuccessActionPayload } from './get-group-chat-users-success-action-payload';
+import { IChatsState } from '../../models';
+import { IGetGroupChatUsersSuccessActionPayload } from './get-group-chat-users-success-action-payload';
 
 export class GetGroupChatUsersSuccess {
   static get action() {
-    return createAction('GET_GROUP_CHAT_USERS_SUCCESS')<GetGroupChatUsersSuccessActionPayload>();
+    return createAction('GET_GROUP_CHAT_USERS_SUCCESS')<IGetGroupChatUsersSuccessActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: ChatsState, { payload }: ReturnType<typeof GetGroupChatUsersSuccess.action>) => {
+    return produce((draft: IChatsState, { payload }: ReturnType<typeof GetGroupChatUsersSuccess.action>) => {
       const { chatId, isFromSearch, isFromScroll, users, hasMore } = payload;
 
       const chatIndex: number = getChatArrayIndex(chatId, draft);

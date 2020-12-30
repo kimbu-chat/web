@@ -1,3 +1,3 @@
-import { ChatClearedIntegrationEvent } from 'app/store/middlewares/websockets/integration-events/chat-cleared-integration-event';
+import { IChatClearedIntegrationEvent } from 'app/store/middlewares/websockets/integration-events/chat-cleared-integration-event';
 
-export interface ChatHistoryClearedFromEventActionPayload extends ChatClearedIntegrationEvent {}
+export interface IChatHistoryClearedFromEventActionPayload extends IChatClearedIntegrationEvent {}

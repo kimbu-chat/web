@@ -2,7 +2,7 @@ import * as React from 'react';
 import { InfiniteScrollLoader } from './infinite-scroll-loader/infinite-scroll-loader';
 
 namespace InfiniteScrollNS {
-  export interface Props {
+  export interface IProps {
     children: React.ReactNode;
     Loader?: () => JSX.Element;
     className?: string;
@@ -14,7 +14,7 @@ namespace InfiniteScrollNS {
   }
 }
 
-const InfiniteScroll: React.FC<InfiniteScrollNS.Props> = React.memo(
+const InfiniteScroll: React.FC<InfiniteScrollNS.IProps> = React.memo(
   ({ children, Loader = InfiniteScrollLoader, className = '', hasMore, isLoading, onReachExtreme, isReverse, threshold = 0.0 }) => {
     const loaderRef = React.useRef<HTMLDivElement>(null);
 

@@ -7,15 +7,15 @@ import PauseSvg from 'icons/ic-pause.svg';
 import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
 import moment from 'moment';
 import { changeMusic } from 'app/utils/current-music';
-import { VoiceAttachment } from 'store/chats/models';
+import { IVoiceAttachment } from 'store/chats/models';
 
 namespace RecordingAttachmentNS {
-  export interface Props {
-    attachment: VoiceAttachment;
+  export interface IProps {
+    attachment: IVoiceAttachment;
   }
 }
 
-export const RecordingAttachment = React.memo(({ attachment }: RecordingAttachmentNS.Props) => {
+export const RecordingAttachment = React.memo(({ attachment }: RecordingAttachmentNS.IProps) => {
   const audioRef = useRef<AudioPlayer>();
   return (
     <div className='recording-attachment'>

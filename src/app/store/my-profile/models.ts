@@ -1,14 +1,14 @@
 import { UserStatus } from '../common/models';
 
-export interface MyProfileState {
-  user?: UserPreview;
+export interface IMyProfileState {
+  user?: IUserPreview;
 }
 
-export interface UserPreview {
+export interface IUserPreview {
   id: number;
   firstName: string;
   lastName: string;
-  avatar?: Avatar;
+  avatar?: IAvatar;
   nickname: string;
   status: UserStatus;
   gender?: number;
@@ -17,13 +17,13 @@ export interface UserPreview {
 
   supposedToAddIntoGroupChat?: boolean;
 }
-export interface UpdateMyProfileApiRequestData {
+export interface IUpdateMyProfileApiRequestData {
   firstName: string;
   lastName: string;
   avatarId?: number;
 }
 
-export interface AvatarSelectedData {
+export interface IAvatarSelectedData {
   offsetY?: number;
   offsetX?: number;
   width?: number;
@@ -31,18 +31,18 @@ export interface AvatarSelectedData {
   croppedImagePath: string;
 }
 
-export interface UpdateAvatarSuccess {
+export interface IUpdateAvatarSuccess {
   fullAvatarUrl: string;
   croppedAvatarUrl: string;
 }
 
-export interface Avatar {
+export interface IAvatar {
   url: string;
   previewUrl: string;
   id: number;
 }
 
-export interface UploadAvatarResponse {
+export interface IUploadAvatarResponse {
   url: string;
   previewUrl: string;
   id: number;

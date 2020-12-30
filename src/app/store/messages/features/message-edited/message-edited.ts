@@ -1,16 +1,16 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { getChatIndex, getMessage } from 'app/store/messages/selectors';
-import { MessagesState } from '../../models';
-import { MessageEditedActionPayload } from './message-edited-action-payload';
+import { IMessagesState } from '../../models';
+import { IMessageEditedActionPayload } from './message-edited-action-payload';
 
 export class MessageEdited {
   static get action() {
-    return createAction('MESSAGE_EDITED')<MessageEditedActionPayload>();
+    return createAction('MESSAGE_EDITED')<IMessageEditedActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: MessagesState, { payload }: ReturnType<typeof MessageEdited.action>) => {
+    return produce((draft: IMessagesState, { payload }: ReturnType<typeof MessageEdited.action>) => {
       const { chatId, messageId, text, attachments } = payload;
       const chatIndex = getChatIndex(draft, chatId);
 

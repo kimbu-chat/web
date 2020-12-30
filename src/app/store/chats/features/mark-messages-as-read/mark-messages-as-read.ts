@@ -4,13 +4,13 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { MarkMessagesAsReadRequest } from '../../models';
-import { MarkMessagesAsReadActionPayload } from './mark-messages-as-read-action-payload';
+import { IMarkMessagesAsReadRequest } from '../../models';
+import { IMarkMessagesAsReadActionPayload } from './mark-messages-as-read-action-payload';
 import { MarkMessagesAsReadSuccess } from './mark-messages-as-read-success';
 
 export class MarkMessagesAsRead {
   static get action() {
-    return createAction('RESET_UNREAD_MESSAGES_COUNT')<MarkMessagesAsReadActionPayload>();
+    return createAction('RESET_UNREAD_MESSAGES_COUNT')<IMarkMessagesAsReadActionPayload>();
   }
 
   static get saga() {
@@ -22,6 +22,6 @@ export class MarkMessagesAsRead {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, MarkMessagesAsReadRequest>(`${ApiBasePath.MainApi}/api/chats/mark-as-read`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse, IMarkMessagesAsReadRequest>(`${ApiBasePath.MainApi}/api/chats/mark-as-read`, HttpRequestMethod.Post);
   }
 }

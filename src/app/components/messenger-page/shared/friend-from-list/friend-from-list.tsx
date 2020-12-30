@@ -2,22 +2,22 @@ import React, { useCallback } from 'react';
 import './friend-from-list.scss';
 
 import { Avatar } from 'components';
-import { UserPreview } from 'store/my-profile/models';
+import { IUserPreview } from 'store/my-profile/models';
 import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 
 import SelectedSvg from 'icons/ic-check-filled.svg';
 import UnSelectedSvg from 'icons/ic-check-outline.svg';
 
 namespace FriendFromListNS {
-  export interface Props {
+  export interface IProps {
     changeSelectedState?: (id: number) => void;
     isSelected?: boolean;
-    friend: UserPreview;
-    onClick?: (user: UserPreview) => void;
+    friend: IUserPreview;
+    onClick?: (user: IUserPreview) => void;
   }
 }
 
-export const FriendFromList = React.memo(({ changeSelectedState, friend, isSelected, onClick }: FriendFromListNS.Props) => {
+export const FriendFromList = React.memo(({ changeSelectedState, friend, isSelected, onClick }: FriendFromListNS.IProps) => {
   const onClickOnThisContact = useCallback(() => {
     if (onClick) {
       onClick(friend);

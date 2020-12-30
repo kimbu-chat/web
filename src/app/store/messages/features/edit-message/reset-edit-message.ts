@@ -1,6 +1,6 @@
 import { createEmptyAction } from 'app/store/common/actions';
 import produce from 'immer';
-import { MessagesState } from '../../models';
+import { IMessagesState } from '../../models';
 
 export class ResetEditMessage {
   static get action() {
@@ -8,7 +8,7 @@ export class ResetEditMessage {
   }
 
   static get reducer() {
-    return produce((draft: MessagesState) => {
+    return produce((draft: IMessagesState) => {
       draft.messageToEdit = undefined;
       return draft;
     });

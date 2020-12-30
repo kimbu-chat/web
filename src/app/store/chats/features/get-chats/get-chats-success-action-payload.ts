@@ -1,5 +1,5 @@
-import { ChatList } from '../../models';
+import { IChatList } from '../../models';
 
-export interface GetChatsSuccessActionPayload extends ChatList {
+export interface IGetChatsSuccessActionPayload extends IChatList {
   initializedBySearch: boolean;
 }

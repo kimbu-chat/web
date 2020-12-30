@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { AuthState } from '../../models';
+import { IAuthState } from '../../models';
 
 export class SendSmsCodeSuccess {
   static get action() {
@@ -8,7 +8,7 @@ export class SendSmsCodeSuccess {
   }
 
   static get reducer() {
-    return produce((draft: AuthState, { payload }: ReturnType<typeof SendSmsCodeSuccess.action>) => ({
+    return produce((draft: IAuthState, { payload }: ReturnType<typeof SendSmsCodeSuccess.action>) => ({
       ...draft,
       loading: false,
       confirmationCode: payload,

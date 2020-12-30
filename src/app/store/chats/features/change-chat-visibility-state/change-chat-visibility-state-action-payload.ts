@@ -1,3 +1,3 @@
-import { Chat } from '../../models';
+import { IChat } from '../../models';
 
-export interface ChangeChatVisibilityStateActionPayload extends Chat {}
+export interface IChangeChatVisibilityStateActionPayload extends IChat {}

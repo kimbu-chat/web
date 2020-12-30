@@ -3,13 +3,13 @@ import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { ChangeChatMutedStatusActionPayload } from './change-chat-muted-status-action-payload';
-import { ChangeChatMutedStatusRequest } from '../../models';
+import { IChangeChatMutedStatusActionPayload } from './change-chat-muted-status-action-payload';
+import { IChangeChatMutedStatusRequest } from '../../models';
 import { ChangeChatMutedStatusSuccess } from './change-chat-muted-status-success';
 
 export class ChangeChatMutedStatus {
   static get action() {
-    return createAction('MUTE_CHAT')<ChangeChatMutedStatusActionPayload>();
+    return createAction('MUTE_CHAT')<IChangeChatMutedStatusActionPayload>();
   }
 
   static get saga() {
@@ -17,7 +17,7 @@ export class ChangeChatMutedStatus {
       try {
         const { chatId, isMuted } = action.payload;
 
-        const request: ChangeChatMutedStatusRequest = {
+        const request: IChangeChatMutedStatusRequest = {
           chatIds: [chatId],
           isMuted,
         };
@@ -41,6 +41,6 @@ export class ChangeChatMutedStatus {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, ChangeChatMutedStatusRequest>(`${ApiBasePath.MainApi}/api/chats/change-muted-status`, HttpRequestMethod.Put);
+    return httpRequestFactory<AxiosResponse, IChangeChatMutedStatusRequest>(`${ApiBasePath.MainApi}/api/chats/change-muted-status`, HttpRequestMethod.Put);
   }
 }

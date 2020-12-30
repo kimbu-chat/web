@@ -1,5 +1,5 @@
 import { RootState } from 'app/store/root-reducer';
-import { MessagesState, Message } from './models';
+import { IMessagesState, IMessage } from './models';
 
 export const getSelectedMessagesLength = (state: RootState): number => state.messages.selectedMessageIds.length;
 
@@ -19,9 +19,9 @@ export const getLastMessageByChatId = (messagesChatId: number) => (state: RootSt
   return messagesForChat ? messagesForChat[0] : undefined;
 };
 
-export const checkIfChatExists = (state: MessagesState, chatId: number): boolean =>
+export const checkIfChatExists = (state: IMessagesState, chatId: number): boolean =>
   chatId !== null && state.messages && state.messages.length > 0 && state?.messages?.findIndex((x) => x.chatId === chatId) !== -1;
 
-export const getChatIndex = (state: MessagesState, chatId: number): number => state?.messages?.findIndex((x) => x.chatId === chatId);
+export const getChatIndex = (state: IMessagesState, chatId: number): number => state?.messages?.findIndex((x) => x.chatId === chatId);
 
-export const getMessage = (messages: Message[], messageId: number) => messages.find(({ id }) => id === messageId);
+export const getMessage = (messages: IMessage[], messageId: number) => messages.find(({ id }) => id === messageId);

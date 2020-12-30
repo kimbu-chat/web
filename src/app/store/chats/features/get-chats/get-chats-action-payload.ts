@@ -1,7 +1,7 @@
-import { Page } from 'app/store/common/models';
+import { IPage } from 'app/store/common/models';
 
-export interface GetChatsActionPayload {
-  page: Page;
+export interface IGetChatsActionPayload {
+  page: IPage;
   showOnlyHidden: boolean;
   showAll: boolean;
   initializedBySearch: boolean;

@@ -4,7 +4,7 @@ import DropDownSvg from 'icons/ic-chevron-down.svg';
 import { useOnClickOutside } from 'app/hooks/use-on-click-outside';
 
 namespace DropdownNS {
-  export interface Props {
+  export interface IProps {
     selectedString: string;
     disabled: boolean;
     options: {
@@ -14,7 +14,7 @@ namespace DropdownNS {
   }
 }
 
-export const Dropdown = ({ selectedString, options, disabled }: DropdownNS.Props) => {
+export const Dropdown = ({ selectedString, options, disabled }: DropdownNS.IProps) => {
   const [optionsOpened, setOptionsOpened] = useState(false);
   const changeOptionsOpenedStatus = useCallback(() => {
     setOptionsOpened((oldState) => !oldState);

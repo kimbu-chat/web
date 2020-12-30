@@ -1,16 +1,16 @@
 import { BigPhoto, FadeAnimationWrapper } from 'components';
-import { IGroupable, PictureAttachment } from 'store/chats/models';
+import { IGroupable, IPictureAttachment } from 'store/chats/models';
 import { doesYearDifferFromCurrent } from 'app/utils/set-separators';
 import moment from 'moment';
 import React, { useCallback, useState } from 'react';
 
 namespace PhotoNS {
-  export interface Props {
-    photo: PictureAttachment & IGroupable;
+  export interface IProps {
+    photo: IPictureAttachment & IGroupable;
   }
 }
 
-export const Photo: React.FC<PhotoNS.Props> = React.memo(({ photo }) => {
+export const Photo: React.FC<PhotoNS.IProps> = React.memo(({ photo }) => {
   const [bigPhotoDisplayed, setBigPhotoDisplayed] = useState(false);
   const changeBigPhotoDisplayed = useCallback(() => setBigPhotoDisplayed((oldState) => !oldState), [setBigPhotoDisplayed]);
 

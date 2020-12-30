@@ -2,15 +2,15 @@ import React, { useCallback, useState } from 'react';
 import './photo-attachment.scss';
 
 import { FadeAnimationWrapper, BigPhoto } from 'components';
-import { PictureAttachment } from 'store/chats/models';
+import { IPictureAttachment } from 'store/chats/models';
 
-namespace PhotoAttachment {
-  export interface Props {
-    attachment: PictureAttachment;
+namespace MessagePhotoAttachmentNS {
+  export interface IProps {
+    attachment: IPictureAttachment;
   }
 }
 
-export const MessagePhotoAttachment = React.memo(({ attachment }: PhotoAttachment.Props) => {
+export const MessagePhotoAttachment = React.memo(({ attachment }: MessagePhotoAttachmentNS.IProps) => {
   const [bigPhotoDisplayed, setBigPhotoDisplayed] = useState(false);
   const changeBigPhotoDisplayed = useCallback(() => setBigPhotoDisplayed((oldState) => !oldState), [setBigPhotoDisplayed]);
 

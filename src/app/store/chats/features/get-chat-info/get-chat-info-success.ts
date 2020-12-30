@@ -1,16 +1,16 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { getChatArrayIndex } from 'app/store/chats/selectors';
-import { ChatsState } from '../../models';
-import { GetChatInfoSuccessActionPayload } from './get-chat-info-success-action-payload';
+import { IChatsState } from '../../models';
+import { IGetChatInfoSuccessActionPayload } from './get-chat-info-success-action-payload';
 
 export class GetChatInfoSuccess {
   static get action() {
-    return createAction('GET_CHAT_INFO_SUCCESS')<GetChatInfoSuccessActionPayload>();
+    return createAction('GET_CHAT_INFO_SUCCESS')<IGetChatInfoSuccessActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: ChatsState, { payload }: ReturnType<typeof GetChatInfoSuccess.action>) => {
+    return produce((draft: IChatsState, { payload }: ReturnType<typeof GetChatInfoSuccess.action>) => {
       const { chatId, rawAttachmentsCount, voiceAttachmentsCount, videoAttachmentsCount, audioAttachmentsCount, pictureAttachmentsCount } = payload;
 
       const chatIndex: number = getChatArrayIndex(chatId, draft);

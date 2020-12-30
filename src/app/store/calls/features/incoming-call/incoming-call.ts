@@ -2,7 +2,7 @@ import { setInterlocutorOffer } from 'app/store/middlewares/webRTC/peerConnectio
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { createAction } from 'typesafe-actions';
-import { CallState } from '../../models';
+import { ICallState } from '../../models';
 import { IncomingCallActionPayload } from './incoming-call-action-payload';
 
 export class IncomingCall {
@@ -11,7 +11,7 @@ export class IncomingCall {
   }
 
   static get reducer() {
-    return produce((draft: CallState, { payload }: ReturnType<typeof IncomingCall.action>) => {
+    return produce((draft: ICallState, { payload }: ReturnType<typeof IncomingCall.action>) => {
       draft.isIncomingCallVideoEnbaled = payload.isVideoEnabled;
       const interlocutor = payload.userInterlocutor;
       draft.interlocutor = interlocutor;

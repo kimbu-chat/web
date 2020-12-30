@@ -1,18 +1,18 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { getChatIndex } from 'app/store/messages/selectors';
-import { Message, MessagesState } from '../../models';
-import { SelectMessageActionPayload } from './select-message-action-payload';
+import { IMessage, IMessagesState } from '../../models';
+import { ISelectMessageActionPayload } from './select-message-action-payload';
 
 export class SelectMessage {
   static get action() {
-    return createAction('SELECT_MESSAGE')<SelectMessageActionPayload>();
+    return createAction('SELECT_MESSAGE')<ISelectMessageActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: MessagesState, { payload }: ReturnType<typeof SelectMessage.action>) => {
+    return produce((draft: IMessagesState, { payload }: ReturnType<typeof SelectMessage.action>) => {
       const chatIndex = getChatIndex(draft, payload.chatId as number);
-      const selectedMessage = draft.messages[chatIndex].messages.find(({ id }) => id === payload.messageId) as Message;
+      const selectedMessage = draft.messages[chatIndex].messages.find(({ id }) => id === payload.messageId) as IMessage;
       const isMessageSelected = draft.selectedMessageIds.includes(selectedMessage?.id as number) && selectedMessage?.isSelected;
 
       if (!isMessageSelected) {

@@ -1,5 +1,5 @@
 import { TypingStrategy } from '../../models';
 
-export interface ChangeTypingStrategyActionPayload {
+export interface IChangeTypingStrategyActionPayload {
   strategy: TypingStrategy;
 }

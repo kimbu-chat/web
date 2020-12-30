@@ -23,13 +23,13 @@ const NotFound = lazy(loadNotFound);
 const Registration = lazy(loadRegistration);
 
 namespace AppNS {
-  export interface Localization {
+  export interface ILocalization {
     t: TFunction;
     i18n?: i18n;
   }
 }
 
-export const LocalizationContext = React.createContext<AppNS.Localization>({ t: (str: string) => str });
+export const LocalizationContext = React.createContext<AppNS.ILocalization>({ t: (str: string) => str });
 
 export const App = () => {
   const { t, i18n } = useTranslation(undefined, { i18n: i18nConfiguration });

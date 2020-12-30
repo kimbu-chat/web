@@ -1,26 +1,26 @@
 import moment from 'moment';
 import {
-  SystemMessageBase,
-  Message,
+  ISystemMessageBase,
+  IMessage,
   SystemMessageType,
-  GroupChatMemberRemovedSystemMessageContent,
-  GroupChatMemberAddedSystemMessageContent,
-  GroupChatNameChangedSystemMessageContent,
-  CallMessage,
+  IGroupChatMemberRemovedSystemMessageContent,
+  IGroupChatMemberAddedSystemMessageContent,
+  IGroupChatNameChangedSystemMessageContent,
+  ICallMessage,
 } from 'store/messages/models';
 import { UserStatus } from 'store/common/models';
 import { TFunction } from 'i18next';
 import { CallStatus } from 'store/calls/models';
 
 export class MessageUtils {
-  static getSystemMessageContent(text: string): SystemMessageBase {
-    const systemMessage: SystemMessageBase = JSON.parse(text);
+  static getSystemMessageContent(text: string): ISystemMessageBase {
+    const systemMessage: ISystemMessageBase = JSON.parse(text);
     return systemMessage;
   }
 
   static checkIfDatesAreSameDate = (startDate: Date, endDate: Date): boolean => !(startDate.toDateString() === endDate.toDateString());
 
-  static constructSystemMessageText(message: Message, t: TFunction, myId: number): string {
+  static constructSystemMessageText(message: IMessage, t: TFunction, myId: number): string {
     if (message.systemMessageType === SystemMessageType.GroupChatCreated) {
       return message?.userCreator?.id === myId
         ? t('systemMessage.you_created_group')
@@ -28,14 +28,14 @@ export class MessageUtils {
     }
     if (message.systemMessageType === SystemMessageType.GroupChatMemberRemoved) {
       const systemMessageContent = MessageUtils.getSystemMessageContent(message.text);
-      const groupChatMemberRemovedSystemMessageContent = <GroupChatMemberRemovedSystemMessageContent>systemMessageContent;
+      const groupChatMemberRemovedSystemMessageContent = <IGroupChatMemberRemovedSystemMessageContent>systemMessageContent;
       return message.userCreator?.id === groupChatMemberRemovedSystemMessageContent.removedUserId
         ? t('systemMessage.left_group', { name: groupChatMemberRemovedSystemMessageContent.removedUserName })
         : t('systemMessage.left_group', { name: groupChatMemberRemovedSystemMessageContent.removedUserName });
     }
     if (message.systemMessageType === SystemMessageType.GroupChatMemberAdded) {
       const systemMessageContent = MessageUtils.getSystemMessageContent(message.text);
-      const groupChatMemberRemovedSystemMessageContent = <GroupChatMemberAddedSystemMessageContent>systemMessageContent;
+      const groupChatMemberRemovedSystemMessageContent = <IGroupChatMemberAddedSystemMessageContent>systemMessageContent;
       if (message?.userCreator?.id === myId) {
         return t('systemMessage.you_added', {
           name: groupChatMemberRemovedSystemMessageContent.addedUserName,
@@ -48,7 +48,7 @@ export class MessageUtils {
     }
     if (message.systemMessageType === SystemMessageType.GroupChatNameChanged) {
       const systemMessageContent = MessageUtils.getSystemMessageContent(message.text);
-      const groupChatNameChangedSystemMessageContent = <GroupChatNameChangedSystemMessageContent>systemMessageContent;
+      const groupChatNameChangedSystemMessageContent = <IGroupChatNameChangedSystemMessageContent>systemMessageContent;
       if (message?.userCreator?.id === myId) {
         return t('systemMessage.you_changed_name', {
           oldName: groupChatNameChangedSystemMessageContent.oldName,
@@ -80,7 +80,7 @@ export class MessageUtils {
     }
 
     if (message.systemMessageType === SystemMessageType.CallEnded) {
-      const callMessage: CallMessage = JSON.parse(message.text);
+      const callMessage: ICallMessage = JSON.parse(message.text);
 
       if (callMessage.status === CallStatus.Ended) {
         if (callMessage.userCallerId === myId) {
@@ -113,7 +113,7 @@ export class MessageUtils {
     return message.toString() || '';
   }
 
-  static createSystemMessage(systemMessage: SystemMessageBase): string {
+  static createSystemMessage(systemMessage: ISystemMessageBase): string {
     return JSON.stringify(systemMessage);
   }
 
@@ -125,7 +125,7 @@ export class MessageUtils {
     return moment.utc(lastOnlineTime).local().fromNow();
   }
 
-  static signAndSeparate(arr: Message[]): Message[] {
+  static signAndSeparate(arr: IMessage[]): IMessage[] {
     const separatedAndSignedMessages = arr.map((message, index) => {
       if (index <= arr.length - 1) {
         if (

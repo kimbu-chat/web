@@ -8,7 +8,7 @@ import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
-import { CallState, EndCallApiRequest } from '../../models';
+import { ICallState, IEndCallApiRequest } from '../../models';
 
 export class EndCall {
   static get action() {
@@ -16,7 +16,7 @@ export class EndCall {
   }
 
   static get reducer() {
-    return produce((draft: CallState) => {
+    return produce((draft: ICallState) => {
       draft.interlocutor = undefined;
       draft.isInterlocutorBusy = false;
       draft.amICalling = false;
@@ -43,6 +43,6 @@ export class EndCall {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, EndCallApiRequest>(`${ApiBasePath.MainApi}/api/calls/end-call`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse, IEndCallApiRequest>(`${ApiBasePath.MainApi}/api/calls/end-call`, HttpRequestMethod.Post);
   }
 }

@@ -1,7 +1,7 @@
 import { RootState } from 'app/store/root-reducer';
-import { SecurityTokens } from './models';
+import { ISecurityTokens } from './models';
 
-export const selectSecurityTokens = (state: RootState): SecurityTokens => state.auth.securityTokens;
+export const selectSecurityTokens = (state: RootState): ISecurityTokens => state.auth.securityTokens;
 
 export const amIlogged = (state: RootState): boolean => state.auth.isAuthenticated;
 

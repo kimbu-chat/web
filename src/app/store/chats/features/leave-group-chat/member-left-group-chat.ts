@@ -2,16 +2,16 @@ import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { getChatArrayIndex } from 'app/store/chats/selectors';
 import { ChatId } from '../../chat-id';
-import { ChatsState } from '../../models';
-import { MemberLeftGroupChatActionPayload } from './member-left-group-chat-action-payload';
+import { IChatsState } from '../../models';
+import { IMemberLeftGroupChatActionPayload } from './member-left-group-chat-action-payload';
 
 export class MemberLeftGroupChat {
   static get action() {
-    return createAction('GROUP_CHAT_LEFT')<MemberLeftGroupChatActionPayload>();
+    return createAction('GROUP_CHAT_LEFT')<IMemberLeftGroupChatActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: ChatsState, { payload }: ReturnType<typeof MemberLeftGroupChat.action>) => {
+    return produce((draft: IChatsState, { payload }: ReturnType<typeof MemberLeftGroupChat.action>) => {
       const { groupChatId, userId, isCurrentUserEventCreator } = payload;
       const chatId = ChatId.from(undefined, groupChatId).id;
 

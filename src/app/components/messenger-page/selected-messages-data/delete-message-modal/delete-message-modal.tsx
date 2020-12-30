@@ -10,13 +10,13 @@ import { LocalizationContext } from 'app/app';
 import './delete-message-modal.scss';
 
 namespace DeleteMessageModalNS {
-  export interface Props {
+  export interface IProps {
     onClose: () => void;
     selectedMessages: number[];
   }
 }
 
-export const DeleteMessageModal: React.FC<DeleteMessageModalNS.Props> = React.memo(({ onClose, selectedMessages }) => {
+export const DeleteMessageModal: React.FC<DeleteMessageModalNS.IProps> = React.memo(({ onClose, selectedMessages }) => {
   const { t } = useContext(LocalizationContext);
 
   const deleteMessage = useActionWithDispatch(MessageActions.deleteMessage);

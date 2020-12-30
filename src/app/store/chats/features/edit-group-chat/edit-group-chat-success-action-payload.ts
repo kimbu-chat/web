@@ -1,8 +1,8 @@
-import { Avatar } from 'app/store/my-profile/models';
+import { IAvatar } from 'app/store/my-profile/models';
 
-export interface EditGroupChatSuccessActionPayload {
+export interface IEditGroupChatSuccessActionPayload {
   id: number;
   name: string;
   description?: string;
-  avatar: Avatar | null;
+  avatar: IAvatar | null;
 }

@@ -5,23 +5,25 @@ import { Init } from 'app/store/initiation/features/init/init';
 import { initializeSaga } from 'app/store/initiation/sagas';
 import { GetMyProfile } from 'app/store/my-profile/features/get-my-profile/get-my-profile';
 import { GetMyProfileSuccess } from 'app/store/my-profile/features/get-my-profile/get-my-profile-success';
-import { UserPreview } from 'app/store/my-profile/models';
+import { IUserPreview } from 'app/store/my-profile/models';
 import { AxiosResponse } from 'axios';
 import jwt_decode from 'jwt-decode';
 import { SagaIterator } from 'redux-saga';
 import { call, fork, put } from 'redux-saga/effects';
 import { getPushNotificationTokens } from '../../get-push-notification-tokens';
-import { LoginResponse, PhoneConfirmationData, SecurityTokens } from '../../models';
+import { ILoginResponse, IPhoneConfirmationData, ISecurityTokens } from '../../models';
 import { ConfirmPhone } from '../confirm-phone/confirm-phone';
 import { LoginSuccess } from '../logout/login-sucess/login-success';
 
 export class Login {
   static get saga() {
-    return function* (loginData: PhoneConfirmationData): SagaIterator {
-      const { data }: AxiosResponse<LoginResponse> = ConfirmPhone.httpRequest.login.call(yield call(() => ConfirmPhone.httpRequest.login.generator(loginData)));
+    return function* (loginData: IPhoneConfirmationData): SagaIterator {
+      const { data }: AxiosResponse<ILoginResponse> = ConfirmPhone.httpRequest.login.call(
+        yield call(() => ConfirmPhone.httpRequest.login.generator(loginData)),
+      );
 
       const profileService = new MyProfileService();
-      const myProfile: UserPreview = {
+      const myProfile: IUserPreview = {
         id: parseInt(jwt_decode<{ unique_name: string }>(data.accessToken).unique_name, 10),
         firstName: '',
         lastName: '',
@@ -32,7 +34,7 @@ export class Login {
       };
       yield put(GetMyProfileSuccess.action(myProfile));
       profileService.setMyProfile(myProfile);
-      const securityTokens: SecurityTokens = {
+      const securityTokens: ISecurityTokens = {
         accessToken: data.accessToken,
         refreshToken: data.refreshToken,
       };

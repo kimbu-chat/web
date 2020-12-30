@@ -10,7 +10,7 @@ import { call, put } from 'redux-saga/effects';
 import { createEmptyAction } from 'store/common/actions';
 import { messaging } from 'store/middlewares/firebase/firebase';
 import { getPushNotificationTokens } from '../../get-push-notification-tokens';
-import { AuthState, SubscribeToPushNotificationsRequest } from '../../models';
+import { IAuthState, ISubscribeToPushNotificationsRequest } from '../../models';
 import { LogoutSuccess } from './logout-success';
 
 export class Logout {
@@ -19,7 +19,7 @@ export class Logout {
   }
 
   static get reducer() {
-    return produce((draft: AuthState) => ({
+    return produce((draft: IAuthState) => ({
       ...draft,
       loading: true,
     }));
@@ -43,7 +43,7 @@ export class Logout {
   }
 
   static get httpRequest() {
-    return authRequestFactory<AxiosResponse, SubscribeToPushNotificationsRequest>(
+    return authRequestFactory<AxiosResponse, ISubscribeToPushNotificationsRequest>(
       `${ApiBasePath.NotificationsApi}/api/notifications/unsubscribe`,
       HttpRequestMethod.Post,
     );

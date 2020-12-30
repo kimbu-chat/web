@@ -1,4 +1,4 @@
-export interface CopyMessagesActionPayload {
+export interface ICopyMessagesActionPayload {
   messageIds: number[];
   chatId: number;
 }

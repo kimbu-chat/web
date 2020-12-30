@@ -8,18 +8,18 @@ import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { Meta } from 'store/common/actions';
-import { AuthState } from '../../models';
-import { SendSmsCodeActionPayload } from './send-sms-code-action-payload';
+import { IAuthState } from '../../models';
+import { ISendSmsCodeActionPayload } from './send-sms-code-action-payload';
 import { SendSmsCodeFailure } from './send-sms-code-failure';
 import { SendSmsCodeSuccess } from './send-sms-code-success';
 
 export class SendSmsCode {
   static get action() {
-    return createAction('SEND_PHONE_CONFIRMATION_CODE')<SendSmsCodeActionPayload, Meta>();
+    return createAction('SEND_PHONE_CONFIRMATION_CODE')<ISendSmsCodeActionPayload, Meta>();
   }
 
   static get reducer() {
-    return produce((draft: AuthState, { payload }: ReturnType<typeof SendSmsCode.action>) => ({
+    return produce((draft: IAuthState, { payload }: ReturnType<typeof SendSmsCode.action>) => ({
       ...draft,
       loading: true,
       isConfirmationCodeWrong: false,

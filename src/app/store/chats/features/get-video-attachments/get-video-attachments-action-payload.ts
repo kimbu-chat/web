@@ -1,6 +1,6 @@
-import { Page } from 'app/store/common/models';
+import { IPage } from 'app/store/common/models';
 
-export interface GetVideoAttachmentsActionPayload {
+export interface IGetVideoAttachmentsActionPayload {
   chatId: number;
-  page: Page;
+  page: IPage;
 }

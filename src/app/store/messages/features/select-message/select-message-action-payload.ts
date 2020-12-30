@@ -1,4 +1,4 @@
-export interface SelectMessageActionPayload {
+export interface ISelectMessageActionPayload {
   messageId: number;
   chatId: number;
 }

@@ -1,3 +1,3 @@
-export interface ResetSelectedMessagesActionPAyload {
+export interface IResetSelectedMessagesActionPayload {
   chatId: number;
 }

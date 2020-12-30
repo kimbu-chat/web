@@ -4,15 +4,15 @@ import './video-attachment.scss';
 import PlaySvg from 'icons/ic-play.svg';
 import moment from 'moment';
 import { FadeAnimationWrapper, VideoPlayer } from 'components';
-import { VideoAttachment } from 'store/chats/models';
+import { IVideoAttachment } from 'store/chats/models';
 
 namespace MessageVideoAttachmentNS {
-  export interface Props {
-    attachment: VideoAttachment;
+  export interface IProps {
+    attachment: IVideoAttachment;
   }
 }
 
-export const MessageVideoAttachment = React.memo(({ attachment }: MessageVideoAttachmentNS.Props) => {
+export const MessageVideoAttachment = React.memo(({ attachment }: MessageVideoAttachmentNS.IProps) => {
   const [videoPlayerDisplayed, setVideoPlayerDisplayed] = useState(false);
   const changeVideoPlayerDisplayed = useCallback(() => setVideoPlayerDisplayed((oldState) => !oldState), [setVideoPlayerDisplayed]);
 

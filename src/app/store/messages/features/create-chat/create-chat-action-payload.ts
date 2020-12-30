@@ -1,3 +1,3 @@
-import { UserPreview } from 'store/my-profile/models';
+import { IUserPreview } from 'store/my-profile/models';
 
-export interface CreateChatActionPayload extends UserPreview {}
+export interface ICreateChatActionPayload extends IUserPreview {}

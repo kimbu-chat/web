@@ -17,12 +17,12 @@ import { getAuthPhoneNumber, getIsConfirmationCodeWrong, getAuthIsLoading } from
 const NUMBER_OF_DIGITS = [0, 1, 2, 3];
 
 namespace CodeConfirmationNS {
-  export interface Props {
+  export interface IProps {
     preloadNext: () => void;
   }
 }
 
-const CodeConfirmation: React.FC<CodeConfirmationNS.Props> = ({ preloadNext }) => {
+const CodeConfirmation: React.FC<CodeConfirmationNS.IProps> = ({ preloadNext }) => {
   const { t } = useContext(LocalizationContext);
 
   const checkIfCharacterIsNumeric = (character: string): boolean => /^[0-9]+$/.test(character);

@@ -1,5 +1,5 @@
-import { Page } from 'store/common/models';
+import { IPage } from 'store/common/models';
 
-export interface GetCallsActionPayload {
-  page: Page;
+export interface IGetCallsActionPayload {
+  page: IPage;
 }

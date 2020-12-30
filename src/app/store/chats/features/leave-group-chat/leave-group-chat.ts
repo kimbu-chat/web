@@ -6,19 +6,19 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { Chat } from '../../models';
-import { LeaveGroupChatActionPayload } from './leave-group-chat-action-payload';
+import { IChat } from '../../models';
+import { ILeaveGroupChatActionPayload } from './leave-group-chat-action-payload';
 import { LeaveGroupChatSuccess } from './leave-group-chat-success';
 
 export class LeaveGroupChat {
   static get action() {
-    return createAction('LEAVE_GROUP_CHAT')<LeaveGroupChatActionPayload, Meta>();
+    return createAction('LEAVE_GROUP_CHAT')<ILeaveGroupChatActionPayload, Meta>();
   }
 
   static get saga() {
     return function* leaveGroupChatSaga(action: ReturnType<typeof LeaveGroupChat.action>): SagaIterator {
       try {
-        const chat: Chat = action.payload;
+        const chat: IChat = action.payload;
         const { status } = LeaveGroupChat.httpRequest.call(yield call(() => LeaveGroupChat.httpRequest.generator(chat.groupChat!.id)));
         if (status === HTTPStatusCode.OK) {
           yield put(LeaveGroupChatSuccess.action(action.payload));

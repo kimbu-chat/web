@@ -1,16 +1,16 @@
 import produce from 'immer';
 import { unionBy } from 'lodash';
 import { createAction } from 'typesafe-actions';
-import { ChatsState } from '../../models';
-import { GetChatsSuccessActionPayload } from './get-chats-success-action-payload';
+import { IChatsState } from '../../models';
+import { IGetChatsSuccessActionPayload } from './get-chats-success-action-payload';
 
 export class GetChatsSuccess {
   static get action() {
-    return createAction('GET_CHATS_SUCCESS')<GetChatsSuccessActionPayload>();
+    return createAction('GET_CHATS_SUCCESS')<IGetChatsSuccessActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: ChatsState, { payload }: ReturnType<typeof GetChatsSuccess.action>) => {
+    return produce((draft: IChatsState, { payload }: ReturnType<typeof GetChatsSuccess.action>) => {
       const { chats, hasMore, initializedBySearch } = payload;
 
       draft.loading = false;

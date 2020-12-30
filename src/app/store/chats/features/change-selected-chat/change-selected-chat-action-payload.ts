@@ -1,4 +1,4 @@
-export interface ChangeSelectedChatActionPayload {
+export interface IChangeSelectedChatActionPayload {
   newChatId: number | null;
   oldChatId: number | null;
 }

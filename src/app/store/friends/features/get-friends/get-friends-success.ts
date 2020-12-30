@@ -1,16 +1,16 @@
 import produce from 'immer';
 import { unionBy } from 'lodash';
 import { createAction } from 'typesafe-actions';
-import { GetFriendsSuccessActionPayload } from './get-friends-success-action-payload';
-import { FriendsState } from '../../models';
+import { IGetFriendsSuccessActionPayload } from './get-friends-success-action-payload';
+import { IFriendsState } from '../../models';
 
 export class GetFriendsSuccess {
   static get action() {
-    return createAction('GET_FRIENDS_SUCCESS')<GetFriendsSuccessActionPayload>();
+    return createAction('GET_FRIENDS_SUCCESS')<IGetFriendsSuccessActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: FriendsState, { payload }: ReturnType<typeof GetFriendsSuccess.action>) => {
+    return produce((draft: IFriendsState, { payload }: ReturnType<typeof GetFriendsSuccess.action>) => {
       const { users, hasMore, initializedBySearch } = payload;
 
       draft.hasMoreFriends = hasMore;

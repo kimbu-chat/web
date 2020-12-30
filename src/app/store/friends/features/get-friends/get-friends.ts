@@ -1,22 +1,22 @@
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
-import { UserPreview } from 'app/store/my-profile/models';
+import { IUserPreview } from 'app/store/my-profile/models';
 import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { FriendsState } from '../../models';
-import { GetFriendsActionPayload } from './get-friends-action-payload';
+import { IFriendsState } from '../../models';
+import { IGetFriendsActionPayload } from './get-friends-action-payload';
 import { GetFriendsSuccess } from './get-friends-success';
 
 export class GetFriends {
   static get action() {
-    return createAction('GET_FRIENDS')<GetFriendsActionPayload>();
+    return createAction('GET_FRIENDS')<IGetFriendsActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: FriendsState) => {
+    return produce((draft: IFriendsState) => {
       draft.loading = true;
       return draft;
     });
@@ -42,6 +42,6 @@ export class GetFriends {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<UserPreview[]>, GetFriendsActionPayload>(`${ApiBasePath.MainApi}/api/contacts/search`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse<IUserPreview[]>, IGetFriendsActionPayload>(`${ApiBasePath.MainApi}/api/contacts/search`, HttpRequestMethod.Post);
   }
 }

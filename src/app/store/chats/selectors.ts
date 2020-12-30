@@ -1,19 +1,19 @@
 import { TFunction } from 'i18next';
 import { RootState } from '../root-reducer';
-import { Chat, ChatsState } from './models';
+import { IChat, IChatsState } from './models';
 
-export const checkChatExists = (chatId: number, state: ChatsState): boolean => chatId !== null && Boolean(state.chats.find(({ id }) => id === chatId));
+export const checkChatExists = (chatId: number, state: IChatsState): boolean => chatId !== null && Boolean(state.chats.find(({ id }) => id === chatId));
 
-export const getChatArrayIndex = (chatId: number, state: ChatsState): number => state.chats.findIndex(({ id }) => id === chatId);
+export const getChatArrayIndex = (chatId: number, state: IChatsState): number => state.chats.findIndex(({ id }) => id === chatId);
 
-export const getSelectedChatSelector = (state: RootState): Chat | undefined =>
-  state.chats?.chats?.find((x: Chat) => x?.id === state?.chats?.selectedChatId) || undefined;
+export const getSelectedChatSelector = (state: RootState): IChat | undefined =>
+  state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId) || undefined;
 
 export const getSelectedChatIdSelector = (state: RootState): number | null => state.chats.selectedChatId;
 
 export const getChatById = (chatId: number) => (state: RootState) => state.chats.chats.find(({ id }) => id === chatId);
 
-export const getChats = (state: RootState): Chat[] => state.chats.chats;
+export const getChats = (state: RootState): IChat[] => state.chats.chats;
 
 export const getChatsLoading = (state: RootState): boolean => state.chats.loading;
 
@@ -22,11 +22,11 @@ export const getHasMoreChats = (state: RootState): boolean => state.chats.hasMor
 export const getSearchString = (state: RootState) => state.chats.searchString;
 
 export const getMembersForSelectedGroupChat = (state: RootState) =>
-  state.chats?.chats?.find((x: Chat) => x?.id === state?.chats?.selectedChatId)?.members?.members;
+  state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.members?.members;
 
-export const getMembersListForSelectedGroupChat = (state: RootState) => state.chats?.chats?.find((x: Chat) => x?.id === state?.chats?.selectedChatId)?.members;
+export const getMembersListForSelectedGroupChat = (state: RootState) => state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.members;
 
-export const getTypingString = (t: TFunction, chat: Chat): string | undefined => {
+export const getTypingString = (t: TFunction, chat: IChat): string | undefined => {
   const typingUsers = chat?.typingInterlocutors;
   if (typingUsers) {
     if (typingUsers.length === 1) {

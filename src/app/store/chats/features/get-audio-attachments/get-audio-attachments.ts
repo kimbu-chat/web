@@ -7,17 +7,17 @@ import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { getChatArrayIndex } from 'app/store/chats/selectors';
-import { AudioAttachment, ChatsState, GetChatAudiosHTTPRequest } from '../../models';
-import { GetAudioAttachmentsActionPayload } from './get-audio-attachments-action-payload';
+import { IAudioAttachment, IChatsState, IGetChatAudiosHTTPRequest } from '../../models';
+import { IGetAudioAttachmentsActionPayload } from './get-audio-attachments-action-payload';
 import { GetAudioAttachmentsSuccess } from './get-audio-attachments-success';
 
 export class GetAudioAttachments {
   static get action() {
-    return createAction('GET_AUDIO_ATTACHMENTS')<GetAudioAttachmentsActionPayload>();
+    return createAction('GET_AUDIO_ATTACHMENTS')<IGetAudioAttachmentsActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: ChatsState, { payload }: ReturnType<typeof GetAudioAttachments.action>) => {
+    return produce((draft: IChatsState, { payload }: ReturnType<typeof GetAudioAttachments.action>) => {
       const { chatId } = payload;
 
       const chatIndex: number = getChatArrayIndex(chatId, draft);
@@ -46,7 +46,7 @@ export class GetAudioAttachments {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<Array<AudioAttachment>>, GetChatAudiosHTTPRequest>(
+    return httpRequestFactory<AxiosResponse<IAudioAttachment[]>, IGetChatAudiosHTTPRequest>(
       `${ApiBasePath.MainApi}/api/audio-attachments/search`,
       HttpRequestMethod.Post,
     );

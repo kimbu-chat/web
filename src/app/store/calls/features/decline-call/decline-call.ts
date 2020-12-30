@@ -8,7 +8,7 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { getCallInterlocutorIdSelector } from 'app/store/calls/selectors';
-import { CallState, DeclineCallApiRequest } from '../../models';
+import { ICallState, IDeclineCallApiRequest } from '../../models';
 
 export class DeclineCall {
   static get action() {
@@ -16,7 +16,7 @@ export class DeclineCall {
   }
 
   static get reducer() {
-    return produce((draft: CallState) => {
+    return produce((draft: ICallState) => {
       draft.interlocutor = undefined;
       draft.isInterlocutorBusy = false;
       draft.amICalling = false;
@@ -45,6 +45,6 @@ export class DeclineCall {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, DeclineCallApiRequest>(`${ApiBasePath.MainApi}/api/calls/decline-call`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse, IDeclineCallApiRequest>(`${ApiBasePath.MainApi}/api/calls/decline-call`, HttpRequestMethod.Post);
   }
 }

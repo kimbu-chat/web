@@ -1,7 +1,7 @@
-import { UserPreview } from 'store/my-profile/models';
+import { IUserPreview } from 'store/my-profile/models';
 
-export interface GroupChatCreatedIntegrationEvent {
-  userCreator: UserPreview;
+export interface IGroupChatCreatedIntegrationEvent {
+  userCreator: IUserPreview;
   name: string;
   memberIds: Array<number>;
   systemMessageId: number;

@@ -1,15 +1,15 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { MyProfileState } from '../../models';
-import { GetMyProfileSuccessActionPayload } from './get-my-profile-success-action-payload';
+import { IMyProfileState } from '../../models';
+import { IGetMyProfileSuccessActionPayload } from './get-my-profile-success-action-payload';
 
 export class GetMyProfileSuccess {
   static get action() {
-    return createAction('GET_MY_PROFILE_SUCCESS')<GetMyProfileSuccessActionPayload>();
+    return createAction('GET_MY_PROFILE_SUCCESS')<IGetMyProfileSuccessActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: MyProfileState, { payload }: ReturnType<typeof GetMyProfileSuccess.action>) => ({
+    return produce((draft: IMyProfileState, { payload }: ReturnType<typeof GetMyProfileSuccess.action>) => ({
       ...draft,
       user: payload,
     }));

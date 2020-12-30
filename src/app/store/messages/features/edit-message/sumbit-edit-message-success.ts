@@ -1,16 +1,16 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { getChatIndex, getMessage } from 'app/store/messages/selectors';
-import { SumbitEditMessageSuccessActionPayload } from './sumbit-edit-message-success-action-payload';
-import { MessagesState } from '../../models';
+import { ISumbitEditMessageSuccessActionPayload } from './sumbit-edit-message-success-action-payload';
+import { IMessagesState } from '../../models';
 
 export class SubmitEditMessageSuccess {
   static get action() {
-    return createAction('SUBMIT_EDIT_MESSAGE_SUCCESS')<SumbitEditMessageSuccessActionPayload>();
+    return createAction('SUBMIT_EDIT_MESSAGE_SUCCESS')<ISumbitEditMessageSuccessActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: MessagesState, { payload }: ReturnType<typeof SubmitEditMessageSuccess.action>) => {
+    return produce((draft: IMessagesState, { payload }: ReturnType<typeof SubmitEditMessageSuccess.action>) => {
       draft.selectedMessageIds = [];
 
       const chatIndex = getChatIndex(draft, payload.chatId);

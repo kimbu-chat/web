@@ -1,5 +1,5 @@
 import { LocalizationContext } from 'app/app';
-import { Country, countryList } from 'app/common/countries';
+import { ICountry, countryList } from 'app/common/countries';
 import { Modal, WithBackground } from 'components';
 import { parsePhoneNumber, parsePhoneNumberFromString } from 'libphonenumber-js';
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
@@ -10,18 +10,18 @@ import { ModalCountrySelect } from './modal-country-select/modal-country-select'
 import { ModalPhoneInput } from './modal-phone-input/modal-phone-input';
 
 namespace EditPhoneModalNS {
-  export interface Props {
+  export interface IProps {
     onClose: () => void;
   }
 }
 
-export const EditPhoneModal = React.memo(({ onClose }: EditPhoneModalNS.Props) => {
+export const EditPhoneModal = React.memo(({ onClose }: EditPhoneModalNS.IProps) => {
   const { t } = useContext(LocalizationContext);
 
   const currentNumber = useSelector(getMyPhoneNumber);
   const currentNumberCountry = parsePhoneNumber(currentNumber!).country;
 
-  const [country, setCountry] = useState<Country>(countryList.find(({ code }) => currentNumberCountry === code)!);
+  const [country, setCountry] = useState<ICountry>(countryList.find(({ code }) => currentNumberCountry === code)!);
   const [phone, setPhone] = useState<string>('');
   const [countrySelectRef, setCountrySelectRef] = useState<React.RefObject<HTMLInputElement> | null>(null);
 
@@ -50,7 +50,7 @@ export const EditPhoneModal = React.memo(({ onClose }: EditPhoneModalNS.Props) =
   }, [phoneInputRef]);
 
   const handleCountryChange = useCallback(
-    (newCountry: Country) => {
+    (newCountry: ICountry) => {
       setCountry((oldCountry) => {
         setPhone((oldPhone) => {
           focusPhoneInput();

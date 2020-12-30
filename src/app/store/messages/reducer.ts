@@ -1,7 +1,7 @@
 import produce from 'immer';
 import { createReducer } from 'typesafe-actions';
 import { MESSAGES_LIMIT } from 'utils/pagination-limits';
-import { MessageState, MessagesState } from './models';
+import { MessageState, IMessagesState } from './models';
 import { ChatActions } from '../chats/actions';
 import { GetMessages } from './features/get-messages/get-messages';
 import { CreateMessageSuccess } from './features/create-message/create-message-success';
@@ -22,13 +22,13 @@ import { getChatIndex } from './selectors';
 import { MessagesDeletedFromEvent } from './features/delete-message/messages-deleted-from-event';
 import { ClearChatHistorySuccess } from './features/clear-history/clear-chat-history-success';
 
-const initialState: MessagesState = {
+const initialState: IMessagesState = {
   loading: false,
   messages: [],
   selectedMessageIds: [],
 };
 
-const messages = createReducer<MessagesState>(initialState)
+const messages = createReducer<IMessagesState>(initialState)
   .handleAction(CreateMessageSuccess.action, CreateMessageSuccess.reducer)
   .handleAction(GetMessages.action, GetMessages.reducer)
   .handleAction(GetMessagesSuccess.action, GetMessagesSuccess.reducer)
@@ -48,7 +48,7 @@ const messages = createReducer<MessagesState>(initialState)
   .handleAction(ClearChatHistorySuccess.action, ClearChatHistorySuccess.reducer)
   .handleAction(
     ChatActions.changeSelectedChat,
-    produce((draft: MessagesState, { payload }: ReturnType<typeof ChatActions.changeSelectedChat>) => {
+    produce((draft: IMessagesState, { payload }: ReturnType<typeof ChatActions.changeSelectedChat>) => {
       const { oldChatId } = payload;
 
       if (oldChatId) {
@@ -76,7 +76,7 @@ const messages = createReducer<MessagesState>(initialState)
   )
   .handleAction(
     ChatActions.changeInterlocutorLastReadMessageId,
-    produce((draft: MessagesState, { payload }: ReturnType<typeof ChatActions.changeInterlocutorLastReadMessageId>) => {
+    produce((draft: IMessagesState, { payload }: ReturnType<typeof ChatActions.changeInterlocutorLastReadMessageId>) => {
       const { lastReadMessageId, chatId } = payload;
 
       const chatIndex = getChatIndex(draft, chatId);

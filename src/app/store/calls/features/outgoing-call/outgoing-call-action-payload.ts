@@ -1,7 +1,7 @@
-import { UserPreview } from 'store/my-profile/models';
+import { IUserPreview } from 'store/my-profile/models';
 
-export interface OutgoingCallActionPayload {
-  calling: UserPreview;
+export interface IOutgoingCallActionPayload {
+  calling: IUserPreview;
   constraints: {
     videoEnabled: boolean;
     audioEnabled: boolean;

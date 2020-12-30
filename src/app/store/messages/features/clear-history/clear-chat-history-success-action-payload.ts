@@ -1,4 +1,4 @@
-export interface ClearChatHistorySuccessActionPayload {
+export interface IClearChatHistorySuccessActionPayload {
   chatId: number;
   forEveryone: boolean;
 }

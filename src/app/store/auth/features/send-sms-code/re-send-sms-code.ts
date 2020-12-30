@@ -7,7 +7,7 @@ import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
-import { AuthState } from '../../models';
+import { IAuthState } from '../../models';
 import { getAuthPhoneNumber } from '../../selectors';
 import { SendSmsCodeFailure } from './send-sms-code-failure';
 import { SendSmsCodeSuccess } from './send-sms-code-success';
@@ -18,7 +18,7 @@ export class ReSendSmsCode {
   }
 
   static get reducer() {
-    return produce((draft: AuthState) => ({
+    return produce((draft: IAuthState) => ({
       ...draft,
       loading: true,
       isConfirmationCodeWrong: false,

@@ -1,7 +1,7 @@
-import { Chat } from 'store/chats/models';
-import { UserPreview } from 'store/my-profile/models';
+import { IChat } from 'store/chats/models';
+import { IUserPreview } from 'store/my-profile/models';
 
-export const getChatInterlocutor = (chat: Chat): string => {
+export const getChatInterlocutor = (chat: IChat): string => {
   const { interlocutor } = chat;
 
   if (interlocutor) {
@@ -19,7 +19,7 @@ export const getChatInterlocutor = (chat: Chat): string => {
   return '';
 };
 
-export const getInterlocutorInitials = (chat: Chat): string => {
+export const getInterlocutorInitials = (chat: IChat): string => {
   const initials = getChatInterlocutor(chat)
     .split(' ')
     .reduce((accum, current) => accum + current[0], '');
@@ -29,7 +29,7 @@ export const getInterlocutorInitials = (chat: Chat): string => {
   return shortedInitials;
 };
 
-export const getUserInitials = (user?: UserPreview) => {
+export const getUserInitials = (user?: IUserPreview) => {
   if (!user) {
     return '';
   }

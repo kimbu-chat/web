@@ -1,4 +1,4 @@
-export interface ChangeChatMutedStatusSuccessActionPayload {
+export interface IChangeChatMutedStatusSuccessActionPayload {
   chatId: number;
   isMuted: boolean;
 }

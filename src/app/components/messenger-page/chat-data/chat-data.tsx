@@ -7,7 +7,7 @@ import './chat-data.scss';
 import { LocalizationContext } from 'app/app';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { CallActions } from 'store/calls/actions';
-import { UserPreview } from 'store/my-profile/models';
+import { IUserPreview } from 'store/my-profile/models';
 import { Avatar } from 'components';
 
 import VoiceCallSvg from 'icons/ic-call.svg';
@@ -28,7 +28,7 @@ export const ChatData = React.memo(() => {
 
   const callWithVideo = () =>
     callInterlocutor({
-      calling: selectedChat?.interlocutor as UserPreview,
+      calling: selectedChat?.interlocutor as IUserPreview,
       constraints: {
         videoEnabled: true,
         audioEnabled: true,
@@ -37,7 +37,7 @@ export const ChatData = React.memo(() => {
 
   const callWithAudio = () =>
     callInterlocutor({
-      calling: selectedChat?.interlocutor as UserPreview,
+      calling: selectedChat?.interlocutor as IUserPreview,
       constraints: {
         videoEnabled: false,
         audioEnabled: true,

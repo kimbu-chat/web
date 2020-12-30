@@ -1,3 +1,3 @@
-import { UserPreview } from 'store/my-profile/models';
+import { IUserPreview } from 'store/my-profile/models';
 
-export interface GetMyProfileSuccessActionPayload extends UserPreview {}
+export interface IGetMyProfileSuccessActionPayload extends IUserPreview {}

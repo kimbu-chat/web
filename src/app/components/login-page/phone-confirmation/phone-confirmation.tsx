@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useState, useRef, useEffect, lazy, Suspense } from 'react';
 import './phone-confirmation.scss';
 import { CountrySelect, PhoneInput, BaseBtn, WithBackground, FadeAnimationWrapper } from 'components';
-import { Country, countryList } from 'app/common/countries';
+import { ICountry, countryList } from 'app/common/countries';
 import { LocalizationContext } from 'app/app';
 import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
 import { AuthActions } from 'store/auth/actions';
@@ -15,19 +15,19 @@ import { getAuthIsLoading } from 'app/store/auth/selectors';
 const PrivacyPolicy = lazy(() => import('app/components/shared/privacy-policy/privacy-policy'));
 
 namespace PhoneConfirmationNS {
-  export interface Props {
+  export interface IProps {
     preloadNext: () => void;
   }
 }
 
-const PhoneConfirmation: React.FC<PhoneConfirmationNS.Props> = ({ preloadNext }) => {
+const PhoneConfirmation: React.FC<PhoneConfirmationNS.IProps> = ({ preloadNext }) => {
   const { t } = useContext(LocalizationContext);
 
   const history = useHistory();
 
   const isLoading = useSelector(getAuthIsLoading);
 
-  const [country, setCountry] = useState<Country>(countryList[countryList.length - 1]);
+  const [country, setCountry] = useState<ICountry>(countryList[countryList.length - 1]);
   const [phone, setPhone] = useState<string>('');
   const [countrySelectRef, setCountrySelectRef] = useState<React.RefObject<HTMLInputElement> | null>(null);
   const [policyDisplayed, setPolicyDisplayed] = useState(false);
@@ -64,7 +64,7 @@ const PhoneConfirmation: React.FC<PhoneConfirmationNS.Props> = ({ preloadNext })
   }, [phoneInputRef]);
 
   const handleCountryChange = useCallback(
-    (newCountry: Country) => {
+    (newCountry: ICountry) => {
       setCountry((oldCountry) => {
         setPhone((oldPhone) => {
           focusPhoneInput();

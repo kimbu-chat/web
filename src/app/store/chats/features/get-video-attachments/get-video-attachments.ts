@@ -7,17 +7,17 @@ import { put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import produce from 'immer';
 import { getChatArrayIndex } from 'app/store/chats/selectors';
-import { GetVideoAttachmentsActionPayload } from './get-video-attachments-action-payload';
-import { VideoAttachment, GetChatVideosHTTPRequest, ChatsState } from '../../models';
+import { IGetVideoAttachmentsActionPayload } from './get-video-attachments-action-payload';
+import { IVideoAttachment, IGetChatVideosHTTPRequest, IChatsState } from '../../models';
 import { GetVideoAttachmentsSuccess } from './get-video-attachments-success';
 
 export class GetVideoAttachments {
   static get action() {
-    return createAction('GET_VIDEO_ATTACHMENTS')<GetVideoAttachmentsActionPayload>();
+    return createAction('GET_VIDEO_ATTACHMENTS')<IGetVideoAttachmentsActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: ChatsState, { payload }: ReturnType<typeof GetVideoAttachments.action>) => {
+    return produce((draft: IChatsState, { payload }: ReturnType<typeof GetVideoAttachments.action>) => {
       const { chatId } = payload;
 
       const chatIndex: number = getChatArrayIndex(chatId, draft);
@@ -46,7 +46,7 @@ export class GetVideoAttachments {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<Array<VideoAttachment>>, GetChatVideosHTTPRequest>(
+    return httpRequestFactory<AxiosResponse<Array<IVideoAttachment>>, IGetChatVideosHTTPRequest>(
       `${ApiBasePath.MainApi}/api/video-attachments/search`,
       HttpRequestMethod.Post,
     );

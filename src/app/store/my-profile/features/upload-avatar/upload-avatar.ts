@@ -7,13 +7,13 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { UploadAvatarResponse } from '../../models';
+import { IUploadAvatarResponse } from '../../models';
 import { setAvatarUploadCancelTokenSource } from '../../my-profile-utils';
-import { UploadAvatarActionPayload } from './upload-avatar-action-payload';
+import { IUploadAvatarActionPayload } from './upload-avatar-action-payload';
 
 export class UploadAvatar {
   static get action() {
-    return createAction('UPLOAD_AVATAR')<UploadAvatarActionPayload, Meta>();
+    return createAction('UPLOAD_AVATAR')<IUploadAvatarActionPayload, Meta>();
   }
 
   static get saga() {
@@ -35,7 +35,7 @@ export class UploadAvatar {
           *onStart({ cancelTokenSource }): SagaIterator {
             setAvatarUploadCancelTokenSource(cancelTokenSource);
           },
-          *onSuccess(payload: UploadAvatarResponse): SagaIterator {
+          *onSuccess(payload: IUploadAvatarResponse): SagaIterator {
             setAvatarUploadCancelTokenSource(undefined);
             action.meta.deferred.resolve(payload);
           },
@@ -54,6 +54,6 @@ export class UploadAvatar {
   }
 
   static get httpRequest() {
-    return httpFilesRequestFactory<AxiosResponse<UploadAvatarResponse>, FormData>(`${ApiBasePath.FilesAPI}/api/avatars`, HttpRequestMethod.Post);
+    return httpFilesRequestFactory<AxiosResponse<IUploadAvatarResponse>, FormData>(`${ApiBasePath.FilesAPI}/api/avatars`, HttpRequestMethod.Post);
   }
 }

@@ -7,18 +7,18 @@ import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { ChatId } from '../../chat-id';
-import { Chat, ChatsState, GetChatsRequestData, InterlocutorType } from '../../models';
-import { GetChatsActionPayload } from './get-chats-action-payload';
+import { IChat, IChatsState, IGetChatsRequestData, InterlocutorType } from '../../models';
+import { IGetChatsActionPayload } from './get-chats-action-payload';
 import { GetChatsSuccess } from './get-chats-success';
-import { GetChatsSuccessActionPayload } from './get-chats-success-action-payload';
+import { IGetChatsSuccessActionPayload } from './get-chats-success-action-payload';
 
 export class GetChats {
   static get action() {
-    return createAction('GET_CHATS')<GetChatsActionPayload>();
+    return createAction('GET_CHATS')<IGetChatsActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: ChatsState, { payload }: ReturnType<typeof GetChats.action>) => ({
+    return produce((draft: IChatsState, { payload }: ReturnType<typeof GetChats.action>) => ({
       ...draft,
       loading: true,
       searchString: payload.name || '',
@@ -38,8 +38,8 @@ export class GetChats {
         showAll,
       };
 
-      const { data }: AxiosResponse<Chat[]> = GetChats.httpRequest.call(yield call(() => GetChats.httpRequest.generator(request)));
-      data.forEach((chat: Chat) => {
+      const { data }: AxiosResponse<IChat[]> = GetChats.httpRequest.call(yield call(() => GetChats.httpRequest.generator(request)));
+      data.forEach((chat: IChat) => {
         if (chat.lastMessage) {
           chat.lastMessage.state =
             chat.interlocutorLastReadMessageId && chat.interlocutorLastReadMessageId >= Number(chat?.lastMessage?.id)
@@ -65,7 +65,7 @@ export class GetChats {
         }
       });
 
-      const chatList: GetChatsSuccessActionPayload = {
+      const chatList: IGetChatsSuccessActionPayload = {
         chats: data,
         hasMore: data.length >= action.payload.page.limit,
         initializedBySearch: chatsRequestData.initializedBySearch,
@@ -76,6 +76,6 @@ export class GetChats {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<Chat[]>, GetChatsRequestData>(`${ApiBasePath.MainApi}/api/chats/search`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse<IChat[]>, IGetChatsRequestData>(`${ApiBasePath.MainApi}/api/chats/search`, HttpRequestMethod.Post);
   }
 }

@@ -1,3 +1,3 @@
-export interface UpdateMyNicknameActionPayload {
+export interface IUpdateMyNicknameActionPayload {
   nickname: string;
 }

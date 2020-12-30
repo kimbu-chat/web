@@ -1,7 +1,7 @@
-import { PictureAttachment, IGroupable } from '../../models';
+import { IPictureAttachment, IGroupable } from '../../models';
 
-export interface GetPhotoAttachmentsSuccessActionPayload {
+export interface IGetPhotoAttachmentsSuccessActionPayload {
   chatId: number;
-  photos: (PictureAttachment & IGroupable)[];
+  photos: (IPictureAttachment & IGroupable)[];
   hasMore: boolean;
 }

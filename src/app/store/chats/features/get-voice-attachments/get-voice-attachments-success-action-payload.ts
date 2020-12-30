@@ -1,7 +1,7 @@
-import { IGroupable, VoiceAttachment } from '../../models';
+import { IGroupable, IVoiceAttachment } from '../../models';
 
-export interface GetVoiceAttachmentsSuccessActionPayload {
+export interface IGetVoiceAttachmentsSuccessActionPayload {
   chatId: number;
-  recordings: (VoiceAttachment & IGroupable)[];
+  recordings: (IVoiceAttachment & IGroupable)[];
   hasMore: boolean;
 }

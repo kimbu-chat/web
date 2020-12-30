@@ -7,17 +7,17 @@ import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import produce from 'immer';
-import { Call, CallState, GetCallsApiRequest } from '../../models';
-import { GetCallsActionPayload } from './get-calls-action-payload';
+import { ICall, ICallState, IGetCallsApiRequest } from '../../models';
+import { IGetCallsActionPayload } from './get-calls-action-payload';
 import { GetCallsSuccess } from './get-calls-success';
 
 export class GetCalls {
   static get action() {
-    return createAction('GET_CALLS')<GetCallsActionPayload>();
+    return createAction('GET_CALLS')<IGetCallsActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: CallState) => {
+    return produce((draft: ICallState) => {
       draft.calls.loading = false;
     });
   }
@@ -39,6 +39,6 @@ export class GetCalls {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<Call[]>, GetCallsApiRequest>(`${ApiBasePath.MainApi}/api/calls/search`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse<ICall[]>, IGetCallsApiRequest>(`${ApiBasePath.MainApi}/api/calls/search`, HttpRequestMethod.Post);
   }
 }

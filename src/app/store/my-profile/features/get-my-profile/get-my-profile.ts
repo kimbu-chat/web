@@ -6,7 +6,7 @@ import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
-import { UserPreview } from '../../models';
+import { IUserPreview } from '../../models';
 import { GetMyProfileSuccess } from './get-my-profile-success';
 
 export class GetMyProfile {
@@ -26,6 +26,6 @@ export class GetMyProfile {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<UserPreview>, number>((userId: number) => `${ApiBasePath.MainApi}/api/users/${userId}`, HttpRequestMethod.Get);
+    return httpRequestFactory<AxiosResponse<IUserPreview>, number>((userId: number) => `${ApiBasePath.MainApi}/api/users/${userId}`, HttpRequestMethod.Get);
   }
 }

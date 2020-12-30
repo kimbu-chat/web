@@ -4,21 +4,21 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { Chat, HideChatRequest } from '../../models';
-import { ChangeChatVisibilityStateActionPayload } from './change-chat-visibility-state-action-payload';
+import { IChat, IHideChatRequest } from '../../models';
+import { IChangeChatVisibilityStateActionPayload } from './change-chat-visibility-state-action-payload';
 import { ChangeChatVisibilityStateSuccess } from './change-chat-visibility-state-success';
 
 export class ChangeChatVisibilityState {
   static get action() {
-    return createAction('CHANGE_CHAT_VISIBILITY_STATE')<ChangeChatVisibilityStateActionPayload>();
+    return createAction('CHANGE_CHAT_VISIBILITY_STATE')<IChangeChatVisibilityStateActionPayload>();
   }
 
   static get saga() {
     return function* (action: ReturnType<typeof ChangeChatVisibilityState.action>): SagaIterator {
-      const chat: Chat = action.payload;
+      const chat: IChat = action.payload;
 
       try {
-        const request: HideChatRequest = {
+        const request: IHideChatRequest = {
           chatIds: [chat.id],
           isHidden: true,
         };
@@ -37,6 +37,6 @@ export class ChangeChatVisibilityState {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, HideChatRequest>(`${ApiBasePath.MainApi}/api/chats/change-hidden-status`, HttpRequestMethod.Put);
+    return httpRequestFactory<AxiosResponse, IHideChatRequest>(`${ApiBasePath.MainApi}/api/chats/change-hidden-status`, HttpRequestMethod.Put);
   }
 }

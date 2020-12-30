@@ -1,14 +1,14 @@
-import { Page } from '../common/models';
-import { InterlocutorAcceptedCallIntegrationEvent } from '../middlewares/websockets/integration-events/interlocutor-accepted-call-integration-event';
-import { UserPreview } from '../my-profile/models';
+import { IPage } from '../common/models';
+import { IInterlocutorAcceptedCallIntegrationEvent } from '../middlewares/websockets/integration-events/interlocutor-accepted-call-integration-event';
+import { IUserPreview } from '../my-profile/models';
 import { InputType } from './common/enums/input-type';
 
-export interface CallState {
+export interface ICallState {
   isActiveCallIncoming?: boolean;
   isIncomingCallVideoEnbaled?: boolean;
   isInterlocutorVideoEnabled: boolean;
   isInterlocutorBusy: boolean;
-  interlocutor?: UserPreview;
+  interlocutor?: IUserPreview;
   amICalled: boolean;
   amICalling: boolean;
   isSpeaking: boolean;
@@ -25,25 +25,25 @@ export interface CallState {
   isScreenSharingOpened: boolean;
   audioDevicesList: MediaDeviceInfo[];
   videoDevicesList: MediaDeviceInfo[];
-  calls: CallList;
+  calls: ICallList;
 }
 
-export interface Call {
+export interface ICall {
   id: number;
-  userInterlocutor: UserPreview;
+  userInterlocutor: IUserPreview;
   userCallerId: number;
   duration: number;
   status: CallStatus;
 }
 
-export interface CallList {
-  calls: Call[];
+export interface ICallList {
+  calls: ICall[];
   hasMore: boolean;
   loading: boolean;
 }
 
-export interface GetCallsApiRequest {
-  page: Page;
+export interface IGetCallsApiRequest {
+  page: IPage;
 }
 
 export enum CallStatus {
@@ -80,87 +80,87 @@ export interface IInCompleteConstraints {
   };
 }
 
-export interface EndCallActionPayload {
+export interface IEndCallActionPayload {
   seconds: number;
 }
 
 export interface IncomingCallActionPayload {
-  caller: UserPreview;
+  caller: IUserPreview;
   offer: RTCSessionDescriptionInit;
   isVideoEnabled: boolean;
 }
 
-export interface OutgoingCallActionPayload {
-  calling: UserPreview;
+export interface IOutgoingCallActionPayload {
+  calling: IUserPreview;
   constraints: {
     videoEnabled: boolean;
     audioEnabled: boolean;
   };
 }
 
-export interface AcceptIncomingCallActionPayload {
+export interface IAcceptIncomingCallActionPayload {
   constraints: {
     videoEnabled: boolean;
     audioEnabled: boolean;
   };
 }
 
-export interface InterlocutorAcceptedCallActionPayload extends InterlocutorAcceptedCallIntegrationEvent {}
+export interface IInterlocutorAcceptedCallActionPayload extends IInterlocutorAcceptedCallIntegrationEvent {}
 
-export interface CandidateActionPayload {
+export interface ICandidateActionPayload {
   candidate: RTCIceCandidate;
 }
 
-export interface GotMediaDevicesInfoActionPayload {
+export interface IGotMediaDevicesInfoActionPayload {
   kind: InputType.videoInput | InputType.audioInput;
   devices: MediaDeviceInfo[];
 }
 
-export interface ChangeMediaStatusActionPayload {
+export interface IChangeMediaStatusActionPayload {
   kind: InputType.videoInput | InputType.audioInput;
 }
 
-export interface SwitchDeviceActionPayload {
+export interface ISwitchDeviceActionPayload {
   kind: InputType.videoInput | InputType.audioInput;
   deviceId: string;
 }
 
 // Http requests
 
-export interface CandidateApiRequest {
+export interface ICandidateApiRequest {
   interlocutorId: number;
   candidate: RTCIceCandidate;
 }
 
-export interface CallApiRequest {
+export interface ICallApiRequest {
   userInterlocutorId: number;
   offer: RTCSessionDescriptionInit;
   isVideoEnabled: boolean;
 }
 
-export interface CallApiResponse {
+export interface ICallApiResponse {
   isInterlocutorBusy: boolean;
 }
 
-export interface RenegociateApiRequest {
+export interface IRenegociateApiRequest {
   interlocutorId: number;
   offer: RTCSessionDescriptionInit;
   isVideoEnabled: boolean;
 }
 
-export interface CancelCallApiRequest {
+export interface ICancelCallApiRequest {
   interlocutorId: number;
 }
 
-export interface DeclineCallApiRequest {
+export interface IDeclineCallApiRequest {
   interlocutorId: number;
 }
 
-export interface EndCallApiRequest {
+export interface IEndCallApiRequest {
   interlocutorId: number;
 }
 
-export interface AcceptCallApiRequest {
+export interface IAcceptCallApiRequest {
   userInterlocutorId: number;
   answer: RTCSessionDescriptionInit;
   isVideoEnabled: boolean;

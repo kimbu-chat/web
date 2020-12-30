@@ -3,7 +3,7 @@ import { SagaIterator } from 'redux-saga';
 import { select } from 'redux-saga/effects';
 import produce from 'immer';
 import { createEmptyAction } from 'store/common/actions';
-import { UserSettings } from '../../models';
+import { IUserSettings } from '../../models';
 import { areNotificationsEnabled } from '../../selectors';
 
 export class ChangeNotificationSoundState {
@@ -12,7 +12,7 @@ export class ChangeNotificationSoundState {
   }
 
   static get reducer() {
-    return produce((draft: UserSettings) => {
+    return produce((draft: IUserSettings) => {
       draft.notificationSound = !draft.notificationSound;
       return draft;
     });

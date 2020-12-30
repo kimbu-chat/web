@@ -5,20 +5,20 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { AddFriendActionPayload } from './add-friend-action-payload';
-import { UpdateFriendListActionData } from '../../models';
+import { IAddFriendActionPayload } from './add-friend-action-payload';
+import { IUpdateFriendListActionData } from '../../models';
 import { AddFriendSuccess } from './add-friend-success';
 
 export class AddFriend {
   static get action() {
-    return createAction('ADD_FRIEND')<AddFriendActionPayload>();
+    return createAction('ADD_FRIEND')<IAddFriendActionPayload>();
   }
 
   static get saga() {
     return function* (action: ReturnType<typeof AddFriend.action>): SagaIterator {
       const user = action.payload;
       try {
-        const phoneToAdd: UpdateFriendListActionData = { phoneNumbers: [user.phoneNumber] };
+        const phoneToAdd: IUpdateFriendListActionData = { phoneNumbers: [user.phoneNumber] };
         const { status } = AddFriend.httpRequest.call(yield call(() => AddFriend.httpRequest.generator(phoneToAdd)));
 
         if (status === HTTPStatusCode.OK) {
@@ -33,6 +33,6 @@ export class AddFriend {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, UpdateFriendListActionData>(`${ApiBasePath.MainApi}/api/contacts`, HttpRequestMethod.Put);
+    return httpRequestFactory<AxiosResponse, IUpdateFriendListActionData>(`${ApiBasePath.MainApi}/api/contacts`, HttpRequestMethod.Put);
   }
 }

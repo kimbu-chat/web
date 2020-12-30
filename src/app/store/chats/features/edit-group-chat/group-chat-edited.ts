@@ -2,16 +2,16 @@ import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { getChatArrayIndex } from 'app/store/chats/selectors';
 import { ChatId } from '../../chat-id';
-import { ChatsState } from '../../models';
-import { GroupChatEditedActionPayload } from './group-chat-edited-action-payload';
+import { IChatsState } from '../../models';
+import { IGroupChatEditedActionPayload } from './group-chat-edited-action-payload';
 
 export class GroupChatEdited {
   static get action() {
-    return createAction('GROUP_CHAT_EDITED')<GroupChatEditedActionPayload>();
+    return createAction('GROUP_CHAT_EDITED')<IGroupChatEditedActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: ChatsState, { payload }: ReturnType<typeof GroupChatEdited.action>) => {
+    return produce((draft: IChatsState, { payload }: ReturnType<typeof GroupChatEdited.action>) => {
       const { avatarId, avatarPreviewUrl, avatarUrl, description, name, id } = payload;
 
       const chatId: number = ChatId.from(undefined, id).id;

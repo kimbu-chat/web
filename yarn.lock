@@ -1674,6 +1674,13 @@
   resolved "https://registry.yarnpkg.com/@types/dom-mediacapture-record/-/dom-mediacapture-record-1.0.7.tgz#08bacca4296ef521d59049f43e65cf971bbf6be1"
   integrity sha512-ddDIRTO1ajtbxaNo2o7fPJggpN54PZf1ZUJKOjto2ENMJE/9GKUvaw3ZRuQzlS/p0E+PnIcssxfoqYJ4yiXSBw==
 
+"@types/dotenv-webpack@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@types/dotenv-webpack/-/dotenv-webpack-5.0.0.tgz#df0df8f8ee06ea67c78b0242fd6b649f21b0b38e"
+  integrity sha512-gp8J0NxbxrrrL/8+72dp4zcI7VRFQQ5IWVgVgwJTiDG414wKe36w/XPvqv+RiAGv4SRxcMAgy6e8lNWuHNpYWg==
+  dependencies:
+    "@types/webpack" "*"
+
 "@types/emoji-mart@3.0.4":
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/@types/emoji-mart/-/emoji-mart-3.0.4.tgz#418868330c13b510a7b4b86b1ee9904291daeec1"
@@ -1911,7 +1918,7 @@
     "@types/source-list-map" "*"
     source-map "^0.7.3"
 
-"@types/webpack@4.41.25", "@types/webpack@^4.4.31":
+"@types/webpack@*", "@types/webpack@4.41.25", "@types/webpack@^4.4.31":
   version "4.41.25"
   resolved "https://registry.yarnpkg.com/@types/webpack/-/webpack-4.41.25.tgz#4d3b5aecc4e44117b376280fbfd2dc36697968c4"
   integrity sha512-cr6kZ+4m9lp86ytQc1jPOJXgINQyz3kLLunZ57jznW+WIAL0JqZbGubQk4GlD42MuQL5JGOABrxdpqqWeovlVQ==
@@ -2200,7 +2207,7 @@
   resolved "https://registry.yarnpkg.com/@webpack-cli/serve/-/serve-1.1.0.tgz#13ad38f89b6e53d1133bac0006a128217a6ebf92"
   integrity sha512-7RfnMXCpJ/NThrhq4gYQYILB18xWyoQcBey81oIyVbmgbc6m5ZHHyFK+DyH7pLHJf0p14MxL4mTsoPAgBSTpIg==
 
-"@welldone-software/why-did-you-render@^6.0.3":
+"@welldone-software/why-did-you-render@6.0.3":
   version "6.0.3"
   resolved "https://registry.yarnpkg.com/@welldone-software/why-did-you-render/-/why-did-you-render-6.0.3.tgz#99c58ea8e3f2ea8c042fb1d58ebf147d345fff26"
   integrity sha512-9HskvqZrCVEnKur2WIZ2Jm36u+1bCbb1c+iHa8QljjHmEVOA2US1qKq3HeUcwsjgKZRo5xucV6td2FeJP8agmQ==
@@ -2609,7 +2616,7 @@ axe-core@^4.0.2:
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.1.1.tgz#70a7855888e287f7add66002211a423937063eaf"
   integrity sha512-5Kgy8Cz6LPC9DJcNb3yjAXTu3XihQgEdnIg50c//zOC/MyLP0Clg+Y8Sh9ZjjnvBrDZU4DgXS9C3T9r4/scGZQ==
 
-axios@^0.21.1:
+axios@0.21.1:
   version "0.21.1"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.1.tgz#22563481962f4d6bde9a76d516ef0e5d3c09b2b8"
   integrity sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==
@@ -3863,6 +3870,25 @@ dot-prop@^5.2.0:
   integrity sha512-QM8q3zDe58hqUqjraQOmzZ1LIH9SWQJTlEKCH4kJ2oQvLZk7RbQXvtDM2XEq3fwkV9CCvvH4LA0AV+ogFsBM2Q==
   dependencies:
     is-obj "^2.0.0"
+
+dotenv-defaults@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/dotenv-defaults/-/dotenv-defaults-2.0.1.tgz#ea6f9632b3b5cc55e48b736760def5561f1cb7c0"
+  integrity sha512-ugFCyBF7ILuwpmznduHPQZBMucHHJ8T4OBManTEVjemxCm2+nqifSuW2lD2SNKdiKSH1E324kZSdJ8M04b4I/A==
+  dependencies:
+    dotenv "^8.2.0"
+
+dotenv-webpack@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/dotenv-webpack/-/dotenv-webpack-6.0.0.tgz#cd42454ee754fe8b7adb4fb70196f6e45f41876c"
+  integrity sha512-u/ycyUq7+x407HNTTqJDJelX64Pjmtm96IskgV4ZPPqTdE5d7+p8GzK7OW4sOoPxnwiLQ3iM6zjauYqFU8KdNg==
+  dependencies:
+    dotenv-defaults "^2.0.1"
+
+dotenv@^8.2.0:
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
+  integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
 
 duplexer3@^0.1.4:
   version "0.1.4"
@@ -8363,7 +8389,7 @@ react-image-crop@8.6.6:
     core-js "^3.6.5"
     prop-types "^15.7.2"
 
-react-infinite-scroller@^1.2.4:
+react-infinite-scroller@1.2.4:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/react-infinite-scroller/-/react-infinite-scroller-1.2.4.tgz#f67eaec4940a4ce6417bebdd6e3433bfc38826e9"
   integrity sha512-/oOa0QhZjXPqaD6sictN2edFMsd3kkMiE19Vcz5JDgHpzEJVqYcmq+V3mkwO88087kvKGe1URNksHEOt839Ubw==
@@ -8444,7 +8470,7 @@ react-transition-group@4.4.1, react-transition-group@^4.4.0:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
-react-window@^1.8.6:
+react-window@1.8.6:
   version "1.8.6"
   resolved "https://registry.yarnpkg.com/react-window/-/react-window-1.8.6.tgz#d011950ac643a994118632665aad0c6382e2a112"
   integrity sha512-8VwEEYyjz6DCnGBsd+MgkD0KJ2/OXFULyDtorIiTz+QzwoP94tBoA7CnbtyXMm+cCeAUER5KJcPtWl9cpKbOBg==

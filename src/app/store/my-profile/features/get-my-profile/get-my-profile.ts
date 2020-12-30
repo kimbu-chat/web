@@ -2,7 +2,7 @@ import { MyProfileService } from 'app/services/my-profile-service';
 import { createEmptyAction } from 'app/store/common/actions';
 import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/models';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
@@ -26,6 +26,6 @@ export class GetMyProfile {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IUserPreview>, number>((userId: number) => `${ApiBasePath.MainApi}/api/users/${userId}`, HttpRequestMethod.Get);
+    return httpRequestFactory<AxiosResponse<IUserPreview>, number>((userId: number) => `${process.env.MAIN_API}/api/users/${userId}`, HttpRequestMethod.Get);
   }
 }

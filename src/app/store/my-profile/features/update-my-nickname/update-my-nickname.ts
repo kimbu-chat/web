@@ -1,7 +1,7 @@
 import { Meta } from 'app/store/common/actions';
 import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/models';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
@@ -32,6 +32,6 @@ export class UpdateMyNickname {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IUpdateMyNicknameActionPayload>(`${ApiBasePath.MainApi}/api/users/nick-name`, HttpRequestMethod.Put);
+    return httpRequestFactory<AxiosResponse, IUpdateMyNicknameActionPayload>(`${process.env.MAIN_API}/api/users/nick-name`, HttpRequestMethod.Put);
   }
 }

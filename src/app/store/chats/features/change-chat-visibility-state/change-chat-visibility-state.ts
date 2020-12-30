@@ -1,5 +1,5 @@
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
@@ -37,6 +37,6 @@ export class ChangeChatVisibilityState {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IHideChatRequest>(`${ApiBasePath.MainApi}/api/chats/change-hidden-status`, HttpRequestMethod.Put);
+    return httpRequestFactory<AxiosResponse, IHideChatRequest>(`${process.env.MAIN_API}/api/chats/change-hidden-status`, HttpRequestMethod.Put);
   }
 }

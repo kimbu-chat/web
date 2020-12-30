@@ -2,7 +2,7 @@ import { AuthService } from 'app/services/auth-service';
 import { MyProfileService } from 'app/services/my-profile-service';
 import { authRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/models';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
@@ -44,7 +44,7 @@ export class Logout {
 
   static get httpRequest() {
     return authRequestFactory<AxiosResponse, ISubscribeToPushNotificationsRequest>(
-      `${ApiBasePath.NotificationsApi}/api/notifications/unsubscribe`,
+      `${process.env.NOTIFICATIONS_API}/api/notifications/unsubscribe`,
       HttpRequestMethod.Post,
     );
   }

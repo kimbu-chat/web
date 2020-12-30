@@ -1,5 +1,5 @@
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
@@ -46,6 +46,6 @@ export class GetMessages {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IMessage[]>, IMessagesReqData>(`${ApiBasePath.MainApi}/api/messages/search`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse<IMessage[]>, IMessagesReqData>(`${process.env.MAIN_API}/api/messages/search`, HttpRequestMethod.Post);
   }
 }

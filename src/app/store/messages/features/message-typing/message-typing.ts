@@ -1,5 +1,5 @@
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
@@ -19,7 +19,7 @@ export class MessageTyping {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, IMessageTypingActionPayload>(
-      `${ApiBasePath.NotificationsApi}/api/message/notify-interlocutor-about-message-typing`,
+      `${process.env.NOTIFICATIONS_API}/api/message/notify-interlocutor-about-message-typing`,
       HttpRequestMethod.Post,
     );
   }

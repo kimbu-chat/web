@@ -1,7 +1,7 @@
 import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/models';
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
@@ -53,6 +53,6 @@ export class Renegotiation {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IAcceptCallApiRequest>(`${ApiBasePath.MainApi}/api/calls/accept-renegotiation`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse, IAcceptCallApiRequest>(`${process.env.MAIN_API}/api/calls/accept-renegotiation`, HttpRequestMethod.Post);
   }
 }

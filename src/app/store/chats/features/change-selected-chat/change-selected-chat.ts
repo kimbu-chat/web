@@ -1,5 +1,5 @@
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
@@ -166,11 +166,11 @@ export class ChangeSelectedChat {
   static get httpRequest() {
     return {
       getChat: httpRequestFactory<AxiosResponse<IChat>, IGetChatByIdRequestData>(
-        ({ chatId }: IGetChatByIdRequestData) => `${ApiBasePath.MainApi}/api/chats/${chatId}`,
+        ({ chatId }: IGetChatByIdRequestData) => `${process.env.MAIN_API}/api/chats/${chatId}`,
         HttpRequestMethod.Get,
       ),
       getUser: httpRequestFactory<AxiosResponse<IUserPreview>, IGetUserByIdRequestData>(
-        ({ userId }: IGetUserByIdRequestData) => `${ApiBasePath.MainApi}/api/users/${userId.toString()}`,
+        ({ userId }: IGetUserByIdRequestData) => `${process.env.MAIN_API}/api/users/${userId.toString()}`,
         HttpRequestMethod.Get,
       ),
     };

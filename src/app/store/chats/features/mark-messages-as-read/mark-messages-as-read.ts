@@ -1,5 +1,5 @@
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
@@ -22,6 +22,6 @@ export class MarkMessagesAsRead {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IMarkMessagesAsReadRequest>(`${ApiBasePath.MainApi}/api/chats/mark-as-read`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse, IMarkMessagesAsReadRequest>(`${process.env.MAIN_API}/api/chats/mark-as-read`, HttpRequestMethod.Post);
   }
 }

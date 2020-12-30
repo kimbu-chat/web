@@ -9,7 +9,7 @@ import { createAction } from 'typesafe-actions';
 import messageCameSelected from 'app/assets/sounds/notifications/messsage-came-selected.ogg';
 import messageCameUnselected from 'app/assets/sounds/notifications/messsage-came-unselected.ogg';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { AxiosResponse } from 'axios';
 import { MarkMessagesAsRead } from 'app/store/chats/features/mark-messages-as-read/mark-messages-as-read';
 import { ChangeSelectedChat } from 'app/store/chats/features/change-selected-chat/change-selected-chat';
@@ -129,6 +129,6 @@ export class CreateMessage {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<number>, IMessageCreationReqData>(`${ApiBasePath.MainApi}/api/messages`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse<number>, IMessageCreationReqData>(`${process.env.MAIN_API}/api/messages`, HttpRequestMethod.Post);
   }
 }

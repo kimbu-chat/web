@@ -2,7 +2,7 @@ import { createEmptyAction } from 'app/store/common/actions';
 import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/http-file-factory';
 import { resetPeerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
@@ -45,6 +45,6 @@ export class DeclineCall {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IDeclineCallApiRequest>(`${ApiBasePath.MainApi}/api/calls/decline-call`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse, IDeclineCallApiRequest>(`${process.env.MAIN_API}/api/calls/decline-call`, HttpRequestMethod.Post);
   }
 }

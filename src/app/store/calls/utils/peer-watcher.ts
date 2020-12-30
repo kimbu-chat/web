@@ -6,7 +6,7 @@ import { amICalled, getCallInterlocutorSelector } from 'app/store/calls/selector
 import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/models';
 import { IUserPreview } from 'app/store/my-profile/models';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { AxiosResponse } from 'axios';
 import { RenegotiationAccepted } from '../features/renegotiation/renegotiation-accepted';
 import { OpenInterlocutorVideoStatus } from '../features/change-interlocutor-media-status/open-interlocutor-video-status';
@@ -21,8 +21,8 @@ import { CloseInterlocutorVideoStatus } from '../features/change-interlocutor-me
 import { isRenegotiationAccepted, setIsRenegotiationAccepted, setMakingOffer } from './glare-utils';
 
 const CallsHttpRequests = {
-  candidate: httpRequestFactory<AxiosResponse, ICandidateApiRequest>(`${ApiBasePath.MainApi}/api/calls/send-ice-candidate`, HttpRequestMethod.Post),
-  renegotiate: httpRequestFactory<AxiosResponse, IRenegociateApiRequest>(`${ApiBasePath.MainApi}/api/calls/send-renegotiation`, HttpRequestMethod.Post),
+  candidate: httpRequestFactory<AxiosResponse, ICandidateApiRequest>(`${process.env.MAIN_API}/api/calls/send-ice-candidate`, HttpRequestMethod.Post),
+  renegotiate: httpRequestFactory<AxiosResponse, IRenegociateApiRequest>(`${process.env.MAIN_API}/api/calls/send-renegotiation`, HttpRequestMethod.Post),
 };
 
 function createPeerConnectionChannel() {

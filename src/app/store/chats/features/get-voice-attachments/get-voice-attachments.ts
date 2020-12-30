@@ -1,6 +1,6 @@
 import { HTTPStatusCode } from 'app/common/http-status-code';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
@@ -47,7 +47,7 @@ export class GetVoiceAttachments {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<Array<IVoiceAttachment>>, IGetVoiceAttachmentsHTTPRequest>(
-      `${ApiBasePath.MainApi}/api/voice-attachments/search`,
+      `${process.env.MAIN_API}/api/voice-attachments/search`,
       HttpRequestMethod.Post,
     );
   }

@@ -1,6 +1,6 @@
 import { HTTPStatusCode } from 'app/common/http-status-code';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
@@ -28,7 +28,7 @@ export class GetChatInfo {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IGetChatInfoApiResponse>, IGetChatInfoActionPayload>(
-      ({ chatId }: IGetChatInfoActionPayload) => `${ApiBasePath.MainApi}/api/chats/${chatId}/info`,
+      ({ chatId }: IGetChatInfoActionPayload) => `${process.env.MAIN_API}/api/chats/${chatId}/info`,
       HttpRequestMethod.Get,
     );
   }

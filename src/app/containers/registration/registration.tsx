@@ -1,5 +1,5 @@
 import { Register } from 'app/store/auth/features/register/register';
-import { AvatarSelectedData, UploadAvatarResponse } from 'app/store/my-profile/models';
+import { IAvatarSelectedData, IUploadAvatarResponse } from 'app/store/my-profile/models';
 import { getStringInitials } from 'app/utils/interlocutor-name-utils';
 import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
@@ -15,12 +15,12 @@ import { validateNickname } from 'app/utils/validate-nick-name';
 import { Avatar, BaseBtn, ChangePhoto, CircularProgress } from 'components';
 
 namespace RegistrationNS {
-  export interface Props {
+  export interface IProps {
     preloadNext: () => void;
   }
 }
 
-export const Registration: React.FC<RegistrationNS.Props> = ({ preloadNext }) => {
+export const Registration: React.FC<RegistrationNS.IProps> = ({ preloadNext }) => {
   const { t } = useContext(LocalizationContext);
 
   const isLoading = useSelector(getAuthIsLoading);
@@ -38,8 +38,8 @@ export const Registration: React.FC<RegistrationNS.Props> = ({ preloadNext }) =>
 
   const openFileExplorer = useCallback(() => fileInputRef.current?.click(), [fileInputRef]);
 
-  const [avatarData, setAvatarData] = useState<AvatarSelectedData | null>(null);
-  const [avararUploadResponse, setAvatarUploadResponse] = useState<UploadAvatarResponse | null>(null);
+  const [avatarData, setAvatarData] = useState<IAvatarSelectedData | null>(null);
+  const [avararUploadResponse, setAvatarUploadResponse] = useState<IUploadAvatarResponse | null>(null);
   const [imageUrl, setImageUrl] = useState<string>('');
   const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
   const [uploaded, setUploaded] = useState(0);
@@ -100,7 +100,7 @@ export const Registration: React.FC<RegistrationNS.Props> = ({ preloadNext }) =>
   );
 
   const applyAvatarData = useCallback(
-    (data: AvatarSelectedData) => {
+    (data: IAvatarSelectedData) => {
       setAvatarData(data);
       setUploadEnded(false);
       uploadGroupChatAvatar({ pathToFile: data.croppedImagePath, onProgress: setUploaded })

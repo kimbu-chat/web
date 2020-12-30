@@ -1,10 +1,10 @@
-import { BaseAttachment } from 'app/store/chats/models';
-import { AttachmentCreation } from '../../models';
+import { IBaseAttachment } from 'app/store/chats/models';
+import { IAttachmentCreation } from '../../models';
 
-export interface SumbitEditMessageSuccessActionPayload {
+export interface ISumbitEditMessageSuccessActionPayload {
   messageId: number;
   chatId: number;
   text: string;
-  removedAttachments?: AttachmentCreation[];
-  newAttachments?: BaseAttachment[];
+  removedAttachments?: IAttachmentCreation[];
+  newAttachments?: IBaseAttachment[];
 }

@@ -5,7 +5,7 @@ import InfoSvg from 'icons/ic-info.svg';
 import LinkSvg from 'icons/ic-links.svg';
 
 import { useSelector } from 'react-redux';
-import { Chat } from 'store/chats/models';
+import { IChat } from 'store/chats/models';
 import { getSelectedChatSelector } from 'store/chats/selectors';
 import { parsePhoneNumber } from 'libphonenumber-js';
 import { LocalizationContext } from 'app/app';
@@ -14,7 +14,7 @@ import { Link } from 'react-router-dom';
 export const InterlocutorInfo = React.memo(() => {
   const { t } = useContext(LocalizationContext);
 
-  const selectedChat = useSelector(getSelectedChatSelector) as Chat;
+  const selectedChat = useSelector(getSelectedChatSelector) as IChat;
 
   return (
     <div className='interlocutor-info'>

@@ -1,52 +1,52 @@
-export interface Credentials {
+export interface ICredentials {
   phoneNumber: string;
   code: string;
 }
 
-export interface LoginApiResponse {
+export interface ILoginApiResponse {
   accessToken: string;
   refreshToken: string;
   userId: number;
 }
 
-export interface PhoneConfirmationData {
+export interface IPhoneConfirmationData {
   phoneNumber: string;
   code: string;
 }
 
-export interface LoginResponse {
+export interface ILoginResponse {
   accessToken: string;
   refreshToken: string;
   refreshTokenExpirationTime?: Date;
 }
 
-export interface SecurityTokens extends LoginResponse {
+export interface ISecurityTokens extends ILoginResponse {
   refreshTokenRequestLoading?: boolean;
   isAuthenticated?: boolean;
 }
 
-export interface PhoneConfirmationApiResponse {
+export interface IPhoneConfirmationApiResponse {
   isCodeCorrect: boolean;
   userExists: boolean;
 }
 
-export interface SubscribeToPushNotificationsRequest {
+export interface ISubscribeToPushNotificationsRequest {
   tokenId: string;
   deviceId: string;
 }
 
-export interface AuthState {
+export interface IAuthState {
   loading: boolean;
   confirmationCode: string;
   twoLetterCountryCode: string;
   phoneNumber: string;
   isConfirmationCodeWrong: boolean;
   isAuthenticated: boolean;
-  securityTokens: SecurityTokens;
+  securityTokens: ISecurityTokens;
   registrationAllowed?: boolean;
 }
 
-export interface RegisterApiRequest {
+export interface IRegisterApiRequest {
   lastName: string;
   firstName: string;
   nickname: string;

@@ -5,17 +5,17 @@ import { SagaIterator } from 'redux-saga';
 import { put, select } from 'redux-saga/effects';
 import { ChangeLastMessage } from 'app/store/chats/features/change-last-message/change-last-message';
 import { getChatById } from 'app/store/chats/selectors';
-import { Chat } from 'app/store/chats/models';
-import { DeleteMessageSuccessActionPayload } from './delete-message-success-action-payload';
-import { MessagesState } from '../../models';
+import { IChat } from 'app/store/chats/models';
+import { IDeleteMessageSuccessActionPayload } from './delete-message-success-action-payload';
+import { IMessagesState } from '../../models';
 
 export class DeleteMessageSuccess {
   static get action() {
-    return createAction('DELETE_MESSAGE_SUCCESS')<DeleteMessageSuccessActionPayload>();
+    return createAction('DELETE_MESSAGE_SUCCESS')<IDeleteMessageSuccessActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: MessagesState, { payload }: ReturnType<typeof DeleteMessageSuccess.action>) => {
+    return produce((draft: IMessagesState, { payload }: ReturnType<typeof DeleteMessageSuccess.action>) => {
       const chatIndex = getChatIndex(draft, payload.chatId);
 
       payload.messageIds.forEach((msgIdToDelete) => {
@@ -31,7 +31,7 @@ export class DeleteMessageSuccess {
 
   static get saga() {
     return function* deleteMessageSuccessSaga(action: ReturnType<typeof DeleteMessageSuccess.action>): SagaIterator {
-      const chatOfMessage: Chat = yield select(getChatById(action.payload.chatId));
+      const chatOfMessage: IChat = yield select(getChatById(action.payload.chatId));
 
       if (action.payload.messageIds.includes(chatOfMessage.lastMessage?.id!)) {
         const newMessage = yield select(getLastMessageByChatId(action.payload.chatId));

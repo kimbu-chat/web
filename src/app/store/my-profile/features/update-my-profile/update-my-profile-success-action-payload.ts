@@ -1,7 +1,7 @@
-import { Avatar } from '../../models';
+import { IAvatar } from '../../models';
 
-export interface UpdateMyProfileSuccessActionPayload {
+export interface IUpdateMyProfileSuccessActionPayload {
   firstName: string;
   lastName: string;
-  avatar?: Avatar;
+  avatar?: IAvatar;
 }

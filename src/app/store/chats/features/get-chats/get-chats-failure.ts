@@ -1,6 +1,6 @@
 import { createEmptyAction } from 'app/store/common/actions';
 import produce from 'immer';
-import { ChatsState } from '../../models';
+import { IChatsState } from '../../models';
 
 export class GetChatsFailure {
   static get action() {
@@ -8,7 +8,7 @@ export class GetChatsFailure {
   }
 
   static get reducer() {
-    return produce((draft: ChatsState) => ({
+    return produce((draft: IChatsState) => ({
       ...draft,
       loading: false,
     }));

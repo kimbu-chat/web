@@ -13,7 +13,7 @@ import { MyProfileActions } from 'store/my-profile/actions';
 import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
 
 import { LocalizationContext } from 'app/app';
-import { AvatarSelectedData, UploadAvatarResponse } from 'store/my-profile/models';
+import { IAvatarSelectedData, IUploadAvatarResponse } from 'store/my-profile/models';
 import { parsePhoneNumber } from 'libphonenumber-js';
 import { EditNameModal } from './edit-name-modal/edit-name-modal';
 import { EditUserNameModal } from './edit-username-modal/edit-username-modal';
@@ -72,10 +72,10 @@ export const EditProfile = React.memo(() => {
     setIsEditPhoneDisplayed((oldState) => !oldState);
   }, [setIsEditPhoneDisplayed]);
 
-  const changeMyAvatar = useCallback((data: AvatarSelectedData) => {
+  const changeMyAvatar = useCallback((data: IAvatarSelectedData) => {
     uploadAvatar({
       pathToFile: data.croppedImagePath,
-    }).then((response: UploadAvatarResponse) => {
+    }).then((response: IUploadAvatarResponse) => {
       updateMyProfile({
         avatar: response,
         firstName: myProfile!.firstName,

@@ -8,21 +8,21 @@ import { stopPropagation } from 'app/utils/stop-propagation';
 import { BaseBtn, BaseBtnNS } from '../base-btn/base-btn';
 
 namespace ModalNS {
-  export interface Button extends BaseBtnNS.Props {
+  export interface IButton extends BaseBtnNS.IProps {
     position: 'left' | 'right';
   }
-  export interface Props {
+  export interface IProps {
     title: string | JSX.Element;
     contents: string | JSX.Element;
     highlightedInContents?: string;
-    buttons: ModalNS.Button[];
+    buttons: ModalNS.IButton[];
     closeModal: () => void;
   }
 }
 
-export const Modal = React.memo(({ title, contents, buttons, highlightedInContents, closeModal }: ModalNS.Props) => {
-  const leftBtns: ModalNS.Button[] = [];
-  const rightBtns: ModalNS.Button[] = [];
+export const Modal = React.memo(({ title, contents, buttons, highlightedInContents, closeModal }: ModalNS.IProps) => {
+  const leftBtns: ModalNS.IButton[] = [];
+  const rightBtns: ModalNS.IButton[] = [];
 
   buttons.forEach((btn) => {
     if (btn.position === 'left') {

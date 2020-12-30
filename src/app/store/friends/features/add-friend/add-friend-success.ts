@@ -1,15 +1,15 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { FriendsState } from '../../models';
-import { AddFriendSuccessActionPayload } from './add-friend-success-action-payload';
+import { IFriendsState } from '../../models';
+import { IAddFriendSuccessActionPayload } from './add-friend-success-action-payload';
 
 export class AddFriendSuccess {
   static get action() {
-    return createAction('ADD_FRIEND_SUCCESS')<AddFriendSuccessActionPayload>();
+    return createAction('ADD_FRIEND_SUCCESS')<IAddFriendSuccessActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: FriendsState, { payload }: ReturnType<typeof AddFriendSuccess.action>) => {
+    return produce((draft: IFriendsState, { payload }: ReturnType<typeof AddFriendSuccess.action>) => {
       draft.friends.push(payload);
       return draft;
     });

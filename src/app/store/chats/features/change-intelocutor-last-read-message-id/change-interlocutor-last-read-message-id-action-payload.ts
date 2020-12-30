@@ -1,3 +1,3 @@
-import { MessagesReadIntegrationEvent } from 'app/store/middlewares/websockets/integration-events/messages-read-integration-event';
+import { IMessagesReadIntegrationEvent } from 'app/store/middlewares/websockets/integration-events/messages-read-integration-event';
 
-export interface ChangeInterlocutorLastReadMessageIdActionPayload extends MessagesReadIntegrationEvent {}
+export interface IChangeInterlocutorLastReadMessageIdActionPayload extends IMessagesReadIntegrationEvent {}

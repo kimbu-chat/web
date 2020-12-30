@@ -7,17 +7,17 @@ import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { getChatArrayIndex } from 'app/store/chats/selectors';
-import { PictureAttachment, GetChatPicturesHTTPRequest, ChatsState } from '../../models';
-import { GetPhotoAttachmentsActionPayload } from './get-photo-attachments-action-payload';
+import { IPictureAttachment, IGetChatPicturesHTTPRequest, IChatsState } from '../../models';
+import { IGetPhotoAttachmentsActionPayload } from './get-photo-attachments-action-payload';
 import { GetPhotoAttachmentsSuccess } from './get-photo-attachments-success';
 
 export class GetPhotoAttachments {
   static get action() {
-    return createAction('GET_PHOTO_ATTACHMENTS')<GetPhotoAttachmentsActionPayload>();
+    return createAction('GET_PHOTO_ATTACHMENTS')<IGetPhotoAttachmentsActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: ChatsState, { payload }: ReturnType<typeof GetPhotoAttachments.action>) => {
+    return produce((draft: IChatsState, { payload }: ReturnType<typeof GetPhotoAttachments.action>) => {
       const { chatId } = payload;
 
       const chatIndex: number = getChatArrayIndex(chatId, draft);
@@ -46,7 +46,7 @@ export class GetPhotoAttachments {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<Array<PictureAttachment>>, GetChatPicturesHTTPRequest>(
+    return httpRequestFactory<AxiosResponse<IPictureAttachment[]>, IGetChatPicturesHTTPRequest>(
       `${ApiBasePath.MainApi}/api/picture-attachments/search`,
       HttpRequestMethod.Post,
     );

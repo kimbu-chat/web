@@ -1,4 +1,4 @@
-export interface ConfirmPhoneActionPayload {
+export interface IConfirmPhoneActionPayload {
   phoneNumber: string;
   code: string;
 }

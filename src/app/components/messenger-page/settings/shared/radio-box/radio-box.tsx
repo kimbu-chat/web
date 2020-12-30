@@ -2,7 +2,7 @@ import React from 'react';
 import './radio-box.scss';
 
 namespace RadioBoxNS {
-  export interface Props {
+  export interface IProps {
     nestingLevel: number;
     onClick: () => void;
     title: string;
@@ -11,7 +11,7 @@ namespace RadioBoxNS {
   }
 }
 
-export const RadioBox = React.memo(({ defaultChecked, groupName, title, onClick, nestingLevel }: RadioBoxNS.Props) => (
+export const RadioBox = React.memo(({ defaultChecked, groupName, title, onClick, nestingLevel }: RadioBoxNS.IProps) => (
   <label style={{ marginLeft: `${nestingLevel * 30}px` }} onClick={onClick} className='radio-box'>
     <input defaultChecked={defaultChecked} name={groupName} className='radio-box__radio-input' type='radio' />
 

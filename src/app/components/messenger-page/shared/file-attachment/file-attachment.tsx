@@ -5,16 +5,16 @@ import DownloadSvg from 'icons/ic-download.svg';
 import ProgressSVG from 'icons/ic-progress.svg';
 
 import { fileDownload } from 'app/utils/file-download';
-import { RawAttachment } from 'store/chats/models';
+import { IRawAttachment } from 'store/chats/models';
 import { getRawAttachmentsizeUnit } from 'app/utils/get-file-size-unit';
 
 namespace FileAttachmentNS {
-  export interface Props {
-    attachment: RawAttachment;
+  export interface IProps {
+    attachment: IRawAttachment;
   }
 }
 
-export const FileAttachment = React.memo(({ attachment }: FileAttachmentNS.Props) => {
+export const FileAttachment = React.memo(({ attachment }: FileAttachmentNS.IProps) => {
   const [isDownloading, setIsDownloading] = useState(false);
   const [downloaded, setDownloaded] = useState(0);
 

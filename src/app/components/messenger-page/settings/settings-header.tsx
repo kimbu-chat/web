@@ -5,12 +5,12 @@ import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
 
 namespace SettingsHeaderNS {
-  export interface Props {
+  export interface IProps {
     title: string;
   }
 }
 
-export const SettingsHeader = React.memo(({ title }: SettingsHeaderNS.Props) => {
+export const SettingsHeader = React.memo(({ title }: SettingsHeaderNS.IProps) => {
   const location = useLocation();
 
   return (

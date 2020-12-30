@@ -1,21 +1,21 @@
 import { ChangeLastMessage } from 'app/store/chats/features/change-last-message/change-last-message';
-import { Chat } from 'app/store/chats/models';
+import { IChat } from 'app/store/chats/models';
 import { getChatById } from 'app/store/chats/selectors';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { select, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { MessagesState } from '../../models';
+import { IMessagesState } from '../../models';
 import { getChatIndex, getLastMessageByChatId, getMessage } from '../../selectors';
-import { MessagesDeletedFromEventActionPayload } from './messages-deleted-from-event-action-payload';
+import { IMessagesDeletedFromEventActionPayload } from './messages-deleted-from-event-action-payload';
 
 export class MessagesDeletedFromEvent {
   static get action() {
-    return createAction('MESSAGE_DELETED_FROM_EVENT')<MessagesDeletedFromEventActionPayload>();
+    return createAction('MESSAGE_DELETED_FROM_EVENT')<IMessagesDeletedFromEventActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: MessagesState, { payload }: ReturnType<typeof MessagesDeletedFromEvent.action>) => {
+    return produce((draft: IMessagesState, { payload }: ReturnType<typeof MessagesDeletedFromEvent.action>) => {
       const chatIndex = getChatIndex(draft, payload.chatId);
 
       payload.messageIds.forEach((msgIdToDelete) => {
@@ -31,7 +31,7 @@ export class MessagesDeletedFromEvent {
 
   static get saga() {
     return function* deleteMessageSuccessSaga(action: ReturnType<typeof MessagesDeletedFromEvent.action>): SagaIterator {
-      const chatOfMessage: Chat = yield select(getChatById(action.payload.chatId));
+      const chatOfMessage: IChat = yield select(getChatById(action.payload.chatId));
 
       if (action.payload.messageIds.includes(chatOfMessage.lastMessage?.id!)) {
         const newMessage = yield select(getLastMessageByChatId(action.payload.chatId));

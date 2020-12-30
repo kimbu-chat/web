@@ -2,7 +2,7 @@ import { createEmptyAction } from 'app/store/common/actions';
 import { resetPeerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { CallState } from '../../models';
+import { ICallState } from '../../models';
 
 export class CallEnded {
   static get action() {
@@ -10,7 +10,7 @@ export class CallEnded {
   }
 
   static get reducer() {
-    return produce((draft: CallState) => {
+    return produce((draft: ICallState) => {
       draft.interlocutor = undefined;
       draft.isInterlocutorBusy = false;
       draft.amICalling = false;

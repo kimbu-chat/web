@@ -7,18 +7,18 @@ import useAutocomplete, { createFilterOptions } from '@material-ui/lab/useAutoco
 import { LocalizationContext } from 'app/app';
 
 import DownSvg from 'icons/ic-chevron-down.svg';
-import { countryList, Country } from 'app/common/countries';
+import { countryList, ICountry } from 'app/common/countries';
 
 namespace CountrySelectNS {
-  export interface Props {
-    country?: Country;
-    handleCountryChange: (newCountry: Country) => void;
+  export interface IProps {
+    country?: ICountry;
+    handleCountryChange: (newCountry: ICountry) => void;
     setRef: React.Dispatch<React.SetStateAction<React.RefObject<HTMLInputElement> | null>>;
   }
 }
 
 export const CountrySelect = React.memo(
-  ({ country, handleCountryChange, setRef }: CountrySelectNS.Props) => {
+  ({ country, handleCountryChange, setRef }: CountrySelectNS.IProps) => {
     const { t } = useContext(LocalizationContext);
 
     const { getRootProps, getInputProps, getListboxProps, getOptionProps, groupedOptions, popupOpen } = useAutocomplete({

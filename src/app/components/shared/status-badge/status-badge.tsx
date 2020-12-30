@@ -1,20 +1,20 @@
 import React from 'react';
 import { getUserInitials } from 'app/utils/interlocutor-name-utils';
-import { UserPreview } from 'store/my-profile/models';
+import { IUserPreview } from 'store/my-profile/models';
 import { UserStatus } from 'app/store/common/models';
 import { Avatar } from 'app/components';
 
 import './status-badge.scss';
 
 namespace StatusBadgeNS {
-  export interface Props {
-    user: UserPreview;
+  export interface IProps {
+    user: IUserPreview;
     additionalClassNames?: string;
     containerClassName?: string;
   }
 }
 
-export const StatusBadge = React.memo(({ user, additionalClassNames, containerClassName }: StatusBadgeNS.Props) => {
+export const StatusBadge = React.memo(({ user, additionalClassNames, containerClassName }: StatusBadgeNS.IProps) => {
   if (user?.status === UserStatus.Online) {
     return (
       <div className={`status-badge ${containerClassName}`}>

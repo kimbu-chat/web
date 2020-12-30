@@ -1,7 +1,7 @@
 import { LocalizationContext } from 'app/app';
 import { Avatar } from 'components';
 import { ChatId } from 'store/chats/chat-id';
-import { UserPreview } from 'store/my-profile/models';
+import { IUserPreview } from 'store/my-profile/models';
 import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 import moment from 'moment';
 import React, { useContext } from 'react';
@@ -10,12 +10,12 @@ import { UserStatus } from 'app/store/common/models';
 import './friend.scss';
 
 namespace FriendNS {
-  export interface Props {
-    friend: UserPreview;
+  export interface IProps {
+    friend: IUserPreview;
   }
 }
 
-export const Friend = React.memo(({ friend }: FriendNS.Props) => {
+export const Friend = React.memo(({ friend }: FriendNS.IProps) => {
   const { t } = useContext(LocalizationContext);
 
   return (

@@ -1,3 +1,3 @@
-import { MessageList } from '../../models';
+import { IMessageList } from '../../models';
 
-export interface GetMessagesSuccessActionPayload extends MessageList {}
+export interface IGetMessagesSuccessActionPayload extends IMessageList {}

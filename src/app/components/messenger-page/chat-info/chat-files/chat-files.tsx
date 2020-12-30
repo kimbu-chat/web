@@ -7,7 +7,7 @@ import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { useSelector } from 'react-redux';
 import { ChatActions } from 'store/chats/actions';
 import { getSelectedChatSelector } from 'store/chats/selectors';
-import { Page } from 'store/common/models';
+import { IPage } from 'store/common/models';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
@@ -30,7 +30,7 @@ export const ChatFiles = React.memo(() => {
   const location = useLocation();
 
   const loadMore = useCallback(() => {
-    const page: Page = {
+    const page: IPage = {
       offset: filesForSelectedChat?.files.length || 0,
       limit: FILE_ATTACHMENTS_LIMIT,
     };

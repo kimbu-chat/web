@@ -7,18 +7,18 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { AuthState, RegisterApiRequest } from '../../models';
+import { IAuthState, IRegisterApiRequest } from '../../models';
 import { getAuthPhoneNumber, getConfirmationCode, getTwoLetterCountryCode } from '../../selectors';
 import { Login } from '../login/login';
-import { RegisterActionPayload } from './register-action-payload';
+import { IRegisterActionPayload } from './register-action-payload';
 
 export class Register {
   static get action() {
-    return createAction('REGISTER')<RegisterActionPayload, Meta>();
+    return createAction('REGISTER')<IRegisterActionPayload, Meta>();
   }
 
   static get reducer() {
-    return produce((draft: AuthState) => ({
+    return produce((draft: IAuthState) => ({
       ...draft,
       loading: true,
     }));
@@ -43,6 +43,6 @@ export class Register {
   }
 
   static get httpRequest() {
-    return authRequestFactory<AxiosResponse, RegisterApiRequest>(`${ApiBasePath.MainApi}/api/users/`, HttpRequestMethod.Post);
+    return authRequestFactory<AxiosResponse, IRegisterApiRequest>(`${ApiBasePath.MainApi}/api/users/`, HttpRequestMethod.Post);
   }
 }

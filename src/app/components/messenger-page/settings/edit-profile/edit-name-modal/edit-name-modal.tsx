@@ -8,12 +8,12 @@ import { useSelector } from 'react-redux';
 import './edit-name-modal.scss';
 
 namespace EditNameModalNS {
-  export interface Props {
+  export interface IProps {
     onClose: () => void;
   }
 }
 
-export const EditNameModal = React.memo(({ onClose }: EditNameModalNS.Props) => {
+export const EditNameModal = React.memo(({ onClose }: EditNameModalNS.IProps) => {
   const myProfile = useSelector(getMyProfileSelector);
 
   const { t } = useContext(LocalizationContext);

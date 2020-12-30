@@ -3,12 +3,12 @@ import './search-box.scss';
 import SearchSvg from 'icons/ic-search.svg';
 
 namespace SearchBoxNS {
-  export interface Props {
+  export interface IProps {
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   }
 }
 
-export const SearchBox = React.memo(({ onChange }: SearchBoxNS.Props) => (
+export const SearchBox = React.memo(({ onChange }: SearchBoxNS.IProps) => (
   <div className='search-box__input-wrapper '>
     <input onChange={onChange} placeholder='   ' type='text' className='search-box__input' />
     <div className='search-box__input__placeholder'>

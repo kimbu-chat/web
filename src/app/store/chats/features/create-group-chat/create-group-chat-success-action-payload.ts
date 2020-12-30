@@ -1,3 +1,3 @@
-import { Chat } from '../../models';
+import { IChat } from '../../models';
 
-export interface CreateGroupChatSuccessActionPayload extends Chat {}
+export interface ICreateGroupChatSuccessActionPayload extends IChat {}

@@ -8,20 +8,20 @@ import { createAction } from 'typesafe-actions';
 import { getChatById, getHasMoreChats } from 'app/store/chats/selectors';
 import { getFriendById } from 'app/store/friends/selectors';
 import { MessageState } from 'app/store/messages/models';
-import { UserPreview } from 'store/my-profile/models';
-import { GetChatsSuccessActionPayload } from '../get-chats/get-chats-success-action-payload';
-import { ChatsState, Chat, GetChatByIdRequestData, InterlocutorType, GetUserByIdRequestData } from '../../models';
+import { IUserPreview } from 'store/my-profile/models';
+import { IGetChatsSuccessActionPayload } from '../get-chats/get-chats-success-action-payload';
+import { IChatsState, IChat, IGetChatByIdRequestData, InterlocutorType, IGetUserByIdRequestData } from '../../models';
 import { GetChatsSuccess } from '../get-chats/get-chats-success';
-import { ChangeSelectedChatActionPayload } from './change-selected-chat-action-payload';
+import { IChangeSelectedChatActionPayload } from './change-selected-chat-action-payload';
 import { ChatId } from '../../chat-id';
 
 export class ChangeSelectedChat {
   static get action() {
-    return createAction('CHANGE_SELECTED_CHAT')<ChangeSelectedChatActionPayload>();
+    return createAction('CHANGE_SELECTED_CHAT')<IChangeSelectedChatActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: ChatsState, { payload }: ReturnType<typeof ChangeSelectedChat.action>) => {
+    return produce((draft: IChatsState, { payload }: ReturnType<typeof ChangeSelectedChat.action>) => {
       draft.chats.sort(
         ({ lastMessage: lastMessageA }, { lastMessage: lastMessageB }) =>
           new Date(lastMessageB?.creationDateTime!).getTime() - new Date(lastMessageA?.creationDateTime!).getTime(),
@@ -45,10 +45,10 @@ export class ChangeSelectedChat {
 
           const chatIdDetails = action.payload.newChatId ? ChatId.fromId(action.payload.newChatId) : null;
 
-          let chatList: GetChatsSuccessActionPayload;
+          let chatList: IGetChatsSuccessActionPayload;
 
-          let data: Chat | null = null;
-          let user: UserPreview | null = null;
+          let data: IChat | null = null;
+          let user: IUserPreview | null = null;
 
           try {
             data = ChangeSelectedChat.httpRequest.getChat.call(
@@ -62,7 +62,7 @@ export class ChangeSelectedChat {
 
           if (chatIdDetails?.interlocutorType === InterlocutorType.GROUP_CHAT) {
             if (data) {
-              const chat = data as Chat;
+              const chat = data as IChat;
 
               if (chat.lastMessage) {
                 chat.lastMessage.state =
@@ -100,7 +100,7 @@ export class ChangeSelectedChat {
             }
 
             if (data || user) {
-              const requestedChat: Chat = {
+              const requestedChat: IChat = {
                 id: chatIdDetails!.id,
                 draftMessage: '',
                 lastMessage: data?.lastMessage,
@@ -108,7 +108,7 @@ export class ChangeSelectedChat {
                 interlocutorType: InterlocutorType.USER,
                 unreadMessagesCount: data?.unreadMessagesCount || 0,
                 interlocutorLastReadMessageId: data?.interlocutorLastReadMessageId || 0,
-                interlocutor: (data?.interlocutor || user) as UserPreview,
+                interlocutor: (data?.interlocutor || user) as IUserPreview,
                 typingInterlocutors: [],
                 photos: {
                   hasMore: true,
@@ -165,12 +165,12 @@ export class ChangeSelectedChat {
 
   static get httpRequest() {
     return {
-      getChat: httpRequestFactory<AxiosResponse<Chat>, GetChatByIdRequestData>(
-        ({ chatId }: GetChatByIdRequestData) => `${ApiBasePath.MainApi}/api/chats/${chatId}`,
+      getChat: httpRequestFactory<AxiosResponse<IChat>, IGetChatByIdRequestData>(
+        ({ chatId }: IGetChatByIdRequestData) => `${ApiBasePath.MainApi}/api/chats/${chatId}`,
         HttpRequestMethod.Get,
       ),
-      getUser: httpRequestFactory<AxiosResponse<UserPreview>, GetUserByIdRequestData>(
-        ({ userId }: GetUserByIdRequestData) => `${ApiBasePath.MainApi}/api/users/${userId.toString()}`,
+      getUser: httpRequestFactory<AxiosResponse<IUserPreview>, IGetUserByIdRequestData>(
+        ({ userId }: IGetUserByIdRequestData) => `${ApiBasePath.MainApi}/api/users/${userId.toString()}`,
         HttpRequestMethod.Get,
       ),
     };

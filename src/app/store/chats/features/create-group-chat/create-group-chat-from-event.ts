@@ -1,18 +1,18 @@
 import { MyProfileService } from 'app/services/my-profile-service';
 import { CreateMessage } from 'app/store/messages/features/create-message/create-message';
-import { Message, MessageState, SystemMessageType } from 'app/store/messages/models';
-import { GroupChatCreatedIntegrationEvent } from 'app/store/middlewares/websockets/integration-events/group-chat-сreated-integration-event';
+import { IMessage, MessageState, SystemMessageType } from 'app/store/messages/models';
+import { IGroupChatCreatedIntegrationEvent } from 'app/store/middlewares/websockets/integration-events/group-chat-сreated-integration-event';
 import { MessageUtils } from 'app/utils/message-utils';
 import { SagaIterator } from 'redux-saga';
 import { put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { CreateMessageActionPayload } from 'store/messages/features/create-message/create-message-action-payload';
+import { ICreateMessageActionPayload } from 'store/messages/features/create-message/create-message-action-payload';
 import { ChatId } from '../../chat-id';
-import { Chat, GroupChat, InterlocutorType } from '../../models';
+import { IChat, IGroupChat, InterlocutorType } from '../../models';
 
 export class CreateGroupChatFromEvent {
   static get action() {
-    return createAction('CREATE_GROUP_CHAT_FROM_EVENT')<GroupChatCreatedIntegrationEvent>();
+    return createAction('CREATE_GROUP_CHAT_FROM_EVENT')<IGroupChatCreatedIntegrationEvent>();
   }
 
   static get saga() {
@@ -21,7 +21,7 @@ export class CreateGroupChatFromEvent {
       const chatId: number = ChatId.from(undefined, payload.id).id;
       const currentUser = new MyProfileService().myProfile;
 
-      const message: Message = {
+      const message: IMessage = {
         systemMessageType: SystemMessageType.GroupChatCreated,
         text: MessageUtils.createSystemMessage({}),
         creationDateTime: new Date(new Date().toUTCString()),
@@ -31,7 +31,7 @@ export class CreateGroupChatFromEvent {
         id: payload.systemMessageId,
       };
 
-      const chat: Chat = {
+      const chat: IChat = {
         interlocutorType: InterlocutorType.GROUP_CHAT,
         id: chatId,
         draftMessage: '',
@@ -39,7 +39,7 @@ export class CreateGroupChatFromEvent {
           id: payload.id,
           membersCount: payload.memberIds.length,
           name: action.payload.name,
-        } as GroupChat,
+        } as IGroupChat,
         lastMessage: message,
         typingInterlocutors: [],
         photos: {
@@ -75,7 +75,7 @@ export class CreateGroupChatFromEvent {
         },
       };
 
-      const createMessageRequest: CreateMessageActionPayload = {
+      const createMessageRequest: ICreateMessageActionPayload = {
         message,
         isFromEvent: true,
         currentUserId: currentUser.id,

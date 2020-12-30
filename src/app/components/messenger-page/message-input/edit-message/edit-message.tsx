@@ -11,8 +11,8 @@ import AddSvg from 'icons/ic-add-new.svg';
 import './edit-message.scss';
 import { LocalizationContext } from 'app/app';
 import { MessageActions } from 'store/messages/actions';
-import { AttachmentToSend, BaseAttachment, Chat } from 'store/chats/models';
-import { AttachmentCreation } from 'store/messages/models';
+import { IAttachmentToSend, IBaseAttachment, IChat } from 'store/chats/models';
+import { IAttachmentCreation } from 'store/messages/models';
 import { useGlobalDrop } from 'app/hooks/use-global-drop';
 import { useReferState } from 'app/hooks/use-referred-state';
 import { getMessageToEdit } from 'app/store/messages/selectors';
@@ -31,20 +31,20 @@ export const EditMessage = React.memo(() => {
 
   const [newText, setNewText] = useState(messageToEdit?.text || '');
   const referredNewText = useReferState(newText);
-  const [removedAttachments, setRemovedAttachments] = useState<AttachmentCreation[]>([]);
+  const [removedAttachments, setRemovedAttachments] = useState<IAttachmentCreation[]>([]);
   const referredRemovedAttachments = useReferState(removedAttachments);
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const updatedSelectedChat = useRef<Chat | undefined>();
+  const updatedSelectedChat = useRef<IChat | undefined>();
 
   useEffect(() => {
     updatedSelectedChat.current = selectedChat;
   }, [selectedChat]);
 
   const removeAttachment = useCallback(
-    (attachmentToRemove: AttachmentCreation) => {
+    (attachmentToRemove: IAttachmentCreation) => {
       setRemovedAttachments((oldList) => [...oldList, attachmentToRemove]);
     },
     [setRemovedAttachments],
@@ -218,7 +218,7 @@ export const EditMessage = React.memo(() => {
         ?.filter(({ id }) => removedAttachments.findIndex((removedAttachment) => removedAttachment.id === id) === -1)
         .map((attachment) => (
           <MessageInputAttachment
-            attachment={{ attachment } as AttachmentToSend<BaseAttachment>}
+            attachment={{ attachment } as IAttachmentToSend<IBaseAttachment>}
             isFromEdit
             removeSelectedAttachment={removeAttachment}
             key={attachment.id}

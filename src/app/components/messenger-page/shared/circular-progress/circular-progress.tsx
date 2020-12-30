@@ -4,12 +4,12 @@ import './circular-progress.scss';
 import CircularProgressSVG from 'icons/ic-circular-progress.svg';
 
 namespace CircularProgressNS {
-  export interface Props {
+  export interface IProps {
     progress: number;
   }
 }
 
-export const CircularProgress: React.FC<CircularProgressNS.Props> = React.memo(({ progress }) => {
+export const CircularProgress: React.FC<CircularProgressNS.IProps> = React.memo(({ progress }) => {
   const progressSvgRef = useRef<SVGElement>(null);
 
   useEffect(() => {

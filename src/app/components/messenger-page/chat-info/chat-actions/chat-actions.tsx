@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useState } from 'react';
 import './chat-actions.scss';
-import { UserPreview } from 'store/my-profile/models';
-import { Chat } from 'store/chats/models';
+import { IUserPreview } from 'store/my-profile/models';
+import { IChat } from 'store/chats/models';
 import { useSelector } from 'react-redux';
 import { getMembersForSelectedGroupChat, getSelectedChatSelector } from 'store/chats/selectors';
 import { LocalizationContext } from 'app/app';
@@ -21,12 +21,12 @@ import { DeleteChatModal } from './delete-chat-modal/delete-chat-modal';
 import { ClearChatModal } from './clear-chat-modal/clear-chat-modal';
 
 namespace ChatActionsNS {
-  export interface Props {
+  export interface IProps {
     addMembers: (params: { excludeIds: (number | undefined)[] }) => void;
   }
 }
 
-export const ChatActions = React.memo(({ addMembers }: ChatActionsNS.Props) => {
+export const ChatActions = React.memo(({ addMembers }: ChatActionsNS.IProps) => {
   const { t } = useContext(LocalizationContext);
 
   const [leaveGroupChatModalOpened, setLeaveGroupChatModalOpened] = useState<boolean>(false);
@@ -45,10 +45,10 @@ export const ChatActions = React.memo(({ addMembers }: ChatActionsNS.Props) => {
 
   const membersForGroupChat = useSelector(getMembersForSelectedGroupChat);
   const membersIdsForGroupChat: (number | undefined)[] = membersForGroupChat?.map((user) => user?.id) || [];
-  const selectedChat = useSelector(getSelectedChatSelector) as Chat;
+  const selectedChat = useSelector(getSelectedChatSelector) as IChat;
   const friends = useSelector(getMyFriends);
 
-  const selectedIsFriend = useCallback((): boolean => friends.findIndex((friend: UserPreview) => friend.id === selectedChat.interlocutor?.id) > -1, [
+  const selectedIsFriend = useCallback((): boolean => friends.findIndex((friend: IUserPreview) => friend.id === selectedChat.interlocutor?.id) > -1, [
     friends,
     selectedChat.interlocutor?.id,
   ]);

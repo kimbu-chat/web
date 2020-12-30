@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
 import './messenger.scss';
-
 import {
   EditMessage,
   SettingsHeader,
@@ -19,21 +18,12 @@ import {
   ChatData,
   SearchTop,
 } from 'components';
-
-import { AvatarSelectedData } from 'store/my-profile/models';
 import { useSelector } from 'react-redux';
 import { amICalled as isCallingMe, amICalling, doIhaveCall } from 'store/calls/selectors';
 import { CSSTransition } from 'react-transition-group';
 import { LocalizationContext } from 'app/app';
 import { getSelectedChatIdSelector } from 'store/chats/selectors';
 import { getMessageToEdit } from 'app/store/messages/selectors';
-
-export namespace MessengerNS {
-  export interface PhotoSelect {
-    isDisplayed?: boolean;
-    onSubmit?: (data: AvatarSelectedData) => void;
-  }
-}
 
 const Messenger = React.memo(() => {
   const { t } = useContext(LocalizationContext);

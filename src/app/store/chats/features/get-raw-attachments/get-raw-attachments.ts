@@ -7,17 +7,17 @@ import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { getChatArrayIndex } from 'app/store/chats/selectors';
-import { RawAttachment, GetChatFilesHTTPRequest, ChatsState } from '../../models';
-import { GetRawAttachmentsActionPayload } from './get-raw-attachments-action-payload';
+import { IRawAttachment, IGetChatFilesHTTPRequest, IChatsState } from '../../models';
+import { IGetRawAttachmentsActionPayload } from './get-raw-attachments-action-payload';
 import { GetRawAttachmentsSuccess } from './get-raw-attachments-success';
 
 export class GetRawAttachments {
   static get action() {
-    return createAction('GET_RAW_ATTACHMENTS')<GetRawAttachmentsActionPayload>();
+    return createAction('GET_RAW_ATTACHMENTS')<IGetRawAttachmentsActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: ChatsState, { payload }: ReturnType<typeof GetRawAttachments.action>) => {
+    return produce((draft: IChatsState, { payload }: ReturnType<typeof GetRawAttachments.action>) => {
       const { chatId } = payload;
 
       const chatIndex: number = getChatArrayIndex(chatId, draft);
@@ -46,7 +46,7 @@ export class GetRawAttachments {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<Array<RawAttachment>>, GetChatFilesHTTPRequest>(
+    return httpRequestFactory<AxiosResponse<Array<IRawAttachment>>, IGetChatFilesHTTPRequest>(
       `${ApiBasePath.MainApi}/api/raw-attachments/search`,
       HttpRequestMethod.Post,
     );

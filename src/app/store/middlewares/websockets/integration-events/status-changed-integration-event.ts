@@ -1,6 +1,6 @@
 import { UserStatus } from 'app/store/common/models';
 
-export interface StatusChangedIntegrationEvent {
+export interface IStatusChangedIntegrationEvent {
   status: UserStatus;
   userId: number;
 }

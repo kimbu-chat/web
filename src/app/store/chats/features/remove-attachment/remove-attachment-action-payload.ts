@@ -1,4 +1,4 @@
-export interface RemoveAttachmentctionPayload {
+export interface IRemoveAttachmentctionPayload {
   chatId: number;
   attachmentId: number;
 }

@@ -1,16 +1,16 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { getChatArrayIndex } from 'app/store/chats/selectors';
-import { GetVoiceAttachmentsSuccessActionPayload } from './get-voice-attachments-success-action-payload';
-import { ChatsState } from '../../models';
+import { IGetVoiceAttachmentsSuccessActionPayload } from './get-voice-attachments-success-action-payload';
+import { IChatsState } from '../../models';
 
 export class GetVoiceAttachmentsSuccess {
   static get action() {
-    return createAction('GET_VOICE_ATTACHMENTS_SUCCESS')<GetVoiceAttachmentsSuccessActionPayload>();
+    return createAction('GET_VOICE_ATTACHMENTS_SUCCESS')<IGetVoiceAttachmentsSuccessActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: ChatsState, { payload }: ReturnType<typeof GetVoiceAttachmentsSuccess.action>) => {
+    return produce((draft: IChatsState, { payload }: ReturnType<typeof GetVoiceAttachmentsSuccess.action>) => {
       const { recordings, chatId, hasMore } = payload;
 
       const chatIndex: number = getChatArrayIndex(chatId, draft);

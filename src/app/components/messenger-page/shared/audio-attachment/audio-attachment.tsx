@@ -5,15 +5,15 @@ import PlaySvg from 'icons/ic-play.svg';
 import PauseSvg from 'icons/ic-pause.svg';
 import moment from 'moment';
 import { changeMusic } from 'app/utils/current-music';
-import { AudioAttachment } from 'store/chats/models';
+import { IAudioAttachment } from 'store/chats/models';
 
 namespace AudioAttachmentNS {
-  export interface Props {
-    attachment: AudioAttachment;
+  export interface IProps {
+    attachment: IAudioAttachment;
   }
 }
 
-export const MessageAudioAttachment = React.memo(({ attachment }: AudioAttachmentNS.Props) => {
+export const MessageAudioAttachment = React.memo(({ attachment }: AudioAttachmentNS.IProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const audio = useRef<HTMLAudioElement | null>(null);

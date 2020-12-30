@@ -1,10 +1,10 @@
-import { BaseAttachment } from 'app/store/chats/models';
+import { IBaseAttachment } from 'app/store/chats/models';
 import { MessageState } from '../../models';
 
-export interface CreateMessageSuccessActionPayload {
+export interface ICreateMessageSuccessActionPayload {
   oldMessageId: number;
   newMessageId: number;
   messageState: MessageState;
-  attachments?: BaseAttachment[];
+  attachments?: IBaseAttachment[];
   chatId: number;
 }

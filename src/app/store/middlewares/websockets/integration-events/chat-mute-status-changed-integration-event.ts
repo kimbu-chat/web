@@ -1,4 +1,4 @@
-export interface ChatMutedStatusChangedIntegrationEvent {
+export interface IChatMutedStatusChangedIntegrationEvent {
   chatIds: number[];
   isMuted: boolean;
 }

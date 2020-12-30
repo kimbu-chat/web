@@ -1,5 +1,5 @@
 import React, { useContext, useCallback } from 'react';
-import { Message, SystemMessageType, MessageState, FileType } from 'store/messages/models';
+import { IMessage, SystemMessageType, MessageState, FileType } from 'store/messages/models';
 import { MessageUtils } from 'app/utils/message-utils';
 import { useSelector } from 'react-redux';
 import './message-item.scss';
@@ -12,7 +12,7 @@ import { MessageActions } from 'store/messages/actions';
 import { getSelectedMessagesLength } from 'store/messages/selectors';
 import { Avatar } from 'components';
 import { getUserInitials } from 'app/utils/interlocutor-name-utils';
-import { UserPreview } from 'store/my-profile/models';
+import { IUserPreview } from 'store/my-profile/models';
 import moment from 'moment';
 
 import MessageQeuedSvg from 'icons/ic-time.svg';
@@ -20,20 +20,20 @@ import MessageSentSvg from 'icons/ic-tick.svg';
 import MessageReadSvg from 'icons/ic-double_tick.svg';
 import SelectedSvg from 'icons/ic-check-filled.svg';
 import UnSelectedSvg from 'icons/ic-check-outline.svg';
-import { RawAttachment, PictureAttachment, VoiceAttachment, VideoAttachment, AudioAttachment } from 'store/chats/models';
+import { IRawAttachment, IPictureAttachment, IVoiceAttachment, IVideoAttachment, IAudioAttachment } from 'store/chats/models';
 import { Link } from 'react-router-dom';
 import { MessageAudioAttachment, FileAttachment } from 'app/components';
 import { MediaGrid } from './attachments/media-grid/media-grid';
 import { RecordingAttachment } from './attachments/recording-attachment/recording-attachment';
 
 namespace MessageNS {
-  export interface Props {
-    message: Message;
+  export interface IProps {
+    message: IMessage;
   }
 }
 
 const MessageItem = React.memo(
-  ({ message }: MessageNS.Props) => {
+  ({ message }: MessageNS.IProps) => {
     const currentUserId = useSelector(getMyIdSelector) as number;
     const selectedChatId = useSelector(getSelectedChatSelector)?.id;
     const isSelectState = useSelector(getSelectedMessagesLength) > 0;
@@ -56,32 +56,32 @@ const MessageItem = React.memo(
     const structuredAttachments = message.attachments?.reduce(
       (
         accum: {
-          files: RawAttachment[];
-          media: (VideoAttachment | PictureAttachment)[];
-          audios: AudioAttachment[];
-          recordings: VoiceAttachment[];
+          files: IRawAttachment[];
+          media: (IVideoAttachment | IPictureAttachment)[];
+          audios: IAudioAttachment[];
+          recordings: IVoiceAttachment[];
         },
         currentAttachment,
       ) => {
         switch (currentAttachment.type) {
           case FileType.raw:
-            accum.files.push(currentAttachment as RawAttachment);
+            accum.files.push(currentAttachment as IRawAttachment);
 
             break;
           case FileType.picture:
-            accum.media.push(currentAttachment as PictureAttachment);
+            accum.media.push(currentAttachment as IPictureAttachment);
 
             break;
           case FileType.video:
-            accum.media.push(currentAttachment as VideoAttachment);
+            accum.media.push(currentAttachment as IVideoAttachment);
 
             break;
           case FileType.audio:
-            accum.audios.push(currentAttachment as AudioAttachment);
+            accum.audios.push(currentAttachment as IAudioAttachment);
 
             break;
           case FileType.voice:
-            accum.recordings.push(currentAttachment as VoiceAttachment);
+            accum.recordings.push(currentAttachment as IVoiceAttachment);
 
             break;
           default:
@@ -101,7 +101,7 @@ const MessageItem = React.memo(
     if (message?.systemMessageType !== SystemMessageType.None) {
       return (
         <div className='message__separator'>
-          <span>{MessageUtils.constructSystemMessageText(message as Message, t, currentUserId)}</span>
+          <span>{MessageUtils.constructSystemMessageText(message as IMessage, t, currentUserId)}</span>
         </div>
       );
     }
@@ -156,12 +156,12 @@ const MessageItem = React.memo(
         {message.needToShowCreator &&
           (myId === message.userCreator.id ? (
             <Avatar className='message__sender-photo message__sender-photo--me ' src={message.userCreator.avatar?.previewUrl}>
-              {getUserInitials(message.userCreator as UserPreview)}
+              {getUserInitials(message.userCreator as IUserPreview)}
             </Avatar>
           ) : (
             <Link className='message__sender-photo-wrapper' to={`/chats/${message.userCreator.id}1`}>
               <Avatar className='message__sender-photo ' src={message.userCreator.avatar?.previewUrl}>
-                {getUserInitials(message.userCreator as UserPreview)}
+                {getUserInitials(message.userCreator as IUserPreview)}
               </Avatar>
             </Link>
           ))}

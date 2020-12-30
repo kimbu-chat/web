@@ -8,29 +8,29 @@ import { put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { getChatArrayIndex } from 'app/store/chats/selectors';
 import {
-  ChatsState,
-  AttachmentToSend,
-  BaseAttachment,
-  UploadAttachmentSagaProgressData,
-  UploadAudioResponse,
-  UploadFileResponse,
-  UploadPictureResponse,
-  UploadVideoResponse,
-  UploadVoiceResponse,
+  IChatsState,
+  IAttachmentToSend,
+  IBaseAttachment,
+  IUploadAttachmentSagaProgressData,
+  IUploadAudioResponse,
+  IUploadFileResponse,
+  IUploadPictureResponse,
+  IUploadVideoResponse,
+  IUploadVoiceResponse,
 } from '../../models';
 import { addUploadingAttachment, removeUploadingAttachment } from '../../upload-qeue';
 import { UploadAttachmentFailure } from './upload-attachment-failure';
 import { UploadAttachmentProgress } from './upload-attachment-progress';
-import { UploadAttachmentRequestActionPayload } from './upload-attachment-request-action-payload';
+import { IUploadAttachmentRequestActionPayload } from './upload-attachment-request-action-payload';
 import { UploadAttachmentSuccess } from './upload-attachment-success';
 
 export class UploadAttachmentRequest {
   static get action() {
-    return createAction('UPLOAD_ATTACHMENT_REQUEST')<UploadAttachmentRequestActionPayload>();
+    return createAction('UPLOAD_ATTACHMENT_REQUEST')<IUploadAttachmentRequestActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: ChatsState, { payload }: ReturnType<typeof UploadAttachmentRequest.action>) => {
+    return produce((draft: IChatsState, { payload }: ReturnType<typeof UploadAttachmentRequest.action>) => {
       const { type, chatId, attachmentId, file } = payload;
 
       const chatIndex: number = getChatArrayIndex(chatId, draft);
@@ -40,7 +40,7 @@ export class UploadAttachmentRequest {
           draft.chats[chatIndex].attachmentsToSend = [];
         }
 
-        const attachmentToAdd: AttachmentToSend<BaseAttachment> = {
+        const attachmentToAdd: IAttachmentToSend<IBaseAttachment> = {
           attachment: {
             id: attachmentId,
             byteSize: file.size,
@@ -102,10 +102,10 @@ export class UploadAttachmentRequest {
           *onStart({ cancelTokenSource }): SagaIterator {
             addUploadingAttachment({ cancelTokenSource, id: attachmentId });
           },
-          *onProgress(payload: UploadAttachmentSagaProgressData): SagaIterator {
+          *onProgress(payload: IUploadAttachmentSagaProgressData): SagaIterator {
             yield put(UploadAttachmentProgress.action({ chatId, attachmentId, ...payload }));
           },
-          *onSuccess(payload: BaseAttachment): SagaIterator {
+          *onSuccess(payload: IBaseAttachment): SagaIterator {
             removeUploadingAttachment(attachmentId);
 
             yield put(
@@ -127,23 +127,23 @@ export class UploadAttachmentRequest {
 
   static get httpRequest() {
     return {
-      uploadAudioAttachment: httpFilesRequestFactory<AxiosResponse<UploadAudioResponse>, FormData>(
+      uploadAudioAttachment: httpFilesRequestFactory<AxiosResponse<IUploadAudioResponse>, FormData>(
         `${ApiBasePath.FilesAPI}/api/audio-attachments`,
         HttpRequestMethod.Post,
       ),
-      uploadPictureAttachment: httpFilesRequestFactory<AxiosResponse<UploadPictureResponse>, FormData>(
+      uploadPictureAttachment: httpFilesRequestFactory<AxiosResponse<IUploadPictureResponse>, FormData>(
         `${ApiBasePath.FilesAPI}/api/picture-attachments`,
         HttpRequestMethod.Post,
       ),
-      uploadFileAttachment: httpFilesRequestFactory<AxiosResponse<UploadFileResponse>, FormData>(
+      uploadFileAttachment: httpFilesRequestFactory<AxiosResponse<IUploadFileResponse>, FormData>(
         `${ApiBasePath.FilesAPI}/api/raw-attachments`,
         HttpRequestMethod.Post,
       ),
-      uploadVideoAttachment: httpFilesRequestFactory<AxiosResponse<UploadVideoResponse>, FormData>(
+      uploadVideoAttachment: httpFilesRequestFactory<AxiosResponse<IUploadVideoResponse>, FormData>(
         `${ApiBasePath.FilesAPI}/api/video-attachments`,
         HttpRequestMethod.Post,
       ),
-      uploadVoiceAttachment: httpFilesRequestFactory<AxiosResponse<UploadVoiceResponse>, FormData>(
+      uploadVoiceAttachment: httpFilesRequestFactory<AxiosResponse<IUploadVoiceResponse>, FormData>(
         `${ApiBasePath.FilesAPI}/api/voice-attachments`,
         HttpRequestMethod.Post,
       ),

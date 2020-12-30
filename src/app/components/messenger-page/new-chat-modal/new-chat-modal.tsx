@@ -5,26 +5,26 @@ import './new-chat-modal.scss';
 import { FriendActions } from 'store/friends/actions';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { LocalizationContext } from 'app/app';
-import { UserPreview } from 'store/my-profile/models';
+import { IUserPreview } from 'store/my-profile/models';
 import { useHistory } from 'react-router';
 
 import PeopleSvg from 'icons/ic-group.svg';
 import { ChatActions } from 'app/store/chats/actions';
 import { getFriendsLoading, getHasMoreFriends, getMyFriends } from 'app/store/friends/selectors';
-import { Page } from 'app/store/common/models';
+import { IPage } from 'app/store/common/models';
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
 import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
 import { ChatId } from 'app/store/chats/chat-id';
 import { FriendFromList, SearchBox } from 'app/components';
 
 namespace NewChatModalNS {
-  export interface Props {
+  export interface IProps {
     onClose: () => void;
     displayCreateGroupChat: () => void;
   }
 }
 
-export const NewChatModal = React.memo(({ onClose, displayCreateGroupChat }: NewChatModalNS.Props) => {
+export const NewChatModal = React.memo(({ onClose, displayCreateGroupChat }: NewChatModalNS.IProps) => {
   const { t } = useContext(LocalizationContext);
 
   const friends = useSelector(getMyFriends);
@@ -36,7 +36,7 @@ export const NewChatModal = React.memo(({ onClose, displayCreateGroupChat }: New
 
   const history = useHistory();
 
-  const createEmptyChat = useCallback((user: UserPreview) => {
+  const createEmptyChat = useCallback((user: IUserPreview) => {
     createChat(user);
     const chatId = ChatId.from(user.id).id;
     history.push(`/chats/${chatId}`);
@@ -44,7 +44,7 @@ export const NewChatModal = React.memo(({ onClose, displayCreateGroupChat }: New
   }, []);
 
   const loadMore = useCallback(() => {
-    const page: Page = {
+    const page: IPage = {
       offset: friends.length,
       limit: FRIENDS_LIMIT,
     };

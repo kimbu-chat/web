@@ -21,7 +21,7 @@ import { ChatActions } from 'store/chats/actions';
 import { useOnClickOutside } from 'app/hooks/use-on-click-outside';
 import { getFileType } from 'app/utils/get-file-extension';
 import { RespondingMessage } from 'components';
-import { Chat } from 'store/chats/models';
+import { IChat } from 'store/chats/models';
 import { useGlobalDrop } from 'app/hooks/use-global-drop';
 import { useReferState } from 'app/hooks/use-referred-state';
 import { throttle } from 'lodash';
@@ -31,7 +31,7 @@ import { MessageSmiles } from './message-smiles/message-smiles';
 import { ExpandingTextarea } from './expanding-textarea/expanding-textarea';
 
 namespace CreateMessageInputNS {
-  export interface RecordedData {
+  export interface IRecordedData {
     mediaRecorder: MediaRecorder | null;
     tracks: MediaStreamTrack[];
     isRecording: boolean;
@@ -61,13 +61,13 @@ export const CreateMessageInput = React.memo(() => {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const registerAudioBtnRef = useRef<HTMLButtonElement>(null);
-  const recorderData = useRef<CreateMessageInputNS.RecordedData>({
+  const recorderData = useRef<CreateMessageInputNS.IRecordedData>({
     mediaRecorder: null,
     tracks: [],
     isRecording: false,
     needToSubmit: false,
   });
-  const updatedSelectedChat = useRef<Chat | undefined>();
+  const updatedSelectedChat = useRef<IChat | undefined>();
 
   useGlobalDrop({
     onDragEnter: (e) => {

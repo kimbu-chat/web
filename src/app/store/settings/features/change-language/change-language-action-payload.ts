@@ -1,5 +1,5 @@
 import { Langs } from '../../models';
 
-export interface ChangeLanguageActionPayload {
+export interface IChangeLanguageActionPayload {
   language: Langs;
 }

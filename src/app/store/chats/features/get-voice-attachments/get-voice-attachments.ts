@@ -7,17 +7,17 @@ import { put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import produce from 'immer';
 import { getChatArrayIndex } from 'app/store/chats/selectors';
-import { GetVoiceAttachmentsActionPayload } from './get-voice-attachments-action-payload';
-import { VoiceAttachment, GetVoiceAttachmentsHTTPRequest, ChatsState } from '../../models';
+import { IGetVoiceAttachmentsActionPayload } from './get-voice-attachments-action-payload';
+import { IVoiceAttachment, IGetVoiceAttachmentsHTTPRequest, IChatsState } from '../../models';
 import { GetVoiceAttachmentsSuccess } from './get-voice-attachments-success';
 
 export class GetVoiceAttachments {
   static get action() {
-    return createAction('GET_VOICE_ATTACHMENTS')<GetVoiceAttachmentsActionPayload>();
+    return createAction('GET_VOICE_ATTACHMENTS')<IGetVoiceAttachmentsActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: ChatsState, { payload }: ReturnType<typeof GetVoiceAttachments.action>) => {
+    return produce((draft: IChatsState, { payload }: ReturnType<typeof GetVoiceAttachments.action>) => {
       const { chatId } = payload;
 
       const chatIndex: number = getChatArrayIndex(chatId, draft);
@@ -46,7 +46,7 @@ export class GetVoiceAttachments {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<Array<VoiceAttachment>>, GetVoiceAttachmentsHTTPRequest>(
+    return httpRequestFactory<AxiosResponse<Array<IVoiceAttachment>>, IGetVoiceAttachmentsHTTPRequest>(
       `${ApiBasePath.MainApi}/api/voice-attachments/search`,
       HttpRequestMethod.Post,
     );

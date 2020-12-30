@@ -2,7 +2,7 @@ import React, { useState, useCallback, useRef, useContext } from 'react';
 import ReactDOM from 'react-dom';
 import './change-photo.scss';
 
-import { AvatarSelectedData } from 'store/my-profile/models';
+import { IAvatarSelectedData } from 'store/my-profile/models';
 import { LocalizationContext } from 'app/app';
 
 import CloseSVG from 'icons/ic-close.svg';
@@ -13,13 +13,13 @@ import { WithBackground, BaseBtn } from 'components';
 import { stopPropagation } from 'app/utils/stop-propagation';
 
 namespace ChangePhotoNS {
-  export interface Props {
+  export interface IProps {
     imageUrl: string;
     hideChangePhoto: () => void;
-    onSubmit?: (data: AvatarSelectedData) => void;
+    onSubmit?: (data: IAvatarSelectedData) => void;
   }
 
-  export interface Coords {
+  export interface ICoords {
     x: number;
     y: number;
   }
@@ -42,7 +42,7 @@ function generateDownload(image?: HTMLImageElement, crop?: ReactCrop.Crop): stri
   return canvas.toDataURL('image/png');
 }
 
-export const ChangePhoto = ({ imageUrl, onSubmit, hideChangePhoto }: ChangePhotoNS.Props) => {
+export const ChangePhoto = ({ imageUrl, onSubmit, hideChangePhoto }: ChangePhotoNS.IProps) => {
   const { t } = useContext(LocalizationContext);
 
   const imgRef = useRef<HTMLImageElement>();

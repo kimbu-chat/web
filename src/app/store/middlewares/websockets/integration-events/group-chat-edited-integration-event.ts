@@ -1,4 +1,4 @@
-export interface GroupChatEditedIntegrationEvent {
+export interface IGroupChatEditedIntegrationEvent {
   avatarId: number;
   avatarPreviewUrl: string;
   avatarUrl: string;

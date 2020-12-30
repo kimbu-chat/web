@@ -1,43 +1,43 @@
 import { CallStatus } from '../calls/models';
 // eslint-disable-next-line import/no-cycle
-import { BaseAttachment } from '../chats/models';
-import { Page } from '../common/models';
-import { UserPreview } from '../my-profile/models';
+import { IBaseAttachment } from '../chats/models';
+import { IPage } from '../common/models';
+import { IUserPreview } from '../my-profile/models';
 
-export interface MessagesState {
+export interface IMessagesState {
   loading: boolean;
-  messages: MessageList[];
+  messages: IMessageList[];
   selectedMessageIds: number[];
-  messageToReply?: Message;
-  messageToEdit?: Message;
+  messageToReply?: IMessage;
+  messageToEdit?: IMessage;
 }
 
-export interface CallMessage {
+export interface ICallMessage {
   userCallerId: number;
   userCalleeId: number;
   duration: number;
   status: CallStatus;
 }
 
-export interface MessageList {
-  messages: Message[];
+export interface IMessageList {
+  messages: IMessage[];
   hasMoreMessages: boolean;
   chatId: number;
 }
 
-export interface SystemMessageBase {}
+export interface ISystemMessageBase {}
 
-export interface GroupChatMemberRemovedSystemMessageContent extends SystemMessageBase {
+export interface IGroupChatMemberRemovedSystemMessageContent extends ISystemMessageBase {
   removedUserId: number;
   removedUserName: string;
 }
 
-export interface GroupChatNameChangedSystemMessageContent extends SystemMessageBase {
+export interface IGroupChatNameChangedSystemMessageContent extends ISystemMessageBase {
   oldName: string;
   newName: string;
 }
 
-export interface GroupChatMemberAddedSystemMessageContent extends SystemMessageBase {
+export interface IGroupChatMemberAddedSystemMessageContent extends ISystemMessageBase {
   addedUserId: number;
   addedUserName: string;
   groupChatName: string;
@@ -53,11 +53,11 @@ export enum FileType {
   video = 'Video',
 }
 
-export interface Message {
+export interface IMessage {
   id: number;
   needToShowCreator?: boolean;
   isEdited?: boolean;
-  userCreator: UserPreview;
+  userCreator: IUserPreview;
   creationDateTime?: Date;
   text: string;
   attachmentsJson?: string;
@@ -67,7 +67,7 @@ export interface Message {
   dateSeparator?: string;
   isSelected?: boolean;
   needToShowDateSeparator?: boolean;
-  attachments?: BaseAttachment[];
+  attachments?: IBaseAttachment[];
 }
 
 export enum SystemMessageType {
@@ -82,26 +82,26 @@ export enum SystemMessageType {
   CallEnded = 'CallEnded',
 }
 
-export interface MessageCreationReqData {
+export interface IMessageCreationReqData {
   text?: string;
   chatId?: number;
-  attachments?: AttachmentCreation[];
+  attachments?: IAttachmentCreation[];
 }
 
-export interface AttachmentCreation {
+export interface IAttachmentCreation {
   id: number;
   type: FileType;
 }
 
-export interface SubmitEditMessageHTTPReq {
+export interface ISubmitEditMessageHTTPReq {
   messageId: number;
   text: string;
-  removedAttachments?: AttachmentCreation[];
-  newAttachments?: AttachmentCreation[];
+  removedAttachments?: IAttachmentCreation[];
+  newAttachments?: IAttachmentCreation[];
 }
 
-export interface MessagesReqData {
-  page: Page;
+export interface IMessagesReqData {
+  page: IPage;
   chatId: number;
 }
 
@@ -114,7 +114,7 @@ export enum MessageState {
   LOCALMESSAGE = 'LOCALMESSAGE',
 }
 
-export interface UploadingFileInfo {
+export interface IUploadingFileInfo {
   localUri: string;
   isError: boolean;
   uploadId: string;
@@ -122,13 +122,13 @@ export interface UploadingFileInfo {
   fileType: FileType;
 }
 
-export interface EditMessageApiReq {
+export interface IEditMessageApiReq {
   text: string;
   messageId: number;
-  removedAttachments?: AttachmentCreation[];
-  newAttachments?: AttachmentCreation[];
+  removedAttachments?: IAttachmentCreation[];
+  newAttachments?: IAttachmentCreation[];
 }
-export interface DeleteMessagesApiReq {
+export interface IDeleteMessagesApiReq {
   ids: number[];
   forEveryone: boolean;
 }

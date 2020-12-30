@@ -1,7 +1,7 @@
 import { LocalizationContext } from 'app/app';
 import { Modal, WithBackground } from 'components';
 import { ChatActions } from 'store/chats/actions';
-import { Chat } from 'store/chats/models';
+import { IChat } from 'store/chats/models';
 import { getSelectedChatSelector } from 'store/chats/selectors';
 import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
 import React, { useCallback, useContext } from 'react';
@@ -9,15 +9,15 @@ import './delete-chat-modal.scss';
 import { useSelector } from 'react-redux';
 
 namespace DeleteChatModalNS {
-  export interface Props {
+  export interface IProps {
     hide: () => void;
   }
 }
 
-export const DeleteChatModal = React.memo(({ hide }: DeleteChatModalNS.Props) => {
+export const DeleteChatModal = React.memo(({ hide }: DeleteChatModalNS.IProps) => {
   const { t } = useContext(LocalizationContext);
 
-  const selectedChat = useSelector(getSelectedChatSelector) as Chat;
+  const selectedChat = useSelector(getSelectedChatSelector) as IChat;
 
   const leaveGroupChat = useActionWithDeferred(ChatActions.leaveGroupChat);
 

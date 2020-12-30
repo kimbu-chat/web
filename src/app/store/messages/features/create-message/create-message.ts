@@ -1,6 +1,6 @@
 import { HTTPStatusCode } from 'app/common/http-status-code';
 import { ChatActions } from 'app/store/chats/actions';
-import { Chat, MarkMessagesAsReadRequest } from 'app/store/chats/models';
+import { IChat, IMarkMessagesAsReadRequest } from 'app/store/chats/models';
 import { getChatById, getChats, getSelectedChatIdSelector } from 'app/store/chats/selectors';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
@@ -16,22 +16,22 @@ import { ChangeSelectedChat } from 'app/store/chats/features/change-selected-cha
 import { getChatIndex } from 'app/store/messages/selectors';
 import { getMyIdSelector } from 'app/store/my-profile/selectors';
 import { areNotificationsEnabled } from 'app/store/settings/selectors';
-import { MessageCreationReqData, MessageList, MessagesState, MessageState, SystemMessageType } from '../../models';
+import { IMessageCreationReqData, IMessageList, IMessagesState, MessageState, SystemMessageType } from '../../models';
 import { CreateMessageSuccess } from './create-message-success';
-import { CreateMessageActionPayload } from './create-message-action-payload';
+import { ICreateMessageActionPayload } from './create-message-action-payload';
 
 export class CreateMessage {
   static get action() {
-    return createAction('CREATE_MESSAGE')<CreateMessageActionPayload>();
+    return createAction('CREATE_MESSAGE')<ICreateMessageActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: MessagesState, { payload }: ReturnType<typeof CreateMessage.action>) => {
+    return produce((draft: IMessagesState, { payload }: ReturnType<typeof CreateMessage.action>) => {
       const { chatId, message } = payload;
       const chatIndex = getChatIndex(draft, chatId);
 
       if (chatIndex === -1) {
-        const messageList: MessageList = {
+        const messageList: IMessageList = {
           chatId,
           messages: [message],
           hasMoreMessages: false,
@@ -64,7 +64,7 @@ export class CreateMessage {
           }
           const isChatCurrentInterlocutor: boolean = chatId === selectedChatId;
           if (isChatCurrentInterlocutor) {
-            const httpRequestPayload: MarkMessagesAsReadRequest = {
+            const httpRequestPayload: IMarkMessagesAsReadRequest = {
               chatId: selectedChatId,
               lastReadMessageId: message.id,
             };
@@ -78,7 +78,7 @@ export class CreateMessage {
         const currentUserId = yield select(getMyIdSelector);
         const chatOfMessage = yield select(getChatById(chatId));
         const isAudioPlayAllowed = yield select(areNotificationsEnabled);
-        const chats: Chat[] = yield select(getChats);
+        const chats: IChat[] = yield select(getChats);
 
         if (isAudioPlayAllowed) {
           if (message.userCreator?.id !== currentUserId && !(selectedChatId !== message.chatId) && !document.hidden && !chatOfMessage.isMuted) {
@@ -104,7 +104,7 @@ export class CreateMessage {
       } else {
         const attachmentsToSend = message.attachments?.map(({ id, type }) => ({ id, type })) || [];
         try {
-          const messageCreationReq: MessageCreationReqData = {
+          const messageCreationReq: IMessageCreationReqData = {
             text: message.text,
             chatId,
             attachments: attachmentsToSend,
@@ -129,6 +129,6 @@ export class CreateMessage {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<number>, MessageCreationReqData>(`${ApiBasePath.MainApi}/api/messages`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse<number>, IMessageCreationReqData>(`${ApiBasePath.MainApi}/api/messages`, HttpRequestMethod.Post);
   }
 }

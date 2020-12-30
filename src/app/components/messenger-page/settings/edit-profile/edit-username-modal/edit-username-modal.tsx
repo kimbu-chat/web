@@ -12,12 +12,12 @@ import { LocalizationContext } from 'app/app';
 import { validateNickname } from 'app/utils/validate-nick-name';
 
 namespace EditUserNameModalNS {
-  export interface Props {
+  export interface IProps {
     onClose: () => void;
   }
 }
 
-export const EditUserNameModal = React.memo(({ onClose }: EditUserNameModalNS.Props) => {
+export const EditUserNameModal = React.memo(({ onClose }: EditUserNameModalNS.IProps) => {
   const { t } = useContext(LocalizationContext);
 
   const [isNickNameAvailable, setIsNickNameAvailable] = useState(true);

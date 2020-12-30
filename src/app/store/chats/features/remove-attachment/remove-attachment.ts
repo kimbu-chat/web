@@ -2,17 +2,17 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { createAction } from 'typesafe-actions';
 import { getChatArrayIndex } from 'app/store/chats/selectors';
-import { ChatsState } from '../../models';
+import { IChatsState } from '../../models';
 import { removeUploadingAttachment, uploadingAttachments } from '../../upload-qeue';
-import { RemoveAttachmentctionPayload } from './remove-attachment-action-payload';
+import { IRemoveAttachmentctionPayload } from './remove-attachment-action-payload';
 
 export class RemoveAttachment {
   static get action() {
-    return createAction('REMOVE_ATTACHMENT')<RemoveAttachmentctionPayload>();
+    return createAction('REMOVE_ATTACHMENT')<IRemoveAttachmentctionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: ChatsState, { payload }: ReturnType<typeof RemoveAttachment.action>) => {
+    return produce((draft: IChatsState, { payload }: ReturnType<typeof RemoveAttachment.action>) => {
       const { chatId, attachmentId } = payload;
 
       const chatIndex: number = getChatArrayIndex(chatId, draft);

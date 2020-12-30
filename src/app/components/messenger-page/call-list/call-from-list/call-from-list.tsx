@@ -1,4 +1,4 @@
-import { Call, CallStatus } from 'store/calls/models';
+import { ICall, CallStatus } from 'store/calls/models';
 import './call-from-list.scss';
 import React, { useContext } from 'react';
 
@@ -11,12 +11,12 @@ import { useSelector } from 'react-redux';
 import { getMyIdSelector } from 'app/store/my-profile/selectors';
 
 namespace CallFromListNS {
-  export interface Props {
-    call: Call;
+  export interface IProps {
+    call: ICall;
   }
 }
 
-export const CallFromList: React.FC<CallFromListNS.Props> = ({ call }) => {
+export const CallFromList: React.FC<CallFromListNS.IProps> = ({ call }) => {
   const { t } = useContext(LocalizationContext);
 
   const myId = useSelector(getMyIdSelector);

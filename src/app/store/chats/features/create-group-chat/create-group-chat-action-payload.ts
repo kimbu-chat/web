@@ -1,9 +1,9 @@
-import { UploadAvatarResponse, UserPreview } from 'app/store/my-profile/models';
+import { IUploadAvatarResponse, IUserPreview } from 'app/store/my-profile/models';
 
-export interface CreateGroupChatActionPayload {
+export interface ICreateGroupChatActionPayload {
   name: string;
   description?: string;
   userIds: Array<number>;
-  currentUser: UserPreview;
-  avatar?: UploadAvatarResponse | null;
+  currentUser: IUserPreview;
+  avatar?: IUploadAvatarResponse | null;
 }

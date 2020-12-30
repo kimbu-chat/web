@@ -3,7 +3,7 @@ import moment from 'moment';
 
 import './chat-member.scss';
 
-import { UserPreview } from 'store/my-profile/models';
+import { IUserPreview } from 'store/my-profile/models';
 import { LocalizationContext } from 'app/app';
 import { Avatar } from 'components';
 import { getUserInitials } from 'app/utils/interlocutor-name-utils';
@@ -12,12 +12,12 @@ import DeleteSvg from 'icons/ic-delete.svg';
 import { UserStatus } from 'app/store/common/models';
 
 namespace MemberNS {
-  export interface Props {
-    member: UserPreview;
+  export interface IProps {
+    member: IUserPreview;
   }
 }
 
-export const Member = React.memo(({ member }: MemberNS.Props) => {
+export const Member = React.memo(({ member }: MemberNS.IProps) => {
   const { t } = useContext(LocalizationContext);
 
   return (

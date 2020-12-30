@@ -1,4 +1,4 @@
-export interface RenegotiationActionPayload {
+export interface IRenegotiationActionPayload {
   userInterlocutorId: number;
   isVideoEnabled: boolean;
   offer: RTCSessionDescriptionInit;

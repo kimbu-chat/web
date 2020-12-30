@@ -1,15 +1,15 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { CallState } from '../../models';
-import { GetCallsSuccessActionPayload } from './get-calls-success-action-payload';
+import { ICallState } from '../../models';
+import { IGetCallsSuccessActionPayload } from './get-calls-success-action-payload';
 
 export class GetCallsSuccess {
   static get action() {
-    return createAction('GET_CALLS_SUCCESS')<GetCallsSuccessActionPayload>();
+    return createAction('GET_CALLS_SUCCESS')<IGetCallsSuccessActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: CallState, { payload }: ReturnType<typeof GetCallsSuccess.action>) => {
+    return produce((draft: ICallState, { payload }: ReturnType<typeof GetCallsSuccess.action>) => {
       const { calls, hasMore } = payload;
 
       draft.calls.calls.push(...calls);

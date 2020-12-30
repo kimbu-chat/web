@@ -2,13 +2,13 @@ import React, { useContext } from 'react';
 import { AsYouType } from 'libphonenumber-js';
 import './phone-input.scss';
 
-import { Country } from 'app/common/countries';
+import { ICountry } from 'app/common/countries';
 import { LocalizationContext } from 'app/app';
 import { removeCountryCodeFromPhoneNumber } from 'app/utils/phone-number-utils';
 
 namespace PhoneInputNS {
-  export interface Props {
-    country: Country;
+  export interface IProps {
+    country: ICountry;
     phone: string;
     setPhone: Function;
     displayCountries: () => void;
@@ -16,7 +16,7 @@ namespace PhoneInputNS {
   }
 }
 
-export const PhoneInput = React.forwardRef(({ country, phone, setPhone, displayCountries, sendSms }: PhoneInputNS.Props, ref: React.Ref<HTMLInputElement>) => {
+export const PhoneInput = React.forwardRef(({ country, phone, setPhone, displayCountries, sendSms }: PhoneInputNS.IProps, ref: React.Ref<HTMLInputElement>) => {
   const { t } = useContext(LocalizationContext);
 
   return (

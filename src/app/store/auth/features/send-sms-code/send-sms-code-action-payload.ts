@@ -1,4 +1,4 @@
-export interface SendSmsCodeActionPayload {
+export interface ISendSmsCodeActionPayload {
   phoneNumber: string;
   twoLetterCountryCode: string;
 }

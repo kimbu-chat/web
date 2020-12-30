@@ -5,18 +5,18 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { EditGroupChatHTTPReqData } from '../../models';
-import { EditGroupChatActionPayload } from './edit-group-chat-action-payload';
+import { IEditGroupChatHTTPReqData } from '../../models';
+import { IEditGroupChatActionPayload } from './edit-group-chat-action-payload';
 import { EditGroupChatSuccess } from './edit-group-chat-success';
 
 export class EditGroupChat {
   static get action() {
-    return createAction('EDIT_GROUP_CHAT')<EditGroupChatActionPayload>();
+    return createAction('EDIT_GROUP_CHAT')<IEditGroupChatActionPayload>();
   }
 
   static get saga() {
     return function* (action: ReturnType<typeof EditGroupChat.action>): SagaIterator {
-      const requestData: EditGroupChatHTTPReqData = {
+      const requestData: IEditGroupChatHTTPReqData = {
         id: action.payload.id,
         name: action.payload.name,
         description: action.payload.description,
@@ -34,6 +34,6 @@ export class EditGroupChat {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, EditGroupChatHTTPReqData>(`${ApiBasePath.MainApi}/api/group-chats`, HttpRequestMethod.Put);
+    return httpRequestFactory<AxiosResponse, IEditGroupChatHTTPReqData>(`${ApiBasePath.MainApi}/api/group-chats`, HttpRequestMethod.Put);
   }
 }

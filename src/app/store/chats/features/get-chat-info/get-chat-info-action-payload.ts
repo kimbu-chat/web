@@ -1,3 +1,3 @@
-export interface GetChatInfoActionPayload {
+export interface IGetChatInfoActionPayload {
   chatId: number;
 }

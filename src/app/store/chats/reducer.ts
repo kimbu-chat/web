@@ -1,7 +1,7 @@
 import produce from 'immer';
 import { createReducer } from 'typesafe-actions';
 import { getChatArrayIndex, checkChatExists } from 'app/store/chats/selectors';
-import { AudioAttachment, PictureAttachment, RawAttachment, VideoAttachment, VoiceAttachment, ChatsState } from './models';
+import { IAudioAttachment, IPictureAttachment, IRawAttachment, IVideoAttachment, IVoiceAttachment, IChatsState } from './models';
 import { ChatId } from './chat-id';
 import { MessageActions } from '../messages/actions';
 import { FriendActions } from '../friends/actions';
@@ -49,7 +49,7 @@ import { GroupChatEdited } from './features/edit-group-chat/group-chat-edited';
 import { MemberLeftGroupChat } from './features/leave-group-chat/member-left-group-chat';
 import { ChatMutedStatusChanged } from './features/change-chat-muted-status/chat-muted-status-changed';
 
-const initialState: ChatsState = {
+const initialState: IChatsState = {
   loading: false,
   hasMore: true,
   searchString: '',
@@ -57,7 +57,7 @@ const initialState: ChatsState = {
   selectedChatId: null,
 };
 
-const chats = createReducer<ChatsState>(initialState)
+const chats = createReducer<IChatsState>(initialState)
   .handleAction(InterlocutorStoppedTyping.action, InterlocutorStoppedTyping.reducer)
   .handleAction(InterlocutorMessageTyping.action, InterlocutorMessageTyping.reducer)
   .handleAction(CreateGroupChatSuccess.action, CreateGroupChatSuccess.reducer)
@@ -96,7 +96,7 @@ const chats = createReducer<ChatsState>(initialState)
   .handleAction(ChatMutedStatusChanged.action, ChatMutedStatusChanged.reducer)
   .handleAction(
     MessageActions.clearChatHistorySuccess,
-    produce((draft: ChatsState, { payload }: ReturnType<typeof MessageActions.clearChatHistorySuccess>) => {
+    produce((draft: IChatsState, { payload }: ReturnType<typeof MessageActions.clearChatHistorySuccess>) => {
       const { chatId } = payload;
       const chatIndex: number = getChatArrayIndex(chatId, draft);
 
@@ -109,7 +109,7 @@ const chats = createReducer<ChatsState>(initialState)
   )
   .handleAction(
     CreateMessage.action,
-    produce((draft: ChatsState, { payload }: ReturnType<typeof MessageActions.createMessage>) => {
+    produce((draft: IChatsState, { payload }: ReturnType<typeof MessageActions.createMessage>) => {
       const { message, chatId, currentUserId } = payload;
 
       const chatIndex: number = getChatArrayIndex(chatId, draft);
@@ -139,7 +139,7 @@ const chats = createReducer<ChatsState>(initialState)
   )
   .handleAction(
     UserStatusChangedEvent.action,
-    produce((draft: ChatsState, { payload }: ReturnType<typeof FriendActions.userStatusChangedEvent>) => {
+    produce((draft: IChatsState, { payload }: ReturnType<typeof FriendActions.userStatusChangedEvent>) => {
       const { status, userId } = payload;
       const chatId: number = ChatId.from(userId).id;
       const isChatExists = checkChatExists(chatId, draft);
@@ -157,7 +157,7 @@ const chats = createReducer<ChatsState>(initialState)
   )
   .handleAction(
     CreateMessageSuccess.action,
-    produce((draft: ChatsState, { payload }: ReturnType<typeof MessageActions.createMessageSuccess>) => {
+    produce((draft: IChatsState, { payload }: ReturnType<typeof MessageActions.createMessageSuccess>) => {
       const { messageState, chatId, oldMessageId, newMessageId, attachments } = payload;
 
       const chatIndex: number = getChatArrayIndex(chatId, draft);
@@ -176,7 +176,7 @@ const chats = createReducer<ChatsState>(initialState)
             case FileType.audio:
               draft.chats[chatIndex].audioAttachmentsCount = (draft.chats[chatIndex].audioAttachmentsCount || 0) + 1;
               draft.chats[chatIndex].audios.audios.unshift({
-                ...(attachment as AudioAttachment),
+                ...(attachment as IAudioAttachment),
                 creationDateTime: new Date(),
               });
 
@@ -184,7 +184,7 @@ const chats = createReducer<ChatsState>(initialState)
             case FileType.picture:
               draft.chats[chatIndex].pictureAttachmentsCount = (draft.chats[chatIndex].pictureAttachmentsCount || 0) + 1;
               draft.chats[chatIndex].photos.photos.unshift({
-                ...(attachment as PictureAttachment),
+                ...(attachment as IPictureAttachment),
                 creationDateTime: new Date(),
               });
 
@@ -192,7 +192,7 @@ const chats = createReducer<ChatsState>(initialState)
             case FileType.raw:
               draft.chats[chatIndex].rawAttachmentsCount = (draft.chats[chatIndex].rawAttachmentsCount || 0) + 1;
               draft.chats[chatIndex].files.files.unshift({
-                ...(attachment as RawAttachment),
+                ...(attachment as IRawAttachment),
                 creationDateTime: new Date(),
               });
 
@@ -200,7 +200,7 @@ const chats = createReducer<ChatsState>(initialState)
             case FileType.video:
               draft.chats[chatIndex].videoAttachmentsCount = (draft.chats[chatIndex].videoAttachmentsCount || 0) + 1;
               draft.chats[chatIndex].videos.videos.unshift({
-                ...(attachment as VideoAttachment),
+                ...(attachment as IVideoAttachment),
                 creationDateTime: new Date(),
               });
 
@@ -208,7 +208,7 @@ const chats = createReducer<ChatsState>(initialState)
             case FileType.voice:
               draft.chats[chatIndex].voiceAttachmentsCount = (draft.chats[chatIndex].voiceAttachmentsCount || 0) + 1;
               draft.chats[chatIndex].recordings.recordings.unshift({
-                ...(attachment as VoiceAttachment),
+                ...(attachment as IVoiceAttachment),
                 creationDateTime: new Date(),
               });
 
@@ -224,7 +224,7 @@ const chats = createReducer<ChatsState>(initialState)
   )
   .handleAction(
     SubmitEditMessage.action,
-    produce((draft: ChatsState, { payload }: ReturnType<typeof MessageActions.submitEditMessage>) => {
+    produce((draft: IChatsState, { payload }: ReturnType<typeof MessageActions.submitEditMessage>) => {
       const { chatId, messageId, text } = payload;
       const chatIndex: number = getChatArrayIndex(chatId, draft);
 
@@ -241,7 +241,7 @@ const chats = createReducer<ChatsState>(initialState)
   )
   .handleAction(
     MessageTyping.action,
-    produce((draft: ChatsState, { payload }: ReturnType<typeof MessageActions.messageTyping>) => {
+    produce((draft: IChatsState, { payload }: ReturnType<typeof MessageActions.messageTyping>) => {
       const { chatId, text } = payload;
       const chatIndex: number = getChatArrayIndex(chatId, draft);
 

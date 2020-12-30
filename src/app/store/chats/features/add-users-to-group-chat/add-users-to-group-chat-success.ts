@@ -1,16 +1,16 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { getChatArrayIndex } from 'app/store/chats/selectors';
-import { ChatsState } from '../../models';
-import { AddUsersToGroupChatSuccessActionPayload } from './add-users-to-group-chat-success-action-payload';
+import { IChatsState } from '../../models';
+import { IAddUsersToGroupChatSuccessActionPayload } from './add-users-to-group-chat-success-action-payload';
 
 export class AddUsersToGroupChatSuccess {
   static get action() {
-    return createAction('ADD_USERS_TO_GROUP_CHAT_SUCCESS')<AddUsersToGroupChatSuccessActionPayload>();
+    return createAction('ADD_USERS_TO_GROUP_CHAT_SUCCESS')<IAddUsersToGroupChatSuccessActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: ChatsState, { payload }: ReturnType<typeof AddUsersToGroupChatSuccess.action>) => {
+    return produce((draft: IChatsState, { payload }: ReturnType<typeof AddUsersToGroupChatSuccess.action>) => {
       const { chat, users } = payload;
 
       const chatIndex: number = getChatArrayIndex(chat.id, draft);

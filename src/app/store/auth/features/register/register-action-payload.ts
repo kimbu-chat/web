@@ -1,4 +1,4 @@
-export interface RegisterActionPayload {
+export interface IRegisterActionPayload {
   lastName: string;
   firstName: string;
   nickname: string;

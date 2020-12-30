@@ -2,7 +2,7 @@ import React, { useEffect, useCallback, useMemo } from 'react';
 import './chat-list.scss';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { useSelector } from 'react-redux';
-import { Chat } from 'store/chats/models';
+import { IChat } from 'store/chats/models';
 import { ChatActions } from 'store/chats/actions';
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
 import { getChats, getChatsLoading, getHasMoreChats, getSearchString, getSelectedChatIdSelector } from 'app/store/chats/selectors';
@@ -56,7 +56,7 @@ const ChatList = React.memo(() => {
     }
   }, [searchString, chats.length, areChatsLoading]);
 
-  const memoizedChats = useMemo(() => chats?.map((chat: Chat) => <ChatFromList chat={chat} key={chat.id} />), [chats]);
+  const memoizedChats = useMemo(() => chats?.map((chat: IChat) => <ChatFromList chat={chat} key={chat.id} />), [chats]);
 
   return (
     <div className='chat-list'>

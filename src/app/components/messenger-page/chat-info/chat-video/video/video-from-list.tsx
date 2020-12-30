@@ -2,16 +2,16 @@ import React, { useCallback, useState } from 'react';
 import PlaySvg from 'icons/ic-play.svg';
 import moment from 'moment';
 import { FadeAnimationWrapper, VideoPlayer } from 'components';
-import { IGroupable, VideoAttachment } from 'store/chats/models';
+import { IGroupable, IVideoAttachment } from 'store/chats/models';
 import { doesYearDifferFromCurrent } from 'app/utils/set-separators';
 
 namespace VideoNS {
-  export interface Props {
-    video: VideoAttachment & IGroupable;
+  export interface IProps {
+    video: IVideoAttachment & IGroupable;
   }
 }
 
-export const VideoFromList: React.FC<VideoNS.Props> = React.memo(({ video }) => {
+export const VideoFromList: React.FC<VideoNS.IProps> = React.memo(({ video }) => {
   const [videoPlayerDisplayed, setVideoPlayerDisplayed] = useState(false);
   const changeVideoPlayerDisplayed = useCallback(() => setVideoPlayerDisplayed((oldState) => !oldState), [setVideoPlayerDisplayed]);
 

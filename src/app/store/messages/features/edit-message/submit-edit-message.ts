@@ -6,17 +6,17 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { EditMessageApiReq, MessagesState } from '../../models';
-import { SumbitEditMessageActionPayload } from './submit-edit-message-action-payload';
+import { IEditMessageApiReq, IMessagesState } from '../../models';
+import { ISumbitEditMessageActionPayload } from './submit-edit-message-action-payload';
 import { SubmitEditMessageSuccess } from './sumbit-edit-message-success';
 
 export class SubmitEditMessage {
   static get action() {
-    return createAction('SUBMIT_EDIT_MESSAGE')<SumbitEditMessageActionPayload>();
+    return createAction('SUBMIT_EDIT_MESSAGE')<ISumbitEditMessageActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: MessagesState) => {
+    return produce((draft: IMessagesState) => {
       draft.selectedMessageIds = [];
 
       draft.messageToEdit = undefined;
@@ -27,7 +27,7 @@ export class SubmitEditMessage {
 
   static get saga() {
     return function* (action: ReturnType<typeof SubmitEditMessage.action>): SagaIterator {
-      const editRequest: EditMessageApiReq = {
+      const editRequest: IEditMessageApiReq = {
         text: action.payload.text,
         messageId: action.payload.messageId,
         removedAttachments: action.payload.removedAttachments,
@@ -45,6 +45,6 @@ export class SubmitEditMessage {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, EditMessageApiReq>(`${ApiBasePath.MainApi}/api/messages`, HttpRequestMethod.Put);
+    return httpRequestFactory<AxiosResponse, IEditMessageApiReq>(`${ApiBasePath.MainApi}/api/messages`, HttpRequestMethod.Put);
   }
 }

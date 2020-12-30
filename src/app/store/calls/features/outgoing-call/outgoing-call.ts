@@ -10,7 +10,7 @@ import { RootState } from 'app/store/root-reducer';
 import { ApiBasePath } from 'app/store/root-api';
 import { AxiosResponse } from 'axios';
 import { getIsVideoEnabled } from 'app/store/calls/selectors';
-import { CallApiRequest, CallApiResponse, CallState } from '../../models';
+import { ICallApiRequest, ICallApiResponse, ICallState } from '../../models';
 import { deviceUpdateWatcher } from '../../utils/device-update-watcher';
 import { getAndSendUserMedia, getMediaDevicesList } from '../../utils/user-media';
 import { CancelCall } from '../cancel-call/cancel-call';
@@ -18,7 +18,7 @@ import { ChangeActiveDeviceId } from '../change-active-device-id/change-active-d
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
 import { InterlocutorAcceptedCall } from '../interlocutor-accepted-call/interlocutor-accepted-call';
 import { TimeoutCall } from '../timeout-call/timeout-call';
-import { OutgoingCallActionPayload } from './outgoing-call-action-payload';
+import { IOutgoingCallActionPayload } from './outgoing-call-action-payload';
 import { InputType } from '../../common/enums/input-type';
 import { CallEnded } from '../end-call/call-ended';
 import { InterlocutorBusy } from '../interlocutor-busy/interlocutor-busy';
@@ -27,11 +27,11 @@ import { setIsRenegotiationAccepted } from '../../utils/glare-utils';
 
 export class OutgoingCall {
   static get action() {
-    return createAction('OUTGOING_CALL')<OutgoingCallActionPayload>();
+    return createAction('OUTGOING_CALL')<IOutgoingCallActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: CallState, { payload }: ReturnType<typeof OutgoingCall.action>) => {
+    return produce((draft: ICallState, { payload }: ReturnType<typeof OutgoingCall.action>) => {
       if (draft.isSpeaking) {
         return draft;
       }
@@ -122,6 +122,6 @@ export class OutgoingCall {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<CallApiResponse>, CallApiRequest>(`${ApiBasePath.MainApi}/api/calls/send-call-offer`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse<ICallApiResponse>, ICallApiRequest>(`${ApiBasePath.MainApi}/api/calls/send-call-offer`, HttpRequestMethod.Post);
   }
 }

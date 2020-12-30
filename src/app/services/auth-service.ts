@@ -1,17 +1,17 @@
 import { BrowserStorage } from 'app/utils/browser-storage';
-import { SecurityTokens } from 'store/auth/models';
+import { ISecurityTokens } from 'store/auth/models';
 
 export class AuthService {
   private readonly authentication = 'authentication';
 
   private browserStorage = new BrowserStorage(this.authentication);
 
-  public get securityTokens(): SecurityTokens {
-    return this.browserStorage.getObject<SecurityTokens>(this.authentication);
+  public get securityTokens(): ISecurityTokens {
+    return this.browserStorage.getObject<ISecurityTokens>(this.authentication);
   }
 
-  public initialize(auth: SecurityTokens) {
-    this.browserStorage.setObject<SecurityTokens>(this.authentication, auth);
+  public initialize(auth: ISecurityTokens) {
+    this.browserStorage.setObject<ISecurityTokens>(this.authentication, auth);
   }
 
   public clear() {

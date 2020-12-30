@@ -1,4 +1,4 @@
-export interface MarkMessagesAsReadActionPayload {
+export interface IMarkMessagesAsReadActionPayload {
   chatId: number;
   lastReadMessageId: number;
 }

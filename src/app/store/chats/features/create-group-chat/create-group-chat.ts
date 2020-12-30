@@ -9,14 +9,14 @@ import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { getSelectedChatIdSelector } from 'app/store/chats/selectors';
 import { ChatId } from '../../chat-id';
-import { Chat, GroupChatCreationHTTPReqData, InterlocutorType } from '../../models';
+import { IChat, IGroupChatCreationHTTPReqData, InterlocutorType } from '../../models';
 import { ChangeSelectedChat } from '../change-selected-chat/change-selected-chat';
-import { CreateGroupChatActionPayload } from './create-group-chat-action-payload';
+import { ICreateGroupChatActionPayload } from './create-group-chat-action-payload';
 import { CreateGroupChatSuccess } from './create-group-chat-success';
 
 export class CreateGroupChat {
   static get action() {
-    return createAction('CREATE_GROUP_CHAT')<CreateGroupChatActionPayload, Meta>();
+    return createAction('CREATE_GROUP_CHAT')<ICreateGroupChatActionPayload, Meta>();
   }
 
   static get saga() {
@@ -25,7 +25,7 @@ export class CreateGroupChat {
       const selectedChatId = yield select(getSelectedChatIdSelector);
 
       try {
-        const groupChatCreationRequest: GroupChatCreationHTTPReqData = {
+        const groupChatCreationRequest: IGroupChatCreationHTTPReqData = {
           name,
           description,
           userIds,
@@ -35,7 +35,7 @@ export class CreateGroupChat {
         const { data } = CreateGroupChat.httpRequest.call(yield call(() => CreateGroupChat.httpRequest.generator(groupChatCreationRequest)));
 
         const chatId: number = ChatId.from(undefined, data).id;
-        const chat: Chat = {
+        const chat: IChat = {
           interlocutorType: InterlocutorType.GROUP_CHAT,
           id: chatId,
           isMuted: false,
@@ -102,6 +102,6 @@ export class CreateGroupChat {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<number>, GroupChatCreationHTTPReqData>(`${ApiBasePath.MainApi}/api/group-chats`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse<number>, IGroupChatCreationHTTPReqData>(`${ApiBasePath.MainApi}/api/group-chats`, HttpRequestMethod.Post);
   }
 }

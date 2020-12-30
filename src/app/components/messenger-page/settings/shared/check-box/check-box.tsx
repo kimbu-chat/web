@@ -4,7 +4,7 @@ import './check-box.scss';
 import CheckBoxSvg from 'icons/ic-checkbox.svg';
 
 namespace CheckBoxNS {
-  export interface Props {
+  export interface IProps {
     nestingLevel: number;
     onClick: () => void;
     isChecked: boolean;
@@ -12,7 +12,7 @@ namespace CheckBoxNS {
   }
 }
 
-export const CheckBox = React.memo(({ isChecked, title, onClick, nestingLevel }: CheckBoxNS.Props) => (
+export const CheckBox = React.memo(({ isChecked, title, onClick, nestingLevel }: CheckBoxNS.IProps) => (
   <div style={{ marginLeft: `${nestingLevel * 30}px` }} onClick={onClick} className='check-box'>
     <div className='check-box__check-box'>{isChecked && <CheckBoxSvg />}</div>
     <span className='check-box__title'>{title}</span>

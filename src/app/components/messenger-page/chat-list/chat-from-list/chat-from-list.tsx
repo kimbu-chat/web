@@ -4,11 +4,11 @@ import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 
 import './chat-from-list.scss';
-import { Chat } from 'store/chats/models';
+import { IChat } from 'store/chats/models';
 import { MessageUtils } from 'app/utils/message-utils';
 
 import { StatusBadge, Avatar } from 'components';
-import { SystemMessageType, Message, MessageState } from 'store/messages/models';
+import { SystemMessageType, IMessage, MessageState } from 'store/messages/models';
 import { LocalizationContext } from 'app/app';
 import { getMyIdSelector } from 'store/my-profile/selectors';
 import truncate from 'lodash/truncate';
@@ -20,12 +20,12 @@ import { getTypingString } from 'store/chats/selectors';
 import { getChatInterlocutor, getInterlocutorInitials } from 'utils/interlocutor-name-utils';
 
 namespace ChatFromListNS {
-  export interface Props {
-    chat: Chat;
+  export interface IProps {
+    chat: IChat;
   }
 }
 
-const ChatFromList = React.memo(({ chat }: ChatFromListNS.Props) => {
+const ChatFromList = React.memo(({ chat }: ChatFromListNS.IProps) => {
   const { interlocutor, lastMessage, groupChat } = chat;
   const { t } = useContext(LocalizationContext);
   const currentUserId = useSelector(getMyIdSelector) as number;
@@ -43,7 +43,7 @@ const ChatFromList = React.memo(({ chat }: ChatFromListNS.Props) => {
     const { lastMessage, groupChat } = chat;
     if (lastMessage) {
       if (lastMessage && lastMessage?.systemMessageType !== SystemMessageType.None) {
-        return truncate(MessageUtils.constructSystemMessageText(lastMessage as Message, t, currentUserId), {
+        return truncate(MessageUtils.constructSystemMessageText(lastMessage as IMessage, t, currentUserId), {
           length: 53,
           omission: '...',
         });

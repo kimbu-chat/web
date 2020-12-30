@@ -4,11 +4,11 @@ import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { getCallInterlocutorIdSelector } from '../../selectors';
 import { ignoreOffer } from '../../utils/glare-utils';
-import { CandidateActionPayload } from './candidate-action-payload';
+import { ICandidateActionPayload } from './candidate-action-payload';
 
 export class Candidate {
   static get action() {
-    return createAction('CANDIDATE')<CandidateActionPayload>();
+    return createAction('CANDIDATE')<ICandidateActionPayload>();
   }
 
   static get saga() {

@@ -1,7 +1,7 @@
-import { BaseAttachment } from 'app/store/chats/models';
+import { IBaseAttachment } from 'app/store/chats/models';
 
-export interface MessageEditedActionPayload {
-  attachments: BaseAttachment[];
+export interface IMessageEditedActionPayload {
+  attachments: IBaseAttachment[];
   chatId: number;
   messageId: number;
   text: string;

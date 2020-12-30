@@ -2,8 +2,8 @@ import React from 'react';
 
 import './avatar.scss';
 
-namespace IAvatar {
-  export interface Props {
+namespace AvatarNS {
+  export interface IProps {
     src?: string;
     children: string;
     className?: string;
@@ -11,7 +11,7 @@ namespace IAvatar {
   }
 }
 
-const Avatar = React.memo(({ src, children, className, onClick, ...props }: IAvatar.Props) => (
+const Avatar = React.memo(({ src, children, className, onClick, ...props }: AvatarNS.IProps) => (
   <>
     {src ? (
       <img alt={children} src={src} {...props} onClick={onClick} className={`avatar ${className || ''}`} />

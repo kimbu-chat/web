@@ -4,14 +4,14 @@ import { useSelector } from 'react-redux';
 import { amIlogged } from 'app/store/auth/selectors';
 
 namespace PublicRouteNS {
-  export interface Props extends RouteProps {
+  export interface IProps extends RouteProps {
     Component: JSX.Element;
     path: string;
     isAllowed?: boolean;
   }
 }
 
-export const PublicRoute = React.memo(({ Component, path, isAllowed = true, ...rest }: PublicRouteNS.Props) => {
+export const PublicRoute = React.memo(({ Component, path, isAllowed = true, ...rest }: PublicRouteNS.IProps) => {
   const isAuthenticated = useSelector(amIlogged);
   return (
     <Route

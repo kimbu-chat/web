@@ -7,12 +7,12 @@ import { useOnClickOutside } from 'app/hooks/use-on-click-outside';
 import './message-smiles.scss';
 
 namespace MessageSmilesNS {
-  export interface Props {
+  export interface IProps {
     setText: React.Dispatch<React.SetStateAction<string>>;
   }
 }
 
-export const MessageSmiles = React.memo(({ setText }: MessageSmilesNS.Props) => {
+export const MessageSmiles = React.memo(({ setText }: MessageSmilesNS.IProps) => {
   const { t } = useContext(LocalizationContext);
 
   const [smilesDisplayed, setSmilesDisplayed] = useState(false);

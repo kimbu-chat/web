@@ -1,4 +1,4 @@
-export interface AcceptCallActionPayload {
+export interface IAcceptCallActionPayload {
   videoEnabled: boolean;
   audioEnabled: boolean;
 }

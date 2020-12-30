@@ -7,7 +7,7 @@ import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { useSelector } from 'react-redux';
 import { ChatActions } from 'store/chats/actions';
 import { getSelectedChatSelector } from 'store/chats/selectors';
-import { Page } from 'store/common/models';
+import { IPage } from 'store/common/models';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
 import { setSeparators } from 'app/utils/set-separators';
@@ -26,7 +26,7 @@ export const ChatPhoto = React.memo(() => {
   const location = useLocation();
 
   const loadMore = useCallback(() => {
-    const page: Page = {
+    const page: IPage = {
       offset: photoForSelectedChat?.photos!.length || 0,
       limit: PHOTO_ATTACHMENTS_LIMIT,
     };

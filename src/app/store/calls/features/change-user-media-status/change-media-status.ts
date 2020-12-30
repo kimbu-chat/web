@@ -17,7 +17,7 @@ import {
 } from '../../utils/user-media';
 import { ChangeActiveDeviceId } from '../change-active-device-id/change-active-device-id';
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
-import { ChangeMediaStatusActionPayload } from './change-media-status-action-payload';
+import { IChangeMediaStatusActionPayload } from './change-media-status-action-payload';
 import { InputType } from '../../common/enums/input-type';
 import { CloseScreenShareStatus } from '../change-screen-share-status/close-screen-share-status';
 import { CloseAudioStatus } from './close-audio-status';
@@ -25,7 +25,7 @@ import { CloseVideoStatus } from './close-video-status';
 
 export class ChangeMediaStatus {
   static get action() {
-    return createAction('CHANGE_MEDIA_STATUS')<ChangeMediaStatusActionPayload>();
+    return createAction('CHANGE_MEDIA_STATUS')<IChangeMediaStatusActionPayload>();
   }
 
   static get saga() {

@@ -1,4 +1,4 @@
-export interface GetChatInfoSuccessActionPayload {
+export interface IGetChatInfoSuccessActionPayload {
   chatId: number;
   rawAttachmentsCount: number;
   voiceAttachmentsCount: number;

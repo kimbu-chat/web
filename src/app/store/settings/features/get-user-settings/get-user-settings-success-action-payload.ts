@@ -1,3 +1,3 @@
-import { UserSettings } from '../../models';
+import { IUserSettings } from '../../models';
 
-export interface GetUserSettingsSuccessActionPayload extends UserSettings {}
+export interface IGetUserSettingsSuccessActionPayload extends IUserSettings {}

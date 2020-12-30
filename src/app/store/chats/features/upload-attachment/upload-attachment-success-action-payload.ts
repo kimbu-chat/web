@@ -1,6 +1,6 @@
-import { BaseAttachment } from '../../models';
+import { IBaseAttachment } from '../../models';
 
-export interface UploadAttachmentSuccessActionPayload<T = BaseAttachment> {
+export interface IUploadAttachmentSuccessActionPayload<T = IBaseAttachment> {
   chatId: number;
   attachmentId: number;
   attachment: T;

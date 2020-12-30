@@ -4,12 +4,12 @@ import './privacy-policy.scss';
 import { stopPropagation } from 'app/utils/stop-propagation';
 
 namespace PrivacyPolicyNS {
-  export interface Props {
+  export interface IProps {
     close: () => void;
   }
 }
 
-const PrivacyPolicy: React.FC<PrivacyPolicyNS.Props> = React.memo(({ close }) => (
+const PrivacyPolicy: React.FC<PrivacyPolicyNS.IProps> = React.memo(({ close }) => (
   <div onClick={stopPropagation} className='policy-modal'>
     <div className='policy-modal__header'>
       <div className='policy-modal__top-group'>

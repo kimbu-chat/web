@@ -2,16 +2,16 @@ import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { checkChatExists } from 'app/store/chats/selectors';
 import { ChatId } from '../../chat-id';
-import { Chat, ChatsState } from '../../models';
-import { CreateChatActionPayload } from './create-chat-action-payload';
+import { IChat, IChatsState } from '../../models';
+import { ICreateChatActionPayload } from './create-chat-action-payload';
 
 export class CreateChat {
   static get action() {
-    return createAction('CREATE_CHAT')<CreateChatActionPayload>();
+    return createAction('CREATE_CHAT')<ICreateChatActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: ChatsState, { payload }: ReturnType<typeof CreateChat.action>) => {
+    return produce((draft: IChatsState, { payload }: ReturnType<typeof CreateChat.action>) => {
       const { id } = payload;
 
       const chatId: number = ChatId.from(id).id;
@@ -24,7 +24,7 @@ export class CreateChat {
         return draft;
       }
       // user does not have dialog with interlocutor - create dialog
-      const newChat: Chat = {
+      const newChat: IChat = {
         id: chatId,
         draftMessage: '',
         interlocutorType: 1,

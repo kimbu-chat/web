@@ -7,14 +7,14 @@ import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { getCallInterlocutorIdSelector, getIsActiveCallIncoming, getIsScreenSharingEnabled, getVideoConstraints } from '../../selectors';
-import { AcceptCallApiRequest } from '../../models';
+import { IAcceptCallApiRequest } from '../../models';
 
 import { ignoreOffer, isSettingRemoteAnswerPending, makingOffer, setIgnoreOffer } from '../../utils/glare-utils';
-import { RenegotiationActionPayload } from './renegotiation-action-payload';
+import { IRenegotiationActionPayload } from './renegotiation-action-payload';
 
 export class Renegotiation {
   static get action() {
-    return createAction('RENEGOTIATION')<RenegotiationActionPayload>();
+    return createAction('RENEGOTIATION')<IRenegotiationActionPayload>();
   }
 
   static get saga() {
@@ -53,6 +53,6 @@ export class Renegotiation {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, AcceptCallApiRequest>(`${ApiBasePath.MainApi}/api/calls/accept-renegotiation`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse, IAcceptCallApiRequest>(`${ApiBasePath.MainApi}/api/calls/accept-renegotiation`, HttpRequestMethod.Post);
   }
 }

@@ -1,3 +1,3 @@
-export interface DeleteFriendSuccessActionPayload {
+export interface IDeleteFriendSuccessActionPayload {
   userIds: number[];
 }

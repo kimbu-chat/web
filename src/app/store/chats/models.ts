@@ -1,33 +1,33 @@
 import { CancelTokenSource } from 'axios';
-import { Page } from '../common/models';
+import { IPage } from '../common/models';
 // eslint-disable-next-line import/no-cycle
-import { Message, FileType } from '../messages/models';
-import { Avatar, UserPreview } from '../my-profile/models';
+import { IMessage, FileType } from '../messages/models';
+import { IAvatar, IUserPreview } from '../my-profile/models';
 
-export interface UploadingAttachment {
+export interface IUploadingAttachment {
   id: number;
   cancelTokenSource: CancelTokenSource;
 }
 
-export interface ChatsState {
+export interface IChatsState {
   groupChatUsersLoading?: boolean;
   loading: boolean;
   hasMore: boolean;
   searchString: string;
-  chats: Chat[];
+  chats: IChat[];
   selectedChatId: number | null;
 }
 
-export interface GroupChat {
+export interface IGroupChat {
   id: number;
-  avatar?: Avatar | null;
+  avatar?: IAvatar | null;
   name: string;
   description?: string;
   membersCount: number;
   userCreatorId: number;
 }
 
-export interface ParsedInterlocutorId {
+export interface IParsedInterlocutorId {
   interlocutorId: number;
   interlocutorType: InterlocutorType;
 }
@@ -37,65 +37,65 @@ export enum InterlocutorType {
   GROUP_CHAT = 2,
 }
 
-export interface GetChatAudiosHTTPRequest {
-  page: Page;
+export interface IGetChatAudiosHTTPRequest {
+  page: IPage;
   chatId: number;
 }
 
-export interface GetVoiceAttachmentsHTTPRequest {
-  page: Page;
+export interface IGetVoiceAttachmentsHTTPRequest {
+  page: IPage;
   chatId: number;
 }
 
-export interface GetChatPicturesHTTPRequest {
-  page: Page;
+export interface IGetChatPicturesHTTPRequest {
+  page: IPage;
   chatId: number;
 }
 
-export interface GetChatFilesHTTPRequest {
-  page: Page;
+export interface IGetChatFilesHTTPRequest {
+  page: IPage;
   chatId: number;
 }
 
-export interface GetChatVideosHTTPRequest {
-  page: Page;
+export interface IGetChatVideosHTTPRequest {
+  page: IPage;
   chatId: number;
 }
 
-export interface GetChatsRequestData {
-  page: Page;
+export interface IGetChatsRequestData {
+  page: IPage;
   showOnlyHidden: boolean;
   showAll: boolean;
   initializedBySearch?: boolean;
   name?: string;
 }
 
-export interface GetChatByIdRequestData {
+export interface IGetChatByIdRequestData {
   chatId: number;
 }
 
-export interface GetUserByIdRequestData {
+export interface IGetUserByIdRequestData {
   userId: number;
 }
 
-export interface MarkMessagesAsReadRequest {
+export interface IMarkMessagesAsReadRequest {
   chatId: number;
   lastReadMessageId: number;
 }
 
-export interface EditGroupChatHTTPReqData {
+export interface IEditGroupChatHTTPReqData {
   id: number;
   name?: string;
   description?: string;
   avatarId?: number;
 }
 
-export interface HideChatRequest {
+export interface IHideChatRequest {
   chatIds: (number | undefined)[];
   isHidden: boolean;
 }
 
-export interface GetChatInfoApiResponse {
+export interface IGetChatInfoApiResponse {
   rawAttachmentsCount: number;
   voiceAttachmentsCount: number;
   videoAttachmentsCount: number;
@@ -103,30 +103,30 @@ export interface GetChatInfoApiResponse {
   pictureAttachmentsCount: number;
 }
 
-export interface ChangeChatMutedStatusRequest {
+export interface IChangeChatMutedStatusRequest {
   chatIds: (number | undefined)[];
   isMuted: boolean;
 }
 
-export interface Chat {
+export interface IChat {
   id: number;
   interlocutorType?: InterlocutorType;
-  groupChat?: GroupChat;
-  lastMessage?: Message | null;
-  interlocutor?: UserPreview;
+  groupChat?: IGroupChat;
+  lastMessage?: IMessage | null;
+  interlocutor?: IUserPreview;
   unreadMessagesCount?: number;
   interlocutorLastReadMessageId?: number;
   draftMessage: string;
   timeoutId?: NodeJS.Timeout;
   typingInterlocutors?: { timeoutId: NodeJS.Timeout; fullName: string }[];
   isMuted?: boolean;
-  photos: PhotoList;
-  videos: VideoList;
-  audios: AudioList;
-  files: FilesList;
-  members: MembersList;
-  recordings: VoiceRecordingList;
-  attachmentsToSend?: AttachmentToSend<BaseAttachment>[];
+  photos: IPhotoList;
+  videos: IVideoList;
+  audios: IAudioList;
+  files: IFilesList;
+  members: IMembersList;
+  recordings: IVoiceRecordingList;
+  attachmentsToSend?: IAttachmentToSend<IBaseAttachment>[];
   rawAttachmentsCount?: number;
   videoAttachmentsCount?: number;
   voiceAttachmentsCount?: number;
@@ -134,12 +134,12 @@ export interface Chat {
   pictureAttachmentsCount?: number;
 }
 
-export interface ChangeLastMessageReq {
-  newMessage: Message;
+export interface IChangeLastMessageReq {
+  newMessage: IMessage;
   chatId: number;
 }
 
-export interface AttachmentToSend<T> {
+export interface IAttachmentToSend<T> {
   attachment: T;
   file: File;
   fileName: string;
@@ -148,7 +148,7 @@ export interface AttachmentToSend<T> {
   failure?: boolean;
 }
 
-export interface BaseAttachment {
+export interface IBaseAttachment {
   byteSize: number;
   type: FileType;
   creationDateTime: Date;
@@ -156,26 +156,26 @@ export interface BaseAttachment {
   id: number;
 }
 
-export interface AudioAttachment extends BaseAttachment {
+export interface IAudioAttachment extends IBaseAttachment {
   title: string;
   duration: number;
 }
 
-export interface PictureAttachment extends BaseAttachment {
+export interface IPictureAttachment extends IBaseAttachment {
   previewUrl: string;
 }
 
-export interface RawAttachment extends BaseAttachment {
+export interface IRawAttachment extends IBaseAttachment {
   title: string;
 }
 
-export interface VideoAttachment extends BaseAttachment {
+export interface IVideoAttachment extends IBaseAttachment {
   duration: number;
   firstFrameUrl: string;
   name: string;
 }
 
-export interface VoiceAttachment extends BaseAttachment {
+export interface IVoiceAttachment extends IBaseAttachment {
   duration: number;
 }
 
@@ -186,86 +186,86 @@ export interface IGroupable {
   needToShowYearSeparator?: boolean;
 }
 
-export interface MembersList {
-  members: UserPreview[];
-  searchMembers: UserPreview[];
+export interface IMembersList {
+  members: IUserPreview[];
+  searchMembers: IUserPreview[];
   loading: boolean;
   hasMore: boolean;
 }
 
-export interface ChatList {
-  chats: Array<Chat>;
+export interface IChatList {
+  chats: Array<IChat>;
   hasMore: boolean;
 }
 
-export interface PhotoList {
-  photos: (PictureAttachment & IGroupable)[];
+export interface IPhotoList {
+  photos: (IPictureAttachment & IGroupable)[];
   loading: boolean;
   hasMore: boolean;
 }
 
-export interface VideoList {
-  videos: (VideoAttachment & IGroupable)[];
+export interface IVideoList {
+  videos: (IVideoAttachment & IGroupable)[];
   loading: boolean;
   hasMore: boolean;
 }
 
-export interface FilesList {
-  files: (RawAttachment & IGroupable)[];
+export interface IFilesList {
+  files: (IRawAttachment & IGroupable)[];
   loading: boolean;
   hasMore: boolean;
 }
 
-export interface VoiceRecordingList {
-  recordings: (VoiceAttachment & IGroupable)[];
+export interface IVoiceRecordingList {
+  recordings: (IVoiceAttachment & IGroupable)[];
   loading: boolean;
   hasMore: boolean;
 }
 
-export interface AudioList {
-  audios: (AudioAttachment & IGroupable)[];
+export interface IAudioList {
+  audios: (IAudioAttachment & IGroupable)[];
   loading: boolean;
   hasMore: boolean;
 }
-export interface GroupChatCreationHTTPReqData {
+export interface IGroupChatCreationHTTPReqData {
   name: string;
   description?: string;
   userIds: Array<number>;
   avatarId?: number | null;
 }
 
-export interface UploadAttachmentStartedData {
+export interface IUploadAttachmentStartedData {
   chatId: number;
   attachmentId: number;
 }
 
-export interface UploadAttachmentSagaProgressData {
+export interface IUploadAttachmentSagaProgressData {
   progress: number;
 }
 
-export interface UploadBaseResponse {
+export interface IUploadBaseResponse {
   id: string;
   byteSize: number;
   url: string;
 }
 
-export interface UploadFileResponse extends UploadBaseResponse {
+export interface IUploadFileResponse extends IUploadBaseResponse {
   title: string;
 }
 
-export interface UploadAudioResponse extends UploadBaseResponse {
+export interface IUploadAudioResponse extends IUploadBaseResponse {
   title: string;
   duration: number;
 }
 
-export interface UploadPictureResponse extends UploadBaseResponse {
+export interface IUploadPictureResponse extends IUploadBaseResponse {
   previewUrl: string;
 }
 
-export interface UploadVideoResponse extends UploadBaseResponse {
+export interface IUploadVideoResponse extends IUploadBaseResponse {
   previewUrl: string;
 }
 
-export interface UploadVoiceResponse extends UploadBaseResponse {
+export interface IUploadVoiceResponse extends IUploadBaseResponse {
   duration: string;
 }

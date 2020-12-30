@@ -4,11 +4,11 @@ import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { doIhaveCall } from 'app/store/calls/selectors';
 import { setIgnoreOffer, setIsRenegotiationAccepted, setIsSettingRemoteAnswerPending } from '../../utils/glare-utils';
-import { RenegotiationAcceptedActionPayload } from './renegotiation-accepted-action-payload';
+import { IRenegotiationAcceptedActionPayload } from './renegotiation-accepted-action-payload';
 
 export class RenegotiationAccepted {
   static get action() {
-    return createAction('RENEGOTIATION_ACCEPTED')<RenegotiationAcceptedActionPayload>();
+    return createAction('RENEGOTIATION_ACCEPTED')<IRenegotiationAcceptedActionPayload>();
   }
 
   static get saga() {

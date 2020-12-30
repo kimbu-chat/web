@@ -1,16 +1,16 @@
 import { Store } from 'redux';
-import { SystemMessageType, Message, MessageState } from 'store/messages/models';
+import { SystemMessageType, IMessage, MessageState } from 'store/messages/models';
 import { RootState } from 'store/root-reducer';
 import { MessageActions } from 'store/messages/actions';
-import { CreateMessageActionPayload } from 'store/messages/features/create-message/create-message-action-payload';
+import { ICreateMessageActionPayload } from 'store/messages/features/create-message/create-message-action-payload';
 import { IEventHandler } from '../event-handler';
-import { MessageCreatedIntegrationEvent } from '../integration-events/message-created-integration-event';
+import { IMessageCreatedIntegrationEvent } from '../integration-events/message-created-integration-event';
 
-export class MessageCreatedEventHandler implements IEventHandler<MessageCreatedIntegrationEvent> {
-  public handle(store: Store<RootState>, eventData: MessageCreatedIntegrationEvent): void {
+export class MessageCreatedEventHandler implements IEventHandler<IMessageCreatedIntegrationEvent> {
+  public handle(store: Store<RootState>, eventData: IMessageCreatedIntegrationEvent): void {
     const currentUserId: number = store.getState().myProfile.user?.id!;
 
-    const message: Message = {
+    const message: IMessage = {
       attachments: eventData.attachments,
       text: eventData.text,
       systemMessageType: eventData.systemMessageType,
@@ -27,7 +27,7 @@ export class MessageCreatedEventHandler implements IEventHandler<MessageCreatedI
       }
     }
 
-    const messageCreation: CreateMessageActionPayload = {
+    const messageCreation: ICreateMessageActionPayload = {
       message,
       isFromEvent: true,
       chatId: eventData.chatId,

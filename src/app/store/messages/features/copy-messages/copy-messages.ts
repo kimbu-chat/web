@@ -2,18 +2,18 @@ import moment from 'moment';
 import { SagaIterator } from 'redux-saga';
 import { select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { MessageList } from '../../models';
+import { IMessageList } from '../../models';
 import { getMessagesByChatId } from '../../selectors';
-import { CopyMessagesActionPayload } from './copy-messages-action-payload';
+import { ICopyMessagesActionPayload } from './copy-messages-action-payload';
 
 export class CopyMessages {
   static get action() {
-    return createAction('COPY_MESSAGES')<CopyMessagesActionPayload>();
+    return createAction('COPY_MESSAGES')<ICopyMessagesActionPayload>();
   }
 
   static get saga() {
     return function* (action: ReturnType<typeof CopyMessages.action>): SagaIterator {
-      const chat: MessageList = yield select(getMessagesByChatId(action.payload.chatId));
+      const chat: IMessageList = yield select(getMessagesByChatId(action.payload.chatId));
 
       const content = chat.messages.reduce((accum: string, current) => {
         if (action.payload.messageIds.includes(current.id)) {

@@ -6,12 +6,12 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { AddUsersToGroupChatActionPayload } from './add-users-to-group-chat-action-payload';
+import { IAddUsersToGroupChatActionPayload } from './add-users-to-group-chat-action-payload';
 import { AddUsersToGroupChatSuccess } from './add-users-to-group-chat-success';
 
 export class AddUsersToGroupChat {
   static get action() {
-    return createAction('ADD_USERS_TO_GROUP_CHAT')<AddUsersToGroupChatActionPayload, Meta>();
+    return createAction('ADD_USERS_TO_GROUP_CHAT')<IAddUsersToGroupChatActionPayload, Meta>();
   }
 
   static get saga() {

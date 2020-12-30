@@ -2,16 +2,16 @@ import { createAction } from 'typesafe-actions';
 import produce from 'immer';
 import { SettingsService } from 'app/services/settings-service';
 import { SagaIterator } from 'redux-saga';
-import { UserSettings } from '../../models';
-import { ChangeTypingStrategyActionPayload } from './change-typing-strategy-action-payload';
+import { IUserSettings } from '../../models';
+import { IChangeTypingStrategyActionPayload } from './change-typing-strategy-action-payload';
 
 export class ChangeTypingStrategy {
   static get action() {
-    return createAction('CHANGE_TYPING_STRATEGY')<ChangeTypingStrategyActionPayload>();
+    return createAction('CHANGE_TYPING_STRATEGY')<IChangeTypingStrategyActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: UserSettings, { payload }: ReturnType<typeof ChangeTypingStrategy.action>) => {
+    return produce((draft: IUserSettings, { payload }: ReturnType<typeof ChangeTypingStrategy.action>) => {
       draft.TypingStrategy = payload.strategy;
       return draft;
     });

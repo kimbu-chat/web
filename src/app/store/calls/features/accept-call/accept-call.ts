@@ -9,23 +9,23 @@ import { call, put, select, spawn } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { getAudioConstraints, getCallInterlocutorIdSelector, getIsVideoEnabled, getVideoConstraints } from 'app/store/calls/selectors';
 import { interlocutorOffer } from 'store/middlewares/webRTC/peerConnectionFactory';
-import { AcceptCallApiRequest, CallState } from '../../models';
+import { IAcceptCallApiRequest, ICallState } from '../../models';
 import { deviceUpdateWatcher } from '../../utils/device-update-watcher';
 import { getAndSendUserMedia, getMediaDevicesList } from '../../utils/user-media';
 import { ChangeActiveDeviceId } from '../change-active-device-id/change-active-device-id';
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
-import { AcceptCallActionPayload } from './accept-call-action-payload';
+import { IAcceptCallActionPayload } from './accept-call-action-payload';
 import { InputType } from '../../common/enums/input-type';
 import { AcceptCallSuccess } from './accept-call-success';
 import { peerWatcher } from '../../utils/peer-watcher';
 
 export class AcceptCall {
   static get action() {
-    return createAction('ACCEPT_CALL')<AcceptCallActionPayload>();
+    return createAction('ACCEPT_CALL')<IAcceptCallActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: CallState, { payload }: ReturnType<typeof AcceptCall.action>) => {
+    return produce((draft: ICallState, { payload }: ReturnType<typeof AcceptCall.action>) => {
       draft.audioConstraints = { ...draft.audioConstraints, isOpened: payload.audioEnabled };
       draft.videoConstraints = { ...draft.videoConstraints, isOpened: payload.videoEnabled };
 
@@ -88,6 +88,6 @@ export class AcceptCall {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, AcceptCallApiRequest>(`${ApiBasePath.MainApi}/api/calls/accept-call`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse, IAcceptCallApiRequest>(`${ApiBasePath.MainApi}/api/calls/accept-call`, HttpRequestMethod.Post);
   }
 }

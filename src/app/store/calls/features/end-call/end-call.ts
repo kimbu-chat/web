@@ -2,7 +2,7 @@ import { createEmptyAction } from 'app/store/common/actions';
 import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/http-file-factory';
 import { resetPeerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { RootState } from 'app/store/root-reducer';
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
@@ -43,6 +43,6 @@ export class EndCall {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IEndCallApiRequest>(`${ApiBasePath.MainApi}/api/calls/end-call`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse, IEndCallApiRequest>(`${process.env.MAIN_API}/api/calls/end-call`, HttpRequestMethod.Post);
   }
 }

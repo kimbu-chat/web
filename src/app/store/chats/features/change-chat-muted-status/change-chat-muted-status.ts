@@ -1,5 +1,5 @@
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { AxiosResponse } from 'axios';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
@@ -41,6 +41,6 @@ export class ChangeChatMutedStatus {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IChangeChatMutedStatusRequest>(`${ApiBasePath.MainApi}/api/chats/change-muted-status`, HttpRequestMethod.Put);
+    return httpRequestFactory<AxiosResponse, IChangeChatMutedStatusRequest>(`${process.env.MAIN_API}/api/chats/change-muted-status`, HttpRequestMethod.Put);
   }
 }

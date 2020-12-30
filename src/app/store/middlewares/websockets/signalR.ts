@@ -4,7 +4,6 @@ import { Store } from 'redux';
 import { getType } from 'typesafe-actions';
 import { AuthActions } from 'store/auth/actions';
 import { RootState } from 'store/root-reducer';
-import { ApiBasePath } from 'store/root-api';
 import { InitSocketConnection } from 'app/store/sockets/features/init-socked-connection/init-socket-connection';
 import { EventsNames, EventManager } from './event-manager';
 import { MessageCreatedEventHandler } from './integration-event-handlers/message-created-event-handler';
@@ -56,7 +55,7 @@ function openConnection(store: Store<RootState>): void {
   eventManager.registerEventHandler(EventsNames.RENEGOTIATION_ACCEPTED, new RenegotiationAcceptedEventHandler());
 
   connection = new HubConnectionBuilder()
-    .withUrl(`${ApiBasePath.NotificationsApi}/signalr`, {
+    .withUrl(`${process.env.NOTIFICATIONS_API}/signalr`, {
       logMessageContent: true,
       accessTokenFactory: () => store.getState().auth.securityTokens.accessToken,
     })

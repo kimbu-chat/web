@@ -1,6 +1,6 @@
 import { HTTPStatusCode } from 'app/common/http-status-code';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
@@ -31,6 +31,6 @@ export class DeleteFriend {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IDeleteFriendActionPayload>(`${ApiBasePath.MainApi}/api/contacts/batch-delete`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse, IDeleteFriendActionPayload>(`${process.env.MAIN_API}/api/contacts/batch-delete`, HttpRequestMethod.Post);
   }
 }

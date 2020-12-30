@@ -1,7 +1,7 @@
 import { HTTPStatusCode } from 'app/common/http-status-code';
 import { Meta } from 'app/store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
@@ -43,6 +43,6 @@ export class AddUsersToGroupChat {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, { id: number; userIds: number[] }>(`${ApiBasePath.MainApi}/api/group-chats/users`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse, { id: number; userIds: number[] }>(`${process.env.MAIN_API}/api/group-chats/users`, HttpRequestMethod.Post);
   }
 }

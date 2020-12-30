@@ -1,6 +1,6 @@
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
 import { MessageState } from 'app/store/messages/models';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
@@ -76,6 +76,6 @@ export class GetChats {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IChat[]>, IGetChatsRequestData>(`${ApiBasePath.MainApi}/api/chats/search`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse<IChat[]>, IGetChatsRequestData>(`${process.env.MAIN_API}/api/chats/search`, HttpRequestMethod.Post);
   }
 }

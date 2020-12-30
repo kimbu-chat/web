@@ -1,7 +1,7 @@
 import { Meta } from 'app/store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
 import { MessageState, SystemMessageType } from 'app/store/messages/models';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { MessageUtils } from 'app/utils/message-utils';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
@@ -102,6 +102,6 @@ export class CreateGroupChat {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<number>, IGroupChatCreationHTTPReqData>(`${ApiBasePath.MainApi}/api/group-chats`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse<number>, IGroupChatCreationHTTPReqData>(`${process.env.MAIN_API}/api/group-chats`, HttpRequestMethod.Post);
   }
 }

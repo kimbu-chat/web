@@ -1,7 +1,7 @@
 import { AuthService } from 'app/services/auth-service';
 import { authRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/models';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
@@ -33,7 +33,7 @@ export class RefreshToken {
 
   static get httpRequest() {
     return authRequestFactory<AxiosResponse<ILoginResponse>, { refreshToken: string }>(
-      `${ApiBasePath.MainApi}/api/users/refresh-tokens`,
+      `${process.env.MAIN_API}/api/users/refresh-tokens`,
       HttpRequestMethod.Post,
     );
   }

@@ -1,7 +1,7 @@
 import { HTTPStatusCode } from 'app/common/http-status-code';
 import { Meta } from 'app/store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
@@ -33,6 +33,6 @@ export class LeaveGroupChat {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, number>((id: number) => `${ApiBasePath.MainApi}/api/group-chats/${id}`, HttpRequestMethod.Delete);
+    return httpRequestFactory<AxiosResponse, number>((id: number) => `${process.env.MAIN_API}/api/group-chats/${id}`, HttpRequestMethod.Delete);
   }
 }

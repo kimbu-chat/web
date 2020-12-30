@@ -1,6 +1,6 @@
 import { HTTPStatusCode } from 'app/common/http-status-code';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
@@ -45,6 +45,6 @@ export class SubmitEditMessage {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IEditMessageApiReq>(`${ApiBasePath.MainApi}/api/messages`, HttpRequestMethod.Put);
+    return httpRequestFactory<AxiosResponse, IEditMessageApiReq>(`${process.env.MAIN_API}/api/messages`, HttpRequestMethod.Put);
   }
 }

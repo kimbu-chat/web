@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const CopyPlugin = require('copy-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 // variables
 const isProduction = process.argv.indexOf('-p') >= 0 || process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'productionAnalyze';
@@ -220,6 +221,9 @@ module.exports = {
         description: package.description,
         keywords: Array.isArray(package.keywords) ? package.keywords.join(',') : undefined,
       },
+    }),
+    new Dotenv({
+      path: isProduction ? './production.env' : './development.env',
     }),
     ...(isProductionAnalyze ? [new BundleAnalyzerPlugin()] : []),
   ],

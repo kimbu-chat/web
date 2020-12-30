@@ -1,7 +1,7 @@
 import { createEmptyAction } from 'app/store/common/actions';
 import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/http-file-factory';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
@@ -32,6 +32,6 @@ export class CancelCall {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, ICancelCallApiRequest>(`${ApiBasePath.MainApi}/api/calls/cancel-call`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse, ICancelCallApiRequest>(`${process.env.MAIN_API}/api/calls/cancel-call`, HttpRequestMethod.Post);
   }
 }

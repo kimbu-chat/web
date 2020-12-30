@@ -7,7 +7,7 @@ import { SagaIterator } from 'redux-saga';
 import { call, delay, put, race, select, spawn, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { RootState } from 'app/store/root-reducer';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { AxiosResponse } from 'axios';
 import { getIsVideoEnabled } from 'app/store/calls/selectors';
 import { ICallApiRequest, ICallApiResponse, ICallState } from '../../models';
@@ -122,6 +122,6 @@ export class OutgoingCall {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<ICallApiResponse>, ICallApiRequest>(`${ApiBasePath.MainApi}/api/calls/send-call-offer`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse<ICallApiResponse>, ICallApiRequest>(`${process.env.MAIN_API}/api/calls/send-call-offer`, HttpRequestMethod.Post);
   }
 }

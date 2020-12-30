@@ -2,7 +2,7 @@ import { HTTPStatusCode } from 'app/common/http-status-code';
 import { createEmptyDefferedAction } from 'app/store/common/actions';
 import { authRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/models';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
@@ -44,7 +44,7 @@ export class ReSendSmsCode {
 
   static get httpRequest() {
     return authRequestFactory<AxiosResponse<string>, { phoneNumber: string }>(
-      `${ApiBasePath.MainApi}/api/users/send-sms-confirmation-code`,
+      `${process.env.MAIN_API}/api/users/send-sms-confirmation-code`,
       HttpRequestMethod.Post,
     );
   }

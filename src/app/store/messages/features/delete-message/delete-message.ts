@@ -1,6 +1,6 @@
 import { HTTPStatusCode } from 'app/common/http-status-code';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
@@ -29,6 +29,6 @@ export class DeleteMessage {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IDeleteMessagesApiReq>(`${ApiBasePath.MainApi}/api/messages/delete-message-list`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse, IDeleteMessagesApiReq>(`${process.env.MAIN_API}/api/messages/delete-message-list`, HttpRequestMethod.Post);
   }
 }

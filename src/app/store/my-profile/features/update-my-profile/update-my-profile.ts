@@ -1,6 +1,6 @@
 import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/models';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
@@ -34,6 +34,6 @@ export class UpdateMyProfile {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IUpdateMyProfileApiRequestData>(`${ApiBasePath.MainApi}/api/users`, HttpRequestMethod.Put);
+    return httpRequestFactory<AxiosResponse, IUpdateMyProfileApiRequestData>(`${process.env.MAIN_API}/api/users`, HttpRequestMethod.Put);
   }
 }

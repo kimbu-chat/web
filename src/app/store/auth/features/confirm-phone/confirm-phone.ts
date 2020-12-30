@@ -4,7 +4,7 @@ import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { authRequestFactory } from 'app/store/common/http-factory';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { Login } from 'app/store/auth/features/login/login';
 import { Meta } from 'store/common/actions';
 import { HttpRequestMethod } from 'store/common/models';
@@ -46,13 +46,13 @@ export class ConfirmPhone {
 
   static get httpRequest() {
     return {
-      login: authRequestFactory<AxiosResponse<ILoginResponse>, IPhoneConfirmationData>(`${ApiBasePath.MainApi}/api/users/tokens`, HttpRequestMethod.Post),
+      login: authRequestFactory<AxiosResponse<ILoginResponse>, IPhoneConfirmationData>(`${process.env.MAIN_API}/api/users/tokens`, HttpRequestMethod.Post),
       confirmPhone: authRequestFactory<AxiosResponse<IPhoneConfirmationApiResponse>, IPhoneConfirmationData>(
-        `${ApiBasePath.MainApi}/api/users/verify-sms-code`,
+        `${process.env.MAIN_API}/api/users/verify-sms-code`,
         HttpRequestMethod.Post,
       ),
       subscribeToPushNotifications: authRequestFactory<AxiosResponse, ISubscribeToPushNotificationsRequest>(
-        `${ApiBasePath.NotificationsApi}/api/notifications/subscribe`,
+        `${process.env.NOTIFICATIONS_API}/api/notifications/subscribe`,
         HttpRequestMethod.Post,
       ),
     };

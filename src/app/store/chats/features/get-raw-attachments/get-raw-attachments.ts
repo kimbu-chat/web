@@ -1,6 +1,6 @@
 import { HTTPStatusCode } from 'app/common/http-status-code';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
@@ -47,7 +47,7 @@ export class GetRawAttachments {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<Array<IRawAttachment>>, IGetChatFilesHTTPRequest>(
-      `${ApiBasePath.MainApi}/api/raw-attachments/search`,
+      `${process.env.MAIN_API}/api/raw-attachments/search`,
       HttpRequestMethod.Post,
     );
   }

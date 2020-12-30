@@ -2,7 +2,7 @@ import { createEmptyAction } from 'app/store/common/actions';
 import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/http-file-factory';
 import { resetPeerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
@@ -31,6 +31,6 @@ export class TimeoutCall {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, {}>(`${ApiBasePath.MainApi}/api/calls/mark-call-as-not-answered`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse, {}>(`${process.env.MAIN_API}/api/calls/mark-call-as-not-answered`, HttpRequestMethod.Post);
   }
 }

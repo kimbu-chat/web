@@ -1,6 +1,6 @@
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
 import { IUserPreview } from 'app/store/my-profile/models';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
@@ -42,6 +42,6 @@ export class GetFriends {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IUserPreview[]>, IGetFriendsActionPayload>(`${ApiBasePath.MainApi}/api/contacts/search`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse<IUserPreview[]>, IGetFriendsActionPayload>(`${process.env.MAIN_API}/api/contacts/search`, HttpRequestMethod.Post);
   }
 }

@@ -1,7 +1,7 @@
 import { Meta } from 'app/store/common/actions';
 import { authRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/models';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
@@ -43,6 +43,6 @@ export class Register {
   }
 
   static get httpRequest() {
-    return authRequestFactory<AxiosResponse, IRegisterApiRequest>(`${ApiBasePath.MainApi}/api/users/`, HttpRequestMethod.Post);
+    return authRequestFactory<AxiosResponse, IRegisterApiRequest>(`${process.env.MAIN_API}/api/users/`, HttpRequestMethod.Post);
   }
 }

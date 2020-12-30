@@ -1,7 +1,7 @@
 import { Meta } from 'app/store/common/actions';
 import { httpFilesRequestFactory } from 'app/store/common/http-file-factory';
 import { HttpRequestMethod } from 'app/store/common/models';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { getFileFromUrl } from 'app/utils/get-file-from-url';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
@@ -54,6 +54,6 @@ export class UploadAvatar {
   }
 
   static get httpRequest() {
-    return httpFilesRequestFactory<AxiosResponse<IUploadAvatarResponse>, FormData>(`${ApiBasePath.FilesAPI}/api/avatars`, HttpRequestMethod.Post);
+    return httpFilesRequestFactory<AxiosResponse<IUploadAvatarResponse>, FormData>(`${process.env.FILES_API}/api/avatars`, HttpRequestMethod.Post);
   }
 }

@@ -1,7 +1,7 @@
 import { amIlogged } from 'app/store/auth/selectors';
 import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/models';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
@@ -26,6 +26,6 @@ export class ChangeUserOnlineStatus {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, { isOnline: boolean }>(`${ApiBasePath.MainApi}/api/users/change-online-status`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse, { isOnline: boolean }>(`${process.env.MAIN_API}/api/users/change-online-status`, HttpRequestMethod.Post);
   }
 }

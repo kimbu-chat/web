@@ -1,6 +1,6 @@
 import { httpFilesRequestFactory, HttpRequestMethod, IFilesRequestGenerator } from 'app/store/common/http-file-factory';
 import { FileType } from 'app/store/messages/models';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
@@ -128,23 +128,23 @@ export class UploadAttachmentRequest {
   static get httpRequest() {
     return {
       uploadAudioAttachment: httpFilesRequestFactory<AxiosResponse<IUploadAudioResponse>, FormData>(
-        `${ApiBasePath.FilesAPI}/api/audio-attachments`,
+        `${process.env.FILES_API}/api/audio-attachments`,
         HttpRequestMethod.Post,
       ),
       uploadPictureAttachment: httpFilesRequestFactory<AxiosResponse<IUploadPictureResponse>, FormData>(
-        `${ApiBasePath.FilesAPI}/api/picture-attachments`,
+        `${process.env.FILES_API}/api/picture-attachments`,
         HttpRequestMethod.Post,
       ),
       uploadFileAttachment: httpFilesRequestFactory<AxiosResponse<IUploadFileResponse>, FormData>(
-        `${ApiBasePath.FilesAPI}/api/raw-attachments`,
+        `${process.env.FILES_API}/api/raw-attachments`,
         HttpRequestMethod.Post,
       ),
       uploadVideoAttachment: httpFilesRequestFactory<AxiosResponse<IUploadVideoResponse>, FormData>(
-        `${ApiBasePath.FilesAPI}/api/video-attachments`,
+        `${process.env.FILES_API}/api/video-attachments`,
         HttpRequestMethod.Post,
       ),
       uploadVoiceAttachment: httpFilesRequestFactory<AxiosResponse<IUploadVoiceResponse>, FormData>(
-        `${ApiBasePath.FilesAPI}/api/voice-attachments`,
+        `${process.env.FILES_API}/api/voice-attachments`,
         HttpRequestMethod.Post,
       ),
     };

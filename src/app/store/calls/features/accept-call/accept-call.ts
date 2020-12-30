@@ -1,7 +1,7 @@
 import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/http-file-factory';
 import { createPeerConnection, peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
-import { ApiBasePath } from 'app/store/root-api';
+
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
@@ -88,6 +88,6 @@ export class AcceptCall {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IAcceptCallApiRequest>(`${ApiBasePath.MainApi}/api/calls/accept-call`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse, IAcceptCallApiRequest>(`${process.env.MAIN_API}/api/calls/accept-call`, HttpRequestMethod.Post);
   }
 }

@@ -8,7 +8,7 @@ import { Langs, TypingStrategy, IUserSettings } from './models';
 const initialState: IUserSettings = {
   language: navigator.language.includes('ru') ? Langs.ru : Langs.en,
   TypingStrategy: TypingStrategy.nlce,
-  notificationSound: false,
+  notificationSound: true,
 };
 
 const settings = createReducer<IUserSettings>(initialState)

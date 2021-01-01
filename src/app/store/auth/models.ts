@@ -1,14 +1,3 @@
-export interface ICredentials {
-  phoneNumber: string;
-  code: string;
-}
-
-export interface ILoginApiResponse {
-  accessToken: string;
-  refreshToken: string;
-  userId: number;
-}
-
 export interface IPhoneConfirmationData {
   phoneNumber: string;
   code: string;

@@ -4,8 +4,9 @@ import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import produce from 'immer';
 import { doIhaveCall } from 'app/store/calls/selectors';
-import { ICallState, IInterlocutorAcceptedCallActionPayload } from '../../models';
+import { ICallState } from '../../models';
 import { setIsRenegotiationAccepted } from '../../utils/glare-utils';
+import { IInterlocutorAcceptedCallActionPayload } from './interlocutor-accepted-call-action-payload';
 
 export class InterlocutorAcceptedCall {
   static get action() {

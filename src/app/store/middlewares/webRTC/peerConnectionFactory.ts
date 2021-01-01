@@ -1,7 +1,7 @@
 import { setIsRenegotiationAccepted, setMakingOffer, setIgnoreOffer, setIsSettingRemoteAnswerPending } from 'app/store/calls/utils/glare-utils';
 import { assignInterlocutorVideoTrack, assignInterlocutorAudioTrack, setVideoSender, stopAllTracks } from '../../calls/utils/user-media';
 
-export const peerConfiguration = {
+const peerConfiguration = {
   iceServers: [{ urls: 'stun:stun.l.google.com:19302' }],
 };
 

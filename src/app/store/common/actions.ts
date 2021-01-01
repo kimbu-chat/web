@@ -17,6 +17,6 @@ export function createEmptyDefferedAction<TType extends TypeConstant>(type: TTyp
   return createAction(type)<undefined, Meta>();
 }
 
-export type Fn = (...args: any[]) => any;
-export type FnMap = { [key: string]: Fn };
+type Fn = (...args: any[]) => any;
+type FnMap = { [key: string]: Fn };
 export type ActionUnionType<T extends FnMap> = ReturnType<T[keyof T]>; // union of return types

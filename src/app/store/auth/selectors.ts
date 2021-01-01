@@ -9,7 +9,7 @@ export const getAuthPhoneNumber = (state: RootState): string => state.auth.phone
 
 export const getConfirmationCode = (state: RootState): string => state.auth.confirmationCode;
 
-export const getregistrationAllowed = (state: RootState) => state.auth.registrationAllowed;
+export const getRegstrationAllowed = (state: RootState) => state.auth.registrationAllowed;
 
 export const getTwoLetterCountryCode = (state: RootState): string => state.auth.twoLetterCountryCode;
 

@@ -27,11 +27,6 @@ export interface IGroupChat {
   userCreatorId: number;
 }
 
-export interface IParsedInterlocutorId {
-  interlocutorId: number;
-  interlocutorType: InterlocutorType;
-}
-
 export enum InterlocutorType {
   USER = 1,
   GROUP_CHAT = 2,
@@ -186,7 +181,7 @@ export interface IGroupable {
   needToShowYearSeparator?: boolean;
 }
 
-export interface IMembersList {
+interface IMembersList {
   members: IUserPreview[];
   searchMembers: IUserPreview[];
   loading: boolean;
@@ -198,31 +193,31 @@ export interface IChatList {
   hasMore: boolean;
 }
 
-export interface IPhotoList {
+interface IPhotoList {
   photos: (IPictureAttachment & IGroupable)[];
   loading: boolean;
   hasMore: boolean;
 }
 
-export interface IVideoList {
+interface IVideoList {
   videos: (IVideoAttachment & IGroupable)[];
   loading: boolean;
   hasMore: boolean;
 }
 
-export interface IFilesList {
+interface IFilesList {
   files: (IRawAttachment & IGroupable)[];
   loading: boolean;
   hasMore: boolean;
 }
 
-export interface IVoiceRecordingList {
+interface IVoiceRecordingList {
   recordings: (IVoiceAttachment & IGroupable)[];
   loading: boolean;
   hasMore: boolean;
 }
 
-export interface IAudioList {
+interface IAudioList {
   audios: (IAudioAttachment & IGroupable)[];
   loading: boolean;
   hasMore: boolean;
@@ -234,16 +229,11 @@ export interface IGroupChatCreationHTTPReqData {
   avatarId?: number | null;
 }
 
-export interface IUploadAttachmentStartedData {
-  chatId: number;
-  attachmentId: number;
-}
-
 export interface IUploadAttachmentSagaProgressData {
   progress: number;
 }
 
-export interface IUploadBaseResponse {
+interface IUploadBaseResponse {
   id: string;
   byteSize: number;
   url: string;

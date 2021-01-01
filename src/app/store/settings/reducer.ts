@@ -7,7 +7,7 @@ import { Langs, TypingStrategy, IUserSettings } from './models';
 
 const initialState: IUserSettings = {
   language: navigator.language.includes('ru') ? Langs.ru : Langs.en,
-  TypingStrategy: TypingStrategy.nlce,
+  typingStrategy: TypingStrategy.nlce,
   notificationSound: true,
 };
 

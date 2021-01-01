@@ -31,11 +31,6 @@ export interface IAvatarSelectedData {
   croppedImagePath: string;
 }
 
-export interface IUpdateAvatarSuccess {
-  fullAvatarUrl: string;
-  croppedAvatarUrl: string;
-}
-
 export interface IAvatar {
   url: string;
   previewUrl: string;

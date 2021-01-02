@@ -93,13 +93,6 @@ export interface IAttachmentCreation {
   type: FileType;
 }
 
-export interface ISubmitEditMessageHTTPReq {
-  messageId: number;
-  text: string;
-  removedAttachments?: IAttachmentCreation[];
-  newAttachments?: IAttachmentCreation[];
-}
-
 export interface IMessagesReqData {
   page: IPage;
   chatId: number;
@@ -112,14 +105,6 @@ export enum MessageState {
   ERROR = 'ERROR',
   DELETED = 'DELETED',
   LOCALMESSAGE = 'LOCALMESSAGE',
-}
-
-export interface IUploadingFileInfo {
-  localUri: string;
-  isError: boolean;
-  uploadId: string;
-  progress: number;
-  fileType: FileType;
 }
 
 export interface IEditMessageApiReq {

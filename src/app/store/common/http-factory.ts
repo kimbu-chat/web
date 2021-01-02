@@ -14,9 +14,9 @@ export enum HttpRequestMethod {
   Delete = 'DELETE',
 }
 
-export type HttpHeaders = { [key: string]: string };
+type HttpHeaders = { [key: string]: string };
 
-export function* httpRequest<T>(url: string, method: HttpRequestMethod, body?: T, token?: CancelToken, headers?: HttpHeaders) {
+function* httpRequest<T>(url: string, method: HttpRequestMethod, body?: T, token?: CancelToken, headers?: HttpHeaders) {
   const requestConfig: AxiosRequestConfig = {
     url,
     method,
@@ -59,7 +59,7 @@ export function* httpRequest<T>(url: string, method: HttpRequestMethod, body?: T
   return response;
 }
 
-export interface IRequestGenerator<T, B> {
+interface IRequestGenerator<T, B> {
   generator: (body?: B) => SagaIterator;
   call: (args: any) => T;
 }

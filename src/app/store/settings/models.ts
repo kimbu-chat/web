@@ -10,12 +10,12 @@ export enum TypingStrategy {
 
 export interface IUserSettings {
   language: Langs;
-  TypingStrategy: TypingStrategy;
+  typingStrategy: TypingStrategy;
   notificationSound: boolean;
 }
 
 export interface IOptionalUserSettings {
   language?: Langs;
-  TypingStrategy?: TypingStrategy;
+  typingStrategy?: TypingStrategy;
   notificationSound?: boolean;
 }

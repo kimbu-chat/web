@@ -1,7 +1,5 @@
 import { IPage } from '../common/models';
-import { IInterlocutorAcceptedCallIntegrationEvent } from '../middlewares/websockets/integration-events/interlocutor-accepted-call-integration-event';
 import { IUserPreview } from '../my-profile/models';
-import { InputType } from './common/enums/input-type';
 
 export interface ICallState {
   isActiveCallIncoming?: boolean;
@@ -36,7 +34,7 @@ export interface ICall {
   status: CallStatus;
 }
 
-export interface ICallList {
+interface ICallList {
   calls: ICall[];
   hasMore: boolean;
   loading: boolean;
@@ -55,18 +53,7 @@ export enum CallStatus {
   NotAnswered = 'NotAnswered',
   Interrupted = 'Interrupted',
 }
-export interface ICompleteConstraints {
-  video: {
-    isOpened: boolean;
-    width?: { min: number; ideal: number; max: number };
-    height?: { min: number; ideal: number; max: number };
-    deviceId?: string;
-  };
-  audio: {
-    isOpened: boolean;
-    deviceId?: string;
-  };
-}
+
 export interface IInCompleteConstraints {
   video?: {
     isOpened: boolean;
@@ -78,51 +65,6 @@ export interface IInCompleteConstraints {
     isOpened: boolean;
     deviceId?: string;
   };
-}
-
-export interface IEndCallActionPayload {
-  seconds: number;
-}
-
-export interface IncomingCallActionPayload {
-  caller: IUserPreview;
-  offer: RTCSessionDescriptionInit;
-  isVideoEnabled: boolean;
-}
-
-export interface IOutgoingCallActionPayload {
-  calling: IUserPreview;
-  constraints: {
-    videoEnabled: boolean;
-    audioEnabled: boolean;
-  };
-}
-
-export interface IAcceptIncomingCallActionPayload {
-  constraints: {
-    videoEnabled: boolean;
-    audioEnabled: boolean;
-  };
-}
-
-export interface IInterlocutorAcceptedCallActionPayload extends IInterlocutorAcceptedCallIntegrationEvent {}
-
-export interface ICandidateActionPayload {
-  candidate: RTCIceCandidate;
-}
-
-export interface IGotMediaDevicesInfoActionPayload {
-  kind: InputType.videoInput | InputType.audioInput;
-  devices: MediaDeviceInfo[];
-}
-
-export interface IChangeMediaStatusActionPayload {
-  kind: InputType.videoInput | InputType.audioInput;
-}
-
-export interface ISwitchDeviceActionPayload {
-  kind: InputType.videoInput | InputType.audioInput;
-  deviceId: string;
 }
 
 // Http requests

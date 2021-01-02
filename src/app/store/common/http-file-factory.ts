@@ -14,7 +14,7 @@ export enum HttpRequestMethod {
   Delete = 'DELETE',
 }
 
-export type HttpHeaders = { [key: string]: string };
+type HttpHeaders = { [key: string]: string };
 
 function createUploadFileChannel(requestConfig: AxiosRequestConfig) {
   return eventChannel((emit) => {
@@ -49,11 +49,7 @@ function createUploadFileChannel(requestConfig: AxiosRequestConfig) {
   }, buffers.expanding(0));
 }
 
-export function* uploadFileSaga(
-  requestConfig: AxiosRequestConfig,
-  cancelTokenSource: CancelTokenSource,
-  callbacks?: IFilesRequestGeneratorCallbacks,
-): SagaIterator {
+function* uploadFileSaga(requestConfig: AxiosRequestConfig, cancelTokenSource: CancelTokenSource, callbacks?: IFilesRequestGeneratorCallbacks): SagaIterator {
   const uploadFileChannel = yield call(createUploadFileChannel, requestConfig);
 
   yield takeEvery(
@@ -84,7 +80,7 @@ export function* uploadFileSaga(
   );
 }
 
-export interface IFilesRequestGeneratorCallbacks {
+interface IFilesRequestGeneratorCallbacks {
   onStart?: (payload: { cancelTokenSource: CancelTokenSource }) => SagaIterator<any>;
   onProgress?: (payload: { progress: number }) => SagaIterator<any>;
   onSuccess?: (payload: any) => SagaIterator<any>;
@@ -98,7 +94,7 @@ export interface IFilesRequestGenerator<T, B> {
 
 type UrlGenerator<TBody> = (body: TBody) => string;
 
-export function* httpRequest<T>(
+function* httpRequest<T>(
   url: string,
   method: HttpRequestMethod,
   body: T,

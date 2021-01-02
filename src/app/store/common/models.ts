@@ -3,11 +3,6 @@ export interface IPage {
   offset: number;
 }
 
-export interface IUpdateAvatarResponse {
-  fullAvatarUrl: string;
-  croppedAvatarUrl: string;
-}
-
 export enum UserStatus {
   Offline = 'Offline',
   Away = 'Away',

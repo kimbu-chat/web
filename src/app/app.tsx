@@ -12,7 +12,7 @@ import { PublicRoute } from 'app/routing/private-route';
 import { PrivateRoute } from 'app/routing/public-route';
 
 import { i18n, TFunction } from 'i18next';
-import { amIlogged, getAuthPhoneNumber, getregistrationAllowed } from 'store/auth/selectors';
+import { amIlogged, getAuthPhoneNumber, getRegstrationAllowed } from 'store/auth/selectors';
 import { CubeLoader } from './containers/cube-loader/cube-loader';
 import { loadPhoneConfirmation, loadCodeConfirmation, loadMessenger, loadNotFound, loadRegistration } from './routing/module-loader';
 
@@ -35,7 +35,7 @@ export const App = () => {
   const { t, i18n } = useTranslation(undefined, { i18n: i18nConfiguration });
   const isAuthenticated = useSelector(amIlogged);
   const phoneNumber = useSelector(getAuthPhoneNumber);
-  const registrationAllowed = useSelector(getregistrationAllowed);
+  const registrationAllowed = useSelector(getRegstrationAllowed);
 
   return (
     <LocalizationContext.Provider value={{ t, i18n }}>

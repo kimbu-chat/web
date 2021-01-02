@@ -1,6 +1,6 @@
 import { InterlocutorType } from './models';
 
-export class ChatIdDetails {
+class ChatIdDetails {
   public readonly id: number;
 
   public readonly interlocutorId: number;

@@ -4,7 +4,7 @@ import rootReducer, { RootState } from './root-reducer';
 import { rootSaga } from './root-saga';
 import { signalRInvokeMiddleware } from './middlewares/websockets/signalR';
 
-export type ReduxStore = Store<RootState, Action> & {
+type ReduxStore = Store<RootState, Action> & {
   dispatch: Dispatch;
 };
 

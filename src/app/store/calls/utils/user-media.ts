@@ -15,7 +15,6 @@ export const tracks: {
   audioTrack: MediaStreamTrack | null;
   screenSharingTrack: MediaStreamTrack | null;
 } = { videoTrack: null, audioTrack: null, screenSharingTrack: null };
-
 export let interlocutorVideoTrack: MediaStreamTrack | null;
 export let interlocutorAudioTrack: MediaStreamTrack | null;
 export let videoSender: RTCRtpSender | null;
@@ -33,23 +32,19 @@ export const setVideoSender = (sender: RTCRtpSender | null) => {
   videoSender = sender;
 };
 
-export const setAudioSender = (sender: RTCRtpSender | null) => {
-  audioSender = sender;
-};
-
-export const assignAudioStreams = (stream: MediaStream) => {
+const assignAudioStreams = (stream: MediaStream) => {
   [tracks.audioTrack] = stream.getAudioTracks();
 };
 
-export const assignVideoStreams = (stream: MediaStream) => {
+const assignVideoStreams = (stream: MediaStream) => {
   [tracks.videoTrack] = stream.getVideoTracks();
 };
 
-export const assignScreenSharingTracks = (stream: MediaStream) => {
+const assignScreenSharingTracks = (stream: MediaStream) => {
   [tracks.screenSharingTrack] = stream.getTracks();
 };
 
-export const assignStreams = (stream: MediaStream) => {
+const assignStreams = (stream: MediaStream) => {
   [tracks.videoTrack] = stream.getVideoTracks();
   [tracks.audioTrack] = stream.getAudioTracks();
 };

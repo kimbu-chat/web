@@ -1,9 +1,11 @@
 import { IUserPreview } from 'store/my-profile/models';
 
 export interface IGroupChatCreatedIntegrationEvent {
-  userCreator: IUserPreview;
-  name: string;
-  memberIds: Array<number>;
-  systemMessageId: number;
+  description?: string;
   id: number;
+  memberIds: number[];
+  name: string;
+  systemMessageId: number;
+  userCreator: IUserPreview;
+  userCreatorId: number;
 }

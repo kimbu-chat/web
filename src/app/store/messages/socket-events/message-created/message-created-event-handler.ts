@@ -99,6 +99,7 @@ export class MessageCreatedEventHandler {
             lastReadMessageId: message.id,
           };
 
+          console.log('new message in Selected chat');
           MarkMessagesAsRead.httpRequest.call(yield call(() => MarkMessagesAsRead.httpRequest.generator(httpRequestPayload)));
         } else {
           console.warn('notifyInterlocutorThatMessageWasRead Error');

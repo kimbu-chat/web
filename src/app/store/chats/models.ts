@@ -111,7 +111,7 @@ export interface IChat {
   interlocutor?: IUserPreview;
   unreadMessagesCount?: number;
   interlocutorLastReadMessageId?: number;
-  draftMessage: string;
+  draftMessage?: string;
   timeoutId?: NodeJS.Timeout;
   typingInterlocutors?: { timeoutId: NodeJS.Timeout; fullName: string }[];
   isMuted?: boolean;

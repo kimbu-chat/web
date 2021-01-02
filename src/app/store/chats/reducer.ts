@@ -43,9 +43,6 @@ import { GetRawAttachments } from './features/get-raw-attachments/get-raw-attach
 import { GetPhotoAttachments } from './features/get-photo-attachments/get-photo-attachments';
 import { GetVideoAttachmentsSuccess } from './features/get-video-attachments/get-video-attachments-success';
 import { MarkMessagesAsReadSuccess } from './features/mark-messages-as-read/mark-messages-as-read-success';
-import { GroupChatEdited } from './features/edit-group-chat/group-chat-edited';
-import { MemberLeftGroupChat } from './features/leave-group-chat/member-left-group-chat';
-import { ChatMutedStatusChanged } from './features/change-chat-muted-status/chat-muted-status-changed';
 
 const initialState: IChatsState = {
   loading: false,
@@ -87,9 +84,6 @@ const chats = createReducer<IChatsState>(initialState)
   .handleAction(GetVoiceAttachments.action, GetVoiceAttachments.reducer)
   .handleAction(GetVideoAttachments.action, GetVideoAttachments.reducer)
   .handleAction(GetVideoAttachmentsSuccess.action, GetVideoAttachmentsSuccess.reducer)
-  .handleAction(GroupChatEdited.action, GroupChatEdited.reducer)
-  .handleAction(MemberLeftGroupChat.action, MemberLeftGroupChat.reducer)
-  .handleAction(ChatMutedStatusChanged.action, ChatMutedStatusChanged.reducer)
   .handleAction(
     MessageActions.clearChatHistorySuccess,
     produce((draft: IChatsState, { payload }: ReturnType<typeof MessageActions.clearChatHistorySuccess>) => {

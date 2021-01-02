@@ -1,4 +1,6 @@
 import { UserMessageTypingEventHandler } from 'app/store/chats/socket-events/message-typing/message-typing-event-handler';
+import { MemberLeftGroupChatEventHandler } from 'store/chats/socket-events/member-left-group-chat/member-left-group-chat-event-handler';
+import { GroupChatEditedEventHandler } from 'store/chats/socket-events/group-chat-edited/group-chat-edited-integration-event-handler';
 import { UploadAttachmentRequest } from './features/upload-attachment/upload-attachment-request';
 import { AddUsersToGroupChat } from './features/add-users-to-group-chat/add-users-to-group-chat';
 import { AddUsersToGroupChatSuccess } from './features/add-users-to-group-chat/add-users-to-group-chat-success';
@@ -7,7 +9,6 @@ import { ChangeChatVisibilityStateSuccess } from './features/change-chat-visibil
 import { ChangeSelectedChat } from './features/change-selected-chat/change-selected-chat';
 import { CreateChat } from './features/create-chat/create-chat';
 import { CreateGroupChat } from './features/create-group-chat/create-group-chat';
-import { CreateGroupChatFromEvent } from './features/create-group-chat/create-group-chat-from-event';
 import { CreateGroupChatSuccess } from './features/create-group-chat/create-group-chat-success';
 import { EditGroupChat } from './features/edit-group-chat/edit-group-chat';
 import { EditGroupChatSuccess } from './features/edit-group-chat/edit-group-chat-success';
@@ -41,9 +42,8 @@ import { UploadAttachmentSuccess } from './features/upload-attachment/upload-att
 import { ChangeLastMessage } from './features/change-last-message/change-last-message';
 import { GetRawAttachments } from './features/get-raw-attachments/get-raw-attachments';
 import { MarkMessagesAsReadSuccess } from './features/mark-messages-as-read/mark-messages-as-read-success';
-import { GroupChatEdited } from './features/edit-group-chat/group-chat-edited';
-import { MemberLeftGroupChat } from './features/leave-group-chat/member-left-group-chat';
-import { ChatMutedStatusChanged } from './features/change-chat-muted-status/chat-muted-status-changed';
+import { ChatMutedStatusChangedEventHandler } from './socket-events/chat-mute-status-changed/chat-mute-status-changed-event-handler';
+import { GroupChatCreatedEventHandler } from './socket-events/group-chat-created/group-chat-created-event-handler';
 
 export namespace ChatActions {
   export const getChats = GetChats.action;
@@ -70,17 +70,13 @@ export namespace ChatActions {
   export const changeChatVisibilityStateSuccess = ChangeChatVisibilityStateSuccess.action;
   export const changeChatMutedStatus = ChangeChatMutedStatus.action;
   export const changeChatMutedStatusSuccess = ChangeChatMutedStatusSuccess.action;
-  export const chatMutedStatusChanged = ChatMutedStatusChanged.action;
   export const createGroupChat = CreateGroupChat.action;
   export const createGroupChatSuccess = CreateGroupChatSuccess.action;
   export const editGroupChat = EditGroupChat.action;
-  export const groupChatEdited = GroupChatEdited.action;
   export const editGroupChatSuccess = EditGroupChatSuccess.action;
-  export const createGroupChatFromEvent = CreateGroupChatFromEvent.action;
   export const getGroupChatUsers = GetGroupChatUsers.action;
   export const getGroupChatUsersSuccess = GetGroupChatUsersSuccess.action;
   export const leaveGroupChat = LeaveGroupChat.action;
-  export const memberLeftGroupChat = MemberLeftGroupChat.action;
   export const leaveGroupChatSuccess = LeaveGroupChatSuccess.action;
   export const addUsersToGroupChat = AddUsersToGroupChat.action;
   export const addUsersToGroupChatSuccess = AddUsersToGroupChatSuccess.action;
@@ -100,4 +96,8 @@ export namespace ChatActions {
   // socket-events
 
   export const userMessageTypingEventHandler = UserMessageTypingEventHandler.action;
+  export const memberLeftGroupChatEventHandler = MemberLeftGroupChatEventHandler.action;
+  export const groupChatEditedEventHandler = GroupChatEditedEventHandler.action;
+  export const groupChatCreatedEventHandler = GroupChatCreatedEventHandler.action;
+  export const chatMutedStatusChangedEventHandler = ChatMutedStatusChangedEventHandler.action;
 }

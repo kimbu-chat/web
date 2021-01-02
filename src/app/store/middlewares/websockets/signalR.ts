@@ -7,29 +7,17 @@ import { RootState } from 'store/root-reducer';
 import { InitSocketConnection } from 'app/store/sockets/features/init-socked-connection/init-socket-connection';
 import { EventsNames, EventManager } from './event-manager';
 import { UserStatusChangedEventHandler } from './integration-event-handlers/user-status-changed-event-handler';
-import { GroupChatCreatedEventHandler } from './integration-event-handlers/group-chat-created-event-handler';
 import { IncomingCallEventHandler } from './integration-event-handlers/incoming-call-event-handler';
 import { InterlocutorAcceptedCallEventHandler } from './integration-event-handlers/interlocutor-accepted-call-event-handler';
 import { CallEndedEventHandler } from './integration-event-handlers/call-ended-event-handler';
 import { IceCandidateSentEventHandler } from './integration-event-handlers/ice-candidate-sent-event-handler';
-import { ChatClearedIntegrationEventHandler } from './integration-event-handlers/chat-cleared-integration-event-handler';
 import { RenegotiationEventHandler } from './integration-event-handlers/renegotiation-event-hander';
-import { GroupChatEditedEventHandler } from './integration-event-handlers/group-chat-edited-integration-event-handler';
-import { MemberLeftGroupChatEventHandler } from './integration-event-handlers/member-left-group-chat-event-handler';
-import { ChatMutedStatusChangedEventHandler } from './integration-event-handlers/chat-mute-status-changed-event-handler';
 import { RenegotiationAcceptedEventHandler } from './integration-event-handlers/renegotiation-accepted-event-handler';
 
 let connection: HubConnection;
 
 function openConnection(store: Store<RootState>): void {
   const eventManager = new EventManager();
-
-  // GroupChats
-  eventManager.registerEventHandler(EventsNames.GROUP_CHAT_CREATED, new GroupChatCreatedEventHandler());
-  eventManager.registerEventHandler(EventsNames.GROUP_CHAT_EDITED, new GroupChatEditedEventHandler());
-  eventManager.registerEventHandler(EventsNames.CHAT_CLEARED, new ChatClearedIntegrationEventHandler());
-  eventManager.registerEventHandler(EventsNames.MEMBER_LEFT_GROUP_CHAT, new MemberLeftGroupChatEventHandler());
-  eventManager.registerEventHandler(EventsNames.CHAT_MUTE_STATUS_CHANGED, new ChatMutedStatusChangedEventHandler());
 
   // Friends
   eventManager.registerEventHandler(EventsNames.USER_STATUS_CHANGED, new UserStatusChangedEventHandler());

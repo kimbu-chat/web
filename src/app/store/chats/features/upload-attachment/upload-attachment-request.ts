@@ -6,7 +6,7 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { getChatArrayIndex } from 'app/store/chats/selectors';
+import { getChatListChatIndex } from 'app/store/chats/selectors';
 import {
   IChatsState,
   IAttachmentToSend,
@@ -33,7 +33,7 @@ export class UploadAttachmentRequest {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof UploadAttachmentRequest.action>) => {
       const { type, chatId, attachmentId, file } = payload;
 
-      const chatIndex: number = getChatArrayIndex(chatId, draft);
+      const chatIndex: number = getChatListChatIndex(chatId, draft);
 
       if (chatIndex >= 0) {
         if (!draft.chats[chatIndex].attachmentsToSend) {

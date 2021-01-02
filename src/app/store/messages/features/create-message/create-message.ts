@@ -6,7 +6,7 @@ import { createAction } from 'typesafe-actions';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
 
 import { AxiosResponse } from 'axios';
-import { getChatIndex } from 'app/store/messages/selectors';
+import { getMessagesChatIndex } from 'app/store/messages/selectors';
 import { IMessageCreationReqData, IMessageList, IMessagesState, MessageState } from '../../models';
 import { CreateMessageSuccess } from './create-message-success';
 import { ICreateMessageActionPayload } from './create-message-action-payload';
@@ -21,7 +21,7 @@ export class CreateMessage {
       const { message } = payload;
       const { chatId } = message;
 
-      const chatIndex = getChatIndex(draft, chatId);
+      const chatIndex = getMessagesChatIndex(draft, chatId);
 
       if (chatIndex === -1) {
         const messageList: IMessageList = {

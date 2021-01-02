@@ -9,6 +9,7 @@ import { DeleteMessageSuccess } from './features/delete-message/delete-message-s
 import { MessagesDeletedFromEvent } from './features/delete-message/messages-deleted-from-event';
 import { ClearChatHistory } from './features/clear-history/clear-chat-history';
 import { MessageCreatedEventHandler } from './socket-events/message-created/message-created-event-handler';
+import { MessageReadEventHandler } from './socket-events/message-read/message-read-event-handler';
 
 export const MessageSagas = [
   takeLatest(MessageTyping.action, MessageTyping.saga),
@@ -23,4 +24,5 @@ export const MessageSagas = [
 
   // socket-events
   takeEvery(MessageCreatedEventHandler.action, MessageCreatedEventHandler.saga),
+  takeEvery(MessageReadEventHandler.action, MessageReadEventHandler.saga),
 ];

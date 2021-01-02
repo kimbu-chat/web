@@ -6,7 +6,7 @@ import { ChatActions } from 'app/store/chats/actions';
 import { ChangeSelectedChat } from 'app/store/chats/features/change-selected-chat/change-selected-chat';
 import { MarkMessagesAsRead } from 'app/store/chats/features/mark-messages-as-read/mark-messages-as-read';
 import { IMarkMessagesAsReadRequest, IChat, IChatsState } from 'app/store/chats/models';
-import { getSelectedChatIdSelector, getChatById, getChats, getChatArrayIndex } from 'app/store/chats/selectors';
+import { getSelectedChatIdSelector, getChatById, getChats, getChatListChatIndex } from 'app/store/chats/selectors';
 import { getMyIdSelector } from 'app/store/my-profile/selectors';
 import { areNotificationsEnabled } from 'app/store/settings/selectors';
 import { select, put, call } from 'redux-saga/effects';
@@ -16,7 +16,7 @@ import { RootState } from 'app/store/root-reducer';
 import { SetStore } from 'app/store/set-store';
 import produce from 'immer';
 import { IMessageCreatedIntegrationEvent } from './message-created-integration-event';
-import { getChatIndex } from '../../selectors';
+import { getMessagesChatIndex } from '../../selectors';
 
 export class MessageCreatedEventHandler {
   static get action() {
@@ -38,7 +38,7 @@ export class MessageCreatedEventHandler {
 
       const nextState = produce(state, (draft) => {
         // messages insertion
-        const chatMessagesIndex = getChatIndex(draft.messages, message.chatId);
+        const chatMessagesIndex = getMessagesChatIndex(draft.messages, message.chatId);
 
         if (chatMessagesIndex === -1) {
           const messageList: IMessageList = {
@@ -56,7 +56,7 @@ export class MessageCreatedEventHandler {
         }
 
         // chat insertion
-        const chatListIndex: number = getChatArrayIndex(message.chatId, draft.chats as IChatsState);
+        const chatListIndex: number = getChatListChatIndex(message.chatId, draft.chats as IChatsState);
 
         const isCurrentUserMessageCreator: boolean = currentUserId === message.userCreator?.id;
 

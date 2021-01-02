@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { getChatArrayIndex } from 'app/store/chats/selectors';
+import { getChatListChatIndex } from 'app/store/chats/selectors';
 import { IChangeLastMessageReq, IChatsState } from '../../models';
 
 export class ChangeLastMessage {
@@ -12,7 +12,7 @@ export class ChangeLastMessage {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof ChangeLastMessage.action>) => {
       const { chatId, newMessage } = payload;
 
-      const chatIndex: number = getChatArrayIndex(chatId, draft);
+      const chatIndex: number = getChatListChatIndex(chatId, draft);
 
       if (chatIndex >= 0) {
         draft.chats[chatIndex].lastMessage = newMessage;

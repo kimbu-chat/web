@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { getChatArrayIndex } from 'app/store/chats/selectors';
+import { getChatListChatIndex } from 'app/store/chats/selectors';
 import { ChatId } from '../../chat-id';
 import { IChatsState } from '../../models';
 import { IMemberLeftGroupChatActionPayload } from './member-left-group-chat-action-payload';
@@ -22,7 +22,7 @@ export class MemberLeftGroupChat {
           draft.selectedChatId = null;
         }
       } else {
-        const chatIndex: number = getChatArrayIndex(chatId, draft);
+        const chatIndex: number = getChatListChatIndex(chatId, draft);
 
         draft.chats[chatIndex].members.members = draft.chats[chatIndex].members.members.filter(({ id }) => id !== userId);
       }

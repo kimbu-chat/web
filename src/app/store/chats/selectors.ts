@@ -4,7 +4,7 @@ import { IChat, IChatsState } from './models';
 
 export const checkChatExists = (chatId: number, state: IChatsState): boolean => chatId !== null && Boolean(state.chats.find(({ id }) => id === chatId));
 
-export const getChatArrayIndex = (chatId: number, state: IChatsState): number => state.chats.findIndex(({ id }) => id === chatId);
+export const getChatListChatIndex = (chatId: number, state: IChatsState): number => state.chats.findIndex(({ id }) => id === chatId);
 
 export const getSelectedChatSelector = (state: RootState): IChat | undefined =>
   state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId) || undefined;

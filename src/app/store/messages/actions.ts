@@ -20,6 +20,7 @@ import { MessagesDeletedFromEvent } from './features/delete-message/messages-del
 import { ClearChatHistory } from './features/clear-history/clear-chat-history';
 import { ClearChatHistorySuccess } from './features/clear-history/clear-chat-history-success';
 import { MessageCreatedEventHandler } from './socket-events/message-created/message-created-event-handler';
+import { MessageReadEventHandler } from './socket-events/message-read/message-read-event-handler';
 
 export namespace MessageActions {
   export const getMessages = GetMessages.action;
@@ -46,4 +47,5 @@ export namespace MessageActions {
 
   // socket-events
   export const messageCreatedEventHandler = MessageCreatedEventHandler.action;
+  export const messageReadEventHandler = MessageReadEventHandler.action;
 }

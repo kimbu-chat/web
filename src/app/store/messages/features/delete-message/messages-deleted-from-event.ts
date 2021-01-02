@@ -6,7 +6,7 @@ import { SagaIterator } from 'redux-saga';
 import { select, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { IMessagesState } from '../../models';
-import { getChatIndex, getLastMessageByChatId, getMessage } from '../../selectors';
+import { getMessagesChatIndex, getLastMessageByChatId, getMessage } from '../../selectors';
 import { IMessagesDeletedFromEventActionPayload } from './messages-deleted-from-event-action-payload';
 
 export class MessagesDeletedFromEvent {
@@ -16,7 +16,7 @@ export class MessagesDeletedFromEvent {
 
   static get reducer() {
     return produce((draft: IMessagesState, { payload }: ReturnType<typeof MessagesDeletedFromEvent.action>) => {
-      const chatIndex = getChatIndex(draft, payload.chatId);
+      const chatIndex = getMessagesChatIndex(draft, payload.chatId);
 
       payload.messageIds.forEach((msgIdToDelete) => {
         if (getMessage(draft.messages[chatIndex].messages, msgIdToDelete)?.isSelected) {

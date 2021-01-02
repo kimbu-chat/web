@@ -6,7 +6,7 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { getChatArrayIndex } from 'app/store/chats/selectors';
+import { getChatListChatIndex } from 'app/store/chats/selectors';
 import { IPictureAttachment, IGetChatPicturesHTTPRequest, IChatsState } from '../../models';
 import { IGetPhotoAttachmentsActionPayload } from './get-photo-attachments-action-payload';
 import { GetPhotoAttachmentsSuccess } from './get-photo-attachments-success';
@@ -20,7 +20,7 @@ export class GetPhotoAttachments {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof GetPhotoAttachments.action>) => {
       const { chatId } = payload;
 
-      const chatIndex: number = getChatArrayIndex(chatId, draft);
+      const chatIndex: number = getChatListChatIndex(chatId, draft);
 
       if (chatIndex >= 0) {
         draft.chats[chatIndex].photos.loading = true;

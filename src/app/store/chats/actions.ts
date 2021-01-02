@@ -3,7 +3,6 @@ import { AddUsersToGroupChat } from './features/add-users-to-group-chat/add-user
 import { AddUsersToGroupChatSuccess } from './features/add-users-to-group-chat/add-users-to-group-chat-success';
 import { ChangeChatVisibilityState } from './features/change-chat-visibility-state/change-chat-visibility-state';
 import { ChangeChatVisibilityStateSuccess } from './features/change-chat-visibility-state/change-chat-visibility-state-success';
-import { ChangeInterlocutorLastReadMessageId } from './features/change-intelocutor-last-read-message-id/change-interlocutor-last-read-message-id';
 import { ChangeSelectedChat } from './features/change-selected-chat/change-selected-chat';
 import { CreateChat } from './features/create-chat/create-chat';
 import { CreateGroupChat } from './features/create-group-chat/create-group-chat';
@@ -85,7 +84,6 @@ export namespace ChatActions {
   export const leaveGroupChatSuccess = LeaveGroupChatSuccess.action;
   export const addUsersToGroupChat = AddUsersToGroupChat.action;
   export const addUsersToGroupChatSuccess = AddUsersToGroupChatSuccess.action;
-  export const changeInterlocutorLastReadMessageId = ChangeInterlocutorLastReadMessageId.action;
   export const interlocutorStoppedTyping = InterlocutorStoppedTyping.action;
   export const interlocutorMessageTyping = InterlocutorMessageTyping.action;
 

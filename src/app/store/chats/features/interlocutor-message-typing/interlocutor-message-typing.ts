@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { checkChatExists, getChatArrayIndex } from 'app/store/chats/selectors';
+import { checkChatExists, getChatListChatIndex } from 'app/store/chats/selectors';
 import { IChatsState } from '../../models';
 import { InterlocutorMessageTypingActionPayload } from './interlocutor-message-typing-action-payload';
 
@@ -19,7 +19,7 @@ export class InterlocutorMessageTyping {
         return draft;
       }
 
-      const chatIndex: number = getChatArrayIndex(chatId, draft);
+      const chatIndex: number = getChatListChatIndex(chatId, draft);
 
       clearTimeout(draft.chats[chatIndex].timeoutId as NodeJS.Timeout);
 

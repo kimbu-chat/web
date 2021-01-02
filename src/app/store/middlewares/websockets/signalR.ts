@@ -9,7 +9,6 @@ import { EventsNames, EventManager } from './event-manager';
 import { UserMessageTypingEventHandler } from './integration-event-handlers/user-message-typing-event-handler';
 import { UserStatusChangedEventHandler } from './integration-event-handlers/user-status-changed-event-handler';
 import { GroupChatCreatedEventHandler } from './integration-event-handlers/group-chat-created-event-handler';
-import { UserMessageReadEventHandler } from './integration-event-handlers/user-message-read-event-handler';
 import { IncomingCallEventHandler } from './integration-event-handlers/incoming-call-event-handler';
 import { InterlocutorAcceptedCallEventHandler } from './integration-event-handlers/interlocutor-accepted-call-event-handler';
 import { CallEndedEventHandler } from './integration-event-handlers/call-ended-event-handler';
@@ -29,7 +28,6 @@ function openConnection(store: Store<RootState>): void {
   const eventManager = new EventManager();
 
   // Messages
-  eventManager.registerEventHandler(EventsNames.MESSAGES_READ, new UserMessageReadEventHandler());
   eventManager.registerEventHandler(EventsNames.MESSAGE_EDITED, new MessageEditedEventHandler());
   eventManager.registerEventHandler(EventsNames.MESSAGES_DELETED, new MessagesDeletedIntegrationEventHandler());
   eventManager.registerEventHandler(EventsNames.INTEROCUTOR_MESSAGE_TYPING, new UserMessageTypingEventHandler());

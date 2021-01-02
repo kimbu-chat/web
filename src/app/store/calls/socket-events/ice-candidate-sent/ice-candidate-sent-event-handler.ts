@@ -4,15 +4,15 @@ import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { getCallInterlocutorIdSelector } from '../../selectors';
 import { ignoreOffer } from '../../utils/glare-utils';
-import { ICandidateActionPayload } from './candidate-action-payload';
+import { IceCandidateSentIntegrationEvent } from './ice-candidate-sent-integration-event';
 
-export class Candidate {
+export class IceCandidateSentEventHandler {
   static get action() {
-    return createAction('CANDIDATE')<ICandidateActionPayload>();
+    return createAction('IceCandidateSent')<IceCandidateSentIntegrationEvent>();
   }
 
   static get saga() {
-    return function* candidateSaga(action: ReturnType<typeof Candidate.action>): SagaIterator {
+    return function* candidateSaga(action: ReturnType<typeof IceCandidateSentEventHandler.action>): SagaIterator {
       const interlocutorId = yield select(getCallInterlocutorIdSelector);
 
       if (action.payload.userInterlocutorId === interlocutorId) {

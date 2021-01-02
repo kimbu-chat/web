@@ -7,12 +7,6 @@ import { RootState } from 'store/root-reducer';
 import { InitSocketConnection } from 'app/store/sockets/features/init-socked-connection/init-socket-connection';
 import { EventsNames, EventManager } from './event-manager';
 import { UserStatusChangedEventHandler } from './integration-event-handlers/user-status-changed-event-handler';
-import { IncomingCallEventHandler } from './integration-event-handlers/incoming-call-event-handler';
-import { InterlocutorAcceptedCallEventHandler } from './integration-event-handlers/interlocutor-accepted-call-event-handler';
-import { CallEndedEventHandler } from './integration-event-handlers/call-ended-event-handler';
-import { IceCandidateSentEventHandler } from './integration-event-handlers/ice-candidate-sent-event-handler';
-import { RenegotiationEventHandler } from './integration-event-handlers/renegotiation-event-hander';
-import { RenegotiationAcceptedEventHandler } from './integration-event-handlers/renegotiation-accepted-event-handler';
 
 let connection: HubConnection;
 
@@ -21,14 +15,6 @@ function openConnection(store: Store<RootState>): void {
 
   // Friends
   eventManager.registerEventHandler(EventsNames.USER_STATUS_CHANGED, new UserStatusChangedEventHandler());
-
-  // WebRTC
-  eventManager.registerEventHandler(EventsNames.INCOMING_CALL, new IncomingCallEventHandler());
-  eventManager.registerEventHandler(EventsNames.INTERLOCUTOR_ACCEPTED_CALL, new InterlocutorAcceptedCallEventHandler());
-  eventManager.registerEventHandler(EventsNames.CALL_ENDED, new CallEndedEventHandler());
-  eventManager.registerEventHandler(EventsNames.ICE_CANDIDATE_SENT, new IceCandidateSentEventHandler());
-  eventManager.registerEventHandler(EventsNames.RENEGOTIATION_SENT, new RenegotiationEventHandler());
-  eventManager.registerEventHandler(EventsNames.RENEGOTIATION_ACCEPTED, new RenegotiationAcceptedEventHandler());
 
   connection = new HubConnectionBuilder()
     .withUrl(`${process.env.NOTIFICATIONS_API}/signalr`, {

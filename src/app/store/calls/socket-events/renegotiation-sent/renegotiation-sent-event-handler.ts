@@ -10,15 +10,15 @@ import { getCallInterlocutorIdSelector, getIsActiveCallIncoming, getIsScreenShar
 import { IAcceptCallApiRequest } from '../../models';
 
 import { ignoreOffer, isSettingRemoteAnswerPending, makingOffer, setIgnoreOffer } from '../../utils/glare-utils';
-import { IRenegotiationActionPayload } from './renegotiation-action-payload';
+import { IRenegotiationSentIntegrationEvent } from './renegotiation-sent-integration-event';
 
-export class Renegotiation {
+export class RenegotiationSentEventHandler {
   static get action() {
-    return createAction('RENEGOTIATION')<IRenegotiationActionPayload>();
+    return createAction('RenegotiationSent')<IRenegotiationSentIntegrationEvent>();
   }
 
   static get saga() {
-    return function* negociationSaga(action: ReturnType<typeof Renegotiation.action>): SagaIterator {
+    return function* negociationSaga(action: ReturnType<typeof RenegotiationSentEventHandler.action>): SagaIterator {
       const polite = yield select(getIsActiveCallIncoming);
       const interlocutorId: number = yield select(getCallInterlocutorIdSelector);
       const readyForOffer = !makingOffer && (peerConnection?.signalingState === 'stable' || isSettingRemoteAnswerPending);
@@ -45,7 +45,7 @@ export class Renegotiation {
           isVideoEnabled: videoConstraints.isOpened || isScreenSharingEnabled,
         };
 
-        Renegotiation.httpRequest.call(yield call(() => Renegotiation.httpRequest.generator(request)));
+        RenegotiationSentEventHandler.httpRequest.call(yield call(() => RenegotiationSentEventHandler.httpRequest.generator(request)));
       } else {
         console.log('paralel');
       }

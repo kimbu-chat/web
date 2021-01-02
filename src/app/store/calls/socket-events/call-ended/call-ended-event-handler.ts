@@ -1,12 +1,13 @@
-import { createEmptyAction } from 'app/store/common/actions';
 import { resetPeerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
+import { createAction } from 'typesafe-actions';
 import { ICallState } from '../../models';
+import { ICallEndedIntegrationEvent } from './call-ended-integration-event';
 
-export class CallEnded {
+export class CallEndedEventHandler {
   static get action() {
-    return createEmptyAction('CALL_ENDED');
+    return createAction('CallEnded')<ICallEndedIntegrationEvent>();
   }
 
   static get reducer() {

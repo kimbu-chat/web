@@ -6,15 +6,15 @@ import produce from 'immer';
 import { doIhaveCall } from 'app/store/calls/selectors';
 import { ICallState } from '../../models';
 import { setIsRenegotiationAccepted } from '../../utils/glare-utils';
-import { IInterlocutorAcceptedCallActionPayload } from './interlocutor-accepted-call-action-payload';
+import { IInterlocutorAcceptedCallIntegrationEvent } from './interlocutor-accepted-call-integration-event';
 
-export class InterlocutorAcceptedCall {
+export class InterlocutorAcceptedCallEventHandler {
   static get action() {
-    return createAction('INTERLOCUTOR_ACCEPTED_CALL')<IInterlocutorAcceptedCallActionPayload>();
+    return createAction('CallAccepted')<IInterlocutorAcceptedCallIntegrationEvent>();
   }
 
   static get reducer() {
-    return produce((draft: ICallState, { payload }: ReturnType<typeof InterlocutorAcceptedCall.action>) => {
+    return produce((draft: ICallState, { payload }: ReturnType<typeof InterlocutorAcceptedCallEventHandler.action>) => {
       console.log(draft.interlocutor?.firstName);
 
       if (!draft.isSpeaking && !draft.amICalled) {
@@ -49,7 +49,7 @@ export class InterlocutorAcceptedCall {
   }
 
   static get saga() {
-    return function* callAcceptedSaga(action: ReturnType<typeof InterlocutorAcceptedCall.action>): SagaIterator {
+    return function* callAcceptedSaga(action: ReturnType<typeof InterlocutorAcceptedCallEventHandler.action>): SagaIterator {
       const callActive = yield select(doIhaveCall);
 
       if (action.payload.answer && callActive) {

@@ -6,7 +6,7 @@ import { getIsScreenSharingEnabled } from 'app/store/calls/selectors';
 import { getUserDisplay, setVideoSender, stopScreenSharingTracks, stopVideoTracks, tracks, videoSender } from '../../utils/user-media';
 import { CloseScreenShareStatus } from './close-screen-share-status';
 import { CloseVideoStatus } from '../change-user-media-status/close-video-status';
-import { CallEnded } from '../end-call/call-ended';
+import { CallEndedEventHandler } from '../../socket-events/call-ended/call-ended-event-handler';
 import { CancelCall } from '../cancel-call/cancel-call';
 import { DeclineCall } from '../decline-call/decline-call';
 
@@ -54,7 +54,7 @@ export class ChangeScreenShareStatus {
 
       yield race({
         canceled: take(CancelCall.action),
-        interlocutorCanceled: take(CallEnded.action),
+        interlocutorCanceled: take(CallEndedEventHandler.action),
         declined: take(DeclineCall.action),
         videoStatusClosed: take(CloseVideoStatus.action),
         videoStatusChanged: take(ChangeScreenShareStatus.action),

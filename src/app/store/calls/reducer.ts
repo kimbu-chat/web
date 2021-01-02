@@ -1,9 +1,9 @@
 import { createReducer } from 'typesafe-actions';
 import { DeclineCall } from 'app/store/calls/features/decline-call/decline-call';
 import { ICallState } from './models';
-import { IncomingCall } from './features/incoming-call/incoming-call';
+import { IncomingCallEventHandler } from './socket-events/incoming-call/incoming-call-event-handler';
 import { AcceptCall } from './features/accept-call/accept-call';
-import { CallEnded } from './features/end-call/call-ended';
+import { CallEndedEventHandler } from './socket-events/call-ended/call-ended-event-handler';
 import { CancelCallSuccess } from './features/cancel-call/cancel-call-success';
 import { ChangeActiveDeviceId } from './features/change-active-device-id/change-active-device-id';
 import { CloseAudioStatus } from './features/change-user-media-status/close-audio-status';
@@ -16,7 +16,7 @@ import { OutgoingCall } from './features/outgoing-call/outgoing-call';
 import { SwitchDevice } from './features/switch-device/switch-device';
 import { GetCalls } from './features/get-calls/get-calls';
 import { EndCall } from './features/end-call/end-call';
-import { InterlocutorAcceptedCall } from './features/interlocutor-accepted-call/interlocutor-accepted-call';
+import { InterlocutorAcceptedCallEventHandler } from './socket-events/interlocutor-accepted-call/interlocutor-accepted-call-event-handler';
 import { AcceptCallSuccess } from './features/accept-call/accept-call-success';
 import { OpenAudioStatus } from './features/change-user-media-status/open-audio-status';
 import { OpenVideoStatus } from './features/change-user-media-status/open-video-status';
@@ -47,12 +47,9 @@ const initialState: ICallState = {
 };
 
 const calls = createReducer<ICallState>(initialState)
-  .handleAction(IncomingCall.action, IncomingCall.reducer)
   .handleAction(OutgoingCall.action, OutgoingCall.reducer)
   .handleAction(CancelCallSuccess.action, CancelCallSuccess.reducer)
   .handleAction(AcceptCall.action, AcceptCall.reducer)
-  .handleAction(InterlocutorAcceptedCall.action, InterlocutorAcceptedCall.reducer)
-  .handleAction(CallEnded.action, CallEnded.reducer)
   .handleAction(CloseScreenShareStatus.action, CloseScreenShareStatus.reducer)
   .handleAction(OpenScreenShareStatus.action, OpenScreenShareStatus.reducer)
   .handleAction(CloseAudioStatus.action, CloseAudioStatus.reducer)
@@ -69,6 +66,11 @@ const calls = createReducer<ICallState>(initialState)
   .handleAction(EndCall.action, EndCall.reducer)
   .handleAction(AcceptCallSuccess.action, AcceptCallSuccess.reducer)
   .handleAction(CloseInterlocutorVideoStatus.action, CloseInterlocutorVideoStatus.reducer)
-  .handleAction(OpenInterlocutorVideoStatus.action, OpenInterlocutorVideoStatus.reducer);
+  .handleAction(OpenInterlocutorVideoStatus.action, OpenInterlocutorVideoStatus.reducer)
+
+  // socket-events
+  .handleAction(IncomingCallEventHandler.action, IncomingCallEventHandler.reducer)
+  .handleAction(InterlocutorAcceptedCallEventHandler.action, InterlocutorAcceptedCallEventHandler.reducer)
+  .handleAction(CallEndedEventHandler.action, CallEndedEventHandler.reducer);
 
 export default calls;

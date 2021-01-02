@@ -2,15 +2,15 @@ import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { checkUserExist, findUserIndex } from '../../friends-utils';
 import { IFriendsState } from '../../models';
-import { IUserStatusChangedEventActionPayload } from './user-status-changed-event-action-payload';
+import { IStatusChangedIntegrationEvent } from './status-changed-integration-event';
 
-export class UserStatusChangedEvent {
+export class UserStatusChangedEventHandler {
   static get action() {
-    return createAction('USER_STATUS_CHANGED_EVENT')<IUserStatusChangedEventActionPayload>();
+    return createAction('UserStatusChanged')<IStatusChangedIntegrationEvent>();
   }
 
   static get reducer() {
-    return produce((draft: IFriendsState, { payload }: ReturnType<typeof UserStatusChangedEvent.action>) => {
+    return produce((draft: IFriendsState, { payload }: ReturnType<typeof UserStatusChangedEventHandler.action>) => {
       const { userId } = payload;
       const isUserExist = checkUserExist(userId, draft);
 

@@ -6,15 +6,11 @@ import { AuthActions } from 'store/auth/actions';
 import { RootState } from 'store/root-reducer';
 import { InitSocketConnection } from 'app/store/sockets/features/init-socked-connection/init-socket-connection';
 import { EventsNames, EventManager } from './event-manager';
-import { UserStatusChangedEventHandler } from './integration-event-handlers/user-status-changed-event-handler';
 
 let connection: HubConnection;
 
 function openConnection(store: Store<RootState>): void {
   const eventManager = new EventManager();
-
-  // Friends
-  eventManager.registerEventHandler(EventsNames.USER_STATUS_CHANGED, new UserStatusChangedEventHandler());
 
   connection = new HubConnectionBuilder()
     .withUrl(`${process.env.NOTIFICATIONS_API}/signalr`, {

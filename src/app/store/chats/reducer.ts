@@ -6,7 +6,7 @@ import { ChatId } from './chat-id';
 import { MessageActions } from '../messages/actions';
 import { FriendActions } from '../friends/actions';
 import { FileType } from '../messages/models';
-import { UserStatusChangedEvent } from '../friends/features/user-status-changed-event/user-status-changed-event';
+import { UserStatusChangedEventHandler } from '../friends/socket-events/user-status-changed/user-status-changed-event-handler';
 import { CreateChat } from './features/create-chat/create-chat';
 import { CreateMessage } from '../messages/features/create-message/create-message';
 import { CreateMessageSuccess } from '../messages/features/create-message/create-message-success';
@@ -120,7 +120,7 @@ const chats = createReducer<IChatsState>(initialState)
     }),
   )
   .handleAction(
-    UserStatusChangedEvent.action,
+    UserStatusChangedEventHandler.action,
     produce((draft: IChatsState, { payload }: ReturnType<typeof FriendActions.userStatusChangedEvent>) => {
       const { status, userId } = payload;
       const chatId: number = ChatId.from(userId).id;

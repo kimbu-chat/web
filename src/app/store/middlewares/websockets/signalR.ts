@@ -6,7 +6,6 @@ import { AuthActions } from 'store/auth/actions';
 import { RootState } from 'store/root-reducer';
 import { InitSocketConnection } from 'app/store/sockets/features/init-socked-connection/init-socket-connection';
 import { EventsNames, EventManager } from './event-manager';
-import { MessageCreatedEventHandler } from './integration-event-handlers/message-created-event-handler';
 import { UserMessageTypingEventHandler } from './integration-event-handlers/user-message-typing-event-handler';
 import { UserStatusChangedEventHandler } from './integration-event-handlers/user-status-changed-event-handler';
 import { GroupChatCreatedEventHandler } from './integration-event-handlers/group-chat-created-event-handler';
@@ -30,7 +29,6 @@ function openConnection(store: Store<RootState>): void {
   const eventManager = new EventManager();
 
   // Messages
-  eventManager.registerEventHandler(EventsNames.MESSAGE_CREATED, new MessageCreatedEventHandler());
   eventManager.registerEventHandler(EventsNames.MESSAGES_READ, new UserMessageReadEventHandler());
   eventManager.registerEventHandler(EventsNames.MESSAGE_EDITED, new MessageEditedEventHandler());
   eventManager.registerEventHandler(EventsNames.MESSAGES_DELETED, new MessagesDeletedIntegrationEventHandler());
@@ -74,6 +72,7 @@ function openConnection(store: Store<RootState>): void {
 
   connection.on('notify', (event: IntegrationEvent) => {
     console.warn('Event received. Data: ', event);
+    store.dispatch({ type: event.name, payload: event.object });
     const eventHandler = eventManager.getEventHandler(event.name as EventsNames);
     if (eventHandler) {
       eventHandler!.handle(store, event.object);

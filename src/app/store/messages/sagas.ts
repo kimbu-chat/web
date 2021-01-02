@@ -8,6 +8,7 @@ import { SubmitEditMessage } from './features/edit-message/submit-edit-message';
 import { DeleteMessageSuccess } from './features/delete-message/delete-message-success';
 import { MessagesDeletedFromEvent } from './features/delete-message/messages-deleted-from-event';
 import { ClearChatHistory } from './features/clear-history/clear-chat-history';
+import { MessageCreatedEventHandler } from './socket-events/message-created/message-created-event-handler';
 
 export const MessageSagas = [
   takeLatest(MessageTyping.action, MessageTyping.saga),
@@ -19,4 +20,7 @@ export const MessageSagas = [
   takeEvery(CopyMessages.action, CopyMessages.saga),
   takeEvery(SubmitEditMessage.action, SubmitEditMessage.saga),
   takeEvery(DeleteMessage.action, DeleteMessage.saga),
+
+  // socket-events
+  takeEvery(MessageCreatedEventHandler.action, MessageCreatedEventHandler.saga),
 ];

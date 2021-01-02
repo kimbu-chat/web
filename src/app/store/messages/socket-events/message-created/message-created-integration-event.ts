@@ -3,12 +3,11 @@ import { IUserPreview } from 'store/my-profile/models';
 import { SystemMessageType } from 'store/messages/models';
 
 export interface IMessageCreatedIntegrationEvent {
-  attachments: IBaseAttachment[];
+  attachments?: IBaseAttachment[];
   chatId: number;
   creationDateTime: Date;
   id: number;
   systemMessageType: SystemMessageType;
   text: string;
   userCreator: IUserPreview;
-  userCreatorId: number;
 }

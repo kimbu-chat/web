@@ -19,6 +19,7 @@ import { ResetSelectedMessages } from './features/select-message/reset-selected-
 import { MessagesDeletedFromEvent } from './features/delete-message/messages-deleted-from-event';
 import { ClearChatHistory } from './features/clear-history/clear-chat-history';
 import { ClearChatHistorySuccess } from './features/clear-history/clear-chat-history-success';
+import { MessageCreatedEventHandler } from './socket-events/message-created/message-created-event-handler';
 
 export namespace MessageActions {
   export const getMessages = GetMessages.action;
@@ -42,4 +43,7 @@ export namespace MessageActions {
   export const messagesDeletedFromEvent = MessagesDeletedFromEvent.action;
   export const clearChatHistory = ClearChatHistory.action;
   export const clearChatHistorySuccess = ClearChatHistorySuccess.action;
+
+  // socket-events
+  export const messageCreatedEventHandler = MessageCreatedEventHandler.action;
 }

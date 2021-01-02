@@ -110,22 +110,14 @@ const chats = createReducer<IChatsState>(initialState)
   .handleAction(
     CreateMessage.action,
     produce((draft: IChatsState, { payload }: ReturnType<typeof MessageActions.createMessage>) => {
-      const { message, chatId, currentUserId } = payload;
+      const { message } = payload;
 
-      const chatIndex: number = getChatArrayIndex(chatId, draft);
-
-      const isCurrentUserMessageCreator: boolean = currentUserId === message.userCreator?.id;
+      const chatIndex: number = getChatArrayIndex(message.chatId, draft);
 
       // if user already has chats with interlocutor - update chat
       if (chatIndex >= 0) {
-        const isInterlocutorCurrentSelectedChat: boolean = draft.selectedChatId === chatId;
-        const previousUnreadMessagesCount = draft.chats[chatIndex].unreadMessagesCount || 0;
-        const unreadMessagesCount =
-          isInterlocutorCurrentSelectedChat || isCurrentUserMessageCreator ? previousUnreadMessagesCount : previousUnreadMessagesCount + 1;
-
         draft.chats[chatIndex].attachmentsToSend = [];
         draft.chats[chatIndex].lastMessage = { ...message };
-        draft.chats[chatIndex].unreadMessagesCount = unreadMessagesCount;
         draft.chats[chatIndex].draftMessage = '';
 
         const chatWithNewMessage = draft.chats[chatIndex];

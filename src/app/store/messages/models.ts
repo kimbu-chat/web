@@ -58,12 +58,12 @@ export interface IMessage {
   needToShowCreator?: boolean;
   isEdited?: boolean;
   userCreator: IUserPreview;
-  creationDateTime?: Date;
+  creationDateTime: Date;
   text: string;
   attachmentsJson?: string;
-  systemMessageType?: SystemMessageType;
+  systemMessageType: SystemMessageType;
   state?: MessageState;
-  chatId?: number;
+  chatId: number;
   dateSeparator?: string;
   isSelected?: boolean;
   needToShowDateSeparator?: boolean;

@@ -6,7 +6,6 @@ import { AuthActions } from 'store/auth/actions';
 import { RootState } from 'store/root-reducer';
 import { InitSocketConnection } from 'app/store/sockets/features/init-socked-connection/init-socket-connection';
 import { EventsNames, EventManager } from './event-manager';
-import { UserMessageTypingEventHandler } from './integration-event-handlers/user-message-typing-event-handler';
 import { UserStatusChangedEventHandler } from './integration-event-handlers/user-status-changed-event-handler';
 import { GroupChatCreatedEventHandler } from './integration-event-handlers/group-chat-created-event-handler';
 import { IncomingCallEventHandler } from './integration-event-handlers/incoming-call-event-handler';
@@ -24,9 +23,6 @@ let connection: HubConnection;
 
 function openConnection(store: Store<RootState>): void {
   const eventManager = new EventManager();
-
-  // Messages
-  eventManager.registerEventHandler(EventsNames.INTEROCUTOR_MESSAGE_TYPING, new UserMessageTypingEventHandler());
 
   // GroupChats
   eventManager.registerEventHandler(EventsNames.GROUP_CHAT_CREATED, new GroupChatCreatedEventHandler());

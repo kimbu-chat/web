@@ -6,14 +6,14 @@ export enum EventsNames {
   MESSAGE_EDITED = 'MessageEdited',
   MESSAGES_DELETED = 'MessagesDeleted',
   MESSAGES_READ = 'MessagesRead',
-  INTEROCUTOR_MESSAGE_TYPING = 'Mess ageTyping',
+  INTEROCUTOR_MESSAGE_TYPING = 'MessageTyping',
 
   // GroupChats
   GROUP_CHAT_CREATED = 'GroupChatCreated',
   GROUP_CHAT_EDITED = 'GroupChatEdited',
   CHAT_CLEARED = 'ChatCleared',
   MEMBER_LEFT_GROUP_CHAT = 'MemberLeftGroupChat',
-  CHAT_MUTE_STATUS_CHANGED = 'Cha tsMuteStatusChanged',
+  CHAT_MUTE_STATUS_CHANGED = 'ChatsMuteStatusChanged',
 
   // Friends
   USER_STATUS_CHANGED = 'UserStatusChanged',

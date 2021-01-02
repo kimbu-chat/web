@@ -1,3 +1,4 @@
+import { UserMessageTypingEventHandler } from 'app/store/chats/socket-events/message-typing/message-typing-event-handler';
 import { UploadAttachmentRequest } from './features/upload-attachment/upload-attachment-request';
 import { AddUsersToGroupChat } from './features/add-users-to-group-chat/add-users-to-group-chat';
 import { AddUsersToGroupChatSuccess } from './features/add-users-to-group-chat/add-users-to-group-chat-success';
@@ -26,7 +27,6 @@ import { GetVideoAttachments } from './features/get-video-attachments/get-video-
 import { GetVideoAttachmentsSuccess } from './features/get-video-attachments/get-video-attachments-success';
 import { GetVoiceAttachments } from './features/get-voice-attachments/get-voice-attachments';
 import { GetVoiceAttachmentsSuccess } from './features/get-voice-attachments/get-voice-attachments-success';
-import { InterlocutorMessageTyping } from './features/interlocutor-message-typing/interlocutor-message-typing';
 import { InterlocutorStoppedTyping } from './features/interlocutor-message-typing/interlocutor-stopped-typing';
 import { LeaveGroupChat } from './features/leave-group-chat/leave-group-chat';
 import { LeaveGroupChatSuccess } from './features/leave-group-chat/leave-group-chat-success';
@@ -85,7 +85,6 @@ export namespace ChatActions {
   export const addUsersToGroupChat = AddUsersToGroupChat.action;
   export const addUsersToGroupChatSuccess = AddUsersToGroupChatSuccess.action;
   export const interlocutorStoppedTyping = InterlocutorStoppedTyping.action;
-  export const interlocutorMessageTyping = InterlocutorMessageTyping.action;
 
   export const uploadAttachmentRequestAction = UploadAttachmentRequest.action;
   export const uploadAttachmentProgressAction = UploadAttachmentProgress.action;
@@ -97,4 +96,8 @@ export namespace ChatActions {
   export const markMessagesAsReadSuccess = MarkMessagesAsReadSuccess.action;
 
   export const changeLastMessageAction = ChangeLastMessage.action;
+
+  // socket-events
+
+  export const userMessageTypingEventHandler = UserMessageTypingEventHandler.action;
 }

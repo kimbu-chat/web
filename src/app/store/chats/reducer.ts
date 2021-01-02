@@ -23,7 +23,6 @@ import { GetChatsSuccess } from './features/get-chats/get-chats-success';
 import { GetPhotoAttachmentsSuccess } from './features/get-photo-attachments/get-photo-attachments-success';
 import { GetRawAttachmentsSuccess } from './features/get-raw-attachments/get-raw-attachments-success';
 import { GetVoiceAttachmentsSuccess } from './features/get-voice-attachments/get-voice-attachments-success';
-import { InterlocutorMessageTyping } from './features/interlocutor-message-typing/interlocutor-message-typing';
 import { InterlocutorStoppedTyping } from './features/interlocutor-message-typing/interlocutor-stopped-typing';
 import { LeaveGroupChatSuccess } from './features/leave-group-chat/leave-group-chat-success';
 import { ChangeChatMutedStatusSuccess } from './features/change-chat-muted-status/change-chat-muted-status-success';
@@ -58,7 +57,6 @@ const initialState: IChatsState = {
 
 const chats = createReducer<IChatsState>(initialState)
   .handleAction(InterlocutorStoppedTyping.action, InterlocutorStoppedTyping.reducer)
-  .handleAction(InterlocutorMessageTyping.action, InterlocutorMessageTyping.reducer)
   .handleAction(CreateGroupChatSuccess.action, CreateGroupChatSuccess.reducer)
   .handleAction(AddUsersToGroupChatSuccess.action, AddUsersToGroupChatSuccess.reducer)
   .handleAction(ChangeChatMutedStatusSuccess.action, ChangeChatMutedStatusSuccess.reducer)

@@ -13,7 +13,6 @@ import { ReplyToMessage } from './features/reply-to-message/reply-to-message';
 import { ResetSelectedMessages } from './features/select-message/reset-selected-messages';
 import { SelectMessage } from './features/select-message/select-message';
 import { EditMessage } from './features/edit-message/edit-message';
-import { MessageEdited } from './features/message-edited/message-edited';
 import { ResetEditMessage } from './features/edit-message/reset-edit-message';
 import { ResetReplyToMessage } from './features/reply-to-message/reset-reply-to-message';
 import { SubmitEditMessage } from './features/edit-message/submit-edit-message';
@@ -43,7 +42,6 @@ const messages = createReducer<IMessagesState>(initialState)
   .handleAction(SubmitEditMessageSuccess.action, SubmitEditMessageSuccess.reducer)
   .handleAction(ResetReplyToMessage.action, ResetReplyToMessage.reducer)
   .handleAction(ResetEditMessage.action, ResetEditMessage.reducer)
-  .handleAction(MessageEdited.action, MessageEdited.reducer)
   .handleAction(MessagesDeletedFromEvent.action, MessagesDeletedFromEvent.reducer)
   .handleAction(ClearChatHistorySuccess.action, ClearChatHistorySuccess.reducer)
   .handleAction(

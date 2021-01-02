@@ -13,7 +13,6 @@ import { IncomingCallEventHandler } from './integration-event-handlers/incoming-
 import { InterlocutorAcceptedCallEventHandler } from './integration-event-handlers/interlocutor-accepted-call-event-handler';
 import { CallEndedEventHandler } from './integration-event-handlers/call-ended-event-handler';
 import { IceCandidateSentEventHandler } from './integration-event-handlers/ice-candidate-sent-event-handler';
-import { MessageEditedEventHandler } from './integration-event-handlers/message-edited-event-handler';
 import { MessagesDeletedIntegrationEventHandler } from './integration-event-handlers/messages-deleted-integration-event-handler';
 import { ChatClearedIntegrationEventHandler } from './integration-event-handlers/chat-cleared-integration-event-handler';
 import { RenegotiationEventHandler } from './integration-event-handlers/renegotiation-event-hander';
@@ -28,7 +27,6 @@ function openConnection(store: Store<RootState>): void {
   const eventManager = new EventManager();
 
   // Messages
-  eventManager.registerEventHandler(EventsNames.MESSAGE_EDITED, new MessageEditedEventHandler());
   eventManager.registerEventHandler(EventsNames.MESSAGES_DELETED, new MessagesDeletedIntegrationEventHandler());
   eventManager.registerEventHandler(EventsNames.INTEROCUTOR_MESSAGE_TYPING, new UserMessageTypingEventHandler());
 

@@ -76,6 +76,8 @@ export class MessageCreatedEventHandler {
 
           draft.chats.chats.splice(chatListIndex, 1);
 
+          console.log('chat unshifted');
+
           draft.chats.chats.unshift(chatWithNewMessage);
         }
 

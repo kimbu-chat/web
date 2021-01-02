@@ -1,4 +1,4 @@
-export interface IceCandidateSentIntegrationEvent {
+export interface IIceCandidateSentIntegrationEvent {
   candidate: RTCIceCandidate;
   userInterlocutorId: number;
 }

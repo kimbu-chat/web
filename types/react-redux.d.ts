@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import 'react-redux';
 import { ComponentType } from 'react';
 

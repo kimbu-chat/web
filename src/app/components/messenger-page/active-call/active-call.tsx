@@ -81,11 +81,11 @@ export const ActiveCall: React.FC = () => {
   }, [setIsFullScreen]);
 
   const changeAudioStatus = useCallback(() => {
-    changeMediaStatus({ kind: InputType.audioInput });
+    changeMediaStatus({ kind: InputType.AudioInput });
   }, [changeMediaStatus]);
 
   const changeVideoStatus = useCallback(() => {
-    changeMediaStatus({ kind: InputType.videoInput });
+    changeMediaStatus({ kind: InputType.VideoInput });
   }, [changeMediaStatus]);
 
   useEffect(() => {
@@ -231,7 +231,7 @@ export const ActiveCall: React.FC = () => {
               disabled={!isAudioOpened}
               options={audioDevices.map((device) => ({
                 title: device.label,
-                onClick: () => switchDevice({ kind: InputType.audioInput, deviceId: device.deviceId }),
+                onClick: () => switchDevice({ kind: InputType.AudioInput, deviceId: device.deviceId }),
               }))}
             />
           </div>
@@ -244,7 +244,7 @@ export const ActiveCall: React.FC = () => {
               disabled={!isVideoOpened}
               options={videoDevices.map((device) => ({
                 title: device.label,
-                onClick: () => switchDevice({ kind: InputType.videoInput, deviceId: device.deviceId }),
+                onClick: () => switchDevice({ kind: InputType.VideoInput, deviceId: device.deviceId }),
               }))}
             />
           </div>

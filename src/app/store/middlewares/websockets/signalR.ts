@@ -30,29 +30,29 @@ function openConnection(store: Store<RootState>): void {
   const eventManager = new EventManager();
 
   // Messages
-  eventManager.registerEventHandler(EventsNames.MESSAGE_CREATED, new MessageCreatedEventHandler());
-  eventManager.registerEventHandler(EventsNames.MESSAGES_READ, new UserMessageReadEventHandler());
-  eventManager.registerEventHandler(EventsNames.MESSAGE_EDITED, new MessageEditedEventHandler());
-  eventManager.registerEventHandler(EventsNames.MESSAGES_DELETED, new MessagesDeletedIntegrationEventHandler());
-  eventManager.registerEventHandler(EventsNames.INTEROCUTOR_MESSAGE_TYPING, new UserMessageTypingEventHandler());
+  eventManager.registerEventHandler(EventsNames.MessageCreated, new MessageCreatedEventHandler());
+  eventManager.registerEventHandler(EventsNames.MessageRead, new UserMessageReadEventHandler());
+  eventManager.registerEventHandler(EventsNames.MessageEdited, new MessageEditedEventHandler());
+  eventManager.registerEventHandler(EventsNames.MessageDeleted, new MessagesDeletedIntegrationEventHandler());
+  eventManager.registerEventHandler(EventsNames.MessageTyping, new UserMessageTypingEventHandler());
 
   // GroupChats
-  eventManager.registerEventHandler(EventsNames.GROUP_CHAT_CREATED, new GroupChatCreatedEventHandler());
-  eventManager.registerEventHandler(EventsNames.GROUP_CHAT_EDITED, new GroupChatEditedEventHandler());
-  eventManager.registerEventHandler(EventsNames.CHAT_CLEARED, new ChatClearedIntegrationEventHandler());
-  eventManager.registerEventHandler(EventsNames.MEMBER_LEFT_GROUP_CHAT, new MemberLeftGroupChatEventHandler());
-  eventManager.registerEventHandler(EventsNames.CHAT_MUTE_STATUS_CHANGED, new ChatMutedStatusChangedEventHandler());
+  eventManager.registerEventHandler(EventsNames.GroupChatCreated, new GroupChatCreatedEventHandler());
+  eventManager.registerEventHandler(EventsNames.GroupChatEdited, new GroupChatEditedEventHandler());
+  eventManager.registerEventHandler(EventsNames.ChatCleared, new ChatClearedIntegrationEventHandler());
+  eventManager.registerEventHandler(EventsNames.MemberLeftGroupChat, new MemberLeftGroupChatEventHandler());
+  eventManager.registerEventHandler(EventsNames.ChatsMuteStatusChanged, new ChatMutedStatusChangedEventHandler());
 
   // Friends
-  eventManager.registerEventHandler(EventsNames.USER_STATUS_CHANGED, new UserStatusChangedEventHandler());
+  eventManager.registerEventHandler(EventsNames.UserStatusChanged, new UserStatusChangedEventHandler());
 
   // WebRTC
-  eventManager.registerEventHandler(EventsNames.INCOMING_CALL, new IncomingCallEventHandler());
-  eventManager.registerEventHandler(EventsNames.INTERLOCUTOR_ACCEPTED_CALL, new InterlocutorAcceptedCallEventHandler());
-  eventManager.registerEventHandler(EventsNames.CALL_ENDED, new CallEndedEventHandler());
-  eventManager.registerEventHandler(EventsNames.ICE_CANDIDATE_SENT, new IceCandidateSentEventHandler());
-  eventManager.registerEventHandler(EventsNames.RENEGOTIATION_SENT, new RenegotiationEventHandler());
-  eventManager.registerEventHandler(EventsNames.RENEGOTIATION_ACCEPTED, new RenegotiationAcceptedEventHandler());
+  eventManager.registerEventHandler(EventsNames.IncomingCall, new IncomingCallEventHandler());
+  eventManager.registerEventHandler(EventsNames.CallAccepted, new InterlocutorAcceptedCallEventHandler());
+  eventManager.registerEventHandler(EventsNames.CallEnded, new CallEndedEventHandler());
+  eventManager.registerEventHandler(EventsNames.IceCandidateSent, new IceCandidateSentEventHandler());
+  eventManager.registerEventHandler(EventsNames.RenegotiationSent, new RenegotiationEventHandler());
+  eventManager.registerEventHandler(EventsNames.RenegotiationAccepted, new RenegotiationAcceptedEventHandler());
 
   connection = new HubConnectionBuilder()
     .withUrl(`${process.env.NOTIFICATIONS_API}/signalr`, {
@@ -72,7 +72,7 @@ function openConnection(store: Store<RootState>): void {
       console.warn('ERROR WEBSOCKETS', err);
     });
 
-  connection.on('notify', (event: IntegrationEvent) => {
+  connection.on('notify', (event: IIntegrationEvent) => {
     console.warn('Event received. Data: ', event);
     const eventHandler = eventManager.getEventHandler(event.name as EventsNames);
     if (eventHandler) {
@@ -112,7 +112,7 @@ export function signalRInvokeMiddleware(store: any): any {
     }
   };
 }
-interface IntegrationEvent {
+interface IIntegrationEvent {
   name: string;
   object: any;
 }

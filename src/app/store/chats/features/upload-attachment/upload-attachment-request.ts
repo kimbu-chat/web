@@ -65,23 +65,23 @@ export class UploadAttachmentRequest {
       let uploadRequest: IFilesRequestGenerator<AxiosResponse<any>, any>;
 
       switch (type) {
-        case FileType.audio:
+        case FileType.Audio:
           uploadRequest = UploadAttachmentRequest.httpRequest.uploadAudioAttachment;
 
           break;
-        case FileType.raw:
+        case FileType.Raw:
           uploadRequest = UploadAttachmentRequest.httpRequest.uploadFileAttachment;
 
           break;
-        case FileType.picture:
+        case FileType.Picture:
           uploadRequest = UploadAttachmentRequest.httpRequest.uploadPictureAttachment;
 
           break;
-        case FileType.voice:
+        case FileType.Voice:
           uploadRequest = UploadAttachmentRequest.httpRequest.uploadVoiceAttachment;
 
           break;
-        case FileType.video:
+        case FileType.Video:
           uploadRequest = UploadAttachmentRequest.httpRequest.uploadVideoAttachment;
 
           break;

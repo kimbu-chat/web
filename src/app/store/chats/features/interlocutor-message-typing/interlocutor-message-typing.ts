@@ -2,11 +2,11 @@ import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { checkChatExists, getChatArrayIndex } from 'app/store/chats/selectors';
 import { IChatsState } from '../../models';
-import { InterlocutorMessageTypingActionPayload } from './interlocutor-message-typing-action-payload';
+import { IInterlocutorMessageTypingActionPayload } from './interlocutor-message-typing-action-payload';
 
 export class InterlocutorMessageTyping {
   static get action() {
-    return createAction('INTERLOCUTOR_MESSAGE_TYPING_EVENT')<InterlocutorMessageTypingActionPayload>();
+    return createAction('INTERLOCUTOR_MESSAGE_TYPING_EVENT')<IInterlocutorMessageTypingActionPayload>();
   }
 
   static get reducer() {

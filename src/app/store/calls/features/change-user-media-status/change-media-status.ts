@@ -33,7 +33,7 @@ export class ChangeMediaStatus {
       const videoConstraints = yield select(getVideoConstraints);
       const audioConstraints = yield select(getAudioConstraints);
 
-      if (action.payload.kind === InputType.videoInput) {
+      if (action.payload.kind === InputType.VideoInput) {
         const isVideoOpened = !videoConstraints.isOpened;
 
         if (isVideoOpened) {
@@ -61,18 +61,18 @@ export class ChangeMediaStatus {
           }
         }
 
-        const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.videoInput);
+        const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.VideoInput);
 
         if (videoDevices.length > 0) {
-          yield put(GotDevicesInfo.action({ kind: InputType.videoInput, devices: videoDevices }));
+          yield put(GotDevicesInfo.action({ kind: InputType.VideoInput, devices: videoDevices }));
         }
 
         if (!videoConstraints.deviceId && videoDevices[0]) {
-          yield put(ChangeActiveDeviceId.action({ kind: InputType.videoInput, deviceId: videoDevices[0].deviceId }));
+          yield put(ChangeActiveDeviceId.action({ kind: InputType.VideoInput, deviceId: videoDevices[0].deviceId }));
         }
       }
 
-      if (action.payload.kind === InputType.audioInput) {
+      if (action.payload.kind === InputType.AudioInput) {
         const isAudioOpened = !audioConstraints.isOpened;
 
         if (isAudioOpened) {

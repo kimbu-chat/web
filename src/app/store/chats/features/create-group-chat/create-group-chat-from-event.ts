@@ -32,7 +32,7 @@ export class CreateGroupChatFromEvent {
       };
 
       const chat: IChat = {
-        interlocutorType: InterlocutorType.GROUP_CHAT,
+        interlocutorType: InterlocutorType.GroupChat,
         id: chatId,
         draftMessage: '',
         groupChat: {

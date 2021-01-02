@@ -3,11 +3,11 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { createAction } from 'typesafe-actions';
 import { ICallState } from '../../models';
-import { IncomingCallActionPayload } from './incoming-call-action-payload';
+import { IIncomingCallActionPayload } from './incoming-call-action-payload';
 
 export class IncomingCall {
   static get action() {
-    return createAction('INCOMING_CALL')<IncomingCallActionPayload>();
+    return createAction('INCOMING_CALL')<IIncomingCallActionPayload>();
   }
 
   static get reducer() {

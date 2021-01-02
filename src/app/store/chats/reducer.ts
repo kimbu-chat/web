@@ -173,7 +173,7 @@ const chats = createReducer<IChatsState>(initialState)
 
         attachments?.forEach((attachment) => {
           switch (attachment.type) {
-            case FileType.audio:
+            case FileType.Audio:
               draft.chats[chatIndex].audioAttachmentsCount = (draft.chats[chatIndex].audioAttachmentsCount || 0) + 1;
               draft.chats[chatIndex].audios.audios.unshift({
                 ...(attachment as IAudioAttachment),
@@ -181,7 +181,7 @@ const chats = createReducer<IChatsState>(initialState)
               });
 
               break;
-            case FileType.picture:
+            case FileType.Picture:
               draft.chats[chatIndex].pictureAttachmentsCount = (draft.chats[chatIndex].pictureAttachmentsCount || 0) + 1;
               draft.chats[chatIndex].photos.photos.unshift({
                 ...(attachment as IPictureAttachment),
@@ -189,7 +189,7 @@ const chats = createReducer<IChatsState>(initialState)
               });
 
               break;
-            case FileType.raw:
+            case FileType.Raw:
               draft.chats[chatIndex].rawAttachmentsCount = (draft.chats[chatIndex].rawAttachmentsCount || 0) + 1;
               draft.chats[chatIndex].files.files.unshift({
                 ...(attachment as IRawAttachment),
@@ -197,7 +197,7 @@ const chats = createReducer<IChatsState>(initialState)
               });
 
               break;
-            case FileType.video:
+            case FileType.Video:
               draft.chats[chatIndex].videoAttachmentsCount = (draft.chats[chatIndex].videoAttachmentsCount || 0) + 1;
               draft.chats[chatIndex].videos.videos.unshift({
                 ...(attachment as IVideoAttachment),
@@ -205,7 +205,7 @@ const chats = createReducer<IChatsState>(initialState)
               });
 
               break;
-            case FileType.voice:
+            case FileType.Voice:
               draft.chats[chatIndex].voiceAttachmentsCount = (draft.chats[chatIndex].voiceAttachmentsCount || 0) + 1;
               draft.chats[chatIndex].recordings.recordings.unshift({
                 ...(attachment as IVoiceAttachment),

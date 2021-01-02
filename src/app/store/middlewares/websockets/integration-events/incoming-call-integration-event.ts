@@ -1,6 +1,6 @@
 import { IUserPreview } from 'store/my-profile/models';
 
-export interface IncomingCallIntegrationEvent {
+export interface IIncomingCallIntegrationEvent {
   userInterlocutor: IUserPreview;
   isVideoEnabled: boolean;
   offer: RTCSessionDescriptionInit;

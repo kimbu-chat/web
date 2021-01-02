@@ -40,6 +40,34 @@ module.exports = {
     'jsx-a11y/no-static-element-interactions': 0,
     'jsx-a11y/media-has-caption': 0,
     'jsx-a11y/label-has-associated-control': 0,
+    'no-console': 0,
+    'no-alert': 0,
+    '@typescript-eslint/naming-convention': [
+      2,
+      {
+        selector: 'interface',
+        prefix: ['I'],
+        format: ['PascalCase'],
+      },
+      { selector: 'variableLike', format: ['camelCase', 'PascalCase', 'UPPER_CASE'] },
+      {
+        selector: 'parameter',
+        format: ['camelCase', 'PascalCase'],
+        leadingUnderscore: 'allow',
+      },
+      {
+        selector: 'property',
+        format: ['camelCase'],
+      },
+      {
+        selector: ['enumMember', 'enum'],
+        format: ['PascalCase'],
+      },
+      {
+        selector: 'class',
+        format: ['PascalCase'],
+      },
+    ],
   },
   settings: {
     'import/resolver': {

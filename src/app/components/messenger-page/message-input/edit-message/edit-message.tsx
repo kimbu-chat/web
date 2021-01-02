@@ -137,7 +137,7 @@ export const EditMessage = React.memo(() => {
   }, [fileInputRef]);
 
   const handleFocus = useCallback(() => {
-    if (myTypingStrategy === TypingStrategy.nle) {
+    if (myTypingStrategy === TypingStrategy.Nle) {
       Mousetrap.bind(['command+enter', 'ctrl+enter', 'alt+enter', 'shift+enter'], () => {
         submitEditedMessage();
       });

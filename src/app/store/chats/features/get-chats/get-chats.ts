@@ -60,7 +60,7 @@ export class GetChats {
           recordings: [],
         };
 
-        if (chat.interlocutorType === InterlocutorType.GROUP_CHAT) {
+        if (chat.interlocutorType === InterlocutorType.GroupChat) {
           chat.members = { searchMembers: [], members: [], loading: false, hasMore: true };
         }
       });

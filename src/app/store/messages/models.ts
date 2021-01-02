@@ -46,11 +46,11 @@ export interface IGroupChatMemberAddedSystemMessageContent extends ISystemMessag
 }
 
 export enum FileType {
-  audio = 'Audio',
-  raw = 'Raw',
-  picture = 'Picture',
-  voice = 'Voice',
-  video = 'Video',
+  Audio = 'Audio',
+  Raw = 'Raw',
+  Picture = 'Picture',
+  Voice = 'Voice',
+  Video = 'Video',
 }
 
 export interface IMessage {

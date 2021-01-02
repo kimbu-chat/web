@@ -1,11 +1,11 @@
 export enum Langs {
-  en = 'en',
-  ru = 'ru',
+  En = 'en',
+  Ru = 'ru',
 }
 
 export enum TypingStrategy {
-  nle = 'NewLineEnter',
-  nlce = 'NewLineCtrlEnter',
+  Nle = 'NewLineEnter',
+  Nlce = 'NewLineCtrlEnter',
 }
 
 export interface IUserSettings {

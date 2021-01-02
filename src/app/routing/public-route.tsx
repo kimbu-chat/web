@@ -1,30 +1,17 @@
 import React from 'react';
 import { Route, Redirect, RouteProps } from 'react-router';
+import { useSelector } from 'react-redux';
+import { amIlogged } from 'app/store/auth/selectors';
 
-namespace PrivateRouteNS {
+namespace PublicRouteNS {
   export interface IProps extends RouteProps {
-    Component: JSX.Element;
     path: string;
-    isAllowed: boolean;
-    fallback?: string;
+    isAllowed?: boolean;
+    Component: () => JSX.Element;
   }
 }
 
-export const PrivateRoute = React.memo(({ Component, path, fallback, isAllowed, ...rest }: PrivateRouteNS.IProps) => (
-  <Route
-    path={path}
-    {...rest}
-    render={({ location }) =>
-      isAllowed ? (
-        Component
-      ) : (
-        <Redirect
-          to={{
-            pathname: fallback,
-            state: { from: location },
-          }}
-        />
-      )
-    }
-  />
-));
+export const PublicRoute = React.memo(({ Component, path, isAllowed = true, ...rest }: PublicRouteNS.IProps) => {
+  const isAuthenticated = useSelector(amIlogged);
+  return <Route path={path} {...rest} render={() => (!isAuthenticated && isAllowed ? <Component /> : <Redirect to='/chats' />)} />;
+});

@@ -64,23 +64,23 @@ const MessageItem = React.memo(
         currentAttachment,
       ) => {
         switch (currentAttachment.type) {
-          case FileType.raw:
+          case FileType.Raw:
             accum.files.push(currentAttachment as IRawAttachment);
 
             break;
-          case FileType.picture:
+          case FileType.Picture:
             accum.media.push(currentAttachment as IPictureAttachment);
 
             break;
-          case FileType.video:
+          case FileType.Video:
             accum.media.push(currentAttachment as IVideoAttachment);
 
             break;
-          case FileType.audio:
+          case FileType.Audio:
             accum.audios.push(currentAttachment as IAudioAttachment);
 
             break;
-          case FileType.voice:
+          case FileType.Voice:
             accum.recordings.push(currentAttachment as IVoiceAttachment);
 
             break;

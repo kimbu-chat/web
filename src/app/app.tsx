@@ -8,8 +8,8 @@ import { useSelector } from 'react-redux';
 import i18nConfiguration from 'app/localization/i18n';
 import { useTranslation } from 'react-i18next';
 
-import { PublicRoute } from 'app/routing/private-route';
-import { PrivateRoute } from 'app/routing/public-route';
+import { PublicRoute } from 'app/routing/public-route';
+import { PrivateRoute } from 'app/routing/private-route';
 
 import { i18n, TFunction } from 'i18next';
 import { amIlogged, getAuthPhoneNumber, getRegstrationAllowed } from 'store/auth/selectors';
@@ -44,41 +44,41 @@ export const App = () => {
           exact
           path='/signup'
           isAllowed={phoneNumber.length > 0 && registrationAllowed}
-          Component={
+          Component={() => (
             <Suspense fallback={<CubeLoader />}>
               <Registration preloadNext={loadMessenger} />
             </Suspense>
-          }
+          )}
         />
         <PublicRoute
           exact
           path='/confirm-code'
           isAllowed={phoneNumber.length > 0}
-          Component={
+          Component={() => (
             <Suspense fallback={<CubeLoader />}>
               <ConfirmCode preloadNext={loadMessenger} />
             </Suspense>
-          }
+          )}
         />
         <PublicRoute
           exact
           path='/login/'
-          Component={
+          Component={() => (
             <Suspense fallback={<CubeLoader />}>
               <ConfirmPhone preloadNext={loadCodeConfirmation} />
             </Suspense>
-          }
+          )}
         />
         <PrivateRoute
           path='/(contacts|calls|settings|chats)/:chatId?/(edit-profile|notifications|language|typing)?/(info)?/(photo|audio-recordings|audios|video|files)?'
           exact
           isAllowed={isAuthenticated}
           fallback='/login'
-          Component={
+          Component={() => (
             <Suspense fallback={<CubeLoader />}>
               <Messenger />
             </Suspense>
-          }
+          )}
         />
         <Route path='/' exact render={() => <Redirect to='/chats' />} />
         <Route

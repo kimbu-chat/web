@@ -224,7 +224,7 @@ export const CreateMessageInput = React.memo(() => {
   );
 
   const handleFocus = useCallback(() => {
-    if (myTypingStrategy === TypingStrategy.nle) {
+    if (myTypingStrategy === TypingStrategy.Nle) {
       Mousetrap.bind(['command+enter', 'ctrl+enter', 'alt+enter', 'shift+enter'], () => {
         sendMessageToServer();
       });
@@ -292,7 +292,7 @@ export const CreateMessageInput = React.memo(() => {
           });
           uploadAttachmentRequest({
             chatId: selectedChat!.id,
-            type: FileType.voice,
+            type: FileType.Voice,
             file: audioFile as File,
             attachmentId: new Date().getTime(),
           });

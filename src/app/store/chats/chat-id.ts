@@ -23,13 +23,13 @@ class ChatIdDetails {
 export class ChatId {
   public static from(userId?: number, groupChatId?: number): ChatIdDetails {
     if (userId && !Number.isNaN(userId)) {
-      const id: number = +`${userId}${InterlocutorType.USER}`;
-      return new ChatIdDetails(id, userId, InterlocutorType.USER, userId, null);
+      const id: number = +`${userId}${InterlocutorType.User}`;
+      return new ChatIdDetails(id, userId, InterlocutorType.User, userId, null);
     }
     if (groupChatId && !Number.isNaN(groupChatId)) {
-      const id: number = +`${groupChatId}${InterlocutorType.GROUP_CHAT}`;
+      const id: number = +`${groupChatId}${InterlocutorType.GroupChat}`;
       console.log(id);
-      return new ChatIdDetails(id, groupChatId, InterlocutorType.GROUP_CHAT, null, groupChatId);
+      return new ChatIdDetails(id, groupChatId, InterlocutorType.GroupChat, null, groupChatId);
     }
     throw new Error(`Invalid params: userId = ${userId}, groupChatId = ${groupChatId}`);
   }
@@ -39,11 +39,11 @@ export class ChatId {
     const interlocutorId = +chatId.toString().substring(0, chatId.toString().length - 1);
     const interlocutorType: InterlocutorType = chatId % 10;
 
-    if (interlocutorType === InterlocutorType.USER) {
-      return new ChatIdDetails(chatId, interlocutorId, InterlocutorType.USER, interlocutorId, null);
+    if (interlocutorType === InterlocutorType.User) {
+      return new ChatIdDetails(chatId, interlocutorId, InterlocutorType.User, interlocutorId, null);
     }
-    if (interlocutorType === InterlocutorType.GROUP_CHAT) {
-      return new ChatIdDetails(chatId, interlocutorId, InterlocutorType.GROUP_CHAT, null, interlocutorId);
+    if (interlocutorType === InterlocutorType.GroupChat) {
+      return new ChatIdDetails(chatId, interlocutorId, InterlocutorType.GroupChat, null, interlocutorId);
     }
     throw new Error(`Unknown interlocutorType: chatId = ${chatId}`);
   }

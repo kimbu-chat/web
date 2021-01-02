@@ -6,8 +6,8 @@ import { GetUserSettingsSuccess } from './features/get-user-settings/get-user-se
 import { Langs, TypingStrategy, IUserSettings } from './models';
 
 const initialState: IUserSettings = {
-  language: navigator.language.includes('ru') ? Langs.ru : Langs.en,
-  typingStrategy: TypingStrategy.nlce,
+  language: navigator.language.includes('ru') ? Langs.Ru : Langs.En,
+  typingStrategy: TypingStrategy.Nlce,
   notificationSound: true,
 };
 

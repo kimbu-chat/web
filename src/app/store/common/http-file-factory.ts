@@ -113,6 +113,7 @@ function* httpRequest<T>(
 
   if (auth && auth.accessToken) {
     requestConfig.headers = {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       Authorization: `Bearer ${auth.accessToken}`,
     };
   }

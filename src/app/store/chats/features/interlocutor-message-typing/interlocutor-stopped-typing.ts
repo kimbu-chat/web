@@ -2,11 +2,11 @@ import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { checkChatExists, getChatArrayIndex } from 'app/store/chats/selectors';
 import { IChatsState } from '../../models';
-import { InterlocutorStoppedTypingActionPayload } from './interlocutor-stopped-typing-action-payload';
+import { IInterlocutorStoppedTypingActionPayload } from './interlocutor-stopped-typing-action-payload';
 
 export class InterlocutorStoppedTyping {
   static get action() {
-    return createAction('INTERLOCUTOR_STOPPED_TYPING')<InterlocutorStoppedTypingActionPayload>();
+    return createAction('INTERLOCUTOR_STOPPED_TYPING')<IInterlocutorStoppedTypingActionPayload>();
   }
 
   static get reducer() {

@@ -2,16 +2,16 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { delay, put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { InternetState } from '../../models';
-import { InternetConnectionCheckActionPayload } from './internet-connection-check-action-payload';
+import { IInternetState } from '../../models';
+import { IInternetConnectionCheckActionPayload } from './internet-connection-check-action-payload';
 
 export class InternetConnectionCheck {
   static get action() {
-    return createAction('INTERNET_CONNECTION_CHECK')<InternetConnectionCheckActionPayload>();
+    return createAction('INTERNET_CONNECTION_CHECK')<IInternetConnectionCheckActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: InternetState, { payload }: ReturnType<typeof InternetConnectionCheck.action>) => {
+    return produce((draft: IInternetState, { payload }: ReturnType<typeof InternetConnectionCheck.action>) => {
       draft.isInternetConnected = payload.state;
       return draft;
     });

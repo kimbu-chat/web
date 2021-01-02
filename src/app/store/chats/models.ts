@@ -28,8 +28,8 @@ export interface IGroupChat {
 }
 
 export enum InterlocutorType {
-  USER = 1,
-  GROUP_CHAT = 2,
+  User = 1,
+  GroupChat = 2,
 }
 
 export interface IGetChatAudiosHTTPRequest {

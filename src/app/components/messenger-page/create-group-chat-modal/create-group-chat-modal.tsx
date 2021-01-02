@@ -27,8 +27,8 @@ namespace CreateGroupChatModalNS {
   }
 
   export enum GroupChatCreationStage {
-    userSelect = 'userSelect',
-    groupChatCreation = 'groupChatCreation',
+    UserSelect = 'userSelect',
+    GroupChatCreation = 'groupChatCreation',
   }
 }
 
@@ -48,7 +48,7 @@ export const CreateGroupChat = React.memo(({ onClose, preSelectedUserIds }: Crea
   const submitGroupChatCreation = useActionWithDeferred(ChatActions.createGroupChat);
 
   const [selectedUserIds, setSelectedUserIds] = useState<number[]>(preSelectedUserIds || []);
-  const [currentStage, setCurrrentStage] = useState(CreateGroupChatModalNS.GroupChatCreationStage.userSelect);
+  const [currentStage, setCurrrentStage] = useState(CreateGroupChatModalNS.GroupChatCreationStage.UserSelect);
   const [avatarData, setAvatarData] = useState<IAvatarSelectedData | null>(null);
   const [avararUploadResponse, setAvatarUploadResponse] = useState<IUploadAvatarResponse | null>(null);
   const [imageUrl, setImageUrl] = useState<string>('');
@@ -151,7 +151,7 @@ export const CreateGroupChat = React.memo(({ onClose, preSelectedUserIds }: Crea
   }, [avararUploadResponse, description, name, onClose]);
 
   const goToGroupChatCreationStage = useCallback(() => {
-    setCurrrentStage(CreateGroupChatModalNS.GroupChatCreationStage.groupChatCreation);
+    setCurrrentStage(CreateGroupChatModalNS.GroupChatCreationStage.GroupChatCreation);
   }, [setCurrrentStage]);
 
   return (
@@ -159,7 +159,7 @@ export const CreateGroupChat = React.memo(({ onClose, preSelectedUserIds }: Crea
       <WithBackground onBackgroundClick={onClose}>
         <Modal
           title={
-            currentStage === CreateGroupChatModalNS.GroupChatCreationStage.userSelect ? (
+            currentStage === CreateGroupChatModalNS.GroupChatCreationStage.UserSelect ? (
               <div className='create-group-chat__heading'>
                 <div className='create-group-chat__title'>{t('createGroupChatModal.add_members')}</div>
                 <div className='create-group-chat__selected-count'>{`${selectedUserIds.length} / 1000`}</div>
@@ -171,7 +171,7 @@ export const CreateGroupChat = React.memo(({ onClose, preSelectedUserIds }: Crea
           closeModal={onClose}
           contents={
             <>
-              {currentStage === CreateGroupChatModalNS.GroupChatCreationStage.userSelect && (
+              {currentStage === CreateGroupChatModalNS.GroupChatCreationStage.UserSelect && (
                 <div className='create-group-chat__select-friends'>
                   <SearchBox onChange={(e) => searchFriends(e.target.value)} />
                   <InfiniteScroll className='create-group-chat__friends-block' onReachExtreme={loadMore} hasMore={hasMoreFriends} isLoading={friendsLoading}>
@@ -182,7 +182,7 @@ export const CreateGroupChat = React.memo(({ onClose, preSelectedUserIds }: Crea
                 </div>
               )}
 
-              {currentStage === CreateGroupChatModalNS.GroupChatCreationStage.groupChatCreation && (
+              {currentStage === CreateGroupChatModalNS.GroupChatCreationStage.GroupChatCreation && (
                 <div className='create-group-chat'>
                   <div className='create-group-chat__change-photo'>
                     <div className='create-group-chat__current-photo-wrapper'>
@@ -222,7 +222,7 @@ export const CreateGroupChat = React.memo(({ onClose, preSelectedUserIds }: Crea
             {
               children: t('createGroupChatModal.next'),
               style: {
-                display: currentStage === CreateGroupChatModalNS.GroupChatCreationStage.userSelect ? 'block' : 'none',
+                display: currentStage === CreateGroupChatModalNS.GroupChatCreationStage.UserSelect ? 'block' : 'none',
               },
               position: 'left',
               disabled: selectedUserIds.length === 0,
@@ -234,7 +234,7 @@ export const CreateGroupChat = React.memo(({ onClose, preSelectedUserIds }: Crea
             {
               children: t('createGroupChatModal.create_groupChat'),
               style: {
-                display: currentStage === CreateGroupChatModalNS.GroupChatCreationStage.groupChatCreation ? 'block' : 'none',
+                display: currentStage === CreateGroupChatModalNS.GroupChatCreationStage.GroupChatCreation ? 'block' : 'none',
               },
               disabled: name.length === 0 || !uploadEnded,
               position: 'left',

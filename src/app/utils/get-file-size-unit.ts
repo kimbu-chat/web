@@ -1,4 +1,4 @@
-export const getRawAttachmentsizeUnit = (byteSize: number) => {
+export const getRawAttachmentSizeUnit = (byteSize: number) => {
   let name = '';
   if (byteSize > 1048576) {
     name = `${(byteSize / 1048576).toFixed(2)} Mb`;

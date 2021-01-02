@@ -11,11 +11,11 @@ export class ChangeActiveDeviceId {
 
   static get reducer() {
     return produce((draft: ICallState, { payload }: ReturnType<typeof ChangeActiveDeviceId.action>) => {
-      if (payload.kind === InputType.videoInput) {
+      if (payload.kind === InputType.VideoInput) {
         draft.videoConstraints.deviceId = payload.deviceId;
       }
 
-      if (payload.kind === InputType.audioInput) {
+      if (payload.kind === InputType.AudioInput) {
         draft.audioConstraints.deviceId = payload.deviceId;
       }
 

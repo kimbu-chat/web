@@ -18,7 +18,6 @@ import { ResetReplyToMessage } from './features/reply-to-message/reset-reply-to-
 import { SubmitEditMessage } from './features/edit-message/submit-edit-message';
 import { SubmitEditMessageSuccess } from './features/edit-message/sumbit-edit-message-success';
 import { getMessagesChatIndex } from './selectors';
-import { MessagesDeletedFromEvent } from './features/delete-message/messages-deleted-from-event';
 import { ClearChatHistorySuccess } from './features/clear-history/clear-chat-history-success';
 
 const initialState: IMessagesState = {
@@ -42,7 +41,6 @@ const messages = createReducer<IMessagesState>(initialState)
   .handleAction(SubmitEditMessageSuccess.action, SubmitEditMessageSuccess.reducer)
   .handleAction(ResetReplyToMessage.action, ResetReplyToMessage.reducer)
   .handleAction(ResetEditMessage.action, ResetEditMessage.reducer)
-  .handleAction(MessagesDeletedFromEvent.action, MessagesDeletedFromEvent.reducer)
   .handleAction(ClearChatHistorySuccess.action, ClearChatHistorySuccess.reducer)
   .handleAction(
     ChatActions.changeSelectedChat,

@@ -15,12 +15,12 @@ import { SelectMessage } from './features/select-message/select-message';
 import { SubmitEditMessage } from './features/edit-message/submit-edit-message';
 import { SubmitEditMessageSuccess } from './features/edit-message/sumbit-edit-message-success';
 import { ResetSelectedMessages } from './features/select-message/reset-selected-messages';
-import { MessagesDeletedFromEvent } from './features/delete-message/messages-deleted-from-event';
 import { ClearChatHistory } from './features/clear-history/clear-chat-history';
 import { ClearChatHistorySuccess } from './features/clear-history/clear-chat-history-success';
 import { MessageCreatedEventHandler } from './socket-events/message-created/message-created-event-handler';
 import { MessageReadEventHandler } from './socket-events/message-read/message-read-event-handler';
 import { MessageEditedEventHandler } from './socket-events/message-edited/message-edited-event-handler';
+import { MessagesDeletedIntegrationEventHandler } from './socket-events/message-deleted/messages-deleted-integration-event-handler';
 
 export namespace MessageActions {
   export const getMessages = GetMessages.action;
@@ -40,7 +40,6 @@ export namespace MessageActions {
   export const submitEditMessage = SubmitEditMessage.action;
   export const submitEditMessageSuccess = SubmitEditMessageSuccess.action;
   export const resetEditMessage = ResetEditMessage.action;
-  export const messagesDeletedFromEvent = MessagesDeletedFromEvent.action;
   export const clearChatHistory = ClearChatHistory.action;
   export const clearChatHistorySuccess = ClearChatHistorySuccess.action;
 
@@ -48,4 +47,5 @@ export namespace MessageActions {
   export const messageCreatedEventHandler = MessageCreatedEventHandler.action;
   export const messageReadEventHandler = MessageReadEventHandler.action;
   export const messageEditedEventHandler = MessageEditedEventHandler.action;
+  export const messagesDeletedIntegrationEventHandler = MessagesDeletedIntegrationEventHandler.action;
 }

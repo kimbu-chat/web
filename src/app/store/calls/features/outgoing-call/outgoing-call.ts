@@ -16,11 +16,11 @@ import { getAndSendUserMedia, getMediaDevicesList } from '../../utils/user-media
 import { CancelCall } from '../cancel-call/cancel-call';
 import { ChangeActiveDeviceId } from '../change-active-device-id/change-active-device-id';
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
-import { InterlocutorAcceptedCall } from '../interlocutor-accepted-call/interlocutor-accepted-call';
+import { InterlocutorAcceptedCallEventHandler } from '../../socket-events/interlocutor-accepted-call/interlocutor-accepted-call-event-handler';
 import { TimeoutCall } from '../timeout-call/timeout-call';
 import { IOutgoingCallActionPayload } from './outgoing-call-action-payload';
 import { InputType } from '../../common/enums/input-type';
-import { CallEnded } from '../end-call/call-ended';
+import { CallEndedEventHandler } from '../../socket-events/call-ended/call-ended-event-handler';
 import { InterlocutorBusy } from '../interlocutor-busy/interlocutor-busy';
 import { peerWatcher } from '../../utils/peer-watcher';
 import { setIsRenegotiationAccepted } from '../../utils/glare-utils';
@@ -109,9 +109,9 @@ export class OutgoingCall {
 
       const { timeout } = yield race({
         canceled: take(CancelCall.action),
-        interlocutorCanceled: take(CallEnded.action),
+        interlocutorCanceled: take(CallEndedEventHandler.action),
         declined: take(DeclineCall.action),
-        answered: take(InterlocutorAcceptedCall.action),
+        answered: take(InterlocutorAcceptedCallEventHandler.action),
         timeout: delay(15000),
       });
 

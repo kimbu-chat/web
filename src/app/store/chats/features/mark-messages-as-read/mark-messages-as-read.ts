@@ -15,6 +15,7 @@ export class MarkMessagesAsRead {
 
   static get saga() {
     return function* (action: ReturnType<typeof MarkMessagesAsRead.action>): SagaIterator {
+      console.log('MarkMessagesAsRead saga');
       MarkMessagesAsRead.httpRequest.call(yield call(() => MarkMessagesAsRead.httpRequest.generator(action.payload)));
 
       yield put(MarkMessagesAsReadSuccess.action(action.payload));

@@ -6,7 +6,7 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { getChatArrayIndex } from 'app/store/chats/selectors';
+import { getChatListChatIndex } from 'app/store/chats/selectors';
 import { IAudioAttachment, IChatsState, IGetChatAudiosHTTPRequest } from '../../models';
 import { IGetAudioAttachmentsActionPayload } from './get-audio-attachments-action-payload';
 import { GetAudioAttachmentsSuccess } from './get-audio-attachments-success';
@@ -20,7 +20,7 @@ export class GetAudioAttachments {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof GetAudioAttachments.action>) => {
       const { chatId } = payload;
 
-      const chatIndex: number = getChatArrayIndex(chatId, draft);
+      const chatIndex: number = getChatListChatIndex(chatId, draft);
 
       if (chatIndex >= 0) {
         draft.chats[chatIndex].audios.loading = true;

@@ -8,7 +8,7 @@ import { GotDevicesInfo } from '../features/got-devices-info/got-devices-info';
 import { SwitchDevice } from '../features/switch-device/switch-device';
 import { InputType } from '../common/enums/input-type';
 import { CancelCall } from '../features/cancel-call/cancel-call';
-import { CallEnded } from '../features/end-call/call-ended';
+import { CallEndedEventHandler } from '../socket-events/call-ended/call-ended-event-handler';
 
 function createDeviceUpdateChannel() {
   return eventChannel((emit) => {
@@ -42,7 +42,7 @@ export function* deviceUpdateWatcher() {
   });
 
   yield race({
-    callEnded: take(CallEnded.action),
+    callEnded: take(CallEndedEventHandler.action),
     callCanceled: take(CancelCall.action),
     callDeclined: take(DeclineCall.action),
   });

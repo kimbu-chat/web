@@ -1,7 +1,7 @@
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { createAction } from 'typesafe-actions';
-import { getChatArrayIndex } from 'app/store/chats/selectors';
+import { getChatListChatIndex } from 'app/store/chats/selectors';
 import { IChatsState } from '../../models';
 import { removeUploadingAttachment, uploadingAttachments } from '../../upload-qeue';
 import { IRemoveAttachmentctionPayload } from './remove-attachment-action-payload';
@@ -15,7 +15,7 @@ export class RemoveAttachment {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof RemoveAttachment.action>) => {
       const { chatId, attachmentId } = payload;
 
-      const chatIndex: number = getChatArrayIndex(chatId, draft);
+      const chatIndex: number = getChatListChatIndex(chatId, draft);
 
       if (chatIndex >= 0) {
         if (!draft.chats[chatIndex].attachmentsToSend) {

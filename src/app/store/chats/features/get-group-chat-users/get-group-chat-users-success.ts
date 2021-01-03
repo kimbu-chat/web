@@ -1,7 +1,7 @@
 import produce from 'immer';
 import { unionBy } from 'lodash';
 import { createAction } from 'typesafe-actions';
-import { getChatArrayIndex } from 'app/store/chats/selectors';
+import { getChatListChatIndex } from 'app/store/chats/selectors';
 import { IChatsState } from '../../models';
 import { IGetGroupChatUsersSuccessActionPayload } from './get-group-chat-users-success-action-payload';
 
@@ -14,7 +14,7 @@ export class GetGroupChatUsersSuccess {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof GetGroupChatUsersSuccess.action>) => {
       const { chatId, isFromSearch, isFromScroll, users, hasMore } = payload;
 
-      const chatIndex: number = getChatArrayIndex(chatId, draft);
+      const chatIndex: number = getChatListChatIndex(chatId, draft);
 
       if (chatIndex > -1) {
         draft.chats[chatIndex].members.hasMore = hasMore;

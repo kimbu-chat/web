@@ -1,7 +1,7 @@
 import produce from 'immer';
 import { createReducer } from 'typesafe-actions';
 import { MESSAGES_LIMIT } from 'utils/pagination-limits';
-import { MessageState, IMessagesState } from './models';
+import { IMessagesState } from './models';
 import { ChatActions } from '../chats/actions';
 import { GetMessages } from './features/get-messages/get-messages';
 import { CreateMessageSuccess } from './features/create-message/create-message-success';
@@ -13,13 +13,11 @@ import { ReplyToMessage } from './features/reply-to-message/reply-to-message';
 import { ResetSelectedMessages } from './features/select-message/reset-selected-messages';
 import { SelectMessage } from './features/select-message/select-message';
 import { EditMessage } from './features/edit-message/edit-message';
-import { MessageEdited } from './features/message-edited/message-edited';
 import { ResetEditMessage } from './features/edit-message/reset-edit-message';
 import { ResetReplyToMessage } from './features/reply-to-message/reset-reply-to-message';
 import { SubmitEditMessage } from './features/edit-message/submit-edit-message';
 import { SubmitEditMessageSuccess } from './features/edit-message/sumbit-edit-message-success';
-import { getChatIndex } from './selectors';
-import { MessagesDeletedFromEvent } from './features/delete-message/messages-deleted-from-event';
+import { getMessagesChatIndex } from './selectors';
 import { ClearChatHistorySuccess } from './features/clear-history/clear-chat-history-success';
 
 const initialState: IMessagesState = {
@@ -43,8 +41,6 @@ const messages = createReducer<IMessagesState>(initialState)
   .handleAction(SubmitEditMessageSuccess.action, SubmitEditMessageSuccess.reducer)
   .handleAction(ResetReplyToMessage.action, ResetReplyToMessage.reducer)
   .handleAction(ResetEditMessage.action, ResetEditMessage.reducer)
-  .handleAction(MessageEdited.action, MessageEdited.reducer)
-  .handleAction(MessagesDeletedFromEvent.action, MessagesDeletedFromEvent.reducer)
   .handleAction(ClearChatHistorySuccess.action, ClearChatHistorySuccess.reducer)
   .handleAction(
     ChatActions.changeSelectedChat,
@@ -52,7 +48,7 @@ const messages = createReducer<IMessagesState>(initialState)
       const { oldChatId } = payload;
 
       if (oldChatId) {
-        const chatIndex = getChatIndex(draft, oldChatId);
+        const chatIndex = getMessagesChatIndex(draft, oldChatId);
 
         if (draft.messages[chatIndex] && draft.messages[chatIndex].messages.length > MESSAGES_LIMIT) {
           draft.messages[chatIndex].messages = draft.messages[chatIndex].messages.slice(0, 30);
@@ -70,25 +66,6 @@ const messages = createReducer<IMessagesState>(initialState)
 
       draft.messageToReply = undefined;
       draft.messageToEdit = undefined;
-
-      return draft;
-    }),
-  )
-  .handleAction(
-    ChatActions.changeInterlocutorLastReadMessageId,
-    produce((draft: IMessagesState, { payload }: ReturnType<typeof ChatActions.changeInterlocutorLastReadMessageId>) => {
-      const { lastReadMessageId, chatId } = payload;
-
-      const chatIndex = getChatIndex(draft, chatId);
-
-      if (chatIndex !== -1) {
-        draft.messages[chatIndex].messages.map((message) => {
-          if (message.id <= lastReadMessageId) {
-            message.state = MessageState.READ;
-          }
-          return message;
-        });
-      }
 
       return draft;
     }),

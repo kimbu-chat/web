@@ -22,6 +22,6 @@ export const getLastMessageByChatId = (messagesChatId: number) => (state: RootSt
 export const checkIfChatExists = (state: IMessagesState, chatId: number): boolean =>
   chatId !== null && state.messages && state.messages.length > 0 && state?.messages?.findIndex((x) => x.chatId === chatId) !== -1;
 
-export const getChatIndex = (state: IMessagesState, chatId: number): number => state?.messages?.findIndex((x) => x.chatId === chatId);
+export const getMessagesChatIndex = (state: IMessagesState, chatId: number): number => state?.messages?.findIndex((x) => x.chatId === chatId);
 
 export const getMessage = (messages: IMessage[], messageId: number) => messages.find(({ id }) => id === messageId);

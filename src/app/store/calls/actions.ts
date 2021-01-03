@@ -1,9 +1,9 @@
-import { Renegotiation } from './features/renegotiation/renegotiation';
+import { RenegotiationSentEventHandler } from './socket-events/renegotiation-sent/renegotiation-sent-event-handler';
 import { AcceptCall } from './features/accept-call/accept-call';
-import { CallEnded } from './features/end-call/call-ended';
+import { CallEndedEventHandler } from './socket-events/call-ended/call-ended-event-handler';
 import { CancelCall } from './features/cancel-call/cancel-call';
 import { CancelCallSuccess } from './features/cancel-call/cancel-call-success';
-import { Candidate } from './features/candidate/candidate';
+import { IceCandidateSentEventHandler } from './socket-events/ice-candidate-sent/ice-candidate-sent-event-handler';
 import { ChangeActiveDeviceId } from './features/change-active-device-id/change-active-device-id';
 import { ChangeMediaStatus } from './features/change-user-media-status/change-media-status';
 import { ChangeScreenShareStatus } from './features/change-screen-share-status/change-screen-share-status';
@@ -15,8 +15,8 @@ import { EndCall } from './features/end-call/end-call';
 import { GetCalls } from './features/get-calls/get-calls';
 import { GetCallsSuccess } from './features/get-calls/get-calls-success';
 import { GotDevicesInfo } from './features/got-devices-info/got-devices-info';
-import { IncomingCall } from './features/incoming-call/incoming-call';
-import { InterlocutorAcceptedCall } from './features/interlocutor-accepted-call/interlocutor-accepted-call';
+import { IncomingCallEventHandler } from './socket-events/incoming-call/incoming-call-event-handler';
+import { InterlocutorAcceptedCallEventHandler } from './socket-events/interlocutor-accepted-call/interlocutor-accepted-call-event-handler';
 import { InterlocutorBusy } from './features/interlocutor-busy/interlocutor-busy';
 import { OutgoingCall } from './features/outgoing-call/outgoing-call';
 import { SwitchDevice } from './features/switch-device/switch-device';
@@ -25,7 +25,7 @@ import { AcceptCallSuccess } from './features/accept-call/accept-call-success';
 import { OpenAudioStatus } from './features/change-user-media-status/open-audio-status';
 import { OpenVideoStatus } from './features/change-user-media-status/open-video-status';
 import { OpenScreenShareStatus } from './features/change-screen-share-status/open-screen-share-status';
-import { RenegotiationAccepted } from './features/renegotiation/renegotiation-accepted';
+import { RenegotiationAcceptedEventHandler } from './socket-events/renegotiation-accepted/renegotiation-accepted-event-handler';
 import { CloseInterlocutorVideoStatus } from './features/change-interlocutor-media-status/close-interlocutor-video-status';
 import { OpenInterlocutorVideoStatus } from './features/change-interlocutor-media-status/open-interlocutor-video-status';
 
@@ -33,18 +33,14 @@ export namespace CallActions {
   export const getCallsAction = GetCalls.action;
   export const getCallsSuccessAction = GetCallsSuccess.action;
   export const outgoingCallAction = OutgoingCall.action;
-  export const incomingCallAction = IncomingCall.action;
   export const changeActiveDeviceIdAction = ChangeActiveDeviceId.action;
   export const interlocutorBusyAction = InterlocutorBusy.action;
   export const cancelCallAction = CancelCall.action;
   export const cancelCallSuccessAction = CancelCallSuccess.action;
   export const declineCallAction = DeclineCall.action;
   export const endCallAction = EndCall.action;
-  export const callEndedAction = CallEnded.action;
   export const timeoutCallAction = TimeoutCall.action;
   export const acceptCallAction = AcceptCall.action;
-  export const interlocutorAcceptedCallAction = InterlocutorAcceptedCall.action;
-  export const candidateAction = Candidate.action;
   export const changeMediaStatusAction = ChangeMediaStatus.action;
   export const changeScreenShareStatusAction = ChangeScreenShareStatus.action;
   export const closeScreenShareStatusAction = CloseScreenShareStatus.action;
@@ -56,8 +52,14 @@ export namespace CallActions {
   export const gotDevicesInfoAction = GotDevicesInfo.action;
   export const switchDeviceAction = SwitchDevice.action;
   export const acceptCallSuccessAction = AcceptCallSuccess.action;
-  export const renegotiationAction = Renegotiation.action;
-  export const renegotiationAcceptedAction = RenegotiationAccepted.action;
   export const closeInterlocutorVideoStatusAction = CloseInterlocutorVideoStatus.action;
   export const openInterlocutorVideoStatusAction = OpenInterlocutorVideoStatus.action;
+
+  // socket-events
+  export const incomingCallEventHandler = IncomingCallEventHandler.action;
+  export const renegotiationSentEventHandler = RenegotiationSentEventHandler.action;
+  export const renegotiationAcceptedEventHandler = RenegotiationAcceptedEventHandler.action;
+  export const interlocutorAcceptedCallEventHandler = InterlocutorAcceptedCallEventHandler.action;
+  export const iceCandidateSentEventHandler = IceCandidateSentEventHandler.action;
+  export const callEndedEventHandler = CallEndedEventHandler.action;
 }

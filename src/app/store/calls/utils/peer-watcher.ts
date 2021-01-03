@@ -8,15 +8,15 @@ import { HttpRequestMethod } from 'app/store/common/models';
 import { IUserPreview } from 'app/store/my-profile/models';
 
 import { AxiosResponse } from 'axios';
-import { RenegotiationAccepted } from '../features/renegotiation/renegotiation-accepted';
+import { RenegotiationAcceptedEventHandler } from '../socket-events/renegotiation-accepted/renegotiation-accepted-event-handler';
 import { OpenInterlocutorVideoStatus } from '../features/change-interlocutor-media-status/open-interlocutor-video-status';
-import { InterlocutorAcceptedCall } from '../features/interlocutor-accepted-call/interlocutor-accepted-call';
+import { InterlocutorAcceptedCallEventHandler } from '../socket-events/interlocutor-accepted-call/interlocutor-accepted-call-event-handler';
 import { AcceptCallSuccess } from '../features/accept-call/accept-call-success';
 import { ICandidateApiRequest, IRenegociateApiRequest } from '../models';
 import { assignInterlocutorAudioTrack, assignInterlocutorVideoTrack, interlocutorVideoTrack } from './user-media';
 import { CancelCall } from '../features/cancel-call/cancel-call';
 import { DeclineCall } from '../features/decline-call/decline-call';
-import { CallEnded } from '../features/end-call/call-ended';
+import { CallEndedEventHandler } from '../socket-events/call-ended/call-ended-event-handler';
 import { CloseInterlocutorVideoStatus } from '../features/change-interlocutor-media-status/close-interlocutor-video-status';
 import { isRenegotiationAccepted, setIsRenegotiationAccepted, setMakingOffer } from './glare-utils';
 
@@ -83,7 +83,7 @@ export function* peerWatcher() {
         }
 
         if (!isRenegotiationAccepted) {
-          yield race([take(RenegotiationAccepted.action), take(InterlocutorAcceptedCall.action)]);
+          yield race([take(RenegotiationAcceptedEventHandler.action), take(InterlocutorAcceptedCallEventHandler.action)]);
         }
 
         if (myCandidate) {
@@ -155,7 +155,7 @@ export function* peerWatcher() {
   });
 
   yield race({
-    callEnded: take(CallEnded.action),
+    callEnded: take(CallEndedEventHandler.action),
     callCanceled: take(CancelCall.action),
     callDeclined: take(DeclineCall.action),
   });

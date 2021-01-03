@@ -15,11 +15,11 @@ export const TextTyping = React.memo(() => {
 
   const changeTypingStrategy = useActionWithDispatch(SettingsActions.changeTypingStrategyAction);
   const setNle = useCallback(() => {
-    changeTypingStrategy({ strategy: TypingStrategy.nle });
+    changeTypingStrategy({ strategy: TypingStrategy.Nle });
   }, []);
 
   const setNlce = useCallback(() => {
-    changeTypingStrategy({ strategy: TypingStrategy.nlce });
+    changeTypingStrategy({ strategy: TypingStrategy.Nlce });
   }, []);
 
   return (
@@ -29,14 +29,14 @@ export const TextTyping = React.memo(() => {
           groupName='text-typing'
           nestingLevel={0}
           onClick={setNlce}
-          defaultChecked={currentStrategy === TypingStrategy.nlce}
+          defaultChecked={currentStrategy === TypingStrategy.Nlce}
           title={t('textTyping.nlce')}
         />
         <RadioBox
           groupName='text-typing'
           nestingLevel={0}
           onClick={setNle}
-          defaultChecked={currentStrategy === TypingStrategy.nle}
+          defaultChecked={currentStrategy === TypingStrategy.Nle}
           title={t('textTyping.nle')}
         />
       </form>

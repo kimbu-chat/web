@@ -1,7 +1,7 @@
 import produce from 'immer';
 import { unionBy } from 'lodash';
 import { createAction } from 'typesafe-actions';
-import { checkIfChatExists, getChatIndex } from 'app/store/messages/selectors';
+import { checkIfChatExists, getMessagesChatIndex } from 'app/store/messages/selectors';
 import { IMessagesState } from '../../models';
 import { IGetMessagesSuccessActionPayload } from './get-messages-success-action-payload';
 
@@ -23,7 +23,7 @@ export class GetMessagesSuccess {
           messages,
         });
       } else {
-        const chatIndex = getChatIndex(draft, chatId);
+        const chatIndex = getMessagesChatIndex(draft, chatId);
 
         draft.messages[chatIndex].hasMoreMessages = hasMoreMessages;
 

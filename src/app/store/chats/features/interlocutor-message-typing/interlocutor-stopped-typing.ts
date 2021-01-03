@@ -1,12 +1,12 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { checkChatExists, getChatArrayIndex } from 'app/store/chats/selectors';
+import { checkChatExists, getChatListChatIndex } from 'app/store/chats/selectors';
 import { IChatsState } from '../../models';
-import { InterlocutorStoppedTypingActionPayload } from './interlocutor-stopped-typing-action-payload';
+import { IInterlocutorStoppedTypingActionPayload } from './interlocutor-stopped-typing-action-payload';
 
 export class InterlocutorStoppedTyping {
   static get action() {
-    return createAction('INTERLOCUTOR_STOPPED_TYPING')<InterlocutorStoppedTypingActionPayload>();
+    return createAction('INTERLOCUTOR_STOPPED_TYPING')<IInterlocutorStoppedTypingActionPayload>();
   }
 
   static get reducer() {
@@ -19,7 +19,7 @@ export class InterlocutorStoppedTyping {
         return draft;
       }
 
-      const chatIndex: number = getChatArrayIndex(chatId, draft);
+      const chatIndex: number = getChatListChatIndex(chatId, draft);
 
       draft.chats[chatIndex].timeoutId = undefined;
       draft.chats[chatIndex].typingInterlocutors = draft.chats[chatIndex].typingInterlocutors?.filter((user) => user.fullName !== interlocutorName);

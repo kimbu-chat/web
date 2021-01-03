@@ -15,11 +15,11 @@ export class SwitchDevice {
 
   static get reducer() {
     return produce((draft: ICallState, { payload }: ReturnType<typeof SwitchDevice.action>) => {
-      if (payload.kind === InputType.videoInput) {
+      if (payload.kind === InputType.VideoInput) {
         draft.videoConstraints.deviceId = payload.deviceId;
       }
 
-      if (payload.kind === InputType.audioInput) {
+      if (payload.kind === InputType.AudioInput) {
         draft.audioConstraints.deviceId = payload.deviceId;
       }
 
@@ -32,7 +32,7 @@ export class SwitchDevice {
       const videoConstraints = yield select(getVideoConstraints);
       const audioConstraints = yield select(getAudioConstraints);
 
-      if (action.payload.kind === InputType.audioInput && audioConstraints.isOpened) {
+      if (action.payload.kind === InputType.AudioInput && audioConstraints.isOpened) {
         yield call(getUserAudio, { audio: audioConstraints });
 
         if (tracks.audioTrack) {
@@ -40,7 +40,7 @@ export class SwitchDevice {
         }
       }
 
-      if (action.payload.kind === InputType.videoInput && videoConstraints.isOpened) {
+      if (action.payload.kind === InputType.VideoInput && videoConstraints.isOpened) {
         yield call(getUserVideo, { video: videoConstraints });
 
         if (tracks.videoTrack) {

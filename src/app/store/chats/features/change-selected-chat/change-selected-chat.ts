@@ -60,7 +60,7 @@ export class ChangeSelectedChat {
             ).data;
           }
 
-          if (chatIdDetails?.interlocutorType === InterlocutorType.GROUP_CHAT) {
+          if (chatIdDetails?.interlocutorType === InterlocutorType.GroupChat) {
             if (data) {
               const chat = data as IChat;
 
@@ -94,7 +94,7 @@ export class ChangeSelectedChat {
             }
           }
 
-          if (chatIdDetails?.interlocutorType === InterlocutorType.USER && chatIdDetails?.userId) {
+          if (chatIdDetails?.interlocutorType === InterlocutorType.User && chatIdDetails?.userId) {
             if (!(data || user)) {
               user = yield select(getFriendById(chatIdDetails.userId));
             }
@@ -105,7 +105,7 @@ export class ChangeSelectedChat {
                 draftMessage: '',
                 lastMessage: data?.lastMessage,
                 isMuted: data?.isMuted || false,
-                interlocutorType: InterlocutorType.USER,
+                interlocutorType: InterlocutorType.User,
                 unreadMessagesCount: data?.unreadMessagesCount || 0,
                 interlocutorLastReadMessageId: data?.interlocutorLastReadMessageId || 0,
                 interlocutor: (data?.interlocutor || user) as IUserPreview,

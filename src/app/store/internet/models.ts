@@ -1,3 +1,3 @@
-export interface InternetState {
+export interface IInternetState {
   isInternetConnected: boolean;
 }

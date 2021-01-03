@@ -15,20 +15,20 @@ export const LanguageSettings = React.memo(() => {
 
   const changeLanguage = useActionWithDispatch(SettingsActions.changeLanguageAction);
   const setEnLang = useCallback(() => {
-    i18n?.changeLanguage(Langs.en);
-    changeLanguage({ language: Langs.en });
+    i18n?.changeLanguage(Langs.En);
+    changeLanguage({ language: Langs.En });
   }, []);
 
   const setRuLang = useCallback(() => {
-    i18n?.changeLanguage(Langs.ru);
-    changeLanguage({ language: Langs.ru });
+    i18n?.changeLanguage(Langs.Ru);
+    changeLanguage({ language: Langs.Ru });
   }, []);
 
   return (
     <div className='language-settings'>
       <form>
-        <RadioBox defaultChecked={currentLanguage === Langs.en} groupName='language' nestingLevel={0} onClick={setEnLang} title='English' />
-        <RadioBox defaultChecked={currentLanguage === Langs.ru} groupName='language' nestingLevel={0} onClick={setRuLang} title='Русский' />
+        <RadioBox defaultChecked={currentLanguage === Langs.En} groupName='language' nestingLevel={0} onClick={setEnLang} title='English' />
+        <RadioBox defaultChecked={currentLanguage === Langs.Ru} groupName='language' nestingLevel={0} onClick={setRuLang} title='Русский' />
       </form>
     </div>
   );

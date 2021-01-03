@@ -8,7 +8,7 @@ import { GotDevicesInfo } from '../features/got-devices-info/got-devices-info';
 import { SwitchDevice } from '../features/switch-device/switch-device';
 import { InputType } from '../common/enums/input-type';
 import { CancelCall } from '../features/cancel-call/cancel-call';
-import { CallEnded } from '../features/end-call/call-ended';
+import { CallEndedEventHandler } from '../socket-events/call-ended/call-ended-event-handler';
 
 function createDeviceUpdateChannel() {
   return eventChannel((emit) => {
@@ -28,21 +28,21 @@ export function* deviceUpdateWatcher() {
   const deviceUpdateChannel = createDeviceUpdateChannel();
 
   const deviceUpdateTask = yield takeEvery(deviceUpdateChannel, function* () {
-    const audioDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.audioInput);
-    const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.videoInput);
+    const audioDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.AudioInput);
+    const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.VideoInput);
     const prevAudioDevices = yield select(getAudioDevices);
 
     if (prevAudioDevices.length === 0) {
-      yield put(SwitchDevice.action({ kind: InputType.audioInput, deviceId: audioDevices[0].deviceId }));
-      yield put(ChangeMediaStatus.action({ kind: InputType.audioInput }));
+      yield put(SwitchDevice.action({ kind: InputType.AudioInput, deviceId: audioDevices[0].deviceId }));
+      yield put(ChangeMediaStatus.action({ kind: InputType.AudioInput }));
     }
 
-    yield put(GotDevicesInfo.action({ kind: InputType.audioInput, devices: audioDevices }));
-    yield put(GotDevicesInfo.action({ kind: InputType.videoInput, devices: videoDevices }));
+    yield put(GotDevicesInfo.action({ kind: InputType.AudioInput, devices: audioDevices }));
+    yield put(GotDevicesInfo.action({ kind: InputType.VideoInput, devices: videoDevices }));
   });
 
   yield race({
-    callEnded: take(CallEnded.action),
+    callEnded: take(CallEndedEventHandler.action),
     callCanceled: take(CancelCall.action),
     callDeclined: take(DeclineCall.action),
   });

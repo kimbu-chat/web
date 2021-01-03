@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { getChatIndex, getMessage } from 'app/store/messages/selectors';
+import { getMessagesChatIndex, getMessage } from 'app/store/messages/selectors';
 import { IReplyToMessageActionPayload } from './reply-to-message-action-payload';
 import { IMessagesState } from '../../models';
 
@@ -13,7 +13,7 @@ export class ReplyToMessage {
     return produce((draft: IMessagesState, { payload }: ReturnType<typeof ReplyToMessage.action>) => {
       draft.selectedMessageIds = [];
 
-      const chatIndex = getChatIndex(draft, payload.chatId);
+      const chatIndex = getMessagesChatIndex(draft, payload.chatId);
 
       const message = getMessage(draft.messages[chatIndex].messages, payload.messageId);
       message!.isSelected = false;

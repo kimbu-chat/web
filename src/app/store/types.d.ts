@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { compose } from 'redux';
 import { RootAction } from './root-action';
 

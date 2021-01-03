@@ -46,11 +46,11 @@ export interface IGroupChatMemberAddedSystemMessageContent extends ISystemMessag
 }
 
 export enum FileType {
-  audio = 'Audio',
-  raw = 'Raw',
-  picture = 'Picture',
-  voice = 'Voice',
-  video = 'Video',
+  Audio = 'Audio',
+  Raw = 'Raw',
+  Picture = 'Picture',
+  Voice = 'Voice',
+  Video = 'Video',
 }
 
 export interface IMessage {
@@ -58,12 +58,12 @@ export interface IMessage {
   needToShowCreator?: boolean;
   isEdited?: boolean;
   userCreator: IUserPreview;
-  creationDateTime?: Date;
+  creationDateTime: Date;
   text: string;
   attachmentsJson?: string;
-  systemMessageType?: SystemMessageType;
+  systemMessageType: SystemMessageType;
   state?: MessageState;
-  chatId?: number;
+  chatId: number;
   dateSeparator?: string;
   isSelected?: boolean;
   needToShowDateSeparator?: boolean;

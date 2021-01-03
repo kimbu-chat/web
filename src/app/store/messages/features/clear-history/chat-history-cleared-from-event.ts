@@ -1,7 +1,7 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { IMessagesState } from '../../models';
-import { getChatIndex } from '../../selectors';
+import { getMessagesChatIndex } from '../../selectors';
 import { IChatHistoryClearedFromEventActionPayload } from './chat-history-cleared-from-event-action-payload';
 
 export class ChatHistoryClearedFromEvent {
@@ -14,7 +14,7 @@ export class ChatHistoryClearedFromEvent {
       const { chatId, onlyForUserInitiator } = payload;
 
       if (onlyForUserInitiator) {
-        const chatIndex = getChatIndex(draft, chatId);
+        const chatIndex = getMessagesChatIndex(draft, chatId);
 
         if (chatIndex >= 0) {
           draft.messages[chatIndex].messages = [];

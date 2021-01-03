@@ -28,8 +28,8 @@ export interface IGroupChat {
 }
 
 export enum InterlocutorType {
-  USER = 1,
-  GROUP_CHAT = 2,
+  User = 1,
+  GroupChat = 2,
 }
 
 export interface IGetChatAudiosHTTPRequest {
@@ -111,17 +111,20 @@ export interface IChat {
   interlocutor?: IUserPreview;
   unreadMessagesCount?: number;
   interlocutorLastReadMessageId?: number;
-  draftMessage: string;
+  draftMessage?: string;
   timeoutId?: NodeJS.Timeout;
   typingInterlocutors?: { timeoutId: NodeJS.Timeout; fullName: string }[];
   isMuted?: boolean;
+
   photos: IPhotoList;
   videos: IVideoList;
   audios: IAudioList;
   files: IFilesList;
   members: IMembersList;
   recordings: IVoiceRecordingList;
+
   attachmentsToSend?: IAttachmentToSend<IBaseAttachment>[];
+
   rawAttachmentsCount?: number;
   videoAttachmentsCount?: number;
   voiceAttachmentsCount?: number;

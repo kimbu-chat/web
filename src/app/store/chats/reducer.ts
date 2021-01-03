@@ -1,18 +1,17 @@
 import produce from 'immer';
 import { createReducer } from 'typesafe-actions';
-import { getChatArrayIndex, checkChatExists } from 'app/store/chats/selectors';
+import { getChatListChatIndex, checkChatExists } from 'app/store/chats/selectors';
 import { IAudioAttachment, IPictureAttachment, IRawAttachment, IVideoAttachment, IVoiceAttachment, IChatsState } from './models';
 import { ChatId } from './chat-id';
 import { MessageActions } from '../messages/actions';
 import { FriendActions } from '../friends/actions';
 import { FileType } from '../messages/models';
-import { UserStatusChangedEvent } from '../friends/features/user-status-changed-event/user-status-changed-event';
+import { UserStatusChangedEventHandler } from '../friends/socket-events/user-status-changed/user-status-changed-event-handler';
 import { CreateChat } from './features/create-chat/create-chat';
 import { CreateMessage } from '../messages/features/create-message/create-message';
 import { CreateMessageSuccess } from '../messages/features/create-message/create-message-success';
 import { AddUsersToGroupChatSuccess } from './features/add-users-to-group-chat/add-users-to-group-chat-success';
 import { ChangeChatVisibilityStateSuccess } from './features/change-chat-visibility-state/change-chat-visibility-state-success';
-import { ChangeInterlocutorLastReadMessageId } from './features/change-intelocutor-last-read-message-id/change-interlocutor-last-read-message-id';
 import { ChangeSelectedChat } from './features/change-selected-chat/change-selected-chat';
 import { CreateGroupChatSuccess } from './features/create-group-chat/create-group-chat-success';
 import { EditGroupChatSuccess } from './features/edit-group-chat/edit-group-chat-success';
@@ -24,7 +23,6 @@ import { GetChatsSuccess } from './features/get-chats/get-chats-success';
 import { GetPhotoAttachmentsSuccess } from './features/get-photo-attachments/get-photo-attachments-success';
 import { GetRawAttachmentsSuccess } from './features/get-raw-attachments/get-raw-attachments-success';
 import { GetVoiceAttachmentsSuccess } from './features/get-voice-attachments/get-voice-attachments-success';
-import { InterlocutorMessageTyping } from './features/interlocutor-message-typing/interlocutor-message-typing';
 import { InterlocutorStoppedTyping } from './features/interlocutor-message-typing/interlocutor-stopped-typing';
 import { LeaveGroupChatSuccess } from './features/leave-group-chat/leave-group-chat-success';
 import { ChangeChatMutedStatusSuccess } from './features/change-chat-muted-status/change-chat-muted-status-success';
@@ -45,9 +43,6 @@ import { GetRawAttachments } from './features/get-raw-attachments/get-raw-attach
 import { GetPhotoAttachments } from './features/get-photo-attachments/get-photo-attachments';
 import { GetVideoAttachmentsSuccess } from './features/get-video-attachments/get-video-attachments-success';
 import { MarkMessagesAsReadSuccess } from './features/mark-messages-as-read/mark-messages-as-read-success';
-import { GroupChatEdited } from './features/edit-group-chat/group-chat-edited';
-import { MemberLeftGroupChat } from './features/leave-group-chat/member-left-group-chat';
-import { ChatMutedStatusChanged } from './features/change-chat-muted-status/chat-muted-status-changed';
 
 const initialState: IChatsState = {
   loading: false,
@@ -59,7 +54,6 @@ const initialState: IChatsState = {
 
 const chats = createReducer<IChatsState>(initialState)
   .handleAction(InterlocutorStoppedTyping.action, InterlocutorStoppedTyping.reducer)
-  .handleAction(InterlocutorMessageTyping.action, InterlocutorMessageTyping.reducer)
   .handleAction(CreateGroupChatSuccess.action, CreateGroupChatSuccess.reducer)
   .handleAction(AddUsersToGroupChatSuccess.action, AddUsersToGroupChatSuccess.reducer)
   .handleAction(ChangeChatMutedStatusSuccess.action, ChangeChatMutedStatusSuccess.reducer)
@@ -70,7 +64,6 @@ const chats = createReducer<IChatsState>(initialState)
   .handleAction(LeaveGroupChatSuccess.action, LeaveGroupChatSuccess.reducer)
   .handleAction(ChangeChatVisibilityStateSuccess.action, ChangeChatVisibilityStateSuccess.reducer)
   .handleAction(MarkMessagesAsReadSuccess.action, MarkMessagesAsReadSuccess.reducer)
-  .handleAction(ChangeInterlocutorLastReadMessageId.action, ChangeInterlocutorLastReadMessageId.reducer)
   .handleAction(CreateChat.action, CreateChat.reducer)
   .handleAction(GetPhotoAttachmentsSuccess.action, GetPhotoAttachmentsSuccess.reducer)
   .handleAction(GetVoiceAttachmentsSuccess.action, GetVoiceAttachmentsSuccess.reducer)
@@ -91,14 +84,11 @@ const chats = createReducer<IChatsState>(initialState)
   .handleAction(GetVoiceAttachments.action, GetVoiceAttachments.reducer)
   .handleAction(GetVideoAttachments.action, GetVideoAttachments.reducer)
   .handleAction(GetVideoAttachmentsSuccess.action, GetVideoAttachmentsSuccess.reducer)
-  .handleAction(GroupChatEdited.action, GroupChatEdited.reducer)
-  .handleAction(MemberLeftGroupChat.action, MemberLeftGroupChat.reducer)
-  .handleAction(ChatMutedStatusChanged.action, ChatMutedStatusChanged.reducer)
   .handleAction(
     MessageActions.clearChatHistorySuccess,
     produce((draft: IChatsState, { payload }: ReturnType<typeof MessageActions.clearChatHistorySuccess>) => {
       const { chatId } = payload;
-      const chatIndex: number = getChatArrayIndex(chatId, draft);
+      const chatIndex: number = getChatListChatIndex(chatId, draft);
 
       if (chatIndex >= 0) {
         draft.chats[chatIndex].lastMessage = null;
@@ -110,22 +100,14 @@ const chats = createReducer<IChatsState>(initialState)
   .handleAction(
     CreateMessage.action,
     produce((draft: IChatsState, { payload }: ReturnType<typeof MessageActions.createMessage>) => {
-      const { message, chatId, currentUserId } = payload;
+      const { message } = payload;
 
-      const chatIndex: number = getChatArrayIndex(chatId, draft);
-
-      const isCurrentUserMessageCreator: boolean = currentUserId === message.userCreator?.id;
+      const chatIndex: number = getChatListChatIndex(message.chatId, draft);
 
       // if user already has chats with interlocutor - update chat
       if (chatIndex >= 0) {
-        const isInterlocutorCurrentSelectedChat: boolean = draft.selectedChatId === chatId;
-        const previousUnreadMessagesCount = draft.chats[chatIndex].unreadMessagesCount || 0;
-        const unreadMessagesCount =
-          isInterlocutorCurrentSelectedChat || isCurrentUserMessageCreator ? previousUnreadMessagesCount : previousUnreadMessagesCount + 1;
-
         draft.chats[chatIndex].attachmentsToSend = [];
         draft.chats[chatIndex].lastMessage = { ...message };
-        draft.chats[chatIndex].unreadMessagesCount = unreadMessagesCount;
         draft.chats[chatIndex].draftMessage = '';
 
         const chatWithNewMessage = draft.chats[chatIndex];
@@ -138,12 +120,12 @@ const chats = createReducer<IChatsState>(initialState)
     }),
   )
   .handleAction(
-    UserStatusChangedEvent.action,
+    UserStatusChangedEventHandler.action,
     produce((draft: IChatsState, { payload }: ReturnType<typeof FriendActions.userStatusChangedEvent>) => {
       const { status, userId } = payload;
       const chatId: number = ChatId.from(userId).id;
       const isChatExists = checkChatExists(chatId, draft);
-      const chatIndex = getChatArrayIndex(chatId, draft);
+      const chatIndex = getChatListChatIndex(chatId, draft);
 
       if (!isChatExists) {
         return draft;
@@ -160,7 +142,7 @@ const chats = createReducer<IChatsState>(initialState)
     produce((draft: IChatsState, { payload }: ReturnType<typeof MessageActions.createMessageSuccess>) => {
       const { messageState, chatId, oldMessageId, newMessageId, attachments } = payload;
 
-      const chatIndex: number = getChatArrayIndex(chatId, draft);
+      const chatIndex: number = getChatListChatIndex(chatId, draft);
 
       if (chatIndex >= 0) {
         if (draft.chats[chatIndex].lastMessage?.id === oldMessageId) {
@@ -173,7 +155,7 @@ const chats = createReducer<IChatsState>(initialState)
 
         attachments?.forEach((attachment) => {
           switch (attachment.type) {
-            case FileType.audio:
+            case FileType.Audio:
               draft.chats[chatIndex].audioAttachmentsCount = (draft.chats[chatIndex].audioAttachmentsCount || 0) + 1;
               draft.chats[chatIndex].audios.audios.unshift({
                 ...(attachment as IAudioAttachment),
@@ -181,7 +163,7 @@ const chats = createReducer<IChatsState>(initialState)
               });
 
               break;
-            case FileType.picture:
+            case FileType.Picture:
               draft.chats[chatIndex].pictureAttachmentsCount = (draft.chats[chatIndex].pictureAttachmentsCount || 0) + 1;
               draft.chats[chatIndex].photos.photos.unshift({
                 ...(attachment as IPictureAttachment),
@@ -189,7 +171,7 @@ const chats = createReducer<IChatsState>(initialState)
               });
 
               break;
-            case FileType.raw:
+            case FileType.Raw:
               draft.chats[chatIndex].rawAttachmentsCount = (draft.chats[chatIndex].rawAttachmentsCount || 0) + 1;
               draft.chats[chatIndex].files.files.unshift({
                 ...(attachment as IRawAttachment),
@@ -197,7 +179,7 @@ const chats = createReducer<IChatsState>(initialState)
               });
 
               break;
-            case FileType.video:
+            case FileType.Video:
               draft.chats[chatIndex].videoAttachmentsCount = (draft.chats[chatIndex].videoAttachmentsCount || 0) + 1;
               draft.chats[chatIndex].videos.videos.unshift({
                 ...(attachment as IVideoAttachment),
@@ -205,7 +187,7 @@ const chats = createReducer<IChatsState>(initialState)
               });
 
               break;
-            case FileType.voice:
+            case FileType.Voice:
               draft.chats[chatIndex].voiceAttachmentsCount = (draft.chats[chatIndex].voiceAttachmentsCount || 0) + 1;
               draft.chats[chatIndex].recordings.recordings.unshift({
                 ...(attachment as IVoiceAttachment),
@@ -226,7 +208,7 @@ const chats = createReducer<IChatsState>(initialState)
     SubmitEditMessage.action,
     produce((draft: IChatsState, { payload }: ReturnType<typeof MessageActions.submitEditMessage>) => {
       const { chatId, messageId, text } = payload;
-      const chatIndex: number = getChatArrayIndex(chatId, draft);
+      const chatIndex: number = getChatListChatIndex(chatId, draft);
 
       if (chatIndex >= 0) {
         draft.chats[chatIndex].attachmentsToSend = [];
@@ -243,7 +225,7 @@ const chats = createReducer<IChatsState>(initialState)
     MessageTyping.action,
     produce((draft: IChatsState, { payload }: ReturnType<typeof MessageActions.messageTyping>) => {
       const { chatId, text } = payload;
-      const chatIndex: number = getChatArrayIndex(chatId, draft);
+      const chatIndex: number = getChatListChatIndex(chatId, draft);
 
       if (chatIndex >= 0) {
         draft.chats[chatIndex].draftMessage = text;

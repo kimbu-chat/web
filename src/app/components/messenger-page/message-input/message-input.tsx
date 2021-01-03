@@ -113,19 +113,20 @@ export const CreateMessageInput = React.memo(() => {
     if (text.trim().length > 0 && updatedSelectedChat.current && currentUser) {
       const attachments = updatedSelectedChat.current?.attachmentsToSend?.map(({ attachment }) => attachment);
 
-      sendMessage({
-        chatId: updatedSelectedChat.current!.id,
-        message: {
-          text,
-          systemMessageType: SystemMessageType.None,
-          userCreator: currentUser,
-          creationDateTime: new Date(new Date().toUTCString()),
-          state: MessageState.QUEUED,
-          id: new Date().getTime(),
-          chatId,
-          attachments,
-        },
-      });
+      if (chatId) {
+        sendMessage({
+          message: {
+            text,
+            systemMessageType: SystemMessageType.None,
+            userCreator: currentUser,
+            creationDateTime: new Date(new Date().toUTCString()),
+            state: MessageState.QUEUED,
+            id: new Date().getTime(),
+            chatId,
+            attachments,
+          },
+        });
+      }
     }
 
     setText('');
@@ -224,7 +225,7 @@ export const CreateMessageInput = React.memo(() => {
   );
 
   const handleFocus = useCallback(() => {
-    if (myTypingStrategy === TypingStrategy.nle) {
+    if (myTypingStrategy === TypingStrategy.Nle) {
       Mousetrap.bind(['command+enter', 'ctrl+enter', 'alt+enter', 'shift+enter'], () => {
         sendMessageToServer();
       });
@@ -292,7 +293,7 @@ export const CreateMessageInput = React.memo(() => {
           });
           uploadAttachmentRequest({
             chatId: selectedChat!.id,
-            type: FileType.voice,
+            type: FileType.Voice,
             file: audioFile as File,
             attachmentId: new Date().getTime(),
           });

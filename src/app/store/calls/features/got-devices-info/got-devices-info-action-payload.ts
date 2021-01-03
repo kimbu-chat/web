@@ -1,6 +1,6 @@
 import { InputType } from '../../common/enums/input-type';
 
 export interface IGotDevicesInfoActionPayload {
-  kind: InputType.videoInput | InputType.audioInput;
+  kind: InputType.VideoInput | InputType.AudioInput;
   devices: MediaDeviceInfo[];
 }

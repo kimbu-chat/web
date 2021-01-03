@@ -2,29 +2,29 @@ import { IEventHandler } from './event-handler';
 
 export enum EventsNames {
   // Messages
-  MESSAGE_CREATED = 'MessageCreated',
-  MESSAGE_EDITED = 'MessageEdited',
-  MESSAGES_DELETED = 'MessagesDeleted',
-  MESSAGES_READ = 'MessagesRead',
-  INTEROCUTOR_MESSAGE_TYPING = 'MessageTyping',
+  MessageCreated = 'MessageCreated',
+  MessageEdited = 'MessageEdited',
+  MessageDeleted = 'MessagesDeleted',
+  MessageRead = 'MessagesRead',
+  MessageTyping = 'MessageTyping',
 
   // GroupChats
-  GROUP_CHAT_CREATED = 'GroupChatCreated',
-  GROUP_CHAT_EDITED = 'GroupChatEdited',
-  CHAT_CLEARED = 'ChatCleared',
-  MEMBER_LEFT_GROUP_CHAT = 'MemberLeftGroupChat',
-  CHAT_MUTE_STATUS_CHANGED = 'ChatsMuteStatusChanged',
+  GroupChatCreated = 'GroupChatCreated',
+  GroupChatEdited = 'GroupChatEdited',
+  ChatCleared = 'ChatCleared',
+  MemberLeftGroupChat = 'MemberLeftGroupChat',
+  ChatsMuteStatusChanged = 'ChatsMuteStatusChanged',
 
   // Friends
-  USER_STATUS_CHANGED = 'UserStatusChanged',
+  UserStatusChanged = 'UserStatusChanged',
 
   // WebRTC
-  INCOMING_CALL = 'CallOfferSent',
-  RENEGOTIATION_SENT = 'RenegotiationSent',
-  INTERLOCUTOR_ACCEPTED_CALL = 'CallAccepted',
-  CALL_ENDED = 'CallEnded',
-  ICE_CANDIDATE_SENT = 'IceCandidateSent',
-  RENEGOTIATION_ACCEPTED = 'RenegotiationAccepted',
+  IncomingCall = 'CallOfferSent',
+  RenegotiationSent = 'RenegotiationSent',
+  CallAccepted = 'CallAccepted',
+  CallEnded = 'CallEnded',
+  IceCandidateSent = 'IceCandidateSent',
+  RenegotiationAccepted = 'RenegotiationAccepted',
 }
 
 export class EventManager {

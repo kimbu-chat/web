@@ -36,7 +36,7 @@ export class CreateGroupChat {
 
         const chatId: number = ChatId.from(undefined, data).id;
         const chat: IChat = {
-          interlocutorType: InterlocutorType.GROUP_CHAT,
+          interlocutorType: InterlocutorType.GroupChat,
           id: chatId,
           isMuted: false,
           draftMessage: '',

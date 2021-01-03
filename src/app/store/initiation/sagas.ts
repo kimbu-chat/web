@@ -34,11 +34,12 @@ function createVisibilityChannel() {
 function* watcher() {
   const visibilityChannel = createVisibilityChannel();
 
-  const visibilityTask = yield takeEvery(visibilityChannel, function* () {
+  const visibilityTask = yield takeEvery(visibilityChannel, function* (action: boolean) {
     const amIauthenticated = yield select(amIlogged);
 
-    const action = amIauthenticated ? ChangeUserOnlineStatus.action(true) : ChangeUserOnlineStatus.action(false);
-    yield put(action);
+    if (amIauthenticated) {
+      yield put(ChangeUserOnlineStatus.action(action));
+    }
   });
 
   yield take(Logout.action);

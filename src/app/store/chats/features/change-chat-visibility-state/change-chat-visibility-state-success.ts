@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { getChatArrayIndex } from 'app/store/chats/selectors';
+import { getChatListChatIndex } from 'app/store/chats/selectors';
 import { IChatsState } from '../../models';
 import { IChangeChatVisibilityStateSuccessActionPayload } from './change-chat-visibility-state-success-action-payload';
 
@@ -11,7 +11,7 @@ export class ChangeChatVisibilityStateSuccess {
 
   static get reducer() {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof ChangeChatVisibilityStateSuccess.action>) => {
-      const chatIndex: number = getChatArrayIndex(payload.id, draft);
+      const chatIndex: number = getChatListChatIndex(payload.id, draft);
       draft.chats.splice(chatIndex, 1);
       draft.selectedChatId = null;
       return draft;

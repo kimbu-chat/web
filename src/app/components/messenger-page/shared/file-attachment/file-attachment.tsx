@@ -6,7 +6,7 @@ import ProgressSVG from 'icons/ic-progress.svg';
 
 import { fileDownload } from 'app/utils/file-download';
 import { IRawAttachment } from 'store/chats/models';
-import { getRawAttachmentsizeUnit } from 'app/utils/get-file-size-unit';
+import { getRawAttachmentSizeUnit } from 'app/utils/get-file-size-unit';
 
 namespace FileAttachmentNS {
   export interface IProps {
@@ -58,8 +58,8 @@ export const FileAttachment = React.memo(({ attachment }: FileAttachmentNS.IProp
         <h4 className='file-attachment__file-name'>{attachment.title}</h4>
         <div className='file-attachment__file-size'>
           {isDownloading
-            ? `${getRawAttachmentsizeUnit(downloaded)}/${getRawAttachmentsizeUnit(attachment.byteSize)}`
-            : getRawAttachmentsizeUnit(attachment.byteSize)}
+            ? `${getRawAttachmentSizeUnit(downloaded)}/${getRawAttachmentSizeUnit(attachment.byteSize)}`
+            : getRawAttachmentSizeUnit(attachment.byteSize)}
         </div>
       </div>
     </div>

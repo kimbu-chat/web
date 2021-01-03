@@ -1,3 +1,3 @@
-import { IntercolutorMessageTypingIntegrationEvent } from 'app/store/middlewares/websockets/integration-events/interlocutor-message-typing-integration-event';
+import { IIntercolutorMessageTypingIntegrationEvent } from 'app/store/chats/socket-events/message-typing/message-typing-integration-event';
 
-export interface InterlocutorStoppedTypingActionPayload extends IntercolutorMessageTypingIntegrationEvent {}
+export interface IInterlocutorStoppedTypingActionPayload extends IIntercolutorMessageTypingIntegrationEvent {}

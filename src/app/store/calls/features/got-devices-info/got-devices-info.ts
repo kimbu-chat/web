@@ -11,11 +11,11 @@ export class GotDevicesInfo {
 
   static get reducer() {
     return produce((draft: ICallState, { payload }: ReturnType<typeof GotDevicesInfo.action>) => {
-      if (payload.kind === InputType.videoInput) {
+      if (payload.kind === InputType.VideoInput) {
         draft.videoDevicesList = payload.devices;
       }
 
-      if (payload.kind === InputType.audioInput) {
+      if (payload.kind === InputType.AudioInput) {
         draft.audioDevicesList = payload.devices;
       }
 

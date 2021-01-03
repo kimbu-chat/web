@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { getChatIndex, getLastMessageByChatId, getMessage } from 'app/store/messages/selectors';
+import { getMessagesChatIndex, getLastMessageByChatId, getMessage } from 'app/store/messages/selectors';
 import { SagaIterator } from 'redux-saga';
 import { put, select } from 'redux-saga/effects';
 import { ChangeLastMessage } from 'app/store/chats/features/change-last-message/change-last-message';
@@ -16,7 +16,7 @@ export class DeleteMessageSuccess {
 
   static get reducer() {
     return produce((draft: IMessagesState, { payload }: ReturnType<typeof DeleteMessageSuccess.action>) => {
-      const chatIndex = getChatIndex(draft, payload.chatId);
+      const chatIndex = getMessagesChatIndex(draft, payload.chatId);
 
       payload.messageIds.forEach((msgIdToDelete) => {
         if (getMessage(draft.messages[chatIndex].messages, msgIdToDelete)?.isSelected) {

@@ -45,20 +45,20 @@ export class AcceptCall {
 
       // gathering data about media devices
       if (audioConstraints.isOpened) {
-        const audioDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.audioInput);
+        const audioDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.AudioInput);
 
         if (audioDevices.length > 0) {
-          yield put(GotDevicesInfo.action({ kind: InputType.audioInput, devices: audioDevices }));
-          yield put(ChangeActiveDeviceId.action({ kind: InputType.audioInput, deviceId: audioDevices[0].deviceId }));
+          yield put(GotDevicesInfo.action({ kind: InputType.AudioInput, devices: audioDevices }));
+          yield put(ChangeActiveDeviceId.action({ kind: InputType.AudioInput, deviceId: audioDevices[0].deviceId }));
         }
       }
 
       if (videoConstraints.isOpened) {
-        const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.videoInput);
+        const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.VideoInput);
 
         if (videoDevices.length > 0) {
-          yield put(GotDevicesInfo.action({ kind: InputType.videoInput, devices: videoDevices }));
-          yield put(ChangeActiveDeviceId.action({ kind: InputType.videoInput, deviceId: videoDevices[0].deviceId }));
+          yield put(GotDevicesInfo.action({ kind: InputType.VideoInput, devices: videoDevices }));
+          yield put(ChangeActiveDeviceId.action({ kind: InputType.VideoInput, deviceId: videoDevices[0].deviceId }));
         }
       }
       //---

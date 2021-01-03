@@ -43,7 +43,7 @@ export const MessageInputAttachment: React.FC<MessageInputAttachmentNS.IProps> =
   }, [selectedChatId, attachment.attachment.id]);
 
   useEffect(() => {
-    if (attachment.attachment.type === FileType.picture && !isFromEdit) {
+    if (attachment.attachment.type === FileType.Picture && !isFromEdit) {
       const reader = new FileReader();
 
       reader.onload = (e) => {
@@ -62,26 +62,26 @@ export const MessageInputAttachment: React.FC<MessageInputAttachmentNS.IProps> =
       className='message-input-attachment'
     >
       <div className='message-input-attachment__icon'>
-        {attachment.attachment.type === FileType.raw && <FileSVG viewBox='0 0 25 25' />}
-        {attachment.attachment.type === FileType.video && (
+        {attachment.attachment.type === FileType.Raw && <FileSVG viewBox='0 0 25 25' />}
+        {attachment.attachment.type === FileType.Video && (
           <>
             <img src={(attachment.attachment as IVideoAttachment).firstFrameUrl} alt='' className='message-input-attachment__bg' />
             <VideoSVG viewBox='0 0 25 25' />
           </>
         )}
-        {attachment.attachment.type === FileType.voice && <MicrophoneSVG viewBox='0 0 25 25' />}
-        {attachment.attachment.type === FileType.picture && (
+        {attachment.attachment.type === FileType.Voice && <MicrophoneSVG viewBox='0 0 25 25' />}
+        {attachment.attachment.type === FileType.Picture && (
           <>
             <img src={(attachment.attachment as IPictureAttachment).previewUrl || previewUrl} alt='' className='message-input-attachment__bg' />
             <PhotoSVG viewBox='0 0 25 25' />
           </>
         )}
-        {attachment.attachment.type === FileType.audio && <PlaySVG viewBox='0 0 25 25' />}
+        {attachment.attachment.type === FileType.Audio && <PlaySVG viewBox='0 0 25 25' />}
       </div>
       <div className='message-input-attachment__progress-container'>
         <div style={{ width: `${attachment.progress}%` }} className='message-input-attachment__progress' />
       </div>
-      {(attachment.attachment.type === FileType.audio || attachment.attachment.type === FileType.raw) && (
+      {(attachment.attachment.type === FileType.Audio || attachment.attachment.type === FileType.Raw) && (
         <div className='message-input-attachment__title'>{attachment.fileName || (attachment.attachment as IRawAttachment).title}</div>
       )}
       <button type='button' onClick={removeThisAttachment} className='message-input-attachment__close'>

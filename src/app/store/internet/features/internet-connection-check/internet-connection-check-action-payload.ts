@@ -1,3 +1,3 @@
-export interface InternetConnectionCheckActionPayload {
+export interface IInternetConnectionCheckActionPayload {
   state: boolean;
 }

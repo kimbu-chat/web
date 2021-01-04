@@ -8,16 +8,14 @@ import SelectedSvg from 'icons/ic-check-filled.svg';
 import UnSelectedSvg from 'icons/ic-check-outline.svg';
 import { IChat } from 'store/chats/models';
 
-namespace ForwardEntityNS {
-  export interface IProps {
-    changeSelectedState?: (id: number) => void;
-    isSelected?: boolean;
-    chat: IChat;
-    onClick?: (chat: IChat) => void;
-  }
+interface IForwardEntityProps {
+  changeSelectedState?: (id: number) => void;
+  isSelected?: boolean;
+  chat: IChat;
+  onClick?: (chat: IChat) => void;
 }
 
-export const ForwardEntity = React.memo(({ changeSelectedState, chat, isSelected, onClick }: ForwardEntityNS.IProps) => {
+export const ForwardEntity: React.FC<IForwardEntityProps> = React.memo(({ changeSelectedState, chat, isSelected, onClick }) => {
   const onClickOnThisContact = useCallback(() => {
     if (onClick) {
       onClick(chat);

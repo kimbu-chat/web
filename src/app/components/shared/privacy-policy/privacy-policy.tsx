@@ -3,13 +3,11 @@ import CloseSVG from 'icons/ic-close.svg';
 import './privacy-policy.scss';
 import { stopPropagation } from 'app/utils/stop-propagation';
 
-namespace PrivacyPolicyNS {
-  export interface IProps {
-    close: () => void;
-  }
+interface IPrivacyPolicyProps {
+  close: () => void;
 }
 
-const PrivacyPolicy: React.FC<PrivacyPolicyNS.IProps> = React.memo(({ close }) => (
+const PrivacyPolicy: React.FC<IPrivacyPolicyProps> = React.memo(({ close }) => (
   <div onClick={stopPropagation} className='policy-modal'>
     <div className='policy-modal__header'>
       <div className='policy-modal__top-group'>

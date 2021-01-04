@@ -11,13 +11,11 @@ import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 import DeleteSvg from 'icons/ic-delete.svg';
 import { UserStatus } from 'app/store/common/models';
 
-namespace MemberNS {
-  export interface IProps {
-    member: IUserPreview;
-  }
+interface IMemberProps {
+  member: IUserPreview;
 }
 
-export const Member = React.memo(({ member }: MemberNS.IProps) => {
+export const Member: React.FC<IMemberProps> = React.memo(({ member }) => {
   const { t } = useContext(LocalizationContext);
 
   return (

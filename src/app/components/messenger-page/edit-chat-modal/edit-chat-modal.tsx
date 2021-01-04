@@ -16,13 +16,11 @@ import { MyProfileActions } from 'store/my-profile/actions';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { IEditGroupChatActionPayload } from 'app/store/chats/features/edit-group-chat/edit-group-chat-action-payload';
 
-namespace EditChatModalNS {
-  export interface IProps {
-    onClose: () => void;
-  }
+export interface IEditChatModalProps {
+  onClose: () => void;
 }
 
-export const EditChatModal = React.memo(({ onClose }: EditChatModalNS.IProps) => {
+export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClose }) => {
   const selectedGroupChat: IGroupChat | undefined = useSelector(getSelectedGroupChatSelector);
 
   const uploadGroupChatAvatar = useActionWithDeferred(MyProfileActions.uploadAvatarRequestAction);

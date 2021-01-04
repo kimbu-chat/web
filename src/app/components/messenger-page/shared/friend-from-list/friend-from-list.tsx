@@ -8,16 +8,14 @@ import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 import SelectedSvg from 'icons/ic-check-filled.svg';
 import UnSelectedSvg from 'icons/ic-check-outline.svg';
 
-namespace FriendFromListNS {
-  export interface IProps {
-    changeSelectedState?: (id: number) => void;
-    isSelected?: boolean;
-    friend: IUserPreview;
-    onClick?: (user: IUserPreview) => void;
-  }
+interface IFriendFromListProps {
+  changeSelectedState?: (id: number) => void;
+  isSelected?: boolean;
+  friend: IUserPreview;
+  onClick?: (user: IUserPreview) => void;
 }
 
-export const FriendFromList = React.memo(({ changeSelectedState, friend, isSelected, onClick }: FriendFromListNS.IProps) => {
+export const FriendFromList: React.FC<IFriendFromListProps> = React.memo(({ changeSelectedState, friend, isSelected, onClick }) => {
   const onClickOnThisContact = useCallback(() => {
     if (onClick) {
       onClick(friend);

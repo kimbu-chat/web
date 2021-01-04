@@ -18,13 +18,11 @@ import MessageReadSvg from 'icons/ic-double_tick.svg';
 import { getTypingStringSelector } from 'store/chats/selectors';
 import { getChatInterlocutor, getInterlocutorInitials } from 'utils/interlocutor-name-utils';
 
-namespace ChatFromListNS {
-  export interface IProps {
-    chat: IChat;
-  }
+interface IChatFromListProps {
+  chat: IChat;
 }
 
-const ChatFromList = React.memo(({ chat }: ChatFromListNS.IProps) => {
+const ChatFromList: React.FC<IChatFromListProps> = React.memo(({ chat }) => {
   const { interlocutor, lastMessage, groupChat } = chat;
   const { t } = useContext(LocalizationContext);
 

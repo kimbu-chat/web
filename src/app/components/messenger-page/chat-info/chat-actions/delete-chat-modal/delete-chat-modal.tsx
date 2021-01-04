@@ -7,13 +7,11 @@ import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { getSelectedGroupChatNameSelector } from 'app/store/chats/selectors';
 
-namespace DeleteChatModalNS {
-  export interface IProps {
-    hide: () => void;
-  }
+interface IDeleteChatModalProps {
+  hide: () => void;
 }
 
-export const DeleteChatModal = React.memo(({ hide }: DeleteChatModalNS.IProps) => {
+export const DeleteChatModal: React.FC<IDeleteChatModalProps> = React.memo(({ hide }) => {
   const { t } = useContext(LocalizationContext);
 
   const selectedGroupChatName = useSelector(getSelectedGroupChatNameSelector);

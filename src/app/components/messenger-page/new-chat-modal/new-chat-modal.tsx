@@ -17,14 +17,12 @@ import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
 import { ChatId } from 'app/store/chats/chat-id';
 import { FriendFromList, SearchBox } from 'app/components';
 
-namespace NewChatModalNS {
-  export interface IProps {
-    onClose: () => void;
-    displayCreateGroupChat: () => void;
-  }
+interface INewChatModalProps {
+  onClose: () => void;
+  displayCreateGroupChat: () => void;
 }
 
-export const NewChatModal = React.memo(({ onClose, displayCreateGroupChat }: NewChatModalNS.IProps) => {
+export const NewChatModal: React.FC<INewChatModalProps> = React.memo(({ onClose, displayCreateGroupChat }) => {
   const { t } = useContext(LocalizationContext);
 
   const friends = useSelector(getMyFriends);

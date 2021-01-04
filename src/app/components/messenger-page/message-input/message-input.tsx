@@ -26,13 +26,11 @@ import { MessageInputAttachment } from './message-input-attachment/message-input
 import { MessageSmiles } from './message-smiles/message-smiles';
 import './message-input.scss';
 
-namespace CreateMessageInputNS {
-  export interface IRecordedData {
-    mediaRecorder: MediaRecorder | null;
-    tracks: MediaStreamTrack[];
-    isRecording: boolean;
-    needToSubmit: boolean;
-  }
+export interface IRecordedData {
+  mediaRecorder: MediaRecorder | null;
+  tracks: MediaStreamTrack[];
+  isRecording: boolean;
+  needToSubmit: boolean;
 }
 
 export const CreateMessageInput = React.memo(() => {
@@ -57,7 +55,7 @@ export const CreateMessageInput = React.memo(() => {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const registerAudioBtnRef = useRef<HTMLButtonElement>(null);
-  const recorderData = useRef<CreateMessageInputNS.IRecordedData>({
+  const recorderData = useRef<IRecordedData>({
     mediaRecorder: null,
     tracks: [],
     isRecording: false,

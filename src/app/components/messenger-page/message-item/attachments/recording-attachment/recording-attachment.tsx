@@ -9,13 +9,11 @@ import moment from 'moment';
 import { changeMusic } from 'app/utils/current-music';
 import { IVoiceAttachment } from 'store/chats/models';
 
-namespace RecordingAttachmentNS {
-  export interface IProps {
-    attachment: IVoiceAttachment;
-  }
+interface IRecordingAttachmentProps {
+  attachment: IVoiceAttachment;
 }
 
-export const RecordingAttachment = React.memo(({ attachment }: RecordingAttachmentNS.IProps) => {
+export const RecordingAttachment: React.FC<IRecordingAttachmentProps> = React.memo(({ attachment }) => {
   const audioRef = useRef<AudioPlayer>();
   return (
     <div className='recording-attachment'>

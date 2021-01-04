@@ -9,13 +9,11 @@ import { NavLink } from 'react-router-dom';
 import { UserStatus } from 'app/store/common/models';
 import './friend.scss';
 
-namespace FriendNS {
-  export interface IProps {
-    friend: IUserPreview;
-  }
+interface IFriendProps {
+  friend: IUserPreview;
 }
 
-export const Friend = React.memo(({ friend }: FriendNS.IProps) => {
+export const Friend: React.FC<IFriendProps> = React.memo(({ friend }) => {
   const { t } = useContext(LocalizationContext);
 
   return (

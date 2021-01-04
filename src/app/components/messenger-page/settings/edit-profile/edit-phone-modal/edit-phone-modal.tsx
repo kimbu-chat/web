@@ -9,13 +9,11 @@ import { getMyPhoneNumber } from 'app/store/my-profile/selectors';
 import { ModalCountrySelect } from './modal-country-select/modal-country-select';
 import { ModalPhoneInput } from './modal-phone-input/modal-phone-input';
 
-namespace EditPhoneModalNS {
-  export interface IProps {
-    onClose: () => void;
-  }
+interface IEditPhoneModalProps {
+  onClose: () => void;
 }
 
-export const EditPhoneModal = React.memo(({ onClose }: EditPhoneModalNS.IProps) => {
+export const EditPhoneModal: React.FC<IEditPhoneModalProps> = React.memo(({ onClose }) => {
   const { t } = useContext(LocalizationContext);
 
   const currentNumber = useSelector(getMyPhoneNumber);

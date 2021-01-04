@@ -12,13 +12,11 @@ import { SearchBox } from 'components';
 
 import { Member } from './chat-member/chat-member';
 
-namespace ChatMembersNS {
-  export interface IProps {
-    addMembers: () => void;
-  }
+interface IChatMembersProps {
+  addMembers: () => void;
 }
 
-export const ChatMembers = React.memo(({ addMembers }: ChatMembersNS.IProps) => {
+export const ChatMembers: React.FC<IChatMembersProps> = React.memo(({ addMembers }) => {
   const [searchStr, setSearchStr] = useState<string>('');
 
   const getGroupChatUsers = useActionWithDispatch(ChatActions.getGroupChatUsers);

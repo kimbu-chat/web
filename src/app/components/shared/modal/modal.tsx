@@ -5,24 +5,22 @@ import './modal.scss';
 
 import CloseSVG from 'icons/ic-close.svg';
 import { stopPropagation } from 'app/utils/stop-propagation';
-import { BaseBtn, BaseBtnNS } from '../base-btn/base-btn';
+import { BaseBtn, IBaseBtnProps } from '../base-btn/base-btn';
 
-namespace ModalNS {
-  export interface IButton extends BaseBtnNS.IProps {
-    position: 'left' | 'right';
-  }
-  export interface IProps {
-    title: string | JSX.Element;
-    contents: string | JSX.Element;
-    highlightedInContents?: string;
-    buttons: ModalNS.IButton[];
-    closeModal: () => void;
-  }
+interface IButton extends IBaseBtnProps {
+  position: 'left' | 'right';
+}
+interface IModalProps {
+  title: string | JSX.Element;
+  contents: string | JSX.Element;
+  highlightedInContents?: string;
+  buttons: IButton[];
+  closeModal: () => void;
 }
 
-export const Modal = React.memo(({ title, contents, buttons, highlightedInContents, closeModal }: ModalNS.IProps) => {
-  const leftBtns: ModalNS.IButton[] = [];
-  const rightBtns: ModalNS.IButton[] = [];
+export const Modal: React.FC<IModalProps> = React.memo(({ title, contents, buttons, highlightedInContents, closeModal }) => {
+  const leftBtns: IButton[] = [];
+  const rightBtns: IButton[] = [];
 
   buttons.forEach((btn) => {
     if (btn.position === 'left') {

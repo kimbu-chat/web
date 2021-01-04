@@ -4,13 +4,11 @@ import ReturnSvg from 'icons/ic-arrow-left.svg';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
 
-namespace SettingsHeaderNS {
-  export interface IProps {
-    title: string;
-  }
+interface ISettingsHeaderProps {
+  title: string;
 }
 
-export const SettingsHeader = React.memo(({ title }: SettingsHeaderNS.IProps) => {
+export const SettingsHeader: React.FC<ISettingsHeaderProps> = React.memo(({ title }) => {
   const location = useLocation();
 
   return (

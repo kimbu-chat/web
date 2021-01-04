@@ -8,13 +8,11 @@ import { ClearChatHistory } from 'app/store/chats/features/clear-history/clear-c
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import CheckBoxSvg from 'icons/ic-checkbox.svg';
 
-namespace ClearChatModalNS {
-  export interface IProps {
-    hide: () => void;
-  }
+interface IClearChatModalProps {
+  hide: () => void;
 }
 
-export const ClearChatModal = React.memo(({ hide }: ClearChatModalNS.IProps) => {
+export const ClearChatModal: React.FC<IClearChatModalProps> = React.memo(({ hide }) => {
   const { t } = useContext(LocalizationContext);
 
   const selectedGroupChatName = useSelector(getSelectedGroupChatNameSelector);

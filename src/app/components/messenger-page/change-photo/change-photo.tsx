@@ -12,17 +12,10 @@ import 'react-image-crop/dist/ReactCrop.css';
 import { WithBackground, BaseBtn } from 'components';
 import { stopPropagation } from 'app/utils/stop-propagation';
 
-namespace ChangePhotoNS {
-  export interface IProps {
-    imageUrl: string;
-    hideChangePhoto: () => void;
-    onSubmit?: (data: IAvatarSelectedData) => void;
-  }
-
-  export interface ICoords {
-    x: number;
-    y: number;
-  }
+interface IChangePhotoProps {
+  imageUrl: string;
+  hideChangePhoto: () => void;
+  onSubmit?: (data: IAvatarSelectedData) => void;
 }
 
 function generateDownload(image?: HTMLImageElement, crop?: ReactCrop.Crop): string {
@@ -42,7 +35,7 @@ function generateDownload(image?: HTMLImageElement, crop?: ReactCrop.Crop): stri
   return canvas.toDataURL('image/png');
 }
 
-export const ChangePhoto = ({ imageUrl, onSubmit, hideChangePhoto }: ChangePhotoNS.IProps) => {
+export const ChangePhoto: React.FC<IChangePhotoProps> = ({ imageUrl, onSubmit, hideChangePhoto }) => {
   const { t } = useContext(LocalizationContext);
 
   const imgRef = useRef<HTMLImageElement>();

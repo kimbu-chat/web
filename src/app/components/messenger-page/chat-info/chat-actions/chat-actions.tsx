@@ -20,13 +20,11 @@ import { getMyFriends } from 'app/store/friends/selectors';
 import { DeleteChatModal } from './delete-chat-modal/delete-chat-modal';
 import { ClearChatModal } from './clear-chat-modal/clear-chat-modal';
 
-namespace ChatActionsNS {
-  export interface IProps {
-    addMembers: (params: { excludeIds: (number | undefined)[] }) => void;
-  }
+interface IChatActionsProps {
+  addMembers: (params: { excludeIds: (number | undefined)[] }) => void;
 }
 
-export const ChatActions = React.memo(({ addMembers }: ChatActionsNS.IProps) => {
+export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers }) => {
   const { t } = useContext(LocalizationContext);
 
   const [leaveGroupChatModalOpened, setLeaveGroupChatModalOpened] = useState<boolean>(false);

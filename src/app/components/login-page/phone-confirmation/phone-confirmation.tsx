@@ -14,13 +14,11 @@ import { getAuthIsLoading } from 'app/store/auth/selectors';
 
 const PrivacyPolicy = lazy(() => import('app/components/shared/privacy-policy/privacy-policy'));
 
-namespace PhoneConfirmationNS {
-  export interface IProps {
-    preloadNext: () => void;
-  }
+interface IPhoneConfirmationProps {
+  preloadNext: () => void;
 }
 
-const PhoneConfirmation: React.FC<PhoneConfirmationNS.IProps> = ({ preloadNext }) => {
+const PhoneConfirmation: React.FC<IPhoneConfirmationProps> = ({ preloadNext }) => {
   const { t } = useContext(LocalizationContext);
 
   const history = useHistory();

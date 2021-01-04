@@ -1,18 +1,16 @@
 import React, { useMemo } from 'react';
 import './base-btn.scss';
 
-export namespace BaseBtnNS {
-  export interface IProps extends React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
-    width: 'contained' | 'auto';
-    color: 'primary' | 'secondary' | 'default';
-    variant: 'contained' | 'outlined';
-    isLoading?: boolean;
-    children: string;
-    icon?: JSX.Element;
-  }
+export interface IBaseBtnProps extends React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
+  width: 'contained' | 'auto';
+  color: 'primary' | 'secondary' | 'default';
+  variant: 'contained' | 'outlined';
+  isLoading?: boolean;
+  children: string;
+  icon?: JSX.Element;
 }
 
-const BaseBtn: React.FC<BaseBtnNS.IProps> = React.memo(({ width, color, disabled, variant, icon, children, className, isLoading, ...props }) => {
+const BaseBtn: React.FC<IBaseBtnProps> = React.memo(({ width, color, disabled, variant, icon, children, className, isLoading, ...props }) => {
   const style = useMemo(() => {
     const btnColor: string = color === 'primary' ? '#3F8AE0' : color === 'secondary' ? '#D12433' : '#D7D8D9';
     const bluredBtnColor: string = color === 'primary' ? 'rgba(63, 138, 224,0.7)' : color === 'secondary' ? 'rgba(209, 36, 51,0.7)' : 'rgba(215, 216, 217,0.7)';

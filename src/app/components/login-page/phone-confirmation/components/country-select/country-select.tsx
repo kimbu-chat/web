@@ -9,16 +9,14 @@ import { LocalizationContext } from 'app/app';
 import DownSvg from 'icons/ic-chevron-down.svg';
 import { countryList, ICountry } from 'app/common/countries';
 
-namespace CountrySelectNS {
-  export interface IProps {
-    country?: ICountry;
-    handleCountryChange: (newCountry: ICountry) => void;
-    setRef: React.Dispatch<React.SetStateAction<React.RefObject<HTMLInputElement> | null>>;
-  }
+interface ICountrySelectProps {
+  country?: ICountry;
+  handleCountryChange: (newCountry: ICountry) => void;
+  setRef: React.Dispatch<React.SetStateAction<React.RefObject<HTMLInputElement> | null>>;
 }
 
-export const CountrySelect = React.memo(
-  ({ country, handleCountryChange, setRef }: CountrySelectNS.IProps) => {
+export const CountrySelect: React.FC<ICountrySelectProps> = React.memo(
+  ({ country, handleCountryChange, setRef }) => {
     const { t } = useContext(LocalizationContext);
 
     const { getRootProps, getInputProps, getListboxProps, getOptionProps, groupedOptions, popupOpen } = useAutocomplete({

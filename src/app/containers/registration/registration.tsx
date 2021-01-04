@@ -14,13 +14,11 @@ import { UploadAvatar } from 'app/store/my-profile/features/upload-avatar/upload
 import { validateNickname } from 'app/utils/validate-nick-name';
 import { Avatar, BaseBtn, ChangePhoto, CircularProgress } from 'components';
 
-namespace RegistrationNS {
-  export interface IProps {
-    preloadNext: () => void;
-  }
+interface IRegistrationProps {
+  preloadNext: () => void;
 }
 
-export const Registration: React.FC<RegistrationNS.IProps> = ({ preloadNext }) => {
+export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
   const { t } = useContext(LocalizationContext);
 
   const isLoading = useSelector(getAuthIsLoading);

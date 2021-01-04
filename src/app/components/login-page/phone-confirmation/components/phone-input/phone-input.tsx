@@ -6,17 +6,15 @@ import { ICountry } from 'app/common/countries';
 import { LocalizationContext } from 'app/app';
 import { removeCountryCodeFromPhoneNumber } from 'app/utils/phone-number-utils';
 
-namespace PhoneInputNS {
-  export interface IProps {
-    country: ICountry;
-    phone: string;
-    setPhone: Function;
-    displayCountries: () => void;
-    sendSms: () => void;
-  }
+interface IPhoneInputProps {
+  country: ICountry;
+  phone: string;
+  setPhone: React.Dispatch<React.SetStateAction<string>>;
+  displayCountries: () => void;
+  sendSms: () => void;
 }
 
-export const PhoneInput = React.forwardRef(({ country, phone, setPhone, displayCountries, sendSms }: PhoneInputNS.IProps, ref: React.Ref<HTMLInputElement>) => {
+export const PhoneInput = React.forwardRef(({ country, phone, setPhone, displayCountries, sendSms }: IPhoneInputProps, ref: React.Ref<HTMLInputElement>) => {
   const { t } = useContext(LocalizationContext);
 
   return (

@@ -12,14 +12,12 @@ import { CHATS_LIMIT } from 'app/utils/pagination-limits';
 import { SearchBox } from 'app/components';
 import { ForwardEntity } from './forward-entity/forward-entity';
 
-namespace ForwardModalNS {
-  export interface IProps {
-    onClose: () => void;
-    messageIdsToForward: number[];
-  }
+interface IForwardModalProps {
+  onClose: () => void;
+  messageIdsToForward: number[];
 }
 
-export const ForwardModal = React.memo(({ onClose }: ForwardModalNS.IProps) => {
+export const ForwardModal: React.FC<IForwardModalProps> = React.memo(({ onClose }) => {
   const { t } = useContext(LocalizationContext);
   const chats = useSelector(getChatsSelector);
   const chatsAreLoading = useSelector(getChatsLoadingSelector);

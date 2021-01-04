@@ -6,15 +6,13 @@ import { Avatar } from 'app/components';
 
 import './status-badge.scss';
 
-namespace StatusBadgeNS {
-  export interface IProps {
-    user: IUserPreview;
-    additionalClassNames?: string;
-    containerClassName?: string;
-  }
+interface IStatusBadgeProps {
+  user: IUserPreview;
+  additionalClassNames?: string;
+  containerClassName?: string;
 }
 
-export const StatusBadge = React.memo(({ user, additionalClassNames, containerClassName }: StatusBadgeNS.IProps) => {
+export const StatusBadge: React.FC<IStatusBadgeProps> = React.memo(({ user, additionalClassNames, containerClassName }) => {
   if (user?.status === UserStatus.Online) {
     return (
       <div className={`status-badge ${containerClassName}`}>

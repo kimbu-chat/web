@@ -14,13 +14,11 @@ import { FriendFromList, SearchBox } from 'app/components';
 import { AddUsersToGroupChat } from 'app/store/chats/features/add-users-to-group-chat/add-users-to-group-chat';
 import { GetFriends } from 'app/store/friends/features/get-friends/get-friends';
 
-namespace GroupChatAddFriendModalNS {
-  export interface IProps {
-    onClose: () => void;
-  }
+interface IGroupChatAddFriendModalProps {
+  onClose: () => void;
 }
 
-export const GroupChatAddFriendModal = React.memo(({ onClose }: GroupChatAddFriendModalNS.IProps) => {
+export const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = React.memo(({ onClose }) => {
   const { t } = useContext(LocalizationContext);
 
   const [selectedUserIds, setselectedUserIds] = useState<number[]>([]);

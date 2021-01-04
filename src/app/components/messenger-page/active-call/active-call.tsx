@@ -93,9 +93,7 @@ export const ActiveCall: React.FC = () => {
       if (interlocutorVideoTrack) {
         const mediaStream = new MediaStream();
         mediaStream.addTrack(interlocutorVideoTrack);
-        remoteVideoRef.current.pause();
         remoteVideoRef.current.srcObject = mediaStream;
-        remoteVideoRef.current.play();
         console.log('video');
       }
     }
@@ -106,9 +104,7 @@ export const ActiveCall: React.FC = () => {
       if (interlocutorAudioTrack) {
         const mediaStream = new MediaStream();
         mediaStream.addTrack(interlocutorAudioTrack);
-        remoteAudioRef.current.pause();
         remoteAudioRef.current.srcObject = mediaStream;
-        remoteAudioRef.current.play();
         console.log('audio');
       }
     }

@@ -1,4 +1,4 @@
-import { ICall } from '../../models';
+import { ICall } from '../../../models';
 
 export interface IGetCallsSuccessActionPayload {
   calls: ICall[];

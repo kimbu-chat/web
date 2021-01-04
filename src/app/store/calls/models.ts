@@ -89,21 +89,3 @@ export interface IRenegociateApiRequest {
   offer: RTCSessionDescriptionInit;
   isVideoEnabled: boolean;
 }
-
-export interface ICancelCallApiRequest {
-  interlocutorId: number;
-}
-
-export interface IDeclineCallApiRequest {
-  interlocutorId: number;
-}
-
-export interface IEndCallApiRequest {
-  interlocutorId: number;
-}
-
-export interface IAcceptCallApiRequest {
-  userInterlocutorId: number;
-  answer: RTCSessionDescriptionInit;
-  isVideoEnabled: boolean;
-}

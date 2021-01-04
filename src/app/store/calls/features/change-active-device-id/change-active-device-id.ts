@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { IChangeActiveDeviceIdActionPayload } from './change-active-device-id-action-payload';
+import { IChangeActiveDeviceIdActionPayload } from './action-payloads/change-active-device-id-action-payload';
 import { ICallState } from '../../models';
 import { InputType } from '../../common/enums/input-type';
 

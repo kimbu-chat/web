@@ -8,7 +8,7 @@ import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import produce from 'immer';
 import { ICall, ICallState, IGetCallsApiRequest } from '../../models';
-import { IGetCallsActionPayload } from './get-calls-action-payload';
+import { IGetCallsActionPayload } from './action-payloads/get-calls-action-payload';
 import { GetCallsSuccess } from './get-calls-success';
 
 export class GetCalls {

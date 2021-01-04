@@ -13,9 +13,3 @@ export interface IUserSettings {
   typingStrategy: TypingStrategy;
   notificationSound: boolean;
 }
-
-export interface IOptionalUserSettings {
-  language?: Langs;
-  typingStrategy?: TypingStrategy;
-  notificationSound?: boolean;
-}

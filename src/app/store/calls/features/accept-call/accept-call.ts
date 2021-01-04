@@ -9,15 +9,16 @@ import { call, put, select, spawn } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { getAudioConstraints, getCallInterlocutorIdSelector, getIsVideoEnabled, getVideoConstraints } from 'app/store/calls/selectors';
 import { interlocutorOffer } from 'store/middlewares/webRTC/peerConnectionFactory';
-import { IAcceptCallApiRequest, ICallState } from '../../models';
+import { ICallState } from '../../models';
 import { deviceUpdateWatcher } from '../../utils/device-update-watcher';
 import { getAndSendUserMedia, getMediaDevicesList } from '../../utils/user-media';
 import { ChangeActiveDeviceId } from '../change-active-device-id/change-active-device-id';
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
-import { IAcceptCallActionPayload } from './accept-call-action-payload';
+import { IAcceptCallActionPayload } from './action-payloads/accept-call-action-payload';
 import { InputType } from '../../common/enums/input-type';
 import { AcceptCallSuccess } from './accept-call-success';
 import { peerWatcher } from '../../utils/peer-watcher';
+import { IAcceptCallApiRequest } from './api-requests/accept-call-api-request';
 
 export class AcceptCall {
   static get action() {

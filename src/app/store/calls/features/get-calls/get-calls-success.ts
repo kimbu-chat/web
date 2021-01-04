@@ -1,7 +1,7 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { ICallState } from '../../models';
-import { IGetCallsSuccessActionPayload } from './get-calls-success-action-payload';
+import { IGetCallsSuccessActionPayload } from './action-payloads/get-calls-success-action-payload';
 
 export class GetCallsSuccess {
   static get action() {

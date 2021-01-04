@@ -7,7 +7,7 @@ import { LocalizationContext } from 'app/app';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { ChatActions } from 'store/chats/actions';
 import { useSelector } from 'react-redux';
-import { getSelectedChatSelector } from 'store/chats/selectors';
+import { getSelectedChatVideosSelector } from 'store/chats/selectors';
 import { IPage } from 'store/common/models';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -21,8 +21,7 @@ export const ChatVideo = React.memo(() => {
 
   const getVideoAttachmentss = useActionWithDispatch(ChatActions.getVideoAttachments);
 
-  const selectedChat = useSelector(getSelectedChatSelector);
-  const videosForSelectedChat = selectedChat?.videos;
+  const videosForSelectedChat = useSelector(getSelectedChatVideosSelector);
 
   const location = useLocation();
 
@@ -34,9 +33,8 @@ export const ChatVideo = React.memo(() => {
 
     getVideoAttachmentss({
       page,
-      chatId: selectedChat!.id,
     });
-  }, [selectedChat!.id, videosForSelectedChat?.videos]);
+  }, [videosForSelectedChat?.videos]);
 
   const videosWithSeparators = setSeparators(
     videosForSelectedChat?.videos,

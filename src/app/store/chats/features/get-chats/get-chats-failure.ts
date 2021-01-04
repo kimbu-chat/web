@@ -8,9 +8,10 @@ export class GetChatsFailure {
   }
 
   static get reducer() {
-    return produce((draft: IChatsState) => ({
-      ...draft,
-      loading: false,
-    }));
+    return produce((draft: IChatsState) => {
+      draft.loading = false;
+
+      return draft;
+    });
   }
 }

@@ -1,11 +1,10 @@
 import { LocalizationContext } from 'app/app';
 import { Modal, WithBackground } from 'components';
-import { IChat } from 'store/chats/models';
-import { getSelectedChatSelector } from 'store/chats/selectors';
+import { getSelectedGroupChatNameSelector } from 'store/chats/selectors';
 import React, { useCallback, useContext, useState } from 'react';
 import './clear-chat-modal.scss';
 import { useSelector } from 'react-redux';
-import { ClearChatHistory } from 'app/store/messages/features/clear-history/clear-chat-history';
+import { ClearChatHistory } from 'app/store/chats/features/clear-history/clear-chat-history';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import CheckBoxSvg from 'icons/ic-checkbox.svg';
 
@@ -18,7 +17,7 @@ namespace ClearChatModalNS {
 export const ClearChatModal = React.memo(({ hide }: ClearChatModalNS.IProps) => {
   const { t } = useContext(LocalizationContext);
 
-  const selectedChat = useSelector(getSelectedChatSelector) as IChat;
+  const selectedGroupChatName = useSelector(getSelectedGroupChatNameSelector);
 
   const [deleteForInterlocutor, setDeleteForInterlocutor] = useState(false);
   const changeDeleteForInterlocutorState = useCallback(() => {
@@ -27,9 +26,9 @@ export const ClearChatModal = React.memo(({ hide }: ClearChatModalNS.IProps) => 
 
   const clearHistory = useActionWithDispatch(ClearChatHistory.action);
   const clearSelectedChat = useCallback(() => {
-    clearHistory({ forEveryone: deleteForInterlocutor, chatId: selectedChat.id });
+    clearHistory({ forEveryone: deleteForInterlocutor });
     hide();
-  }, [selectedChat.id, deleteForInterlocutor]);
+  }, [deleteForInterlocutor]);
 
   return (
     <WithBackground onBackgroundClick={hide}>
@@ -46,7 +45,7 @@ export const ClearChatModal = React.memo(({ hide }: ClearChatModalNS.IProps) => 
             </div>
           </div>
         }
-        highlightedInContents={`‘${selectedChat.groupChat?.name}‘`}
+        highlightedInContents={selectedGroupChatName}
         closeModal={hide}
         buttons={[
           {

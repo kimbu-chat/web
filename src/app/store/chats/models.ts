@@ -1,7 +1,7 @@
 import { CancelTokenSource } from 'axios';
+import { CallStatus } from '../calls/models';
 import { IPage } from '../common/models';
 // eslint-disable-next-line import/no-cycle
-import { IMessage, FileType } from '../messages/models';
 import { IAvatar, IUserPreview } from '../my-profile/models';
 
 export interface IUploadingAttachment {
@@ -10,12 +10,15 @@ export interface IUploadingAttachment {
 }
 
 export interface IChatsState {
-  groupChatUsersLoading?: boolean;
   loading: boolean;
   hasMore: boolean;
   searchString: string;
   chats: IChat[];
   selectedChatId: number | null;
+
+  selectedMessageIds: number[];
+  messageToEdit?: IMessage;
+  messageToReply?: IMessage;
 }
 
 export interface IGroupChat {
@@ -98,6 +101,10 @@ export interface IGetChatInfoApiResponse {
   pictureAttachmentsCount: number;
 }
 
+export interface IGetChatInfoApiRequest {
+  chatId: number;
+}
+
 export interface IChangeChatMutedStatusRequest {
   chatIds: (number | undefined)[];
   isMuted: boolean;
@@ -105,11 +112,12 @@ export interface IChangeChatMutedStatusRequest {
 
 export interface IChat {
   id: number;
+
   interlocutorType?: InterlocutorType;
   groupChat?: IGroupChat;
   lastMessage?: IMessage | null;
   interlocutor?: IUserPreview;
-  unreadMessagesCount?: number;
+  unreadMessagesCount: number;
   interlocutorLastReadMessageId?: number;
   draftMessage?: string;
   timeoutId?: NodeJS.Timeout;
@@ -122,6 +130,7 @@ export interface IChat {
   files: IFilesList;
   members: IMembersList;
   recordings: IVoiceRecordingList;
+  messages: IMessagesList;
 
   attachmentsToSend?: IAttachmentToSend<IBaseAttachment>[];
 
@@ -130,11 +139,6 @@ export interface IChat {
   voiceAttachmentsCount?: number;
   audioAttachmentsCount?: number;
   pictureAttachmentsCount?: number;
-}
-
-export interface IChangeLastMessageReq {
-  newMessage: IMessage;
-  chatId: number;
 }
 
 export interface IAttachmentToSend<T> {
@@ -196,31 +200,54 @@ export interface IChatList {
   hasMore: boolean;
 }
 
-interface IPhotoList {
+export interface IPhotoList {
   photos: (IPictureAttachment & IGroupable)[];
   loading: boolean;
   hasMore: boolean;
 }
 
-interface IVideoList {
+export interface IVideoList {
   videos: (IVideoAttachment & IGroupable)[];
   loading: boolean;
   hasMore: boolean;
 }
 
-interface IFilesList {
+export interface IFilesList {
   files: (IRawAttachment & IGroupable)[];
   loading: boolean;
   hasMore: boolean;
 }
 
-interface IVoiceRecordingList {
+export interface IVoiceRecordingList {
   recordings: (IVoiceAttachment & IGroupable)[];
   loading: boolean;
   hasMore: boolean;
 }
 
-interface IAudioList {
+interface IMessagesList {
+  messages: IMessage[];
+  loading: boolean;
+  hasMore: boolean;
+}
+
+export interface IMessage {
+  id: number;
+  needToShowCreator?: boolean;
+  isEdited?: boolean;
+  userCreator: IUserPreview;
+  creationDateTime: Date;
+  text: string;
+  attachmentsJson?: string;
+  systemMessageType: SystemMessageType;
+  state?: MessageState;
+  chatId: number;
+  dateSeparator?: string;
+  isSelected?: boolean;
+  needToShowDateSeparator?: boolean;
+  attachments?: IBaseAttachment[];
+}
+
+export interface IAudioList {
   audios: (IAudioAttachment & IGroupable)[];
   loading: boolean;
   hasMore: boolean;
@@ -261,4 +288,110 @@ export interface IUploadVideoResponse extends IUploadBaseResponse {
 
 export interface IUploadVoiceResponse extends IUploadBaseResponse {
   duration: string;
+}
+
+export interface ICallMessage {
+  userCallerId: number;
+  userCalleeId: number;
+  duration: number;
+  status: CallStatus;
+}
+
+export interface IMessageList {
+  messages: IMessage[];
+  hasMoreMessages: boolean;
+  chatId: number;
+}
+
+export interface ISystemMessageBase {}
+
+export interface IGroupChatMemberRemovedSystemMessageContent extends ISystemMessageBase {
+  removedUserId: number;
+  removedUserName: string;
+}
+
+export interface IGroupChatNameChangedSystemMessageContent extends ISystemMessageBase {
+  oldName: string;
+  newName: string;
+}
+
+export interface IGroupChatMemberAddedSystemMessageContent extends ISystemMessageBase {
+  addedUserId: number;
+  addedUserName: string;
+  groupChatName: string;
+  groupChatMembersNumber: number;
+  groupChatAvatarUrl: string;
+}
+
+export enum FileType {
+  Audio = 'Audio',
+  Raw = 'Raw',
+  Picture = 'Picture',
+  Voice = 'Voice',
+  Video = 'Video',
+}
+
+export enum SystemMessageType {
+  None = 'None',
+  GroupChatMemberRemoved = 'GroupChatMemberRemoved',
+  GroupChatAvatarChanged = 'GroupChatAvatarChanged',
+  GroupChatCreated = 'GroupChatCreated',
+  GroupChatMemberAdded = 'GroupChatMemberAdded',
+  GroupChatNameChanged = 'GroupChatNameChanged',
+  GroupChatAvatarRemoved = 'GroupChatAvatarRemoved',
+  UserCreated = 'UserCreated',
+  CallEnded = 'CallEnded',
+}
+
+export interface IMessageCreationReqData {
+  text?: string;
+  chatId?: number;
+  attachments?: IAttachmentCreation[];
+}
+
+export interface IAttachmentCreation {
+  id: number;
+  type: FileType;
+}
+
+export interface IMessagesReqData {
+  page: IPage;
+  chatId: number;
+}
+
+export enum MessageState {
+  QUEUED = 'QUEUED',
+  SENT = 'SENT',
+  READ = 'READ',
+  ERROR = 'ERROR',
+  DELETED = 'DELETED',
+  LOCALMESSAGE = 'LOCALMESSAGE',
+}
+
+export interface IEditMessageApiReq {
+  text: string;
+  messageId: number;
+  removedAttachments?: IAttachmentCreation[];
+  newAttachments?: IAttachmentCreation[];
+}
+export interface IDeleteMessagesApiReq {
+  ids: number[];
+  forEveryone: boolean;
+}
+
+export interface IClearChatHistoryApiRequest {
+  forEveryone: boolean;
+  chatId: number;
+}
+
+export interface IGetGroupChatUsersApiRequest {
+  groupChatId: number;
+  name?: string;
+  page: IPage;
+}
+
+export interface IMessageTypingApiRequest {
+  interlocutorName: string;
+  chatId: number;
+  text: string;
 }

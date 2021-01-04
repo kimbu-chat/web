@@ -5,16 +5,17 @@ import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { IAvatarSelectedData, IUploadAvatarResponse } from 'store/my-profile/models';
 import { getSelectedChatSelector } from 'store/chats/selectors';
-import { ChatActions } from 'store/chats/actions';
 import { Avatar, ChangePhoto, FadeAnimationWrapper } from 'components';
 import EditSvg from 'icons/ic-edit.svg';
 import PhotoSvg from 'icons/ic-photo.svg';
 import { Route } from 'react-router';
 import { CSSTransition } from 'react-transition-group';
-import { MyProfileActions } from 'store/my-profile/actions';
 import { getInterlocutorInitials, getChatInterlocutor } from 'utils/interlocutor-name-utils';
 
 import { EditChatModal, GroupChatAddFriendModal, BigPhoto } from 'app/components';
+import { EditGroupChat } from 'app/store/chats/features/edit-group-chat/edit-group-chat';
+import { GetChatInfo } from 'app/store/chats/features/get-chat-info/get-chat-info';
+import { UploadAvatar } from 'app/store/my-profile/features/upload-avatar/upload-avatar';
 import { InterlocutorInfo } from './interlocutor-info/interlocutor-info';
 import { ChatActions as ChatInfoActions } from './chat-actions/chat-actions';
 import { ChatMembers } from './chat-members/chat-members';
@@ -30,9 +31,9 @@ import { ChatAudios } from './chat-audios/chat-audios';
 const ChatInfo: React.FC = React.memo(() => {
   const selectedChat = useSelector(getSelectedChatSelector);
 
-  const getChatInfo = useActionWithDispatch(ChatActions.getChatInfo);
-  const editGroupChat = useActionWithDispatch(ChatActions.editGroupChat);
-  const uploadGroupChatAvatar = useActionWithDeferred(MyProfileActions.uploadAvatarRequestAction);
+  const getChatInfo = useActionWithDispatch(GetChatInfo.action);
+  const editGroupChat = useActionWithDispatch(EditGroupChat.action);
+  const uploadGroupChatAvatar = useActionWithDeferred(UploadAvatar.action);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -70,9 +71,9 @@ const ChatInfo: React.FC = React.memo(() => {
 
   useEffect(() => {
     if (selectedChat) {
-      getChatInfo({ chatId: selectedChat?.id });
+      getChatInfo();
     }
-  }, [selectedChat?.id]);
+  }, []);
 
   const handleImageChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -102,14 +103,13 @@ const ChatInfo: React.FC = React.memo(() => {
         pathToFile: data.croppedImagePath,
       }).then((response: IUploadAvatarResponse) => {
         editGroupChat({
-          id: selectedChat!.groupChat!.id,
           avatar: response,
           name: selectedChat!.groupChat!.name,
           description: selectedChat!.groupChat!.description,
         });
       });
     },
-    [uploadGroupChatAvatar, editGroupChat, selectedChat?.groupChat?.id],
+    [uploadGroupChatAvatar, editGroupChat],
   );
 
   const getChatFullSizeAvatar = useCallback((): string => {

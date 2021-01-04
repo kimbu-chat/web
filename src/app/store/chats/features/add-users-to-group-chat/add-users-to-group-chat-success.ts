@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { getChatListChatIndex } from 'app/store/chats/selectors';
+import { getChatByIdDraftSelector } from 'app/store/chats/selectors';
 import { IChatsState } from '../../models';
 import { IAddUsersToGroupChatSuccessActionPayload } from './add-users-to-group-chat-success-action-payload';
 
@@ -11,12 +11,14 @@ export class AddUsersToGroupChatSuccess {
 
   static get reducer() {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof AddUsersToGroupChatSuccess.action>) => {
-      const { chat, users } = payload;
+      const { chatId, users } = payload;
 
-      const chatIndex: number = getChatListChatIndex(chat.id, draft);
+      const chat = getChatByIdDraftSelector(chatId, draft);
 
-      draft.chats[chatIndex].groupChat!.membersCount = draft.chats[chatIndex].groupChat!.membersCount + 1;
-      draft.chats[chatIndex].members.members = [...draft.chats[chatIndex].members.members, ...users];
+      if (chat) {
+        chat.groupChat!.membersCount = chat.groupChat!.membersCount + users.length;
+        chat.members.members = [...chat.members.members, ...users];
+      }
 
       return draft;
     });

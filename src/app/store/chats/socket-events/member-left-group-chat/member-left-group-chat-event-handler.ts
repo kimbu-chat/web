@@ -1,13 +1,9 @@
-import { getMyIdSelector } from 'app/store/my-profile/selectors';
-import { SetStore } from 'app/store/set-store';
+import { MyProfileService } from 'app/services/my-profile-service';
 import produce from 'immer';
-import { SagaIterator } from 'redux-saga';
-import { select, put } from 'redux-saga/effects';
-import { RootState } from 'store/root-reducer';
 import { createAction } from 'typesafe-actions';
 import { ChatId } from '../../chat-id';
 import { IChatsState } from '../../models';
-import { getChatListChatIndex } from '../../selectors';
+import { getChatByIdDraftSelector } from '../../selectors';
 import { IMemberLeftGroupChatIntegrationEvent } from './member-left-group-chat-integration-event';
 
 export class MemberLeftGroupChatEventHandler {
@@ -15,34 +11,30 @@ export class MemberLeftGroupChatEventHandler {
     return createAction('MemberLeftGroupChat')<IMemberLeftGroupChatIntegrationEvent>();
   }
 
-  static get saga() {
-    return function* (action: ReturnType<typeof MemberLeftGroupChatEventHandler.action>): SagaIterator {
-      const myId = yield select(getMyIdSelector);
+  static get reducer() {
+    return produce((draft: IChatsState, { payload }: ReturnType<typeof MemberLeftGroupChatEventHandler.action>) => {
+      const { groupChatId, userId } = payload;
+      const chatId = ChatId.from(undefined, groupChatId).id;
 
-      const { groupChatId, userId } = action.payload;
+      const myId = new MyProfileService().myProfile.id;
+
       const isCurrentUserEventCreator = myId === userId;
 
-      const state: RootState = yield select();
+      if (isCurrentUserEventCreator) {
+        draft.chats = draft.chats.filter((chat) => chat.groupChat?.id !== groupChatId);
 
-      const nextState = produce(state, (draft) => {
-        const chatId = ChatId.from(undefined, groupChatId).id;
-
-        if (isCurrentUserEventCreator) {
-          draft.chats.chats = draft.chats.chats.filter((chat) => chat.groupChat?.id !== groupChatId);
-
-          if (draft.chats.selectedChatId === chatId) {
-            draft.chats.selectedChatId = null;
-          }
-        } else {
-          const chatIndex: number = getChatListChatIndex(chatId, draft.chats as IChatsState);
-
-          draft.chats.chats[chatIndex].members.members = draft.chats.chats[chatIndex].members.members.filter(({ id }) => id !== userId);
+        if (draft.selectedChatId === chatId) {
+          draft.selectedChatId = null;
         }
+      } else {
+        const chat = getChatByIdDraftSelector(chatId, draft);
 
-        return draft;
-      });
+        if (chat) {
+          chat.members.members = chat.members.members.filter(({ id }) => id !== userId);
+        }
+      }
 
-      yield put(SetStore.action(nextState as RootState));
-    };
+      return draft;
+    });
   }
 }

@@ -1,30 +1,33 @@
 import { HTTPStatusCode } from 'app/common/http-status-code';
-import { Meta } from 'app/store/common/actions';
+import { createEmptyAction } from 'app/store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
 
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
-import { call, put } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
-import { IChat } from '../../models';
-import { ILeaveGroupChatActionPayload } from './leave-group-chat-action-payload';
+import { call, put, select } from 'redux-saga/effects';
+import { getSelectedChatIdSelector } from '../../selectors';
+import { ChatId } from '../../chat-id';
 import { LeaveGroupChatSuccess } from './leave-group-chat-success';
 
 export class LeaveGroupChat {
   static get action() {
-    return createAction('LEAVE_GROUP_CHAT')<ILeaveGroupChatActionPayload, Meta>();
+    return createEmptyAction('LEAVE_SELECTED_GROUP_CHAT');
   }
 
   static get saga() {
-    return function* leaveGroupChatSaga(action: ReturnType<typeof LeaveGroupChat.action>): SagaIterator {
+    return function* leaveGroupChatSaga(): SagaIterator {
       try {
-        const chat: IChat = action.payload;
-        const { status } = LeaveGroupChat.httpRequest.call(yield call(() => LeaveGroupChat.httpRequest.generator(chat.groupChat!.id)));
-        if (status === HTTPStatusCode.OK) {
-          yield put(LeaveGroupChatSuccess.action(action.payload));
-          action.meta.deferred?.resolve();
-        } else {
-          alert(`Error. http status is ${status}`);
+        const chatId = yield select(getSelectedChatIdSelector);
+        const { groupChatId } = ChatId.fromId(chatId);
+
+        if (groupChatId) {
+          const { status } = LeaveGroupChat.httpRequest.call(yield call(() => LeaveGroupChat.httpRequest.generator(groupChatId)));
+
+          if (status === HTTPStatusCode.OK) {
+            yield put(LeaveGroupChatSuccess.action({ chatId }));
+          } else {
+            alert(`Error. http status is ${status}`);
+          }
         }
       } catch {
         alert('leaveGroupChatSaga error');

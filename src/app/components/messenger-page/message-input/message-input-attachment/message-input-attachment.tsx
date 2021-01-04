@@ -1,5 +1,4 @@
-import { IAttachmentToSend, IBaseAttachment, IPictureAttachment, IRawAttachment, IVideoAttachment } from 'store/chats/models';
-import { IAttachmentCreation, FileType } from 'store/messages/models';
+import { FileType, IAttachmentCreation, IAttachmentToSend, IBaseAttachment, IPictureAttachment, IRawAttachment, IVideoAttachment } from 'store/chats/models';
 import React, { useCallback, useEffect, useState } from 'react';
 import './message-input-attachment.scss';
 
@@ -9,8 +8,6 @@ import FileSVG from 'icons/ic-documents.svg';
 import MicrophoneSVG from 'icons/ic-microphone.svg';
 import PlaySVG from 'icons/ic-play.svg';
 import CloseSVG from 'icons/ic-close.svg';
-import { getSelectedChatIdSelector } from 'store/chats/selectors';
-import { useSelector } from 'react-redux';
 import { ChatActions } from 'store/chats/actions';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 
@@ -23,7 +20,6 @@ namespace MessageInputAttachmentNS {
 }
 
 export const MessageInputAttachment: React.FC<MessageInputAttachmentNS.IProps> = React.memo(({ attachment, isFromEdit, removeSelectedAttachment }) => {
-  const selectedChatId = useSelector(getSelectedChatIdSelector);
   const removeAttachment = useActionWithDispatch(ChatActions.removeAttachmentAction);
 
   const [previewUrl, setPreviewUr] = useState<string>('');
@@ -37,10 +33,9 @@ export const MessageInputAttachment: React.FC<MessageInputAttachmentNS.IProps> =
     }
 
     removeAttachment({
-      chatId: selectedChatId!,
       attachmentId: attachment.attachment.id,
     });
-  }, [selectedChatId, attachment.attachment.id]);
+  }, [attachment.attachment.id]);
 
   useEffect(() => {
     if (attachment.attachment.type === FileType.Picture && !isFromEdit) {

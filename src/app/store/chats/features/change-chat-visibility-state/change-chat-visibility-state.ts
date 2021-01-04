@@ -1,32 +1,32 @@
+import { createEmptyAction } from 'app/store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
 
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
-import { call, put } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
-import { IChat, IHideChatRequest } from '../../models';
-import { IChangeChatVisibilityStateActionPayload } from './change-chat-visibility-state-action-payload';
+import { call, put, select } from 'redux-saga/effects';
+import { getSelectedChatIdSelector } from '../../selectors';
+import { IHideChatRequest } from '../../models';
 import { ChangeChatVisibilityStateSuccess } from './change-chat-visibility-state-success';
 
 export class ChangeChatVisibilityState {
   static get action() {
-    return createAction('CHANGE_CHAT_VISIBILITY_STATE')<IChangeChatVisibilityStateActionPayload>();
+    return createEmptyAction('CHANGE_SELECTED_CHAT_VISIBILITY_STATE');
   }
 
   static get saga() {
-    return function* (action: ReturnType<typeof ChangeChatVisibilityState.action>): SagaIterator {
-      const chat: IChat = action.payload;
+    return function* (): SagaIterator {
+      const { chatId } = yield select(getSelectedChatIdSelector);
 
       try {
         const request: IHideChatRequest = {
-          chatIds: [chat.id],
+          chatIds: [chatId],
           isHidden: true,
         };
 
         const response = ChangeChatVisibilityState.httpRequest.call(yield call(() => ChangeChatVisibilityState.httpRequest.generator(request)));
 
         if (response.status === 200) {
-          yield put(ChangeChatVisibilityStateSuccess.action(chat));
+          yield put(ChangeChatVisibilityStateSuccess.action({ chatId }));
         } else {
           alert('Error chat deletion');
         }

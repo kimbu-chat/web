@@ -2,53 +2,54 @@ import React, { useEffect, useRef, useContext, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import './chat.scss';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { MessageActions } from 'store/messages/actions';
 import { LocalizationContext } from 'app/app';
-import { getSelectedChatSelector, getTypingString } from 'store/chats/selectors';
-import { getMessagesLoading, getMessagesByChatId, getSelectedMessagesLength } from 'store/messages/selectors';
+import {
+  getIsSelectMessagesStateSelector,
+  getMessagesByChatIdSelector,
+  getMessagesLoadingSelector,
+  getHasMoreMessagesMessagesSelector,
+  getTypingStringSelector,
+  getSelectedChatIdSelector,
+  getSelectedChatUnreadMessagesCountSelector,
+} from 'store/chats/selectors';
 import { MessageUtils } from 'app/utils/message-utils';
 import moment from 'moment';
 import { FadeAnimationWrapper } from 'components';
-import { ChatActions } from 'store/chats/actions';
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
 import { MESSAGES_LIMIT } from 'app/utils/pagination-limits';
 import { SelectedMessagesData, MessageItem } from 'app/components';
+import { GetMessages } from 'app/store/chats/features/get-messages/get-messages';
+import { MarkMessagesAsRead } from 'app/store/chats/features/mark-messages-as-read/mark-messages-as-read';
 
 const Chat = React.memo(() => {
-  const getMessages = useActionWithDispatch(MessageActions.getMessages);
-  const markMessagesAsRead = useActionWithDispatch(ChatActions.markMessagesAsRead);
+  const getMessages = useActionWithDispatch(GetMessages.action);
+  const markMessagesAsRead = useActionWithDispatch(MarkMessagesAsRead.action);
 
   const { t } = useContext(LocalizationContext);
 
-  const selectedChat = useSelector(getSelectedChatSelector);
-  const isSelectState = useSelector(getSelectedMessagesLength) > 0;
-  const messageList = useSelector(getMessagesByChatId(selectedChat?.id!));
-  const areMessagesLoading = useSelector(getMessagesLoading);
-
-  const messages = messageList?.messages;
-  const hasMoreMessages = messageList?.hasMoreMessages;
-
-  useEffect(() => {
-    if (selectedChat && (selectedChat.unreadMessagesCount || 0) > 0 && messages) {
-      markMessagesAsRead({
-        chatId: selectedChat.id,
-        lastReadMessageId: messages[0].id,
-      });
-    }
-  }, [selectedChat?.id, selectedChat?.unreadMessagesCount, messages]);
+  const selectedChatId = useSelector(getSelectedChatIdSelector);
+  const unreadMessagesCount = useSelector(getSelectedChatUnreadMessagesCountSelector);
+  const isSelectState = useSelector(getIsSelectMessagesStateSelector);
+  const messages = useSelector(getMessagesByChatIdSelector);
+  const areMessagesLoading = useSelector(getMessagesLoadingSelector);
+  const hasMoreMessages = useSelector(getHasMoreMessagesMessagesSelector);
+  const typingString = useSelector(getTypingStringSelector(t, selectedChatId));
 
   useEffect(() => {
-    if (selectedChat) {
-      // fetching first 25messages
-      getMessages({
-        page: {
-          limit: MESSAGES_LIMIT,
-          offset: 0,
-        },
-        chat: selectedChat,
-      });
+    if (selectedChatId && (unreadMessagesCount || 0) > 0) {
+      markMessagesAsRead();
     }
-  }, [selectedChat?.id]);
+  }, [unreadMessagesCount, selectedChatId]);
+
+  useEffect(() => {
+    // fetching first 25messages
+    getMessages({
+      page: {
+        limit: MESSAGES_LIMIT,
+        offset: 0,
+      },
+    });
+  }, []);
 
   const loadMore = useCallback(() => {
     const pageData = {
@@ -56,17 +57,14 @@ const Chat = React.memo(() => {
       offset: messages?.length || 0,
     };
 
-    if (selectedChat) {
-      getMessages({
-        page: pageData,
-        chat: selectedChat,
-      });
-    }
-  }, [messages?.length, selectedChat]);
+    getMessages({
+      page: pageData,
+    });
+  }, [messages?.length]);
 
   const messagesContainerRef = useRef(null);
 
-  if (!selectedChat) {
+  if (!selectedChatId) {
     return (
       <div className='messenger__messages-list'>
         <div className='messenger__select-chat'>{t('chat.select_chat')}</div>
@@ -79,7 +77,7 @@ const Chat = React.memo(() => {
   return (
     <div className='messenger__messages-list'>
       <div ref={messagesContainerRef} className='messenger__messages-container'>
-        {(selectedChat?.typingInterlocutors?.length || 0) > 0 && <div className='messenger__typing-notification'>{getTypingString(t, selectedChat)}</div>}
+        {typingString && <div className='messenger__typing-notification'>{typingString}</div>}
 
         {itemsWithUserInfo.length === 0 && !areMessagesLoading && (
           <div className='messenger__messages-list__empty'>

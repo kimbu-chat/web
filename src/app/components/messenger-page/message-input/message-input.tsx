@@ -1,34 +1,30 @@
-import React, { useState, useRef, useContext, useCallback, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import './message-input.scss';
-
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { MessageActions } from 'store/messages/actions';
-import { getSelectedChatSelector } from 'store/chats/selectors';
-import { SystemMessageType, MessageState, FileType } from 'store/messages/models';
 import { LocalizationContext } from 'app/app';
+import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
+import { useGlobalDrop } from 'app/hooks/use-global-drop';
+import { useOnClickOutside } from 'app/hooks/use-on-click-outside';
+import { useReferState } from 'app/hooks/use-referred-state';
+import { CreateMessage } from 'app/store/chats/features/create-message/create-message';
+import { MessageTyping } from 'app/store/chats/features/message-typing/message-typing';
+import { UploadAttachmentRequest } from 'app/store/chats/features/upload-attachment/upload-attachment-request';
+import { IChat, SystemMessageType, MessageState, FileType } from 'app/store/chats/models';
+import { getMessageToReplySelector, getSelectedChatSelector } from 'app/store/chats/selectors';
+import { getMyProfileSelector } from 'app/store/my-profile/selectors';
+import { TypingStrategy } from 'app/store/settings/models';
+import { getTypingStrategy } from 'app/store/settings/selectors';
+import { getFileType } from 'app/utils/get-file-extension';
+import moment from 'moment';
+import Mousetrap from 'mousetrap';
+import React, { useContext, useState, useRef, useEffect, useCallback } from 'react';
+import { useSelector } from 'react-redux';
 import useInterval from 'use-interval';
-
+import { throttle } from 'lodash';
 import AddSvg from 'icons/ic-add-new.svg';
 import VoiceSvg from 'icons/ic-microphone.svg';
-import moment from 'moment';
-
-import { getMyProfileSelector } from 'store/my-profile/selectors';
-import Mousetrap from 'mousetrap';
-import { getTypingStrategy } from 'store/settings/selectors';
-import { TypingStrategy } from 'store/settings/models';
-import { ChatActions } from 'store/chats/actions';
-import { useOnClickOutside } from 'app/hooks/use-on-click-outside';
-import { getFileType } from 'app/utils/get-file-extension';
-import { RespondingMessage } from 'components';
-import { IChat } from 'store/chats/models';
-import { useGlobalDrop } from 'app/hooks/use-global-drop';
-import { useReferState } from 'app/hooks/use-referred-state';
-import { throttle } from 'lodash';
-import { getMessageToReply } from 'app/store/messages/selectors';
+import { RespondingMessage } from './responding-message/responding-message';
+import { ExpandingTextarea } from './expanding-textarea/expanding-textarea';
 import { MessageInputAttachment } from './message-input-attachment/message-input-attachment';
 import { MessageSmiles } from './message-smiles/message-smiles';
-import { ExpandingTextarea } from './expanding-textarea/expanding-textarea';
+import './message-input.scss';
 
 namespace CreateMessageInputNS {
   export interface IRecordedData {
@@ -42,15 +38,15 @@ namespace CreateMessageInputNS {
 export const CreateMessageInput = React.memo(() => {
   const { t } = useContext(LocalizationContext);
 
-  const sendMessage = useActionWithDispatch(MessageActions.createMessage);
-  const notifyAboutTyping = useActionWithDispatch(MessageActions.messageTyping);
-  const uploadAttachmentRequest = useActionWithDispatch(ChatActions.uploadAttachmentRequestAction);
+  const sendMessage = useActionWithDispatch(CreateMessage.action);
+  const notifyAboutTyping = useActionWithDispatch(MessageTyping.action);
+  const uploadAttachmentRequest = useActionWithDispatch(UploadAttachmentRequest.action);
 
   const currentUser = useSelector(getMyProfileSelector);
   const selectedChat = useSelector(getSelectedChatSelector);
   const myProfile = useSelector(getMyProfileSelector);
   const myTypingStrategy = useSelector(getTypingStrategy);
-  const replyingMessage = useSelector(getMessageToReply);
+  const replyingMessage = useSelector(getMessageToReplySelector);
 
   const [text, setText] = useState('');
   const refferedText = useReferState(text);
@@ -172,7 +168,6 @@ export const CreateMessageInput = React.memo(() => {
           const fileType = getFileType(file.name);
 
           uploadAttachmentRequest({
-            chatId: selectedChat!.id,
             type: fileType,
             file,
             attachmentId: Number(`${new Date().getTime()}${index}`),
@@ -180,7 +175,7 @@ export const CreateMessageInput = React.memo(() => {
         }
       }
     },
-    [setIsDraggingOver, selectedChat?.id, uploadAttachmentRequest],
+    [setIsDraggingOver, uploadAttachmentRequest],
   );
 
   const onPaste = useCallback(
@@ -193,7 +188,6 @@ export const CreateMessageInput = React.memo(() => {
           const fileType = getFileType(file.name);
 
           uploadAttachmentRequest({
-            chatId: selectedChat!.id,
             type: fileType,
             file,
             attachmentId: Number(`${new Date().getTime()}${index}`),
@@ -201,18 +195,16 @@ export const CreateMessageInput = React.memo(() => {
         }
       }
     },
-    [uploadAttachmentRequest, selectedChat?.id],
+    [uploadAttachmentRequest],
   );
 
   const throttledNotifyAboutTyping = useCallback(
     throttle((text: string) => {
       notifyAboutTyping({
-        chatId: selectedChat?.id!,
         text,
-        interlocutorName: `${myProfile?.firstName} ${myProfile?.lastName}`,
       });
     }, 1000),
-    [selectedChat?.id, myProfile],
+    [myProfile],
   );
 
   const onType = useCallback(
@@ -292,7 +284,6 @@ export const CreateMessageInput = React.memo(() => {
             type: 'audio/mp3; codecs="opus"',
           });
           uploadAttachmentRequest({
-            chatId: selectedChat!.id,
             type: FileType.Voice,
             file: audioFile as File,
             attachmentId: new Date().getTime(),
@@ -302,7 +293,7 @@ export const CreateMessageInput = React.memo(() => {
         setRecordedSeconds(0);
       });
     });
-  }, [selectedChat, setRecordedSeconds, uploadAttachmentRequest, recorderData.current]);
+  }, [setRecordedSeconds, uploadAttachmentRequest, recorderData.current]);
 
   const stopRecording = useCallback(() => {
     Mousetrap.unbind('esc');
@@ -340,7 +331,6 @@ export const CreateMessageInput = React.memo(() => {
           const fileType = getFileType(file.name);
 
           uploadAttachmentRequest({
-            chatId: selectedChat!.id,
             type: fileType,
             file,
             attachmentId: Number(`${new Date().getTime()}${index}`),
@@ -352,7 +342,7 @@ export const CreateMessageInput = React.memo(() => {
         fileInputRef.current.value = '';
       }
     },
-    [uploadAttachmentRequest, selectedChat, fileInputRef],
+    [uploadAttachmentRequest, fileInputRef],
   );
 
   return (

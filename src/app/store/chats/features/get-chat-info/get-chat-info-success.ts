@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { getChatListChatIndex } from 'app/store/chats/selectors';
+import { getChatByIdDraftSelector } from 'app/store/chats/selectors';
 import { IChatsState } from '../../models';
 import { IGetChatInfoSuccessActionPayload } from './get-chat-info-success-action-payload';
 
@@ -13,14 +13,14 @@ export class GetChatInfoSuccess {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof GetChatInfoSuccess.action>) => {
       const { chatId, rawAttachmentsCount, voiceAttachmentsCount, videoAttachmentsCount, audioAttachmentsCount, pictureAttachmentsCount } = payload;
 
-      const chatIndex: number = getChatListChatIndex(chatId, draft);
+      const chat = getChatByIdDraftSelector(chatId, draft);
 
-      if (chatIndex >= 0) {
-        draft.chats[chatIndex].rawAttachmentsCount = rawAttachmentsCount;
-        draft.chats[chatIndex].voiceAttachmentsCount = voiceAttachmentsCount;
-        draft.chats[chatIndex].videoAttachmentsCount = videoAttachmentsCount;
-        draft.chats[chatIndex].audioAttachmentsCount = audioAttachmentsCount;
-        draft.chats[chatIndex].pictureAttachmentsCount = pictureAttachmentsCount;
+      if (chat) {
+        chat.rawAttachmentsCount = rawAttachmentsCount;
+        chat.voiceAttachmentsCount = voiceAttachmentsCount;
+        chat.videoAttachmentsCount = videoAttachmentsCount;
+        chat.audioAttachmentsCount = audioAttachmentsCount;
+        chat.pictureAttachmentsCount = pictureAttachmentsCount;
       }
       return draft;
     });

@@ -1,5 +1,4 @@
-import { IPictureAttachment, IVideoAttachment } from 'store/chats/models';
-import { FileType } from 'store/messages/models';
+import { FileType, IPictureAttachment, IVideoAttachment } from 'store/chats/models';
 import React from 'react';
 import { MessagePhotoAttachment } from '../photo-attachment/photo-attachment';
 import { MessageVideoAttachment } from '../video-attachment/video-attachment';

@@ -1,4 +1,4 @@
-import { getChatListChatIndex } from 'app/store/chats/selectors';
+import { getChatIndexDraftSelector } from 'app/store/chats/selectors';
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { IChatsState } from '../../models';
@@ -11,9 +11,13 @@ export class LeaveGroupChatSuccess {
 
   static get reducer() {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof LeaveGroupChatSuccess.action>) => {
-      const chatIndex: number = getChatListChatIndex(payload.id, draft);
+      const { chatId } = payload;
+
+      const chatIndex: number = getChatIndexDraftSelector(chatId, draft);
+
       draft.chats.splice(chatIndex, 1);
       draft.selectedChatId = null;
+
       return draft;
     });
   }

@@ -1,13 +1,13 @@
 import { Modal, WithBackground } from 'components';
-import { getSelectedChatSelector } from 'store/chats/selectors';
 import React, { useCallback, useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import CheckBoxSvg from 'icons/ic-checkbox.svg';
-import { MessageActions } from 'store/messages/actions';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { LocalizationContext } from 'app/app';
 import './delete-message-modal.scss';
+import { DeleteMessage } from 'app/store/chats/features/delete-message/delete-message';
+import { getSelectedChatInterlocutorNameSelector } from 'app/store/chats/selectors';
 
 namespace DeleteMessageModalNS {
   export interface IProps {
@@ -19,20 +19,19 @@ namespace DeleteMessageModalNS {
 export const DeleteMessageModal: React.FC<DeleteMessageModalNS.IProps> = React.memo(({ onClose, selectedMessages }) => {
   const { t } = useContext(LocalizationContext);
 
-  const deleteMessage = useActionWithDispatch(MessageActions.deleteMessage);
+  const deleteMessage = useActionWithDispatch(DeleteMessage.action);
 
   const [deleteForInterlocutor, setDeleteForInterlocutor] = useState(false);
   const changeDeleteForInterlocutorState = useCallback(() => {
     setDeleteForInterlocutor((oldState) => !oldState);
   }, [setDeleteForInterlocutor]);
 
-  const selectedChat = useSelector(getSelectedChatSelector);
-  const selectedChatId = selectedChat?.id;
+  const selectedChatInterlocutorName = useSelector(getSelectedChatInterlocutorNameSelector);
 
   const deleteTheseMessages = useCallback(() => {
-    deleteMessage({ chatId: selectedChatId as number, messageIds: selectedMessages, forEveryone: deleteForInterlocutor });
+    deleteMessage({ messageIds: selectedMessages, forEveryone: deleteForInterlocutor });
     onClose();
-  }, [selectedChatId, selectedMessages, deleteForInterlocutor]);
+  }, [selectedMessages, deleteForInterlocutor]);
 
   return (
     <WithBackground onBackgroundClick={onClose}>
@@ -57,9 +56,7 @@ export const DeleteMessageModal: React.FC<DeleteMessageModalNS.IProps> = React.m
               </button>
               <span className='delete-message-modal__btn-description'>
                 {t('deleteMessageModal.delete-for', {
-                  name: selectedChat?.interlocutor
-                    ? `${selectedChat?.interlocutor?.firstName} ${selectedChat?.interlocutor?.lastName}`
-                    : selectedChat?.groupChat?.name,
+                  name: selectedChatInterlocutorName,
                 })}
               </span>
             </div>

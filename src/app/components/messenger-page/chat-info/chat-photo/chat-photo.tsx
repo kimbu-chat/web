@@ -6,7 +6,7 @@ import { LocalizationContext } from 'app/app';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { useSelector } from 'react-redux';
 import { ChatActions } from 'store/chats/actions';
-import { getSelectedChatSelector } from 'store/chats/selectors';
+import { getSelectedChatPhotosSelector } from 'store/chats/selectors';
 import { IPage } from 'store/common/models';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -20,8 +20,7 @@ export const ChatPhoto = React.memo(() => {
 
   const getPhotoAttachmentss = useActionWithDispatch(ChatActions.getPhotoAttachments);
 
-  const selectedChat = useSelector(getSelectedChatSelector);
-  const photoForSelectedChat = selectedChat?.photos;
+  const photoForSelectedChat = useSelector(getSelectedChatPhotosSelector);
 
   const location = useLocation();
 
@@ -33,9 +32,8 @@ export const ChatPhoto = React.memo(() => {
 
     getPhotoAttachmentss({
       page,
-      chatId: selectedChat!.id,
     });
-  }, [selectedChat!.id, photoForSelectedChat?.photos]);
+  }, [photoForSelectedChat?.photos]);
 
   const photosWithSeparators = setSeparators(
     photoForSelectedChat?.photos,

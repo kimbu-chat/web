@@ -4,11 +4,10 @@ import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 
 import './chat-from-list.scss';
-import { IChat } from 'store/chats/models';
+import { IChat, IMessage, MessageState, SystemMessageType } from 'store/chats/models';
 import { MessageUtils } from 'app/utils/message-utils';
 
 import { StatusBadge, Avatar } from 'components';
-import { SystemMessageType, IMessage, MessageState } from 'store/messages/models';
 import { LocalizationContext } from 'app/app';
 import { getMyIdSelector } from 'store/my-profile/selectors';
 import truncate from 'lodash/truncate';
@@ -16,7 +15,7 @@ import truncate from 'lodash/truncate';
 import MessageQeuedSvg from 'icons/ic-time.svg';
 import MessageSentSvg from 'icons/ic-tick.svg';
 import MessageReadSvg from 'icons/ic-double_tick.svg';
-import { getTypingString } from 'store/chats/selectors';
+import { getTypingStringSelector } from 'store/chats/selectors';
 import { getChatInterlocutor, getInterlocutorInitials } from 'utils/interlocutor-name-utils';
 
 namespace ChatFromListNS {
@@ -28,7 +27,10 @@ namespace ChatFromListNS {
 const ChatFromList = React.memo(({ chat }: ChatFromListNS.IProps) => {
   const { interlocutor, lastMessage, groupChat } = chat;
   const { t } = useContext(LocalizationContext);
+
   const currentUserId = useSelector(getMyIdSelector) as number;
+  const typingString = useSelector(getTypingStringSelector(t, chat.id));
+
   const isMessageCreatorCurrentUser: boolean = lastMessage?.userCreator?.id === currentUserId;
 
   const getChatAvatar = useCallback((): string => {
@@ -102,7 +104,7 @@ const ChatFromList = React.memo(({ chat }: ChatFromListNS.IProps) => {
               : moment.utc(lastMessage?.creationDateTime).local().format('LT')}
           </div>
         </div>
-        <div className='chat-from-list__last-message'>{(chat.typingInterlocutors?.length || 0) > 0 ? getTypingString(t, chat) : getMessageText()}</div>
+        <div className='chat-from-list__last-message'>{typingString || getMessageText()}</div>
         {(chat.unreadMessagesCount || false) && (
           <div className={chat.isMuted ? 'chat-from-list__count chat-from-list__count--muted' : 'chat-from-list__count'}>{chat.unreadMessagesCount}</div>
         )}

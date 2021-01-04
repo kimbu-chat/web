@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { getChatListChatIndex } from 'app/store/chats/selectors';
+import { getChatByIdDraftSelector } from 'app/store/chats/selectors';
 import { IChatsState } from '../../models';
 import { IGetPhotoAttachmentsSuccessActionPayload } from './get-photo-attachments-success-action-payload';
 
@@ -13,12 +13,12 @@ export class GetPhotoAttachmentsSuccess {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof GetPhotoAttachmentsSuccess.action>) => {
       const { photos, chatId, hasMore } = payload;
 
-      const chatIndex: number = getChatListChatIndex(chatId, draft);
+      const chat = getChatByIdDraftSelector(chatId, draft);
 
-      if (chatIndex >= 0) {
-        draft.chats[chatIndex].photos.photos.push(...photos);
-        draft.chats[chatIndex].photos.hasMore = hasMore;
-        draft.chats[chatIndex].photos.loading = false;
+      if (chat) {
+        chat.photos.photos.push(...photos);
+        chat.photos.hasMore = hasMore;
+        chat.photos.loading = false;
       }
       return draft;
     });

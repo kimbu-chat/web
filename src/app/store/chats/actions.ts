@@ -39,11 +39,34 @@ import { RemoveAttachment } from './features/remove-attachment/remove-attachment
 import { UploadAttachmentFailure } from './features/upload-attachment/upload-attachment-failure';
 import { UploadAttachmentProgress } from './features/upload-attachment/upload-attachment-progress';
 import { UploadAttachmentSuccess } from './features/upload-attachment/upload-attachment-success';
-import { ChangeLastMessage } from './features/change-last-message/change-last-message';
 import { GetRawAttachments } from './features/get-raw-attachments/get-raw-attachments';
 import { MarkMessagesAsReadSuccess } from './features/mark-messages-as-read/mark-messages-as-read-success';
 import { ChatMutedStatusChangedEventHandler } from './socket-events/chat-mute-status-changed/chat-mute-status-changed-event-handler';
 import { GroupChatCreatedEventHandler } from './socket-events/group-chat-created/group-chat-created-event-handler';
+import { CopyMessages } from './features/copy-messages/copy-messages';
+import { CreateMessage } from './features/create-message/create-message';
+import { CreateMessageSuccess } from './features/create-message/create-message-success';
+import { DeleteMessage } from './features/delete-message/delete-message';
+import { DeleteMessageSuccess } from './features/delete-message/delete-message-success';
+import { ResetEditMessage } from './features/edit-message/reset-edit-message';
+import { SubmitEditMessage } from './features/edit-message/submit-edit-message';
+import { SubmitEditMessageSuccess } from './features/edit-message/sumbit-edit-message-success';
+import { GetMessages } from './features/get-messages/get-messages';
+import { GetMessagesFailure } from './features/get-messages/get-messages-failure';
+import { GetMessagesSuccess } from './features/get-messages/get-messages-success';
+import { MessageTyping } from './features/message-typing/message-typing';
+import { ClearChatHistory } from './features/clear-history/clear-chat-history';
+import { ClearChatHistorySuccess } from './features/clear-history/clear-chat-history-success';
+import { ReplyToMessage } from './features/reply-to-message/reply-to-message';
+import { ResetReplyToMessage } from './features/reply-to-message/reset-reply-to-message';
+import { ResetSelectedMessages } from './features/select-message/reset-selected-messages';
+import { SelectMessage } from './features/select-message/select-message';
+import { MessageCreatedEventHandler } from './socket-events/message-created/message-created-event-handler';
+import { MessagesDeletedIntegrationEventHandler } from './socket-events/message-deleted/messages-deleted-integration-event-handler';
+import { MessageEditedEventHandler } from './socket-events/message-edited/message-edited-event-handler';
+import { MessageReadEventHandler } from './socket-events/message-read/message-read-event-handler';
+import { EditMessage } from './features/edit-message/edit-message';
+import { ChatClearedEventHandler } from './socket-events/chat-cleared/chat-cleared-event-handler';
 
 export namespace ChatActions {
   export const getChats = GetChats.action;
@@ -53,7 +76,6 @@ export namespace ChatActions {
   export const getVoiceAttachments = GetVoiceAttachments.action;
   export const getAudioAttachments = GetAudioAttachments.action;
   export const getChatInfo = GetChatInfo.action;
-
   export const getChatsSuccess = GetChatsSuccess.action;
   export const getChatsFailure = GetChatsFailure.action;
   export const getPhotoAttachmentsSuccess = GetPhotoAttachmentsSuccess.action;
@@ -62,7 +84,6 @@ export namespace ChatActions {
   export const getVoiceAttachmentsSuccess = GetVoiceAttachmentsSuccess.action;
   export const getAudioAttachmentsSuccess = GetAudioAttachmentsSuccess.action;
   export const getChatInfoSuccess = GetChatInfoSuccess.action;
-
   export const changeSelectedChat = ChangeSelectedChat.action;
   export const changeChatVisibilityState = ChangeChatVisibilityState.action;
   export const unshiftChat = UnshiftChat.action;
@@ -81,17 +102,32 @@ export namespace ChatActions {
   export const addUsersToGroupChat = AddUsersToGroupChat.action;
   export const addUsersToGroupChatSuccess = AddUsersToGroupChatSuccess.action;
   export const interlocutorStoppedTyping = InterlocutorStoppedTyping.action;
-
   export const uploadAttachmentRequestAction = UploadAttachmentRequest.action;
   export const uploadAttachmentProgressAction = UploadAttachmentProgress.action;
   export const uploadAttachmentSuccessAction = UploadAttachmentSuccess.action;
   export const uploadAttachmentFailureAction = UploadAttachmentFailure.action;
   export const removeAttachmentAction = RemoveAttachment.action;
-
   export const markMessagesAsRead = MarkMessagesAsRead.action;
   export const markMessagesAsReadSuccess = MarkMessagesAsReadSuccess.action;
-
-  export const changeLastMessageAction = ChangeLastMessage.action;
+  export const getMessages = GetMessages.action;
+  export const getMessagesSuccess = GetMessagesSuccess.action;
+  export const getMessagesFailure = GetMessagesFailure.action;
+  export const createMessage = CreateMessage.action;
+  export const createMessageSuccess = CreateMessageSuccess.action;
+  export const messageTyping = MessageTyping.action;
+  export const deleteMessage = DeleteMessage.action;
+  export const deleteMessageSuccess = DeleteMessageSuccess.action;
+  export const selectMessage = SelectMessage.action;
+  export const resetSelectedMessages = ResetSelectedMessages.action;
+  export const copyMessages = CopyMessages.action;
+  export const replyToMessage = ReplyToMessage.action;
+  export const resetReplyToMessage = ResetReplyToMessage.action;
+  export const editMessage = EditMessage.action;
+  export const submitEditMessage = SubmitEditMessage.action;
+  export const submitEditMessageSuccess = SubmitEditMessageSuccess.action;
+  export const resetEditMessage = ResetEditMessage.action;
+  export const clearChatHistory = ClearChatHistory.action;
+  export const clearChatHistorySuccess = ClearChatHistorySuccess.action;
 
   // socket-events
 
@@ -100,4 +136,9 @@ export namespace ChatActions {
   export const groupChatEditedEventHandler = GroupChatEditedEventHandler.action;
   export const groupChatCreatedEventHandler = GroupChatCreatedEventHandler.action;
   export const chatMutedStatusChangedEventHandler = ChatMutedStatusChangedEventHandler.action;
+  export const messageCreatedEventHandler = MessageCreatedEventHandler.action;
+  export const messageReadEventHandler = MessageReadEventHandler.action;
+  export const messageEditedEventHandler = MessageEditedEventHandler.action;
+  export const messagesDeletedIntegrationEventHandler = MessagesDeletedIntegrationEventHandler.action;
+  export const chatClearedEventHandler = ChatClearedEventHandler.action;
 }

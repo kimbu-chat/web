@@ -2,43 +2,39 @@ import React, { useCallback, useContext, useState } from 'react';
 import './selected-messages-data.scss';
 import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { getSelectedChatSelector } from 'store/chats/selectors';
-import { MessageActions } from 'store/messages/actions';
+import { getSelectedMessagesIdSelector } from 'store/chats/selectors';
 import { LocalizationContext } from 'app/app';
 
 import { FadeAnimationWrapper, ForwardModal } from 'components';
-import { getSelectedMessagesId } from 'app/store/messages/selectors';
+import { CopyMessages } from 'app/store/chats/features/copy-messages/copy-messages';
+import { ReplyToMessage } from 'app/store/chats/features/reply-to-message/reply-to-message';
+import { ResetSelectedMessages } from 'app/store/chats/features/select-message/reset-selected-messages';
+import { EditMessage } from 'app/store/chats/features/edit-message/edit-message';
 import { DeleteMessageModal } from './delete-message-modal/delete-message-modal';
 
 export const SelectedMessagesData = React.memo(() => {
-  const selectedMessages = useSelector(getSelectedMessagesId);
+  const selectedMessages = useSelector(getSelectedMessagesIdSelector);
   const selectedMessagesCount = selectedMessages.length;
-  const selectedChat = useSelector(getSelectedChatSelector);
-  const selectedChatId = selectedChat?.id;
 
   const { t } = useContext(LocalizationContext);
 
-  const copyMessage = useActionWithDispatch(MessageActions.copyMessages);
-  const resetSelectedMessages = useActionWithDispatch(MessageActions.resetSelectedMessages);
-  const replyToMessage = useActionWithDispatch(MessageActions.replyToMessage);
-  const editMessage = useActionWithDispatch(MessageActions.editMessage);
-
-  const resetSelectedMessagesForChat = useCallback(() => {
-    resetSelectedMessages({ chatId: selectedChatId! });
-  }, [selectedChatId]);
+  const copyMessage = useActionWithDispatch(CopyMessages.action);
+  const resetSelectedMessages = useActionWithDispatch(ResetSelectedMessages.action);
+  const replyToMessage = useActionWithDispatch(ReplyToMessage.action);
+  const editMessage = useActionWithDispatch(EditMessage.action);
 
   const copyTheseMessages = useCallback(() => {
-    copyMessage({ chatId: selectedChatId!, messageIds: selectedMessages });
-    resetSelectedMessagesForChat();
-  }, [selectedChatId, selectedMessages]);
+    copyMessage({ messageIds: selectedMessages });
+    resetSelectedMessages();
+  }, [selectedMessages]);
 
   const replyToSelectedMessage = useCallback(() => {
-    replyToMessage({ messageId: selectedMessages[0], chatId: selectedChatId as number });
-  }, [replyToMessage, selectedMessages, selectedChatId]);
+    replyToMessage({ messageId: selectedMessages[0] });
+  }, [replyToMessage, selectedMessages]);
 
   const editSelectedMessage = useCallback(() => {
-    editMessage({ messageId: selectedMessages[0], chatId: selectedChatId as number });
-  }, [editMessage, selectedMessages, selectedChatId]);
+    editMessage({ messageId: selectedMessages[0] });
+  }, [editMessage, selectedMessages]);
 
   // --Delete message logic
   const [deleteMessagesModalDisplayed, setDeleteMessagesModalDisplayed] = useState(false);
@@ -77,7 +73,7 @@ export const SelectedMessagesData = React.memo(() => {
       <button type='button' onClick={copyTheseMessages} className='selected-messages-data__btn'>
         {t('selectedMessagesData.copy')}
       </button>
-      <button type='button' onClick={resetSelectedMessagesForChat} className='selected-messages-data__btn selected-messages-data__btn--cancel'>
+      <button type='button' onClick={resetSelectedMessages} className='selected-messages-data__btn selected-messages-data__btn--cancel'>
         {t('selectedMessagesData.cancel')}
       </button>
 

@@ -1,5 +1,4 @@
-import { ChatActions } from 'store/chats/actions';
-import { getSelectedChatSelector } from 'store/chats/selectors';
+import { getMessageToEditSelector, getSelectedChatAttachmentsToSendSelector } from 'store/chats/selectors';
 import { TypingStrategy } from 'store/settings/models';
 import { getTypingStrategy } from 'store/settings/selectors';
 import { getFileType } from 'app/utils/get-file-extension';
@@ -10,23 +9,22 @@ import { useSelector } from 'react-redux';
 import AddSvg from 'icons/ic-add-new.svg';
 import './edit-message.scss';
 import { LocalizationContext } from 'app/app';
-import { MessageActions } from 'store/messages/actions';
-import { IAttachmentToSend, IBaseAttachment, IChat } from 'store/chats/models';
-import { IAttachmentCreation } from 'store/messages/models';
+import { IAttachmentCreation, IAttachmentToSend, IBaseAttachment } from 'store/chats/models';
 import { useGlobalDrop } from 'app/hooks/use-global-drop';
 import { useReferState } from 'app/hooks/use-referred-state';
-import { getMessageToEdit } from 'app/store/messages/selectors';
+import { SubmitEditMessage } from 'app/store/chats/features/edit-message/submit-edit-message';
+import { UploadAttachmentRequest } from 'app/store/chats/features/upload-attachment/upload-attachment-request';
 import { MessageInputAttachment } from '../message-input-attachment/message-input-attachment';
 import { ExpandingTextarea } from '../expanding-textarea/expanding-textarea';
 
 export const EditMessage = React.memo(() => {
   const { t } = useContext(LocalizationContext);
 
-  const uploadAttachmentRequest = useActionWithDispatch(ChatActions.uploadAttachmentRequestAction);
-  const submitEditMessage = useActionWithDispatch(MessageActions.submitEditMessage);
+  const uploadAttachmentRequest = useActionWithDispatch(UploadAttachmentRequest.action);
+  const submitEditMessage = useActionWithDispatch(SubmitEditMessage.action);
 
-  const messageToEdit = useSelector(getMessageToEdit);
-  const selectedChat = useSelector(getSelectedChatSelector);
+  const messageToEdit = useSelector(getMessageToEditSelector);
+  const selectedChatAttachmentsToSend = useSelector(getSelectedChatAttachmentsToSendSelector);
   const myTypingStrategy = useSelector(getTypingStrategy);
 
   const [newText, setNewText] = useState(messageToEdit?.text || '');
@@ -37,11 +35,11 @@ export const EditMessage = React.memo(() => {
   const [isDragging, setIsDragging] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const updatedSelectedChat = useRef<IChat | undefined>();
+  const updatedSelectedChatAttachmentsToSend = useRef<IAttachmentToSend<IBaseAttachment>[] | undefined>();
 
   useEffect(() => {
-    updatedSelectedChat.current = selectedChat;
-  }, [selectedChat]);
+    updatedSelectedChatAttachmentsToSend.current = selectedChatAttachmentsToSend;
+  }, [selectedChatAttachmentsToSend]);
 
   const removeAttachment = useCallback(
     (attachmentToRemove: IAttachmentCreation) => {
@@ -67,7 +65,6 @@ export const EditMessage = React.memo(() => {
           const fileType = getFileType(file.name);
 
           uploadAttachmentRequest({
-            chatId: selectedChat!.id,
             type: fileType,
             file,
             attachmentId: Number(`${new Date().getTime()}${index}`),
@@ -75,7 +72,7 @@ export const EditMessage = React.memo(() => {
         }
       }
     },
-    [uploadAttachmentRequest, selectedChat?.id],
+    [uploadAttachmentRequest],
   );
 
   useGlobalDrop({
@@ -105,7 +102,6 @@ export const EditMessage = React.memo(() => {
           const fileType = getFileType(file.name);
 
           uploadAttachmentRequest({
-            chatId: selectedChat!.id,
             type: fileType,
             file,
             attachmentId: Number(`${new Date().getTime()}${index}`),
@@ -117,20 +113,18 @@ export const EditMessage = React.memo(() => {
         fileInputRef.current.value = '';
       }
     },
-    [uploadAttachmentRequest, selectedChat, fileInputRef],
+    [uploadAttachmentRequest, fileInputRef],
   );
 
   const submitEditedMessage = useCallback(() => {
-    const newAttachments = updatedSelectedChat.current?.attachmentsToSend?.map(({ attachment }) => attachment);
+    const newAttachments = updatedSelectedChatAttachmentsToSend?.current?.map(({ attachment }) => attachment);
 
     submitEditMessage({
-      messageId: messageToEdit!.id,
-      chatId: updatedSelectedChat.current!.id,
       text: referredNewText.current,
       removedAttachments: referredRemovedAttachments.current,
       newAttachments,
     });
-  }, [messageToEdit, updatedSelectedChat, referredNewText, referredRemovedAttachments]);
+  }, [referredNewText, referredRemovedAttachments]);
 
   const openSelectFiles = useCallback(() => {
     fileInputRef.current?.click();
@@ -201,7 +195,6 @@ export const EditMessage = React.memo(() => {
           const fileType = getFileType(file.name);
 
           uploadAttachmentRequest({
-            chatId: selectedChat!.id,
             type: fileType,
             file,
             attachmentId: Number(`${new Date().getTime()}${index}`),
@@ -209,7 +202,7 @@ export const EditMessage = React.memo(() => {
         }
       }
     },
-    [setIsDraggingOver, selectedChat?.id, uploadAttachmentRequest],
+    [setIsDraggingOver, uploadAttachmentRequest],
   );
 
   return (
@@ -224,7 +217,7 @@ export const EditMessage = React.memo(() => {
             key={attachment.id}
           />
         ))}
-      {selectedChat?.attachmentsToSend?.map((attachment) => (
+      {selectedChatAttachmentsToSend?.map((attachment) => (
         <MessageInputAttachment attachment={attachment} key={attachment.attachment.id} />
       ))}
 
@@ -232,7 +225,7 @@ export const EditMessage = React.memo(() => {
         <div className={`message-input__drag ${isDraggingOver ? 'message-input__drag--active' : ''}`}>Drop files here to send them</div>
       )}
 
-      {selectedChat && !(isDragging || isDraggingOver) && (
+      {!(isDragging || isDraggingOver) && (
         <div className='message-input__send-message'>
           <input multiple className='hidden' type='file' onChange={uploadFile} ref={fileInputRef} />
           <button type='button' onClick={openSelectFiles} className='message-input__add'>

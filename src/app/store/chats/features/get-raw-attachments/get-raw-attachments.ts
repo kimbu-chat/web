@@ -4,9 +4,9 @@ import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-fac
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { call, put } from 'redux-saga/effects';
+import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { getChatListChatIndex } from 'app/store/chats/selectors';
+import { getChatByIdDraftSelector, getSelectedChatIdSelector } from 'app/store/chats/selectors';
 import { IRawAttachment, IGetChatFilesHTTPRequest, IChatsState } from '../../models';
 import { IGetRawAttachmentsActionPayload } from './get-raw-attachments-action-payload';
 import { GetRawAttachmentsSuccess } from './get-raw-attachments-success';
@@ -17,23 +17,23 @@ export class GetRawAttachments {
   }
 
   static get reducer() {
-    return produce((draft: IChatsState, { payload }: ReturnType<typeof GetRawAttachments.action>) => {
-      const { chatId } = payload;
+    return produce((draft: IChatsState) => {
+      const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
 
-      const chatIndex: number = getChatListChatIndex(chatId, draft);
-
-      if (chatIndex >= 0) {
-        draft.chats[chatIndex].files.loading = true;
+      if (chat) {
+        chat.files.loading = true;
       }
+
       return draft;
     });
   }
 
   static get saga() {
     return function* getRawAttachmentsSaga(action: ReturnType<typeof GetRawAttachments.action>): SagaIterator {
-      const { chatId, page } = action.payload;
+      const { page } = action.payload;
+      const chatId = yield select(getSelectedChatIdSelector);
 
-      const { data, status } = GetRawAttachments.httpRequest.call(yield call(() => GetRawAttachments.httpRequest.generator(action.payload)));
+      const { data, status } = GetRawAttachments.httpRequest.call(yield call(() => GetRawAttachments.httpRequest.generator({ page, chatId })));
 
       const hasMore = data.length >= page.limit;
 

@@ -6,3 +6,5 @@ export const getMyIdSelector = (state: RootState): number | undefined => state.m
 export const getMyProfileSelector = (state: RootState): IUserPreview | undefined => state.myProfile.user;
 
 export const getMyPhoneNumber = (state: RootState): string | undefined => state.myProfile.user?.phoneNumber;
+
+export const getMyFullNameSelector = (state: RootState): string | undefined => `${state.myProfile.user?.firstName} ${state.myProfile.user?.lastName}`;

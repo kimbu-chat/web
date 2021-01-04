@@ -16,7 +16,6 @@ export * from './message-input/message-input';
 export * from './message-input/edit-message/edit-message';
 export * from './message-item/message-item';
 export * from './new-chat-modal/new-chat-modal';
-export * from './responding-message/responding-message';
 export * from './routing-chats/routing-chats';
 export * from './search-box/search-box';
 export * from './search-top/search-top';

@@ -1,7 +1,7 @@
 import produce from 'immer';
 import { unionBy } from 'lodash';
 import { createAction } from 'typesafe-actions';
-import { getChatListChatIndex } from 'app/store/chats/selectors';
+import { getChatByIdDraftSelector } from 'app/store/chats/selectors';
 import { IChatsState } from '../../models';
 import { IGetGroupChatUsersSuccessActionPayload } from './get-group-chat-users-success-action-payload';
 
@@ -14,24 +14,25 @@ export class GetGroupChatUsersSuccess {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof GetGroupChatUsersSuccess.action>) => {
       const { chatId, isFromSearch, isFromScroll, users, hasMore } = payload;
 
-      const chatIndex: number = getChatListChatIndex(chatId, draft);
+      const chat = getChatByIdDraftSelector(chatId, draft);
 
-      if (chatIndex > -1) {
-        draft.chats[chatIndex].members.hasMore = hasMore;
+      if (chat) {
+        chat.members.hasMore = hasMore;
+        chat.members.loading = false;
 
         if (isFromSearch) {
           if (isFromScroll) {
-            draft.chats[chatIndex].members.searchMembers = unionBy(draft.chats[chatIndex].members.searchMembers, users, 'id');
+            chat.members.searchMembers = unionBy(chat.members.searchMembers, users, 'id');
             return draft;
           }
 
-          draft.chats[chatIndex].members.searchMembers = users;
+          chat.members.searchMembers = users;
           return draft;
         }
 
         if (!isFromSearch) {
-          draft.chats[chatIndex].members.searchMembers = [];
-          draft.chats[chatIndex].members.members = unionBy(draft.chats[chatIndex].members.members, users, 'id');
+          chat.members.searchMembers = [];
+          chat.members.members = unionBy(chat.members.members, users, 'id');
           return draft;
         }
       }

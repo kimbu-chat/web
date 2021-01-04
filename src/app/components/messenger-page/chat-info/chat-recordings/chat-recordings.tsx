@@ -6,7 +6,7 @@ import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
 import { LocalizationContext } from 'app/app';
 import { useSelector } from 'react-redux';
-import { getSelectedChatSelector } from 'store/chats/selectors';
+import { getSelectedChatRecordingsSelector } from 'store/chats/selectors';
 import { ChatActions } from 'store/chats/actions';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import moment from 'moment';
@@ -19,16 +19,15 @@ import { ChatRecording } from './chat-recording/chat-recording';
 export const ChatRecordings = React.memo(() => {
   const { t } = useContext(LocalizationContext);
 
-  const selectedChat = useSelector(getSelectedChatSelector);
-  const recordingsForSelectedChat = selectedChat?.recordings;
+  const recordingsForSelectedChat = useSelector(getSelectedChatRecordingsSelector);
 
   const location = useLocation();
 
   const getRecordings = useActionWithDispatch(ChatActions.getVoiceAttachments);
 
   const loadMore = useCallback(() => {
-    getRecordings({ chatId: selectedChat?.id!, page: { offset: recordingsForSelectedChat?.recordings.length!, limit: VOICE_ATTACHMENTS_LIMIT } });
-  }, [getRecordings, selectedChat, recordingsForSelectedChat]);
+    getRecordings({ page: { offset: recordingsForSelectedChat?.recordings.length!, limit: VOICE_ATTACHMENTS_LIMIT } });
+  }, [getRecordings, recordingsForSelectedChat]);
 
   const recordingsWithSeparators = setSeparators(
     recordingsForSelectedChat?.recordings,

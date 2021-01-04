@@ -20,7 +20,7 @@ export const CountrySelect: React.FC<ICountrySelectProps> = React.memo(
     const { t } = useContext(LocalizationContext);
 
     const { getRootProps, getInputProps, getListboxProps, getOptionProps, groupedOptions, popupOpen } = useAutocomplete({
-      id: 'use-autocomplete-demo',
+      id: 'country-login-autocomplete',
       options: countryList,
       getOptionLabel: (option) => option.title,
       value: country,

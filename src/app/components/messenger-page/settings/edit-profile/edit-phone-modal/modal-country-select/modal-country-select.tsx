@@ -15,7 +15,7 @@ export const ModalCountrySelect: React.FC<IModalCountrySelectProps> = React.memo
   const { t } = useContext(LocalizationContext);
 
   const { getRootProps, getInputProps, getListboxProps, getOptionProps, groupedOptions, popupOpen } = useAutocomplete({
-    id: 'use-autocomplete-demo',
+    id: 'country-modal-autocomplete',
     options: countryList,
     getOptionLabel: (option) => option.title,
     value: country,

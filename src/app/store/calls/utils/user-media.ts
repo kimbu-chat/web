@@ -5,10 +5,22 @@ import { call, put, select } from 'redux-saga/effects';
 import { CloseScreenShareStatus } from '../features/change-screen-share-status/close-screen-share-status';
 import { CloseAudioStatus } from '../features/change-user-media-status/close-audio-status';
 import { CloseVideoStatus } from '../features/change-user-media-status/close-video-status';
-import { IInCompleteConstraints } from '../models';
 import { OpenAudioStatus } from '../features/change-user-media-status/open-audio-status';
 import { OpenVideoStatus } from '../features/change-user-media-status/open-video-status';
 import { OpenScreenShareStatus } from '../features/change-screen-share-status/open-screen-share-status';
+
+interface IInCompleteConstraints {
+  video?: {
+    isOpened: boolean;
+    width?: { min: number; ideal: number; max: number };
+    height?: { min: number; ideal: number; max: number };
+    deviceId?: string;
+  };
+  audio?: {
+    isOpened: boolean;
+    deviceId?: string;
+  };
+}
 
 export const tracks: {
   videoTrack: MediaStreamTrack | null;

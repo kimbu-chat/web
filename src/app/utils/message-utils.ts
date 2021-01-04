@@ -1,7 +1,6 @@
 import moment from 'moment';
 import { UserStatus } from 'store/common/models';
 import { TFunction } from 'i18next';
-import { CallStatus } from 'store/calls/models';
 import {
   ISystemMessageBase,
   IMessage,
@@ -11,6 +10,7 @@ import {
   IGroupChatNameChangedSystemMessageContent,
   ICallMessage,
 } from 'app/store/chats/models';
+import { CallStatus } from 'app/store/models';
 
 export class MessageUtils {
   static getSystemMessageContent(text: string): ISystemMessageBase {

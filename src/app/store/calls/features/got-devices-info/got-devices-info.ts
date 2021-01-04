@@ -2,7 +2,7 @@ import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { InputType } from '../../common/enums/input-type';
 import { ICallState } from '../../models';
-import { IGotDevicesInfoActionPayload } from './got-devices-info-action-payload';
+import { IGotDevicesInfoActionPayload } from './action-payloads/got-devices-info-action-payload';
 
 export class GotDevicesInfo {
   static get action() {

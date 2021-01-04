@@ -1,6 +1,6 @@
 import { CancelTokenSource } from 'axios';
-import { CallStatus } from '../calls/models';
 import { IPage } from '../common/models';
+import { CallStatus } from '../models';
 // eslint-disable-next-line import/no-cycle
 import { IAvatar, IUserPreview } from '../my-profile/models';
 

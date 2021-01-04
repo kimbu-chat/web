@@ -5,7 +5,7 @@ import { createAction } from 'typesafe-actions';
 import { getAudioConstraints, getVideoConstraints } from 'app/store/calls/selectors';
 import { ICallState } from '../../models';
 import { audioSender, getUserAudio, getUserVideo, tracks, videoSender } from '../../utils/user-media';
-import { ISwitchDeviceActionPayload } from './switch-device-action-payload';
+import { ISwitchDeviceActionPayload } from './action-payloads/switch-device-action-payload';
 import { InputType } from '../../common/enums/input-type';
 
 export class SwitchDevice {

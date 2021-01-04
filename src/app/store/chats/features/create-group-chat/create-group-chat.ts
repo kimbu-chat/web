@@ -1,6 +1,5 @@
 import { Meta } from 'app/store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
-import { MessageState, SystemMessageType } from 'app/store/messages/models';
 
 import { MessageUtils } from 'app/utils/message-utils';
 import { AxiosResponse } from 'axios';
@@ -9,7 +8,7 @@ import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { getSelectedChatIdSelector } from 'app/store/chats/selectors';
 import { ChatId } from '../../chat-id';
-import { IChat, IGroupChatCreationHTTPReqData, InterlocutorType } from '../../models';
+import { IChat, IGroupChatCreationHTTPReqData, IMessage, InterlocutorType, MessageState, SystemMessageType } from '../../models';
 import { ChangeSelectedChat } from '../change-selected-chat/change-selected-chat';
 import { ICreateGroupChatActionPayload } from './create-group-chat-action-payload';
 import { CreateGroupChatSuccess } from './create-group-chat-success';
@@ -35,8 +34,20 @@ export class CreateGroupChat {
         const { data } = CreateGroupChat.httpRequest.call(yield call(() => CreateGroupChat.httpRequest.generator(groupChatCreationRequest)));
 
         const chatId: number = ChatId.from(undefined, data).id;
+
+        const firstMessage: IMessage = {
+          creationDateTime: new Date(),
+          id: new Date().getTime(),
+          systemMessageType: SystemMessageType.GroupChatCreated,
+          text: MessageUtils.createSystemMessage({}),
+          chatId,
+          state: MessageState.LOCALMESSAGE,
+          userCreator: action.payload.currentUser,
+        };
+
         const chat: IChat = {
           interlocutorType: InterlocutorType.GroupChat,
+          unreadMessagesCount: 0,
           id: chatId,
           isMuted: false,
           draftMessage: '',
@@ -49,15 +60,7 @@ export class CreateGroupChat {
             userCreatorId: currentUser.id,
           },
           typingInterlocutors: [],
-          lastMessage: {
-            creationDateTime: new Date(),
-            id: new Date().getTime(),
-            systemMessageType: SystemMessageType.GroupChatCreated,
-            text: MessageUtils.createSystemMessage({}),
-            chatId,
-            state: MessageState.LOCALMESSAGE,
-            userCreator: action.payload.currentUser,
-          },
+          lastMessage: firstMessage,
           photos: {
             hasMore: true,
             loading: false,
@@ -88,6 +91,11 @@ export class CreateGroupChat {
             hasMore: true,
             loading: false,
             recordings: [],
+          },
+          messages: {
+            hasMore: true,
+            loading: false,
+            messages: [firstMessage],
           },
         };
 

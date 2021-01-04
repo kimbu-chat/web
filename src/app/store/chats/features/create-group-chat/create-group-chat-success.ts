@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { checkChatExists } from 'app/store/chats/selectors';
+import { getChatExistsDraftSelector } from 'app/store/chats/selectors';
 import { IChatsState } from '../../models';
 import { ICreateGroupChatSuccessActionPayload } from './create-group-chat-success-action-payload';
 
@@ -13,7 +13,7 @@ export class CreateGroupChatSuccess {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof CreateGroupChatSuccess.action>) => {
       const newChat = payload;
 
-      const isChatExists: boolean = checkChatExists(newChat.id, draft);
+      const isChatExists: boolean = getChatExistsDraftSelector(newChat.id, draft);
 
       if (!isChatExists) {
         draft.chats.unshift(newChat);

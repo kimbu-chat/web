@@ -6,7 +6,7 @@ import { LocalizationContext } from 'app/app';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { useSelector } from 'react-redux';
 import { ChatActions } from 'store/chats/actions';
-import { getSelectedChatSelector } from 'store/chats/selectors';
+import { getSelectedChatFilesSelector } from 'store/chats/selectors';
 import { IPage } from 'store/common/models';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -24,8 +24,7 @@ export const ChatFiles = React.memo(() => {
 
   const getRawAttachments = useActionWithDispatch(ChatActions.getRawAttachments);
 
-  const selectedChat = useSelector(getSelectedChatSelector);
-  const filesForSelectedChat = selectedChat?.files;
+  const filesForSelectedChat = useSelector(getSelectedChatFilesSelector);
 
   const location = useLocation();
 
@@ -37,9 +36,8 @@ export const ChatFiles = React.memo(() => {
 
     getRawAttachments({
       page,
-      chatId: selectedChat!.id,
     });
-  }, [selectedChat?.id, filesForSelectedChat?.files]);
+  }, [filesForSelectedChat?.files]);
 
   const filesWithSeparators = setSeparators(
     filesForSelectedChat?.files,

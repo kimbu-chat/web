@@ -3,7 +3,7 @@ import './chat-actions.scss';
 import { IUserPreview } from 'store/my-profile/models';
 import { IChat } from 'store/chats/models';
 import { useSelector } from 'react-redux';
-import { getMembersForSelectedGroupChat, getSelectedChatSelector } from 'store/chats/selectors';
+import { getMemberIdsForSelectedGroupChatSelector, getSelectedChatSelector } from 'store/chats/selectors';
 import { LocalizationContext } from 'app/app';
 import { ChatActions as SelectedChatActions } from 'store/chats/actions';
 import MuteSvg from 'icons/ic-notifications-on.svg';
@@ -43,8 +43,7 @@ export const ChatActions = React.memo(({ addMembers }: ChatActionsNS.IProps) => 
   const deleteFriend = useActionWithDispatch(FriendActions.deleteFriend);
   const addFriend = useActionWithDispatch(FriendActions.addFriend);
 
-  const membersForGroupChat = useSelector(getMembersForSelectedGroupChat);
-  const membersIdsForGroupChat: (number | undefined)[] = membersForGroupChat?.map((user) => user?.id) || [];
+  const membersIdsForGroupChat = useSelector(getMemberIdsForSelectedGroupChatSelector);
   const selectedChat = useSelector(getSelectedChatSelector) as IChat;
   const friends = useSelector(getMyFriends);
 
@@ -53,19 +52,13 @@ export const ChatActions = React.memo(({ addMembers }: ChatActionsNS.IProps) => 
     selectedChat.interlocutor?.id,
   ]);
 
-  const changeSelectedChatVisibilityState = useCallback(() => changeChatVisibilityState(selectedChat), [changeChatVisibilityState, selectedChat]);
-  const muteThisChat = useCallback(() => changeChatMutedStatus({ chatId: selectedChat.id, isMuted: selectedChat.isMuted! }), [
-    changeChatMutedStatus,
-    selectedChat.id,
-    selectedChat.isMuted,
-  ]);
   const deleteContact = useCallback(() => deleteFriend({ userIds: [selectedChat?.interlocutor?.id!] }), [deleteFriend, selectedChat?.interlocutor?.id]);
   const addContact = useCallback(() => addFriend(selectedChat.interlocutor!), [addFriend, selectedChat?.interlocutor]);
 
   return (
     <div className='chat-actions'>
       <div className='chat-actions__heading'>{t('chatActions.actions')}</div>
-      <button type='button' onClick={muteThisChat} className='chat-actions__action'>
+      <button type='button' onClick={changeChatMutedStatus} className='chat-actions__action'>
         {selectedChat.isMuted ? (
           <UnmuteSvg viewBox='0 0 25 25' className='chat-actions__action__svg' />
         ) : (
@@ -104,7 +97,7 @@ export const ChatActions = React.memo(({ addMembers }: ChatActionsNS.IProps) => 
         </button>
       )}
       {selectedChat.interlocutor && (
-        <button type='button' onClick={changeSelectedChatVisibilityState} className='chat-actions__action'>
+        <button type='button' onClick={changeChatVisibilityState} className='chat-actions__action'>
           <UnmuteSvg viewBox='0 0 25 25' className='chat-actions__action__svg' />
           <span className='chat-actions__action__name'>{t('chatActions.delete-chat')}</span>
         </button>

@@ -1,8 +1,8 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { checkChatExists } from 'app/store/chats/selectors';
+import { getChatExistsDraftSelector } from 'app/store/chats/selectors';
 import { ChatId } from '../../chat-id';
-import { IChat, IChatsState } from '../../models';
+import { IChat, IChatsState, InterlocutorType } from '../../models';
 import { ICreateChatActionPayload } from './create-chat-action-payload';
 
 export class CreateChat {
@@ -16,7 +16,7 @@ export class CreateChat {
 
       const chatId: number = ChatId.from(id).id;
 
-      const isChatExists = checkChatExists(chatId, draft);
+      const isChatExists = getChatExistsDraftSelector(chatId, draft);
 
       draft.selectedChatId = chatId;
 
@@ -26,8 +26,7 @@ export class CreateChat {
       // user does not have dialog with interlocutor - create dialog
       const newChat: IChat = {
         id: chatId,
-        draftMessage: '',
-        interlocutorType: 1,
+        interlocutorType: InterlocutorType.User,
         unreadMessagesCount: 0,
         interlocutorLastReadMessageId: 0,
         interlocutor: payload,
@@ -62,6 +61,11 @@ export class CreateChat {
           hasMore: true,
           loading: false,
           audios: [],
+        },
+        messages: {
+          hasMore: true,
+          loading: false,
+          messages: [],
         },
       };
 

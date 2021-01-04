@@ -1,33 +1,70 @@
 import { TFunction } from 'i18next';
 import { RootState } from '../root-reducer';
-import { IChat, IChatsState } from './models';
+import { IAttachmentToSend, IBaseAttachment, IChat, IChatsState, IVoiceRecordingList, IAudioList, IFilesList, IPhotoList, IVideoList } from './models';
 
-export const checkChatExists = (chatId: number, state: IChatsState): boolean => chatId !== null && Boolean(state.chats.find(({ id }) => id === chatId));
+// RootState selectors
+export const getSelectedChatSelector = (state: RootState): IChat | undefined => state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId);
 
-export const getChatListChatIndex = (chatId: number, state: IChatsState): number => state.chats.findIndex(({ id }) => id === chatId);
+export const getSelectedGroupChatSelector = (state: RootState) => state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.groupChat;
 
-export const getSelectedChatSelector = (state: RootState): IChat | undefined =>
-  state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId) || undefined;
+export const getSelectedGroupChatNameSelector = (state: RootState) =>
+  state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.groupChat?.name;
+
+export const getSelectedChatUnreadMessagesCountSelector = (state: RootState): number | undefined =>
+  state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.unreadMessagesCount;
+
+export const getSelectedChatAttachmentsToSendSelector = (state: RootState): IAttachmentToSend<IBaseAttachment>[] | undefined =>
+  state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.attachmentsToSend;
+
+// Attachments list selector
+
+export const getSelectedChatRecordingsSelector = (state: RootState): IVoiceRecordingList | undefined =>
+  state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.recordings;
+
+export const getSelectedChatAudiosSelector = (state: RootState): IAudioList | undefined =>
+  state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.audios;
+
+export const getSelectedChatFilesSelector = (state: RootState): IFilesList | undefined =>
+  state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.files;
+
+export const getSelectedChatPhotosSelector = (state: RootState): IPhotoList | undefined =>
+  state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.photos;
+
+export const getSelectedChatVideosSelector = (state: RootState): IVideoList | undefined =>
+  state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.videos;
+
+// -----------
+
+export const getSelectedChatInterlocutorNameSelector = (state: RootState) => {
+  const selectedChat = state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId);
+
+  return selectedChat?.interlocutor ? `${selectedChat?.interlocutor?.firstName} ${selectedChat?.interlocutor?.lastName}` : selectedChat?.groupChat?.name;
+};
 
 export const getSelectedChatIdSelector = (state: RootState): number | null => state.chats.selectedChatId;
 
-export const getChatById = (chatId: number) => (state: RootState) => state.chats.chats.find(({ id }) => id === chatId);
+export const getChatByIdSelector = (chatId: number) => (state: RootState) => state.chats.chats.find(({ id }) => id === chatId);
 
-export const getChats = (state: RootState): IChat[] => state.chats.chats;
+export const getChatsSelector = (state: RootState): IChat[] => state.chats.chats;
 
-export const getChatsLoading = (state: RootState): boolean => state.chats.loading;
+export const getChatsLoadingSelector = (state: RootState): boolean => state.chats.loading;
 
-export const getHasMoreChats = (state: RootState): boolean => state.chats.hasMore;
+export const getHasMoreChatsSelector = (state: RootState): boolean => state.chats.hasMore;
 
-export const getSearchString = (state: RootState) => state.chats.searchString;
+export const getSearchStringSelector = (state: RootState) => state.chats.searchString;
 
-export const getMembersForSelectedGroupChat = (state: RootState) =>
+export const getMembersForSelectedGroupChatSelector = (state: RootState) =>
   state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.members?.members;
 
-export const getMembersListForSelectedGroupChat = (state: RootState) => state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.members;
+export const getMemberIdsForSelectedGroupChatSelector = (state: RootState) =>
+  state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.members?.members.map((user) => user.id) || [];
 
-export const getTypingString = (t: TFunction, chat: IChat): string | undefined => {
-  const typingUsers = chat?.typingInterlocutors;
+export const getMembersListForSelectedGroupChatSelector = (state: RootState) =>
+  state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.members;
+
+export const getTypingStringSelector = (t: TFunction, chatId: number | null) => (state: RootState) => {
+  const typingUsers = state.chats?.chats?.find(({ id }) => id === chatId)?.typingInterlocutors;
+
   if (typingUsers) {
     if (typingUsers.length === 1) {
       return t('chat.typing', { firstInterlocutorName: typingUsers[0].fullName.split(' ')[0] });
@@ -49,3 +86,30 @@ export const getTypingString = (t: TFunction, chat: IChat): string | undefined =
 
   return undefined;
 };
+
+export const getIsSelectMessagesStateSelector = (state: RootState) => state.chats.selectedMessageIds.length > 0;
+
+export const getMessageToEditSelector = (state: RootState) => state.chats.messageToEdit;
+
+export const getMessageToEditSelectorIdSelector = (state: RootState) => state.chats.messageToEdit?.id;
+
+export const getMessageToReplySelector = (state: RootState) => state.chats.messageToReply;
+
+export const getSelectedMessagesIdSelector = (state: RootState) => state.chats.selectedMessageIds;
+
+export const getMessagesLoadingSelector = (state: RootState) => state.chats.chats.find(({ id }) => id === state.chats.selectedChatId)?.messages.loading;
+
+export const getHasMoreMessagesMessagesSelector = (state: RootState) => state.chats.chats.find(({ id }) => id === state.chats.selectedChatId)?.messages.hasMore;
+
+export const getMessagesByChatIdSelector = (state: RootState) => state.chats.chats.find(({ id }) => id === state.chats.selectedChatId)?.messages.messages;
+
+// IChatsState selectors
+export const getChatExistsDraftSelector = (chatId: number, draft: IChatsState): boolean =>
+  chatId !== null && Boolean(draft.chats.find(({ id }) => id === chatId));
+
+export const getChatByIdDraftSelector = (chatId: number | null, draft: IChatsState) => draft.chats.find(({ id }) => id === chatId);
+
+export const getMessageDraftSelector = (chatId: number | null, messageId: number, draft: IChatsState) =>
+  draft.chats.find(({ id }) => id === chatId)?.messages.messages.find(({ id }) => id === messageId);
+
+export const getChatIndexDraftSelector = (chatId: number, draft: IChatsState) => draft.chats.findIndex(({ id }) => id === chatId);

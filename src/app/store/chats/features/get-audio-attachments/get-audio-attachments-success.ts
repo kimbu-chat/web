@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { getChatListChatIndex } from 'app/store/chats/selectors';
+import { getChatByIdDraftSelector } from 'app/store/chats/selectors';
 import { IChatsState } from '../../models';
 import { IGetAudioAttachmentsSuccessActionPayload } from './get-audio-attachments-success-action-payload';
 
@@ -13,12 +13,12 @@ export class GetAudioAttachmentsSuccess {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof GetAudioAttachmentsSuccess.action>) => {
       const { audios, chatId, hasMore } = payload;
 
-      const chatIndex: number = getChatListChatIndex(chatId, draft);
+      const chat = getChatByIdDraftSelector(chatId, draft);
 
-      if (chatIndex >= 0) {
-        draft.chats[chatIndex].audios.audios.push(...audios);
-        draft.chats[chatIndex].audios.hasMore = hasMore;
-        draft.chats[chatIndex].audios.loading = false;
+      if (chat) {
+        chat.audios.audios.push(...audios);
+        chat.audios.hasMore = hasMore;
+        chat.audios.loading = false;
       }
       return draft;
     });

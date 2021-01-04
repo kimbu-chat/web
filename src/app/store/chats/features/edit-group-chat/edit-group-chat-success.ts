@@ -1,7 +1,6 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { getChatListChatIndex } from 'app/store/chats/selectors';
-import { ChatId } from '../../chat-id';
+import { getChatByIdDraftSelector } from 'app/store/chats/selectors';
 import { IChatsState } from '../../models';
 import { IEditGroupChatSuccessActionPayload } from './edit-group-chat-success-action-payload';
 
@@ -12,16 +11,14 @@ export class EditGroupChatSuccess {
 
   static get reducer() {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof EditGroupChatSuccess.action>) => {
-      const { id, name, description, avatar } = payload;
+      const { chatId, name, description, avatar } = payload;
 
-      const chatId: number = ChatId.from(undefined, id).id;
+      const chat = getChatByIdDraftSelector(chatId, draft);
 
-      const chatIndex: number = getChatListChatIndex(chatId, draft);
-
-      if (chatIndex >= 0) {
-        draft.chats[chatIndex].groupChat!.name = name;
-        draft.chats[chatIndex].groupChat!.description = description;
-        draft.chats[chatIndex].groupChat!.avatar = avatar;
+      if (chat) {
+        chat.groupChat!.name = name;
+        chat.groupChat!.description = description;
+        chat.groupChat!.avatar = avatar;
       }
       return draft;
     });

@@ -1,25 +1,27 @@
 import { HTTPStatusCode } from 'app/common/http-status-code';
+import { createEmptyAction } from 'app/store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
 
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
-import { call, put } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
-import { IGetChatInfoApiResponse } from '../../models';
-import { IGetChatInfoActionPayload } from './get-chat-info-action-payload';
+import { call, put, select } from 'redux-saga/effects';
+import { IGetChatInfoApiRequest, IGetChatInfoApiResponse } from '../../models';
+import { getSelectedChatIdSelector } from '../../selectors';
 import { GetChatInfoSuccess } from './get-chat-info-success';
 
 export class GetChatInfo {
   static get action() {
-    return createAction('GET_CHAT_INFO')<IGetChatInfoActionPayload>();
+    return createEmptyAction('GET_CHAT_INFO');
   }
 
   static get saga() {
-    return function* getChatInfoSaga(action: ReturnType<typeof GetChatInfo.action>): SagaIterator {
-      const { data, status } = GetChatInfo.httpRequest.call(yield call(() => GetChatInfo.httpRequest.generator(action.payload)));
+    return function* getChatInfoSaga(): SagaIterator {
+      const chatId = yield select(getSelectedChatIdSelector);
+
+      const { data, status } = GetChatInfo.httpRequest.call(yield call(() => GetChatInfo.httpRequest.generator({ chatId })));
 
       if (status === HTTPStatusCode.OK) {
-        yield put(GetChatInfoSuccess.action({ ...data, ...action.payload }));
+        yield put(GetChatInfoSuccess.action({ ...data, chatId }));
       } else {
         alert('getChatInfoSaga error');
       }
@@ -27,8 +29,8 @@ export class GetChatInfo {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IGetChatInfoApiResponse>, IGetChatInfoActionPayload>(
-      ({ chatId }: IGetChatInfoActionPayload) => `${process.env.MAIN_API}/api/chats/${chatId}/info`,
+    return httpRequestFactory<AxiosResponse<IGetChatInfoApiResponse>, IGetChatInfoApiRequest>(
+      ({ chatId }: IGetChatInfoApiRequest) => `${process.env.MAIN_API}/api/chats/${chatId}/info`,
       HttpRequestMethod.Get,
     );
   }

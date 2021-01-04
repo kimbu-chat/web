@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router';
 import { LocalizationContext } from 'app/app';
 import { useSelector } from 'react-redux';
-import { getSelectedChatSelector } from 'store/chats/selectors';
+import { getSelectedChatAudiosSelector } from 'store/chats/selectors';
 import { ChatActions } from 'store/chats/actions';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import moment from 'moment';
@@ -19,16 +19,15 @@ import { MessageAudioAttachment } from 'components';
 export const ChatAudios = React.memo(() => {
   const { t } = useContext(LocalizationContext);
 
-  const selectedChat = useSelector(getSelectedChatSelector);
-  const audiosForSelectedChat = selectedChat?.audios;
+  const audiosForSelectedChat = useSelector(getSelectedChatAudiosSelector);
 
   const location = useLocation();
 
   const getAudios = useActionWithDispatch(ChatActions.getAudioAttachments);
 
   const loadMore = useCallback(() => {
-    getAudios({ chatId: selectedChat?.id!, page: { offset: audiosForSelectedChat?.audios.length || 0, limit: AUDIO_ATTACHMENTS_LIMIT } });
-  }, [getAudios, selectedChat?.id, audiosForSelectedChat?.audios.length]);
+    getAudios({ page: { offset: audiosForSelectedChat?.audios.length || 0, limit: AUDIO_ATTACHMENTS_LIMIT } });
+  }, [getAudios, audiosForSelectedChat?.audios.length]);
 
   const audiosWithSeparators = setSeparators(
     audiosForSelectedChat?.audios,

@@ -22,8 +22,7 @@ import { useSelector } from 'react-redux';
 import { amICalled as isCallingMe, amICalling, doIhaveCall } from 'store/calls/selectors';
 import { CSSTransition } from 'react-transition-group';
 import { LocalizationContext } from 'app/app';
-import { getSelectedChatIdSelector } from 'store/chats/selectors';
-import { getMessageToEdit } from 'app/store/messages/selectors';
+import { getMessageToEditSelector, getSelectedChatIdSelector } from 'store/chats/selectors';
 
 const Messenger = React.memo(() => {
   const { t } = useContext(LocalizationContext);
@@ -32,7 +31,7 @@ const Messenger = React.memo(() => {
   const amICallingSomebody = useSelector(amICalling);
   const amISpeaking = useSelector(doIhaveCall);
   const selectedChatId = useSelector(getSelectedChatIdSelector);
-  const messageToEdit = useSelector(getMessageToEdit);
+  const messageToEdit = useSelector(getMessageToEditSelector);
 
   return (
     <div className='messenger'>

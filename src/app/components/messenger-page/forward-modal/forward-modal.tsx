@@ -6,7 +6,7 @@ import './forward-modal.scss';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { LocalizationContext } from 'app/app';
 import { ChatActions } from 'store/chats/actions';
-import { getChats, getHasMoreChats, getChatsLoading } from 'app/store/chats/selectors';
+import { getChatsSelector, getHasMoreChatsSelector, getChatsLoadingSelector } from 'app/store/chats/selectors';
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
 import { CHATS_LIMIT } from 'app/utils/pagination-limits';
 import { SearchBox } from 'app/components';
@@ -21,9 +21,9 @@ namespace ForwardModalNS {
 
 export const ForwardModal = React.memo(({ onClose }: ForwardModalNS.IProps) => {
   const { t } = useContext(LocalizationContext);
-  const chats = useSelector(getChats);
-  const chatsAreLoading = useSelector(getChatsLoading);
-  const hasMoreChats = useSelector(getHasMoreChats);
+  const chats = useSelector(getChatsSelector);
+  const chatsAreLoading = useSelector(getChatsLoadingSelector);
+  const hasMoreChats = useSelector(getHasMoreChatsSelector);
 
   const [selectedChatIds, setSelectedChatIds] = useState<number[]>([]);
   const [searchString, setSearchString] = useState('');

@@ -1,5 +1,4 @@
 import React, { useContext, useCallback } from 'react';
-import { IMessage, SystemMessageType, MessageState, FileType } from 'store/messages/models';
 import { MessageUtils } from 'app/utils/message-utils';
 import { useSelector } from 'react-redux';
 import './message-item.scss';
@@ -7,9 +6,7 @@ import './message-item.scss';
 import { getMyIdSelector } from 'store/my-profile/selectors';
 import { LocalizationContext } from 'app/app';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { getSelectedChatSelector } from 'store/chats/selectors';
-import { MessageActions } from 'store/messages/actions';
-import { getSelectedMessagesLength } from 'store/messages/selectors';
+import { getIsSelectMessagesStateSelector } from 'store/chats/selectors';
 import { Avatar } from 'components';
 import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 import { IUserPreview } from 'store/my-profile/models';
@@ -20,9 +17,20 @@ import MessageSentSvg from 'icons/ic-tick.svg';
 import MessageReadSvg from 'icons/ic-double_tick.svg';
 import SelectedSvg from 'icons/ic-check-filled.svg';
 import UnSelectedSvg from 'icons/ic-check-outline.svg';
-import { IRawAttachment, IPictureAttachment, IVoiceAttachment, IVideoAttachment, IAudioAttachment } from 'store/chats/models';
+import {
+  IRawAttachment,
+  IPictureAttachment,
+  IVoiceAttachment,
+  IVideoAttachment,
+  IAudioAttachment,
+  FileType,
+  IMessage,
+  MessageState,
+  SystemMessageType,
+} from 'store/chats/models';
 import { Link } from 'react-router-dom';
 import { MessageAudioAttachment, FileAttachment } from 'app/components';
+import { SelectMessage } from 'app/store/chats/features/select-message/select-message';
 import { MediaGrid } from './attachments/media-grid/media-grid';
 import { RecordingAttachment } from './attachments/recording-attachment/recording-attachment';
 
@@ -34,23 +42,21 @@ namespace MessageNS {
 
 const MessageItem = React.memo(
   ({ message }: MessageNS.IProps) => {
-    const currentUserId = useSelector(getMyIdSelector) as number;
-    const selectedChatId = useSelector(getSelectedChatSelector)?.id;
-    const isSelectState = useSelector(getSelectedMessagesLength) > 0;
+    const isSelectState = useSelector(getIsSelectMessagesStateSelector);
     const myId = useSelector(getMyIdSelector) as number;
 
     const isCurrentUserMessageCreator = message.userCreator?.id === myId;
 
     const { t } = useContext(LocalizationContext);
 
-    const selectMessage = useActionWithDispatch(MessageActions.selectMessage);
+    const selectMessage = useActionWithDispatch(SelectMessage.action);
 
     const selectThisMessage = useCallback(
       (event?: React.MouseEvent<HTMLButtonElement | HTMLDivElement, MouseEvent>) => {
         event?.stopPropagation();
-        selectMessage({ chatId: selectedChatId as number, messageId: message.id });
+        selectMessage({ messageId: message.id });
       },
-      [selectedChatId, message.id],
+      [message.id],
     );
 
     const structuredAttachments = message.attachments?.reduce(
@@ -101,7 +107,7 @@ const MessageItem = React.memo(
     if (message?.systemMessageType !== SystemMessageType.None) {
       return (
         <div className='message__separator'>
-          <span>{MessageUtils.constructSystemMessageText(message as IMessage, t, currentUserId)}</span>
+          <span>{MessageUtils.constructSystemMessageText(message as IMessage, t, myId)}</span>
         </div>
       );
     }

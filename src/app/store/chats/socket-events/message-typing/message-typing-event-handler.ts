@@ -1,61 +1,53 @@
-import { getMyIdSelector } from 'app/store/my-profile/selectors';
-import { RootState } from 'store/root-reducer';
 import { IChatsState, InterlocutorType } from 'store/chats/models';
 import { ChatId } from 'store/chats/chat-id';
 import { createAction } from 'typesafe-actions';
 import produce from 'immer';
-import { SagaIterator } from 'redux-saga';
-import { put, select } from 'redux-saga/effects';
-import { SetStore } from 'app/store/set-store';
+import { MyProfileService } from 'app/services/my-profile-service';
 import { IIntercolutorMessageTypingIntegrationEvent } from './message-typing-integration-event';
-import { getChatListChatIndex } from '../../selectors';
+import { getChatByIdDraftSelector } from '../../selectors';
 
 export class UserMessageTypingEventHandler {
   static get action() {
     return createAction('MessageTyping')<IIntercolutorMessageTypingIntegrationEvent>();
   }
 
-  static get saga() {
-    return function* (action: ReturnType<typeof UserMessageTypingEventHandler.action>): SagaIterator {
-      const { interlocutorName, chatId } = action.payload;
-      const myId = yield select(getMyIdSelector);
+  static get reducer() {
+    return produce((draft: IChatsState, { payload }: ReturnType<typeof UserMessageTypingEventHandler.action>) => {
+      const { interlocutorName, chatId, interlocutorId, text } = payload;
+
+      const myId = new MyProfileService().myProfile.id;
 
       // Chat list uppdate
-      if (ChatId.fromId(action.payload.chatId).interlocutorType === InterlocutorType.GroupChat && action.payload.interlocutorId === myId) {
-        return;
+      if (ChatId.fromId(chatId).interlocutorType === InterlocutorType.GroupChat && interlocutorId === myId) {
+        return draft;
       }
+
+      const chat = getChatByIdDraftSelector(chatId, draft);
+
+      if (!chat) {
+        return draft;
+      }
+
+      clearTimeout(chat.timeoutId as NodeJS.Timeout);
 
       const timeoutId = (setTimeout(() => {
         // TODO: here we have no acces to store, so we have to do yield put
         // store.dispatch(ChatActions.interlocutorStoppedTyping(action.payload));
       }, 1500) as unknown) as NodeJS.Timeout;
 
-      const state: RootState = yield select();
-      const nextState = produce(state, (draft) => {
-        const chatListIndex: number = getChatListChatIndex(chatId, draft.chats as IChatsState);
+      const typingUser = {
+        timeoutId,
+        fullName: interlocutorName,
+      };
 
-        if (chatListIndex === -1) {
-          return draft;
-        }
+      chat.draftMessage = text;
+      chat.timeoutId = timeoutId;
 
-        clearTimeout(draft.chats.chats[chatListIndex].timeoutId as NodeJS.Timeout);
+      if (!chat.typingInterlocutors?.find(({ fullName }) => fullName === interlocutorName)) {
+        chat.typingInterlocutors = [...(chat.typingInterlocutors || []), typingUser];
+      }
 
-        const typingUser = {
-          timeoutId,
-          fullName: interlocutorName,
-        };
-
-        draft.chats.chats[chatListIndex].draftMessage = action.payload.text;
-        draft.chats.chats[chatListIndex].timeoutId = timeoutId;
-
-        if (!draft.chats.chats[chatListIndex].typingInterlocutors?.find(({ fullName }) => fullName === interlocutorName)) {
-          draft.chats.chats[chatListIndex].typingInterlocutors = [...(draft.chats.chats[chatListIndex].typingInterlocutors || []), typingUser];
-        }
-
-        return draft;
-      });
-
-      yield put(SetStore.action(nextState as RootState));
-    };
+      return draft;
+    });
   }
 }

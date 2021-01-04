@@ -4,9 +4,9 @@ import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-fac
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { call, put } from 'redux-saga/effects';
+import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { getChatListChatIndex } from 'app/store/chats/selectors';
+import { getChatByIdDraftSelector, getSelectedChatIdSelector } from 'app/store/chats/selectors';
 import { IPictureAttachment, IGetChatPicturesHTTPRequest, IChatsState } from '../../models';
 import { IGetPhotoAttachmentsActionPayload } from './get-photo-attachments-action-payload';
 import { GetPhotoAttachmentsSuccess } from './get-photo-attachments-success';
@@ -17,13 +17,11 @@ export class GetPhotoAttachments {
   }
 
   static get reducer() {
-    return produce((draft: IChatsState, { payload }: ReturnType<typeof GetPhotoAttachments.action>) => {
-      const { chatId } = payload;
+    return produce((draft: IChatsState) => {
+      const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
 
-      const chatIndex: number = getChatListChatIndex(chatId, draft);
-
-      if (chatIndex >= 0) {
-        draft.chats[chatIndex].photos.loading = true;
+      if (chat) {
+        chat.photos.loading = true;
       }
       return draft;
     });
@@ -31,9 +29,10 @@ export class GetPhotoAttachments {
 
   static get saga() {
     return function* (action: ReturnType<typeof GetPhotoAttachments.action>): SagaIterator {
-      const { chatId, page } = action.payload;
+      const { page } = action.payload;
+      const chatId = yield select(getSelectedChatIdSelector);
 
-      const { data, status } = GetPhotoAttachments.httpRequest.call(yield call(() => GetPhotoAttachments.httpRequest.generator(action.payload)));
+      const { data, status } = GetPhotoAttachments.httpRequest.call(yield call(() => GetPhotoAttachments.httpRequest.generator({ page, chatId })));
 
       const hasMore = data.length >= page.limit;
 

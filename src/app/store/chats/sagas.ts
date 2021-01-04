@@ -17,11 +17,14 @@ import { MarkMessagesAsRead } from './features/mark-messages-as-read/mark-messag
 import { ChangeChatMutedStatus } from './features/change-chat-muted-status/change-chat-muted-status';
 import { RemoveAttachment } from './features/remove-attachment/remove-attachment';
 import { UploadAttachmentRequest } from './features/upload-attachment/upload-attachment-request';
-import { ChatMutedStatusChangedEventHandler } from './socket-events/chat-mute-status-changed/chat-mute-status-changed-event-handler';
-import { GroupChatCreatedEventHandler } from './socket-events/group-chat-created/group-chat-created-event-handler';
-import { GroupChatEditedEventHandler } from './socket-events/group-chat-edited/group-chat-edited-integration-event-handler';
-import { MemberLeftGroupChatEventHandler } from './socket-events/member-left-group-chat/member-left-group-chat-event-handler';
-import { UserMessageTypingEventHandler } from './socket-events/message-typing/message-typing-event-handler';
+import { CopyMessages } from './features/copy-messages/copy-messages';
+import { CreateMessage } from './features/create-message/create-message';
+import { DeleteMessage } from './features/delete-message/delete-message';
+import { SubmitEditMessage } from './features/edit-message/submit-edit-message';
+import { GetMessages } from './features/get-messages/get-messages';
+import { MessageTyping } from './features/message-typing/message-typing';
+import { ClearChatHistory } from './features/clear-history/clear-chat-history';
+import { MessageCreatedEventHandler } from './socket-events/message-created/message-created-event-handler';
 
 export const ChatSagas = [
   takeLatest(GetChats.action, GetChats.saga),
@@ -42,11 +45,14 @@ export const ChatSagas = [
   takeLatest(EditGroupChat.action, EditGroupChat.saga),
   takeEvery(UploadAttachmentRequest.action, UploadAttachmentRequest.saga),
   takeEvery(RemoveAttachment.action, RemoveAttachment.saga),
+  takeLatest(MessageTyping.action, MessageTyping.saga),
+  takeLatest(GetMessages.action, GetMessages.saga),
+  takeLatest(ClearChatHistory.action, ClearChatHistory.saga),
+  takeEvery(CreateMessage.action, CreateMessage.saga),
+  takeEvery(CopyMessages.action, CopyMessages.saga),
+  takeEvery(SubmitEditMessage.action, SubmitEditMessage.saga),
+  takeEvery(DeleteMessage.action, DeleteMessage.saga),
 
   // socket-events
-  takeEvery(MemberLeftGroupChatEventHandler.action, MemberLeftGroupChatEventHandler.saga),
-  takeEvery(GroupChatEditedEventHandler.action, GroupChatEditedEventHandler.saga),
-  takeEvery(GroupChatCreatedEventHandler.action, GroupChatCreatedEventHandler.saga),
-  takeEvery(ChatMutedStatusChangedEventHandler.action, ChatMutedStatusChangedEventHandler.saga),
-  takeEvery(UserMessageTypingEventHandler.action, UserMessageTypingEventHandler.saga),
+  takeEvery(MessageCreatedEventHandler.action, MessageCreatedEventHandler.saga),
 ];

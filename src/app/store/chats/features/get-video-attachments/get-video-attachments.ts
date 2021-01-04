@@ -3,10 +3,10 @@ import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-fac
 
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
-import { put, call } from 'redux-saga/effects';
+import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import produce from 'immer';
-import { getChatListChatIndex } from 'app/store/chats/selectors';
+import { getChatByIdDraftSelector, getSelectedChatIdSelector } from 'app/store/chats/selectors';
 import { IGetVideoAttachmentsActionPayload } from './get-video-attachments-action-payload';
 import { IVideoAttachment, IGetChatVideosHTTPRequest, IChatsState } from '../../models';
 import { GetVideoAttachmentsSuccess } from './get-video-attachments-success';
@@ -17,23 +17,23 @@ export class GetVideoAttachments {
   }
 
   static get reducer() {
-    return produce((draft: IChatsState, { payload }: ReturnType<typeof GetVideoAttachments.action>) => {
-      const { chatId } = payload;
+    return produce((draft: IChatsState) => {
+      const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
 
-      const chatIndex: number = getChatListChatIndex(chatId, draft);
-
-      if (chatIndex >= 0) {
-        draft.chats[chatIndex].videos.loading = true;
+      if (chat) {
+        chat.videos.loading = true;
       }
+
       return draft;
     });
   }
 
   static get saga() {
     return function* getVideoAttachmentsSaga(action: ReturnType<typeof GetVideoAttachments.action>): SagaIterator {
-      const { chatId, page } = action.payload;
+      const { page } = action.payload;
+      const chatId = yield select(getSelectedChatIdSelector);
 
-      const { data, status } = GetVideoAttachments.httpRequest.call(yield call(() => GetVideoAttachments.httpRequest.generator(action.payload)));
+      const { data, status } = GetVideoAttachments.httpRequest.call(yield call(() => GetVideoAttachments.httpRequest.generator({ page, chatId })));
 
       const hasMore = data.length >= page.limit;
 

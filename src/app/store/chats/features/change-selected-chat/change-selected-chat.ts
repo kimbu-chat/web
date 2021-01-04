@@ -5,12 +5,12 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { getChatById, getHasMoreChats } from 'app/store/chats/selectors';
+import { getChatByIdSelector, getHasMoreChatsSelector, getChatByIdDraftSelector } from 'app/store/chats/selectors';
 import { getFriendById } from 'app/store/friends/selectors';
-import { MessageState } from 'app/store/messages/models';
 import { IUserPreview } from 'store/my-profile/models';
+import { MESSAGES_LIMIT } from 'app/utils/pagination-limits';
 import { IGetChatsSuccessActionPayload } from '../get-chats/get-chats-success-action-payload';
-import { IChatsState, IChat, IGetChatByIdRequestData, InterlocutorType, IGetUserByIdRequestData } from '../../models';
+import { IChatsState, IChat, IGetChatByIdRequestData, InterlocutorType, IGetUserByIdRequestData, MessageState } from '../../models';
 import { GetChatsSuccess } from '../get-chats/get-chats-success';
 import { IChangeSelectedChatActionPayload } from './change-selected-chat-action-payload';
 import { ChatId } from '../../chat-id';
@@ -22,14 +22,29 @@ export class ChangeSelectedChat {
 
   static get reducer() {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof ChangeSelectedChat.action>) => {
-      draft.chats.sort(
-        ({ lastMessage: lastMessageA }, { lastMessage: lastMessageB }) =>
-          new Date(lastMessageB?.creationDateTime!).getTime() - new Date(lastMessageA?.creationDateTime!).getTime(),
-      );
+      const { oldChatId, newChatId } = payload;
 
-      console.log(payload);
+      draft.selectedChatId = newChatId;
 
-      draft.selectedChatId = payload.newChatId;
+      if (oldChatId) {
+        const chat = getChatByIdDraftSelector(oldChatId, draft);
+
+        if (chat && chat.messages.messages.length > MESSAGES_LIMIT) {
+          chat.messages.messages = chat.messages.messages.slice(0, 30);
+        }
+
+        if (chat && draft.selectedMessageIds.length > 0) {
+          chat.messages.messages.map((message) => {
+            message.isSelected = false;
+            return message;
+          });
+        }
+      }
+
+      draft.selectedMessageIds = [];
+
+      draft.messageToReply = undefined;
+      draft.messageToEdit = undefined;
 
       return draft;
     });
@@ -37,11 +52,11 @@ export class ChangeSelectedChat {
 
   static get saga() {
     return function* changeSelectedChatSaga(action: ReturnType<typeof ChangeSelectedChat.action>): SagaIterator {
-      if (action.payload.newChatId !== null && !Number.isNaN(action.payload)) {
-        const chatExists = (yield select(getChatById(action.payload.newChatId))) !== undefined;
+      if (action.payload.newChatId !== null && !Number.isNaN(action.payload.newChatId)) {
+        const chatExists = (yield select(getChatByIdSelector(action.payload.newChatId))) !== undefined;
 
         if (!chatExists) {
-          const hasMore = yield select(getHasMoreChats);
+          const hasMore = yield select(getHasMoreChatsSelector);
 
           const chatIdDetails = action.payload.newChatId ? ChatId.fromId(action.payload.newChatId) : null;
 
@@ -140,6 +155,11 @@ export class ChangeSelectedChat {
                   hasMore: true,
                   loading: false,
                   audios: [],
+                },
+                messages: {
+                  messages: [],
+                  hasMore: true,
+                  loading: false,
                 },
               };
 

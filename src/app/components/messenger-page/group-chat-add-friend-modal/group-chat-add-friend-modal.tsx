@@ -3,11 +3,7 @@ import React, { useCallback, useContext, useState } from 'react';
 
 import { useSelector } from 'react-redux';
 import './group-chat-add-friend-modal.scss';
-import { IChat } from 'store/chats/models';
-import { ChatActions } from 'store/chats/actions';
-import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
-import { getMembersForSelectedGroupChat, getSelectedChatSelector } from 'store/chats/selectors';
-import { FriendActions } from 'store/friends/actions';
+import { getMemberIdsForSelectedGroupChatSelector } from 'store/chats/selectors';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { LocalizationContext } from 'app/app';
 import { getFriendsLoading, getHasMoreFriends, getMyFriends } from 'app/store/friends/selectors';
@@ -15,6 +11,8 @@ import { IPage } from 'app/store/common/models';
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
 import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
 import { FriendFromList, SearchBox } from 'app/components';
+import { AddUsersToGroupChat } from 'app/store/chats/features/add-users-to-group-chat/add-users-to-group-chat';
+import { GetFriends } from 'app/store/friends/features/get-friends/get-friends';
 
 namespace GroupChatAddFriendModalNS {
   export interface IProps {
@@ -30,11 +28,10 @@ export const GroupChatAddFriendModal = React.memo(({ onClose }: GroupChatAddFrie
   const friends = useSelector(getMyFriends);
   const hasMoreFriends = useSelector(getHasMoreFriends);
   const friendsLoading = useSelector(getFriendsLoading);
-  const selectedChat = useSelector(getSelectedChatSelector) as IChat;
-  const idsToExclude = useSelector(getMembersForSelectedGroupChat)?.map((user) => user.id) || [];
+  const idsToExclude = useSelector(getMemberIdsForSelectedGroupChatSelector);
 
-  const addUsersToGroupChat = useActionWithDeferred(ChatActions.addUsersToGroupChat);
-  const loadFriends = useActionWithDispatch(FriendActions.getFriends);
+  const addUsersToGroupChat = useActionWithDispatch(AddUsersToGroupChat.action);
+  const loadFriends = useActionWithDispatch(GetFriends.action);
 
   const isSelected = useCallback((id: number) => selectedUserIds.includes(id), [selectedUserIds]);
 
@@ -54,11 +51,10 @@ export const GroupChatAddFriendModal = React.memo(({ onClose }: GroupChatAddFrie
 
     if (selectedUserIds.length > 0) {
       addUsersToGroupChat({
-        chat: selectedChat,
         users: friends.filter((friend) => selectedUserIds.includes(friend.id)),
       });
     }
-  }, [addUsersToGroupChat, selectedChat, selectedUserIds, onClose, friends]);
+  }, [addUsersToGroupChat, selectedUserIds, onClose, friends]);
 
   const loadMore = useCallback(() => {
     const page: IPage = {

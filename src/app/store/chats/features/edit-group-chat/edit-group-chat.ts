@@ -1,13 +1,15 @@
+import { getSelectedChatIdSelector } from 'store/chats/selectors';
 import { HTTPStatusCode } from 'app/common/http-status-code';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
 
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
-import { call, put } from 'redux-saga/effects';
+import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { IEditGroupChatHTTPReqData } from '../../models';
 import { IEditGroupChatActionPayload } from './edit-group-chat-action-payload';
 import { EditGroupChatSuccess } from './edit-group-chat-success';
+import { ChatId } from '../../chat-id';
 
 export class EditGroupChat {
   static get action() {
@@ -16,17 +18,22 @@ export class EditGroupChat {
 
   static get saga() {
     return function* (action: ReturnType<typeof EditGroupChat.action>): SagaIterator {
+      const { name, description, avatar } = action.payload;
+
+      const chatId = yield select(getSelectedChatIdSelector);
+      const groupChatId: number = ChatId.fromId(chatId).id;
+
       const requestData: IEditGroupChatHTTPReqData = {
-        id: action.payload.id,
-        name: action.payload.name,
-        description: action.payload.description,
-        avatarId: action.payload.avatar?.id,
+        id: groupChatId,
+        name,
+        description,
+        avatarId: avatar?.id,
       };
 
       const { status } = EditGroupChat.httpRequest.call(yield call(() => EditGroupChat.httpRequest.generator(requestData)));
 
       if (status === HTTPStatusCode.OK) {
-        yield put(EditGroupChatSuccess.action(action.payload));
+        yield put(EditGroupChatSuccess.action({ chatId, name, description, avatar }));
       } else {
         alert('editGroupChat error');
       }

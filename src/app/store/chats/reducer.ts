@@ -1,48 +1,64 @@
 import produce from 'immer';
 import { createReducer } from 'typesafe-actions';
-import { getChatListChatIndex, checkChatExists } from 'app/store/chats/selectors';
-import { IAudioAttachment, IPictureAttachment, IRawAttachment, IVideoAttachment, IVoiceAttachment, IChatsState } from './models';
-import { ChatId } from './chat-id';
-import { MessageActions } from '../messages/actions';
-import { FriendActions } from '../friends/actions';
-import { FileType } from '../messages/models';
+import { AddUsersToGroupChatSuccess } from 'store/chats/features/add-users-to-group-chat/add-users-to-group-chat-success';
+import { ChangeChatMutedStatusSuccess } from 'store/chats/features/change-chat-muted-status/change-chat-muted-status-success';
+import { ChangeChatVisibilityStateSuccess } from 'store/chats/features/change-chat-visibility-state/change-chat-visibility-state-success';
+import { ChangeSelectedChat } from 'store/chats/features/change-selected-chat/change-selected-chat';
+import { CreateChat } from 'store/chats/features/create-chat/create-chat';
+import { CreateGroupChatSuccess } from 'store/chats/features/create-group-chat/create-group-chat-success';
+import { CreateMessage } from 'store/chats/features/create-message/create-message';
+import { CreateMessageSuccess } from 'store/chats/features/create-message/create-message-success';
+import { DeleteMessageSuccess } from 'store/chats/features/delete-message/delete-message-success';
+import { EditGroupChatSuccess } from 'store/chats/features/edit-group-chat/edit-group-chat-success';
+import { EditMessage } from 'store/chats/features/edit-message/edit-message';
+import { ResetEditMessage } from 'store/chats/features/edit-message/reset-edit-message';
+import { SubmitEditMessage } from 'store/chats/features/edit-message/submit-edit-message';
+import { SubmitEditMessageSuccess } from 'store/chats/features/edit-message/sumbit-edit-message-success';
+import { GetAudioAttachmentsSuccess } from 'store/chats/features/get-audio-attachments/get-audio-attachments-success';
+import { GetChatInfoSuccess } from 'store/chats/features/get-chat-info/get-chat-info-success';
+import { GetChats } from 'store/chats/features/get-chats/get-chats';
+import { GetChatsFailure } from 'store/chats/features/get-chats/get-chats-failure';
+import { GetChatsSuccess } from 'store/chats/features/get-chats/get-chats-success';
+import { GetGroupChatUsers } from 'store/chats/features/get-group-chat-users/get-group-chat-users';
+import { GetGroupChatUsersSuccess } from 'store/chats/features/get-group-chat-users/get-group-chat-users-success';
+import { GetMessages } from 'store/chats/features/get-messages/get-messages';
+import { GetMessagesFailure } from 'store/chats/features/get-messages/get-messages-failure';
+import { GetMessagesSuccess } from 'store/chats/features/get-messages/get-messages-success';
+import { GetPhotoAttachments } from 'store/chats/features/get-photo-attachments/get-photo-attachments';
+import { GetPhotoAttachmentsSuccess } from 'store/chats/features/get-photo-attachments/get-photo-attachments-success';
+import { GetRawAttachments } from 'store/chats/features/get-raw-attachments/get-raw-attachments';
+import { GetRawAttachmentsSuccess } from 'store/chats/features/get-raw-attachments/get-raw-attachments-success';
+import { GetVideoAttachments } from 'store/chats/features/get-video-attachments/get-video-attachments';
+import { GetVideoAttachmentsSuccess } from 'store/chats/features/get-video-attachments/get-video-attachments-success';
+import { GetVoiceAttachments } from 'store/chats/features/get-voice-attachments/get-voice-attachments';
+import { GetVoiceAttachmentsSuccess } from 'store/chats/features/get-voice-attachments/get-voice-attachments-success';
+import { InterlocutorStoppedTyping } from 'store/chats/features/interlocutor-message-typing/interlocutor-stopped-typing';
+import { LeaveGroupChatSuccess } from 'store/chats/features/leave-group-chat/leave-group-chat-success';
+import { MarkMessagesAsReadSuccess } from 'store/chats/features/mark-messages-as-read/mark-messages-as-read-success';
+import { MessageTyping } from 'store/chats/features/message-typing/message-typing';
+import { RemoveAttachment } from 'store/chats/features/remove-attachment/remove-attachment';
+import { ReplyToMessage } from 'store/chats/features/reply-to-message/reply-to-message';
+import { ResetReplyToMessage } from 'store/chats/features/reply-to-message/reset-reply-to-message';
+import { ResetSelectedMessages } from 'store/chats/features/select-message/reset-selected-messages';
+import { SelectMessage } from 'store/chats/features/select-message/select-message';
+import { UnshiftChat } from 'store/chats/features/unshift-chat/unshift-chat';
+import { UploadAttachmentFailure } from 'store/chats/features/upload-attachment/upload-attachment-failure';
+import { UploadAttachmentProgress } from 'store/chats/features/upload-attachment/upload-attachment-progress';
+import { UploadAttachmentRequest } from 'store/chats/features/upload-attachment/upload-attachment-request';
+import { UploadAttachmentSuccess } from 'store/chats/features/upload-attachment/upload-attachment-success';
+import { getChatByIdDraftSelector } from 'store/chats/selectors';
+import { ClearChatHistorySuccess } from 'app/store/chats/features/clear-history/clear-chat-history-success';
+import { GroupChatCreatedEventHandler } from 'store/chats/socket-events/group-chat-created/group-chat-created-event-handler';
+import { GroupChatEditedEventHandler } from 'store/chats/socket-events/group-chat-edited/group-chat-edited-integration-event-handler';
+import { MemberLeftGroupChatEventHandler } from 'store/chats/socket-events/member-left-group-chat/member-left-group-chat-event-handler';
+import { MessageCreatedEventHandler } from 'store/chats/socket-events/message-created/message-created-event-handler';
+import { MessagesDeletedIntegrationEventHandler } from 'store/chats/socket-events/message-deleted/messages-deleted-integration-event-handler';
+import { MessageEditedEventHandler } from 'store/chats/socket-events/message-edited/message-edited-event-handler';
+import { UserMessageTypingEventHandler } from 'store/chats/socket-events/message-typing/message-typing-event-handler';
+import { ChatMutedStatusChangedEventHandler } from './socket-events/chat-mute-status-changed/chat-mute-status-changed-event-handler';
 import { UserStatusChangedEventHandler } from '../friends/socket-events/user-status-changed/user-status-changed-event-handler';
-import { CreateChat } from './features/create-chat/create-chat';
-import { CreateMessage } from '../messages/features/create-message/create-message';
-import { CreateMessageSuccess } from '../messages/features/create-message/create-message-success';
-import { AddUsersToGroupChatSuccess } from './features/add-users-to-group-chat/add-users-to-group-chat-success';
-import { ChangeChatVisibilityStateSuccess } from './features/change-chat-visibility-state/change-chat-visibility-state-success';
-import { ChangeSelectedChat } from './features/change-selected-chat/change-selected-chat';
-import { CreateGroupChatSuccess } from './features/create-group-chat/create-group-chat-success';
-import { EditGroupChatSuccess } from './features/edit-group-chat/edit-group-chat-success';
-import { GetAudioAttachmentsSuccess } from './features/get-audio-attachments/get-audio-attachments-success';
-import { GetChatInfoSuccess } from './features/get-chat-info/get-chat-info-success';
-import { GetChats } from './features/get-chats/get-chats';
-import { GetChatsFailure } from './features/get-chats/get-chats-failure';
-import { GetChatsSuccess } from './features/get-chats/get-chats-success';
-import { GetPhotoAttachmentsSuccess } from './features/get-photo-attachments/get-photo-attachments-success';
-import { GetRawAttachmentsSuccess } from './features/get-raw-attachments/get-raw-attachments-success';
-import { GetVoiceAttachmentsSuccess } from './features/get-voice-attachments/get-voice-attachments-success';
-import { InterlocutorStoppedTyping } from './features/interlocutor-message-typing/interlocutor-stopped-typing';
-import { LeaveGroupChatSuccess } from './features/leave-group-chat/leave-group-chat-success';
-import { ChangeChatMutedStatusSuccess } from './features/change-chat-muted-status/change-chat-muted-status-success';
-import { RemoveAttachment } from './features/remove-attachment/remove-attachment';
-import { UnshiftChat } from './features/unshift-chat/unshift-chat';
-import { UploadAttachmentFailure } from './features/upload-attachment/upload-attachment-failure';
-import { UploadAttachmentProgress } from './features/upload-attachment/upload-attachment-progress';
-import { UploadAttachmentRequest } from './features/upload-attachment/upload-attachment-request';
-import { UploadAttachmentSuccess } from './features/upload-attachment/upload-attachment-success';
-import { MessageTyping } from '../messages/features/message-typing/message-typing';
-import { SubmitEditMessage } from '../messages/features/edit-message/submit-edit-message';
-import { GetGroupChatUsers } from './features/get-group-chat-users/get-group-chat-users';
-import { GetGroupChatUsersSuccess } from './features/get-group-chat-users/get-group-chat-users-success';
-import { ChangeLastMessage } from './features/change-last-message/change-last-message';
-import { GetVoiceAttachments } from './features/get-voice-attachments/get-voice-attachments';
-import { GetVideoAttachments } from './features/get-video-attachments/get-video-attachments';
-import { GetRawAttachments } from './features/get-raw-attachments/get-raw-attachments';
-import { GetPhotoAttachments } from './features/get-photo-attachments/get-photo-attachments';
-import { GetVideoAttachmentsSuccess } from './features/get-video-attachments/get-video-attachments-success';
-import { MarkMessagesAsReadSuccess } from './features/mark-messages-as-read/mark-messages-as-read-success';
+import { ChatId } from './chat-id';
+import { IChatsState } from './models';
 
 const initialState: IChatsState = {
   loading: false,
@@ -50,6 +66,7 @@ const initialState: IChatsState = {
   searchString: '',
   chats: [],
   selectedChatId: null,
+  selectedMessageIds: [],
 };
 
 const chats = createReducer<IChatsState>(initialState)
@@ -80,160 +97,56 @@ const chats = createReducer<IChatsState>(initialState)
   .handleAction(EditGroupChatSuccess.action, EditGroupChatSuccess.reducer)
   .handleAction(GetGroupChatUsers.action, GetGroupChatUsers.reducer)
   .handleAction(GetGroupChatUsersSuccess.action, GetGroupChatUsersSuccess.reducer)
-  .handleAction(ChangeLastMessage.action, ChangeLastMessage.reducer)
   .handleAction(GetVoiceAttachments.action, GetVoiceAttachments.reducer)
   .handleAction(GetVideoAttachments.action, GetVideoAttachments.reducer)
   .handleAction(GetVideoAttachmentsSuccess.action, GetVideoAttachmentsSuccess.reducer)
-  .handleAction(
-    MessageActions.clearChatHistorySuccess,
-    produce((draft: IChatsState, { payload }: ReturnType<typeof MessageActions.clearChatHistorySuccess>) => {
-      const { chatId } = payload;
-      const chatIndex: number = getChatListChatIndex(chatId, draft);
-
-      if (chatIndex >= 0) {
-        draft.chats[chatIndex].lastMessage = null;
-      }
-
-      return draft;
-    }),
-  )
-  .handleAction(
-    CreateMessage.action,
-    produce((draft: IChatsState, { payload }: ReturnType<typeof MessageActions.createMessage>) => {
-      const { message } = payload;
-
-      const chatIndex: number = getChatListChatIndex(message.chatId, draft);
-
-      // if user already has chats with interlocutor - update chat
-      if (chatIndex >= 0) {
-        draft.chats[chatIndex].attachmentsToSend = [];
-        draft.chats[chatIndex].lastMessage = { ...message };
-        draft.chats[chatIndex].draftMessage = '';
-
-        const chatWithNewMessage = draft.chats[chatIndex];
-
-        draft.chats.splice(chatIndex, 1);
-
-        draft.chats.unshift(chatWithNewMessage);
-      }
-      return draft;
-    }),
-  )
+  .handleAction(CreateMessageSuccess.action, CreateMessageSuccess.reducer)
+  .handleAction(GetMessages.action, GetMessages.reducer)
+  .handleAction(GetMessagesSuccess.action, GetMessagesSuccess.reducer)
+  .handleAction(GetMessagesFailure.action, GetMessagesFailure.reducer)
+  .handleAction(CreateMessage.action, CreateMessage.reducer)
+  .handleAction(DeleteMessageSuccess.action, DeleteMessageSuccess.reducer)
+  .handleAction(SelectMessage.action, SelectMessage.reducer)
+  .handleAction(ResetSelectedMessages.action, ResetSelectedMessages.reducer)
+  .handleAction(ReplyToMessage.action, ReplyToMessage.reducer)
+  .handleAction(EditMessage.action, EditMessage.reducer)
+  .handleAction(SubmitEditMessage.action, SubmitEditMessage.reducer)
+  .handleAction(SubmitEditMessageSuccess.action, SubmitEditMessageSuccess.reducer)
+  .handleAction(ResetReplyToMessage.action, ResetReplyToMessage.reducer)
+  .handleAction(ResetEditMessage.action, ResetEditMessage.reducer)
+  .handleAction(ClearChatHistorySuccess.action, ClearChatHistorySuccess.reducer)
+  .handleAction(UnshiftChat.action, UnshiftChat.reducer)
+  .handleAction(MessageTyping.action, MessageTyping.reducer)
   .handleAction(
     UserStatusChangedEventHandler.action,
-    produce((draft: IChatsState, { payload }: ReturnType<typeof FriendActions.userStatusChangedEvent>) => {
+    produce((draft: IChatsState, { payload }: ReturnType<typeof UserStatusChangedEventHandler.action>) => {
       const { status, userId } = payload;
       const chatId: number = ChatId.from(userId).id;
-      const isChatExists = checkChatExists(chatId, draft);
-      const chatIndex = getChatListChatIndex(chatId, draft);
+      const chat = getChatByIdDraftSelector(chatId, draft);
 
-      if (!isChatExists) {
+      if (!chat) {
         return draft;
       }
 
-      const interlocutor = draft.chats[chatIndex].interlocutor!;
-      interlocutor.status = status;
-      interlocutor.lastOnlineTime = new Date();
-      return draft;
-    }),
-  )
-  .handleAction(
-    CreateMessageSuccess.action,
-    produce((draft: IChatsState, { payload }: ReturnType<typeof MessageActions.createMessageSuccess>) => {
-      const { messageState, chatId, oldMessageId, newMessageId, attachments } = payload;
-
-      const chatIndex: number = getChatListChatIndex(chatId, draft);
-
-      if (chatIndex >= 0) {
-        if (draft.chats[chatIndex].lastMessage?.id === oldMessageId) {
-          const lastMessage = draft.chats[chatIndex].lastMessage || { id: 0, state: '' };
-
-          lastMessage.id = newMessageId;
-
-          lastMessage.state = messageState;
-        }
-
-        attachments?.forEach((attachment) => {
-          switch (attachment.type) {
-            case FileType.Audio:
-              draft.chats[chatIndex].audioAttachmentsCount = (draft.chats[chatIndex].audioAttachmentsCount || 0) + 1;
-              draft.chats[chatIndex].audios.audios.unshift({
-                ...(attachment as IAudioAttachment),
-                creationDateTime: new Date(),
-              });
-
-              break;
-            case FileType.Picture:
-              draft.chats[chatIndex].pictureAttachmentsCount = (draft.chats[chatIndex].pictureAttachmentsCount || 0) + 1;
-              draft.chats[chatIndex].photos.photos.unshift({
-                ...(attachment as IPictureAttachment),
-                creationDateTime: new Date(),
-              });
-
-              break;
-            case FileType.Raw:
-              draft.chats[chatIndex].rawAttachmentsCount = (draft.chats[chatIndex].rawAttachmentsCount || 0) + 1;
-              draft.chats[chatIndex].files.files.unshift({
-                ...(attachment as IRawAttachment),
-                creationDateTime: new Date(),
-              });
-
-              break;
-            case FileType.Video:
-              draft.chats[chatIndex].videoAttachmentsCount = (draft.chats[chatIndex].videoAttachmentsCount || 0) + 1;
-              draft.chats[chatIndex].videos.videos.unshift({
-                ...(attachment as IVideoAttachment),
-                creationDateTime: new Date(),
-              });
-
-              break;
-            case FileType.Voice:
-              draft.chats[chatIndex].voiceAttachmentsCount = (draft.chats[chatIndex].voiceAttachmentsCount || 0) + 1;
-              draft.chats[chatIndex].recordings.recordings.unshift({
-                ...(attachment as IVoiceAttachment),
-                creationDateTime: new Date(),
-              });
-
-              break;
-            default:
-              break;
-          }
-        });
+      if (chat.interlocutor) {
+        const { interlocutor } = chat;
+        interlocutor.status = status;
+        interlocutor.lastOnlineTime = new Date();
       }
 
       return draft;
     }),
   )
-  .handleAction(
-    SubmitEditMessage.action,
-    produce((draft: IChatsState, { payload }: ReturnType<typeof MessageActions.submitEditMessage>) => {
-      const { chatId, messageId, text } = payload;
-      const chatIndex: number = getChatListChatIndex(chatId, draft);
 
-      if (chatIndex >= 0) {
-        draft.chats[chatIndex].attachmentsToSend = [];
+  // socket-events
 
-        if (draft.chats[chatIndex].lastMessage?.id === messageId) {
-          draft.chats[chatIndex].lastMessage!.text = text;
-        }
-      }
-
-      return draft;
-    }),
-  )
-  .handleAction(
-    MessageTyping.action,
-    produce((draft: IChatsState, { payload }: ReturnType<typeof MessageActions.messageTyping>) => {
-      const { chatId, text } = payload;
-      const chatIndex: number = getChatListChatIndex(chatId, draft);
-
-      if (chatIndex >= 0) {
-        draft.chats[chatIndex].draftMessage = text;
-      }
-
-      return draft;
-    }),
-  )
-  .handleAction(UnshiftChat.action, UnshiftChat.reducer);
+  .handleAction(UserMessageTypingEventHandler.action, UserMessageTypingEventHandler.reducer)
+  .handleAction(MemberLeftGroupChatEventHandler.action, MemberLeftGroupChatEventHandler.reducer)
+  .handleAction(GroupChatEditedEventHandler.action, GroupChatEditedEventHandler.reducer)
+  .handleAction(GroupChatCreatedEventHandler.action, GroupChatCreatedEventHandler.reducer)
+  .handleAction(ChatMutedStatusChangedEventHandler.action, ChatMutedStatusChangedEventHandler.reducer)
+  .handleAction(MessageCreatedEventHandler.action, MessageCreatedEventHandler.reducer)
+  .handleAction(MessageEditedEventHandler.action, MessageEditedEventHandler.reducer)
+  .handleAction(MessagesDeletedIntegrationEventHandler.action, MessagesDeletedIntegrationEventHandler.reducer);
 
 export default chats;

@@ -1,13 +1,11 @@
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
-import { MessageState } from 'app/store/messages/models';
-
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { ChatId } from '../../chat-id';
-import { IChat, IChatsState, IGetChatsRequestData, InterlocutorType } from '../../models';
+import { IChat, IChatsState, IGetChatsRequestData, InterlocutorType, MessageState } from '../../models';
 import { IGetChatsActionPayload } from './get-chats-action-payload';
 import { GetChatsSuccess } from './get-chats-success';
 import { IGetChatsSuccessActionPayload } from './get-chats-success-action-payload';
@@ -59,6 +57,7 @@ export class GetChats {
           loading: false,
           recordings: [],
         };
+        chat.messages = { messages: [], loading: false, hasMore: true };
 
         if (chat.interlocutorType === InterlocutorType.GroupChat) {
           chat.members = { searchMembers: [], members: [], loading: false, hasMore: true };

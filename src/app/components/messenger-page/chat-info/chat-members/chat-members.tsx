@@ -2,9 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import './chat-members.scss';
 import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { IChat } from 'store/chats/models';
 import { ChatActions } from 'store/chats/actions';
-import { getMembersListForSelectedGroupChat, getSelectedChatSelector } from 'store/chats/selectors';
+import { getMembersListForSelectedGroupChatSelector } from 'store/chats/selectors';
 import AddSvg from 'icons/ic-add-new.svg';
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
 import { IPage } from 'app/store/common/models';
@@ -23,19 +22,17 @@ export const ChatMembers = React.memo(({ addMembers }: ChatMembersNS.IProps) => 
   const [searchStr, setSearchStr] = useState<string>('');
 
   const getGroupChatUsers = useActionWithDispatch(ChatActions.getGroupChatUsers);
-  const selectedChat = useSelector(getSelectedChatSelector) as IChat;
 
-  const membersListForGroupChat = useSelector(getMembersListForSelectedGroupChat);
+  const membersListForGroupChat = useSelector(getMembersListForSelectedGroupChatSelector);
 
   useEffect(() => {
     getGroupChatUsers({
-      groupChatId: selectedChat.groupChat?.id!,
       page: { offset: 0, limit: CHAT_MEMBERS_LIMIT },
     });
     return () => {
       setSearchStr('');
     };
-  }, [selectedChat.id]);
+  }, []);
 
   const loadMore = useCallback(() => {
     const page: IPage = {
@@ -45,13 +42,20 @@ export const ChatMembers = React.memo(({ addMembers }: ChatMembersNS.IProps) => 
     };
 
     getGroupChatUsers({
-      groupChatId: selectedChat.groupChat?.id!,
       page,
       name: searchStr,
       isFromScroll: true,
       isFromSearch: searchStr.length > 0,
     });
-  }, [selectedChat, membersListForGroupChat]);
+  }, [membersListForGroupChat]);
+
+  const search = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchStr(e.target.value);
+    getGroupChatUsers({
+      page: { offset: 0, limit: CHAT_MEMBERS_LIMIT },
+      name: e.target.value,
+    });
+  }, []);
 
   return (
     <div className='chat-members'>
@@ -63,16 +67,7 @@ export const ChatMembers = React.memo(({ addMembers }: ChatMembersNS.IProps) => 
       </div>
 
       <div className='chat-members__search'>
-        <SearchBox
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setSearchStr(e.target.value);
-            getGroupChatUsers({
-              groupChatId: selectedChat.groupChat?.id!,
-              page: { offset: 0, limit: CHAT_MEMBERS_LIMIT },
-              name: e.target.value,
-            });
-          }}
-        />
+        <SearchBox onChange={search} />
       </div>
 
       <InfiniteScroll

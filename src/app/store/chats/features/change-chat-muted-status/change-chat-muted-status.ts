@@ -1,21 +1,21 @@
+import { createEmptyAction } from 'app/store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
 
 import { AxiosResponse } from 'axios';
-import { call, put } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
-import { IChangeChatMutedStatusActionPayload } from './change-chat-muted-status-action-payload';
+import { call, put, select } from 'redux-saga/effects';
 import { IChangeChatMutedStatusRequest } from '../../models';
+import { getSelectedChatSelector } from '../../selectors';
 import { ChangeChatMutedStatusSuccess } from './change-chat-muted-status-success';
 
 export class ChangeChatMutedStatus {
   static get action() {
-    return createAction('MUTE_CHAT')<IChangeChatMutedStatusActionPayload>();
+    return createEmptyAction('MUTE_SELECTED_CHAT');
   }
 
   static get saga() {
-    return function* muteChatSaga(action: ReturnType<typeof ChangeChatMutedStatus.action>) {
+    return function* muteChatSaga() {
       try {
-        const { chatId, isMuted } = action.payload;
+        const { id: chatId, isMuted } = yield select(getSelectedChatSelector);
 
         const request: IChangeChatMutedStatusRequest = {
           chatIds: [chatId],

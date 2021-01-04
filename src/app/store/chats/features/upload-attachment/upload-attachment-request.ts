@@ -1,12 +1,11 @@
 import { httpFilesRequestFactory, HttpRequestMethod, IFilesRequestGenerator } from 'app/store/common/http-file-factory';
-import { FileType } from 'app/store/messages/models';
 
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { put, call } from 'redux-saga/effects';
+import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { getChatListChatIndex } from 'app/store/chats/selectors';
+import { getChatByIdDraftSelector, getSelectedChatIdSelector } from 'app/store/chats/selectors';
 import {
   IChatsState,
   IAttachmentToSend,
@@ -17,6 +16,7 @@ import {
   IUploadPictureResponse,
   IUploadVideoResponse,
   IUploadVoiceResponse,
+  FileType,
 } from '../../models';
 import { addUploadingAttachment, removeUploadingAttachment } from '../../upload-qeue';
 import { UploadAttachmentFailure } from './upload-attachment-failure';
@@ -31,13 +31,13 @@ export class UploadAttachmentRequest {
 
   static get reducer() {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof UploadAttachmentRequest.action>) => {
-      const { type, chatId, attachmentId, file } = payload;
+      const { type, attachmentId, file } = payload;
 
-      const chatIndex: number = getChatListChatIndex(chatId, draft);
+      const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
 
-      if (chatIndex >= 0) {
-        if (!draft.chats[chatIndex].attachmentsToSend) {
-          draft.chats[chatIndex].attachmentsToSend = [];
+      if (chat) {
+        if (!chat.attachmentsToSend) {
+          chat.attachmentsToSend = [];
         }
 
         const attachmentToAdd: IAttachmentToSend<IBaseAttachment> = {
@@ -53,7 +53,7 @@ export class UploadAttachmentRequest {
           file,
         };
 
-        draft.chats[chatIndex].attachmentsToSend?.push(attachmentToAdd);
+        chat.attachmentsToSend?.push(attachmentToAdd);
       }
       return draft;
     });
@@ -61,7 +61,8 @@ export class UploadAttachmentRequest {
 
   static get saga() {
     return function* (action: ReturnType<typeof UploadAttachmentRequest.action>): SagaIterator {
-      const { file, type, chatId, attachmentId } = action.payload;
+      const chatId = yield select(getSelectedChatIdSelector);
+      const { file, type, attachmentId } = action.payload;
       let uploadRequest: IFilesRequestGenerator<AxiosResponse<any>, any>;
 
       switch (type) {

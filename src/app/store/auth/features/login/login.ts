@@ -11,14 +11,16 @@ import jwt_decode from 'jwt-decode';
 import { SagaIterator } from 'redux-saga';
 import { call, fork, put } from 'redux-saga/effects';
 import { getPushNotificationTokens } from '../../get-push-notification-tokens';
-import { ILoginResponse, IPhoneConfirmationData, ISecurityTokens } from '../../models';
+import { ISecurityTokens } from '../../models';
+import { ILoginApiRequest } from '../confirm-phone/api-requests/login-api-request';
+import { ILoginApiResponse } from '../confirm-phone/api-requests/login-api-response';
 import { ConfirmPhone } from '../confirm-phone/confirm-phone';
-import { LoginSuccess } from '../logout/login-sucess/login-success';
+import { LoginSuccess } from './login-success';
 
 export class Login {
   static get saga() {
-    return function* (loginData: IPhoneConfirmationData): SagaIterator {
-      const { data }: AxiosResponse<ILoginResponse> = ConfirmPhone.httpRequest.login.call(
+    return function* (loginData: ILoginApiRequest): SagaIterator {
+      const { data }: AxiosResponse<ILoginApiResponse> = ConfirmPhone.httpRequest.login.call(
         yield call(() => ConfirmPhone.httpRequest.login.generator(loginData)),
       );
 

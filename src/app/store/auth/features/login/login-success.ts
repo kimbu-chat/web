@@ -1,7 +1,7 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { IAuthState } from '../../../models';
-import { ILoginSuccessActionPayload } from './login-success-action-payload';
+import { IAuthState } from '../../models';
+import { ILoginSuccessActionPayload } from './action-payloads/login-success-action-payload';
 
 export class LoginSuccess {
   static get action() {

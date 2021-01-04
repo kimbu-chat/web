@@ -7,10 +7,11 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { IAuthState, IRegisterApiRequest } from '../../models';
+import { IAuthState } from '../../models';
 import { getAuthPhoneNumber, getConfirmationCode, getTwoLetterCountryCode } from '../../selectors';
 import { Login } from '../login/login';
-import { IRegisterActionPayload } from './register-action-payload';
+import { IRegisterActionPayload } from './action-payloads/register-action-payload';
+import { IRegisterApiRequest } from './api-requests/register-api-request';
 
 export class Register {
   static get action() {

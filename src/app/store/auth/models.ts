@@ -1,27 +1,8 @@
-export interface IPhoneConfirmationData {
-  phoneNumber: string;
-  code: string;
-}
+import { ILoginApiResponse } from './features/confirm-phone/api-requests/login-api-response';
 
-export interface ILoginResponse {
-  accessToken: string;
-  refreshToken: string;
-  refreshTokenExpirationTime?: Date;
-}
-
-export interface ISecurityTokens extends ILoginResponse {
+export interface ISecurityTokens extends ILoginApiResponse {
   refreshTokenRequestLoading?: boolean;
   isAuthenticated?: boolean;
-}
-
-export interface IPhoneConfirmationApiResponse {
-  isCodeCorrect: boolean;
-  userExists: boolean;
-}
-
-export interface ISubscribeToPushNotificationsRequest {
-  tokenId: string;
-  deviceId: string;
 }
 
 export interface IAuthState {
@@ -33,13 +14,4 @@ export interface IAuthState {
   isAuthenticated: boolean;
   securityTokens: ISecurityTokens;
   registrationAllowed?: boolean;
-}
-
-export interface IRegisterApiRequest {
-  lastName: string;
-  firstName: string;
-  nickname: string;
-  twoLetterCountryCode: string;
-  phoneNumber: string;
-  avatarId?: number;
 }

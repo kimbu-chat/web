@@ -1,7 +1,7 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { IAuthState } from '../../models';
-import { IConfirmPhoneRegistrationAllowedActionPayload } from './confirm-phone-registration-allowed-action-payload';
+import { IConfirmPhoneRegistrationAllowedActionPayload } from './action-payloads/confirm-phone-registration-allowed-action-payload';
 
 export class ConfirmPhoneRegistrationAllowed {
   static get action() {

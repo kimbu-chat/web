@@ -1,6 +1,6 @@
 import { createReducer } from 'typesafe-actions';
 import { DeclineCall } from 'app/store/calls/features/decline-call/decline-call';
-import { ICallState } from './models';
+import { ICallsState } from './models';
 import { IncomingCallEventHandler } from './socket-events/incoming-call/incoming-call-event-handler';
 import { AcceptCall } from './features/accept-call/accept-call';
 import { CallEndedEventHandler } from './socket-events/call-ended/call-ended-event-handler';
@@ -24,7 +24,7 @@ import { OpenScreenShareStatus } from './features/change-screen-share-status/ope
 import { CloseInterlocutorVideoStatus } from './features/change-interlocutor-media-status/close-interlocutor-video-status';
 import { OpenInterlocutorVideoStatus } from './features/change-interlocutor-media-status/open-interlocutor-video-status';
 
-const initialState: ICallState = {
+const initialState: ICallsState = {
   isInterlocutorVideoEnabled: false,
   isInterlocutorBusy: false,
   amICalled: false,
@@ -46,7 +46,7 @@ const initialState: ICallState = {
   },
 };
 
-const calls = createReducer<ICallState>(initialState)
+const calls = createReducer<ICallsState>(initialState)
   .handleAction(OutgoingCall.action, OutgoingCall.reducer)
   .handleAction(CancelCallSuccess.action, CancelCallSuccess.reducer)
   .handleAction(AcceptCall.action, AcceptCall.reducer)

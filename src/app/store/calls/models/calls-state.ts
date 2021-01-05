@@ -1,7 +1,7 @@
-import { CallStatus } from '../models';
-import { IUserPreview } from '../my-profile/models';
+import { IUserPreview } from 'app/store/my-profile/models';
+import { ICall } from '../utils/models';
 
-export interface ICallState {
+export interface ICallsState {
   isActiveCallIncoming?: boolean;
   isIncomingCallVideoEnbaled?: boolean;
   isInterlocutorVideoEnabled: boolean;
@@ -23,19 +23,9 @@ export interface ICallState {
   isScreenSharingOpened: boolean;
   audioDevicesList: MediaDeviceInfo[];
   videoDevicesList: MediaDeviceInfo[];
-  calls: ICallList;
-}
-
-interface ICallList {
-  calls: ICall[];
-  hasMore: boolean;
-  loading: boolean;
-}
-
-export interface ICall {
-  id: number;
-  userInterlocutor: IUserPreview;
-  userCallerId: number;
-  duration: number;
-  status: CallStatus;
+  calls: {
+    calls: ICall[];
+    hasMore: boolean;
+    loading: boolean;
+  };
 }

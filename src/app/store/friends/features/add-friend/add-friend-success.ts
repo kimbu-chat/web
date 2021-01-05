@@ -1,7 +1,7 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { IFriendsState } from '../../models';
-import { IAddFriendSuccessActionPayload } from './add-friend-success-action-payload';
+import { IAddFriendSuccessActionPayload } from './action-payloads/add-friend-success-action-payload';
 
 export class AddFriendSuccess {
   static get action() {

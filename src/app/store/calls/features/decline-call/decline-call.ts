@@ -7,7 +7,7 @@ import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
-import { ICallState } from '../../models';
+import { ICallsState } from '../../models';
 
 export class DeclineCall {
   static get action() {
@@ -15,7 +15,7 @@ export class DeclineCall {
   }
 
   static get reducer() {
-    return produce((draft: ICallState) => {
+    return produce((draft: ICallsState) => {
       draft.interlocutor = undefined;
       draft.isInterlocutorBusy = false;
       draft.amICalling = false;

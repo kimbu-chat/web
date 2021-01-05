@@ -4,7 +4,7 @@ import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import produce from 'immer';
 import { doIhaveCall } from 'app/store/calls/selectors';
-import { ICallState } from '../../models';
+import { ICallsState } from '../../models';
 import { setIsRenegotiationAccepted } from '../../utils/glare-utils';
 import { IInterlocutorAcceptedCallIntegrationEvent } from './interlocutor-accepted-call-integration-event';
 
@@ -14,7 +14,7 @@ export class InterlocutorAcceptedCallEventHandler {
   }
 
   static get reducer() {
-    return produce((draft: ICallState, { payload }: ReturnType<typeof InterlocutorAcceptedCallEventHandler.action>) => {
+    return produce((draft: ICallsState, { payload }: ReturnType<typeof InterlocutorAcceptedCallEventHandler.action>) => {
       console.log(draft.interlocutor?.firstName);
 
       if (!draft.isSpeaking && !draft.amICalled) {

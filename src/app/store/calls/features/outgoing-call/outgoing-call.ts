@@ -10,7 +10,7 @@ import { RootState } from 'app/store/root-reducer';
 
 import { AxiosResponse } from 'axios';
 import { getIsVideoEnabled } from 'app/store/calls/selectors';
-import { ICallState } from '../../models';
+import { ICallsState } from '../../models';
 import { deviceUpdateWatcher } from '../../utils/device-update-watcher';
 import { getAndSendUserMedia, getMediaDevicesList } from '../../utils/user-media';
 import { CancelCall } from '../cancel-call/cancel-call';
@@ -33,7 +33,7 @@ export class OutgoingCall {
   }
 
   static get reducer() {
-    return produce((draft: ICallState, { payload }: ReturnType<typeof OutgoingCall.action>) => {
+    return produce((draft: ICallsState, { payload }: ReturnType<typeof OutgoingCall.action>) => {
       if (draft.isSpeaking) {
         return draft;
       }

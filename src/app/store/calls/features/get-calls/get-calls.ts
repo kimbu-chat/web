@@ -7,7 +7,7 @@ import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import produce from 'immer';
-import { ICall, ICallState } from '../../models';
+import { ICall, ICallsState } from '../../models';
 import { IGetCallsActionPayload } from './action-payloads/get-calls-action-payload';
 import { GetCallsSuccess } from './get-calls-success';
 import { IGetCallsApiRequest } from './api-requests/get-calls-api-requests';
@@ -18,7 +18,7 @@ export class GetCalls {
   }
 
   static get reducer() {
-    return produce((draft: ICallState) => {
+    return produce((draft: ICallsState) => {
       draft.calls.loading = false;
     });
   }

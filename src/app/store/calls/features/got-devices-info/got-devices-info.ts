@@ -1,7 +1,7 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { InputType } from '../../common/enums/input-type';
-import { ICallState } from '../../models';
+import { ICallsState } from '../../models';
 import { IGotDevicesInfoActionPayload } from './action-payloads/got-devices-info-action-payload';
 
 export class GotDevicesInfo {
@@ -10,7 +10,7 @@ export class GotDevicesInfo {
   }
 
   static get reducer() {
-    return produce((draft: ICallState, { payload }: ReturnType<typeof GotDevicesInfo.action>) => {
+    return produce((draft: ICallsState, { payload }: ReturnType<typeof GotDevicesInfo.action>) => {
       if (payload.kind === InputType.VideoInput) {
         draft.videoDevicesList = payload.devices;
       }

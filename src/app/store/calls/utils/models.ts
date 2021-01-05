@@ -1,7 +1,7 @@
 import { CallStatus } from '../../models';
 import { IUserPreview } from '../../my-profile/models';
 
-export interface ICallState {
+export interface ICallsState {
   isActiveCallIncoming?: boolean;
   isIncomingCallVideoEnbaled?: boolean;
   isInterlocutorVideoEnabled: boolean;

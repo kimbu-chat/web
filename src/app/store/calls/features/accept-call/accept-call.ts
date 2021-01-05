@@ -9,7 +9,7 @@ import { call, put, select, spawn } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { getAudioConstraints, getCallInterlocutorIdSelector, getIsVideoEnabled, getVideoConstraints } from 'app/store/calls/selectors';
 import { interlocutorOffer } from 'store/middlewares/webRTC/peerConnectionFactory';
-import { ICallState } from '../../models';
+import { ICallsState } from '../../models';
 import { deviceUpdateWatcher } from '../../utils/device-update-watcher';
 import { getAndSendUserMedia, getMediaDevicesList } from '../../utils/user-media';
 import { ChangeActiveDeviceId } from '../change-active-device-id/change-active-device-id';
@@ -26,7 +26,7 @@ export class AcceptCall {
   }
 
   static get reducer() {
-    return produce((draft: ICallState, { payload }: ReturnType<typeof AcceptCall.action>) => {
+    return produce((draft: ICallsState, { payload }: ReturnType<typeof AcceptCall.action>) => {
       draft.audioConstraints = { ...draft.audioConstraints, isOpened: payload.audioEnabled };
       draft.videoConstraints = { ...draft.videoConstraints, isOpened: payload.videoEnabled };
 

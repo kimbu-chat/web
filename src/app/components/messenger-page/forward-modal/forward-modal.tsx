@@ -73,7 +73,7 @@ export const ForwardModal: React.FC<IForwardModalProps> = React.memo(({ onClose 
       <Modal
         title={t('forwardModal.forward')}
         closeModal={onClose}
-        contents={
+        content={
           <div className='forward-modal'>
             <SearchBox onChange={searchChats} />
             <InfiniteScroll className='forward-modal__chats-block' onReachExtreme={loadMore} hasMore={hasMoreChats} isLoading={chatsAreLoading}>

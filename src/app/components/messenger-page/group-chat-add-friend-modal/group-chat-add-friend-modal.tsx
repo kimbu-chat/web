@@ -71,7 +71,7 @@ export const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = 
       <Modal
         title={t('groupChatAddFriendModal.add_members')}
         closeModal={onClose}
-        contents={
+        content={
           <div className='group-chat-add-friend-modal'>
             <SearchBox onChange={(e) => searchFriends(e.target.value)} />
             <InfiniteScroll onReachExtreme={loadMore} hasMore={hasMoreFriends} isLoading={friendsLoading} className='group-chat-add-friend-modal__friend-block'>

@@ -31,6 +31,6 @@ export class TimeoutCall {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, {}>(`${process.env.MAIN_API}/api/calls/mark-call-as-not-answered`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse>(`${process.env.MAIN_API}/api/calls/mark-call-as-not-answered`, HttpRequestMethod.Post);
   }
 }

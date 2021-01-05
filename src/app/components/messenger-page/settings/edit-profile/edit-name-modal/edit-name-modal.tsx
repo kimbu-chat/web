@@ -46,7 +46,7 @@ export const EditNameModal: React.FC<IEditNameModalProps> = React.memo(({ onClos
       <Modal
         title={t('editNameModal.edit_name')}
         closeModal={onClose}
-        contents={
+        content={
           <div className='edit-name-modal'>
             <div className='edit-name-modal__input-block'>
               <span className='edit-name-modal__input-label'>{t('editNameModal.first_name')}</span>

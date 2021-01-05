@@ -118,7 +118,7 @@ export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClos
       <WithBackground onBackgroundClick={onClose}>
         <Modal
           title='Edit group'
-          contents={
+          content={
             <div className='edit-chat-modal'>
               <div className='edit-chat-modal__change-photo'>
                 <div className='edit-chat-modal__current-photo-wrapper'>

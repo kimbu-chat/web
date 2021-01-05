@@ -32,7 +32,7 @@ export const ClearChatModal: React.FC<IClearChatModalProps> = React.memo(({ hide
     <WithBackground onBackgroundClick={hide}>
       <Modal
         title='Clear chat'
-        contents={
+        content={
           <div>
             <div className=''>{t('chatInfo.clear-confirmation')}</div>
             <div className='clear-chat-modal'>

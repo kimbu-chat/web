@@ -63,7 +63,7 @@ export const NewChatModal: React.FC<INewChatModalProps> = React.memo(({ onClose,
       <Modal
         title={t('newChat.new_message')}
         closeModal={onClose}
-        contents={
+        content={
           <div className='new-chat'>
             <SearchBox onChange={(e) => searchFriends(e.target.value)} />
             <div className='new-chat__friends-block'>

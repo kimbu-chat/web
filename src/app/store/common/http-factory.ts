@@ -67,7 +67,7 @@ interface IRequestGenerator<T, B> {
 
 type UrlGenerator<TBody> = (body: TBody) => string;
 
-export const httpRequestFactory = <T, B>(url: string | UrlGenerator<B>, method: HttpRequestMethod, headers?: HttpHeaders): IRequestGenerator<T, B> => {
+export const httpRequestFactory = <T, B = any>(url: string | UrlGenerator<B>, method: HttpRequestMethod, headers?: HttpHeaders): IRequestGenerator<T, B> => {
   function* generator(body?: B): SagaIterator {
     let cancelTokenSource: CancelTokenSource;
 

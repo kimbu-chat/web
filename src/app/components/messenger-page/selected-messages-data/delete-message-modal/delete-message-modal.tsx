@@ -35,7 +35,7 @@ export const DeleteMessageModal: React.FC<IDeleteMessageModalProps> = React.memo
     <WithBackground onBackgroundClick={onClose}>
       <Modal
         title='Delete message'
-        contents={
+        content={
           <div>
             <div className=''>
               {t('deleteMessageModal.delete-confirmation', { count: selectedMessages.length })

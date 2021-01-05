@@ -24,6 +24,6 @@ export class CancelCall {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, {}>(`${process.env.MAIN_API}/api/calls/cancel-call`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse>(`${process.env.MAIN_API}/api/calls/cancel-call`, HttpRequestMethod.Post);
   }
 }

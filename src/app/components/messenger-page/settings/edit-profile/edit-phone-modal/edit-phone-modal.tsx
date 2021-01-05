@@ -70,7 +70,7 @@ export const EditPhoneModal: React.FC<IEditPhoneModalProps> = React.memo(({ onCl
       <Modal
         title={t('editPhoneModal.edit_phone')}
         closeModal={onClose}
-        contents={
+        content={
           <div className='edit-phone-modal'>
             <ModalCountrySelect setRef={setCountrySelectRef} country={country} handleCountryChange={handleCountryChange} />
             <ModalPhoneInput ref={phoneInputRef} displayCountries={displayCountries} country={country} phone={phone} setPhone={setPhone} sendSms={sendSms} />

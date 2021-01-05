@@ -166,7 +166,7 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(({ on
             )
           }
           closeModal={onClose}
-          contents={
+          content={
             <>
               {currentStage === GroupChatCreationStage.UserSelect && (
                 <div className='create-group-chat__select-friends'>

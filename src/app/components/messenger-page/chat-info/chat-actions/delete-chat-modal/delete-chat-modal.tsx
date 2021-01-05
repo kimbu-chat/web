@@ -26,7 +26,7 @@ export const DeleteChatModal: React.FC<IDeleteChatModalProps> = React.memo(({ hi
     <WithBackground onBackgroundClick={hide}>
       <Modal
         title='Delete chat'
-        contents={t('chatInfo.leave-confirmation', { groupChatName: selectedGroupChatName })}
+        content={t('chatInfo.leave-confirmation', { groupChatName: selectedGroupChatName })}
         highlightedInContents={selectedGroupChatName}
         closeModal={hide}
         buttons={[

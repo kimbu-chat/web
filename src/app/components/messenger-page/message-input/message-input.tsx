@@ -9,8 +9,7 @@ import { UploadAttachmentRequest } from 'app/store/chats/features/upload-attachm
 import { IChat, SystemMessageType, MessageState, FileType } from 'app/store/chats/models';
 import { getMessageToReplySelector, getSelectedChatSelector } from 'app/store/chats/selectors';
 import { getMyProfileSelector } from 'app/store/my-profile/selectors';
-import { TypingStrategy } from 'app/store/settings/models';
-import { getTypingStrategy } from 'app/store/settings/selectors';
+import { getTypingStrategySelector } from 'app/store/settings/selectors';
 import { getFileType } from 'app/utils/get-file-extension';
 import moment from 'moment';
 import Mousetrap from 'mousetrap';
@@ -20,6 +19,7 @@ import useInterval from 'use-interval';
 import { throttle } from 'lodash';
 import AddSvg from 'icons/ic-add-new.svg';
 import VoiceSvg from 'icons/ic-microphone.svg';
+import { TypingStrategy } from 'app/store/settings/features/models';
 import { RespondingMessage } from './responding-message/responding-message';
 import { ExpandingTextarea } from './expanding-textarea/expanding-textarea';
 import { MessageInputAttachment } from './message-input-attachment/message-input-attachment';
@@ -43,7 +43,7 @@ export const CreateMessageInput = React.memo(() => {
   const currentUser = useSelector(getMyProfileSelector);
   const selectedChat = useSelector(getSelectedChatSelector);
   const myProfile = useSelector(getMyProfileSelector);
-  const myTypingStrategy = useSelector(getTypingStrategy);
+  const myTypingStrategy = useSelector(getTypingStrategySelector);
   const replyingMessage = useSelector(getMessageToReplySelector);
 
   const [text, setText] = useState('');

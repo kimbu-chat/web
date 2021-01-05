@@ -1,5 +1,5 @@
 import { IBaseAttachment, SystemMessageType } from 'store/chats/models';
-import { IUserPreview } from 'store/my-profile/models';
+import { IUserPreview } from 'app/store/models';
 
 export interface IMessageCreatedIntegrationEvent {
   attachments?: IBaseAttachment[];

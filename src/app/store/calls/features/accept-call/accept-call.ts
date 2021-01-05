@@ -7,7 +7,7 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select, spawn } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { getAudioConstraints, getCallInterlocutorIdSelector, getIsVideoEnabled, getVideoConstraints } from 'app/store/calls/selectors';
+import { getAudioConstraintsSelector, getCallInterlocutorIdSelector, getIsVideoEnabledSelector, getVideoConstraintsSelector } from 'app/store/calls/selectors';
 import { interlocutorOffer } from 'store/middlewares/webRTC/peerConnectionFactory';
 import { ICallsState } from '../../models';
 import { deviceUpdateWatcher } from '../../utils/device-update-watcher';
@@ -39,8 +39,8 @@ export class AcceptCall {
       createPeerConnection();
       yield spawn(peerWatcher);
 
-      const videoConstraints = yield select(getVideoConstraints);
-      const audioConstraints = yield select(getAudioConstraints);
+      const videoConstraints = yield select(getVideoConstraintsSelector);
+      const audioConstraints = yield select(getAudioConstraintsSelector);
 
       yield spawn(deviceUpdateWatcher);
 
@@ -74,7 +74,7 @@ export class AcceptCall {
       const answer = yield call(async () => await peerConnection?.createAnswer());
       yield call(async () => await peerConnection?.setLocalDescription(answer));
 
-      const isVideoEnabled = yield select(getIsVideoEnabled);
+      const isVideoEnabled = yield select(getIsVideoEnabledSelector);
 
       const request = {
         userInterlocutorId: interlocutorId,

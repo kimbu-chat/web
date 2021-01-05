@@ -1,7 +1,7 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { IMyProfileState } from '../../models';
-import { IUpdateMyNicknameSuccessActionPayload } from './update-my-nickname-success-action-payload';
+import { IUpdateMyNicknameSuccessActionPayload } from './action-payloads/update-my-nickname-success-action-payload';
 
 export class UpdateMyNicknameSuccess {
   static get action() {

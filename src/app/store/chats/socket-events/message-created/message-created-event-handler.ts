@@ -1,6 +1,6 @@
 import { HTTPStatusCode } from 'app/common/http-status-code';
 import { MyProfileService } from 'app/services/my-profile-service';
-import { areNotificationsEnabled } from 'app/store/settings/selectors';
+import { areNotificationsEnabledSelector } from 'app/store/settings/selectors';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { select, put, call } from 'redux-saga/effects';
@@ -78,7 +78,7 @@ export class MessageCreatedEventHandler {
       }
       // notifications play
       const chatOfMessage: IChat | undefined = yield select(getChatByIdSelector(message.chatId));
-      const isAudioPlayAllowed = yield select(areNotificationsEnabled);
+      const isAudioPlayAllowed = yield select(areNotificationsEnabledSelector);
       const chats: IChat[] = yield select(getChatsSelector);
 
       if (chats.findIndex(({ id }) => id === message.chatId) === -1) {

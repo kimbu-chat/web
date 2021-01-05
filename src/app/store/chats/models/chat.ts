@@ -1,4 +1,4 @@
-import { IUserPreview } from 'app/store/my-profile/models';
+import { IUserPreview } from 'app/store/models';
 import { IAttachmentToSend } from './attachment-to-send';
 import { IAudioAttachment } from './attachments/audio-attachment';
 import { IBaseAttachment } from './attachments/base-attachment';

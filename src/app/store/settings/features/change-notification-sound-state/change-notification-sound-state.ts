@@ -3,8 +3,8 @@ import { SagaIterator } from 'redux-saga';
 import { select } from 'redux-saga/effects';
 import produce from 'immer';
 import { createEmptyAction } from 'store/common/actions';
-import { IUserSettings } from '../../models';
-import { areNotificationsEnabled } from '../../selectors';
+import { IUserSettings } from '../models';
+import { areNotificationsEnabledSelector } from '../../selectors';
 
 export class ChangeNotificationSoundState {
   static get action() {
@@ -20,7 +20,7 @@ export class ChangeNotificationSoundState {
 
   static get saga() {
     return function* changeSoundNotificationsStateSaga(): SagaIterator {
-      const state = yield select(areNotificationsEnabled);
+      const state = yield select(areNotificationsEnabledSelector);
       new SettingsService().initializeOrUpdate({ notificationSound: state });
     };
   }

@@ -2,7 +2,7 @@ import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFacto
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { doIhaveCall } from 'app/store/calls/selectors';
+import { doIhaveCallSelector } from 'app/store/calls/selectors';
 import { setIgnoreOffer, setIsRenegotiationAccepted, setIsSettingRemoteAnswerPending } from '../../utils/glare-utils';
 import { IRenegotiationAcceptedIntegrationEvent } from './renegotiation-accepted-integration-event';
 
@@ -13,7 +13,7 @@ export class RenegotiationAcceptedEventHandler {
 
   static get saga() {
     return function* renegotiationAcceptedSaga(action: ReturnType<typeof RenegotiationAcceptedEventHandler.action>): SagaIterator {
-      const callActive = yield select(doIhaveCall);
+      const callActive = yield select(doIhaveCallSelector);
 
       if (action.payload.answer && callActive) {
         setIsRenegotiationAccepted(true);

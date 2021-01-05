@@ -1,5 +1,5 @@
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
-import { IUserPreview } from 'app/store/my-profile/models';
+import { IUserPreview } from 'app/store/models';
 
 import { AxiosResponse } from 'axios';
 import produce from 'immer';

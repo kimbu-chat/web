@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useState } from 'react';
 import './chat-actions.scss';
-import { IUserPreview } from 'store/my-profile/models';
+import { IUserPreview } from 'app/store/models';
 import { IChat } from 'store/chats/models';
 import { useSelector } from 'react-redux';
 import { getMemberIdsForSelectedGroupChatSelector, getSelectedChatSelector } from 'store/chats/selectors';
@@ -16,7 +16,7 @@ import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { FriendActions } from 'store/friends/actions';
 import { CreateGroupChat, FadeAnimationWrapper } from 'components';
 import PeopleSvg from 'icons/ic-group.svg';
-import { getMyFriends } from 'app/store/friends/selectors';
+import { getMyFriendsSelector } from 'app/store/friends/selectors';
 import { DeleteChatModal } from './delete-chat-modal/delete-chat-modal';
 import { ClearChatModal } from './clear-chat-modal/clear-chat-modal';
 
@@ -43,7 +43,7 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
 
   const membersIdsForGroupChat = useSelector(getMemberIdsForSelectedGroupChatSelector);
   const selectedChat = useSelector(getSelectedChatSelector) as IChat;
-  const friends = useSelector(getMyFriends);
+  const friends = useSelector(getMyFriendsSelector);
 
   const selectedIsFriend = useCallback((): boolean => friends.findIndex((friend: IUserPreview) => friend.id === selectedChat.interlocutor?.id) > -1, [
     friends,

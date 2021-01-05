@@ -1,11 +1,11 @@
 import { produce } from 'immer';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
-import { IUserPreview } from 'app/store/my-profile/models';
 
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+import { IUserPreview } from 'app/store/models';
 import { IChatsState } from '../../models';
 import { GetGroupChatUsersSuccess } from './get-group-chat-users-success';
 import { ChatId } from '../../chat-id';

@@ -2,10 +2,9 @@ import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFacto
 import { RootState } from 'app/store/root-reducer';
 import { buffers, eventChannel } from 'redux-saga';
 import { call, cancel, put, race, select, take, takeEvery } from 'redux-saga/effects';
-import { amICalled, getCallInterlocutorSelector } from 'app/store/calls/selectors';
+import { amICalledSelector, getCallInterlocutorSelector } from 'app/store/calls/selectors';
 import { httpRequestFactory } from 'app/store/common/http-factory';
-import { HttpRequestMethod } from 'app/store/models';
-import { IUserPreview } from 'app/store/my-profile/models';
+import { HttpRequestMethod, IUserPreview } from 'app/store/models';
 
 import { AxiosResponse } from 'axios';
 import { RenegotiationAcceptedEventHandler } from '../socket-events/renegotiation-accepted/renegotiation-accepted-event-handler';
@@ -77,7 +76,7 @@ export function* peerWatcher() {
       case 'icecandidate': {
         const myCandidate = (action.event as RTCPeerConnectionIceEvent).candidate;
         const interlocutor: IUserPreview = yield select(getCallInterlocutorSelector);
-        const inclomingCallActive = yield select(amICalled);
+        const inclomingCallActive = yield select(amICalledSelector);
 
         if (inclomingCallActive) {
           yield take(AcceptCallSuccess.action);

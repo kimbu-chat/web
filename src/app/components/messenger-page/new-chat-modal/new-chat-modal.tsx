@@ -5,13 +5,13 @@ import './new-chat-modal.scss';
 import { FriendActions } from 'store/friends/actions';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { LocalizationContext } from 'app/app';
-import { IUserPreview } from 'store/my-profile/models';
+import { IUserPreview, IPage } from 'app/store/models';
 import { useHistory } from 'react-router';
 
 import PeopleSvg from 'icons/ic-group.svg';
 import { ChatActions } from 'app/store/chats/actions';
-import { getFriendsLoading, getHasMoreFriends, getMyFriends } from 'app/store/friends/selectors';
-import { IPage } from 'app/store/models';
+import { getFriendsLoadingSelector, getHasMoreFriendsSelector, getMyFriendsSelector } from 'app/store/friends/selectors';
+
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
 import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
 import { ChatId } from 'app/store/chats/chat-id';
@@ -25,9 +25,9 @@ interface INewChatModalProps {
 export const NewChatModal: React.FC<INewChatModalProps> = React.memo(({ onClose, displayCreateGroupChat }) => {
   const { t } = useContext(LocalizationContext);
 
-  const friends = useSelector(getMyFriends);
-  const hasMoreFriends = useSelector(getHasMoreFriends);
-  const friendsLoading = useSelector(getFriendsLoading);
+  const friends = useSelector(getMyFriendsSelector);
+  const hasMoreFriends = useSelector(getHasMoreFriendsSelector);
+  const friendsLoading = useSelector(getFriendsLoadingSelector);
 
   const createChat = useActionWithDispatch(ChatActions.createChat);
   const loadFriends = useActionWithDispatch(FriendActions.getFriends);

@@ -9,7 +9,7 @@ import { createAction } from 'typesafe-actions';
 import { RootState } from 'app/store/root-reducer';
 
 import { AxiosResponse } from 'axios';
-import { getIsVideoEnabled } from 'app/store/calls/selectors';
+import { getIsVideoEnabledSelector } from 'app/store/calls/selectors';
 import { ICallsState } from '../../models';
 import { deviceUpdateWatcher } from '../../utils/device-update-watcher';
 import { getAndSendUserMedia, getMediaDevicesList } from '../../utils/user-media';
@@ -94,7 +94,7 @@ export class OutgoingCall {
       yield spawn(peerWatcher);
       yield call(async () => await peerConnection?.setLocalDescription(offer));
 
-      const isVideoEnabled = yield select(getIsVideoEnabled);
+      const isVideoEnabled = yield select(getIsVideoEnabledSelector);
 
       const request = {
         offer,

@@ -6,7 +6,7 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { getCallInterlocutorIdSelector, getIsActiveCallIncoming } from '../../selectors';
+import { getCallInterlocutorIdSelector, getIsActiveCallIncomingSelector } from '../../selectors';
 
 import { ignoreOffer, isSettingRemoteAnswerPending, makingOffer, setIgnoreOffer } from '../../utils/glare-utils';
 import { IAcceptRenegotiationApiRequest } from './api-requests/accept-renegotiation-api-request';
@@ -19,7 +19,7 @@ export class RenegotiationSentEventHandler {
 
   static get saga() {
     return function* negociationSaga(action: ReturnType<typeof RenegotiationSentEventHandler.action>): SagaIterator {
-      const polite = yield select(getIsActiveCallIncoming);
+      const polite = yield select(getIsActiveCallIncomingSelector);
       const interlocutorId: number = yield select(getCallInterlocutorIdSelector);
       const readyForOffer = !makingOffer && (peerConnection?.signalingState === 'stable' || isSettingRemoteAnswerPending);
       const offerCollision = !readyForOffer;

@@ -1,4 +1,4 @@
-import { IUserPreview } from 'app/store/my-profile/models';
+import { IUserPreview } from 'app/store/models';
 import { IBaseAttachment } from './attachments/base-attachment';
 import { MessageState } from './message-state';
 import { SystemMessageType } from './system-message-type';

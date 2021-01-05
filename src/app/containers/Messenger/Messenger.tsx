@@ -19,7 +19,7 @@ import {
   SearchTop,
 } from 'components';
 import { useSelector } from 'react-redux';
-import { amICalled as isCallingMe, amICalling, doIhaveCall } from 'store/calls/selectors';
+import { amICalledSelector as isCallingMe, amICallingSelector, doIhaveCallSelector } from 'store/calls/selectors';
 import { CSSTransition } from 'react-transition-group';
 import { LocalizationContext } from 'app/app';
 import { getMessageToEditSelector, getSelectedChatIdSelector } from 'store/chats/selectors';
@@ -27,16 +27,16 @@ import { getMessageToEditSelector, getSelectedChatIdSelector } from 'store/chats
 const Messenger = React.memo(() => {
   const { t } = useContext(LocalizationContext);
 
-  const amICalled = useSelector(isCallingMe);
-  const amICallingSomebody = useSelector(amICalling);
-  const amISpeaking = useSelector(doIhaveCall);
+  const amICalledSelector = useSelector(isCallingMe);
+  const amICallingSelectorSomebody = useSelector(amICallingSelector);
+  const amISpeaking = useSelector(doIhaveCallSelector);
   const selectedChatId = useSelector(getSelectedChatIdSelector);
   const messageToEdit = useSelector(getMessageToEditSelector);
 
   return (
     <div className='messenger'>
-      {amICalled && <IncomingCall />}
-      {(amISpeaking || amICallingSomebody) && <ActiveCall />}
+      {amICalledSelector && <IncomingCall />}
+      {(amISpeaking || amICallingSelectorSomebody) && <ActiveCall />}
 
       <InternetError />
 

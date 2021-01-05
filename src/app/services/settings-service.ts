@@ -1,5 +1,5 @@
+import { Langs, TypingStrategy, IUserSettings } from 'app/store/settings/features/models';
 import { BrowserStorage } from 'app/utils/browser-storage';
-import { IUserSettings, Langs, TypingStrategy } from 'store/settings/models';
 
 interface IOptionalUserSettings {
   language?: Langs;

@@ -3,7 +3,7 @@ import { call, cancelled, put, select, take, takeEvery } from 'redux-saga/effect
 import { END, eventChannel, SagaIterator, buffers } from 'redux-saga';
 import { isNetworkError } from 'app/utils/error-utils';
 import { ISecurityTokens } from '../auth/models';
-import { selectSecurityTokens } from '../auth/selectors';
+import { selectSecurityTokensSelector } from '../auth/selectors';
 import { RefreshToken } from '../auth/features/refresh-token/refresh-token';
 import { RefreshTokenSuccess } from '../auth/features/refresh-token/refresh-token-success';
 
@@ -109,7 +109,7 @@ function* httpRequest<T>(
     responseType: 'json',
   };
 
-  const auth: ISecurityTokens = yield select(selectSecurityTokens);
+  const auth: ISecurityTokens = yield select(selectSecurityTokensSelector);
 
   if (auth && auth.accessToken) {
     requestConfig.headers = {
@@ -153,7 +153,7 @@ export const httpFilesRequestFactory = <T, B>(
     let cancelTokenSource: CancelTokenSource;
 
     try {
-      let auth: ISecurityTokens = yield select(selectSecurityTokens);
+      let auth: ISecurityTokens = yield select(selectSecurityTokensSelector);
 
       if (auth?.refreshTokenRequestLoading) {
         yield take(RefreshTokenSuccess.action);
@@ -173,7 +173,7 @@ export const httpFilesRequestFactory = <T, B>(
 
           yield take(RefreshTokenSuccess.action);
 
-          auth = yield select(selectSecurityTokens);
+          auth = yield select(selectSecurityTokensSelector);
 
           if (auth.isAuthenticated) {
             cancelTokenSource = axios.CancelToken.source();

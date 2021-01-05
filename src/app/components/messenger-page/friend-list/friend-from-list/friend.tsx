@@ -1,12 +1,12 @@
 import { LocalizationContext } from 'app/app';
 import { Avatar } from 'components';
 import { ChatId } from 'store/chats/chat-id';
-import { IUserPreview } from 'store/my-profile/models';
+import { IUserPreview, UserStatus } from 'app/store/models';
 import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 import moment from 'moment';
 import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
-import { UserStatus } from 'app/store/models';
+
 import './friend.scss';
 
 interface IFriendProps {

@@ -1,6 +1,6 @@
 import { LocalizationContext } from 'app/app';
 import { SettingsActions } from 'store/settings/actions';
-import { areNotificationsEnabled } from 'store/settings/selectors';
+import { areNotificationsEnabledSelector } from 'store/settings/selectors';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
@@ -10,7 +10,7 @@ import './notifications-settings.scss';
 export const NotificationsSettings = React.memo(() => {
   const { t } = useContext(LocalizationContext);
 
-  const areSoundNotificationsEnabled = useSelector(areNotificationsEnabled);
+  const areSoundNotificationsEnabled = useSelector(areNotificationsEnabledSelector);
   const changeSoundNotificationState = useActionWithDispatch(SettingsActions.changeNotificationSoundStateAction);
 
   return (

@@ -1,5 +1,5 @@
 import { RootState } from 'store/root-reducer';
 
-export const getCurrentLanguage = (state: RootState) => state.settings.language;
-export const getTypingStrategy = (state: RootState) => state.settings.typingStrategy;
-export const areNotificationsEnabled = (state: RootState) => state.settings.notificationSound;
+export const getCurrentLanguageSelector = (state: RootState) => state.settings.language;
+export const getTypingStrategySelector = (state: RootState) => state.settings.typingStrategy;
+export const areNotificationsEnabledSelector = (state: RootState) => state.settings.notificationSound;

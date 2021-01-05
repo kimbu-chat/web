@@ -3,13 +3,12 @@ import moment from 'moment';
 
 import './chat-member.scss';
 
-import { IUserPreview } from 'store/my-profile/models';
+import { IUserPreview, UserStatus } from 'app/store/models';
 import { LocalizationContext } from 'app/app';
 import { Avatar } from 'components';
 import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 
 import DeleteSvg from 'icons/ic-delete.svg';
-import { UserStatus } from 'app/store/models';
 
 interface IMemberProps {
   member: IUserPreview;

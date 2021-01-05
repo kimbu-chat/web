@@ -1,11 +1,10 @@
 import { AuthService } from 'app/services/auth-service';
 import { MyProfileService } from 'app/services/my-profile-service';
-import { UserStatus } from 'app/store/models';
+import { IUserPreview, UserStatus } from 'app/store/models';
 import { Init } from 'app/store/initiation/features/init/init';
 import { initializeSaga } from 'app/store/initiation/sagas';
 import { GetMyProfile } from 'app/store/my-profile/features/get-my-profile/get-my-profile';
 import { GetMyProfileSuccess } from 'app/store/my-profile/features/get-my-profile/get-my-profile-success';
-import { IUserPreview } from 'app/store/my-profile/models';
 import { AxiosResponse } from 'axios';
 import jwt_decode from 'jwt-decode';
 import { SagaIterator } from 'redux-saga';

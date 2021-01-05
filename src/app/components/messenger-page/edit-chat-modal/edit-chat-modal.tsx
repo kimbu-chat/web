@@ -4,7 +4,6 @@ import './edit-chat-modal.scss';
 import { Modal, WithBackground, ChangePhoto, Avatar, CircularProgress } from 'components';
 
 import CloseSVG from 'icons/ic-close.svg';
-import { IAvatarSelectedData, IUploadAvatarResponse } from 'store/my-profile/models';
 
 import { IGroupChat } from 'store/chats/models';
 import { getSelectedGroupChatSelector } from 'store/chats/selectors';
@@ -15,6 +14,7 @@ import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
 import { MyProfileActions } from 'store/my-profile/actions';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { IEditGroupChatActionPayload } from 'app/store/chats/features/edit-group-chat/action-payloads/edit-group-chat-action-payload';
+import { IAvatar, IAvatarSelectedData } from 'app/store/models';
 
 export interface IEditChatModalProps {
   onClose: () => void;
@@ -31,7 +31,7 @@ export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClos
 
   const [newName, setNewName] = useState(selectedGroupChat?.name!);
   const [avatarData, setAvatarData] = useState<IAvatarSelectedData | null>(null);
-  const [avararUploadResponse, setAvatarUploadResponse] = useState<IUploadAvatarResponse | null>(selectedGroupChat?.avatar || null);
+  const [avararUploadResponse, setAvatarUploadResponse] = useState<IAvatar | null>(selectedGroupChat?.avatar || null);
   const [imageUrl, setImageUrl] = useState<string>('');
   const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
   const [newDescription, setNewDescription] = useState(selectedGroupChat?.description || '');
@@ -43,7 +43,7 @@ export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClos
       setAvatarData(data);
       setUploadEnded(false);
       uploadGroupChatAvatar({ pathToFile: data.croppedImagePath, onProgress: setUploaded })
-        .then((response: IUploadAvatarResponse) => {
+        .then((response: IAvatar) => {
           setAvatarUploadResponse(response);
           setUploadEnded(true);
         })

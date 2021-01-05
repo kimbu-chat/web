@@ -6,8 +6,8 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { getChatByIdSelector, getHasMoreChatsSelector, getChatByIdDraftSelector } from 'app/store/chats/selectors';
-import { getFriendById } from 'app/store/friends/selectors';
-import { IUserPreview } from 'store/my-profile/models';
+import { getFriendByIdSelector } from 'app/store/friends/selectors';
+import { IUserPreview } from 'app/store/models';
 import { MESSAGES_LIMIT } from 'app/utils/pagination-limits';
 import { IGetChatsSuccessActionPayload } from '../get-chats/action-payloads/get-chats-success-action-payload';
 import { IChatsState, IChat, InterlocutorType, MessageState } from '../../models';
@@ -113,7 +113,7 @@ export class ChangeSelectedChat {
 
           if (chatIdDetails?.interlocutorType === InterlocutorType.User && chatIdDetails?.userId) {
             if (!(data || user)) {
-              user = yield select(getFriendById(chatIdDetails.userId));
+              user = yield select(getFriendByIdSelector(chatIdDetails.userId));
             }
 
             if (data || user) {

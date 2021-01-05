@@ -1,4 +1,4 @@
-import { IUserPreview } from '../../my-profile/models';
+import { IUserPreview } from 'app/store/models';
 
 export interface IFriendsState {
   loading: boolean;

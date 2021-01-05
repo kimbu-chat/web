@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import './friend-from-list.scss';
 
 import { Avatar } from 'components';
-import { IUserPreview } from 'store/my-profile/models';
+import { IUserPreview } from 'app/store/models';
 import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 
 import SelectedSvg from 'icons/ic-check-filled.svg';

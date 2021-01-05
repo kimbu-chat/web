@@ -1,5 +1,4 @@
-import { CallStatus } from '../../models';
-import { IUserPreview } from '../../my-profile/models';
+import { CallStatus, IUserPreview } from '../../models';
 
 export interface ICallsState {
   isActiveCallIncoming?: boolean;
@@ -7,8 +6,8 @@ export interface ICallsState {
   isInterlocutorVideoEnabled: boolean;
   isInterlocutorBusy: boolean;
   interlocutor?: IUserPreview;
-  amICalled: boolean;
-  amICalling: boolean;
+  amICalledSelector: boolean;
+  amICallingSelector: boolean;
   isSpeaking: boolean;
   videoConstraints: {
     isOpened: boolean;

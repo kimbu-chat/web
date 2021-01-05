@@ -1,4 +1,4 @@
-import { IAvatar } from 'app/store/my-profile/models';
+import { IAvatar } from 'app/store/models';
 
 export interface IEditGroupChatSuccessActionPayload {
   chatId: number;

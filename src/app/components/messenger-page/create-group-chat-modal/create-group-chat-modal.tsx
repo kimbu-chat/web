@@ -1,7 +1,6 @@
 import { LocalizationContext } from 'app/app';
 import { Avatar, Modal, WithBackground, ChangePhoto, FriendFromList, SearchBox, CircularProgress } from 'components';
 import { FriendActions } from 'store/friends/actions';
-import { IAvatarSelectedData, IUploadAvatarResponse } from 'store/my-profile/models';
 import { getStringInitials } from 'app/utils/interlocutor-name-utils';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import React, { useCallback, useContext, useRef, useState } from 'react';
@@ -13,11 +12,11 @@ import { ChatActions } from 'store/chats/actions';
 import { IChat } from 'store/chats/models';
 import { useHistory } from 'react-router';
 import { MyProfileActions } from 'store/my-profile/actions';
-import { getFriendsLoading, getHasMoreFriends, getMyFriends } from 'app/store/friends/selectors';
+import { getFriendsLoadingSelector, getHasMoreFriendsSelector, getMyFriendsSelector } from 'app/store/friends/selectors';
 import { getMyProfileSelector } from 'app/store/my-profile/selectors';
 import { ICreateGroupChatActionPayload } from 'app/store/chats/features/create-group-chat/action-payloads/create-group-chat-action-payload';
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
-import { IPage } from 'app/store/models';
+import { IAvatar, IAvatarSelectedData, IPage } from 'app/store/models';
 import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
 
 interface ICreateGroupChatProps {
@@ -34,9 +33,9 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(({ on
   const { t } = useContext(LocalizationContext);
 
   const currentUser = useSelector(getMyProfileSelector);
-  const friends = useSelector(getMyFriends);
-  const hasMoreFriends = useSelector(getHasMoreFriends);
-  const friendsLoading = useSelector(getFriendsLoading);
+  const friends = useSelector(getMyFriendsSelector);
+  const hasMoreFriends = useSelector(getHasMoreFriendsSelector);
+  const friendsLoading = useSelector(getFriendsLoadingSelector);
 
   const history = useHistory();
 
@@ -48,7 +47,7 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(({ on
   const [selectedUserIds, setSelectedUserIds] = useState<number[]>(preSelectedUserIds || []);
   const [currentStage, setCurrrentStage] = useState(GroupChatCreationStage.UserSelect);
   const [avatarData, setAvatarData] = useState<IAvatarSelectedData | null>(null);
-  const [avararUploadResponse, setAvatarUploadResponse] = useState<IUploadAvatarResponse | null>(null);
+  const [avararUploadResponse, setAvatarUploadResponse] = useState<IAvatar | null>(null);
   const [imageUrl, setImageUrl] = useState<string>('');
   const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
   const [name, setName] = useState('');

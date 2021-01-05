@@ -1,5 +1,5 @@
 import { BrowserStorage } from 'app/utils/browser-storage';
-import { IUserPreview } from 'store/my-profile/models';
+import { IUserPreview } from 'app/store/models';
 
 export class MyProfileService {
   private readonly myProfileStorageKey = 'my-profile';

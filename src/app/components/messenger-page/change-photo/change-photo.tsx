@@ -2,7 +2,6 @@ import React, { useState, useCallback, useRef, useContext } from 'react';
 import ReactDOM from 'react-dom';
 import './change-photo.scss';
 
-import { IAvatarSelectedData } from 'store/my-profile/models';
 import { LocalizationContext } from 'app/app';
 
 import CloseSVG from 'icons/ic-close.svg';
@@ -11,6 +10,7 @@ import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import { WithBackground, BaseBtn } from 'components';
 import { stopPropagation } from 'app/utils/stop-propagation';
+import { IAvatarSelectedData } from 'app/store/models';
 
 interface IChangePhotoProps {
   imageUrl: string;

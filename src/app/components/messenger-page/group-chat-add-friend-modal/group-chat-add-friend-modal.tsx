@@ -6,7 +6,7 @@ import './group-chat-add-friend-modal.scss';
 import { getMemberIdsForSelectedGroupChatSelector } from 'store/chats/selectors';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { LocalizationContext } from 'app/app';
-import { getFriendsLoading, getHasMoreFriends, getMyFriends } from 'app/store/friends/selectors';
+import { getFriendsLoadingSelector, getHasMoreFriendsSelector, getMyFriendsSelector } from 'app/store/friends/selectors';
 import { IPage } from 'app/store/models';
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
 import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
@@ -23,9 +23,9 @@ export const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = 
 
   const [selectedUserIds, setselectedUserIds] = useState<number[]>([]);
 
-  const friends = useSelector(getMyFriends);
-  const hasMoreFriends = useSelector(getHasMoreFriends);
-  const friendsLoading = useSelector(getFriendsLoading);
+  const friends = useSelector(getMyFriendsSelector);
+  const hasMoreFriends = useSelector(getHasMoreFriendsSelector);
+  const friendsLoading = useSelector(getFriendsLoadingSelector);
   const idsToExclude = useSelector(getMemberIdsForSelectedGroupChatSelector);
 
   const addUsersToGroupChat = useActionWithDispatch(AddUsersToGroupChat.action);

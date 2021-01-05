@@ -1,4 +1,4 @@
-import { IAvatar } from '../../models';
+import { IAvatar } from 'app/store/models';
 
 export interface IUpdateMyProfileSuccessActionPayload {
   firstName: string;

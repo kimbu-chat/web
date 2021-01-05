@@ -3,7 +3,7 @@ import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import produce from 'immer';
-import { doIhaveCall } from 'app/store/calls/selectors';
+import { doIhaveCallSelector } from 'app/store/calls/selectors';
 import { ICallsState } from '../../models';
 import { setIsRenegotiationAccepted } from '../../utils/glare-utils';
 import { IInterlocutorAcceptedCallIntegrationEvent } from './interlocutor-accepted-call-integration-event';
@@ -50,7 +50,7 @@ export class InterlocutorAcceptedCallEventHandler {
 
   static get saga() {
     return function* callAcceptedSaga(action: ReturnType<typeof InterlocutorAcceptedCallEventHandler.action>): SagaIterator {
-      const callActive = yield select(doIhaveCall);
+      const callActive = yield select(doIhaveCallSelector);
 
       if (action.payload.answer && callActive) {
         setIsRenegotiationAccepted(true);

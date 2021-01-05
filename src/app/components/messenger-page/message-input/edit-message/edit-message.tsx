@@ -1,6 +1,5 @@
 import { getMessageToEditSelector, getSelectedChatAttachmentsToSendSelector } from 'store/chats/selectors';
-import { TypingStrategy } from 'store/settings/models';
-import { getTypingStrategy } from 'store/settings/selectors';
+import { getTypingStrategySelector } from 'store/settings/selectors';
 import { getFileType } from 'app/utils/get-file-extension';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import Mousetrap from 'mousetrap';
@@ -14,6 +13,7 @@ import { useGlobalDrop } from 'app/hooks/use-global-drop';
 import { useReferState } from 'app/hooks/use-referred-state';
 import { SubmitEditMessage } from 'app/store/chats/features/edit-message/submit-edit-message';
 import { UploadAttachmentRequest } from 'app/store/chats/features/upload-attachment/upload-attachment-request';
+import { TypingStrategy } from 'app/store/settings/features/models';
 import { MessageInputAttachment } from '../message-input-attachment/message-input-attachment';
 import { ExpandingTextarea } from '../expanding-textarea/expanding-textarea';
 
@@ -25,7 +25,7 @@ export const EditMessage = React.memo(() => {
 
   const messageToEdit = useSelector(getMessageToEditSelector);
   const selectedChatAttachmentsToSend = useSelector(getSelectedChatAttachmentsToSendSelector);
-  const myTypingStrategy = useSelector(getTypingStrategy);
+  const myTypingStrategy = useSelector(getTypingStrategySelector);
 
   const [newText, setNewText] = useState(messageToEdit?.text || '');
   const referredNewText = useReferState(newText);

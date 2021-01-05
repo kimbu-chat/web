@@ -3,7 +3,6 @@ import './chat-info.scss';
 import { useSelector } from 'react-redux';
 import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { IAvatarSelectedData, IUploadAvatarResponse } from 'store/my-profile/models';
 import { getSelectedChatSelector } from 'store/chats/selectors';
 import { Avatar, ChangePhoto, FadeAnimationWrapper } from 'components';
 import EditSvg from 'icons/ic-edit.svg';
@@ -16,6 +15,7 @@ import { EditChatModal, GroupChatAddFriendModal, BigPhoto } from 'app/components
 import { EditGroupChat } from 'app/store/chats/features/edit-group-chat/edit-group-chat';
 import { GetChatInfo } from 'app/store/chats/features/get-chat-info/get-chat-info';
 import { UploadAvatar } from 'app/store/my-profile/features/upload-avatar/upload-avatar';
+import { IAvatar, IAvatarSelectedData } from 'app/store/models';
 import { InterlocutorInfo } from './interlocutor-info/interlocutor-info';
 import { ChatActions as ChatInfoActions } from './chat-actions/chat-actions';
 import { ChatMembers } from './chat-members/chat-members';
@@ -101,7 +101,7 @@ const ChatInfo: React.FC = React.memo(() => {
     (data: IAvatarSelectedData) => {
       uploadGroupChatAvatar({
         pathToFile: data.croppedImagePath,
-      }).then((response: IUploadAvatarResponse) => {
+      }).then((response: IAvatar) => {
         editGroupChat({
           avatar: response,
           name: selectedChat!.groupChat!.name,

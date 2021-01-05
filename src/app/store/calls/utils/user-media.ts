@@ -1,5 +1,5 @@
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
-import { getAudioConstraints, getVideoConstraints } from 'app/store/calls/selectors';
+import { getAudioConstraintsSelector, getVideoConstraintsSelector } from 'app/store/calls/selectors';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { CloseScreenShareStatus } from '../features/change-screen-share-status/close-screen-share-status';
@@ -154,8 +154,8 @@ export const getUserDisplay = function* () {
 };
 
 export function* getAndSendUserMedia(): SagaIterator {
-  const videoConstraints = yield select(getVideoConstraints);
-  const audioConstraints = yield select(getAudioConstraints);
+  const videoConstraints = yield select(getVideoConstraintsSelector);
+  const audioConstraints = yield select(getAudioConstraintsSelector);
 
   const constraints = { audio: audioConstraints, video: videoConstraints };
 

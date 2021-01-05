@@ -9,7 +9,7 @@ import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { getIsSelectMessagesStateSelector } from 'store/chats/selectors';
 import { Avatar } from 'components';
 import { getUserInitials } from 'app/utils/interlocutor-name-utils';
-import { IUserPreview } from 'store/my-profile/models';
+import { IUserPreview } from 'app/store/models';
 import moment from 'moment';
 
 import MessageQeuedSvg from 'icons/ic-time.svg';

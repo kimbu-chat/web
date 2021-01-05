@@ -1,5 +1,4 @@
-import { CallStatus } from 'app/store/models';
-import { IUserPreview } from 'app/store/my-profile/models';
+import { CallStatus, IUserPreview } from 'app/store/models';
 
 export interface ICall {
   id: number;

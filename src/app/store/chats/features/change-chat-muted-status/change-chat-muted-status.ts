@@ -9,7 +9,7 @@ import { ChangeChatMutedStatusSuccess } from './change-chat-muted-status-success
 
 export class ChangeChatMutedStatus {
   static get action() {
-    return createEmptyAction('MUTE_SELECTED_CHAT');
+    return createEmptyAction('CHANGE_SELECTED_CHAT_MUTE_STATUS');
   }
 
   static get saga() {
@@ -19,7 +19,7 @@ export class ChangeChatMutedStatus {
 
         const request: IChangeChatMutedStatusApiRequest = {
           chatIds: [chatId],
-          isMuted,
+          isMuted: !isMuted,
         };
 
         const { status } = ChangeChatMutedStatus.httpRequest.call(yield call(() => ChangeChatMutedStatus.httpRequest.generator(request)));

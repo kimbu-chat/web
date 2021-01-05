@@ -101,6 +101,11 @@ export class ChangeSelectedChat {
                 recordings: [],
               };
               chat.members = { searchMembers: [], members: [], loading: false, hasMore: true };
+              chat.messages = {
+                messages: [],
+                hasMore: true,
+                loading: false,
+              };
 
               chatList = {
                 chats: [chat],

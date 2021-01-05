@@ -1,4 +1,4 @@
-import { getSelectedChatSelector } from 'store/chats/selectors';
+import { getChatByIdDraftSelector, getSelectedChatSelector } from 'store/chats/selectors';
 import { IChatsState } from 'store/chats/models';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
 
@@ -19,7 +19,12 @@ export class GetMessages {
 
   static get reducer() {
     return produce((draft: IChatsState) => {
-      draft.loading = true;
+      const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
+
+      if (chat) {
+        chat.messages.loading = true;
+      }
+
       return draft;
     });
   }

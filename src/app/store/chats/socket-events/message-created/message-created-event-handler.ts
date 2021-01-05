@@ -35,6 +35,7 @@ export class MessageCreatedEventHandler {
 
       // if user already has chats with interlocutor - update chat
       if (chat) {
+        console.log('last message assigned');
         const isInterlocutorCurrentSelectedChat = draft.selectedChatId === message.chatId;
         const previousUnreadMessagesCount = chat.unreadMessagesCount;
         const newUnreadMessagesCount =
@@ -42,6 +43,7 @@ export class MessageCreatedEventHandler {
 
         if (chat.messages.messages.findIndex(({ id }) => id === message.id) === -1) {
           chat.messages.messages.unshift(message);
+        } else {
           return draft;
         }
 
@@ -97,13 +99,13 @@ export class MessageCreatedEventHandler {
         }
       }
 
-      if (isAudioPlayAllowed && chatOfMessage && message.userCreator?.id !== myId) {
-        if (!(selectedChatId !== message.chatId) && !document.hidden && !chatOfMessage.isMuted) {
+      if (isAudioPlayAllowed && !chatOfMessage!.isMuted && message.userCreator?.id !== myId) {
+        if (!(selectedChatId !== message.chatId) && !document.hidden) {
           const audioSelected = new Audio(messageCameSelected);
           audioSelected.play();
         }
 
-        if ((selectedChatId !== message.chatId || document.hidden) && !chatOfMessage.isMuted) {
+        if (selectedChatId !== message.chatId || document.hidden) {
           const audioUnselected = new Audio(messageCameUnselected);
           audioUnselected.play();
         }

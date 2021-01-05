@@ -1,22 +1,11 @@
-import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { delay, put, call } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
-import { IInternetState } from '../../models';
-import { IInternetConnectionCheckActionPayload } from './internet-connection-check-action-payload';
+import { put, call, select, take } from 'redux-saga/effects';
+import { getInternetStateSelector, getWebsocketStateSelector } from '../../selectors';
+import { WebsocketsDisconnected } from '../websockets-connection/websockets-disconnected';
+import { InternetConnected } from './internet-connected';
+import { InternetDisconnected } from './internet-disconnected';
 
 export class InternetConnectionCheck {
-  static get action() {
-    return createAction('INTERNET_CONNECTION_CHECK')<IInternetConnectionCheckActionPayload>();
-  }
-
-  static get reducer() {
-    return produce((draft: IInternetState, { payload }: ReturnType<typeof InternetConnectionCheck.action>) => {
-      draft.isInternetConnected = payload.state;
-      return draft;
-    });
-  }
-
   static get saga() {
     return function* intervalInternetConnectionCheckSaga(): SagaIterator {
       const ping = (): Promise<boolean> =>
@@ -36,9 +25,25 @@ export class InternetConnectionCheck {
         });
 
       while (true) {
-        yield delay(10000);
+        const websocketConnected = yield select(getWebsocketStateSelector);
+
+        if (websocketConnected) {
+          yield take(WebsocketsDisconnected.action);
+        }
         const internetState = yield call(ping);
-        yield put(InternetConnectionCheck.action({ state: internetState }));
+
+        const isInternetConnected = yield select(getInternetStateSelector);
+
+        if (internetState === isInternetConnected) {
+          // eslint-disable-next-line no-continue
+          continue;
+        }
+
+        if (internetState) {
+          yield put(InternetConnected.action());
+        } else {
+          yield put(InternetDisconnected.action());
+        }
       }
     };
   }

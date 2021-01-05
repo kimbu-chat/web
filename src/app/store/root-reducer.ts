@@ -77,6 +77,7 @@ export default (state: any, action: any): ReturnType<typeof rootReducer> => {
       },
       internet: {
         isInternetConnected: typeof navigator !== 'undefined' && typeof navigator.onLine === 'boolean' ? navigator.onLine : true,
+        isWebSocketConnected: state.internet.isWebSocketConnected,
       },
       myProfile: {
         user: undefined,

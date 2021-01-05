@@ -7,7 +7,7 @@ import './chat-data.scss';
 import { LocalizationContext } from 'app/app';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { CallActions } from 'store/calls/actions';
-import { IUserPreview } from 'store/my-profile/models';
+import { IUserPreview, UserStatus } from 'app/store/models';
 import { Avatar } from 'components';
 
 import VoiceCallSvg from 'icons/ic-call.svg';
@@ -16,7 +16,7 @@ import ChatSearchSvg from 'icons/ic-search.svg';
 import ChatInfoSvg from 'icons/ic-info.svg';
 import { useLocation } from 'react-router';
 import { Link, NavLink } from 'react-router-dom';
-import { UserStatus } from 'app/store/common/models';
+
 import { getChatInterlocutor, getInterlocutorInitials } from 'utils/interlocutor-name-utils';
 
 export const ChatData = React.memo(() => {

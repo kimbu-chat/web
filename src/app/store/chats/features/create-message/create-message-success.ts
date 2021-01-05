@@ -2,7 +2,7 @@ import { FileType, IAudioAttachment, IChatsState, IPictureAttachment, IRawAttach
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { getChatByIdDraftSelector } from '../../selectors';
-import { ICreateMessageSuccessActionPayload } from './create-message-success-action-payload';
+import { ICreateMessageSuccessActionPayload } from './action-payloads/create-message-success-action-payload';
 
 export class CreateMessageSuccess {
   static get action() {

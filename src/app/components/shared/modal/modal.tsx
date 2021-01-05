@@ -5,24 +5,22 @@ import './modal.scss';
 
 import CloseSVG from 'icons/ic-close.svg';
 import { stopPropagation } from 'app/utils/stop-propagation';
-import { BaseBtn, BaseBtnNS } from '../base-btn/base-btn';
+import { BaseBtn, IBaseBtnProps } from '../base-btn/base-btn';
 
-namespace ModalNS {
-  export interface IButton extends BaseBtnNS.IProps {
-    position: 'left' | 'right';
-  }
-  export interface IProps {
-    title: string | JSX.Element;
-    contents: string | JSX.Element;
-    highlightedInContents?: string;
-    buttons: ModalNS.IButton[];
-    closeModal: () => void;
-  }
+interface IButton extends IBaseBtnProps {
+  position: 'left' | 'right';
+}
+interface IModalProps {
+  title: string | JSX.Element;
+  content: string | JSX.Element;
+  highlightedInContents?: string;
+  buttons: IButton[];
+  closeModal: () => void;
 }
 
-export const Modal = React.memo(({ title, contents, buttons, highlightedInContents, closeModal }: ModalNS.IProps) => {
-  const leftBtns: ModalNS.IButton[] = [];
-  const rightBtns: ModalNS.IButton[] = [];
+export const Modal: React.FC<IModalProps> = React.memo(({ title, content, buttons, highlightedInContents, closeModal }) => {
+  const leftBtns: IButton[] = [];
+  const rightBtns: IButton[] = [];
 
   buttons.forEach((btn) => {
     if (btn.position === 'left') {
@@ -40,15 +38,15 @@ export const Modal = React.memo(({ title, contents, buttons, highlightedInConten
         <div className='modal__title'>{title}</div>
         <CloseSVG onClick={closeModal} viewBox='0 0 25 25' className='modal__close-btn' />
       </header>
-      <div className='modal__contents'>
-        {typeof contents === 'string'
-          ? contents.split(highlightedInContents || '').map((text, index, arr) => (
+      <div className='modal__content'>
+        {typeof content === 'string'
+          ? content.split(highlightedInContents || '').map((text, index, arr) => (
               <React.Fragment key={index}>
-                <span className='modal__contents__text'>{text}</span>
-                {index < arr.length - 1 && <span className='modal__contents__text modal__contents__text--highlighted'>{highlightedInContents}</span>}
+                <span className='modal__content__text'>{text}</span>
+                {index < arr.length - 1 && <span className='modal__content__text modal__content__text--highlighted'>{highlightedInContents}</span>}
               </React.Fragment>
             ))
-          : contents}
+          : content}
         <span />
       </div>
       <div className='modal__btn-block'>

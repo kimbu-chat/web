@@ -2,7 +2,7 @@ import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { getChatByIdDraftSelector } from 'app/store/chats/selectors';
 import { IChatsState } from '../../models';
-import { IChangeChatMutedStatusSuccessActionPayload } from './change-chat-muted-status-success-action-payload';
+import { IChangeChatMutedStatusSuccessActionPayload } from './action-payloads/change-chat-muted-status-success-action-payload';
 
 export class ChangeChatMutedStatusSuccess {
   static get action() {

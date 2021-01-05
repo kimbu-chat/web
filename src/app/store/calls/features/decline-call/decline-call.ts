@@ -6,9 +6,8 @@ import { resetPeerConnection } from 'app/store/middlewares/webRTC/peerConnection
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { call, select } from 'redux-saga/effects';
-import { getCallInterlocutorIdSelector } from 'app/store/calls/selectors';
-import { ICallState, IDeclineCallApiRequest } from '../../models';
+import { call } from 'redux-saga/effects';
+import { ICallsState } from '../../models';
 
 export class DeclineCall {
   static get action() {
@@ -16,7 +15,7 @@ export class DeclineCall {
   }
 
   static get reducer() {
-    return produce((draft: ICallState) => {
+    return produce((draft: ICallsState) => {
       draft.interlocutor = undefined;
       draft.isInterlocutorBusy = false;
       draft.amICalling = false;
@@ -32,19 +31,13 @@ export class DeclineCall {
 
   static get saga() {
     return function* declineCallSaga(): SagaIterator {
-      const interlocutorId: number = yield select(getCallInterlocutorIdSelector);
-
-      const request = {
-        interlocutorId,
-      };
-
       resetPeerConnection();
 
-      DeclineCall.httpRequest.call(yield call(() => DeclineCall.httpRequest.generator(request)));
+      DeclineCall.httpRequest.call(yield call(() => DeclineCall.httpRequest.generator()));
     };
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IDeclineCallApiRequest>(`${process.env.MAIN_API}/api/calls/decline-call`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse>(`${process.env.MAIN_API}/api/calls/decline-call`, HttpRequestMethod.Post);
   }
 }

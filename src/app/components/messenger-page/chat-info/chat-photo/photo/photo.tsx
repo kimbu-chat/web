@@ -4,13 +4,11 @@ import { doesYearDifferFromCurrent } from 'app/utils/set-separators';
 import moment from 'moment';
 import React, { useCallback, useState } from 'react';
 
-namespace PhotoNS {
-  export interface IProps {
-    photo: IPictureAttachment & IGroupable;
-  }
+interface IPhotoProps {
+  photo: IPictureAttachment & IGroupable;
 }
 
-export const Photo: React.FC<PhotoNS.IProps> = React.memo(({ photo }) => {
+export const Photo: React.FC<IPhotoProps> = React.memo(({ photo }) => {
   const [bigPhotoDisplayed, setBigPhotoDisplayed] = useState(false);
   const changeBigPhotoDisplayed = useCallback(() => setBigPhotoDisplayed((oldState) => !oldState), [setBigPhotoDisplayed]);
 

@@ -7,13 +7,11 @@ import React, { useCallback, useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
 import './edit-name-modal.scss';
 
-namespace EditNameModalNS {
-  export interface IProps {
-    onClose: () => void;
-  }
+interface IEditNameModalProps {
+  onClose: () => void;
 }
 
-export const EditNameModal = React.memo(({ onClose }: EditNameModalNS.IProps) => {
+export const EditNameModal: React.FC<IEditNameModalProps> = React.memo(({ onClose }) => {
   const myProfile = useSelector(getMyProfileSelector);
 
   const { t } = useContext(LocalizationContext);
@@ -48,7 +46,7 @@ export const EditNameModal = React.memo(({ onClose }: EditNameModalNS.IProps) =>
       <Modal
         title={t('editNameModal.edit_name')}
         closeModal={onClose}
-        contents={
+        content={
           <div className='edit-name-modal'>
             <div className='edit-name-modal__input-block'>
               <span className='edit-name-modal__input-label'>{t('editNameModal.first_name')}</span>

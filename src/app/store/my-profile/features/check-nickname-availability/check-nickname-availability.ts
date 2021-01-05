@@ -1,12 +1,13 @@
 import { Meta } from 'app/store/common/actions';
 import { httpRequestFactory } from 'app/store/common/http-factory';
-import { HttpRequestMethod } from 'app/store/common/models';
+import { HttpRequestMethod } from 'app/store/models';
 
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { ICheckNicknameAvailabilityActionPayload } from './check-nickname-availability-action-payload';
+import { ICheckNicknameAvailabilityActionPayload } from './action-payloads/check-nickname-availability-action-payload';
+import { ICheckNicknameAvailabilityApiRequest } from './api-requests/check-nickname-availability-api-request';
 
 export class CheckNicknameAvailability {
   static get action() {
@@ -24,8 +25,8 @@ export class CheckNicknameAvailability {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<boolean>, ICheckNicknameAvailabilityActionPayload>(
-      (nickname: ICheckNicknameAvailabilityActionPayload) => `${process.env.MAIN_API}/api/users/check-if-nickname-is-available/${nickname.nickname}`,
+    return httpRequestFactory<AxiosResponse<boolean>, ICheckNicknameAvailabilityApiRequest>(
+      ({ nickname }: ICheckNicknameAvailabilityApiRequest) => `${process.env.MAIN_API}/api/users/check-if-nickname-is-available/${nickname}`,
       HttpRequestMethod.Get,
     );
   }

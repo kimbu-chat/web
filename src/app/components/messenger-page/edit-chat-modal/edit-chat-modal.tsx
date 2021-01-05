@@ -4,7 +4,6 @@ import './edit-chat-modal.scss';
 import { Modal, WithBackground, ChangePhoto, Avatar, CircularProgress } from 'components';
 
 import CloseSVG from 'icons/ic-close.svg';
-import { IAvatarSelectedData, IUploadAvatarResponse } from 'store/my-profile/models';
 
 import { IGroupChat } from 'store/chats/models';
 import { getSelectedGroupChatSelector } from 'store/chats/selectors';
@@ -14,15 +13,14 @@ import { ChatActions } from 'store/chats/actions';
 import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
 import { MyProfileActions } from 'store/my-profile/actions';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { IEditGroupChatActionPayload } from 'app/store/chats/features/edit-group-chat/edit-group-chat-action-payload';
+import { IEditGroupChatActionPayload } from 'app/store/chats/features/edit-group-chat/action-payloads/edit-group-chat-action-payload';
+import { IAvatar, IAvatarSelectedData } from 'app/store/models';
 
-namespace EditChatModalNS {
-  export interface IProps {
-    onClose: () => void;
-  }
+export interface IEditChatModalProps {
+  onClose: () => void;
 }
 
-export const EditChatModal = React.memo(({ onClose }: EditChatModalNS.IProps) => {
+export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClose }) => {
   const selectedGroupChat: IGroupChat | undefined = useSelector(getSelectedGroupChatSelector);
 
   const uploadGroupChatAvatar = useActionWithDeferred(MyProfileActions.uploadAvatarRequestAction);
@@ -33,7 +31,7 @@ export const EditChatModal = React.memo(({ onClose }: EditChatModalNS.IProps) =>
 
   const [newName, setNewName] = useState(selectedGroupChat?.name!);
   const [avatarData, setAvatarData] = useState<IAvatarSelectedData | null>(null);
-  const [avararUploadResponse, setAvatarUploadResponse] = useState<IUploadAvatarResponse | null>(selectedGroupChat?.avatar || null);
+  const [avararUploadResponse, setAvatarUploadResponse] = useState<IAvatar | null>(selectedGroupChat?.avatar || null);
   const [imageUrl, setImageUrl] = useState<string>('');
   const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
   const [newDescription, setNewDescription] = useState(selectedGroupChat?.description || '');
@@ -45,7 +43,7 @@ export const EditChatModal = React.memo(({ onClose }: EditChatModalNS.IProps) =>
       setAvatarData(data);
       setUploadEnded(false);
       uploadGroupChatAvatar({ pathToFile: data.croppedImagePath, onProgress: setUploaded })
-        .then((response: IUploadAvatarResponse) => {
+        .then((response: IAvatar) => {
           setAvatarUploadResponse(response);
           setUploadEnded(true);
         })
@@ -120,7 +118,7 @@ export const EditChatModal = React.memo(({ onClose }: EditChatModalNS.IProps) =>
       <WithBackground onBackgroundClick={onClose}>
         <Modal
           title='Edit group'
-          contents={
+          content={
             <div className='edit-chat-modal'>
               <div className='edit-chat-modal__change-photo'>
                 <div className='edit-chat-modal__current-photo-wrapper'>

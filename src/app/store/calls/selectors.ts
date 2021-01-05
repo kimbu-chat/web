@@ -1,40 +1,38 @@
+import { IUserPreview } from '../models';
 import { RootState } from '../root-reducer';
-import { IUserPreview } from '../my-profile/models';
 
 export const getCallInterlocutorSelector = (state: RootState): IUserPreview | undefined => state.calls.interlocutor;
 
 export const getCallInterlocutorIdSelector = (state: RootState): number | undefined => state.calls.interlocutor?.id;
 
-export const amICalled = (state: RootState): boolean => state.calls.amICalled;
+export const amICalledSelector = (state: RootState): boolean => state.calls.amICalled;
 
-export const amICalling = (state: RootState): boolean => state.calls.amICalling;
+export const amICallingSelector = (state: RootState): boolean => state.calls.amICalling;
 
-export const doIhaveCall = (state: RootState): boolean => state.calls.isSpeaking;
+export const doIhaveCallSelector = (state: RootState): boolean => state.calls.isSpeaking;
 
-export const getVideoConstraints = (state: RootState) => state.calls.videoConstraints;
+export const getVideoConstraintsSelector = (state: RootState) => state.calls.videoConstraints;
 
-export const getAudioConstraints = (state: RootState) => state.calls.audioConstraints;
+export const getAudioConstraintsSelector = (state: RootState) => state.calls.audioConstraints;
 
-export const getIsActiveCallIncoming = (state: RootState) => state.calls.isActiveCallIncoming;
+export const getIsActiveCallIncomingSelector = (state: RootState) => state.calls.isActiveCallIncoming;
 
-export const getIsIncomingCallVideoEnabled = (state: RootState) => state.calls.isIncomingCallVideoEnbaled;
+export const getIsIncomingCallVideoEnabledSelector = (state: RootState) => state.calls.isIncomingCallVideoEnbaled;
 
-export const getIsInterlocutorVideoEnabled = (state: RootState) => state.calls.isInterlocutorVideoEnabled;
+export const getIsInterlocutorVideoEnabledSelector = (state: RootState) => state.calls.isInterlocutorVideoEnabled;
 
-export const getIsInterlocutorBusy = (state: RootState) => state.calls.isInterlocutorBusy;
+export const getIsInterlocutorBusySelector = (state: RootState) => state.calls.isInterlocutorBusy;
 
-export const getIsScreenSharingEnabled = (state: RootState) => state.calls.isScreenSharingOpened;
+export const getIsScreenSharingEnabledSelector = (state: RootState) => state.calls.isScreenSharingOpened;
 
-export const getIsAudioEnabled = (state: RootState) => state.calls.audioConstraints.isOpened;
+export const getIsVideoEnabledSelector = (state: RootState) => state.calls.videoConstraints.isOpened;
 
-export const getIsVideoEnabled = (state: RootState) => state.calls.videoConstraints.isOpened;
+export const getAudioDevicesSelector = (state: RootState) => state.calls.audioDevicesList;
 
-export const getAudioDevices = (state: RootState) => state.calls.audioDevicesList;
+export const getVideoDevicesSelector = (state: RootState) => state.calls.videoDevicesList;
 
-export const getVideoDevices = (state: RootState) => state.calls.videoDevicesList;
+export const getCallsListSelector = (state: RootState) => state.calls.calls.calls;
 
-export const getCallsList = (state: RootState) => state.calls.calls.calls;
+export const getCallsAreLoadingSelector = (state: RootState) => state.calls.calls.loading;
 
-export const getCallsAreLoading = (state: RootState) => state.calls.calls.loading;
-
-export const gethasMoreCalls = (state: RootState) => state.calls.calls.hasMore;
+export const gethasMoreCallsSelector = (state: RootState) => state.calls.calls.hasMore;

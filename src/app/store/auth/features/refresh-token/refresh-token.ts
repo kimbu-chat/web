@@ -1,12 +1,13 @@
 import { AuthService } from 'app/services/auth-service';
 import { authRequestFactory } from 'app/store/common/http-factory';
-import { HttpRequestMethod } from 'app/store/common/models';
+import { HttpRequestMethod } from 'app/store/models';
 
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createEmptyAction } from 'store/common/actions';
-import { ILoginResponse } from '../../models';
+import { IRefreshTokenApiRequest } from './api-requests/refresh-token-api-request';
+import { IRefreshTokenApiResponse } from './api-requests/refresh-token-api-response';
 import { RefreshTokenFailure } from './refresh-token-failure';
 import { RefreshTokenSuccess } from './refresh-token-success';
 
@@ -22,7 +23,7 @@ export class RefreshToken {
       const { refreshToken } = authService.securityTokens;
 
       try {
-        const { data }: AxiosResponse<ILoginResponse> = yield call(() => RefreshToken.httpRequest.generator({ refreshToken }));
+        const { data }: AxiosResponse<IRefreshTokenApiResponse> = yield call(() => RefreshToken.httpRequest.generator({ refreshToken }));
         new AuthService().initialize(data);
         yield put(RefreshTokenSuccess.action(data));
       } catch (e) {
@@ -32,7 +33,7 @@ export class RefreshToken {
   }
 
   static get httpRequest() {
-    return authRequestFactory<AxiosResponse<ILoginResponse>, { refreshToken: string }>(
+    return authRequestFactory<AxiosResponse<IRefreshTokenApiResponse>, IRefreshTokenApiRequest>(
       `${process.env.MAIN_API}/api/users/refresh-tokens`,
       HttpRequestMethod.Post,
     );

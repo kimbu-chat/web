@@ -1,12 +1,11 @@
 import { MyProfileService } from 'app/services/my-profile-service';
 import { createEmptyAction } from 'app/store/common/actions';
 import { httpRequestFactory } from 'app/store/common/http-factory';
-import { HttpRequestMethod } from 'app/store/common/models';
+import { HttpRequestMethod, IUserPreview } from 'app/store/models';
 
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
-import { IUserPreview } from '../../models';
 import { GetMyProfileSuccess } from './get-my-profile-success';
 
 export class GetMyProfile {

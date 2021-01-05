@@ -1,6 +1,9 @@
 import { TFunction } from 'i18next';
 import { RootState } from '../root-reducer';
-import { IAttachmentToSend, IBaseAttachment, IChat, IChatsState, IVoiceRecordingList, IAudioList, IFilesList, IPhotoList, IVideoList } from './models';
+import { IAttachmentToSend } from './models/attachment-to-send';
+import { IBaseAttachment } from './models/attachments/base-attachment';
+import { IChat } from './models/chat';
+import { IChatsState } from './models/chats-state';
 
 // RootState selectors
 export const getSelectedChatSelector = (state: RootState): IChat | undefined => state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId);
@@ -18,20 +21,16 @@ export const getSelectedChatAttachmentsToSendSelector = (state: RootState): IAtt
 
 // Attachments list selector
 
-export const getSelectedChatRecordingsSelector = (state: RootState): IVoiceRecordingList | undefined =>
+export const getSelectedChatRecordingsSelector = (state: RootState) =>
   state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.recordings;
 
-export const getSelectedChatAudiosSelector = (state: RootState): IAudioList | undefined =>
-  state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.audios;
+export const getSelectedChatAudiosSelector = (state: RootState) => state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.audios;
 
-export const getSelectedChatFilesSelector = (state: RootState): IFilesList | undefined =>
-  state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.files;
+export const getSelectedChatFilesSelector = (state: RootState) => state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.files;
 
-export const getSelectedChatPhotosSelector = (state: RootState): IPhotoList | undefined =>
-  state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.photos;
+export const getSelectedChatPhotosSelector = (state: RootState) => state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.photos;
 
-export const getSelectedChatVideosSelector = (state: RootState): IVideoList | undefined =>
-  state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.videos;
+export const getSelectedChatVideosSelector = (state: RootState) => state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.videos;
 
 // -----------
 

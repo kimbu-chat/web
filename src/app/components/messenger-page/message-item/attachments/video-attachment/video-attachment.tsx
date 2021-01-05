@@ -6,13 +6,11 @@ import moment from 'moment';
 import { FadeAnimationWrapper, VideoPlayer } from 'components';
 import { IVideoAttachment } from 'store/chats/models';
 
-namespace MessageVideoAttachmentNS {
-  export interface IProps {
-    attachment: IVideoAttachment;
-  }
+interface IMessageVideoAttachmentProps {
+  attachment: IVideoAttachment;
 }
 
-export const MessageVideoAttachment = React.memo(({ attachment }: MessageVideoAttachmentNS.IProps) => {
+export const MessageVideoAttachment: React.FC<IMessageVideoAttachmentProps> = React.memo(({ attachment }) => {
   const [videoPlayerDisplayed, setVideoPlayerDisplayed] = useState(false);
   const changeVideoPlayerDisplayed = useCallback(() => setVideoPlayerDisplayed((oldState) => !oldState), [setVideoPlayerDisplayed]);
 

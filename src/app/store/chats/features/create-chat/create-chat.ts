@@ -3,7 +3,7 @@ import { createAction } from 'typesafe-actions';
 import { getChatExistsDraftSelector } from 'app/store/chats/selectors';
 import { ChatId } from '../../chat-id';
 import { IChat, IChatsState, InterlocutorType } from '../../models';
-import { ICreateChatActionPayload } from './create-chat-action-payload';
+import { ICreateChatActionPayload } from './action-payloads/create-chat-action-payload';
 
 export class CreateChat {
   static get action() {

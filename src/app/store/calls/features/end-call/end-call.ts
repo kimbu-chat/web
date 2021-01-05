@@ -3,12 +3,11 @@ import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/common/http-file-factory';
 import { resetPeerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 
-import { RootState } from 'app/store/root-reducer';
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { call, select } from 'redux-saga/effects';
-import { ICallState, IEndCallApiRequest } from '../../models';
+import { call } from 'redux-saga/effects';
+import { ICallsState } from '../../models';
 
 export class EndCall {
   static get action() {
@@ -16,7 +15,7 @@ export class EndCall {
   }
 
   static get reducer() {
-    return produce((draft: ICallState) => {
+    return produce((draft: ICallsState) => {
       draft.interlocutor = undefined;
       draft.isInterlocutorBusy = false;
       draft.amICalling = false;
@@ -34,15 +33,11 @@ export class EndCall {
     return function* endCallSaga(): SagaIterator {
       resetPeerConnection();
 
-      const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
-
-      const request = { interlocutorId };
-
-      EndCall.httpRequest.call(yield call(() => EndCall.httpRequest.generator(request)));
+      EndCall.httpRequest.call(yield call(() => EndCall.httpRequest.generator()));
     };
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IEndCallApiRequest>(`${process.env.MAIN_API}/api/calls/end-call`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse>(`${process.env.MAIN_API}/api/calls/end-call`, HttpRequestMethod.Post);
   }
 }

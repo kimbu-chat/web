@@ -7,9 +7,10 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { getChatByIdDraftSelector, getSelectedChatIdSelector } from 'app/store/chats/selectors';
-import { IRawAttachment, IGetChatFilesHTTPRequest, IChatsState } from '../../models';
-import { IGetRawAttachmentsActionPayload } from './get-raw-attachments-action-payload';
+import { IRawAttachment, IChatsState } from '../../models';
+import { IGetRawAttachmentsActionPayload } from './action-payloads/get-raw-attachments-action-payload';
 import { GetRawAttachmentsSuccess } from './get-raw-attachments-success';
+import { IGetRawAttachmentsApiRequest } from './api-requests/get-raw-attachments-api-request';
 
 export class GetRawAttachments {
   static get action() {
@@ -46,7 +47,7 @@ export class GetRawAttachments {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<Array<IRawAttachment>>, IGetChatFilesHTTPRequest>(
+    return httpRequestFactory<AxiosResponse<IRawAttachment[]>, IGetRawAttachmentsApiRequest>(
       `${process.env.MAIN_API}/api/raw-attachments/search`,
       HttpRequestMethod.Post,
     );

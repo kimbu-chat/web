@@ -6,14 +6,16 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { getChatByIdSelector, getHasMoreChatsSelector, getChatByIdDraftSelector } from 'app/store/chats/selectors';
-import { getFriendById } from 'app/store/friends/selectors';
-import { IUserPreview } from 'store/my-profile/models';
+import { getFriendByIdSelector } from 'app/store/friends/selectors';
+import { IUserPreview } from 'app/store/models';
 import { MESSAGES_LIMIT } from 'app/utils/pagination-limits';
-import { IGetChatsSuccessActionPayload } from '../get-chats/get-chats-success-action-payload';
-import { IChatsState, IChat, IGetChatByIdRequestData, InterlocutorType, IGetUserByIdRequestData, MessageState } from '../../models';
+import { IGetChatsSuccessActionPayload } from '../get-chats/action-payloads/get-chats-success-action-payload';
+import { IChatsState, IChat, InterlocutorType, MessageState } from '../../models';
 import { GetChatsSuccess } from '../get-chats/get-chats-success';
-import { IChangeSelectedChatActionPayload } from './change-selected-chat-action-payload';
+import { IChangeSelectedChatActionPayload } from './action-payloads/change-selected-chat-action-payload';
 import { ChatId } from '../../chat-id';
+import { IGetChatByIdApiRequest } from './api-requests/get-chat-by-id-api-request';
+import { IGetUserByIdApiRequest } from './api-requests/get-user-by-id-api-request';
 
 export class ChangeSelectedChat {
   static get action() {
@@ -111,7 +113,7 @@ export class ChangeSelectedChat {
 
           if (chatIdDetails?.interlocutorType === InterlocutorType.User && chatIdDetails?.userId) {
             if (!(data || user)) {
-              user = yield select(getFriendById(chatIdDetails.userId));
+              user = yield select(getFriendByIdSelector(chatIdDetails.userId));
             }
 
             if (data || user) {
@@ -185,12 +187,12 @@ export class ChangeSelectedChat {
 
   static get httpRequest() {
     return {
-      getChat: httpRequestFactory<AxiosResponse<IChat>, IGetChatByIdRequestData>(
-        ({ chatId }: IGetChatByIdRequestData) => `${process.env.MAIN_API}/api/chats/${chatId}`,
+      getChat: httpRequestFactory<AxiosResponse<IChat>, IGetChatByIdApiRequest>(
+        ({ chatId }: IGetChatByIdApiRequest) => `${process.env.MAIN_API}/api/chats/${chatId}`,
         HttpRequestMethod.Get,
       ),
-      getUser: httpRequestFactory<AxiosResponse<IUserPreview>, IGetUserByIdRequestData>(
-        ({ userId }: IGetUserByIdRequestData) => `${process.env.MAIN_API}/api/users/${userId.toString()}`,
+      getUser: httpRequestFactory<AxiosResponse<IUserPreview>, IGetUserByIdApiRequest>(
+        ({ userId }: IGetUserByIdApiRequest) => `${process.env.MAIN_API}/api/users/${userId.toString()}`,
         HttpRequestMethod.Get,
       ),
     };

@@ -2,16 +2,16 @@ import React, { useRef, useCallback, useEffect, useState, useContext } from 'rea
 import './active-call.scss';
 import { useSelector } from 'react-redux';
 import {
-  amICalling,
-  doIhaveCall,
-  getAudioConstraints,
-  getAudioDevices,
+  amICallingSelector,
+  doIhaveCallSelector,
+  getAudioConstraintsSelector,
+  getAudioDevicesSelector,
   getCallInterlocutorSelector,
-  getIsInterlocutorBusy,
-  getIsInterlocutorVideoEnabled,
-  getIsScreenSharingEnabled,
-  getVideoConstraints,
-  getVideoDevices,
+  getIsInterlocutorBusySelector,
+  getIsInterlocutorVideoEnabledSelector,
+  getIsScreenSharingEnabledSelector,
+  getVideoConstraintsSelector,
+  getVideoDevicesSelector,
 } from 'store/calls/selectors';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { CallActions } from 'store/calls/actions';
@@ -37,22 +37,22 @@ import VoiceCallSvg from 'icons/ic-call.svg';
 import callingBeep from 'app/assets/sounds/calls/outgoing-call.ogg';
 import busySound from 'app/assets/sounds/calls/busy-sound.ogg';
 import { LocalizationContext } from 'app/app';
-import { IUserPreview } from 'store/my-profile/models';
+import { IUserPreview } from 'app/store/models';
 import { interlocutorAudioTrack, interlocutorVideoTrack, tracks } from 'app/store/calls/utils/user-media';
 import { InputType } from 'app/store/calls/common/enums/input-type';
 import { Dropdown } from './dropdown/dropdown';
 
 export const ActiveCall: React.FC = () => {
   const interlocutor = useSelector(getCallInterlocutorSelector);
-  const videoConstraints = useSelector(getVideoConstraints);
-  const audioConstraints = useSelector(getAudioConstraints);
-  const isScreenSharingOpened = useSelector(getIsScreenSharingEnabled);
-  const audioDevices = useSelector(getAudioDevices);
-  const videoDevices = useSelector(getVideoDevices);
-  const isInterlocutorVideoEnabled = useSelector(getIsInterlocutorVideoEnabled);
-  const amICallingSomebody = useSelector(amICalling);
-  const amISpeaking = useSelector(doIhaveCall);
-  const isInterlocutorBusy = useSelector(getIsInterlocutorBusy);
+  const videoConstraints = useSelector(getVideoConstraintsSelector);
+  const audioConstraints = useSelector(getAudioConstraintsSelector);
+  const isScreenSharingOpened = useSelector(getIsScreenSharingEnabledSelector);
+  const audioDevices = useSelector(getAudioDevicesSelector);
+  const videoDevices = useSelector(getVideoDevicesSelector);
+  const isInterlocutorVideoEnabled = useSelector(getIsInterlocutorVideoEnabledSelector);
+  const amICallingSelectorSomebody = useSelector(amICallingSelector);
+  const amISpeaking = useSelector(doIhaveCallSelector);
+  const isInterlocutorBusy = useSelector(getIsInterlocutorBusySelector);
 
   const { t } = useContext(LocalizationContext);
 
@@ -141,7 +141,7 @@ export const ActiveCall: React.FC = () => {
 
   // audio playing when outgoing call
   useEffect(() => {
-    if (amICallingSomebody && !isInterlocutorBusy) {
+    if (amICallingSelectorSomebody && !isInterlocutorBusy) {
       const audio = new Audio(callingBeep);
 
       audio.addEventListener('ended', audio.play, false);
@@ -165,7 +165,7 @@ export const ActiveCall: React.FC = () => {
     }
 
     return () => {};
-  }, [amICallingSomebody, isInterlocutorBusy]);
+  }, [amICallingSelectorSomebody, isInterlocutorBusy]);
 
   useEffect(() => {
     dragRef.current?.updatePosition(isFullScreen ? { x: 0, y: 0 } : { x: window.innerWidth / 2 - 120, y: window.innerHeight / 2 - 120 });
@@ -323,7 +323,7 @@ export const ActiveCall: React.FC = () => {
             type='button'
             className={`active-call__call-btn active-call__call-btn--end-call ${isFullScreen ? 'active-call__call-btn--big' : ''}`}
             onClick={() => {
-              if (amICallingSomebody || isInterlocutorBusy) {
+              if (amICallingSelectorSomebody || isInterlocutorBusy) {
                 cancelCall();
               } else {
                 endCall();

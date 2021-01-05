@@ -12,7 +12,7 @@ import { PublicRoute } from 'app/routing/public-route';
 import { PrivateRoute } from 'app/routing/private-route';
 
 import { i18n, TFunction } from 'i18next';
-import { amIlogged, getAuthPhoneNumber, getRegstrationAllowed } from 'store/auth/selectors';
+import { amILoggedSelector, getAuthPhoneNumberSelector, getRegstrationAllowedSelector } from 'store/auth/selectors';
 import { CubeLoader } from './containers/cube-loader/cube-loader';
 import { loadPhoneConfirmation, loadCodeConfirmation, loadMessenger, loadNotFound, loadRegistration } from './routing/module-loader';
 
@@ -22,20 +22,18 @@ const Messenger = lazy(loadMessenger);
 const NotFound = lazy(loadNotFound);
 const Registration = lazy(loadRegistration);
 
-namespace AppNS {
-  export interface ILocalization {
-    t: TFunction;
-    i18n?: i18n;
-  }
+export interface ILocalizationContextProps {
+  t: TFunction;
+  i18n?: i18n;
 }
 
-export const LocalizationContext = React.createContext<AppNS.ILocalization>({ t: (str: string) => str });
+export const LocalizationContext = React.createContext<ILocalizationContextProps>({ t: (str: string) => str });
 
 export const App = () => {
   const { t, i18n } = useTranslation(undefined, { i18n: i18nConfiguration });
-  const isAuthenticated = useSelector(amIlogged);
-  const phoneNumber = useSelector(getAuthPhoneNumber);
-  const registrationAllowed = useSelector(getRegstrationAllowed);
+  const isAuthenticated = useSelector(amILoggedSelector);
+  const phoneNumber = useSelector(getAuthPhoneNumberSelector);
+  const registrationAllowed = useSelector(getRegstrationAllowedSelector);
 
   return (
     <LocalizationContext.Provider value={{ t, i18n }}>

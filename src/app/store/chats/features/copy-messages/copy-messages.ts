@@ -4,7 +4,7 @@ import moment from 'moment';
 import { SagaIterator } from 'redux-saga';
 import { select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { ICopyMessagesActionPayload } from './copy-messages-action-payload';
+import { ICopyMessagesActionPayload } from './action-payloads/copy-messages-action-payload';
 
 export class CopyMessages {
   static get action() {

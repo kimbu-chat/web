@@ -9,7 +9,7 @@ import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { getIsSelectMessagesStateSelector } from 'store/chats/selectors';
 import { Avatar } from 'components';
 import { getUserInitials } from 'app/utils/interlocutor-name-utils';
-import { IUserPreview } from 'store/my-profile/models';
+import { IUserPreview } from 'app/store/models';
 import moment from 'moment';
 
 import MessageQeuedSvg from 'icons/ic-time.svg';
@@ -34,14 +34,12 @@ import { SelectMessage } from 'app/store/chats/features/select-message/select-me
 import { MediaGrid } from './attachments/media-grid/media-grid';
 import { RecordingAttachment } from './attachments/recording-attachment/recording-attachment';
 
-namespace MessageNS {
-  export interface IProps {
-    message: IMessage;
-  }
+interface IMessageItemProps {
+  message: IMessage;
 }
 
-const MessageItem = React.memo(
-  ({ message }: MessageNS.IProps) => {
+const MessageItem: React.FC<IMessageItemProps> = React.memo(
+  ({ message }) => {
     const isSelectState = useSelector(getIsSelectMessagesStateSelector);
     const myId = useSelector(getMyIdSelector) as number;
 

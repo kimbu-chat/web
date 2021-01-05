@@ -6,9 +6,9 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { IDeleteMessagesApiReq } from '../../models';
-import { IDeleteMessageActionPayload } from './delete-message-action-payload';
+import { IDeleteMessageActionPayload } from './action-payloads/delete-message-action-payload';
 import { DeleteMessageSuccess } from './delete-message-success';
+import { IDeleteMessagesApiRequest } from './api-requests/delete-message-api-request';
 
 export class DeleteMessage {
   static get action() {
@@ -31,6 +31,6 @@ export class DeleteMessage {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IDeleteMessagesApiReq>(`${process.env.MAIN_API}/api/messages/delete-message-list`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse, IDeleteMessagesApiRequest>(`${process.env.MAIN_API}/api/messages/delete-message-list`, HttpRequestMethod.Post);
   }
 }

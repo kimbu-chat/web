@@ -8,7 +8,7 @@ import { InternetConnectionCheck } from '../internet/features/internet-connectio
 import { InitSocketConnection } from '../sockets/features/init-socked-connection/init-socket-connection';
 import { ChangeUserOnlineStatus } from '../my-profile/features/change-user-online-status/change-user-online-status';
 import { GetMyProfile } from '../my-profile/features/get-my-profile/get-my-profile';
-import { amIlogged } from '../auth/selectors';
+import { amILoggedSelector } from '../auth/selectors';
 import { Logout } from '../auth/features/logout/logout';
 
 function createVisibilityChannel() {
@@ -35,7 +35,7 @@ function* watcher() {
   const visibilityChannel = createVisibilityChannel();
 
   const visibilityTask = yield takeEvery(visibilityChannel, function* (action: boolean) {
-    const amIauthenticated = yield select(amIlogged);
+    const amIauthenticated = yield select(amILoggedSelector);
 
     if (amIauthenticated) {
       yield put(ChangeUserOnlineStatus.action(action));

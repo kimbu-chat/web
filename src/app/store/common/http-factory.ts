@@ -3,9 +3,10 @@ import { call, cancelled, put, select, take } from 'redux-saga/effects';
 import { SagaIterator } from 'redux-saga';
 import { isNetworkError } from 'app/utils/error-utils';
 import { ISecurityTokens } from '../auth/models';
-import { selectSecurityTokens } from '../auth/selectors';
+import { selectSecurityTokensSelector } from '../auth/selectors';
 import { RefreshToken } from '../auth/features/refresh-token/refresh-token';
 import { RefreshTokenSuccess } from '../auth/features/refresh-token/refresh-token-success';
+import { retryOnNetworkConnectionError } from './decorators/retry-on-network-connection-error';
 
 export enum HttpRequestMethod {
   Get = 'GET',
@@ -24,7 +25,7 @@ function* httpRequest<T>(url: string, method: HttpRequestMethod, body?: T, token
     responseType: 'json',
   };
 
-  const auth: ISecurityTokens = yield select(selectSecurityTokens);
+  const auth: ISecurityTokens = yield select(selectSecurityTokensSelector);
 
   if (auth && auth.accessToken) {
     requestConfig.headers = {
@@ -56,7 +57,10 @@ function* httpRequest<T>(url: string, method: HttpRequestMethod, body?: T, token
       throw new Error('Unknown method.');
   }
 
-  const response = yield call(axios.create().request, requestConfig);
+  const response = retryOnNetworkConnectionError()(function* () {
+    yield call(axios.create().request, requestConfig);
+  });
+
   return response;
 }
 
@@ -67,12 +71,12 @@ interface IRequestGenerator<T, B> {
 
 type UrlGenerator<TBody> = (body: TBody) => string;
 
-export const httpRequestFactory = <T, B>(url: string | UrlGenerator<B>, method: HttpRequestMethod, headers?: HttpHeaders): IRequestGenerator<T, B> => {
+export const httpRequestFactory = <T, B = any>(url: string | UrlGenerator<B>, method: HttpRequestMethod, headers?: HttpHeaders): IRequestGenerator<T, B> => {
   function* generator(body?: B): SagaIterator {
     let cancelTokenSource: CancelTokenSource;
 
     try {
-      let auth: ISecurityTokens = yield select(selectSecurityTokens);
+      let auth: ISecurityTokens = yield select(selectSecurityTokensSelector);
 
       if (auth?.refreshTokenRequestLoading) {
         yield take(RefreshTokenSuccess.action);
@@ -92,7 +96,7 @@ export const httpRequestFactory = <T, B>(url: string | UrlGenerator<B>, method: 
 
           yield take(RefreshTokenSuccess.action);
 
-          auth = yield select(selectSecurityTokens);
+          auth = yield select(selectSecurityTokensSelector);
 
           if (auth.isAuthenticated) {
             cancelTokenSource = axios.CancelToken.source();

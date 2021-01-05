@@ -1,7 +1,7 @@
 import { IChatsState } from 'store/chats/models';
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { IReplyToMessageActionPayload } from './reply-to-message-action-payload';
+import { IReplyToMessageActionPayload } from './action-payloads/reply-to-message-action-payload';
 import { getMessageDraftSelector } from '../../selectors';
 
 export class ReplyToMessage {

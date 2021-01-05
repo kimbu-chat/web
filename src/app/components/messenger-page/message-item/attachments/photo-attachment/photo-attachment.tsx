@@ -4,13 +4,11 @@ import './photo-attachment.scss';
 import { FadeAnimationWrapper, BigPhoto } from 'components';
 import { IPictureAttachment } from 'store/chats/models';
 
-namespace MessagePhotoAttachmentNS {
-  export interface IProps {
-    attachment: IPictureAttachment;
-  }
+interface IMessagePhotoAttachmentProps {
+  attachment: IPictureAttachment;
 }
 
-export const MessagePhotoAttachment = React.memo(({ attachment }: MessagePhotoAttachmentNS.IProps) => {
+export const MessagePhotoAttachment: React.FC<IMessagePhotoAttachmentProps> = React.memo(({ attachment }) => {
   const [bigPhotoDisplayed, setBigPhotoDisplayed] = useState(false);
   const changeBigPhotoDisplayed = useCallback(() => setBigPhotoDisplayed((oldState) => !oldState), [setBigPhotoDisplayed]);
 

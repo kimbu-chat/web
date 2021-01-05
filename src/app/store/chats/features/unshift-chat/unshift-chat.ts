@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { IUnshiftChatActionPayload } from './unshift-chat-action-payload';
+import { IUnshiftChatActionPayload } from './action-payloads/unshift-chat-action-payload';
 import { IChatsState } from '../../models';
 
 export class UnshiftChat {

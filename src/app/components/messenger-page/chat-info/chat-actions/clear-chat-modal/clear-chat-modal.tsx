@@ -4,17 +4,15 @@ import { getSelectedGroupChatNameSelector } from 'store/chats/selectors';
 import React, { useCallback, useContext, useState } from 'react';
 import './clear-chat-modal.scss';
 import { useSelector } from 'react-redux';
-import { ClearChatHistory } from 'app/store/chats/features/clear-history/clear-chat-history';
+import { ClearChatHistory } from 'app/store/chats/features/clear-chat-history/clear-chat-history';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import CheckBoxSvg from 'icons/ic-checkbox.svg';
 
-namespace ClearChatModalNS {
-  export interface IProps {
-    hide: () => void;
-  }
+interface IClearChatModalProps {
+  hide: () => void;
 }
 
-export const ClearChatModal = React.memo(({ hide }: ClearChatModalNS.IProps) => {
+export const ClearChatModal: React.FC<IClearChatModalProps> = React.memo(({ hide }) => {
   const { t } = useContext(LocalizationContext);
 
   const selectedGroupChatName = useSelector(getSelectedGroupChatNameSelector);
@@ -34,7 +32,7 @@ export const ClearChatModal = React.memo(({ hide }: ClearChatModalNS.IProps) => 
     <WithBackground onBackgroundClick={hide}>
       <Modal
         title='Clear chat'
-        contents={
+        content={
           <div>
             <div className=''>{t('chatInfo.clear-confirmation')}</div>
             <div className='clear-chat-modal'>

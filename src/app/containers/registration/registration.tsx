@@ -1,29 +1,27 @@
 import { Register } from 'app/store/auth/features/register/register';
-import { IAvatarSelectedData, IUploadAvatarResponse } from 'app/store/my-profile/models';
 import { getStringInitials } from 'app/utils/interlocutor-name-utils';
 import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import CloseSVG from 'icons/ic-close.svg';
 import { LocalizationContext } from 'app/app';
-import { getAuthIsLoading } from 'app/store/auth/selectors';
+import { getAuthIsLoadingSelector } from 'app/store/auth/selectors';
 import { useSelector } from 'react-redux';
 import { CheckNicknameAvailability } from 'app/store/my-profile/features/check-nickname-availability/check-nickname-availability';
 import { CancelAvatarUploading } from 'app/store/my-profile/features/cancel-avatar-uploading/cancel-avatar-uploading';
 import { UploadAvatar } from 'app/store/my-profile/features/upload-avatar/upload-avatar';
 import { validateNickname } from 'app/utils/validate-nick-name';
 import { Avatar, BaseBtn, ChangePhoto, CircularProgress } from 'components';
+import { IAvatarSelectedData, IAvatar } from 'app/store/models';
 
-namespace RegistrationNS {
-  export interface IProps {
-    preloadNext: () => void;
-  }
+interface IRegistrationProps {
+  preloadNext: () => void;
 }
 
-export const Registration: React.FC<RegistrationNS.IProps> = ({ preloadNext }) => {
+export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
   const { t } = useContext(LocalizationContext);
 
-  const isLoading = useSelector(getAuthIsLoading);
+  const isLoading = useSelector(getAuthIsLoadingSelector);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -39,7 +37,7 @@ export const Registration: React.FC<RegistrationNS.IProps> = ({ preloadNext }) =
   const openFileExplorer = useCallback(() => fileInputRef.current?.click(), [fileInputRef]);
 
   const [avatarData, setAvatarData] = useState<IAvatarSelectedData | null>(null);
-  const [avararUploadResponse, setAvatarUploadResponse] = useState<IUploadAvatarResponse | null>(null);
+  const [avararUploadResponse, setAvatarUploadResponse] = useState<IAvatar | null>(null);
   const [imageUrl, setImageUrl] = useState<string>('');
   const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
   const [uploaded, setUploaded] = useState(0);

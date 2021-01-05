@@ -5,13 +5,10 @@ import { getType } from 'typesafe-actions';
 import { AuthActions } from 'store/auth/actions';
 import { RootState } from 'store/root-reducer';
 import { InitSocketConnection } from 'app/store/sockets/features/init-socked-connection/init-socket-connection';
-import { EventsNames, EventManager } from './event-manager';
 
 let connection: HubConnection;
 
 function openConnection(store: Store<RootState>): void {
-  const eventManager = new EventManager();
-
   connection = new HubConnectionBuilder()
     .withUrl(`${process.env.NOTIFICATIONS_API}/signalr`, {
       logMessageContent: true,
@@ -32,12 +29,10 @@ function openConnection(store: Store<RootState>): void {
 
   connection.on('notify', (event: IIntegrationEvent) => {
     console.warn('Event received. Data: ', event);
+
     store.dispatch({ type: event.name, payload: event.object });
-    const eventHandler = eventManager.getEventHandler(event.name as EventsNames);
-    if (eventHandler) {
-      eventHandler!.handle(store, event.object);
-    }
   });
+
   connection.onreconnecting(() => {
     console.warn('RECONNECTING WEBSOCKETS');
   });

@@ -5,31 +5,29 @@ import './new-chat-modal.scss';
 import { FriendActions } from 'store/friends/actions';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { LocalizationContext } from 'app/app';
-import { IUserPreview } from 'store/my-profile/models';
+import { IUserPreview, IPage } from 'app/store/models';
 import { useHistory } from 'react-router';
 
 import PeopleSvg from 'icons/ic-group.svg';
 import { ChatActions } from 'app/store/chats/actions';
-import { getFriendsLoading, getHasMoreFriends, getMyFriends } from 'app/store/friends/selectors';
-import { IPage } from 'app/store/common/models';
+import { getFriendsLoadingSelector, getHasMoreFriendsSelector, getMyFriendsSelector } from 'app/store/friends/selectors';
+
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
 import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
 import { ChatId } from 'app/store/chats/chat-id';
 import { FriendFromList, SearchBox } from 'app/components';
 
-namespace NewChatModalNS {
-  export interface IProps {
-    onClose: () => void;
-    displayCreateGroupChat: () => void;
-  }
+interface INewChatModalProps {
+  onClose: () => void;
+  displayCreateGroupChat: () => void;
 }
 
-export const NewChatModal = React.memo(({ onClose, displayCreateGroupChat }: NewChatModalNS.IProps) => {
+export const NewChatModal: React.FC<INewChatModalProps> = React.memo(({ onClose, displayCreateGroupChat }) => {
   const { t } = useContext(LocalizationContext);
 
-  const friends = useSelector(getMyFriends);
-  const hasMoreFriends = useSelector(getHasMoreFriends);
-  const friendsLoading = useSelector(getFriendsLoading);
+  const friends = useSelector(getMyFriendsSelector);
+  const hasMoreFriends = useSelector(getHasMoreFriendsSelector);
+  const friendsLoading = useSelector(getFriendsLoadingSelector);
 
   const createChat = useActionWithDispatch(ChatActions.createChat);
   const loadFriends = useActionWithDispatch(FriendActions.getFriends);
@@ -65,7 +63,7 @@ export const NewChatModal = React.memo(({ onClose, displayCreateGroupChat }: New
       <Modal
         title={t('newChat.new_message')}
         closeModal={onClose}
-        contents={
+        content={
           <div className='new-chat'>
             <SearchBox onChange={(e) => searchFriends(e.target.value)} />
             <div className='new-chat__friends-block'>

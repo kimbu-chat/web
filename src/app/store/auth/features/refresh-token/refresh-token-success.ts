@@ -1,5 +1,5 @@
 import { createAction } from 'typesafe-actions';
-import { IRefreshTokenSuccessActionPayload } from './refresh-token-success-action-payload';
+import { IRefreshTokenSuccessActionPayload } from './action-payloads/refresh-token-success-action-payload';
 
 export class RefreshTokenSuccess {
   static get action() {

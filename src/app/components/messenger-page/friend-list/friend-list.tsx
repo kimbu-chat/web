@@ -1,9 +1,9 @@
-import { IPage } from 'store/common/models';
+import { IPage } from 'app/store/models';
 import { FriendActions } from 'store/friends/actions';
 import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
 import React, { useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { getMyFriends, getHasMoreFriends, getFriendsLoading } from 'app/store/friends/selectors';
+import { getMyFriendsSelector, getHasMoreFriendsSelector, getFriendsLoadingSelector } from 'app/store/friends/selectors';
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
 import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
 import { getSelectedChatIdSelector } from 'app/store/chats/selectors';
@@ -14,9 +14,9 @@ import { useParams } from 'react-router';
 import { Friend } from './friend-from-list/friend';
 
 export const FriendList = React.memo(() => {
-  const friends = useSelector(getMyFriends);
-  const hasMoreFriends = useSelector(getHasMoreFriends);
-  const friendsLoading = useSelector(getFriendsLoading);
+  const friends = useSelector(getMyFriendsSelector);
+  const hasMoreFriends = useSelector(getHasMoreFriendsSelector);
+  const friendsLoading = useSelector(getFriendsLoadingSelector);
   const selectedChatId = useSelector(getSelectedChatIdSelector);
 
   const loadFriends = useActionWithDeferred(FriendActions.getFriends);

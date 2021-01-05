@@ -4,14 +4,12 @@ import CloseSVG from 'icons/ic-close.svg';
 
 import './video-player.scss';
 
-namespace VideoPlayerNS {
-  export interface IProps {
-    url: string;
-    onClose: () => void;
-  }
+interface IVideoPlayerProps {
+  url: string;
+  onClose: () => void;
 }
 
-export const VideoPlayer: React.FC<VideoPlayerNS.IProps> = React.memo(({ url, onClose }) => (
+export const VideoPlayer: React.FC<IVideoPlayerProps> = React.memo(({ url, onClose }) => (
   <BackgroundBlur onClick={onClose}>
     <video preload='metadata' controls src={`${url}#t=5`} className='video-player' />
     <CloseSVG className='video-player__close' viewBox='0 0 25 25' />

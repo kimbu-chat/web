@@ -9,14 +9,12 @@ import './delete-message-modal.scss';
 import { DeleteMessage } from 'app/store/chats/features/delete-message/delete-message';
 import { getSelectedChatInterlocutorNameSelector } from 'app/store/chats/selectors';
 
-namespace DeleteMessageModalNS {
-  export interface IProps {
-    onClose: () => void;
-    selectedMessages: number[];
-  }
+interface IDeleteMessageModalProps {
+  onClose: () => void;
+  selectedMessages: number[];
 }
 
-export const DeleteMessageModal: React.FC<DeleteMessageModalNS.IProps> = React.memo(({ onClose, selectedMessages }) => {
+export const DeleteMessageModal: React.FC<IDeleteMessageModalProps> = React.memo(({ onClose, selectedMessages }) => {
   const { t } = useContext(LocalizationContext);
 
   const deleteMessage = useActionWithDispatch(DeleteMessage.action);
@@ -37,7 +35,7 @@ export const DeleteMessageModal: React.FC<DeleteMessageModalNS.IProps> = React.m
     <WithBackground onBackgroundClick={onClose}>
       <Modal
         title='Delete message'
-        contents={
+        content={
           <div>
             <div className=''>
               {t('deleteMessageModal.delete-confirmation', { count: selectedMessages.length })

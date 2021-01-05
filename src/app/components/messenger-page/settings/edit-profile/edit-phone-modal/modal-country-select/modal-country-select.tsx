@@ -5,19 +5,17 @@ import useAutocomplete, { createFilterOptions } from '@material-ui/lab/useAutoco
 import { LocalizationContext } from 'app/app';
 import DownSvg from 'icons/ic-chevron-down.svg';
 
-namespace ModalCountrySelectNS {
-  export interface IProps {
-    country?: ICountry;
-    setRef: React.Dispatch<React.SetStateAction<React.RefObject<HTMLInputElement> | null>>;
-    handleCountryChange: (newCountry: ICountry) => void;
-  }
+interface IModalCountrySelectProps {
+  country?: ICountry;
+  setRef: React.Dispatch<React.SetStateAction<React.RefObject<HTMLInputElement> | null>>;
+  handleCountryChange: (newCountry: ICountry) => void;
 }
 
-export const ModalCountrySelect = React.memo(({ country, handleCountryChange, setRef }: ModalCountrySelectNS.IProps) => {
+export const ModalCountrySelect: React.FC<IModalCountrySelectProps> = React.memo(({ country, handleCountryChange, setRef }) => {
   const { t } = useContext(LocalizationContext);
 
   const { getRootProps, getInputProps, getListboxProps, getOptionProps, groupedOptions, popupOpen } = useAutocomplete({
-    id: 'use-autocomplete-demo',
+    id: 'country-modal-autocomplete',
     options: countryList,
     getOptionLabel: (option) => option.title,
     value: country,

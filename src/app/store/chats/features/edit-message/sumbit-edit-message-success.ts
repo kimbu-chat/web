@@ -1,7 +1,7 @@
 import { IChatsState } from 'store/chats/models';
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { ISumbitEditMessageSuccessActionPayload } from './sumbit-edit-message-success-action-payload';
+import { ISumbitEditMessageSuccessActionPayload } from './action-payloads/sumbit-edit-message-success-action-payload';
 import { getMessageDraftSelector } from '../../selectors';
 
 export class SubmitEditMessageSuccess {

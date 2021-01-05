@@ -1,4 +1,9 @@
-import { IUploadingAttachment } from './models';
+import { CancelTokenSource } from 'axios';
+
+interface IUploadingAttachment {
+  id: number;
+  cancelTokenSource: CancelTokenSource;
+}
 
 export let uploadingAttachments: IUploadingAttachment[] = [];
 

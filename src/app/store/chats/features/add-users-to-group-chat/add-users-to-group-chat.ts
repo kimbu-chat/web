@@ -6,8 +6,9 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { IAddUsersToGroupChatActionPayload } from './add-users-to-group-chat-action-payload';
+import { IAddUsersToGroupChatActionPayload } from './action-payloads/add-users-to-group-chat-action-payload';
 import { AddUsersToGroupChatSuccess } from './add-users-to-group-chat-success';
+import { IAddUsersToGroupChatApiRequest } from './api-requests/add-users-to-group-chat-api-request';
 
 export class AddUsersToGroupChat {
   static get action() {
@@ -42,6 +43,6 @@ export class AddUsersToGroupChat {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, { id: number; userIds: number[] }>(`${process.env.MAIN_API}/api/group-chats/users`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse, IAddUsersToGroupChatApiRequest>(`${process.env.MAIN_API}/api/group-chats/users`, HttpRequestMethod.Post);
   }
 }

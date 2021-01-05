@@ -5,18 +5,17 @@ import { AsYouType } from 'libphonenumber-js';
 import { LocalizationContext } from 'app/app';
 import { removeCountryCodeFromPhoneNumber } from 'app/utils/phone-number-utils';
 
-namespace ModalPhoneInputNS {
-  export interface IProps {
-    country: ICountry;
-    phone: string;
-    setPhone: Function;
-    displayCountries: () => void;
-    sendSms: () => void;
-  }
+interface IModalPhoneInputProps {
+  country: ICountry;
+  phone: string;
+  setPhone: React.Dispatch<React.SetStateAction<string>>;
+  displayCountries: () => void;
+  sendSms: () => void;
+  ref: React.Ref<HTMLInputElement>;
 }
 
-export const ModalPhoneInput = React.memo(
-  React.forwardRef(({ country, phone, setPhone, displayCountries, sendSms }: ModalPhoneInputNS.IProps, ref: React.Ref<HTMLInputElement>) => {
+export const ModalPhoneInput: React.FC<IModalPhoneInputProps> = React.memo(
+  React.forwardRef(({ country, phone, setPhone, displayCountries, sendSms }, ref: React.Ref<HTMLInputElement>) => {
     const { t } = useContext(LocalizationContext);
 
     return (

@@ -5,13 +5,11 @@ import { FadeAnimationWrapper, VideoPlayer } from 'components';
 import { IGroupable, IVideoAttachment } from 'store/chats/models';
 import { doesYearDifferFromCurrent } from 'app/utils/set-separators';
 
-namespace VideoNS {
-  export interface IProps {
-    video: IVideoAttachment & IGroupable;
-  }
+interface IVideoFromListProps {
+  video: IVideoAttachment & IGroupable;
 }
 
-export const VideoFromList: React.FC<VideoNS.IProps> = React.memo(({ video }) => {
+export const VideoFromList: React.FC<IVideoFromListProps> = React.memo(({ video }) => {
   const [videoPlayerDisplayed, setVideoPlayerDisplayed] = useState(false);
   const changeVideoPlayerDisplayed = useCallback(() => setVideoPlayerDisplayed((oldState) => !oldState), [setVideoPlayerDisplayed]);
 

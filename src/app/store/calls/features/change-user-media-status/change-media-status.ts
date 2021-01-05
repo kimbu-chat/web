@@ -2,7 +2,7 @@ import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFacto
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { getAudioConstraints, getVideoConstraints } from 'app/store/calls/selectors';
+import { getAudioConstraintsSelector, getVideoConstraintsSelector } from 'app/store/calls/selectors';
 import {
   audioSender,
   getMediaDevicesList,
@@ -17,7 +17,7 @@ import {
 } from '../../utils/user-media';
 import { ChangeActiveDeviceId } from '../change-active-device-id/change-active-device-id';
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
-import { IChangeMediaStatusActionPayload } from './change-media-status-action-payload';
+import { IChangeMediaStatusActionPayload } from './action-payloads/change-media-status-action-payload';
 import { InputType } from '../../common/enums/input-type';
 import { CloseScreenShareStatus } from '../change-screen-share-status/close-screen-share-status';
 import { CloseAudioStatus } from './close-audio-status';
@@ -30,8 +30,8 @@ export class ChangeMediaStatus {
 
   static get saga() {
     return function* (action: ReturnType<typeof ChangeMediaStatus.action>): SagaIterator {
-      const videoConstraints = yield select(getVideoConstraints);
-      const audioConstraints = yield select(getAudioConstraints);
+      const videoConstraints = yield select(getVideoConstraintsSelector);
+      const audioConstraints = yield select(getAudioConstraintsSelector);
 
       if (action.payload.kind === InputType.VideoInput) {
         const isVideoOpened = !videoConstraints.isOpened;

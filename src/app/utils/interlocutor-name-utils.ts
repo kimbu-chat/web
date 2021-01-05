@@ -1,5 +1,5 @@
+import { IUserPreview } from 'app/store/models';
 import { IChat } from 'store/chats/models';
-import { IUserPreview } from 'store/my-profile/models';
 
 export const getChatInterlocutor = (chat: IChat): string => {
   const { interlocutor } = chat;

@@ -12,17 +12,15 @@ import { parsePhoneNumber } from 'libphonenumber-js';
 import ResendSvg from 'icons/ic-resend.svg';
 import { BaseBtn } from 'components';
 import { useHistory } from 'react-router';
-import { getAuthPhoneNumber, getIsConfirmationCodeWrong, getAuthIsLoading } from 'app/store/auth/selectors';
+import { getAuthPhoneNumberSelector, getIsConfirmationCodeWrongSelector, getAuthIsLoadingSelector } from 'app/store/auth/selectors';
 
 const NUMBER_OF_DIGITS = [0, 1, 2, 3];
 
-namespace CodeConfirmationNS {
-  export interface IProps {
-    preloadNext: () => void;
-  }
+interface ICodeConfirmationProps {
+  preloadNext: () => void;
 }
 
-const CodeConfirmation: React.FC<CodeConfirmationNS.IProps> = ({ preloadNext }) => {
+const CodeConfirmation: React.FC<ICodeConfirmationProps> = ({ preloadNext }) => {
   const { t } = useContext(LocalizationContext);
 
   const checkIfCharacterIsNumeric = (character: string): boolean => /^[0-9]+$/.test(character);
@@ -33,10 +31,10 @@ const CodeConfirmation: React.FC<CodeConfirmationNS.IProps> = ({ preloadNext }) 
   const [remainingSeconds, setRemainingSeconds] = useState<number>(60);
   const [isIntervalRunning, setIsIntervalRunning] = useState(true);
 
-  const phoneNumber = useSelector(getAuthPhoneNumber);
+  const phoneNumber = useSelector(getAuthPhoneNumberSelector);
   const codeFromServer = useSelector<RootState, string>((rootState) => rootState.auth.confirmationCode);
-  const isConfirmationCodeWrong = useSelector(getIsConfirmationCodeWrong);
-  const isLoading = useSelector(getAuthIsLoading);
+  const isConfirmationCodeWrong = useSelector(getIsConfirmationCodeWrongSelector);
+  const isLoading = useSelector(getAuthIsLoadingSelector);
 
   const reSendSmsCode = useActionWithDeferred(AuthActions.reSendSmsCode);
   const checkConfirmationCode = useActionWithDeferred(AuthActions.confirmPhone);

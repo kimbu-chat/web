@@ -2,7 +2,6 @@ import React, { useState, useCallback, useRef, useContext } from 'react';
 import ReactDOM from 'react-dom';
 import './change-photo.scss';
 
-import { IAvatarSelectedData } from 'store/my-profile/models';
 import { LocalizationContext } from 'app/app';
 
 import CloseSVG from 'icons/ic-close.svg';
@@ -11,18 +10,12 @@ import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import { WithBackground, BaseBtn } from 'components';
 import { stopPropagation } from 'app/utils/stop-propagation';
+import { IAvatarSelectedData } from 'app/store/models';
 
-namespace ChangePhotoNS {
-  export interface IProps {
-    imageUrl: string;
-    hideChangePhoto: () => void;
-    onSubmit?: (data: IAvatarSelectedData) => void;
-  }
-
-  export interface ICoords {
-    x: number;
-    y: number;
-  }
+interface IChangePhotoProps {
+  imageUrl: string;
+  hideChangePhoto: () => void;
+  onSubmit?: (data: IAvatarSelectedData) => void;
 }
 
 function generateDownload(image?: HTMLImageElement, crop?: ReactCrop.Crop): string {
@@ -42,7 +35,7 @@ function generateDownload(image?: HTMLImageElement, crop?: ReactCrop.Crop): stri
   return canvas.toDataURL('image/png');
 }
 
-export const ChangePhoto = ({ imageUrl, onSubmit, hideChangePhoto }: ChangePhotoNS.IProps) => {
+export const ChangePhoto: React.FC<IChangePhotoProps> = ({ imageUrl, onSubmit, hideChangePhoto }) => {
   const { t } = useContext(LocalizationContext);
 
   const imgRef = useRef<HTMLImageElement>();

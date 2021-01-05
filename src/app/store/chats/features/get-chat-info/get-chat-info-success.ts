@@ -2,7 +2,7 @@ import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { getChatByIdDraftSelector } from 'app/store/chats/selectors';
 import { IChatsState } from '../../models';
-import { IGetChatInfoSuccessActionPayload } from './get-chat-info-success-action-payload';
+import { IGetChatInfoSuccessActionPayload } from './action-payloads/get-chat-info-success-action-payload';
 
 export class GetChatInfoSuccess {
   static get action() {

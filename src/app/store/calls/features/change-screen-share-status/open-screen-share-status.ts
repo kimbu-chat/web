@@ -1,6 +1,6 @@
 import { createEmptyAction } from 'app/store/common/actions';
 import produce from 'immer';
-import { ICallState } from '../../models';
+import { ICallsState } from '../../models';
 
 export class OpenScreenShareStatus {
   static get action() {
@@ -8,7 +8,7 @@ export class OpenScreenShareStatus {
   }
 
   static get reducer() {
-    return produce((draft: ICallState) => {
+    return produce((draft: ICallsState) => {
       draft.isScreenSharingOpened = true;
       return draft;
     });

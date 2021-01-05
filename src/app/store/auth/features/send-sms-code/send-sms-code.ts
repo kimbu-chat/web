@@ -1,6 +1,6 @@
 import { HTTPStatusCode } from 'app/common/http-status-code';
 import { authRequestFactory } from 'app/store/common/http-factory';
-import { HttpRequestMethod } from 'app/store/common/models';
+import { HttpRequestMethod } from 'app/store/models';
 
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
@@ -9,9 +9,10 @@ import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { Meta } from 'store/common/actions';
 import { IAuthState } from '../../models';
-import { ISendSmsCodeActionPayload } from './send-sms-code-action-payload';
+import { ISendSmsCodeActionPayload } from './action-payloads/send-sms-code-action-payload';
 import { SendSmsCodeFailure } from './send-sms-code-failure';
 import { SendSmsCodeSuccess } from './send-sms-code-success';
+import { ISendSmsCodeApiRequest } from './api-requests/send-sms-code-api-request';
 
 export class SendSmsCode {
   static get action() {
@@ -46,7 +47,7 @@ export class SendSmsCode {
   }
 
   static get httpRequest() {
-    return authRequestFactory<AxiosResponse<string>, { phoneNumber: string }>(
+    return authRequestFactory<AxiosResponse<string>, ISendSmsCodeApiRequest>(
       `${process.env.MAIN_API}/api/users/send-sms-confirmation-code`,
       HttpRequestMethod.Post,
     );

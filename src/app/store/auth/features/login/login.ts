@@ -1,24 +1,25 @@
 import { AuthService } from 'app/services/auth-service';
 import { MyProfileService } from 'app/services/my-profile-service';
-import { UserStatus } from 'app/store/common/models';
+import { IUserPreview, UserStatus } from 'app/store/models';
 import { Init } from 'app/store/initiation/features/init/init';
 import { initializeSaga } from 'app/store/initiation/sagas';
 import { GetMyProfile } from 'app/store/my-profile/features/get-my-profile/get-my-profile';
 import { GetMyProfileSuccess } from 'app/store/my-profile/features/get-my-profile/get-my-profile-success';
-import { IUserPreview } from 'app/store/my-profile/models';
 import { AxiosResponse } from 'axios';
 import jwt_decode from 'jwt-decode';
 import { SagaIterator } from 'redux-saga';
 import { call, fork, put } from 'redux-saga/effects';
 import { getPushNotificationTokens } from '../../get-push-notification-tokens';
-import { ILoginResponse, IPhoneConfirmationData, ISecurityTokens } from '../../models';
+import { ISecurityTokens } from '../../models';
+import { ILoginApiRequest } from '../confirm-phone/api-requests/login-api-request';
+import { ILoginApiResponse } from '../confirm-phone/api-requests/login-api-response';
 import { ConfirmPhone } from '../confirm-phone/confirm-phone';
-import { LoginSuccess } from '../logout/login-sucess/login-success';
+import { LoginSuccess } from './login-success';
 
 export class Login {
   static get saga() {
-    return function* (loginData: IPhoneConfirmationData): SagaIterator {
-      const { data }: AxiosResponse<ILoginResponse> = ConfirmPhone.httpRequest.login.call(
+    return function* (loginData: ILoginApiRequest): SagaIterator {
+      const { data }: AxiosResponse<ILoginApiResponse> = ConfirmPhone.httpRequest.login.call(
         yield call(() => ConfirmPhone.httpRequest.login.generator(loginData)),
       );
 

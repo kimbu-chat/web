@@ -6,10 +6,10 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { IEditGroupChatHTTPReqData } from '../../models';
-import { IEditGroupChatActionPayload } from './edit-group-chat-action-payload';
+import { IEditGroupChatActionPayload } from './action-payloads/edit-group-chat-action-payload';
 import { EditGroupChatSuccess } from './edit-group-chat-success';
 import { ChatId } from '../../chat-id';
+import { IEditGroupChatApiRequest } from './api-requests/edit-group-chat-api-request';
 
 export class EditGroupChat {
   static get action() {
@@ -23,7 +23,7 @@ export class EditGroupChat {
       const chatId = yield select(getSelectedChatIdSelector);
       const groupChatId: number = ChatId.fromId(chatId).id;
 
-      const requestData: IEditGroupChatHTTPReqData = {
+      const requestData: IEditGroupChatApiRequest = {
         id: groupChatId,
         name,
         description,
@@ -41,6 +41,6 @@ export class EditGroupChat {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IEditGroupChatHTTPReqData>(`${process.env.MAIN_API}/api/group-chats`, HttpRequestMethod.Put);
+    return httpRequestFactory<AxiosResponse, IEditGroupChatApiRequest>(`${process.env.MAIN_API}/api/group-chats`, HttpRequestMethod.Put);
   }
 }

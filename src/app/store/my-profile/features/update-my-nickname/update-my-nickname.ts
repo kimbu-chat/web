@@ -1,12 +1,13 @@
 import { Meta } from 'app/store/common/actions';
 import { httpRequestFactory } from 'app/store/common/http-factory';
-import { HttpRequestMethod } from 'app/store/common/models';
+import { HttpRequestMethod } from 'app/store/models';
 
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { IUpdateMyNicknameActionPayload } from './update-my-nickname-action-payload';
+import { IUpdateMyNicknameActionPayload } from './action-payloads/update-my-nickname-action-payload';
+import { IUpdateMyNicknameApiRequest } from './api-requests/update-my-nickname-api-request';
 import { UpdateMyNicknameSuccess } from './update-my-nickname-success';
 
 export class UpdateMyNickname {
@@ -32,6 +33,6 @@ export class UpdateMyNickname {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IUpdateMyNicknameActionPayload>(`${process.env.MAIN_API}/api/users/nick-name`, HttpRequestMethod.Put);
+    return httpRequestFactory<AxiosResponse, IUpdateMyNicknameApiRequest>(`${process.env.MAIN_API}/api/users/nick-name`, HttpRequestMethod.Put);
   }
 }

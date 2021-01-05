@@ -3,7 +3,7 @@ import { ChangeLanguage } from './features/change-language/change-language';
 import { ChangeNotificationSoundState } from './features/change-notification-sound-state/change-notification-sound-state';
 import { ChangeTypingStrategy } from './features/change-typing-strategy/change-typing-strategy';
 import { GetUserSettingsSuccess } from './features/get-user-settings/get-user-settings-success';
-import { Langs, TypingStrategy, IUserSettings } from './models';
+import { IUserSettings, Langs, TypingStrategy } from './features/models';
 
 const initialState: IUserSettings = {
   language: navigator.language.includes('ru') ? Langs.Ru : Langs.En,

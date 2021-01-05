@@ -7,10 +7,11 @@ import { createAction } from 'typesafe-actions';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
 
 import { AxiosResponse } from 'axios';
-import { IMessageCreationReqData, MessageState } from '../../models';
+import { MessageState } from '../../models';
 import { CreateMessageSuccess } from './create-message-success';
-import { ICreateMessageActionPayload } from './create-message-action-payload';
+import { ICreateMessageActionPayload } from './action-payloads/create-message-action-payload';
 import { getChatIndexDraftSelector } from '../../selectors';
+import { ICreateMessageApiRequest } from './api-requests/create-message-api-request';
 
 export class CreateMessage {
   static get action() {
@@ -52,7 +53,7 @@ export class CreateMessage {
 
       const attachmentsToSend = message.attachments?.map(({ id, type }) => ({ id, type })) || [];
       try {
-        const messageCreationReq: IMessageCreationReqData = {
+        const messageCreationReq: ICreateMessageApiRequest = {
           text: message.text,
           chatId,
           attachments: attachmentsToSend,
@@ -76,6 +77,6 @@ export class CreateMessage {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<number>, IMessageCreationReqData>(`${process.env.MAIN_API}/api/messages`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse<number>, ICreateMessageApiRequest>(`${process.env.MAIN_API}/api/messages`, HttpRequestMethod.Post);
   }
 }

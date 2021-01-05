@@ -7,13 +7,11 @@ import moment from 'moment';
 import { changeMusic } from 'app/utils/current-music';
 import { IAudioAttachment } from 'store/chats/models';
 
-namespace AudioAttachmentNS {
-  export interface IProps {
-    attachment: IAudioAttachment;
-  }
+interface IMessageAudioAttachmentProps {
+  attachment: IAudioAttachment;
 }
 
-export const MessageAudioAttachment = React.memo(({ attachment }: AudioAttachmentNS.IProps) => {
+export const MessageAudioAttachment: React.FC<IMessageAudioAttachmentProps> = React.memo(({ attachment }) => {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const audio = useRef<HTMLAudioElement | null>(null);

@@ -1,9 +1,16 @@
+import { IFriendsState } from './models';
 import { RootState } from '../root-reducer';
 
-export const getMyFriends = (state: RootState) => state.friends.friends;
+// state-selectors
 
-export const getFriendById = (id: number) => (state: RootState) => state.friends.friends.find((friend) => friend.id === id);
+export const getMyFriendsSelector = (state: RootState) => state.friends.friends;
 
-export const getFriendsLoading = (state: RootState) => state.friends.loading;
+export const getFriendByIdSelector = (id: number) => (state: RootState) => state.friends.friends.find((friend) => friend.id === id);
 
-export const getHasMoreFriends = (state: RootState) => state.friends.hasMoreFriends;
+export const getFriendsLoadingSelector = (state: RootState) => state.friends.loading;
+
+export const getHasMoreFriendsSelector = (state: RootState) => state.friends.hasMoreFriends;
+
+// draft-selectors
+
+export const getUserIndexDraftSelector = (userId: number, state: IFriendsState): number => state.friends.findIndex(({ id }) => id === userId);

@@ -1,16 +1,34 @@
 import moment from 'moment';
-import { UserStatus } from 'store/common/models';
+import { CallStatus, UserStatus } from 'app/store/models';
 import { TFunction } from 'i18next';
-import { CallStatus } from 'store/calls/models';
-import {
-  ISystemMessageBase,
-  IMessage,
-  SystemMessageType,
-  IGroupChatMemberRemovedSystemMessageContent,
-  IGroupChatMemberAddedSystemMessageContent,
-  IGroupChatNameChangedSystemMessageContent,
-  ICallMessage,
-} from 'app/store/chats/models';
+import { IMessage, SystemMessageType } from 'app/store/chats/models';
+
+interface ISystemMessageBase {}
+
+interface IGroupChatMemberRemovedSystemMessageContent extends ISystemMessageBase {
+  removedUserId: number;
+  removedUserName: string;
+}
+
+interface IGroupChatNameChangedSystemMessageContent extends ISystemMessageBase {
+  oldName: string;
+  newName: string;
+}
+
+interface IGroupChatMemberAddedSystemMessageContent extends ISystemMessageBase {
+  addedUserId: number;
+  addedUserName: string;
+  groupChatName: string;
+  groupChatMembersNumber: number;
+  groupChatAvatarUrl: string;
+}
+
+interface ICallMessage {
+  userCallerId: number;
+  userCalleeId: number;
+  duration: number;
+  status: CallStatus;
+}
 
 export class MessageUtils {
   static getSystemMessageContent(text: string): ISystemMessageBase {

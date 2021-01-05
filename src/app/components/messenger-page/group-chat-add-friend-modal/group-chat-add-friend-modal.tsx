@@ -6,28 +6,26 @@ import './group-chat-add-friend-modal.scss';
 import { getMemberIdsForSelectedGroupChatSelector } from 'store/chats/selectors';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { LocalizationContext } from 'app/app';
-import { getFriendsLoading, getHasMoreFriends, getMyFriends } from 'app/store/friends/selectors';
-import { IPage } from 'app/store/common/models';
+import { getFriendsLoadingSelector, getHasMoreFriendsSelector, getMyFriendsSelector } from 'app/store/friends/selectors';
+import { IPage } from 'app/store/models';
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
 import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
 import { FriendFromList, SearchBox } from 'app/components';
 import { AddUsersToGroupChat } from 'app/store/chats/features/add-users-to-group-chat/add-users-to-group-chat';
 import { GetFriends } from 'app/store/friends/features/get-friends/get-friends';
 
-namespace GroupChatAddFriendModalNS {
-  export interface IProps {
-    onClose: () => void;
-  }
+interface IGroupChatAddFriendModalProps {
+  onClose: () => void;
 }
 
-export const GroupChatAddFriendModal = React.memo(({ onClose }: GroupChatAddFriendModalNS.IProps) => {
+export const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = React.memo(({ onClose }) => {
   const { t } = useContext(LocalizationContext);
 
   const [selectedUserIds, setselectedUserIds] = useState<number[]>([]);
 
-  const friends = useSelector(getMyFriends);
-  const hasMoreFriends = useSelector(getHasMoreFriends);
-  const friendsLoading = useSelector(getFriendsLoading);
+  const friends = useSelector(getMyFriendsSelector);
+  const hasMoreFriends = useSelector(getHasMoreFriendsSelector);
+  const friendsLoading = useSelector(getFriendsLoadingSelector);
   const idsToExclude = useSelector(getMemberIdsForSelectedGroupChatSelector);
 
   const addUsersToGroupChat = useActionWithDispatch(AddUsersToGroupChat.action);
@@ -73,7 +71,7 @@ export const GroupChatAddFriendModal = React.memo(({ onClose }: GroupChatAddFrie
       <Modal
         title={t('groupChatAddFriendModal.add_members')}
         closeModal={onClose}
-        contents={
+        content={
           <div className='group-chat-add-friend-modal'>
             <SearchBox onChange={(e) => searchFriends(e.target.value)} />
             <InfiniteScroll onReachExtreme={loadMore} hasMore={hasMoreFriends} isLoading={friendsLoading} className='group-chat-add-friend-modal__friend-block'>

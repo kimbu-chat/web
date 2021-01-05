@@ -5,8 +5,9 @@ import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-fac
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
-import { IGetChatInfoApiRequest, IGetChatInfoApiResponse } from '../../models';
 import { getSelectedChatIdSelector } from '../../selectors';
+import { IGetChatInfoApiRequest } from './api-requests/get-chat-info-api-request';
+import { IGetChatInfoApiResponse } from './api-requests/get-chat-info-api-response';
 import { GetChatInfoSuccess } from './get-chat-info-success';
 
 export class GetChatInfo {

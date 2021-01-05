@@ -5,20 +5,18 @@ import { parsePhoneNumber, parsePhoneNumberFromString } from 'libphonenumber-js'
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import './edit-phone-modal.scss';
-import { getMyPhoneNumber } from 'app/store/my-profile/selectors';
+import { getMyPhoneNumberSelector } from 'app/store/my-profile/selectors';
 import { ModalCountrySelect } from './modal-country-select/modal-country-select';
 import { ModalPhoneInput } from './modal-phone-input/modal-phone-input';
 
-namespace EditPhoneModalNS {
-  export interface IProps {
-    onClose: () => void;
-  }
+interface IEditPhoneModalProps {
+  onClose: () => void;
 }
 
-export const EditPhoneModal = React.memo(({ onClose }: EditPhoneModalNS.IProps) => {
+export const EditPhoneModal: React.FC<IEditPhoneModalProps> = React.memo(({ onClose }) => {
   const { t } = useContext(LocalizationContext);
 
-  const currentNumber = useSelector(getMyPhoneNumber);
+  const currentNumber = useSelector(getMyPhoneNumberSelector);
   const currentNumberCountry = parsePhoneNumber(currentNumber!).country;
 
   const [country, setCountry] = useState<ICountry>(countryList.find(({ code }) => currentNumberCountry === code)!);
@@ -72,7 +70,7 @@ export const EditPhoneModal = React.memo(({ onClose }: EditPhoneModalNS.IProps) 
       <Modal
         title={t('editPhoneModal.edit_phone')}
         closeModal={onClose}
-        contents={
+        content={
           <div className='edit-phone-modal'>
             <ModalCountrySelect setRef={setCountrySelectRef} country={country} handleCountryChange={handleCountryChange} />
             <ModalPhoneInput ref={phoneInputRef} displayCountries={displayCountries} country={country} phone={phone} setPhone={setPhone} sendSms={sendSms} />

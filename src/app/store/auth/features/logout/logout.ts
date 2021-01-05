@@ -1,7 +1,7 @@
 import { AuthService } from 'app/services/auth-service';
 import { MyProfileService } from 'app/services/my-profile-service';
 import { authRequestFactory } from 'app/store/common/http-factory';
-import { HttpRequestMethod } from 'app/store/common/models';
+import { HttpRequestMethod } from 'app/store/models';
 
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
@@ -10,7 +10,8 @@ import { call, put } from 'redux-saga/effects';
 import { createEmptyAction } from 'store/common/actions';
 import { messaging } from 'store/middlewares/firebase/firebase';
 import { getPushNotificationTokens } from '../../get-push-notification-tokens';
-import { IAuthState, ISubscribeToPushNotificationsRequest } from '../../models';
+import { IAuthState } from '../../models';
+import { IUnsubscribeFromPushNotificationsRequest } from './api-requests/unsubscribe-from-push-notifications-api-request';
 import { LogoutSuccess } from './logout-success';
 
 export class Logout {
@@ -43,7 +44,7 @@ export class Logout {
   }
 
   static get httpRequest() {
-    return authRequestFactory<AxiosResponse, ISubscribeToPushNotificationsRequest>(
+    return authRequestFactory<AxiosResponse, IUnsubscribeFromPushNotificationsRequest>(
       `${process.env.NOTIFICATIONS_API}/api/notifications/unsubscribe`,
       HttpRequestMethod.Post,
     );

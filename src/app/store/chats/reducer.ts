@@ -18,7 +18,7 @@ import { GetAudioAttachmentsSuccess } from 'store/chats/features/get-audio-attac
 import { GetChatInfoSuccess } from 'store/chats/features/get-chat-info/get-chat-info-success';
 import { GetChats } from 'store/chats/features/get-chats/get-chats';
 import { GetChatsFailure } from 'store/chats/features/get-chats/get-chats-failure';
-import { GetChatsSuccess } from 'store/chats/features/get-chats/get-chats-success';
+import { GetChatsSuccess } from 'app/store/chats/features/get-chats/get-chats-success';
 import { GetGroupChatUsers } from 'store/chats/features/get-group-chat-users/get-group-chat-users';
 import { GetGroupChatUsersSuccess } from 'store/chats/features/get-group-chat-users/get-group-chat-users-success';
 import { GetMessages } from 'store/chats/features/get-messages/get-messages';
@@ -47,7 +47,7 @@ import { UploadAttachmentProgress } from 'store/chats/features/upload-attachment
 import { UploadAttachmentRequest } from 'store/chats/features/upload-attachment/upload-attachment-request';
 import { UploadAttachmentSuccess } from 'store/chats/features/upload-attachment/upload-attachment-success';
 import { getChatByIdDraftSelector } from 'store/chats/selectors';
-import { ClearChatHistorySuccess } from 'app/store/chats/features/clear-history/clear-chat-history-success';
+import { ClearChatHistorySuccess } from 'app/store/chats/features/clear-chat-history/clear-chat-history-success';
 import { GroupChatCreatedEventHandler } from 'store/chats/socket-events/group-chat-created/group-chat-created-event-handler';
 import { GroupChatEditedEventHandler } from 'store/chats/socket-events/group-chat-edited/group-chat-edited-integration-event-handler';
 import { MemberLeftGroupChatEventHandler } from 'store/chats/socket-events/member-left-group-chat/member-left-group-chat-event-handler';
@@ -58,7 +58,7 @@ import { UserMessageTypingEventHandler } from 'store/chats/socket-events/message
 import { ChatMutedStatusChangedEventHandler } from './socket-events/chat-mute-status-changed/chat-mute-status-changed-event-handler';
 import { UserStatusChangedEventHandler } from '../friends/socket-events/user-status-changed/user-status-changed-event-handler';
 import { ChatId } from './chat-id';
-import { IChatsState } from './models';
+import { IChatsState } from './models/chats-state';
 
 const initialState: IChatsState = {
   loading: false,

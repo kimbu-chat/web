@@ -2,7 +2,7 @@ import { getChatIndexDraftSelector } from 'app/store/chats/selectors';
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { IChatsState } from '../../models';
-import { ILeaveGroupChatSuccessActionPayload } from './leave-group-chat-success-action-payload';
+import { ILeaveGroupChatSuccessActionPayload } from './action-payloads/leave-group-chat-success-action-payload';
 
 export class LeaveGroupChatSuccess {
   static get action() {

@@ -4,10 +4,8 @@ import { HttpRequestMethod } from 'app/store/common/http-file-factory';
 
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
-import { call, put, select } from 'redux-saga/effects';
-import { RootState } from 'app/store/root-reducer';
+import { call, put } from 'redux-saga/effects';
 import { resetPeerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
-import { ICancelCallApiRequest } from '../../models';
 import { CancelCallSuccess } from './cancel-call-success';
 
 export class CancelCall {
@@ -19,19 +17,13 @@ export class CancelCall {
     return function* cancelCallSaga(): SagaIterator {
       resetPeerConnection();
 
-      const interlocutorId: number = yield select((state: RootState) => state.calls.interlocutor?.id);
-
-      const request = {
-        interlocutorId,
-      };
-
-      CancelCall.httpRequest.call(yield call(() => CancelCall.httpRequest.generator(request)));
+      CancelCall.httpRequest.call(yield call(() => CancelCall.httpRequest.generator()));
 
       yield put(CancelCallSuccess.action());
     };
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, ICancelCallApiRequest>(`${process.env.MAIN_API}/api/calls/cancel-call`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse>(`${process.env.MAIN_API}/api/calls/cancel-call`, HttpRequestMethod.Post);
   }
 }

@@ -2,13 +2,11 @@ import Mousetrap from 'mousetrap';
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
-namespace BackgroundBlurNS {
-  export interface IProps {
-    onClick: () => void;
-  }
+interface IBackgroundBlurProps {
+  onClick: () => void;
 }
 
-export const BackgroundBlur: React.FC<BackgroundBlurNS.IProps> = React.memo(({ onClick, children }) => {
+export const BackgroundBlur: React.FC<IBackgroundBlurProps> = React.memo(({ onClick, children }) => {
   useEffect(() => {
     Mousetrap.bind('esc', (e) => {
       e.preventDefault();
@@ -26,15 +24,12 @@ export const BackgroundBlur: React.FC<BackgroundBlurNS.IProps> = React.memo(({ o
     document.getElementById('root') || document.createElement('div'),
   );
 });
-
-namespace WithBackgroundNS {
-  export interface IProps {
-    children?: JSX.Element | boolean;
-    onBackgroundClick: () => void;
-  }
+export interface IWithBackgroundProps {
+  children?: JSX.Element | boolean;
+  onBackgroundClick: () => void;
 }
 
-const WithBackground = React.memo(({ children, onBackgroundClick }: WithBackgroundNS.IProps) => (
+const WithBackground: React.FC<IWithBackgroundProps> = React.memo(({ children, onBackgroundClick }) => (
   <>
     <BackgroundBlur onClick={onBackgroundClick}>{children}</BackgroundBlur>
   </>

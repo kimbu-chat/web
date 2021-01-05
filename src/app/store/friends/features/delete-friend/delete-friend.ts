@@ -5,7 +5,8 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { IDeleteFriendActionPayload } from './delete-friend-action-payload';
+import { IDeleteFriendActionPayload } from './action-payloads/delete-friend-action-payload';
+import { IDeleteFriendApiRequest } from './api-requests/delete-friend-api-request';
 import { DeleteFriendSuccess } from './delete-friend-success';
 
 export class DeleteFriend {
@@ -31,6 +32,6 @@ export class DeleteFriend {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IDeleteFriendActionPayload>(`${process.env.MAIN_API}/api/contacts/batch-delete`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse, IDeleteFriendApiRequest>(`${process.env.MAIN_API}/api/contacts/batch-delete`, HttpRequestMethod.Post);
   }
 }

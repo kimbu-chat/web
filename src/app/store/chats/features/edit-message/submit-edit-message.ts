@@ -9,9 +9,9 @@ import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { getChatByIdDraftSelector } from '../../selectors';
-import { IEditMessageApiReq } from '../../models';
-import { ISumbitEditMessageActionPayload } from './submit-edit-message-action-payload';
+import { ISumbitEditMessageActionPayload } from './action-payloads/submit-edit-message-action-payload';
 import { SubmitEditMessageSuccess } from './sumbit-edit-message-success';
+import { ISubmitEditMessageApiRequest } from './api-requests/submit-edit-message-api-request';
 
 export class SubmitEditMessage {
   static get action() {
@@ -46,7 +46,7 @@ export class SubmitEditMessage {
       const messageId = yield select(getMessageToEditSelectorIdSelector);
       const chatId = yield select(getSelectedChatIdSelector);
 
-      const editRequest: IEditMessageApiReq = {
+      const editRequest: ISubmitEditMessageApiRequest = {
         text,
         messageId,
         removedAttachments,
@@ -64,6 +64,6 @@ export class SubmitEditMessage {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IEditMessageApiReq>(`${process.env.MAIN_API}/api/messages`, HttpRequestMethod.Put);
+    return httpRequestFactory<AxiosResponse, ISubmitEditMessageApiRequest>(`${process.env.MAIN_API}/api/messages`, HttpRequestMethod.Put);
   }
 }

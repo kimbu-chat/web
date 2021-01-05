@@ -9,8 +9,8 @@ import { createAction } from 'typesafe-actions';
 import { RootState } from 'app/store/root-reducer';
 
 import { AxiosResponse } from 'axios';
-import { getIsVideoEnabled } from 'app/store/calls/selectors';
-import { ICallApiRequest, ICallApiResponse, ICallState } from '../../models';
+import { getIsVideoEnabledSelector } from 'app/store/calls/selectors';
+import { ICallsState } from '../../models';
 import { deviceUpdateWatcher } from '../../utils/device-update-watcher';
 import { getAndSendUserMedia, getMediaDevicesList } from '../../utils/user-media';
 import { CancelCall } from '../cancel-call/cancel-call';
@@ -18,12 +18,14 @@ import { ChangeActiveDeviceId } from '../change-active-device-id/change-active-d
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
 import { InterlocutorAcceptedCallEventHandler } from '../../socket-events/interlocutor-accepted-call/interlocutor-accepted-call-event-handler';
 import { TimeoutCall } from '../timeout-call/timeout-call';
-import { IOutgoingCallActionPayload } from './outgoing-call-action-payload';
+import { IOutgoingCallActionPayload } from './action-payloads/outgoing-call-action-payload';
 import { InputType } from '../../common/enums/input-type';
 import { CallEndedEventHandler } from '../../socket-events/call-ended/call-ended-event-handler';
 import { InterlocutorBusy } from '../interlocutor-busy/interlocutor-busy';
 import { peerWatcher } from '../../utils/peer-watcher';
 import { setIsRenegotiationAccepted } from '../../utils/glare-utils';
+import { IOutgoingCallApiRequest } from './api-requests/outgoing-call-api-request';
+import { IOutgoingCallApiResponse } from './api-requests/outgoing-call-api-response';
 
 export class OutgoingCall {
   static get action() {
@@ -31,7 +33,7 @@ export class OutgoingCall {
   }
 
   static get reducer() {
-    return produce((draft: ICallState, { payload }: ReturnType<typeof OutgoingCall.action>) => {
+    return produce((draft: ICallsState, { payload }: ReturnType<typeof OutgoingCall.action>) => {
       if (draft.isSpeaking) {
         return draft;
       }
@@ -92,7 +94,7 @@ export class OutgoingCall {
       yield spawn(peerWatcher);
       yield call(async () => await peerConnection?.setLocalDescription(offer));
 
-      const isVideoEnabled = yield select(getIsVideoEnabled);
+      const isVideoEnabled = yield select(getIsVideoEnabledSelector);
 
       const request = {
         offer,
@@ -122,6 +124,9 @@ export class OutgoingCall {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<ICallApiResponse>, ICallApiRequest>(`${process.env.MAIN_API}/api/calls/send-call-offer`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse<IOutgoingCallApiResponse>, IOutgoingCallApiRequest>(
+      `${process.env.MAIN_API}/api/calls/send-call-offer`,
+      HttpRequestMethod.Post,
+    );
   }
 }

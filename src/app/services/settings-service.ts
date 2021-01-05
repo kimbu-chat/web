@@ -1,5 +1,11 @@
+import { Langs, TypingStrategy, IUserSettings } from 'app/store/settings/features/models';
 import { BrowserStorage } from 'app/utils/browser-storage';
-import { IUserSettings, IOptionalUserSettings } from 'store/settings/models';
+
+interface IOptionalUserSettings {
+  language?: Langs;
+  typingStrategy?: TypingStrategy;
+  notificationSound?: boolean;
+}
 
 export class SettingsService {
   private readonly userSettings = 'userSettings';

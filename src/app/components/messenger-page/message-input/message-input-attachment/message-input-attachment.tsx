@@ -11,15 +11,13 @@ import CloseSVG from 'icons/ic-close.svg';
 import { ChatActions } from 'store/chats/actions';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 
-namespace MessageInputAttachmentNS {
-  export interface IProps {
-    attachment: IAttachmentToSend<IBaseAttachment>;
-    isFromEdit?: boolean;
-    removeSelectedAttachment?: (attachmentToRemove: IAttachmentCreation) => void;
-  }
+interface IMessageInputAttachmentProps {
+  attachment: IAttachmentToSend<IBaseAttachment>;
+  isFromEdit?: boolean;
+  removeSelectedAttachment?: (attachmentToRemove: IAttachmentCreation) => void;
 }
 
-export const MessageInputAttachment: React.FC<MessageInputAttachmentNS.IProps> = React.memo(({ attachment, isFromEdit, removeSelectedAttachment }) => {
+export const MessageInputAttachment: React.FC<IMessageInputAttachmentProps> = React.memo(({ attachment, isFromEdit, removeSelectedAttachment }) => {
   const removeAttachment = useActionWithDispatch(ChatActions.removeAttachmentAction);
 
   const [previewUrl, setPreviewUr] = useState<string>('');

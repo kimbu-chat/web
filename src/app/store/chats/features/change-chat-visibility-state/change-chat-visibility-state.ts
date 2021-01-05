@@ -4,8 +4,8 @@ import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-fac
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
+import { IChangeChatVisibilityStateApiRequest } from './api-requests/change-chat-visibility-state-api-request';
 import { getSelectedChatIdSelector } from '../../selectors';
-import { IHideChatRequest } from '../../models';
 import { ChangeChatVisibilityStateSuccess } from './change-chat-visibility-state-success';
 
 export class ChangeChatVisibilityState {
@@ -18,7 +18,7 @@ export class ChangeChatVisibilityState {
       const { chatId } = yield select(getSelectedChatIdSelector);
 
       try {
-        const request: IHideChatRequest = {
+        const request: IChangeChatVisibilityStateApiRequest = {
           chatIds: [chatId],
           isHidden: true,
         };
@@ -37,6 +37,9 @@ export class ChangeChatVisibilityState {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IHideChatRequest>(`${process.env.MAIN_API}/api/chats/change-hidden-status`, HttpRequestMethod.Put);
+    return httpRequestFactory<AxiosResponse, IChangeChatVisibilityStateApiRequest>(
+      `${process.env.MAIN_API}/api/chats/change-hidden-status`,
+      HttpRequestMethod.Put,
+    );
   }
 }

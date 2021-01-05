@@ -3,18 +3,16 @@ import './dropdown.scss';
 import DropDownSvg from 'icons/ic-chevron-down.svg';
 import { useOnClickOutside } from 'app/hooks/use-on-click-outside';
 
-namespace DropdownNS {
-  export interface IProps {
-    selectedString: string;
-    disabled: boolean;
-    options: {
-      title: string;
-      onClick: () => void;
-    }[];
-  }
+interface IDropdownProps {
+  selectedString: string;
+  disabled: boolean;
+  options: {
+    title: string;
+    onClick: () => void;
+  }[];
 }
 
-export const Dropdown = ({ selectedString, options, disabled }: DropdownNS.IProps) => {
+export const Dropdown: React.FC<IDropdownProps> = ({ selectedString, options, disabled }) => {
   const [optionsOpened, setOptionsOpened] = useState(false);
   const changeOptionsOpenedStatus = useCallback(() => {
     setOptionsOpened((oldState) => !oldState);

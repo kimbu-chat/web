@@ -11,13 +11,11 @@ import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
 import { LocalizationContext } from 'app/app';
 import { validateNickname } from 'app/utils/validate-nick-name';
 
-namespace EditUserNameModalNS {
-  export interface IProps {
-    onClose: () => void;
-  }
+interface IEditUserNameModalProps {
+  onClose: () => void;
 }
 
-export const EditUserNameModal = React.memo(({ onClose }: EditUserNameModalNS.IProps) => {
+export const EditUserNameModal: React.FC<IEditUserNameModalProps> = React.memo(({ onClose }) => {
   const { t } = useContext(LocalizationContext);
 
   const [isNickNameAvailable, setIsNickNameAvailable] = useState(true);
@@ -68,7 +66,7 @@ export const EditUserNameModal = React.memo(({ onClose }: EditUserNameModalNS.IP
       <Modal
         title={t('editUsernameModal.edit_username')}
         closeModal={onClose}
-        contents={
+        content={
           <div className='edit-username-modal'>
             <div className='edit-username-modal__input-block'>
               <span className='edit-username-modal__input-label'>{t('editUsernameModal.username')}</span>

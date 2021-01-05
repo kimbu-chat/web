@@ -7,17 +7,18 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select, spawn } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { getAudioConstraints, getCallInterlocutorIdSelector, getIsVideoEnabled, getVideoConstraints } from 'app/store/calls/selectors';
+import { getAudioConstraintsSelector, getCallInterlocutorIdSelector, getIsVideoEnabledSelector, getVideoConstraintsSelector } from 'app/store/calls/selectors';
 import { interlocutorOffer } from 'store/middlewares/webRTC/peerConnectionFactory';
-import { IAcceptCallApiRequest, ICallState } from '../../models';
+import { ICallsState } from '../../models';
 import { deviceUpdateWatcher } from '../../utils/device-update-watcher';
 import { getAndSendUserMedia, getMediaDevicesList } from '../../utils/user-media';
 import { ChangeActiveDeviceId } from '../change-active-device-id/change-active-device-id';
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
-import { IAcceptCallActionPayload } from './accept-call-action-payload';
+import { IAcceptCallActionPayload } from './action-payloads/accept-call-action-payload';
 import { InputType } from '../../common/enums/input-type';
 import { AcceptCallSuccess } from './accept-call-success';
 import { peerWatcher } from '../../utils/peer-watcher';
+import { IAcceptCallApiRequest } from './api-requests/accept-call-api-request';
 
 export class AcceptCall {
   static get action() {
@@ -25,7 +26,7 @@ export class AcceptCall {
   }
 
   static get reducer() {
-    return produce((draft: ICallState, { payload }: ReturnType<typeof AcceptCall.action>) => {
+    return produce((draft: ICallsState, { payload }: ReturnType<typeof AcceptCall.action>) => {
       draft.audioConstraints = { ...draft.audioConstraints, isOpened: payload.audioEnabled };
       draft.videoConstraints = { ...draft.videoConstraints, isOpened: payload.videoEnabled };
 
@@ -38,8 +39,8 @@ export class AcceptCall {
       createPeerConnection();
       yield spawn(peerWatcher);
 
-      const videoConstraints = yield select(getVideoConstraints);
-      const audioConstraints = yield select(getAudioConstraints);
+      const videoConstraints = yield select(getVideoConstraintsSelector);
+      const audioConstraints = yield select(getAudioConstraintsSelector);
 
       yield spawn(deviceUpdateWatcher);
 
@@ -73,7 +74,7 @@ export class AcceptCall {
       const answer = yield call(async () => await peerConnection?.createAnswer());
       yield call(async () => await peerConnection?.setLocalDescription(answer));
 
-      const isVideoEnabled = yield select(getIsVideoEnabled);
+      const isVideoEnabled = yield select(getIsVideoEnabledSelector);
 
       const request = {
         userInterlocutorId: interlocutorId,

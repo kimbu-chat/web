@@ -7,11 +7,16 @@ import { authRequestFactory } from 'app/store/common/http-factory';
 
 import { Login } from 'app/store/auth/features/login/login';
 import { Meta } from 'store/common/actions';
-import { HttpRequestMethod } from 'store/common/models';
+import { HttpRequestMethod } from 'app/store/models';
 import { ConfirmPhoneFailure } from './confirm-phone-failure';
-import { IAuthState, ILoginResponse, IPhoneConfirmationApiResponse, IPhoneConfirmationData, ISubscribeToPushNotificationsRequest } from '../../models';
-import { IConfirmPhoneActionPayload } from './confirm-phone-action-payload';
+import { IAuthState } from '../../models';
 import { ConfirmPhoneRegistrationAllowed } from './confirm-phone-registration-allowed';
+import { IConfirmProneApiRequest } from './api-requests/confirm-phone-api-request';
+import { IConfirmPhoneApiResponse } from './api-requests/confirm-phone-api-response';
+import { ILoginApiRequest } from './api-requests/login-api-request';
+import { ILoginApiResponse } from './api-requests/login-api-response';
+import { ISubscribeToPushNotificationsApiRequest } from './api-requests/subscribe-to-push-notifications-api-request';
+import { IConfirmPhoneActionPayload } from './action-payloads/confirm-phone-action-payload';
 
 export class ConfirmPhone {
   static get action() {
@@ -27,7 +32,7 @@ export class ConfirmPhone {
 
   static get saga() {
     return function* confirmPhoneNumberSaga(action: ReturnType<typeof ConfirmPhone.action>): SagaIterator {
-      const { data }: AxiosResponse<IPhoneConfirmationApiResponse> = ConfirmPhone.httpRequest.confirmPhone.call(
+      const { data }: AxiosResponse<IConfirmPhoneApiResponse> = ConfirmPhone.httpRequest.confirmPhone.call(
         yield call(() => ConfirmPhone.httpRequest.confirmPhone.generator(action.payload)),
       );
 
@@ -46,12 +51,12 @@ export class ConfirmPhone {
 
   static get httpRequest() {
     return {
-      login: authRequestFactory<AxiosResponse<ILoginResponse>, IPhoneConfirmationData>(`${process.env.MAIN_API}/api/users/tokens`, HttpRequestMethod.Post),
-      confirmPhone: authRequestFactory<AxiosResponse<IPhoneConfirmationApiResponse>, IPhoneConfirmationData>(
+      login: authRequestFactory<AxiosResponse<ILoginApiResponse>, ILoginApiRequest>(`${process.env.MAIN_API}/api/users/tokens`, HttpRequestMethod.Post),
+      confirmPhone: authRequestFactory<AxiosResponse<IConfirmPhoneApiResponse>, IConfirmProneApiRequest>(
         `${process.env.MAIN_API}/api/users/verify-sms-code`,
         HttpRequestMethod.Post,
       ),
-      subscribeToPushNotifications: authRequestFactory<AxiosResponse, ISubscribeToPushNotificationsRequest>(
+      subscribeToPushNotifications: authRequestFactory<AxiosResponse, ISubscribeToPushNotificationsApiRequest>(
         `${process.env.NOTIFICATIONS_API}/api/notifications/subscribe`,
         HttpRequestMethod.Post,
       ),

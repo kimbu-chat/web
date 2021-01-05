@@ -2,16 +2,14 @@ import React from 'react';
 
 import './avatar.scss';
 
-namespace AvatarNS {
-  export interface IProps {
-    src?: string;
-    children: string;
-    className?: string;
-    onClick?: () => void;
-  }
+interface IAvatarProps {
+  src?: string;
+  children: string;
+  className?: string;
+  onClick?: () => void;
 }
 
-const Avatar = React.memo(({ src, children, className, onClick, ...props }: AvatarNS.IProps) => (
+const Avatar: React.FC<IAvatarProps> = React.memo(({ src, children, className, onClick, ...props }) => (
   <>
     {src ? (
       <img alt={children} src={src} {...props} onClick={onClick} className={`avatar ${className || ''}`} />

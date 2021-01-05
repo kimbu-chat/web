@@ -57,8 +57,8 @@ function* httpRequest<T>(url: string, method: HttpRequestMethod, body?: T, token
       throw new Error('Unknown method.');
   }
 
-  const response = retryOnNetworkConnectionError()(function* () {
-    yield call(axios.create().request, requestConfig);
+  const response = yield call(retryOnNetworkConnectionError, function* () {
+    return yield call(axios.create().request, requestConfig);
   });
 
   return response;

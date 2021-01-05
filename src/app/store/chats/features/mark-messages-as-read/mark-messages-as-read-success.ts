@@ -2,7 +2,7 @@ import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { getChatByIdDraftSelector } from 'app/store/chats/selectors';
 import { IChatsState } from '../../models';
-import { IMarkMessagesAsReadSuccessActionPayload } from './mark-messages-as-read-success-action-payload';
+import { IMarkMessagesAsReadSuccessActionPayload } from './action-payloads/mark-messages-as-read-success-action-payload';
 
 export class MarkMessagesAsReadSuccess {
   static get action() {

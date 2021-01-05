@@ -7,9 +7,10 @@ import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import produce from 'immer';
 import { getChatByIdDraftSelector, getSelectedChatIdSelector } from 'app/store/chats/selectors';
-import { IGetVideoAttachmentsActionPayload } from './get-video-attachments-action-payload';
-import { IVideoAttachment, IGetChatVideosHTTPRequest, IChatsState } from '../../models';
+import { IGetVideoAttachmentsActionPayload } from './action-payloads/get-video-attachments-action-payload';
+import { IVideoAttachment, IChatsState } from '../../models';
 import { GetVideoAttachmentsSuccess } from './get-video-attachments-success';
+import { IGetVideoAttachmentsApiRequest } from './api-requests/get-video-attachments-api-request';
 
 export class GetVideoAttachments {
   static get action() {
@@ -46,7 +47,7 @@ export class GetVideoAttachments {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<Array<IVideoAttachment>>, IGetChatVideosHTTPRequest>(
+    return httpRequestFactory<AxiosResponse<IVideoAttachment[]>, IGetVideoAttachmentsApiRequest>(
       `${process.env.MAIN_API}/api/video-attachments/search`,
       HttpRequestMethod.Post,
     );

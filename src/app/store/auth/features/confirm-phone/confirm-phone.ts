@@ -7,7 +7,7 @@ import { authRequestFactory } from 'app/store/common/http-factory';
 
 import { Login } from 'app/store/auth/features/login/login';
 import { Meta } from 'store/common/actions';
-import { HttpRequestMethod } from 'store/common/models';
+import { HttpRequestMethod } from 'app/store/models';
 import { ConfirmPhoneFailure } from './confirm-phone-failure';
 import { IAuthState } from '../../models';
 import { ConfirmPhoneRegistrationAllowed } from './confirm-phone-registration-allowed';

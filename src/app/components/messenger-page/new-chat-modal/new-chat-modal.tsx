@@ -11,7 +11,7 @@ import { useHistory } from 'react-router';
 import PeopleSvg from 'icons/ic-group.svg';
 import { ChatActions } from 'app/store/chats/actions';
 import { getFriendsLoading, getHasMoreFriends, getMyFriends } from 'app/store/friends/selectors';
-import { IPage } from 'app/store/common/models';
+import { IPage } from 'app/store/models';
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
 import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
 import { ChatId } from 'app/store/chats/chat-id';

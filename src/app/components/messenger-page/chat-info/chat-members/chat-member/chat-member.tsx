@@ -9,7 +9,7 @@ import { Avatar } from 'components';
 import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 
 import DeleteSvg from 'icons/ic-delete.svg';
-import { UserStatus } from 'app/store/common/models';
+import { UserStatus } from 'app/store/models';
 
 interface IMemberProps {
   member: IUserPreview;

@@ -8,10 +8,11 @@ import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { getSelectedChatIdSelector } from 'app/store/chats/selectors';
 import { ChatId } from '../../chat-id';
-import { IChat, IGroupChatCreationHTTPReqData, IMessage, InterlocutorType, MessageState, SystemMessageType } from '../../models';
+import { IChat, IMessage, InterlocutorType, MessageState, SystemMessageType } from '../../models';
 import { ChangeSelectedChat } from '../change-selected-chat/change-selected-chat';
-import { ICreateGroupChatActionPayload } from './create-group-chat-action-payload';
+import { ICreateGroupChatActionPayload } from './action-payloads/create-group-chat-action-payload';
 import { CreateGroupChatSuccess } from './create-group-chat-success';
+import { ICerateGroupChatApiRequest } from './api-requests/create-group-chat-api-request';
 
 export class CreateGroupChat {
   static get action() {
@@ -24,7 +25,7 @@ export class CreateGroupChat {
       const selectedChatId = yield select(getSelectedChatIdSelector);
 
       try {
-        const groupChatCreationRequest: IGroupChatCreationHTTPReqData = {
+        const groupChatCreationRequest: ICerateGroupChatApiRequest = {
           name,
           description,
           userIds,
@@ -110,6 +111,6 @@ export class CreateGroupChat {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<number>, IGroupChatCreationHTTPReqData>(`${process.env.MAIN_API}/api/group-chats`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse<number>, ICerateGroupChatApiRequest>(`${process.env.MAIN_API}/api/group-chats`, HttpRequestMethod.Post);
   }
 }

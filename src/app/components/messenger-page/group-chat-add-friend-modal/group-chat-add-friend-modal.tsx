@@ -7,7 +7,7 @@ import { getMemberIdsForSelectedGroupChatSelector } from 'store/chats/selectors'
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { LocalizationContext } from 'app/app';
 import { getFriendsLoading, getHasMoreFriends, getMyFriends } from 'app/store/friends/selectors';
-import { IPage } from 'app/store/common/models';
+import { IPage } from 'app/store/models';
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
 import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
 import { FriendFromList, SearchBox } from 'app/components';

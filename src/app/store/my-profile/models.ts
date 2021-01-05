@@ -1,4 +1,4 @@
-import { UserStatus } from '../common/models';
+import { UserStatus } from '../models';
 
 export interface IMyProfileState {
   user?: IUserPreview;

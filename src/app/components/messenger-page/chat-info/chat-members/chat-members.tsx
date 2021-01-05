@@ -6,7 +6,7 @@ import { ChatActions } from 'store/chats/actions';
 import { getMembersListForSelectedGroupChatSelector } from 'store/chats/selectors';
 import AddSvg from 'icons/ic-add-new.svg';
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
-import { IPage } from 'app/store/common/models';
+import { IPage } from 'app/store/models';
 import { CHAT_MEMBERS_LIMIT } from 'app/utils/pagination-limits';
 import { SearchBox } from 'components';
 

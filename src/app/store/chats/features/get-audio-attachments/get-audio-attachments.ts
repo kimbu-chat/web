@@ -7,9 +7,10 @@ import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { getChatByIdDraftSelector, getSelectedChatIdSelector } from 'app/store/chats/selectors';
-import { IAudioAttachment, IChatsState, IGetChatAudiosHTTPRequest } from '../../models';
-import { IGetAudioAttachmentsActionPayload } from './get-audio-attachments-action-payload';
+import { IAudioAttachment, IChatsState } from '../../models';
+import { IGetAudioAttachmentsActionPayload } from './action-payloads/get-audio-attachments-action-payload';
 import { GetAudioAttachmentsSuccess } from './get-audio-attachments-success';
+import { IGetAudioAttachmentsApiRequest } from './api-requests/get-audio-attachments-api-request';
 
 export class GetAudioAttachments {
   static get action() {
@@ -46,7 +47,7 @@ export class GetAudioAttachments {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IAudioAttachment[]>, IGetChatAudiosHTTPRequest>(
+    return httpRequestFactory<AxiosResponse<IAudioAttachment[]>, IGetAudioAttachmentsApiRequest>(
       `${process.env.MAIN_API}/api/audio-attachments/search`,
       HttpRequestMethod.Post,
     );

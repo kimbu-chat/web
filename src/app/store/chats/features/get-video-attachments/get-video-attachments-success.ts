@@ -2,7 +2,7 @@ import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { getChatByIdDraftSelector } from 'app/store/chats/selectors';
 import { IChatsState } from '../../models';
-import { IGetVideoAttachmentsSuccessActionPayload } from './get-video-attachments-success-action-payload';
+import { IGetVideoAttachmentsSuccessActionPayload } from './action-payloads/get-video-attachments-success-action-payload';
 
 export class GetVideoAttachmentsSuccess {
   static get action() {

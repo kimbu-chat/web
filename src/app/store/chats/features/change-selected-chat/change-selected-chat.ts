@@ -9,11 +9,13 @@ import { getChatByIdSelector, getHasMoreChatsSelector, getChatByIdDraftSelector 
 import { getFriendById } from 'app/store/friends/selectors';
 import { IUserPreview } from 'store/my-profile/models';
 import { MESSAGES_LIMIT } from 'app/utils/pagination-limits';
-import { IGetChatsSuccessActionPayload } from '../get-chats/get-chats-success-action-payload';
-import { IChatsState, IChat, IGetChatByIdRequestData, InterlocutorType, IGetUserByIdRequestData, MessageState } from '../../models';
+import { IGetChatsSuccessActionPayload } from '../get-chats/action-payloads/get-chats-success-action-payload';
+import { IChatsState, IChat, InterlocutorType, MessageState } from '../../models';
 import { GetChatsSuccess } from '../get-chats/get-chats-success';
-import { IChangeSelectedChatActionPayload } from './change-selected-chat-action-payload';
+import { IChangeSelectedChatActionPayload } from './action-payloads/change-selected-chat-action-payload';
 import { ChatId } from '../../chat-id';
+import { IGetChatByIdApiRequest } from './api-requests/get-chat-by-id-api-request';
+import { IGetUserByIdApiRequest } from './api-requests/get-user-by-id-api-request';
 
 export class ChangeSelectedChat {
   static get action() {
@@ -185,12 +187,12 @@ export class ChangeSelectedChat {
 
   static get httpRequest() {
     return {
-      getChat: httpRequestFactory<AxiosResponse<IChat>, IGetChatByIdRequestData>(
-        ({ chatId }: IGetChatByIdRequestData) => `${process.env.MAIN_API}/api/chats/${chatId}`,
+      getChat: httpRequestFactory<AxiosResponse<IChat>, IGetChatByIdApiRequest>(
+        ({ chatId }: IGetChatByIdApiRequest) => `${process.env.MAIN_API}/api/chats/${chatId}`,
         HttpRequestMethod.Get,
       ),
-      getUser: httpRequestFactory<AxiosResponse<IUserPreview>, IGetUserByIdRequestData>(
-        ({ userId }: IGetUserByIdRequestData) => `${process.env.MAIN_API}/api/users/${userId.toString()}`,
+      getUser: httpRequestFactory<AxiosResponse<IUserPreview>, IGetUserByIdApiRequest>(
+        ({ userId }: IGetUserByIdApiRequest) => `${process.env.MAIN_API}/api/users/${userId.toString()}`,
         HttpRequestMethod.Get,
       ),
     };

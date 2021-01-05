@@ -4,7 +4,7 @@ import { createAction } from 'typesafe-actions';
 import { getChatByIdDraftSelector } from 'app/store/chats/selectors';
 import { IChatsState } from '../../models';
 import { removeUploadingAttachment, uploadingAttachments } from '../../upload-qeue';
-import { IRemoveAttachmentctionPayload } from './remove-attachment-action-payload';
+import { IRemoveAttachmentctionPayload } from './action-payloads/remove-attachment-action-payload';
 
 export class RemoveAttachment {
   static get action() {

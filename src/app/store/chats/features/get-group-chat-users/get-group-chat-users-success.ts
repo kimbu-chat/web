@@ -3,7 +3,7 @@ import { unionBy } from 'lodash';
 import { createAction } from 'typesafe-actions';
 import { getChatByIdDraftSelector } from 'app/store/chats/selectors';
 import { IChatsState } from '../../models';
-import { IGetGroupChatUsersSuccessActionPayload } from './get-group-chat-users-success-action-payload';
+import { IGetGroupChatUsersSuccessActionPayload } from './action-payloads/get-group-chat-users-success-action-payload';
 
 export class GetGroupChatUsersSuccess {
   static get action() {

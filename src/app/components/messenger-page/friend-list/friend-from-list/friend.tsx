@@ -6,7 +6,7 @@ import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 import moment from 'moment';
 import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
-import { UserStatus } from 'app/store/common/models';
+import { UserStatus } from 'app/store/models';
 import './friend.scss';
 
 interface IFriendProps {

@@ -1,6 +1,6 @@
 import { AuthService } from 'app/services/auth-service';
 import { MyProfileService } from 'app/services/my-profile-service';
-import { UserStatus } from 'app/store/common/models';
+import { UserStatus } from 'app/store/models';
 import { Init } from 'app/store/initiation/features/init/init';
 import { initializeSaga } from 'app/store/initiation/sagas';
 import { GetMyProfile } from 'app/store/my-profile/features/get-my-profile/get-my-profile';

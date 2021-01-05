@@ -23,7 +23,7 @@ import { DeleteMessage } from './features/delete-message/delete-message';
 import { SubmitEditMessage } from './features/edit-message/submit-edit-message';
 import { GetMessages } from './features/get-messages/get-messages';
 import { MessageTyping } from './features/message-typing/message-typing';
-import { ClearChatHistory } from './features/clear-history/clear-chat-history';
+import { ClearChatHistory } from './features/clear-chat-history/clear-chat-history';
 import { MessageCreatedEventHandler } from './socket-events/message-created/message-created-event-handler';
 
 export const ChatSagas = [

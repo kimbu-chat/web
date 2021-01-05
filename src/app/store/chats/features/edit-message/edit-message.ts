@@ -2,7 +2,7 @@ import { IChatsState } from 'store/chats/models';
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { getMessageDraftSelector } from '../../selectors';
-import { IEditMessageActionPayload } from './edit-message-action-payload';
+import { IEditMessageActionPayload } from './action-payloads/edit-message-action-payload';
 
 export class EditMessage {
   static get action() {

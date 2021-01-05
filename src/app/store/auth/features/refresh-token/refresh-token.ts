@@ -1,6 +1,6 @@
 import { AuthService } from 'app/services/auth-service';
 import { authRequestFactory } from 'app/store/common/http-factory';
-import { HttpRequestMethod } from 'app/store/common/models';
+import { HttpRequestMethod } from 'app/store/models';
 
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';

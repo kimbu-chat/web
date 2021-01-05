@@ -9,10 +9,11 @@ import messageCameSelected from 'app/assets/sounds/notifications/messsage-came-s
 import messageCameUnselected from 'app/assets/sounds/notifications/messsage-came-unselected.ogg';
 import { ChangeSelectedChat } from '../../features/change-selected-chat/change-selected-chat';
 import { MarkMessagesAsRead } from '../../features/mark-messages-as-read/mark-messages-as-read';
-import { IChatsState, SystemMessageType, IMarkMessagesAsReadRequest, IChat } from '../../models';
+import { IChatsState, SystemMessageType, IChat } from '../../models';
 import { getChatIndexDraftSelector, getSelectedChatIdSelector, getChatByIdSelector, getChatsSelector } from '../../selectors';
 import { IMessageCreatedIntegrationEvent } from './message-created-integration-event';
 import { UnshiftChat } from '../../features/unshift-chat/unshift-chat';
+import { IMarkMessagesAsReadApiRequest } from '../../features/mark-messages-as-read/api-requests/mark-messages-as-read-api-request';
 
 export class MessageCreatedEventHandler {
   static get action() {
@@ -66,7 +67,7 @@ export class MessageCreatedEventHandler {
 
       if (selectedChatId === message.chatId) {
         if (!(myId === message.userCreator?.id)) {
-          const httpRequestPayload: IMarkMessagesAsReadRequest = {
+          const httpRequestPayload: IMarkMessagesAsReadApiRequest = {
             chatId: selectedChatId,
             lastReadMessageId: message.id,
           };

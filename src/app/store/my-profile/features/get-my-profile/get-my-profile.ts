@@ -1,7 +1,7 @@
 import { MyProfileService } from 'app/services/my-profile-service';
 import { createEmptyAction } from 'app/store/common/actions';
 import { httpRequestFactory } from 'app/store/common/http-factory';
-import { HttpRequestMethod } from 'app/store/common/models';
+import { HttpRequestMethod } from 'app/store/models';
 
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';

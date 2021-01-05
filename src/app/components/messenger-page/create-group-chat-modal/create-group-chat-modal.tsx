@@ -15,9 +15,9 @@ import { useHistory } from 'react-router';
 import { MyProfileActions } from 'store/my-profile/actions';
 import { getFriendsLoading, getHasMoreFriends, getMyFriends } from 'app/store/friends/selectors';
 import { getMyProfileSelector } from 'app/store/my-profile/selectors';
-import { ICreateGroupChatActionPayload } from 'app/store/chats/features/create-group-chat/create-group-chat-action-payload';
+import { ICreateGroupChatActionPayload } from 'app/store/chats/features/create-group-chat/action-payloads/create-group-chat-action-payload';
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
-import { IPage } from 'app/store/common/models';
+import { IPage } from 'app/store/models';
 import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
 
 interface ICreateGroupChatProps {

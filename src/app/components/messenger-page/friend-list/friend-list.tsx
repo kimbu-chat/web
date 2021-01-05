@@ -1,4 +1,4 @@
-import { IPage } from 'store/common/models';
+import { IPage } from 'app/store/models';
 import { FriendActions } from 'store/friends/actions';
 import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
 import React, { useCallback, useEffect } from 'react';

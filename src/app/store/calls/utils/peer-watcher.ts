@@ -4,7 +4,7 @@ import { buffers, eventChannel } from 'redux-saga';
 import { call, cancel, put, race, select, take, takeEvery } from 'redux-saga/effects';
 import { amICalled, getCallInterlocutorSelector } from 'app/store/calls/selectors';
 import { httpRequestFactory } from 'app/store/common/http-factory';
-import { HttpRequestMethod } from 'app/store/common/models';
+import { HttpRequestMethod } from 'app/store/models';
 import { IUserPreview } from 'app/store/my-profile/models';
 
 import { AxiosResponse } from 'axios';

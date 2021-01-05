@@ -4,7 +4,7 @@ import { getSelectedGroupChatNameSelector } from 'store/chats/selectors';
 import React, { useCallback, useContext, useState } from 'react';
 import './clear-chat-modal.scss';
 import { useSelector } from 'react-redux';
-import { ClearChatHistory } from 'app/store/chats/features/clear-history/clear-chat-history';
+import { ClearChatHistory } from 'app/store/chats/features/clear-chat-history/clear-chat-history';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import CheckBoxSvg from 'icons/ic-checkbox.svg';
 

@@ -1,4 +1,4 @@
-import { IPage } from 'store/common/models';
+import { IPage } from 'app/store/models';
 
 export interface IGetCallsActionPayload {
   page: IPage;

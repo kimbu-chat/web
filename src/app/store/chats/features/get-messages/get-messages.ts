@@ -7,9 +7,10 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { IMessage, IMessageList, IMessagesReqData, MessageState } from '../../models';
-import { IGetMessagesActionPayload } from './get-messages-action-payload';
+import { IMessage, MessageState } from '../../models';
+import { IGetMessagesActionPayload } from './action-payloads/get-messages-action-payload';
 import { GetMessagesSuccess } from './get-messages-success';
+import { IGetMessagesApiRequest } from './api-requests/get-messages-api-request';
 
 export class GetMessages {
   static get action() {
@@ -30,7 +31,7 @@ export class GetMessages {
       const chat = yield select(getSelectedChatSelector);
 
       if (chat) {
-        const request: IMessagesReqData = {
+        const request: IGetMessagesApiRequest = {
           page,
           chatId: chat.id,
         };
@@ -41,7 +42,7 @@ export class GetMessages {
           message.state = chat.interlocutorLastReadMessageId && chat.interlocutorLastReadMessageId >= message.id ? MessageState.READ : MessageState.SENT;
         });
 
-        const messageList: IMessageList = {
+        const messageList = {
           chatId: chat.id,
           messages: data,
           hasMoreMessages: data.length >= page.limit,
@@ -53,6 +54,6 @@ export class GetMessages {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IMessage[]>, IMessagesReqData>(`${process.env.MAIN_API}/api/messages/search`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse<IMessage[]>, IGetMessagesApiRequest>(`${process.env.MAIN_API}/api/messages/search`, HttpRequestMethod.Post);
   }
 }

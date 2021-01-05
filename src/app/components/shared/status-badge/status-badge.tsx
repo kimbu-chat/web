@@ -1,7 +1,7 @@
 import React from 'react';
 import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 import { IUserPreview } from 'store/my-profile/models';
-import { UserStatus } from 'app/store/common/models';
+import { UserStatus } from 'app/store/models';
 import { Avatar } from 'app/components';
 
 import './status-badge.scss';

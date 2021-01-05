@@ -5,10 +5,11 @@ import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { ChatId } from '../../chat-id';
-import { IChat, IChatsState, IGetChatsRequestData, InterlocutorType, MessageState } from '../../models';
-import { IGetChatsActionPayload } from './get-chats-action-payload';
+import { IChat, IChatsState, InterlocutorType, MessageState } from '../../models';
+import { IGetChatsActionPayload } from './action-payloads/get-chats-action-payload';
 import { GetChatsSuccess } from './get-chats-success';
-import { IGetChatsSuccessActionPayload } from './get-chats-success-action-payload';
+import { IGetChatsSuccessActionPayload } from './action-payloads/get-chats-success-action-payload';
+import { IGetChatsApiRequest } from './api-requests/get-chats-api-request';
 
 export class GetChats {
   static get action() {
@@ -75,6 +76,6 @@ export class GetChats {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IChat[]>, IGetChatsRequestData>(`${process.env.MAIN_API}/api/chats/search`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse<IChat[]>, IGetChatsApiRequest>(`${process.env.MAIN_API}/api/chats/search`, HttpRequestMethod.Post);
   }
 }

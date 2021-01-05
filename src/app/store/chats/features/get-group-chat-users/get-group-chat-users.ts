@@ -6,11 +6,12 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { IChatsState, IGetGroupChatUsersApiRequest } from '../../models';
+import { IChatsState } from '../../models';
 import { GetGroupChatUsersSuccess } from './get-group-chat-users-success';
 import { ChatId } from '../../chat-id';
-import { IGetGroupChatUsersActionPayload } from './get-group-chat-users-action-payload';
+import { IGetGroupChatUsersActionPayload } from './action-payloads/get-group-chat-users-action-payload';
 import { getChatByIdDraftSelector, getSelectedChatIdSelector } from '../../selectors';
+import { IGetGroupChatUsersApiRequest } from './api-requests/get-group-chat-users-api-request';
 
 export class GetGroupChatUsers {
   static get action() {
@@ -55,7 +56,7 @@ export class GetGroupChatUsers {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<Array<IUserPreview>>, IGetGroupChatUsersApiRequest>(
+    return httpRequestFactory<AxiosResponse<IUserPreview[]>, IGetGroupChatUsersApiRequest>(
       `${process.env.MAIN_API}/api/group-chats/search-members`,
       HttpRequestMethod.Post,
     );

@@ -14,7 +14,7 @@ import { ChatActions } from 'store/chats/actions';
 import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
 import { MyProfileActions } from 'store/my-profile/actions';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { IEditGroupChatActionPayload } from 'app/store/chats/features/edit-group-chat/edit-group-chat-action-payload';
+import { IEditGroupChatActionPayload } from 'app/store/chats/features/edit-group-chat/action-payloads/edit-group-chat-action-payload';
 
 export interface IEditChatModalProps {
   onClose: () => void;

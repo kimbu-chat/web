@@ -8,6 +8,7 @@ import { call, put, select } from 'redux-saga/effects';
 import { getSelectedChatIdSelector } from '../../selectors';
 import { ChatId } from '../../chat-id';
 import { LeaveGroupChatSuccess } from './leave-group-chat-success';
+import { ILeaveGroupChatApiRequest } from './api-requests/leave-group-chat-api-request';
 
 export class LeaveGroupChat {
   static get action() {
@@ -21,7 +22,7 @@ export class LeaveGroupChat {
         const { groupChatId } = ChatId.fromId(chatId);
 
         if (groupChatId) {
-          const { status } = LeaveGroupChat.httpRequest.call(yield call(() => LeaveGroupChat.httpRequest.generator(groupChatId)));
+          const { status } = LeaveGroupChat.httpRequest.call(yield call(() => LeaveGroupChat.httpRequest.generator({ groupChatId })));
 
           if (status === HTTPStatusCode.OK) {
             yield put(LeaveGroupChatSuccess.action({ chatId }));
@@ -36,6 +37,9 @@ export class LeaveGroupChat {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, number>((id: number) => `${process.env.MAIN_API}/api/group-chats/${id}`, HttpRequestMethod.Delete);
+    return httpRequestFactory<AxiosResponse, ILeaveGroupChatApiRequest>(
+      ({ groupChatId }: ILeaveGroupChatApiRequest) => `${process.env.MAIN_API}/api/group-chats/${groupChatId}`,
+      HttpRequestMethod.Delete,
+    );
   }
 }

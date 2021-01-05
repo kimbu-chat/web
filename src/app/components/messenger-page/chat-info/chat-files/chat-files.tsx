@@ -7,7 +7,7 @@ import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { useSelector } from 'react-redux';
 import { ChatActions } from 'store/chats/actions';
 import { getSelectedChatFilesSelector } from 'store/chats/selectors';
-import { IPage } from 'store/common/models';
+import { IPage } from 'app/store/models';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
 import moment from 'moment';

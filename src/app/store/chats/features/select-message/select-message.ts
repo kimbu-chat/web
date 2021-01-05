@@ -1,7 +1,7 @@
 import { IChatsState } from 'store/chats/models';
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { ISelectMessageActionPayload } from './select-message-action-payload';
+import { ISelectMessageActionPayload } from './action-payloads/select-message-action-payload';
 import { getMessageDraftSelector } from '../../selectors';
 
 export class SelectMessage {

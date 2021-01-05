@@ -2,7 +2,7 @@ import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { getChatIndexDraftSelector } from 'app/store/chats/selectors';
 import { IChatsState } from '../../models';
-import { IChangeChatVisibilityStateSuccessActionPayload } from './change-chat-visibility-state-success-action-payload';
+import { IChangeChatVisibilityStateSuccessActionPayload } from './action-payloads/change-chat-visibility-state-success-action-payload';
 
 export class ChangeChatVisibilityStateSuccess {
   static get action() {

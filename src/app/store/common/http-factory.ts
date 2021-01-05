@@ -6,6 +6,7 @@ import { ISecurityTokens } from '../auth/models';
 import { selectSecurityTokensSelector } from '../auth/selectors';
 import { RefreshToken } from '../auth/features/refresh-token/refresh-token';
 import { RefreshTokenSuccess } from '../auth/features/refresh-token/refresh-token-success';
+import { retryOnNetworkConnectionError } from './decorators/retry-on-network-connection-error';
 
 export enum HttpRequestMethod {
   Get = 'GET',
@@ -56,7 +57,10 @@ function* httpRequest<T>(url: string, method: HttpRequestMethod, body?: T, token
       throw new Error('Unknown method.');
   }
 
-  const response = yield call(axios.create().request, requestConfig);
+  const response = retryOnNetworkConnectionError()(function* () {
+    yield call(axios.create().request, requestConfig);
+  });
+
   return response;
 }
 

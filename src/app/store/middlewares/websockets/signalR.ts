@@ -40,10 +40,12 @@ function openConnection(store: Store<RootState>): void {
 
   connection.onreconnecting(() => {
     console.warn('RECONNECTING WEBSOCKETS');
+    store.dispatch(WebsocketsDisconnected.action());
   });
 
   connection.onreconnected(() => {
     console.warn('ON RECCONECTED WEBSOCKETS');
+    store.dispatch(WebsocketsConnected.action());
   });
 
   connection.onclose((err: any) => {

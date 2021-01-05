@@ -40,7 +40,11 @@ export class MessageCreatedEventHandler {
         const newUnreadMessagesCount =
           isInterlocutorCurrentSelectedChat || isCurrentUserMessageCreator ? previousUnreadMessagesCount : previousUnreadMessagesCount + 1;
 
-        chat.messages.messages.unshift(message);
+        if (chat.messages.messages.findIndex(({ id }) => id === message.id) === -1) {
+          chat.messages.messages.unshift(message);
+          return draft;
+        }
+
         chat.lastMessage = message;
         chat.unreadMessagesCount = newUnreadMessagesCount;
         chat.draftMessage = '';

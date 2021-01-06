@@ -1,5 +1,17 @@
 import { useEffect } from 'react';
 
+export const containsFiles = (event: React.DragEvent<HTMLDivElement> | DragEvent) => {
+  if (event.dataTransfer?.types) {
+    for (let i = 0; i < event.dataTransfer.types.length; i++) {
+      if (event.dataTransfer.types[i] === 'Files') {
+        return true;
+      }
+    }
+  }
+
+  return false;
+};
+
 export function useGlobalDrop(listeners: {
   onDrag?: (ev: DragEvent) => void;
   onDragOver?: (ev: DragEvent) => void;

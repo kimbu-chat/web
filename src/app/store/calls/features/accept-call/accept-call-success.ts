@@ -14,8 +14,6 @@ export class AcceptCallSuccess {
       draft.amICalled = false;
       draft.amICalling = false;
 
-      console.log('ACCEPT_CALL_SUCCESS');
-
       return draft;
     });
   }

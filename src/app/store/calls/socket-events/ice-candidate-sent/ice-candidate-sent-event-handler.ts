@@ -20,7 +20,6 @@ export class IceCandidateSentEventHandler {
           yield call(async () => await peerConnection?.addIceCandidate(new RTCIceCandidate(action.payload.candidate)));
         } catch (err) {
           if (!ignoreOffer) {
-            console.log('offer is ignored and candidate error is catched');
             throw err;
           } // Suppress ignored offer's candidates
         }

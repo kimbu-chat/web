@@ -19,7 +19,6 @@ export class GetChatsSuccess {
       if (initializedBySearch) {
         draft.chats = chats;
       } else {
-        console.log('union');
         draft.chats = unionBy(draft.chats, chats, 'id');
       }
 

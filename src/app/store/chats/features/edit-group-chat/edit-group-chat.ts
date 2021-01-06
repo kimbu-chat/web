@@ -22,7 +22,6 @@ export class EditGroupChat {
 
       const chatId = yield select(getSelectedChatIdSelector);
       const { groupChatId } = ChatId.fromId(chatId);
-      console.log(groupChatId);
 
       const requestData: IEditGroupChatApiRequest = {
         id: groupChatId!,

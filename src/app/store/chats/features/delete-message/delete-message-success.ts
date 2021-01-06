@@ -20,8 +20,6 @@ export class DeleteMessageSuccess {
           const messageIndex = chat.messages.messages.findIndex(({ id }) => id === msgIdToDelete);
           const [deletedMessage] = chat.messages.messages.splice(messageIndex, 1);
 
-          console.log(deletedMessage.text);
-
           deletedMessage.attachments?.forEach((attachment) => {
             switch (attachment.type) {
               case FileType.Audio:

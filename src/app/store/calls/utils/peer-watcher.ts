@@ -37,21 +37,17 @@ function createPeerConnectionChannel() {
 
     const onTrack = (event: RTCTrackEvent) => {
       if (event.track.kind === 'video') {
-        console.log('videoTrackReceived');
         event.track.onunmute = () => {
-          console.log('videoTrackUnmuted');
           emit({ type: 'videoTrackUnmuted', event });
         };
 
         event.track.onmute = () => {
-          console.log('videoTrackMuted');
           emit({ type: 'videoTrackMuted' });
         };
       }
 
       if (event.track.kind === 'audio') {
         emit({ type: 'audioTrack', event });
-        console.log('audioTrack');
       }
     };
 
@@ -68,7 +64,6 @@ function createPeerConnectionChannel() {
 }
 
 export function* peerWatcher() {
-  console.log('peer watcher spawned');
   const peerChannel = createPeerConnectionChannel();
 
   const peerWatcherTask = yield takeEvery(peerChannel, function* (action: { type: string; event?: RTCPeerConnectionIceEvent | RTCTrackEvent }) {
@@ -87,7 +82,6 @@ export function* peerWatcher() {
         }
 
         if (myCandidate) {
-          console.log('candidate sent');
           const request: ICandidateApiRequest = {
             interlocutorId: interlocutor?.id || -1,
             candidate: myCandidate,
@@ -114,7 +108,6 @@ export function* peerWatcher() {
           );
 
           yield call(async () => await peerConnection?.setLocalDescription(offer));
-          console.log('local description set');
 
           const request: IRenegociateApiRequest = {
             offer,
@@ -124,8 +117,6 @@ export function* peerWatcher() {
 
           CallsHttpRequests.renegotiate.call(yield call(() => CallsHttpRequests.renegotiate.generator(request)));
           setMakingOffer(false);
-
-          console.log('reached end of negotiationneeded', peerConnection);
         }
         break;
       case 'audioTrack':
@@ -159,8 +150,6 @@ export function* peerWatcher() {
     callCanceled: take(CancelCall.action),
     callDeclined: take(DeclineCall.action),
   });
-
-  console.log('CANCEL-CANCEL-CANCEL-CANCEL-CANCEL');
 
   yield cancel(peerWatcherTask);
 

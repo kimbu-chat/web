@@ -94,7 +94,6 @@ export const ActiveCall: React.FC = () => {
         const mediaStream = new MediaStream();
         mediaStream.addTrack(interlocutorVideoTrack);
         remoteVideoRef.current.srcObject = mediaStream;
-        console.log('video');
       }
     }
   }, [interlocutorVideoTrack, isInterlocutorVideoEnabled, remoteVideoRef]);
@@ -105,7 +104,6 @@ export const ActiveCall: React.FC = () => {
         const mediaStream = new MediaStream();
         mediaStream.addTrack(interlocutorAudioTrack);
         remoteAudioRef.current.srcObject = mediaStream;
-        console.log('audio');
       }
     }
   }, [interlocutorAudioTrack, remoteAudioRef]);

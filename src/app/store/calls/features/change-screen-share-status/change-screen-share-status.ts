@@ -20,7 +20,6 @@ export class ChangeScreenShareStatus {
       return eventChannel((emit) => {
         const onEnd = () => {
           emit(true);
-          console.log('trackEndedchannel closed');
           emit(END);
         };
 
@@ -62,7 +61,6 @@ export class ChangeScreenShareStatus {
 
       trackEndedChannel.close();
       yield cancel(trackEndedTask);
-      console.log('trackEndedchannel.close');
     }
 
     return function* (): SagaIterator {

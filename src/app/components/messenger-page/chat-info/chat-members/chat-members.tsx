@@ -32,7 +32,6 @@ export const ChatMembers: React.FC<IChatMembersProps> = React.memo(({ addMembers
     getGroupChatUsers({
       page,
       name: searchStr,
-      isFromScroll: true,
       isFromSearch: searchStr.length > 0,
     });
   }, [membersListForGroupChat]);
@@ -43,7 +42,6 @@ export const ChatMembers: React.FC<IChatMembersProps> = React.memo(({ addMembers
       page: { offset: 0, limit: CHAT_MEMBERS_LIMIT },
       name: e.target.value,
       isFromSearch: true,
-      isFromScroll: false,
     });
   }, []);
 

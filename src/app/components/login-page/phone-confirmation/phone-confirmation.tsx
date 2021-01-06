@@ -35,7 +35,6 @@ const PhoneConfirmation: React.FC<IPhoneConfirmationProps> = ({ preloadNext }) =
   const sendSmsCode = useActionWithDeferred(AuthActions.sendSmsCode);
   const sendSms = useCallback(() => {
     const phoneNumber = parsePhoneNumberFromString(phone);
-    console.log('sendSms');
     if (phoneNumber?.isValid()) {
       sendSmsCode({ phoneNumber: phoneNumber!.number as string, twoLetterCountryCode: country.code })
         .then(() => {
@@ -81,7 +80,6 @@ const PhoneConfirmation: React.FC<IPhoneConfirmationProps> = ({ preloadNext }) =
   );
 
   useEffect(() => {
-    console.log('rerender');
     preloadNext();
     setCountry(countryList[0]);
     (async () => {

@@ -40,11 +40,9 @@ export class ChangeMediaStatus {
           yield call(getUserVideo, { video: { ...videoConstraints, isOpened: isVideoOpened } });
 
           if (videoSender) {
-            console.log('video track replaced', tracks.videoTrack);
             videoSender?.replaceTrack(tracks.videoTrack);
           } else if (tracks.videoTrack) {
             setVideoSender(peerConnection?.addTrack(tracks.videoTrack) as RTCRtpSender);
-            console.log('video track added', tracks.videoTrack);
           }
 
           stopScreenSharingTracks();
@@ -53,11 +51,8 @@ export class ChangeMediaStatus {
           stopVideoTracks();
           yield put(CloseVideoStatus.action());
 
-          console.log('video off');
-
           if (videoSender) {
             videoSender.replaceTrack(null);
-            console.log('video track removed');
           }
         }
 

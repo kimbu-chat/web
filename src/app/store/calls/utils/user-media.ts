@@ -88,8 +88,6 @@ export const stopAllTracks = () => {
 export const getUserAudio = function* (constraints: IInCompleteConstraints) {
   let localMediaStream: MediaStream | null = null;
   try {
-    console.log(constraints.audio?.isOpened && constraints.audio);
-
     localMediaStream = yield call(
       async () =>
         await navigator.mediaDevices.getUserMedia({
@@ -99,7 +97,6 @@ export const getUserAudio = function* (constraints: IInCompleteConstraints) {
 
     yield put(OpenAudioStatus.action());
   } catch (e) {
-    console.log(e);
     yield put(CloseAudioStatus.action());
   }
 
@@ -198,7 +195,6 @@ export function* getAndSendUserMedia(): SagaIterator {
 
 export const getMediaDevicesList = async (kind: string) => {
   const devices = await navigator.mediaDevices.enumerateDevices();
-  console.log(devices);
   const deviceList = devices.filter((device) => device.kind === kind);
   return deviceList;
 };

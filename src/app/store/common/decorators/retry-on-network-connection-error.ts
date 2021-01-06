@@ -6,9 +6,7 @@ import { InternetConnected } from '../../internet/features/internet-connection-c
 export function* retryOnNetworkConnectionError<TData>(handler: () => void) {
   while (true) {
     try {
-      console.log('handler invoked');
       const data: TData = yield call(handler);
-      console.log(data);
       return data;
       break;
     } catch (e) {

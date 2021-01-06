@@ -45,7 +45,6 @@ export class MessageCreatedEventHandler {
 
       // if user already has chats with interlocutor - update chat
       if (chat) {
-        console.log('last message assigned');
         const isInterlocutorCurrentSelectedChat = draft.selectedChatId === message.chatId;
         const previousUnreadMessagesCount = chat.unreadMessagesCount;
         const newUnreadMessagesCount =
@@ -135,7 +134,6 @@ export class MessageCreatedEventHandler {
             lastReadMessageId: message.id,
           };
 
-          console.log('new message in Selected chat');
           MarkMessagesAsRead.httpRequest.call(yield call(() => MarkMessagesAsRead.httpRequest.generator(httpRequestPayload)));
         }
       }

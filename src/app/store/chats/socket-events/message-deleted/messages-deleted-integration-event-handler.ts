@@ -20,10 +20,7 @@ export class MessagesDeletedIntegrationEventHandler {
           const messageIndex = chat.messages.messages.findIndex(({ id }) => id === msgIdToDelete);
           const [deletedMessage] = chat.messages.messages.splice(messageIndex, 1);
 
-          console.log(deletedMessage.text);
-
           deletedMessage.attachments?.forEach((attachment) => {
-            console.log(attachment.id);
             switch (attachment.type) {
               case FileType.Audio:
                 chat.audioAttachmentsCount = (chat.audioAttachmentsCount || 1) - 1;

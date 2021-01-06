@@ -27,7 +27,6 @@ export class SubmitEditMessageSuccess {
 
       if (chat) {
         payload.removedAttachments?.forEach((attachment) => {
-          console.log(attachment.id);
           switch (attachment.type) {
             case FileType.Audio:
               chat.audioAttachmentsCount = (chat.audioAttachmentsCount || 1) - 1;

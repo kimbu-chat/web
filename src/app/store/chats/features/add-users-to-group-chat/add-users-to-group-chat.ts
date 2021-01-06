@@ -9,6 +9,7 @@ import { createAction } from 'typesafe-actions';
 import { IAddUsersToGroupChatActionPayload } from './action-payloads/add-users-to-group-chat-action-payload';
 import { AddUsersToGroupChatSuccess } from './add-users-to-group-chat-success';
 import { IAddUsersToGroupChatApiRequest } from './api-requests/add-users-to-group-chat-api-request';
+import { ChatId } from '../../chat-id';
 
 export class AddUsersToGroupChat {
   static get action() {
@@ -20,12 +21,14 @@ export class AddUsersToGroupChat {
       try {
         const { users } = action.payload;
         const chatId = yield select(getSelectedChatIdSelector);
+        const { groupChatId } = ChatId.fromId(chatId);
+
         const userIds = users.map(({ id }) => id);
 
         const { status } = AddUsersToGroupChat.httpRequest.call(
           yield call(() =>
             AddUsersToGroupChat.httpRequest.generator({
-              id: chatId,
+              id: groupChatId!,
               userIds,
             }),
           ),

@@ -1,4 +1,4 @@
-import { getMessageToEditSelectorIdSelector, getSelectedChatIdSelector } from 'store/chats/selectors';
+import { getSelectedChatIdSelector } from 'store/chats/selectors';
 import { IChatsState } from 'store/chats/models';
 import { HTTPStatusCode } from 'app/common/http-status-code';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
@@ -42,8 +42,7 @@ export class SubmitEditMessage {
 
   static get saga() {
     return function* (action: ReturnType<typeof SubmitEditMessage.action>): SagaIterator {
-      const { removedAttachments, newAttachments, text } = action.payload;
-      const messageId = yield select(getMessageToEditSelectorIdSelector);
+      const { removedAttachments, newAttachments, text, messageId } = action.payload;
       const chatId = yield select(getSelectedChatIdSelector);
 
       const editRequest: ISubmitEditMessageApiRequest = {

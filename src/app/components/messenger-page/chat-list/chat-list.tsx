@@ -34,17 +34,6 @@ const ChatList = React.memo(() => {
     }
   }, [chatId]);
 
-  useEffect(() => {
-    getChatsRequest({
-      page: { offset: 0, limit: CHATS_LIMIT },
-      initializedBySearch: false,
-
-      name: searchString,
-      showOnlyHidden: false,
-      showAll: true,
-    });
-  }, [searchString]);
-
   const loadMore = useCallback(() => {
     if (!areChatsLoading) {
       const pageData = {

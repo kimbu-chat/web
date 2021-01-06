@@ -15,7 +15,9 @@ export class ChangeChatVisibilityState {
 
   static get saga() {
     return function* (): SagaIterator {
-      const { chatId } = yield select(getSelectedChatIdSelector);
+      const chatId = yield select(getSelectedChatIdSelector);
+
+      console.log('CHANGE_SELECTED_CHAT_VISIBILITY_STATE', chatId);
 
       try {
         const request: IChangeChatVisibilityStateApiRequest = {

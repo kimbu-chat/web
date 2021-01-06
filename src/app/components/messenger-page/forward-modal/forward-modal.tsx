@@ -1,5 +1,5 @@
 import { Modal, WithBackground } from 'components';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 
 import { useSelector } from 'react-redux';
 import './forward-modal.scss';
@@ -29,16 +29,6 @@ export const ForwardModal: React.FC<IForwardModalProps> = React.memo(({ onClose 
   const loadChats = useActionWithDispatch(ChatActions.getChats);
 
   const isSelected = useCallback((id: number) => selectedChatIds.includes(id), [selectedChatIds]);
-
-  useEffect(() => {
-    loadChats({
-      page: { offset: 0, limit: CHATS_LIMIT },
-      name: searchString,
-      initializedBySearch: true,
-      showOnlyHidden: false,
-      showAll: true,
-    });
-  }, [searchString]);
 
   const changeSelectedState = useCallback(
     (id: number) => {

@@ -41,16 +41,6 @@ const Chat = React.memo(() => {
     }
   }, [unreadMessagesCount, selectedChatId]);
 
-  useEffect(() => {
-    // fetching first 25messages
-    getMessages({
-      page: {
-        limit: MESSAGES_LIMIT,
-        offset: 0,
-      },
-    });
-  }, []);
-
   const loadMore = useCallback(() => {
     const pageData = {
       limit: MESSAGES_LIMIT,

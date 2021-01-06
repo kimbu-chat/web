@@ -21,10 +21,11 @@ export class EditGroupChat {
       const { name, description, avatar } = action.payload;
 
       const chatId = yield select(getSelectedChatIdSelector);
-      const groupChatId: number = ChatId.fromId(chatId).id;
+      const { groupChatId } = ChatId.fromId(chatId);
+      console.log(groupChatId);
 
       const requestData: IEditGroupChatApiRequest = {
-        id: groupChatId,
+        id: groupChatId!,
         name,
         description,
         avatarId: avatar?.id,

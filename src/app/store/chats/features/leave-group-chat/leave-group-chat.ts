@@ -1,5 +1,5 @@
 import { HTTPStatusCode } from 'app/common/http-status-code';
-import { createEmptyAction } from 'app/store/common/actions';
+import { createEmptyDefferedAction } from 'app/store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
 
 import { AxiosResponse } from 'axios';
@@ -12,11 +12,11 @@ import { ILeaveGroupChatApiRequest } from './api-requests/leave-group-chat-api-r
 
 export class LeaveGroupChat {
   static get action() {
-    return createEmptyAction('LEAVE_SELECTED_GROUP_CHAT');
+    return createEmptyDefferedAction('LEAVE_SELECTED_GROUP_CHAT');
   }
 
   static get saga() {
-    return function* leaveGroupChatSaga(): SagaIterator {
+    return function* leaveGroupChatSaga(action: ReturnType<typeof LeaveGroupChat.action>): SagaIterator {
       try {
         const chatId = yield select(getSelectedChatIdSelector);
         const { groupChatId } = ChatId.fromId(chatId);
@@ -26,6 +26,7 @@ export class LeaveGroupChat {
 
           if (status === HTTPStatusCode.OK) {
             yield put(LeaveGroupChatSuccess.action({ chatId }));
+            action.meta.deferred.resolve();
           } else {
             alert(`Error. http status is ${status}`);
           }

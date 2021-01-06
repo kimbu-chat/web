@@ -69,7 +69,7 @@ const Chat = React.memo(() => {
       <div ref={messagesContainerRef} className='messenger__messages-container'>
         {typingString && <div className='messenger__typing-notification'>{typingString}</div>}
 
-        {!areMessagesLoading && itemsWithUserInfo.length === 0 && (
+        {!areMessagesLoading && !hasMoreMessages && itemsWithUserInfo.length === 0 && (
           <div className='messenger__messages-list__empty'>
             <p>{t('chat.empty')}</p>
           </div>

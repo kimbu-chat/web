@@ -1,4 +1,3 @@
-import { HTTPStatusCode } from 'app/common/http-status-code';
 import { MyProfileService } from 'app/services/my-profile-service';
 import { areNotificationsEnabledSelector } from 'app/store/settings/selectors';
 import produce from 'immer';
@@ -10,10 +9,11 @@ import messageCameUnselected from 'app/assets/sounds/notifications/messsage-came
 import { ChangeSelectedChat } from '../../features/change-selected-chat/change-selected-chat';
 import { MarkMessagesAsRead } from '../../features/mark-messages-as-read/mark-messages-as-read';
 import { IChatsState, SystemMessageType, IChat } from '../../models';
-import { getChatIndexDraftSelector, getSelectedChatIdSelector, getChatByIdSelector, getChatsSelector } from '../../selectors';
+import { getChatIndexDraftSelector, getSelectedChatIdSelector, getChatByIdSelector } from '../../selectors';
 import { IMessageCreatedIntegrationEvent } from './message-created-integration-event';
 import { UnshiftChat } from '../../features/unshift-chat/unshift-chat';
 import { IMarkMessagesAsReadApiRequest } from '../../features/mark-messages-as-read/api-requests/mark-messages-as-read-api-request';
+import { ChatId } from '../../chat-id';
 
 export class MessageCreatedEventHandler {
   static get action() {
@@ -83,19 +83,38 @@ export class MessageCreatedEventHandler {
         }
       }
       // notifications play
-      const chatOfMessage: IChat | undefined = yield select(getChatByIdSelector(message.chatId));
+      let chatOfMessage: IChat | undefined = yield select(getChatByIdSelector(message.chatId));
       const isAudioPlayAllowed = yield select(areNotificationsEnabledSelector);
-      const chats: IChat[] = yield select(getChatsSelector);
 
-      if (chats.findIndex(({ id }) => id === message.chatId) === -1) {
-        const { data, status } = ChangeSelectedChat.httpRequest.getChat.call(
+      if (!chatOfMessage) {
+        const { data } = ChangeSelectedChat.httpRequest.getChat.call(
           yield call(() => ChangeSelectedChat.httpRequest.getChat.generator({ chatId: message.chatId })),
         );
 
-        if (status === HTTPStatusCode.OK) {
-          yield put(UnshiftChat.action(data));
-        } else {
-          alert('getChatInfo in createMessageSaga error');
+        if (data) {
+          chatOfMessage = data as IChat;
+
+          chatOfMessage.interlocutorType = ChatId.fromId(chatOfMessage.id).interlocutorType;
+          chatOfMessage.typingInterlocutors = [];
+          chatOfMessage.photos = { photos: [], loading: false, hasMore: true };
+          chatOfMessage.videos = { videos: [], loading: false, hasMore: true };
+          chatOfMessage.files = { files: [], loading: false, hasMore: true };
+          chatOfMessage.audios = { audios: [], loading: false, hasMore: true };
+          chatOfMessage.draftMessage = '';
+          chatOfMessage.recordings = {
+            hasMore: true,
+            loading: false,
+            recordings: [],
+          };
+          chatOfMessage.members = { searchMembers: [], members: [], loading: false, hasMore: true };
+          chatOfMessage.messages = {
+            messages: [],
+            hasMore: true,
+            loading: false,
+          };
+          chatOfMessage.unreadMessagesCount = chatOfMessage.unreadMessagesCount || 1;
+
+          yield put(UnshiftChat.action(chatOfMessage));
         }
       }
 

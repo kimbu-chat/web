@@ -14,7 +14,10 @@ export class ChangeChatVisibilityStateSuccess {
       const chatIndex: number = getChatIndexDraftSelector(payload.chatId, draft);
 
       draft.chats.splice(chatIndex, 1);
-      draft.selectedChatId = null;
+
+      if (draft.selectedChatId === payload.chatId) {
+        draft.selectedChatId = null;
+      }
 
       return draft;
     });

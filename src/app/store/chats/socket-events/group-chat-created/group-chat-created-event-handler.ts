@@ -78,7 +78,6 @@ export class GroupChatCreatedEventHandler {
           hasMore: true,
           loading: false,
           members: [],
-          searchMembers: [],
         },
         messages: {
           messages: [messageOfCreation],

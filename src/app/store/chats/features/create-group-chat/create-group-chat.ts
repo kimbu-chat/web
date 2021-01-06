@@ -71,7 +71,6 @@ export class CreateGroupChat {
             hasMore: true,
             loading: false,
             members: [],
-            searchMembers: [],
           },
           videos: {
             hasMore: true,

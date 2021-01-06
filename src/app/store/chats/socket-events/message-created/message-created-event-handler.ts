@@ -163,7 +163,7 @@ export class MessageCreatedEventHandler {
             loading: false,
             recordings: [],
           };
-          chatOfMessage.members = { searchMembers: [], members: [], loading: false, hasMore: true };
+          chatOfMessage.members = { members: [], loading: false, hasMore: true };
           chatOfMessage.messages = {
             messages: [],
             hasMore: true,

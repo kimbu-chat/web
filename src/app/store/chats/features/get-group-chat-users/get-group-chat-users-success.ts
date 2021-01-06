@@ -12,7 +12,7 @@ export class GetGroupChatUsersSuccess {
 
   static get reducer() {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof GetGroupChatUsersSuccess.action>) => {
-      const { chatId, isFromSearch, isFromScroll, users, hasMore } = payload;
+      const { chatId, isFromSearch, users, hasMore } = payload;
 
       const chat = getChatByIdDraftSelector(chatId, draft);
 
@@ -21,19 +21,11 @@ export class GetGroupChatUsersSuccess {
         chat.members.loading = false;
 
         if (isFromSearch) {
-          if (isFromScroll) {
-            chat.members.searchMembers = unionBy(chat.members.searchMembers, users, 'id');
-            return draft;
-          }
-
-          chat.members.searchMembers = users;
-          return draft;
+          chat.members.members = users;
         }
 
         if (!isFromSearch) {
-          chat.members.searchMembers = [];
           chat.members.members = unionBy(chat.members.members, users, 'id');
-          return draft;
         }
       }
 

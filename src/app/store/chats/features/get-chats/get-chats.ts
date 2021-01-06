@@ -61,7 +61,7 @@ export class GetChats {
         chat.messages = { messages: [], loading: false, hasMore: true };
 
         if (chat.interlocutorType === InterlocutorType.GroupChat) {
-          chat.members = { searchMembers: [], members: [], loading: false, hasMore: true };
+          chat.members = { members: [], loading: false, hasMore: true };
         }
       });
 

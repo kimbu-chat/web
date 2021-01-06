@@ -100,7 +100,7 @@ export class ChangeSelectedChat {
                 loading: false,
                 recordings: [],
               };
-              chat.members = { searchMembers: [], members: [], loading: false, hasMore: true };
+              chat.members = { members: [], loading: false, hasMore: true };
               chat.messages = {
                 messages: [],
                 hasMore: true,
@@ -151,7 +151,6 @@ export class ChangeSelectedChat {
                   hasMore: true,
                   loading: false,
                   members: [],
-                  searchMembers: [],
                 },
                 recordings: {
                   hasMore: true,

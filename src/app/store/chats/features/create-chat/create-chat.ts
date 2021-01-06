@@ -50,7 +50,6 @@ export class CreateChat {
           hasMore: true,
           loading: false,
           members: [],
-          searchMembers: [],
         },
         recordings: {
           hasMore: true,

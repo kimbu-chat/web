@@ -47,7 +47,6 @@ export interface IChat {
   };
   members: {
     members: IUserPreview[];
-    searchMembers: IUserPreview[];
     loading: boolean;
     hasMore: boolean;
   };

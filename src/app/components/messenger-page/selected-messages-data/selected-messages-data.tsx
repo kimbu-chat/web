@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useState } from 'react';
 import './selected-messages-data.scss';
 import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { getSelectedMessagesIdSelector } from 'store/chats/selectors';
+import { getMessageCreatedByMeSelector, getSelectedMessagesIdSelector } from 'store/chats/selectors';
 import { LocalizationContext } from 'app/app';
 
 import { FadeAnimationWrapper, ForwardModal } from 'components';
@@ -14,6 +14,7 @@ import { DeleteMessageModal } from './delete-message-modal/delete-message-modal'
 
 export const SelectedMessagesData = React.memo(() => {
   const selectedMessages = useSelector(getSelectedMessagesIdSelector);
+  const isMessageCreatedByMe = useSelector(getMessageCreatedByMeSelector(selectedMessages[0]));
   const selectedMessagesCount = selectedMessages.length;
 
   const { t } = useContext(LocalizationContext);
@@ -65,7 +66,7 @@ export const SelectedMessagesData = React.memo(() => {
           {t('selectedMessagesData.reply')}
         </button>
       )}
-      {selectedMessagesCount === 1 && (
+      {selectedMessagesCount === 1 && isMessageCreatedByMe && (
         <button type='button' onClick={editSelectedMessage} className='selected-messages-data__btn '>
           {t('selectedMessagesData.edit')}
         </button>

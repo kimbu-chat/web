@@ -14,22 +14,8 @@ export const setSeparators = <T extends IGroupable>(
     separateByYear?: boolean;
   },
 ): T[] | undefined => {
-  elements?.map((elem, index, array) => {
+  const newElements = elements?.map((elem, index, array) => {
     const elemCopy = { ...elem };
-
-    if (index === 0 && separateFirst) {
-      if (separateFirst.separateByDate) {
-        elemCopy.needToShowDateSeparator = true;
-      }
-
-      if (separateFirst.separateByMonth) {
-        elemCopy.needToShowMonthSeparator = true;
-      }
-
-      if (separateFirst.separateByYear) {
-        elemCopy.needToShowYearSeparator = true;
-      }
-    }
 
     const currentDate = new Date(moment.utc(elem?.creationDateTime!).local().toDate());
     const prevDate = moment
@@ -50,7 +36,21 @@ export const setSeparators = <T extends IGroupable>(
     return elemCopy;
   });
 
-  return elements;
+  if (separateFirst && newElements && newElements[0]) {
+    if (separateFirst.separateByDate) {
+      newElements[0].needToShowDateSeparator = true;
+    }
+
+    if (separateFirst.separateByMonth) {
+      newElements[0].needToShowMonthSeparator = true;
+    }
+
+    if (separateFirst.separateByYear) {
+      newElements[0].needToShowYearSeparator = true;
+    }
+  }
+
+  return newElements;
 };
 
 export const doesYearDifferFromCurrent = (date: Date) => new Date().getFullYear() !== new Date(date).getFullYear();

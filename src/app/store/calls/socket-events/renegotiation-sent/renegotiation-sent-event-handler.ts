@@ -26,7 +26,6 @@ export class RenegotiationSentEventHandler {
 
       setIgnoreOffer(!polite && offerCollision);
       if (ignoreOffer) {
-        console.log('oofeerr IGNORED');
         return;
       }
 
@@ -42,8 +41,6 @@ export class RenegotiationSentEventHandler {
         };
 
         RenegotiationSentEventHandler.httpRequest.call(yield call(() => RenegotiationSentEventHandler.httpRequest.generator(request)));
-      } else {
-        console.log('paralel');
       }
     };
   }

@@ -1,6 +1,6 @@
 import { LocalizationContext } from 'app/app';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { useGlobalDrop } from 'app/hooks/use-global-drop';
+import { containsFiles, useGlobalDrop } from 'app/hooks/use-global-drop';
 import { useOnClickOutside } from 'app/hooks/use-on-click-outside';
 import { useReferState } from 'app/hooks/use-referred-state';
 import { CreateMessage } from 'app/store/chats/features/create-message/create-message';
@@ -67,12 +67,16 @@ export const CreateMessageInput = React.memo(() => {
     onDragEnter: (e) => {
       e.preventDefault();
       e.stopPropagation();
-      setIsDragging(true);
+      if (containsFiles(e)) {
+        setIsDragging(true);
+      }
     },
     onDragOver: (e) => {
       e.preventDefault();
       e.stopPropagation();
-      setIsDragging(true);
+      if (containsFiles(e)) {
+        setIsDragging(true);
+      }
     },
     onDragLeave: (e) => {
       e.preventDefault();
@@ -130,7 +134,9 @@ export const CreateMessageInput = React.memo(() => {
     (e: React.DragEvent<HTMLDivElement>) => {
       e.preventDefault();
       e.stopPropagation();
-      setIsDraggingOver(true);
+      if (containsFiles(e)) {
+        setIsDraggingOver(true);
+      }
     },
     [setIsDraggingOver],
   );
@@ -139,7 +145,9 @@ export const CreateMessageInput = React.memo(() => {
     (e: React.DragEvent<HTMLDivElement>) => {
       e.preventDefault();
       e.stopPropagation();
-      setIsDraggingOver(true);
+      if (containsFiles(e)) {
+        setIsDraggingOver(true);
+      }
     },
     [setIsDraggingOver],
   );

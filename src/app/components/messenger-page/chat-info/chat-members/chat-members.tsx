@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import './chat-members.scss';
 import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
@@ -23,26 +23,15 @@ export const ChatMembers: React.FC<IChatMembersProps> = React.memo(({ addMembers
 
   const membersListForGroupChat = useSelector(getMembersListForSelectedGroupChatSelector);
 
-  useEffect(() => {
-    getGroupChatUsers({
-      page: { offset: 0, limit: CHAT_MEMBERS_LIMIT },
-    });
-    return () => {
-      setSearchStr('');
-    };
-  }, []);
-
   const loadMore = useCallback(() => {
     const page: IPage = {
-      offset:
-        ((membersListForGroupChat?.searchMembers?.length || 0) > 0 ? membersListForGroupChat?.searchMembers : membersListForGroupChat?.members)?.length || 0,
+      offset: membersListForGroupChat?.members?.length || 0,
       limit: CHAT_MEMBERS_LIMIT,
     };
 
     getGroupChatUsers({
       page,
       name: searchStr,
-      isFromScroll: true,
       isFromSearch: searchStr.length > 0,
     });
   }, [membersListForGroupChat]);
@@ -52,6 +41,7 @@ export const ChatMembers: React.FC<IChatMembersProps> = React.memo(({ addMembers
     getGroupChatUsers({
       page: { offset: 0, limit: CHAT_MEMBERS_LIMIT },
       name: e.target.value,
+      isFromSearch: true,
     });
   }, []);
 
@@ -75,11 +65,9 @@ export const ChatMembers: React.FC<IChatMembersProps> = React.memo(({ addMembers
         isLoading={membersListForGroupChat?.loading}
         threshold={0.3}
       >
-        {((membersListForGroupChat?.searchMembers?.length || 0) > 0 ? membersListForGroupChat?.searchMembers : membersListForGroupChat?.members)?.map(
-          (member) => (
-            <Member member={member} key={member?.id} />
-          ),
-        )}
+        {membersListForGroupChat?.members?.map((member) => (
+          <Member member={member} key={member?.id} />
+        ))}
       </InfiniteScroll>
     </div>
   );

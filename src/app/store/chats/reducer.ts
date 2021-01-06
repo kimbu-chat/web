@@ -56,6 +56,7 @@ import { MessagesDeletedIntegrationEventHandler } from 'store/chats/socket-event
 import { MessageEditedEventHandler } from 'store/chats/socket-events/message-edited/message-edited-event-handler';
 import { UserMessageTypingEventHandler } from 'store/chats/socket-events/message-typing/message-typing-event-handler';
 import { MessageReadEventHandler } from 'store/chats/socket-events/message-read/message-read-event-handler';
+import { ChatClearedEventHandler } from 'store/chats/socket-events/chat-cleared/chat-cleared-event-handler';
 import { ChatMutedStatusChangedEventHandler } from './socket-events/chat-mute-status-changed/chat-mute-status-changed-event-handler';
 import { UserStatusChangedEventHandler } from '../friends/socket-events/user-status-changed/user-status-changed-event-handler';
 import { ChatId } from './chat-id';
@@ -149,6 +150,7 @@ const chats = createReducer<IChatsState>(initialState)
   .handleAction(MessageCreatedEventHandler.action, MessageCreatedEventHandler.reducer)
   .handleAction(MessageEditedEventHandler.action, MessageEditedEventHandler.reducer)
   .handleAction(MessagesDeletedIntegrationEventHandler.action, MessagesDeletedIntegrationEventHandler.reducer)
-  .handleAction(MessageReadEventHandler.action, MessageReadEventHandler.reducer);
+  .handleAction(MessageReadEventHandler.action, MessageReadEventHandler.reducer)
+  .handleAction(ChatClearedEventHandler.action, ChatClearedEventHandler.reducer);
 
 export default chats;

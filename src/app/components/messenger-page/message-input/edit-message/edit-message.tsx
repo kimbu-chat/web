@@ -123,8 +123,9 @@ export const EditMessage = React.memo(() => {
       text: referredNewText.current,
       removedAttachments: referredRemovedAttachments.current,
       newAttachments,
+      messageId: messageToEdit!.id,
     });
-  }, [referredNewText, referredRemovedAttachments]);
+  }, [referredNewText, referredRemovedAttachments, messageToEdit?.id]);
 
   const openSelectFiles = useCallback(() => {
     fileInputRef.current?.click();

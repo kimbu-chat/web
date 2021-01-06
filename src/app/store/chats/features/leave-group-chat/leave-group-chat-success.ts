@@ -16,7 +16,10 @@ export class LeaveGroupChatSuccess {
       const chatIndex: number = getChatIndexDraftSelector(chatId, draft);
 
       draft.chats.splice(chatIndex, 1);
-      draft.selectedChatId = null;
+
+      if (draft.selectedChatId === chatId) {
+        draft.selectedChatId = null;
+      }
 
       return draft;
     });

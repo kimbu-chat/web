@@ -1,4 +1,4 @@
-import { createEmptyAction } from 'app/store/common/actions';
+import { createEmptyDefferedAction } from 'app/store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
 
 import { AxiosResponse } from 'axios';
@@ -10,12 +10,12 @@ import { ChangeChatVisibilityStateSuccess } from './change-chat-visibility-state
 
 export class ChangeChatVisibilityState {
   static get action() {
-    return createEmptyAction('CHANGE_SELECTED_CHAT_VISIBILITY_STATE');
+    return createEmptyDefferedAction('CHANGE_SELECTED_CHAT_VISIBILITY_STATE');
   }
 
   static get saga() {
-    return function* (): SagaIterator {
-      const { chatId } = yield select(getSelectedChatIdSelector);
+    return function* (action: ReturnType<typeof ChangeChatVisibilityState.action>): SagaIterator {
+      const chatId = yield select(getSelectedChatIdSelector);
 
       try {
         const request: IChangeChatVisibilityStateApiRequest = {
@@ -27,6 +27,7 @@ export class ChangeChatVisibilityState {
 
         if (response.status === 200) {
           yield put(ChangeChatVisibilityStateSuccess.action({ chatId }));
+          action.meta.deferred.resolve();
         } else {
           alert('Error chat deletion');
         }

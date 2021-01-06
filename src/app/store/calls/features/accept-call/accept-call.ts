@@ -66,7 +66,6 @@ export class AcceptCall {
       const interlocutorId: number = yield select(getCallInterlocutorIdSelector);
 
       yield call(async () => await peerConnection?.setRemoteDescription(interlocutorOffer as RTCSessionDescriptionInit));
-      console.log('remote description set');
 
       // setup local stream
       yield call(getAndSendUserMedia);

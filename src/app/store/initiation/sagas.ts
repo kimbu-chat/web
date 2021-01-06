@@ -46,8 +46,6 @@ function* watcher() {
 
   visibilityChannel.close();
   yield cancel(visibilityTask);
-
-  console.log('visibilityChannel.close');
 }
 
 export function* initializeSaga(): SagaIterator {

@@ -17,6 +17,8 @@ import { FriendActions } from 'store/friends/actions';
 import { CreateGroupChat, FadeAnimationWrapper } from 'components';
 import PeopleSvg from 'icons/ic-group.svg';
 import { getMyFriendsSelector } from 'app/store/friends/selectors';
+import { useHistory } from 'react-router';
+import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
 import { DeleteChatModal } from './delete-chat-modal/delete-chat-modal';
 import { ClearChatModal } from './clear-chat-modal/clear-chat-modal';
 
@@ -26,6 +28,7 @@ interface IChatActionsProps {
 
 export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers }) => {
   const { t } = useContext(LocalizationContext);
+  const history = useHistory();
 
   const [leaveGroupChatModalOpened, setLeaveGroupChatModalOpened] = useState<boolean>(false);
   const changeLeaveGroupChatModalOpenedState = useCallback(() => setLeaveGroupChatModalOpened((oldState) => !oldState), [setLeaveGroupChatModalOpened]);
@@ -36,7 +39,7 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
   const [createGroupChatModalOpened, setCreateGroupChatModalOpened] = useState<boolean>(false);
   const changeCreateGroupChatModalOpenedState = useCallback(() => setCreateGroupChatModalOpened((oldState) => !oldState), [setCreateGroupChatModalOpened]);
 
-  const changeChatVisibilityState = useActionWithDispatch(SelectedChatActions.changeChatVisibilityState);
+  const changeChatVisibilityState = useActionWithDeferred(SelectedChatActions.changeChatVisibilityState);
   const changeChatMutedStatus = useActionWithDispatch(SelectedChatActions.changeChatMutedStatus);
   const deleteFriend = useActionWithDispatch(FriendActions.deleteFriend);
   const addFriend = useActionWithDispatch(FriendActions.addFriend);
@@ -49,9 +52,20 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
     friends,
     selectedChat.interlocutor?.id,
   ]);
-
   const deleteContact = useCallback(() => deleteFriend({ userIds: [selectedChat?.interlocutor?.id!] }), [deleteFriend, selectedChat?.interlocutor?.id]);
   const addContact = useCallback(() => addFriend(selectedChat.interlocutor!), [addFriend, selectedChat?.interlocutor]);
+  const changeChatVisibility = useCallback(
+    () =>
+      changeChatVisibilityState(undefined).then(() =>
+        history.push(
+          history.location.pathname.replace(
+            /\/?(contacts|calls|settings|chats)\/?([0-9]*)?\/?(edit-profile|notifications|language|typing)?\/?(info\/?(photo|video|files|audio-recordings|audios)?\/?)?/,
+            (_all, groupOne, _groupTwo, groupThree) => `/${groupOne}/${groupThree || ''}`,
+          ),
+        ),
+      ),
+    [addFriend, selectedChat?.interlocutor],
+  );
 
   return (
     <div className='chat-actions'>
@@ -95,7 +109,7 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
         </button>
       )}
       {selectedChat.interlocutor && (
-        <button type='button' onClick={changeChatVisibilityState} className='chat-actions__action'>
+        <button type='button' onClick={changeChatVisibility} className='chat-actions__action'>
           <UnmuteSvg viewBox='0 0 25 25' className='chat-actions__action__svg' />
           <span className='chat-actions__action__name'>{t('chatActions.delete-chat')}</span>
         </button>

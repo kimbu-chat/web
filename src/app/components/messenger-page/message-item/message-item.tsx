@@ -31,6 +31,7 @@ import {
 import { Link } from 'react-router-dom';
 import { MessageAudioAttachment, FileAttachment } from 'app/components';
 import { SelectMessage } from 'app/store/chats/features/select-message/select-message';
+import { xorBy } from 'lodash';
 import { MediaGrid } from './attachments/media-grid/media-grid';
 import { RecordingAttachment } from './attachments/recording-attachment/recording-attachment';
 
@@ -180,8 +181,8 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
     prevProps.message.text === nextProps.message.text &&
     prevProps.message.isSelected === nextProps.message.isSelected &&
     prevProps.message.isEdited === nextProps.message.isEdited &&
-    prevProps.message.state === nextProps.message.state,
-  // xorBy([prevProps.message.attachments, nextProps.message.attachments], 'id').length === 0,
+    prevProps.message.state === nextProps.message.state &&
+    xorBy([prevProps.message.attachments, nextProps.message.attachments], 'id').length === 0,
 );
 
 MessageItem.displayName = 'MessageItem';

@@ -15,17 +15,13 @@ export class InterlocutorAcceptedCallEventHandler {
 
   static get reducer() {
     return produce((draft: ICallsState, { payload }: ReturnType<typeof InterlocutorAcceptedCallEventHandler.action>) => {
-      console.log(draft.interlocutor?.firstName);
-
       if (!draft.isSpeaking && !draft.amICalled) {
         if (payload.answer && draft.amICalling) {
-          console.log('first instance');
           draft.isSpeaking = true;
           draft.amICalled = false;
           draft.amICalling = false;
           draft.isActiveCallIncoming = false;
         } else if (!draft.amICalling) {
-          console.log('second instance');
           draft.interlocutor = undefined;
           draft.isInterlocutorBusy = false;
           draft.amICalling = false;
@@ -37,7 +33,6 @@ export class InterlocutorAcceptedCallEventHandler {
           draft.isScreenSharingOpened = false;
         }
       } else if (draft.amICalled) {
-        console.log('third instance');
         draft.isActiveCallIncoming = true;
         draft.isSpeaking = true;
         draft.amICalled = false;

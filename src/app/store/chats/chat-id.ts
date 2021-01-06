@@ -28,7 +28,6 @@ export class ChatId {
     }
     if (groupChatId && !Number.isNaN(groupChatId)) {
       const id: number = +`${groupChatId}${InterlocutorType.GroupChat}`;
-      console.log(id);
       return new ChatIdDetails(id, groupChatId, InterlocutorType.GroupChat, null, groupChatId);
     }
     throw new Error(`Invalid params: userId = ${userId}, groupChatId = ${groupChatId}`);

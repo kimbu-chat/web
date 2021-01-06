@@ -30,5 +30,3 @@ export const resetPeerConnection = () => {
   setIgnoreOffer(false);
   setIsSettingRemoteAnswerPending(false);
 };
-
-setInterval(() => console.log(peerConnection?.connectionState), 1000);

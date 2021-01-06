@@ -24,13 +24,11 @@ function createUploadFileChannel(requestConfig: AxiosRequestConfig) {
 
     const onSuccess = (response: AxiosResponse<any>) => {
       emit({ response: response.data });
-      console.log('upload ended');
       emit(END);
     };
 
     const onFailure = (err: string) => {
       emit({ err });
-      console.log('upload canceled');
       emit(END);
     };
 

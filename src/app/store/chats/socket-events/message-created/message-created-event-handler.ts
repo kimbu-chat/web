@@ -8,7 +8,17 @@ import messageCameSelected from 'app/assets/sounds/notifications/messsage-came-s
 import messageCameUnselected from 'app/assets/sounds/notifications/messsage-came-unselected.ogg';
 import { ChangeSelectedChat } from '../../features/change-selected-chat/change-selected-chat';
 import { MarkMessagesAsRead } from '../../features/mark-messages-as-read/mark-messages-as-read';
-import { IChatsState, SystemMessageType, IChat } from '../../models';
+import {
+  IChatsState,
+  SystemMessageType,
+  IChat,
+  FileType,
+  IAudioAttachment,
+  IPictureAttachment,
+  IRawAttachment,
+  IVideoAttachment,
+  IVoiceAttachment,
+} from '../../models';
 import { getChatIndexDraftSelector, getSelectedChatIdSelector, getChatByIdSelector } from '../../selectors';
 import { IMessageCreatedIntegrationEvent } from './message-created-integration-event';
 import { UnshiftChat } from '../../features/unshift-chat/unshift-chat';
@@ -46,6 +56,53 @@ export class MessageCreatedEventHandler {
         } else {
           return draft;
         }
+
+        message.attachments?.forEach((attachment) => {
+          switch (attachment.type) {
+            case FileType.Audio:
+              chat.audioAttachmentsCount = (chat.audioAttachmentsCount || 0) + 1;
+              chat.audios.audios.unshift({
+                ...(attachment as IAudioAttachment),
+                creationDateTime: new Date(),
+              });
+
+              break;
+            case FileType.Picture:
+              chat.pictureAttachmentsCount = (chat.pictureAttachmentsCount || 0) + 1;
+              chat.photos.photos.unshift({
+                ...(attachment as IPictureAttachment),
+                creationDateTime: new Date(),
+              });
+
+              break;
+            case FileType.Raw:
+              chat.rawAttachmentsCount = (chat.rawAttachmentsCount || 0) + 1;
+              chat.files.files.unshift({
+                ...(attachment as IRawAttachment),
+                creationDateTime: new Date(),
+              });
+
+              break;
+            case FileType.Video:
+              chat.videoAttachmentsCount = (chat.videoAttachmentsCount || 0) + 1;
+              chat.videos.videos.unshift({
+                ...(attachment as IVideoAttachment),
+                creationDateTime: new Date(),
+              });
+
+              break;
+            case FileType.Voice:
+              chat.voiceAttachmentsCount = (chat.voiceAttachmentsCount || 0) + 1;
+              chat.recordings.recordings.unshift({
+                ...(attachment as IVoiceAttachment),
+                creationDateTime: new Date(),
+              });
+
+              break;
+            default:
+              break;
+          }
+        });
 
         chat.lastMessage = message;
         chat.unreadMessagesCount = newUnreadMessagesCount;

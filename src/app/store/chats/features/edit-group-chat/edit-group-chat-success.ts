@@ -2,7 +2,7 @@ import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { getChatByIdDraftSelector } from 'app/store/chats/selectors';
 import { IChatsState } from '../../models';
-import { IEditGroupChatSuccessActionPayload } from '../delete-message/edit-group-chat-success-action-payload';
+import { IEditGroupChatSuccessActionPayload } from './action-payloads/edit-group-chat-success-action-payload';
 
 export class EditGroupChatSuccess {
   static get action() {

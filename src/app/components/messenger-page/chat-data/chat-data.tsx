@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { getSelectedChatSelector } from 'store/chats/selectors';
@@ -8,41 +8,70 @@ import { LocalizationContext } from 'app/app';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { CallActions } from 'store/calls/actions';
 import { IUserPreview, UserStatus } from 'app/store/models';
-import { Avatar } from 'components';
+import { Avatar, SearchBox } from 'components';
 
 import VoiceCallSvg from 'icons/ic-call.svg';
 import VideoCallSvg from 'icons/ic-video-call.svg';
-import ChatSearchSvg from 'icons/ic-search.svg';
+import SearchSvg from 'icons/ic-search.svg';
 import ChatInfoSvg from 'icons/ic-info.svg';
 import { useLocation } from 'react-router';
 import { Link, NavLink } from 'react-router-dom';
 
 import { getChatInterlocutor, getInterlocutorInitials } from 'utils/interlocutor-name-utils';
+import { GetMessages } from 'app/store/chats/features/get-messages/get-messages';
+import { MESSAGES_LIMIT } from 'app/utils/pagination-limits';
 
 export const ChatData = React.memo(() => {
   const { t } = useContext(LocalizationContext);
-  const selectedChat = useSelector(getSelectedChatSelector);
-  const callInterlocutor = useActionWithDispatch(CallActions.outgoingCallAction);
 
   const location = useLocation();
 
-  const callWithVideo = () =>
-    callInterlocutor({
-      calling: selectedChat?.interlocutor as IUserPreview,
-      constraints: {
-        videoEnabled: true,
-        audioEnabled: true,
-      },
-    });
+  const selectedChat = useSelector(getSelectedChatSelector);
 
-  const callWithAudio = () =>
-    callInterlocutor({
-      calling: selectedChat?.interlocutor as IUserPreview,
-      constraints: {
-        videoEnabled: false,
-        audioEnabled: true,
-      },
+  const callInterlocutor = useActionWithDispatch(CallActions.outgoingCallAction);
+  const getMessages = useActionWithDispatch(GetMessages.action);
+
+  const [isSearching, setIsSearching] = useState(false);
+  const changeSearchingState = useCallback(() => {
+    setIsSearching((oldState) => !oldState);
+  }, [setIsSearching]);
+
+  const callWithVideo = useCallback(
+    () =>
+      callInterlocutor({
+        calling: selectedChat?.interlocutor as IUserPreview,
+        constraints: {
+          videoEnabled: true,
+          audioEnabled: true,
+        },
+      }),
+    [selectedChat?.interlocutor],
+  );
+
+  const callWithAudio = useCallback(
+    () =>
+      callInterlocutor({
+        calling: selectedChat?.interlocutor as IUserPreview,
+        constraints: {
+          videoEnabled: false,
+          audioEnabled: true,
+        },
+      }),
+    [selectedChat?.interlocutor],
+  );
+
+  const searchMessages = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const pageData = {
+      limit: MESSAGES_LIMIT,
+      offset: 0,
+    };
+
+    getMessages({
+      page: pageData,
+      isFromSearch: true,
+      searchString: e.target.value,
     });
+  }, []);
 
   if (selectedChat) {
     const imageUrl: string = selectedChat.groupChat?.avatar?.previewUrl || selectedChat?.interlocutor?.avatar?.previewUrl || '';
@@ -85,9 +114,13 @@ export const ChatData = React.memo(() => {
               <VideoCallSvg />
             </button>
           )}
-          <button type='button' className='chat-data__button'>
-            <ChatSearchSvg />
+
+          {isSearching && <SearchBox onChange={searchMessages} />}
+
+          <button type='button' onClick={changeSearchingState} className='chat-data__button'>
+            <SearchSvg />
           </button>
+
           <NavLink
             to={
               location.pathname.includes('info')

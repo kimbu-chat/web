@@ -12,7 +12,7 @@ export class GetMessagesSuccess {
 
   static get reducer() {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof GetMessagesSuccess.action>) => {
-      const { chatId, hasMoreMessages, messages }: IGetMessagesSuccessActionPayload = payload;
+      const { chatId, hasMoreMessages, messages, isFromSearch }: IGetMessagesSuccessActionPayload = payload;
 
       const chat = getChatByIdDraftSelector(chatId, draft);
 
@@ -21,7 +21,11 @@ export class GetMessagesSuccess {
 
         chat.messages.loading = false;
 
-        chat.messages.messages = unionBy(chat.messages.messages, messages, 'id');
+        if (isFromSearch) {
+          chat.messages.messages = messages;
+        } else {
+          chat.messages.messages = unionBy(chat.messages.messages, messages, 'id');
+        }
       }
 
       return draft;

@@ -31,7 +31,7 @@ export class GetMessages {
 
   static get saga() {
     return function* (action: ReturnType<typeof GetMessages.action>): SagaIterator {
-      const { page } = action.payload;
+      const { page, searchString, isFromSearch } = action.payload;
 
       const chat = yield select(getSelectedChatSelector);
 
@@ -39,6 +39,7 @@ export class GetMessages {
         const request: IGetMessagesApiRequest = {
           page,
           chatId: chat.id,
+          searchString,
         };
 
         const { data } = GetMessages.httpRequest.call(yield call(() => GetMessages.httpRequest.generator(request)));
@@ -51,6 +52,8 @@ export class GetMessages {
           chatId: chat.id,
           messages: data,
           hasMoreMessages: data.length >= page.limit,
+          searchString,
+          isFromSearch,
         };
 
         yield put(GetMessagesSuccess.action(messageList));

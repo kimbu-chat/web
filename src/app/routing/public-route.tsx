@@ -6,10 +6,10 @@ import { amILoggedSelector } from 'app/store/auth/selectors';
 interface IPublicRouteProps extends RouteProps {
   path: string;
   isAllowed?: boolean;
-  Component: () => JSX.Element;
+  componentToRender: JSX.Element;
 }
 
-export const PublicRoute: React.FC<IPublicRouteProps> = React.memo(({ Component, path, isAllowed = true, ...rest }) => {
+export const PublicRoute: React.FC<IPublicRouteProps> = React.memo(({ componentToRender, path, isAllowed = true, ...rest }) => {
   const isAuthenticated = useSelector(amILoggedSelector);
-  return <Route path={path} {...rest} render={() => (!isAuthenticated && isAllowed ? <Component /> : <Redirect to='/chats' />)} />;
+  return <Route path={path} {...rest} render={() => (!isAuthenticated && isAllowed ? componentToRender : <Redirect to='/chats' />)} />;
 });

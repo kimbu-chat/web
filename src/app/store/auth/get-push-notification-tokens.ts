@@ -6,11 +6,14 @@ export async function getPushNotificationTokens() {
     if ('serviceWorker' in navigator) {
       try {
         const registration = await navigator.serviceWorker.register('./firebase-messaging-sw.js');
-        const tokenId: string = await messaging.getToken({ serviceWorkerRegistration: registration });
-        const fp = await FingerprintJS.load();
-        const result = await fp.get();
-        const deviceId: string = result.visitorId;
-        return { tokenId, deviceId };
+        const tokenId: string | undefined = await messaging?.getToken({ serviceWorkerRegistration: registration });
+        if (tokenId) {
+          const fp = await FingerprintJS.load();
+          const result = await fp.get();
+          const deviceId: string = result.visitorId;
+          return { tokenId, deviceId };
+        }
+        return undefined;
       } catch {
         return undefined;
       }

@@ -58,7 +58,9 @@ function* httpRequest<T>(url: string, method: HttpRequestMethod, body?: T, token
   }
 
   const response = yield call(retryOnNetworkConnectionError, function* () {
-    return yield call(axios.create().request, requestConfig);
+    return yield call(retryOnNetworkConnectionError, function* () {
+      return yield call(axios.create().request, requestConfig);
+    });
   });
 
   return response;
@@ -89,9 +91,7 @@ export const httpRequestFactory = <T, B = any>(url: string | UrlGenerator<B>, me
         return yield call(httpRequest, finalUrl, method, body, cancelTokenSource.token, headers);
       } catch (e) {
         const error = e as AxiosError;
-        if (isNetworkError(e)) {
-          alert('Network Error.');
-        } else if (error?.response?.status === 401) {
+        if (!isNetworkError(e) && error?.response?.status === 401) {
           yield put(RefreshToken.action());
 
           yield take(RefreshTokenSuccess.action);
@@ -123,16 +123,7 @@ export const httpRequestFactory = <T, B = any>(url: string | UrlGenerator<B>, me
 
 export const authRequestFactory = <T, B>(url: string, method: HttpRequestMethod): IRequestGenerator<T, B> => {
   function* generator(body?: B): SagaIterator {
-    try {
-      return yield call(() => httpRequest(url, method, body));
-    } catch (e) {
-      const error = e as AxiosError;
-
-      if (isNetworkError(error)) {
-        alert('Network Error.');
-      }
-    }
-    return false;
+    return yield call(() => httpRequest(url, method, body));
   }
 
   return {

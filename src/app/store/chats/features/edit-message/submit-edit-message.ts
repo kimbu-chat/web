@@ -56,8 +56,6 @@ export class SubmitEditMessage {
 
       if (status === HTTPStatusCode.OK) {
         yield put(SubmitEditMessageSuccess.action({ text, messageId, removedAttachments, newAttachments, chatId }));
-      } else {
-        alert('editMessageSaga error');
       }
     };
   }

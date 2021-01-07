@@ -10,6 +10,7 @@ import { MyProfileActions } from 'store/my-profile/actions';
 import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
 import { LocalizationContext } from 'app/app';
 import { validateNickname } from 'app/utils/validate-nick-name';
+import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 
 interface IEditUserNameModalProps {
   onClose: () => void;
@@ -24,7 +25,7 @@ export const EditUserNameModal: React.FC<IEditUserNameModalProps> = React.memo((
 
   const myProfile = useSelector(getMyProfileSelector);
 
-  const updateMyNickname = useActionWithDeferred(MyProfileActions.updateMyNicknameAction);
+  const updateMyNickname = useActionWithDispatch(MyProfileActions.updateMyNicknameAction);
   const checkNicknameAvailability = useActionWithDeferred(MyProfileActions.checkNicknameAvailabilityAction);
 
   const [nickname, setNickname] = useState(myProfile?.nickname || '');

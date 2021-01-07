@@ -8,7 +8,6 @@ export function* retryOnNetworkConnectionError<TData>(handler: () => void) {
     try {
       const data: TData = yield call(handler);
       return data;
-      break;
     } catch (e) {
       if (isNetworkError(e)) {
         yield race({

@@ -39,8 +39,6 @@ export class GetPhotoAttachments {
 
       if (status === HTTPStatusCode.OK) {
         yield put(GetPhotoAttachmentsSuccess.action({ photos: data, hasMore, chatId }));
-      } else {
-        alert('getPhotoAttachmentsSaga error');
       }
     };
   }

@@ -36,13 +36,9 @@ const PhoneConfirmation: React.FC<IPhoneConfirmationProps> = ({ preloadNext }) =
   const sendSms = useCallback(() => {
     const phoneNumber = parsePhoneNumberFromString(phone);
     if (phoneNumber?.isValid()) {
-      sendSmsCode({ phoneNumber: phoneNumber!.number as string, twoLetterCountryCode: country.code })
-        .then(() => {
-          history.push('/confirm-code');
-        })
-        .catch(() => {
-          alert('sms limit');
-        });
+      sendSmsCode({ phoneNumber: phoneNumber!.number as string, twoLetterCountryCode: country.code }).then(() => {
+        history.push('/confirm-code');
+      });
     }
   }, [phone]);
 

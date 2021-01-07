@@ -20,11 +20,7 @@ export class BrowserStorage {
     const item: string = this.getItem(key);
 
     if (item !== undefined) {
-      try {
-        result = JSON.parse(item);
-      } catch (e) {
-        console.error(`Failed to parse object with key = '${this.getKey(key)}'`, e);
-      }
+      result = JSON.parse(item);
     }
 
     return result !== undefined && result !== null ? result : defaultValue;

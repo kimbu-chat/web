@@ -1,4 +1,3 @@
-import { MyProfileService } from 'app/services/my-profile-service';
 import { TFunction } from 'i18next';
 import { RootState } from '../root-reducer';
 import { IAttachmentToSend } from './models/attachment-to-send';
@@ -67,18 +66,18 @@ export const getTypingStringSelector = (t: TFunction, chatId: number | null) => 
 
   if (typingUsers) {
     if (typingUsers.length === 1) {
-      return t('chat.typing', { firstInterlocutorName: typingUsers[0].fullName.split(' ')[0] });
+      return t('chat.typing', { firstInterlocutorName: typingUsers[0].split(' ')[0] });
     }
     if (typingUsers.length === 2) {
       return t('chat.typing_two', {
-        firstInterlocutorName: typingUsers[0].fullName.split(' ')[0],
-        secondInterlocutorName: typingUsers[1].fullName.split(' ')[0],
+        firstInterlocutorName: typingUsers[0].split(' ')[0],
+        secondInterlocutorName: typingUsers[1].split(' ')[0],
       });
     }
     if (typingUsers.length > 2) {
       return t('chat.typing_many', {
-        firstInterlocutorName: typingUsers[0].fullName.split(' ')[0],
-        secondInterlocutorName: typingUsers[1].fullName.split(' ')[0],
+        firstInterlocutorName: typingUsers[0].split(' ')[0],
+        secondInterlocutorName: typingUsers[1].split(' ')[0],
         remainingCount: typingUsers.length - 2,
       });
     }
@@ -96,10 +95,6 @@ export const getMessageToEditSelectorIdSelector = (state: RootState) => state.ch
 export const getMessageToReplySelector = (state: RootState) => state.chats.messageToReply;
 
 export const getSelectedMessagesIdSelector = (state: RootState) => state.chats.selectedMessageIds;
-
-export const getMessageCreatedByMeSelector = (messageId: number) => (state: RootState) =>
-  state.chats.chats.find(({ id }) => id === state.chats.selectedChatId)?.messages.messages.find(({ id }) => id === messageId)?.userCreator.id ===
-  new MyProfileService()?.myProfile.id;
 
 export const getMessagesLoadingSelector = (state: RootState) => state.chats.chats.find(({ id }) => id === state.chats.selectedChatId)?.messages.loading;
 

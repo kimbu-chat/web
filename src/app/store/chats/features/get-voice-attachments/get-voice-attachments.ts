@@ -39,8 +39,6 @@ export class GetVoiceAttachments {
 
       if (status === HTTPStatusCode.OK) {
         yield put(GetVoiceAttachmentsSuccess.action({ recordings: data, hasMore, chatId }));
-      } else {
-        alert('getRecordingsSaga error');
       }
     };
   }

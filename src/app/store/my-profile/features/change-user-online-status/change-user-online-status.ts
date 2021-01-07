@@ -17,11 +17,7 @@ export class ChangeUserOnlineStatus {
     return function* ({ payload }: ReturnType<typeof ChangeUserOnlineStatus.action>): SagaIterator {
       const isAuthenticated = yield select(amILoggedSelector);
       if (isAuthenticated) {
-        try {
-          ChangeUserOnlineStatus.httpRequest.call(yield call(() => ChangeUserOnlineStatus.httpRequest.generator({ isOnline: payload })));
-        } catch (err) {
-          alert(err);
-        }
+        ChangeUserOnlineStatus.httpRequest.call(yield call(() => ChangeUserOnlineStatus.httpRequest.generator({ isOnline: payload })));
       }
     };
   }

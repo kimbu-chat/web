@@ -1,4 +1,3 @@
-import { Meta } from 'app/store/common/actions';
 import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/models';
 
@@ -12,22 +11,15 @@ import { UpdateMyNicknameSuccess } from './update-my-nickname-success';
 
 export class UpdateMyNickname {
   static get action() {
-    return createAction('UPDATE_MY_NICKNAME')<IUpdateMyNicknameActionPayload, Meta>();
+    return createAction('UPDATE_MY_NICKNAME')<IUpdateMyNicknameActionPayload>();
   }
 
   static get saga() {
     return function* (action: ReturnType<typeof UpdateMyNickname.action>): SagaIterator {
-      try {
-        const { status } = UpdateMyNickname.httpRequest.call(yield call(() => UpdateMyNickname.httpRequest.generator(action.payload)));
+      const { status } = UpdateMyNickname.httpRequest.call(yield call(() => UpdateMyNickname.httpRequest.generator(action.payload)));
 
-        if (status === 200) {
-          yield put(UpdateMyNicknameSuccess.action(action.payload));
-          action.meta.deferred?.resolve();
-        } else {
-          action.meta.deferred?.reject();
-        }
-      } catch {
-        action.meta.deferred?.reject();
+      if (status === 200) {
+        yield put(UpdateMyNicknameSuccess.action(action.payload));
       }
     };
   }

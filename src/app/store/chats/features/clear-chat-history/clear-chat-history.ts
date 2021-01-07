@@ -25,8 +25,6 @@ export class ClearChatHistory {
 
       if (status === HTTPStatusCode.OK) {
         yield put(ClearChatHistorySuccess.action({ chatId }));
-      } else {
-        alert('clearChatSaga error');
       }
     };
   }

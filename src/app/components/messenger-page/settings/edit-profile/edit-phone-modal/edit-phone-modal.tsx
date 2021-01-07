@@ -31,9 +31,8 @@ export const EditPhoneModal: React.FC<IEditPhoneModalProps> = React.memo(({ onCl
 
   const sendSms = useCallback(() => {
     // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const phoneNumber = parsePhoneNumberFromString(phone);
-    //! TODO: Replace here with send sms code logic
-    console.log(phoneNumber);
   }, [phone]);
 
   const displayCountries = useCallback(() => {

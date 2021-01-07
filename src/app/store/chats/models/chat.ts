@@ -21,8 +21,7 @@ export interface IChat {
   unreadMessagesCount: number;
   interlocutorLastReadMessageId?: number;
   draftMessage?: string;
-  timeoutId?: NodeJS.Timeout;
-  typingInterlocutors?: { timeoutId: NodeJS.Timeout; fullName: string }[];
+  typingInterlocutors?: string[];
   isMuted?: boolean;
 
   photos: {

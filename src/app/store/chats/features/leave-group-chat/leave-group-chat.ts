@@ -17,22 +17,16 @@ export class LeaveGroupChat {
 
   static get saga() {
     return function* leaveGroupChatSaga(action: ReturnType<typeof LeaveGroupChat.action>): SagaIterator {
-      try {
-        const chatId = yield select(getSelectedChatIdSelector);
-        const { groupChatId } = ChatId.fromId(chatId);
+      const chatId = yield select(getSelectedChatIdSelector);
+      const { groupChatId } = ChatId.fromId(chatId);
 
-        if (groupChatId) {
-          const { status } = LeaveGroupChat.httpRequest.call(yield call(() => LeaveGroupChat.httpRequest.generator({ groupChatId })));
+      if (groupChatId) {
+        const { status } = LeaveGroupChat.httpRequest.call(yield call(() => LeaveGroupChat.httpRequest.generator({ groupChatId })));
 
-          if (status === HTTPStatusCode.OK) {
-            yield put(LeaveGroupChatSuccess.action({ chatId }));
-            action.meta.deferred.resolve();
-          } else {
-            alert(`Error. http status is ${status}`);
-          }
+        if (status === HTTPStatusCode.OK) {
+          yield put(LeaveGroupChatSuccess.action({ chatId }));
+          action.meta.deferred.resolve();
         }
-      } catch {
-        alert('leaveGroupChatSaga error');
       }
     };
   }

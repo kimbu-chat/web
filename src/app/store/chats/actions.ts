@@ -4,8 +4,6 @@ import { GroupChatEditedEventHandler } from 'store/chats/socket-events/group-cha
 import { UploadAttachmentRequest } from './features/upload-attachment/upload-attachment-request';
 import { AddUsersToGroupChat } from './features/add-users-to-group-chat/add-users-to-group-chat';
 import { AddUsersToGroupChatSuccess } from './features/add-users-to-group-chat/add-users-to-group-chat-success';
-import { ChangeChatVisibilityState } from './features/change-chat-visibility-state/change-chat-visibility-state';
-import { ChangeChatVisibilityStateSuccess } from './features/change-chat-visibility-state/change-chat-visibility-state-success';
 import { ChangeSelectedChat } from './features/change-selected-chat/change-selected-chat';
 import { CreateChat } from './features/create-chat/create-chat';
 import { CreateGroupChat } from './features/create-group-chat/create-group-chat';
@@ -85,10 +83,8 @@ export namespace ChatActions {
   export const getAudioAttachmentsSuccess = GetAudioAttachmentsSuccess.action;
   export const getChatInfoSuccess = GetChatInfoSuccess.action;
   export const changeSelectedChat = ChangeSelectedChat.action;
-  export const changeChatVisibilityState = ChangeChatVisibilityState.action;
   export const unshiftChat = UnshiftChat.action;
   export const createChat = CreateChat.action;
-  export const changeChatVisibilityStateSuccess = ChangeChatVisibilityStateSuccess.action;
   export const changeChatMutedStatus = ChangeChatMutedStatus.action;
   export const changeChatMutedStatusSuccess = ChangeChatMutedStatusSuccess.action;
   export const createGroupChat = CreateGroupChat.action;

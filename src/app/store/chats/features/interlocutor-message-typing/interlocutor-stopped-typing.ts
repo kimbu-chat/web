@@ -16,8 +16,7 @@ export class InterlocutorStoppedTyping {
       const chat = getChatByIdDraftSelector(chatId, draft);
 
       if (chat) {
-        chat.timeoutId = undefined;
-        chat.typingInterlocutors = chat.typingInterlocutors?.filter((user) => user.fullName !== interlocutorName);
+        chat.typingInterlocutors = chat.typingInterlocutors?.filter((fullName) => fullName !== interlocutorName);
       }
       return draft;
     });

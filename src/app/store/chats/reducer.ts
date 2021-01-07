@@ -2,7 +2,6 @@ import produce from 'immer';
 import { createReducer } from 'typesafe-actions';
 import { AddUsersToGroupChatSuccess } from 'store/chats/features/add-users-to-group-chat/add-users-to-group-chat-success';
 import { ChangeChatMutedStatusSuccess } from 'store/chats/features/change-chat-muted-status/change-chat-muted-status-success';
-import { ChangeChatVisibilityStateSuccess } from 'store/chats/features/change-chat-visibility-state/change-chat-visibility-state-success';
 import { ChangeSelectedChat } from 'store/chats/features/change-selected-chat/change-selected-chat';
 import { CreateChat } from 'store/chats/features/create-chat/create-chat';
 import { CreateGroupChatSuccess } from 'store/chats/features/create-group-chat/create-group-chat-success';
@@ -81,7 +80,6 @@ const chats = createReducer<IChatsState>(initialState)
   .handleAction(GetChatsSuccess.action, GetChatsSuccess.reducer)
   .handleAction(GetChatsFailure.action, GetChatsFailure.reducer)
   .handleAction(LeaveGroupChatSuccess.action, LeaveGroupChatSuccess.reducer)
-  .handleAction(ChangeChatVisibilityStateSuccess.action, ChangeChatVisibilityStateSuccess.reducer)
   .handleAction(MarkMessagesAsReadSuccess.action, MarkMessagesAsReadSuccess.reducer)
   .handleAction(CreateChat.action, CreateChat.reducer)
   .handleAction(GetPhotoAttachmentsSuccess.action, GetPhotoAttachmentsSuccess.reducer)

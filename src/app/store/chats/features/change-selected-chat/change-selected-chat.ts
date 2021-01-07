@@ -72,9 +72,11 @@ export class ChangeSelectedChat {
               yield call(() => ChangeSelectedChat.httpRequest.getChat.generator({ chatId: action.payload.newChatId as number })),
             ).data;
           } catch {
-            user = ChangeSelectedChat.httpRequest.getUser.call(
-              yield call(() => ChangeSelectedChat.httpRequest.getUser.generator({ userId: action.payload.newChatId as number })),
-            ).data;
+            if (chatIdDetails?.interlocutorType === InterlocutorType.User) {
+              user = ChangeSelectedChat.httpRequest.getUser.call(
+                yield call(() => ChangeSelectedChat.httpRequest.getUser.generator({ userId: chatIdDetails?.userId as number })),
+              ).data;
+            }
           }
 
           if (chatIdDetails?.interlocutorType === InterlocutorType.GroupChat) {

@@ -24,8 +24,6 @@ export class DeleteMessage {
 
       if (status === HTTPStatusCode.OK) {
         yield put(DeleteMessageSuccess.action({ messageIds, chatId }));
-      } else {
-        alert('deleteMessageSaga error');
       }
     };
   }

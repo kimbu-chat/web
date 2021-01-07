@@ -52,27 +52,24 @@ export class CreateMessage {
       const { chatId } = message;
 
       const attachmentsToSend = message.attachments?.map(({ id, type }) => ({ id, type })) || [];
-      try {
-        const messageCreationReq: ICreateMessageApiRequest = {
-          text: message.text,
-          chatId,
-          attachments: attachmentsToSend,
-        };
 
-        const { data } = CreateMessage.httpRequest.call(yield call(() => CreateMessage.httpRequest.generator(messageCreationReq)));
+      const messageCreationReq: ICreateMessageApiRequest = {
+        text: message.text,
+        chatId,
+        attachments: attachmentsToSend,
+      };
 
-        yield put(
-          CreateMessageSuccess.action({
-            chatId: message.chatId || 0,
-            oldMessageId: message.id,
-            newMessageId: data,
-            messageState: MessageState.SENT,
-            attachments: message.attachments,
-          }),
-        );
-      } catch {
-        alert('error message create');
-      }
+      const { data } = CreateMessage.httpRequest.call(yield call(() => CreateMessage.httpRequest.generator(messageCreationReq)));
+
+      yield put(
+        CreateMessageSuccess.action({
+          chatId: message.chatId || 0,
+          oldMessageId: message.id,
+          newMessageId: data,
+          messageState: MessageState.SENT,
+          attachments: message.attachments,
+        }),
+      );
     };
   }
 

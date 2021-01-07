@@ -4,6 +4,7 @@ import { DeleteFriend } from './features/delete-friend/delete-friend';
 import { DeleteFriendSuccess } from './features/delete-friend/delete-friend-success';
 import { GetFriends } from './features/get-friends/get-friends';
 import { GetFriendsSuccess } from './features/get-friends/get-friends-success';
+import { UserContactsRemovedEventHandler } from './socket-events/user-contacts-removed/user-contacts-removed-event-handler';
 import { UserStatusChangedEventHandler } from './socket-events/user-status-changed/user-status-changed-event-handler';
 
 export namespace FriendActions {
@@ -16,4 +17,5 @@ export namespace FriendActions {
 
   // socket-events
   export const userStatusChangedEvent = UserStatusChangedEventHandler.action;
+  export const userContactsRemovedEventHandler = UserContactsRemovedEventHandler.action;
 }

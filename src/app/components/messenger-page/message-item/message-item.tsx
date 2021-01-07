@@ -34,6 +34,7 @@ import { SelectMessage } from 'app/store/chats/features/select-message/select-me
 import { xorBy } from 'lodash';
 import { MediaGrid } from './attachments/media-grid/media-grid';
 import { RecordingAttachment } from './attachments/recording-attachment/recording-attachment';
+import { MessageItemActions } from './message-item-actions/message-item-actions';
 
 interface IMessageItemProps {
   message: IMessage;
@@ -127,8 +128,10 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
               </Link>
             ))}
           <div className='message__item-apart'>
-            <span className='message__contents'>{message.text}</span>
-
+            <div className='message__contents__wrapper'>
+              <MessageItemActions messageId={message.id} isCreatedByMe={isCurrentUserMessageCreator} />
+              <span className='message__contents'>{message.text}</span>
+            </div>
             <div className='message__time-status'>
               {message.isEdited && <span className='message__edited'>Edited •</span>}
 

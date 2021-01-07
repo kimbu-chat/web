@@ -1,4 +1,3 @@
-import { MyProfileService } from 'app/services/my-profile-service';
 import { TFunction } from 'i18next';
 import { RootState } from '../root-reducer';
 import { IAttachmentToSend } from './models/attachment-to-send';
@@ -96,10 +95,6 @@ export const getMessageToEditSelectorIdSelector = (state: RootState) => state.ch
 export const getMessageToReplySelector = (state: RootState) => state.chats.messageToReply;
 
 export const getSelectedMessagesIdSelector = (state: RootState) => state.chats.selectedMessageIds;
-
-export const getMessageCreatedByMeSelector = (messageId: number) => (state: RootState) =>
-  state.chats.chats.find(({ id }) => id === state.chats.selectedChatId)?.messages.messages.find(({ id }) => id === messageId)?.userCreator.id ===
-  new MyProfileService()?.myProfile.id;
 
 export const getMessagesLoadingSelector = (state: RootState) => state.chats.chats.find(({ id }) => id === state.chats.selectedChatId)?.messages.loading;
 

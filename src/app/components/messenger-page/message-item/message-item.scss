@@ -30,8 +30,16 @@
   }
 
   &__contents {
-    display: block;
-    max-width: 60%;
+    &__wrapper {
+      display: block;
+      max-width: 60%;
+      position: relative;
+
+      &:hover .message-item-actions {
+        visibility: visible;
+        opacity: 1;
+      }
+    }
   }
 
   &__item {

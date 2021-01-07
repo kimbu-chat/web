@@ -1,0 +1,29 @@
+.message-item-actions {
+  display: flex;
+  flex-direction: row;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.1s;
+
+  position: absolute;
+  top: -10px;
+  transform: translateX(15%);
+
+  &__action {
+    margin-right: 22px;
+    color: #3f8ae0;
+
+    svg {
+      height: 12px;
+      width: 12px;
+    }
+
+    &:first-child {
+      margin-left: 12px;
+    }
+
+    &:last-child {
+      margin-right: 12px;
+    }
+  }
+}

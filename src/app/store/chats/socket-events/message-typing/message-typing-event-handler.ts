@@ -1,3 +1,4 @@
+import { delay, put } from 'redux-saga/effects';
 import { IChatsState, InterlocutorType } from 'store/chats/models';
 import { ChatId } from 'store/chats/chat-id';
 import { createAction } from 'typesafe-actions';
@@ -5,6 +6,7 @@ import produce from 'immer';
 import { MyProfileService } from 'app/services/my-profile-service';
 import { IIntercolutorMessageTypingIntegrationEvent } from './message-typing-integration-event';
 import { getChatByIdDraftSelector } from '../../selectors';
+import { InterlocutorStoppedTyping } from '../../features/interlocutor-message-typing/interlocutor-stopped-typing';
 
 export class UserMessageTypingEventHandler {
   static get action() {
@@ -14,6 +16,8 @@ export class UserMessageTypingEventHandler {
   static get reducer() {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof UserMessageTypingEventHandler.action>) => {
       const { interlocutorName, chatId, interlocutorId, text } = payload;
+
+      console.log('chat.typingInterlocutors');
 
       const myId = new MyProfileService().myProfile.id;
 
@@ -28,26 +32,20 @@ export class UserMessageTypingEventHandler {
         return draft;
       }
 
-      clearTimeout(chat.timeoutId as NodeJS.Timeout);
-
-      const timeoutId = (setTimeout(() => {
-        // TODO: here we have no acces to store, so we have to do yield put
-        // store.dispatch(ChatActions.interlocutorStoppedTyping(action.payload));
-      }, 1500) as unknown) as NodeJS.Timeout;
-
-      const typingUser = {
-        timeoutId,
-        fullName: interlocutorName,
-      };
-
       chat.draftMessage = text;
-      chat.timeoutId = timeoutId;
 
-      if (!chat.typingInterlocutors?.find(({ fullName }) => fullName === interlocutorName)) {
-        chat.typingInterlocutors = [...(chat.typingInterlocutors || []), typingUser];
+      if (!chat.typingInterlocutors?.find((fullName) => fullName === interlocutorName)) {
+        chat.typingInterlocutors = [...(chat.typingInterlocutors || []), interlocutorName];
       }
 
       return draft;
     });
+  }
+
+  static get saga() {
+    return function* (action: ReturnType<typeof UserMessageTypingEventHandler.action>) {
+      yield delay(3000);
+      yield put(InterlocutorStoppedTyping.action(action.payload));
+    };
   }
 }

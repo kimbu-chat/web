@@ -66,18 +66,18 @@ export const getTypingStringSelector = (t: TFunction, chatId: number | null) => 
 
   if (typingUsers) {
     if (typingUsers.length === 1) {
-      return t('chat.typing', { firstInterlocutorName: typingUsers[0].fullName.split(' ')[0] });
+      return t('chat.typing', { firstInterlocutorName: typingUsers[0].split(' ')[0] });
     }
     if (typingUsers.length === 2) {
       return t('chat.typing_two', {
-        firstInterlocutorName: typingUsers[0].fullName.split(' ')[0],
-        secondInterlocutorName: typingUsers[1].fullName.split(' ')[0],
+        firstInterlocutorName: typingUsers[0].split(' ')[0],
+        secondInterlocutorName: typingUsers[1].split(' ')[0],
       });
     }
     if (typingUsers.length > 2) {
       return t('chat.typing_many', {
-        firstInterlocutorName: typingUsers[0].fullName.split(' ')[0],
-        secondInterlocutorName: typingUsers[1].fullName.split(' ')[0],
+        firstInterlocutorName: typingUsers[0].split(' ')[0],
+        secondInterlocutorName: typingUsers[1].split(' ')[0],
         remainingCount: typingUsers.length - 2,
       });
     }

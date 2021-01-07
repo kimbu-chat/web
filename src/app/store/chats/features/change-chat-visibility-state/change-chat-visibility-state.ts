@@ -17,22 +17,16 @@ export class ChangeChatVisibilityState {
     return function* (action: ReturnType<typeof ChangeChatVisibilityState.action>): SagaIterator {
       const chatId = yield select(getSelectedChatIdSelector);
 
-      try {
-        const request: IChangeChatVisibilityStateApiRequest = {
-          chatIds: [chatId],
-          isHidden: true,
-        };
+      const request: IChangeChatVisibilityStateApiRequest = {
+        chatIds: [chatId],
+        isHidden: true,
+      };
 
-        const response = ChangeChatVisibilityState.httpRequest.call(yield call(() => ChangeChatVisibilityState.httpRequest.generator(request)));
+      const response = ChangeChatVisibilityState.httpRequest.call(yield call(() => ChangeChatVisibilityState.httpRequest.generator(request)));
 
-        if (response.status === 200) {
-          yield put(ChangeChatVisibilityStateSuccess.action({ chatId }));
-          action.meta.deferred.resolve();
-        } else {
-          alert('Error chat deletion');
-        }
-      } catch (e) {
-        console.warn(e);
+      if (response.status === 200) {
+        yield put(ChangeChatVisibilityStateSuccess.action({ chatId }));
+        action.meta.deferred.resolve();
       }
     };
   }

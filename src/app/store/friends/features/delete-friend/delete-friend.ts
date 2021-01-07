@@ -1,4 +1,3 @@
-import { HTTPStatusCode } from 'app/common/http-status-code';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
 
 import { AxiosResponse } from 'axios';
@@ -17,17 +16,10 @@ export class DeleteFriend {
   static get saga() {
     return function* (action: ReturnType<typeof DeleteFriend.action>): SagaIterator {
       const userId = action.payload;
-      try {
-        const { status } = DeleteFriend.httpRequest.call(yield call(() => DeleteFriend.httpRequest.generator(action.payload)));
 
-        if (status === HTTPStatusCode.OK) {
-          yield put(DeleteFriendSuccess.action(userId));
-        } else {
-          alert('Failed to delete contact');
-        }
-      } catch {
-        alert('Failed to delete contact');
-      }
+      DeleteFriend.httpRequest.call(yield call(() => DeleteFriend.httpRequest.generator(action.payload)));
+
+      yield put(DeleteFriendSuccess.action(userId));
     };
   }
 

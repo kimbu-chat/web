@@ -33,7 +33,6 @@ export class ReSendSmsCode {
 
       if (status !== HTTPStatusCode.OK) {
         yield put(SendSmsCodeFailure.action());
-        alert('Sms Limit');
         return;
       }
 

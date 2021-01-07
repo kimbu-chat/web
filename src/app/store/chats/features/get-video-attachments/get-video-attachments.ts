@@ -40,8 +40,6 @@ export class GetVideoAttachments {
 
       if (status === HTTPStatusCode.OK) {
         yield put(GetVideoAttachmentsSuccess.action({ videos: data, hasMore, chatId }));
-      } else {
-        alert('getVideoAttachmentsSaga error');
       }
     };
   }

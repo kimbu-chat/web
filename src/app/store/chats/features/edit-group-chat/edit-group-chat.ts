@@ -34,8 +34,6 @@ export class EditGroupChat {
 
       if (status === HTTPStatusCode.OK) {
         yield put(EditGroupChatSuccess.action({ chatId, name, description, avatar }));
-      } else {
-        alert('editGroupChat error');
       }
     };
   }

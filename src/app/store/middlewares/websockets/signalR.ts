@@ -22,34 +22,23 @@ function openConnection(store: Store<RootState>): void {
     .configureLogging(LogLevel.None)
     .build();
 
-  connection
-    .start()
-    .then(() => {
-      console.warn('CONNECTED WEBSOCKETS');
-      store.dispatch(WebsocketsConnected.action());
-    })
-    .catch((err: any) => {
-      console.warn('ERROR WEBSOCKETS', err);
-    });
+  connection.start().then(() => {
+    store.dispatch(WebsocketsConnected.action());
+  });
 
   connection.on('notify', (event: IIntegrationEvent) => {
-    console.warn('Event received. Data: ', event);
-
     store.dispatch({ type: event.name, payload: event.object });
   });
 
   connection.onreconnecting(() => {
-    console.warn('RECONNECTING WEBSOCKETS');
     store.dispatch(WebsocketsDisconnected.action());
   });
 
   connection.onreconnected(() => {
-    console.warn('ON RECCONECTED WEBSOCKETS');
     store.dispatch(WebsocketsConnected.action());
   });
 
-  connection.onclose((err: any) => {
-    console.warn('WEB SOCKET CONNECTION WAS LOST', err);
+  connection.onclose(() => {
     store.dispatch(WebsocketsDisconnected.action());
   });
 }

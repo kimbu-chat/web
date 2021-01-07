@@ -55,24 +55,24 @@ function* uploadFileSaga(requestConfig: AxiosRequestConfig, cancelTokenSource: C
     function* ({ start, progress = 0, err, response }: { start: number; progress: number; err: string; response: AxiosResponse<any> }) {
       if (start) {
         if (callbacks?.onStart) {
-          yield call(() => callbacks.onStart!({ cancelTokenSource }));
+          yield call(callbacks.onStart, { cancelTokenSource });
         }
       }
       if (err) {
         if (callbacks?.onFailure) {
-          yield call(() => callbacks.onFailure!());
+          yield call(callbacks.onFailure);
         }
         return;
       }
       if (response) {
         if (callbacks?.onSuccess) {
-          yield call(() => callbacks.onSuccess!(response));
+          yield call(callbacks.onSuccess, response);
         }
         return;
       }
 
       if (callbacks?.onProgress) {
-        yield call(() => callbacks.onProgress!({ progress }));
+        yield call(callbacks.onProgress, { progress });
       }
     },
   );
@@ -164,9 +164,8 @@ export const httpFilesRequestFactory = <T, B>(
         return yield call(httpRequest, finalUrl, method, body, cancelTokenSource, headers, callbacks);
       } catch (e) {
         const error = e as AxiosError;
-        if (isNetworkError(e)) {
-          alert('Network Error.');
-        } else if (error?.response?.status === 401) {
+
+        if (!isNetworkError(e) && error?.response?.status === 401) {
           yield put(RefreshToken.action());
 
           yield take(RefreshTokenSuccess.action);

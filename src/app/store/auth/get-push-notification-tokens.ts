@@ -19,10 +19,6 @@ export async function getPushNotificationTokens() {
     return undefined;
   }
 
-  if (!('Notification' in window)) {
-    alert('This browser does not support desktop notification');
-  }
-
   if (Notification.permission === 'denied' || Notification.permission === 'default') {
     await Notification.requestPermission();
   }

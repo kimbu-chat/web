@@ -24,88 +24,83 @@ export class CreateGroupChat {
       const { userIds, name, avatar, description, currentUser } = action.payload;
       const selectedChatId = yield select(getSelectedChatIdSelector);
 
-      try {
-        const groupChatCreationRequest: ICerateGroupChatApiRequest = {
+      const groupChatCreationRequest: ICerateGroupChatApiRequest = {
+        name,
+        description,
+        userIds,
+        avatarId: avatar?.id,
+      };
+
+      const { data } = CreateGroupChat.httpRequest.call(yield call(() => CreateGroupChat.httpRequest.generator(groupChatCreationRequest)));
+
+      const chatId: number = ChatId.from(undefined, data).id;
+
+      const firstMessage: IMessage = {
+        creationDateTime: new Date(),
+        id: new Date().getTime(),
+        systemMessageType: SystemMessageType.GroupChatCreated,
+        text: MessageUtils.createSystemMessage({}),
+        chatId,
+        state: MessageState.LOCALMESSAGE,
+        userCreator: action.payload.currentUser,
+      };
+
+      const chat: IChat = {
+        interlocutorType: InterlocutorType.GroupChat,
+        unreadMessagesCount: 0,
+        id: chatId,
+        isMuted: false,
+        draftMessage: '',
+        groupChat: {
+          id: data,
+          membersCount: userIds.length + 1,
           name,
           description,
-          userIds,
-          avatarId: avatar?.id,
-        };
+          avatar: action.payload.avatar,
+          userCreatorId: currentUser.id,
+        },
+        typingInterlocutors: [],
+        lastMessage: firstMessage,
+        photos: {
+          hasMore: true,
+          loading: false,
+          photos: [],
+        },
+        members: {
+          hasMore: true,
+          loading: false,
+          members: [],
+        },
+        videos: {
+          hasMore: true,
+          loading: false,
+          videos: [],
+        },
+        files: {
+          hasMore: true,
+          loading: false,
+          files: [],
+        },
+        audios: {
+          hasMore: true,
+          loading: false,
+          audios: [],
+        },
+        recordings: {
+          hasMore: true,
+          loading: false,
+          recordings: [],
+        },
+        messages: {
+          hasMore: true,
+          loading: false,
+          messages: [firstMessage],
+        },
+      };
 
-        const { data } = CreateGroupChat.httpRequest.call(yield call(() => CreateGroupChat.httpRequest.generator(groupChatCreationRequest)));
-
-        const chatId: number = ChatId.from(undefined, data).id;
-
-        const firstMessage: IMessage = {
-          creationDateTime: new Date(),
-          id: new Date().getTime(),
-          systemMessageType: SystemMessageType.GroupChatCreated,
-          text: MessageUtils.createSystemMessage({}),
-          chatId,
-          state: MessageState.LOCALMESSAGE,
-          userCreator: action.payload.currentUser,
-        };
-
-        const chat: IChat = {
-          interlocutorType: InterlocutorType.GroupChat,
-          unreadMessagesCount: 0,
-          id: chatId,
-          isMuted: false,
-          draftMessage: '',
-          groupChat: {
-            id: data,
-            membersCount: userIds.length + 1,
-            name,
-            description,
-            avatar: action.payload.avatar,
-            userCreatorId: currentUser.id,
-          },
-          typingInterlocutors: [],
-          lastMessage: firstMessage,
-          photos: {
-            hasMore: true,
-            loading: false,
-            photos: [],
-          },
-          members: {
-            hasMore: true,
-            loading: false,
-            members: [],
-          },
-          videos: {
-            hasMore: true,
-            loading: false,
-            videos: [],
-          },
-          files: {
-            hasMore: true,
-            loading: false,
-            files: [],
-          },
-          audios: {
-            hasMore: true,
-            loading: false,
-            audios: [],
-          },
-          recordings: {
-            hasMore: true,
-            loading: false,
-            recordings: [],
-          },
-          messages: {
-            hasMore: true,
-            loading: false,
-            messages: [firstMessage],
-          },
-        };
-
-        yield put(CreateGroupChatSuccess.action(chat));
-        yield put(ChangeSelectedChat.action({ newChatId: chat.id, oldChatId: selectedChatId }));
-        action.meta.deferred?.resolve(chat);
-      } catch (e) {
-        console.warn(e);
-        alert('createGroupChatSaga error');
-      }
+      yield put(CreateGroupChatSuccess.action(chat));
+      yield put(ChangeSelectedChat.action({ newChatId: chat.id, oldChatId: selectedChatId }));
+      action.meta.deferred?.resolve(chat);
     };
   }
 

@@ -14,28 +14,22 @@ export class ChangeChatMutedStatus {
 
   static get saga() {
     return function* muteChatSaga() {
-      try {
-        const { id: chatId, isMuted } = yield select(getSelectedChatSelector);
+      const { id: chatId, isMuted } = yield select(getSelectedChatSelector);
 
-        const request: IChangeChatMutedStatusApiRequest = {
-          chatIds: [chatId],
-          isMuted: !isMuted,
-        };
+      const request: IChangeChatMutedStatusApiRequest = {
+        chatIds: [chatId],
+        isMuted: !isMuted,
+      };
 
-        const { status } = ChangeChatMutedStatus.httpRequest.call(yield call(() => ChangeChatMutedStatus.httpRequest.generator(request)));
+      const { status } = ChangeChatMutedStatus.httpRequest.call(yield call(() => ChangeChatMutedStatus.httpRequest.generator(request)));
 
-        if (status === 200) {
-          yield put(
-            ChangeChatMutedStatusSuccess.action({
-              chatId,
-              isMuted,
-            }),
-          );
-        } else {
-          alert('Error mute chat');
-        }
-      } catch (e) {
-        console.warn(e);
+      if (status === 200) {
+        yield put(
+          ChangeChatMutedStatusSuccess.action({
+            chatId,
+            isMuted,
+          }),
+        );
       }
     };
   }

@@ -23,8 +23,6 @@ export class GetChatInfo {
 
       if (status === HTTPStatusCode.OK) {
         yield put(GetChatInfoSuccess.action({ ...data, chatId }));
-      } else {
-        alert('getChatInfoSaga error');
       }
     };
   }

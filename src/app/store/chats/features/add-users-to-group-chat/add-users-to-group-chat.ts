@@ -18,29 +18,23 @@ export class AddUsersToGroupChat {
 
   static get saga() {
     return function* addUsersToGroupChatSaga(action: ReturnType<typeof AddUsersToGroupChat.action>): SagaIterator {
-      try {
-        const { users } = action.payload;
-        const chatId = yield select(getSelectedChatIdSelector);
-        const { groupChatId } = ChatId.fromId(chatId);
+      const { users } = action.payload;
+      const chatId = yield select(getSelectedChatIdSelector);
+      const { groupChatId } = ChatId.fromId(chatId);
 
-        const userIds = users.map(({ id }) => id);
+      const userIds = users.map(({ id }) => id);
 
-        const { status } = AddUsersToGroupChat.httpRequest.call(
-          yield call(() =>
-            AddUsersToGroupChat.httpRequest.generator({
-              id: groupChatId!,
-              userIds,
-            }),
-          ),
-        );
+      const { status } = AddUsersToGroupChat.httpRequest.call(
+        yield call(() =>
+          AddUsersToGroupChat.httpRequest.generator({
+            id: groupChatId!,
+            userIds,
+          }),
+        ),
+      );
 
-        if (status === HTTPStatusCode.OK) {
-          yield put(AddUsersToGroupChatSuccess.action({ chatId, users }));
-        } else {
-          console.warn('Failed to add users to groupChat');
-        }
-      } catch {
-        alert('addUsersToGroupChatSaga error');
+      if (status === HTTPStatusCode.OK) {
+        yield put(AddUsersToGroupChatSuccess.action({ chatId, users }));
       }
     };
   }

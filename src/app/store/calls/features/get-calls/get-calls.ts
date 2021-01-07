@@ -33,8 +33,6 @@ export class GetCalls {
 
       if (status === HTTPStatusCode.OK) {
         yield put(GetCallsSuccess.action({ calls: data, hasMore }));
-      } else {
-        alert('getCallsSaga error');
       }
     };
   }

@@ -16,19 +16,15 @@ export class UpdateMyProfile {
 
   static get saga() {
     return function* (action: ReturnType<typeof UpdateMyProfile.action>): SagaIterator {
-      try {
-        const requestData: IUpdateMyProfileApiRequest = {
-          firstName: action.payload.firstName,
-          lastName: action.payload.lastName,
-          avatarId: action.payload.avatar?.id,
-        };
-        const { status } = UpdateMyProfile.httpRequest.call(yield call(() => UpdateMyProfile.httpRequest.generator(requestData)));
+      const requestData: IUpdateMyProfileApiRequest = {
+        firstName: action.payload.firstName,
+        lastName: action.payload.lastName,
+        avatarId: action.payload.avatar?.id,
+      };
+      const { status } = UpdateMyProfile.httpRequest.call(yield call(() => UpdateMyProfile.httpRequest.generator(requestData)));
 
-        if (status === 200) {
-          yield put(UpdateMyProfileSuccess.action(action.payload));
-        }
-      } catch (err) {
-        alert(err);
+      if (status === 200) {
+        yield put(UpdateMyProfileSuccess.action(action.payload));
       }
     };
   }

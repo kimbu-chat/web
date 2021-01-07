@@ -40,8 +40,6 @@ export class GetRawAttachments {
 
       if (status === HTTPStatusCode.OK) {
         yield put(GetRawAttachmentsSuccess.action({ files: data, hasMore, chatId }));
-      } else {
-        alert('getRawAttachmentsSaga error');
       }
     };
   }

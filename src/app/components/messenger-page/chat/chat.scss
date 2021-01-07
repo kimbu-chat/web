@@ -1,9 +1,4 @@
-.chat {
-  &__messages-group {
-    display: flex;
-    flex-direction: column-reverse;
-  }
-
+.messenger {
   &__messages-list {
     position: relative;
     flex: 1 1;

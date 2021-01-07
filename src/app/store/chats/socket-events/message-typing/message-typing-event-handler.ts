@@ -17,6 +17,8 @@ export class UserMessageTypingEventHandler {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof UserMessageTypingEventHandler.action>) => {
       const { interlocutorName, chatId, interlocutorId, text } = payload;
 
+      console.log('chat.typingInterlocutors');
+
       const myId = new MyProfileService().myProfile.id;
 
       // Chat list uppdate

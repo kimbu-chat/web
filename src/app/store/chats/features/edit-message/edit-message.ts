@@ -1,7 +1,7 @@
 import { IChatsState } from 'store/chats/models';
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { getMessageDraftSelector } from '../../selectors';
+import { getChatByIdDraftSelector } from '../../selectors';
 import { IEditMessageActionPayload } from './action-payloads/edit-message-action-payload';
 
 export class EditMessage {
@@ -13,14 +13,14 @@ export class EditMessage {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof EditMessage.action>) => {
       const { messageId } = payload;
 
-      draft.selectedMessageIds = [];
+      const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
 
-      const message = getMessageDraftSelector(draft.selectedChatId, messageId, draft);
+      const message = chat?.messages.messages.find(({ id }) => id === messageId);
 
-      message!.isSelected = false;
-
-      draft.messageToEdit = message;
-      draft.messageToReply = undefined;
+      if (chat) {
+        chat.messageToEdit = message;
+        chat.messageToReply = undefined;
+      }
 
       return draft;
     });

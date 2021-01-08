@@ -6,7 +6,7 @@ import { useReferState } from 'app/hooks/use-referred-state';
 import { CreateMessage } from 'app/store/chats/features/create-message/create-message';
 import { MessageTyping } from 'app/store/chats/features/message-typing/message-typing';
 import { UploadAttachmentRequest } from 'app/store/chats/features/upload-attachment/upload-attachment-request';
-import { IChat, SystemMessageType, MessageState, FileType } from 'app/store/chats/models';
+import { IChat, SystemMessageType, MessageState, FileType, IMessage } from 'app/store/chats/models';
 import { getMessageToReplySelector, getSelectedChatSelector } from 'app/store/chats/selectors';
 import { getMyProfileSelector } from 'app/store/my-profile/selectors';
 import { getTypingStrategySelector } from 'app/store/settings/selectors';
@@ -108,21 +108,30 @@ export const CreateMessageInput = React.memo(() => {
 
     const text = refferedText.current;
 
-    if (text.trim().length > 0 && updatedSelectedChat.current && currentUser) {
+    if ((text.trim().length > 0 || (updatedSelectedChat.current?.attachmentsToSend?.length || 0) > 0) && updatedSelectedChat.current && currentUser) {
       const attachments = updatedSelectedChat.current?.attachmentsToSend?.map(({ attachment }) => attachment);
 
       if (chatId) {
+        const message: IMessage = {
+          text,
+          systemMessageType: SystemMessageType.None,
+          userCreator: currentUser,
+          creationDateTime: new Date(new Date().toUTCString()),
+          state: MessageState.QUEUED,
+          id: new Date().getTime(),
+          chatId,
+          attachments,
+        };
+
+        if (replyingMessage) {
+          message.replyMessage = {
+            id: replyingMessage?.id,
+            userCreatorFullName: `${replyingMessage.userCreator.firstName} ${replyingMessage.userCreator.lastName}`,
+            text: replyingMessage.text,
+          };
+        }
         sendMessage({
-          message: {
-            text,
-            systemMessageType: SystemMessageType.None,
-            userCreator: currentUser,
-            creationDateTime: new Date(new Date().toUTCString()),
-            state: MessageState.QUEUED,
-            id: new Date().getTime(),
-            chatId,
-            attachments,
-          },
+          message,
         });
       }
     }

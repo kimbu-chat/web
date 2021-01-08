@@ -1,6 +1,7 @@
 import { IChatsState } from 'store/chats/models';
 import { createEmptyAction } from 'app/store/common/actions';
 import produce from 'immer';
+import { getChatByIdDraftSelector } from '../../selectors';
 
 export class ResetEditMessage {
   static get action() {
@@ -9,7 +10,12 @@ export class ResetEditMessage {
 
   static get reducer() {
     return produce((draft: IChatsState) => {
-      draft.messageToEdit = undefined;
+      const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
+
+      if (chat) {
+        chat.messageToReply = undefined;
+      }
+
       return draft;
     });
   }

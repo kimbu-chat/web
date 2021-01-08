@@ -29,6 +29,7 @@ export class CreateMessage {
         chat.attachmentsToSend = [];
         chat.lastMessage = { ...message };
         chat.draftMessage = '';
+        chat.messageToReply = undefined;
 
         const chatWithNewMessage = draft.chats[chatIndex];
 
@@ -57,13 +58,14 @@ export class CreateMessage {
         text: message.text,
         chatId,
         attachments: attachmentsToSend,
+        replyToMessageId: message.replyMessage?.id,
       };
 
       const { data } = CreateMessage.httpRequest.call(yield call(() => CreateMessage.httpRequest.generator(messageCreationReq)));
 
       yield put(
         CreateMessageSuccess.action({
-          chatId: message.chatId || 0,
+          chatId,
           oldMessageId: message.id,
           newMessageId: data,
           messageState: MessageState.SENT,

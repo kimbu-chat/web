@@ -25,7 +25,7 @@ export const EditUserNameModal: React.FC<IEditUserNameModalProps> = React.memo((
 
   const myProfile = useSelector(getMyProfileSelector);
 
-  const updateMyNickname = useActionWithDispatch(MyProfileActions.updateMyNicknameAction);
+  const updateMyProfile = useActionWithDispatch(MyProfileActions.updateMyProfileAction);
   const checkNicknameAvailability = useActionWithDeferred(MyProfileActions.checkNicknameAvailabilityAction);
 
   const [nickname, setNickname] = useState(myProfile?.nickname || '');
@@ -57,10 +57,10 @@ export const EditUserNameModal: React.FC<IEditUserNameModalProps> = React.memo((
 
   const onSubmit = useCallback(() => {
     if (nickname !== myProfile?.nickname) {
-      updateMyNickname({ nickname });
+      updateMyProfile({ nickname, firstName: myProfile!.firstName, lastName: myProfile!.lastName, avatar: myProfile!.avatar });
     }
     onClose();
-  }, [nickname, updateMyNickname, myProfile]);
+  }, [nickname, updateMyProfile, myProfile]);
 
   return (
     <WithBackground onBackgroundClick={onClose}>

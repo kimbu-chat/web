@@ -19,6 +19,7 @@ export class UpdateMyProfile {
       const requestData: IUpdateMyProfileApiRequest = {
         firstName: action.payload.firstName,
         lastName: action.payload.lastName,
+        nickname: action.payload.nickname,
         avatarId: action.payload.avatar?.id,
       };
       const { status } = UpdateMyProfile.httpRequest.call(yield call(() => UpdateMyProfile.httpRequest.generator(requestData)));

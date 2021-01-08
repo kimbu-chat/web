@@ -36,7 +36,7 @@ export const EditNameModal: React.FC<IEditNameModalProps> = React.memo(({ onClos
 
   const onSubmit = useCallback(() => {
     if (firstName !== myProfile?.firstName || lastName !== myProfile?.lastName) {
-      updateMyProfile({ firstName, lastName, avatar: myProfile?.avatar });
+      updateMyProfile({ firstName, lastName, nickname: myProfile!.nickname, avatar: myProfile?.avatar });
     }
     onClose();
   }, [firstName, lastName, updateMyProfile, myProfile]);

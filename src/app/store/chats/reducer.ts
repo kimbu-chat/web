@@ -60,6 +60,7 @@ import { ChatMutedStatusChangedEventHandler } from './socket-events/chat-mute-st
 import { UserStatusChangedEventHandler } from '../friends/socket-events/user-status-changed/user-status-changed-event-handler';
 import { ChatId } from './chat-id';
 import { IChatsState } from './models/chats-state';
+import { UserEditedEventHandler } from './socket-events/user-edited/user-edited-event-handler';
 
 const initialState: IChatsState = {
   loading: false,
@@ -149,6 +150,7 @@ const chats = createReducer<IChatsState>(initialState)
   .handleAction(MessageEditedEventHandler.action, MessageEditedEventHandler.reducer)
   .handleAction(MessagesDeletedIntegrationEventHandler.action, MessagesDeletedIntegrationEventHandler.reducer)
   .handleAction(MessageReadEventHandler.action, MessageReadEventHandler.reducer)
-  .handleAction(ChatClearedEventHandler.action, ChatClearedEventHandler.reducer);
+  .handleAction(ChatClearedEventHandler.action, ChatClearedEventHandler.reducer)
+  .handleAction(UserEditedEventHandler.action, UserEditedEventHandler.reducer);
 
 export default chats;

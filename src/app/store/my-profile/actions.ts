@@ -6,6 +6,7 @@ import { GetMyProfileSuccess } from './features/get-my-profile/get-my-profile-su
 import { UpdateMyProfile } from './features/update-my-profile/update-my-profile';
 import { UpdateMyProfileSuccess } from './features/update-my-profile/update-my-profile-success';
 import { UploadAvatar } from './features/upload-avatar/upload-avatar';
+import { UserEditedEventHandler } from './socket-events/user-edited-event-handler';
 
 export namespace MyProfileActions {
   export const updateMyProfileAction = UpdateMyProfile.action;
@@ -16,4 +17,5 @@ export namespace MyProfileActions {
   export const changeUserOnlineStatusAction = ChangeUserOnlineStatus.action;
   export const uploadAvatarRequestAction = UploadAvatar.action;
   export const cancelAvatarUploadingRequestAction = CancelAvatarUploading.action;
+  export const userEditedEventHandler = UserEditedEventHandler.action;
 }

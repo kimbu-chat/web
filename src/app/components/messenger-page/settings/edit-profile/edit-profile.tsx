@@ -90,7 +90,6 @@ export const EditProfile = React.memo(() => {
       firstName: myProfile!.firstName,
       lastName: myProfile!.lastName,
       nickname: myProfile!.nickname,
-      avatar: myProfile?.avatar,
     });
   }, [updateMyProfile, myProfile]);
 

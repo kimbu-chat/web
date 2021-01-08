@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { getUserIndexDraftSelector } from 'store/friends/selectors';
+import { getUserDraftSelector } from 'store/friends/selectors';
 import { IFriendsState } from '../../models';
 import { IStatusChangedIntegrationEvent } from './status-changed-integration-event';
 
@@ -12,14 +12,14 @@ export class UserStatusChangedEventHandler {
   static get reducer() {
     return produce((draft: IFriendsState, { payload }: ReturnType<typeof UserStatusChangedEventHandler.action>) => {
       const { userId } = payload;
-      const userIndex = getUserIndexDraftSelector(userId, draft);
+      const user = getUserDraftSelector(userId, draft);
 
-      if (userIndex === -1) {
+      if (!user) {
         return draft;
       }
 
-      draft.friends[userIndex].status = payload.status;
-      draft.friends[userIndex].lastOnlineTime = new Date();
+      user.status = payload.status;
+      user.lastOnlineTime = new Date();
 
       return draft;
     });

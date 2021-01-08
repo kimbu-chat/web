@@ -1,5 +1,5 @@
 import { SagaIterator } from 'redux-saga';
-import { put, call, select, take } from 'redux-saga/effects';
+import { put, call, select, take, delay } from 'redux-saga/effects';
 import { getInternetStateSelector, getWebsocketStateSelector } from '../../selectors';
 import { WebsocketsDisconnected } from '../websockets-connection/websockets-disconnected';
 import { InternetConnected } from './internet-connected';
@@ -26,6 +26,8 @@ export class InternetConnectionCheck {
 
       while (true) {
         const websocketConnected = yield select(getWebsocketStateSelector);
+
+        yield delay(3000);
 
         if (websocketConnected) {
           yield take(WebsocketsDisconnected.action);

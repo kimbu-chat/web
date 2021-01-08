@@ -9,4 +9,4 @@ const config = {
 };
 
 firebase.initializeApp(config);
-export const messaging = firebase.messaging();
+export const messaging = firebase.messaging.isSupported() ? firebase.messaging() : undefined;

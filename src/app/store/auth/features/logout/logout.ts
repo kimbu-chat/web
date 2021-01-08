@@ -36,7 +36,7 @@ export class Logout {
       if (tokens) {
         yield call(() => Logout.httpRequest.generator(tokens));
 
-        yield call(async () => await messaging.deleteToken());
+        yield call(async () => await messaging?.deleteToken());
       }
 
       yield put(LogoutSuccess.action());

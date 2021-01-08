@@ -13,6 +13,7 @@ export class UpdateMyProfileSuccess {
       draft.user!.firstName = payload.firstName;
       draft.user!.lastName = payload.lastName;
       draft.user!.avatar = payload.avatar;
+      draft.user!.nickname = payload.nickname;
 
       return draft;
     });

@@ -80,6 +80,7 @@ export const EditProfile = React.memo(() => {
         avatar: response,
         firstName: myProfile!.firstName,
         lastName: myProfile!.lastName,
+        nickname: myProfile!.nickname,
       });
     });
   }, []);
@@ -88,6 +89,7 @@ export const EditProfile = React.memo(() => {
     updateMyProfile({
       firstName: myProfile!.firstName,
       lastName: myProfile!.lastName,
+      nickname: myProfile!.nickname,
     });
   }, [updateMyProfile, myProfile]);
 

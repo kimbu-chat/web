@@ -1,4 +1,5 @@
 import { createReducer } from 'typesafe-actions';
+import { UserEditedEventHandler } from 'app/store/friends/socket-events/user-edited/user-edited-event-handler';
 import { IFriendsState } from './models';
 import { AddFriendSuccess } from './features/add-friend/add-friend-success';
 import { DeleteFriendSuccess } from './features/delete-friend/delete-friend-success';
@@ -21,6 +22,7 @@ const friends = createReducer<IFriendsState>(initialState)
 
   // socket-events
   .handleAction(UserStatusChangedEventHandler.action, UserStatusChangedEventHandler.reducer)
-  .handleAction(UserContactsRemovedEventHandler.action, UserContactsRemovedEventHandler.reducer);
+  .handleAction(UserContactsRemovedEventHandler.action, UserContactsRemovedEventHandler.reducer)
+  .handleAction(UserEditedEventHandler.action, UserEditedEventHandler.reducer);
 
 export default friends;

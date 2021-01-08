@@ -65,6 +65,7 @@ import { MessageEditedEventHandler } from './socket-events/message-edited/messag
 import { MessageReadEventHandler } from './socket-events/message-read/message-read-event-handler';
 import { EditMessage } from './features/edit-message/edit-message';
 import { ChatClearedEventHandler } from './socket-events/chat-cleared/chat-cleared-event-handler';
+import { UserEditedEventHandler } from './socket-events/user-edited/user-edited-event-handler';
 
 export namespace ChatActions {
   export const getChats = GetChats.action;
@@ -137,4 +138,5 @@ export namespace ChatActions {
   export const messageEditedEventHandler = MessageEditedEventHandler.action;
   export const messagesDeletedIntegrationEventHandler = MessagesDeletedIntegrationEventHandler.action;
   export const chatClearedEventHandler = ChatClearedEventHandler.action;
+  export const userEditedEventHandler = UserEditedEventHandler.action;
 }

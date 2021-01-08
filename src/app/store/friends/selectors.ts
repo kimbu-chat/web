@@ -13,4 +13,4 @@ export const getHasMoreFriendsSelector = (state: RootState) => state.friends.has
 
 // draft-selectors
 
-export const getUserIndexDraftSelector = (userId: number, state: IFriendsState): number => state.friends.findIndex(({ id }) => id === userId);
+export const getUserDraftSelector = (userId: number, state: IFriendsState) => state.friends.find(({ id }) => id === userId);

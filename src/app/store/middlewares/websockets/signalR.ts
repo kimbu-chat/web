@@ -27,6 +27,7 @@ function openConnection(store: Store<RootState>): void {
   });
 
   connection.on('notify', (event: IIntegrationEvent) => {
+    console.log(`event name: ${event.name} payload: ${JSON.stringify(event.object)}`);
     store.dispatch({ type: event.name, payload: event.object });
   });
 

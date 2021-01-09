@@ -7,7 +7,7 @@ import { CallActions } from 'store/calls/actions';
 import { getCallsListSelector, gethasMoreCallsSelector, getCallsAreLoadingSelector } from 'app/store/calls/selectors';
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
 import { CALL_LIMIT } from 'app/utils/pagination-limits';
-import { CallFromList } from './call-from-list/call-from-list';
+import { CallItem } from './call-item/call-item';
 
 export const CallList = () => {
   const calls = useSelector(getCallsListSelector);
@@ -29,7 +29,7 @@ export const CallList = () => {
     <div className='call-list'>
       <InfiniteScroll onReachExtreme={loadMore} hasMore={hasMoreCalls} isLoading={areCallsLoading}>
         {calls.map((call) => (
-          <CallFromList key={call.id} call={call} />
+          <CallItem key={call.id} call={call} />
         ))}
       </InfiniteScroll>
     </div>

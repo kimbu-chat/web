@@ -135,8 +135,8 @@ export class MessageUtils {
     return JSON.stringify(systemMessage);
   }
 
-  static signAndSeparate(arr: IMessage[]): IMessage[] {
-    const separatedAndSignedMessages = arr.map((message, index) => {
+  static signAndSeparate(arr: IMessage[]): IMessage[][] {
+    const signedMessages = arr.map((message, index) => {
       if (index <= arr.length - 1) {
         if (
           index === arr.length - 1 ||
@@ -165,6 +165,18 @@ export class MessageUtils {
 
       return message;
     });
+
+    const separatedAndSignedMessages = signedMessages.reduce(
+      (accum, current) => {
+        accum[accum.length - 1].push(current);
+        if (current.needToShowDateSeparator) {
+          accum.push([]);
+        }
+
+        return accum;
+      },
+      [[]] as IMessage[][],
+    );
 
     return separatedAndSignedMessages;
   }

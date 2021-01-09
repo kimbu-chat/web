@@ -20,6 +20,7 @@ import { MESSAGES_LIMIT } from 'app/utils/pagination-limits';
 import { SelectedMessagesData, MessageItem } from 'app/components';
 import { GetMessages } from 'app/store/chats/features/get-messages/get-messages';
 import { MarkMessagesAsRead } from 'app/store/chats/features/mark-messages-as-read/mark-messages-as-read';
+import { IMessage } from 'app/store/chats/models';
 
 const Chat = React.memo(() => {
   const getMessages = useActionWithDispatch(GetMessages.action);
@@ -56,21 +57,21 @@ const Chat = React.memo(() => {
 
   if (!selectedChatId) {
     return (
-      <div className='messenger__messages-list'>
-        <div className='messenger__select-chat'>{t('chat.select_chat')}</div>
+      <div className='chat__messages-list'>
+        <div className='chat__select-chat'>{t('chat.select_chat')}</div>
       </div>
     );
   }
 
-  const itemsWithUserInfo = MessageUtils.signAndSeparate(messages || []);
+  const separatedItemsWithUserInfo = MessageUtils.signAndSeparate(messages || []);
 
   return (
-    <div className='messenger__messages-list'>
-      <div ref={messagesContainerRef} className='messenger__messages-container'>
-        {typingString && <div className='messenger__typing-notification'>{typingString}</div>}
+    <div className='chat__messages-list'>
+      <div ref={messagesContainerRef} className='chat__messages-container'>
+        {typingString && <div className='chat__typing-notification'>{typingString}</div>}
 
-        {!areMessagesLoading && !hasMoreMessages && itemsWithUserInfo.length === 0 && (
-          <div className='messenger__messages-list__empty'>
+        {!areMessagesLoading && !hasMoreMessages && (messages || []).length === 0 && (
+          <div className='chat__messages-list__empty'>
             <p>{t('chat.empty')}</p>
           </div>
         )}
@@ -80,15 +81,19 @@ const Chat = React.memo(() => {
         </FadeAnimationWrapper>
 
         <InfiniteScroll onReachExtreme={loadMore} hasMore={hasMoreMessages} isLoading={areMessagesLoading} isReverse>
-          {itemsWithUserInfo.map((msg) => (
-            <React.Fragment key={msg.id}>
-              <MessageItem message={msg} key={msg.id} />
-              {msg.needToShowDateSeparator && (
-                <div className='message__separator message__separator--capitalized'>
-                  <span>{moment.utc(msg.creationDateTime).local().format('dddd, MMMM D, YYYY').toString()}</span>
-                </div>
-              )}
-            </React.Fragment>
+          {separatedItemsWithUserInfo.map((msgGroup: IMessage[]) => (
+            <div className='chat__messages-group' key={msgGroup[0]?.id}>
+              {msgGroup.map((msg) => (
+                <React.Fragment key={msg.id}>
+                  <MessageItem message={msg} key={msg.id} />
+                  {msg.needToShowDateSeparator && (
+                    <div className='message__separator message__separator--capitalized'>
+                      <span>{moment.utc(msg.creationDateTime).local().format('dddd, MMMM D, YYYY').toString()}</span>
+                    </div>
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
           ))}
         </InfiniteScroll>
       </div>

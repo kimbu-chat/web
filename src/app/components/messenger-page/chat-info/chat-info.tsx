@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { getSelectedChatSelector } from 'store/chats/selectors';
-import { Avatar, ChangePhoto, FadeAnimationWrapper } from 'components';
+import { Avatar, PhotoEditor, FadeAnimationWrapper } from 'components';
 import EditSvg from 'icons/ic-edit.svg';
 import PhotoSvg from 'icons/ic-photo.svg';
 import { Route } from 'react-router';
@@ -208,7 +208,7 @@ const ChatInfo: React.FC = React.memo(() => {
           <BigPhoto url={getChatFullSizeAvatar()} onClose={changeIsAvatarMaximizedState} />
         </FadeAnimationWrapper>
 
-        {changePhotoDisplayed && <ChangePhoto hideChangePhoto={hideChangePhoto} imageUrl={imageUrl} onSubmit={changeAvatar} />}
+        {changePhotoDisplayed && <PhotoEditor hideChangePhoto={hideChangePhoto} imageUrl={imageUrl} onSubmit={changeAvatar} />}
       </>
     );
   }

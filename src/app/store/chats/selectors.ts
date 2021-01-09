@@ -88,19 +88,20 @@ export const getTypingStringSelector = (t: TFunction, chatId: number | null) => 
 
 export const getIsSelectMessagesStateSelector = (state: RootState) => state.chats.selectedMessageIds.length > 0;
 
-export const getMessageToEditSelector = (state: RootState) => state.chats.messageToEdit;
-
-export const getMessageToEditSelectorIdSelector = (state: RootState) => state.chats.messageToEdit?.id;
-
-export const getMessageToReplySelector = (state: RootState) => state.chats.messageToReply;
-
 export const getSelectedMessagesIdSelector = (state: RootState) => state.chats.selectedMessageIds;
+
+export const getMessageToEditSelector = (state: RootState) => state.chats.chats.find(({ id }) => id === state.chats.selectedChatId)?.messageToEdit;
+
+export const getMessageToReplySelector = (state: RootState) => state.chats.chats.find(({ id }) => id === state.chats.selectedChatId)?.messageToReply;
 
 export const getMessagesLoadingSelector = (state: RootState) => state.chats.chats.find(({ id }) => id === state.chats.selectedChatId)?.messages.loading;
 
 export const getHasMoreMessagesMessagesSelector = (state: RootState) => state.chats.chats.find(({ id }) => id === state.chats.selectedChatId)?.messages.hasMore;
 
 export const getMessagesByChatIdSelector = (state: RootState) => state.chats.chats.find(({ id }) => id === state.chats.selectedChatId)?.messages.messages;
+
+export const getChatHasMessageWithIdSelector = (messageId: number, chatId: number) => (state: RootState) =>
+  state.chats.chats.find(({ id }) => id === chatId)?.messages.messages.findIndex(({ id }) => id === messageId) !== -1;
 
 // IChatsState selectors
 export const getChatExistsDraftSelector = (chatId: number, draft: IChatsState): boolean =>

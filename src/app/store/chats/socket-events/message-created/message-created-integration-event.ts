@@ -9,4 +9,10 @@ export interface IMessageCreatedIntegrationEvent {
   systemMessageType: SystemMessageType;
   text: string;
   userCreator: IUserPreview;
+  replyToMessageId: number;
+  replyMessage?: {
+    id: number;
+    userCreatorFullName: string;
+    text: string;
+  };
 }

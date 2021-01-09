@@ -18,4 +18,9 @@ export interface IMessage {
   isSelected?: boolean;
   needToShowDateSeparator?: boolean;
   attachments?: IBaseAttachment[];
+  replyMessage?: {
+    id: number;
+    userCreatorFullName: string;
+    text: string;
+  };
 }

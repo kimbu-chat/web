@@ -1,4 +1,21 @@
 .message {
+  &__replied {
+    margin-left: 10px;
+    padding: 3px;
+    border-radius: 3px 3px 3px 0;
+    background-color: rgba(63, 138, 224, 0.5);
+    margin-bottom: 5px;
+
+    &__text {
+      font-style: italic;
+      margin-left: 5px;
+    }
+
+    &__interlocutor {
+      color: white;
+    }
+  }
+
   &__container {
     padding: 0px 9px 0px 20px;
     box-sizing: border-box;
@@ -63,22 +80,13 @@
   }
 
   &__sender-photo {
-    height: 36px;
-    width: 36px;
-    transition: all 0.3s;
-
-    &--me {
-      margin-bottom: auto;
-      margin-right: 10px;
-      margin-left: 20px;
-    }
-  }
-
-  &__sender-photo-wrapper {
     margin-bottom: auto;
-    display: block;
+
     margin-right: 10px;
     margin-left: 20px;
+    transition: all 0.3s;
+    height: 36px;
+    width: 36px;
     transition: all 0.3s;
   }
 

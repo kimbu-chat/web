@@ -6,7 +6,7 @@ import { useReferState } from 'app/hooks/use-referred-state';
 import { CreateMessage } from 'app/store/chats/features/create-message/create-message';
 import { MessageTyping } from 'app/store/chats/features/message-typing/message-typing';
 import { UploadAttachmentRequest } from 'app/store/chats/features/upload-attachment/upload-attachment-request';
-import { IChat, SystemMessageType, MessageState, FileType } from 'app/store/chats/models';
+import { IChat, SystemMessageType, MessageState, FileType, IMessage } from 'app/store/chats/models';
 import { getMessageToReplySelector, getSelectedChatSelector } from 'app/store/chats/selectors';
 import { getMyProfileSelector } from 'app/store/my-profile/selectors';
 import { getTypingStrategySelector } from 'app/store/settings/selectors';
@@ -45,6 +45,7 @@ export const CreateMessageInput = React.memo(() => {
   const myProfile = useSelector(getMyProfileSelector);
   const myTypingStrategy = useSelector(getTypingStrategySelector);
   const replyingMessage = useSelector(getMessageToReplySelector);
+  const refferedReplyingMessage = useReferState(replyingMessage);
 
   const [text, setText] = useState('');
   const refferedText = useReferState(text);
@@ -108,21 +109,30 @@ export const CreateMessageInput = React.memo(() => {
 
     const text = refferedText.current;
 
-    if (text.trim().length > 0 && updatedSelectedChat.current && currentUser) {
+    if ((text.trim().length > 0 || (updatedSelectedChat.current?.attachmentsToSend?.length || 0) > 0) && updatedSelectedChat.current && currentUser) {
       const attachments = updatedSelectedChat.current?.attachmentsToSend?.map(({ attachment }) => attachment);
 
       if (chatId) {
+        const message: IMessage = {
+          text,
+          systemMessageType: SystemMessageType.None,
+          userCreator: currentUser,
+          creationDateTime: new Date(new Date().toUTCString()),
+          state: MessageState.QUEUED,
+          id: new Date().getTime(),
+          chatId,
+          attachments,
+        };
+
+        if (refferedReplyingMessage.current) {
+          message.replyMessage = {
+            id: refferedReplyingMessage.current.id!,
+            userCreatorFullName: `${refferedReplyingMessage.current.userCreator.firstName} ${refferedReplyingMessage.current.userCreator.lastName}`,
+            text: refferedReplyingMessage.current.text,
+          };
+        }
         sendMessage({
-          message: {
-            text,
-            systemMessageType: SystemMessageType.None,
-            userCreator: currentUser,
-            creationDateTime: new Date(new Date().toUTCString()),
-            state: MessageState.QUEUED,
-            id: new Date().getTime(),
-            chatId,
-            attachments,
-          },
+          message,
         });
       }
     }

@@ -24,6 +24,9 @@ export interface IChat {
   typingInterlocutors?: string[];
   isMuted?: boolean;
 
+  messageToEdit?: IMessage;
+  messageToReply?: IMessage;
+
   photos: {
     photos: (IPictureAttachment & IGroupable)[];
     loading: boolean;

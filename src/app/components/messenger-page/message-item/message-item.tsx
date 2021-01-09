@@ -127,11 +127,19 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                 {`${message.userCreator?.firstName} ${message.userCreator?.lastName}`}
               </Link>
             ))}
+
           <div className='message__item-apart'>
             <div className='message__contents__wrapper'>
               <MessageItemActions messageId={message.id} isCreatedByMe={isCurrentUserMessageCreator} />
+              {message.replyMessage && (
+                <div className='message__replied'>
+                  <div className='message__replied__interlocutor'>{message.replyMessage.userCreatorFullName}</div>
+                  <div className='message__replied__text'>{message.replyMessage.text}</div>
+                </div>
+              )}
               <span className='message__contents'>{message.text}</span>
             </div>
+
             <div className='message__time-status'>
               {message.isEdited && <span className='message__edited'>Edited •</span>}
 
@@ -161,13 +169,14 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
 
           {(structuredAttachments?.media.length || 0) > 0 && <MediaGrid media={structuredAttachments!.media} />}
         </div>
+
         {message.needToShowCreator &&
           (myId === message.userCreator.id ? (
-            <Avatar className='message__sender-photo message__sender-photo--me ' src={message.userCreator.avatar?.previewUrl}>
+            <Avatar className='message__sender-photo ' src={message.userCreator.avatar?.previewUrl}>
               {getUserInitials(message.userCreator as IUserPreview)}
             </Avatar>
           ) : (
-            <Link className='message__sender-photo-wrapper' to={`/chats/${message.userCreator.id}1`}>
+            <Link to={`/chats/${message.userCreator.id}1`}>
               <Avatar className='message__sender-photo ' src={message.userCreator.avatar?.previewUrl}>
                 {getUserInitials(message.userCreator as IUserPreview)}
               </Avatar>

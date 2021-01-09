@@ -1,5 +1,4 @@
 import React, { useCallback, useContext, useState } from 'react';
-import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { getSelectedChatSelector } from 'store/chats/selectors';
 
@@ -20,6 +19,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { getChatInterlocutor, getInterlocutorInitials } from 'utils/interlocutor-name-utils';
 import { GetMessages } from 'app/store/chats/features/get-messages/get-messages';
 import { MESSAGES_LIMIT } from 'app/utils/pagination-limits';
+import { TimeUpdateable } from 'app/components/shared/time-updateable/time-updateable';
 
 export const ChatData = React.memo(() => {
   const { t } = useContext(LocalizationContext);
@@ -75,11 +75,6 @@ export const ChatData = React.memo(() => {
 
   if (selectedChat) {
     const imageUrl: string = selectedChat.groupChat?.avatar?.previewUrl || selectedChat?.interlocutor?.avatar?.previewUrl || '';
-    const status = selectedChat.groupChat
-      ? `${selectedChat.groupChat.membersCount} ${t('chatData.members')}`
-      : selectedChat?.interlocutor?.status === UserStatus.Online
-      ? t('chatData.online')
-      : `${t('chatData.last-time')} ${moment.utc(selectedChat?.interlocutor?.lastOnlineTime).local().startOf('minute').fromNow()}`;
 
     return (
       <div className='chat-data__chat-data'>
@@ -100,7 +95,17 @@ export const ChatData = React.memo(() => {
 
           <div className='chat-data__chat-info'>
             <h1>{getChatInterlocutor(selectedChat)}</h1>
-            <p>{status}</p>
+            <p>
+              {selectedChat.groupChat ? (
+                `${selectedChat.groupChat.membersCount} ${t('chatData.members')}`
+              ) : selectedChat?.interlocutor?.status === UserStatus.Online ? (
+                t('chatData.online')
+              ) : (
+                <>
+                  <span>{`${t('chatData.last-time')} `}</span> <TimeUpdateable timeStamp={selectedChat?.interlocutor?.lastOnlineTime} />
+                </>
+              )}
+            </p>
           </div>
         </Link>
         <div className='chat-data__buttons-group'>

@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { CallStatus, UserStatus } from 'app/store/models';
+import { CallStatus } from 'app/store/models';
 import { TFunction } from 'i18next';
 import { IMessage, SystemMessageType } from 'app/store/chats/models';
 
@@ -133,14 +133,6 @@ export class MessageUtils {
 
   static createSystemMessage(systemMessage: ISystemMessageBase): string {
     return JSON.stringify(systemMessage);
-  }
-
-  static getUserStatus(status: UserStatus, lastOnlineTime: Date): string {
-    if (status === UserStatus.Online) {
-      return 'Online';
-    }
-
-    return moment.utc(lastOnlineTime).local().fromNow();
   }
 
   static signAndSeparate(arr: IMessage[]): IMessage[] {

@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import moment from 'moment';
 
 import './chat-member.scss';
 
@@ -9,6 +8,7 @@ import { Avatar } from 'components';
 import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 
 import DeleteSvg from 'icons/ic-delete.svg';
+import { TimeUpdateable } from 'app/components/shared/time-updateable/time-updateable';
 
 interface IMemberProps {
   member: IUserPreview;
@@ -28,7 +28,9 @@ export const Member: React.FC<IMemberProps> = React.memo(({ member }) => {
         {member?.status === UserStatus.Offline ? (
           <span className='chat-member__status chat-member__status--offline'>{t('chatData.online')}</span>
         ) : (
-          <span className='chat-member__status chat-member__status--online'> {moment.utc(member?.lastOnlineTime).local().startOf('minute').fromNow()}</span>
+          <span className='chat-member__status chat-member__status--online'>
+            <TimeUpdateable timeStamp={member?.lastOnlineTime} />
+          </span>
         )}
       </div>
       <h3 className='chat-member__groupChat-status'>

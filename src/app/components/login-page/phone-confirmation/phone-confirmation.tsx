@@ -1,7 +1,8 @@
 import React, { useCallback, useContext, useState, useRef, useEffect, lazy, Suspense } from 'react';
 import './phone-confirmation.scss';
 import { CountrySelect, PhoneInput, BaseBtn, WithBackground, FadeAnimationWrapper } from 'components';
-import { ICountry, countryList } from 'app/common/countries';
+import { countryList } from 'app/common/countries';
+import { ICountry } from 'app/common/country';
 import { LocalizationContext } from 'app/app';
 import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
 import { AuthActions } from 'store/auth/actions';

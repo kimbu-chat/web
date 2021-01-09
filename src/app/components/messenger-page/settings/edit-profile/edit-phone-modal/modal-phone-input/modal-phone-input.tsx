@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import './modal-phone-input.scss';
-import { ICountry } from 'app/common/countries';
+import { ICountry } from 'app/common/country';
 import { AsYouType } from 'libphonenumber-js';
 import { LocalizationContext } from 'app/app';
 import { removeCountryCodeFromPhoneNumber } from 'app/utils/phone-number-utils';

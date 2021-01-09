@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
-import { ICountry, countryList } from 'app/common/countries';
+import { countryList } from 'app/common/countries';
+import { ICountry } from 'app/common/country';
 import './modal-country-select.scss';
 import useAutocomplete, { createFilterOptions } from '@material-ui/lab/useAutocomplete';
 import { LocalizationContext } from 'app/app';

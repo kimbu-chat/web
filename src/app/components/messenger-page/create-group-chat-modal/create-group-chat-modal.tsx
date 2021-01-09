@@ -1,5 +1,5 @@
 import { LocalizationContext } from 'app/app';
-import { Avatar, Modal, WithBackground, ChangePhoto, FriendFromList, SearchBox, CircularProgress } from 'components';
+import { Avatar, Modal, WithBackground, PhotoEditor, FriendFromList, SearchBox, CircularProgress } from 'components';
 import { FriendActions } from 'store/friends/actions';
 import { getStringInitials } from 'app/utils/interlocutor-name-utils';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
@@ -243,7 +243,7 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(({ on
           ]}
         />
       </WithBackground>
-      {changePhotoDisplayed && <ChangePhoto hideChangePhoto={hideChangePhoto} imageUrl={imageUrl} onSubmit={applyAvatarData} />}
+      {changePhotoDisplayed && <PhotoEditor hideChangePhoto={hideChangePhoto} imageUrl={imageUrl} onSubmit={applyAvatarData} />}
     </>
   );
 });

@@ -1,3 +1,5 @@
+import { ICountry } from './country';
+
 export const countryList: ICountry[] = [
   {
     title: 'Afghanistan',
@@ -1215,9 +1217,3 @@ export const countryList: ICountry[] = [
     code: '',
   },
 ];
-
-export interface ICountry {
-  title: string;
-  code: string;
-  number: string;
-}

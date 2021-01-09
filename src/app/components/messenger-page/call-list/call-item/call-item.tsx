@@ -1,5 +1,5 @@
 import { ICall } from 'store/calls/models';
-import './call-from-list.scss';
+import './call-item.scss';
 import React, { useContext } from 'react';
 
 import OutgoingCallSvg from 'icons/ic-outgoing-call.svg';
@@ -11,11 +11,11 @@ import { useSelector } from 'react-redux';
 import { getMyIdSelector } from 'app/store/my-profile/selectors';
 import { CallStatus } from 'app/store/models';
 
-interface ICallFromListProps {
+interface ICallItem {
   call: ICall;
 }
 
-export const CallFromList: React.FC<ICallFromListProps> = ({ call }) => {
+export const CallItem: React.FC<ICallItem> = ({ call }) => {
   const { t } = useContext(LocalizationContext);
 
   const myId = useSelector(getMyIdSelector);

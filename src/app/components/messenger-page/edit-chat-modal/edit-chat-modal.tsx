@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 import './edit-chat-modal.scss';
 
-import { Modal, WithBackground, ChangePhoto, Avatar, CircularProgress } from 'components';
+import { Modal, WithBackground, PhotoEditor, Avatar, CircularProgress } from 'components';
 
 import CloseSVG from 'icons/ic-close.svg';
 
@@ -178,7 +178,7 @@ export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClos
           ]}
         />
       </WithBackground>
-      {changePhotoDisplayed && <ChangePhoto hideChangePhoto={hideChangePhoto} imageUrl={imageUrl} onSubmit={applyAvatarData} />}
+      {changePhotoDisplayed && <PhotoEditor hideChangePhoto={hideChangePhoto} imageUrl={imageUrl} onSubmit={applyAvatarData} />}
     </>
   );
 });

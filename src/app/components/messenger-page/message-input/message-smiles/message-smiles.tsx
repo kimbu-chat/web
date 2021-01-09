@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useContext, useRef, useState } from 'react';
 import { Picker, BaseEmoji } from 'emoji-mart';
 import SmilesSvg from 'icons/ic-smile.svg';
 import 'emoji-mart/css/emoji-mart.css';
@@ -13,26 +13,19 @@ interface IMessageSmilesProps {
 export const MessageSmiles: React.FC<IMessageSmilesProps> = React.memo(({ setText }) => {
   const { t } = useContext(LocalizationContext);
 
-  const [smilesDisplayed, setSmilesDisplayed] = useState(false);
   const [smilesRendered, setSmilesRendered] = useState(false);
 
   const changeSmilesDisplayedStatus = useCallback(() => {
-    setSmilesDisplayed((oldState) => !oldState);
-  }, [setSmilesDisplayed]);
+    setSmilesRendered((oldState) => !oldState);
+  }, [setSmilesRendered]);
   const closeSmilesDisplayedStatus = useCallback(() => {
-    setSmilesDisplayed(() => false);
-  }, [setSmilesDisplayed]);
+    setSmilesRendered(() => false);
+  }, [setSmilesRendered]);
 
   const emojiRef = useRef<HTMLDivElement>(null);
   const openEmojiRef = useRef<HTMLButtonElement>(null);
 
   useOnClickOutside(emojiRef, closeSmilesDisplayedStatus, openEmojiRef);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setSmilesRendered(true);
-    }, 200);
-  }, []);
 
   const addNewSmile = useCallback(
     (emoji: BaseEmoji) => {
@@ -47,7 +40,7 @@ export const MessageSmiles: React.FC<IMessageSmilesProps> = React.memo(({ setTex
         <SmilesSvg />
       </button>
       {smilesRendered && (
-        <div ref={emojiRef} className={`emoji-wrapper ${smilesDisplayed ? '' : 'emoji-wrapper--hidden'}`}>
+        <div ref={emojiRef} className='emoji-wrapper'>
           <Picker
             set='apple'
             showSkinTones={false}

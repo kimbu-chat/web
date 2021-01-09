@@ -3,11 +3,11 @@ import { Avatar } from 'components';
 import { ChatId } from 'store/chats/chat-id';
 import { IUserPreview, UserStatus } from 'app/store/models';
 import { getUserInitials } from 'app/utils/interlocutor-name-utils';
-import moment from 'moment';
 import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import './friend.scss';
+import { TimeUpdateable } from 'app/components/shared/time-updateable/time-updateable';
 
 interface IFriendProps {
   friend: IUserPreview;
@@ -26,9 +26,13 @@ export const Friend: React.FC<IFriendProps> = React.memo(({ friend }) => {
         <div className='friend__heading'>
           <div className='friend__name'>{`${friend.firstName} ${friend.lastName}`}</div>
           <div className='friend__status'>
-            {friend.status === UserStatus.Online
-              ? t('chatData.online')
-              : `${t('chatData.last-time')} ${moment.utc(friend.lastOnlineTime).local().startOf('minute').fromNow()}`}
+            {friend.status === UserStatus.Online ? (
+              t('chatData.online')
+            ) : (
+              <>
+                <span>{`${t('chatData.last-time')} `}</span> <TimeUpdateable timeStamp={friend.lastOnlineTime} />
+              </>
+            )}
           </div>
         </div>
       </div>

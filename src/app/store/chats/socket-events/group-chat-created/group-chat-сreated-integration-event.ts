@@ -8,4 +8,7 @@ export interface IGroupChatCreatedIntegrationEvent {
   systemMessageId: number;
   userCreator: IUserPreview;
   userCreatorId: number;
+  avatarId?: number;
+  avatarUrl?: string;
+  avatarPreviewUrl?: string;
 }

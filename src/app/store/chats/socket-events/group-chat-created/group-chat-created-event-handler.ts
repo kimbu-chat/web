@@ -14,7 +14,7 @@ export class GroupChatCreatedEventHandler {
 
   static get reducer() {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof GroupChatCreatedEventHandler.action>) => {
-      const { description, id, memberIds, name, systemMessageId, userCreator, userCreatorId } = payload;
+      const { description, id, memberIds, name, systemMessageId, userCreator, userCreatorId, avatarId, avatarUrl, avatarPreviewUrl } = payload;
       const chatId = ChatId.from(undefined, id).id;
 
       const doesChatExists: boolean = getChatExistsDraftSelector(chatId, draft);
@@ -85,6 +85,14 @@ export class GroupChatCreatedEventHandler {
           loading: false,
         },
       };
+
+      if (avatarId && avatarUrl && avatarPreviewUrl) {
+        newChat.groupChat!.avatar = {
+          id: avatarId,
+          url: avatarUrl,
+          previewUrl: avatarPreviewUrl,
+        };
+      }
 
       draft.chats.unshift(newChat);
 

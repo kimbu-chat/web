@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { AsYouType } from 'libphonenumber-js';
 import './phone-input.scss';
 
-import { ICountry } from 'app/common/countries';
+import { ICountry } from 'app/common/country';
 import { LocalizationContext } from 'app/app';
 import { removeCountryCodeFromPhoneNumber } from 'app/utils/phone-number-utils';
 

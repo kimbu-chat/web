@@ -7,7 +7,8 @@ import useAutocomplete, { createFilterOptions } from '@material-ui/lab/useAutoco
 import { LocalizationContext } from 'app/app';
 
 import DownSvg from 'icons/ic-chevron-down.svg';
-import { countryList, ICountry } from 'app/common/countries';
+import { countryList } from 'app/common/countries';
+import { ICountry } from 'app/common/country';
 
 interface ICountrySelectProps {
   country?: ICountry;

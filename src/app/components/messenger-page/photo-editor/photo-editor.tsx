@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useRef, useContext } from 'react';
 import ReactDOM from 'react-dom';
-import './change-photo.scss';
+import './photo-editor.scss';
 
 import { LocalizationContext } from 'app/app';
 
@@ -12,7 +12,7 @@ import { WithBackground, BaseBtn } from 'components';
 import { stopPropagation } from 'app/utils/stop-propagation';
 import { IAvatarSelectedData } from 'app/store/models';
 
-interface IChangePhotoProps {
+interface IPhotoEditorProps {
   imageUrl: string;
   hideChangePhoto: () => void;
   onSubmit?: (data: IAvatarSelectedData) => void;
@@ -35,7 +35,7 @@ function generateDownload(image?: HTMLImageElement, crop?: ReactCrop.Crop): stri
   return canvas.toDataURL('image/png');
 }
 
-export const ChangePhoto: React.FC<IChangePhotoProps> = ({ imageUrl, onSubmit, hideChangePhoto }) => {
+export const PhotoEditor: React.FC<IPhotoEditorProps> = ({ imageUrl, onSubmit, hideChangePhoto }) => {
   const { t } = useContext(LocalizationContext);
 
   const imgRef = useRef<HTMLImageElement>();

@@ -11,7 +11,7 @@ import { CheckNicknameAvailability } from 'app/store/my-profile/features/check-n
 import { CancelAvatarUploading } from 'app/store/my-profile/features/cancel-avatar-uploading/cancel-avatar-uploading';
 import { UploadAvatar } from 'app/store/my-profile/features/upload-avatar/upload-avatar';
 import { validateNickname } from 'app/utils/validate-nick-name';
-import { Avatar, BaseBtn, ChangePhoto, CircularProgress } from 'components';
+import { Avatar, BaseBtn, PhotoEditor, CircularProgress } from 'components';
 import { IAvatarSelectedData, IAvatar } from 'app/store/models';
 
 interface IRegistrationProps {
@@ -180,7 +180,7 @@ export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
           </BaseBtn>
         </div>
       </div>
-      {changePhotoDisplayed && <ChangePhoto hideChangePhoto={hideChangePhoto} imageUrl={imageUrl} onSubmit={applyAvatarData} />}
+      {changePhotoDisplayed && <PhotoEditor hideChangePhoto={hideChangePhoto} imageUrl={imageUrl} onSubmit={applyAvatarData} />}
     </>
   );
 };

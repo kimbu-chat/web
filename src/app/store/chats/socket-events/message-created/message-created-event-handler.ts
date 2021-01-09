@@ -145,24 +145,24 @@ export class MessageCreatedEventHandler {
 
       const selectedChatId = yield select(getSelectedChatIdSelector);
 
-      const replyingMessageExists = yield select(getChatHasMessageWithIdSelector(message.id, message.chatId));
+      if (message.replyToMessageId) {
+        const replyingMessageExists = yield select(getChatHasMessageWithIdSelector(message.replyToMessageId, message.chatId));
 
-      if (!replyingMessageExists) {
-        console.log('message does not exist');
-        const { data: repliedMessage }: AxiosResponse<IMessage> = MessageCreatedEventHandler.httpRequest.call(
-          yield call(() => MessageCreatedEventHandler.httpRequest.generator({ messageId: message.replyToMessageId })),
-        );
+        if (!replyingMessageExists) {
+          const { data: repliedMessage }: AxiosResponse<IMessage> = MessageCreatedEventHandler.httpRequest.call(
+            yield call(() => MessageCreatedEventHandler.httpRequest.generator({ messageId: message.replyToMessageId })),
+          );
 
-        const replyMessage = {
-          id: repliedMessage.id,
-          userCreatorFullName: `${repliedMessage.userCreator.firstName} ${repliedMessage.userCreator.lastName}`,
-          text: repliedMessage.text,
-        };
-        console.log('replyMessage');
+          const replyMessage = {
+            id: repliedMessage.id,
+            userCreatorFullName: `${repliedMessage.userCreator.firstName} ${repliedMessage.userCreator.lastName}`,
+            text: repliedMessage.text,
+          };
 
-        yield put(MessageCreatedEventHandler.action({ ...action.payload, replyMessage }));
+          yield put(MessageCreatedEventHandler.action({ ...action.payload, replyMessage }));
 
-        return;
+          return;
+        }
       }
 
       const myId = new MyProfileService().myProfile.id;

@@ -1,4 +1,4 @@
-import { Avatar, ChangePhoto, FadeAnimationWrapper } from 'components';
+import { Avatar, PhotoEditor, FadeAnimationWrapper } from 'components';
 import { getMyProfileSelector } from 'store/my-profile/selectors';
 import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 import React, { useCallback, useContext, useState, useRef } from 'react';
@@ -158,7 +158,7 @@ export const EditProfile = React.memo(() => {
         <EditPhoneModal onClose={changeIsEditPhoneDisplayed} />
       </FadeAnimationWrapper>
 
-      {changePhotoDisplayed && <ChangePhoto hideChangePhoto={hideChangePhoto} imageUrl={imageUrl} onSubmit={changeMyAvatar} />}
+      {changePhotoDisplayed && <PhotoEditor hideChangePhoto={hideChangePhoto} imageUrl={imageUrl} onSubmit={changeMyAvatar} />}
     </>
   );
 });

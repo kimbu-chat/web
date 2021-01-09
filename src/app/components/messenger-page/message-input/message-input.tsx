@@ -45,6 +45,7 @@ export const CreateMessageInput = React.memo(() => {
   const myProfile = useSelector(getMyProfileSelector);
   const myTypingStrategy = useSelector(getTypingStrategySelector);
   const replyingMessage = useSelector(getMessageToReplySelector);
+  const refferedReplyingMessage = useReferState(replyingMessage);
 
   const [text, setText] = useState('');
   const refferedText = useReferState(text);
@@ -123,11 +124,11 @@ export const CreateMessageInput = React.memo(() => {
           attachments,
         };
 
-        if (replyingMessage) {
+        if (refferedReplyingMessage.current) {
           message.replyMessage = {
-            id: replyingMessage?.id,
-            userCreatorFullName: `${replyingMessage.userCreator.firstName} ${replyingMessage.userCreator.lastName}`,
-            text: replyingMessage.text,
+            id: refferedReplyingMessage.current.id!,
+            userCreatorFullName: `${refferedReplyingMessage.current.userCreator.firstName} ${refferedReplyingMessage.current.userCreator.lastName}`,
+            text: refferedReplyingMessage.current.text,
           };
         }
         sendMessage({

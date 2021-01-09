@@ -6,6 +6,9 @@ import { select, put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import messageCameSelected from 'app/assets/sounds/notifications/messsage-came-selected.ogg';
 import messageCameUnselected from 'app/assets/sounds/notifications/messsage-came-unselected.ogg';
+import { httpRequestFactory } from 'app/store/common/http-factory';
+import { HttpRequestMethod } from 'app/store/models';
+import { AxiosResponse } from 'axios';
 import { ChangeSelectedChat } from '../../features/change-selected-chat/change-selected-chat';
 import { MarkMessagesAsRead } from '../../features/mark-messages-as-read/mark-messages-as-read';
 import {
@@ -18,12 +21,14 @@ import {
   IRawAttachment,
   IVideoAttachment,
   IVoiceAttachment,
+  IMessage,
 } from '../../models';
-import { getChatIndexDraftSelector, getSelectedChatIdSelector, getChatByIdSelector } from '../../selectors';
+import { getChatIndexDraftSelector, getSelectedChatIdSelector, getChatByIdSelector, getChatHasMessageWithIdSelector } from '../../selectors';
 import { IMessageCreatedIntegrationEvent } from './message-created-integration-event';
 import { UnshiftChat } from '../../features/unshift-chat/unshift-chat';
 import { IMarkMessagesAsReadApiRequest } from '../../features/mark-messages-as-read/api-requests/mark-messages-as-read-api-request';
 import { ChatId } from '../../chat-id';
+import { IGetMessageByIdApiRequest } from './api-requests/get-message-by-id-api-request';
 
 export class MessageCreatedEventHandler {
   static get action() {
@@ -42,6 +47,20 @@ export class MessageCreatedEventHandler {
 
       const chatIndex = getChatIndexDraftSelector(message.chatId, draft);
       const chat = draft.chats[chatIndex];
+
+      if (message.replyToMessageId && !message.replyMessage) {
+        const replyMessage = chat.messages.messages.find(({ id }) => id === message.replyToMessageId);
+
+        if (!replyMessage) {
+          return draft;
+        }
+
+        message.replyMessage = {
+          id: replyMessage.id,
+          text: replyMessage.text,
+          userCreatorFullName: `${replyMessage.userCreator.firstName} ${replyMessage.userCreator.lastName}`,
+        };
+      }
 
       // if user already has chats with interlocutor - update chat
       if (chat) {
@@ -125,6 +144,27 @@ export class MessageCreatedEventHandler {
       const message = action.payload;
 
       const selectedChatId = yield select(getSelectedChatIdSelector);
+
+      const replyingMessageExists = yield select(getChatHasMessageWithIdSelector(message.id, message.chatId));
+
+      if (!replyingMessageExists) {
+        console.log('message does not exist');
+        const { data: repliedMessage }: AxiosResponse<IMessage> = MessageCreatedEventHandler.httpRequest.call(
+          yield call(() => MessageCreatedEventHandler.httpRequest.generator({ messageId: message.replyToMessageId })),
+        );
+
+        const replyMessage = {
+          id: repliedMessage.id,
+          userCreatorFullName: `${repliedMessage.userCreator.firstName} ${repliedMessage.userCreator.lastName}`,
+          text: repliedMessage.text,
+        };
+        console.log('replyMessage');
+
+        yield put(MessageCreatedEventHandler.action({ ...action.payload, replyMessage }));
+
+        return;
+      }
+
       const myId = new MyProfileService().myProfile.id;
 
       if (selectedChatId === message.chatId) {
@@ -185,5 +225,12 @@ export class MessageCreatedEventHandler {
         }
       }
     };
+  }
+
+  static get httpRequest() {
+    return httpRequestFactory<AxiosResponse<IMessage>, IGetMessageByIdApiRequest>(
+      ({ messageId }: IGetMessageByIdApiRequest) => `${process.env.MAIN_API}/api/messages/${messageId}`,
+      HttpRequestMethod.Get,
+    );
   }
 }

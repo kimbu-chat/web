@@ -3,6 +3,12 @@
   border-radius: 3px;
   overflow: hidden;
   margin-top: 10px;
+  display: flex;
+  max-width: 100%;
+  align-items: center;
+  justify-content: center;
+  width: 601px;
+  flex-wrap: wrap;
 
   & > * {
     &:nth-child(2n + 1) {
@@ -32,10 +38,6 @@
   }
 
   &--even {
-    width: 601px;
-    flex-wrap: wrap;
-    display: flex;
-
     & > * {
       height: 200px;
       width: 300px;
@@ -43,10 +45,6 @@
   }
 
   &--odd {
-    width: 601px;
-    flex-wrap: wrap;
-    display: flex;
-
     & > * {
       height: 200px;
       width: 300px;

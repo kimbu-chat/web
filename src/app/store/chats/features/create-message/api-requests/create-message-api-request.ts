@@ -4,5 +4,8 @@ export interface ICreateMessageApiRequest {
   text?: string;
   chatId?: number;
   attachments?: IAttachmentCreation[];
-  replyToMessageId?: number;
+  link?: {
+    type: 'Reply' | 'Forward';
+    originalMessageId: number;
+  };
 }

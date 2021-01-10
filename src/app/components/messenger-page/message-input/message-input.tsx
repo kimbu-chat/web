@@ -125,11 +125,9 @@ export const CreateMessageInput = React.memo(() => {
         };
 
         if (refferedReplyingMessage.current) {
-          message.replyMessage = {
-            id: refferedReplyingMessage.current.id!,
-            userCreatorFullName: `${refferedReplyingMessage.current.userCreator.firstName} ${refferedReplyingMessage.current.userCreator.lastName}`,
-            text: refferedReplyingMessage.current.text,
-          };
+          message.linkedMessage = refferedReplyingMessage.current;
+
+          message.linkedMessageType = 'Reply';
         }
         sendMessage({
           message,

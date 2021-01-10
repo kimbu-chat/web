@@ -5,8 +5,6 @@ import { SystemMessageType } from './system-message-type';
 
 export interface IMessage {
   id: number;
-  needToShowCreator?: boolean;
-  isEdited?: boolean;
   userCreator: IUserPreview;
   creationDateTime: Date;
   text: string;
@@ -16,11 +14,15 @@ export interface IMessage {
   chatId: number;
   dateSeparator?: string;
   isSelected?: boolean;
+  needToShowCreator?: boolean;
   needToShowDateSeparator?: boolean;
+  isEdited?: boolean;
   attachments?: IBaseAttachment[];
-  replyMessage?: {
+  linkedMessageType?: 'Reply' | 'Forward';
+  linkedMessage?: {
     id: number;
-    userCreatorFullName: string;
+    userCreator: IUserPreview;
     text: string;
+    attachments?: IBaseAttachment[];
   };
 }

@@ -23,6 +23,7 @@ import { amICalledSelector as isCallingMe, amICallingSelector, doIhaveCallSelect
 import { CSSTransition } from 'react-transition-group';
 import { LocalizationContext } from 'app/app';
 import { getMessageToEditSelector, getSelectedChatIdSelector } from 'store/chats/selectors';
+import { getInternetStateSelector } from 'app/store/internet/selectors';
 
 const Messenger = React.memo(() => {
   const { t } = useContext(LocalizationContext);
@@ -32,13 +33,14 @@ const Messenger = React.memo(() => {
   const amISpeaking = useSelector(doIhaveCallSelector);
   const selectedChatId = useSelector(getSelectedChatIdSelector);
   const messageToEdit = useSelector(getMessageToEditSelector);
+  const internetState = useSelector(getInternetStateSelector);
 
   return (
     <div className='messenger'>
       {amICalledSelector && <IncomingCall />}
       {(amISpeaking || amICallingSelectorSomebody) && <ActiveCall />}
 
-      <InternetError />
+      {!internetState && <InternetError />}
 
       <Switch>
         <Route exact path='/settings/edit-profile/(info)?/(photo|video|audio-recordings|files|audios)?'>

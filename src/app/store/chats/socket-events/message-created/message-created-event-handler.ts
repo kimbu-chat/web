@@ -1,4 +1,4 @@
-import { MyProfileService } from 'app/services/my-profile-service';
+import { UpdateStore } from 'app/store/update-store';
 import { areNotificationsEnabledSelector } from 'app/store/settings/selectors';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
@@ -9,10 +9,11 @@ import messageCameUnselected from 'app/assets/sounds/notifications/messsage-came
 import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/models';
 import { AxiosResponse } from 'axios';
+import { RootState } from 'app/store/root-reducer';
+import { getMyIdSelector } from '../../../my-profile/selectors';
 import { ChangeSelectedChat } from '../../features/change-selected-chat/change-selected-chat';
 import { MarkMessagesAsRead } from '../../features/mark-messages-as-read/mark-messages-as-read';
 import {
-  IChatsState,
   SystemMessageType,
   IChat,
   FileType,
@@ -22,8 +23,15 @@ import {
   IVideoAttachment,
   IVoiceAttachment,
   IMessage,
+  MessageLinkType,
 } from '../../models';
-import { getChatIndexDraftSelector, getSelectedChatIdSelector, getChatByIdSelector, getChatHasMessageWithIdSelector } from '../../selectors';
+import {
+  getChatIndexDraftSelector,
+  getSelectedChatIdSelector,
+  getChatByIdSelector,
+  getChatMessageByIdSelector,
+  getChatHasMessageWithIdSelector,
+} from '../../selectors';
 import { IMessageCreatedIntegrationEvent } from './message-created-integration-event';
 import { UnshiftChat } from '../../features/unshift-chat/unshift-chat';
 import { IMarkMessagesAsReadApiRequest } from '../../features/mark-messages-as-read/api-requests/mark-messages-as-read-api-request';
@@ -35,137 +43,136 @@ export class MessageCreatedEventHandler {
     return createAction('MessageCreated')<IMessageCreatedIntegrationEvent>();
   }
 
-  static get reducer() {
-    return produce((draft: IChatsState, { payload }: ReturnType<typeof MessageCreatedEventHandler.action>) => {
-      const message = payload;
-      const myId = new MyProfileService().myProfile.id;
-      const isCurrentUserMessageCreator: boolean = myId === message.userCreator?.id;
-
-      if (message.systemMessageType === SystemMessageType.GroupChatMemberRemoved && isCurrentUserMessageCreator) {
-        return draft;
-      }
-
-      const chatIndex = getChatIndexDraftSelector(message.chatId, draft);
-      const chat = draft.chats[chatIndex];
-
-      if (message.replyToMessageId && !message.replyMessage) {
-        const replyMessage = chat.messages.messages.find(({ id }) => id === message.replyToMessageId);
-
-        if (!replyMessage) {
-          return draft;
-        }
-
-        message.replyMessage = {
-          id: replyMessage.id,
-          text: replyMessage.text,
-          userCreatorFullName: `${replyMessage.userCreator.firstName} ${replyMessage.userCreator.lastName}`,
-        };
-      }
-
-      // if user already has chats with interlocutor - update chat
-      if (chat) {
-        const isInterlocutorCurrentSelectedChat = draft.selectedChatId === message.chatId;
-        const previousUnreadMessagesCount = chat.unreadMessagesCount;
-        const newUnreadMessagesCount =
-          isInterlocutorCurrentSelectedChat || isCurrentUserMessageCreator ? previousUnreadMessagesCount : previousUnreadMessagesCount + 1;
-
-        if (chat.messages.messages.findIndex(({ id }) => id === message.id) === -1) {
-          chat.messages.messages.unshift(message);
-        } else {
-          return draft;
-        }
-
-        message.attachments?.forEach((attachment) => {
-          switch (attachment.type) {
-            case FileType.Audio:
-              chat.audioAttachmentsCount = (chat.audioAttachmentsCount || 0) + 1;
-              chat.audios.audios.unshift({
-                ...(attachment as IAudioAttachment),
-                creationDateTime: new Date(),
-              });
-
-              break;
-            case FileType.Picture:
-              chat.pictureAttachmentsCount = (chat.pictureAttachmentsCount || 0) + 1;
-              chat.photos.photos.unshift({
-                ...(attachment as IPictureAttachment),
-                creationDateTime: new Date(),
-              });
-
-              break;
-            case FileType.Raw:
-              chat.rawAttachmentsCount = (chat.rawAttachmentsCount || 0) + 1;
-              chat.files.files.unshift({
-                ...(attachment as IRawAttachment),
-                creationDateTime: new Date(),
-              });
-
-              break;
-            case FileType.Video:
-              chat.videoAttachmentsCount = (chat.videoAttachmentsCount || 0) + 1;
-              chat.videos.videos.unshift({
-                ...(attachment as IVideoAttachment),
-                creationDateTime: new Date(),
-              });
-
-              break;
-            case FileType.Voice:
-              chat.voiceAttachmentsCount = (chat.voiceAttachmentsCount || 0) + 1;
-              chat.recordings.recordings.unshift({
-                ...(attachment as IVoiceAttachment),
-                creationDateTime: new Date(),
-              });
-
-              break;
-            default:
-              break;
-          }
-        });
-
-        chat.lastMessage = message;
-        chat.unreadMessagesCount = newUnreadMessagesCount;
-        chat.draftMessage = '';
-
-        const chatWithNewMessage = chat;
-
-        if (chatIndex !== 0) {
-          draft.chats.splice(chatIndex, 1);
-
-          draft.chats.unshift(chatWithNewMessage);
-        }
-      }
-
-      return draft;
-    });
-  }
-
   static get saga() {
     return function* (action: ReturnType<typeof MessageCreatedEventHandler.action>): SagaIterator {
       const message = action.payload;
 
+      const messageExists = yield select(getChatHasMessageWithIdSelector(message.id, message.chatId));
+
+      if (messageExists) {
+        console.log('messageExists');
+        return;
+      }
+
       const selectedChatId = yield select(getSelectedChatIdSelector);
+      const myId = yield select(getMyIdSelector);
 
-      if (message.replyToMessageId) {
-        const replyingMessageExists = yield select(getChatHasMessageWithIdSelector(message.replyToMessageId, message.chatId));
+      let linkedMessage: IMessage | null = null;
 
-        if (!replyingMessageExists) {
-          const { data: repliedMessage }: AxiosResponse<IMessage> = MessageCreatedEventHandler.httpRequest.call(
-            yield call(() => MessageCreatedEventHandler.httpRequest.generator({ messageId: message.replyToMessageId })),
+      if (message.linkedMessageId && message.linkedMessageType === MessageLinkType.Reply) {
+        linkedMessage = yield select(getChatMessageByIdSelector(message.linkedMessageId, message.chatId));
+      }
+
+      if (message.linkedMessageId && !linkedMessage) {
+        if (message.linkedMessageType === MessageLinkType.Reply) {
+          const { data }: AxiosResponse<IMessage> = MessageCreatedEventHandler.httpRequest.call(
+            yield call(() => MessageCreatedEventHandler.httpRequest.generator({ messageId: message.linkedMessageId })),
           );
 
-          const replyMessage = {
-            id: repliedMessage.id,
-            userCreatorFullName: `${repliedMessage.userCreator.firstName} ${repliedMessage.userCreator.lastName}`,
-            text: repliedMessage.text,
-          };
+          linkedMessage = data;
+        }
 
-          yield put(MessageCreatedEventHandler.action({ ...action.payload, replyMessage }));
+        if (message.linkedMessageType === MessageLinkType.Forward) {
+          const { data }: AxiosResponse<IMessage> = MessageCreatedEventHandler.httpRequest.call(
+            yield call(() => MessageCreatedEventHandler.httpRequest.generator({ messageId: message.linkedMessageId })),
+          );
 
-          return;
+          linkedMessage = data;
         }
       }
 
-      const myId = new MyProfileService().myProfile.id;
+      const state: RootState = yield select();
+
+      const nextState = produce(state, (draft) => {
+        const isCurrentUserMessageCreator: boolean = myId === message.userCreator?.id;
+
+        if (message.systemMessageType === SystemMessageType.GroupChatMemberRemoved && isCurrentUserMessageCreator) {
+          return draft;
+        }
+
+        const chatIndex = getChatIndexDraftSelector(message.chatId, draft.chats);
+        const chat = draft.chats.chats[chatIndex];
+
+        if (message.linkedMessageId) {
+          (message as IMessage).linkedMessage = linkedMessage!;
+        }
+
+        if (chat) {
+          const isInterlocutorCurrentSelectedChat = draft.chats.selectedChatId === message.chatId;
+          const previousUnreadMessagesCount = chat.unreadMessagesCount;
+          const newUnreadMessagesCount =
+            isInterlocutorCurrentSelectedChat || isCurrentUserMessageCreator ? previousUnreadMessagesCount : previousUnreadMessagesCount + 1;
+
+          if (chat.messages.messages.findIndex(({ id }) => id === message.id) === -1) {
+            chat.messages.messages.unshift(message);
+          } else {
+            return draft;
+          }
+
+          message.attachments?.forEach((attachment) => {
+            switch (attachment.type) {
+              case FileType.Audio:
+                chat.audioAttachmentsCount = (chat.audioAttachmentsCount || 0) + 1;
+                chat.audios.audios.unshift({
+                  ...(attachment as IAudioAttachment),
+                  creationDateTime: new Date(),
+                });
+
+                break;
+              case FileType.Picture:
+                chat.pictureAttachmentsCount = (chat.pictureAttachmentsCount || 0) + 1;
+                chat.photos.photos.unshift({
+                  ...(attachment as IPictureAttachment),
+                  creationDateTime: new Date(),
+                });
+
+                break;
+              case FileType.Raw:
+                chat.rawAttachmentsCount = (chat.rawAttachmentsCount || 0) + 1;
+                chat.files.files.unshift({
+                  ...(attachment as IRawAttachment),
+                  creationDateTime: new Date(),
+                });
+
+                break;
+              case FileType.Video:
+                chat.videoAttachmentsCount = (chat.videoAttachmentsCount || 0) + 1;
+                chat.videos.videos.unshift({
+                  ...(attachment as IVideoAttachment),
+                  creationDateTime: new Date(),
+                });
+
+                break;
+              case FileType.Voice:
+                chat.voiceAttachmentsCount = (chat.voiceAttachmentsCount || 0) + 1;
+                chat.recordings.recordings.unshift({
+                  ...(attachment as IVoiceAttachment),
+                  creationDateTime: new Date(),
+                });
+
+                break;
+              default:
+                break;
+            }
+          });
+
+          chat.lastMessage = message;
+          chat.unreadMessagesCount = newUnreadMessagesCount;
+          chat.draftMessage = '';
+
+          const chatWithNewMessage = chat;
+
+          if (chatIndex !== 0) {
+            draft.chats.chats.splice(chatIndex, 1);
+
+            draft.chats.chats.unshift(chatWithNewMessage);
+          }
+        }
+
+        return draft;
+      });
+
+      yield put(UpdateStore.action(nextState as RootState));
 
       if (selectedChatId === message.chatId) {
         if (!(myId === message.userCreator?.id)) {

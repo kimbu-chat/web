@@ -33,6 +33,7 @@ export class ChangeSelectedChat {
 
         if (chat && chat.messages.messages.length > MESSAGES_LIMIT) {
           chat.messages.messages = chat.messages.messages.slice(0, 30);
+          chat.messages.hasMore = true;
         }
 
         if (chat && draft.selectedMessageIds.length > 0) {

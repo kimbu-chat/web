@@ -4,6 +4,7 @@ import { createAction } from 'typesafe-actions';
 import { getChatByIdDraftSelector } from '../../selectors';
 import { IChatsState, MessageState, SystemMessageType } from '../../models';
 import { IForwardMessagesSuccessActionPayload } from './action-payloads/forward-messages-success-action-payload';
+import { MessageLinkType } from '../../models/linked-message-type';
 
 export class ForwardMessagesSuccess {
   static get action() {
@@ -21,7 +22,7 @@ export class ForwardMessagesSuccess {
 
         const buildedMessage: IMessage = {
           id: serverMessageId,
-          linkedMessageType: 'Forward',
+          linkedMessageType: MessageLinkType.Forward,
           linkedMessage: message,
           text: '',
           systemMessageType: SystemMessageType.None,

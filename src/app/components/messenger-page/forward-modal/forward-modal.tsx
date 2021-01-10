@@ -10,6 +10,7 @@ import { getChatsSelector, getHasMoreChatsSelector, getChatsLoadingSelector } fr
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
 import { CHATS_LIMIT } from 'app/utils/pagination-limits';
 import { SearchBox } from 'app/components';
+import { ForwardMessages } from 'app/store/chats/features/forward-messages/forward-messages';
 import { ForwardEntity } from './forward-entity/forward-entity';
 
 interface IForwardModalProps {
@@ -17,7 +18,7 @@ interface IForwardModalProps {
   messageIdsToForward: number[];
 }
 
-export const ForwardModal: React.FC<IForwardModalProps> = React.memo(({ onClose }) => {
+export const ForwardModal: React.FC<IForwardModalProps> = React.memo(({ onClose, messageIdsToForward }) => {
   const { t } = useContext(LocalizationContext);
   const chats = useSelector(getChatsSelector);
   const chatsAreLoading = useSelector(getChatsLoadingSelector);
@@ -27,6 +28,7 @@ export const ForwardModal: React.FC<IForwardModalProps> = React.memo(({ onClose 
   const [searchString, setSearchString] = useState('');
 
   const loadChats = useActionWithDispatch(ChatActions.getChats);
+  const forwardMessages = useActionWithDispatch(ForwardMessages.action);
 
   const isSelected = useCallback((id: number) => selectedChatIds.includes(id), [selectedChatIds]);
 
@@ -58,6 +60,15 @@ export const ForwardModal: React.FC<IForwardModalProps> = React.memo(({ onClose 
     });
   }, [loadChats, searchString, chats]);
 
+  const forwardSelectedMessages = useCallback(() => {
+    forwardMessages({
+      messageIdsToForward,
+      chatIdsToForward: selectedChatIds,
+    });
+
+    onClose();
+  }, [selectedChatIds, messageIdsToForward]);
+
   return (
     <WithBackground onBackgroundClick={onClose}>
       <Modal
@@ -77,7 +88,7 @@ export const ForwardModal: React.FC<IForwardModalProps> = React.memo(({ onClose 
           {
             children: t('forwardModal.send'),
             className: 'forward-modal__confirm-btn',
-            onClick: () => {},
+            onClick: forwardSelectedMessages,
             position: 'left',
             width: 'contained',
             variant: 'contained',

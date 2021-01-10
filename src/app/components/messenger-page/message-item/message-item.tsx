@@ -1,4 +1,4 @@
-import React, { useContext, useCallback } from 'react';
+import React, { useContext, useCallback, useMemo } from 'react';
 import { MessageUtils } from 'app/utils/message-utils';
 import { useSelector } from 'react-redux';
 import './message-item.scss';
@@ -35,6 +35,7 @@ import { xorBy } from 'lodash';
 import { MediaGrid } from './attachments/media-grid/media-grid';
 import { RecordingAttachment } from './attachments/recording-attachment/recording-attachment';
 import { MessageItemActions } from './message-item-actions/message-item-actions';
+import { MessageLink } from './message-link/message-link';
 
 interface IMessageItemProps {
   message: IMessage;
@@ -59,49 +60,53 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
       [message.id],
     );
 
-    const structuredAttachments = message.attachments?.reduce(
-      (
-        accum: {
-          files: IRawAttachment[];
-          media: (IVideoAttachment | IPictureAttachment)[];
-          audios: IAudioAttachment[];
-          recordings: IVoiceAttachment[];
-        },
-        currentAttachment,
-      ) => {
-        switch (currentAttachment.type) {
-          case FileType.Raw:
-            accum.files.push(currentAttachment as IRawAttachment);
+    const structuredAttachments = useMemo(
+      () =>
+        message.attachments?.reduce(
+          (
+            accum: {
+              files: IRawAttachment[];
+              media: (IVideoAttachment | IPictureAttachment)[];
+              audios: IAudioAttachment[];
+              recordings: IVoiceAttachment[];
+            },
+            currentAttachment,
+          ) => {
+            switch (currentAttachment.type) {
+              case FileType.Raw:
+                accum.files.push(currentAttachment as IRawAttachment);
 
-            break;
-          case FileType.Picture:
-            accum.media.push(currentAttachment as IPictureAttachment);
+                break;
+              case FileType.Picture:
+                accum.media.push(currentAttachment as IPictureAttachment);
 
-            break;
-          case FileType.Video:
-            accum.media.push(currentAttachment as IVideoAttachment);
+                break;
+              case FileType.Video:
+                accum.media.push(currentAttachment as IVideoAttachment);
 
-            break;
-          case FileType.Audio:
-            accum.audios.push(currentAttachment as IAudioAttachment);
+                break;
+              case FileType.Audio:
+                accum.audios.push(currentAttachment as IAudioAttachment);
 
-            break;
-          case FileType.Voice:
-            accum.recordings.push(currentAttachment as IVoiceAttachment);
+                break;
+              case FileType.Voice:
+                accum.recordings.push(currentAttachment as IVoiceAttachment);
 
-            break;
-          default:
-            break;
-        }
+                break;
+              default:
+                break;
+            }
 
-        return accum;
-      },
-      {
-        files: [],
-        media: [],
-        audios: [],
-        recordings: [],
-      },
+            return accum;
+          },
+          {
+            files: [],
+            media: [],
+            audios: [],
+            recordings: [],
+          },
+        ),
+      [message.attachments],
     );
 
     if (message?.systemMessageType !== SystemMessageType.None) {
@@ -131,12 +136,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
           <div className='message__item-apart'>
             <div className='message__contents__wrapper'>
               <MessageItemActions messageId={message.id} isCreatedByMe={isCurrentUserMessageCreator} />
-              {message.replyMessage && (
-                <div className='message__replied'>
-                  <div className='message__replied__interlocutor'>{message.replyMessage.userCreatorFullName}</div>
-                  <div className='message__replied__text'>{message.replyMessage.text}</div>
-                </div>
-              )}
+              {message.linkedMessage && <MessageLink linkedMessageType={message.linkedMessageType!} linkedMessage={message.linkedMessage} />}
               <span className='message__contents'>{message.text}</span>
             </div>
 

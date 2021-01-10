@@ -56,6 +56,8 @@ import { MessageEditedEventHandler } from 'store/chats/socket-events/message-edi
 import { UserMessageTypingEventHandler } from 'store/chats/socket-events/message-typing/message-typing-event-handler';
 import { MessageReadEventHandler } from 'store/chats/socket-events/message-read/message-read-event-handler';
 import { ChatClearedEventHandler } from 'store/chats/socket-events/chat-cleared/chat-cleared-event-handler';
+import { ForwardMessages } from 'store/chats/features/forward-messages/forward-messages';
+import { ForwardMessagesSuccess } from 'store/chats/features/forward-messages/forward-messages-success';
 import { ChatMutedStatusChangedEventHandler } from './socket-events/chat-mute-status-changed/chat-mute-status-changed-event-handler';
 import { UserStatusChangedEventHandler } from '../friends/socket-events/user-status-changed/user-status-changed-event-handler';
 import { ChatId } from './chat-id';
@@ -151,6 +153,8 @@ const chats = createReducer<IChatsState>(initialState)
   .handleAction(MessagesDeletedIntegrationEventHandler.action, MessagesDeletedIntegrationEventHandler.reducer)
   .handleAction(MessageReadEventHandler.action, MessageReadEventHandler.reducer)
   .handleAction(ChatClearedEventHandler.action, ChatClearedEventHandler.reducer)
-  .handleAction(UserEditedEventHandler.action, UserEditedEventHandler.reducer);
+  .handleAction(UserEditedEventHandler.action, UserEditedEventHandler.reducer)
+  .handleAction(ForwardMessages.action, ForwardMessages.reducer)
+  .handleAction(ForwardMessagesSuccess.action, ForwardMessagesSuccess.reducer);
 
 export default chats;

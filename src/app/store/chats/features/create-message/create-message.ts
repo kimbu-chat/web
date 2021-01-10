@@ -58,8 +58,14 @@ export class CreateMessage {
         text: message.text,
         chatId,
         attachments: attachmentsToSend,
-        replyToMessageId: message.replyMessage?.id,
       };
+
+      if (message.linkedMessage && message.linkedMessageType) {
+        messageCreationReq.link = {
+          type: message.linkedMessageType,
+          originalMessageId: message.linkedMessage.id,
+        };
+      }
 
       const { data } = CreateMessage.httpRequest.call(yield call(() => CreateMessage.httpRequest.generator(messageCreationReq)));
 

@@ -66,6 +66,8 @@ import { MessageReadEventHandler } from './socket-events/message-read/message-re
 import { EditMessage } from './features/edit-message/edit-message';
 import { ChatClearedEventHandler } from './socket-events/chat-cleared/chat-cleared-event-handler';
 import { UserEditedEventHandler } from './socket-events/user-edited/user-edited-event-handler';
+import { ForwardMessages } from './features/forward-messages/forward-messages';
+import { ForwardMessagesSuccess } from './features/forward-messages/forward-messages-success';
 
 export namespace ChatActions {
   export const getChats = GetChats.action;
@@ -125,6 +127,8 @@ export namespace ChatActions {
   export const resetEditMessage = ResetEditMessage.action;
   export const clearChatHistory = ClearChatHistory.action;
   export const clearChatHistorySuccess = ClearChatHistorySuccess.action;
+  export const forwardMessages = ForwardMessages.action;
+  export const forwardMessagesSuccess = ForwardMessagesSuccess.action;
 
   // socket-events
 

@@ -10,3 +10,4 @@ export * from './interlocutor-type';
 export * from './message';
 export * from './message-state';
 export * from './system-message-type';
+export * from './linked-message-type';

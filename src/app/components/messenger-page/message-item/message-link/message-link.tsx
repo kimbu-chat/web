@@ -1,4 +1,5 @@
 import { FileType, IAudioAttachment, IBaseAttachment, IPictureAttachment, IRawAttachment, IVideoAttachment, IVoiceAttachment } from 'app/store/chats/models';
+import { MessageLinkType } from 'app/store/chats/models/linked-message-type';
 import { IUserPreview } from 'app/store/models';
 import React, { useMemo } from 'react';
 import { MessageAudioAttachment } from '../../shared/audio-attachment/audio-attachment';
@@ -14,7 +15,7 @@ interface IMessageLinkProps {
     text: string;
     attachments?: IBaseAttachment[];
   };
-  linkedMessageType: 'Reply' | 'Forward';
+  linkedMessageType: MessageLinkType;
 }
 
 const MessageLink: React.FC<IMessageLinkProps> = React.memo(({ linkedMessage, linkedMessageType }) => {

@@ -50,7 +50,6 @@ import { ClearChatHistorySuccess } from 'app/store/chats/features/clear-chat-his
 import { GroupChatCreatedEventHandler } from 'store/chats/socket-events/group-chat-created/group-chat-created-event-handler';
 import { GroupChatEditedEventHandler } from 'store/chats/socket-events/group-chat-edited/group-chat-edited-integration-event-handler';
 import { MemberLeftGroupChatEventHandler } from 'store/chats/socket-events/member-left-group-chat/member-left-group-chat-event-handler';
-import { MessageCreatedEventHandler } from 'store/chats/socket-events/message-created/message-created-event-handler';
 import { MessagesDeletedIntegrationEventHandler } from 'store/chats/socket-events/message-deleted/messages-deleted-integration-event-handler';
 import { MessageEditedEventHandler } from 'store/chats/socket-events/message-edited/message-edited-event-handler';
 import { UserMessageTypingEventHandler } from 'store/chats/socket-events/message-typing/message-typing-event-handler';
@@ -148,7 +147,6 @@ const chats = createReducer<IChatsState>(initialState)
   .handleAction(GroupChatEditedEventHandler.action, GroupChatEditedEventHandler.reducer)
   .handleAction(GroupChatCreatedEventHandler.action, GroupChatCreatedEventHandler.reducer)
   .handleAction(ChatMutedStatusChangedEventHandler.action, ChatMutedStatusChangedEventHandler.reducer)
-  .handleAction(MessageCreatedEventHandler.action, MessageCreatedEventHandler.reducer)
   .handleAction(MessageEditedEventHandler.action, MessageEditedEventHandler.reducer)
   .handleAction(MessagesDeletedIntegrationEventHandler.action, MessagesDeletedIntegrationEventHandler.reducer)
   .handleAction(MessageReadEventHandler.action, MessageReadEventHandler.reducer)

@@ -6,7 +6,7 @@ import { useReferState } from 'app/hooks/use-referred-state';
 import { CreateMessage } from 'app/store/chats/features/create-message/create-message';
 import { MessageTyping } from 'app/store/chats/features/message-typing/message-typing';
 import { UploadAttachmentRequest } from 'app/store/chats/features/upload-attachment/upload-attachment-request';
-import { IChat, SystemMessageType, MessageState, FileType, IMessage } from 'app/store/chats/models';
+import { IChat, SystemMessageType, MessageState, FileType, IMessage, MessageLinkType } from 'app/store/chats/models';
 import { getMessageToReplySelector, getSelectedChatSelector } from 'app/store/chats/selectors';
 import { getMyProfileSelector } from 'app/store/my-profile/selectors';
 import { getTypingStrategySelector } from 'app/store/settings/selectors';
@@ -127,7 +127,7 @@ export const CreateMessageInput = React.memo(() => {
         if (refferedReplyingMessage.current) {
           message.linkedMessage = refferedReplyingMessage.current;
 
-          message.linkedMessageType = 'Reply';
+          message.linkedMessageType = MessageLinkType.Reply;
         }
         sendMessage({
           message,

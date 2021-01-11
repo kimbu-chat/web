@@ -28,3 +28,9 @@ export const changeMusic = (newMusic: HTMLAudioElement, changePlayStatus?: React
     changePlayStatus(!currentMusic.paused);
   }
 };
+
+export function playSoundSafely(sound: HTMLAudioElement): void {
+  sound.play().catch(() => {
+    // Autoplay was prevented.
+  });
+}

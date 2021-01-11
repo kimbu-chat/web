@@ -10,6 +10,7 @@ import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/models';
 import { AxiosResponse } from 'axios';
 import { RootState } from 'app/store/root-reducer';
+import { playSoundSafely } from 'app/utils/current-music';
 import { getMyIdSelector } from '../../../my-profile/selectors';
 import { ChangeSelectedChat } from '../../features/change-selected-chat/change-selected-chat';
 import { MarkMessagesAsRead } from '../../features/mark-messages-as-read/mark-messages-as-read';
@@ -213,12 +214,12 @@ export class MessageCreatedEventHandler {
       if (isAudioPlayAllowed && !chatOfMessage!.isMuted && message.userCreator?.id !== myId) {
         if (!(selectedChatId !== message.chatId) && !document.hidden) {
           const audioSelected = new Audio(messageCameSelected);
-          audioSelected.play();
+          playSoundSafely(audioSelected);
         }
 
         if (selectedChatId !== message.chatId || document.hidden) {
           const audioUnselected = new Audio(messageCameUnselected);
-          audioUnselected.play();
+          playSoundSafely(audioUnselected);
         }
       }
     };

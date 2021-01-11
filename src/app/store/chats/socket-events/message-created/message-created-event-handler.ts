@@ -64,21 +64,11 @@ export class MessageCreatedEventHandler {
       }
 
       if (message.linkedMessageId && !linkedMessage) {
-        if (message.linkedMessageType === MessageLinkType.Reply) {
-          const { data }: AxiosResponse<IMessage> = MessageCreatedEventHandler.httpRequest.call(
-            yield call(() => MessageCreatedEventHandler.httpRequest.generator({ messageId: message.linkedMessageId })),
-          );
+        const { data }: AxiosResponse<IMessage> = MessageCreatedEventHandler.httpRequest.call(
+          yield call(() => MessageCreatedEventHandler.httpRequest.generator({ messageId: message.linkedMessageId })),
+        );
 
-          linkedMessage = data;
-        }
-
-        if (message.linkedMessageType === MessageLinkType.Forward) {
-          const { data }: AxiosResponse<IMessage> = MessageCreatedEventHandler.httpRequest.call(
-            yield call(() => MessageCreatedEventHandler.httpRequest.generator({ messageId: message.linkedMessageId })),
-          );
-
-          linkedMessage = data;
-        }
+        linkedMessage = data;
       }
 
       const state: RootState = yield select();

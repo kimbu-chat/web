@@ -4,6 +4,6 @@ export interface ICall {
   id: number;
   userInterlocutor: IUserPreview;
   userCallerId: number;
-  duration: number;
+  duration?: number;
   status: CallStatus;
 }

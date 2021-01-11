@@ -27,7 +27,11 @@ export const CallItem: React.FC<ICallItem> = ({ call }) => {
         {getUserInitials(call.userInterlocutor)}
       </Avatar>
       <div className='call-from-list__data'>
-        <div className={`call-from-list__name ${call.status === CallStatus.NotAnswered && myId === call.userCallerId ? 'call-from-list__name--missed' : ''}`}>
+        <div
+          className={`call-from-list__name ${
+            (call.status === CallStatus.NotAnswered || call.status === CallStatus.Cancelled) && myId !== call.userCallerId ? 'call-from-list__name--missed' : ''
+          }`}
+        >
           {`${call.userInterlocutor.firstName} ${call.userInterlocutor.lastName}`}
         </div>
         <div className='call-from-list__type'>
@@ -39,7 +43,7 @@ export const CallItem: React.FC<ICallItem> = ({ call }) => {
           {call.status === CallStatus.NotAnswered && myId !== call.userCallerId && t('callFromList.notAnswered')}
         </div>
       </div>
-      <div className='call-from-list__day'>{moment.utc(call.duration * 1000).format('HH:mm:ss')}</div>
+      {call.duration && <div className='call-from-list__day'>{moment.utc(call.duration * 1000).format('HH:mm:ss')}</div>}
     </div>
   );
 };

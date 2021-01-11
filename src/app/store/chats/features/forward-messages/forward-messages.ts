@@ -2,7 +2,8 @@ import { createAction } from 'typesafe-actions';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
-import { getSelectedChatIdSelector } from '../../selectors';
+import { IMessage } from '../../models/message';
+import { getChatMessageByIdSelector, getSelectedChatIdSelector } from '../../selectors';
 import { getMyProfileSelector } from '../../../my-profile/selectors';
 import { IChatsState } from '../../models';
 import { IForwardMessagesActionPayload } from './action-payloads/forward-messages-action-payload';
@@ -32,14 +33,16 @@ export class ForwardMessages {
       const userCreator = yield select(getMyProfileSelector);
 
       // eslint-disable-next-line no-restricted-syntax
-      for (const chatId of chatIdsToForward) {
+      for (const messageId of messageIdsToForward) {
+        const message: IMessage = yield select(getChatMessageByIdSelector(messageId, forwardedChatId));
+        const originalMessageId = message.linkedMessage?.id;
         // eslint-disable-next-line no-restricted-syntax
-        for (const messageId of messageIdsToForward) {
+        for (const chatId of chatIdsToForward) {
           const messageCreationReq: ICreateMessageApiRequest = {
             text: '',
             chatId,
             link: {
-              originalMessageId: messageId,
+              originalMessageId: originalMessageId || messageId,
               type: 'Forward',
             },
           };

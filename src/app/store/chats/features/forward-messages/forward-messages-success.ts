@@ -23,7 +23,7 @@ export class ForwardMessagesSuccess {
         const buildedMessage: IMessage = {
           id: serverMessageId,
           linkedMessageType: MessageLinkType.Forward,
-          linkedMessage: message,
+          linkedMessage: message?.linkedMessage || message,
           text: '',
           systemMessageType: SystemMessageType.None,
           state: MessageState.SENT,

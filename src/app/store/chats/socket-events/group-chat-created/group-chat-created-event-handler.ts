@@ -2,6 +2,7 @@ import { MessageUtils } from 'app/utils/message-utils';
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import messageCameUnselected from 'app/assets/sounds/notifications/messsage-came-unselected.ogg';
+import { playSoundSafely } from 'app/utils/current-music';
 import { ChatId } from '../../chat-id';
 import { IChatsState, IMessage, SystemMessageType, MessageState, IChat, InterlocutorType } from '../../models';
 import { getChatExistsDraftSelector } from '../../selectors';
@@ -24,7 +25,7 @@ export class GroupChatCreatedEventHandler {
       }
 
       const audioUnselected = new Audio(messageCameUnselected);
-      audioUnselected.play();
+      playSoundSafely(audioUnselected);
 
       const messageOfCreation: IMessage = {
         systemMessageType: SystemMessageType.GroupChatCreated,

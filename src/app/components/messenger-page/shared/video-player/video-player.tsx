@@ -11,7 +11,7 @@ interface IVideoPlayerProps {
 
 export const VideoPlayer: React.FC<IVideoPlayerProps> = React.memo(({ url, onClose }) => (
   <BackgroundBlur onClick={onClose}>
-    <video preload='metadata' controls src={`${url}#t=5`} className='video-player' />
+    <video preload='metadata' autoPlay controls src={url} className='video-player' />
     <CloseSVG className='video-player__close' viewBox='0 0 25 25' />
   </BackgroundBlur>
 ));

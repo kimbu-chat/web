@@ -14,13 +14,14 @@ import { PrivateRoute } from 'app/routing/private-route';
 import { i18n, TFunction } from 'i18next';
 import { amILoggedSelector, getAuthPhoneNumberSelector, getRegstrationAllowedSelector } from 'store/auth/selectors';
 import { CubeLoader } from './containers/cube-loader/cube-loader';
-import { loadPhoneConfirmation, loadCodeConfirmation, loadMessenger, loadNotFound, loadRegistration } from './routing/module-loader';
+import { loadPhoneConfirmation, loadCodeConfirmation, loadMessenger, loadNotFound, loadRegistration, loadLogout } from './routing/module-loader';
 
 const ConfirmPhone = lazy(loadPhoneConfirmation);
 const ConfirmCode = lazy(loadCodeConfirmation);
 const Messenger = lazy(loadMessenger);
 const NotFound = lazy(loadNotFound);
 const Registration = lazy(loadRegistration);
+const Logout = lazy(loadLogout);
 
 export interface ILocalizationContextProps {
   t: TFunction;
@@ -75,6 +76,17 @@ export const App = () => {
           componentToRender={
             <Suspense fallback={<CubeLoader />}>
               <Messenger />
+            </Suspense>
+          }
+        />
+        <PrivateRoute
+          path='/logout'
+          exact
+          isAllowed={isAuthenticated}
+          fallback='/login'
+          componentToRender={
+            <Suspense fallback={<CubeLoader />}>
+              <Logout />
             </Suspense>
           }
         />

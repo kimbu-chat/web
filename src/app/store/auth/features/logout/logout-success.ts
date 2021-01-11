@@ -68,7 +68,7 @@ export class LogoutSuccess {
             hasMoreFriends: true,
           },
           internet: {
-            isInternetConnected: typeof navigator !== 'undefined' && typeof navigator.onLine === 'boolean' ? navigator.onLine : true,
+            isInternetConnected: true,
             isWebSocketConnected: websocketState,
           },
           myProfile: {

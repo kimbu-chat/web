@@ -1,7 +1,7 @@
 import { Avatar, BaseBtn } from 'components';
 import { getMyProfileSelector } from 'store/my-profile/selectors';
 import { getUserInitials } from 'app/utils/interlocutor-name-utils';
-import React, { useContext } from 'react';
+import React, { useContext, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { LocalizationContext } from 'app/app';
 import './settings.scss';
@@ -13,8 +13,6 @@ import LangSvg from 'icons/ic-language.svg';
 import { useLocation } from 'react-router';
 import { Link, Route } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
-import { AuthActions } from 'store/auth/actions';
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { EditProfile } from './edit-profile/edit-profile';
 import { NotificationsSettings } from './notifications-settings/notifications-settings';
 import { LanguageSettings } from './language-settings/language-settings';
@@ -23,7 +21,7 @@ import { TextTyping } from './text-typing/text-typing';
 export const Settings = React.memo(() => {
   const { t } = useContext(LocalizationContext);
 
-  const logout = useActionWithDispatch(AuthActions.logout);
+  const logout = useCallback(() => window.location.replace('logout'), []);
 
   const myProfile = useSelector(getMyProfileSelector);
 

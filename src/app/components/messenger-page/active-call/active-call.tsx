@@ -40,6 +40,7 @@ import { LocalizationContext } from 'app/app';
 import { IUserPreview } from 'app/store/models';
 import { interlocutorAudioTrack, interlocutorVideoTrack, tracks } from 'app/store/calls/utils/user-media';
 import { InputType } from 'app/store/calls/common/enums/input-type';
+import { playSoundSafely } from 'app/utils/current-music';
 import { Dropdown } from './dropdown/dropdown';
 
 export const ActiveCall: React.FC = () => {
@@ -144,7 +145,7 @@ export const ActiveCall: React.FC = () => {
 
       audio.addEventListener('ended', audio.play, false);
 
-      audio.play();
+      playSoundSafely(audio);
 
       return () => {
         audio.pause();

@@ -17,6 +17,7 @@ import AcceptWithAudioSvg from 'icons/ic-call-filled.svg';
 import AcceptWithVideoSvg from 'icons/ic-video-call-filled.svg';
 import DeclineCallSvg from 'icons/ic-call-out.svg';
 import { LocalizationContext } from 'app/app';
+import { playSoundSafely } from 'app/utils/current-music';
 
 export const IncomingCall: React.FC = () => {
   const { t } = useContext(LocalizationContext);
@@ -32,7 +33,7 @@ export const IncomingCall: React.FC = () => {
 
     audio.addEventListener('ended', audio.play, false);
 
-    audio.play();
+    playSoundSafely(audio);
 
     return () => {
       audio.pause();

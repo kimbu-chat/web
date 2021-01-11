@@ -28,6 +28,7 @@ import { OpenScreenShareStatus } from './features/change-screen-share-status/ope
 import { RenegotiationAcceptedEventHandler } from './socket-events/renegotiation-accepted/renegotiation-accepted-event-handler';
 import { CloseInterlocutorVideoStatus } from './features/change-interlocutor-media-status/close-interlocutor-video-status';
 import { OpenInterlocutorVideoStatus } from './features/change-interlocutor-media-status/open-interlocutor-video-status';
+import { UserEditedEventHandler } from './socket-events/user-edited/user-edited-event-handler';
 
 export namespace CallActions {
   export const getCallsAction = GetCalls.action;
@@ -62,4 +63,5 @@ export namespace CallActions {
   export const interlocutorAcceptedCallEventHandler = InterlocutorAcceptedCallEventHandler.action;
   export const iceCandidateSentEventHandler = IceCandidateSentEventHandler.action;
   export const callEndedEventHandler = CallEndedEventHandler.action;
+  export const userEditedEventHandler = UserEditedEventHandler.action;
 }

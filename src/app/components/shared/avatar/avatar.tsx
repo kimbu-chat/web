@@ -12,9 +12,9 @@ interface IAvatarProps {
 const Avatar: React.FC<IAvatarProps> = React.memo(({ src, children, className, onClick, ...props }) => (
   <>
     {src ? (
-      <img alt={children} src={src} {...props} onClick={onClick} className={`avatar ${className || ''}`} />
+      <img draggable={false} alt={children} src={src} {...props} onClick={onClick} className={`avatar ${className || ''}`} />
     ) : (
-      <div {...props} onClick={onClick} className={`avatar ${className || ''}`}>
+      <div draggable={false} {...props} onClick={onClick} className={`avatar ${className || ''}`}>
         {children}
       </div>
     )}

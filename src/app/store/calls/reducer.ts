@@ -3,7 +3,6 @@ import { DeclineCall } from 'app/store/calls/features/decline-call/decline-call'
 import { ICallsState } from './models';
 import { IncomingCallEventHandler } from './socket-events/incoming-call/incoming-call-event-handler';
 import { AcceptCall } from './features/accept-call/accept-call';
-import { CallEndedEventHandler } from './socket-events/call-ended/call-ended-event-handler';
 import { CancelCallSuccess } from './features/cancel-call/cancel-call-success';
 import { ChangeActiveDeviceId } from './features/change-active-device-id/change-active-device-id';
 import { CloseAudioStatus } from './features/change-user-media-status/close-audio-status';
@@ -23,6 +22,7 @@ import { OpenVideoStatus } from './features/change-user-media-status/open-video-
 import { OpenScreenShareStatus } from './features/change-screen-share-status/open-screen-share-status';
 import { CloseInterlocutorVideoStatus } from './features/change-interlocutor-media-status/close-interlocutor-video-status';
 import { OpenInterlocutorVideoStatus } from './features/change-interlocutor-media-status/open-interlocutor-video-status';
+import { UserEditedEventHandler } from './socket-events/user-edited/user-edited-event-handler';
 
 const initialState: ICallsState = {
   isInterlocutorVideoEnabled: false,
@@ -71,6 +71,6 @@ const calls = createReducer<ICallsState>(initialState)
   // socket-events
   .handleAction(IncomingCallEventHandler.action, IncomingCallEventHandler.reducer)
   .handleAction(InterlocutorAcceptedCallEventHandler.action, InterlocutorAcceptedCallEventHandler.reducer)
-  .handleAction(CallEndedEventHandler.action, CallEndedEventHandler.reducer);
+  .handleAction(UserEditedEventHandler.action, UserEditedEventHandler.reducer);
 
 export default calls;

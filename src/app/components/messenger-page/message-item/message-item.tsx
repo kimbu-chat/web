@@ -136,7 +136,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
           <div className='message__item-apart'>
             <div className='message__contents__wrapper'>
               <MessageItemActions messageId={message.id} isCreatedByMe={isCurrentUserMessageCreator} />
-              {message.linkedMessage && <MessageLink linkedMessageType={message.linkedMessageType!} linkedMessage={message.linkedMessage} />}
+              {message.linkedMessageType && <MessageLink linkedMessageType={message.linkedMessageType!} linkedMessage={message.linkedMessage} />}
               <span className='message__contents'>{message.text}</span>
             </div>
 

@@ -1,7 +1,8 @@
+import { LocalizationContext } from 'app/app';
 import { FileType, IAudioAttachment, IBaseAttachment, IPictureAttachment, IRawAttachment, IVideoAttachment, IVoiceAttachment } from 'app/store/chats/models';
 import { MessageLinkType } from 'app/store/chats/models/linked-message-type';
 import { IUserPreview } from 'app/store/models';
-import React, { useMemo } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { MessageAudioAttachment } from '../../shared/audio-attachment/audio-attachment';
 import { FileAttachment } from '../../shared/file-attachment/file-attachment';
 import { MediaGrid } from '../attachments/media-grid/media-grid';
@@ -9,19 +10,21 @@ import { RecordingAttachment } from '../attachments/recording-attachment/recordi
 import './message-link.scss';
 
 interface IMessageLinkProps {
-  linkedMessage: {
+  linkedMessage?: {
     id: number;
     userCreator: IUserPreview;
     text: string;
     attachments?: IBaseAttachment[];
-  };
+  } | null;
   linkedMessageType: MessageLinkType;
 }
 
 const MessageLink: React.FC<IMessageLinkProps> = React.memo(({ linkedMessage, linkedMessageType }) => {
+  const { t } = useContext(LocalizationContext);
+
   const structuredAttachments = useMemo(
     () =>
-      linkedMessage.attachments?.reduce(
+      linkedMessage?.attachments?.reduce(
         (
           accum: {
             files: IRawAttachment[];
@@ -65,15 +68,17 @@ const MessageLink: React.FC<IMessageLinkProps> = React.memo(({ linkedMessage, li
           recordings: [],
         },
       ),
-    [linkedMessage.attachments],
+    [linkedMessage?.attachments],
   );
 
   return (
     <div className={`message-link ${linkedMessageType === 'Forward' ? 'message-link--forward' : 'message-link--reply'}`}>
-      <div className='message-link__interlocutor'>{`${linkedMessageType === 'Forward' ? 'Forwarded from ' : 'Replied to'} ${
-        linkedMessage.userCreator.firstName
-      } ${linkedMessage.userCreator.lastName}`}</div>
-      <div className='message-link__text'>{linkedMessage.text}</div>
+      {linkedMessage && (
+        <div className='message-link__interlocutor'>{`${linkedMessageType === 'Forward' ? 'Forwarded from ' : 'Replied to'} ${
+          linkedMessage?.userCreator.firstName
+        } ${linkedMessage?.userCreator.lastName}`}</div>
+      )}
+      <div className='message-link__text'>{linkedMessage !== null ? linkedMessage?.text : t('message-link.message-deleted')}</div>
       <div className='message-link__attachments'>
         {structuredAttachments?.files.map((file) => (
           <FileAttachment key={file.id} attachment={file} />

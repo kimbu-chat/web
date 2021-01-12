@@ -199,6 +199,9 @@
     "missed": "Пропущен",
     "notAnswered": "Без ответа"
   },
+  "message-link": {
+    "message-deleted": "Сообщение удалено"
+  },
   "systemMessage": {
     "you_created_group": "Вы создали группу",
     "created_group": "{{name}} создал группу",

@@ -51,6 +51,14 @@ export class MessagesDeletedIntegrationEventHandler {
                 break;
             }
           });
+
+          const repliedMessages = chat?.messages.messages.filter(({ linkedMessage }) => linkedMessage?.id === msgIdToDelete);
+
+          repliedMessages?.forEach((message) => {
+            if (message.linkedMessage) {
+              message.linkedMessage = null;
+            }
+          });
         });
 
         if (chat.lastMessage?.id && messageIds.includes(chat.lastMessage.id)) {

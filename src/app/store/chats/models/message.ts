@@ -25,5 +25,5 @@ export interface IMessage {
     userCreator: IUserPreview;
     text: string;
     attachments?: IBaseAttachment[];
-  };
+  } | null;
 }

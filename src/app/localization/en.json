@@ -198,6 +198,9 @@
     "missed": "Missed",
     "notAnswered": "Not Answered"
   },
+  "message-link": {
+    "message-deleted": "Message deleted"
+  },
   "systemMessage": {
     "you_created_group": "You created group",
     "created_group": "{{name}} created group",

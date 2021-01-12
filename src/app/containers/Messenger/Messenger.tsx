@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
 import './messenger.scss';
 import {
@@ -25,7 +25,11 @@ import { LocalizationContext } from 'app/app';
 import { getMessageToEditSelector, getSelectedChatIdSelector } from 'store/chats/selectors';
 import { getInternetStateSelector } from 'app/store/internet/selectors';
 
-const Messenger = React.memo(() => {
+interface IMessengerProps {
+  preloadNext: () => void;
+}
+
+const Messenger: React.FC<IMessengerProps> = React.memo(({ preloadNext }) => {
   const { t } = useContext(LocalizationContext);
 
   const amICalledSelector = useSelector(isCallingMe);
@@ -34,6 +38,10 @@ const Messenger = React.memo(() => {
   const selectedChatId = useSelector(getSelectedChatIdSelector);
   const messageToEdit = useSelector(getMessageToEditSelector);
   const internetState = useSelector(getInternetStateSelector);
+
+  useEffect(() => {
+    preloadNext();
+  }, []);
 
   return (
     <div className='messenger'>

@@ -10,7 +10,7 @@ interface IMessageSmilesProps {
   setText: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const MessageSmiles: React.FC<IMessageSmilesProps> = React.memo(({ setText }) => {
+const MessageSmiles: React.FC<IMessageSmilesProps> = React.memo(({ setText }) => {
   const { t } = useContext(LocalizationContext);
 
   const [smilesRendered, setSmilesRendered] = useState(false);
@@ -68,3 +68,5 @@ export const MessageSmiles: React.FC<IMessageSmilesProps> = React.memo(({ setTex
     </>
   );
 });
+
+export default MessageSmiles;

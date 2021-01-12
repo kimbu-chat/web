@@ -14,7 +14,15 @@ import { PrivateRoute } from 'app/routing/private-route';
 import { i18n, TFunction } from 'i18next';
 import { amILoggedSelector, getAuthPhoneNumberSelector, getRegstrationAllowedSelector } from 'store/auth/selectors';
 import { CubeLoader } from './containers/cube-loader/cube-loader';
-import { loadPhoneConfirmation, loadCodeConfirmation, loadMessenger, loadNotFound, loadRegistration, loadLogout } from './routing/module-loader';
+import {
+  loadPhoneConfirmation,
+  loadCodeConfirmation,
+  loadMessenger,
+  loadNotFound,
+  loadRegistration,
+  loadLogout,
+  loadMessageSmiles,
+} from './routing/module-loader';
 
 const ConfirmPhone = lazy(loadPhoneConfirmation);
 const ConfirmCode = lazy(loadCodeConfirmation);
@@ -75,7 +83,7 @@ export const App = () => {
           fallback='/login'
           componentToRender={
             <Suspense fallback={<CubeLoader />}>
-              <Messenger />
+              <Messenger preloadNext={loadMessageSmiles} />
             </Suspense>
           }
         />

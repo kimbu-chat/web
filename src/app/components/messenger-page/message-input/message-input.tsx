@@ -13,18 +13,21 @@ import { getTypingStrategySelector } from 'app/store/settings/selectors';
 import { getFileType } from 'app/utils/get-file-extension';
 import moment from 'moment';
 import Mousetrap from 'mousetrap';
-import React, { useContext, useState, useRef, useEffect, useCallback } from 'react';
+import React, { useContext, useState, useRef, useEffect, useCallback, lazy, Suspense } from 'react';
 import { useSelector } from 'react-redux';
 import useInterval from 'use-interval';
 import { throttle } from 'lodash';
 import AddSvg from 'icons/ic-add-new.svg';
 import VoiceSvg from 'icons/ic-microphone.svg';
 import { TypingStrategy } from 'app/store/settings/features/models';
+import { loadMessageSmiles } from 'app/routing/module-loader';
+import { CubeLoader } from 'app/containers/cube-loader/cube-loader';
 import { RespondingMessage } from './responding-message/responding-message';
 import { ExpandingTextarea } from './expanding-textarea/expanding-textarea';
 import { MessageInputAttachment } from './message-input-attachment/message-input-attachment';
-import { MessageSmiles } from './message-smiles/message-smiles';
 import './message-input.scss';
+
+const MessageSmiles = lazy(loadMessageSmiles);
 
 export interface IRecordedData {
   mediaRecorder: MediaRecorder | null;
@@ -401,7 +404,11 @@ export const CreateMessageInput = React.memo(() => {
               )}
               {isRecording && <div className='message-input__recording-info'>Release outside this field to cancel</div>}
               <div className='message-input__right-btns'>
-                {!isRecording && <MessageSmiles setText={setText} />}
+                {!isRecording && (
+                  <Suspense fallback={<CubeLoader />}>
+                    <MessageSmiles setText={setText} />
+                  </Suspense>
+                )}
                 <button
                   type='button'
                   onClick={handleRegisterAudioBtnClick}

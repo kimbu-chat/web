@@ -63,7 +63,6 @@ import { IChatsState } from './models/chats-state';
 import { UserEditedEventHandler } from './socket-events/user-edited/user-edited-event-handler';
 
 const initialState: IChatsState = {
-  loading: false,
   hasMore: true,
   searchString: '',
   chats: [],

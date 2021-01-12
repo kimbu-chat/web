@@ -19,6 +19,8 @@ export const getSelectedChatUnreadMessagesCountSelector = (state: RootState): nu
 export const getSelectedChatAttachmentsToSendSelector = (state: RootState): IAttachmentToSend<IBaseAttachment>[] | undefined =>
   state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.attachmentsToSend;
 
+export const getIsFirstChatsLoadSelector = (state: RootState): boolean => typeof state.chats.loading === 'undefined' && state.chats.chats.length === 0;
+
 // Attachments list selector
 
 export const getSelectedChatRecordingsSelector = (state: RootState) =>
@@ -46,7 +48,7 @@ export const getChatByIdSelector = (chatId: number) => (state: RootState) => sta
 
 export const getChatsSelector = (state: RootState): IChat[] => state.chats.chats;
 
-export const getChatsLoadingSelector = (state: RootState): boolean => state.chats.loading;
+export const getChatsLoadingSelector = (state: RootState): boolean | undefined => state.chats.loading;
 
 export const getHasMoreChatsSelector = (state: RootState): boolean => state.chats.hasMore;
 

@@ -3,7 +3,7 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { IMessage } from '../../models/message';
-import { getChatMessageByIdSelector, getSelectedChatIdSelector } from '../../selectors';
+import { getChatByIdDraftSelector, getChatMessageByIdSelector, getSelectedChatIdSelector } from '../../selectors';
 import { IChatsState, MessageLinkType } from '../../models';
 import { IForwardMessagesActionPayload } from './action-payloads/forward-messages-action-payload';
 import { ICreateMessageApiRequest } from '../create-message/api-requests/create-message-api-request';
@@ -16,7 +16,16 @@ export class ForwardMessages {
 
   static get reducer() {
     return produce((draft: IChatsState) => {
+      const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
+
+      if (chat) {
+        chat.messages.messages.forEach((message) => {
+          message.isSelected = false;
+        });
+      }
+
       draft.selectedMessageIds = [];
+
       return draft;
     });
   }

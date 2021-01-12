@@ -73,6 +73,7 @@ export class LogoutSuccess {
           },
           myProfile: {
             user: undefined,
+            isTabActive: true,
           },
           settings,
         }),

@@ -1,11 +1,14 @@
 import { amILoggedSelector } from 'app/store/auth/selectors';
+import { resetUnreadChats } from 'app/store/chats/socket-events/message-created/message-created-event-handler';
 import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/models';
 
 import { AxiosResponse } from 'axios';
+import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+import { IMyProfileState } from '../../models';
 import { IChangeUserOnlineStatusApiRequest } from './api-requests/change-user-online-status-api-request';
 
 export class ChangeUserOnlineStatus {
@@ -13,11 +16,24 @@ export class ChangeUserOnlineStatus {
     return createAction('CHANGE_ONLINE_STATUS')<boolean>();
   }
 
+  static get reducer() {
+    return produce((draft: IMyProfileState, { payload }: ReturnType<typeof ChangeUserOnlineStatus.action>) => {
+      draft.isTabActive = payload;
+      return draft;
+    });
+  }
+
   static get saga() {
     return function* ({ payload }: ReturnType<typeof ChangeUserOnlineStatus.action>): SagaIterator {
       const isAuthenticated = yield select(amILoggedSelector);
       if (isAuthenticated) {
         ChangeUserOnlineStatus.httpRequest.call(yield call(() => ChangeUserOnlineStatus.httpRequest.generator({ isOnline: payload })));
+      }
+
+      if (payload) {
+        resetUnreadChats();
+
+        window.document.title = 'Kimbu';
       }
     };
   }

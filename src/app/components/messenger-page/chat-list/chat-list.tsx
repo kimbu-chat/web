@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useMemo } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import './chat-list.scss';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { useSelector } from 'react-redux';
@@ -7,6 +7,7 @@ import { ChatActions } from 'store/chats/actions';
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
 import {
   getChatsSelector,
+  getSearchChatsSelector,
   getChatsLoadingSelector,
   getHasMoreChatsSelector,
   getSearchStringSelector,
@@ -18,6 +19,7 @@ import { ChatFromList } from './chat-from-list/chat-from-list';
 
 const ChatList = React.memo(() => {
   const chats = useSelector(getChatsSelector);
+  const searchChats = useSelector(getSearchChatsSelector);
   const hasMoreChats = useSelector(getHasMoreChatsSelector);
   const areChatsLoading = useSelector(getChatsLoadingSelector);
   const searchString = useSelector(getSearchStringSelector);
@@ -43,7 +45,7 @@ const ChatList = React.memo(() => {
 
       getChatsRequest({
         page: pageData,
-        initializedBySearch: false,
+        initializedByScroll: true,
         name: searchString,
         showOnlyHidden: false,
         showAll: true,
@@ -51,12 +53,12 @@ const ChatList = React.memo(() => {
     }
   }, [searchString, chats.length, areChatsLoading]);
 
-  const memoizedChats = useMemo(() => chats?.map((chat: IChat) => <ChatFromList chat={chat} key={chat.id} />), [chats]);
-
   return (
     <div className='chat-list'>
       <InfiniteScroll onReachExtreme={loadMore} hasMore={hasMoreChats} isLoading={areChatsLoading}>
-        {memoizedChats}
+        {searchString.length > 0
+          ? searchChats?.map((chat: IChat) => <ChatFromList chat={chat} key={chat.id} />)
+          : chats?.map((chat: IChat) => <ChatFromList chat={chat} key={chat.id} />)}
       </InfiniteScroll>
     </div>
   );

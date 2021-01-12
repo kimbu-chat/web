@@ -4,6 +4,6 @@ export interface IGetChatsActionPayload {
   page: IPage;
   showOnlyHidden: boolean;
   showAll: boolean;
-  initializedBySearch: boolean;
+  initializedByScroll: boolean;
   name?: string;
 }

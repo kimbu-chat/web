@@ -48,6 +48,8 @@ export const getChatByIdSelector = (chatId: number) => (state: RootState) => sta
 
 export const getChatsSelector = (state: RootState): IChat[] => state.chats.chats;
 
+export const getSearchChatsSelector = (state: RootState): IChat[] => state.chats.searchChats;
+
 export const getChatsLoadingSelector = (state: RootState): boolean | undefined => state.chats.loading;
 
 export const getHasMoreChatsSelector = (state: RootState): boolean => state.chats.hasMore;

@@ -55,7 +55,7 @@ export const ForwardModal: React.FC<IForwardModalProps> = React.memo(({ onClose,
       page: { offset: chats.length, limit: CHATS_LIMIT },
       name: searchString,
       showOnlyHidden: false,
-      initializedBySearch: false,
+      initializedByScroll: false,
       showAll: true,
     });
   }, [loadChats, searchString, chats]);

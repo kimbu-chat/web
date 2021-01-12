@@ -25,7 +25,7 @@ export const SearchTop = React.memo(() => {
     getChats({
       name,
       page: { offset: 0, limit: CHATS_LIMIT },
-      initializedBySearch: true,
+      initializedByScroll: false,
       showOnlyHidden: false,
       showAll: true,
     });

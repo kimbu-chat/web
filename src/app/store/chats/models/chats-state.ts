@@ -5,6 +5,7 @@ export interface IChatsState {
   hasMore: boolean;
   searchString: string;
   chats: IChat[];
+  searchChats: IChat[];
   selectedChatId: number | null;
   selectedMessageIds: number[];
 }

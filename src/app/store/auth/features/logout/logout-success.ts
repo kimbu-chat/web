@@ -59,6 +59,7 @@ export class LogoutSuccess {
             hasMore: true,
             searchString: '',
             chats: [],
+            searchChats: [],
             selectedChatId: null,
             selectedMessageIds: [],
           },

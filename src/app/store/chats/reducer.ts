@@ -66,6 +66,7 @@ const initialState: IChatsState = {
   hasMore: true,
   searchString: '',
   chats: [],
+  searchChats: [],
   selectedChatId: null,
   selectedMessageIds: [],
 };

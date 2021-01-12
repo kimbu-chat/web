@@ -8,3 +8,5 @@ export const getMyProfileSelector = (state: RootState): IUserPreview | undefined
 export const getMyPhoneNumberSelector = (state: RootState): string | undefined => state.myProfile.user?.phoneNumber;
 
 export const getMyFullNameSelector = (state: RootState): string | undefined => `${state.myProfile.user?.firstName} ${state.myProfile.user?.lastName}`;
+
+export const getIsTabActiveSelector = (state: RootState) => state.myProfile.isTabActive;

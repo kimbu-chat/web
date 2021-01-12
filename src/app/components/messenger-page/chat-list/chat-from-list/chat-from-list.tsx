@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 
 import './chat-from-list.scss';
-import { IChat, IMessage, MessageState, SystemMessageType } from 'store/chats/models';
+import { IChat, IMessage, MessageLinkType, MessageState, SystemMessageType } from 'store/chats/models';
 import { MessageUtils } from 'app/utils/message-utils';
 
 import { StatusBadge, Avatar } from 'components';
@@ -39,11 +39,19 @@ const ChatFromList: React.FC<IChatFromListProps> = React.memo(({ chat }) => {
     return groupChat?.avatar?.previewUrl as string;
   }, [interlocutor?.avatar?.previewUrl, groupChat?.avatar?.previewUrl]);
 
-  const getMessageText = (): string => {
-    const { lastMessage, groupChat } = chat;
-    if (lastMessage) {
-      if (lastMessage && lastMessage?.systemMessageType !== SystemMessageType.None) {
-        return truncate(MessageUtils.constructSystemMessageText(lastMessage as IMessage, t, currentUserId), {
+  const getMessageText = useCallback((): string => {
+    const messageToProcess = lastMessage?.linkedMessageType === MessageLinkType.Forward ? lastMessage?.linkedMessage : lastMessage;
+
+    if (
+      (lastMessage?.text.length === 0 && (lastMessage.attachments?.length || 0) > 0) ||
+      (lastMessage?.linkedMessage?.text.length === 0 && (lastMessage?.linkedMessage.attachments?.length || 0) > 0)
+    ) {
+      return t('chatFromList.media');
+    }
+
+    if (messageToProcess) {
+      if (messageToProcess && (messageToProcess as IMessage).systemMessageType && (messageToProcess as IMessage).systemMessageType !== SystemMessageType.None) {
+        return truncate(MessageUtils.constructSystemMessageText(messageToProcess as IMessage, t, currentUserId), {
           length: 53,
           omission: '...',
         });
@@ -51,18 +59,18 @@ const ChatFromList: React.FC<IChatFromListProps> = React.memo(({ chat }) => {
 
       if (groupChat) {
         if (isMessageCreatorCurrentUser) {
-          return truncate(`${t('chatFromList.you')}: ${lastMessage?.text}`, {
+          return truncate(`${t('chatFromList.you')}: ${messageToProcess?.text}`, {
             length: 53,
             omission: '...',
           });
         }
-        return truncate(`${lastMessage?.userCreator?.firstName}: ${lastMessage?.text}`, {
+        return truncate(`${messageToProcess?.userCreator?.firstName}: ${messageToProcess?.text}`, {
           length: 53,
           omission: '...',
         });
       }
 
-      const shortedText = truncate(lastMessage?.text, {
+      const shortedText = truncate(messageToProcess?.text, {
         length: 53,
         omission: '...',
       });
@@ -71,7 +79,7 @@ const ChatFromList: React.FC<IChatFromListProps> = React.memo(({ chat }) => {
     }
 
     return '';
-  };
+  }, [lastMessage]);
 
   return (
     <NavLink to={`/chats/${chat.id.toString()}`} className='chat-from-list' activeClassName='chat-from-list chat-from-list--active'>

@@ -5,7 +5,7 @@ import { call, put, select } from 'redux-saga/effects';
 import { IMessage } from '../../models/message';
 import { getChatMessageByIdSelector, getSelectedChatIdSelector } from '../../selectors';
 import { getMyProfileSelector } from '../../../my-profile/selectors';
-import { IChatsState } from '../../models';
+import { IChatsState, MessageLinkType } from '../../models';
 import { IForwardMessagesActionPayload } from './action-payloads/forward-messages-action-payload';
 import { ICreateMessageApiRequest } from '../create-message/api-requests/create-message-api-request';
 import { CreateMessage } from '../create-message/create-message';
@@ -42,7 +42,7 @@ export class ForwardMessages {
             text: '',
             chatId,
             link: {
-              originalMessageId: originalMessageId || messageId,
+              originalMessageId: message.linkedMessageType === MessageLinkType.Forward ? originalMessageId! : messageId,
               type: 'Forward',
             },
           };

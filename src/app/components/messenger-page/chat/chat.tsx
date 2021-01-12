@@ -82,7 +82,7 @@ const Chat = React.memo(() => {
 
         <InfiniteScroll onReachExtreme={loadMore} hasMore={hasMoreMessages} isLoading={areMessagesLoading} isReverse>
           {separatedItemsWithUserInfo.map((msgGroup: IMessage[]) => (
-            <div className='chat__messages-group' key={msgGroup[0]?.id}>
+            <div className='chat__messages-group' key={msgGroup[msgGroup.length - 1]?.id || 'last'}>
               {msgGroup.map((msg) => (
                 <React.Fragment key={msg.id}>
                   <MessageItem message={msg} key={msg.id} />

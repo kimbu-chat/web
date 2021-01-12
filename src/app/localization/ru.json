@@ -22,7 +22,8 @@
     "last-time": "Последний раз был в сети"
   },
   "chatFromList": {
-    "you": "Вы"
+    "you": "Вы",
+    "media": "Медия"
   },
   "chat": {
     "typing": "{{firstInterlocutorName}} печатает...",

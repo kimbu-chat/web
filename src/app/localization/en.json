@@ -21,7 +21,8 @@
     "last-time": "Last seen online"
   },
   "chatFromList": {
-    "you": "You"
+    "you": "You",
+    "media": "Media"
   },
   "chat": {
     "typing": "{{firstInterlocutorName}} is typing...",

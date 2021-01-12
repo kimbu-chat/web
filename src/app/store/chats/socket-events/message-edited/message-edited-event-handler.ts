@@ -34,6 +34,15 @@ export class MessageEditedEventHandler {
         }
       }
 
+      const repliedMessages = chat?.messages.messages.filter(({ linkedMessage }) => linkedMessage?.id === messageId);
+
+      repliedMessages?.forEach(({ linkedMessage }) => {
+        if (linkedMessage) {
+          linkedMessage.text = text;
+          linkedMessage.attachments = attachments;
+        }
+      });
+
       return draft;
     });
   }

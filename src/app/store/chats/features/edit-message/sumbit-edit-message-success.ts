@@ -15,15 +15,24 @@ export class SubmitEditMessageSuccess {
 
       const chat = getChatByIdDraftSelector(chatId, draft);
       const message = chat?.messages.messages.find(({ id }) => id === messageId);
+      const repliedMessages = chat?.messages.messages.filter(({ linkedMessage }) => linkedMessage?.id === messageId);
+      const newAttachments = [
+        ...(message?.attachments?.filter(({ id }) => payload.removedAttachments?.findIndex((removedAttachment) => removedAttachment.id === id) === -1) || []),
+        ...(payload.newAttachments || []),
+      ];
 
       if (message) {
         message.text = payload.text;
         message.isEdited = true;
-        message.attachments = [
-          ...(message.attachments?.filter(({ id }) => payload.removedAttachments?.findIndex((removedAttachment) => removedAttachment.id === id) === -1) || []),
-          ...(payload.newAttachments || []),
-        ];
+        message.attachments = newAttachments;
       }
+
+      repliedMessages?.forEach(({ linkedMessage }) => {
+        if (linkedMessage) {
+          linkedMessage.text = payload.text;
+          linkedMessage.attachments = newAttachments;
+        }
+      });
 
       if (chat) {
         payload.removedAttachments?.forEach((attachment) => {

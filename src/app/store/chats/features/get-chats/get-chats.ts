@@ -17,11 +17,12 @@ export class GetChats {
   }
 
   static get reducer() {
-    return produce((draft: IChatsState, { payload }: ReturnType<typeof GetChats.action>) => ({
-      ...draft,
-      loading: true,
-      searchString: payload.name || '',
-    }));
+    return produce((draft: IChatsState, { payload }: ReturnType<typeof GetChats.action>) => {
+      draft.loading = true;
+      draft.searchString = payload.name || '';
+
+      return draft;
+    });
   }
 
   static get saga() {
@@ -68,7 +69,7 @@ export class GetChats {
       const chatList: IGetChatsSuccessActionPayload = {
         chats: data,
         hasMore: data.length >= action.payload.page.limit,
-        initializedBySearch: chatsRequestData.initializedBySearch,
+        initializedByScroll: chatsRequestData.initializedByScroll,
       };
 
       yield put(GetChatsSuccess.action(chatList));

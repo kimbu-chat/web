@@ -2,7 +2,7 @@ import { UpdateStore } from 'app/store/update-store';
 import { areNotificationsEnabledSelector } from 'app/store/settings/selectors';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { select, put, call } from 'redux-saga/effects';
+import { select, put, call, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import messageCameSelected from 'app/assets/sounds/notifications/messsage-came-selected.ogg';
 import messageCameUnselected from 'app/assets/sounds/notifications/messsage-came-unselected.ogg';
@@ -11,7 +11,8 @@ import { HttpRequestMethod } from 'app/store/models';
 import { AxiosResponse } from 'axios';
 import { RootState } from 'app/store/root-reducer';
 import { playSoundSafely } from 'app/utils/current-music';
-import { getMyIdSelector } from '../../../my-profile/selectors';
+import { ChangeUserOnlineStatus } from '../../../my-profile/features/change-user-online-status/change-user-online-status';
+import { getIsTabActiveSelector, getMyIdSelector } from '../../../my-profile/selectors';
 import { ChangeSelectedChat } from '../../features/change-selected-chat/change-selected-chat';
 import { MarkMessagesAsRead } from '../../features/mark-messages-as-read/mark-messages-as-read';
 import {
@@ -39,6 +40,12 @@ import { IMarkMessagesAsReadApiRequest } from '../../features/mark-messages-as-r
 import { ChatId } from '../../chat-id';
 import { IGetMessageByIdApiRequest } from './api-requests/get-message-by-id-api-request';
 
+let unreadChats: number[] = [];
+
+export const resetUnreadChats = () => {
+  unreadChats = [];
+};
+
 export class MessageCreatedEventHandler {
   static get action() {
     return createAction('MessageCreated')<IMessageCreatedIntegrationEvent>();
@@ -49,9 +56,9 @@ export class MessageCreatedEventHandler {
       const message = action.payload;
 
       const messageExists = yield select(getChatHasMessageWithIdSelector(message.id, message.chatId));
+      const isTabActive = yield select(getIsTabActiveSelector);
 
       if (messageExists) {
-        console.log('messageExists');
         return;
       }
 
@@ -165,16 +172,6 @@ export class MessageCreatedEventHandler {
 
       yield put(UpdateStore.action(nextState as RootState));
 
-      if (selectedChatId === message.chatId) {
-        if (!(myId === message.userCreator?.id)) {
-          const httpRequestPayload: IMarkMessagesAsReadApiRequest = {
-            chatId: selectedChatId,
-            lastReadMessageId: message.id,
-          };
-
-          MarkMessagesAsRead.httpRequest.call(yield call(() => MarkMessagesAsRead.httpRequest.generator(httpRequestPayload)));
-        }
-      }
       // notifications play
       let chatOfMessage: IChat | undefined = yield select(getChatByIdSelector(message.chatId));
       const isAudioPlayAllowed = yield select(areNotificationsEnabledSelector);
@@ -220,6 +217,29 @@ export class MessageCreatedEventHandler {
         if (selectedChatId !== message.chatId || document.hidden) {
           const audioUnselected = new Audio(messageCameUnselected);
           playSoundSafely(audioUnselected);
+        }
+      }
+
+      if (!isTabActive) {
+        if (!unreadChats.includes(message.chatId)) {
+          unreadChats.push(message.chatId);
+        }
+
+        window.document.title = `${unreadChats.length} unread Notification !`;
+      }
+
+      if (selectedChatId === message.chatId) {
+        if (!(myId === message.userCreator?.id)) {
+          const httpRequestPayload: IMarkMessagesAsReadApiRequest = {
+            chatId: selectedChatId,
+            lastReadMessageId: message.id,
+          };
+
+          if (!isTabActive) {
+            yield take(ChangeUserOnlineStatus.action);
+          }
+
+          MarkMessagesAsRead.httpRequest.call(yield call(() => MarkMessagesAsRead.httpRequest.generator(httpRequestPayload)));
         }
       }
     };

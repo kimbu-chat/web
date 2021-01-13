@@ -59,6 +59,7 @@ export class LogoutSuccess {
             hasMore: true,
             searchString: '',
             chats: [],
+            searchChats: [],
             selectedChatId: null,
             selectedMessageIds: [],
           },
@@ -73,6 +74,7 @@ export class LogoutSuccess {
           },
           myProfile: {
             user: undefined,
+            isTabActive: true,
           },
           settings,
         }),

@@ -3,19 +3,19 @@ import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-fac
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { call, put, select } from 'redux-saga/effects';
+import { call, put, select, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { getChatByIdSelector, getHasMoreChatsSelector, getChatByIdDraftSelector } from 'app/store/chats/selectors';
+import { getChatByIdSelector, getChatByIdDraftSelector, getIsFirstChatsLoadSelector } from 'app/store/chats/selectors';
 import { getFriendByIdSelector } from 'app/store/friends/selectors';
 import { IUserPreview } from 'app/store/models';
 import { MESSAGES_LIMIT } from 'app/utils/pagination-limits';
-import { IGetChatsSuccessActionPayload } from '../get-chats/action-payloads/get-chats-success-action-payload';
 import { IChatsState, IChat, InterlocutorType, MessageState } from '../../models';
 import { GetChatsSuccess } from '../get-chats/get-chats-success';
 import { IChangeSelectedChatActionPayload } from './action-payloads/change-selected-chat-action-payload';
 import { ChatId } from '../../chat-id';
 import { IGetChatByIdApiRequest } from './api-requests/get-chat-by-id-api-request';
 import { IGetUserByIdApiRequest } from './api-requests/get-user-by-id-api-request';
+import { UnshiftChat } from '../unshift-chat/unshift-chat';
 
 export class ChangeSelectedChat {
   static get action() {
@@ -53,14 +53,16 @@ export class ChangeSelectedChat {
   static get saga() {
     return function* changeSelectedChatSaga(action: ReturnType<typeof ChangeSelectedChat.action>): SagaIterator {
       if (action.payload.newChatId !== null && !Number.isNaN(action.payload.newChatId)) {
+        const isFirstChatsLoad = yield select(getIsFirstChatsLoadSelector);
+
+        if (isFirstChatsLoad) {
+          yield take(GetChatsSuccess.action);
+        }
+
         const chatExists = (yield select(getChatByIdSelector(action.payload.newChatId))) !== undefined;
 
         if (!chatExists) {
-          const hasMore = yield select(getHasMoreChatsSelector);
-
           const chatIdDetails = action.payload.newChatId ? ChatId.fromId(action.payload.newChatId) : null;
-
-          let chatList: IGetChatsSuccessActionPayload;
 
           let data: IChat | null = null;
           let user: IUserPreview | null = null;
@@ -107,12 +109,7 @@ export class ChangeSelectedChat {
                 loading: false,
               };
 
-              chatList = {
-                chats: [chat],
-                hasMore,
-                initializedBySearch: false,
-              };
-              yield put(GetChatsSuccess.action(chatList));
+              yield put(UnshiftChat.action(chat));
             }
           }
 
@@ -176,12 +173,7 @@ export class ChangeSelectedChat {
                     : MessageState.SENT;
               }
 
-              chatList = {
-                chats: [requestedChat],
-                hasMore,
-                initializedBySearch: false,
-              };
-              yield put(GetChatsSuccess.action(chatList));
+              yield put(UnshiftChat.action(requestedChat));
             }
           }
         }

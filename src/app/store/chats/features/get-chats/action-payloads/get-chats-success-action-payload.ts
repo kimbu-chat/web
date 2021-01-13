@@ -1,7 +1,7 @@
 import { IChat } from 'app/store/chats/models/chat';
 
 export interface IGetChatsSuccessActionPayload {
-  initializedBySearch: boolean;
+  initializedByScroll: boolean;
   chats: IChat[];
   hasMore: boolean;
 }

@@ -8,4 +8,7 @@ export interface IChatsState {
   searchChats: IChat[];
   selectedChatId: number | null;
   selectedMessageIds: number[];
+
+  page: number;
+  searchPage: number;
 }

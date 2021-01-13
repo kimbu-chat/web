@@ -7,7 +7,6 @@ import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { ChatActions } from 'store/chats/actions';
 
 import { FadeAnimationWrapper, CreateGroupChat, NewChatModal, SearchBox } from 'components';
-import { CHATS_LIMIT } from 'app/utils/pagination-limits';
 
 export const SearchTop = React.memo(() => {
   const getChats = useActionWithDispatch(ChatActions.getChats);
@@ -24,7 +23,6 @@ export const SearchTop = React.memo(() => {
   const handleChatSearchChange = (name: string): void => {
     getChats({
       name,
-      page: { offset: 0, limit: CHATS_LIMIT },
       initializedByScroll: false,
       showOnlyHidden: false,
       showAll: true,

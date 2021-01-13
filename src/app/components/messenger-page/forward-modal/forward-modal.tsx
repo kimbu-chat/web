@@ -8,7 +8,6 @@ import { LocalizationContext } from 'app/app';
 import { ChatActions } from 'store/chats/actions';
 import { getChatsSelector, getHasMoreChatsSelector, getChatsLoadingSelector } from 'app/store/chats/selectors';
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
-import { CHATS_LIMIT } from 'app/utils/pagination-limits';
 import { SearchBox } from 'app/components';
 import { ForwardMessages } from 'app/store/chats/features/forward-messages/forward-messages';
 import { ForwardEntity } from './forward-entity/forward-entity';
@@ -52,7 +51,6 @@ export const ForwardModal: React.FC<IForwardModalProps> = React.memo(({ onClose,
 
   const loadMore = useCallback(() => {
     loadChats({
-      page: { offset: chats.length, limit: CHATS_LIMIT },
       name: searchString,
       showOnlyHidden: false,
       initializedByScroll: false,

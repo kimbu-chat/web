@@ -13,7 +13,6 @@ import {
   getSearchStringSelector,
   getSelectedChatIdSelector,
 } from 'app/store/chats/selectors';
-import { CHATS_LIMIT } from 'app/utils/pagination-limits';
 import { useParams } from 'react-router';
 import { ChatFromList } from './chat-from-list/chat-from-list';
 
@@ -38,13 +37,7 @@ const ChatList = React.memo(() => {
 
   const loadMore = useCallback(() => {
     if (!areChatsLoading) {
-      const pageData = {
-        limit: CHATS_LIMIT,
-        offset: chats.length,
-      };
-
       getChatsRequest({
-        page: pageData,
         initializedByScroll: true,
         name: searchString,
         showOnlyHidden: false,

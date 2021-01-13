@@ -69,6 +69,8 @@ const initialState: IChatsState = {
   searchChats: [],
   selectedChatId: null,
   selectedMessageIds: [],
+  page: -1,
+  searchPage: 0,
 };
 
 const chats = createReducer<IChatsState>(initialState)

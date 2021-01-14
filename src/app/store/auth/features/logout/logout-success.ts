@@ -62,6 +62,8 @@ export class LogoutSuccess {
             searchChats: [],
             selectedChatId: null,
             selectedMessageIds: [],
+            page: -1,
+            searchPage: 0,
           },
           friends: {
             loading: true,

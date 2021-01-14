@@ -7,7 +7,6 @@ import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { ChatActions } from 'store/chats/actions';
 
 import { FadeAnimationWrapper, CreateGroupChat, NewChatModal, SearchBox } from 'components';
-import { CHATS_LIMIT } from 'app/utils/pagination-limits';
 
 export const SearchTop = React.memo(() => {
   const getChats = useActionWithDispatch(ChatActions.getChats);
@@ -21,20 +20,22 @@ export const SearchTop = React.memo(() => {
     setCreateGroupChatDisplayed((oldState) => !oldState);
   }, [setNewChatDisplayed]);
 
-  const handleChatSearchChange = (name: string): void => {
-    getChats({
-      name,
-      page: { offset: 0, limit: CHATS_LIMIT },
-      initializedByScroll: false,
-      showOnlyHidden: false,
-      showAll: true,
-    });
-  };
+  const handleChatSearchChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>): void => {
+      getChats({
+        name: e.target.value,
+        initializedByScroll: false,
+        showOnlyHidden: false,
+        showAll: true,
+      });
+    },
+    [getChats],
+  );
 
   return (
     <div className='search-top'>
       <div className='search-top__search'>
-        <SearchBox onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChatSearchChange(e.target.value)} />
+        <SearchBox onChange={handleChatSearchChange} />
       </div>
       <button type='button' onClick={changeNewChatDisplayedState} className='search-top__create-chat-btn'>
         <CreateChatSvg />

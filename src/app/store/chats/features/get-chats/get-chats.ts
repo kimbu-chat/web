@@ -1,15 +1,18 @@
+import { CHATS_LIMIT } from 'app/utils/pagination-limits';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { call, put } from 'redux-saga/effects';
+import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+import { IPage } from 'app/store/models';
 import { ChatId } from '../../chat-id';
 import { IChat, IChatsState, InterlocutorType, MessageState } from '../../models';
 import { IGetChatsActionPayload } from './action-payloads/get-chats-action-payload';
 import { GetChatsSuccess } from './get-chats-success';
 import { IGetChatsSuccessActionPayload } from './action-payloads/get-chats-success-action-payload';
 import { IGetChatsApiRequest } from './api-requests/get-chats-api-request';
+import { getChatsPageSelector } from '../../selectors';
 
 export class GetChats {
   static get action() {
@@ -18,8 +21,23 @@ export class GetChats {
 
   static get reducer() {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof GetChats.action>) => {
-      draft.loading = true;
       draft.searchString = payload.name || '';
+
+      if ((payload.name?.length || 0) === 0 && !payload.initializedByScroll) {
+        draft.hasMore = true;
+      } else {
+        draft.loading = true;
+      }
+
+      if (draft.searchString.length > 0) {
+        if (payload.initializedByScroll) {
+          draft.searchPage += 1;
+        } else {
+          draft.searchPage = 0;
+        }
+      } else if (payload.initializedByScroll) {
+        draft.page += 1;
+      }
 
       return draft;
     });
@@ -29,7 +47,19 @@ export class GetChats {
     return function* (action: ReturnType<typeof GetChats.action>): SagaIterator {
       const chatsRequestData = action.payload;
 
-      const { name, showOnlyHidden, page, showAll } = action.payload;
+      const { name, showOnlyHidden, showAll, initializedByScroll } = action.payload;
+
+      if ((name?.length || 0) === 0 && !initializedByScroll) {
+        console.log('returned');
+        return;
+      }
+
+      const pageNumber = yield select(getChatsPageSelector);
+
+      const page: IPage = {
+        offset: pageNumber * CHATS_LIMIT,
+        limit: CHATS_LIMIT,
+      };
 
       const request = {
         name,
@@ -68,7 +98,7 @@ export class GetChats {
 
       const chatList: IGetChatsSuccessActionPayload = {
         chats: data,
-        hasMore: data.length >= action.payload.page.limit,
+        hasMore: data.length >= CHATS_LIMIT,
         initializedByScroll: chatsRequestData.initializedByScroll,
       };
 

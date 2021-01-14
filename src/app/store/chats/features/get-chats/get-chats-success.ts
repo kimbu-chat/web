@@ -19,7 +19,7 @@ export class GetChatsSuccess {
 
       if (draft.searchString.length > 0) {
         if (initializedByScroll) {
-          draft.searchChats = unionBy(draft.chats, chats, 'id');
+          draft.searchChats = unionBy(draft.searchChats, chats, 'id');
         } else {
           draft.searchChats = chats;
         }

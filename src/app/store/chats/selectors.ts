@@ -21,6 +21,8 @@ export const getSelectedChatAttachmentsToSendSelector = (state: RootState): IAtt
 
 export const getIsFirstChatsLoadSelector = (state: RootState): boolean => typeof state.chats.loading === 'undefined' && state.chats.chats.length === 0;
 
+export const getChatsPageSelector = (state: RootState) => (state.chats.searchString.length > 0 ? state.chats.searchPage : state.chats.page);
+
 // Attachments list selector
 
 export const getSelectedChatRecordingsSelector = (state: RootState) =>

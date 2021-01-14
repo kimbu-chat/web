@@ -27,21 +27,30 @@ export class MessageEditedEventHandler {
           message.isEdited = true;
         }
 
-        if (chat.lastMessage && chat.lastMessage.id === messageId) {
-          chat.lastMessage.text = text;
-          chat.lastMessage.attachments = attachments;
-          chat.lastMessage.isEdited = true;
+        const linkedMessages = chat.messages.messages.filter(({ linkedMessage }) => linkedMessage?.id === messageId);
+
+        linkedMessages.forEach(({ linkedMessage }) => {
+          if (linkedMessage) {
+            linkedMessage.text = text;
+            linkedMessage.attachments = attachments;
+            linkedMessage.isEdited = true;
+          }
+        });
+
+        if (chat.lastMessage) {
+          if (chat.lastMessage.id === messageId) {
+            chat.lastMessage.text = text;
+            chat.lastMessage.attachments = attachments;
+            chat.lastMessage.isEdited = true;
+          }
+
+          if (chat.lastMessage.linkedMessage && chat.lastMessage.linkedMessage.id === messageId) {
+            chat.lastMessage.linkedMessage.text = text;
+            chat.lastMessage.linkedMessage.attachments = attachments;
+            chat.lastMessage.linkedMessage.isEdited = true;
+          }
         }
       }
-
-      const repliedMessages = chat?.messages.messages.filter(({ linkedMessage }) => linkedMessage?.id === messageId);
-
-      repliedMessages?.forEach(({ linkedMessage }) => {
-        if (linkedMessage) {
-          linkedMessage.text = text;
-          linkedMessage.attachments = attachments;
-        }
-      });
 
       return draft;
     });

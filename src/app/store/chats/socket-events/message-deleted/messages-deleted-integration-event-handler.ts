@@ -18,6 +18,7 @@ export class MessagesDeletedIntegrationEventHandler {
         messageIds.forEach((msgIdToDelete) => {
           draft.selectedMessageIds = draft.selectedMessageIds.filter((id) => id !== msgIdToDelete);
           const messageIndex = chat.messages.messages.findIndex(({ id }) => id === msgIdToDelete);
+
           const [deletedMessage] = chat.messages.messages.splice(messageIndex, 1);
 
           deletedMessage.attachments?.forEach((attachment) => {
@@ -52,18 +53,22 @@ export class MessagesDeletedIntegrationEventHandler {
             }
           });
 
-          const repliedMessages = chat?.messages.messages.filter(({ linkedMessage }) => linkedMessage?.id === msgIdToDelete);
+          const linkedMessage = chat?.messages.messages.filter(({ linkedMessage }) => linkedMessage?.id === msgIdToDelete);
 
-          repliedMessages?.forEach((message) => {
+          linkedMessage?.forEach((message) => {
             if (message.linkedMessage) {
-              message.linkedMessage = null;
+              message.linkedMessage.isDeleted = true;
             }
           });
-        });
 
-        if (chat.lastMessage?.id && messageIds.includes(chat.lastMessage.id)) {
-          [chat.lastMessage] = chat.messages.messages;
-        }
+          if (chat.lastMessage?.id === msgIdToDelete) {
+            [chat.lastMessage] = chat.messages.messages;
+          }
+
+          if (chat.lastMessage?.linkedMessage?.id === msgIdToDelete) {
+            chat.lastMessage.linkedMessage.isDeleted = true;
+          }
+        });
       }
 
       return draft;

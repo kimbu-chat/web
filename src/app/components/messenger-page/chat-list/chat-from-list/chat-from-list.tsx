@@ -40,13 +40,18 @@ const ChatFromList: React.FC<IChatFromListProps> = React.memo(({ chat }) => {
   }, [interlocutor?.avatar?.previewUrl, groupChat?.avatar?.previewUrl]);
 
   const getMessageText = useCallback((): string => {
-    const messageToProcess = lastMessage?.linkedMessageType === MessageLinkType.Forward ? lastMessage?.linkedMessage : lastMessage;
+    const messageToProcess =
+      lastMessage?.linkedMessageType === MessageLinkType.Forward && !lastMessage?.linkedMessage?.isDeleted ? lastMessage?.linkedMessage : lastMessage;
 
     if (
       (lastMessage?.text.length === 0 && (lastMessage.attachments?.length || 0) > 0) ||
-      (lastMessage?.linkedMessage?.text.length === 0 && (lastMessage?.linkedMessage.attachments?.length || 0) > 0)
+      (lastMessage?.linkedMessage?.text?.length === 0 && (lastMessage?.linkedMessage.attachments?.length || 0) > 0)
     ) {
       return t('chatFromList.media');
+    }
+
+    if (lastMessage?.text.length === 0 && (lastMessage.attachments?.length || 0) === 0 && lastMessage?.linkedMessage?.isDeleted) {
+      return t('message-link.message-deleted');
     }
 
     if (messageToProcess) {

@@ -69,10 +69,23 @@ export class MessageCreatedEventHandler {
 
   static get saga() {
     return function* (action: ReturnType<typeof MessageCreatedEventHandler.action>): SagaIterator {
-      const message = action.payload;
+      const { attachments, chatId, creationDateTime, id, systemMessageType, text, userCreator, linkedMessageId, linkedMessageType } = action.payload;
 
-      const messageExists = yield select(getChatHasMessageWithIdSelector(message.id, message.chatId));
+      const messageExists = yield select(getChatHasMessageWithIdSelector(id, chatId));
       const isTabActive = yield select(getIsTabActiveSelector);
+
+      const message: IMessage = {
+        attachments,
+        chatId,
+        creationDateTime,
+        id,
+        systemMessageType,
+        text,
+        userCreator,
+        linkedMessageType,
+        isEdited: false,
+        isDeleted: false,
+      };
 
       if (messageExists) {
         return;
@@ -83,13 +96,13 @@ export class MessageCreatedEventHandler {
 
       let linkedMessage: IMessage | null = null;
 
-      if (message.linkedMessageId && message.linkedMessageType === MessageLinkType.Reply) {
-        linkedMessage = yield select(getChatMessageByIdSelector(message.linkedMessageId, message.chatId));
+      if (linkedMessageId && linkedMessageType === MessageLinkType.Reply) {
+        linkedMessage = yield select(getChatMessageByIdSelector(linkedMessageId, chatId));
       }
 
-      if (message.linkedMessageId && !linkedMessage) {
+      if (linkedMessageId && !linkedMessage) {
         const { data }: AxiosResponse<IMessage> = MessageCreatedEventHandler.httpRequest.call(
-          yield call(() => MessageCreatedEventHandler.httpRequest.generator({ messageId: message.linkedMessageId })),
+          yield call(() => MessageCreatedEventHandler.httpRequest.generator({ messageId: linkedMessageId })),
         );
 
         linkedMessage = data;
@@ -98,16 +111,16 @@ export class MessageCreatedEventHandler {
       const state: RootState = yield select();
 
       const nextState = produce(state, (draft) => {
-        const isCurrentUserMessageCreator: boolean = myId === message.userCreator?.id;
+        const isCurrentUserMessageCreator: boolean = myId === userCreator?.id;
 
-        if (message.systemMessageType === SystemMessageType.GroupChatMemberRemoved && isCurrentUserMessageCreator) {
+        if (systemMessageType === SystemMessageType.GroupChatMemberRemoved && isCurrentUserMessageCreator) {
           return draft;
         }
 
-        const chatIndex = getChatIndexDraftSelector(message.chatId, draft.chats);
+        const chatIndex = getChatIndexDraftSelector(chatId, draft.chats);
         const chat = draft.chats.chats[chatIndex];
 
-        if (message.linkedMessageId) {
+        if (linkedMessageId) {
           (message as IMessage).linkedMessage = linkedMessage!;
         }
 
@@ -123,7 +136,7 @@ export class MessageCreatedEventHandler {
             return draft;
           }
 
-          message.attachments?.forEach((attachment) => {
+          attachments?.forEach((attachment) => {
             switch (attachment.type) {
               case FileType.Audio:
                 chat.audioAttachmentsCount = (chat.audioAttachmentsCount || 0) + 1;

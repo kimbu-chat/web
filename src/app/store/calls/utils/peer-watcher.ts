@@ -15,7 +15,6 @@ import { assignInterlocutorAudioTrack, assignInterlocutorVideoTrack } from './us
 import { CancelCall } from '../features/cancel-call/cancel-call';
 import { DeclineCall } from '../features/decline-call/decline-call';
 import { CallEndedEventHandler } from '../socket-events/call-ended/call-ended-event-handler';
-import { CloseInterlocutorVideoStatus } from '../features/change-interlocutor-media-status/close-interlocutor-video-status';
 import { isRenegotiationAccepted, setIsRenegotiationAccepted, setMakingOffer } from './glare-utils';
 import { ICandidateApiRequest } from './api-requests/candidate-api-request';
 import { IRenegociateApiRequest } from './api-requests/renegotiate-api-request';
@@ -132,9 +131,6 @@ export function* peerWatcher() {
 
           yield put(OpenInterlocutorVideoStatus.action());
         }
-        break;
-      case 'videoTrackMuted':
-        yield put(CloseInterlocutorVideoStatus.action());
         break;
       default:
         break;

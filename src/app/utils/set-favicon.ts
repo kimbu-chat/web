@@ -14,8 +14,6 @@ export const setFavicon = (href: string): void => {
     link.href = href;
 
     faviconEl?.parentNode?.replaceChild(link, faviconEl);
-
-    console.log(link);
   });
 };
 

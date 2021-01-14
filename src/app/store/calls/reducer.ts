@@ -1,5 +1,6 @@
 import { createReducer } from 'typesafe-actions';
 import { DeclineCall } from 'app/store/calls/features/decline-call/decline-call';
+import { RenegotiationSentEventHandler } from 'app/store/calls/socket-events/renegotiation-sent/renegotiation-sent-event-handler';
 import { ICallsState } from './models';
 import { IncomingCallEventHandler } from './socket-events/incoming-call/incoming-call-event-handler';
 import { AcceptCall } from './features/accept-call/accept-call';
@@ -71,6 +72,7 @@ const calls = createReducer<ICallsState>(initialState)
   // socket-events
   .handleAction(IncomingCallEventHandler.action, IncomingCallEventHandler.reducer)
   .handleAction(InterlocutorAcceptedCallEventHandler.action, InterlocutorAcceptedCallEventHandler.reducer)
-  .handleAction(UserEditedEventHandler.action, UserEditedEventHandler.reducer);
+  .handleAction(UserEditedEventHandler.action, UserEditedEventHandler.reducer)
+  .handleAction(RenegotiationSentEventHandler.action, RenegotiationSentEventHandler.reducer);
 
 export default calls;

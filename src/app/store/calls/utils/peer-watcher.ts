@@ -2,7 +2,7 @@ import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFacto
 import { RootState } from 'app/store/root-reducer';
 import { buffers, eventChannel } from 'redux-saga';
 import { call, cancel, put, race, select, take, takeEvery } from 'redux-saga/effects';
-import { amICalledSelector, getCallInterlocutorSelector } from 'app/store/calls/selectors';
+import { amICalledSelector, getCallInterlocutorSelector, getIsVideoEnabledSelector } from 'app/store/calls/selectors';
 import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod, IUserPreview } from 'app/store/models';
 
@@ -11,7 +11,7 @@ import { RenegotiationAcceptedEventHandler } from '../socket-events/renegotiatio
 import { OpenInterlocutorVideoStatus } from '../features/change-interlocutor-media-status/open-interlocutor-video-status';
 import { InterlocutorAcceptedCallEventHandler } from '../socket-events/interlocutor-accepted-call/interlocutor-accepted-call-event-handler';
 import { AcceptCallSuccess } from '../features/accept-call/accept-call-success';
-import { assignInterlocutorAudioTrack, assignInterlocutorVideoTrack, interlocutorVideoTrack } from './user-media';
+import { assignInterlocutorAudioTrack, assignInterlocutorVideoTrack } from './user-media';
 import { CancelCall } from '../features/cancel-call/cancel-call';
 import { DeclineCall } from '../features/decline-call/decline-call';
 import { CallEndedEventHandler } from '../socket-events/call-ended/call-ended-event-handler';
@@ -39,10 +39,6 @@ function createPeerConnectionChannel() {
       if (event.track.kind === 'video') {
         event.track.onunmute = () => {
           emit({ type: 'videoTrackUnmuted', event });
-        };
-
-        event.track.onmute = () => {
-          emit({ type: 'videoTrackMuted' });
         };
       }
 
@@ -109,10 +105,12 @@ export function* peerWatcher() {
 
           yield call(async () => await peerConnection?.setLocalDescription(offer));
 
+          const isVideoEnabled = yield select(getIsVideoEnabledSelector);
+
           const request: IRenegociateApiRequest = {
             offer,
             interlocutorId,
-            isVideoEnabled: false,
+            isVideoEnabled,
           };
 
           CallsHttpRequests.renegotiate.call(yield call(() => CallsHttpRequests.renegotiate.generator(request)));
@@ -130,9 +128,7 @@ export function* peerWatcher() {
         {
           const { track } = action.event as RTCTrackEvent;
 
-          if (!interlocutorVideoTrack) {
-            assignInterlocutorVideoTrack(track);
-          }
+          assignInterlocutorVideoTrack(track);
 
           yield put(OpenInterlocutorVideoStatus.action());
         }

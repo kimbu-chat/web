@@ -2,8 +2,14 @@ import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFacto
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { doIhaveCallSelector } from 'app/store/calls/selectors';
-import { setIgnoreOffer, setIsRenegotiationAccepted, setIsSettingRemoteAnswerPending } from '../../utils/glare-utils';
+import { doIhaveCallSelector, getIsActiveCallIncomingSelector } from 'app/store/calls/selectors';
+import {
+  isSettingRemoteAnswerPending,
+  makingOffer,
+  setIgnoreOffer,
+  setIsRenegotiationAccepted,
+  setIsSettingRemoteAnswerPending,
+} from '../../utils/glare-utils';
 import { IRenegotiationAcceptedIntegrationEvent } from './renegotiation-accepted-integration-event';
 
 export class RenegotiationAcceptedEventHandler {
@@ -17,11 +23,15 @@ export class RenegotiationAcceptedEventHandler {
 
       if (action.payload.answer && callActive) {
         setIsRenegotiationAccepted(true);
-        setIgnoreOffer(false);
+        const polite = yield select(getIsActiveCallIncomingSelector);
+        const readyForOffer = !makingOffer && (peerConnection?.signalingState === 'stable' || isSettingRemoteAnswerPending);
+        const offerCollision = !readyForOffer;
 
-        setIsSettingRemoteAnswerPending(false);
-        yield call(async () => await peerConnection?.setRemoteDescription(action.payload.answer));
+        setIgnoreOffer(!polite && offerCollision);
+
         setIsSettingRemoteAnswerPending(true);
+        yield call(async () => await peerConnection?.setRemoteDescription(action.payload.answer));
+        setIsSettingRemoteAnswerPending(false);
       }
     };
   }

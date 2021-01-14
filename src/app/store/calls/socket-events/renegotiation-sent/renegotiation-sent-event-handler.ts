@@ -6,6 +6,8 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+import produce from 'immer';
+import { ICallsState } from '../../models/calls-state';
 import { getCallInterlocutorIdSelector, getIsActiveCallIncomingSelector } from '../../selectors';
 
 import { ignoreOffer, isSettingRemoteAnswerPending, makingOffer, setIgnoreOffer } from '../../utils/glare-utils';
@@ -15,6 +17,14 @@ import { IRenegotiationSentIntegrationEvent } from './renegotiation-sent-integra
 export class RenegotiationSentEventHandler {
   static get action() {
     return createAction('RenegotiationSent')<IRenegotiationSentIntegrationEvent>();
+  }
+
+  static get reducer() {
+    return produce((draft: ICallsState, { payload }: ReturnType<typeof RenegotiationSentEventHandler.action>) => {
+      if (!payload.isVideoEnabled) {
+        draft.isInterlocutorVideoEnabled = payload.isVideoEnabled;
+      }
+    });
   }
 
   static get saga() {

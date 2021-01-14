@@ -11,6 +11,7 @@ import { HttpRequestMethod } from 'app/store/models';
 import { AxiosResponse } from 'axios';
 import { RootState } from 'app/store/root-reducer';
 import { playSoundSafely } from 'app/utils/current-music';
+import { resetFavicons, setFavicon } from 'app/utils/set-favicon';
 import { ChangeUserOnlineStatus } from '../../../my-profile/features/change-user-online-status/change-user-online-status';
 import { getIsTabActiveSelector, getMyIdSelector } from '../../../my-profile/selectors';
 import { ChangeSelectedChat } from '../../features/change-selected-chat/change-selected-chat';
@@ -40,10 +41,25 @@ import { IMarkMessagesAsReadApiRequest } from '../../features/mark-messages-as-r
 import { ChatId } from '../../chat-id';
 import { IGetMessageByIdApiRequest } from './api-requests/get-message-by-id-api-request';
 
-let unreadChats: number[] = [];
+let unreadNotifications = 0;
+let windowNotificationIntervalCode: NodeJS.Timeout;
 
-export const resetUnreadChats = () => {
-  unreadChats = [];
+export const resetUnreadNotifications = () => {
+  unreadNotifications = 0;
+
+  if (windowNotificationIntervalCode) {
+    clearInterval(windowNotificationIntervalCode);
+  }
+
+  resetFavicons();
+};
+
+export const setNewTitleNotificationInterval = (callback: () => void) => {
+  if (windowNotificationIntervalCode) {
+    clearInterval(windowNotificationIntervalCode);
+  }
+
+  windowNotificationIntervalCode = (setInterval(callback, 2000) as unknown) as NodeJS.Timeout;
 };
 
 export class MessageCreatedEventHandler {
@@ -221,11 +237,18 @@ export class MessageCreatedEventHandler {
       }
 
       if (!isTabActive) {
-        if (!unreadChats.includes(message.chatId)) {
-          unreadChats.push(message.chatId);
-        }
+        setFavicon('/favicons/msg-favicon.ico');
+        unreadNotifications += 1;
 
-        window.document.title = `${unreadChats.length} unread Notification !`;
+        window.document.title = `${unreadNotifications} unread Notification !`;
+
+        setNewTitleNotificationInterval(() => {
+          window.document.title = `${unreadNotifications} unread Notification !`;
+
+          setTimeout(() => {
+            window.document.title = 'Kimbu';
+          }, 1000);
+        });
       }
 
       if (selectedChatId === message.chatId) {

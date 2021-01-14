@@ -1,5 +1,3 @@
-const faviconElements = document.querySelectorAll('link[rel="icon"]');
-
 const originalFavicons = [
   { rel: 'icon', type: 'image/png', sizes: '192x192', href: '/favicons/android-chrome-192x192.png' },
   { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicons/favicon-16x16.png' },
@@ -8,7 +6,9 @@ const originalFavicons = [
 ];
 
 export const setFavicon = (href: string): void => {
-  document.querySelectorAll('link[rel="icon"]').forEach((faviconEl) => {
+  const faviconElements = document.querySelectorAll('link[rel="icon"]');
+
+  faviconElements.forEach((faviconEl) => {
     const link = document.createElement('link');
     link.rel = 'icon';
     link.href = href;
@@ -20,6 +20,8 @@ export const setFavicon = (href: string): void => {
 };
 
 export const resetFavicons = () => {
+  const faviconElements = document.querySelectorAll('link[rel="icon"]');
+
   originalFavicons.forEach(({ rel, type, href }, index) => {
     const faviconEl = faviconElements[index];
 

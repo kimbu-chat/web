@@ -120,7 +120,9 @@ export const ChatData = React.memo(() => {
             </button>
           )}
 
-          {isSearching && <SearchBox onChange={searchMessages} />}
+          {(isSearching || (selectedChat.messages.searchString?.length || 0) > 0) && (
+            <SearchBox value={selectedChat.messages.searchString || ''} onChange={searchMessages} />
+          )}
 
           <button type='button' onClick={changeSearchingState} className='chat-data__button'>
             <SearchSvg />

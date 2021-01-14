@@ -8,6 +8,9 @@ import { IChatsState } from './models/chats-state';
 // RootState selectors
 export const getSelectedChatSelector = (state: RootState): IChat | undefined => state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId);
 
+export const getSelectedChatSearchStringSelector = (state: RootState): string | undefined =>
+  state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.messages.searchString;
+
 export const getSelectedGroupChatSelector = (state: RootState) => state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.groupChat;
 
 export const getSelectedGroupChatNameSelector = (state: RootState) =>

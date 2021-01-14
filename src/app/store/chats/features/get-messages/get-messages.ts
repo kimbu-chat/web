@@ -1,4 +1,4 @@
-import { getChatByIdDraftSelector, getSelectedChatSelector } from 'store/chats/selectors';
+import { getChatByIdDraftSelector, getSelectedChatSearchStringSelector, getSelectedChatSelector } from 'store/chats/selectors';
 import { IChatsState } from 'store/chats/models';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
 
@@ -9,8 +9,8 @@ import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { IMessage, MessageState } from '../../models';
 import { IGetMessagesActionPayload } from './action-payloads/get-messages-action-payload';
-import { GetMessagesSuccess } from './get-messages-success';
 import { IGetMessagesApiRequest } from './api-requests/get-messages-api-request';
+import { GetMessagesSuccess } from './get-messages-success';
 
 export class GetMessages {
   static get action() {
@@ -18,11 +18,15 @@ export class GetMessages {
   }
 
   static get reducer() {
-    return produce((draft: IChatsState) => {
+    return produce((draft: IChatsState, { payload }: ReturnType<typeof GetMessages.action>) => {
       const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
 
       if (chat) {
         chat.messages.loading = true;
+
+        if (payload.isFromSearch) {
+          chat.messages.searchString = payload.searchString;
+        }
       }
 
       return draft;
@@ -31,9 +35,11 @@ export class GetMessages {
 
   static get saga() {
     return function* (action: ReturnType<typeof GetMessages.action>): SagaIterator {
-      const { page, searchString, isFromSearch } = action.payload;
+      const { page, isFromSearch } = action.payload;
 
       const chat = yield select(getSelectedChatSelector);
+
+      const searchString = yield select(getSelectedChatSearchStringSelector);
 
       if (chat) {
         const request: IGetMessagesApiRequest = {

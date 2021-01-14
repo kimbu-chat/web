@@ -8,7 +8,6 @@ export class UpdateStore {
   }
 
   static get reducer() {
-    console.log('reducer invoked');
     return produce((draft: RootState, { payload }: ReturnType<typeof UpdateStore.action>) => {
       draft = payload;
       return draft;

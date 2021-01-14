@@ -26,7 +26,6 @@ import { OpenAudioStatus } from './features/change-user-media-status/open-audio-
 import { OpenVideoStatus } from './features/change-user-media-status/open-video-status';
 import { OpenScreenShareStatus } from './features/change-screen-share-status/open-screen-share-status';
 import { RenegotiationAcceptedEventHandler } from './socket-events/renegotiation-accepted/renegotiation-accepted-event-handler';
-import { CloseInterlocutorVideoStatus } from './features/change-interlocutor-media-status/close-interlocutor-video-status';
 import { OpenInterlocutorVideoStatus } from './features/change-interlocutor-media-status/open-interlocutor-video-status';
 import { UserEditedEventHandler } from './socket-events/user-edited/user-edited-event-handler';
 
@@ -53,7 +52,6 @@ export namespace CallActions {
   export const gotDevicesInfoAction = GotDevicesInfo.action;
   export const switchDeviceAction = SwitchDevice.action;
   export const acceptCallSuccessAction = AcceptCallSuccess.action;
-  export const closeInterlocutorVideoStatusAction = CloseInterlocutorVideoStatus.action;
   export const openInterlocutorVideoStatusAction = OpenInterlocutorVideoStatus.action;
 
   // socket-events

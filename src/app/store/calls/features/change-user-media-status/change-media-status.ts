@@ -52,7 +52,8 @@ export class ChangeMediaStatus {
           yield put(CloseVideoStatus.action());
 
           if (videoSender) {
-            videoSender.replaceTrack(null);
+            peerConnection?.removeTrack(videoSender);
+            setVideoSender(null);
           }
         }
 

@@ -1,5 +1,6 @@
 import { createReducer } from 'typesafe-actions';
 import { DeclineCall } from 'app/store/calls/features/decline-call/decline-call';
+import { RenegotiationSentEventHandler } from 'app/store/calls/socket-events/renegotiation-sent/renegotiation-sent-event-handler';
 import { ICallsState } from './models';
 import { IncomingCallEventHandler } from './socket-events/incoming-call/incoming-call-event-handler';
 import { AcceptCall } from './features/accept-call/accept-call';
@@ -20,7 +21,6 @@ import { AcceptCallSuccess } from './features/accept-call/accept-call-success';
 import { OpenAudioStatus } from './features/change-user-media-status/open-audio-status';
 import { OpenVideoStatus } from './features/change-user-media-status/open-video-status';
 import { OpenScreenShareStatus } from './features/change-screen-share-status/open-screen-share-status';
-import { CloseInterlocutorVideoStatus } from './features/change-interlocutor-media-status/close-interlocutor-video-status';
 import { OpenInterlocutorVideoStatus } from './features/change-interlocutor-media-status/open-interlocutor-video-status';
 import { UserEditedEventHandler } from './socket-events/user-edited/user-edited-event-handler';
 
@@ -65,12 +65,12 @@ const calls = createReducer<ICallsState>(initialState)
   .handleAction(DeclineCall.action, DeclineCall.reducer)
   .handleAction(EndCall.action, EndCall.reducer)
   .handleAction(AcceptCallSuccess.action, AcceptCallSuccess.reducer)
-  .handleAction(CloseInterlocutorVideoStatus.action, CloseInterlocutorVideoStatus.reducer)
   .handleAction(OpenInterlocutorVideoStatus.action, OpenInterlocutorVideoStatus.reducer)
 
   // socket-events
   .handleAction(IncomingCallEventHandler.action, IncomingCallEventHandler.reducer)
   .handleAction(InterlocutorAcceptedCallEventHandler.action, InterlocutorAcceptedCallEventHandler.reducer)
-  .handleAction(UserEditedEventHandler.action, UserEditedEventHandler.reducer);
+  .handleAction(UserEditedEventHandler.action, UserEditedEventHandler.reducer)
+  .handleAction(RenegotiationSentEventHandler.action, RenegotiationSentEventHandler.reducer);
 
 export default calls;

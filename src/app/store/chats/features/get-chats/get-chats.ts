@@ -50,7 +50,6 @@ export class GetChats {
       const { name, showOnlyHidden, showAll, initializedByScroll } = action.payload;
 
       if ((name?.length || 0) === 0 && !initializedByScroll) {
-        console.log('returned');
         return;
       }
 

@@ -1,5 +1,5 @@
 import { amILoggedSelector } from 'app/store/auth/selectors';
-import { resetUnreadChats } from 'app/store/chats/socket-events/message-created/message-created-event-handler';
+import { resetUnreadNotifications } from 'app/store/chats/socket-events/message-created/message-created-event-handler';
 import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/models';
 
@@ -31,7 +31,7 @@ export class ChangeUserOnlineStatus {
       }
 
       if (payload) {
-        resetUnreadChats();
+        resetUnreadNotifications();
 
         window.document.title = 'Kimbu';
       }

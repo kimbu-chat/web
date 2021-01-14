@@ -44,7 +44,8 @@ export class ChangeScreenShareStatus {
           yield put(CloseScreenShareStatus.action());
 
           if (videoSender) {
-            videoSender.replaceTrack(null);
+            peerConnection?.removeTrack(videoSender);
+            setVideoSender(null);
           }
 
           yield put(CloseScreenShareStatus.action());
@@ -86,7 +87,8 @@ export class ChangeScreenShareStatus {
         yield put(CloseScreenShareStatus.action());
 
         if (videoSender) {
-          videoSender.replaceTrack(null);
+          peerConnection?.removeTrack(videoSender);
+          setVideoSender(null);
         }
       }
     };

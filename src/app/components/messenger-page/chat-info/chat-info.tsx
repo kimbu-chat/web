@@ -5,13 +5,14 @@ import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { getSelectedChatSelector } from 'store/chats/selectors';
 import { Avatar, PhotoEditor, FadeAnimationWrapper } from 'components';
-import EditSvg from 'icons/ic-edit.svg';
+
 import PhotoSvg from 'icons/ic-photo.svg';
+
 import { Route } from 'react-router';
 import { CSSTransition } from 'react-transition-group';
-import { getInterlocutorInitials, getChatInterlocutor } from 'utils/interlocutor-name-utils';
+import { getInterlocutorInitials } from 'utils/interlocutor-name-utils';
 
-import { EditChatModal, GroupChatAddFriendModal, BigPhoto } from 'app/components';
+import { GroupChatAddFriendModal, BigPhoto } from 'app/components';
 import { EditGroupChat } from 'app/store/chats/features/edit-group-chat/edit-group-chat';
 import { GetChatInfo } from 'app/store/chats/features/get-chat-info/get-chat-info';
 import { UploadAvatar } from 'app/store/my-profile/features/upload-avatar/upload-avatar';
@@ -36,11 +37,6 @@ const ChatInfo: React.FC = React.memo(() => {
   const uploadGroupChatAvatar = useActionWithDeferred(UploadAvatar.action);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const [editGroupChatDisplayed, setEditGroupChatDisplayed] = useState(false);
-  const changeEditGroupChatDisplayedState = useCallback(() => {
-    setEditGroupChatDisplayed((oldState) => !oldState);
-  }, [setEditGroupChatDisplayed]);
 
   const [addFriendsModalDisplayed, setAddFriendsModalDisplayed] = useState(false);
   const changeSetAddFriendsModalDisplayedState = useCallback(() => {
@@ -124,29 +120,23 @@ const ChatInfo: React.FC = React.memo(() => {
     return (
       <>
         <div className='chat-info'>
-          <div className='chat-info__main-data'>
-            {!selectedChat?.groupChat && selectedChat?.interlocutor ? (
+          {selectedChat?.interlocutor ? (
+            <Avatar onClick={changeIsAvatarMaximizedState} className='chat-info__avatar' src={getChatAvatar()}>
+              {getInterlocutorInitials(selectedChat)}
+            </Avatar>
+          ) : (
+            <div className='chat-info__avatar-group'>
+              <input onChange={handleImageChange} ref={fileInputRef} type='file' hidden accept='image/*' />
+
               <Avatar onClick={changeIsAvatarMaximizedState} className='chat-info__avatar' src={getChatAvatar()}>
                 {getInterlocutorInitials(selectedChat)}
               </Avatar>
-            ) : (
-              <div className='chat-info__avatar-group'>
-                <Avatar onClick={changeIsAvatarMaximizedState} className='chat-info__avatar' src={getChatAvatar()}>
-                  {getInterlocutorInitials(selectedChat)}
-                </Avatar>
-                <div onClick={() => fileInputRef.current?.click()} className={getChatAvatar() ? 'change-avatar change-avatar--hidden' : 'change-avatar'}>
-                  <PhotoSvg className='change-avatar__svg' viewBox='0 0 25 25' />
-                </div>
+              <div onClick={() => fileInputRef.current?.click()} className={getChatAvatar() ? 'change-avatar change-avatar--hidden' : 'change-avatar'}>
+                <PhotoSvg className='change-avatar__svg' viewBox='0 0 25 25' />
               </div>
-            )}
-            <input onChange={handleImageChange} ref={fileInputRef} type='file' hidden accept='image/*' />
-            <span className='chat-info__interlocutor'>{getChatInterlocutor(selectedChat)}</span>
-            {selectedChat?.groupChat && (
-              <button type='button' onClick={changeEditGroupChatDisplayedState} className='chat-info__rename-btn'>
-                <EditSvg />
-              </button>
-            )}
-          </div>
+            </div>
+          )}
+
           <InterlocutorInfo />
 
           <ChatInfoActions addMembers={changeSetAddFriendsModalDisplayedState} />
@@ -195,10 +185,6 @@ const ChatInfo: React.FC = React.memo(() => {
             </CSSTransition>
           )}
         </Route>
-
-        <FadeAnimationWrapper isDisplayed={editGroupChatDisplayed}>
-          <EditChatModal onClose={changeEditGroupChatDisplayedState} />
-        </FadeAnimationWrapper>
 
         <FadeAnimationWrapper isDisplayed={addFriendsModalDisplayed}>
           <GroupChatAddFriendModal onClose={changeSetAddFriendsModalDisplayedState} />

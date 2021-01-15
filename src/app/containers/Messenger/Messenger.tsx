@@ -22,7 +22,7 @@ import { useSelector } from 'react-redux';
 import { amICalledSelector as isCallingMe, amICallingSelector, doIhaveCallSelector } from 'store/calls/selectors';
 import { CSSTransition } from 'react-transition-group';
 import { LocalizationContext } from 'app/app';
-import { getMessageToEditSelector, getSelectedChatIdSelector } from 'store/chats/selectors';
+import { getMessageToEditSelector, getSelectedChatIdSelector, getIsInfoOpenedSelector } from 'store/chats/selectors';
 import { getInternetStateSelector } from 'app/store/internet/selectors';
 
 interface IMessengerProps {
@@ -38,6 +38,7 @@ const Messenger: React.FC<IMessengerProps> = React.memo(({ preloadNext }) => {
   const selectedChatId = useSelector(getSelectedChatIdSelector);
   const messageToEdit = useSelector(getMessageToEditSelector);
   const internetState = useSelector(getInternetStateSelector);
+  const isInfoOpened = useSelector(getIsInfoOpenedSelector);
 
   useEffect(() => {
     preloadNext();
@@ -51,23 +52,23 @@ const Messenger: React.FC<IMessengerProps> = React.memo(({ preloadNext }) => {
       {!internetState && <InternetError />}
 
       <Switch>
-        <Route exact path='/settings/edit-profile/(info)?/(photo|video|audio-recordings|files|audios)?'>
+        <Route exact path='/settings/edit-profile'>
           <SettingsHeader title={t('settings.edit_profile')} />
         </Route>
 
-        <Route exact path='/settings/notifications/(info)?/(photo|video|audio-recordings|files|audios)?'>
+        <Route exact path='/settings/notifications'>
           <SettingsHeader title={t('settings.notifications')} />
         </Route>
 
-        <Route exact path='/settings/language/(info)?/(photo|video|audio-recordings|files|audios)?'>
+        <Route exact path='/settings/language'>
           <SettingsHeader title={t('settings.language')} />
         </Route>
 
-        <Route exact path='/settings/typing/(info)?/(photo|video|audio-recordings|files|audios)?'>
+        <Route exact path='/settings/typing'>
           <SettingsHeader title={t('settings.text_typing')} />
         </Route>
 
-        <Route exact path={['/(calls|settings|chats|contacts)/:chatId?/(info)?/(photo|video|audio-recordings|files|audios)?']}>
+        <Route exact path={['/(calls|settings|chats|contacts)/:chatId?']}>
           <RoutingChats />
         </Route>
 
@@ -82,7 +83,7 @@ const Messenger: React.FC<IMessengerProps> = React.memo(({ preloadNext }) => {
 
       <div className='messenger__chat-list'>
         <div className='messenger__chat-list__animated'>
-          <Route path='/calls/(info)?/(photo|video|audio-recordings|files|audios)?'>
+          <Route path='/calls'>
             {({ match }) => (
               <CSSTransition in={match != null} timeout={200} classNames='slide' unmountOnExit>
                 <CallList />
@@ -90,7 +91,7 @@ const Messenger: React.FC<IMessengerProps> = React.memo(({ preloadNext }) => {
             )}
           </Route>
 
-          <Route path='/settings/(edit-profile|notifications|language|typing)?/(info)?/(photo|video|audio-recordings|files|audios)?'>
+          <Route path='/settings/(edit-profile|notifications|language|typing)?'>
             {({ match }) => (
               <CSSTransition in={match != null} timeout={200} classNames='slide' unmountOnExit>
                 <Settings />
@@ -98,7 +99,7 @@ const Messenger: React.FC<IMessengerProps> = React.memo(({ preloadNext }) => {
             )}
           </Route>
 
-          <Route path='/chats/:chatId?/(info)?/(photo|video|audio-recordings|files|audios)?'>
+          <Route path='/chats/:chatId?'>
             {({ match }) => (
               <CSSTransition in={match != null} timeout={200} classNames='slide' unmountOnExit>
                 <div className='messenger__chats'>
@@ -109,7 +110,7 @@ const Messenger: React.FC<IMessengerProps> = React.memo(({ preloadNext }) => {
             )}
           </Route>
 
-          <Route path='/contacts/:chatId?/(info)?/(photo|video|audio-recordings|files|audios)?'>
+          <Route path='/contacts/:chatId?'>
             {({ match }) => (
               <CSSTransition in={match != null} timeout={200} classNames='slide' unmountOnExit>
                 <div className='messenger__chats'>
@@ -129,15 +130,11 @@ const Messenger: React.FC<IMessengerProps> = React.memo(({ preloadNext }) => {
         {messageToEdit && <EditMessage />}
       </div>
 
-      <Route path='/(contacts|calls|settings|chats)/:chatId?/info'>
-        {({ match }) => (
-          <CSSTransition in={match != null} timeout={200} classNames='chat-info-slide' unmountOnExit>
-            <div className='messenger__info'>
-              <ChatInfo />
-            </div>
-          </CSSTransition>
-        )}
-      </Route>
+      <CSSTransition in={isInfoOpened} timeout={200} classNames='chat-info-slide' unmountOnExit>
+        <div className='messenger__info'>
+          <ChatInfo />
+        </div>
+      </CSSTransition>
     </div>
   );
 });

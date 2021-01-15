@@ -61,6 +61,7 @@ import { UserStatusChangedEventHandler } from '../friends/socket-events/user-sta
 import { ChatId } from './chat-id';
 import { IChatsState } from './models/chats-state';
 import { UserEditedEventHandler } from './socket-events/user-edited/user-edited-event-handler';
+import { ChangeChatInfoOpened } from './features/change-chat-info-opened/change-chat-info-opened';
 
 const initialState: IChatsState = {
   hasMore: true,
@@ -71,6 +72,7 @@ const initialState: IChatsState = {
   selectedMessageIds: [],
   page: -1,
   searchPage: 0,
+  isInfoOpened: false,
 };
 
 const chats = createReducer<IChatsState>(initialState)
@@ -120,6 +122,7 @@ const chats = createReducer<IChatsState>(initialState)
   .handleAction(ClearChatHistorySuccess.action, ClearChatHistorySuccess.reducer)
   .handleAction(UnshiftChat.action, UnshiftChat.reducer)
   .handleAction(MessageTyping.action, MessageTyping.reducer)
+  .handleAction(ChangeChatInfoOpened.action, ChangeChatInfoOpened.reducer)
   .handleAction(
     UserStatusChangedEventHandler.action,
     produce((draft: IChatsState, { payload }: ReturnType<typeof UserStatusChangedEventHandler.action>) => {

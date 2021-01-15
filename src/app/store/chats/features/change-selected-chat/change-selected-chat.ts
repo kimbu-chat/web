@@ -26,6 +26,8 @@ export class ChangeSelectedChat {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof ChangeSelectedChat.action>) => {
       const { oldChatId, newChatId } = payload;
 
+      draft.isInfoOpened = false;
+
       draft.selectedChatId = newChatId;
 
       if (oldChatId) {

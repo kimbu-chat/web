@@ -67,6 +67,7 @@ import { EditMessage } from './features/edit-message/edit-message';
 import { ChatClearedEventHandler } from './socket-events/chat-cleared/chat-cleared-event-handler';
 import { UserEditedEventHandler } from './socket-events/user-edited/user-edited-event-handler';
 import { ForwardMessages } from './features/forward-messages/forward-messages';
+import { ChangeChatInfoOpened } from './features/change-chat-info-opened/change-chat-info-opened';
 
 export namespace ChatActions {
   export const getChats = GetChats.action;
@@ -127,6 +128,7 @@ export namespace ChatActions {
   export const clearChatHistory = ClearChatHistory.action;
   export const clearChatHistorySuccess = ClearChatHistorySuccess.action;
   export const forwardMessages = ForwardMessages.action;
+  export const changeChatInfoOpened = ChangeChatInfoOpened.action;
 
   // socket-events
 

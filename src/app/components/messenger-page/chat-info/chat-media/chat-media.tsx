@@ -1,57 +1,97 @@
-import React, { useContext } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import './chat-media.scss';
 
-import PhotoSvg from 'icons/ic-photo.svg';
-import VideoSvg from 'icons/ic-video-call.svg';
-import FileSvg from 'icons/ic-documents.svg';
-// import LinkSvg from 'icons/ic-links.svg';
-import MicrophoneSvg from 'icons/ic-microphone.svg';
-import PlaySvg from 'icons/ic-play.svg';
-// import PeopleSvg from 'icons/ic-group.svg';
-
 import { LocalizationContext } from 'app/app';
-import { useLocation } from 'react-router';
-import { Link } from 'react-router-dom';
-import { getSelectedChatSelector } from 'store/chats/selectors';
-import { useSelector } from 'react-redux';
+
+import PhotoSvg from 'icons/photo.svg';
+import VideoSvg from 'icons/video.svg';
+import FilesSvg from 'icons/files.svg';
+import VoiceSvg from 'icons/voice.svg';
+import OpenArrowSvg from 'icons/open-arrow.svg';
 
 export const ChatMedia = React.memo(() => {
   const { t } = useContext(LocalizationContext);
-  const selectedChat = useSelector(getSelectedChatSelector);
 
-  const location = useLocation();
+  const [photoDisplayed, setPhotoDisplayed] = useState(false);
+  const [videoDisplayed, setVideoDisplayed] = useState(false);
+  const [filesDisplayed, setFilesDisplayed] = useState(false);
+  const [voiceDisplayed, setVoiceDisplayed] = useState(false);
+  const [audioDisplayed, setAudioDisplayed] = useState(false);
+
+  const changePhotoDisplayedState = useCallback(() => setPhotoDisplayed((oldState) => !oldState), [setPhotoDisplayed]);
+  const changeVideoDisplayedState = useCallback(() => setVideoDisplayed((oldState) => !oldState), [setVideoDisplayed]);
+  const changeFilesDisplayedState = useCallback(() => setFilesDisplayed((oldState) => !oldState), [setFilesDisplayed]);
+  const changeVoiceDisplayedState = useCallback(() => setVoiceDisplayed((oldState) => !oldState), [setVoiceDisplayed]);
+  const changeAudioDisplayedState = useCallback(() => setAudioDisplayed((oldState) => !oldState), [setAudioDisplayed]);
 
   return (
     <div className='chat-media'>
-      <div className='chat-media__heading'>{t('chatMedia.media')}</div>
-      <Link to={location.pathname.replace('info', 'info/photo')} className='chat-media__media-type'>
-        <PhotoSvg viewBox='0 0 25 25' className='chat-media__media-type__svg' />
-        <span className='chat-media__media-type__name'>{t('chatMedia.photos', { count: selectedChat?.pictureAttachmentsCount || 0 })}</span>
-      </Link>
-      <Link to={location.pathname.replace('info', 'info/video')} className='chat-media__media-type'>
-        <VideoSvg viewBox='0 0 25 25' className='chat-media__media-type__svg' />
-        <span className='chat-media__media-type__name'>{t('chatMedia.videos', { count: selectedChat?.videoAttachmentsCount || 0 })}</span>
-      </Link>
-      <Link to={location.pathname.replace('info', 'info/files')} className='chat-media__media-type'>
-        <FileSvg viewBox='0 0 25 25' className='chat-media__media-type__svg' />
-        <span className='chat-media__media-type__name'>{t('chatMedia.files', { count: selectedChat?.rawAttachmentsCount || 0 })}</span>
-      </Link>
-      {/* <button type='button' className='chat-media__media-type'>
-				<LinkSvg viewBox='0 0 25 25' className='chat-media__media-type__svg' />
-				<span className='chat-media__media-type__name'>{t('chatMedia.shared-links', { count: 29 })}</span>
-			</button> */}
-      <Link to={location.pathname.replace('info', 'info/audio-recordings')} className='chat-media__media-type'>
-        <MicrophoneSvg viewBox='0 0 25 25' className='chat-media__media-type__svg' />
-        <span className='chat-media__media-type__name'>{t('chatMedia.voice-messages', { count: selectedChat?.voiceAttachmentsCount || 0 })}</span>
-      </Link>
-      <Link to={location.pathname.replace('info', 'info/audios')} className='chat-media__media-type'>
-        <PlaySvg viewBox='0 0 25 25' className='chat-media__media-type__svg' />
-        <span className='chat-media__media-type__name'>{t('chatMedia.audios', { count: selectedChat?.audioAttachmentsCount || 0 })}</span>
-      </Link>
-      {/* <button type='button' className='chat-media__media-type'>
-				<PeopleSvg viewBox='0 0 25 25' className='chat-media__media-type__svg' />
-				<span className='chat-media__media-type__name'>{t('chatMedia.common-groups', { count: 4 })}</span>
-			</button> */}
+      <h3 className='chat-media__title'>{t('chatMedia.media')}</h3>
+      <div className='chat-media__media-group'>
+        <div className='chat-media__media-heading'>
+          <PhotoSvg />
+          <div className='chat-media__media-title'>{t('chatMedia.photo')}</div>
+          <button
+            type='button'
+            onClick={changePhotoDisplayedState}
+            className={`chat-media__open-arrow ${photoDisplayed ? 'chat-media__open-arrow--rotated' : ''}`}
+          >
+            <OpenArrowSvg />
+          </button>
+        </div>
+      </div>
+      <div className='chat-media__media-group'>
+        <div className='chat-media__media-heading'>
+          <VideoSvg />
+          <div className='chat-media__media-title'>{t('chatMedia.video')}</div>
+          <button
+            type='button'
+            onClick={changeVideoDisplayedState}
+            className={`chat-media__open-arrow ${videoDisplayed ? 'chat-media__open-arrow--rotated' : ''}`}
+          >
+            <OpenArrowSvg />
+          </button>
+        </div>
+      </div>
+      <div className='chat-media__media-group'>
+        <div className='chat-media__media-heading'>
+          <FilesSvg />
+          <div className='chat-media__media-title'>{t('chatMedia.file')}</div>
+          <button
+            type='button'
+            onClick={changeFilesDisplayedState}
+            className={`chat-media__open-arrow ${filesDisplayed ? 'chat-media__open-arrow--rotated' : ''}`}
+          >
+            <OpenArrowSvg />
+          </button>
+        </div>
+      </div>
+      <div className='chat-media__media-group'>
+        <div className='chat-media__media-heading'>
+          <VoiceSvg />
+          <div className='chat-media__media-title'>{t('chatMedia.voice')}</div>
+          <button
+            type='button'
+            onClick={changeVoiceDisplayedState}
+            className={`chat-media__open-arrow ${voiceDisplayed ? 'chat-media__open-arrow--rotated' : ''}`}
+          >
+            <OpenArrowSvg />
+          </button>
+        </div>
+      </div>
+      <div className='chat-media__media-group'>
+        <div className='chat-media__media-heading'>
+          <VoiceSvg />
+          <div className='chat-media__media-title'>{t('chatMedia.audio')}</div>
+          <button
+            type='button'
+            onClick={changeAudioDisplayedState}
+            className={`chat-media__open-arrow ${audioDisplayed ? 'chat-media__open-arrow--rotated' : ''}`}
+          >
+            <OpenArrowSvg />
+          </button>
+        </div>
+      </div>
     </div>
   );
 });

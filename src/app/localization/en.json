@@ -32,11 +32,9 @@
     "select_chat": "Please select  a chat to start messaging"
   },
   "chatActions": {
-    "actions": "Actions",
     "mute": "Mute",
     "unmute": "Unmute",
     "clear-history": "Clear history",
-    "edit-contact": "Edit contact",
     "delete-contact": "Delete contact",
     "add-contact": "Add contact",
     "create-group": "Create group",
@@ -44,22 +42,13 @@
     "leave-chat": "Leave chat",
     "add-users": "Add users to chat"
   },
-  "interlocutorInfo": {
-    "information": "Information",
-    "mobile": "Mobile",
-    "username": "Username",
-    "about": "About",
-    "link": "Link"
-  },
   "chatMedia": {
     "media": "Media",
-    "photos": "{{count}} photos",
-    "videos": "{{count}} videos",
-    "files": "{{count}} files",
-    "shared-links": "{{count}} shared links",
-    "voice-messages": "{{count}} voice messages",
-    "audios": "{{count}} audios",
-    "common-groups": "{{count}} groups in common"
+    "photo": "Photos {{count}}",
+    "video": "Videos {{count}}",
+    "file": "Files {{count}}",
+    "voice": "Voice messages {{count}}",
+    "audio": "Audios {{count}}"
   },
   "chatInfo": {
     "leave-confirmation": "Are you sure you want to delete ‘{{groupChatName}}‘ chat? All the data will be lost",
@@ -151,6 +140,9 @@
     "notifications": "Notifications",
     "text_typing": "Text typing",
     "language": "Language"
+  },
+  "chatInfo": {
+    "information": "Information"
   },
   "textTyping": {
     "nlce": "Send a message by Enter, insert a new line by Shift/Ctrl/Alt + Enter",

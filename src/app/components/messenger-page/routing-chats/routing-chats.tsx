@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import { useLocation } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import './routing-chats.scss';
 
@@ -21,8 +20,6 @@ export const RoutingChats = React.memo(() => {
   const myPhoto = useSelector(getMyProfilePhotoSelector);
   const myName = useSelector(getMyFullNameSelector);
 
-  const location = useLocation();
-
   const logout = useCallback(() => window.location.replace('logout'), []);
 
   return (
@@ -35,43 +32,23 @@ export const RoutingChats = React.memo(() => {
         <NavLink
           className='routing-chats__link routing-chats__link--grouped'
           activeClassName='routing-chats__link routing-chats__link--active'
-          to={location.pathname.replace(
-            /\/?(contacts|calls|settings|chats)\/?([0-9]*)?\/?(edit-profile|notifications|language|typing)?\/?(info\/?(photo|video|files|audio-recordings|audios)?\/?)?/,
-            (_all, _groupOne, _groupTwo, _groupThree, groupFour) => `/contacts${selectedChatId ? `/${selectedChatId}` : ''}/${groupFour || ''}`,
-          )}
+          to={`/contacts${selectedChatId ? `/${selectedChatId}` : ''}`}
         >
           <ContactSvg />
         </NavLink>
         <NavLink
           className='routing-chats__link routing-chats__link--grouped'
           activeClassName='routing-chats__link routing-chats__link--active'
-          to={location.pathname.replace(
-            /\/?(contacts|calls|settings|chats)\/?([0-9]*)?\/?(edit-profile|notifications|language|typing)?\/?(info\/?(photo|video|files|audio-recordings|audios)?\/?)?/,
-            (_all, _groupOne, _groupTwo, _groupThree, groupFour) => `/chats${selectedChatId ? `/${selectedChatId}/${groupFour || ''}` : ''}`,
-          )}
+          to={`/chats${selectedChatId ? `/${selectedChatId}` : ''}`}
         >
           <ChatsSvg />
         </NavLink>
-        <NavLink
-          className='routing-chats__link routing-chats__link--grouped'
-          activeClassName='routing-chats__link routing-chats__link--active'
-          to={location.pathname.replace(
-            /\/?(contacts|calls|settings|chats)\/?([0-9]*)?\/?(edit-profile|notifications|language|typing)?\/?(info\/?(photo|video|files|audio-recordings|audios)?\/?)?/,
-            (_all, _groupOne, _groupTwo, _groupThree, groupFour) => `/calls/${groupFour || ''}`,
-          )}
-        >
+        <NavLink className='routing-chats__link routing-chats__link--grouped' activeClassName='routing-chats__link routing-chats__link--active' to='/calls'>
           <CallSvg />
         </NavLink>
       </div>
 
-      <NavLink
-        className='routing-chats__link routing-chats__link--settings'
-        activeClassName='routing-chats__link routing-chats__link--active'
-        to={location.pathname.replace(
-          /\/?(contacts|calls|settings|chats)\/?([0-9]*)?\/?(edit-profile|notifications|language|typing)?\/?(info\/?(photo|video|files|audio-recordings|audios)?\/?)?/,
-          (_all, _groupOne, _groupTwo, _groupThree, groupFour) => `/settings/${groupFour || ''}`,
-        )}
-      >
+      <NavLink className='routing-chats__link routing-chats__link--settings' activeClassName='routing-chats__link routing-chats__link--active' to='/settings'>
         <SettingsSvg />
       </NavLink>
 

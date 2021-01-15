@@ -1,66 +1,63 @@
-import React, { useContext } from 'react';
+import React, { useCallback, useState } from 'react';
 import './interlocutor-info.scss';
 
-import InfoSvg from 'icons/ic-info.svg';
-import LinkSvg from 'icons/ic-links.svg';
+import PhoneSvg from 'icons/phone-chat-info.svg';
+import EditSvg from 'icons/crayon.svg';
+import DogSvg from 'icons/@.svg';
 
 import { useSelector } from 'react-redux';
-import { IChat } from 'store/chats/models';
-import { getSelectedChatSelector } from 'store/chats/selectors';
+import { getSelectedChatIdSelector, getSelectedInterlocutorSelector, getSelectedGroupChatSelector } from 'store/chats/selectors';
 import { parsePhoneNumber } from 'libphonenumber-js';
-import { LocalizationContext } from 'app/app';
 import { Link } from 'react-router-dom';
+import { FadeAnimationWrapper } from 'app/components';
+import { EditChatModal } from '../../edit-chat-modal/edit-chat-modal';
 
 export const InterlocutorInfo = React.memo(() => {
-  const { t } = useContext(LocalizationContext);
+  const selectedChatId = useSelector(getSelectedChatIdSelector);
+  const interlocutor = useSelector(getSelectedInterlocutorSelector);
+  const groupChat = useSelector(getSelectedGroupChatSelector);
 
-  const selectedChat = useSelector(getSelectedChatSelector) as IChat;
+  const [editGroupChatDisplayed, setEditGroupChatDisplayed] = useState(false);
+  const changeEditGroupChatDisplayedState = useCallback(() => {
+    setEditGroupChatDisplayed((oldState) => !oldState);
+  }, [setEditGroupChatDisplayed]);
 
   return (
-    <div className='interlocutor-info'>
-      <h3 className='interlocutor-info__heading'>{t('interlocutorInfo.information')}</h3>
-      {/* interlocutor block */}
-      {selectedChat.interlocutor && (
-        <>
-          <div className='interlocutor-info__info-block'>
-            <InfoSvg className='interlocutor-info__info-svg' />
-            <div className='interlocutor-info__data'>
-              <div className='interlocutor-info__data-value'>{parsePhoneNumber(selectedChat.interlocutor?.phoneNumber).formatInternational()}</div>
-              <div className='interlocutor-info__data-name'>{t('interlocutorInfo.mobile')}</div>
-            </div>
-          </div>
-          <div className='interlocutor-info__info-block'>
-            <InfoSvg className='interlocutor-info__info-svg' />
-            <div className='interlocutor-info__data'>
-              <div className='interlocutor-info__data-value'>{`@${selectedChat.interlocutor?.nickname}`}</div>
-              <div className='interlocutor-info__data-name'>{t('interlocutorInfo.username')}</div>
-            </div>
-          </div>
-        </>
-      )}
+    <>
+      <div className='interlocutor-info'>
+        <div className='interlocutor-info__interlocutor-data'>
+          <div />
 
-      {/* groupChat block */}
+          <div className='interlocutor-info__chat-data'>
+            <div className='interlocutor-info__interlocutor'>{interlocutor ? `${interlocutor.firstName} ${interlocutor.lastName}` : groupChat?.name}</div>
+            {groupChat?.description && <div className='interlocutor-info__description'>{groupChat?.description}</div>}
+          </div>
 
-      {selectedChat.groupChat && (
-        <div className='interlocutor-info__info-block'>
-          <InfoSvg className='interlocutor-info__info-svg' />
-          <div className='interlocutor-info__data'>
-            <div className='interlocutor-info__data-value'>{selectedChat.groupChat!.description}</div>
-            <div className='interlocutor-info__data-name'>{t('interlocutorInfo.about')}</div>
+          <div>
+            <button type='button' onClick={changeEditGroupChatDisplayedState} className='interlocutor-info__rename-btn'>
+              <EditSvg />
+            </button>
           </div>
         </div>
-      )}
-      {selectedChat.groupChat && (
-        <div className='interlocutor-info__info-block'>
-          <LinkSvg className='interlocutor-info__info-svg' />
-          <div className='interlocutor-info__data'>
-            <Link to={`/chats/${selectedChat.groupChat.id}2`} className='interlocutor-info__data-value interlocutor-info__data-value--link'>
-              {`ravudi.com/chats/${selectedChat.groupChat.id}2`}
-            </Link>
-            <div className='interlocutor-info__data-name'>{t('interlocutorInfo.link')}</div>
+
+        {interlocutor && (
+          <div className='interlocutor-info__info-block'>
+            <PhoneSvg className='interlocutor-info__info-svg' />
+            <div className='interlocutor-info__data-value'>{parsePhoneNumber(interlocutor?.phoneNumber).formatInternational()}</div>
           </div>
+        )}
+
+        <div className='interlocutor-info__info-block'>
+          <DogSvg className='interlocutor-info__info-svg' />
+          <Link to={`/chats/${selectedChatId}`} className='interlocutor-info__data-value interlocutor-info__data-value--link'>{`${
+            interlocutor ? `@${interlocutor?.nickname}` : `ravudi.com/chats/${selectedChatId}2`
+          }`}</Link>
         </div>
-      )}
-    </div>
+      </div>
+
+      <FadeAnimationWrapper isDisplayed={editGroupChatDisplayed}>
+        <EditChatModal onClose={changeEditGroupChatDisplayedState} />
+      </FadeAnimationWrapper>
+    </>
   );
 });

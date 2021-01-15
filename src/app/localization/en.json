@@ -150,8 +150,7 @@
     "edit_profile": "Edit profile",
     "notifications": "Notifications",
     "text_typing": "Text typing",
-    "language": "Language",
-    "logout": "Выход"
+    "language": "Language"
   },
   "textTyping": {
     "nlce": "Send a message by Enter, insert a new line by Shift/Ctrl/Alt + Enter",

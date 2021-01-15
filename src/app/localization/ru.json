@@ -151,8 +151,7 @@
     "edit_profile": "Редактировать профиль",
     "notifications": "Уведомления",
     "text_typing": "Набор текста",
-    "language": "Язык",
-    "logout": "Выход"
+    "language": "Язык"
   },
   "textTyping": {
     "nlce": "Отправьте сообщение с помощью Enter, вставьте новую строку с помощью Shift / Ctrl / Alt + Enter",

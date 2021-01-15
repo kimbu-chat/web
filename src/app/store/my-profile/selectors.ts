@@ -9,4 +9,6 @@ export const getMyPhoneNumberSelector = (state: RootState): string | undefined =
 
 export const getMyFullNameSelector = (state: RootState): string | undefined => `${state.myProfile.user?.firstName} ${state.myProfile.user?.lastName}`;
 
+export const getMyProfilePhotoSelector = (state: RootState): string | undefined => state.myProfile.user?.avatar?.previewUrl;
+
 export const getIsTabActiveSelector = (state: RootState) => state.myProfile.isTabActive;

@@ -1,7 +1,7 @@
-import { Avatar, BaseBtn } from 'components';
+import { Avatar } from 'components';
 import { getMyProfileSelector } from 'store/my-profile/selectors';
 import { getUserInitials } from 'app/utils/interlocutor-name-utils';
-import React, { useContext, useCallback } from 'react';
+import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { LocalizationContext } from 'app/app';
 import './settings.scss';
@@ -20,8 +20,6 @@ import { TextTyping } from './text-typing/text-typing';
 
 export const Settings = React.memo(() => {
   const { t } = useContext(LocalizationContext);
-
-  const logout = useCallback(() => window.location.replace('logout'), []);
 
   const myProfile = useSelector(getMyProfileSelector);
 
@@ -60,9 +58,6 @@ export const Settings = React.memo(() => {
                   <span className='settings__link-name'>{t('settings.language')}</span>
                 </Link>
               </div>
-              <BaseBtn onClick={logout} width='contained' variant='contained' color='primary' className='settings__logout-btn'>
-                {t('settings.logout')}
-              </BaseBtn>
             </div>
           </CSSTransition>
         )}

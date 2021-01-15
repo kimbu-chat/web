@@ -1,11 +1,5 @@
 .chat-list {
-  overflow-y: scroll;
-  max-height: calc(100vh - 128px);
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  overflow-y: auto;
 
   .loader {
     & > * {

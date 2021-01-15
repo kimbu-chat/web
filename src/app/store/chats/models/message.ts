@@ -17,13 +17,18 @@ export interface IMessage {
   isSelected?: boolean;
   needToShowCreator?: boolean;
   needToShowDateSeparator?: boolean;
-  isEdited?: boolean;
+
+  isEdited: boolean;
+  isDeleted: boolean;
+
   attachments?: IBaseAttachment[];
   linkedMessageType?: MessageLinkType;
   linkedMessage?: {
     id: number;
     userCreator: IUserPreview;
-    text: string;
+    text?: string;
     attachments?: IBaseAttachment[];
-  } | null;
+    isEdited: boolean;
+    isDeleted: boolean;
+  };
 }

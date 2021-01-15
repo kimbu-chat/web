@@ -35,6 +35,8 @@ export class GroupChatCreatedEventHandler {
         state: MessageState.READ,
         chatId,
         id: systemMessageId,
+        isDeleted: false,
+        isEdited: false,
       };
 
       const newChat: IChat = {

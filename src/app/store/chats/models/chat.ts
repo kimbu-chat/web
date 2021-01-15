@@ -61,6 +61,7 @@ export interface IChat {
     messages: IMessage[];
     loading: boolean;
     hasMore: boolean;
+    searchString?: string;
   };
 
   attachmentsToSend?: IAttachmentToSend<IBaseAttachment>[];

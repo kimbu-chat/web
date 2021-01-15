@@ -12,7 +12,6 @@ import {
   getSelectedChatIdSelector,
   getSelectedChatUnreadMessagesCountSelector,
 } from 'store/chats/selectors';
-import { MessageUtils } from 'app/utils/message-utils';
 import moment from 'moment';
 import { FadeAnimationWrapper } from 'components';
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
@@ -20,7 +19,6 @@ import { MESSAGES_LIMIT } from 'app/utils/pagination-limits';
 import { SelectedMessagesData, MessageItem } from 'app/components';
 import { GetMessages } from 'app/store/chats/features/get-messages/get-messages';
 import { MarkMessagesAsRead } from 'app/store/chats/features/mark-messages-as-read/mark-messages-as-read';
-import { IMessage } from 'app/store/chats/models';
 
 const Chat = React.memo(() => {
   const getMessages = useActionWithDispatch(GetMessages.action);
@@ -63,7 +61,7 @@ const Chat = React.memo(() => {
     );
   }
 
-  const separatedItemsWithUserInfo = MessageUtils.signAndSeparate(messages || []);
+  // const separatedItemsWithUserInfo = MessageUtils.signAndSeparate(messages || []);
 
   return (
     <div className='chat__messages-list'>
@@ -81,20 +79,20 @@ const Chat = React.memo(() => {
         </FadeAnimationWrapper>
 
         <InfiniteScroll onReachExtreme={loadMore} hasMore={hasMoreMessages} isLoading={areMessagesLoading} isReverse>
-          {separatedItemsWithUserInfo.map((msgGroup: IMessage[]) => (
-            <div className='chat__messages-group' key={msgGroup[msgGroup.length - 1]?.id || 'last'}>
-              {msgGroup.map((msg) => (
-                <React.Fragment key={msg.id}>
-                  <MessageItem message={msg} key={msg.id} />
-                  {msg.needToShowDateSeparator && (
-                    <div className='message__separator message__separator--capitalized'>
-                      <span>{moment.utc(msg.creationDateTime).local().format('dddd, MMMM D, YYYY').toString()}</span>
-                    </div>
-                  )}
-                </React.Fragment>
-              ))}
-            </div>
+          {/* {separatedItemsWithUserInfo.map((msgGroup: IMessage[]) => (
+            <div className='chat__messages-group' key={msgGroup[msgGroup.length - 1]?.id || 'last'}> */}
+          {messages?.map((msg) => (
+            <React.Fragment key={msg.id}>
+              <MessageItem message={msg} key={msg.id} />
+              {msg.needToShowDateSeparator && (
+                <div className='message__separator message__separator--capitalized'>
+                  <span>{moment.utc(msg.creationDateTime).local().format('dddd, MMMM D, YYYY').toString()}</span>
+                </div>
+              )}
+            </React.Fragment>
           ))}
+          {/* </div>
+          ))} */}
         </InfiniteScroll>
       </div>
     </div>

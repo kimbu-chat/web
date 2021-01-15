@@ -43,6 +43,8 @@ export class CreateGroupChat {
         chatId,
         state: MessageState.LOCALMESSAGE,
         userCreator: action.payload.currentUser,
+        isDeleted: false,
+        isEdited: false,
       };
 
       const chat: IChat = {

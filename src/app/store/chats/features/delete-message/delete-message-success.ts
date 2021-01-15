@@ -56,7 +56,7 @@ export class DeleteMessageSuccess {
 
           repliedMessages?.forEach((message) => {
             if (message.linkedMessage) {
-              message.linkedMessage = null;
+              message.linkedMessage.isDeleted = true;
             }
           });
         });

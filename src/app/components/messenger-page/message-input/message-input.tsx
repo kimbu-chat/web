@@ -125,6 +125,8 @@ export const CreateMessageInput = React.memo(() => {
           id: new Date().getTime(),
           chatId,
           attachments,
+          isDeleted: false,
+          isEdited: false,
         };
 
         if (refferedReplyingMessage.current) {

@@ -13,9 +13,11 @@ interface IMessageLinkProps {
   linkedMessage?: {
     id: number;
     userCreator: IUserPreview;
-    text: string;
+    text?: string;
     attachments?: IBaseAttachment[];
-  } | null;
+    isEdited: boolean;
+    isDeleted: boolean;
+  };
   linkedMessageType: MessageLinkType;
 }
 
@@ -78,7 +80,7 @@ const MessageLink: React.FC<IMessageLinkProps> = React.memo(({ linkedMessage, li
           linkedMessage?.userCreator.firstName
         } ${linkedMessage?.userCreator.lastName}`}</div>
       )}
-      <div className='message-link__text'>{linkedMessage !== null ? linkedMessage?.text : t('message-link.message-deleted')}</div>
+      <div className='message-link__text'>{linkedMessage?.isDeleted ? t('message-link.message-deleted') : linkedMessage?.text}</div>
       <div className='message-link__attachments'>
         {structuredAttachments?.files.map((file) => (
           <FileAttachment key={file.id} attachment={file} />

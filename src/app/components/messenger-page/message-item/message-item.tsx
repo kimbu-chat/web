@@ -111,9 +111,16 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
 
     if (message?.systemMessageType !== SystemMessageType.None) {
       return (
-        <div className='message__separator'>
-          <span>{MessageUtils.constructSystemMessageText(message as IMessage, t, myId)}</span>
-        </div>
+        <>
+          <div className='message__separator'>
+            <span>{MessageUtils.constructSystemMessageText(message as IMessage, t, myId)}</span>
+          </div>
+          {message.needToShowDateSeparator && (
+            <div className='message__separator message__separator--capitalized'>
+              <span>{moment.utc(message.creationDateTime).local().format('dddd, MMMM D, YYYY').toString()}</span>
+            </div>
+          )}
+        </>
       );
     }
 

@@ -14,10 +14,10 @@ import { ForwardModal } from '../../forward-modal/forward-modal';
 
 interface IMessageItemActionsProps {
   messageId: number;
-  isCreatedByMe: boolean;
+  isEditAllowed: boolean;
 }
 
-const MessageItemActions: React.FC<IMessageItemActionsProps> = React.memo(({ messageId, isCreatedByMe }) => {
+const MessageItemActions: React.FC<IMessageItemActionsProps> = React.memo(({ messageId, isEditAllowed }) => {
   const replyToMessage = useActionWithDispatch(ReplyToMessage.action);
   const editMessage = useActionWithDispatch(EditMessage.action);
 
@@ -44,7 +44,7 @@ const MessageItemActions: React.FC<IMessageItemActionsProps> = React.memo(({ mes
   return (
     <>
       <div className='message-item-actions'>
-        {isCreatedByMe && (
+        {isEditAllowed && (
           <button type='button' onClick={editSelectedMessage} className='message-item-actions__action'>
             <EditSVG viewBox='0 0 25 25' />
           </button>

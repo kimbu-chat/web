@@ -27,6 +27,7 @@ import {
   IMessage,
   MessageState,
   SystemMessageType,
+  MessageLinkType,
 } from 'store/chats/models';
 import { Link } from 'react-router-dom';
 import { MessageAudioAttachment, FileAttachment } from 'app/components';
@@ -111,9 +112,16 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
 
     if (message?.systemMessageType !== SystemMessageType.None) {
       return (
-        <div className='message__separator'>
-          <span>{MessageUtils.constructSystemMessageText(message as IMessage, t, myId)}</span>
-        </div>
+        <>
+          <div className='message__separator'>
+            <span>{MessageUtils.constructSystemMessageText(message as IMessage, t, myId)}</span>
+          </div>
+          {message.needToShowDateSeparator && (
+            <div className='message__separator message__separator--capitalized'>
+              <span>{moment.utc(message.creationDateTime).local().format('dddd, MMMM D, YYYY').toString()}</span>
+            </div>
+          )}
+        </>
       );
     }
 
@@ -136,7 +144,10 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
 
             <div className='message__item-apart'>
               <div className='message__contents__wrapper'>
-                <MessageItemActions messageId={message.id} isCreatedByMe={isCurrentUserMessageCreator} />
+                <MessageItemActions
+                  messageId={message.id}
+                  isEditAllowed={isCurrentUserMessageCreator && !(message.linkedMessageType === MessageLinkType.Forward)}
+                />
                 {message.linkedMessageType && <MessageLink linkedMessageType={message.linkedMessageType!} linkedMessage={message.linkedMessage} />}
                 <span className='message__contents'>{message.text}</span>
               </div>

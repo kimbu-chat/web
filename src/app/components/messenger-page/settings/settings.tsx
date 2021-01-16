@@ -60,7 +60,7 @@ export const Settings = React.memo(() => {
         )}
       </Route>
 
-      <Route path='/settings/edit-profile' exact>
+      <Route path='/settings/edit-profile'>
         {({ match }) => (
           <CSSTransition in={match != null} timeout={200} classNames='settings-slide' unmountOnExit>
             <EditProfile />
@@ -68,7 +68,7 @@ export const Settings = React.memo(() => {
         )}
       </Route>
 
-      <Route path='/settings/notifications' exact>
+      <Route path='/settings/notifications'>
         {({ match }) => (
           <CSSTransition in={match != null} timeout={200} classNames='settings-slide' unmountOnExit>
             <NotificationsSettings />
@@ -76,7 +76,7 @@ export const Settings = React.memo(() => {
         )}
       </Route>
 
-      <Route path='/settings/language' exact>
+      <Route path='/settings/language'>
         {({ match }) => (
           <CSSTransition in={match != null} timeout={200} classNames='settings-slide' unmountOnExit>
             <LanguageSettings />
@@ -84,7 +84,7 @@ export const Settings = React.memo(() => {
         )}
       </Route>
 
-      <Route path='/settings/typing' exact>
+      <Route path='/settings/typing'>
         {({ match }) => (
           <CSSTransition in={match != null} timeout={200} classNames='settings-slide' unmountOnExit>
             <TextTyping />

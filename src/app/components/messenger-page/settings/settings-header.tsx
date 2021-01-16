@@ -9,7 +9,7 @@ interface ISettingsHeaderProps {
 
 export const SettingsHeader: React.FC<ISettingsHeaderProps> = React.memo(({ title }) => (
   <div className='settings__header'>
-    <Link to='/settings' className='settings__back'>
+    <Link to='/settings/' className='settings__back'>
       <ReturnSvg viewBox='0 0 25 25' />
     </Link>
     <div className='settings__title'>{title}</div>

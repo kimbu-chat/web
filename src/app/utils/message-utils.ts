@@ -2,6 +2,7 @@ import moment from 'moment';
 import { CallStatus } from 'app/store/models';
 import { TFunction } from 'i18next';
 import { IMessage, SystemMessageType } from 'app/store/chats/models';
+import produce from 'immer';
 
 interface ISystemMessageBase {}
 
@@ -135,11 +136,10 @@ export class MessageUtils {
     return JSON.stringify(systemMessage);
   }
 
-  static signAndSeparate(arr: IMessage[]): IMessage[][] {
+  static signAndSeparate(arr: IMessage[]): IMessage[] {
     const signedMessages = arr.map((message, index) => {
-      if (index <= arr.length - 1) {
+      if (index < arr.length - 1) {
         if (
-          index === arr.length - 1 ||
           MessageUtils.checkIfDatesAreSameDate(
             moment
               .utc(arr[index + 1].creationDateTime || '')
@@ -151,8 +151,14 @@ export class MessageUtils {
               .toDate(),
           )
         ) {
-          message = { ...message, needToShowDateSeparator: true, needToShowCreator: true };
-          return message;
+          const generatedMessage = produce(message, (draftMessage) => {
+            draftMessage.needToShowCreator = true;
+            draftMessage.needToShowDateSeparator = true;
+
+            return draftMessage;
+          });
+
+          return generatedMessage;
         }
       }
 
@@ -160,24 +166,26 @@ export class MessageUtils {
         index < arr.length - 1 &&
         (arr[index].userCreator?.id !== arr[index + 1].userCreator?.id || arr[index + 1].systemMessageType !== SystemMessageType.None)
       ) {
-        message = { ...message, needToShowCreator: true };
+        const generatedMessage = produce(message, (draftMessage) => {
+          draftMessage.needToShowCreator = true;
+
+          return draftMessage;
+        });
+
+        return generatedMessage;
       }
 
       return message;
     });
 
-    const separatedAndSignedMessages = signedMessages.reduce(
-      (accum, current) => {
-        accum[accum.length - 1].push(current);
-        if (current.needToShowDateSeparator) {
-          accum.push([]);
-        }
+    signedMessages[signedMessages.length - 1] = produce(signedMessages[signedMessages.length - 1], (draftMessage) => {
+      if (draftMessage) {
+        draftMessage.needToShowCreator = true;
+        draftMessage.needToShowDateSeparator = true;
+      }
+      return draftMessage;
+    });
 
-        return accum;
-      },
-      [[]] as IMessage[][],
-    );
-
-    return separatedAndSignedMessages;
+    return signedMessages;
   }
 }

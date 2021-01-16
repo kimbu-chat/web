@@ -17,112 +17,128 @@ import MessageSentSvg from 'icons/ic-tick.svg';
 import MessageReadSvg from 'icons/ic-double_tick.svg';
 import { getTypingStringSelector } from 'store/chats/selectors';
 import { getChatInterlocutor, getInterlocutorInitials } from 'utils/interlocutor-name-utils';
+import { isEqual } from 'lodash';
 
 interface IChatFromListProps {
   chat: IChat;
 }
 
-const ChatFromList: React.FC<IChatFromListProps> = React.memo(({ chat }) => {
-  const { interlocutor, lastMessage, groupChat } = chat;
-  const { t } = useContext(LocalizationContext);
+const ChatFromList: React.FC<IChatFromListProps> = React.memo(
+  ({ chat }) => {
+    const { t } = useContext(LocalizationContext);
 
-  const currentUserId = useSelector(getMyIdSelector) as number;
-  const typingString = useSelector(getTypingStringSelector(t, chat.id));
+    const currentUserId = useSelector(getMyIdSelector) as number;
+    const typingString = useSelector(getTypingStringSelector(t, chat.id));
 
-  const isMessageCreatorCurrentUser: boolean = lastMessage?.userCreator?.id === currentUserId;
+    const isMessageCreatorCurrentUser: boolean = chat.lastMessage?.userCreator?.id === currentUserId;
 
-  const getChatAvatar = useCallback((): string => {
-    if (interlocutor) {
-      return interlocutor.avatar?.previewUrl as string;
-    }
+    const getMessageText = useCallback((): string => {
+      const messageToProcess =
+        chat.lastMessage?.linkedMessageType === MessageLinkType.Forward && !chat.lastMessage?.linkedMessage?.isDeleted
+          ? chat.lastMessage?.linkedMessage
+          : chat.lastMessage;
 
-    return groupChat?.avatar?.previewUrl as string;
-  }, [interlocutor?.avatar?.previewUrl, groupChat?.avatar?.previewUrl]);
-
-  const getMessageText = useCallback((): string => {
-    const messageToProcess =
-      lastMessage?.linkedMessageType === MessageLinkType.Forward && !lastMessage?.linkedMessage?.isDeleted ? lastMessage?.linkedMessage : lastMessage;
-
-    if (
-      (lastMessage?.text.length === 0 && (lastMessage.attachments?.length || 0) > 0) ||
-      (lastMessage?.linkedMessage?.text?.length === 0 && (lastMessage?.linkedMessage.attachments?.length || 0) > 0)
-    ) {
-      return t('chatFromList.media');
-    }
-
-    if (lastMessage?.text.length === 0 && (lastMessage.attachments?.length || 0) === 0 && lastMessage?.linkedMessage?.isDeleted) {
-      return t('message-link.message-deleted');
-    }
-
-    if (messageToProcess) {
-      if (messageToProcess && (messageToProcess as IMessage).systemMessageType && (messageToProcess as IMessage).systemMessageType !== SystemMessageType.None) {
-        return truncate(MessageUtils.constructSystemMessageText(messageToProcess as IMessage, t, currentUserId), {
-          length: 53,
-          omission: '...',
-        });
+      if (
+        (chat.lastMessage?.text.length === 0 && (chat.lastMessage.attachments?.length || 0) > 0) ||
+        (chat.lastMessage?.linkedMessage?.text?.length === 0 && (chat.lastMessage?.linkedMessage.attachments?.length || 0) > 0)
+      ) {
+        return t('chatFromList.media');
       }
 
-      if (groupChat) {
-        if (isMessageCreatorCurrentUser) {
-          return truncate(`${t('chatFromList.you')}: ${messageToProcess?.text}`, {
+      if (chat.lastMessage?.text.length === 0 && (chat.lastMessage.attachments?.length || 0) === 0 && chat.lastMessage?.linkedMessage?.isDeleted) {
+        return t('message-link.message-deleted');
+      }
+
+      if (messageToProcess) {
+        if (
+          messageToProcess &&
+          (messageToProcess as IMessage).systemMessageType &&
+          (messageToProcess as IMessage).systemMessageType !== SystemMessageType.None
+        ) {
+          return truncate(MessageUtils.constructSystemMessageText(messageToProcess as IMessage, t, currentUserId), {
             length: 53,
             omission: '...',
           });
         }
-        return truncate(`${messageToProcess?.userCreator?.firstName}: ${messageToProcess?.text}`, {
+
+        if (chat.groupChat) {
+          if (isMessageCreatorCurrentUser) {
+            return truncate(`${t('chatFromList.you')}: ${messageToProcess?.text}`, {
+              length: 53,
+              omission: '...',
+            });
+          }
+          return truncate(`${messageToProcess?.userCreator?.firstName}: ${messageToProcess?.text}`, {
+            length: 53,
+            omission: '...',
+          });
+        }
+
+        const shortedText = truncate(messageToProcess?.text, {
           length: 53,
           omission: '...',
         });
+
+        return shortedText;
       }
 
-      const shortedText = truncate(messageToProcess?.text, {
-        length: 53,
-        omission: '...',
-      });
+      return '';
+    }, [chat.lastMessage]);
 
-      return shortedText;
-    }
-
-    return '';
-  }, [lastMessage]);
-
-  return (
-    <NavLink to={`/chats/${chat.id.toString()}`} className='chat-from-list' activeClassName='chat-from-list chat-from-list--active'>
-      <div className='chat-from-list__active-line' />
-      {!groupChat ? (
-        <StatusBadge containerClassName='chat-from-list__avatar-container' additionalClassNames='chat-from-list__avatar' user={chat.interlocutor!} />
-      ) : (
-        <Avatar className='chat-from-list__avatar chat-from-list__avatar-container' src={getChatAvatar()}>
-          {getInterlocutorInitials(chat)}
-        </Avatar>
-      )}
-
-      <div className='chat-from-list__contents'>
-        <div className='chat-from-list__heading'>
-          <div className='chat-from-list__name'>{getChatInterlocutor(chat)}</div>
-          <div className='chat-from-list__status'>
-            {!(lastMessage?.systemMessageType !== SystemMessageType.None || !isMessageCreatorCurrentUser) && (
-              <>
-                {lastMessage?.state === MessageState.QUEUED && <MessageQeuedSvg />}
-                {lastMessage?.state === MessageState.SENT && <MessageSentSvg />}
-                {lastMessage?.state === MessageState.READ && <MessageReadSvg />}
-              </>
-            )}
-          </div>
-          <div className='chat-from-list__time'>
-            {MessageUtils.checkIfDatesAreSameDate(new Date(lastMessage?.creationDateTime!), new Date())
-              ? moment.utc(lastMessage?.creationDateTime).local().format('dd MMM YY')
-              : moment.utc(lastMessage?.creationDateTime).local().format('LT')}
-          </div>
-        </div>
-        <div className='chat-from-list__last-message'>{typingString || getMessageText()}</div>
-        {(chat.unreadMessagesCount || false) && (
-          <div className={chat.isMuted ? 'chat-from-list__count chat-from-list__count--muted' : 'chat-from-list__count'}>{chat.unreadMessagesCount}</div>
+    return (
+      <NavLink to={`/chats/${chat.id.toString()}`} className='chat-from-list' activeClassName='chat-from-list chat-from-list--active'>
+        <div className='chat-from-list__active-line' />
+        {!chat.groupChat ? (
+          <StatusBadge containerClassName='chat-from-list__avatar-container' additionalClassNames='chat-from-list__avatar' user={chat.interlocutor!} />
+        ) : (
+          <Avatar className='chat-from-list__avatar chat-from-list__avatar-container' src={chat.groupChat?.avatar?.previewUrl}>
+            {getInterlocutorInitials(chat)}
+          </Avatar>
         )}
-      </div>
-    </NavLink>
-  );
-});
+
+        <div className='chat-from-list__contents'>
+          <div className='chat-from-list__heading'>
+            <div className='chat-from-list__name'>{getChatInterlocutor(chat)}</div>
+            <div className='chat-from-list__status'>
+              {!(chat.lastMessage?.systemMessageType !== SystemMessageType.None || !isMessageCreatorCurrentUser) && (
+                <>
+                  {chat.lastMessage?.state === MessageState.QUEUED && <MessageQeuedSvg />}
+                  {chat.lastMessage?.state === MessageState.SENT && <MessageSentSvg />}
+                  {chat.lastMessage?.state === MessageState.READ && <MessageReadSvg />}
+                </>
+              )}
+            </div>
+            <div className='chat-from-list__time'>
+              {MessageUtils.checkIfDatesAreSameDate(new Date(chat.lastMessage?.creationDateTime!), new Date())
+                ? moment.utc(chat.lastMessage?.creationDateTime).local().format('dd MMM YY')
+                : moment.utc(chat.lastMessage?.creationDateTime).local().format('LT')}
+            </div>
+          </div>
+          <div className='chat-from-list__last-message'>{typingString || getMessageText()}</div>
+          {(chat.unreadMessagesCount || false) && (
+            <div className={chat.isMuted ? 'chat-from-list__count chat-from-list__count--muted' : 'chat-from-list__count'}>{chat.unreadMessagesCount}</div>
+          )}
+        </div>
+      </NavLink>
+    );
+  },
+  (prevProps, nextProps) => {
+    const result =
+      prevProps.chat.id === nextProps.chat.id &&
+      prevProps.chat.unreadMessagesCount === nextProps.chat.unreadMessagesCount &&
+      prevProps.chat.isMuted === nextProps.chat.isMuted &&
+      prevProps.chat.interlocutor?.firstName === nextProps.chat.interlocutor?.firstName &&
+      prevProps.chat.interlocutor?.lastName === nextProps.chat.interlocutor?.lastName &&
+      prevProps.chat.groupChat?.name === nextProps.chat.groupChat?.name &&
+      isEqual(prevProps.chat.interlocutor?.avatar, nextProps.chat.interlocutor?.avatar) &&
+      isEqual(prevProps.chat.groupChat?.avatar, nextProps.chat.groupChat?.avatar) &&
+      isEqual(prevProps.chat.lastMessage, nextProps.chat.lastMessage);
+
+    console.log(result);
+
+    return result;
+  },
+);
 
 ChatFromList.displayName = 'ChatFromList';
 

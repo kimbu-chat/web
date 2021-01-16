@@ -52,7 +52,7 @@ export const ChatMedia = React.memo(() => {
       <div className='chat-media__media-group'>
         <div className='chat-media__media-heading'>
           <PictureSvg />
-          <div className='chat-media__media-title'>{t('chatMedia.picture', { count: pictureAttachmentsCount })}</div>
+          <div className='chat-media__media-title'>{t('chatMedia.picture', { count: pictureAttachmentsCount || 0 })}</div>
           <button
             type='button'
             onClick={changePictureDisplayedState}
@@ -66,7 +66,7 @@ export const ChatMedia = React.memo(() => {
       <div className='chat-media__media-group'>
         <div className='chat-media__media-heading'>
           <VideoSvg />
-          <div className='chat-media__media-title'>{t('chatMedia.video', { count: videoAttachmentsCount })}</div>
+          <div className='chat-media__media-title'>{t('chatMedia.video', { count: videoAttachmentsCount || 0 })}</div>
           <button
             type='button'
             onClick={changeVideoDisplayedState}
@@ -80,7 +80,7 @@ export const ChatMedia = React.memo(() => {
       <div className='chat-media__media-group'>
         <div className='chat-media__media-heading'>
           <FilesSvg />
-          <div className='chat-media__media-title'>{t('chatMedia.file', { count: filesAttachmentsCount })}</div>
+          <div className='chat-media__media-title'>{t('chatMedia.file', { count: filesAttachmentsCount || 0 })}</div>
           <button
             type='button'
             onClick={changeFilesDisplayedState}
@@ -94,7 +94,7 @@ export const ChatMedia = React.memo(() => {
       <div className='chat-media__media-group'>
         <div className='chat-media__media-heading'>
           <VoiceSvg />
-          <div className='chat-media__media-title'>{t('chatMedia.voice', { count: voiceAttachmentsCount })}</div>
+          <div className='chat-media__media-title'>{t('chatMedia.voice', { count: voiceAttachmentsCount || 0 })}</div>
           <button
             type='button'
             onClick={changeVoiceDisplayedState}
@@ -108,7 +108,7 @@ export const ChatMedia = React.memo(() => {
       <div className='chat-media__media-group'>
         <div className='chat-media__media-heading'>
           <VoiceSvg />
-          <div className='chat-media__media-title'>{t('chatMedia.audio', { count: audioAttachmentsCount })}</div>
+          <div className='chat-media__media-title'>{t('chatMedia.audio', { count: audioAttachmentsCount || 0 })}</div>
           <button
             type='button'
             onClick={changeAudioDisplayedState}

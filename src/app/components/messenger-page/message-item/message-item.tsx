@@ -27,6 +27,7 @@ import {
   IMessage,
   MessageState,
   SystemMessageType,
+  MessageLinkType,
 } from 'store/chats/models';
 import { Link } from 'react-router-dom';
 import { MessageAudioAttachment, FileAttachment } from 'app/components';
@@ -143,7 +144,10 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
 
             <div className='message__item-apart'>
               <div className='message__contents__wrapper'>
-                <MessageItemActions messageId={message.id} isCreatedByMe={isCurrentUserMessageCreator} />
+                <MessageItemActions
+                  messageId={message.id}
+                  isEditAllowed={isCurrentUserMessageCreator && !(message.linkedMessageType === MessageLinkType.Forward)}
+                />
                 {message.linkedMessageType && <MessageLink linkedMessageType={message.linkedMessageType!} linkedMessage={message.linkedMessage} />}
                 <span className='message__contents'>{message.text}</span>
               </div>

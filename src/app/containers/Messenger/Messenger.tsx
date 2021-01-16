@@ -93,7 +93,7 @@ const Messenger: React.FC<IMessengerProps> = React.memo(({ preloadNext }) => {
             )}
           </Route>
 
-          <Route path='/chats/:chatId?'>
+          <Route path='/chats/:chatId?/'>
             {({ match }) => (
               <CSSTransition in={match != null} timeout={200} classNames='slide' unmountOnExit>
                 <div className='messenger__chats'>
@@ -104,7 +104,7 @@ const Messenger: React.FC<IMessengerProps> = React.memo(({ preloadNext }) => {
             )}
           </Route>
 
-          <Route path='/contacts/:chatId?'>
+          <Route path='/contacts/:chatId?/'>
             {({ match }) => (
               <CSSTransition in={match != null} timeout={200} classNames='slide' unmountOnExit>
                 <div className='messenger__chats'>

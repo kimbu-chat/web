@@ -1,34 +1,57 @@
 .chat-media {
-  margin: 0 auto 40px 20px;
+  margin-top: 30px;
 
-  &__heading {
+  &__title {
+    margin-left: 16px;
+    color: #3f8ae0;
     font-weight: 500;
-    font-size: 15px;
-    line-height: 16px;
-    margin-bottom: 20px;
+    font-size: 18px;
+    line-height: 21px;
+    margin-bottom: 34px;
   }
 
-  &__media-type {
-    display: flex;
-    align-items: center;
-    height: 20px;
-
+  &__media-group {
+    margin-left: 16px;
     &:not(:last-child) {
-      margin-bottom: 14px;
+      margin-bottom: 18px;
+    }
+  }
+
+  &__media-heading {
+    display: flex;
+    background-color: #373f51;
+    flex-direction: row;
+    align-items: center;
+    position: sticky;
+    top: 0;
+
+    svg {
+      color: white;
+    }
+  }
+
+  &__media-title {
+    color: white;
+    margin-left: 16px;
+    font-size: 16px;
+    line-height: 19px;
+    font-weight: 400;
+  }
+
+  &__open-arrow {
+    color: #3f8ae0;
+    transition: all 0.2s;
+    margin-left: auto;
+    margin-right: 20px;
+    transform: rotate(-90deg);
+
+    svg {
+      height: 8px;
+      width: 14px;
     }
 
-    &__svg {
-      width: 20px;
-      height: 20px;
-      color: #3f8ae0;
-    }
-
-    &__name {
-      margin-left: 10px;
-      font-size: 13px;
-      color: #3f8ae0;
-      font-weight: 400;
-      line-height: 18px;
+    &--rotated {
+      transform: rotate(0deg);
     }
   }
 }

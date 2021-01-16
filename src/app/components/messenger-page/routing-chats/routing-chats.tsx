@@ -1,61 +1,60 @@
-import React from 'react';
-import { useLocation } from 'react-router';
+import React, { useCallback } from 'react';
 import { NavLink } from 'react-router-dom';
 import './routing-chats.scss';
 
-import ContactSvg from 'icons/ic-contacts.svg';
-import CallSvg from 'icons/ic-call-filled.svg';
-import ChatsSvg from 'icons/ic-chat.svg';
-import SettingsSvg from 'icons/ic-settings.svg';
-import { getSelectedChatSelector } from 'store/chats/selectors';
+import ContactSvg from 'icons/contacts.svg';
+import CallSvg from 'icons/calls.svg';
+import ChatsSvg from 'icons/chats.svg';
+import SettingsSvg from 'icons/settings.svg';
+import LogoutSvg from 'icons/logout.svg';
+
+import { getSelectedChatIdSelector } from 'store/chats/selectors';
 import { useSelector } from 'react-redux';
+import { getMyProfilePhotoSelector, getMyFullNameSelector } from 'app/store/my-profile/selectors';
+import { Avatar } from 'app/components';
+import { getStringInitials } from 'app/utils/interlocutor-name-utils';
 
 export const RoutingChats = React.memo(() => {
-  const selectedChatId = useSelector(getSelectedChatSelector)?.id;
-  const location = useLocation();
+  const selectedChatId = useSelector(getSelectedChatIdSelector);
+
+  const myPhoto = useSelector(getMyProfilePhotoSelector);
+  const myName = useSelector(getMyFullNameSelector);
+
+  const logout = useCallback(() => window.location.replace('logout'), []);
 
   return (
     <div className='routing-chats'>
-      <NavLink
-        className='routing-chats__link'
-        activeClassName='routing-chats__link routing-chats__link--active'
-        to={location.pathname.replace(
-          /\/?(contacts|calls|settings|chats)\/?([0-9]*)?\/?(edit-profile|notifications|language|typing)?\/?(info\/?(photo|video|files|audio-recordings|audios)?\/?)?/,
-          (_all, _groupOne, _groupTwo, _groupThree, groupFour) => `/contacts${selectedChatId ? `/${selectedChatId}` : ''}/${groupFour || ''}`,
-        )}
-      >
-        <ContactSvg viewBox='0 0 25 25' />
+      <Avatar className='routing-chats__my-photo' src={myPhoto}>
+        {getStringInitials(myName)}
+      </Avatar>
+
+      <div className='routing-chats__middle-group'>
+        <NavLink
+          className='routing-chats__link routing-chats__link--grouped'
+          activeClassName='routing-chats__link routing-chats__link--active'
+          to={`/contacts${selectedChatId ? `/${selectedChatId}` : ''}`}
+        >
+          <ContactSvg />
+        </NavLink>
+        <NavLink
+          className='routing-chats__link routing-chats__link--grouped'
+          activeClassName='routing-chats__link routing-chats__link--active'
+          to={`/chats${selectedChatId ? `/${selectedChatId}` : ''}`}
+        >
+          <ChatsSvg />
+        </NavLink>
+        <NavLink className='routing-chats__link routing-chats__link--grouped' activeClassName='routing-chats__link routing-chats__link--active' to='/calls'>
+          <CallSvg />
+        </NavLink>
+      </div>
+
+      <NavLink className='routing-chats__link routing-chats__link--settings' activeClassName='routing-chats__link routing-chats__link--active' to='/settings'>
+        <SettingsSvg />
       </NavLink>
-      <NavLink
-        className='routing-chats__link'
-        activeClassName='routing-chats__link routing-chats__link--active'
-        to={location.pathname.replace(
-          /\/?(contacts|calls|settings|chats)\/?([0-9]*)?\/?(edit-profile|notifications|language|typing)?\/?(info\/?(photo|video|files|audio-recordings|audios)?\/?)?/,
-          (_all, _groupOne, _groupTwo, _groupThree, groupFour) => `/calls/${groupFour || ''}`,
-        )}
-      >
-        <CallSvg viewBox='0 0 25 25' />
-      </NavLink>
-      <NavLink
-        className='routing-chats__link'
-        activeClassName='routing-chats__link routing-chats__link--active'
-        to={location.pathname.replace(
-          /\/?(contacts|calls|settings|chats)\/?([0-9]*)?\/?(edit-profile|notifications|language|typing)?\/?(info\/?(photo|video|files|audio-recordings|audios)?\/?)?/,
-          (_all, _groupOne, _groupTwo, _groupThree, groupFour) => `/chats${selectedChatId ? `/${selectedChatId}/${groupFour || ''}` : ''}`,
-        )}
-      >
-        <ChatsSvg viewBox='0 0 25 25' />
-      </NavLink>
-      <NavLink
-        className='routing-chats__link'
-        activeClassName='routing-chats__link routing-chats__link--active'
-        to={location.pathname.replace(
-          /\/?(contacts|calls|settings|chats)\/?([0-9]*)?\/?(edit-profile|notifications|language|typing)?\/?(info\/?(photo|video|files|audio-recordings|audios)?\/?)?/,
-          (_all, _groupOne, _groupTwo, _groupThree, groupFour) => `/settings/${groupFour || ''}`,
-        )}
-      >
-        <SettingsSvg viewBox='0 0 25 25' />
-      </NavLink>
+
+      <button onClick={logout} type='button' className='routing-chats__link routing-chats__link--logout'>
+        <LogoutSvg />
+      </button>
     </div>
   );
 });

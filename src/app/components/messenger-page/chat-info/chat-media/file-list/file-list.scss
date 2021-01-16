@@ -1,0 +1,23 @@
+.chat-files {
+  .loader {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__separator {
+    width: 100%;
+    margin-bottom: 10px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 16px;
+    text-transform: capitalize;
+
+    &:not(:first-child) {
+      margin-top: 20px;
+    }
+  }
+
+  &__file-container {
+    margin: 0 20px;
+  }
+}

@@ -1,19 +1,47 @@
 .routing-chats {
-  grid-row: 1/1;
-  grid-column: 1/1;
+  grid-row: 1/-1;
+  grid-column: 1/2;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  border-right: 1px solid rgba(0, 0, 0, 0.2);
+  background: #373f51;
+
+  &__my-photo {
+    height: 48px;
+    width: 48px;
+
+    margin-top: 8px;
+    margin-bottom: 25px;
+  }
+
+  &__middle-group {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
 
   &__link {
     display: block;
-    color: rgb(153, 162, 173);
+    color: white;
     transition: all 0.2s;
-    padding: 20px;
+    padding: 26px 25px;
+
+    &--settings {
+      margin-bottom: 48px;
+    }
+
+    &--grouped {
+      margin-bottom: 35px;
+    }
+
+    &--logout {
+      padding: 13px;
+    }
 
     &--active {
-      color: rgb(63, 138, 224);
+      background-color: #262c38;
+      color: #3f8ae0;
     }
   }
 }

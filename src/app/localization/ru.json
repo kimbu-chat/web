@@ -33,11 +33,9 @@
     "select_chat": "Пожалуйста выберите чат для начала переписки"
   },
   "chatActions": {
-    "actions": "Действия",
     "mute": "Отключить уведомления",
     "unmute": "Включить уведомления",
     "clear-history": "Отчистить историю собщений",
-    "edit-contact": "Редактировать контакт",
     "delete-contact": "Удалить контакт",
     "add-contact": "Добавить контакт",
     "create-group": "Создать чат",
@@ -45,22 +43,13 @@
     "leave-chat": "Покинуть чат",
     "add-users": "Добавить в чат"
   },
-  "interlocutorInfo": {
-    "information": "Информация",
-    "mobile": "Мобильный",
-    "username": "Имя пользователя",
-    "about": "Подробности",
-    "link": "Ссылка"
-  },
   "chatMedia": {
     "media": "Медия",
-    "photos": "{{count}} фото",
-    "videos": "{{count}} видео",
-    "files": "{{count}} файлов",
-    "shared-links": "{{count}} ссылок",
-    "voice-messages": "{{count}} голосовых сообщений",
-    "audios": "{{count}} аудио сообщений",
-    "common-groups": "{{count}} общих груп"
+    "picture": "Фото {{count}}",
+    "video": "Видео {{count}}",
+    "file": "Файлы {{count}}",
+    "voice": "Голосовые сообщения {{count}}",
+    "audio": "Аудио {{count}}"
   },
   "chatInfo": {
     "leave-confirmation": "Вы уверенны что хотите покинуть ‘{{groupChatName}}‘ ? Все данные будут потерянны",
@@ -151,8 +140,7 @@
     "edit_profile": "Редактировать профиль",
     "notifications": "Уведомления",
     "text_typing": "Набор текста",
-    "language": "Язык",
-    "logout": "Выход"
+    "language": "Язык"
   },
   "textTyping": {
     "nlce": "Отправьте сообщение с помощью Enter, вставьте новую строку с помощью Shift / Ctrl / Alt + Enter",

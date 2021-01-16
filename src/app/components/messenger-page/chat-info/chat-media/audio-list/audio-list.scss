@@ -1,0 +1,25 @@
+.chat-audios {
+  .loader {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__separator {
+    text-transform: capitalize;
+    width: 100%;
+    margin-bottom: 10px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 16px;
+
+    &:not(:nth-child(2)) {
+      margin-top: 20px;
+    }
+  }
+
+  &__audio {
+    margin-top: 20px;
+    margin: 20px 20px 0 20px;
+    max-width: calc(100% - 40px);
+  }
+}

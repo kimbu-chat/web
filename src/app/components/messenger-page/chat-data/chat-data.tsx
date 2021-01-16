@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { getSelectedChatSelector } from 'store/chats/selectors';
+import { getIsInfoOpenedSelector, getSelectedChatSelector } from 'store/chats/selectors';
 
 import './chat-data.scss';
 import { LocalizationContext } from 'app/app';
@@ -13,23 +13,22 @@ import VoiceCallSvg from 'icons/ic-call.svg';
 import VideoCallSvg from 'icons/ic-video-call.svg';
 import SearchSvg from 'icons/ic-search.svg';
 import ChatInfoSvg from 'icons/ic-info.svg';
-import { useLocation } from 'react-router';
-import { Link, NavLink } from 'react-router-dom';
 
 import { getChatInterlocutor, getInterlocutorInitials } from 'utils/interlocutor-name-utils';
 import { GetMessages } from 'app/store/chats/features/get-messages/get-messages';
 import { MESSAGES_LIMIT } from 'app/utils/pagination-limits';
 import { TimeUpdateable } from 'app/components/shared/time-updateable/time-updateable';
+import { ChangeChatInfoOpened } from 'app/store/chats/features/change-chat-info-opened/change-chat-info-opened';
 
 export const ChatData = React.memo(() => {
   const { t } = useContext(LocalizationContext);
 
-  const location = useLocation();
-
   const selectedChat = useSelector(getSelectedChatSelector);
+  const isInfoOpened = useSelector(getIsInfoOpenedSelector);
 
   const callInterlocutor = useActionWithDispatch(CallActions.outgoingCallAction);
   const getMessages = useActionWithDispatch(GetMessages.action);
+  const openCloseChatInfo = useActionWithDispatch(ChangeChatInfoOpened.action);
 
   const [isSearching, setIsSearching] = useState(false);
   const changeSearchingState = useCallback(() => {
@@ -78,17 +77,7 @@ export const ChatData = React.memo(() => {
 
     return (
       <div className='chat-data__chat-data'>
-        <Link
-          to={
-            location.pathname.includes('info')
-              ? location.pathname.replace(/info\/?(photo|video|files|audio-recordings|audios)?\/?/, '')
-              : location.pathname.replace(
-                  /(chats|contacts|settings|calls)\/?([0-9]{1,}|edit-profile|notifications|language|typing)?\/?/,
-                  (_all, groupOne, groupTwo) => `${groupOne}${groupTwo ? `/${groupTwo}` : ''}/info`,
-                )
-          }
-          className='chat-data__contact-data'
-        >
+        <button type='button' onClick={openCloseChatInfo} className='chat-data__contact-data'>
           <Avatar className='chat-data__contact-img' src={imageUrl}>
             {getInterlocutorInitials(selectedChat)}
           </Avatar>
@@ -107,7 +96,7 @@ export const ChatData = React.memo(() => {
               )}
             </p>
           </div>
-        </Link>
+        </button>
         <div className='chat-data__buttons-group'>
           {selectedChat.interlocutor && (
             <button type='button' className='chat-data__button' onClick={callWithAudio}>
@@ -128,26 +117,9 @@ export const ChatData = React.memo(() => {
             <SearchSvg />
           </button>
 
-          <NavLink
-            to={
-              location.pathname.includes('info')
-                ? location.pathname.replace(/info\/?(photo|video|files|audio-recordings|audios)?\/?/, '')
-                : location.pathname.replace(
-                    /(chats|contacts|settings|calls)\/?([0-9]{1,}|edit-profile|notifications|language|typing)?\/?/,
-                    (_all, groupOne, groupTwo) => `${groupOne}${groupTwo ? `/${groupTwo}` : ''}/info`,
-                  )
-            }
-            isActive={(match, location) => {
-              if (match && location.pathname.includes('info')) {
-                return true;
-              }
-              return false;
-            }}
-            className='chat-data__button'
-            activeClassName='chat-data__button--active'
-          >
+          <button type='button' onClick={openCloseChatInfo} className={`chat-data__button ${isInfoOpened ? 'chat-data__button--active' : ''}`}>
             <ChatInfoSvg />
-          </NavLink>
+          </button>
         </div>
       </div>
     );

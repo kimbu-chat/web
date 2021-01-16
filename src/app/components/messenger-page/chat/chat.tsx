@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useContext, useCallback } from 'react';
+import React, { useEffect, useContext, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import './chat.scss';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
@@ -51,8 +51,6 @@ const Chat = React.memo(() => {
     });
   }, [messages?.length]);
 
-  const messagesContainerRef = useRef(null);
-
   if (!selectedChatId) {
     return (
       <div className='chat__messages-list'>
@@ -65,7 +63,7 @@ const Chat = React.memo(() => {
 
   return (
     <div className='chat__messages-list'>
-      <div ref={messagesContainerRef} className='chat__messages-container'>
+      <div className='chat__messages-container'>
         {typingString && <div className='chat__typing-notification'>{typingString}</div>}
 
         {!areMessagesLoading && !hasMoreMessages && (messages || []).length === 0 && (

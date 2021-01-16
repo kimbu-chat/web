@@ -1,11 +1,20 @@
 .chat-info {
-  border-left: 1px solid #e0e4e8;
-  grid-row: 1/3;
   height: 100vh;
-  background-color: white;
-  width: 300px;
+  background-color: #373f51;
+  width: 348px;
   overflow-y: auto;
   will-change: margin;
+
+  &__close {
+    display: block;
+    margin-left: auto;
+    margin-right: 15px;
+    color: white;
+    svg {
+      height: 24px;
+      width: 24px;
+    }
+  }
 
   &-slide-enter,
   &-slide-exit {
@@ -58,35 +67,16 @@
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 
-  &__rename-btn {
-    margin-left: auto;
-    display: block;
-    color: #3f8ae0;
-
-    transform: scale(0.8);
-  }
-
-  &__interlocutor {
-    display: inline-block;
-    padding-left: 10px;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 16px;
-  }
-
-  &__main-data {
-    margin: 20px 20px 40px 20px;
-    display: flex;
-    align-items: center;
-  }
-
   &__avatar-group {
     position: relative;
   }
 
   &__avatar {
-    height: 36px;
-    width: 36px;
+    margin-top: 24px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 148px;
+    width: 148px;
     &:hover + * {
       opacity: 1;
       visibility: visible;
@@ -102,7 +92,7 @@
   opacity: 0.8;
   position: absolute;
   top: -6px;
-  right: -9px;
+  right: 91px;
   background: white;
   transition: all 0.3s;
 
@@ -120,6 +110,7 @@
 
   &--hidden {
     visibility: hidden;
+    opacity: 0;
     transition: all 0.3s;
   }
 }

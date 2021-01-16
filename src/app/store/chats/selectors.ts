@@ -13,6 +13,9 @@ export const getSelectedChatSearchStringSelector = (state: RootState): string | 
 
 export const getSelectedGroupChatSelector = (state: RootState) => state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.groupChat;
 
+export const getSelectedInterlocutorSelector = (state: RootState) =>
+  state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.interlocutor;
+
 export const getSelectedGroupChatNameSelector = (state: RootState) =>
   state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.groupChat?.name;
 
@@ -39,6 +42,22 @@ export const getSelectedChatPhotosSelector = (state: RootState) => state.chats?.
 
 export const getSelectedChatVideosSelector = (state: RootState) => state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.videos;
 
+// Attachments count selector
+
+export const getPictureAttachmentsCountSelector = (state: RootState) =>
+  state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.pictureAttachmentsCount;
+
+export const getVideoAttachmentsCountSelector = (state: RootState) =>
+  state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.videoAttachmentsCount;
+
+export const getFilesAttachmentsCountSelector = (state: RootState) =>
+  state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.rawAttachmentsCount;
+
+export const getVoiceAttachmentsCountSelector = (state: RootState) =>
+  state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.voiceAttachmentsCount;
+
+export const getAudioAttachmentsCountSelector = (state: RootState) =>
+  state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.audioAttachmentsCount;
 // -----------
 
 export const getSelectedChatInterlocutorNameSelector = (state: RootState) => {
@@ -98,6 +117,8 @@ export const getTypingStringSelector = (t: TFunction, chatId: number | null) => 
 export const getIsSelectMessagesStateSelector = (state: RootState) => state.chats.selectedMessageIds.length > 0;
 
 export const getSelectedMessagesIdSelector = (state: RootState) => state.chats.selectedMessageIds;
+
+export const getIsInfoOpenedSelector = (state: RootState) => state.chats.isInfoOpened;
 
 export const getMessageToEditSelector = (state: RootState) => state.chats.chats.find(({ id }) => id === state.chats.selectedChatId)?.messageToEdit;
 

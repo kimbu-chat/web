@@ -12,7 +12,7 @@ interface IDropdownProps {
   }[];
 }
 
-export const Dropdown: React.FC<IDropdownProps> = ({ selectedString, options, disabled }) => {
+export const Dropdown: React.FC<IDropdownProps> = React.memo(({ selectedString, options, disabled }) => {
   const [optionsOpened, setOptionsOpened] = useState(false);
   const changeOptionsOpenedStatus = useCallback(() => {
     setOptionsOpened((oldState) => !oldState);
@@ -48,4 +48,4 @@ export const Dropdown: React.FC<IDropdownProps> = ({ selectedString, options, di
       )}
     </div>
   );
-};
+});

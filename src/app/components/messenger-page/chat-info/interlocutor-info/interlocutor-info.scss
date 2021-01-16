@@ -1,35 +1,71 @@
 .interlocutor-info {
-  margin: 0 20px 40px 18px;
-
-  &__heading {
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 16px;
-    margin-bottom: 18px;
-  }
-
   &__info-block {
     display: flex;
+    align-items: center;
+    margin-top: 18px;
+    margin-left: 16px;
 
-    &:not(:last-child) {
-      margin-bottom: 14px;
+    &:first-of-type {
+      margin-top: 24px;
+    }
+  }
+
+  &__interlocutor-data {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 24px;
+    margin-bottom: 23px;
+  }
+
+  &__chat-data {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  &__interlocutor {
+    font-size: 24px;
+    line-height: 28px;
+    color: white;
+    font-weight: bold;
+  }
+
+  &__description {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 12px;
+    line-height: 14px;
+    color: white;
+    font-weight: 400;
+  }
+
+  &__rename-btn {
+    margin-right: 16px;
+    color: #3f8ae0;
+    display: block;
+
+    svg {
+      width: 18px;
+      height: 18px;
     }
   }
 
   &__info-svg {
     display: block;
-    transform: scale(0.75);
-  }
-
-  &__data {
-    margin-left: 10px;
+    margin-right: 16px;
+    color: white;
+    width: 18px;
+    height: 18px;
   }
 
   &__data-value {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 400;
-    line-height: 18px;
-    max-width: 230px;
+    line-height: 16px;
+    color: white;
 
     &--link {
       color: #3f8ae0;
@@ -38,12 +74,5 @@
         text-decoration: underline;
       }
     }
-  }
-
-  &__data-name {
-    margin-top: 10px;
-    font-weight: 400;
-    font-size: 13px;
-    color: #6d7885;
   }
 }

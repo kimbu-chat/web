@@ -9,6 +9,8 @@ export interface IChatsState {
   selectedChatId: number | null;
   selectedMessageIds: number[];
 
+  isInfoOpened: boolean;
+
   page: number;
   searchPage: number;
 }

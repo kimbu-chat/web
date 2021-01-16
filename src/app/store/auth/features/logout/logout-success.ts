@@ -64,6 +64,7 @@ export class LogoutSuccess {
             selectedMessageIds: [],
             page: -1,
             searchPage: 0,
+            isInfoOpened: false,
           },
           friends: {
             loading: true,

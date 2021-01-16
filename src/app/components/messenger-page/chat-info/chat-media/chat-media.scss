@@ -19,6 +19,7 @@
 
   &__media-heading {
     display: flex;
+    background-color: #373f51;
     flex-direction: row;
     align-items: center;
     position: sticky;
@@ -26,8 +27,6 @@
 
     svg {
       color: white;
-      height: 18px;
-      width: 18px;
     }
   }
 

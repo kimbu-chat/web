@@ -6,14 +6,14 @@ import PauseSvg from 'icons/ic-pause.svg';
 import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
 import { changeMusic } from 'app/utils/current-music';
 
-interface IChatRecordingProps {
+interface IRecordingProps {
   recording: {
     url: string;
     duration: number;
   };
 }
 
-export const ChatRecording: React.FC<IChatRecordingProps> = React.memo(({ recording }) => {
+export const Recording: React.FC<IRecordingProps> = React.memo(({ recording }) => {
   const audioRef = useRef<AudioPlayer>();
   return (
     <AudioPlayer

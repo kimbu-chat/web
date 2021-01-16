@@ -3,47 +3,70 @@ import './chat-media.scss';
 
 import { LocalizationContext } from 'app/app';
 
-import PhotoSvg from 'icons/photo.svg';
+import PictureSvg from 'icons/picture.svg';
 import VideoSvg from 'icons/video.svg';
 import FilesSvg from 'icons/files.svg';
 import VoiceSvg from 'icons/voice.svg';
 import OpenArrowSvg from 'icons/open-arrow.svg';
 
+import {
+  getPictureAttachmentsCountSelector,
+  getVideoAttachmentsCountSelector,
+  getFilesAttachmentsCountSelector,
+  getVoiceAttachmentsCountSelector,
+  getAudioAttachmentsCountSelector,
+} from 'app/store/chats/selectors';
+
+import { useSelector } from 'react-redux';
+
+import { AudioList } from './audio-list/audio-list';
+import { PhotoList } from './photo-list/photo-list';
+import { RecordingsList } from './recordings-list/recordings-list';
+import { VideoList } from './video-list/video-list';
+import { FileList } from './file-list/file-list';
+
 export const ChatMedia = React.memo(() => {
   const { t } = useContext(LocalizationContext);
 
-  const [photoDisplayed, setPhotoDisplayed] = useState(false);
+  const [pictureDisplayed, setPictureDisplayed] = useState(false);
   const [videoDisplayed, setVideoDisplayed] = useState(false);
   const [filesDisplayed, setFilesDisplayed] = useState(false);
   const [voiceDisplayed, setVoiceDisplayed] = useState(false);
   const [audioDisplayed, setAudioDisplayed] = useState(false);
 
-  const changePhotoDisplayedState = useCallback(() => setPhotoDisplayed((oldState) => !oldState), [setPhotoDisplayed]);
+  const changePictureDisplayedState = useCallback(() => setPictureDisplayed((oldState) => !oldState), [setPictureDisplayed]);
   const changeVideoDisplayedState = useCallback(() => setVideoDisplayed((oldState) => !oldState), [setVideoDisplayed]);
   const changeFilesDisplayedState = useCallback(() => setFilesDisplayed((oldState) => !oldState), [setFilesDisplayed]);
   const changeVoiceDisplayedState = useCallback(() => setVoiceDisplayed((oldState) => !oldState), [setVoiceDisplayed]);
   const changeAudioDisplayedState = useCallback(() => setAudioDisplayed((oldState) => !oldState), [setAudioDisplayed]);
+
+  const pictureAttachmentsCount = useSelector(getPictureAttachmentsCountSelector);
+  const videoAttachmentsCount = useSelector(getVideoAttachmentsCountSelector);
+  const filesAttachmentsCount = useSelector(getFilesAttachmentsCountSelector);
+  const voiceAttachmentsCount = useSelector(getVoiceAttachmentsCountSelector);
+  const audioAttachmentsCount = useSelector(getAudioAttachmentsCountSelector);
 
   return (
     <div className='chat-media'>
       <h3 className='chat-media__title'>{t('chatMedia.media')}</h3>
       <div className='chat-media__media-group'>
         <div className='chat-media__media-heading'>
-          <PhotoSvg />
-          <div className='chat-media__media-title'>{t('chatMedia.photo')}</div>
+          <PictureSvg />
+          <div className='chat-media__media-title'>{t('chatMedia.picture', { count: pictureAttachmentsCount })}</div>
           <button
             type='button'
-            onClick={changePhotoDisplayedState}
-            className={`chat-media__open-arrow ${photoDisplayed ? 'chat-media__open-arrow--rotated' : ''}`}
+            onClick={changePictureDisplayedState}
+            className={`chat-media__open-arrow ${pictureDisplayed ? 'chat-media__open-arrow--rotated' : ''}`}
           >
             <OpenArrowSvg />
           </button>
         </div>
+        {pictureDisplayed && <PhotoList />}
       </div>
       <div className='chat-media__media-group'>
         <div className='chat-media__media-heading'>
           <VideoSvg />
-          <div className='chat-media__media-title'>{t('chatMedia.video')}</div>
+          <div className='chat-media__media-title'>{t('chatMedia.video', { count: videoAttachmentsCount })}</div>
           <button
             type='button'
             onClick={changeVideoDisplayedState}
@@ -52,11 +75,12 @@ export const ChatMedia = React.memo(() => {
             <OpenArrowSvg />
           </button>
         </div>
+        {videoDisplayed && <VideoList />}
       </div>
       <div className='chat-media__media-group'>
         <div className='chat-media__media-heading'>
           <FilesSvg />
-          <div className='chat-media__media-title'>{t('chatMedia.file')}</div>
+          <div className='chat-media__media-title'>{t('chatMedia.file', { count: filesAttachmentsCount })}</div>
           <button
             type='button'
             onClick={changeFilesDisplayedState}
@@ -65,11 +89,12 @@ export const ChatMedia = React.memo(() => {
             <OpenArrowSvg />
           </button>
         </div>
+        {filesDisplayed && <FileList />}
       </div>
       <div className='chat-media__media-group'>
         <div className='chat-media__media-heading'>
           <VoiceSvg />
-          <div className='chat-media__media-title'>{t('chatMedia.voice')}</div>
+          <div className='chat-media__media-title'>{t('chatMedia.voice', { count: voiceAttachmentsCount })}</div>
           <button
             type='button'
             onClick={changeVoiceDisplayedState}
@@ -78,11 +103,12 @@ export const ChatMedia = React.memo(() => {
             <OpenArrowSvg />
           </button>
         </div>
+        {voiceDisplayed && <RecordingsList />}
       </div>
       <div className='chat-media__media-group'>
         <div className='chat-media__media-heading'>
           <VoiceSvg />
-          <div className='chat-media__media-title'>{t('chatMedia.audio')}</div>
+          <div className='chat-media__media-title'>{t('chatMedia.audio', { count: audioAttachmentsCount })}</div>
           <button
             type='button'
             onClick={changeAudioDisplayedState}
@@ -91,6 +117,7 @@ export const ChatMedia = React.memo(() => {
             <OpenArrowSvg />
           </button>
         </div>
+        {audioDisplayed && <AudioList />}
       </div>
     </div>
   );

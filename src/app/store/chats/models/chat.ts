@@ -66,11 +66,9 @@ export interface IChat {
 
   attachmentsToSend?: IAttachmentToSend<IBaseAttachment>[];
 
-  mediaCount?: {
-    rawAttachmentsCount?: number;
-    videoAttachmentsCount?: number;
-    voiceAttachmentsCount?: number;
-    audioAttachmentsCount?: number;
-    pictureAttachmentsCount?: number;
-  };
+  rawAttachmentsCount?: number;
+  videoAttachmentsCount?: number;
+  voiceAttachmentsCount?: number;
+  audioAttachmentsCount?: number;
+  pictureAttachmentsCount?: number;
 }

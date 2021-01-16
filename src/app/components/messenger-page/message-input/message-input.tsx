@@ -6,7 +6,7 @@ import { useReferState } from 'app/hooks/use-referred-state';
 import { CreateMessage } from 'app/store/chats/features/create-message/create-message';
 import { MessageTyping } from 'app/store/chats/features/message-typing/message-typing';
 import { UploadAttachmentRequest } from 'app/store/chats/features/upload-attachment/upload-attachment-request';
-import { IChat, SystemMessageType, MessageState, FileType, IMessage, MessageLinkType } from 'app/store/chats/models';
+import { SystemMessageType, MessageState, FileType, IMessage, MessageLinkType } from 'app/store/chats/models';
 import { getMessageToReplySelector, getSelectedChatSelector } from 'app/store/chats/selectors';
 import { getMyProfileSelector } from 'app/store/my-profile/selectors';
 import { getTypingStrategySelector } from 'app/store/settings/selectors';
@@ -49,6 +49,7 @@ export const CreateMessageInput = React.memo(() => {
   const myTypingStrategy = useSelector(getTypingStrategySelector);
   const replyingMessage = useSelector(getMessageToReplySelector);
   const refferedReplyingMessage = useReferState(replyingMessage);
+  const updatedSelectedChat = useReferState(selectedChat);
 
   const [text, setText] = useState('');
   const refferedText = useReferState(text);
@@ -65,7 +66,6 @@ export const CreateMessageInput = React.memo(() => {
     isRecording: false,
     needToSubmit: false,
   });
-  const updatedSelectedChat = useRef<IChat | undefined>();
 
   useGlobalDrop({
     onDragEnter: (e) => {
@@ -88,10 +88,6 @@ export const CreateMessageInput = React.memo(() => {
       setIsDragging(false);
     },
   });
-
-  useEffect(() => {
-    updatedSelectedChat.current = selectedChat;
-  }, [selectedChat]);
 
   useEffect(() => {
     setText((oldText) => (typeof selectedChat?.draftMessage === 'string' ? selectedChat?.draftMessage : oldText));

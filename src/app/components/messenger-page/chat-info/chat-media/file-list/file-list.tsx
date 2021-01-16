@@ -1,15 +1,11 @@
-import React, { useCallback, useContext, useRef } from 'react';
-import './chat-files.scss';
+import React, { useCallback } from 'react';
+import './file-list.scss';
 
-import ReturnSvg from 'icons/ic-arrow-left.svg';
-import { LocalizationContext } from 'app/app';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { useSelector } from 'react-redux';
 import { ChatActions } from 'store/chats/actions';
 import { getSelectedChatFilesSelector } from 'store/chats/selectors';
 import { IPage } from 'app/store/models';
-import { useLocation } from 'react-router';
-import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 import { doesYearDifferFromCurrent, setSeparators } from 'app/utils/set-separators';
@@ -17,16 +13,10 @@ import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-sc
 import { FILE_ATTACHMENTS_LIMIT } from 'app/utils/pagination-limits';
 import { FileAttachment } from 'components';
 
-export const ChatFiles = React.memo(() => {
-  const { t } = useContext(LocalizationContext);
-
-  const filesContainerRef = useRef<HTMLDivElement>(null);
-
+export const FileList = React.memo(() => {
   const getRawAttachments = useActionWithDispatch(ChatActions.getRawAttachments);
 
   const filesForSelectedChat = useSelector(getSelectedChatFilesSelector);
-
-  const location = useLocation();
 
   const loadMore = useCallback(() => {
     const page: IPage = {
@@ -47,13 +37,7 @@ export const ChatFiles = React.memo(() => {
 
   return (
     <div className='chat-files'>
-      <div className='chat-files__top'>
-        <Link to={location.pathname.replace(/files\/?/, '')} className='chat-files__back'>
-          <ReturnSvg viewBox='0 0 25 25' />
-        </Link>
-        <div className='chat-files__heading'>{t('chatFiles.files')}</div>
-      </div>
-      <div ref={filesContainerRef} className='chat-files__file-container'>
+      <div className='chat-files__file-container'>
         <InfiniteScroll onReachExtreme={loadMore} hasMore={filesForSelectedChat?.hasMore} isLoading={filesForSelectedChat?.loading} threshold={0.3}>
           {filesWithSeparators?.map((file) => (
             <React.Fragment key={file.id}>

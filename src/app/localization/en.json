@@ -44,7 +44,7 @@
   },
   "chatMedia": {
     "media": "Media",
-    "photo": "Photos {{count}}",
+    "picture": "Photos {{count}}",
     "video": "Videos {{count}}",
     "file": "Files {{count}}",
     "voice": "Voice messages {{count}}",
@@ -141,9 +141,7 @@
     "text_typing": "Text typing",
     "language": "Language"
   },
-  "chatInfo": {
-    "information": "Information"
-  },
+
   "textTyping": {
     "nlce": "Send a message by Enter, insert a new line by Shift/Ctrl/Alt + Enter",
     "nle": "Send a message by Shift/Ctrl/Alt + Enter, insert a new line by Enter"

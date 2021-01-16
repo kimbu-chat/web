@@ -45,7 +45,7 @@
   },
   "chatMedia": {
     "media": "Медия",
-    "photo": "Фото {{count}}",
+    "picture": "Фото {{count}}",
     "video": "Видео {{count}}",
     "file": "Файлы {{count}}",
     "voice": "Голосовые сообщения {{count}}",
@@ -141,9 +141,6 @@
     "notifications": "Уведомления",
     "text_typing": "Набор текста",
     "language": "Язык"
-  },
-  "chatInfo": {
-    "information": "Информация"
   },
   "textTyping": {
     "nlce": "Отправьте сообщение с помощью Enter, вставьте новую строку с помощью Shift / Ctrl / Alt + Enter",

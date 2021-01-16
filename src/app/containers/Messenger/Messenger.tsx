@@ -68,18 +68,12 @@ const Messenger: React.FC<IMessengerProps> = React.memo(({ preloadNext }) => {
           <SettingsHeader title={t('settings.text_typing')} />
         </Route>
 
-        <Route exact path={['/(calls|settings|chats|contacts)/:chatId?']}>
-          <RoutingChats />
-        </Route>
-
         <Route path='/'>
-          <Redirect
-            to={{
-              pathname: `/chats${selectedChatId ? `/${selectedChatId}` : ''}`,
-            }}
-          />
+          <Redirect to={`/chats${selectedChatId ? `/${selectedChatId}` : ''}`} />
         </Route>
       </Switch>
+
+      <RoutingChats />
 
       <div className='messenger__chat-list'>
         <div className='messenger__chat-list__animated'>

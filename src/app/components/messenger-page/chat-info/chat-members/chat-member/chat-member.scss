@@ -1,35 +1,34 @@
 .chat-member {
   display: flex;
   margin-bottom: 14px;
+  margin-left: 16px;
 
   &__avatar {
-    height: 36px;
-    width: 36px;
+    height: 48px;
+    width: 48px;
   }
 
   &__data {
     margin-left: 10px;
+    display: flex;
+    flex-direction: column;
   }
 
   &__name {
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 16px;
     white-space: nowrap;
-    margin-bottom: 4px;
+    color: white;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    margin-top: 3px;
   }
 
   &__status {
+    margin-top: auto;
     font-size: 14px;
     font-weight: 400;
-
-    &--online {
-      color: #6d7885;
-    }
-
-    &--offline {
-      color: #3f8ae0;
-    }
+    color: white;
+    margin-bottom: 5px;
   }
 
   &__groupChat-status {

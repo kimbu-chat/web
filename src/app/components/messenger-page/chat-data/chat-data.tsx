@@ -7,12 +7,12 @@ import { LocalizationContext } from 'app/app';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { CallActions } from 'store/calls/actions';
 import { IUserPreview, UserStatus } from 'app/store/models';
-import { Avatar, SearchBox } from 'components';
+import { Avatar, SearchBox, StatusBadge } from 'components';
 
-import VoiceCallSvg from 'icons/ic-call.svg';
-import VideoCallSvg from 'icons/ic-video-call.svg';
-import SearchSvg from 'icons/ic-search.svg';
-import ChatInfoSvg from 'icons/ic-info.svg';
+import VoiceCallSvg from 'icons/audio-call.svg';
+import VideoCallSvg from 'icons/video-call.svg';
+import SearchSvg from 'icons/search.svg';
+import ChatInfoSvg from 'icons/chat-info.svg';
 
 import { getChatInterlocutor, getInterlocutorInitials } from 'utils/interlocutor-name-utils';
 import { GetMessages } from 'app/store/chats/features/get-messages/get-messages';
@@ -73,14 +73,20 @@ export const ChatData = React.memo(() => {
   }, []);
 
   if (selectedChat) {
-    const imageUrl: string = selectedChat.groupChat?.avatar?.previewUrl || selectedChat?.interlocutor?.avatar?.previewUrl || '';
-
     return (
       <div className='chat-data__chat-data'>
         <button type='button' onClick={openCloseChatInfo} className='chat-data__contact-data'>
-          <Avatar className='chat-data__contact-img' src={imageUrl}>
-            {getInterlocutorInitials(selectedChat)}
-          </Avatar>
+          {selectedChat.interlocutor && (
+            <StatusBadge containerClassName='chat-data__contact-img-container' additionalClassNames='chat-data__contact-img' user={selectedChat.interlocutor} />
+          )}
+
+          {selectedChat.groupChat && (
+            <div className='chat-data__contact-img-container'>
+              <Avatar className='chat-data__contact-img' src={selectedChat.groupChat?.avatar?.previewUrl}>
+                {getInterlocutorInitials(selectedChat)}
+              </Avatar>
+            </div>
+          )}
 
           <div className='chat-data__chat-info'>
             <h1>{getChatInterlocutor(selectedChat)}</h1>

@@ -1,22 +1,33 @@
 .chat-members {
-  margin: 0px 20px 0px 20px;
+  margin-top: 30px;
 
   &__heading-block {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 3px;
   }
 
   &__heading {
+    margin-left: 16px;
+    color: #3f8ae0;
     font-weight: 500;
-    font-size: 15px;
-    line-height: 16px;
+    font-size: 18px;
+    line-height: 21px;
   }
 
-  &__add {
+  &__open-arrow {
+    color: #3f8ae0;
+    transition: all 0.2s;
+    margin-left: auto;
+    margin-right: 20px;
+    transform: rotate(-90deg);
+
     svg {
-      height: 20px;
-      width: 20px;
+      height: 8px;
+      width: 14px;
+    }
+
+    &--rotated {
+      transform: rotate(0deg);
     }
   }
 

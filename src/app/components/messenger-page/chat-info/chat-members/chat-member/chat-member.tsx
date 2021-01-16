@@ -4,11 +4,10 @@ import './chat-member.scss';
 
 import { IUserPreview, UserStatus } from 'app/store/models';
 import { LocalizationContext } from 'app/app';
-import { Avatar } from 'components';
-import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 
 import DeleteSvg from 'icons/ic-delete.svg';
 import { TimeUpdateable } from 'app/components/shared/time-updateable/time-updateable';
+import { StatusBadge } from 'app/components/shared';
 
 interface IMemberProps {
   member: IUserPreview;
@@ -19,16 +18,15 @@ export const Member: React.FC<IMemberProps> = React.memo(({ member }) => {
 
   return (
     <div className='chat-member'>
-      <Avatar className='chat-member__avatar' src={member.avatar?.previewUrl}>
-        {getUserInitials(member)}
-      </Avatar>
+      <StatusBadge additionalClassNames='chat-member__avatar' user={member} />
+
       <div className='chat-member__data'>
         <h3 className='chat-member__name'>{`${member?.firstName} ${member?.lastName}`}</h3>
 
         {member?.status === UserStatus.Offline ? (
-          <span className='chat-member__status chat-member__status--offline'>{t('chatData.online')}</span>
+          <span className='chat-member__status'>{t('chatData.online')}</span>
         ) : (
-          <span className='chat-member__status chat-member__status--online'>
+          <span className='chat-member__status'>
             <TimeUpdateable timeStamp={member?.lastOnlineTime} />
           </span>
         )}

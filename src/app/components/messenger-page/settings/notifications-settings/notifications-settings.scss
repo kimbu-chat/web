@@ -1,5 +1,9 @@
 .notifications-settings {
   padding: 0 20px;
+  grid-row: 2/3;
+  grid-column: 2/3;
+  z-index: 10;
+
   & > * {
     &:first-child {
       margin-top: 20px;

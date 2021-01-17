@@ -8,6 +8,15 @@ import { IChatsState } from './models/chats-state';
 // RootState selectors
 export const getSelectedChatSelector = (state: RootState): IChat | undefined => state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId);
 
+export const getSelectedChatLastMessageIdSelector = (state: RootState): number | undefined =>
+  state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.lastMessage?.id;
+
+export const getChatLastMessageIdSelector = (chatId: number) => (state: RootState): number | undefined =>
+  state.chats?.chats?.find((x: IChat) => x?.id === chatId)?.lastMessage?.id;
+
+export const getChatMessagesLengthSelector = (chatId: number) => (state: RootState): number | undefined =>
+  state.chats?.chats?.find((x: IChat) => x?.id === chatId)?.messages.messages.length;
+
 export const getSelectedChatSearchStringSelector = (state: RootState): string | undefined =>
   state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.messages.searchString;
 

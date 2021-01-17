@@ -237,31 +237,33 @@ export class MessageCreatedEventHandler {
         }
       }
 
-      if (isAudioPlayAllowed && !chatOfMessage!.isMuted && message.userCreator?.id !== myId) {
-        if (!(selectedChatId !== message.chatId) && !document.hidden) {
-          const audioSelected = new Audio(messageCameSelected);
-          playSoundSafely(audioSelected);
+      if (message.userCreator?.id !== myId) {
+        if (isAudioPlayAllowed && !chatOfMessage!.isMuted) {
+          if (!(selectedChatId !== message.chatId) && !document.hidden) {
+            const audioSelected = new Audio(messageCameSelected);
+            playSoundSafely(audioSelected);
+          }
+
+          if (selectedChatId !== message.chatId || document.hidden) {
+            const audioUnselected = new Audio(messageCameUnselected);
+            playSoundSafely(audioUnselected);
+          }
         }
 
-        if (selectedChatId !== message.chatId || document.hidden) {
-          const audioUnselected = new Audio(messageCameUnselected);
-          playSoundSafely(audioUnselected);
-        }
-      }
+        if (!isTabActive) {
+          setFavicon('/favicons/msg-favicon.ico');
+          unreadNotifications += 1;
 
-      if (!isTabActive) {
-        setFavicon('/favicons/msg-favicon.ico');
-        unreadNotifications += 1;
-
-        window.document.title = `${unreadNotifications} unread Notification !`;
-
-        setNewTitleNotificationInterval(() => {
           window.document.title = `${unreadNotifications} unread Notification !`;
 
-          setTimeout(() => {
-            window.document.title = 'Kimbu';
-          }, 1000);
-        });
+          setNewTitleNotificationInterval(() => {
+            window.document.title = `${unreadNotifications} unread Notification !`;
+
+            setTimeout(() => {
+              window.document.title = 'Kimbu';
+            }, 1000);
+          });
+        }
       }
 
       if (selectedChatId === message.chatId) {

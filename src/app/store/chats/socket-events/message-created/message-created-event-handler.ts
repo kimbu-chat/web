@@ -130,8 +130,8 @@ export class MessageCreatedEventHandler {
           const newUnreadMessagesCount =
             isInterlocutorCurrentSelectedChat || isCurrentUserMessageCreator ? previousUnreadMessagesCount : previousUnreadMessagesCount + 1;
 
-          if (chat.messages.messages.findIndex(({ id }) => id === message.id) === -1) {
-            chat.messages.messages.unshift(message);
+          if (draft.chats.messages[chatId].messages.findIndex(({ id }) => id === message.id) === -1) {
+            draft.chats.messages[chatId].messages.unshift(message);
           } else {
             return draft;
           }
@@ -226,11 +226,6 @@ export class MessageCreatedEventHandler {
             recordings: [],
           };
           chatOfMessage.members = { members: [], loading: false, hasMore: true };
-          chatOfMessage.messages = {
-            messages: [],
-            hasMore: true,
-            loading: false,
-          };
           chatOfMessage.unreadMessagesCount = chatOfMessage.unreadMessagesCount || 1;
 
           yield put(UnshiftChat.action(chatOfMessage));

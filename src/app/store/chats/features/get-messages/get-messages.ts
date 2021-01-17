@@ -1,16 +1,17 @@
-import { getChatByIdDraftSelector, getSelectedChatSearchStringSelector, getSelectedChatSelector } from 'store/chats/selectors';
+import { getIsFirstChatsLoadSelector, getSelectedChatMessagesSearchStringSelector, getSelectedChatSelector } from 'store/chats/selectors';
 import { IChatsState } from 'store/chats/models';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
 
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { put, call, select } from 'redux-saga/effects';
+import { put, call, select, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { IMessage, MessageState } from '../../models';
 import { IGetMessagesActionPayload } from './action-payloads/get-messages-action-payload';
 import { IGetMessagesApiRequest } from './api-requests/get-messages-api-request';
 import { GetMessagesSuccess } from './get-messages-success';
+import { GetChatsSuccess } from '../get-chats/get-chats-success';
 
 export class GetMessages {
   static get action() {
@@ -19,16 +20,13 @@ export class GetMessages {
 
   static get reducer() {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof GetMessages.action>) => {
-      const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
-
-      if (chat) {
-        chat.messages.loading = true;
+      if (draft.selectedChatId) {
+        draft.messages[draft.selectedChatId].loading = true;
 
         if (payload.isFromSearch) {
-          chat.messages.searchString = payload.searchString;
+          draft.messages[draft.selectedChatId].searchString = payload.searchString;
         }
       }
-
       return draft;
     });
   }
@@ -37,11 +35,22 @@ export class GetMessages {
     return function* (action: ReturnType<typeof GetMessages.action>): SagaIterator {
       const { page, isFromSearch } = action.payload;
 
+      const isFirstChatsLoad = yield select(getIsFirstChatsLoadSelector);
+
+      if (isFirstChatsLoad) {
+        console.log('isFirstChatsLoad');
+        yield take(GetChatsSuccess.action);
+        console.log('isFirstChatsLoad-end');
+      } else {
+        console.log('not-isFirstChatsLoad');
+      }
+
       const chat = yield select(getSelectedChatSelector);
 
-      const searchString = yield select(getSelectedChatSearchStringSelector);
+      const searchString = yield select(getSelectedChatMessagesSearchStringSelector);
 
       if (chat) {
+        console.log(chat);
         const request: IGetMessagesApiRequest = {
           page,
           chatId: chat.id,
@@ -61,6 +70,8 @@ export class GetMessages {
           searchString,
           isFromSearch,
         };
+
+        console.log(messageList);
 
         yield put(GetMessagesSuccess.action(messageList));
       }

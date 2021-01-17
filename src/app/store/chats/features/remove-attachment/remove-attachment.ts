@@ -15,10 +15,12 @@ export class RemoveAttachment {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof RemoveAttachment.action>) => {
       const { attachmentId } = payload;
 
-      const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
+      if (draft.selectedChatId) {
+        const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
 
-      if (chat) {
-        chat.attachmentsToSend = chat.attachmentsToSend?.filter(({ attachment }) => attachment.id !== attachmentId);
+        if (chat) {
+          chat.attachmentsToSend = chat.attachmentsToSend?.filter(({ attachment }) => attachment.id !== attachmentId);
+        }
       }
 
       return draft;

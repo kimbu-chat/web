@@ -31,7 +31,7 @@ export class MessageReadEventHandler {
           chat.unreadMessagesCount = 0;
         }
 
-        chat.messages.messages.map((message) => {
+        draft.messages[chatId].messages.map((message) => {
           if (message.id <= lastReadMessageId) {
             message.state = MessageState.READ;
           }

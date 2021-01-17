@@ -13,13 +13,15 @@ export class EditMessage {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof EditMessage.action>) => {
       const { messageId } = payload;
 
-      const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
+      if (draft.selectedChatId) {
+        const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
 
-      const message = chat?.messages.messages.find(({ id }) => id === messageId);
+        const message = draft.messages[draft.selectedChatId].messages.find(({ id }) => id === messageId);
 
-      if (chat) {
-        chat.messageToEdit = message;
-        chat.messageToReply = undefined;
+        if (chat) {
+          chat.messageToEdit = message;
+          chat.messageToReply = undefined;
+        }
       }
 
       return draft;

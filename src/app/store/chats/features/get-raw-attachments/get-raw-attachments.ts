@@ -19,10 +19,12 @@ export class GetRawAttachments {
 
   static get reducer() {
     return produce((draft: IChatsState) => {
-      const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
+      if (draft.selectedChatId) {
+        const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
 
-      if (chat) {
-        chat.files.loading = true;
+        if (chat) {
+          chat.files.loading = true;
+        }
       }
 
       return draft;

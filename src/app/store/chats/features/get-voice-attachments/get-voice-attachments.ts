@@ -19,10 +19,12 @@ export class GetVoiceAttachments {
 
   static get reducer() {
     return produce((draft: IChatsState) => {
-      const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
+      if (draft.selectedChatId) {
+        const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
 
-      if (chat) {
-        chat.recordings.loading = true;
+        if (chat) {
+          chat.recordings.loading = true;
+        }
       }
       return draft;
     });

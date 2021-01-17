@@ -19,10 +19,12 @@ export class GetVideoAttachments {
 
   static get reducer() {
     return produce((draft: IChatsState) => {
-      const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
+      if (draft.selectedChatId) {
+        const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
 
-      if (chat) {
-        chat.videos.loading = true;
+        if (chat) {
+          chat.videos.loading = true;
+        }
       }
 
       return draft;

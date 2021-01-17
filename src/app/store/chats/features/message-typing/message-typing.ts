@@ -20,10 +20,12 @@ export class MessageTyping {
   static get reducer() {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof MessageTyping.action>) => {
       const { text } = payload;
-      const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
+      if (draft.selectedChatId) {
+        const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
 
-      if (chat) {
-        chat.draftMessage = text;
+        if (chat) {
+          chat.draftMessage = text;
+        }
       }
 
       return draft;

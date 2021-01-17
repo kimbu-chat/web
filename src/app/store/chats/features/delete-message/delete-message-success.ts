@@ -17,8 +17,8 @@ export class DeleteMessageSuccess {
       if (chat) {
         messageIds.forEach((msgIdToDelete) => {
           draft.selectedMessageIds = draft.selectedMessageIds.filter((id) => id !== msgIdToDelete);
-          const messageIndex = chat.messages.messages.findIndex(({ id }) => id === msgIdToDelete);
-          const [deletedMessage] = chat.messages.messages.splice(messageIndex, 1);
+          const messageIndex = draft.messages[chatId].messages.findIndex(({ id }) => id === msgIdToDelete);
+          const [deletedMessage] = draft.messages[chatId].messages.splice(messageIndex, 1);
 
           deletedMessage.attachments?.forEach((attachment) => {
             switch (attachment.type) {
@@ -52,7 +52,7 @@ export class DeleteMessageSuccess {
             }
           });
 
-          const repliedMessages = chat?.messages.messages.filter(({ linkedMessage }) => linkedMessage?.id === msgIdToDelete);
+          const repliedMessages = draft.messages[chatId].messages.filter(({ linkedMessage }) => linkedMessage?.id === msgIdToDelete);
 
           repliedMessages?.forEach((message) => {
             if (message.linkedMessage) {
@@ -62,7 +62,7 @@ export class DeleteMessageSuccess {
         });
 
         if (chat.lastMessage?.id && messageIds.includes(chat.lastMessage.id)) {
-          [chat.lastMessage] = chat.messages.messages;
+          [chat.lastMessage] = draft.messages[chatId].messages;
         }
       }
 

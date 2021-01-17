@@ -19,11 +19,14 @@ export class GetAudioAttachments {
 
   static get reducer() {
     return produce((draft: IChatsState) => {
-      const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
+      if (draft.selectedChatId) {
+        const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
 
-      if (chat) {
-        chat.audios.loading = true;
+        if (chat) {
+          chat.audios.loading = true;
+        }
       }
+
       return draft;
     });
   }

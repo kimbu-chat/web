@@ -14,8 +14,8 @@ export class SubmitEditMessageSuccess {
       const { chatId, messageId } = payload;
 
       const chat = getChatByIdDraftSelector(chatId, draft);
-      const message = chat?.messages.messages.find(({ id }) => id === messageId);
-      const repliedMessages = chat?.messages.messages.filter(({ linkedMessage }) => linkedMessage?.id === messageId);
+      const message = draft.messages[chatId].messages.find(({ id }) => id === messageId);
+      const repliedMessages = draft.messages[chatId].messages.filter(({ linkedMessage }) => linkedMessage?.id === messageId);
       const newAttachments = [
         ...(message?.attachments?.filter(({ id }) => payload.removedAttachments?.findIndex((removedAttachment) => removedAttachment.id === id) === -1) || []),
         ...(payload.newAttachments || []),

@@ -3,7 +3,6 @@ import produce from 'immer';
 import { unionBy } from 'lodash';
 import { createAction } from 'typesafe-actions';
 import { IGetMessagesSuccessActionPayload } from './action-payloads/get-messages-success-action-payload';
-import { getChatByIdDraftSelector } from '../../selectors';
 
 export class GetMessagesSuccess {
   static get action() {
@@ -14,17 +13,18 @@ export class GetMessagesSuccess {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof GetMessagesSuccess.action>) => {
       const { chatId, hasMoreMessages, messages, isFromSearch }: IGetMessagesSuccessActionPayload = payload;
 
-      const chat = getChatByIdDraftSelector(chatId, draft);
+      console.log('GET_MESSAGES_SUCCESS');
+      if (draft.messages[chatId]) {
+        console.log('raft.messages[chatId]');
 
-      if (chat) {
-        chat.messages.hasMore = hasMoreMessages;
+        draft.messages[chatId].hasMore = hasMoreMessages;
 
-        chat.messages.loading = false;
+        draft.messages[chatId].loading = false;
 
         if (isFromSearch) {
-          chat.messages.messages = messages;
+          draft.messages[chatId].messages = messages;
         } else {
-          chat.messages.messages = unionBy(chat.messages.messages, messages, 'id');
+          draft.messages[chatId].messages = unionBy(draft.messages[chatId].messages, messages, 'id');
         }
       }
 

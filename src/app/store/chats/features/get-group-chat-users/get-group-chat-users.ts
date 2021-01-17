@@ -21,10 +21,12 @@ export class GetGroupChatUsers {
   static get reducer() {
     return produce(
       produce((draft: IChatsState) => {
-        const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
+        if (draft.selectedChatId) {
+          const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
 
-        if (chat) {
-          chat.members.loading = true;
+          if (chat) {
+            chat.members.loading = true;
+          }
         }
 
         return draft;

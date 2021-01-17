@@ -88,7 +88,6 @@ export class GetChats {
           loading: false,
           recordings: [],
         };
-        chat.messages = { messages: [], loading: false, hasMore: true };
 
         if (chat.interlocutorType === InterlocutorType.GroupChat) {
           chat.members = { members: [], loading: false, hasMore: true };

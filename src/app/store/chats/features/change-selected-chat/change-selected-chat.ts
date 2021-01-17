@@ -44,14 +44,6 @@ export class ChangeSelectedChat {
             return message;
           });
         }
-
-        if (newChatId && !draft.messages[newChatId]) {
-          draft.messages[newChatId] = {
-            messages: [],
-            hasMore: true,
-            loading: false,
-          };
-        }
       }
 
       draft.selectedMessageIds = [];

@@ -17,6 +17,16 @@ export class GetChatsSuccess {
       draft.hasMore = hasMore;
       draft.chats = unionBy(draft.chats, chats, 'id');
 
+      chats.forEach(({ id: chatId }) => {
+        if (!draft.messages[chatId]) {
+          draft.messages[chatId] = {
+            messages: [],
+            hasMore: true,
+            loading: false,
+          };
+        }
+      });
+
       if (draft.searchString.length > 0) {
         if (initializedByScroll) {
           draft.searchChats = unionBy(draft.searchChats, chats, 'id');

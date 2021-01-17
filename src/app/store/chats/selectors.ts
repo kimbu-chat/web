@@ -15,9 +15,10 @@ export const getSelectedChatLastMessageIdSelector = (state: RootState): number |
 export const getChatLastMessageIdSelector = (chatId: number) => (state: RootState): number | undefined =>
   state.chats?.chats?.find((x: IChat) => x?.id === chatId)?.lastMessage?.id;
 
-export const getChatMessagesLengthSelector = (chatId: number) => (state: RootState): number | undefined => state.chats?.messages[chatId].messages.length;
+export const getChatMessagesLengthSelector = (chatId: number) => (state: RootState): number | undefined => state.chats?.messages[chatId]?.messages.length;
 
-export const getSelectedChatMessagesSelector = (chatId: number) => (state: RootState): IMessage[] | undefined => state.chats?.messages[chatId].messages;
+export const getSelectedChatMessagesSelector = (state: RootState): IMessage[] | undefined =>
+  state.chats?.messages[state?.chats?.selectedChatId || -1]?.messages;
 
 export const getSelectedChatMessagesSearchStringSelector = (state: RootState): string | undefined =>
   state.chats?.messages[state?.chats?.selectedChatId || -1]?.searchString;
@@ -143,10 +144,10 @@ export const getHasMoreMessagesMessagesSelector = (state: RootState) => state.ch
 export const getMessagesByChatIdSelector = (state: RootState) => state.chats.messages[state.chats.selectedChatId || -1]?.messages;
 
 export const getChatMessageByIdSelector = (messageId: number, chatId: number) => (state: RootState) =>
-  state.chats.messages[chatId].messages.find(({ id }) => id === messageId);
+  state.chats.messages[chatId]?.messages.find(({ id }) => id === messageId);
 
 export const getChatHasMessageWithIdSelector = (messageId: number, chatId: number) => (state: RootState) =>
-  (state.chats.messages[chatId].messages.findIndex(({ id }) => id === messageId) || -1) > -1;
+  (state.chats.messages[chatId]?.messages.findIndex(({ id }) => id === messageId) || -1) > -1;
 
 // IChatsState selectors
 export const getChatExistsDraftSelector = (chatId: number, draft: IChatsState): boolean =>
@@ -155,6 +156,6 @@ export const getChatExistsDraftSelector = (chatId: number, draft: IChatsState): 
 export const getChatByIdDraftSelector = (chatId: number, draft: IChatsState) => draft.chats.find(({ id }) => id === chatId);
 
 export const getMessageDraftSelector = (chatId: number, messageId: number, draft: IChatsState) =>
-  draft.messages[chatId].messages.find(({ id }) => id === messageId);
+  draft.messages[chatId]?.messages.find(({ id }) => id === messageId);
 
 export const getChatIndexDraftSelector = (chatId: number, draft: IChatsState) => draft.chats.findIndex(({ id }) => id === chatId);

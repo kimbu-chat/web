@@ -1,17 +1,17 @@
-let currentMusic: HTMLAudioElement;
+let currentMusic: HTMLAudioElement | null;
 let currentChangePlayStatus: React.Dispatch<React.SetStateAction<boolean>> | undefined;
 
-export const changeMusic = (newMusic: HTMLAudioElement, changePlayStatus?: React.Dispatch<React.SetStateAction<boolean>>, needsToBePaused?: boolean) => {
+export const changeMusic = (newMusic: HTMLAudioElement | null, changePlayStatus?: React.Dispatch<React.SetStateAction<boolean>>, needsToBePaused?: boolean) => {
   if (newMusic !== currentMusic) {
-    newMusic.play();
+    newMusic?.play();
 
     if (currentMusic) {
       currentMusic.pause();
     }
-  } else if (newMusic.paused) {
-    newMusic.play();
+  } else if (newMusic?.paused) {
+    newMusic?.play();
   } else if (needsToBePaused) {
-    newMusic.pause();
+    newMusic?.pause();
   }
 
   if (currentChangePlayStatus) {
@@ -25,7 +25,7 @@ export const changeMusic = (newMusic: HTMLAudioElement, changePlayStatus?: React
   }
 
   if (changePlayStatus) {
-    changePlayStatus(!currentMusic.paused);
+    changePlayStatus(!currentMusic?.paused);
   }
 };
 

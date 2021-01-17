@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import './audio-attachment.scss';
 
 import PlaySvg from 'icons/ic-play.svg';
@@ -17,14 +17,21 @@ export const MessageAudioAttachment: React.FC<IMessageAudioAttachmentProps> = Re
   const audio = useRef<HTMLAudioElement | null>(null);
 
   const playPauseAudio = useCallback(() => {
-    if (!audio.current) {
-      audio.current = new Audio(attachment.url);
-    }
     changeMusic(audio.current, setIsPlaying, true);
-  }, [setIsPlaying, isPlaying, attachment]);
+  }, [setIsPlaying, isPlaying, attachment, audio]);
+
+  const onEnded = useCallback(() => setIsPlaying(false), [setIsPlaying]);
+
+  useEffect(
+    () => () => {
+      changeMusic(null);
+    },
+    [setIsPlaying],
+  );
 
   return (
     <div className='audio-attachment'>
+      <audio onEnded={onEnded} ref={audio} hidden src={attachment.url} />
       <button type='button' onClick={playPauseAudio} className='audio-attachment__download'>
         {isPlaying ? <PauseSvg viewBox='0 0 25 25' /> : <PlaySvg viewBox='0 0 25 25' />}
       </button>

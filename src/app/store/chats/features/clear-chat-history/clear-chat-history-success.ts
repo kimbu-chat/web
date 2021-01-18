@@ -14,10 +14,11 @@ export class ClearChatHistorySuccess {
       const { chatId } = payload;
       const chat = getChatByIdDraftSelector(chatId, draft);
 
+      draft.messages[chatId].messages = [];
+      draft.messages[chatId].hasMore = false;
+      draft.messages[chatId].loading = false;
+
       if (chat) {
-        chat.messages.messages = [];
-        chat.messages.hasMore = false;
-        chat.messages.loading = false;
         chat.lastMessage = null;
       }
 

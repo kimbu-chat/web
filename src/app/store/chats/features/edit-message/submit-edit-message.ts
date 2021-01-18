@@ -21,17 +21,18 @@ export class SubmitEditMessage {
   static get reducer() {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof SubmitEditMessage.action>) => {
       const { text } = payload;
+      if (draft.selectedChatId) {
+        const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
 
-      const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
+        if (chat?.messageToEdit) {
+          chat.attachmentsToSend = [];
 
-      if (chat?.messageToEdit) {
-        chat.attachmentsToSend = [];
+          if (chat.lastMessage?.id === chat?.messageToEdit.id) {
+            chat.lastMessage!.text = text;
+          }
 
-        if (chat.lastMessage?.id === chat?.messageToEdit.id) {
-          chat.lastMessage!.text = text;
+          chat.messageToEdit = undefined;
         }
-
-        chat.messageToEdit = undefined;
       }
 
       return draft;

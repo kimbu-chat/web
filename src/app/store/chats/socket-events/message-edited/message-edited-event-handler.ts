@@ -19,7 +19,7 @@ export class MessageEditedEventHandler {
       const chat = getChatByIdDraftSelector(chatId, draft);
 
       if (chat) {
-        const message = chat.messages.messages.find(({ id }) => id === messageId);
+        const message = draft.messages[chatId].messages.find(({ id }) => id === messageId);
 
         if (message) {
           message.text = text;
@@ -27,7 +27,7 @@ export class MessageEditedEventHandler {
           message.isEdited = true;
         }
 
-        const linkedMessages = chat.messages.messages.filter(({ linkedMessage }) => linkedMessage?.id === messageId);
+        const linkedMessages = draft.messages[chatId].messages.filter(({ linkedMessage }) => linkedMessage?.id === messageId);
 
         linkedMessages.forEach(({ linkedMessage }) => {
           if (linkedMessage) {

@@ -1,9 +1,9 @@
-import { getSelectedChatSelector } from 'store/chats/selectors';
-import { IChat } from 'store/chats/models';
 import moment from 'moment';
 import { SagaIterator } from 'redux-saga';
 import { select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+import { IMessage } from '../../models';
+import { getSelectedChatMessagesSelector } from '../../selectors';
 import { ICopyMessagesActionPayload } from './action-payloads/copy-messages-action-payload';
 
 export class CopyMessages {
@@ -13,9 +13,9 @@ export class CopyMessages {
 
   static get saga() {
     return function* (action: ReturnType<typeof CopyMessages.action>): SagaIterator {
-      const chat: IChat = yield select(getSelectedChatSelector);
+      const messages: IMessage[] = yield select(getSelectedChatMessagesSelector);
 
-      const content = chat.messages.messages.reduce((accum: string, current) => {
+      const content = messages.reduce((accum: string, current) => {
         if (action.payload.messageIds.includes(current.id)) {
           const preparedStr = `\n[${moment.utc(current?.creationDateTime).format('YYYY MM DD h:mm')}] ${current?.userCreator?.nickname}: ${current?.text}`;
           return accum + preparedStr;

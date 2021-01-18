@@ -61,11 +61,6 @@ export class CreateChat {
           loading: false,
           audios: [],
         },
-        messages: {
-          hasMore: true,
-          loading: false,
-          messages: [],
-        },
       };
 
       draft.chats.unshift(newChat);

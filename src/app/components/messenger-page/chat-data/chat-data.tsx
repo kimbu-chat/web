@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { getIsInfoOpenedSelector, getSelectedChatSelector } from 'store/chats/selectors';
+import { getIsInfoOpenedSelector, getSelectedChatSelector, getSelectedChatMessagesSearchStringSelector } from 'store/chats/selectors';
 
 import './chat-data.scss';
 import { LocalizationContext } from 'app/app';
@@ -24,6 +24,7 @@ export const ChatData = React.memo(() => {
   const { t } = useContext(LocalizationContext);
 
   const selectedChat = useSelector(getSelectedChatSelector);
+  const messagesSearchString = useSelector(getSelectedChatMessagesSearchStringSelector);
   const isInfoOpened = useSelector(getIsInfoOpenedSelector);
 
   const callInterlocutor = useActionWithDispatch(CallActions.outgoingCallAction);
@@ -115,9 +116,7 @@ export const ChatData = React.memo(() => {
             </button>
           )}
 
-          {(isSearching || (selectedChat.messages.searchString?.length || 0) > 0) && (
-            <SearchBox value={selectedChat.messages.searchString || ''} onChange={searchMessages} />
-          )}
+          {(isSearching || (messagesSearchString?.length || 0) > 0) && <SearchBox value={messagesSearchString || ''} onChange={searchMessages} />}
 
           <button type='button' onClick={changeSearchingState} className='chat-data__button'>
             <SearchSvg />

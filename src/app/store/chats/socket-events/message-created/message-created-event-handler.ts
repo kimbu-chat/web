@@ -130,8 +130,8 @@ export class MessageCreatedEventHandler {
           const newUnreadMessagesCount =
             isInterlocutorCurrentSelectedChat || isCurrentUserMessageCreator ? previousUnreadMessagesCount : previousUnreadMessagesCount + 1;
 
-          if (chat.messages.messages.findIndex(({ id }) => id === message.id) === -1) {
-            chat.messages.messages.unshift(message);
+          if (draft.chats.messages[chatId].messages.findIndex(({ id }) => id === message.id) === -1) {
+            draft.chats.messages[chatId].messages.unshift(message);
           } else {
             return draft;
           }
@@ -226,42 +226,39 @@ export class MessageCreatedEventHandler {
             recordings: [],
           };
           chatOfMessage.members = { members: [], loading: false, hasMore: true };
-          chatOfMessage.messages = {
-            messages: [],
-            hasMore: true,
-            loading: false,
-          };
           chatOfMessage.unreadMessagesCount = chatOfMessage.unreadMessagesCount || 1;
 
           yield put(UnshiftChat.action(chatOfMessage));
         }
       }
 
-      if (isAudioPlayAllowed && !chatOfMessage!.isMuted && message.userCreator?.id !== myId) {
-        if (!(selectedChatId !== message.chatId) && !document.hidden) {
-          const audioSelected = new Audio(messageCameSelected);
-          playSoundSafely(audioSelected);
+      if (message.userCreator?.id !== myId) {
+        if (isAudioPlayAllowed && !chatOfMessage!.isMuted) {
+          if (!(selectedChatId !== message.chatId) && !document.hidden) {
+            const audioSelected = new Audio(messageCameSelected);
+            playSoundSafely(audioSelected);
+          }
+
+          if (selectedChatId !== message.chatId || document.hidden) {
+            const audioUnselected = new Audio(messageCameUnselected);
+            playSoundSafely(audioUnselected);
+          }
         }
 
-        if (selectedChatId !== message.chatId || document.hidden) {
-          const audioUnselected = new Audio(messageCameUnselected);
-          playSoundSafely(audioUnselected);
-        }
-      }
+        if (!isTabActive) {
+          setFavicon('/favicons/msg-favicon.ico');
+          unreadNotifications += 1;
 
-      if (!isTabActive) {
-        setFavicon('/favicons/msg-favicon.ico');
-        unreadNotifications += 1;
-
-        window.document.title = `${unreadNotifications} unread Notification !`;
-
-        setNewTitleNotificationInterval(() => {
           window.document.title = `${unreadNotifications} unread Notification !`;
 
-          setTimeout(() => {
-            window.document.title = 'Kimbu';
-          }, 1000);
-        });
+          setNewTitleNotificationInterval(() => {
+            window.document.title = `${unreadNotifications} unread Notification !`;
+
+            setTimeout(() => {
+              window.document.title = 'Kimbu';
+            }, 1000);
+          });
+        }
       }
 
       if (selectedChatId === message.chatId) {

@@ -15,7 +15,7 @@ export class CreateMessageSuccess {
 
       const chat = getChatByIdDraftSelector(chatId, draft);
 
-      const message = chat?.messages.messages.find(({ id }) => id === oldMessageId);
+      const message = draft.messages[chatId].messages.find(({ id }) => id === oldMessageId);
 
       if (message) {
         message.id = newMessageId;

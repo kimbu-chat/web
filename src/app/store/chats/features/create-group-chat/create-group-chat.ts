@@ -93,11 +93,6 @@ export class CreateGroupChat {
           loading: false,
           recordings: [],
         },
-        messages: {
-          hasMore: true,
-          loading: false,
-          messages: [firstMessage],
-        },
       };
 
       yield put(CreateGroupChatSuccess.action(chat));

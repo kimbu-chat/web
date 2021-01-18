@@ -29,27 +29,29 @@ export class UploadAttachmentRequest {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof UploadAttachmentRequest.action>) => {
       const { type, attachmentId, file } = payload;
 
-      const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
+      if (draft.selectedChatId) {
+        const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
 
-      if (chat) {
-        if (!chat.attachmentsToSend) {
-          chat.attachmentsToSend = [];
+        if (chat) {
+          if (!chat.attachmentsToSend) {
+            chat.attachmentsToSend = [];
+          }
+
+          const attachmentToAdd: IAttachmentToSend<IBaseAttachment> = {
+            attachment: {
+              id: attachmentId,
+              byteSize: file.size,
+              creationDateTime: new Date(),
+              url: '',
+              type,
+            },
+            progress: 0,
+            fileName: file.name,
+            file,
+          };
+
+          chat.attachmentsToSend?.push(attachmentToAdd);
         }
-
-        const attachmentToAdd: IAttachmentToSend<IBaseAttachment> = {
-          attachment: {
-            id: attachmentId,
-            byteSize: file.size,
-            creationDateTime: new Date(),
-            url: '',
-            type,
-          },
-          progress: 0,
-          fileName: file.name,
-          file,
-        };
-
-        chat.attachmentsToSend?.push(attachmentToAdd);
       }
       return draft;
     });

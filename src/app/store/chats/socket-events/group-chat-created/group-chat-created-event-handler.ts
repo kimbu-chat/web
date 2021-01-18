@@ -82,11 +82,6 @@ export class GroupChatCreatedEventHandler {
           loading: false,
           members: [],
         },
-        messages: {
-          messages: [messageOfCreation],
-          hasMore: true,
-          loading: false,
-        },
       };
 
       if (avatarId && avatarUrl && avatarPreviewUrl) {

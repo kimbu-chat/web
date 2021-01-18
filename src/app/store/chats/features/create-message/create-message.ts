@@ -40,8 +40,8 @@ export class CreateMessage {
         }
       }
 
-      if (chat.messages.messages.findIndex(({ id }) => id === message.id) === -1) {
-        chat.messages.messages.unshift(message);
+      if (draft.messages[chat.id].messages.findIndex(({ id }) => id === message.id) === -1) {
+        draft.messages[chat.id].messages.unshift(message);
       }
       return draft;
     });

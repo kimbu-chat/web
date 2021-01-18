@@ -33,13 +33,13 @@ export class ChangeSelectedChat {
       if (oldChatId) {
         const chat = getChatByIdDraftSelector(oldChatId, draft);
 
-        if (chat && chat.messages.messages.length > MESSAGES_LIMIT) {
-          chat.messages.messages = chat.messages.messages.slice(0, 30);
-          chat.messages.hasMore = true;
+        if (chat && draft.messages[oldChatId]?.messages.length > MESSAGES_LIMIT) {
+          draft.messages[oldChatId].messages = draft.messages[oldChatId].messages.slice(0, 30);
+          draft.messages[oldChatId].hasMore = true;
         }
 
         if (chat && draft.selectedMessageIds.length > 0) {
-          chat.messages.messages.map((message) => {
+          draft.messages[oldChatId].messages.map((message) => {
             message.isSelected = false;
             return message;
           });
@@ -105,11 +105,6 @@ export class ChangeSelectedChat {
                 recordings: [],
               };
               chat.members = { members: [], loading: false, hasMore: true };
-              chat.messages = {
-                messages: [],
-                hasMore: true,
-                loading: false,
-              };
 
               yield put(UnshiftChat.action(chat));
             }
@@ -160,11 +155,6 @@ export class ChangeSelectedChat {
                   hasMore: true,
                   loading: false,
                   audios: [],
-                },
-                messages: {
-                  messages: [],
-                  hasMore: true,
-                  loading: false,
                 },
               };
 

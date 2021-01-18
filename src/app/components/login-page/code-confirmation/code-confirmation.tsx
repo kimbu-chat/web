@@ -169,7 +169,7 @@ const CodeConfirmation: React.FC<ICodeConfirmationProps> = ({ preloadNext }) => 
 
         {remainingSeconds === 0 && (
           <BaseBtn
-            icon={<ResendSvg viewBox='0 0 25 25' />}
+            icon={<ResendSvg width={16} height={16} viewBox='0 0 25 25' />}
             disabled={remainingSeconds > 0}
             onClick={() => resendPhoneConfirmationCode()}
             variant='outlined'

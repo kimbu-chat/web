@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import './routing-chats.scss';
 
@@ -11,7 +11,7 @@ import LogoutSvg from 'icons/logout.svg';
 import { getSelectedChatIdSelector } from 'store/chats/selectors';
 import { useSelector } from 'react-redux';
 import { getMyProfilePhotoSelector, getMyFullNameSelector } from 'app/store/my-profile/selectors';
-import { Avatar } from 'app/components';
+import { Avatar, FadeAnimationWrapper, SettingsModal } from 'app/components';
 import { getStringInitials } from 'app/utils/interlocutor-name-utils';
 
 export const RoutingChats = React.memo(() => {
@@ -20,7 +20,11 @@ export const RoutingChats = React.memo(() => {
   const myPhoto = useSelector(getMyProfilePhotoSelector);
   const myName = useSelector(getMyFullNameSelector);
 
+  const [settingsDisplayed, setSettingsDisplayed] = useState(false);
+
   const logout = useCallback(() => window.location.replace('logout'), []);
+
+  const changeSettingsDisplayedState = useCallback(() => setSettingsDisplayed((oldState) => !oldState), [setSettingsDisplayed]);
 
   return (
     <div className='routing-chats'>
@@ -48,13 +52,17 @@ export const RoutingChats = React.memo(() => {
         </NavLink>
       </div>
 
-      <NavLink className='routing-chats__link routing-chats__link--settings' activeClassName='routing-chats__link routing-chats__link--active' to='/settings'>
+      <button onClick={changeSettingsDisplayedState} type='button' className='routing-chats__link routing-chats__link--settings'>
         <SettingsSvg />
-      </NavLink>
+      </button>
 
       <button onClick={logout} type='button' className='routing-chats__link routing-chats__link--logout'>
         <LogoutSvg />
       </button>
+
+      <FadeAnimationWrapper isDisplayed={settingsDisplayed}>
+        <SettingsModal />
+      </FadeAnimationWrapper>
     </div>
   );
 });

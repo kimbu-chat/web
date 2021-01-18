@@ -132,9 +132,9 @@ const ChatInfo: React.FC = React.memo(() => {
 
           <ChatInfoActions addMembers={changeSetAddFriendsModalDisplayedState} />
 
-          <ChatMedia />
-
           {selectedChat?.groupChat && <ChatMembers />}
+
+          <ChatMedia />
         </div>
 
         <FadeAnimationWrapper isDisplayed={addFriendsModalDisplayed}>

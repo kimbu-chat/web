@@ -20,5 +20,4 @@ export * from './routing-chats/routing-chats';
 export * from './search-box/search-box';
 export * from './search-top/search-top';
 export * from './selected-messages-data/selected-messages-data';
-export * from './settings/settings';
-export * from './settings/settings-header';
+export * from './settings-modal/settings-modal';

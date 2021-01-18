@@ -1,0 +1,20 @@
+.text-typing {
+  padding: 0 17px 0 20px;
+  grid-row: 2/3;
+  grid-column: 2/3;
+  z-index: 10;
+  margin-top: 64px;
+
+  & .radio-box {
+    margin-top: 13px;
+
+    &:first-child {
+      margin-top: 20px;
+    }
+  }
+
+  & .radio-box__radio-box {
+    margin-bottom: auto;
+    margin-top: 3px;
+  }
+}

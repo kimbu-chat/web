@@ -1,17 +1,15 @@
-import { BaseBtn } from 'components';
-import React, { useContext, useState } from 'react';
 import { LocalizationContext } from 'app/app';
-import './settings-modal.scss';
-
-import InfoSvg from 'icons/ic-info.svg';
-import NotificationSvg from 'icons/ic-notifications-on.svg';
-import TextSvg from 'icons/ic-text-typing.svg';
-import LangSvg from 'icons/ic-language.svg';
+import { BaseBtn } from 'app/components';
+import React, { useContext, useState } from 'react';
 import ReactDOM from 'react-dom';
+import NotificationSvg from 'icons/ic-notifications-on.svg';
+import InfoSvg from 'icons/ic-info.svg';
+import TextSvg from 'icons/ic-text-typing.svg';
 import { EditProfile } from './edit-profile/edit-profile';
-import { NotificationsSettings } from './notifications-settings/notifications-settings';
 import { LanguageSettings } from './language-settings/language-settings';
+import { NotificationsSettings } from './notifications-settings/notifications-settings';
 import { TextTyping } from './text-typing/text-typing';
+import './settings-modal.scss';
 
 enum SettingsModalPages {
   Profile = 'profile',
@@ -63,7 +61,7 @@ export const SettingsModal = React.memo(() => {
             color='primary'
             width='contained'
             variant='contained'
-            icon={<LangSvg />}
+            icon={<TextSvg />}
             onClick={() => setCurrentPage(SettingsModalPages.Language)}
             className='settings-modal__link'
           >

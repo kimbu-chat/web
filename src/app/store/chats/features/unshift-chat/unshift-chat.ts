@@ -12,6 +12,14 @@ export class UnshiftChat {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof UnshiftChat.action>) => {
       draft.chats.unshift(payload);
 
+      if (!draft.messages[payload.id]) {
+        draft.messages[payload.id] = {
+          messages: [],
+          hasMore: true,
+          loading: false,
+        };
+      }
+
       return draft;
     });
   }

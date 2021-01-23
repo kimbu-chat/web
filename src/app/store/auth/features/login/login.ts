@@ -1,8 +1,8 @@
 import { AuthService } from 'app/services/auth-service';
 import { MyProfileService } from 'app/services/my-profile-service';
-import { IUserPreview, UserStatus } from 'app/store/models';
 import { Init } from 'app/store/initiation/features/init/init';
 import { initializeSaga } from 'app/store/initiation/sagas';
+import { IUserPreview } from 'app/store/models';
 import { GetMyProfile } from 'app/store/my-profile/features/get-my-profile/get-my-profile';
 import { GetMyProfileSuccess } from 'app/store/my-profile/features/get-my-profile/get-my-profile-success';
 import { AxiosResponse } from 'axios';
@@ -15,6 +15,7 @@ import { ILoginApiRequest } from '../confirm-phone/api-requests/login-api-reques
 import { ILoginApiResponse } from '../confirm-phone/api-requests/login-api-response';
 import { ConfirmPhone } from '../confirm-phone/confirm-phone';
 import { LoginSuccess } from './login-success';
+import { ICustomJwtPayload } from './models/custom-jwt-payload';
 
 export class Login {
   static get saga() {
@@ -22,26 +23,16 @@ export class Login {
       const { data }: AxiosResponse<ILoginApiResponse> = ConfirmPhone.httpRequest.login.call(
         yield call(() => ConfirmPhone.httpRequest.login.generator(loginData)),
       );
-
-      const profileService = new MyProfileService();
-      const myProfile: IUserPreview = {
-        id: parseInt(jwt_decode<{ unique_name: string }>(data.accessToken).unique_name, 10),
-        firstName: '',
-        lastName: '',
-        lastOnlineTime: new Date(),
-        phoneNumber: '',
-        nickname: '',
-        status: UserStatus.Online,
-      };
-      yield put(GetMyProfileSuccess.action(myProfile));
-      profileService.setMyProfile(myProfile);
+      // @ts-ignore
+      const userProfile: IUserPreview = JSON.parse(jwt_decode<ICustomJwtPayload>(data.accessToken).profile);
+      yield put(GetMyProfileSuccess.action(userProfile));
+      new MyProfileService().setMyProfile(userProfile);
       const securityTokens: ISecurityTokens = {
         accessToken: data.accessToken,
         refreshToken: data.refreshToken,
       };
 
-      const authService = new AuthService();
-      authService.initialize(securityTokens);
+      new AuthService().initialize(securityTokens);
       yield put(LoginSuccess.action(securityTokens));
       yield put(Init.action());
       yield fork(initializeSaga);

@@ -1,5 +1,3 @@
-import { AuthService } from 'app/services/auth-service';
-import { MyProfileService } from 'app/services/my-profile-service';
 import { authRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/models';
 
@@ -28,9 +26,6 @@ export class Logout {
 
   static get saga() {
     return function* (): SagaIterator {
-      new AuthService().clear();
-      new MyProfileService().clear();
-
       const tokens = yield call(getPushNotificationTokens);
 
       if (tokens) {
@@ -39,6 +34,7 @@ export class Logout {
         yield call(async () => await messaging?.deleteToken());
       }
 
+      localStorage.clear();
       yield put(LogoutSuccess.action());
     };
   }

@@ -1,3 +1,5 @@
+#Requires -RunAsAdministrator
+
 Write-Host "Creating https certificate"
 
 $certificate = New-SelfSignedCertificate -certstorelocation cert:\localmachine\my -dnsname localhost

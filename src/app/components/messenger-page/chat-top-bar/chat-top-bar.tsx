@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getIsInfoOpenedSelector, getSelectedChatSelector, getSelectedChatMessagesSearchStringSelector } from 'store/chats/selectors';
 
-import './chat-data.scss';
+import './chat-top-bar.scss';
 import { LocalizationContext } from 'app/app';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { CallActions } from 'store/calls/actions';
@@ -20,7 +20,7 @@ import { MESSAGES_LIMIT } from 'app/utils/pagination-limits';
 import { TimeUpdateable } from 'app/components/shared/time-updateable/time-updateable';
 import { ChangeChatInfoOpened } from 'app/store/chats/features/change-chat-info-opened/change-chat-info-opened';
 
-export const ChatData = React.memo(() => {
+export const ChatTopBar = React.memo(() => {
   const { t } = useContext(LocalizationContext);
 
   const selectedChat = useSelector(getSelectedChatSelector);

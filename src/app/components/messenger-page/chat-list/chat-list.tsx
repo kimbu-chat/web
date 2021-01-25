@@ -14,7 +14,7 @@ import {
   getSelectedChatIdSelector,
 } from 'app/store/chats/selectors';
 import { useParams } from 'react-router';
-import { ChatFromList } from './chat-from-list/chat-from-list';
+import { ChatFromList } from './chat-item/chat-item';
 
 const ChatList = React.memo(() => {
   const chats = useSelector(getChatsSelector);

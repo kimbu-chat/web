@@ -15,7 +15,7 @@ import { getFriendsLoadingSelector, getHasMoreFriendsSelector, getMyFriendsSelec
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
 import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
 import { ChatId } from 'app/store/chats/chat-id';
-import { FriendFromList, SearchBox } from 'app/components';
+import { FriendItem, SearchBox } from 'app/components';
 
 interface INewChatModalProps {
   onClose: () => void;
@@ -75,7 +75,7 @@ export const NewChatModal: React.FC<INewChatModalProps> = React.memo(({ onClose,
               </div>
               <InfiniteScroll className='create-group-chat__friends-block' onReachExtreme={loadMore} hasMore={hasMoreFriends} isLoading={friendsLoading}>
                 {friends.map((friend) => (
-                  <FriendFromList key={friend.id} friend={friend} onClick={createEmptyChat} />
+                  <FriendItem key={friend.id} friend={friend} onClick={createEmptyChat} />
                 ))}
               </InfiniteScroll>
             </div>

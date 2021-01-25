@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import './photo-attachment.scss';
 
-import { FadeAnimationWrapper, BigPhoto } from 'components';
+import { FadeAnimationWrapper, ImageModal } from 'components';
 import { IPictureAttachment } from 'store/chats/models';
 
 interface IMessagePhotoAttachmentProps {
@@ -18,7 +18,7 @@ export const MessagePhotoAttachment: React.FC<IMessagePhotoAttachmentProps> = Re
         <img src={attachment.previewUrl} alt='' className='photo-attachment__img' />
       </div>
       <FadeAnimationWrapper isDisplayed={bigPhotoDisplayed}>
-        <BigPhoto url={attachment.url} onClose={changeBigPhotoDisplayed} />
+        <ImageModal url={attachment.url} onClose={changeBigPhotoDisplayed} />
       </FadeAnimationWrapper>
     </>
   );

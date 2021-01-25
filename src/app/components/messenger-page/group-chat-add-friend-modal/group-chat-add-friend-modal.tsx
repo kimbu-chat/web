@@ -10,7 +10,7 @@ import { getFriendsLoadingSelector, getHasMoreFriendsSelector, getMyFriendsSelec
 import { IPage } from 'app/store/models';
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
 import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
-import { FriendFromList, SearchBox } from 'app/components';
+import { FriendItem, SearchBox } from 'app/components';
 import { AddUsersToGroupChat } from 'app/store/chats/features/add-users-to-group-chat/add-users-to-group-chat';
 import { GetFriends } from 'app/store/friends/features/get-friends/get-friends';
 
@@ -78,7 +78,7 @@ export const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = 
               {friends.map(
                 (friend) =>
                   !idsToExclude.includes(friend.id) && (
-                    <FriendFromList key={friend.id} friend={friend} isSelected={isSelected(friend.id)} changeSelectedState={changeSelectedState} />
+                    <FriendItem key={friend.id} friend={friend} isSelected={isSelected(friend.id)} changeSelectedState={changeSelectedState} />
                   ),
               )}
             </InfiniteScroll>

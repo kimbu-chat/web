@@ -3,7 +3,7 @@ import './video-attachment.scss';
 
 import PlaySvg from 'icons/ic-play.svg';
 import moment from 'moment';
-import { FadeAnimationWrapper, VideoPlayer } from 'components';
+import { FadeAnimationWrapper, VideoPlayerModal } from 'components';
 import { IVideoAttachment } from 'store/chats/models';
 
 interface IMessageVideoAttachmentProps {
@@ -23,7 +23,7 @@ export const MessageVideoAttachment: React.FC<IMessageVideoAttachmentProps> = Re
         <div className='video-attachment__duration'>{moment.utc(attachment.duration * 1000).format('mm:ss')}</div>
       </div>
       <FadeAnimationWrapper isDisplayed={videoPlayerDisplayed}>
-        <VideoPlayer url={attachment.url} onClose={changeVideoPlayerDisplayed} />
+        <VideoPlayerModal url={attachment.url} onClose={changeVideoPlayerDisplayed} />
       </FadeAnimationWrapper>
     </>
   );

@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import './chat.scss';
+import './message-list.scss';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { LocalizationContext } from 'app/app';
 import {
@@ -21,7 +21,7 @@ import { MarkMessagesAsRead } from 'app/store/chats/features/mark-messages-as-re
 import { IMessage } from 'app/store/chats/models';
 import { MessageUtils } from 'app/utils/message-utils';
 
-const Chat = React.memo(() => {
+const MessageList = React.memo(() => {
   const getMessages = useActionWithDispatch(GetMessages.action);
   const markMessagesAsRead = useActionWithDispatch(MarkMessagesAsRead.action);
 
@@ -87,6 +87,6 @@ const Chat = React.memo(() => {
   );
 });
 
-Chat.displayName = 'Chat';
+MessageList.displayName = 'Chat';
 
-export { Chat };
+export { MessageList };

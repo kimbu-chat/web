@@ -1,4 +1,4 @@
-import { BigPhoto, FadeAnimationWrapper } from 'components';
+import { ImageModal, FadeAnimationWrapper } from 'components';
 import { IGroupable, IPictureAttachment } from 'store/chats/models';
 import { doesYearDifferFromCurrent } from 'app/utils/set-separators';
 import moment from 'moment';
@@ -24,7 +24,7 @@ export const Photo: React.FC<IPhotoProps> = React.memo(({ photo }) => {
       )}
       <img alt='low speed' onClick={changeBigPhotoDisplayed} key={photo.id} className='chat-photo__photo' src={photo.url} />
       <FadeAnimationWrapper isDisplayed={bigPhotoDisplayed}>
-        <BigPhoto url={photo.url} onClose={changeBigPhotoDisplayed} />
+        <ImageModal url={photo.url} onClose={changeBigPhotoDisplayed} />
       </FadeAnimationWrapper>
     </>
   );

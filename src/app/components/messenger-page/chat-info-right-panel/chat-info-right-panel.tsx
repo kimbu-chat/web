@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import './chat-info.scss';
+import './chat-info-right-panel.scss';
 import { useSelector } from 'react-redux';
 import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
@@ -10,7 +10,7 @@ import PhotoSvg from 'icons/ic-photo.svg';
 
 import { getInterlocutorInitials } from 'utils/interlocutor-name-utils';
 
-import { GroupChatAddFriendModal, BigPhoto } from 'app/components';
+import { GroupChatAddFriendModal, ImageModal } from 'app/components';
 import { EditGroupChat } from 'app/store/chats/features/edit-group-chat/edit-group-chat';
 import { GetChatInfo } from 'app/store/chats/features/get-chat-info/get-chat-info';
 import { UploadAvatar } from 'app/store/my-profile/features/upload-avatar/upload-avatar';
@@ -20,7 +20,7 @@ import { ChatActions as ChatInfoActions } from './chat-actions/chat-actions';
 import { ChatMembers } from './chat-members/chat-members';
 import { ChatMedia } from './chat-media/chat-media';
 
-const ChatInfo: React.FC = React.memo(() => {
+const ChatInfoRightPanel: React.FC = React.memo(() => {
   const selectedChat = useSelector(getSelectedChatSelector);
 
   const getChatInfo = useActionWithDispatch(GetChatInfo.action);
@@ -142,7 +142,7 @@ const ChatInfo: React.FC = React.memo(() => {
         </FadeAnimationWrapper>
 
         <FadeAnimationWrapper isDisplayed={isAvatarMaximized}>
-          <BigPhoto url={getChatFullSizeAvatar()} onClose={changeIsAvatarMaximizedState} />
+          <ImageModal url={getChatFullSizeAvatar()} onClose={changeIsAvatarMaximizedState} />
         </FadeAnimationWrapper>
 
         {changePhotoDisplayed && <PhotoEditor hideChangePhoto={hideChangePhoto} imageUrl={imageUrl} onSubmit={changeAvatar} />}
@@ -152,6 +152,6 @@ const ChatInfo: React.FC = React.memo(() => {
   return <div />;
 });
 
-ChatInfo.displayName = 'ChatInfo';
+ChatInfoRightPanel.displayName = 'ChatInfo';
 
-export { ChatInfo };
+export { ChatInfoRightPanel };

@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import PlaySvg from 'icons/ic-play.svg';
 import moment from 'moment';
-import { FadeAnimationWrapper, VideoPlayer } from 'components';
+import { FadeAnimationWrapper, VideoPlayerModal } from 'components';
 import { IGroupable, IVideoAttachment } from 'store/chats/models';
 import { doesYearDifferFromCurrent } from 'app/utils/set-separators';
 
@@ -32,7 +32,7 @@ export const VideoFromList: React.FC<IVideoFromListProps> = React.memo(({ video 
       </div>
 
       <FadeAnimationWrapper isDisplayed={videoPlayerDisplayed}>
-        <VideoPlayer url={video.url} onClose={changeVideoPlayerDisplayed} />
+        <VideoPlayerModal url={video.url} onClose={changeVideoPlayerDisplayed} />
       </FadeAnimationWrapper>
     </React.Fragment>
   );

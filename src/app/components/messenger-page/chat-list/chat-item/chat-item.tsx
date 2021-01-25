@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 
-import './chat-from-list.scss';
+import './chat-item.scss';
 import { IChat, IMessage, MessageLinkType, MessageState, SystemMessageType } from 'store/chats/models';
 import { MessageUtils } from 'app/utils/message-utils';
 
@@ -19,11 +19,11 @@ import { getTypingStringSelector } from 'store/chats/selectors';
 import { getChatInterlocutor, getInterlocutorInitials } from 'utils/interlocutor-name-utils';
 import { isEqual } from 'lodash';
 
-interface IChatFromListProps {
+interface IChatItemProps {
   chat: IChat;
 }
 
-const ChatFromList: React.FC<IChatFromListProps> = React.memo(
+const ChatItem: React.FC<IChatItemProps> = React.memo(
   ({ chat }) => {
     const { t } = useContext(LocalizationContext);
 
@@ -133,13 +133,10 @@ const ChatFromList: React.FC<IChatFromListProps> = React.memo(
       isEqual(prevProps.chat.interlocutor?.avatar, nextProps.chat.interlocutor?.avatar) &&
       isEqual(prevProps.chat.groupChat?.avatar, nextProps.chat.groupChat?.avatar) &&
       isEqual(prevProps.chat.lastMessage, nextProps.chat.lastMessage);
-
-    console.log(result);
-
     return result;
   },
 );
 
-ChatFromList.displayName = 'ChatFromList';
+ChatItem.displayName = 'ChatFromList';
 
-export { ChatFromList };
+export { ChatItem as ChatFromList };

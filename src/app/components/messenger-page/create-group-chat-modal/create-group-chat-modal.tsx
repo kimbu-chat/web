@@ -1,5 +1,5 @@
 import { LocalizationContext } from 'app/app';
-import { Avatar, Modal, WithBackground, PhotoEditor, FriendFromList, SearchBox, CircularProgress } from 'components';
+import { Avatar, Modal, WithBackground, PhotoEditor, FriendItem, SearchBox, CircularProgress } from 'components';
 import { FriendActions } from 'store/friends/actions';
 import { getStringInitials } from 'app/utils/interlocutor-name-utils';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
@@ -173,7 +173,7 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(({ on
                   <SearchBox onChange={(e) => searchFriends(e.target.value)} />
                   <InfiniteScroll className='create-group-chat__friends-block' onReachExtreme={loadMore} hasMore={hasMoreFriends} isLoading={friendsLoading}>
                     {friends.map((friend) => (
-                      <FriendFromList key={friend.id} friend={friend} isSelected={isSelected(friend.id)} changeSelectedState={changeSelectedState} />
+                      <FriendItem key={friend.id} friend={friend} isSelected={isSelected(friend.id)} changeSelectedState={changeSelectedState} />
                     ))}
                   </InfiniteScroll>
                 </div>

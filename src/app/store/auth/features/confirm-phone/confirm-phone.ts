@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { call, put } from 'redux-saga/effects';
+import { call, put, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { authRequestFactory } from 'app/store/common/http-factory';
 
@@ -13,10 +13,9 @@ import { IAuthState } from '../../models';
 import { ConfirmPhoneRegistrationAllowed } from './confirm-phone-registration-allowed';
 import { IConfirmProneApiRequest } from './api-requests/confirm-phone-api-request';
 import { IConfirmPhoneApiResponse } from './api-requests/confirm-phone-api-response';
-import { ILoginApiRequest } from './api-requests/login-api-request';
-import { ILoginApiResponse } from './api-requests/login-api-response';
 import { ISubscribeToPushNotificationsApiRequest } from './api-requests/subscribe-to-push-notifications-api-request';
 import { IConfirmPhoneActionPayload } from './action-payloads/confirm-phone-action-payload';
+import { LoginSuccess } from '../login/login-success';
 
 export class ConfirmPhone {
   static get action() {
@@ -37,7 +36,9 @@ export class ConfirmPhone {
       );
 
       if (data.isCodeCorrect && data.userExists) {
-        yield call(Login.saga, action.payload);
+        const { phoneNumber, code } = action.payload;
+        yield put(Login.action({ phoneNumber, code }));
+        yield take(LoginSuccess.action);
         action?.meta?.deferred?.resolve({ userRegistered: true });
       } else if (data.isCodeCorrect && !data.userExists) {
         yield put(ConfirmPhoneRegistrationAllowed.action({ confirmationCode: action.payload.code }));
@@ -51,7 +52,6 @@ export class ConfirmPhone {
 
   static get httpRequest() {
     return {
-      login: authRequestFactory<AxiosResponse<ILoginApiResponse>, ILoginApiRequest>(`${process.env.MAIN_API}/api/users/tokens`, HttpRequestMethod.Post),
       confirmPhone: authRequestFactory<AxiosResponse<IConfirmPhoneApiResponse>, IConfirmProneApiRequest>(
         `${process.env.MAIN_API}/api/users/verify-sms-code`,
         HttpRequestMethod.Post,

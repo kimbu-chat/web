@@ -6,6 +6,7 @@ import { SendSmsCode } from './features/send-sms-code/send-sms-code';
 import { ReSendSmsCode } from './features/send-sms-code/re-send-sms-code';
 import { Register } from './features/register/register';
 import { LogoutSuccess } from './features/logout/logout-success';
+import { Login } from './features/login/login';
 
 export const AuthSagas = [
   takeLatest(Logout.action, Logout.saga),
@@ -15,4 +16,5 @@ export const AuthSagas = [
   takeLatest(SendSmsCode.action, SendSmsCode.saga),
   takeLatest(ReSendSmsCode.action, ReSendSmsCode.saga),
   takeLatest(Register.action, Register.saga),
+  takeLatest(Login.action, Login.saga),
 ];

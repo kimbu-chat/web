@@ -5,11 +5,12 @@ import { HttpRequestMethod } from 'app/store/models';
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { call, select } from 'redux-saga/effects';
+import { call, put, select, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { IAuthState } from '../../models';
 import { getAuthPhoneNumberSelector, getConfirmationCodeSelector, getTwoLetterCountryCodeSelector } from '../../selectors';
 import { Login } from '../login/login';
+import { LoginSuccess } from '../login/login-success';
 import { IRegisterActionPayload } from './action-payloads/register-action-payload';
 import { IRegisterApiRequest } from './api-requests/register-api-request';
 
@@ -37,7 +38,8 @@ export class Register {
 
       yield call(() => Register.httpRequest.generator({ firstName, lastName, nickname, phoneNumber, twoLetterCountryCode, avatarId }));
 
-      yield call(Login.saga, { phoneNumber, code: confirmationCode });
+      yield put(Login.action({ phoneNumber, code: confirmationCode }));
+      yield take(LoginSuccess.action);
 
       action.meta.deferred.resolve();
     };

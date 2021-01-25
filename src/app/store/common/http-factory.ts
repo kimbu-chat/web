@@ -25,12 +25,12 @@ function* httpRequest<T>(url: string, method: HttpRequestMethod, body?: T, token
     responseType: 'json',
   };
 
-  const auth: ISecurityTokens = yield select(selectSecurityTokensSelector);
+  const securityTokens: ISecurityTokens = yield select(selectSecurityTokensSelector);
 
-  if (auth && auth.accessToken) {
+  if (securityTokens && securityTokens.accessToken) {
     requestConfig.headers = {
       // eslint-disable-next-line @typescript-eslint/naming-convention
-      Authorization: `Bearer ${auth.accessToken}`,
+      Authorization: `Bearer ${securityTokens.accessToken}`,
     };
   }
 
@@ -42,7 +42,7 @@ function* httpRequest<T>(url: string, method: HttpRequestMethod, body?: T, token
 
   switch (method) {
     case HttpRequestMethod.Get:
-      requestConfig.params = body;
+      // requestConfig.params = body;
       break;
     case HttpRequestMethod.Post:
       requestConfig.data = body;

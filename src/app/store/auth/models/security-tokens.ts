@@ -1,6 +1,7 @@
-import { ILoginApiResponse } from '../features/confirm-phone/api-requests/login-api-response';
-
-export interface ISecurityTokens extends ILoginApiResponse {
+export interface ISecurityTokens {
   refreshTokenRequestLoading?: boolean;
   isAuthenticated?: boolean;
+  accessToken: string;
+  refreshToken: string;
+  refreshTokenExpirationTime?: Date;
 }

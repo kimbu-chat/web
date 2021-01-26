@@ -9,7 +9,7 @@ import { UserStatusChangedEventHandler } from './socket-events/user-status-chang
 import { UserContactsRemovedEventHandler } from './socket-events/user-contacts-removed/user-contacts-removed-event-handler';
 
 const initialState: IFriendsState = {
-  loading: true,
+  loading: false,
   friends: [],
   hasMoreFriends: true,
 };

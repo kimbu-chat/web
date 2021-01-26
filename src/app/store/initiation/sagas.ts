@@ -1,7 +1,5 @@
-import { fork, spawn } from 'redux-saga/effects';
+import { spawn, takeLeading } from 'redux-saga/effects';
 import { Init } from './features/init/init';
-import { StartIdleWatcher } from './features/start-idle-watcher/start-idle-watcher';
+import { StartIdleStateChangeWatcher } from './features/start-idle-state-change-watcher/start-idle-state-change-watcher';
 
-export const InitiationSagas = [fork(Init.saga), spawn(StartIdleWatcher.saga)];
-
-// yield spawn(watcher);
+export const InitiationSagas = [spawn(Init.saga), takeLeading(StartIdleStateChangeWatcher.action, StartIdleStateChangeWatcher.saga)];

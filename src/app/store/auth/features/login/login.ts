@@ -1,7 +1,6 @@
 import { AuthService } from 'app/services/auth-service';
 import { MyProfileService } from 'app/services/my-profile-service';
 import { authRequestFactory } from 'app/store/common/http-factory';
-import { Init } from 'app/store/initiation/features/init/init';
 import { HttpRequestMethod, IUserPreview } from 'app/store/models';
 import { GetMyProfileSuccess } from 'app/store/my-profile/features/get-my-profile/get-my-profile-success';
 import { AxiosResponse } from 'axios';
@@ -12,7 +11,7 @@ import { createAction } from 'typesafe-actions';
 import { InitSocketConnection } from 'app/store/sockets/features/init-socked-connection/init-socket-connection';
 import { SettingsActions } from 'app/store/settings/actions';
 import { ChangeUserOnlineStatus } from 'app/store/my-profile/features/change-user-online-status/change-user-online-status';
-import { StartIdleWatcher } from 'app/store/initiation/features/start-idle-watcher/start-idle-watcher';
+import { StartIdleStateChangeWatcher } from 'app/store/initiation/features/start-idle-state-change-watcher/start-idle-state-change-watcher';
 import { StartInternetConnectionStateChangeWatcher } from 'app/store/internet/features/internet-connection-check/start-internet-connection-state-change-watcher';
 import { getPushNotificationTokens } from '../../get-push-notification-tokens';
 import { ISecurityTokens } from '../../models';
@@ -43,7 +42,6 @@ export class Login {
       };
       yield put(LoginSuccess.action(securityTokens));
       new AuthService().initialize(securityTokens);
-      yield put(Init.action());
       const tokens = yield call(getPushNotificationTokens);
       if (tokens) {
         ConfirmPhone.httpRequest.subscribeToPushNotifications.call(yield call(() => ConfirmPhone.httpRequest.subscribeToPushNotifications.generator(tokens)));
@@ -53,7 +51,7 @@ export class Login {
       yield put(InitSocketConnection.action());
       yield put(SettingsActions.getUserSettingsAction());
       yield put(StartInternetConnectionStateChangeWatcher.action());
-      yield put(StartIdleWatcher.action());
+      yield put(StartIdleStateChangeWatcher.action());
     };
   }
 

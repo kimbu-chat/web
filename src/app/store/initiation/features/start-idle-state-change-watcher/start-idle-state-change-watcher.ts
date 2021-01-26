@@ -27,13 +27,8 @@ function createVisibilityChannel() {
 
 function* watcher() {
   const visibilityChannel = createVisibilityChannel();
-
   const visibilityTask = yield takeEvery(visibilityChannel, function* (action: boolean) {
-    // const amIauthenticated = yield select(amILoggedSelector);
-
-    // if (amIauthenticated) {
     yield put(ChangeUserOnlineStatus.action(action));
-    // }
   });
 
   yield take(Logout.action);
@@ -42,7 +37,7 @@ function* watcher() {
   yield cancel(visibilityTask);
 }
 
-export class StartIdleWatcher {
+export class StartIdleStateChangeWatcher {
   static get action() {
     return createEmptyAction('START_IDLE_WATCHER');
   }

@@ -68,7 +68,7 @@ export class LogoutSuccess {
             isInfoOpened: false,
           },
           friends: {
-            loading: true,
+            loading: false,
             friends: [],
             hasMoreFriends: true,
           },

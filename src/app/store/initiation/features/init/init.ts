@@ -7,7 +7,7 @@ import { SettingsActions } from 'app/store/settings/actions';
 import { InitSocketConnection } from 'app/store/sockets/features/init-socked-connection/init-socket-connection';
 import { SagaIterator } from 'redux-saga';
 import { put } from 'redux-saga/effects';
-import { StartIdleWatcher } from '../start-idle-watcher/start-idle-watcher';
+import { StartIdleStateChangeWatcher } from '../start-idle-state-change-watcher/start-idle-state-change-watcher';
 
 export class Init {
   static get action() {
@@ -16,29 +16,17 @@ export class Init {
 
   static get saga() {
     return function* initializeSaga(): SagaIterator {
-      const authService = new AuthService();
-      const { securityTokens } = authService;
-
-      if (!securityTokens) {
+      if (!new AuthService().securityTokens) {
         return;
       }
 
+      yield put(ChangeUserOnlineStatus.action(true));
       yield put(InitSocketConnection.action());
       yield put(SettingsActions.getUserSettingsAction());
-      yield put(ChangeUserOnlineStatus.action(true));
 
       yield put(GetMyProfile.action());
-
-      // yield put(
-      //   FriendActions.getFriends({
-      //     page: { offset: 0, limit: FRIENDS_LIMIT },
-      //     initializedBySearch: false,
-      //   }),
-      // );
-
       yield put(StartInternetConnectionStateChangeWatcher.action());
-
-      yield put(StartIdleWatcher.action());
+      yield put(StartIdleStateChangeWatcher.action());
     };
   }
 }

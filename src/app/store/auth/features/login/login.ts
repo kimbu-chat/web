@@ -29,7 +29,7 @@ export class Login {
     return function* (action: ReturnType<typeof Login.action>): SagaIterator {
       const loginHttpRequest = Login.httpRequest;
 
-      const { data }: AxiosResponse<ILoginApiResponse> = loginHttpRequest.call(yield call(() => loginHttpRequest.generator(action.payload)));
+      const { data } = loginHttpRequest.call(yield call(() => loginHttpRequest.generator(action.payload)));
       const userProfile: IUserPreview = JSON.parse(jwt_decode<ICustomJwtPayload>(data.accessToken).profile);
       yield put(GetMyProfileSuccess.action(userProfile));
 

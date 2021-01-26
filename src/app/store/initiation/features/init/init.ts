@@ -23,7 +23,6 @@ export class Init {
       yield put(ChangeUserOnlineStatus.action(true));
       yield put(InitSocketConnection.action());
       yield put(SettingsActions.getUserSettingsAction());
-
       yield put(GetMyProfile.action());
       yield put(StartInternetConnectionStateChangeWatcher.action());
       yield put(StartIdleStateChangeWatcher.action());

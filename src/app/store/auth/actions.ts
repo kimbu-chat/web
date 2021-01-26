@@ -4,7 +4,6 @@ import { ConfirmPhoneRegistrationAllowed } from './features/confirm-phone/confir
 import { ConfirmPhoneSuccess } from './features/confirm-phone/confirm-phone-success';
 import { LoginSuccess } from './features/login/login-success';
 import { Logout } from './features/logout/logout';
-import { LogoutSuccess } from './features/logout/logout-success';
 import { RefreshToken } from './features/refresh-token/refresh-token';
 import { RefreshTokenFailure } from './features/refresh-token/refresh-token-failure';
 import { RefreshTokenSuccess } from './features/refresh-token/refresh-token-success';
@@ -26,7 +25,6 @@ export namespace AuthActions {
   export const confirmPhoneSuccess = ConfirmPhoneSuccess.action;
   export const confirmPhoneFailure = ConfirmPhoneFailure.action;
   export const logout = Logout.action;
-  export const logoutSuccess = LogoutSuccess.action;
   export const reSendSmsCode = ReSendSmsCode.action;
   export const register = Register.action;
   export const confirmPhoneregistrationAllowed = ConfirmPhoneRegistrationAllowed.action;

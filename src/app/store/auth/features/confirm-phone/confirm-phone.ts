@@ -13,7 +13,6 @@ import { IAuthState } from '../../models';
 import { ConfirmPhoneRegistrationAllowed } from './confirm-phone-registration-allowed';
 import { IConfirmProneApiRequest } from './api-requests/confirm-phone-api-request';
 import { IConfirmPhoneApiResponse } from './api-requests/confirm-phone-api-response';
-import { ISubscribeToPushNotificationsApiRequest } from './api-requests/subscribe-to-push-notifications-api-request';
 import { IConfirmPhoneActionPayload } from './action-payloads/confirm-phone-action-payload';
 import { LoginSuccess } from '../login/login-success';
 
@@ -31,8 +30,8 @@ export class ConfirmPhone {
 
   static get saga() {
     return function* confirmPhoneNumberSaga(action: ReturnType<typeof ConfirmPhone.action>): SagaIterator {
-      const { data }: AxiosResponse<IConfirmPhoneApiResponse> = ConfirmPhone.httpRequest.confirmPhone.call(
-        yield call(() => ConfirmPhone.httpRequest.confirmPhone.generator(action.payload)),
+      const { data }: AxiosResponse<IConfirmPhoneApiResponse> = ConfirmPhone.httpRequest.call(
+        yield call(() => ConfirmPhone.httpRequest.generator(action.payload)),
       );
 
       if (data.isCodeCorrect && data.userExists) {
@@ -51,15 +50,9 @@ export class ConfirmPhone {
   }
 
   static get httpRequest() {
-    return {
-      confirmPhone: authRequestFactory<AxiosResponse<IConfirmPhoneApiResponse>, IConfirmProneApiRequest>(
-        `${process.env.MAIN_API}/api/users/verify-sms-code`,
-        HttpRequestMethod.Post,
-      ),
-      subscribeToPushNotifications: authRequestFactory<AxiosResponse, ISubscribeToPushNotificationsApiRequest>(
-        `${process.env.NOTIFICATIONS_API}/api/notifications/subscribe`,
-        HttpRequestMethod.Post,
-      ),
-    };
+    return authRequestFactory<AxiosResponse<IConfirmPhoneApiResponse>, IConfirmProneApiRequest>(
+      `${process.env.MAIN_API}/api/users/verify-sms-code`,
+      HttpRequestMethod.Post,
+    );
   }
 }

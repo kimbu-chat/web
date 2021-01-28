@@ -1,5 +1,5 @@
 import { Logout } from 'app/store/auth/features/logout/logout';
-import { amILoggedSelector } from 'app/store/auth/selectors';
+import { amIAuthenticatedSelector } from 'app/store/auth/selectors';
 import { createEmptyAction } from 'app/store/common/actions';
 import { ChangeUserOnlineStatus } from 'app/store/my-profile/features/change-user-online-status/change-user-online-status';
 import { eventChannel, SagaIterator } from 'redux-saga';
@@ -44,7 +44,7 @@ export class StartIdleStateChangeWatcher {
 
   static get saga() {
     return function* startIdleWatcher(): SagaIterator {
-      const amIauthenticated = yield select(amILoggedSelector);
+      const amIauthenticated = yield select(amIAuthenticatedSelector);
 
       if (!amIauthenticated) {
         return;

@@ -1,4 +1,4 @@
-import { amILoggedSelector } from 'app/store/auth/selectors';
+import { amIAuthenticatedSelector } from 'app/store/auth/selectors';
 import { createEmptyAction } from 'app/store/common/actions';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select, take, delay, spawn } from 'redux-saga/effects';
@@ -56,7 +56,7 @@ export class StartInternetConnectionStateChangeWatcher {
 
   static get saga() {
     return function* intervalInternetConnectionCheckSaga(): SagaIterator {
-      const amIauthenticated = yield select(amILoggedSelector);
+      const amIauthenticated = yield select(amIAuthenticatedSelector);
 
       if (!amIauthenticated) {
         return;

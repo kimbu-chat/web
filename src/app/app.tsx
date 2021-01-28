@@ -12,7 +12,7 @@ import { PublicRoute } from 'app/routing/public-route';
 import { PrivateRoute } from 'app/routing/private-route';
 
 import { i18n, TFunction } from 'i18next';
-import { amILoggedSelector, getAuthPhoneNumberSelector, getRegstrationAllowedSelector } from 'store/auth/selectors';
+import { amIAuthenticatedSelector, getAuthPhoneNumberSelector, getRegstrationAllowedSelector } from 'store/auth/selectors';
 import { CubeLoader } from './containers/cube-loader/cube-loader';
 import {
   loadPhoneConfirmation,
@@ -40,7 +40,7 @@ export const LocalizationContext = React.createContext<ILocalizationContextProps
 
 export const App = () => {
   const { t, i18n } = useTranslation(undefined, { i18n: i18nConfiguration });
-  const isAuthenticated = useSelector(amILoggedSelector);
+  const isAuthenticated = useSelector(amIAuthenticatedSelector);
   const phoneNumber = useSelector(getAuthPhoneNumberSelector);
   const registrationAllowed = useSelector(getRegstrationAllowedSelector);
 

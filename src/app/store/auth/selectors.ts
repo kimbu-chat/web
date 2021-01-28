@@ -3,7 +3,7 @@ import { ISecurityTokens } from './models';
 
 export const selectSecurityTokensSelector = (state: RootState): ISecurityTokens => state.auth.securityTokens;
 
-export const amILoggedSelector = (state: RootState): boolean => state.auth.isAuthenticated;
+export const amIAuthenticatedSelector = (state: RootState): boolean => state.auth.isAuthenticated;
 
 export const getAuthPhoneNumberSelector = (state: RootState): string => state.auth.phoneNumber;
 

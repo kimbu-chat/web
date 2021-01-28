@@ -1,4 +1,4 @@
-import { amILoggedSelector } from 'app/store/auth/selectors';
+import { amIAuthenticatedSelector } from 'app/store/auth/selectors';
 import { resetUnreadNotifications } from 'app/store/chats/socket-events/message-created/message-created-event-handler';
 import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/models';
@@ -25,7 +25,7 @@ export class ChangeUserOnlineStatus {
 
   static get saga() {
     return function* ({ payload }: ReturnType<typeof ChangeUserOnlineStatus.action>): SagaIterator {
-      const isAuthenticated = yield select(amILoggedSelector);
+      const isAuthenticated = yield select(amIAuthenticatedSelector);
       if (isAuthenticated) {
         ChangeUserOnlineStatus.httpRequest.call(yield call(() => ChangeUserOnlineStatus.httpRequest.generator({ isOnline: payload })));
       }

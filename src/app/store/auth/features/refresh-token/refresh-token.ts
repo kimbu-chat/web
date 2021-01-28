@@ -3,9 +3,11 @@ import { authRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod } from 'app/store/models';
 
 import { AxiosResponse } from 'axios';
+import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createEmptyAction } from 'store/common/actions';
+import { IAuthState } from '../../models';
 import { IRefreshTokenApiRequest } from './api-requests/refresh-token-api-request';
 import { IRefreshTokenApiResponse } from './api-requests/refresh-token-api-response';
 import { RefreshTokenFailure } from './refresh-token-failure';
@@ -14,6 +16,13 @@ import { RefreshTokenSuccess } from './refresh-token-success';
 export class RefreshToken {
   static get action() {
     return createEmptyAction('REFRESH_TOKEN');
+  }
+
+  static get reducer() {
+    return produce((draft: IAuthState) => {
+      draft.refreshTokenRequestLoading = true;
+      return draft;
+    });
   }
 
   static get saga() {

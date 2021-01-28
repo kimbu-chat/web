@@ -36,6 +36,7 @@ export class Login {
       const securityTokens: ISecurityTokens = {
         accessToken: data.accessToken,
         refreshToken: data.refreshToken,
+        refreshTokenExpirationTime: data.refreshTokenExpirationTime,
       };
       yield put(LoginSuccess.action(securityTokens));
 

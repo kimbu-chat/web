@@ -9,4 +9,5 @@ export interface IAuthState {
   isAuthenticated: boolean;
   securityTokens: ISecurityTokens;
   registrationAllowed?: boolean;
+  refreshTokenRequestLoading: boolean;
 }

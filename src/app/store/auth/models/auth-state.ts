@@ -7,7 +7,7 @@ export interface IAuthState {
   phoneNumber: string;
   isConfirmationCodeWrong: boolean;
   isAuthenticated: boolean;
-  securityTokens: ISecurityTokens;
+  securityTokens: ISecurityTokens | undefined;
   registrationAllowed?: boolean;
   refreshTokenRequestLoading: boolean;
 }

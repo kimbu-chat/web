@@ -11,6 +11,7 @@ export class RefreshTokenFailure {
     return produce((draft: IAuthState) => {
       draft.refreshTokenRequestLoading = false;
       draft.isAuthenticated = false;
+      draft.securityTokens = undefined;
       return draft;
     });
   }

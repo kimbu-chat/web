@@ -14,7 +14,7 @@ function openConnection(store: Store<RootState>): void {
   connection = new HubConnectionBuilder()
     .withUrl(`${process.env.NOTIFICATIONS_API}/signalr`, {
       logMessageContent: true,
-      accessTokenFactory: () => store.getState().auth.securityTokens.accessToken,
+      accessTokenFactory: () => store.getState().auth?.securityTokens?.accessToken!,
     })
     .withAutomaticReconnect({
       nextRetryDelayInMilliseconds: (retryContext) => (retryContext.elapsedMilliseconds >= 10000 ? 10000 : retryContext.elapsedMilliseconds + 1000),

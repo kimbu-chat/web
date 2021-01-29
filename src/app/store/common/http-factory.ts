@@ -3,7 +3,7 @@ import { call, cancelled, put, select, take } from 'redux-saga/effects';
 import { SagaIterator } from 'redux-saga';
 import { isNetworkError } from 'app/utils/error-utils';
 import { ISecurityTokens } from '../auth/models';
-import { amIAuthenticatedSelector, selectSecurityTokensSelector } from '../auth/selectors';
+import { selectSecurityTokensSelector } from '../auth/selectors';
 import { RefreshToken } from '../auth/features/refresh-token/refresh-token';
 import { RefreshTokenSuccess } from '../auth/features/refresh-token/refresh-token-success';
 import { retryOnNetworkConnectionError } from './decorators/retry-on-network-connection-error';
@@ -94,16 +94,9 @@ export const httpRequestFactory = <T, B = any>(url: string | UrlGenerator<B>, me
         const error = e as AxiosError;
         if (!isNetworkError(e) && error?.response?.status === 401) {
           yield put(RefreshToken.action());
-
           yield take(RefreshTokenSuccess.action);
-
-          const amIAuthenticated = yield select(amIAuthenticatedSelector);
-
-          if (amIAuthenticated) {
-            cancelTokenSource = axios.CancelToken.source();
-            return yield call(httpRequest, finalUrl, method, body, cancelTokenSource.token, headers);
-          }
-          alert('Redirect to login');
+          cancelTokenSource = axios.CancelToken.source();
+          return yield call(httpRequest, finalUrl, method, body, cancelTokenSource.token, headers);
         }
 
         throw e;

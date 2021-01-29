@@ -1,11 +1,12 @@
 import { MyProfileService } from 'app/services/my-profile-service';
+import { ISecurityTokens } from 'app/store/auth/models';
+import { selectSecurityTokensSelector } from 'app/store/auth/selectors';
 import { createEmptyAction } from 'app/store/common/actions';
 import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod, IUserPreview } from 'app/store/models';
-
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
-import { put, call } from 'redux-saga/effects';
+import { put, call, select } from 'redux-saga/effects';
 import { GetMyProfileSuccess } from './get-my-profile-success';
 
 export class GetMyProfile {
@@ -15,6 +16,12 @@ export class GetMyProfile {
 
   static get saga() {
     return function* (): SagaIterator {
+      const securityTokens: ISecurityTokens = yield select(selectSecurityTokensSelector);
+
+      if (!securityTokens) {
+        return;
+      }
+
       const profileService = new MyProfileService();
       const currentUserId = profileService.myProfile.id;
 

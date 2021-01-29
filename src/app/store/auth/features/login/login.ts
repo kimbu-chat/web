@@ -6,11 +6,7 @@ import jwt_decode from 'jwt-decode';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { InitSocketConnection } from 'app/store/sockets/features/init-socked-connection/init-socket-connection';
-import { SettingsActions } from 'app/store/settings/actions';
-import { ChangeUserOnlineStatus } from 'app/store/my-profile/features/change-user-online-status/change-user-online-status';
-import { StartIdleStateChangeWatcher } from 'app/store/initiation/features/start-idle-state-change-watcher/start-idle-state-change-watcher';
-import { StartInternetConnectionStateChangeWatcher } from 'app/store/internet/features/internet-connection-check/start-internet-connection-state-change-watcher';
+import { Init } from 'app/store/initiation/features/init/init';
 import { getPushNotificationTokens } from '../../get-push-notification-tokens';
 import { ISecurityTokens } from '../../models';
 import { ILoginApiRequest } from './api-requests/login-api-request';
@@ -50,11 +46,7 @@ export class Login {
         yield call(() => subscribeToPushNotificationsHttpRequest.generator(tokens));
       }
 
-      yield put(ChangeUserOnlineStatus.action(true));
-      yield put(InitSocketConnection.action());
-      yield put(SettingsActions.getUserSettingsAction());
-      yield put(StartInternetConnectionStateChangeWatcher.action());
-      yield put(StartIdleStateChangeWatcher.action());
+      yield put(Init.action());
     };
   }
 

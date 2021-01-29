@@ -24,7 +24,7 @@ const initialState: IAuthState = {
   twoLetterCountryCode: '',
   phoneNumber: '',
   isConfirmationCodeWrong: false,
-  isAuthenticated: !!securityTokens,
+  isAuthenticated: Boolean(securityTokens),
   securityTokens,
   refreshTokenRequestLoading: false,
 };

@@ -8,7 +8,7 @@ import { SagaIterator } from 'redux-saga';
 import { put, select } from 'redux-saga/effects';
 import { StartIdleStateChangeWatcher } from '../start-idle-state-change-watcher/start-idle-state-change-watcher';
 
-export class Init {
+export class AppInit {
   static get action() {
     return createEmptyAction('INIT');
   }

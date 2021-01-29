@@ -6,7 +6,7 @@ import jwt_decode from 'jwt-decode';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { Init } from 'app/store/initiation/features/init/init';
+import { AppInit } from 'app/store/initiation/features/app-init/app-init';
 import { getPushNotificationTokens } from '../../get-push-notification-tokens';
 import { ISecurityTokens } from '../../models';
 import { ILoginApiRequest } from './api-requests/login-api-request';
@@ -46,7 +46,7 @@ export class Login {
         yield call(() => subscribeToPushNotificationsHttpRequest.generator(tokens));
       }
 
-      yield put(Init.action());
+      yield put(AppInit.action());
     };
   }
 

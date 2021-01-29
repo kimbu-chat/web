@@ -1,6 +1,5 @@
 import { MyProfileService } from 'app/services/my-profile-service';
-import { ISecurityTokens } from 'app/store/auth/models';
-import { selectSecurityTokensSelector } from 'app/store/auth/selectors';
+import { amIAuthenticatedSelector } from 'app/store/auth/selectors';
 import { createEmptyAction } from 'app/store/common/actions';
 import { httpRequestFactory } from 'app/store/common/http-factory';
 import { HttpRequestMethod, IUserPreview } from 'app/store/models';
@@ -16,9 +15,9 @@ export class GetMyProfile {
 
   static get saga() {
     return function* (): SagaIterator {
-      const securityTokens: ISecurityTokens = yield select(selectSecurityTokensSelector);
+      const amIauthenticated = yield select(amIAuthenticatedSelector);
 
-      if (!securityTokens) {
+      if (!amIauthenticated) {
         return;
       }
 

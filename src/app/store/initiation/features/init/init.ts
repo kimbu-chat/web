@@ -1,5 +1,4 @@
-import { ISecurityTokens } from 'app/store/auth/models';
-import { selectSecurityTokensSelector } from 'app/store/auth/selectors';
+import { amIAuthenticatedSelector } from 'app/store/auth/selectors';
 import { createEmptyAction } from 'app/store/common/actions';
 import { StartInternetConnectionStateChangeWatcher } from 'app/store/internet/features/internet-connection-check/start-internet-connection-state-change-watcher';
 import { ChangeUserOnlineStatus } from 'app/store/my-profile/features/change-user-online-status/change-user-online-status';
@@ -16,9 +15,9 @@ export class Init {
 
   static get saga() {
     return function* initializeSaga(): SagaIterator {
-      const securityTokens: ISecurityTokens = yield select(selectSecurityTokensSelector);
+      const amIauthenticated = yield select(amIAuthenticatedSelector);
 
-      if (!securityTokens) {
+      if (!amIauthenticated) {
         return;
       }
 

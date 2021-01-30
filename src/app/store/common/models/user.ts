@@ -1,7 +1,7 @@
 import { IAvatar } from './avatar';
 import { UserStatus } from './user-status';
 
-export interface IUserPreview {
+export interface IUser {
   id: number;
   firstName: string;
   lastName: string;

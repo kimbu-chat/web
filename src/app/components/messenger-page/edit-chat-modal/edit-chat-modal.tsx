@@ -14,7 +14,7 @@ import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
 import { MyProfileActions } from 'store/my-profile/actions';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { IEditGroupChatActionPayload } from 'app/store/chats/features/edit-group-chat/action-payloads/edit-group-chat-action-payload';
-import { IAvatar, IAvatarSelectedData } from 'app/store/models';
+import { IAvatar, IAvatarSelectedData } from 'app/store/common/models';
 
 export interface IEditChatModalProps {
   onClose: () => void;

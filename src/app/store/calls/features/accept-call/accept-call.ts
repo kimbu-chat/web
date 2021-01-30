@@ -1,5 +1,4 @@
-import { httpRequestFactory } from 'app/store/common/http-factory';
-import { HttpRequestMethod } from 'app/store/common/http-file-factory';
+import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
 import { createPeerConnection, peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 
 import { AxiosResponse } from 'axios';
@@ -81,8 +80,7 @@ export class AcceptCall {
         isVideoEnabled,
       };
 
-      AcceptCall.httpRequest.call(yield call(() => AcceptCall.httpRequest.generator(request)));
-
+      yield call(() => AcceptCall.httpRequest.generator(request));
       yield put(AcceptCallSuccess.action());
     };
   }

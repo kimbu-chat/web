@@ -1,5 +1,5 @@
 import { IBaseAttachment, SystemMessageType } from 'store/chats/models';
-import { IUserPreview } from 'app/store/models';
+import { IUser } from 'app/store/common/models';
 import { MessageLinkType } from '../../models/linked-message-type';
 
 export interface IMessageCreatedIntegrationEvent {
@@ -9,7 +9,7 @@ export interface IMessageCreatedIntegrationEvent {
   id: number;
   systemMessageType: SystemMessageType;
   text: string;
-  userCreator: IUserPreview;
+  userCreator: IUser;
   linkedMessageId: number;
   linkedMessageType: MessageLinkType;
 }

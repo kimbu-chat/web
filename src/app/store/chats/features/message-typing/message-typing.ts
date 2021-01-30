@@ -1,5 +1,5 @@
 import { getSelectedChatIdSelector } from 'store/chats/selectors';
-import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
+import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
 
 import { AxiosResponse } from 'axios';
 import produce from 'immer';

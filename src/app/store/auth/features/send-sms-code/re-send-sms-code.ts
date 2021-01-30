@@ -1,7 +1,6 @@
 import { HTTPStatusCode } from 'app/common/http-status-code';
 import { createEmptyDefferedAction } from 'app/store/common/actions';
-import { authRequestFactory } from 'app/store/common/http-factory';
-import { HttpRequestMethod } from 'app/store/models';
+import { authRequestFactory, HttpRequestMethod } from 'app/store/common/http';
 
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
@@ -29,7 +28,8 @@ export class ReSendSmsCode {
     return function* sendSmsPhoneConfirmationCodeSaga(action: ReturnType<typeof ReSendSmsCode.action>): SagaIterator {
       const phoneNumber = yield select(getAuthPhoneNumberSelector);
 
-      const { data, status }: AxiosResponse<string> = ReSendSmsCode.httpRequest.call(yield call(() => ReSendSmsCode.httpRequest.generator({ phoneNumber })));
+      const { httpRequest } = ReSendSmsCode;
+      const { data, status } = httpRequest.call(yield call(() => httpRequest.generator({ phoneNumber })));
 
       if (status !== HTTPStatusCode.OK) {
         yield put(SendSmsCodeFailure.action());

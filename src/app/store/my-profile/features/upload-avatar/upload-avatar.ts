@@ -1,6 +1,7 @@
 import { Meta } from 'app/store/common/actions';
-import { httpFilesRequestFactory } from 'app/store/common/http-file-factory';
-import { HttpRequestMethod, IAvatar } from 'app/store/models';
+import { HttpRequestMethod } from 'app/store/common/http';
+import { httpFilesRequestFactory } from 'app/store/common/http/http-file-factory';
+import { IAvatar } from 'app/store/common/models';
 
 import { getFileFromUrl } from 'app/utils/get-file-from-url';
 import { AxiosResponse } from 'axios';

@@ -1,7 +1,7 @@
 import { LocalizationContext } from 'app/app';
 import { FileType, IAudioAttachment, IBaseAttachment, IPictureAttachment, IRawAttachment, IVideoAttachment, IVoiceAttachment } from 'app/store/chats/models';
 import { MessageLinkType } from 'app/store/chats/models/linked-message-type';
-import { IUserPreview } from 'app/store/models';
+import { IUser } from 'app/store/common/models';
 import React, { useContext, useMemo } from 'react';
 import { MessageAudioAttachment } from '../../shared/audio-attachment/audio-attachment';
 import { FileAttachment } from '../../shared/file-attachment/file-attachment';
@@ -12,7 +12,7 @@ import './message-link.scss';
 interface IMessageLinkProps {
   linkedMessage?: {
     id: number;
-    userCreator: IUserPreview;
+    userCreator: IUser;
     text?: string;
     attachments?: IBaseAttachment[];
     isEdited: boolean;

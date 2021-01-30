@@ -10,7 +10,7 @@ import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import { WithBackground, BaseBtn } from 'components';
 import { stopPropagation } from 'app/utils/stop-propagation';
-import { IAvatarSelectedData } from 'app/store/models';
+import { IAvatarSelectedData } from 'app/store/common/models';
 
 interface IPhotoEditorProps {
   imageUrl: string;

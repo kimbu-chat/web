@@ -1,11 +1,11 @@
 import { CHATS_LIMIT } from 'app/utils/pagination-limits';
-import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
+import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { IPage } from 'app/store/models';
+import { IPage } from 'app/store/common/models';
 import { ChatId } from '../../chat-id';
 import { IChat, IChatsState, InterlocutorType, MessageState } from '../../models';
 import { IGetChatsActionPayload } from './action-payloads/get-chats-action-payload';

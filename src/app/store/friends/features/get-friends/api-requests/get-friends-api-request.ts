@@ -1,4 +1,4 @@
-import { IPage } from 'app/store/models';
+import { IPage } from 'app/store/common/models';
 
 export interface IGetFriendsApiRequest {
   page: IPage;

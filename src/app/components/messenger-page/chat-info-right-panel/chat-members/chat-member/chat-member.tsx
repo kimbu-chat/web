@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 
 import './chat-member.scss';
 
-import { IUserPreview, UserStatus } from 'app/store/models';
+import { IUser, UserStatus } from 'app/store/common/models';
 import { LocalizationContext } from 'app/app';
 
 import DeleteSvg from 'icons/ic-delete.svg';
@@ -10,7 +10,7 @@ import { TimeUpdateable } from 'app/components/shared/time-updateable/time-updat
 import { StatusBadge } from 'app/components/shared';
 
 interface IMemberProps {
-  member: IUserPreview;
+  member: IUser;
 }
 
 export const Member: React.FC<IMemberProps> = React.memo(({ member }) => {

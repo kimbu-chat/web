@@ -1,6 +1,5 @@
 import { createEmptyAction } from 'app/store/common/actions';
-import { httpRequestFactory } from 'app/store/common/http-factory';
-import { HttpRequestMethod } from 'app/store/common/http-file-factory';
+import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
 import { resetPeerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 
 import { AxiosResponse } from 'axios';
@@ -32,8 +31,7 @@ export class EndCall {
   static get saga() {
     return function* endCallSaga(): SagaIterator {
       resetPeerConnection();
-
-      EndCall.httpRequest.call(yield call(() => EndCall.httpRequest.generator()));
+      yield call(() => EndCall.httpRequest.generator());
     };
   }
 

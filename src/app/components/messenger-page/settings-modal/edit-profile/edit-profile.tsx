@@ -11,7 +11,7 @@ import { MyProfileActions } from 'store/my-profile/actions';
 import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
 
 import { LocalizationContext } from 'app/app';
-import { IAvatarSelectedData, IAvatar } from 'app/store/models';
+import { IAvatarSelectedData, IAvatar } from 'app/store/common/models';
 import { validateNickname } from 'app/utils/validate-nick-name';
 
 export const EditProfile = React.memo(() => {

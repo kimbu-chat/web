@@ -1,8 +1,7 @@
 import { IMessage } from 'store/chats/models';
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { httpRequestFactory } from 'app/store/common/http-factory';
-import { HttpRequestMethod } from 'app/store/models';
+import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
 import { AxiosResponse } from 'axios';
 import { RootState } from 'app/store/root-reducer';
 import { UpdateStore } from 'app/store/update-store';
@@ -25,17 +24,12 @@ export class MessagesDeletedIntegrationEventHandler {
       const messageListIsEmpty = (yield select(getChatMessagesLengthSelector(chatId))) === 0;
       let newLastMessage: IMessage;
 
-      console.log(messageIds.includes(lastMessageId));
-      console.log(messageListIsEmpty);
-
       if (messageIds.includes(lastMessageId) && messageListIsEmpty) {
         const { data }: AxiosResponse<IMessage> = MessagesDeletedIntegrationEventHandler.httpRequest.call(
           yield call(() => MessagesDeletedIntegrationEventHandler.httpRequest.generator({ chatId })),
         );
 
         newLastMessage = data;
-
-        console.log(data);
       }
 
       const state: RootState = yield select();

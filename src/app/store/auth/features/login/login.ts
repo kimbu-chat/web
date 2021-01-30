@@ -1,5 +1,5 @@
-import { authRequestFactory } from 'app/store/common/http-factory';
-import { HttpRequestMethod, IUserPreview } from 'app/store/models';
+import { authRequestFactory, HttpRequestMethod } from 'app/store/common/http';
+import { IUser } from 'app/store/common/models';
 import { GetMyProfileSuccess } from 'app/store/my-profile/features/get-my-profile/get-my-profile-success';
 import { AxiosResponse } from 'axios';
 import jwt_decode from 'jwt-decode';
@@ -26,7 +26,7 @@ export class Login {
       const loginHttpRequest = Login.httpRequest;
 
       const { data } = loginHttpRequest.call(yield call(() => loginHttpRequest.generator(action.payload)));
-      const userProfile: IUserPreview = JSON.parse(jwt_decode<ICustomJwtPayload>(data.accessToken).profile);
+      const userProfile: IUser = JSON.parse(jwt_decode<ICustomJwtPayload>(data.accessToken).profile);
       yield put(GetMyProfileSuccess.action(userProfile));
 
       const securityTokens: ISecurityTokens = {

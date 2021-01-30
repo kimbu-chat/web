@@ -1,6 +1,6 @@
 import { getIsFirstChatsLoadSelector, getSelectedChatMessagesSearchStringSelector, getSelectedChatSelector } from 'store/chats/selectors';
 import { IChatsState } from 'store/chats/models';
-import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
+import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
 
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
@@ -38,11 +38,7 @@ export class GetMessages {
       const isFirstChatsLoad = yield select(getIsFirstChatsLoadSelector);
 
       if (isFirstChatsLoad) {
-        console.log('isFirstChatsLoad');
         yield take(GetChatsSuccess.action);
-        console.log('isFirstChatsLoad-end');
-      } else {
-        console.log('not-isFirstChatsLoad');
       }
 
       const chat = yield select(getSelectedChatSelector);
@@ -50,7 +46,6 @@ export class GetMessages {
       const searchString = yield select(getSelectedChatMessagesSearchStringSelector);
 
       if (chat) {
-        console.log(chat);
         const request: IGetMessagesApiRequest = {
           page,
           chatId: chat.id,
@@ -70,8 +65,6 @@ export class GetMessages {
           searchString,
           isFromSearch,
         };
-
-        console.log(messageList);
 
         yield put(GetMessagesSuccess.action(messageList));
       }

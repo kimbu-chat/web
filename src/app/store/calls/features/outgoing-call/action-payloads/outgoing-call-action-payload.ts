@@ -1,7 +1,7 @@
-import { IUserPreview } from 'app/store/models';
+import { IUser } from 'app/store/common/models';
 
 export interface IOutgoingCallActionPayload {
-  calling: IUserPreview;
+  calling: IUser;
   constraints: {
     videoEnabled: boolean;
     audioEnabled: boolean;

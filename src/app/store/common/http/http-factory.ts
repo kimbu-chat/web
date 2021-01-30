@@ -2,19 +2,13 @@ import axios, { AxiosError, AxiosRequestConfig, CancelToken, CancelTokenSource }
 import { call, cancelled, put, select, take } from 'redux-saga/effects';
 import { SagaIterator } from 'redux-saga';
 import { isNetworkError } from 'app/utils/error-utils';
-import { ISecurityTokens } from '../auth/models';
-import { selectSecurityTokensSelector } from '../auth/selectors';
-import { RefreshToken } from '../auth/features/refresh-token/refresh-token';
-import { RefreshTokenSuccess } from '../auth/features/refresh-token/refresh-token-success';
-import { retryOnNetworkConnectionError } from './decorators/retry-on-network-connection-error';
-import { RootState } from '../root-reducer';
-
-export enum HttpRequestMethod {
-  Get = 'GET',
-  Post = 'POST',
-  Put = 'PUT',
-  Delete = 'DELETE',
-}
+import { ISecurityTokens } from '../../auth/models';
+import { selectSecurityTokensSelector } from '../../auth/selectors';
+import { RefreshToken } from '../../auth/features/refresh-token/refresh-token';
+import { RefreshTokenSuccess } from '../../auth/features/refresh-token/refresh-token-success';
+import { retryOnNetworkConnectionError } from '../decorators/retry-on-network-connection-error';
+import { RootState } from '../../root-reducer';
+import { HttpRequestMethod } from './http-request-method';
 
 type HttpHeaders = { [key: string]: string };
 

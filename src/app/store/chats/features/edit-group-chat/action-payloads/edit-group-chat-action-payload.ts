@@ -1,4 +1,4 @@
-import { IAvatar } from 'app/store/models';
+import { IAvatar } from 'app/store/common/models';
 
 export interface IEditGroupChatActionPayload {
   name: string;

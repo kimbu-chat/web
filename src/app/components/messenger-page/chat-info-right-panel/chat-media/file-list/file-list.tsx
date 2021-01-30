@@ -5,7 +5,7 @@ import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { useSelector } from 'react-redux';
 import { ChatActions } from 'store/chats/actions';
 import { getSelectedChatFilesSelector } from 'store/chats/selectors';
-import { IPage } from 'app/store/models';
+import { IPage } from 'app/store/common/models';
 import moment from 'moment';
 
 import { doesYearDifferFromCurrent, setSeparators } from 'app/utils/set-separators';

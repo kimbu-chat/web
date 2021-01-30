@@ -1,3 +1,3 @@
-import { IUserPreview } from 'app/store/models';
+import { IUser } from 'app/store/common/models';
 
-export interface IGetMyProfileSuccessActionPayload extends IUserPreview {}
+export interface IGetMyProfileSuccessActionPayload extends IUser {}

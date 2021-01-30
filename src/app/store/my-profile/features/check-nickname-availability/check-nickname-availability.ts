@@ -1,7 +1,5 @@
 import { Meta } from 'app/store/common/actions';
-import { httpRequestFactory } from 'app/store/common/http-factory';
-import { HttpRequestMethod } from 'app/store/models';
-
+import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
@@ -16,9 +14,8 @@ export class CheckNicknameAvailability {
 
   static get saga() {
     return function* (action: ReturnType<typeof CheckNicknameAvailability.action>): SagaIterator {
-      const { data } = CheckNicknameAvailability.httpRequest.call(
-        yield call(() => CheckNicknameAvailability.httpRequest.generator({ nickname: action.payload.nickname })),
-      );
+      const { httpRequest } = CheckNicknameAvailability;
+      const { data } = httpRequest.call(yield call(() => httpRequest.generator({ nickname: action.payload.nickname })));
 
       action.meta.deferred?.resolve({ isAvailable: data });
     };

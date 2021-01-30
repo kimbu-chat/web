@@ -1,8 +1,8 @@
-import { CallStatus, IUserPreview } from 'app/store/models';
+import { CallStatus, IUser } from 'app/store/common/models';
 
 export interface ICall {
   id: number;
-  userInterlocutor: IUserPreview;
+  userInterlocutor: IUser;
   userCallerId: number;
   duration?: number;
   status: CallStatus;

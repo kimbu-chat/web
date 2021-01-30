@@ -1,7 +1,7 @@
-import { IUserPreview } from '../models';
+import { IUser } from '../common/models';
 import { RootState } from '../root-reducer';
 
-export const getCallInterlocutorSelector = (state: RootState): IUserPreview | undefined => state.calls.interlocutor;
+export const getCallInterlocutorSelector = (state: RootState): IUser | undefined => state.calls.interlocutor;
 
 export const getCallInterlocutorIdSelector = (state: RootState): number | undefined => state.calls.interlocutor?.id;
 

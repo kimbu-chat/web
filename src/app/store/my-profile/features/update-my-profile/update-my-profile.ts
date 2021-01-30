@@ -1,5 +1,4 @@
-import { httpRequestFactory } from 'app/store/common/http-factory';
-import { HttpRequestMethod } from 'app/store/models';
+import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
 
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
@@ -22,7 +21,8 @@ export class UpdateMyProfile {
         nickname: action.payload.nickname,
         avatarId: action.payload.avatar?.id,
       };
-      const { status } = UpdateMyProfile.httpRequest.call(yield call(() => UpdateMyProfile.httpRequest.generator(requestData)));
+      const { httpRequest } = UpdateMyProfile;
+      const { status } = httpRequest.call(yield call(() => httpRequest.generator(requestData)));
 
       if (status === 200) {
         yield put(UpdateMyProfileSuccess.action(action.payload));

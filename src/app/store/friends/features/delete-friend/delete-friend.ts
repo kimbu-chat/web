@@ -1,4 +1,4 @@
-import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
+import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
 
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
@@ -17,7 +17,7 @@ export class DeleteFriend {
     return function* (action: ReturnType<typeof DeleteFriend.action>): SagaIterator {
       const userId = action.payload;
 
-      DeleteFriend.httpRequest.call(yield call(() => DeleteFriend.httpRequest.generator(action.payload)));
+      yield call(() => DeleteFriend.httpRequest.generator(action.payload));
 
       yield put(DeleteFriendSuccess.action(userId));
     };

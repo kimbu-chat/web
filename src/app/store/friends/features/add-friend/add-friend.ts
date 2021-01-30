@@ -1,4 +1,4 @@
-import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
+import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
 
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
@@ -18,7 +18,7 @@ export class AddFriend {
       const user = action.payload;
 
       const phoneToAdd: IAddFriendApiRequest = { phoneNumbers: [user.phoneNumber] };
-      AddFriend.httpRequest.call(yield call(() => AddFriend.httpRequest.generator(phoneToAdd)));
+      yield call(() => AddFriend.httpRequest.generator(phoneToAdd));
 
       yield put(AddFriendSuccess.action(user));
     };

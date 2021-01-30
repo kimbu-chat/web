@@ -1,6 +1,6 @@
-import { IUserPreview } from 'app/store/models';
+import { IUser } from 'app/store/common/models';
 
 export interface IAddUsersToGroupChatSuccessActionPayload {
-  users: IUserPreview[];
+  users: IUser[];
   chatId: number;
 }

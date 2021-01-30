@@ -1,4 +1,4 @@
-import { amIAuthenticatedSelector } from 'app/store/auth/selectors';
+import { authenticatedSelector } from 'app/store/auth/selectors';
 import { createEmptyAction } from 'app/store/common/actions';
 import { StartInternetConnectionStateChangeWatcher } from 'app/store/internet/features/internet-connection-check/start-internet-connection-state-change-watcher';
 import { ChangeUserOnlineStatus } from 'app/store/my-profile/features/change-user-online-status/change-user-online-status';
@@ -15,9 +15,9 @@ export class AppInit {
 
   static get saga() {
     return function* initializeSaga(): SagaIterator {
-      const amIauthenticated = yield select(amIAuthenticatedSelector);
+      const authenticated = yield select(authenticatedSelector);
 
-      if (!amIauthenticated) {
+      if (!authenticated) {
         return;
       }
 

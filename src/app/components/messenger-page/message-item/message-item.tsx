@@ -9,7 +9,7 @@ import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { getIsSelectMessagesStateSelector } from 'store/chats/selectors';
 import { Avatar } from 'components';
 import { getUserInitials } from 'app/utils/interlocutor-name-utils';
-import { IUserPreview } from 'app/store/models';
+import { IUser } from 'app/store/common/models';
 import moment from 'moment';
 
 import MessageQeuedSvg from 'icons/ic-time.svg';
@@ -185,12 +185,12 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
           {message.needToShowCreator &&
             (myId === message.userCreator.id ? (
               <Avatar className='message__sender-photo ' src={message.userCreator.avatar?.previewUrl}>
-                {getUserInitials(message.userCreator as IUserPreview)}
+                {getUserInitials(message.userCreator as IUser)}
               </Avatar>
             ) : (
               <Link to={`/chats/${message.userCreator.id}1`}>
                 <Avatar className='message__sender-photo ' src={message.userCreator.avatar?.previewUrl}>
-                  {getUserInitials(message.userCreator as IUserPreview)}
+                  {getUserInitials(message.userCreator as IUser)}
                 </Avatar>
               </Link>
             ))}

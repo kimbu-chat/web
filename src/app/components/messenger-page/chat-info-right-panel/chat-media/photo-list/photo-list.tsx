@@ -5,7 +5,7 @@ import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { useSelector } from 'react-redux';
 import { ChatActions } from 'store/chats/actions';
 import { getSelectedChatPhotosSelector } from 'store/chats/selectors';
-import { IPage } from 'app/store/models';
+import { IPage } from 'app/store/common/models';
 import { setSeparators } from 'app/utils/set-separators';
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
 import { PHOTO_ATTACHMENTS_LIMIT } from 'app/utils/pagination-limits';

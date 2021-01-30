@@ -37,7 +37,7 @@ import VoiceCallSvg from 'icons/ic-call.svg';
 import callingBeep from 'app/assets/sounds/calls/outgoing-call.ogg';
 import busySound from 'app/assets/sounds/calls/busy-sound.ogg';
 import { LocalizationContext } from 'app/app';
-import { IUserPreview } from 'app/store/models';
+import { IUser } from 'app/store/common/models';
 import { interlocutorAudioTrack, interlocutorVideoTrack, tracks } from 'app/store/calls/utils/user-media';
 import { InputType } from 'app/store/calls/common/enums/input-type';
 import { playSoundSafely } from 'app/utils/current-music';
@@ -174,7 +174,7 @@ export const ActiveCall: React.FC = () => {
   const reCallWithVideo = useCallback(
     () =>
       callInterlocutor({
-        calling: interlocutor as IUserPreview,
+        calling: interlocutor as IUser,
         constraints: {
           videoEnabled: true,
           audioEnabled: true,
@@ -186,7 +186,7 @@ export const ActiveCall: React.FC = () => {
   const reCallWithAudio = useCallback(
     () =>
       callInterlocutor({
-        calling: interlocutor as IUserPreview,
+        calling: interlocutor as IUser,
         constraints: {
           videoEnabled: false,
           audioEnabled: true,

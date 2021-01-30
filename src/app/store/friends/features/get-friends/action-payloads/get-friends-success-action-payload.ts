@@ -1,7 +1,7 @@
-import { IUserPreview } from 'app/store/models';
+import { IUser } from 'app/store/common/models';
 
 export interface IGetFriendsSuccessActionPayload {
-  users: Array<IUserPreview>;
+  users: Array<IUser>;
   name?: string;
   initializedBySearch?: boolean;
   hasMore: boolean;

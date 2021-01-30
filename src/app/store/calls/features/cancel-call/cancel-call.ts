@@ -1,7 +1,5 @@
 import { createEmptyAction } from 'app/store/common/actions';
-import { httpRequestFactory } from 'app/store/common/http-factory';
-import { HttpRequestMethod } from 'app/store/common/http-file-factory';
-
+import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
@@ -17,8 +15,7 @@ export class CancelCall {
     return function* cancelCallSaga(): SagaIterator {
       resetPeerConnection();
 
-      CancelCall.httpRequest.call(yield call(() => CancelCall.httpRequest.generator()));
-
+      yield call(() => CancelCall.httpRequest.generator());
       yield put(CancelCallSuccess.action());
     };
   }

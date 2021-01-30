@@ -2,7 +2,7 @@ import { MyProfileService } from 'app/services/my-profile-service';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { createAction } from 'typesafe-actions';
-import { IMyProfileState } from '../../models';
+import { IMyProfileState } from '../../my-profile-state';
 import { IGetMyProfileSuccessActionPayload } from './action-payloads/get-my-profile-success-action-payload';
 
 export class GetMyProfileSuccess {

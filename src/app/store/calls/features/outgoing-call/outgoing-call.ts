@@ -1,6 +1,6 @@
 import { DeclineCall } from 'app/store/calls/features/decline-call/decline-call';
-import { httpRequestFactory } from 'app/store/common/http-factory';
-import { HttpRequestMethod } from 'app/store/common/http-file-factory';
+import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
+
 import { createPeerConnection, peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
@@ -102,7 +102,8 @@ export class OutgoingCall {
         isVideoEnabled,
       };
 
-      const { isInterlocutorBusy } = OutgoingCall.httpRequest.call(yield call(() => OutgoingCall.httpRequest.generator(request))).data;
+      const { httpRequest } = OutgoingCall;
+      const { isInterlocutorBusy } = httpRequest.call(yield call(() => httpRequest.generator(request))).data;
 
       if (isInterlocutorBusy) {
         yield put(InterlocutorBusy.action());

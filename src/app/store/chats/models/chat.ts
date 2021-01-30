@@ -1,4 +1,4 @@
-import { IUserPreview } from 'app/store/models';
+import { IUser } from 'app/store/common/models';
 import { IAttachmentToSend } from './attachment-to-send';
 import { IAudioAttachment } from './attachments/audio-attachment';
 import { IBaseAttachment } from './attachments/base-attachment';
@@ -17,7 +17,7 @@ export interface IChat {
   interlocutorType?: InterlocutorType;
   groupChat?: IGroupChat;
   lastMessage?: IMessage | null;
-  interlocutor?: IUserPreview;
+  interlocutor?: IUser;
   unreadMessagesCount: number;
   interlocutorLastReadMessageId?: number;
   draftMessage?: string;
@@ -48,7 +48,7 @@ export interface IChat {
     hasMore: boolean;
   };
   members: {
-    members: IUserPreview[];
+    members: IUser[];
     loading: boolean;
     hasMore: boolean;
   };

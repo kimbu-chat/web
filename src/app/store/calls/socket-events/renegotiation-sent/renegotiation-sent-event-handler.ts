@@ -1,5 +1,4 @@
-import { httpRequestFactory } from 'app/store/common/http-factory';
-import { HttpRequestMethod } from 'app/store/models';
+import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
 import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 
 import { AxiosResponse } from 'axios';

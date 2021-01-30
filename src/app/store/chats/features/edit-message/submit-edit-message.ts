@@ -1,7 +1,7 @@
 import { getSelectedChatIdSelector } from 'store/chats/selectors';
 import { IChatsState } from 'store/chats/models';
 import { HTTPStatusCode } from 'app/common/http-status-code';
-import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
+import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
 
 import { AxiosResponse } from 'axios';
 import produce from 'immer';

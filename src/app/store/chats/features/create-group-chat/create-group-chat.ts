@@ -1,5 +1,5 @@
 import { Meta } from 'app/store/common/actions';
-import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
+import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
 
 import { MessageUtils } from 'app/utils/message-utils';
 import { AxiosResponse } from 'axios';

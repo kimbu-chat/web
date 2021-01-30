@@ -3,8 +3,7 @@ import { resetPeerConnection } from 'app/store/middlewares/webRTC/peerConnection
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { createAction } from 'typesafe-actions';
-import { httpRequestFactory } from 'app/store/common/http-factory';
-import { HttpRequestMethod } from 'app/store/models';
+import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
 import { RootState } from 'app/store/root-reducer';
 import { UpdateStore } from 'app/store/update-store';
 import { AxiosResponse } from 'axios';

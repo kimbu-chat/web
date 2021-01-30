@@ -1,6 +1,6 @@
 import { getSelectedChatIdSelector } from 'app/store/chats/selectors';
 import { HTTPStatusCode } from 'app/common/http-status-code';
-import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
+import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
 
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';

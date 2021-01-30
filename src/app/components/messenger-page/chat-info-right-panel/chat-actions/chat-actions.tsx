@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useState } from 'react';
 import './chat-actions.scss';
-import { IUserPreview } from 'app/store/models';
+import { IUser } from 'app/store/common/models';
 import { IChat } from 'store/chats/models';
 import { useSelector } from 'react-redux';
 import { getMemberIdsForSelectedGroupChatSelector, getSelectedChatSelector } from 'store/chats/selectors';
@@ -43,7 +43,7 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
   const selectedChat = useSelector(getSelectedChatSelector) as IChat;
   const friends = useSelector(getMyFriendsSelector);
 
-  const selectedIsFriend = useCallback((): boolean => friends.findIndex((friend: IUserPreview) => friend.id === selectedChat.interlocutor?.id) > -1, [
+  const selectedIsFriend = useCallback((): boolean => friends.findIndex((friend: IUser) => friend.id === selectedChat.interlocutor?.id) > -1, [
     friends,
     selectedChat.interlocutor?.id,
   ]);

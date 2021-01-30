@@ -1,11 +1,11 @@
 import { produce } from 'immer';
-import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
+import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
 
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { IUserPreview } from 'app/store/models';
+import { IUser } from 'app/store/common/models';
 import { IChatsState } from '../../models';
 import { GetGroupChatUsersSuccess } from './get-group-chat-users-success';
 import { ChatId } from '../../chat-id';
@@ -57,7 +57,7 @@ export class GetGroupChatUsers {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IUserPreview[]>, IGetGroupChatUsersApiRequest>(
+    return httpRequestFactory<AxiosResponse<IUser[]>, IGetGroupChatUsersApiRequest>(
       `${process.env.MAIN_API}/api/group-chats/search-members`,
       HttpRequestMethod.Post,
     );

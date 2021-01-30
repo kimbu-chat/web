@@ -1,3 +1,3 @@
-import { IUserPreview } from 'app/store/models';
+import { IUser } from 'app/store/common/models';
 
-export interface IAddFriendSuccessActionPayload extends IUserPreview {}
+export interface IAddFriendSuccessActionPayload extends IUser {}

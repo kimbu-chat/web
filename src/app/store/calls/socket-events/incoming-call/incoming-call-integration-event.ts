@@ -1,7 +1,7 @@
-import { IUserPreview } from 'app/store/models';
+import { IUser } from 'app/store/common/models';
 
 export interface IIncomingCallIntegrationEvent {
-  userInterlocutor: IUserPreview;
+  userInterlocutor: IUser;
   isVideoEnabled: boolean;
   offer: RTCSessionDescriptionInit;
 }

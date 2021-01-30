@@ -14,7 +14,7 @@ import { GroupChatAddFriendModal, ImageModal } from 'app/components';
 import { EditGroupChat } from 'app/store/chats/features/edit-group-chat/edit-group-chat';
 import { GetChatInfo } from 'app/store/chats/features/get-chat-info/get-chat-info';
 import { UploadAvatar } from 'app/store/my-profile/features/upload-avatar/upload-avatar';
-import { IAvatar, IAvatarSelectedData } from 'app/store/models';
+import { IAvatar, IAvatarSelectedData } from 'app/store/common/models';
 import { InterlocutorInfo } from './interlocutor-info/interlocutor-info';
 import { ChatActions as ChatInfoActions } from './chat-actions/chat-actions';
 import { ChatMembers } from './chat-members/chat-members';

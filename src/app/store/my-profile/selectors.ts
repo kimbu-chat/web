@@ -1,9 +1,9 @@
-import { IUserPreview } from '../models';
+import { IUser } from '../common/models';
 import { RootState } from '../root-reducer';
 
 export const getMyIdSelector = (state: RootState): number | undefined => state.myProfile.user?.id;
 
-export const getMyProfileSelector = (state: RootState): IUserPreview | undefined => state.myProfile.user;
+export const getMyProfileSelector = (state: RootState): IUser | undefined => state.myProfile.user;
 
 export const getMyPhoneNumberSelector = (state: RootState): string | undefined => state.myProfile.user?.phoneNumber;
 

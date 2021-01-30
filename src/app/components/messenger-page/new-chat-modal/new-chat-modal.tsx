@@ -5,7 +5,7 @@ import './new-chat-modal.scss';
 import { FriendActions } from 'store/friends/actions';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { LocalizationContext } from 'app/app';
-import { IUserPreview, IPage } from 'app/store/models';
+import { IUser, IPage } from 'app/store/common/models';
 import { useHistory } from 'react-router';
 
 import PeopleSvg from 'icons/ic-group.svg';
@@ -34,7 +34,7 @@ export const NewChatModal: React.FC<INewChatModalProps> = React.memo(({ onClose,
 
   const history = useHistory();
 
-  const createEmptyChat = useCallback((user: IUserPreview) => {
+  const createEmptyChat = useCallback((user: IUser) => {
     createChat(user);
     const chatId = ChatId.from(user.id).id;
     history.push(`/chats/${chatId}`);

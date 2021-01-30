@@ -1,4 +1,4 @@
-import { IUserPreview } from 'app/store/models';
+import { IUser } from 'app/store/common/models';
 import { ICall } from './call';
 
 export interface ICallsState {
@@ -6,7 +6,7 @@ export interface ICallsState {
   isIncomingCallVideoEnbaled?: boolean;
   isInterlocutorVideoEnabled: boolean;
   isInterlocutorBusy: boolean;
-  interlocutor?: IUserPreview;
+  interlocutor?: IUser;
   amICalled: boolean;
   amICalling: boolean;
   isSpeaking: boolean;

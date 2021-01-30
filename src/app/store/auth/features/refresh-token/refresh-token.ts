@@ -1,6 +1,5 @@
 import { AuthService } from 'app/services/auth-service';
-import { authRequestFactory } from 'app/store/common/http-factory';
-import { HttpRequestMethod } from 'app/store/models';
+import { HttpRequestMethod, authRequestFactory } from 'app/store/common/http';
 
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
@@ -32,8 +31,8 @@ export class RefreshToken {
       const { refreshToken } = authService.securityTokens;
 
       try {
-        const { data }: AxiosResponse<IRefreshTokenApiResponse> = yield call(() => RefreshToken.httpRequest.generator({ refreshToken }));
-        new AuthService().initialize(data);
+        const { httpRequest } = RefreshToken;
+        const { data } = httpRequest.call(yield call(() => httpRequest.generator({ refreshToken })));
         yield put(RefreshTokenSuccess.action(data));
       } catch (e) {
         yield put(RefreshTokenFailure.action());

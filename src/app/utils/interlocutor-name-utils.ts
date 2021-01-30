@@ -1,4 +1,4 @@
-import { IUserPreview } from 'app/store/models';
+import { IUser } from 'app/store/common/models';
 import { IChat } from 'store/chats/models';
 
 export const getChatInterlocutor = (chat: IChat): string => {
@@ -29,7 +29,7 @@ export const getInterlocutorInitials = (chat: IChat): string => {
   return shortedInitials;
 };
 
-export const getUserInitials = (user?: IUserPreview) => {
+export const getUserInitials = (user?: IUser) => {
   if (!user) {
     return '';
   }

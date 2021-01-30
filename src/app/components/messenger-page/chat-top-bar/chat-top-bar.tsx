@@ -6,7 +6,7 @@ import './chat-top-bar.scss';
 import { LocalizationContext } from 'app/app';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { CallActions } from 'store/calls/actions';
-import { IUserPreview, UserStatus } from 'app/store/models';
+import { IUser, UserStatus } from 'app/store/common/models';
 import { Avatar, SearchBox, StatusBadge } from 'components';
 
 import VoiceCallSvg from 'icons/audio-call.svg';
@@ -39,7 +39,7 @@ export const ChatTopBar = React.memo(() => {
   const callWithVideo = useCallback(
     () =>
       callInterlocutor({
-        calling: selectedChat?.interlocutor as IUserPreview,
+        calling: selectedChat?.interlocutor as IUser,
         constraints: {
           videoEnabled: true,
           audioEnabled: true,
@@ -51,7 +51,7 @@ export const ChatTopBar = React.memo(() => {
   const callWithAudio = useCallback(
     () =>
       callInterlocutor({
-        calling: selectedChat?.interlocutor as IUserPreview,
+        calling: selectedChat?.interlocutor as IUser,
         constraints: {
           videoEnabled: false,
           audioEnabled: true,

@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import './friend-item.scss';
 
 import { Avatar } from 'components';
-import { IUserPreview } from 'app/store/models';
+import { IUser } from 'app/store/common/models';
 import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 
 import SelectedSvg from 'icons/ic-check-filled.svg';
@@ -11,8 +11,8 @@ import UnSelectedSvg from 'icons/ic-check-outline.svg';
 interface IFriendItemProps {
   changeSelectedState?: (id: number) => void;
   isSelected?: boolean;
-  friend: IUserPreview;
-  onClick?: (user: IUserPreview) => void;
+  friend: IUser;
+  onClick?: (user: IUser) => void;
 }
 
 export const FriendItem: React.FC<IFriendItemProps> = React.memo(({ changeSelectedState, friend, isSelected, onClick }) => {

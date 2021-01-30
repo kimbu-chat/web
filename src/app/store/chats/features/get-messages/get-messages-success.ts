@@ -13,10 +13,7 @@ export class GetMessagesSuccess {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof GetMessagesSuccess.action>) => {
       const { chatId, hasMoreMessages, messages, isFromSearch }: IGetMessagesSuccessActionPayload = payload;
 
-      console.log('GET_MESSAGES_SUCCESS');
       if (draft.messages[chatId]) {
-        console.log('raft.messages[chatId]');
-
         draft.messages[chatId].hasMore = hasMoreMessages;
 
         draft.messages[chatId].loading = false;

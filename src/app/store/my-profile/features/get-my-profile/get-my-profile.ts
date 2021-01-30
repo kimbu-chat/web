@@ -1,8 +1,9 @@
 import { MyProfileService } from 'app/services/my-profile-service';
-import { amIAuthenticatedSelector } from 'app/store/auth/selectors';
+import { authenticatedSelector } from 'app/store/auth/selectors';
 import { createEmptyAction } from 'app/store/common/actions';
-import { httpRequestFactory } from 'app/store/common/http-factory';
-import { HttpRequestMethod, IUserPreview } from 'app/store/models';
+import { HttpRequestMethod, httpRequestFactory } from 'app/store/common/http';
+
+import { IUser } from 'app/store/common/models';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
@@ -15,22 +16,23 @@ export class GetMyProfile {
 
   static get saga() {
     return function* (): SagaIterator {
-      const amIauthenticated = yield select(amIAuthenticatedSelector);
+      const authenticated = yield select(authenticatedSelector);
 
-      if (!amIauthenticated) {
+      if (!authenticated) {
         return;
       }
 
       const profileService = new MyProfileService();
       const currentUserId = profileService.myProfile.id;
 
-      const { data } = GetMyProfile.httpRequest.call(yield call(() => GetMyProfile.httpRequest.generator(currentUserId)));
+      const { httpRequest } = GetMyProfile;
+      const { data } = httpRequest.call(yield call(() => httpRequest.generator(currentUserId)));
       profileService.setMyProfile(data);
       yield put(GetMyProfileSuccess.action(data));
     };
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IUserPreview>, number>((userId: number) => `${process.env.MAIN_API}/api/users/${userId}`, HttpRequestMethod.Get);
+    return httpRequestFactory<AxiosResponse<IUser>, number>((userId: number) => `${process.env.MAIN_API}/api/users/${userId}`, HttpRequestMethod.Get);
   }
 }

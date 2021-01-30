@@ -9,7 +9,7 @@ import { LocalizationContext } from 'app/app';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { getMyIdSelector } from 'app/store/my-profile/selectors';
-import { CallStatus } from 'app/store/models';
+import { CallStatus } from 'app/store/common/models';
 
 interface ICallItem {
   call: ICall;

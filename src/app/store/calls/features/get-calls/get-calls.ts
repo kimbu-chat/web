@@ -1,7 +1,5 @@
 import { HTTPStatusCode } from 'app/common/http-status-code';
-import { httpRequestFactory } from 'app/store/common/http-factory';
-import { HttpRequestMethod } from 'app/store/common/http-file-factory';
-
+import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
@@ -27,7 +25,8 @@ export class GetCalls {
     return function* (action: ReturnType<typeof GetCalls.action>): SagaIterator {
       const { page } = action.payload;
 
-      const { data, status } = GetCalls.httpRequest.call(yield call(() => GetCalls.httpRequest.generator(action.payload)));
+      const { httpRequest } = GetCalls;
+      const { data, status } = httpRequest.call(yield call(() => httpRequest.generator(action.payload)));
 
       const hasMore = data.length >= page.limit;
 

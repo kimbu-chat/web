@@ -1,5 +1,5 @@
-import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
-import { IUserPreview } from 'app/store/models';
+import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
+import { IUser } from 'app/store/common/models';
 
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
@@ -43,6 +43,6 @@ export class GetFriends {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IUserPreview[]>, IGetFriendsApiRequest>(`${process.env.MAIN_API}/api/contacts/search`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse<IUser[]>, IGetFriendsApiRequest>(`${process.env.MAIN_API}/api/contacts/search`, HttpRequestMethod.Post);
   }
 }

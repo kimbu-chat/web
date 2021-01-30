@@ -1,4 +1,4 @@
-import { IUserPreview } from 'app/store/models';
+import { IUser } from 'app/store/common/models';
 
 export interface IGroupChatCreatedIntegrationEvent {
   description?: string;
@@ -6,7 +6,7 @@ export interface IGroupChatCreatedIntegrationEvent {
   memberIds: number[];
   name: string;
   systemMessageId: number;
-  userCreator: IUserPreview;
+  userCreator: IUser;
   userCreatorId: number;
   avatarId?: number;
   avatarUrl?: string;

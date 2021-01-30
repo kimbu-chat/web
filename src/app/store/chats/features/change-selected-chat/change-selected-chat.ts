@@ -1,4 +1,4 @@
-import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http-factory';
+import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
 
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
@@ -7,7 +7,7 @@ import { call, put, select, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { getChatByIdSelector, getChatByIdDraftSelector, getIsFirstChatsLoadSelector } from 'app/store/chats/selectors';
 import { getFriendByIdSelector } from 'app/store/friends/selectors';
-import { IUserPreview } from 'app/store/models';
+import { IUser } from 'app/store/common/models';
 import { MESSAGES_LIMIT } from 'app/utils/pagination-limits';
 import { IChatsState, IChat, InterlocutorType, MessageState } from '../../models';
 import { GetChatsSuccess } from '../get-chats/get-chats-success';
@@ -67,7 +67,7 @@ export class ChangeSelectedChat {
           const chatIdDetails = action.payload.newChatId ? ChatId.fromId(action.payload.newChatId) : null;
 
           let data: IChat | null = null;
-          let user: IUserPreview | null = null;
+          let user: IUser | null = null;
 
           try {
             data = ChangeSelectedChat.httpRequest.getChat.call(
@@ -124,7 +124,7 @@ export class ChangeSelectedChat {
                 interlocutorType: InterlocutorType.User,
                 unreadMessagesCount: data?.unreadMessagesCount || 0,
                 interlocutorLastReadMessageId: data?.interlocutorLastReadMessageId || 0,
-                interlocutor: (data?.interlocutor || user) as IUserPreview,
+                interlocutor: (data?.interlocutor || user) as IUser,
                 typingInterlocutors: [],
                 photos: {
                   hasMore: true,
@@ -179,7 +179,7 @@ export class ChangeSelectedChat {
         ({ chatId }: IGetChatByIdApiRequest) => `${process.env.MAIN_API}/api/chats/${chatId}`,
         HttpRequestMethod.Get,
       ),
-      getUser: httpRequestFactory<AxiosResponse<IUserPreview>, IGetUserByIdApiRequest>(
+      getUser: httpRequestFactory<AxiosResponse<IUser>, IGetUserByIdApiRequest>(
         ({ userId }: IGetUserByIdApiRequest) => `${process.env.MAIN_API}/api/users/${userId.toString()}`,
         HttpRequestMethod.Get,
       ),

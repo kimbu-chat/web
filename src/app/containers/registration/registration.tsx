@@ -12,7 +12,7 @@ import { CancelAvatarUploading } from 'app/store/my-profile/features/cancel-avat
 import { UploadAvatar } from 'app/store/my-profile/features/upload-avatar/upload-avatar';
 import { validateNickname } from 'app/utils/validate-nick-name';
 import { Avatar, BaseBtn, PhotoEditor, CircularProgress } from 'components';
-import { IAvatarSelectedData, IAvatar } from 'app/store/models';
+import { IAvatarSelectedData, IAvatar } from 'app/store/common/models';
 
 interface IRegistrationProps {
   preloadNext: () => void;

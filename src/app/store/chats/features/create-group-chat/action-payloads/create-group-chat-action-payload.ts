@@ -1,9 +1,9 @@
-import { IUserPreview, IAvatar } from 'app/store/models';
+import { IUser, IAvatar } from 'app/store/common/models';
 
 export interface ICreateGroupChatActionPayload {
   name: string;
   description?: string;
   userIds: Array<number>;
-  currentUser: IUserPreview;
+  currentUser: IUser;
   avatar?: IAvatar | null;
 }

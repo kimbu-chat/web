@@ -1,7 +1,7 @@
 import { LocalizationContext } from 'app/app';
 import { Avatar } from 'components';
 import { ChatId } from 'store/chats/chat-id';
-import { IUserPreview, UserStatus } from 'app/store/models';
+import { IUser, UserStatus } from 'app/store/common/models';
 import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
@@ -10,7 +10,7 @@ import './friend.scss';
 import { TimeUpdateable } from 'app/components/shared/time-updateable/time-updateable';
 
 interface IFriendProps {
-  friend: IUserPreview;
+  friend: IUser;
 }
 
 export const Friend: React.FC<IFriendProps> = React.memo(({ friend }) => {

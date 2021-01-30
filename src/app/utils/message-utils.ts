@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { CallStatus } from 'app/store/models';
+import { CallStatus } from 'app/store/common/models';
 import { TFunction } from 'i18next';
 import { IMessage, SystemMessageType } from 'app/store/chats/models';
 import produce from 'immer';

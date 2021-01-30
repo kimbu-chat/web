@@ -3,11 +3,10 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { authRequestFactory } from 'app/store/common/http-factory';
+import { authRequestFactory, HttpRequestMethod } from 'app/store/common/http';
 
 import { Login } from 'app/store/auth/features/login/login';
 import { Meta } from 'store/common/actions';
-import { HttpRequestMethod } from 'app/store/models';
 import { ConfirmPhoneFailure } from './confirm-phone-failure';
 import { IAuthState } from '../../models';
 import { ConfirmPhoneRegistrationAllowed } from './confirm-phone-registration-allowed';
@@ -30,9 +29,7 @@ export class ConfirmPhone {
 
   static get saga() {
     return function* confirmPhoneNumberSaga(action: ReturnType<typeof ConfirmPhone.action>): SagaIterator {
-      const { data }: AxiosResponse<IConfirmPhoneApiResponse> = ConfirmPhone.httpRequest.call(
-        yield call(() => ConfirmPhone.httpRequest.generator(action.payload)),
-      );
+      const { data } = ConfirmPhone.httpRequest.call(yield call(() => ConfirmPhone.httpRequest.generator(action.payload)));
 
       if (data.isCodeCorrect && data.userExists) {
         const { phoneNumber, code } = action.payload;

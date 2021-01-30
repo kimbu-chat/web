@@ -16,7 +16,7 @@ import { getFriendsLoadingSelector, getHasMoreFriendsSelector, getMyFriendsSelec
 import { getMyProfileSelector } from 'app/store/my-profile/selectors';
 import { ICreateGroupChatActionPayload } from 'app/store/chats/features/create-group-chat/action-payloads/create-group-chat-action-payload';
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
-import { IAvatar, IAvatarSelectedData, IPage } from 'app/store/models';
+import { IAvatar, IAvatarSelectedData, IPage } from 'app/store/common/models';
 import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
 
 interface ICreateGroupChatProps {

@@ -1,13 +1,13 @@
 import React from 'react';
 import { getUserInitials } from 'app/utils/interlocutor-name-utils';
-import { IUserPreview, UserStatus } from 'app/store/models';
+import { IUser, UserStatus } from 'app/store/common/models';
 
 import { Avatar } from 'app/components';
 
 import './status-badge.scss';
 
 interface IStatusBadgeProps {
-  user: IUserPreview;
+  user: IUser;
   additionalClassNames?: string;
   containerClassName?: string;
 }

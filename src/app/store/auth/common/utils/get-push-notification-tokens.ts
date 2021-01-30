@@ -1,5 +1,5 @@
 import FingerprintJS from '@fingerprintjs/fingerprintjs';
-import { messaging } from '../middlewares/firebase/firebase';
+import { messaging } from '../../../middlewares/firebase/firebase';
 
 export async function getPushNotificationTokens() {
   async function retrieveApplicationToken() {

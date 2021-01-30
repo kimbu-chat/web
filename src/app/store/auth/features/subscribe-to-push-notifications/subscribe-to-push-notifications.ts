@@ -3,7 +3,7 @@ import { authRequestFactory, HttpRequestMethod } from 'app/store/common/http';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
-import { getPushNotificationTokens } from '../../get-push-notification-tokens';
+import { getPushNotificationTokens } from '../../common/utils';
 import { ISubscribeToPushNotificationsApiRequest } from './api-requests/subscribe-to-push-notifications-api-request';
 
 export class SubscribeToPushNotifications {
@@ -15,9 +15,7 @@ export class SubscribeToPushNotifications {
     return function* (): SagaIterator {
       const tokens = yield call(getPushNotificationTokens);
       if (tokens) {
-        const subscribeToPushNotificationsHttpRequest = SubscribeToPushNotifications.httpRequest;
-
-        yield call(() => subscribeToPushNotificationsHttpRequest.generator(tokens));
+        yield call(() => SubscribeToPushNotifications.httpRequest.generator(tokens));
       }
     };
   }

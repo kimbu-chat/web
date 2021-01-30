@@ -2,7 +2,7 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { put, take } from 'redux-saga/effects';
 import { createEmptyDefferedAction } from 'store/common/actions';
-import { IAuthState } from '../../models';
+import { IAuthState } from '../../auth-state';
 import { UnSubscribeToPushNotifications } from '../un-subscribe-from-push-notifications/un-subscribe-from-push-notifications';
 import { UnSubscribeToPushNotificationsSuccess } from '../un-subscribe-from-push-notifications/un-subscribe-from-push-notifications_success';
 

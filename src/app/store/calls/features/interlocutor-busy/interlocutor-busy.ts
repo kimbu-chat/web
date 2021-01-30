@@ -1,6 +1,6 @@
 import { createEmptyAction } from 'app/store/common/actions';
 import produce from 'immer';
-import { ICallsState } from '../../models';
+import { ICallsState } from '../../calls-state';
 
 export class InterlocutorBusy {
   static get action() {

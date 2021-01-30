@@ -4,7 +4,7 @@ import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import produce from 'immer';
 import { doIhaveCallSelector } from 'app/store/calls/selectors';
-import { ICallsState } from '../../models';
+import { ICallsState } from '../../calls-state';
 import { setIsRenegotiationAccepted } from '../../utils/glare-utils';
 import { IInterlocutorAcceptedCallIntegrationEvent } from './interlocutor-accepted-call-integration-event';
 

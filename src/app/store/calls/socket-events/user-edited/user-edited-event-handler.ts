@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { ICallsState } from '../../models';
+import { ICallsState } from '../../calls-state';
 import { IUserEditedIntegrationEvent } from './action-payloads/user-edited-integration-event';
 
 export class UserEditedEventHandler {

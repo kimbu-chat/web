@@ -1,7 +1,7 @@
 import { createReducer } from 'typesafe-actions';
 import { DeclineCall } from 'app/store/calls/features/decline-call/decline-call';
 import { RenegotiationSentEventHandler } from 'app/store/calls/socket-events/renegotiation-sent/renegotiation-sent-event-handler';
-import { ICallsState } from './models';
+import { ICallsState } from './calls-state';
 import { IncomingCallEventHandler } from './socket-events/incoming-call/incoming-call-event-handler';
 import { AcceptCall } from './features/accept-call/accept-call';
 import { CancelCallSuccess } from './features/cancel-call/cancel-call-success';

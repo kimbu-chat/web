@@ -8,7 +8,7 @@ import { authRequestFactory, HttpRequestMethod } from 'app/store/common/http';
 import { Login } from 'app/store/auth/features/login/login';
 import { Meta } from 'store/common/actions';
 import { ConfirmPhoneFailure } from './confirm-phone-failure';
-import { IAuthState } from '../../models';
+import { IAuthState } from '../../auth-state';
 import { ConfirmPhoneRegistrationAllowed } from './confirm-phone-registration-allowed';
 import { IConfirmProneApiRequest } from './api-requests/confirm-phone-api-request';
 import { IConfirmPhoneApiResponse } from './api-requests/confirm-phone-api-response';

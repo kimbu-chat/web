@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { IAuthState } from '../../models';
+import { IAuthState } from '../../auth-state';
 
 export class SendSmsCodeSuccess {
   static get action() {

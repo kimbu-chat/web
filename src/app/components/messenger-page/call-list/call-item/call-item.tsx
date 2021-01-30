@@ -1,4 +1,4 @@
-import { ICall } from 'store/calls/models';
+import { ICall } from 'app/store/calls/common/models';
 import './call-item.scss';
 import React, { useContext } from 'react';
 

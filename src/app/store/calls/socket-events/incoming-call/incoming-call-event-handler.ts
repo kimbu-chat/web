@@ -2,7 +2,7 @@ import { setInterlocutorOffer } from 'app/store/middlewares/webRTC/peerConnectio
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { createAction } from 'typesafe-actions';
-import { ICallsState } from '../../models';
+import { ICallsState } from '../../calls-state';
 import { IIncomingCallIntegrationEvent } from './incoming-call-integration-event';
 
 export class IncomingCallEventHandler {

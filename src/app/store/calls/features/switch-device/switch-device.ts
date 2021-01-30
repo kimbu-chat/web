@@ -3,7 +3,7 @@ import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { getAudioConstraintsSelector, getVideoConstraintsSelector } from 'app/store/calls/selectors';
-import { ICallsState } from '../../models';
+import { ICallsState } from '../../calls-state';
 import { audioSender, getUserAudio, getUserVideo, tracks, videoSender } from '../../utils/user-media';
 import { ISwitchDeviceActionPayload } from './action-payloads/switch-device-action-payload';
 import { InputType } from '../../common/enums/input-type';

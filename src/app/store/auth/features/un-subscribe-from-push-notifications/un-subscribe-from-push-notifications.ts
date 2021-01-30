@@ -4,7 +4,7 @@ import { messaging } from 'app/store/middlewares/firebase/firebase';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
-import { getPushNotificationTokens } from '../../get-push-notification-tokens';
+import { getPushNotificationTokens } from '../../common/utils';
 import { IUnsubscribeFromPushNotificationsRequest } from './api-requests/unsubscribe-from-push-notifications-api-request';
 import { UnSubscribeToPushNotificationsSuccess } from './un-subscribe-from-push-notifications_success';
 

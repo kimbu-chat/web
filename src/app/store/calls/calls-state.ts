@@ -1,5 +1,5 @@
 import { IUser } from 'app/store/common/models';
-import { ICall } from './call';
+import { ICall } from './common/models/call';
 
 export interface ICallsState {
   isActiveCallIncoming?: boolean;

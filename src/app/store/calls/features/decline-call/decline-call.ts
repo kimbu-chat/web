@@ -6,7 +6,7 @@ import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
-import { ICallsState } from '../../models';
+import { ICallsState } from '../../calls-state';
 
 export class DeclineCall {
   static get action() {

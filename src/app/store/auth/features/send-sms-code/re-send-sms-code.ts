@@ -6,7 +6,7 @@ import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
-import { IAuthState } from '../../models';
+import { IAuthState } from '../../auth-state';
 import { getAuthPhoneNumberSelector } from '../../selectors';
 import { SendSmsCodeFailure } from './send-sms-code-failure';
 import { SendSmsCodeSuccess } from './send-sms-code-success';

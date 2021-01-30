@@ -6,7 +6,7 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createEmptyAction } from 'store/common/actions';
-import { IAuthState } from '../../models';
+import { IAuthState } from '../../auth-state';
 import { IRefreshTokenApiRequest } from './api-requests/refresh-token-api-request';
 import { IRefreshTokenApiResponse } from './api-requests/refresh-token-api-response';
 import { RefreshTokenFailure } from './refresh-token-failure';

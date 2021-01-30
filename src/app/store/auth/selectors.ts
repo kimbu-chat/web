@@ -1,5 +1,5 @@
 import { RootState } from 'app/store/root-reducer';
-import { ISecurityTokens } from './models';
+import { ISecurityTokens } from './common/models';
 
 export const selectSecurityTokensSelector = (state: RootState): ISecurityTokens | undefined => state.auth.securityTokens;
 

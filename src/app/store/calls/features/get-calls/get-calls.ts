@@ -5,10 +5,11 @@ import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import produce from 'immer';
-import { ICall, ICallsState } from '../../models';
+import { ICall } from '../../common/models';
 import { IGetCallsActionPayload } from './action-payloads/get-calls-action-payload';
 import { GetCallsSuccess } from './get-calls-success';
 import { IGetCallsApiRequest } from './api-requests/get-calls-api-requests';
+import { ICallsState } from '../../calls-state';
 
 export class GetCalls {
   static get action() {

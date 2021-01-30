@@ -6,7 +6,7 @@ import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { Meta } from 'store/common/actions';
-import { IAuthState } from '../../models';
+import { IAuthState } from '../../auth-state';
 import { ISendSmsCodeActionPayload } from './action-payloads/send-sms-code-action-payload';
 import { SendSmsCodeFailure } from './send-sms-code-failure';
 import { SendSmsCodeSuccess } from './send-sms-code-success';

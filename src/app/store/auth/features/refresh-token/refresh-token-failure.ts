@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { createEmptyAction } from 'store/common/actions';
-import { IAuthState } from '../../models';
+import { IAuthState } from '../../auth-state';
 
 export class RefreshTokenFailure {
   static get action() {

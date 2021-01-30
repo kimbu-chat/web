@@ -11,7 +11,7 @@ import { select, put, call } from 'redux-saga/effects';
 
 import { getMyIdSelector } from 'store/my-profile/selectors';
 import { ICallEndedIntegrationEvent } from './call-ended-integration-event';
-import { ICall } from '../../models';
+import { ICall } from '../../common/models';
 import { IGetCallByIdApiRequest } from './api-requests/get-call-by-id-api-request';
 
 export class CallEndedEventHandler {

@@ -6,7 +6,7 @@ import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import produce from 'immer';
-import { ICallsState } from '../../models/calls-state';
+import { ICallsState } from '../../calls-state';
 import { getCallInterlocutorIdSelector, getIsActiveCallIncomingSelector } from '../../selectors';
 
 import { ignoreOffer, isSettingRemoteAnswerPending, makingOffer, setIgnoreOffer } from '../../utils/glare-utils';

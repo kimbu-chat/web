@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, CancelTokenSource
 import { call, cancelled, put, select, take, takeEvery } from 'redux-saga/effects';
 import { END, eventChannel, SagaIterator, buffers } from 'redux-saga';
 import { isNetworkError } from 'app/utils/error-utils';
-import { ISecurityTokens } from '../../auth/models';
+import { ISecurityTokens } from '../../auth/common/models';
 import { selectSecurityTokensSelector } from '../../auth/selectors';
 import { RefreshToken } from '../../auth/features/refresh-token/refresh-token';
 import { RefreshTokenSuccess } from '../../auth/features/refresh-token/refresh-token-success';

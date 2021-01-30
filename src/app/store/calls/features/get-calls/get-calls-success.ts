@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { ICallsState } from '../../models';
+import { ICallsState } from '../../calls-state';
 import { IGetCallsSuccessActionPayload } from './action-payloads/get-calls-success-action-payload';
 
 export class GetCallsSuccess {

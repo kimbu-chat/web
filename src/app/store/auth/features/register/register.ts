@@ -5,7 +5,7 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { IAuthState } from '../../models';
+import { IAuthState } from '../../auth-state';
 import { getAuthPhoneNumberSelector, getConfirmationCodeSelector, getTwoLetterCountryCodeSelector } from '../../selectors';
 import { Login } from '../login/login';
 import { LoginSuccess } from '../login/login-success';

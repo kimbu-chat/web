@@ -7,14 +7,12 @@ import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { AppInit } from 'app/store/initiation/features/app-init/app-init';
-import { getPushNotificationTokens } from '../../get-push-notification-tokens';
-import { ISecurityTokens } from '../../models';
 import { ILoginApiRequest } from './api-requests/login-api-request';
 import { ILoginApiResponse } from './api-requests/login-api-response';
 import { ILoginActionPayload } from './action-payloads/login-action-payload';
 import { LoginSuccess } from './login-success';
 import { ICustomJwtPayload } from './models/custom-jwt-payload';
-import { ISubscribeToPushNotificationsApiRequest } from './api-requests/subscribe-to-push-notifications-api-request';
+import { SubscribeToPushNotifications } from '../subscribe-to-push-notifications/subscribe-to-push-notifications';
 
 export class Login {
   static get action() {
@@ -26,26 +24,12 @@ export class Login {
       const loginHttpRequest = Login.httpRequest;
 
       const { data } = loginHttpRequest.call(yield call(() => loginHttpRequest.generator(action.payload)));
+
       const userProfile: IUser = JSON.parse(jwt_decode<ICustomJwtPayload>(data.accessToken).profile);
+
       yield put(GetMyProfileSuccess.action(userProfile));
-
-      const securityTokens: ISecurityTokens = {
-        accessToken: data.accessToken,
-        refreshToken: data.refreshToken,
-        refreshTokenExpirationTime: data.refreshTokenExpirationTime,
-      };
-      yield put(LoginSuccess.action(securityTokens));
-
-      const tokens = yield call(getPushNotificationTokens);
-      if (tokens) {
-        const subscribeToPushNotificationsHttpRequest = authRequestFactory<AxiosResponse, ISubscribeToPushNotificationsApiRequest>(
-          `${process.env.NOTIFICATIONS_API}/api/notifications/subscribe`,
-          HttpRequestMethod.Post,
-        );
-
-        yield call(() => subscribeToPushNotificationsHttpRequest.generator(tokens));
-      }
-
+      yield put(LoginSuccess.action(data));
+      yield put(SubscribeToPushNotifications.action());
       yield put(AppInit.action());
     };
   }

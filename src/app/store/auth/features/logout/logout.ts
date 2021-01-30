@@ -1,13 +1,10 @@
-import { authRequestFactory, HttpRequestMethod } from 'app/store/common/http';
-import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { call } from 'redux-saga/effects';
+import { put, take } from 'redux-saga/effects';
 import { createEmptyDefferedAction } from 'store/common/actions';
-import { messaging } from 'store/middlewares/firebase/firebase';
-import { getPushNotificationTokens } from '../../get-push-notification-tokens';
 import { IAuthState } from '../../models';
-import { IUnsubscribeFromPushNotificationsRequest } from './api-requests/unsubscribe-from-push-notifications-api-request';
+import { UnSubscribeToPushNotifications } from '../un-subscribe-from-push-notifications/un-subscribe-from-push-notifications';
+import { UnSubscribeToPushNotificationsSuccess } from '../un-subscribe-from-push-notifications/un-subscribe-from-push-notifications_success';
 
 export class Logout {
   static get action() {
@@ -23,23 +20,11 @@ export class Logout {
 
   static get saga() {
     return function* (action: ReturnType<typeof Logout.action>): SagaIterator {
-      const tokens = yield call(getPushNotificationTokens);
-
-      if (tokens) {
-        yield call(() => Logout.httpRequest.generator(tokens));
-
-        yield call(async () => await messaging?.deleteToken());
-      }
-
+      yield put(UnSubscribeToPushNotifications.action());
+      yield take(UnSubscribeToPushNotificationsSuccess.action);
+      // todo: send logout request
       localStorage.clear();
       action?.meta.deferred.resolve();
     };
-  }
-
-  static get httpRequest() {
-    return authRequestFactory<AxiosResponse, IUnsubscribeFromPushNotificationsRequest>(
-      `${process.env.NOTIFICATIONS_API}/api/notifications/unsubscribe`,
-      HttpRequestMethod.Post,
-    );
   }
 }

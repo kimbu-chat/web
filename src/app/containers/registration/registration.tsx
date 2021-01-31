@@ -5,7 +5,7 @@ import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import CloseSVG from 'icons/ic-close.svg';
 import { LocalizationContext } from 'app/app';
-import { getAuthIsLoadingSelector } from 'app/store/auth/selectors';
+import { authLoadingSelector } from 'app/store/auth/selectors';
 import { useSelector } from 'react-redux';
 import { CheckNicknameAvailability } from 'app/store/my-profile/features/check-nickname-availability/check-nickname-availability';
 import { CancelAvatarUploading } from 'app/store/my-profile/features/cancel-avatar-uploading/cancel-avatar-uploading';
@@ -21,7 +21,7 @@ interface IRegistrationProps {
 export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
   const { t } = useContext(LocalizationContext);
 
-  const isLoading = useSelector(getAuthIsLoadingSelector);
+  const isLoading = useSelector(authLoadingSelector);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 

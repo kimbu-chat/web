@@ -3,7 +3,7 @@ import { call, cancelled, put, select, take, takeEvery } from 'redux-saga/effect
 import { END, eventChannel, SagaIterator, buffers } from 'redux-saga';
 import { isNetworkError } from 'app/utils/error-utils';
 import { ISecurityTokens } from '../../auth/common/models';
-import { selectSecurityTokensSelector } from '../../auth/selectors';
+import { securityTokensSelector } from '../../auth/selectors';
 import { RefreshToken } from '../../auth/features/refresh-token/refresh-token';
 import { RefreshTokenSuccess } from '../../auth/features/refresh-token/refresh-token-success';
 import { RootState } from '../../root-reducer';
@@ -102,7 +102,7 @@ function* httpRequest<T>(
     responseType: 'json',
   };
 
-  const auth: ISecurityTokens = yield select(selectSecurityTokensSelector);
+  const auth: ISecurityTokens = yield select(securityTokensSelector);
 
   if (auth && auth.accessToken) {
     requestConfig.headers = {

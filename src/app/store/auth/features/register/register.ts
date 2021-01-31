@@ -6,7 +6,7 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, select, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { IAuthState } from '../../auth-state';
-import { getAuthPhoneNumberSelector, getConfirmationCodeSelector, getTwoLetterCountryCodeSelector } from '../../selectors';
+import { authPhoneNumberSelector, confirmationCodeSelector, twoLetterCountryCodeSelector } from '../../selectors';
 import { Login } from '../login/login';
 import { LoginSuccess } from '../login/login-success';
 import { IRegisterActionPayload } from './action-payloads/register-action-payload';
@@ -28,11 +28,11 @@ export class Register {
     return function* (action: ReturnType<typeof Register.action>): SagaIterator {
       const { firstName, lastName, nickname, avatarId } = action.payload;
 
-      const phoneNumber = yield select(getAuthPhoneNumberSelector);
+      const phoneNumber = yield select(authPhoneNumberSelector);
 
-      const twoLetterCountryCode = yield select(getTwoLetterCountryCodeSelector);
+      const twoLetterCountryCode = yield select(twoLetterCountryCodeSelector);
 
-      const confirmationCode = yield select(getConfirmationCodeSelector);
+      const confirmationCode = yield select(confirmationCodeSelector);
 
       yield call(() => Register.httpRequest.generator({ firstName, lastName, nickname, phoneNumber, twoLetterCountryCode, avatarId }));
 

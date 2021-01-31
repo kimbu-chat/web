@@ -7,7 +7,7 @@ import { call, put, select } from 'redux-saga/effects';
 import { createEmptyAction } from 'store/common/actions';
 import { IAuthState } from '../../auth-state';
 import { ISecurityTokens } from '../../common/models';
-import { selectSecurityTokensSelector } from '../../selectors';
+import { securityTokensSelector } from '../../selectors';
 import { IRefreshTokenApiRequest } from './api-requests/refresh-token-api-request';
 import { IRefreshTokenApiResponse } from './api-requests/refresh-token-api-response';
 import { RefreshTokenFailure } from './refresh-token-failure';
@@ -27,7 +27,7 @@ export class RefreshToken {
 
   static get saga() {
     return function* (): SagaIterator {
-      const { refreshToken }: ISecurityTokens = yield select(selectSecurityTokensSelector);
+      const { refreshToken }: ISecurityTokens = yield select(securityTokensSelector);
 
       try {
         const { httpRequest } = RefreshToken;

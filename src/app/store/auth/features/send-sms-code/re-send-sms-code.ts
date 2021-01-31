@@ -7,7 +7,7 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { IAuthState } from '../../auth-state';
-import { getAuthPhoneNumberSelector } from '../../selectors';
+import { authPhoneNumberSelector } from '../../selectors';
 import { SendSmsCodeFailure } from './send-sms-code-failure';
 import { SendSmsCodeSuccess } from './send-sms-code-success';
 
@@ -26,7 +26,7 @@ export class ReSendSmsCode {
 
   static get saga() {
     return function* sendSmsPhoneConfirmationCodeSaga(action: ReturnType<typeof ReSendSmsCode.action>): SagaIterator {
-      const phoneNumber = yield select(getAuthPhoneNumberSelector);
+      const phoneNumber = yield select(authPhoneNumberSelector);
 
       const { httpRequest } = ReSendSmsCode;
       const { data, status } = httpRequest.call(yield call(() => httpRequest.generator({ phoneNumber })));

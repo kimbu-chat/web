@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { getCountryByIp } from 'app/utils/get-country-by-ip';
 import { CubeLoader } from 'app/containers/cube-loader/cube-loader';
-import { getAuthIsLoadingSelector } from 'app/store/auth/selectors';
+import { authLoadingSelector } from 'app/store/auth/selectors';
 
 const PrivacyPolicy = lazy(() => import('app/components/shared/privacy-policy/privacy-policy'));
 
@@ -24,7 +24,7 @@ const PhoneConfirmation: React.FC<IPhoneConfirmationProps> = ({ preloadNext }) =
 
   const history = useHistory();
 
-  const isLoading = useSelector(getAuthIsLoadingSelector);
+  const isLoading = useSelector(authLoadingSelector);
 
   const [country, setCountry] = useState<ICountry>(countryList[countryList.length - 1]);
   const [phone, setPhone] = useState<string>('');

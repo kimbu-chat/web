@@ -13,7 +13,7 @@ import { IChat } from 'store/chats/models';
 import { useHistory } from 'react-router';
 import { MyProfileActions } from 'store/my-profile/actions';
 import { getFriendsLoadingSelector, getHasMoreFriendsSelector, getMyFriendsSelector } from 'app/store/friends/selectors';
-import { getMyProfileSelector } from 'app/store/my-profile/selectors';
+import { myProfileSelector } from 'app/store/my-profile/selectors';
 import { ICreateGroupChatActionPayload } from 'app/store/chats/features/create-group-chat/action-payloads/create-group-chat-action-payload';
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
 import { IAvatar, IAvatarSelectedData, IPage } from 'app/store/common/models';
@@ -32,7 +32,7 @@ enum GroupChatCreationStage {
 export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(({ onClose, preSelectedUserIds }) => {
   const { t } = useContext(LocalizationContext);
 
-  const currentUser = useSelector(getMyProfileSelector);
+  const currentUser = useSelector(myProfileSelector);
   const friends = useSelector(getMyFriendsSelector);
   const hasMoreFriends = useSelector(getHasMoreFriendsSelector);
   const friendsLoading = useSelector(getFriendsLoadingSelector);

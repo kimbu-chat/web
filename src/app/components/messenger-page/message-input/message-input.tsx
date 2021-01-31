@@ -8,7 +8,7 @@ import { MessageTyping } from 'app/store/chats/features/message-typing/message-t
 import { UploadAttachmentRequest } from 'app/store/chats/features/upload-attachment/upload-attachment-request';
 import { SystemMessageType, MessageState, FileType, IMessage, MessageLinkType } from 'app/store/chats/models';
 import { getMessageToReplySelector, getSelectedChatSelector } from 'app/store/chats/selectors';
-import { getMyProfileSelector } from 'app/store/my-profile/selectors';
+import { myProfileSelector } from 'app/store/my-profile/selectors';
 import { getTypingStrategySelector } from 'app/store/settings/selectors';
 import { getFileType } from 'app/utils/get-file-extension';
 import moment from 'moment';
@@ -43,9 +43,9 @@ export const CreateMessageInput = React.memo(() => {
   const notifyAboutTyping = useActionWithDispatch(MessageTyping.action);
   const uploadAttachmentRequest = useActionWithDispatch(UploadAttachmentRequest.action);
 
-  const currentUser = useSelector(getMyProfileSelector);
+  const currentUser = useSelector(myProfileSelector);
   const selectedChat = useSelector(getSelectedChatSelector);
-  const myProfile = useSelector(getMyProfileSelector);
+  const myProfile = useSelector(myProfileSelector);
   const myTypingStrategy = useSelector(getTypingStrategySelector);
   const replyingMessage = useSelector(getMessageToReplySelector);
   const refferedReplyingMessage = useReferState(replyingMessage);

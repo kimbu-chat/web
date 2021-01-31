@@ -3,7 +3,7 @@ import { MessageUtils } from 'app/utils/message-utils';
 import { useSelector } from 'react-redux';
 import './message-item.scss';
 
-import { getMyIdSelector } from 'store/my-profile/selectors';
+import { myIdSelector } from 'store/my-profile/selectors';
 import { LocalizationContext } from 'app/app';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { getIsSelectMessagesStateSelector } from 'store/chats/selectors';
@@ -45,7 +45,7 @@ interface IMessageItemProps {
 const MessageItem: React.FC<IMessageItemProps> = React.memo(
   ({ message }) => {
     const isSelectState = useSelector(getIsSelectMessagesStateSelector);
-    const myId = useSelector(getMyIdSelector) as number;
+    const myId = useSelector(myIdSelector) as number;
 
     const isCurrentUserMessageCreator = message.userCreator?.id === myId;
 

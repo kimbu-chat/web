@@ -12,7 +12,7 @@ import { RootState } from 'app/store/root-reducer';
 import { playSoundSafely } from 'app/utils/current-music';
 import { resetFavicons, setFavicon } from 'app/utils/set-favicon';
 import { ChangeUserOnlineStatus } from '../../../my-profile/features/change-user-online-status/change-user-online-status';
-import { getIsTabActiveSelector, getMyIdSelector } from '../../../my-profile/selectors';
+import { tabActiveSelector, myIdSelector } from '../../../my-profile/selectors';
 import { ChangeSelectedChat } from '../../features/change-selected-chat/change-selected-chat';
 import { MarkMessagesAsRead } from '../../features/mark-messages-as-read/mark-messages-as-read';
 import {
@@ -71,7 +71,7 @@ export class MessageCreatedEventHandler {
       const { attachments, chatId, creationDateTime, id, systemMessageType, text, userCreator, linkedMessageId, linkedMessageType } = action.payload;
 
       const messageExists = yield select(getChatHasMessageWithIdSelector(id, chatId));
-      const isTabActive = yield select(getIsTabActiveSelector);
+      const isTabActive = yield select(tabActiveSelector);
 
       const message: IMessage = {
         attachments,
@@ -91,7 +91,7 @@ export class MessageCreatedEventHandler {
       }
 
       const selectedChatId = yield select(getSelectedChatIdSelector);
-      const myId = yield select(getMyIdSelector);
+      const myId = yield select(myIdSelector);
 
       let linkedMessage: IMessage | null = null;
 

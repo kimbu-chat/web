@@ -1,5 +1,5 @@
 import { Avatar, BaseBtn, PhotoEditor } from 'components';
-import { getMyProfileSelector } from 'store/my-profile/selectors';
+import { myProfileSelector } from 'store/my-profile/selectors';
 import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 import React, { useCallback, useContext, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
@@ -16,7 +16,7 @@ import { validateNickname } from 'app/utils/validate-nick-name';
 
 export const EditProfile = React.memo(() => {
   const { t } = useContext(LocalizationContext);
-  const myProfile = useSelector(getMyProfileSelector);
+  const myProfile = useSelector(myProfileSelector);
 
   const uploadAvatar = useActionWithDeferred(MyProfileActions.uploadAvatarRequestAction);
   const updateMyProfile = useActionWithDeferred(MyProfileActions.updateMyProfileAction);

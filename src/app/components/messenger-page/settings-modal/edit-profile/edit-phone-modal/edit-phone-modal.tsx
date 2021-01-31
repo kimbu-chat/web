@@ -6,7 +6,7 @@ import { parsePhoneNumber, parsePhoneNumberFromString } from 'libphonenumber-js'
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import './edit-phone-modal.scss';
-import { getMyPhoneNumberSelector } from 'app/store/my-profile/selectors';
+import { myPhoneNumberSelector } from 'app/store/my-profile/selectors';
 import { ModalCountrySelect } from './modal-country-select/modal-country-select';
 import { ModalPhoneInput } from './modal-phone-input/modal-phone-input';
 
@@ -17,7 +17,7 @@ interface IEditPhoneModalProps {
 export const EditPhoneModal: React.FC<IEditPhoneModalProps> = React.memo(({ onClose }) => {
   const { t } = useContext(LocalizationContext);
 
-  const currentNumber = useSelector(getMyPhoneNumberSelector);
+  const currentNumber = useSelector(myPhoneNumberSelector);
   const currentNumberCountry = parsePhoneNumber(currentNumber!).country;
 
   const [country, setCountry] = useState<ICountry>(countryList.find(({ code }) => currentNumberCountry === code)!);

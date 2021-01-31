@@ -10,15 +10,15 @@ import LogoutSvg from 'icons/logout.svg';
 
 import { getSelectedChatIdSelector } from 'store/chats/selectors';
 import { useSelector } from 'react-redux';
-import { getMyProfilePhotoSelector, getMyFullNameSelector } from 'app/store/my-profile/selectors';
+import { myProfilePhotoSelector, myFullNameSelector } from 'app/store/my-profile/selectors';
 import { Avatar, FadeAnimationWrapper, SettingsModal } from 'app/components';
 import { getStringInitials } from 'app/utils/interlocutor-name-utils';
 
 export const RoutingChats = React.memo(() => {
   const selectedChatId = useSelector(getSelectedChatIdSelector);
 
-  const myPhoto = useSelector(getMyProfilePhotoSelector);
-  const myName = useSelector(getMyFullNameSelector);
+  const myPhoto = useSelector(myProfilePhotoSelector);
+  const myName = useSelector(myFullNameSelector);
 
   const [settingsDisplayed, setSettingsDisplayed] = useState(false);
 

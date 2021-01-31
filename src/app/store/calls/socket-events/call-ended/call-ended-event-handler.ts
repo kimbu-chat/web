@@ -9,7 +9,7 @@ import { UpdateStore } from 'app/store/update-store';
 import { AxiosResponse } from 'axios';
 import { select, put, call } from 'redux-saga/effects';
 
-import { getMyIdSelector } from 'store/my-profile/selectors';
+import { myIdSelector } from 'store/my-profile/selectors';
 import { ICallEndedIntegrationEvent } from './call-ended-integration-event';
 import { ICall } from '../../common/models';
 import { IGetCallByIdApiRequest } from './api-requests/get-call-by-id-api-request';
@@ -31,7 +31,7 @@ export class CallEndedEventHandler {
 
         if (interlocutor) {
           const isActiveCallIncoming = yield select(getIsActiveCallIncomingSelector);
-          const myId = yield select(getMyIdSelector);
+          const myId = yield select(myIdSelector);
 
           activeCall = {
             id,

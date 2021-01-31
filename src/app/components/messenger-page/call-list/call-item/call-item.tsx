@@ -8,7 +8,7 @@ import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 import { LocalizationContext } from 'app/app';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
-import { getMyIdSelector } from 'app/store/my-profile/selectors';
+import { myIdSelector } from 'app/store/my-profile/selectors';
 import { CallStatus } from 'app/store/common/models';
 
 interface ICallItem {
@@ -18,7 +18,7 @@ interface ICallItem {
 export const CallItem: React.FC<ICallItem> = ({ call }) => {
   const { t } = useContext(LocalizationContext);
 
-  const myId = useSelector(getMyIdSelector);
+  const myId = useSelector(myIdSelector);
 
   return (
     <div className='call-from-list'>

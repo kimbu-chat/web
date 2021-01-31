@@ -9,7 +9,7 @@ import { MessageUtils } from 'app/utils/message-utils';
 
 import { StatusBadge, Avatar } from 'components';
 import { LocalizationContext } from 'app/app';
-import { getMyIdSelector } from 'store/my-profile/selectors';
+import { myIdSelector } from 'store/my-profile/selectors';
 import truncate from 'lodash/truncate';
 
 import MessageQeuedSvg from 'icons/ic-time.svg';
@@ -27,7 +27,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(
   ({ chat }) => {
     const { t } = useContext(LocalizationContext);
 
-    const currentUserId = useSelector(getMyIdSelector) as number;
+    const currentUserId = useSelector(myIdSelector) as number;
     const typingString = useSelector(getTypingStringSelector(t, chat.id));
 
     const isMessageCreatorCurrentUser: boolean = chat.lastMessage?.userCreator?.id === currentUserId;

@@ -53,9 +53,7 @@ function* httpRequest<T>(url: string, method: HttpRequestMethod, body?: T, token
   }
 
   const response = yield call(retryOnNetworkConnectionError, function* () {
-    return yield call(retryOnNetworkConnectionError, function* () {
-      return yield call(axios.create().request, requestConfig);
-    });
+    return yield call(axios.create().request, requestConfig);
   });
 
   return response;

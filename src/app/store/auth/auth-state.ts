@@ -8,6 +8,5 @@ export interface IAuthState {
   isConfirmationCodeWrong: boolean;
   isAuthenticated: boolean;
   securityTokens: ISecurityTokens | undefined;
-  registrationAllowed?: boolean;
   refreshTokenRequestLoading: boolean;
 }

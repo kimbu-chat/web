@@ -9,7 +9,7 @@ import { Login } from 'app/store/auth/features/login/login';
 import { Meta } from 'store/common/actions';
 import { ConfirmPhoneFailure } from './confirm-phone-failure';
 import { IAuthState } from '../../auth-state';
-import { ConfirmPhoneRegistrationAllowed } from './confirm-phone-registration-allowed';
+import { ConfirmPhoneSuccess } from './confirm-phone-success';
 import { IConfirmProneApiRequest } from './api-requests/confirm-phone-api-request';
 import { IConfirmPhoneApiResponse } from './api-requests/confirm-phone-api-response';
 import { IConfirmPhoneActionPayload } from './action-payloads/confirm-phone-action-payload';
@@ -37,7 +37,7 @@ export class ConfirmPhone {
         yield take(LoginSuccess.action);
         action?.meta?.deferred?.resolve({ userRegistered: true });
       } else if (data.isCodeCorrect && !data.userExists) {
-        yield put(ConfirmPhoneRegistrationAllowed.action({ confirmationCode: action.payload.code }));
+        yield put(ConfirmPhoneSuccess.action({ confirmationCode: action.payload.code }));
         action?.meta?.deferred.resolve({ userRegistered: false });
       } else {
         action?.meta?.deferred.reject();

@@ -9,8 +9,6 @@ export const authPhoneNumberSelector = (state: RootState): string => state.auth.
 
 export const confirmationCodeSelector = (state: RootState): string => state.auth.confirmationCode;
 
-export const registrationAllowedSelector = (state: RootState) => state.auth.registrationAllowed;
-
 export const twoLetterCountryCodeSelector = (state: RootState): string => state.auth.twoLetterCountryCode;
 
 export const authLoadingSelector = (state: RootState): boolean => state.auth.loading;

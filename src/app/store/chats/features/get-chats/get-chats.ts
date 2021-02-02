@@ -7,12 +7,13 @@ import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { IPage } from 'app/store/common/models';
 import { ChatId } from '../../chat-id';
-import { IChat, IChatsState, InterlocutorType, MessageState } from '../../models';
+import { IChat, InterlocutorType, MessageState } from '../../models';
 import { IGetChatsActionPayload } from './action-payloads/get-chats-action-payload';
 import { GetChatsSuccess } from './get-chats-success';
 import { IGetChatsSuccessActionPayload } from './action-payloads/get-chats-success-action-payload';
 import { IGetChatsApiRequest } from './api-requests/get-chats-api-request';
 import { getChatsPageSelector } from '../../selectors';
+import { IChatsState } from '../../chats-state';
 
 export class GetChats {
   static get action() {

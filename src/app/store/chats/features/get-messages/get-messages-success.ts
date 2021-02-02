@@ -1,7 +1,7 @@
-import { IChatsState } from 'store/chats/models';
 import produce from 'immer';
 import { unionBy } from 'lodash';
 import { createAction } from 'typesafe-actions';
+import { IChatsState } from '../../chats-state';
 import { IGetMessagesSuccessActionPayload } from './action-payloads/get-messages-success-action-payload';
 
 export class GetMessagesSuccess {

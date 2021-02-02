@@ -2,7 +2,6 @@ export * from './attachments';
 export * from './attachment-creation';
 export * from './attachment-to-send';
 export * from './chat';
-export * from './chats-state';
 export * from './file-type';
 export * from './group-chat';
 export * from './groupable';

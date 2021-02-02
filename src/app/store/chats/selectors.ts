@@ -4,7 +4,7 @@ import { RootState } from '../root-reducer';
 import { IAttachmentToSend } from './models/attachment-to-send';
 import { IBaseAttachment } from './models/attachments/base-attachment';
 import { IChat } from './models/chat';
-import { IChatsState } from './models/chats-state';
+import { IChatsState } from './chats-state';
 
 // RootState selectors
 export const getSelectedChatSelector = (state: RootState): IChat | undefined => state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId);

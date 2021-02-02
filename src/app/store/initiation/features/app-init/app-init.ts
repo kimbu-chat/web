@@ -3,7 +3,7 @@ import { createEmptyAction } from 'app/store/common/actions';
 import { StartInternetConnectionStateChangeWatcher } from 'app/store/internet/features/internet-connection-check/start-internet-connection-state-change-watcher';
 import { ChangeUserOnlineStatus } from 'app/store/my-profile/features/change-user-online-status/change-user-online-status';
 import { SettingsActions } from 'app/store/settings/actions';
-import { InitSocketConnection } from 'app/store/sockets/features/init-socked-connection/init-socket-connection';
+import { InitSocketConnection } from 'app/store/web-sockets/features/init-web-socked-connection/init-web-socket-connection';
 import { SagaIterator } from 'redux-saga';
 import { put, select } from 'redux-saga/effects';
 import { StartIdleStateChangeWatcher } from '../start-idle-state-change-watcher/start-idle-state-change-watcher';

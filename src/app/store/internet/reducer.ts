@@ -3,7 +3,7 @@ import { InternetConnected } from './features/internet-connection-check/internet
 import { InternetDisconnected } from './features/internet-connection-check/internet-disconnected';
 import { WebsocketsConnected } from './features/websockets-connection/websockets-connected';
 import { WebsocketsDisconnected } from './features/websockets-connection/websockets-disconnected';
-import { IInternetState } from './models';
+import { IInternetState } from './internet-state';
 
 const initialState: IInternetState = {
   isInternetConnected: typeof navigator !== 'undefined' && typeof navigator.onLine === 'boolean' ? navigator.onLine : true,

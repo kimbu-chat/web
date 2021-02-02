@@ -1,6 +1,6 @@
-import { IMessage } from './message';
-import { ById } from './by-id';
-import { IChat } from './chat';
+import { IMessage } from './models/message';
+import { ById } from './models/by-id';
+import { IChat } from './models/chat';
 
 export interface IChatsState {
   loading?: boolean;

@@ -1,4 +1,3 @@
-import { IChatsState } from 'store/chats/models';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
@@ -12,6 +11,7 @@ import { CreateMessageSuccess } from './create-message-success';
 import { ICreateMessageActionPayload } from './action-payloads/create-message-action-payload';
 import { getChatIndexDraftSelector } from '../../selectors';
 import { ICreateMessageApiRequest } from './api-requests/create-message-api-request';
+import { IChatsState } from '../../chats-state';
 
 export class CreateMessage {
   static get action() {

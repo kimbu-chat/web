@@ -7,10 +7,10 @@ import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { myFullNameSelector } from 'app/store/my-profile/selectors';
-import { IChatsState } from '../../models';
 import { getChatByIdDraftSelector } from '../../selectors';
 import { IMessageTypingActionPayload } from './action-payloads/message-typing-action-payload';
 import { IMessageTypingApiRequest } from './api-requests/message-typing-api-request';
+import { IChatsState } from '../../chats-state';
 
 export class MessageTyping {
   static get action() {

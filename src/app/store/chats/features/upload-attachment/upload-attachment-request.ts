@@ -17,7 +17,7 @@ import { IUploadVideoApiResponse } from './api-requests/upload-video-api-respons
 import { IUploadVoiceApiResponse } from './api-requests/upload-voice-api-response';
 import { IAttachmentToSend } from '../../models/attachment-to-send';
 import { IBaseAttachment } from '../../models/attachments/base-attachment';
-import { IChatsState } from '../../models/chats-state';
+import { IChatsState } from '../../chats-state';
 import { FileType } from '../../models/file-type';
 
 export class UploadAttachmentRequest {

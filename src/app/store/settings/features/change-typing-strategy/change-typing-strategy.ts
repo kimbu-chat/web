@@ -2,8 +2,8 @@ import { createAction } from 'typesafe-actions';
 import produce from 'immer';
 import { SettingsService } from 'app/services/settings-service';
 import { SagaIterator } from 'redux-saga';
-import { IUserSettings } from '../models';
 import { IChangeTypingStrategyActionPayload } from './action-payloads/change-typing-strategy-action-payload';
+import { IUserSettings } from '../../user-settings-state';
 
 export class ChangeTypingStrategy {
   static get action() {

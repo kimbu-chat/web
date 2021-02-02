@@ -1,7 +1,7 @@
 import { createAction } from 'typesafe-actions';
 import produce from 'immer';
-import { IUserSettings } from '../models';
 import { IGetUserSettingsSuccessActionPayload } from './action-payloads/get-user-settings-success-action-payload';
+import { IUserSettings } from '../../user-settings-state';
 
 export class GetUserSettingsSuccess {
   static get action() {

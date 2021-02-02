@@ -6,12 +6,12 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { IUser } from 'app/store/common/models';
-import { IChatsState } from '../../models';
 import { GetGroupChatUsersSuccess } from './get-group-chat-users-success';
 import { ChatId } from '../../chat-id';
 import { IGetGroupChatUsersActionPayload } from './action-payloads/get-group-chat-users-action-payload';
 import { getChatByIdDraftSelector, getSelectedChatIdSelector } from '../../selectors';
 import { IGetGroupChatUsersApiRequest } from './api-requests/get-group-chat-users-api-request';
+import { IChatsState } from '../../chats-state';
 
 export class GetGroupChatUsers {
   static get action() {

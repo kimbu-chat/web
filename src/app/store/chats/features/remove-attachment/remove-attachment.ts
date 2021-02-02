@@ -2,9 +2,9 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { createAction } from 'typesafe-actions';
 import { getChatByIdDraftSelector } from 'app/store/chats/selectors';
-import { IChatsState } from '../../models';
 import { removeUploadingAttachment, uploadingAttachments } from '../../upload-qeue';
 import { IRemoveAttachmentctionPayload } from './action-payloads/remove-attachment-action-payload';
+import { IChatsState } from '../../chats-state';
 
 export class RemoveAttachment {
   static get action() {

@@ -1,7 +1,7 @@
 import { MyProfileService } from 'app/services/my-profile-service';
 import produce from 'immer';
-import { IChatsState } from 'store/chats/models';
 import { createAction } from 'typesafe-actions';
+import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
 import { IChatClearedIntegrationEvent } from './chat-cleared-integration-event';
 

@@ -7,10 +7,11 @@ import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { getChatByIdDraftSelector, getSelectedChatIdSelector } from 'app/store/chats/selectors';
-import { IAudioAttachment, IChatsState } from '../../models';
+import { IAudioAttachment } from '../../models';
 import { IGetAudioAttachmentsActionPayload } from './action-payloads/get-audio-attachments-action-payload';
 import { GetAudioAttachmentsSuccess } from './get-audio-attachments-success';
 import { IGetAudioAttachmentsApiRequest } from './api-requests/get-audio-attachments-api-request';
+import { IChatsState } from '../../chats-state';
 
 export class GetAudioAttachments {
   static get action() {

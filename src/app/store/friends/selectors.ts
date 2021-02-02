@@ -1,5 +1,5 @@
-import { IFriendsState } from './models';
 import { RootState } from '../root-reducer';
+import { IFriendsState } from './friends-state';
 
 // state-selectors
 

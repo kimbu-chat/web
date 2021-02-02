@@ -1,8 +1,9 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { getChatByIdDraftSelector } from 'app/store/chats/selectors';
-import { FileType, IChatsState } from 'app/store/chats/models';
+import { FileType } from 'app/store/chats/models';
 import { IDeleteMessageSuccessActionPayload } from './action-payloads/delete-message-success-action-payload';
+import { IChatsState } from '../../chats-state';
 
 export class DeleteMessageSuccess {
   static get action() {

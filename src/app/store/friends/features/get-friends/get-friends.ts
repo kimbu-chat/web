@@ -6,7 +6,7 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { IFriendsState } from '../../models';
+import { IFriendsState } from '../../friends-state';
 import { IGetFriendsActionPayload } from './action-payloads/get-friends-action-payload';
 import { IGetFriendsApiRequest } from './api-requests/get-friends-api-request';
 import { GetFriendsSuccess } from './get-friends-success';

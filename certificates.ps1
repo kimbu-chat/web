@@ -1,4 +1,22 @@
-#Requires -RunAsAdministrator
+# todo: put this in a dedicated file for reuse and dot-source the file
+function Test-Administrator  
+{  
+    [OutputType([bool])]
+    param()
+    process {
+        [Security.Principal.WindowsPrincipal]$user = [Security.Principal.WindowsIdentity]::GetCurrent();
+        return $user.IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator);
+    }
+}
+
+if(-not (Test-Administrator))
+{
+    # TODO: define proper exit codes for the given errors 
+    Write-Error "This script must be executed as Administrator.";
+    exit 1;
+}
+
+$ErrorActionPreference = "Stop";
 
 Write-Host "Creating https certificate"
 

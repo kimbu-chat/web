@@ -3,8 +3,8 @@ import { SagaIterator } from 'redux-saga';
 import { select } from 'redux-saga/effects';
 import produce from 'immer';
 import { createEmptyAction } from 'store/common/actions';
-import { IUserSettings } from '../models';
 import { areNotificationsEnabledSelector } from '../../selectors';
+import { IUserSettings } from '../../user-settings-state';
 
 export class ChangeNotificationSoundState {
   static get action() {

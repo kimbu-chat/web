@@ -4,10 +4,11 @@ import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { IMessage } from '../../models/message';
 import { getChatMessageByIdSelector, getSelectedChatIdSelector } from '../../selectors';
-import { IChatsState, MessageLinkType } from '../../models';
+import { MessageLinkType } from '../../models';
 import { IForwardMessagesActionPayload } from './action-payloads/forward-messages-action-payload';
 import { ICreateMessageApiRequest } from '../create-message/api-requests/create-message-api-request';
 import { CreateMessage } from '../create-message/create-message';
+import { IChatsState } from '../../chats-state';
 
 export class ForwardMessages {
   static get action() {

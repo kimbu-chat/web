@@ -1,6 +1,7 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { IChatsState, IBaseAttachment } from '../../models';
+import { IChatsState } from '../../chats-state';
+import { IBaseAttachment } from '../../models';
 import { getChatByIdDraftSelector } from '../../selectors';
 import { IMessageEditedIntegrationEvent } from './message-edited-integration-event';
 

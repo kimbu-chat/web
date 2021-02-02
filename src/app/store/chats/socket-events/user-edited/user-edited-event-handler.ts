@@ -2,8 +2,8 @@ import { getChatByIdDraftSelector } from 'store/chats/selectors';
 import { ChatId } from 'store/chats/chat-id';
 import { IUserEditedIntegrationEvent } from 'app/store/chats/socket-events/user-edited/action-payloads/user-edited-integration-event';
 import produce from 'immer';
-import { IChatsState } from 'store/chats/models';
 import { createAction } from 'typesafe-actions';
+import { IChatsState } from '../../chats-state';
 
 export class UserEditedEventHandler {
   static get action() {

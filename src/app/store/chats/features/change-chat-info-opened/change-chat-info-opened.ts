@@ -1,6 +1,6 @@
 import { createEmptyAction } from 'app/store/common/actions';
 import produce from 'immer';
-import { IChatsState } from '../../models';
+import { IChatsState } from '../../chats-state';
 
 export class ChangeChatInfoOpened {
   static get action() {

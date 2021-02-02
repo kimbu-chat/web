@@ -8,9 +8,10 @@ import { createAction } from 'typesafe-actions';
 import produce from 'immer';
 import { getChatByIdDraftSelector, getSelectedChatIdSelector } from 'app/store/chats/selectors';
 import { IGetVoiceAttachmentsActionPayload } from './action-payloads/get-voice-attachments-action-payload';
-import { IVoiceAttachment, IChatsState } from '../../models';
+import { IVoiceAttachment } from '../../models';
 import { GetVoiceAttachmentsSuccess } from './get-voice-attachments-success';
 import { IGetVoiceAttachmentsApiRequest } from './api-requests/get-voice-attachments-api-request';
+import { IChatsState } from '../../chats-state';
 
 export class GetVoiceAttachments {
   static get action() {

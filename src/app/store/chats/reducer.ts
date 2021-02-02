@@ -58,7 +58,7 @@ import { ForwardMessages } from 'store/chats/features/forward-messages/forward-m
 import { ChatMutedStatusChangedEventHandler } from './socket-events/chat-mute-status-changed/chat-mute-status-changed-event-handler';
 import { UserStatusChangedEventHandler } from '../friends/socket-events/user-status-changed/user-status-changed-event-handler';
 import { ChatId } from './chat-id';
-import { IChatsState } from './models/chats-state';
+import { IChatsState } from './chats-state';
 import { UserEditedEventHandler } from './socket-events/user-edited/user-edited-event-handler';
 import { ChangeChatInfoOpened } from './features/change-chat-info-opened/change-chat-info-opened';
 

@@ -1,4 +1,4 @@
-import { InitSocketConnection } from './features/init-socked-connection/init-socket-connection';
+import { InitSocketConnection } from './features/init-web-socked-connection/init-web-socket-connection';
 
 export namespace WebSocketActions {
   export const initSocketConnection = InitSocketConnection.action;

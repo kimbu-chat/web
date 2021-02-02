@@ -7,10 +7,11 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { getChatByIdDraftSelector, getSelectedChatIdSelector } from 'app/store/chats/selectors';
-import { IPictureAttachment, IChatsState } from '../../models';
+import { IPictureAttachment } from '../../models';
 import { IGetPhotoAttachmentsActionPayload } from './action-payloads/get-photo-attachments-action-payload';
 import { GetPhotoAttachmentsSuccess } from './get-photo-attachments-success';
 import { IGetPhotoAttachmentsApiRequest } from './api-requests/get-photo-attachments-api-request';
+import { IChatsState } from '../../chats-state';
 
 export class GetPhotoAttachments {
   static get action() {

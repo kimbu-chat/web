@@ -1,5 +1,4 @@
 import { getIsFirstChatsLoadSelector, getSelectedChatMessagesSearchStringSelector, getSelectedChatSelector } from 'store/chats/selectors';
-import { IChatsState } from 'store/chats/models';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
 
 import { AxiosResponse } from 'axios';
@@ -12,6 +11,7 @@ import { IGetMessagesActionPayload } from './action-payloads/get-messages-action
 import { IGetMessagesApiRequest } from './api-requests/get-messages-api-request';
 import { GetMessagesSuccess } from './get-messages-success';
 import { GetChatsSuccess } from '../get-chats/get-chats-success';
+import { IChatsState } from '../../chats-state';
 
 export class GetMessages {
   static get action() {

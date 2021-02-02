@@ -1,8 +1,8 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { getChatByIdDraftSelector } from 'app/store/chats/selectors';
-import { IChatsState } from '../../models';
 import { IGetVideoAttachmentsSuccessActionPayload } from './action-payloads/get-video-attachments-success-action-payload';
+import { IChatsState } from '../../chats-state';
 
 export class GetVideoAttachmentsSuccess {
   static get action() {

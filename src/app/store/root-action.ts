@@ -6,7 +6,7 @@ import { FriendActions } from './friends/actions';
 import { CallActions } from './calls/actions';
 import { InternetActions } from './internet/actions';
 import { SettingsActions } from './settings/actions';
-import { WebSocketActions } from './sockets/actions';
+import { WebSocketActions } from './web-sockets/actions';
 
 export type RootAction =
   | ActionUnionType<typeof AuthActions>

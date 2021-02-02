@@ -4,9 +4,10 @@ import { createAction } from 'typesafe-actions';
 import messageCameUnselected from 'app/assets/sounds/notifications/messsage-came-unselected.ogg';
 import { playSoundSafely } from 'app/utils/current-music';
 import { ChatId } from '../../chat-id';
-import { IChatsState, IMessage, SystemMessageType, MessageState, IChat, InterlocutorType } from '../../models';
+import { IMessage, SystemMessageType, MessageState, IChat, InterlocutorType } from '../../models';
 import { getChatExistsDraftSelector } from '../../selectors';
 import { IGroupChatCreatedIntegrationEvent } from './group-chat-сreated-integration-event';
+import { IChatsState } from '../../chats-state';
 
 export class GroupChatCreatedEventHandler {
   static get action() {

@@ -2,7 +2,7 @@ import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { getChatByIdDraftSelector } from 'app/store/chats/selectors';
 import { IUploadAttachmentSuccessActionPayload } from './action-payloads/upload-attachment-success-action-payload';
-import { IChatsState } from '../../models/chats-state';
+import { IChatsState } from '../../chats-state';
 
 export class UploadAttachmentSuccess {
   static get action() {

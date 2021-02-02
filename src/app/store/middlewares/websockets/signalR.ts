@@ -4,7 +4,7 @@ import { Store } from 'redux';
 import { getType } from 'typesafe-actions';
 import { AuthActions } from 'store/auth/actions';
 import { RootState } from 'store/root-reducer';
-import { InitSocketConnection } from 'app/store/sockets/features/init-socked-connection/init-socket-connection';
+import { InitSocketConnection } from 'app/store/web-sockets/features/init-web-socked-connection/init-web-socket-connection';
 import { WebsocketsConnected } from 'app/store/internet/features/websockets-connection/websockets-connected';
 import { WebsocketsDisconnected } from 'app/store/internet/features/websockets-connection/websockets-disconnected';
 

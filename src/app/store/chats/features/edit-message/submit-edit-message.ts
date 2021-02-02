@@ -1,5 +1,4 @@
 import { getSelectedChatIdSelector } from 'store/chats/selectors';
-import { IChatsState } from 'store/chats/models';
 import { HTTPStatusCode } from 'app/common/http-status-code';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
 
@@ -12,6 +11,7 @@ import { getChatByIdDraftSelector } from '../../selectors';
 import { ISumbitEditMessageActionPayload } from './action-payloads/submit-edit-message-action-payload';
 import { SubmitEditMessageSuccess } from './sumbit-edit-message-success';
 import { ISubmitEditMessageApiRequest } from './api-requests/submit-edit-message-api-request';
+import { IChatsState } from '../../chats-state';
 
 export class SubmitEditMessage {
   static get action() {

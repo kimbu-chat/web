@@ -2,8 +2,8 @@ import produce from 'immer';
 import { unionBy } from 'lodash';
 import { createAction } from 'typesafe-actions';
 import { getChatByIdDraftSelector } from 'app/store/chats/selectors';
-import { IChatsState } from '../../models';
 import { IGetGroupChatUsersSuccessActionPayload } from './action-payloads/get-group-chat-users-success-action-payload';
+import { IChatsState } from '../../chats-state';
 
 export class GetGroupChatUsersSuccess {
   static get action() {

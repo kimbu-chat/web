@@ -9,13 +9,14 @@ import { getChatByIdSelector, getChatByIdDraftSelector, getIsFirstChatsLoadSelec
 import { getFriendByIdSelector } from 'app/store/friends/selectors';
 import { IUser } from 'app/store/common/models';
 import { MESSAGES_LIMIT } from 'app/utils/pagination-limits';
-import { IChatsState, IChat, InterlocutorType, MessageState } from '../../models';
+import { IChat, InterlocutorType, MessageState } from '../../models';
 import { GetChatsSuccess } from '../get-chats/get-chats-success';
 import { IChangeSelectedChatActionPayload } from './action-payloads/change-selected-chat-action-payload';
 import { ChatId } from '../../chat-id';
 import { IGetChatByIdApiRequest } from './api-requests/get-chat-by-id-api-request';
 import { IGetUserByIdApiRequest } from './api-requests/get-user-by-id-api-request';
 import { UnshiftChat } from '../unshift-chat/unshift-chat';
+import { IChatsState } from '../../chats-state';
 
 export class ChangeSelectedChat {
   static get action() {

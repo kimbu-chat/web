@@ -2,8 +2,9 @@ import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { getChatExistsDraftSelector } from 'app/store/chats/selectors';
 import { ChatId } from '../../chat-id';
-import { IChat, IChatsState, InterlocutorType } from '../../models';
+import { IChat, InterlocutorType } from '../../models';
 import { ICreateChatActionPayload } from './action-payloads/create-chat-action-payload';
+import { IChatsState } from '../../chats-state';
 
 export class CreateChat {
   static get action() {

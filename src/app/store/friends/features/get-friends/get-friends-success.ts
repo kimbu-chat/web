@@ -1,8 +1,8 @@
 import produce from 'immer';
 import { unionBy } from 'lodash';
 import { createAction } from 'typesafe-actions';
+import { IFriendsState } from '../../friends-state';
 import { IGetFriendsSuccessActionPayload } from './action-payloads/get-friends-success-action-payload';
-import { IFriendsState } from '../../models';
 
 export class GetFriendsSuccess {
   static get action() {

@@ -1,8 +1,8 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { getUserDraftSelector } from 'store/friends/selectors';
-import { IFriendsState } from '../../models';
 import { IStatusChangedIntegrationEvent } from './status-changed-integration-event';
+import { IFriendsState } from '../../friends-state';
 
 export class UserStatusChangedEventHandler {
   static get action() {

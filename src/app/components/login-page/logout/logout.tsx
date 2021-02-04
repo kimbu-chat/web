@@ -1,13 +1,15 @@
 import { CubeLoader } from 'app/containers/cube-loader/cube-loader';
-import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
+import { useEmptyActionWithDeferred } from 'app/hooks/use-action-with-deferred';
 import { AuthActions } from 'app/store/auth/actions';
 import React, { useEffect } from 'react';
 
 const Logout: React.FC = () => {
-  const logout = useActionWithDeferred(AuthActions.logout);
+  const logout = useEmptyActionWithDeferred(AuthActions.logout);
 
   useEffect(() => {
-    logout(undefined).then(() => {
+    console.warn(11);
+    logout().then(() => {
+      console.warn(2);
       window.location.replace('login');
     });
   }, []);

@@ -12,7 +12,7 @@ import { parsePhoneNumber } from 'libphonenumber-js';
 import ResendSvg from 'icons/ic-resend.svg';
 import { BaseBtn } from 'components';
 import { useHistory } from 'react-router';
-import { authPhoneNumberSelector, confirmationCodeWrongSelector, authLoadingSelector } from 'app/store/auth/selectors';
+import { authPhoneNumberSelector, confirmationCodeWrongSelector, authLoadingSelector, twoLetterCountryCodeSelector } from 'app/store/auth/selectors';
 
 const NUMBER_OF_DIGITS = [0, 1, 2, 3];
 
@@ -32,11 +32,12 @@ const CodeConfirmation: React.FC<ICodeConfirmationProps> = ({ preloadNext }) => 
   const [isIntervalRunning, setIsIntervalRunning] = useState(true);
 
   const phoneNumber = useSelector(authPhoneNumberSelector);
+  const twoLetterCountryCode = useSelector(twoLetterCountryCodeSelector);
   const codeFromServer = useSelector<RootState, string>((rootState) => rootState.auth.confirmationCode);
   const isConfirmationCodeWrong = useSelector(confirmationCodeWrongSelector);
   const isLoading = useSelector(authLoadingSelector);
 
-  const reSendSmsCode = useActionWithDeferred(AuthActions.reSendSmsCode);
+  const reSendSmsCode = useActionWithDeferred(AuthActions.sendSmsCode);
   const checkConfirmationCode = useActionWithDeferred(AuthActions.confirmPhone);
 
   const boxElements: React.RefObject<HTMLInputElement>[] = [
@@ -132,7 +133,10 @@ const CodeConfirmation: React.FC<ICodeConfirmationProps> = ({ preloadNext }) => 
   );
 
   const resendPhoneConfirmationCode = useCallback((): void => {
-    reSendSmsCode(undefined);
+    reSendSmsCode({
+      phoneNumber,
+      twoLetterCountryCode,
+    });
     setRemainingSeconds(60);
     setIsIntervalRunning(true);
   }, [reSendSmsCode, setRemainingSeconds, setIsIntervalRunning]);

@@ -5,7 +5,7 @@ import React, { useCallback, useContext } from 'react';
 import './delete-chat-modal.scss';
 import { useSelector } from 'react-redux';
 import { getSelectedGroupChatNameSelector } from 'app/store/chats/selectors';
-import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
+import { useEmptyActionWithDeferred } from 'app/hooks/use-action-with-deferred';
 import { useHistory } from 'react-router';
 
 interface IDeleteChatModalProps {
@@ -18,12 +18,10 @@ export const DeleteChatModal: React.FC<IDeleteChatModalProps> = React.memo(({ hi
 
   const selectedGroupChatName = useSelector(getSelectedGroupChatNameSelector);
 
-  const leaveGroupChat = useActionWithDeferred(ChatActions.leaveGroupChat);
+  const leaveGroupChat = useEmptyActionWithDeferred(ChatActions.leaveGroupChat);
 
   const deleteGroupChat = useCallback(() => {
-    leaveGroupChat(undefined).then(() =>
-      history.push(history.location.pathname.replace(/\/?(contacts|calls|chats)\/?([0-9]*)?/, (_all, groupOne) => `/${groupOne}/`)),
-    );
+    leaveGroupChat().then(() => history.push(history.location.pathname.replace(/\/?(contacts|calls|chats)\/?([0-9]*)?/, (_all, groupOne) => `/${groupOne}/`)));
   }, [leaveGroupChat]);
 
   return (

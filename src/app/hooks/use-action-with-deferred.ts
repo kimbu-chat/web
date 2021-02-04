@@ -13,3 +13,8 @@ export function useActionWithDeferred<T extends ActionReturnType>(
   const dispatch = useDispatch();
   return useCallback(flow([action, withDeferred(dispatch)]), [dispatch, action]);
 }
+
+export function useEmptyActionWithDeferred<T extends ActionReturnType>(action: T): <PromiseReturnType = any>() => Promise<PromiseReturnType> {
+  const dispatch = useDispatch();
+  return useCallback(flow([action, withDeferred(dispatch)]), [dispatch, action]);
+}

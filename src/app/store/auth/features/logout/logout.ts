@@ -1,3 +1,5 @@
+import { authRequestFactory, HttpRequestMethod } from 'app/store/common/http';
+import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { put, take } from 'redux-saga/effects';
@@ -22,9 +24,15 @@ export class Logout {
     return function* (action: ReturnType<typeof Logout.action>): SagaIterator {
       yield put(UnSubscribeFromPushNotifications.action());
       yield take(UnSubscribeToPushNotificationsSuccess.action);
-      // todo: send logout request
+
+      // todo: uncomment when logout endpoint is ready
+      // yield call(() => Logout.httpRequest.generator());
       localStorage.clear();
       action?.meta.deferred.resolve();
     };
+  }
+
+  static get httpRequest() {
+    return authRequestFactory<AxiosResponse>(`${process.env.MAIN_API}/api/users/logout`, HttpRequestMethod.Post);
   }
 }

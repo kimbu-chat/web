@@ -12,7 +12,7 @@ import { HttpRequestMethod } from './http-request-method';
 
 type HttpHeaders = { [key: string]: string };
 
-function* httpRequest<T>(url: string, method: HttpRequestMethod, body?: T, token?: CancelToken, headers?: HttpHeaders) {
+function* httpRequest<TBody>(url: string, method: HttpRequestMethod, body?: TBody, token?: CancelToken, headers?: HttpHeaders): SagaIterator {
   const requestConfig: AxiosRequestConfig = {
     url,
     method,
@@ -108,7 +108,7 @@ export const httpRequestFactory = <T, B = any>(url: string | UrlGenerator<B>, me
   };
 };
 
-export const authRequestFactory = <T, B>(url: string, method: HttpRequestMethod): IRequestGenerator<T, B> => {
+export const authRequestFactory = <T, B = any>(url: string, method: HttpRequestMethod): IRequestGenerator<T, B> => {
   function* generator(body?: B): SagaIterator {
     return yield call(() => httpRequest(url, method, body));
   }

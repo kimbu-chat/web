@@ -41,7 +41,6 @@
     "@types/react": "17.0.0",
     "@types/react-dom": "17.0.0",
     "@types/react-image-crop": "8.1.2",
-    "@types/react-infinite-scroller": "1.2.1",
     "@types/react-redux": "7.1.12",
     "@types/react-router": "5.1.8",
     "@types/react-router-dom": "5.1.6",
@@ -102,7 +101,6 @@
   "dependencies": {
     "@sentry/react": "5.29.0",
     "@sentry/tracing": "5.29.0",
-    "@fingerprintjs/fingerprintjs": "3.0.3",
     "@material-ui/core": "4.11.2",
     "@material-ui/lab": "4.0.0-alpha.57",
     "@microsoft/signalr": "5.0.1",
@@ -121,7 +119,6 @@
     "react-h5-audio-player": "3.5.0",
     "react-i18next": "11.8.4",
     "react-image-crop": "8.6.6",
-    "react-infinite-scroller": "1.2.4",
     "react-redux": "7.2.2",
     "react-rnd": "10.2.4",
     "react-router": "5.2.0",

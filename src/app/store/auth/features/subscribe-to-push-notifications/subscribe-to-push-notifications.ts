@@ -13,9 +13,9 @@ export class SubscribeToPushNotifications {
 
   static get saga() {
     return function* (): SagaIterator {
-      const tokens = yield call(getPushNotificationToken);
-      if (tokens) {
-        yield call(() => SubscribeToPushNotifications.httpRequest.generator(tokens));
+      const pushNotificationToken = yield call(getPushNotificationToken);
+      if (pushNotificationToken) {
+        yield call(() => SubscribeToPushNotifications.httpRequest.generator({ tokenId: pushNotificationToken }));
       }
     };
   }

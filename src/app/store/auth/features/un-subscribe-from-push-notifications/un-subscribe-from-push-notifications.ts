@@ -15,10 +15,10 @@ export class UnSubscribeToPushNotifications {
 
   static get saga() {
     return function* (): SagaIterator {
-      const tokens = yield call(getPushNotificationToken);
+      const pushNotificationToken = yield call(getPushNotificationToken);
 
-      if (tokens) {
-        yield call(() => UnSubscribeToPushNotifications.httpRequest.generator(tokens));
+      if (pushNotificationToken) {
+        yield call(() => UnSubscribeToPushNotifications.httpRequest.generator({ tokenId: pushNotificationToken }));
 
         yield call(async () => await messaging?.deleteToken());
       }

@@ -7,9 +7,7 @@ const Logout: React.FC = () => {
   const logout = useEmptyActionWithDeferred(AuthActions.logout);
 
   useEffect(() => {
-    console.warn(11);
     logout().then(() => {
-      console.warn(2);
       window.location.replace('login');
     });
   }, []);

@@ -8,10 +8,12 @@ import { Login } from './features/login/login';
 import { LoginSuccess } from './features/login/login-success';
 import { SubscribeToPushNotifications } from './features/subscribe-to-push-notifications/subscribe-to-push-notifications';
 import { UnSubscribeFromPushNotifications } from './features/un-subscribe-from-push-notifications/un-subscribe-from-push-notifications';
+import { RefreshTokenFailure } from './features/refresh-token/refresh-token-failure';
 
 export const AuthSagas = [
   takeLatest(Logout.action, Logout.saga),
   takeLeading(RefreshToken.action, RefreshToken.saga),
+  takeLeading(RefreshTokenFailure.action, RefreshTokenFailure.saga),
   takeLatest(ConfirmPhone.action, ConfirmPhone.saga),
   takeLatest(SendSmsCode.action, SendSmsCode.saga),
   takeLatest(Register.action, Register.saga),

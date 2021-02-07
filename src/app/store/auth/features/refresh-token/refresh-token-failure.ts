@@ -1,4 +1,7 @@
+import { CloseWebsocketConnection } from 'app/store/web-sockets/features/close-web-socket-connection/close-web-socket-connection';
 import produce from 'immer';
+import { SagaIterator } from 'redux-saga';
+import { put } from 'redux-saga/effects';
 import { createEmptyAction } from 'store/common/actions';
 import { IAuthState } from '../../auth-state';
 
@@ -14,5 +17,12 @@ export class RefreshTokenFailure {
       draft.securityTokens = undefined;
       return draft;
     });
+  }
+
+  static get saga() {
+    return function* (): SagaIterator {
+      localStorage.clear();
+      yield put(CloseWebsocketConnection.action());
+    };
   }
 }

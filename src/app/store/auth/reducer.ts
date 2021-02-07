@@ -11,7 +11,6 @@ import { ConfirmPhoneSuccess } from './features/confirm-phone/confirm-phone-succ
 import { Logout } from './features/logout/logout';
 import { RefreshToken } from './features/refresh-token/refresh-token';
 import { RefreshTokenSuccess } from './features/refresh-token/refresh-token-success';
-import { RefreshTokenFailure } from './features/refresh-token/refresh-token-failure';
 
 const authService = new AuthService();
 const securityTokens = authService?.securityTokens;
@@ -37,7 +36,6 @@ const auth = createReducer<IAuthState>(initialState)
   .handleAction(Register.action, Register.reducer)
   .handleAction(Logout.action, Logout.reducer)
   .handleAction(RefreshToken.action, RefreshToken.reducer)
-  .handleAction(RefreshTokenSuccess.action, RefreshTokenSuccess.reducer)
-  .handleAction(RefreshTokenFailure.action, RefreshTokenFailure.reducer);
+  .handleAction(RefreshTokenSuccess.action, RefreshTokenSuccess.reducer);
 
 export default auth;

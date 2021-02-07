@@ -2,11 +2,11 @@ import { HubConnection, HubConnectionBuilder, HubConnectionState, LogLevel } fro
 
 import { Store } from 'redux';
 import { getType } from 'typesafe-actions';
-import { AuthActions } from 'store/auth/actions';
 import { RootState } from 'store/root-reducer';
 import { InitSocketConnection } from 'app/store/web-sockets/features/init-web-socked-connection/init-web-socket-connection';
 import { WebsocketsConnected } from 'app/store/internet/features/websockets-connection/websockets-connected';
 import { WebsocketsDisconnected } from 'app/store/internet/features/websockets-connection/websockets-disconnected';
+import { CloseWebsocketConnection } from 'app/store/web-sockets/features/close-web-socket-connection/close-web-socket-connection';
 
 let connection: HubConnection;
 
@@ -53,7 +53,7 @@ export function signalRInvokeMiddleware(store: any): any {
         }
         return next(action);
       }
-      case getType(AuthActions.logout): {
+      case getType(CloseWebsocketConnection.action): {
         if (connection && connection.state === HubConnectionState.Connected) {
           connection.stop();
         }

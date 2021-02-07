@@ -1,4 +1,5 @@
 import { authRequestFactory, HttpRequestMethod } from 'app/store/common/http';
+import { CloseWebsocketConnection } from 'app/store/web-sockets/features/close-web-socket-connection/close-web-socket-connection';
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
@@ -24,6 +25,7 @@ export class Logout {
     return function* (action: ReturnType<typeof Logout.action>): SagaIterator {
       yield put(UnSubscribeFromPushNotifications.action());
       yield take(UnSubscribeToPushNotificationsSuccess.action);
+      yield put(CloseWebsocketConnection.action());
       yield call(() => Logout.httpRequest.generator());
       localStorage.clear();
       action?.meta.deferred.resolve();

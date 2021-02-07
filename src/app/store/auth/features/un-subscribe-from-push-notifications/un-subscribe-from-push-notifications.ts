@@ -8,9 +8,9 @@ import { getPushNotificationToken } from '../../common/utils';
 import { IUnsubscribeFromPushNotificationsRequest } from './api-requests/unsubscribe-from-push-notifications-api-request';
 import { UnSubscribeToPushNotificationsSuccess } from './un-subscribe-from-push-notifications_success';
 
-export class UnSubscribeToPushNotifications {
+export class UnSubscribeFromPushNotifications {
   static get action() {
-    return createEmptyAction('UN_SUBSCRIBE_TO_PUSH_NOTIFICATIONS');
+    return createEmptyAction('UN_SUBSCRIBE_FROM_PUSH_NOTIFICATIONS');
   }
 
   static get saga() {
@@ -18,7 +18,7 @@ export class UnSubscribeToPushNotifications {
       const pushNotificationToken = yield call(getPushNotificationToken);
 
       if (pushNotificationToken) {
-        yield call(() => UnSubscribeToPushNotifications.httpRequest.generator({ tokenId: pushNotificationToken }));
+        yield call(() => UnSubscribeFromPushNotifications.httpRequest.generator({ tokenId: pushNotificationToken }));
 
         yield call(async () => await messaging?.deleteToken());
       }

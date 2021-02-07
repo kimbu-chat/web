@@ -7,7 +7,7 @@ import { Register } from './features/register/register';
 import { Login } from './features/login/login';
 import { LoginSuccess } from './features/login/login-success';
 import { SubscribeToPushNotifications } from './features/subscribe-to-push-notifications/subscribe-to-push-notifications';
-import { UnSubscribeToPushNotifications } from './features/un-subscribe-from-push-notifications/un-subscribe-from-push-notifications';
+import { UnSubscribeFromPushNotifications } from './features/un-subscribe-from-push-notifications/un-subscribe-from-push-notifications';
 
 export const AuthSagas = [
   takeLatest(Logout.action, Logout.saga),
@@ -16,7 +16,7 @@ export const AuthSagas = [
   takeLatest(SendSmsCode.action, SendSmsCode.saga),
   takeLatest(Register.action, Register.saga),
   takeLatest(Login.action, Login.saga),
-  takeLatest(UnSubscribeToPushNotifications.action, UnSubscribeToPushNotifications.saga),
+  takeLatest(UnSubscribeFromPushNotifications.action, UnSubscribeFromPushNotifications.saga),
   takeLatest(SubscribeToPushNotifications.action, SubscribeToPushNotifications.saga),
   takeLatest(LoginSuccess.action, LoginSuccess.saga),
 ];

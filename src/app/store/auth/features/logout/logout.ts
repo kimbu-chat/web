@@ -3,7 +3,7 @@ import { SagaIterator } from 'redux-saga';
 import { put, take } from 'redux-saga/effects';
 import { createEmptyDefferedAction } from 'store/common/actions';
 import { IAuthState } from '../../auth-state';
-import { UnSubscribeToPushNotifications } from '../un-subscribe-from-push-notifications/un-subscribe-from-push-notifications';
+import { UnSubscribeFromPushNotifications } from '../un-subscribe-from-push-notifications/un-subscribe-from-push-notifications';
 import { UnSubscribeToPushNotificationsSuccess } from '../un-subscribe-from-push-notifications/un-subscribe-from-push-notifications_success';
 
 export class Logout {
@@ -20,7 +20,7 @@ export class Logout {
 
   static get saga() {
     return function* (action: ReturnType<typeof Logout.action>): SagaIterator {
-      yield put(UnSubscribeToPushNotifications.action());
+      yield put(UnSubscribeFromPushNotifications.action());
       yield take(UnSubscribeToPushNotificationsSuccess.action);
       // todo: send logout request
       localStorage.clear();

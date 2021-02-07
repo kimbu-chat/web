@@ -2,7 +2,7 @@ import { authRequestFactory, HttpRequestMethod } from 'app/store/common/http';
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { put, take } from 'redux-saga/effects';
+import { call, put, take } from 'redux-saga/effects';
 import { createEmptyDefferedAction } from 'store/common/actions';
 import { IAuthState } from '../../auth-state';
 import { UnSubscribeFromPushNotifications } from '../un-subscribe-from-push-notifications/un-subscribe-from-push-notifications';
@@ -24,9 +24,7 @@ export class Logout {
     return function* (action: ReturnType<typeof Logout.action>): SagaIterator {
       yield put(UnSubscribeFromPushNotifications.action());
       yield take(UnSubscribeToPushNotificationsSuccess.action);
-
-      // todo: uncomment when logout endpoint is ready
-      // yield call(() => Logout.httpRequest.generator());
+      yield call(() => Logout.httpRequest.generator());
       localStorage.clear();
       action?.meta.deferred.resolve();
     };

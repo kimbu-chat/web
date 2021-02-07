@@ -4,11 +4,10 @@ import { WebsocketsConnected } from 'app/store/internet/features/websockets-conn
 import { SagaIterator } from 'redux-saga';
 import { InternetConnected } from '../../internet/features/internet-connection-check/internet-connected';
 
-export function* retryOnNetworkConnectionError<TResponse>(handler: () => SagaIterator): SagaIterator {
+export function* retryOnNetworkConnectionError(handler: () => SagaIterator): SagaIterator {
   while (true) {
     try {
-      const data: TResponse = yield call(handler);
-      return data;
+      return yield call(handler);
     } catch (e) {
       if (isNetworkError(e)) {
         yield race({

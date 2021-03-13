@@ -100,24 +100,24 @@ a {
   //secondary colors
   --blue: #30598b;
   --king-blue: #3f8ae0;
-  --king-blue-transparent: rgba(#3f8ae0,0.25 )
+  --king-blue-transparent: rgba(63, 138, 224, 0.25); //rgba(#3f8ae0, 0.5);
 
-  --red:#C74848;
-  --red-transparent:rgba(#C74848, 0.15);
-  
-  --error-bg:#483E4A;
+  --red: #c74848;
+  --red-transparent: rgba(#c74848, 0.15);
+
+  --error-bg: #483e4a;
 
   //critical colors
 
-  --alert:#FCE4E3;
+  --alert: #fce4e3;
 
-  --success:#598E57;
+  --success: #598e57;
 
-  --success-1:#EBFAF5;
+  --success-1: #ebfaf5;
 
-  --info:#E4F0FB;
+  --info: #e4f0fb;
 
-  --warning:#EBAD34;
+  --warning: #ebad34;
 
-  --warning-1:#FDF8EF;
+  --warning-1: #fdf8ef;
 }

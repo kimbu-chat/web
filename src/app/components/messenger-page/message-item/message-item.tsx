@@ -117,7 +117,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
             <span>{MessageUtils.constructSystemMessageText(message as IMessage, t, myId)}</span>
           </div>
           {message.needToShowDateSeparator && (
-            <div className='message__separator message__separator--capitalized'>
+            <div className='message__separator message__separator--date'>
               <span>{moment.utc(message.creationDateTime).local().format('dddd, MMMM D, YYYY').toString()}</span>
             </div>
           )}
@@ -200,7 +200,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
           </div>
         </div>
         {message.needToShowDateSeparator && (
-          <div className='message__separator message__separator--capitalized'>
+          <div className='message__separator message__separator--date'>
             <span>{moment.utc(message.creationDateTime).local().format('dddd, MMMM D, YYYY').toString()}</span>
           </div>
         )}

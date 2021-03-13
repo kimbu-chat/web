@@ -107,17 +107,16 @@
 
     span {
       display: inline-block;
-      max-width: 100%;
-      background-color: #ebf3fc;
-      border-radius: 11px;
-      line-height: 16px;
-      color: var(--king-blue);
+      background-color: var(--king-blue-transparent);
+      border-radius: 6px;
+      padding: 4px 16px;
+      color: var(--white);
+      font-weight: 300;
       font-size: 12px;
-      font-weight: 500;
-      padding: 3px 14px;
+      line-height: 14px;
     }
 
-    &--capitalized {
+    &--date {
       text-transform: capitalize;
     }
   }

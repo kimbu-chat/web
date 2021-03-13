@@ -3,7 +3,7 @@
 
   &__title {
     margin-left: 16px;
-    color: var(--secondary);
+    color: var(--king-blue);
     font-weight: 500;
     font-size: 18px;
     line-height: 21px;
@@ -19,19 +19,19 @@
 
   &__media-heading {
     display: flex;
-    background-color: var(--primary);
+    background-color: var(--grafit);
     flex-direction: row;
     align-items: center;
     position: sticky;
     top: 0;
 
     svg {
-      color: var(--ternary);
+      color: var(--white);
     }
   }
 
   &__media-title {
-    color: var(--ternary);
+    color: var(--white);
     margin-left: 16px;
     font-size: 16px;
     line-height: 19px;
@@ -39,7 +39,7 @@
   }
 
   &__open-arrow {
-    color: var(--secondary);
+    color: var(--king-blue);
     transition: all 0.2s;
     margin-left: auto;
     margin-right: 20px;

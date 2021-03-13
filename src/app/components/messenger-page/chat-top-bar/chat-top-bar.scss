@@ -5,7 +5,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--primary);
+    background-color: var(--grafit);
 
     &--little {
       width: calc(100% - 300px);
@@ -30,8 +30,8 @@
   }
 
   &__chat-info {
-    color: var(--ternary);
-    color: var(--ternary);
+    color: var(--white);
+    color: var(--white);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -56,7 +56,7 @@
   }
 
   &__button {
-    color: var(--secondary);
+    color: var(--king-blue);
     width: 36px;
     height: 36px;
     display: flex;

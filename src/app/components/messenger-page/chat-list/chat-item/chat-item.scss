@@ -2,13 +2,13 @@
   padding: 8px 20px 8px 20px;
   display: flex;
   align-items: stretch;
-  background-color: var(--primary-darkest);
-  color: var(--primary-darkest);
+  background-color: var(--chat-bg);
+  color: var(--chat-bg);
   position: relative;
 
   &:hover {
-    background-color: var(--primary-darker);
-    color: var(--primary-darker);
+    background-color: var(--chat-bg);
+    color: var(--chat-bg);
   }
 
   &__heading {
@@ -23,8 +23,8 @@
   }
 
   &--active {
-    background-color: var(--primary-darker);
-    color: var(--primary-darker);
+    background-color: var(--chat-bg);
+    color: var(--chat-bg);
 
     & > .chat-item__active-line {
       display: block;
@@ -32,7 +32,7 @@
   }
 
   &__status {
-    color: var(--ternary);
+    color: var(--white);
     margin-top: 2px;
     margin: 2px 3px 0 auto;
   }
@@ -43,7 +43,7 @@
     line-height: 14px;
     font-feature-settings: 'pnum' on, 'lnum' on;
     white-space: nowrap;
-    color: var(--ternary);
+    color: var(--white);
     margin-top: 3px;
   }
 
@@ -61,7 +61,7 @@
     font-weight: normal;
     font-size: 16px;
     line-height: 19px;
-    color: var(--ternary);
+    color: var(--white);
     margin-bottom: 8px;
     max-width: max-content;
   }
@@ -70,7 +70,7 @@
     font-weight: 300;
     font-size: 14px;
     line-height: 17px;
-    color: var(--ternary);
+    color: var(--white);
     font-feature-settings: 'pnum' on, 'lnum' on;
     white-space: nowrap;
     overflow: hidden;
@@ -79,8 +79,8 @@
   }
 
   &__count {
-    background-color: var(--primary);
-    color: var(--ternary);
+    background-color: var(--grafit);
+    color: var(--white);
     padding: 4px 7px;
     border-radius: 6px;
 

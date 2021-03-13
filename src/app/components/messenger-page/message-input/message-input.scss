@@ -15,8 +15,8 @@
     pointer-events: none;
 
     &--active {
-      color: var(--secondary);
-      border: 2px dashed var(--secondary);
+      color: var(--king-blue);
+      border: 2px dashed var(--king-blue);
     }
   }
   &__send-message {
@@ -94,7 +94,7 @@
 
   &__voice-btn {
     border-radius: 50%;
-    color: var(--secondary);
+    color: var(--king-blue);
 
     &--active {
       background-color: #ebf3fc;
@@ -106,7 +106,7 @@
     padding: 11px 30px;
     background-color: rgb(63, 138, 224);
     border-radius: 4px;
-    color: var(--ternary);
+    color: var(--white);
     margin-right: 20px;
     font-size: 13px;
     line-height: 16px;

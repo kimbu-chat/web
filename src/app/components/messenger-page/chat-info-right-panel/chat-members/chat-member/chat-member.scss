@@ -16,7 +16,7 @@
 
   &__name {
     white-space: nowrap;
-    color: var(--ternary);
+    color: var(--white);
     font-weight: 500;
     font-size: 16px;
     line-height: 19px;
@@ -27,7 +27,7 @@
     margin-top: auto;
     font-size: 14px;
     font-weight: 400;
-    color: var(--ternary);
+    color: var(--white);
     margin-bottom: 5px;
   }
 
@@ -35,7 +35,7 @@
     margin-left: auto;
     display: flex;
     align-items: center;
-    color: var(--secondary);
+    color: var(--king-blue);
     font-size: 12px;
     font-weight: 400;
   }

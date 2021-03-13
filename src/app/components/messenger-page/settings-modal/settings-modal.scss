@@ -5,7 +5,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: var(--ternary);
+  background: var(--white);
   border: 2px solid black;
   display: grid;
   grid-template-columns: 360px 1fr;
@@ -20,7 +20,7 @@
     font-size: 15px;
     line-height: 16px;
     font-weight: 500;
-    color: var(--secondary);
+    color: var(--king-blue);
   }
 
   &__link {
@@ -30,7 +30,7 @@
   &__link-name {
     font-size: 13px;
     line-height: 18px;
-    color: var(--secondary);
+    color: var(--king-blue);
     font-weight: 400;
   }
 

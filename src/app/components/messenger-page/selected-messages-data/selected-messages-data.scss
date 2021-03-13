@@ -12,7 +12,7 @@
 
   &__btn {
     padding: 11px 30px;
-    color: var(--ternary);
+    color: var(--white);
     background-color: rgb(63, 138, 224);
     border-radius: 4px;
     font-size: 13px;
@@ -30,7 +30,7 @@
     &--cancel {
       margin-left: auto;
       padding: 0;
-      color: var(--ternary);
+      color: var(--white);
       line-height: 18px;
       background: none;
     }

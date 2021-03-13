@@ -28,7 +28,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 24px;
-    color: var(--secondary);
+    color: var(--king-blue);
     font-weight: 400;
   }
 
@@ -38,12 +38,12 @@
     max-height: calc(100vh - 129px);
     height: 100%;
     overflow: auto;
-    background: var(--primary-darker);
+    background: var(--chat-bg);
   }
 
   &__typing-notification {
     background-color: darken($color: #fff, $amount: 56);
-    color: var(--ternary);
+    color: var(--white);
     font-size: 13px;
     margin-left: 35px;
     font-style: italic;

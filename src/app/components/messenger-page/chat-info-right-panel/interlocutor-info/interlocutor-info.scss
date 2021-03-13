@@ -29,7 +29,7 @@
   &__interlocutor {
     font-size: 24px;
     line-height: 28px;
-    color: var(--ternary);
+    color: var(--white);
     font-weight: bold;
   }
 
@@ -38,13 +38,13 @@
     margin-top: 16px;
     font-size: 12px;
     line-height: 14px;
-    color: var(--ternary);
+    color: var(--white);
     font-weight: 400;
   }
 
   &__rename-btn {
     margin-right: 16px;
-    color: var(--secondary);
+    color: var(--king-blue);
     display: block;
 
     svg {
@@ -56,7 +56,7 @@
   &__info-svg {
     display: block;
     margin-right: 16px;
-    color: var(--ternary);
+    color: var(--white);
     width: 18px;
     height: 18px;
   }
@@ -65,10 +65,10 @@
     font-size: 14px;
     font-weight: 400;
     line-height: 16px;
-    color: var(--ternary);
+    color: var(--white);
 
     &--link {
-      color: var(--secondary);
+      color: var(--king-blue);
       cursor: pointer;
       &:hover {
         text-decoration: underline;

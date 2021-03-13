@@ -20,7 +20,7 @@
     }
 
     &__img {
-      background-color: var(--secondary);
+      background-color: var(--king-blue);
       height: 40px;
       width: 40px;
       border-radius: 50%;
@@ -28,14 +28,14 @@
       justify-content: center;
       align-items: center;
       svg {
-        color: var(--ternary);
+        color: var(--white);
         height: 20px;
         width: 20px;
       }
     }
 
     &__title {
-      color: var(--secondary);
+      color: var(--king-blue);
       margin-left: 10px;
       font-weight: 500;
       font-size: 13px;

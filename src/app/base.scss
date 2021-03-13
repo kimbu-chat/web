@@ -76,9 +76,48 @@ a {
 //variables
 
 :root {
-  --primary: #373f51;
-  --primary-darker: #32394a;
-  --primary-darkest: #262c38;
-  --secondary: #3f8ae0;
-  --ternary: #ffffff;
+  //primary colors
+  --dark: #262c38;
+
+  --grafit: #373f51;
+  --grafit-light: rgba(#373f51, 0.7);
+  --grafit-lighter: rgba(#373f51, 0.5);
+
+  --chat-bg: #32394a;
+
+  --msg-bg: #4a5466;
+
+  --input-bg: rgba(#4a5466, 0.6);
+
+  --modals-bg: rgba(#0f1729, 0.7);
+  --modals-bg-photo: rgba(#0f1729, 0.9);
+
+  --white: #ffffff;
+  --white-semi-transparent: rgba(#ffffff, 0.5);
+  --white-dark: rgba(#ffffff, 0.14);
+  --white-darker: rgba(#ffffff, 0.04);
+
+  //secondary colors
+  --blue: #30598b;
+  --king-blue: #3f8ae0;
+  --king-blue-transparent: rgba(#3f8ae0,0.25 )
+
+  --red:#C74848;
+  --red-transparent:rgba(#C74848, 0.15);
+  
+  --error-bg:#483E4A;
+
+  //critical colors
+
+  --alert:#FCE4E3;
+
+  --success:#598E57;
+
+  --success-1:#EBFAF5;
+
+  --info:#E4F0FB;
+
+  --warning:#EBAD34;
+
+  --warning-1:#FDF8EF;
 }

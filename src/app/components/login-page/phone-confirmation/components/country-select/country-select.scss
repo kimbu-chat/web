@@ -19,7 +19,7 @@
     height: 16px;
     width: 16px;
     pointer-events: none;
-    color: var(--secondary);
+    color: var(--king-blue);
     display: block;
     cursor: pointer;
     transition: all 0.2s;
@@ -49,7 +49,7 @@
     border-radius: 0px 0px 8px 8px;
     overflow-y: auto;
     overflow-x: hidden;
-    background-color: var(--ternary);
+    background-color: var(--white);
     width: 100%;
 
     [data-focus^='true'] {

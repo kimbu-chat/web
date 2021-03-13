@@ -12,7 +12,7 @@
     border-radius: 5px;
     position: relative;
     svg {
-      color: var(--secondary);
+      color: var(--king-blue);
       width: 30px;
       height: 30px;
       opacity: 0.7;
@@ -41,13 +41,13 @@
   }
 
   &__progress {
-    background-color: var(--secondary);
+    background-color: var(--king-blue);
     transition: all 0.1s;
     height: 100%;
   }
 
   &__title {
-    color: var(--secondary);
+    color: var(--king-blue);
     font-weight: 500;
     font-size: 11px;
     max-width: 50px;
@@ -61,7 +61,7 @@
     position: absolute;
     top: -6px;
     right: -6px;
-    background-color: var(--ternary);
+    background-color: var(--white);
     padding: 3px;
     border-radius: 50%;
     display: flex;

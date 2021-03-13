@@ -3,7 +3,7 @@
   overflow: hidden;
   cursor: pointer;
   &__svg {
-    color: var(--ternary);
+    color: var(--white);
     position: absolute;
     top: 50%;
     left: 50%;
@@ -21,7 +21,7 @@
     font-size: 11px;
     font-weight: 500px;
     border-radius: 10px;
-    color: var(--ternary);
+    color: var(--white);
   }
 
   &__blur {

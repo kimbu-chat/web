@@ -38,6 +38,7 @@
     max-height: calc(100vh - 129px);
     height: 100%;
     overflow: auto;
+    background: var(--primary-darker);
   }
 
   &__typing-notification {

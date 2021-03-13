@@ -261,7 +261,7 @@ export class MessageCreatedEventHandler {
       }
 
       if (selectedChatId === message.chatId) {
-        if (!(myId === message.userCreator?.id)) {
+        if (myId !== message.userCreator?.id) {
           const httpRequestPayload: IMarkMessagesAsReadApiRequest = {
             chatId: selectedChatId,
             lastReadMessageId: message.id,

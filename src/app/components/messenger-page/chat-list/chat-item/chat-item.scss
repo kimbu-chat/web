@@ -2,9 +2,13 @@
   padding: 8px 20px 8px 20px;
   display: flex;
   align-items: stretch;
+  background-color: var(--primary-darkest);
+  color: var(--primary-darkest);
+  position: relative;
 
   &:hover {
     background-color: var(--primary-darker);
+    color: var(--primary-darker);
   }
 
   &__heading {
@@ -20,6 +24,7 @@
 
   &--active {
     background-color: var(--primary-darker);
+    color: var(--primary-darker);
 
     & > .chat-item__active-line {
       display: block;
@@ -74,16 +79,19 @@
   }
 
   &__count {
-    background-color: var(--secondary);
+    background-color: var(--primary);
     color: var(--ternary);
+    padding: 4px 7px;
     border-radius: 6px;
-    font-size: 13px;
+
+    font-weight: 400;
+    font-size: 14px;
     line-height: 16px;
-    padding: 3px 7px;
-    font-weight: 500;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+
     position: absolute;
+    top: 30px;
     right: 20px;
-    bottom: 18px;
 
     &--muted {
       background-color: #6d7885;

@@ -116,7 +116,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(
             </div>
           </div>
           <div className='chat-item__last-message'>{typingString || getMessageText()}</div>
-          {(chat.unreadMessagesCount || false) && (
+          {chat.unreadMessagesCount > 0 && (
             <div className={chat.isMuted ? 'chat-item__count chat-item__count--muted' : 'chat-item__count'}>{chat.unreadMessagesCount}</div>
           )}
         </div>
@@ -130,6 +130,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(
       prevProps.chat.isMuted === nextProps.chat.isMuted &&
       prevProps.chat.interlocutor?.firstName === nextProps.chat.interlocutor?.firstName &&
       prevProps.chat.interlocutor?.lastName === nextProps.chat.interlocutor?.lastName &&
+      prevProps.chat.interlocutor?.status === nextProps.chat.interlocutor?.status &&
       prevProps.chat.groupChat?.name === nextProps.chat.groupChat?.name &&
       isEqual(prevProps.chat.interlocutor?.avatar, nextProps.chat.interlocutor?.avatar) &&
       isEqual(prevProps.chat.groupChat?.avatar, nextProps.chat.groupChat?.avatar) &&

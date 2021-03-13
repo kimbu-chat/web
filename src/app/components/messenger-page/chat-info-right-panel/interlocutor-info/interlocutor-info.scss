@@ -29,7 +29,7 @@
   &__interlocutor {
     font-size: 24px;
     line-height: 28px;
-    color: white;
+    color: var(--ternary);
     font-weight: bold;
   }
 
@@ -38,7 +38,7 @@
     margin-top: 16px;
     font-size: 12px;
     line-height: 14px;
-    color: white;
+    color: var(--ternary);
     font-weight: 400;
   }
 
@@ -56,7 +56,7 @@
   &__info-svg {
     display: block;
     margin-right: 16px;
-    color: white;
+    color: var(--ternary);
     width: 18px;
     height: 18px;
   }
@@ -65,7 +65,7 @@
     font-size: 14px;
     font-weight: 400;
     line-height: 16px;
-    color: white;
+    color: var(--ternary);
 
     &--link {
       color: var(--secondary);

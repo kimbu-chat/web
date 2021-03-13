@@ -9,7 +9,7 @@
     display: block;
     margin-left: auto;
     margin-right: 15px;
-    color: white;
+    color: var(--ternary);
     svg {
       height: 24px;
       width: 24px;
@@ -93,7 +93,7 @@
   position: absolute;
   top: -6px;
   right: 91px;
-  background: white;
+  background: var(--ternary);
   transition: all 0.3s;
 
   &:hover {

@@ -18,7 +18,7 @@
     position: absolute;
     top: 20px;
     right: 20px;
-    color: white;
+    color: var(--ternary);
     cursor: pointer;
   }
 
@@ -36,7 +36,7 @@
     height: 32px;
     width: 32px;
     border-radius: 50%;
-    background-color: white;
+    background-color: var(--ternary);
     display: flex;
     justify-content: center;
     align-items: center;

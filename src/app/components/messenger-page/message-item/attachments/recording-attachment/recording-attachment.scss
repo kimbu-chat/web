@@ -8,7 +8,7 @@
     height: 30px;
     border-radius: 50%;
     background-color: var(--secondary);
-    color: white;
+    color: var(--ternary);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -37,7 +37,7 @@
       }
 
       &-indicator {
-        background-color: white;
+        background-color: var(--ternary);
         border: 2px solid var(--secondary);
         height: 10px;
         transform: translateX(5px);

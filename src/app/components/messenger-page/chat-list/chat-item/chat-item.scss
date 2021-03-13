@@ -1,34 +1,14 @@
-.chat-from-list {
-  padding: 14px 20px;
+.chat-item {
+  padding: 8px 20px 8px 20px;
   display: flex;
   align-items: stretch;
-  margin: 0;
-  position: relative;
-  font-family: inherit;
-  font-size: inherit;
-  font-weight: inherit;
-  color: inherit;
-  text-decoration: none;
 
   &:hover {
-    background-color: rgba($color: var(--secondary), $alpha: 0.1);
+    background-color: var(--primary-darker);
   }
 
   &__heading {
     display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-  }
-
-  &__active-line {
-    display: none;
-    background-color: var(--secondary);
-    height: 100%;
-    width: 4px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    border-radius: 0px 10px 10px 0;
   }
 
   &__contents {
@@ -39,59 +19,63 @@
   }
 
   &--active {
-    background-color: rgba($color: #3f8ae0, $alpha: 0.1);
+    background-color: var(--primary-darker);
 
-    & > .chat-from-list__active-line {
+    & > .chat-item__active-line {
       display: block;
     }
   }
 
   &__status {
-    margin-left: auto;
-    margin-top: auto;
-    margin-bottom: -3px;
-    margin-right: 8px;
+    color: var(--ternary);
+    margin-top: 2px;
+    margin: 2px 3px 0 auto;
   }
 
   &__time {
-    font-size: 11px;
-    font-weight: 400px;
-    color: #868686;
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 14px;
+    font-feature-settings: 'pnum' on, 'lnum' on;
     white-space: nowrap;
+    color: var(--ternary);
+    margin-top: 3px;
   }
 
   &__avatar {
-    width: 52px;
-    height: 52px;
+    width: 48px;
+    height: 48px;
   }
 
   &__avatar-container {
-    margin-right: 14px;
+    margin-right: 20px;
   }
 
   &__name {
-    font-weight: 500;
-    font-size: 14px;
-    margin-bottom: 6px;
+    margin-top: 3px;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+    color: var(--ternary);
+    margin-bottom: 8px;
     max-width: max-content;
   }
 
   &__last-message {
+    font-weight: 300;
     font-size: 14px;
-    line-height: 16px;
-    height: 30px;
-    font-weight: 400;
-    color: #6d7885;
-    margin-top: 2px;
-    word-break: break-all;
-    max-width: 90%;
+    line-height: 17px;
+    color: var(--ternary);
+    font-feature-settings: 'pnum' on, 'lnum' on;
+    white-space: nowrap;
     overflow: hidden;
+    max-width: 70%;
     text-overflow: ellipsis;
   }
 
   &__count {
     background-color: var(--secondary);
-    color: white;
+    color: var(--ternary);
     border-radius: 6px;
     font-size: 13px;
     line-height: 16px;

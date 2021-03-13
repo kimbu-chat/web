@@ -42,42 +42,27 @@ const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
     <div className='messenger'>
       {amICalledSelector && <IncomingCall />}
       {(amISpeaking || amICallingSelectorSomebody) && <ActiveCall />}
-
       {!internetState && <InternetError />}
 
       <RoutingChats />
 
       <div className='messenger__chat-list'>
-        <div className='messenger__chat-list__animated'>
-          <Route path='/calls'>
-            {({ match }) => (
-              <CSSTransition in={match != null} timeout={200} classNames='slide' unmountOnExit>
-                <CallList />
-              </CSSTransition>
-            )}
-          </Route>
+        <Route path='/calls'>
+          <CallList />
+        </Route>
 
-          <Route path='/chats/:chatId?/'>
-            {({ match }) => (
-              <CSSTransition in={match != null} timeout={200} classNames='slide' unmountOnExit>
-                <div className='messenger__chats'>
-                  <SearchTop />
-                  <ChatList />
-                </div>
-              </CSSTransition>
-            )}
-          </Route>
+        <Route path='/chats/:chatId?/'>
+          <div className='messenger__chats'>
+            <SearchTop />
+            <ChatList />
+          </div>
+        </Route>
 
-          <Route path='/contacts/:chatId?/'>
-            {({ match }) => (
-              <CSSTransition in={match != null} timeout={200} classNames='slide' unmountOnExit>
-                <div className='messenger__chats'>
-                  <FriendList />
-                </div>
-              </CSSTransition>
-            )}
-          </Route>
-        </div>
+        <Route path='/contacts/:chatId?/'>
+          <div className='messenger__chats'>
+            <FriendList />
+          </div>
+        </Route>
       </div>
 
       <ChatTopBar />

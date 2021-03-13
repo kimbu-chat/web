@@ -39,7 +39,7 @@
     svg {
       width: 16px;
       height: 16px;
-      color: white;
+      color: var(--ternary);
     }
   }
 
@@ -62,7 +62,7 @@
   }
 
   &__call-btn {
-    color: white;
+    color: var(--ternary);
     height: 40px;
     width: 40px;
     border-radius: 50%;
@@ -108,7 +108,7 @@
   }
 
   &__interlocutor-name {
-    color: white;
+    color: var(--ternary);
     font-weight: 500;
     font-size: 14px;
     margin-bottom: 6px;

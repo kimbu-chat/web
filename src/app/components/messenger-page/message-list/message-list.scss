@@ -38,16 +38,11 @@
     max-height: calc(100vh - 129px);
     height: 100%;
     overflow: auto;
-
-    .loader {
-      display: flex;
-      justify-content: center;
-    }
   }
 
   &__typing-notification {
     background-color: darken($color: #fff, $amount: 56);
-    color: white;
+    color: var(--ternary);
     font-size: 13px;
     margin-left: 35px;
     font-style: italic;

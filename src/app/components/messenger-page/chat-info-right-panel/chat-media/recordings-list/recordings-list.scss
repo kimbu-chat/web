@@ -1,9 +1,4 @@
 .chat-recordings {
-  .loader {
-    display: flex;
-    justify-content: center;
-  }
-
   &__separator {
     text-transform: capitalize;
     width: 100%;
@@ -36,7 +31,7 @@
         }
 
         &-indicator {
-          background-color: white;
+          background-color: var(--ternary);
           border: 2px solid var(--secondary);
           height: 10px;
           transform: translateX(5px);

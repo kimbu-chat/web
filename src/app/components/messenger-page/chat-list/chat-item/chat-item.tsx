@@ -12,9 +12,11 @@ import { LocalizationContext } from 'app/app';
 import { myIdSelector } from 'store/my-profile/selectors';
 import truncate from 'lodash/truncate';
 
-import MessageQeuedSvg from 'icons/ic-time.svg';
-import MessageSentSvg from 'icons/ic-tick.svg';
-import MessageReadSvg from 'icons/ic-double_tick.svg';
+import MessageQeuedSvg from 'icons/message-queued.svg';
+import MessageSentSvg from 'icons/message-sent.svg';
+import MessageReadSvg from 'icons/message-read.svg';
+import MessageErrorSvg from 'icons/message-error.svg';
+
 import { getTypingStringSelector } from 'store/chats/selectors';
 import { getChatInterlocutor, getInterlocutorInitials } from 'utils/interlocutor-name-utils';
 import { isEqual } from 'lodash';
@@ -86,37 +88,36 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(
     }, [chat.lastMessage]);
 
     return (
-      <NavLink to={`/chats/${chat.id.toString()}`} className='chat-from-list' activeClassName='chat-from-list chat-from-list--active'>
-        <div className='chat-from-list__active-line' />
+      <NavLink to={`/chats/${chat.id.toString()}`} className='chat-item' activeClassName='chat-item chat-item--active'>
         {!chat.groupChat ? (
-          <StatusBadge containerClassName='chat-from-list__avatar-container' additionalClassNames='chat-from-list__avatar' user={chat.interlocutor!} />
+          <StatusBadge containerClassName='chat-item__avatar-container' additionalClassNames='chat-item__avatar' user={chat.interlocutor!} />
         ) : (
-          <Avatar className='chat-from-list__avatar chat-from-list__avatar-container' src={chat.groupChat?.avatar?.previewUrl}>
+          <Avatar className='chat-item__avatar chat-item__avatar-container' src={chat.groupChat?.avatar?.previewUrl}>
             {getInterlocutorInitials(chat)}
           </Avatar>
         )}
-
-        <div className='chat-from-list__contents'>
-          <div className='chat-from-list__heading'>
-            <div className='chat-from-list__name'>{getChatInterlocutor(chat)}</div>
-            <div className='chat-from-list__status'>
+        <div className='chat-item__contents'>
+          <div className='chat-item__heading'>
+            <div className='chat-item__name'>{getChatInterlocutor(chat)}</div>
+            <div className='chat-item__status'>
               {!(chat.lastMessage?.systemMessageType !== SystemMessageType.None || !isMessageCreatorCurrentUser) && (
                 <>
                   {chat.lastMessage?.state === MessageState.QUEUED && <MessageQeuedSvg />}
                   {chat.lastMessage?.state === MessageState.SENT && <MessageSentSvg />}
                   {chat.lastMessage?.state === MessageState.READ && <MessageReadSvg />}
+                  {chat.lastMessage?.state === MessageState.ERROR && <MessageErrorSvg />}
                 </>
               )}
             </div>
-            <div className='chat-from-list__time'>
+            <div className='chat-item__time'>
               {MessageUtils.checkIfDatesAreSameDate(new Date(chat.lastMessage?.creationDateTime!), new Date())
                 ? moment.utc(chat.lastMessage?.creationDateTime).local().format('dd MMM YY')
                 : moment.utc(chat.lastMessage?.creationDateTime).local().format('LT')}
             </div>
           </div>
-          <div className='chat-from-list__last-message'>{typingString || getMessageText()}</div>
+          <div className='chat-item__last-message'>{typingString || getMessageText()}</div>
           {(chat.unreadMessagesCount || false) && (
-            <div className={chat.isMuted ? 'chat-from-list__count chat-from-list__count--muted' : 'chat-from-list__count'}>{chat.unreadMessagesCount}</div>
+            <div className={chat.isMuted ? 'chat-item__count chat-item__count--muted' : 'chat-item__count'}>{chat.unreadMessagesCount}</div>
           )}
         </div>
       </NavLink>

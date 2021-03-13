@@ -16,7 +16,7 @@
 
   &__name {
     white-space: nowrap;
-    color: white;
+    color: var(--ternary);
     font-weight: 500;
     font-size: 16px;
     line-height: 19px;
@@ -27,7 +27,7 @@
     margin-top: auto;
     font-size: 14px;
     font-weight: 400;
-    color: white;
+    color: var(--ternary);
     margin-bottom: 5px;
   }
 

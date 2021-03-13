@@ -1,3 +1,24 @@
+//fonts
+
+@font-face {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 300;
+  src: url('./assets/fonts/Rubik-Light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./assets/fonts/Rubik-Regular.ttf') format('truetype');
+}
+
+body {
+  font-family: Rubik;
+  overflow-x: hidden;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -25,11 +46,6 @@
   }
 }
 
-body {
-  overflow-x: hidden;
-  font-family: Raleway;
-}
-
 button {
   border: 0;
   border-radius: 0;
@@ -43,28 +59,7 @@ button {
   }
 }
 
-.background-blur {
-  width: 100vw;
-  height: 100vh;
-  z-index: 50;
-  background-color: rgba(0, 0, 0, 0.75);
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
 [hidden] {
-  display: none;
-}
-
-.hidden {
-  visibility: hidden;
-  height: 0 !important;
-  width: 0;
-  height: 0;
-}
-
-.completly-hidden {
   display: none;
 }
 
@@ -78,37 +73,12 @@ a {
   font-style: inherit;
 }
 
-.pointer {
-  cursor: pointer;
-}
+//variables
 
-.react-draggable {
-  z-index: 500 !important;
-  overflow: hidden;
-}
-
-.dragging {
-  pointer-events: none;
-}
-
-//fonts
-@font-face {
-  font-family: 'SFUI Text';
-  font-style: normal;
-  font-weight: 400;
-  src: local('SF UI Text Regular'), url('./assets/fonts/SFUIText-Regular.woff') format('woff');
-}
-
-@font-face {
-  font-family: 'SFUI Text';
-  font-style: normal;
-  font-weight: 300;
-  src: local('SF UI Text Light'), url('./assets/fonts/SFUIText-Light.woff') format('woff');
-}
-
-@font-face {
-  font-family: 'SFUI Text';
-  font-style: normal;
-  font-weight: 500;
-  src: local('SF UI Text Medium'), url('./assets/fonts/SFUIText-Medium.woff') format('woff');
+:root {
+  --primary: #373f51;
+  --primary-darker: #32394a;
+  --primary-darkest: #262c38;
+  --secondary: #3f8ae0;
+  --ternary: #ffffff;
 }

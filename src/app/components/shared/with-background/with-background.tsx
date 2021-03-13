@@ -1,6 +1,7 @@
 import Mousetrap from 'mousetrap';
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
+import './with-background.scss';
 
 interface IBackgroundBlurProps {
   onClick: () => void;

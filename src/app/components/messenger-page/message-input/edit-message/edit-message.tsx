@@ -228,7 +228,7 @@ export const EditMessage = React.memo(() => {
 
       {!(isDragging || isDraggingOver) && (
         <div className='message-input__send-message'>
-          <input multiple className='hidden' type='file' onChange={uploadFile} ref={fileInputRef} />
+          <input multiple hidden type='file' onChange={uploadFile} ref={fileInputRef} />
           <button type='button' onClick={openSelectFiles} className='message-input__add'>
             <AddSvg />
           </button>

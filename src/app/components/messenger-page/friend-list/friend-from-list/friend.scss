@@ -9,7 +9,7 @@
 
   &__active-line {
     display: none;
-    background-color: #3f8ae0;
+    background-color: var(--secondary);
     height: 100%;
     width: 4px;
     position: absolute;
@@ -39,6 +39,6 @@
   &__status {
     font-size: 14px;
     font-weight: 400;
-    color: #3f8ae0;
+    color: var(--secondary);
   }
 }

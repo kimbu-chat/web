@@ -44,7 +44,7 @@
 
   &__rename-btn {
     margin-right: 16px;
-    color: #3f8ae0;
+    color: var(--secondary);
     display: block;
 
     svg {
@@ -68,7 +68,7 @@
     color: white;
 
     &--link {
-      color: #3f8ae0;
+      color: var(--secondary);
       cursor: pointer;
       &:hover {
         text-decoration: underline;

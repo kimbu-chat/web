@@ -1,6 +1,6 @@
 .chat-info {
   height: calc(100vh - 64px);
-  background-color: #373f51;
+  background-color: var(--primary);
   width: 348px;
   overflow-y: auto;
   will-change: margin;

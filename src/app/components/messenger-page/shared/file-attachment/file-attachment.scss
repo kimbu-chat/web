@@ -21,7 +21,7 @@
     svg {
       width: 20px;
       height: 20px;
-      color: #3f8ae0;
+      color: var(--secondary);
     }
   }
 
@@ -30,7 +30,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #3f8ae0;
+    color: var(--secondary);
     margin-right: 10px;
     height: 40px;
     position: relative;

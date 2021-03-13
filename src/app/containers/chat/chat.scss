@@ -4,6 +4,10 @@
   grid-template-rows: 64px 1fr;
   min-height: 100vh;
 
+  &__chats {
+    background-color: var(--primary-darkest);
+  }
+
   &__chat-send {
     overflow: auto;
     display: flex;

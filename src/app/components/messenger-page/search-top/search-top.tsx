@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import './search-top.scss';
 
-import CreateChatSvg from 'icons/ic-write-message.svg';
+import CreateChatSvg from 'icons/create-chat.svg';
 
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { ChatActions } from 'store/chats/actions';
@@ -34,9 +34,12 @@ export const SearchTop = React.memo(() => {
 
   return (
     <div className='search-top'>
-      <div className='search-top__search'>
-        <SearchBox onChange={handleChatSearchChange} />
-      </div>
+      <SearchBox
+        containerClassName='search-top__search-container'
+        inputClassName='search-top__search-input'
+        iconClassName='search-top__search-icon'
+        onChange={handleChatSearchChange}
+      />
       <button type='button' onClick={changeNewChatDisplayedState} className='search-top__create-chat-btn'>
         <CreateChatSvg />
       </button>

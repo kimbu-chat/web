@@ -12,7 +12,7 @@
     border-radius: 5px;
     position: relative;
     svg {
-      color: #3f8ae0;
+      color: var(--secondary);
       width: 30px;
       height: 30px;
       opacity: 0.7;
@@ -41,13 +41,13 @@
   }
 
   &__progress {
-    background-color: #3f8ae0;
+    background-color: var(--secondary);
     transition: all 0.1s;
     height: 100%;
   }
 
   &__title {
-    color: #3f8ae0;
+    color: var(--secondary);
     font-weight: 500;
     font-size: 11px;
     max-width: 50px;

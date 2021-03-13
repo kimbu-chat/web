@@ -20,7 +20,7 @@
     font-size: 15px;
     line-height: 16px;
     font-weight: 500;
-    color: #3f8ae0;
+    color: var(--secondary);
   }
 
   &__link {
@@ -30,7 +30,7 @@
   &__link-name {
     font-size: 13px;
     line-height: 18px;
-    color: #3f8ae0;
+    color: var(--secondary);
     font-weight: 400;
   }
 

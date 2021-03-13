@@ -10,12 +10,8 @@
   color: inherit;
   text-decoration: none;
 
-  &:first-of-type {
-    margin-top: 18px;
-  }
-
   &:hover {
-    background-color: rgba($color: #3f8ae0, $alpha: 0.1);
+    background-color: rgba($color: var(--secondary), $alpha: 0.1);
   }
 
   &__heading {
@@ -26,7 +22,7 @@
 
   &__active-line {
     display: none;
-    background-color: #3f8ae0;
+    background-color: var(--secondary);
     height: 100%;
     width: 4px;
     position: absolute;
@@ -94,7 +90,7 @@
   }
 
   &__count {
-    background-color: #3f8ae0;
+    background-color: var(--secondary);
     color: white;
     border-radius: 6px;
     font-size: 13px;

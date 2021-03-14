@@ -17,14 +17,19 @@ import React, { useContext, useState, useRef, useEffect, useCallback, lazy, Susp
 import { useSelector } from 'react-redux';
 import useInterval from 'use-interval';
 import { throttle } from 'lodash';
-import AddSvg from 'icons/ic-add-new.svg';
-import VoiceSvg from 'icons/ic-microphone.svg';
 import { TypingStrategy } from 'app/store/settings/features/models';
 import { loadMessageSmiles } from 'app/routing/module-loader';
 import { CubeLoader } from 'app/containers/cube-loader/cube-loader';
+
+import AddSvg from 'icons/add-attachment.svg';
+import VoiceSvg from 'icons/voice.svg';
+import CrayonSvg from 'icons/crayon.svg';
+import SendSvg from 'icons/send.svg';
+
 import { RespondingMessage } from './responding-message/responding-message';
 import { ExpandingTextarea } from './expanding-textarea/expanding-textarea';
 import { MessageInputAttachment } from './message-input-attachment/message-input-attachment';
+
 import './message-input.scss';
 
 const MessageSmiles = lazy(loadMessageSmiles);
@@ -380,42 +385,48 @@ export const CreateMessageInput = React.memo(() => {
                 <button type='button' onClick={openSelectFiles} className='message-input__add'>
                   <AddSvg />
                 </button>
+                <div className='message-input__line' />
+                <CrayonSvg viewBox='0 0 16 16' className='message-input__crayon' />
               </>
             )}
+
             {isRecording && (
               <>
                 <div className='message-input__red-dot' />
                 <div className='message-input__counter'>{moment.utc(recordedSeconds * 1000).format('mm:ss')}</div>
               </>
             )}
-            <div className='message-input__input-group'>
+
+            {!isRecording && (
+              <ExpandingTextarea
+                value={text}
+                placeholder={t('messageInput.write')}
+                onChange={onType}
+                onPaste={onPaste}
+                className='mousetrap message-input__input-message'
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+              />
+            )}
+
+            {isRecording && <div className='message-input__recording-info'>Release outside this field to cancel</div>}
+
+            <div className='message-input__right-btns'>
               {!isRecording && (
-                <ExpandingTextarea
-                  value={text}
-                  placeholder={t('messageInput.write')}
-                  onChange={onType}
-                  onPaste={onPaste}
-                  className='mousetrap message-input__input-message'
-                  onFocus={handleFocus}
-                  onBlur={handleBlur}
-                />
+                <Suspense fallback={<CubeLoader />}>
+                  <MessageSmiles setText={setText} />
+                </Suspense>
               )}
-              {isRecording && <div className='message-input__recording-info'>Release outside this field to cancel</div>}
-              <div className='message-input__right-btns'>
-                {!isRecording && (
-                  <Suspense fallback={<CubeLoader />}>
-                    <MessageSmiles setText={setText} />
-                  </Suspense>
-                )}
-                <button
-                  type='button'
-                  onClick={handleRegisterAudioBtnClick}
-                  ref={registerAudioBtnRef}
-                  className={`message-input__voice-btn ${isRecording ? 'message-input__voice-btn--active' : ''}`}
-                >
-                  <VoiceSvg />
+
+              <button type='button' onClick={handleRegisterAudioBtnClick} ref={registerAudioBtnRef} className='message-input__voice-btn'>
+                <VoiceSvg />
+              </button>
+
+              {!isRecording && (
+                <button type='button' onClick={sendMessageToServer} className='message-input__send-btn'>
+                  <SendSvg />
                 </button>
-              </div>
+              )}
             </div>
           </div>
         </>

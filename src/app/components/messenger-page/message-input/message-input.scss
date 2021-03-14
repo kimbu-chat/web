@@ -1,5 +1,7 @@
 .message-input {
   position: relative;
+  background-color: var(--grafit);
+
   &__drag {
     flex: 0 1 64px;
     display: flex;
@@ -8,7 +10,6 @@
     justify-content: center;
     box-sizing: border-box;
     color: #99a2ad;
-    border: 2px solid #99a2ad;
     font-weight: 500;
     font-size: 20px;
     text-align: center;
@@ -19,6 +20,7 @@
       border: 2px dashed var(--king-blue);
     }
   }
+
   &__send-message {
     flex: 0 1 64px;
     height: auto;
@@ -28,10 +30,20 @@
   }
 
   &__add {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    margin-left: 16px;
+    color: var(--king-blue);
+    margin: 0 33px 0 36px;
+  }
+
+  &__line {
+    height: 40px;
+    width: 1px;
+    background-color: var(--white);
+    margin-right: 17px;
+  }
+
+  &__crayon {
+    color: var(--white);
+    margin-right: 16px;
   }
 
   &__red-dot {
@@ -43,31 +55,22 @@
     animation: pulse 2s infinite;
   }
 
-  &__input-group {
-    width: calc(100% - 52px);
-    display: flex;
-    margin: 19px 0;
-    align-items: center;
-  }
-
   &__input-message {
     overflow: auto;
     height: auto;
-    line-height: 18px;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 19px;
     display: block;
     border: none;
     width: calc(100% - 52px);
-    margin-left: 15px;
-    font-size: 13px;
     white-space: pre-line;
-    font-weight: 400;
     resize: none;
+    background: transparent;
+    color: var(--white-semi-transparent);
+
     &:focus {
       outline: none;
-    }
-
-    &::placeholder {
-      color: #a7a7af;
     }
   }
 
@@ -82,24 +85,24 @@
   }
 
   &__right-btns {
-    margin-right: 16px;
     display: flex;
     position: relative;
     margin-left: auto;
   }
 
   &__smiles-btn {
-    margin-right: 10px;
+    margin-right: 32px;
+    color: var(--white);
   }
 
   &__voice-btn {
-    border-radius: 50%;
-    color: var(--king-blue);
+    color: var(--white);
+    margin-right: 32px;
+  }
 
-    &--active {
-      background-color: #ebf3fc;
-      color: black;
-    }
+  &__send-btn {
+    color: var(--king-blue);
+    margin-right: 24px;
   }
 
   &__edit-confirm {

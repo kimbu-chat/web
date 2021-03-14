@@ -80,7 +80,7 @@
     "reject": "Reject"
   },
   "messageInput": {
-    "write": "Write a message…..."
+    "write": "Type something..."
   },
   "selectedMessagesData": {
     "forward": "Forward ({{count}})",

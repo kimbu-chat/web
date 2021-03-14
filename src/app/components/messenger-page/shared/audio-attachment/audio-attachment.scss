@@ -1,6 +1,6 @@
 .audio-attachment {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
 
   &__download {
     background: var(--king-blue);
@@ -22,11 +22,11 @@
 
   &__data {
     display: flex;
-    margin-right: 21px;
+    width: calc(100% - 21px);
   }
 
   &__file-name {
-    max-width: 60%;
+    max-width: 190px;
     font-weight: 300;
     font-size: 14px;
     line-height: 17px;
@@ -42,16 +42,16 @@
     line-height: 17px;
     color: var(--white);
     margin-left: auto;
-    margin-right: 21px;
   }
 
   &__play-data {
+    flex-grow: 1;
     .rhap {
       &_container {
         padding: 0;
         background: inherit;
         box-shadow: none;
-        max-width: 70%;
+        max-width: 76%;
       }
 
       &_controls-section {
@@ -60,6 +60,8 @@
 
       &_progress-container {
         margin: 0;
+        margin-bottom: -6px;
+        margin-top: -6px;
       }
 
       &_progress-bar {

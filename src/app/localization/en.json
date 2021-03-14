@@ -40,7 +40,8 @@
     "create-group": "Create group",
     "delete-chat": "Delete chat",
     "leave-chat": "Leave chat",
-    "add-users": "Add users to chat"
+    "add-users": "Add users to chat",
+    "actions": "Actions"
   },
   "chatMedia": {
     "media": "Media",

@@ -41,7 +41,8 @@
     "create-group": "Создать чат",
     "delete-chat": "Удалить чат",
     "leave-chat": "Покинуть чат",
-    "add-users": "Добавить в чат"
+    "add-users": "Добавить в чат",
+    "actions": "Действия"
   },
   "chatMedia": {
     "media": "Медия",

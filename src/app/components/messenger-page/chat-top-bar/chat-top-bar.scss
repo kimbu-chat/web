@@ -60,6 +60,10 @@
     color: var(--white);
     margin-right: 32px;
 
+    &--active {
+      color: var(--king-blue);
+    }
+
     &:last-child {
       margin-right: 24px;
     }

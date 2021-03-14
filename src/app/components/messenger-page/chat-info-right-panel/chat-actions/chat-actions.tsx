@@ -6,11 +6,13 @@ import { useSelector } from 'react-redux';
 import { getMemberIdsForSelectedGroupChatSelector, getSelectedChatSelector } from 'store/chats/selectors';
 import { LocalizationContext } from 'app/app';
 import { ChatActions as SelectedChatActions } from 'store/chats/actions';
+
 import MuteSvg from 'icons/mute.svg';
-import UnmuteSvg from 'icons/ic-notifications-off.svg';
-import ClearSvg from 'icons/time.svg';
-import DeleteSvg from 'icons/trash-box.svg';
+import UnmuteSvg from 'icons/unmute.svg';
+import ClearSvg from 'icons/clear.svg';
+import DeleteSvg from 'icons/delete-contact.svg';
 import LeaveSvg from 'icons/leave.svg';
+
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { FriendActions } from 'store/friends/actions';
 import { CreateGroupChat, FadeAnimationWrapper } from 'components';
@@ -52,37 +54,34 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
 
   return (
     <div className='chat-actions'>
+      <h3 className='chat-actions__title'>{t('chatActions.actions')}</h3>
+
       <button type='button' onClick={changeChatMutedStatus} className='chat-actions__action'>
         {selectedChat.isMuted ? <UnmuteSvg /> : <MuteSvg />}
         <span className='chat-actions__action__name'>{selectedChat.isMuted ? t('chatActions.unmute') : t('chatActions.mute')}</span>
       </button>
-
       <button onClick={changeClearChatModalOpenedState} type='button' className='chat-actions__action'>
         <ClearSvg />
         <span className='chat-actions__action__name'>{t('chatActions.clear-history')}</span>
       </button>
-
       {selectedChat.interlocutor && selectedIsFriend() && (
         <button type='button' onClick={deleteContact} className='chat-actions__action'>
           <DeleteSvg />
           <span className='chat-actions__action__name'>{t('chatActions.delete-contact')}</span>
         </button>
       )}
-
       {selectedChat.interlocutor && !selectedIsFriend() && (
         <button type='button' onClick={addContact} className='chat-actions__action'>
           <PeopleSvg />
           <span className='chat-actions__action__name'>{t('chatActions.add-contact')}</span>
         </button>
       )}
-
       {selectedChat.interlocutor && selectedIsFriend() && (
         <button type='button' onClick={changeCreateGroupChatModalOpenedState} className='chat-actions__action'>
           <UnmuteSvg />
           <span className='chat-actions__action__name'>{t('chatActions.create-group')}</span>
         </button>
       )}
-
       {selectedChat.groupChat && (
         <button type='button' onClick={changeLeaveGroupChatModalOpenedState} className='chat-actions__action'>
           <LeaveSvg />
@@ -95,17 +94,14 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
           <span className='chat-actions__action__name'>{t('chatActions.add-users')}</span>
         </button>
       )}
-
       <FadeAnimationWrapper isDisplayed={leaveGroupChatModalOpened}>
         <DeleteChatModal hide={changeLeaveGroupChatModalOpenedState} />
       </FadeAnimationWrapper>
-
       {selectedChat.interlocutor && (
         <FadeAnimationWrapper isDisplayed={createGroupChatModalOpened}>
           <CreateGroupChat preSelectedUserIds={[selectedChat.interlocutor!.id]} onClose={changeCreateGroupChatModalOpenedState} />
         </FadeAnimationWrapper>
       )}
-
       <FadeAnimationWrapper isDisplayed={clearChatModalOpened}>
         <ClearChatModal hide={changeClearChatModalOpenedState} />
       </FadeAnimationWrapper>

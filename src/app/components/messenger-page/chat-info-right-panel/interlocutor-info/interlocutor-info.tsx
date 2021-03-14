@@ -27,7 +27,6 @@ export const InterlocutorInfo = React.memo(() => {
       <div className='interlocutor-info'>
         <div className='interlocutor-info__interlocutor-data'>
           <div />
-
           <div className='interlocutor-info__chat-data'>
             <div className='interlocutor-info__interlocutor'>{interlocutor ? `${interlocutor.firstName} ${interlocutor.lastName}` : groupChat?.name}</div>
             {groupChat?.description && <div className='interlocutor-info__description'>{groupChat?.description}</div>}

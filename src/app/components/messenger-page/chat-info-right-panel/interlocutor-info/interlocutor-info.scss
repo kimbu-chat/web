@@ -2,8 +2,8 @@
   &__info-block {
     display: flex;
     align-items: center;
-    margin-top: 18px;
-    margin-left: 16px;
+    margin-top: 16px;
+    margin-left: 24px;
 
     &:first-of-type {
       margin-top: 24px;
@@ -16,7 +16,7 @@
     align-items: center;
     justify-content: space-between;
     margin-top: 24px;
-    margin-bottom: 23px;
+    margin-bottom: 32px;
   }
 
   &__chat-data {
@@ -27,10 +27,10 @@
   }
 
   &__interlocutor {
+    font-weight: 500;
     font-size: 24px;
     line-height: 28px;
     color: var(--white);
-    font-weight: bold;
   }
 
   &__description {
@@ -43,7 +43,7 @@
   }
 
   &__rename-btn {
-    margin-right: 16px;
+    margin-right: 24px;
     color: var(--king-blue);
     display: block;
 
@@ -63,8 +63,7 @@
 
   &__data-value {
     font-size: 14px;
-    font-weight: 400;
-    line-height: 16px;
+    line-height: 17px;
     color: var(--white);
 
     &--link {

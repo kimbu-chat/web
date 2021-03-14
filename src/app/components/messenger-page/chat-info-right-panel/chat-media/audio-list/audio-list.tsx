@@ -32,7 +32,7 @@ export const AudioList = React.memo(() => {
       <div className='chat-audios__audios'>
         <InfiniteScroll onReachExtreme={loadMore} hasMore={audiosForSelectedChat?.hasMore} isLoading={audiosForSelectedChat?.loading} threshold={0.3}>
           {audiosWithSeparators?.map((attachment) => (
-            <div key={attachment.id} className='chat-audios__audio'>
+            <React.Fragment key={attachment.id}>
               {attachment.needToShowMonthSeparator && (
                 <div className='chat-audios__separator'>
                   {attachment.needToShowYearSeparator || doesYearDifferFromCurrent(attachment.creationDateTime)
@@ -40,8 +40,10 @@ export const AudioList = React.memo(() => {
                     : moment(attachment.creationDateTime).format('MMMM')}
                 </div>
               )}
-              <MessageAudioAttachment key={attachment.id} attachment={attachment} />
-            </div>
+              <div className='chat-audios__audio'>
+                <MessageAudioAttachment key={attachment.id} attachment={attachment} />
+              </div>
+            </React.Fragment>
           ))}
         </InfiniteScroll>
       </div>

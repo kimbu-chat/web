@@ -386,7 +386,7 @@ export const CreateMessageInput = React.memo(() => {
                   <AddSvg />
                 </button>
                 <div className='message-input__line' />
-                <CrayonSvg viewBox='0 0 16 16' className='message-input__crayon' />
+                <CrayonSvg width={22} viewBox='0 0 16 16' className='message-input__crayon' />
               </>
             )}
 

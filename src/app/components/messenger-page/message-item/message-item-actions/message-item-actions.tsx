@@ -5,10 +5,11 @@ import { ReplyToMessage } from 'app/store/chats/features/reply-to-message/reply-
 import React, { useCallback, useState } from 'react';
 import './message-item-actions.scss';
 
-import ReplySVG from 'icons/ic-resend.svg';
-import EditSVG from 'icons/ic-edit.svg';
-import DeleteSVG from 'icons/ic-delete.svg';
-import ForwardSVG from 'icons/ic-arrow-right.svg';
+import ReplySVG from 'icons/reply.svg';
+import EditSVG from 'icons/edit.svg';
+import DeleteSVG from 'icons/delete.svg';
+import ForwardSVG from 'icons/forward.svg';
+
 import { DeleteMessageModal } from '../../selected-messages-data/delete-message-modal/delete-message-modal';
 import { ForwardModal } from '../../forward-modal/forward-modal';
 

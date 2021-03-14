@@ -12,11 +12,10 @@ import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 import { IUser } from 'app/store/common/models';
 import moment from 'moment';
 
-import MessageQeuedSvg from 'icons/ic-time.svg';
-import MessageSentSvg from 'icons/ic-tick.svg';
-import MessageReadSvg from 'icons/ic-double_tick.svg';
-import SelectedSvg from 'icons/ic-check-filled.svg';
-import UnSelectedSvg from 'icons/ic-check-outline.svg';
+import MessageQeuedSvg from 'icons/message-queued.svg';
+import MessageSentSvg from 'icons/message-sent.svg';
+import MessageReadSvg from 'icons/message-read.svg';
+import SelectSvg from 'icons/select.svg';
 import {
   IRawAttachment,
   IPictureAttachment,
@@ -33,6 +32,7 @@ import { Link } from 'react-router-dom';
 import { MessageAudioAttachment, FileAttachment } from 'app/components';
 import { SelectMessage } from 'app/store/chats/features/select-message/select-message';
 import { isEqual } from 'lodash';
+import { ChatId } from 'app/store/chats/chat-id';
 import { MediaGrid } from './attachments/media-grid/media-grid';
 import { RecordingAttachment } from './attachments/recording-attachment/recording-attachment';
 import { MessageItemActions } from './message-item-actions/message-item-actions';
@@ -127,46 +127,58 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
 
     return (
       <>
-        <div
-          className={`message__container
-				${message.isSelected ? 'message__container--selected' : ''}`}
-          onClick={isSelectState ? selectThisMessage : () => {}}
-        >
-          <div className={`message__item ${!message.needToShowCreator ? 'message__item--upcoming' : ''}`}>
+        <div className='message__container' onClick={isSelectState ? selectThisMessage : undefined}>
+          {message.needToShowCreator &&
+            (myId === message.userCreator.id ? (
+              <p className='message__sender-name'>{`${message.userCreator?.firstName} ${message.userCreator?.lastName}`}</p>
+            ) : (
+              <Link to={`/chats/${message.userCreator.id}1`} className='message__sender-name'>
+                {`${message.userCreator?.firstName} ${message.userCreator?.lastName}`}
+              </Link>
+            ))}
+
+          <div className={`message__item ${message.isSelected ? 'message__item--selected' : ''}`}>
+            <button type='button' onClick={selectThisMessage} className={`message__checkbox ${message.isSelected ? '' : 'message__checkbox--unselected'}`}>
+              <SelectSvg />
+            </button>
+
             {message.needToShowCreator &&
               (myId === message.userCreator.id ? (
-                <p className='message__sender-name'>{`${message.userCreator?.firstName} ${message.userCreator?.lastName}`}</p>
+                <Avatar className='message__sender-photo ' src={message.userCreator.avatar?.previewUrl}>
+                  {getUserInitials(message.userCreator as IUser)}
+                </Avatar>
               ) : (
-                <Link to={`/chats/${message.userCreator.id}1`} className='message__sender-name'>
-                  {`${message.userCreator?.firstName} ${message.userCreator?.lastName}`}
+                <Link to={`/chats/${ChatId.from(message.userCreator.id).id}`}>
+                  <Avatar className='message__sender-photo ' src={message.userCreator.avatar?.previewUrl}>
+                    {getUserInitials(message.userCreator as IUser)}
+                  </Avatar>
                 </Link>
               ))}
 
-            <div className='message__item-apart'>
-              <div className='message__contents__wrapper'>
-                <MessageItemActions
-                  messageId={message.id}
-                  isEditAllowed={isCurrentUserMessageCreator && !(message.linkedMessageType === MessageLinkType.Forward)}
-                />
-                {message.linkedMessageType && <MessageLink linkedMessageType={message.linkedMessageType!} linkedMessage={message.linkedMessage} />}
-                <span className='message__contents'>{message.text}</span>
-              </div>
-
-              <div className='message__time-status'>
-                {message.isEdited && <span className='message__edited'>Edited •</span>}
-
-                {isCurrentUserMessageCreator &&
-                  (message.state === MessageState.READ ? (
-                    <MessageReadSvg viewBox='0 0 25 25' className='message__read' />
-                  ) : message.state === MessageState.QUEUED ? (
-                    <MessageQeuedSvg viewBox='0 0 25 25' className='message__read' />
-                  ) : (
-                    <MessageSentSvg viewBox='0 0 25 25' className='message__read' />
-                  ))}
-
-                <span className='message__time'>{moment.utc(message.creationDateTime).local().format('LT')}</span>
+            <div className={`message__contents-wrapper ${message.needToShowCreator ? '' : 'message__contents-wrapper--upcoming'}`}>
+              <MessageItemActions
+                messageId={message.id}
+                isEditAllowed={isCurrentUserMessageCreator && !(message.linkedMessageType === MessageLinkType.Forward)}
+              />
+              {message.linkedMessageType && <MessageLink linkedMessageType={message.linkedMessageType!} linkedMessage={message.linkedMessage} />}
+              <div className={`message__contents ${isCurrentUserMessageCreator ? 'message__contents--outgoing' : 'message__contents--incoming'}`}>
+                {message.text}
               </div>
             </div>
+
+            {message.isEdited && <span className='message__edited'>Edited •</span>}
+
+            {isCurrentUserMessageCreator &&
+              (message.state === MessageState.READ ? (
+                <MessageReadSvg className='message__state' />
+              ) : message.state === MessageState.QUEUED ? (
+                <MessageQeuedSvg className='message__state' />
+              ) : (
+                <MessageSentSvg className='message__state' />
+              ))}
+
+            <div className='message__time'>{moment.utc(message.creationDateTime).local().format('LT')}</div>
+
             {structuredAttachments?.files.map((file) => (
               <FileAttachment key={file.id} attachment={file} />
             ))}
@@ -181,24 +193,8 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
 
             {(structuredAttachments?.media.length || 0) > 0 && <MediaGrid media={structuredAttachments!.media} />}
           </div>
-
-          {message.needToShowCreator &&
-            (myId === message.userCreator.id ? (
-              <Avatar className='message__sender-photo ' src={message.userCreator.avatar?.previewUrl}>
-                {getUserInitials(message.userCreator as IUser)}
-              </Avatar>
-            ) : (
-              <Link to={`/chats/${message.userCreator.id}1`}>
-                <Avatar className='message__sender-photo ' src={message.userCreator.avatar?.previewUrl}>
-                  {getUserInitials(message.userCreator as IUser)}
-                </Avatar>
-              </Link>
-            ))}
-
-          <div onClick={selectThisMessage} className='message__selected'>
-            {message.isSelected ? <SelectedSvg /> : <UnSelectedSvg className='message__unselected' />}
-          </div>
         </div>
+
         {message.needToShowDateSeparator && (
           <div className='message__separator message__separator--date'>
             <span>{moment.utc(message.creationDateTime).local().format('dddd, MMMM D, YYYY').toString()}</span>

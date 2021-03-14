@@ -22,6 +22,7 @@
   &__contact-img-container {
     margin-left: 20px;
     margin-right: 18px;
+    color: var(--grafit);
   }
 
   &__contact-img {
@@ -56,25 +57,11 @@
   }
 
   &__button {
-    color: var(--king-blue);
-    width: 36px;
-    height: 36px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    margin-right: 4px;
-    transition: all 0.2s;
+    color: var(--white);
+    margin-right: 32px;
+
     &:last-child {
-      margin-right: 14px;
-    }
-
-    &:hover {
-      background-color: rgba($color: rgb(63, 138, 224), $alpha: 0.1);
-    }
-
-    &--active {
-      background-color: rgba($color: rgb(63, 138, 224), $alpha: 0.1);
+      margin-right: 24px;
     }
   }
 }

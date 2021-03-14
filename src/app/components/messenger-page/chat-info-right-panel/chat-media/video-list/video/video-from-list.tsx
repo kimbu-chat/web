@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import PlaySvg from 'icons/ic-play.svg';
+import PlaySvg from 'icons/play.svg';
 import moment from 'moment';
 import { FadeAnimationWrapper, VideoPlayerModal } from 'components';
 import { IGroupable, IVideoAttachment } from 'store/chats/models';
@@ -25,9 +25,9 @@ export const VideoFromList: React.FC<IVideoFromListProps> = React.memo(({ video 
       )}
       <div onClick={changeVideoPlayerDisplayed} className='chat-video__video-wrapper'>
         <img alt='' className='chat-video__video' src={video.firstFrameUrl} />
+        <span className='chat-video__duration'>{moment.utc(video.duration * 1000).format('mm:ss')}</span>
         <button type='button' className='chat-video__play'>
-          <PlaySvg viewBox='0 0 25 25' />
-          <span className='chat-video__duration'>{moment.utc(video.duration * 1000).format('mm:ss')}</span>
+          <PlaySvg />
         </button>
       </div>
 

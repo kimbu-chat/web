@@ -65,7 +65,7 @@
   },
   "deleteMessageModal": {
     "title": "Удалить сообщение",
-    "title_plural": "Удалить ({{count}}) сообщений",
+    "title_plural": "Удалить ({{count}}) сообщения",
     "delete-confirmation": "Удалить для всех",
     "delete-confirm": "Удалить",
     "cancel": "Отмена"
@@ -120,8 +120,10 @@
     }
   },
   "forwardModal": {
-    "forward": "Переслать",
-    "send": "Отправить"
+    "forward": "Переснать сообщение",
+    "forward_plural": "Переслать ({{count}}) сообщения",
+    "send": "Отправить",
+    "cancel": "Отмена"
   },
   "incomingCall": {
     "incoming_audio": "Входящий аудиовызов",

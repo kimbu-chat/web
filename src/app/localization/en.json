@@ -120,8 +120,10 @@
     }
   },
   "forwardModal": {
-    "forward": "Forward",
-    "send": "Send"
+    "forward": "Forward message",
+    "forward_plural": "Forward ({{count}}) messages",
+    "send": "Forward",
+    "cancel": "Cancel"
   },
   "incomingCall": {
     "incoming_audio": "Incoming audio call",

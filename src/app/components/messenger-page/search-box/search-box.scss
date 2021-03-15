@@ -20,7 +20,8 @@
 
     &__svg {
       position: absolute;
-      top: 8px;
+      top: 50%;
+      transform: translateY(-50%);
       left: 7px;
       color: rgb(153, 162, 173);
     }

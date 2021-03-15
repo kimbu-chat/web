@@ -3,6 +3,7 @@
   margin-bottom: 6px;
   display: flex;
   align-items: center;
+  min-width: 340px;
 
   &__icon {
     width: 24px;
@@ -41,6 +42,6 @@
     line-height: 19px;
     background: transparent;
     margin-left: auto;
-    margin-right: 13px;
+    margin-right: 16px;
   }
 }

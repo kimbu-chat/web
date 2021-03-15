@@ -2,35 +2,45 @@
   &__friend {
     display: flex;
     align-items: center;
-    padding-top: 10px;
-    padding-bottom: 10px;
     cursor: pointer;
     user-select: none;
 
-    &:first-child {
-      margin-top: 5px;
-    }
-
-    &:hover {
-      background-color: rgba(63, 138, 224, 0.1);
-    }
+    margin-top: 16px;
   }
 
   &__selected-holder {
-    display: block;
-    margin-right: 10px;
-    color: rgb(153, 162, 173);
+    margin-left: auto;
     cursor: pointer;
   }
 
   &__avatar {
-    margin-right: 10px;
-    height: 40px;
-    width: 40px;
+    height: 48px;
+    width: 48px;
+  }
+
+  &__avatar-container {
+    margin-right: 20px;
+    color: var(--chat-bg);
+  }
+
+  &__friend-data {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   &__friend-name {
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+    color: var(--white);
+  }
+
+  &__friend-status {
+    font-weight: 300;
     font-size: 14px;
-    font-weight: 500;
+    line-height: 17px;
+    margin-top: 8px;
+    color: var(--white);
   }
 }

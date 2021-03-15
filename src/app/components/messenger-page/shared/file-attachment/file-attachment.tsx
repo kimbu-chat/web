@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import './file-attachment.scss';
 
-import DownloadSvg from 'icons/ic-download.svg';
+import DownloadSvg from 'icons/download.svg';
 import ProgressSVG from 'icons/ic-progress.svg';
 
 import { fileDownload } from 'app/utils/file-download';

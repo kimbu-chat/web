@@ -2,10 +2,8 @@
   &__separator {
     text-transform: capitalize;
     width: 100%;
-    margin-bottom: 10px;
     font-size: 16px;
     line-height: 19px;
-    margin-bottom: 16px;
     margin-top: 8px;
     color: var(--king-blue);
 
@@ -14,7 +12,5 @@
     }
   }
 
-  &__file-container {
-    margin: 0 20px;
-  }
+  color: var(--king-blue);
 }

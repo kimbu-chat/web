@@ -37,22 +37,20 @@ export const FileList = React.memo(() => {
 
   return (
     <div className='chat-files'>
-      <div className='chat-files__file-container'>
-        <InfiniteScroll onReachExtreme={loadMore} hasMore={filesForSelectedChat?.hasMore} isLoading={filesForSelectedChat?.loading} threshold={0.3}>
-          {filesWithSeparators?.map((file) => (
-            <React.Fragment key={file.id}>
-              {file.needToShowMonthSeparator && (
-                <div className='chat-files__separator'>
-                  {file.needToShowYearSeparator || doesYearDifferFromCurrent(file.creationDateTime)
-                    ? moment(file.creationDateTime).format('MMMM YYYY')
-                    : moment(file.creationDateTime).format('MMMM')}
-                </div>
-              )}
-              <FileAttachment attachment={file} />
-            </React.Fragment>
-          ))}
-        </InfiniteScroll>
-      </div>
+      <InfiniteScroll onReachExtreme={loadMore} hasMore={filesForSelectedChat?.hasMore} isLoading={filesForSelectedChat?.loading} threshold={0.3}>
+        {filesWithSeparators?.map((file) => (
+          <React.Fragment key={file.id}>
+            {file.needToShowMonthSeparator && (
+              <div className='chat-files__separator'>
+                {file.needToShowYearSeparator || doesYearDifferFromCurrent(file.creationDateTime)
+                  ? moment(file.creationDateTime).format('MMMM YYYY')
+                  : moment(file.creationDateTime).format('MMMM')}
+              </div>
+            )}
+            <FileAttachment attachment={file} />
+          </React.Fragment>
+        ))}
+      </InfiniteScroll>
     </div>
   );
 });

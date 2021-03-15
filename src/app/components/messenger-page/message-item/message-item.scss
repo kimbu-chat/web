@@ -11,6 +11,14 @@
     &:hover .message__checkbox {
       opacity: 1;
     }
+
+    &--incoming {
+      color: var(--king-blue);
+    }
+
+    &--outgoing {
+      color: var(--msg-bg);
+    }
   }
 
   &__contents-wrapper {
@@ -27,21 +35,16 @@
     }
   }
 
-  &__contents {
+  &__content {
     padding: 10px 16px;
     font-weight: 300;
     font-size: 16px;
     line-height: 19px;
-    color: var(--white);
     border-radius: 0px 6px 6px 6px;
     line-break: anywhere;
-
-    &--incoming {
-      background-color: var(--king-blue);
-    }
-
-    &--outgoing {
-      background-color: var(--msg-bg);
+    background-color: currentColor;
+    span {
+      color: var(--white);
     }
   }
 

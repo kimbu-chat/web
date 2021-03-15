@@ -127,7 +127,10 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
 
     return (
       <>
-        <div className='message__container' onClick={isSelectState ? selectThisMessage : undefined}>
+        <div
+          className={`message__container  ${isCurrentUserMessageCreator ? 'message__container--outgoing' : 'message__container--incoming'}`}
+          onClick={isSelectState ? selectThisMessage : undefined}
+        >
           {message.needToShowCreator &&
             (myId === message.userCreator.id ? (
               <p className='message__sender-name'>{`${message.userCreator?.firstName} ${message.userCreator?.lastName}`}</p>
@@ -161,8 +164,8 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                 isEditAllowed={isCurrentUserMessageCreator && !(message.linkedMessageType === MessageLinkType.Forward)}
               />
               {message.linkedMessageType && <MessageLink linkedMessageType={message.linkedMessageType!} linkedMessage={message.linkedMessage} />}
-              <div className={`message__contents ${isCurrentUserMessageCreator ? 'message__contents--outgoing' : 'message__contents--incoming'}`}>
-                {message.text}
+              <div className='message__content'>
+                <span>{message.text}</span>
               </div>
             </div>
 
@@ -178,7 +181,8 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
               ))}
 
             <div className='message__time'>{moment.utc(message.creationDateTime).local().format('LT')}</div>
-
+          </div>
+          <div className='message__attachments'>
             {structuredAttachments?.files.map((file) => (
               <FileAttachment key={file.id} attachment={file} />
             ))}

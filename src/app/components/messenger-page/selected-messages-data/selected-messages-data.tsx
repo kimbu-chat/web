@@ -5,7 +5,7 @@ import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { getSelectedMessagesIdSelector } from 'store/chats/selectors';
 import { LocalizationContext } from 'app/app';
 import CloseSvg from 'icons/close.svg';
-import ForwardSvg from 'icons/reply.svg';
+import ForwardSvg from 'icons/forward.svg';
 import DeleteSvg from 'icons/delete.svg';
 
 import { FadeAnimationWrapper, ForwardModal } from 'components';

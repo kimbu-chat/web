@@ -10,7 +10,7 @@ import { SearchBox } from 'app/components';
 import './forward-modal.scss';
 import { ForwardMessages } from 'app/store/chats/features/forward-messages/forward-messages';
 import { IChat } from 'app/store/chats/models';
-import ForwardSvg from 'icons/reply.svg';
+import ForwardSvg from 'icons/forward.svg';
 import { ForwardEntity } from './forward-entity/forward-entity';
 
 interface IForwardModalProps {

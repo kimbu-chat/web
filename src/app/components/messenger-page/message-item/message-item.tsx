@@ -164,9 +164,11 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                 isEditAllowed={isCurrentUserMessageCreator && !(message.linkedMessageType === MessageLinkType.Forward)}
               />
               {message.linkedMessageType && <MessageLink linkedMessageType={message.linkedMessageType!} linkedMessage={message.linkedMessage} />}
-              <div className='message__content'>
-                <span>{message.text}</span>
-              </div>
+              {message.text && (
+                <div className='message__content'>
+                  <span>{message.text}</span>
+                </div>
+              )}
             </div>
 
             {message.isEdited && <span className='message__edited'>Edited •</span>}

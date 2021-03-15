@@ -7,7 +7,7 @@ import { CreateMessage } from 'app/store/chats/features/create-message/create-me
 import { MessageTyping } from 'app/store/chats/features/message-typing/message-typing';
 import { UploadAttachmentRequest } from 'app/store/chats/features/upload-attachment/upload-attachment-request';
 import { SystemMessageType, MessageState, FileType, IMessage, MessageLinkType } from 'app/store/chats/models';
-import { getMessageToReplySelector, getSelectedChatSelector } from 'app/store/chats/selectors';
+import { getMessageToReplySelector, getSelectedChatSelector, getMessageToEditSelector } from 'app/store/chats/selectors';
 import { myProfileSelector } from 'app/store/my-profile/selectors';
 import { getTypingStrategySelector } from 'app/store/settings/selectors';
 import { getFileType } from 'app/utils/get-file-extension';
@@ -31,6 +31,7 @@ import { ExpandingTextarea } from './expanding-textarea/expanding-textarea';
 import { MessageInputAttachment } from './message-input-attachment/message-input-attachment';
 
 import './message-input.scss';
+import { EditingMessage } from './editing-message/editing-message';
 
 const MessageSmiles = lazy(loadMessageSmiles);
 
@@ -53,6 +54,8 @@ export const CreateMessageInput = React.memo(() => {
   const myProfile = useSelector(myProfileSelector);
   const myTypingStrategy = useSelector(getTypingStrategySelector);
   const replyingMessage = useSelector(getMessageToReplySelector);
+  const editingMessage = useSelector(getMessageToEditSelector);
+
   const refferedReplyingMessage = useReferState(replyingMessage);
   const updatedSelectedChat = useReferState(selectedChat);
 
@@ -378,6 +381,7 @@ export const CreateMessageInput = React.memo(() => {
       {selectedChat && !(isDragging || isDraggingOver) && (
         <>
           {replyingMessage && <RespondingMessage />}
+          {editingMessage && <EditingMessage />}
           <div className='message-input__send-message'>
             {!isRecording && (
               <>

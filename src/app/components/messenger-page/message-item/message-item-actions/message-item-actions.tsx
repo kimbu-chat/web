@@ -5,10 +5,10 @@ import { ReplyToMessage } from 'app/store/chats/features/reply-to-message/reply-
 import React, { useCallback, useState } from 'react';
 import './message-item-actions.scss';
 
-import ReplySVG from 'icons/reply.svg';
+import ForwardSvg from 'icons/forward.svg';
 import EditSVG from 'icons/edit.svg';
 import DeleteSVG from 'icons/delete.svg';
-import ForwardSVG from 'icons/forward.svg';
+import ReplySVG from 'icons/reply.svg';
 
 import { DeleteMessageModal } from '../../selected-messages-data/delete-message-modal/delete-message-modal';
 import { ForwardModal } from '../../forward-modal/forward-modal';
@@ -51,12 +51,12 @@ const MessageItemActions: React.FC<IMessageItemActionsProps> = React.memo(({ mes
           </button>
         )}
 
-        <button type='button' onClick={replyToSelectedMessage} className='message-item-actions__action'>
-          <ReplySVG />
+        <button type='button' onClick={changeForwardMessagesModalDisplayedState} className='message-item-actions__action'>
+          <ForwardSvg />
         </button>
 
-        <button type='button' onClick={changeForwardMessagesModalDisplayedState} className='message-item-actions__action'>
-          <ForwardSVG />
+        <button type='button' onClick={replyToSelectedMessage} className='message-item-actions__action'>
+          <ReplySVG />
         </button>
 
         <button type='button' onClick={changeDeleteMessagesModalDisplayedState} className='message-item-actions__action'>

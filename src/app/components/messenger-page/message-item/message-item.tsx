@@ -11,6 +11,7 @@ import { Avatar } from 'components';
 import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 import { IUser } from 'app/store/common/models';
 import moment from 'moment';
+import CrayonSvg from 'icons/crayon.svg';
 
 import MessageQeuedSvg from 'icons/message-queued.svg';
 import MessageSentSvg from 'icons/message-sent.svg';
@@ -163,15 +164,17 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                 messageId={message.id}
                 isEditAllowed={isCurrentUserMessageCreator && !(message.linkedMessageType === MessageLinkType.Forward)}
               />
+
+              {message.isEdited && <CrayonSvg className='message__edited' />}
+
               {message.linkedMessageType && <MessageLink linkedMessageType={message.linkedMessageType!} linkedMessage={message.linkedMessage} />}
+
               {message.text && (
                 <div className='message__content'>
                   <span>{message.text}</span>
                 </div>
               )}
             </div>
-
-            {message.isEdited && <span className='message__edited'>Edited •</span>}
 
             {isCurrentUserMessageCreator &&
               (message.state === MessageState.READ ? (

@@ -1,4 +1,12 @@
 .message {
+  &__edited {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(-27%, -47%);
+    color: var(--white);
+  }
+
   &__container {
     &:last-child {
       margin-bottom: 10px;
@@ -112,14 +120,6 @@
   &__state {
     margin-left: 16px;
     color: var(--white-semi-transparent);
-  }
-
-  &__edited {
-    margin-right: 5px;
-    font-size: 13px;
-    color: #868686;
-    line-height: 16px;
-    font-weight: 400;
   }
 
   &__checkbox {

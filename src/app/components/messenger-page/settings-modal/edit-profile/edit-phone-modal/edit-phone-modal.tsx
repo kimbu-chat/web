@@ -77,15 +77,9 @@ export const EditPhoneModal: React.FC<IEditPhoneModalProps> = React.memo(({ onCl
           </div>
         }
         buttons={[
-          {
-            children: 'Save',
-            className: 'edit-phone-modal__confirm-btn',
-            onClick: () => {},
-            position: 'left',
-            width: 'contained',
-            variant: 'contained',
-            color: 'primary',
-          },
+          <button type='button' className='edit-phone-modal__confirm-btn'>
+            Save
+          </button>,
         ]}
       />
     </WithBackground>

@@ -24,12 +24,20 @@
   }
 
   &__confirm-btn {
-    margin: 0 !important;
-    width: 50% !important;
+    padding: 10px 32px;
+    color: var(--white);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 19px;
+    background: var(--red);
   }
   &__cancel-btn {
-    margin: 0 0 0 10px !important;
-    color: #6d7885 !important;
-    width: 50% !important;
+    padding: 10px 32px;
+    color: var(--white);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 19px;
+    background: var(--red);
+    margin-right: 10px;
   }
 }

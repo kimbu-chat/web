@@ -85,15 +85,9 @@ export const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = 
           </div>
         }
         buttons={[
-          {
-            children: t('groupChatAddFriendModal.add_members'),
-            onClick: addUsers,
-            disabled: selectedUserIds.length === 0,
-            position: 'left',
-            width: 'contained',
-            variant: 'contained',
-            color: 'primary',
-          },
+          <button disabled={selectedUserIds.length === 0} type='button' onClick={addUsers} className='roup-chat-add-friend-modal__confirm-btn'>
+            {t('groupChatAddFriendModal.add_members')}
+          </button>,
         ]}
       />
     </WithBackground>

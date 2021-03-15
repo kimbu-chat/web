@@ -3,4 +3,13 @@
     max-height: 400px;
     overflow: auto;
   }
+
+  &__confirm-btn {
+    padding: 10px 32px;
+    color: var(--white);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 19px;
+    background: var(--king-blue);
+  }
 }

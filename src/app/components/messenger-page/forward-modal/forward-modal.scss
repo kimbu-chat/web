@@ -6,6 +6,11 @@
   }
 
   &__confirm-btn {
-    margin-bottom: -6px !important;
+    padding: 10px 32px;
+    color: var(--white);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 19px;
+    background: var(--king-blue);
   }
 }

@@ -62,24 +62,12 @@ export const DeleteMessageModal: React.FC<IDeleteMessageModalProps> = React.memo
         }
         closeModal={onClose}
         buttons={[
-          {
-            children: t('deleteMessageModal.delete-confirm'),
-            className: 'delete-message-modal__confirm-btn',
-            onClick: deleteTheseMessages,
-            position: 'left',
-            width: 'auto',
-            variant: 'contained',
-            color: 'secondary',
-          },
-          {
-            children: t('deleteMessageModal.cancel'),
-            className: 'delete-message-modal__cancel-btn',
-            onClick: onClose,
-            position: 'left',
-            width: 'auto',
-            variant: 'outlined',
-            color: 'default',
-          },
+          <button type='button' onClick={onClose} className='delete-message-modal__cancel-btn'>
+            {t('deleteMessageModal.cancel')}
+          </button>,
+          <button type='button' onClick={deleteTheseMessages} className='delete-message-modal__confirm-btn'>
+            {t('deleteMessageModal.delete-confirm')}
+          </button>,
         ]}
       />
     </WithBackground>

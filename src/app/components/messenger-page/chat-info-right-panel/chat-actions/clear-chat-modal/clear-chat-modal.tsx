@@ -46,24 +46,12 @@ export const ClearChatModal: React.FC<IClearChatModalProps> = React.memo(({ hide
         highlightedInContents={selectedGroupChatName}
         closeModal={hide}
         buttons={[
-          {
-            children: t('chatInfo.clear'),
-            className: 'clear-chat-modal__clear',
-            onClick: clearSelectedChat,
-            position: 'left',
-            width: 'contained',
-            variant: 'contained',
-            color: 'secondary',
-          },
-          {
-            children: t('chatInfo.cancel'),
-            className: 'clear-chat-modal__cancel-btn',
-            onClick: hide,
-            position: 'left',
-            width: 'auto',
-            variant: 'outlined',
-            color: 'default',
-          },
+          <button type='button' className='clear-chat-modal__cancel-btn' onClick={hide}>
+            {t('chatInfo.cancel')}
+          </button>,
+          <button type='button' className='clear-chat-modal__clear' onClick={clearSelectedChat}>
+            {t('chatInfo.clear')}
+          </button>,
         ]}
       />
     </WithBackground>

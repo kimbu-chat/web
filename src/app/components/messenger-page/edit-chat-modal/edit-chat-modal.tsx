@@ -156,25 +156,12 @@ export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClos
           }
           closeModal={onClose}
           buttons={[
-            {
-              children: 'Save',
-              className: 'edit-chat-modal__confirm-btn',
-              onClick: onSubmit,
-              disabled: !uploadEnded,
-              position: 'left',
-              width: 'contained',
-              variant: 'contained',
-              color: 'primary',
-            },
-            {
-              children: 'Cancel',
-              className: 'edit-chat-modal__cancel-btn',
-              onClick: onClose,
-              position: 'left',
-              width: 'auto',
-              variant: 'outlined',
-              color: 'default',
-            },
+            <button type='button' onClick={onClose} className='edit-chat-modal__cancel-btn'>
+              Cancel
+            </button>,
+            <button disabled={!uploadEnded} type='button' onClick={onSubmit} className='edit-chat-modal__confirm-btn'>
+              Save
+            </button>,
           ]}
         />
       </WithBackground>

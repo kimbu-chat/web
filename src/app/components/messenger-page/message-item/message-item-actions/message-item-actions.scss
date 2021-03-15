@@ -11,8 +11,9 @@
   box-shadow: 4px 4px 4px rgba(50, 57, 74, 0.72);
   z-index: 22;
 
-  left: 41.63%;
-  bottom: 53.33%;
+  top: 0;
+  right: 0;
+  transform: translate(-4%, -63%);
 
   &:hover {
     opacity: 1;

@@ -11,21 +11,25 @@
   flex-direction: column;
 
   &__title {
-    font-weight: 500;
+    font-weight: normal;
     font-size: 16px;
-    line-height: 16px;
+    line-height: 19px;
+    color: var(--white);
+    display: flex;
+    align-items: center;
   }
 
   &__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
   }
 
   &__close-btn {
-    height: 16px;
-    width: 16px;
+    height: 24px;
+    width: 24px;
+    color: var(--white);
     display: block;
     cursor: pointer;
   }
@@ -35,8 +39,8 @@
     font-size: 14px;
     line-height: 18px;
     margin-bottom: 22px;
-    max-width: 376px;
-    min-width: 376px;
+    max-width: 337px;
+    min-width: 337px;
 
     &__text {
       &--highlighted {

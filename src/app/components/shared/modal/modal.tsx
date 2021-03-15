@@ -3,7 +3,7 @@ import React from 'react';
 
 import './modal.scss';
 
-import CloseSVG from 'icons/ic-close.svg';
+import CloseSVG from 'icons/close.svg';
 import { stopPropagation } from 'app/utils/stop-propagation';
 
 interface IModalProps {

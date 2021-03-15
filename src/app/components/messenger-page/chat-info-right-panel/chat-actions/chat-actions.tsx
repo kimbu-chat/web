@@ -12,6 +12,7 @@ import UnmuteSvg from 'icons/unmute.svg';
 import ClearSvg from 'icons/clear.svg';
 import DeleteSvg from 'icons/delete-contact.svg';
 import LeaveSvg from 'icons/leave.svg';
+import AddUsersSvg from 'icons/add-users.svg';
 
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { FriendActions } from 'store/friends/actions';
@@ -83,15 +84,15 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
         </button>
       )}
       {selectedChat.groupChat && (
-        <button type='button' onClick={changeLeaveGroupChatModalOpenedState} className='chat-actions__action'>
-          <LeaveSvg />
-          <span className='chat-actions__action__name'>{t('chatActions.leave-chat')}</span>
+        <button type='button' onClick={() => addMembers({ excludeIds: membersIdsForGroupChat })} className='chat-actions__action'>
+          <AddUsersSvg />
+          <span className='chat-actions__action__name'>{t('chatActions.add-users')}</span>
         </button>
       )}
       {selectedChat.groupChat && (
-        <button type='button' onClick={() => addMembers({ excludeIds: membersIdsForGroupChat })} className='chat-actions__action'>
+        <button type='button' onClick={changeLeaveGroupChatModalOpenedState} className='chat-actions__action'>
           <LeaveSvg />
-          <span className='chat-actions__action__name'>{t('chatActions.add-users')}</span>
+          <span className='chat-actions__action__name'>{t('chatActions.leave-chat')}</span>
         </button>
       )}
       <FadeAnimationWrapper isDisplayed={leaveGroupChatModalOpened}>

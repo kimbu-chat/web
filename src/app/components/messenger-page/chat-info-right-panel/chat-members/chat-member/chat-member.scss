@@ -1,37 +1,63 @@
 .chat-member {
   display: flex;
-  margin-bottom: 14px;
-  margin-left: 16px;
+  margin-left: 24px;
+  margin-top: 16px;
 
-  &__avatar {
+  &__avatar-container {
+    margin-right: 18px;
     height: 48px;
     width: 48px;
+    color: var(--grafit);
+
+    &--owner {
+      height: 52px;
+      width: 52px;
+      margin-right: 14px;
+    }
+  }
+
+  &__avatar {
+    border-radius: 6px;
+    width: 100%;
+    height: 100%;
   }
 
   &__data {
-    margin-left: 10px;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+  }
+
+  &__name-line {
+    margin-top: 5px;
+    display: flex;
   }
 
   &__name {
     white-space: nowrap;
     color: var(--white);
-    font-weight: 500;
     font-size: 16px;
     line-height: 19px;
-    margin-top: 3px;
+
+    font-weight: normal;
   }
 
   &__status {
-    margin-top: auto;
+    font-weight: 300;
     font-size: 14px;
-    font-weight: 400;
+    line-height: 17px;
     color: var(--white);
-    margin-bottom: 5px;
   }
 
-  &__groupChat-status {
+  &__owner {
+    margin-left: 18px;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 17px;
+    color: var(--king-blue);
+  }
+
+  &__group-chat-status {
     margin-left: auto;
     display: flex;
     align-items: center;
@@ -41,9 +67,12 @@
   }
 
   &__delete-user {
+    margin: 12px 24px 0 auto;
+
     svg {
-      width: 16px;
-      height: 16px;
+      width: 18px;
+      height: 20px;
+      color: var(--white);
     }
   }
 }

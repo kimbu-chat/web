@@ -7,7 +7,7 @@
   }
 
   &__heading {
-    margin-left: 16px;
+    margin-left: 24px;
     color: var(--king-blue);
     font-weight: 500;
     font-size: 18px;
@@ -18,7 +18,7 @@
     color: var(--king-blue);
     transition: all 0.2s;
     margin-left: auto;
-    margin-right: 20px;
+    margin-right: 24px;
     transform: rotate(-90deg);
 
     svg {
@@ -32,6 +32,10 @@
   }
 
   &__search {
-    margin-bottom: 20px;
+    margin-right: 7px;
+  }
+
+  &__members-list {
+    margin-top: -12px;
   }
 }

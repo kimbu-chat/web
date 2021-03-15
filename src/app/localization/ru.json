@@ -21,6 +21,9 @@
     "online": "Онлайн",
     "last-time": "Последний раз был в сети"
   },
+  "chatMember": {
+    "owner": "Cоздатель"
+  },
   "chatFromList": {
     "you": "Вы",
     "media": "Медия"

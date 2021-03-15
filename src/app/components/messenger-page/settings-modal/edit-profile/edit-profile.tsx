@@ -115,7 +115,7 @@ export const EditProfile = React.memo(() => {
     if (newAvatar?.id !== myProfile?.avatar?.id || firstName !== myProfile?.firstName || lastName !== myProfile?.lastName || nickname !== myProfile?.nickname) {
       updateMyProfile({ firstName, lastName, nickname, avatar: newAvatar });
     }
-  }, [newAvatar?.id, myProfile?.avatar?.id]);
+  }, [newAvatar?.id, myProfile?.avatar?.id, firstName, lastName, nickname]);
 
   return (
     <>

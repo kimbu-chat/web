@@ -46,15 +46,19 @@
 
   &__content {
     padding: 10px 16px;
-    font-weight: 300;
-    font-size: 16px;
-    line-height: 19px;
+
     border-radius: 0px 6px 6px 6px;
     line-break: anywhere;
     background-color: currentColor;
+
     span {
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 19px;
       color: var(--white);
-      white-space: pre;
+      display: inline-block;
+      line-break: anywhere;
+      white-space: break-spaces;
     }
   }
 

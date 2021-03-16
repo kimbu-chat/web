@@ -9,9 +9,13 @@ import { getMessageToReplySelector } from 'app/store/chats/selectors';
 import { ResetReplyToMessage } from 'app/store/chats/features/reply-to-message/reset-reply-to-message';
 import { Avatar } from 'app/components';
 import { getUserInitials } from 'app/utils/interlocutor-name-utils';
+import { myIdSelector } from 'app/store/my-profile/selectors';
 
 export const RespondingMessage = React.memo(() => {
   const replyingMessage = useSelector(getMessageToReplySelector);
+  const myId = useSelector(myIdSelector) as number;
+
+  const isCurrentUserMessageCreator = replyingMessage?.userCreator?.id === myId;
 
   const resetReplyToMessage = useActionWithDispatch(ResetReplyToMessage.action);
 
@@ -24,7 +28,13 @@ export const RespondingMessage = React.memo(() => {
         {getUserInitials(replyingMessage?.userCreator)}
       </Avatar>
 
-      <div className='responding-message__message-contents'>{replyingMessage?.text}</div>
+      <div
+        className={`responding-message__message-contents ${
+          isCurrentUserMessageCreator ? 'responding-message__message-contents--outgoing' : 'responding-message__message-contents--incoming'
+        }`}
+      >
+        {replyingMessage?.text}
+      </div>
       <button type='button' onClick={resetReplyToMessage} className='responding-message__close'>
         <CloseSvg viewBox='0 0 24 24' />
       </button>

@@ -167,10 +167,10 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
 
               {message.isEdited && <CrayonSvg className='message__edited' />}
 
-              {message.linkedMessageType && <MessageLink linkedMessageType={message.linkedMessageType!} linkedMessage={message.linkedMessage} />}
-
               {message.text && (
                 <div className='message__content'>
+                  {message.linkedMessageType && <MessageLink linkedMessage={message.linkedMessage} />}
+
                   <span>{message.text}</span>
                 </div>
               )}

@@ -28,12 +28,21 @@
   &__message-contents {
     border-radius: 0px 6px 6px 6px;
     padding: 10px 16px 8px;
-    background: var(--msg-bg);
     font-weight: 300;
     font-size: 10px;
     line-height: 12px;
     color: var(--white);
     margin-left: 10px;
+    white-space: break-spaces;
+    line-break: anywhere;
+
+    &--outgoing {
+      background: var(--msg-bg);
+    }
+
+    &--incoming {
+      background: var(--king-blue);
+    }
   }
 
   &__close {

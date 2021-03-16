@@ -94,7 +94,7 @@ export const ChatMedia = React.memo(() => {
       </div>
       <div className='chat-media__media-group'>
         <div className='chat-media__media-heading'>
-          <VoiceSvg />
+          <VoiceSvg viewBox='0 0 20 24' />
           <div className='chat-media__media-title'>{t('chatMedia.voice', { count: voiceAttachmentsCount || 0 })}</div>
           <button
             type='button'

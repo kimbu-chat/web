@@ -14,7 +14,7 @@ export class ResetEditMessage {
         const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
 
         if (chat) {
-          chat.messageToReply = undefined;
+          chat.messageToEdit = undefined;
         }
       }
 

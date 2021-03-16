@@ -423,7 +423,7 @@ export const CreateMessageInput = React.memo(() => {
               )}
 
               <button type='button' onClick={handleRegisterAudioBtnClick} ref={registerAudioBtnRef} className='message-input__voice-btn'>
-                <VoiceSvg />
+                <VoiceSvg viewBox='0 0 20 24' />
               </button>
 
               {!isRecording && (

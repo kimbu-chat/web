@@ -61,6 +61,7 @@ import { ChatId } from './chat-id';
 import { IChatsState } from './chats-state';
 import { UserEditedEventHandler } from './socket-events/user-edited/user-edited-event-handler';
 import { ChangeChatInfoOpened } from './features/change-chat-info-opened/change-chat-info-opened';
+import { RemoveAllAttachments } from './features/remove-attachment/remove-all-attachments';
 
 const initialState: IChatsState = {
   hasMore: true,
@@ -123,6 +124,7 @@ const chats = createReducer<IChatsState>(initialState)
   .handleAction(UnshiftChat.action, UnshiftChat.reducer)
   .handleAction(MessageTyping.action, MessageTyping.reducer)
   .handleAction(ChangeChatInfoOpened.action, ChangeChatInfoOpened.reducer)
+  .handleAction(RemoveAllAttachments.action, RemoveAllAttachments.reducer)
   .handleAction(
     UserStatusChangedEventHandler.action,
     produce((draft: IChatsState, { payload }: ReturnType<typeof UserStatusChangedEventHandler.action>) => {

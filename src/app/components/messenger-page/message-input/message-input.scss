@@ -115,6 +115,42 @@
     line-height: 16px;
     font-weight: 500;
   }
+
+  &__attachments-box {
+    background: var(--dark);
+    overflow: hidden;
+
+    display: flex;
+
+    &__container {
+      display: inline-flex;
+      flex-direction: row-reverse;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding: 12px 24px 12px 22px;
+      margin-left: 16px;
+      margin-right: 29px;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+    }
+
+    &__delete-all {
+      display: block;
+      width: 24px;
+      height: 24px;
+      margin-right: 20px;
+      margin-top: 20px;
+      margin-left: auto;
+
+      svg {
+        color: var(--white);
+      }
+    }
+  }
 }
 
 @keyframes pulse {

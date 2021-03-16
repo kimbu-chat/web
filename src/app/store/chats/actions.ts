@@ -67,6 +67,7 @@ import { ChatClearedEventHandler } from './socket-events/chat-cleared/chat-clear
 import { UserEditedEventHandler } from './socket-events/user-edited/user-edited-event-handler';
 import { ForwardMessages } from './features/forward-messages/forward-messages';
 import { ChangeChatInfoOpened } from './features/change-chat-info-opened/change-chat-info-opened';
+import { RemoveAllAttachments } from './features/remove-attachment/remove-all-attachments';
 
 export namespace ChatActions {
   export const getChats = GetChats.action;
@@ -128,6 +129,7 @@ export namespace ChatActions {
   export const clearChatHistorySuccess = ClearChatHistorySuccess.action;
   export const forwardMessages = ForwardMessages.action;
   export const changeChatInfoOpened = ChangeChatInfoOpened.action;
+  export const removeAllAttachments = RemoveAllAttachments.action;
 
   // socket-events
 

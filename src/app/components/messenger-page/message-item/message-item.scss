@@ -35,7 +35,7 @@
     max-width: 70%;
 
     &--upcoming {
-      margin-left: 82px;
+      margin-left: 40px;
     }
 
     &:hover .message-item-actions {
@@ -73,9 +73,13 @@
     }
   }
 
-  &__sender-photo {
+  &__sender-photo-wrapper {
     margin-right: 10px;
     margin-left: 32px;
+    margin-bottom: auto;
+  }
+
+  &__sender-photo {
     height: 40px;
     width: 40px;
     border-radius: 6px;

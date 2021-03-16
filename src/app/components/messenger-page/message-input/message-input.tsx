@@ -34,8 +34,10 @@ import AddSvg from 'icons/add-attachment.svg';
 import VoiceSvg from 'icons/voice.svg';
 import CrayonSvg from 'icons/crayon.svg';
 import SendSvg from 'icons/send.svg';
+import CloseSvg from 'icons/close.svg';
 
 import { SubmitEditMessage } from 'app/store/chats/features/edit-message/submit-edit-message';
+import { RemoveAllAttachments } from 'app/store/chats/features/remove-attachment/remove-all-attachments';
 import { RespondingMessage } from './responding-message/responding-message';
 import { ExpandingTextarea } from './expanding-textarea/expanding-textarea';
 import { MessageInputAttachment } from './message-input-attachment/message-input-attachment';
@@ -59,6 +61,7 @@ export const CreateMessageInput = React.memo(() => {
   const notifyAboutTyping = useActionWithDispatch(MessageTyping.action);
   const uploadAttachmentRequest = useActionWithDispatch(UploadAttachmentRequest.action);
   const submitEditMessage = useActionWithDispatch(SubmitEditMessage.action);
+  const removeAllAttachmentsToSend = useActionWithDispatch(RemoveAllAttachments.action);
 
   const currentUser = useSelector(myProfileSelector);
   const selectedChat = useSelector(getSelectedChatSelector);
@@ -80,6 +83,10 @@ export const CreateMessageInput = React.memo(() => {
   // edit state logic
   const [removedAttachments, setRemovedAttachments] = useState<IAttachmentCreation[]>([]);
   const referredRemovedAttachments = useReferState(removedAttachments);
+
+  const editingMessageAttachments = editingMessage?.attachments?.filter(
+    ({ id }) => removedAttachments.findIndex((removedAttachment) => removedAttachment.id === id) === -1,
+  );
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const registerAudioBtnRef = useRef<HTMLButtonElement>(null);
@@ -118,6 +125,7 @@ export const CreateMessageInput = React.memo(() => {
 
   useEffect(() => {
     setText(editingMessage?.text || '');
+    setRemovedAttachments([]);
   }, [editingMessage?.text]);
 
   useInterval(
@@ -131,7 +139,6 @@ export const CreateMessageInput = React.memo(() => {
   );
 
   const submitEditedMessage = useCallback(() => {
-    console.log('edit sublit');
     const newAttachments = updatedSelectedChat.current?.attachmentsToSend?.map(({ attachment }) => attachment);
 
     submitEditMessage({
@@ -147,8 +154,6 @@ export const CreateMessageInput = React.memo(() => {
       submitEditedMessage();
       return;
     }
-
-    console.log('send sublit');
 
     const chatId = updatedSelectedChat.current?.id;
 
@@ -304,11 +309,18 @@ export const CreateMessageInput = React.memo(() => {
 
   const removeAttachment = useCallback(
     (attachmentToRemove: IAttachmentCreation) => {
-      console.log('from edit');
       setRemovedAttachments((oldList) => [...oldList, attachmentToRemove]);
     },
     [setRemovedAttachments],
   );
+
+  const removeAllAttachments = useCallback(() => {
+    if (selectedChat?.attachmentsToSend?.length! > 0) {
+      removeAllAttachmentsToSend({ ids: selectedChat?.attachmentsToSend?.map(({ attachment }) => attachment.id)! });
+    }
+
+    setRemovedAttachments(() => editingMessage?.attachments?.map(({ id, type }) => ({ id, type })) || []);
+  }, [setRemovedAttachments, editingMessage, removeAllAttachmentsToSend, selectedChat?.attachmentsToSend]);
 
   const cancelRecording = useCallback(() => {
     Mousetrap.unbind('esc');
@@ -416,24 +428,30 @@ export const CreateMessageInput = React.memo(() => {
 
   return (
     <div className='message-input' onDrop={onDrop} onDragOver={onDragOver} onDragEnter={onDragEnter} onDragLeave={onDragLeave}>
-      {editingMessage?.attachments
-        ?.filter(({ id }) => removedAttachments.findIndex((removedAttachment) => removedAttachment.id === id) === -1)
-        .map((attachment) => (
-          <MessageInputAttachment
-            attachment={{ attachment } as IAttachmentToSend<IBaseAttachment>}
-            isFromEdit
-            removeSelectedAttachment={removeAttachment}
-            key={attachment.id}
-          />
-        ))}
-      {selectedChat?.attachmentsToSend?.map((attachment) => (
-        <MessageInputAttachment attachment={attachment} key={attachment.attachment.id} />
-      ))}
+      {(editingMessageAttachments?.length! > 0 || selectedChat?.attachmentsToSend?.length! > 0) && (
+        <div className='message-input__attachments-box'>
+          <div className='message-input__attachments-box__container'>
+            {editingMessageAttachments?.map((attachment) => (
+              <MessageInputAttachment
+                attachment={{ attachment } as IAttachmentToSend<IBaseAttachment>}
+                isFromEdit
+                removeSelectedAttachment={removeAttachment}
+                key={attachment.id}
+              />
+            ))}
+            {selectedChat?.attachmentsToSend?.map((attachment) => (
+              <MessageInputAttachment attachment={attachment} key={attachment.attachment.id} />
+            ))}
+          </div>
+          <button onClick={removeAllAttachments} type='button' className='message-input__attachments-box__delete-all'>
+            <CloseSvg viewBox='0 0 24 24' />
+          </button>
+        </div>
+      )}
 
       {(isDragging || isDraggingOver) && (
         <div className={`message-input__drag ${isDraggingOver ? 'message-input__drag--active' : ''}`}>Drop files here to send them</div>
       )}
-
       {selectedChat && !(isDragging || isDraggingOver) && (
         <>
           {replyingMessage && <RespondingMessage />}

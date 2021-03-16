@@ -11,7 +11,7 @@ export class UploadAttachmentProgress {
 
   static get reducer() {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof UploadAttachmentProgress.action>) => {
-      const { progress, chatId, attachmentId } = payload;
+      const { progress, chatId, attachmentId, uploadedBytes } = payload;
 
       const chat = getChatByIdDraftSelector(chatId, draft);
 
@@ -24,6 +24,7 @@ export class UploadAttachmentProgress {
 
         if (currentAttachment) {
           currentAttachment.progress = progress;
+          currentAttachment.uploadedBytes = uploadedBytes;
         }
       }
       return draft;

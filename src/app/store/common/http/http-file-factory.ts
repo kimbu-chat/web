@@ -29,7 +29,7 @@ function createUploadFileChannel(requestConfig: AxiosRequestConfig) {
 
     const onProgress = (progressEvent: ProgressEvent<EventTarget>) => {
       const progress = (progressEvent.loaded / progressEvent.total) * 100;
-      emit({ progress });
+      emit({ progress, uploadedBytes: progressEvent.loaded });
     };
 
     requestConfig.onUploadProgress = onProgress;
@@ -47,7 +47,19 @@ function* uploadFileSaga(requestConfig: AxiosRequestConfig, cancelTokenSource: C
 
   yield takeEvery(
     uploadFileChannel,
-    function* ({ start, progress = 0, err, response }: { start: number; progress: number; err: string; response: AxiosResponse<any> }) {
+    function* ({
+      start,
+      progress = 0,
+      uploadedBytes = 0,
+      err,
+      response,
+    }: {
+      start: number;
+      progress: number;
+      uploadedBytes: number;
+      err: string;
+      response: AxiosResponse<any>;
+    }) {
       if (start) {
         if (callbacks?.onStart) {
           yield call(callbacks.onStart, { cancelTokenSource });
@@ -67,7 +79,7 @@ function* uploadFileSaga(requestConfig: AxiosRequestConfig, cancelTokenSource: C
       }
 
       if (callbacks?.onProgress) {
-        yield call(callbacks.onProgress, { progress });
+        yield call(callbacks.onProgress, { progress, uploadedBytes });
       }
     },
   );
@@ -75,7 +87,7 @@ function* uploadFileSaga(requestConfig: AxiosRequestConfig, cancelTokenSource: C
 
 interface IFilesRequestGeneratorCallbacks {
   onStart?: (payload: { cancelTokenSource: CancelTokenSource }) => SagaIterator<any>;
-  onProgress?: (payload: { progress: number }) => SagaIterator<any>;
+  onProgress?: (payload: { progress: number; uploadedBytes: number }) => SagaIterator<any>;
   onSuccess?: (payload: any) => SagaIterator<any>;
   onFailure?: () => SagaIterator<any>;
 }

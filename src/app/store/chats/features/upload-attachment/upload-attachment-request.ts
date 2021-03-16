@@ -101,8 +101,8 @@ export class UploadAttachmentRequest {
           *onStart({ cancelTokenSource }): SagaIterator {
             addUploadingAttachment({ cancelTokenSource, id: attachmentId });
           },
-          *onProgress({ progress }): SagaIterator {
-            yield put(UploadAttachmentProgress.action({ chatId, attachmentId, progress }));
+          *onProgress({ progress, uploadedBytes }): SagaIterator {
+            yield put(UploadAttachmentProgress.action({ chatId, attachmentId, progress, uploadedBytes }));
           },
           *onSuccess(payload: IBaseAttachment): SagaIterator {
             removeUploadingAttachment(attachmentId);

@@ -131,6 +131,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
         <div
           className={`message__container  ${isCurrentUserMessageCreator ? 'message__container--outgoing' : 'message__container--incoming'}`}
           onClick={isSelectState ? selectThisMessage : undefined}
+          id={`message-${message.id}`}
         >
           {message.needToShowCreator &&
             (myId === message.userCreator.id ? (
@@ -146,18 +147,20 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
               <SelectSvg />
             </button>
 
-            {message.needToShowCreator &&
-              (myId === message.userCreator.id ? (
-                <Avatar className='message__sender-photo ' src={message.userCreator.avatar?.previewUrl}>
-                  {getUserInitials(message.userCreator as IUser)}
-                </Avatar>
-              ) : (
-                <Link to={`/chats/${ChatId.from(message.userCreator.id).id}`}>
+            <div className='message__sender-photo-wrapper'>
+              {message.needToShowCreator &&
+                (myId === message.userCreator.id ? (
                   <Avatar className='message__sender-photo ' src={message.userCreator.avatar?.previewUrl}>
                     {getUserInitials(message.userCreator as IUser)}
                   </Avatar>
-                </Link>
-              ))}
+                ) : (
+                  <Link to={`/chats/${ChatId.from(message.userCreator.id).id}`}>
+                    <Avatar className='message__sender-photo ' src={message.userCreator.avatar?.previewUrl}>
+                      {getUserInitials(message.userCreator as IUser)}
+                    </Avatar>
+                  </Link>
+                ))}
+            </div>
 
             <div className={`message__contents-wrapper ${message.needToShowCreator ? '' : 'message__contents-wrapper--upcoming'}`}>
               <MessageItemActions
@@ -175,7 +178,6 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                 </div>
               )}
             </div>
-
             {isCurrentUserMessageCreator &&
               (message.state === MessageState.READ ? (
                 <MessageReadSvg className='message__state' />
@@ -184,7 +186,6 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
               ) : (
                 <MessageSentSvg className='message__state' />
               ))}
-
             <div className='message__time'>{moment.utc(message.creationDateTime).local().format('LT')}</div>
           </div>
           <div className='message__attachments'>

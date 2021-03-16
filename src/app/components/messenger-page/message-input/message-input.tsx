@@ -6,7 +6,16 @@ import { useReferState } from 'app/hooks/use-referred-state';
 import { CreateMessage } from 'app/store/chats/features/create-message/create-message';
 import { MessageTyping } from 'app/store/chats/features/message-typing/message-typing';
 import { UploadAttachmentRequest } from 'app/store/chats/features/upload-attachment/upload-attachment-request';
-import { SystemMessageType, MessageState, FileType, IMessage, MessageLinkType } from 'app/store/chats/models';
+import {
+  SystemMessageType,
+  MessageState,
+  FileType,
+  IMessage,
+  MessageLinkType,
+  IAttachmentCreation,
+  IAttachmentToSend,
+  IBaseAttachment,
+} from 'app/store/chats/models';
 import { getMessageToReplySelector, getSelectedChatSelector, getMessageToEditSelector } from 'app/store/chats/selectors';
 import { myProfileSelector } from 'app/store/my-profile/selectors';
 import { getTypingStrategySelector } from 'app/store/settings/selectors';
@@ -26,6 +35,7 @@ import VoiceSvg from 'icons/voice.svg';
 import CrayonSvg from 'icons/crayon.svg';
 import SendSvg from 'icons/send.svg';
 
+import { SubmitEditMessage } from 'app/store/chats/features/edit-message/submit-edit-message';
 import { RespondingMessage } from './responding-message/responding-message';
 import { ExpandingTextarea } from './expanding-textarea/expanding-textarea';
 import { MessageInputAttachment } from './message-input-attachment/message-input-attachment';
@@ -48,6 +58,7 @@ export const CreateMessageInput = React.memo(() => {
   const sendMessage = useActionWithDispatch(CreateMessage.action);
   const notifyAboutTyping = useActionWithDispatch(MessageTyping.action);
   const uploadAttachmentRequest = useActionWithDispatch(UploadAttachmentRequest.action);
+  const submitEditMessage = useActionWithDispatch(SubmitEditMessage.action);
 
   const currentUser = useSelector(myProfileSelector);
   const selectedChat = useSelector(getSelectedChatSelector);
@@ -65,6 +76,10 @@ export const CreateMessageInput = React.memo(() => {
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [recordedSeconds, setRecordedSeconds] = useState(0);
+
+  // edit state logic
+  const [removedAttachments, setRemovedAttachments] = useState<IAttachmentCreation[]>([]);
+  const referredRemovedAttachments = useReferState(removedAttachments);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const registerAudioBtnRef = useRef<HTMLButtonElement>(null);
@@ -101,6 +116,10 @@ export const CreateMessageInput = React.memo(() => {
     setText((oldText) => (typeof selectedChat?.draftMessage === 'string' ? selectedChat?.draftMessage : oldText));
   }, [selectedChat?.id, setText]);
 
+  useEffect(() => {
+    setText(editingMessage?.text || '');
+  }, [editingMessage?.text]);
+
   useInterval(
     () => {
       if (isRecording) {
@@ -111,7 +130,26 @@ export const CreateMessageInput = React.memo(() => {
     true,
   );
 
+  const submitEditedMessage = useCallback(() => {
+    console.log('edit sublit');
+    const newAttachments = updatedSelectedChat.current?.attachmentsToSend?.map(({ attachment }) => attachment);
+
+    submitEditMessage({
+      text: refferedText.current,
+      removedAttachments: referredRemovedAttachments.current,
+      newAttachments,
+      messageId: editingMessage!.id,
+    });
+  }, [refferedText, referredRemovedAttachments, editingMessage?.id]);
+
   const sendMessageToServer = () => {
+    if (editingMessage) {
+      submitEditedMessage();
+      return;
+    }
+
+    console.log('send sublit');
+
     const chatId = updatedSelectedChat.current?.id;
 
     const text = refferedText.current;
@@ -264,6 +302,14 @@ export const CreateMessageInput = React.memo(() => {
     Mousetrap.unbind('enter');
   }, []);
 
+  const removeAttachment = useCallback(
+    (attachmentToRemove: IAttachmentCreation) => {
+      console.log('from edit');
+      setRemovedAttachments((oldList) => [...oldList, attachmentToRemove]);
+    },
+    [setRemovedAttachments],
+  );
+
   const cancelRecording = useCallback(() => {
     Mousetrap.unbind('esc');
     recorderData.current.isRecording = false;
@@ -370,6 +416,16 @@ export const CreateMessageInput = React.memo(() => {
 
   return (
     <div className='message-input' onDrop={onDrop} onDragOver={onDragOver} onDragEnter={onDragEnter} onDragLeave={onDragLeave}>
+      {editingMessage?.attachments
+        ?.filter(({ id }) => removedAttachments.findIndex((removedAttachment) => removedAttachment.id === id) === -1)
+        .map((attachment) => (
+          <MessageInputAttachment
+            attachment={{ attachment } as IAttachmentToSend<IBaseAttachment>}
+            isFromEdit
+            removeSelectedAttachment={removeAttachment}
+            key={attachment.id}
+          />
+        ))}
       {selectedChat?.attachmentsToSend?.map((attachment) => (
         <MessageInputAttachment attachment={attachment} key={attachment.attachment.id} />
       ))}

@@ -14,7 +14,6 @@ export * from './friend-list/friend-list';
 export * from './group-chat-add-friend-modal/group-chat-add-friend-modal';
 export * from './incoming-call/incoming-call';
 export * from './message-input/message-input';
-export * from './message-input/edit-message/edit-message';
 export * from './message-item/message-item';
 export * from './new-chat-modal/new-chat-modal';
 export * from './routing-chats/routing-chats';

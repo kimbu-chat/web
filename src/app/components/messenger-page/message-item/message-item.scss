@@ -123,9 +123,8 @@
 
   &__separator {
     display: flex;
-
     justify-content: center;
-
+    text-transform: capitalize;
     margin-top: 14px;
     margin-bottom: 14px;
 
@@ -139,9 +138,42 @@
       font-size: 12px;
       line-height: 14px;
     }
+  }
 
-    &--date {
-      text-transform: capitalize;
+  &__system-message {
+    display: flex;
+    justify-content: center;
+    margin-top: 14px;
+    margin-bottom: 14px;
+
+    &__icon {
+      color: var(--white);
+      margin-right: 8px;
+
+      svg {
+        width: 12px;
+        height: 12px;
+      }
+    }
+
+    &__content {
+      display: inline-flex;
+      background-color: var(--king-blue-transparent);
+      border-radius: 6px;
+      padding: 4px 16px;
+      color: var(--white);
+      font-weight: 300;
+      font-size: 12px;
+      line-height: 14px;
+      background: var(--dark);
+
+      &--success--call {
+        background: var(--blue);
+      }
+
+      &--failure-call {
+        background: var(--error-bg);
+      }
     }
   }
 

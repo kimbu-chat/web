@@ -42,7 +42,7 @@ export const PhotoList = React.memo(() => {
         isLoading={photoForSelectedChat?.loading}
       >
         {photosWithSeparators?.map((photo) => (
-          <Photo photo={photo} key={photo.id} />
+          <Photo photo={photo} attachmentsArr={photosWithSeparators} key={photo.id} />
         ))}
       </InfiniteScroll>
     </div>

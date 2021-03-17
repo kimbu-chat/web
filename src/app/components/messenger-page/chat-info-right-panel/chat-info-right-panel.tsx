@@ -10,11 +10,12 @@ import PhotoSvg from 'icons/ic-photo.svg';
 
 import { getInterlocutorInitials } from 'utils/interlocutor-name-utils';
 
-import { GroupChatAddFriendModal, ImageModal } from 'app/components';
+import { GroupChatAddFriendModal, MediaModal } from 'app/components';
 import { EditGroupChat } from 'app/store/chats/features/edit-group-chat/edit-group-chat';
 import { GetChatInfo } from 'app/store/chats/features/get-chat-info/get-chat-info';
 import { UploadAvatar } from 'app/store/my-profile/features/upload-avatar/upload-avatar';
 import { IAvatar, IAvatarSelectedData } from 'app/store/common/models';
+import { FileType } from 'app/store/chats/models';
 import { InterlocutorInfo } from './interlocutor-info/interlocutor-info';
 import { ChatActions as ChatInfoActions } from './chat-actions/chat-actions';
 import { ChatMembers } from './chat-members/chat-members';
@@ -142,7 +143,11 @@ const ChatInfoRightPanel: React.FC = React.memo(() => {
         </FadeAnimationWrapper>
 
         <FadeAnimationWrapper isDisplayed={isAvatarMaximized}>
-          <ImageModal url={getChatFullSizeAvatar()} onClose={changeIsAvatarMaximizedState} />
+          <MediaModal
+            attachmentsArr={[{ url: getChatFullSizeAvatar(), id: 1, type: FileType.Picture }]}
+            attachmentId={1}
+            onClose={changeIsAvatarMaximizedState}
+          />
         </FadeAnimationWrapper>
 
         {changePhotoDisplayed && <PhotoEditor hideChangePhoto={hideChangePhoto} imageUrl={imageUrl} onSubmit={changeAvatar} />}

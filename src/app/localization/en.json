@@ -34,6 +34,9 @@
     "empty": "There are no messages in this chat. Yours may be the first!",
     "select_chat": "Please select  a chat to start messaging"
   },
+  "mediaModal": {
+    "of": "of"
+  },
   "chatActions": {
     "mute": "Mute",
     "unmute": "Unmute",

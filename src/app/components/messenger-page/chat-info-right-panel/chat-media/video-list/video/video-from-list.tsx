@@ -1,15 +1,16 @@
 import React, { useCallback, useState } from 'react';
 import PlaySvg from 'icons/play.svg';
 import moment from 'moment';
-import { FadeAnimationWrapper, VideoPlayerModal } from 'components';
+import { FadeAnimationWrapper, MediaModal } from 'components';
 import { IGroupable, IVideoAttachment } from 'store/chats/models';
 import { doesYearDifferFromCurrent } from 'app/utils/set-separators';
 
 interface IVideoFromListProps {
   video: IVideoAttachment & IGroupable;
+  attachmentsArr: IVideoAttachment[];
 }
 
-export const VideoFromList: React.FC<IVideoFromListProps> = React.memo(({ video }) => {
+export const VideoFromList: React.FC<IVideoFromListProps> = React.memo(({ video, attachmentsArr }) => {
   const [videoPlayerDisplayed, setVideoPlayerDisplayed] = useState(false);
   const changeVideoPlayerDisplayed = useCallback(() => setVideoPlayerDisplayed((oldState) => !oldState), [setVideoPlayerDisplayed]);
 
@@ -32,7 +33,7 @@ export const VideoFromList: React.FC<IVideoFromListProps> = React.memo(({ video 
       </div>
 
       <FadeAnimationWrapper isDisplayed={videoPlayerDisplayed}>
-        <VideoPlayerModal url={video.url} onClose={changeVideoPlayerDisplayed} />
+        <MediaModal attachmentId={video.id} attachmentsArr={attachmentsArr} onClose={changeVideoPlayerDisplayed} />
       </FadeAnimationWrapper>
     </React.Fragment>
   );

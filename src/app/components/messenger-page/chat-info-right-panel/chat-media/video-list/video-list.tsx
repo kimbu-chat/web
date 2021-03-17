@@ -42,7 +42,7 @@ export const VideoList = React.memo(() => {
         isLoading={videosForSelectedChat?.loading}
       >
         {videosWithSeparators?.map((video) => (
-          <VideoFromList key={video.id} video={video} />
+          <VideoFromList attachmentsArr={videosWithSeparators} key={video.id} video={video} />
         ))}
       </InfiniteScroll>
     </div>

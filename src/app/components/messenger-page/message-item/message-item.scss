@@ -62,6 +62,26 @@
     }
   }
 
+  &__attachments {
+    color: var(--dark);
+
+    h4 {
+      color: var(--white);
+    }
+
+    & > * {
+      margin-top: 10px;
+
+      &:first-child {
+        margin-top: -5px;
+      }
+
+      &:last-child {
+        margin-bottom: 10px;
+      }
+    }
+  }
+
   &__item {
     display: flex;
     align-items: center;

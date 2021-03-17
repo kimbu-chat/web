@@ -170,9 +170,43 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
 
               {message.isEdited && <CrayonSvg className='message__edited' />}
 
+              {!message.text && (
+                <div className='message__attachments'>
+                  {structuredAttachments?.files.map((file) => (
+                    <FileAttachment key={file.id} attachment={file} />
+                  ))}
+
+                  {structuredAttachments?.recordings.map((recording) => (
+                    <RecordingAttachment key={recording.id} attachment={recording} />
+                  ))}
+
+                  {structuredAttachments?.audios.map((audio) => (
+                    <MessageAudioAttachment key={audio.id} attachment={audio} />
+                  ))}
+
+                  {(structuredAttachments?.media.length || 0) > 0 && <MediaGrid media={structuredAttachments!.media} />}
+                </div>
+              )}
+
               {message.text && (
                 <div className='message__content'>
                   {message.linkedMessageType && <MessageLink linkedMessage={message.linkedMessage} />}
+
+                  <div className='message__attachments'>
+                    {structuredAttachments?.files.map((file) => (
+                      <FileAttachment key={file.id} attachment={file} />
+                    ))}
+
+                    {structuredAttachments?.recordings.map((recording) => (
+                      <RecordingAttachment key={recording.id} attachment={recording} />
+                    ))}
+
+                    {structuredAttachments?.audios.map((audio) => (
+                      <MessageAudioAttachment key={audio.id} attachment={audio} />
+                    ))}
+
+                    {(structuredAttachments?.media.length || 0) > 0 && <MediaGrid media={structuredAttachments!.media} />}
+                  </div>
 
                   <span>{message.text}</span>
                 </div>
@@ -187,21 +221,6 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                 <MessageSentSvg className='message__state' />
               ))}
             <div className='message__time'>{moment.utc(message.creationDateTime).local().format('LT')}</div>
-          </div>
-          <div className='message__attachments'>
-            {structuredAttachments?.files.map((file) => (
-              <FileAttachment key={file.id} attachment={file} />
-            ))}
-
-            {structuredAttachments?.recordings.map((recording) => (
-              <RecordingAttachment key={recording.id} attachment={recording} />
-            ))}
-
-            {structuredAttachments?.audios.map((audio) => (
-              <MessageAudioAttachment key={audio.id} attachment={audio} />
-            ))}
-
-            {(structuredAttachments?.media.length || 0) > 0 && <MediaGrid media={structuredAttachments!.media} />}
           </div>
         </div>
 

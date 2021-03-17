@@ -20,6 +20,7 @@ import { amICalledSelector as isCallingMe, amICallingSelector, doIhaveCallSelect
 import { CSSTransition } from 'react-transition-group';
 import { getIsInfoOpenedSelector } from 'store/chats/selectors';
 import { getInternetStateSelector } from 'app/store/internet/selectors';
+import { AddFriend } from 'app/components/messenger-page/friend-list/add-friend/add-friend';
 
 interface IChatProps {
   preloadNext: () => void;
@@ -54,13 +55,17 @@ const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
           <SearchTop searchFor='chats' />
           <ChatList />
         </div>
-
         <div className='messenger__chat-send'>
           <MessageList />
           <CreateMessageInput />
         </div>
-
         <ChatTopBar />
+        co
+        <CSSTransition in={isInfoOpened} timeout={200} classNames='chat-info-slide' unmountOnExit>
+          <div className='messenger__info'>
+            <ChatInfoRightPanel />
+          </div>
+        </CSSTransition>
       </Route>
 
       <Route path='/contacts/'>
@@ -68,13 +73,10 @@ const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
           <SearchTop searchFor='friends' />
           <FriendList />
         </div>
-      </Route>
-
-      <CSSTransition in={isInfoOpened} timeout={200} classNames='chat-info-slide' unmountOnExit>
-        <div className='messenger__info'>
-          <ChatInfoRightPanel />
+        <div className='messenger__add-contact'>
+          <AddFriend />
         </div>
-      </CSSTransition>
+      </Route>
     </div>
   );
 });

@@ -199,6 +199,11 @@
   "message-link": {
     "message-deleted": "Сообщение удалено"
   },
+  "addFriend": {
+    "title": "Добавить контакт",
+    "subtitle": "Добавьте новый контакт и начните с ним общаться.",
+    "add": "Добавить"
+  },
   "systemMessage": {
     "you_created_group": "Вы создали группу",
     "created_group": "{{name}} создал группу",

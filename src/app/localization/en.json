@@ -200,6 +200,11 @@
   "message-link": {
     "message-deleted": "Message deleted"
   },
+  "addFriend": {
+    "title": "Add new contact",
+    "subtitle": "Add a new contact and start a conversation with him.",
+    "add": "Add"
+  },
   "systemMessage": {
     "you_created_group": "You created group",
     "created_group": "{{name}} created group",

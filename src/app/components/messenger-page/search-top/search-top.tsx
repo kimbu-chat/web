@@ -8,7 +8,11 @@ import { ChatActions } from 'store/chats/actions';
 
 import { FadeAnimationWrapper, CreateGroupChat, NewChatModal, SearchBox } from 'components';
 
-export const SearchTop = React.memo(() => {
+interface ISearchTopProps {
+  searchFor: 'friends' | 'chats' | 'calls';
+}
+
+export const SearchTop: React.FC<ISearchTopProps> = React.memo(({ searchFor }) => {
   const getChats = useActionWithDispatch(ChatActions.getChats);
   const [newChatDisplayed, setNewChatDisplayed] = useState(false);
   const changeNewChatDisplayedState = useCallback(() => {
@@ -40,12 +44,15 @@ export const SearchTop = React.memo(() => {
         iconClassName='search-top__search-icon'
         onChange={handleChatSearchChange}
       />
-      <button type='button' onClick={changeNewChatDisplayedState} className='search-top__create-chat-btn'>
-        <CreateChatSvg />
-      </button>
+      {searchFor === 'chats' && (
+        <button type='button' onClick={changeNewChatDisplayedState} className='search-top__create-chat-btn'>
+          <CreateChatSvg />
+        </button>
+      )}
       <FadeAnimationWrapper isDisplayed={newChatDisplayed}>
         <NewChatModal displayCreateGroupChat={changeCreateGroupChatDisplayedState} onClose={changeNewChatDisplayedState} />
       </FadeAnimationWrapper>
+
       <FadeAnimationWrapper isDisplayed={createGroupChatDisplayed}>
         <CreateGroupChat onClose={changeCreateGroupChatDisplayedState} />
       </FadeAnimationWrapper>

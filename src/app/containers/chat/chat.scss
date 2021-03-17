@@ -3,9 +3,10 @@
   grid-template-columns: 80px 347px 1fr;
   grid-template-rows: 64px 1fr;
   min-height: 100vh;
+  background: var(--chat-bg);
 
   &__chats {
-    background-color: var(--chat-bg);
+    background-color: var(--dark);
   }
 
   &__chat-send {

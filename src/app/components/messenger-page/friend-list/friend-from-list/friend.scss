@@ -1,44 +1,36 @@
 .friend {
-  padding: 14px 20px;
+  padding: 8px 20px;
   display: flex;
   position: relative;
+  color: var(--dark);
 
   &:hover {
-    background-color: rgba($color: #3f8ae0, $alpha: 0.1);
-  }
-
-  &__active-line {
-    display: none;
-    background-color: var(--king-blue);
-    height: 100%;
-    width: 4px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    border-radius: 0px 10px 10px 0;
-  }
-
-  &--active {
-    background-color: rgba($color: #3f8ae0, $alpha: 0.1);
-
-    & > .friend__active-line {
-      display: block;
-    }
+    background-color: var(--chat-bg);
+    color: var(--chat-bg);
   }
 
   &__contents {
-    margin-left: 10px;
+    margin-left: 20px;
   }
 
   &__name {
-    font-size: 14px;
-    font-weight: 500;
-    margin-bottom: 6px;
+    color: var(--white);
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+    margin-top: 3px;
   }
 
   &__status {
+    font-weight: 300;
     font-size: 14px;
-    font-weight: 400;
-    color: var(--king-blue);
+    line-height: 17px;
+    color: var(--white);
+    margin-top: 8px;
+  }
+
+  &__avatar {
+    width: 48px;
+    height: 48px;
   }
 }

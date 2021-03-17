@@ -45,33 +45,30 @@ const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
 
       <RoutingChats />
 
-      <div className='messenger__chat-list'>
-        <Route path='/calls'>
-          <CallList />
-        </Route>
+      <Route path='/calls'>
+        <CallList />
+      </Route>
 
-        <Route path='/chats/:chatId?/'>
-          <div className='messenger__chats'>
-            <SearchTop />
-            <ChatList />
-          </div>
-        </Route>
+      <Route path='/chats/:chatId?/'>
+        <div className='messenger__chats'>
+          <SearchTop searchFor='chats' />
+          <ChatList />
+        </div>
 
-        <Route path='/contacts/:chatId?/'>
-          <div className='messenger__chats'>
-            <FriendList />
-          </div>
-        </Route>
-      </div>
+        <div className='messenger__chat-send'>
+          <MessageList />
+          <CreateMessageInput />
+        </div>
 
-      <ChatTopBar />
+        <ChatTopBar />
+      </Route>
 
-      <div className='messenger__chat-send'>
-        <MessageList />
-        <CreateMessageInput />
-        {/* {!messageToEdit && } */}
-        {/* {messageToEdit && <EditMessage />} */}
-      </div>
+      <Route path='/contacts/'>
+        <div className='messenger__friends'>
+          <SearchTop searchFor='friends' />
+          <FriendList />
+        </div>
+      </Route>
 
       <CSSTransition in={isInfoOpened} timeout={200} classNames='chat-info-slide' unmountOnExit>
         <div className='messenger__info'>

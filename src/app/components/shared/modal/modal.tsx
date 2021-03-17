@@ -10,7 +10,7 @@ interface IModalProps {
   title: string | JSX.Element;
   content: string | JSX.Element;
   highlightedInContents?: string;
-  buttons: JSX.Element[];
+  buttons: (JSX.Element | null)[];
   closeModal: () => void;
 }
 

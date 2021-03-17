@@ -213,7 +213,9 @@
     "title": "New contact",
     "cancel": "Cancel",
     "find": "Find",
-    "error": "User was not found"
+    "error": "User was not found",
+    "chat": "Chat",
+    "add": "Add"
   },
   "systemMessage": {
     "you_created_group": "You created group",

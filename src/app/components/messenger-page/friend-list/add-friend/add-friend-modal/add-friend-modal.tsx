@@ -8,6 +8,11 @@ import { GetUserByPhone } from 'app/store/friends/features/get-user-by-phone/get
 import { IUser } from 'app/store/common/models';
 import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
 import CloseSvg from 'icons/close-x.svg';
+import { Avatar } from 'app/components/shared';
+import { getUserInitials } from 'app/utils/interlocutor-name-utils';
+import { parsePhoneNumber } from 'libphonenumber-js';
+import { Link } from 'react-router-dom';
+import { ChatId } from 'app/store/chats/chat-id';
 
 interface IAddFriendModalProps {
   onClose: () => void;
@@ -48,7 +53,13 @@ export const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
         }
         content={
           user ? (
-            <div>{user.firstName}</div>
+            <div className='add-friends-modal__user'>
+              <Avatar className='add-friends-modal__user__avatar' src={user.avatar?.previewUrl}>
+                {getUserInitials(user)}
+              </Avatar>
+              <h2 className='add-friends-modal__user__name'>{`${user.firstName} ${user.lastName}`}</h2>
+              <h4 className='add-friends-modal__user__phone'>{parsePhoneNumber(user?.phoneNumber).formatInternational()}</h4>
+            </div>
           ) : (
             <div className='add-friends-modal'>
               <PhoneInputGroup phone={phone} setPhone={setPhone} />
@@ -65,12 +76,26 @@ export const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
         }
         closeModal={onClose}
         buttons={[
-          <button key={1} type='button' className='add-friends-modal__btn add-friends-modal__btn--cancel' onClick={onClose}>
-            {t('addFriendModal.cancel')}
-          </button>,
-          <button key={2} type='button' className='add-friends-modal__btn add-friends-modal__btn--confirm' onClick={getRequiredUser}>
-            {t('addFriendModal.find')}
-          </button>,
+          !user ? (
+            <button key={1} type='button' className='add-friends-modal__btn add-friends-modal__btn--cancel' onClick={onClose}>
+              {t('addFriendModal.cancel')}
+            </button>
+          ) : null,
+          !user ? (
+            <button key={2} type='button' className='add-friends-modal__btn add-friends-modal__btn--confirm' onClick={getRequiredUser}>
+              {t('addFriendModal.find')}
+            </button>
+          ) : null,
+          user ? (
+            <Link key={3} className='add-friends-modal__btn add-friends-modal__btn--cancel' to={`/chats/${ChatId.from(user.id).id}`}>
+              {t('addFriendModal.chat')}
+            </Link>
+          ) : null,
+          user ? (
+            <button key={2} type='button' className='add-friends-modal__btn add-friends-modal__btn--confirm' onClick={getRequiredUser}>
+              {t('addFriendModal.add')}
+            </button>
+          ) : null,
         ]}
       />
     </WithBackground>

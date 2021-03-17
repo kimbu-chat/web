@@ -53,4 +53,33 @@
       background: var(--king-blue);
     }
   }
+
+  &__user {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+    width: 340px;
+
+    &__avatar {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 8px;
+    }
+
+    &__name {
+      font-weight: normal;
+      font-size: 16px;
+      line-height: 19px;
+      color: var(--white);
+      margin-bottom: 14px;
+    }
+
+    &__phone {
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 17px;
+      color: var(--white);
+    }
+  }
 }

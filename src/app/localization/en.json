@@ -212,7 +212,8 @@
   "addFriendModal": {
     "title": "New contact",
     "cancel": "Cancel",
-    "find": "Find"
+    "find": "Find",
+    "error": "User was not found"
   },
   "systemMessage": {
     "you_created_group": "You created group",

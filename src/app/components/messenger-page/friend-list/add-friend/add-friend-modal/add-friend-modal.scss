@@ -1,10 +1,39 @@
 .add-friends-modal {
   margin-top: 14px;
+  position: relative;
+  margin-bottom: 47px;
 
   &__icon {
     width: 24px;
     height: 24px;
     margin-right: 16px;
+  }
+
+  &__error {
+    padding: 10px 20px;
+    border-radius: 6px;
+    background: var(--red);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    position: absolute;
+    width: calc(100% - 40px);
+    bottom: -50px;
+
+    span {
+      font-weight: 300;
+      font-size: 12px;
+      line-height: 14px;
+    }
+
+    &__close {
+      color: var(--white);
+      margin-left: auto;
+      svg {
+        height: 10px;
+        width: 10px;
+      }
+    }
   }
 
   &__btn {
@@ -14,7 +43,6 @@
     color: var(--white);
     padding: 10px 30px;
     border-radius: 6px;
-    margin-top: 47px;
 
     &--cancel {
       margin-left: auto;

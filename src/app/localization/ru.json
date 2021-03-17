@@ -211,7 +211,8 @@
   "addFriendModal": {
     "title": "Новый контакт",
     "cancel": "Отмена",
-    "find": "Найти"
+    "find": "Найти",
+    "error": "Пользователь не найден"
   },
   "systemMessage": {
     "you_created_group": "Вы создали группу",

@@ -71,6 +71,7 @@ a {
 :root {
   //primary colors
   --dark: #262c38;
+  --dark-transparent: rgba(38, 44, 56, 0.5);
 
   --grafit: #373f51;
   --grafit-light: rgba(#373f51, 0.7);
@@ -87,7 +88,7 @@ a {
 
   --white: #ffffff;
   --white-semi-transparent: rgba(255, 255, 255, 0.5);
-  --white-dark: rgba(#ffffff, 0.14);
+  --white-dark: rgba(255, 255, 255, 0.14);
   --white-darker: rgba(255, 255, 255, 0.04);
 
   //secondary colors

@@ -205,6 +205,15 @@
     "subtitle": "Add a new contact and start a conversation with him.",
     "add": "Add"
   },
+  "phoneInputGroup": {
+    "country": "Country",
+    "phone": "Phone"
+  },
+  "addFriendModal": {
+    "title": "New contact",
+    "cancel": "Cancel",
+    "find": "Find"
+  },
   "systemMessage": {
     "you_created_group": "You created group",
     "created_group": "{{name}} created group",

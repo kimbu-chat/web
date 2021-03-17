@@ -204,6 +204,15 @@
     "subtitle": "Добавьте новый контакт и начните с ним общаться.",
     "add": "Добавить"
   },
+  "phoneInputGroup": {
+    "country": "Cтрана",
+    "phone": "Телефон"
+  },
+  "addFriendModal": {
+    "title": "Новый контакт",
+    "cancel": "Отмена",
+    "find": "Найти"
+  },
   "systemMessage": {
     "you_created_group": "Вы создали группу",
     "created_group": "{{name}} создал группу",

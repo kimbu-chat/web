@@ -1,4 +1,5 @@
 export * from './shared';
+export * from './search-box/search-box';
 export * from './active-call/active-call';
 export * from './call-list/call-list';
 export * from './photo-editor/photo-editor';
@@ -8,7 +9,6 @@ export * from './chat-info-right-panel/chat-info-right-panel';
 export * from './chat-list/chat-list';
 export * from './create-group-chat-modal/create-group-chat-modal';
 export * from './edit-chat-modal/edit-chat-modal';
-export * from './search-box/search-box';
 export * from './forward-modal/forward-modal';
 export * from './friend-list/friend-list';
 export * from './group-chat-add-friend-modal/group-chat-add-friend-modal';

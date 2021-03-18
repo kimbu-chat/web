@@ -1,12 +1,11 @@
 import { LocalizationContext } from 'app/app';
-import { Avatar, Modal, WithBackground, PhotoEditor, FriendItem, SearchBox, CircularProgress } from 'components';
+import { Avatar, Modal, WithBackground, PhotoEditor, SearchBox, CircularProgress } from 'components';
 import { FriendActions } from 'store/friends/actions';
 import { getStringInitials } from 'app/utils/interlocutor-name-utils';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import React, { useCallback, useContext, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import CloseSVG from 'icons/ic-close.svg';
-import './create-group-chat-modal.scss';
 import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
 import { ChatActions } from 'store/chats/actions';
 import { IChat } from 'store/chats/models';
@@ -18,6 +17,9 @@ import { ICreateGroupChatActionPayload } from 'app/store/chats/features/create-g
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
 import { IAvatar, IAvatarSelectedData, IPage } from 'app/store/common/models';
 import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
+import GroupSvg from 'icons/group.svg';
+import { SelectEntity } from '../shared/select-entity/select-entity';
+import './create-group-chat-modal.scss';
 
 interface ICreateGroupChatProps {
   onClose: () => void;
@@ -157,12 +159,15 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(({ on
         <Modal
           title={
             currentStage === GroupChatCreationStage.UserSelect ? (
-              <div className='create-group-chat__heading'>
-                <div className='create-group-chat__title'>{t('createGroupChatModal.add_members')}</div>
-                <div className='create-group-chat__selected-count'>{`${selectedUserIds.length} / 1000`}</div>
-              </div>
+              <>
+                <GroupSvg viewBox='0 0 24 24' className='new-chat__icon' />
+                <span> {`${t('createGroupChatModal.add_members')} ${selectedUserIds.length} / 1000`} </span>
+              </>
             ) : (
-              t('createGroupChatModal.new_group')
+              <>
+                <GroupSvg viewBox='0 0 24 24' className='new-chat__icon' />
+                <span> {t('createGroupChatModal.new_group')} </span>
+              </>
             )
           }
           closeModal={onClose}
@@ -170,10 +175,10 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(({ on
             <>
               {currentStage === GroupChatCreationStage.UserSelect && (
                 <div className='create-group-chat__select-friends'>
-                  <SearchBox onChange={(e) => searchFriends(e.target.value)} />
+                  <SearchBox containerClassName='create-group-chat__select-friends__search' onChange={(e) => searchFriends(e.target.value)} />
                   <InfiniteScroll className='create-group-chat__friends-block' onReachExtreme={loadMore} hasMore={hasMoreFriends} isLoading={friendsLoading}>
                     {friends.map((friend) => (
-                      <FriendItem key={friend.id} friend={friend} isSelected={isSelected(friend.id)} changeSelectedState={changeSelectedState} />
+                      <SelectEntity key={friend.id} chatOrUser={friend} isSelected={isSelected(friend.id)} changeSelectedState={changeSelectedState} />
                     ))}
                   </InfiniteScroll>
                 </div>

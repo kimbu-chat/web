@@ -1,4 +1,26 @@
 .create-group-chat {
+  &__select-friends {
+    margin-top: -16px;
+    &__search {
+      width: 339px;
+      height: 32px;
+      margin-left: 0;
+      margin-right: 0;
+      svg {
+        width: 16px;
+        height: 16px;
+        left: 17px;
+      }
+
+      input {
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 19px;
+        text-indent: 50px;
+      }
+    }
+  }
+
   &__current-photo-wrapper {
     .circular-progress {
       position: absolute;
@@ -17,21 +39,10 @@
       }
     }
   }
+
   &__friends-block {
     max-height: 400px;
     overflow: auto;
-  }
-
-  &__selected-count {
-    color: #6d7885;
-    font-size: 11px;
-    font-weight: 400;
-    margin-left: 8px;
-  }
-
-  &__heading {
-    display: flex;
-    align-items: flex-end;
   }
 
   &__change-photo {

@@ -7,12 +7,15 @@ import { PhoneInputGroup } from 'app/components/messenger-page/shared/phone-inpu
 import { GetUserByPhone } from 'app/store/friends/features/get-user-by-phone/get-user-by-phone';
 import { IUser } from 'app/store/common/models';
 import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
-import CloseSvg from 'icons/close-x.svg';
+import CloseSvg from 'icons/close-x-bold.svg';
 import { Avatar } from 'app/components/shared';
 import { getUserInitials } from 'app/utils/interlocutor-name-utils';
 import { parsePhoneNumber } from 'libphonenumber-js';
 import { Link } from 'react-router-dom';
 import { ChatId } from 'app/store/chats/chat-id';
+import { AddFriend } from 'app/store/friends/features/add-friend/add-friend';
+import { useSelector } from 'react-redux';
+import { isFriend } from 'app/store/friends/selectors';
 
 interface IAddFriendModalProps {
   onClose: () => void;
@@ -21,10 +24,14 @@ interface IAddFriendModalProps {
 export const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
   const { t } = useContext(LocalizationContext);
   const getUserByPhone = useActionWithDeferred(GetUserByPhone.action);
+  const addFriend = useActionWithDeferred(AddFriend.action);
 
   const [phone, setPhone] = useState('');
   const [error, setError] = useState(false);
+  const [success, setSucess] = useState(false);
   const [user, setUser] = useState<IUser | null>(null);
+
+  const added = useSelector(isFriend(user?.id));
 
   const getRequiredUser = useCallback(() => {
     getUserByPhone({ phone })
@@ -36,7 +43,13 @@ export const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
         }
       })
       .catch(() => setError(true));
-  }, [phone, setUser]);
+  }, [phone, setUser, getUserByPhone]);
+
+  const addRequiredUser = useCallback(() => {
+    if (user) {
+      addFriend(user).then(() => setSucess(true));
+    }
+  }, [user]);
 
   const closeError = useCallback(() => {
     setError(false);
@@ -59,6 +72,12 @@ export const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
               </Avatar>
               <h2 className='add-friends-modal__user__name'>{`${user.firstName} ${user.lastName}`}</h2>
               <h4 className='add-friends-modal__user__phone'>{parsePhoneNumber(user?.phoneNumber).formatInternational()}</h4>
+
+              {success && (
+                <div className='add-friends-modal__success'>
+                  <span>{t('addFriendModal.success')}</span>
+                </div>
+              )}
             </div>
           ) : (
             <div className='add-friends-modal'>
@@ -67,7 +86,7 @@ export const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
                 <div className='add-friends-modal__error'>
                   <span>{t('addFriendModal.error')}</span>
                   <button type='button' onClick={closeError} className='add-friends-modal__error__close'>
-                    <CloseSvg />
+                    <CloseSvg viewBox='0 0 10 10' />
                   </button>
                 </div>
               )}
@@ -87,12 +106,16 @@ export const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
             </button>
           ) : null,
           user ? (
-            <Link key={3} className='add-friends-modal__btn add-friends-modal__btn--cancel' to={`/chats/${ChatId.from(user.id).id}`}>
+            <Link
+              key={3}
+              className={`add-friends-modal__btn ${added ? 'add-friends-modal__btn--confirm' : 'add-friends-modal__btn--cancel'}`}
+              to={`/chats/${ChatId.from(user.id).id}`}
+            >
               {t('addFriendModal.chat')}
             </Link>
           ) : null,
-          user ? (
-            <button key={2} type='button' className='add-friends-modal__btn add-friends-modal__btn--confirm' onClick={getRequiredUser}>
+          user && !added ? (
+            <button key={2} type='button' className='add-friends-modal__btn add-friends-modal__btn--confirm' onClick={addRequiredUser}>
               {t('addFriendModal.add')}
             </button>
           ) : null,

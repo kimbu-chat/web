@@ -19,6 +19,7 @@ import { FriendActions } from 'store/friends/actions';
 import { CreateGroupChat, FadeAnimationWrapper } from 'components';
 import PeopleSvg from 'icons/ic-group.svg';
 import { getMyFriendsSelector } from 'app/store/friends/selectors';
+import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
 import { DeleteChatModal } from './delete-chat-modal/delete-chat-modal';
 import { ClearChatModal } from './clear-chat-modal/clear-chat-modal';
 
@@ -40,7 +41,7 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
 
   const changeChatMutedStatus = useActionWithDispatch(SelectedChatActions.changeChatMutedStatus);
   const deleteFriend = useActionWithDispatch(FriendActions.deleteFriend);
-  const addFriend = useActionWithDispatch(FriendActions.addFriend);
+  const addFriend = useActionWithDeferred(FriendActions.addFriend);
 
   const membersIdsForGroupChat = useSelector(getMemberIdsForSelectedGroupChatSelector);
   const selectedChat = useSelector(getSelectedChatSelector) as IChat;

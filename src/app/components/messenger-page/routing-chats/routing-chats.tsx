@@ -33,11 +33,7 @@ export const RoutingChats = React.memo(() => {
       </Avatar>
 
       <div className='routing-chats__middle-group'>
-        <NavLink
-          className='routing-chats__link routing-chats__link--grouped'
-          activeClassName='routing-chats__link routing-chats__link--active'
-          to={`/contacts${selectedChatId ? `/${selectedChatId}` : ''}`}
-        >
+        <NavLink className='routing-chats__link routing-chats__link--grouped' activeClassName='routing-chats__link routing-chats__link--active' to='/contacts'>
           <ContactSvg />
         </NavLink>
         <NavLink

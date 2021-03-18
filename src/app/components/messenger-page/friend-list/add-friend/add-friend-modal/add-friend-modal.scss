@@ -36,6 +36,25 @@
     }
   }
 
+  &__success {
+    padding: 10px;
+    border-radius: 6px;
+    background: var(--msg-bg);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    position: absolute;
+    width: calc(100% - 56px);
+    bottom: 68px;
+    justify-content: center;
+
+    span {
+      font-weight: 300;
+      font-size: 12px;
+      line-height: 14px;
+    }
+  }
+
   &__btn {
     font-weight: 300;
     font-size: 16px;
@@ -46,11 +65,11 @@
 
     &--cancel {
       margin-left: auto;
-      margin-right: 20px;
     }
 
     &--confirm {
       background: var(--king-blue);
+      margin-left: 20px;
     }
   }
 

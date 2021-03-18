@@ -42,6 +42,7 @@
     align-items: center;
     padding: 7px 10px;
     box-sizing: border-box;
+    position: relative;
     cursor: pointer;
 
     &:hover {
@@ -88,8 +89,9 @@
     font-size: 13px;
     line-height: 16px;
     font-weight: 400;
-    margin-left: 22px;
     color: var(--white);
+    position: absolute;
+    left: 88px;
   }
 
   &__number {

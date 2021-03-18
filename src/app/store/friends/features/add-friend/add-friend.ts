@@ -1,3 +1,4 @@
+import { Meta } from 'app/store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
 
 import { AxiosResponse } from 'axios';
@@ -10,7 +11,7 @@ import { IAddFriendApiRequest } from './api-requests/add-friend-api-request';
 
 export class AddFriend {
   static get action() {
-    return createAction('ADD_FRIEND')<IAddFriendActionPayload>();
+    return createAction('ADD_FRIEND')<IAddFriendActionPayload, Meta>();
   }
 
   static get saga() {
@@ -21,6 +22,7 @@ export class AddFriend {
       yield call(() => AddFriend.httpRequest.generator(phoneToAdd));
 
       yield put(AddFriendSuccess.action(user));
+      action.meta.deferred?.resolve();
     };
   }
 

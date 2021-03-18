@@ -215,7 +215,8 @@
     "find": "Find",
     "error": "User was not found",
     "chat": "Chat",
-    "add": "Add"
+    "add": "Add",
+    "success": "Contact has been added"
   },
   "systemMessage": {
     "you_created_group": "You created group",

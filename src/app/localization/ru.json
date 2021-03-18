@@ -180,7 +180,8 @@
     "requirements": "Вы можете использовать символы a-z, 0-9 и нижние подчеркивания."
   },
   "groupChatAddFriendModal": {
-    "add_members": "Добавить участников"
+    "add_members": "Добавить участников",
+    "cancel": "Отмена"
   },
   "chatRecordings": {
     "recordings": "Голосовые Cообщения"

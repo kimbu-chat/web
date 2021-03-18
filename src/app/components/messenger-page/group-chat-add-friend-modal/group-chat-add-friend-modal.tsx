@@ -10,9 +10,10 @@ import { getFriendsLoadingSelector, getHasMoreFriendsSelector, getMyFriendsSelec
 import { IPage } from 'app/store/common/models';
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
 import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
-import { FriendItem, SearchBox } from 'app/components';
+import { SearchBox } from 'app/components';
 import { AddUsersToGroupChat } from 'app/store/chats/features/add-users-to-group-chat/add-users-to-group-chat';
 import { GetFriends } from 'app/store/friends/features/get-friends/get-friends';
+import { SelectEntity } from '../shared/select-entity/select-entity';
 
 interface IGroupChatAddFriendModalProps {
   onClose: () => void;
@@ -72,20 +73,33 @@ export const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = 
         title={t('groupChatAddFriendModal.add_members')}
         closeModal={onClose}
         content={
-          <div className='group-chat-add-friend-modal'>
-            <SearchBox onChange={(e) => searchFriends(e.target.value)} />
-            <InfiniteScroll onReachExtreme={loadMore} hasMore={hasMoreFriends} isLoading={friendsLoading} className='group-chat-add-friend-modal__friend-block'>
+          <div className='group-chat-add-friend-modal__select-friends'>
+            <SearchBox containerClassName='group-chat-add-friend-modal__select-friends__search' onChange={(e) => searchFriends(e.target.value)} />
+            <InfiniteScroll
+              className='group-chat-add-friend-modal__friends-block'
+              onReachExtreme={loadMore}
+              hasMore={hasMoreFriends}
+              isLoading={friendsLoading}
+            >
               {friends.map(
                 (friend) =>
                   !idsToExclude.includes(friend.id) && (
-                    <FriendItem key={friend.id} friend={friend} isSelected={isSelected(friend.id)} changeSelectedState={changeSelectedState} />
+                    <SelectEntity key={friend.id} chatOrUser={friend} isSelected={isSelected(friend.id)} changeSelectedState={changeSelectedState} />
                   ),
               )}
             </InfiniteScroll>
           </div>
         }
         buttons={[
-          <button disabled={selectedUserIds.length === 0} type='button' onClick={addUsers} className='roup-chat-add-friend-modal__confirm-btn'>
+          <button
+            disabled={selectedUserIds.length === 0}
+            type='button'
+            className='group-chat-add-friend-modal__btn group-chat-add-friend-modal__btn--cancel'
+            onClick={onClose}
+          >
+            {t('groupChatAddFriendModal.cancel')}
+          </button>,
+          <button disabled={selectedUserIds.length === 0} type='button' onClick={addUsers} className='group-chat-add-friend-modal__btn'>
             {t('groupChatAddFriendModal.add_members')}
           </button>,
         ]}

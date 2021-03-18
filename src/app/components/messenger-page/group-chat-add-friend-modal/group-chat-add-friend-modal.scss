@@ -1,15 +1,42 @@
 .group-chat-add-friend-modal {
-  &__friend-block {
-    max-height: 400px;
-    overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  &__select-friends {
+    margin-top: -16px;
+    &__search {
+      width: 339px;
+      height: 32px;
+      margin-left: 0;
+      margin-right: 0;
+      svg {
+        width: 16px;
+        height: 16px;
+        left: 17px;
+      }
+
+      input {
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 19px;
+        text-indent: 50px;
+      }
+    }
   }
 
-  &__confirm-btn {
+  &__btn {
+    margin-top: 30px;
     padding: 10px 32px;
     color: var(--white);
     font-weight: 300;
     font-size: 16px;
     line-height: 19px;
     background: var(--king-blue);
+    border-radius: 6px;
+
+    &--cancel {
+      background: transparent;
+      margin-right: 10px;
+    }
   }
 }

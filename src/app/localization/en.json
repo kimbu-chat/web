@@ -181,7 +181,8 @@
     "requirements": "You can use a-z, 0-9 and underscores."
   },
   "groupChatAddFriendModal": {
-    "add_members": "Add Members"
+    "add_members": "Add Members",
+    "cancel": "Cancel"
   },
   "chatRecordings": {
     "recordings": "Audio Recordings"

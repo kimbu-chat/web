@@ -11,7 +11,7 @@ import './forward-modal.scss';
 import { ForwardMessages } from 'app/store/chats/features/forward-messages/forward-messages';
 import { IChat } from 'app/store/chats/models';
 import ForwardSvg from 'icons/forward.svg';
-import { ForwardEntity } from './forward-entity/forward-entity';
+import { SelectEntity } from '../shared/select-entity/select-entity';
 
 interface IForwardModalProps {
   onClose: () => void;
@@ -96,10 +96,10 @@ export const ForwardModal: React.FC<IForwardModalProps> = React.memo(({ onClose,
             <InfiniteScroll className='forward-modal__chats-block' onReachExtreme={loadMore} hasMore={hasMoreChats} isLoading={chatsAreLoading}>
               {searchString.length > 0
                 ? searchChats?.map((chat: IChat) => (
-                    <ForwardEntity key={chat.id} chat={chat} isSelected={isSelected(chat.id)} changeSelectedState={changeSelectedState} />
+                    <SelectEntity key={chat.id} chatOrUser={chat} isSelected={isSelected(chat.id)} changeSelectedState={changeSelectedState} />
                   ))
                 : chats?.map((chat: IChat) => (
-                    <ForwardEntity key={chat.id} chat={chat} isSelected={isSelected(chat.id)} changeSelectedState={changeSelectedState} />
+                    <SelectEntity key={chat.id} chatOrUser={chat} isSelected={isSelected(chat.id)} changeSelectedState={changeSelectedState} />
                   ))}
             </InfiniteScroll>
           </div>

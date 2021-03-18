@@ -60,7 +60,7 @@ export const ChatMembers: React.FC = React.memo(() => {
       {membersDisplayed && (
         <>
           <div className='chat-members__search'>
-            <SearchBox onChange={search} />
+            <SearchBox containerClassName='chat-members__search-container' onChange={search} />
           </div>
 
           <InfiniteScroll

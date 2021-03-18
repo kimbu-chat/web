@@ -41,7 +41,7 @@ export const CountrySelect: React.FC<ICountrySelectProps> = React.memo(
       <div {...getRootProps()} className={`country-select ${popupOpen ? 'country-select--open' : ''}`}>
         <div className='country-select__label'>{t('phoneInputGroup.country')}</div>
         <input placeholder={t('phoneInputGroup.country')} type='text' className='country-select__input' {...inputProps} />
-        <ArrowSvg viewBox='0 0 16 10' className={`country-select__input-svg ${popupOpen ? 'country-select__input-svg--open' : ''}`} />
+        <ArrowSvg viewBox='0 0 8 14' className={`country-select__input-svg ${popupOpen ? 'country-select__input-svg--open' : ''}`} />
         {groupedOptions.length > 0 ? (
           <div className='country-select__countries' {...getListboxProps()}>
             {groupedOptions.map(

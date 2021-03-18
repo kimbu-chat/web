@@ -8,14 +8,19 @@ import { LocalizationContext } from 'app/app';
 import { IUser, IPage } from 'app/store/common/models';
 import { useHistory } from 'react-router';
 
-import PeopleSvg from 'icons/ic-group.svg';
+import ArrowSvg from 'icons/arrow-v.svg';
+import GroupSvg from 'icons/group.svg';
+import NewMessageSvg from 'icons/create-chat.svg';
+
 import { ChatActions } from 'app/store/chats/actions';
 import { getFriendsLoadingSelector, getHasMoreFriendsSelector, getMyFriendsSelector } from 'app/store/friends/selectors';
 
 import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
 import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
 import { ChatId } from 'app/store/chats/chat-id';
-import { FriendItem, SearchBox } from 'app/components';
+import { SearchBox } from 'app/components';
+import { IChat } from 'app/store/chats/models';
+import { SelectEntity } from '../shared/select-entity/select-entity';
 
 interface INewChatModalProps {
   onClose: () => void;
@@ -34,9 +39,9 @@ export const NewChatModal: React.FC<INewChatModalProps> = React.memo(({ onClose,
 
   const history = useHistory();
 
-  const createEmptyChat = useCallback((user: IUser) => {
-    createChat(user);
-    const chatId = ChatId.from(user.id).id;
+  const createEmptyChat = useCallback((user: IChat | IUser) => {
+    createChat(user as IUser);
+    const chatId = ChatId.from((user as IUser).id).id;
     history.push(`/chats/${chatId}`);
     onClose();
   }, []);
@@ -61,21 +66,29 @@ export const NewChatModal: React.FC<INewChatModalProps> = React.memo(({ onClose,
   return (
     <WithBackground onBackgroundClick={onClose}>
       <Modal
-        title={t('newChat.new_message')}
+        title={
+          <>
+            <NewMessageSvg viewBox='0 0 24 24' className='new-chat__icon' />
+            <span> {t('newChat.new_message')} </span>
+          </>
+        }
         closeModal={onClose}
         content={
           <div className='new-chat'>
-            <SearchBox onChange={(e) => searchFriends(e.target.value)} />
+            <SearchBox containerClassName='new-chat__search' onChange={(e) => searchFriends(e.target.value)} />
             <div className='new-chat__friends-block'>
               <div onClick={createGroupChat} className='new-chat__new-group'>
                 <div className='new-chat__new-group__img'>
-                  <PeopleSvg viewBox='0 0 25 25' />
+                  <GroupSvg viewBox='0 0 24 24' />
                 </div>
                 <span className='new-chat__new-group__title'>{t('newChat.new_group')}</span>
+                <div className='new-chat__new-group__go'>
+                  <ArrowSvg viewBox='0 0 8 14' />
+                </div>
               </div>
               <InfiniteScroll className='create-group-chat__friends-block' onReachExtreme={loadMore} hasMore={hasMoreFriends} isLoading={friendsLoading}>
                 {friends.map((friend) => (
-                  <FriendItem key={friend.id} friend={friend} onClick={createEmptyChat} />
+                  <SelectEntity key={friend.id} chatOrUser={friend} onClick={createEmptyChat} />
                 ))}
               </InfiniteScroll>
             </div>

@@ -13,9 +13,9 @@ import { Rnd } from 'react-rnd';
 import ReactDOM from 'react-dom';
 
 // svgs
-import AcceptWithAudioSvg from 'icons/ic-call-filled.svg';
-import AcceptWithVideoSvg from 'icons/ic-video-call-filled.svg';
-import DeclineCallSvg from 'icons/ic-call-out.svg';
+import AcceptWithAudioSvg from 'icons/audio-call.svg';
+import AcceptWithVideoSvg from 'icons/video-call.svg';
+import DeclineCallSvg from 'icons/declined-call.svg';
 import { LocalizationContext } from 'app/app';
 import { playSoundSafely } from 'app/utils/current-music';
 
@@ -59,12 +59,13 @@ export const IncomingCall: React.FC = () => {
   return ReactDOM.createPortal(
     <Rnd
       default={{
-        x: 20,
+        x: 60,
         y: 20,
-        width: window.innerWidth - 40,
-        height: 100,
+        width: window.innerWidth - 120,
+        height: 64,
       }}
       bounds='body'
+      className='incoming-call-draggable'
     >
       <div className='incoming-call'>
         <Avatar className='incoming-call__img' src={interlocutor?.avatar?.previewUrl}>
@@ -76,13 +77,13 @@ export const IncomingCall: React.FC = () => {
         </div>
         <div className='incoming-call__right-btns'>
           <button type='button' onClick={acceptWithAudio} className='incoming-call__call-btn incoming-call__call-btn--accept'>
-            <AcceptWithAudioSvg viewBox='0 0 25 25' />
-          </button>
-          <button type='button' onClick={declineCallAction} className='incoming-call__call-btn incoming-call__call-btn--cancel'>
-            <DeclineCallSvg viewBox='0 0 25 25' />
+            <AcceptWithAudioSvg viewBox='0 0 24 24' />
           </button>
           <button type='button' onClick={acceptWithVideo} className='incoming-call__call-btn incoming-call__call-btn--video'>
-            <AcceptWithVideoSvg viewBox='0 0 25 25' />
+            <AcceptWithVideoSvg viewBox='0 0 24 24' />
+          </button>
+          <button type='button' onClick={declineCallAction} className='incoming-call__call-btn incoming-call__call-btn--cancel'>
+            <DeclineCallSvg viewBox='0 0 13 14' />
           </button>
         </div>
       </div>

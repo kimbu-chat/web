@@ -224,16 +224,22 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(({ on
             </>
           }
           buttons={[
-            <button disabled={selectedUserIds.length === 0} type='button' className='create-group-chat__btn create-group-chat__btn--cancel' onClick={onClose}>
+            <button
+              key={1}
+              disabled={selectedUserIds.length === 0}
+              type='button'
+              className='create-group-chat__btn create-group-chat__btn--cancel'
+              onClick={onClose}
+            >
               {t('createGroupChatModal.cancel')}
             </button>,
             currentStage === GroupChatCreationStage.UserSelect ? (
-              <button disabled={selectedUserIds.length === 0} type='button' className='create-group-chat__btn' onClick={goToGroupChatCreationStage}>
+              <button key={2} disabled={selectedUserIds.length === 0} type='button' className='create-group-chat__btn' onClick={goToGroupChatCreationStage}>
                 {t('createGroupChatModal.next')}
               </button>
             ) : null,
             currentStage === GroupChatCreationStage.GroupChatCreation ? (
-              <button disabled={name.length === 0 || !uploadEnded} type='button' className='create-group-chat__btn' onClick={onSubmit}>
+              <button key={3} disabled={name.length === 0 || !uploadEnded} type='button' className='create-group-chat__btn' onClick={onSubmit}>
                 {t('createGroupChatModal.create_groupChat')}
               </button>
             ) : null,

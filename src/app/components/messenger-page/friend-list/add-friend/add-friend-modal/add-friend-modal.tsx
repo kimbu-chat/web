@@ -115,7 +115,7 @@ export const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
             </Link>
           ) : null,
           user && !added ? (
-            <button key={2} type='button' className='add-friends-modal__btn add-friends-modal__btn--confirm' onClick={addRequiredUser}>
+            <button key={4} type='button' className='add-friends-modal__btn add-friends-modal__btn--confirm' onClick={addRequiredUser}>
               {t('addFriendModal.add')}
             </button>
           ) : null,

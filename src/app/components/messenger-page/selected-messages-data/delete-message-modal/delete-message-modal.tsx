@@ -50,10 +50,10 @@ export const DeleteMessageModal: React.FC<IDeleteMessageModalProps> = React.memo
         }
         closeModal={onClose}
         buttons={[
-          <button type='button' onClick={onClose} className='delete-message-modal__cancel-btn'>
+          <button key={1} type='button' onClick={onClose} className='delete-message-modal__cancel-btn'>
             {t('deleteMessageModal.cancel')}
           </button>,
-          <button type='button' onClick={deleteTheseMessages} className='delete-message-modal__confirm-btn'>
+          <button key={2} type='button' onClick={deleteTheseMessages} className='delete-message-modal__confirm-btn'>
             {t('deleteMessageModal.delete-confirm')}
           </button>,
         ]}

@@ -77,7 +77,7 @@ export const EditPhoneModal: React.FC<IEditPhoneModalProps> = React.memo(({ onCl
           </div>
         }
         buttons={[
-          <button type='button' className='edit-phone-modal__confirm-btn'>
+          <button key={1} type='button' className='edit-phone-modal__confirm-btn'>
             Save
           </button>,
         ]}

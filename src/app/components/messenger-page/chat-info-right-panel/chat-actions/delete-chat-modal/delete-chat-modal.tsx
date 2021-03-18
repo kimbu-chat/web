@@ -32,10 +32,10 @@ export const DeleteChatModal: React.FC<IDeleteChatModalProps> = React.memo(({ hi
         highlightedInContents={selectedGroupChatName}
         closeModal={hide}
         buttons={[
-          <button type='button' className='delete-chat-modal__cancel-btn' onClick={hide}>
+          <button key={1} type='button' className='delete-chat-modal__cancel-btn' onClick={hide}>
             {t('chatInfo.cancel')}
           </button>,
-          <button type='button' className='delete-chat-modal__confirm-btn' onClick={deleteGroupChat}>
+          <button key={2} type='button' className='delete-chat-modal__confirm-btn' onClick={deleteGroupChat}>
             {t('chatInfo.confirm')}
           </button>,
         ]}

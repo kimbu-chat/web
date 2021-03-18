@@ -138,10 +138,10 @@
   },
   "createGroupChatModal": {
     "add_members": "Add members",
-    "new_group": "New Group",
+    "new_group": "Create Group Chat",
     "next": "Next",
     "cancel": "Cancel",
-    "create_groupChat": "Create Group"
+    "create_groupChat": "Create"
   },
   "settings": {
     "online": "Online",

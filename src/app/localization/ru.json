@@ -138,7 +138,7 @@
   },
   "createGroupChatModal": {
     "add_members": "Добавить участников",
-    "new_group": "Новая группа",
+    "new_group": "Создать новую группу",
     "next": "Далее",
     "cancel": "Отмена",
     "create_groupChat": "Создать Конференцию"

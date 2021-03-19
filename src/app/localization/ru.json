@@ -211,6 +211,9 @@
     "logout": "Выход",
     "confirm-content": "Вы действительно хотите выйти?"
   },
+  "clearChat": {
+    "title": "Отчистить чат"
+  },
   "message-link": {
     "message-deleted": "Сообщение удалено"
   },

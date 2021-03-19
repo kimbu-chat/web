@@ -14,10 +14,11 @@ interface ISelectEntityProps {
   changeSelectedState?: (id: number) => void;
   isSelected?: boolean;
   chatOrUser: IChat | IUser;
+  icon?: JSX.Element;
   onClick?: (chat: IChat | IUser) => void;
 }
 
-export const SelectEntity: React.FC<ISelectEntityProps> = React.memo(({ changeSelectedState, chatOrUser, isSelected, onClick }) => {
+export const SelectEntity: React.FC<ISelectEntityProps> = React.memo(({ changeSelectedState, chatOrUser, isSelected, onClick, icon }) => {
   const onClickOnThisContact = useCallback(() => {
     if (onClick) {
       onClick(chatOrUser);
@@ -52,6 +53,7 @@ export const SelectEntity: React.FC<ISelectEntityProps> = React.memo(({ changeSe
         )}
       </div>
 
+      {icon && <div className='select-entity__icon-holder'>{icon}</div>}
       {changeSelectedState && <div className='select-entity__selected-holder'>{isSelected ? <SelectedSvg /> : <UnSelectedSvg />}</div>}
     </div>
   );

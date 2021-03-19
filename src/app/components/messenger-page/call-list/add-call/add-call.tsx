@@ -3,7 +3,7 @@ import AddCallSvg from 'icons/add-call.svg';
 import { LocalizationContext } from 'app/app';
 import './add-call.scss';
 import { FadeAnimationWrapper } from 'app/components';
-// import { AddCallModal } from './add-call-modal/add-call-modal';
+import { AddCallModal } from './add-call-modal/add-call-modal';
 
 const AddCall = () => {
   const { t } = useContext(LocalizationContext);
@@ -29,8 +29,7 @@ const AddCall = () => {
       </div>
 
       <FadeAnimationWrapper isDisplayed={AddCallsModalDisplayed}>
-        {/* <AddCallModal onClose={changeSetAddCallsModalDisplayedState} /> */}
-        <div>{AddCallsModalDisplayed}</div>
+        <AddCallModal onClose={changeSetAddCallsModalDisplayedState} />
       </FadeAnimationWrapper>
     </>
   );

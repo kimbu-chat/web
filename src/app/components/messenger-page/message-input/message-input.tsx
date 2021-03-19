@@ -44,6 +44,7 @@ import { MessageInputAttachment } from './message-input-attachment/message-input
 
 import './message-input.scss';
 import { EditingMessage } from './editing-message/editing-message';
+import { MessageError } from './message-error/message-error';
 
 const MessageSmiles = lazy(loadMessageSmiles);
 
@@ -456,6 +457,7 @@ export const CreateMessageInput = React.memo(() => {
         <>
           {replyingMessage && <RespondingMessage />}
           {editingMessage && <EditingMessage />}
+          {true && <MessageError />}
           <div className='message-input__send-message'>
             {!isRecording && (
               <>

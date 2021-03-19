@@ -16,6 +16,11 @@
   "activeCall": {
     "default": "По умолчанию"
   },
+  "messageError": {
+    "description": "Ошибка при попытке отправить сообщение",
+    "retry": "Повтор",
+    "dismiss": "Отмена"
+  },
   "chatData": {
     "members": "участника",
     "online": "Онлайн",

@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux';
 import { myProfilePhotoSelector, myFullNameSelector } from 'app/store/my-profile/selectors';
 import { Avatar, FadeAnimationWrapper, SettingsModal } from 'app/components';
 import { getStringInitials } from 'app/utils/interlocutor-name-utils';
+import { LogoutModal } from '../logout-modal/logout-modal';
 
 export const RoutingChats = React.memo(() => {
   const selectedChatId = useSelector(getSelectedChatIdSelector);
@@ -21,10 +22,10 @@ export const RoutingChats = React.memo(() => {
   const myName = useSelector(myFullNameSelector);
 
   const [settingsDisplayed, setSettingsDisplayed] = useState(false);
-
-  const logout = useCallback(() => window.location.replace('logout'), []);
-
   const changeSettingsDisplayedState = useCallback(() => setSettingsDisplayed((oldState) => !oldState), [setSettingsDisplayed]);
+
+  const [logoutDisplayed, setLogoutDisplayed] = useState(false);
+  const changeLogoutDisplayedState = useCallback(() => setLogoutDisplayed((oldState) => !oldState), [setLogoutDisplayed]);
 
   return (
     <div className='routing-chats'>
@@ -52,12 +53,16 @@ export const RoutingChats = React.memo(() => {
         <SettingsSvg />
       </button>
 
-      <button onClick={logout} type='button' className='routing-chats__link routing-chats__link--logout'>
+      <button onClick={changeLogoutDisplayedState} type='button' className='routing-chats__link routing-chats__link--logout'>
         <LogoutSvg />
       </button>
 
       <FadeAnimationWrapper isDisplayed={settingsDisplayed}>
         <SettingsModal />
+      </FadeAnimationWrapper>
+
+      <FadeAnimationWrapper isDisplayed={logoutDisplayed}>
+        <LogoutModal onClose={changeLogoutDisplayedState} />
       </FadeAnimationWrapper>
     </div>
   );

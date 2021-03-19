@@ -205,6 +205,12 @@
   "addCallModal": {
     "title": "Новый звонок"
   },
+  "logoutModal": {
+    "title": "Система выхода",
+    "cancel": "Отмена",
+    "logout": "Выход",
+    "confirm-content": "Вы действительно хотите выйти?"
+  },
   "message-link": {
     "message-deleted": "Сообщение удалено"
   },

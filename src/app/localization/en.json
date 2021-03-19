@@ -206,6 +206,12 @@
   "addCallModal": {
     "title": "New call"
   },
+  "logoutModal": {
+    "title": "Logout system",
+    "cancel": "Cancel",
+    "logout": "Logout",
+    "confirm-content": "Are you sure you want to logout?"
+  },
   "message-link": {
     "message-deleted": "Message deleted"
   },

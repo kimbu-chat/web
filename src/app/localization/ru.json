@@ -190,8 +190,8 @@
     "files": "Файлы"
   },
   "callFromList": {
-    "outgoing": "Исходящий",
-    "incoming": "Входящий",
+    "outgoing": "Исходящий вызов ({{duration}})",
+    "incoming": "Входящий вызов ({{duration}})",
     "canceled": "Отказан",
     "declined": "Отменён",
     "missed": "Пропущен",

@@ -5,6 +5,10 @@
   min-height: 100vh;
   background: var(--chat-bg);
 
+  &__friends {
+    background-color: var(--dark);
+  }
+
   &__chats {
     background-color: var(--dark);
   }

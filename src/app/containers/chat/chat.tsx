@@ -47,7 +47,10 @@ const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
       <RoutingChats />
 
       <Route path='/calls'>
-        <CallList />
+        <div className='messenger__calls'>
+          <SearchTop searchFor='calls' />
+          <CallList />
+        </div>
       </Route>
 
       <Route path='/chats/:chatId?/'>

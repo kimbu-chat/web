@@ -191,8 +191,8 @@
     "files": "Files"
   },
   "callFromList": {
-    "outgoing": "Outgoing",
-    "incoming": "Incoming",
+    "outgoing": "Outgoing call ({{duration}})",
+    "incoming": "Incoming call ({{duration}})",
     "canceled": "Canceled",
     "declined": "Declined",
     "missed": "Missed",

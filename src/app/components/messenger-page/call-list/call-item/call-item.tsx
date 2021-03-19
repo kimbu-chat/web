@@ -2,14 +2,16 @@ import { ICall } from 'app/store/calls/common/models';
 import './call-item.scss';
 import React, { useContext } from 'react';
 
-import OutgoingCallSvg from 'icons/ic-outgoing-call.svg';
-import { Avatar } from 'components';
-import { getUserInitials } from 'app/utils/interlocutor-name-utils';
+import IncomingCallSvg from 'icons/incoming-call.svg';
+import OutgoingCallSvg from 'icons/outgoing-call.svg';
+import DeclinedCallSvg from 'icons/declined-call.svg';
+import MissedCallSvg from 'icons/missed-call.svg';
 import { LocalizationContext } from 'app/app';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { myIdSelector } from 'app/store/my-profile/selectors';
 import { CallStatus } from 'app/store/common/models';
+import { StatusBadge } from 'app/components';
 
 interface ICallItem {
   call: ICall;
@@ -20,30 +22,36 @@ export const CallItem: React.FC<ICallItem> = ({ call }) => {
 
   const myId = useSelector(myIdSelector);
 
+  const isOutgoing = myId === call.userCallerId;
+  const missedByMe = !isOutgoing && call.status === CallStatus.NotAnswered;
+
   return (
     <div className='call-from-list'>
-      <div className='call-from-list__type-icon'>{call.status === CallStatus.Ended && myId === call.userCallerId && <OutgoingCallSvg />}</div>
-      <Avatar className='call-from-list__interlocutor-avatar' src={call.userInterlocutor.avatar?.previewUrl}>
-        {getUserInitials(call.userInterlocutor)}
-      </Avatar>
+      <StatusBadge containerClassName='call-from-list__interlocutor-avatar' user={call.userInterlocutor} />
       <div className='call-from-list__data'>
-        <div
-          className={`call-from-list__name ${
-            (call.status === CallStatus.NotAnswered || call.status === CallStatus.Cancelled) && myId !== call.userCallerId ? 'call-from-list__name--missed' : ''
-          }`}
-        >
+        <div className={`call-from-list__name ${missedByMe ? 'call-from-list__name--missed' : ''}`}>
           {`${call.userInterlocutor.firstName} ${call.userInterlocutor.lastName}`}
         </div>
         <div className='call-from-list__type'>
           {call.status === CallStatus.Cancelled && t('callFromList.canceled')}
+
           {call.status === CallStatus.Declined && t('callFromList.declined')}
-          {call.status === CallStatus.Ended && myId !== call.userCallerId && t('callFromList.incoming')}
-          {call.status === CallStatus.Ended && myId === call.userCallerId && t('callFromList.outgoing')}
-          {call.status === CallStatus.NotAnswered && myId === call.userCallerId && t('callFromList.missed')}
-          {call.status === CallStatus.NotAnswered && myId !== call.userCallerId && t('callFromList.notAnswered')}
+
+          {call.status === CallStatus.Ended && !isOutgoing && t('callFromList.incoming', { duration: moment.utc(call.duration! * 1000).format('HH:mm:ss') })}
+
+          {call.status === CallStatus.Ended && isOutgoing && t('callFromList.outgoing', { duration: moment.utc(call.duration! * 1000).format('HH:mm:ss') })}
+
+          {call.status === CallStatus.NotAnswered && (isOutgoing ? t('callFromList.missed') : t('callFromList.notAnswered'))}
         </div>
       </div>
-      {call.duration && <div className='call-from-list__day'>{moment.utc(call.duration * 1000).format('HH:mm:ss')}</div>}
+      <div className='call-from-list__aside-data'>
+        <div className='call-from-list__date'>02:34 am</div>
+        <div className={`call-from-list__type-icon ${missedByMe ? 'call-from-list__type-icon--missed' : ''}`}>
+          {call.status === CallStatus.Ended && (isOutgoing ? <OutgoingCallSvg viewBox='0 0 11 12' /> : <IncomingCallSvg viewBox='0 0 12 12' />)}
+          {(call.status === CallStatus.Declined || call.status === CallStatus.Cancelled) && <DeclinedCallSvg viewBox='0 0 13 14' />}
+          {(call.status === CallStatus.NotAnswered || call.status === CallStatus.Interrupted) && <MissedCallSvg viewBox='0 0 12 12' />}
+        </div>
+      </div>
     </div>
   );
 };

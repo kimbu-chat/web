@@ -20,3 +20,4 @@ export * from './routing-chats/routing-chats';
 export * from './search-top/search-top';
 export * from './selected-messages-data/selected-messages-data';
 export * from './settings-modal/settings-modal';
+export * from './not-contact/not-contact';

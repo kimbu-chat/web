@@ -14,6 +14,7 @@ import {
   ChatTopBar,
   SearchTop,
   MessageList,
+  NotContact,
 } from 'components';
 import { useSelector } from 'react-redux';
 import { amICalledSelector as isCallingMe, amICallingSelector, doIhaveCallSelector } from 'store/calls/selectors';
@@ -65,6 +66,7 @@ const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
         <div className='messenger__chat-send'>
           <MessageList />
           <CreateMessageInput />
+          {true && <NotContact />}
         </div>
         <ChatTopBar />
         co

@@ -20,6 +20,11 @@
     "retry": "Retry",
     "dismiss": "Dismiss"
   },
+  "notContact": {
+    "description": "The user {{fullName}} is not in your contact.",
+    "add": "Add",
+    "block": "Block"
+  },
   "chatData": {
     "members": "members",
     "online": "Online",

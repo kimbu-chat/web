@@ -21,6 +21,11 @@
     "retry": "Повтор",
     "dismiss": "Отмена"
   },
+  "notContact": {
+    "description": "Пользователя {{fullName}} нет в списке ваших контактов.",
+    "add": "Добавить",
+    "block": "Заблокировать"
+  },
   "chatData": {
     "members": "участника",
     "online": "Онлайн",

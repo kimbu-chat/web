@@ -457,7 +457,7 @@ export const CreateMessageInput = React.memo(() => {
         <>
           {replyingMessage && <RespondingMessage />}
           {editingMessage && <EditingMessage />}
-          {true && <MessageError />}
+          {false && <MessageError />}
           <div className='message-input__send-message'>
             {!isRecording && (
               <>

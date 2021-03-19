@@ -25,6 +25,10 @@
     "add": "Add",
     "block": "Block"
   },
+  "blockedMessageInput": {
+    "unblock": "Unblock",
+    "description": "You cannot send messages to a user you have blocked."
+  },
   "chatData": {
     "members": "members",
     "online": "Online",

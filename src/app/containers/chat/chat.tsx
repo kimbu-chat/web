@@ -23,6 +23,7 @@ import { getIsInfoOpenedSelector } from 'store/chats/selectors';
 import { getInternetStateSelector } from 'app/store/internet/selectors';
 import { AddFriend } from 'app/components/messenger-page/friend-list/add-friend/add-friend';
 import { AddCall } from 'app/components/messenger-page/call-list/add-call/add-call';
+import { BlockedMessageInput } from 'app/components/messenger-page/blocked-message-input/blocked-message-input';
 
 interface IChatProps {
   preloadNext: () => void;
@@ -65,11 +66,10 @@ const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
         </div>
         <div className='messenger__chat-send'>
           <MessageList />
-          <CreateMessageInput />
-          {true && <NotContact />}
+          {false ? <CreateMessageInput /> : <BlockedMessageInput />}
+          {false && <NotContact />}
         </div>
         <ChatTopBar />
-        co
         <CSSTransition in={isInfoOpened} timeout={200} classNames='chat-info-slide' unmountOnExit>
           <div className='messenger__info'>
             <ChatInfoRightPanel />

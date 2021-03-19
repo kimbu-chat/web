@@ -1,40 +1,31 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { useSelector } from 'react-redux';
-import { getIsInfoOpenedSelector, getSelectedChatSelector, getSelectedChatMessagesSearchStringSelector } from 'store/chats/selectors';
+import { getIsInfoOpenedSelector, getSelectedChatSelector } from 'store/chats/selectors';
 
 import './chat-top-bar.scss';
 import { LocalizationContext } from 'app/app';
 import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
 import { CallActions } from 'store/calls/actions';
 import { IUser, UserStatus } from 'app/store/common/models';
-import { Avatar, SearchBox, StatusBadge } from 'components';
+import { Avatar, StatusBadge } from 'components';
 
 import VoiceCallSvg from 'icons/audio-call.svg';
 import VideoCallSvg from 'icons/video-call.svg';
-import SearchSvg from 'icons/search.svg';
 import ChatInfoSvg from 'icons/chat-info.svg';
 
 import { getChatInterlocutor, getInterlocutorInitials } from 'utils/interlocutor-name-utils';
-import { GetMessages } from 'app/store/chats/features/get-messages/get-messages';
-import { MESSAGES_LIMIT } from 'app/utils/pagination-limits';
 import { TimeUpdateable } from 'app/components/shared/time-updateable/time-updateable';
 import { ChangeChatInfoOpened } from 'app/store/chats/features/change-chat-info-opened/change-chat-info-opened';
+import { MessagesSearch } from './messages-search/messages-search';
 
 export const ChatTopBar = React.memo(() => {
   const { t } = useContext(LocalizationContext);
 
   const selectedChat = useSelector(getSelectedChatSelector);
-  const messagesSearchString = useSelector(getSelectedChatMessagesSearchStringSelector);
   const isInfoOpened = useSelector(getIsInfoOpenedSelector);
 
   const callInterlocutor = useActionWithDispatch(CallActions.outgoingCallAction);
-  const getMessages = useActionWithDispatch(GetMessages.action);
   const openCloseChatInfo = useActionWithDispatch(ChangeChatInfoOpened.action);
-
-  const [isSearching, setIsSearching] = useState(false);
-  const changeSearchingState = useCallback(() => {
-    setIsSearching((oldState) => !oldState);
-  }, [setIsSearching]);
 
   const callWithVideo = useCallback(
     () =>
@@ -59,19 +50,6 @@ export const ChatTopBar = React.memo(() => {
       }),
     [selectedChat?.interlocutor],
   );
-
-  const searchMessages = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const pageData = {
-      limit: MESSAGES_LIMIT,
-      offset: 0,
-    };
-
-    getMessages({
-      page: pageData,
-      isFromSearch: true,
-      searchString: e.target.value,
-    });
-  }, []);
 
   if (selectedChat) {
     return (
@@ -116,11 +94,7 @@ export const ChatTopBar = React.memo(() => {
             </button>
           )}
 
-          {(isSearching || (messagesSearchString?.length || 0) > 0) && <SearchBox value={messagesSearchString || ''} onChange={searchMessages} />}
-
-          <button type='button' onClick={changeSearchingState} className='chat-data__button'>
-            <SearchSvg />
-          </button>
+          <MessagesSearch />
 
           <button type='button' onClick={openCloseChatInfo} className={`chat-data__button ${isInfoOpened ? 'chat-data__button--active' : ''}`}>
             <ChatInfoSvg />

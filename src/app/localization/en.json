@@ -198,6 +198,11 @@
     "missed": "Missed",
     "notAnswered": "Not Answered"
   },
+  "addCall": {
+    "title": "Add new call",
+    "subTitle": "Choose a contact and start a video conversation with him.",
+    "add": "Add"
+  },
   "message-link": {
     "message-deleted": "Message deleted"
   },

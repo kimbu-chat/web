@@ -21,6 +21,7 @@ import { CSSTransition } from 'react-transition-group';
 import { getIsInfoOpenedSelector } from 'store/chats/selectors';
 import { getInternetStateSelector } from 'app/store/internet/selectors';
 import { AddFriend } from 'app/components/messenger-page/friend-list/add-friend/add-friend';
+import { AddCall } from 'app/components/messenger-page/call-list/add-call/add-call';
 
 interface IChatProps {
   preloadNext: () => void;
@@ -50,6 +51,9 @@ const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
         <div className='messenger__calls'>
           <SearchTop searchFor='calls' />
           <CallList />
+        </div>
+        <div className='messenger__add-call'>
+          <AddCall />
         </div>
       </Route>
 

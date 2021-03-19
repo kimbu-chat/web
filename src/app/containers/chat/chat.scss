@@ -21,6 +21,14 @@
     align-items: center;
   }
 
+  &__add-call {
+    grid-column: 3/-1;
+    grid-row: 1/-1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   &__chat-send {
     overflow: auto;
     display: flex;

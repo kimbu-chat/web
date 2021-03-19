@@ -1,5 +1,5 @@
-.add-friend {
-  padding: 24px 56px;
+.add-call {
+  padding: 33px 56px;
   border-radius: 8px;
   background: var(--dark);
   display: inline-flex;
@@ -8,14 +8,14 @@
   box-shadow: 0px 7px 12px rgba(14, 22, 43, 0.85);
 
   &__icon-wrapper {
-    padding: 14px;
+    padding: 16px;
     background-color: var(--chat-bg);
     border-radius: 8px;
 
     svg {
       color: var(--king-blue);
-      width: 57px;
-      height: 57px;
+      width: 64px;
+      height: 64px;
     }
   }
 
@@ -39,7 +39,7 @@
 
   &__btn {
     background: var(--king-blue);
-    padding: 10px 105px;
+    padding: 10px 98px;
     color: var(--white);
     font-weight: 300;
     font-size: 16px;

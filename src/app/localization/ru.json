@@ -226,7 +226,8 @@
     "confirm-content": "Вы действительно хотите выйти?"
   },
   "clearChat": {
-    "title": "Отчистить чат"
+    "title": "Отчистить чат",
+    "clear-confirmation": "Отчистить для всех"
   },
   "message-link": {
     "message-deleted": "Сообщение удалено"

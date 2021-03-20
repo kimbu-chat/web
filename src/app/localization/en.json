@@ -227,7 +227,8 @@
     "confirm-content": "Are you sure you want to logout?"
   },
   "clearChat": {
-    "title": "Clear chat"
+    "title": "Clear chat",
+    "clear-confirmation": "Clear for everybody"
   },
   "message-link": {
     "message-deleted": "Message deleted"

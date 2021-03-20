@@ -45,7 +45,7 @@ export const ClearChatModal: React.FC<IClearChatModalProps> = React.memo(({ hide
               <button type='button' className='clear-chat-modal__btn' onClick={changeDeleteForInterlocutorState}>
                 {deleteForInterlocutor ? <CheckedSvg /> : <UncheckedSvg />}
               </button>
-              <span className='clear-chat-modal__btn-description'>{t('deleteMessageModal.delete-confirmation')}</span>
+              <span className='clear-chat-modal__btn-description'>{t('clearChat.clear-confirmation')}</span>
             </div>
           </div>
         }

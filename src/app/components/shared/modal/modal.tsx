@@ -21,14 +21,18 @@ export const Modal: React.FC<IModalProps> = React.memo(({ title, content, button
       <CloseSVG onClick={closeModal} viewBox='0 0 25 25' className='modal__close-btn' />
     </header>
     <div className='modal__content'>
-      {typeof content === 'string'
-        ? content.split(highlightedInContents || '').map((text, index, arr) => (
+      {typeof content === 'string' ? (
+        <div className='modal__content__text-wrapper'>
+          {content.split(highlightedInContents || '').map((text, index, arr) => (
             <React.Fragment key={index}>
               <span className='modal__content__text'>{text}</span>
               {index < arr.length - 1 && <span className='modal__content__text modal__content__text--highlighted'>{highlightedInContents}</span>}
             </React.Fragment>
-          ))
-        : content}
+          ))}
+        </div>
+      ) : (
+        content
+      )}
       <span />
     </div>
     <div className='modal__btn-block'>{buttons}</div>

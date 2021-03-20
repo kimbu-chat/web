@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { getChatByIdDraftSelector } from 'app/store/chats/selectors';
+import { getChatByIdDraftSelector } from '../../selectors';
 import { IUploadAttachmentSuccessActionPayload } from './action-payloads/upload-attachment-success-action-payload';
 import { IChatsState } from '../../chats-state';
 
@@ -20,7 +20,7 @@ export class UploadAttachmentSuccess {
           return draft;
         }
 
-        const currentAttachment = chat.attachmentsToSend?.find(({ attachment }) => attachment.id === attachmentId);
+        const currentAttachment = chat.attachmentsToSend?.find(({ attachment: attachmentToSend }) => attachmentToSend.id === attachmentId);
 
         if (currentAttachment) {
           currentAttachment.progress = 100;

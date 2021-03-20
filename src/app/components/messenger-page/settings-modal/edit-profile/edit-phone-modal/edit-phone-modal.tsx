@@ -1,12 +1,12 @@
-import { LocalizationContext } from 'app/app';
-import { countryList } from 'app/common/countries';
-import { ICountry } from 'app/common/country';
-import { Modal, WithBackground } from 'components';
+import { LocalizationContext } from '@contexts';
+import { countryList } from '@common/countries';
+import { ICountry } from '@common/country';
+import { Modal, WithBackground } from '@components';
 import { parsePhoneNumber, parsePhoneNumberFromString } from 'libphonenumber-js';
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import './edit-phone-modal.scss';
-import { myPhoneNumberSelector } from 'app/store/my-profile/selectors';
+import { myPhoneNumberSelector } from '@store/my-profile/selectors';
 import { ModalCountrySelect } from './modal-country-select/modal-country-select';
 import { ModalPhoneInput } from './modal-phone-input/modal-phone-input';
 

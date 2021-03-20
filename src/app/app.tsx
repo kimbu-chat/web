@@ -5,14 +5,13 @@ import './base.scss';
 
 import { useSelector } from 'react-redux';
 
-import i18nConfiguration from 'app/localization/i18n';
 import { useTranslation } from 'react-i18next';
 
-import { PublicRoute } from 'app/routing/public-route';
-import { PrivateRoute } from 'app/routing/private-route';
+import { PublicRoute } from '@app/routing/public-route';
+import { PrivateRoute } from '@app/routing/private-route';
 
-import { i18n, TFunction } from 'i18next';
-import { authenticatedSelector, authPhoneNumberSelector } from 'store/auth/selectors';
+import { authenticatedSelector, authPhoneNumberSelector } from '@store/auth/selectors';
+import { LocalizationContext } from '@contexts';
 import { CubeLoader } from './containers/cube-loader/cube-loader';
 import {
   loadPhoneConfirmation,
@@ -23,6 +22,7 @@ import {
   loadLogout,
   loadMessageSmiles,
 } from './routing/module-loader';
+import i18nConfiguration from './localization/i18n';
 
 const ConfirmPhone = lazy(loadPhoneConfirmation);
 const ConfirmCode = lazy(loadCodeConfirmation);
@@ -30,13 +30,6 @@ const Messenger = lazy(loadMessenger);
 const NotFound = lazy(loadNotFound);
 const Registration = lazy(loadRegistration);
 const Logout = lazy(loadLogout);
-
-export interface ILocalizationContextProps {
-  t: TFunction;
-  i18n?: i18n;
-}
-
-export const LocalizationContext = React.createContext<ILocalizationContextProps>({ t: (str: string) => str });
 
 export const App = () => {
   const { t, i18n } = useTranslation(undefined, { i18n: i18nConfiguration });

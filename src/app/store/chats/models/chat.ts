@@ -1,4 +1,4 @@
-import { IUser } from 'app/store/common/models';
+import { IUser } from '../../common/models';
 import { IAttachmentToSend } from './attachment-to-send';
 import { IAudioAttachment } from './attachments/audio-attachment';
 import { IBaseAttachment } from './attachments/base-attachment';

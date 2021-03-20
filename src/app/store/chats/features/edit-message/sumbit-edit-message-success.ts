@@ -1,6 +1,6 @@
-import { FileType, IAudioAttachment, IPictureAttachment, IRawAttachment, IVideoAttachment, IVoiceAttachment } from 'store/chats/models';
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
+import { FileType, IAudioAttachment, IPictureAttachment, IRawAttachment, IVideoAttachment, IVoiceAttachment } from '../../models';
 import { ISumbitEditMessageSuccessActionPayload } from './action-payloads/sumbit-edit-message-success-action-payload';
 import { getChatByIdDraftSelector } from '../../selectors';
 import { IChatsState } from '../../chats-state';
@@ -16,7 +16,6 @@ export class SubmitEditMessageSuccess {
 
       const chat = getChatByIdDraftSelector(chatId, draft);
       const message = draft.messages[chatId].messages.find(({ id }) => id === messageId);
-      const repliedMessages = draft.messages[chatId].messages.filter(({ linkedMessage }) => linkedMessage?.id === messageId);
       const newAttachments = [
         ...(message?.attachments?.filter(({ id }) => payload.removedAttachments?.findIndex((removedAttachment) => removedAttachment.id === id) === -1) || []),
         ...(payload.newAttachments || []),
@@ -28,11 +27,19 @@ export class SubmitEditMessageSuccess {
         message.attachments = newAttachments;
       }
 
-      repliedMessages?.forEach(({ linkedMessage }) => {
-        if (linkedMessage) {
-          linkedMessage.text = payload.text;
-          linkedMessage.attachments = newAttachments;
+      draft.messages[chatId].messages = draft.messages[chatId].messages.map((msg) => {
+        if (msg.linkedMessage?.id === messageId) {
+          return {
+            ...msg,
+            linkedMessage: {
+              ...msg.linkedMessage,
+              text: payload.text,
+              attachments: newAttachments,
+            },
+          };
         }
+
+        return msg;
       });
 
       if (chat) {

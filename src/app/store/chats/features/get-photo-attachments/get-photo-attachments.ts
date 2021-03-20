@@ -1,12 +1,11 @@
-import { HTTPStatusCode } from 'app/common/http-status-code';
-import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
-
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { getChatByIdDraftSelector, getSelectedChatIdSelector } from 'app/store/chats/selectors';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { getChatByIdDraftSelector, getSelectedChatIdSelector } from '../../selectors';
+import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { IPictureAttachment } from '../../models';
 import { IGetPhotoAttachmentsActionPayload } from './action-payloads/get-photo-attachments-action-payload';
 import { GetPhotoAttachmentsSuccess } from './get-photo-attachments-success';
@@ -32,7 +31,7 @@ export class GetPhotoAttachments {
   }
 
   static get saga() {
-    return function* (action: ReturnType<typeof GetPhotoAttachments.action>): SagaIterator {
+    return function* getPhotoAttachments(action: ReturnType<typeof GetPhotoAttachments.action>): SagaIterator {
       const { page } = action.payload;
       const chatId = yield select(getSelectedChatIdSelector);
 

@@ -1,17 +1,17 @@
-import { ICall } from 'app/store/calls/common/models';
+import { ICall } from '@store/calls/common/models';
 import './call-item.scss';
 import React, { useContext } from 'react';
 
-import IncomingCallSvg from 'icons/incoming-call.svg';
-import OutgoingCallSvg from 'icons/outgoing-call.svg';
-import DeclinedCallSvg from 'icons/declined-call.svg';
-import MissedCallSvg from 'icons/missed-call.svg';
-import { LocalizationContext } from 'app/app';
+import IncomingCallSvg from '@icons/incoming-call.svg';
+import OutgoingCallSvg from '@icons/outgoing-call.svg';
+import DeclinedCallSvg from '@icons/declined-call.svg';
+import MissedCallSvg from '@icons/missed-call.svg';
+import { LocalizationContext } from '@contexts';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
-import { myIdSelector } from 'app/store/my-profile/selectors';
-import { CallStatus } from 'app/store/common/models';
-import { StatusBadge } from 'app/components';
+import { myIdSelector } from '@store/my-profile/selectors';
+import { CallStatus } from '@store/common/models';
+import { StatusBadge } from '@components';
 
 interface ICallItem {
   call: ICall;

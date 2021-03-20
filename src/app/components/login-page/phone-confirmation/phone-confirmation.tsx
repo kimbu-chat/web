@@ -1,19 +1,19 @@
 import React, { useCallback, useContext, useState, useRef, useEffect, lazy, Suspense } from 'react';
 import './phone-confirmation.scss';
-import { CountrySelect, PhoneInput, BaseBtn, WithBackground, FadeAnimationWrapper } from 'components';
-import { countryList } from 'app/common/countries';
-import { ICountry } from 'app/common/country';
-import { LocalizationContext } from 'app/app';
-import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
-import { AuthActions } from 'store/auth/actions';
+import { CountrySelect, PhoneInput, BaseBtn, WithBackground, FadeAnimationWrapper } from '@components';
+import { countryList } from '@common/countries';
+import { ICountry } from '@common/country';
+import { LocalizationContext } from '@contexts';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import * as AuthActions from '@store/auth/actions';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import { getCountryByIp } from 'app/utils/get-country-by-ip';
-import { CubeLoader } from 'app/containers/cube-loader/cube-loader';
-import { authLoadingSelector } from 'app/store/auth/selectors';
+import { getCountryByIp } from '@utils/get-country-by-ip';
+import { CubeLoader } from '@containers/cube-loader/cube-loader';
+import { authLoadingSelector } from '@store/auth/selectors';
 
-const PrivacyPolicy = lazy(() => import('app/components/shared/privacy-policy/privacy-policy'));
+const PrivacyPolicy = lazy(() => import('../../shared/privacy-policy/privacy-policy'));
 
 interface IPhoneConfirmationProps {
   preloadNext: () => void;

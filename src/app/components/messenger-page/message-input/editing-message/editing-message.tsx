@@ -1,12 +1,12 @@
 import React from 'react';
 import './editing-message.scss';
 
-import CloseSvg from 'icons/close.svg';
-import CrayonSvg from 'icons/crayon.svg';
+import CloseSvg from '@icons/close.svg';
+import CrayonSvg from '@icons/crayon.svg';
 import { useSelector } from 'react-redux';
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { getMessageToEditSelector } from 'app/store/chats/selectors';
-import { ResetEditMessage } from 'app/store/chats/features/edit-message/reset-edit-message';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { getMessageToEditSelector } from '@store/chats/selectors';
+import { ResetEditMessage } from '@store/chats/features/edit-message/reset-edit-message';
 
 export const EditingMessage = React.memo(() => {
   const editingMessage = useSelector(getMessageToEditSelector);

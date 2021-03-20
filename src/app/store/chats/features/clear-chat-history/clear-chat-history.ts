@@ -1,17 +1,24 @@
-import { getSelectedChatIdSelector } from 'app/store/chats/selectors';
-import { HTTPStatusCode } from 'app/common/http-status-code';
-import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+import produce from 'immer';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { HTTPStatusCode } from '../../../../common/http-status-code';
+import { getSelectedChatIdSelector } from '../../selectors';
 import { IClearChatHistoryActionPayload } from './action-payloads/clear-chat-history-action-payload';
 import { ClearChatHistorySuccess } from './clear-chat-history-success';
 import { IClearChatHistoryApiRequest } from './api-requests/clear-chat-history-api-request';
+import { IChatsState } from '../../chats-state';
 
 export class ClearChatHistory {
   static get action() {
     return createAction('CLEAR_CHAT_HISTORY')<IClearChatHistoryActionPayload>();
+  }
+
+  // TODO: handle loading
+  static get reducer() {
+    return produce((draft: IChatsState) => draft);
   }
 
   static get saga() {

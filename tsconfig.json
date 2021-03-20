@@ -18,12 +18,18 @@
     "lib": ["es6", "es7", "dom"],
     "baseUrl": "src",
     "paths": {
-      "app/*": ["./app/*"],
+      "@app/*": ["./app/*"],
       "icons/*": ["./app/assets/icons/*"],
-      "store/*": ["./app/store/*"],
-      "sounds/*": ["./app/assets/sounds/*"],
-      "utils/*": ["./app/utils/*"],
-      "components": ["./app/components"]
+      "@store/*": ["./app/store/*"],
+      "@services/*": ["./app/services/*"],
+      "@containers/*": ["./app/containers/*"],
+      "@sounds/*": ["./app/assets/sounds/*"],
+      "@utils/*": ["./app/utils/*"],
+      "@hooks/*": ["./app/hooks/*"],
+      "@routing/*": ["./app/routing/*"],
+      "@contexts": ["./app/contexts"],
+      "@common/*": ["./app/common/*"],
+      "@components": ["./app/components"]
     },
     "allowSyntheticDefaultImports": true
   },

@@ -15,15 +15,15 @@ import {
   SearchTop,
   MessageList,
   NotContact,
-} from 'components';
+  BlockedMessageInput,
+  AddFriend,
+  AddCall,
+} from '@components';
 import { useSelector } from 'react-redux';
-import { amICalledSelector as isCallingMe, amICallingSelector, doIhaveCallSelector } from 'store/calls/selectors';
+import { amICalledSelector as isCallingMe, amICallingSelector, doIhaveCallSelector } from '@store/calls/selectors';
 import { CSSTransition } from 'react-transition-group';
-import { getIsInfoOpenedSelector } from 'store/chats/selectors';
-import { getInternetStateSelector } from 'app/store/internet/selectors';
-import { AddFriend } from 'app/components/messenger-page/friend-list/add-friend/add-friend';
-import { AddCall } from 'app/components/messenger-page/call-list/add-call/add-call';
-import { BlockedMessageInput } from 'app/components/messenger-page/blocked-message-input/blocked-message-input';
+import { getIsInfoOpenedSelector } from '@store/chats/selectors';
+import { getInternetStateSelector } from '@store/internet/selectors';
 
 interface IChatProps {
   preloadNext: () => void;

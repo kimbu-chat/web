@@ -2,9 +2,9 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { getAudioConstraintsSelector, getVideoConstraintsSelector } from 'app/store/calls/selectors';
+import { getAudioConstraintsSelector, getVideoConstraintsSelector } from '../../selectors';
 import { ICallsState } from '../../calls-state';
-import { audioSender, getUserAudio, getUserVideo, tracks, videoSender } from '../../utils/user-media';
+import { getVideoSender, getUserAudio, getUserVideo, tracks, getAudioSender } from '../../utils/user-media';
 import { ISwitchDeviceActionPayload } from './action-payloads/switch-device-action-payload';
 import { InputType } from '../../common/enums/input-type';
 
@@ -31,6 +31,8 @@ export class SwitchDevice {
     return function* switchDeviceSaga(action: ReturnType<typeof SwitchDevice.action>): SagaIterator {
       const videoConstraints = yield select(getVideoConstraintsSelector);
       const audioConstraints = yield select(getAudioConstraintsSelector);
+      const audioSender = getAudioSender();
+      const videoSender = getVideoSender();
 
       if (action.payload.kind === InputType.AudioInput && audioConstraints.isOpened) {
         yield call(getUserAudio, { audio: audioConstraints });

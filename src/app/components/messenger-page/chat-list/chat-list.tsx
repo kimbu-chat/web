@@ -1,10 +1,10 @@
 import React, { useEffect, useCallback } from 'react';
 import './chat-list.scss';
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { useSelector } from 'react-redux';
-import { IChat } from 'store/chats/models';
-import { ChatActions } from 'store/chats/actions';
-import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
+import { IChat } from '@store/chats/models';
+import * as ChatActions from '@store/chats/actions';
+import { InfiniteScroll } from '@components';
 import {
   getChatsSelector,
   getSearchChatsSelector,
@@ -12,7 +12,7 @@ import {
   getHasMoreChatsSelector,
   getSearchStringSelector,
   getSelectedChatIdSelector,
-} from 'app/store/chats/selectors';
+} from '@store/chats/selectors';
 import { useParams } from 'react-router';
 import { ChatFromList } from './chat-item/chat-item';
 

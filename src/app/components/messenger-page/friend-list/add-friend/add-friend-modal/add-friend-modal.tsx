@@ -1,21 +1,19 @@
 import React, { useCallback, useContext, useState } from 'react';
-import AddContactSvg from 'icons/add-users.svg';
+import AddContactSvg from '@icons/add-users.svg';
 import './add-friend-modal.scss';
-import { LocalizationContext } from 'app/app';
-import { WithBackground, Modal } from 'app/components';
-import { PhoneInputGroup } from 'app/components/messenger-page/shared/phone-input-group/phone-input-group';
-import { GetUserByPhone } from 'app/store/friends/features/get-user-by-phone/get-user-by-phone';
-import { IUser } from 'app/store/common/models';
-import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
-import CloseSvg from 'icons/close-x-bold.svg';
-import { Avatar } from 'app/components/shared';
-import { getUserInitials } from 'app/utils/interlocutor-name-utils';
+import { LocalizationContext } from '@contexts';
+import { WithBackground, Modal, Avatar, PhoneInputGroup } from '@components';
+import { GetUserByPhone } from '@store/friends/features/get-user-by-phone/get-user-by-phone';
+import { IUser } from '@store/common/models';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import CloseSvg from '@icons/close-x-bold.svg';
+import { getUserInitials } from '@utils/interlocutor-name-utils';
 import { parsePhoneNumber } from 'libphonenumber-js';
 import { Link } from 'react-router-dom';
-import { ChatId } from 'app/store/chats/chat-id';
-import { AddFriend } from 'app/store/friends/features/add-friend/add-friend';
+import { ChatId } from '@store/chats/chat-id';
+import { AddFriend } from '@store/friends/features/add-friend/add-friend';
 import { useSelector } from 'react-redux';
-import { isFriend } from 'app/store/friends/selectors';
+import { isFriend } from '@store/friends/selectors';
 
 interface IAddFriendModalProps {
   onClose: () => void;

@@ -1,11 +1,11 @@
-import { IPage } from 'app/store/common/models';
-import { FriendActions } from 'store/friends/actions';
-import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
+import { IPage } from '@store/common/models';
+import * as FriendActions from '@store/friends/actions';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { getMyFriendsSelector, getHasMoreFriendsSelector, getFriendsLoadingSelector } from 'app/store/friends/selectors';
-import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
-import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
+import { getMyFriendsSelector, getHasMoreFriendsSelector, getFriendsLoadingSelector } from '@store/friends/selectors';
+import { InfiniteScroll } from '@components';
+import { FRIENDS_LIMIT } from '@utils/pagination-limits';
 import './friend-list.scss';
 import { Friend } from './friend-from-list/friend';
 

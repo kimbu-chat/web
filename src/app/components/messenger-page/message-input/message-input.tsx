@@ -1,11 +1,11 @@
-import { LocalizationContext } from 'app/app';
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { containsFiles, useGlobalDrop } from 'app/hooks/use-global-drop';
-import { useOnClickOutside } from 'app/hooks/use-on-click-outside';
-import { useReferState } from 'app/hooks/use-referred-state';
-import { CreateMessage } from 'app/store/chats/features/create-message/create-message';
-import { MessageTyping } from 'app/store/chats/features/message-typing/message-typing';
-import { UploadAttachmentRequest } from 'app/store/chats/features/upload-attachment/upload-attachment-request';
+import { LocalizationContext } from '@contexts';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { containsFiles, useGlobalDrop } from '@hooks/use-global-drop';
+import { useOnClickOutside } from '@hooks/use-on-click-outside';
+import { useReferState } from '@hooks/use-referred-state';
+import { CreateMessage } from '@store/chats/features/create-message/create-message';
+import { MessageTyping } from '@store/chats/features/message-typing/message-typing';
+import { UploadAttachmentRequest } from '@store/chats/features/upload-attachment/upload-attachment-request';
 import {
   SystemMessageType,
   MessageState,
@@ -15,29 +15,29 @@ import {
   IAttachmentCreation,
   IAttachmentToSend,
   IBaseAttachment,
-} from 'app/store/chats/models';
-import { getMessageToReplySelector, getSelectedChatSelector, getMessageToEditSelector } from 'app/store/chats/selectors';
-import { myProfileSelector } from 'app/store/my-profile/selectors';
-import { getTypingStrategySelector } from 'app/store/settings/selectors';
-import { getFileType } from 'app/utils/get-file-extension';
+} from '@store/chats/models';
+import { getMessageToReplySelector, getSelectedChatSelector, getMessageToEditSelector } from '@store/chats/selectors';
+import { myProfileSelector } from '@store/my-profile/selectors';
+import { getTypingStrategySelector } from '@store/settings/selectors';
+import { getFileType } from '@utils/get-file-extension';
 import moment from 'moment';
 import Mousetrap from 'mousetrap';
 import React, { useContext, useState, useRef, useEffect, useCallback, lazy, Suspense } from 'react';
 import { useSelector } from 'react-redux';
 import useInterval from 'use-interval';
 import { throttle } from 'lodash';
-import { TypingStrategy } from 'app/store/settings/features/models';
-import { loadMessageSmiles } from 'app/routing/module-loader';
-import { CubeLoader } from 'app/containers/cube-loader/cube-loader';
+import { TypingStrategy } from '@store/settings/features/models';
+import { loadMessageSmiles } from '@routing/module-loader';
+import { CubeLoader } from '@containers/cube-loader/cube-loader';
 
-import AddSvg from 'icons/add-attachment.svg';
-import VoiceSvg from 'icons/voice.svg';
-import CrayonSvg from 'icons/crayon.svg';
-import SendSvg from 'icons/send.svg';
-import CloseSvg from 'icons/close.svg';
+import AddSvg from '@icons/add-attachment.svg';
+import VoiceSvg from '@icons/voice.svg';
+import CrayonSvg from '@icons/crayon.svg';
+import SendSvg from '@icons/send.svg';
+import CloseSvg from '@icons/close.svg';
 
-import { SubmitEditMessage } from 'app/store/chats/features/edit-message/submit-edit-message';
-import { RemoveAllAttachments } from 'app/store/chats/features/remove-attachment/remove-all-attachments';
+import { SubmitEditMessage } from '@store/chats/features/edit-message/submit-edit-message';
+import { RemoveAllAttachments } from '@store/chats/features/remove-attachment/remove-all-attachments';
 import { RespondingMessage } from './responding-message/responding-message';
 import { ExpandingTextarea } from './expanding-textarea/expanding-textarea';
 import { MessageInputAttachment } from './message-input-attachment/message-input-attachment';

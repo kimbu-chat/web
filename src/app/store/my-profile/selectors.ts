@@ -1,5 +1,5 @@
+import { RootState } from 'typesafe-actions';
 import { IUser } from '../common/models';
-import { RootState } from '../root-reducer';
 
 export const myIdSelector = (state: RootState): number | undefined => state.myProfile.user?.id;
 

@@ -1,8 +1,8 @@
-import { getChatByIdDraftSelector } from 'store/chats/selectors';
-import { ChatId } from 'store/chats/chat-id';
-import { IUserEditedIntegrationEvent } from 'app/store/chats/socket-events/user-edited/action-payloads/user-edited-integration-event';
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
+import { IUserEditedIntegrationEvent } from './action-payloads/user-edited-integration-event';
+import { ChatId } from '../../chat-id';
+import { getChatByIdDraftSelector } from '../../selectors';
 import { IChatsState } from '../../chats-state';
 
 export class UserEditedEventHandler {

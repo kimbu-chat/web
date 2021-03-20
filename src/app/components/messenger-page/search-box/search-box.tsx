@@ -1,6 +1,6 @@
 import React from 'react';
 import './search-box.scss';
-import SearchSvg from 'icons/search.svg';
+import SearchSvg from '@icons/search.svg';
 
 interface ISearchBoxProps extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;

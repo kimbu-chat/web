@@ -14,7 +14,7 @@ export class ChatMutedStatusChangedEventHandler {
 
       draft.chats.map((chat) => {
         if (chatIds.includes(chat.id)) {
-          chat.isMuted = isMuted;
+          return { ...chat, isMuted };
         }
 
         return chat;

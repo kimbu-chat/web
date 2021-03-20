@@ -1,12 +1,12 @@
-import { authRequestFactory, HttpRequestMethod } from 'app/store/common/http';
-import { IUser } from 'app/store/common/models';
-import { GetMyProfileSuccess } from 'app/store/my-profile/features/get-my-profile/get-my-profile-success';
 import { AxiosResponse } from 'axios';
-import jwt_decode from 'jwt-decode';
+import jwtDecode from 'jwt-decode';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { AppInit } from 'app/store/initiation/features/app-init/app-init';
+import { authRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { AppInit } from '@store/initiation/features/app-init/app-init';
+import { IUser } from '@store/common/models';
+import { GetMyProfileSuccess } from '@store/my-profile/features/get-my-profile/get-my-profile-success';
 import { ILoginApiRequest } from './api-requests/login-api-request';
 import { ILoginApiResponse } from './api-requests/login-api-response';
 import { ILoginActionPayload } from './action-payloads/login-action-payload';
@@ -20,12 +20,12 @@ export class Login {
   }
 
   static get saga() {
-    return function* (action: ReturnType<typeof Login.action>): SagaIterator {
+    return function* login(action: ReturnType<typeof Login.action>): SagaIterator {
       const loginHttpRequest = Login.httpRequest;
 
       const { data } = loginHttpRequest.call(yield call(() => loginHttpRequest.generator(action.payload)));
 
-      const userProfile: IUser = JSON.parse(jwt_decode<ICustomJwtPayload>(data.accessToken).profile);
+      const userProfile: IUser = JSON.parse(jwtDecode<ICustomJwtPayload>(data.accessToken).profile);
 
       yield put(GetMyProfileSuccess.action(userProfile));
       yield put(LoginSuccess.action(data));

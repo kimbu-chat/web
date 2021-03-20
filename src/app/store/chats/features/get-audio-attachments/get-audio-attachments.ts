@@ -1,12 +1,11 @@
-import { HTTPStatusCode } from 'app/common/http-status-code';
-import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
-
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { getChatByIdDraftSelector, getSelectedChatIdSelector } from 'app/store/chats/selectors';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { getChatByIdDraftSelector, getSelectedChatIdSelector } from '../../selectors';
+import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { IAudioAttachment } from '../../models';
 import { IGetAudioAttachmentsActionPayload } from './action-payloads/get-audio-attachments-action-payload';
 import { GetAudioAttachmentsSuccess } from './get-audio-attachments-success';
@@ -33,7 +32,7 @@ export class GetAudioAttachments {
   }
 
   static get saga() {
-    return function* (action: ReturnType<typeof GetAudioAttachments.action>): SagaIterator {
+    return function* getAudioAttachments(action: ReturnType<typeof GetAudioAttachments.action>): SagaIterator {
       const { page } = action.payload;
 
       const chatId = yield select(getSelectedChatIdSelector);

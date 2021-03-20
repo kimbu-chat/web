@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from 'react';
-import PlaySvg from 'icons/play.svg';
+import PlaySvg from '@icons/play.svg';
 import moment from 'moment';
-import { FadeAnimationWrapper, MediaModal } from 'components';
-import { IGroupable, IVideoAttachment } from 'store/chats/models';
-import { doesYearDifferFromCurrent } from 'app/utils/set-separators';
+import { FadeAnimationWrapper, MediaModal } from '@components';
+import { IGroupable, IVideoAttachment } from '@store/chats/models';
+import { doesYearDifferFromCurrent } from '@utils/set-separators';
 
 interface IVideoFromListProps {
   video: IVideoAttachment & IGroupable;

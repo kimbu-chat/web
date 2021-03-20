@@ -1,10 +1,10 @@
-import { HTTPStatusCode } from 'app/common/http-status-code';
-import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import produce from 'immer';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { ICall } from '../../common/models';
 import { IGetCallsActionPayload } from './action-payloads/get-calls-action-payload';
 import { GetCallsSuccess } from './get-calls-success';
@@ -23,7 +23,7 @@ export class GetCalls {
   }
 
   static get saga() {
-    return function* (action: ReturnType<typeof GetCalls.action>): SagaIterator {
+    return function* getCalls(action: ReturnType<typeof GetCalls.action>): SagaIterator {
       const { page } = action.payload;
 
       const { httpRequest } = GetCalls;

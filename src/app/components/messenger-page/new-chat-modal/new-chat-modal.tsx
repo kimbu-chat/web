@@ -1,25 +1,24 @@
-import { Modal, WithBackground } from 'components';
+import { Modal, WithBackground, InfiniteScroll, SearchBox } from '@components';
 import React, { useCallback, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import './new-chat-modal.scss';
-import { FriendActions } from 'store/friends/actions';
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { LocalizationContext } from 'app/app';
-import { IUser, IPage } from 'app/store/common/models';
+import * as FriendActions from '@store/friends/actions';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { LocalizationContext } from '@contexts';
+import { IUser, IPage } from '@store/common/models';
 import { useHistory } from 'react-router';
 
-import ArrowSvg from 'icons/arrow-v.svg';
-import GroupSvg from 'icons/group.svg';
-import NewMessageSvg from 'icons/create-chat.svg';
+import ArrowSvg from '@icons/arrow-v.svg';
+import GroupSvg from '@icons/group.svg';
+import NewMessageSvg from '@icons/create-chat.svg';
 
-import { ChatActions } from 'app/store/chats/actions';
-import { getFriendsLoadingSelector, getHasMoreFriendsSelector, getMyFriendsSelector } from 'app/store/friends/selectors';
+import * as ChatActions from '@store/chats/actions';
+import { getFriendsLoadingSelector, getHasMoreFriendsSelector, getMyFriendsSelector } from '@store/friends/selectors';
 
-import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
-import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
-import { ChatId } from 'app/store/chats/chat-id';
-import { SearchBox } from 'app/components';
-import { IChat } from 'app/store/chats/models';
+import { FRIENDS_LIMIT } from '@utils/pagination-limits';
+import { ChatId } from '@store/chats/chat-id';
+
+import { IChat } from '@store/chats/models';
 import { SelectEntity } from '../shared/select-entity/select-entity';
 
 interface INewChatModalProps {

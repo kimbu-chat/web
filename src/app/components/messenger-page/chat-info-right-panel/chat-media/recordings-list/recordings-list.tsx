@@ -2,14 +2,14 @@ import React, { useCallback } from 'react';
 import './recordings-list.scss';
 
 import { useSelector } from 'react-redux';
-import { getSelectedChatRecordingsSelector } from 'store/chats/selectors';
-import { ChatActions } from 'store/chats/actions';
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
+import { getSelectedChatRecordingsSelector } from '@store/chats/selectors';
+import * as ChatActions from '@store/chats/actions';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import moment from 'moment';
 
-import { doesYearDifferFromCurrent, setSeparators } from 'app/utils/set-separators';
-import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
-import { VOICE_ATTACHMENTS_LIMIT } from 'app/utils/pagination-limits';
+import { doesYearDifferFromCurrent, setSeparators } from '@utils/set-separators';
+import { InfiniteScroll } from '@components';
+import { VOICE_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 import { Recording } from './recording/recording';
 
 export const RecordingsList = React.memo(() => {

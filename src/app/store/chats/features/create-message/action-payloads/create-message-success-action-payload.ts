@@ -1,5 +1,4 @@
-import { IBaseAttachment } from 'app/store/chats/models';
-import { MessageState } from '../../../models';
+import { MessageState, IBaseAttachment } from '../../../models';
 
 export interface ICreateMessageSuccessActionPayload {
   oldMessageId: number;

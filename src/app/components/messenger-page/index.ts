@@ -22,3 +22,5 @@ export * from './selected-messages-data/selected-messages-data';
 export * from './settings-modal/settings-modal';
 export * from './not-contact/not-contact';
 export * from './blocked-message-input/blocked-message-input';
+export * from './friend-list/add-friend/add-friend';
+export * from './call-list/add-call/add-call';

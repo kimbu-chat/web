@@ -1,9 +1,9 @@
-import { LocalizationContext } from 'app/app';
-import { Avatar } from 'components';
-import { FileType, IAudioAttachment, IBaseAttachment, IPictureAttachment, IRawAttachment, IVideoAttachment, IVoiceAttachment } from 'app/store/chats/models';
-import { IUser } from 'app/store/common/models';
+import { LocalizationContext } from '@contexts';
+import { Avatar } from '@components';
+import { FileType, IAudioAttachment, IBaseAttachment, IPictureAttachment, IRawAttachment, IVideoAttachment, IVoiceAttachment } from '@store/chats/models';
+import { IUser } from '@store/common/models';
 import React, { useContext, useMemo } from 'react';
-import { getUserInitials } from 'app/utils/interlocutor-name-utils';
+import { getUserInitials } from '@utils/interlocutor-name-utils';
 import { MessageAudioAttachment } from '../../shared/audio-attachment/audio-attachment';
 import { FileAttachment } from '../../shared/file-attachment/file-attachment';
 import { MediaGrid } from '../attachments/media-grid/media-grid';

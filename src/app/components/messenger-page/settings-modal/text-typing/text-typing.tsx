@@ -1,10 +1,11 @@
-import { LocalizationContext } from 'app/app';
-import { SettingsActions } from 'store/settings/actions';
-import { getTypingStrategySelector } from 'store/settings/selectors';
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
+import { LocalizationContext } from '@contexts';
+import * as SettingsActions from '@store/settings/actions';
+
+import { getTypingStrategySelector } from '@store/settings/selectors';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import React, { useCallback, useContext } from 'react';
 import { useSelector } from 'react-redux';
-import { TypingStrategy } from 'app/store/settings/features/models';
+import { TypingStrategy } from '@store/settings/features/models';
 import { RadioBox } from '../shared/radio-box/radio-box';
 import './text-typing.scss';
 

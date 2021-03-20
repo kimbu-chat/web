@@ -3,8 +3,8 @@ import React from 'react';
 
 import './modal.scss';
 
-import CloseSVG from 'icons/close.svg';
-import { stopPropagation } from 'app/utils/stop-propagation';
+import CloseSVG from '@icons/close.svg';
+import { stopPropagation } from '@utils/stop-propagation';
 
 interface IModalProps {
   title: string | JSX.Element;

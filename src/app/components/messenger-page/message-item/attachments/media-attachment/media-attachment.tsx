@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from 'react';
 import './media-attachment.scss';
 
-import { FadeAnimationWrapper, MediaModal } from 'components';
-import { FileType, IPictureAttachment, IVideoAttachment } from 'store/chats/models';
-import PlaySvg from 'icons/play.svg';
+import { FadeAnimationWrapper, MediaModal } from '@components';
+import { FileType, IPictureAttachment, IVideoAttachment } from '@store/chats/models';
+import PlaySvg from '@icons/play.svg';
 import moment from 'moment';
 
 interface IMessageMediaAttachmentProps {

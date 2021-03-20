@@ -1,5 +1,5 @@
 import { createReducer } from 'typesafe-actions';
-import { MyProfileService } from 'app/services/my-profile-service';
+import { MyProfileService } from '../../services/my-profile-service';
 import { GetMyProfileSuccess } from './features/get-my-profile/get-my-profile-success';
 import { UpdateMyProfileSuccess } from './features/update-my-profile/update-my-profile-success';
 import { UserEditedEventHandler } from './socket-events/user-edited-event-handler';

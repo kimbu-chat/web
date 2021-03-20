@@ -4,21 +4,21 @@ import { NavLink } from 'react-router-dom';
 import moment from 'moment';
 
 import './chat-item.scss';
-import { IChat, IMessage, MessageLinkType, MessageState, SystemMessageType } from 'store/chats/models';
-import { MessageUtils } from 'app/utils/message-utils';
+import { IChat, IMessage, MessageLinkType, MessageState, SystemMessageType } from '@store/chats/models';
+import { MessageUtils } from '@utils/message-utils';
 
-import { StatusBadge, Avatar } from 'components';
-import { LocalizationContext } from 'app/app';
-import { myIdSelector } from 'store/my-profile/selectors';
+import { StatusBadge, Avatar } from '@components';
+import { LocalizationContext } from '@contexts';
+import { myIdSelector } from '@store/my-profile/selectors';
 import truncate from 'lodash/truncate';
 
-import MessageQeuedSvg from 'icons/message-queued.svg';
-import MessageSentSvg from 'icons/message-sent.svg';
-import MessageReadSvg from 'icons/message-read.svg';
-import MessageErrorSvg from 'icons/message-error.svg';
+import MessageQeuedSvg from '@icons/message-queued.svg';
+import MessageSentSvg from '@icons/message-sent.svg';
+import MessageReadSvg from '@icons/message-read.svg';
+import MessageErrorSvg from '@icons/message-error.svg';
 
-import { getTypingStringSelector } from 'store/chats/selectors';
-import { getChatInterlocutor, getInterlocutorInitials } from 'utils/interlocutor-name-utils';
+import { getTypingStringSelector } from '@store/chats/selectors';
+import { getChatInterlocutor, getInterlocutorInitials } from '@utils/interlocutor-name-utils';
 import { isEqual } from 'lodash';
 
 interface IChatItemProps {

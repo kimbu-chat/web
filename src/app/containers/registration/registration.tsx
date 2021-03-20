@@ -1,18 +1,18 @@
-import { Register } from 'app/store/auth/features/register/register';
-import { getStringInitials } from 'app/utils/interlocutor-name-utils';
-import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
+import { Register } from '@store/auth/features/register/register';
+import { getStringInitials } from '@utils/interlocutor-name-utils';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
-import CloseSVG from 'icons/ic-close.svg';
-import { LocalizationContext } from 'app/app';
-import { authLoadingSelector } from 'app/store/auth/selectors';
+import CloseSVG from '@icons/ic-close.svg';
+import { LocalizationContext } from '@contexts';
+import { authLoadingSelector } from '@store/auth/selectors';
 import { useSelector } from 'react-redux';
-import { CheckNicknameAvailability } from 'app/store/my-profile/features/check-nickname-availability/check-nickname-availability';
-import { CancelAvatarUploading } from 'app/store/my-profile/features/cancel-avatar-uploading/cancel-avatar-uploading';
-import { UploadAvatar } from 'app/store/my-profile/features/upload-avatar/upload-avatar';
-import { validateNickname } from 'app/utils/validate-nick-name';
-import { Avatar, BaseBtn, PhotoEditor, CircularProgress } from 'components';
-import { IAvatarSelectedData, IAvatar } from 'app/store/common/models';
+import { CheckNicknameAvailability } from '@store/my-profile/features/check-nickname-availability/check-nickname-availability';
+import { CancelAvatarUploading } from '@store/my-profile/features/cancel-avatar-uploading/cancel-avatar-uploading';
+import { UploadAvatar } from '@store/my-profile/features/upload-avatar/upload-avatar';
+import { validateNickname } from '@utils/validate-nick-name';
+import { Avatar, BaseBtn, PhotoEditor, CircularProgress } from '@components';
+import { IAvatarSelectedData, IAvatar } from '@store/common/models';
 
 interface IRegistrationProps {
   preloadNext: () => void;

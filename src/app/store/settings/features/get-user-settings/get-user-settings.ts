@@ -1,7 +1,8 @@
-import { SettingsService } from 'app/services/settings-service';
 import { SagaIterator } from 'redux-saga';
 import { put } from 'redux-saga/effects';
-import { createEmptyAction } from 'store/common/actions';
+import { SettingsService } from '@services/settings-service';
+import { createEmptyAction } from '@store/common/actions';
+
 import { GetUserSettingsSuccess } from './get-user-settings-success';
 
 export class GetUserSettings {
@@ -10,7 +11,7 @@ export class GetUserSettings {
   }
 
   static get saga() {
-    return function* (): SagaIterator {
+    return function* userSettings(): SagaIterator {
       const savedSettings = new SettingsService().settings;
       yield put(GetUserSettingsSuccess.action(savedSettings));
     };

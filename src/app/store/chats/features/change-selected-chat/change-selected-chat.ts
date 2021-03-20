@@ -1,14 +1,13 @@
-import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
-
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { getChatByIdSelector, getChatByIdDraftSelector, getIsFirstChatsLoadSelector } from 'app/store/chats/selectors';
-import { getFriendByIdSelector } from 'app/store/friends/selectors';
-import { IUser } from 'app/store/common/models';
-import { MESSAGES_LIMIT } from 'app/utils/pagination-limits';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { getChatByIdSelector, getChatByIdDraftSelector, getIsFirstChatsLoadSelector } from '../../selectors';
+import { getFriendByIdSelector } from '../../../friends/selectors';
+import { IUser } from '../../../common/models';
+import { MESSAGES_LIMIT } from '../../../../utils/pagination-limits';
 import { IChat, InterlocutorType, MessageState } from '../../models';
 import { GetChatsSuccess } from '../get-chats/get-chats-success';
 import { IChangeSelectedChatActionPayload } from './action-payloads/change-selected-chat-action-payload';
@@ -40,10 +39,7 @@ export class ChangeSelectedChat {
         }
 
         if (chat && draft.selectedMessageIds.length > 0) {
-          draft.messages[oldChatId].messages.map((message) => {
-            message.isSelected = false;
-            return message;
-          });
+          draft.messages[oldChatId].messages.map((message) => ({ ...message, isSelected: false }));
         }
       }
 
@@ -118,7 +114,7 @@ export class ChangeSelectedChat {
 
             if (data || user) {
               const requestedChat: IChat = {
-                id: chatIdDetails!.id,
+                id: chatIdDetails.id,
                 draftMessage: '',
                 lastMessage: data?.lastMessage,
                 isMuted: data?.isMuted || false,

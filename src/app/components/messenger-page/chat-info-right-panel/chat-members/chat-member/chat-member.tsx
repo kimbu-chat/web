@@ -2,12 +2,11 @@ import React, { useContext } from 'react';
 
 import './chat-member.scss';
 
-import { IUser, UserStatus } from 'app/store/common/models';
-import { LocalizationContext } from 'app/app';
+import { IUser, UserStatus } from '@store/common/models';
+import { LocalizationContext } from '@contexts';
 
-import DeleteSvg from 'icons/delete.svg';
-import { TimeUpdateable } from 'app/components/shared/time-updateable/time-updateable';
-import { StatusBadge } from 'app/components/shared';
+import DeleteSvg from '@icons/delete.svg';
+import { StatusBadge, TimeUpdateable } from '@components';
 
 interface IMemberProps {
   member: IUser;

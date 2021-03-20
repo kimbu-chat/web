@@ -1,5 +1,5 @@
-import { IBaseAttachment, SystemMessageType } from 'store/chats/models';
-import { IUser } from 'app/store/common/models';
+import { IBaseAttachment, SystemMessageType } from '../../models';
+import { IUser } from '../../../common/models';
 import { MessageLinkType } from '../../models/linked-message-type';
 
 export interface IMessageCreatedIntegrationEvent {

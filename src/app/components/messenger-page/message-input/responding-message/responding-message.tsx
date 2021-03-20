@@ -1,15 +1,15 @@
 import React from 'react';
 import './responding-message.scss';
 
-import CloseSvg from 'icons/close.svg';
-import ReplySvg from 'icons/reply.svg';
+import CloseSvg from '@icons/close.svg';
+import ReplySvg from '@icons/reply.svg';
 import { useSelector } from 'react-redux';
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { getMessageToReplySelector } from 'app/store/chats/selectors';
-import { ResetReplyToMessage } from 'app/store/chats/features/reply-to-message/reset-reply-to-message';
-import { Avatar } from 'app/components';
-import { getUserInitials } from 'app/utils/interlocutor-name-utils';
-import { myIdSelector } from 'app/store/my-profile/selectors';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { getMessageToReplySelector } from '@store/chats/selectors';
+import { ResetReplyToMessage } from '@store/chats/features/reply-to-message/reset-reply-to-message';
+import { Avatar } from '@components';
+import { getUserInitials } from '@utils/interlocutor-name-utils';
+import { myIdSelector } from '@store/my-profile/selectors';
 
 export const RespondingMessage = React.memo(() => {
   const replyingMessage = useSelector(getMessageToReplySelector);

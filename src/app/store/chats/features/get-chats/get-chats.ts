@@ -1,11 +1,11 @@
-import { CHATS_LIMIT } from 'app/utils/pagination-limits';
-import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { IPage } from 'app/store/common/models';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { IPage } from '../../../common/models';
+import { CHATS_LIMIT } from '../../../../utils/pagination-limits';
 import { ChatId } from '../../chat-id';
 import { IChat, InterlocutorType, MessageState } from '../../models';
 import { IGetChatsActionPayload } from './action-payloads/get-chats-action-payload';
@@ -45,7 +45,7 @@ export class GetChats {
   }
 
   static get saga() {
-    return function* (action: ReturnType<typeof GetChats.action>): SagaIterator {
+    return function* getChats(action: ReturnType<typeof GetChats.action>): SagaIterator {
       const chatsRequestData = action.payload;
 
       const { name, showOnlyHidden, showAll, initializedByScroll } = action.payload;
@@ -69,35 +69,38 @@ export class GetChats {
       };
 
       const { data }: AxiosResponse<IChat[]> = GetChats.httpRequest.call(yield call(() => GetChats.httpRequest.generator(request)));
-      data.forEach((chat: IChat) => {
-        if (chat.lastMessage) {
-          chat.lastMessage.state =
-            chat.interlocutorLastReadMessageId && chat.interlocutorLastReadMessageId >= Number(chat?.lastMessage?.id)
+      const newData = data.map((chat: IChat) => {
+        const newChat = { ...chat };
+        if (newChat.lastMessage) {
+          newChat.lastMessage.state =
+            newChat.interlocutorLastReadMessageId && newChat.interlocutorLastReadMessageId >= Number(newChat?.lastMessage?.id)
               ? (MessageState.READ as MessageState)
               : (MessageState.SENT as MessageState);
         }
 
-        chat.interlocutorType = ChatId.fromId(chat.id).interlocutorType;
-        chat.typingInterlocutors = [];
-        chat.photos = { photos: [], loading: false, hasMore: true };
-        chat.videos = { videos: [], loading: false, hasMore: true };
-        chat.files = { files: [], loading: false, hasMore: true };
-        chat.audios = { audios: [], loading: false, hasMore: true };
-        chat.draftMessage = '';
-        chat.recordings = {
+        newChat.interlocutorType = ChatId.fromId(newChat.id).interlocutorType;
+        newChat.typingInterlocutors = [];
+        newChat.photos = { photos: [], loading: false, hasMore: true };
+        newChat.videos = { videos: [], loading: false, hasMore: true };
+        newChat.files = { files: [], loading: false, hasMore: true };
+        newChat.audios = { audios: [], loading: false, hasMore: true };
+        newChat.draftMessage = '';
+        newChat.recordings = {
           hasMore: true,
           loading: false,
           recordings: [],
         };
 
-        if (chat.interlocutorType === InterlocutorType.GroupChat) {
-          chat.members = { members: [], loading: false, hasMore: true };
+        if (newChat.interlocutorType === InterlocutorType.GroupChat) {
+          newChat.members = { members: [], loading: false, hasMore: true };
         }
+
+        return newChat;
       });
 
       const chatList: IGetChatsSuccessActionPayload = {
-        chats: data,
-        hasMore: data.length >= CHATS_LIMIT,
+        chats: newData,
+        hasMore: newData.length >= CHATS_LIMIT,
         initializedByScroll: chatsRequestData.initializedByScroll,
       };
 

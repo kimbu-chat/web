@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { createEmptyAction } from 'store/common/actions';
+import { createEmptyAction } from '@store/common/actions';
 import { IAuthState } from '../../auth-state';
 
 export class RefreshTokenFailure {
@@ -18,9 +18,8 @@ export class RefreshTokenFailure {
   }
 
   static get saga() {
-    return function* (): SagaIterator {
+    return function* refreshTokenFailure(): SagaIterator {
       localStorage.clear();
-      // eslint-disable-next-line no-restricted-globals
       window.location.reload();
     };
   }

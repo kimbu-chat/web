@@ -1,10 +1,9 @@
-import { getSelectedChatSelector } from 'store/chats/selectors';
-import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
-
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
-import { createEmptyAction } from 'app/store/common/actions';
+import { createEmptyAction } from '@store/common/actions';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { getSelectedChatSelector } from '../../selectors';
 import { MarkMessagesAsReadSuccess } from './mark-messages-as-read-success';
 import { IMarkMessagesAsReadApiRequest } from './api-requests/mark-messages-as-read-api-request';
 import { IChat } from '../../models';
@@ -15,13 +14,13 @@ export class MarkMessagesAsRead {
   }
 
   static get saga() {
-    return function* (): SagaIterator {
+    return function* markMessagesAsRead(): SagaIterator {
       const chat: IChat | undefined = yield select(getSelectedChatSelector);
       const chatId = chat?.id;
       const lastReadMessageId = chat?.lastMessage?.id;
 
       if (lastReadMessageId && chatId) {
-        MarkMessagesAsRead.httpRequest.call(yield call(() => MarkMessagesAsRead.httpRequest.generator({ chatId, lastReadMessageId })));
+        yield call(() => MarkMessagesAsRead.httpRequest.generator({ chatId, lastReadMessageId }));
 
         yield put(MarkMessagesAsReadSuccess.action({ chatId, lastReadMessageId }));
       }

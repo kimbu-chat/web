@@ -1,5 +1,5 @@
-import { countryList } from 'app/common/countries';
-import { ICountry } from 'app/common/country';
+import { countryList } from '@common/countries';
+import { ICountry } from '@common/country';
 import React, { useCallback, useRef, useState } from 'react';
 import { CountrySelect } from './country-select/country-select';
 import './phone-input-group.scss';

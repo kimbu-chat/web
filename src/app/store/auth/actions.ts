@@ -10,16 +10,15 @@ import { SendSmsCode } from './features/send-sms-code/send-sms-code';
 import { SendSmsCodeFailure } from './features/send-sms-code/send-sms-code-failure';
 import { SendSmsCodeSuccess } from './features/send-sms-code/send-sms-code-success';
 
-export namespace AuthActions {
-  export const loginSuccess = LoginSuccess.action;
-  export const refreshToken = RefreshToken.action;
-  export const refreshTokenSuccess = RefreshTokenSuccess.action;
-  export const sendSmsCode = SendSmsCode.action;
-  export const sendSmsCodeFailure = SendSmsCodeFailure.action;
-  export const sendSmsCodeSuccess = SendSmsCodeSuccess.action;
-  export const confirmPhone = ConfirmPhone.action;
-  export const confirmPhoneSuccess = ConfirmPhoneSuccess.action;
-  export const confirmPhoneFailure = ConfirmPhoneFailure.action;
-  export const logout = Logout.action;
-  export const register = Register.action;
-}
+// AuthActions
+export const loginSuccess = LoginSuccess.action;
+export const refreshToken = RefreshToken.action;
+export const refreshTokenSuccess = RefreshTokenSuccess.action;
+export const sendSmsCode = SendSmsCode.action;
+export const sendSmsCodeFailure = SendSmsCodeFailure.action;
+export const sendSmsCodeSuccess = SendSmsCodeSuccess.action;
+export const confirmPhone = ConfirmPhone.action;
+export const confirmPhoneSuccess = ConfirmPhoneSuccess.action;
+export const confirmPhoneFailure = ConfirmPhoneFailure.action;
+export const logout = Logout.action;
+export const register = Register.action;

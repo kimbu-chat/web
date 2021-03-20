@@ -1,13 +1,13 @@
 import React, { useState, useCallback, useContext, useEffect } from 'react';
 
-import CloseSVG from 'icons/close.svg';
-import ArrowSvg from 'icons/arrow.svg';
+import CloseSVG from '@icons/close.svg';
+import ArrowSvg from '@icons/arrow.svg';
 
 import './media-modal.scss';
-import { FileType, IPictureAttachment, IVideoAttachment } from 'app/store/chats/models';
-import { BackgroundBlur } from 'app/components';
-import { stopPropagation } from 'app/utils/stop-propagation';
-import { LocalizationContext } from 'app/app';
+import { FileType, IPictureAttachment, IVideoAttachment } from '@store/chats/models';
+import { BackgroundBlur } from '@components';
+import { stopPropagation } from '@utils/stop-propagation';
+import { LocalizationContext } from '@contexts';
 
 import Mousetrap from 'mousetrap';
 

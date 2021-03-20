@@ -1,7 +1,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import moment from 'moment';
-import { SettingsService } from 'app/services/settings-service';
+import { SettingsService } from '@services/settings-service';
 import en from './en.json';
 import ru from './ru.json';
 

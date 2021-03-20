@@ -1,4 +1,4 @@
-import { IPictureAttachment, IVideoAttachment } from 'store/chats/models';
+import { IPictureAttachment, IVideoAttachment } from '@store/chats/models';
 import React from 'react';
 import './media-grid.scss';
 import { MessageMediaAttachment } from '../media-attachment/media-attachment';

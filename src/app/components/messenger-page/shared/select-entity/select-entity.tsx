@@ -1,14 +1,13 @@
 import React, { useCallback } from 'react';
 import './select-entity.scss';
 
-import { Avatar, StatusBadge } from 'components';
-import { getInterlocutorInitials } from 'app/utils/interlocutor-name-utils';
+import { Avatar, StatusBadge, TimeUpdateable } from '@components';
+import { getInterlocutorInitials } from '@utils/interlocutor-name-utils';
 
-import SelectedSvg from 'icons/checked.svg';
-import UnSelectedSvg from 'icons/unchecked.svg';
-import { IChat } from 'store/chats/models';
-import { TimeUpdateable } from 'app/components/shared/time-updateable/time-updateable';
-import { IUser } from 'app/store/common/models';
+import SelectedSvg from '@icons/checked.svg';
+import UnSelectedSvg from '@icons/unchecked.svg';
+import { IChat } from '@store/chats/models';
+import { IUser } from '@store/common/models';
 
 interface ISelectEntityProps {
   changeSelectedState?: (id: number) => void;

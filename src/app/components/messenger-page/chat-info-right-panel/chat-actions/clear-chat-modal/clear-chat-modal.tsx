@@ -1,14 +1,14 @@
-import { LocalizationContext } from 'app/app';
-import { Modal, WithBackground } from 'components';
-import { getSelectedGroupChatNameSelector } from 'store/chats/selectors';
+import { LocalizationContext } from '@contexts';
+import { Modal, WithBackground } from '@components';
+import { getSelectedGroupChatNameSelector } from '@store/chats/selectors';
 import React, { useCallback, useContext, useState } from 'react';
 import './clear-chat-modal.scss';
-import CheckedSvg from 'icons/checked.svg';
-import UncheckedSvg from 'icons/unchecked.svg';
-import ClearSvg from 'icons/clear.svg';
+import CheckedSvg from '@icons/checked.svg';
+import UncheckedSvg from '@icons/unchecked.svg';
+import ClearSvg from '@icons/clear.svg';
 import { useSelector } from 'react-redux';
-import { ClearChatHistory } from 'app/store/chats/features/clear-chat-history/clear-chat-history';
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
+import { ClearChatHistory } from '@store/chats/features/clear-chat-history/clear-chat-history';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 
 interface IClearChatModalProps {
   hide: () => void;

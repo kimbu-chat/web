@@ -1,14 +1,14 @@
-import { FadeAnimationWrapper } from 'app/components';
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { EditMessage } from 'app/store/chats/features/edit-message/edit-message';
-import { ReplyToMessage } from 'app/store/chats/features/reply-to-message/reply-to-message';
+import { FadeAnimationWrapper } from '@components';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { EditMessage } from '@store/chats/features/edit-message/edit-message';
+import { ReplyToMessage } from '@store/chats/features/reply-to-message/reply-to-message';
 import React, { useCallback, useState } from 'react';
 import './message-item-actions.scss';
 
-import ForwardSvg from 'icons/forward.svg';
-import EditSVG from 'icons/edit.svg';
-import DeleteSVG from 'icons/delete.svg';
-import ReplySVG from 'icons/reply.svg';
+import ForwardSvg from '@icons/forward.svg';
+import EditSVG from '@icons/edit.svg';
+import DeleteSVG from '@icons/delete.svg';
+import ReplySVG from '@icons/reply.svg';
 
 import { DeleteMessageModal } from '../../selected-messages-data/delete-message-modal/delete-message-modal';
 import { ForwardModal } from '../../forward-modal/forward-modal';

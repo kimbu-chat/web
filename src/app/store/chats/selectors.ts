@@ -1,6 +1,6 @@
 import { TFunction } from 'i18next';
+import { RootState } from 'typesafe-actions';
 import { IMessage } from './models/message';
-import { RootState } from '../root-reducer';
 import { IAttachmentToSend } from './models/attachment-to-send';
 import { IBaseAttachment } from './models/attachments/base-attachment';
 import { IChat } from './models/chat';
@@ -34,10 +34,8 @@ export const getSelectedGroupChatNameSelector = (state: RootState) =>
 export const getSelectedChatUnreadMessagesCountSelector = (state: RootState): number | undefined =>
   state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.unreadMessagesCount;
 
-export const getSelectedChatAttachmentsToSendSelector = (state: RootState): IAttachmentToSend<IBaseAttachment>[] | undefined => {
-  console.log(state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId));
-  return state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.attachmentsToSend;
-};
+export const getSelectedChatAttachmentsToSendSelector = (state: RootState): IAttachmentToSend<IBaseAttachment>[] | undefined =>
+  state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.attachmentsToSend;
 
 export const getIsFirstChatsLoadSelector = (state: RootState): boolean =>
   (typeof state.chats.loading === 'undefined' || state.chats.loading === true) && state.chats.chats.length === 0;

@@ -1,8 +1,8 @@
 import React from 'react';
-import { getUserInitials } from 'app/utils/interlocutor-name-utils';
-import { IUser, UserStatus } from 'app/store/common/models';
+import { getUserInitials } from '@utils/interlocutor-name-utils';
+import { IUser, UserStatus } from '@store/common/models';
 
-import { Avatar } from 'app/components';
+import { Avatar } from '@components';
 
 import './status-badge.scss';
 

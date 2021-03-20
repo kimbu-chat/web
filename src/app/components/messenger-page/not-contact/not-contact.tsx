@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import './not-contact.scss';
 
-import ContactSvg from 'icons/user-o.svg';
-import CloseSvg from 'icons/close.svg';
-import { LocalizationContext } from 'app/app';
+import ContactSvg from '@icons/user-o.svg';
+import CloseSvg from '@icons/close.svg';
+import { LocalizationContext } from '@contexts';
 
 export const NotContact = () => {
   const { t } = useContext(LocalizationContext);

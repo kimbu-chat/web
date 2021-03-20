@@ -1,12 +1,12 @@
 import React, { useCallback, useState } from 'react';
 import './search-top.scss';
 
-import CreateChatSvg from 'icons/create-chat.svg';
+import CreateChatSvg from '@icons/create-chat.svg';
 
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { ChatActions } from 'store/chats/actions';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import * as ChatActions from '@store/chats/actions';
 
-import { FadeAnimationWrapper, CreateGroupChat, NewChatModal, SearchBox } from 'components';
+import { FadeAnimationWrapper, CreateGroupChat, NewChatModal, SearchBox } from '@components';
 
 interface ISearchTopProps {
   searchFor: 'friends' | 'chats' | 'calls';

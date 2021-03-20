@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { getChatExistsDraftSelector } from 'app/store/chats/selectors';
+import { getChatExistsDraftSelector } from '../../selectors';
 import { ChatId } from '../../chat-id';
 import { IChat, InterlocutorType } from '../../models';
 import { ICreateChatActionPayload } from './action-payloads/create-chat-action-payload';

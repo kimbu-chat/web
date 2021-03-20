@@ -1,11 +1,10 @@
-import { createEmptyAction } from 'app/store/common/actions';
-import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
-import { resetPeerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
-
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
-import { getCallInterlocutorIdSelector } from 'app/store/calls/selectors';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { createEmptyAction } from '@store/common/actions';
+import { resetPeerConnection } from '@store/middlewares/webRTC/reset-peer-connection';
+import { getCallInterlocutorIdSelector } from '@store/calls/selectors';
 import { CancelCallSuccess } from '../cancel-call/cancel-call-success';
 
 export class TimeoutCall {
@@ -21,7 +20,7 @@ export class TimeoutCall {
         interlocutorId,
       };
 
-      TimeoutCall.httpRequest.call(yield call(() => TimeoutCall.httpRequest.generator(request)));
+      yield call(() => TimeoutCall.httpRequest.generator(request));
 
       resetPeerConnection();
 

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import './message-error.scss';
-import BulbSvg from 'icons/bulb.svg';
-import { LocalizationContext } from 'app/app';
+import BulbSvg from '@icons/bulb.svg';
+import { LocalizationContext } from '@contexts';
 
 export const MessageError = () => {
   const { t } = useContext(LocalizationContext);

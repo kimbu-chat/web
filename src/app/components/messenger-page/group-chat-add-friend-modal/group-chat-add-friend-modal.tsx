@@ -1,18 +1,18 @@
-import { Modal, WithBackground } from 'components';
+import { Modal, WithBackground, InfiniteScroll, SearchBox } from '@components';
 import React, { useCallback, useContext, useState } from 'react';
 
 import { useSelector } from 'react-redux';
 import './group-chat-add-friend-modal.scss';
-import { getMemberIdsForSelectedGroupChatSelector } from 'store/chats/selectors';
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { LocalizationContext } from 'app/app';
-import { getFriendsLoadingSelector, getHasMoreFriendsSelector, getMyFriendsSelector } from 'app/store/friends/selectors';
-import { IPage } from 'app/store/common/models';
-import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
-import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
-import { SearchBox } from 'app/components';
-import { AddUsersToGroupChat } from 'app/store/chats/features/add-users-to-group-chat/add-users-to-group-chat';
-import { GetFriends } from 'app/store/friends/features/get-friends/get-friends';
+import { getMemberIdsForSelectedGroupChatSelector } from '@store/chats/selectors';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { LocalizationContext } from '@contexts';
+import { getFriendsLoadingSelector, getHasMoreFriendsSelector, getMyFriendsSelector } from '@store/friends/selectors';
+import { IPage } from '@store/common/models';
+
+import { FRIENDS_LIMIT } from '@utils/pagination-limits';
+
+import { AddUsersToGroupChat } from '@store/chats/features/add-users-to-group-chat/add-users-to-group-chat';
+import { GetFriends } from '@store/friends/features/get-friends/get-friends';
 import { SelectEntity } from '../shared/select-entity/select-entity';
 
 interface IGroupChatAddFriendModalProps {

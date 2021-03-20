@@ -1,10 +1,9 @@
-import { HTTPStatusCode } from 'app/common/http-status-code';
-import { createEmptyAction } from 'app/store/common/actions';
-import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
-
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { createEmptyAction } from '@store/common/actions';
+import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { getSelectedChatIdSelector } from '../../selectors';
 import { IGetChatInfoApiRequest } from './api-requests/get-chat-info-api-request';
 import { IGetChatInfoApiResponse } from './api-requests/get-chat-info-api-response';

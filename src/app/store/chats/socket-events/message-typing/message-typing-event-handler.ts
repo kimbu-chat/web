@@ -1,9 +1,9 @@
 import { delay, put } from 'redux-saga/effects';
-import { InterlocutorType } from 'store/chats/models';
-import { ChatId } from 'store/chats/chat-id';
 import { createAction } from 'typesafe-actions';
 import produce from 'immer';
-import { MyProfileService } from 'app/services/my-profile-service';
+import { InterlocutorType } from '../../models';
+import { ChatId } from '../../chat-id';
+import { MyProfileService } from '../../../../services/my-profile-service';
 import { IIntercolutorMessageTypingIntegrationEvent } from './message-typing-integration-event';
 import { getChatByIdDraftSelector } from '../../selectors';
 import { InterlocutorStoppedTyping } from '../../features/interlocutor-message-typing/interlocutor-stopped-typing';
@@ -42,7 +42,7 @@ export class UserMessageTypingEventHandler {
   }
 
   static get saga() {
-    return function* (action: ReturnType<typeof UserMessageTypingEventHandler.action>) {
+    return function* typingSaga(action: ReturnType<typeof UserMessageTypingEventHandler.action>) {
       yield delay(3000);
       yield put(InterlocutorStoppedTyping.action(action.payload));
     };

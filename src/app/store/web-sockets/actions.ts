@@ -1,5 +1,5 @@
+import { CloseWebsocketConnection } from './features/close-web-socket-connection/close-web-socket-connection';
 import { InitSocketConnection } from './features/init-web-socked-connection/init-web-socket-connection';
 
-export namespace WebSocketActions {
-  export const initSocketConnection = InitSocketConnection.action;
-}
+export const initSocketConnection = InitSocketConnection.action;
+export const closeSocketConnection = CloseWebsocketConnection.action;

@@ -1,4 +1,4 @@
-import { RootState } from '../root-reducer';
+import { RootState } from 'typesafe-actions';
 import { IFriendsState } from './friends-state';
 
 // state-selectors

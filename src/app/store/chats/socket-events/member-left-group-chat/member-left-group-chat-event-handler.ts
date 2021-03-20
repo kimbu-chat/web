@@ -1,6 +1,6 @@
-import { MyProfileService } from 'app/services/my-profile-service';
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
+import { MyProfileService } from '../../../../services/my-profile-service';
 import { ChatId } from '../../chat-id';
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';

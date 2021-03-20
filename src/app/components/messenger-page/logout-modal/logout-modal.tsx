@@ -1,8 +1,8 @@
-import { Modal, WithBackground } from 'components';
+import { Modal, WithBackground } from '@components';
 import React, { useCallback, useContext } from 'react';
-import { LocalizationContext } from 'app/app';
+import { LocalizationContext } from '@contexts';
 import './logout-modal.scss';
-import LogoutSvg from 'icons/logout.svg';
+import LogoutSvg from '@icons/logout.svg';
 
 interface ILogoutModalProps {
   onClose: () => void;

@@ -8,7 +8,7 @@ export const fileDownload = (url: string, fileName: string, onProgress?: (loaded
       onProgress(progressEvent.loaded, progressEvent.total);
     };
   }
-  xhr.onload = function () {
+  xhr.onload = function onLoad() {
     const urlCreator = window.URL || window.webkitURL;
     const imageUrl = urlCreator.createObjectURL(this.response);
     const tag = document.createElement('a');

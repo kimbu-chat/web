@@ -1,21 +1,21 @@
 import React, { useCallback, useRef, useState } from 'react';
 import './edit-chat-modal.scss';
 
-import { Modal, WithBackground, PhotoEditor } from 'components';
+import { Modal, WithBackground, PhotoEditor } from '@components';
 
-import { IGroupChat } from 'store/chats/models';
-import { getSelectedGroupChatSelector } from 'store/chats/selectors';
+import { IGroupChat } from '@store/chats/models';
+import { getSelectedGroupChatSelector } from '@store/chats/selectors';
 import { useSelector } from 'react-redux';
-import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
-import { MyProfileActions } from 'store/my-profile/actions';
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { IEditGroupChatActionPayload } from 'app/store/chats/features/edit-group-chat/action-payloads/edit-group-chat-action-payload';
-import GroupSvg from 'icons/group.svg';
-import PictureSvg from 'icons/picture.svg';
-import TopAvatarLine from 'icons/top-avatar-line.svg';
-import BottomAvatarLine from 'icons/bottom-avatar-line.svg';
-import { IAvatar, IAvatarSelectedData } from 'app/store/common/models';
-import { ChatActions } from 'app/store/chats/actions';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import * as MyProfileActions from '@store/my-profile/actions';
+import { useActionWithDispatch } from '@app/hooks/use-action-with-dispatch';
+import { IEditGroupChatActionPayload } from '@store/chats/features/edit-group-chat/action-payloads/edit-group-chat-action-payload';
+import GroupSvg from '@icons/group.svg';
+import PictureSvg from '@icons/picture.svg';
+import TopAvatarLine from '@icons/top-avatar-line.svg';
+import BottomAvatarLine from '@icons/bottom-avatar-line.svg';
+import { IAvatar, IAvatarSelectedData } from '@store/common/models';
+import * as ChatActions from '@store/chats/actions';
 
 export interface IEditChatModalProps {
   onClose: () => void;

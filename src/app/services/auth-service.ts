@@ -1,5 +1,5 @@
-import { BrowserStorage } from 'app/utils/browser-storage';
-import { ISecurityTokens } from 'app/store/auth/common/models';
+import { BrowserStorage } from '@utils/browser-storage';
+import { ISecurityTokens } from '@store/auth/common/models';
 
 export class AuthService {
   private readonly authentication = 'authentication';

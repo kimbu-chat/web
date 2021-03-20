@@ -1,4 +1,4 @@
-import { IChat } from 'app/store/chats/models/chat';
+import { IChat } from '../../../models/chat';
 
 export interface IGetChatsSuccessActionPayload {
   initializedByScroll: boolean;

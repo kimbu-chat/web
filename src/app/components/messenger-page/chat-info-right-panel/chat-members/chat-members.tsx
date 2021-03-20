@@ -1,14 +1,13 @@
 import React, { useState, useCallback } from 'react';
 import './chat-members.scss';
 import { useSelector } from 'react-redux';
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { ChatActions } from 'store/chats/actions';
-import { getMembersListForSelectedGroupChatSelector } from 'store/chats/selectors';
-import OpenArrowSvg from 'icons/open-arrow.svg';
-import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
-import { IPage } from 'app/store/common/models';
-import { CHAT_MEMBERS_LIMIT } from 'app/utils/pagination-limits';
-import { SearchBox } from 'components';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import * as ChatActions from '@store/chats/actions';
+import { getMembersListForSelectedGroupChatSelector } from '@store/chats/selectors';
+import OpenArrowSvg from '@icons/open-arrow.svg';
+import { InfiniteScroll, SearchBox } from '@components';
+import { IPage } from '@store/common/models';
+import { CHAT_MEMBERS_LIMIT } from '@utils/pagination-limits';
 
 import { Member } from './chat-member/chat-member';
 

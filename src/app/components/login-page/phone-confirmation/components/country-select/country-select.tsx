@@ -4,11 +4,11 @@ import './country-select.scss';
 
 import useAutocomplete, { createFilterOptions } from '@material-ui/lab/useAutocomplete';
 
-import { LocalizationContext } from 'app/app';
+import { LocalizationContext } from '@contexts';
 
-import DownSvg from 'icons/ic-chevron-down.svg';
-import { countryList } from 'app/common/countries';
-import { ICountry } from 'app/common/country';
+import DownSvg from '@icons/ic-chevron-down.svg';
+import { countryList } from '@common/countries';
+import { ICountry } from '@common/country';
 
 interface ICountrySelectProps {
   country?: ICountry;

@@ -1,11 +1,10 @@
-import { createEmptyAction } from 'app/store/common/actions';
-import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
-import { resetPeerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
-
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { createEmptyAction } from '@store/common/actions';
+import { resetPeerConnection } from '../../../middlewares/webRTC/reset-peer-connection';
 import { ICallsState } from '../../calls-state';
 
 export class DeclineCall {

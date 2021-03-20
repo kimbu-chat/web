@@ -1,16 +1,13 @@
 import { produce } from 'immer';
 import { createAction } from 'typesafe-actions';
-import { RootState } from 'store/root-reducer';
+import { CombinedReducerState } from './combined-reducer';
 
 export class UpdateStore {
   static get action() {
-    return createAction('UPDATE_STORE')<RootState>();
+    return createAction('UPDATE_STORE')<CombinedReducerState>();
   }
 
   static get reducer() {
-    return produce((draft: RootState, { payload }: ReturnType<typeof UpdateStore.action>) => {
-      draft = payload;
-      return draft;
-    });
+    return produce((_, { payload }: ReturnType<typeof UpdateStore.action>) => payload);
   }
 }

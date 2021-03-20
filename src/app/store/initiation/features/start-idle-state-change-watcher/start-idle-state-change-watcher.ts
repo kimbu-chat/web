@@ -1,9 +1,9 @@
-import { Logout } from 'app/store/auth/features/logout/logout';
-import { authenticatedSelector } from 'app/store/auth/selectors';
-import { createEmptyAction } from 'app/store/common/actions';
-import { ChangeUserOnlineStatus } from 'app/store/my-profile/features/change-user-online-status/change-user-online-status';
 import { eventChannel, SagaIterator } from 'redux-saga';
 import { takeEvery, select, put, take, cancel, spawn } from 'redux-saga/effects';
+import { authenticatedSelector } from '@store/auth/selectors';
+import { createEmptyAction } from '@store/common/actions';
+import { Logout } from '../../../auth/features/logout/logout';
+import { ChangeUserOnlineStatus } from '../../../my-profile/features/change-user-online-status/change-user-online-status';
 
 function createVisibilityChannel() {
   return eventChannel((emit) => {
@@ -25,9 +25,9 @@ function createVisibilityChannel() {
   });
 }
 
-function* watcher() {
+function* watcher(): SagaIterator {
   const visibilityChannel = createVisibilityChannel();
-  const visibilityTask = yield takeEvery(visibilityChannel, function* (action: boolean) {
+  const visibilityTask = yield takeEvery(visibilityChannel, function* changeOnlineStatus(action: boolean): SagaIterator {
     yield put(ChangeUserOnlineStatus.action(action));
   });
 

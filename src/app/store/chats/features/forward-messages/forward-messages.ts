@@ -18,9 +18,10 @@ export class ForwardMessages {
   static get reducer() {
     return produce((draft: IChatsState) => {
       if (draft.selectedChatId) {
-        draft.messages[draft.selectedChatId].messages.forEach((message) => {
-          message.isSelected = false;
-        });
+        draft.messages[draft.selectedChatId].messages = draft.messages[draft.selectedChatId].messages.map((message) => ({
+          ...message,
+          isSelected: false,
+        }));
       }
 
       draft.selectedMessageIds = [];
@@ -30,7 +31,7 @@ export class ForwardMessages {
   }
 
   static get saga() {
-    return function* (action: ReturnType<typeof ForwardMessages.action>): SagaIterator {
+    return function* forwardSaga(action: ReturnType<typeof ForwardMessages.action>): SagaIterator {
       const { messageIdsToForward, chatIdsToForward } = action.payload;
 
       const messagesToForward: { messageId: number; serverMessageId: number; chatId: number }[] = [];
@@ -47,7 +48,7 @@ export class ForwardMessages {
             text: '',
             chatId,
             link: {
-              originalMessageId: message.linkedMessageType === MessageLinkType.Forward ? originalMessageId! : messageId,
+              originalMessageId: message.linkedMessageType === MessageLinkType.Forward ? (originalMessageId as number) : messageId,
               type: 'Forward',
             },
           };

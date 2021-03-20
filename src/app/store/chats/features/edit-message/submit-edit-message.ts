@@ -1,13 +1,12 @@
-import { getSelectedChatIdSelector } from 'store/chats/selectors';
-import { HTTPStatusCode } from 'app/common/http-status-code';
-import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
-
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { getChatByIdDraftSelector } from '../../selectors';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { HTTPStatusCode } from '../../../../common/http-status-code';
+import { getSelectedChatIdSelector, getChatByIdDraftSelector } from '../../selectors';
+
 import { ISumbitEditMessageActionPayload } from './action-payloads/submit-edit-message-action-payload';
 import { SubmitEditMessageSuccess } from './sumbit-edit-message-success';
 import { ISubmitEditMessageApiRequest } from './api-requests/submit-edit-message-api-request';
@@ -28,7 +27,7 @@ export class SubmitEditMessage {
           chat.attachmentsToSend = [];
 
           if (chat.lastMessage?.id === chat?.messageToEdit.id) {
-            chat.lastMessage!.text = text;
+            chat.lastMessage.text = text;
           }
 
           chat.messageToEdit = undefined;
@@ -40,7 +39,7 @@ export class SubmitEditMessage {
   }
 
   static get saga() {
-    return function* (action: ReturnType<typeof SubmitEditMessage.action>): SagaIterator {
+    return function* submitEditMessage(action: ReturnType<typeof SubmitEditMessage.action>): SagaIterator {
       const { removedAttachments, newAttachments, text, messageId } = action.payload;
       const chatId = yield select(getSelectedChatIdSelector);
 
@@ -54,7 +53,15 @@ export class SubmitEditMessage {
       const { status } = SubmitEditMessage.httpRequest.call(yield call(() => SubmitEditMessage.httpRequest.generator(editRequest)));
 
       if (status === HTTPStatusCode.OK) {
-        yield put(SubmitEditMessageSuccess.action({ text, messageId, removedAttachments, newAttachments, chatId }));
+        yield put(
+          SubmitEditMessageSuccess.action({
+            text,
+            messageId,
+            removedAttachments,
+            newAttachments,
+            chatId,
+          }),
+        );
       }
     };
   }

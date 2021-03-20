@@ -1,25 +1,25 @@
 import React, { useCallback, useContext, useState } from 'react';
 import './chat-actions.scss';
-import { IUser } from 'app/store/common/models';
-import { IChat } from 'store/chats/models';
+import { IUser } from '@store/common/models';
+import { IChat } from '@store/chats/models';
 import { useSelector } from 'react-redux';
-import { getMemberIdsForSelectedGroupChatSelector, getSelectedChatSelector } from 'store/chats/selectors';
-import { LocalizationContext } from 'app/app';
-import { ChatActions as SelectedChatActions } from 'store/chats/actions';
+import { getMemberIdsForSelectedGroupChatSelector, getSelectedChatSelector } from '@store/chats/selectors';
+import { LocalizationContext } from '@contexts';
+import * as SelectedChatActions from '@store/chats/actions';
 
-import MuteSvg from 'icons/mute.svg';
-import UnmuteSvg from 'icons/unmute.svg';
-import ClearSvg from 'icons/clear.svg';
-import DeleteSvg from 'icons/delete-contact.svg';
-import LeaveSvg from 'icons/leave.svg';
-import AddUsersSvg from 'icons/add-users.svg';
+import MuteSvg from '@icons/mute.svg';
+import UnmuteSvg from '@icons/unmute.svg';
+import ClearSvg from '@icons/clear.svg';
+import DeleteSvg from '@icons/delete-contact.svg';
+import LeaveSvg from '@icons/leave.svg';
+import AddUsersSvg from '@icons/add-users.svg';
 
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { FriendActions } from 'store/friends/actions';
-import { CreateGroupChat, FadeAnimationWrapper } from 'components';
-import PeopleSvg from 'icons/ic-group.svg';
-import { getMyFriendsSelector } from 'app/store/friends/selectors';
-import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import * as FriendActions from '@store/friends/actions';
+import { CreateGroupChat, FadeAnimationWrapper } from '@components';
+import PeopleSvg from '@icons/ic-group.svg';
+import { getMyFriendsSelector } from '@store/friends/selectors';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { DeleteChatModal } from './delete-chat-modal/delete-chat-modal';
 import { ClearChatModal } from './clear-chat-modal/clear-chat-modal';
 

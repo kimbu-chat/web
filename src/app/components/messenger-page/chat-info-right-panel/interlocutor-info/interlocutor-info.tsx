@@ -1,15 +1,15 @@
 import React, { useCallback, useState } from 'react';
 import './interlocutor-info.scss';
 
-import PhoneSvg from 'icons/phone-chat-info.svg';
-import EditSvg from 'icons/crayon.svg';
-import DogSvg from 'icons/@.svg';
+import PhoneSvg from '@icons/phone-chat-info.svg';
+import EditSvg from '@icons/crayon.svg';
+import DogSvg from '@icons/@.svg';
 
 import { useSelector } from 'react-redux';
-import { getSelectedChatIdSelector, getSelectedInterlocutorSelector, getSelectedGroupChatSelector } from 'store/chats/selectors';
+import { getSelectedChatIdSelector, getSelectedInterlocutorSelector, getSelectedGroupChatSelector } from '@store/chats/selectors';
 import { parsePhoneNumber } from 'libphonenumber-js';
 import { Link } from 'react-router-dom';
-import { FadeAnimationWrapper } from 'app/components';
+import { FadeAnimationWrapper } from '@components';
 import { EditChatModal } from '../../edit-chat-modal/edit-chat-modal';
 
 export const InterlocutorInfo = React.memo(() => {

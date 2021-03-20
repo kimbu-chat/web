@@ -1,10 +1,10 @@
-import { LocalizationContext } from 'app/app';
-import { BaseBtn } from 'app/components';
+import { LocalizationContext } from '@contexts';
+import { BaseBtn } from '@components';
 import React, { useContext, useState } from 'react';
 import ReactDOM from 'react-dom';
-import NotificationSvg from 'icons/ic-notifications-on.svg';
-import InfoSvg from 'icons/ic-info.svg';
-import TextSvg from 'icons/ic-text-typing.svg';
+import NotificationSvg from '@icons/ic-notifications-on.svg';
+import InfoSvg from '@icons/ic-info.svg';
+import TextSvg from '@icons/ic-text-typing.svg';
 import { EditProfile } from './edit-profile/edit-profile';
 import { LanguageSettings } from './language-settings/language-settings';
 import { NotificationsSettings } from './notifications-settings/notifications-settings';

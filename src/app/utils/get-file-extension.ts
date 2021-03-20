@@ -1,4 +1,4 @@
-import { FileType } from 'app/store/chats/models';
+import { FileType } from '../store/chats/models';
 
 export const getFileType = (fileName: string): FileType => {
   const imgRegex = new RegExp(/\.+(jpg|jpeg|gif|tiff|png)$/, 'i');

@@ -1,7 +1,7 @@
-import { MyProfileService } from 'app/services/my-profile-service';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { createAction } from 'typesafe-actions';
+import { MyProfileService } from '../../../../services/my-profile-service';
 import { IMyProfileState } from '../../my-profile-state';
 import { IGetMyProfileSuccessActionPayload } from './action-payloads/get-my-profile-success-action-payload';
 
@@ -18,8 +18,9 @@ export class GetMyProfileSuccess {
   }
 
   static get saga() {
-    return function* (action: ReturnType<typeof GetMyProfileSuccess.action>): SagaIterator {
-      new MyProfileService().setMyProfile(action.payload);
+    return function* getMyProfileSuccess(action: ReturnType<typeof GetMyProfileSuccess.action>): SagaIterator {
+      const myProfileService = new MyProfileService();
+      myProfileService.setMyProfile(action.payload);
     };
   }
 }

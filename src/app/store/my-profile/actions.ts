@@ -8,14 +8,12 @@ import { UpdateMyProfileSuccess } from './features/update-my-profile/update-my-p
 import { UploadAvatar } from './features/upload-avatar/upload-avatar';
 import { UserEditedEventHandler } from './socket-events/user-edited-event-handler';
 
-export namespace MyProfileActions {
-  export const updateMyProfileAction = UpdateMyProfile.action;
-  export const updateMyProfileSuccessAction = UpdateMyProfileSuccess.action;
-  export const checkNicknameAvailabilityAction = CheckNicknameAvailability.action;
-  export const getMyProfileAction = GetMyProfile.action;
-  export const getMyProfileSuccessAction = GetMyProfileSuccess.action;
-  export const changeUserOnlineStatusAction = ChangeUserOnlineStatus.action;
-  export const uploadAvatarRequestAction = UploadAvatar.action;
-  export const cancelAvatarUploadingRequestAction = CancelAvatarUploading.action;
-  export const userEditedEventHandler = UserEditedEventHandler.action;
-}
+export const updateMyProfileAction = UpdateMyProfile.action;
+export const updateMyProfileSuccessAction = UpdateMyProfileSuccess.action;
+export const checkNicknameAvailabilityAction = CheckNicknameAvailability.action;
+export const getMyProfileAction = GetMyProfile.action;
+export const getMyProfileSuccessAction = GetMyProfileSuccess.action;
+export const changeUserOnlineStatusAction = ChangeUserOnlineStatus.action;
+export const uploadAvatarRequestAction = UploadAvatar.action;
+export const cancelAvatarUploadingRequestAction = CancelAvatarUploading.action;
+export const userEditedEventHandler = UserEditedEventHandler.action;

@@ -1,4 +1,5 @@
 import { createReducer } from 'typesafe-actions';
+
 import { ChangeLanguage } from './features/change-language/change-language';
 import { ChangeNotificationSoundState } from './features/change-notification-sound-state/change-notification-sound-state';
 import { ChangeTypingStrategy } from './features/change-typing-strategy/change-typing-strategy';

@@ -1,16 +1,15 @@
-import { Modal, WithBackground } from 'components';
+import { Modal, WithBackground, InfiniteScroll, SearchBox } from '@components';
 import React, { useCallback, useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { LocalizationContext } from 'app/app';
-import { ChatActions } from 'store/chats/actions';
-import { getChatsSelector, getHasMoreChatsSelector, getChatsLoadingSelector, getSearchChatsSelector, getSearchStringSelector } from 'app/store/chats/selectors';
-import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
-import { SearchBox } from 'app/components';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { LocalizationContext } from '@contexts';
+import * as ChatActions from '@store/chats/actions';
+import { getChatsSelector, getHasMoreChatsSelector, getChatsLoadingSelector, getSearchChatsSelector, getSearchStringSelector } from '@store/chats/selectors';
+
 import './forward-modal.scss';
-import { ForwardMessages } from 'app/store/chats/features/forward-messages/forward-messages';
-import { IChat } from 'app/store/chats/models';
-import ForwardSvg from 'icons/forward.svg';
+import { ForwardMessages } from '@store/chats/features/forward-messages/forward-messages';
+import { IChat } from '@store/chats/models';
+import ForwardSvg from '@icons/forward.svg';
 import { SelectEntity } from '../shared/select-entity/select-entity';
 
 interface IForwardModalProps {

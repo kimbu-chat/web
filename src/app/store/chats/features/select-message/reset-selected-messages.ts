@@ -10,9 +10,10 @@ export class ResetSelectedMessages {
   static get reducer() {
     return produce((draft: IChatsState) => {
       if (draft.selectedChatId) {
-        draft.messages[draft.selectedChatId].messages.forEach((message) => {
-          message.isSelected = false;
-        });
+        draft.messages[draft.selectedChatId].messages = draft.messages[draft.selectedChatId].messages.map((message) => ({
+          ...message,
+          isSelected: false,
+        }));
       }
 
       draft.selectedMessageIds = [];

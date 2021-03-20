@@ -1,17 +1,16 @@
 import React, { useCallback } from 'react';
 import './file-list.scss';
 
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { useSelector } from 'react-redux';
-import { ChatActions } from 'store/chats/actions';
-import { getSelectedChatFilesSelector } from 'store/chats/selectors';
-import { IPage } from 'app/store/common/models';
+import * as ChatActions from '@store/chats/actions';
+import { getSelectedChatFilesSelector } from '@store/chats/selectors';
+import { IPage } from '@store/common/models';
 import moment from 'moment';
 
-import { doesYearDifferFromCurrent, setSeparators } from 'app/utils/set-separators';
-import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
-import { FILE_ATTACHMENTS_LIMIT } from 'app/utils/pagination-limits';
-import { FileAttachment } from 'components';
+import { doesYearDifferFromCurrent, setSeparators } from '@utils/set-separators';
+import { InfiniteScroll, FileAttachment } from '@components';
+import { FILE_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 
 export const FileList = React.memo(() => {
   const getRawAttachments = useActionWithDispatch(ChatActions.getRawAttachments);

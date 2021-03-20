@@ -1,13 +1,13 @@
-import { Modal, WithBackground } from 'components';
+import { Modal, WithBackground } from '@components';
 import React, { useCallback, useContext, useState } from 'react';
 
-import CheckedSvg from 'icons/checked.svg';
-import UncheckedSvg from 'icons/unchecked.svg';
-import DeleteSvg from 'icons/delete.svg';
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { LocalizationContext } from 'app/app';
+import CheckedSvg from '@icons/checked.svg';
+import UncheckedSvg from '@icons/unchecked.svg';
+import DeleteSvg from '@icons/delete.svg';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { LocalizationContext } from '@contexts';
 import './delete-message-modal.scss';
-import { DeleteMessage } from 'app/store/chats/features/delete-message/delete-message';
+import { DeleteMessage } from '@store/chats/features/delete-message/delete-message';
 
 interface IDeleteMessageModalProps {
   onClose: () => void;

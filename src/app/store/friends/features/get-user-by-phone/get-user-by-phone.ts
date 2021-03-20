@@ -1,7 +1,6 @@
-import { Meta } from 'app/store/common/actions';
-import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
-import { IUser } from 'app/store/common/models';
-
+import { Meta } from '@store/common/actions';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { IUser } from '@store/common/models';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
@@ -14,7 +13,7 @@ export class GetUserByPhone {
   }
 
   static get saga() {
-    return function* (action: ReturnType<typeof GetUserByPhone.action>): SagaIterator {
+    return function* GetUserByPhoneSaga(action: ReturnType<typeof GetUserByPhone.action>): SagaIterator {
       const { phone } = action.payload;
 
       try {

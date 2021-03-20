@@ -1,18 +1,18 @@
-import { Avatar, BaseBtn, PhotoEditor } from 'components';
-import { myProfileSelector } from 'store/my-profile/selectors';
-import { getUserInitials } from 'app/utils/interlocutor-name-utils';
+import { Avatar, BaseBtn, PhotoEditor } from '@components';
+import { myProfileSelector } from '@store/my-profile/selectors';
+import { getUserInitials } from '@utils/interlocutor-name-utils';
 import React, { useCallback, useContext, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import './edit-profile.scss';
-import CloseSVG from 'icons/ic-close.svg';
-import ValidSvg from 'icons/ic-check-filled.svg';
-import InValidSvg from 'icons/ic-dismiss.svg';
-import { MyProfileActions } from 'store/my-profile/actions';
-import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
+import CloseSVG from '@icons/ic-close.svg';
+import ValidSvg from '@icons/ic-check-filled.svg';
+import InValidSvg from '@icons/ic-dismiss.svg';
+import * as MyProfileActions from '@store/my-profile/actions';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 
-import { LocalizationContext } from 'app/app';
-import { IAvatarSelectedData, IAvatar } from 'app/store/common/models';
-import { validateNickname } from 'app/utils/validate-nick-name';
+import { LocalizationContext } from '@contexts';
+import { IAvatarSelectedData, IAvatar } from '@store/common/models';
+import { validateNickname } from '@utils/validate-nick-name';
 
 export const EditProfile = React.memo(() => {
   const { t } = useContext(LocalizationContext);

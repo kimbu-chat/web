@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import BlockedSvg from 'icons/blocked.svg';
+import BlockedSvg from '@icons/blocked.svg';
 import './blocked-message-input.scss';
-import { LocalizationContext } from 'app/app';
+import { LocalizationContext } from '@contexts';
 
 export const BlockedMessageInput = () => {
   const { t } = useContext(LocalizationContext);

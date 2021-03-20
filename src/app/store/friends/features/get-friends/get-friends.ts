@@ -1,11 +1,10 @@
-import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
-import { IUser } from 'app/store/common/models';
-
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { IUser } from '../../../common/models';
 import { IFriendsState } from '../../friends-state';
 import { IGetFriendsActionPayload } from './action-payloads/get-friends-action-payload';
 import { IGetFriendsApiRequest } from './api-requests/get-friends-api-request';
@@ -24,7 +23,7 @@ export class GetFriends {
   }
 
   static get saga() {
-    return function* (action: ReturnType<typeof GetFriends.action>): SagaIterator {
+    return function* getFriends(action: ReturnType<typeof GetFriends.action>): SagaIterator {
       const { name, initializedBySearch, page } = action.payload;
       const request = GetFriends.httpRequest;
       const { data } = request.call(yield call(() => request.generator(action.payload)));

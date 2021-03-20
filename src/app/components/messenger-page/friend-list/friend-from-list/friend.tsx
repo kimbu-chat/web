@@ -1,12 +1,11 @@
-import { LocalizationContext } from 'app/app';
-import { ChatId } from 'store/chats/chat-id';
-import { IUser, UserStatus } from 'app/store/common/models';
+import { LocalizationContext } from '@contexts';
+import { ChatId } from '@store/chats/chat-id';
+import { IUser, UserStatus } from '@store/common/models';
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
 import './friend.scss';
-import { TimeUpdateable } from 'app/components/shared/time-updateable/time-updateable';
-import { StatusBadge } from 'app/components';
+import { StatusBadge, TimeUpdateable } from '@components';
 
 interface IFriendProps {
   friend: IUser;

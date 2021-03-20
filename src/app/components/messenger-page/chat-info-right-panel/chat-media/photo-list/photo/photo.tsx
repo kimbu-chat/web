@@ -1,6 +1,6 @@
-import { MediaModal, FadeAnimationWrapper } from 'components';
-import { IGroupable, IPictureAttachment } from 'store/chats/models';
-import { doesYearDifferFromCurrent } from 'app/utils/set-separators';
+import { MediaModal, FadeAnimationWrapper } from '@components';
+import { IGroupable, IPictureAttachment } from '@store/chats/models';
+import { doesYearDifferFromCurrent } from '@utils/set-separators';
 import moment from 'moment';
 import React, { useCallback, useState } from 'react';
 

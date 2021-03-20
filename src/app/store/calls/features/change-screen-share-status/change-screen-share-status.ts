@@ -1,9 +1,9 @@
-import { createEmptyAction } from 'app/store/common/actions';
-import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import { buffers, END, eventChannel, SagaIterator } from 'redux-saga';
 import { call, cancel, put, race, select, spawn, take, takeEvery } from 'redux-saga/effects';
-import { getIsScreenSharingEnabledSelector } from 'app/store/calls/selectors';
-import { getUserDisplay, setVideoSender, stopScreenSharingTracks, stopVideoTracks, tracks, videoSender } from '../../utils/user-media';
+import { createEmptyAction } from '@store/common/actions';
+import { getIsScreenSharingEnabledSelector } from '../../selectors';
+import { getPeerConnection } from '../../../middlewares/webRTC/peerConnectionFactory';
+import { getUserDisplay, setVideoSender, stopScreenSharingTracks, stopVideoTracks, tracks, getVideoSender } from '../../utils/user-media';
 import { CloseScreenShareStatus } from './close-screen-share-status';
 import { CloseVideoStatus } from '../change-user-media-status/close-video-status';
 import { CallEndedEventHandler } from '../../socket-events/call-ended/call-ended-event-handler';
@@ -35,10 +35,12 @@ export class ChangeScreenShareStatus {
       }, buffers.expanding(100));
     }
 
-    function* trackEndedWatcher() {
+    function* trackEndedWatcher(): SagaIterator {
       const trackEndedChannel = createTrackEndedChannel();
+      const peerConnection = getPeerConnection();
+      const videoSender = getVideoSender();
 
-      const trackEndedTask = yield takeEvery(trackEndedChannel, function* (action) {
+      const trackEndedTask = yield takeEvery(trackEndedChannel, function* closeScreenShare(action) {
         if (action === true) {
           stopScreenSharingTracks();
           yield put(CloseScreenShareStatus.action());
@@ -64,13 +66,15 @@ export class ChangeScreenShareStatus {
       yield cancel(trackEndedTask);
     }
 
-    return function* (): SagaIterator {
+    return function* screenSharing(): SagaIterator {
       const isScreenSharingOpened = !(yield select(getIsScreenSharingEnabledSelector));
+      const peerConnection = getPeerConnection();
+      const videoSender = getVideoSender();
 
       if (isScreenSharingOpened) {
         yield call(getUserDisplay);
 
-        yield call(stopVideoTracks);
+        stopVideoTracks();
         yield put(CloseVideoStatus.action());
 
         if (videoSender) {

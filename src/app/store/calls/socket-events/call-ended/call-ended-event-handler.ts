@@ -1,18 +1,18 @@
-import { getCallInterlocutorSelector, getIsActiveCallIncomingSelector } from 'store/calls/selectors';
-import { resetPeerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
-import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { createAction } from 'typesafe-actions';
-import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
-import { RootState } from 'app/store/root-reducer';
-import { UpdateStore } from 'app/store/update-store';
 import { AxiosResponse } from 'axios';
 import { select, put, call } from 'redux-saga/effects';
 
-import { myIdSelector } from 'store/my-profile/selectors';
+import { httpRequestFactory } from '@store/common/http/http-factory';
+import { HttpRequestMethod } from '@store/common/http/http-request-method';
+import { myIdSelector } from '../../../my-profile/selectors';
+
+import { resetPeerConnection } from '../../../middlewares/webRTC/reset-peer-connection';
+import { getCallInterlocutorSelector, getIsActiveCallIncomingSelector } from '../../selectors';
 import { ICallEndedIntegrationEvent } from './call-ended-integration-event';
 import { ICall } from '../../common/models';
 import { IGetCallByIdApiRequest } from './api-requests/get-call-by-id-api-request';
+import { CallEndedEventHandlerSuccess } from './call-ended-event-handler-success';
 
 export class CallEndedEventHandler {
   static get action() {
@@ -20,7 +20,7 @@ export class CallEndedEventHandler {
   }
 
   static get saga() {
-    return function* (action: ReturnType<typeof CallEndedEventHandler.action>): SagaIterator {
+    return function* callEndedSaga(action: ReturnType<typeof CallEndedEventHandler.action>): SagaIterator {
       const { userInterlocutorId, id, duration, status } = action.payload;
       const interlocutor = yield select(getCallInterlocutorSelector);
 
@@ -46,27 +46,7 @@ export class CallEndedEventHandler {
           activeCall = data;
         }
 
-        const state: RootState = yield select();
-
-        const nextState = produce(state, (draft) => {
-          if (activeCall) {
-            draft.calls.calls.calls.unshift(activeCall);
-          }
-
-          draft.calls.interlocutor = undefined;
-          draft.calls.isInterlocutorBusy = false;
-          draft.calls.amICalling = false;
-          draft.calls.amICalled = false;
-          draft.calls.isSpeaking = false;
-          draft.calls.isInterlocutorVideoEnabled = false;
-          draft.calls.videoConstraints.isOpened = false;
-          draft.calls.videoConstraints.isOpened = false;
-          draft.calls.isScreenSharingOpened = false;
-
-          return draft;
-        });
-
-        yield put(UpdateStore.action(nextState as RootState));
+        yield put(CallEndedEventHandlerSuccess.action(activeCall));
       }
     };
   }

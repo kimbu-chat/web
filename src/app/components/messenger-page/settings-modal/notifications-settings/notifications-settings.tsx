@@ -1,7 +1,7 @@
-import { LocalizationContext } from 'app/app';
-import { SettingsActions } from 'store/settings/actions';
-import { areNotificationsEnabledSelector } from 'store/settings/selectors';
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
+import { LocalizationContext } from '@contexts';
+import * as SettingsActions from '@store/settings/actions';
+import { areNotificationsEnabledSelector } from '@store/settings/selectors';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { CheckBox } from '../shared/check-box/check-box';

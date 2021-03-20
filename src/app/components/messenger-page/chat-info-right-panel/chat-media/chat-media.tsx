@@ -1,14 +1,14 @@
 import React, { useCallback, useContext, useState } from 'react';
 import './chat-media.scss';
 
-import { LocalizationContext } from 'app/app';
+import { LocalizationContext } from '@contexts';
 
-import PictureSvg from 'icons/picture.svg';
-import VideoSvg from 'icons/video.svg';
-import FilesSvg from 'icons/files.svg';
-import VoiceSvg from 'icons/voice.svg';
-import AudioSvg from 'icons/audio.svg';
-import OpenArrowSvg from 'icons/open-arrow.svg';
+import PictureSvg from '@icons/picture.svg';
+import VideoSvg from '@icons/video.svg';
+import FilesSvg from '@icons/files.svg';
+import VoiceSvg from '@icons/voice.svg';
+import AudioSvg from '@icons/audio.svg';
+import OpenArrowSvg from '@icons/open-arrow.svg';
 
 import {
   getPictureAttachmentsCountSelector,
@@ -16,7 +16,7 @@ import {
   getFilesAttachmentsCountSelector,
   getVoiceAttachmentsCountSelector,
   getAudioAttachmentsCountSelector,
-} from 'app/store/chats/selectors';
+} from '@store/chats/selectors';
 
 import { useSelector } from 'react-redux';
 

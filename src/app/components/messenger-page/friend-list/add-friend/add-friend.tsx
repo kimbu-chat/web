@@ -1,8 +1,8 @@
 import React, { useCallback, useContext, useState } from 'react';
-import AddContactSvg from 'icons/add-users.svg';
-import { LocalizationContext } from 'app/app';
+import AddContactSvg from '@icons/add-users.svg';
+import { LocalizationContext } from '@contexts';
 import './add-friend.scss';
-import { FadeAnimationWrapper } from 'app/components';
+import { FadeAnimationWrapper } from '@components';
 import { AddFriendModal } from './add-friend-modal/add-friend-modal';
 
 const AddFriend = () => {

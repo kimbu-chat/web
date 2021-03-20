@@ -1,8 +1,8 @@
 import React, { useEffect, useContext, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import './message-list.scss';
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { LocalizationContext } from 'app/app';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { LocalizationContext } from '@contexts';
 import {
   getIsSelectMessagesStateSelector,
   getMessagesByChatIdSelector,
@@ -11,15 +11,15 @@ import {
   getTypingStringSelector,
   getSelectedChatIdSelector,
   getSelectedChatUnreadMessagesCountSelector,
-} from 'store/chats/selectors';
-import { FadeAnimationWrapper } from 'components';
-import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
-import { MESSAGES_LIMIT } from 'app/utils/pagination-limits';
-import { SelectedMessagesData, MessageItem } from 'app/components';
-import { GetMessages } from 'app/store/chats/features/get-messages/get-messages';
-import { MarkMessagesAsRead } from 'app/store/chats/features/mark-messages-as-read/mark-messages-as-read';
-import { IMessage } from 'app/store/chats/models';
-import { MessageUtils } from 'app/utils/message-utils';
+} from '@store/chats/selectors';
+import { FadeAnimationWrapper, InfiniteScroll, SelectedMessagesData, MessageItem } from '@components';
+
+import { MESSAGES_LIMIT } from '@utils/pagination-limits';
+
+import { GetMessages } from '@store/chats/features/get-messages/get-messages';
+import { MarkMessagesAsRead } from '@store/chats/features/mark-messages-as-read/mark-messages-as-read';
+import { IMessage } from '@store/chats/models';
+import { MessageUtils } from '@utils/message-utils';
 
 const MessageList = React.memo(() => {
   const getMessages = useActionWithDispatch(GetMessages.action);

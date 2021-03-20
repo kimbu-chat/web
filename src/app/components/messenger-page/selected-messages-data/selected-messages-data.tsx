@@ -1,16 +1,16 @@
 import React, { useCallback, useContext, useState } from 'react';
 import './selected-messages-data.scss';
 import { useSelector } from 'react-redux';
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { getSelectedMessagesIdSelector } from 'store/chats/selectors';
-import { LocalizationContext } from 'app/app';
-import CloseSvg from 'icons/close.svg';
-import ForwardSvg from 'icons/forward.svg';
-import DeleteSvg from 'icons/delete.svg';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { getSelectedMessagesIdSelector } from '@store/chats/selectors';
+import { LocalizationContext } from '@contexts';
+import CloseSvg from '@icons/close.svg';
+import ForwardSvg from '@icons/forward.svg';
+import DeleteSvg from '@icons/delete.svg';
 
-import { FadeAnimationWrapper, ForwardModal } from 'components';
-import { CopyMessages } from 'app/store/chats/features/copy-messages/copy-messages';
-import { ResetSelectedMessages } from 'app/store/chats/features/select-message/reset-selected-messages';
+import { FadeAnimationWrapper, ForwardModal } from '@components';
+import { CopyMessages } from '@store/chats/features/copy-messages/copy-messages';
+import { ResetSelectedMessages } from '@store/chats/features/select-message/reset-selected-messages';
 import { DeleteMessageModal } from './delete-message-modal/delete-message-modal';
 
 export const SelectedMessagesData = React.memo(() => {

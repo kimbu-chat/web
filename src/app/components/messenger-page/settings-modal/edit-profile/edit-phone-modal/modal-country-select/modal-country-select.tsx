@@ -1,10 +1,10 @@
 import React, { useContext, useEffect } from 'react';
-import { countryList } from 'app/common/countries';
-import { ICountry } from 'app/common/country';
+import { countryList } from '@common/countries';
+import { ICountry } from '@common/country';
 import './modal-country-select.scss';
 import useAutocomplete, { createFilterOptions } from '@material-ui/lab/useAutocomplete';
-import { LocalizationContext } from 'app/app';
-import DownSvg from 'icons/ic-chevron-down.svg';
+import { LocalizationContext } from '@contexts';
+import DownSvg from '@icons/ic-chevron-down.svg';
 
 interface IModalCountrySelectProps {
   country?: ICountry;

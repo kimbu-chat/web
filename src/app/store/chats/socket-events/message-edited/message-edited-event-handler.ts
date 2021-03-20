@@ -28,14 +28,19 @@ export class MessageEditedEventHandler {
           message.isEdited = true;
         }
 
-        const linkedMessages = draft.messages[chatId].messages.filter(({ linkedMessage }) => linkedMessage?.id === messageId);
-
-        linkedMessages.forEach(({ linkedMessage }) => {
-          if (linkedMessage) {
-            linkedMessage.text = text;
-            linkedMessage.attachments = attachments;
-            linkedMessage.isEdited = true;
+        draft.messages[chatId].messages = draft.messages[chatId].messages.map((msg) => {
+          if (msg.linkedMessage?.id === messageId) {
+            return {
+              ...msg,
+              linkedMessage: {
+                ...msg.linkedMessage,
+                text,
+                attachments,
+                isEdited: true,
+              },
+            };
           }
+          return msg;
         });
 
         if (chat.lastMessage) {

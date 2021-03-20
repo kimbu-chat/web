@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import './audio-attachment.scss';
 
-import PlaySvg from 'icons/play.svg';
-import PauseSvg from 'icons/pause.svg';
+import PlaySvg from '@icons/play.svg';
+import PauseSvg from '@icons/pause.svg';
 import moment from 'moment';
-import { changeMusic } from 'app/utils/current-music';
-import { IAudioAttachment } from 'store/chats/models';
+import { changeMusic } from '@utils/current-music';
+import { IAudioAttachment } from '@store/chats/models';
 import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
 
 interface IMessageAudioAttachmentProps {

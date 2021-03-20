@@ -1,21 +1,20 @@
 import React, { useCallback, useContext } from 'react';
 import { useSelector } from 'react-redux';
-import { getIsInfoOpenedSelector, getSelectedChatSelector } from 'store/chats/selectors';
+import { getIsInfoOpenedSelector, getSelectedChatSelector } from '@store/chats/selectors';
 
 import './chat-top-bar.scss';
-import { LocalizationContext } from 'app/app';
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { CallActions } from 'store/calls/actions';
-import { IUser, UserStatus } from 'app/store/common/models';
-import { Avatar, StatusBadge } from 'components';
+import { LocalizationContext } from '@contexts';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import * as CallActions from '@store/calls/actions';
+import { IUser, UserStatus } from '@store/common/models';
+import { Avatar, StatusBadge, TimeUpdateable } from '@components';
 
-import VoiceCallSvg from 'icons/audio-call.svg';
-import VideoCallSvg from 'icons/video-call.svg';
-import ChatInfoSvg from 'icons/chat-info.svg';
+import VoiceCallSvg from '@icons/audio-call.svg';
+import VideoCallSvg from '@icons/video-call.svg';
+import ChatInfoSvg from '@icons/chat-info.svg';
 
-import { getChatInterlocutor, getInterlocutorInitials } from 'utils/interlocutor-name-utils';
-import { TimeUpdateable } from 'app/components/shared/time-updateable/time-updateable';
-import { ChangeChatInfoOpened } from 'app/store/chats/features/change-chat-info-opened/change-chat-info-opened';
+import { getChatInterlocutor, getInterlocutorInitials } from '@utils/interlocutor-name-utils';
+import { ChangeChatInfoOpened } from '@store/chats/features/change-chat-info-opened/change-chat-info-opened';
 import { MessagesSearch } from './messages-search/messages-search';
 
 export const ChatTopBar = React.memo(() => {

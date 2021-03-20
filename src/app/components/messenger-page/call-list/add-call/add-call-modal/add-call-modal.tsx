@@ -1,19 +1,16 @@
-import { Modal, WithBackground } from 'components';
 import React, { useCallback, useContext } from 'react';
 import { useSelector } from 'react-redux';
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { LocalizationContext } from 'app/app';
-import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
-import { SearchBox } from 'app/components';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { LocalizationContext } from '@contexts';
+import { InfiniteScroll, SelectEntity, SearchBox, WithBackground, Modal } from '@components';
 import './add-call-modal.scss';
-import AddCallSvg from 'icons/add-call.svg';
-import CallSvg from 'icons/call.svg';
-import { IPage } from 'app/store/common/models';
-import { GetFriends } from 'app/store/friends/features/get-friends/get-friends';
-import { getMyFriendsSelector, getHasMoreFriendsSelector, getFriendsLoadingSelector } from 'app/store/friends/selectors';
-import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
-import { SelectEntity } from 'app/components/messenger-page/shared/select-entity/select-entity';
-import { CallActions } from 'app/store/calls/actions';
+import AddCallSvg from '@icons/add-call.svg';
+import CallSvg from '@icons/call.svg';
+import { IPage } from '@store/common/models';
+import { GetFriends } from '@store/friends/features/get-friends/get-friends';
+import { getMyFriendsSelector, getHasMoreFriendsSelector, getFriendsLoadingSelector } from '@store/friends/selectors';
+import { FRIENDS_LIMIT } from '@utils/pagination-limits';
+import * as CallActions from '@store/calls/actions';
 
 interface IAddCallModalProps {
   onClose: () => void;

@@ -1,4 +1,4 @@
-import { createEmptyAction } from 'app/store/common/actions';
+import { createEmptyAction } from '@store/common/actions';
 
 export class CloseWebsocketConnection {
   static get action() {

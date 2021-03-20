@@ -2,15 +2,15 @@ import React, { useState, useCallback, useRef, useContext } from 'react';
 import ReactDOM from 'react-dom';
 import './photo-editor.scss';
 
-import { LocalizationContext } from 'app/app';
+import { LocalizationContext } from '@contexts';
 
-import CloseSVG from 'icons/ic-close.svg';
+import CloseSVG from '@icons/ic-close.svg';
 
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
-import { WithBackground, BaseBtn } from 'components';
-import { stopPropagation } from 'app/utils/stop-propagation';
-import { IAvatarSelectedData } from 'app/store/common/models';
+import { WithBackground, BaseBtn } from '@components';
+import { stopPropagation } from '@utils/stop-propagation';
+import { IAvatarSelectedData } from '@store/common/models';
 
 interface IPhotoEditorProps {
   imageUrl: string;

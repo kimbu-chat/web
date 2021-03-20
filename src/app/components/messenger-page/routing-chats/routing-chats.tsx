@@ -2,17 +2,17 @@ import React, { useCallback, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import './routing-chats.scss';
 
-import ContactSvg from 'icons/contacts.svg';
-import CallSvg from 'icons/calls.svg';
-import ChatsSvg from 'icons/chats.svg';
-import SettingsSvg from 'icons/settings.svg';
-import LogoutSvg from 'icons/logout.svg';
+import ContactSvg from '@icons/contacts.svg';
+import CallSvg from '@icons/calls.svg';
+import ChatsSvg from '@icons/chats.svg';
+import SettingsSvg from '@icons/settings.svg';
+import LogoutSvg from '@icons/logout.svg';
 
-import { getSelectedChatIdSelector } from 'store/chats/selectors';
+import { getSelectedChatIdSelector } from '@store/chats/selectors';
 import { useSelector } from 'react-redux';
-import { myProfilePhotoSelector, myFullNameSelector } from 'app/store/my-profile/selectors';
-import { Avatar, FadeAnimationWrapper, SettingsModal } from 'app/components';
-import { getStringInitials } from 'app/utils/interlocutor-name-utils';
+import { myProfilePhotoSelector, myFullNameSelector } from '@store/my-profile/selectors';
+import { Avatar, FadeAnimationWrapper, SettingsModal } from '@components';
+import { getStringInitials } from '@utils/interlocutor-name-utils';
 import { LogoutModal } from '../logout-modal/logout-modal';
 
 export const RoutingChats = React.memo(() => {

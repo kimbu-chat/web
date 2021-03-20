@@ -1,11 +1,11 @@
-import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { doIhaveCallSelector, getIsActiveCallIncomingSelector } from 'app/store/calls/selectors';
+import { doIhaveCallSelector, getIsActiveCallIncomingSelector } from '../../selectors';
+import { getPeerConnection } from '../../../middlewares/webRTC/peerConnectionFactory';
 import {
-  isSettingRemoteAnswerPending,
-  makingOffer,
+  getIsSettingRemoteAnswerPending,
+  getMakingOffer,
   setIgnoreOffer,
   setIsRenegotiationAccepted,
   setIsSettingRemoteAnswerPending,
@@ -20,6 +20,9 @@ export class RenegotiationAcceptedEventHandler {
   static get saga() {
     return function* renegotiationAcceptedSaga(action: ReturnType<typeof RenegotiationAcceptedEventHandler.action>): SagaIterator {
       const callActive = yield select(doIhaveCallSelector);
+      const peerConnection = getPeerConnection();
+      const isSettingRemoteAnswerPending = getIsSettingRemoteAnswerPending();
+      const makingOffer = getMakingOffer();
 
       if (action.payload.answer && callActive) {
         setIsRenegotiationAccepted(true);
@@ -30,7 +33,7 @@ export class RenegotiationAcceptedEventHandler {
         setIgnoreOffer(!polite && offerCollision);
 
         setIsSettingRemoteAnswerPending(true);
-        yield call(async () => await peerConnection?.setRemoteDescription(action.payload.answer));
+        yield call(async () => peerConnection?.setRemoteDescription(action.payload.answer));
         setIsSettingRemoteAnswerPending(false);
       }
     };

@@ -1,10 +1,11 @@
-import { httpFilesRequestFactory, HttpRequestMethod, IFilesRequestGenerator } from 'app/store/common/http';
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { getChatByIdDraftSelector, getSelectedChatIdSelector } from 'app/store/chats/selectors';
+import { httpFilesRequestFactory, HttpRequestMethod } from '@store/common/http';
+import type { IFilesRequestGenerator } from '@store/common/http';
+import { getChatByIdDraftSelector, getSelectedChatIdSelector } from '../../selectors';
 import { addUploadingAttachment, removeUploadingAttachment } from '../../upload-qeue';
 import { UploadAttachmentFailure } from './upload-attachment-failure';
 import { UploadAttachmentProgress } from './upload-attachment-progress';
@@ -16,7 +17,7 @@ import { IUploadPictureApiResponse } from './api-requests/upload-picture-api-res
 import { IUploadVideoApiResponse } from './api-requests/upload-video-api-response';
 import { IUploadVoiceApiResponse } from './api-requests/upload-voice-api-response';
 import { IAttachmentToSend } from '../../models/attachment-to-send';
-import { IBaseAttachment } from '../../models/attachments/base-attachment';
+import { IBaseAttachment } from '../../models/attachments';
 import { IChatsState } from '../../chats-state';
 import { FileType } from '../../models/file-type';
 
@@ -58,10 +59,10 @@ export class UploadAttachmentRequest {
   }
 
   static get saga() {
-    return function* (action: ReturnType<typeof UploadAttachmentRequest.action>): SagaIterator {
+    return function* uploadAttachmentRequestSaga(action: ReturnType<typeof UploadAttachmentRequest.action>): SagaIterator {
       const chatId = yield select(getSelectedChatIdSelector);
       const { file, type, attachmentId } = action.payload;
-      let uploadRequest: IFilesRequestGenerator<AxiosResponse<any>, any>;
+      let uploadRequest: IFilesRequestGenerator<AxiosResponse, FormData>;
 
       switch (type) {
         case FileType.Audio:
@@ -106,7 +107,6 @@ export class UploadAttachmentRequest {
           },
           *onSuccess(payload: IBaseAttachment): SagaIterator {
             removeUploadingAttachment(attachmentId);
-
             yield put(
               UploadAttachmentSuccess.action({
                 chatId,

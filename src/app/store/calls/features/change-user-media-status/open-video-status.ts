@@ -1,5 +1,5 @@
-import { createEmptyAction } from 'app/store/common/actions';
 import produce from 'immer';
+import { createEmptyAction } from '@store/common/actions';
 import { ICallsState } from '../../calls-state';
 
 export class OpenVideoStatus {

@@ -159,10 +159,13 @@
   },
   "settings": {
     "online": "Online",
-    "edit_profile": "Edit profile",
+    "edit_profile": "Account",
     "notifications": "Notifications",
-    "text_typing": "Text typing",
-    "language": "Language"
+    "text_typing": "Key Bindings",
+    "language": "Language",
+    "appearance": "Appearance",
+    "audio-video": "Audio & Video",
+    "privacy-security": "Privacy & Security"
   },
 
   "textTyping": {

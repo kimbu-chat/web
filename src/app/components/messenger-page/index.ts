@@ -19,7 +19,7 @@ export * from './new-chat-modal/new-chat-modal';
 export * from './routing-chats/routing-chats';
 export * from './search-top/search-top';
 export * from './selected-messages-data/selected-messages-data';
-export * from './settings-modal/settings-modal';
+export * from './settings-modal/settings-navigation';
 export * from './not-contact/not-contact';
 export * from './blocked-message-input/blocked-message-input';
 export * from './friend-list/add-friend/add-friend';

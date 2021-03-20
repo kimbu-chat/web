@@ -18,12 +18,17 @@ import {
   BlockedMessageInput,
   AddFriend,
   AddCall,
+  SettingsNavigation,
 } from '@components';
 import { useSelector } from 'react-redux';
 import { amICalledSelector as isCallingMe, amICallingSelector, doIhaveCallSelector } from '@store/calls/selectors';
 import { CSSTransition } from 'react-transition-group';
 import { getIsInfoOpenedSelector } from '@store/chats/selectors';
 import { getInternetStateSelector } from '@store/internet/selectors';
+import { EditProfile } from '@app/components/messenger-page/settings-modal/edit-profile/edit-profile';
+import { LanguageSettings } from '@app/components/messenger-page/settings-modal/language-settings/language-settings';
+import { NotificationsSettings } from '@app/components/messenger-page/settings-modal/notifications-settings/notifications-settings';
+import { TextTyping } from '@app/components/messenger-page/settings-modal/text-typing/text-typing';
 
 interface IChatProps {
   preloadNext: () => void;
@@ -54,7 +59,7 @@ const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
           <SearchTop searchFor='calls' />
           <CallList />
         </div>
-        <div className='messenger__add-call'>
+        <div className='messenger__main-data'>
           <AddCall />
         </div>
       </Route>
@@ -82,8 +87,31 @@ const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
           <SearchTop searchFor='friends' />
           <FriendList />
         </div>
-        <div className='messenger__add-contact'>
+        <div className='messenger__main-data'>
           <AddFriend />
+        </div>
+      </Route>
+
+      <Route path='/settings/'>
+        <div className='messenger__settings-navigation'>
+          <SettingsNavigation />
+        </div>
+        <div className='messenger__main-data'>
+          <Route path='/settings/profile'>
+            <EditProfile />
+          </Route>
+
+          <Route path='/settings/notifications'>
+            <NotificationsSettings />
+          </Route>
+
+          <Route path='/settings/language'>
+            <LanguageSettings />
+          </Route>
+
+          <Route path='/settings/typing'>
+            <TextTyping />
+          </Route>
         </div>
       </Route>
     </div>

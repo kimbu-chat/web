@@ -161,8 +161,11 @@
     "online": "Онлайн",
     "edit_profile": "Редактировать профиль",
     "notifications": "Уведомления",
-    "text_typing": "Набор текста",
-    "language": "Язык"
+    "text_typing": "Сочетания клавиш",
+    "language": "Язык",
+    "appearance": "Отображение",
+    "audio-video": "Аудио и Видео",
+    "privacy-security": "Конфиденциальность и Безопасность"
   },
   "textTyping": {
     "nlce": "Отправьте сообщение с помощью Enter, вставьте новую строку с помощью Shift / Ctrl / Alt + Enter",

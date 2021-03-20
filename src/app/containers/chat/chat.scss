@@ -13,15 +13,12 @@
     background-color: var(--dark);
   }
 
-  &__add-contact {
-    grid-column: 3/-1;
+  &__settings-navigation {
+    background-color: var(--dark);
     grid-row: 1/-1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
 
-  &__add-call {
+  &__main-data {
     grid-column: 3/-1;
     grid-row: 1/-1;
     display: flex;

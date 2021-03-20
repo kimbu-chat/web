@@ -11,7 +11,7 @@ import LogoutSvg from '@icons/logout.svg';
 import { getSelectedChatIdSelector } from '@store/chats/selectors';
 import { useSelector } from 'react-redux';
 import { myProfilePhotoSelector, myFullNameSelector } from '@store/my-profile/selectors';
-import { Avatar, FadeAnimationWrapper, SettingsModal } from '@components';
+import { Avatar, FadeAnimationWrapper } from '@components';
 import { getStringInitials } from '@utils/interlocutor-name-utils';
 import { LogoutModal } from '../logout-modal/logout-modal';
 
@@ -20,9 +20,6 @@ export const RoutingChats = React.memo(() => {
 
   const myPhoto = useSelector(myProfilePhotoSelector);
   const myName = useSelector(myFullNameSelector);
-
-  const [settingsDisplayed, setSettingsDisplayed] = useState(false);
-  const changeSettingsDisplayedState = useCallback(() => setSettingsDisplayed((oldState) => !oldState), [setSettingsDisplayed]);
 
   const [logoutDisplayed, setLogoutDisplayed] = useState(false);
   const changeLogoutDisplayedState = useCallback(() => setLogoutDisplayed((oldState) => !oldState), [setLogoutDisplayed]);
@@ -49,17 +46,13 @@ export const RoutingChats = React.memo(() => {
         </NavLink>
       </div>
 
-      <button onClick={changeSettingsDisplayedState} type='button' className='routing-chats__link routing-chats__link--settings'>
+      <NavLink to='/settings' type='button' className='routing-chats__link routing-chats__link--settings'>
         <SettingsSvg />
-      </button>
+      </NavLink>
 
       <button onClick={changeLogoutDisplayedState} type='button' className='routing-chats__link routing-chats__link--logout'>
         <LogoutSvg />
       </button>
-
-      <FadeAnimationWrapper isDisplayed={settingsDisplayed}>
-        <SettingsModal />
-      </FadeAnimationWrapper>
 
       <FadeAnimationWrapper isDisplayed={logoutDisplayed}>
         <LogoutModal onClose={changeLogoutDisplayedState} />

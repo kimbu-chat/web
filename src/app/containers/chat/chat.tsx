@@ -66,7 +66,7 @@ const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
         </div>
         <div className='messenger__chat-send'>
           <MessageList />
-          {false ? <CreateMessageInput /> : <BlockedMessageInput />}
+          {true ? <CreateMessageInput /> : <BlockedMessageInput />}
           {false && <NotContact />}
         </div>
         <ChatTopBar />

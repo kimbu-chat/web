@@ -1,13 +1,15 @@
 .notifications-settings {
-  padding: 0 20px;
-  grid-row: 2/3;
-  grid-column: 2/3;
-  z-index: 10;
-  margin-top: 64px;
+  padding: 32px 40px;
 
-  & > * {
-    &:first-child {
-      margin-top: 20px;
-    }
+  &__title {
+    font-weight: normal;
+    font-size: 28px;
+    line-height: 33px;
+    margin-bottom: 40px;
+    color: var(--white);
+  }
+
+  &__entity {
+    margin-top: 32px;
   }
 }

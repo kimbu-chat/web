@@ -173,7 +173,10 @@
     "nle": "Send a message by Shift/Ctrl/Alt + Enter, insert a new line by Enter"
   },
   "notificationsSettings": {
-    "newMessageSound": "New messages sound notification"
+    "title": "Notifications",
+    "desktop-notification": "Desktop notifications",
+    "message-notification": "New messages sound notification",
+    "all-notifications": "Disable all notifications"
   },
   "editProfile": {
     "personal-information": "Personal information",

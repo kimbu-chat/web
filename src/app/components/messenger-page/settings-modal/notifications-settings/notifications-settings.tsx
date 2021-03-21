@@ -15,12 +15,19 @@ export const NotificationsSettings = React.memo(() => {
 
   return (
     <div className='notifications-settings'>
-      <CheckBox
-        nestingLevel={0}
-        onClick={changeSoundNotificationState}
-        isChecked={areSoundNotificationsEnabled}
-        title={t('notificationsSettings.newMessageSound')}
-      />
+      <div className='notifications-settings__title'>{t('notificationsSettings.title')}</div>
+
+      <div className='notifications-settings__entity'>
+        <CheckBox onClick={changeSoundNotificationState} isChecked={areSoundNotificationsEnabled} title={t('notificationsSettings.desktop-notification')} />
+      </div>
+
+      <div className='notifications-settings__entity'>
+        <CheckBox onClick={changeSoundNotificationState} isChecked={areSoundNotificationsEnabled} title={t('notificationsSettings.message-notification')} />
+      </div>
+
+      <div className='notifications-settings__entity'>
+        <CheckBox onClick={changeSoundNotificationState} isChecked={areSoundNotificationsEnabled} title={t('notificationsSettings.all-notifications')} />
+      </div>
     </div>
   );
 });

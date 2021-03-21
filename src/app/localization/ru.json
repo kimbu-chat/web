@@ -172,7 +172,10 @@
     "nle": "Отправьте сообщение с помощью Shift / Ctrl / Alt + Enter, вставьте новую строку с помощью Enter"
   },
   "notificationsSettings": {
-    "newMessageSound": "Звуковое уведомление при получении сообщения"
+    "title": "Уведомления",
+    "desktop-notification": "Уведомления на рабочем столе",
+    "message-notification": "Звуковое уведомление о новых сообщениях",
+    "all-notifications": "Отключить все уведомления"
   },
   "editProfile": {
     "upload_new_photo": "Загрузить новое фото",

@@ -7,11 +7,12 @@ import { PhoneInput } from './phone-input/phone-input';
 
 interface IPhoneInputGroupProps {
   setPhone: React.Dispatch<React.SetStateAction<string>>;
+  hideCountrySelect?: boolean;
   submitFunction?: () => void;
   phone: string;
 }
 
-const PhoneInputGroup: React.FC<IPhoneInputGroupProps> = ({ setPhone, phone, submitFunction }) => {
+const PhoneInputGroup: React.FC<IPhoneInputGroupProps> = ({ setPhone, phone, submitFunction, hideCountrySelect }) => {
   const [country, setCountry] = useState<ICountry>(countryList[countryList.length - 1]);
   const [countrySelectRef, setCountrySelectRef] = useState<React.RefObject<HTMLInputElement> | null>(null);
 
@@ -48,7 +49,7 @@ const PhoneInputGroup: React.FC<IPhoneInputGroupProps> = ({ setPhone, phone, sub
 
   return (
     <div className='phone-input-group'>
-      <CountrySelect setRef={setCountrySelectRef} country={country} handleCountryChange={handleCountryChange} />
+      {!hideCountrySelect && <CountrySelect setRef={setCountrySelectRef} country={country} handleCountryChange={handleCountryChange} />}
       <PhoneInput ref={phoneInputRef} displayCountries={displayCountries} country={country} phone={phone} setPhone={setPhone} submitFunction={submitFunction} />
     </div>
   );

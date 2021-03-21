@@ -8,7 +8,7 @@ import { AddCallModal } from './add-call-modal/add-call-modal';
 const AddCall = () => {
   const { t } = useContext(LocalizationContext);
 
-  const [AddCallsModalDisplayed, setAddCallsModalDisplayed] = useState(false);
+  const [addCallsModalDisplayed, setAddCallsModalDisplayed] = useState(false);
   const changeSetAddCallsModalDisplayedState = useCallback(() => {
     setAddCallsModalDisplayed((oldState) => !oldState);
   }, [setAddCallsModalDisplayed]);
@@ -28,7 +28,7 @@ const AddCall = () => {
         </button>
       </div>
 
-      <FadeAnimationWrapper isDisplayed={AddCallsModalDisplayed}>
+      <FadeAnimationWrapper isDisplayed={addCallsModalDisplayed}>
         <AddCallModal onClose={changeSetAddCallsModalDisplayedState} />
       </FadeAnimationWrapper>
     </>

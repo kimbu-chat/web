@@ -190,6 +190,16 @@
     "delete-details": "Once you delete your account, there is no going back.",
     "delete-confirmation": "Delete your account"
   },
+  "changePhoneModal": {
+    "change-number": "Change number",
+    "code-sent": "Code sent",
+    "code": "Code",
+    "cancel": "Cancel",
+    "change": "Change",
+    "confirm": "Confirm",
+    "details": "You can resend the code in {{time}}"
+  },
+
   "editPhoneModal": {
     "edit_phone": "Edit Phone",
     "country": "Country",

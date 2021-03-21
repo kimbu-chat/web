@@ -1,4 +1,4 @@
-import { PhotoEditor } from '@components';
+import { FadeAnimationWrapper, PhotoEditor } from '@components';
 import { myProfileSelector } from '@store/my-profile/selectors';
 import React, { useCallback, useContext, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
@@ -16,6 +16,7 @@ import { LocalizationContext } from '@contexts';
 import { IAvatarSelectedData, IAvatar } from '@store/common/models';
 import { validateNickname } from '@utils/validate-nick-name';
 import { parsePhoneNumber } from 'libphonenumber-js';
+import { ChangePhoneModal } from './change-phone-modal/change-phone-modal';
 
 export const EditProfile = React.memo(() => {
   const { t } = useContext(LocalizationContext);
@@ -28,7 +29,6 @@ export const EditProfile = React.memo(() => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const [imageUrl, setImageUrl] = useState<string>('');
-  const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
   const [newAvatar, setNewAvatar] = useState(myProfile?.avatar);
   const [firstName, setFirstName] = useState(myProfile?.firstName || '');
   const [lastName, setLastName] = useState(myProfile?.lastName || '');
@@ -37,9 +37,14 @@ export const EditProfile = React.memo(() => {
   const [isLoading, setIsLoading] = useState(false);
   const [nickname, setNickname] = useState(myProfile?.nickname || '');
 
+  const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
   const displayChangePhoto = useCallback(() => setChangePhotoDisplayed(true), [setChangePhotoDisplayed]);
-
   const hideChangePhoto = useCallback(() => setChangePhotoDisplayed(false), [setChangePhotoDisplayed]);
+
+  const [editPhoneModalDisplayed, setEditPhoneModalDisplayed] = useState(false);
+  const changeEditPhoneModalDisplayedState = useCallback(() => {
+    setEditPhoneModalDisplayed((oldState) => !oldState);
+  }, [setEditPhoneModalDisplayed]);
 
   const handleImageChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -194,7 +199,7 @@ export const EditProfile = React.memo(() => {
         <h2 className='edit-profile__title edit-profile__title--phone'>{t('editProfile.phone-number')}</h2>
         <div className='edit-profile__phone-data'>
           <div className='edit-profile__phone'>{parsePhoneNumber(myProfile?.phoneNumber!).formatInternational()}</div>
-          <button type='button' className='edit-profile__btn'>
+          <button onClick={changeEditPhoneModalDisplayedState} type='button' className='edit-profile__btn'>
             {t('editProfile.change-number')}
           </button>
         </div>
@@ -210,6 +215,10 @@ export const EditProfile = React.memo(() => {
       </div>
 
       {changePhotoDisplayed && <PhotoEditor hideChangePhoto={hideChangePhoto} imageUrl={imageUrl} onSubmit={changeMyAvatar} />}
+
+      <FadeAnimationWrapper isDisplayed={editPhoneModalDisplayed}>
+        <ChangePhoneModal onClose={changeEditPhoneModalDisplayedState} />
+      </FadeAnimationWrapper>
     </>
   );
 });

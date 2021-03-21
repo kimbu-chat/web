@@ -96,7 +96,7 @@ const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
         <div className='messenger__settings-navigation'>
           <SettingsNavigation />
         </div>
-        <div className='messenger__main-data'>
+        <div className='messenger__settings-data'>
           <Route path='/settings/profile'>
             <EditProfile />
           </Route>

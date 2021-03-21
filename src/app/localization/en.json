@@ -176,26 +176,24 @@
     "newMessageSound": "New messages sound notification"
   },
   "editProfile": {
-    "upload_new_photo": "Upload New Photo",
-    "requirements": "At least 256 x 256px PNG or JPG file.",
-    "name": "Name",
-    "mobile": "Mobile",
-    "username": "Username"
-  },
-  "editNameModal": {
-    "edit_name": "Edit Name",
-    "first_name": "First Name",
-    "last_name": "Last Name"
+    "personal-information": "Personal information",
+    "upload_new_photo": "Upload new photo",
+    "requirements": "At least 256*256px PNG or JPG",
+    "save-changes": "Save changes",
+    "first_name": "First name",
+    "last_name": "Last name",
+    "username": "User nickname",
+    "phone-number": "Phone number",
+    "change-number": "Change number",
+    "phone-details": "When you change the number, your contacts will not find you by the previous number.",
+    "delete-account": "Delete account",
+    "delete-details": "Once you delete your account, there is no going back.",
+    "delete-confirmation": "Delete your account"
   },
   "editPhoneModal": {
     "edit_phone": "Edit Phone",
     "country": "Country",
     "phone_number": "Phone Number"
-  },
-  "editUsernameModal": {
-    "edit_username": "Edit Username",
-    "username": "Username",
-    "requirements": "You can use a-z, 0-9 and underscores."
   },
   "groupChatAddFriendModal": {
     "add_members": "Add Members",

@@ -181,20 +181,10 @@
     "mobile": "Мобильный",
     "username": "Имя пользователя"
   },
-  "editNameModal": {
-    "edit_name": "Редоктировать Имя",
-    "first_name": "Имя",
-    "last_name": "Фамилия"
-  },
   "editPhoneModal": {
     "edit_phone": "Редактировать номер телефона",
     "country": "Страна",
     "phone_number": "Номер телефона"
-  },
-  "editUsernameModal": {
-    "edit_username": "Редактировать имя пользователя",
-    "username": "Имя пользователя",
-    "requirements": "Вы можете использовать символы a-z, 0-9 и нижние подчеркивания."
   },
   "groupChatAddFriendModal": {
     "add_members": "Добавить участников",

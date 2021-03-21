@@ -1,214 +1,194 @@
 .edit-profile {
-  grid-row: 2/3;
-  grid-column: 2/3;
-  z-index: 10;
-  margin-top: 64px;
+  padding-left: 40px;
+  display: inline-flex;
+  flex-direction: column;
 
-  &__edit-name {
-    margin-top: 15px;
+  &__title {
+    color: var(--white);
+    font-weight: normal;
+    font-size: 28px;
+    line-height: 33px;
+    margin: 38px 0 40px 0;
 
-    &__input-label {
-      color: rgb(151, 151, 151);
-      font-size: 11px;
-      line-height: 16px;
-      font-weight: 400;
-      margin-bottom: 2px;
+    &--phone {
+      margin-top: 32px;
     }
 
-    &__input-block {
-      display: flex;
-      flex-direction: column;
-      margin-bottom: -5px;
-      &:first-child {
-        margin-bottom: 20px;
-      }
-    }
-
-    &__input {
-      padding: 11px 14px;
-      border: 1px solid rgb(215, 216, 217);
-      border-radius: 4px;
-      font-size: 13px;
-      line-height: 16px;
-      font-weight: 400;
-    }
-
-    &__confirm-btn {
-      margin-bottom: 10px !important;
-    }
-  }
-
-  &__edit-username {
-    margin-top: 15px;
-    &__input-label {
-      color: rgb(151, 151, 151);
-      font-size: 11px;
-      line-height: 16px;
-      font-weight: 400;
-      margin-bottom: 2px;
-    }
-
-    &__input-block {
-      display: flex;
-      flex-direction: column;
-      margin-bottom: -5px;
-      position: relative;
-      &:first-child {
-        margin-bottom: 20px;
-      }
-    }
-
-    &__input-wrapper {
-      position: relative;
-      display: flex;
-    }
-
-    &__input {
-      padding: 11px 14px;
-      border: 1px solid rgb(215, 216, 217);
-      border-radius: 4px;
-      font-size: 13px;
-      line-height: 16px;
-      font-weight: 400;
-      flex-grow: 1;
-    }
-
-    &__requirements {
-      margin-top: -10px;
-      font-size: 13px;
-      line-height: 16px;
-      font-weight: 400;
-      color: #6d7885;
-
-      display: block;
-    }
-
-    &__valid {
-      color: green;
-      svg {
-        width: 20px;
-        height: 20px;
-        right: 14px;
-        top: 9px;
-        position: absolute;
-      }
-    }
-
-    &__invalid {
-      color: red;
-      svg {
-        width: 20px;
-        height: 20px;
-        right: 14px;
-        top: 9px;
-        position: absolute;
-      }
-    }
-  }
-
-  &__back {
-    svg {
-      color: var(--king-blue);
+    &--delete {
+      margin-top: 80px;
     }
   }
 
   &__photo-data {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-bottom: 4px solid #d7d8d9;
   }
 
   &__avatar-wrapper {
+    width: 148px;
+    height: 148px;
+    background-color: var(--dark-blue);
     position: relative;
-    margin-top: 20px;
-    margin-bottom: 20px;
-  }
-
-  &__account-avatar {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-  }
-
-  &__remove-photo {
-    height: 20px;
-    width: 20px;
+    margin-right: 31px;
+    border-radius: 6px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #efeff0;
-    position: absolute;
-    top: 0;
-    right: 0;
-    border-radius: 50%;
 
-    svg {
-      width: 12px;
-      height: 12px;
+    &__top-line {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 30;
+    }
+
+    &__bottom-line {
+      position: absolute;
+      bottom: -5px;
+      right: -5px;
+      z-index: 30;
     }
   }
 
-  &__upload-photo {
-    color: var(--king-blue);
-    font-weight: 500;
-    font-size: 13px;
-    line-height: 16px;
-    margin-bottom: 6px;
+  &__avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
   }
 
-  &__photo-requirements {
-    color: #979797;
-    font-size: 11px;
-    line-height: 18px;
-    margin-bottom: 18px;
+  &__avatar-icon {
+    width: 68px;
+    height: 78px;
+    color: var(--white);
   }
 
-  &__data-category {
-    margin-top: 14px;
-    margin-left: 20px;
-    margin-right: 20px;
+  &__avatar-upload {
     display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    &:first-child {
-      margin-top: 20px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  &__avatar-upload-btn {
+    padding: 18px 45px 18px 35px;
+    border-radius: 6px;
+    background: var(--msg-bg);
+    margin-bottom: 11px;
+    display: flex;
+    align-items: center;
+
+    span {
+      font-weight: 300;
+      font-size: 12px;
+      line-height: 14px;
+      margin-left: 16px;
+      color: var(--white);
     }
 
     svg {
-      width: 20px;
-      height: 20px;
-      color: var(--king-blue);
+      color: var(--white);
+      height: 24px;
+      width: 24px;
     }
   }
 
-  &__data-field {
-    margin-left: 10px;
-    margin-top: 4px;
+  &__avatar-requirements {
+    color: var(--white);
+    font-weight: 300;
+    font-size: 10px;
+    line-height: 12px;
   }
 
-  &__data-value {
-    font-size: 13px;
+  &__input-block {
+    width: 578px;
+    height: 60px;
+    border-radius: 6px;
+    position: relative;
+    background: var(--msg-bg);
+    margin-top: 30px;
+  }
+
+  &__input-label {
+    padding: 2px 8px;
+    font-weight: 500;
+    font-size: 12px;
     line-height: 18px;
-    font-weight: 400;
-    color: black;
-
-    margin-bottom: 6px;
+    color: var(--white);
+    z-index: 33;
+    background: var(--dark);
+    border-radius: 6px;
+    position: absolute;
+    left: 16px;
+    top: -16px;
   }
 
-  &__data-category {
-    font-size: 13px;
-    line-height: 18px;
-    font-weight: 400;
-    color: #6d7885;
+  &__input {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background: transparent;
+    border: none;
+    box-sizing: border-box;
+    padding: 20px 16px;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+    color: var(--white);
   }
 
-  &__edit {
+  &__btn {
+    padding: 10px 17px;
+    border-radius: 6px;
+    background: var(--king-blue);
     margin-left: auto;
-    margin-top: 11px;
+    color: var(--white);
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
 
-    svg {
-      color: rgb(153, 162, 173);
+    &--personal {
+      margin-top: 32px;
     }
+
+    &--delete {
+      background: var(--red);
+    }
+  }
+
+  &__phone-data {
+    margin-top: -9px;
+    display: flex;
+    align-items: center;
+  }
+
+  &__phone {
+    color: var(--white);
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 28px;
+  }
+
+  &__phone-details {
+    margin-top: 16px;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 17px;
+    color: var(--white);
+  }
+
+  &__delete-data {
+    display: flex;
+    align-items: center;
+    margin-bottom: 32px;
+    margin-top: -6px;
+  }
+
+  &__delete-details {
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 17px;
+    color: var(--white);
   }
 }

@@ -7,9 +7,9 @@ import React, { useCallback, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { TypingStrategy } from '@store/settings/features/models';
 import { RadioBox } from '../shared/radio-box/radio-box';
-import './text-typing.scss';
+import './key-bindings.scss';
 
-export const TextTyping = React.memo(() => {
+export const KeyBindings = React.memo(() => {
   const { t } = useContext(LocalizationContext);
 
   const currentStrategy = useSelector(getTypingStrategySelector);
@@ -24,22 +24,17 @@ export const TextTyping = React.memo(() => {
   }, []);
 
   return (
-    <div className='text-typing'>
+    <div className='key-bindings'>
+      <h3 className='key-bindings__title'>{t('keyBindings.title')}</h3>
       <form>
-        <RadioBox
-          groupName='text-typing'
-          nestingLevel={0}
-          onClick={setNlce}
-          defaultChecked={currentStrategy === TypingStrategy.Nlce}
-          title={t('textTyping.nlce')}
-        />
-        <RadioBox
-          groupName='text-typing'
-          nestingLevel={0}
-          onClick={setNle}
-          defaultChecked={currentStrategy === TypingStrategy.Nle}
-          title={t('textTyping.nle')}
-        />
+        <div className='key-bindings__entity'>
+          {' '}
+          <RadioBox groupName='key-bindings' onClick={setNlce} defaultChecked={currentStrategy === TypingStrategy.Nlce} title={t('keyBindings.nlce')} />
+        </div>
+        <div className='key-bindings__entity'>
+          {' '}
+          <RadioBox groupName='key-bindings' onClick={setNle} defaultChecked={currentStrategy === TypingStrategy.Nle} title={t('keyBindings.nle')} />
+        </div>
       </form>
     </div>
   );

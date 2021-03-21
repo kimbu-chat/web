@@ -27,8 +27,8 @@ export const LanguageSettings = React.memo(() => {
   return (
     <div className='language-settings'>
       <form>
-        <RadioBox defaultChecked={currentLanguage === Langs.En} groupName='language' nestingLevel={0} onClick={setEnLang} title='English' />
-        <RadioBox defaultChecked={currentLanguage === Langs.Ru} groupName='language' nestingLevel={0} onClick={setRuLang} title='Русский' />
+        <RadioBox defaultChecked={currentLanguage === Langs.En} groupName='language' onClick={setEnLang} title='English' />
+        <RadioBox defaultChecked={currentLanguage === Langs.Ru} groupName='language' onClick={setRuLang} title='Русский' />
       </form>
     </div>
   );

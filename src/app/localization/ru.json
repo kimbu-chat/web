@@ -167,7 +167,8 @@
     "audio-video": "Аудио и Видео",
     "privacy-security": "Конфиденциальность и Безопасность"
   },
-  "textTyping": {
+  "keyBindings": {
+    "title": "Сочетания клавиш",
     "nlce": "Отправьте сообщение с помощью Enter, вставьте новую строку с помощью Shift / Ctrl / Alt + Enter",
     "nle": "Отправьте сообщение с помощью Shift / Ctrl / Alt + Enter, вставьте новую строку с помощью Enter"
   },

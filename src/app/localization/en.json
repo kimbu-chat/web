@@ -168,9 +168,10 @@
     "privacy-security": "Privacy & Security"
   },
 
-  "textTyping": {
+  "keyBindings": {
+    "title": "Key bindings",
     "nlce": "Send a message by Enter, insert a new line by Shift/Ctrl/Alt + Enter",
-    "nle": "Send a message by Shift/Ctrl/Alt + Enter, insert a new line by Enter"
+    "nle": "Send a message by Shift/Ctrl/Alt + Enter, insert a new line by Enter "
   },
   "notificationsSettings": {
     "title": "Notifications",

@@ -28,7 +28,7 @@ import { getInternetStateSelector } from '@store/internet/selectors';
 import { EditProfile } from '@app/components/messenger-page/settings-modal/edit-profile/edit-profile';
 import { LanguageSettings } from '@app/components/messenger-page/settings-modal/language-settings/language-settings';
 import { NotificationsSettings } from '@app/components/messenger-page/settings-modal/notifications-settings/notifications-settings';
-import { TextTyping } from '@app/components/messenger-page/settings-modal/text-typing/text-typing';
+import { KeyBindings } from '@app/components/messenger-page/settings-modal/key-bindings/key-bindings';
 
 interface IChatProps {
   preloadNext: () => void;
@@ -110,7 +110,7 @@ const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
           </Route>
 
           <Route path='/settings/typing'>
-            <TextTyping />
+            <KeyBindings />
           </Route>
         </div>
       </Route>

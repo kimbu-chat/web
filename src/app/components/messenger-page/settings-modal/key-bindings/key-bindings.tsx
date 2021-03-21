@@ -29,11 +29,11 @@ export const KeyBindings = React.memo(() => {
       <form>
         <div className='key-bindings__entity'>
           {' '}
-          <RadioBox groupName='key-bindings' onClick={setNlce} defaultChecked={currentStrategy === TypingStrategy.Nlce} title={t('keyBindings.nlce')} />
+          <RadioBox groupName='key-bindings' onClick={setNlce} defaultChecked={currentStrategy === TypingStrategy.Nlce} content={t('keyBindings.nlce')} />
         </div>
         <div className='key-bindings__entity'>
           {' '}
-          <RadioBox groupName='key-bindings' onClick={setNle} defaultChecked={currentStrategy === TypingStrategy.Nle} title={t('keyBindings.nle')} />
+          <RadioBox groupName='key-bindings' onClick={setNle} defaultChecked={currentStrategy === TypingStrategy.Nle} content={t('keyBindings.nle')} />
         </div>
       </form>
     </div>

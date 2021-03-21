@@ -173,6 +173,11 @@
     "nlce": "Send a message by Enter, insert a new line by Shift/Ctrl/Alt + Enter",
     "nle": "Send a message by Shift/Ctrl/Alt + Enter, insert a new line by Enter "
   },
+  "languageSettings": {
+    "title": "Language",
+    "russia": "Russia",
+    "usa-uk": "USA, Great Britain"
+  },
   "notificationsSettings": {
     "title": "Notifications",
     "desktop-notification": "Desktop notifications",

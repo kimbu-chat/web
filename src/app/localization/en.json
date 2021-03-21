@@ -199,7 +199,12 @@
     "confirm": "Confirm",
     "details": "You can resend the code in {{time}}"
   },
-
+  "deleteAccountModal": {
+    "title": "Delete account",
+    "confirm-content": "Are you sure to delete your account",
+    "cancel": "Cancel",
+    "logout": "Delete"
+  },
   "editPhoneModal": {
     "edit_phone": "Edit Phone",
     "country": "Country",

@@ -10,9 +10,10 @@ interface IPhoneInputGroupProps {
   hideCountrySelect?: boolean;
   submitFunction?: () => void;
   phone: string;
+  phoneInputIcon?: JSX.Element | false;
 }
 
-const PhoneInputGroup: React.FC<IPhoneInputGroupProps> = ({ setPhone, phone, submitFunction, hideCountrySelect }) => {
+const PhoneInputGroup: React.FC<IPhoneInputGroupProps> = ({ setPhone, phone, submitFunction, hideCountrySelect, phoneInputIcon }) => {
   const [country, setCountry] = useState<ICountry>(countryList[countryList.length - 1]);
   const [countrySelectRef, setCountrySelectRef] = useState<React.RefObject<HTMLInputElement> | null>(null);
 
@@ -50,7 +51,15 @@ const PhoneInputGroup: React.FC<IPhoneInputGroupProps> = ({ setPhone, phone, sub
   return (
     <div className='phone-input-group'>
       {!hideCountrySelect && <CountrySelect setRef={setCountrySelectRef} country={country} handleCountryChange={handleCountryChange} />}
-      <PhoneInput ref={phoneInputRef} displayCountries={displayCountries} country={country} phone={phone} setPhone={setPhone} submitFunction={submitFunction} />
+      <PhoneInput
+        icon={phoneInputIcon}
+        ref={phoneInputRef}
+        displayCountries={displayCountries}
+        country={country}
+        phone={phone}
+        setPhone={setPhone}
+        submitFunction={submitFunction}
+      />
     </div>
   );
 };

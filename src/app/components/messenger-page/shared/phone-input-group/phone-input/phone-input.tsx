@@ -12,16 +12,17 @@ interface IPhoneInputProps {
   setPhone: React.Dispatch<React.SetStateAction<string>>;
   displayCountries: () => void;
   submitFunction?: () => void;
+  icon?: JSX.Element | false;
 }
 
 export const PhoneInput = React.forwardRef(
-  ({ country, phone, setPhone, displayCountries, submitFunction }: IPhoneInputProps, ref: React.Ref<HTMLInputElement>) => {
+  ({ country, phone, setPhone, displayCountries, submitFunction, icon }: IPhoneInputProps, ref: React.Ref<HTMLInputElement>) => {
     const { t } = useContext(LocalizationContext);
 
     return (
       <div className='phone-input'>
         <input onClick={displayCountries} type='text' className='phone-input__country-code' readOnly value={country.number} />
-        <div className='country-select__label'>{t('phoneInputGroup.phone')}</div>
+        <span className='country-select__label'>{t('phoneInputGroup.phone')}</span>
         <input
           ref={ref}
           placeholder={t('phoneInputGroup.phone')}
@@ -32,6 +33,7 @@ export const PhoneInput = React.forwardRef(
           className='phone-input__input'
           onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => event.key === 'Enter' && submitFunction && submitFunction()}
         />
+        <div className='phone-input__icon-holder'>{icon}</div>
       </div>
     );
   },

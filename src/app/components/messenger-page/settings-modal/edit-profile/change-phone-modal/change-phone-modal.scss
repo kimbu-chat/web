@@ -83,4 +83,12 @@
     display: block;
     margin-bottom: -32px;
   }
+
+  &__back-icon {
+    svg {
+      width: 12px;
+      height: 12px;
+      color: var(--white);
+    }
+  }
 }

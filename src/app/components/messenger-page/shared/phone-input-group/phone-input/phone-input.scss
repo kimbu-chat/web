@@ -35,4 +35,11 @@
       color: var(--white-dark);
     }
   }
+
+  &__icon-holder {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 16px;
+  }
 }

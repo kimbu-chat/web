@@ -17,6 +17,7 @@ import { IAvatarSelectedData, IAvatar } from '@store/common/models';
 import { validateNickname } from '@utils/validate-nick-name';
 import { parsePhoneNumber } from 'libphonenumber-js';
 import { ChangePhoneModal } from './change-phone-modal/change-phone-modal';
+import { DeleteAccountModal } from './delete-account-modal/delete-account-modal';
 
 export const EditProfile = React.memo(() => {
   const { t } = useContext(LocalizationContext);
@@ -45,6 +46,11 @@ export const EditProfile = React.memo(() => {
   const changeEditPhoneModalDisplayedState = useCallback(() => {
     setEditPhoneModalDisplayed((oldState) => !oldState);
   }, [setEditPhoneModalDisplayed]);
+
+  const [deleteAccountModalDisplayed, setDeleteAccountModalDisplayed] = useState(false);
+  const changeDeleteAccountModalDisplayedState = useCallback(() => {
+    setDeleteAccountModalDisplayed((oldState) => !oldState);
+  }, [setDeleteAccountModalDisplayed]);
 
   const handleImageChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -208,7 +214,7 @@ export const EditProfile = React.memo(() => {
         <h2 className='edit-profile__title edit-profile__title--delete'>{t('editProfile.delete-account')}</h2>
         <div className='edit-profile__delete-data'>
           <div className='edit-profile__delete-details'>{t('editProfile.delete-details')}</div>
-          <button type='button' className='edit-profile__btn edit-profile__btn--delete'>
+          <button onClick={changeDeleteAccountModalDisplayedState} type='button' className='edit-profile__btn edit-profile__btn--delete'>
             {t('editProfile.delete-confirmation')}
           </button>
         </div>
@@ -218,6 +224,10 @@ export const EditProfile = React.memo(() => {
 
       <FadeAnimationWrapper isDisplayed={editPhoneModalDisplayed}>
         <ChangePhoneModal onClose={changeEditPhoneModalDisplayedState} />
+      </FadeAnimationWrapper>
+
+      <FadeAnimationWrapper isDisplayed={deleteAccountModalDisplayed}>
+        <DeleteAccountModal onClose={changeDeleteAccountModalDisplayedState} />
       </FadeAnimationWrapper>
     </>
   );

@@ -1,69 +1,62 @@
 .chat-video {
-  .loader {
-    display: flex;
-    justify-content: center;
-    flex: 1;
-  }
-
   &__video-container {
     overflow-y: scroll;
-    margin: 0 12px 0 20px;
 
     display: flex;
     flex-direction: row !important;
-    justify-content: center;
+    justify-content: flex-start;
     flex-wrap: wrap;
   }
 
   &__video {
-    cursor: pointer;
-    width: 126px;
-    height: 120px;
+    width: 148px;
+    height: 98px;
     object-fit: cover;
+    cursor: pointer;
   }
 
   &__video-wrapper {
-    margin-bottom: 8px;
     border-radius: 4px;
     position: relative;
     overflow: hidden;
-    margin-right: 8px;
+    margin-bottom: 8px;
+    margin-right: 5px;
   }
 
   &__separator {
     text-transform: capitalize;
     width: 100%;
+    margin-bottom: 10px;
+    font-size: 16px;
+    line-height: 19px;
+    margin-bottom: 16px;
+    margin-top: 8px;
+    color: var(--king-blue);
 
-    font-size: 11px;
-    font-weight: 500;
-    line-height: 16px;
-
-    &:not(:nth-child(2)) {
-      margin-top: 20px;
+    &:first-child {
+      margin-top: 17px;
     }
   }
 
   &__play {
     position: absolute;
-    bottom: 6px;
-    left: 6px;
-    background-color: rgba($color: #000000, $alpha: 0.4);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    padding: 4px 8px;
-
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     svg {
-      height: 12px;
-      width: 12px;
-      margin-right: 6px;
-      color: white;
+      color: var(--white);
     }
   }
 
   &__duration {
-    font-size: 11px;
-    font-weight: 500;
-    color: white;
+    font-family: Raleway;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 10px;
+    line-height: 12px;
+    color: var(--white);
+    position: absolute;
+    top: 8px;
+    right: 8px;
   }
 }

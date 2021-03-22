@@ -1,0 +1,50 @@
+.add-call {
+  padding: 33px 56px;
+  border-radius: 8px;
+  background: var(--dark);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0px 7px 12px rgba(14, 22, 43, 0.85);
+
+  &__icon-wrapper {
+    padding: 16px;
+    background-color: var(--chat-bg);
+    border-radius: 8px;
+
+    svg {
+      color: var(--king-blue);
+      width: 64px;
+      height: 64px;
+    }
+  }
+
+  &__title {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 28px;
+    color: var(--white);
+    margin-top: 24px;
+  }
+
+  &__subtitle {
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 19px;
+    color: var(--white);
+    margin-top: 16px;
+    max-width: 240px;
+    text-align: center;
+  }
+
+  &__btn {
+    background: var(--king-blue);
+    padding: 10px 98px;
+    color: var(--white);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 19px;
+    margin-top: 24px;
+    border-radius: 6px;
+  }
+}

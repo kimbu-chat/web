@@ -1,6 +1,6 @@
 import { TFunction } from 'i18next';
+import { RootState } from 'typesafe-actions';
 import { IMessage } from './models/message';
-import { RootState } from '../root-reducer';
 import { IAttachmentToSend } from './models/attachment-to-send';
 import { IBaseAttachment } from './models/attachments/base-attachment';
 import { IChat } from './models/chat';

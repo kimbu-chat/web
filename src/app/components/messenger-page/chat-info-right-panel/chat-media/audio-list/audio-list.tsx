@@ -2,15 +2,14 @@ import React, { useCallback } from 'react';
 import './audio-list.scss';
 
 import { useSelector } from 'react-redux';
-import { getSelectedChatAudiosSelector } from 'store/chats/selectors';
-import { ChatActions } from 'store/chats/actions';
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
+import { getSelectedChatAudiosSelector } from '@store/chats/selectors';
+import * as ChatActions from '@store/chats/actions';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import moment from 'moment';
 
-import { doesYearDifferFromCurrent, setSeparators } from 'app/utils/set-separators';
-import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
-import { AUDIO_ATTACHMENTS_LIMIT } from 'app/utils/pagination-limits';
-import { MessageAudioAttachment } from 'components';
+import { doesYearDifferFromCurrent, setSeparators } from '@utils/set-separators';
+import { InfiniteScroll, MessageAudioAttachment } from '@components';
+import { AUDIO_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 
 export const AudioList = React.memo(() => {
   const audiosForSelectedChat = useSelector(getSelectedChatAudiosSelector);
@@ -32,7 +31,7 @@ export const AudioList = React.memo(() => {
       <div className='chat-audios__audios'>
         <InfiniteScroll onReachExtreme={loadMore} hasMore={audiosForSelectedChat?.hasMore} isLoading={audiosForSelectedChat?.loading} threshold={0.3}>
           {audiosWithSeparators?.map((attachment) => (
-            <div key={attachment.id} className='chat-audios__audio'>
+            <React.Fragment key={attachment.id}>
               {attachment.needToShowMonthSeparator && (
                 <div className='chat-audios__separator'>
                   {attachment.needToShowYearSeparator || doesYearDifferFromCurrent(attachment.creationDateTime)
@@ -40,8 +39,10 @@ export const AudioList = React.memo(() => {
                     : moment(attachment.creationDateTime).format('MMMM')}
                 </div>
               )}
-              <MessageAudioAttachment key={attachment.id} attachment={attachment} />
-            </div>
+              <div className='chat-audios__audio'>
+                <MessageAudioAttachment key={attachment.id} attachment={attachment} />
+              </div>
+            </React.Fragment>
           ))}
         </InfiniteScroll>
       </div>

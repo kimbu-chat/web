@@ -3,7 +3,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #3f8ae0;
+  background-color: var(--king-blue);
   align-items: center;
   display: flex;
   height: 100vh;
@@ -35,7 +35,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: white;
+      background-color: var(--white);
       animation: cube-loader 2.76s infinite linear both;
       transform-origin: 100% 100%;
     }

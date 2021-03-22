@@ -16,10 +16,27 @@
   "activeCall": {
     "default": "По умолчанию"
   },
+  "messageError": {
+    "description": "Ошибка при попытке отправить сообщение",
+    "retry": "Повтор",
+    "dismiss": "Отмена"
+  },
+  "notContact": {
+    "description": "Пользователя {{fullName}} нет в списке ваших контактов.",
+    "add": "Добавить",
+    "block": "Заблокировать"
+  },
+  "blockedMessageInput": {
+    "unblock": "Разблокировать",
+    "description": "Вы не можете отправлять сообщения заблокированному пользователю."
+  },
   "chatData": {
     "members": "участника",
     "online": "Онлайн",
     "last-time": "Последний раз был в сети"
+  },
+  "chatMember": {
+    "owner": "Cоздатель"
   },
   "chatFromList": {
     "you": "Вы",
@@ -32,6 +49,9 @@
     "empty": "В этом чате нет новых сообщений. Ваше может быть первым!",
     "select_chat": "Пожалуйста выберите чат для начала переписки"
   },
+  "mediaModal": {
+    "of": "из"
+  },
   "chatActions": {
     "mute": "Отключить уведомления",
     "unmute": "Включить уведомления",
@@ -41,7 +61,8 @@
     "create-group": "Создать чат",
     "delete-chat": "Удалить чат",
     "leave-chat": "Покинуть чат",
-    "add-users": "Добавить в чат"
+    "add-users": "Добавить в чат",
+    "actions": "Действия"
   },
   "chatMedia": {
     "media": "Медия",
@@ -60,12 +81,11 @@
     "cancel": "Отмена"
   },
   "deleteMessageModal": {
-    "delete-confirmation_0": "Вы уверенны что хотите удалить {{count}} сообщение?",
-    "delete-confirmation_1": "Вы уверенны что хотите удалить {{count}} сообщения?",
-    "delete-confirmation": "Вы уверенны что хотите удалить {{count}} сообщений?",
+    "title": "Удалить сообщение",
+    "title_plural": "Удалить ({{count}}) сообщения",
+    "delete-confirmation": "Удалить для всех",
     "delete-confirm": "Удалить",
-    "cancel": "Отмена",
-    "delete-for": "Удалить для {{name}}"
+    "cancel": "Отмена"
   },
   "chatPhoto": {
     "photo": "Фото"
@@ -117,8 +137,10 @@
     }
   },
   "forwardModal": {
-    "forward": "Переслать",
-    "send": "Отправить"
+    "forward": "Переслать сообщение",
+    "forward_plural": "Переслать ({{count}}) сообщения",
+    "send": "Отправить",
+    "cancel": "Отмена"
   },
   "incomingCall": {
     "incoming_audio": "Входящий аудиовызов",
@@ -130,7 +152,7 @@
   },
   "createGroupChatModal": {
     "add_members": "Добавить участников",
-    "new_group": "Новая группа",
+    "new_group": "Создать новую группу",
     "next": "Далее",
     "cancel": "Отмена",
     "create_groupChat": "Создать Конференцию"
@@ -139,40 +161,59 @@
     "online": "Онлайн",
     "edit_profile": "Редактировать профиль",
     "notifications": "Уведомления",
-    "text_typing": "Набор текста",
-    "language": "Язык"
+    "text_typing": "Сочетания клавиш",
+    "language": "Язык",
+    "appearance": "Отображение",
+    "audio-video": "Аудио и Видео",
+    "privacy-security": "Конфиденциальность и Безопасность"
   },
-  "textTyping": {
+  "keyBindings": {
+    "title": "Сочетания клавиш",
     "nlce": "Отправьте сообщение с помощью Enter, вставьте новую строку с помощью Shift / Ctrl / Alt + Enter",
     "nle": "Отправьте сообщение с помощью Shift / Ctrl / Alt + Enter, вставьте новую строку с помощью Enter"
   },
+  "appearance": {
+    "title": "Отображение",
+    "choose-theme": "Выберите тему",
+    "dark": "Тёмная",
+    "light": "Светлая",
+    "font-size": "Размер шрифта"
+  },
   "notificationsSettings": {
-    "newMessageSound": "Звуковое уведомление при получении сообщения"
+    "title": "Уведомления",
+    "desktop-notification": "Уведомления на рабочем столе",
+    "message-notification": "Звуковое уведомление о новых сообщениях",
+    "all-notifications": "Отключить все уведомления"
   },
   "editProfile": {
+    "personal-information": "Личная информация",
     "upload_new_photo": "Загрузить новое фото",
-    "requirements": "Не менее 256 x 256 пикселей в формате PNG или JPG.",
-    "name": "Имя",
-    "mobile": "Мобильный",
-    "username": "Имя пользователя"
-  },
-  "editNameModal": {
-    "edit_name": "Редоктировать Имя",
+    "requirements": "Как минимум 256*256px PNG или JPG",
+    "save-changes": "Сохранить изменения",
     "first_name": "Имя",
-    "last_name": "Фамилия"
+    "last_name": "Фамилия",
+    "username": "Имя пользователя",
+    "phone-number": "Номер телефона",
+    "change-number": "Изминенить номер телефона",
+    "phone-details": "Когда вы меняете номер, ваши контакты не найдут вас по предыдущему номеру.",
+    "delete-account": "Удалить аккаунт",
+    "delete-details": "После того, как вы удалите свою учетную запись, пути назад уже не будет.",
+    "delete-confirmation": "Удалить аккаунт"
+  },
+  "deleteAccountModal": {
+    "title": "Удалить аккаунт",
+    "confirm-content": "Вы уверены, что хотите удалить свой аккаунт?",
+    "cancel": "Отмена",
+    "logout": "Удалить"
   },
   "editPhoneModal": {
     "edit_phone": "Редактировать номер телефона",
     "country": "Страна",
     "phone_number": "Номер телефона"
   },
-  "editUsernameModal": {
-    "edit_username": "Редактировать имя пользователя",
-    "username": "Имя пользователя",
-    "requirements": "Вы можете использовать символы a-z, 0-9 и нижние подчеркивания."
-  },
   "groupChatAddFriendModal": {
-    "add_members": "Добавить участников"
+    "add_members": "Добавить участников",
+    "cancel": "Отмена"
   },
   "chatRecordings": {
     "recordings": "Голосовые Cообщения"
@@ -181,15 +222,51 @@
     "files": "Файлы"
   },
   "callFromList": {
-    "outgoing": "Исходящий",
-    "incoming": "Входящий",
+    "outgoing": "Исходящий вызов ({{duration}})",
+    "incoming": "Входящий вызов ({{duration}})",
     "canceled": "Отказан",
     "declined": "Отменён",
     "missed": "Пропущен",
     "notAnswered": "Без ответа"
   },
+  "addCall": {
+    "title": "Добавить новый звонок",
+    "subTitle": "Выберите контакт чтоб начать видеоразговор с ним.",
+    "add": "Добавить"
+  },
+  "addCallModal": {
+    "title": "Новый звонок"
+  },
+  "logoutModal": {
+    "title": "Система выхода",
+    "cancel": "Отмена",
+    "logout": "Выход",
+    "confirm-content": "Вы действительно хотите выйти?"
+  },
+  "clearChat": {
+    "title": "Отчистить чат",
+    "clear-confirmation": "Отчистить для всех"
+  },
   "message-link": {
     "message-deleted": "Сообщение удалено"
+  },
+  "addFriend": {
+    "title": "Добавить контакт",
+    "subtitle": "Добавьте новый контакт и начните с ним общаться.",
+    "add": "Добавить"
+  },
+  "phoneInputGroup": {
+    "country": "Cтрана",
+    "phone": "Телефон"
+  },
+  "addFriendModal": {
+    "title": "Новый контакт",
+    "cancel": "Отмена",
+    "find": "Найти",
+    "error": "Пользователь не найден",
+    "chat": "Написать",
+    "add": "Добавить",
+    "success": "Контакт добавлен успешно"
   },
   "systemMessage": {
     "you_created_group": "Вы создали группу",

@@ -1,0 +1,53 @@
+.message-error {
+  display: flex;
+  background-color: var(--dark);
+  box-sizing: border-box;
+  position: relative;
+  align-items: center;
+  padding: 12px 24px 12px 36px;
+  border-radius: 6px 6px 0px 0px;
+
+  &__icon {
+    margin-right: 31px;
+    svg {
+      height: 24px;
+      width: 24px;
+      color: var(--red);
+    }
+  }
+
+  &__description {
+    color: var(--red);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 24px;
+  }
+
+  &__btn-group {
+    margin-left: auto;
+    display: flex;
+  }
+
+  &__btn-separator {
+    width: 1px;
+    height: 28px;
+    background: var(--king-blue-transparent);
+  }
+
+  &__btn {
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 24px;
+    text-transform: uppercase;
+
+    &--retry {
+      color: var(--king-blue);
+      margin-right: 13px;
+    }
+
+    &--dismiss {
+      color: var(--red);
+      margin-left: 13px;
+    }
+  }
+}

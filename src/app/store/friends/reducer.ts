@@ -1,5 +1,5 @@
 import { createReducer } from 'typesafe-actions';
-import { UserEditedEventHandler } from 'app/store/friends/socket-events/user-edited/user-edited-event-handler';
+import { UserEditedEventHandler } from './socket-events/user-edited/user-edited-event-handler';
 import { AddFriendSuccess } from './features/add-friend/add-friend-success';
 import { DeleteFriendSuccess } from './features/delete-friend/delete-friend-success';
 import { GetFriends } from './features/get-friends/get-friends';

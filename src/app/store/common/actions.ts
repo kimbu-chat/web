@@ -1,12 +1,12 @@
-import { ActionCreatorBuilder, createAction, PayloadMetaActionCreator, TypeConstant } from 'typesafe-actions';
+import { ActionCreatorBuilder, createAction, PayloadMetaActionCreator, RootState, TypeConstant } from 'typesafe-actions';
 
-type Deferred<TData = object, TException = undefined> = {
+type Deferred<TData, TException> = {
   resolve: (data?: TData) => void;
   reject: (e?: TException) => void;
 };
 
-export type Meta = {
-  deferred: Deferred;
+export type Meta<TData = Record<string, unknown>, TException = undefined> = {
+  deferred: Deferred<TData, TException>;
 };
 
 export function createEmptyAction<TType extends TypeConstant>(type: TType): ActionCreatorBuilder<TType> {
@@ -17,6 +17,6 @@ export function createEmptyDefferedAction<TType extends TypeConstant>(type: TTyp
   return createAction(type)<undefined, Meta>();
 }
 
-type Fn = (...args: any[]) => any;
-type FnMap = { [key: string]: Fn };
-export type ActionUnionType<T extends FnMap> = ReturnType<T[keyof T]>; // union of return types
+export function NoopAction(state: RootState): RootState {
+  return state;
+}

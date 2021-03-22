@@ -1,13 +1,16 @@
 import React, { useCallback, useContext, useState } from 'react';
 import './selected-messages-data.scss';
 import { useSelector } from 'react-redux';
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { getSelectedMessagesIdSelector } from 'store/chats/selectors';
-import { LocalizationContext } from 'app/app';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { getSelectedMessagesIdSelector } from '@store/chats/selectors';
+import { LocalizationContext } from '@contexts';
+import CloseSvg from '@icons/close.svg';
+import ForwardSvg from '@icons/forward.svg';
+import DeleteSvg from '@icons/delete.svg';
 
-import { FadeAnimationWrapper, ForwardModal } from 'components';
-import { CopyMessages } from 'app/store/chats/features/copy-messages/copy-messages';
-import { ResetSelectedMessages } from 'app/store/chats/features/select-message/reset-selected-messages';
+import { FadeAnimationWrapper, ForwardModal } from '@components';
+import { CopyMessages } from '@store/chats/features/copy-messages/copy-messages';
+import { ResetSelectedMessages } from '@store/chats/features/select-message/reset-selected-messages';
 import { DeleteMessageModal } from './delete-message-modal/delete-message-modal';
 
 export const SelectedMessagesData = React.memo(() => {
@@ -39,16 +42,21 @@ export const SelectedMessagesData = React.memo(() => {
   return (
     <div className='selected-messages-data'>
       <button type='button' onClick={changeForwardMessagesModalDisplayedState} className='selected-messages-data__btn'>
-        {t('selectedMessagesData.forward', { count: selectedMessagesCount })}
+        <ForwardSvg viewBox='0 0 16 16' />
+        <span>{t('selectedMessagesData.forward', { count: selectedMessagesCount })}</span>
       </button>
+
       <button type='button' onClick={changeDeleteMessagesModalDisplayedState} className='selected-messages-data__btn selected-messages-data__btn--delete'>
-        {t('selectedMessagesData.delete', { count: selectedMessagesCount })}
+        <DeleteSvg viewBox='0 0 15 16' />
+        <span>{t('selectedMessagesData.delete', { count: selectedMessagesCount })}</span>
       </button>
+
       <button type='button' onClick={copyTheseMessages} className='selected-messages-data__btn'>
-        {t('selectedMessagesData.copy')}
+        <span>{t('selectedMessagesData.copy')}</span>
       </button>
-      <button type='button' onClick={resetSelectedMessages} className='selected-messages-data__btn selected-messages-data__btn--cancel'>
-        {t('selectedMessagesData.cancel')}
+
+      <button type='button' onClick={resetSelectedMessages} className='selected-messages-data__close'>
+        <CloseSvg />
       </button>
 
       {

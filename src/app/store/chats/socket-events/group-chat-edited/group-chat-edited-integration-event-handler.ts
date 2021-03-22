@@ -18,10 +18,10 @@ export class GroupChatEditedEventHandler {
 
       const chat = getChatByIdDraftSelector(chatId, draft);
 
-      if (chat) {
-        chat.groupChat!.name = name;
-        chat.groupChat!.description = description;
-        chat.groupChat!.avatar = {
+      if (chat && chat.groupChat) {
+        chat.groupChat.name = name;
+        chat.groupChat.description = description;
+        chat.groupChat.avatar = {
           url: avatarUrl,
           previewUrl: avatarPreviewUrl,
           id: avatarId,

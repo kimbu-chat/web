@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Redirect, RouteProps } from 'react-router';
 import { useSelector } from 'react-redux';
-import { authenticatedSelector } from 'app/store/auth/selectors';
+import { authenticatedSelector } from '@store/auth/selectors';
 
 interface IPublicRouteProps extends RouteProps {
   path: string;

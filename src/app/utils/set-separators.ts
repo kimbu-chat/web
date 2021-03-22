@@ -1,5 +1,5 @@
-import { IGroupable } from 'store/chats/models';
 import moment from 'moment';
+import { IGroupable } from '../store/chats/models';
 
 export const setSeparators = <T extends IGroupable>(
   elements: T[] | undefined,
@@ -17,9 +17,9 @@ export const setSeparators = <T extends IGroupable>(
   const newElements = elements?.map((elem, index, array) => {
     const elemCopy = { ...elem };
 
-    const currentDate = new Date(moment.utc(elem?.creationDateTime!).local().toDate());
+    const currentDate = new Date(moment.utc(elem?.creationDateTime).local().toDate());
     const prevDate = moment
-      .utc(array[index - 1]?.creationDateTime!)
+      .utc(array[index - 1]?.creationDateTime)
       .local()
       .toDate();
     if (separateBy.separateByDate && prevDate.toDateString() === currentDate.toDateString()) {

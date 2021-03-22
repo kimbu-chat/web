@@ -1,4 +1,4 @@
-import { RootState } from 'store/root-reducer';
+import { RootState } from 'typesafe-actions';
 
 export const getCurrentLanguageSelector = (state: RootState) => state.settings.language;
 export const getTypingStrategySelector = (state: RootState) => state.settings.typingStrategy;

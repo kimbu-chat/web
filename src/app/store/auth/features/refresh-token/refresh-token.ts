@@ -1,10 +1,10 @@
-import { HttpRequestMethod, authRequestFactory } from 'app/store/common/http';
-
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
-import { createEmptyAction } from 'store/common/actions';
+import { HttpRequestMethod } from '@store/common/http/http-request-method';
+import { authRequestFactory } from '@store/common/http/auth-request-factory';
+import { createEmptyAction } from '@store/common/actions';
 import { IAuthState } from '../../auth-state';
 import { ISecurityTokens } from '../../common/models';
 import { securityTokensSelector } from '../../selectors';
@@ -26,7 +26,7 @@ export class RefreshToken {
   }
 
   static get saga() {
-    return function* (): SagaIterator {
+    return function* refToken(): SagaIterator {
       const { refreshToken }: ISecurityTokens = yield select(securityTokensSelector);
 
       try {

@@ -1,19 +1,25 @@
-import { getSelectedChatIdSelector } from 'app/store/chats/selectors';
-import { HTTPStatusCode } from 'app/common/http-status-code';
-import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
-
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+import produce from 'immer';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { HTTPStatusCode } from '../../../../common/http-status-code';
+import { getSelectedChatIdSelector } from '../../selectors';
 import { IAddUsersToGroupChatActionPayload } from './action-payloads/add-users-to-group-chat-action-payload';
 import { AddUsersToGroupChatSuccess } from './add-users-to-group-chat-success';
 import { IAddUsersToGroupChatApiRequest } from './api-requests/add-users-to-group-chat-api-request';
 import { ChatId } from '../../chat-id';
+import { IChatsState } from '../../chats-state';
 
 export class AddUsersToGroupChat {
   static get action() {
     return createAction('ADD_USERS_TO_GROUP_CHAT')<IAddUsersToGroupChatActionPayload>();
+  }
+
+  // TODO: handle loading
+  static get reducer() {
+    return produce((draft: IChatsState) => draft);
   }
 
   static get saga() {
@@ -25,11 +31,13 @@ export class AddUsersToGroupChat {
       const userIds = users.map(({ id }) => id);
 
       const { status } = AddUsersToGroupChat.httpRequest.call(
-        yield call(() =>
-          AddUsersToGroupChat.httpRequest.generator({
-            id: groupChatId!,
-            userIds,
-          }),
+        yield call(
+          () =>
+            groupChatId &&
+            AddUsersToGroupChat.httpRequest.generator({
+              id: groupChatId,
+              userIds,
+            }),
         ),
       );
 

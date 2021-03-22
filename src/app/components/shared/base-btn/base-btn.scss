@@ -25,7 +25,7 @@
 
   &__loader {
     border: 2px solid #f3f3f3; /* Light grey */
-    border-top: 2px solid #3f8ae0; /* Blue */
+    border-top: 2px solid var(--king-blue); /* Blue */
     border-radius: 50%;
     width: 12px;
     height: 12px;

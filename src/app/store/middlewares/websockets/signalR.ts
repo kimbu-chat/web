@@ -1,24 +1,28 @@
 import { HubConnection, HubConnectionBuilder, HubConnectionState, LogLevel } from '@microsoft/signalr';
 
-import { Store } from 'redux';
-import { getType } from 'typesafe-actions';
-import { RootState } from 'store/root-reducer';
-import { InitSocketConnection } from 'app/store/web-sockets/features/init-web-socked-connection/init-web-socket-connection';
-import { WebsocketsConnected } from 'app/store/internet/features/websockets-connection/websockets-connected';
-import { WebsocketsDisconnected } from 'app/store/internet/features/websockets-connection/websockets-disconnected';
-import { CloseWebsocketConnection } from 'app/store/web-sockets/features/close-web-socket-connection/close-web-socket-connection';
+import { Dispatch, Middleware, MiddlewareAPI } from 'redux';
+import { getType, RootAction, RootState } from 'typesafe-actions';
+import { InitSocketConnection } from '../../web-sockets/features/init-web-socked-connection/init-web-socket-connection';
+import { WebsocketsConnected } from '../../internet/features/websockets-connection/websockets-connected';
+import { WebsocketsDisconnected } from '../../internet/features/websockets-connection/websockets-disconnected';
+import { CloseWebsocketConnection } from '../../web-sockets/features/close-web-socket-connection/close-web-socket-connection';
 
 let connection: HubConnection;
 
-function openConnection(store: Store<RootState>): void {
+function openConnection(store: MiddlewareAPI<Dispatch, RootState>): void {
   connection = new HubConnectionBuilder()
     .withUrl(`${process.env.NOTIFICATIONS_API}/signalr`, {
       logMessageContent: true,
-      accessTokenFactory: () => store.getState().auth?.securityTokens?.accessToken!,
+      accessTokenFactory: () => {
+        const accessToken = store.getState().auth?.securityTokens?.accessToken;
+        if (accessToken) {
+          return accessToken;
+        }
+
+        return '';
+      },
     })
-    .withAutomaticReconnect({
-      nextRetryDelayInMilliseconds: (retryContext) => (retryContext.elapsedMilliseconds >= 10000 ? 10000 : retryContext.elapsedMilliseconds + 1000),
-    })
+    .withAutomaticReconnect()
     .configureLogging(LogLevel.None)
     .build();
 
@@ -44,27 +48,28 @@ function openConnection(store: Store<RootState>): void {
   });
 }
 
-export function signalRInvokeMiddleware(store: any): any {
-  return (next: any) => async (action: any) => {
-    switch (action.type) {
-      case getType(InitSocketConnection.action): {
-        if (!connection || connection.state === HubConnectionState.Disconnected || connection.state !== HubConnectionState.Connecting) {
-          openConnection(store);
-        }
-        return next(action);
+export const signalRInvokeMiddleware: Middleware<RootAction, RootState> = (store: MiddlewareAPI<Dispatch, RootState>) => (next: Dispatch<RootAction>) => async (
+  action: RootAction,
+): Promise<RootAction> => {
+  switch (action.type) {
+    case getType(InitSocketConnection.action): {
+      if (!connection || connection.state === HubConnectionState.Disconnected || connection.state !== HubConnectionState.Connecting) {
+        openConnection(store);
       }
-      case getType(CloseWebsocketConnection.action): {
-        if (connection && connection.state === HubConnectionState.Connected) {
-          connection.stop();
-        }
-        return next(action);
-      }
-      default:
-        return next(action);
+      return next(action);
     }
-  };
-}
+    case getType(CloseWebsocketConnection.action): {
+      if (connection && connection.state === HubConnectionState.Connected) {
+        connection.stop();
+      }
+      return next(action);
+    }
+    default:
+      return next(action);
+  }
+};
+
 interface IIntegrationEvent {
   name: string;
-  object: any;
+  object: unknown;
 }

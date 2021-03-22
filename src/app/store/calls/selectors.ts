@@ -1,5 +1,5 @@
+import { RootState } from 'typesafe-actions';
 import { IUser } from '../common/models';
-import { RootState } from '../root-reducer';
 
 export const getCallInterlocutorSelector = (state: RootState): IUser | undefined => state.calls.interlocutor;
 

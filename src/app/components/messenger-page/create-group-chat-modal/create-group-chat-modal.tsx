@@ -1,23 +1,26 @@
-import { LocalizationContext } from 'app/app';
-import { Avatar, Modal, WithBackground, PhotoEditor, FriendItem, SearchBox, CircularProgress } from 'components';
-import { FriendActions } from 'store/friends/actions';
-import { getStringInitials } from 'app/utils/interlocutor-name-utils';
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
+import { LocalizationContext } from '@contexts';
+import { Modal, WithBackground, PhotoEditor, SearchBox, InfiniteScroll } from '@components';
+import * as FriendActions from '@store/friends/actions';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import React, { useCallback, useContext, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import CloseSVG from 'icons/ic-close.svg';
-import './create-group-chat-modal.scss';
-import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
-import { ChatActions } from 'store/chats/actions';
-import { IChat } from 'store/chats/models';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import * as ChatActions from '@store/chats/actions';
+import { IChat } from '@store/chats/models';
 import { useHistory } from 'react-router';
-import { MyProfileActions } from 'store/my-profile/actions';
-import { getFriendsLoadingSelector, getHasMoreFriendsSelector, getMyFriendsSelector } from 'app/store/friends/selectors';
-import { myProfileSelector } from 'app/store/my-profile/selectors';
-import { ICreateGroupChatActionPayload } from 'app/store/chats/features/create-group-chat/action-payloads/create-group-chat-action-payload';
-import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
-import { IAvatar, IAvatarSelectedData, IPage } from 'app/store/common/models';
-import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
+import * as MyProfileActions from '@store/my-profile/actions';
+import { getFriendsLoadingSelector, getHasMoreFriendsSelector, getMyFriendsSelector } from '@store/friends/selectors';
+import { myProfileSelector } from '@store/my-profile/selectors';
+import { ICreateGroupChatActionPayload } from '@store/chats/features/create-group-chat/action-payloads/create-group-chat-action-payload';
+
+import { IAvatar, IAvatarSelectedData, IPage } from '@store/common/models';
+import { FRIENDS_LIMIT } from '@utils/pagination-limits';
+import GroupSvg from '@icons/group.svg';
+import PictureSvg from '@icons/picture.svg';
+import TopAvatarLine from '@icons/top-avatar-line.svg';
+import BottomAvatarLine from '@icons/bottom-avatar-line.svg';
+import { SelectEntity } from '../shared/select-entity/select-entity';
+import './create-group-chat-modal.scss';
 
 interface ICreateGroupChatProps {
   onClose: () => void;
@@ -157,12 +160,15 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(({ on
         <Modal
           title={
             currentStage === GroupChatCreationStage.UserSelect ? (
-              <div className='create-group-chat__heading'>
-                <div className='create-group-chat__title'>{t('createGroupChatModal.add_members')}</div>
-                <div className='create-group-chat__selected-count'>{`${selectedUserIds.length} / 1000`}</div>
-              </div>
+              <>
+                <GroupSvg viewBox='0 0 24 24' className='new-chat__icon' />
+                <span> {t('createGroupChatModal.add_members')} </span>
+              </>
             ) : (
-              t('createGroupChatModal.new_group')
+              <>
+                <GroupSvg viewBox='0 0 24 24' className='new-chat__icon' />
+                <span> {t('createGroupChatModal.new_group')} </span>
+              </>
             )
           }
           closeModal={onClose}
@@ -170,10 +176,10 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(({ on
             <>
               {currentStage === GroupChatCreationStage.UserSelect && (
                 <div className='create-group-chat__select-friends'>
-                  <SearchBox onChange={(e) => searchFriends(e.target.value)} />
+                  <SearchBox containerClassName='create-group-chat__select-friends__search' onChange={(e) => searchFriends(e.target.value)} />
                   <InfiniteScroll className='create-group-chat__friends-block' onReachExtreme={loadMore} hasMore={hasMoreFriends} isLoading={friendsLoading}>
                     {friends.map((friend) => (
-                      <FriendItem key={friend.id} friend={friend} isSelected={isSelected(friend.id)} changeSelectedState={changeSelectedState} />
+                      <SelectEntity key={friend.id} chatOrUser={friend} isSelected={isSelected(friend.id)} changeSelectedState={changeSelectedState} />
                     ))}
                   </InfiniteScroll>
                 </div>
@@ -181,65 +187,62 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(({ on
 
               {currentStage === GroupChatCreationStage.GroupChatCreation && (
                 <div className='create-group-chat'>
-                  <div className='create-group-chat__change-photo'>
-                    <div className='create-group-chat__current-photo-wrapper'>
-                      <Avatar src={avatarData?.croppedImagePath} className='create-group-chat__current-photo'>
-                        {getStringInitials(name)}
-                      </Avatar>
-                      {avatarData && (
-                        <>
-                          <CircularProgress progress={uploaded} />
-                          <button type='button' onClick={discardAvatar} className='create-group-chat__remove-photo'>
-                            <CloseSVG viewBox='0 0 25 25' />
-                          </button>
-                        </>
-                      )}
-                    </div>
-                    <div className='create-group-chat__change-photo-data'>
-                      <input onChange={handleImageChange} ref={fileInputRef} type='file' hidden accept='image/*' />
-                      <button type='button' onClick={() => fileInputRef.current?.click()} className='create-group-chat__change-photo__btn'>
-                        Upload New Photo
-                      </button>
-                      <span className='create-group-chat__change-photo__description'>At least 256 x 256px PNG or JPG file.</span>
-                    </div>
+                  <div hidden> {uploaded}</div>
+                  <div className='create-group-chat__current-photo-wrapper'>
+                    <GroupSvg viewBox='0 0 24 24' className='create-group-chat__current-photo-wrapper__alt' />
+                    <input onChange={handleImageChange} ref={fileInputRef} type='file' hidden accept='image/*' />
+                    {avatarData?.croppedImagePath && (
+                      <img src={avatarData?.croppedImagePath} alt='' className='create-group-chat__current-photo-wrapper__img' />
+                    )}
+                    <button
+                      type='button'
+                      onClick={() => {
+                        discardAvatar();
+                        fileInputRef.current?.click();
+                      }}
+                      className='create-group-chat__change-photo-btn'
+                    >
+                      <PictureSvg viewBox='0 0 18 19' />
+                      <span>Upload New Photo</span>
+                    </button>
+                    <TopAvatarLine className='create-group-chat__current-photo-wrapper__top-line' viewBox='0 0 48 48' />
+                    <BottomAvatarLine className='create-group-chat__current-photo-wrapper__bottom-line' viewBox='0 0 114 114' />
                   </div>
-                  <div className='create-group-chat__name'>
-                    <span className='create-group-chat__name__label'>Name</span>
-                    <input value={name} onChange={(e) => setName(e.target.value)} type='text' className='create-group-chat__name__input' />
+                  <div className='create-group-chat__criteria'>At least 256*256px PNG or JPG </div>
+
+                  <div className='create-group-chat__input-group'>
+                    <span className='create-group-chat__input-label'>Name</span>
+                    <input value={name} onChange={(e) => setName(e.target.value)} type='text' className='create-group-chat__input' />
                   </div>
-                  <div className='create-group-chat__description'>
-                    <span className='create-group-chat__description__label'>Description (optional)</span>
-                    <textarea value={description} onChange={(e) => setDescription(e.target.value)} className='create-group-chat__description__input' />
+
+                  <div className='create-group-chat__input-group'>
+                    <span className='create-group-chat__input-label'>Description (optional)</span>
+                    <input value={description} onChange={(e) => setDescription(e.target.value)} type='text' className='create-group-chat__input' />
                   </div>
                 </div>
               )}
             </>
           }
           buttons={[
-            {
-              children: t('createGroupChatModal.next'),
-              style: {
-                display: currentStage === GroupChatCreationStage.UserSelect ? 'block' : 'none',
-              },
-              position: 'left',
-              disabled: selectedUserIds.length === 0,
-              onClick: goToGroupChatCreationStage,
-              width: 'contained',
-              variant: 'contained',
-              color: 'primary',
-            },
-            {
-              children: t('createGroupChatModal.create_groupChat'),
-              style: {
-                display: currentStage === GroupChatCreationStage.GroupChatCreation ? 'block' : 'none',
-              },
-              disabled: name.length === 0 || !uploadEnded,
-              position: 'left',
-              onClick: onSubmit,
-              width: 'contained',
-              variant: 'contained',
-              color: 'primary',
-            },
+            <button
+              key={1}
+              disabled={selectedUserIds.length === 0}
+              type='button'
+              className='create-group-chat__btn create-group-chat__btn--cancel'
+              onClick={onClose}
+            >
+              {t('createGroupChatModal.cancel')}
+            </button>,
+            currentStage === GroupChatCreationStage.UserSelect ? (
+              <button key={2} disabled={selectedUserIds.length === 0} type='button' className='create-group-chat__btn' onClick={goToGroupChatCreationStage}>
+                {t('createGroupChatModal.next')}
+              </button>
+            ) : null,
+            currentStage === GroupChatCreationStage.GroupChatCreation ? (
+              <button key={3} disabled={name.length === 0 || !uploadEnded} type='button' className='create-group-chat__btn' onClick={onSubmit}>
+                {t('createGroupChatModal.create_groupChat')}
+              </button>
+            ) : null,
           ]}
         />
       </WithBackground>

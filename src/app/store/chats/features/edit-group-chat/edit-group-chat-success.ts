@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { getChatByIdDraftSelector } from 'app/store/chats/selectors';
+import { getChatByIdDraftSelector } from '../../selectors';
 import { IEditGroupChatSuccessActionPayload } from './action-payloads/edit-group-chat-success-action-payload';
 import { IChatsState } from '../../chats-state';
 
@@ -15,10 +15,10 @@ export class EditGroupChatSuccess {
 
       const chat = getChatByIdDraftSelector(chatId, draft);
 
-      if (chat) {
-        chat.groupChat!.name = name;
-        chat.groupChat!.description = description;
-        chat.groupChat!.avatar = avatar;
+      if (chat && chat.groupChat) {
+        chat.groupChat.name = name;
+        chat.groupChat.description = description;
+        chat.groupChat.avatar = avatar;
       }
       return draft;
     });

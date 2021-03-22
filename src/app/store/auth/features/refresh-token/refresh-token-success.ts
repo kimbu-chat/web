@@ -1,7 +1,7 @@
-import { AuthService } from 'app/services/auth-service';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { createAction } from 'typesafe-actions';
+import { AuthService } from '../../../../services/auth-service';
 import { IAuthState } from '../../auth-state';
 import { IRefreshTokenSuccessActionPayload } from './action-payloads/refresh-token-success-action-payload';
 
@@ -20,8 +20,9 @@ export class RefreshTokenSuccess {
   }
 
   static get saga() {
-    return function* (action: ReturnType<typeof RefreshTokenSuccess.action>): SagaIterator {
-      new AuthService().initialize(action.payload);
+    return function* refreshTokenSuccess(action: ReturnType<typeof RefreshTokenSuccess.action>): SagaIterator {
+      const authService = new AuthService();
+      authService.initialize(action.payload);
     };
   }
 }

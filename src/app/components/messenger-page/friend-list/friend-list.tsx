@@ -1,34 +1,20 @@
-import { IPage } from 'app/store/common/models';
-import { FriendActions } from 'store/friends/actions';
-import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
-import React, { useCallback, useEffect } from 'react';
+import { IPage } from '@store/common/models';
+import * as FriendActions from '@store/friends/actions';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { getMyFriendsSelector, getHasMoreFriendsSelector, getFriendsLoadingSelector } from 'app/store/friends/selectors';
-import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
-import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
-import { getSelectedChatIdSelector } from 'app/store/chats/selectors';
+import { getMyFriendsSelector, getHasMoreFriendsSelector, getFriendsLoadingSelector } from '@store/friends/selectors';
+import { InfiniteScroll } from '@components';
+import { FRIENDS_LIMIT } from '@utils/pagination-limits';
 import './friend-list.scss';
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { ChatActions } from 'app/store/chats/actions';
-import { useParams } from 'react-router';
 import { Friend } from './friend-from-list/friend';
 
 export const FriendList = React.memo(() => {
   const friends = useSelector(getMyFriendsSelector);
   const hasMoreFriends = useSelector(getHasMoreFriendsSelector);
   const friendsLoading = useSelector(getFriendsLoadingSelector);
-  const selectedChatId = useSelector(getSelectedChatIdSelector);
 
   const loadFriends = useActionWithDeferred(FriendActions.getFriends);
-  const changeSelectedChat = useActionWithDispatch(ChatActions.changeSelectedChat);
-
-  const { chatId } = useParams<{ chatId: string }>();
-
-  useEffect(() => {
-    if (chatId) {
-      changeSelectedChat({ newChatId: Number(chatId), oldChatId: selectedChatId });
-    }
-  }, [chatId]);
 
   const loadMore = useCallback(() => {
     const page: IPage = {

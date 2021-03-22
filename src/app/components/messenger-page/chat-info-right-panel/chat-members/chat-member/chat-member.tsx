@@ -2,12 +2,11 @@ import React, { useContext } from 'react';
 
 import './chat-member.scss';
 
-import { IUser, UserStatus } from 'app/store/common/models';
-import { LocalizationContext } from 'app/app';
+import { IUser, UserStatus } from '@store/common/models';
+import { LocalizationContext } from '@contexts';
 
-import DeleteSvg from 'icons/ic-delete.svg';
-import { TimeUpdateable } from 'app/components/shared/time-updateable/time-updateable';
-import { StatusBadge } from 'app/components/shared';
+import DeleteSvg from '@icons/delete.svg';
+import { StatusBadge, TimeUpdateable } from '@components';
 
 interface IMemberProps {
   member: IUser;
@@ -16,12 +15,21 @@ interface IMemberProps {
 export const Member: React.FC<IMemberProps> = React.memo(({ member }) => {
   const { t } = useContext(LocalizationContext);
 
+  const isOwner = member.firstName.includes('77');
+
   return (
     <div className='chat-member'>
-      <StatusBadge additionalClassNames='chat-member__avatar' user={member} />
+      <StatusBadge
+        containerClassName={`chat-member__avatar-container ${isOwner ? 'chat-member__avatar-container--owner' : ''}`}
+        additionalClassNames='chat-member__avatar'
+        user={member}
+      />
 
       <div className='chat-member__data'>
-        <h3 className='chat-member__name'>{`${member?.firstName} ${member?.lastName}`}</h3>
+        <div className='chat-member__name-line'>
+          <h3 className='chat-member__name'>{`${member?.firstName} ${member?.lastName}`}</h3>
+          {isOwner && <div className='chat-member__owner'>{t('chatMember.owner')}</div>}
+        </div>
 
         {member?.status === UserStatus.Offline ? (
           <span className='chat-member__status'>{t('chatData.online')}</span>
@@ -31,15 +39,11 @@ export const Member: React.FC<IMemberProps> = React.memo(({ member }) => {
           </span>
         )}
       </div>
-      <h3 className='chat-member__groupChat-status'>
-        {member.firstName.includes('77') ? (
-          'Owner'
-        ) : (
-          <button type='button' className='chat-member__delete-user'>
-            <DeleteSvg viewBox='0 0 25 25' />
-          </button>
-        )}
-      </h3>
+      {!isOwner && (
+        <button type='button' className='chat-member__delete-user'>
+          <DeleteSvg viewBox='0 0 15 16' />
+        </button>
+      )}
     </div>
   );
 });

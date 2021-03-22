@@ -1,3 +1,3 @@
-export interface IRemoveAttachmentctionPayload {
+export interface IRemoveAttachmentActionPayload {
   attachmentId: number;
 }

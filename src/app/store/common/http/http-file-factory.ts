@@ -1,15 +1,15 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, CancelTokenSource } from 'axios';
 import { call, cancelled, put, select, take, takeEvery } from 'redux-saga/effects';
 import { END, eventChannel, SagaIterator, buffers } from 'redux-saga';
-import { isNetworkError } from 'app/utils/error-utils';
+import noop from 'lodash/noop';
+import { RootState } from 'typesafe-actions';
+import { isNetworkError } from '../../../utils/error-utils';
 import { ISecurityTokens } from '../../auth/common/models';
 import { securityTokensSelector } from '../../auth/selectors';
 import { RefreshToken } from '../../auth/features/refresh-token/refresh-token';
 import { RefreshTokenSuccess } from '../../auth/features/refresh-token/refresh-token-success';
-import { RootState } from '../../root-reducer';
 import { HttpRequestMethod } from './http-request-method';
-
-type HttpHeaders = { [key: string]: string };
+import type { IFilesRequestGeneratorCallbacks, HttpHeaders, IFilesRequestGenerator, UrlGenerator } from './types';
 
 function createUploadFileChannel(requestConfig: AxiosRequestConfig) {
   return eventChannel((emit) => {
@@ -17,7 +17,7 @@ function createUploadFileChannel(requestConfig: AxiosRequestConfig) {
       emit({ start: true });
     };
 
-    const onSuccess = (response: AxiosResponse<any>) => {
+    const onSuccess = (response: AxiosResponse) => {
       emit({ response: response.data });
       emit(END);
     };
@@ -29,16 +29,17 @@ function createUploadFileChannel(requestConfig: AxiosRequestConfig) {
 
     const onProgress = (progressEvent: ProgressEvent<EventTarget>) => {
       const progress = (progressEvent.loaded / progressEvent.total) * 100;
-      emit({ progress });
+      emit({ progress, uploadedBytes: progressEvent.loaded });
     };
 
+    // eslint-disable-next-line no-param-reassign
     requestConfig.onUploadProgress = onProgress;
 
     axios.create().request(requestConfig).then(onSuccess).catch(onFailure);
 
     onStart();
 
-    return () => {};
+    return noop;
   }, buffers.expanding(0));
 }
 
@@ -47,7 +48,19 @@ function* uploadFileSaga(requestConfig: AxiosRequestConfig, cancelTokenSource: C
 
   yield takeEvery(
     uploadFileChannel,
-    function* ({ start, progress = 0, err, response }: { start: number; progress: number; err: string; response: AxiosResponse<any> }) {
+    function* uploadFile({
+      start,
+      progress = 0,
+      uploadedBytes = 0,
+      err,
+      response,
+    }: {
+      start: number;
+      progress: number;
+      uploadedBytes: number;
+      err: string;
+      response: AxiosResponse;
+    }) {
       if (start) {
         if (callbacks?.onStart) {
           yield call(callbacks.onStart, { cancelTokenSource });
@@ -67,25 +80,11 @@ function* uploadFileSaga(requestConfig: AxiosRequestConfig, cancelTokenSource: C
       }
 
       if (callbacks?.onProgress) {
-        yield call(callbacks.onProgress, { progress });
+        yield call(callbacks.onProgress, { progress, uploadedBytes });
       }
     },
   );
 }
-
-interface IFilesRequestGeneratorCallbacks {
-  onStart?: (payload: { cancelTokenSource: CancelTokenSource }) => SagaIterator<any>;
-  onProgress?: (payload: { progress: number }) => SagaIterator<any>;
-  onSuccess?: (payload: any) => SagaIterator<any>;
-  onFailure?: () => SagaIterator<any>;
-}
-
-export interface IFilesRequestGenerator<T, B> {
-  generator: (body: B, callbacks: IFilesRequestGeneratorCallbacks) => SagaIterator;
-  call: (args: any) => T;
-}
-
-type UrlGenerator<TBody> = (body: TBody) => string;
 
 function* httpRequest<T>(
   url: string,
@@ -137,13 +136,13 @@ function* httpRequest<T>(
   yield call(uploadFileSaga, requestConfig, cancelTokenSource, callbacks);
 }
 
-export const httpFilesRequestFactory = <T, B>(
-  url: string | UrlGenerator<B>,
+export const httpFilesRequestFactory = <TResponse, TBody>(
+  url: string | UrlGenerator<TBody>,
   method: HttpRequestMethod,
   headers?: HttpHeaders,
-): IFilesRequestGenerator<T, B> => {
-  function* generator(body: B, callbacks: IFilesRequestGeneratorCallbacks): SagaIterator {
-    let cancelTokenSource: CancelTokenSource;
+): IFilesRequestGenerator<TResponse, TBody> => {
+  function* generator(body: TBody, callbacks: IFilesRequestGeneratorCallbacks): SagaIterator {
+    let cancelTokenSource = null;
 
     try {
       const refreshTokenRequestLoading = yield select((rootState: RootState) => rootState.auth.refreshTokenRequestLoading);
@@ -152,7 +151,7 @@ export const httpFilesRequestFactory = <T, B>(
         yield take(RefreshTokenSuccess.action);
       }
 
-      const finalUrl: string = typeof url === 'function' ? (url as UrlGenerator<B>)(body!) : url;
+      const finalUrl: string = typeof url === 'function' ? (url as UrlGenerator<TBody>)(body) : url;
 
       try {
         cancelTokenSource = axios.CancelToken.source();
@@ -171,8 +170,8 @@ export const httpFilesRequestFactory = <T, B>(
       }
     } finally {
       if (yield cancelled()) {
-        if (cancelTokenSource!) {
-          cancelTokenSource!.cancel();
+        if (cancelTokenSource) {
+          cancelTokenSource.cancel();
         }
       }
     }
@@ -180,6 +179,6 @@ export const httpFilesRequestFactory = <T, B>(
 
   return {
     generator,
-    call: (a) => a,
+    call: (a: TResponse): TResponse => a,
   };
 };

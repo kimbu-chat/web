@@ -3,9 +3,9 @@ import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
-import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
-
 import { AxiosResponse } from 'axios';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+
 import { MessageState } from '../../models';
 import { CreateMessageSuccess } from './create-message-success';
 import { ICreateMessageActionPayload } from './action-payloads/create-message-action-payload';

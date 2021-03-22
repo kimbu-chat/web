@@ -1,3 +1,24 @@
+//fonts
+
+@font-face {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 300;
+  src: url('./assets/fonts/Rubik-Light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./assets/fonts/Rubik-Regular.ttf') format('truetype');
+}
+
+body {
+  font-family: Rubik;
+  overflow: hidden;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -10,24 +31,12 @@
     height: 6px;
   }
   &::-webkit-scrollbar-track {
-    border-radius: 10px;
-    background: rgba(0, 0, 0, 0.1);
+    background: var(--chat-bg);
   }
   &::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background: rgba(0, 0, 0, 0.2);
+    background: var(--white);
   }
-  &::-webkit-scrollbar-thumb:hover {
-    background: rgba(0, 0, 0, 0.4);
-  }
-  &::-webkit-scrollbar-thumb:active {
-    background: rgba(0, 0, 0, 0.9);
-  }
-}
-
-body {
-  overflow-x: hidden;
-  font-family: Raleway;
 }
 
 button {
@@ -43,28 +52,7 @@ button {
   }
 }
 
-.background-blur {
-  width: 100vw;
-  height: 100vh;
-  z-index: 50;
-  background-color: rgba(0, 0, 0, 0.75);
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
 [hidden] {
-  display: none;
-}
-
-.hidden {
-  visibility: hidden;
-  height: 0 !important;
-  width: 0;
-  height: 0;
-}
-
-.completly-hidden {
   display: none;
 }
 
@@ -78,37 +66,53 @@ a {
   font-style: inherit;
 }
 
-.pointer {
-  cursor: pointer;
-}
+//variables
 
-.react-draggable {
-  z-index: 500 !important;
-  overflow: hidden;
-}
+:root {
+  //primary colors
+  --dark: #262c38;
+  --dark-blue: #161d2e;
+  --dark-transparent: rgba(38, 44, 56, 0.5);
 
-.dragging {
-  pointer-events: none;
-}
+  --grafit: #373f51;
+  --grafit-light: rgba(#373f51, 0.7);
+  --grafit-lighter: rgba(#373f51, 0.5);
 
-//fonts
-@font-face {
-  font-family: 'SFUI Text';
-  font-style: normal;
-  font-weight: 400;
-  src: local('SF UI Text Regular'), url('./assets/fonts/SFUIText-Regular.woff') format('woff');
-}
+  --chat-bg: #32394a;
 
-@font-face {
-  font-family: 'SFUI Text';
-  font-style: normal;
-  font-weight: 300;
-  src: local('SF UI Text Light'), url('./assets/fonts/SFUIText-Light.woff') format('woff');
-}
+  --msg-bg: #4a5466;
 
-@font-face {
-  font-family: 'SFUI Text';
-  font-style: normal;
-  font-weight: 500;
-  src: local('SF UI Text Medium'), url('./assets/fonts/SFUIText-Medium.woff') format('woff');
+  --input-bg: rgba(#4a5466, 0.6);
+
+  --modals-bg: rgba(15, 23, 41, 0.7);
+  --modals-bg-photo: rgba(#0f1729, 0.9);
+
+  --white: #ffffff;
+  --white-semi-transparent: rgba(255, 255, 255, 0.5);
+  --white-dark: rgba(255, 255, 255, 0.14);
+  --white-darker: rgba(255, 255, 255, 0.04);
+
+  //secondary colors
+  --blue: #30598b;
+  --king-blue: #3f8ae0;
+  --king-blue-transparent: rgba(63, 138, 224, 0.25); //rgba(#3f8ae0, 0.5);
+
+  --red: #c74848;
+  --red-transparent: rgba(#c74848, 0.15);
+
+  --error-bg: #483e4a;
+
+  //critical colors
+
+  --alert: #fce4e3;
+
+  --success: #598e57;
+
+  --success-1: #ebfaf5;
+
+  --info: #e4f0fb;
+
+  --warning: #ebad34;
+
+  --warning-1: #fdf8ef;
 }

@@ -3,9 +3,8 @@ import { InternetDisconnected } from './features/internet-connection-check/inter
 import { WebsocketsConnected } from './features/websockets-connection/websockets-connected';
 import { WebsocketsDisconnected } from './features/websockets-connection/websockets-disconnected';
 
-export namespace InternetActions {
-  export const internetConnected = InternetConnected.action;
-  export const internetDisconnected = InternetDisconnected.action;
-  export const websocketsConnected = WebsocketsConnected.action;
-  export const websocketsDisconnected = WebsocketsDisconnected.action;
-}
+// InternetActions
+export const internetConnected = InternetConnected.action;
+export const internetDisconnected = InternetDisconnected.action;
+export const websocketsConnected = WebsocketsConnected.action;
+export const websocketsDisconnected = WebsocketsDisconnected.action;

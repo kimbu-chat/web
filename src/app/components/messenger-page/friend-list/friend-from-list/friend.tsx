@@ -1,13 +1,11 @@
-import { LocalizationContext } from 'app/app';
-import { Avatar } from 'components';
-import { ChatId } from 'store/chats/chat-id';
-import { IUser, UserStatus } from 'app/store/common/models';
-import { getUserInitials } from 'app/utils/interlocutor-name-utils';
+import { LocalizationContext } from '@contexts';
+import { ChatId } from '@store/chats/chat-id';
+import { IUser, UserStatus } from '@store/common/models';
 import React, { useContext } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import './friend.scss';
-import { TimeUpdateable } from 'app/components/shared/time-updateable/time-updateable';
+import { StatusBadge, TimeUpdateable } from '@components';
 
 interface IFriendProps {
   friend: IUser;
@@ -17,25 +15,20 @@ export const Friend: React.FC<IFriendProps> = React.memo(({ friend }) => {
   const { t } = useContext(LocalizationContext);
 
   return (
-    <NavLink to={`/contacts/${ChatId.from(friend.id).id}`} className='friend' activeClassName='friend--active'>
-      <div className='friend__active-line' />
-      <Avatar className='friend__avatar' src={friend.avatar?.previewUrl}>
-        {getUserInitials(friend)}
-      </Avatar>
+    <Link to={`/chats/${ChatId.from(friend.id).id}`} className='friend'>
+      <StatusBadge containerClassName='friend__avatar-container' additionalClassNames='friend__avatar' user={friend} />
       <div className='friend__contents'>
-        <div className='friend__heading'>
-          <div className='friend__name'>{`${friend.firstName} ${friend.lastName}`}</div>
-          <div className='friend__status'>
-            {friend.status === UserStatus.Online ? (
-              t('chatData.online')
-            ) : (
-              <>
-                <span>{`${t('chatData.last-time')} `}</span> <TimeUpdateable timeStamp={friend.lastOnlineTime} />
-              </>
-            )}
-          </div>
+        <div className='friend__name'>{`${friend.firstName} ${friend.lastName}`}</div>
+        <div className='friend__status'>
+          {friend.status === UserStatus.Online ? (
+            t('chatData.online')
+          ) : (
+            <>
+              <span>{`${t('chatData.last-time')} `}</span> <TimeUpdateable timeStamp={friend.lastOnlineTime} />
+            </>
+          )}
         </div>
       </div>
-    </NavLink>
+    </Link>
   );
 });

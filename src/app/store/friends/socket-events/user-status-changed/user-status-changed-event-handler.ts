@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { getUserDraftSelector } from 'store/friends/selectors';
+import { getUserDraftSelector } from '../../selectors';
 import { IStatusChangedIntegrationEvent } from './status-changed-integration-event';
 import { IFriendsState } from '../../friends-state';
 

@@ -1,0 +1,104 @@
+.add-friends-modal {
+  margin-top: 14px;
+  position: relative;
+  margin-bottom: 47px;
+
+  &__icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 16px;
+  }
+
+  &__error {
+    padding: 10px 20px;
+    border-radius: 6px;
+    background: var(--red);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    position: absolute;
+    width: calc(100% - 40px);
+    bottom: -50px;
+
+    span {
+      font-weight: 300;
+      font-size: 12px;
+      line-height: 14px;
+    }
+
+    &__close {
+      color: var(--white);
+      margin-left: auto;
+      svg {
+        height: 10px;
+        width: 10px;
+      }
+    }
+  }
+
+  &__success {
+    padding: 10px;
+    border-radius: 6px;
+    background: var(--msg-bg);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    position: absolute;
+    width: calc(100% - 56px);
+    bottom: 68px;
+    justify-content: center;
+
+    span {
+      font-weight: 300;
+      font-size: 12px;
+      line-height: 14px;
+    }
+  }
+
+  &__btn {
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 19px;
+    color: var(--white);
+    padding: 10px 30px;
+    border-radius: 6px;
+
+    &--cancel {
+      margin-left: auto;
+    }
+
+    &--confirm {
+      background: var(--king-blue);
+      margin-left: 20px;
+    }
+  }
+
+  &__user {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+    width: 340px;
+
+    &__avatar {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 8px;
+    }
+
+    &__name {
+      font-weight: normal;
+      font-size: 16px;
+      line-height: 19px;
+      color: var(--white);
+      margin-bottom: 14px;
+    }
+
+    &__phone {
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 17px;
+      color: var(--white);
+    }
+  }
+}

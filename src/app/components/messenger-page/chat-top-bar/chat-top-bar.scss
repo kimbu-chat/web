@@ -5,7 +5,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #373f51;
+    background-color: var(--grafit);
 
     &--little {
       width: calc(100% - 300px);
@@ -22,6 +22,7 @@
   &__contact-img-container {
     margin-left: 20px;
     margin-right: 18px;
+    color: var(--grafit);
   }
 
   &__contact-img {
@@ -30,8 +31,8 @@
   }
 
   &__chat-info {
-    color: white;
-    color: white;
+    color: var(--white);
+    color: var(--white);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -56,25 +57,15 @@
   }
 
   &__button {
-    color: #3f8ae0;
-    width: 36px;
-    height: 36px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    margin-right: 4px;
-    transition: all 0.2s;
-    &:last-child {
-      margin-right: 14px;
-    }
-
-    &:hover {
-      background-color: rgba($color: rgb(63, 138, 224), $alpha: 0.1);
-    }
+    color: var(--white);
+    margin-right: 32px;
 
     &--active {
-      background-color: rgba($color: rgb(63, 138, 224), $alpha: 0.1);
+      color: var(--king-blue);
+    }
+
+    &:last-child {
+      margin-right: 24px;
     }
   }
 }

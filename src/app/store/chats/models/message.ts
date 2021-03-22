@@ -1,4 +1,4 @@
-import { IUser } from 'app/store/common/models';
+import { IUser } from '../../common/models';
 import { MessageLinkType } from './linked-message-type';
 import { IBaseAttachment } from './attachments/base-attachment';
 import { MessageState } from './message-state';
@@ -18,8 +18,8 @@ export interface IMessage {
   needToShowCreator?: boolean;
   needToShowDateSeparator?: boolean;
 
-  isEdited: boolean;
-  isDeleted: boolean;
+  isEdited?: boolean;
+  isDeleted?: boolean;
 
   attachments?: IBaseAttachment[];
   linkedMessageType?: MessageLinkType;
@@ -28,7 +28,7 @@ export interface IMessage {
     userCreator: IUser;
     text?: string;
     attachments?: IBaseAttachment[];
-    isEdited: boolean;
-    isDeleted: boolean;
+    isEdited?: boolean;
+    isDeleted?: boolean;
   };
 }

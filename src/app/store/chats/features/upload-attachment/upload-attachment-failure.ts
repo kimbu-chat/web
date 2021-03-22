@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { getChatByIdDraftSelector } from 'app/store/chats/selectors';
+import { getChatByIdDraftSelector } from '../../selectors';
 import { IUploadAttachmentFailureActionPayload } from './action-payloads/upload-attachment-failure-action-payload';
 import { IChatsState } from '../../chats-state';
 

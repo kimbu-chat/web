@@ -1,7 +1,7 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { getChatByIdDraftSelector } from 'app/store/chats/selectors';
-import { FileType } from 'app/store/chats/models';
+import { FileType } from '../../models';
+import { getChatByIdDraftSelector } from '../../selectors';
 import { IDeleteMessageSuccessActionPayload } from './action-payloads/delete-message-success-action-payload';
 import { IChatsState } from '../../chats-state';
 
@@ -53,12 +53,17 @@ export class DeleteMessageSuccess {
             }
           });
 
-          const repliedMessages = draft.messages[chatId].messages.filter(({ linkedMessage }) => linkedMessage?.id === msgIdToDelete);
-
-          repliedMessages?.forEach((message) => {
-            if (message.linkedMessage) {
-              message.linkedMessage.isDeleted = true;
+          draft.messages[chatId].messages = draft.messages[chatId].messages.map((msg) => {
+            if (msg.linkedMessage?.id === msgIdToDelete) {
+              return {
+                ...msg,
+                linkedMessage: {
+                  ...msg.linkedMessage,
+                  isDeleted: true,
+                },
+              };
             }
+            return msg;
           });
         });
 

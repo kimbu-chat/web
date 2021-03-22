@@ -1,18 +1,23 @@
-import { Avatar, BaseBtn, PhotoEditor } from 'components';
-import { myProfileSelector } from 'store/my-profile/selectors';
-import { getUserInitials } from 'app/utils/interlocutor-name-utils';
+import { FadeAnimationWrapper, PhotoEditor } from '@components';
+import { myProfileSelector } from '@store/my-profile/selectors';
 import React, { useCallback, useContext, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import './edit-profile.scss';
-import CloseSVG from 'icons/ic-close.svg';
-import ValidSvg from 'icons/ic-check-filled.svg';
-import InValidSvg from 'icons/ic-dismiss.svg';
-import { MyProfileActions } from 'store/my-profile/actions';
-import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
+import UserSvg from '@icons/user.svg';
+import ValidSvg from '@icons/ic-check-filled.svg';
+import InValidSvg from '@icons/ic-dismiss.svg';
+import TopAvatarLine from '@icons/top-avatar-line.svg';
+import PhotoSvg from '@icons/picture.svg';
+import BottomAvatarLine from '@icons/bottom-avatar-line.svg';
+import * as MyProfileActions from '@store/my-profile/actions';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 
-import { LocalizationContext } from 'app/app';
-import { IAvatarSelectedData, IAvatar } from 'app/store/common/models';
-import { validateNickname } from 'app/utils/validate-nick-name';
+import { LocalizationContext } from '@contexts';
+import { IAvatarSelectedData, IAvatar } from '@store/common/models';
+import { validateNickname } from '@utils/validate-nick-name';
+import { parsePhoneNumber } from 'libphonenumber-js';
+import { ChangePhoneModal } from './change-phone-modal/change-phone-modal';
+import { DeleteAccountModal } from './delete-account-modal/delete-account-modal';
 
 export const EditProfile = React.memo(() => {
   const { t } = useContext(LocalizationContext);
@@ -25,7 +30,6 @@ export const EditProfile = React.memo(() => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const [imageUrl, setImageUrl] = useState<string>('');
-  const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
   const [newAvatar, setNewAvatar] = useState(myProfile?.avatar);
   const [firstName, setFirstName] = useState(myProfile?.firstName || '');
   const [lastName, setLastName] = useState(myProfile?.lastName || '');
@@ -34,9 +38,20 @@ export const EditProfile = React.memo(() => {
   const [isLoading, setIsLoading] = useState(false);
   const [nickname, setNickname] = useState(myProfile?.nickname || '');
 
+  const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
   const displayChangePhoto = useCallback(() => setChangePhotoDisplayed(true), [setChangePhotoDisplayed]);
   const hideChangePhoto = useCallback(() => setChangePhotoDisplayed(false), [setChangePhotoDisplayed]);
-  const openFileExplorer = useCallback(() => fileInputRef.current?.click(), [fileInputRef]);
+
+  const [editPhoneModalDisplayed, setEditPhoneModalDisplayed] = useState(false);
+  const changeEditPhoneModalDisplayedState = useCallback(() => {
+    setEditPhoneModalDisplayed((oldState) => !oldState);
+  }, [setEditPhoneModalDisplayed]);
+
+  const [deleteAccountModalDisplayed, setDeleteAccountModalDisplayed] = useState(false);
+  const changeDeleteAccountModalDisplayedState = useCallback(() => {
+    setDeleteAccountModalDisplayed((oldState) => !oldState);
+  }, [setDeleteAccountModalDisplayed]);
+
   const handleImageChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       e.preventDefault();
@@ -58,6 +73,7 @@ export const EditProfile = React.memo(() => {
     },
     [setImageUrl, displayChangePhoto, fileInputRef],
   );
+
   const changeMyAvatar = useCallback((data: IAvatarSelectedData) => {
     setNewAvatar({
       url: data.imagePath,
@@ -71,21 +87,30 @@ export const EditProfile = React.memo(() => {
       setIsLoading(false);
     });
   }, []);
+
   const removeAvatar = useCallback(() => {
     setNewAvatar(undefined);
   }, [setNewAvatar]);
+
+  const openFileExplorer = useCallback(() => {
+    fileInputRef.current?.click();
+    removeAvatar();
+  }, [fileInputRef, removeAvatar]);
+
   const changeFirstName = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setFirstName(event.target.value);
     },
     [setFirstName],
   );
+
   const changeLastName = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setLastName(event.target.value);
     },
     [setLastName],
   );
+
   const onChangeNickname = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const newNickName = event.target.value;
@@ -115,73 +140,95 @@ export const EditProfile = React.memo(() => {
     if (newAvatar?.id !== myProfile?.avatar?.id || firstName !== myProfile?.firstName || lastName !== myProfile?.lastName || nickname !== myProfile?.nickname) {
       updateMyProfile({ firstName, lastName, nickname, avatar: newAvatar });
     }
-  }, [newAvatar?.id, myProfile?.avatar?.id]);
+  }, [newAvatar?.id, myProfile?.avatar?.id, firstName, lastName, nickname]);
 
   return (
     <>
       <div className='edit-profile'>
+        <h2 className='edit-profile__title'>{t('editProfile.personal-information')}</h2>
         <div className='edit-profile__photo-data'>
           <div className='edit-profile__avatar-wrapper'>
-            <Avatar className='edit-profile__account-avatar' src={newAvatar?.previewUrl}>
-              {getUserInitials(myProfile)}
-            </Avatar>
-            {newAvatar?.previewUrl && (
-              <button type='button' onClick={removeAvatar} className='edit-profile__remove-photo'>
-                <CloseSVG viewBox='0 0 25 25' />
-              </button>
+            {newAvatar?.previewUrl ? (
+              <img src={newAvatar?.previewUrl} alt='' className='edit-profile__avatar' />
+            ) : (
+              <UserSvg className='edit-profile__avatar-icon' viewBox='0 0 68 78' />
             )}
+            <TopAvatarLine className='edit-profile__avatar-wrapper__top-line' viewBox='0 0 48 48' />
+            <BottomAvatarLine className='edit-profile__avatar-wrapper__bottom-line' viewBox='0 0 114 114' />
           </div>
+
           <input onChange={handleImageChange} ref={fileInputRef} type='file' hidden accept='image/*' />
-          <button type='button' onClick={openFileExplorer} className='edit-profile__upload-photo'>
-            {t('editProfile.upload_new_photo')}
-          </button>
-          <div className='edit-profile__photo-requirements'>{t('editProfile.requirements')}</div>
-        </div>
-        <div className='edit-profile__edit-name'>
-          <div className='edit-profile__edit-name'>
-            <div className='edit-profile__edit-name__input-block'>
-              <span className='edit-profile__edit-name__input-label'>{t('editNameModal.first_name')}</span>
-              <input value={firstName} onChange={changeFirstName} type='text' className='edit-profile__edit-name__input' />
-            </div>
-            <div className='edit-profile__edit-name__input-block'>
-              <span className='edit-profile__edit-name__input-label'>{t('editNameModal.last_name')}</span>
-              <input value={lastName} onChange={changeLastName} type='text' className='edit-profile__edit-name__input' />
-            </div>
+
+          <div className='edit-profile__avatar-upload'>
+            <button type='button' onClick={openFileExplorer} className='edit-profile__avatar-upload-btn'>
+              <PhotoSvg viewBox='0 0 18 19' />
+              <span>{t('editProfile.upload_new_photo')}</span>
+            </button>
+            <div className='edit-profile__avatar-requirements'>{t('editProfile.requirements')}</div>
           </div>
         </div>
-        <div className='edit-profile__edit-username'>
-          <div className='edit-profile__edit-username__input-block'>
-            <span className='edit-profile__edit-username__input-label'>{t('editUsernameModal.username')}</span>
+        <div className='edit-profile__input-block'>
+          <span className='edit-profile__input-label'>{t('editProfile.first_name')}</span>
+          <input value={firstName} onChange={changeFirstName} type='text' className='edit-profile__input' />
+        </div>
+        <div className='edit-profile__input-block'>
+          <span className='edit-profile__input-label'>{t('editProfile.last_name')}</span>
+          <input value={lastName} onChange={changeLastName} type='text' className='edit-profile__input' />
+        </div>
+        <div className='edit-profile__input-block'>
+          <span className='edit-profile__input-label'>{t('editProfile.username')}</span>
+          <input value={nickname} onChange={onChangeNickname} type='text' className='edit-profile__input' />
+
+          <div className='edit-profile__edit-username__input-wrapper'>
+            {isNickNameValid && isNickNameAvailable && (
+              <div className='edit-profile__edit-username__valid'>
+                <ValidSvg viewBox='0 0 25 25' />
+              </div>
+            )}
+            {(!isNickNameValid || !isNickNameAvailable) && (
+              <div className='edit-profile__edit-username__invalid'>
+                <InValidSvg viewBox='0 0 25 25' />
+              </div>
+            )}
             {!isNickNameValid && <div>This nick name is not acceptable</div>}
-            <div className='edit-profile__edit-username__input-wrapper'>
-              <input value={nickname} onChange={onChangeNickname} type='text' className='edit-profile__edit-username__input' />
-              {isNickNameValid && isNickNameAvailable && (
-                <div className='edit-profile__edit-username__valid'>
-                  <ValidSvg viewBox='0 0 25 25' />
-                </div>
-              )}
-              {(!isNickNameValid || !isNickNameAvailable) && (
-                <div className='edit-profile__edit-username__invalid'>
-                  <InValidSvg viewBox='0 0 25 25' />
-                </div>
-              )}
-            </div>
           </div>
-          <span className='edit-profile__edit-username__requirements'>{t('editUsernameModal.requirements')}</span>
         </div>
-        <BaseBtn
-          disabled={!isNickNameAvailable || isLoading || !isNickNameValid || firstName.length === 0 || lastName.length === 0}
+        <button
+          type='button'
           onClick={sumbmitChanges}
-          className='edit-profile__edit-btn'
-          width='contained'
-          color='primary'
-          variant='contained'
-          isLoading={isLoading}
+          className='edit-profile__btn edit-profile__btn--personal'
+          disabled={!isNickNameAvailable || isLoading || !isNickNameValid || firstName.length === 0 || lastName.length === 0}
         >
-          Submit
-        </BaseBtn>
+          {t('editProfile.save-changes')}
+        </button>
+
+        <h2 className='edit-profile__title edit-profile__title--phone'>{t('editProfile.phone-number')}</h2>
+        <div className='edit-profile__phone-data'>
+          <div className='edit-profile__phone'>{parsePhoneNumber(myProfile?.phoneNumber!).formatInternational()}</div>
+          <button onClick={changeEditPhoneModalDisplayedState} type='button' className='edit-profile__btn'>
+            {t('editProfile.change-number')}
+          </button>
+        </div>
+        <div className='edit-profile__phone-details'>{t('editProfile.phone-details')}</div>
+
+        <h2 className='edit-profile__title edit-profile__title--delete'>{t('editProfile.delete-account')}</h2>
+        <div className='edit-profile__delete-data'>
+          <div className='edit-profile__delete-details'>{t('editProfile.delete-details')}</div>
+          <button onClick={changeDeleteAccountModalDisplayedState} type='button' className='edit-profile__btn edit-profile__btn--delete'>
+            {t('editProfile.delete-confirmation')}
+          </button>
+        </div>
       </div>
+
       {changePhotoDisplayed && <PhotoEditor hideChangePhoto={hideChangePhoto} imageUrl={imageUrl} onSubmit={changeMyAvatar} />}
+
+      <FadeAnimationWrapper isDisplayed={editPhoneModalDisplayed}>
+        <ChangePhoneModal onClose={changeEditPhoneModalDisplayedState} />
+      </FadeAnimationWrapper>
+
+      <FadeAnimationWrapper isDisplayed={deleteAccountModalDisplayed}>
+        <DeleteAccountModal onClose={changeDeleteAccountModalDisplayedState} />
+      </FadeAnimationWrapper>
     </>
   );
 });

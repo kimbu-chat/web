@@ -1,11 +1,11 @@
-import { LocalizationContext } from 'app/app';
-import { Modal, WithBackground } from 'components';
-import { ChatActions } from 'store/chats/actions';
+import { LocalizationContext } from '@contexts';
+import { Modal, WithBackground } from '@components';
+import * as ChatActions from '@store/chats/actions';
 import React, { useCallback, useContext } from 'react';
 import './delete-chat-modal.scss';
 import { useSelector } from 'react-redux';
-import { getSelectedGroupChatNameSelector } from 'app/store/chats/selectors';
-import { useEmptyActionWithDeferred } from 'app/hooks/use-action-with-deferred';
+import { getSelectedGroupChatNameSelector } from '@store/chats/selectors';
+import { useEmptyActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useHistory } from 'react-router';
 
 interface IDeleteChatModalProps {
@@ -32,24 +32,12 @@ export const DeleteChatModal: React.FC<IDeleteChatModalProps> = React.memo(({ hi
         highlightedInContents={selectedGroupChatName}
         closeModal={hide}
         buttons={[
-          {
-            children: t('chatInfo.confirm'),
-            className: 'delete-chat-modal__confirm-btn',
-            onClick: deleteGroupChat,
-            position: 'left',
-            width: 'contained',
-            variant: 'contained',
-            color: 'secondary',
-          },
-          {
-            children: t('chatInfo.cancel'),
-            className: 'delete-chat-modal__cancel-btn',
-            onClick: hide,
-            position: 'left',
-            width: 'auto',
-            variant: 'outlined',
-            color: 'default',
-          },
+          <button key={1} type='button' className='delete-chat-modal__cancel-btn' onClick={hide}>
+            {t('chatInfo.cancel')}
+          </button>,
+          <button key={2} type='button' className='delete-chat-modal__confirm-btn' onClick={deleteGroupChat}>
+            {t('chatInfo.confirm')}
+          </button>,
         ]}
       />
     </WithBackground>

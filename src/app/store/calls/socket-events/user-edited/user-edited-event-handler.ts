@@ -12,18 +12,25 @@ export class UserEditedEventHandler {
     return produce((draft: ICallsState, { payload }: ReturnType<typeof UserEditedEventHandler.action>) => {
       const { userId, firstName, lastName, nickname, avatarId, avatarUrl, avatarPreviewUrl } = payload;
 
-      draft.calls.calls.forEach((call) => {
+      draft.calls.calls = draft.calls.calls.map((call) => {
         if (call.userInterlocutor.id === userId) {
-          call.userInterlocutor.firstName = firstName;
-          call.userInterlocutor.lastName = lastName;
-          call.userInterlocutor.nickname = nickname;
-
-          call.userInterlocutor.avatar = {
-            id: avatarId,
-            url: avatarUrl,
-            previewUrl: avatarPreviewUrl,
+          return {
+            ...call,
+            userInterlocutor: {
+              ...call.userInterlocutor,
+              firstName,
+              lastName,
+              nickname,
+              avatar: {
+                id: avatarId,
+                url: avatarUrl,
+                previewUrl: avatarPreviewUrl,
+              },
+            },
           };
         }
+
+        return call;
       });
 
       return draft;

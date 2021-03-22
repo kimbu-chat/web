@@ -1,19 +1,16 @@
 .chat-recordings {
-  .loader {
-    display: flex;
-    justify-content: center;
-  }
-
   &__separator {
     text-transform: capitalize;
     width: 100%;
     margin-bottom: 10px;
-    font-size: 11px;
-    font-weight: 500;
-    line-height: 16px;
+    font-size: 16px;
+    line-height: 19px;
+    margin-bottom: 16px;
+    margin-top: 8px;
+    color: var(--king-blue);
 
-    &:not(:nth-child(2)) {
-      margin-top: 20px;
+    &:first-child {
+      margin-top: 17px;
     }
   }
 
@@ -36,8 +33,8 @@
         }
 
         &-indicator {
-          background-color: white;
-          border: 2px solid #3f8ae0;
+          background-color: var(--white);
+          border: 2px solid var(--king-blue);
           height: 10px;
           transform: translateX(5px);
           width: 10px;

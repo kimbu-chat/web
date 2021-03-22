@@ -1,15 +1,17 @@
-import { LocalizationContext } from 'app/app';
-import { SettingsActions } from 'store/settings/actions';
-import { getCurrentLanguageSelector } from 'store/settings/selectors';
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
+import { LocalizationContext } from '@contexts';
+import * as SettingsActions from '@store/settings/actions';
+import { getCurrentLanguageSelector } from '@store/settings/selectors';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import React, { useCallback, useContext } from 'react';
 import { useSelector } from 'react-redux';
-import { Langs } from 'app/store/settings/features/models';
+import { Langs } from '@store/settings/features/models';
+import RussiaSvg from '@icons/Russia.svg';
+import USASvg from '@icons/Usa.svg';
 import { RadioBox } from '../shared/radio-box/radio-box';
 import './language-settings.scss';
 
 export const LanguageSettings = React.memo(() => {
-  const { i18n } = useContext(LocalizationContext);
+  const { i18n, t } = useContext(LocalizationContext);
 
   const currentLanguage = useSelector(getCurrentLanguageSelector);
 
@@ -26,9 +28,37 @@ export const LanguageSettings = React.memo(() => {
 
   return (
     <div className='language-settings'>
+      <h3 className='language-settings__title'>{t('languageSettings.title')}</h3>
       <form>
-        <RadioBox defaultChecked={currentLanguage === Langs.En} groupName='language' nestingLevel={0} onClick={setEnLang} title='English' />
-        <RadioBox defaultChecked={currentLanguage === Langs.Ru} groupName='language' nestingLevel={0} onClick={setRuLang} title='Русский' />
+        <div onClick={setEnLang} className={`language-settings__language ${currentLanguage === Langs.En ? 'language-settings__language--active' : ''}`}>
+          <RadioBox
+            defaultChecked={currentLanguage === Langs.En}
+            groupName='language'
+            onClick={setEnLang}
+            content={
+              <>
+                <USASvg className='language-settings__icon' />
+                <span className='language-settings__language-name'>English</span>
+                <span className='language-settings__language-country'>{t('languageSettings.usa-uk')}</span>
+              </>
+            }
+          />
+        </div>
+
+        <div className={`language-settings__language ${currentLanguage === Langs.Ru ? 'language-settings__language--active' : ''}`}>
+          <RadioBox
+            defaultChecked={currentLanguage === Langs.Ru}
+            groupName='language'
+            onClick={setRuLang}
+            content={
+              <>
+                <RussiaSvg className='language-settings__icon' />
+                <span className='language-settings__language-name'>Русский</span>
+                <span className='language-settings__language-country'>{t('languageSettings.russia')}</span>
+              </>
+            }
+          />
+        </div>
       </form>
     </div>
   );

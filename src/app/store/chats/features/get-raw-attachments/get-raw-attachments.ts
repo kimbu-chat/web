@@ -1,12 +1,11 @@
-import { HTTPStatusCode } from 'app/common/http-status-code';
-import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
-
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { getChatByIdDraftSelector, getSelectedChatIdSelector } from 'app/store/chats/selectors';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { getChatByIdDraftSelector, getSelectedChatIdSelector } from '../../selectors';
+import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { IRawAttachment } from '../../models';
 import { IGetRawAttachmentsActionPayload } from './action-payloads/get-raw-attachments-action-payload';
 import { GetRawAttachmentsSuccess } from './get-raw-attachments-success';

@@ -1,5 +1,5 @@
 import produce from 'immer';
-import { unionBy } from 'lodash';
+import unionBy from 'lodash/unionBy';
 import { createAction } from 'typesafe-actions';
 import { IFriendsState } from '../../friends-state';
 import { IGetFriendsSuccessActionPayload } from './action-payloads/get-friends-success-action-payload';

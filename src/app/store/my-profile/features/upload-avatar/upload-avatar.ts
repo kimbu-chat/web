@@ -1,20 +1,20 @@
-import { Meta } from 'app/store/common/actions';
-import { HttpRequestMethod } from 'app/store/common/http';
-import { httpFilesRequestFactory } from 'app/store/common/http/http-file-factory';
-import { IAvatar } from 'app/store/common/models';
-
-import { getFileFromUrl } from 'app/utils/get-file-from-url';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
-import { setAvatarUploadCancelTokenSource } from '../../my-profile-utils';
+import { Meta } from '@store/common/actions';
+import { HttpRequestMethod } from '@store/common/http';
+import { httpFilesRequestFactory } from '@store/common/http/http-file-factory';
+import { IAvatar } from '@store/common/models';
+import { getFileFromUrl } from '@utils/get-file-from-url';
+import { setAvatarUploadCancelTokenSource } from '@store/my-profile/my-profile-utils';
+
 import { IUploadAvatarActionPayload } from './upload-avatar-action-payload';
 
 export class UploadAvatar {
   static get action() {
-    return createAction('UPLOAD_AVATAR')<IUploadAvatarActionPayload, Meta>();
+    return createAction('UPLOAD_AVATAR')<IUploadAvatarActionPayload, Meta<IAvatar>>();
   }
 
   static get saga() {

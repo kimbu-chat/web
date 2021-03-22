@@ -5,4 +5,5 @@ export interface IAttachmentToSend<T> {
   progress: number;
   success?: boolean;
   failure?: boolean;
+  uploadedBytes?: number;
 }

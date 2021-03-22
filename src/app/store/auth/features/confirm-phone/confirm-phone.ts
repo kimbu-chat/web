@@ -3,10 +3,10 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { authRequestFactory, HttpRequestMethod } from 'app/store/common/http';
+import { authRequestFactory, HttpRequestMethod } from '@store/common/http';
 
-import { Login } from 'app/store/auth/features/login/login';
-import { Meta } from 'store/common/actions';
+import { Meta } from '@store/common/actions';
+import { Login } from '../login/login';
 import { ConfirmPhoneFailure } from './confirm-phone-failure';
 import { IAuthState } from '../../auth-state';
 import { ConfirmPhoneSuccess } from './confirm-phone-success';

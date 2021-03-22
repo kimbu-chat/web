@@ -1,0 +1,50 @@
+.select-entity {
+  &__friend {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+
+    margin-top: 16px;
+  }
+
+  &__selected-holder {
+    margin-left: auto;
+    cursor: pointer;
+  }
+
+  &__avatar {
+    height: 48px;
+    width: 48px;
+  }
+
+  &__avatar-container {
+    margin-right: 20px;
+    color: var(--chat-bg);
+  }
+
+  &__friend-data {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  &__friend-name {
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+    color: var(--white);
+  }
+
+  &__friend-status {
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 17px;
+    margin-top: 8px;
+    color: var(--white);
+  }
+
+  &__icon-holder {
+    margin-left: auto;
+  }
+}

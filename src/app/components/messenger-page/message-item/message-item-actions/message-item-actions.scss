@@ -4,25 +4,36 @@
   opacity: 0;
   visibility: hidden;
   transition: all 0.1s;
+  position: absolute;
+  background-color: var(--msg-bg);
+  padding: 6px 0;
+  border-radius: 6px;
+  box-shadow: 4px 4px 4px rgba(50, 57, 74, 0.72);
+  z-index: 22;
 
-  top: -10px;
-  transform: translateX(15%);
+  top: 0;
+  right: 0;
+  transform: translate(-4%, -63%);
+
+  &:hover {
+    opacity: 1;
+  }
 
   &__action {
     margin-right: 22px;
-    color: #3f8ae0;
+    color: var(--white);
+    transition: all 0.1s ease-in-out;
 
-    svg {
-      height: 12px;
-      width: 12px;
+    &:hover {
+      color: var(--king-blue);
     }
 
     &:first-child {
-      margin-left: 12px;
+      margin-left: 14px;
     }
 
     &:last-child {
-      margin-right: 12px;
+      margin-right: 14px;
     }
   }
 }

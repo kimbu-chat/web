@@ -10,10 +10,12 @@ export class UpdateMyProfileSuccess {
 
   static get reducer() {
     return produce((draft: IMyProfileState, { payload }: ReturnType<typeof UpdateMyProfileSuccess.action>) => {
-      draft.user!.firstName = payload.firstName;
-      draft.user!.lastName = payload.lastName;
-      draft.user!.avatar = payload.avatar;
-      draft.user!.nickname = payload.nickname;
+      if (draft.user) {
+        draft.user.firstName = payload.firstName;
+        draft.user.lastName = payload.lastName;
+        draft.user.avatar = payload.avatar;
+        draft.user.nickname = payload.nickname;
+      }
 
       return draft;
     });

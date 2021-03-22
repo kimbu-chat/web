@@ -1,20 +1,21 @@
 import React, { useCallback, useRef, useState } from 'react';
 import './edit-chat-modal.scss';
 
-import { Modal, WithBackground, PhotoEditor, Avatar, CircularProgress } from 'components';
+import { Modal, WithBackground, PhotoEditor } from '@components';
 
-import CloseSVG from 'icons/ic-close.svg';
-
-import { IGroupChat } from 'store/chats/models';
-import { getSelectedGroupChatSelector } from 'store/chats/selectors';
+import { IGroupChat } from '@store/chats/models';
+import { getSelectedGroupChatSelector } from '@store/chats/selectors';
 import { useSelector } from 'react-redux';
-import { getStringInitials } from 'app/utils/interlocutor-name-utils';
-import { ChatActions } from 'store/chats/actions';
-import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
-import { MyProfileActions } from 'store/my-profile/actions';
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { IEditGroupChatActionPayload } from 'app/store/chats/features/edit-group-chat/action-payloads/edit-group-chat-action-payload';
-import { IAvatar, IAvatarSelectedData } from 'app/store/common/models';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import * as MyProfileActions from '@store/my-profile/actions';
+import { useActionWithDispatch } from '@app/hooks/use-action-with-dispatch';
+import { IEditGroupChatActionPayload } from '@store/chats/features/edit-group-chat/action-payloads/edit-group-chat-action-payload';
+import GroupSvg from '@icons/group.svg';
+import PictureSvg from '@icons/picture.svg';
+import TopAvatarLine from '@icons/top-avatar-line.svg';
+import BottomAvatarLine from '@icons/bottom-avatar-line.svg';
+import { IAvatar, IAvatarSelectedData } from '@store/common/models';
+import * as ChatActions from '@store/chats/actions';
 
 export interface IEditChatModalProps {
   onClose: () => void;
@@ -113,6 +114,8 @@ export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClos
     setUploadEnded(true);
   }, [setAvatarData, setAvatarUploadResponse, setUploadEnded]);
 
+  const imageToDisplay = typeof avatarData?.croppedImagePath === 'string' ? avatarData?.croppedImagePath : selectedGroupChat?.avatar?.previewUrl;
+
   return (
     <>
       <WithBackground onBackgroundClick={onClose}>
@@ -120,61 +123,46 @@ export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClos
           title='Edit group'
           content={
             <div className='edit-chat-modal'>
-              <div className='edit-chat-modal__change-photo'>
-                <div className='edit-chat-modal__current-photo-wrapper'>
-                  <Avatar
-                    src={typeof avatarData?.croppedImagePath === 'string' ? avatarData?.croppedImagePath : selectedGroupChat?.avatar?.previewUrl}
-                    className='edit-chat-modal__current-photo'
-                  >
-                    {getStringInitials(selectedGroupChat?.name)}
-                  </Avatar>
-                  {avatarData?.croppedImagePath && <CircularProgress progress={uploaded} />}
+              <div hidden> {uploaded}</div>
+              <div className='edit-chat-modal__current-photo-wrapper'>
+                <GroupSvg viewBox='0 0 24 24' className='edit-chat-modal__current-photo-wrapper__alt' />
+                <input onChange={handleImageChange} ref={fileInputRef} type='file' hidden accept='image/*' />
+                {imageToDisplay && <img src={imageToDisplay} alt='' className='edit-chat-modal__current-photo-wrapper__img' />}
+                <button
+                  type='button'
+                  onClick={() => {
+                    discardNewAvatar();
+                    fileInputRef.current?.click();
+                  }}
+                  className='edit-chat-modal__change-photo-btn'
+                >
+                  <PictureSvg viewBox='0 0 18 19' />
+                  <span>Upload New Photo</span>
+                </button>
+                <TopAvatarLine className='edit-chat-modal__current-photo-wrapper__top-line' viewBox='0 0 48 48' />
+                <BottomAvatarLine className='edit-chat-modal__current-photo-wrapper__bottom-line' viewBox='0 0 114 114' />
+              </div>
+              <div className='edit-chat-modal__criteria'>At least 256*256px PNG or JPG </div>
 
-                  {avararUploadResponse && (
-                    <button type='button' onClick={discardNewAvatar} className='edit-chat-modal__remove-photo'>
-                      <CloseSVG viewBox='0 0 25 25' />
-                    </button>
-                  )}
-                </div>
-                <div className='edit-chat-modal__change-photo-data'>
-                  <input onChange={handleImageChange} ref={fileInputRef} type='file' hidden accept='image/*' />
-                  <button type='button' onClick={() => fileInputRef.current?.click()} className='edit-chat-modal__change-photo__btn'>
-                    Upload New Photo
-                  </button>
-                  <span className='edit-chat-modal__change-photo__description'>At least 256 x 256px PNG or JPG file.</span>
-                </div>
+              <div className='edit-chat-modal__input-group'>
+                <span className='edit-chat-modal__input-label'>Name</span>
+                <input value={newName} onChange={(e) => setNewName(e.target.value)} type='text' className='edit-chat-modal__input' />
               </div>
-              <div className='edit-chat-modal__name'>
-                <span className='edit-chat-modal__name__label'>Name</span>
-                <input value={newName} onChange={(e) => setNewName(e.target.value)} type='text' className='edit-chat-modal__name__input' />
-              </div>
-              <div className='edit-chat-modal__description'>
-                <span className='edit-chat-modal__description__label'>Description (optional)</span>
-                <textarea value={newDescription} onChange={(e) => setNewDescription(e.target.value)} className='edit-chat-modal__description__input' />
+
+              <div className='edit-chat-modal__input-group'>
+                <span className='edit-chat-modal__input-label'>Description (optional)</span>
+                <input value={newDescription} onChange={(e) => setNewDescription(e.target.value)} type='text' className='edit-chat-modal__input' />
               </div>
             </div>
           }
           closeModal={onClose}
           buttons={[
-            {
-              children: 'Save',
-              className: 'edit-chat-modal__confirm-btn',
-              onClick: onSubmit,
-              disabled: !uploadEnded,
-              position: 'left',
-              width: 'contained',
-              variant: 'contained',
-              color: 'primary',
-            },
-            {
-              children: 'Cancel',
-              className: 'edit-chat-modal__cancel-btn',
-              onClick: onClose,
-              position: 'left',
-              width: 'auto',
-              variant: 'outlined',
-              color: 'default',
-            },
+            <button key={1} type='button' onClick={onClose} className='create-group-chat__btn create-group-chat__btn--cancel'>
+              Cancel
+            </button>,
+            <button key={2} disabled={!uploadEnded} type='button' onClick={onSubmit} className='create-group-chat__btn'>
+              Save
+            </button>,
           ]}
         />
       </WithBackground>

@@ -1,9 +1,10 @@
 import moment from 'moment';
-import { CallStatus } from 'app/store/common/models';
 import { TFunction } from 'i18next';
-import { IMessage, SystemMessageType } from 'app/store/chats/models';
 import produce from 'immer';
+import { CallStatus } from '../store/common/models';
+import { IMessage, SystemMessageType } from '../store/chats/models';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface ISystemMessageBase {}
 
 interface IGroupChatMemberRemovedSystemMessageContent extends ISystemMessageBase {
@@ -151,11 +152,11 @@ export class MessageUtils {
               .toDate(),
           )
         ) {
-          const generatedMessage = produce(message, (draftMessage) => {
-            draftMessage.needToShowCreator = true;
-            draftMessage.needToShowDateSeparator = true;
+          const generatedMessage = produce(message, (draft) => {
+            draft.needToShowCreator = true;
+            draft.needToShowDateSeparator = true;
 
-            return draftMessage;
+            return draft;
           });
 
           return generatedMessage;
@@ -166,10 +167,10 @@ export class MessageUtils {
         index < arr.length - 1 &&
         (arr[index].userCreator?.id !== arr[index + 1].userCreator?.id || arr[index + 1].systemMessageType !== SystemMessageType.None)
       ) {
-        const generatedMessage = produce(message, (draftMessage) => {
-          draftMessage.needToShowCreator = true;
+        const generatedMessage = produce(message, (draft) => {
+          draft.needToShowCreator = true;
 
-          return draftMessage;
+          return draft;
         });
 
         return generatedMessage;
@@ -178,12 +179,12 @@ export class MessageUtils {
       return message;
     });
 
-    signedMessages[signedMessages.length - 1] = produce(signedMessages[signedMessages.length - 1], (draftMessage) => {
-      if (draftMessage) {
-        draftMessage.needToShowCreator = true;
-        draftMessage.needToShowDateSeparator = true;
+    signedMessages[signedMessages.length - 1] = produce(signedMessages[signedMessages.length - 1], (draft) => {
+      if (draft) {
+        draft.needToShowCreator = true;
+        draft.needToShowDateSeparator = true;
       }
-      return draftMessage;
+      return draft;
     });
 
     return signedMessages;

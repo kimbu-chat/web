@@ -1,4 +1,4 @@
-import { RootState } from '../root-reducer';
+import { RootState } from 'typesafe-actions';
 import { IFriendsState } from './friends-state';
 
 // state-selectors
@@ -10,6 +10,8 @@ export const getFriendByIdSelector = (id: number) => (state: RootState) => state
 export const getFriendsLoadingSelector = (state: RootState) => state.friends.loading;
 
 export const getHasMoreFriendsSelector = (state: RootState) => state.friends.hasMoreFriends;
+
+export const isFriend = (userId?: number) => (state: RootState) => state.friends.friends.findIndex(({ id }) => id === userId) > -1;
 
 // draft-selectors
 

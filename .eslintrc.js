@@ -25,12 +25,16 @@ module.exports = {
     'prettier/prettier': ['warn'],
     'import/prefer-default-export': 0,
     'import/extensions': 0,
-    'import/no-unresolved': ['error', { ignore: ['app', 'icons', 'store', 'sounds', 'utils', 'components'] }],
+    'import/no-unresolved': [
+      'error',
+      { ignore: ['@app', '@icons', '@store', '@sounds', '@utils', '@common', '@routing', '@containers', '@services', '@components', '@contexts', '@hooks'] },
+    ],
     'import/no-mutable-exports': 0,
     'no-param-reassign': 0,
     'no-plusplus': 0,
     'no-return-await': 0,
     'no-nested-ternary': 0,
+    'no-bitwise': 0,
     'require-yield': 0,
     'func-names': 0,
     'max-classes-per-file': 0,
@@ -40,6 +44,7 @@ module.exports = {
     'jsx-a11y/no-static-element-interactions': 0,
     'jsx-a11y/media-has-caption': 0,
     'jsx-a11y/label-has-associated-control': 0,
+    'react/require-default-props': 0,
     '@typescript-eslint/naming-convention': [
       2,
       {

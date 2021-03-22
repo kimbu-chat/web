@@ -7,8 +7,8 @@
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background-color: #3f8ae0;
-    color: white;
+    background-color: var(--king-blue);
+    color: var(--white);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -19,7 +19,7 @@
   }
 
   &__title {
-    color: #3f8ae0;
+    color: var(--king-blue);
     font-weight: 500;
     font-size: 14px;
     line-height: 16px;
@@ -37,8 +37,8 @@
       }
 
       &-indicator {
-        background-color: white;
-        border: 2px solid #3f8ae0;
+        background-color: var(--white);
+        border: 2px solid var(--king-blue);
         height: 10px;
         transform: translateX(5px);
         width: 10px;

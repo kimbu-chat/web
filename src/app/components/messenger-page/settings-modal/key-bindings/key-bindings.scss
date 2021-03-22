@@ -1,0 +1,15 @@
+.key-bindings {
+  padding: 32px 40px;
+
+  &__title {
+    font-weight: normal;
+    font-size: 28px;
+    line-height: 33px;
+    color: var(--white);
+    margin-bottom: 40px;
+  }
+
+  &__entity {
+    margin-top: 32px;
+  }
+}

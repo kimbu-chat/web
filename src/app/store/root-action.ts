@@ -1,19 +1,19 @@
-import { ActionUnionType } from './common/actions';
-import { AuthActions } from './auth/actions';
-import { ChatActions } from './chats/actions';
-import { MyProfileActions } from './my-profile/actions';
-import { FriendActions } from './friends/actions';
-import { CallActions } from './calls/actions';
-import { InternetActions } from './internet/actions';
-import { SettingsActions } from './settings/actions';
-import { WebSocketActions } from './web-sockets/actions';
+import * as AuthActions from './auth/actions';
+import * as ChatActions from './chats/actions';
+import * as MyProfileActions from './my-profile/actions';
+import * as FriendActions from './friends/actions';
+import * as CallActions from './calls/actions';
+import * as InternetActions from './internet/actions';
+import * as SettingsActions from './settings/actions';
+import * as WebSocketActions from './web-sockets/actions';
 
-export type RootAction =
-  | ActionUnionType<typeof AuthActions>
-  | ActionUnionType<typeof FriendActions>
-  | ActionUnionType<typeof ChatActions>
-  | ActionUnionType<typeof MyProfileActions>
-  | ActionUnionType<typeof CallActions>
-  | ActionUnionType<typeof InternetActions>
-  | ActionUnionType<typeof SettingsActions>
-  | ActionUnionType<typeof WebSocketActions>;
+export default {
+  auth: AuthActions,
+  chat: ChatActions,
+  profile: MyProfileActions,
+  friend: FriendActions,
+  call: CallActions,
+  internet: InternetActions,
+  settings: SettingsActions,
+  webSocket: WebSocketActions,
+};

@@ -1,0 +1,45 @@
+.phone-input {
+  background: var(--msg-bg);
+  width: 339px;
+  border-radius: 6px;
+  display: flex;
+  position: relative;
+
+  &__country-code {
+    border: none;
+    height: 40px;
+    text-align: center;
+    border-right: 1px solid var(--msg-bg);
+    background: transparent;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+    color: var(--white);
+    padding-left: 10px;
+    padding-right: 15px;
+    width: 45px;
+  }
+
+  &__input {
+    height: 40px;
+    border: none;
+    text-indent: 16px;
+    background: transparent;
+    color: var(--white);
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+    flex-grow: 1;
+
+    &:placeholder {
+      color: var(--white-dark);
+    }
+  }
+
+  &__icon-holder {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 16px;
+  }
+}

@@ -12,7 +12,7 @@ export class CopyMessages {
   }
 
   static get saga() {
-    return function* (action: ReturnType<typeof CopyMessages.action>): SagaIterator {
+    return function* copyMessages(action: ReturnType<typeof CopyMessages.action>): SagaIterator {
       const messages: IMessage[] = yield select(getSelectedChatMessagesSelector);
 
       const content = messages.reduce((accum: string, current) => {

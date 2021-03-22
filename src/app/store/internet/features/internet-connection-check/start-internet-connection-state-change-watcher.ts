@@ -1,7 +1,7 @@
-import { authenticatedSelector } from 'app/store/auth/selectors';
-import { createEmptyAction } from 'app/store/common/actions';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select, take, delay, spawn } from 'redux-saga/effects';
+import { createEmptyAction } from '@store/common/actions';
+import { authenticatedSelector } from '@store/auth/selectors';
 import { getInternetStateSelector, getWebsocketStateSelector } from '../../selectors';
 import { WebsocketsDisconnected } from '../websockets-connection/websockets-disconnected';
 import { InternetConnected } from './internet-connected';

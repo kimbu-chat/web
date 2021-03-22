@@ -1,23 +1,32 @@
 .search-top {
   display: flex;
   justify-content: flex-start;
+  align-items: center;
+  background: var(--dark);
 
-  &__search {
-    display: flex;
-    align-items: center;
-    border-radius: 10px;
-    background: #ebedf0;
-    margin-top: 20px;
-    width: 79%;
-    height: 36px;
-    position: relative;
-    margin-left: 18px;
+  &__search-container {
+    height: 32px;
+    margin: 16px 0px 16px 20px;
+  }
+
+  &__search-icon {
+    width: 18px;
+    height: 18px;
+    margin-left: 20px;
+  }
+
+  &__search-input {
+    height: 32px;
+    text-indent: 58px;
+    font-weight: 300;
   }
 
   &__create-chat-btn {
-    width: 24px;
-    height: 24px;
-    margin-top: 26px;
-    margin-left: 14px;
+    margin-left: 23px;
+    margin-right: 20px;
+
+    svg {
+      color: var(--king-blue);
+    }
   }
 }

@@ -1,8 +1,8 @@
-import { MessageUtils } from 'app/utils/message-utils';
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import messageCameUnselected from 'app/assets/sounds/notifications/messsage-came-unselected.ogg';
-import { playSoundSafely } from 'app/utils/current-music';
+import { playSoundSafely } from '../../../../utils/current-music';
+import messageCameUnselected from '../../../../assets/sounds/notifications/messsage-came-unselected.ogg';
+import { MessageUtils } from '../../../../utils/message-utils';
 import { ChatId } from '../../chat-id';
 import { IMessage, SystemMessageType, MessageState, IChat, InterlocutorType } from '../../models';
 import { getChatExistsDraftSelector } from '../../selectors';
@@ -85,8 +85,8 @@ export class GroupChatCreatedEventHandler {
         },
       };
 
-      if (avatarId && avatarUrl && avatarPreviewUrl) {
-        newChat.groupChat!.avatar = {
+      if (newChat.groupChat && avatarId && avatarUrl && avatarPreviewUrl) {
+        newChat.groupChat.avatar = {
           id: avatarId,
           url: avatarUrl,
           previewUrl: avatarPreviewUrl,

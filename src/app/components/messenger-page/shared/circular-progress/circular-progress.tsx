@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import './circular-progress.scss';
 
-import CircularProgressSVG from 'icons/ic-circular-progress.svg';
+import CircularProgressSVG from '@icons/ic-circular-progress.svg';
 
 interface ICircularProgressProps {
   progress: number;

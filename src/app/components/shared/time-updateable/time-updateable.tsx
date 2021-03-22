@@ -1,4 +1,4 @@
-import { useForceUpdate } from 'app/hooks/use-force-update';
+import { useForceUpdate } from '@hooks/use-force-update';
 import moment from 'moment';
 import React from 'react';
 

@@ -6,32 +6,21 @@ export class BrowserStorage {
   }
 
   public setObject<T>(key: string, value: T): void {
-    if (typeof value === 'object') {
-      this.setItem(key, JSON.stringify(value));
-    } else {
-      this.setItem(key, null);
-    }
+    this.setItem(key, JSON.stringify(value));
   }
 
-  // @ts-ignore
-  public getObject<T>(key: string, defaultValue: T = undefined): T {
-    let result: T = defaultValue;
-
+  public getObject<T>(key: string): T {
     const item: string = this.getItem(key);
 
-    if (item !== undefined) {
-      result = JSON.parse(item);
-    }
-
-    return result !== undefined && result !== null ? result : defaultValue;
+    return JSON.parse(item);
   }
 
   public getItem(key: string): string {
     return <string>window.localStorage.getItem(this.getKey(key));
   }
 
-  public setItem(key: string, data: any): void {
-    window.localStorage.setItem(this.getKey(key), data);
+  public setItem(key: string, value: string): void {
+    window.localStorage.setItem(this.getKey(key), value);
   }
 
   public removeItem(key: string): void {
@@ -39,11 +28,11 @@ export class BrowserStorage {
   }
 
   public clear(): void {
-    for (let i = 0; i < window.localStorage.length; i++) {
-      if (window?.localStorage?.key(i)?.startsWith(this.prefix)) {
-        // @ts-ignore
-        window.localStorage.removeItem(window.localStorage.key(i));
-        i--;
+    for (let i = 0; i < window.localStorage.length; i += 1) {
+      const key = window.localStorage.key(i);
+      if (key !== null && key.startsWith(this.prefix)) {
+        window.localStorage.removeItem(key);
+        i -= 1;
       }
     }
   }

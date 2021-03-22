@@ -1,9 +1,9 @@
-import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import produce from 'immer';
-import { doIhaveCallSelector } from 'app/store/calls/selectors';
+import { doIhaveCallSelector } from '../../selectors';
+import { getPeerConnection } from '../../../middlewares/webRTC/peerConnectionFactory';
 import { ICallsState } from '../../calls-state';
 import { setIsRenegotiationAccepted } from '../../utils/glare-utils';
 import { IInterlocutorAcceptedCallIntegrationEvent } from './interlocutor-accepted-call-integration-event';
@@ -46,10 +46,11 @@ export class InterlocutorAcceptedCallEventHandler {
   static get saga() {
     return function* callAcceptedSaga(action: ReturnType<typeof InterlocutorAcceptedCallEventHandler.action>): SagaIterator {
       const callActive = yield select(doIhaveCallSelector);
+      const peerConnection = getPeerConnection();
 
       if (action.payload.answer && callActive) {
         setIsRenegotiationAccepted(true);
-        yield call(async () => await peerConnection?.setRemoteDescription(action.payload.answer));
+        yield call(async () => peerConnection?.setRemoteDescription(action.payload.answer));
       }
     };
   }

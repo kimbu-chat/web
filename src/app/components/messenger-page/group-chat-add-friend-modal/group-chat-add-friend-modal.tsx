@@ -1,18 +1,19 @@
-import { Modal, WithBackground } from 'components';
+import { Modal, WithBackground, InfiniteScroll, SearchBox } from '@components';
 import React, { useCallback, useContext, useState } from 'react';
 
 import { useSelector } from 'react-redux';
 import './group-chat-add-friend-modal.scss';
-import { getMemberIdsForSelectedGroupChatSelector } from 'store/chats/selectors';
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { LocalizationContext } from 'app/app';
-import { getFriendsLoadingSelector, getHasMoreFriendsSelector, getMyFriendsSelector } from 'app/store/friends/selectors';
-import { IPage } from 'app/store/common/models';
-import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
-import { FRIENDS_LIMIT } from 'app/utils/pagination-limits';
-import { FriendItem, SearchBox } from 'app/components';
-import { AddUsersToGroupChat } from 'app/store/chats/features/add-users-to-group-chat/add-users-to-group-chat';
-import { GetFriends } from 'app/store/friends/features/get-friends/get-friends';
+import { getMemberIdsForSelectedGroupChatSelector } from '@store/chats/selectors';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { LocalizationContext } from '@contexts';
+import { getFriendsLoadingSelector, getHasMoreFriendsSelector, getMyFriendsSelector } from '@store/friends/selectors';
+import { IPage } from '@store/common/models';
+
+import { FRIENDS_LIMIT } from '@utils/pagination-limits';
+
+import { AddUsersToGroupChat } from '@store/chats/features/add-users-to-group-chat/add-users-to-group-chat';
+import { GetFriends } from '@store/friends/features/get-friends/get-friends';
+import { SelectEntity } from '../shared/select-entity/select-entity';
 
 interface IGroupChatAddFriendModalProps {
   onClose: () => void;
@@ -72,28 +73,36 @@ export const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = 
         title={t('groupChatAddFriendModal.add_members')}
         closeModal={onClose}
         content={
-          <div className='group-chat-add-friend-modal'>
-            <SearchBox onChange={(e) => searchFriends(e.target.value)} />
-            <InfiniteScroll onReachExtreme={loadMore} hasMore={hasMoreFriends} isLoading={friendsLoading} className='group-chat-add-friend-modal__friend-block'>
+          <div className='group-chat-add-friend-modal__select-friends'>
+            <SearchBox containerClassName='group-chat-add-friend-modal__select-friends__search' onChange={(e) => searchFriends(e.target.value)} />
+            <InfiniteScroll
+              className='group-chat-add-friend-modal__friends-block'
+              onReachExtreme={loadMore}
+              hasMore={hasMoreFriends}
+              isLoading={friendsLoading}
+            >
               {friends.map(
                 (friend) =>
                   !idsToExclude.includes(friend.id) && (
-                    <FriendItem key={friend.id} friend={friend} isSelected={isSelected(friend.id)} changeSelectedState={changeSelectedState} />
+                    <SelectEntity key={friend.id} chatOrUser={friend} isSelected={isSelected(friend.id)} changeSelectedState={changeSelectedState} />
                   ),
               )}
             </InfiniteScroll>
           </div>
         }
         buttons={[
-          {
-            children: t('groupChatAddFriendModal.add_members'),
-            onClick: addUsers,
-            disabled: selectedUserIds.length === 0,
-            position: 'left',
-            width: 'contained',
-            variant: 'contained',
-            color: 'primary',
-          },
+          <button
+            key={1}
+            disabled={selectedUserIds.length === 0}
+            type='button'
+            className='group-chat-add-friend-modal__btn group-chat-add-friend-modal__btn--cancel'
+            onClick={onClose}
+          >
+            {t('groupChatAddFriendModal.cancel')}
+          </button>,
+          <button key={2} disabled={selectedUserIds.length === 0} type='button' onClick={addUsers} className='group-chat-add-friend-modal__btn'>
+            {t('groupChatAddFriendModal.add_members')}
+          </button>,
         ]}
       />
     </WithBackground>

@@ -1,0 +1,70 @@
+.media-modal {
+  object-fit: contain;
+  z-index: 100;
+
+  &__close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: var(--white);
+    cursor: pointer;
+
+    svg {
+      width: 48px;
+      height: 48px;
+    }
+  }
+
+  &__media-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__player {
+    max-width: 80vw;
+    max-height: 60vh;
+    object-fit: cover;
+  }
+
+  &__position-pointer {
+    margin-top: 48px;
+    color: var(--white);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+  }
+
+  &__controls {
+    width: 48px;
+    height: 48px;
+
+    button {
+      svg {
+        color: var(--white);
+      }
+    }
+
+    &--prev {
+      transform: rotate(-180deg);
+      margin-right: 48px;
+    }
+
+    &--next {
+      margin-left: 48px;
+    }
+  }
+
+  &__photo {
+    max-width: 70%;
+  }
+
+  &__main {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}

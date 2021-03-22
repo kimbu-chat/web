@@ -3,40 +3,51 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  padding: 24px 32px 22px 32px;
-  background-color: white;
+  padding: 16px;
+  background-color: var(--chat-bg);
   border-radius: 4px;
   z-index: 50;
   display: flex;
   flex-direction: column;
+  box-shadow: 0px 7px 12px rgba(14, 22, 43, 0.88);
 
   &__title {
-    font-weight: 500;
+    font-weight: normal;
     font-size: 16px;
-    line-height: 16px;
+    line-height: 19px;
+    color: var(--white);
+    display: flex;
+    align-items: center;
   }
 
   &__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
   }
 
   &__close-btn {
-    height: 16px;
-    width: 16px;
+    height: 24px;
+    width: 24px;
+    color: var(--white);
     display: block;
     cursor: pointer;
   }
 
   &__content {
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 18px;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 19px;
+
     margin-bottom: 22px;
-    max-width: 376px;
-    min-width: 376px;
+    color: var(--white);
+
+    &__text-wrapper {
+      margin-top: 23px;
+      margin-bottom: 15px;
+      width: 340px;
+    }
 
     &__text {
       &--highlighted {
@@ -48,5 +59,6 @@
 
   &__btn-block {
     display: flex;
+    justify-content: flex-end;
   }
 }

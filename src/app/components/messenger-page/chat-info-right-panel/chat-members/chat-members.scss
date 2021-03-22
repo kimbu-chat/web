@@ -7,18 +7,18 @@
   }
 
   &__heading {
-    margin-left: 16px;
-    color: #3f8ae0;
+    margin-left: 24px;
+    color: var(--king-blue);
     font-weight: 500;
     font-size: 18px;
     line-height: 21px;
   }
 
   &__open-arrow {
-    color: #3f8ae0;
+    color: var(--king-blue);
     transition: all 0.2s;
     margin-left: auto;
-    margin-right: 20px;
+    margin-right: 24px;
     transform: rotate(-90deg);
 
     svg {
@@ -32,17 +32,14 @@
   }
 
   &__search {
-    margin-bottom: 20px;
+    margin-right: 7px;
+  }
+
+  &__search-container {
+    height: 40px;
   }
 
   &__members-list {
-    .loader {
-      & > * {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 15px;
-      }
-    }
+    margin-top: -12px;
   }
 }

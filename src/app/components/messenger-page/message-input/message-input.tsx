@@ -1,31 +1,50 @@
-import { LocalizationContext } from 'app/app';
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { containsFiles, useGlobalDrop } from 'app/hooks/use-global-drop';
-import { useOnClickOutside } from 'app/hooks/use-on-click-outside';
-import { useReferState } from 'app/hooks/use-referred-state';
-import { CreateMessage } from 'app/store/chats/features/create-message/create-message';
-import { MessageTyping } from 'app/store/chats/features/message-typing/message-typing';
-import { UploadAttachmentRequest } from 'app/store/chats/features/upload-attachment/upload-attachment-request';
-import { SystemMessageType, MessageState, FileType, IMessage, MessageLinkType } from 'app/store/chats/models';
-import { getMessageToReplySelector, getSelectedChatSelector } from 'app/store/chats/selectors';
-import { myProfileSelector } from 'app/store/my-profile/selectors';
-import { getTypingStrategySelector } from 'app/store/settings/selectors';
-import { getFileType } from 'app/utils/get-file-extension';
+import { LocalizationContext } from '@contexts';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { containsFiles, useGlobalDrop } from '@hooks/use-global-drop';
+import { useOnClickOutside } from '@hooks/use-on-click-outside';
+import { useReferState } from '@hooks/use-referred-state';
+import { CreateMessage } from '@store/chats/features/create-message/create-message';
+import { MessageTyping } from '@store/chats/features/message-typing/message-typing';
+import { UploadAttachmentRequest } from '@store/chats/features/upload-attachment/upload-attachment-request';
+import {
+  SystemMessageType,
+  MessageState,
+  FileType,
+  IMessage,
+  MessageLinkType,
+  IAttachmentCreation,
+  IAttachmentToSend,
+  IBaseAttachment,
+} from '@store/chats/models';
+import { getMessageToReplySelector, getSelectedChatSelector, getMessageToEditSelector } from '@store/chats/selectors';
+import { myProfileSelector } from '@store/my-profile/selectors';
+import { getTypingStrategySelector } from '@store/settings/selectors';
+import { getFileType } from '@utils/get-file-extension';
 import moment from 'moment';
 import Mousetrap from 'mousetrap';
 import React, { useContext, useState, useRef, useEffect, useCallback, lazy, Suspense } from 'react';
 import { useSelector } from 'react-redux';
 import useInterval from 'use-interval';
 import { throttle } from 'lodash';
-import AddSvg from 'icons/ic-add-new.svg';
-import VoiceSvg from 'icons/ic-microphone.svg';
-import { TypingStrategy } from 'app/store/settings/features/models';
-import { loadMessageSmiles } from 'app/routing/module-loader';
-import { CubeLoader } from 'app/containers/cube-loader/cube-loader';
+import { TypingStrategy } from '@store/settings/features/models';
+import { loadMessageSmiles } from '@routing/module-loader';
+import { CubeLoader } from '@containers/cube-loader/cube-loader';
+
+import AddSvg from '@icons/add-attachment.svg';
+import VoiceSvg from '@icons/voice.svg';
+import CrayonSvg from '@icons/crayon.svg';
+import SendSvg from '@icons/send.svg';
+import CloseSvg from '@icons/close.svg';
+
+import { SubmitEditMessage } from '@store/chats/features/edit-message/submit-edit-message';
+import { RemoveAllAttachments } from '@store/chats/features/remove-attachment/remove-all-attachments';
 import { RespondingMessage } from './responding-message/responding-message';
 import { ExpandingTextarea } from './expanding-textarea/expanding-textarea';
 import { MessageInputAttachment } from './message-input-attachment/message-input-attachment';
+
 import './message-input.scss';
+import { EditingMessage } from './editing-message/editing-message';
+import { MessageError } from './message-error/message-error';
 
 const MessageSmiles = lazy(loadMessageSmiles);
 
@@ -42,12 +61,16 @@ export const CreateMessageInput = React.memo(() => {
   const sendMessage = useActionWithDispatch(CreateMessage.action);
   const notifyAboutTyping = useActionWithDispatch(MessageTyping.action);
   const uploadAttachmentRequest = useActionWithDispatch(UploadAttachmentRequest.action);
+  const submitEditMessage = useActionWithDispatch(SubmitEditMessage.action);
+  const removeAllAttachmentsToSend = useActionWithDispatch(RemoveAllAttachments.action);
 
   const currentUser = useSelector(myProfileSelector);
   const selectedChat = useSelector(getSelectedChatSelector);
   const myProfile = useSelector(myProfileSelector);
   const myTypingStrategy = useSelector(getTypingStrategySelector);
   const replyingMessage = useSelector(getMessageToReplySelector);
+  const editingMessage = useSelector(getMessageToEditSelector);
+
   const refferedReplyingMessage = useReferState(replyingMessage);
   const updatedSelectedChat = useReferState(selectedChat);
 
@@ -57,6 +80,14 @@ export const CreateMessageInput = React.memo(() => {
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [recordedSeconds, setRecordedSeconds] = useState(0);
+
+  // edit state logic
+  const [removedAttachments, setRemovedAttachments] = useState<IAttachmentCreation[]>([]);
+  const referredRemovedAttachments = useReferState(removedAttachments);
+
+  const editingMessageAttachments = editingMessage?.attachments?.filter(
+    ({ id }) => removedAttachments.findIndex((removedAttachment) => removedAttachment.id === id) === -1,
+  );
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const registerAudioBtnRef = useRef<HTMLButtonElement>(null);
@@ -93,6 +124,11 @@ export const CreateMessageInput = React.memo(() => {
     setText((oldText) => (typeof selectedChat?.draftMessage === 'string' ? selectedChat?.draftMessage : oldText));
   }, [selectedChat?.id, setText]);
 
+  useEffect(() => {
+    setText(editingMessage?.text || '');
+    setRemovedAttachments([]);
+  }, [editingMessage?.text]);
+
   useInterval(
     () => {
       if (isRecording) {
@@ -103,7 +139,23 @@ export const CreateMessageInput = React.memo(() => {
     true,
   );
 
+  const submitEditedMessage = useCallback(() => {
+    const newAttachments = updatedSelectedChat.current?.attachmentsToSend?.map(({ attachment }) => attachment);
+
+    submitEditMessage({
+      text: refferedText.current,
+      removedAttachments: referredRemovedAttachments.current,
+      newAttachments,
+      messageId: editingMessage!.id,
+    });
+  }, [refferedText, referredRemovedAttachments, editingMessage?.id]);
+
   const sendMessageToServer = () => {
+    if (editingMessage) {
+      submitEditedMessage();
+      return;
+    }
+
     const chatId = updatedSelectedChat.current?.id;
 
     const text = refferedText.current;
@@ -256,6 +308,21 @@ export const CreateMessageInput = React.memo(() => {
     Mousetrap.unbind('enter');
   }, []);
 
+  const removeAttachment = useCallback(
+    (attachmentToRemove: IAttachmentCreation) => {
+      setRemovedAttachments((oldList) => [...oldList, attachmentToRemove]);
+    },
+    [setRemovedAttachments],
+  );
+
+  const removeAllAttachments = useCallback(() => {
+    if (selectedChat?.attachmentsToSend?.length! > 0) {
+      removeAllAttachmentsToSend({ ids: selectedChat?.attachmentsToSend?.map(({ attachment }) => attachment.id)! });
+    }
+
+    setRemovedAttachments(() => editingMessage?.attachments?.map(({ id, type }) => ({ id, type })) || []);
+  }, [setRemovedAttachments, editingMessage, removeAllAttachmentsToSend, selectedChat?.attachmentsToSend]);
+
   const cancelRecording = useCallback(() => {
     Mousetrap.unbind('esc');
     recorderData.current.isRecording = false;
@@ -362,60 +429,84 @@ export const CreateMessageInput = React.memo(() => {
 
   return (
     <div className='message-input' onDrop={onDrop} onDragOver={onDragOver} onDragEnter={onDragEnter} onDragLeave={onDragLeave}>
-      {selectedChat?.attachmentsToSend?.map((attachment) => (
-        <MessageInputAttachment attachment={attachment} key={attachment.attachment.id} />
-      ))}
+      {(editingMessageAttachments?.length! > 0 || selectedChat?.attachmentsToSend?.length! > 0) && (
+        <div className='message-input__attachments-box'>
+          <div className='message-input__attachments-box__container'>
+            {editingMessageAttachments?.map((attachment) => (
+              <MessageInputAttachment
+                attachment={{ attachment } as IAttachmentToSend<IBaseAttachment>}
+                isFromEdit
+                removeSelectedAttachment={removeAttachment}
+                key={attachment.id}
+              />
+            ))}
+            {selectedChat?.attachmentsToSend?.map((attachment) => (
+              <MessageInputAttachment attachment={attachment} key={attachment.attachment.id} />
+            ))}
+          </div>
+          <button onClick={removeAllAttachments} type='button' className='message-input__attachments-box__delete-all'>
+            <CloseSvg viewBox='0 0 24 24' />
+          </button>
+        </div>
+      )}
 
       {(isDragging || isDraggingOver) && (
         <div className={`message-input__drag ${isDraggingOver ? 'message-input__drag--active' : ''}`}>Drop files here to send them</div>
       )}
-
       {selectedChat && !(isDragging || isDraggingOver) && (
         <>
           {replyingMessage && <RespondingMessage />}
+          {editingMessage && <EditingMessage />}
+          {false && <MessageError />}
           <div className='message-input__send-message'>
             {!isRecording && (
               <>
-                <input multiple className='hidden' type='file' onChange={uploadFile} ref={fileInputRef} />
+                <input multiple hidden type='file' onChange={uploadFile} ref={fileInputRef} />
                 <button type='button' onClick={openSelectFiles} className='message-input__add'>
                   <AddSvg />
                 </button>
+                <div className='message-input__line' />
+                <CrayonSvg width={22} viewBox='0 0 16 16' className='message-input__crayon' />
               </>
             )}
+
             {isRecording && (
               <>
                 <div className='message-input__red-dot' />
                 <div className='message-input__counter'>{moment.utc(recordedSeconds * 1000).format('mm:ss')}</div>
               </>
             )}
-            <div className='message-input__input-group'>
+
+            {!isRecording && (
+              <ExpandingTextarea
+                value={text}
+                placeholder={t('messageInput.write')}
+                onChange={onType}
+                onPaste={onPaste}
+                className='mousetrap message-input__input-message'
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+              />
+            )}
+
+            {isRecording && <div className='message-input__recording-info'>Release outside this field to cancel</div>}
+
+            <div className='message-input__right-btns'>
               {!isRecording && (
-                <ExpandingTextarea
-                  value={text}
-                  placeholder={t('messageInput.write')}
-                  onChange={onType}
-                  onPaste={onPaste}
-                  className='mousetrap message-input__input-message'
-                  onFocus={handleFocus}
-                  onBlur={handleBlur}
-                />
+                <Suspense fallback={<CubeLoader />}>
+                  <MessageSmiles setText={setText} />
+                </Suspense>
               )}
-              {isRecording && <div className='message-input__recording-info'>Release outside this field to cancel</div>}
-              <div className='message-input__right-btns'>
-                {!isRecording && (
-                  <Suspense fallback={<CubeLoader />}>
-                    <MessageSmiles setText={setText} />
-                  </Suspense>
-                )}
-                <button
-                  type='button'
-                  onClick={handleRegisterAudioBtnClick}
-                  ref={registerAudioBtnRef}
-                  className={`message-input__voice-btn ${isRecording ? 'message-input__voice-btn--active' : ''}`}
-                >
-                  <VoiceSvg />
+
+              <button type='button' onClick={handleRegisterAudioBtnClick} ref={registerAudioBtnRef} className='message-input__voice-btn'>
+                <VoiceSvg viewBox='0 0 20 24' />
+              </button>
+
+              {!isRecording && (
+                <button type='button' onClick={sendMessageToServer} className='message-input__send-btn'>
+                  <SendSvg />
                 </button>
-              </div>
+              )}
             </div>
           </div>
         </>

@@ -1,6 +1,6 @@
-import { Langs, TypingStrategy } from 'app/store/settings/features/models';
-import { IUserSettings } from 'app/store/settings/user-settings-state';
-import { BrowserStorage } from 'app/utils/browser-storage';
+import { Langs, TypingStrategy } from '../store/settings/features/models';
+import { IUserSettings } from '../store/settings/user-settings-state';
+import { BrowserStorage } from '../utils/browser-storage';
 
 interface IOptionalUserSettings {
   language?: Langs;
@@ -20,7 +20,10 @@ export class SettingsService {
   public initializeOrUpdate(settings: IOptionalUserSettings) {
     const currentSettings = this.browserStorage.getObject<IUserSettings>(this.userSettings);
 
-    this.browserStorage.setObject<IUserSettings>(this.userSettings, { ...currentSettings, ...settings });
+    this.browserStorage.setObject<IUserSettings>(this.userSettings, {
+      ...currentSettings,
+      ...settings,
+    });
   }
 
   public clear() {

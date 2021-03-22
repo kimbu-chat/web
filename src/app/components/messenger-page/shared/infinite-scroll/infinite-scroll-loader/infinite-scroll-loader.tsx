@@ -1,4 +1,5 @@
 import React from 'react';
+import './infinite-scroll-loader.scss';
 
 const InfiniteScrollLoader = React.memo(() => (
   <div className='loader '>

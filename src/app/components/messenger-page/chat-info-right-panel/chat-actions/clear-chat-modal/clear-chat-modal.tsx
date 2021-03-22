@@ -1,12 +1,14 @@
-import { LocalizationContext } from 'app/app';
-import { Modal, WithBackground } from 'components';
-import { getSelectedGroupChatNameSelector } from 'store/chats/selectors';
+import { LocalizationContext } from '@contexts';
+import { Modal, WithBackground } from '@components';
+import { getSelectedGroupChatNameSelector } from '@store/chats/selectors';
 import React, { useCallback, useContext, useState } from 'react';
 import './clear-chat-modal.scss';
+import CheckedSvg from '@icons/checked.svg';
+import UncheckedSvg from '@icons/unchecked.svg';
+import ClearSvg from '@icons/clear.svg';
 import { useSelector } from 'react-redux';
-import { ClearChatHistory } from 'app/store/chats/features/clear-chat-history/clear-chat-history';
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import CheckBoxSvg from 'icons/ic-checkbox.svg';
+import { ClearChatHistory } from '@store/chats/features/clear-chat-history/clear-chat-history';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 
 interface IClearChatModalProps {
   hide: () => void;
@@ -31,39 +33,31 @@ export const ClearChatModal: React.FC<IClearChatModalProps> = React.memo(({ hide
   return (
     <WithBackground onBackgroundClick={hide}>
       <Modal
-        title='Clear chat'
+        title={
+          <>
+            <ClearSvg viewBox='0 0 18 18' className='clear-chat-modal__icon' />
+            <span> {t('clearChat.title')} </span>
+          </>
+        }
         content={
-          <div>
-            <div className=''>{t('chatInfo.clear-confirmation')}</div>
-            <div className='clear-chat-modal'>
+          <div className='clear-chat-modal'>
+            <div className='clear-chat-modal__delete-all'>
               <button type='button' className='clear-chat-modal__btn' onClick={changeDeleteForInterlocutorState}>
-                {deleteForInterlocutor && <CheckBoxSvg />}
+                {deleteForInterlocutor ? <CheckedSvg /> : <UncheckedSvg />}
               </button>
-              <span className='clear-chat-modal__btn-description'>{t('chatInfo.clear-for-everybody')}</span>
+              <span className='clear-chat-modal__btn-description'>{t('clearChat.clear-confirmation')}</span>
             </div>
           </div>
         }
         highlightedInContents={selectedGroupChatName}
         closeModal={hide}
         buttons={[
-          {
-            children: t('chatInfo.clear'),
-            className: 'clear-chat-modal__clear',
-            onClick: clearSelectedChat,
-            position: 'left',
-            width: 'contained',
-            variant: 'contained',
-            color: 'secondary',
-          },
-          {
-            children: t('chatInfo.cancel'),
-            className: 'clear-chat-modal__cancel-btn',
-            onClick: hide,
-            position: 'left',
-            width: 'auto',
-            variant: 'outlined',
-            color: 'default',
-          },
+          <button key={1} type='button' className='clear-chat-modal__cancel-btn' onClick={hide}>
+            {t('chatInfo.cancel')}
+          </button>,
+          <button key={2} type='button' className='clear-chat-modal__confirm-btn' onClick={clearSelectedChat}>
+            {t('chatInfo.clear')}
+          </button>,
         ]}
       />
     </WithBackground>

@@ -1,14 +1,14 @@
 import React, { useCallback } from 'react';
 import './video-list.scss';
 
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { ChatActions } from 'store/chats/actions';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import * as ChatActions from '@store/chats/actions';
 import { useSelector } from 'react-redux';
-import { getSelectedChatVideosSelector } from 'store/chats/selectors';
-import { IPage } from 'app/store/common/models';
-import { setSeparators } from 'app/utils/set-separators';
-import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
-import { VIDEO_ATTACHMENTS_LIMIT } from 'app/utils/pagination-limits';
+import { getSelectedChatVideosSelector } from '@store/chats/selectors';
+import { IPage } from '@store/common/models';
+import { setSeparators } from '@utils/set-separators';
+import { InfiniteScroll } from '@components';
+import { VIDEO_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 import { VideoFromList } from './video/video-from-list';
 
 export const VideoList = React.memo(() => {
@@ -42,7 +42,7 @@ export const VideoList = React.memo(() => {
         isLoading={videosForSelectedChat?.loading}
       >
         {videosWithSeparators?.map((video) => (
-          <VideoFromList key={video.id} video={video} />
+          <VideoFromList attachmentsArr={videosWithSeparators} key={video.id} video={video} />
         ))}
       </InfiniteScroll>
     </div>

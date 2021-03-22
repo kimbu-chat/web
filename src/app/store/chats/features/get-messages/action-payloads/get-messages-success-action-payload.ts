@@ -1,4 +1,4 @@
-import { IMessage } from 'app/store/chats/models';
+import { IMessage } from '../../../models';
 
 export interface IGetMessagesSuccessActionPayload {
   messages: IMessage[];

@@ -1,37 +1,35 @@
 .media-grid {
   display: inline-flex;
-  border-radius: 3px;
+  border-radius: 6px;
   overflow: hidden;
-  margin-top: 10px;
   display: flex;
-  max-width: 100%;
   align-items: center;
   justify-content: center;
-  width: 601px;
   flex-wrap: wrap;
+  margin-top: -10px !important;
 
   & > * {
+    margin-top: 10px;
+
     &:nth-child(2n + 1) {
       &:not(:last-child) {
-        margin-right: 1px;
+        margin-right: 10px;
       }
-    }
-
-    &:not(:last-child) {
-      margin-bottom: 1px;
     }
   }
 
   &--1 {
-    max-height: 500px;
-    max-width: 600px;
+    max-height: 428px;
+    max-width: 284px;
+    margin-right: 0;
 
     & > * {
       object-fit: cover;
+      margin-bottom: 0;
 
       img {
-        max-height: 500px;
-        max-width: 600px;
+        max-height: 100%;
+        max-width: 100%;
         object-fit: cover;
       }
     }
@@ -39,19 +37,17 @@
 
   &--even {
     & > * {
-      height: 200px;
-      width: 300px;
+      max-height: 430px;
+      max-width: 280px;
     }
   }
 
   &--odd {
+    display: block;
     & > * {
-      height: 200px;
-      width: 300px;
-      &:last-child {
-        height: 300px;
-        width: 600px;
-      }
+      max-height: 430px;
+      max-width: 280px;
+      margin-right: 0;
     }
   }
 }

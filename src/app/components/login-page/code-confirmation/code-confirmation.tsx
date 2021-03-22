@@ -1,18 +1,18 @@
 import React, { useContext, useState, useRef, useCallback, useEffect } from 'react';
 import './code-confirmation.scss';
 
-import { LocalizationContext } from 'app/app';
-import { AuthActions } from 'store/auth/actions';
-import { RootState } from 'store/root-reducer';
-import { useActionWithDeferred } from 'app/hooks/use-action-with-deferred';
+import { LocalizationContext } from '@contexts';
+import * as AuthActions from '@store/auth/actions';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useSelector } from 'react-redux';
 import useInterval from 'use-interval';
 import moment from 'moment';
 import { parsePhoneNumber } from 'libphonenumber-js';
-import ResendSvg from 'icons/ic-resend.svg';
-import { BaseBtn } from 'components';
+import ResendSvg from '@icons/ic-resend.svg';
+import { BaseBtn } from '@components';
 import { useHistory } from 'react-router';
-import { authPhoneNumberSelector, confirmationCodeWrongSelector, authLoadingSelector, twoLetterCountryCodeSelector } from 'app/store/auth/selectors';
+import { authPhoneNumberSelector, confirmationCodeWrongSelector, authLoadingSelector, twoLetterCountryCodeSelector } from '@store/auth/selectors';
+import { RootState } from 'typesafe-actions';
 
 const NUMBER_OF_DIGITS = [0, 1, 2, 3];
 

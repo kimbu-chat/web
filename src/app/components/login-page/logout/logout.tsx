@@ -1,6 +1,6 @@
-import { CubeLoader } from 'app/containers/cube-loader/cube-loader';
-import { useEmptyActionWithDeferred } from 'app/hooks/use-action-with-deferred';
-import { AuthActions } from 'app/store/auth/actions';
+import { CubeLoader } from '@containers/cube-loader/cube-loader';
+import { useEmptyActionWithDeferred } from '@hooks/use-action-with-deferred';
+import * as AuthActions from '@store/auth/actions';
 import React, { useEffect } from 'react';
 
 const Logout: React.FC = () => {

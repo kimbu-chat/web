@@ -1,8 +1,8 @@
-import { createEmptyAction } from 'app/store/common/actions';
-import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
-
 import { AxiosResponse } from 'axios';
 import { call, put, select } from 'redux-saga/effects';
+import { SagaIterator } from 'redux-saga';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { createEmptyAction } from '@store/common/actions';
 import { getSelectedChatSelector } from '../../selectors';
 import { IChangeChatMutedStatusApiRequest } from './api-requests/change-chat-muted-status-api-request';
 import { ChangeChatMutedStatusSuccess } from './change-chat-muted-status-success';
@@ -13,7 +13,7 @@ export class ChangeChatMutedStatus {
   }
 
   static get saga() {
-    return function* muteChatSaga() {
+    return function* muteChatSaga(): SagaIterator {
       const { id: chatId, isMuted } = yield select(getSelectedChatSelector);
 
       const request: IChangeChatMutedStatusApiRequest = {

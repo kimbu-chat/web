@@ -1,20 +1,62 @@
 .forward-modal {
-  margin-bottom: -2px;
+  min-width: 330px;
+
   &__chats-block {
-    max-height: 400px;
+    max-height: 320px;
     overflow: auto;
 
-    .loader {
-      & > * {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 15px;
-      }
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+
+    &__avatar-group {
+      position: relative;
     }
   }
-
   &__confirm-btn {
-    margin-bottom: -6px !important;
+    padding: 10px 27px;
+    color: var(--white);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 19px;
+    background: var(--king-blue);
+    border-radius: 6px;
+  }
+  &__cancel-btn {
+    padding: 10px 32px;
+    color: var(--white);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 19px;
+    background: transparent;
+    margin-left: auto;
+    margin-right: 16px;
+  }
+
+  &__icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 16px;
+  }
+
+  &__search-container {
+    position: relative;
+    width: 100%;
+    margin: 0 0 8px 0;
+  }
+
+  &__search {
+    &__icon {
+      height: 16px;
+      width: 16px;
+      left: 16px;
+    }
+
+    &__input {
+      height: 32px;
+      text-indent: 50px;
+    }
   }
 }

@@ -1,17 +1,16 @@
-import { Modal, WithBackground } from 'components';
+import { Modal, WithBackground, InfiniteScroll, SearchBox } from '@components';
 import React, { useCallback, useContext, useState } from 'react';
-
 import { useSelector } from 'react-redux';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { LocalizationContext } from '@contexts';
+import * as ChatActions from '@store/chats/actions';
+import { getChatsSelector, getHasMoreChatsSelector, getChatsLoadingSelector, getSearchChatsSelector, getSearchStringSelector } from '@store/chats/selectors';
+
 import './forward-modal.scss';
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { LocalizationContext } from 'app/app';
-import { ChatActions } from 'store/chats/actions';
-import { getChatsSelector, getHasMoreChatsSelector, getChatsLoadingSelector, getSearchChatsSelector, getSearchStringSelector } from 'app/store/chats/selectors';
-import { InfiniteScroll } from 'app/components/messenger-page/shared/infinite-scroll/infinite-scroll';
-import { SearchBox } from 'app/components';
-import { ForwardMessages } from 'app/store/chats/features/forward-messages/forward-messages';
-import { IChat } from 'app/store/chats/models';
-import { ForwardEntity } from './forward-entity/forward-entity';
+import { ForwardMessages } from '@store/chats/features/forward-messages/forward-messages';
+import { IChat } from '@store/chats/models';
+import ForwardSvg from '@icons/forward.svg';
+import { SelectEntity } from '../shared/select-entity/select-entity';
 
 interface IForwardModalProps {
   onClose: () => void;
@@ -78,32 +77,39 @@ export const ForwardModal: React.FC<IForwardModalProps> = React.memo(({ onClose,
   return (
     <WithBackground onBackgroundClick={onClose}>
       <Modal
-        title={t('forwardModal.forward')}
+        title={
+          <>
+            <ForwardSvg viewBox='0 0 16 16' className='forward-modal__icon' />
+            <span> {t('forwardModal.forward', { count: messageIdsToForward.length })} </span>
+          </>
+        }
         closeModal={onClose}
         content={
           <div className='forward-modal'>
-            <SearchBox onChange={handleChatSearchChange} />
+            <SearchBox
+              containerClassName='forward-modal__search-container'
+              iconClassName='forward-modal__search__icon'
+              inputClassName='forward-modal__search__input'
+              onChange={handleChatSearchChange}
+            />
             <InfiniteScroll className='forward-modal__chats-block' onReachExtreme={loadMore} hasMore={hasMoreChats} isLoading={chatsAreLoading}>
               {searchString.length > 0
                 ? searchChats?.map((chat: IChat) => (
-                    <ForwardEntity key={chat.id} chat={chat} isSelected={isSelected(chat.id)} changeSelectedState={changeSelectedState} />
+                    <SelectEntity key={chat.id} chatOrUser={chat} isSelected={isSelected(chat.id)} changeSelectedState={changeSelectedState} />
                   ))
                 : chats?.map((chat: IChat) => (
-                    <ForwardEntity key={chat.id} chat={chat} isSelected={isSelected(chat.id)} changeSelectedState={changeSelectedState} />
+                    <SelectEntity key={chat.id} chatOrUser={chat} isSelected={isSelected(chat.id)} changeSelectedState={changeSelectedState} />
                   ))}
             </InfiniteScroll>
           </div>
         }
         buttons={[
-          {
-            children: t('forwardModal.send'),
-            className: 'forward-modal__confirm-btn',
-            onClick: forwardSelectedMessages,
-            position: 'left',
-            width: 'contained',
-            variant: 'contained',
-            color: 'primary',
-          },
+          <button key={1} type='button' onClick={onClose} className='forward-modal__cancel-btn'>
+            {t('forwardModal.cancel')}
+          </button>,
+          <button key={2} type='button' onClick={forwardSelectedMessages} className='forward-modal__confirm-btn'>
+            {t('forwardModal.send')}
+          </button>,
         ]}
       />
     </WithBackground>

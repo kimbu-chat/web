@@ -1,6 +1,6 @@
-import { FileType, IAudioAttachment, IPictureAttachment, IRawAttachment, IVideoAttachment, IVoiceAttachment } from 'store/chats/models';
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
+import { FileType, IAudioAttachment, IPictureAttachment, IRawAttachment, IVideoAttachment, IVoiceAttachment } from '../../models';
 import { getChatByIdDraftSelector } from '../../selectors';
 import { ICreateMessageSuccessActionPayload } from './action-payloads/create-message-success-action-payload';
 import { IChatsState } from '../../chats-state';

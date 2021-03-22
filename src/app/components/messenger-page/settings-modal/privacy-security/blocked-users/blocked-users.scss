@@ -1,0 +1,32 @@
+.blocked-users {
+  background: var(--dark);
+  border-radius: 6px;
+  margin-top: 80px;
+
+  &__header {
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+
+    span {
+      color: var(--white);
+      font-weight: normal;
+      font-size: 24px;
+      line-height: 28px;
+    }
+
+    &__open {
+      margin-left: auto;
+      transition: all 0.2s;
+      svg {
+        color: var(--white);
+        width: 24px;
+        height: 24px;
+      }
+
+      &--opened {
+        transform: rotate(90deg);
+      }
+    }
+  }
+}

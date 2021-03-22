@@ -1,5 +1,5 @@
-import { AuthService } from 'app/services/auth-service';
 import { createReducer } from 'typesafe-actions';
+import { AuthService } from '../../services/auth-service';
 import { ConfirmPhoneFailure } from './features/confirm-phone/confirm-phone-failure';
 import { LoginSuccess } from './features/login/login-success';
 import { IAuthState } from './auth-state';

@@ -1,9 +1,11 @@
 import { createAction } from 'typesafe-actions';
 import produce from 'immer';
-import { SettingsService } from 'app/services/settings-service';
 import { SagaIterator } from 'redux-saga';
+
+import { SettingsService } from '@services/settings-service';
+import { IUserSettings } from '@store/settings/user-settings-state';
+
 import { IChangeTypingStrategyActionPayload } from './action-payloads/change-typing-strategy-action-payload';
-import { IUserSettings } from '../../user-settings-state';
 
 export class ChangeTypingStrategy {
   static get action() {
@@ -18,8 +20,11 @@ export class ChangeTypingStrategy {
   }
 
   static get saga() {
-    return function* (action: ReturnType<typeof ChangeTypingStrategy.action>): SagaIterator {
-      new SettingsService().initializeOrUpdate({ typingStrategy: action.payload.strategy });
+    return function* changeTypingStrategy(action: ReturnType<typeof ChangeTypingStrategy.action>): SagaIterator {
+      const settingsService = new SettingsService();
+      settingsService.initializeOrUpdate({
+        typingStrategy: action.payload.strategy,
+      });
     };
   }
 }

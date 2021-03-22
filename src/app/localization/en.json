@@ -15,10 +15,27 @@
   "activeCall": {
     "default": "Default"
   },
+  "messageError": {
+    "description": "Failed to send message",
+    "retry": "Retry",
+    "dismiss": "Dismiss"
+  },
+  "notContact": {
+    "description": "The user {{fullName}} is not in your contact.",
+    "add": "Add",
+    "block": "Block"
+  },
+  "blockedMessageInput": {
+    "unblock": "Unblock",
+    "description": "You cannot send messages to a user you have blocked."
+  },
   "chatData": {
     "members": "members",
     "online": "Online",
     "last-time": "Last seen online"
+  },
+  "chatMember": {
+    "owner": "Owner"
   },
   "chatFromList": {
     "you": "You",
@@ -28,8 +45,11 @@
     "typing": "{{firstInterlocutorName}} is typing...",
     "typing_two": "{{firstInterlocutorName}} and  {{secondInterlocutorName}} are typing...",
     "typing_many": "{{firstInterlocutorName}}, {{secondInterlocutorName}} and {{remainingCount}} more are typing...",
-    "empty": "There are no messages in this chat. Yours may be the first!",
+    "empty": "There are no messages in this chat. Be the first!",
     "select_chat": "Please select  a chat to start messaging"
+  },
+  "mediaModal": {
+    "of": "of"
   },
   "chatActions": {
     "mute": "Mute",
@@ -40,7 +60,8 @@
     "create-group": "Create group",
     "delete-chat": "Delete chat",
     "leave-chat": "Leave chat",
-    "add-users": "Add users to chat"
+    "add-users": "Add participants",
+    "actions": "Actions"
   },
   "chatMedia": {
     "media": "Media",
@@ -59,11 +80,11 @@
     "cancel": "Cancel"
   },
   "deleteMessageModal": {
-    "delete-confirmation": "Are you sure you want to delete {{count}} message?",
-    "delete-confirmation_plural": "Are you sure you want to delete {{count}} messages?",
+    "title": "Delete message",
+    "title_plural": "Delete ({{count}}) messages",
+    "delete-confirmation": "Delete for everyone",
     "delete-confirm": "Delete",
-    "cancel": "Cancel",
-    "delete-for": "Delete for {{name}}"
+    "cancel": "Cancel"
   },
   "chatPhoto": {
     "photo": "Photo"
@@ -80,7 +101,7 @@
     "reject": "Reject"
   },
   "messageInput": {
-    "write": "Write a message…..."
+    "write": "Type something..."
   },
   "selectedMessagesData": {
     "forward": "Forward ({{count}})",
@@ -116,8 +137,10 @@
     }
   },
   "forwardModal": {
-    "forward": "Forward",
-    "send": "Send"
+    "forward": "Forward message",
+    "forward_plural": "Forward ({{count}}) messages",
+    "send": "Forward",
+    "cancel": "Cancel"
   },
   "incomingCall": {
     "incoming_audio": "Incoming audio call",
@@ -129,50 +152,105 @@
   },
   "createGroupChatModal": {
     "add_members": "Add members",
-    "new_group": "New Group",
+    "new_group": "Create Group Chat",
     "next": "Next",
     "cancel": "Cancel",
-    "create_groupChat": "Create Group"
+    "create_groupChat": "Create"
   },
   "settings": {
     "online": "Online",
-    "edit_profile": "Edit profile",
+    "edit_profile": "Account",
     "notifications": "Notifications",
-    "text_typing": "Text typing",
-    "language": "Language"
+    "text_typing": "Key Bindings",
+    "language": "Language",
+    "appearance": "Appearance",
+    "audio-video": "Audio & Video",
+    "privacy-security": "Privacy & Security"
   },
 
-  "textTyping": {
+  "keyBindings": {
+    "title": "Key bindings",
     "nlce": "Send a message by Enter, insert a new line by Shift/Ctrl/Alt + Enter",
-    "nle": "Send a message by Shift/Ctrl/Alt + Enter, insert a new line by Enter"
+    "nle": "Send a message by Shift/Ctrl/Alt + Enter, insert a new line by Enter "
+  },
+  "appearance": {
+    "title": "Appearance",
+    "choose-theme": "Choose theme",
+    "dark": "Dark",
+    "light": "Light",
+    "font-size": "Font size"
+  },
+  "languageSettings": {
+    "title": "Language",
+    "russia": "Russia",
+    "usa-uk": "USA, Great Britain"
   },
   "notificationsSettings": {
-    "newMessageSound": "New messages sound notification"
+    "title": "Notifications",
+    "desktop-notification": "Desktop notifications",
+    "message-notification": "New messages sound notification",
+    "all-notifications": "Disable all notifications"
   },
   "editProfile": {
-    "upload_new_photo": "Upload New Photo",
-    "requirements": "At least 256 x 256px PNG or JPG file.",
-    "name": "Name",
-    "mobile": "Mobile",
-    "username": "Username"
+    "personal-information": "Personal information",
+    "upload_new_photo": "Upload new photo",
+    "requirements": "At least 256*256px PNG or JPG",
+    "save-changes": "Save changes",
+    "first_name": "First name",
+    "last_name": "Last name",
+    "username": "User nickname",
+    "phone-number": "Phone number",
+    "change-number": "Change number",
+    "phone-details": "When you change the number, your contacts will not find you by the previous number.",
+    "delete-account": "Delete account",
+    "delete-details": "Once you delete your account, there is no going back.",
+    "delete-confirmation": "Delete your account"
   },
-  "editNameModal": {
-    "edit_name": "Edit Name",
-    "first_name": "First Name",
-    "last_name": "Last Name"
+  "changePhoneModal": {
+    "change-number": "Change number",
+    "code-sent": "Code sent",
+    "code": "Code",
+    "cancel": "Cancel",
+    "change": "Change",
+    "confirm": "Confirm",
+    "details": "You can resend the code in {{time}}"
+  },
+  "deleteAccountModal": {
+    "title": "Delete account",
+    "confirm-content": "Are you sure to delete your account",
+    "cancel": "Cancel",
+    "logout": "Delete"
+  },
+  "privacySecurity": {
+    "title": "Privacy & Security",
+    "who-can-message-me": "Who can message me?",
+    "who-can-call-me": "Who can call me?",
+    "who-can-find-me": "Who can find me?",
+    "contacts": "My contacts",
+    "no-one": "No one",
+    "everyone": "Everyone"
+  },
+  "blockedUsers": {
+    "title": "Blocked users  {{count}}"
+  },
+  "blockedUser": {
+    "unblock": "Unblock"
+  },
+  "sessionaList": {
+    "title": "Sessions {{count}}"
+  },
+  "session": {
+    "last-acessed": "Last accessed:",
+    "signed-in": "Signed in:"
   },
   "editPhoneModal": {
     "edit_phone": "Edit Phone",
     "country": "Country",
     "phone_number": "Phone Number"
   },
-  "editUsernameModal": {
-    "edit_username": "Edit Username",
-    "username": "Username",
-    "requirements": "You can use a-z, 0-9 and underscores."
-  },
   "groupChatAddFriendModal": {
-    "add_members": "Add Members"
+    "add_members": "Add Members",
+    "cancel": "Cancel"
   },
   "chatRecordings": {
     "recordings": "Audio Recordings"
@@ -181,22 +259,58 @@
     "files": "Files"
   },
   "callFromList": {
-    "outgoing": "Outgoing",
-    "incoming": "Incoming",
+    "outgoing": "Outgoing call ({{duration}})",
+    "incoming": "Incoming call ({{duration}})",
     "canceled": "Canceled",
     "declined": "Declined",
     "missed": "Missed",
     "notAnswered": "Not Answered"
   },
+  "addCall": {
+    "title": "Add new call",
+    "subTitle": "Choose a contact and start a video conversation with him.",
+    "add": "Add"
+  },
+  "addCallModal": {
+    "title": "New call"
+  },
+  "logoutModal": {
+    "title": "Logout system",
+    "cancel": "Cancel",
+    "logout": "Logout",
+    "confirm-content": "Are you sure you want to logout?"
+  },
+  "clearChat": {
+    "title": "Clear chat",
+    "clear-confirmation": "Clear for everybody"
+  },
   "message-link": {
     "message-deleted": "Message deleted"
+  },
+  "addFriend": {
+    "title": "Add new contact",
+    "subtitle": "Add a new contact and start a conversation with him.",
+    "add": "Add"
+  },
+  "phoneInputGroup": {
+    "country": "Country",
+    "phone": "Phone"
+  },
+  "addFriendModal": {
+    "title": "New contact",
+    "cancel": "Cancel",
+    "find": "Find",
+    "error": "User was not found",
+    "chat": "Chat",
+    "add": "Add",
+    "success": "Contact has been added"
   },
   "systemMessage": {
     "you_created_group": "You created group",
     "created_group": "{{name}} created group",
     "left_group": "{{name}} left group",
-    "you_added": "You added {{name}}",
-    "someone_added": "{{someonesName}} added {{addedName}}",
+    "you_added": "You invited {{name}} to chat",
+    "someone_added": "{{someonesName}} invited {{addedName}} to chat",
     "you_changed_name": "You changed name from {{oldName}} to {{newName}}",
     "someone_changed_name": "{{someonesName}} changed name from {{oldName}} to {{newName}}",
     "you_changed_avatar": "You changed avatar",

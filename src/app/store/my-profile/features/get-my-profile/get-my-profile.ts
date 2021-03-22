@@ -1,11 +1,11 @@
-import { authenticatedSelector } from 'app/store/auth/selectors';
-import { createEmptyAction } from 'app/store/common/actions';
-import { HttpRequestMethod, httpRequestFactory } from 'app/store/common/http';
-
-import { IUser } from 'app/store/common/models';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
+import { authenticatedSelector } from '@store/auth/selectors';
+import { createEmptyAction } from '@store/common/actions';
+import { HttpRequestMethod, httpRequestFactory } from '@store/common/http';
+
+import { IUser } from '../../../common/models';
 import { myIdSelector } from '../../selectors';
 import { GetMyProfileSuccess } from './get-my-profile-success';
 
@@ -15,7 +15,7 @@ export class GetMyProfile {
   }
 
   static get saga() {
-    return function* (): SagaIterator {
+    return function* getMyProfile(): SagaIterator {
       const authenticated = yield select(authenticatedSelector);
 
       if (!authenticated) {

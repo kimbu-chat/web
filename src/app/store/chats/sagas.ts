@@ -27,6 +27,7 @@ import { MessageCreatedEventHandler } from './socket-events/message-created/mess
 import { UserMessageTypingEventHandler } from './socket-events/message-typing/message-typing-event-handler';
 import { ForwardMessages } from './features/forward-messages/forward-messages';
 import { MessagesDeletedIntegrationEventHandler } from './socket-events/message-deleted/messages-deleted-integration-event-handler';
+import { RemoveAllAttachments } from './features/remove-attachment/remove-all-attachments';
 
 export const ChatSagas = [
   takeLatest(GetChats.action, GetChats.saga),
@@ -54,6 +55,7 @@ export const ChatSagas = [
   takeEvery(SubmitEditMessage.action, SubmitEditMessage.saga),
   takeEvery(DeleteMessage.action, DeleteMessage.saga),
   takeEvery(ForwardMessages.action, ForwardMessages.saga),
+  takeEvery(RemoveAllAttachments.action, RemoveAllAttachments.saga),
 
   // socket-events
   takeEvery(MessageCreatedEventHandler.action, MessageCreatedEventHandler.saga),

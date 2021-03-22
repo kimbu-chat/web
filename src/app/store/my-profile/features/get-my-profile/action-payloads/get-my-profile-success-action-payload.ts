@@ -1,3 +1,3 @@
-import { IUser } from 'app/store/common/models';
+import { IUser } from '../../../../common/models';
 
-export interface IGetMyProfileSuccessActionPayload extends IUser {}
+export type IGetMyProfileSuccessActionPayload = IUser;

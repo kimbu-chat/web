@@ -1,22 +1,22 @@
-import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
-import { createPeerConnection, peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
-
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select, spawn } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { getAudioConstraintsSelector, getCallInterlocutorIdSelector, getIsVideoEnabledSelector, getVideoConstraintsSelector } from 'app/store/calls/selectors';
-import { interlocutorOffer } from 'store/middlewares/webRTC/peerConnectionFactory';
+
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { createPeerConnection, getPeerConnection, getInterlocutorOffer } from '@store/middlewares/webRTC/peerConnectionFactory';
+import { deviceUpdateWatcher } from '@store/calls/utils/device-update-watcher';
+import { getAndSendUserMedia, getMediaDevicesList } from '@store/calls/utils/user-media';
+import { InputType } from '@store/calls/common/enums/input-type';
+import { peerWatcher } from '@store/calls/utils/peer-watcher';
+import { getAudioConstraintsSelector, getCallInterlocutorIdSelector, getIsVideoEnabledSelector, getVideoConstraintsSelector } from '@store/calls/selectors';
+
 import { ICallsState } from '../../calls-state';
-import { deviceUpdateWatcher } from '../../utils/device-update-watcher';
-import { getAndSendUserMedia, getMediaDevicesList } from '../../utils/user-media';
 import { ChangeActiveDeviceId } from '../change-active-device-id/change-active-device-id';
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
 import { IAcceptCallActionPayload } from './action-payloads/accept-call-action-payload';
-import { InputType } from '../../common/enums/input-type';
 import { AcceptCallSuccess } from './accept-call-success';
-import { peerWatcher } from '../../utils/peer-watcher';
 import { IAcceptCallApiRequest } from './api-requests/accept-call-api-request';
 
 export class AcceptCall {
@@ -63,14 +63,16 @@ export class AcceptCall {
       }
       //---
       const interlocutorId: number = yield select(getCallInterlocutorIdSelector);
+      const interlocutorOffer = getInterlocutorOffer();
+      const peerConnection = getPeerConnection();
 
-      yield call(async () => await peerConnection?.setRemoteDescription(interlocutorOffer as RTCSessionDescriptionInit));
+      yield call(async () => peerConnection?.setRemoteDescription(interlocutorOffer as RTCSessionDescriptionInit));
 
       // setup local stream
       yield call(getAndSendUserMedia);
 
-      const answer = yield call(async () => await peerConnection?.createAnswer());
-      yield call(async () => await peerConnection?.setLocalDescription(answer));
+      const answer = yield call(async () => peerConnection?.createAnswer());
+      yield call(async () => peerConnection?.setLocalDescription(answer));
 
       const isVideoEnabled = yield select(getIsVideoEnabledSelector);
 

@@ -1,4 +1,4 @@
-import { IAttachmentCreation } from 'app/store/chats/models';
+import { IAttachmentCreation } from '../../../models';
 
 export interface ICreateMessageApiRequest {
   text?: string;

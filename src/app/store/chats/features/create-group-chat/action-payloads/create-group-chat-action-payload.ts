@@ -1,4 +1,4 @@
-import { IUser, IAvatar } from 'app/store/common/models';
+import { IUser, IAvatar } from '../../../../common/models';
 
 export interface ICreateGroupChatActionPayload {
   name: string;

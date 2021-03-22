@@ -1,0 +1,36 @@
+.logout-modal {
+  &__сontent {
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 19px;
+    color: var(--white);
+    margin-top: 15px;
+    margin-bottom: 11px;
+    min-width: 340px;
+  }
+
+  &__btn {
+    padding: 10px 30px;
+    color: var(--white);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 19px;
+    border-radius: 6px;
+
+    &--confirm {
+      background: var(--king-blue);
+    }
+
+    &--cancel {
+      background: transparent;
+      margin-left: auto;
+      margin-right: 23px;
+    }
+  }
+
+  &__icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 16px;
+  }
+}

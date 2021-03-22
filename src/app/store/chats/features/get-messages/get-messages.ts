@@ -1,11 +1,10 @@
-import { getIsFirstChatsLoadSelector, getSelectedChatMessagesSearchStringSelector, getSelectedChatSelector } from 'store/chats/selectors';
-import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
-
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { getIsFirstChatsLoadSelector, getSelectedChatMessagesSearchStringSelector, getSelectedChatSelector } from '../../selectors';
 import { IMessage, MessageState } from '../../models';
 import { IGetMessagesActionPayload } from './action-payloads/get-messages-action-payload';
 import { IGetMessagesApiRequest } from './api-requests/get-messages-api-request';
@@ -32,7 +31,7 @@ export class GetMessages {
   }
 
   static get saga() {
-    return function* (action: ReturnType<typeof GetMessages.action>): SagaIterator {
+    return function* getMessages(action: ReturnType<typeof GetMessages.action>): SagaIterator {
       const { page, isFromSearch } = action.payload;
 
       const isFirstChatsLoad = yield select(getIsFirstChatsLoadSelector);
@@ -54,14 +53,15 @@ export class GetMessages {
 
         const { data } = GetMessages.httpRequest.call(yield call(() => GetMessages.httpRequest.generator(request)));
 
-        data.forEach((message) => {
-          message.state = chat.interlocutorLastReadMessageId && chat.interlocutorLastReadMessageId >= message.id ? MessageState.READ : MessageState.SENT;
-        });
+        const newMessages = data.map((message) => ({
+          ...message,
+          state: chat.interlocutorLastReadMessageId && chat.interlocutorLastReadMessageId >= message.id ? MessageState.READ : MessageState.SENT,
+        }));
 
         const messageList = {
           chatId: chat.id,
-          messages: data,
-          hasMoreMessages: data.length >= page.limit,
+          messages: newMessages,
+          hasMoreMessages: newMessages.length >= page.limit,
           searchString,
           isFromSearch,
         };

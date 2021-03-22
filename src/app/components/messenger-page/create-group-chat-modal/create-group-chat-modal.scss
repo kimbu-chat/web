@@ -1,165 +1,157 @@
 .create-group-chat {
-  &__current-photo-wrapper {
-    .circular-progress {
-      position: absolute;
-      height: 125%;
-      width: 125%;
-      top: 55%;
-      z-index: 55;
-      left: 48%;
-      transform: translate(-50%, -50%) rotate(-90deg);
-      circle {
-        stroke-width: 1px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  &__select-friends {
+    margin-top: -16px;
+    &__search {
+      width: 339px;
+      height: 32px;
+      margin-left: 0;
+      margin-right: 0;
+      svg {
+        width: 16px;
+        height: 16px;
+        left: 17px;
+      }
 
-        &:first-child {
-          stroke: #bdbdbd;
-        }
+      input {
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 19px;
+        text-indent: 50px;
       }
     }
   }
-  &__friends-block {
-    max-height: 400px;
-    overflow: auto;
-  }
-
-  &__selected-count {
-    color: #6d7885;
-    font-size: 11px;
-    font-weight: 400;
-    margin-left: 8px;
-  }
-
-  &__heading {
-    display: flex;
-    align-items: flex-end;
-  }
-
-  &__change-photo {
-    display: flex;
-  }
 
   &__current-photo-wrapper {
-    height: 76px;
-    width: 76px;
+    width: 148px;
+    height: 148px;
+    border-radius: 6px;
+    background: var(--dark-blue);
     position: relative;
+
+    &__alt {
+      width: 68px;
+      height: 68px;
+      color: var(--white);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 20;
+    }
+
+    &__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 25;
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-radius: 6px;
+    }
+
+    &__top-line {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 30;
+    }
+
+    &__bottom-line {
+      position: absolute;
+      bottom: -5px;
+      right: -5px;
+      z-index: 30;
+    }
   }
 
-  &__remove-photo {
-    z-index: 55;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: #efeff0;
+  &__change-photo-btn {
+    border-radius: 6px;
     position: absolute;
-    top: 0;
-    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: var(--dark-transparent);
+    color: var(--white);
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 3px 0;
+    z-index: 40;
+
     svg {
-      width: 12px;
-      height: 12px;
+      height: 11px;
+      width: 11px;
+      margin-right: 5px;
+    }
+
+    span {
+      font-weight: 300;
+      font-size: 12px;
+      line-height: 14px;
     }
   }
 
-  &__current-photo {
-    height: 76px;
-    width: 76px;
-    border-radius: 50%;
-    z-index: 55;
+  &__criteria {
+    margin-top: 13px;
+    color: var(--white);
+    font-weight: 300;
+    font-size: 10px;
+    line-height: 12px;
   }
 
-  &__change-photo-data {
-    margin-left: 20px;
-    display: flex;
-    flex-direction: column;
-  }
+  &__btn {
+    margin-top: 30px;
+    padding: 10px 32px;
+    color: var(--white);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 19px;
+    background: var(--king-blue);
+    border-radius: 6px;
 
-  &__change-photo__btn {
-    padding: 11px 30px;
-    border: 1px solid rgb(215, 216, 217);
-    border-radius: 19px;
-    color: rgb(109, 120, 133);
-    font-size: 13px;
-    line-height: 16px;
-    font-weight: 500;
-    margin-top: auto;
-    margin-bottom: 6px;
-    align-self: flex-start;
-
-    &:focus {
-      border: 1px solid rgb(215, 216, 217);
+    &--cancel {
+      background: transparent;
+      margin-right: 10px;
     }
   }
 
-  &__change-photo__description {
-    font-size: 11px;
-    line-height: 18px;
-    font-weight: 400px;
-    color: rgb(151, 151, 151);
+  &__input-group {
+    width: 339px;
+    height: 40px;
+    position: relative;
+    border-radius: 6px;
+    background: var(--msg-bg);
+    margin-top: 30px;
   }
 
-  &__name {
-    margin-top: 20px;
-
-    &__label {
-      display: block;
-      font-weight: 400px;
-      font-size: 11px;
-      line-height: 16px;
-      color: rgb(151, 151, 151);
-      margin-bottom: 2px;
-    }
-
-    &__input {
-      display: block;
-      height: 48px;
-      border-radius: 4px;
-      border: 1px solid rgb(215, 216, 217);
-      padding: 14px 13px;
-      font-size: 13px;
-      line-height: 16px;
-      font-weight: 400;
-      box-sizing: border-box;
-      width: 100%;
-    }
+  &__input-label {
+    padding: 2px 8px;
+    position: absolute;
+    top: -13px;
+    left: 16px;
+    background: var(--dark);
+    border-radius: 6px;
+    color: var(--white);
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 14px;
   }
 
-  &__description {
-    margin-top: 20px;
-
-    &__label {
-      display: block;
-      font-weight: 400px;
-      font-size: 11px;
-      line-height: 16px;
-      color: rgb(151, 151, 151);
-      margin-bottom: 2px;
-    }
-
-    &__input {
-      display: block;
-      height: 96px;
-      border-radius: 4px;
-      border: 1px solid rgb(215, 216, 217);
-      padding: 14px 13px;
-      font-size: 13px;
-      line-height: 16px;
-      font-weight: 400;
-      box-sizing: border-box;
-      width: 100%;
-      resize: none;
-    }
-  }
-
-  &__confirm-btn {
-    margin-right: 20px !important;
-    width: 50% !important;
-  }
-
-  &__cancel-btn {
-    margin: 0 0 0 10px !important;
-    color: #6d7885 !important;
-    width: 50% !important;
+  &__input {
+    height: 100%;
+    width: 100%;
+    padding: 10px 16px;
+    color: var(--white);
+    background: transparent;
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 19px;
   }
 }

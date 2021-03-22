@@ -1,15 +1,15 @@
-import { DeclineCall } from 'app/store/calls/features/decline-call/decline-call';
-import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
-
-import { createPeerConnection, peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, delay, put, race, select, spawn, take } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
-import { RootState } from 'app/store/root-reducer';
+import { createAction, RootState } from 'typesafe-actions';
 
 import { AxiosResponse } from 'axios';
-import { getIsVideoEnabledSelector } from 'app/store/calls/selectors';
+import { httpRequestFactory } from '@store/common/http/http-factory';
+import { HttpRequestMethod } from '@store/common/http/http-request-method';
+import { getIsVideoEnabledSelector } from '../../selectors';
+
+import { createPeerConnection, getPeerConnection } from '../../../middlewares/webRTC/peerConnectionFactory';
+import { DeclineCall } from '../decline-call/decline-call';
 import { ICallsState } from '../../calls-state';
 import { deviceUpdateWatcher } from '../../utils/device-update-watcher';
 import { getAndSendUserMedia, getMediaDevicesList } from '../../utils/user-media';
@@ -49,6 +49,7 @@ export class OutgoingCall {
 
   static get saga() {
     return function* outgoingCallSaga(action: ReturnType<typeof OutgoingCall.action>): SagaIterator {
+      const peerConnection = getPeerConnection();
       const amISpeaking = yield select((state: RootState) => state.calls.isSpeaking);
       setIsRenegotiationAccepted(false);
 
@@ -87,12 +88,10 @@ export class OutgoingCall {
 
       const userInterlocutorId = action.payload.calling.id;
 
-      const offer: RTCSessionDescriptionInit = yield call(
-        async () => await peerConnection?.createOffer({ offerToReceiveAudio: true, offerToReceiveVideo: true }),
-      );
+      const offer: RTCSessionDescriptionInit = yield call(async () => peerConnection?.createOffer({ offerToReceiveAudio: true, offerToReceiveVideo: true }));
 
       yield spawn(peerWatcher);
-      yield call(async () => await peerConnection?.setLocalDescription(offer));
+      yield call(async () => peerConnection?.setLocalDescription(offer));
 
       const isVideoEnabled = yield select(getIsVideoEnabledSelector);
 

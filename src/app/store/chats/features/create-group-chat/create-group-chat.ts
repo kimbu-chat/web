@@ -1,26 +1,32 @@
-import { Meta } from 'app/store/common/actions';
-import { httpRequestFactory, HttpRequestMethod } from 'app/store/common/http';
-
-import { MessageUtils } from 'app/utils/message-utils';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { getSelectedChatIdSelector } from 'app/store/chats/selectors';
+import produce from 'immer';
+import { Meta } from '@store/common/actions';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { getSelectedChatIdSelector } from '../../selectors';
+import { MessageUtils } from '../../../../utils/message-utils';
 import { ChatId } from '../../chat-id';
 import { IChat, IMessage, InterlocutorType, MessageState, SystemMessageType } from '../../models';
 import { ChangeSelectedChat } from '../change-selected-chat/change-selected-chat';
 import { ICreateGroupChatActionPayload } from './action-payloads/create-group-chat-action-payload';
 import { CreateGroupChatSuccess } from './create-group-chat-success';
 import { ICerateGroupChatApiRequest } from './api-requests/create-group-chat-api-request';
+import { IChatsState } from '../../chats-state';
 
 export class CreateGroupChat {
   static get action() {
-    return createAction('CREATE_GROUP_CHAT')<ICreateGroupChatActionPayload, Meta>();
+    return createAction('CREATE_GROUP_CHAT')<ICreateGroupChatActionPayload, Meta<IChat>>();
+  }
+
+  // TODO: handle loading
+  static get reducer() {
+    return produce((draft: IChatsState) => draft);
   }
 
   static get saga() {
-    return function* (action: ReturnType<typeof CreateGroupChat.action>): SagaIterator {
+    return function* createGroupChat(action: ReturnType<typeof CreateGroupChat.action>): SagaIterator {
       const { userIds, name, avatar, description, currentUser } = action.payload;
       const selectedChatId = yield select(getSelectedChatIdSelector);
 

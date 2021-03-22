@@ -1,11 +1,11 @@
-import { authRequestFactory, HttpRequestMethod } from 'app/store/common/http';
-import { CloseWebsocketConnection } from 'app/store/web-sockets/features/close-web-socket-connection/close-web-socket-connection';
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put, take } from 'redux-saga/effects';
-import { createEmptyDefferedAction } from 'store/common/actions';
-import { IAuthState } from '../../auth-state';
+import { authRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { CloseWebsocketConnection } from '@store/web-sockets/features/close-web-socket-connection/close-web-socket-connection';
+import { createEmptyDefferedAction } from '@store/common/actions';
+import { IAuthState } from '@store/auth/auth-state';
 import { UnSubscribeFromPushNotifications } from '../un-subscribe-from-push-notifications/un-subscribe-from-push-notifications';
 import { UnSubscribeToPushNotificationsSuccess } from '../un-subscribe-from-push-notifications/un-subscribe-from-push-notifications_success';
 
@@ -22,7 +22,7 @@ export class Logout {
   }
 
   static get saga() {
-    return function* (action: ReturnType<typeof Logout.action>): SagaIterator {
+    return function* logout(action: ReturnType<typeof Logout.action>): SagaIterator {
       yield put(UnSubscribeFromPushNotifications.action());
       yield take(UnSubscribeToPushNotificationsSuccess.action);
       yield put(CloseWebsocketConnection.action());

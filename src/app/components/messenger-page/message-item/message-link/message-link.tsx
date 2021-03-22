@@ -1,8 +1,9 @@
-import { LocalizationContext } from 'app/app';
-import { FileType, IAudioAttachment, IBaseAttachment, IPictureAttachment, IRawAttachment, IVideoAttachment, IVoiceAttachment } from 'app/store/chats/models';
-import { MessageLinkType } from 'app/store/chats/models/linked-message-type';
-import { IUser } from 'app/store/common/models';
+import { LocalizationContext } from '@contexts';
+import { Avatar } from '@components';
+import { FileType, IAudioAttachment, IBaseAttachment, IPictureAttachment, IRawAttachment, IVideoAttachment, IVoiceAttachment } from '@store/chats/models';
+import { IUser } from '@store/common/models';
 import React, { useContext, useMemo } from 'react';
+import { getUserInitials } from '@utils/interlocutor-name-utils';
 import { MessageAudioAttachment } from '../../shared/audio-attachment/audio-attachment';
 import { FileAttachment } from '../../shared/file-attachment/file-attachment';
 import { MediaGrid } from '../attachments/media-grid/media-grid';
@@ -15,13 +16,12 @@ interface IMessageLinkProps {
     userCreator: IUser;
     text?: string;
     attachments?: IBaseAttachment[];
-    isEdited: boolean;
-    isDeleted: boolean;
+    isEdited?: boolean;
+    isDeleted?: boolean;
   };
-  linkedMessageType: MessageLinkType;
 }
 
-const MessageLink: React.FC<IMessageLinkProps> = React.memo(({ linkedMessage, linkedMessageType }) => {
+const MessageLink: React.FC<IMessageLinkProps> = React.memo(({ linkedMessage }) => {
   const { t } = useContext(LocalizationContext);
 
   const structuredAttachments = useMemo(
@@ -74,24 +74,28 @@ const MessageLink: React.FC<IMessageLinkProps> = React.memo(({ linkedMessage, li
   );
 
   return (
-    <div className={`message-link ${linkedMessageType === 'Forward' ? 'message-link--forward' : 'message-link--reply'}`}>
-      {linkedMessage && (
-        <div className='message-link__interlocutor'>{`${linkedMessageType === 'Forward' ? 'Forwarded from ' : 'Replied to'} ${
-          linkedMessage?.userCreator.firstName
-        } ${linkedMessage?.userCreator.lastName}`}</div>
-      )}
-      <div className='message-link__text'>{linkedMessage?.isDeleted ? t('message-link.message-deleted') : linkedMessage?.text}</div>
-      <div className='message-link__attachments'>
-        {structuredAttachments?.files.map((file) => (
-          <FileAttachment key={file.id} attachment={file} />
-        ))}
-        {structuredAttachments?.recordings.map((recording) => (
-          <RecordingAttachment key={recording.id} attachment={recording} />
-        ))}
-        {structuredAttachments?.audios.map((audio) => (
-          <MessageAudioAttachment key={audio.id} attachment={audio} />
-        ))}
-        {(structuredAttachments?.media.length || 0) > 0 && <MediaGrid media={structuredAttachments!.media} />}
+    <div className='message-link'>
+      <Avatar className='message-link__avatar' src={linkedMessage?.userCreator.avatar?.previewUrl}>
+        {getUserInitials(linkedMessage?.userCreator)}
+      </Avatar>
+
+      <div className='message-link__text'>
+        <span>{linkedMessage?.isDeleted ? t('message-link.message-deleted') : linkedMessage?.text}</span>
+
+        <div className='message-link__attachments'>
+          {structuredAttachments?.files.map((file) => (
+            <div className='message-link__attachment-wrapper'>
+              <FileAttachment key={file.id} attachment={file} />
+            </div>
+          ))}
+          {structuredAttachments?.recordings.map((recording) => (
+            <RecordingAttachment key={recording.id} attachment={recording} />
+          ))}
+          {structuredAttachments?.audios.map((audio) => (
+            <MessageAudioAttachment key={audio.id} attachment={audio} />
+          ))}
+          {(structuredAttachments?.media.length || 0) > 0 && <MediaGrid media={structuredAttachments!.media} />}
+        </div>
       </div>
     </div>
   );

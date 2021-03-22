@@ -1,5 +1,5 @@
-import { IUser } from 'app/store/common/models';
-import { IChat } from 'store/chats/models';
+import { IChat } from '../store/chats/models';
+import { IUser } from '../store/common/models';
 
 export const getChatInterlocutor = (chat: IChat): string => {
   const { interlocutor } = chat;

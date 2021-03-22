@@ -1,13 +1,14 @@
 import React, { useCallback, useContext, useState } from 'react';
 import './chat-media.scss';
 
-import { LocalizationContext } from 'app/app';
+import { LocalizationContext } from '@contexts';
 
-import PictureSvg from 'icons/picture.svg';
-import VideoSvg from 'icons/video.svg';
-import FilesSvg from 'icons/files.svg';
-import VoiceSvg from 'icons/voice.svg';
-import OpenArrowSvg from 'icons/open-arrow.svg';
+import PictureSvg from '@icons/picture.svg';
+import VideoSvg from '@icons/video.svg';
+import FilesSvg from '@icons/files.svg';
+import VoiceSvg from '@icons/voice.svg';
+import AudioSvg from '@icons/audio.svg';
+import OpenArrowSvg from '@icons/open-arrow.svg';
 
 import {
   getPictureAttachmentsCountSelector,
@@ -15,7 +16,7 @@ import {
   getFilesAttachmentsCountSelector,
   getVoiceAttachmentsCountSelector,
   getAudioAttachmentsCountSelector,
-} from 'app/store/chats/selectors';
+} from '@store/chats/selectors';
 
 import { useSelector } from 'react-redux';
 
@@ -79,21 +80,21 @@ export const ChatMedia = React.memo(() => {
       </div>
       <div className='chat-media__media-group'>
         <div className='chat-media__media-heading'>
-          <FilesSvg />
-          <div className='chat-media__media-title'>{t('chatMedia.file', { count: filesAttachmentsCount || 0 })}</div>
+          <AudioSvg />
+          <div className='chat-media__media-title'>{t('chatMedia.audio', { count: audioAttachmentsCount || 0 })}</div>
           <button
             type='button'
-            onClick={changeFilesDisplayedState}
-            className={`chat-media__open-arrow ${filesDisplayed ? 'chat-media__open-arrow--rotated' : ''}`}
+            onClick={changeAudioDisplayedState}
+            className={`chat-media__open-arrow ${audioDisplayed ? 'chat-media__open-arrow--rotated' : ''}`}
           >
             <OpenArrowSvg />
           </button>
         </div>
-        {filesDisplayed && <FileList />}
+        {audioDisplayed && <AudioList />}
       </div>
       <div className='chat-media__media-group'>
         <div className='chat-media__media-heading'>
-          <VoiceSvg />
+          <VoiceSvg viewBox='0 0 20 24' />
           <div className='chat-media__media-title'>{t('chatMedia.voice', { count: voiceAttachmentsCount || 0 })}</div>
           <button
             type='button'
@@ -107,17 +108,17 @@ export const ChatMedia = React.memo(() => {
       </div>
       <div className='chat-media__media-group'>
         <div className='chat-media__media-heading'>
-          <VoiceSvg />
-          <div className='chat-media__media-title'>{t('chatMedia.audio', { count: audioAttachmentsCount || 0 })}</div>
+          <FilesSvg />
+          <div className='chat-media__media-title'>{t('chatMedia.file', { count: filesAttachmentsCount || 0 })}</div>
           <button
             type='button'
-            onClick={changeAudioDisplayedState}
-            className={`chat-media__open-arrow ${audioDisplayed ? 'chat-media__open-arrow--rotated' : ''}`}
+            onClick={changeFilesDisplayedState}
+            className={`chat-media__open-arrow ${filesDisplayed ? 'chat-media__open-arrow--rotated' : ''}`}
           >
             <OpenArrowSvg />
           </button>
         </div>
-        {audioDisplayed && <AudioList />}
+        {filesDisplayed && <FileList />}
       </div>
     </div>
   );

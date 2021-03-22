@@ -1,9 +1,9 @@
 import React, { useCallback, useContext, useRef, useState } from 'react';
 import { Picker, BaseEmoji } from 'emoji-mart';
-import SmilesSvg from 'icons/ic-smile.svg';
+import SmilesSvg from '@icons/smiles.svg';
 import 'emoji-mart/css/emoji-mart.css';
-import { LocalizationContext } from 'app/app';
-import { useOnClickOutside } from 'app/hooks/use-on-click-outside';
+import { LocalizationContext } from '@contexts';
+import { useOnClickOutside } from '@hooks/use-on-click-outside';
 import './message-smiles.scss';
 
 interface IMessageSmilesProps {

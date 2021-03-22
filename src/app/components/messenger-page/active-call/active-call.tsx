@@ -12,35 +12,35 @@ import {
   getIsScreenSharingEnabledSelector,
   getVideoConstraintsSelector,
   getVideoDevicesSelector,
-} from 'store/calls/selectors';
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { CallActions } from 'store/calls/actions';
+} from '@store/calls/selectors';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import * as CallActions from '@store/calls/actions';
 import moment from 'moment';
 import { Rnd } from 'react-rnd';
-import { Avatar } from 'components';
-import { getUserInitials } from 'utils/interlocutor-name-utils';
+import { Avatar } from '@components';
+import { getUserInitials } from '@utils/interlocutor-name-utils';
 import ReactDOM from 'react-dom';
 
 // SVG
-import MicrophoneEnableSvg from 'icons/ic-microphone.svg';
-import MicrophoneDisableSvg from 'icons/ic-microphone-mute.svg';
-import VideoEnableSvg from 'icons/ic-video-call.svg';
-import VideoDisableSvg from 'icons/ic-video-call-mute.svg';
-import ScreenSharingEnableSvg from 'icons/ic-screen-share.svg';
-import ScreenSharingDisableSvg from 'icons/ic-screen-share-mute.svg';
-import HangUpSvg from 'icons/ic-call-out.svg';
-import FullScreenSvg from 'icons/ic-fullscreen.svg';
-import ExitFullScreenSvg from 'icons/ic-fullscreen-exit.svg';
-import VoiceCallSvg from 'icons/ic-call.svg';
+import MicrophoneEnableSvg from '@icons/ic-microphone.svg';
+import MicrophoneDisableSvg from '@icons/ic-microphone-mute.svg';
+import VideoEnableSvg from '@icons/ic-video-call.svg';
+import VideoDisableSvg from '@icons/ic-video-call-mute.svg';
+import ScreenSharingEnableSvg from '@icons/ic-screen-share.svg';
+import ScreenSharingDisableSvg from '@icons/ic-screen-share-mute.svg';
+import HangUpSvg from '@icons/ic-call-out.svg';
+import FullScreenSvg from '@icons/ic-fullscreen.svg';
+import ExitFullScreenSvg from '@icons/ic-fullscreen-exit.svg';
+import VoiceCallSvg from '@icons/ic-call.svg';
 
 // sounds
-import callingBeep from 'app/assets/sounds/calls/outgoing-call.ogg';
-import busySound from 'app/assets/sounds/calls/busy-sound.ogg';
-import { LocalizationContext } from 'app/app';
-import { IUser } from 'app/store/common/models';
-import { interlocutorAudioTrack, interlocutorVideoTrack, tracks } from 'app/store/calls/utils/user-media';
-import { InputType } from 'app/store/calls/common/enums/input-type';
-import { playSoundSafely } from 'app/utils/current-music';
+import callingBeep from '@sounds/calls/outgoing-call.ogg';
+import busySound from '@sounds/calls/busy-sound.ogg';
+import { LocalizationContext } from '@contexts';
+import { IUser } from '@store/common/models';
+import { getInterlocutorAudioTrack, getInterlocutorVideoTrack, tracks } from '@store/calls/utils/user-media';
+import { InputType } from '@store/calls/common/enums/input-type';
+import { playSoundSafely } from '@utils/current-music';
 import { Dropdown } from './dropdown/dropdown';
 
 export const ActiveCall: React.FC = () => {
@@ -91,23 +91,25 @@ export const ActiveCall: React.FC = () => {
 
   useEffect(() => {
     if (remoteVideoRef.current) {
-      if (interlocutorVideoTrack) {
+      const videoTrack = getInterlocutorVideoTrack();
+      if (videoTrack) {
         const mediaStream = new MediaStream();
-        mediaStream.addTrack(interlocutorVideoTrack);
+        mediaStream.addTrack(videoTrack);
         remoteVideoRef.current.srcObject = mediaStream;
       }
     }
-  }, [interlocutorVideoTrack, isInterlocutorVideoEnabled, remoteVideoRef]);
+  }, [getInterlocutorVideoTrack, isInterlocutorVideoEnabled, remoteVideoRef]);
 
   useEffect(() => {
     if (remoteAudioRef.current) {
-      if (interlocutorAudioTrack) {
+      const audioTrack = getInterlocutorAudioTrack();
+      if (audioTrack) {
         const mediaStream = new MediaStream();
-        mediaStream.addTrack(interlocutorAudioTrack);
+        mediaStream.addTrack(audioTrack);
         remoteAudioRef.current.srcObject = mediaStream;
       }
     }
-  }, [interlocutorAudioTrack, remoteAudioRef]);
+  }, [getInterlocutorAudioTrack, remoteAudioRef]);
 
   // local video stream assigning
   useEffect(() => {

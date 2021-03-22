@@ -1,5 +1,5 @@
-import { createEmptyAction } from 'app/store/common/actions';
 import produce from 'immer';
+import { createEmptyAction } from '@store/common/actions';
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
 
@@ -14,7 +14,7 @@ export class ResetEditMessage {
         const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
 
         if (chat) {
-          chat.messageToReply = undefined;
+          chat.messageToEdit = undefined;
         }
       }
 

@@ -1,4 +1,4 @@
-import { UserStatus } from 'app/store/common/models';
+import { UserStatus } from '../../../common/models';
 
 export interface IStatusChangedIntegrationEvent {
   status: UserStatus;

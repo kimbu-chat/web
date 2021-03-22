@@ -1,13 +1,13 @@
-import { Modal, WithBackground } from 'components';
+import { Modal, WithBackground } from '@components';
 import React, { useCallback, useContext, useState } from 'react';
-import { useSelector } from 'react-redux';
 
-import CheckBoxSvg from 'icons/ic-checkbox.svg';
-import { useActionWithDispatch } from 'app/hooks/use-action-with-dispatch';
-import { LocalizationContext } from 'app/app';
+import CheckedSvg from '@icons/checked.svg';
+import UncheckedSvg from '@icons/unchecked.svg';
+import DeleteSvg from '@icons/delete.svg';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { LocalizationContext } from '@contexts';
 import './delete-message-modal.scss';
-import { DeleteMessage } from 'app/store/chats/features/delete-message/delete-message';
-import { getSelectedChatInterlocutorNameSelector } from 'app/store/chats/selectors';
+import { DeleteMessage } from '@store/chats/features/delete-message/delete-message';
 
 interface IDeleteMessageModalProps {
   onClose: () => void;
@@ -24,8 +24,6 @@ export const DeleteMessageModal: React.FC<IDeleteMessageModalProps> = React.memo
     setDeleteForInterlocutor((oldState) => !oldState);
   }, [setDeleteForInterlocutor]);
 
-  const selectedChatInterlocutorName = useSelector(getSelectedChatInterlocutorNameSelector);
-
   const deleteTheseMessages = useCallback(() => {
     deleteMessage({ messageIds: selectedMessages, forEveryone: deleteForInterlocutor });
     onClose();
@@ -34,52 +32,30 @@ export const DeleteMessageModal: React.FC<IDeleteMessageModalProps> = React.memo
   return (
     <WithBackground onBackgroundClick={onClose}>
       <Modal
-        title='Delete message'
+        title={
+          <>
+            <DeleteSvg viewBox='0 0 15 16' className='delete-message-modal__icon' />
+            <span> {t('deleteMessageModal.title', { count: selectedMessages.length })} </span>
+          </>
+        }
         content={
-          <div>
-            <div className=''>
-              {t('deleteMessageModal.delete-confirmation', { count: selectedMessages.length })
-                .split(`${selectedMessages.length}`)
-                .map((text, index, arr) => (
-                  // eslint-disable-next-line react/no-array-index-key
-                  <React.Fragment key={index}>
-                    <span className='modal__contents__text'>{text}</span>
-                    {index < arr.length - 1 && <span className='modal__contents__text modal__contents__text--highlighted'>{selectedMessages.length}</span>}
-                  </React.Fragment>
-                ))}
-            </div>
-            <div className='delete-message-modal'>
+          <div className='delete-message-modal'>
+            <div className='delete-message-modal__delete-all'>
               <button type='button' className='delete-message-modal__btn' onClick={changeDeleteForInterlocutorState}>
-                {deleteForInterlocutor && <CheckBoxSvg />}
+                {deleteForInterlocutor ? <CheckedSvg /> : <UncheckedSvg />}
               </button>
-              <span className='delete-message-modal__btn-description'>
-                {t('deleteMessageModal.delete-for', {
-                  name: selectedChatInterlocutorName,
-                })}
-              </span>
+              <span className='delete-message-modal__btn-description'>{t('deleteMessageModal.delete-confirmation')}</span>
             </div>
           </div>
         }
         closeModal={onClose}
         buttons={[
-          {
-            children: t('deleteMessageModal.delete-confirm'),
-            className: 'delete-message-modal__confirm-btn',
-            onClick: deleteTheseMessages,
-            position: 'left',
-            width: 'auto',
-            variant: 'contained',
-            color: 'secondary',
-          },
-          {
-            children: t('deleteMessageModal.cancel'),
-            className: 'delete-message-modal__cancel-btn',
-            onClick: onClose,
-            position: 'left',
-            width: 'auto',
-            variant: 'outlined',
-            color: 'default',
-          },
+          <button key={1} type='button' onClick={onClose} className='delete-message-modal__cancel-btn'>
+            {t('deleteMessageModal.cancel')}
+          </button>,
+          <button key={2} type='button' onClick={deleteTheseMessages} className='delete-message-modal__confirm-btn'>
+            {t('deleteMessageModal.delete-confirm')}
+          </button>,
         ]}
       />
     </WithBackground>

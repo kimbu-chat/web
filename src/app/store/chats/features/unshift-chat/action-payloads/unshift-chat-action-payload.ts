@@ -1,3 +1,3 @@
 import { IChat } from '../../../models';
 
-export interface IUnshiftChatActionPayload extends IChat {}
+export type IUnshiftChatActionPayload = IChat;

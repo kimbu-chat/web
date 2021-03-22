@@ -1,0 +1,33 @@
+.settings-navigation {
+  &__element {
+    padding: 20px;
+    color: var(--white);
+    background: var(--dark);
+    display: flex;
+    align-items: center;
+
+    &--active {
+      background: var(--chat-bg);
+    }
+
+    &:hover {
+      background: var(--chat-bg);
+    }
+
+    &:first-child {
+      margin-top: 64px;
+    }
+  }
+
+  &__icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 20px;
+  }
+
+  &__text {
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 19px;
+  }
+}

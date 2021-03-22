@@ -1,7 +1,7 @@
-import { peerConnection } from 'app/store/middlewares/webRTC/peerConnectionFactory';
-import { getAudioConstraintsSelector, getVideoConstraintsSelector } from 'app/store/calls/selectors';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
+import { getPeerConnection } from '../../middlewares/webRTC/peerConnectionFactory';
+import { getAudioConstraintsSelector, getVideoConstraintsSelector } from '../selectors';
 import { CloseScreenShareStatus } from '../features/change-screen-share-status/close-screen-share-status';
 import { CloseAudioStatus } from '../features/change-user-media-status/close-audio-status';
 import { CloseVideoStatus } from '../features/change-user-media-status/close-video-status';
@@ -27,10 +27,27 @@ export const tracks: {
   audioTrack: MediaStreamTrack | null;
   screenSharingTrack: MediaStreamTrack | null;
 } = { videoTrack: null, audioTrack: null, screenSharingTrack: null };
-export let interlocutorVideoTrack: MediaStreamTrack | null;
-export let interlocutorAudioTrack: MediaStreamTrack | null;
-export let videoSender: RTCRtpSender | null;
-export let audioSender: RTCRtpSender | null;
+
+let interlocutorVideoTrack: MediaStreamTrack | null;
+let interlocutorAudioTrack: MediaStreamTrack | null;
+let videoSender: RTCRtpSender | null;
+let audioSender: RTCRtpSender | null;
+
+export function getInterlocutorVideoTrack(): MediaStreamTrack | null {
+  return interlocutorVideoTrack;
+}
+
+export function getInterlocutorAudioTrack(): MediaStreamTrack | null {
+  return interlocutorAudioTrack;
+}
+
+export function getVideoSender(): RTCRtpSender | null {
+  return videoSender;
+}
+
+export function getAudioSender(): RTCRtpSender | null {
+  return audioSender;
+}
 
 export const assignInterlocutorVideoTrack = (track: MediaStreamTrack | null) => {
   interlocutorVideoTrack = track;
@@ -85,38 +102,34 @@ export const stopAllTracks = () => {
   stopScreenSharingTracks();
 };
 
-export const getUserAudio = function* (constraints: IInCompleteConstraints) {
+export function* getUserAudio(constraints: IInCompleteConstraints) {
   let localMediaStream: MediaStream | null = null;
   try {
-    localMediaStream = yield call(
-      async () =>
-        await navigator.mediaDevices.getUserMedia({
-          audio: constraints.audio?.isOpened && constraints.audio,
-        }),
+    localMediaStream = yield call(async () =>
+      navigator.mediaDevices.getUserMedia({
+        audio: constraints.audio?.isOpened && constraints.audio,
+      }),
     );
-
     yield put(OpenAudioStatus.action());
   } catch (e) {
     yield put(CloseAudioStatus.action());
   }
 
-  yield call(stopAudioTracks);
+  stopAudioTracks();
 
   if (localMediaStream) {
     assignAudioStreams(localMediaStream);
   }
-};
+}
 
-export const getUserVideo = function* (constraints: IInCompleteConstraints) {
+export function* getUserVideo(constraints: IInCompleteConstraints) {
   let localMediaStream: MediaStream | null = null;
   try {
-    localMediaStream = yield call(
-      async () =>
-        await navigator.mediaDevices.getUserMedia({
-          video: constraints.video?.isOpened && constraints.video,
-        }),
+    localMediaStream = yield call(async () =>
+      navigator.mediaDevices.getUserMedia({
+        video: constraints.video?.isOpened && constraints.video,
+      }),
     );
-
     yield put(OpenVideoStatus.action());
   } catch {
     yield put(CloseVideoStatus.action());
@@ -127,12 +140,14 @@ export const getUserVideo = function* (constraints: IInCompleteConstraints) {
   if (localMediaStream) {
     assignVideoStreams(localMediaStream);
   }
-};
+}
 
-export const getUserDisplay = function* () {
+export function* getUserDisplay() {
   let localDisplayStream: MediaStream | null = null;
   try {
-    localDisplayStream = yield call(async () => await (navigator.mediaDevices as any).getDisplayMedia());
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    localDisplayStream = yield call(async () => navigator.mediaDevices.getDisplayMedia());
 
     yield put(OpenScreenShareStatus.action());
   } catch {
@@ -148,38 +163,38 @@ export const getUserDisplay = function* () {
   if (localDisplayStream) {
     assignScreenSharingTracks(localDisplayStream);
   }
-};
+}
 
 export function* getAndSendUserMedia(): SagaIterator {
   const videoConstraints = yield select(getVideoConstraintsSelector);
   const audioConstraints = yield select(getAudioConstraintsSelector);
 
+  const peerConnection = getPeerConnection();
+
   const constraints = { audio: audioConstraints, video: videoConstraints };
 
   let localMediaStream: MediaStream | null = null;
   try {
-    localMediaStream = yield call(
-      async () =>
-        await navigator.mediaDevices.getUserMedia({
-          video: constraints.video.isOpened && constraints.video,
-          audio: constraints.audio.isOpened && constraints.audio,
-        }),
+    localMediaStream = yield call(async () =>
+      navigator.mediaDevices.getUserMedia({
+        video: constraints.video.isOpened && constraints.video,
+        audio: constraints.audio.isOpened && constraints.audio,
+      }),
     );
   } catch {
     yield put(CloseVideoStatus.action());
 
     try {
-      localMediaStream = yield call(
-        async () =>
-          await navigator.mediaDevices.getUserMedia({
-            audio: constraints.audio.isOpened && constraints.audio,
-          }),
+      localMediaStream = yield call(async () =>
+        navigator.mediaDevices.getUserMedia({
+          audio: constraints.audio.isOpened && constraints.audio,
+        }),
       );
     } catch (e) {
       yield put(CloseAudioStatus.action());
     }
   }
-  yield call(stopAllTracks);
+  stopAllTracks();
 
   if (localMediaStream) {
     assignStreams(localMediaStream);

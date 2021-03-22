@@ -1,10 +1,10 @@
 import React, { useRef } from 'react';
 import moment from 'moment';
-import PlaySvg from 'icons/ic-play.svg';
-import PauseSvg from 'icons/ic-pause.svg';
+import PlaySvg from '@icons/ic-play.svg';
+import PauseSvg from '@icons/ic-pause.svg';
 
 import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
-import { changeMusic } from 'app/utils/current-music';
+import { changeMusic } from '@utils/current-music';
 
 interface IRecordingProps {
   recording: {

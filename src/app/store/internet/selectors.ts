@@ -1,4 +1,4 @@
-import { RootState } from '../root-reducer';
+import { RootState } from 'typesafe-actions';
 
 export const getInternetStateSelector = (state: RootState): boolean => state.internet.isInternetConnected;
 

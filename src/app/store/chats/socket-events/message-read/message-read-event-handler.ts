@@ -1,6 +1,6 @@
-import { MyProfileService } from 'app/services/my-profile-service';
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
+import { MyProfileService } from '../../../../services/my-profile-service';
 import { IChatsState } from '../../chats-state';
 import { MessageState } from '../../models';
 import { getChatByIdDraftSelector } from '../../selectors';
@@ -21,8 +21,8 @@ export class MessageReadEventHandler {
       if (chat) {
         chat.interlocutorLastReadMessageId = lastReadMessageId;
 
-        if (chat.lastMessage?.id! <= lastReadMessageId) {
-          chat.lastMessage!.state = MessageState.READ;
+        if (chat.lastMessage && chat.lastMessage?.id <= lastReadMessageId) {
+          chat.lastMessage.state = MessageState.READ;
         }
 
         const profileService = new MyProfileService();
@@ -34,7 +34,7 @@ export class MessageReadEventHandler {
 
         draft.messages[chatId].messages.map((message) => {
           if (message.id <= lastReadMessageId) {
-            message.state = MessageState.READ;
+            return { ...message, state: MessageState.READ };
           }
           return message;
         });

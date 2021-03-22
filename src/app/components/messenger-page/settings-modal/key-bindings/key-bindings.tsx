@@ -28,11 +28,9 @@ export const KeyBindings = React.memo(() => {
       <h3 className='key-bindings__title'>{t('keyBindings.title')}</h3>
       <form>
         <div className='key-bindings__entity'>
-          {' '}
           <RadioBox groupName='key-bindings' onClick={setNlce} defaultChecked={currentStrategy === TypingStrategy.Nlce} content={t('keyBindings.nlce')} />
         </div>
         <div className='key-bindings__entity'>
-          {' '}
           <RadioBox groupName='key-bindings' onClick={setNle} defaultChecked={currentStrategy === TypingStrategy.Nle} content={t('keyBindings.nle')} />
         </div>
       </form>

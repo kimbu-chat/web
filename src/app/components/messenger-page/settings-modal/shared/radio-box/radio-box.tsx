@@ -2,7 +2,7 @@ import React from 'react';
 import './radio-box.scss';
 
 interface IRadioBoxProps {
-  onClick: () => void;
+  onClick?: () => void;
   content: string | JSX.Element;
   groupName: string;
   defaultChecked?: boolean;

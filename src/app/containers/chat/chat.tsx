@@ -29,6 +29,7 @@ import { EditProfile } from '@app/components/messenger-page/settings-modal/edit-
 import { LanguageSettings } from '@app/components/messenger-page/settings-modal/language-settings/language-settings';
 import { NotificationsSettings } from '@app/components/messenger-page/settings-modal/notifications-settings/notifications-settings';
 import { KeyBindings } from '@app/components/messenger-page/settings-modal/key-bindings/key-bindings';
+import { Appearance } from '@app/components/messenger-page/settings-modal/appearance/appearance';
 
 interface IChatProps {
   preloadNext: () => void;
@@ -111,6 +112,10 @@ const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
 
           <Route path='/settings/typing'>
             <KeyBindings />
+          </Route>
+
+          <Route path='/settings/appearance'>
+            <Appearance />
           </Route>
         </div>
       </Route>

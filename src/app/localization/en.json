@@ -173,6 +173,13 @@
     "nlce": "Send a message by Enter, insert a new line by Shift/Ctrl/Alt + Enter",
     "nle": "Send a message by Shift/Ctrl/Alt + Enter, insert a new line by Enter "
   },
+  "appearance": {
+    "title": "Appearance",
+    "choose-theme": "Choose theme",
+    "dark": "Dark",
+    "light": "Light",
+    "font-size": "Font size"
+  },
   "languageSettings": {
     "title": "Language",
     "russia": "Russia",

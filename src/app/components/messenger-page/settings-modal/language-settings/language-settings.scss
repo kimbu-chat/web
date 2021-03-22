@@ -10,7 +10,6 @@
   }
 
   &__language {
-    padding: 18px 44px 18px 40px;
     margin-top: 16px;
     border-radius: 6px;
 
@@ -20,6 +19,10 @@
 
     &--active {
       background: var(--dark);
+    }
+
+    & > * {
+      padding: 18px 44px 18px 40px;
     }
   }
 

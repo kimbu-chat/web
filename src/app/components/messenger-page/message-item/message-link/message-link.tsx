@@ -16,8 +16,8 @@ interface IMessageLinkProps {
     userCreator: IUser;
     text?: string;
     attachments?: IBaseAttachment[];
-    isEdited: boolean;
-    isDeleted: boolean;
+    isEdited?: boolean;
+    isDeleted?: boolean;
   };
 }
 
@@ -84,7 +84,9 @@ const MessageLink: React.FC<IMessageLinkProps> = React.memo(({ linkedMessage }) 
 
         <div className='message-link__attachments'>
           {structuredAttachments?.files.map((file) => (
-            <FileAttachment key={file.id} attachment={file} />
+            <div className='message-link__attachment-wrapper'>
+              <FileAttachment key={file.id} attachment={file} />
+            </div>
           ))}
           {structuredAttachments?.recordings.map((recording) => (
             <RecordingAttachment key={recording.id} attachment={recording} />

@@ -1,0 +1,133 @@
+.appearance {
+  padding: 32px 40px;
+
+  &__title {
+    font-weight: normal;
+    font-size: 28px;
+    line-height: 33px;
+    margin-bottom: 40px;
+    color: var(--white);
+  }
+
+  &__theme {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 28px;
+    color: var(--white);
+    margin-bottom: 32px;
+  }
+
+  &__theme-box {
+    padding: 0 32px 32px 0;
+    max-height: 400px;
+    box-sizing: border-box;
+    overflow: auto;
+    border-radius: 6px;
+    background: var(--dark);
+    margin-bottom: 40px;
+
+    &__msg-wrapper {
+      margin-left: -60px;
+      pointer-events: none;
+      margin-bottom: 15px;
+    }
+  }
+
+  &__theme-select {
+    background: var(--dark);
+    border-radius: 6px;
+    margin-top: 16px;
+
+    & > * {
+      padding: 18px 40px;
+      span {
+        margin-left: 7px;
+        font-weight: 300;
+        font-size: 16px;
+        line-height: 19px;
+      }
+    }
+  }
+
+  &__font-size-title {
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 21px;
+    color: var(--white);
+    margin-top: 40px;
+  }
+
+  &__font-sizes {
+    display: flex;
+    margin-top: 34px;
+  }
+
+  &__font-size {
+    color: var(--white);
+    font-weight: 300;
+    line-height: 14px;
+    position: relative;
+
+    span {
+      display: block;
+    }
+
+    &--active {
+      font-weight: bold;
+      color: var(--king-blue);
+    }
+
+    &--12 {
+      font-size: 12px;
+      margin-left: 4.1%;
+    }
+
+    &--14 {
+      font-size: 14px;
+      margin-left: 10%;
+    }
+
+    &--16 {
+      font-size: 16px;
+      margin-left: 10.2%;
+    }
+
+    &--18 {
+      font-size: 18px;
+      margin-left: 10%;
+    }
+
+    &--24 {
+      font-size: 24px;
+      margin-left: auto;
+      margin-right: 5.5%;
+    }
+  }
+
+  &__font-progress-circle {
+    box-sizing: border-box;
+    width: 28px;
+    height: 28px;
+    border: 4px solid var(--white);
+    border-radius: 50%;
+    background: var(--king-blue);
+    position: absolute;
+    bottom: -37px;
+
+    left: 50%;
+    transform: translateX(-50%);
+
+    &--transparent {
+      opacity: 0;
+    }
+  }
+
+  &__font-progress {
+    box-shadow: inset -2px 2px 4px rgba(46, 101, 164, 0.2), inset 2px -2px 4px rgba(46, 101, 164, 0.2), inset -2px -2px 4px rgba(80, 175, 255, 0.9),
+      inset 2px 2px 5px rgba(46, 101, 164, 0.9);
+    border-radius: 6px;
+    background: var(--king-blue);
+    height: 20px;
+    margin-top: 14px;
+  }
+}

@@ -46,7 +46,12 @@ export const RoutingChats = React.memo(() => {
         </NavLink>
       </div>
 
-      <NavLink to='/settings' type='button' className='routing-chats__link routing-chats__link--settings'>
+      <NavLink
+        to='/settings/profile'
+        type='button'
+        className='routing-chats__link routing-chats__link--settings'
+        activeClassName='routing-chats__link routing-chats__link--active'
+      >
         <SettingsSvg />
       </NavLink>
 

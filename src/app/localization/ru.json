@@ -172,6 +172,13 @@
     "nlce": "Отправьте сообщение с помощью Enter, вставьте новую строку с помощью Shift / Ctrl / Alt + Enter",
     "nle": "Отправьте сообщение с помощью Shift / Ctrl / Alt + Enter, вставьте новую строку с помощью Enter"
   },
+  "appearance": {
+    "title": "Отображение",
+    "choose-theme": "Выберите тему",
+    "dark": "Тёмная",
+    "light": "Светлая",
+    "font-size": "Размер шрифта"
+  },
   "notificationsSettings": {
     "title": "Уведомления",
     "desktop-notification": "Уведомления на рабочем столе",

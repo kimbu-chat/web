@@ -18,8 +18,8 @@ export interface IMessage {
   needToShowCreator?: boolean;
   needToShowDateSeparator?: boolean;
 
-  isEdited: boolean;
-  isDeleted: boolean;
+  isEdited?: boolean;
+  isDeleted?: boolean;
 
   attachments?: IBaseAttachment[];
   linkedMessageType?: MessageLinkType;
@@ -28,7 +28,7 @@ export interface IMessage {
     userCreator: IUser;
     text?: string;
     attachments?: IBaseAttachment[];
-    isEdited: boolean;
-    isDeleted: boolean;
+    isEdited?: boolean;
+    isDeleted?: boolean;
   };
 }

@@ -221,6 +221,28 @@
     "cancel": "Cancel",
     "logout": "Delete"
   },
+  "privacySecurity": {
+    "title": "Privacy & Security",
+    "who-can-message-me": "Who can message me?",
+    "who-can-call-me": "Who can call me?",
+    "who-can-find-me": "Who can find me?",
+    "contacts": "My contacts",
+    "no-one": "No one",
+    "everyone": "Everyone"
+  },
+  "blockedUsers": {
+    "title": "Blocked users  {{count}}"
+  },
+  "blockedUser": {
+    "unblock": "Unblock"
+  },
+  "sessionaList": {
+    "title": "Sessions {{count}}"
+  },
+  "session": {
+    "last-acessed": "Last accessed:",
+    "signed-in": "Signed in:"
+  },
   "editPhoneModal": {
     "edit_phone": "Edit Phone",
     "country": "Country",

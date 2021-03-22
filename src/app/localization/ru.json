@@ -186,11 +186,25 @@
     "all-notifications": "Отключить все уведомления"
   },
   "editProfile": {
+    "personal-information": "Личная информация",
     "upload_new_photo": "Загрузить новое фото",
-    "requirements": "Не менее 256 x 256 пикселей в формате PNG или JPG.",
-    "name": "Имя",
-    "mobile": "Мобильный",
-    "username": "Имя пользователя"
+    "requirements": "Как минимум 256*256px PNG или JPG",
+    "save-changes": "Сохранить изменения",
+    "first_name": "Имя",
+    "last_name": "Фамилия",
+    "username": "Имя пользователя",
+    "phone-number": "Номер телефона",
+    "change-number": "Изминенить номер телефона",
+    "phone-details": "Когда вы меняете номер, ваши контакты не найдут вас по предыдущему номеру.",
+    "delete-account": "Удалить аккаунт",
+    "delete-details": "После того, как вы удалите свою учетную запись, пути назад уже не будет.",
+    "delete-confirmation": "Удалить аккаунт"
+  },
+  "deleteAccountModal": {
+    "title": "Удалить аккаунт",
+    "confirm-content": "Вы уверены, что хотите удалить свой аккаунт?",
+    "cancel": "Отмена",
+    "logout": "Удалить"
   },
   "editPhoneModal": {
     "edit_phone": "Редактировать номер телефона",

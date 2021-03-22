@@ -30,6 +30,7 @@ import { LanguageSettings } from '@app/components/messenger-page/settings-modal/
 import { NotificationsSettings } from '@app/components/messenger-page/settings-modal/notifications-settings/notifications-settings';
 import { KeyBindings } from '@app/components/messenger-page/settings-modal/key-bindings/key-bindings';
 import { Appearance } from '@app/components/messenger-page/settings-modal/appearance/appearance';
+import { PrivacySecurity } from '@app/components/messenger-page/settings-modal/privacy-security/privacy-security';
 
 interface IChatProps {
   preloadNext: () => void;
@@ -116,6 +117,10 @@ const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
 
           <Route path='/settings/appearance'>
             <Appearance />
+          </Route>
+
+          <Route path='/settings/privacy-security'>
+            <PrivacySecurity />
           </Route>
         </div>
       </Route>

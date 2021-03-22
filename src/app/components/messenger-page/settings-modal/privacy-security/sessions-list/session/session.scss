@@ -1,0 +1,34 @@
+.session {
+  padding: 16px 36px 16px 20px;
+  display: flex;
+  align-items: center;
+
+  &__icon {
+    width: 108px;
+    height: 108px;
+    color: var(--white);
+    margin-right: 52px;
+  }
+
+  &__data {
+    &__ordinary {
+      color: var(--white);
+      font-weight: normal;
+      font-size: 18px;
+      line-height: 21px;
+    }
+
+    &__row {
+      display: flex;
+      margin-top: 8px;
+    }
+
+    &__highlighted {
+      color: var(--king-blue);
+      font-weight: normal;
+      font-size: 18px;
+      line-height: 21px;
+      margin-right: 15px;
+    }
+  }
+}

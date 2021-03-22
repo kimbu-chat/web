@@ -1,0 +1,25 @@
+.blocked-user {
+  display: flex;
+  padding: 8px 65px 8px 20px;
+
+  &__avatar {
+    height: 24px;
+    width: 24px;
+    margin-right: 24px;
+  }
+
+  &__name {
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 19px;
+    color: var(--white);
+  }
+
+  &__unblock {
+    color: var(--red);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 19px;
+    margin-left: auto;
+  }
+}

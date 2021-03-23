@@ -37,6 +37,10 @@
 
   &__search-container {
     height: 40px;
+
+    input {
+      text-indent: 50px;
+    }
   }
 
   &__members-list {

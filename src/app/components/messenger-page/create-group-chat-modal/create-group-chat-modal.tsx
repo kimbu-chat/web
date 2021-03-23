@@ -216,7 +216,7 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(({ on
                   </div>
 
                   <div className='create-group-chat__input-group'>
-                    <span className='create-group-chat__input-label'>Description (optional)</span>
+                    <span className='create-group-chat__input-label'>Description</span>
                     <input value={description} onChange={(e) => setDescription(e.target.value)} type='text' className='create-group-chat__input' />
                   </div>
                 </div>

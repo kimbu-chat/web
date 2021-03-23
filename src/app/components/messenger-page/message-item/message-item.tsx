@@ -125,6 +125,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
       const additionalData = JSON.parse(message.text);
       const callStatus = additionalData?.status;
       const isOutgoing = myId === additionalData?.userCallerId;
+
       return (
         <>
           <div className='message__system-message'>
@@ -134,19 +135,34 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                 'message__system-message__content--failure-call'
               }`}
             >
-              <div className='message__system-message__icon'>
-                {message.systemMessageType === SystemMessageType.GroupChatMemberAdded && <AddUsersSvg viewBox='0 0 18 18' />}
-                {message.systemMessageType === SystemMessageType.GroupChatMemberRemoved && <LeaveSvg viewBox='0 0 18 18' />}
-                {message.systemMessageType === SystemMessageType.GroupChatCreated && <CreateChatSvg viewBox='0 0 24 24' />}
-                {message.systemMessageType === SystemMessageType.GroupChatNameChanged && <CrayonSvg viewBox='0 0 16 16' />}
-                {message.systemMessageType === SystemMessageType.GroupChatAvatarChanged && <PictureSvg viewBox='0 0 18 19' />}
+              {message.systemMessageType === SystemMessageType.GroupChatMemberAdded && (
+                <AddUsersSvg className='message__system-message__icon' viewBox='0 0 18 18' />
+              )}
+              {message.systemMessageType === SystemMessageType.GroupChatMemberRemoved && (
+                <LeaveSvg className='message__system-message__icon' viewBox='0 0 18 18' />
+              )}
+              {message.systemMessageType === SystemMessageType.GroupChatCreated && (
+                <CreateChatSvg className='message__system-message__icon' viewBox='0 0 24 24' />
+              )}
+              {message.systemMessageType === SystemMessageType.GroupChatNameChanged && (
+                <CrayonSvg className='message__system-message__icon' viewBox='0 0 16 16' />
+              )}
+              {message.systemMessageType === SystemMessageType.GroupChatAvatarChanged && (
+                <PictureSvg className='message__system-message__icon' viewBox='0 0 18 19' />
+              )}
 
-                {(message.systemMessageType === SystemMessageType.CallEnded &&
-                  callStatus === CallStatus.Ended &&
-                  (isOutgoing ? <OutgoingCallSvg viewBox='0 0 11 12' /> : <IncomingCallSvg viewBox='0 0 12 12' />)) ||
-                  (callStatus === CallStatus.NotAnswered && <MissedCallSvg viewBox='0 0 12 12' />) ||
-                  ((callStatus === CallStatus.Declined || callStatus === CallStatus.Interrupted) && <DeclinedCallSvg viewBox='0 0 13 14' />)}
-              </div>
+              {(message.systemMessageType === SystemMessageType.CallEnded &&
+                callStatus === CallStatus.Ended &&
+                (isOutgoing ? (
+                  <OutgoingCallSvg className='message__system-message__icon' viewBox='0 0 11 12' />
+                ) : (
+                  <IncomingCallSvg className='message__system-message__icon' viewBox='0 0 12 12' />
+                ))) ||
+                (callStatus === CallStatus.NotAnswered && <MissedCallSvg className='message__system-message__icon' viewBox='0 0 12 12' />) ||
+                ((callStatus === CallStatus.Declined || callStatus === CallStatus.Interrupted) && (
+                  <DeclinedCallSvg className='message__system-message__icon' viewBox='0 0 13 14' />
+                ))}
+
               <span>{MessageUtils.constructSystemMessageText(message as IMessage, t, myId)}</span>
             </div>
           </div>

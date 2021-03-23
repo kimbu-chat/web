@@ -1,6 +1,7 @@
 .audio-attachment {
   display: flex;
   align-items: flex-end;
+  min-width: 324px;
 
   &__download {
     background: var(--king-blue);

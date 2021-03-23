@@ -26,17 +26,14 @@ export const InterlocutorInfo = React.memo(() => {
     <>
       <div className='interlocutor-info'>
         <div className='interlocutor-info__interlocutor-data'>
-          <div />
           <div className='interlocutor-info__chat-data'>
             <div className='interlocutor-info__interlocutor'>{interlocutor ? `${interlocutor.firstName} ${interlocutor.lastName}` : groupChat?.name}</div>
             {groupChat?.description && <div className='interlocutor-info__description'>{groupChat?.description}</div>}
           </div>
 
-          <div>
-            <button type='button' onClick={changeEditGroupChatDisplayedState} className='interlocutor-info__rename-btn'>
-              <EditSvg />
-            </button>
-          </div>
+          <button type='button' onClick={changeEditGroupChatDisplayedState} className='interlocutor-info__rename-btn'>
+            <EditSvg viewBox='0 0 16 16' />
+          </button>
         </div>
 
         {interlocutor && (

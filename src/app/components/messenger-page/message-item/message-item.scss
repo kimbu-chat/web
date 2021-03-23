@@ -29,21 +29,6 @@
     }
   }
 
-  &__contents-wrapper {
-    display: block;
-    position: relative;
-    max-width: 70%;
-
-    &--upcoming {
-      margin-left: 40px;
-    }
-
-    &:hover .message-item-actions {
-      visibility: visible;
-      opacity: 1;
-    }
-  }
-
   &__content {
     padding: 10px 16px;
 
@@ -64,20 +49,23 @@
 
   &__attachments {
     color: var(--dark);
+    display: flex;
+    flex-direction: column;
 
     h4 {
       color: var(--white);
     }
 
     & > * {
-      margin-top: 10px;
+      display: inline-flex;
+      margin-bottom: 10px;
 
       &:first-child {
-        margin-top: -5px;
+        margin-top: 0px;
       }
 
       &:last-child {
-        margin-bottom: 10px;
+        margin-bottom: 15px;
       }
     }
   }
@@ -119,6 +107,7 @@
     line-height: 14px;
     color: var(--white-semi-transparent);
     margin-left: 4px;
+    white-space: nowrap;
   }
 
   &__separator {
@@ -150,10 +139,8 @@
       color: var(--white);
       margin-right: 8px;
 
-      svg {
-        width: 12px;
-        height: 12px;
-      }
+      width: 12px;
+      height: 12px;
     }
 
     &__content {
@@ -178,7 +165,6 @@
   }
 
   &__state {
-    margin-left: 16px;
     color: var(--white-semi-transparent);
   }
 
@@ -190,6 +176,31 @@
 
     &--unselected {
       opacity: 0;
+    }
+  }
+
+  &__contents-wrapper {
+    display: block;
+    position: relative;
+    max-width: 70%;
+    margin-right: 16px;
+
+    &--upcoming {
+      margin-left: 40px;
+    }
+
+    &:hover .message-item-actions {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    & > .message__attachments {
+      margin-bottom: 0;
+
+      .media-grid {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
     }
   }
 }

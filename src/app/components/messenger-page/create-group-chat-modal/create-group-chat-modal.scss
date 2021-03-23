@@ -24,6 +24,16 @@
     }
   }
 
+  &__friends-block {
+    padding-right: 11px;
+    max-height: 304px;
+    overflow: auto;
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--king-blue);
+    }
+  }
+
   &__current-photo-wrapper {
     width: 148px;
     height: 148px;

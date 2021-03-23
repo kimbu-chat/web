@@ -112,7 +112,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(
             <div className='chat-item__time'>
               {MessageUtils.checkIfDatesAreSameDate(new Date(chat.lastMessage?.creationDateTime!), new Date())
                 ? moment.utc(chat.lastMessage?.creationDateTime).local().format('dd MMM YY')
-                : moment.utc(chat.lastMessage?.creationDateTime).local().format('LT')}
+                : moment.utc(chat.lastMessage?.creationDateTime).local().format('LT').toLowerCase()}
             </div>
           </div>
           <div className='chat-item__last-message'>{typingString || getMessageText()}</div>

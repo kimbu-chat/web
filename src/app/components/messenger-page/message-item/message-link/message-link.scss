@@ -31,4 +31,21 @@
     margin-bottom: 5px;
     margin-top: 2px;
   }
+
+  &__attachments {
+    display: flex;
+    flex-direction: column;
+
+    & > * {
+      margin-top: 10px;
+
+      &:first-child {
+        margin-top: 10px;
+      }
+
+      &:last-child {
+        margin-bottom: 15px;
+      }
+    }
+  }
 }

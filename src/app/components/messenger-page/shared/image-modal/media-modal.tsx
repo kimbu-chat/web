@@ -67,7 +67,9 @@ export const MediaModal: React.FC<IImageModalProps> = React.memo(({ attachmentId
             {attachmentsArr[currentAttachmentIndex].type === FileType.Video && (
               <video preload='metadata' autoPlay controls src={attachmentsArr[currentAttachmentIndex].url} className='media-modal__player' />
             )}
-            <div className='media-modal__position-pointer'>{`(${currentAttachmentIndex + 1} ${t('mediaModal.of')} ${attachmentsArr.length})`}</div>
+            {attachmentsArr.length !== 1 && (
+              <div className='media-modal__position-pointer'>{`(${currentAttachmentIndex + 1} ${t('mediaModal.of')} ${attachmentsArr.length})`}</div>
+            )}
           </div>
 
           <div className='media-modal__controls media-modal__controls--next'>

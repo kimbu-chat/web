@@ -8,7 +8,7 @@ interface IMediaGridProps {
 }
 
 export const MediaGrid: React.FC<IMediaGridProps> = React.memo(({ media }) => (
-  <div className={`media-grid media-grid--${media.length === 1 ? 1 : media.length % 2 === 1 ? 'odd' : 'even'}`}>
+  <div className='media-grid'>
     {media.map((mediaElement) => (
       <MessageMediaAttachment key={mediaElement.id} attachmentId={mediaElement.id} attachmentsArr={media} />
     ))}

@@ -150,7 +150,7 @@ export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClos
               </div>
 
               <div className='edit-chat-modal__input-group'>
-                <span className='edit-chat-modal__input-label'>Description (optional)</span>
+                <span className='edit-chat-modal__input-label'>Description</span>
                 <input value={newDescription} onChange={(e) => setNewDescription(e.target.value)} type='text' className='edit-chat-modal__input' />
               </div>
             </div>

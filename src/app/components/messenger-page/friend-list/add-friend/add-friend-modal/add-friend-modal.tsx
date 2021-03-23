@@ -79,7 +79,7 @@ export const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
             </div>
           ) : (
             <div className='add-friends-modal'>
-              <PhoneInputGroup phone={phone} setPhone={setPhone} />
+              <PhoneInputGroup submitFunction={getRequiredUser} phone={phone} setPhone={setPhone} />
               {error && (
                 <div className='add-friends-modal__error'>
                   <span>{t('addFriendModal.error')}</span>

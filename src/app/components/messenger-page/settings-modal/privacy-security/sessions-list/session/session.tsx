@@ -38,6 +38,14 @@ export const Session: React.FC<ISessionProps> = ({ session }) => {
           <div className='session__data__ordinary'>{moment.utc(session.signedInDateTime).local().format('MMM DD,YYYY').toString()}</div>
         </div>
       </div>
+
+      {false ? (
+        <div className='session__current-session'>{t('session.current-session')}</div>
+      ) : (
+        <button className='session__revoke-btn' type='button'>
+          {t('session.revoke')}
+        </button>
+      )}
     </div>
   );
 };

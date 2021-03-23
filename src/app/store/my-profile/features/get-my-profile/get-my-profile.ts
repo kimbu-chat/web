@@ -26,7 +26,7 @@ export class GetMyProfile {
 
       const { httpRequest } = GetMyProfile;
       const { data } = httpRequest.call(yield call(() => httpRequest.generator(currentUserId)));
-      yield put(GetMyProfileSuccess.action(data));
+      yield put(GetMyProfileSuccess.action({ user: data }));
     };
   }
 

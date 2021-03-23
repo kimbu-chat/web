@@ -99,6 +99,7 @@
   },
   "changePhoto": {
     "confirm": "Подтвердить",
+    "title": "Загрузить аватар",
     "reject": "Отмена"
   },
   "messageInput": {
@@ -204,7 +205,31 @@
     "title": "Удалить аккаунт",
     "confirm-content": "Вы уверены, что хотите удалить свой аккаунт?",
     "cancel": "Отмена",
-    "logout": "Удалить"
+    "confirm": "Удалить"
+  },
+  "privacySecurity": {
+    "title": "Конфиденциальность и безопасность",
+    "who-can-message-me": "Кто может мне писать?",
+    "who-can-call-me": "Кто может мне звонить?",
+    "who-can-find-me": "Кто может меня найти?",
+    "contacts": "Мои контакты",
+    "no-one": "Никто",
+    "everyone": "Каждый"
+  },
+  "blockedUsers": {
+    "title": "Заблокированные пользователи  {{count}}"
+  },
+  "blockedUser": {
+    "unblock": "Разблокировать"
+  },
+  "sessionaList": {
+    "title": "Сессии {{count}}"
+  },
+  "session": {
+    "last-acessed": "Последний доступ:",
+    "signed-in": "Вход:",
+    "current-session": "Текущая сессия",
+    "revoke": "Отозвать"
   },
   "editPhoneModal": {
     "edit_phone": "Редактировать номер телефона",

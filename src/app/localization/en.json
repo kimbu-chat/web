@@ -97,8 +97,9 @@
     "audios": "Audios"
   },
   "changePhoto": {
-    "confirm": "Confirm",
-    "reject": "Reject"
+    "confirm": "Save",
+    "title": "Upload Profile Photo",
+    "reject": "Cancel"
   },
   "messageInput": {
     "write": "Type something..."
@@ -219,7 +220,7 @@
     "title": "Delete account",
     "confirm-content": "Are you sure to delete your account",
     "cancel": "Cancel",
-    "logout": "Delete"
+    "confirm": "Delete"
   },
   "privacySecurity": {
     "title": "Privacy & Security",
@@ -245,6 +246,7 @@
     "current-session": "Current session",
     "revoke": "Revoke"
   },
+
   "editPhoneModal": {
     "edit_phone": "Edit Phone",
     "country": "Country",

@@ -1,6 +1,7 @@
 .session {
   padding: 16px 36px 16px 20px;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
 
   &__icon {

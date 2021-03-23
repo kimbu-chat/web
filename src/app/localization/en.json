@@ -101,6 +101,12 @@
     "title": "Upload Profile Photo",
     "reject": "Cancel"
   },
+  "audioVideo": {
+    "title": "Audio & Video",
+    "video": "Video",
+    "load-speaker": "Load speaker",
+    "microphone": "Microphone"
+  },
   "messageInput": {
     "write": "Type something..."
   },

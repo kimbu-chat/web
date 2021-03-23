@@ -1,0 +1,29 @@
+.audio-video {
+  padding: 32px 40px;
+
+  &__title {
+    color: var(--white);
+    font-weight: normal;
+    font-size: 28px;
+    line-height: 33px;
+    margin-bottom: 44px;
+  }
+
+  &__subject-title {
+    display: flex;
+  }
+
+  &__subject-icon {
+    color: var(--white);
+    width: 24px;
+    height: 24px;
+    margin-right: 20px;
+  }
+
+  &__subject-text {
+    color: var(--white);
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 28px;
+  }
+}

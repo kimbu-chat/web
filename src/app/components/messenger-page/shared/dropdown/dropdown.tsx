@@ -5,7 +5,7 @@ import { useOnClickOutside } from '@hooks/use-on-click-outside';
 
 interface IDropdownProps {
   selectedString: string;
-  disabled: boolean;
+  disabled?: boolean;
   options: {
     title: string;
     onClick: () => void;

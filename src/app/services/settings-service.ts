@@ -1,11 +1,13 @@
-import { Langs, TypingStrategy } from '../store/settings/features/models';
+import { Langs, TypingStrategy, Theme, AllowedFontSize } from '../store/settings/features/models';
 import { IUserSettings } from '../store/settings/user-settings-state';
 import { BrowserStorage } from '../utils/browser-storage';
 
 interface IOptionalUserSettings {
   language?: Langs;
+  theme?: Theme;
   typingStrategy?: TypingStrategy;
   notificationSound?: boolean;
+  fontSize?: AllowedFontSize;
 }
 
 export class SettingsService {

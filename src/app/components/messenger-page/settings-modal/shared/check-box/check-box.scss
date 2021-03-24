@@ -3,6 +3,10 @@
   align-items: center;
   cursor: pointer;
 
+  &:hover &__check-box {
+    box-shadow: 0px 3px 6px rgba(14, 22, 43, 0.62);
+  }
+
   &__check-box {
     width: 24px;
     height: 24px;

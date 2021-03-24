@@ -204,15 +204,17 @@
     "upload_new_photo": "Upload new photo",
     "requirements": "At least 256*256px PNG or JPG",
     "save-changes": "Save changes",
-    "first_name": "First name",
-    "last_name": "Last name",
-    "username": "User nickname",
+    "first_name": "First Name",
+    "last_name": "Last Name",
+    "username": "Nickname",
     "phone-number": "Phone number",
     "change-number": "Change number",
     "phone-details": "When you change the number, your contacts will not find you by the previous number.",
     "delete-account": "Delete account",
     "delete-details": "Once you delete your account, there is no going back.",
-    "delete-confirmation": "Delete your account"
+    "delete-confirmation": "Delete your account",
+    "nickname-busy": "This nickname is busy",
+    "nickname-not-acceptable": "This nickname is not acceptable"
   },
   "changePhoneModal": {
     "change-number": "Change number",
@@ -221,7 +223,8 @@
     "cancel": "Cancel",
     "change": "Change",
     "confirm": "Confirm",
-    "details": "You can resend the code in {{time}}"
+    "details": "You can resend the code in {{time}}",
+    "enter-numbers": "Enter numbers"
   },
   "deleteAccountModal": {
     "title": "Delete account",

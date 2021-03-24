@@ -1,11 +1,9 @@
-import { FadeAnimationWrapper, PhotoEditor } from '@components';
+import { FadeAnimationWrapper, LabeledInput, PhotoEditor } from '@components';
 import { myProfileSelector } from '@store/my-profile/selectors';
 import React, { useCallback, useContext, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import './edit-profile.scss';
 import UserSvg from '@icons/user.svg';
-import ValidSvg from '@icons/ic-check-filled.svg';
-import InValidSvg from '@icons/ic-dismiss.svg';
 import TopAvatarLine from '@icons/top-avatar-line.svg';
 import PhotoSvg from '@icons/picture.svg';
 import BottomAvatarLine from '@icons/bottom-avatar-line.svg';
@@ -167,32 +165,18 @@ export const EditProfile = React.memo(() => {
             <div className='edit-profile__avatar-requirements'>{t('editProfile.requirements')}</div>
           </div>
         </div>
-        <div className='edit-profile__input-block'>
-          <span className='edit-profile__input-label'>{t('editProfile.first_name')}</span>
-          <input value={firstName} onChange={changeFirstName} type='text' className='edit-profile__input' />
-        </div>
-        <div className='edit-profile__input-block'>
-          <span className='edit-profile__input-label'>{t('editProfile.last_name')}</span>
-          <input value={lastName} onChange={changeLastName} type='text' className='edit-profile__input' />
-        </div>
-        <div className='edit-profile__input-block'>
-          <span className='edit-profile__input-label'>{t('editProfile.username')}</span>
-          <input value={nickname} onChange={onChangeNickname} type='text' className='edit-profile__input' />
 
-          <div className='edit-profile__edit-username__input-wrapper'>
-            {isNickNameValid && isNickNameAvailable && (
-              <div className='edit-profile__edit-username__valid'>
-                <ValidSvg viewBox='0 0 25 25' />
-              </div>
-            )}
-            {(!isNickNameValid || !isNickNameAvailable) && (
-              <div className='edit-profile__edit-username__invalid'>
-                <InValidSvg viewBox='0 0 25 25' />
-              </div>
-            )}
-            {!isNickNameValid && <div>This nick name is not acceptable</div>}
-          </div>
-        </div>
+        <LabeledInput label={t('editProfile.first_name')} value={firstName} onChange={changeFirstName} containerClassName='edit-profile__input' />
+
+        <LabeledInput label={t('editProfile.last_name')} value={lastName} onChange={changeLastName} containerClassName='edit-profile__input' />
+
+        <LabeledInput
+          label={t('editProfile.username')}
+          value={nickname}
+          onChange={onChangeNickname}
+          containerClassName='edit-profile__input'
+          errorText={isNickNameValid ? (isNickNameAvailable ? undefined : t('editProfile.nickname-busy')) : t('editProfile.nickname-not-acceptable')}
+        />
         <button
           type='button'
           onClick={sumbmitChanges}

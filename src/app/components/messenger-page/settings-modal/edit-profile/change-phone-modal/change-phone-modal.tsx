@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useState } from 'react';
 import ChatSvg from '@icons/single-chat.svg';
 import './change-phone-modal.scss';
 import { LocalizationContext } from '@contexts';
-import { WithBackground, Modal, PhoneInputGroup } from '@components';
+import { WithBackground, Modal, PhoneInputGroup, LabeledInput } from '@components';
 import CrayonSvg from '@icons/crayon.svg';
 import parsePhoneNumberFromString from 'libphonenumber-js';
 import useInterval from 'use-interval';
@@ -71,10 +71,14 @@ export const ChangePhoneModal: React.FC<IChangePhoneModalProps> = ({ onClose }) 
 
             {submited && (
               <>
-                <div className='change-phone-modal__input-block'>
-                  <span className='change-phone-modal__input-label'>{t('changePhoneModal.code')}</span>
-                  <input value={code} onChange={(e) => setCode(e.target.value)} type='text' className='change-phone-modal__input' />
-                </div>
+                <LabeledInput
+                  label={t('changePhoneModal.code')}
+                  placeholder={t('changePhoneModal.enter-numbers')}
+                  value={code}
+                  onChange={(e) => setCode(e.target.value)}
+                  containerClassName='change-phone-modal__input'
+                />
+
                 <span className='change-phone-modal__details'>{t('changePhoneModal.details', { time: moment.utc(remainedTime * 1000).format('mm:ss') })}</span>
               </>
             )}

@@ -5,6 +5,10 @@
   border-radius: 6px;
   margin-bottom: 29px;
 
+  &:hover {
+    box-shadow: 0px 3px 6px rgba(14, 22, 43, 0.62);
+  }
+
   &--open {
     border-radius: 6px 6px 0px 0px;
   }

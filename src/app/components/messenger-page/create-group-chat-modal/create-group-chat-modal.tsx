@@ -19,6 +19,7 @@ import GroupSvg from '@icons/group.svg';
 import PictureSvg from '@icons/picture.svg';
 import TopAvatarLine from '@icons/top-avatar-line.svg';
 import BottomAvatarLine from '@icons/bottom-avatar-line.svg';
+import { LabeledInput } from '@app/components/shared';
 import { SelectEntity } from '../shared/select-entity/select-entity';
 import './create-group-chat-modal.scss';
 
@@ -210,15 +211,14 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(({ on
                   </div>
                   <div className='create-group-chat__criteria'>At least 256*256px PNG or JPG </div>
 
-                  <div className='create-group-chat__input-group'>
-                    <span className='create-group-chat__input-label'>Name</span>
-                    <input value={name} onChange={(e) => setName(e.target.value)} type='text' className='create-group-chat__input' />
-                  </div>
+                  <LabeledInput label='Name' value={name} onChange={(e) => setName(e.target.value)} containerClassName='create-group-chat__input' />
 
-                  <div className='create-group-chat__input-group'>
-                    <span className='create-group-chat__input-label'>Description</span>
-                    <input value={description} onChange={(e) => setDescription(e.target.value)} type='text' className='create-group-chat__input' />
-                  </div>
+                  <LabeledInput
+                    label='Description'
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    containerClassName='create-group-chat__input'
+                  />
                 </div>
               )}
             </>

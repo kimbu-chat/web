@@ -129,39 +129,7 @@
     }
   }
 
-  &__input-group {
-    width: 339px;
-    height: 40px;
-    position: relative;
-    border-radius: 6px;
-    background: var(--msg-bg);
-    margin-top: 30px;
-  }
-
-  &__input-label {
-    padding: 2px 8px;
-    position: absolute;
-    top: -13px;
-    left: 16px;
-    background: var(--dark);
-    border-radius: 6px;
-    color: var(--white);
-    font-weight: 300;
-    font-size: 12px;
-    line-height: 14px;
-  }
-
   &__input {
-    height: 100%;
-    width: 100%;
-    padding: 10px 16px;
-    color: var(--white);
-    background: transparent;
-    border: none;
-    outline: none;
-    box-sizing: border-box;
-    font-weight: 300;
-    font-size: 16px;
-    line-height: 19px;
+    margin-top: 30px;
   }
 }

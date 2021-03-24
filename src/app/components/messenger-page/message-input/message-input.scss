@@ -130,12 +130,6 @@
       padding: 12px 24px 12px 22px;
       margin-left: 16px;
       margin-right: 29px;
-
-      &::-webkit-scrollbar {
-        display: none;
-      }
-      -ms-overflow-style: none; /* IE and Edge */
-      scrollbar-width: none; /* Firefox */
     }
 
     &__delete-all {

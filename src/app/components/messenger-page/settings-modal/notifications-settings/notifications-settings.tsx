@@ -18,7 +18,7 @@ export const NotificationsSettings = React.memo(() => {
       <div className='notifications-settings__title'>{t('notificationsSettings.title')}</div>
 
       <div className='notifications-settings__entity'>
-        <CheckBox onClick={changeSoundNotificationState} isChecked={areSoundNotificationsEnabled} title={t('notificationsSettings.desktop-notification')} />
+        <CheckBox onClick={changeSoundNotificationState} isChecked={areSoundNotificationsEnabled} title={t('notificationsSettings.push-notification')} />
       </div>
 
       <div className='notifications-settings__entity'>

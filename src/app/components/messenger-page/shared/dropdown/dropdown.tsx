@@ -1,6 +1,6 @@
 import React, { useCallback, useRef, useState } from 'react';
 import './dropdown.scss';
-import DropDownSvg from '@icons/ic-chevron-down.svg';
+import DropDownSvg from '@icons/arrow.svg';
 import { useOnClickOutside } from '@hooks/use-on-click-outside';
 
 interface IDropdownProps {
@@ -27,8 +27,8 @@ export const Dropdown: React.FC<IDropdownProps> = React.memo(({ selectedString, 
   return (
     <div ref={dropdownRef} className='dropdown__select-wrapper dropdown__select-wrapper--audio'>
       <div className={`dropdown__select ${disabled ? 'dropdown__select--disabled' : ''}`} onClick={disabled ? () => {} : changeOptionsOpenedStatus}>
-        {selectedString}
-        <DropDownSvg viewBox='0 0 25 25' />
+        <span>{selectedString}</span>
+        <DropDownSvg viewBox='0 0 48 48' />
       </div>
       {optionsOpened && (
         <div className='dropdown__select-block'>

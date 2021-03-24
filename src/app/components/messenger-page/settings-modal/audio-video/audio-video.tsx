@@ -9,6 +9,7 @@ import { InputType } from '@app/store/calls/common/enums/input-type';
 import { getVideoConstraintsSelector, getAudioConstraintsSelector, getAudioDevicesSelector, getVideoDevicesSelector } from '@app/store/calls/selectors';
 import { useSelector } from 'react-redux';
 import * as CallActions from '@store/calls/actions';
+import VideoCameraSvg from '@icons/video-camera.svg';
 import { Dropdown } from '../../shared/dropdown/dropdown';
 
 export const AudioVideoSettings = () => {
@@ -27,7 +28,10 @@ export const AudioVideoSettings = () => {
   return (
     <div className='audio-video'>
       <h3 className='audio-video__title'>{t('audioVideo.title')}</h3>
-
+      <div className='audio-video__subject-title'>
+        <VideoSvg viewBox='0 0 18 19' className='audio-video__subject-icon' />
+        <h5 className='audio-video__subject-text'>{t('audioVideo.video')}</h5>
+      </div>
       <div className='audio-video__dropdown-wrapper'>
         <Dropdown
           selectedString={videoDevices.find(({ deviceId }) => deviceId === activeVideoDevice)?.label || t('activeCall.default')}
@@ -37,22 +41,30 @@ export const AudioVideoSettings = () => {
           }))}
         />
       </div>
-
-      <div className='audio-video__subject-title'>
-        <VideoSvg viewBox='0 0 18 19' className='audio-video__subject-icon' />
-        <h5 className='audio-video__subject-text'>{t('audioVideo.video')}</h5>
+      <div className='audio-video__video-area'>
+        <VideoCameraSvg className='audio-video__video-icon' viewBox='0 0 300 280' />
+        <button type='button' className='audio-video__video-btn'>
+          {t('audioVideo.test-video')}
+        </button>
       </div>
-
-      <div className='audio-video__subject-title'>
-        <PlaySvg viewBox='0 0 24 24' className='audio-video__subject-icon' />
-        <h5 className='audio-video__subject-text'>{t('audioVideo.load-speaker')}</h5>
+      <div className='audio-video__intensity-wrapper'>
+        <div className='audio-video__subject-title'>
+          <PlaySvg viewBox='0 0 24 24' className='audio-video__subject-icon' />
+          <h5 className='audio-video__subject-text'>{t('audioVideo.load-speaker')}</h5>
+        </div>
+        <div className='audio-video__intensity-indicator'>
+          <div data-active className='audio-video__intensity-point' />
+          <div data-active className='audio-video__intensity-point' />
+          <div data-active className='audio-video__intensity-point' />
+          <div data-active className='audio-video__intensity-point' />
+          <div data-middle className='audio-video__intensity-point' />
+          <div data-middle className='audio-video__intensity-point' />
+          <div className='audio-video__intensity-point' />
+          <div className='audio-video__intensity-point' />
+          <div className='audio-video__intensity-point' />
+          <div className='audio-video__intensity-point' />
+        </div>
       </div>
-
-      <div className='audio-video__subject-title'>
-        <MicrophoneSvg viewBox='0 0 20 24' className='audio-video__subject-icon' />
-        <h5 className='audio-video__subject-text'>{t('audioVideo.microphone')}</h5>
-      </div>
-
       <div className='audio-video__dropdown-wrapper'>
         <Dropdown
           selectedString={audioDevices.find(({ deviceId }) => deviceId === activeAudioDevice)?.label || t('activeCall.default')}
@@ -61,6 +73,24 @@ export const AudioVideoSettings = () => {
             onClick: () => switchDevice({ kind: InputType.AudioInput, deviceId: device.deviceId }),
           }))}
         />
+      </div>
+      <div className='audio-video__intensity-wrapper audio-video__intensity-wrapper--microphone'>
+        <div className='audio-video__subject-title'>
+          <MicrophoneSvg viewBox='0 0 20 24' className='audio-video__subject-icon' />
+          <h5 className='audio-video__subject-text'>{t('audioVideo.microphone')}</h5>
+        </div>
+        <div className='audio-video__intensity-indicator'>
+          <div data-active className='audio-video__intensity-point' />
+          <div data-active className='audio-video__intensity-point' />
+          <div data-active className='audio-video__intensity-point' />
+          <div data-active className='audio-video__intensity-point' />
+          <div data-middle className='audio-video__intensity-point' />
+          <div data-middle className='audio-video__intensity-point' />
+          <div className='audio-video__intensity-point' />
+          <div className='audio-video__intensity-point' />
+          <div className='audio-video__intensity-point' />
+          <div className='audio-video__intensity-point' />
+        </div>
       </div>
     </div>
   );

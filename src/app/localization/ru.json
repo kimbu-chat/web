@@ -102,6 +102,13 @@
     "title": "Загрузить аватар",
     "reject": "Отмена"
   },
+  "audioVideo": {
+    "title": "Аудио и Видео",
+    "video": "Видео",
+    "load-speaker": "Воспроизвести музыку",
+    "microphone": "Микрофон",
+    "test-video": "Тест видео"
+  },
   "messageInput": {
     "write": "Напишите сообщение..."
   },
@@ -182,7 +189,7 @@
   },
   "notificationsSettings": {
     "title": "Уведомления",
-    "desktop-notification": "Уведомления на рабочем столе",
+    "push-notification": "Пуш уведомления",
     "message-notification": "Звуковое уведомление о новых сообщениях",
     "all-notifications": "Отключить все уведомления"
   },

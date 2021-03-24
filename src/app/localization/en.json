@@ -105,7 +105,8 @@
     "title": "Audio & Video",
     "video": "Video",
     "load-speaker": "Load speaker",
-    "microphone": "Microphone"
+    "microphone": "Microphone",
+    "test-video": "Test video"
   },
   "messageInput": {
     "write": "Type something..."
@@ -194,7 +195,7 @@
   },
   "notificationsSettings": {
     "title": "Notifications",
-    "desktop-notification": "Desktop notifications",
+    "push-notification": "Push notifications",
     "message-notification": "New messages sound notification",
     "all-notifications": "Disable all notifications"
   },

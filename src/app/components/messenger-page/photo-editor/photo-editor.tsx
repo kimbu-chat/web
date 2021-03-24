@@ -12,6 +12,7 @@ import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import { WithBackground, Modal } from '@components';
 import { IAvatarSelectedData } from '@store/common/models';
+import { Tooltip } from '@app/components/shared/tooltip/tooltip';
 
 interface IPhotoEditorProps {
   imageUrl: string;
@@ -135,12 +136,15 @@ export const PhotoEditor: React.FC<IPhotoEditorProps> = ({ imageUrl, onSubmit, h
             </div>
             <div className='photo-editor__btn-group'>
               <button type='button' onClick={rotateLeft} className='photo-editor__modify-btn'>
+                <Tooltip>Left Rotation</Tooltip>
                 <LeftRotateSvg viewBox='0 0 18 18' />
               </button>
               <button type='button' onClick={mirror} className='photo-editor__modify-btn'>
+                <Tooltip>Mirror</Tooltip>
                 <ReflectSvg viewBox='0 0 18 18' />
               </button>
               <button type='button' onClick={rotateRight} className='photo-editor__modify-btn'>
+                <Tooltip>Right Rotation</Tooltip>
                 <RightRotateSvg viewBox='0 0 18 18' />
               </button>
             </div>

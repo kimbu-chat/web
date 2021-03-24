@@ -42,17 +42,17 @@
     &:not(:last-child) {
       margin-right: 78px;
     }
-    padding: 11px 21px;
+    padding: 9px 20px;
     border-radius: 6px;
     border: 1px solid var(--white);
     color: var(--white);
-
-    &:active {
+    position: relative;
+    &:focus {
       border: 1px solid var(--white);
     }
 
-    &:visited {
-      border: 1px solid var(--white);
+    &:hover > * {
+      opacity: 1;
     }
   }
 

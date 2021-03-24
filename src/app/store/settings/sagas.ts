@@ -6,12 +6,14 @@ import { ChangeNotificationSoundState } from './features/change-notification-sou
 import { ChangeTheme } from './features/change-theme/change-theme';
 import { ChangeTypingStrategy } from './features/change-typing-strategy/change-typing-strategy';
 import { GetUserSettings } from './features/get-user-settings/get-user-settings';
+import { GetUserSettingsSuccess } from './features/get-user-settings/get-user-settings-success';
 
 export const SettingsSagas = [
   takeLatest(ChangeLanguage.action, ChangeLanguage.saga),
   takeLatest(ChangeNotificationSoundState.action, ChangeNotificationSoundState.saga),
   takeLatest(ChangeTypingStrategy.action, ChangeTypingStrategy.saga),
   takeLatest(GetUserSettings.action, GetUserSettings.saga),
+  takeLatest(GetUserSettingsSuccess.action, GetUserSettingsSuccess.saga),
   takeLatest(ChangeTheme.action, ChangeTheme.saga),
   takeLatest(ChangeFontSize.action, ChangeFontSize.saga),
 ];

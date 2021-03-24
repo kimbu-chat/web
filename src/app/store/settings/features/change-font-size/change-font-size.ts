@@ -24,6 +24,11 @@ export class ChangeFontSize {
       settingsService.initializeOrUpdate({
         fontSize: action.payload,
       });
+
+      const element = document.querySelector('#message-font-size') || document.createElement('style');
+      element.id = 'message-font-size';
+      element.innerHTML = `.message__content span{ font-size: ${action.payload}px; }`;
+      document.head.appendChild(element);
     };
   }
 }

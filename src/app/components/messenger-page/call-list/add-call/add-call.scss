@@ -1,7 +1,7 @@
 .add-call {
   padding: 33px 56px;
   border-radius: 8px;
-  background: var(--dark);
+  background: var(--dt-dark-wt-white);
   display: inline-flex;
   flex-direction: column;
   align-items: center;
@@ -9,11 +9,11 @@
 
   &__icon-wrapper {
     padding: 16px;
-    background-color: var(--chat-bg);
+    background-color: var(--chat-bg-dt-dark-wt-whiter);
     border-radius: 8px;
 
     svg {
-      color: var(--king-blue);
+      color: var(--dt-kingBlue-wt-kingBlueLight);
       width: 64px;
       height: 64px;
     }
@@ -23,7 +23,7 @@
     font-weight: 500;
     font-size: 24px;
     line-height: 28px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     margin-top: 24px;
   }
 
@@ -31,16 +31,16 @@
     font-weight: 300;
     font-size: 16px;
     line-height: 19px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     margin-top: 16px;
     max-width: 240px;
     text-align: center;
   }
 
   &__btn {
-    background: var(--king-blue);
+    background: var(--dt-kingBlue-wt-kingBlueLight);
     padding: 10px 98px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     font-weight: 300;
     font-size: 16px;
     line-height: 19px;

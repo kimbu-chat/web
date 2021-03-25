@@ -1,33 +1,40 @@
 .dropdown {
   &__select-wrapper {
-    background: rgba(0, 0, 0, 0.4);
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     font-size: 11px;
     font-weight: 400;
     border-radius: 4px;
-    height: 40px;
+    position: relative;
     border: none;
+    display: inline-block;
   }
 
   &__select {
-    text-overflow: ellipsis;
-    display: block;
-    overflow: hidden;
-    padding: 12px;
-    border-radius: 4px;
-    line-height: 16px;
-    white-space: nowrap;
-    user-select: none;
-    cursor: pointer;
-    width: 80%;
+    position: relative;
+    color: var(--dt-white-wt-dark);
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    background: var(--dt-dark-wt-white-transparent);
+    border-radius: 4px 4px 0px 0px;
+
+    span {
+      font-weight: 300;
+      font-size: 12px;
+      line-height: 14px;
+      margin-right: 16px;
+      width: 200px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
     svg {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
       height: 16px;
       width: 16px;
       right: 12px;
-      color: var(--white);
+      color: var(--dt-white-wt-dark);
+      margin-left: auto;
     }
 
     &--disabled {
@@ -42,11 +49,8 @@
   &__select-block {
     position: absolute;
     bottom: 40px;
-    background: rgba(0, 0, 0, 0.1);
+    background: var(--dt-dark-wt-white-transparent);
     width: 100%;
-    border-top-right-radius: 4px;
-    border-top-left-radius: 4px;
-    overflow: hidden;
 
     &__option {
       padding: 12px;

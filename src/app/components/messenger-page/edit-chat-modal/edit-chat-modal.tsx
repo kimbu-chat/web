@@ -15,6 +15,7 @@ import PictureSvg from '@icons/picture.svg';
 import TopAvatarLine from '@icons/top-avatar-line.svg';
 import BottomAvatarLine from '@icons/bottom-avatar-line.svg';
 import { IAvatar, IAvatarSelectedData } from '@store/common/models';
+import { LabeledInput } from '@app/components/shared';
 import * as ChatActions from '@store/chats/actions';
 
 export interface IEditChatModalProps {
@@ -144,23 +145,22 @@ export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClos
               </div>
               <div className='edit-chat-modal__criteria'>At least 256*256px PNG or JPG </div>
 
-              <div className='edit-chat-modal__input-group'>
-                <span className='edit-chat-modal__input-label'>Name</span>
-                <input value={newName} onChange={(e) => setNewName(e.target.value)} type='text' className='edit-chat-modal__input' />
-              </div>
+              <LabeledInput label='Name' value={newName} onChange={(e) => setNewName(e.target.value)} containerClassName='edit-chat-modal__input' />
 
-              <div className='edit-chat-modal__input-group'>
-                <span className='edit-chat-modal__input-label'>Description (optional)</span>
-                <input value={newDescription} onChange={(e) => setNewDescription(e.target.value)} type='text' className='edit-chat-modal__input' />
-              </div>
+              <LabeledInput
+                label='Description'
+                value={newDescription}
+                onChange={(e) => setNewDescription(e.target.value)}
+                containerClassName='edit-chat-modal__input'
+              />
             </div>
           }
           closeModal={onClose}
           buttons={[
-            <button key={1} type='button' onClick={onClose} className='create-group-chat__btn create-group-chat__btn--cancel'>
+            <button key={1} type='button' onClick={onClose} className='edit-chat-modal__btn edit-chat-modal__btn--cancel'>
               Cancel
             </button>,
-            <button key={2} disabled={!uploadEnded} type='button' onClick={onSubmit} className='create-group-chat__btn'>
+            <button key={2} disabled={!uploadEnded} type='button' onClick={onSubmit} className='edit-chat-modal__btn'>
               Save
             </button>,
           ]}

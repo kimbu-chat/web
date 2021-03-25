@@ -2,7 +2,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  background: var(--dark);
+  background: var(--dt-dark-wt-white);
 
   &__search-container {
     height: 32px;
@@ -26,7 +26,7 @@
     margin-right: 20px;
 
     svg {
-      color: var(--king-blue);
+      color: #3f8ae0;
     }
   }
 }

@@ -1,3 +1,3 @@
-import { IUserSettings } from '@store/settings/user-settings-state';
+import { IOptionalUserSettings } from '@app/store/settings/comon/models/optional-user-settings';
 
-export interface IGetUserSettingsSuccessActionPayload extends IUserSettings {}
+export interface IGetUserSettingsSuccessActionPayload extends IOptionalUserSettings {}

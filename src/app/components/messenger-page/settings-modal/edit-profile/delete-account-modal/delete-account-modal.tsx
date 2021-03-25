@@ -27,7 +27,7 @@ export const DeleteAccountModal: React.FC<IDeleteAccountModalProps> = React.memo
             {t('deleteAccountModal.cancel')}
           </button>,
           <button key={2} type='button' className='delete-account-modal__btn delete-account-modal__btn--confirm'>
-            {t('deleteAccountModal.logout')}
+            {t('deleteAccountModal.confirm')}
           </button>,
         ]}
       />

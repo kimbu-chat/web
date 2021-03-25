@@ -7,14 +7,14 @@
     border-radius: 50%;
     display: block;
     position: absolute;
-    right: -2px;
-    top: 0px;
+    right: -3px;
+    top: -3px;
     z-index: 7;
     border: 3px solid currentColor;
     box-sizing: border-box;
 
     &--online {
-      background-color: var(--king-blue);
+      background-color: var(--dt-kingBlue-wt-kingBlueLight);
       box-shadow: 0 0 0 0 rgba(0, 0, 0, 1);
       transform: scale(1);
       animation: pulse 2s infinite;

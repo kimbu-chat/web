@@ -20,7 +20,7 @@
 
   &__avatar-container {
     margin-right: 20px;
-    color: var(--chat-bg);
+    color: var(--chat-bg-dt-dark-wt-whiter);
   }
 
   &__friend-data {
@@ -33,7 +33,7 @@
     font-weight: normal;
     font-size: 16px;
     line-height: 19px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
   }
 
   &__friend-status {
@@ -41,7 +41,7 @@
     font-size: 14px;
     line-height: 17px;
     margin-top: 8px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
   }
 
   &__icon-holder {

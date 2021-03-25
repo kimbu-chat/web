@@ -126,7 +126,9 @@ export class MessageUtils {
       }
 
       if (callMessage.status === CallStatus.NotAnswered) {
-        return callMessage.userCallerId === myId ? t('systemMessage.someone_missed_call') : t('systemMessage.you_missed_call');
+        return callMessage.userCallerId === myId
+          ? t('systemMessage.someone_missed_call', { time: moment.utc(message.creationDateTime).local().format('LT').toLowerCase() })
+          : t('systemMessage.you_missed_call', { time: moment.utc(message.creationDateTime).local().format('LT').toLowerCase() });
       }
     }
 

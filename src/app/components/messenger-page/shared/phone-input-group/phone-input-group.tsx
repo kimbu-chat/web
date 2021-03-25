@@ -1,6 +1,7 @@
+import { getCountryByIp } from '@app/utils/get-country-by-ip';
 import { countryList } from '@common/countries';
 import { ICountry } from '@common/country';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { CountrySelect } from './country-select/country-select';
 import './phone-input-group.scss';
 import { PhoneInput } from './phone-input/phone-input';
@@ -16,6 +17,15 @@ interface IPhoneInputGroupProps {
 const PhoneInputGroup: React.FC<IPhoneInputGroupProps> = ({ setPhone, phone, submitFunction, hideCountrySelect, phoneInputIcon }) => {
   const [country, setCountry] = useState<ICountry>(countryList[countryList.length - 1]);
   const [countrySelectRef, setCountrySelectRef] = useState<React.RefObject<HTMLInputElement> | null>(null);
+
+  useEffect(() => {
+    setCountry(countryList[0]);
+    (async () => {
+      const countryCode = await getCountryByIp();
+      const country = countryList.find(({ code }) => code === countryCode) || countryList[0];
+      setCountry(country);
+    })();
+  }, []);
 
   const phoneInputRef = useRef<HTMLInputElement>(null);
 

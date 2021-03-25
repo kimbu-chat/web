@@ -2,11 +2,11 @@
   padding: 8px 20px;
   display: flex;
   position: relative;
-  color: var(--dark);
+  color: var(--dt-dark-wt-white);
 
   &:hover {
-    background-color: var(--chat-bg);
-    color: var(--chat-bg);
+    background-color: var(--chat-bg-dt-dark-wt-whiter);
+    color: var(--chat-bg-dt-dark-wt-whiter);
   }
 
   &__contents {
@@ -14,7 +14,7 @@
   }
 
   &__name {
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     font-weight: normal;
     font-size: 16px;
     line-height: 19px;
@@ -25,7 +25,7 @@
     font-weight: 300;
     font-size: 14px;
     line-height: 17px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     margin-top: 8px;
   }
 

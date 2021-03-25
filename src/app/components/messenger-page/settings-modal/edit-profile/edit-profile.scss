@@ -4,7 +4,7 @@
   flex-direction: column;
 
   &__title {
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     font-weight: normal;
     font-size: 28px;
     line-height: 33px;
@@ -26,7 +26,7 @@
   &__avatar-wrapper {
     width: 148px;
     height: 148px;
-    background-color: var(--dark-blue);
+    background-color: var(--dt-dark-wt-white-blue);
     position: relative;
     margin-right: 31px;
     border-radius: 6px;
@@ -59,7 +59,7 @@
   &__avatar-icon {
     width: 68px;
     height: 78px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
   }
 
   &__avatar-upload {
@@ -72,7 +72,7 @@
   &__avatar-upload-btn {
     padding: 18px 45px 18px 35px;
     border-radius: 6px;
-    background: var(--msg-bg);
+    background: var(--msg-bg-dt-gray-lt-grayLight);
     margin-bottom: 11px;
     display: flex;
     align-items: center;
@@ -82,68 +82,35 @@
       font-size: 12px;
       line-height: 14px;
       margin-left: 16px;
-      color: var(--white);
+      color: var(--dt-white-wt-dark);
     }
 
     svg {
-      color: var(--white);
+      color: var(--dt-white-wt-dark);
       height: 24px;
       width: 24px;
     }
   }
 
   &__avatar-requirements {
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     font-weight: 300;
     font-size: 10px;
     line-height: 12px;
   }
 
-  &__input-block {
+  &__input {
     width: 578px;
     height: 60px;
-    border-radius: 6px;
-    position: relative;
-    background: var(--msg-bg);
     margin-top: 30px;
-  }
-
-  &__input-label {
-    padding: 2px 8px;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 18px;
-    color: var(--white);
-    z-index: 33;
-    background: var(--dark);
-    border-radius: 6px;
-    position: absolute;
-    left: 16px;
-    top: -16px;
-  }
-
-  &__input {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    background: transparent;
-    border: none;
-    box-sizing: border-box;
-    padding: 20px 16px;
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 21px;
-    color: var(--white);
   }
 
   &__btn {
     padding: 10px 17px;
     border-radius: 6px;
-    background: var(--king-blue);
+    background: var(--dt-kingBlue-wt-kingBlueLight);
     margin-left: auto;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     font-weight: normal;
     font-size: 16px;
     line-height: 19px;
@@ -164,7 +131,7 @@
   }
 
   &__phone {
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     font-weight: 500;
     font-size: 24px;
     line-height: 28px;
@@ -175,7 +142,7 @@
     font-weight: 300;
     font-size: 14px;
     line-height: 17px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
   }
 
   &__delete-data {
@@ -189,6 +156,6 @@
     font-weight: 300;
     font-size: 14px;
     line-height: 17px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
   }
 }

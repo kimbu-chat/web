@@ -1,17 +1,17 @@
 .settings-navigation {
   &__element {
     padding: 20px;
-    color: var(--white);
-    background: var(--dark);
+    color: var(--dt-white-wt-dark);
+    background: var(--dt-dark-wt-white);
     display: flex;
     align-items: center;
 
     &--active {
-      background: var(--chat-bg);
+      background: var(--chat-bg-dt-dark-wt-whiter);
     }
 
     &:hover {
-      background: var(--chat-bg);
+      background: var(--chat-bg-dt-dark-wt-whiter);
     }
 
     &:first-child {

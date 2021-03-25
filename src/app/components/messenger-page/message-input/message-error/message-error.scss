@@ -1,6 +1,6 @@
 .message-error {
   display: flex;
-  background-color: var(--dark);
+  background-color: var(--dt-dark-wt-white);
   box-sizing: border-box;
   position: relative;
   align-items: center;
@@ -31,7 +31,7 @@
   &__btn-separator {
     width: 1px;
     height: 28px;
-    background: var(--king-blue-transparent);
+    background: var(--dt-kingBlue-wt-kingBlueLight-transparent);
   }
 
   &__btn {
@@ -41,7 +41,7 @@
     text-transform: uppercase;
 
     &--retry {
-      color: var(--king-blue);
+      color: var(--dt-kingBlue-wt-kingBlueLight);
       margin-right: 13px;
     }
 

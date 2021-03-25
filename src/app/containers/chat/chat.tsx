@@ -31,6 +31,7 @@ import { NotificationsSettings } from '@app/components/messenger-page/settings-m
 import { KeyBindings } from '@app/components/messenger-page/settings-modal/key-bindings/key-bindings';
 import { Appearance } from '@app/components/messenger-page/settings-modal/appearance/appearance';
 import { PrivacySecurity } from '@app/components/messenger-page/settings-modal/privacy-security/privacy-security';
+import { AudioVideoSettings } from '@app/components/messenger-page/settings-modal/audio-video/audio-video';
 
 interface IChatProps {
   preloadNext: () => void;
@@ -121,6 +122,10 @@ const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
 
           <Route path='/settings/privacy-security'>
             <PrivacySecurity />
+          </Route>
+
+          <Route path='/settings/audio-video'>
+            <AudioVideoSettings />
           </Route>
         </div>
       </Route>

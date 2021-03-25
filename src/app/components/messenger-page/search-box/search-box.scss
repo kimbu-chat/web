@@ -3,12 +3,14 @@
     position: relative;
     width: calc(100% - 40px);
     margin: 16px 20px 10px 20px;
+
+    color: var(--dt-white-wt-kingBlue);
   }
 
   &__input {
     height: 100%;
     border-radius: 6px;
-    background-color: rgba(255, 255, 255, 0.14);
+    background-color: var(--dt-white-wt-kingBlueLight-transparenter);
     display: block;
     border: none;
     text-indent: 43px;
@@ -16,18 +18,20 @@
     font-size: 14px;
     line-height: 16px;
     font-weight: 400;
-    color: var(--white);
 
     &__svg {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
       left: 7px;
-      color: rgb(153, 162, 173);
+    }
+
+    &:placeholder-shown ~ * {
+      color: var(--dt-semi-transparent-wt-kingBlue);
     }
 
     &::placeholder {
-      color: rgba($color: #fff, $alpha: 0.5);
+      color: var(--dt-semi-transparent-wt-kingBlue);
     }
   }
 }

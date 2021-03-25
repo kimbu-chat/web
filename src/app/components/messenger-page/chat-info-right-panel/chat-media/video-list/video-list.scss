@@ -19,7 +19,7 @@
     border-radius: 4px;
     position: relative;
     overflow: hidden;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
     margin-right: 5px;
   }
 
@@ -31,7 +31,7 @@
     line-height: 19px;
     margin-bottom: 16px;
     margin-top: 8px;
-    color: var(--king-blue);
+    color: var(--dt-kingBlue-wt-kingBlueLight);
 
     &:first-child {
       margin-top: 17px;
@@ -44,7 +44,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     svg {
-      color: var(--white);
+      color: var(--dt-white-wt-dark);
     }
   }
 
@@ -54,7 +54,7 @@
     font-weight: normal;
     font-size: 10px;
     line-height: 12px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     position: absolute;
     top: 8px;
     right: 8px;

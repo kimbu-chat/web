@@ -52,13 +52,17 @@ export const MessageInputAttachment: React.FC<IMessageInputAttachmentProps> = Re
       {attachment.attachment.type === FileType.Raw && <FileSVG className='message-input-attachment__type-icon' viewBox='0 0 24 24' />}
       {attachment.attachment.type === FileType.Video && (
         <>
-          <img src={(attachment.attachment as IVideoAttachment).firstFrameUrl} alt='' className='message-input-attachment__bg' />
+          {(attachment.attachment as IVideoAttachment).firstFrameUrl && (
+            <img src={(attachment.attachment as IVideoAttachment).firstFrameUrl} alt='' className='message-input-attachment__bg' />
+          )}
           <VideoSVG className='message-input-attachment__type-icon' viewBox='0 0 18 19' />
         </>
       )}
       {attachment.attachment.type === FileType.Picture && (
         <>
-          <img src={(attachment.attachment as IPictureAttachment).previewUrl || previewUrl} alt='' className='message-input-attachment__bg' />
+          {((attachment.attachment as IPictureAttachment).previewUrl || previewUrl) && (
+            <img src={(attachment.attachment as IPictureAttachment).previewUrl || previewUrl} alt='' className='message-input-attachment__bg' />
+          )}
           <PhotoSVG className='message-input-attachment__type-icon' viewBox='0 0 18 19' />
         </>
       )}

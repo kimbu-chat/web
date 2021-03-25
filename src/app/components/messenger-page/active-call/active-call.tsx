@@ -41,7 +41,7 @@ import { IUser } from '@store/common/models';
 import { getInterlocutorAudioTrack, getInterlocutorVideoTrack, tracks } from '@store/calls/utils/user-media';
 import { InputType } from '@store/calls/common/enums/input-type';
 import { playSoundSafely } from '@utils/current-music';
-import { Dropdown } from './dropdown/dropdown';
+import { Dropdown } from '../shared/dropdown/dropdown';
 
 export const ActiveCall: React.FC = () => {
   const interlocutor = useSelector(getCallInterlocutorSelector);

@@ -3,7 +3,7 @@
     font-weight: 300;
     font-size: 16px;
     line-height: 19px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     margin-top: 15px;
     margin-bottom: 11px;
     min-width: 340px;
@@ -11,14 +11,14 @@
 
   &__btn {
     padding: 10px 30px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     font-weight: 300;
     font-size: 16px;
     line-height: 19px;
     border-radius: 6px;
 
     &--confirm {
-      background: var(--king-blue);
+      background: var(--dt-kingBlue-wt-kingBlueLight);
     }
 
     &--cancel {

@@ -2,13 +2,13 @@
   padding: 8px 20px 8px 20px;
   display: flex;
   align-items: stretch;
-  background-color: var(--dark);
-  color: var(--dark);
+  background-color: var(--dt-dark-wt-white);
+  color: var(--dt-dark-wt-white);
   position: relative;
 
   &:hover {
-    background-color: var(--chat-bg);
-    color: var(--chat-bg);
+    background-color: var(--chat-bg-dt-dark-wt-whiter);
+    color: var(--chat-bg-dt-dark-wt-whiter);
   }
 
   &__heading {
@@ -23,16 +23,12 @@
   }
 
   &--active {
-    background-color: var(--chat-bg);
-    color: var(--chat-bg);
-
-    & > .chat-item__active-line {
-      display: block;
-    }
+    background-color: var(--chat-bg-dt-dark-wt-whiter);
+    color: var(--chat-bg-dt-dark-wt-whiter);
   }
 
   &__status {
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     margin-top: 2px;
     margin: 2px 3px 0 auto;
   }
@@ -43,7 +39,7 @@
     line-height: 14px;
     font-feature-settings: 'pnum' on, 'lnum' on;
     white-space: nowrap;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     margin-top: 3px;
   }
 
@@ -61,7 +57,7 @@
     font-weight: normal;
     font-size: 16px;
     line-height: 19px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     margin-bottom: 8px;
     max-width: max-content;
   }
@@ -70,7 +66,7 @@
     font-weight: 300;
     font-size: 14px;
     line-height: 17px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     font-feature-settings: 'pnum' on, 'lnum' on;
     white-space: nowrap;
     overflow: hidden;
@@ -79,8 +75,8 @@
   }
 
   &__count {
-    background-color: var(--grafit);
-    color: var(--white);
+    background-color: var(--dt-grafit-wt-kingBlue);
+    color: #fff;
     padding: 4px 7px;
     border-radius: 6px;
 

@@ -1,20 +1,24 @@
 .phone-input {
-  background: var(--msg-bg);
+  background: var(--msg-bg-dt-gray-lt-grayLight);
   width: 339px;
   border-radius: 6px;
   display: flex;
   position: relative;
 
+  &:hover {
+    box-shadow: 0px 3px 6px rgba(14, 22, 43, 0.62);
+  }
+
   &__country-code {
     border: none;
     height: 40px;
     text-align: center;
-    border-right: 1px solid var(--msg-bg);
+    border-right: 1px solid var(--msg-bg-dt-gray-lt-grayLight);
     background: transparent;
     font-weight: normal;
     font-size: 16px;
     line-height: 19px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     padding-left: 10px;
     padding-right: 15px;
     width: 45px;
@@ -25,14 +29,14 @@
     border: none;
     text-indent: 16px;
     background: transparent;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     font-weight: normal;
     font-size: 16px;
     line-height: 19px;
     flex-grow: 1;
 
     &:placeholder {
-      color: var(--white-dark);
+      color: var(--dt-white-wt-dark-dark);
     }
   }
 

@@ -3,18 +3,18 @@
   grid-template-columns: 80px 347px 1fr;
   grid-template-rows: 64px 1fr;
   height: 100vh;
-  background: var(--chat-bg);
+  background: var(--chat-bg-dt-dark-wt-whiter);
 
   &__friends {
-    background-color: var(--dark);
+    background-color: var(--dt-dark-wt-white);
   }
 
   &__chats {
-    background-color: var(--dark);
+    background-color: var(--dt-dark-wt-white);
   }
 
   &__settings-navigation {
-    background-color: var(--dark);
+    background-color: var(--dt-dark-wt-white);
     grid-row: 1/-1;
   }
 

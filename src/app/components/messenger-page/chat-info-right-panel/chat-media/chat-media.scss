@@ -2,7 +2,7 @@
   margin-top: 32px;
 
   &__title {
-    color: var(--king-blue);
+    color: var(--dt-kingBlue-wt-kingBlueLight);
     font-weight: 500;
     font-size: 18px;
     line-height: 21px;
@@ -19,7 +19,7 @@
 
   &__media-heading {
     display: flex;
-    background-color: var(--grafit);
+    background-color: var(--dt-grafit-wt-kingBlue);
     flex-direction: row;
     align-items: center;
     position: sticky;
@@ -27,13 +27,13 @@
     top: 0;
 
     svg {
-      color: var(--white);
+      color: var(--dt-white-wt-dark);
       width: 18px;
     }
   }
 
   &__media-title {
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     margin-left: 16px;
     font-weight: 300;
     font-size: 14px;
@@ -49,7 +49,7 @@
     svg {
       height: 8px;
       width: 14px;
-      color: var(--king-blue);
+      color: var(--dt-kingBlue-wt-kingBlueLight);
     }
 
     &--rotated {

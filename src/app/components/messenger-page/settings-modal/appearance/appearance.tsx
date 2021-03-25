@@ -1,20 +1,28 @@
 import { LocalizationContext } from '@app/contexts';
 import { IMessage, MessageState, SystemMessageType } from '@app/store/chats/models';
-import React, { useContext, useState } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { UserStatus } from '@app/store/common/models';
 import firstAvatar from '@icons/mockedUser1.png';
 import { myProfileSelector } from '@app/store/my-profile/selectors';
 import { useSelector } from 'react-redux';
 import './appearance.scss';
-import { RadioBox } from '../shared/radio-box/radio-box';
+import { useActionWithDispatch } from '@app/hooks/use-action-with-dispatch';
+import { ChangeTheme } from '@app/store/settings/features/change-theme/change-theme';
+import { Theme } from '@app/store/settings/features/models';
+import { getCurrentFontSizeSelector, getCurrentThemeSelector } from '@app/store/settings/selectors';
+import { ChangeFontSize } from '@app/store/settings/features/change-font-size/change-font-size';
 import { MessageItem } from '../../message-item/message-item';
+import { RadioBox } from '../shared/radio-box/radio-box';
 
 export const Appearance: React.FC = () => {
   const { t } = useContext(LocalizationContext);
 
-  const [fontSize, setFontSize] = useState(16);
+  const changeTheme = useActionWithDispatch(ChangeTheme.action);
+  const changeFontSize = useActionWithDispatch(ChangeFontSize.action);
 
   const currentUser = useSelector(myProfileSelector);
+  const currentTheme = useSelector(getCurrentThemeSelector);
+  const fontSize = useSelector(getCurrentFontSizeSelector);
 
   const messages: IMessage[] = [
     {
@@ -108,6 +116,13 @@ export const Appearance: React.FC = () => {
     },
   ];
 
+  const goToLightTheme = useCallback(() => {
+    changeTheme(Theme.LIGHT);
+  }, [changeTheme]);
+  const goToDarkTheme = useCallback(() => {
+    changeTheme(Theme.DARK);
+  }, [changeTheme]);
+
   return (
     <div className='appearance'>
       <h3 className='appearance__title'>{t('appearance.title')}</h3>
@@ -120,16 +135,16 @@ export const Appearance: React.FC = () => {
         ))}
       </div>
       <div className='appearance__theme-select'>
-        <RadioBox groupName='theme' defaultChecked content={t('appearance.dark')} />
+        <RadioBox groupName='theme' onClick={goToDarkTheme} defaultChecked={currentTheme === Theme.DARK} content={t('appearance.dark')} />
       </div>
       <div className='appearance__theme-select'>
-        <RadioBox groupName='theme' defaultChecked={false} content={t('appearance.light')} />
+        <RadioBox groupName='theme' onClick={goToLightTheme} defaultChecked={currentTheme === Theme.LIGHT} content={t('appearance.light')} />
       </div>
       <h3 className='appearance__font-size-title'>{t('appearance.font-size')}</h3>
       <div className='appearance__font-size-box'>
         <div className='appearance__font-sizes'>
           <button
-            onClick={() => setFontSize(12)}
+            onClick={() => changeFontSize(12)}
             type='button'
             className={`appearance__font-size appearance__font-size--12 ${fontSize === 12 ? 'appearance__font-size--active' : ''}`}
           >
@@ -137,7 +152,7 @@ export const Appearance: React.FC = () => {
             <div className={`appearance__font-progress-circle  ${fontSize === 12 ? '' : 'appearance__font-progress-circle--transparent'}`} />
           </button>
           <button
-            onClick={() => setFontSize(14)}
+            onClick={() => changeFontSize(14)}
             type='button'
             className={`appearance__font-size appearance__font-size--14 ${fontSize === 14 ? 'appearance__font-size--active' : ''}`}
           >
@@ -145,7 +160,7 @@ export const Appearance: React.FC = () => {
             <div className={`appearance__font-progress-circle  ${fontSize === 14 ? '' : 'appearance__font-progress-circle--transparent'}`} />
           </button>
           <button
-            onClick={() => setFontSize(16)}
+            onClick={() => changeFontSize(16)}
             type='button'
             className={`appearance__font-size appearance__font-size--16 ${fontSize === 16 ? 'appearance__font-size--active' : ''}`}
           >
@@ -153,7 +168,7 @@ export const Appearance: React.FC = () => {
             <div className={`appearance__font-progress-circle  ${fontSize === 16 ? '' : 'appearance__font-progress-circle--transparent'}`} />
           </button>
           <button
-            onClick={() => setFontSize(18)}
+            onClick={() => changeFontSize(18)}
             type='button'
             className={`appearance__font-size appearance__font-size--18 ${fontSize === 18 ? 'appearance__font-size--active' : ''}`}
           >
@@ -161,7 +176,7 @@ export const Appearance: React.FC = () => {
             <div className={`appearance__font-progress-circle  ${fontSize === 18 ? '' : 'appearance__font-progress-circle--transparent'}`} />
           </button>
           <button
-            onClick={() => setFontSize(24)}
+            onClick={() => changeFontSize(24)}
             type='button'
             className={`appearance__font-size appearance__font-size--24 ${fontSize === 24 ? 'appearance__font-size--active' : ''}`}
           >

@@ -4,6 +4,10 @@
   cursor: pointer;
   user-select: none;
 
+  &:hover &__radio-box-wrapper {
+    box-shadow: 0px 3px 6px rgba(14, 22, 43, 0.62);
+  }
+
   &__radio-box-wrapper {
     height: 24px;
     width: 24px;
@@ -18,7 +22,7 @@
 
   &__radio-box {
     background: transparent;
-    border: 1px solid var(--king-blue);
+    border: 1px solid var(--dt-kingBlue-wt-kingBlueLight);
     border-radius: 10px;
     width: 14px;
     height: 14px;
@@ -29,7 +33,7 @@
     font-weight: normal;
     font-size: 18px;
     line-height: 21px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
   }
 
   &__radio-input {
@@ -40,7 +44,7 @@
 
     &:checked + * {
       div {
-        background: var(--king-blue);
+        background: var(--dt-kingBlue-wt-kingBlueLight);
       }
     }
   }

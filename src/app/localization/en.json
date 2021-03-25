@@ -97,8 +97,16 @@
     "audios": "Audios"
   },
   "changePhoto": {
-    "confirm": "Confirm",
-    "reject": "Reject"
+    "confirm": "Save",
+    "title": "Upload Profile Photo",
+    "reject": "Cancel"
+  },
+  "audioVideo": {
+    "title": "Audio & Video",
+    "video": "Video",
+    "load-speaker": "Load speaker",
+    "microphone": "Microphone",
+    "test-video": "Test video"
   },
   "messageInput": {
     "write": "Type something..."
@@ -187,7 +195,7 @@
   },
   "notificationsSettings": {
     "title": "Notifications",
-    "desktop-notification": "Desktop notifications",
+    "push-notification": "Push notifications",
     "message-notification": "New messages sound notification",
     "all-notifications": "Disable all notifications"
   },
@@ -196,30 +204,33 @@
     "upload_new_photo": "Upload new photo",
     "requirements": "At least 256*256px PNG or JPG",
     "save-changes": "Save changes",
-    "first_name": "First name",
-    "last_name": "Last name",
-    "username": "User nickname",
+    "first_name": "First Name",
+    "last_name": "Last Name",
+    "username": "Nickname",
     "phone-number": "Phone number",
     "change-number": "Change number",
     "phone-details": "When you change the number, your contacts will not find you by the previous number.",
     "delete-account": "Delete account",
     "delete-details": "Once you delete your account, there is no going back.",
-    "delete-confirmation": "Delete your account"
+    "delete-confirmation": "Delete your account",
+    "nickname-busy": "This nickname is busy",
+    "nickname-not-acceptable": "This nickname is not acceptable"
   },
   "changePhoneModal": {
     "change-number": "Change number",
-    "code-sent": "Code sent",
+    "code-sent": "Code sent to number",
     "code": "Code",
     "cancel": "Cancel",
     "change": "Change",
     "confirm": "Confirm",
-    "details": "You can resend the code in {{time}}"
+    "details": "You can resend the code in {{time}}",
+    "enter-numbers": "Enter numbers"
   },
   "deleteAccountModal": {
     "title": "Delete account",
     "confirm-content": "Are you sure to delete your account",
     "cancel": "Cancel",
-    "logout": "Delete"
+    "confirm": "Delete"
   },
   "privacySecurity": {
     "title": "Privacy & Security",
@@ -241,8 +252,11 @@
   },
   "session": {
     "last-acessed": "Last accessed:",
-    "signed-in": "Signed in:"
+    "signed-in": "Signed in:",
+    "current-session": "Current session",
+    "revoke": "Revoke"
   },
+
   "editPhoneModal": {
     "edit_phone": "Edit Phone",
     "country": "Country",
@@ -317,12 +331,12 @@
     "someone_changed_avatar": "{{someonesName}} changed avatar",
     "you_removed_avatar": "You removed avatar",
     "someone_removed_avatar": "{{someonesName}} removed avatar",
-    "outgoing_call_success_ended": "Outgoing call: {{duration}}",
-    "incoming_call_success_ended": "Incoming call: {{duration}}",
+    "outgoing_call_success_ended": "Outgoing call {{duration}}",
+    "incoming_call_success_ended": "Incoming call {{duration}}",
     "you_canceled_call": "You canceled call",
     "someone_canceled_call": "Interlocutor canceled call",
-    "you_missed_call": "You missed call",
-    "someone_missed_call": "Interlocutor missed call",
+    "you_missed_call": "Missed call at {{time}}",
+    "someone_missed_call": "Interlocutor missed call at {{time}}",
     "you_declined_call": "You declined incoming call",
     "someone_declined_call": "Interlocutor declined incoming call",
     "outgoing_call_intrrerupted": "Outgoing call intrrerupted",

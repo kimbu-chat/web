@@ -1,3 +1,6 @@
 import { IUser } from '../../../../common/models';
 
-export type IGetMyProfileSuccessActionPayload = IUser;
+export interface IGetMyProfileSuccessActionPayload {
+  user: IUser;
+  deviceId?: string;
+}

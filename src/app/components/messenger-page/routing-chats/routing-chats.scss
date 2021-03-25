@@ -6,7 +6,7 @@
   align-items: center;
   justify-content: center;
   justify-content: space-between;
-  background: var(--grafit);
+  background: var(--dt-grafit-wt-kingBlue);
 
   &__my-photo {
     height: 48px;
@@ -23,7 +23,7 @@
 
   &__link {
     display: block;
-    color: var(--white);
+    color: #fff;
     transition: all 0.2s;
     padding: 26px 25px;
 
@@ -40,8 +40,8 @@
     }
 
     &--active {
-      background-color: var(--dark);
-      color: var(--king-blue);
+      background-color: var(--dt-dark-wt-white);
+      color: #3f8ae0;
     }
   }
 }

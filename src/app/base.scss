@@ -72,14 +72,19 @@ a {
   //primary colors
   --dt-dark-wt-white: #262c38;
   --dt-dark-wt-white-blue: #161d2e;
+  --dt-dark-wt-bright-blue: #262c38;
   --dt-dark-wt-white-transparent: rgba(38, 44, 56, 0.5);
 
   --dt-grafit-wt-kingBlue: #373f51;
   --dt-grafit-wt-white: #373f51;
 
   --chat-bg-dt-dark-wt-whiter: #32394a;
+  --chat-bg-dt-dark-wt-kingBlueLight: #32394a;
+  --chat-bg-dt-dark-wt-kingBlue-lighter: #32394a;
 
   --msg-bg-dt-gray-lt-grayLight: #4a5466;
+  --msg-bg-dt-gray-lt-kingBlue-lighter: #4a5466;
+  --msg-bg-dt-gray-lt-kingBlueLight: #4a5466;
 
   --input-bg: rgba(#4a5466, 0.6);
 
@@ -88,17 +93,19 @@ a {
   --dt-white-wt-dark: #ffffff;
   --dt-white-wt-dark-semi-transparent: rgba(255, 255, 255, 0.5);
   --dt-white-wt-dark-dark: rgba(255, 255, 255, 0.14);
-  --dt-white-wt-dark-darker: rgba(255, 255, 255, 0.04);
+  --dt-whiter-wt-dark-kingBlue-transparentest: rgba(255, 255, 255, 0.04);
+  --dt-white-wt-kingBlueLight: #fff;
   --dt-white-wt-kingBlue: #ffffff;
   --dt-semi-transparent-wt-kingBlue: rgba(255, 255, 255, 0.5);
 
   //secondary colors
   --blue: #30598b;
   --dt-kingBlue-wt-kingBlueLight: #3f8ae0;
+  --dt-kingBlue-wt-kingBlueLight: rgba(63, 138, 224, 0.55);
   --dt-kingBlue-wt-kingBlueLight-transparent: rgba(63, 138, 224, 0.25);
-  --dt-kingBlue-wt-kingBlueLight-transparentest: rgba(63, 138, 224, 0.55);
   --dt-white-wt-kingBlueLight-transparenter: rgba(255, 255, 255, 0.14);
 
   --red: #c74848;
   --error-bg: #483e4a;
+  --blur-color: rgba(38, 44, 56, 0.4);
 }

@@ -1,8 +1,8 @@
 .chat-media {
-  margin-top: 32px;
+  margin-top: 28px;
 
   &__title {
-    color: var(--dt-kingBlue-wt-kingBlueLight);
+    color: #3f8ae0;
     font-weight: 500;
     font-size: 18px;
     line-height: 21px;
@@ -19,7 +19,7 @@
 
   &__media-heading {
     display: flex;
-    background-color: var(--dt-grafit-wt-kingBlue);
+    background-color: var(--dt-grafit-wt-white);
     flex-direction: row;
     align-items: center;
     position: sticky;
@@ -49,7 +49,7 @@
     svg {
       height: 8px;
       width: 14px;
-      color: var(--dt-kingBlue-wt-kingBlueLight);
+      color: #3f8ae0;
     }
 
     &--rotated {

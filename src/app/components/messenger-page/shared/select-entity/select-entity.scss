@@ -8,11 +8,6 @@
     margin-top: 16px;
   }
 
-  &__selected-holder {
-    margin-left: auto;
-    cursor: pointer;
-  }
-
   &__avatar {
     height: 48px;
     width: 48px;
@@ -44,7 +39,21 @@
     color: var(--dt-white-wt-dark);
   }
 
-  &__icon-holder {
+  &__selected {
     margin-left: auto;
+    width: 24px;
+    height: 24px;
+    margin-right: 16px;
+  }
+
+  &__select {
+    margin-left: auto;
+    margin-right: 16px;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    box-sizing: border-box;
+    border: 1.5px solid rgba(255, 255, 255, 0.14);
+    background: var(--chat-bg-dt-dark-wt-kingBlue-lighter);
   }
 }

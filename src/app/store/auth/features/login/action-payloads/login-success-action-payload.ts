@@ -1,5 +1,8 @@
 export interface ILoginSuccessActionPayload {
-  accessToken: string;
-  refreshToken: string;
-  refreshTokenExpirationTime?: Date;
+  securityTokens: {
+    accessToken: string;
+    refreshToken: string;
+    refreshTokenExpirationTime?: Date;
+  };
+  deviceId: string;
 }

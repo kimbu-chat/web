@@ -5,7 +5,6 @@ import { Avatar, StatusBadge, TimeUpdateable } from '@components';
 import { getInterlocutorInitials } from '@utils/interlocutor-name-utils';
 
 import SelectedSvg from '@icons/checked.svg';
-import UnSelectedSvg from '@icons/unchecked.svg';
 import { IChat } from '@store/chats/models';
 import { IUser } from '@store/common/models';
 
@@ -53,7 +52,7 @@ export const SelectEntity: React.FC<ISelectEntityProps> = React.memo(({ changeSe
       </div>
 
       {icon && <div className='select-entity__icon-holder'>{icon}</div>}
-      {changeSelectedState && <div className='select-entity__selected-holder'>{isSelected ? <SelectedSvg /> : <UnSelectedSvg />}</div>}
+      {changeSelectedState && (isSelected ? <SelectedSvg className='select-entity__selected' /> : <div className='select-entity__select' />)}
     </div>
   );
 });

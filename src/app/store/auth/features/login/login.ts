@@ -25,16 +25,18 @@ export class Login {
 
       const { data } = loginHttpRequest.call(yield call(() => loginHttpRequest.generator(action.payload)));
 
-      const profile: IUser = JSON.parse(jwtDecode<ICustomJwtPayload>(data.accessToken).profile);
-      const deviceId = jwtDecode<ICustomJwtPayload>(data.accessToken).device;
+      const decodedJwt = jwtDecode<ICustomJwtPayload>(data.accessToken);
+
+      const profile: IUser = JSON.parse(decodedJwt.profile);
+      const deviceId = decodedJwt.device;
 
       yield put(
         GetMyProfileSuccess.action({
           user: profile,
-          deviceId,
         }),
       );
-      yield put(LoginSuccess.action(data));
+
+      yield put(LoginSuccess.action({ securityTokens: data, deviceId }));
       yield put(SubscribeToPushNotifications.action());
       yield put(AppInit.action());
     };

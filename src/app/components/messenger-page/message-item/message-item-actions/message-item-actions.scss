@@ -5,7 +5,7 @@
   visibility: hidden;
   transition: all 0.1s;
   position: absolute;
-  background-color: var(--msg-bg-dt-gray-lt-grayLight);
+  background-color: var(--msg-bg-dt-gray-lt-kingBlue-lighter);
   padding: 6px 0;
   border-radius: 6px;
   box-shadow: 4px 4px 4px rgba(50, 57, 74, 0.72);
@@ -21,11 +21,11 @@
 
   &__action {
     margin-right: 22px;
-    color: var(--dt-white-wt-dark);
+    color: var(--dt-white-wt-kingBlueLight);
     transition: all 0.1s ease-in-out;
 
     &:hover {
-      color: var(--dt-kingBlue-wt-kingBlueLight);
+      color: #3f8ae0;
     }
 
     &:first-child {

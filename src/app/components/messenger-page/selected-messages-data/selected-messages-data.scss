@@ -3,7 +3,7 @@
   top: 0;
   padding: 11px 20px 11px 18px;
   width: 100%;
-  background-color: var(--dt-dark-wt-white);
+  background-color: var(--dt-dark-wt-bright-blue);
   z-index: 50;
   display: flex;
   align-items: center;
@@ -11,8 +11,8 @@
 
   &__btn {
     padding: 10px 18px;
-    color: var(--dt-white-wt-dark);
-    background-color: var(--dt-kingBlue-wt-kingBlueLight);
+    color: #fff;
+    background-color: #3f8ae0;
     border-radius: 4px;
 
     &:not(:last-child) {
@@ -37,6 +37,6 @@
 
   &__close {
     margin-left: auto;
-    color: var(--dt-white-wt-dark);
+    color: var(--dt-white-wt-kingBlue);
   }
 }

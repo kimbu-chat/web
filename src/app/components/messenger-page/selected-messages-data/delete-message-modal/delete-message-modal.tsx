@@ -1,13 +1,12 @@
 import { Modal, WithBackground } from '@components';
 import React, { useCallback, useContext, useState } from 'react';
 
-import CheckedSvg from '@icons/checked.svg';
-import UncheckedSvg from '@icons/unchecked.svg';
 import DeleteSvg from '@icons/delete.svg';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { LocalizationContext } from '@contexts';
 import './delete-message-modal.scss';
 import { DeleteMessage } from '@store/chats/features/delete-message/delete-message';
+import { CheckBox } from '../../settings-modal/shared/check-box/check-box';
 
 interface IDeleteMessageModalProps {
   onClose: () => void;
@@ -41,10 +40,12 @@ export const DeleteMessageModal: React.FC<IDeleteMessageModalProps> = React.memo
         content={
           <div className='delete-message-modal'>
             <div className='delete-message-modal__delete-all'>
-              <button type='button' className='delete-message-modal__btn' onClick={changeDeleteForInterlocutorState}>
-                {deleteForInterlocutor ? <CheckedSvg /> : <UncheckedSvg />}
-              </button>
-              <span className='delete-message-modal__btn-description'>{t('deleteMessageModal.delete-confirmation')}</span>
+              <CheckBox
+                className='delete-message-modal__check-box'
+                onClick={changeDeleteForInterlocutorState}
+                isChecked={deleteForInterlocutor}
+                title={t('deleteMessageModal.delete-confirmation')}
+              />
             </div>
           </div>
         }

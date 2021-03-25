@@ -1,5 +1,6 @@
 .media-grid {
-  display: inline-flex;
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
   border-radius: 6px;
   overflow: hidden;
   flex-wrap: wrap;

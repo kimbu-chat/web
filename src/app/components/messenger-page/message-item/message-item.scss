@@ -77,7 +77,7 @@
     margin-bottom: 11px;
 
     &--selected {
-      background-color: var(--dt-white-wt-dark-darker);
+      background-color: var(--dt-whiter-wt-dark-kingBlue-transparentest);
     }
   }
 
@@ -105,7 +105,7 @@
     font-weight: 300;
     font-size: 12px;
     line-height: 14px;
-    color: var(--dt-white-wt-dark-semi-transparent);
+    color: var(--dt-white-wt-kingBlueLight);
     margin-left: 4px;
     white-space: nowrap;
   }
@@ -165,13 +165,13 @@
   }
 
   &__state {
-    color: var(--dt-white-wt-dark-semi-transparent);
+    color: var(--dt-white-wt-kingBlueLight);
   }
 
   &__checkbox {
     margin-left: 36px;
     svg {
-      color: var(--dt-white-wt-dark);
+      color: var(--dt-white-wt-kingBlue);
     }
 
     &--unselected {

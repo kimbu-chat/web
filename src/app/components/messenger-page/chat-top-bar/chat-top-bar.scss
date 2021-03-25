@@ -5,7 +5,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--grafit);
+    background-color: var(--dt-grafit-wt-white);
 
     &--little {
       width: calc(100% - 300px);
@@ -22,7 +22,7 @@
   &__contact-img-container {
     margin-left: 20px;
     margin-right: 18px;
-    color: var(--grafit);
+    color: var(--dt-grafit-wt-white);
   }
 
   &__contact-img {
@@ -31,8 +31,8 @@
   }
 
   &__chat-info {
-    color: var(--white);
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
+    color: var(--dt-white-wt-dark);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -57,11 +57,11 @@
   }
 
   &__button {
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     margin-right: 32px;
 
     &--active {
-      color: var(--king-blue);
+      color: var(--dt-kingBlue-wt-kingBlueLight);
     }
 
     &:last-child {

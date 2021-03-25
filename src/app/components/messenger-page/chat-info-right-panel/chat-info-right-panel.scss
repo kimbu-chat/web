@@ -1,6 +1,6 @@
 .chat-info {
   height: calc(100vh - 64px);
-  background-color: var(--grafit);
+  background-color: var(--dt-grafit-wt-kingBlue);
   width: 348px;
   overflow-y: auto;
   will-change: margin;
@@ -9,7 +9,7 @@
     display: block;
     margin-left: auto;
     margin-right: 15px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     svg {
       height: 24px;
       width: 24px;
@@ -93,7 +93,7 @@
   position: absolute;
   top: -6px;
   right: 91px;
-  background: var(--white);
+  background: var(--dt-white-wt-dark);
   transition: all 0.3s;
 
   &:hover {

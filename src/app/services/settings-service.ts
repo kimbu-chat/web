@@ -1,14 +1,6 @@
-import { Langs, TypingStrategy, Theme, AllowedFontSize } from '../store/settings/features/models';
+import { IOptionalUserSettings } from '@app/store/settings/comon/models/optional-user-settings';
 import { IUserSettings } from '../store/settings/user-settings-state';
 import { BrowserStorage } from '../utils/browser-storage';
-
-interface IOptionalUserSettings {
-  language?: Langs;
-  theme?: Theme;
-  typingStrategy?: TypingStrategy;
-  notificationSound?: boolean;
-  fontSize?: AllowedFontSize;
-}
 
 export class SettingsService {
   private readonly userSettings = 'userSettings';

@@ -4,7 +4,7 @@
   &__title {
     margin-left: 24px;
     margin-bottom: 16px;
-    color: var(--king-blue);
+    color: var(--dt-kingBlue-wt-kingBlueLight);
     font-weight: 500;
     font-size: 18px;
     line-height: 21px;
@@ -13,7 +13,7 @@
   &__action {
     display: flex;
     align-items: center;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
 
     margin-left: 24px;
 
@@ -25,7 +25,7 @@
       font-weight: 300;
       font-size: 14px;
       line-height: 17px;
-      color: var(--white);
+      color: var(--dt-white-wt-dark);
       margin-left: 16px;
     }
   }

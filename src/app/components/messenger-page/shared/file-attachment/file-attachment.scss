@@ -19,7 +19,7 @@
     border-radius: 0px 6px 6px 6px;
 
     svg {
-      color: var(--white);
+      color: var(--dt-white-wt-dark);
     }
   }
 
@@ -36,7 +36,7 @@
     border-radius: 0px 6px 6px 6px;
 
     svg {
-      color: var(--white);
+      color: var(--dt-white-wt-dark);
     }
   }
 
@@ -61,7 +61,7 @@
     line-height: 17px;
     white-space: nowrap;
     overflow: hidden;
-    color: var(--king-blue);
+    color: var(--dt-kingBlue-wt-kingBlueLight);
     text-overflow: ellipsis;
   }
 
@@ -69,6 +69,6 @@
     font-weight: 300;
     font-size: 12px;
     line-height: 14px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
   }
 }

@@ -6,7 +6,7 @@
   width: calc(100vw - 203px);
   border-radius: 6px;
   box-shadow: 0px 5px 12px rgba(14, 22, 43, 0.88);
-  background-color: var(--dark);
+  background-color: var(--dt-dark-wt-white);
   display: flex;
   align-items: center;
   padding: 8px 60px 8px 24px;
@@ -22,12 +22,12 @@
     font-weight: normal;
     font-size: 16px;
     line-height: 19px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     margin-bottom: 8px;
   }
 
   &__additional-data {
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     font-weight: 300;
     font-size: 12px;
     line-height: 14px;
@@ -40,7 +40,7 @@
   }
 
   &__call-btn {
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     margin-right: 32px;
 
     svg {
@@ -54,13 +54,13 @@
 
     &--accept {
       svg {
-        color: var(--king-blue);
+        color: var(--dt-kingBlue-wt-kingBlueLight);
       }
     }
 
     &--video {
       svg {
-        color: var(--king-blue);
+        color: var(--dt-kingBlue-wt-kingBlueLight);
       }
     }
 

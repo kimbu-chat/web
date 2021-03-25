@@ -6,14 +6,14 @@
     font-size: 28px;
     line-height: 33px;
     margin-bottom: 40px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
   }
 
   &__theme {
     font-weight: 500;
     font-size: 24px;
     line-height: 28px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     margin-bottom: 32px;
   }
 
@@ -23,7 +23,7 @@
     box-sizing: border-box;
     overflow: auto;
     border-radius: 6px;
-    background: var(--dark);
+    background: var(--dt-dark-wt-white);
     margin-bottom: 40px;
 
     &__msg-wrapper {
@@ -34,7 +34,7 @@
   }
 
   &__theme-select {
-    background: var(--dark);
+    background: var(--dt-dark-wt-white);
     border-radius: 6px;
     margin-top: 16px;
 
@@ -53,7 +53,7 @@
     font-weight: normal;
     font-size: 18px;
     line-height: 21px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     margin-top: 40px;
   }
 
@@ -63,7 +63,7 @@
   }
 
   &__font-size {
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     font-weight: 300;
     line-height: 14px;
     position: relative;
@@ -74,7 +74,7 @@
 
     &--active {
       font-weight: bold;
-      color: var(--king-blue);
+      color: var(--dt-kingBlue-wt-kingBlueLight);
     }
 
     &--12 {
@@ -108,9 +108,9 @@
     box-sizing: border-box;
     width: 28px;
     height: 28px;
-    border: 4px solid var(--white);
+    border: 4px solid var(--dt-white-wt-dark);
     border-radius: 50%;
-    background: var(--king-blue);
+    background: var(--dt-kingBlue-wt-kingBlueLight);
     position: absolute;
     bottom: -37px;
 
@@ -126,7 +126,7 @@
     box-shadow: inset -2px 2px 4px rgba(46, 101, 164, 0.2), inset 2px -2px 4px rgba(46, 101, 164, 0.2), inset -2px -2px 4px rgba(80, 175, 255, 0.9),
       inset 2px 2px 5px rgba(46, 101, 164, 0.9);
     border-radius: 6px;
-    background: var(--king-blue);
+    background: var(--dt-kingBlue-wt-kingBlueLight);
     height: 20px;
     margin-top: 14px;
   }

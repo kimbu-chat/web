@@ -2,7 +2,7 @@
   padding: 32px 40px;
 
   &__title {
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     font-weight: normal;
     font-size: 28px;
     line-height: 33px;
@@ -14,14 +14,14 @@
   }
 
   &__subject-icon {
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     width: 24px;
     height: 24px;
     margin-right: 20px;
   }
 
   &__subject-text {
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     font-weight: 500;
     font-size: 24px;
     line-height: 28px;
@@ -51,7 +51,7 @@
   &__intensity-point {
     width: 16px;
     height: 16px;
-    background: var(--dark);
+    background: var(--dt-dark-wt-white);
     border-radius: 50%;
 
     &:not(:last-child) {
@@ -61,7 +61,7 @@
     &[data-active] {
       width: 24px;
       height: 24px;
-      background: var(--king-blue);
+      background: var(--dt-kingBlue-wt-kingBlueLight);
 
       &:not(:last-child) {
         margin-right: 24px;
@@ -71,7 +71,7 @@
     &[data-middle] {
       width: 20px;
       height: 20px;
-      background: var(--king-blue-transparentest);
+      background: var(--dt-kingBlue-wt-kingBlueLight-transparentest);
 
       &:not(:last-child) {
         margin-right: 28px;
@@ -86,14 +86,14 @@
     align-items: center;
     padding: 60px 0;
     border-radius: 30px;
-    background: var(--dark);
+    background: var(--dt-dark-wt-white);
     margin-bottom: 32px;
   }
 
   &__video-icon {
     width: 300px;
     height: 280px;
-    color: var(--chat-bg);
+    color: var(--chat-bg-dt-dark-wt-whiter);
   }
 
   &__video-btn {
@@ -103,7 +103,7 @@
     line-height: 33px;
     margin-top: 30px;
     border-radius: 6px;
-    color: var(--white);
-    background: var(--king-blue);
+    color: var(--dt-white-wt-dark);
+    background: var(--dt-kingBlue-wt-kingBlueLight);
   }
 }

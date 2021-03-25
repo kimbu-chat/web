@@ -7,7 +7,7 @@
     margin-right: 18px;
     height: 48px;
     width: 48px;
-    color: var(--grafit);
+    color: var(--dt-grafit-wt-kingBlue);
 
     &--owner {
       height: 52px;
@@ -35,7 +35,7 @@
 
   &__name {
     white-space: nowrap;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     font-size: 16px;
     line-height: 19px;
 
@@ -46,7 +46,7 @@
     font-weight: 300;
     font-size: 14px;
     line-height: 17px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
   }
 
   &__owner {
@@ -54,14 +54,14 @@
     font-weight: 300;
     font-size: 14px;
     line-height: 17px;
-    color: var(--king-blue);
+    color: var(--dt-kingBlue-wt-kingBlueLight);
   }
 
   &__group-chat-status {
     margin-left: auto;
     display: flex;
     align-items: center;
-    color: var(--king-blue);
+    color: var(--dt-kingBlue-wt-kingBlueLight);
     font-size: 12px;
     font-weight: 400;
   }
@@ -72,7 +72,7 @@
     svg {
       width: 18px;
       height: 20px;
-      color: var(--white);
+      color: var(--dt-white-wt-dark);
     }
   }
 }

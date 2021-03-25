@@ -44,11 +44,11 @@
     }
     padding: 9px 20px;
     border-radius: 6px;
-    border: 1px solid var(--white);
-    color: var(--white);
+    border: 1px solid var(--dt-white-wt-dark);
+    color: var(--dt-white-wt-dark);
     position: relative;
     &:focus {
-      border: 1px solid var(--white);
+      border: 1px solid var(--dt-white-wt-dark);
     }
 
     &:hover > * {
@@ -61,14 +61,14 @@
     font-size: 16px;
     line-height: 19px;
     padding: 10px 30px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     font-weight: 300;
     font-size: 16px;
     line-height: 19px;
     border-radius: 6px;
 
     &--confirm {
-      background: var(--king-blue);
+      background: var(--dt-kingBlue-wt-kingBlueLight);
     }
 
     &--cancel {

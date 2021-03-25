@@ -1,6 +1,6 @@
 .responding-message {
   display: flex;
-  background-color: var(--dark);
+  background-color: var(--dt-dark-wt-white);
   box-sizing: border-box;
   position: relative;
   align-items: center;
@@ -8,13 +8,13 @@
   &__icon {
     height: 24px;
     width: 24px;
-    color: var(--king-blue);
+    color: var(--dt-kingBlue-wt-kingBlueLight);
     margin: 20px 33px 20px 36px;
   }
 
   &__line {
     width: 1px;
-    background: var(--white);
+    background: var(--dt-white-wt-dark);
     margin-right: 7px;
     height: 40px;
   }
@@ -31,22 +31,22 @@
     font-weight: 300;
     font-size: 10px;
     line-height: 12px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     margin-left: 10px;
     white-space: break-spaces;
     line-break: anywhere;
 
     &--outgoing {
-      background: var(--msg-bg);
+      background: var(--msg-bg-dt-gray-lt-grayLight);
     }
 
     &--incoming {
-      background: var(--king-blue);
+      background: var(--dt-kingBlue-wt-kingBlueLight);
     }
   }
 
   &__close {
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     margin-left: auto;
     margin-right: 17px;
 

@@ -3,16 +3,16 @@
   align-items: center;
   padding: 8px 20px 8px 20px;
   cursor: pointer;
-  background-color: var(--dark);
-  color: var(--dark);
+  background-color: var(--dt-dark-wt-white);
+  color: var(--dt-dark-wt-white);
 
   &--missed {
-    color: var(--king-blue);
+    color: var(--dt-kingBlue-wt-kingBlueLight);
   }
 
   &:hover {
-    background-color: var(--chat-bg);
-    color: var(--chat-bg);
+    background-color: var(--chat-bg-dt-dark-wt-whiter);
+    color: var(--chat-bg-dt-dark-wt-whiter);
   }
 
   &__aside-data {
@@ -24,10 +24,10 @@
 
   &__type-icon {
     margin-top: 9px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
 
     &--missed {
-      color: var(--white);
+      color: var(--dt-white-wt-dark);
     }
 
     svg {
@@ -46,7 +46,7 @@
     font-weight: normal;
     font-size: 16px;
     line-height: 19px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -54,7 +54,7 @@
     margin-bottom: 8px;
 
     &--missed {
-      color: var(--white);
+      color: var(--dt-white-wt-dark);
     }
   }
 
@@ -62,11 +62,11 @@
     font-weight: 300;
     font-size: 14px;
     line-height: 17px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
   }
 
   &__date {
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     font-weight: 300;
     font-size: 12px;
     line-height: 14px;

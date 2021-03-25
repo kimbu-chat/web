@@ -1,6 +1,8 @@
 .message-input {
+  $this: &;
+
   position: relative;
-  background-color: var(--grafit);
+  background-color: var(--dt-grafit-wt-white);
 
   &__drag {
     flex: 0 1 64px;
@@ -16,8 +18,8 @@
     pointer-events: none;
 
     &--active {
-      color: var(--king-blue);
-      border: 2px dashed var(--king-blue);
+      color: var(--dt-kingBlue-wt-kingBlueLight);
+      border: 2px dashed var(--dt-kingBlue-wt-kingBlueLight);
     }
   }
 
@@ -30,19 +32,19 @@
   }
 
   &__add {
-    color: var(--king-blue);
+    color: #3f8ae0;
     margin: 0 33px 0 36px;
   }
 
   &__line {
     height: 40px;
     width: 1px;
-    background-color: var(--white);
+    background-color: var(--dt-white-wt-dark);
     margin-right: 17px;
   }
 
   &__crayon {
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     margin-right: 16px;
   }
 
@@ -67,7 +69,7 @@
     white-space: pre-line;
     resize: none;
     background: transparent;
-    color: var(--white-semi-transparent);
+    color: var(--dt-white-wt-dark);
 
     &:focus {
       outline: none;
@@ -92,16 +94,16 @@
 
   &__smiles-btn {
     margin-right: 32px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
   }
 
   &__voice-btn {
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     margin-right: 32px;
   }
 
   &__send-btn {
-    color: var(--king-blue);
+    color: var(--dt-kingBlue-wt-kingBlueLight);
     margin-right: 24px;
   }
 
@@ -109,7 +111,7 @@
     padding: 11px 30px;
     background-color: rgb(63, 138, 224);
     border-radius: 4px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     margin-right: 20px;
     font-size: 13px;
     line-height: 16px;
@@ -117,7 +119,7 @@
   }
 
   &__attachments-box {
-    background: var(--dark);
+    background: var(--dt-dark-wt-white);
     overflow: hidden;
 
     display: flex;
@@ -141,7 +143,7 @@
       margin-left: auto;
 
       svg {
-        color: var(--white);
+        color: var(--dt-white-wt-dark);
       }
     }
   }

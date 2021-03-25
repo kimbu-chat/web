@@ -1,7 +1,7 @@
 .message-input-attachment {
   flex: 0 0 135px;
   height: 40px;
-  background-color: var(--grafit);
+  background-color: var(--dt-grafit-wt-kingBlue);
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
@@ -12,7 +12,7 @@
 
   &__type-icon {
     margin: 8px 11px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     z-index: 5;
   }
 
@@ -32,7 +32,7 @@
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    background-color: var(--msg-bg);
+    background-color: var(--msg-bg-dt-gray-lt-grayLight);
     transition: all 0.1s;
     height: 100%;
     z-index: 2;
@@ -47,7 +47,7 @@
   }
 
   &__title {
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     font-weight: 300;
     font-size: 12px;
     line-height: 14px;
@@ -58,7 +58,7 @@
   }
 
   &__size {
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     font-weight: 300;
     font-size: 12px;
     line-height: 14px;
@@ -78,7 +78,7 @@
 
     svg {
       width: 8px;
-      color: var(--white);
+      color: var(--dt-white-wt-dark);
       height: 8px;
     }
   }

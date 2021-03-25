@@ -6,7 +6,7 @@
     overflow: auto;
 
     &::-webkit-scrollbar-thumb {
-      background: var(--king-blue);
+      background: var(--dt-kingBlue-wt-kingBlueLight);
     }
   }
 
@@ -44,7 +44,7 @@
     position: relative;
 
     &__img {
-      background-color: var(--white-dark);
+      background-color: var(--dt-white-wt-dark-dark);
       height: 48px;
       width: 48px;
       border-radius: 6px;
@@ -53,14 +53,14 @@
       align-items: center;
 
       svg {
-        color: var(--king-blue);
+        color: var(--dt-kingBlue-wt-kingBlueLight);
         height: 24px;
         width: 24px;
       }
     }
 
     &__title {
-      color: var(--white);
+      color: var(--dt-white-wt-dark);
       font-weight: normal;
       font-size: 16px;
       line-height: 19px;
@@ -71,7 +71,7 @@
       position: absolute;
       right: 0;
       svg {
-        color: var(--king-blue);
+        color: var(--dt-kingBlue-wt-kingBlueLight);
         width: 14px;
       }
     }

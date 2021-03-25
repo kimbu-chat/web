@@ -22,7 +22,7 @@
 
   &__radio-box {
     background: transparent;
-    border: 1px solid var(--king-blue);
+    border: 1px solid var(--dt-kingBlue-wt-kingBlueLight);
     border-radius: 10px;
     width: 14px;
     height: 14px;
@@ -33,7 +33,7 @@
     font-weight: normal;
     font-size: 18px;
     line-height: 21px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
   }
 
   &__radio-input {
@@ -44,7 +44,7 @@
 
     &:checked + * {
       div {
-        background: var(--king-blue);
+        background: var(--dt-kingBlue-wt-kingBlueLight);
       }
     }
   }

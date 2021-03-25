@@ -4,7 +4,7 @@
   min-width: 324px;
 
   &__download {
-    background: var(--king-blue);
+    background: var(--dt-kingBlue-wt-kingBlueLight);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,7 +17,7 @@
     svg {
       width: 20px;
       height: 20px;
-      color: var(--white);
+      color: var(--dt-white-wt-dark);
     }
   }
 
@@ -31,7 +31,7 @@
     font-weight: 300;
     font-size: 14px;
     line-height: 17px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -41,7 +41,7 @@
     font-weight: 300;
     font-size: 14px;
     line-height: 17px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     margin-left: auto;
   }
 
@@ -68,7 +68,7 @@
       &_progress-bar {
         height: 4px;
         border-radius: 6px;
-        background-color: var(--chat-bg);
+        background-color: var(--chat-bg-dt-dark-wt-whiter);
       }
 
       &_download-progress {

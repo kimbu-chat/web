@@ -31,7 +31,7 @@
     font-weight: 500;
     font-size: 24px;
     line-height: 28px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
   }
 
   &__description {
@@ -39,13 +39,13 @@
     margin-top: 16px;
     font-size: 12px;
     line-height: 14px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     font-weight: 400;
   }
 
   &__rename-btn {
     right: 25px;
-    color: var(--king-blue);
+    color: var(--dt-kingBlue-wt-kingBlueLight);
     display: block;
     top: 25%;
     position: absolute;
@@ -59,7 +59,7 @@
   &__info-svg {
     display: block;
     margin-right: 16px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     width: 18px;
     height: 18px;
   }
@@ -67,10 +67,10 @@
   &__data-value {
     font-size: 14px;
     line-height: 17px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
 
     &--link {
-      color: var(--king-blue);
+      color: var(--dt-kingBlue-wt-kingBlueLight);
       cursor: pointer;
       &:hover {
         text-decoration: underline;

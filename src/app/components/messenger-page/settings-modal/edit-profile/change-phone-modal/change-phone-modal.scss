@@ -19,7 +19,7 @@
     font-weight: 300;
     font-size: 16px;
     line-height: 19px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
 
     &--cancel {
       background: transparent;
@@ -27,12 +27,12 @@
     }
 
     &--submit {
-      background: var(--king-blue);
+      background: var(--dt-kingBlue-wt-kingBlueLight);
     }
 
     &:disabled {
       background: var(--blue);
-      color: var(--white-dark);
+      color: var(--dt-white-wt-dark-dark);
     }
   }
 
@@ -41,7 +41,7 @@
     font-size: 12px;
     line-height: 14px;
     margin-top: 16px;
-    color: var(--white);
+    color: var(--dt-white-wt-dark);
     display: block;
     margin-bottom: -32px;
   }
@@ -50,7 +50,7 @@
     svg {
       width: 12px;
       height: 12px;
-      color: var(--white);
+      color: var(--dt-white-wt-dark);
     }
   }
 }

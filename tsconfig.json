@@ -18,21 +18,22 @@
     "lib": ["es6", "es7", "dom"],
     "baseUrl": "src",
     "paths": {
-      "@app/*": ["./app/*"],
-      "icons/*": ["./app/assets/icons/*"],
-      "@store/*": ["./app/store/*"],
-      "@services/*": ["./app/services/*"],
-      "@containers/*": ["./app/containers/*"],
-      "@sounds/*": ["./app/assets/sounds/*"],
-      "@utils/*": ["./app/utils/*"],
-      "@hooks/*": ["./app/hooks/*"],
-      "@routing/*": ["./app/routing/*"],
-      "@contexts": ["./app/contexts"],
-      "@common/*": ["./app/common/*"],
-      "@components": ["./app/components"]
+      "@app/*": ["./*"],
+      "icons/*": ["./assets/icons/*"],
+      "@store/*": ["./store/*"],
+      "@store": ["./store"],
+      "@services/*": ["./services/*"],
+      "@containers/*": ["./containers/*"],
+      "@sounds/*": ["./assets/sounds/*"],
+      "@utils/*": ["./utils/*"],
+      "@hooks/*": ["./hooks/*"],
+      "@routing/*": ["./routing/*"],
+      "@contexts": ["./contexts"],
+      "@common/*": ["./common/*"],
+      "@components": ["./components"]
     },
     "allowSyntheticDefaultImports": true
   },
   "exclude": ["build", "node_modules"],
-  "include": ["./src/", "./types/"]
+  "include": ["./src/", "./types/", "assets"]
 }

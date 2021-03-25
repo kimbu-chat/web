@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icons/ic-chevron-down</title>
+    <g id="Icons/ic-chevron-down" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g>
+            <rect id="Rectangle" x="0" y="0" width="24" height="24"></rect>
+            <g id="chevron_down_outline_28-@-dropdown" transform="translate(4.000000, 8.000000)" fill="currentColor">
+                <path d="M1.65079,0.2407 C1.23147,-0.1187 0.60017,-0.0701 0.24075,0.3492 C-0.11868,0.7685 -0.07011,1.3998 0.34921,1.7593 L7.3492,7.7593 C7.7237,8.0802 8.2763,8.0802 8.6508,7.7593 L15.6508,1.7593 C16.0701,1.3998 16.1187,0.7685 15.7593,0.3492 C15.3998,-0.0701 14.7685,-0.1187 14.3492,0.2407 L8,5.6829 L1.65079,0.2407 Z" id="Path"></path>
+            </g>
+        </g>
+    </g>
+</svg>

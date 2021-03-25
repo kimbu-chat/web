@@ -7,7 +7,7 @@ import { Integrations } from '@sentry/tracing';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { App } from '@app/app';
-import createStore from './app/store';
+import createStore from '@store';
 
 if (process.env.NODE_ENV === 'production') {
   Sentry.init({

@@ -15,14 +15,15 @@ export class LoginSuccess {
       ...draft,
       isAuthenticated: true,
       loading: false,
-      securityTokens: payload,
+      securityTokens: payload.securityTokens,
+      deviceId: payload.deviceId,
     }));
   }
 
   static get saga() {
     return function* loginSuccess(action: ReturnType<typeof LoginSuccess.action>): SagaIterator {
       const authService = new AuthService();
-      authService.initialize(action.payload);
+      authService.initialize(action.payload.securityTokens);
     };
   }
 }

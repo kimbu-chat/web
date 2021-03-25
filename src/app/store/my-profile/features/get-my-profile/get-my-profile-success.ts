@@ -13,7 +13,6 @@ export class GetMyProfileSuccess {
   static get reducer() {
     return produce((draft: IMyProfileState, { payload }: ReturnType<typeof GetMyProfileSuccess.action>) => {
       draft.user = payload.user;
-      draft.deviceId = payload.deviceId;
 
       return draft;
     });

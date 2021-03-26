@@ -61,5 +61,5 @@ export function useGlobalDrop(listeners: {
         document.removeEventListener('drop', listeners.onDrop);
       }
     };
-  }, [listeners.onDrag, listeners.onDragEnter, listeners.onDragLeave]);
+  }, [listeners.onDrag, listeners.onDragEnter, listeners.onDragLeave, listeners.onDragOver, listeners.onDrop]);
 }

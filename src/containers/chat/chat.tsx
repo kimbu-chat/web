@@ -51,7 +51,7 @@ const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
 
   useEffect(() => {
     preloadNext();
-  }, []);
+  }, [preloadNext]);
 
   return (
     <div className="messenger">

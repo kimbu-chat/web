@@ -27,7 +27,7 @@ export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
 
   useEffect(() => {
     preloadNext();
-  }, []);
+  }, [preloadNext]);
 
   const uploadGroupChatAvatar = useActionWithDeferred(UploadAvatar.action);
   const register = useActionWithDeferred(Register.action);
@@ -136,7 +136,7 @@ export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
     setAvatarData(null);
     setAvatarUploadResponse(null);
     setUploadEnded(true);
-  }, [setAvatarData, setAvatarUploadResponse, setUploadEnded]);
+  }, [cancelAvatarUploading]);
 
   const onSubmit = useCallback(() => {
     register({
@@ -145,7 +145,7 @@ export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
       nickname: nickName,
       avatarId: avararUploadResponse?.id,
     });
-  }, [firstName, lastName, nickName, avararUploadResponse]);
+  }, [register, firstName, lastName, nickName, avararUploadResponse?.id]);
 
   return (
     <>

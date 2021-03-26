@@ -25,7 +25,7 @@ export const FileAttachment: React.FC<IFileAttachmentProps> = React.memo(({ atta
         76 - (downloaded / attachment.byteSize) * 63,
       );
     }
-  }, [downloaded, progressSvgRef]);
+  }, [downloaded, progressSvgRef, attachment?.byteSize]);
 
   const download = useCallback(() => {
     abortDownloadingRef.current = fileDownload(

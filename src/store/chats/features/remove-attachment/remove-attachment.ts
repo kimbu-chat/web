@@ -1,6 +1,7 @@
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { createAction } from 'typesafe-actions';
+import { apply } from 'redux-saga/effects';
 import { getChatByIdDraftSelector } from '../../selectors';
 import { removeUploadingAttachment, getUploadingAttachments } from '../../upload-qeue';
 import { IRemoveAttachmentActionPayload } from './action-payloads/remove-attachment-action-payload';
@@ -36,12 +37,7 @@ export class RemoveAttachment {
       action: ReturnType<typeof RemoveAttachment.action>,
     ): SagaIterator {
       const { attachmentId } = action.payload;
-      const uploadingAttachments = getUploadingAttachments();
-
-      const uploadingAttachment = uploadingAttachments.find(({ id }) => id === attachmentId);
-
-      uploadingAttachment?.cancelTokenSource.cancel();
-      removeUploadingAttachment(attachmentId);
+      yield apply(removeUploadingAttachment, removeUploadingAttachment, [attachmentId]);
     };
   }
 }

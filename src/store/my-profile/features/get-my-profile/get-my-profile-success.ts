@@ -1,3 +1,4 @@
+import { apply } from '@redux-saga/core/effects';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { createAction } from 'typesafe-actions';
@@ -25,7 +26,7 @@ export class GetMyProfileSuccess {
       action: ReturnType<typeof GetMyProfileSuccess.action>,
     ): SagaIterator {
       const myProfileService = new MyProfileService();
-      myProfileService.setMyProfile(action.payload.user);
+      yield apply(myProfileService, myProfileService.setMyProfile, [action.payload.user])
     };
   }
 }

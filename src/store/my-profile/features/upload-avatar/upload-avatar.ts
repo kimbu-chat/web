@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
-import { call } from 'redux-saga/effects';
+import { apply, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
 import { Meta } from '@store/common/actions';
@@ -36,19 +36,25 @@ export class UploadAvatar {
       yield call(() =>
         UploadAvatar.httpRequest.generator(data, {
           *onStart({ cancelTokenSource }): SagaIterator {
-            setAvatarUploadCancelTokenSource(cancelTokenSource);
+            yield apply(setAvatarUploadCancelTokenSource, setAvatarUploadCancelTokenSource, [
+              cancelTokenSource,
+            ]);
           },
           *onSuccess(payload: IAvatar): SagaIterator {
-            setAvatarUploadCancelTokenSource(undefined);
+            yield apply(setAvatarUploadCancelTokenSource, setAvatarUploadCancelTokenSource, [
+              undefined,
+            ]);
             action.meta.deferred.resolve(payload);
           },
           *onProgress(payload): SagaIterator {
             if (onProgress) {
-              onProgress(payload.progress);
+              yield apply(onProgress, onProgress, [payload.progress]);
             }
           },
           *onFailure(): SagaIterator {
-            setAvatarUploadCancelTokenSource(undefined);
+            yield apply(setAvatarUploadCancelTokenSource, setAvatarUploadCancelTokenSource, [
+              undefined,
+            ]);
             action.meta.deferred.reject();
           },
         }),

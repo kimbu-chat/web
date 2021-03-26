@@ -1,6 +1,7 @@
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { createEmptyAction } from '@store/common/actions';
+import { apply, call } from 'redux-saga/effects';
 import { IAuthState } from '../../auth-state';
 
 export class RefreshTokenFailure {
@@ -19,8 +20,8 @@ export class RefreshTokenFailure {
 
   static get saga() {
     return function* refreshTokenFailure(): SagaIterator {
-      localStorage.clear();
-      window.location.reload();
+      yield call({ context: localStorage, fn: localStorage.clear });
+      yield apply(location, location.reload, [true]);
     };
   }
 }

@@ -13,7 +13,7 @@ export const PrivateRoute: React.FC<IPrivateRouteProps> = React.memo(
     <Route
       path={path}
       {...rest}
-      render={() => (isAllowed ? componentToRender : <Redirect to={fallback!} />)}
+      render={() => (isAllowed ? componentToRender : <Redirect to={fallback} />)}
     />
   ),
 );

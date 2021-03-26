@@ -7,5 +7,5 @@ export const useForceUpdate = (interval: number) => {
     const timer = setInterval(() => setValue((value) => value + 1), interval);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [interval]);
 };

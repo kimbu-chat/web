@@ -45,7 +45,7 @@
     position: relative;
 
     &__img {
-      background-color: var(--transparent-white);
+      background-color: var(--dt-whiter-wt-bright-blue);
       height: 48px;
       width: 48px;
       border-radius: 6px;
@@ -54,7 +54,7 @@
       align-items: center;
 
       svg {
-        color: var(--dt-kingBlue-wt-kingBlueLight);
+        color: #3f8ae0;
         height: 24px;
         width: 24px;
       }

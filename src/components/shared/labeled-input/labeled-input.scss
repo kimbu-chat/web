@@ -3,7 +3,7 @@
   height: 40px;
   position: relative;
   border-radius: 6px;
-  background: var(--msg-bg-dt-gray-lt-grayLight);
+  background: var(--msg-bg-dt-gray-lt-bright-blue);
   transition: all 0.2s;
 
   &:hover {
@@ -18,7 +18,7 @@
     height: 100%;
     width: 100%;
     padding: 10px 16px;
-    color: var(--dt-white-wt-dark);
+    color: var(--dt-white-wt-kingBlue);
     background: transparent;
     border: none;
     outline: none;
@@ -28,7 +28,7 @@
     line-height: 19px;
 
     &::placeholder {
-      color: var(--transparent-white);
+      color: var(--dt-transparent-white-wt-kingBlueLight-transparent);
     }
   }
 
@@ -37,9 +37,9 @@
     position: absolute;
     top: -13px;
     left: 16px;
-    background: var(--dt-dark-wt-white);
+    background: var(--dt-dark-wt-kingBlue);
     border-radius: 6px;
-    color: var(--dt-white-wt-dark);
+    color: #fff;
     font-weight: 300;
     font-size: 12px;
     line-height: 14px;

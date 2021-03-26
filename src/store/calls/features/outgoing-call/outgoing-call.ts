@@ -16,7 +16,9 @@ import { getAndSendUserMedia, getMediaDevicesList } from '../../utils/user-media
 import { CancelCall } from '../cancel-call/cancel-call';
 import { ChangeActiveDeviceId } from '../change-active-device-id/change-active-device-id';
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
-import { InterlocutorAcceptedCallEventHandler } from '../../socket-events/interlocutor-accepted-call/interlocutor-accepted-call-event-handler';
+import {
+  InterlocutorAcceptedCallEventHandler,
+} from '../../socket-events/interlocutor-accepted-call/interlocutor-accepted-call-event-handler';
 import { TimeoutCall } from '../timeout-call/timeout-call';
 import { IOutgoingCallActionPayload } from './action-payloads/outgoing-call-action-payload';
 import { InputType } from '../../common/enums/input-type';

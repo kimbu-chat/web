@@ -4,7 +4,11 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, select, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
-import { getChatByIdSelector, getChatByIdDraftSelector, getIsFirstChatsLoadSelector } from '../../selectors';
+import {
+  getChatByIdSelector,
+  getChatByIdDraftSelector,
+  getIsFirstChatsLoadSelector,
+} from '../../selectors';
 import { getFriendByIdSelector } from '../../../friends/selectors';
 import { IUser } from '../../../common/models';
 import { MESSAGES_LIMIT } from '../../../../utils/pagination-limits';

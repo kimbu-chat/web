@@ -23,7 +23,7 @@ export const FileAttachment: React.FC<IFileAttachmentProps> = React.memo(({ atta
     if (progressSvgRef.current) {
       progressSvgRef.current.querySelectorAll('circle')[1].style.strokeDashoffset = String(76 - (downloaded / attachment.byteSize) * 63);
     }
-  }, [downloaded, progressSvgRef]);
+  }, [downloaded, progressSvgRef, attachment?.byteSize]);
 
   const download = useCallback(() => {
     abortDownloadingRef.current = fileDownload(attachment.url, attachment.title, setDownloaded, () => {

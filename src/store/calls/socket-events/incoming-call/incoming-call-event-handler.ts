@@ -1,5 +1,6 @@
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
+import { apply } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { setInterlocutorOffer } from '../../../middlewares/webRTC/peerConnectionFactory';
 import { ICallsState } from '../../calls-state';
@@ -23,7 +24,7 @@ export class IncomingCallEventHandler {
 
   static get saga() {
     return function* incomingCallSaga(action: ReturnType<typeof IncomingCallEventHandler.action>): SagaIterator {
-      setInterlocutorOffer(action.payload.offer);
+      yield apply(setInterlocutorOffer, setInterlocutorOffer, [action.payload.offer]);
     };
   }
 }

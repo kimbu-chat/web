@@ -1,5 +1,6 @@
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
+import { apply } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { AuthService } from '../../../../services/auth-service';
 import { IAuthState } from '../../auth-state';
@@ -22,7 +23,7 @@ export class RefreshTokenSuccess {
   static get saga() {
     return function* refreshTokenSuccess(action: ReturnType<typeof RefreshTokenSuccess.action>): SagaIterator {
       const authService = new AuthService();
-      authService.initialize(action.payload);
+      yield apply(authService, authService.initialize, [action.payload]);
     };
   }
 }

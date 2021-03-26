@@ -12,7 +12,7 @@ import { ICountry } from '@common/country';
 
 interface ICountrySelectProps {
   country?: ICountry;
-  handleCountryChange: (newCountry: ICountry) => void;
+  handleCountryChange: (newCountry: ICountry | null) => void;
   setRef: React.Dispatch<React.SetStateAction<React.RefObject<HTMLInputElement> | null>>;
 }
 
@@ -25,7 +25,7 @@ export const CountrySelect: React.FC<ICountrySelectProps> = React.memo(
       options: countryList,
       getOptionLabel: (option) => option.title,
       value: country,
-      onChange: (_event, newCountry) => handleCountryChange(newCountry!),
+      onChange: (_event, newCountry) => handleCountryChange(newCountry),
       filterOptions: createFilterOptions({
         stringify: (option) => option.title + option.number,
       }),

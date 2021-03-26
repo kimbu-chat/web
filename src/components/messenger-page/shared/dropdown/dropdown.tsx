@@ -2,6 +2,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import './dropdown.scss';
 import DropDownSvg from '@icons/arrow.svg';
 import { useOnClickOutside } from '@hooks/use-on-click-outside';
+import { noop } from 'lodash';
 
 interface IDropdownProps {
   selectedString: string;
@@ -28,7 +29,7 @@ export const Dropdown: React.FC<IDropdownProps> = React.memo(({ selectedString, 
     <div ref={dropdownRef} className="dropdown__select-wrapper dropdown__select-wrapper--audio">
       <div
         className={`dropdown__select ${disabled ? 'dropdown__select--disabled' : ''}`}
-        onClick={disabled ? () => {} : changeOptionsOpenedStatus}
+        onClick={disabled ? noop : changeOptionsOpenedStatus}
       >
         <span>{selectedString}</span>
         <DropDownSvg viewBox="0 0 48 48" />

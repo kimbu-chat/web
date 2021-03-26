@@ -10,7 +10,9 @@ import { ChatId } from '../../chat-id';
 import { IChat, InterlocutorType, MessageState } from '../../models';
 import { IGetChatsActionPayload } from './action-payloads/get-chats-action-payload';
 import { GetChatsSuccess } from './get-chats-success';
-import { IGetChatsSuccessActionPayload } from './action-payloads/get-chats-success-action-payload';
+import {
+  IGetChatsSuccessActionPayload,
+} from './action-payloads/get-chats-success-action-payload';
 import { IGetChatsApiRequest } from './api-requests/get-chats-api-request';
 import { getChatsPageSelector } from '../../selectors';
 import { IChatsState } from '../../chats-state';

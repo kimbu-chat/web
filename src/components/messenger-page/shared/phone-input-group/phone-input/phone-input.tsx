@@ -5,6 +5,7 @@ import './phone-input.scss';
 import { ICountry } from '@common/country';
 import { LocalizationContext } from '@contexts';
 import { removeCountryCodeFromPhoneNumber } from '@utils/phone-number-utils';
+import { noop } from 'lodash';
 
 interface IPhoneInputProps {
   country: ICountry;
@@ -12,11 +13,11 @@ interface IPhoneInputProps {
   setPhone: React.Dispatch<React.SetStateAction<string>>;
   displayCountries: () => void;
   submitFunction?: () => void;
-  icon?: JSX.Element | false;
+  icon: JSX.Element | false;
 }
 
 export const PhoneInput = React.forwardRef(
-  ({ country, phone, setPhone, displayCountries, submitFunction, icon }: IPhoneInputProps, ref: React.Ref<HTMLInputElement>) => {
+  ({ country, phone, setPhone, displayCountries, submitFunction = noop, icon }: IPhoneInputProps, ref: React.Ref<HTMLInputElement>) => {
     const { t } = useContext(LocalizationContext);
 
     return (
@@ -31,9 +32,9 @@ export const PhoneInput = React.forwardRef(
             setPhone(new AsYouType().input(country.number + e.target.value));
           }}
           className="phone-input__input"
-          onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => event.key === 'Enter' && submitFunction && submitFunction()}
+          onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => event.key === 'Enter' && submitFunction()}
         />
-        <div className="phone-input__icon-holder">{icon}</div>
+        <div className="phone-input__icon-holder">{icon && icon}</div>
       </div>
     );
   },

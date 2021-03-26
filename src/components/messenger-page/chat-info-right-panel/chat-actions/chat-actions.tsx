@@ -3,7 +3,10 @@ import './chat-actions.scss';
 import { IUser } from '@store/common/models';
 import { IChat } from '@store/chats/models';
 import { useSelector } from 'react-redux';
-import { getMemberIdsForSelectedGroupChatSelector, getSelectedChatSelector } from '@store/chats/selectors';
+import {
+  getMemberIdsForSelectedGroupChatSelector,
+  getSelectedChatSelector,
+} from '@store/chats/selectors';
 import { LocalizationContext } from '@contexts';
 import * as SelectedChatActions from '@store/chats/actions';
 
@@ -31,17 +34,22 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
   const { t } = useContext(LocalizationContext);
 
   const [leaveGroupChatModalOpened, setLeaveGroupChatModalOpened] = useState<boolean>(false);
-  const changeLeaveGroupChatModalOpenedState = useCallback(() => setLeaveGroupChatModalOpened((oldState) => !oldState), [
-    setLeaveGroupChatModalOpened,
-  ]);
+  const changeLeaveGroupChatModalOpenedState = useCallback(
+    () => setLeaveGroupChatModalOpened((oldState) => !oldState),
+    [setLeaveGroupChatModalOpened],
+  );
 
   const [clearChatModalOpened, setClearChatModalOpened] = useState<boolean>(false);
-  const changeClearChatModalOpenedState = useCallback(() => setClearChatModalOpened((oldState) => !oldState), [setClearChatModalOpened]);
+  const changeClearChatModalOpenedState = useCallback(
+    () => setClearChatModalOpened((oldState) => !oldState),
+    [setClearChatModalOpened],
+  );
 
   const [createGroupChatModalOpened, setCreateGroupChatModalOpened] = useState<boolean>(false);
-  const changeCreateGroupChatModalOpenedState = useCallback(() => setCreateGroupChatModalOpened((oldState) => !oldState), [
-    setCreateGroupChatModalOpened,
-  ]);
+  const changeCreateGroupChatModalOpenedState = useCallback(
+    () => setCreateGroupChatModalOpened((oldState) => !oldState),
+    [setCreateGroupChatModalOpened],
+  );
 
   const changeChatMutedStatus = useActionWithDispatch(SelectedChatActions.changeChatMutedStatus);
   const deleteFriend = useActionWithDispatch(FriendActions.deleteFriend);
@@ -52,14 +60,18 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
   const friends = useSelector(getMyFriendsSelector);
 
   const selectedIsFriend = useCallback(
-    (): boolean => friends.findIndex((friend: IUser) => friend.id === selectedChat.interlocutor?.id) > -1,
+    (): boolean =>
+      friends.findIndex((friend: IUser) => friend.id === selectedChat.interlocutor?.id) > -1,
     [friends, selectedChat.interlocutor?.id],
   );
-  const deleteContact = useCallback(() => deleteFriend({ userIds: [selectedChat?.interlocutor?.id!] }), [
-    deleteFriend,
-    selectedChat?.interlocutor?.id,
+  const deleteContact = useCallback(
+    () => deleteFriend({ userIds: [selectedChat?.interlocutor?.id!] }),
+    [deleteFriend, selectedChat?.interlocutor?.id],
+  );
+  const addContact = useCallback(() => addFriend(selectedChat.interlocutor!), [
+    addFriend,
+    selectedChat?.interlocutor,
   ]);
-  const addContact = useCallback(() => addFriend(selectedChat.interlocutor!), [addFriend, selectedChat?.interlocutor]);
 
   return (
     <div className="chat-actions">
@@ -67,9 +79,14 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
 
       <button type="button" onClick={changeChatMutedStatus} className="chat-actions__action">
         {selectedChat.isMuted ? <UnmuteSvg /> : <MuteSvg />}
-        <span className="chat-actions__action__name">{selectedChat.isMuted ? t('chatActions.unmute') : t('chatActions.mute')}</span>
+        <span className="chat-actions__action__name">
+          {selectedChat.isMuted ? t('chatActions.unmute') : t('chatActions.mute')}
+        </span>
       </button>
-      <button onClick={changeClearChatModalOpenedState} type="button" className="chat-actions__action">
+      <button
+        onClick={changeClearChatModalOpenedState}
+        type="button"
+        className="chat-actions__action">
         <ClearSvg />
         <span className="chat-actions__action__name">{t('chatActions.clear-history')}</span>
       </button>
@@ -86,19 +103,28 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
         </button>
       )}
       {selectedChat.interlocutor && selectedIsFriend() && (
-        <button type="button" onClick={changeCreateGroupChatModalOpenedState} className="chat-actions__action">
+        <button
+          type="button"
+          onClick={changeCreateGroupChatModalOpenedState}
+          className="chat-actions__action">
           <UnmuteSvg />
           <span className="chat-actions__action__name">{t('chatActions.create-group')}</span>
         </button>
       )}
       {selectedChat.groupChat && (
-        <button type="button" onClick={() => addMembers({ excludeIds: membersIdsForGroupChat })} className="chat-actions__action">
+        <button
+          type="button"
+          onClick={() => addMembers({ excludeIds: membersIdsForGroupChat })}
+          className="chat-actions__action">
           <AddUsersSvg />
           <span className="chat-actions__action__name">{t('chatActions.add-users')}</span>
         </button>
       )}
       {selectedChat.groupChat && (
-        <button type="button" onClick={changeLeaveGroupChatModalOpenedState} className="chat-actions__action">
+        <button
+          type="button"
+          onClick={changeLeaveGroupChatModalOpenedState}
+          className="chat-actions__action">
           <LeaveSvg />
           <span className="chat-actions__action__name">{t('chatActions.leave-chat')}</span>
         </button>
@@ -108,7 +134,10 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
       </FadeAnimationWrapper>
       {selectedChat.interlocutor && (
         <FadeAnimationWrapper isDisplayed={createGroupChatModalOpened}>
-          <CreateGroupChat preSelectedUserIds={[selectedChat.interlocutor!.id]} onClose={changeCreateGroupChatModalOpenedState} />
+          <CreateGroupChat
+            preSelectedUserIds={[selectedChat.interlocutor!.id]}
+            onClose={changeCreateGroupChatModalOpenedState}
+          />
         </FadeAnimationWrapper>
       )}
       <FadeAnimationWrapper isDisplayed={clearChatModalOpened}>

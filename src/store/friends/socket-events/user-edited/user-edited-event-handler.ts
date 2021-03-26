@@ -10,25 +10,35 @@ export class UserEditedEventHandler {
   }
 
   static get reducer() {
-    return produce((draft: IFriendsState, { payload }: ReturnType<typeof UserEditedEventHandler.action>) => {
-      const { userId, firstName, lastName, nickname, avatarId, avatarUrl, avatarPreviewUrl } = payload;
-      const user = getUserDraftSelector(userId, draft);
+    return produce(
+      (draft: IFriendsState, { payload }: ReturnType<typeof UserEditedEventHandler.action>) => {
+        const {
+          userId,
+          firstName,
+          lastName,
+          nickname,
+          avatarId,
+          avatarUrl,
+          avatarPreviewUrl,
+        } = payload;
+        const user = getUserDraftSelector(userId, draft);
 
-      if (!user) {
+        if (!user) {
+          return draft;
+        }
+
+        user.firstName = firstName;
+        user.lastName = lastName;
+        user.nickname = nickname;
+
+        user.avatar = {
+          id: avatarId,
+          url: avatarUrl,
+          previewUrl: avatarPreviewUrl,
+        };
+
         return draft;
-      }
-
-      user.firstName = firstName;
-      user.lastName = lastName;
-      user.nickname = nickname;
-
-      user.avatar = {
-        id: avatarId,
-        url: avatarUrl,
-        previewUrl: avatarPreviewUrl,
-      };
-
-      return draft;
-    });
+      },
+    );
   }
 }

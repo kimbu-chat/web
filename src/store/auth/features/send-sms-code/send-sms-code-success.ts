@@ -8,10 +8,12 @@ export class SendSmsCodeSuccess {
   }
 
   static get reducer() {
-    return produce((draft: IAuthState, { payload }: ReturnType<typeof SendSmsCodeSuccess.action>) => ({
-      ...draft,
-      loading: false,
-      confirmationCode: payload,
-    }));
+    return produce(
+      (draft: IAuthState, { payload }: ReturnType<typeof SendSmsCodeSuccess.action>) => ({
+        ...draft,
+        loading: false,
+        confirmationCode: payload,
+      }),
+    );
   }
 }

@@ -18,7 +18,9 @@ export class RenegotiationAcceptedEventHandler {
   }
 
   static get saga() {
-    return function* renegotiationAcceptedSaga(action: ReturnType<typeof RenegotiationAcceptedEventHandler.action>): SagaIterator {
+    return function* renegotiationAcceptedSaga(
+      action: ReturnType<typeof RenegotiationAcceptedEventHandler.action>,
+    ): SagaIterator {
       const callActive = yield select(doIhaveCallSelector);
       const peerConnection = getPeerConnection();
       const isSettingRemoteAnswerPending = getIsSettingRemoteAnswerPending();
@@ -27,7 +29,9 @@ export class RenegotiationAcceptedEventHandler {
       if (action.payload.answer && callActive) {
         setIsRenegotiationAccepted(true);
         const polite = yield select(getIsActiveCallIncomingSelector);
-        const readyForOffer = !makingOffer && (peerConnection?.signalingState === 'stable' || isSettingRemoteAnswerPending);
+        const readyForOffer =
+          !makingOffer &&
+          (peerConnection?.signalingState === 'stable' || isSettingRemoteAnswerPending);
         const offerCollision = !readyForOffer;
 
         setIgnoreOffer(!polite && offerCollision);

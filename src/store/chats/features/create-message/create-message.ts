@@ -67,7 +67,9 @@ export class CreateMessage {
         };
       }
 
-      const { data } = CreateMessage.httpRequest.call(yield call(() => CreateMessage.httpRequest.generator(messageCreationReq)));
+      const { data } = CreateMessage.httpRequest.call(
+        yield call(() => CreateMessage.httpRequest.generator(messageCreationReq)),
+      );
 
       yield put(
         CreateMessageSuccess.action({

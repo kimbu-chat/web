@@ -19,7 +19,9 @@ export class ChangeTheme {
   }
 
   static get saga() {
-    return function* settingsServiceSaga(action: ReturnType<typeof ChangeTheme.action>): SagaIterator {
+    return function* settingsServiceSaga(
+      action: ReturnType<typeof ChangeTheme.action>,
+    ): SagaIterator {
       const settingsService = new SettingsService();
       settingsService.initializeOrUpdate({
         theme: action.payload,
@@ -34,8 +36,14 @@ export class ChangeTheme {
       root.style.setProperty('--dt-white-wt-dark', '#4A5466');
       root.style.setProperty('--dt-white-wt-kingBlueLight', 'rgba(63, 138, 224, 0.55)');
       root.style.setProperty('--dt-white-wt-kingBlue', '#3F8AE0');
-      root.style.setProperty('--dt-white-wt-kingBlueLight-transparenter', 'rgba(214, 233, 255, 0.5)');
-      root.style.setProperty('--dt-whiter-wt-dark-kingBlue-transparentest', 'rgba(63, 138, 224, 0.08)');
+      root.style.setProperty(
+        '--dt-white-wt-kingBlueLight-transparenter',
+        'rgba(214, 233, 255, 0.5)',
+      );
+      root.style.setProperty(
+        '--dt-whiter-wt-dark-kingBlue-transparentest',
+        'rgba(63, 138, 224, 0.08)',
+      );
       root.style.setProperty('--chat-bg-dt-dark-wt-whiter', '#f7fbff'); // rgba(214, 233, 255, 0.2)
       root.style.setProperty('--chat-bg-dt-dark-wt-kingBlue-lighter', '#E8F1FB');
       root.style.setProperty('--chat-bg-dt-dark-wt-kingBlueLight', 'rgba(63, 138, 224, 0.55)');

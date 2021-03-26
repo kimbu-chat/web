@@ -24,15 +24,18 @@ export const RespondingMessage = React.memo(() => {
       <ReplySvg className="responding-message__icon" viewBox="0 0 15 16" />
       <div className="responding-message__line" />
 
-      <Avatar className="responding-message__message-sender" src={replyingMessage?.userCreator.avatar?.previewUrl}>
+      <Avatar
+        className="responding-message__message-sender"
+        src={replyingMessage?.userCreator.avatar?.previewUrl}>
         {getUserInitials(replyingMessage?.userCreator)}
       </Avatar>
 
       <div
         className={`responding-message__message-contents ${
-          isCurrentUserMessageCreator ? 'responding-message__message-contents--outgoing' : 'responding-message__message-contents--incoming'
-        }`}
-      >
+          isCurrentUserMessageCreator
+            ? 'responding-message__message-contents--outgoing'
+            : 'responding-message__message-contents--incoming'
+        }`}>
         {replyingMessage?.text}
       </div>
       <button type="button" onClick={resetReplyToMessage} className="responding-message__close">

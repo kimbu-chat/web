@@ -45,12 +45,18 @@ export const SearchTop: React.FC<ISearchTopProps> = React.memo(({ searchFor }) =
         onChange={handleChatSearchChange}
       />
       {searchFor === 'chats' && (
-        <button type="button" onClick={changeNewChatDisplayedState} className="search-top__create-chat-btn">
+        <button
+          type="button"
+          onClick={changeNewChatDisplayedState}
+          className="search-top__create-chat-btn">
           <CreateChatSvg />
         </button>
       )}
       <FadeAnimationWrapper isDisplayed={newChatDisplayed}>
-        <NewChatModal displayCreateGroupChat={changeCreateGroupChatDisplayedState} onClose={changeNewChatDisplayedState} />
+        <NewChatModal
+          displayCreateGroupChat={changeCreateGroupChatDisplayedState}
+          onClose={changeNewChatDisplayedState}
+        />
       </FadeAnimationWrapper>
 
       <FadeAnimationWrapper isDisplayed={createGroupChatDisplayed}>

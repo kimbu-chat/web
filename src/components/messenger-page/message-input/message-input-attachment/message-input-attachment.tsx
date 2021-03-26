@@ -58,11 +58,17 @@ export const MessageInputAttachment: React.FC<IMessageInputAttachmentProps> = Re
 
     return (
       <div className="message-input-attachment">
-        {attachment.attachment.type === FileType.Raw && <FileSVG className="message-input-attachment__type-icon" viewBox="0 0 24 24" />}
+        {attachment.attachment.type === FileType.Raw && (
+          <FileSVG className="message-input-attachment__type-icon" viewBox="0 0 24 24" />
+        )}
         {attachment.attachment.type === FileType.Video && (
           <>
             {(attachment.attachment as IVideoAttachment).firstFrameUrl && (
-              <img src={(attachment.attachment as IVideoAttachment).firstFrameUrl} alt="" className="message-input-attachment__bg" />
+              <img
+                src={(attachment.attachment as IVideoAttachment).firstFrameUrl}
+                alt=""
+                className="message-input-attachment__bg"
+              />
             )}
             <VideoSVG className="message-input-attachment__type-icon" viewBox="0 0 18 19" />
           </>
@@ -79,27 +85,35 @@ export const MessageInputAttachment: React.FC<IMessageInputAttachmentProps> = Re
             <PhotoSVG className="message-input-attachment__type-icon" viewBox="0 0 18 19" />
           </>
         )}
-        {attachment.attachment.type === FileType.Audio && <PlaySVG className="message-input-attachment__type-icon" viewBox="0 0 24 24" />}
+        {attachment.attachment.type === FileType.Audio && (
+          <PlaySVG className="message-input-attachment__type-icon" viewBox="0 0 24 24" />
+        )}
 
         <div
           style={{ width: `${attachment.progress}%` }}
           className={`message-input-attachment__progress ${
-            attachment.attachment.type === FileType.Picture || attachment.attachment.type === FileType.Video
+            attachment.attachment.type === FileType.Picture ||
+            attachment.attachment.type === FileType.Video
               ? 'message-input-attachment__progress--photo'
               : ''
           }`}
         />
 
         <div className="message-input-attachment__data">
-          <div className="message-input-attachment__title">{attachment.fileName || (attachment.attachment as IRawAttachment).title}</div>
+          <div className="message-input-attachment__title">
+            {attachment.fileName || (attachment.attachment as IRawAttachment).title}
+          </div>
           <div className="message-input-attachment__size">
-            {`${getRawAttachmentSizeUnit(attachment.uploadedBytes || attachment.attachment.byteSize)}/${getRawAttachmentSizeUnit(
-              attachment.attachment.byteSize,
-            )}}`}
+            {`${getRawAttachmentSizeUnit(
+              attachment.uploadedBytes || attachment.attachment.byteSize,
+            )}/${getRawAttachmentSizeUnit(attachment.attachment.byteSize)}}`}
           </div>
         </div>
 
-        <button type="button" onClick={removeThisAttachment} className="message-input-attachment__close">
+        <button
+          type="button"
+          onClick={removeThisAttachment}
+          className="message-input-attachment__close">
           <CloseSVG viewBox="0 0 8 8" />
         </button>
       </div>

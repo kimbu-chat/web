@@ -11,7 +11,13 @@ export class ChatIdDetails {
 
   public readonly groupChatId: number | null;
 
-  constructor(id: number, interlocutorId: number, interlocutorType: InterlocutorType, userId: number | null, groupChatId: number | null) {
+  constructor(
+    id: number,
+    interlocutorId: number,
+    interlocutorType: InterlocutorType,
+    userId: number | null,
+    groupChatId: number | null,
+  ) {
     this.id = id;
     this.interlocutorId = interlocutorId;
     this.interlocutorType = interlocutorType;

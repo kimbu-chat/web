@@ -13,14 +13,18 @@ export class ChangeLanguage {
   }
 
   static get reducer() {
-    return produce((draft: IUserSettings, { payload }: ReturnType<typeof ChangeLanguage.action>) => {
-      draft.language = payload.language;
-      return draft;
-    });
+    return produce(
+      (draft: IUserSettings, { payload }: ReturnType<typeof ChangeLanguage.action>) => {
+        draft.language = payload.language;
+        return draft;
+      },
+    );
   }
 
   static get saga() {
-    return function* settingsServiceSaga(action: ReturnType<typeof ChangeLanguage.action>): SagaIterator {
+    return function* settingsServiceSaga(
+      action: ReturnType<typeof ChangeLanguage.action>,
+    ): SagaIterator {
       const settingsService = new SettingsService();
       settingsService.initializeOrUpdate({
         language: action.payload.language,

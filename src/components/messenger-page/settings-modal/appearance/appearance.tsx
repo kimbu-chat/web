@@ -135,7 +135,12 @@ export const Appearance: React.FC = () => {
         ))}
       </div>
       <div className="appearance__theme-select">
-        <RadioBox groupName="theme" onClick={goToDarkTheme} defaultChecked={currentTheme === Theme.DARK} content={t('appearance.dark')} />
+        <RadioBox
+          groupName="theme"
+          onClick={goToDarkTheme}
+          defaultChecked={currentTheme === Theme.DARK}
+          content={t('appearance.dark')}
+        />
       </div>
       <div className="appearance__theme-select">
         <RadioBox
@@ -151,51 +156,66 @@ export const Appearance: React.FC = () => {
           <button
             onClick={() => changeFontSize(12)}
             type="button"
-            className={`appearance__font-size appearance__font-size--12 ${fontSize === 12 ? 'appearance__font-size--active' : ''}`}
-          >
+            className={`appearance__font-size appearance__font-size--12 ${
+              fontSize === 12 ? 'appearance__font-size--active' : ''
+            }`}>
             <span>12 pt</span>
             <div
-              className={`appearance__font-progress-circle  ${fontSize === 12 ? '' : 'appearance__font-progress-circle--transparent'}`}
+              className={`appearance__font-progress-circle  ${
+                fontSize === 12 ? '' : 'appearance__font-progress-circle--transparent'
+              }`}
             />
           </button>
           <button
             onClick={() => changeFontSize(14)}
             type="button"
-            className={`appearance__font-size appearance__font-size--14 ${fontSize === 14 ? 'appearance__font-size--active' : ''}`}
-          >
+            className={`appearance__font-size appearance__font-size--14 ${
+              fontSize === 14 ? 'appearance__font-size--active' : ''
+            }`}>
             <span>14 pt</span>
             <div
-              className={`appearance__font-progress-circle  ${fontSize === 14 ? '' : 'appearance__font-progress-circle--transparent'}`}
+              className={`appearance__font-progress-circle  ${
+                fontSize === 14 ? '' : 'appearance__font-progress-circle--transparent'
+              }`}
             />
           </button>
           <button
             onClick={() => changeFontSize(16)}
             type="button"
-            className={`appearance__font-size appearance__font-size--16 ${fontSize === 16 ? 'appearance__font-size--active' : ''}`}
-          >
+            className={`appearance__font-size appearance__font-size--16 ${
+              fontSize === 16 ? 'appearance__font-size--active' : ''
+            }`}>
             <span>16 pt</span>
             <div
-              className={`appearance__font-progress-circle  ${fontSize === 16 ? '' : 'appearance__font-progress-circle--transparent'}`}
+              className={`appearance__font-progress-circle  ${
+                fontSize === 16 ? '' : 'appearance__font-progress-circle--transparent'
+              }`}
             />
           </button>
           <button
             onClick={() => changeFontSize(18)}
             type="button"
-            className={`appearance__font-size appearance__font-size--18 ${fontSize === 18 ? 'appearance__font-size--active' : ''}`}
-          >
+            className={`appearance__font-size appearance__font-size--18 ${
+              fontSize === 18 ? 'appearance__font-size--active' : ''
+            }`}>
             <span>18 pt</span>
             <div
-              className={`appearance__font-progress-circle  ${fontSize === 18 ? '' : 'appearance__font-progress-circle--transparent'}`}
+              className={`appearance__font-progress-circle  ${
+                fontSize === 18 ? '' : 'appearance__font-progress-circle--transparent'
+              }`}
             />
           </button>
           <button
             onClick={() => changeFontSize(24)}
             type="button"
-            className={`appearance__font-size appearance__font-size--24 ${fontSize === 24 ? 'appearance__font-size--active' : ''}`}
-          >
+            className={`appearance__font-size appearance__font-size--24 ${
+              fontSize === 24 ? 'appearance__font-size--active' : ''
+            }`}>
             <span>24 pt</span>
             <div
-              className={`appearance__font-progress-circle  ${fontSize === 24 ? '' : 'appearance__font-progress-circle--transparent'}`}
+              className={`appearance__font-progress-circle  ${
+                fontSize === 24 ? '' : 'appearance__font-progress-circle--transparent'
+              }`}
             />
           </button>
         </div>

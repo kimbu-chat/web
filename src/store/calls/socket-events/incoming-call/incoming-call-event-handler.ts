@@ -11,18 +11,22 @@ export class IncomingCallEventHandler {
   }
 
   static get reducer() {
-    return produce((draft: ICallsState, { payload }: ReturnType<typeof IncomingCallEventHandler.action>) => {
-      draft.isIncomingCallVideoEnbaled = payload.isVideoEnabled;
-      const interlocutor = payload.userInterlocutor;
-      draft.interlocutor = interlocutor;
-      draft.amICalled = true;
+    return produce(
+      (draft: ICallsState, { payload }: ReturnType<typeof IncomingCallEventHandler.action>) => {
+        draft.isIncomingCallVideoEnbaled = payload.isVideoEnabled;
+        const interlocutor = payload.userInterlocutor;
+        draft.interlocutor = interlocutor;
+        draft.amICalled = true;
 
-      return draft;
-    });
+        return draft;
+      },
+    );
   }
 
   static get saga() {
-    return function* incomingCallSaga(action: ReturnType<typeof IncomingCallEventHandler.action>): SagaIterator {
+    return function* incomingCallSaga(
+      action: ReturnType<typeof IncomingCallEventHandler.action>,
+    ): SagaIterator {
       setInterlocutorOffer(action.payload.offer);
     };
   }

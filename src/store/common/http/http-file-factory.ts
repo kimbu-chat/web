@@ -9,7 +9,12 @@ import { securityTokensSelector } from '../../auth/selectors';
 import { RefreshToken } from '../../auth/features/refresh-token/refresh-token';
 import { RefreshTokenSuccess } from '../../auth/features/refresh-token/refresh-token-success';
 import { HttpRequestMethod } from './http-request-method';
-import type { IFilesRequestGeneratorCallbacks, HttpHeaders, IFilesRequestGenerator, UrlGenerator } from './types';
+import type {
+  IFilesRequestGeneratorCallbacks,
+  HttpHeaders,
+  IFilesRequestGenerator,
+  UrlGenerator,
+} from './types';
 
 function createUploadFileChannel(requestConfig: AxiosRequestConfig) {
   return eventChannel((emit) => {
@@ -149,7 +154,9 @@ export const httpFilesRequestFactory = <TResponse, TBody>(
     let cancelTokenSource = null;
 
     try {
-      const refreshTokenRequestLoading = yield select((rootState: RootState) => rootState.auth.refreshTokenRequestLoading);
+      const refreshTokenRequestLoading = yield select(
+        (rootState: RootState) => rootState.auth.refreshTokenRequestLoading,
+      );
 
       if (refreshTokenRequestLoading) {
         yield take(RefreshTokenSuccess.action);
@@ -159,7 +166,15 @@ export const httpFilesRequestFactory = <TResponse, TBody>(
 
       try {
         cancelTokenSource = axios.CancelToken.source();
-        return yield call(httpRequest, finalUrl, method, body, cancelTokenSource, headers, callbacks);
+        return yield call(
+          httpRequest,
+          finalUrl,
+          method,
+          body,
+          cancelTokenSource,
+          headers,
+          callbacks,
+        );
       } catch (e) {
         const error = e as AxiosError;
 
@@ -168,7 +183,15 @@ export const httpFilesRequestFactory = <TResponse, TBody>(
           yield take(RefreshTokenSuccess.action);
 
           cancelTokenSource = axios.CancelToken.source();
-          return yield call(httpRequest, finalUrl, method, body, cancelTokenSource, headers, callbacks);
+          return yield call(
+            httpRequest,
+            finalUrl,
+            method,
+            body,
+            cancelTokenSource,
+            headers,
+            callbacks,
+          );
         }
         throw e;
       }

@@ -32,7 +32,9 @@ export class GetAudioAttachments {
   }
 
   static get saga() {
-    return function* getAudioAttachments(action: ReturnType<typeof GetAudioAttachments.action>): SagaIterator {
+    return function* getAudioAttachments(
+      action: ReturnType<typeof GetAudioAttachments.action>,
+    ): SagaIterator {
       const { page } = action.payload;
 
       const chatId = yield select(getSelectedChatIdSelector);

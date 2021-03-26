@@ -68,13 +68,17 @@ export class GetChats {
         showAll,
       };
 
-      const { data }: AxiosResponse<IChat[]> = GetChats.httpRequest.call(yield call(() => GetChats.httpRequest.generator(request)));
+      const { data }: AxiosResponse<IChat[]> = GetChats.httpRequest.call(
+        yield call(() => GetChats.httpRequest.generator(request)),
+      );
       const newData = data.map((chat: IChat) => {
         const newChat = { ...chat };
         if (newChat.lastMessage) {
-          newChat.lastMessage.state = newChat.interlocutorLastReadMessageId && newChat.interlocutorLastReadMessageId >= Number(newChat?.lastMessage?.id)
-            ? (MessageState.READ as MessageState)
-            : (MessageState.SENT as MessageState);
+          newChat.lastMessage.state =
+            newChat.interlocutorLastReadMessageId &&
+            newChat.interlocutorLastReadMessageId >= Number(newChat?.lastMessage?.id)
+              ? (MessageState.READ as MessageState)
+              : (MessageState.SENT as MessageState);
         }
 
         newChat.interlocutorType = ChatId.fromId(newChat.id).interlocutorType;

@@ -21,7 +21,11 @@ import {
   SettingsNavigation,
 } from '@components';
 import { useSelector } from 'react-redux';
-import { amICalledSelector as isCallingMe, amICallingSelector, doIhaveCallSelector } from '@store/calls/selectors';
+import {
+  amICalledSelector as isCallingMe,
+  amICallingSelector,
+  doIhaveCallSelector,
+} from '@store/calls/selectors';
 import { CSSTransition } from 'react-transition-group';
 import { getIsInfoOpenedSelector } from '@store/chats/selectors';
 import { getInternetStateSelector } from '@store/internet/selectors';

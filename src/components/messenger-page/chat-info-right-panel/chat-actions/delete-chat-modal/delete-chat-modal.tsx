@@ -22,7 +22,13 @@ export const DeleteChatModal: React.FC<IDeleteChatModalProps> = React.memo(({ hi
 
   const deleteGroupChat = useCallback(() => {
     leaveGroupChat().then(() =>
-      history.push(history.location.pathname.replace(/\/?(contacts|calls|chats)\/?([0-9]*)?/, (_all, groupOne) => `/${groupOne}/`)));
+      history.push(
+        history.location.pathname.replace(
+          /\/?(contacts|calls|chats)\/?([0-9]*)?/,
+          (_all, groupOne) => `/${groupOne}/`,
+        ),
+      ),
+    );
   }, [leaveGroupChat]);
 
   return (
@@ -36,7 +42,11 @@ export const DeleteChatModal: React.FC<IDeleteChatModalProps> = React.memo(({ hi
           <button key={1} type="button" className="delete-chat-modal__cancel-btn" onClick={hide}>
             {t('chatInfo.cancel')}
           </button>,
-          <button key={2} type="button" className="delete-chat-modal__confirm-btn" onClick={deleteGroupChat}>
+          <button
+            key={2}
+            type="button"
+            className="delete-chat-modal__confirm-btn"
+            onClick={deleteGroupChat}>
             {t('chatInfo.confirm')}
           </button>,
         ]}

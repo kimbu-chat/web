@@ -17,7 +17,9 @@ export const AudioList = React.memo(() => {
   const getAudios = useActionWithDispatch(ChatActions.getAudioAttachments);
 
   const loadMore = useCallback(() => {
-    getAudios({ page: { offset: audiosForSelectedChat?.audios.length || 0, limit: AUDIO_ATTACHMENTS_LIMIT } });
+    getAudios({
+      page: { offset: audiosForSelectedChat?.audios.length || 0, limit: AUDIO_ATTACHMENTS_LIMIT },
+    });
   }, [getAudios, audiosForSelectedChat?.audios.length]);
 
   const audiosWithSeparators = setSeparators(
@@ -33,13 +35,13 @@ export const AudioList = React.memo(() => {
           onReachExtreme={loadMore}
           hasMore={audiosForSelectedChat?.hasMore}
           isLoading={audiosForSelectedChat?.loading}
-          threshold={0.3}
-        >
+          threshold={0.3}>
           {audiosWithSeparators?.map((attachment) => (
             <React.Fragment key={attachment.id}>
               {attachment.needToShowMonthSeparator && (
                 <div className="chat-audios__separator">
-                  {attachment.needToShowYearSeparator || doesYearDifferFromCurrent(attachment.creationDateTime)
+                  {attachment.needToShowYearSeparator ||
+                  doesYearDifferFromCurrent(attachment.creationDateTime)
                     ? moment(attachment.creationDateTime).format('MMMM YYYY')
                     : moment(attachment.creationDateTime).format('MMMM')}
                 </div>

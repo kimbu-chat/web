@@ -22,11 +22,18 @@ export class ClearChatHistory {
   }
 
   static get saga() {
-    return function* clearChatSaga(action: ReturnType<typeof ClearChatHistory.action>): SagaIterator {
+    return function* clearChatSaga(
+      action: ReturnType<typeof ClearChatHistory.action>,
+    ): SagaIterator {
       const chatId = yield select(getSelectedChatIdSelector);
 
       const { status } = ClearChatHistory.httpRequest.call(
-        yield call(() => ClearChatHistory.httpRequest.generator({ chatId, forEveryone: action.payload.forEveryone })),
+        yield call(() =>
+          ClearChatHistory.httpRequest.generator({
+            chatId,
+            forEveryone: action.payload.forEveryone,
+          }),
+        ),
       );
 
       if (status === HTTPStatusCode.OK) {

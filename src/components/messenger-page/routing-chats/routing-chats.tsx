@@ -22,7 +22,10 @@ export const RoutingChats = React.memo(() => {
   const myName = useSelector(myFullNameSelector);
 
   const [logoutDisplayed, setLogoutDisplayed] = useState(false);
-  const changeLogoutDisplayedState = useCallback(() => setLogoutDisplayed((oldState) => !oldState), [setLogoutDisplayed]);
+  const changeLogoutDisplayedState = useCallback(
+    () => setLogoutDisplayed((oldState) => !oldState),
+    [setLogoutDisplayed],
+  );
 
   return (
     <div className="routing-chats">
@@ -34,22 +37,19 @@ export const RoutingChats = React.memo(() => {
         <NavLink
           className="routing-chats__link routing-chats__link--grouped"
           activeClassName="routing-chats__link routing-chats__link--active"
-          to="/contacts"
-        >
+          to="/contacts">
           <ContactSvg />
         </NavLink>
         <NavLink
           className="routing-chats__link routing-chats__link--grouped"
           activeClassName="routing-chats__link routing-chats__link--active"
-          to={`/chats${selectedChatId ? `/${selectedChatId}` : ''}`}
-        >
+          to={`/chats${selectedChatId ? `/${selectedChatId}` : ''}`}>
           <ChatsSvg />
         </NavLink>
         <NavLink
           className="routing-chats__link routing-chats__link--grouped"
           activeClassName="routing-chats__link routing-chats__link--active"
-          to="/calls"
-        >
+          to="/calls">
           <CallSvg />
         </NavLink>
       </div>
@@ -58,12 +58,14 @@ export const RoutingChats = React.memo(() => {
         to="/settings/profile"
         type="button"
         className="routing-chats__link routing-chats__link--settings"
-        activeClassName="routing-chats__link routing-chats__link--active"
-      >
+        activeClassName="routing-chats__link routing-chats__link--active">
         <SettingsSvg />
       </NavLink>
 
-      <button onClick={changeLogoutDisplayedState} type="button" className="routing-chats__link routing-chats__link--logout">
+      <button
+        onClick={changeLogoutDisplayedState}
+        type="button"
+        className="routing-chats__link routing-chats__link--logout">
         <LogoutSvg />
       </button>
 

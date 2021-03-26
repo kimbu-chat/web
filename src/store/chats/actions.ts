@@ -144,4 +144,5 @@ export const messageReadEventHandler = MessageReadEventHandler.action;
 export const messageEditedEventHandler = MessageEditedEventHandler.action;
 export const chatClearedEventHandler = ChatClearedEventHandler.action;
 export const userEditedEventHandler = UserEditedEventHandler.action;
-export const messagesDeletedIntegrationEventHandlerSuccess = MessagesDeletedIntegrationEventHandlerSuccess.action;
+export const messagesDeletedIntegrationEventHandlerSuccess =
+  MessagesDeletedIntegrationEventHandlerSuccess.action;

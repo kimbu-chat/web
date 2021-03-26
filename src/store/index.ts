@@ -10,7 +10,10 @@ type ReduxStore = Store<RootState, Action> & {
 };
 
 function makeStore(): ReduxStore {
-  const composeEnchancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose : compose;
+  const composeEnchancers =
+    process.env.NODE_ENV === 'development'
+      ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+      : compose;
   const sagaMiddleware = createSagaMiddleware();
   const enchancers = composeEnchancers(applyMiddleware(sagaMiddleware, signalRInvokeMiddleware));
   const store = createStore(rootReducer, enchancers);

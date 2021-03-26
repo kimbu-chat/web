@@ -20,7 +20,14 @@ export const CountrySelect: React.FC<ICountrySelectProps> = React.memo(
   ({ country, handleCountryChange, setRef }) => {
     const { t } = useContext(LocalizationContext);
 
-    const { getRootProps, getInputProps, getListboxProps, getOptionProps, groupedOptions, popupOpen } = useAutocomplete({
+    const {
+      getRootProps,
+      getInputProps,
+      getListboxProps,
+      getOptionProps,
+      groupedOptions,
+      popupOpen,
+    } = useAutocomplete({
       id: 'country-login-autocomplete',
       options: countryList,
       getOptionLabel: (option) => option.title,
@@ -39,8 +46,18 @@ export const CountrySelect: React.FC<ICountrySelectProps> = React.memo(
 
     return (
       <div {...getRootProps()} className="country-select">
-        <input placeholder={t('loginPage.country')} type="text" className="country-select__input" {...inputProps} />
-        <DownSvg viewBox="0 0 25 25" className={`country-select__input-svg ${popupOpen ? 'country-select__input-svg--open' : ''}`} />
+        <input
+          placeholder={t('loginPage.country')}
+          type="text"
+          className="country-select__input"
+          {...inputProps}
+        />
+        <DownSvg
+          viewBox="0 0 25 25"
+          className={`country-select__input-svg ${
+            popupOpen ? 'country-select__input-svg--open' : ''
+          }`}
+        />
 
         {groupedOptions.length > 0 ? (
           <div className="country-select__countries" {...getListboxProps()}>

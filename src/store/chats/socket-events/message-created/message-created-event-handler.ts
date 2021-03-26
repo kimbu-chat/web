@@ -7,7 +7,12 @@ import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { areNotificationsEnabledSelector } from '@store/settings/selectors';
 import { UpdateStore } from '@store/update-store';
 import { ChangeUserOnlineStatus } from '@store/my-profile/features/change-user-online-status/change-user-online-status';
-import { setFavicon, setNewTitleNotificationInterval, getUreadNotifications, incrementNotifications } from '@utils/set-favicon';
+import {
+  setFavicon,
+  setNewTitleNotificationInterval,
+  getUreadNotifications,
+  incrementNotifications,
+} from '@utils/set-favicon';
 import { playSoundSafely } from '@utils/current-music';
 import messageCameUnselected from '../../../../assets/sounds/notifications/messsage-came-unselected.ogg';
 import messageCameSelected from '../../../../assets/sounds/notifications/messsage-came-selected.ogg';
@@ -46,7 +51,9 @@ export class MessageCreatedEventHandler {
   }
 
   static get saga() {
-    return function* messageCreatedEventHandler(action: ReturnType<typeof MessageCreatedEventHandler.action>): SagaIterator {
+    return function* messageCreatedEventHandler(
+      action: ReturnType<typeof MessageCreatedEventHandler.action>,
+    ): SagaIterator {
       const {
         attachments,
         chatId,
@@ -90,7 +97,9 @@ export class MessageCreatedEventHandler {
 
       if (linkedMessageId && !linkedMessage) {
         const { data }: AxiosResponse<IMessage> = MessageCreatedEventHandler.httpRequest.call(
-          yield call(() => MessageCreatedEventHandler.httpRequest.generator({ messageId: linkedMessageId })),
+          yield call(() =>
+            MessageCreatedEventHandler.httpRequest.generator({ messageId: linkedMessageId }),
+          ),
         );
 
         linkedMessage = data;
@@ -101,7 +110,10 @@ export class MessageCreatedEventHandler {
       const nextState = produce(state, (draft) => {
         const isCurrentUserMessageCreator: boolean = myId === userCreator?.id;
 
-        if (systemMessageType === SystemMessageType.GroupChatMemberRemoved && isCurrentUserMessageCreator) {
+        if (
+          systemMessageType === SystemMessageType.GroupChatMemberRemoved &&
+          isCurrentUserMessageCreator
+        ) {
           return draft;
         }
 
@@ -115,11 +127,16 @@ export class MessageCreatedEventHandler {
         if (chat) {
           const isInterlocutorCurrentSelectedChat = draft.chats.selectedChatId === message.chatId;
           const previousUnreadMessagesCount = chat.unreadMessagesCount;
-          const newUnreadMessagesCount = isInterlocutorCurrentSelectedChat || isCurrentUserMessageCreator
-            ? previousUnreadMessagesCount
-            : previousUnreadMessagesCount + 1;
+          const newUnreadMessagesCount =
+            isInterlocutorCurrentSelectedChat || isCurrentUserMessageCreator
+              ? previousUnreadMessagesCount
+              : previousUnreadMessagesCount + 1;
 
-          if (draft.chats.messages[chatId].messages.findIndex(({ id: messageId }) => messageId === message.id) === -1) {
+          if (
+            draft.chats.messages[chatId].messages.findIndex(
+              ({ id: messageId }) => messageId === message.id,
+            ) === -1
+          ) {
             draft.chats.messages[chatId].messages.unshift(message);
           } else {
             return draft;
@@ -197,7 +214,9 @@ export class MessageCreatedEventHandler {
 
       if (!chatOfMessage) {
         const { data } = ChangeSelectedChat.httpRequest.getChat.call(
-          yield call(() => ChangeSelectedChat.httpRequest.getChat.generator({ chatId: message.chatId })),
+          yield call(() =>
+            ChangeSelectedChat.httpRequest.getChat.generator({ chatId: message.chatId }),
+          ),
         );
 
         if (data) {
@@ -270,7 +289,8 @@ export class MessageCreatedEventHandler {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IMessage>, IGetMessageByIdApiRequest>(
-      ({ messageId }: IGetMessageByIdApiRequest) => `${process.env.MAIN_API}/api/messages/${messageId}`,
+      ({ messageId }: IGetMessageByIdApiRequest) =>
+        `${process.env.MAIN_API}/api/messages/${messageId}`,
       HttpRequestMethod.Get,
     );
   }

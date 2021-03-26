@@ -21,7 +21,9 @@ export class ChangeChatMutedStatus {
         isMuted: !isMuted,
       };
 
-      const { status } = ChangeChatMutedStatus.httpRequest.call(yield call(() => ChangeChatMutedStatus.httpRequest.generator(request)));
+      const { status } = ChangeChatMutedStatus.httpRequest.call(
+        yield call(() => ChangeChatMutedStatus.httpRequest.generator(request)),
+      );
 
       if (status === 200) {
         yield put(

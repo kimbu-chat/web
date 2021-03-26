@@ -21,15 +21,22 @@ export const FileAttachment: React.FC<IFileAttachmentProps> = React.memo(({ atta
 
   useEffect(() => {
     if (progressSvgRef.current) {
-      progressSvgRef.current.querySelectorAll('circle')[1].style.strokeDashoffset = String(76 - (downloaded / attachment.byteSize) * 63);
+      progressSvgRef.current.querySelectorAll('circle')[1].style.strokeDashoffset = String(
+        76 - (downloaded / attachment.byteSize) * 63,
+      );
     }
   }, [downloaded, progressSvgRef]);
 
   const download = useCallback(() => {
-    abortDownloadingRef.current = fileDownload(attachment.url, attachment.title, setDownloaded, () => {
-      setDownloaded(0);
-      setIsDownloading(false);
-    });
+    abortDownloadingRef.current = fileDownload(
+      attachment.url,
+      attachment.title,
+      setDownloaded,
+      () => {
+        setDownloaded(0);
+        setIsDownloading(false);
+      },
+    );
     setIsDownloading(true);
   }, [attachment, abortDownloadingRef, attachment, setDownloaded, setIsDownloading]);
 
@@ -45,7 +52,11 @@ export const FileAttachment: React.FC<IFileAttachmentProps> = React.memo(({ atta
     <div className="file-attachment">
       {isDownloading ? (
         <div onClick={abortDownloading} className="file-attachment__cancel">
-          <ProgressSVG ref={progressSvgRef} viewBox="0 0 25 25" className="file-attachment__progress-svg" />
+          <ProgressSVG
+            ref={progressSvgRef}
+            viewBox="0 0 25 25"
+            className="file-attachment__progress-svg"
+          />
         </div>
       ) : (
         <div onClick={download} className="file-attachment__download">
@@ -56,7 +67,9 @@ export const FileAttachment: React.FC<IFileAttachmentProps> = React.memo(({ atta
         <h4 className="file-attachment__file-name">{attachment.title}</h4>
         <div className="file-attachment__file-size">
           {isDownloading
-            ? `${getRawAttachmentSizeUnit(downloaded)}/${getRawAttachmentSizeUnit(attachment.byteSize)}`
+            ? `${getRawAttachmentSizeUnit(downloaded)}/${getRawAttachmentSizeUnit(
+                attachment.byteSize,
+              )}`
             : getRawAttachmentSizeUnit(attachment.byteSize)}
         </div>
       </div>

@@ -12,7 +12,9 @@ export const NotContact = () => {
     <div className="not-contact">
       <ContactSvg className="not-contact__contact-icon" viewBox="0 0 24 24" />
 
-      <div className="not-contact__description">{t('notContact.description', { fullName: 'Julie Key' })}</div>
+      <div className="not-contact__description">
+        {t('notContact.description', { fullName: 'Julie Key' })}
+      </div>
 
       <div className="not-contact__btn-group">
         <button type="button" className="not-contact__btn not-contact__btn--add">

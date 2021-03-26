@@ -40,8 +40,7 @@ export const FileList = React.memo(() => {
         onReachExtreme={loadMore}
         hasMore={filesForSelectedChat?.hasMore}
         isLoading={filesForSelectedChat?.loading}
-        threshold={0.3}
-      >
+        threshold={0.3}>
         {filesWithSeparators?.map((file) => (
           <React.Fragment key={file.id}>
             {file.needToShowMonthSeparator && (

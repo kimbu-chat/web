@@ -16,50 +16,56 @@ interface ISelectEntityProps {
   onClick?: (chat: IChat | IUser) => void;
 }
 
-export const SelectEntity: React.FC<ISelectEntityProps> = React.memo(({ changeSelectedState, chatOrUser, isSelected, onClick, icon }) => {
-  const onClickOnThisContact = useCallback(() => {
-    if (onClick) {
-      onClick(chatOrUser);
-    }
+export const SelectEntity: React.FC<ISelectEntityProps> = React.memo(
+  ({ changeSelectedState, chatOrUser, isSelected, onClick, icon }) => {
+    const onClickOnThisContact = useCallback(() => {
+      if (onClick) {
+        onClick(chatOrUser);
+      }
 
-    if (changeSelectedState) {
-      changeSelectedState(chatOrUser.id);
-    }
-  }, [changeSelectedState, onClick]);
+      if (changeSelectedState) {
+        changeSelectedState(chatOrUser.id);
+      }
+    }, [changeSelectedState, onClick]);
 
-  const interlocutor = (chatOrUser as IChat).interlocutor || (chatOrUser as IUser);
-  const groupChat = (chatOrUser as IChat)?.groupChat;
+    const interlocutor = (chatOrUser as IChat).interlocutor || (chatOrUser as IUser);
+    const groupChat = (chatOrUser as IChat)?.groupChat;
 
-  return (
-    <div onClick={onClickOnThisContact} className="select-entity__friend">
-      {groupChat ? (
-        <div className="select-entity__avatar-container">
-          <Avatar className="select-entity__avatar" src={groupChat.avatar?.previewUrl}>
-            {getInterlocutorInitials(chatOrUser as IChat)}
-          </Avatar>
-        </div>
-      ) : (
-        <StatusBadge
-          containerClassName="select-entity__avatar-container"
-          additionalClassNames="select-entity__avatar"
-          user={interlocutor}
-        />
-      )}
-
-      <div className="select-entity__friend-data">
-        <div className="select-entity__friend-name">
-          {interlocutor ? `${interlocutor.firstName} ${interlocutor.lastName}` : groupChat?.name}
-        </div>
-        {interlocutor && (
-          <div className="select-entity__friend-status">
-            <TimeUpdateable timeStamp={interlocutor.lastOnlineTime} />
+    return (
+      <div onClick={onClickOnThisContact} className="select-entity__friend">
+        {groupChat ? (
+          <div className="select-entity__avatar-container">
+            <Avatar className="select-entity__avatar" src={groupChat.avatar?.previewUrl}>
+              {getInterlocutorInitials(chatOrUser as IChat)}
+            </Avatar>
           </div>
+        ) : (
+          <StatusBadge
+            containerClassName="select-entity__avatar-container"
+            additionalClassNames="select-entity__avatar"
+            user={interlocutor}
+          />
         )}
-      </div>
 
-      {icon && <div className="select-entity__icon-holder">{icon}</div>}
-      {changeSelectedState
-        && (isSelected ? <SelectedSvg className="select-entity__selected" /> : <div className="select-entity__select" />)}
-    </div>
-  );
-});
+        <div className="select-entity__friend-data">
+          <div className="select-entity__friend-name">
+            {interlocutor ? `${interlocutor.firstName} ${interlocutor.lastName}` : groupChat?.name}
+          </div>
+          {interlocutor && (
+            <div className="select-entity__friend-status">
+              <TimeUpdateable timeStamp={interlocutor.lastOnlineTime} />
+            </div>
+          )}
+        </div>
+
+        {icon && <div className="select-entity__icon-holder">{icon}</div>}
+        {changeSelectedState &&
+          (isSelected ? (
+            <SelectedSvg className="select-entity__selected" />
+          ) : (
+            <div className="select-entity__select" />
+          ))}
+      </div>
+    );
+  },
+);

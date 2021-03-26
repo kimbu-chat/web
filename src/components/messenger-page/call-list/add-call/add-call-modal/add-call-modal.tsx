@@ -8,7 +8,11 @@ import AddCallSvg from '@icons/add-call.svg';
 import CallSvg from '@icons/call.svg';
 import { IPage } from '@store/common/models';
 import { GetFriends } from '@store/friends/features/get-friends/get-friends';
-import { getMyFriendsSelector, getHasMoreFriendsSelector, getFriendsLoadingSelector } from '@store/friends/selectors';
+import {
+  getMyFriendsSelector,
+  getHasMoreFriendsSelector,
+  getFriendsLoadingSelector,
+} from '@store/friends/selectors';
 import { FRIENDS_LIMIT } from '@utils/pagination-limits';
 import * as CallActions from '@store/calls/actions';
 
@@ -55,15 +59,15 @@ export const AddCallModal: React.FC<IAddCallModalProps> = React.memo(({ onClose 
   return (
     <WithBackground onBackgroundClick={onClose}>
       <Modal
-        title={(
+        title={
           <>
             <AddCallSvg viewBox="0 0 65 64" className="add-call-modal__icon" />
 
             <span> {t('addCallModal.title')} </span>
           </>
-        )}
+        }
         closeModal={onClose}
-        content={(
+        content={
           <div className="add-call-modal">
             <SearchBox
               containerClassName="add-call-modal__search-container"
@@ -75,22 +79,24 @@ export const AddCallModal: React.FC<IAddCallModalProps> = React.memo(({ onClose 
               className="add-call-modal__friends-block"
               onReachExtreme={loadMore}
               hasMore={hasMoreFriends}
-              isLoading={friendsLoading}
-            >
+              isLoading={friendsLoading}>
               {friends?.map((user) => (
                 <SelectEntity
-                  icon={(
-                    <button onClick={() => call(user)} type="button" className="add-call-modal__call">
+                  icon={
+                    <button
+                      onClick={() => call(user)}
+                      type="button"
+                      className="add-call-modal__call">
                       <CallSvg />
                     </button>
-                  )}
+                  }
                   key={user.id}
                   chatOrUser={user}
                 />
               ))}
             </InfiniteScroll>
           </div>
-        )}
+        }
         buttons={[]}
       />
     </WithBackground>

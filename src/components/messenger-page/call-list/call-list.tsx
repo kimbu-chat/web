@@ -4,7 +4,11 @@ import './call-list.scss';
 import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import * as CallActions from '@store/calls/actions';
-import { getCallsListSelector, gethasMoreCallsSelector, getCallsAreLoadingSelector } from '@store/calls/selectors';
+import {
+  getCallsListSelector,
+  gethasMoreCallsSelector,
+  getCallsAreLoadingSelector,
+} from '@store/calls/selectors';
 import { InfiniteScroll } from '@components';
 import { CALL_LIMIT } from '@utils/pagination-limits';
 import { CallItem } from './call-item/call-item';

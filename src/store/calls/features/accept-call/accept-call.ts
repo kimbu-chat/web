@@ -5,7 +5,11 @@ import { call, put, select, spawn } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
-import { createPeerConnection, getPeerConnection, getInterlocutorOffer } from '@store/middlewares/webRTC/peerConnectionFactory';
+import {
+  createPeerConnection,
+  getPeerConnection,
+  getInterlocutorOffer,
+} from '@store/middlewares/webRTC/peerConnectionFactory';
 import { deviceUpdateWatcher } from '@store/calls/utils/device-update-watcher';
 import { getAndSendUserMedia, getMediaDevicesList } from '@store/calls/utils/user-media';
 import { InputType } from '@store/calls/common/enums/input-type';
@@ -50,20 +54,36 @@ export class AcceptCall {
 
       // gathering data about media devices
       if (audioConstraints.isOpened) {
-        const audioDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.AudioInput);
+        const audioDevices: MediaDeviceInfo[] = yield call(
+          getMediaDevicesList,
+          InputType.AudioInput,
+        );
 
         if (audioDevices.length > 0) {
           yield put(GotDevicesInfo.action({ kind: InputType.AudioInput, devices: audioDevices }));
-          yield put(ChangeActiveDeviceId.action({ kind: InputType.AudioInput, deviceId: audioDevices[0].deviceId }));
+          yield put(
+            ChangeActiveDeviceId.action({
+              kind: InputType.AudioInput,
+              deviceId: audioDevices[0].deviceId,
+            }),
+          );
         }
       }
 
       if (videoConstraints.isOpened) {
-        const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.VideoInput);
+        const videoDevices: MediaDeviceInfo[] = yield call(
+          getMediaDevicesList,
+          InputType.VideoInput,
+        );
 
         if (videoDevices.length > 0) {
           yield put(GotDevicesInfo.action({ kind: InputType.VideoInput, devices: videoDevices }));
-          yield put(ChangeActiveDeviceId.action({ kind: InputType.VideoInput, deviceId: videoDevices[0].deviceId }));
+          yield put(
+            ChangeActiveDeviceId.action({
+              kind: InputType.VideoInput,
+              deviceId: videoDevices[0].deviceId,
+            }),
+          );
         }
       }
       //---
@@ -71,7 +91,9 @@ export class AcceptCall {
       const interlocutorOffer = getInterlocutorOffer();
       const peerConnection = getPeerConnection();
 
-      yield call(async () => peerConnection?.setRemoteDescription(interlocutorOffer as RTCSessionDescriptionInit));
+      yield call(async () =>
+        peerConnection?.setRemoteDescription(interlocutorOffer as RTCSessionDescriptionInit),
+      );
 
       // setup local stream
       yield call(getAndSendUserMedia);

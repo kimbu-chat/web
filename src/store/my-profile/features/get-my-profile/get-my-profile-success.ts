@@ -11,15 +11,19 @@ export class GetMyProfileSuccess {
   }
 
   static get reducer() {
-    return produce((draft: IMyProfileState, { payload }: ReturnType<typeof GetMyProfileSuccess.action>) => {
-      draft.user = payload.user;
+    return produce(
+      (draft: IMyProfileState, { payload }: ReturnType<typeof GetMyProfileSuccess.action>) => {
+        draft.user = payload.user;
 
-      return draft;
-    });
+        return draft;
+      },
+    );
   }
 
   static get saga() {
-    return function* getMyProfileSuccess(action: ReturnType<typeof GetMyProfileSuccess.action>): SagaIterator {
+    return function* getMyProfileSuccess(
+      action: ReturnType<typeof GetMyProfileSuccess.action>,
+    ): SagaIterator {
       const myProfileService = new MyProfileService();
       myProfileService.setMyProfile(action.payload.user);
     };

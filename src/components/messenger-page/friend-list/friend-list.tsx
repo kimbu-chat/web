@@ -3,7 +3,11 @@ import * as FriendActions from '@store/friends/actions';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { getMyFriendsSelector, getHasMoreFriendsSelector, getFriendsLoadingSelector } from '@store/friends/selectors';
+import {
+  getMyFriendsSelector,
+  getHasMoreFriendsSelector,
+  getFriendsLoadingSelector,
+} from '@store/friends/selectors';
 import { InfiniteScroll } from '@components';
 import { FRIENDS_LIMIT } from '@utils/pagination-limits';
 import './friend-list.scss';

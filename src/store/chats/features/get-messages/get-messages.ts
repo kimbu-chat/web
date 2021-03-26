@@ -4,7 +4,11 @@ import { SagaIterator } from 'redux-saga';
 import { put, call, select, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
-import { getIsFirstChatsLoadSelector, getSelectedChatMessagesSearchStringSelector, getSelectedChatSelector } from '../../selectors';
+import {
+  getIsFirstChatsLoadSelector,
+  getSelectedChatMessagesSearchStringSelector,
+  getSelectedChatSelector,
+} from '../../selectors';
 import { IMessage, MessageState } from '../../models';
 import { IGetMessagesActionPayload } from './action-payloads/get-messages-action-payload';
 import { IGetMessagesApiRequest } from './api-requests/get-messages-api-request';
@@ -51,12 +55,16 @@ export class GetMessages {
           searchString,
         };
 
-        const { data } = GetMessages.httpRequest.call(yield call(() => GetMessages.httpRequest.generator(request)));
+        const { data } = GetMessages.httpRequest.call(
+          yield call(() => GetMessages.httpRequest.generator(request)),
+        );
 
         const newMessages = data.map((message) => ({
           ...message,
           state:
-            chat.interlocutorLastReadMessageId && chat.interlocutorLastReadMessageId >= message.id ? MessageState.READ : MessageState.SENT,
+            chat.interlocutorLastReadMessageId && chat.interlocutorLastReadMessageId >= message.id
+              ? MessageState.READ
+              : MessageState.SENT,
         }));
 
         const messageList = {

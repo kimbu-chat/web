@@ -39,7 +39,10 @@ export const AudioVideoSettings = () => {
       </div>
       <div className="audio-video__dropdown-wrapper">
         <Dropdown
-          selectedString={videoDevices.find(({ deviceId }) => deviceId === activeVideoDevice)?.label || t('activeCall.default')}
+          selectedString={
+            videoDevices.find(({ deviceId }) => deviceId === activeVideoDevice)?.label ||
+            t('activeCall.default')
+          }
           options={videoDevices.map((device) => ({
             title: device.label,
             onClick: () => switchDevice({ kind: InputType.VideoInput, deviceId: device.deviceId }),
@@ -72,7 +75,10 @@ export const AudioVideoSettings = () => {
       </div>
       <div className="audio-video__dropdown-wrapper">
         <Dropdown
-          selectedString={audioDevices.find(({ deviceId }) => deviceId === activeAudioDevice)?.label || t('activeCall.default')}
+          selectedString={
+            audioDevices.find(({ deviceId }) => deviceId === activeAudioDevice)?.label ||
+            t('activeCall.default')
+          }
           options={audioDevices.map((device) => ({
             title: device.label,
             onClick: () => switchDevice({ kind: InputType.AudioInput, deviceId: device.deviceId }),

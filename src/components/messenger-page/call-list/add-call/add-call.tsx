@@ -23,7 +23,10 @@ const AddCall = () => {
         <h3 className="add-call__title">{t('addCall.title')}</h3>
         <h5 className="add-call__subtitle">{t('addCall.subTitle')}</h5>
 
-        <button onClick={changeSetAddCallsModalDisplayedState} type="button" className="add-call__btn">
+        <button
+          onClick={changeSetAddCallsModalDisplayedState}
+          type="button"
+          className="add-call__btn">
           {t('addCall.add')}
         </button>
       </div>

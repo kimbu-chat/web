@@ -37,15 +37,23 @@ export const MessagesSearch = () => {
     <div className="messages-search">
       {isSearching || (messagesSearchString?.length || 0) > 0 ? (
         <>
-          <SearchBox containerClassName="messages-search__input-container" value={messagesSearchString || ''} onChange={searchMessages} />
+          <SearchBox
+            containerClassName="messages-search__input-container"
+            value={messagesSearchString || ''}
+            onChange={searchMessages}
+          />
           <div className="messages-search__pointer-container">
             <span className="messages-search__pointer-container__data">1/3</span>
             <div className="messages-search__pointer-arrows">
-              <button type="button" className="className='messages-search__pointer-arrow messages-search__pointer-arrow--top">
+              <button
+                type="button"
+                className="className='messages-search__pointer-arrow messages-search__pointer-arrow--top">
                 <ArrowSvg viewBox="0 0 8 14" />
               </button>
 
-              <button type="button" className="className='messages-search__pointer-arrow messages-search__pointer-arrow--bottom">
+              <button
+                type="button"
+                className="className='messages-search__pointer-arrow messages-search__pointer-arrow--bottom">
                 <ArrowSvg viewBox="0 0 8 14" />
               </button>
             </div>

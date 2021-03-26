@@ -23,7 +23,10 @@ const AddFriend = () => {
         <h3 className="add-friend__title">{t('addFriend.title')}</h3>
         <h5 className="add-friend__subtitle">{t('addFriend.subtitle')}</h5>
 
-        <button onClick={changeSetAddFriendsModalDisplayedState} type="button" className="add-friend__btn">
+        <button
+          onClick={changeSetAddFriendsModalDisplayedState}
+          type="button"
+          className="add-friend__btn">
           {t('addFriend.add')}
         </button>
       </div>

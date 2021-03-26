@@ -22,12 +22,16 @@ export class LeaveGroupChat {
   }
 
   static get saga() {
-    return function* leaveGroupChatSaga(action: ReturnType<typeof LeaveGroupChat.action>): SagaIterator {
+    return function* leaveGroupChatSaga(
+      action: ReturnType<typeof LeaveGroupChat.action>,
+    ): SagaIterator {
       const chatId = yield select(getSelectedChatIdSelector);
       const { groupChatId } = ChatId.fromId(chatId);
 
       if (groupChatId) {
-        const { status } = LeaveGroupChat.httpRequest.call(yield call(() => LeaveGroupChat.httpRequest.generator({ groupChatId })));
+        const { status } = LeaveGroupChat.httpRequest.call(
+          yield call(() => LeaveGroupChat.httpRequest.generator({ groupChatId })),
+        );
 
         if (status === HTTPStatusCode.OK) {
           yield put(LeaveGroupChatSuccess.action({ chatId }));
@@ -39,7 +43,8 @@ export class LeaveGroupChat {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, ILeaveGroupChatApiRequest>(
-      ({ groupChatId }: ILeaveGroupChatApiRequest) => `${process.env.MAIN_API}/api/group-chats/${groupChatId}`,
+      ({ groupChatId }: ILeaveGroupChatApiRequest) =>
+        `${process.env.MAIN_API}/api/group-chats/${groupChatId}`,
       HttpRequestMethod.Delete,
     );
   }

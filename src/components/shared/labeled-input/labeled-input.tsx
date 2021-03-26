@@ -11,10 +11,23 @@ interface ILabeledInputProps {
   errorText?: string;
 }
 
-export const LabeledInput: React.FC<ILabeledInputProps> = ({ onChange, label, value, containerClassName, placeholder, errorText }) => (
+export const LabeledInput: React.FC<ILabeledInputProps> = ({
+  onChange,
+  label,
+  value,
+  containerClassName,
+  placeholder,
+  errorText,
+}) => (
   <div className={`labeled-input ${errorText ? 'labeled-input--error' : ''} ${containerClassName}`}>
     <span className="labeled-input__label">{label}</span>
-    <input placeholder={placeholder} value={value} onChange={onChange} type="text" className="labeled-input__input" />
+    <input
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
+      type="text"
+      className="labeled-input__input"
+    />
 
     {errorText && (
       <div className="labeled-input__error">

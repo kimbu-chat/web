@@ -56,12 +56,12 @@ export const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
   return (
     <WithBackground onBackgroundClick={onClose}>
       <Modal
-        title={(
+        title={
           <>
             <AddContactSvg className="add-friends-modal__icon" viewBox="0 0 18 18" />
             <span> {t('addFriendModal.title')} </span>
           </>
-        )}
+        }
         content={
           user ? (
             <div className="add-friends-modal__user">
@@ -69,7 +69,9 @@ export const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
                 {getUserInitials(user)}
               </Avatar>
               <h2 className="add-friends-modal__user__name">{`${user.firstName} ${user.lastName}`}</h2>
-              <h4 className="add-friends-modal__user__phone">{parsePhoneNumber(user?.phoneNumber).formatInternational()}</h4>
+              <h4 className="add-friends-modal__user__phone">
+                {parsePhoneNumber(user?.phoneNumber).formatInternational()}
+              </h4>
 
               {success && (
                 <div className="add-friends-modal__success">
@@ -83,7 +85,10 @@ export const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
               {error && (
                 <div className="add-friends-modal__error">
                   <span>{t('addFriendModal.error')}</span>
-                  <button type="button" onClick={closeError} className="add-friends-modal__error__close">
+                  <button
+                    type="button"
+                    onClick={closeError}
+                    className="add-friends-modal__error__close">
                     <CloseSvg viewBox="0 0 10 10" />
                   </button>
                 </div>
@@ -94,26 +99,39 @@ export const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
         closeModal={onClose}
         buttons={[
           !user ? (
-            <button key={1} type="button" className="add-friends-modal__btn add-friends-modal__btn--cancel" onClick={onClose}>
+            <button
+              key={1}
+              type="button"
+              className="add-friends-modal__btn add-friends-modal__btn--cancel"
+              onClick={onClose}>
               {t('addFriendModal.cancel')}
             </button>
           ) : null,
           !user ? (
-            <button key={2} type="button" className="add-friends-modal__btn add-friends-modal__btn--confirm" onClick={getRequiredUser}>
+            <button
+              key={2}
+              type="button"
+              className="add-friends-modal__btn add-friends-modal__btn--confirm"
+              onClick={getRequiredUser}>
               {t('addFriendModal.find')}
             </button>
           ) : null,
           user ? (
             <Link
               key={3}
-              className={`add-friends-modal__btn ${added ? 'add-friends-modal__btn--confirm' : 'add-friends-modal__btn--cancel'}`}
-              to={`/chats/${ChatId.from(user.id).id}`}
-            >
+              className={`add-friends-modal__btn ${
+                added ? 'add-friends-modal__btn--confirm' : 'add-friends-modal__btn--cancel'
+              }`}
+              to={`/chats/${ChatId.from(user.id).id}`}>
               {t('addFriendModal.chat')}
             </Link>
           ) : null,
           user && !added ? (
-            <button key={4} type="button" className="add-friends-modal__btn add-friends-modal__btn--confirm" onClick={addRequiredUser}>
+            <button
+              key={4}
+              type="button"
+              className="add-friends-modal__btn add-friends-modal__btn--confirm"
+              onClick={addRequiredUser}>
               {t('addFriendModal.add')}
             </button>
           ) : null,

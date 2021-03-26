@@ -14,9 +14,18 @@ interface IPhoneInputGroupProps {
   phoneInputIcon?: JSX.Element | false;
 }
 
-const PhoneInputGroup: React.FC<IPhoneInputGroupProps> = ({ setPhone, phone, submitFunction, hideCountrySelect, phoneInputIcon }) => {
+const PhoneInputGroup: React.FC<IPhoneInputGroupProps> = ({
+  setPhone,
+  phone,
+  submitFunction,
+  hideCountrySelect,
+  phoneInputIcon,
+}) => {
   const [country, setCountry] = useState<ICountry>(countryList[countryList.length - 1]);
-  const [countrySelectRef, setCountrySelectRef] = useState<React.RefObject<HTMLInputElement> | null>(null);
+  const [
+    countrySelectRef,
+    setCountrySelectRef,
+  ] = useState<React.RefObject<HTMLInputElement> | null>(null);
 
   useEffect(() => {
     setCountry(countryList[0]);
@@ -60,7 +69,13 @@ const PhoneInputGroup: React.FC<IPhoneInputGroupProps> = ({ setPhone, phone, sub
 
   return (
     <div className="phone-input-group">
-      {!hideCountrySelect && <CountrySelect setRef={setCountrySelectRef} country={country} handleCountryChange={handleCountryChange} />}
+      {!hideCountrySelect && (
+        <CountrySelect
+          setRef={setCountrySelectRef}
+          country={country}
+          handleCountryChange={handleCountryChange}
+        />
+      )}
       <PhoneInput
         icon={phoneInputIcon}
         ref={phoneInputRef}

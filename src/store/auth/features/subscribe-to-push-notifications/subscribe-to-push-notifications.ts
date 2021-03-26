@@ -18,7 +18,8 @@ export class SubscribeToPushNotifications {
         yield call(() =>
           SubscribeToPushNotifications.httpRequest.generator({
             tokenId: pushNotificationToken,
-          }));
+          }),
+        );
       }
     };
   }

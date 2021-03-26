@@ -10,21 +10,23 @@ export class GetFriendsSuccess {
   }
 
   static get reducer() {
-    return produce((draft: IFriendsState, { payload }: ReturnType<typeof GetFriendsSuccess.action>) => {
-      const { users, hasMore, initializedBySearch } = payload;
+    return produce(
+      (draft: IFriendsState, { payload }: ReturnType<typeof GetFriendsSuccess.action>) => {
+        const { users, hasMore, initializedBySearch } = payload;
 
-      draft.hasMoreFriends = hasMore;
+        draft.hasMoreFriends = hasMore;
 
-      if (initializedBySearch) {
-        draft.loading = false;
-        draft.friends = users;
+        if (initializedBySearch) {
+          draft.loading = false;
+          draft.friends = users;
+
+          return draft;
+        }
+
+        draft.friends = unionBy(draft.friends, users, 'id');
 
         return draft;
-      }
-
-      draft.friends = unionBy(draft.friends, users, 'id');
-
-      return draft;
-    });
+      },
+    );
   }
 }

@@ -4,5 +4,7 @@ import { RootAction } from 'typesafe-actions';
 
 export const withDeferred = curryRight(
   (action: RootAction, dispatch: Dispatch) =>
-    new Promise((resolve, reject) => dispatch({ ...action, meta: { deferred: { resolve, reject } } })),
+    new Promise((resolve, reject) =>
+      dispatch({ ...action, meta: { deferred: { resolve, reject } } }),
+    ),
 );

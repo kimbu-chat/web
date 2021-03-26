@@ -27,19 +27,24 @@ function createDeviceUpdateChannel() {
 export function* deviceUpdateWatcher(): SagaIterator {
   const deviceUpdateChannel = createDeviceUpdateChannel();
 
-  const deviceUpdateTask = yield takeEvery(deviceUpdateChannel, function* deviceUpdate(): SagaIterator {
-    const audioDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.AudioInput);
-    const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.VideoInput);
-    const prevAudioDevices = yield select(getAudioDevicesSelector);
+  const deviceUpdateTask = yield takeEvery(
+    deviceUpdateChannel,
+    function* deviceUpdate(): SagaIterator {
+      const audioDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.AudioInput);
+      const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.VideoInput);
+      const prevAudioDevices = yield select(getAudioDevicesSelector);
 
-    if (prevAudioDevices.length === 0) {
-      yield put(SwitchDevice.action({ kind: InputType.AudioInput, deviceId: audioDevices[0].deviceId }));
-      yield put(ChangeMediaStatus.action({ kind: InputType.AudioInput }));
-    }
+      if (prevAudioDevices.length === 0) {
+        yield put(
+          SwitchDevice.action({ kind: InputType.AudioInput, deviceId: audioDevices[0].deviceId }),
+        );
+        yield put(ChangeMediaStatus.action({ kind: InputType.AudioInput }));
+      }
 
-    yield put(GotDevicesInfo.action({ kind: InputType.AudioInput, devices: audioDevices }));
-    yield put(GotDevicesInfo.action({ kind: InputType.VideoInput, devices: videoDevices }));
-  });
+      yield put(GotDevicesInfo.action({ kind: InputType.AudioInput, devices: audioDevices }));
+      yield put(GotDevicesInfo.action({ kind: InputType.VideoInput, devices: videoDevices }));
+    },
+  );
 
   yield race({
     callEnded: take(CallEndedEventHandler.action),

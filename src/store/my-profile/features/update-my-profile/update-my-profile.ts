@@ -13,7 +13,9 @@ export class UpdateMyProfile {
   }
 
   static get saga() {
-    return function* updateMyProfile(action: ReturnType<typeof UpdateMyProfile.action>): SagaIterator {
+    return function* updateMyProfile(
+      action: ReturnType<typeof UpdateMyProfile.action>,
+    ): SagaIterator {
       const requestData: IUpdateMyProfileApiRequest = {
         firstName: action.payload.firstName,
         lastName: action.payload.lastName,
@@ -30,6 +32,9 @@ export class UpdateMyProfile {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IUpdateMyProfileApiRequest>(`${process.env.MAIN_API}/api/users`, HttpRequestMethod.Put);
+    return httpRequestFactory<AxiosResponse, IUpdateMyProfileApiRequest>(
+      `${process.env.MAIN_API}/api/users`,
+      HttpRequestMethod.Put,
+    );
   }
 }

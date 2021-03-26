@@ -32,7 +32,9 @@ export class GetVideoAttachments {
   }
 
   static get saga() {
-    return function* getVideoAttachmentsSaga(action: ReturnType<typeof GetVideoAttachments.action>): SagaIterator {
+    return function* getVideoAttachmentsSaga(
+      action: ReturnType<typeof GetVideoAttachments.action>,
+    ): SagaIterator {
       const { page } = action.payload;
       const chatId = yield select(getSelectedChatIdSelector);
 

@@ -39,8 +39,7 @@ export const PhotoList = React.memo(() => {
         className="chat-photo__photo-container"
         onReachExtreme={loadMore}
         hasMore={photoForSelectedChat?.hasMore}
-        isLoading={photoForSelectedChat?.loading}
-      >
+        isLoading={photoForSelectedChat?.loading}>
         {photosWithSeparators?.map((photo) => (
           <Photo photo={photo} attachmentsArr={photosWithSeparators} key={photo.id} />
         ))}

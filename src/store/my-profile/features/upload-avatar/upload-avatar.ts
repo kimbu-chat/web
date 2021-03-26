@@ -18,7 +18,9 @@ export class UploadAvatar {
   }
 
   static get saga() {
-    return function* uploadAvatarSaga(action: ReturnType<typeof UploadAvatar.action>): SagaIterator {
+    return function* uploadAvatarSaga(
+      action: ReturnType<typeof UploadAvatar.action>,
+    ): SagaIterator {
       const { pathToFile, onProgress } = action.payload;
 
       const file = yield call(getFileFromUrl, pathToFile);
@@ -33,27 +35,31 @@ export class UploadAvatar {
 
       yield call(() =>
         UploadAvatar.httpRequest.generator(data, {
-          * onStart({ cancelTokenSource }): SagaIterator {
+          *onStart({ cancelTokenSource }): SagaIterator {
             setAvatarUploadCancelTokenSource(cancelTokenSource);
           },
-          * onSuccess(payload: IAvatar): SagaIterator {
+          *onSuccess(payload: IAvatar): SagaIterator {
             setAvatarUploadCancelTokenSource(undefined);
             action.meta.deferred.resolve(payload);
           },
-          * onProgress(payload): SagaIterator {
+          *onProgress(payload): SagaIterator {
             if (onProgress) {
               onProgress(payload.progress);
             }
           },
-          * onFailure(): SagaIterator {
+          *onFailure(): SagaIterator {
             setAvatarUploadCancelTokenSource(undefined);
             action.meta.deferred.reject();
           },
-        }));
+        }),
+      );
     };
   }
 
   static get httpRequest() {
-    return httpFilesRequestFactory<AxiosResponse<IAvatar>, FormData>(`${process.env.FILES_API}/api/avatars`, HttpRequestMethod.Post);
+    return httpFilesRequestFactory<AxiosResponse<IAvatar>, FormData>(
+      `${process.env.FILES_API}/api/avatars`,
+      HttpRequestMethod.Post,
+    );
   }
 }

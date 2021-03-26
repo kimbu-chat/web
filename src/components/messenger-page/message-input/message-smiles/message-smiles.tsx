@@ -36,7 +36,11 @@ const MessageSmiles: React.FC<IMessageSmilesProps> = React.memo(({ setText }) =>
 
   return (
     <>
-      <button type="button" ref={openEmojiRef} onClick={changeSmilesDisplayedStatus} className="message-input__smiles-btn">
+      <button
+        type="button"
+        ref={openEmojiRef}
+        onClick={changeSmilesDisplayedStatus}
+        className="message-input__smiles-btn">
         <SmilesSvg />
       </button>
       {smilesRendered && (

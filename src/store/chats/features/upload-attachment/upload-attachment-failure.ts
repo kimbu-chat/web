@@ -10,24 +10,28 @@ export class UploadAttachmentFailure {
   }
 
   static get reducer() {
-    return produce((draft: IChatsState, { payload }: ReturnType<typeof UploadAttachmentFailure.action>) => {
-      const { chatId, attachmentId } = payload;
+    return produce(
+      (draft: IChatsState, { payload }: ReturnType<typeof UploadAttachmentFailure.action>) => {
+        const { chatId, attachmentId } = payload;
 
-      const chat = getChatByIdDraftSelector(chatId, draft);
+        const chat = getChatByIdDraftSelector(chatId, draft);
 
-      if (chat) {
-        if (!chat.attachmentsToSend) {
-          return draft;
+        if (chat) {
+          if (!chat.attachmentsToSend) {
+            return draft;
+          }
+
+          const currentAttachment = chat.attachmentsToSend?.find(
+            ({ attachment }) => attachment.id === attachmentId,
+          );
+
+          if (currentAttachment) {
+            currentAttachment.success = false;
+            currentAttachment.failure = true;
+          }
         }
-
-        const currentAttachment = chat.attachmentsToSend?.find(({ attachment }) => attachment.id === attachmentId);
-
-        if (currentAttachment) {
-          currentAttachment.success = false;
-          currentAttachment.failure = true;
-        }
-      }
-      return draft;
-    });
+        return draft;
+      },
+    );
   }
 }

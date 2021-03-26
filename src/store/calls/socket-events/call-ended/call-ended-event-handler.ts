@@ -20,7 +20,9 @@ export class CallEndedEventHandler {
   }
 
   static get saga() {
-    return function* callEndedSaga(action: ReturnType<typeof CallEndedEventHandler.action>): SagaIterator {
+    return function* callEndedSaga(
+      action: ReturnType<typeof CallEndedEventHandler.action>,
+    ): SagaIterator {
       const { userInterlocutorId, id, duration, status } = action.payload;
       const interlocutor = yield select(getCallInterlocutorSelector);
 

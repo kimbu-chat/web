@@ -16,7 +16,11 @@ export const Friend: React.FC<IFriendProps> = React.memo(({ friend }) => {
 
   return (
     <Link to={`/chats/${ChatId.from(friend.id).id}`} className="friend">
-      <StatusBadge containerClassName="friend__avatar-container" additionalClassNames="friend__avatar" user={friend} />
+      <StatusBadge
+        containerClassName="friend__avatar-container"
+        additionalClassNames="friend__avatar"
+        user={friend}
+      />
       <div className="friend__contents">
         <div className="friend__name">{`${friend.firstName} ${friend.lastName}`}</div>
         <div className="friend__status">
@@ -24,7 +28,8 @@ export const Friend: React.FC<IFriendProps> = React.memo(({ friend }) => {
             t('chatData.online')
           ) : (
             <>
-              <span>{`${t('chatData.last-time')} `}</span> <TimeUpdateable timeStamp={friend.lastOnlineTime} />
+              <span>{`${t('chatData.last-time')} `}</span>{' '}
+              <TimeUpdateable timeStamp={friend.lastOnlineTime} />
             </>
           )}
         </div>

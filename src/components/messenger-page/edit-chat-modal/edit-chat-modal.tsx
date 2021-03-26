@@ -26,14 +26,18 @@ export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClos
   const selectedGroupChat: IGroupChat | undefined = useSelector(getSelectedGroupChatSelector);
 
   const uploadGroupChatAvatar = useActionWithDeferred(MyProfileActions.uploadAvatarRequestAction);
-  const cancelAvatarUploading = useActionWithDispatch(MyProfileActions.cancelAvatarUploadingRequestAction);
+  const cancelAvatarUploading = useActionWithDispatch(
+    MyProfileActions.cancelAvatarUploadingRequestAction,
+  );
   const editGroupChat = useActionWithDispatch(ChatActions.editGroupChat);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [newName, setNewName] = useState(selectedGroupChat?.name!);
   const [avatarData, setAvatarData] = useState<IAvatarSelectedData | null>(null);
-  const [avararUploadResponse, setAvatarUploadResponse] = useState<IAvatar | null>(selectedGroupChat?.avatar || null);
+  const [avararUploadResponse, setAvatarUploadResponse] = useState<IAvatar | null>(
+    selectedGroupChat?.avatar || null,
+  );
   const [imageUrl, setImageUrl] = useState<string>('');
   const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
   const [newDescription, setNewDescription] = useState(selectedGroupChat?.description || '');
@@ -65,8 +69,12 @@ export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClos
     [setAvatarData, setUploaded, uploadGroupChatAvatar, setAvatarUploadResponse],
   );
 
-  const displayChangePhoto = useCallback(() => setChangePhotoDisplayed(true), [setChangePhotoDisplayed]);
-  const hideChangePhoto = useCallback(() => setChangePhotoDisplayed(false), [setChangePhotoDisplayed]);
+  const displayChangePhoto = useCallback(() => setChangePhotoDisplayed(true), [
+    setChangePhotoDisplayed,
+  ]);
+  const hideChangePhoto = useCallback(() => setChangePhotoDisplayed(false), [
+    setChangePhotoDisplayed,
+  ]);
 
   const handleImageChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -115,33 +123,56 @@ export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClos
     setUploadEnded(true);
   }, [setAvatarData, setAvatarUploadResponse, setUploadEnded]);
 
-  const imageToDisplay = typeof avatarData?.croppedImagePath === 'string' ? avatarData?.croppedImagePath : selectedGroupChat?.avatar?.previewUrl;
+  const imageToDisplay =
+    typeof avatarData?.croppedImagePath === 'string'
+      ? avatarData?.croppedImagePath
+      : selectedGroupChat?.avatar?.previewUrl;
 
   return (
     <>
       <WithBackground onBackgroundClick={onClose}>
         <Modal
           title="Edit group"
-          content={(
+          content={
             <div className="edit-chat-modal">
               <div hidden> {uploaded}</div>
               <div className="edit-chat-modal__current-photo-wrapper">
-                <GroupSvg viewBox="0 0 24 24" className="edit-chat-modal__current-photo-wrapper__alt" />
-                <input onChange={handleImageChange} ref={fileInputRef} type="file" hidden accept="image/*" />
-                {imageToDisplay && <img src={imageToDisplay} alt="" className="edit-chat-modal__current-photo-wrapper__img" />}
+                <GroupSvg
+                  viewBox="0 0 24 24"
+                  className="edit-chat-modal__current-photo-wrapper__alt"
+                />
+                <input
+                  onChange={handleImageChange}
+                  ref={fileInputRef}
+                  type="file"
+                  hidden
+                  accept="image/*"
+                />
+                {imageToDisplay && (
+                  <img
+                    src={imageToDisplay}
+                    alt=""
+                    className="edit-chat-modal__current-photo-wrapper__img"
+                  />
+                )}
                 <button
                   type="button"
                   onClick={() => {
                     discardNewAvatar();
                     fileInputRef.current?.click();
                   }}
-                  className="edit-chat-modal__change-photo-btn"
-                >
+                  className="edit-chat-modal__change-photo-btn">
                   <PictureSvg viewBox="0 0 18 19" />
                   <span>Upload New Photo</span>
                 </button>
-                <TopAvatarLine className="edit-chat-modal__current-photo-wrapper__top-line" viewBox="0 0 48 48" />
-                <BottomAvatarLine className="edit-chat-modal__current-photo-wrapper__bottom-line" viewBox="0 0 114 114" />
+                <TopAvatarLine
+                  className="edit-chat-modal__current-photo-wrapper__top-line"
+                  viewBox="0 0 48 48"
+                />
+                <BottomAvatarLine
+                  className="edit-chat-modal__current-photo-wrapper__bottom-line"
+                  viewBox="0 0 114 114"
+                />
               </div>
               <div className="edit-chat-modal__criteria">At least 256*256px PNG or JPG </div>
 
@@ -159,19 +190,34 @@ export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClos
                 containerClassName="edit-chat-modal__input"
               />
             </div>
-          )}
+          }
           closeModal={onClose}
           buttons={[
-            <button key={1} type="button" onClick={onClose} className="edit-chat-modal__btn edit-chat-modal__btn--cancel">
+            <button
+              key={1}
+              type="button"
+              onClick={onClose}
+              className="edit-chat-modal__btn edit-chat-modal__btn--cancel">
               Cancel
             </button>,
-            <button key={2} disabled={!uploadEnded} type="button" onClick={onSubmit} className="edit-chat-modal__btn">
+            <button
+              key={2}
+              disabled={!uploadEnded}
+              type="button"
+              onClick={onSubmit}
+              className="edit-chat-modal__btn">
               Save
             </button>,
           ]}
         />
       </WithBackground>
-      {changePhotoDisplayed && <PhotoEditor hideChangePhoto={hideChangePhoto} imageUrl={imageUrl} onSubmit={applyAvatarData} />}
+      {changePhotoDisplayed && (
+        <PhotoEditor
+          hideChangePhoto={hideChangePhoto}
+          imageUrl={imageUrl}
+          onSubmit={applyAvatarData}
+        />
+      )}
     </>
   );
 });

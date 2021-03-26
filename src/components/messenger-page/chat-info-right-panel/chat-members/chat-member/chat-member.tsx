@@ -20,7 +20,9 @@ export const Member: React.FC<IMemberProps> = React.memo(({ member }) => {
   return (
     <div className="chat-member">
       <StatusBadge
-        containerClassName={`chat-member__avatar-container ${isOwner ? 'chat-member__avatar-container--owner' : ''}`}
+        containerClassName={`chat-member__avatar-container ${
+          isOwner ? 'chat-member__avatar-container--owner' : ''
+        }`}
         additionalClassNames="chat-member__avatar"
         user={member}
       />

@@ -38,7 +38,9 @@ const CodeConfirmation: React.FC<ICodeConfirmationProps> = ({ preloadNext }) => 
 
   const phoneNumber = useSelector(authPhoneNumberSelector);
   const twoLetterCountryCode = useSelector(twoLetterCountryCodeSelector);
-  const codeFromServer = useSelector<RootState, string>((rootState) => rootState.auth.confirmationCode);
+  const codeFromServer = useSelector<RootState, string>(
+    (rootState) => rootState.auth.confirmationCode,
+  );
   const isConfirmationCodeWrong = useSelector(confirmationCodeWrongSelector);
   const isLoading = useSelector(authLoadingSelector);
 
@@ -127,13 +129,19 @@ const CodeConfirmation: React.FC<ICodeConfirmationProps> = ({ preloadNext }) => 
 
   const input = (key: number): JSX.Element => (
     <input
-      onChange={(event: React.ChangeEvent<HTMLInputElement>) => onChangeText(key, event.target.value)}
-      onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => event.key === 'Backspace' && onKeyPress(key)}
+      onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+        onChangeText(key, event.target.value)
+      }
+      onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) =>
+        event.key === 'Backspace' && onKeyPress(key)
+      }
       ref={boxElements[key]}
       value={code[key]}
       key={key}
       type="text"
-      className={`code-confirmation__code-input ${isConfirmationCodeWrong ? 'code-confirmation__code-input--wrong' : ''}`}
+      className={`code-confirmation__code-input ${
+        isConfirmationCodeWrong ? 'code-confirmation__code-input--wrong' : ''
+      }`}
     />
   );
 
@@ -153,26 +161,32 @@ const CodeConfirmation: React.FC<ICodeConfirmationProps> = ({ preloadNext }) => 
         <p
           style={{ marginBottom: isConfirmationCodeWrong ? '20px' : '50px' }}
           className="code-confirmation__code-sent"
-          onClick={() => setCode(String(codeFromServer).split(''))}
-        >
+          onClick={() => setCode(String(codeFromServer).split(''))}>
           {`${t('loginPage.code_sent_to')} ${parsePhoneNumber(phoneNumber).formatInternational()}`}
         </p>
-        {isConfirmationCodeWrong && <p className="code-confirmation__wrong-code">{t('loginPage.wrong_code')}</p>}
+        {isConfirmationCodeWrong && (
+          <p className="code-confirmation__wrong-code">{t('loginPage.wrong_code')}</p>
+        )}
         <div className="code-confirmation__inputs-container">{NUMBER_OF_DIGITS.map(input)}</div>
         {!(remainingSeconds === 0) && (
           <>
             <p className="code-confirmation__timer">
-              {t('loginPage.reset_timer', { time: moment.utc(remainingSeconds * 1000).format('mm:ss') })}
+              {t('loginPage.reset_timer', {
+                time: moment.utc(remainingSeconds * 1000).format('mm:ss'),
+              })}
             </p>
 
             <BaseBtn
-              disabled={isConfirmationCodeWrong || !code.every((element) => element.length === 1) || isLoading}
+              disabled={
+                isConfirmationCodeWrong ||
+                !code.every((element) => element.length === 1) ||
+                isLoading
+              }
               onClick={() => checkCode(code)}
               variant="contained"
               color="primary"
               width="contained"
-              isLoading={isLoading}
-            >
+              isLoading={isLoading}>
               {t('loginPage.next')}
             </BaseBtn>
           </>
@@ -186,8 +200,7 @@ const CodeConfirmation: React.FC<ICodeConfirmationProps> = ({ preloadNext }) => 
             variant="outlined"
             color="primary"
             width="auto"
-            className="code-confirmation__resend-btn"
-          >
+            className="code-confirmation__resend-btn">
             {t('loginPage.resend')}
           </BaseBtn>
         )}

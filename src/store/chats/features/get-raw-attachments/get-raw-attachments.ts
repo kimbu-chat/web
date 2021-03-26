@@ -32,7 +32,9 @@ export class GetRawAttachments {
   }
 
   static get saga() {
-    return function* getRawAttachmentsSaga(action: ReturnType<typeof GetRawAttachments.action>): SagaIterator {
+    return function* getRawAttachmentsSaga(
+      action: ReturnType<typeof GetRawAttachments.action>,
+    ): SagaIterator {
       const { page } = action.payload;
       const chatId = yield select(getSelectedChatIdSelector);
 

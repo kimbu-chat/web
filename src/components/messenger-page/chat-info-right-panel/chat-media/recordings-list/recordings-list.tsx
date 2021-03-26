@@ -18,7 +18,12 @@ export const RecordingsList = React.memo(() => {
   const getRecordings = useActionWithDispatch(ChatActions.getVoiceAttachments);
 
   const loadMore = useCallback(() => {
-    getRecordings({ page: { offset: recordingsForSelectedChat?.recordings.length!, limit: VOICE_ATTACHMENTS_LIMIT } });
+    getRecordings({
+      page: {
+        offset: recordingsForSelectedChat?.recordings.length!,
+        limit: VOICE_ATTACHMENTS_LIMIT,
+      },
+    });
   }, [getRecordings, recordingsForSelectedChat]);
 
   const recordingsWithSeparators = setSeparators(
@@ -33,13 +38,13 @@ export const RecordingsList = React.memo(() => {
         <InfiniteScroll
           onReachExtreme={loadMore}
           hasMore={recordingsForSelectedChat?.hasMore}
-          isLoading={recordingsForSelectedChat?.loading}
-        >
+          isLoading={recordingsForSelectedChat?.loading}>
           {recordingsWithSeparators?.map((recording) => (
             <div key={recording.id} className="chat-recordings__recording">
               {recording.needToShowMonthSeparator && (
                 <div className="chat-recordings__separator">
-                  {recording.needToShowYearSeparator || doesYearDifferFromCurrent(recording.creationDateTime)
+                  {recording.needToShowYearSeparator ||
+                  doesYearDifferFromCurrent(recording.creationDateTime)
                     ? moment(recording.creationDateTime).format('MMMM YYYY')
                     : moment(recording.creationDateTime).format('MMMM')}
                 </div>

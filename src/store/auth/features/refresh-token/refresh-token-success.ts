@@ -11,16 +11,20 @@ export class RefreshTokenSuccess {
   }
 
   static get reducer() {
-    return produce((draft: IAuthState, { payload }: ReturnType<typeof RefreshTokenSuccess.action>) => {
-      draft.refreshTokenRequestLoading = false;
-      draft.isAuthenticated = true;
-      draft.securityTokens = payload;
-      return draft;
-    });
+    return produce(
+      (draft: IAuthState, { payload }: ReturnType<typeof RefreshTokenSuccess.action>) => {
+        draft.refreshTokenRequestLoading = false;
+        draft.isAuthenticated = true;
+        draft.securityTokens = payload;
+        return draft;
+      },
+    );
   }
 
   static get saga() {
-    return function* refreshTokenSuccess(action: ReturnType<typeof RefreshTokenSuccess.action>): SagaIterator {
+    return function* refreshTokenSuccess(
+      action: ReturnType<typeof RefreshTokenSuccess.action>,
+    ): SagaIterator {
       const authService = new AuthService();
       authService.initialize(action.payload);
     };

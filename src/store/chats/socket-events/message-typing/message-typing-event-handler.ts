@@ -15,30 +15,38 @@ export class UserMessageTypingEventHandler {
   }
 
   static get reducer() {
-    return produce((draft: IChatsState, { payload }: ReturnType<typeof UserMessageTypingEventHandler.action>) => {
-      const { interlocutorName, chatId, interlocutorId, text } = payload;
+    return produce(
+      (
+        draft: IChatsState,
+        { payload }: ReturnType<typeof UserMessageTypingEventHandler.action>,
+      ) => {
+        const { interlocutorName, chatId, interlocutorId, text } = payload;
 
-      const myId = new MyProfileService().myProfile.id;
+        const myId = new MyProfileService().myProfile.id;
 
-      // Chat list uppdate
-      if (ChatId.fromId(chatId).interlocutorType === InterlocutorType.GroupChat && interlocutorId === myId) {
+        // Chat list uppdate
+        if (
+          ChatId.fromId(chatId).interlocutorType === InterlocutorType.GroupChat &&
+          interlocutorId === myId
+        ) {
+          return draft;
+        }
+
+        const chat = getChatByIdDraftSelector(chatId, draft);
+
+        if (!chat) {
+          return draft;
+        }
+
+        chat.draftMessage = text;
+
+        if (!chat.typingInterlocutors?.find((fullName) => fullName === interlocutorName)) {
+          chat.typingInterlocutors = [...(chat.typingInterlocutors || []), interlocutorName];
+        }
+
         return draft;
-      }
-
-      const chat = getChatByIdDraftSelector(chatId, draft);
-
-      if (!chat) {
-        return draft;
-      }
-
-      chat.draftMessage = text;
-
-      if (!chat.typingInterlocutors?.find((fullName) => fullName === interlocutorName)) {
-        chat.typingInterlocutors = [...(chat.typingInterlocutors || []), interlocutorName];
-      }
-
-      return draft;
-    });
+      },
+    );
   }
 
   static get saga() {

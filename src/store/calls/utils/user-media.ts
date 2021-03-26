@@ -108,7 +108,8 @@ export function* getUserAudio(constraints: IInCompleteConstraints) {
     localMediaStream = yield call(async () =>
       navigator.mediaDevices.getUserMedia({
         audio: constraints.audio?.isOpened && constraints.audio,
-      }));
+      }),
+    );
     yield put(OpenAudioStatus.action());
   } catch (e) {
     yield put(CloseAudioStatus.action());
@@ -127,7 +128,8 @@ export function* getUserVideo(constraints: IInCompleteConstraints) {
     localMediaStream = yield call(async () =>
       navigator.mediaDevices.getUserMedia({
         video: constraints.video?.isOpened && constraints.video,
-      }));
+      }),
+    );
     yield put(OpenVideoStatus.action());
   } catch {
     yield put(CloseVideoStatus.action());
@@ -177,7 +179,8 @@ export function* getAndSendUserMedia(): SagaIterator {
       navigator.mediaDevices.getUserMedia({
         video: constraints.video.isOpened && constraints.video,
         audio: constraints.audio.isOpened && constraints.audio,
-      }));
+      }),
+    );
   } catch {
     yield put(CloseVideoStatus.action());
 
@@ -185,7 +188,8 @@ export function* getAndSendUserMedia(): SagaIterator {
       localMediaStream = yield call(async () =>
         navigator.mediaDevices.getUserMedia({
           audio: constraints.audio.isOpened && constraints.audio,
-        }));
+        }),
+      );
     } catch (e) {
       yield put(CloseAudioStatus.action());
     }

@@ -12,7 +12,10 @@ export function useOnClickOutside<T extends HTMLElement, M extends HTMLElement>(
         return;
       }
 
-      if (additionalIgnoreElementRef?.current && additionalIgnoreElementRef?.current?.contains(event.target as Node)) {
+      if (
+        additionalIgnoreElementRef?.current &&
+        additionalIgnoreElementRef?.current?.contains(event.target as Node)
+      ) {
         return;
       }
 

@@ -24,7 +24,8 @@ export class UnSubscribeFromPushNotifications {
         yield call(() =>
           UnSubscribeFromPushNotifications.httpRequest.generator({
             tokenId: pushNotificationToken,
-          }));
+          }),
+        );
 
         yield call(async () => messaging?.deleteToken());
       }

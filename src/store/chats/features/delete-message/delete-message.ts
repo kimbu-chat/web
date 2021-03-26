@@ -22,7 +22,9 @@ export class DeleteMessage {
   }
 
   static get saga() {
-    return function* deleteMessageSaga(action: ReturnType<typeof DeleteMessage.action>): SagaIterator {
+    return function* deleteMessageSaga(
+      action: ReturnType<typeof DeleteMessage.action>,
+    ): SagaIterator {
       const { messageIds, forEveryone } = action.payload;
       const chatId = yield select(getSelectedChatIdSelector);
 

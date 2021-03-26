@@ -7,21 +7,30 @@ import { IGetUserSettingsSuccessActionPayload } from './action-payloads/get-user
 
 export class GetUserSettingsSuccess {
   static get action() {
-    return createAction('GET_USER_SETTINGS_SUCCESS')<IGetUserSettingsSuccessActionPayload | undefined>();
+    return createAction('GET_USER_SETTINGS_SUCCESS')<
+      IGetUserSettingsSuccessActionPayload | undefined
+    >();
   }
 
   static get reducer() {
-    return produce((draft: IUserSettings, { payload }: ReturnType<typeof GetUserSettingsSuccess.action>) => ({
-      ...draft,
-      ...payload,
-    }));
+    return produce(
+      (draft: IUserSettings, { payload }: ReturnType<typeof GetUserSettingsSuccess.action>) => ({
+        ...draft,
+        ...payload,
+      }),
+    );
   }
 
   static get saga() {
-    return function* getUserSettingsSuccesSaga(action: ReturnType<typeof GetUserSettingsSuccess.action>): SagaIterator {
-      const element = document.querySelector('#message-font-size') || document.createElement('style');
+    return function* getUserSettingsSuccesSaga(
+      action: ReturnType<typeof GetUserSettingsSuccess.action>,
+    ): SagaIterator {
+      const element =
+        document.querySelector('#message-font-size') || document.createElement('style');
       element.id = 'message-font-size';
-      element.innerHTML = `.message__content span{ font-size: ${action.payload?.fontSize || 16}px !important; }`;
+      element.innerHTML = `.message__content span{ font-size: ${
+        action.payload?.fontSize || 16
+      }px !important; }`;
       document.head.appendChild(element);
     };
   }

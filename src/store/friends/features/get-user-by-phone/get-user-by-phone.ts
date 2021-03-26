@@ -13,7 +13,9 @@ export class GetUserByPhone {
   }
 
   static get saga() {
-    return function* GetUserByPhoneSaga(action: ReturnType<typeof GetUserByPhone.action>): SagaIterator {
+    return function* GetUserByPhoneSaga(
+      action: ReturnType<typeof GetUserByPhone.action>,
+    ): SagaIterator {
       const { phone } = action.payload;
 
       try {
@@ -22,7 +24,9 @@ export class GetUserByPhone {
           .filter((x) => x !== ' ' && x !== '+')
           .join('');
 
-        const { data } = yield call(() => GetUserByPhone.httpRequest.generator({ phone: parsedPhone }));
+        const { data } = yield call(() =>
+          GetUserByPhone.httpRequest.generator({ phone: parsedPhone }),
+        );
 
         action.meta.deferred?.resolve(data);
       } catch {

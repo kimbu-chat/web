@@ -31,7 +31,9 @@ export class GetPhotoAttachments {
   }
 
   static get saga() {
-    return function* getPhotoAttachments(action: ReturnType<typeof GetPhotoAttachments.action>): SagaIterator {
+    return function* getPhotoAttachments(
+      action: ReturnType<typeof GetPhotoAttachments.action>,
+    ): SagaIterator {
       const { page } = action.payload;
       const chatId = yield select(getSelectedChatIdSelector);
 

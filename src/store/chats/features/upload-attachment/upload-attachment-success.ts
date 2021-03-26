@@ -10,25 +10,29 @@ export class UploadAttachmentSuccess {
   }
 
   static get reducer() {
-    return produce((draft: IChatsState, { payload }: ReturnType<typeof UploadAttachmentSuccess.action>) => {
-      const { chatId, attachmentId, attachment } = payload;
+    return produce(
+      (draft: IChatsState, { payload }: ReturnType<typeof UploadAttachmentSuccess.action>) => {
+        const { chatId, attachmentId, attachment } = payload;
 
-      const chat = getChatByIdDraftSelector(chatId, draft);
+        const chat = getChatByIdDraftSelector(chatId, draft);
 
-      if (chat) {
-        if (!chat.attachmentsToSend) {
-          return draft;
+        if (chat) {
+          if (!chat.attachmentsToSend) {
+            return draft;
+          }
+
+          const currentAttachment = chat.attachmentsToSend?.find(
+            ({ attachment: attachmentToSend }) => attachmentToSend.id === attachmentId,
+          );
+
+          if (currentAttachment) {
+            currentAttachment.progress = 100;
+            currentAttachment.success = true;
+            currentAttachment.attachment = { ...currentAttachment.attachment, ...attachment };
+          }
         }
-
-        const currentAttachment = chat.attachmentsToSend?.find(({ attachment: attachmentToSend }) => attachmentToSend.id === attachmentId);
-
-        if (currentAttachment) {
-          currentAttachment.progress = 100;
-          currentAttachment.success = true;
-          currentAttachment.attachment = { ...currentAttachment.attachment, ...attachment };
-        }
-      }
-      return draft;
-    });
+        return draft;
+      },
+    );
   }
 }

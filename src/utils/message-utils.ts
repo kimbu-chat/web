@@ -38,24 +38,35 @@ export class MessageUtils {
     return systemMessage;
   }
 
-  static checkIfDatesAreSameDate = (startDate: Date, endDate: Date): boolean => !(startDate.toDateString() === endDate.toDateString());
+  static checkIfDatesAreSameDate = (startDate: Date, endDate: Date): boolean =>
+    !(startDate.toDateString() === endDate.toDateString());
 
   static constructSystemMessageText(message: IMessage, t: TFunction, myId: number): string {
     if (message.systemMessageType === SystemMessageType.GroupChatCreated) {
       return message?.userCreator?.id === myId
         ? t('systemMessage.you_created_group')
-        : t('systemMessage.created_group', { name: `${message?.userCreator?.firstName} ${message?.userCreator?.lastName}` });
+        : t('systemMessage.created_group', {
+            name: `${message?.userCreator?.firstName} ${message?.userCreator?.lastName}`,
+          });
     }
     if (message.systemMessageType === SystemMessageType.GroupChatMemberRemoved) {
       const systemMessageContent = MessageUtils.getSystemMessageContent(message.text);
-      const groupChatMemberRemovedSystemMessageContent = <IGroupChatMemberRemovedSystemMessageContent>systemMessageContent;
+      const groupChatMemberRemovedSystemMessageContent = <
+        IGroupChatMemberRemovedSystemMessageContent
+      >systemMessageContent;
       return message.userCreator?.id === groupChatMemberRemovedSystemMessageContent.removedUserId
-        ? t('systemMessage.left_group', { name: groupChatMemberRemovedSystemMessageContent.removedUserName })
-        : t('systemMessage.left_group', { name: groupChatMemberRemovedSystemMessageContent.removedUserName });
+        ? t('systemMessage.left_group', {
+            name: groupChatMemberRemovedSystemMessageContent.removedUserName,
+          })
+        : t('systemMessage.left_group', {
+            name: groupChatMemberRemovedSystemMessageContent.removedUserName,
+          });
     }
     if (message.systemMessageType === SystemMessageType.GroupChatMemberAdded) {
       const systemMessageContent = MessageUtils.getSystemMessageContent(message.text);
-      const groupChatMemberRemovedSystemMessageContent = <IGroupChatMemberAddedSystemMessageContent>systemMessageContent;
+      const groupChatMemberRemovedSystemMessageContent = <
+        IGroupChatMemberAddedSystemMessageContent
+      >systemMessageContent;
       if (message?.userCreator?.id === myId) {
         return t('systemMessage.you_added', {
           name: groupChatMemberRemovedSystemMessageContent.addedUserName,
@@ -68,7 +79,9 @@ export class MessageUtils {
     }
     if (message.systemMessageType === SystemMessageType.GroupChatNameChanged) {
       const systemMessageContent = MessageUtils.getSystemMessageContent(message.text);
-      const groupChatNameChangedSystemMessageContent = <IGroupChatNameChangedSystemMessageContent>systemMessageContent;
+      const groupChatNameChangedSystemMessageContent = <IGroupChatNameChangedSystemMessageContent>(
+        systemMessageContent
+      );
       if (message?.userCreator?.id === myId) {
         return t('systemMessage.you_changed_name', {
           oldName: groupChatNameChangedSystemMessageContent.oldName,
@@ -114,11 +127,15 @@ export class MessageUtils {
       }
 
       if (callMessage.status === CallStatus.Cancelled) {
-        return callMessage.userCallerId === myId ? t('systemMessage.you_canceled_call') : t('systemMessage.someone_canceled_call');
+        return callMessage.userCallerId === myId
+          ? t('systemMessage.you_canceled_call')
+          : t('systemMessage.someone_canceled_call');
       }
 
       if (callMessage.status === CallStatus.Declined) {
-        return callMessage.userCallerId === myId ? t('systemMessage.someone_declined_call') : t('systemMessage.you_declined_call');
+        return callMessage.userCallerId === myId
+          ? t('systemMessage.someone_declined_call')
+          : t('systemMessage.you_declined_call');
       }
 
       if (callMessage.status === CallStatus.Interrupted) {
@@ -129,8 +146,12 @@ export class MessageUtils {
 
       if (callMessage.status === CallStatus.NotAnswered) {
         return callMessage.userCallerId === myId
-          ? t('systemMessage.someone_missed_call', { time: moment.utc(message.creationDateTime).local().format('LT').toLowerCase() })
-          : t('systemMessage.you_missed_call', { time: moment.utc(message.creationDateTime).local().format('LT').toLowerCase() });
+          ? t('systemMessage.someone_missed_call', {
+              time: moment.utc(message.creationDateTime).local().format('LT').toLowerCase(),
+            })
+          : t('systemMessage.you_missed_call', {
+              time: moment.utc(message.creationDateTime).local().format('LT').toLowerCase(),
+            });
       }
     }
 
@@ -168,8 +189,9 @@ export class MessageUtils {
       }
 
       if (
-        index < arr.length - 1
-        && (arr[index].userCreator?.id !== arr[index + 1].userCreator?.id || arr[index + 1].systemMessageType !== SystemMessageType.None)
+        index < arr.length - 1 &&
+        (arr[index].userCreator?.id !== arr[index + 1].userCreator?.id ||
+          arr[index + 1].systemMessageType !== SystemMessageType.None)
       ) {
         const generatedMessage = produce(message, (draft) => {
           draft.needToShowCreator = true;
@@ -183,13 +205,16 @@ export class MessageUtils {
       return message;
     });
 
-    signedMessages[signedMessages.length - 1] = produce(signedMessages[signedMessages.length - 1], (draft) => {
-      if (draft) {
-        draft.needToShowCreator = true;
-        draft.needToShowDateSeparator = true;
-      }
-      return draft;
-    });
+    signedMessages[signedMessages.length - 1] = produce(
+      signedMessages[signedMessages.length - 1],
+      (draft) => {
+        if (draft) {
+          draft.needToShowCreator = true;
+          draft.needToShowDateSeparator = true;
+        }
+        return draft;
+      },
+    );
 
     return signedMessages;
   }

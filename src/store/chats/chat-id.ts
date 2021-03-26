@@ -23,7 +23,13 @@ export class ChatId {
       return new ChatIdDetails(chatId, interlocutorId, InterlocutorType.User, interlocutorId, null);
     }
     if (interlocutorType === InterlocutorType.GroupChat) {
-      return new ChatIdDetails(chatId, interlocutorId, InterlocutorType.GroupChat, null, interlocutorId);
+      return new ChatIdDetails(
+        chatId,
+        interlocutorId,
+        InterlocutorType.GroupChat,
+        null,
+        interlocutorId,
+      );
     }
     throw new Error(`Unknown interlocutorType: chatId = ${chatId}`);
   }

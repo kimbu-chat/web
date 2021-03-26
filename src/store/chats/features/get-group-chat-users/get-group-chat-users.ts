@@ -35,7 +35,9 @@ export class GetGroupChatUsers {
   }
 
   static get saga() {
-    return function* getGroupChatUsersSaga(action: ReturnType<typeof GetGroupChatUsers.action>): SagaIterator {
+    return function* getGroupChatUsersSaga(
+      action: ReturnType<typeof GetGroupChatUsers.action>,
+    ): SagaIterator {
       const { isFromSearch, page, name } = action.payload;
 
       const chatId = yield select(getSelectedChatIdSelector);

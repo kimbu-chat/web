@@ -51,7 +51,7 @@ export const ChangePhoneModal: React.FC<IChangePhoneModalProps> = ({ onClose }) 
             </>
           )
         }
-        content={(
+        content={
           <div className="change-phone-modal">
             <PhoneInputGroup
               submitFunction={() => {
@@ -80,16 +80,22 @@ export const ChangePhoneModal: React.FC<IChangePhoneModalProps> = ({ onClose }) 
                 />
 
                 <span className="change-phone-modal__details">
-                  {t('changePhoneModal.details', { time: moment.utc(remainedTime * 1000).format('mm:ss') })}
+                  {t('changePhoneModal.details', {
+                    time: moment.utc(remainedTime * 1000).format('mm:ss'),
+                  })}
                 </span>
               </>
             )}
           </div>
-        )}
+        }
         closeModal={onClose}
         buttons={[
           !submited && (
-            <button key={1} type="button" className="change-phone-modal__btn change-phone-modal__btn--cancel" onClick={onClose}>
+            <button
+              key={1}
+              type="button"
+              className="change-phone-modal__btn change-phone-modal__btn--cancel"
+              onClick={onClose}>
               {t('changePhoneModal.cancel')}
             </button>
           ),
@@ -99,8 +105,7 @@ export const ChangePhoneModal: React.FC<IChangePhoneModalProps> = ({ onClose }) 
               disabled={code.length !== 4}
               type="button"
               className="change-phone-modal__btn change-phone-modal__btn--submit"
-              onClick={nextStep}
-            >
+              onClick={nextStep}>
               {t('changePhoneModal.confirm')}
             </button>
           ) : (
@@ -109,8 +114,7 @@ export const ChangePhoneModal: React.FC<IChangePhoneModalProps> = ({ onClose }) 
               disabled={!parsePhoneNumberFromString(phone)?.isValid()}
               type="button"
               className="change-phone-modal__btn change-phone-modal__btn--submit"
-              onClick={nextStep}
-            >
+              onClick={nextStep}>
               {t('changePhoneModal.change')}
             </button>
           ),

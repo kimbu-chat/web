@@ -64,7 +64,9 @@ export const ChatTopBar = React.memo(() => {
 
           {selectedChat.groupChat && (
             <div className="chat-data__contact-img-container">
-              <Avatar className="chat-data__contact-img" src={selectedChat.groupChat?.avatar?.previewUrl}>
+              <Avatar
+                className="chat-data__contact-img"
+                src={selectedChat.groupChat?.avatar?.previewUrl}>
                 {getInterlocutorInitials(selectedChat)}
               </Avatar>
             </div>
@@ -79,7 +81,8 @@ export const ChatTopBar = React.memo(() => {
                 t('chatData.online')
               ) : (
                 <>
-                  <span>{`${t('chatData.last-time')} `}</span> <TimeUpdateable timeStamp={selectedChat?.interlocutor?.lastOnlineTime} />
+                  <span>{`${t('chatData.last-time')} `}</span>{' '}
+                  <TimeUpdateable timeStamp={selectedChat?.interlocutor?.lastOnlineTime} />
                 </>
               )}
             </p>
@@ -102,8 +105,7 @@ export const ChatTopBar = React.memo(() => {
           <button
             type="button"
             onClick={openCloseChatInfo}
-            className={`chat-data__button ${isInfoOpened ? 'chat-data__button--active' : ''}`}
-          >
+            className={`chat-data__button ${isInfoOpened ? 'chat-data__button--active' : ''}`}>
             <ChatInfoSvg />
           </button>
         </div>

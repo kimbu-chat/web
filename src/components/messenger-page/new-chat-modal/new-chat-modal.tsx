@@ -13,7 +13,11 @@ import GroupSvg from '@icons/group.svg';
 import NewMessageSvg from '@icons/create-chat.svg';
 
 import * as ChatActions from '@store/chats/actions';
-import { getFriendsLoadingSelector, getHasMoreFriendsSelector, getMyFriendsSelector } from '@store/friends/selectors';
+import {
+  getFriendsLoadingSelector,
+  getHasMoreFriendsSelector,
+  getMyFriendsSelector,
+} from '@store/friends/selectors';
 
 import { FRIENDS_LIMIT } from '@utils/pagination-limits';
 import { ChatId } from '@store/chats/chat-id';
@@ -26,80 +30,84 @@ interface INewChatModalProps {
   displayCreateGroupChat: () => void;
 }
 
-export const NewChatModal: React.FC<INewChatModalProps> = React.memo(({ onClose, displayCreateGroupChat }) => {
-  const { t } = useContext(LocalizationContext);
+export const NewChatModal: React.FC<INewChatModalProps> = React.memo(
+  ({ onClose, displayCreateGroupChat }) => {
+    const { t } = useContext(LocalizationContext);
 
-  const friends = useSelector(getMyFriendsSelector);
-  const hasMoreFriends = useSelector(getHasMoreFriendsSelector);
-  const friendsLoading = useSelector(getFriendsLoadingSelector);
+    const friends = useSelector(getMyFriendsSelector);
+    const hasMoreFriends = useSelector(getHasMoreFriendsSelector);
+    const friendsLoading = useSelector(getFriendsLoadingSelector);
 
-  const createChat = useActionWithDispatch(ChatActions.createChat);
-  const loadFriends = useActionWithDispatch(FriendActions.getFriends);
+    const createChat = useActionWithDispatch(ChatActions.createChat);
+    const loadFriends = useActionWithDispatch(FriendActions.getFriends);
 
-  const history = useHistory();
+    const history = useHistory();
 
-  const createEmptyChat = useCallback((user: IChat | IUser) => {
-    createChat(user as IUser);
-    const chatId = ChatId.from((user as IUser).id).id;
-    history.push(`/chats/${chatId}`);
-    onClose();
-  }, []);
+    const createEmptyChat = useCallback((user: IChat | IUser) => {
+      createChat(user as IUser);
+      const chatId = ChatId.from((user as IUser).id).id;
+      history.push(`/chats/${chatId}`);
+      onClose();
+    }, []);
 
-  const loadMore = useCallback(() => {
-    const page: IPage = {
-      offset: friends.length,
-      limit: FRIENDS_LIMIT,
-    };
-    loadFriends({ page });
-  }, [friends, loadFriends]);
+    const loadMore = useCallback(() => {
+      const page: IPage = {
+        offset: friends.length,
+        limit: FRIENDS_LIMIT,
+      };
+      loadFriends({ page });
+    }, [friends, loadFriends]);
 
-  const searchFriends = useCallback((name: string) => {
-    loadFriends({ page: { offset: 0, limit: FRIENDS_LIMIT }, name, initializedBySearch: true });
-  }, []);
+    const searchFriends = useCallback((name: string) => {
+      loadFriends({ page: { offset: 0, limit: FRIENDS_LIMIT }, name, initializedBySearch: true });
+    }, []);
 
-  const createGroupChat = useCallback(() => {
-    displayCreateGroupChat();
-    onClose();
-  }, [displayCreateGroupChat]);
+    const createGroupChat = useCallback(() => {
+      displayCreateGroupChat();
+      onClose();
+    }, [displayCreateGroupChat]);
 
-  return (
-    <WithBackground onBackgroundClick={onClose}>
-      <Modal
-        title={(
-          <>
-            <NewMessageSvg viewBox="0 0 24 24" className="new-chat__icon" />
-            <span> {t('newChat.new_message')} </span>
-          </>
-        )}
-        closeModal={onClose}
-        content={(
-          <div className="new-chat">
-            <SearchBox containerClassName="new-chat__search" onChange={(e) => searchFriends(e.target.value)} />
-            <div className="new-chat__friends-block">
-              <div onClick={createGroupChat} className="new-chat__new-group">
-                <div className="new-chat__new-group__img">
-                  <GroupSvg viewBox="0 0 24 24" />
+    return (
+      <WithBackground onBackgroundClick={onClose}>
+        <Modal
+          title={
+            <>
+              <NewMessageSvg viewBox="0 0 24 24" className="new-chat__icon" />
+              <span> {t('newChat.new_message')} </span>
+            </>
+          }
+          closeModal={onClose}
+          content={
+            <div className="new-chat">
+              <SearchBox
+                containerClassName="new-chat__search"
+                onChange={(e) => searchFriends(e.target.value)}
+              />
+              <div className="new-chat__friends-block">
+                <div onClick={createGroupChat} className="new-chat__new-group">
+                  <div className="new-chat__new-group__img">
+                    <GroupSvg viewBox="0 0 24 24" />
+                  </div>
+                  <span className="new-chat__new-group__title">{t('newChat.new_group')}</span>
+                  <div className="new-chat__new-group__go">
+                    <ArrowSvg viewBox="0 0 8 14" />
+                  </div>
                 </div>
-                <span className="new-chat__new-group__title">{t('newChat.new_group')}</span>
-                <div className="new-chat__new-group__go">
-                  <ArrowSvg viewBox="0 0 8 14" />
-                </div>
+                <InfiniteScroll
+                  className="create-group-chat__friends-block"
+                  onReachExtreme={loadMore}
+                  hasMore={hasMoreFriends}
+                  isLoading={friendsLoading}>
+                  {friends.map((friend) => (
+                    <SelectEntity key={friend.id} chatOrUser={friend} onClick={createEmptyChat} />
+                  ))}
+                </InfiniteScroll>
               </div>
-              <InfiniteScroll
-                className="create-group-chat__friends-block"
-                onReachExtreme={loadMore}
-                hasMore={hasMoreFriends}
-                isLoading={friendsLoading}
-              >
-                {friends.map((friend) => (
-                  <SelectEntity key={friend.id} chatOrUser={friend} onClick={createEmptyChat} />
-                ))}
-              </InfiniteScroll>
             </div>
-          </div>
-        )}
-        buttons={[]}
-      />
-    </WithBackground>
-  );
-});
+          }
+          buttons={[]}
+        />
+      </WithBackground>
+    );
+  },
+);

@@ -28,8 +28,12 @@ export class ConfirmPhone {
   }
 
   static get saga() {
-    return function* confirmPhoneNumberSaga(action: ReturnType<typeof ConfirmPhone.action>): SagaIterator {
-      const { data } = ConfirmPhone.httpRequest.call(yield call(() => ConfirmPhone.httpRequest.generator(action.payload)));
+    return function* confirmPhoneNumberSaga(
+      action: ReturnType<typeof ConfirmPhone.action>,
+    ): SagaIterator {
+      const { data } = ConfirmPhone.httpRequest.call(
+        yield call(() => ConfirmPhone.httpRequest.generator(action.payload)),
+      );
 
       if (data.isCodeCorrect && data.userExists) {
         const { phoneNumber, code } = action.payload;

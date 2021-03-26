@@ -129,23 +129,28 @@ const chats = createReducer<IChatsState>(initialState)
   .handleAction(ForwardMessages.action, ForwardMessages.reducer)
   .handleAction(
     UserStatusChangedEventHandler.action,
-    produce((draft: IChatsState, { payload }: ReturnType<typeof UserStatusChangedEventHandler.action>) => {
-      const { status, userId } = payload;
-      const chatId: number = ChatId.from(userId).id;
-      const chat = getChatByIdDraftSelector(chatId, draft);
+    produce(
+      (
+        draft: IChatsState,
+        { payload }: ReturnType<typeof UserStatusChangedEventHandler.action>,
+      ) => {
+        const { status, userId } = payload;
+        const chatId: number = ChatId.from(userId).id;
+        const chat = getChatByIdDraftSelector(chatId, draft);
 
-      if (!chat) {
+        if (!chat) {
+          return draft;
+        }
+
+        if (chat.interlocutor) {
+          const { interlocutor } = chat;
+          interlocutor.status = status;
+          interlocutor.lastOnlineTime = new Date();
+        }
+
         return draft;
-      }
-
-      if (chat.interlocutor) {
-        const { interlocutor } = chat;
-        interlocutor.status = status;
-        interlocutor.lastOnlineTime = new Date();
-      }
-
-      return draft;
-    }),
+      },
+    ),
   )
 
   // socket-events
@@ -153,11 +158,17 @@ const chats = createReducer<IChatsState>(initialState)
   .handleAction(MemberLeftGroupChatEventHandler.action, MemberLeftGroupChatEventHandler.reducer)
   .handleAction(GroupChatEditedEventHandler.action, GroupChatEditedEventHandler.reducer)
   .handleAction(GroupChatCreatedEventHandler.action, GroupChatCreatedEventHandler.reducer)
-  .handleAction(ChatMutedStatusChangedEventHandler.action, ChatMutedStatusChangedEventHandler.reducer)
+  .handleAction(
+    ChatMutedStatusChangedEventHandler.action,
+    ChatMutedStatusChangedEventHandler.reducer,
+  )
   .handleAction(MessageEditedEventHandler.action, MessageEditedEventHandler.reducer)
   .handleAction(MessageReadEventHandler.action, MessageReadEventHandler.reducer)
   .handleAction(ChatClearedEventHandler.action, ChatClearedEventHandler.reducer)
   .handleAction(UserEditedEventHandler.action, UserEditedEventHandler.reducer)
-  .handleAction(MessagesDeletedIntegrationEventHandlerSuccess.action, MessagesDeletedIntegrationEventHandlerSuccess.reducer);
+  .handleAction(
+    MessagesDeletedIntegrationEventHandlerSuccess.action,
+    MessagesDeletedIntegrationEventHandlerSuccess.reducer,
+  );
 
 export default chats;

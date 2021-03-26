@@ -6,4 +6,5 @@ export const setAvatarUploadCancelTokenSource = (newToken: CancelTokenSource | u
   avatarUploadCancelTokenSource = newToken;
 };
 
-export const getAvatarUploadCancelTokenSource = (): CancelTokenSource | undefined => avatarUploadCancelTokenSource;
+export const getAvatarUploadCancelTokenSource = (): CancelTokenSource | undefined =>
+  avatarUploadCancelTokenSource;

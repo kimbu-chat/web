@@ -11,25 +11,27 @@ export class GetGroupChatUsersSuccess {
   }
 
   static get reducer() {
-    return produce((draft: IChatsState, { payload }: ReturnType<typeof GetGroupChatUsersSuccess.action>) => {
-      const { chatId, isFromSearch, users, hasMore } = payload;
+    return produce(
+      (draft: IChatsState, { payload }: ReturnType<typeof GetGroupChatUsersSuccess.action>) => {
+        const { chatId, isFromSearch, users, hasMore } = payload;
 
-      const chat = getChatByIdDraftSelector(chatId, draft);
+        const chat = getChatByIdDraftSelector(chatId, draft);
 
-      if (chat) {
-        chat.members.hasMore = hasMore;
-        chat.members.loading = false;
+        if (chat) {
+          chat.members.hasMore = hasMore;
+          chat.members.loading = false;
 
-        if (isFromSearch) {
-          chat.members.members = users;
+          if (isFromSearch) {
+            chat.members.members = users;
+          }
+
+          if (!isFromSearch) {
+            chat.members.members = unionBy(chat.members.members, users, 'id');
+          }
         }
 
-        if (!isFromSearch) {
-          chat.members.members = unionBy(chat.members.members, users, 'id');
-        }
-      }
-
-      return draft;
-    });
+        return draft;
+      },
+    );
   }
 }

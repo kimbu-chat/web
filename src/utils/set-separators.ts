@@ -27,8 +27,9 @@ export const setSeparators = <T extends IGroupable>(
     }
 
     if (
-      separateBy.separateByMonth
-      && `${prevDate.getMonth()} ${prevDate.getFullYear()}` !== `${currentDate.getMonth()} ${currentDate.getFullYear()}`
+      separateBy.separateByMonth &&
+      `${prevDate.getMonth()} ${prevDate.getFullYear()}` !==
+        `${currentDate.getMonth()} ${currentDate.getFullYear()}`
     ) {
       elemCopy.needToShowMonthSeparator = true;
     }
@@ -56,4 +57,5 @@ export const setSeparators = <T extends IGroupable>(
   return newElements;
 };
 
-export const doesYearDifferFromCurrent = (date: Date) => new Date().getFullYear() !== new Date(date).getFullYear();
+export const doesYearDifferFromCurrent = (date: Date) =>
+  new Date().getFullYear() !== new Date(date).getFullYear();

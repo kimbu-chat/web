@@ -17,15 +17,21 @@ export class MessagesDeletedIntegrationEventHandler {
   }
 
   static get saga() {
-    return function* messagesDeleteSaga(action: ReturnType<typeof MessagesDeletedIntegrationEventHandler.action>): SagaIterator {
+    return function* messagesDeleteSaga(
+      action: ReturnType<typeof MessagesDeletedIntegrationEventHandler.action>,
+    ): SagaIterator {
       const { chatId, messageIds } = action.payload;
       const lastMessageId = yield select(getChatLastMessageIdSelector(chatId));
       const messageListIsEmpty = (yield select(getChatMessagesLengthSelector(chatId))) === 0;
       let newLastMessage: IMessage | null = null;
 
       if (messageIds.includes(lastMessageId) && messageListIsEmpty) {
-        const { data }: AxiosResponse<IMessage> = MessagesDeletedIntegrationEventHandler.httpRequest.call(
-          yield call(() => MessagesDeletedIntegrationEventHandler.httpRequest.generator({ chatId })),
+        const {
+          data,
+        }: AxiosResponse<IMessage> = MessagesDeletedIntegrationEventHandler.httpRequest.call(
+          yield call(() =>
+            MessagesDeletedIntegrationEventHandler.httpRequest.generator({ chatId }),
+          ),
         );
 
         newLastMessage = data;
@@ -43,7 +49,8 @@ export class MessagesDeletedIntegrationEventHandler {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IMessage>, IGetLastMessageByChatIdApiRequest>(
-      ({ chatId }: IGetLastMessageByChatIdApiRequest) => `${process.env.MAIN_API}/api/chats/${chatId}/last-message`,
+      ({ chatId }: IGetLastMessageByChatIdApiRequest) =>
+        `${process.env.MAIN_API}/api/chats/${chatId}/last-message`,
       HttpRequestMethod.Get,
     );
   }

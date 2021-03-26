@@ -9,15 +9,17 @@ export class UpdateMyProfileSuccess {
   }
 
   static get reducer() {
-    return produce((draft: IMyProfileState, { payload }: ReturnType<typeof UpdateMyProfileSuccess.action>) => {
-      if (draft.user) {
-        draft.user.firstName = payload.firstName;
-        draft.user.lastName = payload.lastName;
-        draft.user.avatar = payload.avatar;
-        draft.user.nickname = payload.nickname;
-      }
+    return produce(
+      (draft: IMyProfileState, { payload }: ReturnType<typeof UpdateMyProfileSuccess.action>) => {
+        if (draft.user) {
+          draft.user.firstName = payload.firstName;
+          draft.user.lastName = payload.lastName;
+          draft.user.avatar = payload.avatar;
+          draft.user.nickname = payload.nickname;
+        }
 
-      return draft;
-    });
+        return draft;
+      },
+    );
   }
 }

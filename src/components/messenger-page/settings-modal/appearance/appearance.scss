@@ -123,8 +123,9 @@
   }
 
   &__font-progress {
-    box-shadow: inset -2px 2px 4px rgba(46, 101, 164, 0.2), inset 2px -2px 4px rgba(46, 101, 164, 0.2),
-      inset -2px -2px 4px rgba(80, 175, 255, 0.9), inset 2px 2px 5px rgba(46, 101, 164, 0.9);
+    box-shadow: inset -2px 2px 4px rgba(46, 101, 164, 0.2),
+      inset 2px -2px 4px rgba(46, 101, 164, 0.2), inset -2px -2px 4px rgba(80, 175, 255, 0.9),
+      inset 2px 2px 5px rgba(46, 101, 164, 0.9);
     border-radius: 6px;
     background: var(--dt-kingBlue-wt-kingBlueLight);
     height: 20px;

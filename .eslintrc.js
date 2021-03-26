@@ -9,13 +9,13 @@ module.exports = {
     es2021: true,
   },
   extends: [
-    'prettier',
     'plugin:react/recommended',
     'plugin:import/typescript',
     'airbnb',
     'plugin:@typescript-eslint/recommended',
     'plugin:import/errors',
     'plugin:import/warnings',
+    'prettier',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -27,7 +27,7 @@ module.exports = {
     },
     ecmaVersion: 12,
   },
-  plugins: ['react', '@typescript-eslint', 'react-hooks', 'prettier'],
+  plugins: ['react', '@typescript-eslint', 'react-hooks'],
   rules: {
     ...a11yOff,
     'react/jsx-props-no-spreading': 'off',
@@ -48,7 +48,6 @@ module.exports = {
         tsx: 'never',
       },
     ],
-    'max-len': [2, 140, 2],
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'react/jsx-one-expression-per-line': 'off',
     'no-use-before-define': 'off',

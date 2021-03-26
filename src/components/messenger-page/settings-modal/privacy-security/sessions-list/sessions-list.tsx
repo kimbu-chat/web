@@ -52,8 +52,9 @@ export const SessionsList = () => {
         <button
           onClick={loadSessionsList}
           type="button"
-          className={`sessions-list__header__open ${opened ? 'sessions-list__header__open--opened' : ''}`}
-        >
+          className={`sessions-list__header__open ${
+            opened ? 'sessions-list__header__open--opened' : ''
+          }`}>
           <ArrowSvg viewBox="0 0 48 48" />
         </button>
       </div>

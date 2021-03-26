@@ -6,21 +6,25 @@ import { IChatsState } from '../../chats-state';
 
 export class GetVideoAttachmentsSuccess {
   static get action() {
-    return createAction('GET_VIDEO_ATTACHMENTS_SUCCESS')<IGetVideoAttachmentsSuccessActionPayload>();
+    return createAction(
+      'GET_VIDEO_ATTACHMENTS_SUCCESS',
+    )<IGetVideoAttachmentsSuccessActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: IChatsState, { payload }: ReturnType<typeof GetVideoAttachmentsSuccess.action>) => {
-      const { videos, chatId, hasMore } = payload;
+    return produce(
+      (draft: IChatsState, { payload }: ReturnType<typeof GetVideoAttachmentsSuccess.action>) => {
+        const { videos, chatId, hasMore } = payload;
 
-      const chat = getChatByIdDraftSelector(chatId, draft);
+        const chat = getChatByIdDraftSelector(chatId, draft);
 
-      if (chat) {
-        chat.videos.videos.push(...videos);
-        chat.videos.hasMore = hasMore;
-        chat.videos.loading = false;
-      }
-      return draft;
-    });
+        if (chat) {
+          chat.videos.videos.push(...videos);
+          chat.videos.hasMore = hasMore;
+          chat.videos.loading = false;
+        }
+        return draft;
+      },
+    );
   }
 }

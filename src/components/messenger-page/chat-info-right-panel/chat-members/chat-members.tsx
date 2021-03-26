@@ -41,7 +41,10 @@ export const ChatMembers: React.FC = React.memo(() => {
     });
   }, []);
 
-  const changeMembersDisplayedState = useCallback(() => setMembersDisplayed((oldState) => !oldState), [setMembersDisplayed]);
+  const changeMembersDisplayedState = useCallback(
+    () => setMembersDisplayed((oldState) => !oldState),
+    [setMembersDisplayed],
+  );
 
   return (
     <div className="chat-members">
@@ -50,8 +53,9 @@ export const ChatMembers: React.FC = React.memo(() => {
         <button
           type="button"
           onClick={changeMembersDisplayedState}
-          className={`chat-members__open-arrow ${membersDisplayed ? 'chat-members__open-arrow--rotated' : ''}`}
-        >
+          className={`chat-members__open-arrow ${
+            membersDisplayed ? 'chat-members__open-arrow--rotated' : ''
+          }`}>
           <OpenArrowSvg />
         </button>
       </div>
@@ -67,8 +71,7 @@ export const ChatMembers: React.FC = React.memo(() => {
             onReachExtreme={loadMore}
             hasMore={membersListForGroupChat?.hasMore}
             isLoading={membersListForGroupChat?.loading}
-            threshold={0.3}
-          >
+            threshold={0.3}>
             {membersListForGroupChat?.members?.map((member) => (
               <Member member={member} key={member?.id} />
             ))}

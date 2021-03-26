@@ -12,23 +12,29 @@ export class RemoveAttachment {
   }
 
   static get reducer() {
-    return produce((draft: IChatsState, { payload }: ReturnType<typeof RemoveAttachment.action>) => {
-      const { attachmentId } = payload;
+    return produce(
+      (draft: IChatsState, { payload }: ReturnType<typeof RemoveAttachment.action>) => {
+        const { attachmentId } = payload;
 
-      if (draft.selectedChatId) {
-        const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
+        if (draft.selectedChatId) {
+          const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
 
-        if (chat) {
-          chat.attachmentsToSend = chat.attachmentsToSend?.filter(({ attachment }) => attachment.id !== attachmentId);
+          if (chat) {
+            chat.attachmentsToSend = chat.attachmentsToSend?.filter(
+              ({ attachment }) => attachment.id !== attachmentId,
+            );
+          }
         }
-      }
 
-      return draft;
-    });
+        return draft;
+      },
+    );
   }
 
   static get saga() {
-    return function* removeAttachment(action: ReturnType<typeof RemoveAttachment.action>): SagaIterator {
+    return function* removeAttachment(
+      action: ReturnType<typeof RemoveAttachment.action>,
+    ): SagaIterator {
       const { attachmentId } = action.payload;
       const uploadingAttachments = getUploadingAttachments();
 

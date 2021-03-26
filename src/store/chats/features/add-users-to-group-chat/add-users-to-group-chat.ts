@@ -23,7 +23,9 @@ export class AddUsersToGroupChat {
   }
 
   static get saga() {
-    return function* addUsersToGroupChatSaga(action: ReturnType<typeof AddUsersToGroupChat.action>): SagaIterator {
+    return function* addUsersToGroupChatSaga(
+      action: ReturnType<typeof AddUsersToGroupChat.action>,
+    ): SagaIterator {
       const { users } = action.payload;
       const chatId = yield select(getSelectedChatIdSelector);
       const { groupChatId } = ChatId.fromId(chatId);
@@ -33,8 +35,8 @@ export class AddUsersToGroupChat {
       const { status } = AddUsersToGroupChat.httpRequest.call(
         yield call(
           () =>
-            groupChatId
-            && AddUsersToGroupChat.httpRequest.generator({
+            groupChatId &&
+            AddUsersToGroupChat.httpRequest.generator({
               id: groupChatId,
               userIds,
             }),

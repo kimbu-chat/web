@@ -10,22 +10,33 @@ export class GetMessagesSuccess {
   }
 
   static get reducer() {
-    return produce((draft: IChatsState, { payload }: ReturnType<typeof GetMessagesSuccess.action>) => {
-      const { chatId, hasMoreMessages, messages, isFromSearch }: IGetMessagesSuccessActionPayload = payload;
+    return produce(
+      (draft: IChatsState, { payload }: ReturnType<typeof GetMessagesSuccess.action>) => {
+        const {
+          chatId,
+          hasMoreMessages,
+          messages,
+          isFromSearch,
+        }: IGetMessagesSuccessActionPayload = payload;
 
-      if (draft.messages[chatId]) {
-        draft.messages[chatId].hasMore = hasMoreMessages;
+        if (draft.messages[chatId]) {
+          draft.messages[chatId].hasMore = hasMoreMessages;
 
-        draft.messages[chatId].loading = false;
+          draft.messages[chatId].loading = false;
 
-        if (isFromSearch) {
-          draft.messages[chatId].messages = messages;
-        } else {
-          draft.messages[chatId].messages = unionBy(draft.messages[chatId].messages, messages, 'id');
+          if (isFromSearch) {
+            draft.messages[chatId].messages = messages;
+          } else {
+            draft.messages[chatId].messages = unionBy(
+              draft.messages[chatId].messages,
+              messages,
+              'id',
+            );
+          }
         }
-      }
 
-      return draft;
-    });
+        return draft;
+      },
+    );
   }
 }

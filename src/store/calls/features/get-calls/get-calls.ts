@@ -27,7 +27,9 @@ export class GetCalls {
       const { page } = action.payload;
 
       const { httpRequest } = GetCalls;
-      const { data, status } = httpRequest.call(yield call(() => httpRequest.generator(action.payload)));
+      const { data, status } = httpRequest.call(
+        yield call(() => httpRequest.generator(action.payload)),
+      );
 
       const hasMore = data.length >= page.limit;
 

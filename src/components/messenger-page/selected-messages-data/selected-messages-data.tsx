@@ -41,7 +41,10 @@ export const SelectedMessagesData = React.memo(() => {
 
   return (
     <div className="selected-messages-data">
-      <button type="button" onClick={changeForwardMessagesModalDisplayedState} className="selected-messages-data__btn">
+      <button
+        type="button"
+        onClick={changeForwardMessagesModalDisplayedState}
+        className="selected-messages-data__btn">
         <ForwardSvg viewBox="0 0 16 16" />
         <span>{t('selectedMessagesData.forward', { count: selectedMessagesCount })}</span>
       </button>
@@ -49,8 +52,7 @@ export const SelectedMessagesData = React.memo(() => {
       <button
         type="button"
         onClick={changeDeleteMessagesModalDisplayedState}
-        className="selected-messages-data__btn selected-messages-data__btn--delete"
-      >
+        className="selected-messages-data__btn selected-messages-data__btn--delete">
         <DeleteSvg viewBox="0 0 15 16" />
         <span>{t('selectedMessagesData.delete', { count: selectedMessagesCount })}</span>
       </button>
@@ -59,7 +61,10 @@ export const SelectedMessagesData = React.memo(() => {
         <span>{t('selectedMessagesData.copy')}</span>
       </button>
 
-      <button type="button" onClick={resetSelectedMessages} className="selected-messages-data__close">
+      <button
+        type="button"
+        onClick={resetSelectedMessages}
+        className="selected-messages-data__close">
         <CloseSvg />
       </button>
 
@@ -68,11 +73,17 @@ export const SelectedMessagesData = React.memo(() => {
       }
 
       <FadeAnimationWrapper isDisplayed={deleteMessagesModalDisplayed}>
-        <DeleteMessageModal onClose={changeDeleteMessagesModalDisplayedState} selectedMessages={selectedMessages} />
+        <DeleteMessageModal
+          onClose={changeDeleteMessagesModalDisplayedState}
+          selectedMessages={selectedMessages}
+        />
       </FadeAnimationWrapper>
 
       <FadeAnimationWrapper isDisplayed={forwardMessagesModalDisplayed}>
-        <ForwardModal messageIdsToForward={selectedMessages} onClose={changeForwardMessagesModalDisplayedState} />
+        <ForwardModal
+          messageIdsToForward={selectedMessages}
+          onClose={changeForwardMessagesModalDisplayedState}
+        />
       </FadeAnimationWrapper>
     </div>
   );

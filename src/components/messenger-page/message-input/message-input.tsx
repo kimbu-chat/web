@@ -16,7 +16,11 @@ import {
   IAttachmentToSend,
   IBaseAttachment,
 } from '@store/chats/models';
-import { getMessageToReplySelector, getSelectedChatSelector, getMessageToEditSelector } from '@store/chats/selectors';
+import {
+  getMessageToReplySelector,
+  getSelectedChatSelector,
+  getMessageToEditSelector,
+} from '@store/chats/selectors';
 import { myProfileSelector } from '@store/my-profile/selectors';
 import { getTypingStrategySelector } from '@store/settings/selectors';
 import { getFileType } from '@utils/get-file-extension';
@@ -86,7 +90,8 @@ export const CreateMessageInput = React.memo(() => {
   const referredRemovedAttachments = useReferState(removedAttachments);
 
   const editingMessageAttachments = editingMessage?.attachments?.filter(
-    ({ id }) => removedAttachments.findIndex((removedAttachment) => removedAttachment.id === id) === -1,
+    ({ id }) =>
+      removedAttachments.findIndex((removedAttachment) => removedAttachment.id === id) === -1,
   );
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -121,7 +126,9 @@ export const CreateMessageInput = React.memo(() => {
   });
 
   useEffect(() => {
-    setText((oldText) => (typeof selectedChat?.draftMessage === 'string' ? selectedChat?.draftMessage : oldText));
+    setText((oldText) =>
+      typeof selectedChat?.draftMessage === 'string' ? selectedChat?.draftMessage : oldText,
+    );
   }, [selectedChat?.id, setText]);
 
   useEffect(() => {
@@ -140,7 +147,9 @@ export const CreateMessageInput = React.memo(() => {
   );
 
   const submitEditedMessage = useCallback(() => {
-    const newAttachments = updatedSelectedChat.current?.attachmentsToSend?.map(({ attachment }) => attachment);
+    const newAttachments = updatedSelectedChat.current?.attachmentsToSend?.map(
+      ({ attachment }) => attachment,
+    );
 
     submitEditMessage({
       text: refferedText.current,
@@ -161,11 +170,14 @@ export const CreateMessageInput = React.memo(() => {
     const text = refferedText.current;
 
     if (
-      (text.trim().length > 0 || (updatedSelectedChat.current?.attachmentsToSend?.length || 0) > 0)
-      && updatedSelectedChat.current
-      && currentUser
+      (text.trim().length > 0 ||
+        (updatedSelectedChat.current?.attachmentsToSend?.length || 0) > 0) &&
+      updatedSelectedChat.current &&
+      currentUser
     ) {
-      const attachments = updatedSelectedChat.current?.attachmentsToSend?.map(({ attachment }) => attachment);
+      const attachments = updatedSelectedChat.current?.attachmentsToSend?.map(
+        ({ attachment }) => attachment,
+      );
 
       if (chatId) {
         const message: IMessage = {
@@ -321,11 +333,20 @@ export const CreateMessageInput = React.memo(() => {
 
   const removeAllAttachments = useCallback(() => {
     if (selectedChat?.attachmentsToSend?.length! > 0) {
-      removeAllAttachmentsToSend({ ids: selectedChat?.attachmentsToSend?.map(({ attachment }) => attachment.id)! });
+      removeAllAttachmentsToSend({
+        ids: selectedChat?.attachmentsToSend?.map(({ attachment }) => attachment.id)!,
+      });
     }
 
-    setRemovedAttachments(() => editingMessage?.attachments?.map(({ id, type }) => ({ id, type })) || []);
-  }, [setRemovedAttachments, editingMessage, removeAllAttachmentsToSend, selectedChat?.attachmentsToSend]);
+    setRemovedAttachments(
+      () => editingMessage?.attachments?.map(({ id, type }) => ({ id, type })) || [],
+    );
+  }, [
+    setRemovedAttachments,
+    editingMessage,
+    removeAllAttachmentsToSend,
+    selectedChat?.attachmentsToSend,
+  ]);
 
   const cancelRecording = useCallback(() => {
     Mousetrap.unbind('esc');
@@ -432,7 +453,12 @@ export const CreateMessageInput = React.memo(() => {
   );
 
   return (
-    <div className="message-input" onDrop={onDrop} onDragOver={onDragOver} onDragEnter={onDragEnter} onDragLeave={onDragLeave}>
+    <div
+      className="message-input"
+      onDrop={onDrop}
+      onDragOver={onDragOver}
+      onDragEnter={onDragEnter}
+      onDragLeave={onDragLeave}>
       {(editingMessageAttachments?.length! > 0 || selectedChat?.attachmentsToSend?.length! > 0) && (
         <div className="message-input__attachments-box">
           <div className="message-input__attachments-box__container">
@@ -448,14 +474,20 @@ export const CreateMessageInput = React.memo(() => {
               <MessageInputAttachment attachment={attachment} key={attachment.attachment.id} />
             ))}
           </div>
-          <button onClick={removeAllAttachments} type="button" className="message-input__attachments-box__delete-all">
+          <button
+            onClick={removeAllAttachments}
+            type="button"
+            className="message-input__attachments-box__delete-all">
             <CloseSvg viewBox="0 0 24 24" />
           </button>
         </div>
       )}
 
       {(isDragging || isDraggingOver) && (
-        <div className={`message-input__drag ${isDraggingOver ? 'message-input__drag--active' : ''}`}>Drop files here to send them</div>
+        <div
+          className={`message-input__drag ${isDraggingOver ? 'message-input__drag--active' : ''}`}>
+          Drop files here to send them
+        </div>
       )}
       {selectedChat && !(isDragging || isDraggingOver) && (
         <>
@@ -477,7 +509,9 @@ export const CreateMessageInput = React.memo(() => {
             {isRecording && (
               <>
                 <div className="message-input__red-dot" />
-                <div className="message-input__counter">{moment.utc(recordedSeconds * 1000).format('mm:ss')}</div>
+                <div className="message-input__counter">
+                  {moment.utc(recordedSeconds * 1000).format('mm:ss')}
+                </div>
               </>
             )}
 
@@ -493,7 +527,11 @@ export const CreateMessageInput = React.memo(() => {
               />
             )}
 
-            {isRecording && <div className="message-input__recording-info">Release outside this field to cancel</div>}
+            {isRecording && (
+              <div className="message-input__recording-info">
+                Release outside this field to cancel
+              </div>
+            )}
 
             <div className="message-input__right-btns">
               {!isRecording && (
@@ -502,12 +540,19 @@ export const CreateMessageInput = React.memo(() => {
                 </Suspense>
               )}
 
-              <button type="button" onClick={handleRegisterAudioBtnClick} ref={registerAudioBtnRef} className="message-input__voice-btn">
+              <button
+                type="button"
+                onClick={handleRegisterAudioBtnClick}
+                ref={registerAudioBtnRef}
+                className="message-input__voice-btn">
                 <VoiceSvg viewBox="0 0 20 24" />
               </button>
 
               {!isRecording && (
-                <button type="button" onClick={sendMessageToServer} className="message-input__send-btn">
+                <button
+                  type="button"
+                  onClick={sendMessageToServer}
+                  className="message-input__send-btn">
                   <SendSvg />
                 </button>
               )}

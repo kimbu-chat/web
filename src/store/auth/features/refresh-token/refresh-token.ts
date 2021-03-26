@@ -31,7 +31,9 @@ export class RefreshToken {
 
       try {
         const { httpRequest } = RefreshToken;
-        const { data } = httpRequest.call(yield call(() => httpRequest.generator({ refreshToken })));
+        const { data } = httpRequest.call(
+          yield call(() => httpRequest.generator({ refreshToken })),
+        );
         yield put(RefreshTokenSuccess.action(data));
       } catch (e) {
         yield put(RefreshTokenFailure.action());

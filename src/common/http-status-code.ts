@@ -23,16 +23,16 @@ export enum HTTPStatusCode {
   /**
    * All `2xx` status codes.
    */
-  Success = OK
-    | Created
-    | Accepted
-    | NonAuthoritativeInformation
-    | NoContent
-    | ResetContent
-    | PartialContent
-    | MultiStatus
-    | AlreadyReported
-    | IMUsed,
+  Success = OK |
+    Created |
+    Accepted |
+    NonAuthoritativeInformation |
+    NoContent |
+    ResetContent |
+    PartialContent |
+    MultiStatus |
+    AlreadyReported |
+    IMUsed,
 
   MultipleChoices = 300,
   MovedPermanently = 301,
@@ -47,15 +47,15 @@ export enum HTTPStatusCode {
   /**
    * All `3xx` status codes.
    */
-  Redirection = MultipleChoices
-    | MovedPermanently
-    | Found
-    | SeeOther
-    | NotModified
-    | UseProxy
-    | SwitchProxy
-    | TemporaryRedirect
-    | PermanentRedirect,
+  Redirection = MultipleChoices |
+    MovedPermanently |
+    Found |
+    SeeOther |
+    NotModified |
+    UseProxy |
+    SwitchProxy |
+    TemporaryRedirect |
+    PermanentRedirect,
 
   BadRequest = 400,
   Unauthorized = 401,
@@ -89,34 +89,34 @@ export enum HTTPStatusCode {
   /**
    * All `4xx` error codes.
    */
-  ClientErrors = BadRequest
-    | Unauthorized
-    | PaymentRequired
-    | Forbidden
-    | NotFound
-    | MethodNotAllowed
-    | NotAcceptable
-    | ProxyAuthenticationRequired
-    | RequestTimeout
-    | Conflict
-    | Gone
-    | LengthRequired
-    | PreconditionFailed
-    | PayloadTooLarge
-    | URITooLong
-    | UnsupportedMediaType
-    | RangeNotSatisfiable
-    | ExpectationFailed
-    | ImATeapot
-    | MisdirectedRequest
-    | UnprocessableEntity
-    | Locked
-    | FailedDependency
-    | UpgradeRequired
-    | PreconditionRequired
-    | TooManyRequests
-    | RequestHeaderFieldsTooLarge
-    | UnavailableForLegalReasons,
+  ClientErrors = BadRequest |
+    Unauthorized |
+    PaymentRequired |
+    Forbidden |
+    NotFound |
+    MethodNotAllowed |
+    NotAcceptable |
+    ProxyAuthenticationRequired |
+    RequestTimeout |
+    Conflict |
+    Gone |
+    LengthRequired |
+    PreconditionFailed |
+    PayloadTooLarge |
+    URITooLong |
+    UnsupportedMediaType |
+    RangeNotSatisfiable |
+    ExpectationFailed |
+    ImATeapot |
+    MisdirectedRequest |
+    UnprocessableEntity |
+    Locked |
+    FailedDependency |
+    UpgradeRequired |
+    PreconditionRequired |
+    TooManyRequests |
+    RequestHeaderFieldsTooLarge |
+    UnavailableForLegalReasons,
 
   InternalServerError = 500,
   NotImplemented = 501,
@@ -133,15 +133,15 @@ export enum HTTPStatusCode {
   /**
    * All `5xx` error codes.
    */
-  ServerErrors = InternalServerError
-    | NotImplemented
-    | BadGateway
-    | ServiceUnavailable
-    | GatewayTimeout
-    | HTTPVersionNotSupported
-    | VariantAlsoNegotiates
-    | InsufficientStorage
-    | LoopDetected
-    | NotExtended
-    | NetworkAuthenticationRequired,
+  ServerErrors = InternalServerError |
+    NotImplemented |
+    BadGateway |
+    ServiceUnavailable |
+    GatewayTimeout |
+    HTTPVersionNotSupported |
+    VariantAlsoNegotiates |
+    InsufficientStorage |
+    LoopDetected |
+    NotExtended |
+    NetworkAuthenticationRequired,
 }

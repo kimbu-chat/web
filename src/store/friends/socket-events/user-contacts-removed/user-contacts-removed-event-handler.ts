@@ -9,12 +9,17 @@ export class UserContactsRemovedEventHandler {
   }
 
   static get reducer() {
-    return produce((draft: IFriendsState, { payload }: ReturnType<typeof UserContactsRemovedEventHandler.action>) => {
-      const { removedUserIds } = payload;
+    return produce(
+      (
+        draft: IFriendsState,
+        { payload }: ReturnType<typeof UserContactsRemovedEventHandler.action>,
+      ) => {
+        const { removedUserIds } = payload;
 
-      draft.friends = draft.friends.filter(({ id }) => !removedUserIds.includes(id));
+        draft.friends = draft.friends.filter(({ id }) => !removedUserIds.includes(id));
 
-      return draft;
-    });
+        return draft;
+      },
+    );
   }
 }

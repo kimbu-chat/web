@@ -12,7 +12,12 @@ import {
   getSelectedChatIdSelector,
   getSelectedChatUnreadMessagesCountSelector,
 } from '@store/chats/selectors';
-import { FadeAnimationWrapper, InfiniteScroll, SelectedMessagesData, MessageItem } from '@components';
+import {
+  FadeAnimationWrapper,
+  InfiniteScroll,
+  SelectedMessagesData,
+  MessageItem,
+} from '@components';
 
 import { MESSAGES_LIMIT } from '@utils/pagination-limits';
 
@@ -77,7 +82,11 @@ const MessageList = React.memo(() => {
           <SelectedMessagesData />
         </FadeAnimationWrapper>
 
-        <InfiniteScroll onReachExtreme={loadMore} hasMore={hasMoreMessages} isLoading={areMessagesLoading} isReverse>
+        <InfiniteScroll
+          onReachExtreme={loadMore}
+          hasMore={hasMoreMessages}
+          isLoading={areMessagesLoading}
+          isReverse>
           {separatedItemsWithUserInfo.map((msg: IMessage) => (
             <MessageItem message={msg} key={msg.id} />
           ))}

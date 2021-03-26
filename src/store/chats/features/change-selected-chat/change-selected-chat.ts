@@ -4,7 +4,11 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, select, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
-import { getChatByIdSelector, getChatByIdDraftSelector, getIsFirstChatsLoadSelector } from '../../selectors';
+import {
+  getChatByIdSelector,
+  getChatByIdDraftSelector,
+  getIsFirstChatsLoadSelector,
+} from '../../selectors';
 import { getFriendByIdSelector } from '../../../friends/selectors';
 import { IUser } from '../../../common/models';
 import { MESSAGES_LIMIT } from '../../../../utils/pagination-limits';
@@ -23,34 +27,41 @@ export class ChangeSelectedChat {
   }
 
   static get reducer() {
-    return produce((draft: IChatsState, { payload }: ReturnType<typeof ChangeSelectedChat.action>) => {
-      const { oldChatId, newChatId } = payload;
+    return produce(
+      (draft: IChatsState, { payload }: ReturnType<typeof ChangeSelectedChat.action>) => {
+        const { oldChatId, newChatId } = payload;
 
-      draft.isInfoOpened = false;
+        draft.isInfoOpened = false;
 
-      draft.selectedChatId = newChatId;
+        draft.selectedChatId = newChatId;
 
-      if (oldChatId) {
-        const chat = getChatByIdDraftSelector(oldChatId, draft);
+        if (oldChatId) {
+          const chat = getChatByIdDraftSelector(oldChatId, draft);
 
-        if (chat && draft.messages[oldChatId]?.messages.length > MESSAGES_LIMIT) {
-          draft.messages[oldChatId].messages = draft.messages[oldChatId].messages.slice(0, 30);
-          draft.messages[oldChatId].hasMore = true;
+          if (chat && draft.messages[oldChatId]?.messages.length > MESSAGES_LIMIT) {
+            draft.messages[oldChatId].messages = draft.messages[oldChatId].messages.slice(0, 30);
+            draft.messages[oldChatId].hasMore = true;
+          }
+
+          if (chat && draft.selectedMessageIds.length > 0) {
+            draft.messages[oldChatId].messages.map((message) => ({
+              ...message,
+              isSelected: false,
+            }));
+          }
         }
 
-        if (chat && draft.selectedMessageIds.length > 0) {
-          draft.messages[oldChatId].messages.map((message) => ({ ...message, isSelected: false }));
-        }
-      }
+        draft.selectedMessageIds = [];
 
-      draft.selectedMessageIds = [];
-
-      return draft;
-    });
+        return draft;
+      },
+    );
   }
 
   static get saga() {
-    return function* changeSelectedChatSaga(action: ReturnType<typeof ChangeSelectedChat.action>): SagaIterator {
+    return function* changeSelectedChatSaga(
+      action: ReturnType<typeof ChangeSelectedChat.action>,
+    ): SagaIterator {
       if (action.payload.newChatId !== null && !Number.isNaN(action.payload.newChatId)) {
         const isFirstChatsLoad = yield select(getIsFirstChatsLoadSelector);
 
@@ -58,22 +69,33 @@ export class ChangeSelectedChat {
           yield take(GetChatsSuccess.action);
         }
 
-        const chatExists = (yield select(getChatByIdSelector(action.payload.newChatId))) !== undefined;
+        const chatExists =
+          (yield select(getChatByIdSelector(action.payload.newChatId))) !== undefined;
 
         if (!chatExists) {
-          const chatIdDetails = action.payload.newChatId ? ChatId.fromId(action.payload.newChatId) : null;
+          const chatIdDetails = action.payload.newChatId
+            ? ChatId.fromId(action.payload.newChatId)
+            : null;
 
           let data: IChat | null = null;
           let user: IUser | null = null;
 
           try {
             data = ChangeSelectedChat.httpRequest.getChat.call(
-              yield call(() => ChangeSelectedChat.httpRequest.getChat.generator({ chatId: action.payload.newChatId as number })),
+              yield call(() =>
+                ChangeSelectedChat.httpRequest.getChat.generator({
+                  chatId: action.payload.newChatId as number,
+                }),
+              ),
             ).data;
           } catch {
             if (chatIdDetails?.interlocutorType === InterlocutorType.User) {
               user = ChangeSelectedChat.httpRequest.getUser.call(
-                yield call(() => ChangeSelectedChat.httpRequest.getUser.generator({ userId: chatIdDetails?.userId as number })),
+                yield call(() =>
+                  ChangeSelectedChat.httpRequest.getUser.generator({
+                    userId: chatIdDetails?.userId as number,
+                  }),
+                ),
               ).data;
             }
           }
@@ -83,9 +105,11 @@ export class ChangeSelectedChat {
               const chat = data as IChat;
 
               if (chat.lastMessage) {
-                chat.lastMessage.state = chat.interlocutorLastReadMessageId && chat.interlocutorLastReadMessageId >= Number(chat?.lastMessage?.id)
-                  ? MessageState.READ
-                  : MessageState.SENT;
+                chat.lastMessage.state =
+                  chat.interlocutorLastReadMessageId &&
+                  chat.interlocutorLastReadMessageId >= Number(chat?.lastMessage?.id)
+                    ? MessageState.READ
+                    : MessageState.SENT;
               }
 
               chat.interlocutorType = ChatId.fromId(chat.id).interlocutorType;
@@ -155,10 +179,12 @@ export class ChangeSelectedChat {
               };
 
               if (requestedChat.lastMessage) {
-                requestedChat.lastMessage.state = requestedChat.interlocutorLastReadMessageId
-                  && requestedChat.interlocutorLastReadMessageId >= Number(requestedChat?.lastMessage?.id)
-                  ? MessageState.READ
-                  : MessageState.SENT;
+                requestedChat.lastMessage.state =
+                  requestedChat.interlocutorLastReadMessageId &&
+                  requestedChat.interlocutorLastReadMessageId >=
+                    Number(requestedChat?.lastMessage?.id)
+                    ? MessageState.READ
+                    : MessageState.SENT;
               }
 
               yield put(UnshiftChat.action(requestedChat));
@@ -176,7 +202,8 @@ export class ChangeSelectedChat {
         HttpRequestMethod.Get,
       ),
       getUser: httpRequestFactory<AxiosResponse<IUser>, IGetUserByIdApiRequest>(
-        ({ userId }: IGetUserByIdApiRequest) => `${process.env.MAIN_API}/api/users/${userId.toString()}`,
+        ({ userId }: IGetUserByIdApiRequest) =>
+          `${process.env.MAIN_API}/api/users/${userId.toString()}`,
         HttpRequestMethod.Get,
       ),
     };

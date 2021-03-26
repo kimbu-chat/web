@@ -32,12 +32,26 @@ function generateDownload(image?: HTMLImageElement, crop?: ReactCrop.Crop): stri
   canvas.height = crop.height!;
   const ctx = canvas.getContext('2d');
 
-  ctx!.drawImage(image, crop.x! * scaleX, crop.y! * scaleY, crop.width! * scaleX, crop.height! * scaleY, 0, 0, crop.width!, crop.height!);
+  ctx!.drawImage(
+    image,
+    crop.x! * scaleX,
+    crop.y! * scaleY,
+    crop.width! * scaleX,
+    crop.height! * scaleY,
+    0,
+    0,
+    crop.width!,
+    crop.height!,
+  );
 
   return canvas.toDataURL('image/png');
 }
 
-export const PhotoEditor: React.FC<IPhotoEditorProps> = ({ imageUrl, onSubmit, hideChangePhoto }) => {
+export const PhotoEditor: React.FC<IPhotoEditorProps> = ({
+  imageUrl,
+  onSubmit,
+  hideChangePhoto,
+}) => {
   const { t } = useContext(LocalizationContext);
 
   const imgRef = useRef<HTMLImageElement>();
@@ -111,15 +125,15 @@ export const PhotoEditor: React.FC<IPhotoEditorProps> = ({ imageUrl, onSubmit, h
   return (
     <WithBackground onBackgroundClick={hideChangePhoto}>
       <Modal
-        title={(
+        title={
           <>
             <PhotoSvg viewBox="0 0 18 19" className="photo-editor__icon" />
 
             <span> {t('changePhoto.title')} </span>
           </>
-        )}
+        }
         closeModal={hideChangePhoto}
-        content={(
+        content={
           <div className="photo-editor">
             <div className="photo-editor__crop-container">
               <ReactCrop
@@ -149,12 +163,18 @@ export const PhotoEditor: React.FC<IPhotoEditorProps> = ({ imageUrl, onSubmit, h
               </button>
             </div>
           </div>
-        )}
+        }
         buttons={[
-          <button type="button" className="photo-editor__btn photo-editor__btn--cancel" onClick={hideChangePhoto}>
+          <button
+            type="button"
+            className="photo-editor__btn photo-editor__btn--cancel"
+            onClick={hideChangePhoto}>
             {t('changePhoto.reject')}
           </button>,
-          <button type="button" className="photo-editor__btn photo-editor__btn--confirm" onClick={submitChange}>
+          <button
+            type="button"
+            className="photo-editor__btn photo-editor__btn--confirm"
+            onClick={submitChange}>
             {t('changePhoto.confirm')}
           </button>,
         ]}

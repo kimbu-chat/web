@@ -35,6 +35,9 @@ export class DeclineCall {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse>(`${process.env.MAIN_API}/api/calls/decline-call`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse>(
+      `${process.env.MAIN_API}/api/calls/decline-call`,
+      HttpRequestMethod.Post,
+    );
   }
 }

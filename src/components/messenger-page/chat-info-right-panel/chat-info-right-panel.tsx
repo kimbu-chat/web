@@ -4,7 +4,13 @@ import { useSelector } from 'react-redux';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getSelectedChatSelector } from '@store/chats/selectors';
-import { Avatar, PhotoEditor, FadeAnimationWrapper, GroupChatAddFriendModal, MediaModal } from '@components';
+import {
+  Avatar,
+  PhotoEditor,
+  FadeAnimationWrapper,
+  GroupChatAddFriendModal,
+  MediaModal,
+} from '@components';
 
 import PhotoSvg from '@icons/ic-photo.svg';
 
@@ -37,8 +43,12 @@ const ChatInfoRightPanel: React.FC = React.memo(() => {
   const [imageUrl, setImageUrl] = useState<string>('');
 
   const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
-  const displayChangePhoto = useCallback(() => setChangePhotoDisplayed(true), [setChangePhotoDisplayed]);
-  const hideChangePhoto = useCallback(() => setChangePhotoDisplayed(false), [setChangePhotoDisplayed]);
+  const displayChangePhoto = useCallback(() => setChangePhotoDisplayed(true), [
+    setChangePhotoDisplayed,
+  ]);
+  const hideChangePhoto = useCallback(() => setChangePhotoDisplayed(false), [
+    setChangePhotoDisplayed,
+  ]);
 
   const [isAvatarMaximized, setIsAvatarMaximized] = useState(false);
 
@@ -112,20 +122,33 @@ const ChatInfoRightPanel: React.FC = React.memo(() => {
       <>
         <div className="chat-info">
           {selectedChat?.interlocutor ? (
-            <Avatar onClick={changeIsAvatarMaximizedState} className="chat-info__avatar" src={getChatAvatar()}>
+            <Avatar
+              onClick={changeIsAvatarMaximizedState}
+              className="chat-info__avatar"
+              src={getChatAvatar()}>
               {getInterlocutorInitials(selectedChat)}
             </Avatar>
           ) : (
             <div className="chat-info__avatar-group">
-              <input onChange={handleImageChange} ref={fileInputRef} type="file" hidden accept="image/*" />
+              <input
+                onChange={handleImageChange}
+                ref={fileInputRef}
+                type="file"
+                hidden
+                accept="image/*"
+              />
 
-              <Avatar onClick={changeIsAvatarMaximizedState} className="chat-info__avatar" src={getChatAvatar()}>
+              <Avatar
+                onClick={changeIsAvatarMaximizedState}
+                className="chat-info__avatar"
+                src={getChatAvatar()}>
                 {getInterlocutorInitials(selectedChat)}
               </Avatar>
               <div
                 onClick={() => fileInputRef.current?.click()}
-                className={getChatAvatar() ? 'change-avatar change-avatar--hidden' : 'change-avatar'}
-              >
+                className={
+                  getChatAvatar() ? 'change-avatar change-avatar--hidden' : 'change-avatar'
+                }>
                 <PhotoSvg className="change-avatar__svg" viewBox="0 0 25 25" />
               </div>
             </div>
@@ -152,7 +175,13 @@ const ChatInfoRightPanel: React.FC = React.memo(() => {
           />
         </FadeAnimationWrapper>
 
-        {changePhotoDisplayed && <PhotoEditor hideChangePhoto={hideChangePhoto} imageUrl={imageUrl} onSubmit={changeAvatar} />}
+        {changePhotoDisplayed && (
+          <PhotoEditor
+            hideChangePhoto={hideChangePhoto}
+            imageUrl={imageUrl}
+            onSubmit={changeAvatar}
+          />
+        )}
       </>
     );
   }

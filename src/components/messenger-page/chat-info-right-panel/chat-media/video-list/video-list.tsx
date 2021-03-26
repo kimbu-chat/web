@@ -39,8 +39,7 @@ export const VideoList = React.memo(() => {
         className="chat-video__video-container"
         onReachExtreme={loadMore}
         hasMore={videosForSelectedChat?.hasMore}
-        isLoading={videosForSelectedChat?.loading}
-      >
+        isLoading={videosForSelectedChat?.loading}>
         {videosWithSeparators?.map((video) => (
           <VideoFromList attachmentsArr={videosWithSeparators} key={video.id} video={video} />
         ))}

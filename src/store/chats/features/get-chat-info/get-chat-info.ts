@@ -18,7 +18,9 @@ export class GetChatInfo {
     return function* getChatInfoSaga(): SagaIterator {
       const chatId = yield select(getSelectedChatIdSelector);
 
-      const { data, status } = GetChatInfo.httpRequest.call(yield call(() => GetChatInfo.httpRequest.generator({ chatId })));
+      const { data, status } = GetChatInfo.httpRequest.call(
+        yield call(() => GetChatInfo.httpRequest.generator({ chatId })),
+      );
 
       if (status === HTTPStatusCode.OK) {
         yield put(GetChatInfoSuccess.action({ ...data, chatId }));

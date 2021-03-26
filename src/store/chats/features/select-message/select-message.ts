@@ -17,14 +17,17 @@ export class SelectMessage {
         const message = getMessageDraftSelector(draft.selectedChatId, messageId, draft);
 
         if (message) {
-          const isMessageSelected = draft.selectedMessageIds.includes(message.id as number) && message.isSelected;
+          const isMessageSelected =
+            draft.selectedMessageIds.includes(message.id as number) && message.isSelected;
 
           if (!isMessageSelected) {
             message.isSelected = true;
             draft.selectedMessageIds.push(payload.messageId);
           } else {
             message.isSelected = false;
-            draft.selectedMessageIds = draft.selectedMessageIds.filter((id) => id !== payload.messageId);
+            draft.selectedMessageIds = draft.selectedMessageIds.filter(
+              (id) => id !== payload.messageId,
+            );
           }
         }
       }

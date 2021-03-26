@@ -10,17 +10,19 @@ export class CreateGroupChatSuccess {
   }
 
   static get reducer() {
-    return produce((draft: IChatsState, { payload }: ReturnType<typeof CreateGroupChatSuccess.action>) => {
-      const newChat = payload;
+    return produce(
+      (draft: IChatsState, { payload }: ReturnType<typeof CreateGroupChatSuccess.action>) => {
+        const newChat = payload;
 
-      const isChatExists: boolean = getChatExistsDraftSelector(newChat.id, draft);
+        const isChatExists: boolean = getChatExistsDraftSelector(newChat.id, draft);
 
-      if (!isChatExists) {
-        draft.chats.unshift(newChat);
+        if (!isChatExists) {
+          draft.chats.unshift(newChat);
+          return draft;
+        }
+
         return draft;
-      }
-
-      return draft;
-    });
+      },
+    );
   }
 }

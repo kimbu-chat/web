@@ -9,13 +9,20 @@ import { ICheckNicknameAvailabilityApiRequest } from './api-requests/check-nickn
 
 export class CheckNicknameAvailability {
   static get action() {
-    return createAction('CHECK_NICKNAME_AVAILABILITY')<ICheckNicknameAvailabilityActionPayload, Meta>();
+    return createAction('CHECK_NICKNAME_AVAILABILITY')<
+      ICheckNicknameAvailabilityActionPayload,
+      Meta
+    >();
   }
 
   static get saga() {
-    return function* checkNicknameAvailability(action: ReturnType<typeof CheckNicknameAvailability.action>): SagaIterator {
+    return function* checkNicknameAvailability(
+      action: ReturnType<typeof CheckNicknameAvailability.action>,
+    ): SagaIterator {
       const { httpRequest } = CheckNicknameAvailability;
-      const { data } = httpRequest.call(yield call(() => httpRequest.generator({ nickname: action.payload.nickname })));
+      const { data } = httpRequest.call(
+        yield call(() => httpRequest.generator({ nickname: action.payload.nickname })),
+      );
 
       action.meta.deferred?.resolve({ isAvailable: data });
     };

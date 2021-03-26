@@ -13,14 +13,18 @@ export class ChangeTypingStrategy {
   }
 
   static get reducer() {
-    return produce((draft: IUserSettings, { payload }: ReturnType<typeof ChangeTypingStrategy.action>) => {
-      draft.typingStrategy = payload.strategy;
-      return draft;
-    });
+    return produce(
+      (draft: IUserSettings, { payload }: ReturnType<typeof ChangeTypingStrategy.action>) => {
+        draft.typingStrategy = payload.strategy;
+        return draft;
+      },
+    );
   }
 
   static get saga() {
-    return function* changeTypingStrategy(action: ReturnType<typeof ChangeTypingStrategy.action>): SagaIterator {
+    return function* changeTypingStrategy(
+      action: ReturnType<typeof ChangeTypingStrategy.action>,
+    ): SagaIterator {
       const settingsService = new SettingsService();
       settingsService.initializeOrUpdate({
         typingStrategy: action.payload.strategy,

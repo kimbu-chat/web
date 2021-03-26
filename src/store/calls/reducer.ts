@@ -70,7 +70,10 @@ const calls = createReducer<ICallsState>(initialState)
 
   // socket-events
   .handleAction(IncomingCallEventHandler.action, IncomingCallEventHandler.reducer)
-  .handleAction(InterlocutorAcceptedCallEventHandler.action, InterlocutorAcceptedCallEventHandler.reducer)
+  .handleAction(
+    InterlocutorAcceptedCallEventHandler.action,
+    InterlocutorAcceptedCallEventHandler.reducer,
+  )
   .handleAction(UserEditedEventHandler.action, UserEditedEventHandler.reducer)
   .handleAction(RenegotiationSentEventHandler.action, RenegotiationSentEventHandler.reducer)
   .handleAction(CallEndedEventHandlerSuccess.action, CallEndedEventHandlerSuccess.reducer);

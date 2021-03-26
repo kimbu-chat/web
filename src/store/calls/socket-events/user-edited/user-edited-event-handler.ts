@@ -9,31 +9,41 @@ export class UserEditedEventHandler {
   }
 
   static get reducer() {
-    return produce((draft: ICallsState, { payload }: ReturnType<typeof UserEditedEventHandler.action>) => {
-      const { userId, firstName, lastName, nickname, avatarId, avatarUrl, avatarPreviewUrl } = payload;
+    return produce(
+      (draft: ICallsState, { payload }: ReturnType<typeof UserEditedEventHandler.action>) => {
+        const {
+          userId,
+          firstName,
+          lastName,
+          nickname,
+          avatarId,
+          avatarUrl,
+          avatarPreviewUrl,
+        } = payload;
 
-      draft.calls.calls = draft.calls.calls.map((call) => {
-        if (call.userInterlocutor.id === userId) {
-          return {
-            ...call,
-            userInterlocutor: {
-              ...call.userInterlocutor,
-              firstName,
-              lastName,
-              nickname,
-              avatar: {
-                id: avatarId,
-                url: avatarUrl,
-                previewUrl: avatarPreviewUrl,
+        draft.calls.calls = draft.calls.calls.map((call) => {
+          if (call.userInterlocutor.id === userId) {
+            return {
+              ...call,
+              userInterlocutor: {
+                ...call.userInterlocutor,
+                firstName,
+                lastName,
+                nickname,
+                avatar: {
+                  id: avatarId,
+                  url: avatarUrl,
+                  previewUrl: avatarPreviewUrl,
+                },
               },
-            },
-          };
-        }
+            };
+          }
 
-        return call;
-      });
+          return call;
+        });
 
-      return draft;
-    });
+        return draft;
+      },
+    );
   }
 }

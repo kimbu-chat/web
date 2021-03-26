@@ -27,7 +27,10 @@ export const CallItem: React.FC<ICallItem> = ({ call }) => {
 
   return (
     <div className="call-from-list">
-      <StatusBadge containerClassName="call-from-list__interlocutor-avatar" user={call.userInterlocutor} />
+      <StatusBadge
+        containerClassName="call-from-list__interlocutor-avatar"
+        user={call.userInterlocutor}
+      />
       <div className="call-from-list__data">
         <div className={`call-from-list__name ${missedByMe ? 'call-from-list__name--missed' : ''}`}>
           {`${call.userInterlocutor.firstName} ${call.userInterlocutor.lastName}`}
@@ -37,24 +40,40 @@ export const CallItem: React.FC<ICallItem> = ({ call }) => {
 
           {call.status === CallStatus.Declined && t('callFromList.declined')}
 
-          {call.status === CallStatus.Ended
-            && !isOutgoing
-            && t('callFromList.incoming', { duration: moment.utc(call.duration! * 1000).format('HH:mm:ss') })}
+          {call.status === CallStatus.Ended &&
+            !isOutgoing &&
+            t('callFromList.incoming', {
+              duration: moment.utc(call.duration! * 1000).format('HH:mm:ss'),
+            })}
 
-          {call.status === CallStatus.Ended
-            && isOutgoing
-            && t('callFromList.outgoing', { duration: moment.utc(call.duration! * 1000).format('HH:mm:ss') })}
+          {call.status === CallStatus.Ended &&
+            isOutgoing &&
+            t('callFromList.outgoing', {
+              duration: moment.utc(call.duration! * 1000).format('HH:mm:ss'),
+            })}
 
-          {call.status === CallStatus.NotAnswered && (isOutgoing ? t('callFromList.missed') : t('callFromList.notAnswered'))}
+          {call.status === CallStatus.NotAnswered &&
+            (isOutgoing ? t('callFromList.missed') : t('callFromList.notAnswered'))}
         </div>
       </div>
       <div className="call-from-list__aside-data">
         <div className="call-from-list__date">02:34 am</div>
-        <div className={`call-from-list__type-icon ${missedByMe ? 'call-from-list__type-icon--missed' : ''}`}>
-          {call.status === CallStatus.Ended
-            && (isOutgoing ? <OutgoingCallSvg viewBox="0 0 11 12" /> : <IncomingCallSvg viewBox="0 0 12 12" />)}
-          {(call.status === CallStatus.Declined || call.status === CallStatus.Cancelled) && <DeclinedCallSvg viewBox="0 0 13 14" />}
-          {(call.status === CallStatus.NotAnswered || call.status === CallStatus.Interrupted) && <MissedCallSvg viewBox="0 0 12 12" />}
+        <div
+          className={`call-from-list__type-icon ${
+            missedByMe ? 'call-from-list__type-icon--missed' : ''
+          }`}>
+          {call.status === CallStatus.Ended &&
+            (isOutgoing ? (
+              <OutgoingCallSvg viewBox="0 0 11 12" />
+            ) : (
+              <IncomingCallSvg viewBox="0 0 12 12" />
+            ))}
+          {(call.status === CallStatus.Declined || call.status === CallStatus.Cancelled) && (
+            <DeclinedCallSvg viewBox="0 0 13 14" />
+          )}
+          {(call.status === CallStatus.NotAnswered || call.status === CallStatus.Interrupted) && (
+            <MissedCallSvg viewBox="0 0 12 12" />
+          )}
         </div>
       </div>
     </div>

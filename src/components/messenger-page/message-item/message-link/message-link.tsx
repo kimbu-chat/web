@@ -88,7 +88,9 @@ const MessageLink: React.FC<IMessageLinkProps> = React.memo(({ linkedMessage }) 
       </Avatar>
 
       <div className="message-link__text">
-        <span>{linkedMessage?.isDeleted ? t('message-link.message-deleted') : linkedMessage?.text}</span>
+        <span>
+          {linkedMessage?.isDeleted ? t('message-link.message-deleted') : linkedMessage?.text}
+        </span>
 
         <div className="message-link__attachments">
           {structuredAttachments?.files.map((file) => (
@@ -100,7 +102,9 @@ const MessageLink: React.FC<IMessageLinkProps> = React.memo(({ linkedMessage }) 
           {structuredAttachments?.audios.map((audio) => (
             <MessageAudioAttachment key={audio.id} attachment={audio} />
           ))}
-          {(structuredAttachments?.media.length || 0) > 0 && <MediaGrid media={structuredAttachments!.media} />}
+          {(structuredAttachments?.media.length || 0) > 0 && (
+            <MediaGrid media={structuredAttachments!.media} />
+          )}
         </div>
       </div>
     </div>

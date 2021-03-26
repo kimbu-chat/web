@@ -35,6 +35,9 @@ export const CallsSagas = [
   takeEvery(RenegotiationSentEventHandler.action, RenegotiationSentEventHandler.saga),
   takeLatest(CallEndedEventHandler.action, CallEndedEventHandler.saga),
   takeEvery(RenegotiationAcceptedEventHandler.action, RenegotiationAcceptedEventHandler.saga),
-  takeLatest(InterlocutorAcceptedCallEventHandler.action, InterlocutorAcceptedCallEventHandler.saga),
+  takeLatest(
+    InterlocutorAcceptedCallEventHandler.action,
+    InterlocutorAcceptedCallEventHandler.saga,
+  ),
   takeEvery(IceCandidateSentEventHandler.action, IceCandidateSentEventHandler.saga),
 ];

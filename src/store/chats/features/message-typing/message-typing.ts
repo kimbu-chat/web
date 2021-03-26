@@ -32,7 +32,9 @@ export class MessageTyping {
   }
 
   static get saga() {
-    return function* messageTypingSaga({ payload }: ReturnType<typeof MessageTyping.action>): SagaIterator {
+    return function* messageTypingSaga({
+      payload,
+    }: ReturnType<typeof MessageTyping.action>): SagaIterator {
       const { text } = payload;
       const chatId = yield select(getSelectedChatIdSelector);
       const interlocutorName = yield select(myFullNameSelector);

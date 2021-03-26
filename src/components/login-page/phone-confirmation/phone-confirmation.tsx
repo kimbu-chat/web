@@ -1,6 +1,12 @@
 import React, { useCallback, useContext, useState, useRef, useEffect, lazy, Suspense } from 'react';
 import './phone-confirmation.scss';
-import { CountrySelect, PhoneInput, BaseBtn, WithBackground, FadeAnimationWrapper } from '@components';
+import {
+  CountrySelect,
+  PhoneInput,
+  BaseBtn,
+  WithBackground,
+  FadeAnimationWrapper,
+} from '@components';
 import { countryList } from '@common/countries';
 import { ICountry } from '@common/country';
 import { LocalizationContext } from '@contexts';
@@ -28,7 +34,10 @@ const PhoneConfirmation: React.FC<IPhoneConfirmationProps> = ({ preloadNext }) =
 
   const [country, setCountry] = useState<ICountry>(countryList[countryList.length - 1]);
   const [phone, setPhone] = useState<string>('');
-  const [countrySelectRef, setCountrySelectRef] = useState<React.RefObject<HTMLInputElement> | null>(null);
+  const [
+    countrySelectRef,
+    setCountrySelectRef,
+  ] = useState<React.RefObject<HTMLInputElement> | null>(null);
   const [policyDisplayed, setPolicyDisplayed] = useState(false);
 
   const phoneInputRef = useRef<HTMLInputElement>(null);
@@ -37,7 +46,10 @@ const PhoneConfirmation: React.FC<IPhoneConfirmationProps> = ({ preloadNext }) =
   const sendSms = useCallback(() => {
     const phoneNumber = parsePhoneNumberFromString(phone);
     if (phoneNumber?.isValid()) {
-      sendSmsCode({ phoneNumber: phoneNumber.number as string, twoLetterCountryCode: country.code }).then(() => {
+      sendSmsCode({
+        phoneNumber: phoneNumber.number as string,
+        twoLetterCountryCode: country.code,
+      }).then(() => {
         history.push('/confirm-code');
       });
     }
@@ -112,7 +124,11 @@ const PhoneConfirmation: React.FC<IPhoneConfirmationProps> = ({ preloadNext }) =
             </>
           )}
           <div className="phone-confirmation__credentials">
-            <CountrySelect setRef={setCountrySelectRef} country={country} handleCountryChange={handleCountryChange} />
+            <CountrySelect
+              setRef={setCountrySelectRef}
+              country={country}
+              handleCountryChange={handleCountryChange}
+            />
             <PhoneInput
               ref={phoneInputRef}
               displayCountries={displayCountries}
@@ -129,8 +145,7 @@ const PhoneConfirmation: React.FC<IPhoneConfirmationProps> = ({ preloadNext }) =
             variant="contained"
             color="primary"
             width="contained"
-            className="phone-confirmation__btn"
-          >
+            className="phone-confirmation__btn">
             {t('loginPage.next')}
           </BaseBtn>
           <p className="phone-confirmation__conditions">

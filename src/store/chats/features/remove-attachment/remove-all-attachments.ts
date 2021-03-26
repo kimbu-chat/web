@@ -26,7 +26,9 @@ export class RemoveAllAttachments {
   }
 
   static get saga() {
-    return function* removeAllAttachmentsSaga(action: ReturnType<typeof RemoveAllAttachments.action>): SagaIterator {
+    return function* removeAllAttachmentsSaga(
+      action: ReturnType<typeof RemoveAllAttachments.action>,
+    ): SagaIterator {
       action.payload.ids.forEach((idToCancel) => {
         const uploadingAttachment = getUploadingAttachments().find(({ id }) => id === idToCancel);
 

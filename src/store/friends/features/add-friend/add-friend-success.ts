@@ -9,9 +9,11 @@ export class AddFriendSuccess {
   }
 
   static get reducer() {
-    return produce((draft: IFriendsState, { payload }: ReturnType<typeof AddFriendSuccess.action>) => {
-      draft.friends.push(payload);
-      return draft;
-    });
+    return produce(
+      (draft: IFriendsState, { payload }: ReturnType<typeof AddFriendSuccess.action>) => {
+        draft.friends.push(payload);
+        return draft;
+      },
+    );
   }
 }

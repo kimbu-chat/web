@@ -20,7 +20,14 @@ export const CountrySelect: React.FC<ICountrySelectProps> = React.memo(
   ({ country, handleCountryChange, setRef }) => {
     const { t } = useContext(LocalizationContext);
 
-    const { getRootProps, getInputProps, getListboxProps, getOptionProps, groupedOptions, popupOpen } = useAutocomplete({
+    const {
+      getRootProps,
+      getInputProps,
+      getListboxProps,
+      getOptionProps,
+      groupedOptions,
+      popupOpen,
+    } = useAutocomplete({
       id: 'country-login-autocomplete',
       options: countryList,
       getOptionLabel: (option) => option.title,
@@ -38,10 +45,22 @@ export const CountrySelect: React.FC<ICountrySelectProps> = React.memo(
     }, []);
 
     return (
-      <div {...getRootProps()} className={`country-select ${popupOpen ? 'country-select--open' : ''}`}>
+      <div
+        {...getRootProps()}
+        className={`country-select ${popupOpen ? 'country-select--open' : ''}`}>
         <div className="country-select__label">{t('phoneInputGroup.country')}</div>
-        <input placeholder={t('phoneInputGroup.country')} type="text" className="country-select__input" {...inputProps} />
-        <ArrowSvg viewBox="0 0 8 14" className={`country-select__input-svg ${popupOpen ? 'country-select__input-svg--open' : ''}`} />
+        <input
+          placeholder={t('phoneInputGroup.country')}
+          type="text"
+          className="country-select__input"
+          {...inputProps}
+        />
+        <ArrowSvg
+          viewBox="0 0 8 14"
+          className={`country-select__input-svg ${
+            popupOpen ? 'country-select__input-svg--open' : ''
+          }`}
+        />
         {groupedOptions.length > 0 ? (
           <div className="country-select__countries" {...getListboxProps()}>
             {groupedOptions.map(

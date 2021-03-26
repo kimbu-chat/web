@@ -17,17 +17,23 @@ export class ChangeUserOnlineStatus {
   }
 
   static get reducer() {
-    return produce((draft: IMyProfileState, { payload }: ReturnType<typeof ChangeUserOnlineStatus.action>) => {
-      draft.isTabActive = payload;
-      return draft;
-    });
+    return produce(
+      (draft: IMyProfileState, { payload }: ReturnType<typeof ChangeUserOnlineStatus.action>) => {
+        draft.isTabActive = payload;
+        return draft;
+      },
+    );
   }
 
   static get saga() {
-    return function* changeUserOnlineStatus({ payload }: ReturnType<typeof ChangeUserOnlineStatus.action>): SagaIterator {
+    return function* changeUserOnlineStatus({
+      payload,
+    }: ReturnType<typeof ChangeUserOnlineStatus.action>): SagaIterator {
       const isAuthenticated = yield select(authenticatedSelector);
       if (isAuthenticated) {
-        ChangeUserOnlineStatus.httpRequest.call(yield call(() => ChangeUserOnlineStatus.httpRequest.generator({ isOnline: payload })));
+        ChangeUserOnlineStatus.httpRequest.call(
+          yield call(() => ChangeUserOnlineStatus.httpRequest.generator({ isOnline: payload })),
+        );
       }
 
       if (payload) {

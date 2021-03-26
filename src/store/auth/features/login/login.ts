@@ -23,7 +23,9 @@ export class Login {
     return function* login(action: ReturnType<typeof Login.action>): SagaIterator {
       const loginHttpRequest = Login.httpRequest;
 
-      const { data } = loginHttpRequest.call(yield call(() => loginHttpRequest.generator(action.payload)));
+      const { data } = loginHttpRequest.call(
+        yield call(() => loginHttpRequest.generator(action.payload)),
+      );
 
       const decodedJwt = jwtDecode<ICustomJwtPayload>(data.accessToken);
 

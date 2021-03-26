@@ -6,7 +6,7 @@
     position: absolute;
     top: 20px;
     right: 20px;
-    color: var(--dt-white-wt-dark);
+    color: var(--dt-white-wt-kingBlue);
     cursor: pointer;
 
     svg {
@@ -29,7 +29,7 @@
 
   &__position-pointer {
     margin-top: 48px;
-    color: var(--dt-white-wt-dark);
+    color: var(--dt-white-wt-kingBlue);
     font-weight: 500;
     font-size: 18px;
     line-height: 21px;
@@ -41,7 +41,7 @@
 
     button {
       svg {
-        color: var(--dt-white-wt-dark);
+        color: var(--dt-white-wt-kingBlue);
       }
     }
 

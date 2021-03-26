@@ -49,7 +49,6 @@ export class OutgoingCall {
 
   static get saga() {
     return function* outgoingCallSaga(action: ReturnType<typeof OutgoingCall.action>): SagaIterator {
-      const peerConnection = getPeerConnection();
       const amISpeaking = yield select((state: RootState) => state.calls.isSpeaking);
       setIsRenegotiationAccepted(false);
 
@@ -59,6 +58,7 @@ export class OutgoingCall {
       }
 
       createPeerConnection();
+      const peerConnection = getPeerConnection();
       yield spawn(deviceUpdateWatcher);
 
       // setup local stream
@@ -100,6 +100,8 @@ export class OutgoingCall {
         userInterlocutorId,
         isVideoEnabled,
       };
+
+      console.log(peerConnection);
 
       const { httpRequest } = OutgoingCall;
       const { isInterlocutorBusy } = httpRequest.call(yield call(() => httpRequest.generator(request))).data;

@@ -3,12 +3,11 @@ import { Modal, WithBackground } from '@components';
 import { getSelectedGroupChatNameSelector } from '@store/chats/selectors';
 import React, { useCallback, useContext, useState } from 'react';
 import './clear-chat-modal.scss';
-import CheckedSvg from '@icons/checked.svg';
-import UncheckedSvg from '@icons/unchecked.svg';
 import ClearSvg from '@icons/clear.svg';
 import { useSelector } from 'react-redux';
 import { ClearChatHistory } from '@store/chats/features/clear-chat-history/clear-chat-history';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { CheckBox } from '@app/components/messenger-page/settings-modal/shared/check-box/check-box';
 
 interface IClearChatModalProps {
   hide: () => void;
@@ -42,10 +41,12 @@ export const ClearChatModal: React.FC<IClearChatModalProps> = React.memo(({ hide
         content={
           <div className='clear-chat-modal'>
             <div className='clear-chat-modal__delete-all'>
-              <button type='button' className='clear-chat-modal__btn' onClick={changeDeleteForInterlocutorState}>
-                {deleteForInterlocutor ? <CheckedSvg /> : <UncheckedSvg />}
-              </button>
-              <span className='clear-chat-modal__btn-description'>{t('clearChat.clear-confirmation')}</span>
+              <CheckBox
+                className='clear-chat-modal__check-box'
+                onClick={changeDeleteForInterlocutorState}
+                isChecked={deleteForInterlocutor}
+                title={t('clearChat.clear-confirmation')}
+              />
             </div>
           </div>
         }

@@ -4,7 +4,13 @@ import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { LocalizationContext } from '@contexts';
 import * as ChatActions from '@store/chats/actions';
-import { getChatsSelector, getHasMoreChatsSelector, getChatsLoadingSelector, getSearchChatsSelector, getSearchStringSelector } from '@store/chats/selectors';
+import {
+  getChatsSelector,
+  getHasMoreChatsSelector,
+  getChatsLoadingSelector,
+  getSearchChatsSelector,
+  getSearchStringSelector,
+} from '@store/chats/selectors';
 
 import './forward-modal.scss';
 import { ForwardMessages } from '@store/chats/features/forward-messages/forward-messages';
@@ -77,37 +83,52 @@ export const ForwardModal: React.FC<IForwardModalProps> = React.memo(({ onClose,
   return (
     <WithBackground onBackgroundClick={onClose}>
       <Modal
-        title={
+        title={(
           <>
-            <ForwardSvg viewBox='0 0 16 16' className='forward-modal__icon' />
+            <ForwardSvg viewBox="0 0 16 16" className="forward-modal__icon" />
             <span> {t('forwardModal.forward', { count: messageIdsToForward.length })} </span>
           </>
-        }
+        )}
         closeModal={onClose}
-        content={
-          <div className='forward-modal'>
+        content={(
+          <div className="forward-modal">
             <SearchBox
-              containerClassName='forward-modal__search-container'
-              iconClassName='forward-modal__search__icon'
-              inputClassName='forward-modal__search__input'
+              containerClassName="forward-modal__search-container"
+              iconClassName="forward-modal__search__icon"
+              inputClassName="forward-modal__search__input"
               onChange={handleChatSearchChange}
             />
-            <InfiniteScroll className='forward-modal__chats-block' onReachExtreme={loadMore} hasMore={hasMoreChats} isLoading={chatsAreLoading}>
+            <InfiniteScroll
+              className="forward-modal__chats-block"
+              onReachExtreme={loadMore}
+              hasMore={hasMoreChats}
+              isLoading={chatsAreLoading}
+            >
               {searchString.length > 0
                 ? searchChats?.map((chat: IChat) => (
-                    <SelectEntity key={chat.id} chatOrUser={chat} isSelected={isSelected(chat.id)} changeSelectedState={changeSelectedState} />
-                  ))
+                  <SelectEntity
+                    key={chat.id}
+                    chatOrUser={chat}
+                    isSelected={isSelected(chat.id)}
+                    changeSelectedState={changeSelectedState}
+                  />
+                ))
                 : chats?.map((chat: IChat) => (
-                    <SelectEntity key={chat.id} chatOrUser={chat} isSelected={isSelected(chat.id)} changeSelectedState={changeSelectedState} />
-                  ))}
+                  <SelectEntity
+                    key={chat.id}
+                    chatOrUser={chat}
+                    isSelected={isSelected(chat.id)}
+                    changeSelectedState={changeSelectedState}
+                  />
+                ))}
             </InfiniteScroll>
           </div>
-        }
+        )}
         buttons={[
-          <button key={1} type='button' onClick={onClose} className='forward-modal__cancel-btn'>
+          <button key={1} type="button" onClick={onClose} className="forward-modal__cancel-btn">
             {t('forwardModal.cancel')}
           </button>,
-          <button key={2} type='button' onClick={forwardSelectedMessages} className='forward-modal__confirm-btn'>
+          <button key={2} type="button" onClick={forwardSelectedMessages} className="forward-modal__confirm-btn">
             {t('forwardModal.send')}
           </button>,
         ]}

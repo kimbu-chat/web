@@ -1,39 +1,27 @@
 {
+  "extends": "./tsconfig.paths.json",
   "compilerOptions": {
-    "sourceMap": true,
-    "target": "es5",
-    "jsx": "react",
+    "target": "ES2020",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
     "module": "esnext",
     "moduleResolution": "node",
-    "experimentalDecorators": true,
-    "declaration": false,
-    "removeComments": true,
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "strict": true,
-    "esModuleInterop": true,
     "resolveJsonModule": true,
-    "outDir": "build",
-    "lib": ["es6", "es7", "dom"],
-    "baseUrl": "src",
-    "paths": {
-      "@app/*": ["./*"],
-      "icons/*": ["./assets/icons/*"],
-      "@store/*": ["./store/*"],
-      "@store": ["./store"],
-      "@services/*": ["./services/*"],
-      "@containers/*": ["./containers/*"],
-      "@sounds/*": ["./assets/sounds/*"],
-      "@utils/*": ["./utils/*"],
-      "@hooks/*": ["./hooks/*"],
-      "@routing/*": ["./routing/*"],
-      "@contexts": ["./contexts"],
-      "@common/*": ["./common/*"],
-      "@components": ["./components"]
-    },
-    "allowSyntheticDefaultImports": true
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx"
   },
-  "exclude": ["build", "node_modules"],
-  "include": ["./src/", "./types/", "assets"]
+  "include": [
+    "src"
+  ]
 }

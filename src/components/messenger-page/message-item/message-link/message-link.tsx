@@ -1,6 +1,14 @@
 import { LocalizationContext } from '@contexts';
 import { Avatar } from '@components';
-import { FileType, IAudioAttachment, IBaseAttachment, IPictureAttachment, IRawAttachment, IVideoAttachment, IVoiceAttachment } from '@store/chats/models';
+import {
+  FileType,
+  IAudioAttachment,
+  IBaseAttachment,
+  IPictureAttachment,
+  IRawAttachment,
+  IVideoAttachment,
+  IVoiceAttachment,
+} from '@store/chats/models';
 import { IUser } from '@store/common/models';
 import React, { useContext, useMemo } from 'react';
 import { getUserInitials } from '@utils/interlocutor-name-utils';
@@ -74,15 +82,15 @@ const MessageLink: React.FC<IMessageLinkProps> = React.memo(({ linkedMessage }) 
   );
 
   return (
-    <div className='message-link'>
-      <Avatar className='message-link__avatar' src={linkedMessage?.userCreator.avatar?.previewUrl}>
+    <div className="message-link">
+      <Avatar className="message-link__avatar" src={linkedMessage?.userCreator.avatar?.previewUrl}>
         {getUserInitials(linkedMessage?.userCreator)}
       </Avatar>
 
-      <div className='message-link__text'>
+      <div className="message-link__text">
         <span>{linkedMessage?.isDeleted ? t('message-link.message-deleted') : linkedMessage?.text}</span>
 
-        <div className='message-link__attachments'>
+        <div className="message-link__attachments">
           {structuredAttachments?.files.map((file) => (
             <FileAttachment key={file.id} attachment={file} />
           ))}

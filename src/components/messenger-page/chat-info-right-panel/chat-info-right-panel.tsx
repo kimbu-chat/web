@@ -110,20 +110,23 @@ const ChatInfoRightPanel: React.FC = React.memo(() => {
   if (selectedChat) {
     return (
       <>
-        <div className='chat-info'>
+        <div className="chat-info">
           {selectedChat?.interlocutor ? (
-            <Avatar onClick={changeIsAvatarMaximizedState} className='chat-info__avatar' src={getChatAvatar()}>
+            <Avatar onClick={changeIsAvatarMaximizedState} className="chat-info__avatar" src={getChatAvatar()}>
               {getInterlocutorInitials(selectedChat)}
             </Avatar>
           ) : (
-            <div className='chat-info__avatar-group'>
-              <input onChange={handleImageChange} ref={fileInputRef} type='file' hidden accept='image/*' />
+            <div className="chat-info__avatar-group">
+              <input onChange={handleImageChange} ref={fileInputRef} type="file" hidden accept="image/*" />
 
-              <Avatar onClick={changeIsAvatarMaximizedState} className='chat-info__avatar' src={getChatAvatar()}>
+              <Avatar onClick={changeIsAvatarMaximizedState} className="chat-info__avatar" src={getChatAvatar()}>
                 {getInterlocutorInitials(selectedChat)}
               </Avatar>
-              <div onClick={() => fileInputRef.current?.click()} className={getChatAvatar() ? 'change-avatar change-avatar--hidden' : 'change-avatar'}>
-                <PhotoSvg className='change-avatar__svg' viewBox='0 0 25 25' />
+              <div
+                onClick={() => fileInputRef.current?.click()}
+                className={getChatAvatar() ? 'change-avatar change-avatar--hidden' : 'change-avatar'}
+              >
+                <PhotoSvg className="change-avatar__svg" viewBox="0 0 25 25" />
               </div>
             </div>
           )}

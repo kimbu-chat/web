@@ -6,7 +6,13 @@ import { retryOnNetworkConnectionError } from './decorators/retry-on-network-con
 import { HttpRequestMethod } from './http-request-method';
 import type { HttpHeaders } from './types';
 
-export function* httpRequest<TBody>(url: string, method: HttpRequestMethod, body?: TBody, token?: CancelToken, headers?: HttpHeaders): SagaIterator {
+export function* httpRequest<TBody>(
+  url: string,
+  method: HttpRequestMethod,
+  body?: TBody,
+  token?: CancelToken,
+  headers?: HttpHeaders,
+): SagaIterator {
   const requestConfig: AxiosRequestConfig = {
     url,
     method,

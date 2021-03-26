@@ -36,6 +36,9 @@ export class ClearChatHistory {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IClearChatHistoryApiRequest>(`${process.env.MAIN_API}/api/chats/clear`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse, IClearChatHistoryApiRequest>(
+      `${process.env.MAIN_API}/api/chats/clear`,
+      HttpRequestMethod.Post,
+    );
   }
 }

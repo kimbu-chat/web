@@ -47,7 +47,17 @@ export class MessageCreatedEventHandler {
 
   static get saga() {
     return function* messageCreatedEventHandler(action: ReturnType<typeof MessageCreatedEventHandler.action>): SagaIterator {
-      const { attachments, chatId, creationDateTime, id, systemMessageType, text, userCreator, linkedMessageId, linkedMessageType } = action.payload;
+      const {
+        attachments,
+        chatId,
+        creationDateTime,
+        id,
+        systemMessageType,
+        text,
+        userCreator,
+        linkedMessageId,
+        linkedMessageType,
+      } = action.payload;
 
       const messageExists = yield select(getChatHasMessageWithIdSelector(id, chatId));
       const isTabActive = yield select(tabActiveSelector);
@@ -106,7 +116,9 @@ export class MessageCreatedEventHandler {
           const isInterlocutorCurrentSelectedChat = draft.chats.selectedChatId === message.chatId;
           const previousUnreadMessagesCount = chat.unreadMessagesCount;
           const newUnreadMessagesCount =
-            isInterlocutorCurrentSelectedChat || isCurrentUserMessageCreator ? previousUnreadMessagesCount : previousUnreadMessagesCount + 1;
+            isInterlocutorCurrentSelectedChat || isCurrentUserMessageCreator
+              ? previousUnreadMessagesCount
+              : previousUnreadMessagesCount + 1;
 
           if (draft.chats.messages[chatId].messages.findIndex(({ id: messageId }) => messageId === message.id) === -1) {
             draft.chats.messages[chatId].messages.unshift(message);
@@ -234,7 +246,7 @@ export class MessageCreatedEventHandler {
             window.document.title = `${unreadNotifications} unread Notification !`;
 
             setTimeout(() => {
-              window.document.title = 'Kimbu';
+              window.document.title = 'Ravudi';
             }, 1000);
           });
         }

@@ -16,5 +16,5 @@ export const CircularProgress: React.FC<ICircularProgressProps> = React.memo(({ 
     }
   }, [progress, progressSvgRef]);
 
-  return <CircularProgressSVG ref={progressSvgRef} className='circular-progress' viewBox='0 0 25 25' />;
+  return <CircularProgressSVG ref={progressSvgRef} className="circular-progress" viewBox="0 0 25 25" />;
 });

@@ -135,70 +135,87 @@ export const EditProfile = React.memo(() => {
   );
 
   const sumbmitChanges = useCallback(() => {
-    if (newAvatar?.id !== myProfile?.avatar?.id || firstName !== myProfile?.firstName || lastName !== myProfile?.lastName || nickname !== myProfile?.nickname) {
+    if (
+      newAvatar?.id !== myProfile?.avatar?.id
+      || firstName !== myProfile?.firstName
+      || lastName !== myProfile?.lastName
+      || nickname !== myProfile?.nickname
+    ) {
       updateMyProfile({ firstName, lastName, nickname, avatar: newAvatar });
     }
   }, [newAvatar?.id, myProfile?.avatar?.id, firstName, lastName, nickname]);
 
   return (
     <>
-      <div className='edit-profile'>
-        <h2 className='edit-profile__title'>{t('editProfile.personal-information')}</h2>
-        <div className='edit-profile__photo-data'>
-          <div className='edit-profile__avatar-wrapper'>
+      <div className="edit-profile">
+        <h2 className="edit-profile__title">{t('editProfile.personal-information')}</h2>
+        <div className="edit-profile__photo-data">
+          <div className="edit-profile__avatar-wrapper">
             {newAvatar?.previewUrl ? (
-              <img src={newAvatar?.previewUrl} alt='' className='edit-profile__avatar' />
+              <img src={newAvatar?.previewUrl} alt="" className="edit-profile__avatar" />
             ) : (
-              <UserSvg className='edit-profile__avatar-icon' viewBox='0 0 68 78' />
+              <UserSvg className="edit-profile__avatar-icon" viewBox="0 0 68 78" />
             )}
-            <TopAvatarLine className='edit-profile__avatar-wrapper__top-line' viewBox='0 0 48 48' />
-            <BottomAvatarLine className='edit-profile__avatar-wrapper__bottom-line' viewBox='0 0 114 114' />
+            <TopAvatarLine className="edit-profile__avatar-wrapper__top-line" viewBox="0 0 48 48" />
+            <BottomAvatarLine className="edit-profile__avatar-wrapper__bottom-line" viewBox="0 0 114 114" />
           </div>
 
-          <input onChange={handleImageChange} ref={fileInputRef} type='file' hidden accept='image/*' />
+          <input onChange={handleImageChange} ref={fileInputRef} type="file" hidden accept="image/*" />
 
-          <div className='edit-profile__avatar-upload'>
-            <button type='button' onClick={openFileExplorer} className='edit-profile__avatar-upload-btn'>
-              <PhotoSvg viewBox='0 0 18 19' />
+          <div className="edit-profile__avatar-upload">
+            <button type="button" onClick={openFileExplorer} className="edit-profile__avatar-upload-btn">
+              <PhotoSvg viewBox="0 0 18 19" />
               <span>{t('editProfile.upload_new_photo')}</span>
             </button>
-            <div className='edit-profile__avatar-requirements'>{t('editProfile.requirements')}</div>
+            <div className="edit-profile__avatar-requirements">{t('editProfile.requirements')}</div>
           </div>
         </div>
 
-        <LabeledInput label={t('editProfile.first_name')} value={firstName} onChange={changeFirstName} containerClassName='edit-profile__input' />
+        <LabeledInput
+          label={t('editProfile.first_name')}
+          value={firstName}
+          onChange={changeFirstName}
+          containerClassName="edit-profile__input"
+        />
 
-        <LabeledInput label={t('editProfile.last_name')} value={lastName} onChange={changeLastName} containerClassName='edit-profile__input' />
+        <LabeledInput
+          label={t('editProfile.last_name')}
+          value={lastName}
+          onChange={changeLastName}
+          containerClassName="edit-profile__input"
+        />
 
         <LabeledInput
           label={t('editProfile.username')}
           value={nickname}
           onChange={onChangeNickname}
-          containerClassName='edit-profile__input'
-          errorText={isNickNameValid ? (isNickNameAvailable ? undefined : t('editProfile.nickname-busy')) : t('editProfile.nickname-not-acceptable')}
+          containerClassName="edit-profile__input"
+          errorText={
+            isNickNameValid ? (isNickNameAvailable ? undefined : t('editProfile.nickname-busy')) : t('editProfile.nickname-not-acceptable')
+          }
         />
         <button
-          type='button'
+          type="button"
           onClick={sumbmitChanges}
-          className='edit-profile__btn edit-profile__btn--personal'
+          className="edit-profile__btn edit-profile__btn--personal"
           disabled={!isNickNameAvailable || isLoading || !isNickNameValid || firstName.length === 0 || lastName.length === 0}
         >
           {t('editProfile.save-changes')}
         </button>
 
-        <h2 className='edit-profile__title edit-profile__title--phone'>{t('editProfile.phone-number')}</h2>
-        <div className='edit-profile__phone-data'>
-          <div className='edit-profile__phone'>{parsePhoneNumber(myProfile?.phoneNumber!).formatInternational()}</div>
-          <button onClick={changeEditPhoneModalDisplayedState} type='button' className='edit-profile__btn'>
+        <h2 className="edit-profile__title edit-profile__title--phone">{t('editProfile.phone-number')}</h2>
+        <div className="edit-profile__phone-data">
+          <div className="edit-profile__phone">{parsePhoneNumber(myProfile?.phoneNumber!).formatInternational()}</div>
+          <button onClick={changeEditPhoneModalDisplayedState} type="button" className="edit-profile__btn">
             {t('editProfile.change-number')}
           </button>
         </div>
-        <div className='edit-profile__phone-details'>{t('editProfile.phone-details')}</div>
+        <div className="edit-profile__phone-details">{t('editProfile.phone-details')}</div>
 
-        <h2 className='edit-profile__title edit-profile__title--delete'>{t('editProfile.delete-account')}</h2>
-        <div className='edit-profile__delete-data'>
-          <div className='edit-profile__delete-details'>{t('editProfile.delete-details')}</div>
-          <button onClick={changeDeleteAccountModalDisplayedState} type='button' className='edit-profile__btn edit-profile__btn--delete'>
+        <h2 className="edit-profile__title edit-profile__title--delete">{t('editProfile.delete-account')}</h2>
+        <div className="edit-profile__delete-data">
+          <div className="edit-profile__delete-details">{t('editProfile.delete-details')}</div>
+          <button onClick={changeDeleteAccountModalDisplayedState} type="button" className="edit-profile__btn edit-profile__btn--delete">
             {t('editProfile.delete-confirmation')}
           </button>
         </div>

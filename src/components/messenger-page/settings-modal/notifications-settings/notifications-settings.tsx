@@ -14,19 +14,31 @@ export const NotificationsSettings = React.memo(() => {
   const changeSoundNotificationState = useActionWithDispatch(SettingsActions.changeNotificationSoundStateAction);
 
   return (
-    <div className='notifications-settings'>
-      <div className='notifications-settings__title'>{t('notificationsSettings.title')}</div>
+    <div className="notifications-settings">
+      <div className="notifications-settings__title">{t('notificationsSettings.title')}</div>
 
-      <div className='notifications-settings__entity'>
-        <CheckBox onClick={changeSoundNotificationState} isChecked={areSoundNotificationsEnabled} title={t('notificationsSettings.push-notification')} />
+      <div className="notifications-settings__entity">
+        <CheckBox
+          onClick={changeSoundNotificationState}
+          isChecked={areSoundNotificationsEnabled}
+          title={t('notificationsSettings.push-notification')}
+        />
       </div>
 
-      <div className='notifications-settings__entity'>
-        <CheckBox onClick={changeSoundNotificationState} isChecked={areSoundNotificationsEnabled} title={t('notificationsSettings.message-notification')} />
+      <div className="notifications-settings__entity">
+        <CheckBox
+          onClick={changeSoundNotificationState}
+          isChecked={areSoundNotificationsEnabled}
+          title={t('notificationsSettings.message-notification')}
+        />
       </div>
 
-      <div className='notifications-settings__entity'>
-        <CheckBox onClick={changeSoundNotificationState} isChecked={areSoundNotificationsEnabled} title={t('notificationsSettings.all-notifications')} />
+      <div className="notifications-settings__entity">
+        <CheckBox
+          onClick={changeSoundNotificationState}
+          isChecked={areSoundNotificationsEnabled}
+          title={t('notificationsSettings.all-notifications')}
+        />
       </div>
     </div>
   );

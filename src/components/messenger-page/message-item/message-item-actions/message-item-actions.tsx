@@ -44,22 +44,22 @@ const MessageItemActions: React.FC<IMessageItemActionsProps> = React.memo(({ mes
 
   return (
     <>
-      <div className='message-item-actions'>
+      <div className="message-item-actions">
         {isEditAllowed && (
-          <button type='button' onClick={editSelectedMessage} className='message-item-actions__action'>
+          <button type="button" onClick={editSelectedMessage} className="message-item-actions__action">
             <EditSVG />
           </button>
         )}
 
-        <button type='button' onClick={changeForwardMessagesModalDisplayedState} className='message-item-actions__action'>
+        <button type="button" onClick={changeForwardMessagesModalDisplayedState} className="message-item-actions__action">
           <ForwardSvg />
         </button>
 
-        <button type='button' onClick={replyToSelectedMessage} className='message-item-actions__action'>
+        <button type="button" onClick={replyToSelectedMessage} className="message-item-actions__action">
           <ReplySVG />
         </button>
 
-        <button type='button' onClick={changeDeleteMessagesModalDisplayedState} className='message-item-actions__action'>
+        <button type="button" onClick={changeDeleteMessagesModalDisplayedState} className="message-item-actions__action">
           <DeleteSVG />
         </button>
       </div>

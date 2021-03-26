@@ -42,7 +42,9 @@ export class GetGroupChatUsers {
       const { groupChatId } = ChatId.fromId(chatId);
 
       if (groupChatId) {
-        const { data } = GetGroupChatUsers.httpRequest.call(yield call(() => GetGroupChatUsers.httpRequest.generator({ name, page, groupChatId })));
+        const { data } = GetGroupChatUsers.httpRequest.call(
+          yield call(() => GetGroupChatUsers.httpRequest.generator({ name, page, groupChatId })),
+        );
 
         yield put(
           GetGroupChatUsersSuccess.action({

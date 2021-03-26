@@ -27,36 +27,39 @@ export const LanguageSettings = React.memo(() => {
   }, []);
 
   return (
-    <div className='language-settings'>
-      <h3 className='language-settings__title'>{t('languageSettings.title')}</h3>
+    <div className="language-settings">
+      <h3 className="language-settings__title">{t('languageSettings.title')}</h3>
       <form>
-        <div onClick={setEnLang} className={`language-settings__language ${currentLanguage === Langs.En ? 'language-settings__language--active' : ''}`}>
+        <div
+          onClick={setEnLang}
+          className={`language-settings__language ${currentLanguage === Langs.En ? 'language-settings__language--active' : ''}`}
+        >
           <RadioBox
             defaultChecked={currentLanguage === Langs.En}
-            groupName='language'
+            groupName="language"
             onClick={setEnLang}
-            content={
+            content={(
               <>
-                <USASvg className='language-settings__icon' />
-                <span className='language-settings__language-name'>English</span>
-                <span className='language-settings__language-country'>{t('languageSettings.usa-uk')}</span>
+                <USASvg className="language-settings__icon" />
+                <span className="language-settings__language-name">English</span>
+                <span className="language-settings__language-country">{t('languageSettings.usa-uk')}</span>
               </>
-            }
+            )}
           />
         </div>
 
         <div className={`language-settings__language ${currentLanguage === Langs.Ru ? 'language-settings__language--active' : ''}`}>
           <RadioBox
             defaultChecked={currentLanguage === Langs.Ru}
-            groupName='language'
+            groupName="language"
             onClick={setRuLang}
-            content={
+            content={(
               <>
-                <RussiaSvg className='language-settings__icon' />
-                <span className='language-settings__language-name'>Русский</span>
-                <span className='language-settings__language-country'>{t('languageSettings.russia')}</span>
+                <RussiaSvg className="language-settings__icon" />
+                <span className="language-settings__language-name">Русский</span>
+                <span className="language-settings__language-country">{t('languageSettings.russia')}</span>
               </>
-            }
+            )}
           />
         </div>
       </form>

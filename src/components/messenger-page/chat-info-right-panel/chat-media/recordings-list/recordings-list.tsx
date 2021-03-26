@@ -28,13 +28,17 @@ export const RecordingsList = React.memo(() => {
   );
 
   return (
-    <div className='chat-recordings'>
-      <div className='chat-recordings__recordings'>
-        <InfiniteScroll onReachExtreme={loadMore} hasMore={recordingsForSelectedChat?.hasMore} isLoading={recordingsForSelectedChat?.loading}>
+    <div className="chat-recordings">
+      <div className="chat-recordings__recordings">
+        <InfiniteScroll
+          onReachExtreme={loadMore}
+          hasMore={recordingsForSelectedChat?.hasMore}
+          isLoading={recordingsForSelectedChat?.loading}
+        >
           {recordingsWithSeparators?.map((recording) => (
-            <div key={recording.id} className='chat-recordings__recording'>
+            <div key={recording.id} className="chat-recordings__recording">
               {recording.needToShowMonthSeparator && (
-                <div className='chat-recordings__separator'>
+                <div className="chat-recordings__separator">
                   {recording.needToShowYearSeparator || doesYearDifferFromCurrent(recording.creationDateTime)
                     ? moment(recording.creationDateTime).format('MMMM YYYY')
                     : moment(recording.creationDateTime).format('MMMM')}

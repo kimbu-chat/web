@@ -41,7 +41,9 @@ export class CallEndedEventHandler {
             status,
           };
         } else {
-          const { data } = CallEndedEventHandler.httpRequest.call(yield call(() => CallEndedEventHandler.httpRequest.generator({ callId: id })));
+          const { data } = CallEndedEventHandler.httpRequest.call(
+            yield call(() => CallEndedEventHandler.httpRequest.generator({ callId: id })),
+          );
 
           activeCall = data;
         }

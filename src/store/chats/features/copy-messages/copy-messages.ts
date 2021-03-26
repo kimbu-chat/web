@@ -17,7 +17,9 @@ export class CopyMessages {
 
       const content = messages.reduce((accum: string, current) => {
         if (action.payload.messageIds.includes(current.id)) {
-          const preparedStr = `\n[${moment.utc(current?.creationDateTime).format('YYYY MM DD h:mm')}] ${current?.userCreator?.nickname}: ${current?.text}`;
+          const preparedStr = `\n[${moment.utc(current?.creationDateTime).format('YYYY MM DD h:mm')}] ${current?.userCreator?.nickname}: ${
+            current?.text
+          }`;
           return accum + preparedStr;
         }
         return accum;

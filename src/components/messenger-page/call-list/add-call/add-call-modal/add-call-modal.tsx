@@ -55,37 +55,42 @@ export const AddCallModal: React.FC<IAddCallModalProps> = React.memo(({ onClose 
   return (
     <WithBackground onBackgroundClick={onClose}>
       <Modal
-        title={
+        title={(
           <>
-            <AddCallSvg viewBox='0 0 65 64' className='add-call-modal__icon' />
+            <AddCallSvg viewBox="0 0 65 64" className="add-call-modal__icon" />
 
             <span> {t('addCallModal.title')} </span>
           </>
-        }
+        )}
         closeModal={onClose}
-        content={
-          <div className='add-call-modal'>
+        content={(
+          <div className="add-call-modal">
             <SearchBox
-              containerClassName='add-call-modal__search-container'
-              iconClassName='add-call-modal__search__icon'
-              inputClassName='add-call-modal__search__input'
+              containerClassName="add-call-modal__search-container"
+              iconClassName="add-call-modal__search__icon"
+              inputClassName="add-call-modal__search__input"
               onChange={(e) => searchFriends(e.target.value)}
             />
-            <InfiniteScroll className='add-call-modal__friends-block' onReachExtreme={loadMore} hasMore={hasMoreFriends} isLoading={friendsLoading}>
+            <InfiniteScroll
+              className="add-call-modal__friends-block"
+              onReachExtreme={loadMore}
+              hasMore={hasMoreFriends}
+              isLoading={friendsLoading}
+            >
               {friends?.map((user) => (
                 <SelectEntity
-                  icon={
-                    <button onClick={() => call(user)} type='button' className='add-call-modal__call'>
+                  icon={(
+                    <button onClick={() => call(user)} type="button" className="add-call-modal__call">
                       <CallSvg />
                     </button>
-                  }
+                  )}
                   key={user.id}
                   chatOrUser={user}
                 />
               ))}
             </InfiniteScroll>
           </div>
-        }
+        )}
         buttons={[]}
       />
     </WithBackground>

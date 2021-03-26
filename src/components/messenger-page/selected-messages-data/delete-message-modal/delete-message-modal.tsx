@@ -31,30 +31,30 @@ export const DeleteMessageModal: React.FC<IDeleteMessageModalProps> = React.memo
   return (
     <WithBackground onBackgroundClick={onClose}>
       <Modal
-        title={
+        title={(
           <>
-            <DeleteSvg viewBox='0 0 15 16' className='delete-message-modal__icon' />
+            <DeleteSvg viewBox="0 0 15 16" className="delete-message-modal__icon" />
             <span> {t('deleteMessageModal.title', { count: selectedMessages.length })} </span>
           </>
-        }
-        content={
-          <div className='delete-message-modal'>
-            <div className='delete-message-modal__delete-all'>
+        )}
+        content={(
+          <div className="delete-message-modal">
+            <div className="delete-message-modal__delete-all">
               <CheckBox
-                className='delete-message-modal__check-box'
+                className="delete-message-modal__check-box"
                 onClick={changeDeleteForInterlocutorState}
                 isChecked={deleteForInterlocutor}
                 title={t('deleteMessageModal.delete-confirmation')}
               />
             </div>
           </div>
-        }
+        )}
         closeModal={onClose}
         buttons={[
-          <button key={1} type='button' onClick={onClose} className='delete-message-modal__cancel-btn'>
+          <button key={1} type="button" onClick={onClose} className="delete-message-modal__cancel-btn">
             {t('deleteMessageModal.cancel')}
           </button>,
-          <button key={2} type='button' onClick={deleteTheseMessages} className='delete-message-modal__confirm-btn'>
+          <button key={2} type="button" onClick={deleteTheseMessages} className="delete-message-modal__confirm-btn">
             {t('deleteMessageModal.delete-confirm')}
           </button>,
         ]}

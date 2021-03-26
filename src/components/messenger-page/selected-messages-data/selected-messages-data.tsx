@@ -40,22 +40,26 @@ export const SelectedMessagesData = React.memo(() => {
   }, [setForwardMessagesModalDisplayed]);
 
   return (
-    <div className='selected-messages-data'>
-      <button type='button' onClick={changeForwardMessagesModalDisplayedState} className='selected-messages-data__btn'>
-        <ForwardSvg viewBox='0 0 16 16' />
+    <div className="selected-messages-data">
+      <button type="button" onClick={changeForwardMessagesModalDisplayedState} className="selected-messages-data__btn">
+        <ForwardSvg viewBox="0 0 16 16" />
         <span>{t('selectedMessagesData.forward', { count: selectedMessagesCount })}</span>
       </button>
 
-      <button type='button' onClick={changeDeleteMessagesModalDisplayedState} className='selected-messages-data__btn selected-messages-data__btn--delete'>
-        <DeleteSvg viewBox='0 0 15 16' />
+      <button
+        type="button"
+        onClick={changeDeleteMessagesModalDisplayedState}
+        className="selected-messages-data__btn selected-messages-data__btn--delete"
+      >
+        <DeleteSvg viewBox="0 0 15 16" />
         <span>{t('selectedMessagesData.delete', { count: selectedMessagesCount })}</span>
       </button>
 
-      <button type='button' onClick={copyTheseMessages} className='selected-messages-data__btn'>
+      <button type="button" onClick={copyTheseMessages} className="selected-messages-data__btn">
         <span>{t('selectedMessagesData.copy')}</span>
       </button>
 
-      <button type='button' onClick={resetSelectedMessages} className='selected-messages-data__close'>
+      <button type="button" onClick={resetSelectedMessages} className="selected-messages-data__close">
         <CloseSvg />
       </button>
 

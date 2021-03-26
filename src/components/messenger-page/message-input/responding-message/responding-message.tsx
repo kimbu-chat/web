@@ -20,11 +20,11 @@ export const RespondingMessage = React.memo(() => {
   const resetReplyToMessage = useActionWithDispatch(ResetReplyToMessage.action);
 
   return (
-    <div className='responding-message'>
-      <ReplySvg className='responding-message__icon' viewBox='0 0 15 16' />
-      <div className='responding-message__line' />
+    <div className="responding-message">
+      <ReplySvg className="responding-message__icon" viewBox="0 0 15 16" />
+      <div className="responding-message__line" />
 
-      <Avatar className='responding-message__message-sender' src={replyingMessage?.userCreator.avatar?.previewUrl}>
+      <Avatar className="responding-message__message-sender" src={replyingMessage?.userCreator.avatar?.previewUrl}>
         {getUserInitials(replyingMessage?.userCreator)}
       </Avatar>
 
@@ -35,8 +35,8 @@ export const RespondingMessage = React.memo(() => {
       >
         {replyingMessage?.text}
       </div>
-      <button type='button' onClick={resetReplyToMessage} className='responding-message__close'>
-        <CloseSvg viewBox='0 0 24 24' />
+      <button type="button" onClick={resetReplyToMessage} className="responding-message__close">
+        <CloseSvg viewBox="0 0 24 24" />
       </button>
     </div>
   );

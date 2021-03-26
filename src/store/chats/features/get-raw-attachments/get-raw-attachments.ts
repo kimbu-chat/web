@@ -36,7 +36,9 @@ export class GetRawAttachments {
       const { page } = action.payload;
       const chatId = yield select(getSelectedChatIdSelector);
 
-      const { data, status } = GetRawAttachments.httpRequest.call(yield call(() => GetRawAttachments.httpRequest.generator({ page, chatId })));
+      const { data, status } = GetRawAttachments.httpRequest.call(
+        yield call(() => GetRawAttachments.httpRequest.generator({ page, chatId })),
+      );
 
       const hasMore = data.length >= page.limit;
 

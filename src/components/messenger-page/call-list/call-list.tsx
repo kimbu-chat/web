@@ -26,7 +26,7 @@ export const CallList = () => {
   }, [calls]);
 
   return (
-    <div className='call-list'>
+    <div className="call-list">
       <InfiniteScroll onReachExtreme={loadMore} hasMore={hasMoreCalls} isLoading={areCallsLoading}>
         {calls.map((call) => (
           <CallItem key={call.id} call={call} />

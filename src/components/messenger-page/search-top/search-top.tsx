@@ -37,15 +37,15 @@ export const SearchTop: React.FC<ISearchTopProps> = React.memo(({ searchFor }) =
   );
 
   return (
-    <div className='search-top'>
+    <div className="search-top">
       <SearchBox
-        containerClassName='search-top__search-container'
-        inputClassName='search-top__search-input'
-        iconClassName='search-top__search-icon'
+        containerClassName="search-top__search-container"
+        inputClassName="search-top__search-input"
+        iconClassName="search-top__search-icon"
         onChange={handleChatSearchChange}
       />
       {searchFor === 'chats' && (
-        <button type='button' onClick={changeNewChatDisplayedState} className='search-top__create-chat-btn'>
+        <button type="button" onClick={changeNewChatDisplayedState} className="search-top__create-chat-btn">
           <CreateChatSvg />
         </button>
       )}

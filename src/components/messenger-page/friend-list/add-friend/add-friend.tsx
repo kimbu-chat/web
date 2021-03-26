@@ -15,15 +15,15 @@ const AddFriend = () => {
 
   return (
     <>
-      <div className='add-friend'>
-        <div className='add-friend__icon-wrapper'>
-          <AddContactSvg viewBox='0 0 18 18' />
+      <div className="add-friend">
+        <div className="add-friend__icon-wrapper">
+          <AddContactSvg viewBox="0 0 18 18" />
         </div>
 
-        <h3 className='add-friend__title'>{t('addFriend.title')}</h3>
-        <h5 className='add-friend__subtitle'>{t('addFriend.subtitle')}</h5>
+        <h3 className="add-friend__title">{t('addFriend.title')}</h3>
+        <h5 className="add-friend__subtitle">{t('addFriend.subtitle')}</h5>
 
-        <button onClick={changeSetAddFriendsModalDisplayedState} type='button' className='add-friend__btn'>
+        <button onClick={changeSetAddFriendsModalDisplayedState} type="button" className="add-friend__btn">
           {t('addFriend.add')}
         </button>
       </div>

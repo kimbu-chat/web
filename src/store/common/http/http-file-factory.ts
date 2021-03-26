@@ -43,7 +43,11 @@ function createUploadFileChannel(requestConfig: AxiosRequestConfig) {
   }, buffers.expanding(0));
 }
 
-function* uploadFileSaga(requestConfig: AxiosRequestConfig, cancelTokenSource: CancelTokenSource, callbacks?: IFilesRequestGeneratorCallbacks): SagaIterator {
+function* uploadFileSaga(
+  requestConfig: AxiosRequestConfig,
+  cancelTokenSource: CancelTokenSource,
+  callbacks?: IFilesRequestGeneratorCallbacks,
+): SagaIterator {
   const uploadFileChannel = yield call(createUploadFileChannel, requestConfig);
 
   yield takeEvery(

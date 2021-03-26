@@ -64,26 +64,28 @@ export const IncomingCall: React.FC = () => {
         width: window.innerWidth - 120,
         height: 64,
       }}
-      bounds='body'
-      className='incoming-call-draggable'
+      bounds="body"
+      className="incoming-call-draggable"
     >
-      <div className='incoming-call'>
-        <Avatar className='incoming-call__img' src={interlocutor?.avatar?.previewUrl}>
+      <div className="incoming-call">
+        <Avatar className="incoming-call__img" src={interlocutor?.avatar?.previewUrl}>
           {getUserInitials(interlocutor)}
         </Avatar>
-        <div className='incoming-call__info'>
-          <h1 className='incoming-call__calling-name'>{`${interlocutor?.firstName} ${interlocutor?.lastName}`}</h1>
-          <h3 className='incoming-call__additional-data'>{isIncomingCallVideoEnabled ? t('incomingCall.incoming_video') : t('incomingCall.incoming_audio')}</h3>
+        <div className="incoming-call__info">
+          <h1 className="incoming-call__calling-name">{`${interlocutor?.firstName} ${interlocutor?.lastName}`}</h1>
+          <h3 className="incoming-call__additional-data">
+            {isIncomingCallVideoEnabled ? t('incomingCall.incoming_video') : t('incomingCall.incoming_audio')}
+          </h3>
         </div>
-        <div className='incoming-call__right-btns'>
-          <button type='button' onClick={acceptWithAudio} className='incoming-call__call-btn incoming-call__call-btn--accept'>
-            <AcceptWithAudioSvg viewBox='0 0 24 24' />
+        <div className="incoming-call__right-btns">
+          <button type="button" onClick={acceptWithAudio} className="incoming-call__call-btn incoming-call__call-btn--accept">
+            <AcceptWithAudioSvg viewBox="0 0 24 24" />
           </button>
-          <button type='button' onClick={acceptWithVideo} className='incoming-call__call-btn incoming-call__call-btn--video'>
-            <AcceptWithVideoSvg viewBox='0 0 24 24' />
+          <button type="button" onClick={acceptWithVideo} className="incoming-call__call-btn incoming-call__call-btn--video">
+            <AcceptWithVideoSvg viewBox="0 0 24 24" />
           </button>
-          <button type='button' onClick={declineCallAction} className='incoming-call__call-btn incoming-call__call-btn--cancel'>
-            <DeclineCallSvg viewBox='0 0 13 14' />
+          <button type="button" onClick={declineCallAction} className="incoming-call__call-btn incoming-call__call-btn--cancel">
+            <DeclineCallSvg viewBox="0 0 13 14" />
           </button>
         </div>
       </div>

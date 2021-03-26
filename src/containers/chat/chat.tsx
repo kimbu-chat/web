@@ -25,13 +25,13 @@ import { amICalledSelector as isCallingMe, amICallingSelector, doIhaveCallSelect
 import { CSSTransition } from 'react-transition-group';
 import { getIsInfoOpenedSelector } from '@store/chats/selectors';
 import { getInternetStateSelector } from '@store/internet/selectors';
-import { EditProfile } from '@app/components/messenger-page/settings-modal/edit-profile/edit-profile';
-import { LanguageSettings } from '@app/components/messenger-page/settings-modal/language-settings/language-settings';
-import { NotificationsSettings } from '@app/components/messenger-page/settings-modal/notifications-settings/notifications-settings';
-import { KeyBindings } from '@app/components/messenger-page/settings-modal/key-bindings/key-bindings';
-import { Appearance } from '@app/components/messenger-page/settings-modal/appearance/appearance';
-import { PrivacySecurity } from '@app/components/messenger-page/settings-modal/privacy-security/privacy-security';
-import { AudioVideoSettings } from '@app/components/messenger-page/settings-modal/audio-video/audio-video';
+import { EditProfile } from '@components/messenger-page/settings-modal/edit-profile/edit-profile';
+import { LanguageSettings } from '@components/messenger-page/settings-modal/language-settings/language-settings';
+import { NotificationsSettings } from '@components/messenger-page/settings-modal/notifications-settings/notifications-settings';
+import { KeyBindings } from '@components/messenger-page/settings-modal/key-bindings/key-bindings';
+import { Appearance } from '@components/messenger-page/settings-modal/appearance/appearance';
+import { PrivacySecurity } from '@components/messenger-page/settings-modal/privacy-security/privacy-security';
+import { AudioVideoSettings } from '@components/messenger-page/settings-modal/audio-video/audio-video';
 
 interface IChatProps {
   preloadNext: () => void;
@@ -50,81 +50,81 @@ const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
   }, []);
 
   return (
-    <div className='messenger'>
+    <div className="messenger">
       {amICalledSelector && <IncomingCall />}
       {(amISpeaking || amICallingSelectorSomebody) && <ActiveCall />}
       {!internetState && <InternetError />}
 
       <RoutingChats />
 
-      <Route path='/calls'>
-        <div className='messenger__calls'>
-          <SearchTop searchFor='calls' />
+      <Route path="/calls">
+        <div className="messenger__calls">
+          <SearchTop searchFor="calls" />
           <CallList />
         </div>
-        <div className='messenger__main-data'>
+        <div className="messenger__main-data">
           <AddCall />
         </div>
       </Route>
 
-      <Route path='/chats/:chatId?/'>
-        <div className='messenger__chats'>
-          <SearchTop searchFor='chats' />
+      <Route path="/chats/:chatId?/">
+        <div className="messenger__chats">
+          <SearchTop searchFor="chats" />
           <ChatList />
         </div>
-        <div className='messenger__chat-send'>
+        <div className="messenger__chat-send">
           <MessageList />
           {true ? <CreateMessageInput /> : <BlockedMessageInput />}
           {false && <NotContact />}
         </div>
         <ChatTopBar />
-        <CSSTransition in={isInfoOpened} timeout={200} classNames='chat-info-slide' unmountOnExit>
-          <div className='messenger__info'>
+        <CSSTransition in={isInfoOpened} timeout={200} classNames="chat-info-slide" unmountOnExit>
+          <div className="messenger__info">
             <ChatInfoRightPanel />
           </div>
         </CSSTransition>
       </Route>
 
-      <Route path='/contacts/'>
-        <div className='messenger__friends'>
-          <SearchTop searchFor='friends' />
+      <Route path="/contacts/">
+        <div className="messenger__friends">
+          <SearchTop searchFor="friends" />
           <FriendList />
         </div>
-        <div className='messenger__main-data'>
+        <div className="messenger__main-data">
           <AddFriend />
         </div>
       </Route>
 
-      <Route path='/settings/'>
-        <div className='messenger__settings-navigation'>
+      <Route path="/settings/">
+        <div className="messenger__settings-navigation">
           <SettingsNavigation />
         </div>
-        <div className='messenger__settings-data'>
-          <Route path='/settings/profile'>
+        <div className="messenger__settings-data">
+          <Route path="/settings/profile">
             <EditProfile />
           </Route>
 
-          <Route path='/settings/notifications'>
+          <Route path="/settings/notifications">
             <NotificationsSettings />
           </Route>
 
-          <Route path='/settings/language'>
+          <Route path="/settings/language">
             <LanguageSettings />
           </Route>
 
-          <Route path='/settings/typing'>
+          <Route path="/settings/typing">
             <KeyBindings />
           </Route>
 
-          <Route path='/settings/appearance'>
+          <Route path="/settings/appearance">
             <Appearance />
           </Route>
 
-          <Route path='/settings/privacy-security'>
+          <Route path="/settings/privacy-security">
             <PrivacySecurity />
           </Route>
 
-          <Route path='/settings/audio-video'>
+          <Route path="/settings/audio-video">
             <AudioVideoSettings />
           </Route>
         </div>

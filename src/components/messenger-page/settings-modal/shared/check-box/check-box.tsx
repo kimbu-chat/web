@@ -12,7 +12,7 @@ interface ICheckBoxProps {
 
 export const CheckBox: React.FC<ICheckBoxProps> = React.memo(({ isChecked, className, title, onClick }) => (
   <div onClick={onClick} className={`check-box ${className || ''}`}>
-    <div className='check-box__check-box'>{isChecked && <CheckedSvg />}</div>
-    <span className='check-box__title'>{title}</span>
+    <div className="check-box__check-box">{isChecked && <CheckedSvg />}</div>
+    <span className="check-box__title">{title}</span>
   </div>
 ));

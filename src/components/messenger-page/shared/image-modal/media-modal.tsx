@@ -50,39 +50,47 @@ export const MediaModal: React.FC<IImageModalProps> = React.memo(({ attachmentId
 
   return (
     <BackgroundBlur onClick={onClose}>
-      <div className='media-modal'>
-        <div className='media-modal__main'>
-          <div className='media-modal__controls media-modal__controls--prev'>
+      <div className="media-modal">
+        <div className="media-modal__main">
+          <div className="media-modal__controls media-modal__controls--prev">
             {currentAttachmentIndex > 0 && (
-              <button type='button' onClick={goPrev}>
-                <ArrowSvg viewBox='0 0 48 48' />
+              <button type="button" onClick={goPrev}>
+                <ArrowSvg viewBox="0 0 48 48" />
               </button>
             )}
           </div>
 
-          <div className='media-modal__media-wrapper'>
+          <div className="media-modal__media-wrapper">
             {attachmentsArr[currentAttachmentIndex].type === FileType.Picture && (
-              <img onClick={stopPropagation} src={attachmentsArr[currentAttachmentIndex].url} alt='' className='media-modal__photo' />
+              <img onClick={stopPropagation} src={attachmentsArr[currentAttachmentIndex].url} alt="" className="media-modal__photo" />
             )}
             {attachmentsArr[currentAttachmentIndex].type === FileType.Video && (
-              <video preload='metadata' autoPlay controls src={attachmentsArr[currentAttachmentIndex].url} className='media-modal__player' />
+              <video
+                preload="metadata"
+                autoPlay
+                controls
+                src={attachmentsArr[currentAttachmentIndex].url}
+                className="media-modal__player"
+              />
             )}
             {attachmentsArr.length !== 1 && (
-              <div className='media-modal__position-pointer'>{`(${currentAttachmentIndex + 1} ${t('mediaModal.of')} ${attachmentsArr.length})`}</div>
+              <div className="media-modal__position-pointer">
+                {`(${currentAttachmentIndex + 1} ${t('mediaModal.of')} ${attachmentsArr.length})`}
+              </div>
             )}
           </div>
 
-          <div className='media-modal__controls media-modal__controls--next'>
+          <div className="media-modal__controls media-modal__controls--next">
             {currentAttachmentIndex < attachmentsArr.length - 1 && (
-              <button type='button' onClick={goNext}>
-                <ArrowSvg viewBox='0 0 48 48' />
+              <button type="button" onClick={goNext}>
+                <ArrowSvg viewBox="0 0 48 48" />
               </button>
             )}
           </div>
         </div>
 
-        <button type='button' className='media-modal__close'>
-          <CloseSVG viewBox='0 0 24 24' />
+        <button type="button" className="media-modal__close">
+          <CloseSVG viewBox="0 0 24 24" />
         </button>
       </div>
     </BackgroundBlur>

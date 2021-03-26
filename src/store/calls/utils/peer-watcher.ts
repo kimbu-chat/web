@@ -20,8 +20,14 @@ import { ICandidateApiRequest } from './api-requests/candidate-api-request';
 import { IRenegociateApiRequest } from './api-requests/renegotiate-api-request';
 
 const CallsHttpRequests = {
-  candidate: httpRequestFactory<AxiosResponse, ICandidateApiRequest>(`${process.env.MAIN_API}/api/calls/send-ice-candidate`, HttpRequestMethod.Post),
-  renegotiate: httpRequestFactory<AxiosResponse, IRenegociateApiRequest>(`${process.env.MAIN_API}/api/calls/send-renegotiation`, HttpRequestMethod.Post),
+  candidate: httpRequestFactory<AxiosResponse, ICandidateApiRequest>(
+    `${process.env.MAIN_API}/api/calls/send-ice-candidate`,
+    HttpRequestMethod.Post,
+  ),
+  renegotiate: httpRequestFactory<AxiosResponse, IRenegociateApiRequest>(
+    `${process.env.MAIN_API}/api/calls/send-renegotiation`,
+    HttpRequestMethod.Post,
+  ),
 };
 
 function createPeerConnectionChannel() {
@@ -105,8 +111,7 @@ export function* peerWatcher(): SagaIterator {
               peerConnection?.createOffer({
                 offerToReceiveAudio: true,
                 offerToReceiveVideo: true,
-              }),
-            );
+              }));
 
             yield call(async () => peerConnection?.setLocalDescription(offer));
 

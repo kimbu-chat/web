@@ -16,7 +16,18 @@ export class GroupChatCreatedEventHandler {
 
   static get reducer() {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof GroupChatCreatedEventHandler.action>) => {
-      const { description, id, memberIds, name, systemMessageId, userCreator, userCreatorId, avatarId, avatarUrl, avatarPreviewUrl } = payload;
+      const {
+        description,
+        id,
+        memberIds,
+        name,
+        systemMessageId,
+        userCreator,
+        userCreatorId,
+        avatarId,
+        avatarUrl,
+        avatarPreviewUrl,
+      } = payload;
       const chatId = ChatId.from(undefined, id).id;
 
       const doesChatExists: boolean = getChatExistsDraftSelector(chatId, draft);

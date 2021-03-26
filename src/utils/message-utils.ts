@@ -122,7 +122,9 @@ export class MessageUtils {
       }
 
       if (callMessage.status === CallStatus.Interrupted) {
-        return callMessage.userCallerId === myId ? t('systemMessage.outgoing_call_intrrerupted') : t('systemMessage.incoming_call_intrrerupted');
+        return callMessage.userCallerId === myId
+          ? t('systemMessage.outgoing_call_intrrerupted')
+          : t('systemMessage.incoming_call_intrrerupted');
       }
 
       if (callMessage.status === CallStatus.NotAnswered) {
@@ -166,8 +168,8 @@ export class MessageUtils {
       }
 
       if (
-        index < arr.length - 1 &&
-        (arr[index].userCreator?.id !== arr[index + 1].userCreator?.id || arr[index + 1].systemMessageType !== SystemMessageType.None)
+        index < arr.length - 1
+        && (arr[index].userCreator?.id !== arr[index + 1].userCreator?.id || arr[index + 1].systemMessageType !== SystemMessageType.None)
       ) {
         const generatedMessage = produce(message, (draft) => {
           draft.needToShowCreator = true;

@@ -21,21 +21,22 @@ export const DeleteChatModal: React.FC<IDeleteChatModalProps> = React.memo(({ hi
   const leaveGroupChat = useEmptyActionWithDeferred(ChatActions.leaveGroupChat);
 
   const deleteGroupChat = useCallback(() => {
-    leaveGroupChat().then(() => history.push(history.location.pathname.replace(/\/?(contacts|calls|chats)\/?([0-9]*)?/, (_all, groupOne) => `/${groupOne}/`)));
+    leaveGroupChat().then(() =>
+      history.push(history.location.pathname.replace(/\/?(contacts|calls|chats)\/?([0-9]*)?/, (_all, groupOne) => `/${groupOne}/`)));
   }, [leaveGroupChat]);
 
   return (
     <WithBackground onBackgroundClick={hide}>
       <Modal
-        title='Delete chat'
+        title="Delete chat"
         content={t('chatInfo.leave-confirmation', { groupChatName: selectedGroupChatName })}
         highlightedInContents={selectedGroupChatName}
         closeModal={hide}
         buttons={[
-          <button key={1} type='button' className='delete-chat-modal__cancel-btn' onClick={hide}>
+          <button key={1} type="button" className="delete-chat-modal__cancel-btn" onClick={hide}>
             {t('chatInfo.cancel')}
           </button>,
-          <button key={2} type='button' className='delete-chat-modal__confirm-btn' onClick={deleteGroupChat}>
+          <button key={2} type="button" className="delete-chat-modal__confirm-btn" onClick={deleteGroupChat}>
             {t('chatInfo.confirm')}
           </button>,
         ]}

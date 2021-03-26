@@ -31,19 +31,19 @@ export const MessageAudioAttachment: React.FC<IMessageAudioAttachmentProps> = Re
   );
 
   return (
-    <div className='audio-attachment'>
-      <button type='button' onClick={playPauseAudio} className='audio-attachment__download'>
-        {isPlaying ? <PauseSvg viewBox='0 0 24 24' /> : <PlaySvg viewBox='0 0 24 24' />}
+    <div className="audio-attachment">
+      <button type="button" onClick={playPauseAudio} className="audio-attachment__download">
+        {isPlaying ? <PauseSvg viewBox="0 0 24 24" /> : <PlaySvg viewBox="0 0 24 24" />}
       </button>
-      <div className='audio-attachment__play-data'>
-        <div className='audio-attachment__data'>
-          <h4 className='audio-attachment__file-name'>{attachment.title}</h4>
-          <div className='audio-attachment__duration'>{moment.utc(attachment.duration * 1000).format('mm:ss')}</div>
+      <div className="audio-attachment__play-data">
+        <div className="audio-attachment__data">
+          <h4 className="audio-attachment__file-name">{attachment.title}</h4>
+          <div className="audio-attachment__duration">{moment.utc(attachment.duration * 1000).format('mm:ss')}</div>
         </div>
         <AudioPlayer
           ref={audioRef as React.RefObject<AudioPlayer>}
           src={attachment.url}
-          preload='metadata'
+          preload="metadata"
           defaultCurrentTime={<span>{moment.utc(attachment.duration * 1000).format('mm:ss')}</span>}
           showSkipControls={false}
           showJumpControls={false}

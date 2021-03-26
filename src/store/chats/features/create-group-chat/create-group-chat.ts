@@ -108,6 +108,9 @@ export class CreateGroupChat {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<number>, ICerateGroupChatApiRequest>(`${process.env.MAIN_API}/api/group-chats`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse<number>, ICerateGroupChatApiRequest>(
+      `${process.env.MAIN_API}/api/group-chats`,
+      HttpRequestMethod.Post,
+    );
   }
 }

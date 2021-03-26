@@ -11,5 +11,5 @@ interface IPublicRouteProps extends RouteProps {
 
 export const PublicRoute: React.FC<IPublicRouteProps> = React.memo(({ componentToRender, path, isAllowed = true, ...rest }) => {
   const isAuthenticated = useSelector(authenticatedSelector);
-  return <Route path={path} {...rest} render={() => (!isAuthenticated && isAllowed ? componentToRender : <Redirect to='/chats' />)} />;
+  return <Route path={path} {...rest} render={() => (!isAuthenticated && isAllowed ? componentToRender : <Redirect to="/chats" />)} />;
 });

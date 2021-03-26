@@ -9,7 +9,7 @@ interface IFadeAnimationWrapperProps {
 
 const FadeAnimationWrapper: React.FC<IFadeAnimationWrapperProps> = React.memo(
   ({ isDisplayed, children }) => (
-    <CSSTransition unmountOnExit in={isDisplayed} timeout={{ enter: 200, exit: 200 }} classNames='fade'>
+    <CSSTransition unmountOnExit in={isDisplayed} timeout={{ enter: 200, exit: 200 }} classNames="fade">
       {children}
     </CSSTransition>
   ),

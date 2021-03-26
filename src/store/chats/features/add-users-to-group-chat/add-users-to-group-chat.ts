@@ -33,8 +33,8 @@ export class AddUsersToGroupChat {
       const { status } = AddUsersToGroupChat.httpRequest.call(
         yield call(
           () =>
-            groupChatId &&
-            AddUsersToGroupChat.httpRequest.generator({
+            groupChatId
+            && AddUsersToGroupChat.httpRequest.generator({
               id: groupChatId,
               userIds,
             }),
@@ -48,6 +48,9 @@ export class AddUsersToGroupChat {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IAddUsersToGroupChatApiRequest>(`${process.env.MAIN_API}/api/group-chats/users`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse, IAddUsersToGroupChatApiRequest>(
+      `${process.env.MAIN_API}/api/group-chats/users`,
+      HttpRequestMethod.Post,
+    );
   }
 }

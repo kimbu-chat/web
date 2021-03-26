@@ -38,6 +38,9 @@ export class GetCalls {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<ICall[]>, IGetCallsApiRequest>(`${process.env.MAIN_API}/api/calls/search`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse<ICall[]>, IGetCallsApiRequest>(
+      `${process.env.MAIN_API}/api/calls/search`,
+      HttpRequestMethod.Post,
+    );
   }
 }

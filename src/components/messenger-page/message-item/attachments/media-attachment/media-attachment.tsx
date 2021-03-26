@@ -19,17 +19,19 @@ export const MessageMediaAttachment: React.FC<IMessageMediaAttachmentProps> = Re
 
   return (
     <>
-      <div onClick={changeBigMediaDisplayed} className='media-attachment'>
+      <div onClick={changeBigMediaDisplayed} className="media-attachment">
         {currentAttachment?.type === FileType.Picture && (
-          <img src={(currentAttachment as IPictureAttachment).previewUrl} alt='' className='media-attachment__img' />
+          <img src={(currentAttachment as IPictureAttachment).previewUrl} alt="" className="media-attachment__img" />
         )}
 
         {currentAttachment?.type === FileType.Video && (
           <>
-            <img src={(currentAttachment as IVideoAttachment).firstFrameUrl} alt='' className='media-attachment__img' />
-            <div className='media-attachment__blur' />
-            <PlaySvg className='media-attachment__svg' viewBox='0 0 25 25' />
-            <div className='media-attachment__duration'>{moment.utc((currentAttachment as IVideoAttachment).duration * 1000).format('mm:ss')}</div>{' '}
+            <img src={(currentAttachment as IVideoAttachment).firstFrameUrl} alt="" className="media-attachment__img" />
+            <div className="media-attachment__blur" />
+            <PlaySvg className="media-attachment__svg" viewBox="0 0 25 25" />
+            <div className="media-attachment__duration">
+              {moment.utc((currentAttachment as IVideoAttachment).duration * 1000).format('mm:ss')}
+            </div>{' '}
           </>
         )}
       </div>

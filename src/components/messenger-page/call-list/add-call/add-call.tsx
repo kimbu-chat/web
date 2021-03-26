@@ -15,15 +15,15 @@ const AddCall = () => {
 
   return (
     <>
-      <div className='add-call'>
-        <div className='add-call__icon-wrapper'>
-          <AddCallSvg viewBox='0 0 65 64' />
+      <div className="add-call">
+        <div className="add-call__icon-wrapper">
+          <AddCallSvg viewBox="0 0 65 64" />
         </div>
 
-        <h3 className='add-call__title'>{t('addCall.title')}</h3>
-        <h5 className='add-call__subtitle'>{t('addCall.subTitle')}</h5>
+        <h3 className="add-call__title">{t('addCall.title')}</h3>
+        <h5 className="add-call__subtitle">{t('addCall.subTitle')}</h5>
 
-        <button onClick={changeSetAddCallsModalDisplayedState} type='button' className='add-call__btn'>
+        <button onClick={changeSetAddCallsModalDisplayedState} type="button" className="add-call__btn">
           {t('addCall.add')}
         </button>
       </div>

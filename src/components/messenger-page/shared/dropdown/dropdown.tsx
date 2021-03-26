@@ -25,16 +25,19 @@ export const Dropdown: React.FC<IDropdownProps> = React.memo(({ selectedString, 
   useOnClickOutside(dropdownRef, closeOptionsOpenedStatus);
 
   return (
-    <div ref={dropdownRef} className='dropdown__select-wrapper dropdown__select-wrapper--audio'>
-      <div className={`dropdown__select ${disabled ? 'dropdown__select--disabled' : ''}`} onClick={disabled ? () => {} : changeOptionsOpenedStatus}>
+    <div ref={dropdownRef} className="dropdown__select-wrapper dropdown__select-wrapper--audio">
+      <div
+        className={`dropdown__select ${disabled ? 'dropdown__select--disabled' : ''}`}
+        onClick={disabled ? () => {} : changeOptionsOpenedStatus}
+      >
         <span>{selectedString}</span>
-        <DropDownSvg viewBox='0 0 48 48' />
+        <DropDownSvg viewBox="0 0 48 48" />
       </div>
       {optionsOpened && (
-        <div className='dropdown__select-block'>
+        <div className="dropdown__select-block">
           {options.map((option) => (
             <div
-              className='dropdown__select-block__option'
+              className="dropdown__select-block__option"
               key={option.title}
               onClick={() => {
                 option.onClick();

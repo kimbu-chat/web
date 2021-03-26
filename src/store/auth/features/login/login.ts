@@ -43,6 +43,9 @@ export class Login {
   }
 
   static get httpRequest() {
-    return authRequestFactory<AxiosResponse<ILoginApiResponse>, ILoginApiRequest>(`${process.env.MAIN_API}/api/users/tokens`, HttpRequestMethod.Post);
+    return authRequestFactory<AxiosResponse<ILoginApiResponse>, ILoginApiRequest>(
+      `${process.env.MAIN_API}/api/users/tokens`,
+      HttpRequestMethod.Post,
+    );
   }
 }

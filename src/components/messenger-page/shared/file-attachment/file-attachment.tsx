@@ -42,19 +42,19 @@ export const FileAttachment: React.FC<IFileAttachmentProps> = React.memo(({ atta
   }, [setIsDownloading, setDownloaded, abortDownloadingRef]);
 
   return (
-    <div className='file-attachment'>
+    <div className="file-attachment">
       {isDownloading ? (
-        <div onClick={abortDownloading} className='file-attachment__cancel'>
-          <ProgressSVG ref={progressSvgRef} viewBox='0 0 25 25' className='file-attachment__progress-svg' />
+        <div onClick={abortDownloading} className="file-attachment__cancel">
+          <ProgressSVG ref={progressSvgRef} viewBox="0 0 25 25" className="file-attachment__progress-svg" />
         </div>
       ) : (
-        <div onClick={download} className='file-attachment__download'>
-          <DownloadSvg viewBox='0 0 25 25' />
+        <div onClick={download} className="file-attachment__download">
+          <DownloadSvg viewBox="0 0 25 25" />
         </div>
       )}
-      <div className='file-attachment__data'>
-        <h4 className='file-attachment__file-name'>{attachment.title}</h4>
-        <div className='file-attachment__file-size'>
+      <div className="file-attachment__data">
+        <h4 className="file-attachment__file-name">{attachment.title}</h4>
+        <div className="file-attachment__file-size">
           {isDownloading
             ? `${getRawAttachmentSizeUnit(downloaded)}/${getRawAttachmentSizeUnit(attachment.byteSize)}`
             : getRawAttachmentSizeUnit(attachment.byteSize)}

@@ -10,7 +10,12 @@ import { deviceUpdateWatcher } from '@store/calls/utils/device-update-watcher';
 import { getAndSendUserMedia, getMediaDevicesList } from '@store/calls/utils/user-media';
 import { InputType } from '@store/calls/common/enums/input-type';
 import { peerWatcher } from '@store/calls/utils/peer-watcher';
-import { getAudioConstraintsSelector, getCallInterlocutorIdSelector, getIsVideoEnabledSelector, getVideoConstraintsSelector } from '@store/calls/selectors';
+import {
+  getAudioConstraintsSelector,
+  getCallInterlocutorIdSelector,
+  getIsVideoEnabledSelector,
+  getVideoConstraintsSelector,
+} from '@store/calls/selectors';
 
 import { ICallsState } from '../../calls-state';
 import { ChangeActiveDeviceId } from '../change-active-device-id/change-active-device-id';
@@ -88,6 +93,9 @@ export class AcceptCall {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IAcceptCallApiRequest>(`${process.env.MAIN_API}/api/calls/accept-call`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse, IAcceptCallApiRequest>(
+      `${process.env.MAIN_API}/api/calls/accept-call`,
+      HttpRequestMethod.Post,
+    );
   }
 }

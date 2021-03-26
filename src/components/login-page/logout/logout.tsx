@@ -10,7 +10,7 @@ const Logout: React.FC = () => {
     logout().then(() => {
       window.location.replace('login');
     });
-  }, []);
+  }, [logout]);
 
   return <CubeLoader />;
 };

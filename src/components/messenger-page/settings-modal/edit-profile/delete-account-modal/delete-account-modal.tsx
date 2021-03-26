@@ -14,19 +14,19 @@ export const DeleteAccountModal: React.FC<IDeleteAccountModalProps> = React.memo
   return (
     <WithBackground onBackgroundClick={onClose}>
       <Modal
-        title={
+        title={(
           <>
-            <DeleteSvg viewBox='0 0 15 16' className='delete-account-modal__icon' />
+            <DeleteSvg viewBox="0 0 15 16" className="delete-account-modal__icon" />
             <span> {t('deleteAccountModal.title')} </span>
           </>
-        }
+        )}
         closeModal={onClose}
-        content={<div className='delete-account-modal__сontent'>{t('deleteAccountModal.confirm-content')}</div>}
+        content={<div className="delete-account-modal__сontent">{t('deleteAccountModal.confirm-content')}</div>}
         buttons={[
-          <button key={1} type='button' onClick={onClose} className='delete-account-modal__btn delete-account-modal__btn--cancel'>
+          <button key={1} type="button" onClick={onClose} className="delete-account-modal__btn delete-account-modal__btn--cancel">
             {t('deleteAccountModal.cancel')}
           </button>,
-          <button key={2} type='button' className='delete-account-modal__btn delete-account-modal__btn--confirm'>
+          <button key={2} type="button" className="delete-account-modal__btn delete-account-modal__btn--confirm">
             {t('deleteAccountModal.confirm')}
           </button>,
         ]}

@@ -31,28 +31,35 @@ export const SelectEntity: React.FC<ISelectEntityProps> = React.memo(({ changeSe
   const groupChat = (chatOrUser as IChat)?.groupChat;
 
   return (
-    <div onClick={onClickOnThisContact} className='select-entity__friend'>
+    <div onClick={onClickOnThisContact} className="select-entity__friend">
       {groupChat ? (
-        <div className='select-entity__avatar-container'>
-          <Avatar className='select-entity__avatar' src={groupChat.avatar?.previewUrl}>
+        <div className="select-entity__avatar-container">
+          <Avatar className="select-entity__avatar" src={groupChat.avatar?.previewUrl}>
             {getInterlocutorInitials(chatOrUser as IChat)}
           </Avatar>
         </div>
       ) : (
-        <StatusBadge containerClassName='select-entity__avatar-container' additionalClassNames='select-entity__avatar' user={interlocutor} />
+        <StatusBadge
+          containerClassName="select-entity__avatar-container"
+          additionalClassNames="select-entity__avatar"
+          user={interlocutor}
+        />
       )}
 
-      <div className='select-entity__friend-data'>
-        <div className='select-entity__friend-name'>{interlocutor ? `${interlocutor.firstName} ${interlocutor.lastName}` : groupChat?.name}</div>
+      <div className="select-entity__friend-data">
+        <div className="select-entity__friend-name">
+          {interlocutor ? `${interlocutor.firstName} ${interlocutor.lastName}` : groupChat?.name}
+        </div>
         {interlocutor && (
-          <div className='select-entity__friend-status'>
+          <div className="select-entity__friend-status">
             <TimeUpdateable timeStamp={interlocutor.lastOnlineTime} />
           </div>
         )}
       </div>
 
-      {icon && <div className='select-entity__icon-holder'>{icon}</div>}
-      {changeSelectedState && (isSelected ? <SelectedSvg className='select-entity__selected' /> : <div className='select-entity__select' />)}
+      {icon && <div className="select-entity__icon-holder">{icon}</div>}
+      {changeSelectedState
+        && (isSelected ? <SelectedSvg className="select-entity__selected" /> : <div className="select-entity__select" />)}
     </div>
   );
 });

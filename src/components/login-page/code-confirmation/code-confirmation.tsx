@@ -11,7 +11,12 @@ import { parsePhoneNumber } from 'libphonenumber-js';
 import ResendSvg from '@icons/ic-resend.svg';
 import { BaseBtn } from '@components';
 import { useHistory } from 'react-router';
-import { authPhoneNumberSelector, confirmationCodeWrongSelector, authLoadingSelector, twoLetterCountryCodeSelector } from '@store/auth/selectors';
+import {
+  authPhoneNumberSelector,
+  confirmationCodeWrongSelector,
+  authLoadingSelector,
+  twoLetterCountryCodeSelector,
+} from '@store/auth/selectors';
 import { RootState } from 'typesafe-actions';
 
 const NUMBER_OF_DIGITS = [0, 1, 2, 3];
@@ -62,12 +67,12 @@ const CodeConfirmation: React.FC<ICodeConfirmationProps> = ({ preloadNext }) => 
 
   useEffect(() => {
     preloadNext();
-  }, []);
+  }, [preloadNext]);
 
   const checkCode = useCallback(
-    (code: string[]) => {
+    (authCode: string[]) => {
       if (code.every((element) => element.length === 1)) {
-        checkConfirmationCode({ code: code!.join(''), phoneNumber })
+        checkConfirmationCode({ code: authCode!.join(''), phoneNumber })
           .then(({ userRegistered }) => {
             if (userRegistered) {
               history.push('/chats');
@@ -80,7 +85,7 @@ const CodeConfirmation: React.FC<ICodeConfirmationProps> = ({ preloadNext }) => 
           });
       }
     },
-    [phoneNumber],
+    [checkConfirmationCode, code, history, phoneNumber],
   );
 
   const onKeyPress = (key: number): void => {
@@ -127,7 +132,7 @@ const CodeConfirmation: React.FC<ICodeConfirmationProps> = ({ preloadNext }) => 
       ref={boxElements[key]}
       value={code[key]}
       key={key}
-      type='text'
+      type="text"
       className={`code-confirmation__code-input ${isConfirmationCodeWrong ? 'code-confirmation__code-input--wrong' : ''}`}
     />
   );
@@ -139,31 +144,33 @@ const CodeConfirmation: React.FC<ICodeConfirmationProps> = ({ preloadNext }) => 
     });
     setRemainingSeconds(60);
     setIsIntervalRunning(true);
-  }, [reSendSmsCode, setRemainingSeconds, setIsIntervalRunning]);
+  }, [reSendSmsCode, phoneNumber, twoLetterCountryCode]);
 
   return (
-    <div className='code-confirmation'>
-      <div className='code-confirmation__container'>
-        <p className='code-confirmation__confirm-code'>{t('loginPage.confirm_code')}</p>
+    <div className="code-confirmation">
+      <div className="code-confirmation__container">
+        <p className="code-confirmation__confirm-code">{t('loginPage.confirm_code')}</p>
         <p
           style={{ marginBottom: isConfirmationCodeWrong ? '20px' : '50px' }}
-          className='code-confirmation__code-sent'
+          className="code-confirmation__code-sent"
           onClick={() => setCode(String(codeFromServer).split(''))}
         >
           {`${t('loginPage.code_sent_to')} ${parsePhoneNumber(phoneNumber).formatInternational()}`}
         </p>
-        {isConfirmationCodeWrong && <p className='code-confirmation__wrong-code'>{t('loginPage.wrong_code')}</p>}
-        <div className='code-confirmation__inputs-container'>{NUMBER_OF_DIGITS.map(input)}</div>
+        {isConfirmationCodeWrong && <p className="code-confirmation__wrong-code">{t('loginPage.wrong_code')}</p>}
+        <div className="code-confirmation__inputs-container">{NUMBER_OF_DIGITS.map(input)}</div>
         {!(remainingSeconds === 0) && (
           <>
-            <p className='code-confirmation__timer'>{t('loginPage.reset_timer', { time: moment.utc(remainingSeconds * 1000).format('mm:ss') })}</p>
+            <p className="code-confirmation__timer">
+              {t('loginPage.reset_timer', { time: moment.utc(remainingSeconds * 1000).format('mm:ss') })}
+            </p>
 
             <BaseBtn
               disabled={isConfirmationCodeWrong || !code.every((element) => element.length === 1) || isLoading}
               onClick={() => checkCode(code)}
-              variant='contained'
-              color='primary'
-              width='contained'
+              variant="contained"
+              color="primary"
+              width="contained"
               isLoading={isLoading}
             >
               {t('loginPage.next')}
@@ -173,13 +180,13 @@ const CodeConfirmation: React.FC<ICodeConfirmationProps> = ({ preloadNext }) => 
 
         {remainingSeconds === 0 && (
           <BaseBtn
-            icon={<ResendSvg width={16} height={16} viewBox='0 0 25 25' />}
+            icon={<ResendSvg width={16} height={16} viewBox="0 0 25 25" />}
             disabled={remainingSeconds > 0}
             onClick={() => resendPhoneConfirmationCode()}
-            variant='outlined'
-            color='primary'
-            width='auto'
-            className='code-confirmation__resend-btn'
+            variant="outlined"
+            color="primary"
+            width="auto"
+            className="code-confirmation__resend-btn"
           >
             {t('loginPage.resend')}
           </BaseBtn>

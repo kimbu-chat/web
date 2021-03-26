@@ -47,7 +47,7 @@ const ChatList = React.memo(() => {
   }, [searchString, chats.length, areChatsLoading]);
 
   return (
-    <div className='chat-list'>
+    <div className="chat-list">
       <InfiniteScroll onReachExtreme={loadMore} hasMore={hasMoreChats} isLoading={areChatsLoading}>
         {searchString.length > 0
           ? searchChats?.map((chat: IChat) => <ChatFromList chat={chat} key={chat.id} />)

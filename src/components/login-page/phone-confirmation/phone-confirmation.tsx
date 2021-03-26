@@ -37,11 +37,11 @@ const PhoneConfirmation: React.FC<IPhoneConfirmationProps> = ({ preloadNext }) =
   const sendSms = useCallback(() => {
     const phoneNumber = parsePhoneNumberFromString(phone);
     if (phoneNumber?.isValid()) {
-      sendSmsCode({ phoneNumber: phoneNumber!.number as string, twoLetterCountryCode: country.code }).then(() => {
+      sendSmsCode({ phoneNumber: phoneNumber.number as string, twoLetterCountryCode: country.code }).then(() => {
         history.push('/confirm-code');
       });
     }
-  }, [phone]);
+  }, [country.code, history, phone, sendSmsCode]);
 
   const changePolicyDisplayedState = useCallback(() => {
     setPolicyDisplayed((oldState) => !oldState);
@@ -76,15 +76,17 @@ const PhoneConfirmation: React.FC<IPhoneConfirmationProps> = ({ preloadNext }) =
     [setCountry, setPhone, focusPhoneInput],
   );
 
+  const setCurrentCountry = useCallback(async () => {
+    const countryCode = await getCountryByIp();
+    const currentCountry = countryList.find(({ code }) => code === countryCode) || countryList[0];
+    setCountry(currentCountry);
+  }, []);
+
   useEffect(() => {
     preloadNext();
     setCountry(countryList[0]);
-    (async () => {
-      const countryCode = await getCountryByIp();
-      const country = countryList.find(({ code }) => code === countryCode) || countryList[0];
-      setCountry(country);
-    })();
-  }, []);
+    setCurrentCountry();
+  }, [preloadNext, setCurrentCountry]);
 
   //! Temporal code
   // TODO:Remove im production
@@ -95,10 +97,10 @@ const PhoneConfirmation: React.FC<IPhoneConfirmationProps> = ({ preloadNext }) =
 
   return (
     <>
-      <div className='phone-confirmation'>
-        <div className='phone-confirmation__container'>
-          <h1 className='phone-confirmation__logo'>KIMBU</h1>
-          <p onClick={changeNumbersDisplayedState} className='phone-confirmation__confirm-phone'>
+      <div className="phone-confirmation">
+        <div className="phone-confirmation__container">
+          <h1 className="phone-confirmation__logo">RAVUDI</h1>
+          <p onClick={changeNumbersDisplayedState} className="phone-confirmation__confirm-phone">
             {t('loginPage.confirm_phone')}
           </p>
           {areNumbersDisplayed && (
@@ -109,23 +111,31 @@ const PhoneConfirmation: React.FC<IPhoneConfirmationProps> = ({ preloadNext }) =
               <p>+375445446399</p>
             </>
           )}
-          <div className='phone-confirmation__credentials'>
+          <div className="phone-confirmation__credentials">
             <CountrySelect setRef={setCountrySelectRef} country={country} handleCountryChange={handleCountryChange} />
-            <PhoneInput ref={phoneInputRef} displayCountries={displayCountries} country={country} phone={phone} setPhone={setPhone} sendSms={sendSms} />
+            <PhoneInput
+              ref={phoneInputRef}
+              displayCountries={displayCountries}
+              country={country}
+              phone={phone}
+              setPhone={setPhone}
+              sendSms={sendSms}
+            />
           </div>
           <BaseBtn
             disabled={isLoading || !parsePhoneNumberFromString(phone)?.isValid()}
             isLoading={isLoading}
             onClick={sendSms}
-            variant='contained'
-            color='primary'
-            width='contained'
-            className='phone-confirmation__btn'
+            variant="contained"
+            color="primary"
+            width="contained"
+            className="phone-confirmation__btn"
           >
             {t('loginPage.next')}
           </BaseBtn>
-          <p className='phone-confirmation__conditions'>
-            {t('loginPage.agree_to')} <span onClick={changePolicyDisplayedState}>{t('loginPage.ravudi_terms')}</span>
+          <p className="phone-confirmation__conditions">
+            {t('loginPage.agree_to')}
+            <span onClick={changePolicyDisplayedState}>{t('loginPage.ravudi_terms')}</span>
           </p>
         </div>
       </div>

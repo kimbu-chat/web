@@ -17,7 +17,9 @@ export class SubmitEditMessageSuccess {
       const chat = getChatByIdDraftSelector(chatId, draft);
       const message = draft.messages[chatId].messages.find(({ id }) => id === messageId);
       const newAttachments = [
-        ...(message?.attachments?.filter(({ id }) => payload.removedAttachments?.findIndex((removedAttachment) => removedAttachment.id === id) === -1) || []),
+        ...(message?.attachments?.filter(
+          ({ id }) => payload.removedAttachments?.findIndex((removedAttachment) => removedAttachment.id === id) === -1,
+        ) || []),
         ...(payload.newAttachments || []),
       ];
 

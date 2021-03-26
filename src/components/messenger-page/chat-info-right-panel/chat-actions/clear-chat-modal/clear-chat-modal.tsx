@@ -33,29 +33,29 @@ export const ClearChatModal: React.FC<IClearChatModalProps> = React.memo(({ hide
   return (
     <WithBackground onBackgroundClick={hide}>
       <Modal
-        title={
+        title={(
           <>
-            <ClearSvg viewBox='0 0 18 18' className='clear-chat-modal__icon' />
+            <ClearSvg viewBox="0 0 18 18" className="clear-chat-modal__icon" />
             <span> {t('clearChat.title')} </span>
           </>
-        }
-        content={
-          <div className='clear-chat-modal'>
-            <div className='clear-chat-modal__delete-all'>
-              <button type='button' className='clear-chat-modal__btn' onClick={changeDeleteForInterlocutorState}>
+        )}
+        content={(
+          <div className="clear-chat-modal">
+            <div className="clear-chat-modal__delete-all">
+              <button type="button" className="clear-chat-modal__btn" onClick={changeDeleteForInterlocutorState}>
                 {deleteForInterlocutor ? <CheckedSvg /> : <UncheckedSvg />}
               </button>
-              <span className='clear-chat-modal__btn-description'>{t('clearChat.clear-confirmation')}</span>
+              <span className="clear-chat-modal__btn-description">{t('clearChat.clear-confirmation')}</span>
             </div>
           </div>
-        }
+        )}
         highlightedInContents={selectedGroupChatName}
         closeModal={hide}
         buttons={[
-          <button key={1} type='button' className='clear-chat-modal__cancel-btn' onClick={hide}>
+          <button key={1} type="button" className="clear-chat-modal__cancel-btn" onClick={hide}>
             {t('chatInfo.cancel')}
           </button>,
-          <button key={2} type='button' className='clear-chat-modal__confirm-btn' onClick={clearSelectedChat}>
+          <button key={2} type="button" className="clear-chat-modal__confirm-btn" onClick={clearSelectedChat}>
             {t('chatInfo.clear')}
           </button>,
         ]}

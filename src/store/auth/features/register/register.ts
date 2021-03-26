@@ -44,8 +44,7 @@ export class Register {
           phoneNumber,
           twoLetterCountryCode,
           avatarId,
-        }),
-      );
+        }));
 
       yield put(Login.action({ phoneNumber, code: confirmationCode }));
       yield take(LoginSuccess.action);

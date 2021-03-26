@@ -23,6 +23,9 @@ export class DeleteFriend {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IDeleteFriendApiRequest>(`${process.env.MAIN_API}/api/contacts/batch-delete`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse, IDeleteFriendApiRequest>(
+      `${process.env.MAIN_API}/api/contacts/batch-delete`,
+      HttpRequestMethod.Post,
+    );
   }
 }

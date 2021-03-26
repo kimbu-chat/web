@@ -26,7 +26,9 @@ export class DeleteMessage {
       const { messageIds, forEveryone } = action.payload;
       const chatId = yield select(getSelectedChatIdSelector);
 
-      const { status } = DeleteMessage.httpRequest.call(yield call(() => DeleteMessage.httpRequest.generator({ ids: messageIds, forEveryone })));
+      const { status } = DeleteMessage.httpRequest.call(
+        yield call(() => DeleteMessage.httpRequest.generator({ ids: messageIds, forEveryone })),
+      );
 
       if (status === HTTPStatusCode.OK) {
         yield put(DeleteMessageSuccess.action({ messageIds, chatId }));
@@ -35,6 +37,9 @@ export class DeleteMessage {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IDeleteMessagesApiRequest>(`${process.env.MAIN_API}/api/messages/delete-message-list`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse, IDeleteMessagesApiRequest>(
+      `${process.env.MAIN_API}/api/messages/delete-message-list`,
+      HttpRequestMethod.Post,
+    );
   }
 }

@@ -16,14 +16,14 @@ export const Photo: React.FC<IPhotoProps> = React.memo(({ photo, attachmentsArr 
   return (
     <>
       {photo.needToShowMonthSeparator && (
-        <div className='chat-photo__separator'>
-          {photo.needToShowMonthSeparator &&
-            (photo.needToShowYearSeparator || doesYearDifferFromCurrent(photo.creationDateTime)
+        <div className="chat-photo__separator">
+          {photo.needToShowMonthSeparator
+            && (photo.needToShowYearSeparator || doesYearDifferFromCurrent(photo.creationDateTime)
               ? moment(photo.creationDateTime).format('MMMM YYYY')
               : moment(photo.creationDateTime).format('MMMM'))}
         </div>
       )}
-      <img alt='low speed' onClick={changeBigPhotoDisplayed} key={photo.id} className='chat-photo__photo' src={photo.url} />
+      <img alt="low speed" onClick={changeBigPhotoDisplayed} key={photo.id} className="chat-photo__photo" src={photo.url} />
       <FadeAnimationWrapper isDisplayed={bigPhotoDisplayed}>
         <MediaModal attachmentId={photo.id} attachmentsArr={attachmentsArr} onClose={changeBigPhotoDisplayed} />
       </FadeAnimationWrapper>

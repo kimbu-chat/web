@@ -9,9 +9,11 @@ interface ISearchBoxProps extends React.DetailedHTMLProps<React.InputHTMLAttribu
   iconClassName?: string;
 }
 
-export const SearchBox: React.FC<ISearchBoxProps> = React.memo(({ onChange, iconClassName = '', inputClassName = '', containerClassName = '' }) => (
-  <div className={`search-box__input-wrapper ${containerClassName}`}>
-    <input onChange={onChange} placeholder='Search' type='text' className={`search-box__input ${inputClassName}`} />
-    <SearchSvg viewBox='0 0 24 24' className={`search-box__input__svg ${iconClassName}`} />
-  </div>
-));
+export const SearchBox: React.FC<ISearchBoxProps> = React.memo(
+  ({ onChange, iconClassName = '', inputClassName = '', containerClassName = '' }) => (
+    <div className={`search-box__input-wrapper ${containerClassName}`}>
+      <input onChange={onChange} placeholder="Search" type="text" className={`search-box__input ${inputClassName}`} />
+      <SearchSvg viewBox="0 0 24 24" className={`search-box__input__svg ${iconClassName}`} />
+    </div>
+  ),
+);

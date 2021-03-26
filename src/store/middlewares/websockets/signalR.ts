@@ -48,9 +48,9 @@ function openConnection(store: MiddlewareAPI<Dispatch, RootState>): void {
   });
 }
 
-export const signalRInvokeMiddleware: Middleware<RootAction, RootState> = (store: MiddlewareAPI<Dispatch, RootState>) => (next: Dispatch<RootAction>) => async (
-  action: RootAction,
-): Promise<RootAction> => {
+export const signalRInvokeMiddleware: Middleware<RootAction, RootState> = (store: MiddlewareAPI<Dispatch, RootState>) => (
+  next: Dispatch<RootAction>,
+) => async (action: RootAction): Promise<RootAction> => {
   switch (action.type) {
     case getType(InitSocketConnection.action): {
       if (!connection || connection.state === HubConnectionState.Disconnected || connection.state !== HubConnectionState.Connecting) {

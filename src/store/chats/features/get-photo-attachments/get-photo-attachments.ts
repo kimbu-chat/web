@@ -35,7 +35,9 @@ export class GetPhotoAttachments {
       const { page } = action.payload;
       const chatId = yield select(getSelectedChatIdSelector);
 
-      const { data, status } = GetPhotoAttachments.httpRequest.call(yield call(() => GetPhotoAttachments.httpRequest.generator({ page, chatId })));
+      const { data, status } = GetPhotoAttachments.httpRequest.call(
+        yield call(() => GetPhotoAttachments.httpRequest.generator({ page, chatId })),
+      );
 
       const hasMore = data.length >= page.limit;
 

@@ -35,8 +35,7 @@ export class SendSmsCode {
         yield call(() =>
           SendSmsCode.httpRequest.generator({
             phoneNumber: action.payload.phoneNumber,
-          }),
-        ),
+          })),
       );
 
       if (status !== HTTPStatusCode.OK) {

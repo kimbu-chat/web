@@ -160,7 +160,11 @@ export const CreateMessageInput = React.memo(() => {
 
     const text = refferedText.current;
 
-    if ((text.trim().length > 0 || (updatedSelectedChat.current?.attachmentsToSend?.length || 0) > 0) && updatedSelectedChat.current && currentUser) {
+    if (
+      (text.trim().length > 0 || (updatedSelectedChat.current?.attachmentsToSend?.length || 0) > 0)
+      && updatedSelectedChat.current
+      && currentUser
+    ) {
       const attachments = updatedSelectedChat.current?.attachmentsToSend?.map(({ attachment }) => attachment);
 
       if (chatId) {
@@ -428,10 +432,10 @@ export const CreateMessageInput = React.memo(() => {
   );
 
   return (
-    <div className='message-input' onDrop={onDrop} onDragOver={onDragOver} onDragEnter={onDragEnter} onDragLeave={onDragLeave}>
+    <div className="message-input" onDrop={onDrop} onDragOver={onDragOver} onDragEnter={onDragEnter} onDragLeave={onDragLeave}>
       {(editingMessageAttachments?.length! > 0 || selectedChat?.attachmentsToSend?.length! > 0) && (
-        <div className='message-input__attachments-box'>
-          <div className='message-input__attachments-box__container'>
+        <div className="message-input__attachments-box">
+          <div className="message-input__attachments-box__container">
             {editingMessageAttachments?.map((attachment) => (
               <MessageInputAttachment
                 attachment={{ attachment } as IAttachmentToSend<IBaseAttachment>}
@@ -444,8 +448,8 @@ export const CreateMessageInput = React.memo(() => {
               <MessageInputAttachment attachment={attachment} key={attachment.attachment.id} />
             ))}
           </div>
-          <button onClick={removeAllAttachments} type='button' className='message-input__attachments-box__delete-all'>
-            <CloseSvg viewBox='0 0 24 24' />
+          <button onClick={removeAllAttachments} type="button" className="message-input__attachments-box__delete-all">
+            <CloseSvg viewBox="0 0 24 24" />
           </button>
         </div>
       )}
@@ -458,22 +462,22 @@ export const CreateMessageInput = React.memo(() => {
           {replyingMessage && <RespondingMessage />}
           {editingMessage && <EditingMessage />}
           {false && <MessageError />}
-          <div className='message-input__send-message'>
+          <div className="message-input__send-message">
             {!isRecording && (
               <>
-                <input multiple hidden type='file' onChange={uploadFile} ref={fileInputRef} />
-                <button type='button' onClick={openSelectFiles} className='message-input__add'>
+                <input multiple hidden type="file" onChange={uploadFile} ref={fileInputRef} />
+                <button type="button" onClick={openSelectFiles} className="message-input__add">
                   <AddSvg />
                 </button>
-                <div className='message-input__line' />
-                <CrayonSvg width={22} viewBox='0 0 16 16' className='message-input__crayon' />
+                <div className="message-input__line" />
+                <CrayonSvg width={22} viewBox="0 0 16 16" className="message-input__crayon" />
               </>
             )}
 
             {isRecording && (
               <>
-                <div className='message-input__red-dot' />
-                <div className='message-input__counter'>{moment.utc(recordedSeconds * 1000).format('mm:ss')}</div>
+                <div className="message-input__red-dot" />
+                <div className="message-input__counter">{moment.utc(recordedSeconds * 1000).format('mm:ss')}</div>
               </>
             )}
 
@@ -483,27 +487,27 @@ export const CreateMessageInput = React.memo(() => {
                 placeholder={t('messageInput.write')}
                 onChange={onType}
                 onPaste={onPaste}
-                className='mousetrap message-input__input-message'
+                className="mousetrap message-input__input-message"
                 onFocus={handleFocus}
                 onBlur={handleBlur}
               />
             )}
 
-            {isRecording && <div className='message-input__recording-info'>Release outside this field to cancel</div>}
+            {isRecording && <div className="message-input__recording-info">Release outside this field to cancel</div>}
 
-            <div className='message-input__right-btns'>
+            <div className="message-input__right-btns">
               {!isRecording && (
                 <Suspense fallback={<CubeLoader />}>
                   <MessageSmiles setText={setText} />
                 </Suspense>
               )}
 
-              <button type='button' onClick={handleRegisterAudioBtnClick} ref={registerAudioBtnRef} className='message-input__voice-btn'>
-                <VoiceSvg viewBox='0 0 20 24' />
+              <button type="button" onClick={handleRegisterAudioBtnClick} ref={registerAudioBtnRef} className="message-input__voice-btn">
+                <VoiceSvg viewBox="0 0 20 24" />
               </button>
 
               {!isRecording && (
-                <button type='button' onClick={sendMessageToServer} className='message-input__send-btn'>
+                <button type="button" onClick={sendMessageToServer} className="message-input__send-btn">
                   <SendSvg />
                 </button>
               )}

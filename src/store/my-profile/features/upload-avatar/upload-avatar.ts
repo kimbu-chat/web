@@ -33,24 +33,23 @@ export class UploadAvatar {
 
       yield call(() =>
         UploadAvatar.httpRequest.generator(data, {
-          *onStart({ cancelTokenSource }): SagaIterator {
+          * onStart({ cancelTokenSource }): SagaIterator {
             setAvatarUploadCancelTokenSource(cancelTokenSource);
           },
-          *onSuccess(payload: IAvatar): SagaIterator {
+          * onSuccess(payload: IAvatar): SagaIterator {
             setAvatarUploadCancelTokenSource(undefined);
             action.meta.deferred.resolve(payload);
           },
-          *onProgress(payload): SagaIterator {
+          * onProgress(payload): SagaIterator {
             if (onProgress) {
               onProgress(payload.progress);
             }
           },
-          *onFailure(): SagaIterator {
+          * onFailure(): SagaIterator {
             setAvatarUploadCancelTokenSource(undefined);
             action.meta.deferred.reject();
           },
-        }),
-      );
+        }));
     };
   }
 

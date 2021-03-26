@@ -19,7 +19,7 @@ export const BackgroundBlur: React.FC<IBackgroundBlurProps> = React.memo(({ onCl
     };
   }, [onClick]);
   return ReactDOM.createPortal(
-    <div onClick={onClick} className='background-blur'>
+    <div onClick={onClick} className="background-blur">
       {children}
     </div>,
     document.getElementById('root') || document.createElement('div'),

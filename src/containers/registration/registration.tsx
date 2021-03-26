@@ -133,48 +133,48 @@ export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
 
   return (
     <>
-      <div className='registration'>
-        <div className='registration__window'>
-          <div className='registrtion__avatar-upload'>
-            <div className='edit-profile__photo-data'>
-              <div className='create-group-chat__current-photo-wrapper'>
-                <Avatar src={avatarData?.croppedImagePath} className='create-group-chat__current-photo'>
+      <div className="registration">
+        <div className="registration__window">
+          <div className="registrtion__avatar-upload">
+            <div className="edit-profile__photo-data">
+              <div className="create-group-chat__current-photo-wrapper">
+                <Avatar src={avatarData?.croppedImagePath} className="create-group-chat__current-photo">
                   {getStringInitials(`${firstName} ${lastName}`)}
                 </Avatar>
                 {avatarData && (
                   <>
                     <CircularProgress progress={uploaded} />
-                    <button type='button' onClick={discardAvatar} className='create-group-chat__remove-photo'>
-                      <CloseSVG viewBox='0 0 25 25' />
+                    <button type="button" onClick={discardAvatar} className="create-group-chat__remove-photo">
+                      <CloseSVG viewBox="0 0 25 25" />
                     </button>
                   </>
                 )}
               </div>
-              <input onChange={handleImageChange} ref={fileInputRef} type='file' hidden accept='image/*' />
-              <button type='button' onClick={openFileExplorer} className='create-group-chat__change-photo__btn'>
+              <input onChange={handleImageChange} ref={fileInputRef} type="file" hidden accept="image/*" />
+              <button type="button" onClick={openFileExplorer} className="create-group-chat__change-photo__btn">
                 Upload New Photo
               </button>
-              <div className='register__photo-requirements'>{t('register.photo-requirements')}</div>
+              <div className="register__photo-requirements">{t('register.photo-requirements')}</div>
             </div>
           </div>
-          <div className='registration__user-data'>
-            <div className='registration__input-group'>
-              <input onChange={changeFirstName} placeholder='First name' type='text' className='registrtion__input' />
-              <input onChange={changeLastName} placeholder='Last name' type='text' className='registrtion__input' />
+          <div className="registration__user-data">
+            <div className="registration__input-group">
+              <input onChange={changeFirstName} placeholder="First name" type="text" className="registrtion__input" />
+              <input onChange={changeLastName} placeholder="Last name" type="text" className="registrtion__input" />
             </div>
-            <div className='registration__input-group'>
+            <div className="registration__input-group">
               {!isNickNameValid && <div>This nick name is not acceptable</div>}
-              <input onChange={onChangeNickname} placeholder='Nickname' type='text' className='registrtion__input' />
+              <input onChange={onChangeNickname} placeholder="Nickname" type="text" className="registrtion__input" />
             </div>
           </div>
           <BaseBtn
             disabled={!uploadEnded || !(firstName.length > 0) || !(lastName.length > 0) || !isNickNameAvailable || isNickNameCheckLoading}
             isLoading={isLoading}
             onClick={onSubmit}
-            variant='contained'
-            color='primary'
-            width='contained'
-            className='phone-confirmation__btn'
+            variant="contained"
+            color="primary"
+            width="contained"
+            className="phone-confirmation__btn"
           >
             {t('register.register')}
           </BaseBtn>

@@ -52,21 +52,25 @@ export const ChatTopBar = React.memo(() => {
 
   if (selectedChat) {
     return (
-      <div className='chat-data__chat-data'>
-        <button type='button' onClick={openCloseChatInfo} className='chat-data__contact-data'>
+      <div className="chat-data__chat-data">
+        <button type="button" onClick={openCloseChatInfo} className="chat-data__contact-data">
           {selectedChat.interlocutor && (
-            <StatusBadge containerClassName='chat-data__contact-img-container' additionalClassNames='chat-data__contact-img' user={selectedChat.interlocutor} />
+            <StatusBadge
+              containerClassName="chat-data__contact-img-container"
+              additionalClassNames="chat-data__contact-img"
+              user={selectedChat.interlocutor}
+            />
           )}
 
           {selectedChat.groupChat && (
-            <div className='chat-data__contact-img-container'>
-              <Avatar className='chat-data__contact-img' src={selectedChat.groupChat?.avatar?.previewUrl}>
+            <div className="chat-data__contact-img-container">
+              <Avatar className="chat-data__contact-img" src={selectedChat.groupChat?.avatar?.previewUrl}>
                 {getInterlocutorInitials(selectedChat)}
               </Avatar>
             </div>
           )}
 
-          <div className='chat-data__chat-info'>
+          <div className="chat-data__chat-info">
             <h1>{getChatInterlocutor(selectedChat)}</h1>
             <p>
               {selectedChat.groupChat ? (
@@ -81,26 +85,30 @@ export const ChatTopBar = React.memo(() => {
             </p>
           </div>
         </button>
-        <div className='chat-data__buttons-group'>
+        <div className="chat-data__buttons-group">
           {selectedChat.interlocutor && (
-            <button type='button' className='chat-data__button' onClick={callWithAudio}>
+            <button type="button" className="chat-data__button" onClick={callWithAudio}>
               <VoiceCallSvg />
             </button>
           )}
           {selectedChat.interlocutor && (
-            <button type='button' className='chat-data__button' onClick={callWithVideo}>
+            <button type="button" className="chat-data__button" onClick={callWithVideo}>
               <VideoCallSvg />
             </button>
           )}
 
           <MessagesSearch />
 
-          <button type='button' onClick={openCloseChatInfo} className={`chat-data__button ${isInfoOpened ? 'chat-data__button--active' : ''}`}>
+          <button
+            type="button"
+            onClick={openCloseChatInfo}
+            className={`chat-data__button ${isInfoOpened ? 'chat-data__button--active' : ''}`}
+          >
             <ChatInfoSvg />
           </button>
         </div>
       </div>
     );
   }
-  return <div className='chat-data__chat-data' />;
+  return <div className="chat-data__chat-data" />;
 });

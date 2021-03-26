@@ -55,7 +55,8 @@ export class GetMessages {
 
         const newMessages = data.map((message) => ({
           ...message,
-          state: chat.interlocutorLastReadMessageId && chat.interlocutorLastReadMessageId >= message.id ? MessageState.READ : MessageState.SENT,
+          state:
+            chat.interlocutorLastReadMessageId && chat.interlocutorLastReadMessageId >= message.id ? MessageState.READ : MessageState.SENT,
         }));
 
         const messageList = {
@@ -72,6 +73,9 @@ export class GetMessages {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IMessage[]>, IGetMessagesApiRequest>(`${process.env.MAIN_API}/api/messages/search`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse<IMessage[]>, IGetMessagesApiRequest>(
+      `${process.env.MAIN_API}/api/messages/search`,
+      HttpRequestMethod.Post,
+    );
   }
 }

@@ -11,7 +11,14 @@ export class GetChatInfoSuccess {
 
   static get reducer() {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof GetChatInfoSuccess.action>) => {
-      const { chatId, rawAttachmentsCount, voiceAttachmentsCount, videoAttachmentsCount, audioAttachmentsCount, pictureAttachmentsCount } = payload;
+      const {
+        chatId,
+        rawAttachmentsCount,
+        voiceAttachmentsCount,
+        videoAttachmentsCount,
+        audioAttachmentsCount,
+        pictureAttachmentsCount,
+      } = payload;
 
       const chat = getChatByIdDraftSelector(chatId, draft);
 

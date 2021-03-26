@@ -12,7 +12,7 @@ import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import { WithBackground, Modal } from '@components';
 import { IAvatarSelectedData } from '@store/common/models';
-import { Tooltip } from '@app/components/shared/tooltip/tooltip';
+import { Tooltip } from '@components/shared/tooltip/tooltip';
 
 interface IPhotoEditorProps {
   imageUrl: string;
@@ -111,17 +111,17 @@ export const PhotoEditor: React.FC<IPhotoEditorProps> = ({ imageUrl, onSubmit, h
   return (
     <WithBackground onBackgroundClick={hideChangePhoto}>
       <Modal
-        title={
+        title={(
           <>
-            <PhotoSvg viewBox='0 0 18 19' className='photo-editor__icon' />
+            <PhotoSvg viewBox="0 0 18 19" className="photo-editor__icon" />
 
             <span> {t('changePhoto.title')} </span>
           </>
-        }
+        )}
         closeModal={hideChangePhoto}
-        content={
-          <div className='photo-editor'>
-            <div className='photo-editor__crop-container'>
+        content={(
+          <div className="photo-editor">
+            <div className="photo-editor__crop-container">
               <ReactCrop
                 src={imageUrl}
                 onImageLoaded={onLoad}
@@ -134,27 +134,27 @@ export const PhotoEditor: React.FC<IPhotoEditorProps> = ({ imageUrl, onSubmit, h
                 ruleOfThirds
               />
             </div>
-            <div className='photo-editor__btn-group'>
-              <button type='button' onClick={rotateLeft} className='photo-editor__modify-btn'>
+            <div className="photo-editor__btn-group">
+              <button type="button" onClick={rotateLeft} className="photo-editor__modify-btn">
                 <Tooltip>Left Rotation</Tooltip>
-                <LeftRotateSvg viewBox='0 0 18 18' />
+                <LeftRotateSvg viewBox="0 0 18 18" />
               </button>
-              <button type='button' onClick={mirror} className='photo-editor__modify-btn'>
+              <button type="button" onClick={mirror} className="photo-editor__modify-btn">
                 <Tooltip>Mirror</Tooltip>
-                <ReflectSvg viewBox='0 0 18 18' />
+                <ReflectSvg viewBox="0 0 18 18" />
               </button>
-              <button type='button' onClick={rotateRight} className='photo-editor__modify-btn'>
+              <button type="button" onClick={rotateRight} className="photo-editor__modify-btn">
                 <Tooltip>Right Rotation</Tooltip>
-                <RightRotateSvg viewBox='0 0 18 18' />
+                <RightRotateSvg viewBox="0 0 18 18" />
               </button>
             </div>
           </div>
-        }
+        )}
         buttons={[
-          <button type='button' className='photo-editor__btn photo-editor__btn--cancel' onClick={hideChangePhoto}>
+          <button type="button" className="photo-editor__btn photo-editor__btn--cancel" onClick={hideChangePhoto}>
             {t('changePhoto.reject')}
           </button>,
-          <button type='button' className='photo-editor__btn photo-editor__btn--confirm' onClick={submitChange}>
+          <button type="button" className="photo-editor__btn photo-editor__btn--confirm" onClick={submitChange}>
             {t('changePhoto.confirm')}
           </button>,
         ]}

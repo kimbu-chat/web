@@ -44,11 +44,11 @@ export const ChatMembers: React.FC = React.memo(() => {
   const changeMembersDisplayedState = useCallback(() => setMembersDisplayed((oldState) => !oldState), [setMembersDisplayed]);
 
   return (
-    <div className='chat-members'>
-      <div className='chat-members__heading-block'>
-        <h3 className='chat-members__heading'>Members</h3>
+    <div className="chat-members">
+      <div className="chat-members__heading-block">
+        <h3 className="chat-members__heading">Members</h3>
         <button
-          type='button'
+          type="button"
           onClick={changeMembersDisplayedState}
           className={`chat-members__open-arrow ${membersDisplayed ? 'chat-members__open-arrow--rotated' : ''}`}
         >
@@ -58,12 +58,12 @@ export const ChatMembers: React.FC = React.memo(() => {
 
       {membersDisplayed && (
         <>
-          <div className='chat-members__search'>
-            <SearchBox containerClassName='chat-members__search-container' onChange={search} />
+          <div className="chat-members__search">
+            <SearchBox containerClassName="chat-members__search-container" onChange={search} />
           </div>
 
           <InfiniteScroll
-            className='chat-members__members-list'
+            className="chat-members__members-list"
             onReachExtreme={loadMore}
             hasMore={membersListForGroupChat?.hasMore}
             isLoading={membersListForGroupChat?.loading}

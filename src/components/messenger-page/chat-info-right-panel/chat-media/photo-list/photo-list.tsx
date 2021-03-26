@@ -34,9 +34,9 @@ export const PhotoList = React.memo(() => {
   );
 
   return (
-    <div className='chat-photo'>
+    <div className="chat-photo">
       <InfiniteScroll
-        className='chat-photo__photo-container'
+        className="chat-photo__photo-container"
         onReachExtreme={loadMore}
         hasMore={photoForSelectedChat?.hasMore}
         isLoading={photoForSelectedChat?.loading}

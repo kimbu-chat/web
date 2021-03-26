@@ -99,13 +99,13 @@ export class UploadAttachmentRequest {
 
       yield call(() =>
         uploadRequest.generator(data, {
-          *onStart({ cancelTokenSource }): SagaIterator {
+          * onStart({ cancelTokenSource }): SagaIterator {
             addUploadingAttachment({ cancelTokenSource, id: attachmentId });
           },
-          *onProgress({ progress, uploadedBytes }): SagaIterator {
+          * onProgress({ progress, uploadedBytes }): SagaIterator {
             yield put(UploadAttachmentProgress.action({ chatId, attachmentId, progress, uploadedBytes }));
           },
-          *onSuccess(payload: IBaseAttachment): SagaIterator {
+          * onSuccess(payload: IBaseAttachment): SagaIterator {
             removeUploadingAttachment(attachmentId);
             yield put(
               UploadAttachmentSuccess.action({
@@ -115,12 +115,11 @@ export class UploadAttachmentRequest {
               }),
             );
           },
-          *onFailure(): SagaIterator {
+          * onFailure(): SagaIterator {
             removeUploadingAttachment(attachmentId);
             yield put(UploadAttachmentFailure.action({ chatId, attachmentId }));
           },
-        }),
-      );
+        }));
     };
   }
 

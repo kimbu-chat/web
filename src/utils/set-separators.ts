@@ -26,7 +26,10 @@ export const setSeparators = <T extends IGroupable>(
       elemCopy.needToShowDateSeparator = true;
     }
 
-    if (separateBy.separateByMonth && `${prevDate.getMonth()} ${prevDate.getFullYear()}` !== `${currentDate.getMonth()} ${currentDate.getFullYear()}`) {
+    if (
+      separateBy.separateByMonth
+      && `${prevDate.getMonth()} ${prevDate.getFullYear()}` !== `${currentDate.getMonth()} ${currentDate.getFullYear()}`
+    ) {
       elemCopy.needToShowMonthSeparator = true;
     }
 

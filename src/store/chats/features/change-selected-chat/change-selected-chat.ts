@@ -83,10 +83,9 @@ export class ChangeSelectedChat {
               const chat = data as IChat;
 
               if (chat.lastMessage) {
-                chat.lastMessage.state =
-                  chat.interlocutorLastReadMessageId && chat.interlocutorLastReadMessageId >= Number(chat?.lastMessage?.id)
-                    ? MessageState.READ
-                    : MessageState.SENT;
+                chat.lastMessage.state = chat.interlocutorLastReadMessageId && chat.interlocutorLastReadMessageId >= Number(chat?.lastMessage?.id)
+                  ? MessageState.READ
+                  : MessageState.SENT;
               }
 
               chat.interlocutorType = ChatId.fromId(chat.id).interlocutorType;
@@ -156,10 +155,10 @@ export class ChangeSelectedChat {
               };
 
               if (requestedChat.lastMessage) {
-                requestedChat.lastMessage.state =
-                  requestedChat.interlocutorLastReadMessageId && requestedChat.interlocutorLastReadMessageId >= Number(requestedChat?.lastMessage?.id)
-                    ? MessageState.READ
-                    : MessageState.SENT;
+                requestedChat.lastMessage.state = requestedChat.interlocutorLastReadMessageId
+                  && requestedChat.interlocutorLastReadMessageId >= Number(requestedChat?.lastMessage?.id)
+                  ? MessageState.READ
+                  : MessageState.SENT;
               }
 
               yield put(UnshiftChat.action(requestedChat));

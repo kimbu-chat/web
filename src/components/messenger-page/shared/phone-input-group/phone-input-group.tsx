@@ -1,4 +1,4 @@
-import { getCountryByIp } from '@app/utils/get-country-by-ip';
+import { getCountryByIp } from '@utils/get-country-by-ip';
 import { countryList } from '@common/countries';
 import { ICountry } from '@common/country';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -59,7 +59,7 @@ const PhoneInputGroup: React.FC<IPhoneInputGroupProps> = ({ setPhone, phone, sub
   );
 
   return (
-    <div className='phone-input-group'>
+    <div className="phone-input-group">
       {!hideCountrySelect && <CountrySelect setRef={setCountrySelectRef} country={country} handleCountryChange={handleCountryChange} />}
       <PhoneInput
         icon={phoneInputIcon}

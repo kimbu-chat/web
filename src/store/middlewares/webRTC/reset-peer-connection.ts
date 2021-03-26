@@ -1,5 +1,10 @@
 import { assignInterlocutorVideoTrack, assignInterlocutorAudioTrack, setVideoSender, stopAllTracks } from '@store/calls/utils/user-media';
-import { setIsRenegotiationAccepted, setMakingOffer, setIgnoreOffer, setIsSettingRemoteAnswerPending } from '@store/calls/utils/glare-utils';
+import {
+  setIsRenegotiationAccepted,
+  setMakingOffer,
+  setIgnoreOffer,
+  setIsSettingRemoteAnswerPending,
+} from '@store/calls/utils/glare-utils';
 import { getPeerConnection, setPeerConnection, setInterlocutorOffer } from './peerConnectionFactory';
 
 export const resetPeerConnection = () => {

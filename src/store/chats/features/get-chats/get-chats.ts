@@ -72,10 +72,9 @@ export class GetChats {
       const newData = data.map((chat: IChat) => {
         const newChat = { ...chat };
         if (newChat.lastMessage) {
-          newChat.lastMessage.state =
-            newChat.interlocutorLastReadMessageId && newChat.interlocutorLastReadMessageId >= Number(newChat?.lastMessage?.id)
-              ? (MessageState.READ as MessageState)
-              : (MessageState.SENT as MessageState);
+          newChat.lastMessage.state = newChat.interlocutorLastReadMessageId && newChat.interlocutorLastReadMessageId >= Number(newChat?.lastMessage?.id)
+            ? (MessageState.READ as MessageState)
+            : (MessageState.SENT as MessageState);
         }
 
         newChat.interlocutorType = ChatId.fromId(newChat.id).interlocutorType;
@@ -109,6 +108,9 @@ export class GetChats {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IChat[]>, IGetChatsApiRequest>(`${process.env.MAIN_API}/api/chats/search`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse<IChat[]>, IGetChatsApiRequest>(
+      `${process.env.MAIN_API}/api/chats/search`,
+      HttpRequestMethod.Post,
+    );
   }
 }

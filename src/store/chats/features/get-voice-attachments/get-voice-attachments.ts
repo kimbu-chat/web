@@ -35,7 +35,9 @@ export class GetVoiceAttachments {
       const { page } = action.payload;
       const chatId = yield select(getSelectedChatIdSelector);
 
-      const { data, status } = GetVoiceAttachments.httpRequest.call(yield call(() => GetVoiceAttachments.httpRequest.generator({ page, chatId })));
+      const { data, status } = GetVoiceAttachments.httpRequest.call(
+        yield call(() => GetVoiceAttachments.httpRequest.generator({ page, chatId })),
+      );
 
       const hasMore = data.length >= page.limit;
 

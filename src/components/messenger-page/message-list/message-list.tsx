@@ -54,8 +54,8 @@ const MessageList = React.memo(() => {
 
   if (!selectedChatId) {
     return (
-      <div className='chat__messages-list'>
-        <div className='chat__select-chat'>{t('chat.select_chat')}</div>
+      <div className="chat__messages-list">
+        <div className="chat__select-chat">{t('chat.select_chat')}</div>
       </div>
     );
   }
@@ -63,12 +63,12 @@ const MessageList = React.memo(() => {
   const separatedItemsWithUserInfo = MessageUtils.signAndSeparate(messages || []);
 
   return (
-    <div className='chat__messages-list'>
-      <div className='chat__messages-container'>
-        {typingString && <div className='chat__typing-notification'>{typingString}</div>}
+    <div className="chat__messages-list">
+      <div className="chat__messages-container">
+        {typingString && <div className="chat__typing-notification">{typingString}</div>}
 
         {!areMessagesLoading && !hasMoreMessages && (messages || []).length === 0 && (
-          <div className='chat__messages-list__empty'>
+          <div className="chat__messages-list__empty">
             <p>{t('chat.empty')}</p>
           </div>
         )}

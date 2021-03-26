@@ -33,7 +33,7 @@ export class ChangeUserOnlineStatus {
       if (payload) {
         resetUnreadNotifications();
 
-        window.document.title = 'Kimbu';
+        window.document.title = 'Ravudi';
       }
     };
   }

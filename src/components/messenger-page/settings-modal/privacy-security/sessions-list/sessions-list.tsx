@@ -1,9 +1,9 @@
 import React, { useCallback, useContext, useState } from 'react';
 import './sessions-list.scss';
 import ArrowSvg from '@icons/arrow.svg';
-import { LocalizationContext } from '@app/contexts';
-import { InfiniteScrollLoader } from '@app/components/messenger-page/shared/infinite-scroll/infinite-scroll-loader/infinite-scroll-loader';
-import { ISession } from '@app/store/my-profile/comon/models';
+import { LocalizationContext } from '@contexts';
+import { InfiniteScrollLoader } from '@components/messenger-page/shared/infinite-scroll/infinite-scroll-loader/infinite-scroll-loader';
+import { ISession } from '@store/my-profile/comon/models';
 import { Session } from './session/session';
 
 const mockedSessionsList: ISession[] = [
@@ -45,19 +45,23 @@ export const SessionsList = () => {
   }, [opened, setOpened, setLoading]);
 
   return (
-    <div className='sessions-list'>
-      <div className='sessions-list__header'>
+    <div className="sessions-list">
+      <div className="sessions-list__header">
         <span>{t('sessionaList.title', { count: 2 })}</span>
 
-        <button onClick={loadSessionsList} type='button' className={`sessions-list__header__open ${opened ? 'sessions-list__header__open--opened' : ''}`}>
-          <ArrowSvg viewBox='0 0 48 48' />
+        <button
+          onClick={loadSessionsList}
+          type="button"
+          className={`sessions-list__header__open ${opened ? 'sessions-list__header__open--opened' : ''}`}
+        >
+          <ArrowSvg viewBox="0 0 48 48" />
         </button>
       </div>
 
       {opened && loading && <InfiniteScrollLoader />}
 
       {opened && (
-        <div className='sessions-list__content'>
+        <div className="sessions-list__content">
           {mockedSessionsList.map((session) => (
             <Session key={session.id} session={session} />
           ))}

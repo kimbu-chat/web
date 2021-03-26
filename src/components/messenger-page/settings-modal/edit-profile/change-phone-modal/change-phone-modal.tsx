@@ -41,18 +41,18 @@ export const ChangePhoneModal: React.FC<IChangePhoneModalProps> = ({ onClose }) 
         title={
           submited ? (
             <>
-              <ChatSvg className='change-phone-modal__icon' viewBox='0 0 24 24' />
+              <ChatSvg className="change-phone-modal__icon" viewBox="0 0 24 24" />
               <span> {t('changePhoneModal.code-sent')} </span>
             </>
           ) : (
             <>
-              <CrayonSvg className='change-phone-modal__icon' viewBox='0 0 16 16' />
+              <CrayonSvg className="change-phone-modal__icon" viewBox="0 0 16 16" />
               <span> {t('changePhoneModal.change-number')} </span>
             </>
           )
         }
-        content={
-          <div className='change-phone-modal'>
+        content={(
+          <div className="change-phone-modal">
             <PhoneInputGroup
               submitFunction={() => {
                 setSubmited(true);
@@ -62,8 +62,8 @@ export const ChangePhoneModal: React.FC<IChangePhoneModalProps> = ({ onClose }) 
               setPhone={setPhone}
               phoneInputIcon={
                 submited && (
-                  <button type='button' className='change-phone-modal__back-icon'>
-                    <CrayonSvg onClick={prevStep} viewBox='0 0 16 16' />
+                  <button type="button" className="change-phone-modal__back-icon">
+                    <CrayonSvg onClick={prevStep} viewBox="0 0 16 16" />
                   </button>
                 )
               }
@@ -76,31 +76,39 @@ export const ChangePhoneModal: React.FC<IChangePhoneModalProps> = ({ onClose }) 
                   placeholder={t('changePhoneModal.enter-numbers')}
                   value={code}
                   onChange={(e) => setCode(e.target.value)}
-                  containerClassName='change-phone-modal__input'
+                  containerClassName="change-phone-modal__input"
                 />
 
-                <span className='change-phone-modal__details'>{t('changePhoneModal.details', { time: moment.utc(remainedTime * 1000).format('mm:ss') })}</span>
+                <span className="change-phone-modal__details">
+                  {t('changePhoneModal.details', { time: moment.utc(remainedTime * 1000).format('mm:ss') })}
+                </span>
               </>
             )}
           </div>
-        }
+        )}
         closeModal={onClose}
         buttons={[
           !submited && (
-            <button key={1} type='button' className='change-phone-modal__btn change-phone-modal__btn--cancel' onClick={onClose}>
+            <button key={1} type="button" className="change-phone-modal__btn change-phone-modal__btn--cancel" onClick={onClose}>
               {t('changePhoneModal.cancel')}
             </button>
           ),
           submited ? (
-            <button key={2} disabled={code.length !== 4} type='button' className='change-phone-modal__btn change-phone-modal__btn--submit' onClick={nextStep}>
+            <button
+              key={2}
+              disabled={code.length !== 4}
+              type="button"
+              className="change-phone-modal__btn change-phone-modal__btn--submit"
+              onClick={nextStep}
+            >
               {t('changePhoneModal.confirm')}
             </button>
           ) : (
             <button
               key={3}
               disabled={!parsePhoneNumberFromString(phone)?.isValid()}
-              type='button'
-              className='change-phone-modal__btn change-phone-modal__btn--submit'
+              type="button"
+              className="change-phone-modal__btn change-phone-modal__btn--submit"
               onClick={nextStep}
             >
               {t('changePhoneModal.change')}

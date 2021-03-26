@@ -128,39 +128,43 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
 
       return (
         <>
-          <div className='message__system-message'>
+          <div className="message__system-message">
             <div
-              className={`message__system-message__content ${callStatus === CallStatus.Ended && 'message__system-message__content--success-call'} ${
-                (callStatus === CallStatus.Declined || callStatus === CallStatus.NotAnswered || callStatus === CallStatus.Interrupted) &&
-                'message__system-message__content--failure-call'
+              className={`message__system-message__content ${
+                callStatus === CallStatus.Ended && 'message__system-message__content--success-call'
+              } ${
+                (callStatus === CallStatus.Declined || callStatus === CallStatus.NotAnswered || callStatus === CallStatus.Interrupted)
+                && 'message__system-message__content--failure-call'
               }`}
             >
               {message.systemMessageType === SystemMessageType.GroupChatMemberAdded && (
-                <AddUsersSvg className='message__system-message__icon' viewBox='0 0 18 18' />
+                <AddUsersSvg className="message__system-message__icon" viewBox="0 0 18 18" />
               )}
               {message.systemMessageType === SystemMessageType.GroupChatMemberRemoved && (
-                <LeaveSvg className='message__system-message__icon' viewBox='0 0 18 18' />
+                <LeaveSvg className="message__system-message__icon" viewBox="0 0 18 18" />
               )}
               {message.systemMessageType === SystemMessageType.GroupChatCreated && (
-                <CreateChatSvg className='message__system-message__icon' viewBox='0 0 24 24' />
+                <CreateChatSvg className="message__system-message__icon" viewBox="0 0 24 24" />
               )}
               {message.systemMessageType === SystemMessageType.GroupChatNameChanged && (
-                <CrayonSvg className='message__system-message__icon' viewBox='0 0 16 16' />
+                <CrayonSvg className="message__system-message__icon" viewBox="0 0 16 16" />
               )}
               {message.systemMessageType === SystemMessageType.GroupChatAvatarChanged && (
-                <PictureSvg className='message__system-message__icon' viewBox='0 0 18 19' />
+                <PictureSvg className="message__system-message__icon" viewBox="0 0 18 19" />
               )}
 
-              {(message.systemMessageType === SystemMessageType.CallEnded &&
-                callStatus === CallStatus.Ended &&
-                (isOutgoing ? (
-                  <OutgoingCallSvg className='message__system-message__icon' viewBox='0 0 11 12' />
+              {(message.systemMessageType === SystemMessageType.CallEnded
+                && callStatus === CallStatus.Ended
+                && (isOutgoing ? (
+                  <OutgoingCallSvg className="message__system-message__icon" viewBox="0 0 11 12" />
                 ) : (
-                  <IncomingCallSvg className='message__system-message__icon' viewBox='0 0 12 12' />
-                ))) ||
-                (callStatus === CallStatus.NotAnswered && <MissedCallSvg className='message__system-message__icon' viewBox='0 0 12 12' />) ||
-                ((callStatus === CallStatus.Declined || callStatus === CallStatus.Interrupted) && (
-                  <DeclinedCallSvg className='message__system-message__icon' viewBox='0 0 13 14' />
+                  <IncomingCallSvg className="message__system-message__icon" viewBox="0 0 12 12" />
+                )))
+                || (callStatus === CallStatus.NotAnswered && (
+                  <MissedCallSvg className="message__system-message__icon" viewBox="0 0 12 12" />
+                ))
+                || ((callStatus === CallStatus.Declined || callStatus === CallStatus.Interrupted) && (
+                  <DeclinedCallSvg className="message__system-message__icon" viewBox="0 0 13 14" />
                 ))}
 
               <span>{MessageUtils.constructSystemMessageText(message as IMessage, t, myId)}</span>
@@ -168,7 +172,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
           </div>
 
           {message.needToShowDateSeparator && (
-            <div className='message__separator message__separator--date'>
+            <div className="message__separator message__separator--date">
               <span>{moment.utc(message.creationDateTime).local().format('dddd, MMMM D, YYYY').toString()}</span>
             </div>
           )}
@@ -183,29 +187,33 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
           onClick={isSelectState ? selectThisMessage : undefined}
           id={`message-${message.id}`}
         >
-          {message.needToShowCreator &&
-            (myId === message.userCreator.id ? (
-              <p className='message__sender-name'>{`${message.userCreator?.firstName} ${message.userCreator?.lastName}`}</p>
+          {message.needToShowCreator
+            && (myId === message.userCreator.id ? (
+              <p className="message__sender-name">{`${message.userCreator?.firstName} ${message.userCreator?.lastName}`}</p>
             ) : (
-              <Link to={`/chats/${message.userCreator.id}1`} className='message__sender-name'>
+              <Link to={`/chats/${message.userCreator.id}1`} className="message__sender-name">
                 {`${message.userCreator?.firstName} ${message.userCreator?.lastName}`}
               </Link>
             ))}
 
           <div className={`message__item ${message.isSelected ? 'message__item--selected' : ''}`}>
-            <button type='button' onClick={selectThisMessage} className={`message__checkbox ${message.isSelected ? '' : 'message__checkbox--unselected'}`}>
+            <button
+              type="button"
+              onClick={selectThisMessage}
+              className={`message__checkbox ${message.isSelected ? '' : 'message__checkbox--unselected'}`}
+            >
               <SelectSvg />
             </button>
 
-            <div className='message__sender-photo-wrapper'>
-              {message.needToShowCreator &&
-                (myId === message.userCreator.id ? (
-                  <Avatar className='message__sender-photo ' src={message.userCreator.avatar?.previewUrl}>
+            <div className="message__sender-photo-wrapper">
+              {message.needToShowCreator
+                && (myId === message.userCreator.id ? (
+                  <Avatar className="message__sender-photo " src={message.userCreator.avatar?.previewUrl}>
                     {getUserInitials(message.userCreator as IUser)}
                   </Avatar>
                 ) : (
                   <Link to={`/chats/${ChatId.from(message.userCreator.id).id}`}>
-                    <Avatar className='message__sender-photo ' src={message.userCreator.avatar?.previewUrl}>
+                    <Avatar className="message__sender-photo " src={message.userCreator.avatar?.previewUrl}>
                       {getUserInitials(message.userCreator as IUser)}
                     </Avatar>
                   </Link>
@@ -218,10 +226,10 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                 isEditAllowed={isCurrentUserMessageCreator && !(message.linkedMessageType === MessageLinkType.Forward)}
               />
 
-              {message.isEdited && <CrayonSvg className='message__edited' />}
+              {message.isEdited && <CrayonSvg className="message__edited" />}
 
               {!message.text && (
-                <div className='message__attachments'>
+                <div className="message__attachments">
                   {structuredAttachments?.files.map((file) => (
                     <FileAttachment key={file.id} attachment={file} />
                   ))}
@@ -239,10 +247,10 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
               )}
 
               {message.text && (
-                <div className='message__content'>
+                <div className="message__content">
                   {message.linkedMessageType && <MessageLink linkedMessage={message.linkedMessage} />}
 
-                  <div className='message__attachments'>
+                  <div className="message__attachments">
                     {structuredAttachments?.files.map((file) => (
                       <FileAttachment key={file.id} attachment={file} />
                     ))}
@@ -262,20 +270,20 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                 </div>
               )}
             </div>
-            {isCurrentUserMessageCreator &&
-              (message.state === MessageState.READ ? (
-                <MessageReadSvg className='message__state' />
+            {isCurrentUserMessageCreator
+              && (message.state === MessageState.READ ? (
+                <MessageReadSvg className="message__state" />
               ) : message.state === MessageState.QUEUED ? (
-                <MessageQeuedSvg className='message__state' />
+                <MessageQeuedSvg className="message__state" />
               ) : (
-                <MessageSentSvg className='message__state' />
+                <MessageSentSvg className="message__state" />
               ))}
-            <div className='message__time'>{moment.utc(message.creationDateTime).local().format('LT')}</div>
+            <div className="message__time">{moment.utc(message.creationDateTime).local().format('LT')}</div>
           </div>
         </div>
 
         {message.needToShowDateSeparator && (
-          <div className='message__separator message__separator--date'>
+          <div className="message__separator message__separator--date">
             <span>{moment.utc(message.creationDateTime).local().format('dddd, MMMM D, YYYY').toString()}</span>
           </div>
         )}

@@ -1,9 +1,9 @@
 import React, { useCallback, useContext, useState } from 'react';
 import './blocked-users.scss';
 import ArrowSvg from '@icons/arrow.svg';
-import { LocalizationContext } from '@app/contexts';
-import { IUser } from '@app/store/common/models';
-import { InfiniteScrollLoader } from '@app/components/messenger-page/shared/infinite-scroll/infinite-scroll-loader/infinite-scroll-loader';
+import { LocalizationContext } from '@contexts';
+import { IUser } from '@store/common/models';
+import { InfiniteScrollLoader } from '@components/messenger-page/shared/infinite-scroll/infinite-scroll-loader/infinite-scroll-loader';
 import { BlockedUser } from './blocked-user/blocked-user';
 
 const mockedBlockedUsers: IUser[] = [
@@ -67,19 +67,23 @@ export const BlockedUsers = () => {
   }, [opened, setOpened, setLoading]);
 
   return (
-    <div className='blocked-users'>
-      <div className='blocked-users__header'>
+    <div className="blocked-users">
+      <div className="blocked-users__header">
         <span>{t('blockedUsers.title', { count: 2 })}</span>
 
-        <button onClick={loadBlockedUsers} type='button' className={`blocked-users__header__open ${opened ? 'blocked-users__header__open--opened' : ''}`}>
-          <ArrowSvg viewBox='0 0 48 48' />
+        <button
+          onClick={loadBlockedUsers}
+          type="button"
+          className={`blocked-users__header__open ${opened ? 'blocked-users__header__open--opened' : ''}`}
+        >
+          <ArrowSvg viewBox="0 0 48 48" />
         </button>
       </div>
 
       {opened && loading && <InfiniteScrollLoader />}
 
       {opened && (
-        <div className='blocked-users__content'>
+        <div className="blocked-users__content">
           {mockedBlockedUsers.map((user) => (
             <BlockedUser key={user.id} user={user} />
           ))}

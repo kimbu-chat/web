@@ -72,11 +72,14 @@ export const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = 
       <Modal
         title={t('groupChatAddFriendModal.add_members')}
         closeModal={onClose}
-        content={
-          <div className='group-chat-add-friend-modal__select-friends'>
-            <SearchBox containerClassName='group-chat-add-friend-modal__select-friends__search' onChange={(e) => searchFriends(e.target.value)} />
+        content={(
+          <div className="group-chat-add-friend-modal__select-friends">
+            <SearchBox
+              containerClassName="group-chat-add-friend-modal__select-friends__search"
+              onChange={(e) => searchFriends(e.target.value)}
+            />
             <InfiniteScroll
-              className='group-chat-add-friend-modal__friends-block'
+              className="group-chat-add-friend-modal__friends-block"
               onReachExtreme={loadMore}
               hasMore={hasMoreFriends}
               isLoading={friendsLoading}
@@ -84,23 +87,34 @@ export const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = 
               {friends.map(
                 (friend) =>
                   !idsToExclude.includes(friend.id) && (
-                    <SelectEntity key={friend.id} chatOrUser={friend} isSelected={isSelected(friend.id)} changeSelectedState={changeSelectedState} />
+                    <SelectEntity
+                      key={friend.id}
+                      chatOrUser={friend}
+                      isSelected={isSelected(friend.id)}
+                      changeSelectedState={changeSelectedState}
+                    />
                   ),
               )}
             </InfiniteScroll>
           </div>
-        }
+        )}
         buttons={[
           <button
             key={1}
             disabled={selectedUserIds.length === 0}
-            type='button'
-            className='group-chat-add-friend-modal__btn group-chat-add-friend-modal__btn--cancel'
+            type="button"
+            className="group-chat-add-friend-modal__btn group-chat-add-friend-modal__btn--cancel"
             onClick={onClose}
           >
             {t('groupChatAddFriendModal.cancel')}
           </button>,
-          <button key={2} disabled={selectedUserIds.length === 0} type='button' onClick={addUsers} className='group-chat-add-friend-modal__btn'>
+          <button
+            key={2}
+            disabled={selectedUserIds.length === 0}
+            type="button"
+            onClick={addUsers}
+            className="group-chat-add-friend-modal__btn"
+          >
             {t('groupChatAddFriendModal.add_members')}
           </button>,
         ]}

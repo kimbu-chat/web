@@ -34,25 +34,25 @@ export const MessagesSearch = () => {
   }, []);
 
   return (
-    <div className='messages-search'>
+    <div className="messages-search">
       {isSearching || (messagesSearchString?.length || 0) > 0 ? (
         <>
-          <SearchBox containerClassName='messages-search__input-container' value={messagesSearchString || ''} onChange={searchMessages} />
-          <div className='messages-search__pointer-container'>
-            <span className='messages-search__pointer-container__data'>1/3</span>
-            <div className='messages-search__pointer-arrows'>
-              <button type='button' className="className='messages-search__pointer-arrow messages-search__pointer-arrow--top">
-                <ArrowSvg viewBox='0 0 8 14' />
+          <SearchBox containerClassName="messages-search__input-container" value={messagesSearchString || ''} onChange={searchMessages} />
+          <div className="messages-search__pointer-container">
+            <span className="messages-search__pointer-container__data">1/3</span>
+            <div className="messages-search__pointer-arrows">
+              <button type="button" className="className='messages-search__pointer-arrow messages-search__pointer-arrow--top">
+                <ArrowSvg viewBox="0 0 8 14" />
               </button>
 
-              <button type='button' className="className='messages-search__pointer-arrow messages-search__pointer-arrow--bottom">
-                <ArrowSvg viewBox='0 0 8 14' />
+              <button type="button" className="className='messages-search__pointer-arrow messages-search__pointer-arrow--bottom">
+                <ArrowSvg viewBox="0 0 8 14" />
               </button>
             </div>
           </div>
         </>
       ) : (
-        <button type='button' onClick={changeSearchingState} className='chat-data__button'>
+        <button type="button" onClick={changeSearchingState} className="chat-data__button">
           <SearchSvg />
         </button>
       )}

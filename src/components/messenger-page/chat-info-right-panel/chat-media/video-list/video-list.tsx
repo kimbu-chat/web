@@ -34,9 +34,9 @@ export const VideoList = React.memo(() => {
   );
 
   return (
-    <div className='chat-video'>
+    <div className="chat-video">
       <InfiniteScroll
-        className='chat-video__video-container'
+        className="chat-video__video-container"
         onReachExtreme={loadMore}
         hasMore={videosForSelectedChat?.hasMore}
         isLoading={videosForSelectedChat?.loading}

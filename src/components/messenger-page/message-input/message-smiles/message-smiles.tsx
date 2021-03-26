@@ -36,13 +36,13 @@ const MessageSmiles: React.FC<IMessageSmilesProps> = React.memo(({ setText }) =>
 
   return (
     <>
-      <button type='button' ref={openEmojiRef} onClick={changeSmilesDisplayedStatus} className='message-input__smiles-btn'>
+      <button type="button" ref={openEmojiRef} onClick={changeSmilesDisplayedStatus} className="message-input__smiles-btn">
         <SmilesSvg />
       </button>
       {smilesRendered && (
-        <div ref={emojiRef} className='emoji-wrapper'>
+        <div ref={emojiRef} className="emoji-wrapper">
           <Picker
-            set='apple'
+            set="apple"
             showSkinTones={false}
             showPreview={false}
             i18n={{

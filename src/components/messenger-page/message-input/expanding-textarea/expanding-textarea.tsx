@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-export const ExpandingTextarea: React.FC<React.DetailedHTMLProps<React.TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement>> = (props) => {
+export const ExpandingTextarea: React.FC<
+  React.DetailedHTMLProps<React.TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement>
+> = (props) => {
   const [rows, setRows] = useState(1);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 

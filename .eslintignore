@@ -1,2 +1,4 @@
-node_modules/
-webpack.config.js
+**/*.js
+node_modules
+build
+config-overrides.js

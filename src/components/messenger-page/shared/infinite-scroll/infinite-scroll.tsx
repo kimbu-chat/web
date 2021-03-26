@@ -41,10 +41,13 @@ const InfiniteScroll: React.FC<IInfiniteScrollProps> = React.memo(
     }, [hasMore, isLoading, onReachExtreme, threshold]);
 
     return (
-      <div style={{ display: 'flex', flexDirection: isReverse ? 'column-reverse' : 'column' }} className={`endless-scroll-wrapper ${className}`}>
+      <div
+        style={{ display: 'flex', flexDirection: isReverse ? 'column-reverse' : 'column' }}
+        className={`endless-scroll-wrapper ${className}`}
+      >
         {children}
         {hasMore && (
-          <div ref={loaderRef} className='endless-scroll-loader-wrapper'>
+          <div ref={loaderRef} className="endless-scroll-loader-wrapper">
             <Loader />
           </div>
         )}

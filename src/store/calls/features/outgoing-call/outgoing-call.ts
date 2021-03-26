@@ -88,7 +88,8 @@ export class OutgoingCall {
 
       const userInterlocutorId = action.payload.calling.id;
 
-      const offer: RTCSessionDescriptionInit = yield call(async () => peerConnection?.createOffer({ offerToReceiveAudio: true, offerToReceiveVideo: true }));
+      const offer: RTCSessionDescriptionInit = yield call(async () =>
+        peerConnection?.createOffer({ offerToReceiveAudio: true, offerToReceiveVideo: true }));
 
       yield spawn(peerWatcher);
       yield call(async () => peerConnection?.setLocalDescription(offer));

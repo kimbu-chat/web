@@ -20,9 +20,9 @@ export const PhoneInput = React.forwardRef(
     const { t } = useContext(LocalizationContext);
 
     return (
-      <div className='phone-input'>
-        <input onClick={displayCountries} type='text' className='phone-input__country-code' readOnly value={country.number} />
-        <span className='country-select__label'>{t('phoneInputGroup.phone')}</span>
+      <div className="phone-input">
+        <input onClick={displayCountries} type="text" className="phone-input__country-code" readOnly value={country.number} />
+        <span className="country-select__label">{t('phoneInputGroup.phone')}</span>
         <input
           ref={ref}
           placeholder={t('phoneInputGroup.phone')}
@@ -30,10 +30,10 @@ export const PhoneInput = React.forwardRef(
           onChange={(e) => {
             setPhone(new AsYouType().input(country.number + e.target.value));
           }}
-          className='phone-input__input'
+          className="phone-input__input"
           onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => event.key === 'Enter' && submitFunction && submitFunction()}
         />
-        <div className='phone-input__icon-holder'>{icon}</div>
+        <div className="phone-input__icon-holder">{icon}</div>
       </div>
     );
   },

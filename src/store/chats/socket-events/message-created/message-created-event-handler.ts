@@ -115,10 +115,9 @@ export class MessageCreatedEventHandler {
         if (chat) {
           const isInterlocutorCurrentSelectedChat = draft.chats.selectedChatId === message.chatId;
           const previousUnreadMessagesCount = chat.unreadMessagesCount;
-          const newUnreadMessagesCount =
-            isInterlocutorCurrentSelectedChat || isCurrentUserMessageCreator
-              ? previousUnreadMessagesCount
-              : previousUnreadMessagesCount + 1;
+          const newUnreadMessagesCount = isInterlocutorCurrentSelectedChat || isCurrentUserMessageCreator
+            ? previousUnreadMessagesCount
+            : previousUnreadMessagesCount + 1;
 
           if (draft.chats.messages[chatId].messages.findIndex(({ id: messageId }) => messageId === message.id) === -1) {
             draft.chats.messages[chatId].messages.unshift(message);

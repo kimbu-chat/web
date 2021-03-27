@@ -22,7 +22,7 @@ export const PhoneInput = React.forwardRef(
     return (
       <div className='phone-input'>
         <input onClick={displayCountries} type='text' className='phone-input__country-code' readOnly value={country.number} />
-        <span className='country-select__label'>{t('phoneInputGroup.phone')}</span>
+        <span className='phone-input__label'>{t('phoneInputGroup.phone')}</span>
         <input
           ref={ref}
           placeholder={t('phoneInputGroup.phone')}

@@ -5,29 +5,24 @@
   align-items: center;
   min-width: 340px;
 
+  &__check-box {
+    margin-top: -9px;
+    span {
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 19px;
+    }
+  }
+
   &__icon {
     width: 24px;
     height: 26px;
     margin-right: 16px;
   }
 
-  &__delete-all {
-    display: flex;
-    align-items: center;
-    margin-top: -9px;
-  }
-
-  &__btn-description {
-    font-weight: 300;
-    font-size: 16px;
-    line-height: 19px;
-    margin-left: 16px;
-    color: var(--dt-white-wt-dark);
-  }
-
   &__confirm-btn {
     padding: 10px 32px;
-    color: var(--dt-white-wt-dark);
+    color: #fff;
     font-weight: 300;
     font-size: 16px;
     line-height: 19px;

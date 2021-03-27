@@ -13,7 +13,7 @@ export interface IBaseBtnProps extends React.DetailedHTMLProps<React.ButtonHTMLA
 const BaseBtn: React.FC<IBaseBtnProps> = React.memo(({ width, color, disabled, variant, icon, children, className, isLoading, ...props }) => {
   const style = useMemo(() => {
     const btnColor: string =
-      color === 'primary' ? 'var(--dt-kingBlue-wt-kingBlueLight)' : color === 'secondary' ? 'var(--red)' : 'var(--dt-kingBlue-wt-kingBlueLight-transparent)';
+      color === 'primary' ? 'var(--dt-kingBlue-wt-kingBlueLight)' : color === 'secondary' ? 'var(--red)' : 'var(--kingBlueLight-transparent)';
     const bluredBtnColor: string = color === 'primary' ? 'rgba(63, 138, 224,0.7)' : color === 'secondary' ? 'rgba(209, 36, 51,0.7)' : 'rgba(215, 216, 217,0.7)';
 
     return {

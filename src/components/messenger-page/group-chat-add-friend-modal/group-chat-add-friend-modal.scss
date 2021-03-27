@@ -31,12 +31,21 @@
     font-weight: 300;
     font-size: 16px;
     line-height: 19px;
-    background: var(--dt-kingBlue-wt-kingBlueLight);
     border-radius: 6px;
 
     &--cancel {
       background: transparent;
       margin-right: 10px;
+    }
+
+    &--confirm {
+      background: #3f8ae0;
+      color: #fff;
+
+      &:disabled {
+        background: var(--disabled-btn);
+        color: var(--disabled-btn-text);
+      }
     }
   }
 }

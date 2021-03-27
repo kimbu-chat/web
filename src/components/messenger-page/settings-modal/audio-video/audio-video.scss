@@ -18,6 +18,11 @@
     width: 24px;
     height: 24px;
     margin-right: 20px;
+
+    &:hover {
+      color: #3f8ae0;
+      cursor: pointer;
+    }
   }
 
   &__subject-text {
@@ -51,7 +56,7 @@
   &__intensity-point {
     width: 16px;
     height: 16px;
-    background: var(--dt-dark-wt-white);
+    background: var(--dt-dark-wt-kingBlue-lighter);
     border-radius: 50%;
 
     &:not(:last-child) {
@@ -61,7 +66,7 @@
     &[data-active] {
       width: 24px;
       height: 24px;
-      background: var(--dt-kingBlue-wt-kingBlueLight);
+      background: #3f8ae0;
 
       &:not(:last-child) {
         margin-right: 24px;
@@ -71,7 +76,7 @@
     &[data-middle] {
       width: 20px;
       height: 20px;
-      background: var(--dt-kingBlue-wt-kingBlueLight);
+      background: #3f8ae0;
 
       &:not(:last-child) {
         margin-right: 28px;
@@ -86,14 +91,14 @@
     align-items: center;
     padding: 60px 0;
     border-radius: 30px;
-    background: var(--dt-dark-wt-white);
+    background: var(--dt-dark-wt-kingBlue-lighter);
     margin-bottom: 32px;
   }
 
   &__video-icon {
     width: 300px;
     height: 280px;
-    color: var(--chat-bg-dt-dark-wt-whiter);
+    color: var(--chat-bg-dt-dark-wt-kingBlue);
   }
 
   &__video-btn {
@@ -103,7 +108,7 @@
     line-height: 33px;
     margin-top: 30px;
     border-radius: 6px;
-    color: var(--dt-white-wt-dark);
-    background: var(--dt-kingBlue-wt-kingBlueLight);
+    color: #fff;
+    background: #3f8ae0;
   }
 }

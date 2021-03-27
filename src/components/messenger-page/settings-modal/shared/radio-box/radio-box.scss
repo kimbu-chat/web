@@ -11,7 +11,7 @@
   &__radio-box-wrapper {
     height: 24px;
     width: 24px;
-    background: rgba(74, 84, 102, 0.6);
+    background: var(--radio-box-bg);
     border-radius: 12px;
     display: flex;
     box-sizing: border-box;
@@ -22,7 +22,7 @@
 
   &__radio-box {
     background: transparent;
-    border: 1px solid var(--dt-kingBlue-wt-kingBlueLight);
+    border: 1px solid #3f8ae0;
     border-radius: 10px;
     width: 14px;
     height: 14px;
@@ -44,7 +44,7 @@
 
     &:checked + * {
       div {
-        background: var(--dt-kingBlue-wt-kingBlueLight);
+        background: #3f8ae0;
       }
     }
   }

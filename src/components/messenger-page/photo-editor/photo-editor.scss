@@ -45,11 +45,12 @@
     }
     padding: 9px 20px;
     border-radius: 6px;
-    border: 1px solid var(--dt-white-wt-dark);
-    color: var(--dt-white-wt-dark);
+    border: 1px solid #3f8ae0;
+    color: #3f8ae0;
     position: relative;
+
     &:focus {
-      border: 1px solid var(--dt-white-wt-dark);
+      border: 1px solid #3f8ae0;
     }
 
     &:hover > * {
@@ -69,7 +70,8 @@
     border-radius: 6px;
 
     &--confirm {
-      background: var(--dt-kingBlue-wt-kingBlueLight);
+      background: #3f8ae0;
+      color: #fff;
     }
 
     &--cancel {

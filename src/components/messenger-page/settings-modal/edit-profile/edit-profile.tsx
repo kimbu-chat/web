@@ -149,7 +149,7 @@ export const EditProfile = React.memo(() => {
             {newAvatar?.previewUrl ? (
               <img src={newAvatar?.previewUrl} alt='' className='edit-profile__avatar' />
             ) : (
-              <UserSvg className='edit-profile__avatar-icon' viewBox='0 0 68 78' />
+              <UserSvg className='edit-profile__avatar-wrapper__alt' viewBox='0 0 68 78' />
             )}
             <TopAvatarLine className='edit-profile__avatar-wrapper__top-line' viewBox='0 0 48 48' />
             <BottomAvatarLine className='edit-profile__avatar-wrapper__bottom-line' viewBox='0 0 114 114' />

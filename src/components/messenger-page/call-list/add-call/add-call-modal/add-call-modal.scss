@@ -20,14 +20,16 @@
       cursor: auto;
     }
   }
+
   &__call {
-    color: var(--dt-white-wt-dark);
+    color: var(--dt-white-wt-kingBlue);
     margin-right: 7px;
     svg {
       width: 24px;
       height: 24px;
     }
   }
+
   &__confirm-btn {
     padding: 10px 27px;
     color: var(--dt-white-wt-dark);
@@ -37,6 +39,7 @@
     background: var(--dt-kingBlue-wt-kingBlueLight);
     border-radius: 6px;
   }
+
   &__cancel-btn {
     padding: 10px 32px;
     color: var(--dt-white-wt-dark);
@@ -52,6 +55,7 @@
     width: 24px;
     height: 24px;
     margin-right: 16px;
+    color: #3f8ae0;
   }
 
   &__search-container {

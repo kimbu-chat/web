@@ -28,12 +28,13 @@
     }
 
     &--submit {
-      background: var(--dt-kingBlue-wt-kingBlueLight);
+      background: #3f8ae0;
+      color: #fff;
     }
 
     &:disabled {
-      background: var(--blue);
-      color: var(--transparent-white);
+      background: var(--disabled-btn);
+      color: var(--disabled-btn-text);
     }
   }
 

@@ -10,7 +10,6 @@
   }
 
   &__theme {
-    font-weight: 500;
     font-size: 24px;
     line-height: 28px;
     color: var(--dt-white-wt-dark);
@@ -23,7 +22,7 @@
     box-sizing: border-box;
     overflow: auto;
     border-radius: 6px;
-    background: var(--dt-dark-wt-white);
+    background: var(--dt-dark-wt-whiter);
     margin-bottom: 40px;
 
     &__msg-wrapper {
@@ -34,7 +33,7 @@
   }
 
   &__theme-select {
-    background: var(--dt-dark-wt-white);
+    background: var(--dt-dark-wt-bright-blue);
     border-radius: 6px;
     margin-top: 16px;
 
@@ -74,7 +73,7 @@
 
     &--active {
       font-weight: bold;
-      color: var(--dt-kingBlue-wt-kingBlueLight);
+      color: #3f8ae0;
     }
 
     &--12 {
@@ -108,9 +107,9 @@
     box-sizing: border-box;
     width: 28px;
     height: 28px;
-    border: 4px solid var(--dt-white-wt-dark);
+    border: 4px solid #fff;
     border-radius: 50%;
-    background: var(--dt-kingBlue-wt-kingBlueLight);
+    background: #3f8ae0;
     position: absolute;
     bottom: -37px;
 
@@ -126,7 +125,7 @@
     box-shadow: inset -2px 2px 4px rgba(46, 101, 164, 0.2), inset 2px -2px 4px rgba(46, 101, 164, 0.2), inset -2px -2px 4px rgba(80, 175, 255, 0.9),
       inset 2px 2px 5px rgba(46, 101, 164, 0.9);
     border-radius: 6px;
-    background: var(--dt-kingBlue-wt-kingBlueLight);
+    background: #3f8ae0;
     height: 20px;
     margin-top: 14px;
   }

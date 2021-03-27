@@ -7,7 +7,7 @@
   &__icon {
     width: 108px;
     height: 108px;
-    color: var(--dt-white-wt-dark);
+    color: var(--dt-white-wt-kingBlue);
     margin-right: 52px;
   }
 
@@ -25,7 +25,7 @@
     }
 
     &__highlighted {
-      color: var(--dt-kingBlue-wt-kingBlueLight);
+      color: #3f8ae0;
       font-weight: normal;
       font-size: 18px;
       line-height: 21px;
@@ -43,12 +43,12 @@
 
   &__revoke-btn {
     padding: 8px 34px;
-    background: var(--dt-kingBlue-wt-kingBlueLight);
+    background: #3f8ae0;
     border-radius: 6px;
     font-weight: 500;
     font-size: 24px;
     line-height: 28px;
-    color: var(--dt-white-wt-dark);
+    color: #fff;
     margin-left: auto;
     margin-right: -3px;
   }

@@ -37,6 +37,7 @@ export class ChangeTheme {
       root.style.setProperty('--dt-dark-wt-kingBlue', '#3F8AE0');
       root.style.setProperty('--dt-dark-wt-whiter', 'rgba(214, 233, 255, 0.2)');
       root.style.setProperty('--dt-dark-wt-kingBlue-lighter', '#E8F1FB');
+      root.style.setProperty('--dt-dark-wt-pink', '#FCE4E3');
 
       root.style.setProperty('--dt-dark-transparent-wt-kingBlueLight-transparent', 'rgba(63, 138, 224, 0.25)');
 
@@ -62,6 +63,7 @@ export class ChangeTheme {
       root.style.setProperty('--msg-bg-dt-gray-lt-bright-blue', '#D6E9FF');
 
       root.style.setProperty('--dt-semi-transparent-wt-kingBlue', '#3F8AE0');
+      root.style.setProperty('--dt-semi-transparent-white-wt-kingBlueLight-transparent', 'rgba(63, 138, 224, 0.25)');
       root.style.setProperty('--dt-darker-wt-bright-blue', '#D6E9FF');
       root.style.setProperty('--blur-color', 'rgba(63, 138, 224, 0.25)');
       root.style.setProperty('--disabled-btn', '#7794B8');

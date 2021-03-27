@@ -50,6 +50,12 @@ button {
     outline: none;
     border: none;
   }
+
+  &:disabled {
+    &:hover {
+      box-shadow: none;
+    }
+  }
 }
 
 [hidden] {
@@ -109,6 +115,8 @@ a {
   --dt-whiter-wt-bright-blue: rgba(255, 255, 255, 0.14);
 
   --box-shadow-1: rgba(14, 22, 43, 0.88);
+  --box-shadow-2: rgba(14, 22, 43, 0.88);
+  --box-shadow-3: rgba(14, 22, 43, 0.62);
 
   --dt-white-wt-dark: #ffffff;
   --dt-whiter-wt-dark-kingBlue-transparentest: rgba(255, 255, 255, 0.04);
@@ -123,6 +131,12 @@ a {
   --dt-blue-wt-grayLight: #30598b;
 
   --dt-semi-transparent-white-wt-kingBlueLight-transparent: rgba(255, 255, 255, 0.5);
+
+  --input-empty: rgba(74, 84, 102, 0.6);
+  --input-hover: #4a5466;
+  --input-active: #4a5466;
+  --input-disabled: #464c59;
+  --input-placeholder: rgba(255, 255, 255, 0.14);
 
   --red: #c74848;
   --blue: #30598b;

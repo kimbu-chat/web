@@ -62,6 +62,16 @@ export class ChangeTheme {
       root.style.setProperty('--msg-bg-dt-gray-lt-kingBlue-lighter', '#E8F1FB');
       root.style.setProperty('--msg-bg-dt-gray-lt-bright-blue', '#D6E9FF');
 
+      root.style.setProperty('--box-shadow-1', 'rgba(69, 107, 140, 0.5)');
+      root.style.setProperty('--box-shadow-2', 'rgba(180, 180, 180, 0.7)');
+      root.style.setProperty('--box-shadow-3', 'rgba(69, 107, 140, 0.5)');
+
+      root.style.setProperty('--input-empty', 'rgba(63, 138, 224, 0.12)');
+      root.style.setProperty('--input-hover', '#E8F1FB');
+      root.style.setProperty('--input-active', '#D6E9FF');
+      root.style.setProperty('--input-disabled', '#E5E5E5');
+      root.style.setProperty('--input-placeholder', 'rgba(63, 138, 224, 0.25)');
+
       root.style.setProperty('--dt-semi-transparent-wt-kingBlue', '#3F8AE0');
       root.style.setProperty('--dt-semi-transparent-white-wt-kingBlueLight-transparent', 'rgba(63, 138, 224, 0.25)');
       root.style.setProperty('--dt-darker-wt-bright-blue', '#D6E9FF');
@@ -72,7 +82,6 @@ export class ChangeTheme {
       root.style.setProperty('--radio-box-bg', '#E8F1FB');
       root.style.setProperty('--modals-bg', 'rgba(213, 225, 238, 0.41)');
       root.style.setProperty('--error-bg-themed', '#EEA39D');
-      root.style.setProperty('--box-shadow-1', 'rgba(69, 107, 140, 0.5)');
       root.style.setProperty('--dt-blue-wt-grayLight', '#7794B8');
     };
   }

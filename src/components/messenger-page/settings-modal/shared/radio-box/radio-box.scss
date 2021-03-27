@@ -5,7 +5,7 @@
   user-select: none;
 
   &:hover &__radio-box-wrapper {
-    box-shadow: 0px 3px 6px rgba(14, 22, 43, 0.62);
+    box-shadow: 0px 3px 6px var(--box-shadow-2);
   }
 
   &__radio-box-wrapper {

@@ -130,6 +130,15 @@
     &--confirm {
       background: #3f8ae0;
       color: #fff;
+      &:hover {
+        box-shadow: 0px 3px 6px rgba(14, 22, 43, 0.62);
+      }
+
+      &:disabled {
+        &:hover {
+          box-shadow: none;
+        }
+      }
 
       &:disabled {
         background: var(--disabled-btn);

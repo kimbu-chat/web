@@ -57,6 +57,7 @@ export class ChangeTheme {
       root.style.setProperty('--chat-bg-dt-dark-wt-bright-blue', '#D6E9FF');
 
       root.style.setProperty('--dt-kingBlue-wt-kingBlueLight', 'rgba(63, 138, 224, 0.55)');
+      root.style.setProperty('--dt-kingBlue-wt-grayLight', 'rgba(63, 138, 224, 0.12)');
 
       root.style.setProperty('--dt-transparent-white-wt-kingBlueLight-transparent', 'rgba(63, 138, 224, 0.25)');
       root.style.setProperty('--dt-transparent-white-wt-kingBlueLight-transparenter', 'rgba(214, 233, 255, 0.5)');

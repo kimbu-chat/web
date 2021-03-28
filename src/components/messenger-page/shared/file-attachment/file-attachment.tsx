@@ -49,7 +49,7 @@ export const FileAttachment: React.FC<IFileAttachmentProps> = React.memo(({ atta
         </div>
       ) : (
         <div onClick={download} className='file-attachment__download'>
-          <DownloadSvg viewBox='0 0 25 25' />
+          <DownloadSvg viewBox='0 0 22 24' />
         </div>
       )}
       <div className='file-attachment__data'>

@@ -32,7 +32,8 @@
   "chatData": {
     "members": "members",
     "online": "Online",
-    "last-time": "Last seen online"
+    "last-time": "Last seen online",
+    "typing": "typing something..."
   },
   "chatMember": {
     "owner": "Owner"

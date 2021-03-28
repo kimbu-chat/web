@@ -107,7 +107,7 @@ export const ForwardModal: React.FC<IForwardModalProps> = React.memo(({ onClose,
           <button key={1} type='button' onClick={onClose} className='forward-modal__cancel-btn'>
             {t('forwardModal.cancel')}
           </button>,
-          <button key={2} type='button' onClick={forwardSelectedMessages} className='forward-modal__confirm-btn'>
+          <button key={2} type='button' disabled={selectedChatIds.length === 0} onClick={forwardSelectedMessages} className='forward-modal__confirm-btn'>
             {t('forwardModal.send')}
           </button>,
         ]}

@@ -72,6 +72,10 @@ a {
   font-style: inherit;
 }
 
+input {
+  caret-color: currentColor;
+}
+
 //variables
 
 :root {
@@ -129,6 +133,7 @@ a {
   --dt-semi-transparent-wt-kingBlueLight: rgba(255, 255, 255, 0.5);
 
   --dt-kingBlue-wt-kingBlueLight: #3f8ae0;
+  --dt-kingBlue-wt-grayLight: #3f8ae0;
   --kingBlueLight-transparent: rgba(63, 138, 224, 0.25);
   --dt-white-wt-kingBlueLight-transparenter: rgba(255, 255, 255, 0.14);
 

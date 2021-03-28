@@ -20,7 +20,7 @@ export const MessageAudioAttachment: React.FC<IMessageAudioAttachmentProps> = Re
 
     const playPauseAudio = useCallback(() => {
       changeMusic(audioRef.current?.audio.current || null, setIsPlaying, true);
-    }, [setIsPlaying, isPlaying, attachment, audioRef]);
+    }, [setIsPlaying, audioRef]);
 
     // const onEnded = useCallback(() => setIsPlaying(false), [setIsPlaying]);
 

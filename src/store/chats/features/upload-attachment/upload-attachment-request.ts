@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { put, call, select } from 'redux-saga/effects';
+import { put, call, select, apply } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { httpFilesRequestFactory, HttpRequestMethod } from '@store/common/http';
 import type { IFilesRequestGenerator } from '@store/common/http';
@@ -104,7 +104,7 @@ export class UploadAttachmentRequest {
       yield call(() =>
         uploadRequest.generator(data, {
           *onStart({ cancelTokenSource }): SagaIterator {
-            addUploadingAttachment({ cancelTokenSource, id: attachmentId });
+            yield apply(addUploadingAttachment, { cancelTokenSource, id: attachmentId });
           },
           *onProgress({ progress, uploadedBytes }): SagaIterator {
             yield put(

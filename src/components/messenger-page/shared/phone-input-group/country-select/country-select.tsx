@@ -42,7 +42,7 @@ export const CountrySelect: React.FC<ICountrySelectProps> = React.memo(
 
     useEffect(() => {
       setRef((inputProps as { ref: React.RefObject<HTMLInputElement> }).ref);
-    }, []);
+    }, [setRef, inputProps]);
 
     return (
       <div

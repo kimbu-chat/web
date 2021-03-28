@@ -26,7 +26,7 @@ export const SelectEntity: React.FC<ISelectEntityProps> = React.memo(
       if (changeSelectedState) {
         changeSelectedState(chatOrUser.id);
       }
-    }, [changeSelectedState, onClick]);
+    }, [changeSelectedState, onClick, chatOrUser]);
 
     const interlocutor = (chatOrUser as IChat).interlocutor || (chatOrUser as IUser);
     const groupChat = (chatOrUser as IChat)?.groupChat;

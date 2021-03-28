@@ -5,8 +5,8 @@ import { createAction } from 'typesafe-actions';
 import { SettingsService } from '@services/settings-service';
 import { IUserSettings } from '@store/settings/user-settings-state';
 
-import { IChangeLanguageActionPayload } from './action-payloads/change-language-action-payload';
 import { apply } from 'redux-saga/effects';
+import { IChangeLanguageActionPayload } from './action-payloads/change-language-action-payload';
 
 export class ChangeLanguage {
   static get action() {
@@ -27,9 +27,11 @@ export class ChangeLanguage {
       action: ReturnType<typeof ChangeLanguage.action>,
     ): SagaIterator {
       const settingsService = new SettingsService();
-      yield apply(settingsService, settingsService.initializeOrUpdate, [{
-        language: action.payload.language,
-      }])
+      yield apply(settingsService, settingsService.initializeOrUpdate, [
+        {
+          language: action.payload.language,
+        },
+      ]);
     };
   }
 }

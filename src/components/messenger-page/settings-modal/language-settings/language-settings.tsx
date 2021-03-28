@@ -19,12 +19,12 @@ export const LanguageSettings = React.memo(() => {
   const setEnLang = useCallback(() => {
     i18n?.changeLanguage(Langs.En);
     changeLanguage({ language: Langs.En });
-  }, []);
+  }, [changeLanguage, i18n]);
 
   const setRuLang = useCallback(() => {
     i18n?.changeLanguage(Langs.Ru);
     changeLanguage({ language: Langs.Ru });
-  }, []);
+  }, [changeLanguage, i18n]);
 
   return (
     <div className="language-settings">

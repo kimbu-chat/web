@@ -31,8 +31,9 @@ const PhoneInputGroup: React.FC<IPhoneInputGroupProps> = ({
     setCountry(countryList[0]);
     (async () => {
       const countryCode = await getCountryByIp();
-      const country = countryList.find(({ code }) => code === countryCode) || countryList[0];
-      setCountry(country);
+      const countryOfResidence =
+        countryList.find(({ code }) => code === countryCode) || countryList[0];
+      setCountry(countryOfResidence);
     })();
   }, []);
 

@@ -78,19 +78,22 @@ export const EditProfile = React.memo(() => {
     [setImageUrl, displayChangePhoto, fileInputRef],
   );
 
-  const changeMyAvatar = useCallback((data: IAvatarSelectedData) => {
-    setNewAvatar({
-      url: data.imagePath,
-      previewUrl: data.croppedImagePath,
-    } as IAvatar);
-    setIsLoading(true);
-    uploadAvatar({
-      pathToFile: data.croppedImagePath,
-    }).then((response: IAvatar) => {
-      setNewAvatar(response);
-      setIsLoading(false);
-    });
-  }, []);
+  const changeMyAvatar = useCallback(
+    (data: IAvatarSelectedData) => {
+      setNewAvatar({
+        url: data.imagePath,
+        previewUrl: data.croppedImagePath,
+      } as IAvatar);
+      setIsLoading(true);
+      uploadAvatar({
+        pathToFile: data.croppedImagePath,
+      }).then((response: IAvatar) => {
+        setNewAvatar(response);
+        setIsLoading(false);
+      });
+    },
+    [uploadAvatar],
+  );
 
   const removeAvatar = useCallback(() => {
     setNewAvatar(undefined);
@@ -143,6 +146,7 @@ export const EditProfile = React.memo(() => {
       checkNicknameAvailability,
       setIsLoading,
       setIsNickNameValid,
+      myProfile?.nickname,
     ],
   );
 

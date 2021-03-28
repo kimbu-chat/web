@@ -141,7 +141,7 @@ export const ActiveCall: React.FC = () => {
       };
     }
 
-    return () => {};
+    return undefined;
   }, [amISpeaking]);
 
   // audio playing when outgoing call
@@ -169,7 +169,7 @@ export const ActiveCall: React.FC = () => {
       };
     }
 
-    return () => {};
+    return undefined;
   }, [amICallingSelectorSomebody, isInterlocutorBusy]);
 
   useEffect(() => {
@@ -194,7 +194,7 @@ export const ActiveCall: React.FC = () => {
           audioEnabled: true,
         },
       }),
-    [interlocutor],
+    [interlocutor, callInterlocutor],
   );
 
   const reCallWithAudio = useCallback(
@@ -206,7 +206,7 @@ export const ActiveCall: React.FC = () => {
           audioEnabled: true,
         },
       }),
-    [interlocutor],
+    [interlocutor, callInterlocutor],
   );
 
   return ReactDOM.createPortal(

@@ -21,7 +21,7 @@ export class RefreshTokenFailure {
   static get saga() {
     return function* refreshTokenFailure(): SagaIterator {
       yield call({ context: localStorage, fn: localStorage.clear });
-      yield apply(location, location.reload, [true]);
+      yield apply(window.location, window.location.reload, [true]);
     };
   }
 }

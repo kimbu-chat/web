@@ -13,7 +13,7 @@ interface IPhoneInputProps {
   setPhone: React.Dispatch<React.SetStateAction<string>>;
   displayCountries: () => void;
   submitFunction?: () => void;
-  icon: JSX.Element | false;
+  icon?: JSX.Element | false;
 }
 
 export const PhoneInput = React.forwardRef(
@@ -52,5 +52,5 @@ export const PhoneInput = React.forwardRef(
 );
 
 PhoneInput.defaultProps = {
-  submitFunction: noop
+  submitFunction: noop,
 };

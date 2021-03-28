@@ -49,7 +49,7 @@
 
     &--top {
       svg {
-        color: var(--dt-white-wt-dark);
+        color: var(--dt-white-wt-kingBlue);
         transform: rotate(-90deg);
       }
     }
@@ -57,7 +57,7 @@
     &--bottom {
       svg {
         transform: rotate(90deg);
-        color: var(--semi-transparent-white);
+        color: var(--dt-semi-transparent-white-wt-kingBlueLight-transparent);
       }
     }
   }

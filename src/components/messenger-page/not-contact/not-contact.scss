@@ -39,6 +39,9 @@
     line-height: 14px;
     margin-right: 32px;
     color: #fff;
+    &:hover {
+      box-shadow: 0px 3px 6px rgba(14, 22, 43, 0.62);
+    }
 
     &--add {
       padding: 11px 23px;

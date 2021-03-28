@@ -15,6 +15,7 @@
       border-radius: 6px;
       box-shadow: 0px 7px 12px var(--box-shadow-1);
       color: var(--dt-white-wt-dark);
+      background-color: var(--chat-bg-dt-dark-wt-bright-blue);
       max-width: 415px;
 
       p {
@@ -43,20 +44,6 @@
     height: 100%;
     overflow: auto;
     background: var(--chat-bg-dt-dark-wt-whiter);
-  }
-
-  &__typing-notification {
-    background-color: darken($color: #fff, $amount: 56);
-    color: var(--dt-white-wt-dark);
-    font-size: 13px;
-    margin-left: 35px;
-    font-style: italic;
-    display: inline-block;
-    padding: 3px 15px;
-    border-radius: 100px;
-    justify-self: start;
-    margin-bottom: 10px;
-    align-self: baseline;
   }
 }
 

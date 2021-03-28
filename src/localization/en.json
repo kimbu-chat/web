@@ -32,7 +32,8 @@
   "chatData": {
     "members": "members",
     "online": "Online",
-    "last-time": "Last seen online"
+    "last-time": "Last seen online",
+    "typing": "typing something..."
   },
   "chatMember": {
     "owner": "Owner"
@@ -282,7 +283,7 @@
   },
   "addCall": {
     "title": "Add new call",
-    "subTitle": "Choose a contact and start a video conversation with him.",
+    "subTitle": "Choose a contact to start a call.",
     "add": "Add"
   },
   "addCallModal": {
@@ -303,7 +304,7 @@
   },
   "addFriend": {
     "title": "Add new contact",
-    "subtitle": "Add a new contact and start a conversation with him.",
+    "subtitle": " Add a new contact to start conversation.",
     "add": "Add"
   },
   "phoneInputGroup": {

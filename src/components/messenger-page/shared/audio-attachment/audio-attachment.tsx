@@ -37,7 +37,7 @@ export const MessageAudioAttachment: React.FC<IMessageAudioAttachmentProps> = Re
       </button>
       <div className='audio-attachment__play-data'>
         <div className='audio-attachment__data'>
-          <h4 className='audio-attachment__file-name'>{attachment.title}</h4>
+          <h4 className='audio-attachment__file-name'>{attachment.fileName}</h4>
           <div className='audio-attachment__duration'>{moment.utc(attachment.duration * 1000).format('mm:ss')}</div>
         </div>
         <AudioPlayer

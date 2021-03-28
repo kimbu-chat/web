@@ -1,11 +1,16 @@
 .delete-chat-modal {
   &__confirm-btn {
     padding: 10px 32px;
-    color: var(--dt-white-wt-dark);
+    color: #fff;
     font-weight: 300;
     font-size: 16px;
     line-height: 19px;
-    background: var(--red);
+    border-radius: 6px;
+    background: #c74848;
+
+    &:hover {
+      box-shadow: 0px 3px 6px rgba(14, 22, 43, 0.62);
+    }
   }
   &__cancel-btn {
     padding: 10px 32px;

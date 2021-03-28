@@ -6,7 +6,7 @@
   margin-bottom: 29px;
 
   &:hover {
-    box-shadow: 0px 3px 6px rgba(14, 22, 43, 0.62);
+    box-shadow: 0px 3px 6px var(--box-shadow-3);
   }
 
   &--open {
@@ -81,12 +81,6 @@
     [data-focus^='true'] {
       background-color: var(--dt-dark-wt-kingBlueLight);
     }
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
   }
 
   &__country-name {

@@ -29,7 +29,7 @@ export const AudioVideoSettings = () => {
     <div className='audio-video'>
       <h3 className='audio-video__title'>{t('audioVideo.title')}</h3>
       <div className='audio-video__subject-title'>
-        <VideoSvg viewBox='0 0 18 19' className='audio-video__subject-icon' />
+        <VideoSvg viewBox='0 0 18 18' className='audio-video__subject-icon' />
         <h5 className='audio-video__subject-text'>{t('audioVideo.video')}</h5>
       </div>
       <div className='audio-video__dropdown-wrapper'>

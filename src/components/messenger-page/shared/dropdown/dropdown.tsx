@@ -28,7 +28,7 @@ export const Dropdown: React.FC<IDropdownProps> = React.memo(({ selectedString, 
     <div ref={dropdownRef} className='dropdown__select-wrapper dropdown__select-wrapper--audio'>
       <div className={`dropdown__select ${disabled ? 'dropdown__select--disabled' : ''}`} onClick={disabled ? () => {} : changeOptionsOpenedStatus}>
         <span>{selectedString}</span>
-        <DropDownSvg viewBox='0 0 48 48' />
+        <DropDownSvg className={`dropdown__icon ${optionsOpened ? 'dropdown__icon--opened' : ''}`} viewBox='0 0 48 48' />
       </div>
       {optionsOpened && (
         <div className='dropdown__select-block'>

@@ -12,13 +12,14 @@
   &__language {
     margin-top: 16px;
     border-radius: 6px;
+    background: var(--chat-bg-dt-dark-wt-bright-blue);
 
     &:hover {
-      background: var(--dt-dark-wt-white);
+      background: var(--dt-dark-wt-kingBlueLight);
     }
 
     &--active {
-      background: var(--dt-dark-wt-white);
+      background: var(--dt-dark-wt-kingBlueLight);
     }
 
     & > * {

@@ -1,7 +1,7 @@
 .tooltip {
   padding: 10px 16px;
   border-radius: 10px;
-  background: var(--dt-dark-wt-white);
+  background: var(--dt-dark-wt-bright-blue);
   position: relative;
   position: absolute;
   top: -9px;
@@ -14,7 +14,7 @@
     font-weight: 300;
     font-size: 14px;
     line-height: 17px;
-    color: var(--dt-white-wt-dark);
+    color: var(--dt-white-wt-kingBlue);
     white-space: nowrap;
     z-index: 20;
   }
@@ -27,7 +27,7 @@
     bottom: -10px;
     left: 50%;
     transform: rotate(45deg) translateX(-50%);
-    background: var(--dt-dark-wt-white);
+    background: var(--dt-dark-wt-bright-blue);
     z-index: 5;
     clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
   }

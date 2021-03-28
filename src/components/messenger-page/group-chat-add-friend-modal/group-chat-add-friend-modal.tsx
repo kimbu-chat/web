@@ -100,7 +100,13 @@ export const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = 
           >
             {t('groupChatAddFriendModal.cancel')}
           </button>,
-          <button key={2} disabled={selectedUserIds.length === 0} type='button' onClick={addUsers} className='group-chat-add-friend-modal__btn'>
+          <button
+            key={2}
+            disabled={selectedUserIds.length === 0}
+            type='button'
+            onClick={addUsers}
+            className='group-chat-add-friend-modal__btn group-chat-add-friend-modal__btn--confirm'
+          >
             {t('groupChatAddFriendModal.add_members')}
           </button>,
         ]}

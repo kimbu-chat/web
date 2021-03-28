@@ -33,6 +33,7 @@ export const PhoneInput = React.forwardRef(
           className='phone-input__input'
           onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => event.key === 'Enter' && submitFunction && submitFunction()}
         />
+        <div className='phone-input__bg' />
         <div className='phone-input__icon-holder'>{icon}</div>
       </div>
     );

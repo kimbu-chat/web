@@ -26,7 +26,7 @@ export const FileAttachment: React.FC<IFileAttachmentProps> = React.memo(({ atta
   }, [downloaded, progressSvgRef]);
 
   const download = useCallback(() => {
-    abortDownloadingRef.current = fileDownload(attachment.url, attachment.title, setDownloaded, () => {
+    abortDownloadingRef.current = fileDownload(attachment.url, attachment.fileName, setDownloaded, () => {
       setDownloaded(0);
       setIsDownloading(false);
     });
@@ -49,11 +49,11 @@ export const FileAttachment: React.FC<IFileAttachmentProps> = React.memo(({ atta
         </div>
       ) : (
         <div onClick={download} className='file-attachment__download'>
-          <DownloadSvg viewBox='0 0 25 25' />
+          <DownloadSvg viewBox='0 0 22 24' />
         </div>
       )}
       <div className='file-attachment__data'>
-        <h4 className='file-attachment__file-name'>{attachment.title}</h4>
+        <h4 className='file-attachment__file-name'>{attachment.fileName}</h4>
         <div className='file-attachment__file-size'>
           {isDownloading
             ? `${getRawAttachmentSizeUnit(downloaded)}/${getRawAttachmentSizeUnit(attachment.byteSize)}`

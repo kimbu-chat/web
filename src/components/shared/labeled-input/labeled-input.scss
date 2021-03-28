@@ -2,16 +2,9 @@
   width: 339px;
   height: 40px;
   position: relative;
-  border-radius: 6px;
-  background: var(--msg-bg-dt-gray-lt-bright-blue);
-  transition: all 0.2s;
-
-  &:hover {
-    box-shadow: 0px 3px 6px rgba(14, 22, 43, 0.62);
-  }
 
   &--error {
-    background: var(--error-bg);
+    background: var(--error-bg-themed);
   }
 
   &__input {
@@ -24,11 +17,27 @@
     outline: none;
     box-sizing: border-box;
     font-weight: 300;
+    border-radius: 6px;
     font-size: 16px;
     line-height: 19px;
+    background: var(--input-empty);
+    transition: all 0.2s;
+
+    &:hover {
+      box-shadow: 0px 3px 6px var(--box-shadow-3);
+      background: var(--input-hover);
+    }
+
+    &:focus {
+      background: var(--input-active);
+    }
+
+    &:disabled {
+      background: var(--input-disabled);
+    }
 
     &::placeholder {
-      color: var(--dt-transparent-white-wt-kingBlueLight-transparent);
+      color: var(--input-placeholder);
     }
   }
 

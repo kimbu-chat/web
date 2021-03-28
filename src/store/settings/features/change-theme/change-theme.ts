@@ -29,6 +29,7 @@ export class ChangeTheme {
 
       root.style.setProperty('--dt-grafit-wt-kingBlue', '#3F8AE0');
       root.style.setProperty('--dt-grafit-wt-white', '#fff');
+      root.style.setProperty('--dt-grafit-wt-kingBlueLight-transparent', 'rgba(63, 138, 224, 0.25)');
 
       root.style.setProperty('--dt-dark-wt-white', '#fff');
       root.style.setProperty('--dt-dark-wt-bright-blue', '#D6E9FF');
@@ -41,6 +42,8 @@ export class ChangeTheme {
       root.style.setProperty('--dt-dark-wt-pink', '#FCE4E3');
 
       root.style.setProperty('--dt-dark-transparent-wt-kingBlueLight-transparent', 'rgba(63, 138, 224, 0.25)');
+
+      root.style.setProperty('--upload-photo-progress', 'rgba(63, 138, 224, 0.55)');
 
       root.style.setProperty('--dt-white-wt-dark', '#4A5466');
       root.style.setProperty('--dt-white-wt-kingBlueLight', 'rgba(63, 138, 224, 0.55)');

@@ -1,7 +1,7 @@
 .message-input-attachment {
   flex: 0 0 135px;
   height: 40px;
-  background-color: var(--dt-grafit-wt-kingBlue);
+  background-color: var(--dt-grafit-wt-kingBlueLight-transparent);
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
@@ -12,7 +12,7 @@
 
   &__type-icon {
     margin: 8px 11px;
-    color: var(--dt-white-wt-dark);
+    color: #fff;
     z-index: 5;
   }
 
@@ -32,13 +32,13 @@
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    background-color: var(--msg-bg-dt-gray-lt-grayLight);
+    background-color: var(--msg-bg-dt-gray-lt-kingBlueLight);
     transition: all 0.1s;
     height: 100%;
     z-index: 2;
 
     &--photo {
-      background-color: rgba(38, 44, 56, 0.7);
+      background-color: var(--upload-photo-progress);
     }
   }
 
@@ -47,7 +47,7 @@
   }
 
   &__title {
-    color: var(--dt-white-wt-dark);
+    color: #fff;
     font-weight: 300;
     font-size: 12px;
     line-height: 14px;
@@ -58,7 +58,7 @@
   }
 
   &__size {
-    color: var(--dt-white-wt-dark);
+    color: #fff;
     font-weight: 300;
     font-size: 12px;
     line-height: 14px;
@@ -78,7 +78,7 @@
 
     svg {
       width: 8px;
-      color: var(--dt-white-wt-dark);
+      color: #fff;
       height: 8px;
     }
   }

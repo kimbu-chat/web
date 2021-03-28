@@ -3,6 +3,8 @@
     position: relative;
     width: calc(100% - 40px);
     margin: 16px 20px 10px 20px;
+    border-radius: 6px;
+    overflow: hidden;
 
     color: var(--dt-white-wt-kingBlue);
   }
@@ -10,14 +12,15 @@
   &__input {
     height: 100%;
     border-radius: 6px;
-    background-color: var(--dt-white-wt-kingBlueLight-transparenter);
+    background-color: var(--dt-transparent-white-wt-kingBlueLight-transparenter);
     display: block;
     border: none;
     text-indent: 43px;
     width: 100%;
-    font-size: 14px;
-    line-height: 16px;
-    font-weight: 400;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 19px;
+    color: var(--dt-white-wt-kingBlue);
 
     &__svg {
       position: absolute;

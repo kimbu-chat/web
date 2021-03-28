@@ -1,4 +1,4 @@
-import { FileType, IAttachmentCreation, IAttachmentToSend, IBaseAttachment, IPictureAttachment, IRawAttachment, IVideoAttachment } from '@store/chats/models';
+import { FileType, IAttachmentCreation, IAttachmentToSend, IBaseAttachment, IPictureAttachment, IVideoAttachment } from '@store/chats/models';
 import React, { useCallback, useEffect, useState } from 'react';
 import './message-input-attachment.scss';
 
@@ -76,7 +76,7 @@ export const MessageInputAttachment: React.FC<IMessageInputAttachmentProps> = Re
       />
 
       <div className='message-input-attachment__data'>
-        <div className='message-input-attachment__title'>{attachment.fileName || (attachment.attachment as IRawAttachment).title}</div>
+        <div className='message-input-attachment__title'>{attachment.attachment.fileName}</div>
         <div className='message-input-attachment__size'>{`${getRawAttachmentSizeUnit(
           attachment.uploadedBytes || attachment.attachment.byteSize,
         )}/${getRawAttachmentSizeUnit(attachment.attachment.byteSize)}}`}</div>

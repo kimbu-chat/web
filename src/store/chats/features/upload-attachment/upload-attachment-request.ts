@@ -45,9 +45,9 @@ export class UploadAttachmentRequest {
               creationDateTime: new Date(),
               url: '',
               type,
+              fileName: file.name,
             },
             progress: 0,
-            fileName: file.name,
             file,
           };
 

@@ -81,12 +81,6 @@
     [data-focus^='true'] {
       background-color: var(--dt-dark-wt-kingBlueLight);
     }
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
   }
 
   &__country-name {

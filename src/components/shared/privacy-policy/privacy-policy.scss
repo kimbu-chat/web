@@ -64,11 +64,6 @@
     overflow: auto;
     max-height: 84%;
     border-bottom: 1px solid #f0f0f0;
-
-    &::-webkit-scrollbar {
-      display: none;
-      -ms-overflow-style: none;
-    }
   }
 
   h1 {

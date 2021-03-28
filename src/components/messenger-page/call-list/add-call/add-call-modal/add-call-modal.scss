@@ -6,12 +6,6 @@
     margin-top: -8px;
     overflow: auto;
 
-    &::-webkit-scrollbar {
-      display: none;
-    }
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-
     &__avatar-group {
       position: relative;
     }

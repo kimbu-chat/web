@@ -4,10 +4,6 @@
   &__friends-block {
     max-height: 301px;
     overflow: auto;
-
-    &::-webkit-scrollbar-thumb {
-      background: var(--dt-kingBlue-wt-kingBlueLight);
-    }
   }
 
   &__icon {

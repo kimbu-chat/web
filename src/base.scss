@@ -27,15 +27,17 @@ body {
   outline: none;
 
   &::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 4px;
+    height: 4px;
   }
   &::-webkit-scrollbar-track {
     background: var(--chat-bg-dt-dark-wt-whiter);
+    width: 4px;
   }
   &::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background: var(--dt-white-wt-dark);
+    border-radius: 6px;
+    width: 4px;
+    background: var(--dt-white-wt-kingBlue);
   }
 }
 

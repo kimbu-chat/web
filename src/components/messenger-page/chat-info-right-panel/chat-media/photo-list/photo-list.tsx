@@ -18,7 +18,7 @@ export const PhotoList = React.memo(() => {
 
   const loadMore = useCallback(() => {
     const page: IPage = {
-      offset: photoForSelectedChat?.photos!.length || 0,
+      offset: photoForSelectedChat?.photos.length || 0,
       limit: PHOTO_ATTACHMENTS_LIMIT,
     };
 

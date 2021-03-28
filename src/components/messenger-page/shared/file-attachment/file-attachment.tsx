@@ -38,7 +38,7 @@ export const FileAttachment: React.FC<IFileAttachmentProps> = React.memo(({ atta
       },
     );
     setIsDownloading(true);
-  }, [attachment, abortDownloadingRef, attachment, setDownloaded, setIsDownloading]);
+  }, [attachment.url, abortDownloadingRef, attachment.title, setDownloaded, setIsDownloading]);
 
   const abortDownloading = useCallback(() => {
     if (abortDownloadingRef.current) {

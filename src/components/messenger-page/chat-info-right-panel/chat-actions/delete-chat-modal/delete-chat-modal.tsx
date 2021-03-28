@@ -29,7 +29,7 @@ export const DeleteChatModal: React.FC<IDeleteChatModalProps> = React.memo(({ hi
         ),
       ),
     );
-  }, [leaveGroupChat]);
+  }, [leaveGroupChat, history]);
 
   return (
     <WithBackground onBackgroundClick={hide}>

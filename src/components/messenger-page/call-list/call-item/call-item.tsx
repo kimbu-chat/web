@@ -43,13 +43,13 @@ export const CallItem: React.FC<ICallItem> = ({ call }) => {
           {call.status === CallStatus.Ended &&
             !isOutgoing &&
             t('callFromList.incoming', {
-              duration: moment.utc(call.duration! * 1000).format('HH:mm:ss'),
+              duration: moment.utc(call.duration * 1000).format('HH:mm:ss'),
             })}
 
           {call.status === CallStatus.Ended &&
             isOutgoing &&
             t('callFromList.outgoing', {
-              duration: moment.utc(call.duration! * 1000).format('HH:mm:ss'),
+              duration: moment.utc(call.duration * 1000).format('HH:mm:ss'),
             })}
 
           {call.status === CallStatus.NotAnswered &&

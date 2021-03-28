@@ -74,7 +74,7 @@ const CodeConfirmation: React.FC<ICodeConfirmationProps> = ({ preloadNext }) => 
   const checkCode = useCallback(
     (authCode: string[]) => {
       if (code.every((element) => element.length === 1)) {
-        checkConfirmationCode({ code: authCode!.join(''), phoneNumber })
+        checkConfirmationCode({ code: authCode.join(''), phoneNumber })
           .then(({ userRegistered }) => {
             if (userRegistered) {
               history.push('/chats');

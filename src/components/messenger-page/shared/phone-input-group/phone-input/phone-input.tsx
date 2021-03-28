@@ -18,7 +18,7 @@ interface IPhoneInputProps {
 
 export const PhoneInput = React.forwardRef(
   (
-    { country, phone, setPhone, displayCountries, submitFunction = noop, icon }: IPhoneInputProps,
+    { country, phone, setPhone, displayCountries, submitFunction, icon }: IPhoneInputProps,
     ref: React.Ref<HTMLInputElement>,
   ) => {
     const { t } = useContext(LocalizationContext);
@@ -50,3 +50,7 @@ export const PhoneInput = React.forwardRef(
     );
   },
 );
+
+PhoneInput.defaultProps = {
+  submitFunction: noop
+};

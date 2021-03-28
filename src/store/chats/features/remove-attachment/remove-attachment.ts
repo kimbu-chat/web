@@ -3,7 +3,7 @@ import { SagaIterator } from 'redux-saga';
 import { createAction } from 'typesafe-actions';
 import { apply } from 'redux-saga/effects';
 import { getChatByIdDraftSelector } from '../../selectors';
-import { removeUploadingAttachment, getUploadingAttachments } from '../../upload-qeue';
+import { removeUploadingAttachment } from '../../upload-qeue';
 import { IRemoveAttachmentActionPayload } from './action-payloads/remove-attachment-action-payload';
 import { IChatsState } from '../../chats-state';
 

@@ -17,11 +17,11 @@ export const KeyBindings = React.memo(() => {
   const changeTypingStrategy = useActionWithDispatch(SettingsActions.changeTypingStrategyAction);
   const setNle = useCallback(() => {
     changeTypingStrategy({ strategy: TypingStrategy.Nle });
-  }, []);
+  }, [changeTypingStrategy]);
 
   const setNlce = useCallback(() => {
     changeTypingStrategy({ strategy: TypingStrategy.Nlce });
-  }, []);
+  }, [changeTypingStrategy]);
 
   return (
     <div className="key-bindings">

@@ -65,10 +65,10 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
     [friends, selectedChat.interlocutor?.id],
   );
   const deleteContact = useCallback(
-    () => deleteFriend({ userIds: [selectedChat?.interlocutor?.id!] }),
+    () => deleteFriend({ userIds: [selectedChat?.interlocutor?.id as number] }),
     [deleteFriend, selectedChat?.interlocutor?.id],
   );
-  const addContact = useCallback(() => addFriend(selectedChat.interlocutor!), [
+  const addContact = useCallback(() => addFriend(selectedChat.interlocutor), [
     addFriend,
     selectedChat?.interlocutor,
   ]);

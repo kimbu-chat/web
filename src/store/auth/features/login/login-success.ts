@@ -1,3 +1,4 @@
+import { apply } from '@redux-saga/core/effects';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { createAction } from 'typesafe-actions';
@@ -23,7 +24,7 @@ export class LoginSuccess {
   static get saga() {
     return function* loginSuccess(action: ReturnType<typeof LoginSuccess.action>): SagaIterator {
       const authService = new AuthService();
-      authService.initialize(action.payload.securityTokens);
+      yield apply(authService, authService.initialize, [action.payload.securityTokens]);
     };
   }
 }

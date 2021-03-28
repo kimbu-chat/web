@@ -5,6 +5,7 @@ import { createAction } from 'typesafe-actions';
 import { SettingsService } from '@services/settings-service';
 import { IUserSettings } from '@store/settings/user-settings-state';
 import { Theme } from '../models';
+import { apply } from 'redux-saga/effects';
 
 export class ChangeTheme {
   static get action() {
@@ -23,9 +24,10 @@ export class ChangeTheme {
       action: ReturnType<typeof ChangeTheme.action>,
     ): SagaIterator {
       const settingsService = new SettingsService();
-      settingsService.initializeOrUpdate({
-        theme: action.payload,
-      });
+
+      yield apply(settingsService, settingsService.initializeOrUpdate, [{
+        theme: action.payload
+      }])
 
       const root = document.documentElement;
 

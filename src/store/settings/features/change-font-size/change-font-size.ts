@@ -5,6 +5,7 @@ import { createAction } from 'typesafe-actions';
 import { SettingsService } from '@services/settings-service';
 import { IUserSettings } from '@store/settings/user-settings-state';
 import { AllowedFontSize } from '../models';
+import { apply } from 'redux-saga/effects';
 
 export class ChangeFontSize {
   static get action() {
@@ -25,9 +26,9 @@ export class ChangeFontSize {
       action: ReturnType<typeof ChangeFontSize.action>,
     ): SagaIterator {
       const settingsService = new SettingsService();
-      settingsService.initializeOrUpdate({
-        fontSize: action.payload,
-      });
+      yield apply(settingsService, settingsService.initializeOrUpdate, [{
+        fontSize: action.payload
+      }])
 
       const element =
         document.querySelector('#message-font-size') || document.createElement('style');

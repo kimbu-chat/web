@@ -115,7 +115,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(
           <StatusBadge
             containerClassName="chat-item__avatar-container"
             additionalClassNames="chat-item__avatar"
-            user={chat.interlocutor!}
+            user={chat.interlocutor}
           />
         ) : (
           <Avatar

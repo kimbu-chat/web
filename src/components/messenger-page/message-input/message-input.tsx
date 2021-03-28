@@ -147,6 +147,9 @@ export const CreateMessageInput = React.memo(() => {
   );
 
   const submitEditedMessage = useCallback(() => {
+    if(!editingMessage){
+      return;
+    }
     const newAttachments = updatedSelectedChat.current?.attachmentsToSend?.map(
       ({ attachment }) => attachment,
     );
@@ -155,7 +158,7 @@ export const CreateMessageInput = React.memo(() => {
       text: refferedText.current,
       removedAttachments: referredRemovedAttachments.current,
       newAttachments,
-      messageId: editingMessage!.id,
+      messageId: editingMessage.id,
     });
   }, [refferedText, referredRemovedAttachments, editingMessage?.id]);
 
@@ -244,8 +247,8 @@ export const CreateMessageInput = React.memo(() => {
       e.stopPropagation();
       setIsDraggingOver(false);
 
-      if (e.dataTransfer?.files?.length! > 0) {
-        for (let index = 0; index < e.dataTransfer!.files!.length; ++index) {
+      if (e.dataTransfer?.files?.length > 0) {
+        for (let index = 0; index < e.dataTransfer.files.length; ++index) {
           const file = e.dataTransfer?.files[index] as File;
 
           const fileType = getFileType(file.name);
@@ -263,9 +266,9 @@ export const CreateMessageInput = React.memo(() => {
 
   const onPaste = useCallback(
     (event: React.ClipboardEvent<HTMLTextAreaElement>) => {
-      if (event.clipboardData?.files.length! > 0) {
-        for (let index = 0; index < event.clipboardData?.files.length!; ++index) {
-          const file = event.clipboardData?.files!.item(index) as File;
+      if (event.clipboardData?.files.length > 0) {
+        for (let index = 0; index < event.clipboardData?.files.length; ++index) {
+          const file = event.clipboardData?.files.item(index) as File;
 
           // extension test
           const fileType = getFileType(file.name);
@@ -332,9 +335,9 @@ export const CreateMessageInput = React.memo(() => {
   );
 
   const removeAllAttachments = useCallback(() => {
-    if (selectedChat?.attachmentsToSend?.length! > 0) {
+    if (selectedChat?.attachmentsToSend?.length > 0) {
       removeAllAttachmentsToSend({
-        ids: selectedChat?.attachmentsToSend?.map(({ attachment }) => attachment.id)!,
+        ids: selectedChat?.attachmentsToSend?.map(({ attachment }) => attachment.id),
       });
     }
 
@@ -431,9 +434,9 @@ export const CreateMessageInput = React.memo(() => {
 
   const uploadFile = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (event.target.files?.length! > 0) {
-        for (let index = 0; index < event.target.files!.length; ++index) {
-          const file = event.target.files!.item(index) as File;
+      if (event?.target?.files && event.target.files.length > 0) {
+        for (let index = 0; index < event.target.files.length; ++index) {
+          const file = event.target.files.item(index) as File;
 
           const fileType = getFileType(file.name);
 
@@ -459,7 +462,7 @@ export const CreateMessageInput = React.memo(() => {
       onDragOver={onDragOver}
       onDragEnter={onDragEnter}
       onDragLeave={onDragLeave}>
-      {(editingMessageAttachments?.length! > 0 || selectedChat?.attachmentsToSend?.length! > 0) && (
+      {(editingMessageAttachments?.length > 0 || selectedChat?.attachmentsToSend?.length > 0) && (
         <div className="message-input__attachments-box">
           <div className="message-input__attachments-box__container">
             {editingMessageAttachments?.map((attachment) => (

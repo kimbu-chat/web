@@ -21,7 +21,7 @@ interface IPhotoEditorProps {
 }
 
 function generateDownload(image?: HTMLImageElement, crop?: ReactCrop.Crop): string {
-  if (!crop || !image) {
+  if (!crop || !crop.x || !crop.y || !crop.width || !crop.height || !image) {
     return '';
   }
 
@@ -35,14 +35,14 @@ function generateDownload(image?: HTMLImageElement, crop?: ReactCrop.Crop): stri
   if (ctx) {
     ctx.drawImage(
       image,
-      crop.x! * scaleX,
-      crop.y! * scaleY,
-      crop.width! * scaleX,
-      crop.height! * scaleY,
+      crop.x * scaleX,
+      crop.y * scaleY,
+      crop.width * scaleX,
+      crop.height * scaleY,
       0,
       0,
-      crop.width!,
-      crop.height!,
+      crop.width,
+      crop.height,
     );
   }
 

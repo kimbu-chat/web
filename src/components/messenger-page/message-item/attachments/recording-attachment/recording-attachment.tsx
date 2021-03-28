@@ -20,7 +20,7 @@ export const RecordingAttachment: React.FC<IRecordingAttachmentProps> = React.me
       <div className="recording-attachment">
         <AudioPlayer
           ref={audioRef as React.RefObject<AudioPlayer>}
-          onPlay={() => changeMusic(audioRef.current?.audio.current!)}
+          onPlay={() => audioRef.current?.audio.current && changeMusic(audioRef.current?.audio.current)}
           src={attachment.url}
           preload="none"
           defaultCurrentTime={<span>{moment.utc(attachment.duration * 1000).format('mm:ss')}</span>}

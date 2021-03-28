@@ -135,7 +135,7 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
       {selectedChat.interlocutor && (
         <FadeAnimationWrapper isDisplayed={createGroupChatModalOpened}>
           <CreateGroupChat
-            preSelectedUserIds={[selectedChat.interlocutor!.id]}
+            preSelectedUserIds={[selectedChat.interlocutor.id]}
             onClose={changeCreateGroupChatModalOpenedState}
           />
         </FadeAnimationWrapper>

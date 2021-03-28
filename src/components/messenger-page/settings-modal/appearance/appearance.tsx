@@ -50,7 +50,7 @@ export const Appearance: React.FC = () => {
     },
     {
       id: 4,
-      userCreator: currentUser!,
+      userCreator: currentUser,
       creationDateTime: new Date(10000),
       text: 'Italian or Corean kitchen?',
       systemMessageType: SystemMessageType.None,

@@ -114,7 +114,7 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(
 
     const searchFriends = useCallback((name: string) => {
       loadFriends({ page: { offset: 0, limit: FRIENDS_LIMIT }, name, initializedBySearch: true });
-    }, []);
+    }, [loadFriends]);
 
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -145,12 +145,12 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(
       setAvatarData(null);
       setAvatarUploadResponse(null);
       setUploadEnded(true);
-    }, [setAvatarData, setAvatarUploadResponse, setUploadEnded]);
+    }, [setAvatarData, setAvatarUploadResponse, setUploadEnded, cancelAvatarUploading]);
 
     const onSubmit = useCallback(() => {
       const groupChatToCreate: ICreateGroupChatActionPayload = {
         name,
-        currentUser: currentUser!,
+        currentUser: currentUser,
         userIds: selectedUserIds,
         description,
         avatar: avararUploadResponse,

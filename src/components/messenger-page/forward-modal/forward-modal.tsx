@@ -79,7 +79,7 @@ export const ForwardModal: React.FC<IForwardModalProps> = React.memo(
       });
 
       onClose();
-    }, [selectedChatIds, messageIdsToForward]);
+    }, [selectedChatIds, messageIdsToForward, forwardMessages]);
 
     return (
       <WithBackground onBackgroundClick={onClose}>

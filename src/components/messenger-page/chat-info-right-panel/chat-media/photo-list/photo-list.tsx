@@ -25,7 +25,7 @@ export const PhotoList = React.memo(() => {
     getPhotoAttachmentss({
       page,
     });
-  }, [photoForSelectedChat?.photos]);
+  }, [photoForSelectedChat?.photos, getPhotoAttachmentss]);
 
   const photosWithSeparators = setSeparators(
     photoForSelectedChat?.photos,

@@ -49,13 +49,13 @@ export const Session: React.FC<ISessionProps> = ({ session }) => {
         </div>
       </div>
 
-      {false ? (
+      {/* {false ? (
         <div className="session__current-session">{t('session.current-session')}</div>
       ) : (
         <button className="session__revoke-btn" type="button">
           {t('session.revoke')}
         </button>
-      )}
+      )} */}
     </div>
   );
 };

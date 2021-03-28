@@ -18,7 +18,7 @@ export const Recording: React.FC<IRecordingProps> = React.memo(({ recording }) =
   return (
     <AudioPlayer
       ref={audioRef as React.RefObject<AudioPlayer>}
-      onPlay={() => changeMusic(audioRef.current?.audio.current!)}
+      onPlay={() => audioRef.current?.audio.current && changeMusic(audioRef.current?.audio.current)}
       src={recording.url}
       preload="none"
       defaultCurrentTime={<span>{moment.utc(recording.duration * 1000).format('mm:ss')}</span>}

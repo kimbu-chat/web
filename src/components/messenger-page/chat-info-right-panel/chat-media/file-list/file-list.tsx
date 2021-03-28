@@ -26,7 +26,7 @@ export const FileList = React.memo(() => {
     getRawAttachments({
       page,
     });
-  }, [filesForSelectedChat?.files]);
+  }, [filesForSelectedChat?.files, getRawAttachments]);
 
   const filesWithSeparators = setSeparators(
     filesForSelectedChat?.files,

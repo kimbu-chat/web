@@ -27,7 +27,7 @@ export const CallList = () => {
         limit: CALL_LIMIT,
       },
     });
-  }, [calls]);
+  }, [calls, getCalls]);
 
   return (
     <div className="call-list">

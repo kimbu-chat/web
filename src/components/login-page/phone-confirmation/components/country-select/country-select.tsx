@@ -32,7 +32,7 @@ export const CountrySelect: React.FC<ICountrySelectProps> = React.memo(
       options: countryList,
       getOptionLabel: (option) => option.title,
       value: country,
-      onChange: (_event, newCountry) => handleCountryChange(newCountry!),
+      onChange: (_event, newCountry) => newCountry && handleCountryChange(newCountry),
       filterOptions: createFilterOptions({
         stringify: (option) => option.title + option.number,
       }),

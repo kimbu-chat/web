@@ -35,7 +35,7 @@ export const ChatTopBar = React.memo(() => {
           audioEnabled: true,
         },
       }),
-    [selectedChat?.interlocutor],
+    [selectedChat?.interlocutor, callInterlocutor],
   );
 
   const callWithAudio = useCallback(
@@ -47,7 +47,7 @@ export const ChatTopBar = React.memo(() => {
           audioEnabled: true,
         },
       }),
-    [selectedChat?.interlocutor],
+    [selectedChat?.interlocutor, callInterlocutor],
   );
 
   if (selectedChat) {

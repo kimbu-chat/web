@@ -18,14 +18,14 @@ export const VideoList = React.memo(() => {
 
   const loadMore = useCallback(() => {
     const page: IPage = {
-      offset: videosForSelectedChat?.videos!.length || 0,
+      offset: videosForSelectedChat?.videos?.length || 0,
       limit: VIDEO_ATTACHMENTS_LIMIT,
     };
 
     getVideoAttachmentss({
       page,
     });
-  }, [videosForSelectedChat?.videos]);
+  }, [videosForSelectedChat?.videos, getVideoAttachmentss]);
 
   const videosWithSeparators = setSeparators(
     videosForSelectedChat?.videos,

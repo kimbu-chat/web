@@ -70,7 +70,7 @@ export const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = 
 
     const searchFriends = useCallback((name: string) => {
       loadFriends({ page: { offset: 0, limit: FRIENDS_LIMIT }, name, initializedBySearch: true });
-    }, []);
+    }, [loadFriends]);
 
     return (
       <WithBackground onBackgroundClick={onClose}>

@@ -64,13 +64,13 @@ const ChatInfoRightPanel: React.FC = React.memo(() => {
     if (getChatAvatar()) {
       setIsAvatarMaximized((oldState) => !oldState);
     }
-  }, [setIsAvatarMaximized]);
+  }, [setIsAvatarMaximized, getChatAvatar]);
 
   useEffect(() => {
     if (selectedChat) {
       getChatInfo();
     }
-  }, []);
+  }, [getChatInfo]);
 
   const handleImageChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,8 +101,8 @@ const ChatInfoRightPanel: React.FC = React.memo(() => {
       }).then((response: IAvatar) => {
         editGroupChat({
           avatar: response,
-          name: selectedChat!.groupChat!.name,
-          description: selectedChat!.groupChat!.description,
+          name: selectedChat.groupChat.name,
+          description: selectedChat.groupChat.description,
         });
       });
     },

@@ -20,7 +20,7 @@ export const RecordingsList = React.memo(() => {
   const loadMore = useCallback(() => {
     getRecordings({
       page: {
-        offset: recordingsForSelectedChat?.recordings.length!,
+        offset: recordingsForSelectedChat?.recordings.length,
         limit: VOICE_ATTACHMENTS_LIMIT,
       },
     });

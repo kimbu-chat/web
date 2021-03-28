@@ -47,7 +47,7 @@ export const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
     if (user) {
       addFriend(user).then(() => setSucess(true));
     }
-  }, [user]);
+  }, [user, addFriend]);
 
   const closeError = useCallback(() => {
     setError(false);

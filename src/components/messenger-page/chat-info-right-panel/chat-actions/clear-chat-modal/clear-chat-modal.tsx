@@ -28,7 +28,7 @@ export const ClearChatModal: React.FC<IClearChatModalProps> = React.memo(({ hide
   const clearSelectedChat = useCallback(() => {
     clearHistory({ forEveryone: deleteForInterlocutor });
     hide();
-  }, [deleteForInterlocutor]);
+  }, [deleteForInterlocutor, clearHistory, hide]);
 
   return (
     <WithBackground onBackgroundClick={hide}>

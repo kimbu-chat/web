@@ -159,7 +159,7 @@ export const EditProfile = React.memo(() => {
     ) {
       updateMyProfile({ firstName, lastName, nickname, avatar: newAvatar });
     }
-  }, [newAvatar?.id, myProfile?.avatar?.id, firstName, lastName, nickname]);
+  }, [newAvatar?.id, myProfile, firstName, lastName, nickname]);
 
   return (
     <>
@@ -245,7 +245,7 @@ export const EditProfile = React.memo(() => {
         </h2>
         <div className="edit-profile__phone-data">
           <div className="edit-profile__phone">
-            {parsePhoneNumber(myProfile?.phoneNumber!).formatInternational()}
+            {myProfile?.phoneNumber && parsePhoneNumber(myProfile?.phoneNumber).formatInternational()}
           </div>
           <button
             onClick={changeEditPhoneModalDisplayedState}

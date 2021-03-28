@@ -40,7 +40,7 @@ export const AddCallModal: React.FC<IAddCallModalProps> = React.memo(({ onClose 
 
   const searchFriends = useCallback((name: string) => {
     loadFriends({ page: { offset: 0, limit: FRIENDS_LIMIT }, name, initializedBySearch: true });
-  }, []);
+  }, [loadFriends]);
 
   const call = useCallback(
     (user) => {

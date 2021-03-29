@@ -17,7 +17,7 @@ export class AddFriend {
     return function* addFriend(action: ReturnType<typeof AddFriend.action>): SagaIterator {
       const user = action.payload;
 
-      const phoneToAdd: IAddFriendApiRequest = { phoneNumbers: [user.phoneNumber] };
+      const phoneToAdd: IAddFriendApiRequest = { userId: user.id };
       yield call(() => AddFriend.httpRequest.generator(phoneToAdd));
 
       yield put(AddFriendSuccess.action(user));
@@ -26,6 +26,6 @@ export class AddFriend {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IAddFriendApiRequest>(`${process.env.MAIN_API}/api/contacts`, HttpRequestMethod.Put);
+    return httpRequestFactory<AxiosResponse, IAddFriendApiRequest>(`${process.env.MAIN_API}/api/contacts`, HttpRequestMethod.Post);
   }
 }

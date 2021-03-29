@@ -191,7 +191,7 @@ module.exports = {
   plugins: [
     new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /ru|en-gb/),
     new CopyPlugin({
-      patterns: [{ from: 'assets/', to: outPath }],
+      patterns: [{ from: '../assets/', to: outPath }],
       options: {
         concurrency: 100,
       },

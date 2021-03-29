@@ -3,6 +3,7 @@ import { ChangeFontSize } from './features/change-font-size/change-font-size';
 
 import { ChangeLanguage } from './features/change-language/change-language';
 import { ChangeNotificationSoundState } from './features/change-notification-sound-state/change-notification-sound-state';
+import { ChangePushNotificationState } from './features/change-push-notification-state/change-push-notification-state';
 import { ChangeTheme } from './features/change-theme/change-theme';
 import { ChangeTypingStrategy } from './features/change-typing-strategy/change-typing-strategy';
 import { GetUserSettingsSuccess } from './features/get-user-settings/get-user-settings-success';
@@ -15,6 +16,7 @@ const initialState: IUserSettings = {
   notificationSound: true,
   theme: Theme.LIGHT,
   fontSize: 16,
+  pushNotificationsEnabled: true,
 };
 
 const settings = createReducer<IUserSettings>(initialState)
@@ -23,6 +25,7 @@ const settings = createReducer<IUserSettings>(initialState)
   .handleAction(ChangeLanguage.action, ChangeLanguage.reducer)
   .handleAction(ChangeTheme.action, ChangeTheme.reducer)
   .handleAction(GetUserSettingsSuccess.action, GetUserSettingsSuccess.reducer)
-  .handleAction(ChangeFontSize.action, ChangeFontSize.reducer);
+  .handleAction(ChangeFontSize.action, ChangeFontSize.reducer)
+  .handleAction(ChangePushNotificationState.action, ChangePushNotificationState.reducer);
 
 export default settings;

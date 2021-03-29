@@ -191,8 +191,7 @@
   "notificationsSettings": {
     "title": "Уведомления",
     "push-notification": "Пуш уведомления",
-    "message-notification": "Звуковое уведомление о новых сообщениях",
-    "all-notifications": "Отключить все уведомления"
+    "message-notification": "Звуковое уведомление о новых сообщениях"
   },
   "editProfile": {
     "personal-information": "Личная информация",

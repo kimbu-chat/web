@@ -5,3 +5,4 @@ export const getTypingStrategySelector = (state: RootState) => state.settings.ty
 export const getCurrentThemeSelector = (state: RootState) => state.settings.theme;
 export const getCurrentFontSizeSelector = (state: RootState) => state.settings.fontSize;
 export const areNotificationsEnabledSelector = (state: RootState) => state.settings.notificationSound;
+export const arePushNotificationsEnabledSelector = (state: RootState) => state.settings.pushNotificationsEnabled;

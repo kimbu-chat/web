@@ -197,8 +197,7 @@
   "notificationsSettings": {
     "title": "Notifications",
     "push-notification": "Push notifications",
-    "message-notification": "New messages sound notification",
-    "all-notifications": "Disable all notifications"
+    "message-notification": "New messages sound notification"
   },
   "editProfile": {
     "personal-information": "Personal information",

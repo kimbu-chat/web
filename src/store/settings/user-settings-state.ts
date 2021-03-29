@@ -7,4 +7,5 @@ export interface IUserSettings {
   typingStrategy: TypingStrategy;
   fontSize: AllowedFontSize;
   notificationSound: boolean;
+  pushNotificationsEnabled: boolean;
 }

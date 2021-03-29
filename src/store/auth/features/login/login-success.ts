@@ -23,7 +23,7 @@ export class LoginSuccess {
   static get saga() {
     return function* loginSuccess(action: ReturnType<typeof LoginSuccess.action>): SagaIterator {
       const authService = new AuthService();
-      authService.initialize(action.payload.securityTokens);
+      authService.initialize(action.payload.securityTokens, { deviceId: action.payload.deviceId });
     };
   }
 }

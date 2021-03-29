@@ -14,3 +14,5 @@ export const twoLetterCountryCodeSelector = (state: RootState): string => state.
 export const authLoadingSelector = (state: RootState): boolean => state.auth.loading;
 
 export const confirmationCodeWrongSelector = (state: RootState) => state.auth.isConfirmationCodeWrong;
+
+export const deviceIdSelector = (state: RootState) => state.auth.deviceId;

@@ -34,7 +34,7 @@ export const SessionsList = () => {
   return (
     <div className='sessions-list'>
       <div className='sessions-list__header'>
-        <span>{t('sessionaList.title', { count: 2 })}</span>
+        <span>{t('sessionaList.title', { count: sessions.length === 0 ? undefined : sessions.length })}</span>
 
         <button onClick={loadSessionsList} type='button' className={`sessions-list__header__open ${opened ? 'sessions-list__header__open--opened' : ''}`}>
           <ArrowSvg viewBox='0 0 48 48' />

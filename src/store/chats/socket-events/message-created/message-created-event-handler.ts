@@ -47,9 +47,9 @@ export class MessageCreatedEventHandler {
 
   static get saga() {
     return function* messageCreatedEventHandler(action: ReturnType<typeof MessageCreatedEventHandler.action>): SagaIterator {
-      const { attachments, chatId, creationDateTime, id, systemMessageType, text, userCreator, linkedMessageId, linkedMessageType } = action.payload;
+      const { attachments, chatId, creationDateTime, id, systemMessageType, text, userCreator, linkedMessageId, linkedMessageType, clientId } = action.payload;
 
-      const messageExists = yield select(getChatHasMessageWithIdSelector(id, chatId));
+      const messageExists = (yield select(getChatHasMessageWithIdSelector(id, chatId))) || (yield select(getChatHasMessageWithIdSelector(id, clientId)));
       const isTabActive = yield select(tabActiveSelector);
 
       const message: IMessage = {

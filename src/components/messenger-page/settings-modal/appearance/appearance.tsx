@@ -129,8 +129,8 @@ export const Appearance: React.FC = () => {
       <h3 className='appearance__theme'>{t('appearance.choose-theme')}</h3>
       <div className='appearance__theme-box'>
         {messages.map((msg: IMessage) => (
-          <div className='appearance__theme-box__msg-wrapper'>
-            <MessageItem message={msg} key={msg.id} />
+          <div key={msg.id} className='appearance__theme-box__msg-wrapper'>
+            <MessageItem message={msg} />
           </div>
         ))}
       </div>

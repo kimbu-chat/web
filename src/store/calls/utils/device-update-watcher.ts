@@ -1,7 +1,7 @@
 import { buffers, eventChannel, SagaIterator } from 'redux-saga';
 import { call, cancel, put, race, select, take, takeEvery } from 'redux-saga/effects';
 import { DeclineCall } from '../features/decline-call/decline-call';
-import { getAudioDevicesSelector } from '../selectors';
+import { getAudioDevicesSelector, doIhaveCallSelector } from '../selectors';
 import { getMediaDevicesList } from './user-media';
 import { ChangeMediaStatus } from '../features/change-user-media-status/change-media-status';
 import { GotDevicesInfo } from '../features/got-devices-info/got-devices-info';
@@ -15,7 +15,6 @@ function createDeviceUpdateChannel() {
   return eventChannel((emit) => {
     const onDeviceChange = (event: Event) => {
       emit(event);
-      console.log('event');
     };
 
     navigator.mediaDevices.addEventListener('devicechange', onDeviceChange);
@@ -33,10 +32,14 @@ export function* deviceUpdateWatcher(): SagaIterator {
     const audioDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.AudioInput);
     const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.VideoInput);
     const prevAudioDevices = yield select(getAudioDevicesSelector);
+    const isCallActive = yield select(doIhaveCallSelector);
 
     if (prevAudioDevices.length === 0 && audioDevices[0]) {
       yield put(SwitchDevice.action({ kind: InputType.AudioInput, deviceId: audioDevices[0].deviceId }));
-      yield put(ChangeMediaStatus.action({ kind: InputType.AudioInput }));
+
+      if (isCallActive) {
+        yield put(ChangeMediaStatus.action({ kind: InputType.AudioInput }));
+      }
     }
 
     yield put(GotDevicesInfo.action({ kind: InputType.AudioInput, devices: audioDevices }));
@@ -49,8 +52,6 @@ export function* deviceUpdateWatcher(): SagaIterator {
     callDeclined: take(DeclineCall.action),
     killed: take(KillDeviceUpdateWatcher.action),
   });
-
-  console.log('kill');
 
   yield cancel(deviceUpdateTask);
   deviceUpdateChannel.close();

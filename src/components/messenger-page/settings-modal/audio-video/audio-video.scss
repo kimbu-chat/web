@@ -58,6 +58,7 @@
 
   &__intensity-indicator {
     display: flex;
+    flex-direction: row-reverse;
     align-items: center;
     margin-right: 7px;
     margin-left: auto;
@@ -69,28 +70,21 @@
     background: var(--dt-dark-wt-kingBlue-lighter);
     border-radius: 50%;
 
-    &:not(:last-child) {
-      margin-right: 32px;
-    }
+    margin-right: 32px;
 
-    &[data-active] {
-      width: 24px;
-      height: 24px;
-      background: #3f8ae0;
-
-      &:not(:last-child) {
-        margin-right: 24px;
-      }
-    }
-
-    &[data-middle] {
+    &[data-middle='true'] {
       width: 20px;
       height: 20px;
       background: #3f8ae0;
 
-      &:not(:last-child) {
-        margin-right: 28px;
-      }
+      margin-right: 28px;
+    }
+    &[data-active='true'] {
+      width: 24px;
+      height: 24px;
+      background: #3f8ae0;
+
+      margin-right: 24px;
     }
   }
 

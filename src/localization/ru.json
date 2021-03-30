@@ -258,8 +258,8 @@
   "callFromList": {
     "outgoing": "Исходящий вызов ({{duration}})",
     "incoming": "Входящий вызов ({{duration}})",
-    "canceled": "Отказан",
-    "declined": "Отменён",
+    "canceled": "Отменён",
+    "declined": "Отказан",
     "missed": "Пропущен",
     "notAnswered": "Без ответа"
   },

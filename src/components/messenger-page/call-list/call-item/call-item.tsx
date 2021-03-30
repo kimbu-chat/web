@@ -37,15 +37,21 @@ export const CallItem: React.FC<ICallItem> = ({ call }) => {
 
           {call.status === CallStatus.Declined && t('callFromList.declined')}
 
-          {call.status === CallStatus.Ended && !isOutgoing && t('callFromList.incoming', { duration: moment.utc(call.duration! * 1000).format('HH:mm:ss') })}
-
-          {call.status === CallStatus.Ended && isOutgoing && t('callFromList.outgoing', { duration: moment.utc(call.duration! * 1000).format('HH:mm:ss') })}
+          {call.status === CallStatus.Ended &&
+            call.endDateTime &&
+            (isOutgoing
+              ? t('callFromList.outgoing', {
+                  duration: moment.utc(new Date(call.endDateTime).getTime() - new Date(call.startDateTime).getTime()).format('HH:mm:ss'),
+                })
+              : t('callFromList.incoming', {
+                  duration: moment.utc(new Date(call.endDateTime).getTime() - new Date(call.startDateTime).getTime()).format('HH:mm:ss'),
+                }))}
 
           {call.status === CallStatus.NotAnswered && (isOutgoing ? t('callFromList.missed') : t('callFromList.notAnswered'))}
         </div>
       </div>
       <div className='call-from-list__aside-data'>
-        <div className='call-from-list__date'>02:34 am</div>
+        <div className='call-from-list__date'>{moment.utc(call.startDateTime).local().format('l LT')}</div>
         <div className={`call-from-list__type-icon ${missedByMe ? 'call-from-list__type-icon--missed' : ''}`}>
           {call.status === CallStatus.Ended && (isOutgoing ? <OutgoingCallSvg viewBox='0 0 11 12' /> : <IncomingCallSvg viewBox='0 0 12 12' />)}
           {(call.status === CallStatus.Declined || call.status === CallStatus.Cancelled) && <DeclinedCallSvg viewBox='0 0 13 14' />}

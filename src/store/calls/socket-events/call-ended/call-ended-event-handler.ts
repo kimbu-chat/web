@@ -21,7 +21,7 @@ export class CallEndedEventHandler {
 
   static get saga() {
     return function* callEndedSaga(action: ReturnType<typeof CallEndedEventHandler.action>): SagaIterator {
-      const { userInterlocutorId, id, duration, status } = action.payload;
+      const { userInterlocutorId, id, startDateTime, endDateTime, status } = action.payload;
       const interlocutor = yield select(getCallInterlocutorSelector);
 
       if (!interlocutor || userInterlocutorId === interlocutor?.id) {
@@ -37,7 +37,8 @@ export class CallEndedEventHandler {
             id,
             userInterlocutor: interlocutor,
             userCallerId: isActiveCallIncoming ? interlocutor.id : myId,
-            duration,
+            startDateTime,
+            endDateTime,
             status,
           };
         } else {

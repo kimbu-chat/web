@@ -32,7 +32,7 @@ export const PhoneInput = React.forwardRef(
           readOnly
           value={country.number}
         />
-        <span className="country-select__label">{t('phoneInputGroup.phone')}</span>
+        <span className="phone-input__label">{t('phoneInputGroup.phone')}</span>
         <input
           ref={ref}
           placeholder={t('phoneInputGroup.phone')}
@@ -45,12 +45,13 @@ export const PhoneInput = React.forwardRef(
             event.key === 'Enter' && submitFunction()
           }
         />
-        <div className="phone-input__icon-holder">{icon && icon}</div>
+        <div className="phone-input__bg" />
+        <div className="phone-input__icon-holder">{icon}</div>
       </div>
     );
   },
 );
 
 PhoneInput.defaultProps = {
-  submitFunction: noop
+  submitFunction: noop,
 };

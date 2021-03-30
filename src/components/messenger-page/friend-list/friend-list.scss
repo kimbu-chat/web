@@ -4,10 +4,4 @@
   background-color: var(--dt-dark-wt-white);
   height: 100%;
   height: calc(100vh - 64px);
-
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-  &::-webkit-scrollbar {
-    display: none;
-  }
 }

@@ -8,7 +8,7 @@ import { IUser } from '@store/common/models';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import CloseSvg from '@icons/close-x-bold.svg';
 import { getUserInitials } from '@utils/interlocutor-name-utils';
-import { parsePhoneNumber } from 'libphonenumber-js';
+import parsePhoneNumberFromString, { parsePhoneNumber } from 'libphonenumber-js';
 import { Link } from 'react-router-dom';
 import { ChatId } from '@store/chats/chat-id';
 import { AddFriend } from '@store/friends/features/add-friend/add-friend';
@@ -109,6 +109,7 @@ export const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
           ) : null,
           !user ? (
             <button
+              disabled={!parsePhoneNumberFromString(phone)?.isValid()}
               key={2}
               type="button"
               className="add-friends-modal__btn add-friends-modal__btn--confirm"

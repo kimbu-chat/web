@@ -68,9 +68,12 @@ export const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = 
       loadFriends({ page });
     }, [friends, loadFriends]);
 
-    const searchFriends = useCallback((name: string) => {
-      loadFriends({ page: { offset: 0, limit: FRIENDS_LIMIT }, name, initializedBySearch: true });
-    }, [loadFriends]);
+    const searchFriends = useCallback(
+      (name: string) => {
+        loadFriends({ page: { offset: 0, limit: FRIENDS_LIMIT }, name, initializedBySearch: true });
+      },
+      [loadFriends],
+    );
 
     return (
       <WithBackground onBackgroundClick={onClose}>
@@ -116,7 +119,7 @@ export const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = 
               disabled={selectedUserIds.length === 0}
               type="button"
               onClick={addUsers}
-              className="group-chat-add-friend-modal__btn">
+              className="group-chat-add-friend-modal__btn group-chat-add-friend-modal__btn--confirm">
               {t('groupChatAddFriendModal.add_members')}
             </button>,
           ]}

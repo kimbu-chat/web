@@ -1,5 +1,3 @@
 import { IBaseAttachment } from './base-attachment';
 
-export interface IRawAttachment extends IBaseAttachment {
-  title: string;
-}
+export interface IRawAttachment extends IBaseAttachment {}

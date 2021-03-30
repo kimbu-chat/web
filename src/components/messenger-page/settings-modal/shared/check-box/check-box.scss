@@ -2,12 +2,28 @@
   display: flex;
   align-items: center;
   cursor: pointer;
+  user-select: none;
 
-  &:hover &__check-box {
-    box-shadow: 0px 3px 6px rgba(14, 22, 43, 0.62);
+  &:hover &__checked {
+    box-shadow: 0px 3px 6px var(--box-shadow-2);
   }
 
-  &__check-box {
+  &:hover &__unchecked {
+    box-shadow: 0px 3px 6px var(--box-shadow-2);
+  }
+
+  &__disabled {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    margin-right: 16px;
+    box-sizing: border-box;
+
+    border: 1.5px solid rgba(255, 255, 255, 0.14);
+    background: var(--disabled-input);
+  }
+
+  &__unchecked {
     width: 24px;
     height: 24px;
     border-radius: 6px;
@@ -16,6 +32,14 @@
 
     border: 1.5px solid rgba(255, 255, 255, 0.14);
     background: var(--chat-bg-dt-dark-wt-kingBlue-lighter);
+  }
+
+  &__checked {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    margin-right: 16px;
+    box-sizing: border-box;
   }
 
   &__title {

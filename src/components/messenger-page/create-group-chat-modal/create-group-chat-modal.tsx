@@ -207,110 +207,56 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(
                       ))}
                     </InfiniteScroll>
                   </div>
-                )}
+                  <div className='create-group-chat__criteria'>At least 256*256px PNG or JPG </div>
 
-                {currentStage === GroupChatCreationStage.GroupChatCreation && (
-                  <div className="create-group-chat">
-                    <div hidden> {uploaded}</div>
-                    <div className="create-group-chat__current-photo-wrapper">
-                      <GroupSvg
-                        viewBox="0 0 24 24"
-                        className="create-group-chat__current-photo-wrapper__alt"
-                      />
-                      <input
-                        onChange={handleImageChange}
-                        ref={fileInputRef}
-                        type="file"
-                        hidden
-                        accept="image/*"
-                      />
-                      {avatarData?.croppedImagePath && (
-                        <img
-                          src={avatarData?.croppedImagePath}
-                          alt=""
-                          className="create-group-chat__current-photo-wrapper__img"
-                        />
-                      )}
-                      <button
-                        type="button"
-                        onClick={() => {
-                          discardAvatar();
-                          fileInputRef.current?.click();
-                        }}
-                        className="create-group-chat__change-photo-btn">
-                        <PictureSvg viewBox="0 0 18 19" />
-                        <span>Upload New Photo</span>
-                      </button>
-                      <TopAvatarLine
-                        className="create-group-chat__current-photo-wrapper__top-line"
-                        viewBox="0 0 48 48"
-                      />
-                      <BottomAvatarLine
-                        className="create-group-chat__current-photo-wrapper__bottom-line"
-                        viewBox="0 0 114 114"
-                      />
-                    </div>
-                    <div className="create-group-chat__criteria">
-                      At least 256*256px PNG or JPG{' '}
-                    </div>
+                  <LabeledInput label='Name' value={name} onChange={(e) => setName(e.target.value)} containerClassName='create-group-chat__input' />
 
-                    <LabeledInput
-                      label="Name"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      containerClassName="create-group-chat__input"
-                    />
-
-                    <LabeledInput
-                      label="Description"
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
-                      containerClassName="create-group-chat__input"
-                    />
-                  </div>
-                )}
-              </>
-            }
-            buttons={[
+                  <LabeledInput
+                    label='Description'
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    containerClassName='create-group-chat__input'
+                  />
+                </div>
+              )}
+            </>
+          }
+          buttons={[
+            <button
+              key={1}
+              disabled={selectedUserIds.length === 0}
+              type='button'
+              className='create-group-chat__btn create-group-chat__btn--cancel'
+              onClick={onClose}
+            >
+              {t('createGroupChatModal.cancel')}
+            </button>,
+            currentStage === GroupChatCreationStage.UserSelect ? (
               <button
-                key={1}
+                key={2}
                 disabled={selectedUserIds.length === 0}
-                type="button"
-                className="create-group-chat__btn create-group-chat__btn--cancel"
-                onClick={onClose}>
-                {t('createGroupChatModal.cancel')}
-              </button>,
-              currentStage === GroupChatCreationStage.UserSelect ? (
-                <button
-                  key={2}
-                  disabled={selectedUserIds.length === 0}
-                  type="button"
-                  className="create-group-chat__btn"
-                  onClick={goToGroupChatCreationStage}>
-                  {t('createGroupChatModal.next')}
-                </button>
-              ) : null,
-              currentStage === GroupChatCreationStage.GroupChatCreation ? (
-                <button
-                  key={3}
-                  disabled={name.length === 0 || !uploadEnded}
-                  type="button"
-                  className="create-group-chat__btn"
-                  onClick={onSubmit}>
-                  {t('createGroupChatModal.create_groupChat')}
-                </button>
-              ) : null,
-            ]}
-          />
-        </WithBackground>
-        {changePhotoDisplayed && (
-          <PhotoEditor
-            hideChangePhoto={hideChangePhoto}
-            imageUrl={imageUrl}
-            onSubmit={applyAvatarData}
-          />
-        )}
-      </>
-    );
-  },
-);
+                type='button'
+                className='create-group-chat__btn create-group-chat__btn--confirm'
+                onClick={goToGroupChatCreationStage}
+              >
+                {t('createGroupChatModal.next')}
+              </button>
+            ) : null,
+            currentStage === GroupChatCreationStage.GroupChatCreation ? (
+              <button
+                key={3}
+                disabled={name.length === 0 || !uploadEnded}
+                type='button'
+                className='create-group-chat__btn create-group-chat__btn--confirm'
+                onClick={onSubmit}
+              >
+                {t('createGroupChatModal.create_groupChat')}
+              </button>
+            ) : null,
+          ]}
+        />
+      </WithBackground>
+      {changePhotoDisplayed && <PhotoEditor hideChangePhoto={hideChangePhoto} imageUrl={imageUrl} onSubmit={applyAvatarData} />}
+    </>
+  );
+});

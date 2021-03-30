@@ -202,10 +202,10 @@ export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClos
             </button>,
             <button
               key={2}
-              disabled={!uploadEnded}
+              disabled={!uploadEnded || newName.length === 0}
               type="button"
               onClick={onSubmit}
-              className="edit-chat-modal__btn">
+              className="edit-chat-modal__btn edit-chat-modal__btn--confirm">
               Save
             </button>,
           ]}

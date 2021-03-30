@@ -22,7 +22,7 @@ const BaseBtn: React.FC<IBaseBtnProps> = React.memo(
           ? 'var(--dt-kingBlue-wt-kingBlueLight)'
           : color === 'secondary'
           ? 'var(--red)'
-          : 'var(--dt-kingBlue-wt-kingBlueLight-transparent)';
+          : 'var(--kingBlueLight-transparent)';
       const bluredBtnColor: string =
         color === 'primary'
           ? 'rgba(63, 138, 224,0.7)'

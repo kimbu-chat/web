@@ -7,6 +7,10 @@
   margin-bottom: 15px;
   justify-content: flex-start;
 
+  &--1 {
+    grid-template-columns: 1fr;
+  }
+
   & > * {
     margin-top: 10px;
     max-height: 430px;

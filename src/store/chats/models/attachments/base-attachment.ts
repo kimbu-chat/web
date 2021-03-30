@@ -6,4 +6,5 @@ export interface IBaseAttachment {
   creationDateTime: Date;
   url: string;
   id: number;
+  fileName: string;
 }

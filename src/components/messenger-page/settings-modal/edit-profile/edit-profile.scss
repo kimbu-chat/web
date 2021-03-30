@@ -26,13 +26,31 @@
   &__avatar-wrapper {
     width: 148px;
     height: 148px;
-    background-color: var(--dt-dark-wt-white-blue);
-    position: relative;
-    margin-right: 31px;
     border-radius: 6px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background: var(--dt-darker-wt-bright-blue);
+    position: relative;
+
+    &__alt {
+      width: 68px;
+      height: 68px;
+      color: #fff;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 20;
+    }
+
+    &__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 25;
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-radius: 6px;
+    }
 
     &__top-line {
       position: absolute;
@@ -67,6 +85,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    margin-left: 31px;
   }
 
   &__avatar-upload-btn {
@@ -86,7 +105,7 @@
     }
 
     svg {
-      color: var(--dt-white-wt-dark);
+      color: var(--dt-white-wt-kingBlue);
       height: 24px;
       width: 24px;
     }
@@ -108,19 +127,22 @@
   &__btn {
     padding: 10px 17px;
     border-radius: 6px;
-    background: var(--dt-kingBlue-wt-kingBlueLight);
+    background: #3f8ae0;
     margin-left: auto;
-    color: var(--dt-white-wt-dark);
+    color: #fff;
     font-weight: normal;
     font-size: 16px;
     line-height: 19px;
+    &:hover {
+      box-shadow: 0px 3px 6px rgba(14, 22, 43, 0.62);
+    }
 
     &--personal {
       margin-top: 32px;
     }
 
     &--delete {
-      background: var(--red);
+      background: #c74848;
     }
   }
 

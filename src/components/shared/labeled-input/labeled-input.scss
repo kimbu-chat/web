@@ -2,33 +2,42 @@
   width: 339px;
   height: 40px;
   position: relative;
-  border-radius: 6px;
-  background: var(--msg-bg-dt-gray-lt-grayLight);
-  transition: all 0.2s;
-
-  &:hover {
-    box-shadow: 0px 3px 6px rgba(14, 22, 43, 0.62);
-  }
 
   &--error {
-    background: var(--error-bg);
+    background: var(--error-bg-themed);
   }
 
   &__input {
     height: 100%;
     width: 100%;
     padding: 10px 16px;
-    color: var(--dt-white-wt-dark);
+    color: var(--dt-white-wt-kingBlue);
     background: transparent;
     border: none;
     outline: none;
     box-sizing: border-box;
     font-weight: 300;
+    border-radius: 6px;
     font-size: 16px;
     line-height: 19px;
+    background: var(--input-empty);
+    transition: all 0.2s;
+
+    &:hover {
+      box-shadow: 0px 3px 6px var(--box-shadow-3);
+      background: var(--input-hover);
+    }
+
+    &:focus {
+      background: var(--input-active);
+    }
+
+    &:disabled {
+      background: var(--input-disabled);
+    }
 
     &::placeholder {
-      color: var(--dt-white-wt-dark-dark);
+      color: var(--input-placeholder);
     }
   }
 
@@ -37,9 +46,9 @@
     position: absolute;
     top: -13px;
     left: 16px;
-    background: var(--dt-dark-wt-white);
+    background: var(--dt-dark-wt-kingBlue);
     border-radius: 6px;
-    color: var(--dt-white-wt-dark);
+    color: #fff;
     font-weight: 300;
     font-size: 12px;
     line-height: 14px;

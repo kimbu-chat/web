@@ -54,6 +54,21 @@ export class UploadAttachmentRequest {
 
             chat.attachmentsToSend?.push(attachmentToAdd);
           }
+
+          const attachmentToAdd: IAttachmentToSend<IBaseAttachment> = {
+            attachment: {
+              id: attachmentId,
+              byteSize: file.size,
+              creationDateTime: new Date(),
+              url: '',
+              type,
+              fileName: file.name,
+            },
+            progress: 0,
+            file,
+          };
+
+          chat.attachmentsToSend?.push(attachmentToAdd);
         }
         return draft;
       },

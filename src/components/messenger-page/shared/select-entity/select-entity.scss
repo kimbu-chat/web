@@ -43,17 +43,19 @@
     margin-left: auto;
     width: 24px;
     height: 24px;
-    margin-right: 16px;
   }
 
   &__select {
     margin-left: auto;
-    margin-right: 16px;
     width: 24px;
     height: 24px;
     border-radius: 6px;
     box-sizing: border-box;
     border: 1.5px solid rgba(255, 255, 255, 0.14);
     background: var(--chat-bg-dt-dark-wt-kingBlue-lighter);
+  }
+
+  &__icon-holder {
+    margin-left: auto;
   }
 }

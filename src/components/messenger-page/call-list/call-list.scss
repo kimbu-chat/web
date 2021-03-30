@@ -4,10 +4,4 @@
   grid-column: 2/3;
   max-height: 100vh;
   background-color: var(--dt-dark-wt-white);
-
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-  &::-webkit-scrollbar {
-    display: none;
-  }
 }

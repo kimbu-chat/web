@@ -4,12 +4,8 @@
   &__chats-block {
     max-height: 320px;
     overflow: auto;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+    margin-right: -10px;
+    padding-right: 7px;
 
     &__avatar-group {
       position: relative;
@@ -23,6 +19,11 @@
     line-height: 19px;
     background: #3f8ae0;
     border-radius: 6px;
+
+    &:disabled {
+      background: var(--disabled-btn);
+      color: var(--disabled-btn-text);
+    }
   }
   &__cancel-btn {
     padding: 10px 32px;
@@ -39,7 +40,7 @@
     width: 24px;
     height: 24px;
     margin-right: 16px;
-    color: #3f8ae0;
+    color: var(--dt-white-wt-kingBlue);
   }
 
   &__search-container {

@@ -12,6 +12,7 @@ import { Avatar, StatusBadge, TimeUpdateable } from '@components';
 import VoiceCallSvg from '@icons/audio-call.svg';
 import VideoCallSvg from '@icons/video-call.svg';
 import ChatInfoSvg from '@icons/chat-info.svg';
+import TypingSvg from '@icons/typing.svg';
 
 import { getChatInterlocutor, getInterlocutorInitials } from '@utils/interlocutor-name-utils';
 import { ChangeChatInfoOpened } from '@store/chats/features/change-chat-info-opened/change-chat-info-opened';
@@ -73,9 +74,14 @@ export const ChatTopBar = React.memo(() => {
           )}
 
           <div className="chat-data__chat-info">
-            <h1>{getChatInterlocutor(selectedChat)}</h1>
-            <p>
-              {selectedChat.groupChat ? (
+            <h1 className="chat-data__chat-info__title">{getChatInterlocutor(selectedChat)}</h1>
+            <p className="chat-data__chat-info__info">
+              {(selectedChat.typingInterlocutors?.length || 0) > 0 ? (
+                <div className="chat-data__chat-info__info__typing">
+                  <TypingSvg viewBox="0 0 12 12" />
+                  <span>{t('chatData.typing')}</span>
+                </div>
+              ) : selectedChat.groupChat ? (
                 `${selectedChat.groupChat.membersCount} ${t('chatData.members')}`
               ) : selectedChat?.interlocutor?.status === UserStatus.Online ? (
                 t('chatData.online')

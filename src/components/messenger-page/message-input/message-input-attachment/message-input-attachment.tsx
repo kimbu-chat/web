@@ -1,12 +1,4 @@
-import {
-  FileType,
-  IAttachmentCreation,
-  IAttachmentToSend,
-  IBaseAttachment,
-  IPictureAttachment,
-  IRawAttachment,
-  IVideoAttachment,
-} from '@store/chats/models';
+import { FileType, IAttachmentCreation, IAttachmentToSend, IBaseAttachment, IPictureAttachment, IVideoAttachment } from '@store/chats/models';
 import React, { useCallback, useEffect, useState } from 'react';
 import './message-input-attachment.scss';
 
@@ -110,12 +102,11 @@ export const MessageInputAttachment: React.FC<IMessageInputAttachmentProps> = Re
           </div>
         </div>
 
-        <button
-          type="button"
-          onClick={removeThisAttachment}
-          className="message-input-attachment__close">
-          <CloseSVG viewBox="0 0 8 8" />
-        </button>
+      <div className='message-input-attachment__data'>
+        <div className='message-input-attachment__title'>{attachment.attachment.fileName}</div>
+        <div className='message-input-attachment__size'>{`${getRawAttachmentSizeUnit(
+          attachment.uploadedBytes || attachment.attachment.byteSize,
+        )}/${getRawAttachmentSizeUnit(attachment.attachment.byteSize)}}`}</div>
       </div>
     );
   },

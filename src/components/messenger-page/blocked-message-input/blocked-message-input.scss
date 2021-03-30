@@ -1,7 +1,7 @@
 .blocked-message-input {
   padding: 13px 24px 13px 24px;
   background: var(--dt-dark-wt-white);
-  box-shadow: 0px 5px 12px rgba(14, 22, 43, 0.88);
+  box-shadow: 0px 5px 12px var(--box-shadow-1);
   display: flex;
   align-items: center;
 
@@ -22,11 +22,14 @@
   &__btn {
     margin-left: auto;
     padding: 10px 17px;
-    background: var(--red);
+    background: #c74848;
     font-weight: normal;
     font-size: 14px;
     line-height: 17px;
     border-radius: 6px;
-    color: var(--dt-white-wt-dark);
+    color: #fff;
+    &:hover {
+      box-shadow: 0px 3px 6px rgba(14, 22, 43, 0.62);
+    }
   }
 }

@@ -19,9 +19,7 @@ import { getAndSendUserMedia, getMediaDevicesList } from '../../utils/user-media
 import { CancelCall } from '../cancel-call/cancel-call';
 import { ChangeActiveDeviceId } from '../change-active-device-id/change-active-device-id';
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
-import {
-  InterlocutorAcceptedCallEventHandler,
-} from '../../socket-events/interlocutor-accepted-call/interlocutor-accepted-call-event-handler';
+import { InterlocutorAcceptedCallEventHandler } from '../../socket-events/interlocutor-accepted-call/interlocutor-accepted-call-event-handler';
 import { TimeoutCall } from '../timeout-call/timeout-call';
 import { IOutgoingCallActionPayload } from './action-payloads/outgoing-call-action-payload';
 import { InputType } from '../../common/enums/input-type';
@@ -62,7 +60,6 @@ export class OutgoingCall {
     return function* outgoingCallSaga(
       action: ReturnType<typeof OutgoingCall.action>,
     ): SagaIterator {
-      const peerConnection = getPeerConnection();
       const amISpeaking = yield select((state: RootState) => state.calls.isSpeaking);
       setIsRenegotiationAccepted(false);
 
@@ -72,6 +69,7 @@ export class OutgoingCall {
       }
 
       createPeerConnection();
+      const peerConnection = getPeerConnection();
       yield spawn(deviceUpdateWatcher);
 
       // setup local stream
@@ -131,6 +129,8 @@ export class OutgoingCall {
         userInterlocutorId,
         isVideoEnabled,
       };
+
+      console.log(peerConnection);
 
       const { httpRequest } = OutgoingCall;
       const { isInterlocutorBusy } = httpRequest.call(

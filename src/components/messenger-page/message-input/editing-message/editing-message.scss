@@ -1,6 +1,6 @@
 .editing-message {
   display: flex;
-  background-color: var(--dt-dark-wt-white);
+  background-color: var(--dt-dark-wt-bright-blue);
   box-sizing: border-box;
   position: relative;
   align-items: center;
@@ -22,18 +22,18 @@
   &__message-contents {
     border-radius: 0px 6px 6px 6px;
     padding: 10px 16px;
-    background: var(--msg-bg-dt-gray-lt-grayLight);
+    background: var(--msg-bg-dt-gray-lt-kingBlueLight);
     font-weight: 300;
     font-size: 16px;
     line-height: 19px;
-    color: var(--dt-white-wt-dark);
+    color: #fff;
     margin-left: 20px;
     white-space: break-spaces;
     line-break: anywhere;
   }
 
   &__close {
-    color: var(--dt-white-wt-dark);
+    color: var(--dt-white-wt-kingBlue);
     margin-left: auto;
     margin-right: 17px;
 

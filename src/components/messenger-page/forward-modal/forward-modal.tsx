@@ -79,7 +79,7 @@ export const ForwardModal: React.FC<IForwardModalProps> = React.memo(
       });
 
       onClose();
-    }, [selectedChatIds, messageIdsToForward, forwardMessages]);
+    }, [forwardMessages, messageIdsToForward, selectedChatIds, onClose]);
 
     return (
       <WithBackground onBackgroundClick={onClose}>
@@ -131,6 +131,7 @@ export const ForwardModal: React.FC<IForwardModalProps> = React.memo(
             <button
               key={2}
               type="button"
+              disabled={selectedChatIds.length === 0}
               onClick={forwardSelectedMessages}
               className="forward-modal__confirm-btn">
               {t('forwardModal.send')}

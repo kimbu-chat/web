@@ -1,6 +1,6 @@
 .message-error {
   display: flex;
-  background-color: var(--dt-dark-wt-white);
+  background-color: var(--dt-dark-wt-pink);
   box-sizing: border-box;
   position: relative;
   align-items: center;
@@ -12,12 +12,12 @@
     svg {
       height: 24px;
       width: 24px;
-      color: var(--red);
+      color: #c74848;
     }
   }
 
   &__description {
-    color: var(--red);
+    color: #c74848;
     font-weight: 500;
     font-size: 14px;
     line-height: 24px;
@@ -31,7 +31,7 @@
   &__btn-separator {
     width: 1px;
     height: 28px;
-    background: var(--dt-kingBlue-wt-kingBlueLight-transparent);
+    background: var(--kingBlueLight-transparent);
   }
 
   &__btn {
@@ -41,12 +41,12 @@
     text-transform: uppercase;
 
     &--retry {
-      color: var(--dt-kingBlue-wt-kingBlueLight);
+      color: #3f8ae0;
       margin-right: 13px;
     }
 
     &--dismiss {
-      color: var(--red);
+      color: #c74848;
       margin-left: 13px;
     }
   }

@@ -49,5 +49,8 @@
     padding: 16px 47px 16px 40px;
     font-size: 12px;
     font-weight: 700;
+    &:hover {
+      box-shadow: 0px 3px 6px rgba(14, 22, 43, 0.62);
+    }
   }
 }

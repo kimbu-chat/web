@@ -16,6 +16,7 @@ import { IGetChatByIdApiRequest } from './api-requests/get-chat-by-id-api-reques
 import { IGetUserByIdApiRequest } from './api-requests/get-user-by-id-api-request';
 import { UnshiftChat } from '../unshift-chat/unshift-chat';
 import { IChatsState } from '../../chats-state';
+import { UserRelationshipsType } from '../../models/relationship-type';
 
 export class ChangeSelectedChat {
   static get action() {
@@ -65,51 +66,51 @@ export class ChangeSelectedChat {
 
           let data: IChat | null = null;
           let user: IUser | null = null;
+          let userIsFriend = false;
 
           try {
             data = ChangeSelectedChat.httpRequest.getChat.call(
               yield call(() => ChangeSelectedChat.httpRequest.getChat.generator({ chatId: action.payload.newChatId as number })),
             ).data;
           } catch {
-            if (chatIdDetails?.interlocutorType === InterlocutorType.User) {
-              user = ChangeSelectedChat.httpRequest.getUser.call(
-                yield call(() => ChangeSelectedChat.httpRequest.getUser.generator({ userId: chatIdDetails?.userId as number })),
-              ).data;
+            if (chatIdDetails?.interlocutorType === InterlocutorType.User && chatIdDetails.userId) {
+              user = yield select(getFriendByIdSelector(chatIdDetails.userId));
+              userIsFriend = true;
             }
           }
 
-          if (chatIdDetails?.interlocutorType === InterlocutorType.GroupChat) {
-            if (data) {
-              const chat = data as IChat;
+          if (chatIdDetails?.interlocutorType === InterlocutorType.GroupChat && data) {
+            const chat = data as IChat;
 
-              if (chat.lastMessage) {
-                chat.lastMessage.state =
-                  chat.interlocutorLastReadMessageId && chat.interlocutorLastReadMessageId >= Number(chat?.lastMessage?.id)
-                    ? MessageState.READ
-                    : MessageState.SENT;
-              }
-
-              chat.interlocutorType = ChatId.fromId(chat.id).interlocutorType;
-              chat.typingInterlocutors = [];
-              chat.photos = { photos: [], loading: false, hasMore: true };
-              chat.videos = { videos: [], loading: false, hasMore: true };
-              chat.files = { files: [], loading: false, hasMore: true };
-              chat.audios = { audios: [], loading: false, hasMore: true };
-              chat.draftMessage = '';
-              chat.recordings = {
-                hasMore: true,
-                loading: false,
-                recordings: [],
-              };
-              chat.members = { members: [], loading: false, hasMore: true };
-
-              yield put(UnshiftChat.action(chat));
+            if (chat.lastMessage) {
+              chat.lastMessage.state =
+                chat.interlocutorLastReadMessageId && chat.interlocutorLastReadMessageId >= Number(chat?.lastMessage?.id)
+                  ? MessageState.READ
+                  : MessageState.SENT;
             }
+
+            chat.interlocutorType = ChatId.fromId(chat.id).interlocutorType;
+            chat.typingInterlocutors = [];
+            chat.photos = { photos: [], loading: false, hasMore: true };
+            chat.videos = { videos: [], loading: false, hasMore: true };
+            chat.files = { files: [], loading: false, hasMore: true };
+            chat.audios = { audios: [], loading: false, hasMore: true };
+            chat.draftMessage = '';
+            chat.recordings = {
+              hasMore: true,
+              loading: false,
+              recordings: [],
+            };
+            chat.members = { members: [], loading: false, hasMore: true };
+
+            yield put(UnshiftChat.action(chat));
           }
 
           if (chatIdDetails?.interlocutorType === InterlocutorType.User && chatIdDetails?.userId) {
             if (!(data || user)) {
-              user = yield select(getFriendByIdSelector(chatIdDetails.userId));
+              user = ChangeSelectedChat.httpRequest.getUser.call(
+                yield call(() => ChangeSelectedChat.httpRequest.getUser.generator({ userId: chatIdDetails?.userId as number })),
+              ).data;
             }
 
             if (data || user) {
@@ -153,6 +154,9 @@ export class ChangeSelectedChat {
                   loading: false,
                   audios: [],
                 },
+                isBlockedByInterlocutor: data?.isBlockedByInterlocutor || false,
+                isDismissedAddToContacts: data?.isDismissedAddToContacts || false,
+                relationshipType: userIsFriend ? UserRelationshipsType.Contact : undefined,
               };
 
               if (requestedChat.lastMessage) {

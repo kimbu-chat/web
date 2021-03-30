@@ -12,7 +12,6 @@ import ArrowSvg from '@icons/arrow-v.svg';
 import GroupSvg from '@icons/group.svg';
 import NewMessageSvg from '@icons/create-chat.svg';
 
-import * as ChatActions from '@store/chats/actions';
 import { getFriendsLoadingSelector, getHasMoreFriendsSelector, getMyFriendsSelector } from '@store/friends/selectors';
 
 import { FRIENDS_LIMIT } from '@utils/pagination-limits';
@@ -33,13 +32,11 @@ export const NewChatModal: React.FC<INewChatModalProps> = React.memo(({ onClose,
   const hasMoreFriends = useSelector(getHasMoreFriendsSelector);
   const friendsLoading = useSelector(getFriendsLoadingSelector);
 
-  const createChat = useActionWithDispatch(ChatActions.createChat);
   const loadFriends = useActionWithDispatch(FriendActions.getFriends);
 
   const history = useHistory();
 
   const createEmptyChat = useCallback((user: IChat | IUser) => {
-    createChat(user as IUser);
     const chatId = ChatId.from((user as IUser).id).id;
     history.push(`/chats/${chatId}`);
     onClose();

@@ -29,6 +29,8 @@ import { RenegotiationAcceptedEventHandler } from './socket-events/renegotiation
 import { OpenInterlocutorVideoStatus } from './features/change-interlocutor-media-status/open-interlocutor-video-status';
 import { UserEditedEventHandler } from './socket-events/user-edited/user-edited-event-handler';
 import { CallEndedEventHandlerSuccess } from './socket-events/call-ended/call-ended-event-handler-success';
+import { SpawnDeviceUpdateWatcher } from './features/device-watcher/spawn-device-update-watcher';
+import { KillDeviceUpdateWatcher } from './features/device-watcher/kill-device-update-watcher';
 
 // CallActions
 export const getCallsAction = GetCalls.action;
@@ -53,6 +55,8 @@ export const openAudioStatusAction = OpenAudioStatus.action;
 export const gotDevicesInfoAction = GotDevicesInfo.action;
 export const switchDeviceAction = SwitchDevice.action;
 export const acceptCallSuccessAction = AcceptCallSuccess.action;
+export const spawnDeviceUpdateWatcher = SpawnDeviceUpdateWatcher.action;
+export const killDeviceUpdateWatcher = KillDeviceUpdateWatcher.action;
 export const openInterlocutorVideoStatusAction = OpenInterlocutorVideoStatus.action;
 
 // socket-events

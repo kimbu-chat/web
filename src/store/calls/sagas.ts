@@ -15,6 +15,7 @@ import { ChangeMediaStatus } from './features/change-user-media-status/change-me
 import { IncomingCallEventHandler } from './socket-events/incoming-call/incoming-call-event-handler';
 import { RenegotiationSentEventHandler } from './socket-events/renegotiation-sent/renegotiation-sent-event-handler';
 import { RenegotiationAcceptedEventHandler } from './socket-events/renegotiation-accepted/renegotiation-accepted-event-handler';
+import { SpawnDeviceUpdateWatcher } from './features/device-watcher/spawn-device-update-watcher';
 
 //! important peer whitch has initiated the call  is the polite one
 
@@ -29,6 +30,7 @@ export const CallsSagas = [
   takeLatest(SwitchDevice.action, SwitchDevice.saga),
   takeLeading(ChangeMediaStatus.action, ChangeMediaStatus.saga),
   takeLatest(GetCalls.action, GetCalls.saga),
+  takeLatest(SpawnDeviceUpdateWatcher.action, SpawnDeviceUpdateWatcher.saga),
 
   // socket-events
   takeLatest(IncomingCallEventHandler.action, IncomingCallEventHandler.saga),

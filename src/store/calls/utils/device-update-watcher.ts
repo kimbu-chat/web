@@ -9,11 +9,13 @@ import { SwitchDevice } from '../features/switch-device/switch-device';
 import { InputType } from '../common/enums/input-type';
 import { CancelCall } from '../features/cancel-call/cancel-call';
 import { CallEndedEventHandler } from '../socket-events/call-ended/call-ended-event-handler';
+import { KillDeviceUpdateWatcher } from '../features/device-watcher/kill-device-update-watcher';
 
 function createDeviceUpdateChannel() {
   return eventChannel((emit) => {
     const onDeviceChange = (event: Event) => {
       emit(event);
+      console.log('event');
     };
 
     navigator.mediaDevices.addEventListener('devicechange', onDeviceChange);
@@ -32,7 +34,7 @@ export function* deviceUpdateWatcher(): SagaIterator {
     const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.VideoInput);
     const prevAudioDevices = yield select(getAudioDevicesSelector);
 
-    if (prevAudioDevices.length === 0) {
+    if (prevAudioDevices.length === 0 && audioDevices[0]) {
       yield put(SwitchDevice.action({ kind: InputType.AudioInput, deviceId: audioDevices[0].deviceId }));
       yield put(ChangeMediaStatus.action({ kind: InputType.AudioInput }));
     }
@@ -45,7 +47,10 @@ export function* deviceUpdateWatcher(): SagaIterator {
     callEnded: take(CallEndedEventHandler.action),
     callCanceled: take(CancelCall.action),
     callDeclined: take(DeclineCall.action),
+    killed: take(KillDeviceUpdateWatcher.action),
   });
+
+  console.log('kill');
 
   yield cancel(deviceUpdateTask);
   deviceUpdateChannel.close();

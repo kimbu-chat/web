@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useRef, useState, useCallback } from 'react';
 import VideoSvg from '@icons/video.svg';
 import PlaySvg from '@icons/play.svg';
 import MicrophoneSvg from '@icons/voice.svg';
@@ -10,10 +10,17 @@ import { getVideoConstraintsSelector, getAudioConstraintsSelector, getAudioDevic
 import { useSelector } from 'react-redux';
 import * as CallActions from '@store/calls/actions';
 import VideoCameraSvg from '@icons/video-camera.svg';
+import { KillDeviceUpdateWatcher } from '@app/store/calls/features/device-watcher/kill-device-update-watcher';
+import { SpawnDeviceUpdateWatcher } from '@app/store/calls/features/device-watcher/spawn-device-update-watcher';
 import { Dropdown } from '../../shared/dropdown/dropdown';
+
+let videoTrack: MediaStreamTrack | undefined;
+let audioTrack: MediaStreamTrack | undefined;
 
 export const AudioVideoSettings = () => {
   const { t } = useContext(LocalizationContext);
+
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const videoConstraints = useSelector(getVideoConstraintsSelector);
   const audioConstraints = useSelector(getAudioConstraintsSelector);
@@ -24,12 +31,61 @@ export const AudioVideoSettings = () => {
   const activeVideoDevice = videoConstraints.deviceId;
 
   const switchDevice = useActionWithDispatch(CallActions.switchDeviceAction);
+  const killDeviceUpdateWatcher = useActionWithDispatch(KillDeviceUpdateWatcher.action);
+  const spawnDeviceUpdateWatcher = useActionWithDispatch(SpawnDeviceUpdateWatcher.action);
+
+  const [videoOpened, setVideoOpened] = useState(false);
+  const [audioOpened, setAudioOpened] = useState(false);
+
+  useEffect(() => {
+    if (videoOpened) {
+      navigator.mediaDevices
+        .getUserMedia({
+          video: videoOpened && videoConstraints,
+        })
+        .then((localMediaStream) => {
+          if (videoRef.current) {
+            [videoTrack] = localMediaStream.getVideoTracks();
+
+            videoRef.current.srcObject = localMediaStream;
+            spawnDeviceUpdateWatcher({ videoOpened });
+          }
+        });
+    }
+
+    return () => {
+      videoTrack?.stop();
+      killDeviceUpdateWatcher();
+    };
+  }, [videoConstraints, videoOpened]);
+
+  useEffect(() => {
+    if (audioOpened) {
+      navigator.mediaDevices
+        .getUserMedia({
+          audio: audioOpened && audioConstraints,
+        })
+        .then((localMediaStream) => {
+          [audioTrack] = localMediaStream.getAudioTracks();
+          spawnDeviceUpdateWatcher({ audioOpened });
+        });
+    }
+
+    return () => {
+      killDeviceUpdateWatcher();
+      audioTrack?.stop();
+    };
+  }, [audioConstraints, audioOpened]);
+
+  const getVideo = useCallback(() => {
+    setVideoOpened(true);
+  }, [setVideoOpened]);
 
   return (
     <div className='audio-video'>
       <h3 className='audio-video__title'>{t('audioVideo.title')}</h3>
       <div className='audio-video__subject-title'>
-        <VideoSvg viewBox='0 0 18 18' className='audio-video__subject-icon' />
+        <VideoSvg onClick={getVideo} viewBox='0 0 18 18' className='audio-video__subject-icon' />
         <h5 className='audio-video__subject-text'>{t('audioVideo.video')}</h5>
       </div>
       <div className='audio-video__dropdown-wrapper'>
@@ -43,7 +99,8 @@ export const AudioVideoSettings = () => {
       </div>
       <div className='audio-video__video-area'>
         <VideoCameraSvg className='audio-video__video-icon' viewBox='0 0 300 280' />
-        <button type='button' className='audio-video__video-btn'>
+        {videoOpened && <video muted autoPlay playsInline ref={videoRef} className='audio-video__video' />}
+        <button onClick={getVideo} type='button' className='audio-video__video-btn'>
           {t('audioVideo.test-video')}
         </button>
       </div>
@@ -76,7 +133,13 @@ export const AudioVideoSettings = () => {
       </div>
       <div className='audio-video__intensity-wrapper audio-video__intensity-wrapper--microphone'>
         <div className='audio-video__subject-title'>
-          <MicrophoneSvg viewBox='0 0 20 24' className='audio-video__subject-icon' />
+          <MicrophoneSvg
+            onClick={() => {
+              setAudioOpened((oldState) => !oldState);
+            }}
+            viewBox='0 0 20 24'
+            className='audio-video__subject-icon'
+          />
           <h5 className='audio-video__subject-text'>{t('audioVideo.microphone')}</h5>
         </div>
         <div className='audio-video__intensity-indicator'>

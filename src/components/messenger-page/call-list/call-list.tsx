@@ -9,7 +9,7 @@ import {
   gethasMoreCallsSelector,
   getCallsAreLoadingSelector,
 } from '@store/calls/selectors';
-import { InfiniteScroll } from '@components';
+import { InfiniteScroll } from '@components/messenger-page';
 import { CALL_LIMIT } from '@utils/pagination-limits';
 import { CallItem } from './call-item/call-item';
 

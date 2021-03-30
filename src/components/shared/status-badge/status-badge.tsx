@@ -2,7 +2,7 @@ import React from 'react';
 import { getUserInitials } from '@utils/interlocutor-name-utils';
 import { IUser, UserStatus } from '@store/common/models';
 
-import { Avatar } from '@components';
+import { Avatar } from '@components/shared';
 
 import './status-badge.scss';
 

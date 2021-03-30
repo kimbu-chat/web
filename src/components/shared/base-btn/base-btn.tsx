@@ -14,29 +14,57 @@ export interface IBaseBtnProps
   icon?: JSX.Element;
 }
 
+enum BtnColor {
+  PRIMARY = 'primary',
+  SECONDARY = 'secondary',
+  DEFAULT = 'default',
+}
+
+enum BluredBtnColor {
+  PRIMARY = 'primary',
+  SECONDARY = 'secondary',
+  DEFAULT = 'default',
+}
+
+enum Variant {
+  CONTAINED = 'contained',
+  OUTLINED = 'outlined',
+}
+
+const btnColorMap = {
+  [BtnColor.DEFAULT]: 'var(--kingBlueLight-transparent)',
+  [BtnColor.PRIMARY]: 'var(--dt-kingBlue-wt-kingBlueLight)',
+  [BtnColor.SECONDARY]: 'var(--red)',
+};
+
+const blurredBtnColorMap = {
+  [BluredBtnColor.DEFAULT]: 'rgba(215, 216, 217,0.7)',
+  [BluredBtnColor.PRIMARY]: 'rgba(63, 138, 224,0.7)',
+  [BluredBtnColor.SECONDARY]: 'rgba(209, 36, 51,0.7)',
+}
+
 const BaseBtn: React.FC<IBaseBtnProps> = React.memo(
   ({ width, color, disabled, variant, icon, children, className, isLoading, ...props }) => {
     const style = useMemo(() => {
-      const btnColor: string =
-        color === 'primary'
-          ? 'var(--dt-kingBlue-wt-kingBlueLight)'
-          : color === 'secondary'
-          ? 'var(--red)'
-          : 'var(--kingBlueLight-transparent)';
-      const bluredBtnColor: string =
-        color === 'primary'
-          ? 'rgba(63, 138, 224,0.7)'
-          : color === 'secondary'
-          ? 'rgba(209, 36, 51,0.7)'
-          : 'rgba(215, 216, 217,0.7)';
+      const btnColor = btnColorMap[color];
+      const bluredBtnColor = blurredBtnColorMap[color];
+
+      const variantMap = {
+        [Variant.CONTAINED]: {
+          border: 'none',
+          backgroundColor: disabled ? bluredBtnColor : btnColor,
+          color: '#fff',
+        },
+        [Variant.OUTLINED]: {
+          border: `1px solid ${disabled ? bluredBtnColor : btnColor}`,
+          backgroundColor: 'transparent',
+          color: disabled ? bluredBtnColor : btnColor,
+        }
+      }
 
       return {
         width: width === 'contained' ? '100%' : 'auto',
-        border:
-          variant === 'outlined' ? `1px solid ${disabled ? bluredBtnColor : btnColor}` : 'none',
-        backgroundColor:
-          variant === 'contained' ? (disabled ? bluredBtnColor : btnColor) : 'transparent',
-        color: variant === 'contained' ? '#fff' : disabled ? bluredBtnColor : btnColor,
+        ...variantMap[variant],
       };
     }, [width, color, disabled, variant]);
 

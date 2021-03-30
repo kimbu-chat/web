@@ -1,11 +1,10 @@
 import { LocalizationContext } from '@contexts';
-import { Avatar } from '@components';
+import { Avatar } from '@components/shared';
 import {
   FileType,
   IAudioAttachment,
-  IBaseAttachment,
   IPictureAttachment,
-  IRawAttachment,
+  IBaseAttachment,
   IVideoAttachment,
   IVoiceAttachment,
 } from '@store/chats/models';
@@ -37,7 +36,7 @@ const MessageLink: React.FC<IMessageLinkProps> = React.memo(({ linkedMessage }) 
       linkedMessage?.attachments?.reduce(
         (
           accum: {
-            files: IRawAttachment[];
+            files: IBaseAttachment[];
             media: (IVideoAttachment | IPictureAttachment)[];
             audios: IAudioAttachment[];
             recordings: IVoiceAttachment[];
@@ -46,7 +45,7 @@ const MessageLink: React.FC<IMessageLinkProps> = React.memo(({ linkedMessage }) 
         ) => {
           switch (currentAttachment.type) {
             case FileType.Raw:
-              accum.files.push(currentAttachment as IRawAttachment);
+              accum.files.push(currentAttachment);
 
               break;
             case FileType.Picture:
@@ -102,8 +101,8 @@ const MessageLink: React.FC<IMessageLinkProps> = React.memo(({ linkedMessage }) 
           {structuredAttachments?.audios.map((audio) => (
             <MessageAudioAttachment key={audio.id} attachment={audio} />
           ))}
-          {(structuredAttachments?.media.length || 0) > 0 && (
-            <MediaGrid media={structuredAttachments!.media} />
+          {structuredAttachments && structuredAttachments.media.length > 0 && (
+            <MediaGrid media={structuredAttachments.media} />
           )}
         </div>
       </div>

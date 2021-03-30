@@ -1,4 +1,4 @@
-import { Modal, WithBackground } from '@components';
+import { Modal, WithBackground } from '@components/shared';
 import React, { useCallback, useContext, useState } from 'react';
 
 import DeleteSvg from '@icons/delete.svg';
@@ -27,7 +27,7 @@ export const DeleteMessageModal: React.FC<IDeleteMessageModalProps> = React.memo
     const deleteTheseMessages = useCallback(() => {
       deleteMessage({ messageIds: selectedMessages, forEveryone: deleteForInterlocutor });
       onClose();
-    }, [selectedMessages, deleteForInterlocutor]);
+    }, [deleteMessage, selectedMessages, deleteForInterlocutor, onClose]);
 
     return (
       <WithBackground onBackgroundClick={onClose}>

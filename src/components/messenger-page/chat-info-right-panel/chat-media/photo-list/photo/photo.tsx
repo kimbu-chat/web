@@ -1,4 +1,5 @@
-import { MediaModal, FadeAnimationWrapper } from '@components';
+import { FadeAnimationWrapper } from '@components/shared';
+import { MediaModal } from '@components/messenger-page';
 import { IGroupable, IPictureAttachment } from '@store/chats/models';
 import { doesYearDifferFromCurrent } from '@utils/set-separators';
 import moment from 'moment';

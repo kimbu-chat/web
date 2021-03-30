@@ -1,4 +1,5 @@
-import { Modal, WithBackground, InfiniteScroll, SearchBox } from '@components';
+import { Modal, WithBackground } from '@components/shared';
+import { InfiniteScroll, SearchBox } from '@components/messenger-page';
 import React, { useCallback, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import './new-chat-modal.scss';
@@ -43,12 +44,15 @@ export const NewChatModal: React.FC<INewChatModalProps> = React.memo(
 
     const history = useHistory();
 
-    const createEmptyChat = useCallback((user: IChat | IUser) => {
-      createChat(user as IUser);
-      const chatId = ChatId.from((user as IUser).id).id;
-      history.push(`/chats/${chatId}`);
-      onClose();
-    }, []);
+    const createEmptyChat = useCallback(
+      (user: IChat | IUser) => {
+        createChat(user as IUser);
+        const chatId = ChatId.from((user as IUser).id).id;
+        history.push(`/chats/${chatId}`);
+        onClose();
+      },
+      [createChat, history, onClose],
+    );
 
     const loadMore = useCallback(() => {
       const page: IPage = {
@@ -58,14 +62,17 @@ export const NewChatModal: React.FC<INewChatModalProps> = React.memo(
       loadFriends({ page });
     }, [friends, loadFriends]);
 
-    const searchFriends = useCallback((name: string) => {
-      loadFriends({ page: { offset: 0, limit: FRIENDS_LIMIT }, name, initializedBySearch: true });
-    }, []);
+    const searchFriends = useCallback(
+      (name: string) => {
+        loadFriends({ page: { offset: 0, limit: FRIENDS_LIMIT }, name, initializedBySearch: true });
+      },
+      [loadFriends],
+    );
 
     const createGroupChat = useCallback(() => {
       displayCreateGroupChat();
       onClose();
-    }, [displayCreateGroupChat]);
+    }, [displayCreateGroupChat, onClose]);
 
     return (
       <WithBackground onBackgroundClick={onClose}>
@@ -73,7 +80,7 @@ export const NewChatModal: React.FC<INewChatModalProps> = React.memo(
           title={
             <>
               <NewMessageSvg viewBox="0 0 24 24" className="new-chat__icon" />
-              <span> {t('newChat.new_message')} </span>
+              <span>{t('newChat.new_message')}</span>
             </>
           }
           closeModal={onClose}

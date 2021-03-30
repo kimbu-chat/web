@@ -2,7 +2,8 @@ import React, { useCallback, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { LocalizationContext } from '@contexts';
-import { InfiniteScroll, SelectEntity, SearchBox, WithBackground, Modal } from '@components';
+import { WithBackground, Modal } from '@components/shared';
+import { InfiniteScroll, SelectEntity, SearchBox } from '@components/messenger-page';
 import './add-call-modal.scss';
 import AddCallSvg from '@icons/add-call.svg';
 import CallSvg from '@icons/call.svg';
@@ -38,9 +39,12 @@ export const AddCallModal: React.FC<IAddCallModalProps> = React.memo(({ onClose 
     loadFriends({ page });
   }, [friends, loadFriends]);
 
-  const searchFriends = useCallback((name: string) => {
-    loadFriends({ page: { offset: 0, limit: FRIENDS_LIMIT }, name, initializedBySearch: true });
-  }, [loadFriends]);
+  const searchFriends = useCallback(
+    (name: string) => {
+      loadFriends({ page: { offset: 0, limit: FRIENDS_LIMIT }, name, initializedBySearch: true });
+    },
+    [loadFriends],
+  );
 
   const call = useCallback(
     (user) => {

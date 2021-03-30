@@ -4,7 +4,6 @@ import {
   FileType,
   IAudioAttachment,
   IPictureAttachment,
-  IRawAttachment,
   IVideoAttachment,
   IVoiceAttachment,
 } from '../../models';
@@ -61,7 +60,7 @@ export class CreateMessageSuccess {
               case FileType.Raw:
                 chat.rawAttachmentsCount = (chat.rawAttachmentsCount || 0) + 1;
                 chat.files.files.unshift({
-                  ...(attachment as IRawAttachment),
+                  ...attachment,
                   creationDateTime: new Date(),
                 });
 

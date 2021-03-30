@@ -7,19 +7,19 @@ import {
   RoutingChats,
   ActiveCall,
   IncomingCall,
-  InternetError,
   ChatInfoRightPanel,
   CreateMessageInput,
   ChatList,
   ChatTopBar,
   SearchTop,
   MessageList,
-  NotContact,
-  BlockedMessageInput,
+  // NotContact,
+  // BlockedMessageInput,
   AddFriend,
   AddCall,
   SettingsNavigation,
-} from '@components';
+} from '@components/messenger-page';
+import { InternetError } from '@components/shared';
 import { useSelector } from 'react-redux';
 import {
   amICalledSelector as isCallingMe,
@@ -78,8 +78,9 @@ const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
         </div>
         <div className="messenger__chat-send">
           <MessageList />
-          {true ? <CreateMessageInput /> : <BlockedMessageInput />}
-          {false && <NotContact />}
+          <CreateMessageInput />
+          {/* {true ? <CreateMessageInput /> : <BlockedMessageInput />}
+          {false && <NotContact />} */}
         </div>
         <ChatTopBar />
         <CSSTransition in={isInfoOpened} timeout={200} classNames="chat-info-slide" unmountOnExit>

@@ -11,7 +11,7 @@ import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { myIdSelector } from '@store/my-profile/selectors';
 import { CallStatus } from '@store/common/models';
-import { StatusBadge } from '@components';
+import { StatusBadge } from '@components/shared';
 
 interface ICallItem {
   call: ICall;

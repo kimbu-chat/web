@@ -5,11 +5,11 @@ import DownloadSvg from '@icons/download.svg';
 import ProgressSVG from '@icons/ic-progress.svg';
 
 import { fileDownload } from '@utils/file-download';
-import { IRawAttachment } from '@store/chats/models';
+import { IBaseAttachment } from '@store/chats/models';
 import { getRawAttachmentSizeUnit } from '@utils/get-file-size-unit';
 
 interface IFileAttachmentProps {
-  attachment: IRawAttachment;
+  attachment: IBaseAttachment;
 }
 
 export const FileAttachment: React.FC<IFileAttachmentProps> = React.memo(({ attachment }) => {
@@ -38,7 +38,7 @@ export const FileAttachment: React.FC<IFileAttachmentProps> = React.memo(({ atta
       },
     );
     setIsDownloading(true);
-  }, [attachment.url, abortDownloadingRef, attachment.title, setDownloaded, setIsDownloading]);
+  }, [attachment.url, attachment.fileName]);
 
   const abortDownloading = useCallback(() => {
     if (abortDownloadingRef.current) {

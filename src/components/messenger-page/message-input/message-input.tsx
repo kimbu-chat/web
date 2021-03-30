@@ -70,7 +70,6 @@ export const CreateMessageInput = React.memo(() => {
 
   const currentUser = useSelector(myProfileSelector);
   const selectedChat = useSelector(getSelectedChatSelector);
-  const myProfile = useSelector(myProfileSelector);
   const myTypingStrategy = useSelector(getTypingStrategySelector);
   const replyingMessage = useSelector(getMessageToReplySelector);
   const editingMessage = useSelector(getMessageToEditSelector);
@@ -129,7 +128,7 @@ export const CreateMessageInput = React.memo(() => {
     setText((oldText) =>
       typeof selectedChat?.draftMessage === 'string' ? selectedChat?.draftMessage : oldText,
     );
-  }, [selectedChat?.id, setText]);
+  }, [selectedChat?.draftMessage, selectedChat?.id, setText]);
 
   useEffect(() => {
     setText(editingMessage?.text || '');
@@ -147,9 +146,6 @@ export const CreateMessageInput = React.memo(() => {
   );
 
   const submitEditedMessage = useCallback(() => {
-    if(!editingMessage){
-      return;
-    }
     const newAttachments = updatedSelectedChat.current?.attachmentsToSend?.map(
       ({ attachment }) => attachment,
     );
@@ -158,11 +154,17 @@ export const CreateMessageInput = React.memo(() => {
       text: refferedText.current,
       removedAttachments: referredRemovedAttachments.current,
       newAttachments,
-      messageId: editingMessage.id,
+      messageId: editingMessage?.id as number,
     });
-  }, [refferedText, referredRemovedAttachments, editingMessage?.id]);
+  }, [
+    updatedSelectedChat,
+    submitEditMessage,
+    refferedText,
+    referredRemovedAttachments,
+    editingMessage,
+  ]);
 
-  const sendMessageToServer = () => {
+  const sendMessageToServer = useCallback(() => {
     if (editingMessage) {
       submitEditedMessage();
       return;
@@ -170,10 +172,10 @@ export const CreateMessageInput = React.memo(() => {
 
     const chatId = updatedSelectedChat.current?.id;
 
-    const text = refferedText.current;
+    const refText = refferedText.current;
 
     if (
-      (text.trim().length > 0 ||
+      (refText.trim().length > 0 ||
         (updatedSelectedChat.current?.attachmentsToSend?.length || 0) > 0) &&
       updatedSelectedChat.current &&
       currentUser
@@ -184,7 +186,7 @@ export const CreateMessageInput = React.memo(() => {
 
       if (chatId) {
         const message: IMessage = {
-          text,
+          text: refText,
           systemMessageType: SystemMessageType.None,
           userCreator: currentUser,
           creationDateTime: new Date(new Date().toUTCString()),
@@ -208,7 +210,15 @@ export const CreateMessageInput = React.memo(() => {
     }
 
     setText('');
-  };
+  }, [
+    currentUser,
+    editingMessage,
+    refferedReplyingMessage,
+    refferedText,
+    sendMessage,
+    submitEditedMessage,
+    updatedSelectedChat,
+  ]);
 
   const onDragOver = useCallback(
     (e: React.DragEvent<HTMLDivElement>) => {
@@ -248,7 +258,7 @@ export const CreateMessageInput = React.memo(() => {
       setIsDraggingOver(false);
 
       if (e.dataTransfer?.files?.length > 0) {
-        for (let index = 0; index < e.dataTransfer.files.length; ++index) {
+        for (let index = 0; index < e.dataTransfer.files.length; index += 1) {
           const file = e.dataTransfer?.files[index] as File;
 
           const fileType = getFileType(file.name);
@@ -266,9 +276,9 @@ export const CreateMessageInput = React.memo(() => {
 
   const onPaste = useCallback(
     (event: React.ClipboardEvent<HTMLTextAreaElement>) => {
-      if (event.clipboardData?.files.length > 0) {
-        for (let index = 0; index < event.clipboardData?.files.length; ++index) {
-          const file = event.clipboardData?.files.item(index) as File;
+      if (event.clipboardData.files.length > 0) {
+        for (let index = 0; index < event.clipboardData.files.length; index += 1) {
+          const file = event.clipboardData.files.item(index) as File;
 
           // extension test
           const fileType = getFileType(file.name);
@@ -285,12 +295,13 @@ export const CreateMessageInput = React.memo(() => {
   );
 
   const throttledNotifyAboutTyping = useCallback(
-    throttle((text: string) => {
-      notifyAboutTyping({
-        text,
-      });
-    }, 1000),
-    [myProfile],
+    (typedText: string) =>
+      throttle((throttledText: string) => {
+        notifyAboutTyping({
+          text: throttledText,
+        });
+      }, 1000)(typedText),
+    [notifyAboutTyping],
   );
 
   const onType = useCallback(
@@ -360,7 +371,7 @@ export const CreateMessageInput = React.memo(() => {
     if (recorderData.current.mediaRecorder?.state !== 'inactive') {
       recorderData.current.mediaRecorder?.stop();
     }
-  }, [recorderData.current]);
+  }, []);
 
   const startRecording = useCallback(() => {
     Mousetrap.bind('esc', cancelRecording);
@@ -403,7 +414,7 @@ export const CreateMessageInput = React.memo(() => {
         setRecordedSeconds(0);
       });
     });
-  }, [setRecordedSeconds, uploadAttachmentRequest, recorderData.current]);
+  }, [cancelRecording, uploadAttachmentRequest]);
 
   const stopRecording = useCallback(() => {
     Mousetrap.unbind('esc');
@@ -416,7 +427,7 @@ export const CreateMessageInput = React.memo(() => {
       recorderData.current.tracks.forEach((track) => track.stop());
       recorderData.current.tracks = [];
     }
-  }, [recorderData.current]);
+  }, []);
 
   useOnClickOutside(registerAudioBtnRef, cancelRecording);
 
@@ -426,7 +437,7 @@ export const CreateMessageInput = React.memo(() => {
     } else {
       startRecording();
     }
-  }, [startRecording, stopRecording, recorderData.current]);
+  }, [startRecording, stopRecording]);
 
   const openSelectFiles = useCallback(() => {
     fileInputRef.current?.click();
@@ -434,8 +445,8 @@ export const CreateMessageInput = React.memo(() => {
 
   const uploadFile = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (event?.target?.files && event.target.files.length > 0) {
-        for (let index = 0; index < event.target.files.length; ++index) {
+      if (event.target.files) {
+        for (let index = 0; index < event.target.files.length; index += 1) {
           const file = event.target.files.item(index) as File;
 
           const fileType = getFileType(file.name);

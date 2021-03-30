@@ -1,4 +1,4 @@
-import { Avatar } from '@components';
+import { Avatar } from '@components/shared';
 import { LocalizationContext } from '@contexts';
 import { IUser } from '@store/common/models';
 import { getUserInitials } from '@utils/interlocutor-name-utils';

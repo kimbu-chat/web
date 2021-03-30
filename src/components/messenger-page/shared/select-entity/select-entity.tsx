@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import './select-entity.scss';
 
-import { Avatar, StatusBadge, TimeUpdateable } from '@components';
+import { Avatar, StatusBadge, TimeUpdateable } from '@components/shared';
 import { getInterlocutorInitials } from '@utils/interlocutor-name-utils';
 
 import SelectedSvg from '@icons/checked.svg';

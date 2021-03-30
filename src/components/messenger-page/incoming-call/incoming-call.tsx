@@ -7,7 +7,7 @@ import {
   getCallInterlocutorSelector,
   getIsIncomingCallVideoEnabledSelector,
 } from '@store/calls/selectors';
-import { Avatar } from '@components';
+import { Avatar } from '@components/shared';
 import { getUserInitials } from '@utils/interlocutor-name-utils';
 
 // sounds
@@ -50,14 +50,14 @@ export const IncomingCall: React.FC = () => {
       videoEnabled: true,
       audioEnabled: true,
     });
-  }, []);
+  }, [acceptCall]);
 
   const acceptWithAudio = useCallback(() => {
     acceptCall({
       videoEnabled: false,
       audioEnabled: true,
     });
-  }, []);
+  }, [acceptCall]);
 
   return ReactDOM.createPortal(
     <Rnd

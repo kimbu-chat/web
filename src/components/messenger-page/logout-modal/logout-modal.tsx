@@ -1,4 +1,4 @@
-import { Modal, WithBackground } from '@components';
+import { Modal, WithBackground } from '@components/shared';
 import React, { useCallback, useContext } from 'react';
 import { LocalizationContext } from '@contexts';
 import './logout-modal.scss';

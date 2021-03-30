@@ -8,7 +8,7 @@ import {
   getHasMoreFriendsSelector,
   getFriendsLoadingSelector,
 } from '@store/friends/selectors';
-import { InfiniteScroll } from '@components';
+import { InfiniteScroll } from '@components/messenger-page';
 import { FRIENDS_LIMIT } from '@utils/pagination-limits';
 import './friend-list.scss';
 import { Friend } from './friend-from-list/friend';

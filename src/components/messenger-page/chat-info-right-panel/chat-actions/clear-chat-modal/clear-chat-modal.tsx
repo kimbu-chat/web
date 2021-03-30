@@ -1,5 +1,5 @@
 import { LocalizationContext } from '@contexts';
-import { Modal, WithBackground } from '@components';
+import { Modal, WithBackground } from '@components/shared';
 import { getSelectedGroupChatNameSelector } from '@store/chats/selectors';
 import React, { useCallback, useContext, useState } from 'react';
 import './clear-chat-modal.scss';
@@ -7,7 +7,7 @@ import ClearSvg from '@icons/clear.svg';
 import { useSelector } from 'react-redux';
 import { ClearChatHistory } from '@store/chats/features/clear-chat-history/clear-chat-history';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { CheckBox } from '@app/components/messenger-page/settings-modal/shared/check-box/check-box';
+import { CheckBox } from '@components/messenger-page/settings-modal/shared/check-box/check-box';
 
 interface IClearChatModalProps {
   hide: () => void;

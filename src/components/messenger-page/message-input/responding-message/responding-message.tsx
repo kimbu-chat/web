@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getMessageToReplySelector } from '@store/chats/selectors';
 import { ResetReplyToMessage } from '@store/chats/features/reply-to-message/reset-reply-to-message';
-import { Avatar } from '@components';
+import { Avatar } from '@components/shared';
 import { getUserInitials } from '@utils/interlocutor-name-utils';
 import { myIdSelector } from '@store/my-profile/selectors';
 

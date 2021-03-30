@@ -1,4 +1,5 @@
-import { Modal, WithBackground, InfiniteScroll, SearchBox } from '@components';
+import { Modal, WithBackground } from '@components/shared';
+import { InfiniteScroll, SearchBox } from '@components/messenger-page';
 import React, { useCallback, useContext, useState } from 'react';
 
 import { useSelector } from 'react-redux';

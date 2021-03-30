@@ -11,7 +11,7 @@ import LogoutSvg from '@icons/logout.svg';
 import { getSelectedChatIdSelector } from '@store/chats/selectors';
 import { useSelector } from 'react-redux';
 import { myProfilePhotoSelector, myFullNameSelector } from '@store/my-profile/selectors';
-import { Avatar, FadeAnimationWrapper } from '@components';
+import { Avatar, FadeAnimationWrapper } from '@components/shared';
 import { getStringInitials } from '@utils/interlocutor-name-utils';
 import { LogoutModal } from '../logout-modal/logout-modal';
 

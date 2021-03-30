@@ -8,7 +8,7 @@ import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import moment from 'moment';
 
 import { doesYearDifferFromCurrent, setSeparators } from '@utils/set-separators';
-import { InfiniteScroll } from '@components';
+import { InfiniteScroll } from '@components/messenger-page';
 import { VOICE_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 import { Recording } from './recording/recording';
 

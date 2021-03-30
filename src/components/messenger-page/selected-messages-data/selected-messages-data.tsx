@@ -8,7 +8,8 @@ import CloseSvg from '@icons/close.svg';
 import ForwardSvg from '@icons/forward.svg';
 import DeleteSvg from '@icons/delete.svg';
 
-import { FadeAnimationWrapper, ForwardModal } from '@components';
+import { FadeAnimationWrapper } from '@components/shared';
+import { ForwardModal } from '@components/messenger-page';
 import { CopyMessages } from '@store/chats/features/copy-messages/copy-messages';
 import { ResetSelectedMessages } from '@store/chats/features/select-message/reset-selected-messages';
 import { DeleteMessageModal } from './delete-message-modal/delete-message-modal';
@@ -25,7 +26,7 @@ export const SelectedMessagesData = React.memo(() => {
   const copyTheseMessages = useCallback(() => {
     copyMessage({ messageIds: selectedMessages });
     resetSelectedMessages();
-  }, [selectedMessages]);
+  }, [copyMessage, resetSelectedMessages, selectedMessages]);
 
   // --Delete message logic
   const [deleteMessagesModalDisplayed, setDeleteMessagesModalDisplayed] = useState(false);

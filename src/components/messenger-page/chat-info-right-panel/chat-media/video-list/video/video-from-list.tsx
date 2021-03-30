@@ -1,7 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import PlaySvg from '@icons/play.svg';
 import moment from 'moment';
-import { FadeAnimationWrapper, MediaModal } from '@components';
+import { FadeAnimationWrapper } from '@components/shared';
+import { MediaModal } from '@components/messenger-page';
 import { IGroupable, IVideoAttachment } from '@store/chats/models';
 import { doesYearDifferFromCurrent } from '@utils/set-separators';
 

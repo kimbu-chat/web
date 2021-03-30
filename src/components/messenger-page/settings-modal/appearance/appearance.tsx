@@ -1,7 +1,7 @@
 import { LocalizationContext } from '@contexts';
 import { IMessage, MessageState, SystemMessageType } from '@store/chats/models';
 import React, { useCallback, useContext } from 'react';
-import { UserStatus } from '@store/common/models';
+import { IUser, UserStatus } from '@store/common/models';
 import firstAvatar from '@icons/mockedUser1.png';
 import { myProfileSelector } from '@store/my-profile/selectors';
 import { useSelector } from 'react-redux';
@@ -50,7 +50,7 @@ export const Appearance: React.FC = () => {
     },
     {
       id: 4,
-      userCreator: currentUser,
+      userCreator: currentUser as IUser,
       creationDateTime: new Date(10000),
       text: 'Italian or Corean kitchen?',
       systemMessageType: SystemMessageType.None,
@@ -83,7 +83,7 @@ export const Appearance: React.FC = () => {
     },
     {
       id: 5,
-      userCreator: currentUser!,
+      userCreator: currentUser as IUser,
       creationDateTime: new Date(10000000),
       text: 'Italian or Corean kitchen?',
       systemMessageType: SystemMessageType.None,

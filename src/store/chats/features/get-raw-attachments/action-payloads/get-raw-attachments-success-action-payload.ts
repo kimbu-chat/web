@@ -1,7 +1,7 @@
-import { IRawAttachment, IGroupable } from '../../../models';
+import { IBaseAttachment, IGroupable } from '../../../models';
 
 export interface IGetRawAttachmentsSuccessActionPayload {
   chatId: number;
-  files: (IRawAttachment & IGroupable)[];
+  files: (IBaseAttachment & IGroupable)[];
   hasMore: boolean;
 }

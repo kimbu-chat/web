@@ -11,7 +11,8 @@ import { CheckNicknameAvailability } from '@store/my-profile/features/check-nick
 import { CancelAvatarUploading } from '@store/my-profile/features/cancel-avatar-uploading/cancel-avatar-uploading';
 import { UploadAvatar } from '@store/my-profile/features/upload-avatar/upload-avatar';
 import { validateNickname } from '@utils/validate-nick-name';
-import { Avatar, BaseBtn, PhotoEditor, CircularProgress } from '@components';
+import { Avatar, BaseBtn } from '@components/shared';
+import { PhotoEditor, CircularProgress } from '@components/messenger-page';
 import { IAvatarSelectedData, IAvatar } from '@store/common/models';
 
 interface IRegistrationProps {

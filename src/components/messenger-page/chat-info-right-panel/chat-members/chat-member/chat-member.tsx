@@ -6,7 +6,7 @@ import { IUser, UserStatus } from '@store/common/models';
 import { LocalizationContext } from '@contexts';
 
 import DeleteSvg from '@icons/delete.svg';
-import { StatusBadge, TimeUpdateable } from '@components';
+import { StatusBadge, TimeUpdateable } from '@components/shared';
 
 interface IMemberProps {
   member: IUser;

@@ -13,12 +13,12 @@ export function useActionWithDeferred<T extends ActionReturnType>(
   payload: ArgumentTypes<typeof action>[0],
 ) => Promise<PromiseReturnType> {
   const dispatch = useDispatch();
-  return useCallback(flow([action, withDeferred(dispatch)]), [dispatch, action]);
+  return useCallback((...args) => flow([action, withDeferred(dispatch)])(...args), [dispatch, action]);
 }
 
 export function useEmptyActionWithDeferred<T extends ActionReturnType>(
   action: T,
 ): <PromiseReturnType = any>() => Promise<PromiseReturnType> {
   const dispatch = useDispatch();
-  return useCallback(flow([action, withDeferred(dispatch)]), [dispatch, action]);
+  return useCallback((...args) => flow([action, withDeferred(dispatch)])(...args), [dispatch, action]);
 }

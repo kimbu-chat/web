@@ -9,7 +9,7 @@ interface IAvatarProps {
   onClick?: () => void;
 }
 
-const Avatar: React.FC<IAvatarProps> = React.memo(
+export const Avatar: React.FC<IAvatarProps> = React.memo(
   ({ src, children, className, onClick, ...props }) => (
     <>
       {src ? (
@@ -31,5 +31,3 @@ const Avatar: React.FC<IAvatarProps> = React.memo(
 );
 
 Avatar.displayName = 'Avatar';
-
-export { Avatar };

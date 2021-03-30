@@ -4,7 +4,7 @@ import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { useSelector } from 'react-redux';
 import { IChat } from '@store/chats/models';
 import * as ChatActions from '@store/chats/actions';
-import { InfiniteScroll } from '@components';
+import { InfiniteScroll } from '@components/messenger-page';
 import {
   getChatsSelector,
   getSearchChatsSelector,
@@ -33,7 +33,7 @@ const ChatList = React.memo(() => {
     if (chatId) {
       changeSelectedChat({ newChatId: Number(chatId), oldChatId: selectedChatId });
     }
-  }, [chatId]);
+  }, [changeSelectedChat, chatId, selectedChatId]);
 
   const loadMore = useCallback(() => {
     if (!areChatsLoading) {
@@ -44,7 +44,7 @@ const ChatList = React.memo(() => {
         showAll: true,
       });
     }
-  }, [searchString, chats.length, areChatsLoading]);
+  }, [areChatsLoading, getChatsRequest, searchString]);
 
   return (
     <div className="chat-list">

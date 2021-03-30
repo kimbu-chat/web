@@ -1,7 +1,8 @@
 import React, { useCallback, useRef, useState } from 'react';
 import './edit-chat-modal.scss';
 
-import { Modal, WithBackground, PhotoEditor } from '@components';
+import { Modal, WithBackground, LabeledInput } from '@components/shared';
+import { PhotoEditor } from '@components/messenger-page';
 
 import { IGroupChat } from '@store/chats/models';
 import { getSelectedGroupChatSelector } from '@store/chats/selectors';
@@ -15,7 +16,6 @@ import PictureSvg from '@icons/picture.svg';
 import TopAvatarLine from '@icons/top-avatar-line.svg';
 import BottomAvatarLine from '@icons/bottom-avatar-line.svg';
 import { IAvatar, IAvatarSelectedData } from '@store/common/models';
-import { LabeledInput } from '@components/shared';
 import * as ChatActions from '@store/chats/actions';
 
 export interface IEditChatModalProps {
@@ -33,7 +33,7 @@ export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClos
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const [newName, setNewName] = useState(selectedGroupChat?.name!);
+  const [newName, setNewName] = useState(selectedGroupChat?.name);
   const [avatarData, setAvatarData] = useState<IAvatarSelectedData | null>(null);
   const [avararUploadResponse, setAvatarUploadResponse] = useState<IAvatar | null>(
     selectedGroupChat?.avatar || null,
@@ -66,7 +66,7 @@ export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClos
           setUploadEnded(true);
         });
     },
-    [setAvatarData, setUploaded, uploadGroupChatAvatar, setAvatarUploadResponse],
+    [uploadGroupChatAvatar, cancelAvatarUploading],
   );
 
   const displayChangePhoto = useCallback(() => setChangePhotoDisplayed(true), [
@@ -108,7 +108,7 @@ export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClos
     };
 
     editGroupChat(changes);
-  }, [avararUploadResponse, newName, newDescription]);
+  }, [onClose, avararUploadResponse, newName, newDescription, editGroupChat]);
 
   const discardNewAvatar = useCallback(() => {
     cancelAvatarUploading();
@@ -121,7 +121,7 @@ export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClos
     });
     setAvatarUploadResponse(null);
     setUploadEnded(true);
-  }, [setAvatarData, setAvatarUploadResponse, setUploadEnded]);
+  }, [cancelAvatarUploading]);
 
   const imageToDisplay =
     typeof avatarData?.croppedImagePath === 'string'

@@ -130,8 +130,6 @@ export class OutgoingCall {
         isVideoEnabled,
       };
 
-      console.log(peerConnection);
-
       const { httpRequest } = OutgoingCall;
       const { isInterlocutorBusy } = httpRequest.call(
         yield call(() => httpRequest.generator(request)),

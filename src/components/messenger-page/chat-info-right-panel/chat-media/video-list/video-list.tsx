@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { getSelectedChatVideosSelector } from '@store/chats/selectors';
 import { IPage } from '@store/common/models';
 import { setSeparators } from '@utils/set-separators';
-import { InfiniteScroll } from '@components';
+import { InfiniteScroll } from '@components/messenger-page';
 import { VIDEO_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 import { VideoFromList } from './video/video-from-list';
 

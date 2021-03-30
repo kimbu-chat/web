@@ -17,7 +17,7 @@ import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import * as CallActions from '@store/calls/actions';
 import moment from 'moment';
 import { Rnd } from 'react-rnd';
-import { Avatar } from '@components';
+import { Avatar } from '@components/shared';
 import { getUserInitials } from '@utils/interlocutor-name-utils';
 import ReactDOM from 'react-dom';
 
@@ -102,7 +102,7 @@ export const ActiveCall: React.FC = () => {
         remoteVideoRef.current.srcObject = mediaStream;
       }
     }
-  }, [getInterlocutorVideoTrack, isInterlocutorVideoEnabled, remoteVideoRef]);
+  }, [isInterlocutorVideoEnabled, remoteVideoRef]);
 
   useEffect(() => {
     if (remoteAudioRef.current) {
@@ -113,7 +113,7 @@ export const ActiveCall: React.FC = () => {
         remoteAudioRef.current.srcObject = mediaStream;
       }
     }
-  }, [getInterlocutorAudioTrack, remoteAudioRef]);
+  }, [remoteAudioRef]);
 
   // local video stream assigning
   useEffect(() => {
@@ -126,7 +126,7 @@ export const ActiveCall: React.FC = () => {
         localVideoRef.current.play();
       }
     }
-  }, [tracks.videoTrack]);
+  }, []);
 
   // component did mount effect
   useEffect(() => {
@@ -319,7 +319,7 @@ export const ActiveCall: React.FC = () => {
             <button
               type="button"
               onClick={changeAudioStatus}
-              className={`active-call__call-btn 
+              className={`active-call__call-btn
 												${isFullScreen ? 'active-call__call-btn--big' : ''}`}>
               {isAudioOpened ? (
                 <MicrophoneEnableSvg viewBox="0 0 25 25" />
@@ -333,7 +333,7 @@ export const ActiveCall: React.FC = () => {
             <button
               type="button"
               onClick={changeVideoStatus}
-              className={`active-call__call-btn 
+              className={`active-call__call-btn
 												${isFullScreen ? 'active-call__call-btn--big' : ''}`}>
               {isVideoOpened ? (
                 <VideoEnableSvg viewBox="0 0 25 25" />
@@ -347,7 +347,7 @@ export const ActiveCall: React.FC = () => {
             <button
               type="button"
               onClick={changeScreenShareStatus}
-              className={`active-call__call-btn 
+              className={`active-call__call-btn
 												${isFullScreen ? 'active-call__call-btn--big' : ''}`}>
               {isScreenSharingOpened ? (
                 <ScreenSharingEnableSvg viewBox="0 0 25 25" />
@@ -361,7 +361,7 @@ export const ActiveCall: React.FC = () => {
             <button
               type="button"
               onClick={reCallWithVideo}
-              className={`active-call__call-btn 
+              className={`active-call__call-btn
 												${isFullScreen ? 'active-call__call-btn--big' : ''}`}>
               <VideoEnableSvg viewBox="0 0 25 25" />
             </button>
@@ -371,7 +371,7 @@ export const ActiveCall: React.FC = () => {
             <button
               type="button"
               onClick={reCallWithAudio}
-              className={`active-call__call-btn 
+              className={`active-call__call-btn
 												${isFullScreen ? 'active-call__call-btn--big' : ''}`}>
               <VoiceCallSvg viewBox="0 0 25 25" />
             </button>

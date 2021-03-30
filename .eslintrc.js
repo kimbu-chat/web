@@ -58,6 +58,7 @@ module.exports = {
     'no-param-reassign': ['error', { props: true, ignorePropertyModificationsFor: ['draft'] }],
     '@typescript-eslint/no-undef': 'off',
     'no-bitwise': ['error', { allow: ['|'] }],
+    'react/require-default-props': 'off',
   },
   settings: {
     'import/resolver': {

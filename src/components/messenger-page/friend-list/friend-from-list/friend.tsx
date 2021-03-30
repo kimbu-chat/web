@@ -5,7 +5,7 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
 import './friend.scss';
-import { StatusBadge, TimeUpdateable } from '@components';
+import { StatusBadge, TimeUpdateable } from '@components/shared';
 
 interface IFriendProps {
   friend: IUser;

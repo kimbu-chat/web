@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import './country-select.scss';
 
 import useAutocomplete, { createFilterOptions } from '@material-ui/lab/useAutocomplete';

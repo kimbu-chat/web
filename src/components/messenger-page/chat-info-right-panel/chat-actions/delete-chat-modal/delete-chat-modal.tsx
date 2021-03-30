@@ -1,5 +1,5 @@
 import { LocalizationContext } from '@contexts';
-import { Modal, WithBackground } from '@components';
+import { Modal, WithBackground } from '@components/shared';
 import * as ChatActions from '@store/chats/actions';
 import React, { useCallback, useContext } from 'react';
 import './delete-chat-modal.scss';

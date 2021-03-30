@@ -1,5 +1,5 @@
 import { LocalizationContext } from '@contexts';
-import { BaseBtn } from '@components';
+import { BaseBtn } from '@components/shared';
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import './not-found.scss';

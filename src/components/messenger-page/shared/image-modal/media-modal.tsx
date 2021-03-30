@@ -5,7 +5,7 @@ import ArrowSvg from '@icons/arrow.svg';
 
 import './media-modal.scss';
 import { FileType, IPictureAttachment, IVideoAttachment } from '@store/chats/models';
-import { BackgroundBlur } from '@components';
+import { BackgroundBlur } from '@components/shared';
 import { stopPropagation } from '@utils/stop-propagation';
 import { LocalizationContext } from '@contexts';
 

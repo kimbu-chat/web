@@ -13,7 +13,7 @@ import {
 } from '@store/chats/selectors';
 import { parsePhoneNumber } from 'libphonenumber-js';
 import { Link } from 'react-router-dom';
-import { FadeAnimationWrapper } from '@components';
+import { FadeAnimationWrapper } from '@components/shared';
 import { EditChatModal } from '../../edit-chat-modal/edit-chat-modal';
 
 export const InterlocutorInfo = React.memo(() => {

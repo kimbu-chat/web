@@ -7,7 +7,7 @@ interface IPrivacyPolicyProps {
   close: () => void;
 }
 
-const PrivacyPolicy: React.FC<IPrivacyPolicyProps> = React.memo(({ close }) => (
+export const PrivacyPolicy: React.FC<IPrivacyPolicyProps> = React.memo(({ close }) => (
   <div onClick={stopPropagation} className="policy-modal">
     <div className="policy-modal__header">
       <div className="policy-modal__top-group">
@@ -254,5 +254,3 @@ const PrivacyPolicy: React.FC<IPrivacyPolicyProps> = React.memo(({ close }) => (
     </button>
   </div>
 ));
-
-export default PrivacyPolicy;

@@ -6,11 +6,9 @@ import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getSelectedChatSelector } from '@store/chats/selectors';
 import {
   Avatar,
-  PhotoEditor,
   FadeAnimationWrapper,
-  GroupChatAddFriendModal,
-  MediaModal,
-} from '@components';
+} from '@components/shared';
+import { PhotoEditor, GroupChatAddFriendModal, MediaModal } from '@components/messenger-page'
 
 import PhotoSvg from '@icons/ic-photo.svg';
 
@@ -70,7 +68,7 @@ const ChatInfoRightPanel: React.FC = React.memo(() => {
     if (selectedChat) {
       getChatInfo();
     }
-  }, [getChatInfo]);
+  }, [getChatInfo, selectedChat]);
 
   const handleImageChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -106,7 +104,7 @@ const ChatInfoRightPanel: React.FC = React.memo(() => {
         });
       });
     },
-    [uploadGroupChatAvatar, editGroupChat],
+    [uploadGroupChatAvatar, editGroupChat, selectedChat.groupChat.name, selectedChat.groupChat.description],
   );
 
   const getChatFullSizeAvatar = useCallback((): string => {

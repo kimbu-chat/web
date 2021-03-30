@@ -13,7 +13,7 @@ import {
 } from '@store/chats/models';
 import { MessageUtils } from '@utils/message-utils';
 
-import { StatusBadge, Avatar } from '@components';
+import { StatusBadge, Avatar } from '@components/shared';
 import { LocalizationContext } from '@contexts';
 import { myIdSelector } from '@store/my-profile/selectors';
 import truncate from 'lodash/truncate';
@@ -104,7 +104,9 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(
       }
 
       return '';
-    }, [chat.lastMessage]);
+    }, [chat.groupChat, chat.lastMessage, currentUserId, isMessageCreatorCurrentUser, t]);
+
+    const existedChat = chat as Required<IChat>;
 
     return (
       <NavLink
@@ -115,7 +117,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(
           <StatusBadge
             containerClassName="chat-item__avatar-container"
             additionalClassNames="chat-item__avatar"
-            user={chat.interlocutor}
+            user={existedChat.interlocutor}
           />
         ) : (
           <Avatar
@@ -142,7 +144,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(
             </div>
             <div className="chat-item__time">
               {MessageUtils.checkIfDatesAreSameDate(
-                new Date(chat.lastMessage?.creationDateTime!),
+                new Date(existedChat.lastMessage?.creationDateTime as Date),
                 new Date(),
               )
                 ? moment.utc(chat.lastMessage?.creationDateTime).local().format('dd MMM YY')

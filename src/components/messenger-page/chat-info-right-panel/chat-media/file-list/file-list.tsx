@@ -9,7 +9,7 @@ import { IPage } from '@store/common/models';
 import moment from 'moment';
 
 import { doesYearDifferFromCurrent, setSeparators } from '@utils/set-separators';
-import { InfiniteScroll, FileAttachment } from '@components';
+import { InfiniteScroll, FileAttachment } from '@components/messenger-page';
 import { FILE_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 
 export const FileList = React.memo(() => {

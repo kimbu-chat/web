@@ -10,7 +10,7 @@ import ReflectSvg from '@icons/reflect.svg';
 
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
-import { WithBackground, Modal } from '@components';
+import { WithBackground, Modal } from '@components/shared';
 import { IAvatarSelectedData } from '@store/common/models';
 import { Tooltip } from '@components/shared/tooltip/tooltip';
 
@@ -91,7 +91,7 @@ export const PhotoEditor: React.FC<IPhotoEditorProps> = ({
         croppedImagePath: croppedUrl,
       });
     }
-  }, [onSubmit, completedCrop]);
+  }, [onSubmit, hideChangePhoto, completedCrop, crop.y, crop.x, crop.width, imageUrl]);
 
   const onLoad = useCallback((img) => {
     imgRef.current = img;

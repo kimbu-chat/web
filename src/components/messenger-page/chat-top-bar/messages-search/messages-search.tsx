@@ -5,7 +5,7 @@ import ArrowSvg from '@icons/arrow-v.svg';
 import { GetMessages } from '@store/chats/features/get-messages/get-messages';
 import { MESSAGES_LIMIT } from '@utils/pagination-limits';
 import './messages-search.scss';
-import { SearchBox } from '@components';
+import { SearchBox } from '@components/messenger-page';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getSelectedChatMessagesSearchStringSelector } from '@store/chats/selectors';
 import { useSelector } from 'react-redux';
@@ -20,18 +20,21 @@ export const MessagesSearch = () => {
     setIsSearching((oldState) => !oldState);
   }, [setIsSearching]);
 
-  const searchMessages = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const pageData = {
-      limit: MESSAGES_LIMIT,
-      offset: 0,
-    };
+  const searchMessages = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const pageData = {
+        limit: MESSAGES_LIMIT,
+        offset: 0,
+      };
 
-    getMessages({
-      page: pageData,
-      isFromSearch: true,
-      searchString: e.target.value,
-    });
-  }, []);
+      getMessages({
+        page: pageData,
+        isFromSearch: true,
+        searchString: e.target.value,
+      });
+    },
+    [getMessages],
+  );
 
   return (
     <div className="messages-search">

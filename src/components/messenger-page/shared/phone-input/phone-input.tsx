@@ -5,7 +5,6 @@ import './phone-input.scss';
 import { ICountry } from '@common/country';
 import { LocalizationContext } from '@contexts';
 import { removeCountryCodeFromPhoneNumber } from '@utils/phone-number-utils';
-import { noop } from 'lodash';
 
 interface IPhoneInputProps {
   country: ICountry;
@@ -51,7 +50,3 @@ export const PhoneInput = React.forwardRef(
     );
   },
 );
-
-PhoneInput.defaultProps = {
-  submitFunction: noop,
-};

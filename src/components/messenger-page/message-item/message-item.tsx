@@ -1,4 +1,4 @@
-import React, { useContext, useCallback, useMemo } from 'react';
+import React, { useContext, useCallback, useMemo, ReactElement } from 'react';
 import { MessageUtils } from '@utils/message-utils';
 import { useSelector } from 'react-redux';
 import './message-item.scss';
@@ -7,7 +7,8 @@ import { myIdSelector } from '@store/my-profile/selectors';
 import { LocalizationContext } from '@contexts';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getIsSelectMessagesStateSelector } from '@store/chats/selectors';
-import { Avatar, MessageAudioAttachment, FileAttachment } from '@components';
+import { Avatar } from '@components/shared';
+import { MessageAudioAttachment, FileAttachment } from '@components/messenger-page';
 import { getUserInitials } from '@utils/interlocutor-name-utils';
 import { CallStatus, IUser } from '@store/common/models';
 import moment from 'moment';
@@ -28,7 +29,7 @@ import MessageReadSvg from '@icons/message-read.svg';
 
 import SelectSvg from '@icons/select.svg';
 import {
-  IRawAttachment,
+  IBaseAttachment,
   IPictureAttachment,
   IVoiceAttachment,
   IVideoAttachment,
@@ -69,15 +70,32 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
         event?.stopPropagation();
         selectMessage({ messageId: message.id });
       },
-      [message.id],
+      [message.id, selectMessage],
     );
+
+    const getMessageIcon = (): ReactElement => {
+      let icon;
+
+      switch (message.state) {
+        case MessageState.READ:
+          icon = <MessageReadSvg className="message__state" />;
+          break;
+        case MessageState.QUEUED:
+          icon = <MessageQeuedSvg className="message__state" />;
+          break;
+        default:
+          icon = <MessageSentSvg className="message__state" />;
+      }
+
+      return icon;
+    };
 
     const structuredAttachments = useMemo(
       () =>
         message.attachments?.reduce(
           (
             accum: {
-              files: IRawAttachment[];
+              files: IBaseAttachment[];
               media: (IVideoAttachment | IPictureAttachment)[];
               audios: IAudioAttachment[];
               recordings: IVoiceAttachment[];
@@ -86,7 +104,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
           ) => {
             switch (currentAttachment.type) {
               case FileType.Raw:
-                accum.files.push(currentAttachment as IRawAttachment);
+                accum.files.push(currentAttachment);
 
                 break;
               case FileType.Picture:
@@ -263,8 +281,8 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                     <MessageAudioAttachment key={audio.id} attachment={audio} />
                   ))}
 
-                  {(structuredAttachments?.media.length || 0) > 0 && (
-                    <MediaGrid media={structuredAttachments!.media} />
+                  {structuredAttachments?.media && (
+                    <MediaGrid media={structuredAttachments.media} />
                   )}
                 </div>
               )}
@@ -288,8 +306,8 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                       <MessageAudioAttachment key={audio.id} attachment={audio} />
                     ))}
 
-                    {(structuredAttachments?.media.length || 0) > 0 && (
-                      <MediaGrid media={structuredAttachments!.media} />
+                    {structuredAttachments?.media && (
+                      <MediaGrid media={structuredAttachments.media} />
                     )}
                   </div>
 
@@ -297,14 +315,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                 </div>
               )}
             </div>
-            {isCurrentUserMessageCreator &&
-              (message.state === MessageState.READ ? (
-                <MessageReadSvg className="message__state" />
-              ) : message.state === MessageState.QUEUED ? (
-                <MessageQeuedSvg className="message__state" />
-              ) : (
-                <MessageSentSvg className="message__state" />
-              ))}
+            {isCurrentUserMessageCreator && getMessageIcon()}
             <div className="message__time">
               {moment.utc(message.creationDateTime).local().format('LT')}
             </div>

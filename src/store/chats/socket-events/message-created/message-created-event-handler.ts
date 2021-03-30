@@ -26,7 +26,6 @@ import {
   FileType,
   IAudioAttachment,
   IPictureAttachment,
-  IRawAttachment,
   IVideoAttachment,
   IVoiceAttachment,
   IMessage,
@@ -163,7 +162,7 @@ export class MessageCreatedEventHandler {
               case FileType.Raw:
                 chat.rawAttachmentsCount = (chat.rawAttachmentsCount || 0) + 1;
                 chat.files.files.unshift({
-                  ...(attachment as IRawAttachment),
+                  ...attachment,
                   creationDateTime: new Date(),
                 });
 

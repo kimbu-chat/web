@@ -8,7 +8,7 @@ import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import moment from 'moment';
 
 import { doesYearDifferFromCurrent, setSeparators } from '@utils/set-separators';
-import { InfiniteScroll, MessageAudioAttachment } from '@components';
+import { InfiniteScroll, MessageAudioAttachment } from '@components/messenger-page';
 import { AUDIO_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 
 export const AudioList = React.memo(() => {

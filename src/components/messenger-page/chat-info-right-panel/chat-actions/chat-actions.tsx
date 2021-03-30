@@ -19,7 +19,8 @@ import AddUsersSvg from '@icons/add-users.svg';
 
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import * as FriendActions from '@store/friends/actions';
-import { CreateGroupChat, FadeAnimationWrapper } from '@components';
+import { FadeAnimationWrapper } from '@components/shared';
+import { CreateGroupChat } from '@components/messenger-page';
 import PeopleSvg from '@icons/ic-group.svg';
 import { getMyFriendsSelector } from '@store/friends/selectors';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';

@@ -1,4 +1,4 @@
-import { FadeAnimationWrapper } from '@components';
+import { FadeAnimationWrapper } from '@components/shared';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { EditMessage } from '@store/chats/features/edit-message/edit-message';
 import { ReplyToMessage } from '@store/chats/features/reply-to-message/reply-to-message';

@@ -11,12 +11,8 @@ import {
   getSelectedChatIdSelector,
   getSelectedChatUnreadMessagesCountSelector,
 } from '@store/chats/selectors';
-import {
-  FadeAnimationWrapper,
-  InfiniteScroll,
-  SelectedMessagesData,
-  MessageItem,
-} from '@components';
+import { InfiniteScroll, SelectedMessagesData, MessageItem } from '@components/messenger-page';
+import { FadeAnimationWrapper } from '@components/shared';
 
 import { MESSAGES_LIMIT } from '@utils/pagination-limits';
 
@@ -42,7 +38,7 @@ const MessageList = React.memo(() => {
     if (selectedChatId && (unreadMessagesCount || 0) > 0) {
       markMessagesAsRead();
     }
-  }, [unreadMessagesCount, selectedChatId]);
+  }, [unreadMessagesCount, selectedChatId, markMessagesAsRead]);
 
   const loadMore = useCallback(() => {
     const pageData = {
@@ -53,7 +49,7 @@ const MessageList = React.memo(() => {
     getMessages({
       page: pageData,
     });
-  }, [messages?.length]);
+  }, [getMessages, messages?.length]);
 
   if (!selectedChatId) {
     return (

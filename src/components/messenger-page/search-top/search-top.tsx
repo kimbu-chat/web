@@ -6,7 +6,8 @@ import CreateChatSvg from '@icons/create-chat.svg';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import * as ChatActions from '@store/chats/actions';
 
-import { FadeAnimationWrapper, CreateGroupChat, NewChatModal, SearchBox } from '@components';
+import { CreateGroupChat, NewChatModal, SearchBox } from '@components/messenger-page';
+import { FadeAnimationWrapper } from '@components/shared';
 
 interface ISearchTopProps {
   searchFor: 'friends' | 'chats' | 'calls';
@@ -22,7 +23,7 @@ export const SearchTop: React.FC<ISearchTopProps> = React.memo(({ searchFor }) =
   const [createGroupChatDisplayed, setCreateGroupChatDisplayed] = useState(false);
   const changeCreateGroupChatDisplayedState = useCallback(() => {
     setCreateGroupChatDisplayed((oldState) => !oldState);
-  }, [setNewChatDisplayed]);
+  }, []);
 
   const handleChatSearchChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>): void => {

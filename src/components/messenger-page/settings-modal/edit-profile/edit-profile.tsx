@@ -1,4 +1,5 @@
-import { FadeAnimationWrapper, LabeledInput, PhotoEditor } from '@components';
+import { FadeAnimationWrapper, LabeledInput } from '@components/shared';
+import { PhotoEditor } from '@components/messenger-page';
 import { myProfileSelector } from '@store/my-profile/selectors';
 import React, { useCallback, useContext, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
@@ -17,6 +18,12 @@ import { parsePhoneNumber } from 'libphonenumber-js';
 import { ChangePhoneModal } from './change-phone-modal/change-phone-modal';
 import { DeleteAccountModal } from './delete-account-modal/delete-account-modal';
 
+enum NicknameState {
+  INVALID_NICKNAME = 'INVALID_NICKNAME',
+  BUSY_NICKNAME = 'BUSY_NICKNAME',
+  ALLOWED_NICKNAME = 'ALLOWED_NICKNAME',
+}
+
 export const EditProfile = React.memo(() => {
   const { t } = useContext(LocalizationContext);
   const myProfile = useSelector(myProfileSelector);
@@ -33,8 +40,7 @@ export const EditProfile = React.memo(() => {
   const [newAvatar, setNewAvatar] = useState(myProfile?.avatar);
   const [firstName, setFirstName] = useState(myProfile?.firstName || '');
   const [lastName, setLastName] = useState(myProfile?.lastName || '');
-  const [isNickNameAvailable, setIsNickNameAvailable] = useState(true);
-  const [isNickNameValid, setIsNickNameValid] = useState(true);
+  const [error, setError] = useState<NicknameState>(NicknameState.ALLOWED_NICKNAME);
   const [isLoading, setIsLoading] = useState(false);
   const [nickname, setNickname] = useState(myProfile?.nickname || '');
 
@@ -124,30 +130,23 @@ export const EditProfile = React.memo(() => {
       setNickname(newNickName);
 
       if (newNickName === myProfile?.nickname) {
-        setIsNickNameAvailable(true);
+        setError(NicknameState.ALLOWED_NICKNAME);
         return;
       }
 
       if (validateNickname(newNickName)) {
-        setIsNickNameValid(true);
+        setError(NicknameState.ALLOWED_NICKNAME);
 
         setIsLoading(true);
         checkNicknameAvailability({ nickname: newNickName }).then(({ isAvailable }) => {
-          setIsNickNameAvailable(isAvailable);
+          setError(isAvailable ? NicknameState.ALLOWED_NICKNAME : NicknameState.BUSY_NICKNAME);
           setIsLoading(false);
         });
       } else {
-        setIsNickNameValid(false);
+        setError(NicknameState.ALLOWED_NICKNAME);
       }
     },
-    [
-      setNickname,
-      setIsNickNameAvailable,
-      checkNicknameAvailability,
-      setIsLoading,
-      setIsNickNameValid,
-      myProfile?.nickname,
-    ],
+    [setNickname, checkNicknameAvailability, setIsLoading, myProfile?.nickname],
   );
 
   const sumbmitChanges = useCallback(() => {
@@ -159,7 +158,23 @@ export const EditProfile = React.memo(() => {
     ) {
       updateMyProfile({ firstName, lastName, nickname, avatar: newAvatar });
     }
-  }, [newAvatar?.id, myProfile, firstName, lastName, nickname]);
+  }, [
+    newAvatar,
+    myProfile?.avatar?.id,
+    myProfile?.firstName,
+    myProfile?.lastName,
+    myProfile?.nickname,
+    firstName,
+    lastName,
+    nickname,
+    updateMyProfile,
+  ]);
+
+  const errorsMap = {
+    [NicknameState.BUSY_NICKNAME]: t('editProfile.nickname-busy'),
+    [NicknameState.INVALID_NICKNAME]: t('editProfile.nickname-not-acceptable'),
+    [NicknameState.ALLOWED_NICKNAME]: undefined,
+  };
 
   return (
     <>
@@ -218,22 +233,15 @@ export const EditProfile = React.memo(() => {
           value={nickname}
           onChange={onChangeNickname}
           containerClassName="edit-profile__input"
-          errorText={
-            isNickNameValid
-              ? isNickNameAvailable
-                ? undefined
-                : t('editProfile.nickname-busy')
-              : t('editProfile.nickname-not-acceptable')
-          }
+          errorText={errorsMap[error]}
         />
         <button
           type="button"
           onClick={sumbmitChanges}
           className="edit-profile__btn edit-profile__btn--personal"
           disabled={
-            !isNickNameAvailable ||
+            error !== NicknameState.ALLOWED_NICKNAME ||
             isLoading ||
-            !isNickNameValid ||
             firstName.length === 0 ||
             lastName.length === 0
           }>

@@ -1,12 +1,7 @@
 import React, { useCallback, useContext, useState, useRef, useEffect, lazy, Suspense } from 'react';
 import './phone-confirmation.scss';
-import {
-  CountrySelect,
-  PhoneInput,
-  BaseBtn,
-  WithBackground,
-  FadeAnimationWrapper,
-} from '@components';
+import { BaseBtn, WithBackground, FadeAnimationWrapper } from '@components/shared';
+import { CountrySelect, PhoneInput } from '@components/login-page';
 import { countryList } from '@common/countries';
 import { ICountry } from '@common/country';
 import { LocalizationContext } from '@contexts';

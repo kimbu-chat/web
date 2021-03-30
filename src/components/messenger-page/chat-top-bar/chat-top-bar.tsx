@@ -7,7 +7,7 @@ import { LocalizationContext } from '@contexts';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import * as CallActions from '@store/calls/actions';
 import { IUser, UserStatus } from '@store/common/models';
-import { Avatar, StatusBadge, TimeUpdateable } from '@components';
+import { Avatar, StatusBadge, TimeUpdateable } from '@components/shared';
 
 import VoiceCallSvg from '@icons/audio-call.svg';
 import VideoCallSvg from '@icons/video-call.svg';
@@ -51,6 +51,20 @@ export const ChatTopBar = React.memo(() => {
     [selectedChat?.interlocutor, callInterlocutor],
   );
 
+  const interlocutorStatus =
+    selectedChat?.interlocutor?.status === UserStatus.Online ? (
+      t('chatData.online')
+    ) : (
+      <>
+        <span>{`${t('chatData.last-time')} `}</span>{' '}
+        <TimeUpdateable timeStamp={selectedChat?.interlocutor?.lastOnlineTime} />
+      </>
+    );
+
+  const groupChatOrInterlocutorStatus = selectedChat?.groupChat
+    ? `${selectedChat.groupChat.membersCount} ${t('chatData.members')}`
+    : interlocutorStatus;
+
   if (selectedChat) {
     return (
       <div className="chat-data__chat-data">
@@ -76,20 +90,13 @@ export const ChatTopBar = React.memo(() => {
           <div className="chat-data__chat-info">
             <h1 className="chat-data__chat-info__title">{getChatInterlocutor(selectedChat)}</h1>
             <p className="chat-data__chat-info__info">
-              {(selectedChat.typingInterlocutors?.length || 0) > 0 ? (
+              {selectedChat.typingInterlocutors && selectedChat.typingInterlocutors?.length > 0 ? (
                 <div className="chat-data__chat-info__info__typing">
                   <TypingSvg viewBox="0 0 12 12" />
                   <span>{t('chatData.typing')}</span>
                 </div>
-              ) : selectedChat.groupChat ? (
-                `${selectedChat.groupChat.membersCount} ${t('chatData.members')}`
-              ) : selectedChat?.interlocutor?.status === UserStatus.Online ? (
-                t('chatData.online')
               ) : (
-                <>
-                  <span>{`${t('chatData.last-time')} `}</span>{' '}
-                  <TimeUpdateable timeStamp={selectedChat?.interlocutor?.lastOnlineTime} />
-                </>
+                groupChatOrInterlocutorStatus
               )}
             </p>
           </div>

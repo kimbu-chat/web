@@ -67,6 +67,7 @@
 
   &__date {
     text-align: end;
+    text-align: end;
     color: var(--dt-white-wt-dark);
     font-weight: 300;
     font-size: 12px;
@@ -74,5 +75,6 @@
     text-transform: lowercase;
     max-width: 60px;
     white-space: break-spaces;
+    text-align: end;
   }
 }

@@ -5,6 +5,7 @@ export interface ICall {
   userInterlocutor: IUser;
   userCallerId: number;
   endDateTime?: Date;
+  creationDateTime: Date;
   startDateTime: Date;
   status: CallStatus;
 }

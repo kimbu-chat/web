@@ -51,7 +51,7 @@ export const CallItem: React.FC<ICallItem> = ({ call }) => {
         </div>
       </div>
       <div className='call-from-list__aside-data'>
-        <div className='call-from-list__date'>{moment.utc(call.startDateTime).local().format('l LT')}</div>
+        <div className='call-from-list__date'>{moment.utc(call.creationDateTime).local().format('l LT')}</div>
         <div className={`call-from-list__type-icon ${missedByMe ? 'call-from-list__type-icon--missed' : ''}`}>
           {call.status === CallStatus.Ended && (isOutgoing ? <OutgoingCallSvg viewBox='0 0 11 12' /> : <IncomingCallSvg viewBox='0 0 12 12' />)}
           {(call.status === CallStatus.Declined || call.status === CallStatus.Cancelled) && <DeclinedCallSvg viewBox='0 0 13 14' />}

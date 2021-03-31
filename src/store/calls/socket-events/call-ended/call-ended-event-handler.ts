@@ -21,7 +21,7 @@ export class CallEndedEventHandler {
 
   static get saga() {
     return function* callEndedSaga(action: ReturnType<typeof CallEndedEventHandler.action>): SagaIterator {
-      const { userInterlocutorId, id, startDateTime, endDateTime, status } = action.payload;
+      const { userInterlocutorId, id, startDateTime, endDateTime, creationDateTime, status } = action.payload;
       const interlocutor = yield select(getCallInterlocutorSelector);
 
       if (!interlocutor || userInterlocutorId === interlocutor?.id) {
@@ -40,6 +40,7 @@ export class CallEndedEventHandler {
             startDateTime,
             endDateTime,
             status,
+            creationDateTime,
           };
         } else {
           const { data } = CallEndedEventHandler.httpRequest.call(yield call(() => CallEndedEventHandler.httpRequest.generator({ callId: id })));

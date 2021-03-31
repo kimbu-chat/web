@@ -5,5 +5,6 @@ export interface ICallEndedIntegrationEvent {
   id: number;
   endDateTime?: Date;
   startDateTime: Date;
+  creationDateTime: Date;
   status: CallStatus;
 }

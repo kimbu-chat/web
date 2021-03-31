@@ -24,6 +24,7 @@ const initialState: IAuthState = {
   isAuthenticated: Boolean(securityTokens),
   securityTokens,
   refreshTokenRequestLoading: false,
+  deviceId: authService.deviceId?.deviceId,
 };
 
 const auth = createReducer<IAuthState>(initialState)

@@ -5,5 +5,6 @@ export interface IOptionalUserSettings {
   theme?: Theme;
   typingStrategy?: TypingStrategy;
   notificationSound?: boolean;
+  pushNotificationsEnabled?: boolean;
   fontSize?: AllowedFontSize;
 }

@@ -13,7 +13,6 @@ import { ReactComponent as ArrowSvg } from '@icons/arrow-v.svg';
 import { ReactComponent as GroupSvg } from '@icons/group.svg';
 import { ReactComponent as NewMessageSvg } from '@icons/create-chat.svg';
 
-import * as ChatActions from '@store/chats/actions';
 import {
   getFriendsLoadingSelector,
   getHasMoreFriendsSelector,
@@ -39,20 +38,15 @@ export const NewChatModal: React.FC<INewChatModalProps> = React.memo(
     const hasMoreFriends = useSelector(getHasMoreFriendsSelector);
     const friendsLoading = useSelector(getFriendsLoadingSelector);
 
-    const createChat = useActionWithDispatch(ChatActions.createChat);
     const loadFriends = useActionWithDispatch(FriendActions.getFriends);
 
     const history = useHistory();
 
-    const createEmptyChat = useCallback(
-      (user: IChat | IUser) => {
-        createChat(user as IUser);
-        const chatId = ChatId.from((user as IUser).id).id;
-        history.push(`/chats/${chatId}`);
-        onClose();
-      },
-      [createChat, history, onClose],
-    );
+    const createEmptyChat = useCallback((user: IChat | IUser) => {
+      const chatId = ChatId.from((user as IUser).id).id;
+      history.push(`/chats/${chatId}`);
+      onClose();
+    }, []);
 
     const loadMore = useCallback(() => {
       const page: IPage = {

@@ -58,6 +58,7 @@ export class CreateMessage {
         text: message.text,
         chatId,
         attachments: attachmentsToSend,
+        clientId: message.id,
       };
 
       if (message.linkedMessage && message.linkedMessageType) {

@@ -17,3 +17,5 @@ export const authLoadingSelector = (state: RootState): boolean => state.auth.loa
 
 export const confirmationCodeWrongSelector = (state: RootState) =>
   state.auth.isConfirmationCodeWrong;
+
+export const deviceIdSelector = (state: RootState) => state.auth.deviceId;

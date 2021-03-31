@@ -41,7 +41,7 @@ const blurredBtnColorMap = {
   [BluredBtnColor.DEFAULT]: 'rgba(215, 216, 217,0.7)',
   [BluredBtnColor.PRIMARY]: 'rgba(63, 138, 224,0.7)',
   [BluredBtnColor.SECONDARY]: 'rgba(209, 36, 51,0.7)',
-}
+};
 
 const BaseBtn: React.FC<IBaseBtnProps> = React.memo(
   ({ width, color, disabled, variant, icon, children, className, isLoading, ...props }) => {
@@ -59,8 +59,8 @@ const BaseBtn: React.FC<IBaseBtnProps> = React.memo(
           border: `1px solid ${disabled ? bluredBtnColor : btnColor}`,
           backgroundColor: 'transparent',
           color: disabled ? bluredBtnColor : btnColor,
-        }
-      }
+        },
+      };
 
       return {
         width: width === 'contained' ? '100%' : 'auto',

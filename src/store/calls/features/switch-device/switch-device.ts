@@ -2,7 +2,11 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { getAudioConstraintsSelector, getVideoConstraintsSelector } from '../../selectors';
+import {
+  getAudioConstraintsSelector,
+  getVideoConstraintsSelector,
+  doIhaveCallSelector,
+} from '../../selectors';
 import { ICallsState } from '../../calls-state';
 import {
   getVideoSender,
@@ -37,24 +41,28 @@ export class SwitchDevice {
     return function* switchDeviceSaga(
       action: ReturnType<typeof SwitchDevice.action>,
     ): SagaIterator {
-      const videoConstraints = yield select(getVideoConstraintsSelector);
-      const audioConstraints = yield select(getAudioConstraintsSelector);
-      const audioSender = getAudioSender();
-      const videoSender = getVideoSender();
+      const isCallActive = yield select(doIhaveCallSelector);
 
-      if (action.payload.kind === InputType.AudioInput && audioConstraints.isOpened) {
-        yield call(getUserAudio, { audio: audioConstraints });
+      if (isCallActive) {
+        const videoConstraints = yield select(getVideoConstraintsSelector);
+        const audioConstraints = yield select(getAudioConstraintsSelector);
+        const audioSender = getAudioSender();
+        const videoSender = getVideoSender();
 
-        if (tracks.audioTrack) {
-          audioSender?.replaceTrack(tracks.audioTrack);
+        if (action.payload.kind === InputType.AudioInput && audioConstraints.isOpened) {
+          yield call(getUserAudio, { audio: audioConstraints });
+
+          if (tracks.audioTrack) {
+            audioSender?.replaceTrack(tracks.audioTrack);
+          }
         }
-      }
 
-      if (action.payload.kind === InputType.VideoInput && videoConstraints.isOpened) {
-        yield call(getUserVideo, { video: videoConstraints });
+        if (action.payload.kind === InputType.VideoInput && videoConstraints.isOpened) {
+          yield call(getUserVideo, { video: videoConstraints });
 
-        if (tracks.videoTrack) {
-          videoSender?.replaceTrack(tracks.videoTrack);
+          if (tracks.videoTrack) {
+            videoSender?.replaceTrack(tracks.videoTrack);
+          }
         }
       }
     };

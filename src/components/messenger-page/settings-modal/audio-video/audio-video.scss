@@ -1,6 +1,16 @@
 .audio-video {
   padding: 32px 40px;
 
+  &__video {
+    z-index: 55;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    object-fit: contain;
+  }
+
   &__title {
     color: var(--dt-white-wt-dark);
     font-weight: normal;
@@ -48,6 +58,7 @@
 
   &__intensity-indicator {
     display: flex;
+    flex-direction: row-reverse;
     align-items: center;
     margin-right: 7px;
     margin-left: auto;
@@ -59,28 +70,21 @@
     background: var(--dt-dark-wt-kingBlue-lighter);
     border-radius: 50%;
 
-    &:not(:last-child) {
-      margin-right: 32px;
-    }
+    margin-right: 32px;
 
-    &[data-active] {
-      width: 24px;
-      height: 24px;
-      background: #3f8ae0;
-
-      &:not(:last-child) {
-        margin-right: 24px;
-      }
-    }
-
-    &[data-middle] {
+    &[data-middle='true'] {
       width: 20px;
       height: 20px;
       background: #3f8ae0;
 
-      &:not(:last-child) {
-        margin-right: 28px;
-      }
+      margin-right: 28px;
+    }
+    &[data-active='true'] {
+      width: 24px;
+      height: 24px;
+      background: #3f8ae0;
+
+      margin-right: 24px;
     }
   }
 
@@ -93,6 +97,8 @@
     border-radius: 30px;
     background: var(--dt-dark-wt-kingBlue-lighter);
     margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
   }
 
   &__video-icon {

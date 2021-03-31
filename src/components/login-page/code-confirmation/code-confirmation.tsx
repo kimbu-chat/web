@@ -39,7 +39,7 @@ const CodeConfirmation: React.FC<ICodeConfirmationProps> = ({ preloadNext }) => 
   const phoneNumber = useSelector(authPhoneNumberSelector);
   const twoLetterCountryCode = useSelector(twoLetterCountryCodeSelector);
   const codeFromServer = useSelector<RootState, string>(
-    (rootState) => rootState.auth.confirmationCode,
+    (rootState: RootState) => rootState.auth.confirmationCode,
   );
   const isConfirmationCodeWrong = useSelector(confirmationCodeWrongSelector);
   const isLoading = useSelector(authLoadingSelector);

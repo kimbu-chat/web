@@ -28,7 +28,8 @@
   },
   "blockedMessageInput": {
     "unblock": "Разблокировать",
-    "description": "Вы не можете отправлять сообщения заблокированному пользователю."
+    "blocked-by-me": "Вы не можете отправлять сообщения заблокированному пользователю.",
+    "I-am-blocked": "Вы не можете отправлять сообщения пользователю который заблокировал вас."
   },
   "chatData": {
     "members": "участника",
@@ -58,6 +59,8 @@
     "unmute": "Включить уведомления",
     "clear-history": "Отчистить историю собщений",
     "delete-contact": "Удалить контакт",
+    "block-user": "Заблокировать пользователя",
+    "unblock-user": "Разблокировать пользователя",
     "add-contact": "Добавить контакт",
     "create-group": "Создать чат",
     "delete-chat": "Удалить чат",
@@ -191,8 +194,7 @@
   "notificationsSettings": {
     "title": "Уведомления",
     "push-notification": "Пуш уведомления",
-    "message-notification": "Звуковое уведомление о новых сообщениях",
-    "all-notifications": "Отключить все уведомления"
+    "message-notification": "Звуковое уведомление о новых сообщениях"
   },
   "editProfile": {
     "personal-information": "Личная информация",
@@ -259,8 +261,8 @@
   "callFromList": {
     "outgoing": "Исходящий вызов ({{duration}})",
     "incoming": "Входящий вызов ({{duration}})",
-    "canceled": "Отказан",
-    "declined": "Отменён",
+    "canceled": "Отменён",
+    "declined": "Отказан",
     "missed": "Пропущен",
     "notAnswered": "Без ответа"
   },

@@ -63,9 +63,12 @@ export class MessageCreatedEventHandler {
         userCreator,
         linkedMessageId,
         linkedMessageType,
+        clientId,
       } = action.payload;
 
-      const messageExists = yield select(getChatHasMessageWithIdSelector(id, chatId));
+      const messageExists =
+        (yield select(getChatHasMessageWithIdSelector(id, chatId))) ||
+        (yield select(getChatHasMessageWithIdSelector(id, clientId)));
       const isTabActive = yield select(tabActiveSelector);
 
       const message: IMessage = {

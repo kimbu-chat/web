@@ -13,8 +13,8 @@ import {
   ChatTopBar,
   SearchTop,
   MessageList,
-  // NotContact,
-  // BlockedMessageInput,
+  NotContact,
+  BlockedMessageInput,
   AddFriend,
   AddCall,
   SettingsNavigation,
@@ -27,7 +27,11 @@ import {
   doIhaveCallSelector,
 } from '@store/calls/selectors';
 import { CSSTransition } from 'react-transition-group';
-import { getIsInfoOpenedSelector } from '@store/chats/selectors';
+import {
+  amICurrentChatBlackListedSelector,
+  getIsInfoOpenedSelector,
+  isCurrentChatBlackListedSelector,
+} from '@store/chats/selectors';
 import { getInternetStateSelector } from '@store/internet/selectors';
 import { EditProfile } from '@components/messenger-page/settings-modal/edit-profile/edit-profile';
 import { LanguageSettings } from '@components/messenger-page/settings-modal/language-settings/language-settings';
@@ -45,6 +49,9 @@ const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
   const amICalledSelector = useSelector(isCallingMe);
   const amICallingSelectorSomebody = useSelector(amICallingSelector);
   const amISpeaking = useSelector(doIhaveCallSelector);
+
+  const isCurrentChatBlackListed = useSelector(isCurrentChatBlackListedSelector);
+  const amICurrentChatBlackListed = useSelector(amICurrentChatBlackListedSelector);
 
   const internetState = useSelector(getInternetStateSelector);
   const isInfoOpened = useSelector(getIsInfoOpenedSelector);
@@ -78,9 +85,12 @@ const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
         </div>
         <div className="messenger__chat-send">
           <MessageList />
-          <CreateMessageInput />
-          {/* {true ? <CreateMessageInput /> : <BlockedMessageInput />}
-          {false && <NotContact />} */}
+          {isCurrentChatBlackListed || amICurrentChatBlackListed ? (
+            <BlockedMessageInput isCurrentChatBlackListed={isCurrentChatBlackListed} />
+          ) : (
+            <CreateMessageInput />
+          )}
+          {false && <NotContact />}
         </div>
         <ChatTopBar />
         <CSSTransition in={isInfoOpened} timeout={200} classNames="chat-info-slide" unmountOnExit>

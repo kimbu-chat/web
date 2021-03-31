@@ -95,6 +95,10 @@ export class GroupChatCreatedEventHandler {
             loading: false,
             members: [],
           },
+          isBlockedByInterlocutor: false,
+          isBlockedByUser: false,
+          isInContacts: false,
+          isDismissedAddToContacts: false,
         };
 
         if (newChat.groupChat && avatarId && avatarUrl && avatarPreviewUrl) {

@@ -1,10 +1,21 @@
+import { BlockUser } from './features/block-user/block-user';
+import { BlockUserSuccess } from './features/block-user/block-user-success';
 import { ChangeFontSize } from './features/change-font-size/change-font-size';
 import { ChangeLanguage } from './features/change-language/change-language';
 import { ChangeNotificationSoundState } from './features/change-notification-sound-state/change-notification-sound-state';
+import { ChangePushNotificationState } from './features/change-push-notification-state/change-push-notification-state';
 import { ChangeTheme } from './features/change-theme/change-theme';
 import { ChangeTypingStrategy } from './features/change-typing-strategy/change-typing-strategy';
+import { GetBlackList } from './features/get-black-list/get-black-list';
+import { GetBlackListSuccess } from './features/get-black-list/get-black-list-success';
+import { GetSessionList } from './features/get-sesion-list/get-sesion-list';
+import { GetSessionListSuccess } from './features/get-sesion-list/get-sesion-list-success';
 import { GetUserSettings } from './features/get-user-settings/get-user-settings';
 import { GetUserSettingsSuccess } from './features/get-user-settings/get-user-settings-success';
+import { RevokeSession } from './features/revoke-session/revoke-session';
+import { RevokeSessionSuccess } from './features/revoke-session/revoke-session-success';
+import { UnblockUser } from './features/unblock-user/unblock-user';
+import { UnblockUserSuccess } from './features/unblock-user/unblock-user-success';
 
 // SettingsActions
 export const changeLanguageAction = ChangeLanguage.action;
@@ -14,3 +25,14 @@ export const getUserSettingsSuccessAction = GetUserSettingsSuccess.action;
 export const getUserSettingsAction = GetUserSettings.action;
 export const changeTheme = ChangeTheme.action;
 export const changeFontSize = ChangeFontSize.action;
+export const changePushNotificationState = ChangePushNotificationState.action;
+export const getBlackListSuccess = GetBlackListSuccess.action;
+export const getBlackList = GetBlackList.action;
+export const blockUser = BlockUser.action;
+export const blockUserSuccess = BlockUserSuccess.action;
+export const unblockUser = UnblockUser.action;
+export const unblockUserSuccess = UnblockUserSuccess.action;
+export const getSessionList = GetSessionList.action;
+export const getSessionListSucess = GetSessionListSuccess.action;
+export const revokeSession = RevokeSession.action;
+export const revokeSessionSuccess = RevokeSessionSuccess.action;

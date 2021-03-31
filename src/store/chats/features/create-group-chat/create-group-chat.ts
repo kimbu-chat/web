@@ -103,6 +103,10 @@ export class CreateGroupChat {
           loading: false,
           recordings: [],
         },
+        isBlockedByInterlocutor: false,
+        isBlockedByUser: false,
+        isInContacts: false,
+        isDismissedAddToContacts: false,
       };
 
       yield put(CreateGroupChatSuccess.action(chat));

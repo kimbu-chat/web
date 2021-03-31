@@ -3,6 +3,8 @@ import { CallStatus } from '../../../common/models';
 export interface ICallEndedIntegrationEvent {
   userInterlocutorId: number;
   id: number;
-  duration: number;
+  endDateTime?: Date;
+  startDateTime: Date;
+  creationDateTime: Date;
   status: CallStatus;
 }

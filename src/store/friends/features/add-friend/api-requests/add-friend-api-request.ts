@@ -1,3 +1,3 @@
 export interface IAddFriendApiRequest {
-  phoneNumbers: string[];
+  userId: number;
 }

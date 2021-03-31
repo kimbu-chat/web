@@ -23,6 +23,7 @@ export class GetVoiceAttachmentsSuccess {
           chat.recordings.hasMore = hasMore;
           chat.recordings.loading = false;
         }
+
         return draft;
       },
     );

@@ -3,7 +3,6 @@ import { createReducer } from 'typesafe-actions';
 import { AddUsersToGroupChatSuccess } from './features/add-users-to-group-chat/add-users-to-group-chat-success';
 import { ChangeChatMutedStatusSuccess } from './features/change-chat-muted-status/change-chat-muted-status-success';
 import { ChangeSelectedChat } from './features/change-selected-chat/change-selected-chat';
-import { CreateChat } from './features/create-chat/create-chat';
 import { CreateGroupChatSuccess } from './features/create-group-chat/create-group-chat-success';
 import { CreateMessage } from './features/create-message/create-message';
 import { DeleteMessageSuccess } from './features/delete-message/delete-message-success';
@@ -63,6 +62,10 @@ import { UserEditedEventHandler } from './socket-events/user-edited/user-edited-
 import { ChangeChatInfoOpened } from './features/change-chat-info-opened/change-chat-info-opened';
 import { MessagesDeletedIntegrationEventHandlerSuccess } from './socket-events/message-deleted/messages-deleted-integration-event-handler-success';
 import { RemoveAllAttachments } from './features/remove-attachment/remove-all-attachments';
+import { AddFriendSuccess } from '../friends/features/add-friend/add-friend-success';
+import { DeleteFriendSuccess } from '../friends/features/delete-friend/delete-friend-success';
+import { BlockUserSuccess } from '../settings/features/block-user/block-user-success';
+import { UnblockUserSuccess } from '../settings/features/unblock-user/unblock-user-success';
 
 const initialState: IChatsState = {
   hasMore: true,
@@ -88,7 +91,6 @@ const chats = createReducer<IChatsState>(initialState)
   .handleAction(GetChatsFailure.action, GetChatsFailure.reducer)
   .handleAction(LeaveGroupChatSuccess.action, LeaveGroupChatSuccess.reducer)
   .handleAction(MarkMessagesAsReadSuccess.action, MarkMessagesAsReadSuccess.reducer)
-  .handleAction(CreateChat.action, CreateChat.reducer)
   .handleAction(GetPhotoAttachmentsSuccess.action, GetPhotoAttachmentsSuccess.reducer)
   .handleAction(GetVoiceAttachmentsSuccess.action, GetVoiceAttachmentsSuccess.reducer)
   .handleAction(GetRawAttachmentsSuccess.action, GetRawAttachmentsSuccess.reducer)
@@ -151,6 +153,71 @@ const chats = createReducer<IChatsState>(initialState)
         return draft;
       },
     ),
+  )
+  .handleAction(
+    BlockUserSuccess.action,
+    produce((draft: IChatsState, { payload }: ReturnType<typeof BlockUserSuccess.action>) => {
+      const { id: userId } = payload;
+      const chatId: number = ChatId.from(userId).id;
+      const chat = getChatByIdDraftSelector(chatId, draft);
+
+      if (!chat) {
+        return draft;
+      }
+
+      chat.isBlockedByUser = true;
+
+      return draft;
+    }),
+  )
+  .handleAction(
+    UnblockUserSuccess.action,
+    produce((draft: IChatsState, { payload }: ReturnType<typeof UnblockUserSuccess.action>) => {
+      const userId = payload;
+      const chatId: number = ChatId.from(userId).id;
+      const chat = getChatByIdDraftSelector(chatId, draft);
+
+      if (!chat) {
+        return draft;
+      }
+
+      chat.isBlockedByUser = false;
+
+      return draft;
+    }),
+  )
+  .handleAction(
+    DeleteFriendSuccess.action,
+    produce((draft: IChatsState, { payload }: ReturnType<typeof DeleteFriendSuccess.action>) => {
+      const { userIds } = payload;
+
+      userIds.forEach((userId) => {
+        const chatId: number = ChatId.from(userId).id;
+        const chat = getChatByIdDraftSelector(chatId, draft);
+
+        if (chat) {
+          chat.isInContacts = false;
+        }
+      });
+
+      return draft;
+    }),
+  )
+  .handleAction(
+    AddFriendSuccess.action,
+    produce((draft: IChatsState, { payload }: ReturnType<typeof AddFriendSuccess.action>) => {
+      const { id: userId } = payload;
+      const chatId: number = ChatId.from(userId).id;
+      const chat = getChatByIdDraftSelector(chatId, draft);
+
+      if (!chat) {
+        return draft;
+      }
+
+      chat.isInContacts = true;
+
+      return draft;
+    }),
   )
 
   // socket-events

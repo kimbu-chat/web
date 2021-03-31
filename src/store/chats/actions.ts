@@ -5,7 +5,6 @@ import { UploadAttachmentRequest } from './features/upload-attachment/upload-att
 import { AddUsersToGroupChat } from './features/add-users-to-group-chat/add-users-to-group-chat';
 import { AddUsersToGroupChatSuccess } from './features/add-users-to-group-chat/add-users-to-group-chat-success';
 import { ChangeSelectedChat } from './features/change-selected-chat/change-selected-chat';
-import { CreateChat } from './features/create-chat/create-chat';
 import { CreateGroupChat } from './features/create-group-chat/create-group-chat';
 import { CreateGroupChatSuccess } from './features/create-group-chat/create-group-chat-success';
 import { EditGroupChat } from './features/edit-group-chat/edit-group-chat';
@@ -88,7 +87,6 @@ export const getAudioAttachmentsSuccess = GetAudioAttachmentsSuccess.action;
 export const getChatInfoSuccess = GetChatInfoSuccess.action;
 export const changeSelectedChat = ChangeSelectedChat.action;
 export const unshiftChat = UnshiftChat.action;
-export const createChat = CreateChat.action;
 export const changeChatMutedStatus = ChangeChatMutedStatus.action;
 export const changeChatMutedStatusSuccess = ChangeChatMutedStatusSuccess.action;
 export const createGroupChat = CreateGroupChat.action;

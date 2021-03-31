@@ -22,7 +22,6 @@ import {
 } from '@store/calls/selectors';
 
 import { ICallsState } from '../../calls-state';
-import { ChangeActiveDeviceId } from '../change-active-device-id/change-active-device-id';
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
 import { IAcceptCallActionPayload } from './action-payloads/accept-call-action-payload';
 import { AcceptCallSuccess } from './accept-call-success';
@@ -61,12 +60,6 @@ export class AcceptCall {
 
         if (audioDevices.length > 0) {
           yield put(GotDevicesInfo.action({ kind: InputType.AudioInput, devices: audioDevices }));
-          yield put(
-            ChangeActiveDeviceId.action({
-              kind: InputType.AudioInput,
-              deviceId: audioDevices[0].deviceId,
-            }),
-          );
         }
       }
 
@@ -78,12 +71,6 @@ export class AcceptCall {
 
         if (videoDevices.length > 0) {
           yield put(GotDevicesInfo.action({ kind: InputType.VideoInput, devices: videoDevices }));
-          yield put(
-            ChangeActiveDeviceId.action({
-              kind: InputType.VideoInput,
-              deviceId: videoDevices[0].deviceId,
-            }),
-          );
         }
       }
       //---

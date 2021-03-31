@@ -17,7 +17,6 @@ import { ICallsState } from '../../calls-state';
 import { deviceUpdateWatcher } from '../../utils/device-update-watcher';
 import { getAndSendUserMedia, getMediaDevicesList } from '../../utils/user-media';
 import { CancelCall } from '../cancel-call/cancel-call';
-import { ChangeActiveDeviceId } from '../change-active-device-id/change-active-device-id';
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
 import { InterlocutorAcceptedCallEventHandler } from '../../socket-events/interlocutor-accepted-call/interlocutor-accepted-call-event-handler';
 import { TimeoutCall } from '../timeout-call/timeout-call';
@@ -88,12 +87,6 @@ export class OutgoingCall {
 
         if (audioDevices.length > 0) {
           yield put(GotDevicesInfo.action({ kind: InputType.AudioInput, devices: audioDevices }));
-          yield put(
-            ChangeActiveDeviceId.action({
-              kind: InputType.AudioInput,
-              deviceId: audioDevices[0].deviceId,
-            }),
-          );
         }
       }
       if (videoOpened) {
@@ -104,12 +97,6 @@ export class OutgoingCall {
 
         if (videoDevices.length > 0) {
           yield put(GotDevicesInfo.action({ kind: InputType.VideoInput, devices: videoDevices }));
-          yield put(
-            ChangeActiveDeviceId.action({
-              kind: InputType.VideoInput,
-              deviceId: videoDevices[0].deviceId,
-            }),
-          );
         }
       }
 

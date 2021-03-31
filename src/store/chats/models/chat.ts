@@ -64,4 +64,9 @@ export interface IChat {
   voiceAttachmentsCount?: number;
   audioAttachmentsCount?: number;
   pictureAttachmentsCount?: number;
+
+  isBlockedByInterlocutor: boolean;
+  isBlockedByUser: boolean;
+  isInContacts: boolean;
+  isDismissedAddToContacts: boolean;
 }

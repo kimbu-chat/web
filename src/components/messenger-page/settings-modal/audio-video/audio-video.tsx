@@ -128,6 +128,7 @@ export const AudioVideoSettings = () => {
     }
 
     return () => {
+      setAudioIntensity(0);
       if (audioRef.current) {
         audioRef.current?.pause();
       }

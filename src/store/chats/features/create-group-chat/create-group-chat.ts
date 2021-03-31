@@ -100,6 +100,8 @@ export class CreateGroupChat {
           recordings: [],
         },
         isBlockedByInterlocutor: false,
+        isBlockedByUser: false,
+        isInContacts: false,
         isDismissedAddToContacts: false,
       };
 

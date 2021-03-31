@@ -63,7 +63,6 @@ import { ChangeChatInfoOpened } from './features/change-chat-info-opened/change-
 import { MessagesDeletedIntegrationEventHandlerSuccess } from './socket-events/message-deleted/messages-deleted-integration-event-handler-success';
 import { RemoveAllAttachments } from './features/remove-attachment/remove-all-attachments';
 import { AddFriendSuccess } from '../friends/features/add-friend/add-friend-success';
-import { UserRelationshipsType } from './models/relationship-type';
 import { DeleteFriendSuccess } from '../friends/features/delete-friend/delete-friend-success';
 import { BlockUserSuccess } from '../settings/features/block-user/block-user-success';
 import { UnblockUserSuccess } from '../settings/features/unblock-user/unblock-user-success';
@@ -151,22 +150,6 @@ const chats = createReducer<IChatsState>(initialState)
     }),
   )
   .handleAction(
-    AddFriendSuccess.action,
-    produce((draft: IChatsState, { payload }: ReturnType<typeof AddFriendSuccess.action>) => {
-      const { id: userId } = payload;
-      const chatId: number = ChatId.from(userId).id;
-      const chat = getChatByIdDraftSelector(chatId, draft);
-
-      if (!chat) {
-        return draft;
-      }
-
-      chat.relationshipType = UserRelationshipsType.Contact;
-
-      return draft;
-    }),
-  )
-  .handleAction(
     BlockUserSuccess.action,
     produce((draft: IChatsState, { payload }: ReturnType<typeof BlockUserSuccess.action>) => {
       const { id: userId } = payload;
@@ -177,7 +160,7 @@ const chats = createReducer<IChatsState>(initialState)
         return draft;
       }
 
-      chat.relationshipType = UserRelationshipsType.Blacklist;
+      chat.isBlockedByUser = true;
 
       return draft;
     }),
@@ -193,7 +176,7 @@ const chats = createReducer<IChatsState>(initialState)
         return draft;
       }
 
-      chat.relationshipType = undefined;
+      chat.isBlockedByUser = false;
 
       return draft;
     }),
@@ -208,9 +191,25 @@ const chats = createReducer<IChatsState>(initialState)
         const chat = getChatByIdDraftSelector(chatId, draft);
 
         if (chat) {
-          chat.relationshipType = undefined;
+          chat.isInContacts = false;
         }
       });
+
+      return draft;
+    }),
+  )
+  .handleAction(
+    AddFriendSuccess.action,
+    produce((draft: IChatsState, { payload }: ReturnType<typeof AddFriendSuccess.action>) => {
+      const { id: userId } = payload;
+      const chatId: number = ChatId.from(userId).id;
+      const chat = getChatByIdDraftSelector(chatId, draft);
+
+      if (!chat) {
+        return draft;
+      }
+
+      chat.isInContacts = true;
 
       return draft;
     }),

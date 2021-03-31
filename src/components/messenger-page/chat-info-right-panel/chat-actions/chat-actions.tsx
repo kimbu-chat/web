@@ -18,7 +18,6 @@ import * as FriendActions from '@store/friends/actions';
 import { CreateGroupChat, FadeAnimationWrapper } from '@components';
 import PeopleSvg from '@icons/ic-group.svg';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import { UserRelationshipsType } from '@app/store/chats/models/relationship-type';
 import { DeleteChatModal } from './delete-chat-modal/delete-chat-modal';
 import { ClearChatModal } from './clear-chat-modal/clear-chat-modal';
 
@@ -48,8 +47,6 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
   const deleteContact = useCallback(() => deleteFriend({ userIds: [selectedChat?.interlocutor?.id!] }), [deleteFriend, selectedChat?.interlocutor?.id]);
   const addContact = useCallback(() => addFriend(selectedChat.interlocutor!), [addFriend, selectedChat?.interlocutor]);
 
-  const selectedIsFriend = selectedChat.relationshipType === UserRelationshipsType.Contact;
-
   return (
     <div className='chat-actions'>
       <h3 className='chat-actions__title'>{t('chatActions.actions')}</h3>
@@ -62,14 +59,14 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
         <ClearSvg />
         <span className='chat-actions__action__name'>{t('chatActions.clear-history')}</span>
       </button>
-      {selectedChat.interlocutor && selectedIsFriend && (
+      {selectedChat.interlocutor && selectedChat.isInContacts && (
         <button type='button' onClick={deleteContact} className='chat-actions__action'>
           <DeleteSvg />
           <span className='chat-actions__action__name'>{t('chatActions.delete-contact')}</span>
         </button>
       )}
       {selectedChat.interlocutor &&
-        (selectedIsFriend ? (
+        (selectedChat.isInContacts ? (
           <button type='button' onClick={changeCreateGroupChatModalOpenedState} className='chat-actions__action'>
             <UnmuteSvg />
             <span className='chat-actions__action__name'>{t('chatActions.create-group')}</span>

@@ -10,7 +10,6 @@ import { IGroupChat } from './group-chat';
 import { IGroupable } from './groupable';
 import { InterlocutorType } from './interlocutor-type';
 import { IMessage } from './message';
-import { UserRelationshipsType } from './relationship-type';
 
 export interface IChat {
   id: number;
@@ -68,6 +67,7 @@ export interface IChat {
   pictureAttachmentsCount?: number;
 
   isBlockedByInterlocutor: boolean;
+  isBlockedByUser: boolean;
+  isInContacts: boolean;
   isDismissedAddToContacts: boolean;
-  relationshipType?: UserRelationshipsType;
 }

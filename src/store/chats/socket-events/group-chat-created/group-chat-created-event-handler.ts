@@ -84,6 +84,8 @@ export class GroupChatCreatedEventHandler {
           members: [],
         },
         isBlockedByInterlocutor: false,
+        isBlockedByUser: false,
+        isInContacts: false,
         isDismissedAddToContacts: false,
       };
 

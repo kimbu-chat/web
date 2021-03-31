@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef, useState, useCallback } from 'react';
 import VideoSvg from '@icons/video.svg';
 import PlaySvg from '@icons/play.svg';
+import PauseSvg from '@icons/pause.svg';
 import MicrophoneSvg from '@icons/voice.svg';
 import './audio-video.scss';
 import { LocalizationContext } from '@app/contexts';
@@ -12,16 +13,21 @@ import * as CallActions from '@store/calls/actions';
 import VideoCameraSvg from '@icons/video-camera.svg';
 import { KillDeviceUpdateWatcher } from '@app/store/calls/features/device-watcher/kill-device-update-watcher';
 import { SpawnDeviceUpdateWatcher } from '@app/store/calls/features/device-watcher/spawn-device-update-watcher';
+import incomingCallSound from '@sounds/calls/imcoming-call.ogg';
 import { getAudioVolume } from '@app/utils/get-audio-volume-size';
+import { playSoundSafely } from '@app/utils/current-music';
 import { Dropdown } from '../../shared/dropdown/dropdown';
 
 let videoTrack: MediaStreamTrack | undefined;
 let audioTrack: MediaStreamTrack | undefined;
+let stopMicrophoneMeasurement: () => void;
+let stopAudioMeasurement: () => void;
 
 export const AudioVideoSettings = () => {
   const { t } = useContext(LocalizationContext);
 
   const videoRef = useRef<HTMLVideoElement>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   const videoConstraints = useSelector(getVideoConstraintsSelector);
   const audioConstraints = useSelector(getAudioConstraintsSelector);
@@ -36,9 +42,13 @@ export const AudioVideoSettings = () => {
   const spawnDeviceUpdateWatcher = useActionWithDispatch(SpawnDeviceUpdateWatcher.action);
 
   const [videoOpened, setVideoOpened] = useState(false);
-  const [audioOpened, setAudioOpened] = useState(false);
+  const [microphoneOpened, setMicrophoneOpened] = useState(false);
+  const [audioPlaying, setAudioPlaying] = useState(false);
+
+  const [audioMeasurementAllowed, setAudioMeasurementAllowed] = useState(true);
 
   const [microphoneIntensity, setMicrophoneIntensity] = useState(0);
+  const [audioIntensity, setAudioIntensity] = useState(0);
 
   useEffect(() => {
     if (videoOpened) {
@@ -63,41 +73,69 @@ export const AudioVideoSettings = () => {
   }, [videoConstraints, videoOpened]);
 
   useEffect(() => {
-    let stopAudioMeasurement: () => void;
-
-    if (audioOpened) {
+    if (microphoneOpened) {
       (async () => {
         const localMediaStream = await navigator.mediaDevices.getUserMedia({
-          audio: audioOpened && audioConstraints,
+          audio: microphoneOpened && audioConstraints,
         });
 
         [audioTrack] = localMediaStream.getAudioTracks();
-        spawnDeviceUpdateWatcher({ audioOpened });
+        spawnDeviceUpdateWatcher({ audioOpened: microphoneOpened });
 
-        stopAudioMeasurement = await getAudioVolume(localMediaStream, (val) => {
-          setMicrophoneIntensity(val);
-        });
+        try {
+          stopMicrophoneMeasurement = await getAudioVolume(localMediaStream, (val) => {
+            setMicrophoneIntensity(val);
+          });
+        } catch {
+          setAudioMeasurementAllowed(false);
+        }
       })();
     } else {
-      if (stopAudioMeasurement!) {
-        stopAudioMeasurement();
-      }
       killDeviceUpdateWatcher();
+      setMicrophoneIntensity(0);
       audioTrack?.stop();
     }
 
     return () => {
-      if (stopAudioMeasurement) {
-        stopAudioMeasurement();
+      if (stopMicrophoneMeasurement) {
+        stopMicrophoneMeasurement();
       }
       killDeviceUpdateWatcher();
       audioTrack?.stop();
     };
-  }, [audioConstraints, audioOpened, setMicrophoneIntensity]);
+  }, [audioConstraints, microphoneOpened, setMicrophoneIntensity]);
 
   const getVideo = useCallback(() => {
     setVideoOpened(true);
   }, [setVideoOpened]);
+
+  useEffect(() => {
+    if (audioPlaying) {
+      (async () => {
+        if (audioRef.current) {
+          const stream = ((audioRef.current as unknown) as { captureStream: () => MediaStream }).captureStream();
+          playSoundSafely(audioRef.current);
+
+          try {
+            stopAudioMeasurement = await getAudioVolume(stream, (val) => {
+              setAudioIntensity(val);
+            });
+          } catch {
+            setAudioMeasurementAllowed(false);
+          }
+        }
+      })();
+    }
+
+    return () => {
+      if (audioRef.current) {
+        audioRef.current?.pause();
+      }
+      if (stopAudioMeasurement) {
+        stopAudioMeasurement();
+      }
+    };
+  }, [audioPlaying]);
 
   return (
     <div className='audio-video'>
@@ -124,21 +162,40 @@ export const AudioVideoSettings = () => {
       </div>
       <div className='audio-video__intensity-wrapper'>
         <div className='audio-video__subject-title'>
-          <PlaySvg viewBox='0 0 24 24' className='audio-video__subject-icon' />
+          {audioPlaying ? (
+            <PauseSvg
+              onClick={() => {
+                setAudioPlaying(false);
+              }}
+              viewBox='0 0 24 24'
+              className='audio-video__subject-icon'
+            />
+          ) : (
+            <PlaySvg
+              onClick={() => {
+                setAudioPlaying(true);
+              }}
+              viewBox='0 0 24 24'
+              className='audio-video__subject-icon'
+            />
+          )}
+          <audio src={incomingCallSound} hidden ref={audioRef} />
           <h5 className='audio-video__subject-text'>{t('audioVideo.load-speaker')}</h5>
         </div>
-        <div className='audio-video__intensity-indicator'>
-          <div data-active className='audio-video__intensity-point' />
-          <div data-active className='audio-video__intensity-point' />
-          <div data-active className='audio-video__intensity-point' />
-          <div data-active className='audio-video__intensity-point' />
-          <div data-middle className='audio-video__intensity-point' />
-          <div data-middle className='audio-video__intensity-point' />
-          <div className='audio-video__intensity-point' />
-          <div className='audio-video__intensity-point' />
-          <div className='audio-video__intensity-point' />
-          <div className='audio-video__intensity-point' />
-        </div>
+        {audioMeasurementAllowed && (
+          <div className='audio-video__intensity-indicator'>
+            <div data-active={audioIntensity >= 10} data-middle={audioIntensity >= 9} className='audio-video__intensity-point' />
+            <div data-active={audioIntensity >= 9} data-middle={audioIntensity >= 8} className='audio-video__intensity-point' />
+            <div data-active={audioIntensity >= 8} data-middle={audioIntensity >= 7} className='audio-video__intensity-point' />
+            <div data-active={audioIntensity >= 7} data-middle={audioIntensity >= 6} className='audio-video__intensity-point' />
+            <div data-active={audioIntensity >= 6} data-middle={audioIntensity >= 5} className='audio-video__intensity-point' />
+            <div data-active={audioIntensity >= 5} data-middle={audioIntensity >= 4} className='audio-video__intensity-point' />
+            <div data-active={audioIntensity >= 4} data-middle={audioIntensity >= 3} className='audio-video__intensity-point' />
+            <div data-active={audioIntensity >= 3} data-middle={audioIntensity >= 2} className='audio-video__intensity-point' />
+            <div data-active={audioIntensity >= 2} data-middle={audioIntensity >= 1} className='audio-video__intensity-point' />
+            <div data-active={audioIntensity >= 1} className='audio-video__intensity-point' />
+          </div>
+        )}
       </div>
       <div className='audio-video__dropdown-wrapper'>
         <Dropdown
@@ -153,25 +210,27 @@ export const AudioVideoSettings = () => {
         <div className='audio-video__subject-title'>
           <MicrophoneSvg
             onClick={() => {
-              setAudioOpened((oldState) => !oldState);
+              setMicrophoneOpened((oldState) => !oldState);
             }}
             viewBox='0 0 20 24'
             className='audio-video__subject-icon'
           />
           <h5 className='audio-video__subject-text'>{t('audioVideo.microphone')}</h5>
         </div>
-        <div className='audio-video__intensity-indicator'>
-          <div data-active={microphoneIntensity >= 10} data-middle={microphoneIntensity >= 9} className='audio-video__intensity-point' />
-          <div data-active={microphoneIntensity >= 9} data-middle={microphoneIntensity >= 8} className='audio-video__intensity-point' />
-          <div data-active={microphoneIntensity >= 8} data-middle={microphoneIntensity >= 7} className='audio-video__intensity-point' />
-          <div data-active={microphoneIntensity >= 7} data-middle={microphoneIntensity >= 6} className='audio-video__intensity-point' />
-          <div data-active={microphoneIntensity >= 6} data-middle={microphoneIntensity >= 5} className='audio-video__intensity-point' />
-          <div data-active={microphoneIntensity >= 5} data-middle={microphoneIntensity >= 4} className='audio-video__intensity-point' />
-          <div data-active={microphoneIntensity >= 4} data-middle={microphoneIntensity >= 3} className='audio-video__intensity-point' />
-          <div data-active={microphoneIntensity >= 3} data-middle={microphoneIntensity >= 2} className='audio-video__intensity-point' />
-          <div data-active={microphoneIntensity >= 2} data-middle={microphoneIntensity >= 1} className='audio-video__intensity-point' />
-          <div data-active={microphoneIntensity >= 1} className='audio-video__intensity-point' />
-        </div>
+        {audioMeasurementAllowed && (
+          <div className='audio-video__intensity-indicator'>
+            <div data-active={microphoneIntensity >= 10} data-middle={microphoneIntensity >= 9} className='audio-video__intensity-point' />
+            <div data-active={microphoneIntensity >= 9} data-middle={microphoneIntensity >= 8} className='audio-video__intensity-point' />
+            <div data-active={microphoneIntensity >= 8} data-middle={microphoneIntensity >= 7} className='audio-video__intensity-point' />
+            <div data-active={microphoneIntensity >= 7} data-middle={microphoneIntensity >= 6} className='audio-video__intensity-point' />
+            <div data-active={microphoneIntensity >= 6} data-middle={microphoneIntensity >= 5} className='audio-video__intensity-point' />
+            <div data-active={microphoneIntensity >= 5} data-middle={microphoneIntensity >= 4} className='audio-video__intensity-point' />
+            <div data-active={microphoneIntensity >= 4} data-middle={microphoneIntensity >= 3} className='audio-video__intensity-point' />
+            <div data-active={microphoneIntensity >= 3} data-middle={microphoneIntensity >= 2} className='audio-video__intensity-point' />
+            <div data-active={microphoneIntensity >= 2} data-middle={microphoneIntensity >= 1} className='audio-video__intensity-point' />
+            <div data-active={microphoneIntensity >= 1} className='audio-video__intensity-point' />
+          </div>
+        )}
       </div>
     </div>
   );

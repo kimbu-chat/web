@@ -19,6 +19,8 @@ export async function getAudioVolume(stream: MediaStream, onVolumeChange: (volum
   microphone.connect(node).connect(audioContext.destination);
 
   return () => {
-    audioContext.close();
+    if (audioContext.state === 'running') {
+      audioContext.close();
+    }
   };
 }

@@ -140,10 +140,12 @@ export const AudioVideoSettings = () => {
       })();
     }
 
+    const audioElement = audioRef.current;
+
     return () => {
       setAudioIntensity(0);
-      if (audioRef.current) {
-        audioRef.current?.pause();
+      if (audioElement) {
+        audioElement.pause();
       }
       if (stopAudioMeasurement) {
         stopAudioMeasurement();

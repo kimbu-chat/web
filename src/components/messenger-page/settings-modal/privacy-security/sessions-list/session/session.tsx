@@ -24,7 +24,7 @@ export const Session: React.FC<ISessionProps> = ({ session }) => {
 
   const revokeThisSession = useCallback(() => {
     revokeSession(session.id);
-  }, [session.id]);
+  }, [session.id, revokeSession]);
 
   return (
     <div className="session">

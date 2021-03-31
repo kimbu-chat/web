@@ -29,7 +29,7 @@ export const BlockedUsers = () => {
         getBlockedUsers();
       }
     }
-  }, [opened, setOpened]);
+  }, [opened, setOpened, blockedUsers.length, getBlockedUsers]);
 
   return (
     <div className="blocked-users">

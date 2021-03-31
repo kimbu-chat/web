@@ -42,11 +42,14 @@ export const NewChatModal: React.FC<INewChatModalProps> = React.memo(
 
     const history = useHistory();
 
-    const createEmptyChat = useCallback((user: IChat | IUser) => {
-      const chatId = ChatId.from((user as IUser).id).id;
-      history.push(`/chats/${chatId}`);
-      onClose();
-    }, []);
+    const createEmptyChat = useCallback(
+      (user: IChat | IUser) => {
+        const chatId = ChatId.from((user as IUser).id).id;
+        history.push(`/chats/${chatId}`);
+        onClose();
+      },
+      [history, onClose],
+    );
 
     const loadMore = useCallback(() => {
       const page: IPage = {

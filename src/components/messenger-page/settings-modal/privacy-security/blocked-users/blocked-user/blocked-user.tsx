@@ -18,7 +18,7 @@ export const BlockedUser: React.FC<IBlockedUserProps> = ({ user }) => {
 
   const unblockThisUser = useCallback(() => {
     unblockUser(user.id);
-  }, [user.id]);
+  }, [user.id, unblockUser]);
 
   return (
     <div className="blocked-user">

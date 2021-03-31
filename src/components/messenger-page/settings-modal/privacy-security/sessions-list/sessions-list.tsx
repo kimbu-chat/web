@@ -29,7 +29,7 @@ export const SessionsList = () => {
         getSessions();
       }
     }
-  }, [opened, setOpened]);
+  }, [opened, setOpened, getSessions, sessions.length]);
 
   return (
     <div className="sessions-list">

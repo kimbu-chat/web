@@ -75,7 +75,7 @@ export const AudioVideoSettings = () => {
       videoTrack?.stop();
       killDeviceUpdateWatcher();
     };
-  }, [videoConstraints, videoOpened]);
+  }, [videoConstraints, videoOpened, killDeviceUpdateWatcher, spawnDeviceUpdateWatcher]);
 
   useEffect(() => {
     if (microphoneOpened) {
@@ -108,7 +108,13 @@ export const AudioVideoSettings = () => {
       killDeviceUpdateWatcher();
       audioTrack?.stop();
     };
-  }, [audioConstraints, microphoneOpened, setMicrophoneIntensity]);
+  }, [
+    audioConstraints,
+    microphoneOpened,
+    setMicrophoneIntensity,
+    killDeviceUpdateWatcher,
+    spawnDeviceUpdateWatcher,
+  ]);
 
   const getVideo = useCallback(() => {
     setVideoOpened(true);

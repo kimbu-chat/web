@@ -27,7 +27,8 @@
   },
   "blockedMessageInput": {
     "unblock": "Unblock",
-    "description": "You cannot send messages to a user you have blocked."
+    "blocked-by-me": "You cannot send messages to a user you have blocked.",
+    "I-am-blocked": "You cannot send messages to a user that has blocked you."
   },
   "chatData": {
     "members": "members",
@@ -57,6 +58,8 @@
     "unmute": "Unmute",
     "clear-history": "Clear history",
     "delete-contact": "Delete contact",
+    "block-user": "Block user",
+    "unblock-user": "Unblock user",
     "add-contact": "Add contact",
     "create-group": "Create group",
     "delete-chat": "Delete chat",

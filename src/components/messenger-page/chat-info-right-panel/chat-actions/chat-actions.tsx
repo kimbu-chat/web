@@ -18,6 +18,8 @@ import * as FriendActions from '@store/friends/actions';
 import { CreateGroupChat, FadeAnimationWrapper } from '@components';
 import PeopleSvg from '@icons/ic-group.svg';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { BlockUser } from '@app/store/settings/features/block-user/block-user';
+import { UnblockUser } from '@app/store/settings/features/unblock-user/unblock-user';
 import { DeleteChatModal } from './delete-chat-modal/delete-chat-modal';
 import { ClearChatModal } from './clear-chat-modal/clear-chat-modal';
 
@@ -40,12 +42,28 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
   const changeChatMutedStatus = useActionWithDispatch(SelectedChatActions.changeChatMutedStatus);
   const deleteFriend = useActionWithDispatch(FriendActions.deleteFriend);
   const addFriend = useActionWithDeferred(FriendActions.addFriend);
+  const blockUser = useActionWithDeferred(BlockUser.action);
+  const unBlockUser = useActionWithDeferred(UnblockUser.action);
 
   const membersIdsForGroupChat = useSelector(getMemberIdsForSelectedGroupChatSelector);
   const selectedChat = useSelector(getSelectedChatSelector) as IChat;
 
   const deleteContact = useCallback(() => deleteFriend({ userIds: [selectedChat?.interlocutor?.id!] }), [deleteFriend, selectedChat?.interlocutor?.id]);
-  const addContact = useCallback(() => addFriend(selectedChat.interlocutor!), [addFriend, selectedChat?.interlocutor]);
+  const addContact = useCallback(() => {
+    if (selectedChat.interlocutor) {
+      addFriend(selectedChat.interlocutor);
+    }
+  }, [addFriend, selectedChat?.interlocutor]);
+  const blockSelectedUser = useCallback(() => {
+    if (selectedChat.interlocutor) {
+      blockUser(selectedChat.interlocutor);
+    }
+  }, [blockUser, selectedChat?.interlocutor]);
+  const unBlockSelectedUser = useCallback(() => {
+    if (selectedChat.interlocutor?.id) {
+      unBlockUser(selectedChat.interlocutor.id);
+    }
+  }, [unBlockUser, selectedChat?.interlocutor?.id]);
 
   return (
     <div className='chat-actions'>
@@ -59,12 +77,26 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
         <ClearSvg />
         <span className='chat-actions__action__name'>{t('chatActions.clear-history')}</span>
       </button>
+
       {selectedChat.interlocutor && selectedChat.isInContacts && (
         <button type='button' onClick={deleteContact} className='chat-actions__action'>
           <DeleteSvg />
           <span className='chat-actions__action__name'>{t('chatActions.delete-contact')}</span>
         </button>
       )}
+
+      {selectedChat.isBlockedByUser ? (
+        <button type='button' onClick={unBlockSelectedUser} className='chat-actions__action'>
+          <DeleteSvg />
+          <span className='chat-actions__action__name'>{t('chatActions.unblock-user')}</span>
+        </button>
+      ) : (
+        <button type='button' onClick={blockSelectedUser} className='chat-actions__action'>
+          <DeleteSvg />
+          <span className='chat-actions__action__name'>{t('chatActions.block-user')}</span>
+        </button>
+      )}
+
       {selectedChat.interlocutor &&
         (selectedChat.isInContacts ? (
           <button type='button' onClick={changeCreateGroupChatModalOpenedState} className='chat-actions__action'>
@@ -77,18 +109,21 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
             <span className='chat-actions__action__name'>{t('chatActions.add-contact')}</span>
           </button>
         ))}
+
       {selectedChat.groupChat && (
         <button type='button' onClick={() => addMembers({ excludeIds: membersIdsForGroupChat })} className='chat-actions__action'>
           <AddUsersSvg />
           <span className='chat-actions__action__name'>{t('chatActions.add-users')}</span>
         </button>
       )}
+
       {selectedChat.groupChat && (
         <button type='button' onClick={changeLeaveGroupChatModalOpenedState} className='chat-actions__action'>
           <LeaveSvg />
           <span className='chat-actions__action__name'>{t('chatActions.leave-chat')}</span>
         </button>
       )}
+
       <FadeAnimationWrapper isDisplayed={leaveGroupChatModalOpened}>
         <DeleteChatModal hide={changeLeaveGroupChatModalOpenedState} />
       </FadeAnimationWrapper>

@@ -28,6 +28,9 @@ export const getSelectedGroupChatSelector = (state: RootState) => state.chats?.c
 export const getSelectedInterlocutorSelector = (state: RootState) =>
   state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.interlocutor;
 
+export const getSelectedInterlocutorIdSelector = (state: RootState) =>
+  state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.interlocutor?.id;
+
 export const getSelectedGroupChatNameSelector = (state: RootState) =>
   state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.groupChat?.name;
 
@@ -159,3 +162,8 @@ export const getMessageDraftSelector = (chatId: number, messageId: number, draft
   draft.messages[chatId]?.messages.find(({ id }) => id === messageId);
 
 export const getChatIndexDraftSelector = (chatId: number, draft: IChatsState) => draft.chats.findIndex(({ id }) => id === chatId);
+
+export const isCurrentChatBlackListedSelector = (state: RootState) => state.chats.chats.find(({ id }) => id === state.chats.selectedChatId)?.isBlockedByUser;
+
+export const amICurrentChatBlackListedSelector = (state: RootState) =>
+  state.chats.chats.find(({ id }) => id === state.chats.selectedChatId)?.isBlockedByInterlocutor;

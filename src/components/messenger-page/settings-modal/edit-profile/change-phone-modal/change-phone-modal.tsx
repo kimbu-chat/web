@@ -1,10 +1,10 @@
 import React, { useCallback, useContext, useState } from 'react';
-import ChatSvg from '@icons/single-chat.svg';
+import { ReactComponent as ChatSvg } from '@icons/single-chat.svg';
 import './change-phone-modal.scss';
 import { LocalizationContext } from '@contexts';
 import { WithBackground, Modal, LabeledInput } from '@components/shared';
 import { PhoneInputGroup } from '@components/messenger-page';
-import CrayonSvg from '@icons/crayon.svg';
+import { ReactComponent as CrayonSvg } from '@icons/crayon.svg';
 import parsePhoneNumberFromString from 'libphonenumber-js';
 import useInterval from 'use-interval';
 import moment from 'moment';
@@ -62,11 +62,11 @@ export const ChangePhoneModal: React.FC<IChangePhoneModalProps> = ({ onClose }) 
               phone={phone}
               setPhone={setPhone}
               phoneInputIcon={
-                submited && (
+                submited ? (
                   <button type="button" className="change-phone-modal__back-icon">
                     <CrayonSvg onClick={prevStep} viewBox="0 0 16 16" />
                   </button>
-                )
+                ) : undefined
               }
             />
 

@@ -1,9 +1,9 @@
 import { ISession } from '@store/my-profile/comon/models';
 import React, { useContext } from 'react';
 import './session.scss';
-import WindowsSvg from '@icons/windows.svg';
-import MacSvg from '@icons/mac.svg';
-import Linux from '@icons/linux.svg';
+import { ReactComponent as WindowsSvg } from '@icons/windows.svg';
+import { ReactComponent as MacSvg } from '@icons/mac.svg';
+import { ReactComponent as Linux } from '@icons/linux.svg';
 import { LocalizationContext } from '@contexts';
 import moment from 'moment';
 

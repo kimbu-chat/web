@@ -2,7 +2,7 @@ import { Modal, WithBackground } from '@components/shared';
 import React, { useContext } from 'react';
 import { LocalizationContext } from '@contexts';
 import './delete-account-modal.scss';
-import DeleteSvg from '@icons/delete.svg';
+import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
 
 interface IDeleteAccountModalProps {
   onClose: () => void;

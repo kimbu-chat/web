@@ -37,7 +37,8 @@ export class GetUserByPhone {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IUser>, { phone: string }>(
-      ({ phone }: { phone: string }) => `${process.env.MAIN_API}/api/users/phone-number/${phone}`,
+      ({ phone }: { phone: string }) =>
+        `${process.env.REACT_APP_MAIN_API}/api/users/phone-number/${phone}`,
       HttpRequestMethod.Get,
     );
   }

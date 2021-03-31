@@ -11,7 +11,7 @@ interface IPhoneInputGroupProps {
   hideCountrySelect?: boolean;
   submitFunction?: () => void;
   phone: string;
-  phoneInputIcon?: JSX.Element | false;
+  phoneInputIcon?: JSX.Element;
 }
 
 const PhoneInputGroup: React.FC<IPhoneInputGroupProps> = ({
@@ -51,7 +51,7 @@ const PhoneInputGroup: React.FC<IPhoneInputGroupProps> = ({
   }, [phoneInputRef]);
 
   const handleCountryChange = useCallback(
-    (newCountry: ICountry) => {
+    (newCountry: ICountry | null) => {
       setCountry((oldCountry) => {
         setPhone((oldPhone) => {
           focusPhoneInput();

@@ -62,7 +62,7 @@ export class GetGroupChatUsers {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IUser[]>, IGetGroupChatUsersApiRequest>(
-      `${process.env.MAIN_API}/api/group-chats/search-members`,
+      `${process.env.REACT_APP_MAIN_API}/api/group-chats/search-members`,
       HttpRequestMethod.Post,
     );
   }

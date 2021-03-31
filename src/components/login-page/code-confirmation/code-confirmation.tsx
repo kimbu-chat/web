@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import useInterval from 'use-interval';
 import moment from 'moment';
 import { parsePhoneNumber } from 'libphonenumber-js';
-import ResendSvg from '@icons/ic-resend.svg';
+import { ReactComponent as ResendSvg } from '@icons/ic-resend.svg';
 import { BaseBtn } from '@components/shared/base-btn';
 import { useHistory } from 'react-router';
 import {

@@ -289,7 +289,7 @@ export class MessageCreatedEventHandler {
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IMessage>, IGetMessageByIdApiRequest>(
       ({ messageId }: IGetMessageByIdApiRequest) =>
-        `${process.env.MAIN_API}/api/messages/${messageId}`,
+        `${process.env.REACT_APP_MAIN_API}/api/messages/${messageId}`,
       HttpRequestMethod.Get,
     );
   }

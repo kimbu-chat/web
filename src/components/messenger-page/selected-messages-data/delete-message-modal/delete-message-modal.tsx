@@ -1,7 +1,7 @@
 import { Modal, WithBackground } from '@components/shared';
 import React, { useCallback, useContext, useState } from 'react';
 
-import DeleteSvg from '@icons/delete.svg';
+import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { LocalizationContext } from '@contexts';
 import './delete-message-modal.scss';

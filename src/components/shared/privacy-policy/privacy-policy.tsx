@@ -1,5 +1,5 @@
 import React from 'react';
-import CloseSVG from '@icons/ic-close.svg';
+import { ReactComponent as CloseSVG } from '@icons/ic-close.svg';
 import './privacy-policy.scss';
 import { stopPropagation } from '@utils/stop-propagation';
 

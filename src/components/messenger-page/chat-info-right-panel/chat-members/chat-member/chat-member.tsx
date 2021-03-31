@@ -5,7 +5,7 @@ import './chat-member.scss';
 import { IUser, UserStatus } from '@store/common/models';
 import { LocalizationContext } from '@contexts';
 
-import DeleteSvg from '@icons/delete.svg';
+import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
 import { StatusBadge, TimeUpdateable } from '@components/shared';
 
 interface IMemberProps {

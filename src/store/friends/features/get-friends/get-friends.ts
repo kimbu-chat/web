@@ -43,7 +43,7 @@ export class GetFriends {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IUser[]>, IGetFriendsApiRequest>(
-      `${process.env.MAIN_API}/api/contacts/search`,
+      `${process.env.REACT_APP_MAIN_API}/api/contacts/search`,
       HttpRequestMethod.Post,
     );
   }

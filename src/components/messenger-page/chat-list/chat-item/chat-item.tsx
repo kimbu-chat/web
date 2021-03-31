@@ -18,10 +18,10 @@ import { LocalizationContext } from '@contexts';
 import { myIdSelector } from '@store/my-profile/selectors';
 import truncate from 'lodash/truncate';
 
-import MessageQeuedSvg from '@icons/message-queued.svg';
-import MessageSentSvg from '@icons/message-sent.svg';
-import MessageReadSvg from '@icons/message-read.svg';
-import MessageErrorSvg from '@icons/message-error.svg';
+import { ReactComponent as MessageQeuedSvg } from '@icons/message-queued.svg';
+import { ReactComponent as MessageSentSvg } from '@icons/message-sent.svg';
+import { ReactComponent as MessageReadSvg } from '@icons/message-read.svg';
+import { ReactComponent as MessageErrorSvg } from '@icons/message-error.svg';
 
 import { getTypingStringSelector } from '@store/chats/selectors';
 import { getChatInterlocutor, getInterlocutorInitials } from '@utils/interlocutor-name-utils';
@@ -108,6 +108,15 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(
 
     const existedChat = chat as Required<IChat>;
 
+    const messageStatIconMap = {
+      [MessageState.QUEUED]: <MessageQeuedSvg />,
+      [MessageState.SENT]: <MessageSentSvg />,
+      [MessageState.READ]: <MessageReadSvg />,
+      [MessageState.ERROR]: <MessageErrorSvg />,
+      [MessageState.DELETED]: undefined,
+      [MessageState.LOCALMESSAGE]: undefined,
+    };
+
     return (
       <NavLink
         to={`/chats/${chat.id.toString()}`}
@@ -133,14 +142,9 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(
               {!(
                 chat.lastMessage?.systemMessageType !== SystemMessageType.None ||
                 !isMessageCreatorCurrentUser
-              ) && (
-                <>
-                  {chat.lastMessage?.state === MessageState.QUEUED && <MessageQeuedSvg />}
-                  {chat.lastMessage?.state === MessageState.SENT && <MessageSentSvg />}
-                  {chat.lastMessage?.state === MessageState.READ && <MessageReadSvg />}
-                  {chat.lastMessage?.state === MessageState.ERROR && <MessageErrorSvg />}
-                </>
-              )}
+              ) &&
+                chat.lastMessage.state &&
+                messageStatIconMap[chat.lastMessage.state]}
             </div>
             <div className="chat-item__time">
               {MessageUtils.checkIfDatesAreSameDate(

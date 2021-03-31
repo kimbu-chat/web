@@ -9,9 +9,9 @@ import { LocalizationContext } from '@contexts';
 import { IUser, IPage } from '@store/common/models';
 import { useHistory } from 'react-router';
 
-import ArrowSvg from '@icons/arrow-v.svg';
-import GroupSvg from '@icons/group.svg';
-import NewMessageSvg from '@icons/create-chat.svg';
+import { ReactComponent as ArrowSvg } from '@icons/arrow-v.svg';
+import { ReactComponent as GroupSvg } from '@icons/group.svg';
+import { ReactComponent as NewMessageSvg } from '@icons/create-chat.svg';
 
 import * as ChatActions from '@store/chats/actions';
 import {

@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useState } from 'react';
 import './sessions-list.scss';
-import ArrowSvg from '@icons/arrow.svg';
+import { ReactComponent as ArrowSvg } from '@icons/arrow.svg';
 import { LocalizationContext } from '@contexts';
 import { InfiniteScrollLoader } from '@components/messenger-page/shared/infinite-scroll/infinite-scroll-loader/infinite-scroll-loader';
 import { ISession } from '@store/my-profile/comon/models';

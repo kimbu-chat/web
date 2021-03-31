@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
 import './recording-attachment.scss';
 
-import PlaySvg from '@icons/ic-play.svg';
-import PauseSvg from '@icons/ic-pause.svg';
+import { ReactComponent as PlaySvg } from '@icons/ic-play.svg';
+import { ReactComponent as PauseSvg } from '@icons/ic-pause.svg';
 
 import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
 import moment from 'moment';
@@ -20,7 +20,9 @@ export const RecordingAttachment: React.FC<IRecordingAttachmentProps> = React.me
       <div className="recording-attachment">
         <AudioPlayer
           ref={audioRef as React.RefObject<AudioPlayer>}
-          onPlay={() => audioRef.current?.audio.current && changeMusic(audioRef.current?.audio.current)}
+          onPlay={() =>
+            audioRef.current?.audio.current && changeMusic(audioRef.current?.audio.current)
+          }
           src={attachment.url}
           preload="none"
           defaultCurrentTime={<span>{moment.utc(attachment.duration * 1000).format('mm:ss')}</span>}

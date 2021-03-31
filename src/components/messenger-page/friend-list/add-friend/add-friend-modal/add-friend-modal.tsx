@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useState } from 'react';
-import AddContactSvg from '@icons/add-users.svg';
+import { ReactComponent as AddContactSvg } from '@icons/add-users.svg';
 import './add-friend-modal.scss';
 import { LocalizationContext } from '@contexts';
 import { PhoneInputGroup } from '@components/messenger-page';
@@ -7,7 +7,7 @@ import { WithBackground, Modal, Avatar } from '@components/shared';
 import { GetUserByPhone } from '@store/friends/features/get-user-by-phone/get-user-by-phone';
 import { IUser } from '@store/common/models';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import CloseSvg from '@icons/close-x-bold.svg';
+import { ReactComponent as CloseSvg } from '@icons/close-x-bold.svg';
 import { getUserInitials } from '@utils/interlocutor-name-utils';
 import parsePhoneNumberFromString, { parsePhoneNumber } from 'libphonenumber-js';
 import { Link } from 'react-router-dom';

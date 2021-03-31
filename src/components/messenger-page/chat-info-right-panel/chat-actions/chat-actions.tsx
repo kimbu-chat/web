@@ -10,18 +10,18 @@ import {
 import { LocalizationContext } from '@contexts';
 import * as SelectedChatActions from '@store/chats/actions';
 
-import MuteSvg from '@icons/mute.svg';
-import UnmuteSvg from '@icons/unmute.svg';
-import ClearSvg from '@icons/clear.svg';
-import DeleteSvg from '@icons/delete-contact.svg';
-import LeaveSvg from '@icons/leave.svg';
-import AddUsersSvg from '@icons/add-users.svg';
+import { ReactComponent as MuteSvg } from '@icons/mute.svg';
+import { ReactComponent as UnmuteSvg } from '@icons/unmute.svg';
+import { ReactComponent as ClearSvg } from '@icons/clear.svg';
+import { ReactComponent as DeleteSvg } from '@icons/delete-contact.svg';
+import { ReactComponent as LeaveSvg } from '@icons/leave.svg';
+import { ReactComponent as AddUsersSvg } from '@icons/add-users.svg';
 
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import * as FriendActions from '@store/friends/actions';
 import { FadeAnimationWrapper } from '@components/shared';
 import { CreateGroupChat } from '@components/messenger-page';
-import PeopleSvg from '@icons/ic-group.svg';
+import { ReactComponent as PeopleSvg } from '@icons/ic-group.svg';
 import { getMyFriendsSelector } from '@store/friends/selectors';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { DeleteChatModal } from './delete-chat-modal/delete-chat-modal';
@@ -69,7 +69,7 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
     () => deleteFriend({ userIds: [selectedChat?.interlocutor?.id as number] }),
     [deleteFriend, selectedChat?.interlocutor?.id],
   );
-  const addContact = useCallback(() => addFriend(selectedChat.interlocutor), [
+  const addContact = useCallback(() => addFriend(selectedChat.interlocutor as IUser), [
     addFriend,
     selectedChat?.interlocutor,
   ]);

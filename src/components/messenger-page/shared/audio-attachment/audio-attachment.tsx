@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import './audio-attachment.scss';
 
-import PlaySvg from '@icons/play.svg';
-import PauseSvg from '@icons/pause.svg';
+import { ReactComponent as PlaySvg } from '@icons/play.svg';
+import { ReactComponent as PauseSvg } from '@icons/pause.svg';
 import moment from 'moment';
 import { changeMusic } from '@utils/current-music';
 import { IAudioAttachment } from '@store/chats/models';

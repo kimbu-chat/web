@@ -16,7 +16,7 @@ import {
 import './forward-modal.scss';
 import { ForwardMessages } from '@store/chats/features/forward-messages/forward-messages';
 import { IChat } from '@store/chats/models';
-import ForwardSvg from '@icons/forward.svg';
+import { ReactComponent as ForwardSvg } from '@icons/forward.svg';
 import { SelectEntity } from '../shared/select-entity/select-entity';
 
 interface IForwardModalProps {

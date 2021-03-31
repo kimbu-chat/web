@@ -53,7 +53,7 @@ export class GetAudioAttachments {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IAudioAttachment[]>, IGetAudioAttachmentsApiRequest>(
-      `${process.env.MAIN_API}/api/audio-attachments/search`,
+      `${process.env.REACT_APP_MAIN_API}/api/audio-attachments/search`,
       HttpRequestMethod.Post,
     );
   }

@@ -4,9 +4,9 @@ import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getSelectedMessagesIdSelector } from '@store/chats/selectors';
 import { LocalizationContext } from '@contexts';
-import CloseSvg from '@icons/close.svg';
-import ForwardSvg from '@icons/forward.svg';
-import DeleteSvg from '@icons/delete.svg';
+import { ReactComponent as CloseSvg } from '@icons/close.svg';
+import { ReactComponent as ForwardSvg } from '@icons/forward.svg';
+import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
 
 import { FadeAnimationWrapper } from '@components/shared';
 import { ForwardModal } from '@components/messenger-page';

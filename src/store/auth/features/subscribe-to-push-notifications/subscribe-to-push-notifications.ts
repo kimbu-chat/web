@@ -26,7 +26,7 @@ export class SubscribeToPushNotifications {
 
   static get httpRequest() {
     return authRequestFactory<AxiosResponse, ISubscribeToPushNotificationsApiRequest>(
-      `${process.env.NOTIFICATIONS_API}/api/notifications/subscribe`,
+      `${process.env.REACT_APP_NOTIFICATIONS_API}/api/notifications/subscribe`,
       HttpRequestMethod.Post,
     );
   }

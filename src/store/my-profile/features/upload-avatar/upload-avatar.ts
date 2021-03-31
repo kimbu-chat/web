@@ -40,11 +40,11 @@ export class UploadAvatar {
               cancelTokenSource,
             ]);
           },
-          *onSuccess(payload: IAvatar): SagaIterator {
+          *onSuccess(payload: AxiosResponse<IAvatar>): SagaIterator {
             yield apply(setAvatarUploadCancelTokenSource, setAvatarUploadCancelTokenSource, [
               undefined,
             ]);
-            action.meta.deferred.resolve(payload);
+            action.meta.deferred.resolve(payload.data);
           },
           *onProgress(payload): SagaIterator {
             if (onProgress) {
@@ -64,7 +64,7 @@ export class UploadAvatar {
 
   static get httpRequest() {
     return httpFilesRequestFactory<AxiosResponse<IAvatar>, FormData>(
-      `${process.env.FILES_API}/api/avatars`,
+      `${process.env.REACT_APP_FILES_API}/api/avatars`,
       HttpRequestMethod.Post,
     );
   }

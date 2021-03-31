@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useState } from 'react';
-import AddContactSvg from '@icons/add-users.svg';
+import { ReactComponent as AddContactSvg } from '@icons/add-users.svg';
 import { LocalizationContext } from '@contexts';
 import './add-friend.scss';
 import { FadeAnimationWrapper } from '@components/shared';

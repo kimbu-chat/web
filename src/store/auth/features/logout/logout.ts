@@ -34,7 +34,7 @@ export class Logout {
 
   static get httpRequest() {
     return authRequestFactory<AxiosResponse>(
-      `${process.env.MAIN_API}/api/users/logout`,
+      `${process.env.REACT_APP_MAIN_API}/api/users/logout`,
       HttpRequestMethod.Post,
     );
   }

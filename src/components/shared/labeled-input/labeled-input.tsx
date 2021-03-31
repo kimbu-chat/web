@@ -1,11 +1,11 @@
 import React from 'react';
 import './labeled-input.scss';
-import BulbSvg from '@icons/bulb.svg';
+import { ReactComponent as BulbSvg } from '@icons/bulb.svg';
 
 interface ILabeledInputProps {
   label: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  value: string;
+  value?: string;
   containerClassName: string;
   placeholder?: string;
   errorText?: string;

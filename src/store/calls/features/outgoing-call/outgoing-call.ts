@@ -156,7 +156,7 @@ export class OutgoingCall {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IOutgoingCallApiResponse>, IOutgoingCallApiRequest>(
-      `${process.env.MAIN_API}/api/calls/send-call-offer`,
+      `${process.env.REACT_APP_MAIN_API}/api/calls/send-call-offer`,
       HttpRequestMethod.Post,
     );
   }

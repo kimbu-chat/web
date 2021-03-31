@@ -22,16 +22,16 @@ import { getUserInitials } from '@utils/interlocutor-name-utils';
 import ReactDOM from 'react-dom';
 
 // SVG
-import MicrophoneEnableSvg from '@icons/ic-microphone.svg';
-import MicrophoneDisableSvg from '@icons/ic-microphone-mute.svg';
-import VideoEnableSvg from '@icons/ic-video-call.svg';
-import VideoDisableSvg from '@icons/ic-video-call-mute.svg';
-import ScreenSharingEnableSvg from '@icons/ic-screen-share.svg';
-import ScreenSharingDisableSvg from '@icons/ic-screen-share-mute.svg';
-import HangUpSvg from '@icons/ic-call-out.svg';
-import FullScreenSvg from '@icons/ic-fullscreen.svg';
-import ExitFullScreenSvg from '@icons/ic-fullscreen-exit.svg';
-import VoiceCallSvg from '@icons/ic-call.svg';
+import { ReactComponent as MicrophoneEnableSvg } from '@icons/ic-microphone.svg';
+import { ReactComponent as MicrophoneDisableSvg } from '@icons/ic-microphone-mute.svg';
+import { ReactComponent as VideoEnableSvg } from '@icons/ic-video-call.svg';
+import { ReactComponent as VideoDisableSvg } from '@icons/ic-video-call-mute.svg';
+import { ReactComponent as ScreenSharingEnableSvg } from '@icons/ic-screen-share.svg';
+import { ReactComponent as ScreenSharingDisableSvg } from '@icons/ic-screen-share-mute.svg';
+import { ReactComponent as HangUpSvg } from '@icons/ic-call-out.svg';
+import { ReactComponent as FullScreenSvg } from '@icons/ic-fullscreen.svg';
+import { ReactComponent as ExitFullScreenSvg } from '@icons/ic-fullscreen-exit.svg';
+import { ReactComponent as VoiceCallSvg } from '@icons/ic-call.svg';
 
 // sounds
 import callingBeep from '@sounds/calls/outgoing-call.ogg';

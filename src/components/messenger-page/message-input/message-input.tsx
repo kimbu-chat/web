@@ -34,11 +34,11 @@ import { TypingStrategy } from '@store/settings/features/models';
 import { loadMessageSmiles } from '@routing/module-loader';
 import { CubeLoader } from '@containers/cube-loader/cube-loader';
 
-import AddSvg from '@icons/add-attachment.svg';
-import VoiceSvg from '@icons/voice.svg';
-import CrayonSvg from '@icons/crayon.svg';
-import SendSvg from '@icons/send.svg';
-import CloseSvg from '@icons/close.svg';
+import { ReactComponent as AddSvg } from '@icons/add-attachment.svg';
+import { ReactComponent as VoiceSvg } from '@icons/voice.svg';
+import { ReactComponent as CrayonSvg } from '@icons/crayon.svg';
+import { ReactComponent as SendSvg } from '@icons/send.svg';
+import { ReactComponent as CloseSvg } from '@icons/close.svg';
 
 import { SubmitEditMessage } from '@store/chats/features/edit-message/submit-edit-message';
 import { RemoveAllAttachments } from '@store/chats/features/remove-attachment/remove-all-attachments';
@@ -346,7 +346,7 @@ export const CreateMessageInput = React.memo(() => {
   );
 
   const removeAllAttachments = useCallback(() => {
-    if (selectedChat?.attachmentsToSend?.length > 0) {
+    if (selectedChat?.attachmentsToSend && selectedChat?.attachmentsToSend?.length > 0) {
       removeAllAttachmentsToSend({
         ids: selectedChat?.attachmentsToSend?.map(({ attachment }) => attachment.id),
       });
@@ -473,7 +473,8 @@ export const CreateMessageInput = React.memo(() => {
       onDragOver={onDragOver}
       onDragEnter={onDragEnter}
       onDragLeave={onDragLeave}>
-      {(editingMessageAttachments?.length > 0 || selectedChat?.attachmentsToSend?.length > 0) && (
+      {((editingMessageAttachments && editingMessageAttachments?.length > 0) ||
+        (selectedChat?.attachmentsToSend && selectedChat?.attachmentsToSend?.length > 0)) && (
         <div className="message-input__attachments-box">
           <div className="message-input__attachments-box__container">
             {editingMessageAttachments?.map((attachment) => (

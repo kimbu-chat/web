@@ -3,7 +3,7 @@ import { getStringInitials } from '@utils/interlocutor-name-utils';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
-import CloseSVG from '@icons/ic-close.svg';
+import { ReactComponent as CloseSVG } from '@icons/ic-close.svg';
 import { LocalizationContext } from '@contexts';
 import { authLoadingSelector } from '@store/auth/selectors';
 import { useSelector } from 'react-redux';

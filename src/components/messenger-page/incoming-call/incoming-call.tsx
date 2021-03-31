@@ -16,9 +16,9 @@ import { Rnd } from 'react-rnd';
 import ReactDOM from 'react-dom';
 
 // svgs
-import AcceptWithAudioSvg from '@icons/audio-call.svg';
-import AcceptWithVideoSvg from '@icons/video-call.svg';
-import DeclineCallSvg from '@icons/declined-call.svg';
+import { ReactComponent as AcceptWithAudioSvg } from '@icons/audio-call.svg';
+import { ReactComponent as AcceptWithVideoSvg } from '@icons/video-call.svg';
+import { ReactComponent as DeclineCallSvg } from '@icons/declined-call.svg';
 import { LocalizationContext } from '@contexts';
 import { playSoundSafely } from '@utils/current-music';
 

@@ -52,7 +52,7 @@ export class GetVideoAttachments {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IVideoAttachment[]>, IGetVideoAttachmentsApiRequest>(
-      `${process.env.MAIN_API}/api/video-attachments/search`,
+      `${process.env.REACT_APP_MAIN_API}/api/video-attachments/search`,
       HttpRequestMethod.Post,
     );
   }

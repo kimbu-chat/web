@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import './check-box.scss';
 
-import CheckedSvg from '@icons/checked.svg';
+import { ReactComponent as CheckedSvg } from '@icons/checked.svg';
 
 interface ICheckBoxProps {
   onClick: () => void;

@@ -198,12 +198,13 @@ export class ChangeSelectedChat {
   static get httpRequest() {
     return {
       getChat: httpRequestFactory<AxiosResponse<IChat>, IGetChatByIdApiRequest>(
-        ({ chatId }: IGetChatByIdApiRequest) => `${process.env.MAIN_API}/api/chats/${chatId}`,
+        ({ chatId }: IGetChatByIdApiRequest) =>
+          `${process.env.REACT_APP_MAIN_API}/api/chats/${chatId}`,
         HttpRequestMethod.Get,
       ),
       getUser: httpRequestFactory<AxiosResponse<IUser>, IGetUserByIdApiRequest>(
         ({ userId }: IGetUserByIdApiRequest) =>
-          `${process.env.MAIN_API}/api/users/${userId.toString()}`,
+          `${process.env.REACT_APP_MAIN_API}/api/users/${userId.toString()}`,
         HttpRequestMethod.Get,
       ),
     };

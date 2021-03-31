@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useState } from 'react';
-import AddCallSvg from '@icons/add-call.svg';
+import { ReactComponent as AddCallSvg } from '@icons/add-call.svg';
 import { LocalizationContext } from '@contexts';
 import './add-call.scss';
 import { FadeAnimationWrapper } from '@components/shared';

@@ -3,12 +3,12 @@ import './chat-media.scss';
 
 import { LocalizationContext } from '@contexts';
 
-import PictureSvg from '@icons/picture.svg';
-import VideoSvg from '@icons/video.svg';
-import FilesSvg from '@icons/files.svg';
-import VoiceSvg from '@icons/voice.svg';
-import AudioSvg from '@icons/audio.svg';
-import OpenArrowSvg from '@icons/open-arrow.svg';
+import { ReactComponent as PictureSvg } from '@icons/picture.svg';
+import { ReactComponent as VideoSvg } from '@icons/video.svg';
+import { ReactComponent as FilesSvg } from '@icons/files.svg';
+import { ReactComponent as VoiceSvg } from '@icons/voice.svg';
+import { ReactComponent as AudioSvg } from '@icons/audio.svg';
+import { ReactComponent as OpenArrowSvg } from '@icons/open-arrow.svg';
 
 import {
   getPictureAttachmentsCountSelector,

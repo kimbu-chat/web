@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import PlaySvg from '@icons/play.svg';
+import { ReactComponent as PlaySvg } from '@icons/play.svg';
 import moment from 'moment';
 import { FadeAnimationWrapper } from '@components/shared';
 import { MediaModal } from '@components/messenger-page';

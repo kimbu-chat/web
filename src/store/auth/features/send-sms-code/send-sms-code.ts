@@ -53,7 +53,7 @@ export class SendSmsCode {
 
   static get httpRequest() {
     return authRequestFactory<AxiosResponse<string>, ISendSmsCodeApiRequest>(
-      `${process.env.MAIN_API}/api/users/send-sms-confirmation-code`,
+      `${process.env.REACT_APP_MAIN_API}/api/users/send-sms-confirmation-code`,
       HttpRequestMethod.Post,
     );
   }

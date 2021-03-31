@@ -13,21 +13,21 @@ import { getUserInitials } from '@utils/interlocutor-name-utils';
 import { CallStatus, IUser } from '@store/common/models';
 import moment from 'moment';
 
-import CrayonSvg from '@icons/crayon.svg';
-import LeaveSvg from '@icons/leave.svg';
-import CreateChatSvg from '@icons/create-chat.svg';
-import AddUsersSvg from '@icons/add-users.svg';
-import OutgoingCallSvg from '@icons/outgoing-call.svg';
-import IncomingCallSvg from '@icons/incoming-call.svg';
-import MissedCallSvg from '@icons/missed-call.svg';
-import DeclinedCallSvg from '@icons/declined-call.svg';
-import PictureSvg from '@icons/picture.svg';
+import { ReactComponent as CrayonSvg } from '@icons/crayon.svg';
+import { ReactComponent as LeaveSvg } from '@icons/leave.svg';
+import { ReactComponent as CreateChatSvg } from '@icons/create-chat.svg';
+import { ReactComponent as AddUsersSvg } from '@icons/add-users.svg';
+import { ReactComponent as OutgoingCallSvg } from '@icons/outgoing-call.svg';
+import { ReactComponent as IncomingCallSvg } from '@icons/incoming-call.svg';
+import { ReactComponent as MissedCallSvg } from '@icons/missed-call.svg';
+import { ReactComponent as DeclinedCallSvg } from '@icons/declined-call.svg';
+import { ReactComponent as PictureSvg } from '@icons/picture.svg';
 
-import MessageQeuedSvg from '@icons/message-queued.svg';
-import MessageSentSvg from '@icons/message-sent.svg';
-import MessageReadSvg from '@icons/message-read.svg';
+import { ReactComponent as MessageQeuedSvg } from '@icons/message-queued.svg';
+import { ReactComponent as MessageSentSvg } from '@icons/message-sent.svg';
+import { ReactComponent as MessageReadSvg } from '@icons/message-read.svg';
 
-import SelectSvg from '@icons/select.svg';
+import { ReactComponent as SelectSvg } from '@icons/select.svg';
 import {
   IBaseAttachment,
   IPictureAttachment,

@@ -1,6 +1,6 @@
 import React, { useCallback, useRef, useState } from 'react';
 import './dropdown.scss';
-import DropDownSvg from '@icons/arrow.svg';
+import { ReactComponent as DropDownSvg } from '@icons/arrow.svg';
 import { useOnClickOutside } from '@hooks/use-on-click-outside';
 import noop from 'lodash/noop';
 

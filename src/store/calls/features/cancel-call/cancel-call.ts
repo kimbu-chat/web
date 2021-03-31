@@ -24,7 +24,7 @@ export class CancelCall {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse>(
-      `${process.env.MAIN_API}/api/calls/cancel-call`,
+      `${process.env.REACT_APP_MAIN_API}/api/calls/cancel-call`,
       HttpRequestMethod.Post,
     );
   }

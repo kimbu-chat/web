@@ -11,10 +11,10 @@ import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import * as MyProfileActions from '@store/my-profile/actions';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { IEditGroupChatActionPayload } from '@store/chats/features/edit-group-chat/action-payloads/edit-group-chat-action-payload';
-import GroupSvg from '@icons/group.svg';
-import PictureSvg from '@icons/picture.svg';
-import TopAvatarLine from '@icons/top-avatar-line.svg';
-import BottomAvatarLine from '@icons/bottom-avatar-line.svg';
+import { ReactComponent as GroupSvg } from '@icons/group.svg';
+import { ReactComponent as PictureSvg } from '@icons/picture.svg';
+import { ReactComponent as TopAvatarLine } from '@icons/top-avatar-line.svg';
+import { ReactComponent as BottomAvatarLine } from '@icons/bottom-avatar-line.svg';
 import { IAvatar, IAvatarSelectedData } from '@store/common/models';
 import * as ChatActions from '@store/chats/actions';
 
@@ -103,7 +103,7 @@ export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClos
 
     const changes: IEditGroupChatActionPayload = {
       avatar: avararUploadResponse,
-      name: newName,
+      name: newName as string,
       description: newDescription,
     };
 
@@ -202,7 +202,7 @@ export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClos
             </button>,
             <button
               key={2}
-              disabled={!uploadEnded || newName.length === 0}
+              disabled={!uploadEnded || newName?.length === 0}
               type="button"
               onClick={onSubmit}
               className="edit-chat-modal__btn edit-chat-modal__btn--confirm">

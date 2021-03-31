@@ -5,19 +5,20 @@ import './phone-input.scss';
 import { ICountry } from '@common/country';
 import { LocalizationContext } from '@contexts';
 import { removeCountryCodeFromPhoneNumber } from '@utils/phone-number-utils';
+import noop from 'lodash/noop';
 
 interface IPhoneInputProps {
   country: ICountry;
   phone: string;
   setPhone: React.Dispatch<React.SetStateAction<string>>;
   displayCountries: () => void;
-  submitFunction: () => void;
+  submitFunction?: () => void;
   icon?: JSX.Element;
 }
 
 export const PhoneInput = React.forwardRef(
   (
-    { country, phone, setPhone, displayCountries, submitFunction, icon }: IPhoneInputProps,
+    { country, phone, setPhone, displayCountries, submitFunction = noop, icon }: IPhoneInputProps,
     ref: React.Ref<HTMLInputElement>,
   ) => {
     const { t } = useContext(LocalizationContext);

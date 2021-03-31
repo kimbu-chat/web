@@ -4,13 +4,10 @@ import { useSelector } from 'react-redux';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getSelectedChatSelector } from '@store/chats/selectors';
-import {
-  Avatar,
-  FadeAnimationWrapper,
-} from '@components/shared';
-import { PhotoEditor, GroupChatAddFriendModal, MediaModal } from '@components/messenger-page'
+import { Avatar, FadeAnimationWrapper } from '@components/shared';
+import { PhotoEditor, GroupChatAddFriendModal, MediaModal } from '@components/messenger-page';
 
-import PhotoSvg from '@icons/ic-photo.svg';
+import { ReactComponent as PhotoSvg } from '@icons/ic-photo.svg';
 
 import { getInterlocutorInitials } from '@utils/interlocutor-name-utils';
 
@@ -99,12 +96,17 @@ const ChatInfoRightPanel: React.FC = React.memo(() => {
       }).then((response: IAvatar) => {
         editGroupChat({
           avatar: response,
-          name: selectedChat.groupChat.name,
-          description: selectedChat.groupChat.description,
+          name: selectedChat?.groupChat?.name as string,
+          description: selectedChat?.groupChat?.description,
         });
       });
     },
-    [uploadGroupChatAvatar, editGroupChat, selectedChat.groupChat.name, selectedChat.groupChat.description],
+    [
+      uploadGroupChatAvatar,
+      editGroupChat,
+      selectedChat?.groupChat?.name,
+      selectedChat?.groupChat?.description,
+    ],
   );
 
   const getChatFullSizeAvatar = useCallback((): string => {

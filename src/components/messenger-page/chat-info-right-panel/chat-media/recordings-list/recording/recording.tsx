@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import moment from 'moment';
-import PlaySvg from '@icons/ic-play.svg';
-import PauseSvg from '@icons/ic-pause.svg';
+import { ReactComponent as PlaySvg } from '@icons/ic-play.svg';
+import { ReactComponent as PauseSvg } from '@icons/ic-pause.svg';
 
 import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
 import { changeMusic } from '@utils/current-music';

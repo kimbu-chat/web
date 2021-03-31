@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
-import SearchSvg from '@icons/search.svg';
-import ArrowSvg from '@icons/arrow-v.svg';
+import { ReactComponent as SearchSvg } from '@icons/search.svg';
+import { ReactComponent as ArrowSvg } from '@icons/arrow-v.svg';
 
 import { GetMessages } from '@store/chats/features/get-messages/get-messages';
 import { MESSAGES_LIMIT } from '@utils/pagination-limits';

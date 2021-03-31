@@ -29,7 +29,7 @@ export class MarkMessagesAsRead {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, IMarkMessagesAsReadApiRequest>(
-      `${process.env.MAIN_API}/api/chats/mark-as-read`,
+      `${process.env.REACT_APP_MAIN_API}/api/chats/mark-as-read`,
       HttpRequestMethod.Post,
     );
   }

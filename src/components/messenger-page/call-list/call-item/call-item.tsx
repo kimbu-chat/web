@@ -2,10 +2,10 @@ import { ICall } from '@store/calls/common/models';
 import './call-item.scss';
 import React, { useContext } from 'react';
 
-import IncomingCallSvg from '@icons/incoming-call.svg';
-import OutgoingCallSvg from '@icons/outgoing-call.svg';
-import DeclinedCallSvg from '@icons/declined-call.svg';
-import MissedCallSvg from '@icons/missed-call.svg';
+import { ReactComponent as IncomingCallSvg } from '@icons/incoming-call.svg';
+import { ReactComponent as OutgoingCallSvg } from '@icons/outgoing-call.svg';
+import { ReactComponent as DeclinedCallSvg } from '@icons/declined-call.svg';
+import { ReactComponent as MissedCallSvg } from '@icons/missed-call.svg';
 import { LocalizationContext } from '@contexts';
 import moment from 'moment';
 import { useSelector } from 'react-redux';

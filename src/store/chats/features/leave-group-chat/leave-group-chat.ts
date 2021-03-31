@@ -44,7 +44,7 @@ export class LeaveGroupChat {
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, ILeaveGroupChatApiRequest>(
       ({ groupChatId }: ILeaveGroupChatApiRequest) =>
-        `${process.env.MAIN_API}/api/group-chats/${groupChatId}`,
+        `${process.env.REACT_APP_MAIN_API}/api/group-chats/${groupChatId}`,
       HttpRequestMethod.Delete,
     );
   }

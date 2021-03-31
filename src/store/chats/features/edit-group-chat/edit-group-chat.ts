@@ -55,7 +55,7 @@ export class EditGroupChat {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, IEditGroupChatApiRequest>(
-      `${process.env.MAIN_API}/api/group-chats`,
+      `${process.env.REACT_APP_MAIN_API}/api/group-chats`,
       HttpRequestMethod.Put,
     );
   }

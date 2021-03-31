@@ -2,11 +2,11 @@ import React, { useCallback, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import './routing-chats.scss';
 
-import ContactSvg from '@icons/contacts.svg';
-import CallSvg from '@icons/calls.svg';
-import ChatsSvg from '@icons/chats.svg';
-import SettingsSvg from '@icons/settings.svg';
-import LogoutSvg from '@icons/logout.svg';
+import { ReactComponent as ContactSvg } from '@icons/contacts.svg';
+import { ReactComponent as CallSvg } from '@icons/calls.svg';
+import { ReactComponent as ChatsSvg } from '@icons/chats.svg';
+import { ReactComponent as SettingsSvg } from '@icons/settings.svg';
+import { ReactComponent as LogoutSvg } from '@icons/logout.svg';
 
 import { getSelectedChatIdSelector } from '@store/chats/selectors';
 import { useSelector } from 'react-redux';

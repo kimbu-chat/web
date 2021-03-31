@@ -16,7 +16,7 @@ let connection: HubConnection;
 
 function openConnection(store: MiddlewareAPI<Dispatch, RootState>): void {
   connection = new HubConnectionBuilder()
-    .withUrl(`${process.env.NOTIFICATIONS_API}/signalr`, {
+    .withUrl(`${process.env.REACT_APP_NOTIFICATIONS_API}/signalr`, {
       logMessageContent: true,
       accessTokenFactory: () => {
         const accessToken = store.getState().auth?.securityTokens?.accessToken;

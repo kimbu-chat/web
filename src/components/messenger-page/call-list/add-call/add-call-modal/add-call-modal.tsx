@@ -5,8 +5,8 @@ import { LocalizationContext } from '@contexts';
 import { WithBackground, Modal } from '@components/shared';
 import { InfiniteScroll, SelectEntity, SearchBox } from '@components/messenger-page';
 import './add-call-modal.scss';
-import AddCallSvg from '@icons/add-call.svg';
-import CallSvg from '@icons/call.svg';
+import { ReactComponent as AddCallSvg } from '@icons/add-call.svg';
+import { ReactComponent as CallSvg } from '@icons/call.svg';
 import { IPage } from '@store/common/models';
 import { GetFriends } from '@store/friends/features/get-friends/get-friends';
 import {

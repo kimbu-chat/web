@@ -3,10 +3,10 @@ import './photo-editor.scss';
 
 import { LocalizationContext } from '@contexts';
 
-import PhotoSvg from '@icons/picture.svg';
-import LeftRotateSvg from '@icons/left-rotate.svg';
-import RightRotateSvg from '@icons/right-rotate.svg';
-import ReflectSvg from '@icons/reflect.svg';
+import { ReactComponent as PhotoSvg } from '@icons/picture.svg';
+import { ReactComponent as LeftRotateSvg } from '@icons/left-rotate.svg';
+import { ReactComponent as RightRotateSvg } from '@icons/right-rotate.svg';
+import { ReactComponent as ReflectSvg } from '@icons/reflect.svg';
 
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';

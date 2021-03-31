@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useContext, useEffect } from 'react';
 
-import CloseSVG from '@icons/close.svg';
-import ArrowSvg from '@icons/arrow.svg';
+import { ReactComponent as CloseSVG } from '@icons/close.svg';
+import { ReactComponent as ArrowSvg } from '@icons/arrow.svg';
 
 import './media-modal.scss';
 import { FileType, IPictureAttachment, IVideoAttachment } from '@store/chats/models';

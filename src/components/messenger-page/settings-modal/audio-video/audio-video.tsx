@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import VideoSvg from '@icons/video.svg';
-import PlaySvg from '@icons/play.svg';
-import MicrophoneSvg from '@icons/voice.svg';
+import { ReactComponent as VideoSvg } from '@icons/video.svg';
+import { ReactComponent as PlaySvg } from '@icons/play.svg';
+import { ReactComponent as MicrophoneSvg } from '@icons/voice.svg';
 import './audio-video.scss';
 import { LocalizationContext } from '@contexts';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
@@ -14,7 +14,7 @@ import {
 } from '@store/calls/selectors';
 import { useSelector } from 'react-redux';
 import * as CallActions from '@store/calls/actions';
-import VideoCameraSvg from '@icons/video-camera.svg';
+import { ReactComponent as VideoCameraSvg } from '@icons/video-camera.svg';
 import { Dropdown } from '../../shared/dropdown/dropdown';
 
 export const AudioVideoSettings = () => {

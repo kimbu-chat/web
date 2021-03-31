@@ -4,10 +4,10 @@ import { myProfileSelector } from '@store/my-profile/selectors';
 import React, { useCallback, useContext, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import './edit-profile.scss';
-import UserSvg from '@icons/user.svg';
-import TopAvatarLine from '@icons/top-avatar-line.svg';
-import PhotoSvg from '@icons/picture.svg';
-import BottomAvatarLine from '@icons/bottom-avatar-line.svg';
+import { ReactComponent as UserSvg } from '@icons/user.svg';
+import { ReactComponent as TopAvatarLine } from '@icons/top-avatar-line.svg';
+import { ReactComponent as PhotoSvg } from '@icons/picture.svg';
+import { ReactComponent as BottomAvatarLine } from '@icons/bottom-avatar-line.svg';
 import * as MyProfileActions from '@store/my-profile/actions';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 

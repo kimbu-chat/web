@@ -46,9 +46,9 @@ export class UploadAttachmentRequest {
                 creationDateTime: new Date(),
                 url: '',
                 type,
+                fileName: file.name,
               },
               progress: 0,
-              fileName: file.name,
               file,
             };
 
@@ -68,7 +68,7 @@ export class UploadAttachmentRequest {
             file,
           };
 
-          chat.attachmentsToSend?.push(attachmentToAdd);
+          chat?.attachmentsToSend?.push(attachmentToAdd);
         }
         return draft;
       },
@@ -119,20 +119,22 @@ export class UploadAttachmentRequest {
       yield call(() =>
         uploadRequest.generator(data, {
           *onStart({ cancelTokenSource }): SagaIterator {
-            yield apply(addUploadingAttachment, { cancelTokenSource, id: attachmentId });
+            yield apply(addUploadingAttachment, addUploadingAttachment, [
+              { cancelTokenSource, id: attachmentId },
+            ]);
           },
           *onProgress({ progress, uploadedBytes }): SagaIterator {
             yield put(
               UploadAttachmentProgress.action({ chatId, attachmentId, progress, uploadedBytes }),
             );
           },
-          *onSuccess(payload: IBaseAttachment): SagaIterator {
+          *onSuccess(payload: AxiosResponse<IBaseAttachment>): SagaIterator {
             removeUploadingAttachment(attachmentId);
             yield put(
               UploadAttachmentSuccess.action({
                 chatId,
                 attachmentId,
-                attachment: payload,
+                attachment: payload.data,
               }),
             );
           },
@@ -150,23 +152,23 @@ export class UploadAttachmentRequest {
       uploadAudioAttachment: httpFilesRequestFactory<
         AxiosResponse<IUploadAudioApiResponse>,
         FormData
-      >(`${process.env.FILES_API}/api/audio-attachments`, HttpRequestMethod.Post),
+      >(`${process.env.REACT_APP_FILES_API}/api/audio-attachments`, HttpRequestMethod.Post),
       uploadPictureAttachment: httpFilesRequestFactory<
         AxiosResponse<IUploadPictureApiResponse>,
         FormData
-      >(`${process.env.FILES_API}/api/picture-attachments`, HttpRequestMethod.Post),
+      >(`${process.env.REACT_APP_FILES_API}/api/picture-attachments`, HttpRequestMethod.Post),
       uploadFileAttachment: httpFilesRequestFactory<
         AxiosResponse<IUploadFileApiResponse>,
         FormData
-      >(`${process.env.FILES_API}/api/raw-attachments`, HttpRequestMethod.Post),
+      >(`${process.env.REACT_APP_FILES_API}/api/raw-attachments`, HttpRequestMethod.Post),
       uploadVideoAttachment: httpFilesRequestFactory<
         AxiosResponse<IUploadVideoApiResponse>,
         FormData
-      >(`${process.env.FILES_API}/api/video-attachments`, HttpRequestMethod.Post),
+      >(`${process.env.REACT_APP_FILES_API}/api/video-attachments`, HttpRequestMethod.Post),
       uploadVoiceAttachment: httpFilesRequestFactory<
         AxiosResponse<IUploadVoiceApiResponse>,
         FormData
-      >(`${process.env.FILES_API}/api/voice-attachments`, HttpRequestMethod.Post),
+      >(`${process.env.REACT_APP_FILES_API}/api/voice-attachments`, HttpRequestMethod.Post),
     };
   }
 }

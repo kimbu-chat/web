@@ -34,3 +34,7 @@ node_modules
 dist
 .vs
 
+# Env variables
+.env.production
+.env.development
+

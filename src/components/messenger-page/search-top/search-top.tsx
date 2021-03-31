@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import './search-top.scss';
 
-import CreateChatSvg from '@icons/create-chat.svg';
+import { ReactComponent as CreateChatSvg } from '@icons/create-chat.svg';
 
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import * as ChatActions from '@store/chats/actions';

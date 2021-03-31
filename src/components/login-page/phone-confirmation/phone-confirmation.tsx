@@ -1,6 +1,6 @@
-import React, { useCallback, useContext, useState, useRef, useEffect, lazy, Suspense } from 'react';
+import React, { useCallback, useContext, useState, useRef, useEffect, Suspense } from 'react';
 import './phone-confirmation.scss';
-import { BaseBtn, WithBackground, FadeAnimationWrapper } from '@components/shared';
+import { BaseBtn, WithBackground, FadeAnimationWrapper, PrivacyPolicy } from '@components/shared';
 import { CountrySelect, PhoneInput } from '@components/login-page';
 import { countryList } from '@common/countries';
 import { ICountry } from '@common/country';
@@ -13,8 +13,6 @@ import { useHistory } from 'react-router';
 import { getCountryByIp } from '@utils/get-country-by-ip';
 import { CubeLoader } from '@containers/cube-loader/cube-loader';
 import { authLoadingSelector } from '@store/auth/selectors';
-
-const PrivacyPolicy = lazy(() => import('../../shared/privacy-policy/privacy-policy'));
 
 interface IPhoneConfirmationProps {
   preloadNext: () => void;

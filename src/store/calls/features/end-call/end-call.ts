@@ -36,7 +36,7 @@ export class EndCall {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse>(
-      `${process.env.MAIN_API}/api/calls/end-call`,
+      `${process.env.REACT_APP_MAIN_API}/api/calls/end-call`,
       HttpRequestMethod.Post,
     );
   }

@@ -9,10 +9,10 @@ import * as CallActions from '@store/calls/actions';
 import { IUser, UserStatus } from '@store/common/models';
 import { Avatar, StatusBadge, TimeUpdateable } from '@components/shared';
 
-import VoiceCallSvg from '@icons/audio-call.svg';
-import VideoCallSvg from '@icons/video-call.svg';
-import ChatInfoSvg from '@icons/chat-info.svg';
-import TypingSvg from '@icons/typing.svg';
+import { ReactComponent as VoiceCallSvg } from '@icons/audio-call.svg';
+import { ReactComponent as VideoCallSvg } from '@icons/video-call.svg';
+import { ReactComponent as ChatInfoSvg } from '@icons/chat-info.svg';
+import { ReactComponent as TypingSvg } from '@icons/typing.svg';
 
 import { getChatInterlocutor, getInterlocutorInitials } from '@utils/interlocutor-name-utils';
 import { ChangeChatInfoOpened } from '@store/chats/features/change-chat-info-opened/change-chat-info-opened';

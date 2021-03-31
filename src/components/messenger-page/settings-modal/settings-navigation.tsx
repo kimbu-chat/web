@@ -1,13 +1,13 @@
 import { LocalizationContext } from '@contexts';
 import React, { useContext } from 'react';
 import './settings-navigation.scss';
-import UserSvg from '@icons/user-o.svg';
-import TypeSvg from '@icons/type.svg';
-import LanguageSvg from '@icons/language.svg';
-import AppearanceSvg from '@icons/theme.svg';
-import PlaySvg from '@icons/play.svg';
-import PrivacySvg from '@icons/privacy.svg';
-import MuteSvg from '@icons/mute.svg';
+import { ReactComponent as UserSvg } from '@icons/user-o.svg';
+import { ReactComponent as TypeSvg } from '@icons/type.svg';
+import { ReactComponent as LanguageSvg } from '@icons/language.svg';
+import { ReactComponent as AppearanceSvg } from '@icons/theme.svg';
+import { ReactComponent as PlaySvg } from '@icons/play.svg';
+import { ReactComponent as PrivacySvg } from '@icons/privacy.svg';
+import { ReactComponent as MuteSvg } from '@icons/mute.svg';
 import { NavLink } from 'react-router-dom';
 
 export const SettingsNavigation = React.memo(() => {

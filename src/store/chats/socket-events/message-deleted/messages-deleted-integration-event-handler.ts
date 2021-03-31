@@ -50,7 +50,7 @@ export class MessagesDeletedIntegrationEventHandler {
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IMessage>, IGetLastMessageByChatIdApiRequest>(
       ({ chatId }: IGetLastMessageByChatIdApiRequest) =>
-        `${process.env.MAIN_API}/api/chats/${chatId}/last-message`,
+        `${process.env.REACT_APP_MAIN_API}/api/chats/${chatId}/last-message`,
       HttpRequestMethod.Get,
     );
   }

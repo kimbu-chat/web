@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import * as ChatActions from '@store/chats/actions';
 import { getMembersListForSelectedGroupChatSelector } from '@store/chats/selectors';
-import OpenArrowSvg from '@icons/open-arrow.svg';
+import { ReactComponent as OpenArrowSvg } from '@icons/open-arrow.svg';
 import { InfiniteScroll, SearchBox } from '@components/messenger-page';
 import { IPage } from '@store/common/models';
 import { CHAT_MEMBERS_LIMIT } from '@utils/pagination-limits';

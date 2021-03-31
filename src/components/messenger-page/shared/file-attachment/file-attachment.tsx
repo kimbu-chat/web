@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import './file-attachment.scss';
 
-import DownloadSvg from '@icons/download.svg';
-import ProgressSVG from '@icons/ic-progress.svg';
+import { ReactComponent as DownloadSvg } from '@icons/download.svg';
+import { ReactComponent as ProgressSVG } from '@icons/ic-progress.svg';
 
 import { fileDownload } from '@utils/file-download';
 import { IBaseAttachment } from '@store/chats/models';
@@ -17,7 +17,7 @@ export const FileAttachment: React.FC<IFileAttachmentProps> = React.memo(({ atta
   const [downloaded, setDownloaded] = useState(0);
 
   const abortDownloadingRef = useRef<XMLHttpRequest>();
-  const progressSvgRef = useRef<SVGElement>(null);
+  const progressSvgRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
     if (progressSvgRef.current) {

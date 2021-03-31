@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useState } from 'react';
 import './blocked-users.scss';
-import ArrowSvg from '@icons/arrow.svg';
+import { ReactComponent as ArrowSvg } from '@icons/arrow.svg';
 import { LocalizationContext } from '@contexts';
 import { IUser } from '@store/common/models';
 import { InfiniteScrollLoader } from '@components/messenger-page/shared/infinite-scroll/infinite-scroll-loader/infinite-scroll-loader';

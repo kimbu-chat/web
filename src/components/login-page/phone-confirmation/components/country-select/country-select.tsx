@@ -6,7 +6,7 @@ import useAutocomplete, { createFilterOptions } from '@material-ui/lab/useAutoco
 
 import { LocalizationContext } from '@contexts';
 
-import DownSvg from '@icons/ic-chevron-down.svg';
+import { ReactComponent as DownSvg } from '@icons/ic-chevron-down.svg';
 import { countryList } from '@common/countries';
 import { ICountry } from '@common/country';
 

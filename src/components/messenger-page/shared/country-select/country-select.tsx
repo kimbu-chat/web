@@ -5,7 +5,7 @@ import useAutocomplete, { createFilterOptions } from '@material-ui/lab/useAutoco
 
 import { LocalizationContext } from '@contexts';
 
-import ArrowSvg from '@icons/arrow-v.svg';
+import { ReactComponent as ArrowSvg } from '@icons/arrow-v.svg';
 import { countryList } from '@common/countries';
 import { ICountry } from '@common/country';
 

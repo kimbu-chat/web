@@ -1,8 +1,8 @@
 import React from 'react';
 import './editing-message.scss';
 
-import CloseSvg from '@icons/close.svg';
-import CrayonSvg from '@icons/crayon.svg';
+import { ReactComponent as CloseSvg } from '@icons/close.svg';
+import { ReactComponent as CrayonSvg } from '@icons/crayon.svg';
 import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getMessageToEditSelector } from '@store/chats/selectors';

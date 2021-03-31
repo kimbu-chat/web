@@ -52,7 +52,7 @@ export class GetRawAttachments {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IBaseAttachment[]>, IGetRawAttachmentsApiRequest>(
-      `${process.env.MAIN_API}/api/raw-attachments/search`,
+      `${process.env.REACT_APP_MAIN_API}/api/raw-attachments/search`,
       HttpRequestMethod.Post,
     );
   }

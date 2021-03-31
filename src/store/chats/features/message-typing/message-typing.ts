@@ -44,7 +44,7 @@ export class MessageTyping {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, IMessageTypingApiRequest>(
-      `${process.env.NOTIFICATIONS_API}/api/message/notify-interlocutor-about-message-typing`,
+      `${process.env.REACT_APP_NOTIFICATIONS_API}/api/message/notify-interlocutor-about-message-typing`,
       HttpRequestMethod.Post,
     );
   }

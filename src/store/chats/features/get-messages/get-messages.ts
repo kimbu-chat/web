@@ -82,7 +82,7 @@ export class GetMessages {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IMessage[]>, IGetMessagesApiRequest>(
-      `${process.env.MAIN_API}/api/messages/search`,
+      `${process.env.REACT_APP_MAIN_API}/api/messages/search`,
       HttpRequestMethod.Post,
     );
   }

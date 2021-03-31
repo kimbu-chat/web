@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from 'react';
 import './interlocutor-info.scss';
 
-import PhoneSvg from '@icons/phone-chat-info.svg';
-import EditSvg from '@icons/crayon.svg';
-import DogSvg from '@icons/@.svg';
+import { ReactComponent as PhoneSvg } from '@icons/phone-chat-info.svg';
+import { ReactComponent as EditSvg } from '@icons/crayon.svg';
+import { ReactComponent as DogSvg } from '@icons/@.svg';
 
 import { useSelector } from 'react-redux';
 import {

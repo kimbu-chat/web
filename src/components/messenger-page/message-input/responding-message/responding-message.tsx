@@ -1,8 +1,8 @@
 import React from 'react';
 import './responding-message.scss';
 
-import CloseSvg from '@icons/close.svg';
-import ReplySvg from '@icons/reply.svg';
+import { ReactComponent as CloseSvg } from '@icons/close.svg';
+import { ReactComponent as ReplySvg } from '@icons/reply.svg';
 import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getMessageToReplySelector } from '@store/chats/selectors';

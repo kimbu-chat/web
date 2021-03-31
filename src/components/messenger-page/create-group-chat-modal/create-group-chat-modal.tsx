@@ -20,10 +20,10 @@ import { ICreateGroupChatActionPayload } from '@store/chats/features/create-grou
 
 import { IAvatar, IAvatarSelectedData, IPage, IUser } from '@store/common/models';
 import { FRIENDS_LIMIT } from '@utils/pagination-limits';
-import GroupSvg from '@icons/group.svg';
-import PictureSvg from '@icons/picture.svg';
-import TopAvatarLine from '@icons/top-avatar-line.svg';
-import BottomAvatarLine from '@icons/bottom-avatar-line.svg';
+import { ReactComponent as GroupSvg } from '@icons/group.svg';
+import { ReactComponent as PictureSvg } from '@icons/picture.svg';
+import { ReactComponent as TopAvatarLine } from '@icons/top-avatar-line.svg';
+import { ReactComponent as BottomAvatarLine } from '@icons/bottom-avatar-line.svg';
 import { SelectEntity } from '../shared/select-entity/select-entity';
 import './create-group-chat-modal.scss';
 

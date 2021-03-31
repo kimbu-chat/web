@@ -1,11 +1,6 @@
 const path = require('path');
 
 module.exports = function override(config, env) {
-  config.module.rules.push({
-    test: /\.(gif|jpg|png|mp3|aac|ogg)$/,
-    loader: 'file-loader',
-  });
-
   config.resolve = {
     ...config.resolve,
     extensions: ['.ts', '.tsx', '.js', '.jsx'],

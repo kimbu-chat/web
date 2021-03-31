@@ -9,11 +9,11 @@ import {
 import React, { useCallback, useEffect, useState } from 'react';
 import './message-input-attachment.scss';
 
-import PhotoSVG from '@icons/picture.svg';
-import VideoSVG from '@icons/video.svg';
-import FileSVG from '@icons/file.svg';
-import CloseSVG from '@icons/close-x.svg';
-import PlaySVG from '@icons/play.svg';
+import { ReactComponent as PhotoSVG } from '@icons/picture.svg';
+import { ReactComponent as VideoSVG } from '@icons/video.svg';
+import { ReactComponent as FileSVG } from '@icons/file.svg';
+import { ReactComponent as CloseSVG } from '@icons/close-x.svg';
+import { ReactComponent as PlaySVG } from '@icons/play.svg';
 import * as ChatActions from '@store/chats/actions';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getRawAttachmentSizeUnit } from '@utils/get-file-size-unit';

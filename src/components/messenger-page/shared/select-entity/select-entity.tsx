@@ -4,7 +4,7 @@ import './select-entity.scss';
 import { Avatar, StatusBadge, TimeUpdateable } from '@components/shared';
 import { getInterlocutorInitials } from '@utils/interlocutor-name-utils';
 
-import SelectedSvg from '@icons/checked.svg';
+import { ReactComponent as SelectedSvg } from '@icons/checked.svg';
 import { IChat } from '@store/chats/models';
 import { IUser } from '@store/common/models';
 

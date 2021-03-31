@@ -85,7 +85,7 @@ export class CreateMessage {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<number>, ICreateMessageApiRequest>(
-      `${process.env.MAIN_API}/api/messages`,
+      `${process.env.REACT_APP_MAIN_API}/api/messages`,
       HttpRequestMethod.Post,
     );
   }

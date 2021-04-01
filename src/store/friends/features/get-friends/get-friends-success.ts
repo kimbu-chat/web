@@ -14,10 +14,10 @@ export class GetFriendsSuccess {
       (draft: IFriendsState, { payload }: ReturnType<typeof GetFriendsSuccess.action>) => {
         const { users, hasMore, initializedBySearch } = payload;
 
+        draft.loading = false;
         draft.hasMoreFriends = hasMore;
 
         if (initializedBySearch) {
-          draft.loading = false;
           draft.friends = users;
 
           return draft;

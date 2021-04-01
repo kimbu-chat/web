@@ -7,6 +7,6 @@ import { GetUserByPhone } from './features/get-user-by-phone/get-user-by-phone';
 export const FriendSagas = [
   takeLatest(GetFriends.action, GetFriends.saga),
   takeLatest(DeleteFriend.action, DeleteFriend.saga),
-  takeLeading(AddFriend.action, AddFriend.saga),
+  takeEvery(AddFriend.action, AddFriend.saga),
   takeEvery(GetUserByPhone.action, GetUserByPhone.saga),
 ];

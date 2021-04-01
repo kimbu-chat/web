@@ -10,18 +10,20 @@ export class LeaveGroupChatSuccess {
   }
 
   static get reducer() {
-    return produce((draft: IChatsState, { payload }: ReturnType<typeof LeaveGroupChatSuccess.action>) => {
-      const { chatId } = payload;
+    return produce(
+      (draft: IChatsState, { payload }: ReturnType<typeof LeaveGroupChatSuccess.action>) => {
+        const { chatId } = payload;
 
-      const chatIndex: number = getChatIndexDraftSelector(chatId, draft);
+        const chatIndex: number = getChatIndexDraftSelector(chatId, draft);
 
-      draft.chats.splice(chatIndex, 1);
+        draft.chats.splice(chatIndex, 1);
 
-      if (draft.selectedChatId === chatId) {
-        draft.selectedChatId = null;
-      }
+        if (draft.selectedChatId === chatId) {
+          draft.selectedChatId = null;
+        }
 
-      return draft;
-    });
+        return draft;
+      },
+    );
   }
 }

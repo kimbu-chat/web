@@ -11,23 +11,25 @@ export class ChatClearedEventHandler {
   }
 
   static get reducer() {
-    return produce((draft: IChatsState, { payload }: ReturnType<typeof ChatClearedEventHandler.action>) => {
-      const { chatId, onlyForUserInitiator, userInitiatorId } = payload;
+    return produce(
+      (draft: IChatsState, { payload }: ReturnType<typeof ChatClearedEventHandler.action>) => {
+        const { chatId, onlyForUserInitiator, userInitiatorId } = payload;
 
-      const myId = new MyProfileService().myProfile.id;
+        const myId = new MyProfileService().myProfile.id;
 
-      if (!onlyForUserInitiator || myId === userInitiatorId) {
-        const chat = getChatByIdDraftSelector(chatId, draft);
+        if (!onlyForUserInitiator || myId === userInitiatorId) {
+          const chat = getChatByIdDraftSelector(chatId, draft);
 
-        draft.messages[chatId].messages = [];
-        draft.messages[chatId].hasMore = false;
+          draft.messages[chatId].messages = [];
+          draft.messages[chatId].hasMore = false;
 
-        if (chat) {
-          chat.lastMessage = null;
+          if (chat) {
+            chat.lastMessage = null;
+          }
         }
-      }
 
-      return draft;
-    });
+        return draft;
+      },
+    );
   }
 }

@@ -1,9 +1,11 @@
 import { RootState } from 'typesafe-actions';
 import { IUser } from '../common/models';
 
-export const getCallInterlocutorSelector = (state: RootState): IUser | undefined => state.calls.interlocutor;
+export const getCallInterlocutorSelector = (state: RootState): IUser | undefined =>
+  state.calls.interlocutor;
 
-export const getCallInterlocutorIdSelector = (state: RootState): number | undefined => state.calls.interlocutor?.id;
+export const getCallInterlocutorIdSelector = (state: RootState): number | undefined =>
+  state.calls.interlocutor?.id;
 
 export const amICalledSelector = (state: RootState): boolean => state.calls.amICalled;
 
@@ -15,17 +17,22 @@ export const getVideoConstraintsSelector = (state: RootState) => state.calls.vid
 
 export const getAudioConstraintsSelector = (state: RootState) => state.calls.audioConstraints;
 
-export const getIsActiveCallIncomingSelector = (state: RootState) => state.calls.isActiveCallIncoming;
+export const getIsActiveCallIncomingSelector = (state: RootState) =>
+  state.calls.isActiveCallIncoming;
 
-export const getIsIncomingCallVideoEnabledSelector = (state: RootState) => state.calls.isIncomingCallVideoEnbaled;
+export const getIsIncomingCallVideoEnabledSelector = (state: RootState) =>
+  state.calls.isIncomingCallVideoEnbaled;
 
-export const getIsInterlocutorVideoEnabledSelector = (state: RootState) => state.calls.isInterlocutorVideoEnabled;
+export const getIsInterlocutorVideoEnabledSelector = (state: RootState) =>
+  state.calls.isInterlocutorVideoEnabled;
 
 export const getIsInterlocutorBusySelector = (state: RootState) => state.calls.isInterlocutorBusy;
 
-export const getIsScreenSharingEnabledSelector = (state: RootState) => state.calls.isScreenSharingOpened;
+export const getIsScreenSharingEnabledSelector = (state: RootState) =>
+  state.calls.isScreenSharingOpened;
 
-export const getIsVideoEnabledSelector = (state: RootState) => state.calls.videoConstraints.isOpened;
+export const getIsVideoEnabledSelector = (state: RootState) =>
+  state.calls.videoConstraints.isOpened;
 
 export const getAudioDevicesSelector = (state: RootState) => state.calls.audioDevicesList;
 

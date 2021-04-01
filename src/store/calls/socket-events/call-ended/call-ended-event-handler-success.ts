@@ -11,22 +11,24 @@ export class CallEndedEventHandlerSuccess {
   }
 
   static get reducer() {
-    return produce((draft: ICallsState, { payload }: ReturnType<typeof CallEndedEventHandlerSuccess.action>) => {
-      if (payload) {
-        draft.calls.calls.unshift(payload);
-      }
+    return produce(
+      (draft: ICallsState, { payload }: ReturnType<typeof CallEndedEventHandlerSuccess.action>) => {
+        if (payload) {
+          draft.calls.calls.unshift(payload);
+        }
 
-      draft.interlocutor = undefined;
-      draft.isInterlocutorBusy = false;
-      draft.amICalling = false;
-      draft.amICalled = false;
-      draft.isSpeaking = false;
-      draft.isInterlocutorVideoEnabled = false;
-      draft.videoConstraints.isOpened = false;
-      draft.videoConstraints.isOpened = false;
-      draft.isScreenSharingOpened = false;
+        draft.interlocutor = undefined;
+        draft.isInterlocutorBusy = false;
+        draft.amICalling = false;
+        draft.amICalled = false;
+        draft.isSpeaking = false;
+        draft.isInterlocutorVideoEnabled = false;
+        draft.videoConstraints.isOpened = false;
+        draft.videoConstraints.isOpened = false;
+        draft.isScreenSharingOpened = false;
 
-      return draft;
-    });
+        return draft;
+      },
+    );
   }
 }

@@ -12,14 +12,18 @@ export class IceCandidateSentEventHandler {
   }
 
   static get saga() {
-    return function* candidateSaga(action: ReturnType<typeof IceCandidateSentEventHandler.action>): SagaIterator {
+    return function* candidateSaga(
+      action: ReturnType<typeof IceCandidateSentEventHandler.action>,
+    ): SagaIterator {
       const interlocutorId = yield select(getCallInterlocutorIdSelector);
       const peerConnection = getPeerConnection();
       const ignoreOffer = getIgnoreOffer();
 
       if (action.payload.userInterlocutorId === interlocutorId) {
         try {
-          yield call(async () => peerConnection?.addIceCandidate(new RTCIceCandidate(action.payload.candidate)));
+          yield call(async () =>
+            peerConnection?.addIceCandidate(new RTCIceCandidate(action.payload.candidate)),
+          );
         } catch (err) {
           if (!ignoreOffer) {
             throw err;

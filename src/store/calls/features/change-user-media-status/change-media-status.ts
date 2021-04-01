@@ -29,7 +29,9 @@ export class ChangeMediaStatus {
   }
 
   static get saga() {
-    return function* changeMediaStatus(action: ReturnType<typeof ChangeMediaStatus.action>): SagaIterator {
+    return function* changeMediaStatus(
+      action: ReturnType<typeof ChangeMediaStatus.action>,
+    ): SagaIterator {
       const videoConstraints = yield select(getVideoConstraintsSelector);
       const audioConstraints = yield select(getAudioConstraintsSelector);
       const peerConnection = getPeerConnection();
@@ -60,14 +62,22 @@ export class ChangeMediaStatus {
           }
         }
 
-        const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.VideoInput);
+        const videoDevices: MediaDeviceInfo[] = yield call(
+          getMediaDevicesList,
+          InputType.VideoInput,
+        );
 
         if (videoDevices.length > 0) {
           yield put(GotDevicesInfo.action({ kind: InputType.VideoInput, devices: videoDevices }));
         }
 
         if (!videoConstraints.deviceId && videoDevices[0]) {
-          yield put(ChangeActiveDeviceId.action({ kind: InputType.VideoInput, deviceId: videoDevices[0].deviceId }));
+          yield put(
+            ChangeActiveDeviceId.action({
+              kind: InputType.VideoInput,
+              deviceId: videoDevices[0].deviceId,
+            }),
+          );
         }
       }
 

@@ -36,7 +36,9 @@ export class EditGroupChat {
         avatarId: avatar?.id,
       };
 
-      const { status } = EditGroupChat.httpRequest.call(yield call(() => EditGroupChat.httpRequest.generator(requestData)));
+      const { status } = EditGroupChat.httpRequest.call(
+        yield call(() => EditGroupChat.httpRequest.generator(requestData)),
+      );
 
       if (status === HTTPStatusCode.OK) {
         yield put(
@@ -52,6 +54,9 @@ export class EditGroupChat {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IEditGroupChatApiRequest>(`${process.env.MAIN_API}/api/group-chats`, HttpRequestMethod.Put);
+    return httpRequestFactory<AxiosResponse, IEditGroupChatApiRequest>(
+      `${process.env.REACT_APP_MAIN_API}/api/group-chats`,
+      HttpRequestMethod.Put,
+    );
   }
 }

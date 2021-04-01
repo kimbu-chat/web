@@ -10,24 +10,28 @@ export class UploadAttachmentProgress {
   }
 
   static get reducer() {
-    return produce((draft: IChatsState, { payload }: ReturnType<typeof UploadAttachmentProgress.action>) => {
-      const { progress, chatId, attachmentId, uploadedBytes } = payload;
+    return produce(
+      (draft: IChatsState, { payload }: ReturnType<typeof UploadAttachmentProgress.action>) => {
+        const { progress, chatId, attachmentId, uploadedBytes } = payload;
 
-      const chat = getChatByIdDraftSelector(chatId, draft);
+        const chat = getChatByIdDraftSelector(chatId, draft);
 
-      if (chat) {
-        if (!chat.attachmentsToSend) {
-          return draft;
+        if (chat) {
+          if (!chat.attachmentsToSend) {
+            return draft;
+          }
+
+          const currentAttachment = chat.attachmentsToSend?.find(
+            ({ attachment }) => attachment.id === attachmentId,
+          );
+
+          if (currentAttachment) {
+            currentAttachment.progress = progress;
+            currentAttachment.uploadedBytes = uploadedBytes;
+          }
         }
-
-        const currentAttachment = chat.attachmentsToSend?.find(({ attachment }) => attachment.id === attachmentId);
-
-        if (currentAttachment) {
-          currentAttachment.progress = progress;
-          currentAttachment.uploadedBytes = uploadedBytes;
-        }
-      }
-      return draft;
-    });
+        return draft;
+      },
+    );
   }
 }

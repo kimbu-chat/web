@@ -3,16 +3,16 @@ import './photo-editor.scss';
 
 import { LocalizationContext } from '@contexts';
 
-import PhotoSvg from '@icons/picture.svg';
-import LeftRotateSvg from '@icons/left-rotate.svg';
-import RightRotateSvg from '@icons/right-rotate.svg';
-import ReflectSvg from '@icons/reflect.svg';
+import { ReactComponent as PhotoSvg } from '@icons/picture.svg';
+import { ReactComponent as LeftRotateSvg } from '@icons/left-rotate.svg';
+import { ReactComponent as RightRotateSvg } from '@icons/right-rotate.svg';
+import { ReactComponent as ReflectSvg } from '@icons/reflect.svg';
 
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
-import { WithBackground, Modal } from '@components';
+import { WithBackground, Modal } from '@components/shared';
 import { IAvatarSelectedData } from '@store/common/models';
-import { Tooltip } from '@app/components/shared/tooltip/tooltip';
+import { Tooltip } from '@components/shared/tooltip/tooltip';
 
 interface IPhotoEditorProps {
   imageUrl: string;
@@ -21,23 +21,39 @@ interface IPhotoEditorProps {
 }
 
 function generateDownload(image?: HTMLImageElement, crop?: ReactCrop.Crop): string {
-  if (!crop || !image) {
+  if (!crop || !crop.x || !crop.y || !crop.width || !crop.height || !image) {
     return '';
   }
 
   const canvas = document.createElement('canvas');
   const scaleX = image.naturalWidth / image.width;
   const scaleY = image.naturalHeight / image.height;
-  canvas.width = crop.width!;
-  canvas.height = crop.height!;
+  canvas.width = crop.width as number;
+  canvas.height = crop.height as number;
   const ctx = canvas.getContext('2d');
 
-  ctx!.drawImage(image, crop.x! * scaleX, crop.y! * scaleY, crop.width! * scaleX, crop.height! * scaleY, 0, 0, crop.width!, crop.height!);
+  if (ctx) {
+    ctx.drawImage(
+      image,
+      crop.x * scaleX,
+      crop.y * scaleY,
+      crop.width * scaleX,
+      crop.height * scaleY,
+      0,
+      0,
+      crop.width,
+      crop.height,
+    );
+  }
 
   return canvas.toDataURL('image/png');
 }
 
-export const PhotoEditor: React.FC<IPhotoEditorProps> = ({ imageUrl, onSubmit, hideChangePhoto }) => {
+export const PhotoEditor: React.FC<IPhotoEditorProps> = ({
+  imageUrl,
+  onSubmit,
+  hideChangePhoto,
+}) => {
   const { t } = useContext(LocalizationContext);
 
   const imgRef = useRef<HTMLImageElement>();
@@ -75,7 +91,7 @@ export const PhotoEditor: React.FC<IPhotoEditorProps> = ({ imageUrl, onSubmit, h
         croppedImagePath: croppedUrl,
       });
     }
-  }, [onSubmit, completedCrop]);
+  }, [onSubmit, hideChangePhoto, completedCrop, crop.y, crop.x, crop.width, imageUrl]);
 
   const onLoad = useCallback((img) => {
     imgRef.current = img;
@@ -113,15 +129,15 @@ export const PhotoEditor: React.FC<IPhotoEditorProps> = ({ imageUrl, onSubmit, h
       <Modal
         title={
           <>
-            <PhotoSvg viewBox='0 0 18 19' className='photo-editor__icon' />
+            <PhotoSvg viewBox="0 0 18 19" className="photo-editor__icon" />
 
             <span> {t('changePhoto.title')} </span>
           </>
         }
         closeModal={hideChangePhoto}
         content={
-          <div className='photo-editor'>
-            <div className='photo-editor__crop-container'>
+          <div className="photo-editor">
+            <div className="photo-editor__crop-container">
               <ReactCrop
                 src={imageUrl}
                 onImageLoaded={onLoad}
@@ -134,27 +150,33 @@ export const PhotoEditor: React.FC<IPhotoEditorProps> = ({ imageUrl, onSubmit, h
                 ruleOfThirds
               />
             </div>
-            <div className='photo-editor__btn-group'>
-              <button type='button' onClick={rotateLeft} className='photo-editor__modify-btn'>
+            <div className="photo-editor__btn-group">
+              <button type="button" onClick={rotateLeft} className="photo-editor__modify-btn">
                 <Tooltip>Left Rotation</Tooltip>
-                <LeftRotateSvg viewBox='0 0 18 18' />
+                <LeftRotateSvg viewBox="0 0 18 18" />
               </button>
-              <button type='button' onClick={mirror} className='photo-editor__modify-btn'>
+              <button type="button" onClick={mirror} className="photo-editor__modify-btn">
                 <Tooltip>Mirror</Tooltip>
-                <ReflectSvg viewBox='0 0 18 18' />
+                <ReflectSvg viewBox="0 0 18 18" />
               </button>
-              <button type='button' onClick={rotateRight} className='photo-editor__modify-btn'>
+              <button type="button" onClick={rotateRight} className="photo-editor__modify-btn">
                 <Tooltip>Right Rotation</Tooltip>
-                <RightRotateSvg viewBox='0 0 18 18' />
+                <RightRotateSvg viewBox="0 0 18 18" />
               </button>
             </div>
           </div>
         }
         buttons={[
-          <button type='button' className='photo-editor__btn photo-editor__btn--cancel' onClick={hideChangePhoto}>
+          <button
+            type="button"
+            className="photo-editor__btn photo-editor__btn--cancel"
+            onClick={hideChangePhoto}>
             {t('changePhoto.reject')}
           </button>,
-          <button type='button' className='photo-editor__btn photo-editor__btn--confirm' onClick={submitChange}>
+          <button
+            type="button"
+            className="photo-editor__btn photo-editor__btn--confirm"
+            onClick={submitChange}>
             {t('changePhoto.confirm')}
           </button>,
         ]}

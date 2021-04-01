@@ -11,27 +11,37 @@ export class UserEditedEventHandler {
   }
 
   static get reducer() {
-    return produce((draft: IChatsState, { payload }: ReturnType<typeof UserEditedEventHandler.action>) => {
-      const { userId, firstName, lastName, nickname, avatarId, avatarUrl, avatarPreviewUrl } = payload;
-      const chatId = ChatId.from(userId).id;
+    return produce(
+      (draft: IChatsState, { payload }: ReturnType<typeof UserEditedEventHandler.action>) => {
+        const {
+          userId,
+          firstName,
+          lastName,
+          nickname,
+          avatarId,
+          avatarUrl,
+          avatarPreviewUrl,
+        } = payload;
+        const chatId = ChatId.from(userId).id;
 
-      const user = getChatByIdDraftSelector(chatId, draft)?.interlocutor;
+        const user = getChatByIdDraftSelector(chatId, draft)?.interlocutor;
 
-      if (!user) {
+        if (!user) {
+          return draft;
+        }
+
+        user.firstName = firstName;
+        user.lastName = lastName;
+        user.nickname = nickname;
+
+        user.avatar = {
+          id: avatarId,
+          url: avatarUrl,
+          previewUrl: avatarPreviewUrl,
+        };
+
         return draft;
-      }
-
-      user.firstName = firstName;
-      user.lastName = lastName;
-      user.nickname = nickname;
-
-      user.avatar = {
-        id: avatarId,
-        url: avatarUrl,
-        previewUrl: avatarPreviewUrl,
-      };
-
-      return draft;
-    });
+      },
+    );
   }
 }

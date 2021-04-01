@@ -2,9 +2,9 @@ import React from 'react';
 import './infinite-scroll-loader.scss';
 
 const InfiniteScrollLoader = React.memo(() => (
-  <div className='loader '>
-    <div className=''>
-      <div className='lds-ellipsis'>
+  <div className="loader ">
+    <div className="">
+      <div className="lds-ellipsis">
         <div />
         <div />
         <div />

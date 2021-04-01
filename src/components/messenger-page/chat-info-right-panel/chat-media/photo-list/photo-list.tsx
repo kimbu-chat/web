@@ -7,7 +7,7 @@ import * as ChatActions from '@store/chats/actions';
 import { getSelectedChatPhotosSelector } from '@store/chats/selectors';
 import { IPage } from '@store/common/models';
 import { setSeparators } from '@utils/set-separators';
-import { InfiniteScroll } from '@components';
+import { InfiniteScroll } from '@components/messenger-page';
 import { PHOTO_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 import { Photo } from './photo/photo';
 
@@ -18,14 +18,14 @@ export const PhotoList = React.memo(() => {
 
   const loadMore = useCallback(() => {
     const page: IPage = {
-      offset: photoForSelectedChat?.photos!.length || 0,
+      offset: photoForSelectedChat?.photos.length || 0,
       limit: PHOTO_ATTACHMENTS_LIMIT,
     };
 
     getPhotoAttachmentss({
       page,
     });
-  }, [photoForSelectedChat?.photos]);
+  }, [photoForSelectedChat?.photos, getPhotoAttachmentss]);
 
   const photosWithSeparators = setSeparators(
     photoForSelectedChat?.photos,
@@ -34,13 +34,12 @@ export const PhotoList = React.memo(() => {
   );
 
   return (
-    <div className='chat-photo'>
+    <div className="chat-photo">
       <InfiniteScroll
-        className='chat-photo__photo-container'
+        className="chat-photo__photo-container"
         onReachExtreme={loadMore}
         hasMore={photoForSelectedChat?.hasMore}
-        isLoading={photoForSelectedChat?.loading}
-      >
+        isLoading={photoForSelectedChat?.loading}>
         {photosWithSeparators?.map((photo) => (
           <Photo photo={photo} attachmentsArr={photosWithSeparators} key={photo.id} />
         ))}

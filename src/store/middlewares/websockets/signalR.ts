@@ -1,4 +1,9 @@
-import { HubConnection, HubConnectionBuilder, HubConnectionState, LogLevel } from '@microsoft/signalr';
+import {
+  HubConnection,
+  HubConnectionBuilder,
+  HubConnectionState,
+  LogLevel,
+} from '@microsoft/signalr';
 
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux';
 import { getType, RootAction, RootState } from 'typesafe-actions';
@@ -11,7 +16,7 @@ let connection: HubConnection;
 
 function openConnection(store: MiddlewareAPI<Dispatch, RootState>): void {
   connection = new HubConnectionBuilder()
-    .withUrl(`${process.env.NOTIFICATIONS_API}/signalr`, {
+    .withUrl(`${process.env.REACT_APP_NOTIFICATIONS_API}/signalr`, {
       logMessageContent: true,
       accessTokenFactory: () => {
         const accessToken = store.getState().auth?.securityTokens?.accessToken;
@@ -48,12 +53,16 @@ function openConnection(store: MiddlewareAPI<Dispatch, RootState>): void {
   });
 }
 
-export const signalRInvokeMiddleware: Middleware<RootAction, RootState> = (store: MiddlewareAPI<Dispatch, RootState>) => (next: Dispatch<RootAction>) => async (
-  action: RootAction,
-): Promise<RootAction> => {
+export const signalRInvokeMiddleware: Middleware<RootAction, RootState> = (
+  store: MiddlewareAPI<Dispatch, RootState>,
+) => (next: Dispatch<RootAction>) => async (action: RootAction): Promise<RootAction> => {
   switch (action.type) {
     case getType(InitSocketConnection.action): {
-      if (!connection || connection.state === HubConnectionState.Disconnected || connection.state !== HubConnectionState.Connecting) {
+      if (
+        !connection ||
+        connection.state === HubConnectionState.Disconnected ||
+        connection.state !== HubConnectionState.Connecting
+      ) {
         openConnection(store);
       }
       return next(action);

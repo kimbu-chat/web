@@ -32,7 +32,9 @@ export class MessageTyping {
   }
 
   static get saga() {
-    return function* messageTypingSaga({ payload }: ReturnType<typeof MessageTyping.action>): SagaIterator {
+    return function* messageTypingSaga({
+      payload,
+    }: ReturnType<typeof MessageTyping.action>): SagaIterator {
       const { text } = payload;
       const chatId = yield select(getSelectedChatIdSelector);
       const interlocutorName = yield select(myFullNameSelector);
@@ -42,7 +44,7 @@ export class MessageTyping {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, IMessageTypingApiRequest>(
-      `${process.env.NOTIFICATIONS_API}/api/message/notify-interlocutor-about-message-typing`,
+      `${process.env.REACT_APP_NOTIFICATIONS_API}/api/message/notify-interlocutor-about-message-typing`,
       HttpRequestMethod.Post,
     );
   }

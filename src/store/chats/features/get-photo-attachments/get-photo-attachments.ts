@@ -31,11 +31,15 @@ export class GetPhotoAttachments {
   }
 
   static get saga() {
-    return function* getPhotoAttachments(action: ReturnType<typeof GetPhotoAttachments.action>): SagaIterator {
+    return function* getPhotoAttachments(
+      action: ReturnType<typeof GetPhotoAttachments.action>,
+    ): SagaIterator {
       const { page } = action.payload;
       const chatId = yield select(getSelectedChatIdSelector);
 
-      const { data, status } = GetPhotoAttachments.httpRequest.call(yield call(() => GetPhotoAttachments.httpRequest.generator({ page, chatId })));
+      const { data, status } = GetPhotoAttachments.httpRequest.call(
+        yield call(() => GetPhotoAttachments.httpRequest.generator({ page, chatId })),
+      );
 
       const hasMore = data.length >= page.limit;
 
@@ -47,7 +51,7 @@ export class GetPhotoAttachments {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IPictureAttachment[]>, IGetPhotoAttachmentsApiRequest>(
-      `${process.env.MAIN_API}/api/picture-attachments/search`,
+      `${process.env.REACT_APP_MAIN_API}/api/picture-attachments/search`,
       HttpRequestMethod.Post,
     );
   }

@@ -1,15 +1,15 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import './file-attachment.scss';
 
-import DownloadSvg from '@icons/download.svg';
-import ProgressSVG from '@icons/ic-progress.svg';
+import { ReactComponent as DownloadSvg } from '@icons/download.svg';
+import { ReactComponent as ProgressSVG } from '@icons/ic-progress.svg';
 
 import { fileDownload } from '@utils/file-download';
-import { IRawAttachment } from '@store/chats/models';
+import { IBaseAttachment } from '@store/chats/models';
 import { getRawAttachmentSizeUnit } from '@utils/get-file-size-unit';
 
 interface IFileAttachmentProps {
-  attachment: IRawAttachment;
+  attachment: IBaseAttachment;
 }
 
 export const FileAttachment: React.FC<IFileAttachmentProps> = React.memo(({ attachment }) => {
@@ -17,21 +17,28 @@ export const FileAttachment: React.FC<IFileAttachmentProps> = React.memo(({ atta
   const [downloaded, setDownloaded] = useState(0);
 
   const abortDownloadingRef = useRef<XMLHttpRequest>();
-  const progressSvgRef = useRef<SVGElement>(null);
+  const progressSvgRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
     if (progressSvgRef.current) {
-      progressSvgRef.current.querySelectorAll('circle')[1].style.strokeDashoffset = String(76 - (downloaded / attachment.byteSize) * 63);
+      progressSvgRef.current.querySelectorAll('circle')[1].style.strokeDashoffset = String(
+        76 - (downloaded / attachment.byteSize) * 63,
+      );
     }
-  }, [downloaded, progressSvgRef]);
+  }, [downloaded, progressSvgRef, attachment?.byteSize]);
 
   const download = useCallback(() => {
-    abortDownloadingRef.current = fileDownload(attachment.url, attachment.fileName, setDownloaded, () => {
-      setDownloaded(0);
-      setIsDownloading(false);
-    });
+    abortDownloadingRef.current = fileDownload(
+      attachment.url,
+      attachment.fileName,
+      setDownloaded,
+      () => {
+        setDownloaded(0);
+        setIsDownloading(false);
+      },
+    );
     setIsDownloading(true);
-  }, [attachment, abortDownloadingRef, attachment, setDownloaded, setIsDownloading]);
+  }, [attachment.url, attachment.fileName]);
 
   const abortDownloading = useCallback(() => {
     if (abortDownloadingRef.current) {
@@ -42,21 +49,27 @@ export const FileAttachment: React.FC<IFileAttachmentProps> = React.memo(({ atta
   }, [setIsDownloading, setDownloaded, abortDownloadingRef]);
 
   return (
-    <div className='file-attachment'>
+    <div className="file-attachment">
       {isDownloading ? (
-        <div onClick={abortDownloading} className='file-attachment__cancel'>
-          <ProgressSVG ref={progressSvgRef} viewBox='0 0 25 25' className='file-attachment__progress-svg' />
+        <div onClick={abortDownloading} className="file-attachment__cancel">
+          <ProgressSVG
+            ref={progressSvgRef}
+            viewBox="0 0 25 25"
+            className="file-attachment__progress-svg"
+          />
         </div>
       ) : (
-        <div onClick={download} className='file-attachment__download'>
-          <DownloadSvg viewBox='0 0 22 24' />
+        <div onClick={download} className="file-attachment__download">
+          <DownloadSvg viewBox="0 0 22 24" />
         </div>
       )}
-      <div className='file-attachment__data'>
-        <h4 className='file-attachment__file-name'>{attachment.fileName}</h4>
-        <div className='file-attachment__file-size'>
+      <div className="file-attachment__data">
+        <h4 className="file-attachment__file-name">{attachment.fileName}</h4>
+        <div className="file-attachment__file-size">
           {isDownloading
-            ? `${getRawAttachmentSizeUnit(downloaded)}/${getRawAttachmentSizeUnit(attachment.byteSize)}`
+            ? `${getRawAttachmentSizeUnit(downloaded)}/${getRawAttachmentSizeUnit(
+                attachment.byteSize,
+              )}`
             : getRawAttachmentSizeUnit(attachment.byteSize)}
         </div>
       </div>

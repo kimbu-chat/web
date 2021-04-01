@@ -23,7 +23,16 @@ export enum HTTPStatusCode {
   /**
    * All `2xx` status codes.
    */
-  Success = OK | Created | Accepted | NonAuthoritativeInformation | NoContent | ResetContent | PartialContent | MultiStatus | AlreadyReported | IMUsed,
+  Success = OK |
+    Created |
+    Accepted |
+    NonAuthoritativeInformation |
+    NoContent |
+    ResetContent |
+    PartialContent |
+    MultiStatus |
+    AlreadyReported |
+    IMUsed,
 
   MultipleChoices = 300,
   MovedPermanently = 301,
@@ -38,7 +47,15 @@ export enum HTTPStatusCode {
   /**
    * All `3xx` status codes.
    */
-  Redirection = MultipleChoices | MovedPermanently | Found | SeeOther | NotModified | UseProxy | SwitchProxy | TemporaryRedirect | PermanentRedirect,
+  Redirection = MultipleChoices |
+    MovedPermanently |
+    Found |
+    SeeOther |
+    NotModified |
+    UseProxy |
+    SwitchProxy |
+    TemporaryRedirect |
+    PermanentRedirect,
 
   BadRequest = 400,
   Unauthorized = 401,

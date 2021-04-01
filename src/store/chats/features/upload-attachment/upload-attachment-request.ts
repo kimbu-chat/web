@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { put, call, select } from 'redux-saga/effects';
+import { put, call, select, apply } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { httpFilesRequestFactory, HttpRequestMethod } from '@store/common/http';
 import type { IFilesRequestGenerator } from '@store/common/http';
@@ -27,39 +27,43 @@ export class UploadAttachmentRequest {
   }
 
   static get reducer() {
-    return produce((draft: IChatsState, { payload }: ReturnType<typeof UploadAttachmentRequest.action>) => {
-      const { type, attachmentId, file } = payload;
+    return produce(
+      (draft: IChatsState, { payload }: ReturnType<typeof UploadAttachmentRequest.action>) => {
+        const { type, attachmentId, file } = payload;
 
-      if (draft.selectedChatId) {
-        const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
+        if (draft.selectedChatId) {
+          const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
 
-        if (chat) {
-          if (!chat.attachmentsToSend) {
-            chat.attachmentsToSend = [];
+          if (chat) {
+            if (!chat.attachmentsToSend) {
+              chat.attachmentsToSend = [];
+            }
+
+            const attachmentToAdd: IAttachmentToSend<IBaseAttachment> = {
+              attachment: {
+                id: attachmentId,
+                byteSize: file.size,
+                creationDateTime: new Date(),
+                url: '',
+                type,
+                fileName: file.name,
+              },
+              progress: 0,
+              file,
+            };
+
+            chat.attachmentsToSend?.push(attachmentToAdd);
           }
-
-          const attachmentToAdd: IAttachmentToSend<IBaseAttachment> = {
-            attachment: {
-              id: attachmentId,
-              byteSize: file.size,
-              creationDateTime: new Date(),
-              url: '',
-              type,
-              fileName: file.name,
-            },
-            progress: 0,
-            file,
-          };
-
-          chat.attachmentsToSend?.push(attachmentToAdd);
         }
-      }
-      return draft;
-    });
+        return draft;
+      },
+    );
   }
 
   static get saga() {
-    return function* uploadAttachmentRequestSaga(action: ReturnType<typeof UploadAttachmentRequest.action>): SagaIterator {
+    return function* uploadAttachmentRequestSaga(
+      action: ReturnType<typeof UploadAttachmentRequest.action>,
+    ): SagaIterator {
       const chatId = yield select(getSelectedChatIdSelector);
       const { file, type, attachmentId } = action.payload;
       let uploadRequest: IFilesRequestGenerator<AxiosResponse, FormData>;
@@ -100,18 +104,22 @@ export class UploadAttachmentRequest {
       yield call(() =>
         uploadRequest.generator(data, {
           *onStart({ cancelTokenSource }): SagaIterator {
-            addUploadingAttachment({ cancelTokenSource, id: attachmentId });
+            yield apply(addUploadingAttachment, addUploadingAttachment, [
+              { cancelTokenSource, id: attachmentId },
+            ]);
           },
           *onProgress({ progress, uploadedBytes }): SagaIterator {
-            yield put(UploadAttachmentProgress.action({ chatId, attachmentId, progress, uploadedBytes }));
+            yield put(
+              UploadAttachmentProgress.action({ chatId, attachmentId, progress, uploadedBytes }),
+            );
           },
-          *onSuccess(payload: IBaseAttachment): SagaIterator {
+          *onSuccess(payload: AxiosResponse<IBaseAttachment>): SagaIterator {
             removeUploadingAttachment(attachmentId);
             yield put(
               UploadAttachmentSuccess.action({
                 chatId,
                 attachmentId,
-                attachment: payload,
+                attachment: payload.data,
               }),
             );
           },
@@ -126,26 +134,26 @@ export class UploadAttachmentRequest {
 
   static get httpRequest() {
     return {
-      uploadAudioAttachment: httpFilesRequestFactory<AxiosResponse<IUploadAudioApiResponse>, FormData>(
-        `${process.env.FILES_API}/api/audio-attachments`,
-        HttpRequestMethod.Post,
-      ),
-      uploadPictureAttachment: httpFilesRequestFactory<AxiosResponse<IUploadPictureApiResponse>, FormData>(
-        `${process.env.FILES_API}/api/picture-attachments`,
-        HttpRequestMethod.Post,
-      ),
-      uploadFileAttachment: httpFilesRequestFactory<AxiosResponse<IUploadFileApiResponse>, FormData>(
-        `${process.env.FILES_API}/api/raw-attachments`,
-        HttpRequestMethod.Post,
-      ),
-      uploadVideoAttachment: httpFilesRequestFactory<AxiosResponse<IUploadVideoApiResponse>, FormData>(
-        `${process.env.FILES_API}/api/video-attachments`,
-        HttpRequestMethod.Post,
-      ),
-      uploadVoiceAttachment: httpFilesRequestFactory<AxiosResponse<IUploadVoiceApiResponse>, FormData>(
-        `${process.env.FILES_API}/api/voice-attachments`,
-        HttpRequestMethod.Post,
-      ),
+      uploadAudioAttachment: httpFilesRequestFactory<
+        AxiosResponse<IUploadAudioApiResponse>,
+        FormData
+      >(`${process.env.REACT_APP_FILES_API}/api/audio-attachments`, HttpRequestMethod.Post),
+      uploadPictureAttachment: httpFilesRequestFactory<
+        AxiosResponse<IUploadPictureApiResponse>,
+        FormData
+      >(`${process.env.REACT_APP_FILES_API}/api/picture-attachments`, HttpRequestMethod.Post),
+      uploadFileAttachment: httpFilesRequestFactory<
+        AxiosResponse<IUploadFileApiResponse>,
+        FormData
+      >(`${process.env.REACT_APP_FILES_API}/api/raw-attachments`, HttpRequestMethod.Post),
+      uploadVideoAttachment: httpFilesRequestFactory<
+        AxiosResponse<IUploadVideoApiResponse>,
+        FormData
+      >(`${process.env.REACT_APP_FILES_API}/api/video-attachments`, HttpRequestMethod.Post),
+      uploadVoiceAttachment: httpFilesRequestFactory<
+        AxiosResponse<IUploadVoiceApiResponse>,
+        FormData
+      >(`${process.env.REACT_APP_FILES_API}/api/voice-attachments`, HttpRequestMethod.Post),
     };
   }
 }

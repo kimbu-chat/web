@@ -6,21 +6,25 @@ import { IChatsState } from '../../chats-state';
 
 export class AddUsersToGroupChatSuccess {
   static get action() {
-    return createAction('ADD_USERS_TO_GROUP_CHAT_SUCCESS')<IAddUsersToGroupChatSuccessActionPayload>();
+    return createAction(
+      'ADD_USERS_TO_GROUP_CHAT_SUCCESS',
+    )<IAddUsersToGroupChatSuccessActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: IChatsState, { payload }: ReturnType<typeof AddUsersToGroupChatSuccess.action>) => {
-      const { chatId, users } = payload;
+    return produce(
+      (draft: IChatsState, { payload }: ReturnType<typeof AddUsersToGroupChatSuccess.action>) => {
+        const { chatId, users } = payload;
 
-      const chat = getChatByIdDraftSelector(chatId, draft);
+        const chat = getChatByIdDraftSelector(chatId, draft);
 
-      if (chat?.groupChat) {
-        chat.groupChat.membersCount += users.length;
-        chat.members.members = [...chat.members.members, ...users];
-      }
+        if (chat?.groupChat) {
+          chat.groupChat.membersCount += users.length;
+          chat.members.members = [...chat.members.members, ...users];
+        }
 
-      return draft;
-    });
+        return draft;
+      },
+    );
   }
 }

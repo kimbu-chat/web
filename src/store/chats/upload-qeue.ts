@@ -8,6 +8,10 @@ interface IUploadingAttachment {
 let uploadingAttachments: IUploadingAttachment[] = [];
 
 export const removeUploadingAttachment = (attachmentId: number) => {
+  const uploadingAttachment = getUploadingAttachments().find(({ id }) => id === attachmentId);
+
+  uploadingAttachment?.cancelTokenSource.cancel();
+
   uploadingAttachments = uploadingAttachments.filter(({ id }) => id !== attachmentId);
 };
 

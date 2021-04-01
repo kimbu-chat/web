@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useRef, useState } from 'react';
 import { Picker, BaseEmoji } from 'emoji-mart';
-import SmilesSvg from '@icons/smiles.svg';
+import { ReactComponent as SmilesSvg } from '@icons/smiles.svg';
 import 'emoji-mart/css/emoji-mart.css';
 import { LocalizationContext } from '@contexts';
 import { useOnClickOutside } from '@hooks/use-on-click-outside';
@@ -36,13 +36,17 @@ const MessageSmiles: React.FC<IMessageSmilesProps> = React.memo(({ setText }) =>
 
   return (
     <>
-      <button type='button' ref={openEmojiRef} onClick={changeSmilesDisplayedStatus} className='message-input__smiles-btn'>
+      <button
+        type="button"
+        ref={openEmojiRef}
+        onClick={changeSmilesDisplayedStatus}
+        className="message-input__smiles-btn">
         <SmilesSvg />
       </button>
       {smilesRendered && (
-        <div ref={emojiRef} className='emoji-wrapper'>
+        <div ref={emojiRef} className="emoji-wrapper">
           <Picker
-            set='apple'
+            set="apple"
             showSkinTones={false}
             showPreview={false}
             i18n={{

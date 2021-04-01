@@ -5,14 +5,17 @@ import { IFriendsState } from './friends-state';
 
 export const getMyFriendsSelector = (state: RootState) => state.friends.friends;
 
-export const getFriendByIdSelector = (id: number) => (state: RootState) => state.friends.friends.find((friend) => friend.id === id);
+export const getFriendByIdSelector = (id: number) => (state: RootState) =>
+  state.friends.friends.find((friend) => friend.id === id);
 
 export const getFriendsLoadingSelector = (state: RootState) => state.friends.loading;
 
 export const getHasMoreFriendsSelector = (state: RootState) => state.friends.hasMoreFriends;
 
-export const isFriend = (userId?: number) => (state: RootState) => state.friends.friends.findIndex(({ id }) => id === userId) > -1;
+export const isFriend = (userId?: number) => (state: RootState) =>
+  state.friends.friends.findIndex(({ id }) => id === userId) > -1;
 
 // draft-selectors
 
-export const getUserDraftSelector = (userId: number, state: IFriendsState) => state.friends.find(({ id }) => id === userId);
+export const getUserDraftSelector = (userId: number, state: IFriendsState) =>
+  state.friends.find(({ id }) => id === userId);

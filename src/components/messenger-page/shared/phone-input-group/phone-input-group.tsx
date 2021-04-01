@@ -1,29 +1,39 @@
-import { getCountryByIp } from '@app/utils/get-country-by-ip';
+import { getCountryByIp } from '@utils/get-country-by-ip';
 import { countryList } from '@common/countries';
 import { ICountry } from '@common/country';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { CountrySelect } from './country-select/country-select';
+import { CountrySelect } from '../country-select/country-select';
 import './phone-input-group.scss';
-import { PhoneInput } from './phone-input/phone-input';
+import { PhoneInput } from '../phone-input/phone-input';
 
 interface IPhoneInputGroupProps {
   setPhone: React.Dispatch<React.SetStateAction<string>>;
   hideCountrySelect?: boolean;
   submitFunction?: () => void;
   phone: string;
-  phoneInputIcon?: JSX.Element | false;
+  phoneInputIcon?: JSX.Element;
 }
 
-const PhoneInputGroup: React.FC<IPhoneInputGroupProps> = ({ setPhone, phone, submitFunction, hideCountrySelect, phoneInputIcon }) => {
+const PhoneInputGroup: React.FC<IPhoneInputGroupProps> = ({
+  setPhone,
+  phone,
+  submitFunction,
+  hideCountrySelect,
+  phoneInputIcon,
+}) => {
   const [country, setCountry] = useState<ICountry>(countryList[countryList.length - 1]);
-  const [countrySelectRef, setCountrySelectRef] = useState<React.RefObject<HTMLInputElement> | null>(null);
+  const [
+    countrySelectRef,
+    setCountrySelectRef,
+  ] = useState<React.RefObject<HTMLInputElement> | null>(null);
 
   useEffect(() => {
     setCountry(countryList[0]);
     (async () => {
       const countryCode = await getCountryByIp();
-      const country = countryList.find(({ code }) => code === countryCode) || countryList[0];
-      setCountry(country);
+      const countryOfResidence =
+        countryList.find(({ code }) => code === countryCode) || countryList[0];
+      setCountry(countryOfResidence);
     })();
   }, []);
 
@@ -41,7 +51,7 @@ const PhoneInputGroup: React.FC<IPhoneInputGroupProps> = ({ setPhone, phone, sub
   }, [phoneInputRef]);
 
   const handleCountryChange = useCallback(
-    (newCountry: ICountry) => {
+    (newCountry: ICountry | null) => {
       setCountry((oldCountry) => {
         setPhone((oldPhone) => {
           focusPhoneInput();
@@ -59,8 +69,14 @@ const PhoneInputGroup: React.FC<IPhoneInputGroupProps> = ({ setPhone, phone, sub
   );
 
   return (
-    <div className='phone-input-group'>
-      {!hideCountrySelect && <CountrySelect setRef={setCountrySelectRef} country={country} handleCountryChange={handleCountryChange} />}
+    <div className="phone-input-group">
+      {!hideCountrySelect && (
+        <CountrySelect
+          setRef={setCountrySelectRef}
+          country={country}
+          handleCountryChange={handleCountryChange}
+        />
+      )}
       <PhoneInput
         icon={phoneInputIcon}
         ref={phoneInputRef}

@@ -9,12 +9,14 @@ export class DeleteFriendSuccess {
   }
 
   static get reducer() {
-    return produce((draft: IFriendsState, { payload }: ReturnType<typeof DeleteFriendSuccess.action>) => {
-      payload.userIds.forEach((userId) => {
-        draft.friends = draft.friends.filter(({ id }) => id !== userId);
-      });
+    return produce(
+      (draft: IFriendsState, { payload }: ReturnType<typeof DeleteFriendSuccess.action>) => {
+        payload.userIds.forEach((userId) => {
+          draft.friends = draft.friends.filter(({ id }) => id !== userId);
+        });
 
-      return draft;
-    });
+        return draft;
+      },
+    );
   }
 }

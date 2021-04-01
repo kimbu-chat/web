@@ -16,7 +16,11 @@ import {
   IAttachmentToSend,
   IBaseAttachment,
 } from '@store/chats/models';
-import { getMessageToReplySelector, getSelectedChatSelector, getMessageToEditSelector } from '@store/chats/selectors';
+import {
+  getMessageToReplySelector,
+  getSelectedChatSelector,
+  getMessageToEditSelector,
+} from '@store/chats/selectors';
 import { myProfileSelector } from '@store/my-profile/selectors';
 import { getTypingStrategySelector } from '@store/settings/selectors';
 import { getFileType } from '@utils/get-file-extension';
@@ -30,11 +34,11 @@ import { TypingStrategy } from '@store/settings/features/models';
 import { loadMessageSmiles } from '@routing/module-loader';
 import { CubeLoader } from '@containers/cube-loader/cube-loader';
 
-import AddSvg from '@icons/add-attachment.svg';
-import VoiceSvg from '@icons/voice.svg';
-import CrayonSvg from '@icons/crayon.svg';
-import SendSvg from '@icons/send.svg';
-import CloseSvg from '@icons/close.svg';
+import { ReactComponent as AddSvg } from '@icons/add-attachment.svg';
+import { ReactComponent as VoiceSvg } from '@icons/voice.svg';
+import { ReactComponent as CrayonSvg } from '@icons/crayon.svg';
+import { ReactComponent as SendSvg } from '@icons/send.svg';
+import { ReactComponent as CloseSvg } from '@icons/close.svg';
 
 import { SubmitEditMessage } from '@store/chats/features/edit-message/submit-edit-message';
 import { RemoveAllAttachments } from '@store/chats/features/remove-attachment/remove-all-attachments';
@@ -66,7 +70,6 @@ export const CreateMessageInput = React.memo(() => {
 
   const currentUser = useSelector(myProfileSelector);
   const selectedChat = useSelector(getSelectedChatSelector);
-  const myProfile = useSelector(myProfileSelector);
   const myTypingStrategy = useSelector(getTypingStrategySelector);
   const replyingMessage = useSelector(getMessageToReplySelector);
   const editingMessage = useSelector(getMessageToEditSelector);
@@ -86,7 +89,8 @@ export const CreateMessageInput = React.memo(() => {
   const referredRemovedAttachments = useReferState(removedAttachments);
 
   const editingMessageAttachments = editingMessage?.attachments?.filter(
-    ({ id }) => removedAttachments.findIndex((removedAttachment) => removedAttachment.id === id) === -1,
+    ({ id }) =>
+      removedAttachments.findIndex((removedAttachment) => removedAttachment.id === id) === -1,
   );
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -121,8 +125,10 @@ export const CreateMessageInput = React.memo(() => {
   });
 
   useEffect(() => {
-    setText((oldText) => (typeof selectedChat?.draftMessage === 'string' ? selectedChat?.draftMessage : oldText));
-  }, [selectedChat?.id, setText]);
+    setText((oldText) =>
+      typeof selectedChat?.draftMessage === 'string' ? selectedChat?.draftMessage : oldText,
+    );
+  }, [selectedChat?.draftMessage, selectedChat?.id, setText]);
 
   useEffect(() => {
     setText(editingMessage?.text || '');
@@ -140,17 +146,25 @@ export const CreateMessageInput = React.memo(() => {
   );
 
   const submitEditedMessage = useCallback(() => {
-    const newAttachments = updatedSelectedChat.current?.attachmentsToSend?.map(({ attachment }) => attachment);
+    const newAttachments = updatedSelectedChat.current?.attachmentsToSend?.map(
+      ({ attachment }) => attachment,
+    );
 
     submitEditMessage({
       text: refferedText.current,
       removedAttachments: referredRemovedAttachments.current,
       newAttachments,
-      messageId: editingMessage!.id,
+      messageId: editingMessage?.id as number,
     });
-  }, [refferedText, referredRemovedAttachments, editingMessage?.id]);
+  }, [
+    updatedSelectedChat,
+    submitEditMessage,
+    refferedText,
+    referredRemovedAttachments,
+    editingMessage,
+  ]);
 
-  const sendMessageToServer = () => {
+  const sendMessageToServer = useCallback(() => {
     if (editingMessage) {
       submitEditedMessage();
       return;
@@ -158,14 +172,21 @@ export const CreateMessageInput = React.memo(() => {
 
     const chatId = updatedSelectedChat.current?.id;
 
-    const text = refferedText.current;
+    const refText = refferedText.current;
 
-    if ((text.trim().length > 0 || (updatedSelectedChat.current?.attachmentsToSend?.length || 0) > 0) && updatedSelectedChat.current && currentUser) {
-      const attachments = updatedSelectedChat.current?.attachmentsToSend?.map(({ attachment }) => attachment);
+    if (
+      (refText.trim().length > 0 ||
+        (updatedSelectedChat.current?.attachmentsToSend?.length || 0) > 0) &&
+      updatedSelectedChat.current &&
+      currentUser
+    ) {
+      const attachments = updatedSelectedChat.current?.attachmentsToSend?.map(
+        ({ attachment }) => attachment,
+      );
 
       if (chatId) {
         const message: IMessage = {
-          text,
+          text: refText,
           systemMessageType: SystemMessageType.None,
           userCreator: currentUser,
           creationDateTime: new Date(new Date().toUTCString()),
@@ -189,7 +210,15 @@ export const CreateMessageInput = React.memo(() => {
     }
 
     setText('');
-  };
+  }, [
+    currentUser,
+    editingMessage,
+    refferedReplyingMessage,
+    refferedText,
+    sendMessage,
+    submitEditedMessage,
+    updatedSelectedChat,
+  ]);
 
   const onDragOver = useCallback(
     (e: React.DragEvent<HTMLDivElement>) => {
@@ -228,8 +257,8 @@ export const CreateMessageInput = React.memo(() => {
       e.stopPropagation();
       setIsDraggingOver(false);
 
-      if (e.dataTransfer?.files?.length! > 0) {
-        for (let index = 0; index < e.dataTransfer!.files!.length; ++index) {
+      if (e.dataTransfer?.files?.length > 0) {
+        for (let index = 0; index < e.dataTransfer.files.length; index += 1) {
           const file = e.dataTransfer?.files[index] as File;
 
           const fileType = getFileType(file.name);
@@ -247,9 +276,9 @@ export const CreateMessageInput = React.memo(() => {
 
   const onPaste = useCallback(
     (event: React.ClipboardEvent<HTMLTextAreaElement>) => {
-      if (event.clipboardData?.files.length! > 0) {
-        for (let index = 0; index < event.clipboardData?.files.length!; ++index) {
-          const file = event.clipboardData?.files!.item(index) as File;
+      if (event.clipboardData.files.length > 0) {
+        for (let index = 0; index < event.clipboardData.files.length; index += 1) {
+          const file = event.clipboardData.files.item(index) as File;
 
           // extension test
           const fileType = getFileType(file.name);
@@ -266,12 +295,13 @@ export const CreateMessageInput = React.memo(() => {
   );
 
   const throttledNotifyAboutTyping = useCallback(
-    throttle((text: string) => {
-      notifyAboutTyping({
-        text,
-      });
-    }, 1000),
-    [myProfile],
+    (typedText: string) =>
+      throttle((throttledText: string) => {
+        notifyAboutTyping({
+          text: throttledText,
+        });
+      }, 1000)(typedText),
+    [notifyAboutTyping],
   );
 
   const onType = useCallback(
@@ -316,12 +346,21 @@ export const CreateMessageInput = React.memo(() => {
   );
 
   const removeAllAttachments = useCallback(() => {
-    if (selectedChat?.attachmentsToSend?.length! > 0) {
-      removeAllAttachmentsToSend({ ids: selectedChat?.attachmentsToSend?.map(({ attachment }) => attachment.id)! });
+    if (selectedChat?.attachmentsToSend && selectedChat?.attachmentsToSend?.length > 0) {
+      removeAllAttachmentsToSend({
+        ids: selectedChat?.attachmentsToSend?.map(({ attachment }) => attachment.id),
+      });
     }
 
-    setRemovedAttachments(() => editingMessage?.attachments?.map(({ id, type }) => ({ id, type })) || []);
-  }, [setRemovedAttachments, editingMessage, removeAllAttachmentsToSend, selectedChat?.attachmentsToSend]);
+    setRemovedAttachments(
+      () => editingMessage?.attachments?.map(({ id, type }) => ({ id, type })) || [],
+    );
+  }, [
+    setRemovedAttachments,
+    editingMessage,
+    removeAllAttachmentsToSend,
+    selectedChat?.attachmentsToSend,
+  ]);
 
   const cancelRecording = useCallback(() => {
     Mousetrap.unbind('esc');
@@ -332,7 +371,7 @@ export const CreateMessageInput = React.memo(() => {
     if (recorderData.current.mediaRecorder?.state !== 'inactive') {
       recorderData.current.mediaRecorder?.stop();
     }
-  }, [recorderData.current]);
+  }, []);
 
   const startRecording = useCallback(() => {
     Mousetrap.bind('esc', cancelRecording);
@@ -375,7 +414,7 @@ export const CreateMessageInput = React.memo(() => {
         setRecordedSeconds(0);
       });
     });
-  }, [setRecordedSeconds, uploadAttachmentRequest, recorderData.current]);
+  }, [cancelRecording, uploadAttachmentRequest]);
 
   const stopRecording = useCallback(() => {
     Mousetrap.unbind('esc');
@@ -388,7 +427,7 @@ export const CreateMessageInput = React.memo(() => {
       recorderData.current.tracks.forEach((track) => track.stop());
       recorderData.current.tracks = [];
     }
-  }, [recorderData.current]);
+  }, []);
 
   useOnClickOutside(registerAudioBtnRef, cancelRecording);
 
@@ -398,7 +437,7 @@ export const CreateMessageInput = React.memo(() => {
     } else {
       startRecording();
     }
-  }, [startRecording, stopRecording, recorderData.current]);
+  }, [startRecording, stopRecording]);
 
   const openSelectFiles = useCallback(() => {
     fileInputRef.current?.click();
@@ -406,9 +445,9 @@ export const CreateMessageInput = React.memo(() => {
 
   const uploadFile = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (event.target.files?.length! > 0) {
-        for (let index = 0; index < event.target.files!.length; ++index) {
-          const file = event.target.files!.item(index) as File;
+      if (event.target.files) {
+        for (let index = 0; index < event.target.files.length; index += 1) {
+          const file = event.target.files.item(index) as File;
 
           const fileType = getFileType(file.name);
 
@@ -428,10 +467,16 @@ export const CreateMessageInput = React.memo(() => {
   );
 
   return (
-    <div className='message-input' onDrop={onDrop} onDragOver={onDragOver} onDragEnter={onDragEnter} onDragLeave={onDragLeave}>
-      {(editingMessageAttachments?.length! > 0 || selectedChat?.attachmentsToSend?.length! > 0) && (
-        <div className='message-input__attachments-box'>
-          <div className='message-input__attachments-box__container'>
+    <div
+      className="message-input"
+      onDrop={onDrop}
+      onDragOver={onDragOver}
+      onDragEnter={onDragEnter}
+      onDragLeave={onDragLeave}>
+      {((editingMessageAttachments && editingMessageAttachments?.length > 0) ||
+        (selectedChat?.attachmentsToSend && selectedChat?.attachmentsToSend?.length > 0)) && (
+        <div className="message-input__attachments-box">
+          <div className="message-input__attachments-box__container">
             {editingMessageAttachments?.map((attachment) => (
               <MessageInputAttachment
                 attachment={{ attachment } as IAttachmentToSend<IBaseAttachment>}
@@ -444,36 +489,44 @@ export const CreateMessageInput = React.memo(() => {
               <MessageInputAttachment attachment={attachment} key={attachment.attachment.id} />
             ))}
           </div>
-          <button onClick={removeAllAttachments} type='button' className='message-input__attachments-box__delete-all'>
-            <CloseSvg viewBox='0 0 24 24' />
+          <button
+            onClick={removeAllAttachments}
+            type="button"
+            className="message-input__attachments-box__delete-all">
+            <CloseSvg viewBox="0 0 24 24" />
           </button>
         </div>
       )}
 
       {(isDragging || isDraggingOver) && (
-        <div className={`message-input__drag ${isDraggingOver ? 'message-input__drag--active' : ''}`}>Drop files here to send them</div>
+        <div
+          className={`message-input__drag ${isDraggingOver ? 'message-input__drag--active' : ''}`}>
+          Drop files here to send them
+        </div>
       )}
       {selectedChat && !(isDragging || isDraggingOver) && (
         <>
           {replyingMessage && <RespondingMessage />}
           {editingMessage && <EditingMessage />}
           {false && <MessageError />}
-          <div className='message-input__send-message'>
+          <div className="message-input__send-message">
             {!isRecording && (
               <>
-                <input multiple hidden type='file' onChange={uploadFile} ref={fileInputRef} />
-                <button type='button' onClick={openSelectFiles} className='message-input__add'>
+                <input multiple hidden type="file" onChange={uploadFile} ref={fileInputRef} />
+                <button type="button" onClick={openSelectFiles} className="message-input__add">
                   <AddSvg />
                 </button>
-                <div className='message-input__line' />
-                <CrayonSvg width={22} viewBox='0 0 16 16' className='message-input__crayon' />
+                <div className="message-input__line" />
+                <CrayonSvg width={22} viewBox="0 0 16 16" className="message-input__crayon" />
               </>
             )}
 
             {isRecording && (
               <>
-                <div className='message-input__red-dot' />
-                <div className='message-input__counter'>{moment.utc(recordedSeconds * 1000).format('mm:ss')}</div>
+                <div className="message-input__red-dot" />
+                <div className="message-input__counter">
+                  {moment.utc(recordedSeconds * 1000).format('mm:ss')}
+                </div>
               </>
             )}
 
@@ -483,27 +536,38 @@ export const CreateMessageInput = React.memo(() => {
                 placeholder={t('messageInput.write')}
                 onChange={onType}
                 onPaste={onPaste}
-                className='mousetrap message-input__input-message'
+                className="mousetrap message-input__input-message"
                 onFocus={handleFocus}
                 onBlur={handleBlur}
               />
             )}
 
-            {isRecording && <div className='message-input__recording-info'>Release outside this field to cancel</div>}
+            {isRecording && (
+              <div className="message-input__recording-info">
+                Release outside this field to cancel
+              </div>
+            )}
 
-            <div className='message-input__right-btns'>
+            <div className="message-input__right-btns">
               {!isRecording && (
                 <Suspense fallback={<CubeLoader />}>
                   <MessageSmiles setText={setText} />
                 </Suspense>
               )}
 
-              <button type='button' onClick={handleRegisterAudioBtnClick} ref={registerAudioBtnRef} className='message-input__voice-btn'>
-                <VoiceSvg viewBox='0 0 20 24' />
+              <button
+                type="button"
+                onClick={handleRegisterAudioBtnClick}
+                ref={registerAudioBtnRef}
+                className="message-input__voice-btn">
+                <VoiceSvg viewBox="0 0 20 24" />
               </button>
 
               {!isRecording && (
-                <button type='button' onClick={sendMessageToServer} className='message-input__send-btn'>
+                <button
+                  type="button"
+                  onClick={sendMessageToServer}
+                  className="message-input__send-btn">
                   <SendSvg />
                 </button>
               )}

@@ -4,14 +4,14 @@ import { useSelector } from 'react-redux';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getSelectedChatSelector } from '@store/chats/selectors';
-import { Avatar, PhotoEditor, FadeAnimationWrapper, GroupChatAddFriendModal, MediaModal } from '@components';
+import { Avatar, FadeAnimationWrapper } from '@components/shared';
+import { PhotoEditor, GroupChatAddFriendModal, MediaModal } from '@components/messenger-page';
 
-import PhotoSvg from '@icons/ic-photo.svg';
+import { ReactComponent as PhotoSvg } from '@icons/ic-photo.svg';
 
 import { getInterlocutorInitials } from '@utils/interlocutor-name-utils';
 
-import { EditGroupChat } from '@store/chats/features/edit-group-chat/edit-group-chat';
-import { GetChatInfo } from '@store/chats/features/get-chat-info/get-chat-info';
+import * as ChatActions from '@store/chats/actions';
 import { UploadAvatar } from '@store/my-profile/features/upload-avatar/upload-avatar';
 import { IAvatar, IAvatarSelectedData } from '@store/common/models';
 import { FileType } from '@store/chats/models';
@@ -23,8 +23,8 @@ import { ChatMedia } from './chat-media/chat-media';
 const ChatInfoRightPanel: React.FC = React.memo(() => {
   const selectedChat = useSelector(getSelectedChatSelector);
 
-  const getChatInfo = useActionWithDispatch(GetChatInfo.action);
-  const editGroupChat = useActionWithDispatch(EditGroupChat.action);
+  const getChatInfo = useActionWithDispatch(ChatActions.getChatInfo);
+  const editGroupChat = useActionWithDispatch(ChatActions.editGroupChat);
   const uploadGroupChatAvatar = useActionWithDeferred(UploadAvatar.action);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -37,8 +37,12 @@ const ChatInfoRightPanel: React.FC = React.memo(() => {
   const [imageUrl, setImageUrl] = useState<string>('');
 
   const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
-  const displayChangePhoto = useCallback(() => setChangePhotoDisplayed(true), [setChangePhotoDisplayed]);
-  const hideChangePhoto = useCallback(() => setChangePhotoDisplayed(false), [setChangePhotoDisplayed]);
+  const displayChangePhoto = useCallback(() => setChangePhotoDisplayed(true), [
+    setChangePhotoDisplayed,
+  ]);
+  const hideChangePhoto = useCallback(() => setChangePhotoDisplayed(false), [
+    setChangePhotoDisplayed,
+  ]);
 
   const [isAvatarMaximized, setIsAvatarMaximized] = useState(false);
 
@@ -54,13 +58,11 @@ const ChatInfoRightPanel: React.FC = React.memo(() => {
     if (getChatAvatar()) {
       setIsAvatarMaximized((oldState) => !oldState);
     }
-  }, [setIsAvatarMaximized]);
+  }, [setIsAvatarMaximized, getChatAvatar]);
 
   useEffect(() => {
-    if (selectedChat) {
-      getChatInfo();
-    }
-  }, []);
+    getChatInfo();
+  }, [getChatInfo]);
 
   const handleImageChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -91,12 +93,17 @@ const ChatInfoRightPanel: React.FC = React.memo(() => {
       }).then((response: IAvatar) => {
         editGroupChat({
           avatar: response,
-          name: selectedChat!.groupChat!.name,
-          description: selectedChat!.groupChat!.description,
+          name: selectedChat?.groupChat?.name as string,
+          description: selectedChat?.groupChat?.description,
         });
       });
     },
-    [uploadGroupChatAvatar, editGroupChat],
+    [
+      uploadGroupChatAvatar,
+      editGroupChat,
+      selectedChat?.groupChat?.name,
+      selectedChat?.groupChat?.description,
+    ],
   );
 
   const getChatFullSizeAvatar = useCallback((): string => {
@@ -110,20 +117,36 @@ const ChatInfoRightPanel: React.FC = React.memo(() => {
   if (selectedChat) {
     return (
       <>
-        <div className='chat-info'>
+        <div className="chat-info">
           {selectedChat?.interlocutor ? (
-            <Avatar onClick={changeIsAvatarMaximizedState} className='chat-info__avatar' src={getChatAvatar()}>
+            <Avatar
+              onClick={changeIsAvatarMaximizedState}
+              className="chat-info__avatar"
+              src={getChatAvatar()}>
               {getInterlocutorInitials(selectedChat)}
             </Avatar>
           ) : (
-            <div className='chat-info__avatar-group'>
-              <input onChange={handleImageChange} ref={fileInputRef} type='file' hidden accept='image/*' />
+            <div className="chat-info__avatar-group">
+              <input
+                onChange={handleImageChange}
+                ref={fileInputRef}
+                type="file"
+                hidden
+                accept="image/*"
+              />
 
-              <Avatar onClick={changeIsAvatarMaximizedState} className='chat-info__avatar' src={getChatAvatar()}>
+              <Avatar
+                onClick={changeIsAvatarMaximizedState}
+                className="chat-info__avatar"
+                src={getChatAvatar()}>
                 {getInterlocutorInitials(selectedChat)}
               </Avatar>
-              <div onClick={() => fileInputRef.current?.click()} className={getChatAvatar() ? 'change-avatar change-avatar--hidden' : 'change-avatar'}>
-                <PhotoSvg className='change-avatar__svg' viewBox='0 0 25 25' />
+              <div
+                onClick={() => fileInputRef.current?.click()}
+                className={
+                  getChatAvatar() ? 'change-avatar change-avatar--hidden' : 'change-avatar'
+                }>
+                <PhotoSvg className="change-avatar__svg" viewBox="0 0 25 25" />
               </div>
             </div>
           )}
@@ -149,7 +172,13 @@ const ChatInfoRightPanel: React.FC = React.memo(() => {
           />
         </FadeAnimationWrapper>
 
-        {changePhotoDisplayed && <PhotoEditor hideChangePhoto={hideChangePhoto} imageUrl={imageUrl} onSubmit={changeAvatar} />}
+        {changePhotoDisplayed && (
+          <PhotoEditor
+            hideChangePhoto={hideChangePhoto}
+            imageUrl={imageUrl}
+            onSubmit={changeAvatar}
+          />
+        )}
       </>
     );
   }

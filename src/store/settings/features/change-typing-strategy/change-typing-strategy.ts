@@ -5,6 +5,7 @@ import { SagaIterator } from 'redux-saga';
 import { SettingsService } from '@services/settings-service';
 import { IUserSettings } from '@store/settings/user-settings-state';
 
+import { apply } from 'redux-saga/effects';
 import { IChangeTypingStrategyActionPayload } from './action-payloads/change-typing-strategy-action-payload';
 
 export class ChangeTypingStrategy {
@@ -13,18 +14,22 @@ export class ChangeTypingStrategy {
   }
 
   static get reducer() {
-    return produce((draft: IUserSettings, { payload }: ReturnType<typeof ChangeTypingStrategy.action>) => {
-      draft.typingStrategy = payload.strategy;
-      return draft;
-    });
+    return produce(
+      (draft: IUserSettings, { payload }: ReturnType<typeof ChangeTypingStrategy.action>) => {
+        draft.typingStrategy = payload.strategy;
+        return draft;
+      },
+    );
   }
 
   static get saga() {
-    return function* changeTypingStrategy(action: ReturnType<typeof ChangeTypingStrategy.action>): SagaIterator {
+    return function* changeTypingStrategy(
+      action: ReturnType<typeof ChangeTypingStrategy.action>,
+    ): SagaIterator {
       const settingsService = new SettingsService();
-      settingsService.initializeOrUpdate({
+      yield apply(settingsService, settingsService.initializeOrUpdate, [{
         typingStrategy: action.payload.strategy,
-      });
+      }]);
     };
   }
 }

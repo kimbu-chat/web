@@ -59,6 +59,9 @@ export const ChatSagas = [
 
   // socket-events
   takeEvery(MessageCreatedEventHandler.action, MessageCreatedEventHandler.saga),
-  takeEvery(MessagesDeletedIntegrationEventHandler.action, MessagesDeletedIntegrationEventHandler.saga),
+  takeEvery(
+    MessagesDeletedIntegrationEventHandler.action,
+    MessagesDeletedIntegrationEventHandler.saga,
+  ),
   takeLatest(UserMessageTypingEventHandler.action, UserMessageTypingEventHandler.saga),
 ];

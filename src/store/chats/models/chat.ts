@@ -3,7 +3,6 @@ import { IAttachmentToSend } from './attachment-to-send';
 import { IAudioAttachment } from './attachments/audio-attachment';
 import { IBaseAttachment } from './attachments/base-attachment';
 import { IPictureAttachment } from './attachments/picture-atachment';
-import { IRawAttachment } from './attachments/raw-attachment';
 import { IVideoAttachment } from './attachments/video-attachment';
 import { IVoiceAttachment } from './attachments/voice-attachment';
 import { IGroupChat } from './group-chat';
@@ -43,7 +42,7 @@ export interface IChat {
     hasMore: boolean;
   };
   files: {
-    files: (IRawAttachment & IGroupable)[];
+    files: (IBaseAttachment & IGroupable)[];
     loading: boolean;
     hasMore: boolean;
   };
@@ -65,4 +64,9 @@ export interface IChat {
   voiceAttachmentsCount?: number;
   audioAttachmentsCount?: number;
   pictureAttachmentsCount?: number;
+
+  isBlockedByInterlocutor: boolean;
+  isBlockedByUser: boolean;
+  isInContacts: boolean;
+  isDismissedAddToContacts: boolean;
 }

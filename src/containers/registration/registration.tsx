@@ -3,7 +3,7 @@ import { getStringInitials } from '@utils/interlocutor-name-utils';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
-import CloseSVG from '@icons/ic-close.svg';
+import { ReactComponent as CloseSVG } from '@icons/ic-close.svg';
 import { LocalizationContext } from '@contexts';
 import { authLoadingSelector } from '@store/auth/selectors';
 import { useSelector } from 'react-redux';
@@ -11,7 +11,8 @@ import { CheckNicknameAvailability } from '@store/my-profile/features/check-nick
 import { CancelAvatarUploading } from '@store/my-profile/features/cancel-avatar-uploading/cancel-avatar-uploading';
 import { UploadAvatar } from '@store/my-profile/features/upload-avatar/upload-avatar';
 import { validateNickname } from '@utils/validate-nick-name';
-import { Avatar, BaseBtn, PhotoEditor, CircularProgress } from '@components';
+import { Avatar, BaseBtn } from '@components/shared';
+import { PhotoEditor, CircularProgress } from '@components/messenger-page';
 import { IAvatarSelectedData, IAvatar } from '@store/common/models';
 
 interface IRegistrationProps {
@@ -27,7 +28,7 @@ export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
 
   useEffect(() => {
     preloadNext();
-  }, []);
+  }, [preloadNext]);
 
   const uploadGroupChatAvatar = useActionWithDeferred(UploadAvatar.action);
   const register = useActionWithDeferred(Register.action);
@@ -50,10 +51,20 @@ export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
   const [isNickNameValid, setIsNickNameValid] = useState(true);
   const [isNickNameCheckLoading, setIsNickNameCheckLoading] = useState(true);
 
-  const displayChangePhoto = useCallback(() => setChangePhotoDisplayed(true), [setChangePhotoDisplayed]);
-  const hideChangePhoto = useCallback(() => setChangePhotoDisplayed(false), [setChangePhotoDisplayed]);
-  const changeFirstName = useCallback((e: React.ChangeEvent<HTMLInputElement>) => setFirstName(e.target.value), [setFirstName]);
-  const changeLastName = useCallback((e: React.ChangeEvent<HTMLInputElement>) => setLastName(e.target.value), [setLastName]);
+  const displayChangePhoto = useCallback(() => setChangePhotoDisplayed(true), [
+    setChangePhotoDisplayed,
+  ]);
+  const hideChangePhoto = useCallback(() => setChangePhotoDisplayed(false), [
+    setChangePhotoDisplayed,
+  ]);
+  const changeFirstName = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => setFirstName(e.target.value),
+    [setFirstName],
+  );
+  const changeLastName = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => setLastName(e.target.value),
+    [setLastName],
+  );
 
   const onChangeNickname = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,7 +83,13 @@ export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
         setIsNickNameValid(false);
       }
     },
-    [setNickName, setIsNickNameAvailable, checkNicknameAvailability, setIsNickNameCheckLoading, setIsNickNameValid],
+    [
+      setNickName,
+      setIsNickNameAvailable,
+      checkNicknameAvailability,
+      setIsNickNameCheckLoading,
+      setIsNickNameValid,
+    ],
   );
 
   const handleImageChange = useCallback(
@@ -120,7 +137,7 @@ export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
     setAvatarData(null);
     setAvatarUploadResponse(null);
     setUploadEnded(true);
-  }, [setAvatarData, setAvatarUploadResponse, setUploadEnded]);
+  }, [cancelAvatarUploading]);
 
   const onSubmit = useCallback(() => {
     register({
@@ -129,58 +146,98 @@ export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
       nickname: nickName,
       avatarId: avararUploadResponse?.id,
     });
-  }, [firstName, lastName, nickName, avararUploadResponse]);
+  }, [register, firstName, lastName, nickName, avararUploadResponse?.id]);
 
   return (
     <>
-      <div className='registration'>
-        <div className='registration__window'>
-          <div className='registrtion__avatar-upload'>
-            <div className='edit-profile__photo-data'>
-              <div className='create-group-chat__current-photo-wrapper'>
-                <Avatar src={avatarData?.croppedImagePath} className='create-group-chat__current-photo'>
+      <div className="registration">
+        <div className="registration__window">
+          <div className="registrtion__avatar-upload">
+            <div className="edit-profile__photo-data">
+              <div className="create-group-chat__current-photo-wrapper">
+                <Avatar
+                  src={avatarData?.croppedImagePath}
+                  className="create-group-chat__current-photo">
                   {getStringInitials(`${firstName} ${lastName}`)}
                 </Avatar>
                 {avatarData && (
                   <>
                     <CircularProgress progress={uploaded} />
-                    <button type='button' onClick={discardAvatar} className='create-group-chat__remove-photo'>
-                      <CloseSVG viewBox='0 0 25 25' />
+                    <button
+                      type="button"
+                      onClick={discardAvatar}
+                      className="create-group-chat__remove-photo">
+                      <CloseSVG viewBox="0 0 25 25" />
                     </button>
                   </>
                 )}
               </div>
-              <input onChange={handleImageChange} ref={fileInputRef} type='file' hidden accept='image/*' />
-              <button type='button' onClick={openFileExplorer} className='create-group-chat__change-photo__btn'>
+              <input
+                onChange={handleImageChange}
+                ref={fileInputRef}
+                type="file"
+                hidden
+                accept="image/*"
+              />
+              <button
+                type="button"
+                onClick={openFileExplorer}
+                className="create-group-chat__change-photo__btn">
                 Upload New Photo
               </button>
-              <div className='register__photo-requirements'>{t('register.photo-requirements')}</div>
+              <div className="register__photo-requirements">{t('register.photo-requirements')}</div>
             </div>
           </div>
-          <div className='registration__user-data'>
-            <div className='registration__input-group'>
-              <input onChange={changeFirstName} placeholder='First name' type='text' className='registrtion__input' />
-              <input onChange={changeLastName} placeholder='Last name' type='text' className='registrtion__input' />
+          <div className="registration__user-data">
+            <div className="registration__input-group">
+              <input
+                onChange={changeFirstName}
+                placeholder="First name"
+                type="text"
+                className="registrtion__input"
+              />
+              <input
+                onChange={changeLastName}
+                placeholder="Last name"
+                type="text"
+                className="registrtion__input"
+              />
             </div>
-            <div className='registration__input-group'>
+            <div className="registration__input-group">
               {!isNickNameValid && <div>This nick name is not acceptable</div>}
-              <input onChange={onChangeNickname} placeholder='Nickname' type='text' className='registrtion__input' />
+              <input
+                onChange={onChangeNickname}
+                placeholder="Nickname"
+                type="text"
+                className="registrtion__input"
+              />
             </div>
           </div>
           <BaseBtn
-            disabled={!uploadEnded || !(firstName.length > 0) || !(lastName.length > 0) || !isNickNameAvailable || isNickNameCheckLoading}
+            disabled={
+              !uploadEnded ||
+              !(firstName.length > 0) ||
+              !(lastName.length > 0) ||
+              !isNickNameAvailable ||
+              isNickNameCheckLoading
+            }
             isLoading={isLoading}
             onClick={onSubmit}
-            variant='contained'
-            color='primary'
-            width='contained'
-            className='phone-confirmation__btn'
-          >
+            variant="contained"
+            color="primary"
+            width="contained"
+            className="phone-confirmation__btn">
             {t('register.register')}
           </BaseBtn>
         </div>
       </div>
-      {changePhotoDisplayed && <PhotoEditor hideChangePhoto={hideChangePhoto} imageUrl={imageUrl} onSubmit={applyAvatarData} />}
+      {changePhotoDisplayed && (
+        <PhotoEditor
+          hideChangePhoto={hideChangePhoto}
+          imageUrl={imageUrl}
+          onSubmit={applyAvatarData}
+        />
+      )}
     </>
   );
 };

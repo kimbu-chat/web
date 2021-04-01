@@ -6,7 +6,7 @@ import { createAction } from 'typesafe-actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { getChatByIdDraftSelector, getSelectedChatIdSelector } from '../../selectors';
 import { HTTPStatusCode } from '../../../../common/http-status-code';
-import { IRawAttachment } from '../../models';
+import { IBaseAttachment } from '../../models';
 import { IGetRawAttachmentsActionPayload } from './action-payloads/get-raw-attachments-action-payload';
 import { GetRawAttachmentsSuccess } from './get-raw-attachments-success';
 import { IGetRawAttachmentsApiRequest } from './api-requests/get-raw-attachments-api-request';
@@ -32,11 +32,15 @@ export class GetRawAttachments {
   }
 
   static get saga() {
-    return function* getRawAttachmentsSaga(action: ReturnType<typeof GetRawAttachments.action>): SagaIterator {
+    return function* getRawAttachmentsSaga(
+      action: ReturnType<typeof GetRawAttachments.action>,
+    ): SagaIterator {
       const { page } = action.payload;
       const chatId = yield select(getSelectedChatIdSelector);
 
-      const { data, status } = GetRawAttachments.httpRequest.call(yield call(() => GetRawAttachments.httpRequest.generator({ page, chatId })));
+      const { data, status } = GetRawAttachments.httpRequest.call(
+        yield call(() => GetRawAttachments.httpRequest.generator({ page, chatId })),
+      );
 
       const hasMore = data.length >= page.limit;
 
@@ -47,8 +51,8 @@ export class GetRawAttachments {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IRawAttachment[]>, IGetRawAttachmentsApiRequest>(
-      `${process.env.MAIN_API}/api/raw-attachments/search`,
+    return httpRequestFactory<AxiosResponse<IBaseAttachment[]>, IGetRawAttachmentsApiRequest>(
+      `${process.env.REACT_APP_MAIN_API}/api/raw-attachments/search`,
       HttpRequestMethod.Post,
     );
   }

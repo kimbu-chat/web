@@ -3,7 +3,14 @@ import { call, cancel, put, race, select, spawn, take, takeEvery } from 'redux-s
 import { createEmptyAction } from '@store/common/actions';
 import { getIsScreenSharingEnabledSelector } from '../../selectors';
 import { getPeerConnection } from '../../../middlewares/webRTC/peerConnectionFactory';
-import { getUserDisplay, setVideoSender, stopScreenSharingTracks, stopVideoTracks, tracks, getVideoSender } from '../../utils/user-media';
+import {
+  getUserDisplay,
+  setVideoSender,
+  stopScreenSharingTracks,
+  stopVideoTracks,
+  tracks,
+  getVideoSender,
+} from '../../utils/user-media';
 import { CloseScreenShareStatus } from './close-screen-share-status';
 import { CloseVideoStatus } from '../change-user-media-status/close-video-status';
 import { CallEndedEventHandler } from '../../socket-events/call-ended/call-ended-event-handler';

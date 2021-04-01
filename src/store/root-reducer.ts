@@ -6,7 +6,10 @@ type ReducerAction = RootAction | ReturnType<typeof UpdateStore.action>;
 
 type RootReducer = CombinedReducerState | ReturnType<typeof UpdateStore.reducer>;
 
-const mainReducer = (state: CombinedReducerState | undefined, action: ReducerAction): RootReducer => {
+const mainReducer = (
+  state: CombinedReducerState | undefined,
+  action: ReducerAction,
+): RootReducer => {
   if (action.type === getType(UpdateStore.action)) {
     return UpdateStore.reducer(state, action);
   }

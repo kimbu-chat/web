@@ -1,5 +1,6 @@
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
+import { apply } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { setInterlocutorOffer } from '../../../middlewares/webRTC/peerConnectionFactory';
 import { ICallsState } from '../../calls-state';
@@ -11,19 +12,23 @@ export class IncomingCallEventHandler {
   }
 
   static get reducer() {
-    return produce((draft: ICallsState, { payload }: ReturnType<typeof IncomingCallEventHandler.action>) => {
-      draft.isIncomingCallVideoEnbaled = payload.isVideoEnabled;
-      const interlocutor = payload.userInterlocutor;
-      draft.interlocutor = interlocutor;
-      draft.amICalled = true;
+    return produce(
+      (draft: ICallsState, { payload }: ReturnType<typeof IncomingCallEventHandler.action>) => {
+        draft.isIncomingCallVideoEnbaled = payload.isVideoEnabled;
+        const interlocutor = payload.userInterlocutor;
+        draft.interlocutor = interlocutor;
+        draft.amICalled = true;
 
-      return draft;
-    });
+        return draft;
+      },
+    );
   }
 
   static get saga() {
-    return function* incomingCallSaga(action: ReturnType<typeof IncomingCallEventHandler.action>): SagaIterator {
-      setInterlocutorOffer(action.payload.offer);
+    return function* incomingCallSaga(
+      action: ReturnType<typeof IncomingCallEventHandler.action>,
+    ): SagaIterator {
+      yield apply(setInterlocutorOffer, setInterlocutorOffer, [action.payload.offer]);
     };
   }
 }

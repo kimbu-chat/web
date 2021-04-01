@@ -8,13 +8,15 @@ import { httpRequestFactory } from '@store/common/http/http-factory';
 import { HttpRequestMethod } from '@store/common/http/http-request-method';
 import { getIsVideoEnabledSelector } from '../../selectors';
 
-import { createPeerConnection, getPeerConnection } from '../../../middlewares/webRTC/peerConnectionFactory';
+import {
+  createPeerConnection,
+  getPeerConnection,
+} from '../../../middlewares/webRTC/peerConnectionFactory';
 import { DeclineCall } from '../decline-call/decline-call';
 import { ICallsState } from '../../calls-state';
 import { deviceUpdateWatcher } from '../../utils/device-update-watcher';
 import { getAndSendUserMedia, getMediaDevicesList } from '../../utils/user-media';
 import { CancelCall } from '../cancel-call/cancel-call';
-import { ChangeActiveDeviceId } from '../change-active-device-id/change-active-device-id';
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
 import { InterlocutorAcceptedCallEventHandler } from '../../socket-events/interlocutor-accepted-call/interlocutor-accepted-call-event-handler';
 import { TimeoutCall } from '../timeout-call/timeout-call';
@@ -41,14 +43,22 @@ export class OutgoingCall {
       draft.interlocutor = payload.calling;
       draft.isInterlocutorBusy = false;
       draft.amICalling = true;
-      draft.audioConstraints = { ...draft.audioConstraints, isOpened: payload.constraints.audioEnabled };
-      draft.videoConstraints = { ...draft.videoConstraints, isOpened: payload.constraints.videoEnabled };
+      draft.audioConstraints = {
+        ...draft.audioConstraints,
+        isOpened: payload.constraints.audioEnabled,
+      };
+      draft.videoConstraints = {
+        ...draft.videoConstraints,
+        isOpened: payload.constraints.videoEnabled,
+      };
       return draft;
     });
   }
 
   static get saga() {
-    return function* outgoingCallSaga(action: ReturnType<typeof OutgoingCall.action>): SagaIterator {
+    return function* outgoingCallSaga(
+      action: ReturnType<typeof OutgoingCall.action>,
+    ): SagaIterator {
       const amISpeaking = yield select((state: RootState) => state.calls.isSpeaking);
       setIsRenegotiationAccepted(false);
 
@@ -70,25 +80,31 @@ export class OutgoingCall {
 
       // gathering data about media devices
       if (audioOpened) {
-        const audioDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.AudioInput);
+        const audioDevices: MediaDeviceInfo[] = yield call(
+          getMediaDevicesList,
+          InputType.AudioInput,
+        );
 
         if (audioDevices.length > 0) {
           yield put(GotDevicesInfo.action({ kind: InputType.AudioInput, devices: audioDevices }));
-          yield put(ChangeActiveDeviceId.action({ kind: InputType.AudioInput, deviceId: audioDevices[0].deviceId }));
         }
       }
       if (videoOpened) {
-        const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.VideoInput);
+        const videoDevices: MediaDeviceInfo[] = yield call(
+          getMediaDevicesList,
+          InputType.VideoInput,
+        );
 
         if (videoDevices.length > 0) {
           yield put(GotDevicesInfo.action({ kind: InputType.VideoInput, devices: videoDevices }));
-          yield put(ChangeActiveDeviceId.action({ kind: InputType.VideoInput, deviceId: videoDevices[0].deviceId }));
         }
       }
 
       const userInterlocutorId = action.payload.calling.id;
 
-      const offer: RTCSessionDescriptionInit = yield call(async () => peerConnection?.createOffer({ offerToReceiveAudio: true, offerToReceiveVideo: true }));
+      const offer: RTCSessionDescriptionInit = yield call(async () =>
+        peerConnection?.createOffer({ offerToReceiveAudio: true, offerToReceiveVideo: true }),
+      );
 
       yield spawn(peerWatcher);
       yield call(async () => peerConnection?.setLocalDescription(offer));
@@ -101,10 +117,10 @@ export class OutgoingCall {
         isVideoEnabled,
       };
 
-      console.log(peerConnection);
-
       const { httpRequest } = OutgoingCall;
-      const { isInterlocutorBusy } = httpRequest.call(yield call(() => httpRequest.generator(request))).data;
+      const { isInterlocutorBusy } = httpRequest.call(
+        yield call(() => httpRequest.generator(request)),
+      ).data;
 
       if (isInterlocutorBusy) {
         yield put(InterlocutorBusy.action());
@@ -127,7 +143,7 @@ export class OutgoingCall {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IOutgoingCallApiResponse>, IOutgoingCallApiRequest>(
-      `${process.env.MAIN_API}/api/calls/send-call-offer`,
+      `${process.env.REACT_APP_MAIN_API}/api/calls/send-call-offer`,
       HttpRequestMethod.Post,
     );
   }

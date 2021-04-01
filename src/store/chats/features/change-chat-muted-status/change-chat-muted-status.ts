@@ -21,7 +21,9 @@ export class ChangeChatMutedStatus {
         isMuted: !isMuted,
       };
 
-      const { status } = ChangeChatMutedStatus.httpRequest.call(yield call(() => ChangeChatMutedStatus.httpRequest.generator(request)));
+      const { status } = ChangeChatMutedStatus.httpRequest.call(
+        yield call(() => ChangeChatMutedStatus.httpRequest.generator(request)),
+      );
 
       if (status === 200) {
         yield put(
@@ -35,6 +37,9 @@ export class ChangeChatMutedStatus {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IChangeChatMutedStatusApiRequest>(`${process.env.MAIN_API}/api/chats/change-muted-status`, HttpRequestMethod.Put);
+    return httpRequestFactory<AxiosResponse, IChangeChatMutedStatusApiRequest>(
+      `${process.env.REACT_APP_MAIN_API}/api/chats/change-muted-status`,
+      HttpRequestMethod.Put,
+    );
   }
 }

@@ -58,6 +58,7 @@ export class CreateMessage {
         text: message.text,
         chatId,
         attachments: attachmentsToSend,
+        clientId: message.id,
       };
 
       if (message.linkedMessage && message.linkedMessageType) {
@@ -67,7 +68,9 @@ export class CreateMessage {
         };
       }
 
-      const { data } = CreateMessage.httpRequest.call(yield call(() => CreateMessage.httpRequest.generator(messageCreationReq)));
+      const { data } = CreateMessage.httpRequest.call(
+        yield call(() => CreateMessage.httpRequest.generator(messageCreationReq)),
+      );
 
       yield put(
         CreateMessageSuccess.action({
@@ -82,6 +85,9 @@ export class CreateMessage {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<number>, ICreateMessageApiRequest>(`${process.env.MAIN_API}/api/messages`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse<number>, ICreateMessageApiRequest>(
+      `${process.env.REACT_APP_MAIN_API}/api/messages`,
+      HttpRequestMethod.Post,
+    );
   }
 }

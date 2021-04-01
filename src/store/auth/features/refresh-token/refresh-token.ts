@@ -31,7 +31,9 @@ export class RefreshToken {
 
       try {
         const { httpRequest } = RefreshToken;
-        const { data } = httpRequest.call(yield call(() => httpRequest.generator({ refreshToken })));
+        const { data } = httpRequest.call(
+          yield call(() => httpRequest.generator({ refreshToken })),
+        );
         yield put(RefreshTokenSuccess.action(data));
       } catch (e) {
         yield put(RefreshTokenFailure.action());
@@ -41,7 +43,7 @@ export class RefreshToken {
 
   static get httpRequest() {
     return authRequestFactory<AxiosResponse<IRefreshTokenApiResponse>, IRefreshTokenApiRequest>(
-      `${process.env.MAIN_API}/api/users/refresh-tokens`,
+      `${process.env.REACT_APP_MAIN_API}/api/users/refresh-tokens`,
       HttpRequestMethod.Post,
     );
   }

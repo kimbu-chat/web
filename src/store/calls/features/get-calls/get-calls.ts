@@ -27,7 +27,9 @@ export class GetCalls {
       const { page } = action.payload;
 
       const { httpRequest } = GetCalls;
-      const { data, status } = httpRequest.call(yield call(() => httpRequest.generator(action.payload)));
+      const { data, status } = httpRequest.call(
+        yield call(() => httpRequest.generator(action.payload)),
+      );
 
       const hasMore = data.length >= page.limit;
 
@@ -38,6 +40,9 @@ export class GetCalls {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<ICall[]>, IGetCallsApiRequest>(`${process.env.MAIN_API}/api/calls/search`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse<ICall[]>, IGetCallsApiRequest>(
+      `${process.env.REACT_APP_MAIN_API}/api/calls/search`,
+      HttpRequestMethod.Post,
+    );
   }
 }

@@ -1,8 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-export const ExpandingTextarea: React.FC<React.DetailedHTMLProps<React.TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement>> = (props) => {
+export const ExpandingTextarea: React.FC<
+  React.DetailedHTMLProps<React.TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement>
+> = (props) => {
   const [rows, setRows] = useState(1);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const { value } = props;
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -14,7 +17,7 @@ export const ExpandingTextarea: React.FC<React.DetailedHTMLProps<React.TextareaH
       textareaRef.current.rows = minRows;
 
       // eslint-disable-next-line no-bitwise
-      const currentRows = ~~(textareaRef.current!.scrollHeight / textareaLineHeight);
+      const currentRows = ~~(textareaRef.current.scrollHeight / textareaLineHeight);
 
       if (currentRows === previousRows) {
         textareaRef.current.rows = currentRows;
@@ -22,12 +25,12 @@ export const ExpandingTextarea: React.FC<React.DetailedHTMLProps<React.TextareaH
 
       if (currentRows >= maxRows) {
         textareaRef.current.rows = maxRows;
-        textareaRef.current.scrollTop = textareaRef.current!.scrollHeight;
+        textareaRef.current.scrollTop = textareaRef.current.scrollHeight;
       }
 
       setRows(currentRows < maxRows ? currentRows : maxRows);
     }
-  }, [props.value, textareaRef]);
+  }, [value, textareaRef]);
 
   return <textarea rows={rows} ref={textareaRef} {...props} />;
 };

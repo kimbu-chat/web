@@ -5,15 +5,23 @@ import { call, put, select, spawn } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
-import { createPeerConnection, getPeerConnection, getInterlocutorOffer } from '@store/middlewares/webRTC/peerConnectionFactory';
+import {
+  createPeerConnection,
+  getPeerConnection,
+  getInterlocutorOffer,
+} from '@store/middlewares/webRTC/peerConnectionFactory';
 import { deviceUpdateWatcher } from '@store/calls/utils/device-update-watcher';
 import { getAndSendUserMedia, getMediaDevicesList } from '@store/calls/utils/user-media';
 import { InputType } from '@store/calls/common/enums/input-type';
 import { peerWatcher } from '@store/calls/utils/peer-watcher';
-import { getAudioConstraintsSelector, getCallInterlocutorIdSelector, getIsVideoEnabledSelector, getVideoConstraintsSelector } from '@store/calls/selectors';
+import {
+  getAudioConstraintsSelector,
+  getCallInterlocutorIdSelector,
+  getIsVideoEnabledSelector,
+  getVideoConstraintsSelector,
+} from '@store/calls/selectors';
 
 import { ICallsState } from '../../calls-state';
-import { ChangeActiveDeviceId } from '../change-active-device-id/change-active-device-id';
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
 import { IAcceptCallActionPayload } from './action-payloads/accept-call-action-payload';
 import { AcceptCallSuccess } from './accept-call-success';
@@ -45,20 +53,24 @@ export class AcceptCall {
 
       // gathering data about media devices
       if (audioConstraints.isOpened) {
-        const audioDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.AudioInput);
+        const audioDevices: MediaDeviceInfo[] = yield call(
+          getMediaDevicesList,
+          InputType.AudioInput,
+        );
 
         if (audioDevices.length > 0) {
           yield put(GotDevicesInfo.action({ kind: InputType.AudioInput, devices: audioDevices }));
-          yield put(ChangeActiveDeviceId.action({ kind: InputType.AudioInput, deviceId: audioDevices[0].deviceId }));
         }
       }
 
       if (videoConstraints.isOpened) {
-        const videoDevices: MediaDeviceInfo[] = yield call(getMediaDevicesList, InputType.VideoInput);
+        const videoDevices: MediaDeviceInfo[] = yield call(
+          getMediaDevicesList,
+          InputType.VideoInput,
+        );
 
         if (videoDevices.length > 0) {
           yield put(GotDevicesInfo.action({ kind: InputType.VideoInput, devices: videoDevices }));
-          yield put(ChangeActiveDeviceId.action({ kind: InputType.VideoInput, deviceId: videoDevices[0].deviceId }));
         }
       }
       //---
@@ -66,7 +78,9 @@ export class AcceptCall {
       const interlocutorOffer = getInterlocutorOffer();
       const peerConnection = getPeerConnection();
 
-      yield call(async () => peerConnection?.setRemoteDescription(interlocutorOffer as RTCSessionDescriptionInit));
+      yield call(async () =>
+        peerConnection?.setRemoteDescription(interlocutorOffer as RTCSessionDescriptionInit),
+      );
 
       // setup local stream
       yield call(getAndSendUserMedia);
@@ -88,6 +102,9 @@ export class AcceptCall {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IAcceptCallApiRequest>(`${process.env.MAIN_API}/api/calls/accept-call`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse, IAcceptCallApiRequest>(
+      `${process.env.REACT_APP_MAIN_API}/api/calls/accept-call`,
+      HttpRequestMethod.Post,
+    );
   }
 }

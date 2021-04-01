@@ -10,17 +10,19 @@ export class EditGroupChatSuccess {
   }
 
   static get reducer() {
-    return produce((draft: IChatsState, { payload }: ReturnType<typeof EditGroupChatSuccess.action>) => {
-      const { chatId, name, description, avatar } = payload;
+    return produce(
+      (draft: IChatsState, { payload }: ReturnType<typeof EditGroupChatSuccess.action>) => {
+        const { chatId, name, description, avatar } = payload;
 
-      const chat = getChatByIdDraftSelector(chatId, draft);
+        const chat = getChatByIdDraftSelector(chatId, draft);
 
-      if (chat && chat.groupChat) {
-        chat.groupChat.name = name;
-        chat.groupChat.description = description;
-        chat.groupChat.avatar = avatar;
-      }
-      return draft;
-    });
+        if (chat && chat.groupChat) {
+          chat.groupChat.name = name;
+          chat.groupChat.description = description;
+          chat.groupChat.avatar = avatar;
+        }
+        return draft;
+      },
+    );
   }
 }

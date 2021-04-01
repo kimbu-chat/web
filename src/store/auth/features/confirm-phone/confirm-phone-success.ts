@@ -9,10 +9,12 @@ export class ConfirmPhoneSuccess {
   }
 
   static get reducer() {
-    return produce((draft: IAuthState, { payload }: ReturnType<typeof ConfirmPhoneSuccess.action>) => {
-      draft.loading = false;
-      draft.confirmationCode = payload.confirmationCode;
-      return draft;
-    });
+    return produce(
+      (draft: IAuthState, { payload }: ReturnType<typeof ConfirmPhoneSuccess.action>) => {
+        draft.loading = false;
+        draft.confirmationCode = payload.confirmationCode;
+        return draft;
+      },
+    );
   }
 }

@@ -2,13 +2,18 @@ import React, { useCallback, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { LocalizationContext } from '@contexts';
-import { InfiniteScroll, SelectEntity, SearchBox, WithBackground, Modal } from '@components';
+import { WithBackground, Modal } from '@components/shared';
+import { InfiniteScroll, SelectEntity, SearchBox } from '@components/messenger-page';
 import './add-call-modal.scss';
-import AddCallSvg from '@icons/add-call.svg';
-import CallSvg from '@icons/call.svg';
+import { ReactComponent as AddCallSvg } from '@icons/add-call.svg';
+import { ReactComponent as CallSvg } from '@icons/call.svg';
 import { IPage } from '@store/common/models';
 import { GetFriends } from '@store/friends/features/get-friends/get-friends';
-import { getMyFriendsSelector, getHasMoreFriendsSelector, getFriendsLoadingSelector } from '@store/friends/selectors';
+import {
+  getMyFriendsSelector,
+  getHasMoreFriendsSelector,
+  getFriendsLoadingSelector,
+} from '@store/friends/selectors';
 import { FRIENDS_LIMIT } from '@utils/pagination-limits';
 import * as CallActions from '@store/calls/actions';
 
@@ -34,9 +39,12 @@ export const AddCallModal: React.FC<IAddCallModalProps> = React.memo(({ onClose 
     loadFriends({ page });
   }, [friends, loadFriends]);
 
-  const searchFriends = useCallback((name: string) => {
-    loadFriends({ page: { offset: 0, limit: FRIENDS_LIMIT }, name, initializedBySearch: true });
-  }, []);
+  const searchFriends = useCallback(
+    (name: string) => {
+      loadFriends({ page: { offset: 0, limit: FRIENDS_LIMIT }, name, initializedBySearch: true });
+    },
+    [loadFriends],
+  );
 
   const call = useCallback(
     (user) => {
@@ -57,25 +65,32 @@ export const AddCallModal: React.FC<IAddCallModalProps> = React.memo(({ onClose 
       <Modal
         title={
           <>
-            <AddCallSvg viewBox='0 0 65 64' className='add-call-modal__icon' />
+            <AddCallSvg viewBox="0 0 65 64" className="add-call-modal__icon" />
 
             <span> {t('addCallModal.title')} </span>
           </>
         }
         closeModal={onClose}
         content={
-          <div className='add-call-modal'>
+          <div className="add-call-modal">
             <SearchBox
-              containerClassName='add-call-modal__search-container'
-              iconClassName='add-call-modal__search__icon'
-              inputClassName='add-call-modal__search__input'
+              containerClassName="add-call-modal__search-container"
+              iconClassName="add-call-modal__search__icon"
+              inputClassName="add-call-modal__search__input"
               onChange={(e) => searchFriends(e.target.value)}
             />
-            <InfiniteScroll className='add-call-modal__friends-block' onReachExtreme={loadMore} hasMore={hasMoreFriends} isLoading={friendsLoading}>
+            <InfiniteScroll
+              className="add-call-modal__friends-block"
+              onReachExtreme={loadMore}
+              hasMore={hasMoreFriends}
+              isLoading={friendsLoading}>
               {friends?.map((user) => (
                 <SelectEntity
                   icon={
-                    <button onClick={() => call(user)} type='button' className='add-call-modal__call'>
+                    <button
+                      onClick={() => call(user)}
+                      type="button"
+                      className="add-call-modal__call">
                       <CallSvg />
                     </button>
                   }

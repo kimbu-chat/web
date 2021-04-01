@@ -1,7 +1,11 @@
 import { SagaIterator } from 'redux-saga';
 
 import { createEmptyAction } from '@store/common/actions';
-import { getAvatarUploadCancelTokenSource, setAvatarUploadCancelTokenSource } from '@store/my-profile/my-profile-utils';
+import {
+  getAvatarUploadCancelTokenSource,
+  setAvatarUploadCancelTokenSource,
+} from '@store/my-profile/my-profile-utils';
+import { call } from 'redux-saga/effects';
 
 export class CancelAvatarUploading {
   static get action() {
@@ -10,9 +14,9 @@ export class CancelAvatarUploading {
 
   static get saga() {
     return function* cancelAvatarUploadingSaga(): SagaIterator {
-      const tokenSource = getAvatarUploadCancelTokenSource();
+      const tokenSource = yield call(getAvatarUploadCancelTokenSource);
       tokenSource?.cancel();
-      setAvatarUploadCancelTokenSource(undefined);
+      yield call(setAvatarUploadCancelTokenSource, undefined);
     };
   }
 }

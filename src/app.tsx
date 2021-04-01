@@ -7,12 +7,12 @@ import { useSelector } from 'react-redux';
 
 import { useTranslation } from 'react-i18next';
 
-import { PublicRoute } from '@app/routing/public-route';
-import { PrivateRoute } from '@app/routing/private-route';
+import { PublicRoute } from '@routing/public-route';
+import { PrivateRoute } from '@routing/private-route';
 
 import { authenticatedSelector, authPhoneNumberSelector } from '@store/auth/selectors';
 import { LocalizationContext } from '@contexts';
-import { CubeLoader } from './containers/cube-loader/cube-loader';
+import { CubeLoader } from '@containers/cube-loader/cube-loader';
 import {
   loadPhoneConfirmation,
   loadCodeConfirmation,
@@ -41,7 +41,7 @@ export const App = () => {
       <Switch>
         <PublicRoute
           exact
-          path='/signup'
+          path="/signup"
           isAllowed={phoneNumber.length > 0}
           componentToRender={
             <Suspense fallback={<CubeLoader />}>
@@ -51,7 +51,7 @@ export const App = () => {
         />
         <PublicRoute
           exact
-          path='/confirm-code'
+          path="/confirm-code"
           isAllowed={phoneNumber.length > 0}
           componentToRender={
             <Suspense fallback={<CubeLoader />}>
@@ -61,7 +61,7 @@ export const App = () => {
         />
         <PublicRoute
           exact
-          path='/login/'
+          path="/login/"
           componentToRender={
             <Suspense fallback={<CubeLoader />}>
               <ConfirmPhone preloadNext={loadCodeConfirmation} />
@@ -69,10 +69,10 @@ export const App = () => {
           }
         />
         <PrivateRoute
-          path='/(contacts|calls|chats|settings)/:id(\d+)?/(profile|notifications|typing|language|appearance|audio-video|privacy-security)?'
+          path="/(contacts|calls|chats|settings)/:id(\d+)?/(profile|notifications|typing|language|appearance|audio-video|privacy-security)?"
           exact
           isAllowed={isAuthenticated}
-          fallback='/login'
+          fallback="/login"
           componentToRender={
             <Suspense fallback={<CubeLoader />}>
               <Messenger preloadNext={loadMessageSmiles} />
@@ -80,19 +80,19 @@ export const App = () => {
           }
         />
         <PrivateRoute
-          path='/logout'
+          path="/logout"
           exact
           isAllowed={isAuthenticated}
-          fallback='/login'
+          fallback="/login"
           componentToRender={
             <Suspense fallback={<CubeLoader />}>
               <Logout />
             </Suspense>
           }
         />
-        <Route path='/' exact render={() => <Redirect to='/chats' />} />
+        <Route path="/" exact render={() => <Redirect to="/chats" />} />
         <Route
-          path='/'
+          path="/"
           render={() => (
             <Suspense fallback={<CubeLoader />}>
               <NotFound />

@@ -6,4 +6,6 @@ export interface ILocalizationContextProps {
   i18n?: i18n;
 }
 
-export const LocalizationContext = React.createContext<ILocalizationContextProps>({ t: (str: string) => str });
+export const LocalizationContext = React.createContext<ILocalizationContextProps>({
+  t: (str: string) => str,
+});

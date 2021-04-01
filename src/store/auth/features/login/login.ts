@@ -23,7 +23,9 @@ export class Login {
     return function* login(action: ReturnType<typeof Login.action>): SagaIterator {
       const loginHttpRequest = Login.httpRequest;
 
-      const { data } = loginHttpRequest.call(yield call(() => loginHttpRequest.generator(action.payload)));
+      const { data } = loginHttpRequest.call(
+        yield call(() => loginHttpRequest.generator(action.payload)),
+      );
 
       const decodedJwt = jwtDecode<ICustomJwtPayload>(data.accessToken);
 
@@ -43,6 +45,9 @@ export class Login {
   }
 
   static get httpRequest() {
-    return authRequestFactory<AxiosResponse<ILoginApiResponse>, ILoginApiRequest>(`${process.env.MAIN_API}/api/users/tokens`, HttpRequestMethod.Post);
+    return authRequestFactory<AxiosResponse<ILoginApiResponse>, ILoginApiRequest>(
+      `${process.env.REACT_APP_MAIN_API}/api/users/tokens`,
+      HttpRequestMethod.Post,
+    );
   }
 }

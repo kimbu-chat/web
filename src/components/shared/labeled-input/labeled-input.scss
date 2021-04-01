@@ -12,7 +12,6 @@
     width: 100%;
     padding: 10px 16px;
     color: var(--dt-white-wt-kingBlue);
-    background: transparent;
     border: none;
     outline: none;
     box-sizing: border-box;
@@ -64,14 +63,14 @@
     &__icon {
       width: 24px;
       height: 24px;
-      color: var(--red);
+      color: #c74848;
       margin-right: 3px;
     }
 
     &__text {
       font-weight: 300;
       font-size: 14px;
-      color: var(--red);
+      color: #c74848;
       line-height: 17px;
     }
   }

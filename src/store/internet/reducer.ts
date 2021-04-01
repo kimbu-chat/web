@@ -6,7 +6,10 @@ import { WebsocketsDisconnected } from './features/websockets-connection/websock
 import { IInternetState } from './internet-state';
 
 const initialState: IInternetState = {
-  isInternetConnected: typeof navigator !== 'undefined' && typeof navigator.onLine === 'boolean' ? navigator.onLine : true,
+  isInternetConnected:
+    typeof navigator !== 'undefined' && typeof navigator.onLine === 'boolean'
+      ? navigator.onLine
+      : true,
   isWebSocketConnected: false,
 };
 

@@ -6,14 +6,14 @@ import { createAction } from 'typesafe-actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { IPage } from '../../../common/models';
 import { CHATS_LIMIT } from '../../../../utils/pagination-limits';
-import { ChatId } from '../../chat-id';
-import { IChat, InterlocutorType, MessageState } from '../../models';
+import { IChat } from '../../models';
 import { IGetChatsActionPayload } from './action-payloads/get-chats-action-payload';
 import { GetChatsSuccess } from './get-chats-success';
 import { IGetChatsSuccessActionPayload } from './action-payloads/get-chats-success-action-payload';
 import { IGetChatsApiRequest } from './api-requests/get-chats-api-request';
 import { getChatsPageSelector } from '../../selectors';
 import { IChatsState } from '../../chats-state';
+import { modelChatList } from '../../utils/model-chat-list';
 
 export class GetChats {
   static get action() {
@@ -68,35 +68,10 @@ export class GetChats {
         showAll,
       };
 
-      const { data }: AxiosResponse<IChat[]> = GetChats.httpRequest.call(yield call(() => GetChats.httpRequest.generator(request)));
-      const newData = data.map((chat: IChat) => {
-        const newChat = { ...chat };
-        if (newChat.lastMessage) {
-          newChat.lastMessage.state =
-            newChat.interlocutorLastReadMessageId && newChat.interlocutorLastReadMessageId >= Number(newChat?.lastMessage?.id)
-              ? (MessageState.READ as MessageState)
-              : (MessageState.SENT as MessageState);
-        }
-
-        newChat.interlocutorType = ChatId.fromId(newChat.id).interlocutorType;
-        newChat.typingInterlocutors = [];
-        newChat.photos = { photos: [], loading: false, hasMore: true };
-        newChat.videos = { videos: [], loading: false, hasMore: true };
-        newChat.files = { files: [], loading: false, hasMore: true };
-        newChat.audios = { audios: [], loading: false, hasMore: true };
-        newChat.draftMessage = '';
-        newChat.recordings = {
-          hasMore: true,
-          loading: false,
-          recordings: [],
-        };
-
-        if (newChat.interlocutorType === InterlocutorType.GroupChat) {
-          newChat.members = { members: [], loading: false, hasMore: true };
-        }
-
-        return newChat;
-      });
+      const { data }: AxiosResponse<IChat[]> = GetChats.httpRequest.call(
+        yield call(() => GetChats.httpRequest.generator(request)),
+      );
+      const newData = modelChatList(data);
 
       const chatList: IGetChatsSuccessActionPayload = {
         chats: newData,
@@ -109,6 +84,9 @@ export class GetChats {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IChat[]>, IGetChatsApiRequest>(`${process.env.MAIN_API}/api/chats/search`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse<IChat[]>, IGetChatsApiRequest>(
+      `${process.env.REACT_APP_MAIN_API}/api/chats/search`,
+      HttpRequestMethod.Post,
+    );
   }
 }

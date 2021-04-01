@@ -9,22 +9,32 @@ export class UserEditedEventHandler {
   }
 
   static get reducer() {
-    return produce((draft: IMyProfileState, { payload }: ReturnType<typeof UserEditedEventHandler.action>) => {
-      const { userId, firstName, lastName, nickname, avatarId, avatarUrl, avatarPreviewUrl } = payload;
+    return produce(
+      (draft: IMyProfileState, { payload }: ReturnType<typeof UserEditedEventHandler.action>) => {
+        const {
+          userId,
+          firstName,
+          lastName,
+          nickname,
+          avatarId,
+          avatarUrl,
+          avatarPreviewUrl,
+        } = payload;
 
-      if (userId === draft.user?.id) {
-        draft.user.firstName = firstName;
-        draft.user.lastName = lastName;
-        draft.user.nickname = nickname;
+        if (userId === draft.user?.id) {
+          draft.user.firstName = firstName;
+          draft.user.lastName = lastName;
+          draft.user.nickname = nickname;
 
-        draft.user.avatar = {
-          id: avatarId,
-          url: avatarUrl,
-          previewUrl: avatarPreviewUrl,
-        };
-      }
+          draft.user.avatar = {
+            id: avatarId,
+            url: avatarUrl,
+            previewUrl: avatarPreviewUrl,
+          };
+        }
 
-      return draft;
-    });
+        return draft;
+      },
+    );
   }
 }

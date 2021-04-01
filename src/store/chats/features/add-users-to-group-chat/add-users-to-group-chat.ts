@@ -23,7 +23,9 @@ export class AddUsersToGroupChat {
   }
 
   static get saga() {
-    return function* addUsersToGroupChatSaga(action: ReturnType<typeof AddUsersToGroupChat.action>): SagaIterator {
+    return function* addUsersToGroupChatSaga(
+      action: ReturnType<typeof AddUsersToGroupChat.action>,
+    ): SagaIterator {
       const { users } = action.payload;
       const chatId = yield select(getSelectedChatIdSelector);
       const { groupChatId } = ChatId.fromId(chatId);
@@ -48,6 +50,9 @@ export class AddUsersToGroupChat {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IAddUsersToGroupChatApiRequest>(`${process.env.MAIN_API}/api/group-chats/users`, HttpRequestMethod.Post);
+    return httpRequestFactory<AxiosResponse, IAddUsersToGroupChatApiRequest>(
+      `${process.env.REACT_APP_MAIN_API}/api/group-chats/users`,
+      HttpRequestMethod.Post,
+    );
   }
 }

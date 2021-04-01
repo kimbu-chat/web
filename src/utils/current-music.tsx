@@ -1,7 +1,11 @@
 let currentMusic: HTMLAudioElement | null;
 let currentChangePlayStatus: React.Dispatch<React.SetStateAction<boolean>> | undefined;
 
-export const changeMusic = (newMusic: HTMLAudioElement | null, changePlayStatus?: React.Dispatch<React.SetStateAction<boolean>>, needsToBePaused?: boolean) => {
+export const changeMusic = (
+  newMusic: HTMLAudioElement | null,
+  changePlayStatus?: React.Dispatch<React.SetStateAction<boolean>>,
+  needsToBePaused?: boolean,
+) => {
   if (newMusic !== currentMusic) {
     newMusic?.play();
 

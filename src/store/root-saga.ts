@@ -10,5 +10,14 @@ import { SettingsSagas } from './settings/sagas';
 import { InternetSagas } from './internet/sagas';
 
 export function* rootSaga(): SagaIterator {
-  yield all([...InitiationSagas, ...InternetSagas, ...ChatSagas, ...AuthSagas, ...FriendSagas, ...MyProfileSagas, ...CallsSagas, ...SettingsSagas]);
+  yield all([
+    ...InitiationSagas,
+    ...InternetSagas,
+    ...ChatSagas,
+    ...AuthSagas,
+    ...FriendSagas,
+    ...MyProfileSagas,
+    ...CallsSagas,
+    ...SettingsSagas,
+  ]);
 }

@@ -9,18 +9,23 @@ export class ChatMutedStatusChangedEventHandler {
   }
 
   static get reducer() {
-    return produce((draft: IChatsState, { payload }: ReturnType<typeof ChatMutedStatusChangedEventHandler.action>) => {
-      const { chatIds, isMuted } = payload;
+    return produce(
+      (
+        draft: IChatsState,
+        { payload }: ReturnType<typeof ChatMutedStatusChangedEventHandler.action>,
+      ) => {
+        const { chatIds, isMuted } = payload;
 
-      draft.chats.map((chat) => {
-        if (chatIds.includes(chat.id)) {
-          return { ...chat, isMuted };
-        }
+        draft.chats.map((chat) => {
+          if (chatIds.includes(chat.id)) {
+            return { ...chat, isMuted };
+          }
 
-        return chat;
-      });
+          return chat;
+        });
 
-      return draft;
-    });
+        return draft;
+      },
+    );
   }
 }

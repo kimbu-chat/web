@@ -28,8 +28,12 @@ export class ConfirmPhone {
   }
 
   static get saga() {
-    return function* confirmPhoneNumberSaga(action: ReturnType<typeof ConfirmPhone.action>): SagaIterator {
-      const { data } = ConfirmPhone.httpRequest.call(yield call(() => ConfirmPhone.httpRequest.generator(action.payload)));
+    return function* confirmPhoneNumberSaga(
+      action: ReturnType<typeof ConfirmPhone.action>,
+    ): SagaIterator {
+      const { data } = ConfirmPhone.httpRequest.call(
+        yield call(() => ConfirmPhone.httpRequest.generator(action.payload)),
+      );
 
       if (data.isCodeCorrect && data.userExists) {
         const { phoneNumber, code } = action.payload;
@@ -48,7 +52,7 @@ export class ConfirmPhone {
 
   static get httpRequest() {
     return authRequestFactory<AxiosResponse<IConfirmPhoneApiResponse>, IConfirmProneApiRequest>(
-      `${process.env.MAIN_API}/api/users/verify-sms-code`,
+      `${process.env.REACT_APP_MAIN_API}/api/users/verify-sms-code`,
       HttpRequestMethod.Post,
     );
   }

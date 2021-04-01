@@ -11,7 +11,8 @@ import {
   getSelectedChatIdSelector,
   getSelectedChatUnreadMessagesCountSelector,
 } from '@store/chats/selectors';
-import { FadeAnimationWrapper, InfiniteScroll, SelectedMessagesData, MessageItem } from '@components';
+import { InfiniteScroll, SelectedMessagesData, MessageItem } from '@components/messenger-page';
+import { FadeAnimationWrapper } from '@components/shared';
 
 import { MESSAGES_LIMIT } from '@utils/pagination-limits';
 
@@ -37,7 +38,7 @@ const MessageList = React.memo(() => {
     if (selectedChatId && (unreadMessagesCount || 0) > 0) {
       markMessagesAsRead();
     }
-  }, [unreadMessagesCount, selectedChatId]);
+  }, [unreadMessagesCount, selectedChatId, markMessagesAsRead]);
 
   const loadMore = useCallback(() => {
     const pageData = {
@@ -48,12 +49,12 @@ const MessageList = React.memo(() => {
     getMessages({
       page: pageData,
     });
-  }, [messages?.length]);
+  }, [getMessages, messages?.length]);
 
   if (!selectedChatId) {
     return (
-      <div className='chat__messages-list'>
-        <div className='chat__select-chat'>{t('chat.select_chat')}</div>
+      <div className="chat__messages-list">
+        <div className="chat__select-chat">{t('chat.select_chat')}</div>
       </div>
     );
   }
@@ -61,10 +62,10 @@ const MessageList = React.memo(() => {
   const separatedItemsWithUserInfo = MessageUtils.signAndSeparate(messages || []);
 
   return (
-    <div className='chat__messages-list'>
-      <div className='chat__messages-container'>
+    <div className="chat__messages-list">
+      <div className="chat__messages-container">
         {!areMessagesLoading && !hasMoreMessages && (messages || []).length === 0 && (
-          <div className='chat__messages-list__empty'>
+          <div className="chat__messages-list__empty">
             <p>{t('chat.empty')}</p>
           </div>
         )}
@@ -73,7 +74,11 @@ const MessageList = React.memo(() => {
           <SelectedMessagesData />
         </FadeAnimationWrapper>
 
-        <InfiniteScroll onReachExtreme={loadMore} hasMore={hasMoreMessages} isLoading={areMessagesLoading} isReverse>
+        <InfiniteScroll
+          onReachExtreme={loadMore}
+          hasMore={hasMoreMessages}
+          isLoading={areMessagesLoading}
+          isReverse>
           {separatedItemsWithUserInfo.map((msg: IMessage) => (
             <MessageItem message={msg} key={msg.id} />
           ))}

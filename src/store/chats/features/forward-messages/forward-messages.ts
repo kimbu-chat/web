@@ -18,7 +18,9 @@ export class ForwardMessages {
   static get reducer() {
     return produce((draft: IChatsState) => {
       if (draft.selectedChatId) {
-        draft.messages[draft.selectedChatId].messages = draft.messages[draft.selectedChatId].messages.map((message) => ({
+        draft.messages[draft.selectedChatId].messages = draft.messages[
+          draft.selectedChatId
+        ].messages.map((message) => ({
           ...message,
           isSelected: false,
         }));
@@ -34,13 +36,19 @@ export class ForwardMessages {
     return function* forwardSaga(action: ReturnType<typeof ForwardMessages.action>): SagaIterator {
       const { messageIdsToForward, chatIdsToForward } = action.payload;
 
-      const messagesToForward: { messageId: number; serverMessageId: number; chatId: number }[] = [];
+      const messagesToForward: {
+        messageId: number;
+        serverMessageId: number;
+        chatId: number;
+      }[] = [];
 
       const forwardedChatId = yield select(getSelectedChatIdSelector);
 
       // eslint-disable-next-line no-restricted-syntax
       for (const messageId of messageIdsToForward) {
-        const message: IMessage = yield select(getChatMessageByIdSelector(messageId, forwardedChatId));
+        const message: IMessage = yield select(
+          getChatMessageByIdSelector(messageId, forwardedChatId),
+        );
         const originalMessageId = message.linkedMessage?.id;
         // eslint-disable-next-line no-restricted-syntax
         for (const chatId of chatIdsToForward) {
@@ -48,12 +56,17 @@ export class ForwardMessages {
             text: '',
             chatId,
             link: {
-              originalMessageId: message.linkedMessageType === MessageLinkType.Forward ? (originalMessageId as number) : messageId,
+              originalMessageId:
+                message.linkedMessageType === MessageLinkType.Forward
+                  ? (originalMessageId as number)
+                  : messageId,
               type: 'Forward',
             },
           };
 
-          const { data } = CreateMessage.httpRequest.call(yield call(() => CreateMessage.httpRequest.generator(messageCreationReq)));
+          const { data } = CreateMessage.httpRequest.call(
+            yield call(() => CreateMessage.httpRequest.generator(messageCreationReq)),
+          );
 
           messagesToForward.push({
             messageId,

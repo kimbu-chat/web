@@ -6,20 +6,24 @@ import { IChatsState } from '../../chats-state';
 
 export class MarkMessagesAsReadSuccess {
   static get action() {
-    return createAction('RESET_UNREAD_MESSAGES_COUNT_SUCCESS')<IMarkMessagesAsReadSuccessActionPayload>();
+    return createAction(
+      'RESET_UNREAD_MESSAGES_COUNT_SUCCESS',
+    )<IMarkMessagesAsReadSuccessActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: IChatsState, { payload }: ReturnType<typeof MarkMessagesAsReadSuccess.action>) => {
-      const { chatId } = payload;
+    return produce(
+      (draft: IChatsState, { payload }: ReturnType<typeof MarkMessagesAsReadSuccess.action>) => {
+        const { chatId } = payload;
 
-      const chat = getChatByIdDraftSelector(chatId, draft);
+        const chat = getChatByIdDraftSelector(chatId, draft);
 
-      if (chat) {
-        chat.unreadMessagesCount = 0;
-      }
+        if (chat) {
+          chat.unreadMessagesCount = 0;
+        }
 
-      return draft;
-    });
+        return draft;
+      },
+    );
   }
 }

@@ -7,6 +7,7 @@ export interface IMessageCreatedIntegrationEvent {
   chatId: number;
   creationDateTime: Date;
   id: number;
+  clientId: number;
   systemMessageType: SystemMessageType;
   text: string;
   userCreator: IUser;

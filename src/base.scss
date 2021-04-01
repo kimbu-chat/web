@@ -15,7 +15,7 @@
 }
 
 body {
-  font-family: Rubik;
+  font-family: Rubik, Arial, Helvetica, sans-serif;
   overflow: hidden;
 }
 
@@ -84,8 +84,6 @@ input {
   //primary colors
   --dt-dark-wt-white: #262c38;
   --dt-dark-wt-bright-blue: #262c38;
-  --dt-dark-wt-white-transparent: rgba(38, 44, 56, 0.5);
-  --dt-dark-wt-grayLight: #262c38;
   --dt-dark-wt-kingBlueLight: #262c38;
   --dt-dark-wt-kingBlue: #262c38;
   --dt-dark-wt-whiter: #262c38;
@@ -105,7 +103,6 @@ input {
   --chat-bg-dt-dark-wt-kingBlue-lighter: #32394a;
   --chat-bg-dt-dark-wt-kingBlueLight-transparent: #32394a;
   --chat-bg-dt-dark-wt-bright-blue: #32394a;
-  --chat-bg-dt-dark-wt-kingBlueLight-transparenter: #32394a;
 
   --msg-bg-dt-gray-lt-grayLight: #4a5466;
   --msg-bg-dt-gray-lt-kingBlue-lighter: #4a5466;
@@ -121,7 +118,6 @@ input {
 
   --upload-photo-progress: rgba(38, 44, 56, 0.7);
 
-  --dt-transparent-white-wt-kingBlueLight-transparent: rgba(255, 255, 255, 0.14);
   --dt-transparent-white-wt-kingBlueLight-transparenter: rgba(255, 255, 255, 0.14);
   --dt-whiter-wt-bright-blue: rgba(255, 255, 255, 0.14);
 
@@ -139,8 +135,6 @@ input {
 
   --dt-kingBlue-wt-kingBlueLight: #3f8ae0;
   --dt-kingBlue-wt-grayLight: #3f8ae0;
-  --kingBlueLight-transparent: rgba(63, 138, 224, 0.25);
-  --dt-white-wt-kingBlueLight-transparenter: rgba(255, 255, 255, 0.14);
 
   --dt-blue-wt-grayLight: #30598b;
 
@@ -152,11 +146,5 @@ input {
   --input-disabled: #464c59;
   --input-placeholder: rgba(255, 255, 255, 0.14);
 
-  --red: #c74848;
-  --blue: #30598b;
-  --dark: #161d2e;
-  --semi-transparent-white: rgba(255, 255, 255, 0.5);
-  --transparent-white: rgba(255, 255, 255, 0.14);
-  --error-bg: #483e4a;
   --blur-color: rgba(38, 44, 56, 0.4);
 }

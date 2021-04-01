@@ -1,12 +1,13 @@
 import React, { useCallback, useContext, useState } from 'react';
-import AddContactSvg from '@icons/add-users.svg';
+import { ReactComponent as AddContactSvg } from '@icons/add-users.svg';
 import './add-friend-modal.scss';
 import { LocalizationContext } from '@contexts';
-import { WithBackground, Modal, Avatar, PhoneInputGroup } from '@components';
+import { PhoneInputGroup } from '@components/messenger-page';
+import { WithBackground, Modal, Avatar } from '@components/shared';
 import { GetUserByPhone } from '@store/friends/features/get-user-by-phone/get-user-by-phone';
 import { IUser } from '@store/common/models';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import CloseSvg from '@icons/close-x-bold.svg';
+import { ReactComponent as CloseSvg } from '@icons/close-x-bold.svg';
 import { getUserInitials } from '@utils/interlocutor-name-utils';
 import parsePhoneNumberFromString, { parsePhoneNumber } from 'libphonenumber-js';
 import { Link } from 'react-router-dom';
@@ -47,7 +48,7 @@ export const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
     if (user) {
       addFriend(user).then(() => setSucess(true));
     }
-  }, [user]);
+  }, [user, addFriend]);
 
   const closeError = useCallback(() => {
     setError(false);
@@ -58,33 +59,38 @@ export const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
       <Modal
         title={
           <>
-            <AddContactSvg className='add-friends-modal__icon' viewBox='0 0 18 18' />
+            <AddContactSvg className="add-friends-modal__icon" viewBox="0 0 18 18" />
             <span> {t('addFriendModal.title')} </span>
           </>
         }
         content={
           user ? (
-            <div className='add-friends-modal__user'>
-              <Avatar className='add-friends-modal__user__avatar' src={user.avatar?.previewUrl}>
+            <div className="add-friends-modal__user">
+              <Avatar className="add-friends-modal__user__avatar" src={user.avatar?.previewUrl}>
                 {getUserInitials(user)}
               </Avatar>
-              <h2 className='add-friends-modal__user__name'>{`${user.firstName} ${user.lastName}`}</h2>
-              <h4 className='add-friends-modal__user__phone'>{parsePhoneNumber(user?.phoneNumber).formatInternational()}</h4>
+              <h2 className="add-friends-modal__user__name">{`${user.firstName} ${user.lastName}`}</h2>
+              <h4 className="add-friends-modal__user__phone">
+                {parsePhoneNumber(user?.phoneNumber).formatInternational()}
+              </h4>
 
               {success && (
-                <div className='add-friends-modal__success'>
+                <div className="add-friends-modal__success">
                   <span>{t('addFriendModal.success')}</span>
                 </div>
               )}
             </div>
           ) : (
-            <div className='add-friends-modal'>
+            <div className="add-friends-modal">
               <PhoneInputGroup submitFunction={getRequiredUser} phone={phone} setPhone={setPhone} />
               {error && (
-                <div className='add-friends-modal__error'>
+                <div className="add-friends-modal__error">
                   <span>{t('addFriendModal.error')}</span>
-                  <button type='button' onClick={closeError} className='add-friends-modal__error__close'>
-                    <CloseSvg viewBox='0 0 10 10' />
+                  <button
+                    type="button"
+                    onClick={closeError}
+                    className="add-friends-modal__error__close">
+                    <CloseSvg viewBox="0 0 10 10" />
                   </button>
                 </div>
               )}
@@ -94,7 +100,11 @@ export const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
         closeModal={onClose}
         buttons={[
           !user ? (
-            <button key={1} type='button' className='add-friends-modal__btn add-friends-modal__btn--cancel' onClick={onClose}>
+            <button
+              key={1}
+              type="button"
+              className="add-friends-modal__btn add-friends-modal__btn--cancel"
+              onClick={onClose}>
               {t('addFriendModal.cancel')}
             </button>
           ) : null,
@@ -102,24 +112,28 @@ export const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
             <button
               disabled={!parsePhoneNumberFromString(phone)?.isValid()}
               key={2}
-              type='button'
-              className='add-friends-modal__btn add-friends-modal__btn--confirm'
-              onClick={getRequiredUser}
-            >
+              type="button"
+              className="add-friends-modal__btn add-friends-modal__btn--confirm"
+              onClick={getRequiredUser}>
               {t('addFriendModal.find')}
             </button>
           ) : null,
           user ? (
             <Link
               key={3}
-              className={`add-friends-modal__btn ${added ? 'add-friends-modal__btn--confirm' : 'add-friends-modal__btn--cancel'}`}
-              to={`/chats/${ChatId.from(user.id).id}`}
-            >
+              className={`add-friends-modal__btn ${
+                added ? 'add-friends-modal__btn--confirm' : 'add-friends-modal__btn--cancel'
+              }`}
+              to={`/chats/${ChatId.from(user.id).id}`}>
               {t('addFriendModal.chat')}
             </Link>
           ) : null,
           user && !added ? (
-            <button key={4} type='button' className='add-friends-modal__btn add-friends-modal__btn--confirm' onClick={addRequiredUser}>
+            <button
+              key={4}
+              type="button"
+              className="add-friends-modal__btn add-friends-modal__btn--confirm"
+              onClick={addRequiredUser}>
               {t('addFriendModal.add')}
             </button>
           ) : null,

@@ -20,8 +20,17 @@ export class CallEndedEventHandler {
   }
 
   static get saga() {
-    return function* callEndedSaga(action: ReturnType<typeof CallEndedEventHandler.action>): SagaIterator {
-      const { userInterlocutorId, id, duration, status } = action.payload;
+    return function* callEndedSaga(
+      action: ReturnType<typeof CallEndedEventHandler.action>,
+    ): SagaIterator {
+      const {
+        userInterlocutorId,
+        id,
+        startDateTime,
+        endDateTime,
+        creationDateTime,
+        status,
+      } = action.payload;
       const interlocutor = yield select(getCallInterlocutorSelector);
 
       if (!interlocutor || userInterlocutorId === interlocutor?.id) {
@@ -37,11 +46,15 @@ export class CallEndedEventHandler {
             id,
             userInterlocutor: interlocutor,
             userCallerId: isActiveCallIncoming ? interlocutor.id : myId,
-            duration,
+            startDateTime,
+            endDateTime,
             status,
+            creationDateTime,
           };
         } else {
-          const { data } = CallEndedEventHandler.httpRequest.call(yield call(() => CallEndedEventHandler.httpRequest.generator({ callId: id })));
+          const { data } = CallEndedEventHandler.httpRequest.call(
+            yield call(() => CallEndedEventHandler.httpRequest.generator({ callId: id })),
+          );
 
           activeCall = data;
         }
@@ -53,7 +66,8 @@ export class CallEndedEventHandler {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<ICall>, IGetCallByIdApiRequest>(
-      ({ callId }: IGetCallByIdApiRequest) => `${process.env.MAIN_API}/api/calls/${callId}`,
+      ({ callId }: IGetCallByIdApiRequest) =>
+        `${process.env.REACT_APP_MAIN_API}/api/calls/${callId}`,
       HttpRequestMethod.Get,
     );
   }

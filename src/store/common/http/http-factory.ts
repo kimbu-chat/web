@@ -28,7 +28,9 @@ export const httpRequestFactory = <TResponse, TBody = unknown>(
     let cancelTokenSource: CancelTokenSource | null = null;
 
     try {
-      const refreshTokenRequestLoading = yield select((rootState: RootState) => rootState.auth.refreshTokenRequestLoading);
+      const refreshTokenRequestLoading = yield select(
+        (rootState: RootState) => rootState.auth.refreshTokenRequestLoading,
+      );
 
       if (refreshTokenRequestLoading) {
         yield take(RefreshTokenSuccess.action);
@@ -43,7 +45,10 @@ export const httpRequestFactory = <TResponse, TBody = unknown>(
       try {
         const authHeader = yield call(getAuthHeader);
         cancelTokenSource = axios.CancelToken.source();
-        return yield call(httpRequest, finalUrl, method, body, cancelTokenSource.token, { ...headers, ...authHeader });
+        return yield call(httpRequest, finalUrl, method, body, cancelTokenSource.token, {
+          ...headers,
+          ...authHeader,
+        });
       } catch (e) {
         const error = e as AxiosError;
         if (!isNetworkError(e) && error?.response?.status === 401) {
@@ -51,7 +56,10 @@ export const httpRequestFactory = <TResponse, TBody = unknown>(
           yield take(RefreshTokenSuccess.action);
           cancelTokenSource = axios.CancelToken.source();
           const authHeader = yield call(getAuthHeader);
-          return yield call(httpRequest, finalUrl, method, body, cancelTokenSource.token, { ...headers, ...authHeader });
+          return yield call(httpRequest, finalUrl, method, body, cancelTokenSource.token, {
+            ...headers,
+            ...authHeader,
+          });
         }
 
         throw e;

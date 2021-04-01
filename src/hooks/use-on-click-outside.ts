@@ -12,7 +12,10 @@ export function useOnClickOutside<T extends HTMLElement, M extends HTMLElement>(
         return;
       }
 
-      if (additionalIgnoreElementRef?.current && additionalIgnoreElementRef?.current?.contains(event.target as Node)) {
+      if (
+        additionalIgnoreElementRef?.current &&
+        additionalIgnoreElementRef?.current?.contains(event.target as Node)
+      ) {
         return;
       }
 
@@ -26,5 +29,5 @@ export function useOnClickOutside<T extends HTMLElement, M extends HTMLElement>(
       document.removeEventListener('mousedown', listener);
       document.removeEventListener('touchstart', listener);
     };
-  }, [ref, handler]);
+  }, [ref, handler, additionalIgnoreElementRef]);
 }

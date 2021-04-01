@@ -18,28 +18,32 @@ export class SubmitEditMessage {
   }
 
   static get reducer() {
-    return produce((draft: IChatsState, { payload }: ReturnType<typeof SubmitEditMessage.action>) => {
-      const { text } = payload;
-      if (draft.selectedChatId) {
-        const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
+    return produce(
+      (draft: IChatsState, { payload }: ReturnType<typeof SubmitEditMessage.action>) => {
+        const { text } = payload;
+        if (draft.selectedChatId) {
+          const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
 
-        if (chat?.messageToEdit) {
-          chat.attachmentsToSend = [];
+          if (chat?.messageToEdit) {
+            chat.attachmentsToSend = [];
 
-          if (chat.lastMessage?.id === chat?.messageToEdit.id) {
-            chat.lastMessage.text = text;
+            if (chat.lastMessage?.id === chat?.messageToEdit.id) {
+              chat.lastMessage.text = text;
+            }
+
+            chat.messageToEdit = undefined;
           }
-
-          chat.messageToEdit = undefined;
         }
-      }
 
-      return draft;
-    });
+        return draft;
+      },
+    );
   }
 
   static get saga() {
-    return function* submitEditMessage(action: ReturnType<typeof SubmitEditMessage.action>): SagaIterator {
+    return function* submitEditMessage(
+      action: ReturnType<typeof SubmitEditMessage.action>,
+    ): SagaIterator {
       const { removedAttachments, newAttachments, text, messageId } = action.payload;
       const chatId = yield select(getSelectedChatIdSelector);
 
@@ -50,7 +54,9 @@ export class SubmitEditMessage {
         newAttachments,
       };
 
-      const { status } = SubmitEditMessage.httpRequest.call(yield call(() => SubmitEditMessage.httpRequest.generator(editRequest)));
+      const { status } = SubmitEditMessage.httpRequest.call(
+        yield call(() => SubmitEditMessage.httpRequest.generator(editRequest)),
+      );
 
       if (status === HTTPStatusCode.OK) {
         yield put(
@@ -67,6 +73,9 @@ export class SubmitEditMessage {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, ISubmitEditMessageApiRequest>(`${process.env.MAIN_API}/api/messages`, HttpRequestMethod.Put);
+    return httpRequestFactory<AxiosResponse, ISubmitEditMessageApiRequest>(
+      `${process.env.REACT_APP_MAIN_API}/api/messages`,
+      HttpRequestMethod.Put,
+    );
   }
 }

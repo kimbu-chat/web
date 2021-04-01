@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
-import { call } from 'redux-saga/effects';
+import { apply, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
 import { Meta } from '@store/common/actions';
@@ -18,7 +18,9 @@ export class UploadAvatar {
   }
 
   static get saga() {
-    return function* uploadAvatarSaga(action: ReturnType<typeof UploadAvatar.action>): SagaIterator {
+    return function* uploadAvatarSaga(
+      action: ReturnType<typeof UploadAvatar.action>,
+    ): SagaIterator {
       const { pathToFile, onProgress } = action.payload;
 
       const file = yield call(getFileFromUrl, pathToFile);
@@ -34,19 +36,25 @@ export class UploadAvatar {
       yield call(() =>
         UploadAvatar.httpRequest.generator(data, {
           *onStart({ cancelTokenSource }): SagaIterator {
-            setAvatarUploadCancelTokenSource(cancelTokenSource);
+            yield apply(setAvatarUploadCancelTokenSource, setAvatarUploadCancelTokenSource, [
+              cancelTokenSource,
+            ]);
           },
-          *onSuccess(payload: IAvatar): SagaIterator {
-            setAvatarUploadCancelTokenSource(undefined);
-            action.meta.deferred.resolve(payload);
+          *onSuccess(payload: AxiosResponse<IAvatar>): SagaIterator {
+            yield apply(setAvatarUploadCancelTokenSource, setAvatarUploadCancelTokenSource, [
+              undefined,
+            ]);
+            action.meta.deferred.resolve(payload.data);
           },
           *onProgress(payload): SagaIterator {
             if (onProgress) {
-              onProgress(payload.progress);
+              yield apply(onProgress, onProgress, [payload.progress]);
             }
           },
           *onFailure(): SagaIterator {
-            setAvatarUploadCancelTokenSource(undefined);
+            yield apply(setAvatarUploadCancelTokenSource, setAvatarUploadCancelTokenSource, [
+              undefined,
+            ]);
             action.meta.deferred.reject();
           },
         }),
@@ -55,6 +63,9 @@ export class UploadAvatar {
   }
 
   static get httpRequest() {
-    return httpFilesRequestFactory<AxiosResponse<IAvatar>, FormData>(`${process.env.FILES_API}/api/avatars`, HttpRequestMethod.Post);
+    return httpFilesRequestFactory<AxiosResponse<IAvatar>, FormData>(
+      `${process.env.REACT_APP_FILES_API}/api/avatars`,
+      HttpRequestMethod.Post,
+    );
   }
 }

@@ -10,17 +10,19 @@ export class GetRawAttachmentsSuccess {
   }
 
   static get reducer() {
-    return produce((draft: IChatsState, { payload }: ReturnType<typeof GetRawAttachmentsSuccess.action>) => {
-      const { files, chatId, hasMore } = payload;
+    return produce(
+      (draft: IChatsState, { payload }: ReturnType<typeof GetRawAttachmentsSuccess.action>) => {
+        const { files, chatId, hasMore } = payload;
 
-      const chat = getChatByIdDraftSelector(chatId, draft);
+        const chat = getChatByIdDraftSelector(chatId, draft);
 
-      if (chat) {
-        chat.files.files.push(...files);
-        chat.files.hasMore = hasMore;
-        chat.files.loading = false;
-      }
-      return draft;
-    });
+        if (chat) {
+          chat.files.files.push(...files);
+          chat.files.hasMore = hasMore;
+          chat.files.loading = false;
+        }
+        return draft;
+      },
+    );
   }
 }

@@ -9,7 +9,7 @@ import { IPage } from '@store/common/models';
 import moment from 'moment';
 
 import { doesYearDifferFromCurrent, setSeparators } from '@utils/set-separators';
-import { InfiniteScroll, FileAttachment } from '@components';
+import { InfiniteScroll, FileAttachment } from '@components/messenger-page';
 import { FILE_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 
 export const FileList = React.memo(() => {
@@ -26,7 +26,7 @@ export const FileList = React.memo(() => {
     getRawAttachments({
       page,
     });
-  }, [filesForSelectedChat?.files]);
+  }, [filesForSelectedChat?.files, getRawAttachments]);
 
   const filesWithSeparators = setSeparators(
     filesForSelectedChat?.files,
@@ -35,12 +35,16 @@ export const FileList = React.memo(() => {
   );
 
   return (
-    <div className='chat-files'>
-      <InfiniteScroll onReachExtreme={loadMore} hasMore={filesForSelectedChat?.hasMore} isLoading={filesForSelectedChat?.loading} threshold={0.3}>
+    <div className="chat-files">
+      <InfiniteScroll
+        onReachExtreme={loadMore}
+        hasMore={filesForSelectedChat?.hasMore}
+        isLoading={filesForSelectedChat?.loading}
+        threshold={0.3}>
         {filesWithSeparators?.map((file) => (
           <React.Fragment key={file.id}>
             {file.needToShowMonthSeparator && (
-              <div className='chat-files__separator'>
+              <div className="chat-files__separator">
                 {file.needToShowYearSeparator || doesYearDifferFromCurrent(file.creationDateTime)
                   ? moment(file.creationDateTime).format('MMMM YYYY')
                   : moment(file.creationDateTime).format('MMMM')}

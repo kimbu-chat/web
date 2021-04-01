@@ -1,82 +1,82 @@
+const a11yOff = Object.keys(require('eslint-plugin-jsx-a11y').rules).reduce((acc, rule) => {
+  acc[`jsx-a11y/${rule}`] = 'off';
+  return acc;
+}, {});
+
 module.exports = {
   env: {
     browser: true,
+    es2021: true,
   },
-  extends: ['plugin:react/recommended', 'airbnb-typescript', 'prettier', 'prettier/react'],
+  extends: [
+    'plugin:react/recommended',
+    'plugin:import/typescript',
+    'airbnb',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:import/errors',
+    'plugin:import/warnings',
+    'prettier',
+  ],
   parser: '@typescript-eslint/parser',
-  ignorePatterns: ['.eslintrc.js'],
   parserOptions: {
+    tsconfigRootDir: './',
+    project: 'tsconfig.json',
+    sourceType: 'module',
     ecmaFeatures: {
       jsx: true,
     },
     ecmaVersion: 12,
-    sourceType: 'module',
-    project: ['./tsconfig.json'],
   },
-  plugins: ['react', '@typescript-eslint', 'prettier'],
+  plugins: ['react', '@typescript-eslint', 'react-hooks'],
   rules: {
-    curly: ['error', 'all'],
-    'react/jsx-filename-extension': [1, { extensions: ['.jsx', '.tsx'] }],
-    'react/jsx-props-no-spreading': 0,
-    'react/prop-types': 0,
-    'react/destructuring-assignment': 0,
-    '@typescript-eslint/indent': 0,
-    '@typescript-eslint/no-shadow': 0,
-    'prettier/prettier': ['warn'],
-    'import/prefer-default-export': 0,
-    'import/extensions': 0,
-    'import/no-unresolved': [
+    ...a11yOff,
+    'react/jsx-props-no-spreading': 'off',
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn',
+    'react/jsx-filename-extension': [
+      1,
+      {
+        extensions: ['.tsx'],
+      },
+    ],
+    'import/prefer-default-export': 'off',
+    'import/extensions': [
       'error',
-      { ignore: ['@app', '@icons', '@store', '@sounds', '@utils', '@common', '@routing', '@containers', '@services', '@components', '@contexts', '@hooks'] },
-    ],
-    'import/no-mutable-exports': 0,
-    'no-param-reassign': 0,
-    'no-plusplus': 0,
-    'no-return-await': 0,
-    'no-nested-ternary': 0,
-    'no-bitwise': 0,
-    'require-yield': 0,
-    'func-names': 0,
-    'max-classes-per-file': 0,
-    'class-methods-use-this': 0,
-    'jsx-a11y/no-noninteractive-element-interactions': 0,
-    'jsx-a11y/click-events-have-key-events': 0,
-    'jsx-a11y/no-static-element-interactions': 0,
-    'jsx-a11y/media-has-caption': 0,
-    'jsx-a11y/label-has-associated-control': 0,
-    'react/require-default-props': 0,
-    '@typescript-eslint/naming-convention': [
-      2,
+      'ignorePackages',
       {
-        selector: 'interface',
-        prefix: ['I'],
-        format: ['PascalCase'],
-      },
-      { selector: 'variableLike', format: ['camelCase', 'PascalCase', 'UPPER_CASE'] },
-      {
-        selector: 'parameter',
-        format: ['camelCase', 'PascalCase'],
-        leadingUnderscore: 'allow',
-      },
-      {
-        selector: 'property',
-        format: ['camelCase'],
-      },
-      {
-        selector: ['enumMember', 'enum'],
-        format: ['PascalCase'],
-      },
-      {
-        selector: 'class',
-        format: ['PascalCase'],
+        ts: 'never',
+        tsx: 'never',
       },
     ],
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    'react/jsx-one-expression-per-line': 'off',
+    'no-use-before-define': 'off',
+    'no-shadow': 'off',
+    'object-curly-newline': 'off',
+    'implicit-arrow-linebreak': 'off',
+    '@typescript-eslint/no-shadow': ['error'],
+    'no-param-reassign': ['error', { props: true, ignorePropertyModificationsFor: ['draft'] }],
+    '@typescript-eslint/no-undef': 'off',
+    'no-bitwise': ['error', { allow: ['|'] }],
+    'react/require-default-props': 'off',
   },
   settings: {
     'import/resolver': {
+      typescript: {
+        alwaysTryTypes: true,
+        project: './tsconfig.json',
+      },
       node: {
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
     },
   },
+  overrides: [
+    {
+      files: ['**/*.tsx'],
+      rules: {
+        'react/prop-types': 'off',
+      },
+    },
+  ],
 };

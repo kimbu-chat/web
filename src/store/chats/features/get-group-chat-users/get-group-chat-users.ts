@@ -35,14 +35,18 @@ export class GetGroupChatUsers {
   }
 
   static get saga() {
-    return function* getGroupChatUsersSaga(action: ReturnType<typeof GetGroupChatUsers.action>): SagaIterator {
+    return function* getGroupChatUsersSaga(
+      action: ReturnType<typeof GetGroupChatUsers.action>,
+    ): SagaIterator {
       const { isFromSearch, page, name } = action.payload;
 
       const chatId = yield select(getSelectedChatIdSelector);
       const { groupChatId } = ChatId.fromId(chatId);
 
       if (groupChatId) {
-        const { data } = GetGroupChatUsers.httpRequest.call(yield call(() => GetGroupChatUsers.httpRequest.generator({ name, page, groupChatId })));
+        const { data } = GetGroupChatUsers.httpRequest.call(
+          yield call(() => GetGroupChatUsers.httpRequest.generator({ name, page, groupChatId })),
+        );
 
         yield put(
           GetGroupChatUsersSuccess.action({
@@ -58,7 +62,7 @@ export class GetGroupChatUsers {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IUser[]>, IGetGroupChatUsersApiRequest>(
-      `${process.env.MAIN_API}/api/group-chats/search-members`,
+      `${process.env.REACT_APP_MAIN_API}/api/group-chats/search-members`,
       HttpRequestMethod.Post,
     );
   }

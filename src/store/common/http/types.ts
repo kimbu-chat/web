@@ -1,4 +1,4 @@
-import { CancelTokenSource } from 'axios';
+import { AxiosResponse, CancelTokenSource } from 'axios';
 import { SagaIterator } from 'redux-saga';
 
 export type IRequestGenerator<TResponse, TBody> = {
@@ -13,7 +13,7 @@ export type UrlGenerator<TBody> = (body: TBody) => string;
 export interface IFilesRequestGeneratorCallbacks {
   onStart?: (payload: { cancelTokenSource: CancelTokenSource }) => SagaIterator;
   onProgress?: (payload: { progress: number; uploadedBytes: number }) => SagaIterator;
-  onSuccess?: (payload: any) => SagaIterator;
+  onSuccess?: (payload: AxiosResponse) => SagaIterator;
   onFailure?: () => SagaIterator;
 }
 

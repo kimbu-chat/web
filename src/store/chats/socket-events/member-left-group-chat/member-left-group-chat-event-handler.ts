@@ -12,29 +12,34 @@ export class MemberLeftGroupChatEventHandler {
   }
 
   static get reducer() {
-    return produce((draft: IChatsState, { payload }: ReturnType<typeof MemberLeftGroupChatEventHandler.action>) => {
-      const { groupChatId, userId } = payload;
-      const chatId = ChatId.from(undefined, groupChatId).id;
+    return produce(
+      (
+        draft: IChatsState,
+        { payload }: ReturnType<typeof MemberLeftGroupChatEventHandler.action>,
+      ) => {
+        const { groupChatId, userId } = payload;
+        const chatId = ChatId.from(undefined, groupChatId).id;
 
-      const myId = new MyProfileService().myProfile.id;
+        const myId = new MyProfileService().myProfile.id;
 
-      const isCurrentUserEventCreator = myId === userId;
+        const isCurrentUserEventCreator = myId === userId;
 
-      if (isCurrentUserEventCreator) {
-        draft.chats = draft.chats.filter((chat) => chat.groupChat?.id !== groupChatId);
+        if (isCurrentUserEventCreator) {
+          draft.chats = draft.chats.filter((chat) => chat.groupChat?.id !== groupChatId);
 
-        if (draft.selectedChatId === chatId) {
-          draft.selectedChatId = null;
+          if (draft.selectedChatId === chatId) {
+            draft.selectedChatId = null;
+          }
+        } else {
+          const chat = getChatByIdDraftSelector(chatId, draft);
+
+          if (chat) {
+            chat.members.members = chat.members.members.filter(({ id }) => id !== userId);
+          }
         }
-      } else {
-        const chat = getChatByIdDraftSelector(chatId, draft);
 
-        if (chat) {
-          chat.members.members = chat.members.members.filter(({ id }) => id !== userId);
-        }
-      }
-
-      return draft;
-    });
+        return draft;
+      },
+    );
   }
 }

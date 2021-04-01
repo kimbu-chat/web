@@ -34,7 +34,9 @@ export const getUserInitials = (user?: IUser) => {
     return '';
   }
 
-  const initials = `${user.firstName} ${user.lastName}`.split(' ').reduce((accum, current) => accum + current[0], '');
+  const initials = `${user.firstName} ${user.lastName}`
+    .split(' ')
+    .reduce((accum, current) => accum + current[0], '');
 
   const shortedInitials = initials.substr(0, 2);
 

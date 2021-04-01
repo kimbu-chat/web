@@ -32,12 +32,16 @@ export class GetAudioAttachments {
   }
 
   static get saga() {
-    return function* getAudioAttachments(action: ReturnType<typeof GetAudioAttachments.action>): SagaIterator {
+    return function* getAudioAttachments(
+      action: ReturnType<typeof GetAudioAttachments.action>,
+    ): SagaIterator {
       const { page } = action.payload;
 
       const chatId = yield select(getSelectedChatIdSelector);
 
-      const { data, status } = GetAudioAttachments.httpRequest.call(yield call(() => GetAudioAttachments.httpRequest.generator({ page, chatId })));
+      const { data, status } = GetAudioAttachments.httpRequest.call(
+        yield call(() => GetAudioAttachments.httpRequest.generator({ page, chatId })),
+      );
 
       const hasMore = data.length >= page.limit;
 
@@ -49,7 +53,7 @@ export class GetAudioAttachments {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IAudioAttachment[]>, IGetAudioAttachmentsApiRequest>(
-      `${process.env.MAIN_API}/api/audio-attachments/search`,
+      `${process.env.REACT_APP_MAIN_API}/api/audio-attachments/search`,
       HttpRequestMethod.Post,
     );
   }

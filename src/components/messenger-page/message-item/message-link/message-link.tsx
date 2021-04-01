@@ -1,6 +1,13 @@
 import { LocalizationContext } from '@contexts';
-import { Avatar } from '@components';
-import { FileType, IAudioAttachment, IBaseAttachment, IPictureAttachment, IRawAttachment, IVideoAttachment, IVoiceAttachment } from '@store/chats/models';
+import { Avatar } from '@components/shared';
+import {
+  FileType,
+  IAudioAttachment,
+  IPictureAttachment,
+  IBaseAttachment,
+  IVideoAttachment,
+  IVoiceAttachment,
+} from '@store/chats/models';
 import { IUser } from '@store/common/models';
 import React, { useContext, useMemo } from 'react';
 import { getUserInitials } from '@utils/interlocutor-name-utils';
@@ -29,7 +36,7 @@ const MessageLink: React.FC<IMessageLinkProps> = React.memo(({ linkedMessage }) 
       linkedMessage?.attachments?.reduce(
         (
           accum: {
-            files: IRawAttachment[];
+            files: IBaseAttachment[];
             media: (IVideoAttachment | IPictureAttachment)[];
             audios: IAudioAttachment[];
             recordings: IVoiceAttachment[];
@@ -38,7 +45,7 @@ const MessageLink: React.FC<IMessageLinkProps> = React.memo(({ linkedMessage }) 
         ) => {
           switch (currentAttachment.type) {
             case FileType.Raw:
-              accum.files.push(currentAttachment as IRawAttachment);
+              accum.files.push(currentAttachment);
 
               break;
             case FileType.Picture:
@@ -74,15 +81,17 @@ const MessageLink: React.FC<IMessageLinkProps> = React.memo(({ linkedMessage }) 
   );
 
   return (
-    <div className='message-link'>
-      <Avatar className='message-link__avatar' src={linkedMessage?.userCreator.avatar?.previewUrl}>
+    <div className="message-link">
+      <Avatar className="message-link__avatar" src={linkedMessage?.userCreator.avatar?.previewUrl}>
         {getUserInitials(linkedMessage?.userCreator)}
       </Avatar>
 
-      <div className='message-link__text'>
-        <span>{linkedMessage?.isDeleted ? t('message-link.message-deleted') : linkedMessage?.text}</span>
+      <div className="message-link__text">
+        <span>
+          {linkedMessage?.isDeleted ? t('message-link.message-deleted') : linkedMessage?.text}
+        </span>
 
-        <div className='message-link__attachments'>
+        <div className="message-link__attachments">
           {structuredAttachments?.files.map((file) => (
             <FileAttachment key={file.id} attachment={file} />
           ))}
@@ -92,7 +101,9 @@ const MessageLink: React.FC<IMessageLinkProps> = React.memo(({ linkedMessage }) 
           {structuredAttachments?.audios.map((audio) => (
             <MessageAudioAttachment key={audio.id} attachment={audio} />
           ))}
-          {(structuredAttachments?.media.length || 0) > 0 && <MediaGrid media={structuredAttachments!.media} />}
+          {structuredAttachments && structuredAttachments.media.length > 0 && (
+            <MediaGrid media={structuredAttachments.media} />
+          )}
         </div>
       </div>
     </div>

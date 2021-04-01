@@ -7,7 +7,11 @@ import { createAction } from 'typesafe-actions';
 import { Meta } from '@store/common/actions';
 import { IAuthState } from '@store/auth/auth-state';
 import { authRequestFactory, HttpRequestMethod } from '@store/common/http';
-import { authPhoneNumberSelector, confirmationCodeSelector, twoLetterCountryCodeSelector } from '@store/auth/selectors';
+import {
+  authPhoneNumberSelector,
+  confirmationCodeSelector,
+  twoLetterCountryCodeSelector,
+} from '@store/auth/selectors';
 import { Login } from '@store/auth/features/login/login';
 import { LoginSuccess } from '@store/auth/features/login/login-success';
 
@@ -55,6 +59,9 @@ export class Register {
   }
 
   static get httpRequest() {
-    return authRequestFactory<AxiosResponse, IRegisterApiRequest>(`${process.env.MAIN_API}/api/users/`, HttpRequestMethod.Post);
+    return authRequestFactory<AxiosResponse, IRegisterApiRequest>(
+      `${process.env.REACT_APP_MAIN_API}/api/users/`,
+      HttpRequestMethod.Post,
+    );
   }
 }

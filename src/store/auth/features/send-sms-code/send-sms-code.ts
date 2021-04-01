@@ -30,7 +30,9 @@ export class SendSmsCode {
   }
 
   static get saga() {
-    return function* sendSmsPhoneConfirmationCodeSaga(action: ReturnType<typeof SendSmsCode.action>): SagaIterator {
+    return function* sendSmsPhoneConfirmationCodeSaga(
+      action: ReturnType<typeof SendSmsCode.action>,
+    ): SagaIterator {
       const { data, status }: AxiosResponse<string> = SendSmsCode.httpRequest.call(
         yield call(() =>
           SendSmsCode.httpRequest.generator({
@@ -51,7 +53,7 @@ export class SendSmsCode {
 
   static get httpRequest() {
     return authRequestFactory<AxiosResponse<string>, ISendSmsCodeApiRequest>(
-      `${process.env.MAIN_API}/api/users/send-sms-confirmation-code`,
+      `${process.env.REACT_APP_MAIN_API}/api/users/send-sms-confirmation-code`,
       HttpRequestMethod.Post,
     );
   }

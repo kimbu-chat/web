@@ -31,11 +31,15 @@ export class GetVoiceAttachments {
   }
 
   static get saga() {
-    return function* getVoiceAttachmentsSaga(action: ReturnType<typeof GetVoiceAttachments.action>): SagaIterator {
+    return function* getVoiceAttachmentsSaga(
+      action: ReturnType<typeof GetVoiceAttachments.action>,
+    ): SagaIterator {
       const { page } = action.payload;
       const chatId = yield select(getSelectedChatIdSelector);
 
-      const { data, status } = GetVoiceAttachments.httpRequest.call(yield call(() => GetVoiceAttachments.httpRequest.generator({ page, chatId })));
+      const { data, status } = GetVoiceAttachments.httpRequest.call(
+        yield call(() => GetVoiceAttachments.httpRequest.generator({ page, chatId })),
+      );
 
       const hasMore = data.length >= page.limit;
 
@@ -47,7 +51,7 @@ export class GetVoiceAttachments {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IVoiceAttachment[]>, IGetVoiceAttachmentsApiRequest>(
-      `${process.env.MAIN_API}/api/voice-attachments/search`,
+      `${process.env.REACT_APP_MAIN_API}/api/voice-attachments/search`,
       HttpRequestMethod.Post,
     );
   }

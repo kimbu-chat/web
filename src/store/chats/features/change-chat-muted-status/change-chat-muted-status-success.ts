@@ -6,20 +6,24 @@ import { IChatsState } from '../../chats-state';
 
 export class ChangeChatMutedStatusSuccess {
   static get action() {
-    return createAction('CHANGE_SELECTED_CHAT_MUTE_STATUS_SUCCESS')<IChangeChatMutedStatusSuccessActionPayload>();
+    return createAction(
+      'CHANGE_SELECTED_CHAT_MUTE_STATUS_SUCCESS',
+    )<IChangeChatMutedStatusSuccessActionPayload>();
   }
 
   static get reducer() {
-    return produce((draft: IChatsState, { payload }: ReturnType<typeof ChangeChatMutedStatusSuccess.action>) => {
-      const { chatId } = payload;
+    return produce(
+      (draft: IChatsState, { payload }: ReturnType<typeof ChangeChatMutedStatusSuccess.action>) => {
+        const { chatId } = payload;
 
-      const chat = getChatByIdDraftSelector(chatId, draft);
+        const chat = getChatByIdDraftSelector(chatId, draft);
 
-      if (chat) {
-        chat.isMuted = !chat.isMuted;
-      }
+        if (chat) {
+          chat.isMuted = !chat.isMuted;
+        }
 
-      return draft;
-    });
+        return draft;
+      },
+    );
   }
 }

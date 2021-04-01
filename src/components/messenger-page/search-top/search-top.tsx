@@ -1,12 +1,13 @@
 import React, { useCallback, useState } from 'react';
 import './search-top.scss';
 
-import CreateChatSvg from '@icons/create-chat.svg';
+import { ReactComponent as CreateChatSvg } from '@icons/create-chat.svg';
 
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import * as ChatActions from '@store/chats/actions';
 
-import { FadeAnimationWrapper, CreateGroupChat, NewChatModal, SearchBox } from '@components';
+import { CreateGroupChat, NewChatModal, SearchBox } from '@components/messenger-page';
+import { FadeAnimationWrapper } from '@components/shared';
 
 interface ISearchTopProps {
   searchFor: 'friends' | 'chats' | 'calls';
@@ -22,7 +23,7 @@ export const SearchTop: React.FC<ISearchTopProps> = React.memo(({ searchFor }) =
   const [createGroupChatDisplayed, setCreateGroupChatDisplayed] = useState(false);
   const changeCreateGroupChatDisplayedState = useCallback(() => {
     setCreateGroupChatDisplayed((oldState) => !oldState);
-  }, [setNewChatDisplayed]);
+  }, []);
 
   const handleChatSearchChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -37,20 +38,26 @@ export const SearchTop: React.FC<ISearchTopProps> = React.memo(({ searchFor }) =
   );
 
   return (
-    <div className='search-top'>
+    <div className="search-top">
       <SearchBox
-        containerClassName='search-top__search-container'
-        inputClassName='search-top__search-input'
-        iconClassName='search-top__search-icon'
+        containerClassName="search-top__search-container"
+        inputClassName="search-top__search-input"
+        iconClassName="search-top__search-icon"
         onChange={handleChatSearchChange}
       />
       {searchFor === 'chats' && (
-        <button type='button' onClick={changeNewChatDisplayedState} className='search-top__create-chat-btn'>
+        <button
+          type="button"
+          onClick={changeNewChatDisplayedState}
+          className="search-top__create-chat-btn">
           <CreateChatSvg />
         </button>
       )}
       <FadeAnimationWrapper isDisplayed={newChatDisplayed}>
-        <NewChatModal displayCreateGroupChat={changeCreateGroupChatDisplayedState} onClose={changeNewChatDisplayedState} />
+        <NewChatModal
+          displayCreateGroupChat={changeCreateGroupChatDisplayedState}
+          onClose={changeNewChatDisplayedState}
+        />
       </FadeAnimationWrapper>
 
       <FadeAnimationWrapper isDisplayed={createGroupChatDisplayed}>

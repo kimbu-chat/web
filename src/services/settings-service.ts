@@ -1,4 +1,4 @@
-import { IOptionalUserSettings } from '@app/store/settings/comon/models/optional-user-settings';
+import { IOptionalUserSettings } from '@store/settings/comon/models/optional-user-settings';
 import { IUserSettings } from '../store/settings/user-settings-state';
 import { BrowserStorage } from '../utils/browser-storage';
 

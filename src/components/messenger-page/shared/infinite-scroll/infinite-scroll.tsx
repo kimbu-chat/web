@@ -13,7 +13,16 @@ interface IInfiniteScrollProps {
 }
 
 const InfiniteScroll: React.FC<IInfiniteScrollProps> = React.memo(
-  ({ children, Loader = InfiniteScrollLoader, className = '', hasMore, isLoading, onReachExtreme, isReverse, threshold = 0.0 }) => {
+  ({
+    children,
+    Loader = InfiniteScrollLoader,
+    className = '',
+    hasMore,
+    isLoading,
+    onReachExtreme,
+    isReverse,
+    threshold = 0.0,
+  }) => {
     const loaderRef = React.useRef<HTMLDivElement>(null);
 
     React.useEffect(() => {
@@ -41,17 +50,20 @@ const InfiniteScroll: React.FC<IInfiniteScrollProps> = React.memo(
     }, [hasMore, isLoading, onReachExtreme, threshold]);
 
     return (
-      <div style={{ display: 'flex', flexDirection: isReverse ? 'column-reverse' : 'column' }} className={`endless-scroll-wrapper ${className}`}>
+      <div
+        style={{ display: 'flex', flexDirection: isReverse ? 'column-reverse' : 'column' }}
+        className={`endless-scroll-wrapper ${className}`}>
         {children}
         {hasMore && (
-          <div ref={loaderRef} className='endless-scroll-loader-wrapper'>
+          <div ref={loaderRef} className="endless-scroll-loader-wrapper">
             <Loader />
           </div>
         )}
       </div>
     );
   },
-  (prevProps, nextProps) => prevProps.children === nextProps.children && prevProps.hasMore === nextProps.hasMore,
+  (prevProps, nextProps) =>
+    prevProps.children === nextProps.children && prevProps.hasMore === nextProps.hasMore,
 );
 
 InfiniteScroll.displayName = 'InfiniteScroll';

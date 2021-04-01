@@ -8,7 +8,7 @@
   left: 50%;
   transform: translate(-50%, -100%);
   opacity: 0;
-  transform: all 0.2s;
+  transition: all 0.2s;
 
   &__content {
     font-weight: 300;

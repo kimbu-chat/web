@@ -11,8 +11,7 @@ import { ReactComponent as PhotoSvg } from '@icons/ic-photo.svg';
 
 import { getInterlocutorInitials } from '@utils/interlocutor-name-utils';
 
-import { EditGroupChat } from '@store/chats/features/edit-group-chat/edit-group-chat';
-import { GetChatInfo } from '@store/chats/features/get-chat-info/get-chat-info';
+import * as ChatActions from '@store/chats/actions';
 import { UploadAvatar } from '@store/my-profile/features/upload-avatar/upload-avatar';
 import { IAvatar, IAvatarSelectedData } from '@store/common/models';
 import { FileType } from '@store/chats/models';
@@ -24,8 +23,8 @@ import { ChatMedia } from './chat-media/chat-media';
 const ChatInfoRightPanel: React.FC = React.memo(() => {
   const selectedChat = useSelector(getSelectedChatSelector);
 
-  const getChatInfo = useActionWithDispatch(GetChatInfo.action);
-  const editGroupChat = useActionWithDispatch(EditGroupChat.action);
+  const getChatInfo = useActionWithDispatch(ChatActions.getChatInfo);
+  const editGroupChat = useActionWithDispatch(ChatActions.editGroupChat);
   const uploadGroupChatAvatar = useActionWithDeferred(UploadAvatar.action);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -62,10 +61,8 @@ const ChatInfoRightPanel: React.FC = React.memo(() => {
   }, [setIsAvatarMaximized, getChatAvatar]);
 
   useEffect(() => {
-    if (selectedChat) {
-      getChatInfo();
-    }
-  }, [getChatInfo, selectedChat]);
+    getChatInfo();
+  }, [getChatInfo]);
 
   const handleImageChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -43,10 +43,12 @@ export class ChangeSelectedChat {
           }
 
           if (chat && draft.selectedMessageIds.length > 0) {
-            draft.messages[oldChatId].messages.map((message) => ({
-              ...message,
-              isSelected: false,
-            }));
+            draft.messages[oldChatId].messages = draft.messages[oldChatId].messages.map(
+              (message) => ({
+                ...message,
+                isSelected: false,
+              }),
+            );
           }
         }
 

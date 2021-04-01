@@ -24,8 +24,6 @@ export class ClearChatHistorySuccess {
         }
 
         return draft;
-
-        return draft;
       },
     );
   }

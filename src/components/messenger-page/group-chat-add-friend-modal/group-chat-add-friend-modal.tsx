@@ -1,9 +1,8 @@
-import { Modal, WithBackground } from '@components/shared';
 import { InfiniteScroll, SearchBox } from '@components/messenger-page';
+import { Modal, WithBackground } from '@components/shared';
 import React, { useCallback, useContext, useState } from 'react';
 
 import { useSelector } from 'react-redux';
-import './group-chat-add-friend-modal.scss';
 import { getMemberIdsForSelectedGroupChatSelector } from '@store/chats/selectors';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { LocalizationContext } from '@contexts';
@@ -19,6 +18,7 @@ import { FRIENDS_LIMIT } from '@utils/pagination-limits';
 import { AddUsersToGroupChat } from '@store/chats/features/add-users-to-group-chat/add-users-to-group-chat';
 import { GetFriends } from '@store/friends/features/get-friends/get-friends';
 import { SelectEntity } from '../shared/select-entity/select-entity';
+import './group-chat-add-friend-modal.scss';
 
 interface IGroupChatAddFriendModalProps {
   onClose: () => void;

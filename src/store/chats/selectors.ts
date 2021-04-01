@@ -188,7 +188,7 @@ export const getChatMessageByIdSelector = (messageId: number, chatId: number) =>
 
 export const getChatHasMessageWithIdSelector = (messageId: number, chatId: number) => (
   state: RootState,
-) => (state.chats.messages[chatId]?.messages.findIndex(({ id }) => id === messageId) || -1) > -1;
+) => state.chats.messages[chatId]?.messages.findIndex(({ id }) => id === messageId) > -1;
 
 // IChatsState selectors
 export const getChatExistsDraftSelector = (chatId: number, draft: IChatsState): boolean =>

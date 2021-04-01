@@ -24,6 +24,12 @@
     }
   }
 
+  &__friends-block {
+    padding-right: 11px;
+    max-height: 304px;
+    overflow: auto;
+  }
+
   &__btn {
     margin-top: 30px;
     padding: 10px 32px;

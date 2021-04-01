@@ -68,7 +68,8 @@ export class MessageCreatedEventHandler {
 
       const messageExists =
         (yield select(getChatHasMessageWithIdSelector(id, chatId))) ||
-        (yield select(getChatHasMessageWithIdSelector(id, clientId)));
+        (yield select(getChatHasMessageWithIdSelector(clientId, chatId)));
+
       const isTabActive = yield select(tabActiveSelector);
 
       const message: IMessage = {

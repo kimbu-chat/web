@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import './select-entity.scss';
 
 import { Avatar, StatusBadge, TimeUpdateable } from '@components/shared';
 import { getInterlocutorInitials } from '@utils/interlocutor-name-utils';
@@ -7,6 +6,7 @@ import { getInterlocutorInitials } from '@utils/interlocutor-name-utils';
 import { ReactComponent as SelectedSvg } from '@icons/checked.svg';
 import { IChat } from '@store/chats/models';
 import { IUser } from '@store/common/models';
+import './select-entity.scss';
 
 interface ISelectEntityProps {
   changeSelectedState?: (id: number) => void;

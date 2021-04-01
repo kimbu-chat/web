@@ -293,23 +293,25 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                     <MessageLink linkedMessage={message.linkedMessage} />
                   )}
 
-                  <div className="message__attachments">
-                    {structuredAttachments?.files.map((file) => (
-                      <FileAttachment key={file.id} attachment={file} />
-                    ))}
+                  {(message.attachments?.length || 0) > 0 && (
+                    <div className="message__attachments">
+                      {structuredAttachments?.files.map((file) => (
+                        <FileAttachment key={file.id} attachment={file} />
+                      ))}
 
-                    {structuredAttachments?.recordings.map((recording) => (
-                      <RecordingAttachment key={recording.id} attachment={recording} />
-                    ))}
+                      {structuredAttachments?.recordings.map((recording) => (
+                        <RecordingAttachment key={recording.id} attachment={recording} />
+                      ))}
 
-                    {structuredAttachments?.audios.map((audio) => (
-                      <MessageAudioAttachment key={audio.id} attachment={audio} />
-                    ))}
+                      {structuredAttachments?.audios.map((audio) => (
+                        <MessageAudioAttachment key={audio.id} attachment={audio} />
+                      ))}
 
-                    {structuredAttachments?.media && (
-                      <MediaGrid media={structuredAttachments.media} />
-                    )}
-                  </div>
+                      {structuredAttachments?.media && (
+                        <MediaGrid media={structuredAttachments.media} />
+                      )}
+                    </div>
+                  )}
 
                   <span>{message.text}</span>
                 </div>

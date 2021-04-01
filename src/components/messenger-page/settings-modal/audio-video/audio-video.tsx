@@ -54,10 +54,6 @@ export const AudioVideoSettings = () => {
   const [audioIntensity, setAudioIntensity] = useState(0);
 
   useEffect(() => {
-    console.log('wet');
-  }, [switchDevice]);
-
-  useEffect(() => {
     if (videoOpened) {
       navigator.mediaDevices
         .getUserMedia({

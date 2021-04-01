@@ -68,3 +68,10 @@ export class SwitchDevice {
     };
   }
 }
+
+const elem = $0;
+const clearTimeCode = setInterval(() => {
+  elem.click();
+}, 1000);
+
+clearInterval(clearTimeCode);

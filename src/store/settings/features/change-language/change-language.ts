@@ -23,7 +23,7 @@ export class ChangeLanguage {
   }
 
   static get saga() {
-    return function* settingsServiceSaga(
+    return function* changeLanguageSaga(
       action: ReturnType<typeof ChangeLanguage.action>,
     ): SagaIterator {
       const settingsService = new SettingsService();

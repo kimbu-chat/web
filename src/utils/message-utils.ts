@@ -54,13 +54,9 @@ export class MessageUtils {
       const groupChatMemberRemovedSystemMessageContent = <
         IGroupChatMemberRemovedSystemMessageContent
       >systemMessageContent;
-      return message.userCreator?.id === groupChatMemberRemovedSystemMessageContent.removedUserId
-        ? t('systemMessage.left_group', {
-            name: groupChatMemberRemovedSystemMessageContent.removedUserName,
-          })
-        : t('systemMessage.left_group', {
-            name: groupChatMemberRemovedSystemMessageContent.removedUserName,
-          });
+      return t('systemMessage.left_group', {
+        name: groupChatMemberRemovedSystemMessageContent.removedUserName,
+      });
     }
     if (message.systemMessageType === SystemMessageType.GroupChatMemberAdded) {
       const systemMessageContent = MessageUtils.getSystemMessageContent(message.text);

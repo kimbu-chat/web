@@ -22,7 +22,7 @@ export class ChangeFontSize {
   }
 
   static get saga() {
-    return function* settingsServiceSaga(
+    return function* changeFontSizeSaga(
       action: ReturnType<typeof ChangeFontSize.action>,
     ): SagaIterator {
       const settingsService = new SettingsService();

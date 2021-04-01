@@ -118,7 +118,7 @@ export const ActiveCall: React.FC = () => {
   // local video stream assigning
   useEffect(() => {
     const localVideoStream = new MediaStream();
-    if (tracks.videoTrack) {
+    if (isVideoOpened && videoConstraints.deviceId && tracks.videoTrack) {
       localVideoStream.addTrack(tracks.videoTrack);
       if (localVideoRef.current) {
         localVideoRef.current.pause();
@@ -126,7 +126,7 @@ export const ActiveCall: React.FC = () => {
         localVideoRef.current.play();
       }
     }
-  }, []);
+  }, [isVideoOpened, videoConstraints.deviceId]);
 
   // component did mount effect
   useEffect(() => {

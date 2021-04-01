@@ -5,8 +5,8 @@ import { getAudioConstraintsSelector, getVideoConstraintsSelector } from '../sel
 import { CloseScreenShareStatus } from '../features/change-screen-share-status/close-screen-share-status';
 import { CloseAudioStatus } from '../features/change-user-media-status/close-audio-status';
 import { CloseVideoStatus } from '../features/change-user-media-status/close-video-status';
-import { OpenAudioStatus } from '../features/change-user-media-status/open-audio-status';
 import { OpenVideoStatus } from '../features/change-user-media-status/open-video-status';
+import { OpenAudioStatus } from '../features/change-user-media-status/open-audio-status';
 import { OpenScreenShareStatus } from '../features/change-screen-share-status/open-screen-share-status';
 
 interface IInCompleteConstraints {
@@ -61,22 +61,39 @@ export const setVideoSender = (sender: RTCRtpSender | null) => {
   videoSender = sender;
 };
 
-const assignAudioStreams = (stream: MediaStream) => {
+export function* assignAudioStreams(stream: MediaStream) {
   [tracks.audioTrack] = stream.getAudioTracks();
-};
 
-const assignVideoStreams = (stream: MediaStream) => {
+  if (tracks.audioTrack) {
+    yield put(OpenAudioStatus.action(tracks.audioTrack.getCapabilities().deviceId));
+  }
+}
+
+export function* assignVideoStreams(stream: MediaStream) {
   [tracks.videoTrack] = stream.getVideoTracks();
-};
+
+  if (tracks.videoTrack) {
+    yield put(OpenVideoStatus.action(tracks.videoTrack.getCapabilities().deviceId));
+  }
+}
 
 const assignScreenSharingTracks = (stream: MediaStream) => {
   [tracks.screenSharingTrack] = stream.getTracks();
 };
 
-const assignStreams = (stream: MediaStream) => {
+export function* assignStreams(stream: MediaStream) {
   [tracks.videoTrack] = stream.getVideoTracks();
+  if (tracks.videoTrack) {
+    console.log('VIDEO');
+    yield put(OpenVideoStatus.action(tracks.videoTrack.getCapabilities().deviceId));
+  }
+
   [tracks.audioTrack] = stream.getAudioTracks();
-};
+
+  if (tracks.audioTrack) {
+    yield put(OpenAudioStatus.action(tracks.audioTrack.getCapabilities().deviceId));
+  }
+}
 
 export const stopVideoTracks = () => {
   tracks.videoTrack?.stop();
@@ -110,7 +127,6 @@ export function* getUserAudio(constraints: IInCompleteConstraints) {
         audio: constraints.audio?.isOpened && constraints.audio,
       }),
     );
-    yield put(OpenAudioStatus.action());
   } catch (e) {
     yield put(CloseAudioStatus.action());
   }
@@ -118,7 +134,7 @@ export function* getUserAudio(constraints: IInCompleteConstraints) {
   stopAudioTracks();
 
   if (localMediaStream) {
-    assignAudioStreams(localMediaStream);
+    yield call(assignAudioStreams, localMediaStream);
   }
 }
 
@@ -130,15 +146,13 @@ export function* getUserVideo(constraints: IInCompleteConstraints) {
         video: constraints.video?.isOpened && constraints.video,
       }),
     );
-    yield put(OpenVideoStatus.action());
+    stopVideoTracks();
+
+    if (localMediaStream) {
+      yield call(assignVideoStreams, localMediaStream);
+    }
   } catch {
     yield put(CloseVideoStatus.action());
-  }
-
-  stopVideoTracks();
-
-  if (localMediaStream) {
-    assignVideoStreams(localMediaStream);
   }
 }
 
@@ -197,7 +211,7 @@ export function* getAndSendUserMedia(): SagaIterator {
   stopAllTracks();
 
   if (localMediaStream) {
-    assignStreams(localMediaStream);
+    yield call(assignStreams, localMediaStream);
 
     if (tracks.videoTrack) {
       videoSender = peerConnection?.addTrack(tracks.videoTrack, localMediaStream) as RTCRtpSender;

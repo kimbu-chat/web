@@ -143,7 +143,7 @@ export const EditProfile = React.memo(() => {
           setIsLoading(false);
         });
       } else {
-        setError(NicknameState.ALLOWED_NICKNAME);
+        setError(NicknameState.INVALID_NICKNAME);
       }
     },
     [setNickname, checkNicknameAvailability, setIsLoading, myProfile?.nickname],

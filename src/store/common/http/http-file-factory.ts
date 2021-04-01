@@ -23,7 +23,7 @@ function createUploadFileChannel(requestConfig: AxiosRequestConfig) {
     };
 
     const onSuccess = (response: AxiosResponse) => {
-      emit({ response: response.data });
+      emit({ response });
       emit(END);
     };
 

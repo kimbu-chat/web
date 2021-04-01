@@ -84,7 +84,6 @@ const assignScreenSharingTracks = (stream: MediaStream) => {
 export function* assignStreams(stream: MediaStream) {
   [tracks.videoTrack] = stream.getVideoTracks();
   if (tracks.videoTrack) {
-    console.log('VIDEO');
     yield put(OpenVideoStatus.action(tracks.videoTrack.getCapabilities().deviceId));
   }
 

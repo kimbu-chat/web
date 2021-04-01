@@ -44,14 +44,17 @@ export class RenegotiationSentEventHandler {
       const peerConnection = getPeerConnection();
       const makingOffer = getMakingOffer();
       const isSettingRemoteAnswerPending = getIsSettingRemoteAnswerPending();
-      const ignoreOffer = getIgnoreOffer();
       const readyForOffer =
         !makingOffer &&
         (peerConnection?.signalingState === 'stable' || isSettingRemoteAnswerPending);
       const offerCollision = !readyForOffer;
 
       setIgnoreOffer(!polite && offerCollision);
+
+      const ignoreOffer = getIgnoreOffer();
+
       if (ignoreOffer) {
+        console.log('---I-G-N-O-R-E-D------------');
         return;
       }
 

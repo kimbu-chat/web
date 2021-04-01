@@ -148,6 +148,7 @@ export function* getUserVideo(constraints: IInCompleteConstraints) {
     stopVideoTracks();
 
     if (localMediaStream) {
+      yield put(CloseVideoStatus.action());
       yield call(assignVideoStreams, localMediaStream);
     }
   } catch {

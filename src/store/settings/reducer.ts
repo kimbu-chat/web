@@ -24,11 +24,11 @@ const initialState: IUserSettings = {
   fontSize: 16,
   pushNotificationsEnabled: true,
   blackList: {
-    isLoading: false,
+    isLoading: true,
     users: [],
   },
   sessionList: {
-    isLoading: false,
+    isLoading: true,
     sessions: [],
   },
 };

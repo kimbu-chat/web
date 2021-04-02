@@ -25,7 +25,7 @@ export const BlockedUsers = () => {
     } else {
       setOpened(true);
 
-      if (blockedUsers.length === 0) {
+      if (loading) {
         getBlockedUsers();
       }
     }

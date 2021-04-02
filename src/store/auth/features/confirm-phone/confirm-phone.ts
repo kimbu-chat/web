@@ -52,7 +52,7 @@ export class ConfirmPhone {
 
   static get httpRequest() {
     return authRequestFactory<AxiosResponse<IConfirmPhoneApiResponse>, IConfirmProneApiRequest>(
-      `${process.env.REACT_APP_MAIN_API}/api/users/verify-sms-code`,
+      `${window.__config.REACT_APP_MAIN_API}/api/users/verify-sms-code`,
       HttpRequestMethod.Post,
     );
   }

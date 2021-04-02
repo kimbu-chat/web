@@ -60,7 +60,7 @@ export class Register {
 
   static get httpRequest() {
     return authRequestFactory<AxiosResponse, IRegisterApiRequest>(
-      `${process.env.REACT_APP_MAIN_API}/api/users/`,
+      `${window.__config.REACT_APP_MAIN_API}/api/users/`,
       HttpRequestMethod.Post,
     );
   }

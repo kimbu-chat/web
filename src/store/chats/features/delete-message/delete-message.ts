@@ -40,7 +40,7 @@ export class DeleteMessage {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, IDeleteMessagesApiRequest>(
-      `${process.env.REACT_APP_MAIN_API}/api/messages/delete-message-list`,
+      `${window.__config.REACT_APP_MAIN_API}/api/messages/delete-message-list`,
       HttpRequestMethod.Post,
     );
   }

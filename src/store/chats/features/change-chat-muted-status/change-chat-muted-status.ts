@@ -38,7 +38,7 @@ export class ChangeChatMutedStatus {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, IChangeChatMutedStatusApiRequest>(
-      `${process.env.REACT_APP_MAIN_API}/api/chats/change-muted-status`,
+      `${window.__config.REACT_APP_MAIN_API}/api/chats/change-muted-status`,
       HttpRequestMethod.Put,
     );
   }

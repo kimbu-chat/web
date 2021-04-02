@@ -117,7 +117,7 @@ export class CreateGroupChat {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<number>, ICerateGroupChatApiRequest>(
-      `${process.env.REACT_APP_MAIN_API}/api/group-chats`,
+      `${window.__config.REACT_APP_MAIN_API}/api/group-chats`,
       HttpRequestMethod.Post,
     );
   }

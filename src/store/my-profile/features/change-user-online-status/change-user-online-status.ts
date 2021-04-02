@@ -46,7 +46,7 @@ export class ChangeUserOnlineStatus {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, IChangeUserOnlineStatusApiRequest>(
-      `${process.env.REACT_APP_MAIN_API}/api/users/change-online-status`,
+      `${window.__config.REACT_APP_MAIN_API}/api/users/change-online-status`,
       HttpRequestMethod.Post,
     );
   }

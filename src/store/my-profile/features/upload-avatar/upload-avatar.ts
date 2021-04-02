@@ -64,7 +64,7 @@ export class UploadAvatar {
 
   static get httpRequest() {
     return httpFilesRequestFactory<AxiosResponse<IAvatar>, FormData>(
-      `${process.env.REACT_APP_FILES_API}/api/avatars`,
+      `${window.__config.REACT_APP_FILES_API}/api/avatars`,
       HttpRequestMethod.Post,
     );
   }

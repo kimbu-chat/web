@@ -29,11 +29,11 @@ import { IRenegociateApiRequest } from './api-requests/renegotiate-api-request';
 
 const CallsHttpRequests = {
   candidate: httpRequestFactory<AxiosResponse, ICandidateApiRequest>(
-    `${process.env.REACT_APP_MAIN_API}/api/calls/send-ice-candidate`,
+    `${window.__config.REACT_APP_MAIN_API}/api/calls/send-ice-candidate`,
     HttpRequestMethod.Post,
   ),
   renegotiate: httpRequestFactory<AxiosResponse, IRenegociateApiRequest>(
-    `${process.env.REACT_APP_MAIN_API}/api/calls/send-renegotiation`,
+    `${window.__config.REACT_APP_MAIN_API}/api/calls/send-renegotiation`,
     HttpRequestMethod.Post,
   ),
 };

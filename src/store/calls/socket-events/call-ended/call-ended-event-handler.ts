@@ -67,7 +67,7 @@ export class CallEndedEventHandler {
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<ICall>, IGetCallByIdApiRequest>(
       ({ callId }: IGetCallByIdApiRequest) =>
-        `${process.env.REACT_APP_MAIN_API}/api/calls/${callId}`,
+        `${window.__config.REACT_APP_MAIN_API}/api/calls/${callId}`,
       HttpRequestMethod.Get,
     );
   }

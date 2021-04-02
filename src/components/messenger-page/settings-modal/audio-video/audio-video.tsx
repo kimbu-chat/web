@@ -52,9 +52,9 @@ export const AudioVideoSettings = () => {
       <IntensityPoint dataActive={intensity >= 6} dataMiddle={intensity >= 5} />
       <IntensityPoint dataActive={intensity >= 5} dataMiddle={intensity >= 4} />
       <IntensityPoint dataActive={intensity >= 4} dataMiddle={intensity >= 3} />
-      <IntensityPoint dataActive={intensity >= 1} />
       <IntensityPoint dataActive={intensity >= 3} dataMiddle={intensity >= 2} />
       <IntensityPoint dataActive={intensity >= 2} dataMiddle={intensity >= 1} />
+      <IntensityPoint dataActive={intensity >= 1} />
     </div>
   );
 

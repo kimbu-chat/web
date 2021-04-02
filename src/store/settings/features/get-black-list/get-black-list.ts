@@ -30,7 +30,7 @@ export class GetBlackList {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IUser[]>>(
-      `${process.env.REACT_APP_MAIN_API}/api/black-list`,
+      `${window.__config.REACT_APP_MAIN_API}/api/black-list`,
       HttpRequestMethod.Get,
     );
   }

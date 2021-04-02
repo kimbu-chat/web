@@ -36,7 +36,7 @@ export class DeclineCall {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse>(
-      `${process.env.REACT_APP_MAIN_API}/api/calls/decline-call`,
+      `${window.__config.REACT_APP_MAIN_API}/api/calls/decline-call`,
       HttpRequestMethod.Post,
     );
   }

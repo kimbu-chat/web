@@ -59,6 +59,10 @@ module.exports = {
     '@typescript-eslint/no-undef': 'off',
     'no-bitwise': ['error', { allow: ['|'] }],
     'react/require-default-props': 'off',
+    'no-underscore-dangle': [
+      'error',
+      { allow: ['__config', '__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] },
+    ],
   },
   settings: {
     'import/resolver': {

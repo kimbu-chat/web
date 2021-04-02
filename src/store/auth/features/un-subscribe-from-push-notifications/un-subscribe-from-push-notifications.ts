@@ -36,7 +36,7 @@ export class UnSubscribeFromPushNotifications {
 
   static get httpRequest() {
     return authRequestFactory<AxiosResponse, IUnsubscribeFromPushNotificationsRequest>(
-      `${process.env.REACT_APP_NOTIFICATIONS_API}/api/notifications/unsubscribe`,
+      `${window.__config.REACT_APP_NOTIFICATIONS_API}/api/notifications/unsubscribe`,
       HttpRequestMethod.Post,
     );
   }

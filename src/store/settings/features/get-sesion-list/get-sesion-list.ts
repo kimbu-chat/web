@@ -30,7 +30,7 @@ export class GetSessionList {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<ISession[]>>(
-      `${process.env.REACT_APP_MAIN_API}/api/sessions`,
+      `${window.__config.REACT_APP_MAIN_API}/api/sessions`,
       HttpRequestMethod.Get,
     );
   }

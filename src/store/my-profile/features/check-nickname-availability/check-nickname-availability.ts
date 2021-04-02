@@ -31,7 +31,7 @@ export class CheckNicknameAvailability {
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<boolean>, ICheckNicknameAvailabilityApiRequest>(
       ({ nickname }: ICheckNicknameAvailabilityApiRequest) =>
-        `${process.env.REACT_APP_MAIN_API}/api/users/check-if-nickname-is-available/${nickname}`,
+        `${window.__config.REACT_APP_MAIN_API}/api/users/check-if-nickname-is-available/${nickname}`,
       HttpRequestMethod.Get,
     );
   }

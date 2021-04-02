@@ -24,7 +24,7 @@ export class RevokeSession {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, IRevokeSession>(
-      `${process.env.REACT_APP_MAIN_API}/api/sessions`,
+      `${window.__config.REACT_APP_MAIN_API}/api/sessions`,
       HttpRequestMethod.Post,
     );
   }

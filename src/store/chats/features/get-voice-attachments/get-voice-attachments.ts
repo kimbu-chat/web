@@ -51,7 +51,7 @@ export class GetVoiceAttachments {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IVoiceAttachment[]>, IGetVoiceAttachmentsApiRequest>(
-      `${process.env.REACT_APP_MAIN_API}/api/voice-attachments/search`,
+      `${window.__config.REACT_APP_MAIN_API}/api/voice-attachments/search`,
       HttpRequestMethod.Post,
     );
   }

@@ -137,23 +137,23 @@ export class UploadAttachmentRequest {
       uploadAudioAttachment: httpFilesRequestFactory<
         AxiosResponse<IUploadAudioApiResponse>,
         FormData
-      >(`${process.env.REACT_APP_FILES_API}/api/audio-attachments`, HttpRequestMethod.Post),
+      >(`${window.__config.REACT_APP_FILES_API}/api/audio-attachments`, HttpRequestMethod.Post),
       uploadPictureAttachment: httpFilesRequestFactory<
         AxiosResponse<IUploadPictureApiResponse>,
         FormData
-      >(`${process.env.REACT_APP_FILES_API}/api/picture-attachments`, HttpRequestMethod.Post),
+      >(`${window.__config.REACT_APP_FILES_API}/api/picture-attachments`, HttpRequestMethod.Post),
       uploadFileAttachment: httpFilesRequestFactory<
         AxiosResponse<IUploadFileApiResponse>,
         FormData
-      >(`${process.env.REACT_APP_FILES_API}/api/raw-attachments`, HttpRequestMethod.Post),
+      >(`${window.__config.REACT_APP_FILES_API}/api/raw-attachments`, HttpRequestMethod.Post),
       uploadVideoAttachment: httpFilesRequestFactory<
         AxiosResponse<IUploadVideoApiResponse>,
         FormData
-      >(`${process.env.REACT_APP_FILES_API}/api/video-attachments`, HttpRequestMethod.Post),
+      >(`${window.__config.REACT_APP_FILES_API}/api/video-attachments`, HttpRequestMethod.Post),
       uploadVoiceAttachment: httpFilesRequestFactory<
         AxiosResponse<IUploadVoiceApiResponse>,
         FormData
-      >(`${process.env.REACT_APP_FILES_API}/api/voice-attachments`, HttpRequestMethod.Post),
+      >(`${window.__config.REACT_APP_FILES_API}/api/voice-attachments`, HttpRequestMethod.Post),
     };
   }
 }

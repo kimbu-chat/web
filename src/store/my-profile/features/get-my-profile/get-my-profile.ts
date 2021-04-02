@@ -32,7 +32,7 @@ export class GetMyProfile {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IUser>, number>(
-      (userId: number) => `${process.env.REACT_APP_MAIN_API}/api/users/${userId}`,
+      (userId: number) => `${window.__config.REACT_APP_MAIN_API}/api/users/${userId}`,
       HttpRequestMethod.Get,
     );
   }

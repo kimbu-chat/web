@@ -93,12 +93,12 @@ export class ChangeSelectedChat {
     return {
       getChat: httpRequestFactory<AxiosResponse<IChat>, IGetChatByIdApiRequest>(
         ({ chatId }: IGetChatByIdApiRequest) =>
-          `${process.env.REACT_APP_MAIN_API}/api/chats/${chatId}`,
+          `${window.__config.REACT_APP_MAIN_API}/api/chats/${chatId}`,
         HttpRequestMethod.Get,
       ),
       getUser: httpRequestFactory<AxiosResponse<IUser>, IGetUserByIdApiRequest>(
         ({ userId }: IGetUserByIdApiRequest) =>
-          `${process.env.REACT_APP_MAIN_API}/api/users/${userId.toString()}`,
+          `${window.__config.REACT_APP_MAIN_API}/api/users/${userId.toString()}`,
         HttpRequestMethod.Get,
       ),
     };

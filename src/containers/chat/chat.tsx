@@ -31,6 +31,7 @@ import {
   amICurrentChatBlackListedSelector,
   getIsInfoOpenedSelector,
   isCurrentChatBlackListedSelector,
+  isCurrentChatDismissedAddToContactsSelector,
 } from '@store/chats/selectors';
 import { getInternetStateSelector } from '@store/internet/selectors';
 import { EditProfile } from '@components/messenger-page/settings-modal/edit-profile/edit-profile';
@@ -51,6 +52,7 @@ const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
   const amISpeaking = useSelector(doIhaveCallSelector);
 
   const isCurrentChatBlackListed = useSelector(isCurrentChatBlackListedSelector);
+  const isDismissed = useSelector(isCurrentChatDismissedAddToContactsSelector);
   const amICurrentChatBlackListed = useSelector(amICurrentChatBlackListedSelector);
 
   const internetState = useSelector(getInternetStateSelector);
@@ -90,7 +92,7 @@ const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
           ) : (
             <CreateMessageInput />
           )}
-          {false && <NotContact />}
+          {!isDismissed && <NotContact />}
         </div>
         <ChatTopBar />
         <CSSTransition in={isInfoOpened} timeout={200} classNames="chat-info-slide" unmountOnExit>

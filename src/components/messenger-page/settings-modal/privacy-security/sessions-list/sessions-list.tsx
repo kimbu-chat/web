@@ -25,7 +25,7 @@ export const SessionsList = () => {
     } else {
       setOpened(true);
 
-      if (sessions.length === 0) {
+      if (loading) {
         getSessions();
       }
     }

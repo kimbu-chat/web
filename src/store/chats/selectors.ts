@@ -5,6 +5,7 @@ import { IAttachmentToSend } from './models/attachment-to-send';
 import { IBaseAttachment } from './models/attachments/base-attachment';
 import { IChat } from './models/chat';
 import { IChatsState } from './chats-state';
+import { InterlocutorType } from './models';
 
 // RootState selectors
 export const getSelectedChatSelector = (state: RootState): IChat | undefined =>
@@ -205,6 +206,17 @@ export const getChatIndexDraftSelector = (chatId: number, draft: IChatsState) =>
 
 export const isCurrentChatBlackListedSelector = (state: RootState) =>
   state.chats.chats.find(({ id }) => id === state.chats.selectedChatId)?.isBlockedByUser;
+
+export const isCurrentChatDismissedAddToContactsSelector = (state: RootState) => {
+  const currentChat = state.chats.chats.find(({ id }) => id === state.chats.selectedChatId);
+
+  if (currentChat?.interlocutorType === InterlocutorType.GroupChat) {
+    return true;
+  }
+
+  const isDismissedAddToContacts = currentChat?.isDismissedAddToContacts;
+  return isDismissedAddToContacts === undefined ? true : isDismissedAddToContacts;
+};
 
 export const amICurrentChatBlackListedSelector = (state: RootState) =>
   state.chats.chats.find(({ id }) => id === state.chats.selectedChatId)?.isBlockedByInterlocutor;

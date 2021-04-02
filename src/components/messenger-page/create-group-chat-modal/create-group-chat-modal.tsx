@@ -189,12 +189,12 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(
             title={
               currentStage === GroupChatCreationStage.UserSelect ? (
                 <>
-                  <GroupSvg viewBox="0 0 24 24" className="new-chat__icon" />
+                  <GroupSvg viewBox="0 0 24 24" className="create-group-chat__icon" />
                   <span>{t('createGroupChatModal.add_members')}</span>
                 </>
               ) : (
                 <>
-                  <GroupSvg viewBox="0 0 24 24" className="new-chat__icon" />
+                  <GroupSvg viewBox="0 0 24 24" className="create-group-chat__icon" />
                   <span>{t('createGroupChatModal.new_group')}</span>
                 </>
               )

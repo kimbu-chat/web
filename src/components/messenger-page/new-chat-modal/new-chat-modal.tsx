@@ -87,26 +87,25 @@ export const NewChatModal: React.FC<INewChatModalProps> = React.memo(
                 containerClassName="new-chat__search"
                 onChange={(e) => searchFriends(e.target.value)}
               />
-              <div className="new-chat__friends-block">
-                <div onClick={createGroupChat} className="new-chat__new-group">
-                  <div className="new-chat__new-group__img">
-                    <GroupSvg viewBox="0 0 24 24" />
-                  </div>
-                  <span className="new-chat__new-group__title">{t('newChat.new_group')}</span>
-                  <div className="new-chat__new-group__go">
-                    <ArrowSvg viewBox="0 0 8 14" />
-                  </div>
+
+              <div onClick={createGroupChat} className="new-chat__new-group">
+                <div className="new-chat__new-group__img">
+                  <GroupSvg viewBox="0 0 24 24" />
                 </div>
-                <InfiniteScroll
-                  className="create-group-chat__friends-block"
-                  onReachExtreme={loadMore}
-                  hasMore={hasMoreFriends}
-                  isLoading={friendsLoading}>
-                  {friends.map((friend) => (
-                    <SelectEntity key={friend.id} chatOrUser={friend} onClick={createEmptyChat} />
-                  ))}
-                </InfiniteScroll>
+                <span className="new-chat__new-group__title">{t('newChat.new_group')}</span>
+                <div className="new-chat__new-group__go">
+                  <ArrowSvg viewBox="0 0 8 14" />
+                </div>
               </div>
+              <InfiniteScroll
+                className="new-chat__friends-block"
+                onReachExtreme={loadMore}
+                hasMore={hasMoreFriends}
+                isLoading={friendsLoading}>
+                {friends.map((friend) => (
+                  <SelectEntity key={friend.id} chatOrUser={friend} onClick={createEmptyChat} />
+                ))}
+              </InfiniteScroll>
             </div>
           }
           buttons={[]}

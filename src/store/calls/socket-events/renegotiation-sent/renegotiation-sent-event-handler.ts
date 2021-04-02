@@ -76,7 +76,7 @@ export class RenegotiationSentEventHandler {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, IAcceptRenegotiationApiRequest>(
-      `${process.env.REACT_APP_MAIN_API}/api/calls/accept-renegotiation`,
+      `${window.__config.REACT_APP_MAIN_API}/api/calls/accept-renegotiation`,
       HttpRequestMethod.Post,
     );
   }

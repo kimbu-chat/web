@@ -12,3 +12,11 @@ declare module '*.svg' {
   export { ReactComponent };
   export default content;
 }
+
+interface Window {
+  __config: {
+    REACT_APP_MAIN_API: string;
+    REACT_APP_NOTIFICATIONS_API: string;
+    REACT_APP_FILES_API: string;
+  };
+}

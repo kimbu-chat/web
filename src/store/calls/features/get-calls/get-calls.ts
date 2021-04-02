@@ -41,7 +41,7 @@ export class GetCalls {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<ICall[]>, IGetCallsApiRequest>(
-      `${process.env.REACT_APP_MAIN_API}/api/calls/search`,
+      `${window.__config.REACT_APP_MAIN_API}/api/calls/search`,
       HttpRequestMethod.Post,
     );
   }

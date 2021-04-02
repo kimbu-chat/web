@@ -85,7 +85,7 @@ export class GetChats {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IChat[]>, IGetChatsApiRequest>(
-      `${process.env.REACT_APP_MAIN_API}/api/chats/search`,
+      `${window.__config.REACT_APP_MAIN_API}/api/chats/search`,
       HttpRequestMethod.Post,
     );
   }

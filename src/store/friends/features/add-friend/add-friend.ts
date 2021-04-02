@@ -27,7 +27,7 @@ export class AddFriend {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, IAddFriendApiRequest>(
-      `${process.env.REACT_APP_MAIN_API}/api/contacts`,
+      `${window.__config.REACT_APP_MAIN_API}/api/contacts`,
       HttpRequestMethod.Post,
     );
   }

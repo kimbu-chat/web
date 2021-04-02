@@ -31,7 +31,7 @@ export class GetChatInfo {
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IGetChatInfoApiResponse>, IGetChatInfoApiRequest>(
       ({ chatId }: IGetChatInfoApiRequest) =>
-        `${process.env.REACT_APP_MAIN_API}/api/chats/${chatId}/info`,
+        `${window.__config.REACT_APP_MAIN_API}/api/chats/${chatId}/info`,
       HttpRequestMethod.Get,
     );
   }

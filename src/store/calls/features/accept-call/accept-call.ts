@@ -103,7 +103,7 @@ export class AcceptCall {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, IAcceptCallApiRequest>(
-      `${process.env.REACT_APP_MAIN_API}/api/calls/accept-call`,
+      `${window.__config.REACT_APP_MAIN_API}/api/calls/accept-call`,
       HttpRequestMethod.Post,
     );
   }

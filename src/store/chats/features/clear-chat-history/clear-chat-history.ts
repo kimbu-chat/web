@@ -44,7 +44,7 @@ export class ClearChatHistory {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, IClearChatHistoryApiRequest>(
-      `${process.env.REACT_APP_MAIN_API}/api/chats/clear`,
+      `${window.__config.REACT_APP_MAIN_API}/api/chats/clear`,
       HttpRequestMethod.Post,
     );
   }

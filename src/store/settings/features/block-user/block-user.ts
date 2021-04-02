@@ -25,7 +25,7 @@ export class BlockUser {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, IBlockUserApiRequest>(
-      `${process.env.REACT_APP_MAIN_API}/api/black-list`,
+      `${window.__config.REACT_APP_MAIN_API}/api/black-list`,
       HttpRequestMethod.Post,
     );
   }

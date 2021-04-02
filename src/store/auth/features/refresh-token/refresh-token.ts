@@ -43,7 +43,7 @@ export class RefreshToken {
 
   static get httpRequest() {
     return authRequestFactory<AxiosResponse<IRefreshTokenApiResponse>, IRefreshTokenApiRequest>(
-      `${process.env.REACT_APP_MAIN_API}/api/users/refresh-tokens`,
+      `${window.__config.REACT_APP_MAIN_API}/api/users/refresh-tokens`,
       HttpRequestMethod.Post,
     );
   }

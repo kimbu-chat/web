@@ -74,7 +74,7 @@ export class SubmitEditMessage {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, ISubmitEditMessageApiRequest>(
-      `${process.env.REACT_APP_MAIN_API}/api/messages`,
+      `${window.__config.REACT_APP_MAIN_API}/api/messages`,
       HttpRequestMethod.Put,
     );
   }

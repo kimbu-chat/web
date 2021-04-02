@@ -51,7 +51,7 @@ export class GetPhotoAttachments {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IPictureAttachment[]>, IGetPhotoAttachmentsApiRequest>(
-      `${process.env.REACT_APP_MAIN_API}/api/picture-attachments/search`,
+      `${window.__config.REACT_APP_MAIN_API}/api/picture-attachments/search`,
       HttpRequestMethod.Post,
     );
   }

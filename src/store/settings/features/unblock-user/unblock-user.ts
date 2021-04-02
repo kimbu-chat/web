@@ -24,7 +24,7 @@ export class UnblockUser {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, IUnblockUserApiRequest>(
-      `${process.env.REACT_APP_MAIN_API}/api/black-list/batch-remove`,
+      `${window.__config.REACT_APP_MAIN_API}/api/black-list/batch-remove`,
       HttpRequestMethod.Post,
     );
   }

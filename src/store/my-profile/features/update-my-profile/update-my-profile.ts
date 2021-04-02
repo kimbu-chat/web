@@ -33,7 +33,7 @@ export class UpdateMyProfile {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, IUpdateMyProfileApiRequest>(
-      `${process.env.REACT_APP_MAIN_API}/api/users`,
+      `${window.__config.REACT_APP_MAIN_API}/api/users`,
       HttpRequestMethod.Put,
     );
   }

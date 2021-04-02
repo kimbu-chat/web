@@ -1,9 +1,9 @@
 .add-call-modal {
-  min-width: 335px;
-
+  min-width: 339px;
   &__friends-block {
-    max-height: 320px;
+    max-height: 360px;
     margin-top: -8px;
+    margin-bottom: -26px;
     overflow: auto;
 
     &__avatar-group {
@@ -12,6 +12,10 @@
 
     & > * {
       cursor: auto;
+
+      &:first-child {
+        margin-top: 0px;
+      }
     }
   }
 
@@ -55,7 +59,7 @@
   &__search-container {
     position: relative;
     width: 100%;
-    margin: 0 0 8px 0;
+    margin: 0 0 24px 0;
   }
 
   &__search {

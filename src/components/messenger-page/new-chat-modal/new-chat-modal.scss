@@ -1,8 +1,17 @@
 .new-chat {
   margin-top: -16px;
+  margin-bottom: -37px;
 
   &__friends-block {
+    padding-right: 8px;
+    max-height: 286px;
     overflow: auto;
+
+    & > * {
+      &:first-child {
+        margin-top: 0;
+      }
+    }
   }
 
   &__icon {
@@ -33,7 +42,8 @@
 
   &__new-group {
     display: flex;
-    margin-top: 16px;
+    margin-top: 24px;
+    margin-bottom: 16px;
     align-items: center;
     cursor: pointer;
     user-select: none;

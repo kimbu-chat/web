@@ -68,6 +68,8 @@ import { DeleteFriendSuccess } from '../friends/features/delete-friend/delete-fr
 import { BlockUserSuccess } from '../settings/features/block-user/block-user-success';
 import { UnblockUserSuccess } from '../settings/features/unblock-user/unblock-user-success';
 import { RemoveUserFromGroupChatSuccess } from './features/remove-user-from-group-chat/remove-user-from-group-chat-success';
+import { MessageCreatedEventHandler } from './socket-events/message-created/message-created-event-handler';
+import { MessageCreatedEventHandlerSuccess } from './socket-events/message-created/message-created-event-handler-success';
 
 const initialState: IChatsState = {
   hasMore: true,
@@ -132,6 +134,7 @@ const chats = createReducer<IChatsState>(initialState)
   .handleAction(RemoveAllAttachments.action, RemoveAllAttachments.reducer)
   .handleAction(ForwardMessages.action, ForwardMessages.reducer)
   .handleAction(RemoveUserFromGroupChatSuccess.action, RemoveUserFromGroupChatSuccess.reducer)
+  .handleAction(MessageCreatedEventHandlerSuccess.action, MessageCreatedEventHandlerSuccess.reducer)
   .handleAction(
     UserStatusChangedEventHandler.action,
     produce(

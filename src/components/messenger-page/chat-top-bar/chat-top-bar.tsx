@@ -90,7 +90,7 @@ export const ChatTopBar = React.memo(() => {
 
           <div className="chat-data__chat-info">
             <h1 className="chat-data__chat-info__title">{getChatInterlocutor(selectedChat)}</h1>
-            <p className="chat-data__chat-info__info">
+            <div className="chat-data__chat-info__info">
               {selectedChat.typingInterlocutors && selectedChat.typingInterlocutors?.length > 0 ? (
                 <div className="chat-data__chat-info__info__typing">
                   <TypingSvg viewBox="0 0 12 12" />
@@ -99,7 +99,7 @@ export const ChatTopBar = React.memo(() => {
               ) : (
                 groupChatOrInterlocutorStatus
               )}
-            </p>
+            </div>
           </div>
         </button>
         <div className="chat-data__buttons-group">

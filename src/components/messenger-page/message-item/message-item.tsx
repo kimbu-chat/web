@@ -268,7 +268,11 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
 
               {message.isEdited && <CrayonSvg className="message__edited" />}
 
-              {!message.text && (
+              {!(
+                (message.attachments?.length || 0) > 0 ||
+                message.linkedMessageType ||
+                message.text
+              ) && (
                 <div className="message__attachments">
                   {structuredAttachments?.files.map((file) => (
                     <FileAttachment key={file.id} attachment={file} />
@@ -288,7 +292,9 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                 </div>
               )}
 
-              {message.text && (
+              {((message.attachments?.length || 0) > 0 ||
+                message.linkedMessageType ||
+                message.text) && (
                 <div className="message__content">
                   {message.linkedMessageType && (
                     <MessageLink linkedMessage={message.linkedMessage} />

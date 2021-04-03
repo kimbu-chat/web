@@ -70,6 +70,7 @@ import { MessagesDeletedIntegrationEventHandlerSuccess } from './socket-events/m
 import { RemoveAllAttachments } from './features/remove-attachment/remove-all-attachments';
 import { RemoveUserFromGroupChat } from './features/remove-user-from-group-chat/remove-user-from-group-chat';
 import { RemoveUserFromGroupChatSuccess } from './features/remove-user-from-group-chat/remove-user-from-group-chat-success';
+import { MessageCreatedEventHandlerSuccess } from './socket-events/message-created/message-created-event-handler-success';
 
 // ChatActions
 export const getChats = GetChats.action;
@@ -142,6 +143,7 @@ export const groupChatEditedEventHandler = GroupChatEditedEventHandler.action;
 export const groupChatCreatedEventHandler = GroupChatCreatedEventHandler.action;
 export const chatMutedStatusChangedEventHandler = ChatMutedStatusChangedEventHandler.action;
 export const messageCreatedEventHandler = MessageCreatedEventHandler.action;
+export const messageCreatedEventHandlerSuccess = MessageCreatedEventHandlerSuccess.action;
 export const messageReadEventHandler = MessageReadEventHandler.action;
 export const messageEditedEventHandler = MessageEditedEventHandler.action;
 export const chatClearedEventHandler = ChatClearedEventHandler.action;

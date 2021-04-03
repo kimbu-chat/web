@@ -2,7 +2,7 @@ import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put, take } from 'redux-saga/effects';
-import { authRequestFactory, httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { CloseWebsocketConnection } from '@store/web-sockets/features/close-web-socket-connection/close-web-socket-connection';
 import { createEmptyDefferedAction } from '@store/common/actions';
 import { IAuthState } from '@store/auth/auth-state';

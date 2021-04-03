@@ -1,28 +1,28 @@
 .chat-data {
   &__chat-data {
-    grid-row: 1/2;
-    grid-column: 3/5;
-    display: flex;
-    justify-content: space-between;
     align-items: center;
     background-color: var(--dt-grafit-wt-white);
+    display: flex;
+    grid-column: 3/5;
+    grid-row: 1/2;
+    justify-content: space-between;
+    transition: all 0.3s;
 
     &--little {
       width: calc(100% - 300px);
     }
-    transition: all 0.3s;
   }
 
   &__contact-data {
-    display: flex;
     cursor: pointer;
+    display: flex;
     user-select: none;
   }
 
   &__contact-img-container {
+    color: var(--dt-grafit-wt-white);
     margin-left: 20px;
     margin-right: 18px;
-    color: var(--dt-grafit-wt-white);
   }
 
   &__contact-img {
@@ -31,34 +31,34 @@
   }
 
   &__chat-info {
+    align-items: flex-start;
     color: var(--dt-white-wt-dark);
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
 
     &__title {
-      font-weight: 500;
       font-size: 16px;
+      font-weight: 500;
       line-height: 19px;
     }
 
     &__info {
-      margin-top: 8px;
       font-size: 14px;
-      line-height: 16px;
       font-weight: 400;
+      line-height: 16px;
+      margin-top: 8px;
 
       &__typing {
         span {
-          font-weight: 300;
           font-size: 14px;
+          font-weight: 300;
           line-height: 17px;
           margin-left: 4px;
         }
 
         svg {
-          width: 12px;
           height: 12px;
+          width: 12px;
         }
       }
     }

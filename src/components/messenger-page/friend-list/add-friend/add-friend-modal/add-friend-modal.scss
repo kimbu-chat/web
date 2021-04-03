@@ -1,35 +1,36 @@
 .add-friends-modal {
+  margin-bottom: 47px;
   margin-top: 14px;
   position: relative;
-  margin-bottom: 47px;
 
   &__icon {
-    width: 24px;
+    color: var(--dt-white-wt-kingBlue);
     height: 24px;
     margin-right: 16px;
-    color: var(--dt-white-wt-kingBlue);
+    width: 24px;
   }
 
   &__error {
-    padding: 10px 20px;
-    border-radius: 6px;
+    align-items: center;
     background: #c74848;
+    border-radius: 6px;
+    bottom: -50px;
     color: #fff;
     display: flex;
-    align-items: center;
+    padding: 10px 20px;
     position: absolute;
     width: calc(100% - 40px);
-    bottom: -50px;
 
     span {
-      font-weight: 300;
       font-size: 12px;
+      font-weight: 300;
       line-height: 14px;
     }
 
     &__close {
       color: #fff;
       margin-left: auto;
+
       svg {
         height: 10px;
         width: 10px;
@@ -38,43 +39,44 @@
   }
 
   &__success {
-    padding: 10px;
-    border-radius: 6px;
+    align-items: center;
     background: var(--msg-bg-dt-gray-lt-grayLight);
+    border-radius: 6px;
+    bottom: 68px;
     color: var(--dt-white-wt-dark);
     display: flex;
-    align-items: center;
+    justify-content: center;
+    padding: 10px;
     position: absolute;
     width: calc(100% - 56px);
-    bottom: 68px;
-    justify-content: center;
 
     span {
-      font-weight: 300;
       font-size: 12px;
+      font-weight: 300;
       line-height: 14px;
     }
   }
 
   &__btn {
-    font-weight: 300;
-    font-size: 16px;
-    line-height: 19px;
-    color: var(--dt-white-wt-dark);
-    padding: 10px 30px;
     border-radius: 6px;
+    color: var(--dt-white-wt-dark);
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 19px;
+    padding: 10px 30px;
 
     &--cancel {
       margin-left: auto;
     }
 
     &--confirm {
-      color: #fff;
       background: #3f8ae0;
+      color: #fff;
       margin-left: 20px;
       transition: all 0.1s;
+
       &:hover {
-        box-shadow: 0px 3px 6px rgba(14, 22, 43, 0.62);
+        box-shadow: 0 3px 6px rgba(14, 22, 43, 0.62);
       }
 
       &:disabled {
@@ -85,31 +87,31 @@
   }
 
   &__user {
+    align-items: center;
     display: flex;
     flex-direction: column;
-    align-items: center;
     margin-bottom: 30px;
     width: 340px;
 
     &__avatar {
-      width: 80px;
       height: 80px;
       margin-bottom: 8px;
+      width: 80px;
     }
 
     &__name {
-      font-weight: normal;
-      font-size: 16px;
-      line-height: 19px;
       color: var(--dt-white-wt-dark);
+      font-size: 16px;
+      font-weight: normal;
+      line-height: 19px;
       margin-bottom: 14px;
     }
 
     &__phone {
-      font-weight: 300;
-      font-size: 14px;
-      line-height: 17px;
       color: var(--dt-white-wt-dark);
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 17px;
     }
   }
 }

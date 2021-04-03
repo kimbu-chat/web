@@ -5,22 +5,22 @@
   }
 
   &__messages-list {
-    position: relative;
     flex: 1 1;
     overflow: auto;
+    position: relative;
 
     &__empty {
-      margin: auto;
-      padding: 16px 0px;
-      border-radius: 6px;
-      box-shadow: 0px 7px 12px var(--box-shadow-1);
-      color: var(--dt-white-wt-dark);
       background-color: var(--chat-bg-dt-dark-wt-bright-blue);
+      border-radius: 6px;
+      box-shadow: 0 7px 12px var(--box-shadow-1);
+      color: var(--dt-white-wt-dark);
+      margin: auto;
       max-width: 415px;
+      padding: 16px 0;
 
       p {
-        font-weight: 300;
         font-size: 24px;
+        font-weight: 300;
         line-height: 28px;
         text-align: center;
       }
@@ -28,61 +28,67 @@
   }
 
   &__select-chat {
+    color: var(--dt-kingBlue-wt-kingBlueLight);
+    font-size: 24px;
+    font-weight: 400;
+    left: 50%;
     position: absolute;
     top: 50%;
-    left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 24px;
-    color: var(--dt-kingBlue-wt-kingBlueLight);
-    font-weight: 400;
   }
 
   &__messages-container {
+    background: var(--chat-bg-dt-dark-wt-whiter);
     display: flex;
     flex-direction: column-reverse;
-    max-height: calc(100vh - 128px);
     height: 100%;
+    max-height: calc(100vh - 128px);
     overflow: auto;
-    background: var(--chat-bg-dt-dark-wt-whiter);
   }
 }
 
 //loader
 .lds-ellipsis {
   display: inline-block;
+  height: 80px;
   position: relative;
   width: 80px;
-  height: 80px;
 }
+
 .lds-ellipsis div {
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+  background: rgb(43, 100, 146);
+  border-radius: 50%;
+  height: 13px;
   position: absolute;
   top: 33px;
   width: 13px;
-  height: 13px;
-  border-radius: 50%;
-  background: rgb(43, 100, 146);
-  animation-timing-function: cubic-bezier(0, 1, 1, 0);
 }
+
 .lds-ellipsis div:nth-child(1) {
-  left: 8px;
   animation: lds-ellipsis1 0.6s infinite;
-}
-.lds-ellipsis div:nth-child(2) {
   left: 8px;
-  animation: lds-ellipsis2 0.6s infinite;
 }
+
+.lds-ellipsis div:nth-child(2) {
+  animation: lds-ellipsis2 0.6s infinite;
+  left: 8px;
+}
+
 .lds-ellipsis div:nth-child(3) {
-  left: 32px;
   animation: lds-ellipsis2 0.6s infinite;
+  left: 32px;
 }
+
 .lds-ellipsis div:nth-child(4) {
-  left: 56px;
   animation: lds-ellipsis3 0.6s infinite;
+  left: 56px;
 }
 @keyframes lds-ellipsis1 {
   0% {
     transform: scale(0);
   }
+
   100% {
     transform: scale(1);
   }
@@ -91,6 +97,7 @@
   0% {
     transform: scale(1);
   }
+
   100% {
     transform: scale(0);
   }
@@ -99,6 +106,7 @@
   0% {
     transform: translate(0, 0);
   }
+
   100% {
     transform: translate(24px, 0);
   }

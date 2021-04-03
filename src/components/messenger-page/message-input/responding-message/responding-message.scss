@@ -1,22 +1,22 @@
 .responding-message {
-  display: flex;
+  align-items: center;
   background-color: var(--dt-dark-wt-bright-blue);
   box-sizing: border-box;
+  display: flex;
   position: relative;
-  align-items: center;
 
   &__icon {
-    height: 24px;
-    width: 24px;
     color: #3f8ae0;
+    height: 24px;
     margin: 20px 33px 20px 36px;
+    width: 24px;
   }
 
   &__line {
-    width: 1px;
     background: var(--dt-white-wt-dark);
-    margin-right: 7px;
     height: 40px;
+    margin-right: 7px;
+    width: 1px;
   }
 
   &__message-sender {
@@ -26,15 +26,15 @@
   }
 
   &__message-contents {
-    border-radius: 0px 6px 6px 6px;
-    padding: 10px 16px 8px;
-    font-weight: 300;
-    font-size: 10px;
-    line-height: 12px;
+    border-radius: 0 6px 6px;
     color: #fff;
-    margin-left: 10px;
-    white-space: break-spaces;
+    font-size: 10px;
+    font-weight: 300;
     line-break: anywhere;
+    line-height: 12px;
+    margin-left: 10px;
+    padding: 10px 16px 8px;
+    white-space: break-spaces;
 
     &--outgoing {
       background: var(--msg-bg-dt-gray-lt-kingBlueLight);
@@ -51,8 +51,8 @@
     margin-right: 17px;
 
     svg {
-      width: 24px;
       height: 24px;
+      width: 24px;
     }
   }
 }

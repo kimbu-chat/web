@@ -1,64 +1,65 @@
 .not-contact {
-  display: flex;
   align-items: center;
+  background: var(--dt-dark-wt-bright-blue);
+  border-radius: 6px;
+  box-shadow: 0 5px 12px var(--box-shadow-1);
+  box-sizing: border-box;
+  display: flex;
+  left: 50%;
+  padding: 14px 24px;
   position: absolute;
   top: 16px;
-  width: calc(100% - 46px);
-  left: 50%;
   transform: translateX(-50%);
-  background: var(--dt-dark-wt-bright-blue);
-  box-shadow: 0px 5px 12px var(--box-shadow-1);
-  border-radius: 6px;
-  padding: 14px 24px 14px 24px;
-  box-sizing: border-box;
+  width: calc(100% - 46px);
 
   &__contact-icon {
-    width: 24px;
-    height: 24px;
     color: var(--dt-white-wt-kingBlue);
+    height: 24px;
     margin-right: 22px;
+    width: 24px;
   }
 
   &__description {
-    font-weight: 300;
-    font-size: 14px;
-    line-height: 17px;
     color: var(--dt-white-wt-dark);
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 17px;
   }
 
   &__btn-group {
-    margin-left: auto;
-    display: flex;
     align-items: center;
+    display: flex;
+    margin-left: auto;
   }
 
   &__btn {
     border-radius: 6px;
-    font-weight: normal;
+    color: #fff;
     font-size: 12px;
+    font-weight: normal;
     line-height: 14px;
     margin-right: 32px;
-    color: #fff;
+
     &:hover {
-      box-shadow: 0px 3px 6px rgba(14, 22, 43, 0.62);
+      box-shadow: 0 3px 6px rgba(14, 22, 43, 0.62);
     }
 
     &--add {
-      padding: 11px 23px;
       background: #3f8ae0;
+      padding: 11px 23px;
     }
 
     &--block {
-      padding: 11px 19px;
       background: #c74848;
+      padding: 11px 19px;
     }
   }
 
   &__close-btn {
     svg {
-      width: 24px;
-      height: 24px;
       color: var(--dt-white-wt-kingBlue);
+      height: 24px;
+      width: 24px;
     }
   }
 }

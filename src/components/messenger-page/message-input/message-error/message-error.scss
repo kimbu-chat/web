@@ -1,42 +1,43 @@
 .message-error {
-  display: flex;
-  background-color: var(--dt-dark-wt-pink);
-  box-sizing: border-box;
-  position: relative;
   align-items: center;
+  background-color: var(--dt-dark-wt-pink);
+  border-radius: 6px 6px 0 0;
+  box-sizing: border-box;
+  display: flex;
   padding: 12px 24px 12px 36px;
-  border-radius: 6px 6px 0px 0px;
+  position: relative;
 
   &__icon {
     margin-right: 31px;
+
     svg {
+      color: #c74848;
       height: 24px;
       width: 24px;
-      color: #c74848;
     }
   }
 
   &__description {
     color: #c74848;
-    font-weight: 500;
     font-size: 14px;
+    font-weight: 500;
     line-height: 24px;
   }
 
   &__btn-group {
-    margin-left: auto;
     display: flex;
+    margin-left: auto;
   }
 
   &__btn-separator {
-    width: 1px;
-    height: 28px;
     background: rgba(63, 138, 224, 0.25);
+    height: 28px;
+    width: 1px;
   }
 
   &__btn {
-    font-weight: normal;
     font-size: 14px;
+    font-weight: normal;
     line-height: 24px;
     text-transform: uppercase;
 

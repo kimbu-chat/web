@@ -2,58 +2,60 @@
   min-width: 330px;
 
   &__chats-block {
+    margin-right: -10px;
     max-height: 320px;
     overflow: auto;
-    margin-right: -10px;
     padding-right: 7px;
 
     &__avatar-group {
       position: relative;
     }
   }
+
   &__confirm-btn {
-    padding: 10px 27px;
-    color: #fff;
-    font-weight: 300;
-    font-size: 16px;
-    line-height: 19px;
     background: #3f8ae0;
     border-radius: 6px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 19px;
+    padding: 10px 27px;
 
     &:disabled {
       background: var(--disabled-btn);
       color: var(--disabled-btn-text);
     }
   }
+
   &__cancel-btn {
-    padding: 10px 32px;
-    color: var(--dt-white-wt-dark);
-    font-weight: 300;
-    font-size: 16px;
-    line-height: 19px;
     background: transparent;
+    color: var(--dt-white-wt-dark);
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 19px;
     margin-left: auto;
     margin-right: 16px;
+    padding: 10px 32px;
   }
 
   &__icon {
-    width: 24px;
+    color: var(--dt-white-wt-kingBlue);
     height: 24px;
     margin-right: 16px;
-    color: var(--dt-white-wt-kingBlue);
+    width: 24px;
   }
 
   &__search-container {
+    margin: 0 0 8px;
     position: relative;
     width: 100%;
-    margin: 0 0 8px 0;
   }
 
   &__search {
     &__icon {
       height: 16px;
-      width: 16px;
       left: 16px;
+      width: 16px;
     }
 
     &__input {

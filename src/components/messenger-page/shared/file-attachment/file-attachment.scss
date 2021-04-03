@@ -1,6 +1,6 @@
 .file-attachment {
-  display: inline-flex;
   align-items: center;
+  display: inline-flex;
   margin-top: 16px;
 
   &__data {
@@ -8,15 +8,15 @@
   }
 
   &__download {
-    background: currentColor;
-    display: flex;
-    justify-content: center;
     align-items: center;
-    margin-right: 10px;
-    height: 40px;
+    background: currentColor;
+    border-radius: 0 6px 6px;
     cursor: pointer;
+    display: flex;
+    height: 40px;
+    justify-content: center;
+    margin-right: 10px;
     width: 40px;
-    border-radius: 0px 6px 6px 6px;
 
     svg {
       color: var(--dt-white-wt-dark);
@@ -24,16 +24,16 @@
   }
 
   &__cancel {
-    background: currentColor;
-    display: flex;
-    justify-content: center;
     align-items: center;
-    margin-right: 10px;
-    height: 40px;
-    position: relative;
+    background: currentColor;
+    border-radius: 0 6px 6px;
     cursor: pointer;
+    display: flex;
+    height: 40px;
+    justify-content: center;
+    margin-right: 10px;
+    position: relative;
     width: 40px;
-    border-radius: 0px 6px 6px 6px;
 
     svg {
       color: var(--dt-white-wt-dark);
@@ -41,34 +41,35 @@
   }
 
   &__progress-svg {
+    height: 24px;
+    left: 50%;
     position: absolute;
     top: 50%;
-    left: 50%;
     transform: translate(-50%, -50%) rotate(-90deg);
-    height: 24px;
-    width: 24px;
     transition: all 0.1s;
+    width: 24px;
+
     circle {
       transition: all 0.1s;
     }
   }
 
   &__file-name {
-    margin-bottom: 9px;
-    cursor: pointer;
-    font-weight: 300;
-    font-size: 14px;
-    line-height: 17px;
-    white-space: nowrap;
-    overflow: hidden;
     color: #3f8ae0;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 17px;
+    margin-bottom: 9px;
+    overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   &__file-size {
-    font-weight: 300;
-    font-size: 12px;
-    line-height: 14px;
     color: var(--dt-white-wt-dark);
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 14px;
   }
 }

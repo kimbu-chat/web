@@ -1,11 +1,11 @@
 .new-chat {
-  margin-top: -16px;
   margin-bottom: -37px;
+  margin-top: -16px;
 
   &__friends-block {
-    padding-right: 8px;
     max-height: 286px;
     overflow: auto;
+    padding-right: 8px;
 
     & > * {
       &:first-child {
@@ -15,48 +15,49 @@
   }
 
   &__icon {
-    width: 21px;
+    color: var(--dt-white-wt-kingBlue);
     height: 21px;
     margin-right: 17px;
-    color: var(--dt-white-wt-kingBlue);
+    width: 21px;
   }
 
   &__search {
-    width: 339px;
     height: 32px;
     margin-left: 0;
     margin-right: 0;
+    width: 339px;
+
     svg {
-      width: 16px;
       height: 16px;
       left: 17px;
+      width: 16px;
     }
 
     input {
-      font-weight: normal;
       font-size: 16px;
+      font-weight: normal;
       line-height: 19px;
       text-indent: 50px;
     }
   }
 
   &__new-group {
-    display: flex;
-    margin-top: 24px;
-    margin-bottom: 16px;
     align-items: center;
     cursor: pointer;
-    user-select: none;
+    display: flex;
+    margin-bottom: 16px;
+    margin-top: 24px;
     position: relative;
+    user-select: none;
 
     &__img {
+      align-items: center;
       background-color: var(--dt-whiter-wt-bright-blue);
-      height: 48px;
-      width: 48px;
       border-radius: 6px;
       display: flex;
+      height: 48px;
       justify-content: center;
-      align-items: center;
+      width: 48px;
 
       svg {
         color: #3f8ae0;
@@ -67,8 +68,8 @@
 
     &__title {
       color: var(--dt-white-wt-dark);
-      font-weight: normal;
       font-size: 16px;
+      font-weight: normal;
       line-height: 19px;
       margin-left: 20px;
     }
@@ -76,6 +77,7 @@
     &__go {
       position: absolute;
       right: 0;
+
       svg {
         color: var(--dt-kingBlue-wt-kingBlueLight);
         width: 14px;

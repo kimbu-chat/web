@@ -1,31 +1,31 @@
 .routing-chats {
-  grid-row: 1/-1;
-  grid-column: 1/2;
+  align-items: center;
+  background: var(--dt-grafit-wt-kingBlue);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  grid-column: 1/2;
+  grid-row: 1/-1;
   justify-content: center;
   justify-content: space-between;
-  background: var(--dt-grafit-wt-kingBlue);
 
   &__my-photo {
     height: 48px;
-    width: 48px;
+    margin-bottom: 25px;
 
     margin-top: 8px;
-    margin-bottom: 25px;
+    width: 48px;
   }
 
   &__middle-group {
-    margin-top: auto;
     margin-bottom: auto;
+    margin-top: auto;
   }
 
   &__link {
-    display: block;
     color: #fff;
-    transition: all 0.2s;
+    display: block;
     padding: 26px 25px;
+    transition: all 0.2s;
 
     &--settings {
       margin-bottom: 48px;

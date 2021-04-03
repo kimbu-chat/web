@@ -3,40 +3,40 @@
 }
 
 .incoming-call {
-  width: calc(100vw - 203px);
-  border-radius: 6px;
-  box-shadow: 0px 5px 12px var(--box-shadow-1);
-  background-color: var(--dt-dark-wt-bright-blue);
-  display: flex;
   align-items: center;
+  background-color: var(--dt-dark-wt-bright-blue);
+  border-radius: 6px;
+  box-shadow: 0 5px 12px var(--box-shadow-1);
+  display: flex;
   padding: 8px 60px 8px 24px;
+  width: calc(100vw - 203px);
 
   &__img {
-    height: 48px;
-    width: 48px;
     border-radius: 6px;
+    height: 48px;
     margin-right: 20px;
+    width: 48px;
   }
 
   &__calling-name {
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 19px;
     color: var(--dt-white-wt-dark);
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 19px;
     margin-bottom: 8px;
   }
 
   &__additional-data {
     color: var(--dt-white-wt-dark);
-    font-weight: 300;
     font-size: 12px;
+    font-weight: 300;
     line-height: 14px;
   }
 
   &__right-btns {
-    margin-left: auto;
-    display: flex;
     align-items: center;
+    display: flex;
+    margin-left: auto;
   }
 
   &__call-btn {
@@ -49,7 +49,7 @@
     }
 
     &:last-child {
-      margin-right: 0px;
+      margin-right: 0;
     }
 
     &--accept {

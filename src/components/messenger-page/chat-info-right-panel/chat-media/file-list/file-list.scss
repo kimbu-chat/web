@@ -2,12 +2,12 @@
   color: #3f8ae0;
 
   &__separator {
-    text-transform: capitalize;
-    width: 100%;
+    color: #3f8ae0;
     font-size: 16px;
     line-height: 19px;
     margin-top: 8px;
-    color: #3f8ae0;
+    text-transform: capitalize;
+    width: 100%;
 
     &:first-child {
       margin-top: 17px;

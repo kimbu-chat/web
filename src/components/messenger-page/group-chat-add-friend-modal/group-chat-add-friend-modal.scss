@@ -1,32 +1,34 @@
 .group-chat-add-friend-modal {
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
 
   &__icon {
-    width: 21px;
+    color: var(--dt-white-wt-kingBlue);
     height: 21px;
     margin-right: 17px;
-    color: var(--dt-white-wt-kingBlue);
+    width: 21px;
   }
 
   &__select-friends {
     margin-top: -16px;
+
     &__search {
-      width: 339px;
       height: 32px;
+      margin-bottom: 23px;
       margin-left: 0;
       margin-right: 0;
-      margin-bottom: 23px;
+      width: 339px;
+
       svg {
-        width: 16px;
         height: 16px;
         left: 17px;
+        width: 16px;
       }
 
       input {
-        font-weight: normal;
         font-size: 16px;
+        font-weight: normal;
         line-height: 19px;
         text-indent: 50px;
       }
@@ -34,9 +36,9 @@
   }
 
   &__friends-block {
-    padding-right: 8px;
     max-height: 294px;
     overflow: auto;
+    padding-right: 8px;
 
     & > * {
       &:first-child {
@@ -46,13 +48,13 @@
   }
 
   &__btn {
+    border-radius: 6px;
+    color: var(--dt-white-wt-dark);
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 19px;
     margin-top: -7px;
     padding: 10px 32px;
-    color: var(--dt-white-wt-dark);
-    font-weight: 300;
-    font-size: 16px;
-    line-height: 19px;
-    border-radius: 6px;
 
     &--cancel {
       background: transparent;
@@ -62,8 +64,9 @@
     &--confirm {
       background: #3f8ae0;
       color: #fff;
+
       &:hover {
-        box-shadow: 0px 3px 6px rgba(14, 22, 43, 0.62);
+        box-shadow: 0 3px 6px rgba(14, 22, 43, 0.62);
       }
 
       &:disabled {

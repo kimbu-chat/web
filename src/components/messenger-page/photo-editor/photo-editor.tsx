@@ -168,12 +168,14 @@ export const PhotoEditor: React.FC<IPhotoEditorProps> = ({
         }
         buttons={[
           <button
+            key={0}
             type="button"
             className="photo-editor__btn photo-editor__btn--cancel"
             onClick={hideChangePhoto}>
             {t('changePhoto.reject')}
           </button>,
           <button
+            key={1}
             type="button"
             className="photo-editor__btn photo-editor__btn--confirm"
             onClick={submitChange}>

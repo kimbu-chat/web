@@ -26,6 +26,7 @@ import {
 } from './glare-utils';
 import { ICandidateApiRequest } from './api-requests/candidate-api-request';
 import { IRenegociateApiRequest } from './api-requests/renegotiate-api-request';
+import { OpenInterlocutorAudioStatus } from '../features/change-interlocutor-media-status/open-interlocutor-audio-status';
 
 const CallsHttpRequests = {
   candidate: httpRequestFactory<AxiosResponse, ICandidateApiRequest>(
@@ -152,6 +153,8 @@ export function* peerWatcher(): SagaIterator {
             const { track } = action.event as RTCTrackEvent;
 
             assignInterlocutorAudioTrack(track);
+
+            yield put(OpenInterlocutorAudioStatus.action());
           }
           break;
         case 'videoTrackUnmuted':

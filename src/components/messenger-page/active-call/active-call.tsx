@@ -9,6 +9,7 @@ import {
   getCallInterlocutorSelector,
   getIsInterlocutorBusySelector,
   getIsInterlocutorVideoEnabledSelector,
+  getIsInterlocutorAudioEnabledSelector,
   getIsScreenSharingEnabledSelector,
   getVideoConstraintsSelector,
   getVideoDevicesSelector,
@@ -55,6 +56,7 @@ export const ActiveCall: React.FC = () => {
   const audioDevices = useSelector(getAudioDevicesSelector);
   const videoDevices = useSelector(getVideoDevicesSelector);
   const isInterlocutorVideoEnabled = useSelector(getIsInterlocutorVideoEnabledSelector);
+  const isInterlocutorAudioEnabled = useSelector(getIsInterlocutorAudioEnabledSelector);
   const amICallingSelectorSomebody = useSelector(amICallingSelector);
   const amISpeaking = useSelector(doIhaveCallSelector);
   const isInterlocutorBusy = useSelector(getIsInterlocutorBusySelector);
@@ -113,7 +115,7 @@ export const ActiveCall: React.FC = () => {
         remoteAudioRef.current.srcObject = mediaStream;
       }
     }
-  }, [remoteAudioRef]);
+  }, [isInterlocutorAudioEnabled, remoteAudioRef]);
 
   // local video stream assigning
   useEffect(() => {

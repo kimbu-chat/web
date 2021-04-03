@@ -24,9 +24,11 @@ import { OpenScreenShareStatus } from './features/change-screen-share-status/ope
 import { OpenInterlocutorVideoStatus } from './features/change-interlocutor-media-status/open-interlocutor-video-status';
 import { UserEditedEventHandler } from './socket-events/user-edited/user-edited-event-handler';
 import { CallEndedEventHandlerSuccess } from './socket-events/call-ended/call-ended-event-handler-success';
+import { OpenInterlocutorAudioStatus } from './features/change-interlocutor-media-status/open-interlocutor-audio-status';
 
 const initialState: ICallsState = {
   isInterlocutorVideoEnabled: false,
+  isInterlocutorAudioEnabled: false,
   isInterlocutorBusy: false,
   amICalled: false,
   amICalling: false,
@@ -67,6 +69,7 @@ const calls = createReducer<ICallsState>(initialState)
   .handleAction(EndCall.action, EndCall.reducer)
   .handleAction(AcceptCallSuccess.action, AcceptCallSuccess.reducer)
   .handleAction(OpenInterlocutorVideoStatus.action, OpenInterlocutorVideoStatus.reducer)
+  .handleAction(OpenInterlocutorAudioStatus.action, OpenInterlocutorAudioStatus.reducer)
 
   // socket-events
   .handleAction(IncomingCallEventHandler.action, IncomingCallEventHandler.reducer)

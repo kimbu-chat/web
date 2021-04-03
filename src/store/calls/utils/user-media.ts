@@ -84,6 +84,7 @@ const assignScreenSharingTracks = (stream: MediaStream) => {
 export function* assignStreams(stream: MediaStream) {
   [tracks.videoTrack] = stream.getVideoTracks();
   if (tracks.videoTrack) {
+    yield put(CloseVideoStatus.action());
     yield put(OpenVideoStatus.action(tracks.videoTrack.getCapabilities().deviceId));
   }
 
@@ -218,6 +219,7 @@ export function* getAndSendUserMedia(): SagaIterator {
     }
     if (tracks.audioTrack) {
       audioSender = peerConnection?.addTrack(tracks.audioTrack, localMediaStream) as RTCRtpSender;
+      console.log('audio track sent');
     }
   }
 }

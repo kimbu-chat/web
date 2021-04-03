@@ -15,6 +15,7 @@ export class CancelCallSuccess {
       draft.amICalled = false;
       draft.isSpeaking = false;
       draft.isInterlocutorVideoEnabled = false;
+      draft.isInterlocutorAudioEnabled = false;
       draft.videoConstraints.isOpened = false;
       draft.videoConstraints.isOpened = false;
       draft.isScreenSharingOpened = false;

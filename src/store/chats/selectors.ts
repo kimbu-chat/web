@@ -207,6 +207,9 @@ export const getChatIndexDraftSelector = (chatId: number, draft: IChatsState) =>
 export const isCurrentChatBlackListedSelector = (state: RootState) =>
   state.chats.chats.find(({ id }) => id === state.chats.selectedChatId)?.isBlockedByUser;
 
+export const isCurrentChatContactSelector = (state: RootState) =>
+  state.chats.chats.find(({ id }) => id === state.chats.selectedChatId)?.isInContacts;
+
 export const isCurrentChatDismissedAddToContactsSelector = (state: RootState) => {
   const currentChat = state.chats.chats.find(({ id }) => id === state.chats.selectedChatId);
 

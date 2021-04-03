@@ -14,10 +14,11 @@ CERT_KEY=cert.key
 CERT_CONF=../certification/cert.conf
 
 if [[ -f "$CERT_FILE" && -f "$CERT_KEY" ]]; then
-    printf 'Certificate and key already exists ✅ \n'
+    printf 'Certificate and key already exists and installed ✅ \n'
 else
     printf '🆕 \n'
     openssl req -x509 -newkey rsa:4096 -sha256 -keyout $CERT_KEY -out $CERT_FILE -days 365 -config $CERT_CONF -new -nodes
+    sh ../certification/install-cert.sh
 fi
 
 printf 'Done ✅ \n'

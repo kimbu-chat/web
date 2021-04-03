@@ -24,12 +24,9 @@ export const SessionsList = () => {
       setOpened(false);
     } else {
       setOpened(true);
-
-      if (sessions.length === 0) {
-        getSessions();
-      }
+      getSessions();
     }
-  }, [opened, setOpened, getSessions, sessions.length]);
+  }, [opened, setOpened, getSessions]);
 
   return (
     <div className="sessions-list">
@@ -48,8 +45,6 @@ export const SessionsList = () => {
         </button>
       </div>
 
-      {opened && loading && <InfiniteScrollLoader />}
-
       {opened && (
         <div className="sessions-list__content">
           {sessions.map((session) => (
@@ -57,6 +52,8 @@ export const SessionsList = () => {
           ))}
         </div>
       )}
+
+      {opened && loading && <InfiniteScrollLoader />}
     </div>
   );
 };

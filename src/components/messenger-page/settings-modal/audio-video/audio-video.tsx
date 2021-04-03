@@ -21,12 +21,43 @@ import { getAudioVolume } from '@utils/get-audio-volume-size';
 import { playSoundSafely } from '@utils/current-music';
 import { Dropdown } from '../../shared/dropdown/dropdown';
 
+interface IIntensityPointProps {
+  dataActive?: boolean;
+  dataMiddle?: boolean;
+}
+
+interface IIntensityIndicatorProps {
+  intensity: number;
+}
+
 let videoTrack: MediaStreamTrack | undefined;
 let audioTrack: MediaStreamTrack | undefined;
 let stopMicrophoneMeasurement: () => void;
 let stopAudioMeasurement: () => void;
 
 export const AudioVideoSettings = () => {
+  const IntensityPoint: React.FC<IIntensityPointProps> = ({ dataActive, dataMiddle }) => (
+    <div
+      data-active={dataActive}
+      data-middle={dataMiddle}
+      className="audio-video__intensity-point"
+    />
+  );
+
+  const IntensityIndicator: React.FC<IIntensityIndicatorProps> = ({ intensity }) => (
+    <div className="audio-video__intensity-indicator">
+      <IntensityPoint dataActive={intensity >= 9} dataMiddle={intensity >= 8} />
+      <IntensityPoint dataActive={intensity >= 8} dataMiddle={intensity >= 7} />
+      <IntensityPoint dataActive={intensity >= 7} dataMiddle={intensity >= 6} />
+      <IntensityPoint dataActive={intensity >= 6} dataMiddle={intensity >= 5} />
+      <IntensityPoint dataActive={intensity >= 5} dataMiddle={intensity >= 4} />
+      <IntensityPoint dataActive={intensity >= 4} dataMiddle={intensity >= 3} />
+      <IntensityPoint dataActive={intensity >= 3} dataMiddle={intensity >= 2} />
+      <IntensityPoint dataActive={intensity >= 2} dataMiddle={intensity >= 1} />
+      <IntensityPoint dataActive={intensity >= 1} />
+    </div>
+  );
+
   const { t } = useContext(LocalizationContext);
 
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -201,56 +232,7 @@ export const AudioVideoSettings = () => {
           <audio src={incomingCallSound} hidden ref={audioRef} />
           <h5 className="audio-video__subject-text">{t('audioVideo.load-speaker')}</h5>
         </div>
-        {audioMeasurementAllowed && (
-          <div className="audio-video__intensity-indicator">
-            <div
-              data-active={audioIntensity >= 10}
-              data-middle={audioIntensity >= 9}
-              className="audio-video__intensity-point"
-            />
-            <div
-              data-active={audioIntensity >= 9}
-              data-middle={audioIntensity >= 8}
-              className="audio-video__intensity-point"
-            />
-            <div
-              data-active={audioIntensity >= 8}
-              data-middle={audioIntensity >= 7}
-              className="audio-video__intensity-point"
-            />
-            <div
-              data-active={audioIntensity >= 7}
-              data-middle={audioIntensity >= 6}
-              className="audio-video__intensity-point"
-            />
-            <div
-              data-active={audioIntensity >= 6}
-              data-middle={audioIntensity >= 5}
-              className="audio-video__intensity-point"
-            />
-            <div
-              data-active={audioIntensity >= 5}
-              data-middle={audioIntensity >= 4}
-              className="audio-video__intensity-point"
-            />
-            <div
-              data-active={audioIntensity >= 4}
-              data-middle={audioIntensity >= 3}
-              className="audio-video__intensity-point"
-            />
-            <div
-              data-active={audioIntensity >= 3}
-              data-middle={audioIntensity >= 2}
-              className="audio-video__intensity-point"
-            />
-            <div
-              data-active={audioIntensity >= 2}
-              data-middle={audioIntensity >= 1}
-              className="audio-video__intensity-point"
-            />
-            <div data-active={audioIntensity >= 1} className="audio-video__intensity-point" />
-          </div>
-        )}
+        {audioMeasurementAllowed && <IntensityIndicator intensity={audioIntensity} />}
       </div>
       <div className="audio-video__dropdown-wrapper">
         <Dropdown
@@ -275,56 +257,7 @@ export const AudioVideoSettings = () => {
           />
           <h5 className="audio-video__subject-text">{t('audioVideo.microphone')}</h5>
         </div>
-        {audioMeasurementAllowed && (
-          <div className="audio-video__intensity-indicator">
-            <div
-              data-active={microphoneIntensity >= 10}
-              data-middle={microphoneIntensity >= 9}
-              className="audio-video__intensity-point"
-            />
-            <div
-              data-active={microphoneIntensity >= 9}
-              data-middle={microphoneIntensity >= 8}
-              className="audio-video__intensity-point"
-            />
-            <div
-              data-active={microphoneIntensity >= 8}
-              data-middle={microphoneIntensity >= 7}
-              className="audio-video__intensity-point"
-            />
-            <div
-              data-active={microphoneIntensity >= 7}
-              data-middle={microphoneIntensity >= 6}
-              className="audio-video__intensity-point"
-            />
-            <div
-              data-active={microphoneIntensity >= 6}
-              data-middle={microphoneIntensity >= 5}
-              className="audio-video__intensity-point"
-            />
-            <div
-              data-active={microphoneIntensity >= 5}
-              data-middle={microphoneIntensity >= 4}
-              className="audio-video__intensity-point"
-            />
-            <div
-              data-active={microphoneIntensity >= 4}
-              data-middle={microphoneIntensity >= 3}
-              className="audio-video__intensity-point"
-            />
-            <div
-              data-active={microphoneIntensity >= 3}
-              data-middle={microphoneIntensity >= 2}
-              className="audio-video__intensity-point"
-            />
-            <div
-              data-active={microphoneIntensity >= 2}
-              data-middle={microphoneIntensity >= 1}
-              className="audio-video__intensity-point"
-            />
-            <div data-active={microphoneIntensity >= 1} className="audio-video__intensity-point" />
-          </div>
-        )}
+        {audioMeasurementAllowed && <IntensityIndicator intensity={microphoneIntensity} />}
       </div>
     </div>
   );

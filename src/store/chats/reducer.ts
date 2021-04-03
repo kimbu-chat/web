@@ -1,5 +1,6 @@
 import produce from 'immer';
 import { createReducer } from 'typesafe-actions';
+import { DismissToAddContactSuccess } from '@store/friends/features/dismiss-to-add-contact/dismiss-to-add-contact-success';
 import { AddUsersToGroupChatSuccess } from './features/add-users-to-group-chat/add-users-to-group-chat-success';
 import { ChangeChatMutedStatusSuccess } from './features/change-chat-muted-status/change-chat-muted-status-success';
 import { ChangeSelectedChat } from './features/change-selected-chat/change-selected-chat';
@@ -218,6 +219,23 @@ const chats = createReducer<IChatsState>(initialState)
 
       return draft;
     }),
+  )
+  .handleAction(
+    DismissToAddContactSuccess.action,
+    produce(
+      (draft: IChatsState, { payload }: ReturnType<typeof DismissToAddContactSuccess.action>) => {
+        const chatId: number = ChatId.from(payload).id;
+        const chat = getChatByIdDraftSelector(chatId, draft);
+
+        if (!chat) {
+          return draft;
+        }
+
+        chat.isDismissedAddToContacts = true;
+
+        return draft;
+      },
+    ),
   )
 
   // socket-events

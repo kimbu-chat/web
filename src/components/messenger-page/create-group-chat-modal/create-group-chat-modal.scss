@@ -2,6 +2,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  &__icon {
+    width: 21px;
+    height: 21px;
+    margin-right: 17px;
+    color: var(--dt-white-wt-kingBlue);
+  }
+
   &__select-friends {
     margin-top: -16px;
     &__search {
@@ -9,6 +17,7 @@
       height: 32px;
       margin-left: 0;
       margin-right: 0;
+      margin-bottom: 23px;
       svg {
         width: 16px;
         height: 16px;
@@ -25,9 +34,15 @@
   }
 
   &__friends-block {
-    padding-right: 11px;
-    max-height: 304px;
+    padding-right: 8px;
+    max-height: 294px;
     overflow: auto;
+
+    & > * {
+      &:first-child {
+        margin-top: 0;
+      }
+    }
   }
 
   &__current-photo-wrapper {
@@ -110,7 +125,7 @@
   }
 
   &__btn {
-    margin-top: 30px;
+    margin-top: -7px;
     padding: 10px 32px;
     color: var(--dt-white-wt-dark);
     font-weight: 300;

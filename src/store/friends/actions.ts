@@ -2,6 +2,8 @@ import { AddFriend } from './features/add-friend/add-friend';
 import { AddFriendSuccess } from './features/add-friend/add-friend-success';
 import { DeleteFriend } from './features/delete-friend/delete-friend';
 import { DeleteFriendSuccess } from './features/delete-friend/delete-friend-success';
+import { DismissToAddContact } from './features/dismiss-to-add-contact/dismiss-to-add-contact';
+import { DismissToAddContactSuccess } from './features/dismiss-to-add-contact/dismiss-to-add-contact-success';
 import { GetFriends } from './features/get-friends/get-friends';
 import { GetFriendsSuccess } from './features/get-friends/get-friends-success';
 import { GetUserByPhone } from './features/get-user-by-phone/get-user-by-phone';
@@ -17,6 +19,8 @@ export const deleteFriendSuccess = DeleteFriendSuccess.action;
 export const addFriend = AddFriend.action;
 export const addFriendSuccess = AddFriendSuccess.action;
 export const getUserByPhone = GetUserByPhone.action;
+export const dismissToAddContact = DismissToAddContact.action;
+export const dismissToAddContactSuccess = DismissToAddContactSuccess.action;
 
 // socket-events
 export const userStatusChangedEvent = UserStatusChangedEventHandler.action;

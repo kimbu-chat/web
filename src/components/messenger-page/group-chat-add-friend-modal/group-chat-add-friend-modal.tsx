@@ -14,6 +14,7 @@ import {
 import { IPage } from '@store/common/models';
 
 import { FRIENDS_LIMIT } from '@utils/pagination-limits';
+import { ReactComponent as GroupSvg } from '@icons/group.svg';
 
 import { AddUsersToGroupChat } from '@store/chats/features/add-users-to-group-chat/add-users-to-group-chat';
 import { GetFriends } from '@store/friends/features/get-friends/get-friends';
@@ -79,7 +80,12 @@ export const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = 
     return (
       <WithBackground onBackgroundClick={onClose}>
         <Modal
-          title={t('groupChatAddFriendModal.add_members')}
+          title={
+            <>
+              <GroupSvg viewBox="0 0 24 24" className="group-chat-add-friend-modal__icon" />
+              <span>{t('groupChatAddFriendModal.add_members')}</span>
+            </>
+          }
           closeModal={onClose}
           content={
             <div className="group-chat-add-friend-modal__select-friends">

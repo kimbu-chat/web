@@ -53,7 +53,7 @@
     "predeploy": "yarn build",
     "deploy": "gh-pages -d build",
     "start": "yarn generate-conf && run-script-os",
-    "prestart:linux:darwin": "sh ./certification/generate-dev-ssl-cert.sh",
+    "prestart:linux:darwin": "sh ./certification/generate-dev-ssl-cert.sh && sh ./certification/install-cert.sh",
     "start:win32": "yarn generate-cert && react-app-rewired start",
     "start:linux:darwin": "react-app-rewired start",
     "start:build": "serve -s build",

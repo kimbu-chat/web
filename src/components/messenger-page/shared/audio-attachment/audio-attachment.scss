@@ -1,23 +1,23 @@
 .audio-attachment {
-  display: flex;
   align-items: flex-end;
+  display: flex;
   min-width: 324px;
 
   &__download {
-    background: #3f8ae0;
-    display: flex;
-    justify-content: center;
     align-items: center;
-    border-radius: 0px 6px 6px 6px;
-    margin-right: 10px;
+    background: #3f8ae0;
+    border-radius: 0 6px 6px;
+    display: flex;
     height: 40px;
-    width: 40px;
+    justify-content: center;
+    margin-right: 10px;
     min-width: 40px;
+    width: 40px;
 
     svg {
-      width: 24px;
-      height: 24px;
       color: #fff;
+      height: 24px;
+      width: 24px;
     }
   }
 
@@ -27,32 +27,33 @@
   }
 
   &__file-name {
-    max-width: 190px;
-    font-weight: 300;
-    font-size: 14px;
-    line-height: 17px;
     color: var(--dt-white-wt-dark);
-    white-space: nowrap;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 17px;
+    max-width: 190px;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   &__duration {
-    font-weight: 300;
-    font-size: 14px;
-    line-height: 17px;
     color: var(--dt-white-wt-dark);
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 17px;
     margin-left: auto;
   }
 
   &__play-data {
     flex-grow: 1;
+
     .rhap {
       &_container {
-        padding: 0;
         background: inherit;
         box-shadow: none;
         max-width: 76%;
+        padding: 0;
       }
 
       &_controls-section {
@@ -66,9 +67,9 @@
       }
 
       &_progress-bar {
-        height: 4px;
-        border-radius: 6px;
         background-color: var(--chat-bg-dt-dark-wt-whiter);
+        border-radius: 6px;
+        height: 4px;
       }
 
       &_download-progress {
@@ -77,9 +78,9 @@
 
       &_progress-indicator {
         height: 6px;
-        width: 6px;
         margin-left: 0;
         top: -1px;
+        width: 6px;
       }
     }
   }

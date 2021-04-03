@@ -1,11 +1,11 @@
 .select-entity {
   &__friend {
-    display: flex;
     align-items: center;
     cursor: pointer;
-    user-select: none;
+    display: flex;
 
     margin-top: 16px;
+    user-select: none;
   }
 
   &__avatar {
@@ -14,8 +14,8 @@
   }
 
   &__avatar-container {
-    margin-right: 20px;
     color: var(--dt-dark-wt-white);
+    margin-right: 20px;
   }
 
   &__friend-data {
@@ -25,34 +25,34 @@
   }
 
   &__friend-name {
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 19px;
     color: var(--dt-white-wt-dark);
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 19px;
   }
 
   &__friend-status {
-    font-weight: 300;
+    color: var(--dt-white-wt-dark);
     font-size: 14px;
+    font-weight: 300;
     line-height: 17px;
     margin-top: 8px;
-    color: var(--dt-white-wt-dark);
   }
 
   &__selected {
+    height: 24px;
     margin-left: auto;
     width: 24px;
-    height: 24px;
   }
 
   &__select {
-    margin-left: auto;
-    width: 24px;
-    height: 24px;
+    background: var(--chat-bg-dt-dark-wt-kingBlue-lighter);
+    border: 1.5px solid rgba(255, 255, 255, 0.14);
     border-radius: 6px;
     box-sizing: border-box;
-    border: 1.5px solid rgba(255, 255, 255, 0.14);
-    background: var(--chat-bg-dt-dark-wt-kingBlue-lighter);
+    height: 24px;
+    margin-left: auto;
+    width: 24px;
   }
 
   &__icon-holder {

@@ -1,25 +1,25 @@
 .phone-confirmation {
+  background-color: rgb(63, 138, 224);
   min-height: 100vh;
   position: relative;
-  background-color: rgb(63, 138, 224);
 
   &__logo {
-    font-size: 26px;
     color: var(--dt-kingBlue-wt-kingBlueLight);
+    font-size: 26px;
   }
 
   &__container {
-    display: inline-block;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 100px 150px 50px 150px;
     background-color: var(--dt-white-wt-dark);
     border-radius: 4px;
+    display: inline-block;
     font-size: 13px;
     font-weight: 500;
+    left: 50%;
     line-height: 16px;
+    padding: 100px 150px 50px;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
 
     & > * {
       margin: 0 auto;
@@ -28,8 +28,8 @@
   }
 
   &__confirm-phone {
-    margin-top: 50px;
     margin-bottom: 20px;
+    margin-top: 50px;
   }
 
   &__credentials {
@@ -41,22 +41,24 @@
     font-weight: 300;
     line-height: 1;
     margin-top: 194px;
+
     span {
-      display: inline;
       color: rgb(63, 138, 224);
+      display: inline;
       font-weight: 400;
 
       &:hover {
-        text-decoration: underline;
         cursor: pointer;
+        text-decoration: underline;
       }
     }
   }
 
   &__btn {
     margin-top: 20px;
+
     &:hover {
-      box-shadow: 0px 3px 6px rgba(14, 22, 43, 0.62);
+      box-shadow: 0 3px 6px rgba(14, 22, 43, 0.62);
     }
   }
 }

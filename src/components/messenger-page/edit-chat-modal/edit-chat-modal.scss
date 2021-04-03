@@ -1,95 +1,95 @@
 .edit-chat-modal {
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
 
   &__current-photo-wrapper {
-    width: 148px;
-    height: 148px;
-    border-radius: 6px;
     background: var(--dt-darker-wt-bright-blue);
+    border-radius: 6px;
+    height: 148px;
     position: relative;
+    width: 148px;
 
     &__alt {
-      width: 68px;
-      height: 68px;
       color: #fff;
+      height: 68px;
+      left: 50%;
       position: absolute;
       top: 50%;
-      left: 50%;
       transform: translate(-50%, -50%);
+      width: 68px;
       z-index: 20;
     }
 
     &__img {
-      width: 100%;
+      border-radius: 6px;
       height: 100%;
+      left: 0;
       object-fit: cover;
-      z-index: 25;
       position: absolute;
       top: 0;
-      left: 0;
-      border-radius: 6px;
+      width: 100%;
+      z-index: 25;
     }
 
     &__top-line {
+      left: 0;
       position: absolute;
       top: 0;
-      left: 0;
       z-index: 30;
     }
 
     &__bottom-line {
-      position: absolute;
       bottom: -5px;
+      position: absolute;
       right: -5px;
       z-index: 30;
     }
   }
 
   &__change-photo-btn {
-    border-radius: 6px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
+    align-items: center;
     background-color: var(--dt-dark-transparent-wt-kingBlueLight-transparent);
+    border-radius: 6px;
+    bottom: 0;
     color: #fff;
-    width: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
+    left: 0;
     padding: 3px 0;
+    position: absolute;
+    width: 100%;
     z-index: 40;
 
     svg {
       height: 11px;
-      width: 11px;
       margin-right: 5px;
+      width: 11px;
     }
 
     span {
-      font-weight: 300;
       font-size: 12px;
+      font-weight: 300;
       line-height: 14px;
     }
   }
 
   &__criteria {
-    margin-top: 13px;
     color: var(--dt-white-wt-dark);
-    font-weight: 300;
     font-size: 10px;
+    font-weight: 300;
     line-height: 12px;
+    margin-top: 13px;
   }
 
   &__btn {
+    border-radius: 6px;
+    color: var(--dt-white-wt-dark);
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 19px;
     margin-top: 30px;
     padding: 10px 32px;
-    color: var(--dt-white-wt-dark);
-    font-weight: 300;
-    font-size: 16px;
-    line-height: 19px;
-    border-radius: 6px;
 
     &--cancel {
       background: transparent;
@@ -99,8 +99,9 @@
     &--confirm {
       background: #3f8ae0;
       color: #fff;
+
       &:hover {
-        box-shadow: 0px 3px 6px rgba(14, 22, 43, 0.62);
+        box-shadow: 0 3px 6px rgba(14, 22, 43, 0.62);
       }
 
       &:disabled {

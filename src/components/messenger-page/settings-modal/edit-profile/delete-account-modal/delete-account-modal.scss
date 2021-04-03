@@ -1,26 +1,27 @@
 .delete-account-modal {
   &__сontent {
-    font-weight: 300;
-    font-size: 16px;
-    line-height: 19px;
     color: var(--dt-white-wt-dark);
-    margin-top: 15px;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 19px;
     margin-bottom: 11px;
+    margin-top: 15px;
     min-width: 340px;
   }
 
   &__btn {
-    padding: 10px 30px;
-    color: var(--dt-white-wt-dark);
-    font-weight: 300;
-    font-size: 16px;
-    line-height: 19px;
     border-radius: 6px;
+    color: var(--dt-white-wt-dark);
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 19px;
+    padding: 10px 30px;
 
     &--confirm {
       background: #c74848;
+
       &:hover {
-        box-shadow: 0px 3px 6px rgba(14, 22, 43, 0.62);
+        box-shadow: 0 3px 6px rgba(14, 22, 43, 0.62);
       }
     }
 
@@ -32,9 +33,9 @@
   }
 
   &__icon {
-    width: 24px;
+    color: var(--dt-white-wt-kingBlue);
     height: 24px;
     margin-right: 16px;
-    color: var(--dt-white-wt-kingBlue);
+    width: 24px;
   }
 }

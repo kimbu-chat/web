@@ -1,9 +1,9 @@
 .messenger {
+  background: var(--chat-bg-dt-dark-wt-whiter);
   display: grid;
   grid-template-columns: 80px 347px 1fr;
   grid-template-rows: 64px 1fr;
   height: 100vh;
-  background: var(--chat-bg-dt-dark-wt-whiter);
 
   &__friends {
     background-color: var(--dt-dark-wt-white);
@@ -19,11 +19,11 @@
   }
 
   &__main-data {
+    align-items: center;
+    display: flex;
     grid-column: 3/-1;
     grid-row: 1/-1;
-    display: flex;
     justify-content: center;
-    align-items: center;
   }
 
   &__settings-data {
@@ -34,13 +34,13 @@
   }
 
   &__chat-send {
-    overflow: auto;
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 64px);
-    position: relative;
-    grid-row: 2/3;
     grid-column: 3/-1;
+    grid-row: 2/3;
+    height: calc(100vh - 64px);
+    overflow: auto;
+    position: relative;
     transition: all 0.3s;
   }
 

@@ -1,35 +1,35 @@
 .editing-message {
-  display: flex;
+  align-items: center;
   background-color: var(--dt-dark-wt-bright-blue);
   box-sizing: border-box;
+  display: flex;
   position: relative;
-  align-items: center;
 
   &__icon {
-    height: 24px;
-    width: 24px;
     color: var(--dt-kingBlue-wt-kingBlueLight);
+    height: 24px;
     margin: 20px 33px 20px 36px;
+    width: 24px;
   }
 
   &__line {
-    width: 1px;
     background: var(--dt-white-wt-dark);
-    margin-right: 7px;
     height: 40px;
+    margin-right: 7px;
+    width: 1px;
   }
 
   &__message-contents {
-    border-radius: 0px 6px 6px 6px;
-    padding: 10px 16px;
     background: var(--msg-bg-dt-gray-lt-kingBlueLight);
-    font-weight: 300;
-    font-size: 16px;
-    line-height: 19px;
+    border-radius: 0 6px 6px;
     color: #fff;
-    margin-left: 20px;
-    white-space: break-spaces;
+    font-size: 16px;
+    font-weight: 300;
     line-break: anywhere;
+    line-height: 19px;
+    margin-left: 20px;
+    padding: 10px 16px;
+    white-space: break-spaces;
   }
 
   &__close {
@@ -38,8 +38,8 @@
     margin-right: 17px;
 
     svg {
-      width: 24px;
       height: 24px;
+      width: 24px;
     }
   }
 }

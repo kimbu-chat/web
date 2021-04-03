@@ -1,9 +1,9 @@
 .interlocutor-info {
   &__info-block {
-    display: flex;
     align-items: center;
-    margin-top: 16px;
+    display: flex;
     margin-left: 24px;
+    margin-top: 16px;
 
     &:first-of-type {
       margin-top: 24px;
@@ -11,67 +11,68 @@
   }
 
   &__interlocutor-data {
+    align-items: center;
     display: flex;
     flex-direction: row;
-    align-items: center;
     justify-content: center;
+    margin-bottom: 32px;
     margin-top: 24px;
     position: relative;
-    margin-bottom: 32px;
   }
 
   &__chat-data {
-    display: flex;
     align-items: center;
-    justify-content: center;
+    display: flex;
     flex-direction: column;
+    justify-content: center;
   }
 
   &__interlocutor {
-    font-weight: 500;
-    font-size: 24px;
-    line-height: 28px;
     color: var(--dt-white-wt-dark);
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 28px;
   }
 
   &__description {
-    text-align: center;
-    margin-top: 16px;
-    font-size: 12px;
-    line-height: 14px;
     color: var(--dt-white-wt-dark);
+    font-size: 12px;
     font-weight: 400;
+    line-height: 14px;
+    margin-top: 16px;
+    text-align: center;
   }
 
   &__rename-btn {
-    right: 25px;
     color: #3f8ae0;
     display: block;
-    top: 25%;
     position: absolute;
+    right: 25px;
+    top: 25%;
 
     svg {
-      width: 18px;
       height: 18px;
+      width: 18px;
     }
   }
 
   &__info-svg {
-    display: block;
-    margin-right: 16px;
     color: var(--dt-white-wt-dark);
-    width: 18px;
+    display: block;
     height: 18px;
+    margin-right: 16px;
+    width: 18px;
   }
 
   &__data-value {
+    color: var(--dt-white-wt-dark);
     font-size: 14px;
     line-height: 17px;
-    color: var(--dt-white-wt-dark);
 
     &--link {
       color: #3f8ae0;
       cursor: pointer;
+
       &:hover {
         text-decoration: underline;
       }

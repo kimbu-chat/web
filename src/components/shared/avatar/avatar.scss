@@ -1,17 +1,17 @@
 .avatar {
-  color: #fafafa;
-  background-color: #bdbdbd;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  overflow: hidden;
-  position: relative;
-  font-size: 1.25rem;
   align-items: center;
+  background-color: #bdbdbd;
+  border-radius: 6px;
+  color: #fafafa;
+  display: flex;
   flex-shrink: 0;
   font-family: inherit;
-  line-height: 1;
-  user-select: none;
-  border-radius: 6px;
+  font-size: 1.25rem;
+  height: 100%;
   justify-content: center;
+  line-height: 1;
+  overflow: hidden;
+  position: relative;
+  user-select: none;
+  width: 100%;
 }

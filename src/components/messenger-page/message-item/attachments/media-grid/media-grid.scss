@@ -1,11 +1,11 @@
 .media-grid {
-  display: inline-grid;
-  grid-template-columns: 1fr 1fr;
   border-radius: 6px;
-  overflow: hidden;
+  display: inline-grid;
   flex-wrap: wrap;
-  margin-bottom: 15px;
+  grid-template-columns: 1fr 1fr;
   justify-content: flex-start;
+  margin-bottom: 15px;
+  overflow: hidden;
 
   &--1 {
     grid-template-columns: 1fr;
@@ -23,11 +23,11 @@
     }
 
     &:nth-child(2) {
-      margin-top: 0px;
+      margin-top: 0;
     }
 
     &:first-child {
-      margin-top: 0px;
+      margin-top: 0;
     }
   }
 }

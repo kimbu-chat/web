@@ -1,13 +1,13 @@
 .emoji-wrapper {
-  position: absolute;
   bottom: 56px;
-  right: 25px;
   opacity: 1;
+  position: absolute;
+  right: 25px;
   transition: opacity 0.03s ease-in-out;
   visibility: visible;
 
   &--hidden {
-    visibility: hidden;
     opacity: 0;
+    visibility: hidden;
   }
 }

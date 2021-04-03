@@ -4,24 +4,25 @@
   margin-top: 35px;
 
   &__header {
-    padding: 18px 20px;
-    display: flex;
     align-items: center;
+    display: flex;
+    padding: 18px 20px;
 
     span {
       color: var(--dt-white-wt-dark);
-      font-weight: normal;
       font-size: 24px;
+      font-weight: normal;
       line-height: 28px;
     }
 
     &__open {
       margin-left: auto;
       transition: all 0.2s;
+
       svg {
         color: var(--dt-white-wt-kingBlue);
-        width: 24px;
         height: 24px;
+        width: 24px;
       }
 
       &--opened {

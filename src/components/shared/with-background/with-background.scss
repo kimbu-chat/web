@@ -1,11 +1,11 @@
 .background-blur {
-  width: 100vw;
-  height: 100vh;
-  z-index: 50;
-  background-color: var(--modals-bg);
   backdrop-filter: blur(3px);
+  background-color: var(--modals-bg);
   border-radius: 6px;
+  height: 100vh;
+  left: 0;
   position: absolute;
   top: 0;
-  left: 0;
+  width: 100vw;
+  z-index: 50;
 }

@@ -1,40 +1,40 @@
 .message-input-attachment {
-  flex: 0 0 135px;
-  height: 40px;
-  background-color: var(--dt-grafit-wt-kingBlueLight-transparent);
-  display: flex;
-  flex-wrap: nowrap;
   align-items: center;
-  position: relative;
-  margin-right: 15px;
+  background-color: var(--dt-grafit-wt-kingBlueLight-transparent);
   border-radius: 6px;
+  display: flex;
+  flex: 0 0 135px;
+  flex-wrap: nowrap;
+  height: 40px;
+  margin-right: 15px;
   overflow: hidden;
+  position: relative;
 
   &__type-icon {
-    margin: 8px 11px;
     color: #fff;
+    margin: 8px 11px;
     z-index: 5;
   }
 
   &__bg {
-    position: absolute;
-    z-index: 0;
-    top: 50%;
-    left: 50%;
-    width: 100%;
     height: 100%;
+    left: 50%;
     object-fit: cover;
+    position: absolute;
+    top: 50%;
     transform: translate(-50%, -50%);
+    width: 100%;
+    z-index: 0;
   }
 
   &__progress {
-    position: absolute;
+    background-color: var(--msg-bg-dt-gray-lt-kingBlueLight);
+    height: 100%;
     left: 0;
+    position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background-color: var(--msg-bg-dt-gray-lt-kingBlueLight);
     transition: all 0.1s;
-    height: 100%;
     z-index: 2;
 
     &--photo {
@@ -48,38 +48,38 @@
 
   &__title {
     color: #fff;
-    font-weight: 300;
     font-size: 12px;
+    font-weight: 300;
     line-height: 14px;
-    white-space: nowrap;
     max-width: 70px;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   &__size {
     color: #fff;
-    font-weight: 300;
     font-size: 12px;
+    font-weight: 300;
     line-height: 14px;
-    white-space: nowrap;
+    margin-top: 3px;
     max-width: 70px;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-top: 3px;
+    white-space: nowrap;
   }
 
   &__close {
-    position: absolute;
-    top: 2px;
-    right: 4px;
     cursor: pointer;
+    position: absolute;
+    right: 4px;
+    top: 2px;
     z-index: 5;
 
     svg {
-      width: 8px;
       color: #fff;
       height: 8px;
+      width: 8px;
     }
   }
 }

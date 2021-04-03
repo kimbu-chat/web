@@ -2,18 +2,18 @@
   margin-top: 32px;
 
   &__title {
-    margin-left: 24px;
-    margin-bottom: 16px;
     color: #3f8ae0;
-    font-weight: 500;
     font-size: 18px;
+    font-weight: 500;
     line-height: 21px;
+    margin-bottom: 16px;
+    margin-left: 24px;
   }
 
   &__action {
-    display: flex;
     align-items: center;
     color: var(--dt-white-wt-dark);
+    display: flex;
 
     margin-left: 24px;
 
@@ -22,10 +22,10 @@
     }
 
     &__name {
-      font-weight: 300;
-      font-size: 14px;
-      line-height: 17px;
       color: var(--dt-white-wt-dark);
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 17px;
       margin-left: 16px;
     }
   }

@@ -1,20 +1,20 @@
 .code-confirmation {
+  background-color: rgb(63, 138, 224);
   min-height: 100vh;
   position: relative;
-  background-color: rgb(63, 138, 224);
 
   &__container {
-    display: inline-block;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 100px 150px 218px 150px;
     background-color: var(--dt-white-wt-dark);
     border-radius: 4px;
+    display: inline-block;
     font-size: 13px;
     font-weight: 500;
+    left: 50%;
     line-height: 16px;
+    padding: 100px 150px 218px;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
 
     & > * {
       margin: 0 auto;
@@ -23,10 +23,10 @@
   }
 
   &__confirm-code {
-    margin-top: 50px;
     margin-bottom: 15px;
-    text-align: center;
+    margin-top: 50px;
     max-width: 400px;
+    text-align: center;
   }
 
   &__code-sent {
@@ -40,9 +40,9 @@
   }
 
   &__wrong-code {
+    color: #d12433;
     font-size: 13px;
     font-weight: 400;
-    color: #d12433;
     line-height: 16px;
     margin-bottom: 14px;
   }
@@ -53,15 +53,15 @@
   }
 
   &__code-input {
-    width: 86px;
-    height: 60px;
-    border-radius: 8px;
-    margin-right: 16px;
     border: 1px solid rgb(215, 216, 217);
-    text-align: center;
-    font-weight: 400;
+    border-radius: 8px;
     font-size: 17px;
+    font-weight: 400;
+    height: 60px;
     line-height: 16px;
+    margin-right: 16px;
+    text-align: center;
+    width: 86px;
 
     &:focus {
       border: 1px solid rgb(63, 138, 224);
@@ -72,16 +72,16 @@
     }
 
     &--wrong {
-      border: 1px solid #d12433;
       background: rgba($color: #d12433, $alpha: 0.05);
+      border: 1px solid #d12433;
     }
   }
 
   &__resend-btn {
     background-color: rgba(63, 138, 224, 0.1) !important;
-    font-weight: 500 !important;
-    padding: 12px 30px !important;
     display: flex !important;
+    font-weight: 500 !important;
     margin-top: 53px !important;
+    padding: 12px 30px !important;
   }
 }

@@ -1,51 +1,51 @@
 .check-box {
-  display: flex;
   align-items: center;
   cursor: pointer;
+  display: flex;
   user-select: none;
 
   &:hover &__checked {
-    box-shadow: 0px 3px 6px var(--box-shadow-2);
+    box-shadow: 0 3px 6px var(--box-shadow-2);
   }
 
   &:hover &__unchecked {
-    box-shadow: 0px 3px 6px var(--box-shadow-2);
+    box-shadow: 0 3px 6px var(--box-shadow-2);
   }
 
   &__disabled {
-    width: 24px;
-    height: 24px;
-    border-radius: 6px;
-    margin-right: 16px;
-    box-sizing: border-box;
+    background: var(--disabled-input);
 
     border: 1.5px solid rgba(255, 255, 255, 0.14);
-    background: var(--disabled-input);
+    border-radius: 6px;
+    box-sizing: border-box;
+    height: 24px;
+    margin-right: 16px;
+    width: 24px;
   }
 
   &__unchecked {
-    width: 24px;
-    height: 24px;
-    border-radius: 6px;
-    margin-right: 16px;
-    box-sizing: border-box;
+    background: var(--chat-bg-dt-dark-wt-kingBlue-lighter);
 
     border: 1.5px solid rgba(255, 255, 255, 0.14);
-    background: var(--chat-bg-dt-dark-wt-kingBlue-lighter);
+    border-radius: 6px;
+    box-sizing: border-box;
+    height: 24px;
+    margin-right: 16px;
+    width: 24px;
   }
 
   &__checked {
-    width: 24px;
-    height: 24px;
     border-radius: 6px;
-    margin-right: 16px;
     box-sizing: border-box;
+    height: 24px;
+    margin-right: 16px;
+    width: 24px;
   }
 
   &__title {
-    font-weight: normal;
-    font-size: 18px;
-    line-height: 21px;
     color: var(--dt-white-wt-dark);
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 21px;
   }
 }

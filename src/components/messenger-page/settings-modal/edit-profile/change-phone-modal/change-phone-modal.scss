@@ -1,26 +1,26 @@
 .change-phone-modal {
-  margin-top: 12px;
   margin-bottom: 50px;
+  margin-top: 12px;
 
   &__icon {
-    width: 24px;
+    color: var(--dt-white-wt-kingBlue);
     height: 24px;
     margin-right: 16px;
-    color: var(--dt-white-wt-kingBlue);
+    width: 24px;
   }
 
   &__input {
-    width: 100%;
     margin-top: 30px;
+    width: 100%;
   }
 
   &__btn {
-    padding: 10px 17px;
     border-radius: 6px;
-    font-weight: 300;
-    font-size: 16px;
-    line-height: 19px;
     color: var(--dt-white-wt-dark);
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 19px;
+    padding: 10px 17px;
 
     &--cancel {
       background: transparent;
@@ -30,8 +30,9 @@
     &--submit {
       background: #3f8ae0;
       color: #fff;
+
       &:hover {
-        box-shadow: 0px 3px 6px rgba(14, 22, 43, 0.62);
+        box-shadow: 0 3px 6px rgba(14, 22, 43, 0.62);
       }
     }
 
@@ -42,20 +43,20 @@
   }
 
   &__details {
-    font-weight: 300;
-    font-size: 12px;
-    line-height: 14px;
-    margin-top: 16px;
     color: var(--dt-white-wt-dark);
     display: block;
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 14px;
     margin-bottom: -32px;
+    margin-top: 16px;
   }
 
   &__back-icon {
     svg {
-      width: 12px;
-      height: 12px;
       color: var(--dt-white-wt-kingBlue);
+      height: 12px;
+      width: 12px;
     }
   }
 }

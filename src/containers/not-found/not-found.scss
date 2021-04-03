@@ -1,25 +1,25 @@
 .not-found {
   &__bg {
-    width: 100vw;
     height: 100vh;
-    position: absolute;
-    z-index: -1;
-    top: 50%;
     left: 50%;
+    position: absolute;
+    top: 50%;
     transform: translate(-50%, -50%);
+    width: 100vw;
+    z-index: -1;
   }
 
   &__wrapper {
+    display: inline-block;
+    left: 50%;
     position: absolute;
     top: 50%;
-    left: 50%;
     transform: translate(-50%, -50%);
-    display: inline-block;
   }
 
   &__svg {
-    margin: auto;
     display: block;
+    margin: auto;
   }
 
   &__title {
@@ -27,30 +27,31 @@
     font-size: 44px;
     font-weight: 700;
     line-height: 48px;
-    text-align: center;
     margin-top: 29px;
+    text-align: center;
   }
 
   &__description {
-    max-width: 470px;
     color: #6c738a;
     font-size: 16px;
     font-weight: 400;
     letter-spacing: 0.32px;
     line-height: 24px;
+    margin: 17px auto 38px;
+    max-width: 470px;
     text-align: center;
-    margin: 17px auto 38px auto;
   }
 
   &__btn {
-    margin-left: auto;
-    margin-right: auto;
     display: block;
-    padding: 16px 47px 16px 40px;
     font-size: 12px;
     font-weight: 700;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 16px 47px 16px 40px;
+
     &:hover {
-      box-shadow: 0px 3px 6px rgba(14, 22, 43, 0.62);
+      box-shadow: 0 3px 6px rgba(14, 22, 43, 0.62);
     }
   }
 }

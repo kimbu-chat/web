@@ -2,17 +2,17 @@
   padding: 33px 39px;
 
   &__title {
-    font-weight: normal;
-    font-size: 28px;
-    line-height: 33px;
     color: var(--dt-white-wt-dark);
+    font-size: 28px;
+    font-weight: normal;
+    line-height: 33px;
     margin-bottom: 40px;
   }
 
   &__language {
-    margin-top: 16px;
-    border-radius: 6px;
     background: var(--chat-bg-dt-dark-wt-bright-blue);
+    border-radius: 6px;
+    margin-top: 16px;
 
     &:hover {
       background: var(--dt-dark-wt-kingBlueLight);
@@ -32,18 +32,18 @@
   }
 
   &__language-name {
-    margin-left: 24px;
-    font-weight: normal;
-    font-size: 18px;
-    line-height: 21px;
     color: var(--dt-white-wt-dark);
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 21px;
+    margin-left: 24px;
   }
 
   &__language-country {
-    margin-left: auto;
     color: var(--dt-kingBlue-wt-kingBlueLight);
-    font-weight: 300;
     font-size: 16px;
+    font-weight: 300;
     line-height: 19px;
+    margin-left: auto;
   }
 }

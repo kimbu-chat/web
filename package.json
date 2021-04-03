@@ -66,7 +66,7 @@
     "prettify": "prettier ./src --write",
     "prettify:check": "prettier ./src --check",
     "stylelint": "stylelint ./src",
-    "generate-conf": "./config-generator/generate-config.sh"
+    "generate-conf": "sh ./config-generator/generate-config.sh"
   },
   "eslintConfig": {
     "extends": [

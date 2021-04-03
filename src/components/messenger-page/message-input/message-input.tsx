@@ -1,4 +1,5 @@
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { containsFiles, useGlobalDrop } from '@hooks/use-global-drop';
 import { useOnClickOutside } from '@hooks/use-on-click-outside';
@@ -26,7 +27,7 @@ import { getTypingStrategySelector } from '@store/settings/selectors';
 import { getFileType } from '@utils/get-file-extension';
 import moment from 'moment';
 import Mousetrap from 'mousetrap';
-import React, { useContext, useState, useRef, useEffect, useCallback, lazy, Suspense } from 'react';
+import React, { useState, useRef, useEffect, useCallback, lazy, Suspense } from 'react';
 import { useSelector } from 'react-redux';
 import useInterval from 'use-interval';
 import { throttle } from 'lodash';
@@ -60,7 +61,7 @@ export interface IRecordedData {
 }
 
 export const CreateMessageInput = React.memo(() => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
 
   const sendMessage = useActionWithDispatch(CreateMessage.action);
   const notifyAboutTyping = useActionWithDispatch(MessageTyping.action);

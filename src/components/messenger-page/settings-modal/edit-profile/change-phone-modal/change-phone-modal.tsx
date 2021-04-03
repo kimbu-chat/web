@@ -1,7 +1,8 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { ReactComponent as ChatSvg } from '@icons/single-chat.svg';
 import './change-phone-modal.scss';
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 import { WithBackground, Modal, LabeledInput } from '@components/shared';
 import { PhoneInputGroup } from '@components/messenger-page';
 import { ReactComponent as CrayonSvg } from '@icons/crayon.svg';
@@ -14,7 +15,7 @@ interface IChangePhoneModalProps {
 }
 
 export const ChangePhoneModal: React.FC<IChangePhoneModalProps> = ({ onClose }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
 
   const [phone, setPhone] = useState('');
   const [code, setCode] = useState('');

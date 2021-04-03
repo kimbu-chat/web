@@ -1,7 +1,8 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { ReactComponent as AddContactSvg } from '@icons/add-users.svg';
 import './add-friend-modal.scss';
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 import { PhoneInputGroup } from '@components/messenger-page';
 import { WithBackground, Modal, Avatar } from '@components/shared';
 import { GetUserByPhone } from '@store/friends/features/get-user-by-phone/get-user-by-phone';
@@ -21,7 +22,7 @@ interface IAddFriendModalProps {
 }
 
 export const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
   const getUserByPhone = useActionWithDeferred(GetUserByPhone.action);
   const addFriend = useActionWithDeferred(AddFriend.action);
 

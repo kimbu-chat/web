@@ -1,10 +1,11 @@
-import React, { useContext, useCallback, useMemo, ReactElement } from 'react';
+import React, { useCallback, useMemo, ReactElement } from 'react';
 import { MessageUtils } from '@utils/message-utils';
 import { useSelector } from 'react-redux';
 import './message-item.scss';
 
 import { myIdSelector } from '@store/my-profile/selectors';
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getIsSelectMessagesStateSelector } from '@store/chats/selectors';
 import { Avatar } from '@components/shared';
@@ -61,7 +62,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
 
     const isCurrentUserMessageCreator = message.userCreator?.id === myId;
 
-    const { t } = useContext(LocalizationContext);
+    const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
 
     const selectMessage = useActionWithDispatch(SelectMessage.action);
 

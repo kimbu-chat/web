@@ -1,10 +1,11 @@
-import React, { useContext, useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { ReactComponent as VideoSvg } from '@icons/video.svg';
 import { ReactComponent as PlaySvg } from '@icons/play.svg';
 import { ReactComponent as PauseSvg } from '@icons/pause.svg';
 import { ReactComponent as MicrophoneSvg } from '@icons/voice.svg';
 import './audio-video.scss';
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { InputType } from '@store/calls/common/enums/input-type';
 import {
@@ -58,7 +59,7 @@ export const AudioVideoSettings = () => {
     </div>
   );
 
-  const { t } = useContext(LocalizationContext);
+  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);

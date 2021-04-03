@@ -1,12 +1,13 @@
 import { ICall } from '@store/calls/common/models';
 import './call-item.scss';
-import React, { useContext } from 'react';
+import React from 'react';
 
 import { ReactComponent as IncomingCallSvg } from '@icons/incoming-call.svg';
 import { ReactComponent as OutgoingCallSvg } from '@icons/outgoing-call.svg';
 import { ReactComponent as DeclinedCallSvg } from '@icons/declined-call.svg';
 import { ReactComponent as MissedCallSvg } from '@icons/missed-call.svg';
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { myIdSelector } from '@store/my-profile/selectors';
@@ -18,7 +19,7 @@ interface ICallItem {
 }
 
 export const CallItem: React.FC<ICallItem> = ({ call }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
 
   const myId = useSelector(myIdSelector);
 

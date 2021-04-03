@@ -1,7 +1,8 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import './chat-media.scss';
 
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 
 import { ReactComponent as PictureSvg } from '@icons/picture.svg';
 import { ReactComponent as VideoSvg } from '@icons/video.svg';
@@ -27,7 +28,7 @@ import { VideoList } from './video-list/video-list';
 import { FileList } from './file-list/file-list';
 
 export const ChatMedia = React.memo(() => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
 
   const [pictureDisplayed, setPictureDisplayed] = useState(false);
   const [videoDisplayed, setVideoDisplayed] = useState(false);

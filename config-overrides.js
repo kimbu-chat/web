@@ -7,6 +7,7 @@ module.exports = function override(config, env) {
     alias: {
       ...config.alias,
       '@store': path.resolve(__dirname, 'src/store'),
+      '@localization': path.resolve(__dirname, 'src/localization'),
       '@utils': path.resolve(__dirname, 'src/utils'),
       '@common': path.resolve(__dirname, 'src/common'),
       '@services': path.resolve(__dirname, 'src/services'),

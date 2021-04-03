@@ -1,13 +1,14 @@
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 import { BaseBtn } from '@components/shared';
-import React, { useContext } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import './not-found.scss';
 import SadSmilePNG from '@icons/sad-emoji.png';
 import NotFoundBackgroundPNG from '@icons/404-bg.png';
 
 const NotFound = React.memo(() => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
 
   return (
     <div className="not-found">

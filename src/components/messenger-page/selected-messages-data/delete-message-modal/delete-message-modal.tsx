@@ -1,9 +1,10 @@
 import { Modal, WithBackground } from '@components/shared';
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 import './delete-message-modal.scss';
 import { DeleteMessage } from '@store/chats/features/delete-message/delete-message';
 import { CheckBox } from '../../settings-modal/shared/check-box/check-box';
@@ -15,7 +16,7 @@ interface IDeleteMessageModalProps {
 
 export const DeleteMessageModal: React.FC<IDeleteMessageModalProps> = React.memo(
   ({ onClose, selectedMessages }) => {
-    const { t } = useContext(LocalizationContext);
+    const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
 
     const deleteMessage = useActionWithDispatch(DeleteMessage.action);
 

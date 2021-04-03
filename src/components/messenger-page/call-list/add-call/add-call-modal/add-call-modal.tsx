@@ -1,7 +1,8 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 import { WithBackground, Modal } from '@components/shared';
 import { InfiniteScroll, SelectEntity, SearchBox } from '@components/messenger-page';
 import './add-call-modal.scss';
@@ -22,7 +23,7 @@ interface IAddCallModalProps {
 }
 
 export const AddCallModal: React.FC<IAddCallModalProps> = React.memo(({ onClose }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
 
   const friends = useSelector(getMyFriendsSelector);
   const hasMoreFriends = useSelector(getHasMoreFriendsSelector);

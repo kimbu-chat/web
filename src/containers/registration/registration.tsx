@@ -2,9 +2,10 @@ import { Register } from '@store/auth/features/register/register';
 import { getStringInitials } from '@utils/interlocutor-name-utils';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ReactComponent as CloseSVG } from '@icons/ic-close.svg';
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 import { authLoadingSelector } from '@store/auth/selectors';
 import { useSelector } from 'react-redux';
 import { CheckNicknameAvailability } from '@store/my-profile/features/check-nickname-availability/check-nickname-availability';
@@ -20,7 +21,7 @@ interface IRegistrationProps {
 }
 
 export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
 
   const isLoading = useSelector(authLoadingSelector);
 

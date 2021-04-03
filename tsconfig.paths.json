@@ -1,25 +1,26 @@
 {
-    "compilerOptions": {
-        "baseUrl": "src",
-        "paths": {
-            "@utils/*": ["./utils/*"],
-            "@store/*": ["./store/*"],
-            "@store": ["./store"],
-            "@common/*": ["./common/*"],
-            "@services/*": ["./services/*"],
-            "@components": ["./components"],
-            "@components/*": ["./components/*"],
-            "@routing/*": ["./routing/*"],
-            "@routing": ["./routing"],
-            "@contexts": ["./contexts"],
-            "@contexts/*": ["./contexts/*"],
-            "@hooks/*": ["./hooks/*"],
-            "@hooks": ["./hooks"],
-            "@sounds/*": ["./assets/sounds/*"],
-            "@containers/*": ["./containers/*"],
-            "@icons/*": ["./assets/icons/*"],
-        },
+  "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@localization/*": ["./localization/*"],
+      "@utils/*": ["./utils/*"],
+      "@store/*": ["./store/*"],
+      "@store": ["./store"],
+      "@common/*": ["./common/*"],
+      "@services/*": ["./services/*"],
+      "@components": ["./components"],
+      "@components/*": ["./components/*"],
+      "@routing/*": ["./routing/*"],
+      "@routing": ["./routing"],
+      "@contexts": ["./contexts"],
+      "@contexts/*": ["./contexts/*"],
+      "@hooks/*": ["./hooks/*"],
+      "@hooks": ["./hooks"],
+      "@sounds/*": ["./assets/sounds/*"],
+      "@containers/*": ["./containers/*"],
+      "@icons/*": ["./assets/icons/*"]
     }
+  }
 }
 
 /*

@@ -1,11 +1,12 @@
 import { Modal, WithBackground } from '@components/shared';
 import { InfiniteScroll, SearchBox } from '@components/messenger-page';
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import './new-chat-modal.scss';
 import * as FriendActions from '@store/friends/actions';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 import { IUser, IPage } from '@store/common/models';
 import { useHistory } from 'react-router';
 
@@ -32,7 +33,7 @@ interface INewChatModalProps {
 
 export const NewChatModal: React.FC<INewChatModalProps> = React.memo(
   ({ onClose, displayCreateGroupChat }) => {
-    const { t } = useContext(LocalizationContext);
+    const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
 
     const friends = useSelector(getMyFriendsSelector);
     const hasMoreFriends = useSelector(getHasMoreFriendsSelector);

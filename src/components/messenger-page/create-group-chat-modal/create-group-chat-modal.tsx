@@ -1,9 +1,10 @@
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 import { PhotoEditor, SearchBox, InfiniteScroll } from '@components/messenger-page';
 import { Modal, WithBackground, LabeledInput } from '@components/shared';
 import * as FriendActions from '@store/friends/actions';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import React, { useCallback, useContext, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import * as ChatActions from '@store/chats/actions';
@@ -39,7 +40,7 @@ enum GroupChatCreationStage {
 
 export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(
   ({ onClose, preSelectedUserIds }) => {
-    const { t } = useContext(LocalizationContext);
+    const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
 
     const currentUser = useSelector(myProfileSelector);
     const friends = useSelector(getMyFriendsSelector);

@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import './chat-actions.scss';
 import { IChat } from '@store/chats/models';
 import { useSelector } from 'react-redux';
@@ -6,12 +6,14 @@ import {
   getMemberIdsForSelectedGroupChatSelector,
   getSelectedChatSelector,
 } from '@store/chats/selectors';
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 import * as SelectedChatActions from '@store/chats/actions';
 
 import { ReactComponent as MuteSvg } from '@icons/mute.svg';
 import { ReactComponent as UnmuteSvg } from '@icons/unmute.svg';
 import { ReactComponent as ClearSvg } from '@icons/clear.svg';
+
 import { ReactComponent as DeleteSvg } from '@icons/delete-contact.svg';
 import { ReactComponent as LeaveSvg } from '@icons/leave.svg';
 import { ReactComponent as AddUsersSvg } from '@icons/add-users.svg';
@@ -32,7 +34,7 @@ interface IChatActionsProps {
 }
 
 export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
 
   const [leaveGroupChatModalOpened, setLeaveGroupChatModalOpened] = useState<boolean>(false);
   const changeLeaveGroupChatModalOpenedState = useCallback(

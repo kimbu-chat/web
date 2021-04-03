@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import moment from 'moment';
@@ -14,7 +14,8 @@ import {
 import { MessageUtils } from '@utils/message-utils';
 
 import { StatusBadge, Avatar } from '@components/shared';
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 import { myIdSelector } from '@store/my-profile/selectors';
 import truncate from 'lodash/truncate';
 
@@ -33,7 +34,7 @@ interface IChatItemProps {
 
 const ChatItem: React.FC<IChatItemProps> = React.memo(
   ({ chat }) => {
-    const { t } = useContext(LocalizationContext);
+    const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
 
     const currentUserId = useSelector(myIdSelector) as number;
     const typingString = useSelector(getTypingStringSelector(t, chat.id));

@@ -1,5 +1,6 @@
-import { LocalizationContext } from '@contexts';
-import React, { useContext } from 'react';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
+import React from 'react';
 import './settings-navigation.scss';
 import { ReactComponent as UserSvg } from '@icons/user-o.svg';
 import { ReactComponent as TypeSvg } from '@icons/type.svg';
@@ -11,7 +12,7 @@ import { ReactComponent as MuteSvg } from '@icons/mute.svg';
 import { NavLink } from 'react-router-dom';
 
 export const SettingsNavigation = React.memo(() => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
 
   return (
     <>

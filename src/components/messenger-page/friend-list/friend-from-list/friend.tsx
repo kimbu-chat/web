@@ -1,7 +1,8 @@
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 import { ChatId } from '@store/chats/chat-id';
 import { IUser, UserStatus } from '@store/common/models';
-import React, { useContext } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 import './friend.scss';
@@ -12,7 +13,7 @@ interface IFriendProps {
 }
 
 export const Friend: React.FC<IFriendProps> = React.memo(({ friend }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
 
   return (
     <Link to={`/chats/${ChatId.from(friend.id).id}`} className="friend">

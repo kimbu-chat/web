@@ -1,7 +1,8 @@
-import React, { useContext, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { ReactComponent as BlockedSvg } from '@icons/blocked.svg';
 import './blocked-message-input.scss';
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { getSelectedInterlocutorIdSelector } from '@store/chats/selectors';
 import { UnblockUser } from '@store/settings/features/unblock-user/unblock-user';
@@ -14,7 +15,7 @@ interface IBlockedMessageInputProps {
 export const BlockedMessageInput: React.FC<IBlockedMessageInputProps> = ({
   isCurrentChatBlackListed,
 }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
 
   const interlocutorId = useSelector(getSelectedInterlocutorIdSelector);
 

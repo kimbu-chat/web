@@ -1,9 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import './chat-member.scss';
 
 import { IUser, UserStatus } from '@store/common/models';
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 
 import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
 import { StatusBadge, TimeUpdateable } from '@components/shared';
@@ -13,7 +14,7 @@ interface IMemberProps {
 }
 
 export const Member: React.FC<IMemberProps> = React.memo(({ member }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
 
   const isOwner = member.firstName.includes('77');
 

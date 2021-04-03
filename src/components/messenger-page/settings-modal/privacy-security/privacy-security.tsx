@@ -1,12 +1,13 @@
-import { LocalizationContext } from '@contexts';
-import React, { useContext } from 'react';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
+import React from 'react';
 import { RadioBox } from '../shared/radio-box/radio-box';
 import { BlockedUsers } from './blocked-users/blocked-users';
 import './privacy-security.scss';
 import { SessionsList } from './sessions-list/sessions-list';
 
 export const PrivacySecurity = () => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
 
   return (
     <div className="privacy-security">

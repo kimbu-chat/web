@@ -1,4 +1,5 @@
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 import { Avatar } from '@components/shared';
 import {
   FileType,
@@ -9,7 +10,7 @@ import {
   IVoiceAttachment,
 } from '@store/chats/models';
 import { IUser } from '@store/common/models';
-import React, { useContext, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { getUserInitials } from '@utils/interlocutor-name-utils';
 import { MessageAudioAttachment } from '../../shared/audio-attachment/audio-attachment';
 import { FileAttachment } from '../../shared/file-attachment/file-attachment';
@@ -29,7 +30,7 @@ interface IMessageLinkProps {
 }
 
 const MessageLink: React.FC<IMessageLinkProps> = React.memo(({ linkedMessage }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
 
   const structuredAttachments = useMemo(
     () =>

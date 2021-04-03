@@ -1,6 +1,7 @@
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 import { IMessage, MessageState, SystemMessageType } from '@store/chats/models';
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback } from 'react';
 import { IUser, UserStatus } from '@store/common/models';
 import firstAvatar from '@icons/mockedUser1.png';
 import { myProfileSelector } from '@store/my-profile/selectors';
@@ -15,7 +16,7 @@ import { MessageItem } from '../../message-item/message-item';
 import { RadioBox } from '../shared/radio-box/radio-box';
 
 export const Appearance: React.FC = () => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
 
   const changeTheme = useActionWithDispatch(ChangeTheme.action);
   const changeFontSize = useActionWithDispatch(ChangeFontSize.action);

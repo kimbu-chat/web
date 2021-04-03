@@ -1,9 +1,10 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback } from 'react';
 import './not-contact.scss';
 
 import { ReactComponent as ContactSvg } from '@icons/user-o.svg';
 import { ReactComponent as CloseSvg } from '@icons/close.svg';
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { BlockUser } from '@store/settings/features/block-user/block-user';
 import { getSelectedInterlocutorSelector } from '@store/chats/selectors';
@@ -12,7 +13,7 @@ import { useSelector } from 'react-redux';
 import { DismissToAddContact } from '@store/friends/features/dismiss-to-add-contact/dismiss-to-add-contact';
 
 export const NotContact = () => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
 
   const interlocutor = useSelector(getSelectedInterlocutorSelector);
 

@@ -1,9 +1,10 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import './country-select.scss';
 
 import useAutocomplete, { createFilterOptions } from '@material-ui/lab/useAutocomplete';
 
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 
 import { ReactComponent as ArrowSvg } from '@icons/arrow-v.svg';
 import { countryList } from '@common/countries';
@@ -17,7 +18,7 @@ interface ICountrySelectProps {
 
 export const CountrySelect: React.FC<ICountrySelectProps> = React.memo(
   ({ country, handleCountryChange, setRef }) => {
-    const { t } = useContext(LocalizationContext);
+    const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
 
     const {
       getRootProps,

@@ -1,9 +1,10 @@
 import { InfiniteScroll, SearchBox } from '@components/messenger-page';
 import { Modal, WithBackground } from '@components/shared';
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 import * as ChatActions from '@store/chats/actions';
 import {
   getChatsSelector,
@@ -26,7 +27,7 @@ interface IForwardModalProps {
 
 export const ForwardModal: React.FC<IForwardModalProps> = React.memo(
   ({ onClose, messageIdsToForward }) => {
-    const { t } = useContext(LocalizationContext);
+    const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
 
     const chats = useSelector(getChatsSelector);
     const chatsAreLoading = useSelector(getChatsLoadingSelector);

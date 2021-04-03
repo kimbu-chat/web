@@ -94,7 +94,9 @@ const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
           ) : (
             <CreateMessageInput />
           )}
-          {!isDismissed && !isFriend && <NotContact />}
+          {!isDismissed && !isFriend && !isCurrentChatBlackListed && !amICurrentChatBlackListed && (
+            <NotContact />
+          )}
         </div>
         <ChatTopBar />
         <CSSTransition in={isInfoOpened} timeout={200} classNames="chat-info-slide" unmountOnExit>

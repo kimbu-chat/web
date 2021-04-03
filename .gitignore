@@ -41,3 +41,6 @@ dist
 
 /public/config.js
 
+# cert folder
+.cert
+

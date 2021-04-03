@@ -1,5 +1,4 @@
 import { createReducer } from 'typesafe-actions';
-import { BlockUserSuccess } from './features/block-user/block-user-success';
 import { ChangeFontSize } from './features/change-font-size/change-font-size';
 
 import { ChangeLanguage } from './features/change-language/change-language';
@@ -9,6 +8,7 @@ import { ChangeTheme } from './features/change-theme/change-theme';
 import { ChangeTypingStrategy } from './features/change-typing-strategy/change-typing-strategy';
 import { GetBlackList } from './features/get-black-list/get-black-list';
 import { GetBlackListSuccess } from './features/get-black-list/get-black-list-success';
+import { GetSessionList } from './features/get-sesion-list/get-sesion-list';
 import { GetSessionListSuccess } from './features/get-sesion-list/get-sesion-list-success';
 import { GetUserSettingsSuccess } from './features/get-user-settings/get-user-settings-success';
 import { Langs, Theme, TypingStrategy } from './features/models';
@@ -24,11 +24,11 @@ const initialState: IUserSettings = {
   fontSize: 16,
   pushNotificationsEnabled: true,
   blackList: {
-    isLoading: true,
+    isLoading: false,
     users: [],
   },
   sessionList: {
-    isLoading: true,
+    isLoading: false,
     sessions: [],
   },
 };
@@ -43,7 +43,7 @@ const settings = createReducer<IUserSettings>(initialState)
   .handleAction(ChangePushNotificationState.action, ChangePushNotificationState.reducer)
   .handleAction(GetBlackListSuccess.action, GetBlackListSuccess.reducer)
   .handleAction(GetBlackList.action, GetBlackList.reducer)
-  .handleAction(BlockUserSuccess.action, BlockUserSuccess.reducer)
+  .handleAction(GetSessionList.action, GetSessionList.reducer)
   .handleAction(UnblockUserSuccess.action, UnblockUserSuccess.reducer)
   .handleAction(GetSessionListSuccess.action, GetSessionListSuccess.reducer)
   .handleAction(RevokeSessionSuccess.action, RevokeSessionSuccess.reducer);

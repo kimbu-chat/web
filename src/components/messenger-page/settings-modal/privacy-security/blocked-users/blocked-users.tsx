@@ -25,11 +25,9 @@ export const BlockedUsers = () => {
     } else {
       setOpened(true);
 
-      if (loading) {
-        getBlockedUsers();
-      }
+      getBlockedUsers();
     }
-  }, [opened, setOpened, blockedUsers.length, getBlockedUsers]);
+  }, [opened, setOpened, getBlockedUsers]);
 
   return (
     <div className="blocked-users">
@@ -50,8 +48,6 @@ export const BlockedUsers = () => {
         </button>
       </div>
 
-      {opened && loading && <InfiniteScrollLoader />}
-
       {opened && (
         <div className="blocked-users__content">
           {blockedUsers.map((user) => (
@@ -59,6 +55,8 @@ export const BlockedUsers = () => {
           ))}
         </div>
       )}
+
+      {opened && loading && <InfiniteScrollLoader />}
     </div>
   );
 };

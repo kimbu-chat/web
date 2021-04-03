@@ -21,17 +21,21 @@ import { getAudioVolume } from '@utils/get-audio-volume-size';
 import { playSoundSafely } from '@utils/current-music';
 import { Dropdown } from '../../shared/dropdown/dropdown';
 
+interface IIntensityPointProps {
+  dataActive?: boolean;
+  dataMiddle?: boolean;
+}
+
+interface IIntensityIndicatorProps {
+  intensity: number;
+}
+
 let videoTrack: MediaStreamTrack | undefined;
 let audioTrack: MediaStreamTrack | undefined;
 let stopMicrophoneMeasurement: () => void;
 let stopAudioMeasurement: () => void;
 
 export const AudioVideoSettings = () => {
-  interface IIntensityPointProps {
-    dataActive?: boolean;
-    dataMiddle?: boolean;
-  }
-
   const IntensityPoint: React.FC<IIntensityPointProps> = ({ dataActive, dataMiddle }) => (
     <div
       data-active={dataActive}
@@ -39,10 +43,6 @@ export const AudioVideoSettings = () => {
       className="audio-video__intensity-point"
     />
   );
-
-  interface IIntensityIndicatorProps {
-    intensity: number;
-  }
 
   const IntensityIndicator: React.FC<IIntensityIndicatorProps> = ({ intensity }) => (
     <div className="audio-video__intensity-indicator">

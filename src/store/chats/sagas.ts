@@ -28,6 +28,7 @@ import { UserMessageTypingEventHandler } from './socket-events/message-typing/me
 import { ForwardMessages } from './features/forward-messages/forward-messages';
 import { MessagesDeletedIntegrationEventHandler } from './socket-events/message-deleted/messages-deleted-integration-event-handler';
 import { RemoveAllAttachments } from './features/remove-attachment/remove-all-attachments';
+import { RemoveUserFromGroupChat } from './features/remove-user-from-group-chat/remove-user-from-group-chat';
 
 export const ChatSagas = [
   takeLatest(GetChats.action, GetChats.saga),
@@ -56,6 +57,7 @@ export const ChatSagas = [
   takeEvery(DeleteMessage.action, DeleteMessage.saga),
   takeEvery(ForwardMessages.action, ForwardMessages.saga),
   takeEvery(RemoveAllAttachments.action, RemoveAllAttachments.saga),
+  takeEvery(RemoveUserFromGroupChat.action, RemoveUserFromGroupChat.saga),
 
   // socket-events
   takeEvery(MessageCreatedEventHandler.action, MessageCreatedEventHandler.saga),

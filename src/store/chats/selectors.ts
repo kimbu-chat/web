@@ -40,6 +40,9 @@ export const getSelectedInterlocutorIdSelector = (state: RootState) =>
 export const getSelectedGroupChatNameSelector = (state: RootState) =>
   state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.groupChat?.name;
 
+export const getSelectedGroupChatIdSelector = (state: RootState) =>
+  state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.groupChat?.id;
+
 export const getSelectedChatUnreadMessagesCountSelector = (state: RootState): number | undefined =>
   state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)
     ?.unreadMessagesCount;

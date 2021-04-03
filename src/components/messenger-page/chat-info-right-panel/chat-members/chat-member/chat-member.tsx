@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import './chat-member.scss';
 
@@ -8,6 +8,8 @@ import { useTranslation } from 'react-i18next';
 
 import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
 import { StatusBadge, TimeUpdateable } from '@components/shared';
+import { RemoveUserFromGroupChat } from '@store/chats/features/remove-user-from-group-chat/remove-user-from-group-chat';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 
 interface IMemberProps {
   member: IUser;
@@ -15,6 +17,12 @@ interface IMemberProps {
 
 export const Member: React.FC<IMemberProps> = React.memo(({ member }) => {
   const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+
+  const removeUserFromGroupChat = useActionWithDeferred(RemoveUserFromGroupChat.action);
+
+  const removeChatMember = useCallback(() => {
+    removeUserFromGroupChat({ userId: member.id });
+  }, [removeUserFromGroupChat, member]);
 
   const isOwner = member.firstName.includes('77');
 
@@ -43,7 +51,7 @@ export const Member: React.FC<IMemberProps> = React.memo(({ member }) => {
         )}
       </div>
       {!isOwner && (
-        <button type="button" className="chat-member__delete-user">
+        <button onClick={removeChatMember} type="button" className="chat-member__delete-user">
           <DeleteSvg viewBox="0 0 15 16" />
         </button>
       )}

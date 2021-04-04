@@ -18,7 +18,6 @@ import {
   authLoadingSelector,
   twoLetterCountryCodeSelector,
 } from '@store/auth/selectors';
-import { RootState } from 'typesafe-actions';
 
 const NUMBER_OF_DIGITS = [0, 1, 2, 3];
 
@@ -39,9 +38,6 @@ const CodeConfirmation: React.FC<ICodeConfirmationProps> = ({ preloadNext }) => 
 
   const phoneNumber = useSelector(authPhoneNumberSelector);
   const twoLetterCountryCode = useSelector(twoLetterCountryCodeSelector);
-  const codeFromServer = useSelector<RootState, string>(
-    (rootState: RootState) => rootState.auth.confirmationCode,
-  );
   const isConfirmationCodeWrong = useSelector(confirmationCodeWrongSelector);
   const isLoading = useSelector(authLoadingSelector);
 
@@ -161,8 +157,7 @@ const CodeConfirmation: React.FC<ICodeConfirmationProps> = ({ preloadNext }) => 
         <p className="code-confirmation__confirm-code">{t('loginPage.confirm_code')}</p>
         <p
           style={{ marginBottom: isConfirmationCodeWrong ? '20px' : '50px' }}
-          className="code-confirmation__code-sent"
-          onClick={() => setCode(String(codeFromServer).split(''))}>
+          className="code-confirmation__code-sent">
           {`${t('loginPage.code_sent_to')} ${parsePhoneNumber(phoneNumber).formatInternational()}`}
         </p>
         {isConfirmationCodeWrong && (

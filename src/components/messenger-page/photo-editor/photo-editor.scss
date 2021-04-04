@@ -1,25 +1,25 @@
 .photo-editor {
-  max-width: 520px;
   margin-bottom: 10px;
+  max-width: 520px;
 
   &__crop-container {
-    height: 338px;
+    align-items: center;
     border-radius: 6px;
     display: flex;
+    height: 338px;
     justify-content: center;
-    align-items: center;
 
     .ReactCrop {
-      max-width: 100%;
       max-height: 100%;
+      max-width: 100%;
 
       div {
-        max-width: 100%;
         max-height: 100%;
+        max-width: 100%;
 
         img {
-          max-width: 100%;
           max-height: 100%;
+          max-width: 100%;
           object-fit: cover;
         }
       }
@@ -27,29 +27,30 @@
   }
 
   &__btn-group {
+    align-items: center;
     display: flex;
     flex-direction: row;
-    align-items: center;
     justify-content: center;
     margin-top: 40px;
   }
 
   &__icon {
-    width: 24px;
+    color: var(--dt-white-wt-kingBlue);
     height: 24px;
     margin-right: 16px;
-    color: var(--dt-white-wt-kingBlue);
+    width: 24px;
   }
 
   &__modify-btn {
+    border: 1px solid var(--dt-white-wt-kingBlue);
+    border-radius: 6px;
+    color: var(--dt-white-wt-kingBlue);
+    padding: 9px 20px;
+    position: relative;
+
     &:not(:last-child) {
       margin-right: 78px;
     }
-    padding: 9px 20px;
-    border-radius: 6px;
-    border: 1px solid var(--dt-white-wt-kingBlue);
-    color: var(--dt-white-wt-kingBlue);
-    position: relative;
 
     &:focus {
       border: 1px solid #3f8ae0;
@@ -61,18 +62,19 @@
   }
 
   &__btn {
-    padding: 10px 30px;
-    color: var(--dt-white-wt-dark);
-    font-weight: 300;
-    font-size: 16px;
-    line-height: 19px;
     border-radius: 6px;
+    color: var(--dt-white-wt-dark);
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 19px;
+    padding: 10px 30px;
 
     &--confirm {
       background: #3f8ae0;
       color: #fff;
+
       &:hover {
-        box-shadow: 0px 3px 6px rgba(14, 22, 43, 0.62);
+        box-shadow: 0 3px 6px rgba(14, 22, 43, 0.62);
       }
     }
 
@@ -85,10 +87,11 @@
 }
 
 .crop-container {
-  z-index: 50;
-  display: flex;
   align-items: center;
+  display: flex;
   flex-direction: column;
+  z-index: 50;
+
   & > * {
     z-index: 50;
   }
@@ -99,6 +102,6 @@
 }
 
 .ReactCrop__image {
-  max-width: 90vw;
   max-height: 70vh;
+  max-width: 90vw;
 }

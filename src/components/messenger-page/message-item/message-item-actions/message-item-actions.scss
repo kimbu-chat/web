@@ -1,27 +1,27 @@
 .message-item-actions {
+  background-color: var(--msg-bg-dt-gray-lt-kingBlue-lighter);
+  border-radius: 6px;
+  box-shadow: 4px 4px 4px rgba(50, 57, 74, 0.72);
   display: flex;
   flex-direction: row;
   opacity: 0;
-  visibility: hidden;
-  transition: all 0.1s;
-  position: absolute;
-  background-color: var(--msg-bg-dt-gray-lt-kingBlue-lighter);
   padding: 6px 0;
-  border-radius: 6px;
-  box-shadow: 4px 4px 4px rgba(50, 57, 74, 0.72);
-  z-index: 22;
+  position: absolute;
+  right: 0;
 
   top: 0;
-  right: 0;
   transform: translate(-4%, -63%);
+  transition: all 0.1s;
+  visibility: hidden;
+  z-index: 22;
 
   &:hover {
     opacity: 1;
   }
 
   &__action {
-    margin-right: 22px;
     color: var(--dt-white-wt-kingBlueLight);
+    margin-right: 22px;
     transition: all 0.1s ease-in-out;
 
     &:hover {

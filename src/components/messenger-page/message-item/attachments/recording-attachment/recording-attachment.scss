@@ -1,35 +1,35 @@
 .recording-attachment {
+  cursor: pointer;
   margin-top: 10px;
   width: 356px;
-  cursor: pointer;
 
   &__btn {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
+    align-items: center;
     background-color: var(--dt-kingBlue-wt-kingBlueLight);
+    border-radius: 50%;
     color: var(--dt-white-wt-dark);
     display: flex;
-    align-items: center;
+    height: 30px;
     justify-content: center;
+    width: 30px;
 
     svg {
-      width: 16px;
       height: 16px;
+      width: 16px;
     }
   }
 
   &__title {
     color: var(--dt-kingBlue-wt-kingBlueLight);
-    font-weight: 500;
     font-size: 14px;
+    font-weight: 500;
     line-height: 16px;
   }
 
   .rhap {
     &_container {
-      padding: 0 0;
       box-shadow: none;
+      padding: 0;
     }
 
     &_progress {
@@ -41,43 +41,43 @@
         background-color: var(--dt-white-wt-dark);
         border: 2px solid var(--dt-kingBlue-wt-kingBlueLight);
         height: 10px;
+        top: -3px;
         transform: translateX(5px);
         width: 10px;
-        top: -3px;
       }
 
       &-container {
+        margin-left: 0;
         margin-right: 10px;
-        margin-left: 0px;
       }
 
       &-bar {
-        height: 4px;
         border-radius: 1px;
+        height: 4px;
       }
     }
 
     &_controls-section {
+      align-items: center;
       display: flex;
       flex: 0 1 auto;
       justify-content: space-between;
-      align-items: center;
-      margin-right: 0px !important;
+      margin-right: 0 !important;
     }
 
     &_current-time {
       font-size: 11px;
-      line-height: 12px;
       font-weight: 400;
-      margin-top: auto;
+      line-height: 12px;
       margin-bottom: auto;
+      margin-top: auto;
     }
 
     &_button-clear {
-      width: 30px;
       height: 30px;
       margin: 0;
       margin-right: 10px;
+      width: 30px;
     }
   }
 }

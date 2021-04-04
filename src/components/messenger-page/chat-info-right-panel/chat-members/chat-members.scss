@@ -7,19 +7,19 @@
   }
 
   &__heading {
-    margin-left: 24px;
     color: #3f8ae0;
-    font-weight: 500;
     font-size: 18px;
+    font-weight: 500;
     line-height: 21px;
+    margin-left: 24px;
   }
 
   &__open-arrow {
     color: #3f8ae0;
-    transition: all 0.2s;
     margin-left: auto;
     margin-right: 24px;
     transform: rotate(-90deg);
+    transition: all 0.2s;
 
     svg {
       height: 8px;

@@ -53,8 +53,9 @@
     "predeploy": "yarn build",
     "deploy": "gh-pages -d build",
     "start": "yarn generate-conf && run-script-os",
-    "start:win32": "yarn generate-cert && set HTTPS=true&&react-app-rewired start",
-    "start:linux:darwin": "HTTPS=true react-app-rewired start",
+    "prestart:linux:darwin": "sh ./certification/generate-dev-ssl-cert.sh",
+    "start:win32": "yarn generate-cert && react-app-rewired start",
+    "start:linux:darwin": "react-app-rewired start",
     "start:build": "serve -s build",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
@@ -62,6 +63,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint --fix . --ext .js,.jsx,.ts,.tsx",
     "generate-cert": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ./certificates.ps1",
+    "generate-mac-cert": "sh ./certification/generate-dev-ssl-cert.sh",
     "analyze": "source-map-explorer 'build/*.js'",
     "prettify": "prettier ./src --write",
     "prettify:check": "prettier ./src --check",
@@ -126,12 +128,10 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "prettier --write",
-      "eslint --fix",
-      "git add"
+      "eslint --fix"
     ],
     "*.{html,css,less,ejs,json}": [
-      "prettier --write",
-      "git add"
+      "prettier --write"
     ]
   },
   "husky": {

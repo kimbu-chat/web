@@ -1,10 +1,10 @@
 .call-from-list {
-  display: flex;
   align-items: center;
-  padding: 8px 20px 8px 20px;
-  cursor: pointer;
   background-color: var(--dt-dark-wt-white);
   color: var(--dt-dark-wt-white);
+  cursor: pointer;
+  display: flex;
+  padding: 8px 20px;
 
   &--missed {
     color: var(--dt-kingBlue-wt-kingBlueLight);
@@ -16,42 +16,42 @@
   }
 
   &__aside-data {
-    margin-left: auto;
+    align-items: flex-end;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    margin-left: auto;
   }
 
   &__type-icon {
-    margin-top: 9px;
     color: var(--dt-white-wt-dark);
+    margin-top: 9px;
 
     &--missed {
       color: var(--dt-white-wt-dark);
     }
 
     svg {
-      width: 18px;
       height: 18px;
+      width: 18px;
     }
   }
 
   &__interlocutor-avatar {
     height: 48px;
-    width: 48px;
     margin-right: 20px;
+    width: 48px;
   }
 
   &__name {
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 19px;
     color: var(--dt-white-wt-dark);
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    width: 150px;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 19px;
     margin-bottom: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 150px;
 
     &--missed {
       color: var(--dt-white-wt-dark);
@@ -59,22 +59,22 @@
   }
 
   &__type {
-    font-weight: 300;
-    font-size: 14px;
-    line-height: 17px;
     color: var(--dt-white-wt-dark);
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 17px;
   }
 
   &__date {
-    text-align: end;
-    text-align: end;
     color: var(--dt-white-wt-dark);
-    font-weight: 300;
     font-size: 12px;
+    font-weight: 300;
     line-height: 14px;
-    text-transform: lowercase;
     max-width: 60px;
-    white-space: break-spaces;
     text-align: end;
+    text-align: end;
+    text-align: end;
+    text-transform: lowercase;
+    white-space: break-spaces;
   }
 }

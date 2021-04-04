@@ -1,8 +1,8 @@
 .friend {
-  padding: 8px 20px;
-  display: flex;
-  position: relative;
   color: var(--dt-dark-wt-white);
+  display: flex;
+  padding: 8px 20px;
+  position: relative;
 
   &:hover {
     background-color: var(--chat-bg-dt-dark-wt-whiter);
@@ -15,22 +15,22 @@
 
   &__name {
     color: var(--dt-white-wt-dark);
-    font-weight: normal;
     font-size: 16px;
+    font-weight: normal;
     line-height: 19px;
     margin-top: 3px;
   }
 
   &__status {
-    font-weight: 300;
-    font-size: 14px;
-    line-height: 17px;
     color: var(--dt-white-wt-dark);
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 17px;
     margin-top: 8px;
   }
 
   &__avatar {
-    width: 48px;
     height: 48px;
+    width: 48px;
   }
 }

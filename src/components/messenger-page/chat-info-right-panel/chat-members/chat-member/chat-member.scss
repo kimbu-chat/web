@@ -4,22 +4,22 @@
   margin-top: 16px;
 
   &__avatar-container {
-    margin-right: 18px;
-    height: 48px;
-    width: 48px;
     color: var(--dt-grafit-wt-white);
+    height: 48px;
+    margin-right: 18px;
+    width: 48px;
 
     &--owner {
       height: 52px;
-      width: 52px;
       margin-right: 14px;
+      width: 52px;
     }
   }
 
   &__avatar {
     border-radius: 6px;
-    width: 100%;
     height: 100%;
+    width: 100%;
   }
 
   &__data {
@@ -29,50 +29,50 @@
   }
 
   &__name-line {
-    margin-top: 5px;
     display: flex;
+    margin-top: 5px;
   }
 
   &__name {
-    white-space: nowrap;
     color: var(--dt-white-wt-dark);
     font-size: 16px;
-    line-height: 19px;
 
     font-weight: normal;
+    line-height: 19px;
+    white-space: nowrap;
   }
 
   &__status {
-    font-weight: 300;
-    font-size: 14px;
-    line-height: 17px;
     color: var(--dt-white-wt-dark);
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 17px;
   }
 
   &__owner {
-    margin-left: 18px;
-    font-weight: 300;
-    font-size: 14px;
-    line-height: 17px;
     color: #3f8ae0;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 17px;
+    margin-left: 18px;
   }
 
   &__group-chat-status {
-    margin-left: auto;
-    display: flex;
     align-items: center;
     color: var(--dt-kingBlue-wt-kingBlueLight);
+    display: flex;
     font-size: 12px;
     font-weight: 400;
+    margin-left: auto;
   }
 
   &__delete-user {
     margin: 12px 24px 0 auto;
 
     svg {
-      width: 18px;
-      height: 20px;
       color: var(--dt-white-wt-dark);
+      height: 20px;
+      width: 18px;
     }
   }
 }

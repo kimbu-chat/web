@@ -1,10 +1,10 @@
 .settings-navigation {
   &__element {
-    padding: 20px;
-    color: var(--dt-white-wt-dark);
-    background: var(--dt-dark-wt-white);
-    display: flex;
     align-items: center;
+    background: var(--dt-dark-wt-white);
+    color: var(--dt-white-wt-dark);
+    display: flex;
+    padding: 20px;
 
     &--active {
       background: var(--chat-bg-dt-dark-wt-whiter);
@@ -20,14 +20,14 @@
   }
 
   &__icon {
-    width: 24px;
     height: 24px;
     margin-right: 20px;
+    width: 24px;
   }
 
   &__text {
-    font-weight: 300;
     font-size: 16px;
+    font-weight: 300;
     line-height: 19px;
   }
 }

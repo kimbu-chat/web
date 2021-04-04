@@ -1,9 +1,9 @@
 .chat-item {
-  padding: 8px 20px 8px 20px;
-  display: flex;
   align-items: stretch;
   background-color: var(--dt-dark-wt-white);
   color: var(--dt-dark-wt-white);
+  display: flex;
+  padding: 8px 20px;
   position: relative;
 
   &:hover {
@@ -16,10 +16,10 @@
   }
 
   &__contents {
-    justify-content: flex-start;
-    flex: 1;
     display: flex;
+    flex: 1;
     flex-direction: column;
+    justify-content: flex-start;
   }
 
   &--active {
@@ -33,18 +33,18 @@
   }
 
   &__time {
-    font-weight: 300;
-    font-size: 12px;
-    line-height: 14px;
-    font-feature-settings: 'pnum' on, 'lnum' on;
-    white-space: nowrap;
     color: var(--dt-white-wt-dark);
+    font-feature-settings: 'pnum' on, 'lnum' on;
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 14px;
     margin-top: 3px;
+    white-space: nowrap;
   }
 
   &__avatar {
-    width: 48px;
     height: 48px;
+    width: 48px;
   }
 
   &__avatar-container {
@@ -52,41 +52,41 @@
   }
 
   &__name {
-    margin-top: 3px;
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 19px;
     color: var(--dt-white-wt-dark);
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 19px;
     margin-bottom: 8px;
+    margin-top: 3px;
     max-width: max-content;
   }
 
   &__last-message {
-    font-weight: 300;
-    font-size: 14px;
-    line-height: 17px;
     color: var(--dt-white-wt-dark);
     font-feature-settings: 'pnum' on, 'lnum' on;
-    white-space: nowrap;
-    overflow: hidden;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 17px;
     max-width: 70%;
+    overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   &__count {
     background-color: var(--dt-grafit-wt-kingBlue);
-    color: #fff;
-    padding: 4px 7px;
     border-radius: 6px;
+    color: #fff;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+    font-size: 14px;
 
     font-weight: 400;
-    font-size: 14px;
     line-height: 16px;
-    font-feature-settings: 'pnum' on, 'lnum' on;
+    padding: 4px 7px;
 
     position: absolute;
-    top: 30px;
     right: 20px;
+    top: 30px;
 
     &--muted {
       background-color: #6d7885;

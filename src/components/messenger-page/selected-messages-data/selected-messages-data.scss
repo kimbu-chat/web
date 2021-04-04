@@ -1,21 +1,22 @@
 .selected-messages-data {
+  align-items: center;
+  background-color: var(--dt-dark-wt-bright-blue);
+  box-sizing: border-box;
+  display: flex;
+  padding: 11px 20px 11px 18px;
   position: absolute;
   top: 0;
-  padding: 11px 20px 11px 18px;
   width: 100%;
-  background-color: var(--dt-dark-wt-bright-blue);
   z-index: 50;
-  display: flex;
-  align-items: center;
-  box-sizing: border-box;
 
   &__btn {
-    padding: 10px 18px;
-    color: #fff;
     background-color: #3f8ae0;
     border-radius: 4px;
+    color: #fff;
+    padding: 10px 18px;
+
     &:hover {
-      box-shadow: 0px 3px 6px rgba(14, 22, 43, 0.62);
+      box-shadow: 0 3px 6px rgba(14, 22, 43, 0.62);
     }
 
     &:not(:last-child) {
@@ -32,14 +33,14 @@
     }
 
     span {
-      font-weight: 300;
       font-size: 16px;
+      font-weight: 300;
       line-height: 19px;
     }
   }
 
   &__close {
-    margin-left: auto;
     color: var(--dt-white-wt-kingBlue);
+    margin-left: auto;
   }
 }

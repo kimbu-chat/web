@@ -8,13 +8,14 @@ import { ReactComponent as PhotoSvg } from '@icons/picture.svg';
 import { ReactComponent as LeftRotateSvg } from '@icons/left-rotate.svg';
 import { ReactComponent as RightRotateSvg } from '@icons/right-rotate.svg';
 import { ReactComponent as ReflectSvg } from '@icons/reflect.svg';
+import { ReactComponent as PeisageSvg } from '@icons/peisage.svg';
 
 import Cropper from 'react-easy-crop';
-import 'react-image-crop/dist/ReactCrop.css';
 import { WithBackground, Modal } from '@components/shared';
 import { IAvatarSelectedData } from '@store/common/models';
 import { Tooltip } from '@components/shared/tooltip/tooltip';
 import { Area } from 'react-easy-crop/types';
+import Slider from 'rc-slider/lib/Slider';
 import getCroppedImg from './crop-image';
 
 interface IPhotoEditorProps {
@@ -85,6 +86,39 @@ export const PhotoEditor: React.FC<IPhotoEditorProps> = ({
                 onCropComplete={onCropComplete}
                 onZoomChange={setZoom}
               />
+            </div>
+            <div className="photo-editor__slider-section">
+              <PeisageSvg className="photo-editor__slider-peisage photo-editor__slider-peisage--little" />
+              <div className="photo-editor__slider-container">
+                <Slider
+                  handleStyle={{
+                    background: '#3f8ae0',
+                    border: '4px solid #fff',
+                    borderRadius: '50%',
+                    bottom: '-6px',
+                    boxSizing: 'border-box',
+                    height: '20px',
+                    left: '50%',
+                    position: 'absolute',
+                    transform: 'translateX(-50%)',
+                    width: '20px',
+                    cursor: 'pointer',
+                  }}
+                  railStyle={{
+                    background: '#3f8ae0',
+                    borderRadius: '6px',
+                    boxShadow:
+                      'inset -2px 2px 4px rgba(46, 101, 164, 0.2),inset 2px -2px 4px rgba(46, 101, 164, 0.2), inset -2px -2px 4px rgba(80, 175, 255, 0.9),inset 2px 2px 5px rgba(46, 101, 164, 0.9)',
+                    height: '10px',
+                  }}
+                  value={zoom}
+                  min={1}
+                  max={3}
+                  step={0.1}
+                  onChange={(zoomValue) => setZoom(zoomValue)}
+                />
+              </div>
+              <PeisageSvg className="photo-editor__slider-peisage photo-editor__slider-peisage--big" />
             </div>
             <div className="photo-editor__btn-group">
               <button

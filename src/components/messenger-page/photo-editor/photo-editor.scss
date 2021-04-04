@@ -21,7 +21,7 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    margin-top: 40px;
+    margin-top: 35px;
   }
 
   &__icon {
@@ -48,7 +48,35 @@
 
     &:hover > * {
       opacity: 1;
+      visibility: visible;
     }
+  }
+
+  &__slider-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 35px;
+  }
+
+  &__slider-peisage {
+    color: var(--dt-white-wt-kingBlue);
+    &--big {
+      width: 24px;
+      height: 20px;
+    }
+
+    &--little {
+      width: 18px;
+      height: 15px;
+    }
+  }
+
+  &__slider-container {
+    position: relative;
+    width: 62.11%;
+    margin-left: 40px;
+    margin-right: 40px;
   }
 
   &__btn {

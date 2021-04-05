@@ -5,4 +5,5 @@ import { StartIdleStateChangeWatcher } from './features/start-idle-state-change-
 export const InitiationSagas = [
   spawn(AppInit.saga),
   takeLeading(StartIdleStateChangeWatcher.action, StartIdleStateChangeWatcher.saga),
+  takeLeading(AppInit.action, AppInit.saga),
 ];

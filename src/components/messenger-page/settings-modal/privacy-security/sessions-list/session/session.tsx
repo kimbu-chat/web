@@ -1,9 +1,10 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback } from 'react';
 import './session.scss';
 import { ReactComponent as WindowsSvg } from '@icons/windows.svg';
 import { ReactComponent as MacSvg } from '@icons/mac.svg';
 import { ReactComponent as Linux } from '@icons/linux.svg';
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 import moment from 'moment';
 import { ISession } from '@store/settings/comon/models/session';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
@@ -16,7 +17,7 @@ interface ISessionProps {
 }
 
 export const Session: React.FC<ISessionProps> = ({ session }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
 
   const currentDeviceId = useSelector(deviceIdSelector);
 

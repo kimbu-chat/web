@@ -5,6 +5,7 @@ export interface ICallsState {
   isActiveCallIncoming?: boolean;
   isIncomingCallVideoEnbaled?: boolean;
   isInterlocutorVideoEnabled: boolean;
+  isInterlocutorAudioEnabled: boolean;
   isInterlocutorBusy: boolean;
   interlocutor?: IUser;
   amICalled: boolean;

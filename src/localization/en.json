@@ -12,6 +12,12 @@
     "ravudi_terms": "Ravudi Terms and Conditions",
     "reset_timer": "Code can be re-sent in {{time}}"
   },
+  "deleteChatMemberModal": {
+    "title": "Delete chat member",
+    "delete-confirmation": "Are you sure want to delete selected user from chat?",
+    "cancel": "Cancel",
+    "confirm": "Delete"
+  },
   "activeCall": {
     "default": "Default"
   },

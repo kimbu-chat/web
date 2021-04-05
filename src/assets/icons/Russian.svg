@@ -1,0 +1,9 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M12 0C5.37258 0 0 5.37258 0 12C0 18.6274 5.37258 24 12 24C18.6274 24 24 18.6274 24 12C24 5.37258 18.6274 0 12 0Z" fill="url(#patternRussia)"/>
+<defs>
+<pattern id="patternRussia" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#imageRussia" transform="translate(-0.254098) scale(0.00546448)"/>
+</pattern>
+<image id="imageRussia" width="276" height="183" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARQAAAC3CAMAAADkUVG/AAAAQlBMVEX/////AAAAAP9XICBSUlJmZv9mANlXV1cgIFdbICAiIiJbW1sdIFkvIE5pAOBbIBkjGRlbW1csLFdjY/9paf8vL1e4/8OdAAABrElEQVR4nO3bOVbDUAAEwQ8CZHnBZrv/VYlldS4FVSeY1/mM8/zGynwel8GTy5j3nnA8syhbogRRgihBlCBKECWIEkQJogRRgihBlCBKECWIEkQJogRRgihBlCBKECWIEkQJogRRgihBlCBKECWIEkQJogRRgihBlCBKECWIEkQJogRRgihBlCBKECWIEkQJogRRgihBlCBKECWIEkQJooSv8f3zzsrv37i+8uQ6TntPOJ6TKFuiBFGCKEGUIEoQJYgSRAmiBFGCKEGUIEoQJYgSRAmiBFGCKEGUIEoQJYgSRAmiBFGCKEGUIEoQJYgSRAmiBFGCKEGUIEoQJYgSRAmiBFGCKEGUIEoQJYgSRAmiBFGCKEGUIEoQJYgSTh7sW9dx+/xg5fM27i88uY9p7wnHM4myJUoQJYgSRAmiBFGCKEGUIEoQJYgSRAmiBFGCKEGUIEoQJYgSRAmiBFGCKEGUIEoQJYgSRAmiBFGCKEGUIEoQJYgSRAmiBFGCKEGUIEoQJYgSRAmiBFGCKEGUIEoQJYgSRAmiBFGCKEGUMI1l7wnHs4zHMrGyPP4BrxLbI4tSSXkAAAAASUVORK5CYII="/>
+</defs>
+</svg>

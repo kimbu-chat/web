@@ -26,6 +26,9 @@ export const getIsIncomingCallVideoEnabledSelector = (state: RootState) =>
 export const getIsInterlocutorVideoEnabledSelector = (state: RootState) =>
   state.calls.isInterlocutorVideoEnabled;
 
+export const getIsInterlocutorAudioEnabledSelector = (state: RootState) =>
+  state.calls.isInterlocutorAudioEnabled;
+
 export const getIsInterlocutorBusySelector = (state: RootState) => state.calls.isInterlocutorBusy;
 
 export const getIsScreenSharingEnabledSelector = (state: RootState) =>

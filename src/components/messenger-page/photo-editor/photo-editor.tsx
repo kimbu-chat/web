@@ -1,7 +1,8 @@
-import React, { useState, useCallback, useRef, useContext } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import './photo-editor.scss';
 
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 
 import { ReactComponent as PhotoSvg } from '@icons/picture.svg';
 import { ReactComponent as LeftRotateSvg } from '@icons/left-rotate.svg';
@@ -54,7 +55,7 @@ export const PhotoEditor: React.FC<IPhotoEditorProps> = ({
   onSubmit,
   hideChangePhoto,
 }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
 
   const imgRef = useRef<HTMLImageElement>();
   const [crop, setCrop] = useState<ReactCrop.Crop>({
@@ -168,12 +169,14 @@ export const PhotoEditor: React.FC<IPhotoEditorProps> = ({
         }
         buttons={[
           <button
+            key={0}
             type="button"
             className="photo-editor__btn photo-editor__btn--cancel"
             onClick={hideChangePhoto}>
             {t('changePhoto.reject')}
           </button>,
           <button
+            key={1}
             type="button"
             className="photo-editor__btn photo-editor__btn--confirm"
             onClick={submitChange}>

@@ -1,0 +1,25 @@
+.delete-chat-member-modal {
+  &__confirm-btn {
+    background: #c74848;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 19px;
+    padding: 10px 32px;
+
+    &:hover {
+      box-shadow: 0 3px 6px rgba(14, 22, 43, 0.62);
+    }
+  }
+
+  &__cancel-btn {
+    background: var(transparent);
+    color: var(--dt-white-wt-dark);
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 19px;
+    margin-right: 10px;
+    padding: 10px 32px;
+  }
+}

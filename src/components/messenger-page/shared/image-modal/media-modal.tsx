@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext, useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 
 import { ReactComponent as CloseSVG } from '@icons/close.svg';
 import { ReactComponent as ArrowSvg } from '@icons/arrow.svg';
@@ -7,7 +7,8 @@ import './media-modal.scss';
 import { FileType, IPictureAttachment, IVideoAttachment } from '@store/chats/models';
 import { BackgroundBlur } from '@components/shared';
 import { stopPropagation } from '@utils/stop-propagation';
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 
 import Mousetrap from 'mousetrap';
 
@@ -23,7 +24,7 @@ interface IImageModalProps {
 
 export const MediaModal: React.FC<IImageModalProps> = React.memo(
   ({ attachmentId, attachmentsArr, onClose }) => {
-    const { t } = useContext(LocalizationContext);
+    const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
 
     const [currentAttachmentIndex, setCurrentAttachmentIndex] = useState(
       attachmentsArr.findIndex(({ id }) => id === attachmentId),

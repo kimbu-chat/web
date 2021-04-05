@@ -1,18 +1,19 @@
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 import * as SettingsActions from '@store/settings/actions';
 import {
   areNotificationsEnabledSelector,
   arePushNotificationsEnabledSelector,
 } from '@store/settings/selectors';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import React, { useContext } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { ChangePushNotificationState } from '@store/settings/features/change-push-notification-state/change-push-notification-state';
 import { CheckBox } from '../shared/check-box/check-box';
 import './notifications-settings.scss';
 
 export const NotificationsSettings = React.memo(() => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
 
   const areSoundNotificationsEnabled = useSelector(areNotificationsEnabledSelector);
   const arePushNotificationsEnabled = useSelector(arePushNotificationsEnabledSelector);

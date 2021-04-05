@@ -1,9 +1,10 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { getIsInfoOpenedSelector, getSelectedChatSelector } from '@store/chats/selectors';
 
 import './chat-top-bar.scss';
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import * as CallActions from '@store/calls/actions';
 import { IUser, UserStatus } from '@store/common/models';
@@ -19,7 +20,7 @@ import { ChangeChatInfoOpened } from '@store/chats/features/change-chat-info-ope
 import { MessagesSearch } from './messages-search/messages-search';
 
 export const ChatTopBar = React.memo(() => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
 
   const selectedChat = useSelector(getSelectedChatSelector);
   const isInfoOpened = useSelector(getIsInfoOpenedSelector);
@@ -89,7 +90,7 @@ export const ChatTopBar = React.memo(() => {
 
           <div className="chat-data__chat-info">
             <h1 className="chat-data__chat-info__title">{getChatInterlocutor(selectedChat)}</h1>
-            <p className="chat-data__chat-info__info">
+            <div className="chat-data__chat-info__info">
               {selectedChat.typingInterlocutors && selectedChat.typingInterlocutors?.length > 0 ? (
                 <div className="chat-data__chat-info__info__typing">
                   <TypingSvg viewBox="0 0 12 12" />
@@ -98,7 +99,7 @@ export const ChatTopBar = React.memo(() => {
               ) : (
                 groupChatOrInterlocutorStatus
               )}
-            </p>
+            </div>
           </div>
         </button>
         <div className="chat-data__buttons-group">

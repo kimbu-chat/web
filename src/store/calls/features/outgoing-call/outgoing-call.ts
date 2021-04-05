@@ -71,10 +71,6 @@ export class OutgoingCall {
       const peerConnection = getPeerConnection();
       yield spawn(deviceUpdateWatcher);
 
-      // setup local stream
-      yield call(getAndSendUserMedia);
-      //---
-
       const audioOpened = yield select((state: RootState) => state.calls.audioConstraints.isOpened);
       const videoOpened = yield select((state: RootState) => state.calls.videoConstraints.isOpened);
 
@@ -99,6 +95,10 @@ export class OutgoingCall {
           yield put(GotDevicesInfo.action({ kind: InputType.VideoInput, devices: videoDevices }));
         }
       }
+
+      // setup local stream
+      yield call(getAndSendUserMedia);
+      //---
 
       const userInterlocutorId = action.payload.calling.id;
 

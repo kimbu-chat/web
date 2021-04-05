@@ -1,6 +1,7 @@
 import { Modal, WithBackground } from '@components/shared';
-import React, { useCallback, useContext } from 'react';
-import { LocalizationContext } from '@contexts';
+import React, { useCallback } from 'react';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 import './logout-modal.scss';
 import { ReactComponent as LogoutSvg } from '@icons/logout.svg';
 
@@ -9,7 +10,7 @@ interface ILogoutModalProps {
 }
 
 export const LogoutModal: React.FC<ILogoutModalProps> = React.memo(({ onClose }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
 
   const logout = useCallback(() => window.location.replace('logout'), []);
 

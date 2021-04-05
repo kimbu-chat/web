@@ -1,10 +1,11 @@
 import { Avatar } from '@components/shared';
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { IUser } from '@store/common/models';
 import { UnblockUser } from '@store/settings/features/unblock-user/unblock-user';
 import { getUserInitials } from '@utils/interlocutor-name-utils';
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback } from 'react';
 import './blocked-user.scss';
 
 interface IBlockedUserProps {
@@ -12,7 +13,7 @@ interface IBlockedUserProps {
 }
 
 export const BlockedUser: React.FC<IBlockedUserProps> = ({ user }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
 
   const unblockUser = useActionWithDeferred(UnblockUser.action);
 

@@ -40,6 +40,9 @@ export const getSelectedInterlocutorIdSelector = (state: RootState) =>
 export const getSelectedGroupChatNameSelector = (state: RootState) =>
   state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.groupChat?.name;
 
+export const getSelectedGroupChatIdSelector = (state: RootState) =>
+  state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.groupChat?.id;
+
 export const getSelectedChatUnreadMessagesCountSelector = (state: RootState): number | undefined =>
   state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)
     ?.unreadMessagesCount;
@@ -75,25 +78,25 @@ export const getSelectedChatVideosSelector = (state: RootState) =>
 
 // Attachments count selector
 
-export const getPictureAttachmentsCountSelector = (state: RootState) =>
+export const getPictureAttachmentsCountSelector = (state: RootState): number =>
   state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)
-    ?.pictureAttachmentsCount;
+    ?.pictureAttachmentsCount || 0;
 
-export const getVideoAttachmentsCountSelector = (state: RootState) =>
+export const getVideoAttachmentsCountSelector = (state: RootState): number =>
   state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)
-    ?.videoAttachmentsCount;
+    ?.videoAttachmentsCount || 0;
 
-export const getFilesAttachmentsCountSelector = (state: RootState) =>
+export const getFilesAttachmentsCountSelector = (state: RootState): number =>
   state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)
-    ?.rawAttachmentsCount;
+    ?.rawAttachmentsCount || 0;
 
-export const getVoiceAttachmentsCountSelector = (state: RootState) =>
+export const getVoiceAttachmentsCountSelector = (state: RootState): number =>
   state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)
-    ?.voiceAttachmentsCount;
+    ?.voiceAttachmentsCount || 0;
 
-export const getAudioAttachmentsCountSelector = (state: RootState) =>
+export const getAudioAttachmentsCountSelector = (state: RootState): number =>
   state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)
-    ?.audioAttachmentsCount;
+    ?.audioAttachmentsCount || 0;
 // -----------
 
 export const getSelectedChatInterlocutorNameSelector = (state: RootState) => {
@@ -206,6 +209,9 @@ export const getChatIndexDraftSelector = (chatId: number, draft: IChatsState) =>
 
 export const isCurrentChatBlackListedSelector = (state: RootState) =>
   state.chats.chats.find(({ id }) => id === state.chats.selectedChatId)?.isBlockedByUser;
+
+export const isCurrentChatContactSelector = (state: RootState) =>
+  state.chats.chats.find(({ id }) => id === state.chats.selectedChatId)?.isInContacts;
 
 export const isCurrentChatDismissedAddToContactsSelector = (state: RootState) => {
   const currentChat = state.chats.chats.find(({ id }) => id === state.chats.selectedChatId);

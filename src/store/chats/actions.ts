@@ -68,6 +68,9 @@ import { ForwardMessages } from './features/forward-messages/forward-messages';
 import { ChangeChatInfoOpened } from './features/change-chat-info-opened/change-chat-info-opened';
 import { MessagesDeletedIntegrationEventHandlerSuccess } from './socket-events/message-deleted/messages-deleted-integration-event-handler-success';
 import { RemoveAllAttachments } from './features/remove-attachment/remove-all-attachments';
+import { RemoveUserFromGroupChat } from './features/remove-user-from-group-chat/remove-user-from-group-chat';
+import { RemoveUserFromGroupChatSuccess } from './features/remove-user-from-group-chat/remove-user-from-group-chat-success';
+import { MessageCreatedEventHandlerSuccess } from './socket-events/message-created/message-created-event-handler-success';
 
 // ChatActions
 export const getChats = GetChats.action;
@@ -129,6 +132,8 @@ export const clearChatHistorySuccess = ClearChatHistorySuccess.action;
 export const forwardMessages = ForwardMessages.action;
 export const changeChatInfoOpened = ChangeChatInfoOpened.action;
 export const removeAllAttachments = RemoveAllAttachments.action;
+export const removeUserFromGroupChat = RemoveUserFromGroupChat.action;
+export const removeUserFromGroupChatSuccess = RemoveUserFromGroupChatSuccess.action;
 
 // socket-events
 
@@ -138,6 +143,7 @@ export const groupChatEditedEventHandler = GroupChatEditedEventHandler.action;
 export const groupChatCreatedEventHandler = GroupChatCreatedEventHandler.action;
 export const chatMutedStatusChangedEventHandler = ChatMutedStatusChangedEventHandler.action;
 export const messageCreatedEventHandler = MessageCreatedEventHandler.action;
+export const messageCreatedEventHandlerSuccess = MessageCreatedEventHandlerSuccess.action;
 export const messageReadEventHandler = MessageReadEventHandler.action;
 export const messageEditedEventHandler = MessageEditedEventHandler.action;
 export const chatClearedEventHandler = ChatClearedEventHandler.action;

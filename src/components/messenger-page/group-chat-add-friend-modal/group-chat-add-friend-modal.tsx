@@ -1,11 +1,12 @@
 import { InfiniteScroll, SearchBox } from '@components/messenger-page';
 import { Modal, WithBackground } from '@components/shared';
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { useSelector } from 'react-redux';
 import { getMemberIdsForSelectedGroupChatSelector } from '@store/chats/selectors';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 import {
   getFriendsLoadingSelector,
   getHasMoreFriendsSelector,
@@ -27,7 +28,7 @@ interface IGroupChatAddFriendModalProps {
 
 export const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = React.memo(
   ({ onClose }) => {
-    const { t } = useContext(LocalizationContext);
+    const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
 
     const [selectedUserIds, setselectedUserIds] = useState<number[]>([]);
 

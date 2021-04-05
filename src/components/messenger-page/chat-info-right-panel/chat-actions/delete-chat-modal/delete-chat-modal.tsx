@@ -1,7 +1,8 @@
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 import { Modal, WithBackground } from '@components/shared';
 import * as ChatActions from '@store/chats/actions';
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback } from 'react';
 import './delete-chat-modal.scss';
 import { useSelector } from 'react-redux';
 import { getSelectedGroupChatNameSelector } from '@store/chats/selectors';
@@ -13,7 +14,7 @@ interface IDeleteChatModalProps {
 }
 
 export const DeleteChatModal: React.FC<IDeleteChatModalProps> = React.memo(({ hide }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
   const history = useHistory();
 
   const selectedGroupChatName = useSelector(getSelectedGroupChatNameSelector);

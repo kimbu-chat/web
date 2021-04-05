@@ -1,17 +1,18 @@
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 import * as SettingsActions from '@store/settings/actions';
 import { getCurrentLanguageSelector } from '@store/settings/selectors';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { Langs } from '@store/settings/features/models';
-import { ReactComponent as RussiaSvg } from '@icons/Russia.svg';
+import { ReactComponent as RussiaSvg } from '@icons/Russian.svg';
 import { ReactComponent as USASvg } from '@icons/Usa.svg';
 import { RadioBox } from '../shared/radio-box/radio-box';
 import './language-settings.scss';
 
 export const LanguageSettings = React.memo(() => {
-  const { i18n, t } = useContext(LocalizationContext);
+  const { t, i18n } = useTranslation(undefined, { i18n: i18nConfiguration });
 
   const currentLanguage = useSelector(getCurrentLanguageSelector);
 

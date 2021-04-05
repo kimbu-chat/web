@@ -1,20 +1,21 @@
-import { getType, RootAction } from 'typesafe-actions';
-import { UpdateStore } from './update-store';
-import { combinedReducer, CombinedReducerState } from './combined-reducer';
+import { combineReducers } from 'redux';
 
-type ReducerAction = RootAction | ReturnType<typeof UpdateStore.action>;
+import auth from './auth/reducer';
+import chats from './chats/reducer';
+import friends from './friends/reducer';
+import myProfile from './my-profile/reducer';
+import calls from './calls/reducer';
+import internet from './internet/reducer';
+import settings from './settings/reducer';
 
-type RootReducer = CombinedReducerState | ReturnType<typeof UpdateStore.reducer>;
+const combinedReducer = combineReducers({
+  auth,
+  chats,
+  friends,
+  myProfile,
+  calls,
+  internet,
+  settings,
+});
 
-const mainReducer = (
-  state: CombinedReducerState | undefined,
-  action: ReducerAction,
-): RootReducer => {
-  if (action.type === getType(UpdateStore.action)) {
-    return UpdateStore.reducer(state, action);
-  }
-
-  return combinedReducer(state, action);
-};
-
-export default mainReducer;
+export default combinedReducer;

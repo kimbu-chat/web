@@ -1,12 +1,13 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { ReactComponent as AddCallSvg } from '@icons/add-call.svg';
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 import './add-call.scss';
 import { FadeAnimationWrapper } from '@components/shared';
 import { AddCallModal } from './add-call-modal/add-call-modal';
 
 const AddCall = () => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
 
   const [addCallsModalDisplayed, setAddCallsModalDisplayed] = useState(false);
   const changeSetAddCallsModalDisplayedState = useCallback(() => {

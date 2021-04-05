@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, useEffect, useState, useContext } from 'react';
+import React, { useRef, useCallback, useEffect, useState } from 'react';
 import './active-call.scss';
 import { useSelector } from 'react-redux';
 import {
@@ -9,6 +9,7 @@ import {
   getCallInterlocutorSelector,
   getIsInterlocutorBusySelector,
   getIsInterlocutorVideoEnabledSelector,
+  getIsInterlocutorAudioEnabledSelector,
   getIsScreenSharingEnabledSelector,
   getVideoConstraintsSelector,
   getVideoDevicesSelector,
@@ -36,7 +37,8 @@ import { ReactComponent as VoiceCallSvg } from '@icons/ic-call.svg';
 // sounds
 import callingBeep from '@sounds/calls/outgoing-call.ogg';
 import busySound from '@sounds/calls/busy-sound.ogg';
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 import { IUser } from '@store/common/models';
 import {
   getInterlocutorAudioTrack,
@@ -55,11 +57,12 @@ export const ActiveCall: React.FC = () => {
   const audioDevices = useSelector(getAudioDevicesSelector);
   const videoDevices = useSelector(getVideoDevicesSelector);
   const isInterlocutorVideoEnabled = useSelector(getIsInterlocutorVideoEnabledSelector);
+  const isInterlocutorAudioEnabled = useSelector(getIsInterlocutorAudioEnabledSelector);
   const amICallingSelectorSomebody = useSelector(amICallingSelector);
   const amISpeaking = useSelector(doIhaveCallSelector);
   const isInterlocutorBusy = useSelector(getIsInterlocutorBusySelector);
 
-  const { t } = useContext(LocalizationContext);
+  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
 
   const isVideoOpened = videoConstraints.isOpened;
   const isAudioOpened = audioConstraints.isOpened;
@@ -113,7 +116,7 @@ export const ActiveCall: React.FC = () => {
         remoteAudioRef.current.srcObject = mediaStream;
       }
     }
-  }, [remoteAudioRef]);
+  }, [isInterlocutorAudioEnabled, remoteAudioRef]);
 
   // local video stream assigning
   useEffect(() => {

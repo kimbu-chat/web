@@ -1,16 +1,17 @@
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 import * as SettingsActions from '@store/settings/actions';
 
 import { getTypingStrategySelector } from '@store/settings/selectors';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { TypingStrategy } from '@store/settings/features/models';
 import { RadioBox } from '../shared/radio-box/radio-box';
 import './key-bindings.scss';
 
 export const KeyBindings = React.memo(() => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
 
   const currentStrategy = useSelector(getTypingStrategySelector);
 

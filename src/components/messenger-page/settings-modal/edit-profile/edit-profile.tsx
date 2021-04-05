@@ -1,7 +1,7 @@
 import { FadeAnimationWrapper, LabeledInput } from '@components/shared';
 import { PhotoEditor } from '@components/messenger-page';
 import { myProfileSelector } from '@store/my-profile/selectors';
-import React, { useCallback, useContext, useState, useRef } from 'react';
+import React, { useCallback, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import './edit-profile.scss';
 import { ReactComponent as UserSvg } from '@icons/user.svg';
@@ -11,7 +11,8 @@ import { ReactComponent as BottomAvatarLine } from '@icons/bottom-avatar-line.sv
 import * as MyProfileActions from '@store/my-profile/actions';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 
-import { LocalizationContext } from '@contexts';
+import i18nConfiguration from '@localization/i18n';
+import { useTranslation } from 'react-i18next';
 import { IAvatarSelectedData, IAvatar } from '@store/common/models';
 import { validateNickname } from '@utils/validate-nick-name';
 import { parsePhoneNumber } from 'libphonenumber-js';
@@ -25,7 +26,7 @@ enum NicknameState {
 }
 
 export const EditProfile = React.memo(() => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
   const myProfile = useSelector(myProfileSelector);
 
   const uploadAvatar = useActionWithDeferred(MyProfileActions.uploadAvatarRequestAction);

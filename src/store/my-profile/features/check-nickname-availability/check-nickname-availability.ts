@@ -2,7 +2,7 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { authRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { Meta } from '@store/common/actions';
 import { ICheckNicknameAvailabilityActionPayload } from './action-payloads/check-nickname-availability-action-payload';
 import { ICheckNicknameAvailabilityApiRequest } from './api-requests/check-nickname-availability-api-request';
@@ -29,7 +29,7 @@ export class CheckNicknameAvailability {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<boolean>, ICheckNicknameAvailabilityApiRequest>(
+    return authRequestFactory<AxiosResponse<boolean>, ICheckNicknameAvailabilityApiRequest>(
       ({ nickname }: ICheckNicknameAvailabilityApiRequest) =>
         `${window.__config.REACT_APP_MAIN_API}/api/users/check-if-nickname-is-available/${nickname}`,
       HttpRequestMethod.Get,

@@ -56,9 +56,6 @@ export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClos
         .catch(() => {
           cancelAvatarUploading();
           setAvatarData({
-            offsetY: 0,
-            offsetX: 0,
-            width: 0,
             imagePath: '',
             croppedImagePath: '',
           });
@@ -113,9 +110,6 @@ export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClos
   const discardNewAvatar = useCallback(() => {
     cancelAvatarUploading();
     setAvatarData({
-      offsetY: 0,
-      offsetX: 0,
-      width: 0,
       imagePath: '',
       croppedImagePath: '',
     });

@@ -5,7 +5,5 @@ type ReducerAction = RootAction;
 
 type RootReducer = CombinedReducerState;
 
-const mainReducer = (state: CombinedReducerState | undefined, action: ReducerAction): RootReducer =>
+export default (state: CombinedReducerState | undefined, action: ReducerAction): RootReducer =>
   combinedReducer(state, action);
-
-export default mainReducer;

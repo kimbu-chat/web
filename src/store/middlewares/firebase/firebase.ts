@@ -9,4 +9,10 @@ const config = {
 };
 
 firebase.initializeApp(config);
+
 export const messaging = firebase.messaging.isSupported() ? firebase.messaging() : undefined;
+
+if (messaging)
+  messaging.onMessage((payload) => {
+    console.log('Message received. ', payload);
+  });

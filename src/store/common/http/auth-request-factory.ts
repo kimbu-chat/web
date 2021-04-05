@@ -3,14 +3,20 @@ import { call } from 'redux-saga/effects';
 
 import { httpRequest } from './http-request';
 import { HttpRequestMethod } from './http-request-method';
-import type { IRequestGenerator } from './types';
+import type { IRequestGenerator, UrlGenerator } from './types';
 
-export const authRequestFactory = <T, B = unknown>(
-  url: string,
+export const authRequestFactory = <TResponse, TBody = unknown>(
+  url: string | UrlGenerator<TBody>,
   method: HttpRequestMethod,
-): IRequestGenerator<T, B> => {
-  function* generator(body?: B): SagaIterator {
-    return yield call(() => httpRequest(url, method, body));
+): IRequestGenerator<TResponse, TBody> => {
+  function* generator(body?: TBody): SagaIterator {
+    let finalUrl = url as string;
+
+    if (body && typeof url === 'function') {
+      finalUrl = (url as UrlGenerator<TBody>)(body);
+    }
+
+    return yield call(() => httpRequest(finalUrl, method, body));
   }
 
   return {

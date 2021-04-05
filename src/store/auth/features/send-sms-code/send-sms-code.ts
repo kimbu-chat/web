@@ -33,7 +33,7 @@ export class SendSmsCode {
     return function* sendSmsPhoneConfirmationCodeSaga(
       action: ReturnType<typeof SendSmsCode.action>,
     ): SagaIterator {
-      const { data, status }: AxiosResponse<string> = SendSmsCode.httpRequest.call(
+      const { status }: AxiosResponse<string> = SendSmsCode.httpRequest.call(
         yield call(() =>
           SendSmsCode.httpRequest.generator({
             phoneNumber: action.payload.phoneNumber,
@@ -43,10 +43,11 @@ export class SendSmsCode {
 
       if (status !== HTTPStatusCode.OK) {
         yield put(SendSmsCodeFailure.action());
+        action?.meta.deferred.reject();
         return;
       }
 
-      yield put(SendSmsCodeSuccess.action(data));
+      yield put(SendSmsCodeSuccess.action());
       action?.meta.deferred.resolve();
     };
   }

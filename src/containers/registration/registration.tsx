@@ -31,7 +31,7 @@ export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
     preloadNext();
   }, [preloadNext]);
 
-  const uploadGroupChatAvatar = useActionWithDeferred(UploadAvatar.action);
+  const uploadRegistrationAvatar = useActionWithDeferred(UploadAvatar.action);
   const register = useActionWithDeferred(Register.action);
   const checkNicknameAvailability = useActionWithDeferred(CheckNicknameAvailability.action);
   const cancelAvatarUploading = useActionWithDispatch(CancelAvatarUploading.action);
@@ -118,8 +118,9 @@ export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
   const applyAvatarData = useCallback(
     (data: IAvatarSelectedData) => {
       setAvatarData(data);
+      console.log(data);
       setUploadEnded(false);
-      uploadGroupChatAvatar({ pathToFile: data.croppedImagePath, onProgress: setUploaded })
+      uploadRegistrationAvatar({ pathToFile: data.croppedImagePath, onProgress: setUploaded })
         .then((response) => {
           setAvatarUploadResponse(response);
           setUploadEnded(true);
@@ -130,7 +131,7 @@ export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
           setUploadEnded(true);
         });
     },
-    [setAvatarData, setUploaded, uploadGroupChatAvatar, setAvatarUploadResponse],
+    [setAvatarData, setUploaded, uploadRegistrationAvatar, setAvatarUploadResponse],
   );
 
   const discardAvatar = useCallback(() => {

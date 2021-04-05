@@ -18,6 +18,28 @@ import { Area } from 'react-easy-crop/types';
 import Slider from 'rc-slider/lib/Slider';
 import getCroppedImg from './crop-image';
 
+const handleStyle: React.CSSProperties = {
+  background: '#3f8ae0',
+  border: '4px solid #fff',
+  borderRadius: '50%',
+  bottom: '-6px',
+  boxSizing: 'border-box',
+  height: '20px',
+  left: '50%',
+  position: 'absolute',
+  transform: 'translateX(-50%)',
+  width: '20px',
+  cursor: 'pointer',
+};
+
+const railStyle: React.CSSProperties = {
+  background: '#3f8ae0',
+  borderRadius: '6px',
+  boxShadow:
+    'inset -2px 2px 4px rgba(46, 101, 164, 0.2),inset 2px -2px 4px rgba(46, 101, 164, 0.2), inset -2px -2px 4px rgba(80, 175, 255, 0.9),inset 2px 2px 5px rgba(46, 101, 164, 0.9)',
+  height: '10px',
+};
+
 interface IPhotoEditorProps {
   imageUrl: string;
   hideChangePhoto: () => void;
@@ -53,6 +75,15 @@ export const PhotoEditor: React.FC<IPhotoEditorProps> = ({
       });
     }
   }, [onSubmit, hideChangePhoto, imageUrl, croppedAreaPixels, rotation, flip]);
+
+  const mirrorImage = useCallback(() => {
+    setFlip((prev) => ({ horizontal: !prev.horizontal, vertical: prev.vertical }));
+    setRotation((prev) => 360 - prev);
+  }, [setFlip, setRotation]);
+
+  const rotateLeft = useCallback(() => setRotation((old) => old - 90), [setRotation]);
+
+  const rotateRight = useCallback(() => setRotation((old) => old + 90), [setRotation]);
 
   return (
     <WithBackground onBackgroundClick={hideChangePhoto}>
@@ -91,57 +122,27 @@ export const PhotoEditor: React.FC<IPhotoEditorProps> = ({
               <PeisageSvg className="photo-editor__slider-peisage photo-editor__slider-peisage--little" />
               <div className="photo-editor__slider-container">
                 <Slider
-                  handleStyle={{
-                    background: '#3f8ae0',
-                    border: '4px solid #fff',
-                    borderRadius: '50%',
-                    bottom: '-6px',
-                    boxSizing: 'border-box',
-                    height: '20px',
-                    left: '50%',
-                    position: 'absolute',
-                    transform: 'translateX(-50%)',
-                    width: '20px',
-                    cursor: 'pointer',
-                  }}
-                  railStyle={{
-                    background: '#3f8ae0',
-                    borderRadius: '6px',
-                    boxShadow:
-                      'inset -2px 2px 4px rgba(46, 101, 164, 0.2),inset 2px -2px 4px rgba(46, 101, 164, 0.2), inset -2px -2px 4px rgba(80, 175, 255, 0.9),inset 2px 2px 5px rgba(46, 101, 164, 0.9)',
-                    height: '10px',
-                  }}
+                  handleStyle={handleStyle}
+                  railStyle={railStyle}
                   value={zoom}
                   min={1}
                   max={3}
                   step={0.1}
-                  onChange={(zoomValue) => setZoom(zoomValue)}
+                  onChange={setZoom}
                 />
               </div>
               <PeisageSvg className="photo-editor__slider-peisage photo-editor__slider-peisage--big" />
             </div>
             <div className="photo-editor__btn-group">
-              <button
-                onClick={() => setRotation((old) => old - 90)}
-                type="button"
-                className="photo-editor__modify-btn">
+              <button onClick={rotateLeft} type="button" className="photo-editor__modify-btn">
                 <Tooltip>Left Rotation</Tooltip>
                 <LeftRotateSvg viewBox="0 0 18 18" />
               </button>
-              <button
-                onClick={() => {
-                  setFlip((prev) => ({ horizontal: !prev.horizontal, vertical: prev.vertical }));
-                  setRotation((prev) => 360 - prev);
-                }}
-                type="button"
-                className="photo-editor__modify-btn">
+              <button onClick={mirrorImage} type="button" className="photo-editor__modify-btn">
                 <Tooltip>Mirror</Tooltip>
                 <ReflectSvg viewBox="0 0 18 18" />
               </button>
-              <button
-                onClick={() => setRotation((old) => old + 90)}
-                type="button"
-                className="photo-editor__modify-btn">
+              <button onClick={rotateRight} type="button" className="photo-editor__modify-btn">
                 <Tooltip>Right Rotation</Tooltip>
                 <RightRotateSvg viewBox="0 0 18 18" />
               </button>

@@ -3,7 +3,7 @@ import React, { useCallback, useState } from 'react';
 import './chat-member.scss';
 
 import { IUser, UserStatus } from '@store/common/models';
-import i18nConfiguration from '@localization/i18n';
+
 import { useTranslation } from 'react-i18next';
 
 import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
@@ -15,7 +15,7 @@ interface IMemberProps {
 }
 
 export const Member: React.FC<IMemberProps> = React.memo(({ member }) => {
-  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const { t } = useTranslation();
 
   const [removeChatMemberModalDisplayed, setRemoveChatMemberModalDisplayed] = useState(false);
   const changeRemoveChatMemberModalDisplayed = useCallback(() => {

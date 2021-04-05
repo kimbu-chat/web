@@ -4,7 +4,7 @@ import { BaseBtn, WithBackground, FadeAnimationWrapper, PrivacyPolicy } from '@c
 import { CountrySelect, PhoneInput } from '@components/login-page';
 import { countryList } from '@common/countries';
 import { ICountry } from '@common/country';
-import i18nConfiguration from '@localization/i18n';
+
 import { useTranslation } from 'react-i18next';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import * as AuthActions from '@store/auth/actions';
@@ -20,7 +20,7 @@ interface IPhoneConfirmationProps {
 }
 
 const PhoneConfirmation: React.FC<IPhoneConfirmationProps> = ({ preloadNext }) => {
-  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const { t } = useTranslation();
 
   const history = useHistory();
 

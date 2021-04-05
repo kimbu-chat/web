@@ -1,4 +1,3 @@
-import i18nConfiguration from '@localization/i18n';
 import { useTranslation } from 'react-i18next';
 import * as SettingsActions from '@store/settings/actions';
 import {
@@ -13,7 +12,7 @@ import { CheckBox } from '../shared/check-box/check-box';
 import './notifications-settings.scss';
 
 export const NotificationsSettings = React.memo(() => {
-  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const { t } = useTranslation();
 
   const areSoundNotificationsEnabled = useSelector(areNotificationsEnabledSelector);
   const arePushNotificationsEnabled = useSelector(arePushNotificationsEnabledSelector);

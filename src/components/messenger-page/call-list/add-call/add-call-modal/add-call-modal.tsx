@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import i18nConfiguration from '@localization/i18n';
+
 import { useTranslation } from 'react-i18next';
 import { WithBackground, Modal } from '@components/shared';
 import { InfiniteScroll, SelectEntity, SearchBox } from '@components/messenger-page';
@@ -23,7 +23,7 @@ interface IAddCallModalProps {
 }
 
 export const AddCallModal: React.FC<IAddCallModalProps> = React.memo(({ onClose }) => {
-  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const { t } = useTranslation();
 
   const friends = useSelector(getMyFriendsSelector);
   const hasMoreFriends = useSelector(getHasMoreFriendsSelector);

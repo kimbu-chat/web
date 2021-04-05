@@ -1,4 +1,3 @@
-import i18nConfiguration from '@localization/i18n';
 import { useTranslation } from 'react-i18next';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { containsFiles, useGlobalDrop } from '@hooks/use-global-drop';
@@ -61,7 +60,7 @@ export interface IRecordedData {
 }
 
 export const CreateMessageInput = React.memo(() => {
-  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const { t } = useTranslation();
 
   const sendMessage = useActionWithDispatch(CreateMessage.action);
   const notifyAboutTyping = useActionWithDispatch(MessageTyping.action);

@@ -4,7 +4,7 @@ import { ReactComponent as PlaySvg } from '@icons/play.svg';
 import { ReactComponent as PauseSvg } from '@icons/pause.svg';
 import { ReactComponent as MicrophoneSvg } from '@icons/voice.svg';
 import './audio-video.scss';
-import i18nConfiguration from '@localization/i18n';
+
 import { useTranslation } from 'react-i18next';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { InputType } from '@store/calls/common/enums/input-type';
@@ -59,7 +59,7 @@ export const AudioVideoSettings = () => {
     </div>
   );
 
-  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const { t } = useTranslation();
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);

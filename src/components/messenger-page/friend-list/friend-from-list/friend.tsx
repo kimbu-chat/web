@@ -1,4 +1,3 @@
-import i18nConfiguration from '@localization/i18n';
 import { useTranslation } from 'react-i18next';
 import { ChatId } from '@store/chats/chat-id';
 import { IUser, UserStatus } from '@store/common/models';
@@ -13,7 +12,7 @@ interface IFriendProps {
 }
 
 export const Friend: React.FC<IFriendProps> = React.memo(({ friend }) => {
-  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const { t } = useTranslation();
 
   return (
     <Link to={`/chats/${ChatId.from(friend.id).id}`} className="friend">

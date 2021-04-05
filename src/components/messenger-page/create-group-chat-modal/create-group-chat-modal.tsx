@@ -1,4 +1,3 @@
-import i18nConfiguration from '@localization/i18n';
 import { useTranslation } from 'react-i18next';
 import { PhotoEditor, SearchBox, InfiniteScroll } from '@components/messenger-page';
 import { Modal, WithBackground, LabeledInput } from '@components/shared';
@@ -40,7 +39,7 @@ enum GroupChatCreationStage {
 
 export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(
   ({ onClose, preSelectedUserIds }) => {
-    const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+    const { t } = useTranslation();
 
     const currentUser = useSelector(myProfileSelector);
     const friends = useSelector(getMyFriendsSelector);

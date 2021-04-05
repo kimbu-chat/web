@@ -1,5 +1,5 @@
 import { Avatar } from '@components/shared';
-import i18nConfiguration from '@localization/i18n';
+
 import { useTranslation } from 'react-i18next';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { IUser } from '@store/common/models';
@@ -13,7 +13,7 @@ interface IBlockedUserProps {
 }
 
 export const BlockedUser: React.FC<IBlockedUserProps> = ({ user }) => {
-  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const { t } = useTranslation();
 
   const unblockUser = useActionWithDeferred(UnblockUser.action);
 

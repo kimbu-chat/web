@@ -1,4 +1,3 @@
-import i18nConfiguration from '@localization/i18n';
 import { useTranslation } from 'react-i18next';
 import { IMessage, MessageState, SystemMessageType } from '@store/chats/models';
 import React, { useCallback } from 'react';
@@ -16,7 +15,7 @@ import { MessageItem } from '../../message-item/message-item';
 import { RadioBox } from '../shared/radio-box/radio-box';
 
 export const Appearance: React.FC = () => {
-  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const { t } = useTranslation();
 
   const changeTheme = useActionWithDispatch(ChangeTheme.action);
   const changeFontSize = useActionWithDispatch(ChangeFontSize.action);

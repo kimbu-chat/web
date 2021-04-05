@@ -2,7 +2,7 @@ import React, { useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import './message-list.scss';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import i18nConfiguration from '@localization/i18n';
+
 import { useTranslation } from 'react-i18next';
 import {
   getIsSelectMessagesStateSelector,
@@ -26,7 +26,7 @@ const MessageList = React.memo(() => {
   const getMessages = useActionWithDispatch(GetMessages.action);
   const markMessagesAsRead = useActionWithDispatch(MarkMessagesAsRead.action);
 
-  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const { t } = useTranslation();
 
   const selectedChatId = useSelector(getSelectedChatIdSelector);
   const unreadMessagesCount = useSelector(getSelectedChatUnreadMessagesCountSelector);

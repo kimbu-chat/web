@@ -11,7 +11,6 @@ import { ReactComponent as BottomAvatarLine } from '@icons/bottom-avatar-line.sv
 import * as MyProfileActions from '@store/my-profile/actions';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 
-import i18nConfiguration from '@localization/i18n';
 import { useTranslation } from 'react-i18next';
 import { IAvatarSelectedData, IAvatar } from '@store/common/models';
 import { validateNickname } from '@utils/validate-nick-name';
@@ -26,7 +25,7 @@ enum NicknameState {
 }
 
 export const EditProfile = React.memo(() => {
-  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const { t } = useTranslation();
   const myProfile = useSelector(myProfileSelector);
 
   const uploadAvatar = useActionWithDeferred(MyProfileActions.uploadAvatarRequestAction);

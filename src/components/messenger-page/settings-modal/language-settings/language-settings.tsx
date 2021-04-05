@@ -1,4 +1,3 @@
-import i18nConfiguration from '@localization/i18n';
 import { useTranslation } from 'react-i18next';
 import * as SettingsActions from '@store/settings/actions';
 import { getCurrentLanguageSelector } from '@store/settings/selectors';
@@ -12,7 +11,7 @@ import { RadioBox } from '../shared/radio-box/radio-box';
 import './language-settings.scss';
 
 export const LanguageSettings = React.memo(() => {
-  const { t, i18n } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const { t, i18n } = useTranslation();
 
   const currentLanguage = useSelector(getCurrentLanguageSelector);
 

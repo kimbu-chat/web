@@ -4,7 +4,7 @@ import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ReactComponent as CloseSVG } from '@icons/ic-close.svg';
-import i18nConfiguration from '@localization/i18n';
+
 import { useTranslation } from 'react-i18next';
 import { authLoadingSelector } from '@store/auth/selectors';
 import { useSelector } from 'react-redux';
@@ -21,7 +21,7 @@ interface IRegistrationProps {
 }
 
 export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
-  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const { t } = useTranslation();
 
   const isLoading = useSelector(authLoadingSelector);
 

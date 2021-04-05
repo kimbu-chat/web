@@ -3,7 +3,7 @@ import './not-contact.scss';
 
 import { ReactComponent as ContactSvg } from '@icons/user-o.svg';
 import { ReactComponent as CloseSvg } from '@icons/close.svg';
-import i18nConfiguration from '@localization/i18n';
+
 import { useTranslation } from 'react-i18next';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { BlockUser } from '@store/settings/features/block-user/block-user';
@@ -14,7 +14,7 @@ import { DismissToAddContact } from '@store/friends/features/dismiss-to-add-cont
 import classNames from 'classnames';
 
 export const NotContact = () => {
-  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const { t } = useTranslation();
 
   const BLOCK_NAME = 'not-contact';
 

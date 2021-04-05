@@ -3,7 +3,7 @@ import './session.scss';
 import { ReactComponent as WindowsSvg } from '@icons/windows.svg';
 import { ReactComponent as MacSvg } from '@icons/mac.svg';
 import { ReactComponent as Linux } from '@icons/linux.svg';
-import i18nConfiguration from '@localization/i18n';
+
 import { useTranslation } from 'react-i18next';
 import moment from 'moment';
 import { ISession } from '@store/settings/comon/models/session';
@@ -17,7 +17,7 @@ interface ISessionProps {
 }
 
 export const Session: React.FC<ISessionProps> = ({ session }) => {
-  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const { t } = useTranslation();
 
   const currentDeviceId = useSelector(deviceIdSelector);
 

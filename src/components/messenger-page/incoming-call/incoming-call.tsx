@@ -19,12 +19,12 @@ import ReactDOM from 'react-dom';
 import { ReactComponent as AcceptWithAudioSvg } from '@icons/audio-call.svg';
 import { ReactComponent as AcceptWithVideoSvg } from '@icons/video-call.svg';
 import { ReactComponent as DeclineCallSvg } from '@icons/declined-call.svg';
-import i18nConfiguration from '@localization/i18n';
+
 import { useTranslation } from 'react-i18next';
 import { playSoundSafely } from '@utils/current-music';
 
 export const IncomingCall: React.FC = () => {
-  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const { t } = useTranslation();
   const declineCallAction = useActionWithDispatch(CallActions.declineCallAction);
   const acceptCall = useActionWithDispatch(CallActions.acceptCallAction);
 

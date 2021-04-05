@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import './new-chat-modal.scss';
 import * as FriendActions from '@store/friends/actions';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import i18nConfiguration from '@localization/i18n';
+
 import { useTranslation } from 'react-i18next';
 import { IUser, IPage } from '@store/common/models';
 import { useHistory } from 'react-router';
@@ -33,7 +33,7 @@ interface INewChatModalProps {
 
 export const NewChatModal: React.FC<INewChatModalProps> = React.memo(
   ({ onClose, displayCreateGroupChat }) => {
-    const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+    const { t } = useTranslation();
 
     const friends = useSelector(getMyFriendsSelector);
     const hasMoreFriends = useSelector(getHasMoreFriendsSelector);

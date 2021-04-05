@@ -37,7 +37,7 @@ import { ReactComponent as VoiceCallSvg } from '@icons/ic-call.svg';
 // sounds
 import callingBeep from '@sounds/calls/outgoing-call.ogg';
 import busySound from '@sounds/calls/busy-sound.ogg';
-import i18nConfiguration from '@localization/i18n';
+
 import { useTranslation } from 'react-i18next';
 import { IUser } from '@store/common/models';
 import {
@@ -62,7 +62,7 @@ export const ActiveCall: React.FC = () => {
   const amISpeaking = useSelector(doIhaveCallSelector);
   const isInterlocutorBusy = useSelector(getIsInterlocutorBusySelector);
 
-  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const { t } = useTranslation();
 
   const isVideoOpened = videoConstraints.isOpened;
   const isAudioOpened = audioConstraints.isOpened;

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { getIsInfoOpenedSelector, getSelectedChatSelector } from '@store/chats/selectors';
 
 import './chat-top-bar.scss';
-import i18nConfiguration from '@localization/i18n';
+
 import { useTranslation } from 'react-i18next';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import * as CallActions from '@store/calls/actions';
@@ -20,7 +20,7 @@ import { ChangeChatInfoOpened } from '@store/chats/features/change-chat-info-ope
 import { MessagesSearch } from './messages-search/messages-search';
 
 export const ChatTopBar = React.memo(() => {
-  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const { t } = useTranslation();
 
   const selectedChat = useSelector(getSelectedChatSelector);
   const isInfoOpened = useSelector(getIsInfoOpenedSelector);

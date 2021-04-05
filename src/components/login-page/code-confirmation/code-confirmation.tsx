@@ -1,7 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import './code-confirmation.scss';
 
-import i18nConfiguration from '@localization/i18n';
 import { useTranslation } from 'react-i18next';
 import * as AuthActions from '@store/auth/actions';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
@@ -26,7 +25,7 @@ interface ICodeConfirmationProps {
 }
 
 const CodeConfirmation: React.FC<ICodeConfirmationProps> = ({ preloadNext }) => {
-  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const { t } = useTranslation();
 
   const checkIfCharacterIsNumeric = (character: string): boolean => /^[0-9]+$/.test(character);
 

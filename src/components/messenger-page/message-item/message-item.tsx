@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import './message-item.scss';
 
 import { myIdSelector } from '@store/my-profile/selectors';
-import i18nConfiguration from '@localization/i18n';
+
 import { useTranslation } from 'react-i18next';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getIsSelectMessagesStateSelector } from '@store/chats/selectors';
@@ -62,7 +62,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
 
     const isCurrentUserMessageCreator = message.userCreator?.id === myId;
 
-    const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+    const { t } = useTranslation();
 
     const selectMessage = useActionWithDispatch(SelectMessage.action);
 

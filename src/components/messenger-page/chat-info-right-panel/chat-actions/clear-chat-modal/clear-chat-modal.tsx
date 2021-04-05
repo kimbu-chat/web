@@ -1,4 +1,3 @@
-import i18nConfiguration from '@localization/i18n';
 import { useTranslation } from 'react-i18next';
 import { Modal, WithBackground } from '@components/shared';
 import { getSelectedGroupChatNameSelector } from '@store/chats/selectors';
@@ -15,7 +14,7 @@ interface IClearChatModalProps {
 }
 
 export const ClearChatModal: React.FC<IClearChatModalProps> = React.memo(({ hide }) => {
-  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const { t } = useTranslation();
 
   const selectedGroupChatName = useSelector(getSelectedGroupChatNameSelector);
 

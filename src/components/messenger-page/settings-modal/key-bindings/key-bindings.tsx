@@ -1,4 +1,3 @@
-import i18nConfiguration from '@localization/i18n';
 import { useTranslation } from 'react-i18next';
 import * as SettingsActions from '@store/settings/actions';
 
@@ -11,7 +10,7 @@ import { RadioBox } from '../shared/radio-box/radio-box';
 import './key-bindings.scss';
 
 export const KeyBindings = React.memo(() => {
-  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const { t } = useTranslation();
 
   const currentStrategy = useSelector(getTypingStrategySelector);
 

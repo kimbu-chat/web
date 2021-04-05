@@ -3,7 +3,6 @@ import './country-select.scss';
 
 import useAutocomplete, { createFilterOptions } from '@material-ui/lab/useAutocomplete';
 
-import i18nConfiguration from '@localization/i18n';
 import { useTranslation } from 'react-i18next';
 
 import { ReactComponent as ArrowSvg } from '@icons/arrow-v.svg';
@@ -18,7 +17,7 @@ interface ICountrySelectProps {
 
 export const CountrySelect: React.FC<ICountrySelectProps> = React.memo(
   ({ country, handleCountryChange, setRef }) => {
-    const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+    const { t } = useTranslation();
 
     const {
       getRootProps,

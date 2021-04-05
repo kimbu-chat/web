@@ -2,7 +2,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import { Picker, BaseEmoji } from 'emoji-mart';
 import { ReactComponent as SmilesSvg } from '@icons/smiles.svg';
 import 'emoji-mart/css/emoji-mart.css';
-import i18nConfiguration from '@localization/i18n';
+
 import { useTranslation } from 'react-i18next';
 import { useOnClickOutside } from '@hooks/use-on-click-outside';
 import './message-smiles.scss';
@@ -12,7 +12,7 @@ interface IMessageSmilesProps {
 }
 
 const MessageSmiles: React.FC<IMessageSmilesProps> = React.memo(({ setText }) => {
-  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const { t } = useTranslation();
 
   const [smilesRendered, setSmilesRendered] = useState(false);
 

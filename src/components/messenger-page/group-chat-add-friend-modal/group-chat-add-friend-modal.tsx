@@ -5,7 +5,7 @@ import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getMemberIdsForSelectedGroupChatSelector } from '@store/chats/selectors';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import i18nConfiguration from '@localization/i18n';
+
 import { useTranslation } from 'react-i18next';
 import {
   getFriendsLoadingSelector,
@@ -28,7 +28,7 @@ interface IGroupChatAddFriendModalProps {
 
 export const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = React.memo(
   ({ onClose }) => {
-    const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+    const { t } = useTranslation();
 
     const [selectedUserIds, setselectedUserIds] = useState<number[]>([]);
 

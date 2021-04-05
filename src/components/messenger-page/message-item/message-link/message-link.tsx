@@ -1,4 +1,3 @@
-import i18nConfiguration from '@localization/i18n';
 import { useTranslation } from 'react-i18next';
 import { Avatar } from '@components/shared';
 import {
@@ -30,7 +29,7 @@ interface IMessageLinkProps {
 }
 
 const MessageLink: React.FC<IMessageLinkProps> = React.memo(({ linkedMessage }) => {
-  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const { t } = useTranslation();
 
   const structuredAttachments = useMemo(
     () =>

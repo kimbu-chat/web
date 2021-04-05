@@ -19,6 +19,7 @@ import {
   loadLogout,
   loadMessageSmiles,
 } from './routing/module-loader';
+import '@localization/i18n';
 
 const ConfirmPhone = lazy(loadPhoneConfirmation);
 const ConfirmCode = lazy(loadCodeConfirmation);

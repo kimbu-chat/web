@@ -6,7 +6,7 @@ import {
   getMemberIdsForSelectedGroupChatSelector,
   getSelectedChatSelector,
 } from '@store/chats/selectors';
-import i18nConfiguration from '@localization/i18n';
+
 import { useTranslation } from 'react-i18next';
 import * as SelectedChatActions from '@store/chats/actions';
 
@@ -34,7 +34,7 @@ interface IChatActionsProps {
 }
 
 export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers }) => {
-  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const { t } = useTranslation();
 
   const [leaveGroupChatModalOpened, setLeaveGroupChatModalOpened] = useState<boolean>(false);
   const changeLeaveGroupChatModalOpenedState = useCallback(

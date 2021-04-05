@@ -13,6 +13,12 @@
     "ravudi_terms": " Условиями Ravudi",
     "reset_timer": "Код можно повторно отправить через {{time}}"
   },
+  "deleteChatMemberModal": {
+    "title": "Удалить пользователя из переписки",
+    "delete-confirmation": "Вы уверены что хотите удалить выбранного пользователя из переписки?",
+    "cancel": "Отена",
+    "confirm": "Удалить"
+  },
   "activeCall": {
     "default": "По умолчанию"
   },

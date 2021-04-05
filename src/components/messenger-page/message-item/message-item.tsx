@@ -269,7 +269,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
               {message.isEdited && <CrayonSvg className="message__edited" />}
 
               {!(
-                (message.attachments?.length || 0) > 0 ||
+                ((message.attachments?.length || 0) > 0 && message.text) ||
                 message.linkedMessageType ||
                 message.text
               ) && (
@@ -292,7 +292,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                 </div>
               )}
 
-              {((message.attachments?.length || 0) > 0 ||
+              {(((message.attachments?.length || 0) > 0 && message.text) ||
                 message.linkedMessageType ||
                 message.text) && (
                 <div className="message__content">

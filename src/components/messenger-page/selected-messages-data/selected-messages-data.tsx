@@ -3,7 +3,7 @@ import './selected-messages-data.scss';
 import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getSelectedMessagesIdSelector } from '@store/chats/selectors';
-import i18nConfiguration from '@localization/i18n';
+
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as CloseSvg } from '@icons/close.svg';
 import { ReactComponent as ForwardSvg } from '@icons/forward.svg';
@@ -19,7 +19,7 @@ export const SelectedMessagesData = React.memo(() => {
   const selectedMessages = useSelector(getSelectedMessagesIdSelector);
   const selectedMessagesCount = selectedMessages.length;
 
-  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const { t } = useTranslation();
 
   const copyMessage = useActionWithDispatch(CopyMessages.action);
   const resetSelectedMessages = useActionWithDispatch(ResetSelectedMessages.action);

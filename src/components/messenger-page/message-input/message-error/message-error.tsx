@@ -1,11 +1,11 @@
 import React from 'react';
 import './message-error.scss';
 import { ReactComponent as BulbSvg } from '@icons/bulb.svg';
-import i18nConfiguration from '@localization/i18n';
+
 import { useTranslation } from 'react-i18next';
 
 export const MessageError = () => {
-  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const { t } = useTranslation();
 
   return (
     <div className="message-error">

@@ -7,7 +7,7 @@ import './media-modal.scss';
 import { FileType, IPictureAttachment, IVideoAttachment } from '@store/chats/models';
 import { BackgroundBlur } from '@components/shared';
 import { stopPropagation } from '@utils/stop-propagation';
-import i18nConfiguration from '@localization/i18n';
+
 import { useTranslation } from 'react-i18next';
 
 import Mousetrap from 'mousetrap';
@@ -24,7 +24,7 @@ interface IImageModalProps {
 
 export const MediaModal: React.FC<IImageModalProps> = React.memo(
   ({ attachmentId, attachmentsArr, onClose }) => {
-    const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+    const { t } = useTranslation();
 
     const [currentAttachmentIndex, setCurrentAttachmentIndex] = useState(
       attachmentsArr.findIndex(({ id }) => id === attachmentId),

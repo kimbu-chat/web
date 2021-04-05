@@ -1,4 +1,3 @@
-import i18nConfiguration from '@localization/i18n';
 import { useTranslation } from 'react-i18next';
 import React from 'react';
 import './settings-navigation.scss';
@@ -12,7 +11,7 @@ import { ReactComponent as MuteSvg } from '@icons/mute.svg';
 import { NavLink } from 'react-router-dom';
 
 export const SettingsNavigation = React.memo(() => {
-  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const { t } = useTranslation();
 
   return (
     <>

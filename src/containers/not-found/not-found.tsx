@@ -1,4 +1,3 @@
-import i18nConfiguration from '@localization/i18n';
 import { useTranslation } from 'react-i18next';
 import { BaseBtn } from '@components/shared';
 import React from 'react';
@@ -8,7 +7,7 @@ import SadSmilePNG from '@icons/sad-emoji.png';
 import NotFoundBackgroundPNG from '@icons/404-bg.png';
 
 const NotFound = React.memo(() => {
-  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const { t } = useTranslation();
 
   return (
     <div className="not-found">

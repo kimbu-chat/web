@@ -3,7 +3,7 @@ import { AsYouType } from 'libphonenumber-js';
 import './phone-input.scss';
 
 import { ICountry } from '@common/country';
-import i18nConfiguration from '@localization/i18n';
+
 import { useTranslation } from 'react-i18next';
 import { removeCountryCodeFromPhoneNumber } from '@utils/phone-number-utils';
 
@@ -20,7 +20,7 @@ export const PhoneInput = React.forwardRef(
     { country, phone, setPhone, displayCountries, sendSms }: IPhoneInputProps,
     ref: React.Ref<HTMLInputElement>,
   ) => {
-    const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+    const { t } = useTranslation();
 
     return (
       <div className="phone-input">

@@ -3,7 +3,7 @@ import { RemoveUserFromGroupChat } from '@store/chats/features/remove-user-from-
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import i18nConfiguration from '@localization/i18n';
+
 import './delete-chat-member-modal.scss';
 import { IUser } from '@store/common/models';
 
@@ -14,7 +14,7 @@ interface IDeleteChatMemberModalProps {
 
 export const DeleteChatMemberModal: React.FC<IDeleteChatMemberModalProps> = React.memo(
   ({ hide, user }) => {
-    const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+    const { t } = useTranslation();
 
     const removeUserFromGroupChat = useActionWithDeferred(RemoveUserFromGroupChat.action);
 

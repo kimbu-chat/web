@@ -1,4 +1,3 @@
-import i18nConfiguration from '@localization/i18n';
 import { useTranslation } from 'react-i18next';
 import React from 'react';
 import { RadioBox } from '../shared/radio-box/radio-box';
@@ -7,7 +6,7 @@ import './privacy-security.scss';
 import { SessionsList } from './sessions-list/sessions-list';
 
 export const PrivacySecurity = () => {
-  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const { t } = useTranslation();
 
   return (
     <div className="privacy-security">

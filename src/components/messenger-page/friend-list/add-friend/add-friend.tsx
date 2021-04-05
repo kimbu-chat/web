@@ -1,13 +1,12 @@
 import React, { useCallback, useState } from 'react';
 import { ReactComponent as AddContactSvg } from '@icons/add-users.svg';
-import i18nConfiguration from '@localization/i18n';
 import { useTranslation } from 'react-i18next';
 import './add-friend.scss';
 import { FadeAnimationWrapper } from '@components/shared';
 import { AddFriendModal } from './add-friend-modal/add-friend-modal';
 
 const AddFriend = () => {
-  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const { t } = useTranslation();
 
   const [addFriendsModalDisplayed, setAddFriendsModalDisplayed] = useState(false);
   const changeSetAddFriendsModalDisplayedState = useCallback(() => {

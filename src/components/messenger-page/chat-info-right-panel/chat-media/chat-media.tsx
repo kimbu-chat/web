@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import './chat-media.scss';
 
-import i18nConfiguration from '@localization/i18n';
 import { useTranslation } from 'react-i18next';
 
 import { ReactComponent as PictureSvg } from '@icons/picture.svg';
@@ -28,7 +27,7 @@ import { VideoList } from './video-list/video-list';
 import { FileList } from './file-list/file-list';
 
 export const ChatMedia = React.memo(() => {
-  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const { t } = useTranslation();
 
   const [pictureDisplayed, setPictureDisplayed] = useState(false);
   const [videoDisplayed, setVideoDisplayed] = useState(false);

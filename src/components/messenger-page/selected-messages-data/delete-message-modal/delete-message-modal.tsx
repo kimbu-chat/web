@@ -3,7 +3,7 @@ import React, { useCallback, useState } from 'react';
 
 import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import i18nConfiguration from '@localization/i18n';
+
 import { useTranslation } from 'react-i18next';
 import './delete-message-modal.scss';
 import { DeleteMessage } from '@store/chats/features/delete-message/delete-message';
@@ -16,7 +16,7 @@ interface IDeleteMessageModalProps {
 
 export const DeleteMessageModal: React.FC<IDeleteMessageModalProps> = React.memo(
   ({ onClose, selectedMessages }) => {
-    const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+    const { t } = useTranslation();
 
     const deleteMessage = useActionWithDispatch(DeleteMessage.action);
 

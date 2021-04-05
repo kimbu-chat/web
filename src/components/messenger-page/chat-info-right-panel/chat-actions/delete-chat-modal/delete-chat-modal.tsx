@@ -1,4 +1,3 @@
-import i18nConfiguration from '@localization/i18n';
 import { useTranslation } from 'react-i18next';
 import { Modal, WithBackground } from '@components/shared';
 import * as ChatActions from '@store/chats/actions';
@@ -14,7 +13,7 @@ interface IDeleteChatModalProps {
 }
 
 export const DeleteChatModal: React.FC<IDeleteChatModalProps> = React.memo(({ hide }) => {
-  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const { t } = useTranslation();
   const history = useHistory();
 
   const selectedGroupChatName = useSelector(getSelectedGroupChatNameSelector);

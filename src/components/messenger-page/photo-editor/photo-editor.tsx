@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useRef } from 'react';
 import './photo-editor.scss';
 
-import i18nConfiguration from '@localization/i18n';
 import { useTranslation } from 'react-i18next';
 
 import { ReactComponent as PhotoSvg } from '@icons/picture.svg';
@@ -55,7 +54,7 @@ export const PhotoEditor: React.FC<IPhotoEditorProps> = ({
   onSubmit,
   hideChangePhoto,
 }) => {
-  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const { t } = useTranslation();
 
   const imgRef = useRef<HTMLImageElement>();
   const [crop, setCrop] = useState<ReactCrop.Crop>({

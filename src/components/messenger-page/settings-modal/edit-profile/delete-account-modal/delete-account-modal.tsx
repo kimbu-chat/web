@@ -1,6 +1,6 @@
 import { Modal, WithBackground } from '@components/shared';
 import React from 'react';
-import i18nConfiguration from '@localization/i18n';
+
 import { useTranslation } from 'react-i18next';
 import './delete-account-modal.scss';
 import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
@@ -10,7 +10,7 @@ interface IDeleteAccountModalProps {
 }
 
 export const DeleteAccountModal: React.FC<IDeleteAccountModalProps> = React.memo(({ onClose }) => {
-  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const { t } = useTranslation();
 
   return (
     <WithBackground onBackgroundClick={onClose}>

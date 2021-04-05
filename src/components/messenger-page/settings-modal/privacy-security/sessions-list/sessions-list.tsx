@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import './sessions-list.scss';
 import { ReactComponent as ArrowSvg } from '@icons/arrow.svg';
-import i18nConfiguration from '@localization/i18n';
+
 import { useTranslation } from 'react-i18next';
 import { InfiniteScrollLoader } from '@components/messenger-page/shared/infinite-scroll/infinite-scroll-loader/infinite-scroll-loader';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
@@ -11,7 +11,7 @@ import { GetSessionList } from '@store/settings/features/get-sesion-list/get-ses
 import { Session } from './session/session';
 
 export const SessionsList = () => {
-  const { t } = useTranslation(undefined, { i18n: i18nConfiguration });
+  const { t } = useTranslation();
 
   const getSessions = useActionWithDispatch(GetSessionList.action);
 

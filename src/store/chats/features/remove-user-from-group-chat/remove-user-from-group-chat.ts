@@ -42,7 +42,7 @@ export class RemoveUserFromGroupChat {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, IRemoveUserFromGroupChatApiRequest>(
-      `${process.env.REACT_APP_MAIN_API}/api/group-chats/remove-user`,
+      `${window.__config.REACT_APP_MAIN_API}/api/group-chats/remove-user`,
       HttpRequestMethod.Post,
     );
   }

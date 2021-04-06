@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 
 import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
 import { FadeAnimationWrapper, StatusBadge, TimeUpdateable } from '@components/shared';
+import { MyProfileService } from '@services/my-profile-service';
 import { DeleteChatMemberModal } from '../delete-chat-member-modal/delete-chat-member-modal';
 
 interface IMemberProps {
@@ -22,7 +23,11 @@ export const Member: React.FC<IMemberProps> = React.memo(({ member }) => {
     setRemoveChatMemberModalDisplayed((oldState) => !oldState);
   }, [setRemoveChatMemberModalDisplayed]);
 
-  const isOwner = member.firstName.includes('77');
+  const myId = new MyProfileService().myProfile.id;
+
+  // TODO: isOwner logic is not implemented at all
+  const isOwner = false;
+  const itIsMe = member.id === myId;
 
   return (
     <>
@@ -49,7 +54,7 @@ export const Member: React.FC<IMemberProps> = React.memo(({ member }) => {
             </span>
           )}
         </div>
-        {!isOwner && (
+        {!isOwner && !itIsMe && (
           <button
             onClick={changeRemoveChatMemberModalDisplayed}
             type="button"

@@ -3,6 +3,8 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { createEmptyAction } from '@store/common/actions';
+import { replaceInUrl } from '@utils/replace-in-url';
+import { MAIN_API } from '@common/paths';
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { getSelectedChatIdSelector } from '../../selectors';
 import { IGetChatInfoApiRequest } from './api-requests/get-chat-info-api-request';
@@ -31,7 +33,7 @@ export class GetChatInfo {
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IGetChatInfoApiResponse>, IGetChatInfoApiRequest>(
       ({ chatId }: IGetChatInfoApiRequest) =>
-        `${window.__config.REACT_APP_MAIN_API}/api/chats/${chatId}/info`,
+        replaceInUrl(MAIN_API.GET_CHAT_INFO, ['chatId', chatId]),
       HttpRequestMethod.Get,
     );
   }

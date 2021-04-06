@@ -4,6 +4,7 @@ import { call } from 'redux-saga/effects';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { createEmptyAction } from '@store/common/actions';
 import { getPushNotificationToken } from '@store/auth/common/utils';
+import { NOTIFICATIONS_API } from '@common/paths';
 import { ISubscribeToPushNotificationsApiRequest } from './api-requests/subscribe-to-push-notifications-api-request';
 
 export class SubscribeToPushNotifications {
@@ -26,7 +27,7 @@ export class SubscribeToPushNotifications {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, ISubscribeToPushNotificationsApiRequest>(
-      `${window.__config.REACT_APP_NOTIFICATIONS_API}/api/notifications/subscribe`,
+      NOTIFICATIONS_API.SUBSCRIBE,
       HttpRequestMethod.Post,
     );
   }

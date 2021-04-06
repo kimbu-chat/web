@@ -4,6 +4,7 @@ import { call, put } from 'redux-saga/effects';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { createEmptyAction } from '@store/common/actions';
 import produce from 'immer';
+import { MAIN_API } from '@common/paths';
 import { IUserSettings } from '../../user-settings-state';
 import { GetSessionListSuccess } from './get-sesion-list-success';
 import { ISession } from '../../comon/models/session';
@@ -30,7 +31,7 @@ export class GetSessionList {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<ISession[]>>(
-      `${window.__config.REACT_APP_MAIN_API}/api/sessions`,
+      MAIN_API.USER_SESSIONS,
       HttpRequestMethod.Get,
     );
   }

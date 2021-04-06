@@ -5,6 +5,7 @@ import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { createEmptyAction } from '@store/common/actions';
 import { IUser } from '@store/common/models';
 import produce from 'immer';
+import { MAIN_API } from '@common/paths';
 import { IUserSettings } from '../../user-settings-state';
 import { GetBlackListSuccess } from './get-black-list-success';
 
@@ -29,9 +30,6 @@ export class GetBlackList {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IUser[]>>(
-      `${window.__config.REACT_APP_MAIN_API}/api/black-list`,
-      HttpRequestMethod.Get,
-    );
+    return httpRequestFactory<AxiosResponse<IUser[]>>(MAIN_API.BLACK_LIST, HttpRequestMethod.Get);
   }
 }

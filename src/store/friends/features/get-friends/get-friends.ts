@@ -4,6 +4,7 @@ import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { MAIN_API } from '@common/paths';
 import { IUser } from '../../../common/models';
 import { IFriendsState } from '../../friends-state';
 import { IGetFriendsActionPayload } from './action-payloads/get-friends-action-payload';
@@ -43,7 +44,7 @@ export class GetFriends {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IUser[]>, IGetFriendsApiRequest>(
-      `${window.__config.REACT_APP_MAIN_API}/api/contacts/search`,
+      MAIN_API.GET_CONTACTS,
       HttpRequestMethod.Post,
     );
   }

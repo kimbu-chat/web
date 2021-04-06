@@ -2,6 +2,7 @@ import { buffers, eventChannel, SagaIterator } from 'redux-saga';
 import { call, cancel, put, race, select, take, takeEvery } from 'redux-saga/effects';
 import { AxiosResponse } from 'axios';
 import { RootState } from 'typesafe-actions';
+import { MAIN_API } from '@common/paths';
 import {
   amICalledSelector,
   getCallInterlocutorSelector,
@@ -30,11 +31,11 @@ import { OpenInterlocutorAudioStatus } from '../features/change-interlocutor-med
 
 const CallsHttpRequests = {
   candidate: httpRequestFactory<AxiosResponse, ICandidateApiRequest>(
-    `${window.__config.REACT_APP_MAIN_API}/api/calls/send-ice-candidate`,
+    MAIN_API.SEND_ICE_CANDIDATE,
     HttpRequestMethod.Post,
   ),
   renegotiate: httpRequestFactory<AxiosResponse, IRenegociateApiRequest>(
-    `${window.__config.REACT_APP_MAIN_API}/api/calls/send-renegotiation`,
+    MAIN_API.SEND_RENEGOTIATION,
     HttpRequestMethod.Post,
   ),
 };

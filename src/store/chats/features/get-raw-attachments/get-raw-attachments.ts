@@ -4,6 +4,7 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { MAIN_API } from '@common/paths';
 import { getChatByIdDraftSelector, getSelectedChatIdSelector } from '../../selectors';
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { IBaseAttachment } from '../../models';
@@ -52,7 +53,7 @@ export class GetRawAttachments {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IBaseAttachment[]>, IGetRawAttachmentsApiRequest>(
-      `${window.__config.REACT_APP_MAIN_API}/api/raw-attachments/search`,
+      MAIN_API.GET_RAW_ATTACHMENTS,
       HttpRequestMethod.Post,
     );
   }

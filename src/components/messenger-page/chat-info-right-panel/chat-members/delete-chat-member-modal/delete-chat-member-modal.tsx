@@ -1,7 +1,7 @@
-import { WithBackground, Modal } from '@components/shared';
+import { WithBackground, Modal, Button } from '@components/shared';
 import { RemoveUserFromGroupChat } from '@store/chats/features/remove-user-from-group-chat/remove-user-from-group-chat';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import './delete-chat-member-modal.scss';
@@ -16,10 +16,15 @@ export const DeleteChatMemberModal: React.FC<IDeleteChatMemberModalProps> = Reac
   ({ hide, user }) => {
     const { t } = useTranslation();
 
+    const [loading, setLoading] = useState(false);
+
     const removeUserFromGroupChat = useActionWithDeferred(RemoveUserFromGroupChat.action);
 
     const removeChatMember = useCallback(() => {
-      removeUserFromGroupChat({ userId: user.id });
+      setLoading(true);
+      removeUserFromGroupChat({ userId: user.id }).then(() => {
+        setLoading(false);
+      });
     }, [removeUserFromGroupChat, user.id]);
 
     return (
@@ -32,13 +37,14 @@ export const DeleteChatMemberModal: React.FC<IDeleteChatMemberModalProps> = Reac
             <button key={1} type="button" className="delete-chat-modal__cancel-btn" onClick={hide}>
               {t('deleteChatMemberModal.cancel')}
             </button>,
-            <button
+            <Button
               key={2}
               type="button"
+              loading={loading}
               className="delete-chat-modal__confirm-btn"
               onClick={removeChatMember}>
               {t('deleteChatMemberModal.confirm')}
-            </button>,
+            </Button>,
           ]}
         />
       </WithBackground>

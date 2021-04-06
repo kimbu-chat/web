@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { PhotoEditor, SearchBox, InfiniteScroll } from '@components/messenger-page';
-import { Modal, WithBackground, LabeledInput } from '@components/shared';
+import { Modal, WithBackground, LabeledInput, Button } from '@components/shared';
 import * as FriendActions from '@store/friends/actions';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import React, { useCallback, useRef, useState } from 'react';
@@ -65,6 +65,7 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(
     const [description, setDescription] = useState('');
     const [uploaded, setUploaded] = useState(0);
     const [uploadEnded, setUploadEnded] = useState(true);
+    const [creationLoading, setCreationLoading] = useState(false);
 
     const isSelected = useCallback((id: number) => selectedUserIds.includes(id), [selectedUserIds]);
 
@@ -155,6 +156,7 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(
     }, [cancelAvatarUploading]);
 
     const onSubmit = useCallback(() => {
+      setCreationLoading(true);
       const groupChatToCreate: ICreateGroupChatActionPayload = {
         name,
         currentUser: currentUser as IUser,
@@ -165,6 +167,7 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(
 
       submitGroupChatCreation(groupChatToCreate).then((payload: IChat) => {
         history.push(`/chats/${payload.id}`);
+        setCreationLoading(false);
         onClose();
       });
     }, [
@@ -307,14 +310,15 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(
                 </button>
               ) : null,
               currentStage === GroupChatCreationStage.GroupChatCreation ? (
-                <button
+                <Button
                   key={3}
                   disabled={name.length === 0 || !uploadEnded}
+                  loading={creationLoading}
                   type="button"
                   className="create-group-chat__btn create-group-chat__btn--confirm"
                   onClick={onSubmit}>
                   {t('createGroupChatModal.create_groupChat')}
-                </button>
+                </Button>
               ) : null,
             ]}
           />

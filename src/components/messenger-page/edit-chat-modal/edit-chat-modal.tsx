@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 import './edit-chat-modal.scss';
 
-import { Modal, WithBackground, LabeledInput } from '@components/shared';
+import { Modal, WithBackground, LabeledInput, Button } from '@components/shared';
 import { PhotoEditor } from '@components/messenger-page';
 
 import { IGroupChat } from '@store/chats/models';
@@ -29,7 +29,7 @@ export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClos
   const cancelAvatarUploading = useActionWithDispatch(
     MyProfileActions.cancelAvatarUploadingRequestAction,
   );
-  const editGroupChat = useActionWithDispatch(ChatActions.editGroupChat);
+  const editGroupChat = useActionWithDeferred(ChatActions.editGroupChat);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -43,6 +43,7 @@ export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClos
   const [newDescription, setNewDescription] = useState(selectedGroupChat?.description || '');
   const [uploaded, setUploaded] = useState(0);
   const [uploadEnded, setUploadEnded] = useState(true);
+  const [submitLoading, setSubmitLoading] = useState(false);
 
   const applyAvatarData = useCallback(
     (data: IAvatarSelectedData) => {
@@ -96,15 +97,16 @@ export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClos
   );
 
   const onSubmit = useCallback(() => {
-    onClose();
-
     const changes: IEditGroupChatActionPayload = {
       avatar: avararUploadResponse,
       name: newName as string,
       description: newDescription,
     };
-
-    editGroupChat(changes);
+    setSubmitLoading(true);
+    editGroupChat(changes).then(() => {
+      setSubmitLoading(false);
+      onClose();
+    });
   }, [onClose, avararUploadResponse, newName, newDescription, editGroupChat]);
 
   const discardNewAvatar = useCallback(() => {
@@ -194,14 +196,15 @@ export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClos
               className="edit-chat-modal__btn edit-chat-modal__btn--cancel">
               Cancel
             </button>,
-            <button
+            <Button
               key={2}
               disabled={!uploadEnded || newName?.length === 0}
               type="button"
+              loading={submitLoading}
               onClick={onSubmit}
               className="edit-chat-modal__btn edit-chat-modal__btn--confirm">
               Save
-            </button>,
+            </Button>,
           ]}
         />
       </WithBackground>

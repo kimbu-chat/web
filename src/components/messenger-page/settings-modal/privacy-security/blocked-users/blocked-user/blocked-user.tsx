@@ -1,11 +1,11 @@
-import { Avatar } from '@components/shared';
+import { Avatar, Button } from '@components/shared';
 
 import { useTranslation } from 'react-i18next';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { IUser } from '@store/common/models';
 import { UnblockUser } from '@store/settings/features/unblock-user/unblock-user';
 import { getUserInitials } from '@utils/interlocutor-name-utils';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import './blocked-user.scss';
 
 interface IBlockedUserProps {
@@ -17,8 +17,13 @@ export const BlockedUser: React.FC<IBlockedUserProps> = ({ user }) => {
 
   const unblockUser = useActionWithDeferred(UnblockUser.action);
 
+  const [isUnblocking, setIsUnblocking] = useState(false);
+
   const unblockThisUser = useCallback(() => {
-    unblockUser(user.id);
+    setIsUnblocking(true);
+    unblockUser(user.id).then(() => {
+      setIsUnblocking(false);
+    });
   }, [user.id, unblockUser]);
 
   return (
@@ -29,9 +34,14 @@ export const BlockedUser: React.FC<IBlockedUserProps> = ({ user }) => {
 
       <span className="blocked-user__name">{`${user.firstName} ${user.lastName}`}</span>
 
-      <button onClick={unblockThisUser} type="button" className="blocked-user__unblock">
+      <Button
+        themed
+        loading={isUnblocking}
+        onClick={unblockThisUser}
+        type="button"
+        className="blocked-user__unblock">
         {t('blockedUser.unblock')}
-      </button>
+      </Button>
     </div>
   );
 };

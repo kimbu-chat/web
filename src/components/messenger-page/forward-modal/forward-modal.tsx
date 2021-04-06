@@ -1,5 +1,5 @@
 import { InfiniteScroll, SearchBox } from '@components/messenger-page';
-import { Modal, WithBackground } from '@components/shared';
+import { Button, Modal, WithBackground } from '@components/shared';
 import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
@@ -18,6 +18,7 @@ import './forward-modal.scss';
 import { ForwardMessages } from '@store/chats/features/forward-messages/forward-messages';
 import { IChat } from '@store/chats/models';
 import { ReactComponent as ForwardSvg } from '@icons/forward.svg';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { SelectEntity } from '../shared/select-entity/select-entity';
 
 interface IForwardModalProps {
@@ -36,9 +37,10 @@ export const ForwardModal: React.FC<IForwardModalProps> = React.memo(
     const searchChats = useSelector(getSearchChatsSelector);
 
     const [selectedChatIds, setSelectedChatIds] = useState<number[]>([]);
+    const [loading, setLoading] = useState(false);
 
     const loadChats = useActionWithDispatch(ChatActions.getChats);
-    const forwardMessages = useActionWithDispatch(ForwardMessages.action);
+    const forwardMessages = useActionWithDeferred(ForwardMessages.action);
 
     const isSelected = useCallback((id: number) => selectedChatIds.includes(id), [selectedChatIds]);
 
@@ -75,12 +77,14 @@ export const ForwardModal: React.FC<IForwardModalProps> = React.memo(
     );
 
     const forwardSelectedMessages = useCallback(() => {
+      setLoading(true);
       forwardMessages({
         messageIdsToForward,
         chatIdsToForward: selectedChatIds,
+      }).then(() => {
+        setLoading(false);
+        onClose();
       });
-
-      onClose();
     }, [forwardMessages, messageIdsToForward, selectedChatIds, onClose]);
 
     return (
@@ -130,14 +134,15 @@ export const ForwardModal: React.FC<IForwardModalProps> = React.memo(
             <button key={1} type="button" onClick={onClose} className="forward-modal__cancel-btn">
               {t('forwardModal.cancel')}
             </button>,
-            <button
+            <Button
               key={2}
               type="button"
+              loading={loading}
               disabled={selectedChatIds.length === 0}
               onClick={forwardSelectedMessages}
               className="forward-modal__confirm-btn">
               {t('forwardModal.send')}
-            </button>,
+            </Button>,
           ]}
         />
       </WithBackground>

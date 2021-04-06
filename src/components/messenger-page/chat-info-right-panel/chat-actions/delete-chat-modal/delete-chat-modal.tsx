@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
-import { Modal, WithBackground } from '@components/shared';
+import { Button, Modal, WithBackground } from '@components/shared';
 import * as ChatActions from '@store/chats/actions';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import './delete-chat-modal.scss';
 import { useSelector } from 'react-redux';
 import { getSelectedGroupChatNameSelector } from '@store/chats/selectors';
@@ -16,19 +16,18 @@ export const DeleteChatModal: React.FC<IDeleteChatModalProps> = React.memo(({ hi
   const { t } = useTranslation();
   const history = useHistory();
 
+  const [loading, setLoading] = useState(false);
+
   const selectedGroupChatName = useSelector(getSelectedGroupChatNameSelector);
 
   const leaveGroupChat = useEmptyActionWithDeferred(ChatActions.leaveGroupChat);
 
   const deleteGroupChat = useCallback(() => {
-    leaveGroupChat().then(() =>
-      history.push(
-        history.location.pathname.replace(
-          /\/?(contacts|calls|chats)\/?([0-9]*)?/,
-          (_all, groupOne) => `/${groupOne}/`,
-        ),
-      ),
-    );
+    setLoading(true);
+    leaveGroupChat().then(() => {
+      setLoading(false);
+      history.push('/chats');
+    });
   }, [leaveGroupChat, history]);
 
   return (
@@ -42,13 +41,14 @@ export const DeleteChatModal: React.FC<IDeleteChatModalProps> = React.memo(({ hi
           <button key={1} type="button" className="delete-chat-modal__cancel-btn" onClick={hide}>
             {t('chatInfo.cancel')}
           </button>,
-          <button
+          <Button
             key={2}
+            loading={loading}
             type="button"
             className="delete-chat-modal__confirm-btn"
             onClick={deleteGroupChat}>
             {t('chatInfo.confirm')}
-          </button>,
+          </Button>,
         ]}
       />
     </WithBackground>

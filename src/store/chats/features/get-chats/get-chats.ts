@@ -86,7 +86,7 @@ export class GetChats {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IChat[]>, IGetChatsApiRequest>(
-      MAIN_API.GET_CHAts,
+      MAIN_API.GET_CHATS,
       HttpRequestMethod.Post,
     );
   }

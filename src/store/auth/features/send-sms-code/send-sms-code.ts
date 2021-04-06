@@ -9,6 +9,7 @@ import { HTTPStatusCode } from '@common/http-status-code';
 import { Meta } from '@store/common/actions';
 import { IAuthState } from '@store/auth/auth-state';
 
+import { MAIN_API } from '@common/paths';
 import { ISendSmsCodeActionPayload } from './action-payloads/send-sms-code-action-payload';
 import { SendSmsCodeFailure } from './send-sms-code-failure';
 import { SendSmsCodeSuccess } from './send-sms-code-success';
@@ -54,7 +55,7 @@ export class SendSmsCode {
 
   static get httpRequest() {
     return authRequestFactory<AxiosResponse<string>, ISendSmsCodeApiRequest>(
-      `${window.__config.REACT_APP_MAIN_API}/api/users/send-sms-confirmation-code`,
+      MAIN_API.SEND_SMS_CODE,
       HttpRequestMethod.Post,
     );
   }

@@ -6,6 +6,7 @@ import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { resetPeerConnection } from '@store/middlewares/webRTC/reset-peer-connection';
 import { createEmptyAction } from '@store/common/actions';
 
+import { MAIN_API } from '@common/paths';
 import { CancelCallSuccess } from './cancel-call-success';
 
 export class CancelCall {
@@ -23,9 +24,6 @@ export class CancelCall {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse>(
-      `${window.__config.REACT_APP_MAIN_API}/api/calls/cancel-call`,
-      HttpRequestMethod.Post,
-    );
+    return httpRequestFactory<AxiosResponse>(MAIN_API.CANCEL_CALL, HttpRequestMethod.Post);
   }
 }

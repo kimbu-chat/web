@@ -4,6 +4,7 @@ import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { MAIN_API } from '@common/paths';
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { getSelectedChatIdSelector, getChatByIdDraftSelector } from '../../selectors';
 
@@ -74,7 +75,7 @@ export class SubmitEditMessage {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, ISubmitEditMessageApiRequest>(
-      `${window.__config.REACT_APP_MAIN_API}/api/messages`,
+      MAIN_API.MESSAGES,
       HttpRequestMethod.Put,
     );
   }

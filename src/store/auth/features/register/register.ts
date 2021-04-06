@@ -15,6 +15,7 @@ import {
 import { Login } from '@store/auth/features/login/login';
 import { LoginSuccess } from '@store/auth/features/login/login-success';
 
+import { MAIN_API } from '@common/paths';
 import { IRegisterActionPayload } from './action-payloads/register-action-payload';
 import { IRegisterApiRequest } from './api-requests/register-api-request';
 
@@ -60,7 +61,7 @@ export class Register {
 
   static get httpRequest() {
     return authRequestFactory<AxiosResponse, IRegisterApiRequest>(
-      `${window.__config.REACT_APP_MAIN_API}/api/users/`,
+      MAIN_API.REGISTER,
       HttpRequestMethod.Post,
     );
   }

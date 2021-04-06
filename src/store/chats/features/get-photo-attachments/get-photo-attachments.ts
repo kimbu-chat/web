@@ -4,6 +4,7 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { MAIN_API } from '@common/paths';
 import { getChatByIdDraftSelector, getSelectedChatIdSelector } from '../../selectors';
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { IPictureAttachment } from '../../models';
@@ -51,7 +52,7 @@ export class GetPhotoAttachments {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IPictureAttachment[]>, IGetPhotoAttachmentsApiRequest>(
-      `${window.__config.REACT_APP_MAIN_API}/api/picture-attachments/search`,
+      MAIN_API.GET_PHOTO_ATTACHMENTS,
       HttpRequestMethod.Post,
     );
   }

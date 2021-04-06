@@ -51,7 +51,7 @@ export class AddUsersToGroupChat {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, IAddUsersToGroupChatApiRequest>(
-      `${window.__config.REACT_APP_MAIN_API}/api/group-chats/users`,
+      MAIN_API.ADD_USERS_TO_GROUP_CHAT,
       HttpRequestMethod.Post,
     );
   }

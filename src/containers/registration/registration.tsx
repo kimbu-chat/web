@@ -118,7 +118,6 @@ export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
   const applyAvatarData = useCallback(
     (data: IAvatarSelectedData) => {
       setAvatarData(data);
-      console.log(data);
       setUploadEnded(false);
       uploadRegistrationAvatar({ pathToFile: data.croppedImagePath, onProgress: setUploaded })
         .then((response) => {

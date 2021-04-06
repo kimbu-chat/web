@@ -3,6 +3,7 @@ import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { MAIN_API } from '@common/paths';
 import { IUpdateMyProfileActionPayload } from './action-payloads/update-my-profile-action-payload';
 import { IUpdateMyProfileApiRequest } from './api-requests/update-my-profile-api-request';
 import { UpdateMyProfileSuccess } from './update-my-profile-success';
@@ -33,7 +34,7 @@ export class UpdateMyProfile {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, IUpdateMyProfileApiRequest>(
-      `${window.__config.REACT_APP_MAIN_API}/api/users`,
+      MAIN_API.UPDATE_PROFILE,
       HttpRequestMethod.Put,
     );
   }

@@ -6,6 +6,7 @@ import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { CloseWebsocketConnection } from '@store/web-sockets/features/close-web-socket-connection/close-web-socket-connection';
 import { createEmptyDefferedAction } from '@store/common/actions';
 import { IAuthState } from '@store/auth/auth-state';
+import { MAIN_API } from '@common/paths';
 import { UnSubscribeFromPushNotifications } from '../un-subscribe-from-push-notifications/un-subscribe-from-push-notifications';
 import { UnSubscribeToPushNotificationsSuccess } from '../un-subscribe-from-push-notifications/un-subscribe-from-push-notifications_success';
 
@@ -33,9 +34,6 @@ export class Logout {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse>(
-      `${window.__config.REACT_APP_MAIN_API}/api/users/logout`,
-      HttpRequestMethod.Post,
-    );
+    return httpRequestFactory<AxiosResponse>(MAIN_API.LOGOUT, HttpRequestMethod.Post);
   }
 }

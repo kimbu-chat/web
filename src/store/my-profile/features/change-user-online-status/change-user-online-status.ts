@@ -9,6 +9,7 @@ import { authenticatedSelector } from '@store/auth/selectors';
 import { resetUnreadNotifications } from '@utils/set-favicon';
 import { IMyProfileState } from '@store/my-profile/my-profile-state';
 
+import { MAIN_API } from '@common/paths';
 import { IChangeUserOnlineStatusApiRequest } from './api-requests/change-user-online-status-api-request';
 
 export class ChangeUserOnlineStatus {
@@ -46,7 +47,7 @@ export class ChangeUserOnlineStatus {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, IChangeUserOnlineStatusApiRequest>(
-      `${window.__config.REACT_APP_MAIN_API}/api/users/change-online-status`,
+      MAIN_API.CHANGE_ONLINE_STATUS,
       HttpRequestMethod.Post,
     );
   }

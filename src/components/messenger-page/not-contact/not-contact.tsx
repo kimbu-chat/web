@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import './not-contact.scss';
 
 import { ReactComponent as ContactSvg } from '@icons/user-o.svg';
@@ -12,6 +12,7 @@ import { AddFriend } from '@store/friends/features/add-friend/add-friend';
 import { useSelector } from 'react-redux';
 import { DismissToAddContact } from '@store/friends/features/dismiss-to-add-contact/dismiss-to-add-contact';
 import classNames from 'classnames';
+import { Button } from '@components/shared';
 
 export const NotContact = () => {
   const { t } = useTranslation();
@@ -24,17 +25,26 @@ export const NotContact = () => {
   const blockUser = useActionWithDeferred(BlockUser.action);
   const dismissUser = useActionWithDeferred(DismissToAddContact.action);
 
+  const [addLoading, setAddLoading] = useState(false);
+  const [blockLoading, setBlockLoading] = useState(false);
+
   const addSelectedUserToContacts = useCallback(() => {
+    setAddLoading(true);
     if (interlocutor?.id) {
       dismissUser(interlocutor.id);
-      addFriend(interlocutor);
+      addFriend(interlocutor).then(() => {
+        setAddLoading(false);
+      });
     }
   }, [addFriend, interlocutor, dismissUser]);
 
   const addSelectedUserToBlackList = useCallback(() => {
+    setBlockLoading(true);
     if (interlocutor?.id) {
       dismissUser(interlocutor.id);
-      blockUser(interlocutor);
+      blockUser(interlocutor).then(() => {
+        setBlockLoading(false);
+      });
     }
   }, [blockUser, interlocutor, dismissUser]);
 
@@ -55,18 +65,20 @@ export const NotContact = () => {
       </div>
 
       <div className={classNames(`${BLOCK_NAME}__btn-group`)}>
-        <button
+        <Button
           onClick={addSelectedUserToContacts}
+          loading={addLoading}
           type="button"
           className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--add`)}>
           {t('notContact.add')}
-        </button>
-        <button
+        </Button>
+        <Button
           onClick={addSelectedUserToBlackList}
+          loading={blockLoading}
           type="button"
           className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--block`)}>
           {t('notContact.block')}
-        </button>
+        </Button>
         <button
           onClick={dismissSelectedUserToBlackList}
           type="button"

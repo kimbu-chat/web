@@ -71,6 +71,8 @@
 
     &--confirm {
       background: #3f8ae0;
+      --bg-color: #3f8ae0;
+
       color: #fff;
       margin-left: 20px;
       transition: all 0.1s;
@@ -81,6 +83,7 @@
 
       &:disabled {
         background: var(--disabled-btn);
+        --bg-color: var(--disabled-btn);
         color: var(--disabled-btn-text);
       }
     }

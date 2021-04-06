@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import './session.scss';
 import { ReactComponent as WindowsSvg } from '@icons/windows.svg';
 import { ReactComponent as MacSvg } from '@icons/mac.svg';
@@ -12,6 +12,8 @@ import { RevokeSession } from '@store/settings/features/revoke-session/revoke-se
 import { deviceIdSelector } from '@store/auth/selectors';
 import { useSelector } from 'react-redux';
 
+import { Button } from '@components/shared';
+
 interface ISessionProps {
   session: ISession;
 }
@@ -19,12 +21,17 @@ interface ISessionProps {
 export const Session: React.FC<ISessionProps> = ({ session }) => {
   const { t } = useTranslation();
 
+  const [revoking, setRevoking] = useState(false);
+
   const currentDeviceId = useSelector(deviceIdSelector);
 
   const revokeSession = useActionWithDeferred(RevokeSession.action);
 
   const revokeThisSession = useCallback(() => {
-    revokeSession(session.id);
+    setRevoking(true);
+    revokeSession(session.id).then(() => {
+      setRevoking(false);
+    });
   }, [session.id, revokeSession]);
 
   return (
@@ -63,9 +70,13 @@ export const Session: React.FC<ISessionProps> = ({ session }) => {
       {Number(currentDeviceId) === session.id ? (
         <div className="session__current-session">{t('session.current-session')}</div>
       ) : (
-        <button onClick={revokeThisSession} className="session__revoke-btn" type="button">
+        <Button
+          loading={revoking}
+          onClick={revokeThisSession}
+          className="session__revoke-btn"
+          type="button">
           {t('session.revoke')}
-        </button>
+        </Button>
       )}
     </div>
   );

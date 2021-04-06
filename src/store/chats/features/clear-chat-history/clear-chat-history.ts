@@ -4,6 +4,7 @@ import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import produce from 'immer';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { Meta } from '@store/common/actions';
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { getSelectedChatIdSelector } from '../../selectors';
 import { IClearChatHistoryActionPayload } from './action-payloads/clear-chat-history-action-payload';
@@ -13,7 +14,7 @@ import { IChatsState } from '../../chats-state';
 
 export class ClearChatHistory {
   static get action() {
-    return createAction('CLEAR_CHAT_HISTORY')<IClearChatHistoryActionPayload>();
+    return createAction('CLEAR_CHAT_HISTORY')<IClearChatHistoryActionPayload, Meta>();
   }
 
   // TODO: handle loading
@@ -38,6 +39,7 @@ export class ClearChatHistory {
 
       if (status === HTTPStatusCode.OK) {
         yield put(ClearChatHistorySuccess.action({ chatId }));
+        action.meta.deferred?.resolve();
       }
     };
   }

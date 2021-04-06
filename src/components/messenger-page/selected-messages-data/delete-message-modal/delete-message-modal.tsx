@@ -1,8 +1,8 @@
-import { Modal, WithBackground } from '@components/shared';
+import { Button, Modal, WithBackground } from '@components/shared';
 import React, { useCallback, useState } from 'react';
 
 import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
-import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 
 import { useTranslation } from 'react-i18next';
 import './delete-message-modal.scss';
@@ -18,17 +18,23 @@ export const DeleteMessageModal: React.FC<IDeleteMessageModalProps> = React.memo
   ({ onClose, selectedMessages }) => {
     const { t } = useTranslation();
 
-    const deleteMessage = useActionWithDispatch(DeleteMessage.action);
+    const deleteMessage = useActionWithDeferred(DeleteMessage.action);
 
     const [deleteForInterlocutor, setDeleteForInterlocutor] = useState(false);
+    const [loading, setLoading] = useState(false);
     const changeDeleteForInterlocutorState = useCallback(() => {
       setDeleteForInterlocutor((oldState) => !oldState);
     }, [setDeleteForInterlocutor]);
 
     const deleteTheseMessages = useCallback(() => {
-      deleteMessage({ messageIds: selectedMessages, forEveryone: deleteForInterlocutor });
-      onClose();
-    }, [deleteMessage, selectedMessages, deleteForInterlocutor, onClose]);
+      setLoading(true);
+      deleteMessage({ messageIds: selectedMessages, forEveryone: deleteForInterlocutor }).then(
+        () => {
+          setLoading(false);
+          onClose();
+        },
+      );
+    }, [deleteMessage, selectedMessages, deleteForInterlocutor, onClose, setLoading]);
 
     return (
       <WithBackground onBackgroundClick={onClose}>
@@ -60,13 +66,14 @@ export const DeleteMessageModal: React.FC<IDeleteMessageModalProps> = React.memo
               className="delete-message-modal__cancel-btn">
               {t('deleteMessageModal.cancel')}
             </button>,
-            <button
+            <Button
               key={2}
               type="button"
+              loading={loading}
               onClick={deleteTheseMessages}
               className="delete-message-modal__confirm-btn">
               {t('deleteMessageModal.delete-confirm')}
-            </button>,
+            </Button>,
           ]}
         />
       </WithBackground>

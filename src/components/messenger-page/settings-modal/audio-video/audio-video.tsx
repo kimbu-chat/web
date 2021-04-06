@@ -20,6 +20,7 @@ import * as CallActions from '@store/calls/actions';
 import incomingCallSound from '@sounds/calls/imcoming-call.ogg';
 import { getAudioVolume } from '@utils/get-audio-volume-size';
 import { playSoundSafely } from '@utils/current-music';
+import { Button } from '@components/shared';
 import { Dropdown } from '../../shared/dropdown/dropdown';
 
 interface IIntensityPointProps {
@@ -79,6 +80,7 @@ export const AudioVideoSettings = () => {
   const [videoOpened, setVideoOpened] = useState(false);
   const [microphoneOpened, setMicrophoneOpened] = useState(false);
   const [audioPlaying, setAudioPlaying] = useState(false);
+  const [requestingVideo, setRequestingVideo] = useState(false);
 
   const [audioMeasurementAllowed, setAudioMeasurementAllowed] = useState(true);
 
@@ -94,10 +96,14 @@ export const AudioVideoSettings = () => {
         .then((localMediaStream) => {
           if (videoRef.current) {
             [videoTrack] = localMediaStream.getVideoTracks();
+            setRequestingVideo(false);
 
             videoRef.current.srcObject = localMediaStream;
             spawnDeviceUpdateWatcher({ videoOpened });
           }
+        })
+        .catch(() => {
+          setRequestingVideo(false);
         });
     }
 
@@ -148,6 +154,7 @@ export const AudioVideoSettings = () => {
 
   const getVideo = useCallback(() => {
     setVideoOpened(true);
+    setRequestingVideo(true);
   }, [setVideoOpened]);
 
   useEffect(() => {
@@ -207,9 +214,13 @@ export const AudioVideoSettings = () => {
         {videoOpened && (
           <video muted autoPlay playsInline ref={videoRef} className="audio-video__video" />
         )}
-        <button onClick={getVideo} type="button" className="audio-video__video-btn">
+        <Button
+          loading={requestingVideo}
+          onClick={getVideo}
+          type="button"
+          className="audio-video__video-btn">
           {t('audioVideo.test-video')}
-        </button>
+        </Button>
       </div>
       <div className="audio-video__intensity-wrapper">
         <div className="audio-video__subject-title">

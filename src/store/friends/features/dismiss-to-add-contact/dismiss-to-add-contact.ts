@@ -28,7 +28,7 @@ export class DismissToAddContact {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, IDismissToAddContact>(
-      `${process.env.REACT_APP_MAIN_API}/api/chats/dismiss-add-to-contacts`,
+      `${window.__config.REACT_APP_MAIN_API}/api/chats/dismiss-add-to-contacts`,
       HttpRequestMethod.Post,
     );
   }

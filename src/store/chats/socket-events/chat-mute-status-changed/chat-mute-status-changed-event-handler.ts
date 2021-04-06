@@ -1,3 +1,4 @@
+import { IChat } from '@store/chats/models';
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { IChatsState } from '../../chats-state';
@@ -16,12 +17,11 @@ export class ChatMutedStatusChangedEventHandler {
       ) => {
         const { chatIds, isMuted } = payload;
 
-        draft.chats.map((chat) => {
-          if (chatIds.includes(chat.id)) {
-            return { ...chat, isMuted };
-          }
+        const selectedChats = draft.chats.filter((chat) => chatIds.includes(chat.id));
 
-          return chat;
+        selectedChats.forEach((chat: IChat) => {
+          // eslint-disable-next-line no-param-reassign
+          chat.isMuted = isMuted;
         });
 
         return draft;

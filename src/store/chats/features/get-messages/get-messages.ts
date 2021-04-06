@@ -4,6 +4,7 @@ import { SagaIterator } from 'redux-saga';
 import { put, call, select, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { MAIN_API } from '@common/paths';
 import {
   getIsFirstChatsLoadSelector,
   getSelectedChatMessagesSearchStringSelector,
@@ -82,7 +83,7 @@ export class GetMessages {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IMessage[]>, IGetMessagesApiRequest>(
-      `${window.__config.REACT_APP_MAIN_API}/api/messages/search`,
+      MAIN_API.GET_MESSAGES,
       HttpRequestMethod.Post,
     );
   }

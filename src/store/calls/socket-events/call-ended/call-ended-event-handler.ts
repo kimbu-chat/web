@@ -5,6 +5,8 @@ import { select, put, call } from 'redux-saga/effects';
 
 import { httpRequestFactory } from '@store/common/http/http-factory';
 import { HttpRequestMethod } from '@store/common/http/http-request-method';
+import { replaceInUrl } from '@utils/replace-in-url';
+import { MAIN_API } from '@common/paths';
 import { myIdSelector } from '../../../my-profile/selectors';
 
 import { resetPeerConnection } from '../../../middlewares/webRTC/reset-peer-connection';
@@ -67,7 +69,7 @@ export class CallEndedEventHandler {
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<ICall>, IGetCallByIdApiRequest>(
       ({ callId }: IGetCallByIdApiRequest) =>
-        `${window.__config.REACT_APP_MAIN_API}/api/calls/${callId}`,
+        replaceInUrl(MAIN_API.CALL_ENDED_EVENT, ['callId', callId]),
       HttpRequestMethod.Get,
     );
   }

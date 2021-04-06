@@ -4,6 +4,7 @@ import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import produce from 'immer';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { MAIN_API } from '@common/paths';
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { getSelectedChatIdSelector } from '../../selectors';
 import { IClearChatHistoryActionPayload } from './action-payloads/clear-chat-history-action-payload';
@@ -44,7 +45,7 @@ export class ClearChatHistory {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, IClearChatHistoryApiRequest>(
-      `${window.__config.REACT_APP_MAIN_API}/api/chats/clear`,
+      MAIN_API.CLEAR_CHAT_HISTORY,
       HttpRequestMethod.Post,
     );
   }

@@ -4,6 +4,8 @@ import { SagaIterator } from 'redux-saga';
 import { select, put, call } from 'redux-saga/effects';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
+import { replaceInUrl } from '@utils/replace-in-url';
+import { MAIN_API } from '@common/paths';
 import { IMessage } from '../../models';
 
 import { getChatLastMessageIdSelector, getChatMessagesLengthSelector } from '../../selectors';
@@ -50,7 +52,7 @@ export class MessagesDeletedIntegrationEventHandler {
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IMessage>, IGetLastMessageByChatIdApiRequest>(
       ({ chatId }: IGetLastMessageByChatIdApiRequest) =>
-        `${window.__config.REACT_APP_MAIN_API}/api/chats/${chatId}/last-message`,
+        replaceInUrl(MAIN_API.MESSAGE_DELETED_EVENT, ['chatId', chatId]),
       HttpRequestMethod.Get,
     );
   }

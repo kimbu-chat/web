@@ -4,6 +4,8 @@ import { call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { authRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { Meta } from '@store/common/actions';
+import { replaceInUrl } from '@utils/replace-in-url';
+import { MAIN_API } from '@common/paths';
 import { ICheckNicknameAvailabilityActionPayload } from './action-payloads/check-nickname-availability-action-payload';
 import { ICheckNicknameAvailabilityApiRequest } from './api-requests/check-nickname-availability-api-request';
 
@@ -31,7 +33,7 @@ export class CheckNicknameAvailability {
   static get httpRequest() {
     return authRequestFactory<AxiosResponse<boolean>, ICheckNicknameAvailabilityApiRequest>(
       ({ nickname }: ICheckNicknameAvailabilityApiRequest) =>
-        `${window.__config.REACT_APP_MAIN_API}/api/users/check-if-nickname-is-available/${nickname}`,
+        replaceInUrl(MAIN_API.CHECK_NICKNAME_AVAILABILITY, ['nickname', nickname]),
       HttpRequestMethod.Get,
     );
   }

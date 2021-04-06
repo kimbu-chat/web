@@ -5,6 +5,7 @@ import { call, put, select } from 'redux-saga/effects';
 import { HttpRequestMethod } from '@store/common/http/http-request-method';
 import { authRequestFactory } from '@store/common/http/auth-request-factory';
 import { createEmptyAction } from '@store/common/actions';
+import { MAIN_API } from '@common/paths';
 import { IAuthState } from '../../auth-state';
 import { ISecurityTokens } from '../../common/models';
 import { securityTokensSelector } from '../../selectors';
@@ -43,7 +44,7 @@ export class RefreshToken {
 
   static get httpRequest() {
     return authRequestFactory<AxiosResponse<IRefreshTokenApiResponse>, IRefreshTokenApiRequest>(
-      `${window.__config.REACT_APP_MAIN_API}/api/users/refresh-tokens`,
+      MAIN_API.REFRESH_TOKENS,
       HttpRequestMethod.Post,
     );
   }

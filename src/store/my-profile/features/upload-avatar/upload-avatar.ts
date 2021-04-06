@@ -10,6 +10,7 @@ import { IAvatar } from '@store/common/models';
 import { getFileFromUrl } from '@utils/get-file-from-url';
 import { setAvatarUploadCancelTokenSource } from '@store/my-profile/my-profile-utils';
 
+import { FILES_API } from '@common/paths';
 import { IUploadAvatarActionPayload } from './upload-avatar-action-payload';
 
 export class UploadAvatar {
@@ -64,7 +65,7 @@ export class UploadAvatar {
 
   static get httpRequest() {
     return httpFilesRequestFactory<AxiosResponse<IAvatar>, FormData>(
-      `${window.__config.REACT_APP_FILES_API}/api/avatars`,
+      FILES_API.UPLOAD_AVATAR,
       HttpRequestMethod.Post,
     );
   }

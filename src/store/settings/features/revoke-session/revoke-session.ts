@@ -3,6 +3,7 @@ import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { createAction } from 'typesafe-actions';
+import { MAIN_API } from '@common/paths';
 import { Meta } from '../../../common/actions';
 import { IRevokeSession } from './api-requests/revoke-session-api-request';
 import { RevokeSessionSuccess } from './revoke-session-success';
@@ -24,7 +25,7 @@ export class RevokeSession {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, IRevokeSession>(
-      `${window.__config.REACT_APP_MAIN_API}/api/sessions`,
+      MAIN_API.USER_SESSIONS,
       HttpRequestMethod.Post,
     );
   }

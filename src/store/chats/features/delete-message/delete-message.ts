@@ -4,6 +4,7 @@ import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import produce from 'immer';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { MAIN_API } from '@common/paths';
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { getSelectedChatIdSelector } from '../../selectors';
 import { IDeleteMessageActionPayload } from './action-payloads/delete-message-action-payload';
@@ -40,7 +41,7 @@ export class DeleteMessage {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, IDeleteMessagesApiRequest>(
-      `${window.__config.REACT_APP_MAIN_API}/api/messages/delete-message-list`,
+      MAIN_API.DELETE_MESSAGES,
       HttpRequestMethod.Post,
     );
   }

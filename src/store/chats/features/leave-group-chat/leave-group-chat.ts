@@ -4,6 +4,8 @@ import { call, put, select } from 'redux-saga/effects';
 import produce from 'immer';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { createEmptyDefferedAction } from '@store/common/actions';
+import { replaceInUrl } from '@utils/replace-in-url';
+import { MAIN_API } from '@common/paths';
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { getSelectedChatIdSelector } from '../../selectors';
 import { ChatId } from '../../chat-id';
@@ -44,7 +46,7 @@ export class LeaveGroupChat {
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, ILeaveGroupChatApiRequest>(
       ({ groupChatId }: ILeaveGroupChatApiRequest) =>
-        `${window.__config.REACT_APP_MAIN_API}/api/group-chats/${groupChatId}`,
+        replaceInUrl(MAIN_API.LEAVE_GROUP_CHAT, ['groupChatId', groupChatId]),
       HttpRequestMethod.Delete,
     );
   }

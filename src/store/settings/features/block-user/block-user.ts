@@ -4,6 +4,7 @@ import { call, put } from 'redux-saga/effects';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { IUser } from '@store/common/models';
 import { createAction } from 'typesafe-actions';
+import { MAIN_API } from '@common/paths';
 import { Meta } from '../../../common/actions';
 import { IBlockUserApiRequest } from './api-requests/block-user-api-request';
 import { BlockUserSuccess } from './block-user-success';
@@ -25,7 +26,7 @@ export class BlockUser {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, IBlockUserApiRequest>(
-      `${window.__config.REACT_APP_MAIN_API}/api/black-list`,
+      MAIN_API.BLACK_LIST,
       HttpRequestMethod.Post,
     );
   }

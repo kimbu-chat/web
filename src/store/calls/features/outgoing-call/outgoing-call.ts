@@ -5,6 +5,8 @@ import { createAction, RootState } from 'typesafe-actions';
 
 import { AxiosResponse } from 'axios';
 import { httpRequestFactory } from '@store/common/http/http-factory';
+import { MAIN_API } from '@common/paths';
+
 import { HttpRequestMethod } from '@store/common/http/http-request-method';
 import { getIsVideoEnabledSelector } from '../../selectors';
 

@@ -3,6 +3,8 @@ import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import produce from 'immer';
+
+import { MAIN_API } from '@common/paths';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { Meta } from '@store/common/actions';
 import { HTTPStatusCode } from '../../../../common/http-status-code';
@@ -53,7 +55,7 @@ export class AddUsersToGroupChat {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, IAddUsersToGroupChatApiRequest>(
-      MAIN_API.ADD_USERS_TO_GROUP_CHAT,
+      MAIN_API.ADD_TO_GROUP_CHAT,
       HttpRequestMethod.Post,
     );
   }

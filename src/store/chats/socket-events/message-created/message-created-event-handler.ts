@@ -13,6 +13,8 @@ import {
 import { playSoundSafely } from '@utils/current-music';
 import { modelChatList } from '@store/chats/utils/model-chat-list';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { replaceInUrl } from '@utils/replace-in-url';
+import { MAIN_API } from '@common/paths';
 import { MessageLinkType } from '../../models/linked-message-type';
 import messageCameUnselected from '../../../../assets/sounds/notifications/messsage-came-unselected.ogg';
 import messageCameSelected from '../../../../assets/sounds/notifications/messsage-came-selected.ogg';
@@ -142,7 +144,7 @@ export class MessageCreatedEventHandler {
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IMessage>, IGetMessageByIdApiRequest>(
       ({ messageId }: IGetMessageByIdApiRequest) =>
-        `${window.__config.REACT_APP_MAIN_API}/api/messages/${messageId}`,
+        replaceInUrl(MAIN_API.MESSAGE_CREATED_EVENT, ['messageId', messageId]),
       HttpRequestMethod.Get,
     );
   }

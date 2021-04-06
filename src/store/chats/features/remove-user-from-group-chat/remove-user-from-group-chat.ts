@@ -1,3 +1,4 @@
+import { MAIN_API } from '@common/paths';
 import { Meta } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { AxiosResponse } from 'axios';
@@ -42,7 +43,7 @@ export class RemoveUserFromGroupChat {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, IRemoveUserFromGroupChatApiRequest>(
-      `${window.__config.REACT_APP_MAIN_API}/api/group-chats/remove-user`,
+      MAIN_API.REMOVE_USER_FROM_CHAT,
       HttpRequestMethod.Post,
     );
   }

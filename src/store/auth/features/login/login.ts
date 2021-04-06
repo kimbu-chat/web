@@ -7,6 +7,7 @@ import { authRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { AppInit } from '@store/initiation/features/app-init/app-init';
 import { IUser } from '@store/common/models';
 import { GetMyProfileSuccess } from '@store/my-profile/features/get-my-profile/get-my-profile-success';
+import { MAIN_API } from '@common/paths';
 import { ILoginApiRequest } from './api-requests/login-api-request';
 import { ILoginApiResponse } from './api-requests/login-api-response';
 import { ILoginActionPayload } from './action-payloads/login-action-payload';
@@ -46,7 +47,7 @@ export class Login {
 
   static get httpRequest() {
     return authRequestFactory<AxiosResponse<ILoginApiResponse>, ILoginApiRequest>(
-      `${window.__config.REACT_APP_MAIN_API}/api/users/tokens`,
+      MAIN_API.TOKENS,
       HttpRequestMethod.Post,
     );
   }

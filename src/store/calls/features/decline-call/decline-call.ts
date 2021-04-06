@@ -4,6 +4,7 @@ import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { createEmptyAction } from '@store/common/actions';
+import { MAIN_API } from '@common/paths';
 import { resetPeerConnection } from '../../../middlewares/webRTC/reset-peer-connection';
 import { ICallsState } from '../../calls-state';
 
@@ -36,9 +37,6 @@ export class DeclineCall {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse>(
-      `${window.__config.REACT_APP_MAIN_API}/api/calls/decline-call`,
-      HttpRequestMethod.Post,
-    );
+    return httpRequestFactory<AxiosResponse>(MAIN_API.DECLINE_CALL, HttpRequestMethod.Post);
   }
 }

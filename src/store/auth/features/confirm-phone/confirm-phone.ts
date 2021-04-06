@@ -6,6 +6,7 @@ import { createAction } from 'typesafe-actions';
 import { authRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { Meta } from '@store/common/actions';
+import { MAIN_API } from '@common/paths';
 import { Login } from '../login/login';
 import { ConfirmPhoneFailure } from './confirm-phone-failure';
 import { IAuthState } from '../../auth-state';
@@ -52,7 +53,7 @@ export class ConfirmPhone {
 
   static get httpRequest() {
     return authRequestFactory<AxiosResponse<IConfirmPhoneApiResponse>, IConfirmProneApiRequest>(
-      `${window.__config.REACT_APP_MAIN_API}/api/users/verify-sms-code`,
+      MAIN_API.VERIFY_SMS_CODE,
       HttpRequestMethod.Post,
     );
   }

@@ -7,6 +7,7 @@ import {
 
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux';
 import { getType, RootAction, RootState } from 'typesafe-actions';
+import { NOTIFICATIONS_API } from '@common/paths';
 import { InitSocketConnection } from '../../web-sockets/features/init-web-socked-connection/init-web-socket-connection';
 import { WebsocketsConnected } from '../../internet/features/websockets-connection/websockets-connected';
 import { WebsocketsDisconnected } from '../../internet/features/websockets-connection/websockets-disconnected';
@@ -16,7 +17,7 @@ let connection: HubConnection;
 
 function openConnection(store: MiddlewareAPI<Dispatch, RootState>): void {
   connection = new HubConnectionBuilder()
-    .withUrl(`${window.__config.REACT_APP_NOTIFICATIONS_API}/signalr`, {
+    .withUrl(NOTIFICATIONS_API.OPEN_CONNECTION, {
       logMessageContent: true,
       accessTokenFactory: () => {
         const accessToken = store.getState().auth?.securityTokens?.accessToken;

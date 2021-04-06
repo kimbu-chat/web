@@ -21,6 +21,7 @@ import {
   getVideoConstraintsSelector,
 } from '@store/calls/selectors';
 
+import { MAIN_API } from '@common/paths';
 import { ICallsState } from '../../calls-state';
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
 import { IAcceptCallActionPayload } from './action-payloads/accept-call-action-payload';
@@ -103,7 +104,7 @@ export class AcceptCall {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, IAcceptCallApiRequest>(
-      `${window.__config.REACT_APP_MAIN_API}/api/calls/accept-call`,
+      MAIN_API.ACCEPT_CALL,
       HttpRequestMethod.Post,
     );
   }

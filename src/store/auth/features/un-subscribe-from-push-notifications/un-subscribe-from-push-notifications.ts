@@ -8,6 +8,7 @@ import { createEmptyAction } from '@store/common/actions';
 import { messaging } from '@store/middlewares/firebase/firebase';
 import { getPushNotificationToken } from '@store/auth/common/utils';
 
+import { NOTIFICATIONS_API } from '@common/paths';
 import { IUnsubscribeFromPushNotificationsRequest } from './api-requests/unsubscribe-from-push-notifications-api-request';
 import { UnSubscribeToPushNotificationsSuccess } from './un-subscribe-from-push-notifications_success';
 
@@ -36,7 +37,7 @@ export class UnSubscribeFromPushNotifications {
 
   static get httpRequest() {
     return authRequestFactory<AxiosResponse, IUnsubscribeFromPushNotificationsRequest>(
-      `${window.__config.REACT_APP_NOTIFICATIONS_API}/api/notifications/unsubscribe`,
+      NOTIFICATIONS_API.UNSUBSCRIBE,
       HttpRequestMethod.Post,
     );
   }

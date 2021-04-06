@@ -4,6 +4,7 @@ import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { MAIN_API } from '@common/paths';
 import { getChatByIdDraftSelector, getSelectedChatIdSelector } from '../../selectors';
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { IAudioAttachment } from '../../models';
@@ -53,7 +54,7 @@ export class GetAudioAttachments {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IAudioAttachment[]>, IGetAudioAttachmentsApiRequest>(
-      `${window.__config.REACT_APP_MAIN_API}/api/audio-attachments/search`,
+      MAIN_API.GET_AUDIO_ATTACHMENTS,
       HttpRequestMethod.Post,
     );
   }

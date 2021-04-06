@@ -22,6 +22,7 @@
 
   &__btn {
     background: #c74848;
+    --bg-color: #c74848;
     border-radius: 6px;
     color: #fff;
     font-size: 14px;
@@ -29,6 +30,7 @@
     line-height: 17px;
     margin-left: auto;
     padding: 10px 17px;
+    overflow: hidden;
 
     &:hover {
       box-shadow: 0 3px 6px rgba(14, 22, 43, 0.62);

@@ -9,3 +9,4 @@ export { StatusBadge } from './status-badge';
 export { TimeUpdateable } from './time-updateable';
 export { Tooltip } from './tooltip';
 export { WithBackground, BackgroundBlur } from './with-background';
+export { Button } from './button/button';

@@ -1,5 +1,5 @@
 import { InfiniteScroll, SearchBox } from '@components/messenger-page';
-import { Modal, WithBackground } from '@components/shared';
+import { Button, Modal, WithBackground } from '@components/shared';
 import React, { useCallback, useState } from 'react';
 
 import { useSelector } from 'react-redux';
@@ -19,6 +19,7 @@ import { ReactComponent as GroupSvg } from '@icons/group.svg';
 
 import { AddUsersToGroupChat } from '@store/chats/features/add-users-to-group-chat/add-users-to-group-chat';
 import { GetFriends } from '@store/friends/features/get-friends/get-friends';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { SelectEntity } from '../shared/select-entity/select-entity';
 import './group-chat-add-friend-modal.scss';
 
@@ -31,13 +32,14 @@ export const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = 
     const { t } = useTranslation();
 
     const [selectedUserIds, setselectedUserIds] = useState<number[]>([]);
+    const [loading, setLoading] = useState(false);
 
     const friends = useSelector(getMyFriendsSelector);
     const hasMoreFriends = useSelector(getHasMoreFriendsSelector);
     const friendsLoading = useSelector(getFriendsLoadingSelector);
     const idsToExclude = useSelector(getMemberIdsForSelectedGroupChatSelector);
 
-    const addUsersToGroupChat = useActionWithDispatch(AddUsersToGroupChat.action);
+    const addUsersToGroupChat = useActionWithDeferred(AddUsersToGroupChat.action);
     const loadFriends = useActionWithDispatch(GetFriends.action);
 
     const isSelected = useCallback((id: number) => selectedUserIds.includes(id), [selectedUserIds]);
@@ -54,11 +56,14 @@ export const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = 
     );
 
     const addUsers = useCallback((): void => {
-      onClose();
+      setLoading(true);
 
       if (selectedUserIds.length > 0) {
         addUsersToGroupChat({
           users: friends.filter((friend) => selectedUserIds.includes(friend.id)),
+        }).then(() => {
+          setLoading(false);
+          onClose();
         });
       }
     }, [addUsersToGroupChat, selectedUserIds, onClose, friends]);
@@ -122,14 +127,15 @@ export const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = 
               onClick={onClose}>
               {t('groupChatAddFriendModal.cancel')}
             </button>,
-            <button
+            <Button
               key={2}
               disabled={selectedUserIds.length === 0}
+              loading={loading}
               type="button"
               onClick={addUsers}
               className="group-chat-add-friend-modal__btn group-chat-add-friend-modal__btn--confirm">
               {t('groupChatAddFriendModal.add_members')}
-            </button>,
+            </Button>,
           ]}
         />
       </WithBackground>

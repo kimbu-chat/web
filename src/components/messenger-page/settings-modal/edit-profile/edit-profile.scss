@@ -2,6 +2,7 @@
   display: inline-flex;
   flex-direction: column;
   padding-left: 40px;
+  overflow: hidden;
 
   &__title {
     color: var(--dt-white-wt-dark);
@@ -126,6 +127,7 @@
 
   &__btn {
     background: #3f8ae0;
+    --bg-color: #3f8ae0;
     border-radius: 6px;
     color: #fff;
     font-size: 16px;
@@ -138,11 +140,18 @@
       box-shadow: 0 3px 6px rgba(14, 22, 43, 0.62);
     }
 
+    &:disabled {
+      --bg-color: var(--disabled-btn);
+      background: var(--disabled-btn);
+      color: var(--disabled-btn-text);
+    }
+
     &--personal {
       margin-top: 32px;
     }
 
     &--delete {
+      --bg-color: #c74848;
       background: #c74848;
     }
   }

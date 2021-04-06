@@ -39,6 +39,7 @@
     font-size: 12px;
     font-weight: normal;
     line-height: 14px;
+    overflow: hidden;
     margin-right: 32px;
 
     &:hover {
@@ -47,11 +48,13 @@
 
     &--add {
       background: #3f8ae0;
+      --bg-color: #3f8ae0;
       padding: 11px 23px;
     }
 
     &--block {
       background: #c74848;
+      --bg-color: #c74848;
       padding: 11px 19px;
     }
   }

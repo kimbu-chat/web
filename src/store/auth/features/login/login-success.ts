@@ -24,7 +24,10 @@ export class LoginSuccess {
   static get saga() {
     return function* loginSuccess(action: ReturnType<typeof LoginSuccess.action>): SagaIterator {
       const authService = new AuthService();
-      yield apply(authService, authService.initialize, [action.payload.securityTokens]);
+      yield apply(authService, authService.initialize, [
+        action.payload.securityTokens,
+        { deviceId: action.payload.deviceId },
+      ]);
     };
   }
 }

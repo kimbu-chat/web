@@ -4,7 +4,7 @@ import './add-friend-modal.scss';
 
 import { useTranslation } from 'react-i18next';
 import { PhoneInputGroup } from '@components/messenger-page';
-import { WithBackground, Modal, Avatar } from '@components/shared';
+import { WithBackground, Modal, Avatar, Button } from '@components/shared';
 import { GetUserByPhone } from '@store/friends/features/get-user-by-phone/get-user-by-phone';
 import { IUser } from '@store/common/models';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
@@ -28,14 +28,17 @@ export const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
 
   const [phone, setPhone] = useState('');
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [success, setSucess] = useState(false);
   const [user, setUser] = useState<IUser | null>(null);
 
   const added = useSelector(isFriend(user?.id));
 
   const getRequiredUser = useCallback(() => {
+    setLoading(true);
     getUserByPhone({ phone })
       .then((result) => {
+        setLoading(false);
         if (result) {
           setUser(result);
         } else {
@@ -47,7 +50,11 @@ export const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
 
   const addRequiredUser = useCallback(() => {
     if (user) {
-      addFriend(user).then(() => setSucess(true));
+      setLoading(true);
+      addFriend(user).then(() => {
+        setLoading(false);
+        setSucess(true);
+      });
     }
   }, [user, addFriend]);
 
@@ -110,14 +117,15 @@ export const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
             </button>
           ) : null,
           !user ? (
-            <button
+            <Button
               disabled={!parsePhoneNumberFromString(phone)?.isValid()}
+              loading={loading}
               key={2}
               type="button"
               className="add-friends-modal__btn add-friends-modal__btn--confirm"
               onClick={getRequiredUser}>
               {t('addFriendModal.find')}
-            </button>
+            </Button>
           ) : null,
           user ? (
             <Link
@@ -130,13 +138,14 @@ export const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
             </Link>
           ) : null,
           user && !added ? (
-            <button
+            <Button
               key={4}
               type="button"
+              loading={loading}
               className="add-friends-modal__btn add-friends-modal__btn--confirm"
               onClick={addRequiredUser}>
               {t('addFriendModal.add')}
-            </button>
+            </Button>
           ) : null,
         ]}
       />

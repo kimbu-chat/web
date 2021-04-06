@@ -2,6 +2,8 @@ import { createAction } from 'typesafe-actions';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
+import { HTTPStatusCode } from '@common/http-status-code';
+import { Meta } from '@store/common/actions';
 import { IMessage } from '../../models/message';
 import { getChatMessageByIdSelector, getSelectedChatIdSelector } from '../../selectors';
 import { MessageLinkType } from '../../models';
@@ -12,7 +14,7 @@ import { IChatsState } from '../../chats-state';
 
 export class ForwardMessages {
   static get action() {
-    return createAction('FORWARD_MESSAGES')<IForwardMessagesActionPayload>();
+    return createAction('FORWARD_MESSAGES')<IForwardMessagesActionPayload, Meta>();
   }
 
   static get reducer() {
@@ -36,12 +38,6 @@ export class ForwardMessages {
     return function* forwardSaga(action: ReturnType<typeof ForwardMessages.action>): SagaIterator {
       const { messageIdsToForward, chatIdsToForward } = action.payload;
 
-      const messagesToForward: {
-        messageId: number;
-        serverMessageId: number;
-        chatId: number;
-      }[] = [];
-
       const forwardedChatId = yield select(getSelectedChatIdSelector);
 
       // eslint-disable-next-line no-restricted-syntax
@@ -64,15 +60,13 @@ export class ForwardMessages {
             },
           };
 
-          const { data } = CreateMessage.httpRequest.call(
+          const { status } = CreateMessage.httpRequest.call(
             yield call(() => CreateMessage.httpRequest.generator(messageCreationReq)),
           );
 
-          messagesToForward.push({
-            messageId,
-            serverMessageId: data,
-            chatId,
-          });
+          if (status === HTTPStatusCode.OK) {
+            action.meta.deferred?.resolve();
+          }
         }
       }
     };

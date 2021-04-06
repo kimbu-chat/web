@@ -1,4 +1,4 @@
-import { FadeAnimationWrapper, LabeledInput } from '@components/shared';
+import { Button, FadeAnimationWrapper, LabeledInput } from '@components/shared';
 import { PhotoEditor } from '@components/messenger-page';
 import { myProfileSelector } from '@store/my-profile/selectors';
 import React, { useCallback, useState, useRef } from 'react';
@@ -42,6 +42,7 @@ export const EditProfile = React.memo(() => {
   const [lastName, setLastName] = useState(myProfile?.lastName || '');
   const [error, setError] = useState<NicknameState>(NicknameState.ALLOWED_NICKNAME);
   const [isLoading, setIsLoading] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
   const [nickname, setNickname] = useState(myProfile?.nickname || '');
 
   const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
@@ -156,7 +157,10 @@ export const EditProfile = React.memo(() => {
       lastName !== myProfile?.lastName ||
       nickname !== myProfile?.nickname
     ) {
-      updateMyProfile({ firstName, lastName, nickname, avatar: newAvatar });
+      setSubmitLoading(true);
+      updateMyProfile({ firstName, lastName, nickname, avatar: newAvatar }).then(() => {
+        setSubmitLoading(false);
+      });
     }
   }, [
     newAvatar,
@@ -235,10 +239,11 @@ export const EditProfile = React.memo(() => {
           containerClassName="edit-profile__input"
           errorText={errorsMap[error]}
         />
-        <button
+        <Button
           type="button"
           onClick={sumbmitChanges}
           className="edit-profile__btn edit-profile__btn--personal"
+          loading={submitLoading}
           disabled={
             error !== NicknameState.ALLOWED_NICKNAME ||
             isLoading ||
@@ -246,7 +251,7 @@ export const EditProfile = React.memo(() => {
             lastName.length === 0
           }>
           {t('editProfile.save-changes')}
-        </button>
+        </Button>
 
         <h2 className="edit-profile__title edit-profile__title--phone">
           {t('editProfile.phone-number')}

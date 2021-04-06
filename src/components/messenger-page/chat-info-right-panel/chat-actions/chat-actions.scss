@@ -11,11 +11,17 @@
   }
 
   &__action {
+    --bg-color: var(--dt-grafit-wt-white);
     align-items: center;
     color: var(--dt-white-wt-dark);
     display: flex;
 
     margin-left: 24px;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
 
     &:not(:last-child) {
       margin-bottom: 16px;

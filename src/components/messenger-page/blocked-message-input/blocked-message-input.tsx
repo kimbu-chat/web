@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { ReactComponent as BlockedSvg } from '@icons/blocked.svg';
 import './blocked-message-input.scss';
 
@@ -7,6 +7,7 @@ import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { getSelectedInterlocutorIdSelector } from '@store/chats/selectors';
 import { UnblockUser } from '@store/settings/features/unblock-user/unblock-user';
 import { useSelector } from 'react-redux';
+import { Button } from '@components/shared';
 
 interface IBlockedMessageInputProps {
   isCurrentChatBlackListed?: boolean;
@@ -19,11 +20,16 @@ export const BlockedMessageInput: React.FC<IBlockedMessageInputProps> = ({
 
   const interlocutorId = useSelector(getSelectedInterlocutorIdSelector);
 
+  const [unBlocking, setUnBlocking] = useState(false);
+
   const unBlockUser = useActionWithDeferred(UnblockUser.action);
 
   const unBlockSelectedUser = useCallback(() => {
+    setUnBlocking(true);
     if (interlocutorId) {
-      unBlockUser(interlocutorId);
+      unBlockUser(interlocutorId).then(() => {
+        setUnBlocking(true);
+      });
     }
   }, [unBlockUser, interlocutorId]);
 
@@ -37,9 +43,13 @@ export const BlockedMessageInput: React.FC<IBlockedMessageInputProps> = ({
       </div>
 
       {isCurrentChatBlackListed && (
-        <button onClick={unBlockSelectedUser} type="button" className="blocked-message-input__btn">
+        <Button
+          loading={unBlocking}
+          onClick={unBlockSelectedUser}
+          type="button"
+          className="blocked-message-input__btn">
           {t('blockedMessageInput.unblock')}
-        </button>
+        </Button>
       )}
     </div>
   );

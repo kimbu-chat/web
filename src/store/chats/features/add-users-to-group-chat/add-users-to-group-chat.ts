@@ -4,6 +4,7 @@ import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import produce from 'immer';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { Meta } from '@store/common/actions';
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { getSelectedChatIdSelector } from '../../selectors';
 import { IAddUsersToGroupChatActionPayload } from './action-payloads/add-users-to-group-chat-action-payload';
@@ -14,7 +15,7 @@ import { IChatsState } from '../../chats-state';
 
 export class AddUsersToGroupChat {
   static get action() {
-    return createAction('ADD_USERS_TO_GROUP_CHAT')<IAddUsersToGroupChatActionPayload>();
+    return createAction('ADD_USERS_TO_GROUP_CHAT')<IAddUsersToGroupChatActionPayload, Meta>();
   }
 
   // TODO: handle loading
@@ -45,6 +46,7 @@ export class AddUsersToGroupChat {
 
       if (status === HTTPStatusCode.OK) {
         yield put(AddUsersToGroupChatSuccess.action({ chatId, users }));
+        action.meta.deferred?.resolve();
       }
     };
   }

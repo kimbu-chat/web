@@ -3,7 +3,7 @@ import { InfiniteScroll, SearchBox } from '@components/messenger-page';
 import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import './new-chat-modal.scss';
-import * as FriendActions from '@store/friends/actions';
+import { getFriendsAction } from '@store/friends/actions';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 
 import { useTranslation } from 'react-i18next';
@@ -39,7 +39,7 @@ export const NewChatModal: React.FC<INewChatModalProps> = React.memo(
     const hasMoreFriends = useSelector(getHasMoreFriendsSelector);
     const friendsLoading = useSelector(getFriendsLoadingSelector);
 
-    const loadFriends = useActionWithDispatch(FriendActions.getFriends);
+    const loadFriends = useActionWithDispatch(getFriendsAction);
 
     const history = useHistory();
 

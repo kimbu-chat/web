@@ -11,7 +11,7 @@ import { ReactComponent as PhotoSvg } from '@icons/ic-photo.svg';
 
 import { getInterlocutorInitials } from '@utils/interlocutor-name-utils';
 
-import * as ChatActions from '@store/chats/actions';
+import { getChatInfoAction, editGroupChatAction } from '@store/chats/actions';
 import { UploadAvatar } from '@store/my-profile/features/upload-avatar/upload-avatar';
 import { IAvatar, IAvatarSelectedData } from '@store/common/models';
 import { FileType } from '@store/chats/models';
@@ -23,8 +23,8 @@ import { ChatMedia } from './chat-media/chat-media';
 const ChatInfoRightPanel: React.FC = React.memo(() => {
   const selectedChat = useSelector(getSelectedChatSelector);
 
-  const getChatInfo = useActionWithDispatch(ChatActions.getChatInfo);
-  const editGroupChat = useActionWithDispatch(ChatActions.editGroupChat);
+  const getChatInfo = useActionWithDispatch(getChatInfoAction);
+  const editGroupChat = useActionWithDispatch(editGroupChatAction);
   const uploadGroupChatAvatar = useActionWithDeferred(UploadAvatar.action);
 
   const fileInputRef = useRef<HTMLInputElement>(null);

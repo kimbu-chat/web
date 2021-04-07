@@ -1,11 +1,11 @@
-import * as AuthActions from './auth/actions';
-import * as ChatActions from './chats/actions';
-import * as MyProfileActions from './my-profile/actions';
-import * as FriendActions from './friends/actions';
-import * as CallActions from './calls/actions';
-import * as InternetActions from './internet/actions';
-import * as SettingsActions from './settings/actions';
-import * as WebSocketActions from './web-sockets/actions';
+import { AuthActions } from './auth/actions';
+import { ChatActions } from './chats/actions';
+import { MyProfileActions } from './my-profile/actions';
+import { FriendActions } from './friends/actions';
+import { CallActions } from './calls/actions';
+import { InternetActions } from './internet/actions';
+import { SettingsActions } from './settings/actions';
+import { WebSocketActions } from './web-sockets/actions';
 
 export default {
   auth: AuthActions,

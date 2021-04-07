@@ -3,7 +3,7 @@ import './recordings-list.scss';
 
 import { useSelector } from 'react-redux';
 import { getSelectedChatRecordingsSelector } from '@store/chats/selectors';
-import * as ChatActions from '@store/chats/actions';
+import { getVoiceAttachmentsAction } from '@store/chats/actions';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import moment from 'moment';
 
@@ -15,7 +15,7 @@ import { Recording } from './recording/recording';
 export const RecordingsList = React.memo(() => {
   const recordingsForSelectedChat = useSelector(getSelectedChatRecordingsSelector);
 
-  const getRecordings = useActionWithDispatch(ChatActions.getVoiceAttachments);
+  const getRecordings = useActionWithDispatch(getVoiceAttachmentsAction);
 
   const loadMore = useCallback(() => {
     getRecordings({

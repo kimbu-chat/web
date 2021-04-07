@@ -8,7 +8,7 @@ import {
 } from '@store/chats/selectors';
 
 import { useTranslation } from 'react-i18next';
-import * as SelectedChatActions from '@store/chats/actions';
+import { changeChatMutedStatusAction } from '@store/chats/actions';
 
 import { ReactComponent as MuteSvg } from '@icons/mute.svg';
 import { ReactComponent as UnmuteSvg } from '@icons/unmute.svg';
@@ -19,7 +19,7 @@ import { ReactComponent as LeaveSvg } from '@icons/leave.svg';
 import { ReactComponent as AddUsersSvg } from '@icons/add-users.svg';
 
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import * as FriendActions from '@store/friends/actions';
+import { deleteFriendAction, addFriendAction } from '@store/friends/actions';
 import { FadeAnimationWrapper } from '@components/shared';
 import { CreateGroupChat } from '@components/messenger-page';
 import { ReactComponent as PeopleSvg } from '@icons/ic-group.svg';
@@ -54,9 +54,9 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
     [setCreateGroupChatModalOpened],
   );
 
-  const changeChatMutedStatus = useActionWithDispatch(SelectedChatActions.changeChatMutedStatus);
-  const deleteFriend = useActionWithDispatch(FriendActions.deleteFriend);
-  const addFriend = useActionWithDeferred(FriendActions.addFriend);
+  const changeChatMutedStatus = useActionWithDispatch(changeChatMutedStatusAction);
+  const deleteFriend = useActionWithDispatch(deleteFriendAction);
+  const addFriend = useActionWithDeferred(addFriendAction);
   const blockUser = useActionWithDeferred(BlockUser.action);
   const unBlockUser = useActionWithDeferred(UnblockUser.action);
 

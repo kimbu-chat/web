@@ -48,7 +48,7 @@ export const acceptCallAction = AcceptCall.action;
 export const changeMediaStatusAction = ChangeMediaStatus.action;
 export const changeScreenShareStatusAction = ChangeScreenShareStatus.action;
 export const closeScreenShareStatusAction = CloseScreenShareStatus.action;
-export const openScreenShareStatus = OpenScreenShareStatus.action;
+export const openScreenShareStatusAction = OpenScreenShareStatus.action;
 export const closeVideoStatusAction = CloseVideoStatus.action;
 export const openVideoStatusAction = OpenVideoStatus.action;
 export const closeAudioStatusAction = CloseAudioStatus.action;
@@ -56,17 +56,55 @@ export const openAudioStatusAction = OpenAudioStatus.action;
 export const gotDevicesInfoAction = GotDevicesInfo.action;
 export const switchDeviceAction = SwitchDevice.action;
 export const acceptCallSuccessAction = AcceptCallSuccess.action;
-export const spawnDeviceUpdateWatcher = SpawnDeviceUpdateWatcher.action;
-export const killDeviceUpdateWatcher = KillDeviceUpdateWatcher.action;
+export const spawnDeviceUpdateWatcherAction = SpawnDeviceUpdateWatcher.action;
+export const killDeviceUpdateWatcherAction = KillDeviceUpdateWatcher.action;
 export const openInterlocutorVideoStatusAction = OpenInterlocutorVideoStatus.action;
 export const openInterlocutorAudioStatusAction = OpenInterlocutorAudioStatus.action;
 
 // socket-events
-export const incomingCallEventHandler = IncomingCallEventHandler.action;
-export const renegotiationSentEventHandler = RenegotiationSentEventHandler.action;
-export const renegotiationAcceptedEventHandler = RenegotiationAcceptedEventHandler.action;
-export const interlocutorAcceptedCallEventHandler = InterlocutorAcceptedCallEventHandler.action;
-export const iceCandidateSentEventHandler = IceCandidateSentEventHandler.action;
-export const callEndedEventHandler = CallEndedEventHandler.action;
-export const callEndedEventHandlerSuccess = CallEndedEventHandlerSuccess.action;
-export const userEditedEventHandler = UserEditedEventHandler.action;
+export const incomingCallEventHandlerAction = IncomingCallEventHandler.action;
+export const renegotiationSentEventHandlerAction = RenegotiationSentEventHandler.action;
+export const renegotiationAcceptedEventHandlerAction = RenegotiationAcceptedEventHandler.action;
+export const interlocutorAcceptedCallEventHandlerAction =
+  InterlocutorAcceptedCallEventHandler.action;
+export const iceCandidateSentEventHandlerAction = IceCandidateSentEventHandler.action;
+export const callEndedEventHandlerAction = CallEndedEventHandler.action;
+export const callEndedEventHandlerSuccessAction = CallEndedEventHandlerSuccess.action;
+export const userEditedEventHandlerAction = UserEditedEventHandler.action;
+
+export const CallActions = {
+  getCallsAction,
+  getCallsSuccessAction,
+  outgoingCallAction,
+  changeActiveDeviceIdAction,
+  interlocutorBusyAction,
+  cancelCallAction,
+  cancelCallSuccessAction,
+  declineCallAction,
+  endCallAction,
+  timeoutCallAction,
+  acceptCallAction,
+  changeMediaStatusAction,
+  changeScreenShareStatusAction,
+  closeScreenShareStatusAction,
+  openScreenShareStatusAction,
+  closeVideoStatusAction,
+  openVideoStatusAction,
+  closeAudioStatusAction,
+  openAudioStatusAction,
+  gotDevicesInfoAction,
+  switchDeviceAction,
+  acceptCallSuccessAction,
+  spawnDeviceUpdateWatcherAction,
+  killDeviceUpdateWatcherAction,
+  openInterlocutorVideoStatusAction,
+  openInterlocutorAudioStatusAction,
+  incomingCallEventHandlerAction,
+  renegotiationSentEventHandlerAction,
+  renegotiationAcceptedEventHandlerAction,
+  interlocutorAcceptedCallEventHandlerAction,
+  iceCandidateSentEventHandlerAction,
+  callEndedEventHandlerAction,
+  callEndedEventHandlerSuccessAction,
+  userEditedEventHandlerAction,
+};

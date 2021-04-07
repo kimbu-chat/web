@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback } from 'react';
 import './incoming-call.scss';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import * as CallActions from '@store/calls/actions';
+import { declineCallAction, acceptCallAction } from '@store/calls/actions';
 import { useSelector } from 'react-redux';
 import {
   getCallInterlocutorSelector,
@@ -25,8 +25,8 @@ import { playSoundSafely } from '@utils/current-music';
 
 export const IncomingCall: React.FC = () => {
   const { t } = useTranslation();
-  const declineCallAction = useActionWithDispatch(CallActions.declineCallAction);
-  const acceptCall = useActionWithDispatch(CallActions.acceptCallAction);
+  const declineCall = useActionWithDispatch(declineCallAction);
+  const acceptCall = useActionWithDispatch(acceptCallAction);
 
   const interlocutor = useSelector(getCallInterlocutorSelector);
   const isIncomingCallVideoEnabled = useSelector(getIsIncomingCallVideoEnabledSelector);
@@ -97,7 +97,7 @@ export const IncomingCall: React.FC = () => {
           </button>
           <button
             type="button"
-            onClick={declineCallAction}
+            onClick={declineCall}
             className="incoming-call__call-btn incoming-call__call-btn--cancel">
             <DeclineCallSvg viewBox="0 0 13 14" />
           </button>

@@ -23,16 +23,38 @@ export const changeNotificationSoundStateAction = ChangeNotificationSoundState.a
 export const changeTypingStrategyAction = ChangeTypingStrategy.action;
 export const getUserSettingsSuccessAction = GetUserSettingsSuccess.action;
 export const getUserSettingsAction = GetUserSettings.action;
-export const changeTheme = ChangeTheme.action;
-export const changeFontSize = ChangeFontSize.action;
-export const changePushNotificationState = ChangePushNotificationState.action;
-export const getBlackListSuccess = GetBlackListSuccess.action;
-export const getBlackList = GetBlackList.action;
-export const blockUser = BlockUser.action;
-export const blockUserSuccess = BlockUserSuccess.action;
-export const unblockUser = UnblockUser.action;
-export const unblockUserSuccess = UnblockUserSuccess.action;
-export const getSessionList = GetSessionList.action;
-export const getSessionListSucess = GetSessionListSuccess.action;
-export const revokeSession = RevokeSession.action;
-export const revokeSessionSuccess = RevokeSessionSuccess.action;
+export const changeThemeAction = ChangeTheme.action;
+export const changeFontSizeAction = ChangeFontSize.action;
+export const changePushNotificationStateAction = ChangePushNotificationState.action;
+export const getBlackListSuccessAction = GetBlackListSuccess.action;
+export const getBlackListAction = GetBlackList.action;
+export const blockUserAction = BlockUser.action;
+export const blockUserSuccessAction = BlockUserSuccess.action;
+export const unblockUserAction = UnblockUser.action;
+export const unblockUserSuccessAction = UnblockUserSuccess.action;
+export const getSessionListAction = GetSessionList.action;
+export const getSessionListSucessAction = GetSessionListSuccess.action;
+export const revokeSessionAction = RevokeSession.action;
+export const revokeSessionSuccessAction = RevokeSessionSuccess.action;
+
+export const SettingsActions = {
+  // SettingsActions
+  changeLanguageAction,
+  changeNotificationSoundStateAction,
+  changeTypingStrategyAction,
+  getUserSettingsSuccessAction,
+  getUserSettingsAction,
+  changeThemeAction,
+  changeFontSizeAction,
+  changePushNotificationStateAction,
+  getBlackListSuccessAction,
+  getBlackListAction,
+  blockUserAction,
+  blockUserSuccessAction,
+  unblockUserAction,
+  unblockUserSuccessAction,
+  getSessionListAction,
+  getSessionListSucessAction,
+  revokeSessionAction,
+  revokeSessionSuccessAction,
+};

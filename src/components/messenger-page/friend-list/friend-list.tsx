@@ -1,5 +1,5 @@
 import { IPage } from '@store/common/models';
-import * as FriendActions from '@store/friends/actions';
+import { getFriendsAction } from '@store/friends/actions';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
@@ -18,7 +18,7 @@ export const FriendList = React.memo(() => {
   const hasMoreFriends = useSelector(getHasMoreFriendsSelector);
   const friendsLoading = useSelector(getFriendsLoadingSelector);
 
-  const loadFriends = useActionWithDeferred(FriendActions.getFriends);
+  const loadFriends = useActionWithDeferred(getFriendsAction);
 
   const loadMore = useCallback(() => {
     const page: IPage = {

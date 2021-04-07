@@ -8,7 +8,11 @@ import { ReactComponent as UserSvg } from '@icons/user.svg';
 import { ReactComponent as TopAvatarLine } from '@icons/top-avatar-line.svg';
 import { ReactComponent as PhotoSvg } from '@icons/picture.svg';
 import { ReactComponent as BottomAvatarLine } from '@icons/bottom-avatar-line.svg';
-import * as MyProfileActions from '@store/my-profile/actions';
+import {
+  uploadAvatarRequestAction,
+  updateMyProfileAction,
+  checkNicknameAvailabilityAction,
+} from '@store/my-profile/actions';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 
 import { useTranslation } from 'react-i18next';
@@ -28,11 +32,9 @@ export const EditProfile = React.memo(() => {
   const { t } = useTranslation();
   const myProfile = useSelector(myProfileSelector);
 
-  const uploadAvatar = useActionWithDeferred(MyProfileActions.uploadAvatarRequestAction);
-  const updateMyProfile = useActionWithDeferred(MyProfileActions.updateMyProfileAction);
-  const checkNicknameAvailability = useActionWithDeferred(
-    MyProfileActions.checkNicknameAvailabilityAction,
-  );
+  const uploadAvatar = useActionWithDeferred(uploadAvatarRequestAction);
+  const updateMyProfile = useActionWithDeferred(updateMyProfileAction);
+  const checkNicknameAvailability = useActionWithDeferred(checkNicknameAvailabilityAction);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 

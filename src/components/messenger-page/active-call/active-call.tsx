@@ -15,7 +15,14 @@ import {
   getVideoDevicesSelector,
 } from '@store/calls/selectors';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import * as CallActions from '@store/calls/actions';
+import {
+  cancelCallAction,
+  changeMediaStatusAction,
+  changeScreenShareStatusAction,
+  endCallAction,
+  outgoingCallAction,
+  switchDeviceAction,
+} from '@store/calls/actions';
 import moment from 'moment';
 import { Rnd } from 'react-rnd';
 import { Avatar } from '@components/shared';
@@ -69,12 +76,12 @@ export const ActiveCall: React.FC = () => {
   const activeAudioDevice = audioConstraints.deviceId;
   const activeVideoDevice = videoConstraints.deviceId;
 
-  const changeMediaStatus = useActionWithDispatch(CallActions.changeMediaStatusAction);
-  const endCall = useActionWithDispatch(CallActions.endCallAction);
-  const callInterlocutor = useActionWithDispatch(CallActions.outgoingCallAction);
-  const changeScreenShareStatus = useActionWithDispatch(CallActions.changeScreenShareStatusAction);
-  const switchDevice = useActionWithDispatch(CallActions.switchDeviceAction);
-  const cancelCall = useActionWithDispatch(CallActions.cancelCallAction);
+  const changeMediaStatus = useActionWithDispatch(changeMediaStatusAction);
+  const endCall = useActionWithDispatch(endCallAction);
+  const callInterlocutor = useActionWithDispatch(outgoingCallAction);
+  const changeScreenShareStatus = useActionWithDispatch(changeScreenShareStatusAction);
+  const switchDevice = useActionWithDispatch(switchDeviceAction);
+  const cancelCall = useActionWithDispatch(cancelCallAction);
 
   const remoteVideoRef = useRef<HTMLVideoElement>(null);
   const remoteAudioRef = useRef<HTMLAudioElement>(null);

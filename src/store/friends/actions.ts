@@ -12,17 +12,35 @@ import { UserEditedEventHandler } from './socket-events/user-edited/user-edited-
 import { UserStatusChangedEventHandler } from './socket-events/user-status-changed/user-status-changed-event-handler';
 
 // FriendActions
-export const getFriends = GetFriends.action;
-export const getFriendsSuccess = GetFriendsSuccess.action;
-export const deleteFriend = DeleteFriend.action;
-export const deleteFriendSuccess = DeleteFriendSuccess.action;
-export const addFriend = AddFriend.action;
-export const addFriendSuccess = AddFriendSuccess.action;
-export const getUserByPhone = GetUserByPhone.action;
-export const dismissToAddContact = DismissToAddContact.action;
-export const dismissToAddContactSuccess = DismissToAddContactSuccess.action;
+export const getFriendsAction = GetFriends.action;
+export const getFriendsSuccessAction = GetFriendsSuccess.action;
+export const deleteFriendAction = DeleteFriend.action;
+export const deleteFriendSuccessAction = DeleteFriendSuccess.action;
+export const addFriendAction = AddFriend.action;
+export const addFriendSuccessAction = AddFriendSuccess.action;
+export const getUserByPhoneAction = GetUserByPhone.action;
+export const dismissToAddContactAction = DismissToAddContact.action;
+export const dismissToAddContactSuccessAction = DismissToAddContactSuccess.action;
 
 // socket-events
-export const userStatusChangedEvent = UserStatusChangedEventHandler.action;
-export const userContactsRemovedEventHandler = UserContactsRemovedEventHandler.action;
-export const userEditedEventHandler = UserEditedEventHandler.action;
+export const userStatusChangedEventAction = UserStatusChangedEventHandler.action;
+export const userContactsRemovedEventHandlerAction = UserContactsRemovedEventHandler.action;
+export const userEditedEventHandlerAction = UserEditedEventHandler.action;
+
+export const FriendActions = {
+  // FriendActions
+  getFriendsAction,
+  getFriendsSuccessAction,
+  deleteFriendAction,
+  deleteFriendSuccessAction,
+  addFriendAction,
+  addFriendSuccessAction,
+  getUserByPhoneAction,
+  dismissToAddContactAction,
+  dismissToAddContactSuccessAction,
+
+  // socket-events
+  userStatusChangedEventAction,
+  userContactsRemovedEventHandlerAction,
+  userEditedEventHandlerAction,
+};

@@ -3,7 +3,7 @@ import './file-list.scss';
 
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { useSelector } from 'react-redux';
-import * as ChatActions from '@store/chats/actions';
+import { getRawAttachmentsAction } from '@store/chats/actions';
 import { getSelectedChatFilesSelector } from '@store/chats/selectors';
 import { IPage } from '@store/common/models';
 import moment from 'moment';
@@ -13,7 +13,7 @@ import { InfiniteScroll, FileAttachment } from '@components/messenger-page';
 import { FILE_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 
 export const FileList = React.memo(() => {
-  const getRawAttachments = useActionWithDispatch(ChatActions.getRawAttachments);
+  const getRawAttachments = useActionWithDispatch(getRawAttachmentsAction);
 
   const filesForSelectedChat = useSelector(getSelectedChatFilesSelector);
 

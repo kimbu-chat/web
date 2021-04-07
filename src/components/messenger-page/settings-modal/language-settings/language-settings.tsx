@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import * as SettingsActions from '@store/settings/actions';
+import { changeLanguageAction } from '@store/settings/actions';
 import { getCurrentLanguageSelector } from '@store/settings/selectors';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import React, { useCallback } from 'react';
@@ -15,7 +15,7 @@ export const LanguageSettings = React.memo(() => {
 
   const currentLanguage = useSelector(getCurrentLanguageSelector);
 
-  const changeLanguage = useActionWithDispatch(SettingsActions.changeLanguageAction);
+  const changeLanguage = useActionWithDispatch(changeLanguageAction);
   const setEnLang = useCallback(() => {
     i18n?.changeLanguage(Langs.En);
     changeLanguage({ language: Langs.En });

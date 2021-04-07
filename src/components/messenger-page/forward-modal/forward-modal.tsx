@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 
 import { useTranslation } from 'react-i18next';
-import * as ChatActions from '@store/chats/actions';
+import { getChatsAction } from '@store/chats/actions';
 import {
   getChatsSelector,
   getHasMoreChatsSelector,
@@ -37,7 +37,7 @@ export const ForwardModal: React.FC<IForwardModalProps> = React.memo(
 
     const [selectedChatIds, setSelectedChatIds] = useState<number[]>([]);
 
-    const loadChats = useActionWithDispatch(ChatActions.getChats);
+    const loadChats = useActionWithDispatch(getChatsAction);
     const forwardMessages = useActionWithDispatch(ForwardMessages.action);
 
     const isSelected = useCallback((id: number) => selectedChatIds.includes(id), [selectedChatIds]);

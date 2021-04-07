@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import * as SettingsActions from '@store/settings/actions';
+import { changeTypingStrategyAction } from '@store/settings/actions';
 
 import { getTypingStrategySelector } from '@store/settings/selectors';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
@@ -14,7 +14,7 @@ export const KeyBindings = React.memo(() => {
 
   const currentStrategy = useSelector(getTypingStrategySelector);
 
-  const changeTypingStrategy = useActionWithDispatch(SettingsActions.changeTypingStrategyAction);
+  const changeTypingStrategy = useActionWithDispatch(changeTypingStrategyAction);
   const setNle = useCallback(() => {
     changeTypingStrategy({ strategy: TypingStrategy.Nle });
   }, [changeTypingStrategy]);

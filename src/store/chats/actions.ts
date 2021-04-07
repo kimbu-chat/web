@@ -73,80 +73,160 @@ import { RemoveUserFromGroupChatSuccess } from './features/remove-user-from-grou
 import { MessageCreatedEventHandlerSuccess } from './socket-events/message-created/message-created-event-handler-success';
 
 // ChatActions
-export const getChats = GetChats.action;
-export const getPhotoAttachments = GetPhotoAttachments.action;
-export const getVideoAttachments = GetVideoAttachments.action;
-export const getRawAttachments = GetRawAttachments.action;
-export const getVoiceAttachments = GetVoiceAttachments.action;
-export const getAudioAttachments = GetAudioAttachments.action;
-export const getChatInfo = GetChatInfo.action;
-export const getChatsSuccess = GetChatsSuccess.action;
-export const getChatsFailure = GetChatsFailure.action;
-export const getPhotoAttachmentsSuccess = GetPhotoAttachmentsSuccess.action;
-export const getVideoAttachmentsSuccess = GetVideoAttachmentsSuccess.action;
-export const getRawAttachmentsSuccess = GetRawAttachmentsSuccess.action;
-export const getVoiceAttachmentsSuccess = GetVoiceAttachmentsSuccess.action;
-export const getAudioAttachmentsSuccess = GetAudioAttachmentsSuccess.action;
-export const getChatInfoSuccess = GetChatInfoSuccess.action;
-export const changeSelectedChat = ChangeSelectedChat.action;
-export const unshiftChat = UnshiftChat.action;
-export const changeChatMutedStatus = ChangeChatMutedStatus.action;
-export const changeChatMutedStatusSuccess = ChangeChatMutedStatusSuccess.action;
-export const createGroupChat = CreateGroupChat.action;
-export const createGroupChatSuccess = CreateGroupChatSuccess.action;
-export const editGroupChat = EditGroupChat.action;
-export const editGroupChatSuccess = EditGroupChatSuccess.action;
-export const getGroupChatUsers = GetGroupChatUsers.action;
-export const getGroupChatUsersSuccess = GetGroupChatUsersSuccess.action;
-export const leaveGroupChat = LeaveGroupChat.action;
-export const leaveGroupChatSuccess = LeaveGroupChatSuccess.action;
-export const addUsersToGroupChat = AddUsersToGroupChat.action;
-export const addUsersToGroupChatSuccess = AddUsersToGroupChatSuccess.action;
-export const interlocutorStoppedTyping = InterlocutorStoppedTyping.action;
+export const getChatsAction = GetChats.action;
+export const getPhotoAttachmentsAction = GetPhotoAttachments.action;
+export const getVideoAttachmentsAction = GetVideoAttachments.action;
+export const getRawAttachmentsAction = GetRawAttachments.action;
+export const getVoiceAttachmentsAction = GetVoiceAttachments.action;
+export const getAudioAttachmentsAction = GetAudioAttachments.action;
+export const getChatInfoAction = GetChatInfo.action;
+export const getChatsSuccessAction = GetChatsSuccess.action;
+export const getChatsFailureAction = GetChatsFailure.action;
+export const getPhotoAttachmentsSuccessAction = GetPhotoAttachmentsSuccess.action;
+export const getVideoAttachmentsSuccessAction = GetVideoAttachmentsSuccess.action;
+export const getRawAttachmentsSuccessAction = GetRawAttachmentsSuccess.action;
+export const getVoiceAttachmentsSuccessAction = GetVoiceAttachmentsSuccess.action;
+export const getAudioAttachmentsSuccessAction = GetAudioAttachmentsSuccess.action;
+export const getChatInfoSuccessAction = GetChatInfoSuccess.action;
+export const changeSelectedChatAction = ChangeSelectedChat.action;
+export const unshiftChatAction = UnshiftChat.action;
+export const changeChatMutedStatusAction = ChangeChatMutedStatus.action;
+export const changeChatMutedStatusSuccessAction = ChangeChatMutedStatusSuccess.action;
+export const createGroupChatAction = CreateGroupChat.action;
+export const createGroupChatSuccessAction = CreateGroupChatSuccess.action;
+export const editGroupChatAction = EditGroupChat.action;
+export const editGroupChatSuccessAction = EditGroupChatSuccess.action;
+export const getGroupChatUsersAction = GetGroupChatUsers.action;
+export const getGroupChatUsersSuccessAction = GetGroupChatUsersSuccess.action;
+export const leaveGroupChatAction = LeaveGroupChat.action;
+export const leaveGroupChatSuccessAction = LeaveGroupChatSuccess.action;
+export const addUsersToGroupChatAction = AddUsersToGroupChat.action;
+export const addUsersToGroupChatSuccessAction = AddUsersToGroupChatSuccess.action;
+export const interlocutorStoppedTypingAction = InterlocutorStoppedTyping.action;
 export const uploadAttachmentRequestAction = UploadAttachmentRequest.action;
 export const uploadAttachmentProgressAction = UploadAttachmentProgress.action;
 export const uploadAttachmentSuccessAction = UploadAttachmentSuccess.action;
 export const uploadAttachmentFailureAction = UploadAttachmentFailure.action;
 export const removeAttachmentAction = RemoveAttachment.action;
-export const markMessagesAsRead = MarkMessagesAsRead.action;
-export const markMessagesAsReadSuccess = MarkMessagesAsReadSuccess.action;
-export const getMessages = GetMessages.action;
-export const getMessagesSuccess = GetMessagesSuccess.action;
-export const getMessagesFailure = GetMessagesFailure.action;
-export const createMessage = CreateMessage.action;
-export const createMessageSuccess = CreateMessageSuccess.action;
-export const messageTyping = MessageTyping.action;
-export const deleteMessage = DeleteMessage.action;
-export const deleteMessageSuccess = DeleteMessageSuccess.action;
-export const selectMessage = SelectMessage.action;
-export const resetSelectedMessages = ResetSelectedMessages.action;
-export const copyMessages = CopyMessages.action;
-export const replyToMessage = ReplyToMessage.action;
-export const resetReplyToMessage = ResetReplyToMessage.action;
-export const editMessage = EditMessage.action;
-export const submitEditMessage = SubmitEditMessage.action;
-export const submitEditMessageSuccess = SubmitEditMessageSuccess.action;
-export const resetEditMessage = ResetEditMessage.action;
-export const clearChatHistory = ClearChatHistory.action;
-export const clearChatHistorySuccess = ClearChatHistorySuccess.action;
-export const forwardMessages = ForwardMessages.action;
-export const changeChatInfoOpened = ChangeChatInfoOpened.action;
-export const removeAllAttachments = RemoveAllAttachments.action;
-export const removeUserFromGroupChat = RemoveUserFromGroupChat.action;
-export const removeUserFromGroupChatSuccess = RemoveUserFromGroupChatSuccess.action;
+export const markMessagesAsReadAction = MarkMessagesAsRead.action;
+export const markMessagesAsReadSuccessAction = MarkMessagesAsReadSuccess.action;
+export const getMessagesAction = GetMessages.action;
+export const getMessagesSuccessAction = GetMessagesSuccess.action;
+export const getMessagesFailureAction = GetMessagesFailure.action;
+export const createMessageAction = CreateMessage.action;
+export const createMessageSuccessAction = CreateMessageSuccess.action;
+export const messageTypingAction = MessageTyping.action;
+export const deleteMessageAction = DeleteMessage.action;
+export const deleteMessageSuccessAction = DeleteMessageSuccess.action;
+export const selectMessageAction = SelectMessage.action;
+export const resetSelectedMessagesAction = ResetSelectedMessages.action;
+export const copyMessagesAction = CopyMessages.action;
+export const replyToMessageAction = ReplyToMessage.action;
+export const resetReplyToMessageAction = ResetReplyToMessage.action;
+export const editMessageAction = EditMessage.action;
+export const submitEditMessageAction = SubmitEditMessage.action;
+export const submitEditMessageSuccessAction = SubmitEditMessageSuccess.action;
+export const resetEditMessageAction = ResetEditMessage.action;
+export const clearChatHistoryAction = ClearChatHistory.action;
+export const clearChatHistorySuccessAction = ClearChatHistorySuccess.action;
+export const forwardMessagesAction = ForwardMessages.action;
+export const changeChatInfoOpenedAction = ChangeChatInfoOpened.action;
+export const removeAllAttachmentsAction = RemoveAllAttachments.action;
+export const removeUserFromGroupChatAction = RemoveUserFromGroupChat.action;
+export const removeUserFromGroupChatSuccessAction = RemoveUserFromGroupChatSuccess.action;
 
 // socket-events
 
-export const userMessageTypingEventHandler = UserMessageTypingEventHandler.action;
-export const memberLeftGroupChatEventHandler = MemberLeftGroupChatEventHandler.action;
-export const groupChatEditedEventHandler = GroupChatEditedEventHandler.action;
-export const groupChatCreatedEventHandler = GroupChatCreatedEventHandler.action;
-export const chatMutedStatusChangedEventHandler = ChatMutedStatusChangedEventHandler.action;
-export const messageCreatedEventHandler = MessageCreatedEventHandler.action;
-export const messageCreatedEventHandlerSuccess = MessageCreatedEventHandlerSuccess.action;
-export const messageReadEventHandler = MessageReadEventHandler.action;
-export const messageEditedEventHandler = MessageEditedEventHandler.action;
-export const chatClearedEventHandler = ChatClearedEventHandler.action;
-export const userEditedEventHandler = UserEditedEventHandler.action;
-export const messagesDeletedIntegrationEventHandlerSuccess =
+export const userMessageTypingEventHandlerAction = UserMessageTypingEventHandler.action;
+export const memberLeftGroupChatEventHandlerAction = MemberLeftGroupChatEventHandler.action;
+export const groupChatEditedEventHandlerAction = GroupChatEditedEventHandler.action;
+export const groupChatCreatedEventHandlerAction = GroupChatCreatedEventHandler.action;
+export const chatMutedStatusChangedEventHandlerAction = ChatMutedStatusChangedEventHandler.action;
+export const messageCreatedEventHandlerAction = MessageCreatedEventHandler.action;
+export const messageCreatedEventHandlerSuccessAction = MessageCreatedEventHandlerSuccess.action;
+export const messageReadEventHandlerAction = MessageReadEventHandler.action;
+export const messageEditedEventHandlerAction = MessageEditedEventHandler.action;
+export const chatClearedEventHandlerAction = ChatClearedEventHandler.action;
+export const userEditedEventHandlerAction = UserEditedEventHandler.action;
+export const messagesDeletedIntegrationEventHandlerSuccessAction =
   MessagesDeletedIntegrationEventHandlerSuccess.action;
+
+export const ChatActions = {
+  // ChatActions
+  getChatsAction,
+  getPhotoAttachmentsAction,
+  getVideoAttachmentsAction,
+  getRawAttachmentsAction,
+  getVoiceAttachmentsAction,
+  getAudioAttachmentsAction,
+  getChatInfoAction,
+  getChatsSuccessAction,
+  getChatsFailureAction,
+  getPhotoAttachmentsSuccessAction,
+  getVideoAttachmentsSuccessAction,
+  getRawAttachmentsSuccessAction,
+  getVoiceAttachmentsSuccessAction,
+  getAudioAttachmentsSuccessAction,
+  getChatInfoSuccessAction,
+  changeSelectedChatAction,
+  unshiftChatAction,
+  changeChatMutedStatusAction,
+  changeChatMutedStatusSuccessAction,
+  createGroupChatAction,
+  createGroupChatSuccessAction,
+  editGroupChatAction,
+  editGroupChatSuccessAction,
+  getGroupChatUsersAction,
+  getGroupChatUsersSuccessAction,
+  leaveGroupChatAction,
+  leaveGroupChatSuccessAction,
+  addUsersToGroupChatAction,
+  addUsersToGroupChatSuccessAction,
+  interlocutorStoppedTypingAction,
+  uploadAttachmentRequestAction,
+  uploadAttachmentProgressAction,
+  uploadAttachmentSuccessAction,
+  uploadAttachmentFailureAction,
+  removeAttachmentAction,
+  markMessagesAsReadAction,
+  markMessagesAsReadSuccessAction,
+  getMessagesAction,
+  getMessagesSuccessAction,
+  getMessagesFailureAction,
+  createMessageAction,
+  createMessageSuccessAction,
+  messageTypingAction,
+  deleteMessageAction,
+  deleteMessageSuccessAction,
+  selectMessageAction,
+  resetSelectedMessagesAction,
+  copyMessagesAction,
+  replyToMessageAction,
+  resetReplyToMessageAction,
+  editMessageAction,
+  submitEditMessageAction,
+  submitEditMessageSuccessAction,
+  resetEditMessageAction,
+  clearChatHistoryAction,
+  clearChatHistorySuccessAction,
+  forwardMessagesAction,
+  changeChatInfoOpenedAction,
+  removeAllAttachmentsAction,
+  removeUserFromGroupChatAction,
+  removeUserFromGroupChatSuccessAction,
+
+  // socket-events
+
+  userMessageTypingEventHandlerAction,
+  memberLeftGroupChatEventHandlerAction,
+  groupChatEditedEventHandlerAction,
+  groupChatCreatedEventHandlerAction,
+  chatMutedStatusChangedEventHandlerAction,
+  messageCreatedEventHandlerAction,
+  messageCreatedEventHandlerSuccessAction,
+  messageReadEventHandlerAction,
+  messageEditedEventHandlerAction,
+  chatClearedEventHandlerAction,
+  userEditedEventHandlerAction,
+  messagesDeletedIntegrationEventHandlerSuccessAction,
+};

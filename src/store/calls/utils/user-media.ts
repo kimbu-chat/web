@@ -219,7 +219,6 @@ export function* getAndSendUserMedia(): SagaIterator {
     }
     if (tracks.audioTrack) {
       audioSender = peerConnection?.addTrack(tracks.audioTrack, localMediaStream) as RTCRtpSender;
-      console.log('audio track sent');
     }
   }
 }

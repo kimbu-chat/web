@@ -4,6 +4,8 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, select, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { replaceInUrl } from '@utils/replace-in-url';
+import { MAIN_API } from '@common/paths';
 import {
   getChatByIdSelector,
   getChatByIdDraftSelector,
@@ -92,13 +94,11 @@ export class ChangeSelectedChat {
   static get httpRequest() {
     return {
       getChat: httpRequestFactory<AxiosResponse<IChat>, IGetChatByIdApiRequest>(
-        ({ chatId }: IGetChatByIdApiRequest) =>
-          `${window.__config.REACT_APP_MAIN_API}/api/chats/${chatId}`,
+        ({ chatId }: IGetChatByIdApiRequest) => replaceInUrl(MAIN_API.GET_CHAT, ['chatId', chatId]),
         HttpRequestMethod.Get,
       ),
       getUser: httpRequestFactory<AxiosResponse<IUser>, IGetUserByIdApiRequest>(
-        ({ userId }: IGetUserByIdApiRequest) =>
-          `${window.__config.REACT_APP_MAIN_API}/api/users/${userId.toString()}`,
+        ({ userId }: IGetUserByIdApiRequest) => replaceInUrl(MAIN_API.GET_USER, ['userId', userId]),
         HttpRequestMethod.Get,
       ),
     };

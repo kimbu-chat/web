@@ -4,6 +4,7 @@ import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import produce from 'immer';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { MAIN_API } from '@common/paths';
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { getChatByIdDraftSelector, getSelectedChatIdSelector } from '../../selectors';
 import { IGetVoiceAttachmentsActionPayload } from './action-payloads/get-voice-attachments-action-payload';
@@ -51,7 +52,7 @@ export class GetVoiceAttachments {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IVoiceAttachment[]>, IGetVoiceAttachmentsApiRequest>(
-      `${window.__config.REACT_APP_MAIN_API}/api/voice-attachments/search`,
+      MAIN_API.GET_VOICE_ATTACHMENTS,
       HttpRequestMethod.Post,
     );
   }

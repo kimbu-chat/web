@@ -5,6 +5,7 @@ import { call } from 'redux-saga/effects';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { createEmptyAction } from '@store/common/actions';
 import { resetPeerConnection } from '@store/middlewares/webRTC/reset-peer-connection';
+import { MAIN_API } from '@common/paths';
 import { ICallsState } from '../../calls-state';
 
 export class EndCall {
@@ -36,9 +37,6 @@ export class EndCall {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse>(
-      `${window.__config.REACT_APP_MAIN_API}/api/calls/end-call`,
-      HttpRequestMethod.Post,
-    );
+    return httpRequestFactory<AxiosResponse>(MAIN_API.END_CALL, HttpRequestMethod.Post);
   }
 }

@@ -1,6 +1,8 @@
+import { MAIN_API } from '@common/paths';
 import { Meta } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { IUser } from '@store/common/models';
+import { replaceInUrl } from '@utils/replace-in-url';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
@@ -38,7 +40,7 @@ export class GetUserByPhone {
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IUser>, { phone: string }>(
       ({ phone }: { phone: string }) =>
-        `${window.__config.REACT_APP_MAIN_API}/api/users/phone-number/${phone}`,
+        replaceInUrl(MAIN_API.GET_USER_BY_PHONE, ['phoneNumber', phone]),
       HttpRequestMethod.Get,
     );
   }

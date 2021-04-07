@@ -4,6 +4,7 @@ import { SagaIterator } from 'redux-saga';
 import { HTTPStatusCode } from '@common/http-status-code';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { createEmptyDefferedAction } from '@store/common/actions';
+import { MAIN_API } from '@common/paths';
 import { getSelectedChatSelector } from '../../selectors';
 import { IChangeChatMutedStatusApiRequest } from './api-requests/change-chat-muted-status-api-request';
 import { ChangeChatMutedStatusSuccess } from './change-chat-muted-status-success';
@@ -42,7 +43,7 @@ export class ChangeChatMutedStatus {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, IChangeChatMutedStatusApiRequest>(
-      `${window.__config.REACT_APP_MAIN_API}/api/chats/change-muted-status`,
+      MAIN_API.CHANGE_CHAT_MUTED_STATUS,
       HttpRequestMethod.Put,
     );
   }

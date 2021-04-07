@@ -5,6 +5,7 @@ import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { createEmptyAction } from '@store/common/actions';
 import { resetPeerConnection } from '@store/middlewares/webRTC/reset-peer-connection';
 import { getCallInterlocutorIdSelector } from '@store/calls/selectors';
+import { MAIN_API } from '@common/paths';
 import { CancelCallSuccess } from '../cancel-call/cancel-call-success';
 
 export class TimeoutCall {
@@ -29,9 +30,6 @@ export class TimeoutCall {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse>(
-      `${window.__config.REACT_APP_MAIN_API}/api/calls/mark-call-as-not-answered`,
-      HttpRequestMethod.Post,
-    );
+    return httpRequestFactory<AxiosResponse>(MAIN_API.TIMEOUT_CALL, HttpRequestMethod.Post);
   }
 }

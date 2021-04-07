@@ -4,6 +4,7 @@ import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { NOTIFICATIONS_API } from '@common/paths';
 import { myFullNameSelector } from '../../../my-profile/selectors';
 import { getSelectedChatIdSelector, getChatByIdDraftSelector } from '../../selectors';
 
@@ -44,7 +45,7 @@ export class MessageTyping {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, IMessageTypingApiRequest>(
-      `${window.__config.REACT_APP_NOTIFICATIONS_API}/api/message/notify-interlocutor-about-message-typing`,
+      NOTIFICATIONS_API.MESSAGE_TYPING,
       HttpRequestMethod.Post,
     );
   }

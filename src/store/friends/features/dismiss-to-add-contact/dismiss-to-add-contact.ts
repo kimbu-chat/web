@@ -4,6 +4,7 @@ import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { Meta } from '@store/common/actions';
+import { MAIN_API } from '@common/paths';
 import { IDismissToAddContact } from './api-requests/dismiss-to-add-contact-api-request';
 import { DismissToAddContactSuccess } from './dismiss-to-add-contact-success';
 
@@ -28,7 +29,7 @@ export class DismissToAddContact {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, IDismissToAddContact>(
-      `${window.__config.REACT_APP_MAIN_API}/api/chats/dismiss-add-to-contacts`,
+      MAIN_API.DISMISS_CONTACT,
       HttpRequestMethod.Post,
     );
   }

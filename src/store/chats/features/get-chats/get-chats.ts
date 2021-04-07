@@ -4,6 +4,7 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { MAIN_API } from '@common/paths';
 import { IPage } from '../../../common/models';
 import { CHATS_LIMIT } from '../../../../utils/pagination-limits';
 import { IChat } from '../../models';
@@ -85,7 +86,7 @@ export class GetChats {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IChat[]>, IGetChatsApiRequest>(
-      `${window.__config.REACT_APP_MAIN_API}/api/chats/search`,
+      MAIN_API.GET_CHATS,
       HttpRequestMethod.Post,
     );
   }

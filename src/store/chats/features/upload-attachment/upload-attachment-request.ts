@@ -5,6 +5,7 @@ import { put, call, select, apply } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { httpFilesRequestFactory, HttpRequestMethod } from '@store/common/http';
 import type { IFilesRequestGenerator } from '@store/common/http';
+import { FILES_API } from '@common/paths';
 import { getChatByIdDraftSelector, getSelectedChatIdSelector } from '../../selectors';
 import { addUploadingAttachment, removeUploadingAttachment } from '../../upload-qeue';
 import { UploadAttachmentFailure } from './upload-attachment-failure';
@@ -137,23 +138,23 @@ export class UploadAttachmentRequest {
       uploadAudioAttachment: httpFilesRequestFactory<
         AxiosResponse<IUploadAudioApiResponse>,
         FormData
-      >(`${window.__config.REACT_APP_FILES_API}/api/audio-attachments`, HttpRequestMethod.Post),
+      >(FILES_API.UPLOAD_AUDIO_ATTACHMENTS, HttpRequestMethod.Post),
       uploadPictureAttachment: httpFilesRequestFactory<
         AxiosResponse<IUploadPictureApiResponse>,
         FormData
-      >(`${window.__config.REACT_APP_FILES_API}/api/picture-attachments`, HttpRequestMethod.Post),
+      >(FILES_API.UPLOAD_PICTURE_ATTACHMENTS, HttpRequestMethod.Post),
       uploadFileAttachment: httpFilesRequestFactory<
         AxiosResponse<IUploadFileApiResponse>,
         FormData
-      >(`${window.__config.REACT_APP_FILES_API}/api/raw-attachments`, HttpRequestMethod.Post),
+      >(FILES_API.UPLOAD_RAW_ATTACHMENTS, HttpRequestMethod.Post),
       uploadVideoAttachment: httpFilesRequestFactory<
         AxiosResponse<IUploadVideoApiResponse>,
         FormData
-      >(`${window.__config.REACT_APP_FILES_API}/api/video-attachments`, HttpRequestMethod.Post),
+      >(FILES_API.UPLOAD_VIDEO_ATTACHMENTS, HttpRequestMethod.Post),
       uploadVoiceAttachment: httpFilesRequestFactory<
         AxiosResponse<IUploadVoiceApiResponse>,
         FormData
-      >(`${window.__config.REACT_APP_FILES_API}/api/voice-attachments`, HttpRequestMethod.Post),
+      >(FILES_API.UPLOAD_VOICE_ATTACHMENTS, HttpRequestMethod.Post),
     };
   }
 }

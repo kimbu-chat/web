@@ -6,6 +6,7 @@ import { createAction } from 'typesafe-actions';
 import { AxiosResponse } from 'axios';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
+import { MAIN_API } from '@common/paths';
 import { MessageState } from '../../models';
 import { CreateMessageSuccess } from './create-message-success';
 import { ICreateMessageActionPayload } from './action-payloads/create-message-action-payload';
@@ -86,7 +87,7 @@ export class CreateMessage {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<number>, ICreateMessageApiRequest>(
-      `${window.__config.REACT_APP_MAIN_API}/api/messages`,
+      MAIN_API.MESSAGES,
       HttpRequestMethod.Post,
     );
   }

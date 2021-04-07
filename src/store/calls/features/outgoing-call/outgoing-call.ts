@@ -5,6 +5,8 @@ import { createAction, RootState } from 'typesafe-actions';
 
 import { AxiosResponse } from 'axios';
 import { httpRequestFactory } from '@store/common/http/http-factory';
+import { MAIN_API } from '@common/paths';
+
 import { HttpRequestMethod } from '@store/common/http/http-request-method';
 import { getIsVideoEnabledSelector } from '../../selectors';
 
@@ -143,7 +145,7 @@ export class OutgoingCall {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IOutgoingCallApiResponse>, IOutgoingCallApiRequest>(
-      `${window.__config.REACT_APP_MAIN_API}/api/calls/send-call-offer`,
+      MAIN_API.SEND_CALL_OFFER,
       HttpRequestMethod.Post,
     );
   }

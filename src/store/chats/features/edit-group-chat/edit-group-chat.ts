@@ -5,6 +5,7 @@ import { createAction } from 'typesafe-actions';
 import produce from 'immer';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { Meta } from '@store/common/actions';
+import { MAIN_API } from '@common/paths';
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { getSelectedChatIdSelector } from '../../selectors';
 import { IEditGroupChatActionPayload } from './action-payloads/edit-group-chat-action-payload';
@@ -57,7 +58,7 @@ export class EditGroupChat {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, IEditGroupChatApiRequest>(
-      `${window.__config.REACT_APP_MAIN_API}/api/group-chats`,
+      MAIN_API.GROUP_CHAT,
       HttpRequestMethod.Put,
     );
   }

@@ -105,6 +105,10 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
       });
     }
   }, [unBlockUser, selectedChat?.interlocutor?.id]);
+  const addMembersToSelectedGroupChat = useCallback(
+    () => addMembers({ excludeIds: membersIdsForGroupChat }),
+    [addMembers, membersIdsForGroupChat],
+  );
 
   return (
     <div className="chat-actions">
@@ -191,7 +195,7 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
         <Button
           themed
           type="button"
-          onClick={() => addMembers({ excludeIds: membersIdsForGroupChat })}
+          onClick={addMembersToSelectedGroupChat}
           className="chat-actions__action">
           <AddUsersSvg />
           <span className="chat-actions__action__name">{t('chatActions.add-users')}</span>

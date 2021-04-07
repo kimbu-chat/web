@@ -1,3 +1,4 @@
+import { emitToast } from '@utils/emit-toast';
 import axios, { AxiosError, CancelTokenSource } from 'axios';
 import { call, cancelled, put, select, take } from 'redux-saga/effects';
 import { SagaIterator } from 'redux-saga';
@@ -51,6 +52,7 @@ export const httpRequestFactory = <TResponse, TBody = unknown>(
         });
       } catch (e) {
         const error = e as AxiosError;
+        emitToast(e.message, { type: 'error' });
         if (!isNetworkError(e) && error?.response?.status === 401) {
           yield put(RefreshToken.action());
           yield take(RefreshTokenSuccess.action);

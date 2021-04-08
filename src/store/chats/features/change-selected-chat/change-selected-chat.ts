@@ -30,11 +30,11 @@ export class ChangeSelectedChat {
   static get reducer() {
     return produce(
       (draft: IChatsState, { payload }: ReturnType<typeof ChangeSelectedChat.action>) => {
-        const { oldChatId, newChatId } = payload;
+        const { newChatId } = payload;
 
         draft.isInfoOpened = false;
 
-        draft.selectedChatId = newChatId;
+        const oldChatId = draft.selectedChatId;
 
         if (oldChatId) {
           const chat = getChatByIdDraftSelector(oldChatId, draft);
@@ -53,6 +53,8 @@ export class ChangeSelectedChat {
             );
           }
         }
+
+        draft.selectedChatId = newChatId;
 
         draft.selectedMessageIds = [];
 

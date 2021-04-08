@@ -315,6 +315,7 @@
     "you_created_group": "Вы создали группу",
     "created_group": "{{name}} создал группу",
     "left_group": "{{name}} покинул группу",
+    "removed_from_group": "Пользователь {{name}} был удалён из группы",
     "you_added": "Вы добавили {{name}}",
     "someone_added": "{{someonesName}} добавил {{addedName}}",
     "you_changed_name": "Вы изменили название с {{oldName}} на {{newName}}",

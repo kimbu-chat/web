@@ -15,6 +15,10 @@ import { modelChatList } from '@store/chats/utils/model-chat-list';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { replaceInUrl } from '@utils/replace-in-url';
 import { MAIN_API } from '@common/paths';
+import {
+  IGroupChatMemberRemovedSystemMessageContent,
+  getSystemMessageData,
+} from '@utils/message-utils';
 import { MessageLinkType } from '../../models/linked-message-type';
 import messageCameUnselected from '../../../../assets/sounds/notifications/messsage-came-unselected.ogg';
 import messageCameSelected from '../../../../assets/sounds/notifications/messsage-came-selected.ogg';
@@ -22,7 +26,7 @@ import messageCameSelected from '../../../../assets/sounds/notifications/messsag
 import { tabActiveSelector, myIdSelector } from '../../../my-profile/selectors';
 import { ChangeSelectedChat } from '../../features/change-selected-chat/change-selected-chat';
 import { MarkMessagesAsRead } from '../../features/mark-messages-as-read/mark-messages-as-read';
-import { IChat, IMessage } from '../../models';
+import { IChat, IMessage, SystemMessageType } from '../../models';
 import {
   getSelectedChatIdSelector,
   getChatByIdSelector,
@@ -44,7 +48,16 @@ export class MessageCreatedEventHandler {
     return function* messageCreatedEventHandler({
       payload,
     }: ReturnType<typeof MessageCreatedEventHandler.action>): SagaIterator {
-      const { chatId, id, userCreator, linkedMessageId, clientId, linkedMessageType } = payload;
+      const {
+        chatId,
+        id,
+        userCreator,
+        linkedMessageId,
+        clientId,
+        linkedMessageType,
+        text,
+        systemMessageType,
+      } = payload;
 
       const messageExists =
         (yield select(getChatHasMessageWithIdSelector(id, chatId))) ||
@@ -54,9 +67,20 @@ export class MessageCreatedEventHandler {
         return;
       }
 
+      const myId: number = yield select(myIdSelector);
+
+      if (systemMessageType === SystemMessageType.GroupChatMemberRemoved) {
+        const systemMessage = getSystemMessageData<IGroupChatMemberRemovedSystemMessageContent>(
+          payload,
+        );
+
+        if (userCreator.id === myId && systemMessage.removedUserId === myId) {
+          return;
+        }
+      }
+
       const isTabActive = yield select(tabActiveSelector);
       const selectedChatId = yield select(getSelectedChatIdSelector);
-      const myId = yield select(myIdSelector);
 
       let linkedMessage: IMessage | undefined;
 

@@ -20,7 +20,7 @@ import { MESSAGES_LIMIT } from '@utils/pagination-limits';
 import { GetMessages } from '@store/chats/features/get-messages/get-messages';
 import { MarkMessagesAsRead } from '@store/chats/features/mark-messages-as-read/mark-messages-as-read';
 import { IMessage } from '@store/chats/models';
-import { MessageUtils } from '@utils/message-utils';
+import { signAndSeparate } from '@utils/message-utils';
 
 const MessageList = React.memo(() => {
   const getMessages = useActionWithDispatch(GetMessages.action);
@@ -60,7 +60,7 @@ const MessageList = React.memo(() => {
     );
   }
 
-  const separatedItemsWithUserInfo = MessageUtils.signAndSeparate(messages || []);
+  const separatedItemsWithUserInfo = signAndSeparate(messages || []);
 
   return (
     <div className="chat__messages-list">

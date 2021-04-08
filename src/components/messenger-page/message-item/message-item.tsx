@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, ReactElement } from 'react';
-import { MessageUtils } from '@utils/message-utils';
+
 import { useSelector } from 'react-redux';
 import './message-item.scss';
 
@@ -46,6 +46,11 @@ import { Link } from 'react-router-dom';
 import { SelectMessage } from '@store/chats/features/select-message/select-message';
 import { isEqual } from 'lodash';
 import { ChatId } from '@store/chats/chat-id';
+import {
+  constructSystemMessageText,
+  getSystemMessageData,
+  ICallMessage,
+} from '@utils/message-utils';
 import { MediaGrid } from './attachments/media-grid/media-grid';
 import { RecordingAttachment } from './attachments/recording-attachment/recording-attachment';
 import { MessageItemActions } from './message-item-actions/message-item-actions';
@@ -141,7 +146,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
     );
 
     if (message?.systemMessageType !== SystemMessageType.None) {
-      const additionalData = JSON.parse(message.text);
+      const additionalData = getSystemMessageData<ICallMessage>(message);
       const callStatus = additionalData?.status;
       const isOutgoing = myId === additionalData?.userCallerId;
 
@@ -187,7 +192,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                   <DeclinedCallSvg className="message__system-message__icon" viewBox="0 0 13 14" />
                 ))}
 
-              <span>{MessageUtils.constructSystemMessageText(message as IMessage, t, myId)}</span>
+              <span>{constructSystemMessageText(message as IMessage, t, myId)}</span>
             </div>
           </div>
 

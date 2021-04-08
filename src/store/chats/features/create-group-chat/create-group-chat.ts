@@ -6,8 +6,8 @@ import produce from 'immer';
 import { Meta } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
+import { createSystemMessage } from '@utils/message-utils';
 import { getSelectedChatIdSelector } from '../../selectors';
-import { MessageUtils } from '../../../../utils/message-utils';
 import { ChatId } from '../../chat-id';
 import { IChat, IMessage, InterlocutorType, MessageState, SystemMessageType } from '../../models';
 import { ChangeSelectedChat } from '../change-selected-chat/change-selected-chat';
@@ -50,7 +50,7 @@ export class CreateGroupChat {
         creationDateTime: new Date(),
         id: new Date().getTime(),
         systemMessageType: SystemMessageType.GroupChatCreated,
-        text: MessageUtils.createSystemMessage({}),
+        text: createSystemMessage({}),
         chatId,
         state: MessageState.LOCALMESSAGE,
         userCreator: action.payload.currentUser,

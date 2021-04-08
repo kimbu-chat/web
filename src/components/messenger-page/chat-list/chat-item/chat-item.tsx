@@ -11,7 +11,6 @@ import {
   MessageState,
   SystemMessageType,
 } from '@store/chats/models';
-import { MessageUtils } from '@utils/message-utils';
 
 import { StatusBadge, Avatar } from '@components/shared';
 
@@ -27,6 +26,7 @@ import { ReactComponent as MessageErrorSvg } from '@icons/message-error.svg';
 import { getTypingStringSelector } from '@store/chats/selectors';
 import { getChatInterlocutor, getInterlocutorInitials } from '@utils/interlocutor-name-utils';
 import { isEqual } from 'lodash';
+import { constructSystemMessageText, checkIfDatesAreSameDate } from '@utils/message-utils';
 
 interface IChatItemProps {
   chat: IChat;
@@ -72,7 +72,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(
           (messageToProcess as IMessage).systemMessageType !== SystemMessageType.None
         ) {
           return truncate(
-            MessageUtils.constructSystemMessageText(messageToProcess as IMessage, t, currentUserId),
+            constructSystemMessageText(messageToProcess as IMessage, t, currentUserId),
             {
               length: 53,
               omission: '...',
@@ -148,7 +148,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(
                 messageStatIconMap[chat.lastMessage.state]}
             </div>
             <div className="chat-item__time">
-              {MessageUtils.checkIfDatesAreSameDate(
+              {checkIfDatesAreSameDate(
                 new Date(existedChat.lastMessage?.creationDateTime as Date),
                 new Date(),
               )

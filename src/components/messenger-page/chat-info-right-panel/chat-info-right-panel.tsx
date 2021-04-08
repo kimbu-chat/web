@@ -8,7 +8,7 @@ import { GroupChatAddFriendModal, MediaModal } from '@components/messenger-page'
 
 import { getInterlocutorInitials } from '@utils/interlocutor-name-utils';
 
-import { getChatInfoAction, editGroupChatAction } from '@store/chats/actions';
+import { getChatInfoAction } from '@store/chats/actions';
 import { FileType } from '@store/chats/models';
 import { InterlocutorInfo } from './interlocutor-info/interlocutor-info';
 import { ChatActions as ChatInfoActions } from './chat-actions/chat-actions';

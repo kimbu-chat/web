@@ -111,7 +111,7 @@ export class CreateGroupChat {
       };
 
       yield put(CreateGroupChatSuccess.action(chat));
-      yield put(ChangeSelectedChat.action({ newChatId: chat.id, oldChatId: selectedChatId }));
+      yield put(ChangeSelectedChat.action({ newChatId: chat.id }));
       action.meta.deferred?.resolve(chat);
     };
   }

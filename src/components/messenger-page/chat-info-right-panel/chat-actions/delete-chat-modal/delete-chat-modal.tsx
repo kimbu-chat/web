@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { Button, Modal, WithBackground } from '@components/shared';
-import * as ChatActions from '@store/chats/actions';
+import { Modal, WithBackground, Button } from '@components/shared';
+import { leaveGroupChatAction } from '@store/chats/actions';
 import React, { useCallback, useState } from 'react';
 import './delete-chat-modal.scss';
 import { useSelector } from 'react-redux';
@@ -20,7 +20,7 @@ export const DeleteChatModal: React.FC<IDeleteChatModalProps> = React.memo(({ hi
 
   const selectedGroupChatName = useSelector(getSelectedGroupChatNameSelector);
 
-  const leaveGroupChat = useEmptyActionWithDeferred(ChatActions.leaveGroupChat);
+  const leaveGroupChat = useEmptyActionWithDeferred(leaveGroupChatAction);
 
   const deleteGroupChat = useCallback(() => {
     setLoading(true);

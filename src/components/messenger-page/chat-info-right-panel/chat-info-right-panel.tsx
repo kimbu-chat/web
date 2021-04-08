@@ -8,7 +8,7 @@ import { GroupChatAddFriendModal, MediaModal } from '@components/messenger-page'
 
 import { getInterlocutorInitials } from '@utils/interlocutor-name-utils';
 
-import * as ChatActions from '@store/chats/actions';
+import { getChatInfoAction, editGroupChatAction } from '@store/chats/actions';
 import { FileType } from '@store/chats/models';
 import { InterlocutorInfo } from './interlocutor-info/interlocutor-info';
 import { ChatActions as ChatInfoActions } from './chat-actions/chat-actions';
@@ -18,7 +18,7 @@ import { ChatMedia } from './chat-media/chat-media';
 const ChatInfoRightPanel: React.FC = React.memo(() => {
   const selectedChat = useSelector(getSelectedChatSelector);
 
-  const getChatInfo = useActionWithDispatch(ChatActions.getChatInfo);
+  const getChatInfo = useActionWithDispatch(getChatInfoAction);
 
   const [addFriendsModalDisplayed, setAddFriendsModalDisplayed] = useState(false);
   const changeSetAddFriendsModalDisplayedState = useCallback(() => {

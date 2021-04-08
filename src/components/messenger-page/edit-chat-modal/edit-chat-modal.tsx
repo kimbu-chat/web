@@ -8,7 +8,10 @@ import { IGroupChat } from '@store/chats/models';
 import { getSelectedGroupChatSelector } from '@store/chats/selectors';
 import { useSelector } from 'react-redux';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import * as MyProfileActions from '@store/my-profile/actions';
+import {
+  uploadAvatarRequestAction,
+  cancelAvatarUploadingRequestAction,
+} from '@store/my-profile/actions';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { IEditGroupChatActionPayload } from '@store/chats/features/edit-group-chat/action-payloads/edit-group-chat-action-payload';
 import { ReactComponent as GroupSvg } from '@icons/group.svg';
@@ -16,7 +19,7 @@ import { ReactComponent as PictureSvg } from '@icons/picture.svg';
 import { ReactComponent as TopAvatarLine } from '@icons/top-avatar-line.svg';
 import { ReactComponent as BottomAvatarLine } from '@icons/bottom-avatar-line.svg';
 import { IAvatar, IAvatarSelectedData } from '@store/common/models';
-import * as ChatActions from '@store/chats/actions';
+import { editGroupChatAction } from '@store/chats/actions';
 
 export interface IEditChatModalProps {
   onClose: () => void;
@@ -25,11 +28,9 @@ export interface IEditChatModalProps {
 export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClose }) => {
   const selectedGroupChat: IGroupChat | undefined = useSelector(getSelectedGroupChatSelector);
 
-  const uploadGroupChatAvatar = useActionWithDeferred(MyProfileActions.uploadAvatarRequestAction);
-  const cancelAvatarUploading = useActionWithDispatch(
-    MyProfileActions.cancelAvatarUploadingRequestAction,
-  );
-  const editGroupChat = useActionWithDeferred(ChatActions.editGroupChat);
+  const uploadGroupChatAvatar = useActionWithDeferred(uploadAvatarRequestAction);
+  const cancelAvatarUploading = useActionWithDispatch(cancelAvatarUploadingRequestAction);
+  const editGroupChat = useActionWithDeferred(editGroupChatAction);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 

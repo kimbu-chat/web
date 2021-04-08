@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 
 import { useTranslation } from 'react-i18next';
-import * as ChatActions from '@store/chats/actions';
+import { getChatsAction, forwardMessagesAction } from '@store/chats/actions';
 import {
   getChatsSelector,
   getHasMoreChatsSelector,
@@ -15,7 +15,6 @@ import {
 } from '@store/chats/selectors';
 
 import './forward-modal.scss';
-import { ForwardMessages } from '@store/chats/features/forward-messages/forward-messages';
 import { IChat } from '@store/chats/models';
 import { ReactComponent as ForwardSvg } from '@icons/forward.svg';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
@@ -39,8 +38,8 @@ export const ForwardModal: React.FC<IForwardModalProps> = React.memo(
     const [selectedChatIds, setSelectedChatIds] = useState<number[]>([]);
     const [loading, setLoading] = useState(false);
 
-    const loadChats = useActionWithDispatch(ChatActions.getChats);
-    const forwardMessages = useActionWithDeferred(ForwardMessages.action);
+    const loadChats = useActionWithDispatch(getChatsAction);
+    const forwardMessages = useActionWithDeferred(forwardMessagesAction);
 
     const isSelected = useCallback((id: number) => selectedChatIds.includes(id), [selectedChatIds]);
 

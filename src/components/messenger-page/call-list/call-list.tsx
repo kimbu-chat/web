@@ -3,7 +3,7 @@ import './call-list.scss';
 
 import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import * as CallActions from '@store/calls/actions';
+import { getCallsAction } from '@store/calls/actions';
 import {
   getCallsListSelector,
   gethasMoreCallsSelector,
@@ -18,7 +18,7 @@ export const CallList = () => {
   const hasMoreCalls = useSelector(gethasMoreCallsSelector);
   const areCallsLoading = useSelector(getCallsAreLoadingSelector);
 
-  const getCalls = useActionWithDispatch(CallActions.getCallsAction);
+  const getCalls = useActionWithDispatch(getCallsAction);
 
   const loadMore = useCallback(() => {
     getCalls({

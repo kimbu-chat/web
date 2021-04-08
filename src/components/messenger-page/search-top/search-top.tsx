@@ -4,7 +4,7 @@ import './search-top.scss';
 import { ReactComponent as CreateChatSvg } from '@icons/create-chat.svg';
 
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import * as ChatActions from '@store/chats/actions';
+import { getChatsAction } from '@store/chats/actions';
 
 import { CreateGroupChat, NewChatModal, SearchBox } from '@components/messenger-page';
 import { FadeAnimationWrapper } from '@components/shared';
@@ -14,7 +14,7 @@ interface ISearchTopProps {
 }
 
 export const SearchTop: React.FC<ISearchTopProps> = React.memo(({ searchFor }) => {
-  const getChats = useActionWithDispatch(ChatActions.getChats);
+  const getChats = useActionWithDispatch(getChatsAction);
   const [newChatDisplayed, setNewChatDisplayed] = useState(false);
   const changeNewChatDisplayedState = useCallback(() => {
     setNewChatDisplayed((oldState) => !oldState);

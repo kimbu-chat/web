@@ -3,7 +3,7 @@ import './chat-list.scss';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { useSelector } from 'react-redux';
 import { IChat } from '@store/chats/models';
-import * as ChatActions from '@store/chats/actions';
+import { getChatsAction, changeSelectedChatAction } from '@store/chats/actions';
 import { InfiniteScroll } from '@components/messenger-page';
 import {
   getChatsSelector,
@@ -22,8 +22,8 @@ const ChatList = React.memo(() => {
   const areChatsLoading = useSelector(getChatsLoadingSelector);
   const searchString = useSelector(getSearchStringSelector);
 
-  const getChatsRequest = useActionWithDispatch(ChatActions.getChats);
-  const changeSelectedChat = useActionWithDispatch(ChatActions.changeSelectedChat);
+  const getChatsRequest = useActionWithDispatch(getChatsAction);
+  const changeSelectedChat = useActionWithDispatch(changeSelectedChatAction);
 
   const { chatId } = useParams<{ chatId: string }>();
 

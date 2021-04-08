@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import * as SettingsActions from '@store/settings/actions';
+import { changeNotificationSoundStateAction } from '@store/settings/actions';
 import {
   areNotificationsEnabledSelector,
   arePushNotificationsEnabledSelector,
@@ -17,9 +17,7 @@ export const NotificationsSettings = React.memo(() => {
   const areSoundNotificationsEnabled = useSelector(areNotificationsEnabledSelector);
   const arePushNotificationsEnabled = useSelector(arePushNotificationsEnabledSelector);
 
-  const changeSoundNotificationState = useActionWithDispatch(
-    SettingsActions.changeNotificationSoundStateAction,
-  );
+  const changeSoundNotificationState = useActionWithDispatch(changeNotificationSoundStateAction);
   const changePushNotificationState = useActionWithDispatch(ChangePushNotificationState.action);
 
   return (

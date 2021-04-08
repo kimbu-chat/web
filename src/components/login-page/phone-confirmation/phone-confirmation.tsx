@@ -7,7 +7,7 @@ import { ICountry } from '@common/country';
 
 import { useTranslation } from 'react-i18next';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import * as AuthActions from '@store/auth/actions';
+import { sendSmsCodeAction } from '@store/auth/actions';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
@@ -36,7 +36,7 @@ const PhoneConfirmation: React.FC<IPhoneConfirmationProps> = ({ preloadNext }) =
 
   const phoneInputRef = useRef<HTMLInputElement>(null);
 
-  const sendSmsCode = useActionWithDeferred(AuthActions.sendSmsCode);
+  const sendSmsCode = useActionWithDeferred(sendSmsCodeAction);
   const sendSms = useCallback(() => {
     const phoneNumber = parsePhoneNumberFromString(phone);
     if (phoneNumber?.isValid()) {

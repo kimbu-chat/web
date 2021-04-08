@@ -14,7 +14,7 @@ import { ReactComponent as VideoSVG } from '@icons/video.svg';
 import { ReactComponent as FileSVG } from '@icons/file.svg';
 import { ReactComponent as CloseSVG } from '@icons/close-x.svg';
 import { ReactComponent as PlaySVG } from '@icons/play.svg';
-import * as ChatActions from '@store/chats/actions';
+import { removeAttachmentAction } from '@store/chats/actions';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getRawAttachmentSizeUnit } from '@utils/get-file-size-unit';
 
@@ -26,7 +26,7 @@ interface IMessageInputAttachmentProps {
 
 export const MessageInputAttachment: React.FC<IMessageInputAttachmentProps> = React.memo(
   ({ attachment, isFromEdit, removeSelectedAttachment }) => {
-    const removeAttachment = useActionWithDispatch(ChatActions.removeAttachmentAction);
+    const removeAttachment = useActionWithDispatch(removeAttachmentAction);
 
     const [previewUrl, setPreviewUr] = useState<string>('');
 

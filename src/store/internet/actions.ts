@@ -4,7 +4,14 @@ import { WebsocketsConnected } from './features/websockets-connection/websockets
 import { WebsocketsDisconnected } from './features/websockets-connection/websockets-disconnected';
 
 // InternetActions
-export const internetConnected = InternetConnected.action;
-export const internetDisconnected = InternetDisconnected.action;
-export const websocketsConnected = WebsocketsConnected.action;
-export const websocketsDisconnected = WebsocketsDisconnected.action;
+export const internetConnectedAction = InternetConnected.action;
+export const internetDisconnectedAction = InternetDisconnected.action;
+export const websocketsConnectedAction = WebsocketsConnected.action;
+export const websocketsDisconnectedAction = WebsocketsDisconnected.action;
+
+export const InternetActions = {
+  internetConnectedAction,
+  internetDisconnectedAction,
+  websocketsConnectedAction,
+  websocketsDisconnectedAction,
+};

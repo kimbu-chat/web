@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import './video-list.scss';
 
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import * as ChatActions from '@store/chats/actions';
+import { getVideoAttachmentsAction } from '@store/chats/actions';
 import { useSelector } from 'react-redux';
 import { getSelectedChatVideosSelector } from '@store/chats/selectors';
 import { IPage } from '@store/common/models';
@@ -12,7 +12,7 @@ import { VIDEO_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 import { VideoFromList } from './video/video-from-list';
 
 export const VideoList = React.memo(() => {
-  const getVideoAttachmentss = useActionWithDispatch(ChatActions.getVideoAttachments);
+  const getVideoAttachmentss = useActionWithDispatch(getVideoAttachmentsAction);
 
   const videosForSelectedChat = useSelector(getSelectedChatVideosSelector);
 

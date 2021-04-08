@@ -1,15 +1,18 @@
 import { useTranslation } from 'react-i18next';
 import { PhotoEditor, SearchBox, InfiniteScroll } from '@components/messenger-page';
 import { Modal, WithBackground, LabeledInput, Button } from '@components/shared';
-import * as FriendActions from '@store/friends/actions';
+import { getFriendsAction } from '@store/friends/actions';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import React, { useCallback, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import * as ChatActions from '@store/chats/actions';
+import { createGroupChatAction } from '@store/chats/actions';
 import { IChat } from '@store/chats/models';
 import { useHistory } from 'react-router';
-import * as MyProfileActions from '@store/my-profile/actions';
+import {
+  uploadAvatarRequestAction,
+  cancelAvatarUploadingRequestAction,
+} from '@store/my-profile/actions';
 import {
   getFriendsLoadingSelector,
   getHasMoreFriendsSelector,
@@ -48,12 +51,10 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(
 
     const history = useHistory();
 
-    const uploadGroupChatAvatar = useActionWithDeferred(MyProfileActions.uploadAvatarRequestAction);
-    const loadFriends = useActionWithDeferred(FriendActions.getFriends);
-    const cancelAvatarUploading = useActionWithDispatch(
-      MyProfileActions.cancelAvatarUploadingRequestAction,
-    );
-    const submitGroupChatCreation = useActionWithDeferred(ChatActions.createGroupChat);
+    const uploadGroupChatAvatar = useActionWithDeferred(uploadAvatarRequestAction);
+    const loadFriends = useActionWithDeferred(getFriendsAction);
+    const cancelAvatarUploading = useActionWithDispatch(cancelAvatarUploadingRequestAction);
+    const submitGroupChatCreation = useActionWithDeferred(createGroupChatAction);
 
     const [selectedUserIds, setSelectedUserIds] = useState<number[]>(preSelectedUserIds || []);
     const [currentStage, setCurrrentStage] = useState(GroupChatCreationStage.UserSelect);

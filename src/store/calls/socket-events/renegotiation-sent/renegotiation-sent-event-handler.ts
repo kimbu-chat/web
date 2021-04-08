@@ -55,7 +55,6 @@ export class RenegotiationSentEventHandler {
       const ignoreOffer = getIgnoreOffer();
 
       if (ignoreOffer) {
-        console.log('---I-G-N-O-R-E-D------------');
         return;
       }
 

@@ -2,7 +2,7 @@ import React, { useState, useRef, useCallback, useEffect } from 'react';
 import './code-confirmation.scss';
 
 import { useTranslation } from 'react-i18next';
-import * as AuthActions from '@store/auth/actions';
+import { sendSmsCodeAction, confirmPhoneAction } from '@store/auth/actions';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useSelector } from 'react-redux';
 import useInterval from 'use-interval';
@@ -40,8 +40,8 @@ const CodeConfirmation: React.FC<ICodeConfirmationProps> = ({ preloadNext }) => 
   const isConfirmationCodeWrong = useSelector(confirmationCodeWrongSelector);
   const isLoading = useSelector(authLoadingSelector);
 
-  const reSendSmsCode = useActionWithDeferred(AuthActions.sendSmsCode);
-  const checkConfirmationCode = useActionWithDeferred(AuthActions.confirmPhone);
+  const reSendSmsCode = useActionWithDeferred(sendSmsCodeAction);
+  const checkConfirmationCode = useActionWithDeferred(confirmPhoneAction);
 
   const boxElements: React.RefObject<HTMLInputElement>[] = [
     useRef<HTMLInputElement>(null),

@@ -11,14 +11,28 @@ import { SendSmsCodeFailure } from './features/send-sms-code/send-sms-code-failu
 import { SendSmsCodeSuccess } from './features/send-sms-code/send-sms-code-success';
 
 // AuthActions
-export const loginSuccess = LoginSuccess.action;
-export const refreshToken = RefreshToken.action;
-export const refreshTokenSuccess = RefreshTokenSuccess.action;
-export const sendSmsCode = SendSmsCode.action;
-export const sendSmsCodeFailure = SendSmsCodeFailure.action;
-export const sendSmsCodeSuccess = SendSmsCodeSuccess.action;
-export const confirmPhone = ConfirmPhone.action;
-export const confirmPhoneSuccess = ConfirmPhoneSuccess.action;
-export const confirmPhoneFailure = ConfirmPhoneFailure.action;
-export const logout = Logout.action;
-export const register = Register.action;
+export const loginSuccessAction = LoginSuccess.action;
+export const refreshTokenAction = RefreshToken.action;
+export const refreshTokenSuccessAction = RefreshTokenSuccess.action;
+export const sendSmsCodeAction = SendSmsCode.action;
+export const sendSmsCodeFailureAction = SendSmsCodeFailure.action;
+export const sendSmsCodeSuccessAction = SendSmsCodeSuccess.action;
+export const confirmPhoneAction = ConfirmPhone.action;
+export const confirmPhoneSuccessAction = ConfirmPhoneSuccess.action;
+export const confirmPhoneFailureAction = ConfirmPhoneFailure.action;
+export const logoutAction = Logout.action;
+export const registerAction = Register.action;
+
+export const AuthActions = {
+  loginSuccessAction,
+  refreshTokenAction,
+  refreshTokenSuccessAction,
+  sendSmsCodeAction,
+  sendSmsCodeFailureAction,
+  sendSmsCodeSuccessAction,
+  confirmPhoneAction,
+  confirmPhoneSuccessAction,
+  confirmPhoneFailureAction,
+  logoutAction,
+  registerAction,
+};

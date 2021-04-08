@@ -55,7 +55,6 @@ export class MessageCreatedEventHandler {
         linkedMessageId,
         clientId,
         linkedMessageType,
-        text,
         systemMessageType,
       } = payload;
 

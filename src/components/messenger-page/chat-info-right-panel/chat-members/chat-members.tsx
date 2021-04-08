@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import './chat-members.scss';
 import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import * as ChatActions from '@store/chats/actions';
+import { getGroupChatUsersAction } from '@store/chats/actions';
 import { getMembersListForSelectedGroupChatSelector } from '@store/chats/selectors';
 import { ReactComponent as OpenArrowSvg } from '@icons/open-arrow.svg';
 import { InfiniteScroll, SearchBox } from '@components/messenger-page';
@@ -15,7 +15,7 @@ export const ChatMembers: React.FC = React.memo(() => {
   const [searchStr, setSearchStr] = useState<string>('');
   const [membersDisplayed, setMembersDisplayed] = useState(false);
 
-  const getGroupChatUsers = useActionWithDispatch(ChatActions.getGroupChatUsers);
+  const getGroupChatUsers = useActionWithDispatch(getGroupChatUsersAction);
 
   const membersListForGroupChat = useSelector(getMembersListForSelectedGroupChatSelector);
 

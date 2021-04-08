@@ -8,7 +8,7 @@ import {
 } from '@store/chats/selectors';
 
 import { useTranslation } from 'react-i18next';
-import * as SelectedChatActions from '@store/chats/actions';
+import { changeChatMutedStatusAction } from '@store/chats/actions';
 
 import { ReactComponent as MuteSvg } from '@icons/mute.svg';
 import { ReactComponent as UnmuteSvg } from '@icons/unmute.svg';
@@ -17,12 +17,12 @@ import { ReactComponent as ClearSvg } from '@icons/clear.svg';
 import { ReactComponent as DeleteSvg } from '@icons/delete-contact.svg';
 import { ReactComponent as LeaveSvg } from '@icons/leave.svg';
 import { ReactComponent as AddUsersSvg } from '@icons/add-users.svg';
-import * as FriendActions from '@store/friends/actions';
 import { FadeAnimationWrapper, Button } from '@components/shared';
+import { deleteFriendAction, addFriendAction } from '@store/friends/actions';
 import { CreateGroupChat } from '@components/messenger-page';
-import { useActionWithDeferred, useEmptyActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { BlockUser } from '@store/settings/features/block-user/block-user';
 import { UnblockUser } from '@store/settings/features/unblock-user/unblock-user';
+import { useActionWithDeferred, useEmptyActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { DeleteChatModal } from './delete-chat-modal/delete-chat-modal';
 import { ClearChatModal } from './clear-chat-modal/clear-chat-modal';
 
@@ -51,11 +51,9 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
     [setCreateGroupChatModalOpened],
   );
 
-  const changeChatMutedStatus = useEmptyActionWithDeferred(
-    SelectedChatActions.changeChatMutedStatus,
-  );
-  const deleteFriend = useActionWithDeferred(FriendActions.deleteFriend);
-  const addFriend = useActionWithDeferred(FriendActions.addFriend);
+  const changeChatMutedStatus = useEmptyActionWithDeferred(changeChatMutedStatusAction);
+  const deleteFriend = useActionWithDeferred(deleteFriendAction);
+  const addFriend = useActionWithDeferred(addFriendAction);
   const blockUser = useActionWithDeferred(BlockUser.action);
   const unBlockUser = useActionWithDeferred(UnblockUser.action);
 

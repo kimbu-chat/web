@@ -16,4 +16,16 @@ export const getMyProfileSuccessAction = GetMyProfileSuccess.action;
 export const changeUserOnlineStatusAction = ChangeUserOnlineStatus.action;
 export const uploadAvatarRequestAction = UploadAvatar.action;
 export const cancelAvatarUploadingRequestAction = CancelAvatarUploading.action;
-export const userEditedEventHandler = UserEditedEventHandler.action;
+export const userEditedEventHandlerAction = UserEditedEventHandler.action;
+
+export const MyProfileActions = {
+  updateMyProfileAction,
+  updateMyProfileSuccessAction,
+  checkNicknameAvailabilityAction,
+  getMyProfileAction,
+  getMyProfileSuccessAction,
+  changeUserOnlineStatusAction,
+  uploadAvatarRequestAction,
+  cancelAvatarUploadingRequestAction,
+  userEditedEventHandlerAction,
+};

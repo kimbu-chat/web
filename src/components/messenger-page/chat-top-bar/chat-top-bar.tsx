@@ -6,7 +6,7 @@ import './chat-top-bar.scss';
 
 import { useTranslation } from 'react-i18next';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import * as CallActions from '@store/calls/actions';
+import { outgoingCallAction } from '@store/calls/actions';
 import { IUser, UserStatus } from '@store/common/models';
 import { Avatar, StatusBadge, TimeUpdateable } from '@components/shared';
 
@@ -25,7 +25,7 @@ export const ChatTopBar = React.memo(() => {
   const selectedChat = useSelector(getSelectedChatSelector);
   const isInfoOpened = useSelector(getIsInfoOpenedSelector);
 
-  const callInterlocutor = useActionWithDispatch(CallActions.outgoingCallAction);
+  const callInterlocutor = useActionWithDispatch(outgoingCallAction);
   const openCloseChatInfo = useActionWithDispatch(ChangeChatInfoOpened.action);
 
   const callWithVideo = useCallback(

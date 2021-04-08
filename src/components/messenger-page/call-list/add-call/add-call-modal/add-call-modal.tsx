@@ -16,7 +16,7 @@ import {
   getFriendsLoadingSelector,
 } from '@store/friends/selectors';
 import { FRIENDS_LIMIT } from '@utils/pagination-limits';
-import * as CallActions from '@store/calls/actions';
+import { outgoingCallAction } from '@store/calls/actions';
 
 interface IAddCallModalProps {
   onClose: () => void;
@@ -30,7 +30,7 @@ export const AddCallModal: React.FC<IAddCallModalProps> = React.memo(({ onClose 
   const friendsLoading = useSelector(getFriendsLoadingSelector);
 
   const loadFriends = useActionWithDispatch(GetFriends.action);
-  const callInterlocutor = useActionWithDispatch(CallActions.outgoingCallAction);
+  const callInterlocutor = useActionWithDispatch(outgoingCallAction);
 
   const loadMore = useCallback(() => {
     const page: IPage = {

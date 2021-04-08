@@ -3,7 +3,7 @@ import './audio-list.scss';
 
 import { useSelector } from 'react-redux';
 import { getSelectedChatAudiosSelector } from '@store/chats/selectors';
-import * as ChatActions from '@store/chats/actions';
+import { getAudioAttachmentsAction } from '@store/chats/actions';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import moment from 'moment';
 
@@ -14,7 +14,7 @@ import { AUDIO_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 export const AudioList = React.memo(() => {
   const audiosForSelectedChat = useSelector(getSelectedChatAudiosSelector);
 
-  const getAudios = useActionWithDispatch(ChatActions.getAudioAttachments);
+  const getAudios = useActionWithDispatch(getAudioAttachmentsAction);
 
   const loadMore = useCallback(() => {
     getAudios({

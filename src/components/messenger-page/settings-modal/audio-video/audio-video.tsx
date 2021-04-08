@@ -16,7 +16,11 @@ import {
 } from '@store/calls/selectors';
 import { useSelector } from 'react-redux';
 import { ReactComponent as VideoCameraSvg } from '@icons/video-camera.svg';
-import * as CallActions from '@store/calls/actions';
+import {
+  killDeviceUpdateWatcherAction,
+  spawnDeviceUpdateWatcherAction,
+  switchDeviceAction,
+} from '@store/calls/actions';
 import incomingCallSound from '@sounds/calls/imcoming-call.ogg';
 import { getAudioVolume } from '@utils/get-audio-volume-size';
 import { playSoundSafely } from '@utils/current-music';
@@ -73,9 +77,9 @@ export const AudioVideoSettings = () => {
   const activeAudioDevice = audioConstraints.deviceId;
   const activeVideoDevice = videoConstraints.deviceId;
 
-  const switchDevice = useActionWithDispatch(CallActions.switchDeviceAction);
-  const killDeviceUpdateWatcher = useActionWithDispatch(CallActions.killDeviceUpdateWatcher);
-  const spawnDeviceUpdateWatcher = useActionWithDispatch(CallActions.spawnDeviceUpdateWatcher);
+  const switchDevice = useActionWithDispatch(switchDeviceAction);
+  const killDeviceUpdateWatcher = useActionWithDispatch(killDeviceUpdateWatcherAction);
+  const spawnDeviceUpdateWatcher = useActionWithDispatch(spawnDeviceUpdateWatcherAction);
 
   const [videoOpened, setVideoOpened] = useState(false);
   const [microphoneOpened, setMicrophoneOpened] = useState(false);

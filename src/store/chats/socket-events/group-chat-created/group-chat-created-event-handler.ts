@@ -111,6 +111,12 @@ export class GroupChatCreatedEventHandler {
 
         draft.chats.unshift(newChat);
 
+        draft.messages[newChat.id] = {
+          messages: [],
+          hasMore: true,
+          loading: false,
+        };
+
         return draft;
       },
     );

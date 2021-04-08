@@ -4,7 +4,7 @@ import { SagaIterator } from 'redux-saga';
 import { HTTPStatusCode } from '@common/http-status-code';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { createEmptyDefferedAction } from '@store/common/actions';
-import { createEmptyAction } from '@store/common/actions';
+
 import { MAIN_API } from '@common/paths';
 import { getSelectedChatSelector } from '../../selectors';
 import { IChangeChatMutedStatusApiRequest } from './api-requests/change-chat-muted-status-api-request';

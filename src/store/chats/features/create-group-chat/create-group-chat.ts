@@ -7,7 +7,6 @@ import { Meta } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
 import { createSystemMessage } from '@utils/message-utils';
-import { getSelectedChatIdSelector } from '../../selectors';
 import { ChatId } from '../../chat-id';
 import { IChat, IMessage, InterlocutorType, MessageState, SystemMessageType } from '../../models';
 import { ChangeSelectedChat } from '../change-selected-chat/change-selected-chat';
@@ -31,7 +30,6 @@ export class CreateGroupChat {
       action: ReturnType<typeof CreateGroupChat.action>,
     ): SagaIterator {
       const { userIds, name, avatar, description, currentUser } = action.payload;
-      const selectedChatId = yield select(getSelectedChatIdSelector);
 
       const groupChatCreationRequest: ICerateGroupChatApiRequest = {
         name,

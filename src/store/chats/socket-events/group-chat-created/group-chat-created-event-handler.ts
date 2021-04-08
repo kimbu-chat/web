@@ -1,8 +1,8 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
+import { createSystemMessage } from '@utils/message-utils';
 import { playSoundSafely } from '../../../../utils/current-music';
 import messageCameUnselected from '../../../../assets/sounds/notifications/messsage-came-unselected.ogg';
-import { MessageUtils } from '../../../../utils/message-utils';
 import { ChatId } from '../../chat-id';
 import { IMessage, SystemMessageType, MessageState, IChat, InterlocutorType } from '../../models';
 import { getChatExistsDraftSelector } from '../../selectors';
@@ -42,7 +42,7 @@ export class GroupChatCreatedEventHandler {
 
         const messageOfCreation: IMessage = {
           systemMessageType: SystemMessageType.GroupChatCreated,
-          text: MessageUtils.createSystemMessage({}),
+          text: createSystemMessage({}),
           creationDateTime: new Date(new Date().toUTCString()),
           userCreator,
           state: MessageState.READ,

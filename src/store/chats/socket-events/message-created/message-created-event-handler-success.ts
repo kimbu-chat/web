@@ -4,7 +4,6 @@ import { IChatsState } from '@store/chats/chats-state';
 import { MyProfileService } from '@services/my-profile-service';
 
 import {
-  SystemMessageType,
   FileType,
   IAudioAttachment,
   IPictureAttachment,
@@ -66,13 +65,6 @@ export class MessageCreatedEventHandlerSuccess {
           isEdited: false,
           isDeleted: false,
         };
-
-        if (
-          systemMessageType === SystemMessageType.GroupChatMemberRemoved &&
-          isCurrentUserMessageCreator
-        ) {
-          return draft;
-        }
 
         const chatIndex = getChatIndexDraftSelector(chatId, draft);
         const chat = draft.chats[chatIndex];

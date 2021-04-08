@@ -11,7 +11,6 @@ import {
   getChatsLoadingSelector,
   getHasMoreChatsSelector,
   getSearchStringSelector,
-  getSelectedChatIdSelector,
 } from '@store/chats/selectors';
 import { useParams } from 'react-router';
 import { ChatFromList } from './chat-item/chat-item';
@@ -22,7 +21,6 @@ const ChatList = React.memo(() => {
   const hasMoreChats = useSelector(getHasMoreChatsSelector);
   const areChatsLoading = useSelector(getChatsLoadingSelector);
   const searchString = useSelector(getSearchStringSelector);
-  const selectedChatId = useSelector(getSelectedChatIdSelector);
 
   const getChatsRequest = useActionWithDispatch(ChatActions.getChats);
   const changeSelectedChat = useActionWithDispatch(ChatActions.changeSelectedChat);
@@ -31,9 +29,10 @@ const ChatList = React.memo(() => {
 
   useEffect(() => {
     if (chatId) {
-      changeSelectedChat({ newChatId: Number(chatId), oldChatId: selectedChatId });
+      const newChatId = Number(chatId);
+      changeSelectedChat({ newChatId });
     }
-  }, [changeSelectedChat, chatId, selectedChatId]);
+  }, [changeSelectedChat, chatId]);
 
   const loadMore = useCallback(() => {
     if (!areChatsLoading) {

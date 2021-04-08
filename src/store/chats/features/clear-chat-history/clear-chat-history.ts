@@ -5,13 +5,13 @@ import { createAction } from 'typesafe-actions';
 import produce from 'immer';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
+import { Meta } from '@store/common/actions';
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { getSelectedChatIdSelector } from '../../selectors';
 import { IClearChatHistoryActionPayload } from './action-payloads/clear-chat-history-action-payload';
 import { ClearChatHistorySuccess } from './clear-chat-history-success';
 import { IClearChatHistoryApiRequest } from './api-requests/clear-chat-history-api-request';
 import { IChatsState } from '../../chats-state';
-import { Meta } from '@store/common/actions';
 
 export class ClearChatHistory {
   static get action() {

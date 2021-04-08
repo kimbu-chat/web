@@ -4,11 +4,11 @@ import { put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
+import { HTTPStatusCode } from '@common/http-status-code';
+import { Meta } from '@store/common/actions';
 import { IDeleteFriendActionPayload } from './action-payloads/delete-friend-action-payload';
 import { IDeleteFriendApiRequest } from './api-requests/delete-friend-api-request';
 import { DeleteFriendSuccess } from './delete-friend-success';
-import { HTTPStatusCode } from '@common/http-status-code';
-import { Meta } from '@store/common/actions';
 
 export class DeleteFriend {
   static get action() {

@@ -4,4 +4,5 @@ export interface IGetChatsSuccessActionPayload {
   initializedByScroll: boolean;
   chats: IChat[];
   hasMore: boolean;
+  searchString?: string;
 }

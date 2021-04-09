@@ -5,7 +5,6 @@ import { IChat } from './models/chat';
 export interface IChatsState {
   loading?: boolean;
   hasMore: boolean;
-  searchString: string;
   chats: IChat[];
 
   messages: ById<{

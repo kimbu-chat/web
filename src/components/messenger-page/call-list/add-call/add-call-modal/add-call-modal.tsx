@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 
@@ -8,10 +8,11 @@ import { InfiniteScroll, SelectEntity, SearchBox } from '@components/messenger-p
 import './add-call-modal.scss';
 import { ReactComponent as AddCallSvg } from '@icons/add-call.svg';
 import { ReactComponent as CallSvg } from '@icons/call.svg';
-import { IPage } from '@store/common/models';
-import { GetFriends } from '@store/friends/features/get-friends/get-friends';
+import { IPage, IUser } from '@store/common/models';
+import { getFriendsAction } from '@store/friends/actions';
 import {
   getMyFriendsSelector,
+  getMySearchFriendsSelector,
   getHasMoreFriendsSelector,
   getFriendsLoadingSelector,
 } from '@store/friends/selectors';
@@ -26,25 +27,33 @@ export const AddCallModal: React.FC<IAddCallModalProps> = React.memo(({ onClose 
   const { t } = useTranslation();
 
   const friends = useSelector(getMyFriendsSelector);
+  const searchFriends = useSelector(getMySearchFriendsSelector);
   const hasMoreFriends = useSelector(getHasMoreFriendsSelector);
   const friendsLoading = useSelector(getFriendsLoadingSelector);
 
-  const loadFriends = useActionWithDispatch(GetFriends.action);
+  const loadFriends = useActionWithDispatch(getFriendsAction);
   const callInterlocutor = useActionWithDispatch(outgoingCallAction);
+
+  const [name, setName] = useState('');
 
   const loadMore = useCallback(() => {
     const page: IPage = {
-      offset: friends.length,
+      offset: name.length ? searchFriends.length : friends.length,
       limit: FRIENDS_LIMIT,
     };
-    loadFriends({ page });
-  }, [friends, loadFriends]);
+    loadFriends({ page, name, initializedByScroll: true });
+  }, [searchFriends.length, friends.length, loadFriends, name]);
 
-  const searchFriends = useCallback(
-    (name: string) => {
-      loadFriends({ page: { offset: 0, limit: FRIENDS_LIMIT }, name, initializedBySearch: true });
+  const searchFriendsList = useCallback(
+    (searchName: string) => {
+      setName(searchName);
+      loadFriends({
+        page: { offset: 0, limit: FRIENDS_LIMIT },
+        name: searchName,
+        initializedByScroll: false,
+      });
     },
-    [loadFriends],
+    [loadFriends, setName],
   );
 
   const call = useCallback(
@@ -60,6 +69,40 @@ export const AddCallModal: React.FC<IAddCallModalProps> = React.memo(({ onClose 
     },
     [callInterlocutor, onClose],
   );
+
+  useEffect(
+    () => () => {
+      searchFriendsList('');
+    },
+    [searchFriendsList],
+  );
+
+  const handleSearchInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => searchFriendsList(e.target.value),
+    [searchFriendsList],
+  );
+
+  const renderSelectEntity = useCallback(
+    (user: IUser) => (
+      <SelectEntity
+        icon={
+          <button onClick={() => call(user)} type="button" className="add-call-modal__call">
+            <CallSvg />
+          </button>
+        }
+        key={user.id}
+        chatOrUser={user}
+      />
+    ),
+    [call],
+  );
+
+  const selectEntities = useMemo(() => {
+    if (name.length) {
+      return searchFriends.map(renderSelectEntity);
+    }
+    return friends.map(renderSelectEntity);
+  }, [name.length, searchFriends, friends, renderSelectEntity]);
 
   return (
     <WithBackground onBackgroundClick={onClose}>
@@ -78,27 +121,14 @@ export const AddCallModal: React.FC<IAddCallModalProps> = React.memo(({ onClose 
               containerClassName="add-call-modal__search-container"
               iconClassName="add-call-modal__search__icon"
               inputClassName="add-call-modal__search__input"
-              onChange={(e) => searchFriends(e.target.value)}
+              onChange={handleSearchInputChange}
             />
             <InfiniteScroll
               className="add-call-modal__friends-block"
               onReachExtreme={loadMore}
               hasMore={hasMoreFriends}
               isLoading={friendsLoading}>
-              {friends?.map((user) => (
-                <SelectEntity
-                  icon={
-                    <button
-                      onClick={() => call(user)}
-                      type="button"
-                      className="add-call-modal__call">
-                      <CallSvg />
-                    </button>
-                  }
-                  key={user.id}
-                  chatOrUser={user}
-                />
-              ))}
+              {selectEntities}
             </InfiniteScroll>
           </div>
         }

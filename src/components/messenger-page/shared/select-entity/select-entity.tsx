@@ -49,9 +49,9 @@ export const SelectEntity: React.FC<ISelectEntityProps> = React.memo(
 
         <div className="select-entity__friend-data">
           <div className="select-entity__friend-name">
-            {interlocutor ? `${interlocutor.firstName} ${interlocutor.lastName}` : groupChat?.name}
+            {groupChat ? groupChat?.name : `${interlocutor.firstName} ${interlocutor.lastName}`}
           </div>
-          {interlocutor && (
+          {!groupChat && (
             <div className="select-entity__friend-status">
               <TimeUpdateable timeStamp={interlocutor.lastOnlineTime} />
             </div>

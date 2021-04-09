@@ -11,7 +11,7 @@ export class GetChatsSuccess {
 
   static get reducer() {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof GetChatsSuccess.action>) => {
-      const { chats, hasMore, initializedByScroll } = payload;
+      const { chats, hasMore, initializedByScroll, searchString } = payload;
 
       draft.loading = false;
       draft.hasMore = hasMore;
@@ -27,7 +27,7 @@ export class GetChatsSuccess {
         }
       });
 
-      if (draft.searchString.length > 0) {
+      if (searchString?.length) {
         if (initializedByScroll) {
           draft.searchChats = unionBy(draft.searchChats, chats, 'id');
         } else {

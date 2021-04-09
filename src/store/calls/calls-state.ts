@@ -26,6 +26,7 @@ export interface ICallsState {
   videoDevicesList: MediaDeviceInfo[];
   calls: {
     calls: ICall[];
+    searchCalls: ICall[];
     hasMore: boolean;
     loading: boolean;
   };

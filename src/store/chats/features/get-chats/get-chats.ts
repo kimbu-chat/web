@@ -12,7 +12,7 @@ import { IGetChatsActionPayload } from './action-payloads/get-chats-action-paylo
 import { GetChatsSuccess } from './get-chats-success';
 import { IGetChatsSuccessActionPayload } from './action-payloads/get-chats-success-action-payload';
 import { IGetChatsApiRequest } from './api-requests/get-chats-api-request';
-import { getChatsPageSelector } from '../../selectors';
+import { getChatsPageSelector, getChatsSearchPageSelector } from '../../selectors';
 import { IChatsState } from '../../chats-state';
 import { modelChatList } from '../../utils/model-chat-list';
 
@@ -23,15 +23,14 @@ export class GetChats {
 
   static get reducer() {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof GetChats.action>) => {
-      draft.searchString = payload.name || '';
-
-      if ((payload.name?.length || 0) === 0 && !payload.initializedByScroll) {
+      if (!payload.name?.length && !payload.initializedByScroll) {
+        draft.searchChats = [];
         draft.hasMore = true;
       } else {
         draft.loading = true;
       }
 
-      if (draft.searchString.length > 0) {
+      if (payload.name?.length) {
         if (payload.initializedByScroll) {
           draft.searchPage += 1;
         } else {
@@ -51,14 +50,15 @@ export class GetChats {
 
       const { name, showOnlyHidden, showAll, initializedByScroll } = action.payload;
 
-      if ((name?.length || 0) === 0 && !initializedByScroll) {
+      if (!name?.length && !initializedByScroll) {
         return;
       }
 
       const pageNumber = yield select(getChatsPageSelector);
+      const searchPageNumber = yield select(getChatsSearchPageSelector);
 
       const page: IPage = {
-        offset: pageNumber * CHATS_LIMIT,
+        offset: (action.payload.name?.length ? searchPageNumber : pageNumber) * CHATS_LIMIT,
         limit: CHATS_LIMIT,
       };
 
@@ -78,6 +78,7 @@ export class GetChats {
         chats: newData,
         hasMore: newData.length >= CHATS_LIMIT,
         initializedByScroll: chatsRequestData.initializedByScroll,
+        searchString: name,
       };
 
       yield put(GetChatsSuccess.action(chatList));

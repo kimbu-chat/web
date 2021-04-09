@@ -217,8 +217,8 @@ export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
           <BaseBtn
             disabled={
               !uploadEnded ||
-              !(firstName.length > 0) ||
-              !(lastName.length > 0) ||
+              !firstName.length ||
+              !lastName.length ||
               !isNickNameAvailable ||
               isNickNameCheckLoading
             }

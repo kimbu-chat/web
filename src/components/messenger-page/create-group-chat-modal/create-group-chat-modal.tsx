@@ -3,7 +3,7 @@ import { PhotoEditor, SearchBox, InfiniteScroll } from '@components/messenger-pa
 import { Modal, WithBackground, LabeledInput, Button } from '@components/shared';
 import { getFriendsAction } from '@store/friends/actions';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { createGroupChatAction } from '@store/chats/actions';
@@ -17,6 +17,7 @@ import {
   getFriendsLoadingSelector,
   getHasMoreFriendsSelector,
   getMyFriendsSelector,
+  getMySearchFriendsSelector,
 } from '@store/friends/selectors';
 import { myProfileSelector } from '@store/my-profile/selectors';
 import { ICreateGroupChatActionPayload } from '@store/chats/features/create-group-chat/action-payloads/create-group-chat-action-payload';
@@ -46,6 +47,7 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(
 
     const currentUser = useSelector(myProfileSelector);
     const friends = useSelector(getMyFriendsSelector);
+    const searchFriends = useSelector(getMySearchFriendsSelector);
     const hasMoreFriends = useSelector(getHasMoreFriendsSelector);
     const friendsLoading = useSelector(getFriendsLoadingSelector);
 
@@ -108,21 +110,22 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(
 
     const loadMore = useCallback(() => {
       const page: IPage = {
-        offset: friends.length,
+        offset: name.length ? searchFriends.length : friends.length,
         limit: FRIENDS_LIMIT,
       };
-      loadFriends({ page });
-    }, [friends, loadFriends]);
+      loadFriends({ page, name, initializedByScroll: true });
+    }, [searchFriends.length, friends.length, loadFriends, name]);
 
-    const searchFriends = useCallback(
-      (friendName: string) => {
+    const searchFriendsList = useCallback(
+      (searchName: string) => {
+        setName(searchName);
         loadFriends({
           page: { offset: 0, limit: FRIENDS_LIMIT },
-          name: friendName,
-          initializedBySearch: true,
+          name: searchName,
+          initializedByScroll: false,
         });
       },
-      [loadFriends],
+      [loadFriends, setName],
     );
 
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -186,6 +189,37 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(
       setCurrrentStage(GroupChatCreationStage.GroupChatCreation);
     }, [setCurrrentStage]);
 
+    useEffect(
+      () => () => {
+        searchFriendsList('');
+      },
+      [searchFriendsList],
+    );
+
+    const handleSearchInputChange = useCallback(
+      (e: React.ChangeEvent<HTMLInputElement>) => searchFriendsList(e.target.value),
+      [searchFriendsList],
+    );
+
+    const renderSelectEntity = useCallback(
+      (friend: IUser) => (
+        <SelectEntity
+          key={friend.id}
+          chatOrUser={friend}
+          isSelected={isSelected(friend.id)}
+          changeSelectedState={changeSelectedState}
+        />
+      ),
+      [changeSelectedState, isSelected],
+    );
+
+    const selectEntities = useMemo(() => {
+      if (name.length) {
+        return searchFriends.map(renderSelectEntity);
+      }
+      return friends.map(renderSelectEntity);
+    }, [name.length, searchFriends, friends, renderSelectEntity]);
+
     return (
       <>
         <WithBackground onBackgroundClick={onClose}>
@@ -210,21 +244,14 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(
                   <div className="create-group-chat__select-friends">
                     <SearchBox
                       containerClassName="create-group-chat__select-friends__search"
-                      onChange={(e) => searchFriends(e.target.value)}
+                      onChange={handleSearchInputChange}
                     />
                     <InfiniteScroll
                       className="create-group-chat__friends-block"
                       onReachExtreme={loadMore}
                       hasMore={hasMoreFriends}
                       isLoading={friendsLoading}>
-                      {friends.map((friend) => (
-                        <SelectEntity
-                          key={friend.id}
-                          chatOrUser={friend}
-                          isSelected={isSelected(friend.id)}
-                          changeSelectedState={changeSelectedState}
-                        />
-                      ))}
+                      {selectEntities}
                     </InfiniteScroll>
                   </div>
                 )}
@@ -313,7 +340,7 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(
               currentStage === GroupChatCreationStage.GroupChatCreation ? (
                 <Button
                   key={3}
-                  disabled={name.length === 0 || !uploadEnded}
+                  disabled={!name.length || !uploadEnded}
                   loading={creationLoading}
                   type="button"
                   className="create-group-chat__btn create-group-chat__btn--confirm"

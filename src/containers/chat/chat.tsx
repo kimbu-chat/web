@@ -11,7 +11,6 @@ import {
   CreateMessageInput,
   ChatList,
   ChatTopBar,
-  SearchTop,
   MessageList,
   NotContact,
   BlockedMessageInput,
@@ -73,20 +72,14 @@ const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
       <RoutingChats />
 
       <Route path="/calls">
-        <div className="messenger__calls">
-          <SearchTop searchFor="calls" />
-          <CallList />
-        </div>
+        <CallList />
         <div className="messenger__main-data">
           <AddCall />
         </div>
       </Route>
 
       <Route path="/chats/:chatId?/">
-        <div className="messenger__chats">
-          <SearchTop searchFor="chats" />
-          <ChatList />
-        </div>
+        <ChatList />
         <div className="messenger__chat-send">
           <MessageList />
           {isCurrentChatBlackListed || amICurrentChatBlackListed ? (
@@ -107,10 +100,7 @@ const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
       </Route>
 
       <Route path="/contacts/">
-        <div className="messenger__friends">
-          <SearchTop searchFor="friends" />
-          <FriendList />
-        </div>
+        <FriendList />
         <div className="messenger__main-data">
           <AddFriend />
         </div>

@@ -11,6 +11,7 @@ import { IFriendsState } from './friends-state';
 const initialState: IFriendsState = {
   loading: false,
   friends: [],
+  searchFriends: [],
   hasMoreFriends: true,
 };
 

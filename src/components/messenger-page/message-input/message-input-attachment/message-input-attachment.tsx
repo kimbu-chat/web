@@ -14,6 +14,7 @@ import { ReactComponent as VideoSVG } from '@icons/video.svg';
 import { ReactComponent as FileSVG } from '@icons/file.svg';
 import { ReactComponent as CloseSVG } from '@icons/close-x.svg';
 import { ReactComponent as PlaySVG } from '@icons/play.svg';
+import { ReactComponent as MicrophoneSvg } from '@icons/voice.svg';
 import { removeAttachmentAction } from '@store/chats/actions';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getRawAttachmentSizeUnit } from '@utils/get-file-size-unit';
@@ -91,6 +92,10 @@ export const MessageInputAttachment: React.FC<IMessageInputAttachmentProps> = Re
         )}
         {attachment.attachment.type === FileType.Audio && (
           <PlaySVG className="message-input-attachment__type-icon" viewBox="0 0 24 24" />
+        )}
+
+        {attachment.attachment.type === FileType.Voice && (
+          <MicrophoneSvg className="message-input-attachment__type-icon" viewBox="0 0 20 24" />
         )}
 
         <div

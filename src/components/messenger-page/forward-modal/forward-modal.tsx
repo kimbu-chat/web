@@ -11,7 +11,6 @@ import {
   getHasMoreChatsSelector,
   getChatsLoadingSelector,
   getSearchChatsSelector,
-  getSearchStringSelector,
 } from '@store/chats/selectors';
 
 import './forward-modal.scss';
@@ -33,11 +32,11 @@ export const ForwardModal: React.FC<IForwardModalProps> = React.memo(
     const chats = useSelector(getChatsSelector);
     const chatsAreLoading = useSelector(getChatsLoadingSelector);
     const hasMoreChats = useSelector(getHasMoreChatsSelector);
-    const searchString = useSelector(getSearchStringSelector);
     const searchChats = useSelector(getSearchChatsSelector);
 
     const [selectedChatIds, setSelectedChatIds] = useState<number[]>([]);
     const [loading, setLoading] = useState(false);
+    const [searchString, setSearchString] = useState('');
 
     const loadChats = useActionWithDispatch(ChatActions.getChats);
     const forwardMessages = useActionWithDeferred(ForwardMessages.action);
@@ -66,6 +65,7 @@ export const ForwardModal: React.FC<IForwardModalProps> = React.memo(
 
     const handleChatSearchChange = useCallback(
       (e: React.ChangeEvent<HTMLInputElement>): void => {
+        setSearchString(e.target.value);
         loadChats({
           name: e.target.value,
           initializedByScroll: false,
@@ -73,7 +73,7 @@ export const ForwardModal: React.FC<IForwardModalProps> = React.memo(
           showAll: true,
         });
       },
-      [loadChats],
+      [loadChats, setSearchString],
     );
 
     const forwardSelectedMessages = useCallback(() => {

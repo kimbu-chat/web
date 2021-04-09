@@ -3,7 +3,7 @@ import { PhotoEditor, SearchBox, InfiniteScroll } from '@components/messenger-pa
 import { Modal, WithBackground, LabeledInput, Button } from '@components/shared';
 import * as FriendActions from '@store/friends/actions';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import * as ChatActions from '@store/chats/actions';
@@ -14,6 +14,7 @@ import {
   getFriendsLoadingSelector,
   getHasMoreFriendsSelector,
   getMyFriendsSelector,
+  getMySearchFriendsSelector,
 } from '@store/friends/selectors';
 import { myProfileSelector } from '@store/my-profile/selectors';
 import { ICreateGroupChatActionPayload } from '@store/chats/features/create-group-chat/action-payloads/create-group-chat-action-payload';
@@ -43,6 +44,7 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(
 
     const currentUser = useSelector(myProfileSelector);
     const friends = useSelector(getMyFriendsSelector);
+    const searchFriends = useSelector(getMySearchFriendsSelector);
     const hasMoreFriends = useSelector(getHasMoreFriendsSelector);
     const friendsLoading = useSelector(getFriendsLoadingSelector);
 
@@ -107,21 +109,22 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(
 
     const loadMore = useCallback(() => {
       const page: IPage = {
-        offset: friends.length,
+        offset: name.length > 0 ? searchFriends.length : friends.length,
         limit: FRIENDS_LIMIT,
       };
-      loadFriends({ page });
-    }, [friends, loadFriends]);
+      loadFriends({ page, name, initializedByScroll: true });
+    }, [searchFriends.length, friends.length, loadFriends, name]);
 
-    const searchFriends = useCallback(
-      (friendName: string) => {
+    const searchFriendsList = useCallback(
+      (searchName: string) => {
+        setName(searchName);
         loadFriends({
           page: { offset: 0, limit: FRIENDS_LIMIT },
-          name: friendName,
-          initializedBySearch: true,
+          name: searchName,
+          initializedByScroll: false,
         });
       },
-      [loadFriends],
+      [loadFriends, setName],
     );
 
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -185,6 +188,13 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(
       setCurrrentStage(GroupChatCreationStage.GroupChatCreation);
     }, [setCurrrentStage]);
 
+    useEffect(
+      () => () => {
+        searchFriendsList('');
+      },
+      [searchFriendsList],
+    );
+
     return (
       <>
         <WithBackground onBackgroundClick={onClose}>
@@ -209,21 +219,30 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(
                   <div className="create-group-chat__select-friends">
                     <SearchBox
                       containerClassName="create-group-chat__select-friends__search"
-                      onChange={(e) => searchFriends(e.target.value)}
+                      onChange={(e) => searchFriendsList(e.target.value)}
                     />
                     <InfiniteScroll
                       className="create-group-chat__friends-block"
                       onReachExtreme={loadMore}
                       hasMore={hasMoreFriends}
                       isLoading={friendsLoading}>
-                      {friends.map((friend) => (
-                        <SelectEntity
-                          key={friend.id}
-                          chatOrUser={friend}
-                          isSelected={isSelected(friend.id)}
-                          changeSelectedState={changeSelectedState}
-                        />
-                      ))}
+                      {name.length > 0
+                        ? searchFriends.map((friend) => (
+                            <SelectEntity
+                              key={friend.id}
+                              chatOrUser={friend}
+                              isSelected={isSelected(friend.id)}
+                              changeSelectedState={changeSelectedState}
+                            />
+                          ))
+                        : friends.map((friend) => (
+                            <SelectEntity
+                              key={friend.id}
+                              chatOrUser={friend}
+                              isSelected={isSelected(friend.id)}
+                              changeSelectedState={changeSelectedState}
+                            />
+                          ))}
                     </InfiniteScroll>
                   </div>
                 )}

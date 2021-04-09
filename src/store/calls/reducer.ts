@@ -44,6 +44,7 @@ const initialState: ICallsState = {
   videoDevicesList: [],
   calls: {
     calls: [],
+    searchCalls: [],
     loading: false,
     hasMore: true,
   },

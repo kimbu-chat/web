@@ -1,16 +1,15 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import './chat-list.scss';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { useSelector } from 'react-redux';
 import { IChat } from '@store/chats/models';
 import * as ChatActions from '@store/chats/actions';
-import { InfiniteScroll } from '@components/messenger-page';
+import { InfiniteScroll, SearchTop } from '@components/messenger-page';
 import {
   getChatsSelector,
   getSearchChatsSelector,
   getChatsLoadingSelector,
   getHasMoreChatsSelector,
-  getSearchStringSelector,
   getSelectedChatIdSelector,
 } from '@store/chats/selectors';
 import { useParams } from 'react-router';
@@ -21,13 +20,20 @@ const ChatList = React.memo(() => {
   const searchChats = useSelector(getSearchChatsSelector);
   const hasMoreChats = useSelector(getHasMoreChatsSelector);
   const areChatsLoading = useSelector(getChatsLoadingSelector);
-  const searchString = useSelector(getSearchStringSelector);
   const selectedChatId = useSelector(getSelectedChatIdSelector);
 
   const getChatsRequest = useActionWithDispatch(ChatActions.getChats);
   const changeSelectedChat = useActionWithDispatch(ChatActions.changeSelectedChat);
 
   const { chatId } = useParams<{ chatId: string }>();
+
+  const [searchString, setSearchString] = useState('');
+  const changeSearchString = useCallback(
+    (name: string) => {
+      setSearchString(name);
+    },
+    [setSearchString],
+  );
 
   useEffect(() => {
     if (chatId) {
@@ -47,12 +53,18 @@ const ChatList = React.memo(() => {
   }, [areChatsLoading, getChatsRequest, searchString]);
 
   return (
-    <div className="chat-list">
-      <InfiniteScroll onReachExtreme={loadMore} hasMore={hasMoreChats} isLoading={areChatsLoading}>
-        {searchString.length > 0
-          ? searchChats?.map((chat: IChat) => <ChatFromList chat={chat} key={chat.id} />)
-          : chats?.map((chat: IChat) => <ChatFromList chat={chat} key={chat.id} />)}
-      </InfiniteScroll>
+    <div className="messenger__chats">
+      <SearchTop onChange={changeSearchString} searchFor="chats" />
+      <div className="chat-list">
+        <InfiniteScroll
+          onReachExtreme={loadMore}
+          hasMore={hasMoreChats}
+          isLoading={areChatsLoading}>
+          {searchString.length > 0
+            ? searchChats?.map((chat: IChat) => <ChatFromList chat={chat} key={chat.id} />)
+            : chats?.map((chat: IChat) => <ChatFromList chat={chat} key={chat.id} />)}
+        </InfiniteScroll>
+      </div>
     </div>
   );
 });

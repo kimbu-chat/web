@@ -72,7 +72,6 @@ import { MessageCreatedEventHandlerSuccess } from './socket-events/message-creat
 
 const initialState: IChatsState = {
   hasMore: true,
-  searchString: '',
   chats: [],
   messages: {},
   searchChats: [],

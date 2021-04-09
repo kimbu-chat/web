@@ -12,18 +12,20 @@ export class GetFriendsSuccess {
   static get reducer() {
     return produce(
       (draft: IFriendsState, { payload }: ReturnType<typeof GetFriendsSuccess.action>) => {
-        const { users, hasMore, initializedBySearch } = payload;
+        const { users, hasMore, name, initializedByScroll } = payload;
 
         draft.loading = false;
         draft.hasMoreFriends = hasMore;
 
-        if (initializedBySearch) {
-          draft.friends = users;
-
-          return draft;
+        if (name?.length) {
+          if (initializedByScroll) {
+            draft.searchFriends = unionBy(draft.searchFriends, users, 'id');
+          } else {
+            draft.searchFriends = users;
+          }
+        } else if (initializedByScroll) {
+          draft.friends = unionBy(draft.friends, users, 'id');
         }
-
-        draft.friends = unionBy(draft.friends, users, 'id');
 
         return draft;
       },

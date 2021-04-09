@@ -249,8 +249,8 @@ export const EditProfile = React.memo(() => {
           disabled={
             error !== NicknameState.ALLOWED_NICKNAME ||
             isLoading ||
-            firstName.length === 0 ||
-            lastName.length === 0
+            !firstName.length ||
+            !lastName.length
           }>
           {t('editProfile.save-changes')}
         </Button>

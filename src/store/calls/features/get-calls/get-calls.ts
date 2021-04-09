@@ -18,14 +18,25 @@ export class GetCalls {
   }
 
   static get reducer() {
-    return produce((draft: ICallsState) => {
-      draft.calls.loading = false;
+    return produce((draft: ICallsState, { payload }: ReturnType<typeof GetCalls.action>) => {
+      if (!payload.name?.length && !payload.initializedByScroll) {
+        draft.calls.searchCalls = [];
+        draft.calls.hasMore = true;
+      } else {
+        draft.calls.loading = true;
+      }
+
+      return draft;
     });
   }
 
   static get saga() {
     return function* getCalls(action: ReturnType<typeof GetCalls.action>): SagaIterator {
-      const { page } = action.payload;
+      const { page, name, initializedByScroll } = action.payload;
+
+      if (!name?.length && !initializedByScroll) {
+        return;
+      }
 
       const { httpRequest } = GetCalls;
       const { data, status } = httpRequest.call(
@@ -35,7 +46,7 @@ export class GetCalls {
       const hasMore = data.length >= page.limit;
 
       if (status === HTTPStatusCode.OK) {
-        yield put(GetCallsSuccess.action({ calls: data, hasMore }));
+        yield put(GetCallsSuccess.action({ calls: data, hasMore, name, initializedByScroll }));
       }
     };
   }

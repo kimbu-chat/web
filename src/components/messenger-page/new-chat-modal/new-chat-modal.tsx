@@ -1,6 +1,6 @@
 import { Modal, WithBackground } from '@components/shared';
 import { InfiniteScroll, SearchBox } from '@components/messenger-page';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import './new-chat-modal.scss';
 import { getFriendsAction } from '@store/friends/actions';
@@ -18,6 +18,7 @@ import {
   getFriendsLoadingSelector,
   getHasMoreFriendsSelector,
   getMyFriendsSelector,
+  getMySearchFriendsSelector,
 } from '@store/friends/selectors';
 
 import { FRIENDS_LIMIT } from '@utils/pagination-limits';
@@ -35,7 +36,10 @@ export const NewChatModal: React.FC<INewChatModalProps> = React.memo(
   ({ onClose, displayCreateGroupChat }) => {
     const { t } = useTranslation();
 
+    const [name, setName] = useState('');
+
     const friends = useSelector(getMyFriendsSelector);
+    const searchFriends = useSelector(getMySearchFriendsSelector);
     const hasMoreFriends = useSelector(getHasMoreFriendsSelector);
     const friendsLoading = useSelector(getFriendsLoadingSelector);
 
@@ -54,23 +58,54 @@ export const NewChatModal: React.FC<INewChatModalProps> = React.memo(
 
     const loadMore = useCallback(() => {
       const page: IPage = {
-        offset: friends.length,
+        offset: name.length ? searchFriends.length : friends.length,
         limit: FRIENDS_LIMIT,
       };
-      loadFriends({ page });
-    }, [friends, loadFriends]);
+      loadFriends({ page, name, initializedByScroll: true });
+    }, [searchFriends.length, friends.length, loadFriends, name]);
 
-    const searchFriends = useCallback(
-      (name: string) => {
-        loadFriends({ page: { offset: 0, limit: FRIENDS_LIMIT }, name, initializedBySearch: true });
+    const searchFriendsList = useCallback(
+      (searchName: string) => {
+        setName(searchName);
+        loadFriends({
+          page: { offset: 0, limit: FRIENDS_LIMIT },
+          name: searchName,
+          initializedByScroll: false,
+        });
       },
-      [loadFriends],
+      [loadFriends, setName],
     );
 
     const createGroupChat = useCallback(() => {
       displayCreateGroupChat();
       onClose();
     }, [displayCreateGroupChat, onClose]);
+
+    const handleSearchInputChange = useCallback(
+      (e: React.ChangeEvent<HTMLInputElement>) => searchFriendsList(e.target.value),
+      [searchFriendsList],
+    );
+
+    useEffect(
+      () => () => {
+        searchFriendsList('');
+      },
+      [searchFriendsList],
+    );
+
+    const renderSelectEntity = useCallback(
+      (friend: IUser) => (
+        <SelectEntity key={friend.id} chatOrUser={friend} onClick={createEmptyChat} />
+      ),
+      [createEmptyChat],
+    );
+
+    const selectEntities = useMemo(() => {
+      if (name.length) {
+        return searchFriends.map(renderSelectEntity);
+      }
+      return friends.map(renderSelectEntity);
+    }, [name.length, searchFriends, friends, renderSelectEntity]);
 
     return (
       <WithBackground onBackgroundClick={onClose}>
@@ -84,10 +119,7 @@ export const NewChatModal: React.FC<INewChatModalProps> = React.memo(
           closeModal={onClose}
           content={
             <div className="new-chat">
-              <SearchBox
-                containerClassName="new-chat__search"
-                onChange={(e) => searchFriends(e.target.value)}
-              />
+              <SearchBox containerClassName="new-chat__search" onChange={handleSearchInputChange} />
 
               <div onClick={createGroupChat} className="new-chat__new-group">
                 <div className="new-chat__new-group__img">
@@ -103,9 +135,7 @@ export const NewChatModal: React.FC<INewChatModalProps> = React.memo(
                 onReachExtreme={loadMore}
                 hasMore={hasMoreFriends}
                 isLoading={friendsLoading}>
-                {friends.map((friend) => (
-                  <SelectEntity key={friend.id} chatOrUser={friend} onClick={createEmptyChat} />
-                ))}
+                {selectEntities}
               </InfiniteScroll>
             </div>
           }

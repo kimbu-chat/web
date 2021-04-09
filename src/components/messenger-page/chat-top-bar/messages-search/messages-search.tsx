@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { ReactComponent as SearchSvg } from '@icons/search.svg';
-import { ReactComponent as ArrowSvg } from '@icons/arrow-v.svg';
+// import { ReactComponent as ArrowSvg } from '@icons/arrow-v.svg';
 
 import { GetMessages } from '@store/chats/features/get-messages/get-messages';
 import { MESSAGES_LIMIT } from '@utils/pagination-limits';
@@ -45,6 +45,8 @@ export const MessagesSearch = () => {
             value={messagesSearchString || ''}
             onChange={searchMessages}
           />
+          {/*
+          //TODO: Use this block for navigation between found messages 
           <div className="messages-search__pointer-container">
             <span className="messages-search__pointer-container__data">1/3</span>
             <div className="messages-search__pointer-arrows">
@@ -60,7 +62,7 @@ export const MessagesSearch = () => {
                 <ArrowSvg viewBox="0 0 8 14" />
               </button>
             </div>
-          </div>
+          </div> */}
         </>
       ) : (
         <button type="button" onClick={changeSearchingState} className="chat-data__button">

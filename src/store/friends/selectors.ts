@@ -5,6 +5,8 @@ import { IFriendsState } from './friends-state';
 
 export const getMyFriendsSelector = (state: RootState) => state.friends.friends;
 
+export const getMySearchFriendsSelector = (state: RootState) => state.friends.searchFriends;
+
 export const getFriendByIdSelector = (id: number) => (state: RootState) =>
   state.friends.friends.find((friend) => friend.id === id);
 

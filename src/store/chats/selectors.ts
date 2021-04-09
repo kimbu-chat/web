@@ -56,8 +56,9 @@ export const getIsFirstChatsLoadSelector = (state: RootState): boolean =>
   (typeof state.chats.loading === 'undefined' || state.chats.loading === true) &&
   state.chats.chats.length === 0;
 
-export const getChatsPageSelector = (state: RootState) =>
-  state.chats.searchString.length > 0 ? state.chats.searchPage : state.chats.page;
+export const getChatsPageSelector = (state: RootState) => state.chats.page;
+
+export const getChatsSearchPageSelector = (state: RootState) => state.chats.searchPage;
 
 // Attachments list selector
 
@@ -123,8 +124,6 @@ export const getChatsLoadingSelector = (state: RootState): boolean | undefined =
   state.chats.loading;
 
 export const getHasMoreChatsSelector = (state: RootState): boolean => state.chats.hasMore;
-
-export const getSearchStringSelector = (state: RootState) => state.chats.searchString;
 
 export const getMembersForSelectedGroupChatSelector = (state: RootState) =>
   state.chats?.chats?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.members?.members;

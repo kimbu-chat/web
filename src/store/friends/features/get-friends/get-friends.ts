@@ -17,15 +17,26 @@ export class GetFriends {
   }
 
   static get reducer() {
-    return produce((draft: IFriendsState) => {
-      draft.loading = true;
+    return produce((draft: IFriendsState, { payload }: ReturnType<typeof GetFriends.action>) => {
+      if (!payload.name?.length && !payload.initializedByScroll) {
+        draft.searchFriends = [];
+        draft.hasMoreFriends = true;
+      } else {
+        draft.loading = true;
+      }
+
       return draft;
     });
   }
 
   static get saga() {
     return function* getFriends(action: ReturnType<typeof GetFriends.action>): SagaIterator {
-      const { name, initializedBySearch, page } = action.payload;
+      const { name, initializedByScroll, page } = action.payload;
+
+      if (!name?.length && !initializedByScroll) {
+        return;
+      }
+
       const request = GetFriends.httpRequest;
       const { data } = request.call(yield call(() => request.generator(action.payload)));
 
@@ -35,7 +46,7 @@ export class GetFriends {
         GetFriendsSuccess.action({
           users: data,
           name,
-          initializedBySearch,
+          initializedByScroll,
           hasMore,
         }),
       );

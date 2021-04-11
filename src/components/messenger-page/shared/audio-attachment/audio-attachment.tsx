@@ -6,7 +6,7 @@ import { ReactComponent as PauseSvg } from '@icons/pause.svg';
 import moment from 'moment';
 import { changeMusic } from '@utils/current-music';
 import { IAudioAttachment } from '@store/chats/models';
-import AudioPlayer from 'react-h5-audio-player';
+import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
 
 interface IMessageAudioAttachmentProps {
   attachment: IAudioAttachment;
@@ -43,6 +43,21 @@ export const MessageAudioAttachment: React.FC<IMessageAudioAttachmentProps> = Re
               {moment.utc(attachment.duration * 1000).format('mm:ss')}
             </div>
           </div>
+
+          <AudioPlayer
+            ref={audioRef as React.RefObject<AudioPlayer>}
+            src={attachment.url}
+            preload="metadata"
+            defaultCurrentTime={
+              <span>{moment.utc(attachment.duration * 1000).format('mm:ss')}</span>
+            }
+            showSkipControls={false}
+            showJumpControls={false}
+            autoPlayAfterSrcChange={false}
+            customProgressBarSection={[RHAP_UI.PROGRESS_BAR]}
+            customControlsSection={[]}
+            customAdditionalControls={[]}
+          />
         </div>
       </div>
     );

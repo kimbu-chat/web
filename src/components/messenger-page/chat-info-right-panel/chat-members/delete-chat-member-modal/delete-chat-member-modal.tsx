@@ -34,14 +34,18 @@ export const DeleteChatMemberModal: React.FC<IDeleteChatMemberModalProps> = Reac
           content={t('deleteChatMemberModal.delete-confirmation')}
           closeModal={hide}
           buttons={[
-            <button key={1} type="button" className="delete-chat-modal__cancel-btn" onClick={hide}>
+            <button
+              key={1}
+              type="button"
+              className="delete-chat-member-modal__cancel-btn"
+              onClick={hide}>
               {t('deleteChatMemberModal.cancel')}
             </button>,
             <Button
               key={2}
               type="button"
               loading={loading}
-              className="delete-chat-modal__confirm-btn"
+              className="delete-chat-member-modal__confirm-btn"
               onClick={removeChatMember}>
               {t('deleteChatMemberModal.confirm')}
             </Button>,

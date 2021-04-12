@@ -92,6 +92,12 @@
       &:hover {
         box-shadow: 0 3px 6px rgba(14, 22, 43, 0.62);
       }
+
+      &:disabled {
+        --bg-color: var(--disabled-btn);
+        background: var(--disabled-btn);
+        color: var(--disabled-btn-text);
+      }
     }
 
     &--cancel {

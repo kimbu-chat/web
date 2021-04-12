@@ -16,7 +16,7 @@ import {
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 
 import { useTranslation } from 'react-i18next';
-import { IAvatarSelectedData, IAvatar } from '@store/common/models';
+import { IAvatarSelectedData } from '@store/common/models';
 import { validateNickname } from '@utils/validate-nick-name';
 import { parsePhoneNumber } from 'libphonenumber-js';
 import { ChangePhoneModal } from './change-phone-modal/change-phone-modal';
@@ -88,18 +88,14 @@ export const EditProfile = React.memo(() => {
   );
 
   const changeMyAvatar = useCallback(
-    (data: IAvatarSelectedData) => {
-      setNewAvatar({
-        url: data.imagePath,
-        previewUrl: data.croppedImagePath,
-      } as IAvatar);
+    async (data: IAvatarSelectedData) => {
       setIsLoading(true);
-      uploadAvatar({
+
+      const response = await uploadAvatar({
         pathToFile: data.croppedImagePath,
-      }).then((response: IAvatar) => {
-        setNewAvatar(response);
-        setIsLoading(false);
       });
+      setNewAvatar(response);
+      setIsLoading(false);
     },
     [uploadAvatar],
   );

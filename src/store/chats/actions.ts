@@ -71,6 +71,9 @@ import { RemoveAllAttachments } from './features/remove-attachment/remove-all-at
 import { RemoveUserFromGroupChat } from './features/remove-user-from-group-chat/remove-user-from-group-chat';
 import { RemoveUserFromGroupChatSuccess } from './features/remove-user-from-group-chat/remove-user-from-group-chat-success';
 import { MessageCreatedEventHandlerSuccess } from './socket-events/message-created/message-created-event-handler-success';
+import { RemoveChat } from './features/remove-chat/remove-chat';
+import { RemoveChatSuccess } from './features/remove-chat/remove-chat-success';
+import { DialogRemovedEventHandler } from './socket-events/dialog-removed/dialog-removed-event-handler';
 
 // ChatActions
 export const getChatsAction = GetChats.action;
@@ -150,6 +153,9 @@ export const chatClearedEventHandlerAction = ChatClearedEventHandler.action;
 export const userEditedEventHandlerAction = UserEditedEventHandler.action;
 export const messagesDeletedIntegrationEventHandlerSuccessAction =
   MessagesDeletedIntegrationEventHandlerSuccess.action;
+export const removeChat = RemoveChat.action;
+export const removeChatSuccess = RemoveChatSuccess.action;
+export const dialogRemovedEventHandler = DialogRemovedEventHandler.action;
 
 export const ChatActions = {
   // ChatActions
@@ -214,6 +220,8 @@ export const ChatActions = {
   removeAllAttachmentsAction,
   removeUserFromGroupChatAction,
   removeUserFromGroupChatSuccessAction,
+  removeChat,
+  removeChatSuccess,
 
   // socket-events
 
@@ -229,4 +237,5 @@ export const ChatActions = {
   chatClearedEventHandlerAction,
   userEditedEventHandlerAction,
   messagesDeletedIntegrationEventHandlerSuccessAction,
+  dialogRemovedEventHandler,
 };

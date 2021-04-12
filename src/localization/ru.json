@@ -72,7 +72,14 @@
     "delete-chat": "Удалить чат",
     "leave-chat": "Покинуть чат",
     "add-users": "Добавить в чат",
-    "actions": "Действия"
+    "actions": "Действия",
+    "remove-chat": "Удалить чат"
+  },
+  "removeChatModal": {
+    "title": "Удалить чат",
+    "delete-confirmation": "Удалить для собеседника",
+    "cancel": "Отмена",
+    "delete-confirm": "Удалить"
   },
   "chatMedia": {
     "media": "Медия",

@@ -19,29 +19,23 @@ export class InterlocutorAcceptedCallEventHandler {
         draft: ICallsState,
         { payload }: ReturnType<typeof InterlocutorAcceptedCallEventHandler.action>,
       ) => {
-        if (!draft.isSpeaking && !draft.amICalled) {
-          if (payload.answer && draft.amICalling) {
-            draft.isSpeaking = true;
-            draft.amICalled = false;
-            draft.amICalling = false;
-            draft.isActiveCallIncoming = false;
-          } else if (!draft.amICalling) {
-            draft.interlocutor = undefined;
-            draft.isInterlocutorBusy = false;
-            draft.amICalling = false;
-            draft.amICalled = false;
-            draft.isSpeaking = false;
-            draft.isInterlocutorVideoEnabled = false;
-            draft.isInterlocutorAudioEnabled = false;
-            draft.videoConstraints.isOpened = false;
-            draft.videoConstraints.isOpened = false;
-            draft.isScreenSharingOpened = false;
-          }
-        } else if (draft.amICalled) {
-          draft.isActiveCallIncoming = true;
+        if (
+          (payload.answer && draft.amICalling) ||
+          (draft.amICalled && draft.isActiveCallIncoming)
+        ) {
           draft.isSpeaking = true;
           draft.amICalled = false;
           draft.amICalling = false;
+        } else if (!draft.isSpeaking) {
+          draft.interlocutor = undefined;
+          draft.isInterlocutorBusy = false;
+          draft.amICalling = false;
+          draft.amICalled = false;
+          draft.isSpeaking = false;
+          draft.isInterlocutorVideoEnabled = false;
+          draft.videoConstraints.isOpened = false;
+          draft.videoConstraints.isOpened = false;
+          draft.isScreenSharingOpened = false;
         }
 
         return draft;

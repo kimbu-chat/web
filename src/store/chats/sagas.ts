@@ -1,4 +1,5 @@
 import { takeEvery, takeLatest } from 'redux-saga/effects';
+import { RemoveChat } from './features/remove-chat/remove-chat';
 import { CreateGroupChat } from './features/create-group-chat/create-group-chat';
 import { AddUsersToGroupChat } from './features/add-users-to-group-chat/add-users-to-group-chat';
 import { ChangeSelectedChat } from './features/change-selected-chat/change-selected-chat';
@@ -58,6 +59,7 @@ export const ChatSagas = [
   takeEvery(ForwardMessages.action, ForwardMessages.saga),
   takeEvery(RemoveAllAttachments.action, RemoveAllAttachments.saga),
   takeEvery(RemoveUserFromGroupChat.action, RemoveUserFromGroupChat.saga),
+  takeEvery(RemoveChat.action, RemoveChat.saga),
 
   // socket-events
   takeEvery(MessageCreatedEventHandler.action, MessageCreatedEventHandler.saga),

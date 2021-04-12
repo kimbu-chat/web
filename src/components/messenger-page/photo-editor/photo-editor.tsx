@@ -10,7 +10,7 @@ import { ReactComponent as ReflectSvg } from '@icons/reflect.svg';
 import { ReactComponent as PeisageSvg } from '@icons/peisage.svg';
 
 import Cropper from 'react-easy-crop';
-import { WithBackground, Modal } from '@components/shared';
+import { WithBackground, Modal, Button } from '@components/shared';
 import { IAvatarSelectedData } from '@store/common/models';
 import { Tooltip } from '@components/shared/tooltip/tooltip';
 import { Area } from 'react-easy-crop/types';
@@ -42,7 +42,7 @@ const railStyle: React.CSSProperties = {
 interface IPhotoEditorProps {
   imageUrl: string;
   hideChangePhoto: () => void;
-  onSubmit?: (data: IAvatarSelectedData) => void;
+  onSubmit?: (data: IAvatarSelectedData) => Promise<void>;
 }
 export const PhotoEditor: React.FC<IPhotoEditorProps> = ({
   imageUrl,
@@ -56,6 +56,7 @@ export const PhotoEditor: React.FC<IPhotoEditorProps> = ({
   const [flip, setFlip] = useState({ horizontal: false, vertical: false });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
+  const [submitLoading, setSubmitLoading] = useState(false);
 
   const onCropComplete = useCallback(
     (_croppedArea, croppedAreaPixelsToSet) => {
@@ -66,11 +67,14 @@ export const PhotoEditor: React.FC<IPhotoEditorProps> = ({
 
   const submitChange = useCallback(async () => {
     if (onSubmit && croppedAreaPixels) {
-      hideChangePhoto();
       const croppedUrl = await getCroppedImg(imageUrl, croppedAreaPixels, rotation, flip);
+      setSubmitLoading(true);
       onSubmit({
         imagePath: imageUrl,
         croppedImagePath: croppedUrl,
+      }).then(() => {
+        setSubmitLoading(false);
+        hideChangePhoto();
       });
     }
   }, [onSubmit, hideChangePhoto, imageUrl, croppedAreaPixels, rotation, flip]);
@@ -149,20 +153,21 @@ export const PhotoEditor: React.FC<IPhotoEditorProps> = ({
           </div>
         }
         buttons={[
-          <button
+          <Button
             key={0}
             type="button"
             className="photo-editor__btn photo-editor__btn--cancel"
             onClick={hideChangePhoto}>
             {t('changePhoto.reject')}
-          </button>,
-          <button
+          </Button>,
+          <Button
+            loading={submitLoading}
             key={1}
             type="button"
             className="photo-editor__btn photo-editor__btn--confirm"
             onClick={submitChange}>
             {t('changePhoto.confirm')}
-          </button>,
+          </Button>,
         ]}
       />
     </WithBackground>

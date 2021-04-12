@@ -73,19 +73,21 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(
     const isSelected = useCallback((id: number) => selectedUserIds.includes(id), [selectedUserIds]);
 
     const applyAvatarData = useCallback(
-      (data: IAvatarSelectedData) => {
+      async (data: IAvatarSelectedData) => {
         setAvatarData(data);
         setUploadEnded(false);
-        uploadGroupChatAvatar({ pathToFile: data.croppedImagePath, onProgress: setUploaded })
-          .then((response) => {
-            setAvatarUploadResponse(response);
-            setUploadEnded(true);
-          })
-          .catch(() => {
-            setAvatarData(null);
-            setAvatarUploadResponse(null);
-            setUploadEnded(true);
+        try {
+          const response = await uploadGroupChatAvatar({
+            pathToFile: data.croppedImagePath,
+            onProgress: setUploaded,
           });
+          setAvatarUploadResponse(response);
+          setUploadEnded(true);
+        } catch {
+          setAvatarData(null);
+          setAvatarUploadResponse(null);
+          setUploadEnded(true);
+        }
       },
       [setAvatarData, setUploaded, uploadGroupChatAvatar, setAvatarUploadResponse],
     );

@@ -15,6 +15,8 @@ import { IAvatarSelectedData } from '@store/common/models';
 import { Tooltip } from '@components/shared/tooltip/tooltip';
 import { Area } from 'react-easy-crop/types';
 import Slider from 'rc-slider/lib/Slider';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { cancelAvatarUploadingRequestAction } from '@store/my-profile/actions';
 import getCroppedImg from './crop-image';
 
 const handleStyle: React.CSSProperties = {
@@ -51,6 +53,8 @@ export const PhotoEditor: React.FC<IPhotoEditorProps> = ({
 }) => {
   const { t } = useTranslation();
 
+  const cancelAvatarUploading = useActionWithDispatch(cancelAvatarUploadingRequestAction);
+
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [rotation, setRotation] = useState(0);
   const [flip, setFlip] = useState({ horizontal: false, vertical: false });
@@ -72,12 +76,21 @@ export const PhotoEditor: React.FC<IPhotoEditorProps> = ({
       onSubmit({
         imagePath: imageUrl,
         croppedImagePath: croppedUrl,
-      }).then(() => {
-        setSubmitLoading(false);
-        hideChangePhoto();
-      });
+      })
+        .then(() => {
+          setSubmitLoading(false);
+          hideChangePhoto();
+        })
+        .catch(() => {
+          setSubmitLoading(false);
+        });
     }
   }, [onSubmit, hideChangePhoto, imageUrl, croppedAreaPixels, rotation, flip]);
+
+  const cancelUpload = useCallback(() => {
+    cancelAvatarUploading();
+    hideChangePhoto();
+  }, [cancelAvatarUploading, hideChangePhoto]);
 
   const mirrorImage = useCallback(() => {
     setFlip((prev) => ({ horizontal: !prev.horizontal, vertical: prev.vertical }));
@@ -89,7 +102,7 @@ export const PhotoEditor: React.FC<IPhotoEditorProps> = ({
   const rotateRight = useCallback(() => setRotation((old) => old + 90), [setRotation]);
 
   return (
-    <WithBackground onBackgroundClick={hideChangePhoto}>
+    <WithBackground>
       <Modal
         title={
           <>
@@ -98,7 +111,7 @@ export const PhotoEditor: React.FC<IPhotoEditorProps> = ({
             <span> {t('changePhoto.title')} </span>
           </>
         }
-        closeModal={hideChangePhoto}
+        closeModal={cancelUpload}
         content={
           <div onClick={(e) => e.stopPropagation()} className="photo-editor">
             <div className="photo-editor__crop-container">
@@ -157,7 +170,7 @@ export const PhotoEditor: React.FC<IPhotoEditorProps> = ({
             key={0}
             type="button"
             className="photo-editor__btn photo-editor__btn--cancel"
-            onClick={hideChangePhoto}>
+            onClick={cancelUpload}>
             {t('changePhoto.reject')}
           </Button>,
           <Button

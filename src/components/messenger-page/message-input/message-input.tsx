@@ -4,7 +4,7 @@ import { containsFiles, useGlobalDrop } from '@hooks/use-global-drop';
 import { useOnClickOutside } from '@hooks/use-on-click-outside';
 import { useReferState } from '@hooks/use-referred-state';
 import { CreateMessage } from '@store/chats/features/create-message/create-message';
-import { MessageTyping } from '@store/chats/features/message-typing/message-typing';
+import { messageTypingAction } from '@store/chats/actions';
 import { UploadAttachmentRequest } from '@store/chats/features/upload-attachment/upload-attachment-request';
 import {
   SystemMessageType,
@@ -63,7 +63,7 @@ export const CreateMessageInput = React.memo(() => {
   const { t } = useTranslation();
 
   const sendMessage = useActionWithDispatch(CreateMessage.action);
-  const notifyAboutTyping = useActionWithDispatch(MessageTyping.action);
+  const notifyAboutTyping = useActionWithDispatch(messageTypingAction);
   const uploadAttachmentRequest = useActionWithDispatch(UploadAttachmentRequest.action);
   const submitEditMessage = useActionWithDispatch(SubmitEditMessage.action);
   const removeAllAttachmentsToSend = useActionWithDispatch(RemoveAllAttachments.action);
@@ -294,15 +294,13 @@ export const CreateMessageInput = React.memo(() => {
     [uploadAttachmentRequest],
   );
 
-  const throttledNotifyAboutTyping = useCallback(
-    (typedText: string) =>
-      throttle((throttledText: string) => {
-        notifyAboutTyping({
-          text: throttledText,
-        });
-      }, 1000)(typedText),
-    [notifyAboutTyping],
-  );
+  const throttledNotifyAboutTyping = useRef(
+    throttle((notificationText: string) => {
+      notifyAboutTyping({
+        text: notificationText,
+      });
+    }, 1000),
+  ).current;
 
   const onType = useCallback(
     (event) => {

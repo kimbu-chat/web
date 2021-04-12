@@ -4,6 +4,7 @@ import moment from 'moment';
 import { SettingsService } from '@services/settings-service';
 import en from './en.json';
 import ru from './ru.json';
+import 'moment/locale/ru';
 
 // todo: load only needed local at runtime
 

@@ -19,6 +19,7 @@ export const MAIN_API = {
   SEND_CALL_OFFER: `${REACT_APP_MAIN_API}/api/calls/send-call-offer`,
   TIMEOUT_CALL: `${REACT_APP_MAIN_API}/api/calls/mark-call-as-not-answered`,
   CALL_ENDED_EVENT: `${REACT_APP_MAIN_API}/api/calls/:callId`,
+  REMOVE_CHAT: `${REACT_APP_MAIN_API}/api/dialogs/:userId?forEveryone=:forEveryone`,
   ACCEPT_RENEGOTIATION: `${REACT_APP_MAIN_API}/api/calls/accept-renegotiation`,
   SEND_ICE_CANDIDATE: `${REACT_APP_MAIN_API}/api/calls/send-ice-candidate`,
   SEND_RENEGOTIATION: `${REACT_APP_MAIN_API}/api/calls/send-renegotiation`,

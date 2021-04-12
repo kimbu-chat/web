@@ -2,6 +2,7 @@ import produce from 'immer';
 import { createReducer } from 'typesafe-actions';
 import { DismissToAddContactSuccess } from '@store/friends/features/dismiss-to-add-contact/dismiss-to-add-contact-success';
 import { UserContactsRemovedEventHandler } from '@store/friends/socket-events/user-contacts-removed/user-contacts-removed-event-handler';
+import { RemoveChatSuccess } from './features/remove-chat/remove-chat-success';
 import { AddUsersToGroupChatSuccess } from './features/add-users-to-group-chat/add-users-to-group-chat-success';
 import { ChangeChatMutedStatusSuccess } from './features/change-chat-muted-status/change-chat-muted-status-success';
 import { ChangeSelectedChat } from './features/change-selected-chat/change-selected-chat';
@@ -70,6 +71,7 @@ import { BlockUserSuccess } from '../settings/features/block-user/block-user-suc
 import { UnblockUserSuccess } from '../settings/features/unblock-user/unblock-user-success';
 import { RemoveUserFromGroupChatSuccess } from './features/remove-user-from-group-chat/remove-user-from-group-chat-success';
 import { MessageCreatedEventHandlerSuccess } from './socket-events/message-created/message-created-event-handler-success';
+import { DialogRemovedEventHandler } from './socket-events/dialog-removed/dialog-removed-event-handler';
 
 const initialState: IChatsState = {
   hasMore: true,
@@ -133,7 +135,9 @@ const chats = createReducer<IChatsState>(initialState)
   .handleAction(RemoveAllAttachments.action, RemoveAllAttachments.reducer)
   .handleAction(ForwardMessages.action, ForwardMessages.reducer)
   .handleAction(RemoveUserFromGroupChatSuccess.action, RemoveUserFromGroupChatSuccess.reducer)
+  .handleAction(RemoveChatSuccess.action, RemoveChatSuccess.reducer)
   .handleAction(MessageCreatedEventHandlerSuccess.action, MessageCreatedEventHandlerSuccess.reducer)
+  .handleAction(DialogRemovedEventHandler.action, DialogRemovedEventHandler.reducer)
   .handleAction(
     UserStatusChangedEventHandler.action,
     produce(

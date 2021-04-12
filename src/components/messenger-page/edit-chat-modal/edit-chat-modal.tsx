@@ -47,23 +47,25 @@ export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClos
   const [submitLoading, setSubmitLoading] = useState(false);
 
   const applyAvatarData = useCallback(
-    (data: IAvatarSelectedData) => {
+    async (data: IAvatarSelectedData) => {
       setAvatarData(data);
       setUploadEnded(false);
-      uploadGroupChatAvatar({ pathToFile: data.croppedImagePath, onProgress: setUploaded })
-        .then((response: IAvatar) => {
-          setAvatarUploadResponse(response);
-          setUploadEnded(true);
-        })
-        .catch(() => {
-          cancelAvatarUploading();
-          setAvatarData({
-            imagePath: '',
-            croppedImagePath: '',
-          });
-          setAvatarUploadResponse(null);
-          setUploadEnded(true);
+      try {
+        const response = await uploadGroupChatAvatar({
+          pathToFile: data.croppedImagePath,
+          onProgress: setUploaded,
         });
+        setAvatarUploadResponse(response);
+        setUploadEnded(true);
+      } catch {
+        cancelAvatarUploading();
+        setAvatarData({
+          imagePath: '',
+          croppedImagePath: '',
+        });
+        setAvatarUploadResponse(null);
+        setUploadEnded(true);
+      }
     },
     [uploadGroupChatAvatar, cancelAvatarUploading],
   );

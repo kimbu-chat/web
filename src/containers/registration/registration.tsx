@@ -116,19 +116,20 @@ export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
   );
 
   const applyAvatarData = useCallback(
-    (data: IAvatarSelectedData) => {
-      setAvatarData(data);
-      setUploadEnded(false);
-      uploadRegistrationAvatar({ pathToFile: data.croppedImagePath, onProgress: setUploaded })
-        .then((response) => {
-          setAvatarUploadResponse(response);
-          setUploadEnded(true);
-        })
-        .catch(() => {
-          setAvatarData(null);
-          setAvatarUploadResponse(null);
-          setUploadEnded(true);
+    async (data: IAvatarSelectedData) => {
+      try {
+        setUploadEnded(false);
+        const response = await uploadRegistrationAvatar({
+          pathToFile: data.croppedImagePath,
+          onProgress: setUploaded,
         });
+        setAvatarUploadResponse(response);
+        setUploadEnded(true);
+      } catch {
+        setAvatarData(null);
+        setAvatarUploadResponse(null);
+        setUploadEnded(true);
+      }
     },
     [setAvatarData, setUploaded, uploadRegistrationAvatar, setAvatarUploadResponse],
   );

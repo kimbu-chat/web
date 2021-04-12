@@ -23,8 +23,9 @@ import { CreateGroupChat } from '@components/messenger-page';
 import { BlockUser } from '@store/settings/features/block-user/block-user';
 import { UnblockUser } from '@store/settings/features/unblock-user/unblock-user';
 import { useActionWithDeferred, useEmptyActionWithDeferred } from '@hooks/use-action-with-deferred';
-import { DeleteChatModal } from './delete-chat-modal/delete-chat-modal';
+import { LeaveChatModal } from './leave-chat-modal/leave-chat-modal';
 import { ClearChatModal } from './clear-chat-modal/clear-chat-modal';
+import { RemoveChatModal } from './remove-chat-modal/remove-chat-modal';
 
 interface IChatActionsProps {
   addMembers: (params: { excludeIds: (number | undefined)[] }) => void;
@@ -49,6 +50,12 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
   const changeCreateGroupChatModalOpenedState = useCallback(
     () => setCreateGroupChatModalOpened((oldState) => !oldState),
     [setCreateGroupChatModalOpened],
+  );
+
+  const [removeChatModalOpened, setRemoveChatModalOpened] = useState<boolean>(false);
+  const changeRemoveChatModalOpenedState = useCallback(
+    () => setRemoveChatModalOpened((oldState) => !oldState),
+    [setRemoveChatModalOpened],
   );
 
   const changeChatMutedStatus = useEmptyActionWithDeferred(changeChatMutedStatusAction);
@@ -132,6 +139,17 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
         <span className="chat-actions__action__name">{t('chatActions.clear-history')}</span>
       </Button>
 
+      {selectedChat.interlocutor && (
+        <Button
+          themed
+          type="button"
+          onClick={changeRemoveChatModalOpenedState}
+          className="chat-actions__action">
+          <DeleteSvg />
+          <span className="chat-actions__action__name">{t('chatActions.remove-chat')}</span>
+        </Button>
+      )}
+
       {selectedChat.interlocutor &&
         (selectedChat.isInContacts ? (
           <Button
@@ -212,7 +230,7 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
       )}
 
       <FadeAnimationWrapper isDisplayed={leaveGroupChatModalOpened}>
-        <DeleteChatModal hide={changeLeaveGroupChatModalOpenedState} />
+        <LeaveChatModal hide={changeLeaveGroupChatModalOpenedState} />
       </FadeAnimationWrapper>
       {selectedChat.interlocutor && (
         <FadeAnimationWrapper isDisplayed={createGroupChatModalOpened}>
@@ -224,6 +242,9 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
       )}
       <FadeAnimationWrapper isDisplayed={clearChatModalOpened}>
         <ClearChatModal hide={changeClearChatModalOpenedState} />
+      </FadeAnimationWrapper>
+      <FadeAnimationWrapper isDisplayed={removeChatModalOpened}>
+        <RemoveChatModal onClose={changeRemoveChatModalOpenedState} />
       </FadeAnimationWrapper>
     </div>
   );

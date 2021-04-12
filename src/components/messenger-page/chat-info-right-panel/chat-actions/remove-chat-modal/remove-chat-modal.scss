@@ -1,0 +1,54 @@
+.remove-chat-modal {
+  align-items: center;
+  display: flex;
+  margin-bottom: 10px;
+  margin-top: 24px;
+  min-width: 340px;
+
+  &__check-box {
+    margin-top: -9px;
+
+    span {
+      font-size: 16px;
+      font-weight: 300;
+      line-height: 19px;
+    }
+  }
+
+  &__icon {
+    color: var(--dt-white-wt-kingBlue);
+    height: 26px;
+    margin-right: 16px;
+    width: 24px;
+  }
+
+  &__btn-description {
+    color: var(--dt-white-wt-dark);
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 19px;
+    margin-left: 16px;
+  }
+
+  &__confirm-btn {
+    background: #c74848;
+    --bg-color: #c74848;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 19px;
+    padding: 10px 32px;
+  }
+
+  &__cancel-btn {
+    background: transparent;
+    color: var(--dt-white-wt-dark);
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 19px;
+    margin-left: auto;
+    margin-right: 16px;
+    padding: 10px 32px;
+  }
+}

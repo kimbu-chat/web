@@ -1,6 +1,7 @@
 import produce from 'immer';
 import { createReducer } from 'typesafe-actions';
 import { DismissToAddContactSuccess } from '@store/friends/features/dismiss-to-add-contact/dismiss-to-add-contact-success';
+import { UserContactsRemovedEventHandler } from '@store/friends/socket-events/user-contacts-removed/user-contacts-removed-event-handler';
 import { AddUsersToGroupChatSuccess } from './features/add-users-to-group-chat/add-users-to-group-chat-success';
 import { ChangeChatMutedStatusSuccess } from './features/change-chat-muted-status/change-chat-muted-status-success';
 import { ChangeSelectedChat } from './features/change-selected-chat/change-selected-chat';
@@ -206,6 +207,28 @@ const chats = createReducer<IChatsState>(initialState)
 
       return draft;
     }),
+  )
+  .handleAction(
+    UserContactsRemovedEventHandler.action,
+    produce(
+      (
+        draft: IChatsState,
+        { payload }: ReturnType<typeof UserContactsRemovedEventHandler.action>,
+      ) => {
+        const { removedUserIds } = payload;
+
+        removedUserIds.forEach((userId) => {
+          const chatId: number = ChatId.from(userId).id;
+          const chat = getChatByIdDraftSelector(chatId, draft);
+
+          if (chat) {
+            chat.isInContacts = false;
+          }
+        });
+
+        return draft;
+      },
+    ),
   )
   .handleAction(
     AddFriendSuccess.action,

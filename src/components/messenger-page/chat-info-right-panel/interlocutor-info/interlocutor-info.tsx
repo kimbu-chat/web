@@ -41,12 +41,14 @@ export const InterlocutorInfo = React.memo(() => {
             )}
           </div>
 
-          <button
-            type="button"
-            onClick={changeEditGroupChatDisplayedState}
-            className="interlocutor-info__rename-btn">
-            <EditSvg viewBox="0 0 16 16" />
-          </button>
+          {groupChat && (
+            <button
+              type="button"
+              onClick={changeEditGroupChatDisplayedState}
+              className="interlocutor-info__rename-btn">
+              <EditSvg viewBox="0 0 16 16" />
+            </button>
+          )}
         </div>
 
         {interlocutor && (

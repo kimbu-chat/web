@@ -24,6 +24,11 @@ export class DeleteMessageSuccess {
             const messageIndex = draft.messages[chatId].messages.findIndex(
               ({ id }) => id === msgIdToDelete,
             );
+
+            if (messageIndex === -1) {
+              return;
+            }
+
             const [deletedMessage] = draft.messages[chatId].messages.splice(messageIndex, 1);
 
             if (deletedMessage) {

@@ -45,7 +45,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(
     const getMessageText = useCallback((): string => {
       const messageToProcess =
         chat.lastMessage?.linkedMessageType === MessageLinkType.Forward &&
-        !chat.lastMessage?.linkedMessage?.isDeleted
+        !(chat.lastMessage?.linkedMessage === null)
           ? chat.lastMessage?.linkedMessage
           : chat.lastMessage;
 
@@ -60,7 +60,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(
       if (
         chat.lastMessage?.text.length === 0 &&
         (chat.lastMessage.attachments?.length || 0) === 0 &&
-        chat.lastMessage?.linkedMessage?.isDeleted
+        chat.lastMessage?.linkedMessage === null
       ) {
         return t('message-link.message-deleted');
       }

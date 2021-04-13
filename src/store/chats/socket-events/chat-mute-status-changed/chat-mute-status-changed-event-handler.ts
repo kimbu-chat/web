@@ -16,7 +16,7 @@ export class ChatMutedStatusChangedEventHandler {
       ) => {
         const { chatIds, isMuted } = payload;
 
-        const selectedChats = draft.chats.filter((chat) => chatIds.includes(chat.id));
+        const selectedChats = draft.chats.chats.filter((chat) => chatIds.includes(chat.id));
 
         selectedChats.forEach((_, index) => {
           selectedChats[index].isMuted = isMuted;

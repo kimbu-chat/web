@@ -1,6 +1,12 @@
 import { IUser } from '../common/models';
 import { ICall } from './common/models/call';
 
+interface ICallList {
+  calls: ICall[];
+  hasMore: boolean;
+  loading: boolean;
+}
+
 export interface ICallsState {
   isActiveCallIncoming?: boolean;
   isIncomingCallVideoEnbaled?: boolean;
@@ -24,10 +30,6 @@ export interface ICallsState {
   isScreenSharingOpened: boolean;
   audioDevicesList: MediaDeviceInfo[];
   videoDevicesList: MediaDeviceInfo[];
-  calls: {
-    calls: ICall[];
-    searchCalls: ICall[];
-    hasMore: boolean;
-    loading: boolean;
-  };
+  calls: ICallList;
+  searchCalls: ICallList;
 }

@@ -24,7 +24,7 @@ export class CreateMessage {
       const { message } = payload;
 
       const chatIndex = getChatIndexDraftSelector(message.chatId, draft);
-      const chat = draft.chats[chatIndex];
+      const chat = draft.chats.chats[chatIndex];
 
       if (chat) {
         chat.attachmentsToSend = [];
@@ -32,12 +32,12 @@ export class CreateMessage {
         chat.draftMessage = '';
         chat.messageToReply = undefined;
 
-        const chatWithNewMessage = draft.chats[chatIndex];
+        const chatWithNewMessage = draft.chats.chats[chatIndex];
 
         if (chatIndex !== 0) {
-          draft.chats.splice(chatIndex, 1);
+          draft.chats.chats.splice(chatIndex, 1);
 
-          draft.chats.unshift(chatWithNewMessage);
+          draft.chats.chats.unshift(chatWithNewMessage);
         }
       }
 

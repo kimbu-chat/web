@@ -16,7 +16,6 @@ export { RoutingChats } from './routing-chats';
 export { ActiveCall } from './active-call';
 export { IncomingCall } from './incoming-call';
 export { MessageList } from './message-list';
-export { SearchTop } from './search-top';
 export { ChatTopBar } from './chat-top-bar';
 export { AddFriend } from './friend-list/add-friend';
 export { AddCall } from './call-list/add-call';

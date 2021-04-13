@@ -5,6 +5,7 @@ import { put, call, select, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
+import { GetMessagesFailure } from './get-messages-failure';
 import {
   getIsFirstChatsLoadSelector,
   getSelectedChatMessagesSearchStringSelector,
@@ -56,27 +57,31 @@ export class GetMessages {
           searchString,
         };
 
-        const { data } = GetMessages.httpRequest.call(
-          yield call(() => GetMessages.httpRequest.generator(request)),
-        );
+        try {
+          const { data } = GetMessages.httpRequest.call(
+            yield call(() => GetMessages.httpRequest.generator(request)),
+          );
 
-        const newMessages = data.map((message) => ({
-          ...message,
-          state:
-            chat.interlocutorLastReadMessageId && chat.interlocutorLastReadMessageId >= message.id
-              ? MessageState.READ
-              : MessageState.SENT,
-        }));
+          const newMessages = data.map((message) => ({
+            ...message,
+            state:
+              chat.interlocutorLastReadMessageId && chat.interlocutorLastReadMessageId >= message.id
+                ? MessageState.READ
+                : MessageState.SENT,
+          }));
 
-        const messageList = {
-          chatId: chat.id,
-          messages: newMessages,
-          hasMoreMessages: newMessages.length >= page.limit,
-          searchString,
-          isFromSearch,
-        };
+          const messageList = {
+            chatId: chat.id,
+            messages: newMessages,
+            hasMoreMessages: newMessages.length >= page.limit,
+            searchString,
+            isFromSearch,
+          };
 
-        yield put(GetMessagesSuccess.action(messageList));
+          yield put(GetMessagesSuccess.action(messageList));
+        } catch {
+          yield put(GetMessagesFailure.action(chat.id));
+        }
       }
     };
   }

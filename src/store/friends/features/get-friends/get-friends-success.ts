@@ -14,17 +14,20 @@ export class GetFriendsSuccess {
       (draft: IFriendsState, { payload }: ReturnType<typeof GetFriendsSuccess.action>) => {
         const { users, hasMore, name, initializedByScroll } = payload;
 
-        draft.loading = false;
-        draft.hasMoreFriends = hasMore;
-
         if (initializedByScroll) {
           if (name?.length) {
-            draft.searchFriends = unionBy(draft.searchFriends, users, 'id');
+            draft.searchFriends.loading = false;
+            draft.searchFriends.hasMore = hasMore;
+            draft.searchFriends.friends = unionBy(draft.searchFriends.friends, users, 'id');
           } else {
-            draft.friends = unionBy(draft.friends, users, 'id');
+            draft.friends.loading = false;
+            draft.friends.hasMore = hasMore;
+            draft.friends.friends = unionBy(draft.friends.friends, users, 'id');
           }
         } else {
-          draft.searchFriends = users;
+          draft.searchFriends.loading = false;
+          draft.searchFriends.hasMore = hasMore;
+          draft.searchFriends.friends = users;
         }
 
         return draft;

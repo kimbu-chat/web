@@ -25,6 +25,7 @@ import { OpenInterlocutorVideoStatus } from './features/change-interlocutor-medi
 import { UserEditedEventHandler } from './socket-events/user-edited/user-edited-event-handler';
 import { CallEndedEventHandlerSuccess } from './socket-events/call-ended/call-ended-event-handler-success';
 import { OpenInterlocutorAudioStatus } from './features/change-interlocutor-media-status/open-interlocutor-audio-status';
+import { ResetSearchCalls } from './features/reset-search-calls/reset-search-calls';
 
 const initialState: ICallsState = {
   isInterlocutorVideoEnabled: false,
@@ -44,7 +45,11 @@ const initialState: ICallsState = {
   videoDevicesList: [],
   calls: {
     calls: [],
-    searchCalls: [],
+    loading: false,
+    hasMore: true,
+  },
+  searchCalls: {
+    calls: [],
     loading: false,
     hasMore: true,
   },
@@ -71,6 +76,7 @@ const calls = createReducer<ICallsState>(initialState)
   .handleAction(AcceptCallSuccess.action, AcceptCallSuccess.reducer)
   .handleAction(OpenInterlocutorVideoStatus.action, OpenInterlocutorVideoStatus.reducer)
   .handleAction(OpenInterlocutorAudioStatus.action, OpenInterlocutorAudioStatus.reducer)
+  .handleAction(ResetSearchCalls.action, ResetSearchCalls.reducer)
 
   // socket-events
   .handleAction(IncomingCallEventHandler.action, IncomingCallEventHandler.reducer)

@@ -13,9 +13,7 @@ export class GetChatsSuccess {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof GetChatsSuccess.action>) => {
       const { chats, hasMore, initializedByScroll, searchString } = payload;
 
-      draft.loading = false;
-      draft.hasMore = hasMore;
-      draft.chats = unionBy(draft.chats, chats, 'id');
+      draft.chats.chats = unionBy(draft.chats.chats, chats, 'id');
 
       chats.forEach(({ id: chatId }) => {
         if (!draft.messages[chatId]) {
@@ -28,11 +26,17 @@ export class GetChatsSuccess {
       });
 
       if (searchString?.length) {
+        draft.searchChats.hasMore = hasMore;
+        draft.searchChats.loading = false;
+
         if (initializedByScroll) {
-          draft.searchChats = unionBy(draft.searchChats, chats, 'id');
+          draft.searchChats.chats = unionBy(draft.searchChats.chats, chats, 'id');
         } else {
-          draft.searchChats = chats;
+          draft.searchChats.chats = chats;
         }
+      } else if (payload.initializedByScroll) {
+        draft.chats.hasMore = hasMore;
+        draft.chats.loading = false;
       }
 
       return draft;

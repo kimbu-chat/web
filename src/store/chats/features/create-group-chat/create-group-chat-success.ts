@@ -17,7 +17,7 @@ export class CreateGroupChatSuccess {
         const isChatExists: boolean = getChatExistsDraftSelector(newChat.id, draft);
 
         if (!isChatExists) {
-          draft.chats.unshift(newChat);
+          draft.chats.chats.unshift(newChat);
 
           draft.messages[newChat.id] = {
             messages: [],

@@ -109,7 +109,7 @@ export class GroupChatCreatedEventHandler {
           };
         }
 
-        draft.chats.unshift(newChat);
+        draft.chats.chats.unshift(newChat);
 
         draft.messages[newChat.id] = {
           messages: [],

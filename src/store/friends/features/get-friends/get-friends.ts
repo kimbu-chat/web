@@ -19,10 +19,15 @@ export class GetFriends {
   static get reducer() {
     return produce((draft: IFriendsState, { payload }: ReturnType<typeof GetFriends.action>) => {
       if (!payload.name?.length && !payload.initializedByScroll) {
-        draft.searchFriends = [];
-        draft.hasMoreFriends = true;
-      } else {
-        draft.loading = true;
+        draft.searchFriends.friends = [];
+        draft.searchFriends.hasMore = true;
+        draft.searchFriends.loading = false;
+      }
+
+      if (payload.name?.length) {
+        draft.searchFriends.loading = true;
+      } else if (payload.initializedByScroll) {
+        draft.friends.loading = true;
       }
 
       return draft;

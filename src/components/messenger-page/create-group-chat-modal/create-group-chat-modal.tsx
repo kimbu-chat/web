@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { PhotoEditor, SearchBox, InfiniteScroll } from '@components/messenger-page';
 import { Modal, WithBackground, LabeledInput, Button } from '@components/shared';
-import { getFriendsAction } from '@store/friends/actions';
+import { getFriendsAction, resetSearchFriendsAction } from '@store/friends/actions';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import React, { useCallback, useRef, useState, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
@@ -13,12 +13,7 @@ import {
   uploadAvatarRequestAction,
   cancelAvatarUploadingRequestAction,
 } from '@store/my-profile/actions';
-import {
-  getFriendsLoadingSelector,
-  getHasMoreFriendsSelector,
-  getMyFriendsSelector,
-  getMySearchFriendsSelector,
-} from '@store/friends/selectors';
+import { getMyFriendsListSelector, getMySearchFriendsListSelector } from '@store/friends/selectors';
 import { myProfileSelector } from '@store/my-profile/selectors';
 import { ICreateGroupChatActionPayload } from '@store/chats/features/create-group-chat/action-payloads/create-group-chat-action-payload';
 
@@ -46,10 +41,15 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(
     const { t } = useTranslation();
 
     const currentUser = useSelector(myProfileSelector);
-    const friends = useSelector(getMyFriendsSelector);
-    const searchFriends = useSelector(getMySearchFriendsSelector);
-    const hasMoreFriends = useSelector(getHasMoreFriendsSelector);
-    const friendsLoading = useSelector(getFriendsLoadingSelector);
+    const friendsList = useSelector(getMyFriendsListSelector);
+    const searchFriendsList = useSelector(getMySearchFriendsListSelector);
+
+    const { hasMore: hasMoreFriends, friends, loading: friendsLoading } = friendsList;
+    const {
+      hasMore: hasMoreSearchFriends,
+      friends: searchFriends,
+      loading: searchFriendsLoading,
+    } = searchFriendsList;
 
     const history = useHistory();
 
@@ -57,6 +57,14 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(
     const loadFriends = useActionWithDeferred(getFriendsAction);
     const cancelAvatarUploading = useActionWithDispatch(cancelAvatarUploadingRequestAction);
     const submitGroupChatCreation = useActionWithDeferred(createGroupChatAction);
+    const resetSearchFriends = useActionWithDispatch(resetSearchFriendsAction);
+
+    useEffect(
+      () => () => {
+        resetSearchFriends();
+      },
+      [resetSearchFriends],
+    );
 
     const [selectedUserIds, setSelectedUserIds] = useState<number[]>(preSelectedUserIds || []);
     const [currentStage, setCurrrentStage] = useState(GroupChatCreationStage.UserSelect);
@@ -118,7 +126,7 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(
       loadFriends({ page, name, initializedByScroll: true });
     }, [searchFriends.length, friends.length, loadFriends, name]);
 
-    const searchFriendsList = useCallback(
+    const queryFriends = useCallback(
       (searchName: string) => {
         setName(searchName);
         loadFriends({
@@ -191,16 +199,9 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(
       setCurrrentStage(GroupChatCreationStage.GroupChatCreation);
     }, [setCurrrentStage]);
 
-    useEffect(
-      () => () => {
-        searchFriendsList('');
-      },
-      [searchFriendsList],
-    );
-
     const handleSearchInputChange = useCallback(
-      (e: React.ChangeEvent<HTMLInputElement>) => searchFriendsList(e.target.value),
-      [searchFriendsList],
+      (e: React.ChangeEvent<HTMLInputElement>) => queryFriends(e.target.value),
+      [queryFriends],
     );
 
     const renderSelectEntity = useCallback(
@@ -251,8 +252,8 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(
                     <InfiniteScroll
                       className="create-group-chat__friends-block"
                       onReachExtreme={loadMore}
-                      hasMore={hasMoreFriends}
-                      isLoading={friendsLoading}>
+                      hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}
+                      isLoading={name.length ? searchFriendsLoading : friendsLoading}>
                       {selectEntities}
                     </InfiniteScroll>
                   </div>

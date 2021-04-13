@@ -1,4 +1,4 @@
-import { takeLatest } from 'redux-saga/effects';
+import { takeLatest, takeLeading } from 'redux-saga/effects';
 import { BlockUser } from './features/block-user/block-user';
 import { ChangeFontSize } from './features/change-font-size/change-font-size';
 
@@ -22,7 +22,7 @@ export const SettingsSagas = [
   takeLatest(GetUserSettingsSuccess.action, GetUserSettingsSuccess.saga),
   takeLatest(ChangeTheme.action, ChangeTheme.saga),
   takeLatest(ChangeFontSize.action, ChangeFontSize.saga),
-  takeLatest(ChangePushNotificationState.action, ChangePushNotificationState.saga),
+  takeLeading(ChangePushNotificationState.action, ChangePushNotificationState.saga),
   takeLatest(GetBlackList.action, GetBlackList.saga),
   takeLatest(BlockUser.action, BlockUser.saga),
   takeLatest(UnblockUser.action, UnblockUser.saga),

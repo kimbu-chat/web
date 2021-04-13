@@ -295,11 +295,15 @@ export const CreateMessageInput = React.memo(() => {
   );
 
   const throttledNotifyAboutTyping = useRef(
-    throttle((notificationText: string) => {
-      notifyAboutTyping({
-        text: notificationText,
-      });
-    }, 1000),
+    throttle(
+      (notificationText: string) => {
+        notifyAboutTyping({
+          text: notificationText,
+        });
+      },
+      1000,
+      { leading: true, trailing: false },
+    ),
   ).current;
 
   const onType = useCallback(

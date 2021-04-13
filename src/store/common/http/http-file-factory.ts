@@ -28,10 +28,12 @@ function createUploadFileChannel(requestConfig: AxiosRequestConfig) {
       emit(END);
     };
 
-    const onFailure = (err: string) => {
-      emit({ err });
-      emitToast(err, { type: 'error' });
-      emit(END);
+    const onFailure = (err: { message?: string }) => {
+      if (err.message) {
+        emit({ err: err.message });
+        emitToast(err.message);
+        emit(END);
+      }
     };
 
     const onProgress = (progressEvent: ProgressEvent<EventTarget>) => {

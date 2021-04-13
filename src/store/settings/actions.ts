@@ -4,6 +4,7 @@ import { ChangeFontSize } from './features/change-font-size/change-font-size';
 import { ChangeLanguage } from './features/change-language/change-language';
 import { ChangeNotificationSoundState } from './features/change-notification-sound-state/change-notification-sound-state';
 import { ChangePushNotificationState } from './features/change-push-notification-state/change-push-notification-state';
+import { ChangePushNotificationStateSuccess } from './features/change-push-notification-state/change-push-notification-state-success';
 import { ChangeTheme } from './features/change-theme/change-theme';
 import { ChangeTypingStrategy } from './features/change-typing-strategy/change-typing-strategy';
 import { GetBlackList } from './features/get-black-list/get-black-list';
@@ -26,6 +27,7 @@ export const getUserSettingsAction = GetUserSettings.action;
 export const changeThemeAction = ChangeTheme.action;
 export const changeFontSizeAction = ChangeFontSize.action;
 export const changePushNotificationStateAction = ChangePushNotificationState.action;
+export const changePushNotificationStateSuccessAction = ChangePushNotificationStateSuccess.action;
 export const getBlackListSuccessAction = GetBlackListSuccess.action;
 export const getBlackListAction = GetBlackList.action;
 export const blockUserAction = BlockUser.action;
@@ -47,6 +49,7 @@ export const SettingsActions = {
   changeThemeAction,
   changeFontSizeAction,
   changePushNotificationStateAction,
+  changePushNotificationStateSuccessAction,
   getBlackListSuccessAction,
   getBlackListAction,
   blockUserAction,

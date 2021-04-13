@@ -3,7 +3,7 @@ import { ChangeFontSize } from './features/change-font-size/change-font-size';
 
 import { ChangeLanguage } from './features/change-language/change-language';
 import { ChangeNotificationSoundState } from './features/change-notification-sound-state/change-notification-sound-state';
-import { ChangePushNotificationState } from './features/change-push-notification-state/change-push-notification-state';
+import { ChangePushNotificationStateSuccess } from './features/change-push-notification-state/change-push-notification-state-success';
 import { ChangeTheme } from './features/change-theme/change-theme';
 import { ChangeTypingStrategy } from './features/change-typing-strategy/change-typing-strategy';
 import { GetBlackList } from './features/get-black-list/get-black-list';
@@ -40,7 +40,10 @@ const settings = createReducer<IUserSettings>(initialState)
   .handleAction(ChangeTheme.action, ChangeTheme.reducer)
   .handleAction(GetUserSettingsSuccess.action, GetUserSettingsSuccess.reducer)
   .handleAction(ChangeFontSize.action, ChangeFontSize.reducer)
-  .handleAction(ChangePushNotificationState.action, ChangePushNotificationState.reducer)
+  .handleAction(
+    ChangePushNotificationStateSuccess.action,
+    ChangePushNotificationStateSuccess.reducer,
+  )
   .handleAction(GetBlackListSuccess.action, GetBlackListSuccess.reducer)
   .handleAction(GetBlackList.action, GetBlackList.reducer)
   .handleAction(GetSessionList.action, GetSessionList.reducer)

@@ -47,5 +47,25 @@
     font-size: 18px;
     font-weight: normal;
     line-height: 21px;
+    margin-right: 10px;
+  }
+
+  &__loader {
+    margin-left: 15px;
+    width: 1em;
+    height: 1em;
+    border-right: 0.1em solid transparent;
+    border-radius: 50%;
+    animation: spinner 0.6s linear infinite;
+    border-top: 0.1em solid var(--dt-white-wt-dark);
+
+    & > div {
+      width: 0.1em;
+      height: 0.1em;
+      background-color: #fff;
+      border-radius: 50%;
+      margin-left: 0.85em;
+      margin-top: 0.05em;
+    }
   }
 }

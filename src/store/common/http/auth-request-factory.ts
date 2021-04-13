@@ -1,3 +1,4 @@
+import { emitToast } from '@utils/emit-toast';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
 
@@ -16,7 +17,12 @@ export const authRequestFactory = <TResponse, TBody = unknown>(
       finalUrl = (url as UrlGenerator<TBody>)(body);
     }
 
-    return yield call(() => httpRequest(finalUrl, method, body));
+    try {
+      return yield call(() => httpRequest(finalUrl, method, body));
+    } catch (e) {
+      emitToast(e.message, { type: 'error' });
+      return undefined;
+    }
   }
 
   return {

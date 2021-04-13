@@ -3,6 +3,7 @@ import { createAction } from 'typesafe-actions';
 import { IChatsState } from '@store/chats/chats-state';
 import { MyProfileService } from '@services/my-profile-service';
 
+import { ILinkedMessage } from '@store/chats/models/linked-message';
 import {
   FileType,
   IAudioAttachment,
@@ -17,7 +18,7 @@ import { IMessageCreatedIntegrationEvent } from './message-created-integration-e
 export class MessageCreatedEventHandlerSuccess {
   static get action() {
     return createAction('MessageCreated_SUCCESS')<
-      IMessageCreatedIntegrationEvent & { linkedMessage?: IMessage }
+      IMessageCreatedIntegrationEvent & { linkedMessage?: ILinkedMessage }
     >();
   }
 

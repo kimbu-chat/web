@@ -8,9 +8,9 @@ import {
   IVideoAttachment,
   IVoiceAttachment,
 } from '@store/chats/models';
-import { IUser } from '@store/common/models';
 import React, { useMemo } from 'react';
 import { getUserInitials } from '@utils/interlocutor-name-utils';
+import { ILinkedMessage } from '@store/chats/models/linked-message';
 import { MessageAudioAttachment } from '../../shared/audio-attachment/audio-attachment';
 import { FileAttachment } from '../../shared/file-attachment/file-attachment';
 import { MediaGrid } from '../attachments/media-grid/media-grid';
@@ -18,14 +18,7 @@ import { RecordingAttachment } from '../attachments/recording-attachment/recordi
 import './message-link.scss';
 
 interface IMessageLinkProps {
-  linkedMessage?: {
-    id: number;
-    userCreator: IUser;
-    text?: string;
-    attachments?: IBaseAttachment[];
-    isEdited?: boolean;
-    isDeleted?: boolean;
-  };
+  linkedMessage?: ILinkedMessage | null;
 }
 
 const MessageLink: React.FC<IMessageLinkProps> = React.memo(({ linkedMessage }) => {
@@ -88,7 +81,7 @@ const MessageLink: React.FC<IMessageLinkProps> = React.memo(({ linkedMessage }) 
 
       <div className="message-link__text">
         <span>
-          {linkedMessage?.isDeleted ? t('message-link.message-deleted') : linkedMessage?.text}
+          {linkedMessage === null ? t('message-link.message-deleted') : linkedMessage?.text}
         </span>
 
         <div className="message-link__attachments">

@@ -27,15 +27,10 @@ export class MessagesDeletedIntegrationEventHandlerSuccess {
             draft.selectedMessageIds = draft.selectedMessageIds.filter(
               (id) => id !== msgIdToDelete,
             );
-            const messageIndex = draft.messages[chatId].messages.findIndex(
+
+            const [deletedMessage] = draft.messages[chatId].messages.filter(
               ({ id }) => id === msgIdToDelete,
             );
-
-            if (messageIndex === -1) {
-              return;
-            }
-
-            const [deletedMessage] = draft.messages[chatId].messages.splice(messageIndex, 1);
 
             deletedMessage?.attachments?.forEach((attachment) => {
               switch (attachment.type) {
@@ -77,8 +72,9 @@ export class MessagesDeletedIntegrationEventHandlerSuccess {
                 const message = draft.messages[chatId].messages[index];
 
                 if (message.linkedMessage) {
-                  message.linkedMessage.isDeleted = true;
+                  message.linkedMessage = null;
                 }
+
                 return message;
               });
           });
@@ -91,7 +87,7 @@ export class MessagesDeletedIntegrationEventHandlerSuccess {
 
           if (chat.lastMessage?.linkedMessage) {
             if (messageIds.includes(chat.lastMessage?.linkedMessage?.id)) {
-              chat.lastMessage.linkedMessage.isDeleted = true;
+              chat.lastMessage.linkedMessage = null;
             }
           }
         }

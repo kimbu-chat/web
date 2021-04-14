@@ -22,6 +22,8 @@ export class LeaveGroupChatSuccess {
           draft.selectedChatId = null;
         }
 
+        delete draft.messages[chatId];
+
         return draft;
       },
     );

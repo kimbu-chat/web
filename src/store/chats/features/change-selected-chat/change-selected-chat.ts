@@ -39,10 +39,14 @@ export class ChangeSelectedChat {
         if (oldChatId) {
           const chat = getChatByIdDraftSelector(oldChatId, draft);
 
-          if (chat && draft.messages[oldChatId]?.messages.length > MESSAGES_LIMIT) {
+          if (draft.messages[oldChatId].searchString?.length) {
+            draft.messages[oldChatId].searchString = '';
+            draft.messages[oldChatId].messages = [];
+          } else if (chat && draft.messages[oldChatId]?.messages.length > MESSAGES_LIMIT) {
             draft.messages[oldChatId].messages = draft.messages[oldChatId].messages.slice(0, 30);
-            draft.messages[oldChatId].hasMore = true;
           }
+
+          draft.messages[oldChatId].hasMore = true;
 
           if (chat && draft.selectedMessageIds.length > 0) {
             draft.messages[oldChatId].messages = draft.messages[oldChatId].messages.map(

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ReactComponent as SearchSvg } from '@icons/search.svg';
 // import { ReactComponent as ArrowSvg } from '@icons/arrow-v.svg';
 
@@ -7,11 +7,15 @@ import { MESSAGES_LIMIT } from '@utils/pagination-limits';
 import './messages-search.scss';
 import { SearchBox } from '@components/messenger-page';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { getSelectedChatMessagesSearchStringSelector } from '@store/chats/selectors';
+import {
+  getSelectedChatIdSelector,
+  getSelectedChatMessagesSearchStringSelector,
+} from '@store/chats/selectors';
 import { useSelector } from 'react-redux';
 
 export const MessagesSearch = () => {
   const messagesSearchString = useSelector(getSelectedChatMessagesSearchStringSelector);
+  const selectedChatId = useSelector(getSelectedChatIdSelector);
 
   const getMessages = useActionWithDispatch(GetMessages.action);
 
@@ -36,9 +40,13 @@ export const MessagesSearch = () => {
     [getMessages],
   );
 
+  useEffect(() => {
+    setIsSearching(false);
+  }, [selectedChatId, setIsSearching]);
+
   return (
     <div className="messages-search">
-      {isSearching || (messagesSearchString?.length || 0) > 0 ? (
+      {isSearching || messagesSearchString?.length ? (
         <>
           <SearchBox
             containerClassName="messages-search__input-container"

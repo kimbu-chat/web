@@ -13,17 +13,20 @@ export class GetCallsSuccess {
     return produce((draft: ICallsState, { payload }: ReturnType<typeof GetCallsSuccess.action>) => {
       const { calls, hasMore, initializedByScroll, name } = payload;
 
-      draft.calls.loading = false;
-      draft.calls.hasMore = hasMore;
-
       if (initializedByScroll) {
         if (name?.length) {
-          draft.calls.searchCalls = unionBy(draft.calls.searchCalls, calls, 'id');
+          draft.searchCalls.calls = unionBy(draft.searchCalls.calls, calls, 'id');
+          draft.searchCalls.hasMore = hasMore;
+          draft.searchCalls.loading = false;
         } else {
           draft.calls.calls = unionBy(draft.calls.calls, calls, 'id');
+          draft.calls.hasMore = hasMore;
+          draft.calls.loading = false;
         }
       } else {
-        draft.calls.searchCalls = calls;
+        draft.searchCalls.calls = calls;
+        draft.searchCalls.hasMore = hasMore;
+        draft.searchCalls.loading = false;
       }
 
       return draft;

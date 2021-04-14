@@ -20,9 +20,14 @@ export class GetCalls {
   static get reducer() {
     return produce((draft: ICallsState, { payload }: ReturnType<typeof GetCalls.action>) => {
       if (!payload.name?.length && !payload.initializedByScroll) {
-        draft.calls.searchCalls = [];
-        draft.calls.hasMore = true;
-      } else {
+        draft.searchCalls.calls = [];
+        draft.searchCalls.hasMore = true;
+        draft.searchCalls.loading = false;
+      }
+
+      if (payload.name?.length) {
+        draft.searchCalls.loading = true;
+      } else if (payload.initializedByScroll) {
         draft.calls.loading = true;
       }
 

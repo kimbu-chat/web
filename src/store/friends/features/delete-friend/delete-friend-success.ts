@@ -12,7 +12,10 @@ export class DeleteFriendSuccess {
     return produce(
       (draft: IFriendsState, { payload }: ReturnType<typeof DeleteFriendSuccess.action>) => {
         payload.userIds.forEach((userId) => {
-          draft.friends = draft.friends.filter(({ id }) => id !== userId);
+          draft.friends.friends = draft.friends.friends.filter(({ id }) => id !== userId);
+          draft.searchFriends.friends = draft.searchFriends.friends.filter(
+            ({ id }) => id !== userId,
+          );
         });
 
         return draft;

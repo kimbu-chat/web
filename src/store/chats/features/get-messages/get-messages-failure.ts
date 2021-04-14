@@ -1,16 +1,20 @@
 import produce from 'immer';
-import { createEmptyAction } from '@store/common/actions';
+import { createAction } from 'typesafe-actions';
 import { IChatsState } from '../../chats-state';
 
 export class GetMessagesFailure {
   static get action() {
-    return createEmptyAction('GET_MESSAGES_FAILURE');
+    return createAction('GET_MESSAGES_FAILURE')<number>();
   }
 
   static get reducer() {
-    return produce((draft: IChatsState) => {
-      draft.loading = false;
-      return draft;
-    });
+    return produce(
+      (draft: IChatsState, { payload }: ReturnType<typeof GetMessagesFailure.action>) => {
+        const chatId = payload;
+
+        draft.messages[chatId].loading = false;
+        return draft;
+      },
+    );
   }
 }

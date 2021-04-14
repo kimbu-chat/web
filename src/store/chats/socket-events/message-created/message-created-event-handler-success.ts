@@ -68,7 +68,7 @@ export class MessageCreatedEventHandlerSuccess {
         };
 
         const chatIndex = getChatIndexDraftSelector(chatId, draft);
-        const chat = draft.chats[chatIndex];
+        const chat = draft.chats.chats[chatIndex];
 
         if (linkedMessage && linkedMessageId) {
           message.linkedMessage = linkedMessage;
@@ -138,9 +138,9 @@ export class MessageCreatedEventHandlerSuccess {
           const chatWithNewMessage = chat;
 
           if (chatIndex !== 0) {
-            draft.chats.splice(chatIndex, 1);
+            draft.chats.chats.splice(chatIndex, 1);
 
-            draft.chats.unshift(chatWithNewMessage);
+            draft.chats.chats.unshift(chatWithNewMessage);
           }
         }
 

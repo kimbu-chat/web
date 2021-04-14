@@ -10,7 +10,7 @@ export class UnshiftChat {
 
   static get reducer() {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof UnshiftChat.action>) => {
-      draft.chats.unshift(payload);
+      draft.chats.chats.unshift(payload);
 
       if (!draft.messages[payload.id]) {
         draft.messages[payload.id] = {

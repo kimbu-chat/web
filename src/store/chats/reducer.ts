@@ -72,16 +72,22 @@ import { UnblockUserSuccess } from '../settings/features/unblock-user/unblock-us
 import { RemoveUserFromGroupChatSuccess } from './features/remove-user-from-group-chat/remove-user-from-group-chat-success';
 import { MessageCreatedEventHandlerSuccess } from './socket-events/message-created/message-created-event-handler-success';
 import { DialogRemovedEventHandler } from './socket-events/dialog-removed/dialog-removed-event-handler';
+import { ResetSearchChats } from './features/reset-search-chats/reset-search-chats';
 
 const initialState: IChatsState = {
-  hasMore: true,
-  chats: [],
+  chats: {
+    hasMore: true,
+    chats: [],
+    page: -1,
+  },
+  searchChats: {
+    hasMore: true,
+    chats: [],
+    page: 0,
+  },
   messages: {},
-  searchChats: [],
   selectedChatId: null,
   selectedMessageIds: [],
-  page: -1,
-  searchPage: 0,
   isInfoOpened: false,
 };
 
@@ -138,6 +144,7 @@ const chats = createReducer<IChatsState>(initialState)
   .handleAction(RemoveChatSuccess.action, RemoveChatSuccess.reducer)
   .handleAction(MessageCreatedEventHandlerSuccess.action, MessageCreatedEventHandlerSuccess.reducer)
   .handleAction(DialogRemovedEventHandler.action, DialogRemovedEventHandler.reducer)
+  .handleAction(ResetSearchChats.action, ResetSearchChats.reducer)
   .handleAction(
     UserStatusChangedEventHandler.action,
     produce(

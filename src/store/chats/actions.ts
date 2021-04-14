@@ -74,6 +74,7 @@ import { MessageCreatedEventHandlerSuccess } from './socket-events/message-creat
 import { RemoveChat } from './features/remove-chat/remove-chat';
 import { RemoveChatSuccess } from './features/remove-chat/remove-chat-success';
 import { DialogRemovedEventHandler } from './socket-events/dialog-removed/dialog-removed-event-handler';
+import { ResetSearchChats } from './features/reset-search-chats/reset-search-chats';
 
 // ChatActions
 export const getChatsAction = GetChats.action;
@@ -137,6 +138,7 @@ export const changeChatInfoOpenedAction = ChangeChatInfoOpened.action;
 export const removeAllAttachmentsAction = RemoveAllAttachments.action;
 export const removeUserFromGroupChatAction = RemoveUserFromGroupChat.action;
 export const removeUserFromGroupChatSuccessAction = RemoveUserFromGroupChatSuccess.action;
+export const resetSearchChatsAction = ResetSearchChats.action;
 
 // socket-events
 
@@ -160,6 +162,7 @@ export const dialogRemovedEventHandler = DialogRemovedEventHandler.action;
 export const ChatActions = {
   // ChatActions
   getChatsAction,
+  resetSearchChatsAction,
   getPhotoAttachmentsAction,
   getVideoAttachmentsAction,
   getRawAttachmentsAction,

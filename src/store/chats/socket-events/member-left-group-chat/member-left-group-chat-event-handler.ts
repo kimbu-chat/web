@@ -27,6 +27,8 @@ export class MemberLeftGroupChatEventHandler {
         if (isCurrentUserEventCreator) {
           draft.chats = draft.chats.filter((chat) => chat.groupChat?.id !== groupChatId);
 
+          delete draft.messages[chatId];
+
           if (draft.selectedChatId === chatId) {
             draft.selectedChatId = null;
           }

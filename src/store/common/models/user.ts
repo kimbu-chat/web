@@ -11,4 +11,5 @@ export interface IUser {
   gender?: number;
   lastOnlineTime: Date;
   phoneNumber: string;
+  deactivated?: boolean;
 }

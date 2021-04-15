@@ -1,4 +1,6 @@
 import { createReducer } from 'typesafe-actions';
+import { UserDeactivatedEventHandler } from '@store/my-profile/socket-events/user-deactivated/user-deactivated-event-handler';
+import produce from 'immer';
 import { UserEditedEventHandler } from './socket-events/user-edited/user-edited-event-handler';
 import { AddFriendSuccess } from './features/add-friend/add-friend-success';
 import { DeleteFriendSuccess } from './features/delete-friend/delete-friend-success';
@@ -8,6 +10,7 @@ import { UserStatusChangedEventHandler } from './socket-events/user-status-chang
 import { UserContactsRemovedEventHandler } from './socket-events/user-contacts-removed/user-contacts-removed-event-handler';
 import { IFriendsState } from './friends-state';
 import { ResetSearchFriends } from './features/reset-search-friends/reset-search-friends';
+import { getUserDraftSelector } from './selectors';
 
 const initialState: IFriendsState = {
   friends: {
@@ -32,6 +35,24 @@ const friends = createReducer<IFriendsState>(initialState)
   // socket-events
   .handleAction(UserStatusChangedEventHandler.action, UserStatusChangedEventHandler.reducer)
   .handleAction(UserContactsRemovedEventHandler.action, UserContactsRemovedEventHandler.reducer)
-  .handleAction(UserEditedEventHandler.action, UserEditedEventHandler.reducer);
+  .handleAction(UserEditedEventHandler.action, UserEditedEventHandler.reducer)
+  .handleAction(
+    UserDeactivatedEventHandler.action,
+    produce(
+      (
+        draft: IFriendsState,
+        { payload }: ReturnType<typeof UserDeactivatedEventHandler.action>,
+      ) => {
+        const { userId } = payload;
+        const user = getUserDraftSelector(userId, draft);
+
+        if (user) {
+          user.deactivated = true;
+        }
+
+        return draft;
+      },
+    ),
+  );
 
 export default friends;

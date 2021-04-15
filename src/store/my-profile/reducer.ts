@@ -2,7 +2,7 @@ import { createReducer } from 'typesafe-actions';
 import { MyProfileService } from '../../services/my-profile-service';
 import { GetMyProfileSuccess } from './features/get-my-profile/get-my-profile-success';
 import { UpdateMyProfileSuccess } from './features/update-my-profile/update-my-profile-success';
-import { UserEditedEventHandler } from './socket-events/user-edited-event-handler';
+import { UserEditedEventHandler } from './socket-events/user-edited/user-edited-event-handler';
 import { ChangeUserOnlineStatus } from './features/change-user-online-status/change-user-online-status';
 import { IMyProfileState } from './my-profile-state';
 

@@ -11,10 +11,14 @@ import { Button } from '@components/shared';
 
 interface IBlockedMessageInputProps {
   isCurrentChatBlackListed?: boolean;
+  amIBlackListedByInterlocutor?: boolean;
+  isCurrentChatUserDeactivated?: boolean;
 }
 
 export const BlockedMessageInput: React.FC<IBlockedMessageInputProps> = ({
   isCurrentChatBlackListed,
+  amIBlackListedByInterlocutor,
+  isCurrentChatUserDeactivated,
 }) => {
   const { t } = useTranslation();
 
@@ -28,7 +32,7 @@ export const BlockedMessageInput: React.FC<IBlockedMessageInputProps> = ({
     setUnBlocking(true);
     if (interlocutorId) {
       unBlockUser(interlocutorId).then(() => {
-        setUnBlocking(true);
+        setUnBlocking(false);
       });
     }
   }, [unBlockUser, interlocutorId]);
@@ -37,9 +41,13 @@ export const BlockedMessageInput: React.FC<IBlockedMessageInputProps> = ({
     <div className="blocked-message-input">
       <BlockedSvg className="blocked-message-input__icon" viewBox="0 0 22 22" />
       <div className="blocked-message-input__description">
-        {isCurrentChatBlackListed
-          ? t('blockedMessageInput.blocked-by-me')
-          : t('blockedMessageInput.I-am-blocked')}
+        {isCurrentChatBlackListed && t('blockedMessageInput.blocked-by-me')}
+        {!isCurrentChatBlackListed &&
+          amIBlackListedByInterlocutor &&
+          t('blockedMessageInput.I-am-blocked')}
+        {!(isCurrentChatBlackListed || amIBlackListedByInterlocutor) &&
+          isCurrentChatUserDeactivated &&
+          t('blockedMessageInput.user-deactivated')}
       </div>
 
       {isCurrentChatBlackListed && (

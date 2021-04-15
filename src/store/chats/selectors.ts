@@ -223,6 +223,10 @@ export const isCurrentChatDismissedAddToContactsSelector = (state: RootState) =>
   return isDismissedAddToContacts === undefined ? true : isDismissedAddToContacts;
 };
 
-export const amICurrentChatBlackListedSelector = (state: RootState) =>
+export const amIBlackListedByInterlocutorSelector = (state: RootState) =>
   state.chats.chats.chats.find(({ id }) => id === state.chats.selectedChatId)
     ?.isBlockedByInterlocutor;
+
+export const isCurrentChatUserDeactivatedSelector = (state: RootState) =>
+  state.chats.chats.chats.find(({ id }) => id === state.chats.selectedChatId)?.interlocutor
+    ?.deactivated;

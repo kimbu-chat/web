@@ -2,6 +2,7 @@ import produce from 'immer';
 import { createReducer } from 'typesafe-actions';
 import { DismissToAddContactSuccess } from '@store/friends/features/dismiss-to-add-contact/dismiss-to-add-contact-success';
 import { UserContactsRemovedEventHandler } from '@store/friends/socket-events/user-contacts-removed/user-contacts-removed-event-handler';
+import { UserDeactivatedEventHandler } from '../my-profile/socket-events/user-deactivated/user-deactivated-event-handler';
 import { RemoveChatSuccess } from './features/remove-chat/remove-chat-success';
 import { AddUsersToGroupChatSuccess } from './features/add-users-to-group-chat/add-users-to-group-chat-success';
 import { ChangeChatMutedStatusSuccess } from './features/change-chat-muted-status/change-chat-muted-status-success';
@@ -269,6 +270,22 @@ const chats = createReducer<IChatsState>(initialState)
         }
 
         chat.isDismissedAddToContacts = true;
+
+        return draft;
+      },
+    ),
+  )
+  .handleAction(
+    UserDeactivatedEventHandler.action,
+    produce(
+      (draft: IChatsState, { payload }: ReturnType<typeof UserDeactivatedEventHandler.action>) => {
+        const { userId } = payload;
+        const chatId: number = ChatId.from(userId).id;
+        const chat = getChatByIdDraftSelector(chatId, draft);
+
+        if (chat && chat.interlocutor) {
+          chat.interlocutor.deactivated = true;
+        }
 
         return draft;
       },

@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { IMyProfileState } from '../my-profile-state';
+import { IMyProfileState } from '../../my-profile-state';
 import { IUserEditedIntegrationEvent } from './action-payloads/user-edited-integration-event';
 
 export class UserEditedEventHandler {

@@ -20,7 +20,7 @@ import {
   loadNotFound,
   loadRegistration,
   loadLogout,
-  loadMessageSmiles,
+  loadDeferredSmiles,
 } from './routing/module-loader';
 import '@localization/i18n';
 
@@ -74,7 +74,7 @@ export const App = () => {
           fallback="/login"
           componentToRender={
             <Suspense fallback={<CubeLoader />}>
-              <Messenger preloadNext={loadMessageSmiles} />
+              <Messenger preloadNext={loadDeferredSmiles} />
             </Suspense>
           }
         />

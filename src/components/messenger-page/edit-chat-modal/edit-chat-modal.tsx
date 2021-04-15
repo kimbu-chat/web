@@ -1,8 +1,7 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { lazy, Suspense, useCallback, useRef, useState } from 'react';
 import './edit-chat-modal.scss';
 
 import { Modal, WithBackground, LabeledInput, Button } from '@components/shared';
-import { PhotoEditor } from '@components/messenger-page';
 
 import { IGroupChat } from '@store/chats/models';
 import { getSelectedGroupChatSelector } from '@store/chats/selectors';
@@ -19,7 +18,12 @@ import { ReactComponent as PictureSvg } from '@icons/picture.svg';
 import { ReactComponent as TopAvatarLine } from '@icons/top-avatar-line.svg';
 import { ReactComponent as BottomAvatarLine } from '@icons/bottom-avatar-line.svg';
 import { IAvatar, IAvatarSelectedData } from '@store/common/models';
+import { loadEmoji } from '@routing/module-loader';
+
 import { editGroupChatAction } from '@store/chats/actions';
+import { CubeLoader } from '@containers/cube-loader/cube-loader';
+
+const PhotoEditor = lazy(loadEmoji);
 
 export interface IEditChatModalProps {
   onClose: () => void;
@@ -212,11 +216,13 @@ export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClos
         />
       </WithBackground>
       {changePhotoDisplayed && (
-        <PhotoEditor
-          hideChangePhoto={hideChangePhoto}
-          imageUrl={imageUrl}
-          onSubmit={applyAvatarData}
-        />
+        <Suspense fallback={<CubeLoader />}>
+          <PhotoEditor
+            hideChangePhoto={hideChangePhoto}
+            imageUrl={imageUrl}
+            onSubmit={applyAvatarData}
+          />
+        </Suspense>
       )}
     </>
   );

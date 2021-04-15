@@ -4,7 +4,6 @@ export { InfiniteScroll } from './shared/infinite-scroll';
 export { SelectEntity } from './shared/select-entity';
 export { SearchBox } from './search-box';
 export { MediaModal } from './shared/image-modal';
-export { PhotoEditor } from './photo-editor';
 export { GroupChatAddFriendModal } from './group-chat-add-friend-modal';
 export { CreateGroupChat } from './create-group-chat-modal';
 export { MessageAudioAttachment } from './shared/audio-attachment';

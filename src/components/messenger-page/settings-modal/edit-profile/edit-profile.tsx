@@ -1,7 +1,6 @@
 import { Button, FadeAnimationWrapper, LabeledInput } from '@components/shared';
-import { PhotoEditor } from '@components/messenger-page';
 import { myProfileSelector } from '@store/my-profile/selectors';
-import React, { useCallback, useState, useRef } from 'react';
+import React, { useCallback, useState, useRef, lazy, Suspense } from 'react';
 import { useSelector } from 'react-redux';
 import './edit-profile.scss';
 import { ReactComponent as UserSvg } from '@icons/user.svg';
@@ -19,8 +18,13 @@ import { useTranslation } from 'react-i18next';
 import { IAvatarSelectedData } from '@store/common/models';
 import { validateNickname } from '@utils/validate-nick-name';
 import { parsePhoneNumber } from 'libphonenumber-js';
+import { CubeLoader } from '@containers/cube-loader/cube-loader';
+import { loadEmoji } from '@routing/module-loader';
 import { ChangePhoneModal } from './change-phone-modal/change-phone-modal';
+
 import { DeleteAccountModal } from './delete-account-modal/delete-account-modal';
+
+const PhotoEditor = lazy(loadEmoji);
 
 enum NicknameState {
   INVALID_NICKNAME = 'INVALID_NICKNAME',
@@ -283,11 +287,13 @@ export const EditProfile = React.memo(() => {
       </div>
 
       {changePhotoDisplayed && (
-        <PhotoEditor
-          hideChangePhoto={hideChangePhoto}
-          imageUrl={imageUrl}
-          onSubmit={changeMyAvatar}
-        />
+        <Suspense fallback={<CubeLoader />}>
+          <PhotoEditor
+            hideChangePhoto={hideChangePhoto}
+            imageUrl={imageUrl}
+            onSubmit={changeMyAvatar}
+          />
+        </Suspense>
       )}
 
       <FadeAnimationWrapper isDisplayed={editPhoneModalDisplayed}>

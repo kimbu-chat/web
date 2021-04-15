@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next';
-import { PhotoEditor, SearchBox, InfiniteScroll } from '@components/messenger-page';
+import { SearchBox, InfiniteScroll } from '@components/messenger-page';
 import { Modal, WithBackground, LabeledInput, Button } from '@components/shared';
 import { getFriendsAction, resetSearchFriendsAction } from '@store/friends/actions';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import React, { useCallback, useRef, useState, useEffect, useMemo } from 'react';
+import React, { useCallback, useRef, useState, useEffect, useMemo, lazy, Suspense } from 'react';
 import { useSelector } from 'react-redux';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { createGroupChatAction } from '@store/chats/actions';
@@ -23,8 +23,12 @@ import { ReactComponent as GroupSvg } from '@icons/group.svg';
 import { ReactComponent as PictureSvg } from '@icons/picture.svg';
 import { ReactComponent as TopAvatarLine } from '@icons/top-avatar-line.svg';
 import { ReactComponent as BottomAvatarLine } from '@icons/bottom-avatar-line.svg';
-import { SelectEntity } from '../shared/select-entity/select-entity';
+import { loadEmoji } from '@routing/module-loader';
 import './create-group-chat-modal.scss';
+import { CubeLoader } from '@containers/cube-loader/cube-loader';
+import { SelectEntity } from '../shared/select-entity/select-entity';
+
+const PhotoEditor = lazy(loadEmoji);
 
 interface ICreateGroupChatProps {
   onClose: () => void;
@@ -355,11 +359,13 @@ export const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(
           />
         </WithBackground>
         {changePhotoDisplayed && (
-          <PhotoEditor
-            hideChangePhoto={hideChangePhoto}
-            imageUrl={imageUrl}
-            onSubmit={applyAvatarData}
-          />
+          <Suspense fallback={<CubeLoader />}>
+            <PhotoEditor
+              hideChangePhoto={hideChangePhoto}
+              imageUrl={imageUrl}
+              onSubmit={applyAvatarData}
+            />
+          </Suspense>
         )}
       </>
     );

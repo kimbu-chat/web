@@ -5,10 +5,8 @@ import { authenticatedSelector } from '@store/auth/selectors';
 import { createEmptyAction } from '@store/common/actions';
 import { HttpRequestMethod, httpRequestFactory } from '@store/common/http';
 
-import { replaceInUrl } from '@utils/replace-in-url';
 import { MAIN_API } from '@common/paths';
 import { IUser } from '../../../common/models';
-import { myIdSelector } from '../../selectors';
 import { GetMyProfileSuccess } from './get-my-profile-success';
 
 export class GetMyProfile {
@@ -24,17 +22,15 @@ export class GetMyProfile {
         return;
       }
 
-      const currentUserId = yield select(myIdSelector);
-
       const { httpRequest } = GetMyProfile;
-      const { data } = httpRequest.call(yield call(() => httpRequest.generator(currentUserId)));
+      const { data } = httpRequest.call(yield call(() => httpRequest.generator()));
       yield put(GetMyProfileSuccess.action({ user: data }));
     };
   }
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IUser>, number>(
-      (userId: number) => replaceInUrl(MAIN_API.GET_MY_PROFILE, ['userId', userId]),
+      MAIN_API.GET_MY_PROFILE,
       HttpRequestMethod.Get,
     );
   }

@@ -1,6 +1,4 @@
-import { UserStatus } from '../../../common/models';
-
 export interface IStatusChangedIntegrationEvent {
-  status: UserStatus;
+  online: boolean;
   userId: number;
 }

@@ -153,7 +153,7 @@ const chats = createReducer<IChatsState>(initialState)
         draft: IChatsState,
         { payload }: ReturnType<typeof UserStatusChangedEventHandler.action>,
       ) => {
-        const { status, userId } = payload;
+        const { online, userId } = payload;
         const chatId: number = ChatId.from(userId).id;
         const chat = getChatByIdDraftSelector(chatId, draft);
 
@@ -163,7 +163,7 @@ const chats = createReducer<IChatsState>(initialState)
 
         if (chat.interlocutor) {
           const { interlocutor } = chat;
-          interlocutor.status = status;
+          interlocutor.online = online;
           interlocutor.lastOnlineTime = new Date();
         }
 

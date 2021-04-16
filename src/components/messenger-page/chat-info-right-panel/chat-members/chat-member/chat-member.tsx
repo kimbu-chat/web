@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 
 import './chat-member.scss';
 
-import { IUser, UserStatus } from '@store/common/models';
+import { IUser } from '@store/common/models';
 
 import { useTranslation } from 'react-i18next';
 
@@ -46,12 +46,12 @@ export const Member: React.FC<IMemberProps> = React.memo(({ member }) => {
             {isOwner && <div className="chat-member__owner">{t('chatMember.owner')}</div>}
           </div>
 
-          {member?.status === UserStatus.Offline ? (
-            <span className="chat-member__status">{t('chatData.online')}</span>
-          ) : (
+          {member?.online ? (
             <span className="chat-member__status">
               <TimeUpdateable timeStamp={member?.lastOnlineTime} />
             </span>
+          ) : (
+            <span className="chat-member__status">{t('chatData.online')}</span>
           )}
         </div>
         {!isOwner && !itIsMe && (

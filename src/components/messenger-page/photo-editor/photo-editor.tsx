@@ -46,143 +46,168 @@ interface IPhotoEditorProps {
   hideChangePhoto: () => void;
   onSubmit?: (data: IAvatarSelectedData) => Promise<void>;
 }
-export const PhotoEditor: React.FC<IPhotoEditorProps> = ({
-  imageUrl,
-  onSubmit,
-  hideChangePhoto,
-}) => {
-  const { t } = useTranslation();
 
-  const cancelAvatarUploading = useActionWithDispatch(cancelAvatarUploadingRequestAction);
+interface ICrop {
+  x: number;
+  y: number;
+}
 
-  const [crop, setCrop] = useState({ x: 0, y: 0 });
-  const [rotation, setRotation] = useState(0);
-  const [flip, setFlip] = useState({ horizontal: false, vertical: false });
-  const [zoom, setZoom] = useState(1);
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
-  const [submitLoading, setSubmitLoading] = useState(false);
+const PhotoEditor: React.FC<IPhotoEditorProps> = React.memo(
+  ({ imageUrl, onSubmit, hideChangePhoto }) => {
+    const { t } = useTranslation();
 
-  const onCropComplete = useCallback(
-    (_croppedArea, croppedAreaPixelsToSet) => {
-      setCroppedAreaPixels(croppedAreaPixelsToSet);
-    },
-    [setCroppedAreaPixels],
-  );
+    const cancelAvatarUploading = useActionWithDispatch(cancelAvatarUploadingRequestAction);
 
-  const submitChange = useCallback(async () => {
-    if (onSubmit && croppedAreaPixels) {
-      const croppedUrl = await getCroppedImg(imageUrl, croppedAreaPixels, rotation, flip);
-      setSubmitLoading(true);
-      onSubmit({
-        imagePath: imageUrl,
-        croppedImagePath: croppedUrl,
-      })
-        .then(() => {
-          setSubmitLoading(false);
-          hideChangePhoto();
-        })
-        .catch(() => {
-          setSubmitLoading(false);
-        });
-    }
-  }, [onSubmit, hideChangePhoto, imageUrl, croppedAreaPixels, rotation, flip]);
+    const [crop, setCrop] = useState<ICrop>({ x: 0, y: 0 });
+    const [rotation, setRotation] = useState(0);
+    const [flip, setFlip] = useState({ horizontal: false, vertical: false });
+    const [zoom, setZoom] = useState(1);
+    const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
+    const [submitLoading, setSubmitLoading] = useState(false);
 
-  const cancelUpload = useCallback(() => {
-    cancelAvatarUploading();
-    hideChangePhoto();
-  }, [cancelAvatarUploading, hideChangePhoto]);
-
-  const mirrorImage = useCallback(() => {
-    setFlip((prev) => ({ horizontal: !prev.horizontal, vertical: prev.vertical }));
-    setRotation((prev) => 360 - prev);
-  }, [setFlip, setRotation]);
-
-  const rotateLeft = useCallback(() => setRotation((old) => old - 90), [setRotation]);
-
-  const rotateRight = useCallback(() => setRotation((old) => old + 90), [setRotation]);
-
-  return (
-    <WithBackground>
-      <Modal
-        title={
-          <>
-            <PhotoSvg viewBox="0 0 18 19" className="photo-editor__icon" />
-
-            <span> {t('changePhoto.title')} </span>
-          </>
+    const changeCrop = useCallback(
+      (newCrop: ICrop) => {
+        if (crop.x !== newCrop.x || newCrop.y !== crop.y) {
+          setCrop(newCrop);
         }
-        closeModal={cancelUpload}
-        content={
-          <div onClick={(e) => e.stopPropagation()} className="photo-editor">
-            <div className="photo-editor__crop-container">
-              <Cropper
-                image={imageUrl}
-                transform={[
-                  `translate(${crop.x}px, ${crop.y}px)`,
-                  `rotateZ(${rotation}deg)`,
-                  `rotateY(${flip.horizontal ? 180 : 0}deg)`,
-                  `rotateX(${flip.vertical ? 180 : 0}deg)`,
-                  `scale(${zoom})`,
-                ].join(' ')}
-                crop={crop}
-                rotation={rotation}
-                zoom={zoom}
-                aspect={4 / 3}
-                onCropChange={setCrop}
-                onRotationChange={setRotation}
-                onCropComplete={onCropComplete}
-                onZoomChange={setZoom}
-              />
-            </div>
-            <div className="photo-editor__slider-section">
-              <PeisageSvg className="photo-editor__slider-peisage photo-editor__slider-peisage--little" />
-              <div className="photo-editor__slider-container">
-                <Slider
-                  handleStyle={handleStyle}
-                  railStyle={railStyle}
-                  value={zoom}
-                  min={1}
-                  max={3}
-                  step={0.1}
-                  onChange={setZoom}
+      },
+      [setCrop, crop],
+    );
+
+    const onCropComplete = useCallback(
+      (_croppedArea, croppedAreaPixelsToSet) => {
+        if (
+          croppedAreaPixels?.width !== croppedAreaPixelsToSet.width ||
+          croppedAreaPixels?.height !== croppedAreaPixelsToSet.height ||
+          croppedAreaPixels?.x !== croppedAreaPixelsToSet.x ||
+          croppedAreaPixels?.y !== croppedAreaPixelsToSet.y
+        ) {
+          setCroppedAreaPixels(croppedAreaPixelsToSet);
+        }
+      },
+      [croppedAreaPixels, setCroppedAreaPixels],
+    );
+
+    const submitChange = useCallback(async () => {
+      if (onSubmit && croppedAreaPixels) {
+        const croppedUrl = await getCroppedImg(imageUrl, croppedAreaPixels, rotation, flip);
+        setSubmitLoading(true);
+        onSubmit({
+          imagePath: imageUrl,
+          croppedImagePath: croppedUrl,
+        })
+          .then(() => {
+            setSubmitLoading(false);
+            hideChangePhoto();
+          })
+          .catch(() => {
+            setSubmitLoading(false);
+          });
+      }
+    }, [onSubmit, hideChangePhoto, imageUrl, croppedAreaPixels, rotation, flip]);
+
+    const cancelUpload = useCallback(() => {
+      cancelAvatarUploading();
+      hideChangePhoto();
+    }, [cancelAvatarUploading, hideChangePhoto]);
+
+    const mirrorImage = useCallback(() => {
+      setFlip((prev) => ({ horizontal: !prev.horizontal, vertical: prev.vertical }));
+      setRotation((prev) => 360 - prev);
+    }, [setFlip, setRotation]);
+
+    const rotateLeft = useCallback(() => setRotation((old) => old - 90), [setRotation]);
+
+    const rotateRight = useCallback(() => setRotation((old) => old + 90), [setRotation]);
+
+    return (
+      <WithBackground>
+        <Modal
+          title={
+            <>
+              <PhotoSvg viewBox="0 0 18 19" className="photo-editor__icon" />
+
+              <span> {t('changePhoto.title')} </span>
+            </>
+          }
+          closeModal={cancelUpload}
+          content={
+            <div onClick={(e) => e.stopPropagation()} className="photo-editor">
+              <div className="photo-editor__crop-container">
+                <Cropper
+                  image={imageUrl}
+                  transform={[
+                    `translate(${crop.x}px, ${crop.y}px)`,
+                    `rotateZ(${rotation}deg)`,
+                    `rotateY(${flip.horizontal ? 180 : 0}deg)`,
+                    `rotateX(${flip.vertical ? 180 : 0}deg)`,
+                    `scale(${zoom})`,
+                  ].join(' ')}
+                  crop={crop}
+                  rotation={rotation}
+                  zoom={zoom}
+                  aspect={4 / 3}
+                  onCropChange={changeCrop}
+                  onRotationChange={setRotation}
+                  onCropComplete={onCropComplete}
+                  onZoomChange={setZoom}
                 />
               </div>
-              <PeisageSvg className="photo-editor__slider-peisage photo-editor__slider-peisage--big" />
+              <div className="photo-editor__slider-section">
+                <PeisageSvg className="photo-editor__slider-peisage photo-editor__slider-peisage--little" />
+                <div className="photo-editor__slider-container">
+                  <Slider
+                    handleStyle={handleStyle}
+                    railStyle={railStyle}
+                    value={zoom}
+                    min={1}
+                    max={3}
+                    step={0.1}
+                    onChange={setZoom}
+                  />
+                </div>
+                <PeisageSvg className="photo-editor__slider-peisage photo-editor__slider-peisage--big" />
+              </div>
+              <div className="photo-editor__btn-group">
+                <button onClick={rotateLeft} type="button" className="photo-editor__modify-btn">
+                  <Tooltip>Left Rotation</Tooltip>
+                  <LeftRotateSvg viewBox="0 0 18 18" />
+                </button>
+                <button onClick={mirrorImage} type="button" className="photo-editor__modify-btn">
+                  <Tooltip>Mirror</Tooltip>
+                  <ReflectSvg viewBox="0 0 18 18" />
+                </button>
+                <button onClick={rotateRight} type="button" className="photo-editor__modify-btn">
+                  <Tooltip>Right Rotation</Tooltip>
+                  <RightRotateSvg viewBox="0 0 18 18" />
+                </button>
+              </div>
             </div>
-            <div className="photo-editor__btn-group">
-              <button onClick={rotateLeft} type="button" className="photo-editor__modify-btn">
-                <Tooltip>Left Rotation</Tooltip>
-                <LeftRotateSvg viewBox="0 0 18 18" />
-              </button>
-              <button onClick={mirrorImage} type="button" className="photo-editor__modify-btn">
-                <Tooltip>Mirror</Tooltip>
-                <ReflectSvg viewBox="0 0 18 18" />
-              </button>
-              <button onClick={rotateRight} type="button" className="photo-editor__modify-btn">
-                <Tooltip>Right Rotation</Tooltip>
-                <RightRotateSvg viewBox="0 0 18 18" />
-              </button>
-            </div>
-          </div>
-        }
-        buttons={[
-          <Button
-            key={0}
-            type="button"
-            className="photo-editor__btn photo-editor__btn--cancel"
-            onClick={cancelUpload}>
-            {t('changePhoto.reject')}
-          </Button>,
-          <Button
-            loading={submitLoading}
-            key={1}
-            type="button"
-            className="photo-editor__btn photo-editor__btn--confirm"
-            onClick={submitChange}>
-            {t('changePhoto.confirm')}
-          </Button>,
-        ]}
-      />
-    </WithBackground>
-  );
-};
+          }
+          buttons={[
+            <Button
+              key={0}
+              type="button"
+              className="photo-editor__btn photo-editor__btn--cancel"
+              onClick={cancelUpload}>
+              {t('changePhoto.reject')}
+            </Button>,
+            <Button
+              loading={submitLoading}
+              key={1}
+              type="button"
+              className="photo-editor__btn photo-editor__btn--confirm"
+              onClick={submitChange}>
+              {t('changePhoto.confirm')}
+            </Button>,
+          ]}
+        />
+      </WithBackground>
+    );
+  },
+  (prevProps, nextProps) => prevProps.imageUrl === nextProps.imageUrl,
+);
+
+PhotoEditor.displayName = 'PhotoEditor';
+
+export { PhotoEditor };

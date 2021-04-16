@@ -62,6 +62,7 @@ export const incrementNotifications = () => {
 
 export const resetUnreadNotifications = () => {
   unreadNotifications = 0;
+  window.document.title = 'Ravudi';
 
   if (windowNotificationIntervalCode) {
     clearInterval(windowNotificationIntervalCode);
@@ -70,10 +71,20 @@ export const resetUnreadNotifications = () => {
   resetFavicons();
 };
 
-export const setNewTitleNotificationInterval = (callback: () => void) => {
+export const setNewTitleNotificationInterval = () => {
+  setFavicon('/favicons/msg-favicon.ico');
+
   if (windowNotificationIntervalCode) {
     clearInterval(windowNotificationIntervalCode);
   }
 
-  windowNotificationIntervalCode = (setInterval(callback, 2000) as unknown) as NodeJS.Timeout;
+  let notificationsDisplayed = false;
+
+  window.document.title = `${unreadNotifications} unread Notification !`;
+  windowNotificationIntervalCode = setInterval(() => {
+    window.document.title = notificationsDisplayed
+      ? 'Ravudi'
+      : `${unreadNotifications} unread Notification !`;
+    notificationsDisplayed = !notificationsDisplayed;
+  }, 500);
 };

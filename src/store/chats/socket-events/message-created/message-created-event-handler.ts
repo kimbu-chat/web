@@ -4,12 +4,7 @@ import { createAction } from 'typesafe-actions';
 import { AxiosResponse } from 'axios';
 import { areNotificationsEnabledSelector } from '@store/settings/selectors';
 import { ChangeUserOnlineStatus } from '@store/my-profile/features/change-user-online-status/change-user-online-status';
-import {
-  setFavicon,
-  setNewTitleNotificationInterval,
-  getUreadNotifications,
-  incrementNotifications,
-} from '@utils/set-favicon';
+import { setNewTitleNotificationInterval, incrementNotifications } from '@utils/set-favicon';
 import { playSoundSafely } from '@utils/current-music';
 import { modelChatList } from '@store/chats/utils/model-chat-list';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
@@ -131,19 +126,8 @@ export class MessageCreatedEventHandler {
         }
 
         if (!isTabActive) {
-          setFavicon('/favicons/msg-favicon.ico');
           incrementNotifications();
-          const unreadNotifications = getUreadNotifications();
-
-          window.document.title = `${unreadNotifications} unread Notification !`;
-
-          setNewTitleNotificationInterval(() => {
-            window.document.title = `${unreadNotifications} unread Notification !`;
-
-            setTimeout(() => {
-              window.document.title = 'Ravudi';
-            }, 1000);
-          });
+          yield call(setNewTitleNotificationInterval);
         }
       }
 

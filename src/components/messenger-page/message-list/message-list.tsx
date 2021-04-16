@@ -89,6 +89,6 @@ const MessageList = React.memo(() => {
   );
 });
 
-MessageList.displayName = 'Chat';
+MessageList.displayName = 'MessageList';
 
 export { MessageList };

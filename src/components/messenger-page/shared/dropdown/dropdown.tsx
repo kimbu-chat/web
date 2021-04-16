@@ -3,6 +3,7 @@ import './dropdown.scss';
 import { ReactComponent as DropDownSvg } from '@icons/arrow.svg';
 import { useOnClickOutside } from '@hooks/use-on-click-outside';
 import noop from 'lodash/noop';
+import { xorBy } from 'lodash';
 
 interface IDropdownProps {
   selectedString: string;
@@ -56,5 +57,12 @@ export const Dropdown: React.FC<IDropdownProps> = React.memo(
         )}
       </div>
     );
+  },
+  (prevProps, nextProps) => {
+    const result =
+      prevProps.selectedString === nextProps.selectedString &&
+      prevProps.disabled === nextProps.disabled &&
+      xorBy(prevProps.options, nextProps.options, 'title').length === 0;
+    return result;
   },
 );

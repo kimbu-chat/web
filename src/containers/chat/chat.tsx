@@ -153,4 +153,6 @@ const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
   );
 });
 
+Chat.displayName = 'Chat';
+
 export default Chat;

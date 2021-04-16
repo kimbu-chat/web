@@ -21,7 +21,7 @@ interface IAddFriendModalProps {
   onClose: () => void;
 }
 
-export const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
+const AddFriendModal: React.FC<IAddFriendModalProps> = React.memo(({ onClose }) => {
   const { t } = useTranslation();
   const getUserByPhone = useActionWithDeferred(GetUserByPhone.action);
   const addFriend = useActionWithDeferred(AddFriend.action);
@@ -52,7 +52,7 @@ export const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
     if (user) {
       setLoading(true);
       addFriend(user).then(() => {
-        setLoading(false);
+        // setLoading(false);
         setSucess(true);
       });
     }
@@ -151,4 +151,8 @@ export const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
       />
     </WithBackground>
   );
-};
+});
+
+AddFriendModal.displayName = 'AddFriendModal';
+
+export { AddFriendModal };

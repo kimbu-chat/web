@@ -19,6 +19,11 @@
     "cancel": "Отена",
     "confirm": "Удалить"
   },
+  "languageSettings": {
+    "title": "Язык",
+    "russia": "Россия",
+    "usa-uk": "США, Великобритания"
+  },
   "activeCall": {
     "default": "По умолчанию"
   },

@@ -22,7 +22,7 @@ export class UserStatusChangedEventHandler {
           return draft;
         }
 
-        user.status = payload.status;
+        user.online = payload.online;
         user.lastOnlineTime = new Date();
 
         return draft;

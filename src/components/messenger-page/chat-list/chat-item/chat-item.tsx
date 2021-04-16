@@ -176,7 +176,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(
       prevProps.chat.isMuted === nextProps.chat.isMuted &&
       prevProps.chat.interlocutor?.firstName === nextProps.chat.interlocutor?.firstName &&
       prevProps.chat.interlocutor?.lastName === nextProps.chat.interlocutor?.lastName &&
-      prevProps.chat.interlocutor?.status === nextProps.chat.interlocutor?.status &&
+      prevProps.chat.interlocutor?.online === nextProps.chat.interlocutor?.online &&
       prevProps.chat.groupChat?.name === nextProps.chat.groupChat?.name &&
       isEqual(prevProps.chat.interlocutor?.avatar, nextProps.chat.interlocutor?.avatar) &&
       isEqual(prevProps.chat.groupChat?.avatar, nextProps.chat.groupChat?.avatar) &&

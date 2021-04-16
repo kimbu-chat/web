@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { ChatId } from '@store/chats/chat-id';
-import { IUser, UserStatus } from '@store/common/models';
+import { IUser } from '@store/common/models';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -24,7 +24,7 @@ export const Friend: React.FC<IFriendProps> = React.memo(({ friend }) => {
       <div className="friend__contents">
         <div className="friend__name">{`${friend.firstName} ${friend.lastName}`}</div>
         <div className="friend__status">
-          {friend.status === UserStatus.Online ? (
+          {friend.online ? (
             t('chatData.online')
           ) : (
             <>

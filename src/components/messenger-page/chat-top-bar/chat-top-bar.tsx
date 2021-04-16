@@ -7,7 +7,7 @@ import './chat-top-bar.scss';
 import { useTranslation } from 'react-i18next';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { outgoingCallAction } from '@store/calls/actions';
-import { IUser, UserStatus } from '@store/common/models';
+import { IUser } from '@store/common/models';
 import { Avatar, StatusBadge, TimeUpdateable } from '@components/shared';
 
 import { ReactComponent as VoiceCallSvg } from '@icons/audio-call.svg';
@@ -52,15 +52,14 @@ export const ChatTopBar = React.memo(() => {
     [selectedChat?.interlocutor, callInterlocutor],
   );
 
-  const interlocutorStatus =
-    selectedChat?.interlocutor?.status === UserStatus.Online ? (
-      t('chatData.online')
-    ) : (
-      <>
-        <span>{`${t('chatData.last-time')} `}</span>{' '}
-        <TimeUpdateable timeStamp={selectedChat?.interlocutor?.lastOnlineTime} />
-      </>
-    );
+  const interlocutorStatus = selectedChat?.interlocutor?.online ? (
+    t('chatData.online')
+  ) : (
+    <>
+      <span>{`${t('chatData.last-time')} `}</span>{' '}
+      <TimeUpdateable timeStamp={selectedChat?.interlocutor?.lastOnlineTime} />
+    </>
+  );
 
   const groupChatOrInterlocutorStatus = selectedChat?.groupChat
     ? `${selectedChat.groupChat.membersCount} ${t('chatData.members')}`

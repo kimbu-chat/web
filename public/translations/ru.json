@@ -24,6 +24,16 @@
     "russia": "Россия",
     "usa-uk": "США, Великобритания"
   },
+  "changePhoneModal": {
+    "change-number": "Изменить номер телефона",
+    "code-sent": "Код отправлен",
+    "code": "Код",
+    "cancel": "Отмена",
+    "change": "Изменить",
+    "confirm": "Подтвердить",
+    "details": "Вы можете пере-отправить код через {{time}}",
+    "enter-numbers": "Введите цифры"
+  },
   "activeCall": {
     "default": "По умолчанию"
   },

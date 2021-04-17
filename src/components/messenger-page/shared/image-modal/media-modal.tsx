@@ -22,7 +22,7 @@ interface IImageModalProps {
   onClose: () => void;
 }
 
-export const MediaModal: React.FC<IImageModalProps> = React.memo(
+const MediaModal: React.FC<IImageModalProps> = React.memo(
   ({ attachmentId, attachmentsArr, onClose }) => {
     const { t } = useTranslation();
 
@@ -110,3 +110,7 @@ export const MediaModal: React.FC<IImageModalProps> = React.memo(
     );
   },
 );
+
+MediaModal.displayName = 'MediaModal';
+
+export { MediaModal };

@@ -25,7 +25,7 @@ export interface IEditChatModalProps {
   onClose: () => void;
 }
 
-export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClose }) => {
+const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClose }) => {
   const selectedGroupChat: IGroupChat | undefined = useSelector(getSelectedGroupChatSelector);
 
   const uploadGroupChatAvatar = useActionWithDeferred(uploadAvatarRequestAction);
@@ -35,36 +35,23 @@ export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClos
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [newName, setNewName] = useState(selectedGroupChat?.name);
-  const [avatarData, setAvatarData] = useState<IAvatarSelectedData | null>(null);
-  const [avararUploadResponse, setAvatarUploadResponse] = useState<IAvatar | null>(
-    selectedGroupChat?.avatar || null,
-  );
+  const [avatarData, setAvatarData] = useState<IAvatar | null>(selectedGroupChat?.avatar || null);
   const [imageUrl, setImageUrl] = useState<string>('');
   const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
   const [newDescription, setNewDescription] = useState(selectedGroupChat?.description || '');
-  const [uploaded, setUploaded] = useState(0);
-  const [uploadEnded, setUploadEnded] = useState(true);
+
   const [submitLoading, setSubmitLoading] = useState(false);
 
   const applyAvatarData = useCallback(
     async (data: IAvatarSelectedData) => {
-      setAvatarData(data);
-      setUploadEnded(false);
       try {
         const response = await uploadGroupChatAvatar({
           pathToFile: data.croppedImagePath,
-          onProgress: setUploaded,
         });
-        setAvatarUploadResponse(response);
-        setUploadEnded(true);
+        setAvatarData(response);
       } catch {
         cancelAvatarUploading();
-        setAvatarData({
-          imagePath: '',
-          croppedImagePath: '',
-        });
-        setAvatarUploadResponse(null);
-        setUploadEnded(true);
+        setAvatarData(null);
       }
     },
     [uploadGroupChatAvatar, cancelAvatarUploading],
@@ -101,7 +88,7 @@ export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClos
 
   const onSubmit = useCallback(() => {
     const changes: IEditGroupChatActionPayload = {
-      avatar: avararUploadResponse,
+      avatar: avatarData,
       name: newName as string,
       description: newDescription,
     };
@@ -110,22 +97,12 @@ export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClos
       setSubmitLoading(false);
       onClose();
     });
-  }, [onClose, avararUploadResponse, newName, newDescription, editGroupChat]);
+  }, [onClose, avatarData, newName, newDescription, editGroupChat]);
 
   const discardNewAvatar = useCallback(() => {
     cancelAvatarUploading();
-    setAvatarData({
-      imagePath: '',
-      croppedImagePath: '',
-    });
-    setAvatarUploadResponse(null);
-    setUploadEnded(true);
+    setAvatarData(null);
   }, [cancelAvatarUploading]);
-
-  const imageToDisplay =
-    typeof avatarData?.croppedImagePath === 'string'
-      ? avatarData?.croppedImagePath
-      : selectedGroupChat?.avatar?.previewUrl;
 
   return (
     <>
@@ -134,7 +111,6 @@ export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClos
           title="Edit group"
           content={
             <div className="edit-chat-modal">
-              <div hidden> {uploaded}</div>
               <div className="edit-chat-modal__current-photo-wrapper">
                 <GroupSvg
                   viewBox="0 0 24 24"
@@ -147,9 +123,9 @@ export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClos
                   hidden
                   accept="image/*"
                 />
-                {imageToDisplay && (
+                {avatarData?.previewUrl && (
                   <img
-                    src={imageToDisplay}
+                    src={avatarData.previewUrl}
                     alt=""
                     className="edit-chat-modal__current-photo-wrapper__img"
                   />
@@ -201,7 +177,7 @@ export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClos
             </button>,
             <Button
               key={2}
-              disabled={!uploadEnded || newName?.length === 0}
+              disabled={newName?.length === 0}
               type="button"
               loading={submitLoading}
               onClick={onSubmit}
@@ -221,3 +197,7 @@ export const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClos
     </>
   );
 });
+
+EditChatModal.displayName = 'EditChatModal';
+
+export { EditChatModal };

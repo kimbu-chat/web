@@ -29,7 +29,6 @@ const BackgroundBlur: React.FC<IBackgroundBlurProps> = React.memo(({ onClick, ch
 });
 
 export interface IWithBackgroundProps {
-  children?: JSX.Element | boolean;
   onBackgroundClick?: () => void;
 }
 

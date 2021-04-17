@@ -5,13 +5,14 @@ import { FadeAnimationWrapper } from '@components/shared';
 import { MediaModal } from '@components/messenger-page';
 import { IGroupable, IVideoAttachment } from '@store/chats/models';
 import { doesYearDifferFromCurrent } from '@utils/set-separators';
+import { xorBy } from 'lodash';
 
 interface IVideoFromListProps {
   video: IVideoAttachment & IGroupable;
   attachmentsArr: IVideoAttachment[];
 }
 
-export const VideoFromList: React.FC<IVideoFromListProps> = React.memo(
+const VideoFromList: React.FC<IVideoFromListProps> = React.memo(
   ({ video, attachmentsArr }) => {
     const [videoPlayerDisplayed, setVideoPlayerDisplayed] = useState(false);
     const changeVideoPlayerDisplayed = useCallback(
@@ -50,4 +51,11 @@ export const VideoFromList: React.FC<IVideoFromListProps> = React.memo(
       </React.Fragment>
     );
   },
+  (prevProps, nextProps) =>
+    prevProps.video.id === nextProps.video.id &&
+    xorBy(prevProps.attachmentsArr, nextProps.attachmentsArr, 'id').length === 0,
 );
+
+VideoFromList.displayName = 'VideoFromList';
+
+export { VideoFromList };

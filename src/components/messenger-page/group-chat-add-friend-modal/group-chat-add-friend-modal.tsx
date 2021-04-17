@@ -23,7 +23,7 @@ interface IGroupChatAddFriendModalProps {
   onClose: () => void;
 }
 
-export const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = React.memo(
+const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = React.memo(
   ({ onClose }) => {
     const { t } = useTranslation();
 
@@ -180,3 +180,7 @@ export const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = 
     );
   },
 );
+
+GroupChatAddFriendModal.displayName = 'GroupChatAddFriendModal';
+
+export { GroupChatAddFriendModal };

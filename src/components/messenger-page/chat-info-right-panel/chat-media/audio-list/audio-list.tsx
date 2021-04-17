@@ -47,7 +47,7 @@ export const AudioList = React.memo(() => {
                 </div>
               )}
               <div className="chat-audios__audio">
-                <MessageAudioAttachment key={attachment.id} attachment={attachment} />
+                <MessageAudioAttachment key={attachment.id} {...attachment} />
               </div>
             </React.Fragment>
           ))}

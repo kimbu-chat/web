@@ -92,7 +92,7 @@ const MessageLink: React.FC<IMessageLinkProps> = React.memo(({ linkedMessage }) 
             <RecordingAttachment key={recording.id} attachment={recording} />
           ))}
           {structuredAttachments?.audios.map((audio) => (
-            <MessageAudioAttachment key={audio.id} attachment={audio} />
+            <MessageAudioAttachment key={audio.id} {...audio} />
           ))}
           {structuredAttachments && structuredAttachments.media.length > 0 && (
             <MediaGrid media={structuredAttachments.media} />

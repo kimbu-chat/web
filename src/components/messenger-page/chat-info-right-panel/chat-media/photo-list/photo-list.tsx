@@ -11,7 +11,7 @@ import { InfiniteScroll } from '@components/messenger-page';
 import { PHOTO_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 import { Photo } from './photo/photo';
 
-export const PhotoList = React.memo(() => {
+const PhotoList = React.memo(() => {
   const getPhotoAttachmentss = useActionWithDispatch(getPhotoAttachmentsAction);
 
   const photoForSelectedChat = useSelector(getSelectedChatPhotosSelector);
@@ -47,3 +47,7 @@ export const PhotoList = React.memo(() => {
     </div>
   );
 });
+
+PhotoList.displayName = 'PhotoList';
+
+export { PhotoList };

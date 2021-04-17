@@ -8,12 +8,8 @@ import { changeMusic } from '@utils/current-music';
 import { IAudioAttachment } from '@store/chats/models';
 import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
 
-interface IMessageAudioAttachmentProps {
-  attachment: IAudioAttachment;
-}
-
-export const MessageAudioAttachment: React.FC<IMessageAudioAttachmentProps> = React.memo(
-  ({ attachment }) => {
+export const MessageAudioAttachment: React.FC<IAudioAttachment> = React.memo(
+  ({ ...attachment }) => {
     const [isPlaying, setIsPlaying] = useState(false);
 
     const audioRef = useRef<AudioPlayer | null>(null);

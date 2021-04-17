@@ -1,5 +1,4 @@
 import { IAvatar } from './avatar';
-import { UserStatus } from './user-status';
 
 export interface IUser {
   id: number;
@@ -7,8 +6,9 @@ export interface IUser {
   lastName: string;
   avatar?: IAvatar;
   nickname: string;
-  status: UserStatus;
+  online: boolean;
   gender?: number;
   lastOnlineTime: Date;
   phoneNumber: string;
+  deactivated?: boolean;
 }

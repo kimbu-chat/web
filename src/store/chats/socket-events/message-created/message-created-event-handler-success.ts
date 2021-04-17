@@ -3,6 +3,7 @@ import { createAction } from 'typesafe-actions';
 import { IChatsState } from '@store/chats/chats-state';
 import { MyProfileService } from '@services/my-profile-service';
 
+import { ILinkedMessage } from '@store/chats/models/linked-message';
 import {
   FileType,
   IAudioAttachment,
@@ -17,7 +18,7 @@ import { IMessageCreatedIntegrationEvent } from './message-created-integration-e
 export class MessageCreatedEventHandlerSuccess {
   static get action() {
     return createAction('MessageCreated_SUCCESS')<
-      IMessageCreatedIntegrationEvent & { linkedMessage?: IMessage }
+      IMessageCreatedIntegrationEvent & { linkedMessage?: ILinkedMessage }
     >();
   }
 
@@ -67,7 +68,7 @@ export class MessageCreatedEventHandlerSuccess {
         };
 
         const chatIndex = getChatIndexDraftSelector(chatId, draft);
-        const chat = draft.chats[chatIndex];
+        const chat = draft.chats.chats[chatIndex];
 
         if (linkedMessage && linkedMessageId) {
           message.linkedMessage = linkedMessage;
@@ -137,9 +138,9 @@ export class MessageCreatedEventHandlerSuccess {
           const chatWithNewMessage = chat;
 
           if (chatIndex !== 0) {
-            draft.chats.splice(chatIndex, 1);
+            draft.chats.chats.splice(chatIndex, 1);
 
-            draft.chats.unshift(chatWithNewMessage);
+            draft.chats.chats.unshift(chatWithNewMessage);
           }
         }
 

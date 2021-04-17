@@ -182,19 +182,6 @@ export const ActiveCall: React.FC = () => {
     return undefined;
   }, [amICallingSelectorSomebody, isInterlocutorBusy]);
 
-  useEffect(() => {
-    dragRef.current?.updatePosition(
-      isFullScreen
-        ? { x: 0, y: 0 }
-        : { x: window.innerWidth / 2 - 120, y: window.innerHeight / 2 - 120 },
-    );
-    dragRef.current?.updateSize(
-      isFullScreen
-        ? { width: window.innerWidth, height: window.innerHeight }
-        : { width: 304, height: 328 },
-    );
-  }, [isFullScreen]);
-
   const reCallWithVideo = useCallback(
     () =>
       callInterlocutor({
@@ -222,11 +209,12 @@ export const ActiveCall: React.FC = () => {
   return ReactDOM.createPortal(
     <Rnd
       ref={dragRef}
+      className={`active-call__drag ${isFullScreen ? 'active-call__drag--big' : ''}`}
       default={{
         x: window.innerWidth / 2 - 120,
         y: window.innerHeight / 2 - 120,
-        width: 0,
-        height: 0,
+        width: 304,
+        height: 328,
       }}
       bounds="body"
       disableDragging={isFullScreen}>

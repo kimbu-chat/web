@@ -15,7 +15,9 @@ export class DialogRemovedEventHandler {
         const { userInterlocutorId } = payload;
         const chatId = ChatId.from(userInterlocutorId).id;
 
-        draft.chats = draft.chats.filter((chat) => chat.id !== chatId);
+        draft.chats.chats = draft.chats.chats.filter((chat) => chat.id !== chatId);
+
+        delete draft.messages[chatId];
 
         if (draft.selectedChatId === chatId) {
           draft.selectedChatId = null;

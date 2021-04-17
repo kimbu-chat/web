@@ -41,9 +41,5 @@ export const getAudioDevicesSelector = (state: RootState) => state.calls.audioDe
 
 export const getVideoDevicesSelector = (state: RootState) => state.calls.videoDevicesList;
 
-export const getCallsListSelector = (state: RootState) => state.calls.calls.calls;
-export const getSearchCallsListSelector = (state: RootState) => state.calls.calls.searchCalls;
-
-export const getCallsAreLoadingSelector = (state: RootState) => state.calls.calls.loading;
-
-export const gethasMoreCallsSelector = (state: RootState) => state.calls.calls.hasMore;
+export const getCallsListSelector = (state: RootState) => state.calls.calls;
+export const getSearchCallsListSelector = (state: RootState) => state.calls.searchCalls;

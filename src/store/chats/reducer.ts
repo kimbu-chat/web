@@ -2,6 +2,7 @@ import produce from 'immer';
 import { createReducer } from 'typesafe-actions';
 import { DismissToAddContactSuccess } from '@store/friends/features/dismiss-to-add-contact/dismiss-to-add-contact-success';
 import { UserContactsRemovedEventHandler } from '@store/friends/socket-events/user-contacts-removed/user-contacts-removed-event-handler';
+import { UserDeactivatedEventHandler } from '../my-profile/socket-events/user-deactivated/user-deactivated-event-handler';
 import { RemoveChatSuccess } from './features/remove-chat/remove-chat-success';
 import { AddUsersToGroupChatSuccess } from './features/add-users-to-group-chat/add-users-to-group-chat-success';
 import { ChangeChatMutedStatusSuccess } from './features/change-chat-muted-status/change-chat-muted-status-success';
@@ -72,16 +73,22 @@ import { UnblockUserSuccess } from '../settings/features/unblock-user/unblock-us
 import { RemoveUserFromGroupChatSuccess } from './features/remove-user-from-group-chat/remove-user-from-group-chat-success';
 import { MessageCreatedEventHandlerSuccess } from './socket-events/message-created/message-created-event-handler-success';
 import { DialogRemovedEventHandler } from './socket-events/dialog-removed/dialog-removed-event-handler';
+import { ResetSearchChats } from './features/reset-search-chats/reset-search-chats';
 
 const initialState: IChatsState = {
-  hasMore: true,
-  chats: [],
+  chats: {
+    hasMore: true,
+    chats: [],
+    page: -1,
+  },
+  searchChats: {
+    hasMore: true,
+    chats: [],
+    page: 0,
+  },
   messages: {},
-  searchChats: [],
   selectedChatId: null,
   selectedMessageIds: [],
-  page: -1,
-  searchPage: 0,
   isInfoOpened: false,
 };
 
@@ -138,6 +145,7 @@ const chats = createReducer<IChatsState>(initialState)
   .handleAction(RemoveChatSuccess.action, RemoveChatSuccess.reducer)
   .handleAction(MessageCreatedEventHandlerSuccess.action, MessageCreatedEventHandlerSuccess.reducer)
   .handleAction(DialogRemovedEventHandler.action, DialogRemovedEventHandler.reducer)
+  .handleAction(ResetSearchChats.action, ResetSearchChats.reducer)
   .handleAction(
     UserStatusChangedEventHandler.action,
     produce(
@@ -145,7 +153,7 @@ const chats = createReducer<IChatsState>(initialState)
         draft: IChatsState,
         { payload }: ReturnType<typeof UserStatusChangedEventHandler.action>,
       ) => {
-        const { status, userId } = payload;
+        const { online, userId } = payload;
         const chatId: number = ChatId.from(userId).id;
         const chat = getChatByIdDraftSelector(chatId, draft);
 
@@ -155,7 +163,7 @@ const chats = createReducer<IChatsState>(initialState)
 
         if (chat.interlocutor) {
           const { interlocutor } = chat;
-          interlocutor.status = status;
+          interlocutor.online = online;
           interlocutor.lastOnlineTime = new Date();
         }
 
@@ -262,6 +270,22 @@ const chats = createReducer<IChatsState>(initialState)
         }
 
         chat.isDismissedAddToContacts = true;
+
+        return draft;
+      },
+    ),
+  )
+  .handleAction(
+    UserDeactivatedEventHandler.action,
+    produce(
+      (draft: IChatsState, { payload }: ReturnType<typeof UserDeactivatedEventHandler.action>) => {
+        const { userId } = payload;
+        const chatId: number = ChatId.from(userId).id;
+        const chat = getChatByIdDraftSelector(chatId, draft);
+
+        if (chat && chat.interlocutor) {
+          chat.interlocutor.deactivated = true;
+        }
 
         return draft;
       },

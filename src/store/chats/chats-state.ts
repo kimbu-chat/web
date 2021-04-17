@@ -2,11 +2,14 @@ import { IMessage } from './models/message';
 import { ById } from './models/by-id';
 import { IChat } from './models/chat';
 
-export interface IChatsState {
+interface IChatList {
   loading?: boolean;
   hasMore: boolean;
   chats: IChat[];
+  page: number;
+}
 
+export interface IChatsState {
   messages: ById<{
     messages: IMessage[];
     loading: boolean;
@@ -14,12 +17,11 @@ export interface IChatsState {
     searchString?: string;
   }>;
 
-  searchChats: IChat[];
+  chats: IChatList;
+  searchChats: IChatList;
+
   selectedChatId: number | null;
   selectedMessageIds: number[];
 
   isInfoOpened: boolean;
-
-  page: number;
-  searchPage: number;
 }

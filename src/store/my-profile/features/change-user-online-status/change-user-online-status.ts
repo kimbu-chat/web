@@ -39,8 +39,6 @@ export class ChangeUserOnlineStatus {
 
       if (payload) {
         resetUnreadNotifications();
-
-        window.document.title = 'Ravudi';
       }
     };
   }

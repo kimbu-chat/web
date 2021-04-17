@@ -1,6 +1,6 @@
 import React from 'react';
 import { getUserInitials } from '@utils/interlocutor-name-utils';
-import { IUser, UserStatus } from '@store/common/models';
+import { IUser } from '@store/common/models';
 
 import { Avatar } from '@components/shared';
 
@@ -17,9 +17,7 @@ export const StatusBadge: React.FC<IStatusBadgeProps> = React.memo(
     <div className={`status-badge ${containerClassName}`}>
       <span
         className={`status-badge__indicator ${
-          user?.status === UserStatus.Online
-            ? 'status-badge__indicator--online'
-            : 'status-badge__indicator--offline'
+          user?.online ? 'status-badge__indicator--online' : 'status-badge__indicator--offline'
         }`}
       />
 

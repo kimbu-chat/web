@@ -1,8 +1,12 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { getUserDraftSelector } from '../../selectors';
-import { IStatusChangedIntegrationEvent } from './status-changed-integration-event';
+import { myIdSelector } from '@store/my-profile/selectors';
+import { resetUnreadNotifications } from '@utils/set-favicon';
+import { SagaIterator } from 'redux-saga';
+import { select } from 'redux-saga/effects';
 import { IFriendsState } from '../../friends-state';
+import { IStatusChangedIntegrationEvent } from './status-changed-integration-event';
+import { getUserDraftSelector } from '../../selectors';
 
 export class UserStatusChangedEventHandler {
   static get action() {
@@ -22,11 +26,23 @@ export class UserStatusChangedEventHandler {
           return draft;
         }
 
-        user.status = payload.status;
+        user.online = payload.online;
         user.lastOnlineTime = new Date();
 
         return draft;
       },
     );
+  }
+
+  static get saga() {
+    return function* changeUserOnlineStatus({
+      payload,
+    }: ReturnType<typeof UserStatusChangedEventHandler.action>): SagaIterator {
+      const myId = yield select(myIdSelector);
+
+      if (payload.userId === myId) {
+        resetUnreadNotifications();
+      }
+    };
   }
 }

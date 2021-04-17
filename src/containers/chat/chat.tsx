@@ -27,11 +27,12 @@ import {
 } from '@store/calls/selectors';
 import { CSSTransition } from 'react-transition-group';
 import {
-  amICurrentChatBlackListedSelector,
+  amIBlackListedByInterlocutorSelector,
   getIsInfoOpenedSelector,
   isCurrentChatBlackListedSelector,
   isCurrentChatDismissedAddToContactsSelector,
   isCurrentChatContactSelector,
+  isCurrentChatUserDeactivatedSelector,
 } from '@store/chats/selectors';
 import { getInternetStateSelector } from '@store/internet/selectors';
 import { EditProfile } from '@components/messenger-page/settings-modal/edit-profile/edit-profile';
@@ -54,7 +55,8 @@ const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
   const isCurrentChatBlackListed = useSelector(isCurrentChatBlackListedSelector);
   const isFriend = useSelector(isCurrentChatContactSelector);
   const isDismissed = useSelector(isCurrentChatDismissedAddToContactsSelector);
-  const amICurrentChatBlackListed = useSelector(amICurrentChatBlackListedSelector);
+  const amIBlackListedByInterlocutor = useSelector(amIBlackListedByInterlocutorSelector);
+  const isCurrentChatUserDeactivated = useSelector(isCurrentChatUserDeactivatedSelector);
 
   const internetState = useSelector(getInternetStateSelector);
   const isInfoOpened = useSelector(getIsInfoOpenedSelector);
@@ -82,14 +84,21 @@ const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
         <ChatList />
         <div className="messenger__chat-send">
           <MessageList />
-          {isCurrentChatBlackListed || amICurrentChatBlackListed ? (
-            <BlockedMessageInput isCurrentChatBlackListed={isCurrentChatBlackListed} />
+          {isCurrentChatBlackListed ||
+          amIBlackListedByInterlocutor ||
+          isCurrentChatUserDeactivated ? (
+            <BlockedMessageInput
+              isCurrentChatBlackListed={isCurrentChatBlackListed}
+              amIBlackListedByInterlocutor={amIBlackListedByInterlocutor}
+              isCurrentChatUserDeactivated={isCurrentChatUserDeactivated}
+            />
           ) : (
             <CreateMessageInput />
           )}
-          {!isDismissed && !isFriend && !isCurrentChatBlackListed && !amICurrentChatBlackListed && (
-            <NotContact />
-          )}
+          {!isDismissed &&
+            !isFriend &&
+            !isCurrentChatBlackListed &&
+            !amIBlackListedByInterlocutor && <NotContact />}
         </div>
         <ChatTopBar />
         <CSSTransition in={isInfoOpened} timeout={200} classNames="chat-info-slide" unmountOnExit>

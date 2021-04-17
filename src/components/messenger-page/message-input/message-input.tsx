@@ -31,7 +31,6 @@ import { useSelector } from 'react-redux';
 import useInterval from 'use-interval';
 import { throttle } from 'lodash';
 import { TypingStrategy } from '@store/settings/features/models';
-import { loadMessageSmiles } from '@routing/module-loader';
 import { CubeLoader } from '@containers/cube-loader/cube-loader';
 
 import { ReactComponent as AddSvg } from '@icons/add-attachment.svg';
@@ -49,8 +48,7 @@ import { MessageInputAttachment } from './message-input-attachment/message-input
 import './message-input.scss';
 import { EditingMessage } from './editing-message/editing-message';
 import { MessageError } from './message-error/message-error';
-
-const MessageSmiles = lazy(loadMessageSmiles);
+import { MessageSmiles } from './message-smiles/message-smiles';
 
 export interface IRecordedData {
   mediaRecorder: MediaRecorder | null;
@@ -295,11 +293,15 @@ export const CreateMessageInput = React.memo(() => {
   );
 
   const throttledNotifyAboutTyping = useRef(
-    throttle((notificationText: string) => {
-      notifyAboutTyping({
-        text: notificationText,
-      });
-    }, 1000),
+    throttle(
+      (notificationText: string) => {
+        notifyAboutTyping({
+          text: notificationText,
+        });
+      },
+      1000,
+      { leading: true, trailing: false },
+    ),
   ).current;
 
   const onType = useCallback(

@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { IMessage, MessageState, SystemMessageType } from '@store/chats/models';
 import React, { useCallback } from 'react';
-import { IUser, UserStatus } from '@store/common/models';
+import { IUser } from '@store/common/models';
 import firstAvatar from '@icons/mockedUser1.png';
 import { myProfileSelector } from '@store/my-profile/selectors';
 import { useSelector } from 'react-redux';
@@ -37,7 +37,7 @@ export const Appearance: React.FC = () => {
           id: -5,
         },
         nickname: '',
-        status: UserStatus.Online,
+        online: true,
         lastOnlineTime: new Date(0),
         phoneNumber: '',
       },
@@ -70,7 +70,7 @@ export const Appearance: React.FC = () => {
           id: -5,
         },
         nickname: '',
-        status: UserStatus.Online,
+        online: true,
         lastOnlineTime: new Date(0),
         phoneNumber: '',
       },
@@ -103,7 +103,7 @@ export const Appearance: React.FC = () => {
           id: -5,
         },
         nickname: '',
-        status: UserStatus.Online,
+        online: true,
         lastOnlineTime: new Date(0),
         phoneNumber: '',
       },

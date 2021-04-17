@@ -32,6 +32,7 @@ import { CallEndedEventHandlerSuccess } from './socket-events/call-ended/call-en
 import { SpawnDeviceUpdateWatcher } from './features/device-watcher/spawn-device-update-watcher';
 import { KillDeviceUpdateWatcher } from './features/device-watcher/kill-device-update-watcher';
 import { OpenInterlocutorAudioStatus } from './features/change-interlocutor-media-status/open-interlocutor-audio-status';
+import { ResetSearchCalls } from './features/reset-search-calls/reset-search-calls';
 
 // CallActions
 export const getCallsAction = GetCalls.action;
@@ -60,6 +61,7 @@ export const spawnDeviceUpdateWatcherAction = SpawnDeviceUpdateWatcher.action;
 export const killDeviceUpdateWatcherAction = KillDeviceUpdateWatcher.action;
 export const openInterlocutorVideoStatusAction = OpenInterlocutorVideoStatus.action;
 export const openInterlocutorAudioStatusAction = OpenInterlocutorAudioStatus.action;
+export const resetSearchCallsAction = ResetSearchCalls.action;
 
 // socket-events
 export const incomingCallEventHandlerAction = IncomingCallEventHandler.action;
@@ -80,6 +82,7 @@ export const CallActions = {
   interlocutorBusyAction,
   cancelCallAction,
   cancelCallSuccessAction,
+  resetSearchCallsAction,
   declineCallAction,
   endCallAction,
   timeoutCallAction,

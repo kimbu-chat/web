@@ -1,34 +1,48 @@
 import { IPage, IUser } from '@store/common/models';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import React, { useCallback, useState, useMemo } from 'react';
+import React, { useCallback, useState, useMemo, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { getFriendsAction } from '@store/friends/actions';
-import {
-  getMyFriendsSelector,
-  getMySearchFriendsSelector,
-  getHasMoreFriendsSelector,
-  getFriendsLoadingSelector,
-} from '@store/friends/selectors';
-import { InfiniteScroll, SearchTop } from '@components/messenger-page';
+import { getFriendsAction, resetSearchFriendsAction } from '@store/friends/actions';
+import { getMyFriendsListSelector, getMySearchFriendsListSelector } from '@store/friends/selectors';
+import { InfiniteScroll, SearchBox } from '@components/messenger-page';
 import { FRIENDS_LIMIT } from '@utils/pagination-limits';
 import './friend-list.scss';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { Friend } from './friend-from-list/friend';
 
 export const FriendList = React.memo(() => {
-  const friends = useSelector(getMyFriendsSelector);
-  const searchFriends = useSelector(getMySearchFriendsSelector);
-  const hasMoreFriends = useSelector(getHasMoreFriendsSelector);
-  const friendsLoading = useSelector(getFriendsLoadingSelector);
+  const friendsList = useSelector(getMyFriendsListSelector);
+  const searchFriendsList = useSelector(getMySearchFriendsListSelector);
+
+  const { hasMore: hasMoreFriends, friends, loading: friendsLoading } = friendsList;
+  const {
+    hasMore: hasMoreSearchFriends,
+    friends: searchFriends,
+    loading: searchFriendsLoading,
+  } = searchFriendsList;
+
+  const loadFriends = useActionWithDeferred(getFriendsAction);
+  const resetSearchFriends = useActionWithDispatch(resetSearchFriendsAction);
+
+  useEffect(
+    () => () => {
+      resetSearchFriends();
+    },
+    [resetSearchFriends],
+  );
 
   const [searchString, setSearchString] = useState('');
   const changeSearchString = useCallback(
-    (name: string) => {
-      setSearchString(name);
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchString(e.target.value);
+      loadFriends({
+        page: { offset: 0, limit: FRIENDS_LIMIT },
+        name: e.target.value,
+        initializedByScroll: false,
+      });
     },
-    [setSearchString],
+    [setSearchString, loadFriends],
   );
-
-  const loadFriends = useActionWithDeferred(getFriendsAction);
 
   const loadMore = useCallback(() => {
     const page: IPage = {
@@ -52,12 +66,19 @@ export const FriendList = React.memo(() => {
 
   return (
     <div className="messenger__friends">
-      <SearchTop onChange={changeSearchString} searchFor="friends" />
+      <div className="friend-list__search-top">
+        <SearchBox
+          containerClassName="friend-list__search-top__search-container"
+          inputClassName="friend-list__search-top__search-input"
+          iconClassName="friend-list__search-top__search-icon"
+          onChange={changeSearchString}
+        />
+      </div>
       <div className="friend-list">
         <InfiniteScroll
           onReachExtreme={loadMore}
-          hasMore={hasMoreFriends}
-          isLoading={friendsLoading}>
+          hasMore={searchString.length ? hasMoreSearchFriends : hasMoreFriends}
+          isLoading={searchString.length ? searchFriendsLoading : friendsLoading}>
           {renderedFriends}
         </InfiniteScroll>
       </div>

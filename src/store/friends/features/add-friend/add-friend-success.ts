@@ -11,7 +11,7 @@ export class AddFriendSuccess {
   static get reducer() {
     return produce(
       (draft: IFriendsState, { payload }: ReturnType<typeof AddFriendSuccess.action>) => {
-        draft.friends.push(payload);
+        draft.friends.friends.push(payload);
         return draft;
       },
     );

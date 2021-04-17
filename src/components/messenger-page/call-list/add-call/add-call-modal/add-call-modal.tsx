@@ -9,13 +9,8 @@ import './add-call-modal.scss';
 import { ReactComponent as AddCallSvg } from '@icons/add-call.svg';
 import { ReactComponent as CallSvg } from '@icons/call.svg';
 import { IPage, IUser } from '@store/common/models';
-import { getFriendsAction } from '@store/friends/actions';
-import {
-  getMyFriendsSelector,
-  getMySearchFriendsSelector,
-  getHasMoreFriendsSelector,
-  getFriendsLoadingSelector,
-} from '@store/friends/selectors';
+import { getFriendsAction, resetSearchFriendsAction } from '@store/friends/actions';
+import { getMyFriendsListSelector, getMySearchFriendsListSelector } from '@store/friends/selectors';
 import { FRIENDS_LIMIT } from '@utils/pagination-limits';
 import { outgoingCallAction } from '@store/calls/actions';
 
@@ -26,10 +21,24 @@ interface IAddCallModalProps {
 export const AddCallModal: React.FC<IAddCallModalProps> = React.memo(({ onClose }) => {
   const { t } = useTranslation();
 
-  const friends = useSelector(getMyFriendsSelector);
-  const searchFriends = useSelector(getMySearchFriendsSelector);
-  const hasMoreFriends = useSelector(getHasMoreFriendsSelector);
-  const friendsLoading = useSelector(getFriendsLoadingSelector);
+  const friendsList = useSelector(getMyFriendsListSelector);
+  const searchFriendsList = useSelector(getMySearchFriendsListSelector);
+
+  const resetSearchFriends = useActionWithDispatch(resetSearchFriendsAction);
+
+  useEffect(
+    () => () => {
+      resetSearchFriends();
+    },
+    [resetSearchFriends],
+  );
+
+  const { hasMore: hasMoreFriends, friends, loading: friendsLoading } = friendsList;
+  const {
+    hasMore: hasMoreSearchFriends,
+    friends: searchFriends,
+    loading: searchFriendsLoading,
+  } = searchFriendsList;
 
   const loadFriends = useActionWithDispatch(getFriendsAction);
   const callInterlocutor = useActionWithDispatch(outgoingCallAction);
@@ -43,18 +52,6 @@ export const AddCallModal: React.FC<IAddCallModalProps> = React.memo(({ onClose 
     };
     loadFriends({ page, name, initializedByScroll: true });
   }, [searchFriends.length, friends.length, loadFriends, name]);
-
-  const searchFriendsList = useCallback(
-    (searchName: string) => {
-      setName(searchName);
-      loadFriends({
-        page: { offset: 0, limit: FRIENDS_LIMIT },
-        name: searchName,
-        initializedByScroll: false,
-      });
-    },
-    [loadFriends, setName],
-  );
 
   const call = useCallback(
     (user) => {
@@ -70,16 +67,16 @@ export const AddCallModal: React.FC<IAddCallModalProps> = React.memo(({ onClose 
     [callInterlocutor, onClose],
   );
 
-  useEffect(
-    () => () => {
-      searchFriendsList('');
-    },
-    [searchFriendsList],
-  );
-
   const handleSearchInputChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => searchFriendsList(e.target.value),
-    [searchFriendsList],
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setName(e.target.value);
+      loadFriends({
+        page: { offset: 0, limit: FRIENDS_LIMIT },
+        name: e.target.value,
+        initializedByScroll: false,
+      });
+    },
+    [setName, loadFriends],
   );
 
   const renderSelectEntity = useCallback(
@@ -126,8 +123,8 @@ export const AddCallModal: React.FC<IAddCallModalProps> = React.memo(({ onClose 
             <InfiniteScroll
               className="add-call-modal__friends-block"
               onReachExtreme={loadMore}
-              hasMore={hasMoreFriends}
-              isLoading={friendsLoading}>
+              hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}
+              isLoading={name.length ? searchFriendsLoading : friendsLoading}>
               {selectEntities}
             </InfiniteScroll>
           </div>

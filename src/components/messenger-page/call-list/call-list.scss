@@ -2,6 +2,30 @@
   background-color: var(--dt-dark-wt-white);
   grid-column: 2/3;
   grid-row: 1/3;
-  height: 100vh;
+  height: calc(100vh - 64px);
   overflow-y: auto;
+
+  &__search-top {
+    align-items: center;
+    background: var(--dt-dark-wt-white);
+    display: flex;
+    justify-content: flex-start;
+
+    &__search-container {
+      height: 32px;
+      margin: 16px 0 16px 20px;
+    }
+
+    &__search-icon {
+      height: 18px;
+      left: 18px;
+      width: 18px;
+    }
+
+    &__search-input {
+      font-weight: 300;
+      height: 32px;
+      text-indent: 58px;
+    }
+  }
 }

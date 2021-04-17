@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import './with-background.scss';
 
 interface IBackgroundBlurProps {
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 export const BackgroundBlur: React.FC<IBackgroundBlurProps> = React.memo(
@@ -12,7 +12,9 @@ export const BackgroundBlur: React.FC<IBackgroundBlurProps> = React.memo(
     useEffect(() => {
       Mousetrap.bind('esc', (e) => {
         e.preventDefault();
-        onClick();
+        if (onClick) {
+          onClick();
+        }
       });
 
       return () => {
@@ -29,7 +31,7 @@ export const BackgroundBlur: React.FC<IBackgroundBlurProps> = React.memo(
 );
 export interface IWithBackgroundProps {
   children?: JSX.Element | boolean;
-  onBackgroundClick: () => void;
+  onBackgroundClick?: () => void;
 }
 
 const WithBackground: React.FC<IWithBackgroundProps> = React.memo(

@@ -1,17 +1,16 @@
 import { InfiniteScroll, SearchBox } from '@components/messenger-page';
 import { Button, Modal, WithBackground } from '@components/shared';
-import React, { useCallback, useState, useMemo } from 'react';
+import React, { useCallback, useState, useMemo, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 
 import { useTranslation } from 'react-i18next';
-import { getChatsAction, forwardMessagesAction } from '@store/chats/actions';
 import {
-  getChatsSelector,
-  getHasMoreChatsSelector,
-  getChatsLoadingSelector,
-  getSearchChatsSelector,
-} from '@store/chats/selectors';
+  getChatsAction,
+  forwardMessagesAction,
+  resetSearchChatsAction,
+} from '@store/chats/actions';
+import { getChatsListSelector, getSearchChatsListSelector } from '@store/chats/selectors';
 
 import './forward-modal.scss';
 import { IChat } from '@store/chats/models';
@@ -28,10 +27,8 @@ export const ForwardModal: React.FC<IForwardModalProps> = React.memo(
   ({ onClose, messageIdsToForward }) => {
     const { t } = useTranslation();
 
-    const chats = useSelector(getChatsSelector);
-    const chatsAreLoading = useSelector(getChatsLoadingSelector);
-    const hasMoreChats = useSelector(getHasMoreChatsSelector);
-    const searchChats = useSelector(getSearchChatsSelector);
+    const chatsList = useSelector(getChatsListSelector);
+    const searchChatsList = useSelector(getSearchChatsListSelector);
 
     const [selectedChatIds, setSelectedChatIds] = useState<number[]>([]);
     const [loading, setLoading] = useState(false);
@@ -39,6 +36,14 @@ export const ForwardModal: React.FC<IForwardModalProps> = React.memo(
 
     const loadChats = useActionWithDispatch(getChatsAction);
     const forwardMessages = useActionWithDeferred(forwardMessagesAction);
+    const resetSearchChats = useActionWithDispatch(resetSearchChatsAction);
+
+    useEffect(
+      () => () => {
+        resetSearchChats();
+      },
+      [resetSearchChats],
+    );
 
     const isSelected = useCallback((id: number) => selectedChatIds.includes(id), [selectedChatIds]);
 
@@ -100,10 +105,10 @@ export const ForwardModal: React.FC<IForwardModalProps> = React.memo(
 
     const selectEntities = useMemo(() => {
       if (searchString.length) {
-        return searchChats.map(renderSelectEntity);
+        return searchChatsList.chats.map(renderSelectEntity);
       }
-      return chats.map(renderSelectEntity);
-    }, [searchString.length, searchChats, chats, renderSelectEntity]);
+      return chatsList.chats.map(renderSelectEntity);
+    }, [searchString.length, searchChatsList, chatsList, renderSelectEntity]);
 
     return (
       <WithBackground onBackgroundClick={onClose}>
@@ -126,8 +131,8 @@ export const ForwardModal: React.FC<IForwardModalProps> = React.memo(
               <InfiniteScroll
                 className="forward-modal__chats-block"
                 onReachExtreme={loadMore}
-                hasMore={hasMoreChats}
-                isLoading={chatsAreLoading}>
+                hasMore={searchString.length ? searchChatsList.hasMore : chatsList.hasMore}
+                isLoading={searchString.length ? searchChatsList.loading : chatsList.loading}>
                 {selectEntities}
               </InfiniteScroll>
             </div>

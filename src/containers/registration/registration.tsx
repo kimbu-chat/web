@@ -2,7 +2,7 @@ import { Register } from '@store/auth/features/register/register';
 import { getStringInitials } from '@utils/interlocutor-name-utils';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { ReactComponent as CloseSVG } from '@icons/ic-close.svg';
 
 import { useTranslation } from 'react-i18next';
@@ -13,8 +13,13 @@ import { CancelAvatarUploading } from '@store/my-profile/features/cancel-avatar-
 import { UploadAvatar } from '@store/my-profile/features/upload-avatar/upload-avatar';
 import { validateNickname } from '@utils/validate-nick-name';
 import { Avatar, BaseBtn } from '@components/shared';
-import { PhotoEditor, CircularProgress } from '@components/messenger-page';
+import { CircularProgress } from '@components/messenger-page';
+import { loadPhotoEditor } from '@routing/module-loader';
+
 import { IAvatarSelectedData, IAvatar } from '@store/common/models';
+import { CubeLoader } from '@containers/cube-loader/cube-loader';
+
+const PhotoEditor = lazy(loadPhotoEditor);
 
 interface IRegistrationProps {
   preloadNext: () => void;
@@ -234,11 +239,13 @@ export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
         </div>
       </div>
       {changePhotoDisplayed && (
-        <PhotoEditor
-          hideChangePhoto={hideChangePhoto}
-          imageUrl={imageUrl}
-          onSubmit={applyAvatarData}
-        />
+        <Suspense fallback={<CubeLoader />}>
+          <PhotoEditor
+            hideChangePhoto={hideChangePhoto}
+            imageUrl={imageUrl}
+            onSubmit={applyAvatarData}
+          />
+        </Suspense>
       )}
     </>
   );

@@ -52,11 +52,12 @@ export const MAIN_API = {
   GET_USER_BY_PHONE: `${REACT_APP_MAIN_API}/api/users/phone-number/:phoneNumber`,
   CHANGE_ONLINE_STATUS: `${REACT_APP_MAIN_API}/api/users/change-online-status`,
   CHECK_NICKNAME_AVAILABILITY: `${REACT_APP_MAIN_API}/api/users/check-if-nickname-is-available/:nickname`,
-  GET_MY_PROFILE: `${REACT_APP_MAIN_API}/api/users/:userId`,
+  GET_MY_PROFILE: `${REACT_APP_MAIN_API}/api/users/my-profile`,
   UPDATE_PROFILE: `${REACT_APP_MAIN_API}/api/users`,
   BLACK_LIST: `${REACT_APP_MAIN_API}/api/black-list`,
   USER_SESSIONS: `${REACT_APP_MAIN_API}/api/sessions`,
   REMOVE_FROM_BLACK_LIST: `${REACT_APP_MAIN_API}/api/black-list/batch-remove`,
+  DEACTIVATE_ACCOUNT: `${REACT_APP_MAIN_API}/api/users/deactivate`,
 };
 
 export const NOTIFICATIONS_API = {

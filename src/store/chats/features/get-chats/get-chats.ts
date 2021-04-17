@@ -24,20 +24,21 @@ export class GetChats {
   static get reducer() {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof GetChats.action>) => {
       if (!payload.name?.length && !payload.initializedByScroll) {
-        draft.searchChats = [];
-        draft.hasMore = true;
-      } else {
-        draft.loading = true;
+        draft.searchChats.chats = [];
+        draft.searchChats.hasMore = true;
+        draft.searchChats.loading = false;
       }
 
       if (payload.name?.length) {
+        draft.searchChats.loading = true;
         if (payload.initializedByScroll) {
-          draft.searchPage += 1;
+          draft.searchChats.page += 1;
         } else {
-          draft.searchPage = 0;
+          draft.searchChats.page = 0;
         }
       } else if (payload.initializedByScroll) {
-        draft.page += 1;
+        draft.chats.loading = true;
+        draft.chats.page += 1;
       }
 
       return draft;

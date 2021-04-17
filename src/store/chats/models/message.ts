@@ -3,6 +3,7 @@ import { MessageLinkType } from './linked-message-type';
 import { IBaseAttachment } from './attachments/base-attachment';
 import { MessageState } from './message-state';
 import { SystemMessageType } from './system-message-type';
+import { ILinkedMessage } from './linked-message';
 
 export interface IMessage {
   id: number;
@@ -23,12 +24,5 @@ export interface IMessage {
 
   attachments?: IBaseAttachment[];
   linkedMessageType?: MessageLinkType;
-  linkedMessage?: {
-    id: number;
-    userCreator: IUser;
-    text?: string;
-    attachments?: IBaseAttachment[];
-    isEdited?: boolean;
-    isDeleted?: boolean;
-  };
+  linkedMessage?: ILinkedMessage | null;
 }

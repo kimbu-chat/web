@@ -1,8 +1,12 @@
 import { IUser } from '../common/models';
 
-export interface IFriendsState {
+interface IFriendList {
   loading: boolean;
   friends: IUser[];
-  searchFriends: IUser[];
-  hasMoreFriends: boolean;
+  hasMore: boolean;
+}
+
+export interface IFriendsState {
+  friends: IFriendList;
+  searchFriends: IFriendList;
 }

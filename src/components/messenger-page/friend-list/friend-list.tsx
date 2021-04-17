@@ -52,10 +52,7 @@ export const FriendList = React.memo(() => {
     loadFriends({ page, name: searchString, initializedByScroll: true });
   }, [friends.length, searchFriends.length, loadFriends, searchString]);
 
-  const renderFriend = useCallback(
-    (friend: IUser) => <Friend key={friend.id} friend={friend} />,
-    [],
-  );
+  const renderFriend = useCallback((friend: IUser) => <Friend key={friend.id} {...friend} />, []);
 
   const renderedFriends = useMemo(() => {
     if (searchString.length) {

@@ -7,11 +7,7 @@ import { Link } from 'react-router-dom';
 import './friend.scss';
 import { StatusBadge, TimeUpdateable } from '@components/shared';
 
-interface IFriendProps {
-  friend: IUser;
-}
-
-export const Friend: React.FC<IFriendProps> = React.memo(({ friend }) => {
+export const Friend: React.FC<IUser> = React.memo(({ ...friend }) => {
   const { t } = useTranslation();
 
   return (

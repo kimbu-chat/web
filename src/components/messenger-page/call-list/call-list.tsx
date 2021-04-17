@@ -44,7 +44,7 @@ export const CallList = () => {
     });
   }, [callsList.calls.length, getCalls, searchString, searchCallsList.calls.length]);
 
-  const renderCall = useCallback((call: ICall) => <CallItem key={call.id} call={call} />, []);
+  const renderCall = useCallback((call: ICall) => <CallItem key={call.id} {...call} />, []);
 
   const renderedCalls = useMemo(() => {
     if (searchString.length) {

@@ -58,7 +58,9 @@
     line-height: 19px;
     margin-bottom: 8px;
     margin-top: 3px;
-    max-width: max-content;
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &__last-message {

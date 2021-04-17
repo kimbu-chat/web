@@ -46,11 +46,8 @@ interface IPhotoEditorProps {
   hideChangePhoto: () => void;
   onSubmit?: (data: IAvatarSelectedData) => Promise<void>;
 }
-export const PhotoEditor: React.FC<IPhotoEditorProps> = ({
-  imageUrl,
-  onSubmit,
-  hideChangePhoto,
-}) => {
+
+const PhotoEditor: React.FC<IPhotoEditorProps> = ({ imageUrl, onSubmit, hideChangePhoto }) => {
   const { t } = useTranslation();
 
   const cancelAvatarUploading = useActionWithDispatch(cancelAvatarUploadingRequestAction);
@@ -186,3 +183,5 @@ export const PhotoEditor: React.FC<IPhotoEditorProps> = ({
     </WithBackground>
   );
 };
+
+export default PhotoEditor;

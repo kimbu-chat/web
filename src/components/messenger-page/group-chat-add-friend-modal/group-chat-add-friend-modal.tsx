@@ -81,11 +81,11 @@ export const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = 
 
     const loadMore = useCallback(() => {
       const page: IPage = {
-        offset: name.length ? searchFriends.length : friends.length,
+        offset: name.length ? searchFriends?.length || 0 : friends.length,
         limit: FRIENDS_LIMIT,
       };
       loadFriends({ page, name, initializedByScroll: true });
-    }, [searchFriends.length, friends.length, loadFriends, name]);
+    }, [searchFriends?.length, friends.length, loadFriends, name]);
 
     const queryFriends = useCallback(
       (searchName: string) => {
@@ -126,7 +126,7 @@ export const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = 
 
     const selectEntities = useMemo(() => {
       if (name.length) {
-        return searchFriends.map(renderSelectEntity);
+        return searchFriends?.map(renderSelectEntity);
       }
       return friends.map(renderSelectEntity);
     }, [name.length, searchFriends, friends, renderSelectEntity]);

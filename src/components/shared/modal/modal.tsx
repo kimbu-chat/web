@@ -14,7 +14,7 @@ interface IModalProps {
   closeModal: () => void;
 }
 
-export const Modal: React.FC<IModalProps> = React.memo(
+const Modal: React.FC<IModalProps> = React.memo(
   ({ title, content, buttons, highlightedInContents, closeModal }) => (
     <div onClick={stopPropagation} className="modal">
       <header className="modal__header">
@@ -44,3 +44,7 @@ export const Modal: React.FC<IModalProps> = React.memo(
     </div>
   ),
 );
+
+Modal.displayName = 'Modal';
+
+export { Modal };

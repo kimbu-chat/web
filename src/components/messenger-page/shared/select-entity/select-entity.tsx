@@ -7,6 +7,7 @@ import { ReactComponent as SelectedSvg } from '@icons/checked.svg';
 import { IChat } from '@store/chats/models';
 import { IUser } from '@store/common/models';
 import './select-entity.scss';
+import { isEqual } from 'lodash';
 
 interface ISelectEntityProps {
   changeSelectedState?: (id: number) => void;
@@ -67,5 +68,12 @@ export const SelectEntity: React.FC<ISelectEntityProps> = React.memo(
           ))}
       </div>
     );
+  },
+  (prevProps, nextProps) => {
+    const result =
+      isEqual(prevProps.chatOrUser, nextProps.chatOrUser) &&
+      prevProps.isSelected === nextProps.isSelected;
+
+    return result;
   },
 );

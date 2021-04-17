@@ -7,28 +7,27 @@ interface IBackgroundBlurProps {
   onClick?: () => void;
 }
 
-export const BackgroundBlur: React.FC<IBackgroundBlurProps> = React.memo(
-  ({ onClick, children }) => {
-    useEffect(() => {
-      Mousetrap.bind('esc', (e) => {
-        e.preventDefault();
-        if (onClick) {
-          onClick();
-        }
-      });
+const BackgroundBlur: React.FC<IBackgroundBlurProps> = React.memo(({ onClick, children }) => {
+  useEffect(() => {
+    Mousetrap.bind('esc', (e) => {
+      e.preventDefault();
+      if (onClick) {
+        onClick();
+      }
+    });
 
-      return () => {
-        Mousetrap.unbind('esc');
-      };
-    }, [onClick]);
-    return ReactDOM.createPortal(
-      <div onClick={onClick} className="background-blur">
-        {children}
-      </div>,
-      document.getElementById('root') || document.createElement('div'),
-    );
-  },
-);
+    return () => {
+      Mousetrap.unbind('esc');
+    };
+  }, [onClick]);
+  return ReactDOM.createPortal(
+    <div onClick={onClick} className="background-blur">
+      {children}
+    </div>,
+    document.getElementById('root') || document.createElement('div'),
+  );
+});
+
 export interface IWithBackgroundProps {
   children?: JSX.Element | boolean;
   onBackgroundClick?: () => void;
@@ -43,5 +42,6 @@ const WithBackground: React.FC<IWithBackgroundProps> = React.memo(
 );
 
 WithBackground.displayName = 'WithBackground';
+BackgroundBlur.displayName = 'BackgroundBlur';
 
-export { WithBackground };
+export { WithBackground, BackgroundBlur };

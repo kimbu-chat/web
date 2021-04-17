@@ -27,7 +27,7 @@ interface INewChatModalProps {
   displayCreateGroupChat: () => void;
 }
 
-export const NewChatModal: React.FC<INewChatModalProps> = React.memo(
+const NewChatModal: React.FC<INewChatModalProps> = React.memo(
   ({ onClose, displayCreateGroupChat }) => {
     const { t } = useTranslation();
 
@@ -66,11 +66,11 @@ export const NewChatModal: React.FC<INewChatModalProps> = React.memo(
 
     const loadMore = useCallback(() => {
       const page: IPage = {
-        offset: name.length ? searchFriends.length : friends.length,
+        offset: name.length ? searchFriends?.length || 0 : friends.length,
         limit: FRIENDS_LIMIT,
       };
       loadFriends({ page, name, initializedByScroll: true });
-    }, [searchFriends.length, friends.length, loadFriends, name]);
+    }, [searchFriends?.length, friends.length, loadFriends, name]);
 
     const queryFriends = useCallback(
       (searchName: string) => {
@@ -94,13 +94,6 @@ export const NewChatModal: React.FC<INewChatModalProps> = React.memo(
       [queryFriends],
     );
 
-    useEffect(
-      () => () => {
-        queryFriends('');
-      },
-      [queryFriends],
-    );
-
     const renderSelectEntity = useCallback(
       (friend: IUser) => (
         <SelectEntity key={friend.id} chatOrUser={friend} onClick={createEmptyChat} />
@@ -110,7 +103,7 @@ export const NewChatModal: React.FC<INewChatModalProps> = React.memo(
 
     const selectEntities = useMemo(() => {
       if (name.length) {
-        return searchFriends.map(renderSelectEntity);
+        return searchFriends?.map(renderSelectEntity);
       }
       return friends.map(renderSelectEntity);
     }, [name.length, searchFriends, friends, renderSelectEntity]);
@@ -153,3 +146,7 @@ export const NewChatModal: React.FC<INewChatModalProps> = React.memo(
     );
   },
 );
+
+NewChatModal.displayName = 'NewChatModal';
+
+export { NewChatModal };

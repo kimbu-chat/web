@@ -19,7 +19,7 @@ export class UserContactsRemovedEventHandler {
         draft.friends.friends = draft.friends.friends.filter(
           ({ id }) => !removedUserIds.includes(id),
         );
-        draft.searchFriends.friends = draft.searchFriends.friends.filter(
+        draft.searchFriends.friends = draft.searchFriends.friends?.filter(
           ({ id }) => !removedUserIds.includes(id),
         );
 

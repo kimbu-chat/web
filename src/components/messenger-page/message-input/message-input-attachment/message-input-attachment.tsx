@@ -37,11 +37,11 @@ export const MessageInputAttachment: React.FC<IMessageInputAttachmentProps> = Re
           type: attachment.attachment.type,
           id: attachment.attachment.id,
         });
+      } else {
+        removeAttachment({
+          attachmentId: attachment.attachment.id,
+        });
       }
-
-      removeAttachment({
-        attachmentId: attachment.attachment.id,
-      });
     }, [
       attachment.attachment.id,
       attachment.attachment.type,

@@ -23,6 +23,19 @@ export class SubmitEditMessageSuccess {
 
         const chat = getChatByIdDraftSelector(chatId, draft);
         const message = draft.messages[chatId].messages.find(({ id }) => id === messageId);
+
+        // if event came before of thisaction then we have nothing to do
+        if (
+          !message?.attachments ||
+          message?.attachments?.findIndex(({ id }) => id === payload.newAttachments?.[0].id) !==
+            -1 ||
+          message?.attachments?.findIndex(
+            ({ id }) => payload.removedAttachments && id === payload.removedAttachments[0].id,
+          ) === -1
+        ) {
+          return draft;
+        }
+
         const newAttachments = [
           ...(message?.attachments?.filter(
             ({ id }) =>

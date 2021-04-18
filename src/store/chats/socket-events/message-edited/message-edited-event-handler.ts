@@ -19,43 +19,44 @@ export class MessageEditedEventHandler {
 
         const attachments: IBaseAttachment[] = JSON.parse(payload.attachments);
         const chat = getChatByIdDraftSelector(chatId, draft);
+        const message = draft.messages[chatId].messages.find(({ id }) => id === messageId);
 
-        if (chat) {
-          const message = draft.messages[chatId].messages.find(({ id }) => id === messageId);
+        if (!chat || !message) {
+          return draft;
+        }
 
-          if (message) {
-            message.text = text;
-            message.attachments = attachments;
-            message.isEdited = true;
+        if (message) {
+          message.text = text;
+          message.attachments = attachments;
+          message.isEdited = true;
+        }
+
+        draft.messages[chatId].messages = draft.messages[chatId].messages.map((msg) => {
+          if (msg.linkedMessage?.id === messageId) {
+            return {
+              ...msg,
+              linkedMessage: {
+                ...msg.linkedMessage,
+                text,
+                attachments,
+                isEdited: true,
+              },
+            };
+          }
+          return msg;
+        });
+
+        if (chat.lastMessage) {
+          if (chat.lastMessage.id === messageId) {
+            chat.lastMessage.text = text;
+            chat.lastMessage.attachments = attachments;
+            chat.lastMessage.isEdited = true;
           }
 
-          draft.messages[chatId].messages = draft.messages[chatId].messages.map((msg) => {
-            if (msg.linkedMessage?.id === messageId) {
-              return {
-                ...msg,
-                linkedMessage: {
-                  ...msg.linkedMessage,
-                  text,
-                  attachments,
-                  isEdited: true,
-                },
-              };
-            }
-            return msg;
-          });
-
-          if (chat.lastMessage) {
-            if (chat.lastMessage.id === messageId) {
-              chat.lastMessage.text = text;
-              chat.lastMessage.attachments = attachments;
-              chat.lastMessage.isEdited = true;
-            }
-
-            if (chat.lastMessage.linkedMessage && chat.lastMessage.linkedMessage.id === messageId) {
-              chat.lastMessage.linkedMessage.text = text;
-              chat.lastMessage.linkedMessage.attachments = attachments;
-              chat.lastMessage.linkedMessage.isEdited = true;
-            }
+          if (chat.lastMessage.linkedMessage && chat.lastMessage.linkedMessage.id === messageId) {
+            chat.lastMessage.linkedMessage.text = text;
+            chat.lastMessage.linkedMessage.attachments = attachments;
+            chat.lastMessage.linkedMessage.isEdited = true;
           }
         }
 

@@ -124,4 +124,6 @@ export const MessageInputAttachment: React.FC<IMessageInputAttachmentProps> = Re
       </div>
     );
   },
+  (prevProps, nextProps) =>
+    prevProps.attachment.attachment.id === nextProps.attachment.attachment.id,
 );

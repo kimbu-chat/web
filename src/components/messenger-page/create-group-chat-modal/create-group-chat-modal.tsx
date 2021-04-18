@@ -76,9 +76,8 @@ const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(
       };
 
       submitGroupChatCreation(groupChatToCreate).then((payload: IChat) => {
-        history.push(`/chats/${payload.id}`);
-        setCreationLoading(false);
         onClose();
+        history.push(`/chats/${payload.id}`);
       });
     }, [
       avararUploadResponse,

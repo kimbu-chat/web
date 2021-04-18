@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getSelectedChatSelector } from '@store/chats/selectors';
 import { Avatar, FadeAnimationWrapper } from '@components/shared';
-import { GroupChatAddFriendModal, MediaModal } from '@components/messenger-page';
+import { MediaModal } from '@components/messenger-page';
 
 import { getInterlocutorInitials } from '@utils/interlocutor-name-utils';
 
@@ -19,11 +19,6 @@ const ChatInfoRightPanel: React.FC = React.memo(() => {
   const selectedChat = useSelector(getSelectedChatSelector);
 
   const getChatInfo = useActionWithDispatch(getChatInfoAction);
-
-  const [addFriendsModalDisplayed, setAddFriendsModalDisplayed] = useState(false);
-  const changeSetAddFriendsModalDisplayedState = useCallback(() => {
-    setAddFriendsModalDisplayed((oldState) => !oldState);
-  }, [setAddFriendsModalDisplayed]);
 
   const [isAvatarMaximized, setIsAvatarMaximized] = useState(false);
 
@@ -77,16 +72,12 @@ const ChatInfoRightPanel: React.FC = React.memo(() => {
 
           <InterlocutorInfo />
 
-          <ChatInfoActions addMembers={changeSetAddFriendsModalDisplayedState} />
+          <ChatInfoActions />
 
           {selectedChat?.groupChat && <ChatMembers />}
 
           <ChatMedia />
         </div>
-
-        <FadeAnimationWrapper isDisplayed={addFriendsModalDisplayed}>
-          <GroupChatAddFriendModal onClose={changeSetAddFriendsModalDisplayedState} />
-        </FadeAnimationWrapper>
 
         <FadeAnimationWrapper isDisplayed={isAvatarMaximized}>
           <MediaModal

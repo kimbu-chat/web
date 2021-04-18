@@ -13,9 +13,9 @@ import { IPage, IUser } from '@store/common/models';
 import { FRIENDS_LIMIT } from '@utils/pagination-limits';
 import { ReactComponent as GroupSvg } from '@icons/group.svg';
 
-import { AddUsersToGroupChat } from '@store/chats/features/add-users-to-group-chat/add-users-to-group-chat';
 import { getFriendsAction, resetSearchFriendsAction } from '@store/friends/actions';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { addUsersToGroupChatAction } from '@store/chats/actions';
 import { SelectEntity } from '../shared/select-entity/select-entity';
 import './group-chat-add-friend-modal.scss';
 
@@ -42,7 +42,7 @@ const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = React.m
       loading: searchFriendsLoading,
     } = searchFriendsList;
 
-    const addUsersToGroupChat = useActionWithDeferred(AddUsersToGroupChat.action);
+    const addUsersToGroupChat = useActionWithDeferred(addUsersToGroupChatAction);
     const loadFriends = useActionWithDispatch(getFriendsAction);
     const resetSearchFriends = useActionWithDispatch(resetSearchFriendsAction);
 

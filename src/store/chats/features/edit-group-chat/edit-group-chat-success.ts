@@ -19,7 +19,10 @@ export class EditGroupChatSuccess {
         if (chat && chat.groupChat) {
           chat.groupChat.name = name;
           chat.groupChat.description = description;
-          chat.groupChat.avatar = avatar;
+
+          if (chat.groupChat.avatar?.id !== avatar?.id) {
+            chat.groupChat.avatar = avatar;
+          }
         }
         return draft;
       },

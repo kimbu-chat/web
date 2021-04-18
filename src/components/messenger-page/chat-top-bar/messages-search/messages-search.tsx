@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ReactComponent as SearchSvg } from '@icons/search.svg';
 // import { ReactComponent as ArrowSvg } from '@icons/arrow-v.svg';
 
-import { GetMessages } from '@store/chats/features/get-messages/get-messages';
 import { MESSAGES_LIMIT } from '@utils/pagination-limits';
 import './messages-search.scss';
 import { SearchBox } from '@components/messenger-page';
@@ -12,12 +11,13 @@ import {
   getSelectedChatMessagesSearchStringSelector,
 } from '@store/chats/selectors';
 import { useSelector } from 'react-redux';
+import { getMessagesAction } from '@store/chats/actions';
 
-export const MessagesSearch = () => {
+const MessagesSearch = React.memo(() => {
   const messagesSearchString = useSelector(getSelectedChatMessagesSearchStringSelector);
   const selectedChatId = useSelector(getSelectedChatIdSelector);
 
-  const getMessages = useActionWithDispatch(GetMessages.action);
+  const getMessages = useActionWithDispatch(getMessagesAction);
 
   const [isSearching, setIsSearching] = useState(false);
   const changeSearchingState = useCallback(() => {
@@ -79,4 +79,8 @@ export const MessagesSearch = () => {
       )}
     </div>
   );
-};
+});
+
+MessagesSearch.displayName = 'MessagesSearch';
+
+export { MessagesSearch };

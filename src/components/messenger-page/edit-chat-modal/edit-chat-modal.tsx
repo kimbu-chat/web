@@ -26,7 +26,10 @@ export interface IEditChatModalProps {
 }
 
 const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClose }) => {
-  const selectedGroupChat: IGroupChat | undefined = useSelector(getSelectedGroupChatSelector);
+  const selectedGroupChat: IGroupChat | undefined = useSelector(
+    getSelectedGroupChatSelector,
+    () => true,
+  );
 
   const uploadGroupChatAvatar = useActionWithDeferred(uploadAvatarRequestAction);
   const cancelAvatarUploading = useActionWithDispatch(cancelAvatarUploadingRequestAction);

@@ -26,4 +26,11 @@ export const StatusBadge: React.FC<IStatusBadgeProps> = React.memo(
       </Avatar>
     </div>
   ),
+  (prevProps, nextProps) =>
+    prevProps.additionalClassNames === nextProps.additionalClassNames &&
+    prevProps.containerClassName === nextProps.containerClassName &&
+    prevProps.user.avatar?.id === nextProps.user.avatar?.id &&
+    prevProps.user.firstName === nextProps.user.firstName &&
+    prevProps.user.lastName === nextProps.user.lastName &&
+    prevProps.user.online === nextProps.user.online,
 );

@@ -103,11 +103,11 @@ export const App = () => {
         autoClose={5000000}
         position="top-center"
         hideProgressBar
-        closeButton={
+        closeButton={() => (
           <button type="button">
             <CloseSvg />
           </button>
-        }
+        )}
       />
     </>
   );

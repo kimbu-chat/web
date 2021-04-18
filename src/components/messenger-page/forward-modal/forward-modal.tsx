@@ -16,6 +16,7 @@ import './forward-modal.scss';
 import { IChat } from '@store/chats/models';
 import { ReactComponent as ForwardSvg } from '@icons/forward.svg';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { xor } from 'lodash';
 import { SelectEntity } from '../shared/select-entity/select-entity';
 
 interface IForwardModalProps {
@@ -23,7 +24,7 @@ interface IForwardModalProps {
   messageIdsToForward: number[];
 }
 
-export const ForwardModal: React.FC<IForwardModalProps> = React.memo(
+const ForwardModal: React.FC<IForwardModalProps> = React.memo(
   ({ onClose, messageIdsToForward }) => {
     const { t } = useTranslation();
 
@@ -155,4 +156,13 @@ export const ForwardModal: React.FC<IForwardModalProps> = React.memo(
       </WithBackground>
     );
   },
+  (prevProps, nextProps) => {
+    const result = xor(prevProps.messageIdsToForward, nextProps.messageIdsToForward).length === 0;
+
+    return result;
+  },
 );
+
+ForwardModal.displayName = 'ForwardModal';
+
+export { ForwardModal };

@@ -7,13 +7,11 @@ import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
 import { changeMusic } from '@utils/current-music';
 
 interface IRecordingProps {
-  recording: {
-    url: string;
-    duration: number;
-  };
+  url: string;
+  duration: number;
 }
 
-export const Recording: React.FC<IRecordingProps> = React.memo(({ recording }) => {
+export const Recording: React.FC<IRecordingProps> = React.memo(({ ...recording }) => {
   const audioRef = useRef<AudioPlayer>();
   return (
     <AudioPlayer

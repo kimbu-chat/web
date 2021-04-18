@@ -50,7 +50,7 @@ export const RecordingsList = React.memo(() => {
                     : moment(recording.creationDateTime).format('MMMM')}
                 </div>
               )}
-              <Recording key={recording.id} recording={recording} />
+              <Recording key={recording.id} {...recording} />
             </div>
           ))}
         </InfiniteScroll>

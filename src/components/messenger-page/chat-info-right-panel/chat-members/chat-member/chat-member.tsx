@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
 import { FadeAnimationWrapper, StatusBadge, TimeUpdateable } from '@components/shared';
 import { MyProfileService } from '@services/my-profile-service';
+import { isEqual } from 'lodash';
 import { DeleteChatMemberModal } from '../delete-chat-member-modal/delete-chat-member-modal';
 
 interface IMemberProps {
@@ -69,4 +70,4 @@ export const Member: React.FC<IMemberProps> = React.memo(({ member }) => {
       </FadeAnimationWrapper>
     </>
   );
-});
+}, isEqual);

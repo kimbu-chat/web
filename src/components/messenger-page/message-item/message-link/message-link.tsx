@@ -86,7 +86,7 @@ const MessageLink: React.FC<IMessageLinkProps> = React.memo(({ linkedMessage }) 
 
         <div className="message-link__attachments">
           {structuredAttachments?.files.map((file) => (
-            <FileAttachment key={file.id} attachment={file} />
+            <FileAttachment key={file.id} {...file} />
           ))}
           {structuredAttachments?.recordings.map((recording) => (
             <RecordingAttachment key={recording.id} attachment={recording} />

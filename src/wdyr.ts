@@ -25,7 +25,7 @@ if (process.env.NODE_ENV !== 'production') {
       [useTranslation, 'useTranslation'],
       [useActionWithDeferred, 'useActionWithDeferred'],
       [useActionWithDispatch, 'useActionWithDispatch'],
-      [useGlobalDrop, 'useActionWithDeferred'],
+      [useGlobalDrop, 'useGlobalDrop'],
       [useOnClickOutside, 'useOnClickOutside'],
       [useReferState, 'useReferState'],
     ],

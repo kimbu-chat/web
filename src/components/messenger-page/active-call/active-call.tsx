@@ -56,7 +56,7 @@ import { InputType } from '@store/calls/common/enums/input-type';
 import { playSoundSafely } from '@utils/current-music';
 import { Dropdown } from '../shared/dropdown/dropdown';
 
-export const ActiveCall: React.FC = () => {
+const ActiveCall: React.FC = React.memo(() => {
   const interlocutor = useSelector(getCallInterlocutorSelector);
   const videoConstraints = useSelector(getVideoConstraintsSelector);
   const audioConstraints = useSelector(getAudioConstraintsSelector);
@@ -395,4 +395,8 @@ export const ActiveCall: React.FC = () => {
 
     document.getElementById('root') || document.createElement('div'),
   );
-};
+});
+
+ActiveCall.displayName = 'ActiveCall';
+
+export { ActiveCall };

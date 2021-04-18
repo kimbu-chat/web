@@ -43,7 +43,6 @@ import {
 } from '@store/chats/models';
 import { Link } from 'react-router-dom';
 
-import { SelectMessage } from '@store/chats/features/select-message/select-message';
 import { isEqual } from 'lodash';
 import { ChatId } from '@store/chats/chat-id';
 import {
@@ -51,6 +50,7 @@ import {
   getSystemMessageData,
   ICallMessage,
 } from '@utils/message-utils';
+import { selectMessageAction } from '@store/chats/actions';
 import { MediaGrid } from './attachments/media-grid/media-grid';
 import { RecordingAttachment } from './attachments/recording-attachment/recording-attachment';
 import { MessageItemActions } from './message-item-actions/message-item-actions';
@@ -69,7 +69,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
 
     const { t } = useTranslation();
 
-    const selectMessage = useActionWithDispatch(SelectMessage.action);
+    const selectMessage = useActionWithDispatch(selectMessageAction);
 
     const selectThisMessage = useCallback(
       (event?: React.MouseEvent<HTMLButtonElement | HTMLDivElement, MouseEvent>) => {
@@ -280,7 +280,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
               ) && (
                 <div className="message__attachments">
                   {structuredAttachments?.files.map((file) => (
-                    <FileAttachment key={file.id} attachment={file} />
+                    <FileAttachment key={file.id} {...file} />
                   ))}
 
                   {structuredAttachments?.recordings.map((recording) => (
@@ -308,7 +308,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                   {(message.attachments?.length || 0) > 0 && (
                     <div className="message__attachments">
                       {structuredAttachments?.files.map((file) => (
-                        <FileAttachment key={file.id} attachment={file} />
+                        <FileAttachment key={file.id} {...file} />
                       ))}
 
                       {structuredAttachments?.recordings.map((recording) => (
@@ -348,6 +348,8 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
   },
   (prevProps, nextProps) => {
     const result = isEqual(prevProps, nextProps);
+
+    console.log(result);
 
     return result;
   },

@@ -6,13 +6,12 @@ import { ReactComponent as CloseSvg } from '@icons/close.svg';
 
 import { useTranslation } from 'react-i18next';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import { BlockUser } from '@store/settings/features/block-user/block-user';
 import { getSelectedInterlocutorSelector } from '@store/chats/selectors';
-import { AddFriend } from '@store/friends/features/add-friend/add-friend';
 import { useSelector } from 'react-redux';
-import { DismissToAddContact } from '@store/friends/features/dismiss-to-add-contact/dismiss-to-add-contact';
 import classNames from 'classnames';
 import { Button } from '@components/shared';
+import { addFriendAction, dismissToAddContactAction } from '@store/friends/actions';
+import { blockUserAction } from '@store/settings/actions';
 
 export const NotContact = () => {
   const { t } = useTranslation();
@@ -21,9 +20,9 @@ export const NotContact = () => {
 
   const interlocutor = useSelector(getSelectedInterlocutorSelector);
 
-  const addFriend = useActionWithDeferred(AddFriend.action);
-  const blockUser = useActionWithDeferred(BlockUser.action);
-  const dismissUser = useActionWithDeferred(DismissToAddContact.action);
+  const addFriend = useActionWithDeferred(addFriendAction);
+  const blockUser = useActionWithDeferred(blockUserAction);
+  const dismissUser = useActionWithDeferred(dismissToAddContactAction);
 
   const [addLoading, setAddLoading] = useState(false);
   const [blockLoading, setBlockLoading] = useState(false);

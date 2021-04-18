@@ -1,4 +1,3 @@
-import { Register } from '@store/auth/features/register/register';
 import { getStringInitials } from '@utils/interlocutor-name-utils';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
@@ -8,13 +7,16 @@ import { ReactComponent as CloseSVG } from '@icons/ic-close.svg';
 import { useTranslation } from 'react-i18next';
 import { authLoadingSelector } from '@store/auth/selectors';
 import { useSelector } from 'react-redux';
-import { CheckNicknameAvailability } from '@store/my-profile/features/check-nickname-availability/check-nickname-availability';
-import { CancelAvatarUploading } from '@store/my-profile/features/cancel-avatar-uploading/cancel-avatar-uploading';
-import { UploadAvatar } from '@store/my-profile/features/upload-avatar/upload-avatar';
 import { validateNickname } from '@utils/validate-nick-name';
 import { Avatar, BaseBtn } from '@components/shared';
 import { PhotoEditor, CircularProgress } from '@components/messenger-page';
 import { IAvatarSelectedData, IAvatar } from '@store/common/models';
+import {
+  cancelAvatarUploadingRequestAction,
+  checkNicknameAvailabilityAction,
+  uploadAvatarRequestAction,
+} from '@store/my-profile/actions';
+import { registerAction } from '@store/auth/actions';
 
 interface IRegistrationProps {
   preloadNext: () => void;
@@ -31,10 +33,10 @@ export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
     preloadNext();
   }, [preloadNext]);
 
-  const uploadRegistrationAvatar = useActionWithDeferred(UploadAvatar.action);
-  const register = useActionWithDeferred(Register.action);
-  const checkNicknameAvailability = useActionWithDeferred(CheckNicknameAvailability.action);
-  const cancelAvatarUploading = useActionWithDispatch(CancelAvatarUploading.action);
+  const uploadRegistrationAvatar = useActionWithDeferred(uploadAvatarRequestAction);
+  const register = useActionWithDeferred(registerAction);
+  const checkNicknameAvailability = useActionWithDeferred(checkNicknameAvailabilityAction);
+  const cancelAvatarUploading = useActionWithDispatch(cancelAvatarUploadingRequestAction);
 
   const openFileExplorer = useCallback(() => fileInputRef.current?.click(), [fileInputRef]);
 

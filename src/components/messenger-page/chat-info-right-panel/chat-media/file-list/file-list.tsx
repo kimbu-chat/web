@@ -50,7 +50,7 @@ export const FileList = React.memo(() => {
                   : moment(file.creationDateTime).format('MMMM')}
               </div>
             )}
-            <FileAttachment attachment={file} />
+            <FileAttachment {...file} />
           </React.Fragment>
         ))}
       </InfiniteScroll>

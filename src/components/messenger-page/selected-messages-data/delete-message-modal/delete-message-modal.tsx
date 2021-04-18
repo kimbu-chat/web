@@ -7,6 +7,7 @@ import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useTranslation } from 'react-i18next';
 import './delete-message-modal.scss';
 import { DeleteMessage } from '@store/chats/features/delete-message/delete-message';
+import { deleteMessageAction } from '@store/chats/actions';
 import { CheckBox } from '../../settings-modal/shared/check-box/check-box';
 
 interface IDeleteMessageModalProps {
@@ -18,7 +19,7 @@ export const DeleteMessageModal: React.FC<IDeleteMessageModalProps> = React.memo
   ({ onClose, selectedMessages }) => {
     const { t } = useTranslation();
 
-    const deleteMessage = useActionWithDeferred(DeleteMessage.action);
+    const deleteMessage = useActionWithDeferred(deleteMessageAction);
 
     const [deleteForInterlocutor, setDeleteForInterlocutor] = useState(false);
     const [loading, setLoading] = useState(false);

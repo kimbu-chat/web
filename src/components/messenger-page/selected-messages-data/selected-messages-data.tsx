@@ -11,8 +11,7 @@ import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
 
 import { FadeAnimationWrapper } from '@components/shared';
 import { ForwardModal } from '@components/messenger-page';
-import { CopyMessages } from '@store/chats/features/copy-messages/copy-messages';
-import { ResetSelectedMessages } from '@store/chats/features/select-message/reset-selected-messages';
+import { copyMessagesAction, resetSelectedMessagesAction } from '@store/chats/actions';
 import { DeleteMessageModal } from './delete-message-modal/delete-message-modal';
 
 export const SelectedMessagesData = React.memo(() => {
@@ -21,8 +20,8 @@ export const SelectedMessagesData = React.memo(() => {
 
   const { t } = useTranslation();
 
-  const copyMessage = useActionWithDispatch(CopyMessages.action);
-  const resetSelectedMessages = useActionWithDispatch(ResetSelectedMessages.action);
+  const copyMessage = useActionWithDispatch(copyMessagesAction);
+  const resetSelectedMessages = useActionWithDispatch(resetSelectedMessagesAction);
 
   const copyTheseMessages = useCallback(() => {
     copyMessage({ messageIds: selectedMessages });

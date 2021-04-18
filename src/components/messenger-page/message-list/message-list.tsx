@@ -17,14 +17,13 @@ import { FadeAnimationWrapper } from '@components/shared';
 
 import { MESSAGES_LIMIT } from '@utils/pagination-limits';
 
-import { GetMessages } from '@store/chats/features/get-messages/get-messages';
-import { MarkMessagesAsRead } from '@store/chats/features/mark-messages-as-read/mark-messages-as-read';
 import { IMessage } from '@store/chats/models';
 import { signAndSeparate } from '@utils/message-utils';
+import { getMessagesAction, markMessagesAsReadAction } from '@store/chats/actions';
 
 const MessageList = React.memo(() => {
-  const getMessages = useActionWithDispatch(GetMessages.action);
-  const markMessagesAsRead = useActionWithDispatch(MarkMessagesAsRead.action);
+  const getMessages = useActionWithDispatch(getMessagesAction);
+  const markMessagesAsRead = useActionWithDispatch(markMessagesAsReadAction);
 
   const { t } = useTranslation();
 

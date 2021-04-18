@@ -6,8 +6,8 @@ import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 
 import { useTranslation } from 'react-i18next';
 import './remove-chat-modal.scss';
-import { RemoveChat } from '@store/chats/features/remove-chat/remove-chat';
 import { CheckBox } from '@components/messenger-page/settings-modal/shared/check-box/check-box';
+import { removeChat } from '@store/chats/actions';
 
 interface IRemoveChatModalProps {
   onClose: () => void;
@@ -16,7 +16,7 @@ interface IRemoveChatModalProps {
 export const RemoveChatModal: React.FC<IRemoveChatModalProps> = React.memo(({ onClose }) => {
   const { t } = useTranslation();
 
-  const removeChat = useActionWithDeferred(RemoveChat.action);
+  const removeThisChat = useActionWithDeferred(removeChat);
 
   const [deleteForInterlocutor, setDeleteForInterlocutor] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -26,11 +26,11 @@ export const RemoveChatModal: React.FC<IRemoveChatModalProps> = React.memo(({ on
 
   const deleteTheseMessages = useCallback(() => {
     setLoading(true);
-    removeChat({ forEveryone: deleteForInterlocutor }).then(() => {
+    removeThisChat({ forEveryone: deleteForInterlocutor }).then(() => {
       setLoading(false);
       onClose();
     });
-  }, [removeChat, deleteForInterlocutor, onClose, setLoading]);
+  }, [removeThisChat, deleteForInterlocutor, onClose, setLoading]);
 
   return (
     <WithBackground onBackgroundClick={onClose}>

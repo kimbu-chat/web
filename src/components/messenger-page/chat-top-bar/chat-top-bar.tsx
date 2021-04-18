@@ -16,7 +16,7 @@ import { ReactComponent as ChatInfoSvg } from '@icons/chat-info.svg';
 import { ReactComponent as TypingSvg } from '@icons/typing.svg';
 
 import { getChatInterlocutor, getInterlocutorInitials } from '@utils/interlocutor-name-utils';
-import { ChangeChatInfoOpened } from '@store/chats/features/change-chat-info-opened/change-chat-info-opened';
+import { changeChatInfoOpenedAction } from '@store/chats/actions';
 import { MessagesSearch } from './messages-search/messages-search';
 
 export const ChatTopBar = React.memo(() => {
@@ -26,7 +26,7 @@ export const ChatTopBar = React.memo(() => {
   const isInfoOpened = useSelector(getIsInfoOpenedSelector);
 
   const callInterlocutor = useActionWithDispatch(outgoingCallAction);
-  const openCloseChatInfo = useActionWithDispatch(ChangeChatInfoOpened.action);
+  const openCloseChatInfo = useActionWithDispatch(changeChatInfoOpenedAction);
 
   const callWithVideo = useCallback(
     () =>

@@ -1,4 +1,5 @@
 import produce from 'immer';
+import { unionBy } from 'lodash';
 import { createAction } from 'typesafe-actions';
 import { IChatsState } from '../../chats-state';
 import { IBaseAttachment } from '../../models';
@@ -27,30 +28,32 @@ export class MessageEditedEventHandler {
 
         if (message) {
           message.text = text;
-          message.attachments = attachments;
           message.isEdited = true;
+          message.attachments = unionBy(message.attachments, attachments, 'id');
         }
 
-        draft.messages[chatId].messages = draft.messages[chatId].messages.map((msg) => {
+        draft.messages[chatId].messages = draft.messages[chatId].messages.map((_, index) => {
+          const msg = draft.messages[chatId].messages[index];
+
           if (msg.linkedMessage?.id === messageId) {
-            return {
-              ...msg,
-              linkedMessage: {
-                ...msg.linkedMessage,
-                text,
-                attachments,
-                isEdited: true,
-              },
-            };
+            msg.linkedMessage.text = text;
+            msg.linkedMessage.isEdited = true;
+            msg.linkedMessage.attachments = unionBy(
+              msg.linkedMessage.attachments,
+              attachments,
+              'id',
+            );
           }
+
           return msg;
         });
 
         if (chat.lastMessage) {
           if (chat.lastMessage.id === messageId) {
             chat.lastMessage.text = text;
-            chat.lastMessage.attachments = attachments;
             chat.lastMessage.isEdited = true;
+
+            chat.lastMessage.attachments = unionBy(chat.lastMessage.attachments, attachments, 'id');
           }
 
           if (chat.lastMessage.linkedMessage && chat.lastMessage.linkedMessage.id === messageId) {

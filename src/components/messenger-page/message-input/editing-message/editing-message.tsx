@@ -6,12 +6,12 @@ import { ReactComponent as CrayonSvg } from '@icons/crayon.svg';
 import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getMessageToEditSelector } from '@store/chats/selectors';
-import { ResetEditMessage } from '@store/chats/features/edit-message/reset-edit-message';
+import { resetEditMessageAction } from '@store/chats/actions';
 
 export const EditingMessage = React.memo(() => {
   const editingMessage = useSelector(getMessageToEditSelector);
 
-  const resetEditToMessage = useActionWithDispatch(ResetEditMessage.action);
+  const resetEditToMessage = useActionWithDispatch(resetEditMessageAction);
 
   return (
     <div className="editing-message">

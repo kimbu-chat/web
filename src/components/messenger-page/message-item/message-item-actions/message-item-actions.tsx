@@ -1,7 +1,5 @@
 import { FadeAnimationWrapper } from '@components/shared';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { EditMessage } from '@store/chats/features/edit-message/edit-message';
-import { ReplyToMessage } from '@store/chats/features/reply-to-message/reply-to-message';
 import React, { useCallback, useState } from 'react';
 import './message-item-actions.scss';
 
@@ -10,6 +8,7 @@ import { ReactComponent as EditSVG } from '@icons/edit.svg';
 import { ReactComponent as DeleteSVG } from '@icons/delete.svg';
 import { ReactComponent as ReplySVG } from '@icons/reply.svg';
 
+import { editMessageAction, replyToMessageAction } from '@store/chats/actions';
 import { DeleteMessageModal } from '../../selected-messages-data/delete-message-modal/delete-message-modal';
 import { ForwardModal } from '../../forward-modal/forward-modal';
 
@@ -20,8 +19,8 @@ interface IMessageItemActionsProps {
 
 const MessageItemActions: React.FC<IMessageItemActionsProps> = React.memo(
   ({ messageId, isEditAllowed }) => {
-    const replyToMessage = useActionWithDispatch(ReplyToMessage.action);
-    const editMessage = useActionWithDispatch(EditMessage.action);
+    const replyToMessage = useActionWithDispatch(replyToMessageAction);
+    const editMessage = useActionWithDispatch(editMessageAction);
 
     const replyToSelectedMessage = useCallback(() => {
       replyToMessage({ messageId });

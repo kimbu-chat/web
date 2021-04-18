@@ -1,11 +1,11 @@
 import { WithBackground, Modal, Button } from '@components/shared';
-import { RemoveUserFromGroupChat } from '@store/chats/features/remove-user-from-group-chat/remove-user-from-group-chat';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import './delete-chat-member-modal.scss';
 import { IUser } from '@store/common/models';
+import { removeUserFromGroupChatAction } from '@store/chats/actions';
 
 interface IDeleteChatMemberModalProps {
   user: IUser;
@@ -18,7 +18,7 @@ export const DeleteChatMemberModal: React.FC<IDeleteChatMemberModalProps> = Reac
 
     const [loading, setLoading] = useState(false);
 
-    const removeUserFromGroupChat = useActionWithDeferred(RemoveUserFromGroupChat.action);
+    const removeUserFromGroupChat = useActionWithDeferred(removeUserFromGroupChatAction);
 
     const removeChatMember = useCallback(() => {
       setLoading(true);

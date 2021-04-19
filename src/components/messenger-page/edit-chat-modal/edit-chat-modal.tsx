@@ -39,8 +39,7 @@ const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClose }) =>
 
   const [newName, setNewName] = useState(selectedGroupChat?.name);
   const [avatarData, setAvatarData] = useState<IAvatar | null>(selectedGroupChat?.avatar || null);
-  const [imageUrl, setImageUrl] = useState<string>('');
-  const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [newDescription, setNewDescription] = useState(selectedGroupChat?.description || '');
 
   const [submitLoading, setSubmitLoading] = useState(false);
@@ -53,19 +52,12 @@ const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClose }) =>
         });
         setAvatarData(response);
       } catch {
-        cancelAvatarUploading();
+        setAvatarData(null);
         setAvatarData(null);
       }
     },
-    [uploadGroupChatAvatar, cancelAvatarUploading],
+    [setAvatarData, uploadGroupChatAvatar],
   );
-
-  const displayChangePhoto = useCallback(() => setChangePhotoDisplayed(true), [
-    setChangePhotoDisplayed,
-  ]);
-  const hideChangePhoto = useCallback(() => setChangePhotoDisplayed(false), [
-    setChangePhotoDisplayed,
-  ]);
 
   const handleImageChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -75,7 +67,6 @@ const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClose }) =>
 
       reader.onload = () => {
         setImageUrl(reader.result as string);
-        displayChangePhoto();
       };
 
       if (e.target.files) {
@@ -86,7 +77,7 @@ const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClose }) =>
         fileInputRef.current.value = '';
       }
     },
-    [displayChangePhoto, setImageUrl, fileInputRef],
+    [setImageUrl, fileInputRef],
   );
 
   const onSubmit = useCallback(() => {
@@ -108,11 +99,11 @@ const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClose }) =>
   }, [cancelAvatarUploading]);
 
   return (
-    <>
-      <WithBackground onBackgroundClick={onClose}>
-        <Modal
-          title="Edit group"
-          content={
+    <WithBackground onBackgroundClick={onClose}>
+      <Modal
+        title="Edit group"
+        content={
+          <>
             <div className="edit-chat-modal">
               <div className="edit-chat-modal__current-photo-wrapper">
                 <GroupSvg
@@ -168,36 +159,36 @@ const EditChatModal: React.FC<IEditChatModalProps> = React.memo(({ onClose }) =>
                 containerClassName="edit-chat-modal__input"
               />
             </div>
-          }
-          closeModal={onClose}
-          buttons={[
-            <button
-              key={1}
-              type="button"
-              onClick={onClose}
-              className="edit-chat-modal__btn edit-chat-modal__btn--cancel">
-              Cancel
-            </button>,
-            <Button
-              key={2}
-              disabled={newName?.length === 0}
-              type="button"
-              loading={submitLoading}
-              onClick={onSubmit}
-              className="edit-chat-modal__btn edit-chat-modal__btn--confirm">
-              Save
-            </Button>,
-          ]}
-        />
-      </WithBackground>
-      {changePhotoDisplayed && (
-        <PhotoEditor
-          hideChangePhoto={hideChangePhoto}
-          imageUrl={imageUrl}
-          onSubmit={applyAvatarData}
-        />
-      )}
-    </>
+            {imageUrl && (
+              <PhotoEditor
+                hideChangePhoto={() => setImageUrl(null)}
+                imageUrl={imageUrl}
+                onSubmit={applyAvatarData}
+              />
+            )}
+          </>
+        }
+        closeModal={onClose}
+        buttons={[
+          <button
+            key={1}
+            type="button"
+            onClick={onClose}
+            className="edit-chat-modal__btn edit-chat-modal__btn--cancel">
+            Cancel
+          </button>,
+          <Button
+            key={2}
+            disabled={newName?.length === 0}
+            type="button"
+            loading={submitLoading}
+            onClick={onSubmit}
+            className="edit-chat-modal__btn edit-chat-modal__btn--confirm">
+            Save
+          </Button>,
+        ]}
+      />
+    </WithBackground>
   );
 });
 

@@ -349,8 +349,6 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
   (prevProps, nextProps) => {
     const result = isEqual(prevProps, nextProps);
 
-    console.log(result);
-
     return result;
   },
 );

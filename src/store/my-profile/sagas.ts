@@ -16,8 +16,8 @@ export const MyProfileSagas = [
   takeLatest(GetMyProfileSuccess.action, GetMyProfileSuccess.saga),
   takeLatest(CheckNicknameAvailability.action, CheckNicknameAvailability.saga),
   takeLatest(UploadAvatar.action, UploadAvatar.saga),
+  takeLatest(ChangeUserOnlineStatus.action, ChangeUserOnlineStatus.saga),
   takeEvery(CancelAvatarUploading.action, CancelAvatarUploading.saga),
-  takeEvery(ChangeUserOnlineStatus.action, ChangeUserOnlineStatus.saga),
   takeLatest(DeactivateAccount.action, DeactivateAccount.saga),
   takeEvery(UserDeactivatedEventHandler.action, UserDeactivatedEventHandler.saga),
 ];

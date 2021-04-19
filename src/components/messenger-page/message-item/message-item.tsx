@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, ReactElement } from 'react';
+import React, { useCallback, useMemo, ReactElement, useEffect } from 'react';
 
 import { useSelector } from 'react-redux';
 import './message-item.scss';
@@ -65,6 +65,10 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
     const isSelectState = useSelector(getIsSelectMessagesStateSelector);
     const myId = useSelector(myIdSelector) as number;
 
+    useEffect(() => {
+      console.log('rerender');
+    });
+
     const isCurrentUserMessageCreator = message.userCreator?.id === myId;
 
     const { t } = useTranslation();
@@ -108,6 +112,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
             },
             currentAttachment,
           ) => {
+            console.log('rememo');
             switch (currentAttachment.type) {
               case FileType.Raw:
                 accum.files.push(currentAttachment);

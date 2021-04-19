@@ -82,9 +82,9 @@ export class SubmitEditMessage {
           }
 
           if (chat?.messageToEdit) {
-            chat.attachmentsToSend = [];
+            delete chat.attachmentsToSend;
 
-            chat.messageToEdit = undefined;
+            delete chat.messageToEdit;
           }
         }
 

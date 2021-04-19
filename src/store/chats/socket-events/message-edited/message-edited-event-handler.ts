@@ -25,11 +25,11 @@ export class MessageEditedEventHandler {
         if (!chat || !message) {
           return draft;
         }
-
+        console.log('real');
         if (message) {
           message.text = text;
           message.isEdited = true;
-          message.attachments = unionBy(message.attachments, attachments, 'id');
+          message.attachments = attachments;
         }
 
         draft.messages[chatId].messages = draft.messages[chatId].messages.map((_, index) => {

@@ -28,6 +28,10 @@ const ChatList = React.memo(() => {
   const changeSelectedChat = useActionWithDispatch(changeSelectedChatAction);
   const resetSearchChats = useActionWithDispatch(resetSearchChatsAction);
 
+  useEffect(() => {
+    console.log('chatsList');
+  }, [chatsList]);
+
   useEffect(
     () => () => {
       resetSearchChats();

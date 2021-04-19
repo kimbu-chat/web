@@ -28,7 +28,7 @@ const ChatInfoRightPanel: React.FC = React.memo(() => {
     }
 
     return selectedChat?.groupChat?.avatar?.previewUrl as string;
-  }, [selectedChat]);
+  }, [selectedChat?.interlocutor, selectedChat?.groupChat?.avatar?.previewUrl]);
 
   const changeIsAvatarMaximizedState = useCallback(() => {
     if (getChatAvatar()) {

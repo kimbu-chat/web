@@ -2,14 +2,13 @@ import React, { useState, useRef, useCallback, useEffect } from 'react';
 import './code-confirmation.scss';
 
 import { useTranslation } from 'react-i18next';
+import { Button } from '@components/shared';
 import { sendSmsCodeAction, confirmPhoneAction } from '@store/auth/actions';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useSelector } from 'react-redux';
 import useInterval from 'use-interval';
 import moment from 'moment';
 import { parsePhoneNumber } from 'libphonenumber-js';
-import { ReactComponent as ResendSvg } from '@icons/ic-resend.svg';
-import { BaseBtn } from '@components/shared/base-btn';
 import { useHistory } from 'react-router';
 import {
   authPhoneNumberSelector,
@@ -24,7 +23,7 @@ interface ICodeConfirmationProps {
   preloadNext: () => void;
 }
 
-const CodeConfirmation: React.FC<ICodeConfirmationProps> = ({ preloadNext }) => {
+const CodeConfirmation: React.FC<ICodeConfirmationProps> = React.memo(({ preloadNext }) => {
   const { t } = useTranslation();
 
   const checkIfCharacterIsNumeric = (character: string): boolean => /^[0-9]+$/.test(character);
@@ -171,37 +170,32 @@ const CodeConfirmation: React.FC<ICodeConfirmationProps> = ({ preloadNext }) => 
               })}
             </p>
 
-            <BaseBtn
+            <Button
               disabled={
                 isConfirmationCodeWrong ||
                 !code.every((element) => element.length === 1) ||
                 isLoading
               }
               onClick={() => checkCode(code)}
-              variant="contained"
-              color="primary"
-              width="contained"
-              isLoading={isLoading}>
+              loading={isLoading}>
               {t('loginPage.next')}
-            </BaseBtn>
+            </Button>
           </>
         )}
 
         {remainingSeconds === 0 && (
-          <BaseBtn
-            icon={<ResendSvg width={16} height={16} viewBox="0 0 25 25" />}
+          <Button
             disabled={remainingSeconds > 0}
             onClick={() => resendPhoneConfirmationCode()}
-            variant="outlined"
-            color="primary"
-            width="auto"
             className="code-confirmation__resend-btn">
             {t('loginPage.resend')}
-          </BaseBtn>
+          </Button>
         )}
       </div>
     </div>
   );
-};
+});
+
+CodeConfirmation.displayName = 'CodeConfirmation';
 
 export default CodeConfirmation;

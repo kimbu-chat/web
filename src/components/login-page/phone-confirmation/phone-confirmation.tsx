@@ -1,6 +1,6 @@
-import React, { useCallback, useState, useRef, useEffect, Suspense } from 'react';
+import React, { useCallback, useState, useRef, useEffect } from 'react';
 import './phone-confirmation.scss';
-import { BaseBtn, WithBackground, FadeAnimationWrapper, PrivacyPolicy } from '@components/shared';
+import { FadeAnimationWrapper, PrivacyPolicy, Button } from '@components/shared';
 import { CountrySelect, PhoneInput } from '@components/login-page';
 import { countryList } from '@common/countries';
 import { ICountry } from '@common/country';
@@ -12,14 +12,13 @@ import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { getCountryByIp } from '@utils/get-country-by-ip';
-import { CubeLoader } from '@containers/cube-loader/cube-loader';
 import { authLoadingSelector } from '@store/auth/selectors';
 
 interface IPhoneConfirmationProps {
   preloadNext: () => void;
 }
 
-const PhoneConfirmation: React.FC<IPhoneConfirmationProps> = ({ preloadNext }) => {
+const PhoneConfirmation: React.FC<IPhoneConfirmationProps> = React.memo(({ preloadNext }) => {
   const { t } = useTranslation();
 
   const history = useHistory();
@@ -94,29 +93,12 @@ const PhoneConfirmation: React.FC<IPhoneConfirmationProps> = ({ preloadNext }) =
     setCurrentCountry();
   }, [preloadNext, setCurrentCountry]);
 
-  //! Temporal code
-  // TODO:Remove im production
-  const [areNumbersDisplayed, setNumbersDisplayed] = useState(false);
-  const changeNumbersDisplayedState = useCallback(() => {
-    setNumbersDisplayed((oldState) => !oldState);
-  }, [setNumbersDisplayed]);
-
   return (
     <>
       <div className="phone-confirmation">
         <div className="phone-confirmation__container">
           <h1 className="phone-confirmation__logo">RAVUDI</h1>
-          <p onClick={changeNumbersDisplayedState} className="phone-confirmation__confirm-phone">
-            {t('loginPage.confirm_phone')}
-          </p>
-          {areNumbersDisplayed && (
-            <>
-              <p>+375445446331</p>
-              <p>+375292725607</p>
-              <p>+375445446388</p>
-              <p>+375445446399</p>
-            </>
-          )}
+          <p className="phone-confirmation__confirm-phone">{t('loginPage.confirm_phone')}</p>
           <div className="phone-confirmation__credentials">
             <CountrySelect
               setRef={setCountrySelectRef}
@@ -132,31 +114,26 @@ const PhoneConfirmation: React.FC<IPhoneConfirmationProps> = ({ preloadNext }) =
               sendSms={sendSms}
             />
           </div>
-          <BaseBtn
-            disabled={isLoading || !parsePhoneNumberFromString(phone)?.isValid()}
-            isLoading={isLoading}
+          <Button
+            disabled={!parsePhoneNumberFromString(phone)?.isValid()}
+            loading={isLoading}
             onClick={sendSms}
-            variant="contained"
-            color="primary"
-            width="contained"
             className="phone-confirmation__btn">
             {t('loginPage.next')}
-          </BaseBtn>
+          </Button>
           <p className="phone-confirmation__conditions">
             {t('loginPage.agree_to')}
             <span onClick={changePolicyDisplayedState}>{t('loginPage.ravudi_terms')}</span>
           </p>
         </div>
+        <FadeAnimationWrapper isDisplayed={policyDisplayed}>
+          <PrivacyPolicy close={changePolicyDisplayedState} />
+        </FadeAnimationWrapper>
       </div>
-      <FadeAnimationWrapper isDisplayed={policyDisplayed}>
-        <WithBackground onBackgroundClick={changePolicyDisplayedState}>
-          <Suspense fallback={<CubeLoader />}>
-            <PrivacyPolicy close={changePolicyDisplayedState} />
-          </Suspense>
-        </WithBackground>
-      </FadeAnimationWrapper>
     </>
   );
-};
+});
+
+PhoneConfirmation.displayName = 'PhoneConfirmation';
 
 export default PhoneConfirmation;

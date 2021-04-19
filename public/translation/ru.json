@@ -13,6 +13,10 @@
     "ravudi_terms": " Условиями Ravudi",
     "reset_timer": "Код можно повторно отправить через {{time}}"
   },
+  "register": {
+    "photo-requirements": "Как минимум 256*256px PNG или JPG",
+    "register": "Регистрация"
+  },
   "deleteChatMemberModal": {
     "title": "Удалить пользователя из переписки",
     "delete-confirmation": "Вы уверены что хотите удалить выбранного пользователя из переписки?",

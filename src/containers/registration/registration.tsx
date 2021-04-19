@@ -2,14 +2,14 @@ import { getStringInitials } from '@utils/interlocutor-name-utils';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { ReactComponent as CloseSVG } from '@icons/ic-close.svg';
 
 import { useTranslation } from 'react-i18next';
 import { authLoadingSelector } from '@store/auth/selectors';
 import { useSelector } from 'react-redux';
 import { validateNickname } from '@utils/validate-nick-name';
-import { Avatar, BaseBtn } from '@components/shared';
-import { PhotoEditor, CircularProgress } from '@components/messenger-page';
+import { Avatar, Button } from '@components/shared';
+
+import { PhotoEditor } from '@components/messenger-page';
 import { IAvatarSelectedData, IAvatar } from '@store/common/models';
 import {
   cancelAvatarUploadingRequestAction,
@@ -40,11 +40,9 @@ export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
 
   const openFileExplorer = useCallback(() => fileInputRef.current?.click(), [fileInputRef]);
 
-  const [avatarData, setAvatarData] = useState<IAvatarSelectedData | null>(null);
   const [avararUploadResponse, setAvatarUploadResponse] = useState<IAvatar | null>(null);
   const [imageUrl, setImageUrl] = useState<string>('');
   const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
-  const [uploaded, setUploaded] = useState(0);
   const [uploadEnded, setUploadEnded] = useState(true);
 
   const [firstName, setFirstName] = useState('');
@@ -95,8 +93,15 @@ export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
     ],
   );
 
+  const discardAvatar = useCallback(() => {
+    cancelAvatarUploading();
+    setAvatarUploadResponse(null);
+    setUploadEnded(true);
+  }, [cancelAvatarUploading]);
+
   const handleImageChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
+      discardAvatar();
       e.preventDefault();
 
       const reader = new FileReader();
@@ -114,7 +119,7 @@ export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
         fileInputRef.current.value = '';
       }
     },
-    [displayChangePhoto, setImageUrl, fileInputRef],
+    [displayChangePhoto, setImageUrl, fileInputRef, discardAvatar],
   );
 
   const applyAvatarData = useCallback(
@@ -123,25 +128,16 @@ export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
         setUploadEnded(false);
         const response = await uploadRegistrationAvatar({
           pathToFile: data.croppedImagePath,
-          onProgress: setUploaded,
         });
         setAvatarUploadResponse(response);
         setUploadEnded(true);
       } catch {
-        setAvatarData(null);
         setAvatarUploadResponse(null);
         setUploadEnded(true);
       }
     },
-    [setAvatarData, setUploaded, uploadRegistrationAvatar, setAvatarUploadResponse],
+    [uploadRegistrationAvatar, setAvatarUploadResponse],
   );
-
-  const discardAvatar = useCallback(() => {
-    cancelAvatarUploading();
-    setAvatarData(null);
-    setAvatarUploadResponse(null);
-    setUploadEnded(true);
-  }, [cancelAvatarUploading]);
 
   const onSubmit = useCallback(() => {
     register({
@@ -160,21 +156,10 @@ export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
             <div className="edit-profile__photo-data">
               <div className="create-group-chat__current-photo-wrapper">
                 <Avatar
-                  src={avatarData?.croppedImagePath}
+                  src={avararUploadResponse?.previewUrl}
                   className="create-group-chat__current-photo">
                   {getStringInitials(`${firstName} ${lastName}`)}
                 </Avatar>
-                {avatarData && (
-                  <>
-                    <CircularProgress progress={uploaded} />
-                    <button
-                      type="button"
-                      onClick={discardAvatar}
-                      className="create-group-chat__remove-photo">
-                      <CloseSVG viewBox="0 0 25 25" />
-                    </button>
-                  </>
-                )}
               </div>
               <input
                 onChange={handleImageChange}
@@ -217,7 +202,7 @@ export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
               />
             </div>
           </div>
-          <BaseBtn
+          <Button
             disabled={
               !uploadEnded ||
               !firstName.length ||
@@ -225,14 +210,11 @@ export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
               !isNickNameAvailable ||
               isNickNameCheckLoading
             }
-            isLoading={isLoading}
+            loading={isLoading}
             onClick={onSubmit}
-            variant="contained"
-            color="primary"
-            width="contained"
             className="phone-confirmation__btn">
             {t('register.register')}
-          </BaseBtn>
+          </Button>
         </div>
       </div>
       {changePhotoDisplayed && (

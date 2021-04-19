@@ -238,6 +238,7 @@ export const ChatActions: React.FC = React.memo(() => {
       <FadeAnimationWrapper isDisplayed={removeChatModalOpened}>
         <RemoveChatModal onClose={changeRemoveChatModalOpenedState} />
       </FadeAnimationWrapper>
+
       <FadeAnimationWrapper isDisplayed={addFriendsModalDisplayed}>
         <GroupChatAddFriendModal onClose={changeSetAddFriendsModalDisplayedState} />
       </FadeAnimationWrapper>

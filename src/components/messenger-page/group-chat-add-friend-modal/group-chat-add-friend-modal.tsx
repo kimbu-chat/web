@@ -3,7 +3,6 @@ import { Button, Modal, WithBackground } from '@components/shared';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useSelector } from 'react-redux';
-import { getMemberIdsForSelectedGroupChatSelector } from '@store/chats/selectors';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 
 import { useTranslation } from 'react-i18next';
@@ -32,7 +31,6 @@ const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = React.m
     const [name, setName] = useState('');
 
     const friendsList = useSelector(getMyFriendsListSelector);
-    const idsToExclude = useSelector(getMemberIdsForSelectedGroupChatSelector);
     const searchFriendsList = useSelector(getMySearchFriendsListSelector);
 
     const { hasMore: hasMoreFriends, friends, loading: friendsLoading } = friendsList;
@@ -112,16 +110,15 @@ const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = React.m
     );
 
     const renderSelectEntity = useCallback(
-      (friend: IUser) =>
-        !idsToExclude.includes(friend.id) && (
-          <SelectEntity
-            key={friend.id}
-            chatOrUser={friend}
-            isSelected={isSelected(friend.id)}
-            changeSelectedState={changeSelectedState}
-          />
-        ),
-      [changeSelectedState, isSelected, idsToExclude],
+      (friend: IUser) => (
+        <SelectEntity
+          key={friend.id}
+          chatOrUser={friend}
+          isSelected={isSelected(friend.id)}
+          changeSelectedState={changeSelectedState}
+        />
+      ),
+      [changeSelectedState, isSelected],
     );
 
     const selectEntities = useMemo(() => {

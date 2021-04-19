@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 import { Avatar, StatusBadge, TimeUpdateable } from '@components/shared';
 import { getInterlocutorInitials } from '@utils/interlocutor-name-utils';

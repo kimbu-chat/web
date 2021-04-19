@@ -26,11 +26,8 @@ export const RemoveChatModal: React.FC<IRemoveChatModalProps> = React.memo(({ on
 
   const deleteTheseMessages = useCallback(() => {
     setLoading(true);
-    removeThisChat({ forEveryone: deleteForInterlocutor }).then(() => {
-      setLoading(false);
-      onClose();
-    });
-  }, [removeThisChat, deleteForInterlocutor, onClose, setLoading]);
+    removeThisChat({ forEveryone: deleteForInterlocutor });
+  }, [removeThisChat, deleteForInterlocutor, setLoading]);
 
   return (
     <WithBackground onBackgroundClick={onClose}>

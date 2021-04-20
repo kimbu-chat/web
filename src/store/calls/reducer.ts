@@ -55,7 +55,7 @@ const initialState: ICallsState = {
   },
 };
 
-const calls = createReducer<ICallsState>(initialState)
+const reducer = createReducer<ICallsState>(initialState)
   .handleAction(OutgoingCall.action, OutgoingCall.reducer)
   .handleAction(CancelCallSuccess.action, CancelCallSuccess.reducer)
   .handleAction(AcceptCall.action, AcceptCall.reducer)
@@ -88,4 +88,4 @@ const calls = createReducer<ICallsState>(initialState)
   .handleAction(RenegotiationSentEventHandler.action, RenegotiationSentEventHandler.reducer)
   .handleAction(CallEndedEventHandlerSuccess.action, CallEndedEventHandlerSuccess.reducer);
 
-export default calls;
+export default reducer;

@@ -89,7 +89,7 @@ const CodeConfirmation: React.FC<ICodeConfirmationProps> = React.memo(({ preload
     if (key === 0 && code[key] === '') {
       return;
     }
-    if (!(code[key] === '')) {
+    if (code[key] !== '') {
       const codeCopy = code.slice();
       codeCopy[key] = '';
       setCode(codeCopy);
@@ -162,7 +162,7 @@ const CodeConfirmation: React.FC<ICodeConfirmationProps> = React.memo(({ preload
           <p className="code-confirmation__wrong-code">{t('loginPage.wrong_code')}</p>
         )}
         <div className="code-confirmation__inputs-container">{NUMBER_OF_DIGITS.map(input)}</div>
-        {!(remainingSeconds === 0) && (
+        {remainingSeconds !== 0 && (
           <>
             <p className="code-confirmation__timer">
               {t('loginPage.reset_timer', {

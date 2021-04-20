@@ -156,11 +156,8 @@ const ForwardModal: React.FC<IForwardModalProps> = React.memo(
       </WithBackground>
     );
   },
-  (prevProps, nextProps) => {
-    const result = xor(prevProps.messageIdsToForward, nextProps.messageIdsToForward).length === 0;
-
-    return result;
-  },
+  (prevProps, nextProps) =>
+    xor(prevProps.messageIdsToForward, nextProps.messageIdsToForward).length === 0,
 );
 
 ForwardModal.displayName = 'ForwardModal';

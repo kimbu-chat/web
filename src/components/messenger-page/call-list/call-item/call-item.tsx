@@ -89,11 +89,7 @@ const CallItem: React.FC<ICall> = React.memo(
       </div>
     );
   },
-  (prevProps, nextProps) => {
-    const result = isEqual(prevProps, nextProps);
-
-    return result;
-  },
+  (prevProps, nextProps) => isEqual(prevProps, nextProps),
 );
 
 CallItem.displayName = 'CallItem';

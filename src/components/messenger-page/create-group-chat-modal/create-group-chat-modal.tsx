@@ -162,11 +162,8 @@ const CreateGroupChat: React.FC<ICreateGroupChatProps> = React.memo(
       </>
     );
   },
-  (prevProps, nextProps) => {
-    const result = xor(prevProps.preSelectedUserIds, nextProps.preSelectedUserIds).length === 0;
-
-    return result;
-  },
+  (prevProps, nextProps) =>
+    xor(prevProps.preSelectedUserIds, nextProps.preSelectedUserIds).length === 0,
 );
 
 CreateGroupChat.displayName = 'CreateGroupChat';

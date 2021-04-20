@@ -346,11 +346,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
       </>
     );
   },
-  (prevProps, nextProps) => {
-    const result = isEqual(prevProps, nextProps);
-
-    return result;
-  },
+  (prevProps, nextProps) => isEqual(prevProps, nextProps),
 );
 
 MessageItem.displayName = 'MessageItem';

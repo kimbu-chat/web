@@ -33,7 +33,7 @@ const initialState: IUserSettings = {
   },
 };
 
-const settings = createReducer<IUserSettings>(initialState)
+const reducer = createReducer<IUserSettings>(initialState)
   .handleAction(ChangeNotificationSoundState.action, ChangeNotificationSoundState.reducer)
   .handleAction(ChangeTypingStrategy.action, ChangeTypingStrategy.reducer)
   .handleAction(ChangeLanguage.action, ChangeLanguage.reducer)
@@ -51,4 +51,4 @@ const settings = createReducer<IUserSettings>(initialState)
   .handleAction(GetSessionListSuccess.action, GetSessionListSuccess.reducer)
   .handleAction(RevokeSessionSuccess.action, RevokeSessionSuccess.reducer);
 
-export default settings;
+export default reducer;

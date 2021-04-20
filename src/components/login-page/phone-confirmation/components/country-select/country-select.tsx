@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import './country-select.scss';
 
 import useAutocomplete, { createFilterOptions } from '@material-ui/lab/useAutocomplete';
 

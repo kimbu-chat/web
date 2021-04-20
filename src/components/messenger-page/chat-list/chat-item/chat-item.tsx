@@ -45,7 +45,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(
     const getMessageText = useCallback((): string => {
       const messageToProcess =
         chat.lastMessage?.linkedMessageType === MessageLinkType.Forward &&
-        !(chat.lastMessage?.linkedMessage === null)
+        chat.lastMessage?.linkedMessage !== null
           ? chat.lastMessage?.linkedMessage
           : chat.lastMessage;
 

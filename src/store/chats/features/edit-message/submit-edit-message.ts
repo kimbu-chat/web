@@ -39,12 +39,11 @@ export class SubmitEditMessage {
                   return true;
                 }
 
-                const res =
+                return (
                   removedAttachments?.findIndex(
                     (removedAttachment) => removedAttachment.id === id,
-                  ) === -1;
-
-                return res;
+                  ) === -1
+                );
               },
             );
           }

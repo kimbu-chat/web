@@ -12,10 +12,10 @@ const initialState: IMyProfileState = {
   isTabActive: true,
 };
 
-const myProfile = createReducer<IMyProfileState>(initialState)
+const reducer = createReducer<IMyProfileState>(initialState)
   .handleAction(GetMyProfileSuccess.action, GetMyProfileSuccess.reducer)
   .handleAction(UpdateMyProfileSuccess.action, UpdateMyProfileSuccess.reducer)
   .handleAction(UserEditedEventHandler.action, UserEditedEventHandler.reducer)
   .handleAction(ChangeUserOnlineStatus.action, ChangeUserOnlineStatus.reducer);
 
-export default myProfile;
+export default reducer;

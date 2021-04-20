@@ -112,21 +112,20 @@ const CreateMessageInput = React.memo(() => {
     needToSubmit: false,
   });
 
+  const onDrag = useCallback(
+    (e: DragEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (containsFiles(e)) {
+        setIsDragging(true);
+      }
+    },
+    [setIsDragging],
+  );
+
   useGlobalDrop({
-    onDragEnter: (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      if (containsFiles(e)) {
-        setIsDragging(true);
-      }
-    },
-    onDragOver: (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      if (containsFiles(e)) {
-        setIsDragging(true);
-      }
-    },
+    onDragEnter: onDrag,
+    onDragOver: onDrag,
     onDragLeave: (e) => {
       e.preventDefault();
       e.stopPropagation();

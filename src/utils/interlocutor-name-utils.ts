@@ -7,9 +7,7 @@ export const getChatInterlocutor = (chat: IChat): string => {
   if (interlocutor) {
     const { firstName, lastName } = interlocutor;
 
-    const interlocutorName = `${firstName} ${lastName}`;
-
-    return interlocutorName;
+    return `${firstName} ${lastName}`;
   }
 
   if (chat.groupChat?.name) {
@@ -24,9 +22,7 @@ export const getInterlocutorInitials = (chat: IChat): string => {
     .split(' ')
     .reduce((accum, current) => accum + current[0], '');
 
-  const shortedInitials = initials.substr(0, 2);
-
-  return shortedInitials;
+  return initials.substr(0, 2);
 };
 
 export const getUserInitials = (user?: IUser) => {
@@ -38,9 +34,7 @@ export const getUserInitials = (user?: IUser) => {
     .split(' ')
     .reduce((accum, current) => accum + current[0], '');
 
-  const shortedInitials = initials.substr(0, 2);
-
-  return shortedInitials;
+  return initials.substr(0, 2);
 };
 
 export const getStringInitials = (userName?: string) => {
@@ -50,7 +44,5 @@ export const getStringInitials = (userName?: string) => {
 
   const initials = userName.split(' ').reduce((accum, current) => accum + current[0], '');
 
-  const shortedInitials = initials.substr(0, 2);
-
-  return shortedInitials;
+  return initials.substr(0, 2);
 };

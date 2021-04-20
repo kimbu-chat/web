@@ -1,5 +1,5 @@
 import produce from 'immer';
-import { unionBy } from 'lodash';
+import { xorBy } from 'lodash';
 import { createAction } from 'typesafe-actions';
 import { IChatsState } from '../../chats-state';
 import { IBaseAttachment } from '../../models';
@@ -21,28 +21,31 @@ export class MessageEditedEventHandler {
         const attachments: IBaseAttachment[] = JSON.parse(payload.attachments);
         const chat = getChatByIdDraftSelector(chatId, draft);
         const message = draft.messages[chatId].messages.find(({ id }) => id === messageId);
+        const shouldApplyAttachments =
+          attachments && xorBy(message?.attachments, attachments, 'id').length !== 0;
 
         if (!chat || !message) {
           return draft;
         }
-        console.log('real');
+
         if (message) {
           message.text = text;
           message.isEdited = true;
-          message.attachments = attachments;
+
+          if (shouldApplyAttachments) {
+            message.attachments = attachments;
+          }
         }
 
-        draft.messages[chatId].messages = draft.messages[chatId].messages.map((_, index) => {
+        draft.messages[chatId].messages.forEach((_, index) => {
           const msg = draft.messages[chatId].messages[index];
 
           if (msg.linkedMessage?.id === messageId) {
             msg.linkedMessage.text = text;
             msg.linkedMessage.isEdited = true;
-            msg.linkedMessage.attachments = unionBy(
-              msg.linkedMessage.attachments,
-              attachments,
-              'id',
-            );
+            if (shouldApplyAttachments) {
+              msg.linkedMessage.attachments = attachments;
+            }
           }
 
           return msg;
@@ -53,13 +56,18 @@ export class MessageEditedEventHandler {
             chat.lastMessage.text = text;
             chat.lastMessage.isEdited = true;
 
-            chat.lastMessage.attachments = unionBy(chat.lastMessage.attachments, attachments, 'id');
+            if (shouldApplyAttachments) {
+              chat.lastMessage.attachments = attachments;
+            }
           }
 
           if (chat.lastMessage.linkedMessage && chat.lastMessage.linkedMessage.id === messageId) {
             chat.lastMessage.linkedMessage.text = text;
-            chat.lastMessage.linkedMessage.attachments = attachments;
             chat.lastMessage.linkedMessage.isEdited = true;
+
+            if (shouldApplyAttachments) {
+              chat.lastMessage.linkedMessage.attachments = attachments;
+            }
           }
         }
 

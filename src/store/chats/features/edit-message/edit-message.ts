@@ -20,7 +20,7 @@ export class EditMessage {
           ({ id }) => id === messageId,
         );
 
-        if (chat) {
+        if (chat && chat.messageToEdit?.id !== message?.id) {
           chat.messageToEdit = message;
           chat.messageToReply = undefined;
         }

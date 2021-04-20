@@ -24,60 +24,45 @@ export class SubmitEditMessage {
     return produce(
       (draft: IChatsState, { payload }: ReturnType<typeof SubmitEditMessage.action>) => {
         const { messageId, removedAttachments, newAttachments, text } = payload;
+
         if (draft.selectedChatId) {
           const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
           const message = draft.messages[draft.selectedChatId].messages.find(
             ({ id }) => id === messageId,
           );
+          let newAttachmentsToAssign = message?.attachments;
 
-          const newAttachmentsToAssign = unionBy(message?.attachments, newAttachments, 'id').filter(
-            ({ id }) => {
-              if (!removedAttachments) {
-                return true;
-              }
+          if (removedAttachments?.length || newAttachments?.length) {
+            newAttachmentsToAssign = unionBy(message?.attachments, newAttachments, 'id').filter(
+              ({ id }) => {
+                if (!removedAttachments) {
+                  return true;
+                }
 
-              const res =
-                removedAttachments?.findIndex(
-                  (removedAttachment) => removedAttachment.id === id,
-                ) === -1;
+                const res =
+                  removedAttachments?.findIndex(
+                    (removedAttachment) => removedAttachment.id === id,
+                  ) === -1;
 
-              return res;
-            },
-          );
-
+                return res;
+              },
+            );
+          }
           if (message) {
             message.text = text;
             message.isEdited = true;
             message.state = MessageState.QUEUED;
 
-            message.attachments = unionBy(message.attachments, newAttachmentsToAssign, 'id');
+            message.attachments = newAttachmentsToAssign;
           }
 
           if (chat?.lastMessage) {
             if (chat?.lastMessage.id === messageId) {
+              chat.lastMessage.state = MessageState.QUEUED;
               chat.lastMessage.text = text;
               chat.lastMessage.isEdited = true;
 
-              chat.lastMessage.attachments = unionBy(
-                chat.lastMessage.attachments,
-                newAttachmentsToAssign,
-                'id',
-              );
-            }
-
-            if (
-              chat?.lastMessage.linkedMessage &&
-              chat?.lastMessage.linkedMessage.id === messageId
-            ) {
-              chat.lastMessage.state = MessageState.QUEUED;
-              chat.lastMessage.linkedMessage.text = text;
-              chat.lastMessage.linkedMessage.isEdited = true;
-
-              chat.lastMessage.attachments = unionBy(
-                chat.lastMessage.linkedMessage.attachments,
-                newAttachmentsToAssign,
-                'id',
-              );
+              chat.lastMessage.attachments = newAttachmentsToAssign;
             }
           }
 

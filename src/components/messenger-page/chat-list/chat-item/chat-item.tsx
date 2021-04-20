@@ -180,7 +180,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(
       prevProps.chat.groupChat?.name === nextProps.chat.groupChat?.name &&
       isEqual(prevProps.chat.interlocutor?.avatar, nextProps.chat.interlocutor?.avatar) &&
       isEqual(prevProps.chat.groupChat?.avatar, nextProps.chat.groupChat?.avatar) &&
-      isEqual(prevProps.chat.lastMessage, prevProps.chat.lastMessage);
+      isEqual(prevProps.chat.lastMessage, nextProps.chat.lastMessage);
     return result;
   },
 );

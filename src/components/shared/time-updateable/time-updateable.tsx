@@ -6,8 +6,12 @@ interface ITimeUpdateableProps {
   timeStamp?: Date;
 }
 
-export const TimeUpdateable: React.FC<ITimeUpdateableProps> = ({ timeStamp }) => {
+const TimeUpdateable: React.FC<ITimeUpdateableProps> = React.memo(({ timeStamp }) => {
   useForceUpdate(30000);
 
   return <span>{moment.utc(timeStamp).local().startOf('minute').fromNow()}</span>;
-};
+});
+
+TimeUpdateable.displayName = 'TimeUpdateable';
+
+export { TimeUpdateable };

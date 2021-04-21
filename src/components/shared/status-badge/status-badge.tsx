@@ -1,5 +1,4 @@
 import React from 'react';
-import { getUserInitials } from '@utils/interlocutor-name-utils';
 import { IUser } from '@store/common/models';
 
 import { Avatar } from '@components/shared';
@@ -18,14 +17,18 @@ export const StatusBadge: React.FC<IStatusBadgeProps> = ({
   containerClassName,
 }) => (
   <div className={`status-badge ${containerClassName}`}>
-    <span
-      className={`status-badge__indicator ${
-        user?.online ? 'status-badge__indicator--online' : 'status-badge__indicator--offline'
-      }`}
-    />
+    {user.deleted ? (
+      <Avatar className={additionalClassNames} user={user} />
+    ) : (
+      <>
+        <span
+          className={`status-badge__indicator ${
+            user?.online ? 'status-badge__indicator--online' : 'status-badge__indicator--offline'
+          }`}
+        />
 
-    <Avatar className={additionalClassNames} src={user.avatar?.previewUrl}>
-      {getUserInitials(user)}
-    </Avatar>
+        <Avatar className={additionalClassNames} user={user} />
+      </>
+    )}
   </div>
 );

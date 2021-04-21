@@ -1,28 +1,40 @@
+import { IGroupChat } from '@store/chats/models';
+import { IUser } from '@store/common/models';
+import { getInterlocutorInitials } from '@utils/interlocutor-name-utils';
 import React from 'react';
+import deletedIcon from '@icons/deleted.png';
 
 import './avatar.scss';
 
 interface IAvatarProps {
-  src?: string;
-  children: string;
+  user?: IUser;
+  groupChat?: IGroupChat;
   className?: string;
   onClick?: () => void;
 }
 
-export const Avatar: React.FC<IAvatarProps> = ({ src, children, className, onClick, ...props }) => (
+export const Avatar: React.FC<IAvatarProps> = ({
+  user,
+  groupChat,
+  className,
+  onClick,
+  ...props
+}) => (
   <>
-    {src ? (
+    {user?.avatar?.previewUrl || groupChat?.avatar?.previewUrl || user?.deleted ? (
       <img
         draggable={false}
-        alt={children}
-        src={src}
+        alt={getInterlocutorInitials({ user, groupChat })}
+        src={
+          !user?.deleted ? user?.avatar?.previewUrl || groupChat?.avatar?.previewUrl : deletedIcon
+        }
         {...props}
         onClick={onClick}
         className={`avatar ${className || ''}`}
       />
     ) : (
       <div draggable={false} {...props} onClick={onClick} className={`avatar ${className || ''}`}>
-        {children}
+        {getInterlocutorInitials({ user, groupChat })}
       </div>
     )}
   </>

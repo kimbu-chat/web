@@ -19,16 +19,19 @@ export const Friend: React.FC<IUser> = ({ ...friend }) => {
       />
       <div className="friend__contents">
         <div className="friend__name">{`${friend.firstName} ${friend.lastName}`}</div>
-        <div className="friend__status">
-          {friend.online ? (
-            t('chatData.online')
-          ) : (
-            <>
-              <span>{`${t('chatData.last-time')} `}</span>{' '}
-              <TimeUpdateable timeStamp={friend.lastOnlineTime} />
-            </>
-          )}
-        </div>
+
+        {!friend.deleted && (
+          <div className="friend__status">
+            {friend.online ? (
+              t('chatData.online')
+            ) : (
+              <>
+                <span>{`${t('chatData.last-time')} `}</span>{' '}
+                <TimeUpdateable timeStamp={friend.lastOnlineTime} />
+              </>
+            )}
+          </div>
+        )}
       </div>
     </Link>
   );

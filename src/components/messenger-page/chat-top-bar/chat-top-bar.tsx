@@ -15,7 +15,7 @@ import { ReactComponent as VideoCallSvg } from '@icons/video-call.svg';
 import { ReactComponent as ChatInfoSvg } from '@icons/chat-info.svg';
 import { ReactComponent as TypingSvg } from '@icons/typing.svg';
 
-import { getChatInterlocutor, getInterlocutorInitials } from '@utils/interlocutor-name-utils';
+import { getChatInterlocutor } from '@utils/interlocutor-name-utils';
 import { changeChatInfoOpenedAction } from '@store/chats/actions';
 import { MessagesSearch } from './messages-search/messages-search';
 
@@ -79,26 +79,26 @@ export const ChatTopBar = () => {
 
           {selectedChat.groupChat && (
             <div className="chat-data__contact-img-container">
-              <Avatar
-                className="chat-data__contact-img"
-                src={selectedChat.groupChat?.avatar?.previewUrl}>
-                {getInterlocutorInitials(selectedChat)}
-              </Avatar>
+              <Avatar className="chat-data__contact-img" groupChat={selectedChat.groupChat} />
             </div>
           )}
 
           <div className="chat-data__chat-info">
-            <h1 className="chat-data__chat-info__title">{getChatInterlocutor(selectedChat)}</h1>
-            <div className="chat-data__chat-info__info">
-              {selectedChat.typingInterlocutors && selectedChat.typingInterlocutors?.length > 0 ? (
-                <div className="chat-data__chat-info__info__typing">
-                  <TypingSvg viewBox="0 0 12 12" />
-                  <span>{t('chatData.typing')}</span>
-                </div>
-              ) : (
-                groupChatOrInterlocutorStatus
-              )}
-            </div>
+            <h1 className="chat-data__chat-info__title">{getChatInterlocutor(selectedChat, t)}</h1>
+
+            {!selectedChat.interlocutor?.deleted && (
+              <div className="chat-data__chat-info__info">
+                {selectedChat.typingInterlocutors &&
+                selectedChat.typingInterlocutors?.length > 0 ? (
+                  <div className="chat-data__chat-info__info__typing">
+                    <TypingSvg viewBox="0 0 12 12" />
+                    <span>{t('chatData.typing')}</span>
+                  </div>
+                ) : (
+                  groupChatOrInterlocutorStatus
+                )}
+              </div>
+            )}
           </div>
         </button>
         <div className="chat-data__buttons-group">

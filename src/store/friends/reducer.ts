@@ -1,6 +1,7 @@
 import { createReducer } from 'typesafe-actions';
 import { UserDeactivatedEventHandler } from '@store/my-profile/socket-events/user-deactivated/user-deactivated-event-handler';
 import produce from 'immer';
+import { UserDeletedEventHandler } from '@store/my-profile/socket-events/user-deleted/user-deleted';
 import { UserEditedEventHandler } from './socket-events/user-edited/user-edited-event-handler';
 import { AddFriendSuccess } from './features/add-friend/add-friend-success';
 import { DeleteFriendSuccess } from './features/delete-friend/delete-friend-success';
@@ -43,6 +44,21 @@ const reducer = createReducer<IFriendsState>(initialState)
         draft: IFriendsState,
         { payload }: ReturnType<typeof UserDeactivatedEventHandler.action>,
       ) => {
+        const { userId } = payload;
+        const user = getUserDraftSelector(userId, draft);
+
+        if (user) {
+          user.deactivated = true;
+        }
+
+        return draft;
+      },
+    ),
+  )
+  .handleAction(
+    UserDeletedEventHandler.action,
+    produce(
+      (draft: IFriendsState, { payload }: ReturnType<typeof UserDeletedEventHandler.action>) => {
         const { userId } = payload;
         const user = getUserDraftSelector(userId, draft);
 

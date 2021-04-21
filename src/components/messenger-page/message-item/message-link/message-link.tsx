@@ -9,7 +9,6 @@ import {
   IVoiceAttachment,
 } from '@store/chats/models';
 import React, { useMemo } from 'react';
-import { getUserInitials } from '@utils/interlocutor-name-utils';
 import { ILinkedMessage } from '@store/chats/models/linked-message';
 import { MessageAudioAttachment } from '../../shared/audio-attachment/audio-attachment';
 import { FileAttachment } from '../../shared/file-attachment/file-attachment';
@@ -75,9 +74,7 @@ const MessageLink: React.FC<IMessageLinkProps> = ({ linkedMessage }) => {
 
   return (
     <div className="message-link">
-      <Avatar className="message-link__avatar" src={linkedMessage?.userCreator.avatar?.previewUrl}>
-        {getUserInitials(linkedMessage?.userCreator)}
-      </Avatar>
+      <Avatar className="message-link__avatar" user={linkedMessage?.userCreator} />
 
       <div className="message-link__text">
         <span>

@@ -10,8 +10,7 @@ import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getIsSelectMessagesStateSelector } from '@store/chats/selectors';
 import { Avatar } from '@components/shared';
 import { MessageAudioAttachment, FileAttachment } from '@components/messenger-page';
-import { getUserInitials } from '@utils/interlocutor-name-utils';
-import { CallStatus, IUser } from '@store/common/models';
+import { CallStatus } from '@store/common/models';
 import moment from 'moment';
 
 import { ReactComponent as CrayonSvg } from '@icons/crayon.svg';
@@ -43,7 +42,6 @@ import {
 } from '@store/chats/models';
 import { Link } from 'react-router-dom';
 
-import { isEqual } from 'lodash';
 import { ChatId } from '@store/chats/chat-id';
 import {
   constructSystemMessageText,
@@ -238,18 +236,10 @@ const MessageItem: React.FC<IMessageItemProps> = ({ message }) => {
           <div className="message__sender-photo-wrapper">
             {message.needToShowCreator &&
               (myId === message.userCreator.id ? (
-                <Avatar
-                  className="message__sender-photo "
-                  src={message.userCreator.avatar?.previewUrl}>
-                  {getUserInitials(message.userCreator as IUser)}
-                </Avatar>
+                <Avatar className="message__sender-photo " user={message.userCreator} />
               ) : (
                 <Link to={`/chats/${ChatId.from(message.userCreator.id).id}`}>
-                  <Avatar
-                    className="message__sender-photo "
-                    src={message.userCreator.avatar?.previewUrl}>
-                    {getUserInitials(message.userCreator as IUser)}
-                  </Avatar>
+                  <Avatar className="message__sender-photo " user={message.userCreator} />
                 </Link>
               ))}
           </div>

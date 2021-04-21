@@ -6,8 +6,6 @@ import { getSelectedChatSelector } from '@store/chats/selectors';
 import { Avatar, FadeAnimationWrapper } from '@components/shared';
 import { MediaModal } from '@components/messenger-page';
 
-import { getInterlocutorInitials } from '@utils/interlocutor-name-utils';
-
 import { getChatInfoAction } from '@store/chats/actions';
 import { FileType } from '@store/chats/models';
 import { InterlocutorInfo } from './interlocutor-info/interlocutor-info';
@@ -52,22 +50,19 @@ const ChatInfoRightPanel: React.FC = () => {
     return (
       <>
         <div className="chat-info">
-          {selectedChat?.interlocutor ? (
+          {selectedChat?.interlocutor && (
             <Avatar
               onClick={changeIsAvatarMaximizedState}
               className="chat-info__avatar"
-              src={getChatAvatar()}>
-              {getInterlocutorInitials(selectedChat)}
-            </Avatar>
-          ) : (
-            <div className="chat-info__avatar-group">
-              <Avatar
-                onClick={changeIsAvatarMaximizedState}
-                className="chat-info__avatar"
-                src={getChatAvatar()}>
-                {getInterlocutorInitials(selectedChat)}
-              </Avatar>
-            </div>
+              user={selectedChat.interlocutor}
+            />
+          )}
+          {selectedChat?.groupChat && (
+            <Avatar
+              onClick={changeIsAvatarMaximizedState}
+              className="chat-info__avatar"
+              groupChat={selectedChat.groupChat}
+            />
           )}
 
           <InterlocutorInfo />

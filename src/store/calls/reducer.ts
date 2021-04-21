@@ -1,4 +1,7 @@
+import { UserDeactivatedEventHandler } from '@store/my-profile/socket-events/user-deactivated/user-deactivated-event-handler';
 import { createReducer } from 'typesafe-actions';
+import { UserDeletedEventHandler } from '@store/my-profile/socket-events/user-deleted/user-deleted';
+import produce from 'immer';
 import { RenegotiationSentEventHandler } from './socket-events/renegotiation-sent/renegotiation-sent-event-handler';
 import { DeclineCall } from './features/decline-call/decline-call';
 import { ICallsState } from './calls-state';
@@ -86,6 +89,23 @@ const reducer = createReducer<ICallsState>(initialState)
   )
   .handleAction(UserEditedEventHandler.action, UserEditedEventHandler.reducer)
   .handleAction(RenegotiationSentEventHandler.action, RenegotiationSentEventHandler.reducer)
-  .handleAction(CallEndedEventHandlerSuccess.action, CallEndedEventHandlerSuccess.reducer);
+  .handleAction(CallEndedEventHandlerSuccess.action, CallEndedEventHandlerSuccess.reducer)
+  .handleAction(
+    UserDeletedEventHandler.action,
+    produce(
+      (draft: ICallsState, { payload }: ReturnType<typeof UserDeletedEventHandler.action>) => {
+        const { userId } = payload;
 
+        draft.calls.calls.forEach((_, index) => {
+          const call = draft.calls.calls[index];
+
+          if (call.userInterlocutor.id === userId) {
+            call.userInterlocutor.deleted = true;
+          }
+        });
+
+        return draft;
+      },
+    ),
+  );
 export default reducer;

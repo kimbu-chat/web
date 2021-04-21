@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { authLoadingSelector } from '@store/auth/selectors';
 import { useSelector } from 'react-redux';
 import { validateNickname } from '@utils/validate-nick-name';
-import { Avatar, Button } from '@components/shared';
+import { Button } from '@components/shared';
 
 import { IAvatarSelectedData, IAvatar } from '@store/common/models';
 import {
@@ -156,12 +156,19 @@ export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
         <div className="registration__window">
           <div className="registrtion__avatar-upload">
             <div className="edit-profile__photo-data">
-              <div className="create-group-chat__current-photo-wrapper">
-                <Avatar
-                  src={avararUploadResponse?.previewUrl}
-                  className="create-group-chat__current-photo">
-                  {getStringInitials(`${firstName} ${lastName}`)}
-                </Avatar>
+              <div className="registration__current-photo-wrapper">
+                {avararUploadResponse?.previewUrl ? (
+                  <img
+                    draggable={false}
+                    alt={getStringInitials(`${firstName} ${lastName}`)}
+                    src={avararUploadResponse?.previewUrl}
+                    className="registration__current-photo"
+                  />
+                ) : (
+                  <div draggable={false} className="registration__current-photo">
+                    {getStringInitials(`${firstName} ${lastName}`)}
+                  </div>
+                )}
               </div>
               <input
                 onChange={handleImageChange}
@@ -173,7 +180,7 @@ export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
               <button
                 type="button"
                 onClick={openFileExplorer}
-                className="create-group-chat__change-photo__btn">
+                className="registration__change-photo__btn">
                 Upload New Photo
               </button>
               <div className="register__photo-requirements">{t('register.photo-requirements')}</div>

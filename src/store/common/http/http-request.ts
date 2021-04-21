@@ -6,6 +6,8 @@ import { retryOnNetworkConnectionError } from './decorators/retry-on-network-con
 import { HttpRequestMethod } from './http-request-method';
 import type { HttpHeaders } from './types';
 
+export const requestTimeout = 10000;
+
 export function* httpRequest<TBody>(
   url: string,
   method: HttpRequestMethod,
@@ -16,6 +18,7 @@ export function* httpRequest<TBody>(
   const requestConfig: AxiosRequestConfig = {
     url,
     method,
+    timeout: requestTimeout,
     cancelToken: token,
     responseType: 'json',
   };

@@ -9,25 +9,23 @@ interface IAvatarProps {
   onClick?: () => void;
 }
 
-export const Avatar: React.FC<IAvatarProps> = React.memo(
-  ({ src, children, className, onClick, ...props }) => (
-    <>
-      {src ? (
-        <img
-          draggable={false}
-          alt={children}
-          src={src}
-          {...props}
-          onClick={onClick}
-          className={`avatar ${className || ''}`}
-        />
-      ) : (
-        <div draggable={false} {...props} onClick={onClick} className={`avatar ${className || ''}`}>
-          {children}
-        </div>
-      )}
-    </>
-  ),
+export const Avatar: React.FC<IAvatarProps> = ({ src, children, className, onClick, ...props }) => (
+  <>
+    {src ? (
+      <img
+        draggable={false}
+        alt={children}
+        src={src}
+        {...props}
+        onClick={onClick}
+        className={`avatar ${className || ''}`}
+      />
+    ) : (
+      <div draggable={false} {...props} onClick={onClick} className={`avatar ${className || ''}`}>
+        {children}
+      </div>
+    )}
+  </>
 );
 
 Avatar.displayName = 'Avatar';

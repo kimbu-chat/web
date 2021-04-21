@@ -27,7 +27,7 @@ const initialState: IAuthState = {
   deviceId: authService.deviceId?.deviceId,
 };
 
-const auth = createReducer<IAuthState>(initialState)
+const reducer = createReducer<IAuthState>(initialState)
   .handleAction(SendSmsCode.action, SendSmsCode.reducer)
   .handleAction(LoginSuccess.action, LoginSuccess.reducer)
   .handleAction(SendSmsCodeSuccess.action, SendSmsCodeSuccess.reducer)
@@ -39,4 +39,4 @@ const auth = createReducer<IAuthState>(initialState)
   .handleAction(RefreshToken.action, RefreshToken.reducer)
   .handleAction(RefreshTokenSuccess.action, RefreshTokenSuccess.reducer);
 
-export default auth;
+export default reducer;

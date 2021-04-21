@@ -114,7 +114,7 @@ export class MessageCreatedEventHandler {
 
       if (userCreator?.id !== myId) {
         if (chatOfMessage && isAudioPlayAllowed && !chatOfMessage.isMuted) {
-          if (!(selectedChatId !== chatId) && !document.hidden) {
+          if (selectedChatId === chatId && !document.hidden) {
             const audioSelected = new Audio(messageCameSelected);
             playSoundSafely(audioSelected);
           }

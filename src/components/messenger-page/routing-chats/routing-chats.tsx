@@ -15,7 +15,7 @@ import { Avatar, FadeAnimationWrapper } from '@components/shared';
 import { getStringInitials } from '@utils/interlocutor-name-utils';
 import { LogoutModal } from '../logout-modal/logout-modal';
 
-export const RoutingChats = React.memo(() => {
+export const RoutingChats = () => {
   const selectedChatId = useSelector(getSelectedChatIdSelector);
 
   const myPhoto = useSelector(myProfilePhotoSelector);
@@ -74,4 +74,4 @@ export const RoutingChats = React.memo(() => {
       </FadeAnimationWrapper>
     </div>
   );
-});
+};

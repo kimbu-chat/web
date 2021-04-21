@@ -11,7 +11,7 @@ import { CHAT_MEMBERS_LIMIT } from '@utils/pagination-limits';
 
 import { Member } from './chat-member/chat-member';
 
-export const ChatMembers: React.FC = React.memo(() => {
+export const ChatMembers: React.FC = () => {
   const [searchStr, setSearchStr] = useState<string>('');
   const [membersDisplayed, setMembersDisplayed] = useState(false);
 
@@ -83,4 +83,4 @@ export const ChatMembers: React.FC = React.memo(() => {
       )}
     </div>
   );
-});
+};

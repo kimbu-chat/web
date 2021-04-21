@@ -12,6 +12,10 @@
     "ravudi_terms": "Ravudi Terms and Conditions",
     "reset_timer": "Code can be re-sent in {{time}}"
   },
+  "register": {
+    "photo-requirements": "At least 256*256px PNG or JPG",
+    "register": "Register"
+  },
   "deleteChatMemberModal": {
     "title": "Delete chat member",
     "delete-confirmation": "Are you sure want to delete selected user from chat?",

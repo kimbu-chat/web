@@ -25,7 +25,7 @@ const initialState: IFriendsState = {
   },
 };
 
-const friends = createReducer<IFriendsState>(initialState)
+const reducer = createReducer<IFriendsState>(initialState)
   .handleAction(DeleteFriendSuccess.action, DeleteFriendSuccess.reducer)
   .handleAction(AddFriendSuccess.action, AddFriendSuccess.reducer)
   .handleAction(GetFriends.action, GetFriends.reducer)
@@ -55,4 +55,4 @@ const friends = createReducer<IFriendsState>(initialState)
     ),
   );
 
-export default friends;
+export default reducer;

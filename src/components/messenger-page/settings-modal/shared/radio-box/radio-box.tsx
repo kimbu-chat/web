@@ -8,21 +8,23 @@ interface IRadioBoxProps {
   defaultChecked?: boolean;
 }
 
-export const RadioBox: React.FC<IRadioBoxProps> = React.memo(
-  ({ defaultChecked, groupName, content, onClick }) => (
-    <label onClick={onClick} className="radio-box">
-      <input
-        defaultChecked={defaultChecked}
-        name={groupName}
-        className="radio-box__radio-input"
-        type="radio"
-      />
+const RadioBox: React.FC<IRadioBoxProps> = ({ defaultChecked, groupName, content, onClick }) => (
+  <label onClick={onClick} className="radio-box">
+    <input
+      defaultChecked={defaultChecked}
+      name={groupName}
+      className="radio-box__radio-input"
+      type="radio"
+    />
 
-      <div className="radio-box__radio-box-wrapper">
-        <div className="radio-box__radio-box" />
-      </div>
+    <div className="radio-box__radio-box-wrapper">
+      <div className="radio-box__radio-box" />
+    </div>
 
-      {typeof content === 'string' ? <span className="radio-box__title">{content}</span> : content}
-    </label>
-  ),
+    {typeof content === 'string' ? <span className="radio-box__title">{content}</span> : content}
+  </label>
 );
+
+RadioBox.displayName = 'RadioBox';
+
+export { RadioBox };

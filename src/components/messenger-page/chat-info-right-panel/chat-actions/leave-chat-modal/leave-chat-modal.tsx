@@ -12,7 +12,7 @@ interface ILeaveChatModalProps {
   hide: () => void;
 }
 
-export const LeaveChatModal: React.FC<ILeaveChatModalProps> = React.memo(({ hide }) => {
+export const LeaveChatModal: React.FC<ILeaveChatModalProps> = ({ hide }) => {
   const { t } = useTranslation();
   const history = useHistory();
 
@@ -53,4 +53,4 @@ export const LeaveChatModal: React.FC<ILeaveChatModalProps> = React.memo(({ hide
       />
     </WithBackground>
   );
-});
+};

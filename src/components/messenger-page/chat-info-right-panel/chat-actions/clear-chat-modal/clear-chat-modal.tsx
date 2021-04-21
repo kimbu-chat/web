@@ -5,15 +5,15 @@ import React, { useCallback, useState } from 'react';
 import './clear-chat-modal.scss';
 import { ReactComponent as ClearSvg } from '@icons/clear.svg';
 import { useSelector } from 'react-redux';
-import { ClearChatHistory } from '@store/chats/features/clear-chat-history/clear-chat-history';
 import { CheckBox } from '@components/messenger-page/settings-modal/shared/check-box/check-box';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { clearChatHistoryAction } from '@store/chats/actions';
 
 interface IClearChatModalProps {
   hide: () => void;
 }
 
-export const ClearChatModal: React.FC<IClearChatModalProps> = React.memo(({ hide }) => {
+export const ClearChatModal: React.FC<IClearChatModalProps> = ({ hide }) => {
   const { t } = useTranslation();
 
   const selectedGroupChatName = useSelector(getSelectedGroupChatNameSelector);
@@ -24,7 +24,7 @@ export const ClearChatModal: React.FC<IClearChatModalProps> = React.memo(({ hide
     setDeleteForInterlocutor((oldState) => !oldState);
   }, [setDeleteForInterlocutor]);
 
-  const clearHistory = useActionWithDeferred(ClearChatHistory.action);
+  const clearHistory = useActionWithDeferred(clearChatHistoryAction);
   const clearSelectedChat = useCallback(() => {
     setLoading(true);
     clearHistory({ forEveryone: deleteForInterlocutor }).then(() => {
@@ -72,4 +72,4 @@ export const ClearChatModal: React.FC<IClearChatModalProps> = React.memo(({ hide
       />
     </WithBackground>
   );
-});
+};

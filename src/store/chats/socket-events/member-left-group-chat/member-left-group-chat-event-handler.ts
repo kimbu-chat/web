@@ -3,7 +3,7 @@ import { createAction } from 'typesafe-actions';
 import { MyProfileService } from '../../../../services/my-profile-service';
 import { ChatId } from '../../chat-id';
 import { IChatsState } from '../../chats-state';
-import { getChatByIdDraftSelector } from '../../selectors';
+import { getChatByIdDraftSelector, getChatIndexDraftSelector } from '../../selectors';
 import { IMemberLeftGroupChatIntegrationEvent } from './member-left-group-chat-integration-event';
 
 export class MemberLeftGroupChatEventHandler {
@@ -24,7 +24,9 @@ export class MemberLeftGroupChatEventHandler {
 
         const isCurrentUserEventCreator = myId === userId;
 
-        if (isCurrentUserEventCreator) {
+        const chatExists = getChatIndexDraftSelector(chatId, draft) !== -1;
+
+        if (isCurrentUserEventCreator && !chatExists) {
           draft.chats.chats = draft.chats.chats.filter(
             (chat) => chat.groupChat?.id !== groupChatId,
           );

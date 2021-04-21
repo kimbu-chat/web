@@ -128,11 +128,6 @@ export const getMembersForSelectedGroupChatSelector = (state: RootState) =>
   state.chats.chats.chats.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.members
     ?.members;
 
-export const getMemberIdsForSelectedGroupChatSelector = (state: RootState) =>
-  state.chats.chats.chats
-    ?.find((x: IChat) => x?.id === state?.chats?.selectedChatId)
-    ?.members?.members.map((user) => user.id) || [];
-
 export const getMembersListForSelectedGroupChatSelector = (state: RootState) =>
   state.chats.chats.chats.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.members;
 

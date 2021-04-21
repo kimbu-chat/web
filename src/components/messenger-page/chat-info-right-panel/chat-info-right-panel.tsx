@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getSelectedChatSelector } from '@store/chats/selectors';
 import { Avatar, FadeAnimationWrapper } from '@components/shared';
-import { GroupChatAddFriendModal, MediaModal } from '@components/messenger-page';
+import { MediaModal } from '@components/messenger-page';
 
 import { getInterlocutorInitials } from '@utils/interlocutor-name-utils';
 
@@ -15,15 +15,10 @@ import { ChatActions as ChatInfoActions } from './chat-actions/chat-actions';
 import { ChatMembers } from './chat-members/chat-members';
 import { ChatMedia } from './chat-media/chat-media';
 
-const ChatInfoRightPanel: React.FC = React.memo(() => {
+const ChatInfoRightPanel: React.FC = () => {
   const selectedChat = useSelector(getSelectedChatSelector);
 
   const getChatInfo = useActionWithDispatch(getChatInfoAction);
-
-  const [addFriendsModalDisplayed, setAddFriendsModalDisplayed] = useState(false);
-  const changeSetAddFriendsModalDisplayedState = useCallback(() => {
-    setAddFriendsModalDisplayed((oldState) => !oldState);
-  }, [setAddFriendsModalDisplayed]);
 
   const [isAvatarMaximized, setIsAvatarMaximized] = useState(false);
 
@@ -33,7 +28,7 @@ const ChatInfoRightPanel: React.FC = React.memo(() => {
     }
 
     return selectedChat?.groupChat?.avatar?.previewUrl as string;
-  }, [selectedChat]);
+  }, [selectedChat?.interlocutor, selectedChat?.groupChat?.avatar?.previewUrl]);
 
   const changeIsAvatarMaximizedState = useCallback(() => {
     if (getChatAvatar()) {
@@ -77,16 +72,12 @@ const ChatInfoRightPanel: React.FC = React.memo(() => {
 
           <InterlocutorInfo />
 
-          <ChatInfoActions addMembers={changeSetAddFriendsModalDisplayedState} />
+          <ChatInfoActions />
 
           {selectedChat?.groupChat && <ChatMembers />}
 
           <ChatMedia />
         </div>
-
-        <FadeAnimationWrapper isDisplayed={addFriendsModalDisplayed}>
-          <GroupChatAddFriendModal onClose={changeSetAddFriendsModalDisplayedState} />
-        </FadeAnimationWrapper>
 
         <FadeAnimationWrapper isDisplayed={isAvatarMaximized}>
           <MediaModal
@@ -99,7 +90,7 @@ const ChatInfoRightPanel: React.FC = React.memo(() => {
     );
   }
   return <div />;
-});
+};
 
 ChatInfoRightPanel.displayName = 'ChatInfo';
 

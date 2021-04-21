@@ -2,7 +2,6 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import produce from 'immer';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
 import { HTTPStatusCode } from '../../../../common/http-status-code';
@@ -10,16 +9,10 @@ import { getSelectedChatIdSelector } from '../../selectors';
 import { IDeleteMessageActionPayload } from './action-payloads/delete-message-action-payload';
 import { DeleteMessageSuccess } from './delete-message-success';
 import { IDeleteMessagesApiRequest } from './api-requests/delete-message-api-request';
-import { IChatsState } from '../../chats-state';
 
 export class DeleteMessage {
   static get action() {
     return createAction('DELETE_MESSAGE')<IDeleteMessageActionPayload>();
-  }
-
-  // TODO: handle loading
-  static get reducer() {
-    return produce((draft: IChatsState) => draft);
   }
 
   static get saga() {

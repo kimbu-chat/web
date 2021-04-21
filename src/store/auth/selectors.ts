@@ -8,6 +8,9 @@ export const authenticatedSelector = (state: RootState): boolean => state.auth.i
 
 export const authPhoneNumberSelector = (state: RootState): string => state.auth.phoneNumber;
 
+export const authPhoneNumberExistsSelector = (state: RootState): boolean =>
+  state.auth.phoneNumber.length > 0;
+
 export const confirmationCodeSelector = (state: RootState): string => state.auth.confirmationCode;
 
 export const twoLetterCountryCodeSelector = (state: RootState): string =>

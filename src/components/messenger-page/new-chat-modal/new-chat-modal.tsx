@@ -27,129 +27,124 @@ interface INewChatModalProps {
   displayCreateGroupChat: () => void;
 }
 
-export const NewChatModal: React.FC<INewChatModalProps> = React.memo(
-  ({ onClose, displayCreateGroupChat }) => {
-    const { t } = useTranslation();
+const NewChatModal: React.FC<INewChatModalProps> = ({ onClose, displayCreateGroupChat }) => {
+  const { t } = useTranslation();
 
-    const [name, setName] = useState('');
+  const [name, setName] = useState('');
 
-    const friendsList = useSelector(getMyFriendsListSelector);
-    const searchFriendsList = useSelector(getMySearchFriendsListSelector);
+  const friendsList = useSelector(getMyFriendsListSelector);
+  const searchFriendsList = useSelector(getMySearchFriendsListSelector);
 
-    const { hasMore: hasMoreFriends, friends, loading: friendsLoading } = friendsList;
-    const {
-      hasMore: hasMoreSearchFriends,
-      friends: searchFriends,
-      loading: searchFriendsLoading,
-    } = searchFriendsList;
+  const { hasMore: hasMoreFriends, friends, loading: friendsLoading } = friendsList;
+  const {
+    hasMore: hasMoreSearchFriends,
+    friends: searchFriends,
+    loading: searchFriendsLoading,
+  } = searchFriendsList;
 
-    const loadFriends = useActionWithDispatch(getFriendsAction);
-    const resetSearchFriends = useActionWithDispatch(resetSearchFriendsAction);
+  const loadFriends = useActionWithDispatch(getFriendsAction);
+  const resetSearchFriends = useActionWithDispatch(resetSearchFriendsAction);
 
-    useEffect(
-      () => () => {
-        resetSearchFriends();
-      },
-      [resetSearchFriends],
-    );
+  useEffect(
+    () => () => {
+      resetSearchFriends();
+    },
+    [resetSearchFriends],
+  );
 
-    const history = useHistory();
+  const history = useHistory();
 
-    const createEmptyChat = useCallback(
-      (user: IChat | IUser) => {
-        const chatId = ChatId.from((user as IUser).id).id;
-        history.push(`/chats/${chatId}`);
-        onClose();
-      },
-      [history, onClose],
-    );
-
-    const loadMore = useCallback(() => {
-      const page: IPage = {
-        offset: name.length ? searchFriends.length : friends.length,
-        limit: FRIENDS_LIMIT,
-      };
-      loadFriends({ page, name, initializedByScroll: true });
-    }, [searchFriends.length, friends.length, loadFriends, name]);
-
-    const queryFriends = useCallback(
-      (searchName: string) => {
-        setName(searchName);
-        loadFriends({
-          page: { offset: 0, limit: FRIENDS_LIMIT },
-          name: searchName,
-          initializedByScroll: false,
-        });
-      },
-      [loadFriends, setName],
-    );
-
-    const createGroupChat = useCallback(() => {
-      displayCreateGroupChat();
+  const createEmptyChat = useCallback(
+    (user: IChat | IUser) => {
+      const chatId = ChatId.from((user as IUser).id).id;
+      history.push(`/chats/${chatId}`);
       onClose();
-    }, [displayCreateGroupChat, onClose]);
+    },
+    [history, onClose],
+  );
 
-    const handleSearchInputChange = useCallback(
-      (e: React.ChangeEvent<HTMLInputElement>) => queryFriends(e.target.value),
-      [queryFriends],
-    );
+  const loadMore = useCallback(() => {
+    const page: IPage = {
+      offset: name.length ? searchFriends?.length || 0 : friends.length,
+      limit: FRIENDS_LIMIT,
+    };
+    loadFriends({ page, name, initializedByScroll: true });
+  }, [searchFriends?.length, friends.length, loadFriends, name]);
 
-    useEffect(
-      () => () => {
-        queryFriends('');
-      },
-      [queryFriends],
-    );
+  const queryFriends = useCallback(
+    (searchName: string) => {
+      setName(searchName);
+      loadFriends({
+        page: { offset: 0, limit: FRIENDS_LIMIT },
+        name: searchName,
+        initializedByScroll: false,
+      });
+    },
+    [loadFriends, setName],
+  );
 
-    const renderSelectEntity = useCallback(
-      (friend: IUser) => (
-        <SelectEntity key={friend.id} chatOrUser={friend} onClick={createEmptyChat} />
-      ),
-      [createEmptyChat],
-    );
+  const createGroupChat = useCallback(() => {
+    displayCreateGroupChat();
+    onClose();
+  }, [displayCreateGroupChat, onClose]);
 
-    const selectEntities = useMemo(() => {
-      if (name.length) {
-        return searchFriends.map(renderSelectEntity);
-      }
-      return friends.map(renderSelectEntity);
-    }, [name.length, searchFriends, friends, renderSelectEntity]);
+  const handleSearchInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => queryFriends(e.target.value),
+    [queryFriends],
+  );
 
-    return (
-      <WithBackground onBackgroundClick={onClose}>
-        <Modal
-          title={
-            <>
-              <NewMessageSvg viewBox="0 0 24 24" className="new-chat__icon" />
-              <span>{t('newChat.new_message')}</span>
-            </>
-          }
-          closeModal={onClose}
-          content={
-            <div className="new-chat">
-              <SearchBox containerClassName="new-chat__search" onChange={handleSearchInputChange} />
+  const renderSelectEntity = useCallback(
+    (friend: IUser) => (
+      <SelectEntity key={friend.id} chatOrUser={friend} onClick={createEmptyChat} />
+    ),
+    [createEmptyChat],
+  );
 
-              <div onClick={createGroupChat} className="new-chat__new-group">
-                <div className="new-chat__new-group__img">
-                  <GroupSvg viewBox="0 0 24 24" />
-                </div>
-                <span className="new-chat__new-group__title">{t('newChat.new_group')}</span>
-                <div className="new-chat__new-group__go">
-                  <ArrowSvg viewBox="0 0 8 14" />
-                </div>
+  const selectEntities = useMemo(() => {
+    if (name.length) {
+      return searchFriends?.map(renderSelectEntity);
+    }
+    return friends.map(renderSelectEntity);
+  }, [name.length, searchFriends, friends, renderSelectEntity]);
+
+  return (
+    <WithBackground onBackgroundClick={onClose}>
+      <Modal
+        title={
+          <>
+            <NewMessageSvg viewBox="0 0 24 24" className="new-chat__icon" />
+            <span>{t('newChat.new_message')}</span>
+          </>
+        }
+        closeModal={onClose}
+        content={
+          <div className="new-chat">
+            <SearchBox containerClassName="new-chat__search" onChange={handleSearchInputChange} />
+
+            <div onClick={createGroupChat} className="new-chat__new-group">
+              <div className="new-chat__new-group__img">
+                <GroupSvg viewBox="0 0 24 24" />
               </div>
-              <InfiniteScroll
-                className="new-chat__friends-block"
-                onReachExtreme={loadMore}
-                hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}
-                isLoading={name.length ? searchFriendsLoading : friendsLoading}>
-                {selectEntities}
-              </InfiniteScroll>
+              <span className="new-chat__new-group__title">{t('newChat.new_group')}</span>
+              <div className="new-chat__new-group__go">
+                <ArrowSvg viewBox="0 0 8 14" />
+              </div>
             </div>
-          }
-          buttons={[]}
-        />
-      </WithBackground>
-    );
-  },
-);
+            <InfiniteScroll
+              className="new-chat__friends-block"
+              onReachExtreme={loadMore}
+              hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}
+              isLoading={name.length ? searchFriendsLoading : friendsLoading}>
+              {selectEntities}
+            </InfiniteScroll>
+          </div>
+        }
+        buttons={[]}
+      />
+    </WithBackground>
+  );
+};
+
+NewChatModal.displayName = 'NewChatModal';
+
+export { NewChatModal };

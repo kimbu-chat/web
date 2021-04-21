@@ -1,6 +1,5 @@
 import React from 'react';
 import { AsYouType } from 'libphonenumber-js';
-import './phone-input.scss';
 
 import { ICountry } from '@common/country';
 

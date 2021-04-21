@@ -2,7 +2,7 @@ export { CountrySelect } from './shared/country-select';
 export { PhoneInput } from './shared/phone-input';
 export { InfiniteScroll } from './shared/infinite-scroll';
 export { SelectEntity } from './shared/select-entity';
-export { SearchBox } from './search-box';
+export { SearchBox } from './search-box/search-box';
 export { MediaModal } from './shared/image-modal';
 export { GroupChatAddFriendModal } from './group-chat-add-friend-modal';
 export { CreateGroupChat } from './create-group-chat-modal';

@@ -27,10 +27,10 @@ export class CreateMessage {
       const chat = draft.chats.chats[chatIndex];
 
       if (chat) {
-        chat.attachmentsToSend = [];
+        delete chat.attachmentsToSend;
         chat.lastMessage = { ...message };
         chat.draftMessage = '';
-        chat.messageToReply = undefined;
+        delete chat.messageToReply;
 
         const chatWithNewMessage = draft.chats.chats[chatIndex];
 

@@ -18,7 +18,7 @@ export class SelectMessage {
 
         if (message) {
           const isMessageSelected =
-            draft.selectedMessageIds.includes(message.id as number) && message.isSelected;
+            draft.selectedMessageIds.includes(message.id) && message.isSelected;
 
           if (!isMessageSelected) {
             message.isSelected = true;

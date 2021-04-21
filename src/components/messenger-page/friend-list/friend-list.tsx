@@ -10,7 +10,7 @@ import './friend-list.scss';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { Friend } from './friend-from-list/friend';
 
-export const FriendList = React.memo(() => {
+export const FriendList = () => {
   const friendsList = useSelector(getMyFriendsListSelector);
   const searchFriendsList = useSelector(getMySearchFriendsListSelector);
 
@@ -46,20 +46,17 @@ export const FriendList = React.memo(() => {
 
   const loadMore = useCallback(() => {
     const page: IPage = {
-      offset: searchString.length ? searchFriends.length : friends.length,
+      offset: searchString.length ? searchFriends?.length || 0 : friends.length,
       limit: FRIENDS_LIMIT,
     };
     loadFriends({ page, name: searchString, initializedByScroll: true });
-  }, [friends.length, searchFriends.length, loadFriends, searchString]);
+  }, [friends.length, searchFriends?.length, loadFriends, searchString]);
 
-  const renderFriend = useCallback(
-    (friend: IUser) => <Friend key={friend.id} friend={friend} />,
-    [],
-  );
+  const renderFriend = useCallback((friend: IUser) => <Friend key={friend.id} {...friend} />, []);
 
   const renderedFriends = useMemo(() => {
     if (searchString.length) {
-      return searchFriends.map(renderFriend);
+      return searchFriends?.map(renderFriend);
     }
     return friends.map(renderFriend);
   }, [searchString.length, searchFriends, friends, renderFriend]);
@@ -84,4 +81,4 @@ export const FriendList = React.memo(() => {
       </div>
     </div>
   );
-});
+};

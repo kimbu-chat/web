@@ -26,19 +26,24 @@ function renderCheckboxView(isChecked: boolean, disabled: boolean | undefined): 
   );
 }
 
-export const CheckBox: React.FC<ICheckBoxProps> = React.memo(
-  ({ isChecked, className, title, onClick, disabled, loading }) => (
-    <div onClick={disabled ? undefined : onClick} className={`check-box ${className || ''}`}>
-      {renderCheckboxView(isChecked, disabled)}
-      <span className={classNames(`${BLOCK_NAME}__title`)}>{title}</span>
+export const CheckBox: React.FC<ICheckBoxProps> = ({
+  isChecked,
+  className,
+  title,
+  onClick,
+  disabled,
+  loading,
+}) => (
+  <div onClick={disabled ? undefined : onClick} className={`check-box ${className || ''}`}>
+    {renderCheckboxView(isChecked, disabled)}
+    <span className={classNames(`${BLOCK_NAME}__title`)}>{title}</span>
 
-      {loading && (
-        <div className={classNames(`${BLOCK_NAME}__loader-wrapper`)}>
-          <div className={classNames(`${BLOCK_NAME}__loader`)}>
-            <div />
-          </div>
+    {loading && (
+      <div className={classNames(`${BLOCK_NAME}__loader-wrapper`)}>
+        <div className={classNames(`${BLOCK_NAME}__loader`)}>
+          <div />
         </div>
-      )}
-    </div>
-  ),
+      </div>
+    )}
+  </div>
 );

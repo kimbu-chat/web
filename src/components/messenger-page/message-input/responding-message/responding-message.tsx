@@ -6,18 +6,18 @@ import { ReactComponent as ReplySvg } from '@icons/reply.svg';
 import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getMessageToReplySelector } from '@store/chats/selectors';
-import { ResetReplyToMessage } from '@store/chats/features/reply-to-message/reset-reply-to-message';
 import { Avatar } from '@components/shared';
 import { getUserInitials } from '@utils/interlocutor-name-utils';
 import { myIdSelector } from '@store/my-profile/selectors';
+import { resetReplyToMessageAction } from '@store/chats/actions';
 
-export const RespondingMessage = React.memo(() => {
+export const RespondingMessage = () => {
   const replyingMessage = useSelector(getMessageToReplySelector);
   const myId = useSelector(myIdSelector) as number;
 
   const isCurrentUserMessageCreator = replyingMessage?.userCreator?.id === myId;
 
-  const resetReplyToMessage = useActionWithDispatch(ResetReplyToMessage.action);
+  const resetReplyToMessage = useActionWithDispatch(resetReplyToMessageAction);
 
   return (
     <div className="responding-message">
@@ -43,4 +43,4 @@ export const RespondingMessage = React.memo(() => {
       </button>
     </div>
   );
-});
+};

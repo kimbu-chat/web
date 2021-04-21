@@ -8,11 +8,11 @@ import { useTranslation } from 'react-i18next';
 import moment from 'moment';
 import { ISession } from '@store/settings/comon/models/session';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import { RevokeSession } from '@store/settings/features/revoke-session/revoke-session';
 import { deviceIdSelector } from '@store/auth/selectors';
 import { useSelector } from 'react-redux';
 
 import { Button } from '@components/shared';
+import { revokeSessionAction } from '@store/settings/actions';
 
 interface ISessionProps {
   session: ISession;
@@ -25,7 +25,7 @@ export const Session: React.FC<ISessionProps> = ({ session }) => {
 
   const currentDeviceId = useSelector(deviceIdSelector);
 
-  const revokeSession = useActionWithDeferred(RevokeSession.action);
+  const revokeSession = useActionWithDeferred(revokeSessionAction);
 
   const revokeThisSession = useCallback(() => {
     setRevoking(true);

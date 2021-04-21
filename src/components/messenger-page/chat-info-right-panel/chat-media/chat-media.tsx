@@ -26,7 +26,7 @@ import { RecordingsList } from './recordings-list/recordings-list';
 import { VideoList } from './video-list/video-list';
 import { FileList } from './file-list/file-list';
 
-export const ChatMedia = React.memo(() => {
+export const ChatMedia = () => {
   const { t } = useTranslation();
 
   const [pictureDisplayed, setPictureDisplayed] = useState(false);
@@ -169,4 +169,4 @@ export const ChatMedia = React.memo(() => {
       )}
     </>
   );
-});
+};

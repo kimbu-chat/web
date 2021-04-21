@@ -10,7 +10,7 @@ import { ReactComponent as PrivacySvg } from '@icons/privacy.svg';
 import { ReactComponent as MuteSvg } from '@icons/mute.svg';
 import { NavLink } from 'react-router-dom';
 
-export const SettingsNavigation = React.memo(() => {
+const SettingsNavigation = () => {
   const { t } = useTranslation();
 
   return (
@@ -72,4 +72,8 @@ export const SettingsNavigation = React.memo(() => {
       </NavLink>
     </>
   );
-});
+};
+
+SettingsNavigation.displayName = 'SettingsNavigation';
+
+export { SettingsNavigation };

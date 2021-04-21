@@ -18,7 +18,7 @@ interface IAddCallModalProps {
   onClose: () => void;
 }
 
-export const AddCallModal: React.FC<IAddCallModalProps> = React.memo(({ onClose }) => {
+export const AddCallModal: React.FC<IAddCallModalProps> = ({ onClose }) => {
   const { t } = useTranslation();
 
   const friendsList = useSelector(getMyFriendsListSelector);
@@ -47,11 +47,11 @@ export const AddCallModal: React.FC<IAddCallModalProps> = React.memo(({ onClose 
 
   const loadMore = useCallback(() => {
     const page: IPage = {
-      offset: name.length ? searchFriends.length : friends.length,
+      offset: name.length ? searchFriends?.length || 0 : friends.length,
       limit: FRIENDS_LIMIT,
     };
     loadFriends({ page, name, initializedByScroll: true });
-  }, [searchFriends.length, friends.length, loadFriends, name]);
+  }, [searchFriends?.length, friends.length, loadFriends, name]);
 
   const call = useCallback(
     (user) => {
@@ -96,7 +96,7 @@ export const AddCallModal: React.FC<IAddCallModalProps> = React.memo(({ onClose 
 
   const selectEntities = useMemo(() => {
     if (name.length) {
-      return searchFriends.map(renderSelectEntity);
+      return searchFriends?.map(renderSelectEntity);
     }
     return friends.map(renderSelectEntity);
   }, [name.length, searchFriends, friends, renderSelectEntity]);
@@ -133,4 +133,4 @@ export const AddCallModal: React.FC<IAddCallModalProps> = React.memo(({ onClose 
       />
     </WithBackground>
   );
-});
+};

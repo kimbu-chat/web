@@ -34,13 +34,10 @@ export interface ICallMessage {
 
 export const getSystemMessageData = <TSystemMessagePayload>(
   message: IMessage,
-): TSystemMessagePayload => {
-  const systemMessage: TSystemMessagePayload = JSON.parse(message.text);
-  return systemMessage;
-};
+): TSystemMessagePayload => JSON.parse(message.text);
 
 export const checkIfDatesAreSameDate = (startDate: Date, endDate: Date): boolean =>
-  !(startDate.toDateString() === endDate.toDateString());
+  startDate.toDateString() !== endDate.toDateString();
 
 const getCallEndedMessage = (
   message: IMessage,
@@ -245,14 +242,12 @@ export const signAndSeparate = (arr: IMessage[]): IMessage[] => {
             .toDate(),
         )
       ) {
-        const generatedMessage = produce(message, (draft) => {
+        return produce(message, (draft) => {
           draft.needToShowCreator = true;
           draft.needToShowDateSeparator = true;
 
           return draft;
         });
-
-        return generatedMessage;
       }
     }
 
@@ -261,13 +256,11 @@ export const signAndSeparate = (arr: IMessage[]): IMessage[] => {
       (arr[index].userCreator?.id !== arr[index + 1].userCreator?.id ||
         arr[index + 1].systemMessageType !== SystemMessageType.None)
     ) {
-      const generatedMessage = produce(message, (draft) => {
+      return produce(message, (draft) => {
         draft.needToShowCreator = true;
 
         return draft;
       });
-
-      return generatedMessage;
     }
 
     return message;

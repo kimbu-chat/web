@@ -11,7 +11,7 @@ import { doesYearDifferFromCurrent, setSeparators } from '@utils/set-separators'
 import { InfiniteScroll, MessageAudioAttachment } from '@components/messenger-page';
 import { AUDIO_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 
-export const AudioList = React.memo(() => {
+export const AudioList = () => {
   const audiosForSelectedChat = useSelector(getSelectedChatAudiosSelector);
 
   const getAudios = useActionWithDispatch(getAudioAttachmentsAction);
@@ -47,7 +47,7 @@ export const AudioList = React.memo(() => {
                 </div>
               )}
               <div className="chat-audios__audio">
-                <MessageAudioAttachment key={attachment.id} attachment={attachment} />
+                <MessageAudioAttachment key={attachment.id} {...attachment} />
               </div>
             </React.Fragment>
           ))}
@@ -55,4 +55,4 @@ export const AudioList = React.memo(() => {
       </div>
     </div>
   );
-});
+};

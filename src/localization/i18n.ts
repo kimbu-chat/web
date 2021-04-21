@@ -18,11 +18,12 @@ i18n
     debug: process.env.NODE_ENV !== 'production',
     initImmediate: false,
     lng: new SettingsService().settings?.language || navigator.language,
+    ns: 'translation',
     interpolation: {
       escapeValue: false,
     },
     backend: {
-      loadPath: '/translations/{{lng}}.json',
+      loadPath: '/{{ns}}/{{lng}}.json',
     },
   })
   .then(() => {

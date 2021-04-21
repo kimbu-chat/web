@@ -26,7 +26,6 @@ export function* httpRequest<TBody>(
 
   switch (method) {
     case HttpRequestMethod.Get:
-      // requestConfig.params = body;
       break;
     case HttpRequestMethod.Post:
       requestConfig.data = body;
@@ -41,9 +40,7 @@ export function* httpRequest<TBody>(
       throw new Error('Unknown method.');
   }
 
-  const response = yield call(retryOnNetworkConnectionError, function* retry() {
+  return yield call(retryOnNetworkConnectionError, function* retry() {
     return yield call(axios.create().request, requestConfig);
   });
-
-  return response;
 }

@@ -7,18 +7,17 @@ import { myProfileSelector } from '@store/my-profile/selectors';
 import { useSelector } from 'react-redux';
 import './appearance.scss';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { ChangeTheme } from '@store/settings/features/change-theme/change-theme';
 import { Theme } from '@store/settings/features/models';
 import { getCurrentFontSizeSelector, getCurrentThemeSelector } from '@store/settings/selectors';
-import { ChangeFontSize } from '@store/settings/features/change-font-size/change-font-size';
+import { changeThemeAction, changeFontSizeAction } from '@store/settings/actions';
 import { MessageItem } from '../../message-item/message-item';
 import { RadioBox } from '../shared/radio-box/radio-box';
 
 export const Appearance: React.FC = () => {
   const { t } = useTranslation();
 
-  const changeTheme = useActionWithDispatch(ChangeTheme.action);
-  const changeFontSize = useActionWithDispatch(ChangeFontSize.action);
+  const changeTheme = useActionWithDispatch(changeThemeAction);
+  const changeFontSize = useActionWithDispatch(changeFontSizeAction);
 
   const currentUser = useSelector(myProfileSelector);
   const currentTheme = useSelector(getCurrentThemeSelector);

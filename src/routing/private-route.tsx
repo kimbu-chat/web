@@ -8,12 +8,16 @@ interface IPrivateRouteProps extends RouteProps {
   componentToRender: JSX.Element;
 }
 
-export const PrivateRoute: React.FC<IPrivateRouteProps> = React.memo(
-  ({ componentToRender, path, fallback, isAllowed, ...rest }) => (
-    <Route
-      path={path}
-      {...rest}
-      render={() => (isAllowed ? componentToRender : <Redirect to={fallback} />)}
-    />
-  ),
+export const PrivateRoute: React.FC<IPrivateRouteProps> = ({
+  componentToRender,
+  path,
+  fallback,
+  isAllowed,
+  ...rest
+}) => (
+  <Route
+    path={path}
+    {...rest}
+    render={() => (isAllowed ? componentToRender : <Redirect to={fallback} />)}
+  />
 );

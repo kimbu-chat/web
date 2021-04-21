@@ -1,7 +1,7 @@
 import React from 'react';
 import './cube-loader.scss';
 
-export const CubeLoader = React.memo(() => (
+export const CubeLoader = () => (
   <div id="cube-loader">
     <div className="caption">
       <div className="cube-loader">
@@ -12,4 +12,4 @@ export const CubeLoader = React.memo(() => (
       </div>
     </div>
   </div>
-));
+);

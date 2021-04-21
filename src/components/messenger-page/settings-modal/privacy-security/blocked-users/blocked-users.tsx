@@ -7,13 +7,13 @@ import { InfiniteScrollLoader } from '@components/messenger-page/shared/infinite
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getBlockedUsersSelector, getBlockedUsersLoadingSelector } from '@store/settings/selectors';
 import { useSelector } from 'react-redux';
-import { GetBlackList } from '@store/settings/features/get-black-list/get-black-list';
+import { getBlackListAction } from '@store/settings/actions';
 import { BlockedUser } from './blocked-user/blocked-user';
 
 export const BlockedUsers = () => {
   const { t } = useTranslation();
 
-  const getBlockedUsers = useActionWithDispatch(GetBlackList.action);
+  const getBlockedUsers = useActionWithDispatch(getBlackListAction);
 
   const blockedUsers = useSelector(getBlockedUsersSelector);
   const loading = useSelector(getBlockedUsersLoadingSelector);

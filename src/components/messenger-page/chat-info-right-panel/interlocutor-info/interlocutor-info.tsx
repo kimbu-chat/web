@@ -16,7 +16,7 @@ import { Link } from 'react-router-dom';
 import { FadeAnimationWrapper } from '@components/shared';
 import { EditChatModal } from '../../edit-chat-modal/edit-chat-modal';
 
-export const InterlocutorInfo = React.memo(() => {
+export const InterlocutorInfo = () => {
   const selectedChatId = useSelector(getSelectedChatIdSelector);
   const interlocutor = useSelector(getSelectedInterlocutorSelector);
   const groupChat = useSelector(getSelectedGroupChatSelector);
@@ -77,4 +77,4 @@ export const InterlocutorInfo = React.memo(() => {
       </FadeAnimationWrapper>
     </>
   );
-});
+};

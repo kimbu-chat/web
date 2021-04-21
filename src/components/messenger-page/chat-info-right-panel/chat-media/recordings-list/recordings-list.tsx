@@ -12,7 +12,7 @@ import { InfiniteScroll } from '@components/messenger-page';
 import { VOICE_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 import { Recording } from './recording/recording';
 
-export const RecordingsList = React.memo(() => {
+export const RecordingsList = () => {
   const recordingsForSelectedChat = useSelector(getSelectedChatRecordingsSelector);
 
   const getRecordings = useActionWithDispatch(getVoiceAttachmentsAction);
@@ -50,11 +50,11 @@ export const RecordingsList = React.memo(() => {
                     : moment(recording.creationDateTime).format('MMMM')}
                 </div>
               )}
-              <Recording key={recording.id} recording={recording} />
+              <Recording key={recording.id} {...recording} />
             </div>
           ))}
         </InfiniteScroll>
       </div>
     </div>
   );
-});
+};

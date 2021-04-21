@@ -12,7 +12,7 @@ import { doesYearDifferFromCurrent, setSeparators } from '@utils/set-separators'
 import { InfiniteScroll, FileAttachment } from '@components/messenger-page';
 import { FILE_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 
-export const FileList = React.memo(() => {
+export const FileList = () => {
   const getRawAttachments = useActionWithDispatch(getRawAttachmentsAction);
 
   const filesForSelectedChat = useSelector(getSelectedChatFilesSelector);
@@ -50,10 +50,10 @@ export const FileList = React.memo(() => {
                   : moment(file.creationDateTime).format('MMMM')}
               </div>
             )}
-            <FileAttachment attachment={file} />
+            <FileAttachment {...file} />
           </React.Fragment>
         ))}
       </InfiniteScroll>
     </div>
   );
-});
+};

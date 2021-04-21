@@ -16,6 +16,7 @@ if (process.env.NODE_ENV !== 'production') {
   const whyDidYouRender = require('@welldone-software/why-did-you-render');
   whyDidYouRender(React, {
     trackAllPureComponents: true,
+    trackHooks: true,
     trackExtraHooks: [
       [useSelector, 'useSelector'],
       [useDispatch, 'useDispatch'],
@@ -25,9 +26,10 @@ if (process.env.NODE_ENV !== 'production') {
       [useTranslation, 'useTranslation'],
       [useActionWithDeferred, 'useActionWithDeferred'],
       [useActionWithDispatch, 'useActionWithDispatch'],
-      [useGlobalDrop, 'useActionWithDeferred'],
+      [useGlobalDrop, 'useGlobalDrop'],
       [useOnClickOutside, 'useOnClickOutside'],
       [useReferState, 'useReferState'],
     ],
+    include: [/[\s\S]+/g],
   });
 }

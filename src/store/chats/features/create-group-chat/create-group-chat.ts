@@ -2,7 +2,6 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import produce from 'immer';
 import { Meta } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
@@ -13,16 +12,10 @@ import { ChangeSelectedChat } from '../change-selected-chat/change-selected-chat
 import { ICreateGroupChatActionPayload } from './action-payloads/create-group-chat-action-payload';
 import { CreateGroupChatSuccess } from './create-group-chat-success';
 import { ICerateGroupChatApiRequest } from './api-requests/create-group-chat-api-request';
-import { IChatsState } from '../../chats-state';
 
 export class CreateGroupChat {
   static get action() {
     return createAction('CREATE_GROUP_CHAT')<ICreateGroupChatActionPayload, Meta<IChat>>();
-  }
-
-  // TODO: handle loading
-  static get reducer() {
-    return produce((draft: IChatsState) => draft);
   }
 
   static get saga() {

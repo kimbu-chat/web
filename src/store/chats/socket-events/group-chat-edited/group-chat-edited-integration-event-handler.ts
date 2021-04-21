@@ -22,11 +22,14 @@ export class GroupChatEditedEventHandler {
         if (chat && chat.groupChat) {
           chat.groupChat.name = name;
           chat.groupChat.description = description;
-          chat.groupChat.avatar = {
-            url: avatarUrl,
-            previewUrl: avatarPreviewUrl,
-            id: avatarId,
-          };
+
+          if (chat.groupChat.avatar?.id !== avatarId) {
+            chat.groupChat.avatar = {
+              url: avatarUrl,
+              previewUrl: avatarPreviewUrl,
+              id: avatarId,
+            };
+          }
         }
 
         return draft;

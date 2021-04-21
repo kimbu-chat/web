@@ -1,12 +1,12 @@
 import { useTranslation } from 'react-i18next';
-import { BaseBtn } from '@components/shared';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './not-found.scss';
 import SadSmilePNG from '@icons/sad-emoji.png';
 import NotFoundBackgroundPNG from '@icons/404-bg.png';
+import { Button } from '@components/shared';
 
-const NotFound = React.memo(() => {
+const NotFound = () => {
   const { t } = useTranslation();
 
   return (
@@ -17,13 +17,11 @@ const NotFound = React.memo(() => {
         <div className="not-found__title">{t('notFound.title')}</div>
         <div className="not-found__description">{t('notFound.description')}</div>
         <Link to="/chats">
-          <BaseBtn className="not-found__btn" variant="contained" color="primary" width="auto">
-            {t('notFound.back')}
-          </BaseBtn>
+          <Button className="not-found__btn">{t('notFound.back')}</Button>
         </Link>
       </div>
     </div>
   );
-});
+};
 
 export default NotFound;

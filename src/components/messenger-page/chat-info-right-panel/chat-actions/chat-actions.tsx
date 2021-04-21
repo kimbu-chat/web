@@ -2,10 +2,7 @@ import React, { useCallback, useState } from 'react';
 import './chat-actions.scss';
 import { IChat } from '@store/chats/models';
 import { useSelector } from 'react-redux';
-import {
-  getMemberIdsForSelectedGroupChatSelector,
-  getSelectedChatSelector,
-} from '@store/chats/selectors';
+import { getSelectedChatSelector } from '@store/chats/selectors';
 
 import { useTranslation } from 'react-i18next';
 import { changeChatMutedStatusAction } from '@store/chats/actions';
@@ -19,20 +16,20 @@ import { ReactComponent as LeaveSvg } from '@icons/leave.svg';
 import { ReactComponent as AddUsersSvg } from '@icons/add-users.svg';
 import { FadeAnimationWrapper, Button } from '@components/shared';
 import { deleteFriendAction, addFriendAction } from '@store/friends/actions';
-import { CreateGroupChat } from '@components/messenger-page';
-import { BlockUser } from '@store/settings/features/block-user/block-user';
-import { UnblockUser } from '@store/settings/features/unblock-user/unblock-user';
+import { CreateGroupChat, GroupChatAddFriendModal } from '@components/messenger-page';
 import { useActionWithDeferred, useEmptyActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { blockUserAction, unblockUserAction } from '@store/settings/actions';
 import { LeaveChatModal } from './leave-chat-modal/leave-chat-modal';
 import { ClearChatModal } from './clear-chat-modal/clear-chat-modal';
 import { RemoveChatModal } from './remove-chat-modal/remove-chat-modal';
 
-interface IChatActionsProps {
-  addMembers: (params: { excludeIds: (number | undefined)[] }) => void;
-}
-
-export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers }) => {
+export const ChatActions: React.FC = () => {
   const { t } = useTranslation();
+
+  const [addFriendsModalDisplayed, setAddFriendsModalDisplayed] = useState(false);
+  const changeSetAddFriendsModalDisplayedState = useCallback(() => {
+    setAddFriendsModalDisplayed((oldState) => !oldState);
+  }, [setAddFriendsModalDisplayed]);
 
   const [leaveGroupChatModalOpened, setLeaveGroupChatModalOpened] = useState<boolean>(false);
   const changeLeaveGroupChatModalOpenedState = useCallback(
@@ -61,10 +58,9 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
   const changeChatMutedStatus = useEmptyActionWithDeferred(changeChatMutedStatusAction);
   const deleteFriend = useActionWithDeferred(deleteFriendAction);
   const addFriend = useActionWithDeferred(addFriendAction);
-  const blockUser = useActionWithDeferred(BlockUser.action);
-  const unBlockUser = useActionWithDeferred(UnblockUser.action);
+  const blockUser = useActionWithDeferred(blockUserAction);
+  const unBlockUser = useActionWithDeferred(unblockUserAction);
 
-  const membersIdsForGroupChat = useSelector(getMemberIdsForSelectedGroupChatSelector);
   const selectedChat = useSelector(getSelectedChatSelector) as IChat;
 
   const [isMuting, setIsMuting] = useState(false);
@@ -110,10 +106,6 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
       });
     }
   }, [unBlockUser, selectedChat?.interlocutor?.id]);
-  const addMembersToSelectedGroupChat = useCallback(
-    () => addMembers({ excludeIds: membersIdsForGroupChat }),
-    [addMembers, membersIdsForGroupChat],
-  );
 
   return (
     <div className="chat-actions">
@@ -211,7 +203,7 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
         <Button
           themed
           type="button"
-          onClick={addMembersToSelectedGroupChat}
+          onClick={changeSetAddFriendsModalDisplayedState}
           className="chat-actions__action">
           <AddUsersSvg />
           <span className="chat-actions__action__name">{t('chatActions.add-users')}</span>
@@ -246,6 +238,10 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
       <FadeAnimationWrapper isDisplayed={removeChatModalOpened}>
         <RemoveChatModal onClose={changeRemoveChatModalOpenedState} />
       </FadeAnimationWrapper>
+
+      <FadeAnimationWrapper isDisplayed={addFriendsModalDisplayed}>
+        <GroupChatAddFriendModal onClose={changeSetAddFriendsModalDisplayedState} />
+      </FadeAnimationWrapper>
     </div>
   );
-});
+};

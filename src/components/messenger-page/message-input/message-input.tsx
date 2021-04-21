@@ -3,9 +3,13 @@ import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { containsFiles, useGlobalDrop } from '@hooks/use-global-drop';
 import { useOnClickOutside } from '@hooks/use-on-click-outside';
 import { useReferState } from '@hooks/use-referred-state';
-import { CreateMessage } from '@store/chats/features/create-message/create-message';
-import { messageTypingAction } from '@store/chats/actions';
-import { UploadAttachmentRequest } from '@store/chats/features/upload-attachment/upload-attachment-request';
+import {
+  messageTypingAction,
+  createMessageAction,
+  uploadAttachmentRequestAction,
+  submitEditMessageAction,
+  removeAllAttachmentsAction,
+} from '@store/chats/actions';
 import {
   SystemMessageType,
   MessageState,
@@ -39,8 +43,6 @@ import { ReactComponent as CrayonSvg } from '@icons/crayon.svg';
 import { ReactComponent as SendSvg } from '@icons/send.svg';
 import { ReactComponent as CloseSvg } from '@icons/close.svg';
 
-import { SubmitEditMessage } from '@store/chats/features/edit-message/submit-edit-message';
-import { RemoveAllAttachments } from '@store/chats/features/remove-attachment/remove-all-attachments';
 import { RespondingMessage } from './responding-message/responding-message';
 import { ExpandingTextarea } from './expanding-textarea/expanding-textarea';
 import { MessageInputAttachment } from './message-input-attachment/message-input-attachment';
@@ -57,14 +59,14 @@ export interface IRecordedData {
   needToSubmit: boolean;
 }
 
-export const CreateMessageInput = React.memo(() => {
+const CreateMessageInput = () => {
   const { t } = useTranslation();
 
-  const sendMessage = useActionWithDispatch(CreateMessage.action);
+  const sendMessage = useActionWithDispatch(createMessageAction);
   const notifyAboutTyping = useActionWithDispatch(messageTypingAction);
-  const uploadAttachmentRequest = useActionWithDispatch(UploadAttachmentRequest.action);
-  const submitEditMessage = useActionWithDispatch(SubmitEditMessage.action);
-  const removeAllAttachmentsToSend = useActionWithDispatch(RemoveAllAttachments.action);
+  const uploadAttachmentRequest = useActionWithDispatch(uploadAttachmentRequestAction);
+  const submitEditMessage = useActionWithDispatch(submitEditMessageAction);
+  const removeAllAttachmentsToSend = useActionWithDispatch(removeAllAttachmentsAction);
 
   const currentUser = useSelector(myProfileSelector);
   const selectedChat = useSelector(getSelectedChatSelector);
@@ -83,13 +85,21 @@ export const CreateMessageInput = React.memo(() => {
   const [recordedSeconds, setRecordedSeconds] = useState(0);
 
   // edit state logic
-  const [removedAttachments, setRemovedAttachments] = useState<IAttachmentCreation[]>([]);
+  const [removedAttachments, setRemovedAttachments] = useState<IAttachmentCreation[] | undefined>(
+    undefined,
+  );
   const referredRemovedAttachments = useReferState(removedAttachments);
 
-  const editingMessageAttachments = editingMessage?.attachments?.filter(
-    ({ id }) =>
-      removedAttachments.findIndex((removedAttachment) => removedAttachment.id === id) === -1,
-  );
+  const editingMessageAttachments = editingMessage?.attachments?.filter(({ id }) => {
+    if (!removedAttachments) {
+      return true;
+    }
+
+    const res =
+      removedAttachments?.findIndex((removedAttachment) => removedAttachment.id === id) === -1;
+
+    return res;
+  });
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const registerAudioBtnRef = useRef<HTMLButtonElement>(null);
@@ -100,21 +110,20 @@ export const CreateMessageInput = React.memo(() => {
     needToSubmit: false,
   });
 
+  const onDrag = useCallback(
+    (e: DragEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (containsFiles(e)) {
+        setIsDragging(true);
+      }
+    },
+    [setIsDragging],
+  );
+
   useGlobalDrop({
-    onDragEnter: (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      if (containsFiles(e)) {
-        setIsDragging(true);
-      }
-    },
-    onDragOver: (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      if (containsFiles(e)) {
-        setIsDragging(true);
-      }
-    },
+    onDragEnter: onDrag,
+    onDragOver: onDrag,
     onDragLeave: (e) => {
       e.preventDefault();
       e.stopPropagation();
@@ -130,7 +139,7 @@ export const CreateMessageInput = React.memo(() => {
 
   useEffect(() => {
     setText(editingMessage?.text || '');
-    setRemovedAttachments([]);
+    setRemovedAttachments(undefined);
   }, [editingMessage?.text]);
 
   useInterval(
@@ -340,7 +349,7 @@ export const CreateMessageInput = React.memo(() => {
 
   const removeAttachment = useCallback(
     (attachmentToRemove: IAttachmentCreation) => {
-      setRemovedAttachments((oldList) => [...oldList, attachmentToRemove]);
+      setRemovedAttachments((oldList) => [...(oldList || []), attachmentToRemove]);
     },
     [setRemovedAttachments],
   );
@@ -577,4 +586,8 @@ export const CreateMessageInput = React.memo(() => {
       )}
     </div>
   );
-});
+};
+
+CreateMessageInput.displayName = 'CreateMessageInput';
+
+export { CreateMessageInput };

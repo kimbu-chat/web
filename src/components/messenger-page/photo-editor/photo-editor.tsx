@@ -47,23 +47,44 @@ interface IPhotoEditorProps {
   onSubmit?: (data: IAvatarSelectedData) => Promise<void>;
 }
 
+interface ICrop {
+  x: number;
+  y: number;
+}
+
 const PhotoEditor: React.FC<IPhotoEditorProps> = ({ imageUrl, onSubmit, hideChangePhoto }) => {
   const { t } = useTranslation();
 
   const cancelAvatarUploading = useActionWithDispatch(cancelAvatarUploadingRequestAction);
 
-  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [crop, setCrop] = useState<ICrop>({ x: 0, y: 0 });
   const [rotation, setRotation] = useState(0);
   const [flip, setFlip] = useState({ horizontal: false, vertical: false });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
   const [submitLoading, setSubmitLoading] = useState(false);
 
+  const changeCrop = useCallback(
+    (newCrop: ICrop) => {
+      if (crop.x !== newCrop.x || newCrop.y !== crop.y) {
+        setCrop(newCrop);
+      }
+    },
+    [setCrop, crop],
+  );
+
   const onCropComplete = useCallback(
     (_croppedArea, croppedAreaPixelsToSet) => {
-      setCroppedAreaPixels(croppedAreaPixelsToSet);
+      if (
+        croppedAreaPixels?.width !== croppedAreaPixelsToSet.width ||
+        croppedAreaPixels?.height !== croppedAreaPixelsToSet.height ||
+        croppedAreaPixels?.x !== croppedAreaPixelsToSet.x ||
+        croppedAreaPixels?.y !== croppedAreaPixelsToSet.y
+      ) {
+        setCroppedAreaPixels(croppedAreaPixelsToSet);
+      }
     },
-    [setCroppedAreaPixels],
+    [croppedAreaPixels, setCroppedAreaPixels],
   );
 
   const submitChange = useCallback(async () => {
@@ -125,7 +146,7 @@ const PhotoEditor: React.FC<IPhotoEditorProps> = ({ imageUrl, onSubmit, hideChan
                 rotation={rotation}
                 zoom={zoom}
                 aspect={4 / 3}
-                onCropChange={setCrop}
+                onCropChange={changeCrop}
                 onRotationChange={setRotation}
                 onCropComplete={onCropComplete}
                 onZoomChange={setZoom}

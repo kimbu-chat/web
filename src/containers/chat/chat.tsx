@@ -47,7 +47,7 @@ interface IChatProps {
   preloadNext: () => void;
 }
 
-const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
+const Chat: React.FC<IChatProps> = ({ preloadNext }) => {
   const amICalledSelector = useSelector(isCallingMe);
   const amICallingSelectorSomebody = useSelector(amICallingSelector);
   const amISpeaking = useSelector(doIhaveCallSelector);
@@ -151,6 +151,8 @@ const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
       </Route>
     </div>
   );
-});
+};
+
+Chat.displayName = 'Chat';
 
 export default Chat;

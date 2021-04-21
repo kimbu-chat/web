@@ -9,7 +9,7 @@ import { TypingStrategy } from '@store/settings/features/models';
 import { RadioBox } from '../shared/radio-box/radio-box';
 import './key-bindings.scss';
 
-export const KeyBindings = React.memo(() => {
+export const KeyBindings = () => {
   const { t } = useTranslation();
 
   const currentStrategy = useSelector(getTypingStrategySelector);
@@ -46,4 +46,4 @@ export const KeyBindings = React.memo(() => {
       </form>
     </div>
   );
-});
+};

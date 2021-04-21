@@ -7,13 +7,13 @@ import { InfiniteScrollLoader } from '@components/messenger-page/shared/infinite
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getSessionsLoadingSelector, getSessionsSelector } from '@store/settings/selectors';
 import { useSelector } from 'react-redux';
-import { GetSessionList } from '@store/settings/features/get-sesion-list/get-sesion-list';
+import { getSessionListAction } from '@store/settings/actions';
 import { Session } from './session/session';
 
 export const SessionsList = () => {
   const { t } = useTranslation();
 
-  const getSessions = useActionWithDispatch(GetSessionList.action);
+  const getSessions = useActionWithDispatch(getSessionListAction);
 
   const sessions = useSelector(getSessionsSelector);
   const loading = useSelector(getSessionsLoadingSelector);

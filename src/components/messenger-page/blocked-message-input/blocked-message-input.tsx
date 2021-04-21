@@ -5,9 +5,9 @@ import './blocked-message-input.scss';
 import { useTranslation } from 'react-i18next';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { getSelectedInterlocutorIdSelector } from '@store/chats/selectors';
-import { UnblockUser } from '@store/settings/features/unblock-user/unblock-user';
 import { useSelector } from 'react-redux';
 import { Button } from '@components/shared';
+import { unblockUserAction } from '@store/settings/actions';
 
 interface IBlockedMessageInputProps {
   isCurrentChatBlackListed?: boolean;
@@ -26,7 +26,7 @@ export const BlockedMessageInput: React.FC<IBlockedMessageInputProps> = ({
 
   const [unBlocking, setUnBlocking] = useState(false);
 
-  const unBlockUser = useActionWithDeferred(UnblockUser.action);
+  const unBlockUser = useActionWithDeferred(unblockUserAction);
 
   const unBlockSelectedUser = useCallback(() => {
     setUnBlocking(true);

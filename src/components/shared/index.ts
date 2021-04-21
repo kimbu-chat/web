@@ -1,5 +1,4 @@
 export { Avatar } from './avatar';
-export { BaseBtn } from './base-btn';
 export { FadeAnimationWrapper } from './fade-animation-wrapper';
 export { InternetError } from './internet-error';
 export { LabeledInput } from './labeled-input';

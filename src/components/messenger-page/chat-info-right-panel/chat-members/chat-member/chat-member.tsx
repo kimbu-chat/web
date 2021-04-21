@@ -15,7 +15,7 @@ interface IMemberProps {
   member: IUser;
 }
 
-export const Member: React.FC<IMemberProps> = React.memo(({ member }) => {
+export const Member: React.FC<IMemberProps> = ({ member }) => {
   const { t } = useTranslation();
 
   const [removeChatMemberModalDisplayed, setRemoveChatMemberModalDisplayed] = useState(false);
@@ -69,4 +69,4 @@ export const Member: React.FC<IMemberProps> = React.memo(({ member }) => {
       </FadeAnimationWrapper>
     </>
   );
-});
+};

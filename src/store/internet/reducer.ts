@@ -13,10 +13,10 @@ const initialState: IInternetState = {
   isWebSocketConnected: false,
 };
 
-const internet = createReducer<IInternetState>(initialState)
+const reducer = createReducer<IInternetState>(initialState)
   .handleAction(InternetConnected.action, InternetConnected.reducer)
   .handleAction(InternetDisconnected.action, InternetDisconnected.reducer)
   .handleAction(WebsocketsConnected.action, WebsocketsConnected.reducer)
   .handleAction(WebsocketsDisconnected.action, WebsocketsDisconnected.reducer);
 
-export default internet;
+export default reducer;

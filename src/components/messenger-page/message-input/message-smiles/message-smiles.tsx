@@ -2,7 +2,6 @@ import React, { useCallback, useRef, useState, lazy, Suspense } from 'react';
 import { ReactComponent as SmilesSvg } from '@icons/smiles.svg';
 import 'emoji-mart/css/emoji-mart.css';
 
-import { useTranslation } from 'react-i18next';
 import { useOnClickOutside } from '@hooks/use-on-click-outside';
 import './message-smiles.scss';
 import { CubeLoader } from '@containers/cube-loader/cube-loader';

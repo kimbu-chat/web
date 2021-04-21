@@ -7,6 +7,7 @@ import { ReactComponent as OutgoingCallSvg } from '@icons/outgoing-call.svg';
 import { ReactComponent as DeclinedCallSvg } from '@icons/declined-call.svg';
 import { ReactComponent as MissedCallSvg } from '@icons/missed-call.svg';
 
+import { isEqual } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
@@ -14,11 +15,7 @@ import { myIdSelector } from '@store/my-profile/selectors';
 import { CallStatus } from '@store/common/models';
 import { StatusBadge } from '@components/shared';
 
-interface ICallItem {
-  call: ICall;
-}
-
-export const CallItem: React.FC<ICallItem> = ({ call }) => {
+const CallItem: React.FC<ICall> = ({ ...call }) => {
   const { t } = useTranslation();
 
   const myId = useSelector(myIdSelector);
@@ -88,3 +85,6 @@ export const CallItem: React.FC<ICallItem> = ({ call }) => {
     </div>
   );
 };
+CallItem.displayName = 'CallItem';
+
+export { CallItem };

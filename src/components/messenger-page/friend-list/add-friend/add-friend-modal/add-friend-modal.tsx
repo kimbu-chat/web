@@ -5,7 +5,6 @@ import './add-friend-modal.scss';
 import { useTranslation } from 'react-i18next';
 import { PhoneInputGroup } from '@components/messenger-page';
 import { WithBackground, Modal, Avatar, Button } from '@components/shared';
-import { GetUserByPhone } from '@store/friends/features/get-user-by-phone/get-user-by-phone';
 import { IUser } from '@store/common/models';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { ReactComponent as CloseSvg } from '@icons/close-x-bold.svg';
@@ -13,18 +12,18 @@ import { getUserInitials } from '@utils/interlocutor-name-utils';
 import parsePhoneNumberFromString, { parsePhoneNumber } from 'libphonenumber-js';
 import { Link } from 'react-router-dom';
 import { ChatId } from '@store/chats/chat-id';
-import { AddFriend } from '@store/friends/features/add-friend/add-friend';
 import { useSelector } from 'react-redux';
 import { isFriend } from '@store/friends/selectors';
+import { addFriendAction, getUserByPhoneAction } from '@store/friends/actions';
 
 interface IAddFriendModalProps {
   onClose: () => void;
 }
 
-export const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
+const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
   const { t } = useTranslation();
-  const getUserByPhone = useActionWithDeferred(GetUserByPhone.action);
-  const addFriend = useActionWithDeferred(AddFriend.action);
+  const getUserByPhone = useActionWithDeferred(getUserByPhoneAction);
+  const addFriend = useActionWithDeferred(addFriendAction);
 
   const [phone, setPhone] = useState('');
   const [error, setError] = useState(false);
@@ -52,7 +51,7 @@ export const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
     if (user) {
       setLoading(true);
       addFriend(user).then(() => {
-        setLoading(false);
+        // setLoading(false);
         setSucess(true);
       });
     }
@@ -152,3 +151,7 @@ export const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
     </WithBackground>
   );
 };
+
+AddFriendModal.displayName = 'AddFriendModal';
+
+export { AddFriendModal };

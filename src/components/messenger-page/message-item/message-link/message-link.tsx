@@ -21,7 +21,7 @@ interface IMessageLinkProps {
   linkedMessage?: ILinkedMessage | null;
 }
 
-const MessageLink: React.FC<IMessageLinkProps> = React.memo(({ linkedMessage }) => {
+const MessageLink: React.FC<IMessageLinkProps> = ({ linkedMessage }) => {
   const { t } = useTranslation();
 
   const structuredAttachments = useMemo(
@@ -86,13 +86,13 @@ const MessageLink: React.FC<IMessageLinkProps> = React.memo(({ linkedMessage }) 
 
         <div className="message-link__attachments">
           {structuredAttachments?.files.map((file) => (
-            <FileAttachment key={file.id} attachment={file} />
+            <FileAttachment key={file.id} {...file} />
           ))}
           {structuredAttachments?.recordings.map((recording) => (
             <RecordingAttachment key={recording.id} attachment={recording} />
           ))}
           {structuredAttachments?.audios.map((audio) => (
-            <MessageAudioAttachment key={audio.id} attachment={audio} />
+            <MessageAudioAttachment key={audio.id} {...audio} />
           ))}
           {structuredAttachments && structuredAttachments.media.length > 0 && (
             <MediaGrid media={structuredAttachments.media} />
@@ -101,7 +101,7 @@ const MessageLink: React.FC<IMessageLinkProps> = React.memo(({ linkedMessage }) 
       </div>
     </div>
   );
-});
+};
 
 MessageLink.displayName = 'MessageLink';
 

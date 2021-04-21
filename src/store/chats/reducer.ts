@@ -92,7 +92,7 @@ const initialState: IChatsState = {
   isInfoOpened: false,
 };
 
-const chats = createReducer<IChatsState>(initialState)
+const reducer = createReducer<IChatsState>(initialState)
   .handleAction(InterlocutorStoppedTyping.action, InterlocutorStoppedTyping.reducer)
   .handleAction(CreateGroupChatSuccess.action, CreateGroupChatSuccess.reducer)
   .handleAction(AddUsersToGroupChatSuccess.action, AddUsersToGroupChatSuccess.reducer)
@@ -310,4 +310,4 @@ const chats = createReducer<IChatsState>(initialState)
     MessagesDeletedIntegrationEventHandlerSuccess.reducer,
   );
 
-export default chats;
+export default reducer;

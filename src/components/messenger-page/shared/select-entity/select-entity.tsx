@@ -1,13 +1,12 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 
 import { Avatar, StatusBadge, TimeUpdateable } from '@components/shared';
-import { getInterlocutorInitials } from '@utils/interlocutor-name-utils';
-
+import { getUserName } from '@utils/interlocutor-name-utils';
 import { ReactComponent as SelectedSvg } from '@icons/checked.svg';
 import { IChat } from '@store/chats/models';
 import { IUser } from '@store/common/models';
 import './select-entity.scss';
-import { isEqual } from 'lodash';
+import { useTranslation } from 'react-i18next';
 
 interface ISelectEntityProps {
   changeSelectedState?: (id: number) => void;
@@ -37,13 +36,13 @@ export const SelectEntity: React.FC<ISelectEntityProps> = ({
   const interlocutor = (chatOrUser as IChat).interlocutor || (chatOrUser as IUser);
   const groupChat = (chatOrUser as IChat)?.groupChat;
 
+  const { t } = useTranslation();
+
   return (
     <div onClick={onClickOnThisContact} className="select-entity__friend">
       {groupChat ? (
         <div className="select-entity__avatar-container">
-          <Avatar className="select-entity__avatar" src={groupChat.avatar?.previewUrl}>
-            {getInterlocutorInitials(chatOrUser as IChat)}
-          </Avatar>
+          <Avatar className="select-entity__avatar" groupChat={groupChat} />
         </div>
       ) : (
         <StatusBadge
@@ -55,9 +54,9 @@ export const SelectEntity: React.FC<ISelectEntityProps> = ({
 
       <div className="select-entity__friend-data">
         <div className="select-entity__friend-name">
-          {groupChat ? groupChat?.name : `${interlocutor.firstName} ${interlocutor.lastName}`}
+          {groupChat ? groupChat?.name : getUserName(interlocutor, t)}
         </div>
-        {!groupChat && (
+        {!groupChat && !interlocutor.deleted && (
           <div className="select-entity__friend-status">
             <TimeUpdateable timeStamp={interlocutor.lastOnlineTime} />
           </div>

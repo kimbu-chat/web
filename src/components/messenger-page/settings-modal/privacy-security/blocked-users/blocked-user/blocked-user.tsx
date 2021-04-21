@@ -3,7 +3,6 @@ import { Avatar, Button } from '@components/shared';
 import { useTranslation } from 'react-i18next';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { IUser } from '@store/common/models';
-import { getUserInitials } from '@utils/interlocutor-name-utils';
 import React, { useCallback, useState } from 'react';
 import './blocked-user.scss';
 import { unblockUserAction } from '@store/settings/actions';
@@ -28,9 +27,7 @@ export const BlockedUser: React.FC<IBlockedUserProps> = ({ user }) => {
 
   return (
     <div className="blocked-user">
-      <Avatar className="blocked-user__avatar" src={user?.avatar?.previewUrl}>
-        {getUserInitials(user)}
-      </Avatar>
+      <Avatar className="blocked-user__avatar" user={user} />
 
       <span className="blocked-user__name">{`${user.firstName} ${user.lastName}`}</span>
 

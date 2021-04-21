@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
 import { FadeAnimationWrapper, StatusBadge, TimeUpdateable } from '@components/shared';
 import { MyProfileService } from '@services/my-profile-service';
+import { getUserName } from '@utils/interlocutor-name-utils';
 import { DeleteChatMemberModal } from '../delete-chat-member-modal/delete-chat-member-modal';
 
 interface IMemberProps {
@@ -42,18 +43,20 @@ export const Member: React.FC<IMemberProps> = ({ member }) => {
 
         <div className="chat-member__data">
           <div className="chat-member__name-line">
-            <h3 className="chat-member__name">{`${member?.firstName} ${member?.lastName}`}</h3>
+            <h3 className="chat-member__name">{getUserName(member, t)}</h3>
             {isOwner && <div className="chat-member__owner">{t('chatMember.owner')}</div>}
           </div>
 
-          {member?.online ? (
-            <span className="chat-member__status">
-              <TimeUpdateable timeStamp={member?.lastOnlineTime} />
-            </span>
-          ) : (
-            <span className="chat-member__status">{t('chatData.online')}</span>
-          )}
+          {!member.deleted &&
+            (member?.online ? (
+              <span className="chat-member__status">
+                <TimeUpdateable timeStamp={member?.lastOnlineTime} />
+              </span>
+            ) : (
+              <span className="chat-member__status">{t('chatData.online')}</span>
+            ))}
         </div>
+
         {!isOwner && !itIsMe && (
           <button
             onClick={changeRemoveChatMemberModalDisplayed}

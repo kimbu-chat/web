@@ -225,3 +225,7 @@ export const amIBlackListedByInterlocutorSelector = (state: RootState) =>
 export const isCurrentChatUserDeactivatedSelector = (state: RootState) =>
   state.chats.chats.chats.find(({ id }) => id === state.chats.selectedChatId)?.interlocutor
     ?.deactivated;
+
+export const isCurrentChatUserDeletedSelector = (state: RootState) =>
+  state.chats.chats.chats.find(({ id }) => id === state.chats.selectedChatId)?.interlocutor
+    ?.deleted;

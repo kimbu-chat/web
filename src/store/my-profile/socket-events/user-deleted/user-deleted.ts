@@ -2,16 +2,16 @@ import { myIdSelector } from '@store/my-profile/selectors';
 import { SagaIterator } from 'redux-saga';
 import { select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { IUserDeactivatedActionPayload } from './action-payloads/user-deactivated-action-payload';
+import { IUserDeletedActionPayload } from './action-payloads/user-deleted-action-payload';
 
-export class UserDeactivatedEventHandler {
+export class UserDeletedEventHandler {
   static get action() {
-    return createAction('UserDeactivated')<IUserDeactivatedActionPayload>();
+    return createAction('UserDeleted')<IUserDeletedActionPayload>();
   }
 
   static get saga() {
-    return function* userDeactivatedSaga(
-      action: ReturnType<typeof UserDeactivatedEventHandler.action>,
+    return function* userDeletedSaga(
+      action: ReturnType<typeof UserDeletedEventHandler.action>,
     ): SagaIterator {
       const currentUserId = yield select(myIdSelector);
 

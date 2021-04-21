@@ -24,8 +24,7 @@ import { ReactComponent as MessageReadSvg } from '@icons/message-read.svg';
 import { ReactComponent as MessageErrorSvg } from '@icons/message-error.svg';
 
 import { getTypingStringSelector } from '@store/chats/selectors';
-import { getChatInterlocutor, getInterlocutorInitials } from '@utils/interlocutor-name-utils';
-import { isEqual } from 'lodash';
+import { getChatInterlocutor } from '@utils/interlocutor-name-utils';
 import { constructSystemMessageText, checkIfDatesAreSameDate } from '@utils/message-utils';
 
 interface IChatItemProps {
@@ -118,22 +117,23 @@ const ChatItem: React.FC<IChatItemProps> = ({ chat }) => {
       to={`/chats/${chat.id.toString()}`}
       className="chat-item"
       activeClassName="chat-item chat-item--active">
-      {!chat.groupChat ? (
+      {existedChat.interlocutor && (
         <StatusBadge
           containerClassName="chat-item__avatar-container"
           additionalClassNames="chat-item__avatar"
           user={existedChat.interlocutor}
         />
-      ) : (
+      )}
+
+      {chat.groupChat && (
         <Avatar
           className="chat-item__avatar chat-item__avatar-container"
-          src={chat.groupChat?.avatar?.previewUrl}>
-          {getInterlocutorInitials(chat)}
-        </Avatar>
+          groupChat={chat.groupChat}
+        />
       )}
       <div className="chat-item__contents">
         <div className="chat-item__heading">
-          <div className="chat-item__name">{getChatInterlocutor(chat)}</div>
+          <div className="chat-item__name">{getChatInterlocutor(chat, t)}</div>
           <div className="chat-item__status">
             {!(
               chat.lastMessage?.systemMessageType !== SystemMessageType.None ||

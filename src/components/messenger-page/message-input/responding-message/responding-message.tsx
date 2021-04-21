@@ -7,7 +7,6 @@ import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getMessageToReplySelector } from '@store/chats/selectors';
 import { Avatar } from '@components/shared';
-import { getUserInitials } from '@utils/interlocutor-name-utils';
 import { myIdSelector } from '@store/my-profile/selectors';
 import { resetReplyToMessageAction } from '@store/chats/actions';
 
@@ -24,11 +23,7 @@ export const RespondingMessage = () => {
       <ReplySvg className="responding-message__icon" viewBox="0 0 15 16" />
       <div className="responding-message__line" />
 
-      <Avatar
-        className="responding-message__message-sender"
-        src={replyingMessage?.userCreator.avatar?.previewUrl}>
-        {getUserInitials(replyingMessage?.userCreator)}
-      </Avatar>
+      <Avatar className="responding-message__message-sender" user={replyingMessage?.userCreator} />
 
       <div
         className={`responding-message__message-contents ${

@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import './deactivate-account-modal.scss';
 import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
 import { useEmptyActionWithDeferred } from '@hooks/use-action-with-deferred';
-import { DeactivateAccount } from '@store/my-profile/features/deactivate-account/deactivate-acccount';
+import { deactivateAccountAction } from '@store/my-profile/actions';
 
 interface IDeactivateAccountModalProps {
   onClose: () => void;
@@ -14,7 +14,7 @@ interface IDeactivateAccountModalProps {
 export const DeactivateAccountModal: React.FC<IDeactivateAccountModalProps> = ({ onClose }) => {
   const { t } = useTranslation();
 
-  const deactivateAccount = useEmptyActionWithDeferred(DeactivateAccount.action);
+  const deactivateAccount = useEmptyActionWithDeferred(deactivateAccountAction);
 
   const [deactivating, setDeactivating] = useState(false);
 

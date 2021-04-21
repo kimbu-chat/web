@@ -33,6 +33,7 @@ import {
   isCurrentChatDismissedAddToContactsSelector,
   isCurrentChatContactSelector,
   isCurrentChatUserDeactivatedSelector,
+  isCurrentChatUserDeletedSelector,
 } from '@store/chats/selectors';
 import { getInternetStateSelector } from '@store/internet/selectors';
 import { EditProfile } from '@components/messenger-page/settings-modal/edit-profile/edit-profile';
@@ -57,6 +58,7 @@ const Chat: React.FC<IChatProps> = ({ preloadNext }) => {
   const isDismissed = useSelector(isCurrentChatDismissedAddToContactsSelector);
   const amIBlackListedByInterlocutor = useSelector(amIBlackListedByInterlocutorSelector);
   const isCurrentChatUserDeactivated = useSelector(isCurrentChatUserDeactivatedSelector);
+  const isCurrentChatUserDeleted = useSelector(isCurrentChatUserDeletedSelector);
 
   const internetState = useSelector(getInternetStateSelector);
   const isInfoOpened = useSelector(getIsInfoOpenedSelector);
@@ -86,11 +88,13 @@ const Chat: React.FC<IChatProps> = ({ preloadNext }) => {
           <MessageList />
           {isCurrentChatBlackListed ||
           amIBlackListedByInterlocutor ||
-          isCurrentChatUserDeactivated ? (
+          isCurrentChatUserDeactivated ||
+          isCurrentChatUserDeleted ? (
             <BlockedMessageInput
               isCurrentChatBlackListed={isCurrentChatBlackListed}
               amIBlackListedByInterlocutor={amIBlackListedByInterlocutor}
               isCurrentChatUserDeactivated={isCurrentChatUserDeactivated}
+              isCurrentChatUserDeleted={isCurrentChatUserDeleted}
             />
           ) : (
             <CreateMessageInput />

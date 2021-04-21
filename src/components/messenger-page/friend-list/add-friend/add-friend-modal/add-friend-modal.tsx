@@ -8,7 +8,6 @@ import { WithBackground, Modal, Avatar, Button } from '@components/shared';
 import { IUser } from '@store/common/models';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { ReactComponent as CloseSvg } from '@icons/close-x-bold.svg';
-import { getUserInitials } from '@utils/interlocutor-name-utils';
 import parsePhoneNumberFromString, { parsePhoneNumber } from 'libphonenumber-js';
 import { Link } from 'react-router-dom';
 import { ChatId } from '@store/chats/chat-id';
@@ -73,9 +72,8 @@ const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
         content={
           user ? (
             <div className="add-friends-modal__user">
-              <Avatar className="add-friends-modal__user__avatar" src={user.avatar?.previewUrl}>
-                {getUserInitials(user)}
-              </Avatar>
+              <Avatar className="add-friends-modal__user__avatar" user={user} />
+
               <h2 className="add-friends-modal__user__name">{`${user.firstName} ${user.lastName}`}</h2>
               <h4 className="add-friends-modal__user__phone">
                 {parsePhoneNumber(user?.phoneNumber).formatInternational()}

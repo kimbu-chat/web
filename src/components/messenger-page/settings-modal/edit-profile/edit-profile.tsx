@@ -22,6 +22,7 @@ import { CubeLoader } from '@containers/cube-loader/cube-loader';
 import { loadPhotoEditor } from '@routing/module-loader';
 import { ChangePhoneModal } from './change-phone-modal/change-phone-modal';
 import { DeactivateAccountModal } from './deactivate-account-modal/deactivate-account-modal';
+import { DeleteAccountModal } from './delete-account-modal/delete-account-modal';
 
 const PhotoEditor = lazy(loadPhotoEditor);
 
@@ -59,14 +60,19 @@ export const EditProfile = () => {
   ]);
 
   const [editPhoneModalDisplayed, setEditPhoneModalDisplayed] = useState(false);
-  const changeEditPhoneModalDisplayedState = useCallback(() => {
+  const toggleChangeEditPhoneModal = useCallback(() => {
     setEditPhoneModalDisplayed((oldState) => !oldState);
   }, [setEditPhoneModalDisplayed]);
 
   const [deactivateAccountModalDisplayed, setDeactivateAccountModalDisplayed] = useState(false);
-  const changeDeactivateAccountModalDisplayedState = useCallback(() => {
+  const toggleDeactivateAccountModal = useCallback(() => {
     setDeactivateAccountModalDisplayed((oldState) => !oldState);
   }, [setDeactivateAccountModalDisplayed]);
+
+  const [deleteAccountModalDisplayed, setDeleteAccountModalDisplayed] = useState(false);
+  const toggleDeleteAccountModal = useCallback(() => {
+    setDeleteAccountModalDisplayed((oldState) => !oldState);
+  }, [setDeleteAccountModalDisplayed]);
 
   const handleImageChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -262,14 +268,24 @@ export const EditProfile = () => {
             {myProfile?.phoneNumber &&
               parsePhoneNumber(myProfile?.phoneNumber).formatInternational()}
           </div>
-          <button
-            onClick={changeEditPhoneModalDisplayedState}
-            type="button"
-            className="edit-profile__btn">
+          <button onClick={toggleChangeEditPhoneModal} type="button" className="edit-profile__btn">
             {t('editProfile.change-number')}
           </button>
         </div>
         <div className="edit-profile__phone-details">{t('editProfile.phone-details')}</div>
+
+        <h2 className="edit-profile__title edit-profile__title--delete">
+          {t('editProfile.deactivate-account')}
+        </h2>
+        <div className="edit-profile__delete-data">
+          <div className="edit-profile__delete-details">{t('editProfile.deactivate-details')}</div>
+          <button
+            onClick={toggleDeactivateAccountModal}
+            type="button"
+            className="edit-profile__btn edit-profile__btn--delete">
+            {t('editProfile.deactivate-confirmation')}
+          </button>
+        </div>
 
         <h2 className="edit-profile__title edit-profile__title--delete">
           {t('editProfile.delete-account')}
@@ -277,7 +293,7 @@ export const EditProfile = () => {
         <div className="edit-profile__delete-data">
           <div className="edit-profile__delete-details">{t('editProfile.delete-details')}</div>
           <button
-            onClick={changeDeactivateAccountModalDisplayedState}
+            onClick={toggleDeleteAccountModal}
             type="button"
             className="edit-profile__btn edit-profile__btn--delete">
             {t('editProfile.delete-confirmation')}
@@ -296,11 +312,15 @@ export const EditProfile = () => {
       )}
 
       <FadeAnimationWrapper isDisplayed={editPhoneModalDisplayed}>
-        <ChangePhoneModal onClose={changeEditPhoneModalDisplayedState} />
+        <ChangePhoneModal onClose={toggleChangeEditPhoneModal} />
       </FadeAnimationWrapper>
 
       <FadeAnimationWrapper isDisplayed={deactivateAccountModalDisplayed}>
-        <DeactivateAccountModal onClose={changeDeactivateAccountModalDisplayedState} />
+        <DeactivateAccountModal onClose={toggleDeactivateAccountModal} />
+      </FadeAnimationWrapper>
+
+      <FadeAnimationWrapper isDisplayed={deleteAccountModalDisplayed}>
+        <DeleteAccountModal onClose={toggleDeleteAccountModal} />
       </FadeAnimationWrapper>
     </>
   );

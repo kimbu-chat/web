@@ -26,7 +26,6 @@ import {
 import moment from 'moment';
 import { Rnd } from 'react-rnd';
 import { Avatar } from '@components/shared';
-import { getUserInitials } from '@utils/interlocutor-name-utils';
 import ReactDOM from 'react-dom';
 
 // SVG
@@ -315,9 +314,8 @@ const ActiveCall: React.FC = () => {
         ) : (
           <Avatar
             className={classNames(`${BLOCK_NAME}__interlocutor-avatar`)}
-            src={interlocutor?.avatar?.previewUrl}>
-            {getUserInitials(interlocutor)}
-          </Avatar>
+            user={interlocutor}
+          />
         )}
 
         {isInterlocutorBusy && <span>{t('activeCall.busy')}</span>}

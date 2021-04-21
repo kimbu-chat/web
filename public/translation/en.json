@@ -39,7 +39,8 @@
     "unblock": "Unblock",
     "blocked-by-me": "You cannot send messages to a user you have blocked.",
     "I-am-blocked": "You cannot send messages to a user that has blocked you.",
-    "user-deactivated": "You cannot send messages to deactivated user"
+    "user-deactivated": "You cannot send messages to deactivated user",
+    "user-deleted": "You cannot send messages to deleted user"
   },
   "chatData": {
     "members": "members",
@@ -232,10 +233,19 @@
     "change-number": "Change number",
     "phone-details": "When you change the number, your contacts will not find you by the previous number.",
     "delete-account": "Delete account",
-    "delete-details": "Once you deactivate your account, there is no going back.",
-    "delete-confirmation": "Deactivate your account",
+    "delete-details": "Once you delete your account, there is no going back.",
+    "deactivate-account": "Deactivate account",
+    "deactivate-details": "Once you deactivate your account, there is a going back.",
+    "delete-confirmation": "Delete your account",
+    "deactivate-confirmation": "Deactivate your account",
     "nickname-busy": "This nickname is busy",
     "nickname-not-acceptable": "This nickname is not acceptable"
+  },
+  "deleteAccountModal": {
+    "title": "Delete account",
+    "confirm-content": "Are you sure to delete your account",
+    "cancel": "Cancel",
+    "confirm": "Delete"
   },
   "changePhoneModal": {
     "change-number": "Change number",
@@ -248,10 +258,10 @@
     "enter-numbers": "Enter numbers"
   },
   "deactivateAccountModal": {
-    "title": "Delete account",
-    "confirm-content": "Are you sure to delete your account",
+    "title": "Deactivate account",
+    "confirm-content": "Are you sure to deactivate your account",
     "cancel": "Cancel",
-    "confirm": "Delete"
+    "confirm": "Deactivate"
   },
   "privacySecurity": {
     "title": "Privacy & Security",
@@ -363,5 +373,6 @@
     "someone_declined_call": "Interlocutor declined incoming call",
     "outgoing_call_intrrerupted": "Outgoing call intrrerupted",
     "incoming_call_intrrerupted": "Incoming call intrrerupted"
-  }
+  },
+  "deleted": "DELETED"
 }

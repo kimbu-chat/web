@@ -135,6 +135,7 @@ const PhotoEditor: React.FC<IPhotoEditorProps> = ({ imageUrl, onSubmit, hideChan
             <div className="photo-editor__crop-container">
               <Cropper
                 image={imageUrl}
+                aspect={1}
                 transform={[
                   `translate(${crop.x}px, ${crop.y}px)`,
                   `rotateZ(${rotation}deg)`,
@@ -145,7 +146,6 @@ const PhotoEditor: React.FC<IPhotoEditorProps> = ({ imageUrl, onSubmit, hideChan
                 crop={crop}
                 rotation={rotation}
                 zoom={zoom}
-                aspect={4 / 3}
                 onCropChange={changeCrop}
                 onRotationChange={setRotation}
                 onCropComplete={onCropComplete}

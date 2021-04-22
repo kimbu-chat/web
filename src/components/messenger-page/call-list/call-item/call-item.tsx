@@ -12,7 +12,7 @@ import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { myIdSelector } from '@store/my-profile/selectors';
 import { CallStatus } from '@store/common/models';
-import { StatusBadge } from '@components/shared';
+import { Avatar } from '@components/shared';
 import { getUserName } from '@utils/user-utils';
 
 const CallItem: React.FC<ICall> = ({ ...call }) => {
@@ -25,10 +25,7 @@ const CallItem: React.FC<ICall> = ({ ...call }) => {
 
   return (
     <div className="call-from-list">
-      <StatusBadge
-        containerClassName="call-from-list__interlocutor-avatar"
-        user={call.userInterlocutor}
-      />
+      <Avatar className="call-from-list__interlocutor-avatar" user={call.userInterlocutor} />
       <div className="call-from-list__data">
         <div className={`call-from-list__name ${missedByMe ? 'call-from-list__name--missed' : ''}`}>
           {getUserName(call.userInterlocutor, t)}

@@ -1,6 +1,6 @@
 import { IGroupChat } from '@store/chats/models';
 import { IUser } from '@store/common/models';
-import { getInterlocutorInitials } from '@utils/interlocutor-name-utils';
+import { getInterlocutorInitials } from '@utils/user-utils';
 import React from 'react';
 import deletedIcon from '@icons/deleted.png';
 

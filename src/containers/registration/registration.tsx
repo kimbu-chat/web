@@ -1,4 +1,4 @@
-import { getStringInitials } from '@utils/interlocutor-name-utils';
+import { getStringInitials } from '@utils/user-utils';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import React, { lazy, useCallback, useEffect, useRef, useState } from 'react';

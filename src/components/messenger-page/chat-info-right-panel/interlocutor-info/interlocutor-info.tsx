@@ -11,7 +11,7 @@ import { getSelectedChatSelector } from '@store/chats/selectors';
 import { parsePhoneNumber } from 'libphonenumber-js';
 import { Link } from 'react-router-dom';
 import { FadeAnimationWrapper } from '@components/shared';
-import { getChatInterlocutor } from '@utils/interlocutor-name-utils';
+import { getChatInterlocutor } from '@utils/user-utils';
 import { EditChatModal } from '../../edit-chat-modal/edit-chat-modal';
 
 export const InterlocutorInfo = () => {

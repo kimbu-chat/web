@@ -24,7 +24,7 @@ import { ReactComponent as MessageReadSvg } from '@icons/message-read.svg';
 import { ReactComponent as MessageErrorSvg } from '@icons/message-error.svg';
 
 import { getTypingStringSelector } from '@store/chats/selectors';
-import { getChatInterlocutor } from '@utils/interlocutor-name-utils';
+import { getChatInterlocutor } from '@utils/user-utils';
 import { constructSystemMessageText, checkIfDatesAreSameDate } from '@utils/message-utils';
 
 interface IChatItemProps {

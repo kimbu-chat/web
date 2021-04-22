@@ -15,7 +15,7 @@ import { ReactComponent as VideoCallSvg } from '@icons/video-call.svg';
 import { ReactComponent as ChatInfoSvg } from '@icons/chat-info.svg';
 import { ReactComponent as TypingSvg } from '@icons/typing.svg';
 
-import { getChatInterlocutor } from '@utils/interlocutor-name-utils';
+import { getChatInterlocutor } from '@utils/user-utils';
 import { changeChatInfoOpenedAction } from '@store/chats/actions';
 import { MessagesSearch } from './messages-search/messages-search';
 

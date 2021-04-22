@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 
 import { Avatar, StatusBadge, TimeUpdateable } from '@components/shared';
-import { getUserName } from '@utils/interlocutor-name-utils';
+import { getUserName } from '@utils/user-utils';
 import { ReactComponent as SelectedSvg } from '@icons/checked.svg';
 import { IChat } from '@store/chats/models';
 import { IUser } from '@store/common/models';

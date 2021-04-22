@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
 import { FadeAnimationWrapper, StatusBadge, TimeUpdateable } from '@components/shared';
 import { MyProfileService } from '@services/my-profile-service';
-import { getUserName } from '@utils/interlocutor-name-utils';
+import { getUserName } from '@utils/user-utils';
 import { DeleteChatMemberModal } from '../delete-chat-member-modal/delete-chat-member-modal';
 
 interface IMemberProps {

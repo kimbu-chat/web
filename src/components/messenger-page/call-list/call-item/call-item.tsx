@@ -13,7 +13,7 @@ import { useSelector } from 'react-redux';
 import { myIdSelector } from '@store/my-profile/selectors';
 import { CallStatus } from '@store/common/models';
 import { StatusBadge } from '@components/shared';
-import { getUserName } from '@utils/interlocutor-name-utils';
+import { getUserName } from '@utils/user-utils';
 
 const CallItem: React.FC<ICall> = ({ ...call }) => {
   const { t } = useTranslation();

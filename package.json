@@ -112,7 +112,6 @@
     "@typescript-eslint/parser": "4.17.0",
     "@welldone-software/why-did-you-render": "6.1.1",
     "babel-preset-react-app": "10.0.0",
-    "craco": "2.1.8",
     "customize-cra": "1.0.0",
     "eslint": "7.19.0",
     "eslint-config-airbnb": "18.2.1",

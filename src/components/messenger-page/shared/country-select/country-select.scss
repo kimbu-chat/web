@@ -4,6 +4,7 @@
   margin-bottom: 29px;
   position: relative;
   width: 339px;
+  cursor: pointer;
 
   &:hover {
     box-shadow: 0 3px 6px var(--box-shadow-3);
@@ -24,6 +25,7 @@
     line-height: 19px;
     padding: 10px 16px;
     width: 339px;
+    cursor: pointer;
   }
 
   &__input-svg {

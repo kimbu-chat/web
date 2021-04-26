@@ -1,5 +1,6 @@
 .dropdown {
   &__select-wrapper {
+    cursor: pointer;
     border: none;
     border-radius: 4px;
     color: var(--dt-white-wt-dark);

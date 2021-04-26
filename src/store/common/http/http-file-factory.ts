@@ -155,7 +155,7 @@ export const httpFilesRequestFactory = <TResponse, TBody>(
   headers?: HttpHeaders,
 ): IFilesRequestGenerator<TResponse, TBody> => {
   function* generator(body: TBody, callbacks: IFilesRequestGeneratorCallbacks): SagaIterator {
-    let cancelTokenSource = null;
+    let cancelTokenSource: CancelTokenSource | null = null;
 
     try {
       const refreshTokenRequestLoading = yield select(

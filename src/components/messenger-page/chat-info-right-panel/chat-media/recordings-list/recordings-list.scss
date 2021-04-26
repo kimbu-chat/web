@@ -14,8 +14,12 @@
   }
 
   &__recording {
-    margin: 20px 20px 0;
+    margin-top: 20px;
     max-width: calc(100% - 40px);
+
+    &:first-child {
+      margin-top: 0;
+    }
   }
 
   &__recordings {

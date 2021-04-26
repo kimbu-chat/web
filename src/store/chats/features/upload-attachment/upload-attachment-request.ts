@@ -30,7 +30,7 @@ export class UploadAttachmentRequest {
   static get reducer() {
     return produce(
       (draft: IChatsState, { payload }: ReturnType<typeof UploadAttachmentRequest.action>) => {
-        const { type, attachmentId, file } = payload;
+        const { type, attachmentId, file, waveFormJson } = payload;
 
         if (draft.selectedChatId) {
           const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
@@ -51,6 +51,7 @@ export class UploadAttachmentRequest {
               },
               progress: 0,
               file,
+              waveFormJson,
             };
 
             chat.attachmentsToSend?.push(attachmentToAdd);
@@ -66,7 +67,7 @@ export class UploadAttachmentRequest {
       action: ReturnType<typeof UploadAttachmentRequest.action>,
     ): SagaIterator {
       const chatId = yield select(getSelectedChatIdSelector);
-      const { file, type, attachmentId } = action.payload;
+      const { file, type, attachmentId, waveFormJson } = action.payload;
       let uploadRequest: IFilesRequestGenerator<AxiosResponse, FormData>;
 
       switch (type) {
@@ -96,10 +97,12 @@ export class UploadAttachmentRequest {
 
       const data = new FormData();
 
-      const uploadData = { file };
+      const uploadData = { file, waveFormJson };
 
       Object.entries(uploadData).forEach((k) => {
-        data.append(k[0], k[1]);
+        if (k[1]) {
+          data.append(k[0], k[1]);
+        }
       });
 
       yield call(() =>
@@ -120,7 +123,7 @@ export class UploadAttachmentRequest {
               UploadAttachmentSuccess.action({
                 chatId,
                 attachmentId,
-                attachment: payload.data,
+                attachment: { ...payload.data, waveFormJson } as IBaseAttachment,
               }),
             );
           },

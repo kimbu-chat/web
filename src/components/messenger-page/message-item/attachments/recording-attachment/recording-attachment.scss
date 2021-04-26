@@ -1,89 +1,63 @@
 .recording-attachment {
   cursor: pointer;
   margin-top: 10px;
-  width: 356px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
 
-  &__btn {
-    align-items: center;
-    background-color: var(--dt-kingBlue-wt-kingBlueLight);
-    border-radius: 50%;
-    color: var(--dt-white-wt-dark);
+  &:first-child {
+    margin-top: 0;
+  }
+
+  & > * {
+    width: 100%;
+  }
+
+  &__vaweform {
+    background: var(--chat-bg-dt-dark-wt-grayLight) !important;
+    height: 40px;
+  }
+
+  &__vaweform-wrapper {
+    position: relative;
+    border-radius: 0px 6px 7px;
+    overflow: hidden;
+    width: 193px;
+    flex: 0 0 193px;
+    margin-right: 24px;
+  }
+
+  &__progress {
+    background: #3f8ae0;
+    position: absolute;
+    overflow: hidden;
+    left: 0;
+    height: 100%;
+  }
+
+  &__play-pause {
+    margin-right: 10px;
+    background: #3f8ae0;
     display: flex;
-    height: 30px;
     justify-content: center;
-    width: 30px;
+    align-items: center;
+    width: 40px;
+    flex: 0 0 40px;
+    height: 40px;
+    border-radius: 0px 6px 6px 6px;
 
     svg {
-      height: 16px;
-      width: 16px;
+      color: white;
+      height: 24px;
+      width: 24px;
     }
   }
 
-  &__title {
-    color: var(--dt-kingBlue-wt-kingBlueLight);
+  &__duration {
+    font-weight: normal;
     font-size: 14px;
-    font-weight: 500;
     line-height: 16px;
-  }
-
-  .rhap {
-    &_container {
-      box-shadow: none;
-      padding: 0;
-    }
-
-    &_progress {
-      &-section {
-        flex: 1 1 auto;
-      }
-
-      &-indicator {
-        background-color: var(--dt-white-wt-dark);
-        border: 2px solid var(--dt-kingBlue-wt-kingBlueLight);
-        height: 10px;
-        top: -3px;
-        transform: translateX(5px);
-        width: 10px;
-      }
-
-      &-container {
-        margin-left: 0;
-        margin-right: 10px;
-      }
-
-      &-bar {
-        border-radius: 1px;
-        height: 4px;
-      }
-    }
-
-    &_controls-section {
-      align-items: center;
-      display: flex;
-      flex: 0 1 auto;
-      justify-content: space-between;
-      margin-right: 0 !important;
-    }
-
-    &_current-time {
-      font-size: 11px;
-      font-weight: 400;
-      line-height: 12px;
-      margin-bottom: auto;
-      margin-top: auto;
-    }
-
-    &_button-clear {
-      height: 30px;
-      margin: 0;
-      margin-right: 10px;
-      width: 30px;
-    }
+    color: var(--dt-white-wt-dark);
   }
 }
-
-$rhap_theme-color: #3f8ae0;
-$rhap_bar-color: rgba(#3f8ae0, 0.2);
-$rhap_time-color: #3f8ae0;
-
-@import '../../../../../../node_modules/react-h5-audio-player/src/styles.scss';

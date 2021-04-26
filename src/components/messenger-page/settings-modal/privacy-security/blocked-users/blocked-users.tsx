@@ -32,7 +32,7 @@ export const BlockedUsers = () => {
 
   return (
     <div className="blocked-users">
-      <div className="blocked-users__header">
+      <div onClick={loadBlockedUsers} className="blocked-users__header">
         <span>
           {t('blockedUsers.title', {
             count: blockedUsers.length === 0 ? undefined : blockedUsers.length,
@@ -40,7 +40,6 @@ export const BlockedUsers = () => {
         </span>
 
         <button
-          onClick={loadBlockedUsers}
           type="button"
           className={`blocked-users__header__open ${
             opened ? 'blocked-users__header__open--opened' : ''

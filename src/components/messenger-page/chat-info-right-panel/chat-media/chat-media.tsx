@@ -4,10 +4,10 @@ import './chat-media.scss';
 import { useTranslation } from 'react-i18next';
 
 import { ReactComponent as PictureSvg } from '@icons/picture.svg';
-import { ReactComponent as VideoSvg } from '@icons/video.svg';
+import { ReactComponent as VideoSvg } from '@icons/attachment-video.svg';
 import { ReactComponent as FilesSvg } from '@icons/files.svg';
 import { ReactComponent as VoiceSvg } from '@icons/voice.svg';
-import { ReactComponent as AudioSvg } from '@icons/audio.svg';
+import { ReactComponent as AudioSvg } from '@icons/song.svg';
 import { ReactComponent as OpenArrowSvg } from '@icons/open-arrow.svg';
 
 import {

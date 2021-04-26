@@ -49,10 +49,6 @@ export const httpRequestFactory = <TResponse, TBody = unknown>(
 
       const decodedJwt = jwtDecode<ICustomJwtPayload>(securityTokens.accessToken);
 
-      console.log(
-        (new Date().getTime() + (requestTimeout + 5000)) / 1000 - (decodedJwt?.exp || -1),
-      );
-
       if ((new Date().getTime() + (requestTimeout + 5000)) / 1000 > (decodedJwt?.exp || -1)) {
         yield put(RefreshToken.action());
         yield take(RefreshTokenSuccess.action);

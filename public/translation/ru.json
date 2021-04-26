@@ -281,8 +281,8 @@
     "title": "Сессии {{count}}"
   },
   "session": {
-    "last-acessed": "Последний доступ:",
-    "signed-in": "Вход:",
+    "last-acessed": "Последний доступ",
+    "signed-in": "Вход",
     "current-session": "Текущая сессия",
     "revoke": "Отозвать"
   },

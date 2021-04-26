@@ -36,16 +36,11 @@ export const Session: React.FC<ISessionProps> = ({ session }) => {
 
   return (
     <div className="session">
-      {session.os.includes('Windows') && (
-        <WindowsSvg className="session__icon" viewBox="0 0 108 108" />
-      )}
-      {(session.os.includes('Mac') || session.os.includes('iOS')) && (
-        <MacSvg className="session__icon" viewBox="0 0 108 108" />
-      )}
-      {session.os.includes('Linux') && <Linux className="session__icon" viewBox="0 0 108 108" />}
-
       <div className="session__data">
-        <div className="session__data__ordinary">{session.ipAddress}</div>
+        <div className="session__data__row">
+          <div className="session__data__highlighted">IP</div>
+          <div className="session__data__ordinary">{session.ipAddress}</div>
+        </div>
 
         <div className="session__data__row">
           <div className="session__data__highlighted">{session.clientApp}</div>

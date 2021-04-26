@@ -20,6 +20,18 @@
     }
   }
 
+  &__close {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 44px;
+    svg {
+      height: 18px;
+      width: 18px;
+      color: var(--dt-white-wt-kingBlue);
+    }
+  }
+
   &__pointer-container {
     align-items: center;
     display: flex;

@@ -35,7 +35,6 @@ import { CubeLoader } from '@containers/cube-loader/cube-loader';
 
 import { ReactComponent as AddSvg } from '@icons/add-attachment.svg';
 import { ReactComponent as VoiceSvg } from '@icons/voice.svg';
-import { ReactComponent as CrayonSvg } from '@icons/crayon.svg';
 import { ReactComponent as SendSvg } from '@icons/send.svg';
 import { ReactComponent as CloseSvg } from '@icons/close.svg';
 
@@ -427,19 +426,18 @@ const CreateMessageInput = () => {
                   <AddSvg />
                 </button>
                 <div className="message-input__line" />
-                <CrayonSvg width={22} viewBox="0 0 16 16" className="message-input__crayon" />
-
-                <ExpandingTextarea
-                  value={text}
-                  placeholder={t('messageInput.write')}
-                  onChange={onType}
-                  onPaste={onPaste}
-                  className="mousetrap message-input__input-message"
-                  onFocus={handleFocus}
-                  onBlur={handleBlur}
-                />
               </>
             )}
+
+            <ExpandingTextarea
+              value={text}
+              placeholder={t('messageInput.write')}
+              onChange={onType}
+              onPaste={onPaste}
+              className="mousetrap message-input__input-message"
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+            />
 
             <div className="message-input__right-btns">
               {!isRecording && (

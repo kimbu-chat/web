@@ -282,8 +282,8 @@
     "title": "Sessions {{count}}"
   },
   "session": {
-    "last-acessed": "Last accessed:",
-    "signed-in": "Signed in:",
+    "last-acessed": "Last accessed",
+    "signed-in": "Signed in",
     "current-session": "Current session",
     "revoke": "Revoke"
   },

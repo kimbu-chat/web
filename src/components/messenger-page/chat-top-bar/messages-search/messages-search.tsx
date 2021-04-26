@@ -10,6 +10,7 @@ import {
   getSelectedChatIdSelector,
   getSelectedChatMessagesSearchStringSelector,
 } from '@store/chats/selectors';
+import { ReactComponent as CloseSvg } from '@icons/close.svg';
 import { useSelector } from 'react-redux';
 import { getMessagesAction } from '@store/chats/actions';
 
@@ -21,8 +22,22 @@ const MessagesSearch = () => {
 
   const [isSearching, setIsSearching] = useState(false);
   const changeSearchingState = useCallback(() => {
-    setIsSearching((oldState) => !oldState);
-  }, [setIsSearching]);
+    if (isSearching) {
+      setIsSearching(false);
+      const pageData = {
+        limit: MESSAGES_LIMIT,
+        offset: 0,
+      };
+
+      getMessages({
+        page: pageData,
+        isFromSearch: true,
+        searchString: '',
+      });
+    } else {
+      setIsSearching(true);
+    }
+  }, [setIsSearching, isSearching, getMessages]);
 
   const searchMessages = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,6 +68,10 @@ const MessagesSearch = () => {
             value={messagesSearchString || ''}
             onChange={searchMessages}
           />
+          <button onClick={changeSearchingState} type="button" className="messages-search__close">
+            <CloseSvg />
+          </button>
+
           {/*
           //TODO: Use this block for navigation between found messages 
           <div className="messages-search__pointer-container">

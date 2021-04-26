@@ -6,6 +6,8 @@ import { createAction } from 'typesafe-actions';
 import { httpFilesRequestFactory, HttpRequestMethod } from '@store/common/http';
 import type { IFilesRequestGenerator } from '@store/common/http';
 import { FILES_API } from '@common/paths';
+import { emitToast } from '@utils/emit-toast';
+import { MAX_FILE_SIZE_MB } from '@utils/constants';
 import { getChatByIdDraftSelector, getSelectedChatIdSelector } from '../../selectors';
 import { addUploadingAttachment, removeUploadingAttachment } from '../../upload-qeue';
 import { UploadAttachmentFailure } from './upload-attachment-failure';
@@ -31,6 +33,10 @@ export class UploadAttachmentRequest {
     return produce(
       (draft: IChatsState, { payload }: ReturnType<typeof UploadAttachmentRequest.action>) => {
         const { type, attachmentId, file, waveFormJson } = payload;
+
+        if (file.size / 1048576 > MAX_FILE_SIZE_MB) {
+          return draft;
+        }
 
         if (draft.selectedChatId) {
           const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
@@ -69,6 +75,12 @@ export class UploadAttachmentRequest {
       const chatId = yield select(getSelectedChatIdSelector);
       const { file, type, attachmentId, waveFormJson } = action.payload;
       let uploadRequest: IFilesRequestGenerator<AxiosResponse, FormData>;
+
+      if (file.size / 1048576 > MAX_FILE_SIZE_MB) {
+        emitToast(`The file "${file.name}" size cannot exceed 25Mb`, { type: 'error' });
+
+        return;
+      }
 
       switch (type) {
         case FileType.Audio:

@@ -16,6 +16,7 @@ import {
 } from '@store/calls/selectors';
 import { useSelector } from 'react-redux';
 import { ReactComponent as VideoCameraSvg } from '@icons/video-camera.svg';
+import { ReactComponent as CloseMicrophoneSvg } from '@icons/mic-close.svg';
 import {
   killDeviceUpdateWatcherAction,
   spawnDeviceUpdateWatcherAction,
@@ -90,6 +91,10 @@ export const AudioVideoSettings = () => {
 
   const [microphoneIntensity, setMicrophoneIntensity] = useState(0);
   const [audioIntensity, setAudioIntensity] = useState(0);
+
+  const toggleMicrophone = useCallback(() => {
+    setMicrophoneOpened((oldState) => !oldState);
+  }, [setMicrophoneOpened]);
 
   useEffect(() => {
     if (videoOpened) {
@@ -264,13 +269,19 @@ export const AudioVideoSettings = () => {
       </div>
       <div className="audio-video__intensity-wrapper audio-video__intensity-wrapper--microphone">
         <div className="audio-video__subject-title">
-          <MicrophoneSvg
-            onClick={() => {
-              setMicrophoneOpened((oldState) => !oldState);
-            }}
-            viewBox="0 0 20 24"
-            className="audio-video__subject-icon"
-          />
+          {microphoneOpened ? (
+            <CloseMicrophoneSvg
+              onClick={toggleMicrophone}
+              viewBox="0 0 20 24"
+              className="audio-video__subject-icon"
+            />
+          ) : (
+            <MicrophoneSvg
+              onClick={toggleMicrophone}
+              viewBox="0 0 20 24"
+              className="audio-video__subject-icon"
+            />
+          )}
           <h5 className="audio-video__subject-text">{t('audioVideo.microphone')}</h5>
         </div>
         {audioMeasurementAllowed && <IntensityIndicator intensity={microphoneIntensity} />}

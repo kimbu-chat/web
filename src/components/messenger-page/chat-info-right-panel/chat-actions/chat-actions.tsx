@@ -13,6 +13,7 @@ import { ReactComponent as ClearSvg } from '@icons/clear.svg';
 
 import { ReactComponent as DeleteSvg } from '@icons/delete-contact.svg';
 import { ReactComponent as LeaveSvg } from '@icons/leave.svg';
+import { ReactComponent as BlockSvg } from '@icons/block.svg';
 import { ReactComponent as AddUsersSvg } from '@icons/add-users.svg';
 import { FadeAnimationWrapper, Button } from '@components/shared';
 import { deleteFriendAction, addFriendAction } from '@store/friends/actions';
@@ -183,7 +184,7 @@ export const ChatActions: React.FC = () => {
             type="button"
             onClick={blockSelectedUser}
             className="chat-actions__action">
-            <DeleteSvg />
+            <BlockSvg />
             <span className="chat-actions__action__name">{t('chatActions.block-user')}</span>
           </Button>
         ))}

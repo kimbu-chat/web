@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { containsFiles, useGlobalDrop } from '@hooks/use-global-drop';
-import { useOnClickOutside } from '@hooks/use-on-click-outside';
 import { useReferState } from '@hooks/use-referred-state';
 import {
   messageTypingAction,
@@ -13,7 +12,6 @@ import {
 import {
   SystemMessageType,
   MessageState,
-  FileType,
   IMessage,
   MessageLinkType,
   IAttachmentCreation,
@@ -28,11 +26,9 @@ import {
 import { myProfileSelector } from '@store/my-profile/selectors';
 import { getTypingStrategySelector } from '@store/settings/selectors';
 import { getFileType } from '@utils/get-file-extension';
-import moment from 'moment';
 import Mousetrap from 'mousetrap';
-import React, { useState, useRef, useEffect, useCallback, lazy, Suspense } from 'react';
+import React, { useState, useRef, useEffect, useCallback, Suspense } from 'react';
 import { useSelector } from 'react-redux';
-import useInterval from 'use-interval';
 import { throttle } from 'lodash';
 import { TypingStrategy } from '@store/settings/features/models';
 import { CubeLoader } from '@containers/cube-loader/cube-loader';
@@ -51,13 +47,7 @@ import './message-input.scss';
 import { EditingMessage } from './editing-message/editing-message';
 import { MessageError } from './message-error/message-error';
 import { MessageSmiles } from './message-smiles/message-smiles';
-
-export interface IRecordedData {
-  mediaRecorder: MediaRecorder | null;
-  tracks: MediaStreamTrack[];
-  isRecording: boolean;
-  needToSubmit: boolean;
-}
+import { RecordingMessage } from './recording-message/recording-message';
 
 const CreateMessageInput = () => {
   const { t } = useTranslation();
@@ -82,7 +72,6 @@ const CreateMessageInput = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
-  const [recordedSeconds, setRecordedSeconds] = useState(0);
 
   // edit state logic
   const [removedAttachments, setRemovedAttachments] = useState<IAttachmentCreation[] | undefined>(
@@ -102,13 +91,6 @@ const CreateMessageInput = () => {
   });
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const registerAudioBtnRef = useRef<HTMLButtonElement>(null);
-  const recorderData = useRef<IRecordedData>({
-    mediaRecorder: null,
-    tracks: [],
-    isRecording: false,
-    needToSubmit: false,
-  });
 
   const onDrag = useCallback(
     (e: DragEvent) => {
@@ -141,16 +123,6 @@ const CreateMessageInput = () => {
     setText(editingMessage?.text || '');
     setRemovedAttachments(undefined);
   }, [editingMessage?.text]);
-
-  useInterval(
-    () => {
-      if (isRecording) {
-        setRecordedSeconds((x) => x + 1);
-      }
-    },
-    isRecording ? 1000 : null,
-    true,
-  );
 
   const submitEditedMessage = useCallback(() => {
     const newAttachments = updatedSelectedChat.current?.attachmentsToSend?.map(
@@ -371,82 +343,9 @@ const CreateMessageInput = () => {
     selectedChat?.attachmentsToSend,
   ]);
 
-  const cancelRecording = useCallback(() => {
-    Mousetrap.unbind('esc');
-    recorderData.current.isRecording = false;
-    recorderData.current.tracks.forEach((track) => track.stop());
-    recorderData.current.tracks = [];
-    recorderData.current.needToSubmit = false;
-    if (recorderData.current.mediaRecorder?.state !== 'inactive') {
-      recorderData.current.mediaRecorder?.stop();
-    }
-  }, []);
-
-  const startRecording = useCallback(() => {
-    Mousetrap.bind('esc', cancelRecording);
-    recorderData.current.tracks.forEach((track) => track.stop());
-    recorderData.current.tracks = [];
-
-    navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-      recorderData.current.mediaRecorder = new MediaRecorder(stream);
-      recorderData.current.mediaRecorder?.start();
-      const tracks = stream.getTracks();
-      recorderData.current.tracks.push(...tracks);
-
-      recorderData.current.isRecording = true;
-      setIsRecording(true);
-
-      const audioChunks: Blob[] = [];
-      recorderData.current.mediaRecorder?.addEventListener('dataavailable', (event) => {
-        audioChunks.push(event.data);
-      });
-
-      recorderData.current.mediaRecorder?.addEventListener('stop', () => {
-        setIsRecording(false);
-        recorderData.current.isRecording = false;
-
-        recorderData.current.tracks.forEach((track) => track.stop());
-        recorderData.current.tracks = [];
-
-        if (audioChunks[0]?.size > 0 && recorderData.current.needToSubmit) {
-          const audioBlob = new Blob(audioChunks);
-          const audioFile = new File([audioBlob], 'audio.mp3', {
-            type: 'audio/mp3; codecs="opus"',
-          });
-          uploadAttachmentRequest({
-            type: FileType.Voice,
-            file: audioFile as File,
-            attachmentId: new Date().getTime(),
-          });
-        }
-
-        setRecordedSeconds(0);
-      });
-    });
-  }, [cancelRecording, uploadAttachmentRequest]);
-
-  const stopRecording = useCallback(() => {
-    Mousetrap.unbind('esc');
-    if (recorderData.current.isRecording) {
-      if (recorderData.current.mediaRecorder?.state === 'recording') {
-        recorderData.current.needToSubmit = true;
-        recorderData.current.mediaRecorder?.stop();
-      }
-
-      recorderData.current.tracks.forEach((track) => track.stop());
-      recorderData.current.tracks = [];
-    }
-  }, []);
-
-  useOnClickOutside(registerAudioBtnRef, cancelRecording);
-
   const handleRegisterAudioBtnClick = useCallback(() => {
-    if (recorderData.current.isRecording) {
-      stopRecording();
-    } else {
-      startRecording();
-    }
-  }, [startRecording, stopRecording]);
+    setIsRecording((oldState) => !oldState);
+  }, [setIsRecording]);
 
   const openSelectFiles = useCallback(() => {
     fileInputRef.current?.click();
@@ -519,7 +418,9 @@ const CreateMessageInput = () => {
           {editingMessage && <EditingMessage />}
           {false && <MessageError />}
           <div className="message-input__send-message">
-            {!isRecording && (
+            {isRecording ? (
+              <RecordingMessage hide={handleRegisterAudioBtnClick} />
+            ) : (
               <>
                 <input multiple hidden type="file" onChange={uploadFile} ref={fileInputRef} />
                 <button type="button" onClick={openSelectFiles} className="message-input__add">
@@ -527,58 +428,40 @@ const CreateMessageInput = () => {
                 </button>
                 <div className="message-input__line" />
                 <CrayonSvg width={22} viewBox="0 0 16 16" className="message-input__crayon" />
+
+                <ExpandingTextarea
+                  value={text}
+                  placeholder={t('messageInput.write')}
+                  onChange={onType}
+                  onPaste={onPaste}
+                  className="mousetrap message-input__input-message"
+                  onFocus={handleFocus}
+                  onBlur={handleBlur}
+                />
               </>
-            )}
-
-            {isRecording && (
-              <>
-                <div className="message-input__red-dot" />
-                <div className="message-input__counter">
-                  {moment.utc(recordedSeconds * 1000).format('mm:ss')}
-                </div>
-              </>
-            )}
-
-            {!isRecording && (
-              <ExpandingTextarea
-                value={text}
-                placeholder={t('messageInput.write')}
-                onChange={onType}
-                onPaste={onPaste}
-                className="mousetrap message-input__input-message"
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-              />
-            )}
-
-            {isRecording && (
-              <div className="message-input__recording-info">
-                Release outside this field to cancel
-              </div>
             )}
 
             <div className="message-input__right-btns">
               {!isRecording && (
-                <Suspense fallback={<CubeLoader />}>
-                  <MessageSmiles setText={setText} />
-                </Suspense>
-              )}
+                <>
+                  <Suspense fallback={<CubeLoader />}>
+                    <MessageSmiles setText={setText} />
+                  </Suspense>
 
-              <button
-                type="button"
-                onClick={handleRegisterAudioBtnClick}
-                ref={registerAudioBtnRef}
-                className="message-input__voice-btn">
-                <VoiceSvg viewBox="0 0 20 24" />
-              </button>
+                  <button
+                    type="button"
+                    onClick={handleRegisterAudioBtnClick}
+                    className="message-input__voice-btn">
+                    <VoiceSvg viewBox="0 0 20 24" />
+                  </button>
 
-              {!isRecording && (
-                <button
-                  type="button"
-                  onClick={sendMessageToServer}
-                  className="message-input__send-btn">
-                  <SendSvg />
-                </button>
+                  <button
+                    type="button"
+                    onClick={sendMessageToServer}
+                    className="message-input__send-btn">
+                    <SendSvg />
+                  </button>
+                </>
               )}
             </div>
           </div>

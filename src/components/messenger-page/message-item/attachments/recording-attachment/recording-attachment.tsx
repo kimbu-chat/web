@@ -1,50 +1,90 @@
-import React, { useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import './recording-attachment.scss';
+import { ReactComponent as PlaySvg } from '@icons/play.svg';
+import { ReactComponent as PauseSvg } from '@icons/pause.svg';
 
-import { ReactComponent as PlaySvg } from '@icons/ic-play.svg';
-import { ReactComponent as PauseSvg } from '@icons/ic-pause.svg';
-
-import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
-import moment from 'moment';
-import { changeMusic } from '@utils/current-music';
+import WaveSurfer from 'wavesurfer.js';
 import { IVoiceAttachment } from '@store/chats/models';
+import moment from 'moment';
 
 interface IRecordingAttachmentProps {
   attachment: IVoiceAttachment;
 }
 
 export const RecordingAttachment: React.FC<IRecordingAttachmentProps> = ({ attachment }) => {
-  const audioRef = useRef<AudioPlayer>();
+  const element = useRef<HTMLDivElement>(null);
+
+  const [progress, setProgress] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const wavesurfer = useRef<WaveSurfer | null>(null);
+
+  useEffect(() => {
+    if (element.current) {
+      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+      let context;
+      let processor;
+
+      if (isSafari) {
+        // Safari 11 or newer automatically suspends new AudioContext's that aren't
+        // created in response to a user-gesture, like a click or tap, so create one
+        // here (inc. the script processor)
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        context = new AudioContext();
+        processor = context.createScriptProcessor(1024, 1, 1);
+      }
+
+      wavesurfer.current = WaveSurfer.create({
+        container: element.current,
+        waveColor: '#3f8ae0',
+        progressColor: '#ffff',
+        backgroundColor: 'transparent',
+        cursorWidth: 0,
+        height: 40,
+        barWidth: 1,
+        audioScriptProcessor: processor,
+        audioContext: context,
+        hideScrollbar: true,
+        barRadius: 1,
+        barGap: 3,
+        barMinHeight: 1,
+      });
+
+      wavesurfer.current?.on('audioprocess', (e) => {
+        setProgress(e / (wavesurfer.current?.getDuration() || -1));
+      });
+
+      wavesurfer.current?.on('seek', (e) => {
+        setProgress(e);
+      });
+
+      wavesurfer.current?.on('finish', () => {
+        setProgress(100);
+        setIsPlaying(false);
+      });
+
+      wavesurfer.current?.load(attachment.url, JSON.parse(attachment.waveFormJson));
+    }
+  }, [attachment.url, setProgress, setIsPlaying, attachment.waveFormJson]);
+
+  const playPause = useCallback(() => {
+    setIsPlaying((oldState) => !oldState);
+    wavesurfer.current?.playPause();
+  }, [setIsPlaying]);
+
   return (
     <div className="recording-attachment">
-      <AudioPlayer
-        ref={audioRef as React.RefObject<AudioPlayer>}
-        onPlay={() =>
-          audioRef.current?.audio.current && changeMusic(audioRef.current?.audio.current)
-        }
-        src={attachment.url}
-        preload="none"
-        defaultCurrentTime={<span>{moment.utc(attachment.duration * 1000).format('mm:ss')}</span>}
-        showSkipControls={false}
-        showJumpControls={false}
-        autoPlayAfterSrcChange={false}
-        layout="horizontal-reverse"
-        customProgressBarSection={[RHAP_UI.PROGRESS_BAR, RHAP_UI.CURRENT_TIME]}
-        customControlsSection={[RHAP_UI.MAIN_CONTROLS]}
-        customAdditionalControls={[]}
-        customIcons={{
-          play: (
-            <div className="recording-attachment__btn">
-              <PlaySvg viewBox="0 0 25 25" />
-            </div>
-          ),
-          pause: (
-            <div className="recording-attachment__btn">
-              <PauseSvg viewBox="0 0 25 25" />
-            </div>
-          ),
-        }}
-      />
+      <button type="button" onClick={playPause} className="recording-attachment__play-pause">
+        {isPlaying ? <PauseSvg /> : <PlaySvg />}
+      </button>
+      <div className="recording-attachment__vaweform-wrapper">
+        <div style={{ width: `${progress * 100}%` }} className="recording-attachment__progress" />
+        <div ref={element} className="recording-attachment__vaweform" />
+      </div>
+      <div className="recording-attachment__duration">
+        {moment.utc(attachment.duration * 1000).format('mm:ss')}
+      </div>
     </div>
   );
 };

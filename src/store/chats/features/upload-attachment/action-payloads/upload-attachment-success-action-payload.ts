@@ -1,4 +1,4 @@
-import { IBaseAttachment } from '../../../models';
+import { IBaseAttachment } from '@store/chats/models';
 
 export interface IUploadAttachmentSuccessActionPayload<T = IBaseAttachment> {
   chatId: number;

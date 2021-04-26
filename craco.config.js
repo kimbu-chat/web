@@ -25,7 +25,10 @@ module.exports = {
         babelPresetCRAResult.presets.forEach((preset) => {
           // detect @babel/preset-react with {development: true, runtime: 'automatic'}
           const isReactPreset =
-            preset?.[1]?.runtime === 'automatic' && preset?.[1]?.development === true;
+            preset &&
+            preset.length > 1 &&
+            preset[1].runtime === 'automatic' &&
+            preset[1].development === true;
           if (isReactPreset) {
             preset[1].importSource = '@welldone-software/why-did-you-render';
           }

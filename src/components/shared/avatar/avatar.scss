@@ -1,8 +1,8 @@
 .avatar {
   align-items: center;
-  background-color: #bdbdbd;
+  background-color: var(--avatar-bg);
   border-radius: 6px;
-  color: #fafafa;
+  color: var(--dt-white-wt-dark);
   display: flex;
   flex-shrink: 0;
   font-family: inherit;
@@ -14,4 +14,11 @@
   position: relative;
   user-select: none;
   width: 100%;
+
+  &--deleted {
+    svg {
+      height: 50%;
+      width: 50%;
+    }
+  }
 }

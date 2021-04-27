@@ -32,7 +32,7 @@ body {
   }
 
   &::-webkit-scrollbar-track {
-    background: var(--scroll-bg);
+    background: transparent;
     width: 4px;
   }
 
@@ -149,7 +149,7 @@ input {
   --input-disabled: #464c59;
   --input-placeholder: rgba(255, 255, 255, 0.14);
 
-  --scroll-bg: rgba(55, 63, 81, 0.3);
+  --avatar-bg: #161d2e;
 
   --blur-color: rgba(38, 44, 56, 0.4);
 }

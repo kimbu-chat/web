@@ -102,15 +102,16 @@ export const ChatTopBar = () => {
           </div>
         </button>
         <div className="chat-data__buttons-group">
-          {selectedChat.interlocutor && (
-            <button type="button" className="chat-data__button" onClick={callWithAudio}>
-              <VoiceCallSvg />
-            </button>
-          )}
-          {selectedChat.interlocutor && (
-            <button type="button" className="chat-data__button" onClick={callWithVideo}>
-              <VideoCallSvg />
-            </button>
+          {selectedChat.interlocutor && !selectedChat.interlocutor?.deleted && (
+            <>
+              <button type="button" className="chat-data__button" onClick={callWithAudio}>
+                <VoiceCallSvg />
+              </button>
+
+              <button type="button" className="chat-data__button" onClick={callWithVideo}>
+                <VideoCallSvg />
+              </button>
+            </>
           )}
 
           <MessagesSearch />

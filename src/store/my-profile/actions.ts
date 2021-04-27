@@ -11,6 +11,7 @@ import { UploadAvatar } from './features/upload-avatar/upload-avatar';
 import { UserDeactivatedEventHandler } from './socket-events/user-deactivated/user-deactivated-event-handler';
 import { UserDeletedEventHandler } from './socket-events/user-deleted/user-deleted';
 import { UserEditedEventHandler } from './socket-events/user-edited/user-edited-event-handler';
+import { UserPhoneNumberChangedEventHandler } from './socket-events/user-phone-number-changed/user-phone-number-changed';
 
 export const updateMyProfileAction = UpdateMyProfile.action;
 export const updateMyProfileSuccessAction = UpdateMyProfileSuccess.action;
@@ -25,6 +26,7 @@ export const deactivateAccountAction = DeactivateAccount.action;
 export const deleteAccountAction = DeleteAccount.action;
 export const userDeactivatedEventHandler = UserDeactivatedEventHandler.action;
 export const userDeletedEventHandler = UserDeletedEventHandler.action;
+export const userPhoneNumberChangedEventHandler = UserPhoneNumberChangedEventHandler.action;
 
 export const MyProfileActions = {
   updateMyProfileAction,
@@ -40,4 +42,5 @@ export const MyProfileActions = {
   deactivateAccountAction,
   userDeletedEventHandler,
   deleteAccountAction,
+  userPhoneNumberChangedEventHandler,
 };

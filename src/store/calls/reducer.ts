@@ -1,4 +1,3 @@
-import { UserDeactivatedEventHandler } from '@store/my-profile/socket-events/user-deactivated/user-deactivated-event-handler';
 import { createReducer } from 'typesafe-actions';
 import { UserDeletedEventHandler } from '@store/my-profile/socket-events/user-deleted/user-deleted';
 import produce from 'immer';

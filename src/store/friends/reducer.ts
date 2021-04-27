@@ -2,6 +2,7 @@ import { createReducer } from 'typesafe-actions';
 import { UserDeactivatedEventHandler } from '@store/my-profile/socket-events/user-deactivated/user-deactivated-event-handler';
 import produce from 'immer';
 import { UserDeletedEventHandler } from '@store/my-profile/socket-events/user-deleted/user-deleted';
+import { UserPhoneNumberChangedEventHandler } from '@store/my-profile/socket-events/user-phone-number-changed/user-phone-number-changed';
 import { UserEditedEventHandler } from './socket-events/user-edited/user-edited-event-handler';
 import { AddFriendSuccess } from './features/add-friend/add-friend-success';
 import { DeleteFriendSuccess } from './features/delete-friend/delete-friend-success';
@@ -37,6 +38,22 @@ const reducer = createReducer<IFriendsState>(initialState)
   .handleAction(UserStatusChangedEventHandler.action, UserStatusChangedEventHandler.reducer)
   .handleAction(UserContactsRemovedEventHandler.action, UserContactsRemovedEventHandler.reducer)
   .handleAction(UserEditedEventHandler.action, UserEditedEventHandler.reducer)
+  .handleAction(
+    UserPhoneNumberChangedEventHandler.action,
+    (
+      draft: IFriendsState,
+      { payload }: ReturnType<typeof UserPhoneNumberChangedEventHandler.action>,
+    ) => {
+      const { phoneNumber, userId } = payload;
+      const user = getUserDraftSelector(userId, draft);
+
+      if (user) {
+        user.phoneNumber = phoneNumber;
+      }
+
+      return draft;
+    },
+  )
   .handleAction(
     UserDeactivatedEventHandler.action,
     produce(

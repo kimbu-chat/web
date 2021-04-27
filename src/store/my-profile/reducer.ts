@@ -5,6 +5,7 @@ import { UpdateMyProfileSuccess } from './features/update-my-profile/update-my-p
 import { UserEditedEventHandler } from './socket-events/user-edited/user-edited-event-handler';
 import { ChangeUserOnlineStatus } from './features/change-user-online-status/change-user-online-status';
 import { IMyProfileState } from './my-profile-state';
+import { UserPhoneNumberChangedEventHandler } from './socket-events/user-phone-number-changed/user-phone-number-changed';
 
 const authService = new MyProfileService();
 const initialState: IMyProfileState = {
@@ -16,6 +17,10 @@ const reducer = createReducer<IMyProfileState>(initialState)
   .handleAction(GetMyProfileSuccess.action, GetMyProfileSuccess.reducer)
   .handleAction(UpdateMyProfileSuccess.action, UpdateMyProfileSuccess.reducer)
   .handleAction(UserEditedEventHandler.action, UserEditedEventHandler.reducer)
-  .handleAction(ChangeUserOnlineStatus.action, ChangeUserOnlineStatus.reducer);
+  .handleAction(ChangeUserOnlineStatus.action, ChangeUserOnlineStatus.reducer)
+  .handleAction(
+    UserPhoneNumberChangedEventHandler.action,
+    UserPhoneNumberChangedEventHandler.reducer,
+  );
 
 export default reducer;

@@ -2,6 +2,7 @@ import produce from 'immer';
 import { createReducer } from 'typesafe-actions';
 import { DismissToAddContactSuccess } from '@store/friends/features/dismiss-to-add-contact/dismiss-to-add-contact-success';
 import { UserContactsRemovedEventHandler } from '@store/friends/socket-events/user-contacts-removed/user-contacts-removed-event-handler';
+import { UserPhoneNumberChangedEventHandler } from '@store/my-profile/socket-events/user-phone-number-changed/user-phone-number-changed';
 import { UserDeletedEventHandler } from '../my-profile/socket-events/user-deleted/user-deleted';
 import { UserDeactivatedEventHandler } from '../my-profile/socket-events/user-deactivated/user-deactivated-event-handler';
 import { RemoveChatSuccess } from './features/remove-chat/remove-chat-success';
@@ -147,6 +148,23 @@ const reducer = createReducer<IChatsState>(initialState)
   .handleAction(MessageCreatedEventHandlerSuccess.action, MessageCreatedEventHandlerSuccess.reducer)
   .handleAction(DialogRemovedEventHandler.action, DialogRemovedEventHandler.reducer)
   .handleAction(ResetSearchChats.action, ResetSearchChats.reducer)
+  .handleAction(
+    UserPhoneNumberChangedEventHandler.action,
+    (
+      draft: IChatsState,
+      { payload }: ReturnType<typeof UserPhoneNumberChangedEventHandler.action>,
+    ) => {
+      const { phoneNumber, userId } = payload;
+      const chatId: number = ChatId.from(userId).id;
+      const chat = getChatByIdDraftSelector(chatId, draft);
+
+      if (chat?.interlocutor) {
+        chat.interlocutor.phoneNumber = phoneNumber;
+      }
+
+      return draft;
+    },
+  )
   .handleAction(
     UserStatusChangedEventHandler.action,
     produce(

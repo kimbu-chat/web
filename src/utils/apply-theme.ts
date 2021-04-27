@@ -55,7 +55,7 @@ export function applyTheme(theme?: Theme) {
     '--input-disabled': '#E5E5E5',
     '--input-placeholder': 'rgba(63, 138, 224, 0.25)',
 
-    '--scroll-bg': 'rgba(214, 233, 255, 0.2)',
+    '--avatar-bg': '#D6E9FF',
 
     '--dt-semi-transparent-wt-kingBlue': '#3F8AE0',
     '--dt-semi-transparent-white-wt-kingBlueLight-transparent': 'rgba(63, 138, 224, 0.25)',
@@ -138,7 +138,7 @@ export function applyTheme(theme?: Theme) {
     '--input-disabled': '#464c59',
     '--input-placeholder': 'rgba(255, 255, 255, 0.14)',
 
-    '--scroll-bg': 'rgba(55, 63, 81, 0.3)',
+    '--avatar-bg': '#161D2E',
 
     '--blur-color': 'rgba(38, 44, 56, 0.4)',
   };

@@ -1,9 +1,15 @@
-import { IMessage } from '../../../models';
+import { IUser } from '@store/common/models';
+import { INormalizedMessage } from '../../../models';
 
 export interface IGetMessagesSuccessActionPayload {
-  messages: IMessage[];
-  hasMoreMessages: boolean;
-  chatId: number;
-  isFromSearch?: boolean;
-  searchString?: string;
+  messageList: {
+    messages: INormalizedMessage[];
+    messageIds: number[];
+    hasMoreMessages: boolean;
+    chatId: number;
+    isFromSearch?: boolean;
+    searchString?: string;
+  };
+
+  users: IUser[];
 }

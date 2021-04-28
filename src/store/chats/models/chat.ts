@@ -8,14 +8,14 @@ import { IVoiceAttachment } from './attachments/voice-attachment';
 import { IGroupChat } from './group-chat';
 import { IGroupable } from './groupable';
 import { InterlocutorType } from './interlocutor-type';
-import { IMessage } from './message';
+import { INormalizedMessage } from './message';
 
 export interface IChat {
   id: number;
 
   interlocutorType?: InterlocutorType;
   groupChat?: IGroupChat;
-  lastMessage?: IMessage | null;
+  lastMessage?: INormalizedMessage | null;
   interlocutor?: IUser;
   unreadMessagesCount: number;
   interlocutorLastReadMessageId?: number;
@@ -23,8 +23,8 @@ export interface IChat {
   typingInterlocutors?: string[];
   isMuted?: boolean;
 
-  messageToEdit?: IMessage;
-  messageToReply?: IMessage;
+  messageToEdit?: INormalizedMessage;
+  messageToReply?: INormalizedMessage;
 
   photos: {
     photos: (IPictureAttachment & IGroupable)[];

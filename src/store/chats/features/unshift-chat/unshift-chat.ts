@@ -15,6 +15,7 @@ export class UnshiftChat {
       if (!draft.messages[payload.id]) {
         draft.messages[payload.id] = {
           messages: [],
+          messageIds: [],
           hasMore: true,
           loading: false,
         };

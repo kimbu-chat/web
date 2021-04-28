@@ -4,7 +4,13 @@ import { createSystemMessage } from '@utils/message-utils';
 import { playSoundSafely } from '../../../../utils/current-music';
 import messageCameUnselected from '../../../../assets/sounds/notifications/messsage-came-unselected.ogg';
 import { ChatId } from '../../chat-id';
-import { IMessage, SystemMessageType, MessageState, IChat, InterlocutorType } from '../../models';
+import {
+  SystemMessageType,
+  MessageState,
+  IChat,
+  InterlocutorType,
+  INormalizedMessage,
+} from '../../models';
 import { getChatExistsDraftSelector } from '../../selectors';
 import { IGroupChatCreatedIntegrationEvent } from './group-chat-сreated-integration-event';
 import { IChatsState } from '../../chats-state';
@@ -40,11 +46,11 @@ export class GroupChatCreatedEventHandler {
         const audioUnselected = new Audio(messageCameUnselected);
         playSoundSafely(audioUnselected);
 
-        const messageOfCreation: IMessage = {
+        const messageOfCreation: INormalizedMessage = {
           systemMessageType: SystemMessageType.GroupChatCreated,
           text: createSystemMessage({}),
           creationDateTime: new Date(new Date().toUTCString()),
-          userCreator,
+          userCreator: userCreator.id,
           state: MessageState.READ,
           chatId,
           id: systemMessageId,
@@ -113,6 +119,7 @@ export class GroupChatCreatedEventHandler {
 
         draft.messages[newChat.id] = {
           messages: [],
+          messageIds: [],
           hasMore: true,
           loading: false,
         };

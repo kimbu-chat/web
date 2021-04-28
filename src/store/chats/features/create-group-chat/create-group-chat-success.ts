@@ -21,6 +21,7 @@ export class CreateGroupChatSuccess {
 
           draft.messages[newChat.id] = {
             messages: [],
+            messageIds: [],
             hasMore: true,
             loading: false,
           };

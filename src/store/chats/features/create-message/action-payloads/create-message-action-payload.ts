@@ -1,5 +1,7 @@
-import { IMessage } from '../../../models';
+import { IUser } from '@store/common/models';
+import { INormalizedMessage } from '../../../models';
 
 export interface ICreateMessageActionPayload {
-  message: IMessage;
+  message: INormalizedMessage;
+  userCreator: IUser;
 }

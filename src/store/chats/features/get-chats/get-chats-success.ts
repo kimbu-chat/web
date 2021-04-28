@@ -19,6 +19,7 @@ export class GetChatsSuccess {
         if (!draft.messages[chatId]) {
           draft.messages[chatId] = {
             messages: [],
+            messageIds: [],
             hasMore: true,
             loading: false,
           };

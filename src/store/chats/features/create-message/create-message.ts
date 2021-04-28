@@ -28,7 +28,7 @@ export class CreateMessage {
 
       if (chat) {
         delete chat.attachmentsToSend;
-        chat.lastMessage = { ...message };
+        chat.lastMessage = message;
         chat.draftMessage = '';
         delete chat.messageToReply;
 
@@ -41,8 +41,11 @@ export class CreateMessage {
         }
       }
 
-      if (draft.messages[chat.id].messages.findIndex(({ id }) => id === message.id) === -1) {
-        draft.messages[chat.id].messages.unshift(message);
+      const chatMessages = draft.messages[chat.id];
+
+      if (chatMessages && chatMessages.messages[message.id] === undefined) {
+        chatMessages.messages[message.id] = message;
+        chatMessages.messageIds.unshift(message.id);
       }
       return draft;
     });

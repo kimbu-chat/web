@@ -12,11 +12,11 @@ import {
 import {
   SystemMessageType,
   MessageState,
-  IMessage,
   MessageLinkType,
   IAttachmentCreation,
   IAttachmentToSend,
   IBaseAttachment,
+  INormalizedMessage,
 } from '@store/chats/models';
 import {
   getMessageToReplySelector,
@@ -163,10 +163,10 @@ const CreateMessageInput = () => {
       );
 
       if (chatId) {
-        const message: IMessage = {
+        const message: INormalizedMessage = {
           text: refText,
           systemMessageType: SystemMessageType.None,
-          userCreator: currentUser,
+          userCreator: currentUser.id,
           creationDateTime: new Date(new Date().toUTCString()),
           state: MessageState.QUEUED,
           id: new Date().getTime(),
@@ -183,6 +183,7 @@ const CreateMessageInput = () => {
         }
         sendMessage({
           message,
+          userCreator: currentUser,
         });
       }
     }

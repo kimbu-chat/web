@@ -38,23 +38,36 @@ export class ChangeSelectedChat {
 
         if (oldChatId) {
           const chat = getChatByIdDraftSelector(oldChatId, draft);
+          const oldChatMessages = draft.messages[oldChatId];
 
-          if (draft.messages[oldChatId].searchString?.length) {
-            draft.messages[oldChatId].searchString = '';
-            draft.messages[oldChatId].messages = [];
-          } else if (chat && draft.messages[oldChatId]?.messages.length > MESSAGES_LIMIT) {
-            draft.messages[oldChatId].messages = draft.messages[oldChatId].messages.slice(0, 30);
-          }
+          if (oldChatMessages) {
+            if (oldChatMessages.searchString?.length) {
+              oldChatMessages.searchString = '';
+              oldChatMessages.messages = {};
+              oldChatMessages.messageIds = [];
+            } else if (chat && (oldChatMessages?.messageIds.length || 0) > MESSAGES_LIMIT) {
+              const messageIdsToDelete = oldChatMessages.messageIds.slice(
+                30,
+                oldChatMessages.messageIds.length - 1,
+              );
 
-          draft.messages[oldChatId].hasMore = true;
+              messageIdsToDelete.forEach((messageId) => {
+                delete oldChatMessages?.messages[messageId];
+              });
 
-          if (chat && draft.selectedMessageIds.length > 0) {
-            draft.messages[oldChatId].messages = draft.messages[oldChatId].messages.map(
-              (message) => ({
-                ...message,
-                isSelected: false,
-              }),
-            );
+              oldChatMessages.messageIds = oldChatMessages.messageIds.slice(0, 30);
+            }
+
+            oldChatMessages.hasMore = true;
+
+            if (chat && draft.selectedMessageIds.length > 0) {
+              oldChatMessages.messageIds.forEach((messageId) => {
+                const currentMessage = oldChatMessages.messages[messageId];
+                if (currentMessage) {
+                  currentMessage.isSelected = false;
+                }
+              });
+            }
           }
         }
 

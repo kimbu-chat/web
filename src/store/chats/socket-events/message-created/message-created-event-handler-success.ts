@@ -10,7 +10,7 @@ import {
   IPictureAttachment,
   IVideoAttachment,
   IVoiceAttachment,
-  IMessage,
+  INormalizedMessage,
 } from '../../models';
 import { getChatIndexDraftSelector, getMessageDraftSelector } from '../../selectors';
 import { IMessageCreatedIntegrationEvent } from './message-created-integration-event';
@@ -53,14 +53,14 @@ export class MessageCreatedEventHandlerSuccess {
         const myId = new MyProfileService().myProfile.id;
         const isCurrentUserMessageCreator: boolean = myId === userCreator?.id;
 
-        const message: IMessage = {
+        const message: INormalizedMessage = {
           attachments,
           chatId,
           creationDateTime,
           id,
           systemMessageType,
           text,
-          userCreator,
+          userCreator: userCreator.id,
           linkedMessageType,
 
           isEdited: false,
@@ -71,7 +71,7 @@ export class MessageCreatedEventHandlerSuccess {
         const chat = draft.chats.chats[chatIndex];
 
         if (linkedMessage && linkedMessageId) {
-          message.linkedMessage = linkedMessage;
+          message.linkedMessage = { ...linkedMessage, userCreator: linkedMessage.userCreator.id };
         }
 
         if (chat) {
@@ -81,8 +81,13 @@ export class MessageCreatedEventHandlerSuccess {
             isInterlocutorCurrentSelectedChat || isCurrentUserMessageCreator
               ? previousUnreadMessagesCount
               : previousUnreadMessagesCount + 1;
+          const chatMessages = draft.messages[chatId];
 
-          draft.messages[chatId].messages.unshift(message);
+          if (chatMessages) {
+            chatMessages.messageIds.unshift(message.id);
+
+            chatMessages.messages[message.id] = message;
+          }
 
           attachments?.forEach((attachment) => {
             switch (attachment.type) {

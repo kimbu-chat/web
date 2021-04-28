@@ -6,7 +6,10 @@ import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { replaceInUrl } from '@utils/replace-in-url';
 import { MAIN_API } from '@common/paths';
-import { IMessage } from '../../models';
+import { messageNormalizationSchema } from '@store/chats/normalization';
+import { IUser } from '@store/common/models';
+import { normalize } from 'normalizr';
+import { INormalizedMessage, IMessage } from '../../models';
 
 import { getChatLastMessageIdSelector, getChatMessagesLengthSelector } from '../../selectors';
 import { IMessagesDeletedIntegrationEvent } from './messages-deleted-integration-event';
@@ -25,7 +28,7 @@ export class MessagesDeletedIntegrationEventHandler {
       const { chatId, messageIds } = action.payload;
       const lastMessageId = yield select(getChatLastMessageIdSelector(chatId));
       const messageListIsEmpty = (yield select(getChatMessagesLengthSelector(chatId))) === 0;
-      let newLastMessage: IMessage | null = null;
+      const newLastMessage: INormalizedMessage | null = null;
 
       if (messageIds.includes(lastMessageId) && messageListIsEmpty) {
         const {
@@ -36,7 +39,15 @@ export class MessagesDeletedIntegrationEventHandler {
           ),
         );
 
-        newLastMessage = data;
+        // newLastMessage = data;
+
+        const dataaa = normalize<
+          IMessage[],
+          { messages: INormalizedMessage[]; users: IUser[] },
+          number[]
+        >(data, messageNormalizationSchema);
+
+        console.log(dataaa);
       }
 
       yield put(

@@ -27,9 +27,8 @@ export class SubmitEditMessage {
 
         if (draft.selectedChatId) {
           const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
-          const message = draft.messages[draft.selectedChatId].messages.find(
-            ({ id }) => id === messageId,
-          );
+          const message = draft.messages[draft.selectedChatId]?.messages[messageId];
+
           let newAttachmentsToAssign = message?.attachments;
 
           if (removedAttachments?.length || newAttachments?.length) {

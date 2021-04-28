@@ -28,9 +28,11 @@ export class MessagesDeletedIntegrationEventHandlerSuccess {
               (id) => id !== msgIdToDelete,
             );
 
-            const [deletedMessage] = draft.messages[chatId].messages.filter(
-              ({ id }) => id === msgIdToDelete,
-            );
+            const deletedMessageId = draft.messages[chatId]?.messageIds?.filter(
+              (id) => id === msgIdToDelete,
+            )[0];
+
+            const deletedMessage = draft.messages[chatId]?.messages[deletedMessageId || -1];
 
             deletedMessage?.attachments?.forEach((attachment) => {
               switch (attachment.type) {
@@ -66,12 +68,16 @@ export class MessagesDeletedIntegrationEventHandlerSuccess {
               }
             });
 
-            draft.messages[chatId].messages
-              .filter(({ linkedMessage }) => linkedMessage?.id === msgIdToDelete)
-              .forEach((_msg, index) => {
-                const message = draft.messages[chatId].messages[index];
+            draft.messages[chatId]?.messageIds
+              .filter((messageId) => {
+                const linkedMessage = draft.messages[chatId]?.messages[messageId]?.linkedMessage;
 
-                if (message.linkedMessage) {
+                return linkedMessage?.id === msgIdToDelete;
+              })
+              .forEach((_msg, index) => {
+                const message = draft.messages[chatId]?.messages[index];
+
+                if (message?.linkedMessage) {
                   message.linkedMessage = null;
                 }
 
@@ -81,7 +87,7 @@ export class MessagesDeletedIntegrationEventHandlerSuccess {
 
           if (chat.lastMessage) {
             if (messageIds.includes(chat.lastMessage.id)) {
-              chat.lastMessage = draft.messages[chatId].messages[0] || chatNewLastMessage;
+              chat.lastMessage = draft.messages[chatId]?.messages[0] || chatNewLastMessage;
             }
           }
 

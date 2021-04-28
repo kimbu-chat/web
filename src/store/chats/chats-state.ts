@@ -1,4 +1,4 @@
-import { IMessage } from './models/message';
+import { INormalizedMessage } from './models/message';
 import { ById } from './models/by-id';
 import { IChat } from './models/chat';
 
@@ -11,7 +11,8 @@ interface IChatList {
 
 export interface IChatsState {
   messages: ById<{
-    messages: IMessage[];
+    messages: ById<INormalizedMessage>;
+    messageIds: number[];
     loading: boolean;
     hasMore: boolean;
     searchString?: string;

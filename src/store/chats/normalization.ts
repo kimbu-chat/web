@@ -1,6 +1,6 @@
+import { IChat, IMessage } from '@store/chats/models';
 import { IUser } from '@store/common/models';
 import { schema } from 'normalizr';
-import { IMessage } from './models';
 
 // Define a users schema
 const user = new schema.Entity<IUser>('users');
@@ -10,7 +10,15 @@ export const messageNormalizationSchema = new schema.Entity<IMessage>('messages'
   userCreator: user,
 });
 
-// Define your article
+export const chatNormalizationSchema = new schema.Entity<IChat>('chats', {
+  lastMessage: {
+    userCreator: user,
+  },
+  interlocutor: user,
+});
+
 export const messageArrNormalizationSchema = new schema.Array<IMessage[]>(
   messageNormalizationSchema,
 );
+
+export const chatArrNormalizationSchema = new schema.Array<IChat[]>(chatNormalizationSchema);

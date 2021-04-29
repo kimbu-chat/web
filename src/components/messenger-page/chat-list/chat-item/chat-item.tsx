@@ -35,6 +35,7 @@ interface IChatItemProps {
 const ChatItem: React.FC<IChatItemProps> = ({ chat }) => {
   const { t } = useTranslation();
   const lastMessageUserCreator = useSelector(getUserSelector(chat.lastMessage?.userCreator));
+  const interlocutor = useSelector(getUserSelector(chat.interlocutor));
 
   const currentUserId = useSelector(myIdSelector) as number;
   const typingString = useSelector(getTypingStringSelector(t, chat.id));
@@ -132,11 +133,11 @@ const ChatItem: React.FC<IChatItemProps> = ({ chat }) => {
       to={`/chats/${chat.id.toString()}`}
       className="chat-item"
       activeClassName="chat-item chat-item--active">
-      {existedChat.interlocutor && (
+      {interlocutor && (
         <StatusBadge
           containerClassName="chat-item__avatar-container"
           additionalClassNames="chat-item__avatar"
-          user={existedChat.interlocutor}
+          user={interlocutor}
         />
       )}
 
@@ -148,7 +149,7 @@ const ChatItem: React.FC<IChatItemProps> = ({ chat }) => {
       )}
       <div className="chat-item__contents">
         <div className="chat-item__heading">
-          <div className="chat-item__name">{getChatInterlocutor(chat, t)}</div>
+          <div className="chat-item__name">{getChatInterlocutor(interlocutor, chat, t)}</div>
           <div className="chat-item__status">
             {!(
               chat.lastMessage?.systemMessageType !== SystemMessageType.None ||

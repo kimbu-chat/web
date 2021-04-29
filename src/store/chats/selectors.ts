@@ -33,11 +33,13 @@ export const getSelectedGroupChatSelector = (state: RootState) =>
   state.chats.chats.chats.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.groupChat;
 
 export const getSelectedInterlocutorSelector = (state: RootState) =>
-  state.chats.chats.chats.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.interlocutor;
+  state.users.users[
+    state.chats.chats.chats.find((x: IChat) => x?.id === state?.chats?.selectedChatId)
+      ?.interlocutor || -1
+  ];
 
 export const getSelectedInterlocutorIdSelector = (state: RootState) =>
-  state.chats.chats.chats.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.interlocutor
-    ?.id;
+  state.chats.chats.chats.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.interlocutor;
 
 export const getSelectedGroupChatNameSelector = (state: RootState) =>
   state.chats.chats.chats.find((x: IChat) => x?.id === state?.chats?.selectedChatId)?.groupChat
@@ -103,16 +105,6 @@ export const getAudioAttachmentsCountSelector = (state: RootState): number =>
   state.chats.chats.chats.find((x: IChat) => x?.id === state?.chats?.selectedChatId)
     ?.audioAttachmentsCount || 0;
 // -----------
-
-export const getSelectedChatInterlocutorNameSelector = (state: RootState) => {
-  const selectedChat = state.chats.chats.chats.find(
-    (x: IChat) => x?.id === state?.chats?.selectedChatId,
-  );
-
-  return selectedChat?.interlocutor
-    ? `${selectedChat?.interlocutor?.firstName} ${selectedChat?.interlocutor?.lastName}`
-    : selectedChat?.groupChat?.name;
-};
 
 export const getSelectedChatIdSelector = (state: RootState): number | null =>
   state.chats.selectedChatId;
@@ -225,9 +217,13 @@ export const amIBlackListedByInterlocutorSelector = (state: RootState) =>
     ?.isBlockedByInterlocutor;
 
 export const isCurrentChatUserDeactivatedSelector = (state: RootState) =>
-  state.chats.chats.chats.find(({ id }) => id === state.chats.selectedChatId)?.interlocutor
-    ?.deactivated;
+  state.users.users[
+    state.chats.chats.chats.find((x: IChat) => x?.id === state?.chats?.selectedChatId)
+      ?.interlocutor || -1
+  ]?.deactivated;
 
 export const isCurrentChatUserDeletedSelector = (state: RootState) =>
-  state.chats.chats.chats.find(({ id }) => id === state.chats.selectedChatId)?.interlocutor
-    ?.deleted;
+  state.users.users[
+    state.chats.chats.chats.find((x: IChat) => x?.id === state?.chats?.selectedChatId)
+      ?.interlocutor || -1
+  ]?.deleted;

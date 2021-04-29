@@ -2,7 +2,6 @@ import produce from 'immer';
 import { createReducer } from 'typesafe-actions';
 import { DismissToAddContactSuccess } from '@store/friends/features/dismiss-to-add-contact/dismiss-to-add-contact-success';
 import { UserContactsRemovedEventHandler } from '@store/friends/socket-events/user-contacts-removed/user-contacts-removed-event-handler';
-import { UserPhoneNumberChangedEventHandler } from '@store/my-profile/socket-events/user-phone-number-changed/user-phone-number-changed';
 import { UserDeletedEventHandler } from '../my-profile/socket-events/user-deleted/user-deleted';
 import { UserDeactivatedEventHandler } from '../my-profile/socket-events/user-deactivated/user-deactivated-event-handler';
 import { RemoveChatSuccess } from './features/remove-chat/remove-chat-success';
@@ -61,10 +60,8 @@ import { ChatClearedEventHandler } from './socket-events/chat-cleared/chat-clear
 import { ForwardMessages } from './features/forward-messages/forward-messages';
 import { CreateMessageSuccess } from './features/create-message/create-message-success';
 import { ChatMutedStatusChangedEventHandler } from './socket-events/chat-mute-status-changed/chat-mute-status-changed-event-handler';
-import { UserStatusChangedEventHandler } from '../friends/socket-events/user-status-changed/user-status-changed-event-handler';
 import { ChatId } from './chat-id';
 import { IChatsState } from './chats-state';
-import { UserEditedEventHandler } from './socket-events/user-edited/user-edited-event-handler';
 import { ChangeChatInfoOpened } from './features/change-chat-info-opened/change-chat-info-opened';
 import { MessagesDeletedIntegrationEventHandlerSuccess } from './socket-events/message-deleted/messages-deleted-integration-event-handler-success';
 import { RemoveAllAttachments } from './features/remove-attachment/remove-all-attachments';
@@ -148,48 +145,6 @@ const reducer = createReducer<IChatsState>(initialState)
   .handleAction(MessageCreatedEventHandlerSuccess.action, MessageCreatedEventHandlerSuccess.reducer)
   .handleAction(DialogRemovedEventHandler.action, DialogRemovedEventHandler.reducer)
   .handleAction(ResetSearchChats.action, ResetSearchChats.reducer)
-  .handleAction(
-    UserPhoneNumberChangedEventHandler.action,
-    (
-      draft: IChatsState,
-      { payload }: ReturnType<typeof UserPhoneNumberChangedEventHandler.action>,
-    ) => {
-      const { phoneNumber, userId } = payload;
-      const chatId: number = ChatId.from(userId).id;
-      const chat = getChatByIdDraftSelector(chatId, draft);
-
-      if (chat?.interlocutor) {
-        chat.interlocutor.phoneNumber = phoneNumber;
-      }
-
-      return draft;
-    },
-  )
-  .handleAction(
-    UserStatusChangedEventHandler.action,
-    produce(
-      (
-        draft: IChatsState,
-        { payload }: ReturnType<typeof UserStatusChangedEventHandler.action>,
-      ) => {
-        const { online, userId } = payload;
-        const chatId: number = ChatId.from(userId).id;
-        const chat = getChatByIdDraftSelector(chatId, draft);
-
-        if (!chat) {
-          return draft;
-        }
-
-        if (chat.interlocutor) {
-          const { interlocutor } = chat;
-          interlocutor.online = online;
-          interlocutor.lastOnlineTime = new Date();
-        }
-
-        return draft;
-      },
-    ),
-  )
   .handleAction(
     BlockUserSuccess.action,
     produce((draft: IChatsState, { payload }: ReturnType<typeof BlockUserSuccess.action>) => {
@@ -294,38 +249,6 @@ const reducer = createReducer<IChatsState>(initialState)
       },
     ),
   )
-  .handleAction(
-    UserDeactivatedEventHandler.action,
-    produce(
-      (draft: IChatsState, { payload }: ReturnType<typeof UserDeactivatedEventHandler.action>) => {
-        const { userId } = payload;
-        const chatId: number = ChatId.from(userId).id;
-        const chat = getChatByIdDraftSelector(chatId, draft);
-
-        if (chat && chat.interlocutor) {
-          chat.interlocutor.deactivated = true;
-        }
-
-        return draft;
-      },
-    ),
-  )
-  .handleAction(
-    UserDeletedEventHandler.action,
-    produce(
-      (draft: IChatsState, { payload }: ReturnType<typeof UserDeletedEventHandler.action>) => {
-        const { userId } = payload;
-        const chatId: number = ChatId.from(userId).id;
-        const chat = getChatByIdDraftSelector(chatId, draft);
-
-        if (chat && chat.interlocutor) {
-          chat.interlocutor.deleted = true;
-        }
-
-        return draft;
-      },
-    ),
-  )
 
   // socket-events
   .handleAction(UserMessageTypingEventHandler.action, UserMessageTypingEventHandler.reducer)
@@ -339,7 +262,6 @@ const reducer = createReducer<IChatsState>(initialState)
   .handleAction(MessageEditedEventHandler.action, MessageEditedEventHandler.reducer)
   .handleAction(MessageReadEventHandler.action, MessageReadEventHandler.reducer)
   .handleAction(ChatClearedEventHandler.action, ChatClearedEventHandler.reducer)
-  .handleAction(UserEditedEventHandler.action, UserEditedEventHandler.reducer)
   .handleAction(
     MessagesDeletedIntegrationEventHandlerSuccess.action,
     MessagesDeletedIntegrationEventHandlerSuccess.reducer,

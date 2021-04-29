@@ -8,6 +8,7 @@ import { MediaModal } from '@components/messenger-page';
 
 import { getChatInfoAction } from '@store/chats/actions';
 import { FileType } from '@store/chats/models';
+import { getUserSelector } from '@store/users/selectors';
 import { InterlocutorInfo } from './interlocutor-info/interlocutor-info';
 import { ChatActions as ChatInfoActions } from './chat-actions/chat-actions';
 import { ChatMembers } from './chat-members/chat-members';
@@ -17,16 +18,17 @@ const ChatInfoRightPanel: React.FC = () => {
   const selectedChat = useSelector(getSelectedChatSelector);
 
   const getChatInfo = useActionWithDispatch(getChatInfoAction);
+  const interlocutor = useSelector(getUserSelector(selectedChat?.interlocutor));
 
   const [isAvatarMaximized, setIsAvatarMaximized] = useState(false);
 
   const getChatAvatar = useCallback((): string => {
-    if (selectedChat?.interlocutor) {
-      return selectedChat.interlocutor.avatar?.previewUrl as string;
+    if (interlocutor) {
+      return interlocutor.avatar?.previewUrl as string;
     }
 
     return selectedChat?.groupChat?.avatar?.previewUrl as string;
-  }, [selectedChat?.interlocutor, selectedChat?.groupChat?.avatar?.previewUrl]);
+  }, [interlocutor, selectedChat?.groupChat?.avatar?.previewUrl]);
 
   const changeIsAvatarMaximizedState = useCallback(() => {
     if (getChatAvatar()) {
@@ -39,22 +41,22 @@ const ChatInfoRightPanel: React.FC = () => {
   }, [getChatInfo]);
 
   const getChatFullSizeAvatar = useCallback((): string => {
-    if (selectedChat?.interlocutor) {
-      return selectedChat.interlocutor.avatar?.url as string;
+    if (interlocutor?.avatar?.url) {
+      return interlocutor.avatar.url as string;
     }
 
     return selectedChat?.groupChat?.avatar?.url as string;
-  }, [selectedChat]);
+  }, [selectedChat?.groupChat?.avatar?.url, interlocutor?.avatar?.url]);
 
   if (selectedChat) {
     return (
       <>
         <div className="chat-info">
-          {selectedChat?.interlocutor && (
+          {interlocutor && (
             <Avatar
               onClick={changeIsAvatarMaximizedState}
               className="chat-info__avatar"
-              user={selectedChat.interlocutor}
+              user={interlocutor}
             />
           )}
           {selectedChat?.groupChat && (

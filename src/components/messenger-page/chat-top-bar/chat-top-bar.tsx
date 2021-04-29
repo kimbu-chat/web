@@ -17,12 +17,14 @@ import { ReactComponent as TypingSvg } from '@icons/typing.svg';
 
 import { getChatInterlocutor } from '@utils/user-utils';
 import { changeChatInfoOpenedAction } from '@store/chats/actions';
+import { getUserSelector } from '@store/users/selectors';
 import { MessagesSearch } from './messages-search/messages-search';
 
 export const ChatTopBar = () => {
   const { t } = useTranslation();
 
   const selectedChat = useSelector(getSelectedChatSelector);
+  const interlocutor = useSelector(getUserSelector(selectedChat?.interlocutor));
   const isInfoOpened = useSelector(getIsInfoOpenedSelector);
 
   const callInterlocutor = useActionWithDispatch(outgoingCallAction);
@@ -31,33 +33,33 @@ export const ChatTopBar = () => {
   const callWithVideo = useCallback(
     () =>
       callInterlocutor({
-        calling: selectedChat?.interlocutor as IUser,
+        calling: interlocutor as IUser,
         constraints: {
           videoEnabled: true,
           audioEnabled: true,
         },
       }),
-    [selectedChat?.interlocutor, callInterlocutor],
+    [interlocutor, callInterlocutor],
   );
 
   const callWithAudio = useCallback(
     () =>
       callInterlocutor({
-        calling: selectedChat?.interlocutor as IUser,
+        calling: interlocutor as IUser,
         constraints: {
           videoEnabled: false,
           audioEnabled: true,
         },
       }),
-    [selectedChat?.interlocutor, callInterlocutor],
+    [interlocutor, callInterlocutor],
   );
 
-  const interlocutorStatus = selectedChat?.interlocutor?.online ? (
+  const interlocutorStatus = interlocutor?.online ? (
     t('chatData.online')
   ) : (
     <>
       <span>{`${t('chatData.last-time')} `}</span>{' '}
-      <TimeUpdateable timeStamp={selectedChat?.interlocutor?.lastOnlineTime} />
+      <TimeUpdateable timeStamp={interlocutor?.lastOnlineTime} />
     </>
   );
 
@@ -69,11 +71,11 @@ export const ChatTopBar = () => {
     return (
       <div className="chat-data__chat-data">
         <button type="button" onClick={openCloseChatInfo} className="chat-data__contact-data">
-          {selectedChat.interlocutor && (
+          {interlocutor && (
             <StatusBadge
               containerClassName="chat-data__contact-img-container"
               additionalClassNames="chat-data__contact-img"
-              user={selectedChat.interlocutor}
+              user={interlocutor}
             />
           )}
 
@@ -84,9 +86,11 @@ export const ChatTopBar = () => {
           )}
 
           <div className="chat-data__chat-info">
-            <h1 className="chat-data__chat-info__title">{getChatInterlocutor(selectedChat, t)}</h1>
+            <h1 className="chat-data__chat-info__title">
+              {getChatInterlocutor(interlocutor, selectedChat, t)}
+            </h1>
 
-            {!selectedChat.interlocutor?.deleted && (
+            {!interlocutor?.deleted && (
               <div className="chat-data__chat-info__info">
                 {selectedChat.typingInterlocutors &&
                 selectedChat.typingInterlocutors?.length > 0 ? (
@@ -102,7 +106,7 @@ export const ChatTopBar = () => {
           </div>
         </button>
         <div className="chat-data__buttons-group">
-          {selectedChat.interlocutor && !selectedChat.interlocutor?.deleted && (
+          {interlocutor && !interlocutor?.deleted && (
             <>
               <button type="button" className="chat-data__button" onClick={callWithAudio}>
                 <VoiceCallSvg />

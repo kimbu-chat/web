@@ -16,7 +16,7 @@ export interface IChat {
   interlocutorType?: InterlocutorType;
   groupChat?: IGroupChat;
   lastMessage?: INormalizedMessage | null;
-  interlocutor?: IUser;
+  interlocutor?: number;
   unreadMessagesCount: number;
   interlocutorLastReadMessageId?: number;
   draftMessage?: string;

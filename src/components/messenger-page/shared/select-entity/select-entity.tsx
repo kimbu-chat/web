@@ -7,6 +7,8 @@ import { IChat } from '@store/chats/models';
 import { IUser } from '@store/common/models';
 import './select-entity.scss';
 import { useTranslation } from 'react-i18next';
+import { getUserSelector } from '@store/users/selectors';
+import { useSelector } from 'react-redux';
 
 interface ISelectEntityProps {
   changeSelectedState?: (id: number) => void;
@@ -33,7 +35,10 @@ export const SelectEntity: React.FC<ISelectEntityProps> = ({
     }
   }, [changeSelectedState, onClick, chatOrUser]);
 
-  const interlocutor = (chatOrUser as IChat).interlocutor || (chatOrUser as IUser);
+  const chatInterlocutor = useSelector(getUserSelector((chatOrUser as IChat).interlocutor));
+
+  const interlocutor = chatInterlocutor || (chatOrUser as IUser);
+
   const groupChat = (chatOrUser as IChat)?.groupChat;
 
   const { t } = useTranslation();

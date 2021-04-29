@@ -5,7 +5,7 @@ import { IChat } from './models/chat';
 interface IChatList {
   loading?: boolean;
   hasMore: boolean;
-  chats: IChat[];
+  chatIds: number[];
   page: number;
 }
 
@@ -18,8 +18,10 @@ export interface IChatsState {
     searchString?: string;
   }>;
 
-  chats: IChatList;
-  searchChats: IChatList;
+  chats: ById<IChat>;
+
+  chatList: IChatList;
+  searchChatList: IChatList;
 
   selectedChatId: number | null;
   selectedMessageIds: number[];

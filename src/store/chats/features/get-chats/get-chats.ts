@@ -27,21 +27,21 @@ export class GetChats {
   static get reducer() {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof GetChats.action>) => {
       if (!payload.name?.length && !payload.initializedByScroll) {
-        draft.searchChats.chats = [];
-        draft.searchChats.hasMore = true;
-        draft.searchChats.loading = false;
+        draft.searchChatList.chatIds = [];
+        draft.searchChatList.hasMore = true;
+        draft.searchChatList.loading = false;
       }
 
       if (payload.name?.length) {
-        draft.searchChats.loading = true;
+        draft.searchChatList.loading = true;
         if (payload.initializedByScroll) {
-          draft.searchChats.page += 1;
+          draft.searchChatList.page += 1;
         } else {
-          draft.searchChats.page = 0;
+          draft.searchChatList.page = 0;
         }
       } else if (payload.initializedByScroll) {
-        draft.chats.loading = true;
-        draft.chats.page += 1;
+        draft.chatList.loading = true;
+        draft.chatList.page += 1;
       }
 
       return draft;
@@ -80,6 +80,7 @@ export class GetChats {
 
       const {
         entities: { chats: normalizedChats, users },
+        result,
       } = normalize<IChat[], { chats: IChat[]; users: IUser[] }, number[]>(
         modeledChats,
         chatArrNormalizationSchema,
@@ -87,6 +88,7 @@ export class GetChats {
 
       const chatList: IGetChatsSuccessActionPayload = {
         chats: normalizedChats,
+        chatIds: result,
         hasMore: normalizedChats.length >= CHATS_LIMIT,
         users,
         initializedByScroll: chatsRequestData.initializedByScroll,

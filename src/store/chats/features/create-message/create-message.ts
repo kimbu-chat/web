@@ -10,7 +10,6 @@ import { MAIN_API } from '@common/paths';
 import { MessageState } from '../../models';
 import { CreateMessageSuccess } from './create-message-success';
 import { ICreateMessageActionPayload } from './action-payloads/create-message-action-payload';
-import { getChatIndexDraftSelector } from '../../selectors';
 import { ICreateMessageApiRequest } from './api-requests/create-message-api-request';
 import { IChatsState } from '../../chats-state';
 
@@ -23,8 +22,7 @@ export class CreateMessage {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof CreateMessage.action>) => {
       const { message } = payload;
 
-      const chatIndex = getChatIndexDraftSelector(message.chatId, draft);
-      const chat = draft.chats.chats[chatIndex];
+      const chat = draft.chats[message.chatId];
 
       if (chat) {
         delete chat.attachmentsToSend;
@@ -32,16 +30,15 @@ export class CreateMessage {
         chat.draftMessage = '';
         delete chat.messageToReply;
 
-        const chatWithNewMessage = draft.chats.chats[chatIndex];
-
+        const chatIndex = draft.chatList.chatIds.indexOf(chat.id);
         if (chatIndex !== 0) {
-          draft.chats.chats.splice(chatIndex, 1);
+          draft.chatList.chatIds.splice(chatIndex, 1);
 
-          draft.chats.chats.unshift(chatWithNewMessage);
+          draft.chatList.chatIds.unshift(chat.id);
         }
       }
 
-      const chatMessages = draft.messages[chat.id];
+      const chatMessages = draft.messages[message.chatId];
 
       if (chatMessages && chatMessages.messages[message.id] === undefined) {
         chatMessages.messages[message.id] = message;

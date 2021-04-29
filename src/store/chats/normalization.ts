@@ -8,11 +8,17 @@ const user = new schema.Entity<IUser>('users');
 // Define your comments schema
 export const messageNormalizationSchema = new schema.Entity<IMessage>('messages', {
   userCreator: user,
+  linkedMessage: {
+    userCreator: user,
+  },
 });
 
 export const chatNormalizationSchema = new schema.Entity<IChat>('chats', {
   lastMessage: {
     userCreator: user,
+    linkedMessage: {
+      userCreator: user,
+    },
   },
   interlocutor: user,
 });

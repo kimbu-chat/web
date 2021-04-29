@@ -12,7 +12,7 @@ import {
   IVoiceAttachment,
   INormalizedMessage,
 } from '../../models';
-import { getChatIndexDraftSelector, getMessageDraftSelector } from '../../selectors';
+import { getMessageDraftSelector } from '../../selectors';
 import { IMessageCreatedIntegrationEvent } from './message-created-integration-event';
 
 export class MessageCreatedEventHandlerSuccess {
@@ -67,8 +67,7 @@ export class MessageCreatedEventHandlerSuccess {
           isDeleted: false,
         };
 
-        const chatIndex = getChatIndexDraftSelector(chatId, draft);
-        const chat = draft.chats.chats[chatIndex];
+        const chat = draft.chats[chatId];
 
         if (linkedMessage && linkedMessageId) {
           message.linkedMessage = { ...linkedMessage, userCreator: linkedMessage.userCreator.id };
@@ -140,12 +139,11 @@ export class MessageCreatedEventHandlerSuccess {
           chat.unreadMessagesCount = newUnreadMessagesCount;
           chat.draftMessage = '';
 
-          const chatWithNewMessage = chat;
-
+          const chatIndex = draft.chatList.chatIds.indexOf(chat.id);
           if (chatIndex !== 0) {
-            draft.chats.chats.splice(chatIndex, 1);
+            draft.chatList.chatIds.splice(chatIndex, 1);
 
-            draft.chats.chats.unshift(chatWithNewMessage);
+            draft.chatList.chatIds.unshift(chat.id);
           }
         }
 

@@ -115,7 +115,10 @@ export class GroupChatCreatedEventHandler {
           };
         }
 
-        draft.chats.chats.unshift(newChat);
+        if (!draft.chats[newChat.id]) {
+          draft.chatList.chatIds.unshift(newChat.id);
+          draft.chats[newChat.id] = newChat;
+        }
 
         draft.messages[newChat.id] = {
           messages: [],

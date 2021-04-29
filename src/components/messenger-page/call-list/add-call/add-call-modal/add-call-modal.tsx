@@ -88,7 +88,7 @@ export const AddCallModal: React.FC<IAddCallModalProps> = ({ onClose }) => {
           </button>
         }
         key={user.id}
-        chatOrUser={user}
+        userId={user.id}
       />
     ),
     [call],

@@ -6,6 +6,8 @@ import { createAction } from 'typesafe-actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { replaceInUrl } from '@utils/replace-in-url';
 import { MAIN_API } from '@common/paths';
+import { normalize } from 'normalizr';
+import { chatNormalizationSchema } from '../../normalization';
 import {
   getChatByIdSelector,
   getChatByIdDraftSelector,
@@ -104,7 +106,15 @@ export class ChangeSelectedChat {
           );
 
           const [modeledChat] = modelChatList([data]);
-          yield put(UnshiftChat.action(modeledChat));
+
+          const {
+            entities: { chats, users },
+          } = normalize<IChat[], { chats: IChat[]; users: IUser[] }, number[]>(
+            modeledChat,
+            chatNormalizationSchema,
+          );
+
+          yield put(UnshiftChat.action({ chat: chats[modeledChat.id], users }));
         }
       }
     };

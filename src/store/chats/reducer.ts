@@ -2,8 +2,6 @@ import produce from 'immer';
 import { createReducer } from 'typesafe-actions';
 import { DismissToAddContactSuccess } from '@store/friends/features/dismiss-to-add-contact/dismiss-to-add-contact-success';
 import { UserContactsRemovedEventHandler } from '@store/friends/socket-events/user-contacts-removed/user-contacts-removed-event-handler';
-import { UserDeletedEventHandler } from '../my-profile/socket-events/user-deleted/user-deleted';
-import { UserDeactivatedEventHandler } from '../my-profile/socket-events/user-deactivated/user-deactivated-event-handler';
 import { RemoveChatSuccess } from './features/remove-chat/remove-chat-success';
 import { AddUsersToGroupChatSuccess } from './features/add-users-to-group-chat/add-users-to-group-chat-success';
 import { ChangeChatMutedStatusSuccess } from './features/change-chat-muted-status/change-chat-muted-status-success';
@@ -75,14 +73,17 @@ import { DialogRemovedEventHandler } from './socket-events/dialog-removed/dialog
 import { ResetSearchChats } from './features/reset-search-chats/reset-search-chats';
 
 const initialState: IChatsState = {
-  chats: {
+  chats: {},
+  chatList: {
+    loading: false,
     hasMore: true,
-    chats: [],
-    page: -1,
+    chatIds: [],
+    page: 0,
   },
-  searchChats: {
+  searchChatList: {
+    loading: false,
     hasMore: true,
-    chats: [],
+    chatIds: [],
     page: 0,
   },
   messages: {},

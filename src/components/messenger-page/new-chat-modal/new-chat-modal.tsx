@@ -95,7 +95,7 @@ const NewChatModal: React.FC<INewChatModalProps> = ({ onClose, displayCreateGrou
 
   const renderSelectEntity = useCallback(
     (friend: IUser) => (
-      <SelectEntity key={friend.id} chatOrUser={friend} onClick={createEmptyChat} />
+      <SelectEntity key={friend.id} userId={friend.id} onClick={createEmptyChat} />
     ),
     [createEmptyChat],
   );

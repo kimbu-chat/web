@@ -112,7 +112,7 @@ const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = ({ onCl
     (friend: IUser) => (
       <SelectEntity
         key={friend.id}
-        chatOrUser={friend}
+        userId={friend.id}
         isSelected={isSelected(friend.id)}
         changeSelectedState={changeSelectedState}
       />

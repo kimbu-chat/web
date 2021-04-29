@@ -3,7 +3,7 @@ import { createAction } from 'typesafe-actions';
 import { MyProfileService } from '../../../../services/my-profile-service';
 import { ChatId } from '../../chat-id';
 import { IChatsState } from '../../chats-state';
-import { getChatByIdDraftSelector, getChatIndexDraftSelector } from '../../selectors';
+import { getChatByIdDraftSelector } from '../../selectors';
 import { IMemberLeftGroupChatIntegrationEvent } from './member-left-group-chat-integration-event';
 
 export class MemberLeftGroupChatEventHandler {
@@ -24,12 +24,15 @@ export class MemberLeftGroupChatEventHandler {
 
         const isCurrentUserEventCreator = myId === userId;
 
-        const chatExists = getChatIndexDraftSelector(chatId, draft) !== -1;
+        const chatExists = Boolean(draft.chats[chatId]);
 
-        if (isCurrentUserEventCreator && !chatExists) {
-          draft.chats.chats = draft.chats.chats.filter(
-            (chat) => chat.groupChat?.id !== groupChatId,
-          );
+        if (isCurrentUserEventCreator && chatExists) {
+          const chatIndex = draft.chatList.chatIds.indexOf(chatId);
+          if (chatIndex !== 0) {
+            draft.chatList.chatIds.splice(chatIndex, 1);
+
+            delete draft.chats[chatId];
+          }
 
           delete draft.messages[chatId];
 

@@ -13,10 +13,8 @@ import {
 import { getChatsListSelector, getSearchChatsListSelector } from '@store/chats/selectors';
 
 import './forward-modal.scss';
-import { IChat } from '@store/chats/models';
 import { ReactComponent as ForwardSvg } from '@icons/forward.svg';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import { xor } from 'lodash';
 import { SelectEntity } from '../shared/select-entity/select-entity';
 
 interface IForwardModalProps {
@@ -92,11 +90,11 @@ const ForwardModal: React.FC<IForwardModalProps> = ({ onClose, messageIdsToForwa
   }, [forwardMessages, messageIdsToForward, selectedChatIds, onClose]);
 
   const renderSelectEntity = useCallback(
-    (chat: IChat) => (
+    (chatId: number) => (
       <SelectEntity
-        key={chat.id}
-        chatOrUser={chat}
-        isSelected={isSelected(chat.id)}
+        key={chatId}
+        chatId={chatId}
+        isSelected={isSelected(chatId)}
         changeSelectedState={changeSelectedState}
       />
     ),
@@ -105,9 +103,9 @@ const ForwardModal: React.FC<IForwardModalProps> = ({ onClose, messageIdsToForwa
 
   const selectEntities = useMemo(() => {
     if (searchString.length) {
-      return searchChatsList.chats.map(renderSelectEntity);
+      return searchChatsList.chatIds.map(renderSelectEntity);
     }
-    return chatsList.chats.map(renderSelectEntity);
+    return chatsList.chatIds.map(renderSelectEntity);
   }, [searchString.length, searchChatsList, chatsList, renderSelectEntity]);
 
   return (

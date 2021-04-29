@@ -16,10 +16,12 @@ export class ChatMutedStatusChangedEventHandler {
       ) => {
         const { chatIds, isMuted } = payload;
 
-        const selectedChats = draft.chats.chats.filter((chat) => chatIds.includes(chat.id));
+        chatIds.forEach((chatId) => {
+          const chat = draft.chats[chatId];
 
-        selectedChats.forEach((_, index) => {
-          selectedChats[index].isMuted = isMuted;
+          if (chat) {
+            chat.isMuted = isMuted;
+          }
         });
 
         return draft;

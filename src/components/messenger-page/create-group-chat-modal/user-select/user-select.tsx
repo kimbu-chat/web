@@ -48,7 +48,7 @@ const UserSelect: React.FC<IUserSelectProps> = ({ changeSelectedState, isSelecte
     (friend: IUser) => (
       <SelectEntity
         key={friend.id}
-        chatOrUser={friend}
+        userId={friend.id}
         isSelected={isSelected(friend.id)}
         changeSelectedState={changeSelectedState}
       />

@@ -23,17 +23,18 @@ import { ReactComponent as MessageSentSvg } from '@icons/message-sent.svg';
 import { ReactComponent as MessageReadSvg } from '@icons/message-read.svg';
 import { ReactComponent as MessageErrorSvg } from '@icons/message-error.svg';
 
-import { getTypingStringSelector } from '@store/chats/selectors';
+import { getTypingStringSelector, getChatSelector } from '@store/chats/selectors';
 import { getChatInterlocutor } from '@utils/user-utils';
 import { constructSystemMessageText, checkIfDatesAreSameDate } from '@utils/message-utils';
 import { getUserSelector } from '@store/users/selectors';
 
 interface IChatItemProps {
-  chat: IChat;
+  chatId: number;
 }
 
-const ChatItem: React.FC<IChatItemProps> = ({ chat }) => {
+const ChatItem: React.FC<IChatItemProps> = ({ chatId }) => {
   const { t } = useTranslation();
+  const chat = useSelector(getChatSelector(chatId)) as IChat;
   const lastMessageUserCreator = useSelector(getUserSelector(chat.lastMessage?.userCreator));
   const interlocutor = useSelector(getUserSelector(chat.interlocutor));
 

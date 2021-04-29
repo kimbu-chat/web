@@ -22,12 +22,18 @@ export class CreateMessageSuccess {
         const { messageState, chatId, oldMessageId, newMessageId, attachments } = payload;
 
         const chat = getChatByIdDraftSelector(chatId, draft);
+        const chatMessages = draft.messages[chatId];
 
-        const message = draft.messages[chatId]?.messages[oldMessageId];
+        const message = chatMessages?.messages[oldMessageId];
 
-        if (message) {
+        if (message && chatMessages) {
           message.id = newMessageId;
           message.state = messageState;
+          chatMessages.messages[newMessageId] = message;
+          delete chatMessages?.messages[oldMessageId];
+
+          const messageIndex = chatMessages.messageIds.indexOf(oldMessageId);
+          chatMessages.messageIds[messageIndex] = newMessageId;
         }
 
         if (chat) {

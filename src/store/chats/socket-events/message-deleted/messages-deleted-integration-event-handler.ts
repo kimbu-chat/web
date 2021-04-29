@@ -28,9 +28,8 @@ export class MessagesDeletedIntegrationEventHandler {
       const { chatId, messageIds } = action.payload;
       const lastMessageId = yield select(getChatLastMessageIdSelector(chatId));
       const messageListIsEmpty = (yield select(getChatMessagesLengthSelector(chatId))) === 0;
-      const newLastMessage: INormalizedMessage | null = null;
 
-      if (messageIds.includes(lastMessageId) && messageListIsEmpty) {
+      if (lastMessageId && messageListIsEmpty) {
         const {
           data,
         }: AxiosResponse<IMessage> = MessagesDeletedIntegrationEventHandler.httpRequest.call(
@@ -39,24 +38,31 @@ export class MessagesDeletedIntegrationEventHandler {
           ),
         );
 
-        // newLastMessage = data;
+        const {
+          entities: { messages, users },
+        } = normalize<IMessage[], { messages: INormalizedMessage[]; users: IUser[] }, number[]>(
+          data,
+          messageNormalizationSchema,
+        );
 
-        const dataaa = normalize<
-          IMessage[],
-          { messages: INormalizedMessage[]; users: IUser[] },
-          number[]
-        >(data, messageNormalizationSchema);
-
-        console.log(dataaa);
+        yield put(
+          MessagesDeletedIntegrationEventHandlerSuccess.action({
+            chatNewLastMessage: messages[data.id],
+            users,
+            chatId,
+            messageIds,
+          }),
+        );
+      } else {
+        yield put(
+          MessagesDeletedIntegrationEventHandlerSuccess.action({
+            chatNewLastMessage: null,
+            users: [],
+            chatId,
+            messageIds,
+          }),
+        );
       }
-
-      yield put(
-        MessagesDeletedIntegrationEventHandlerSuccess.action({
-          chatNewLastMessage: newLastMessage,
-          chatId,
-          messageIds,
-        }),
-      );
     };
   }
 

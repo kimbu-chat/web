@@ -1,5 +1,6 @@
 import { GetChatsSuccess } from '@store/chats/features/get-chats/get-chats-success';
 import { GetMessagesSuccess } from '@store/chats/features/get-messages/get-messages-success';
+import { MessagesDeletedIntegrationEventHandlerSuccess } from '@store/chats/socket-events/message-deleted/messages-deleted-integration-event-handler-success';
 import produce from 'immer';
 import { createReducer } from 'typesafe-actions';
 import { UserEditedEventHandler } from '../my-profile/socket-events/user-edited/user-edited-event-handler';
@@ -29,6 +30,21 @@ const reducer = createReducer<IUsersState>(initialState)
 
       return draft;
     }),
+  )
+  .handleAction(
+    MessagesDeletedIntegrationEventHandlerSuccess.action,
+    produce(
+      (
+        draft: IUsersState,
+        { payload }: ReturnType<typeof MessagesDeletedIntegrationEventHandlerSuccess.action>,
+      ) => {
+        const { users } = payload;
+
+        draft.users = { ...draft.users, ...users };
+
+        return draft;
+      },
+    ),
   )
 
   // data maniputating

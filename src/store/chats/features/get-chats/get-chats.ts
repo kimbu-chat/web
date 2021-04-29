@@ -9,6 +9,7 @@ import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
 import { normalize } from 'normalizr';
 
+import { UpdateUsersList } from '@store/users/features/update-users-list/update-users-list';
 import { CHATS_LIMIT } from '../../../../utils/pagination-limits';
 import { chatArrNormalizationSchema } from '../../normalization';
 import { IGetChatsActionPayload } from './action-payloads/get-chats-action-payload';
@@ -85,17 +86,17 @@ export class GetChats {
         modeledChats,
         chatArrNormalizationSchema,
       );
-
       const chatList: IGetChatsSuccessActionPayload = {
         chats: normalizedChats,
         chatIds: result,
-        hasMore: normalizedChats.length >= CHATS_LIMIT,
-        users,
+        hasMore: result.length >= CHATS_LIMIT,
         initializedByScroll: chatsRequestData.initializedByScroll,
         searchString: name,
       };
 
       yield put(GetChatsSuccess.action(chatList));
+
+      yield put(UpdateUsersList.action({ users }));
     };
   }
 

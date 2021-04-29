@@ -37,8 +37,10 @@ const ChatInfoRightPanel: React.FC = () => {
   }, [setIsAvatarMaximized, getChatAvatar]);
 
   useEffect(() => {
-    getChatInfo();
-  }, [getChatInfo]);
+    if (selectedChat?.rawAttachmentsCount === undefined) {
+      getChatInfo();
+    }
+  }, [getChatInfo, selectedChat?.rawAttachmentsCount]);
 
   const getChatFullSizeAvatar = useCallback((): string => {
     if (interlocutor?.avatar?.url) {

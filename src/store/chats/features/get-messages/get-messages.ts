@@ -6,6 +6,7 @@ import { createAction } from 'typesafe-actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
 import { normalize } from 'normalizr';
+import { UpdateUsersList } from '@store/users/features/update-users-list/update-users-list';
 import { IUser } from '../../../common/models/user';
 import { INormalizedMessage } from '../../models/message';
 import { messageArrNormalizationSchema } from '../../normalization';
@@ -95,7 +96,8 @@ export class GetMessages {
             isFromSearch,
           };
 
-          yield put(GetMessagesSuccess.action({ messageList, users }));
+          yield put(GetMessagesSuccess.action({ messageList }));
+          yield put(UpdateUsersList.action({ users }));
         } catch {
           yield put(GetMessagesFailure.action(chat.id));
         }

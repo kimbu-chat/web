@@ -6,6 +6,7 @@ import { CallActions } from './calls/actions';
 import { InternetActions } from './internet/actions';
 import { SettingsActions } from './settings/actions';
 import { WebSocketActions } from './web-sockets/actions';
+import { UsersActions } from './users/actions';
 
 export default {
   auth: AuthActions,
@@ -16,4 +17,5 @@ export default {
   internet: InternetActions,
   settings: SettingsActions,
   webSocket: WebSocketActions,
+  users: UsersActions,
 };

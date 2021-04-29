@@ -17,6 +17,7 @@ import {
 import { chatNormalizationSchema } from '@store/chats/normalization';
 import { IUser } from '@store/common/models';
 import { normalize } from 'normalizr';
+import { UpdateUsersList } from '@store/users/features/update-users-list/update-users-list';
 import { MessageLinkType } from '../../models/linked-message-type';
 import messageCameUnselected from '../../../../assets/sounds/notifications/messsage-came-unselected.ogg';
 import messageCameSelected from '../../../../assets/sounds/notifications/messsage-came-selected.ogg';
@@ -114,7 +115,8 @@ export class MessageCreatedEventHandler {
             chatNormalizationSchema,
           );
 
-          yield put(UnshiftChat.action({ chat: chats[modeledChat.id], users }));
+          yield put(UnshiftChat.action({ chat: chats[modeledChat.id] }));
+          yield put(UpdateUsersList.action({ users }));
 
           chatOfMessage = data;
         }

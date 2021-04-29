@@ -9,6 +9,7 @@ import { MAIN_API } from '@common/paths';
 import { messageNormalizationSchema } from '@store/chats/normalization';
 import { IUser } from '@store/common/models';
 import { normalize } from 'normalizr';
+import { UpdateUsersList } from '../../../users/features/update-users-list/update-users-list';
 import { INormalizedMessage, IMessage } from '../../models';
 
 import { getChatLastMessageIdSelector, getChatMessagesLengthSelector } from '../../selectors';
@@ -48,16 +49,16 @@ export class MessagesDeletedIntegrationEventHandler {
         yield put(
           MessagesDeletedIntegrationEventHandlerSuccess.action({
             chatNewLastMessage: messages[data.id],
-            users,
             chatId,
             messageIds,
           }),
         );
+
+        yield put(UpdateUsersList.action({ users }));
       } else {
         yield put(
           MessagesDeletedIntegrationEventHandlerSuccess.action({
             chatNewLastMessage: null,
-            users: [],
             chatId,
             messageIds,
           }),

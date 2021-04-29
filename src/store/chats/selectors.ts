@@ -51,7 +51,7 @@ export const getSelectedChatAttachmentsToSendSelector = (
   state.chats.chats[state?.chats?.selectedChatId || -1]?.attachmentsToSend;
 
 export const getIsFirstChatsLoadSelector = (state: RootState): boolean =>
-  (typeof state.chats.chatList.loading === 'undefined' || state.chats.chatList.loading === true) &&
+  (state.chats.chatList.loading === undefined || state.chats.chatList.loading === true) &&
   state.chats.chatList.chatIds.length === 0;
 
 export const getChatSelector = (chatId?: number) => (state: RootState) =>

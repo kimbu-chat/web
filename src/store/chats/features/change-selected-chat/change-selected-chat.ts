@@ -7,6 +7,7 @@ import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { replaceInUrl } from '@utils/replace-in-url';
 import { MAIN_API } from '@common/paths';
 import { normalize } from 'normalizr';
+import { UpdateUsersList } from '@store/users/features/update-users-list/update-users-list';
 import { chatNormalizationSchema } from '../../normalization';
 import {
   getChatByIdSelector,
@@ -114,7 +115,8 @@ export class ChangeSelectedChat {
             chatNormalizationSchema,
           );
 
-          yield put(UnshiftChat.action({ chat: chats[modeledChat.id], users }));
+          yield put(UnshiftChat.action({ chat: chats[modeledChat.id] }));
+          yield put(UpdateUsersList.action({ users }));
         }
       }
     };

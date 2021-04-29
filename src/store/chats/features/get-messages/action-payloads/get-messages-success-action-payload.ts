@@ -1,4 +1,3 @@
-import { IUser } from '@store/common/models';
 import { INormalizedMessage } from '../../../models';
 
 export interface IGetMessagesSuccessActionPayload {
@@ -10,6 +9,4 @@ export interface IGetMessagesSuccessActionPayload {
     isFromSearch?: boolean;
     searchString?: string;
   };
-
-  users: IUser[];
 }

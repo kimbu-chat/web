@@ -22,11 +22,11 @@ export class GetMessagesSuccess {
 
           chatMessages.loading = false;
 
-          chatMessages.messageIds = messageIds;
-
           if (isFromSearch) {
+            chatMessages.messageIds = messageIds;
             chatMessages.messages = messages;
           } else {
+            chatMessages.messageIds = [...new Set([...chatMessages.messageIds, ...messageIds])];
             chatMessages.messages = { ...messages, ...chatMessages.messages };
           }
         }

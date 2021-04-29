@@ -75,10 +75,9 @@ import { ResetSearchChats } from './features/reset-search-chats/reset-search-cha
 const initialState: IChatsState = {
   chats: {},
   chatList: {
-    loading: false,
     hasMore: true,
     chatIds: [],
-    page: 0,
+    page: -1,
   },
   searchChatList: {
     loading: false,

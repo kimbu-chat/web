@@ -1,8 +1,9 @@
+import { ById } from '@store/chats/models/by-id';
 import { IUser } from '../common/models';
 import { ICall } from './common/models/call';
 
 interface ICallList {
-  calls: ICall[];
+  callIds: number[];
   hasMore: boolean;
   loading: boolean;
 }
@@ -30,6 +31,8 @@ export interface ICallsState {
   isScreenSharingOpened: boolean;
   audioDevicesList: MediaDeviceInfo[];
   videoDevicesList: MediaDeviceInfo[];
-  calls: ICallList;
-  searchCalls: ICallList;
+
+  calls: ById<ICall>;
+  callList: ICallList;
+  searchCallList: ICallList;
 }

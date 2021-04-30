@@ -43,7 +43,7 @@ export class MemberLeftGroupChatEventHandler {
           const chat = getChatByIdDraftSelector(chatId, draft);
 
           if (chat) {
-            chat.members.members = chat.members.members.filter(({ id }) => id !== userId);
+            chat.members.memberIds = chat.members.memberIds.filter((id) => id !== userId);
           }
         }
 

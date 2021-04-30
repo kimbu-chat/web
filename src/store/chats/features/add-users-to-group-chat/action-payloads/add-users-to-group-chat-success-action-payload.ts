@@ -1,6 +1,4 @@
-import { IUser } from '../../../../common/models';
-
 export interface IAddUsersToGroupChatSuccessActionPayload {
-  users: IUser[];
+  userIds: number[];
   chatId: number;
 }

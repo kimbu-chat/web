@@ -35,10 +35,10 @@ const NewChatModal: React.FC<INewChatModalProps> = ({ onClose, displayCreateGrou
   const friendsList = useSelector(getMyFriendsListSelector);
   const searchFriendsList = useSelector(getMySearchFriendsListSelector);
 
-  const { hasMore: hasMoreFriends, friends, loading: friendsLoading } = friendsList;
+  const { hasMore: hasMoreFriends, friendIds, loading: friendsLoading } = friendsList;
   const {
     hasMore: hasMoreSearchFriends,
-    friends: searchFriends,
+    friendIds: searchFriendIds,
     loading: searchFriendsLoading,
   } = searchFriendsList;
 
@@ -65,11 +65,11 @@ const NewChatModal: React.FC<INewChatModalProps> = ({ onClose, displayCreateGrou
 
   const loadMore = useCallback(() => {
     const page: IPage = {
-      offset: name.length ? searchFriends?.length || 0 : friends.length,
+      offset: name.length ? searchFriendIds?.length || 0 : friendIds.length,
       limit: FRIENDS_LIMIT,
     };
     loadFriends({ page, name, initializedByScroll: true });
-  }, [searchFriends?.length, friends.length, loadFriends, name]);
+  }, [searchFriendIds?.length, friendIds.length, loadFriends, name]);
 
   const queryFriends = useCallback(
     (searchName: string) => {
@@ -94,18 +94,18 @@ const NewChatModal: React.FC<INewChatModalProps> = ({ onClose, displayCreateGrou
   );
 
   const renderSelectEntity = useCallback(
-    (friend: IUser) => (
-      <SelectEntity key={friend.id} userId={friend.id} onClick={createEmptyChat} />
+    (friendId: number) => (
+      <SelectEntity key={friendId} userId={friendId} onClick={createEmptyChat} />
     ),
     [createEmptyChat],
   );
 
   const selectEntities = useMemo(() => {
     if (name.length) {
-      return searchFriends?.map(renderSelectEntity);
+      return searchFriendIds.map(renderSelectEntity);
     }
-    return friends.map(renderSelectEntity);
-  }, [name.length, searchFriends, friends, renderSelectEntity]);
+    return friendIds.map(renderSelectEntity);
+  }, [name.length, searchFriendIds, friendIds, renderSelectEntity]);
 
   return (
     <WithBackground onBackgroundClick={onClose}>

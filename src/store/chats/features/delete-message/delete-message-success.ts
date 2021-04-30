@@ -83,6 +83,8 @@ export class DeleteMessageSuccess {
           }
         }
 
+        // TODO: handle user deleteing
+
         return draft;
       },
     );

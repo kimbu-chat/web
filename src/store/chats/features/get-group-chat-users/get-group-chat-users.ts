@@ -6,6 +6,9 @@ import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
+import { userArrNormalizationSchema } from '@store/friends/normalization';
+import { UpdateUsersList } from '@store/users/features/update-users-list/update-users-list';
+import { normalize } from 'normalizr';
 import { IUser } from '../../../common/models';
 import { GetGroupChatUsersSuccess } from './get-group-chat-users-success';
 import { ChatId } from '../../chat-id';
@@ -49,14 +52,21 @@ export class GetGroupChatUsers {
           yield call(() => GetGroupChatUsers.httpRequest.generator({ name, page, groupChatId })),
         );
 
+        const {
+          entities: { users },
+          result,
+        } = normalize<IUser[], { users: IUser[] }, number[]>(data, userArrNormalizationSchema);
+
         yield put(
           GetGroupChatUsersSuccess.action({
-            users: data,
+            userIds: result,
             chatId,
             isFromSearch,
             hasMore: data.length >= page.limit,
           }),
         );
+
+        yield put(UpdateUsersList.action({ users }));
       }
     };
   }

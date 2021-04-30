@@ -1,5 +1,4 @@
 import produce from 'immer';
-import { unionBy } from 'lodash';
 import { createAction } from 'typesafe-actions';
 import { ICallsState } from '../../calls-state';
 import { IGetCallsSuccessActionPayload } from './action-payloads/get-calls-success-action-payload';
@@ -11,22 +10,25 @@ export class GetCallsSuccess {
 
   static get reducer() {
     return produce((draft: ICallsState, { payload }: ReturnType<typeof GetCallsSuccess.action>) => {
-      const { calls, hasMore, initializedByScroll, name } = payload;
+      const { calls, hasMore, initializedByScroll, name, callIds } = payload;
 
       if (initializedByScroll) {
+        draft.calls = { ...calls, ...draft.calls };
         if (name?.length) {
-          draft.searchCalls.calls = unionBy(draft.searchCalls.calls, calls, 'id');
-          draft.searchCalls.hasMore = hasMore;
-          draft.searchCalls.loading = false;
+          draft.searchCallList.callIds = [
+            ...new Set([...draft.searchCallList.callIds, ...callIds]),
+          ];
+          draft.searchCallList.hasMore = hasMore;
+          draft.searchCallList.loading = false;
         } else {
-          draft.calls.calls = unionBy(draft.calls.calls, calls, 'id');
-          draft.calls.hasMore = hasMore;
-          draft.calls.loading = false;
+          draft.callList.callIds = [...new Set([...draft.callList.callIds, ...callIds])];
+          draft.callList.hasMore = hasMore;
+          draft.callList.loading = false;
         }
       } else {
-        draft.searchCalls.calls = calls;
-        draft.searchCalls.hasMore = hasMore;
-        draft.searchCalls.loading = false;
+        draft.searchCallList.callIds = callIds;
+        draft.searchCallList.hasMore = hasMore;
+        draft.searchCallList.loading = false;
       }
 
       return draft;

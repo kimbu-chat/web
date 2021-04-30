@@ -97,6 +97,8 @@ export class MessagesDeletedIntegrationEventHandlerSuccess {
           }
         }
 
+        // TODO: handle user deleteing
+
         return draft;
       },
     );

@@ -9,7 +9,7 @@ export class ResetSearchFriends {
 
   static get reducer() {
     return produce((draft: IFriendsState) => {
-      draft.searchFriends.friends = undefined;
+      draft.searchFriends.friendIds = [];
       draft.searchFriends.hasMore = true;
       draft.searchFriends.loading = false;
 

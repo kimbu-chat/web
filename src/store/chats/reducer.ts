@@ -148,7 +148,7 @@ const reducer = createReducer<IChatsState>(initialState)
   .handleAction(
     BlockUserSuccess.action,
     produce((draft: IChatsState, { payload }: ReturnType<typeof BlockUserSuccess.action>) => {
-      const { id: userId } = payload;
+      const userId = payload;
       const chatId: number = ChatId.from(userId).id;
       const chat = getChatByIdDraftSelector(chatId, draft);
 
@@ -219,7 +219,7 @@ const reducer = createReducer<IChatsState>(initialState)
   .handleAction(
     AddFriendSuccess.action,
     produce((draft: IChatsState, { payload }: ReturnType<typeof AddFriendSuccess.action>) => {
-      const { id: userId } = payload;
+      const userId = payload;
       const chatId: number = ChatId.from(userId).id;
       const chat = getChatByIdDraftSelector(chatId, draft);
 

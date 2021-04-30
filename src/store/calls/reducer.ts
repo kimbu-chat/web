@@ -1,6 +1,4 @@
 import { createReducer } from 'typesafe-actions';
-import { UserDeletedEventHandler } from '@store/my-profile/socket-events/user-deleted/user-deleted';
-import produce from 'immer';
 import { RenegotiationSentEventHandler } from './socket-events/renegotiation-sent/renegotiation-sent-event-handler';
 import { DeclineCall } from './features/decline-call/decline-call';
 import { ICallsState } from './calls-state';
@@ -24,7 +22,6 @@ import { OpenAudioStatus } from './features/change-user-media-status/open-audio-
 import { OpenVideoStatus } from './features/change-user-media-status/open-video-status';
 import { OpenScreenShareStatus } from './features/change-screen-share-status/open-screen-share-status';
 import { OpenInterlocutorVideoStatus } from './features/change-interlocutor-media-status/open-interlocutor-video-status';
-import { UserEditedEventHandler } from './socket-events/user-edited/user-edited-event-handler';
 import { CallEndedEventHandlerSuccess } from './socket-events/call-ended/call-ended-event-handler-success';
 import { OpenInterlocutorAudioStatus } from './features/change-interlocutor-media-status/open-interlocutor-audio-status';
 import { ResetSearchCalls } from './features/reset-search-calls/reset-search-calls';
@@ -45,16 +42,17 @@ const initialState: ICallsState = {
   isScreenSharingOpened: false,
   audioDevicesList: [],
   videoDevicesList: [],
-  calls: {
-    calls: [],
+  callList: {
+    callIds: [],
     loading: false,
     hasMore: true,
   },
-  searchCalls: {
-    calls: [],
+  searchCallList: {
+    callIds: [],
     loading: false,
     hasMore: true,
   },
+  calls: {},
 };
 
 const reducer = createReducer<ICallsState>(initialState)
@@ -86,25 +84,6 @@ const reducer = createReducer<ICallsState>(initialState)
     InterlocutorAcceptedCallEventHandler.action,
     InterlocutorAcceptedCallEventHandler.reducer,
   )
-  .handleAction(UserEditedEventHandler.action, UserEditedEventHandler.reducer)
   .handleAction(RenegotiationSentEventHandler.action, RenegotiationSentEventHandler.reducer)
-  .handleAction(CallEndedEventHandlerSuccess.action, CallEndedEventHandlerSuccess.reducer)
-  .handleAction(
-    UserDeletedEventHandler.action,
-    produce(
-      (draft: ICallsState, { payload }: ReturnType<typeof UserDeletedEventHandler.action>) => {
-        const { userId } = payload;
-
-        draft.calls.calls.forEach((_, index) => {
-          const call = draft.calls.calls[index];
-
-          if (call.userInterlocutor.id === userId) {
-            call.userInterlocutor.deleted = true;
-          }
-        });
-
-        return draft;
-      },
-    ),
-  );
+  .handleAction(CallEndedEventHandlerSuccess.action, CallEndedEventHandlerSuccess.reducer);
 export default reducer;

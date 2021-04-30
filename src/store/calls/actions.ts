@@ -27,7 +27,6 @@ import { OpenVideoStatus } from './features/change-user-media-status/open-video-
 import { OpenScreenShareStatus } from './features/change-screen-share-status/open-screen-share-status';
 import { RenegotiationAcceptedEventHandler } from './socket-events/renegotiation-accepted/renegotiation-accepted-event-handler';
 import { OpenInterlocutorVideoStatus } from './features/change-interlocutor-media-status/open-interlocutor-video-status';
-import { UserEditedEventHandler } from './socket-events/user-edited/user-edited-event-handler';
 import { CallEndedEventHandlerSuccess } from './socket-events/call-ended/call-ended-event-handler-success';
 import { SpawnDeviceUpdateWatcher } from './features/device-watcher/spawn-device-update-watcher';
 import { KillDeviceUpdateWatcher } from './features/device-watcher/kill-device-update-watcher';
@@ -72,7 +71,6 @@ export const interlocutorAcceptedCallEventHandlerAction =
 export const iceCandidateSentEventHandlerAction = IceCandidateSentEventHandler.action;
 export const callEndedEventHandlerAction = CallEndedEventHandler.action;
 export const callEndedEventHandlerSuccessAction = CallEndedEventHandlerSuccess.action;
-export const userEditedEventHandlerAction = UserEditedEventHandler.action;
 
 export const CallActions = {
   getCallsAction,
@@ -109,5 +107,4 @@ export const CallActions = {
   iceCandidateSentEventHandlerAction,
   callEndedEventHandlerAction,
   callEndedEventHandlerSuccessAction,
-  userEditedEventHandlerAction,
 };

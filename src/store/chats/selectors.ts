@@ -105,9 +105,6 @@ export const getChatByIdSelector = (chatId: number) => (state: RootState) =>
 export const getSearchChatsListSelector = (state: RootState) => state.chats.searchChatList;
 export const getChatsListSelector = (state: RootState) => state.chats.chatList;
 
-export const getMembersForSelectedGroupChatSelector = (state: RootState) =>
-  state.chats.chats[state?.chats?.selectedChatId || -1]?.members?.members;
-
 export const getMembersListForSelectedGroupChatSelector = (state: RootState) =>
   state.chats.chats[state?.chats?.selectedChatId || -1]?.members;
 

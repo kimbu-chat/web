@@ -4,9 +4,8 @@ import { myIdSelector } from '@store/my-profile/selectors';
 import { resetUnreadNotifications } from '@utils/set-favicon';
 import { SagaIterator } from 'redux-saga';
 import { select } from 'redux-saga/effects';
-import { IFriendsState } from '../../friends-state';
+import { IUsersState } from '../../users-state';
 import { IStatusChangedIntegrationEvent } from './status-changed-integration-event';
-import { getUserDraftSelector } from '../../selectors';
 
 export class UserStatusChangedEventHandler {
   static get action() {
@@ -16,11 +15,11 @@ export class UserStatusChangedEventHandler {
   static get reducer() {
     return produce(
       (
-        draft: IFriendsState,
+        draft: IUsersState,
         { payload }: ReturnType<typeof UserStatusChangedEventHandler.action>,
       ) => {
         const { userId } = payload;
-        const user = getUserDraftSelector(userId, draft);
+        const user = draft.users[userId];
 
         if (!user) {
           return draft;

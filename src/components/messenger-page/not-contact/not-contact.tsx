@@ -30,22 +30,22 @@ export const NotContact = () => {
   const addSelectedUserToContacts = useCallback(() => {
     setAddLoading(true);
     if (interlocutor?.id) {
-      dismissUser(interlocutor.id);
-      addFriend(interlocutor).then(() => {
+      dismissUser(interlocutor?.id);
+      addFriend(interlocutor?.id).then(() => {
         setAddLoading(false);
       });
     }
-  }, [addFriend, interlocutor, dismissUser]);
+  }, [addFriend, interlocutor?.id, dismissUser]);
 
   const addSelectedUserToBlackList = useCallback(() => {
     setBlockLoading(true);
     if (interlocutor?.id) {
       dismissUser(interlocutor.id);
-      blockUser(interlocutor).then(() => {
+      blockUser(interlocutor.id).then(() => {
         setBlockLoading(false);
       });
     }
-  }, [blockUser, interlocutor, dismissUser]);
+  }, [blockUser, interlocutor?.id, dismissUser]);
 
   const dismissSelectedUserToBlackList = useCallback(() => {
     if (interlocutor?.id) {

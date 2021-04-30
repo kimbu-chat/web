@@ -7,7 +7,11 @@ import { httpRequestFactory } from '@store/common/http/http-factory';
 import { HttpRequestMethod } from '@store/common/http/http-request-method';
 import { replaceInUrl } from '@utils/replace-in-url';
 import { MAIN_API } from '@common/paths';
+import { normalize } from 'normalizr';
+import { IUser } from '@store/common/models';
+import { UpdateUsersList } from '@store/users/features/update-users-list/update-users-list';
 import { myIdSelector } from '../../../my-profile/selectors';
+import { callNormalizationSchema } from '../../normalization';
 
 import { resetPeerConnection } from '../../../middlewares/webRTC/reset-peer-connection';
 import { getCallInterlocutorSelector, getIsActiveCallIncomingSelector } from '../../selectors';
@@ -61,7 +65,15 @@ export class CallEndedEventHandler {
           activeCall = data;
         }
 
-        yield put(CallEndedEventHandlerSuccess.action(activeCall));
+        const {
+          entities: { calls, users },
+        } = normalize<ICall[], { calls: ICall[]; users: IUser[] }, number[]>(
+          activeCall,
+          callNormalizationSchema,
+        );
+
+        yield put(CallEndedEventHandlerSuccess.action(calls[activeCall.id]));
+        yield put(UpdateUsersList.action({ users }));
       }
     };
   }

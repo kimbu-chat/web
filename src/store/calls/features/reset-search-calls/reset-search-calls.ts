@@ -9,9 +9,9 @@ export class ResetSearchCalls {
 
   static get reducer() {
     return produce((draft: ICallsState) => {
-      draft.searchCalls.calls = [];
-      draft.searchCalls.hasMore = true;
-      draft.searchCalls.loading = false;
+      draft.searchCallList.callIds = [];
+      draft.searchCallList.hasMore = true;
+      draft.searchCallList.loading = false;
 
       return draft;
     });

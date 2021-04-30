@@ -99,7 +99,7 @@ export class GroupChatCreatedEventHandler {
           members: {
             hasMore: true,
             loading: false,
-            members: [],
+            memberIds: [],
           },
           isBlockedByInterlocutor: false,
           isBlockedByUser: false,

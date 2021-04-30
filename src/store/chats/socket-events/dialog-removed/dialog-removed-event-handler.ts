@@ -28,6 +28,8 @@ export class DialogRemovedEventHandler {
           draft.selectedChatId = null;
         }
 
+        // TODO: handle user deleteing
+
         return draft;
       },
     );

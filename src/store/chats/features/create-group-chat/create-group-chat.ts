@@ -79,7 +79,7 @@ export class CreateGroupChat {
         members: {
           hasMore: true,
           loading: false,
-          members: [],
+          memberIds: [],
         },
         videos: {
           hasMore: true,

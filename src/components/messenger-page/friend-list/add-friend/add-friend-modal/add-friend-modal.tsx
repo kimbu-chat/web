@@ -47,14 +47,14 @@ const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
   }, [phone, setUser, getUserByPhone]);
 
   const addRequiredUser = useCallback(() => {
-    if (user) {
+    if (user?.id) {
       setLoading(true);
-      addFriend(user).then(() => {
+      addFriend(user?.id).then(() => {
         // setLoading(false);
         setSucess(true);
       });
     }
-  }, [user, addFriend]);
+  }, [user?.id, addFriend]);
 
   const closeError = useCallback(() => {
     setError(false);

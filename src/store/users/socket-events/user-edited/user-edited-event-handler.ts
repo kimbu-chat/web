@@ -1,7 +1,6 @@
+import { IUsersState } from '@store/users/users-state';
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { IFriendsState } from '../../friends-state';
-import { getUserDraftSelector } from '../../selectors';
 import { IUserEditedIntegrationEvent } from './action-payloads/user-edited-integration-event';
 
 export class UserEditedEventHandler {
@@ -11,7 +10,7 @@ export class UserEditedEventHandler {
 
   static get reducer() {
     return produce(
-      (draft: IFriendsState, { payload }: ReturnType<typeof UserEditedEventHandler.action>) => {
+      (draft: IUsersState, { payload }: ReturnType<typeof UserEditedEventHandler.action>) => {
         const {
           userId,
           firstName,
@@ -21,7 +20,8 @@ export class UserEditedEventHandler {
           avatarUrl,
           avatarPreviewUrl,
         } = payload;
-        const user = getUserDraftSelector(userId, draft);
+
+        const user = draft.users[userId];
 
         if (!user) {
           return draft;

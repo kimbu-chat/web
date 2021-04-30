@@ -1,4 +1,3 @@
-import { IUser } from '../../common/models';
 import { IAttachmentToSend } from './attachment-to-send';
 import { IAudioAttachment } from './attachments/audio-attachment';
 import { IBaseAttachment } from './attachments/base-attachment';
@@ -47,7 +46,7 @@ export interface IChat {
     hasMore: boolean;
   };
   members: {
-    members: IUser[];
+    memberIds: number[];
     loading: boolean;
     hasMore: boolean;
   };

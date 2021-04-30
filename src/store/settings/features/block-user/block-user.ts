@@ -2,7 +2,6 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
-import { IUser } from '@store/common/models';
 import { createAction } from 'typesafe-actions';
 import { MAIN_API } from '@common/paths';
 import { Meta } from '../../../common/actions';
@@ -11,12 +10,12 @@ import { BlockUserSuccess } from './block-user-success';
 
 export class BlockUser {
   static get action() {
-    return createAction('BLOCK_USER')<IUser, Meta>();
+    return createAction('BLOCK_USER')<number, Meta>();
   }
 
   static get saga() {
     return function* addFriend(action: ReturnType<typeof BlockUser.action>): SagaIterator {
-      yield call(() => BlockUser.httpRequest.generator({ userIds: [action.payload.id] }));
+      yield call(() => BlockUser.httpRequest.generator({ userIds: [action.payload] }));
 
       yield put(BlockUserSuccess.action(action.payload));
 

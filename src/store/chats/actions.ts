@@ -63,7 +63,6 @@ import { MessageEditedEventHandler } from './socket-events/message-edited/messag
 import { MessageReadEventHandler } from './socket-events/message-read/message-read-event-handler';
 import { EditMessage } from './features/edit-message/edit-message';
 import { ChatClearedEventHandler } from './socket-events/chat-cleared/chat-cleared-event-handler';
-import { UserEditedEventHandler } from './socket-events/user-edited/user-edited-event-handler';
 import { ForwardMessages } from './features/forward-messages/forward-messages';
 import { ChangeChatInfoOpened } from './features/change-chat-info-opened/change-chat-info-opened';
 import { MessagesDeletedIntegrationEventHandlerSuccess } from './socket-events/message-deleted/messages-deleted-integration-event-handler-success';
@@ -152,7 +151,6 @@ export const messageCreatedEventHandlerSuccessAction = MessageCreatedEventHandle
 export const messageReadEventHandlerAction = MessageReadEventHandler.action;
 export const messageEditedEventHandlerAction = MessageEditedEventHandler.action;
 export const chatClearedEventHandlerAction = ChatClearedEventHandler.action;
-export const userEditedEventHandlerAction = UserEditedEventHandler.action;
 export const messagesDeletedIntegrationEventHandlerSuccessAction =
   MessagesDeletedIntegrationEventHandlerSuccess.action;
 export const removeChat = RemoveChat.action;
@@ -238,7 +236,6 @@ export const ChatActions = {
   messageReadEventHandlerAction,
   messageEditedEventHandlerAction,
   chatClearedEventHandlerAction,
-  userEditedEventHandlerAction,
   messagesDeletedIntegrationEventHandlerSuccessAction,
   dialogRemovedEventHandler,
 };

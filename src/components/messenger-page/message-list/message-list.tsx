@@ -6,7 +6,7 @@ import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { useTranslation } from 'react-i18next';
 import {
   getIsSelectMessagesStateSelector,
-  getMessagesByChatIdSelector,
+  getMessagesIdsByChatIdSelector,
   getMessagesLoadingSelector,
   getHasMoreMessagesMessagesSelector,
   getSelectedChatIdSelector,
@@ -17,8 +17,6 @@ import { FadeAnimationWrapper } from '@components/shared';
 
 import { MESSAGES_LIMIT } from '@utils/pagination-limits';
 
-import { IMessage } from '@store/chats/models';
-import { signAndSeparate } from '@utils/message-utils';
 import { getMessagesAction, markMessagesAsReadAction } from '@store/chats/actions';
 
 const MessageList = () => {
@@ -30,7 +28,7 @@ const MessageList = () => {
   const selectedChatId = useSelector(getSelectedChatIdSelector);
   const unreadMessagesCount = useSelector(getSelectedChatUnreadMessagesCountSelector);
   const isSelectState = useSelector(getIsSelectMessagesStateSelector);
-  const messages = useSelector(getMessagesByChatIdSelector);
+  const messagesIds = useSelector(getMessagesIdsByChatIdSelector);
   const areMessagesLoading = useSelector(getMessagesLoadingSelector);
   const hasMoreMessages = useSelector(getHasMoreMessagesMessagesSelector);
 
@@ -43,13 +41,13 @@ const MessageList = () => {
   const loadMore = useCallback(() => {
     const pageData = {
       limit: MESSAGES_LIMIT,
-      offset: messages?.length || 0,
+      offset: messagesIds?.length || 0,
     };
 
     getMessages({
       page: pageData,
     });
-  }, [getMessages, messages?.length]);
+  }, [getMessages, messagesIds?.length]);
 
   if (!selectedChatId) {
     return (
@@ -59,12 +57,10 @@ const MessageList = () => {
     );
   }
 
-  const separatedItemsWithUserInfo = signAndSeparate(messages || []);
-
   return (
     <div className="chat__messages-list">
       <div className="chat__messages-container">
-        {!areMessagesLoading && !hasMoreMessages && (messages || []).length === 0 && (
+        {!areMessagesLoading && !hasMoreMessages && (messagesIds || []).length === 0 && (
           <div className="chat__messages-list__empty">
             <p>{t('chat.empty')}</p>
           </div>
@@ -79,8 +75,8 @@ const MessageList = () => {
           hasMore={hasMoreMessages}
           isLoading={areMessagesLoading}
           isReverse>
-          {separatedItemsWithUserInfo.map((msg: IMessage) => (
-            <MessageItem message={msg} key={msg.id} />
+          {messagesIds?.map((messageId) => (
+            <MessageItem selectedChatId={selectedChatId} messageId={messageId} key={messageId} />
           ))}
         </InfiniteScroll>
       </div>

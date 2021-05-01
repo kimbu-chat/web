@@ -5,23 +5,22 @@ import { createAction } from 'typesafe-actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { Meta } from '@store/common/actions';
 import { MAIN_API } from '@common/paths';
-import { IAddFriendActionPayload } from './action-payloads/add-friend-action-payload';
 import { AddFriendSuccess } from './add-friend-success';
 import { IAddFriendApiRequest } from './api-requests/add-friend-api-request';
 
 export class AddFriend {
   static get action() {
-    return createAction('ADD_FRIEND')<IAddFriendActionPayload, Meta>();
+    return createAction('ADD_FRIEND')<number, Meta>();
   }
 
   static get saga() {
     return function* addFriend(action: ReturnType<typeof AddFriend.action>): SagaIterator {
-      const user = action.payload;
+      const userId = action.payload;
 
-      const phoneToAdd: IAddFriendApiRequest = { userId: user.id };
+      const phoneToAdd: IAddFriendApiRequest = { userId };
       yield call(() => AddFriend.httpRequest.generator(phoneToAdd));
 
-      yield put(AddFriendSuccess.action(user));
+      yield put(AddFriendSuccess.action(userId));
       action.meta.deferred?.resolve();
     };
   }

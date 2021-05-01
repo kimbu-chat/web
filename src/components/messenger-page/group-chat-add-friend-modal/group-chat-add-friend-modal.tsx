@@ -32,10 +32,10 @@ const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = ({ onCl
   const friendsList = useSelector(getMyFriendsListSelector);
   const searchFriendsList = useSelector(getMySearchFriendsListSelector);
 
-  const { hasMore: hasMoreFriends, friends, loading: friendsLoading } = friendsList;
+  const { hasMore: hasMoreFriends, friendIds, loading: friendsLoading } = friendsList;
   const {
     hasMore: hasMoreSearchFriends,
-    friends: searchFriends,
+    friendIds: searchFriendIds,
     loading: searchFriendsLoading,
   } = searchFriendsList;
 
@@ -68,21 +68,21 @@ const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = ({ onCl
 
     if (selectedUserIds.length > 0) {
       addUsersToGroupChat({
-        users: friends.filter((friend) => selectedUserIds.includes(friend.id)),
+        userIds: selectedUserIds,
       }).then(() => {
         setLoading(false);
         onClose();
       });
     }
-  }, [addUsersToGroupChat, selectedUserIds, onClose, friends]);
+  }, [addUsersToGroupChat, selectedUserIds, onClose]);
 
   const loadMore = useCallback(() => {
     const page: IPage = {
-      offset: name.length ? searchFriends?.length || 0 : friends.length,
+      offset: name.length ? searchFriendIds?.length || 0 : friendIds.length,
       limit: FRIENDS_LIMIT,
     };
     loadFriends({ page, name, initializedByScroll: true });
-  }, [searchFriends?.length, friends.length, loadFriends, name]);
+  }, [searchFriendIds?.length, friendIds?.length, loadFriends, name]);
 
   const queryFriends = useCallback(
     (searchName: string) => {
@@ -109,11 +109,11 @@ const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = ({ onCl
   );
 
   const renderSelectEntity = useCallback(
-    (friend: IUser) => (
+    (friendId: number) => (
       <SelectEntity
-        key={friend.id}
-        chatOrUser={friend}
-        isSelected={isSelected(friend.id)}
+        key={friendId}
+        userId={friendId}
+        isSelected={isSelected(friendId)}
         changeSelectedState={changeSelectedState}
       />
     ),
@@ -122,10 +122,10 @@ const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = ({ onCl
 
   const selectEntities = useMemo(() => {
     if (name.length) {
-      return searchFriends?.map(renderSelectEntity);
+      return searchFriendIds?.map(renderSelectEntity);
     }
-    return friends.map(renderSelectEntity);
-  }, [name.length, searchFriends, friends, renderSelectEntity]);
+    return friendIds.map(renderSelectEntity);
+  }, [name.length, searchFriendIds, friendIds, renderSelectEntity]);
 
   return (
     <WithBackground onBackgroundClick={onClose}>

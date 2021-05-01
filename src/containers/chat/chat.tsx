@@ -61,7 +61,6 @@ const Chat: React.FC<IChatProps> = ({ preloadNext }) => {
   const isCurrentChatUserDeleted = useSelector(isCurrentChatUserDeletedSelector);
 
   const internetState = useSelector(getInternetStateSelector);
-  const isInfoOpened = useSelector(getIsInfoOpenedSelector);
 
   useEffect(() => {
     preloadNext();
@@ -105,11 +104,7 @@ const Chat: React.FC<IChatProps> = ({ preloadNext }) => {
             !amIBlackListedByInterlocutor && <NotContact />}
         </div>
         <ChatTopBar />
-        <CSSTransition in={isInfoOpened} timeout={200} classNames="chat-info-slide" unmountOnExit>
-          <div className="messenger__info">
-            <ChatInfoRightPanel />
-          </div>
-        </CSSTransition>
+        <ChatInfoRightPanel />
       </Route>
 
       <Route path="/contacts/">

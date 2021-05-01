@@ -20,7 +20,7 @@ export class MessageEditedEventHandler {
 
         const attachments: IBaseAttachment[] = JSON.parse(payload.attachments);
         const chat = getChatByIdDraftSelector(chatId, draft);
-        const message = draft.messages[chatId].messages.find(({ id }) => id === messageId);
+        const message = draft.messages[chatId]?.messages[messageId];
         const shouldApplyAttachments =
           attachments && xorBy(message?.attachments, attachments, 'id').length !== 0;
 
@@ -37,10 +37,10 @@ export class MessageEditedEventHandler {
           }
         }
 
-        draft.messages[chatId].messages.forEach((_, index) => {
-          const msg = draft.messages[chatId].messages[index];
+        draft.messages[chatId]?.messageIds.forEach((currentMessageId) => {
+          const msg = draft.messages[chatId]?.messages[currentMessageId];
 
-          if (msg.linkedMessage?.id === messageId) {
+          if (msg && msg.linkedMessage?.id === messageId) {
             msg.linkedMessage.text = text;
             msg.linkedMessage.isEdited = true;
             if (shouldApplyAttachments) {

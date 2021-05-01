@@ -1,7 +1,6 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 import { IRemoveChatSuccessActionPayload } from './action-payloads/remove-chat-success-action-payload';
-import { getChatIndexDraftSelector } from '../../selectors';
 import { IChatsState } from '../../chats-state';
 
 export class RemoveChatSuccess {
@@ -14,9 +13,12 @@ export class RemoveChatSuccess {
       (draft: IChatsState, { payload }: ReturnType<typeof RemoveChatSuccess.action>) => {
         const { chatId } = payload;
 
-        const chatIndex: number = getChatIndexDraftSelector(chatId, draft);
+        const chatIndex = draft.chatList.chatIds.indexOf(chatId);
+        if (chatIndex !== 0) {
+          draft.chatList.chatIds.splice(chatIndex, 1);
 
-        draft.chats.chats.splice(chatIndex, 1);
+          delete draft.chats[chatId];
+        }
 
         if (draft.selectedChatId === chatId) {
           draft.selectedChatId = null;

@@ -14,7 +14,11 @@ export class CallEndedEventHandlerSuccess {
     return produce(
       (draft: ICallsState, { payload }: ReturnType<typeof CallEndedEventHandlerSuccess.action>) => {
         if (payload) {
-          draft.calls.calls.unshift(payload);
+          draft.callList.callIds.unshift(payload.id);
+
+          if (!draft.calls[payload.id]) {
+            draft.calls[payload.id] = payload;
+          }
         }
 
         draft.interlocutor = undefined;

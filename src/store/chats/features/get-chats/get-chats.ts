@@ -1,3 +1,5 @@
+import { IUser, IPage } from '@store/common/models';
+import { IChat } from '@store/chats/models';
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
@@ -5,9 +7,11 @@ import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
-import { IPage } from '../../../common/models';
+import { normalize } from 'normalizr';
+
+import { UpdateUsersList } from '@store/users/features/update-users-list/update-users-list';
 import { CHATS_LIMIT } from '../../../../utils/pagination-limits';
-import { IChat } from '../../models';
+import { chatArrNormalizationSchema } from '../../normalization';
 import { IGetChatsActionPayload } from './action-payloads/get-chats-action-payload';
 import { GetChatsSuccess } from './get-chats-success';
 import { IGetChatsSuccessActionPayload } from './action-payloads/get-chats-success-action-payload';
@@ -24,21 +28,21 @@ export class GetChats {
   static get reducer() {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof GetChats.action>) => {
       if (!payload.name?.length && !payload.initializedByScroll) {
-        draft.searchChats.chats = [];
-        draft.searchChats.hasMore = true;
-        draft.searchChats.loading = false;
+        draft.searchChatList.chatIds = [];
+        draft.searchChatList.hasMore = true;
+        draft.searchChatList.loading = false;
       }
 
       if (payload.name?.length) {
-        draft.searchChats.loading = true;
+        draft.searchChatList.loading = true;
         if (payload.initializedByScroll) {
-          draft.searchChats.page += 1;
+          draft.searchChatList.page += 1;
         } else {
-          draft.searchChats.page = 0;
+          draft.searchChatList.page = 0;
         }
       } else if (payload.initializedByScroll) {
-        draft.chats.loading = true;
-        draft.chats.page += 1;
+        draft.chatList.loading = true;
+        draft.chatList.page += 1;
       }
 
       return draft;
@@ -73,16 +77,26 @@ export class GetChats {
       const { data }: AxiosResponse<IChat[]> = GetChats.httpRequest.call(
         yield call(() => GetChats.httpRequest.generator(request)),
       );
-      const newData = modelChatList(data);
+      const modeledChats = modelChatList(data);
 
+      const {
+        entities: { chats: normalizedChats, users },
+        result,
+      } = normalize<IChat[], { chats: IChat[]; users: IUser[] }, number[]>(
+        modeledChats,
+        chatArrNormalizationSchema,
+      );
       const chatList: IGetChatsSuccessActionPayload = {
-        chats: newData,
-        hasMore: newData.length >= CHATS_LIMIT,
+        chats: normalizedChats,
+        chatIds: result,
+        hasMore: result.length >= CHATS_LIMIT,
         initializedByScroll: chatsRequestData.initializedByScroll,
         searchString: name,
       };
 
       yield put(GetChatsSuccess.action(chatList));
+
+      yield put(UpdateUsersList.action({ users }));
     };
   }
 

@@ -1,11 +1,10 @@
-import { IUser } from '../common/models';
-
 interface IFriendList {
+  friendIds: number[];
   loading: boolean;
   hasMore: boolean;
 }
 
 export interface IFriendsState {
-  friends: IFriendList & { friends: IUser[] };
-  searchFriends: IFriendList & { friends?: IUser[] };
+  friends: IFriendList;
+  searchFriends: IFriendList;
 }

@@ -63,7 +63,10 @@ export const ChatActions: React.FC = () => {
   const blockUser = useActionWithDeferred(blockUserAction);
   const unBlockUser = useActionWithDeferred(unblockUserAction);
 
-  const selectedChat = useSelector(getSelectedChatSelector) as IChat;
+  const selectedChat = useSelector(
+    getSelectedChatSelector,
+    (prev, next) => prev === next || prev?.draftMessage !== next?.draftMessage,
+  ) as IChat;
 
   const [isMuting, setIsMuting] = useState(false);
   const muteUnmute = useCallback(() => {
@@ -74,25 +77,25 @@ export const ChatActions: React.FC = () => {
   }, [changeChatMutedStatus]);
   const [isDeletingContact, setIsDeletingContact] = useState(false);
   const deleteContact = useCallback(() => {
-    if (selectedChat?.interlocutor?.id) {
+    if (selectedChat?.interlocutor) {
       setIsDeletingContact(true);
-      deleteFriend({ userIds: [selectedChat.interlocutor.id] }).then(() => {
+      deleteFriend({ userIds: [selectedChat.interlocutor] }).then(() => {
         setIsDeletingContact(false);
       });
     }
-  }, [deleteFriend, selectedChat?.interlocutor?.id]);
+  }, [deleteFriend, selectedChat?.interlocutor]);
   const [isAddingContact, setIsAddingContact] = useState(false);
   const addContact = useCallback(() => {
-    if (selectedChat.interlocutor) {
+    if (selectedChat?.interlocutor) {
       setIsAddingContact(true);
-      addFriend(selectedChat.interlocutor).then(() => {
+      addFriend(selectedChat?.interlocutor).then(() => {
         setIsAddingContact(false);
       });
     }
-  }, [addFriend, selectedChat?.interlocutor]);
+  }, [addFriend, selectedChat.interlocutor]);
   const [isBlocking, setIsBlocking] = useState(false);
   const blockSelectedUser = useCallback(() => {
-    if (selectedChat.interlocutor) {
+    if (selectedChat?.interlocutor) {
       setIsBlocking(true);
       blockUser(selectedChat.interlocutor).then(() => {
         setIsBlocking(false);
@@ -101,13 +104,13 @@ export const ChatActions: React.FC = () => {
   }, [blockUser, selectedChat?.interlocutor]);
   const [isUnBlocking, setIsUnBlocking] = useState(false);
   const unBlockSelectedUser = useCallback(() => {
-    if (selectedChat.interlocutor?.id) {
+    if (selectedChat.interlocutor) {
       setIsUnBlocking(true);
-      unBlockUser(selectedChat.interlocutor.id).then(() => {
+      unBlockUser(selectedChat.interlocutor).then(() => {
         setIsUnBlocking(false);
       });
     }
-  }, [unBlockUser, selectedChat?.interlocutor?.id]);
+  }, [unBlockUser, selectedChat?.interlocutor]);
 
   return (
     <div className="chat-actions">
@@ -229,7 +232,7 @@ export const ChatActions: React.FC = () => {
       {selectedChat.interlocutor && (
         <FadeAnimationWrapper isDisplayed={createGroupChatModalOpened}>
           <CreateGroupChat
-            preSelectedUserIds={[selectedChat.interlocutor.id]}
+            preSelectedUserIds={[selectedChat.interlocutor]}
             onClose={changeCreateGroupChatModalOpenedState}
           />
         </FadeAnimationWrapper>

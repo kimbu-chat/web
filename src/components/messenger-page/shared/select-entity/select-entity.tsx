@@ -7,44 +7,55 @@ import { IChat } from '@store/chats/models';
 import { IUser } from '@store/common/models';
 import './select-entity.scss';
 import { useTranslation } from 'react-i18next';
+import { getUserSelector } from '@store/users/selectors';
+import { useSelector } from 'react-redux';
+import { getChatSelector } from '@store/chats/selectors';
 
 interface ISelectEntityProps {
   changeSelectedState?: (id: number) => void;
   isSelected?: boolean;
-  chatOrUser: IChat | IUser;
+  chatId?: number;
+  userId?: number;
   icon?: JSX.Element;
   onClick?: (chat: IChat | IUser) => void;
 }
 
 export const SelectEntity: React.FC<ISelectEntityProps> = ({
   changeSelectedState,
-  chatOrUser,
+  userId,
+  chatId,
   isSelected,
   onClick,
   icon,
 }) => {
-  const onClickOnThisContact = useCallback(() => {
-    if (onClick) {
-      onClick(chatOrUser);
-    }
+  const userInterlocutor = useSelector(getUserSelector(userId));
+  const chat = useSelector(getChatSelector(chatId));
+  const chatInterlocutor = useSelector(getUserSelector(chat?.interlocutor));
 
-    if (changeSelectedState) {
-      changeSelectedState(chatOrUser.id);
-    }
-  }, [changeSelectedState, onClick, chatOrUser]);
+  const interlocutor = chatInterlocutor || userInterlocutor;
 
-  const interlocutor = (chatOrUser as IChat).interlocutor || (chatOrUser as IUser);
-  const groupChat = (chatOrUser as IChat)?.groupChat;
+  const groupChat = chat?.groupChat;
 
   const { t } = useTranslation();
 
+  const onClickOnThisContact = useCallback(() => {
+    if (onClick) {
+      onClick((chat || interlocutor) as IChat | IUser);
+    }
+
+    if (changeSelectedState) {
+      changeSelectedState((userId || chatId) as number);
+    }
+  }, [onClick, changeSelectedState, chat, interlocutor, userId, chatId]);
+
   return (
     <div onClick={onClickOnThisContact} className="select-entity__friend">
-      {groupChat ? (
+      {groupChat && (
         <div className="select-entity__avatar-container">
           <Avatar className="select-entity__avatar" groupChat={groupChat} />
         </div>
-      ) : (
+      )}
+      {interlocutor && (
         <StatusBadge
           containerClassName="select-entity__avatar-container"
           additionalClassNames="select-entity__avatar"
@@ -54,11 +65,11 @@ export const SelectEntity: React.FC<ISelectEntityProps> = ({
 
       <div className="select-entity__friend-data">
         <div className="select-entity__friend-name">
-          {groupChat ? groupChat?.name : getUserName(interlocutor, t)}
+          {groupChat ? groupChat?.name : interlocutor && getUserName(interlocutor, t)}
         </div>
-        {!groupChat && !interlocutor.deleted && (
+        {interlocutor && !interlocutor?.deleted && (
           <div className="select-entity__friend-status">
-            <TimeUpdateable timeStamp={interlocutor.lastOnlineTime} />
+            <TimeUpdateable timeStamp={interlocutor?.lastOnlineTime} />
           </div>
         )}
       </div>

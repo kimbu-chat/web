@@ -8,6 +8,7 @@ import { InitiationSagas } from './initiation/sagas';
 import { CallsSagas } from './calls/sagas';
 import { SettingsSagas } from './settings/sagas';
 import { InternetSagas } from './internet/sagas';
+import { UsersSagas } from './users/sagas';
 
 export function* rootSaga(): SagaIterator {
   yield all([
@@ -19,5 +20,6 @@ export function* rootSaga(): SagaIterator {
     ...MyProfileSagas,
     ...CallsSagas,
     ...SettingsSagas,
+    ...UsersSagas,
   ]);
 }

@@ -6,10 +6,10 @@ import moment from 'moment';
 import './chat-item.scss';
 import {
   IChat,
-  IMessage,
   MessageLinkType,
   MessageState,
   SystemMessageType,
+  INormalizedMessage,
 } from '@store/chats/models';
 
 import { StatusBadge, Avatar } from '@components/shared';
@@ -23,21 +23,25 @@ import { ReactComponent as MessageSentSvg } from '@icons/message-sent.svg';
 import { ReactComponent as MessageReadSvg } from '@icons/message-read.svg';
 import { ReactComponent as MessageErrorSvg } from '@icons/message-error.svg';
 
-import { getTypingStringSelector } from '@store/chats/selectors';
+import { getTypingStringSelector, getChatSelector } from '@store/chats/selectors';
 import { getChatInterlocutor } from '@utils/user-utils';
 import { constructSystemMessageText, checkIfDatesAreSameDate } from '@utils/message-utils';
+import { getUserSelector } from '@store/users/selectors';
 
 interface IChatItemProps {
-  chat: IChat;
+  chatId: number;
 }
 
-const ChatItem: React.FC<IChatItemProps> = ({ chat }) => {
+const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
   const { t } = useTranslation();
+  const chat = useSelector(getChatSelector(chatId)) as IChat;
+  const lastMessageUserCreator = useSelector(getUserSelector(chat.lastMessage?.userCreator));
+  const interlocutor = useSelector(getUserSelector(chat.interlocutor));
 
   const currentUserId = useSelector(myIdSelector) as number;
   const typingString = useSelector(getTypingStringSelector(t, chat.id));
 
-  const isMessageCreatorCurrentUser: boolean = chat.lastMessage?.userCreator?.id === currentUserId;
+  const isMessageCreatorCurrentUser: boolean = chat.lastMessage?.userCreator === currentUserId;
 
   const getMessageText = useCallback((): string => {
     const messageToProcess =
@@ -65,11 +69,17 @@ const ChatItem: React.FC<IChatItemProps> = ({ chat }) => {
     if (messageToProcess) {
       if (
         messageToProcess &&
-        (messageToProcess as IMessage).systemMessageType &&
-        (messageToProcess as IMessage).systemMessageType !== SystemMessageType.None
+        (messageToProcess as INormalizedMessage).systemMessageType &&
+        (messageToProcess as INormalizedMessage).systemMessageType !== SystemMessageType.None
       ) {
         return truncate(
-          constructSystemMessageText(messageToProcess as IMessage, t, currentUserId),
+          constructSystemMessageText(
+            // TODO: replace this logic
+            (messageToProcess as unknown) as INormalizedMessage,
+            t,
+            currentUserId,
+            lastMessageUserCreator,
+          ),
           {
             length: 53,
             omission: '...',
@@ -84,7 +94,7 @@ const ChatItem: React.FC<IChatItemProps> = ({ chat }) => {
             omission: '...',
           });
         }
-        return truncate(`${messageToProcess?.userCreator?.firstName}: ${messageToProcess?.text}`, {
+        return truncate(`${lastMessageUserCreator?.firstName}: ${messageToProcess?.text}`, {
           length: 53,
           omission: '...',
         });
@@ -99,7 +109,14 @@ const ChatItem: React.FC<IChatItemProps> = ({ chat }) => {
     }
 
     return '';
-  }, [chat.groupChat, chat.lastMessage, currentUserId, isMessageCreatorCurrentUser, t]);
+  }, [
+    chat.groupChat,
+    chat.lastMessage,
+    currentUserId,
+    isMessageCreatorCurrentUser,
+    lastMessageUserCreator,
+    t,
+  ]);
 
   const existedChat = chat as Required<IChat>;
 
@@ -117,11 +134,11 @@ const ChatItem: React.FC<IChatItemProps> = ({ chat }) => {
       to={`/chats/${chat.id.toString()}`}
       className="chat-item"
       activeClassName="chat-item chat-item--active">
-      {existedChat.interlocutor && (
+      {interlocutor && (
         <StatusBadge
           containerClassName="chat-item__avatar-container"
           additionalClassNames="chat-item__avatar"
-          user={existedChat.interlocutor}
+          user={interlocutor}
         />
       )}
 
@@ -133,7 +150,7 @@ const ChatItem: React.FC<IChatItemProps> = ({ chat }) => {
       )}
       <div className="chat-item__contents">
         <div className="chat-item__heading">
-          <div className="chat-item__name">{getChatInterlocutor(chat, t)}</div>
+          <div className="chat-item__name">{getChatInterlocutor(interlocutor, chat, t)}</div>
           <div className="chat-item__status">
             {!(
               chat.lastMessage?.systemMessageType !== SystemMessageType.None ||
@@ -163,7 +180,7 @@ const ChatItem: React.FC<IChatItemProps> = ({ chat }) => {
       </div>
     </NavLink>
   );
-};
+});
 
 ChatItem.displayName = 'ChatFromList';
 

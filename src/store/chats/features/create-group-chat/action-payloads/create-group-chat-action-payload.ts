@@ -4,6 +4,6 @@ export interface ICreateGroupChatActionPayload {
   name: string;
   description?: string;
   userIds: Array<number>;
-  currentUser: IUser;
+  currentUserId: number;
   avatar?: IAvatar | null;
 }

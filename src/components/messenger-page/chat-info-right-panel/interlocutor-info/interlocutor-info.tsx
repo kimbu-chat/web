@@ -12,13 +12,17 @@ import { parsePhoneNumber } from 'libphonenumber-js';
 import { Link } from 'react-router-dom';
 import { FadeAnimationWrapper } from '@components/shared';
 import { getChatInterlocutor } from '@utils/user-utils';
+import { getUserSelector } from '@store/users/selectors';
 import { EditChatModal } from '../../edit-chat-modal/edit-chat-modal';
 
 export const InterlocutorInfo = () => {
   const { t } = useTranslation();
 
-  const selectedChat = useSelector(getSelectedChatSelector);
-  const interlocutor = selectedChat?.interlocutor;
+  const selectedChat = useSelector(
+    getSelectedChatSelector,
+    (prev, next) => prev === next || prev?.draftMessage !== next?.draftMessage,
+  );
+  const interlocutor = useSelector(getUserSelector(selectedChat?.interlocutor));
   const groupChat = selectedChat?.groupChat;
 
   const [editGroupChatDisplayed, setEditGroupChatDisplayed] = useState(false);
@@ -32,7 +36,7 @@ export const InterlocutorInfo = () => {
         <div className="interlocutor-info__interlocutor-data">
           <div className="interlocutor-info__chat-data">
             <div className="interlocutor-info__interlocutor">
-              {getChatInterlocutor(selectedChat, t)}
+              {getChatInterlocutor(interlocutor, selectedChat, t)}
             </div>
             {groupChat?.description && (
               <div className="interlocutor-info__description">{groupChat?.description}</div>

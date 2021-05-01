@@ -21,7 +21,7 @@ export const ChatMembers: React.FC = () => {
 
   const loadMore = useCallback(() => {
     const page: IPage = {
-      offset: membersListForGroupChat?.members?.length || 0,
+      offset: membersListForGroupChat?.memberIds?.length || 0,
       limit: CHAT_MEMBERS_LIMIT,
     };
 
@@ -30,7 +30,7 @@ export const ChatMembers: React.FC = () => {
       name: searchStr,
       isFromSearch: searchStr.length > 0,
     });
-  }, [getGroupChatUsers, membersListForGroupChat?.members?.length, searchStr]);
+  }, [getGroupChatUsers, membersListForGroupChat?.memberIds?.length, searchStr]);
 
   const search = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -75,8 +75,8 @@ export const ChatMembers: React.FC = () => {
             hasMore={membersListForGroupChat?.hasMore}
             isLoading={membersListForGroupChat?.loading}
             threshold={0.3}>
-            {membersListForGroupChat?.members?.map((member) => (
-              <Member member={member} key={member?.id} />
+            {membersListForGroupChat?.memberIds?.map((memberId) => (
+              <Member memberId={memberId} key={memberId} />
             ))}
           </InfiniteScroll>
         </>

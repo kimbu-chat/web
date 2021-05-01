@@ -22,11 +22,9 @@ export class AddUsersToGroupChat {
     return function* addUsersToGroupChatSaga(
       action: ReturnType<typeof AddUsersToGroupChat.action>,
     ): SagaIterator {
-      const { users } = action.payload;
+      const { userIds } = action.payload;
       const chatId = yield select(getSelectedChatIdSelector);
       const { groupChatId } = ChatId.fromId(chatId);
-
-      const userIds = users.map(({ id }) => id);
 
       const { status } = AddUsersToGroupChat.httpRequest.call(
         yield call(
@@ -40,7 +38,7 @@ export class AddUsersToGroupChat {
       );
 
       if (status === HTTPStatusCode.OK) {
-        yield put(AddUsersToGroupChatSuccess.action({ chatId, users }));
+        yield put(AddUsersToGroupChatSuccess.action({ chatId, userIds }));
         action.meta.deferred?.resolve();
       }
     };

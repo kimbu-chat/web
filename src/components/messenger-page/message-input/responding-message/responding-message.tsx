@@ -9,12 +9,14 @@ import { getMessageToReplySelector } from '@store/chats/selectors';
 import { Avatar } from '@components/shared';
 import { myIdSelector } from '@store/my-profile/selectors';
 import { resetReplyToMessageAction } from '@store/chats/actions';
+import { getUserSelector } from '@store/users/selectors';
 
 export const RespondingMessage = () => {
   const replyingMessage = useSelector(getMessageToReplySelector);
   const myId = useSelector(myIdSelector) as number;
+  const userCreator = useSelector(getUserSelector(replyingMessage?.userCreator));
 
-  const isCurrentUserMessageCreator = replyingMessage?.userCreator?.id === myId;
+  const isCurrentUserMessageCreator = replyingMessage?.userCreator === myId;
 
   const resetReplyToMessage = useActionWithDispatch(resetReplyToMessageAction);
 
@@ -23,7 +25,7 @@ export const RespondingMessage = () => {
       <ReplySvg className="responding-message__icon" viewBox="0 0 15 16" />
       <div className="responding-message__line" />
 
-      <Avatar className="responding-message__message-sender" user={replyingMessage?.userCreator} />
+      <Avatar className="responding-message__message-sender" user={userCreator} />
 
       <div
         className={`responding-message__message-contents ${

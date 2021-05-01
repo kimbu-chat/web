@@ -1,6 +1,5 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { getChatIndexDraftSelector } from '../../selectors';
 import { IChatsState } from '../../chats-state';
 import { ILeaveGroupChatSuccessActionPayload } from './action-payloads/leave-group-chat-success-action-payload';
 
@@ -14,15 +13,20 @@ export class LeaveGroupChatSuccess {
       (draft: IChatsState, { payload }: ReturnType<typeof LeaveGroupChatSuccess.action>) => {
         const { chatId } = payload;
 
-        const chatIndex: number = getChatIndexDraftSelector(chatId, draft);
+        const chatIndex = draft.chatList.chatIds.indexOf(chatId);
+        if (chatIndex !== 0) {
+          draft.chatList.chatIds.splice(chatIndex, 1);
 
-        draft.chats.chats.splice(chatIndex, 1);
+          delete draft.chats[chatId];
+        }
 
         if (draft.selectedChatId === chatId) {
           draft.selectedChatId = null;
         }
 
         delete draft.messages[chatId];
+
+        // TODO: handle user deleteing
 
         return draft;
       },

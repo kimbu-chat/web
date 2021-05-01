@@ -8,7 +8,7 @@ import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { createGroupChatAction } from '@store/chats/actions';
 import { IChat } from '@store/chats/models';
 import { useHistory } from 'react-router';
-import { myProfileSelector } from '@store/my-profile/selectors';
+import { myIdSelector } from '@store/my-profile/selectors';
 import { ICreateGroupChatActionPayload } from '@store/chats/features/create-group-chat/action-payloads/create-group-chat-action-payload';
 
 import { IAvatar, IUser } from '@store/common/models';
@@ -31,7 +31,7 @@ enum GroupChatCreationStage {
 const CreateGroupChat: React.FC<ICreateGroupChatProps> = ({ onClose, preSelectedUserIds }) => {
   const { t } = useTranslation();
 
-  const currentUser = useSelector(myProfileSelector);
+  const currentUserId = useSelector(myIdSelector);
 
   const history = useHistory();
   const submitGroupChatCreation = useActionWithDeferred(createGroupChatAction);
@@ -65,22 +65,24 @@ const CreateGroupChat: React.FC<ICreateGroupChatProps> = ({ onClose, preSelected
   );
 
   const onSubmit = useCallback(() => {
-    setCreationLoading(true);
-    const groupChatToCreate: ICreateGroupChatActionPayload = {
-      name,
-      currentUser: currentUser as IUser,
-      userIds: selectedUserIds,
-      description,
-      avatar: avararUploadResponse,
-    };
+    if (currentUserId) {
+      setCreationLoading(true);
+      const groupChatToCreate: ICreateGroupChatActionPayload = {
+        name,
+        currentUserId,
+        userIds: selectedUserIds,
+        description,
+        avatar: avararUploadResponse,
+      };
 
-    submitGroupChatCreation(groupChatToCreate).then((payload: IChat) => {
-      onClose();
-      history.push(`/chats/${payload.id}`);
-    });
+      submitGroupChatCreation(groupChatToCreate).then((payload: IChat) => {
+        onClose();
+        history.push(`/chats/${payload.id}`);
+      });
+    }
   }, [
     avararUploadResponse,
-    currentUser,
+    currentUserId,
     description,
     history,
     name,

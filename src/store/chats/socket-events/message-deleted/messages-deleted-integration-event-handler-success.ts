@@ -28,9 +28,12 @@ export class MessagesDeletedIntegrationEventHandlerSuccess {
               (id) => id !== msgIdToDelete,
             );
 
-            const [deletedMessage] = draft.messages[chatId].messages.filter(
-              ({ id }) => id === msgIdToDelete,
-            );
+            const index = draft.messages[chatId]?.messageIds.indexOf(msgIdToDelete);
+
+            if (index !== undefined && index > -1) {
+              draft.messages[chatId]?.messageIds.splice(index, 1);
+            }
+            const deletedMessage = draft.messages[chatId]?.messages[msgIdToDelete || -1];
 
             deletedMessage?.attachments?.forEach((attachment) => {
               switch (attachment.type) {
@@ -66,24 +69,26 @@ export class MessagesDeletedIntegrationEventHandlerSuccess {
               }
             });
 
-            draft.messages[chatId].messages
-              .filter(({ linkedMessage }) => linkedMessage?.id === msgIdToDelete)
-              .forEach((_msg, index) => {
-                const message = draft.messages[chatId].messages[index];
+            draft.messages[chatId]?.messageIds
+              .filter((messageId) => {
+                const linkedMessage = draft.messages[chatId]?.messages[messageId]?.linkedMessage;
 
-                if (message.linkedMessage) {
+                return linkedMessage?.id === msgIdToDelete;
+              })
+              .forEach((_msg, linkedMsgIndex) => {
+                const message = draft.messages[chatId]?.messages[linkedMsgIndex];
+
+                if (message?.linkedMessage) {
                   message.linkedMessage = null;
                 }
 
                 return message;
               });
+
+            delete draft.messages[chatId]?.messages[msgIdToDelete || -1];
           });
 
-          if (chat.lastMessage) {
-            if (messageIds.includes(chat.lastMessage.id)) {
-              chat.lastMessage = draft.messages[chatId].messages[0] || chatNewLastMessage;
-            }
-          }
+          chat.lastMessage = chatNewLastMessage;
 
           if (chat.lastMessage?.linkedMessage) {
             if (messageIds.includes(chat.lastMessage?.linkedMessage?.id)) {
@@ -91,6 +96,8 @@ export class MessagesDeletedIntegrationEventHandlerSuccess {
             }
           }
         }
+
+        // TODO: handle user deleteing
 
         return draft;
       },

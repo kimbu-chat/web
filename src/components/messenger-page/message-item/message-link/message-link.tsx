@@ -9,7 +9,9 @@ import {
   IVoiceAttachment,
 } from '@store/chats/models';
 import React, { useMemo } from 'react';
-import { ILinkedMessage } from '@store/chats/models/linked-message';
+import { INormalizedLinkedMessage } from '@store/chats/models/linked-message';
+import { useSelector } from 'react-redux';
+import { getUserSelector } from '@store/users/selectors';
 import { MessageAudioAttachment } from '../../shared/audio-attachment/audio-attachment';
 import { FileAttachment } from '../../shared/file-attachment/file-attachment';
 import { MediaGrid } from '../attachments/media-grid/media-grid';
@@ -17,11 +19,13 @@ import { RecordingAttachment } from '../attachments/recording-attachment/recordi
 import './message-link.scss';
 
 interface IMessageLinkProps {
-  linkedMessage?: ILinkedMessage | null;
+  linkedMessage: INormalizedLinkedMessage | null;
 }
 
 const MessageLink: React.FC<IMessageLinkProps> = ({ linkedMessage }) => {
   const { t } = useTranslation();
+
+  const userCreator = useSelector(getUserSelector(linkedMessage?.userCreator));
 
   const structuredAttachments = useMemo(
     () =>
@@ -74,7 +78,7 @@ const MessageLink: React.FC<IMessageLinkProps> = ({ linkedMessage }) => {
 
   return (
     <div className="message-link">
-      <Avatar className="message-link__avatar" user={linkedMessage?.userCreator} />
+      <Avatar className="message-link__avatar" user={userCreator} />
 
       <div className="message-link__text">
         <span>

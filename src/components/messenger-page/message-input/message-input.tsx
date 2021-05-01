@@ -12,18 +12,18 @@ import {
 import {
   SystemMessageType,
   MessageState,
-  IMessage,
   MessageLinkType,
   IAttachmentCreation,
   IAttachmentToSend,
   IBaseAttachment,
+  INormalizedMessage,
 } from '@store/chats/models';
 import {
   getMessageToReplySelector,
   getSelectedChatSelector,
   getMessageToEditSelector,
 } from '@store/chats/selectors';
-import { myProfileSelector } from '@store/my-profile/selectors';
+import { myIdSelector } from '@store/my-profile/selectors';
 import { getTypingStrategySelector } from '@store/settings/selectors';
 import { getFileType } from '@utils/get-file-extension';
 import Mousetrap from 'mousetrap';
@@ -57,7 +57,7 @@ const CreateMessageInput = () => {
   const submitEditMessage = useActionWithDispatch(submitEditMessageAction);
   const removeAllAttachmentsToSend = useActionWithDispatch(removeAllAttachmentsAction);
 
-  const currentUser = useSelector(myProfileSelector);
+  const currentUserId = useSelector(myIdSelector);
   const selectedChat = useSelector(getSelectedChatSelector);
   const myTypingStrategy = useSelector(getTypingStrategySelector);
   const replyingMessage = useSelector(getMessageToReplySelector);
@@ -106,6 +106,7 @@ const CreateMessageInput = () => {
     onDragEnter: onDrag,
     onDragOver: onDrag,
     onDragLeave: (e) => {
+      console.log('onDragLeave');
       e.preventDefault();
       e.stopPropagation();
       setIsDragging(false);
@@ -156,17 +157,17 @@ const CreateMessageInput = () => {
       (refText.trim().length > 0 ||
         (updatedSelectedChat.current?.attachmentsToSend?.length || 0) > 0) &&
       updatedSelectedChat.current &&
-      currentUser
+      currentUserId
     ) {
       const attachments = updatedSelectedChat.current?.attachmentsToSend?.map(
         ({ attachment }) => attachment,
       );
 
       if (chatId) {
-        const message: IMessage = {
+        const message: INormalizedMessage = {
           text: refText,
           systemMessageType: SystemMessageType.None,
-          userCreator: currentUser,
+          userCreator: currentUserId,
           creationDateTime: new Date(new Date().toUTCString()),
           state: MessageState.QUEUED,
           id: new Date().getTime(),
@@ -189,7 +190,7 @@ const CreateMessageInput = () => {
 
     setText('');
   }, [
-    currentUser,
+    currentUserId,
     editingMessage,
     refferedReplyingMessage,
     refferedText,

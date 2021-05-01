@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { IMyProfileState } from '../../my-profile-state';
+import { IMyProfileState } from '../../../my-profile/my-profile-state';
 import { IUserPhoneNumberChangedActionPayload } from './action-payloads/user-phone-number-changed-action-payload';
 
 export class UserPhoneNumberChangedEventHandler {

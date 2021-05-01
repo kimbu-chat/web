@@ -10,9 +10,9 @@ import {
   IPictureAttachment,
   IVideoAttachment,
   IVoiceAttachment,
-  IMessage,
+  INormalizedMessage,
 } from '../../models';
-import { getChatIndexDraftSelector, getMessageDraftSelector } from '../../selectors';
+import { getMessageDraftSelector } from '../../selectors';
 import { IMessageCreatedIntegrationEvent } from './message-created-integration-event';
 
 export class MessageCreatedEventHandlerSuccess {
@@ -53,25 +53,24 @@ export class MessageCreatedEventHandlerSuccess {
         const myId = new MyProfileService().myProfile.id;
         const isCurrentUserMessageCreator: boolean = myId === userCreator?.id;
 
-        const message: IMessage = {
+        const message: INormalizedMessage = {
           attachments,
           chatId,
           creationDateTime,
           id,
           systemMessageType,
           text,
-          userCreator,
+          userCreator: userCreator.id,
           linkedMessageType,
 
           isEdited: false,
           isDeleted: false,
         };
 
-        const chatIndex = getChatIndexDraftSelector(chatId, draft);
-        const chat = draft.chats.chats[chatIndex];
+        const chat = draft.chats[chatId];
 
         if (linkedMessage && linkedMessageId) {
-          message.linkedMessage = linkedMessage;
+          message.linkedMessage = { ...linkedMessage, userCreator: linkedMessage.userCreator.id };
         }
 
         if (chat) {
@@ -81,8 +80,13 @@ export class MessageCreatedEventHandlerSuccess {
             isInterlocutorCurrentSelectedChat || isCurrentUserMessageCreator
               ? previousUnreadMessagesCount
               : previousUnreadMessagesCount + 1;
+          const chatMessages = draft.messages[chatId];
 
-          draft.messages[chatId].messages.unshift(message);
+          if (chatMessages) {
+            chatMessages.messageIds.unshift(message.id);
+
+            chatMessages.messages[message.id] = message;
+          }
 
           attachments?.forEach((attachment) => {
             switch (attachment.type) {
@@ -135,12 +139,11 @@ export class MessageCreatedEventHandlerSuccess {
           chat.unreadMessagesCount = newUnreadMessagesCount;
           chat.draftMessage = '';
 
-          const chatWithNewMessage = chat;
-
+          const chatIndex = draft.chatList.chatIds.indexOf(chat.id);
           if (chatIndex !== 0) {
-            draft.chats.chats.splice(chatIndex, 1);
+            draft.chatList.chatIds.splice(chatIndex, 1);
 
-            draft.chats.chats.unshift(chatWithNewMessage);
+            draft.chatList.chatIds.unshift(chat.id);
           }
         }
 

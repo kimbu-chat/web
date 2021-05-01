@@ -17,10 +17,11 @@ export class CreateGroupChatSuccess {
         const isChatExists: boolean = getChatExistsDraftSelector(newChat.id, draft);
 
         if (!isChatExists) {
-          draft.chats.chats.unshift(newChat);
+          draft.chats[newChat.id] = newChat;
 
           draft.messages[newChat.id] = {
             messages: [],
+            messageIds: [],
             hasMore: true,
             loading: false,
           };

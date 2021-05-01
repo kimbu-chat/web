@@ -9,9 +9,9 @@ export class ResetSearchChats {
 
   static get reducer() {
     return produce((draft: IChatsState) => {
-      draft.searchChats.chats = [];
-      draft.searchChats.hasMore = true;
-      draft.searchChats.loading = false;
+      draft.searchChatList.chatIds = [];
+      draft.searchChatList.hasMore = true;
+      draft.searchChatList.loading = false;
 
       return draft;
     });

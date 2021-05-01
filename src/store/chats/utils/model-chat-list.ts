@@ -27,7 +27,7 @@ export const modelChatList = (chats: IChat[]) => {
         recordings: [],
       };
       if (chat.interlocutorType === InterlocutorType.GroupChat) {
-        chat.members = { members: [], loading: false, hasMore: true };
+        chat.members = { memberIds: [], loading: false, hasMore: true };
       }
 
       return chat;

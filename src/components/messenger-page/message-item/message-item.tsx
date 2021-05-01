@@ -59,7 +59,7 @@ interface IMessageItemProps {
   selectedChatId: number;
 }
 
-const MessageItem: React.FC<IMessageItemProps> = ({ messageId, selectedChatId }) => {
+const MessageItem: React.FC<IMessageItemProps> = React.memo(({ messageId, selectedChatId }) => {
   const isSelectState = useSelector(getIsSelectMessagesStateSelector);
   const myId = useSelector(myIdSelector) as number;
   const message = useSelector(getMessageSelector(selectedChatId, messageId));
@@ -333,7 +333,7 @@ const MessageItem: React.FC<IMessageItemProps> = ({ messageId, selectedChatId })
       )}
     </>
   );
-};
+});
 
 MessageItem.displayName = 'MessageItem';
 

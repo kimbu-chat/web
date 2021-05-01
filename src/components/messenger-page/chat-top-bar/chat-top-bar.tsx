@@ -19,13 +19,19 @@ import { getChatInterlocutor } from '@utils/user-utils';
 import { changeChatInfoOpenedAction } from '@store/chats/actions';
 import { getUserSelector } from '@store/users/selectors';
 import { MessagesSearch } from './messages-search/messages-search';
+import { ChatInfoBtn } from './chat-info-btn/chat-info-btn';
 
 export const ChatTopBar = () => {
   const { t } = useTranslation();
 
-  const selectedChat = useSelector(getSelectedChatSelector);
+  const selectedChat = useSelector(
+    getSelectedChatSelector,
+    (oldChat, newChat) =>
+      oldChat === newChat ||
+      oldChat?.draftMessage !== newChat?.draftMessage ||
+      oldChat?.lastMessage !== newChat?.lastMessage,
+  );
   const interlocutor = useSelector(getUserSelector(selectedChat?.interlocutor));
-  const isInfoOpened = useSelector(getIsInfoOpenedSelector);
 
   const callInterlocutor = useActionWithDispatch(outgoingCallAction);
   const openCloseChatInfo = useActionWithDispatch(changeChatInfoOpenedAction);
@@ -119,13 +125,7 @@ export const ChatTopBar = () => {
           )}
 
           <MessagesSearch />
-
-          <button
-            type="button"
-            onClick={openCloseChatInfo}
-            className={`chat-data__button ${isInfoOpened ? 'chat-data__button--active' : ''}`}>
-            <ChatInfoSvg />
-          </button>
+          <ChatInfoBtn toggleVisibility={openCloseChatInfo} />
         </div>
       </div>
     );

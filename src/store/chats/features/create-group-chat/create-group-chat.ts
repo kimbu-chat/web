@@ -28,7 +28,7 @@ export class CreateGroupChat {
     return function* createGroupChat(
       action: ReturnType<typeof CreateGroupChat.action>,
     ): SagaIterator {
-      const { userIds, name, avatar, description, currentUser } = action.payload;
+      const { userIds, name, avatar, description, currentUserId } = action.payload;
 
       const groupChatCreationRequest: ICerateGroupChatApiRequest = {
         name,
@@ -50,7 +50,7 @@ export class CreateGroupChat {
         text: createSystemMessage({}),
         chatId,
         state: MessageState.LOCALMESSAGE,
-        userCreator: action.payload.currentUser.id,
+        userCreator: currentUserId,
         isDeleted: false,
         isEdited: false,
       };
@@ -67,7 +67,7 @@ export class CreateGroupChat {
           name,
           description,
           avatar: action.payload.avatar,
-          userCreatorId: currentUser.id,
+          userCreatorId: currentUserId,
         },
         typingInterlocutors: [],
         lastMessage: firstMessage,

@@ -2,10 +2,10 @@ import { RootState } from 'typesafe-actions';
 import { IUser } from '../common/models';
 
 export const getCallInterlocutorSelector = (state: RootState): IUser | undefined =>
-  state.calls.interlocutor;
+  state.users.users[state.calls.interlocutor || -1];
 
 export const getCallInterlocutorIdSelector = (state: RootState): number | undefined =>
-  state.calls.interlocutor?.id;
+  state.calls.interlocutor;
 
 export const amICalledSelector = (state: RootState): boolean => state.calls.amICalled;
 

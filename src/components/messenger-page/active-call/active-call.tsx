@@ -184,29 +184,29 @@ const ActiveCall: React.FC = () => {
     return undefined;
   }, [amICallingSelectorSomebody, isInterlocutorBusy]);
 
-  const reCallWithVideo = useCallback(
-    () =>
+  const reCallWithVideo = useCallback(() => {
+    if (interlocutor?.id) {
       callInterlocutor({
-        calling: interlocutor as IUser,
+        callingId: interlocutor.id,
         constraints: {
           videoEnabled: true,
           audioEnabled: true,
         },
-      }),
-    [interlocutor, callInterlocutor],
-  );
+      });
+    }
+  }, [interlocutor, callInterlocutor]);
 
-  const reCallWithAudio = useCallback(
-    () =>
+  const reCallWithAudio = useCallback(() => {
+    if (interlocutor?.id) {
       callInterlocutor({
-        calling: interlocutor as IUser,
+        callingId: interlocutor.id,
         constraints: {
           videoEnabled: false,
           audioEnabled: true,
         },
-      }),
-    [interlocutor, callInterlocutor],
-  );
+      });
+    }
+  }, [interlocutor, callInterlocutor]);
 
   return ReactDOM.createPortal(
     <Rnd

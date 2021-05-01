@@ -14,7 +14,7 @@ import { myIdSelector } from '../../../my-profile/selectors';
 import { callNormalizationSchema } from '../../normalization';
 
 import { resetPeerConnection } from '../../../middlewares/webRTC/reset-peer-connection';
-import { getCallInterlocutorSelector, getIsActiveCallIncomingSelector } from '../../selectors';
+import { getCallInterlocutorIdSelector, getIsActiveCallIncomingSelector } from '../../selectors';
 import { ICallEndedIntegrationEvent } from './call-ended-integration-event';
 import { ICall } from '../../common/models';
 import { IGetCallByIdApiRequest } from './api-requests/get-call-by-id-api-request';
@@ -37,21 +37,21 @@ export class CallEndedEventHandler {
         creationDateTime,
         status,
       } = action.payload;
-      const interlocutor = yield select(getCallInterlocutorSelector);
+      const interlocutorId = yield select(getCallInterlocutorIdSelector);
 
-      if (!interlocutor || userInterlocutorId === interlocutor?.id) {
+      if (!interlocutorId || userInterlocutorId === interlocutorId) {
         resetPeerConnection();
 
         let activeCall: ICall | null = null;
 
-        if (interlocutor) {
+        if (interlocutorId) {
           const isActiveCallIncoming = yield select(getIsActiveCallIncomingSelector);
           const myId = yield select(myIdSelector);
 
           activeCall = {
             id,
-            userInterlocutor: interlocutor,
-            userCallerId: isActiveCallIncoming ? interlocutor.id : myId,
+            userInterlocutor: interlocutorId,
+            userCallerId: isActiveCallIncoming ? interlocutorId : myId,
             startDateTime,
             endDateTime,
             status,

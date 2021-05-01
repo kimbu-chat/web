@@ -1,5 +1,4 @@
 import { ById } from '@store/chats/models/by-id';
-import { IUser } from '../common/models';
 import { ICall } from './common/models/call';
 
 interface ICallList {
@@ -14,7 +13,7 @@ export interface ICallsState {
   isInterlocutorVideoEnabled: boolean;
   isInterlocutorAudioEnabled: boolean;
   isInterlocutorBusy: boolean;
-  interlocutor?: IUser;
+  interlocutor?: number;
   amICalled: boolean;
   amICalling: boolean;
   isSpeaking: boolean;

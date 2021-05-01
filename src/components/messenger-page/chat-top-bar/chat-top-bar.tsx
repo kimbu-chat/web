@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { getIsInfoOpenedSelector, getSelectedChatSelector } from '@store/chats/selectors';
+import { getSelectedChatSelector } from '@store/chats/selectors';
 
 import './chat-top-bar.scss';
 
@@ -12,7 +12,6 @@ import { Avatar, StatusBadge, TimeUpdateable } from '@components/shared';
 
 import { ReactComponent as VoiceCallSvg } from '@icons/audio-call.svg';
 import { ReactComponent as VideoCallSvg } from '@icons/video-call.svg';
-import { ReactComponent as ChatInfoSvg } from '@icons/chat-info.svg';
 import { ReactComponent as TypingSvg } from '@icons/typing.svg';
 
 import { getChatInterlocutor } from '@utils/user-utils';
@@ -36,29 +35,29 @@ export const ChatTopBar = () => {
   const callInterlocutor = useActionWithDispatch(outgoingCallAction);
   const openCloseChatInfo = useActionWithDispatch(changeChatInfoOpenedAction);
 
-  const callWithVideo = useCallback(
-    () =>
+  const callWithVideo = useCallback(() => {
+    if (interlocutor?.id) {
       callInterlocutor({
-        calling: interlocutor as IUser,
+        callingId: interlocutor.id,
         constraints: {
           videoEnabled: true,
           audioEnabled: true,
         },
-      }),
-    [interlocutor, callInterlocutor],
-  );
+      });
+    }
+  }, [interlocutor, callInterlocutor]);
 
-  const callWithAudio = useCallback(
-    () =>
+  const callWithAudio = useCallback(() => {
+    if (interlocutor?.id) {
       callInterlocutor({
-        calling: interlocutor as IUser,
+        callingId: interlocutor.id,
         constraints: {
           videoEnabled: false,
           audioEnabled: true,
         },
-      }),
-    [interlocutor, callInterlocutor],
-  );
+      });
+    }
+  }, [interlocutor, callInterlocutor]);
 
   const interlocutorStatus = interlocutor?.online ? (
     t('chatData.online')

@@ -54,10 +54,10 @@ export const AddCallModal: React.FC<IAddCallModalProps> = ({ onClose }) => {
   }, [searchFriendIds?.length, friendIds.length, loadFriends, name]);
 
   const call = useCallback(
-    (user) => {
+    (userId: number) => {
       onClose();
       callInterlocutor({
-        calling: user,
+        callingId: userId,
         constraints: {
           videoEnabled: true,
           audioEnabled: true,

@@ -1,10 +1,14 @@
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { apply } from 'redux-saga/effects';
+import { apply, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+import { userNormalizationSchema } from '@store/friends/normalization';
+import { normalize } from 'normalizr';
+import { UpdateUsersList } from '@store/users/features/update-users-list/update-users-list';
 import { setInterlocutorOffer } from '../../../middlewares/webRTC/peerConnectionFactory';
 import { ICallsState } from '../../calls-state';
 import { IIncomingCallIntegrationEvent } from './incoming-call-integration-event';
+import { IUser } from '../../../common/models';
 
 export class IncomingCallEventHandler {
   static get action() {
@@ -16,7 +20,7 @@ export class IncomingCallEventHandler {
       (draft: ICallsState, { payload }: ReturnType<typeof IncomingCallEventHandler.action>) => {
         draft.isIncomingCallVideoEnbaled = payload.isVideoEnabled;
         const interlocutor = payload.userInterlocutor;
-        draft.interlocutor = interlocutor;
+        draft.interlocutor = interlocutor.id;
         draft.amICalled = true;
 
         return draft;
@@ -29,6 +33,14 @@ export class IncomingCallEventHandler {
       action: ReturnType<typeof IncomingCallEventHandler.action>,
     ): SagaIterator {
       yield apply(setInterlocutorOffer, setInterlocutorOffer, [action.payload.offer]);
+
+      const {
+        entities: { users },
+      } = normalize<IUser, { users: IUser[] }, number[]>(
+        action.payload.userInterlocutor,
+        userNormalizationSchema,
+      );
+      yield put(UpdateUsersList.action({ users }));
     };
   }
 }

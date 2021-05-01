@@ -1,7 +1,5 @@
-import { IUser } from '../../../../common/models';
-
 export interface IOutgoingCallActionPayload {
-  calling: IUser;
+  callingId: number;
   constraints: {
     videoEnabled: boolean;
     audioEnabled: boolean;

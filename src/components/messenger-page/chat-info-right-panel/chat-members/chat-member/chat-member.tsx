@@ -10,7 +10,6 @@ import { MyProfileService } from '@services/my-profile-service';
 import { getUserName } from '@utils/user-utils';
 import { useSelector } from 'react-redux';
 import { getUserSelector } from '@store/users/selectors';
-import { IUser } from '@store/common/models';
 import { DeleteChatMemberModal } from '../delete-chat-member-modal/delete-chat-member-modal';
 
 interface IMemberProps {

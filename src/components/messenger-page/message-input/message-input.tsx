@@ -106,6 +106,7 @@ const CreateMessageInput = () => {
     onDragEnter: onDrag,
     onDragOver: onDrag,
     onDragLeave: (e) => {
+      console.log('onDragLeave');
       e.preventDefault();
       e.stopPropagation();
       setIsDragging(false);

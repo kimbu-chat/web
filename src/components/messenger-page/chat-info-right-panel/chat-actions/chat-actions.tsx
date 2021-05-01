@@ -63,7 +63,10 @@ export const ChatActions: React.FC = () => {
   const blockUser = useActionWithDeferred(blockUserAction);
   const unBlockUser = useActionWithDeferred(unblockUserAction);
 
-  const selectedChat = useSelector(getSelectedChatSelector) as IChat;
+  const selectedChat = useSelector(
+    getSelectedChatSelector,
+    (prev, next) => prev === next || prev?.draftMessage !== next?.draftMessage,
+  ) as IChat;
 
   const [isMuting, setIsMuting] = useState(false);
   const muteUnmute = useCallback(() => {

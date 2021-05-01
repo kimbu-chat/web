@@ -19,7 +19,7 @@ import { useParams } from 'react-router';
 import { FadeAnimationWrapper } from '@components/shared';
 import { ChatFromList } from './chat-item/chat-item';
 
-const ChatList = () => {
+const ChatList = React.memo(() => {
   const chatsList = useSelector(getChatsListSelector);
   const searchChatsList = useSelector(getSearchChatsListSelector);
 
@@ -128,7 +128,7 @@ const ChatList = () => {
       </FadeAnimationWrapper>
     </>
   );
-};
+});
 
 ChatList.displayName = 'ChatList';
 

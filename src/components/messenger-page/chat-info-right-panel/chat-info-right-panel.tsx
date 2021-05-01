@@ -16,10 +16,14 @@ import { ChatMembers } from './chat-members/chat-members';
 import { ChatMedia } from './chat-media/chat-media';
 
 const ChatInfoRightPanel: React.FC = React.memo(() => {
-  const selectedChat = useSelector(getSelectedChatSelector);
-  const getChatInfo = useActionWithDispatch(getChatInfoAction);
+  const selectedChat = useSelector(
+    getSelectedChatSelector,
+    (prev, next) => prev === next || prev?.draftMessage !== next?.draftMessage,
+  );
   const interlocutor = useSelector(getUserSelector(selectedChat?.interlocutor));
   const isInfoOpened = useSelector(getIsInfoOpenedSelector);
+
+  const getChatInfo = useActionWithDispatch(getChatInfoAction);
 
   const [isAvatarMaximized, setIsAvatarMaximized] = useState(false);
 
@@ -38,10 +42,10 @@ const ChatInfoRightPanel: React.FC = React.memo(() => {
   }, [setIsAvatarMaximized, getChatAvatar]);
 
   useEffect(() => {
-    if (selectedChat?.rawAttachmentsCount === undefined && selectedChat?.id) {
+    if (isInfoOpened && selectedChat?.rawAttachmentsCount === undefined && selectedChat?.id) {
       getChatInfo();
     }
-  }, [getChatInfo, selectedChat?.rawAttachmentsCount, selectedChat?.id]);
+  }, [getChatInfo, selectedChat?.rawAttachmentsCount, selectedChat?.id, isInfoOpened]);
 
   const getChatFullSizeAvatar = useCallback((): string => {
     if (interlocutor?.avatar?.url) {

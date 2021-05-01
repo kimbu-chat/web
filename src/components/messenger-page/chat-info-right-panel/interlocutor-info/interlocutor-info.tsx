@@ -18,7 +18,10 @@ import { EditChatModal } from '../../edit-chat-modal/edit-chat-modal';
 export const InterlocutorInfo = () => {
   const { t } = useTranslation();
 
-  const selectedChat = useSelector(getSelectedChatSelector);
+  const selectedChat = useSelector(
+    getSelectedChatSelector,
+    (prev, next) => prev === next || prev?.draftMessage !== next?.draftMessage,
+  );
   const interlocutor = useSelector(getUserSelector(selectedChat?.interlocutor));
   const groupChat = selectedChat?.groupChat;
 

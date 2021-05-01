@@ -32,7 +32,7 @@ interface IChatItemProps {
   chatId: number;
 }
 
-const ChatItem: React.FC<IChatItemProps> = ({ chatId }) => {
+const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
   const { t } = useTranslation();
   const chat = useSelector(getChatSelector(chatId)) as IChat;
   const lastMessageUserCreator = useSelector(getUserSelector(chat.lastMessage?.userCreator));
@@ -180,7 +180,7 @@ const ChatItem: React.FC<IChatItemProps> = ({ chatId }) => {
       </div>
     </NavLink>
   );
-};
+});
 
 ChatItem.displayName = 'ChatFromList';
 

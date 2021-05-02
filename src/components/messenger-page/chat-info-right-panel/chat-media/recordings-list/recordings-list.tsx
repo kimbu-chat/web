@@ -10,9 +10,9 @@ import moment from 'moment';
 import { doesYearDifferFromCurrent, setSeparators } from '@utils/set-separators';
 import { InfiniteScroll } from '@components/messenger-page';
 import { VOICE_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
-import { Recording } from './recording/recording';
+import { RecordingAttachment } from '@components/messenger-page/message-item/attachments/recording-attachment/recording-attachment';
 
-export const RecordingsList = React.memo(() => {
+export const RecordingsList = () => {
   const recordingsForSelectedChat = useSelector(getSelectedChatRecordingsSelector);
 
   const getRecordings = useActionWithDispatch(getVoiceAttachmentsAction);
@@ -50,11 +50,11 @@ export const RecordingsList = React.memo(() => {
                     : moment(recording.creationDateTime).format('MMMM')}
                 </div>
               )}
-              <Recording key={recording.id} recording={recording} />
+              <RecordingAttachment key={recording.id} attachment={recording} />
             </div>
           ))}
         </InfiniteScroll>
       </div>
     </div>
   );
-});
+};

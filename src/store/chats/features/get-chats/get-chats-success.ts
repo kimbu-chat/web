@@ -1,5 +1,4 @@
 import produce from 'immer';
-import { unionBy } from 'lodash';
 import { createAction } from 'typesafe-actions';
 import { IChatsState } from '../../chats-state';
 import { IGetChatsSuccessActionPayload } from './action-payloads/get-chats-success-action-payload';
@@ -11,14 +10,15 @@ export class GetChatsSuccess {
 
   static get reducer() {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof GetChatsSuccess.action>) => {
-      const { chats, hasMore, initializedByScroll, searchString } = payload;
+      const { chats, hasMore, initializedByScroll, searchString, chatIds } = payload;
 
-      draft.chats.chats = unionBy(draft.chats.chats, chats, 'id');
+      draft.chats = { ...draft.chats, ...chats };
 
-      chats.forEach(({ id: chatId }) => {
+      chatIds.forEach((chatId) => {
         if (!draft.messages[chatId]) {
           draft.messages[chatId] = {
             messages: [],
+            messageIds: [],
             hasMore: true,
             loading: false,
           };
@@ -26,17 +26,20 @@ export class GetChatsSuccess {
       });
 
       if (searchString?.length) {
-        draft.searchChats.hasMore = hasMore;
-        draft.searchChats.loading = false;
+        draft.searchChatList.hasMore = hasMore;
+        draft.searchChatList.loading = false;
 
         if (initializedByScroll) {
-          draft.searchChats.chats = unionBy(draft.searchChats.chats, chats, 'id');
+          draft.searchChatList.chatIds = [
+            ...new Set([...draft.searchChatList.chatIds, ...chatIds]),
+          ];
         } else {
-          draft.searchChats.chats = chats;
+          draft.searchChatList.chatIds = chatIds;
         }
       } else if (payload.initializedByScroll) {
-        draft.chats.hasMore = hasMore;
-        draft.chats.loading = false;
+        draft.chatList.hasMore = hasMore;
+        draft.chatList.loading = false;
+        draft.chatList.chatIds = [...new Set([...draft.chatList.chatIds, ...chatIds])];
       }
 
       return draft;

@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ReactComponent as SearchSvg } from '@icons/search.svg';
 // import { ReactComponent as ArrowSvg } from '@icons/arrow-v.svg';
 
-import { GetMessages } from '@store/chats/features/get-messages/get-messages';
 import { MESSAGES_LIMIT } from '@utils/pagination-limits';
 import './messages-search.scss';
 import { SearchBox } from '@components/messenger-page';
@@ -11,18 +10,34 @@ import {
   getSelectedChatIdSelector,
   getSelectedChatMessagesSearchStringSelector,
 } from '@store/chats/selectors';
+import { ReactComponent as CloseSvg } from '@icons/close.svg';
 import { useSelector } from 'react-redux';
+import { getMessagesAction } from '@store/chats/actions';
 
-export const MessagesSearch = () => {
+const MessagesSearch = () => {
   const messagesSearchString = useSelector(getSelectedChatMessagesSearchStringSelector);
   const selectedChatId = useSelector(getSelectedChatIdSelector);
 
-  const getMessages = useActionWithDispatch(GetMessages.action);
+  const getMessages = useActionWithDispatch(getMessagesAction);
 
   const [isSearching, setIsSearching] = useState(false);
   const changeSearchingState = useCallback(() => {
-    setIsSearching((oldState) => !oldState);
-  }, [setIsSearching]);
+    if (isSearching) {
+      setIsSearching(false);
+      const pageData = {
+        limit: MESSAGES_LIMIT,
+        offset: 0,
+      };
+
+      getMessages({
+        page: pageData,
+        isFromSearch: true,
+        searchString: '',
+      });
+    } else {
+      setIsSearching(true);
+    }
+  }, [setIsSearching, isSearching, getMessages]);
 
   const searchMessages = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,6 +68,10 @@ export const MessagesSearch = () => {
             value={messagesSearchString || ''}
             onChange={searchMessages}
           />
+          <button onClick={changeSearchingState} type="button" className="messages-search__close">
+            <CloseSvg />
+          </button>
+
           {/*
           //TODO: Use this block for navigation between found messages 
           <div className="messages-search__pointer-container">
@@ -80,3 +99,7 @@ export const MessagesSearch = () => {
     </div>
   );
 };
+
+MessagesSearch.displayName = 'MessagesSearch';
+
+export { MessagesSearch };

@@ -7,7 +7,7 @@ interface ICircularProgressProps {
   progress: number;
 }
 
-export const CircularProgress: React.FC<ICircularProgressProps> = React.memo(({ progress }) => {
+export const CircularProgress: React.FC<ICircularProgressProps> = ({ progress }) => {
   const progressSvgRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
@@ -21,4 +21,4 @@ export const CircularProgress: React.FC<ICircularProgressProps> = React.memo(({ 
   return (
     <CircularProgressSVG ref={progressSvgRef} className="circular-progress" viewBox="0 0 25 25" />
   );
-});
+};

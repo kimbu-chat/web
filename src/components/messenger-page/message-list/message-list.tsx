@@ -6,7 +6,7 @@ import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { useTranslation } from 'react-i18next';
 import {
   getIsSelectMessagesStateSelector,
-  getMessagesByChatIdSelector,
+  getMessagesIdsByChatIdSelector,
   getMessagesLoadingSelector,
   getHasMoreMessagesMessagesSelector,
   getSelectedChatIdSelector,
@@ -17,21 +17,18 @@ import { FadeAnimationWrapper } from '@components/shared';
 
 import { MESSAGES_LIMIT } from '@utils/pagination-limits';
 
-import { GetMessages } from '@store/chats/features/get-messages/get-messages';
-import { MarkMessagesAsRead } from '@store/chats/features/mark-messages-as-read/mark-messages-as-read';
-import { IMessage } from '@store/chats/models';
-import { signAndSeparate } from '@utils/message-utils';
+import { getMessagesAction, markMessagesAsReadAction } from '@store/chats/actions';
 
-const MessageList = React.memo(() => {
-  const getMessages = useActionWithDispatch(GetMessages.action);
-  const markMessagesAsRead = useActionWithDispatch(MarkMessagesAsRead.action);
+const MessageList = () => {
+  const getMessages = useActionWithDispatch(getMessagesAction);
+  const markMessagesAsRead = useActionWithDispatch(markMessagesAsReadAction);
 
   const { t } = useTranslation();
 
   const selectedChatId = useSelector(getSelectedChatIdSelector);
   const unreadMessagesCount = useSelector(getSelectedChatUnreadMessagesCountSelector);
   const isSelectState = useSelector(getIsSelectMessagesStateSelector);
-  const messages = useSelector(getMessagesByChatIdSelector);
+  const messagesIds = useSelector(getMessagesIdsByChatIdSelector);
   const areMessagesLoading = useSelector(getMessagesLoadingSelector);
   const hasMoreMessages = useSelector(getHasMoreMessagesMessagesSelector);
 
@@ -44,13 +41,13 @@ const MessageList = React.memo(() => {
   const loadMore = useCallback(() => {
     const pageData = {
       limit: MESSAGES_LIMIT,
-      offset: messages?.length || 0,
+      offset: messagesIds?.length || 0,
     };
 
     getMessages({
       page: pageData,
     });
-  }, [getMessages, messages?.length]);
+  }, [getMessages, messagesIds?.length]);
 
   if (!selectedChatId) {
     return (
@@ -60,12 +57,10 @@ const MessageList = React.memo(() => {
     );
   }
 
-  const separatedItemsWithUserInfo = signAndSeparate(messages || []);
-
   return (
     <div className="chat__messages-list">
       <div className="chat__messages-container">
-        {!areMessagesLoading && !hasMoreMessages && (messages || []).length === 0 && (
+        {!areMessagesLoading && !hasMoreMessages && (messagesIds || []).length === 0 && (
           <div className="chat__messages-list__empty">
             <p>{t('chat.empty')}</p>
           </div>
@@ -80,15 +75,15 @@ const MessageList = React.memo(() => {
           hasMore={hasMoreMessages}
           isLoading={areMessagesLoading}
           isReverse>
-          {separatedItemsWithUserInfo.map((msg: IMessage) => (
-            <MessageItem message={msg} key={msg.id} />
+          {messagesIds?.map((messageId) => (
+            <MessageItem selectedChatId={selectedChatId} messageId={messageId} key={messageId} />
           ))}
         </InfiniteScroll>
       </div>
     </div>
   );
-});
+};
 
-MessageList.displayName = 'Chat';
+MessageList.displayName = 'MessageList';
 
 export { MessageList };

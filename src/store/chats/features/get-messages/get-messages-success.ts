@@ -1,5 +1,4 @@
 import produce from 'immer';
-import { unionBy } from 'lodash';
 import { createAction } from 'typesafe-actions';
 import { IChatsState } from '../../chats-state';
 import { IGetMessagesSuccessActionPayload } from './action-payloads/get-messages-success-action-payload';
@@ -13,25 +12,22 @@ export class GetMessagesSuccess {
     return produce(
       (draft: IChatsState, { payload }: ReturnType<typeof GetMessagesSuccess.action>) => {
         const {
-          chatId,
-          hasMoreMessages,
-          messages,
-          isFromSearch,
+          messageList: { chatId, hasMoreMessages, messages, isFromSearch, messageIds },
         }: IGetMessagesSuccessActionPayload = payload;
 
-        if (draft.messages[chatId]) {
-          draft.messages[chatId].hasMore = hasMoreMessages;
+        const chatMessages = draft.messages[chatId];
 
-          draft.messages[chatId].loading = false;
+        if (chatMessages) {
+          chatMessages.hasMore = hasMoreMessages;
+
+          chatMessages.loading = false;
 
           if (isFromSearch) {
-            draft.messages[chatId].messages = messages;
+            chatMessages.messageIds = messageIds;
+            chatMessages.messages = messages;
           } else {
-            draft.messages[chatId].messages = unionBy(
-              draft.messages[chatId].messages,
-              messages,
-              'id',
-            );
+            chatMessages.messageIds = [...new Set([...chatMessages.messageIds, ...messageIds])];
+            chatMessages.messages = { ...messages, ...chatMessages.messages };
           }
         }
 

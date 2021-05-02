@@ -5,21 +5,25 @@ import { ReactComponent as PhoneSvg } from '@icons/phone-chat-info.svg';
 import { ReactComponent as EditSvg } from '@icons/crayon.svg';
 import { ReactComponent as DogSvg } from '@icons/@.svg';
 
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import {
-  getSelectedChatIdSelector,
-  getSelectedInterlocutorSelector,
-  getSelectedGroupChatSelector,
-} from '@store/chats/selectors';
+import { getSelectedChatSelector } from '@store/chats/selectors';
 import { parsePhoneNumber } from 'libphonenumber-js';
 import { Link } from 'react-router-dom';
 import { FadeAnimationWrapper } from '@components/shared';
+import { getChatInterlocutor } from '@utils/user-utils';
+import { getUserSelector } from '@store/users/selectors';
 import { EditChatModal } from '../../edit-chat-modal/edit-chat-modal';
 
-export const InterlocutorInfo = React.memo(() => {
-  const selectedChatId = useSelector(getSelectedChatIdSelector);
-  const interlocutor = useSelector(getSelectedInterlocutorSelector);
-  const groupChat = useSelector(getSelectedGroupChatSelector);
+export const InterlocutorInfo = () => {
+  const { t } = useTranslation();
+
+  const selectedChat = useSelector(
+    getSelectedChatSelector,
+    (prev, next) => prev === next || prev?.draftMessage !== next?.draftMessage,
+  );
+  const interlocutor = useSelector(getUserSelector(selectedChat?.interlocutor));
+  const groupChat = selectedChat?.groupChat;
 
   const [editGroupChatDisplayed, setEditGroupChatDisplayed] = useState(false);
   const changeEditGroupChatDisplayedState = useCallback(() => {
@@ -32,9 +36,7 @@ export const InterlocutorInfo = React.memo(() => {
         <div className="interlocutor-info__interlocutor-data">
           <div className="interlocutor-info__chat-data">
             <div className="interlocutor-info__interlocutor">
-              {interlocutor
-                ? `${interlocutor.firstName} ${interlocutor.lastName}`
-                : groupChat?.name}
+              {getChatInterlocutor(interlocutor, selectedChat, t)}
             </div>
             {groupChat?.description && (
               <div className="interlocutor-info__description">{groupChat?.description}</div>
@@ -51,7 +53,7 @@ export const InterlocutorInfo = React.memo(() => {
           )}
         </div>
 
-        {interlocutor && (
+        {interlocutor && !interlocutor.deleted && (
           <div className="interlocutor-info__info-block">
             <PhoneSvg className="interlocutor-info__info-svg" />
             <div className="interlocutor-info__data-value">
@@ -63,10 +65,10 @@ export const InterlocutorInfo = React.memo(() => {
         <div className="interlocutor-info__info-block">
           <DogSvg className="interlocutor-info__info-svg" />
           <Link
-            to={`/chats/${selectedChatId}`}
+            to={`/chats/${selectedChat?.id}`}
             className="interlocutor-info__data-value interlocutor-info__data-value--link">
             {`${
-              interlocutor ? `@${interlocutor?.nickname}` : `ravudi.com/chats/${selectedChatId}2`
+              interlocutor ? `@${interlocutor?.nickname}` : `ravudi.com/chats/${selectedChat?.id}2`
             }`}
           </Link>
         </div>
@@ -77,4 +79,4 @@ export const InterlocutorInfo = React.memo(() => {
       </FadeAnimationWrapper>
     </>
   );
-});
+};

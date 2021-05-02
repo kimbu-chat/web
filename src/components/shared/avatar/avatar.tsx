@@ -1,33 +1,51 @@
+import { IGroupChat } from '@store/chats/models';
+import { IUser } from '@store/common/models';
+import { getInterlocutorInitials } from '@utils/user-utils';
 import React from 'react';
+import { ReactComponent as DeletedSvg } from '@icons/deleted.svg';
 
 import './avatar.scss';
 
 interface IAvatarProps {
-  src?: string;
-  children: string;
+  user?: IUser;
+  groupChat?: IGroupChat;
   className?: string;
   onClick?: () => void;
 }
 
-export const Avatar: React.FC<IAvatarProps> = React.memo(
-  ({ src, children, className, onClick, ...props }) => (
+export const Avatar: React.FC<IAvatarProps> = ({
+  user,
+  groupChat,
+  className,
+  onClick,
+  ...props
+}) => {
+  if (user?.deleted) {
+    return (
+      <div className={`avatar avatar--deleted ${className || ''}`}>
+        <DeletedSvg />
+      </div>
+    );
+  }
+
+  return (
     <>
-      {src ? (
+      {user?.avatar?.previewUrl || groupChat?.avatar?.previewUrl ? (
         <img
           draggable={false}
-          alt={children}
-          src={src}
+          alt={getInterlocutorInitials({ user, groupChat })}
+          src={user?.avatar?.previewUrl || groupChat?.avatar?.previewUrl}
           {...props}
           onClick={onClick}
           className={`avatar ${className || ''}`}
         />
       ) : (
         <div draggable={false} {...props} onClick={onClick} className={`avatar ${className || ''}`}>
-          {children}
+          {getInterlocutorInitials({ user, groupChat })}
         </div>
       )}
     </>
-  ),
-);
+  );
+};
 
 Avatar.displayName = 'Avatar';

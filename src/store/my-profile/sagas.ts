@@ -7,7 +7,7 @@ import { CancelAvatarUploading } from './features/cancel-avatar-uploading/cancel
 import { UploadAvatar } from './features/upload-avatar/upload-avatar';
 import { GetMyProfileSuccess } from './features/get-my-profile/get-my-profile-success';
 import { DeactivateAccount } from './features/deactivate-account/deactivate-acccount';
-import { UserDeactivatedEventHandler } from './socket-events/user-deactivated/user-deactivated-event-handler';
+import { DeleteAccount } from './features/delete-account/delete-account';
 
 export const MyProfileSagas = [
   spawn(GetMyProfile.saga),
@@ -16,8 +16,8 @@ export const MyProfileSagas = [
   takeLatest(GetMyProfileSuccess.action, GetMyProfileSuccess.saga),
   takeLatest(CheckNicknameAvailability.action, CheckNicknameAvailability.saga),
   takeLatest(UploadAvatar.action, UploadAvatar.saga),
+  takeLatest(ChangeUserOnlineStatus.action, ChangeUserOnlineStatus.saga),
   takeEvery(CancelAvatarUploading.action, CancelAvatarUploading.saga),
-  takeEvery(ChangeUserOnlineStatus.action, ChangeUserOnlineStatus.saga),
   takeLatest(DeactivateAccount.action, DeactivateAccount.saga),
-  takeEvery(UserDeactivatedEventHandler.action, UserDeactivatedEventHandler.saga),
+  takeEvery(DeleteAccount.action, DeleteAccount.saga),
 ];

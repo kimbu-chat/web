@@ -2,34 +2,33 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import produce from 'immer';
 import { Meta } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
 import { createSystemMessage } from '@utils/message-utils';
 import { ChatId } from '../../chat-id';
-import { IChat, IMessage, InterlocutorType, MessageState, SystemMessageType } from '../../models';
+import {
+  IChat,
+  INormalizedMessage,
+  InterlocutorType,
+  MessageState,
+  SystemMessageType,
+} from '../../models';
 import { ChangeSelectedChat } from '../change-selected-chat/change-selected-chat';
 import { ICreateGroupChatActionPayload } from './action-payloads/create-group-chat-action-payload';
 import { CreateGroupChatSuccess } from './create-group-chat-success';
 import { ICerateGroupChatApiRequest } from './api-requests/create-group-chat-api-request';
-import { IChatsState } from '../../chats-state';
 
 export class CreateGroupChat {
   static get action() {
     return createAction('CREATE_GROUP_CHAT')<ICreateGroupChatActionPayload, Meta<IChat>>();
   }
 
-  // TODO: handle loading
-  static get reducer() {
-    return produce((draft: IChatsState) => draft);
-  }
-
   static get saga() {
     return function* createGroupChat(
       action: ReturnType<typeof CreateGroupChat.action>,
     ): SagaIterator {
-      const { userIds, name, avatar, description, currentUser } = action.payload;
+      const { userIds, name, avatar, description, currentUserId } = action.payload;
 
       const groupChatCreationRequest: ICerateGroupChatApiRequest = {
         name,
@@ -44,14 +43,14 @@ export class CreateGroupChat {
 
       const chatId: number = ChatId.from(undefined, data).id;
 
-      const firstMessage: IMessage = {
+      const firstMessage: INormalizedMessage = {
         creationDateTime: new Date(),
         id: new Date().getTime(),
         systemMessageType: SystemMessageType.GroupChatCreated,
         text: createSystemMessage({}),
         chatId,
         state: MessageState.LOCALMESSAGE,
-        userCreator: action.payload.currentUser,
+        userCreator: currentUserId,
         isDeleted: false,
         isEdited: false,
       };
@@ -68,7 +67,7 @@ export class CreateGroupChat {
           name,
           description,
           avatar: action.payload.avatar,
-          userCreatorId: currentUser.id,
+          userCreatorId: currentUserId,
         },
         typingInterlocutors: [],
         lastMessage: firstMessage,
@@ -80,7 +79,7 @@ export class CreateGroupChat {
         members: {
           hasMore: true,
           loading: false,
-          members: [],
+          memberIds: [],
         },
         videos: {
           hasMore: true,

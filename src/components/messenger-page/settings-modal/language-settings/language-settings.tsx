@@ -10,21 +10,25 @@ import { ReactComponent as USASvg } from '@icons/Usa.svg';
 import { RadioBox } from '../shared/radio-box/radio-box';
 import './language-settings.scss';
 
-export const LanguageSettings = React.memo(() => {
+const LanguageSettings = () => {
   const { t, i18n } = useTranslation();
 
   const currentLanguage = useSelector(getCurrentLanguageSelector);
 
   const changeLanguage = useActionWithDispatch(changeLanguageAction);
   const setEnLang = useCallback(() => {
-    i18n?.changeLanguage(Langs.En);
-    changeLanguage({ language: Langs.En });
-  }, [changeLanguage, i18n]);
+    if (currentLanguage !== Langs.En) {
+      i18n?.changeLanguage(Langs.En);
+      changeLanguage({ language: Langs.En });
+    }
+  }, [changeLanguage, currentLanguage, i18n]);
 
   const setRuLang = useCallback(() => {
-    i18n?.changeLanguage(Langs.Ru);
-    changeLanguage({ language: Langs.Ru });
-  }, [changeLanguage, i18n]);
+    if (currentLanguage !== Langs.Ru) {
+      i18n?.changeLanguage(Langs.Ru);
+      changeLanguage({ language: Langs.Ru });
+    }
+  }, [changeLanguage, currentLanguage, i18n]);
 
   return (
     <div className="language-settings">
@@ -38,7 +42,6 @@ export const LanguageSettings = React.memo(() => {
           <RadioBox
             defaultChecked={currentLanguage === Langs.En}
             groupName="language"
-            onClick={setEnLang}
             content={
               <>
                 <USASvg className="language-settings__icon" />
@@ -52,13 +55,13 @@ export const LanguageSettings = React.memo(() => {
         </div>
 
         <div
+          onClick={setRuLang}
           className={`language-settings__language ${
             currentLanguage === Langs.Ru ? 'language-settings__language--active' : ''
           }`}>
           <RadioBox
             defaultChecked={currentLanguage === Langs.Ru}
             groupName="language"
-            onClick={setRuLang}
             content={
               <>
                 <RussiaSvg className="language-settings__icon" />
@@ -73,4 +76,8 @@ export const LanguageSettings = React.memo(() => {
       </form>
     </div>
   );
-});
+};
+
+LanguageSettings.displayName = 'LanguageSettings';
+
+export { LanguageSettings };

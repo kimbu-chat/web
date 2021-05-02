@@ -4,13 +4,14 @@ import { IGroupable, IPictureAttachment } from '@store/chats/models';
 import { doesYearDifferFromCurrent } from '@utils/set-separators';
 import moment from 'moment';
 import React, { useCallback, useState } from 'react';
+import { xorBy } from 'lodash';
 
 interface IPhotoProps {
   photo: IPictureAttachment & IGroupable;
   attachmentsArr: IPictureAttachment[];
 }
 
-export const Photo: React.FC<IPhotoProps> = React.memo(({ photo, attachmentsArr }) => {
+export const Photo: React.FC<IPhotoProps> = ({ photo, attachmentsArr }) => {
   const [bigPhotoDisplayed, setBigPhotoDisplayed] = useState(false);
   const changeBigPhotoDisplayed = useCallback(() => setBigPhotoDisplayed((oldState) => !oldState), [
     setBigPhotoDisplayed,
@@ -42,4 +43,4 @@ export const Photo: React.FC<IPhotoProps> = React.memo(({ photo, attachmentsArr 
       </FadeAnimationWrapper>
     </>
   );
-});
+};

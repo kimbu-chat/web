@@ -11,7 +11,7 @@ import { InfiniteScroll } from '@components/messenger-page';
 import { VIDEO_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 import { VideoFromList } from './video/video-from-list';
 
-export const VideoList = React.memo(() => {
+export const VideoList = () => {
   const getVideoAttachmentss = useActionWithDispatch(getVideoAttachmentsAction);
 
   const videosForSelectedChat = useSelector(getSelectedChatVideosSelector);
@@ -46,4 +46,4 @@ export const VideoList = React.memo(() => {
       </InfiniteScroll>
     </div>
   );
-});
+};

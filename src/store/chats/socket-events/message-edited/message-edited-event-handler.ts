@@ -1,4 +1,5 @@
 import produce from 'immer';
+import { xorBy } from 'lodash';
 import { createAction } from 'typesafe-actions';
 import { IChatsState } from '../../chats-state';
 import { IBaseAttachment } from '../../models';
@@ -19,42 +20,53 @@ export class MessageEditedEventHandler {
 
         const attachments: IBaseAttachment[] = JSON.parse(payload.attachments);
         const chat = getChatByIdDraftSelector(chatId, draft);
+        const message = draft.messages[chatId]?.messages[messageId];
+        const shouldApplyAttachments =
+          attachments && xorBy(message?.attachments, attachments, 'id').length !== 0;
 
-        if (chat) {
-          const message = draft.messages[chatId].messages.find(({ id }) => id === messageId);
+        if (!chat || !message) {
+          return draft;
+        }
 
-          if (message) {
-            message.text = text;
+        if (message) {
+          message.text = text;
+          message.isEdited = true;
+
+          if (shouldApplyAttachments) {
             message.attachments = attachments;
-            message.isEdited = true;
+          }
+        }
+
+        draft.messages[chatId]?.messageIds.forEach((currentMessageId) => {
+          const msg = draft.messages[chatId]?.messages[currentMessageId];
+
+          if (msg && msg.linkedMessage?.id === messageId) {
+            msg.linkedMessage.text = text;
+            msg.linkedMessage.isEdited = true;
+            if (shouldApplyAttachments) {
+              msg.linkedMessage.attachments = attachments;
+            }
           }
 
-          draft.messages[chatId].messages = draft.messages[chatId].messages.map((msg) => {
-            if (msg.linkedMessage?.id === messageId) {
-              return {
-                ...msg,
-                linkedMessage: {
-                  ...msg.linkedMessage,
-                  text,
-                  attachments,
-                  isEdited: true,
-                },
-              };
-            }
-            return msg;
-          });
+          return msg;
+        });
 
-          if (chat.lastMessage) {
-            if (chat.lastMessage.id === messageId) {
-              chat.lastMessage.text = text;
+        if (chat.lastMessage) {
+          if (chat.lastMessage.id === messageId) {
+            chat.lastMessage.text = text;
+            chat.lastMessage.isEdited = true;
+
+            if (shouldApplyAttachments) {
               chat.lastMessage.attachments = attachments;
-              chat.lastMessage.isEdited = true;
             }
+          }
 
-            if (chat.lastMessage.linkedMessage && chat.lastMessage.linkedMessage.id === messageId) {
-              chat.lastMessage.linkedMessage.text = text;
+          if (chat.lastMessage.linkedMessage && chat.lastMessage.linkedMessage.id === messageId) {
+            chat.lastMessage.linkedMessage.text = text;
+            chat.lastMessage.linkedMessage.isEdited = true;
+
+            if (shouldApplyAttachments) {
               chat.lastMessage.linkedMessage.attachments = attachments;
-              chat.lastMessage.linkedMessage.isEdited = true;
             }
           }
         }

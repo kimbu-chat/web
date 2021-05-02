@@ -30,6 +30,8 @@ export class RemoveChat {
           ),
         );
 
+        // TODO: handle user deleteing
+
         if (status === HTTPStatusCode.OK) {
           yield put(RemoveChatSuccess.action({ chatId }));
           action.meta.deferred.resolve();

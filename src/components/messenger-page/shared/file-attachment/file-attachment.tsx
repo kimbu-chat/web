@@ -8,11 +8,7 @@ import { fileDownload } from '@utils/file-download';
 import { IBaseAttachment } from '@store/chats/models';
 import { getRawAttachmentSizeUnit } from '@utils/get-file-size-unit';
 
-interface IFileAttachmentProps {
-  attachment: IBaseAttachment;
-}
-
-export const FileAttachment: React.FC<IFileAttachmentProps> = React.memo(({ attachment }) => {
+const FileAttachment: React.FC<IBaseAttachment> = ({ ...attachment }) => {
   const [isDownloading, setIsDownloading] = useState(false);
   const [downloaded, setDownloaded] = useState(0);
 
@@ -75,4 +71,8 @@ export const FileAttachment: React.FC<IFileAttachmentProps> = React.memo(({ atta
       </div>
     </div>
   );
-});
+};
+
+FileAttachment.displayName = 'FileAttachment';
+
+export { FileAttachment };

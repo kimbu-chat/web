@@ -1,0 +1,19 @@
+.registration {
+  &__current-photo {
+    align-items: center;
+    background-color: #bdbdbd;
+    border-radius: 6px;
+    color: #fafafa;
+    display: flex;
+    flex-shrink: 0;
+    font-family: inherit;
+    font-size: 1.25rem;
+    height: 100%;
+    justify-content: center;
+    line-height: 1;
+    overflow: hidden;
+    position: relative;
+    user-select: none;
+    width: 100%;
+  }
+}

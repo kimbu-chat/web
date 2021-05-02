@@ -10,16 +10,14 @@ import { ReactComponent as LogoutSvg } from '@icons/logout.svg';
 
 import { getSelectedChatIdSelector } from '@store/chats/selectors';
 import { useSelector } from 'react-redux';
-import { myProfilePhotoSelector, myFullNameSelector } from '@store/my-profile/selectors';
+import { myProfileSelector } from '@store/my-profile/selectors';
 import { Avatar, FadeAnimationWrapper } from '@components/shared';
-import { getStringInitials } from '@utils/interlocutor-name-utils';
 import { LogoutModal } from '../logout-modal/logout-modal';
 
-export const RoutingChats = React.memo(() => {
+export const RoutingChats = () => {
   const selectedChatId = useSelector(getSelectedChatIdSelector);
 
-  const myPhoto = useSelector(myProfilePhotoSelector);
-  const myName = useSelector(myFullNameSelector);
+  const myProfile = useSelector(myProfileSelector);
 
   const [logoutDisplayed, setLogoutDisplayed] = useState(false);
   const changeLogoutDisplayedState = useCallback(
@@ -29,9 +27,7 @@ export const RoutingChats = React.memo(() => {
 
   return (
     <div className="routing-chats">
-      <Avatar className="routing-chats__my-photo" src={myPhoto}>
-        {getStringInitials(myName)}
-      </Avatar>
+      <Avatar className="routing-chats__my-photo" user={myProfile} />
 
       <div className="routing-chats__middle-group">
         <NavLink
@@ -74,4 +70,4 @@ export const RoutingChats = React.memo(() => {
       </FadeAnimationWrapper>
     </div>
   );
-});
+};

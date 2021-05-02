@@ -4,4 +4,5 @@ export interface IUploadAttachmentRequestActionPayload {
   type: FileType;
   attachmentId: number;
   file: File;
+  waveFormJson?: string;
 }

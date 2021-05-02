@@ -1,4 +1,4 @@
-import { IPage, IUser } from '@store/common/models';
+import { IPage } from '@store/common/models';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import React, { useCallback, useState, useMemo, useEffect } from 'react';
 import { useSelector } from 'react-redux';
@@ -10,14 +10,14 @@ import './friend-list.scss';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { Friend } from './friend-from-list/friend';
 
-export const FriendList = React.memo(() => {
+export const FriendList = () => {
   const friendsList = useSelector(getMyFriendsListSelector);
   const searchFriendsList = useSelector(getMySearchFriendsListSelector);
 
-  const { hasMore: hasMoreFriends, friends, loading: friendsLoading } = friendsList;
+  const { hasMore: hasMoreFriends, friendIds, loading: friendsLoading } = friendsList;
   const {
     hasMore: hasMoreSearchFriends,
-    friends: searchFriends,
+    friendIds: searchFriendIds,
     loading: searchFriendsLoading,
   } = searchFriendsList;
 
@@ -46,23 +46,23 @@ export const FriendList = React.memo(() => {
 
   const loadMore = useCallback(() => {
     const page: IPage = {
-      offset: searchString.length ? searchFriends.length : friends.length,
+      offset: searchString.length ? searchFriendIds?.length || 0 : friendIds.length,
       limit: FRIENDS_LIMIT,
     };
     loadFriends({ page, name: searchString, initializedByScroll: true });
-  }, [friends.length, searchFriends.length, loadFriends, searchString]);
+  }, [friendIds.length, searchFriendIds?.length, loadFriends, searchString]);
 
   const renderFriend = useCallback(
-    (friend: IUser) => <Friend key={friend.id} friend={friend} />,
+    (friendId: number) => <Friend key={friendId} friendId={friendId} />,
     [],
   );
 
   const renderedFriends = useMemo(() => {
     if (searchString.length) {
-      return searchFriends.map(renderFriend);
+      return searchFriendIds?.map(renderFriend);
     }
-    return friends.map(renderFriend);
-  }, [searchString.length, searchFriends, friends, renderFriend]);
+    return friendIds.map(renderFriend);
+  }, [searchString.length, searchFriendIds, friendIds, renderFriend]);
 
   return (
     <div className="messenger__friends">
@@ -84,4 +84,4 @@ export const FriendList = React.memo(() => {
       </div>
     </div>
   );
-});
+};

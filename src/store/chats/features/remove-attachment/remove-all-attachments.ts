@@ -18,7 +18,7 @@ export class RemoveAllAttachments {
         const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
 
         if (chat) {
-          chat.attachmentsToSend = [];
+          delete chat.attachmentsToSend;
         }
       }
 

@@ -1,15 +1,13 @@
 import { buffers, eventChannel, SagaIterator } from 'redux-saga';
 import { call, cancel, put, race, select, take, takeEvery } from 'redux-saga/effects';
 import { AxiosResponse } from 'axios';
-import { RootState } from 'typesafe-actions';
 import { MAIN_API } from '@common/paths';
 import {
   amICalledSelector,
-  getCallInterlocutorSelector,
+  getCallInterlocutorIdSelector,
   getIsVideoEnabledSelector,
 } from '../selectors';
 import { httpRequestFactory, HttpRequestMethod } from '../../common/http';
-import { IUser } from '../../common/models';
 
 import { getPeerConnection } from '../../middlewares/webRTC/peerConnectionFactory';
 import { RenegotiationAcceptedEventHandler } from '../socket-events/renegotiation-accepted/renegotiation-accepted-event-handler';
@@ -94,7 +92,7 @@ export function* peerWatcher(): SagaIterator {
       switch (action.type) {
         case 'icecandidate': {
           const myCandidate = (action.event as RTCPeerConnectionIceEvent).candidate;
-          const interlocutor: IUser = yield select(getCallInterlocutorSelector);
+          const interlocutorId = yield select(getCallInterlocutorIdSelector);
           const inclomingCallActive = yield select(amICalledSelector);
 
           if (inclomingCallActive) {
@@ -110,7 +108,7 @@ export function* peerWatcher(): SagaIterator {
 
           if (myCandidate) {
             const request: ICandidateApiRequest = {
-              interlocutorId: interlocutor?.id || -1,
+              interlocutorId,
               candidate: myCandidate,
             };
 
@@ -123,9 +121,7 @@ export function* peerWatcher(): SagaIterator {
           {
             setIsRenegotiationAccepted(false);
 
-            const interlocutorId: number = yield select(
-              (state: RootState) => state.calls.interlocutor?.id,
-            );
+            const interlocutorId = yield select(getCallInterlocutorIdSelector);
 
             setMakingOffer(true);
             const offer = yield call(async () =>

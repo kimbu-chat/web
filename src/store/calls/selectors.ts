@@ -2,10 +2,10 @@ import { RootState } from 'typesafe-actions';
 import { IUser } from '../common/models';
 
 export const getCallInterlocutorSelector = (state: RootState): IUser | undefined =>
-  state.calls.interlocutor;
+  state.users.users[state.calls.interlocutor || -1];
 
 export const getCallInterlocutorIdSelector = (state: RootState): number | undefined =>
-  state.calls.interlocutor?.id;
+  state.calls.interlocutor;
 
 export const amICalledSelector = (state: RootState): boolean => state.calls.amICalled;
 
@@ -41,5 +41,6 @@ export const getAudioDevicesSelector = (state: RootState) => state.calls.audioDe
 
 export const getVideoDevicesSelector = (state: RootState) => state.calls.videoDevicesList;
 
-export const getCallsListSelector = (state: RootState) => state.calls.calls;
-export const getSearchCallsListSelector = (state: RootState) => state.calls.searchCalls;
+export const getCallsListSelector = (state: RootState) => state.calls.callList;
+export const getSearchCallsListSelector = (state: RootState) => state.calls.searchCallList;
+export const getCallSelector = (callId: number) => (state: RootState) => state.calls.calls[callId];

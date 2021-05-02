@@ -1,8 +1,6 @@
-import { IUser } from '../common/models';
-
 interface IFriendList {
+  friendIds: number[];
   loading: boolean;
-  friends: IUser[];
   hasMore: boolean;
 }
 

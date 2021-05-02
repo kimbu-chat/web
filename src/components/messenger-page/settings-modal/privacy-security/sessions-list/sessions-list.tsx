@@ -7,13 +7,13 @@ import { InfiniteScrollLoader } from '@components/messenger-page/shared/infinite
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getSessionsLoadingSelector, getSessionsSelector } from '@store/settings/selectors';
 import { useSelector } from 'react-redux';
-import { GetSessionList } from '@store/settings/features/get-sesion-list/get-sesion-list';
+import { getSessionListAction } from '@store/settings/actions';
 import { Session } from './session/session';
 
 export const SessionsList = () => {
   const { t } = useTranslation();
 
-  const getSessions = useActionWithDispatch(GetSessionList.action);
+  const getSessions = useActionWithDispatch(getSessionListAction);
 
   const sessions = useSelector(getSessionsSelector);
   const loading = useSelector(getSessionsLoadingSelector);
@@ -31,13 +31,12 @@ export const SessionsList = () => {
 
   return (
     <div className="sessions-list">
-      <div className="sessions-list__header">
+      <div onClick={loadSessionsList} className="sessions-list__header">
         <span>
           {t('sessionaList.title', { count: sessions.length === 0 ? undefined : sessions.length })}
         </span>
 
         <button
-          onClick={loadSessionsList}
           type="button"
           className={`sessions-list__header__open ${
             opened ? 'sessions-list__header__open--opened' : ''

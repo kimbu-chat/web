@@ -1,5 +1,5 @@
-import { IMessage } from '../../../models';
+import { INormalizedMessage } from '../../../models';
 
 export interface ICreateMessageActionPayload {
-  message: IMessage;
+  message: INormalizedMessage;
 }

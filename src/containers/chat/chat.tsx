@@ -33,6 +33,7 @@ import {
   isCurrentChatDismissedAddToContactsSelector,
   isCurrentChatContactSelector,
   isCurrentChatUserDeactivatedSelector,
+  isCurrentChatUserDeletedSelector,
 } from '@store/chats/selectors';
 import { getInternetStateSelector } from '@store/internet/selectors';
 import { EditProfile } from '@components/messenger-page/settings-modal/edit-profile/edit-profile';
@@ -47,7 +48,7 @@ interface IChatProps {
   preloadNext: () => void;
 }
 
-const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
+const Chat: React.FC<IChatProps> = ({ preloadNext }) => {
   const amICalledSelector = useSelector(isCallingMe);
   const amICallingSelectorSomebody = useSelector(amICallingSelector);
   const amISpeaking = useSelector(doIhaveCallSelector);
@@ -57,9 +58,9 @@ const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
   const isDismissed = useSelector(isCurrentChatDismissedAddToContactsSelector);
   const amIBlackListedByInterlocutor = useSelector(amIBlackListedByInterlocutorSelector);
   const isCurrentChatUserDeactivated = useSelector(isCurrentChatUserDeactivatedSelector);
+  const isCurrentChatUserDeleted = useSelector(isCurrentChatUserDeletedSelector);
 
   const internetState = useSelector(getInternetStateSelector);
-  const isInfoOpened = useSelector(getIsInfoOpenedSelector);
 
   useEffect(() => {
     preloadNext();
@@ -86,11 +87,13 @@ const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
           <MessageList />
           {isCurrentChatBlackListed ||
           amIBlackListedByInterlocutor ||
-          isCurrentChatUserDeactivated ? (
+          isCurrentChatUserDeactivated ||
+          isCurrentChatUserDeleted ? (
             <BlockedMessageInput
               isCurrentChatBlackListed={isCurrentChatBlackListed}
               amIBlackListedByInterlocutor={amIBlackListedByInterlocutor}
               isCurrentChatUserDeactivated={isCurrentChatUserDeactivated}
+              isCurrentChatUserDeleted={isCurrentChatUserDeleted}
             />
           ) : (
             <CreateMessageInput />
@@ -101,11 +104,7 @@ const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
             !amIBlackListedByInterlocutor && <NotContact />}
         </div>
         <ChatTopBar />
-        <CSSTransition in={isInfoOpened} timeout={200} classNames="chat-info-slide" unmountOnExit>
-          <div className="messenger__info">
-            <ChatInfoRightPanel />
-          </div>
-        </CSSTransition>
+        <ChatInfoRightPanel />
       </Route>
 
       <Route path="/contacts/">
@@ -151,6 +150,8 @@ const Chat: React.FC<IChatProps> = React.memo(({ preloadNext }) => {
       </Route>
     </div>
   );
-});
+};
+
+Chat.displayName = 'Chat';
 
 export default Chat;

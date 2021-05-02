@@ -1,8 +1,8 @@
 import moment from 'moment';
 import { TFunction } from 'i18next';
-import produce from 'immer';
-import { CallStatus } from '../store/common/models';
-import { IMessage, SystemMessageType } from '../store/chats/models';
+import { INormalizedMessage, IMessage } from '../store/chats/models/message';
+import { CallStatus, IUser } from '../store/common/models';
+import { SystemMessageType } from '../store/chats/models';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface ISystemMessageBase {}
@@ -33,17 +33,14 @@ export interface ICallMessage {
 }
 
 export const getSystemMessageData = <TSystemMessagePayload>(
-  message: IMessage,
-): TSystemMessagePayload => {
-  const systemMessage: TSystemMessagePayload = JSON.parse(message.text);
-  return systemMessage;
-};
+  message: INormalizedMessage | IMessage,
+): TSystemMessagePayload => JSON.parse(message.text);
 
 export const checkIfDatesAreSameDate = (startDate: Date, endDate: Date): boolean =>
-  !(startDate.toDateString() === endDate.toDateString());
+  startDate.toDateString() !== endDate.toDateString();
 
 const getCallEndedMessage = (
-  message: IMessage,
+  message: INormalizedMessage,
   callMessage: ICallMessage,
   t: TFunction,
   myId: number,
@@ -59,7 +56,7 @@ const getCallEndedMessage = (
 };
 
 const getCallCanceledMessage = (
-  message: IMessage,
+  message: INormalizedMessage,
   callMessage: ICallMessage,
   t: TFunction,
   myId: number,
@@ -69,7 +66,7 @@ const getCallCanceledMessage = (
     : t('systemMessage.someone_canceled_call');
 
 const getCallDeclinedMessage = (
-  message: IMessage,
+  message: INormalizedMessage,
   callMessage: ICallMessage,
   t: TFunction,
   myId: number,
@@ -79,7 +76,7 @@ const getCallDeclinedMessage = (
     : t('systemMessage.you_declined_call');
 
 const getCallIntrerruptedMessage = (
-  message: IMessage,
+  message: INormalizedMessage,
   callMessage: ICallMessage,
   t: TFunction,
   myId: number,
@@ -89,7 +86,7 @@ const getCallIntrerruptedMessage = (
     : t('systemMessage.incoming_call_intrrerupted');
 
 const getCallNotAnsweredMessage = (
-  message: IMessage,
+  message: INormalizedMessage,
   callMessage: ICallMessage,
   t: TFunction,
   myId: number,
@@ -104,7 +101,7 @@ const getCallNotAnsweredMessage = (
 
 const callMessageMap: {
   [key in Partial<CallStatus>]?: (
-    message: IMessage,
+    message: INormalizedMessage,
     callMessage: ICallMessage,
     t: TFunction,
     myId: number,
@@ -117,18 +114,28 @@ const callMessageMap: {
   [CallStatus.NotAnswered]: getCallNotAnsweredMessage,
 };
 
-const getGroupChatCreatedMessage = (message: IMessage, t: TFunction, myId: number) =>
-  message?.userCreator?.id === myId
+const getGroupChatCreatedMessage = (
+  message: INormalizedMessage,
+  t: TFunction,
+  myId: number,
+  userCreator?: IUser,
+) =>
+  userCreator?.id === myId
     ? t('systemMessage.you_created_group')
     : t('systemMessage.created_group', {
-        name: `${message?.userCreator?.firstName} ${message?.userCreator?.lastName}`,
+        name: `${userCreator?.firstName} ${userCreator?.lastName}`,
       });
 
-const getGroupChatMemberRemovedMessage = (message: IMessage, t: TFunction) => {
+const getGroupChatMemberRemovedMessage = (
+  message: INormalizedMessage,
+  t: TFunction,
+  myId: number,
+  userCreator?: IUser,
+) => {
   const systemMessageContent = getSystemMessageData<IGroupChatMemberRemovedSystemMessageContent>(
     message,
   );
-  if (systemMessageContent.removedUserId === message.userCreator.id) {
+  if (systemMessageContent.removedUserId === userCreator?.id) {
     return t('systemMessage.left_group', {
       name: systemMessageContent.removedUserName,
     });
@@ -138,28 +145,38 @@ const getGroupChatMemberRemovedMessage = (message: IMessage, t: TFunction) => {
   });
 };
 
-const getGroupChatMemberAddedMessage = (message: IMessage, t: TFunction, myId: number) => {
+const getGroupChatMemberAddedMessage = (
+  message: INormalizedMessage,
+  t: TFunction,
+  myId: number,
+  userCreator?: IUser,
+) => {
   const systemMessageContent = getSystemMessageData<IGroupChatMemberAddedSystemMessageContent>(
     message,
   );
 
-  if (message?.userCreator?.id === myId) {
+  if (userCreator?.id === myId) {
     return t('systemMessage.you_added', {
       name: systemMessageContent.addedUserName,
     });
   }
   return t('systemMessage.someone_added', {
-    someonesName: `${message.userCreator?.firstName} ${message.userCreator?.lastName}`,
+    someonesName: `${userCreator?.firstName} ${userCreator?.lastName}`,
     addedName: systemMessageContent.addedUserName,
   });
 };
 
-const getGroupChatNameChangedMessage = (message: IMessage, t: TFunction, myId: number) => {
+const getGroupChatNameChangedMessage = (
+  message: INormalizedMessage,
+  t: TFunction,
+  myId: number,
+  userCreator?: IUser,
+) => {
   const systemMessageContent = getSystemMessageData<IGroupChatNameChangedSystemMessageContent>(
     message,
   );
 
-  if (message?.userCreator?.id === myId) {
+  if (userCreator?.id === myId) {
     return t('systemMessage.you_changed_name', {
       oldName: systemMessageContent.oldName,
       newName: systemMessageContent.newName,
@@ -168,29 +185,39 @@ const getGroupChatNameChangedMessage = (message: IMessage, t: TFunction, myId: n
   return t('systemMessage.someone_changed_name', {
     oldName: systemMessageContent.oldName,
     newName: systemMessageContent.newName,
-    someonesName: `${message.userCreator?.firstName} ${message.userCreator?.lastName}`,
+    someonesName: `${userCreator?.firstName} ${userCreator?.lastName}`,
   });
 };
 
-const getGroupChatAvatarChangedMessage = (message: IMessage, t: TFunction, myId: number) => {
-  if (message?.userCreator?.id === myId) {
+const getGroupChatAvatarChangedMessage = (
+  message: INormalizedMessage,
+  t: TFunction,
+  myId: number,
+  userCreator?: IUser,
+) => {
+  if (userCreator?.id === myId) {
     return t('systemMessage.you_changed_avatar');
   }
   return t('systemMessage.someone_changed_avatar', {
-    someonesName: `${message.userCreator?.firstName} ${message.userCreator?.lastName}`,
+    someonesName: `${userCreator?.firstName} ${userCreator?.lastName}`,
   });
 };
 
-const getGroupChatAvatarRemovedMessage = (message: IMessage, t: TFunction, myId: number) => {
-  if (message?.userCreator?.id === myId) {
+const getGroupChatAvatarRemovedMessage = (
+  message: INormalizedMessage,
+  t: TFunction,
+  myId: number,
+  userCreator?: IUser,
+) => {
+  if (userCreator?.id === myId) {
     return t('systemMessage.you_removed_avatar');
   }
   return t('systemMessage.someone_removed_avatar', {
-    someonesName: `${message.userCreator?.firstName} ${message.userCreator?.lastName}`,
+    someonesName: `${userCreator?.firstName} ${userCreator?.lastName}`,
   });
 };
 
-const getCallMessage = (message: IMessage, t: TFunction, myId: number) => {
+const getCallMessage = (message: INormalizedMessage, t: TFunction, myId: number) => {
   const callMessage = getSystemMessageData<ICallMessage>(message);
   const processingFunction = callMessageMap[callMessage.status];
 
@@ -202,7 +229,12 @@ const getCallMessage = (message: IMessage, t: TFunction, myId: number) => {
 };
 
 const systemMessageMap: {
-  [key in Partial<SystemMessageType>]?: (message: IMessage, t: TFunction, myId: number) => string;
+  [key in Partial<SystemMessageType>]?: (
+    message: INormalizedMessage,
+    t: TFunction,
+    myId: number,
+    userCreator?: IUser,
+  ) => string;
 } = {
   [SystemMessageType.GroupChatCreated]: getGroupChatCreatedMessage,
   [SystemMessageType.GroupChatMemberRemoved]: getGroupChatMemberRemovedMessage,
@@ -214,14 +246,15 @@ const systemMessageMap: {
 };
 
 export const constructSystemMessageText = (
-  message: IMessage,
+  message: INormalizedMessage,
   t: TFunction,
   myId: number,
+  userCreator?: IUser,
 ): string => {
   const processingFunction = systemMessageMap[message.systemMessageType];
 
   if (processingFunction) {
-    return processingFunction(message, t, myId);
+    return processingFunction(message, t, myId, userCreator);
   }
 
   return message.toString() || '';
@@ -230,59 +263,55 @@ export const constructSystemMessageText = (
 export const createSystemMessage = (systemMessage: ISystemMessageBase): string =>
   JSON.stringify(systemMessage);
 
-export const signAndSeparate = (arr: IMessage[]): IMessage[] => {
-  const signedMessages = arr.map((message, index) => {
-    if (index < arr.length - 1) {
-      if (
-        checkIfDatesAreSameDate(
-          moment
-            .utc(arr[index + 1].creationDateTime || '')
-            .local()
-            .toDate(),
-          moment
-            .utc(message.creationDateTime || '')
-            .local()
-            .toDate(),
-        )
-      ) {
-        const generatedMessage = produce(message, (draft) => {
-          draft.needToShowCreator = true;
-          draft.needToShowDateSeparator = true;
+// export const signAndSeparate = (arr: INormalizedMessage[]): INormalizedMessage[] => {
+//   const signedMessages = arr.map((message, index) => {
+//     if (index < arr.length - 1) {
+//       if (
+//         checkIfDatesAreSameDate(
+//           moment
+//             .utc(arr[index + 1].creationDateTime || '')
+//             .local()
+//             .toDate(),
+//           moment
+//             .utc(message.creationDateTime || '')
+//             .local()
+//             .toDate(),
+//         )
+//       ) {
+//         return produce(message, (draft) => {
+//           draft.needToShowCreator = true;
+//           draft.needToShowDateSeparator = true;
 
-          return draft;
-        });
+//           return draft;
+//         });
+//       }
+//     }
 
-        return generatedMessage;
-      }
-    }
+//     if (
+//       index < arr.length - 1 &&
+//       (arr[index].userCreator?.id !== arr[index + 1].userCreator?.id ||
+//         arr[index + 1].systemMessageType !== SystemMessageType.None)
+//     ) {
+//       return produce(message, (draft) => {
+//         draft.needToShowCreator = true;
 
-    if (
-      index < arr.length - 1 &&
-      (arr[index].userCreator?.id !== arr[index + 1].userCreator?.id ||
-        arr[index + 1].systemMessageType !== SystemMessageType.None)
-    ) {
-      const generatedMessage = produce(message, (draft) => {
-        draft.needToShowCreator = true;
+//         return draft;
+//       });
+//     }
 
-        return draft;
-      });
+//     return message;
+//   });
 
-      return generatedMessage;
-    }
+//   signedMessages[signedMessages.length - 1] = produce(
+//     signedMessages[signedMessages.length - 1],
+//     (draft) => {
+//       if (draft) {
+//         draft.needToShowCreator = true;
+//         draft.needToShowDateSeparator = true;
+//       }
+//       return draft;
+//     },
+//   );
 
-    return message;
-  });
-
-  signedMessages[signedMessages.length - 1] = produce(
-    signedMessages[signedMessages.length - 1],
-    (draft) => {
-      if (draft) {
-        draft.needToShowCreator = true;
-        draft.needToShowDateSeparator = true;
-      }
-      return draft;
-    },
-  );
-
-  return signedMessages;
-};
+//   return signedMessages;
+// };

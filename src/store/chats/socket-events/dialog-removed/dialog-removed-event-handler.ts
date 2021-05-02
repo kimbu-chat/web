@@ -15,13 +15,20 @@ export class DialogRemovedEventHandler {
         const { userInterlocutorId } = payload;
         const chatId = ChatId.from(userInterlocutorId).id;
 
-        draft.chats.chats = draft.chats.chats.filter((chat) => chat.id !== chatId);
+        const chatIndex = draft.chatList.chatIds.indexOf(chatId);
+        if (chatIndex !== 0) {
+          draft.chatList.chatIds.splice(chatIndex, 1);
+
+          delete draft.chats[chatId];
+        }
 
         delete draft.messages[chatId];
 
         if (draft.selectedChatId === chatId) {
           draft.selectedChatId = null;
         }
+
+        // TODO: handle user deleteing
 
         return draft;
       },

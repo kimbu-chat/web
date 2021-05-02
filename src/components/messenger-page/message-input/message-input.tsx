@@ -1,46 +1,43 @@
 import { useTranslation } from 'react-i18next';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { containsFiles, useGlobalDrop } from '@hooks/use-global-drop';
-import { useOnClickOutside } from '@hooks/use-on-click-outside';
 import { useReferState } from '@hooks/use-referred-state';
-import { CreateMessage } from '@store/chats/features/create-message/create-message';
-import { messageTypingAction } from '@store/chats/actions';
-import { UploadAttachmentRequest } from '@store/chats/features/upload-attachment/upload-attachment-request';
+import {
+  messageTypingAction,
+  createMessageAction,
+  uploadAttachmentRequestAction,
+  submitEditMessageAction,
+  removeAllAttachmentsAction,
+} from '@store/chats/actions';
 import {
   SystemMessageType,
   MessageState,
-  FileType,
-  IMessage,
   MessageLinkType,
   IAttachmentCreation,
   IAttachmentToSend,
   IBaseAttachment,
+  INormalizedMessage,
 } from '@store/chats/models';
 import {
   getMessageToReplySelector,
   getSelectedChatSelector,
   getMessageToEditSelector,
 } from '@store/chats/selectors';
-import { myProfileSelector } from '@store/my-profile/selectors';
+import { myIdSelector } from '@store/my-profile/selectors';
 import { getTypingStrategySelector } from '@store/settings/selectors';
 import { getFileType } from '@utils/get-file-extension';
-import moment from 'moment';
 import Mousetrap from 'mousetrap';
-import React, { useState, useRef, useEffect, useCallback, lazy, Suspense } from 'react';
+import React, { useState, useRef, useEffect, useCallback, Suspense } from 'react';
 import { useSelector } from 'react-redux';
-import useInterval from 'use-interval';
 import { throttle } from 'lodash';
 import { TypingStrategy } from '@store/settings/features/models';
 import { CubeLoader } from '@containers/cube-loader/cube-loader';
 
 import { ReactComponent as AddSvg } from '@icons/add-attachment.svg';
 import { ReactComponent as VoiceSvg } from '@icons/voice.svg';
-import { ReactComponent as CrayonSvg } from '@icons/crayon.svg';
 import { ReactComponent as SendSvg } from '@icons/send.svg';
 import { ReactComponent as CloseSvg } from '@icons/close.svg';
 
-import { SubmitEditMessage } from '@store/chats/features/edit-message/submit-edit-message';
-import { RemoveAllAttachments } from '@store/chats/features/remove-attachment/remove-all-attachments';
 import { RespondingMessage } from './responding-message/responding-message';
 import { ExpandingTextarea } from './expanding-textarea/expanding-textarea';
 import { MessageInputAttachment } from './message-input-attachment/message-input-attachment';
@@ -49,24 +46,18 @@ import './message-input.scss';
 import { EditingMessage } from './editing-message/editing-message';
 import { MessageError } from './message-error/message-error';
 import { MessageSmiles } from './message-smiles/message-smiles';
+import { RecordingMessage } from './recording-message/recording-message';
 
-export interface IRecordedData {
-  mediaRecorder: MediaRecorder | null;
-  tracks: MediaStreamTrack[];
-  isRecording: boolean;
-  needToSubmit: boolean;
-}
-
-export const CreateMessageInput = React.memo(() => {
+const CreateMessageInput = () => {
   const { t } = useTranslation();
 
-  const sendMessage = useActionWithDispatch(CreateMessage.action);
+  const sendMessage = useActionWithDispatch(createMessageAction);
   const notifyAboutTyping = useActionWithDispatch(messageTypingAction);
-  const uploadAttachmentRequest = useActionWithDispatch(UploadAttachmentRequest.action);
-  const submitEditMessage = useActionWithDispatch(SubmitEditMessage.action);
-  const removeAllAttachmentsToSend = useActionWithDispatch(RemoveAllAttachments.action);
+  const uploadAttachmentRequest = useActionWithDispatch(uploadAttachmentRequestAction);
+  const submitEditMessage = useActionWithDispatch(submitEditMessageAction);
+  const removeAllAttachmentsToSend = useActionWithDispatch(removeAllAttachmentsAction);
 
-  const currentUser = useSelector(myProfileSelector);
+  const currentUserId = useSelector(myIdSelector);
   const selectedChat = useSelector(getSelectedChatSelector);
   const myTypingStrategy = useSelector(getTypingStrategySelector);
   const replyingMessage = useSelector(getMessageToReplySelector);
@@ -80,42 +71,42 @@ export const CreateMessageInput = React.memo(() => {
   const [isRecording, setIsRecording] = useState(false);
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
-  const [recordedSeconds, setRecordedSeconds] = useState(0);
 
   // edit state logic
-  const [removedAttachments, setRemovedAttachments] = useState<IAttachmentCreation[]>([]);
+  const [removedAttachments, setRemovedAttachments] = useState<IAttachmentCreation[] | undefined>(
+    undefined,
+  );
   const referredRemovedAttachments = useReferState(removedAttachments);
 
-  const editingMessageAttachments = editingMessage?.attachments?.filter(
-    ({ id }) =>
-      removedAttachments.findIndex((removedAttachment) => removedAttachment.id === id) === -1,
-  );
+  const editingMessageAttachments = editingMessage?.attachments?.filter(({ id }) => {
+    if (!removedAttachments) {
+      return true;
+    }
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const registerAudioBtnRef = useRef<HTMLButtonElement>(null);
-  const recorderData = useRef<IRecordedData>({
-    mediaRecorder: null,
-    tracks: [],
-    isRecording: false,
-    needToSubmit: false,
+    const res =
+      removedAttachments?.findIndex((removedAttachment) => removedAttachment.id === id) === -1;
+
+    return res;
   });
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const onDrag = useCallback(
+    (e: DragEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (containsFiles(e)) {
+        setIsDragging(true);
+      }
+    },
+    [setIsDragging],
+  );
+
   useGlobalDrop({
-    onDragEnter: (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      if (containsFiles(e)) {
-        setIsDragging(true);
-      }
-    },
-    onDragOver: (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      if (containsFiles(e)) {
-        setIsDragging(true);
-      }
-    },
+    onDragEnter: onDrag,
+    onDragOver: onDrag,
     onDragLeave: (e) => {
+      console.log('onDragLeave');
       e.preventDefault();
       e.stopPropagation();
       setIsDragging(false);
@@ -130,18 +121,8 @@ export const CreateMessageInput = React.memo(() => {
 
   useEffect(() => {
     setText(editingMessage?.text || '');
-    setRemovedAttachments([]);
+    setRemovedAttachments(undefined);
   }, [editingMessage?.text]);
-
-  useInterval(
-    () => {
-      if (isRecording) {
-        setRecordedSeconds((x) => x + 1);
-      }
-    },
-    isRecording ? 1000 : null,
-    true,
-  );
 
   const submitEditedMessage = useCallback(() => {
     const newAttachments = updatedSelectedChat.current?.attachmentsToSend?.map(
@@ -176,17 +157,17 @@ export const CreateMessageInput = React.memo(() => {
       (refText.trim().length > 0 ||
         (updatedSelectedChat.current?.attachmentsToSend?.length || 0) > 0) &&
       updatedSelectedChat.current &&
-      currentUser
+      currentUserId
     ) {
       const attachments = updatedSelectedChat.current?.attachmentsToSend?.map(
         ({ attachment }) => attachment,
       );
 
       if (chatId) {
-        const message: IMessage = {
+        const message: INormalizedMessage = {
           text: refText,
           systemMessageType: SystemMessageType.None,
-          userCreator: currentUser,
+          userCreator: currentUserId,
           creationDateTime: new Date(new Date().toUTCString()),
           state: MessageState.QUEUED,
           id: new Date().getTime(),
@@ -209,7 +190,7 @@ export const CreateMessageInput = React.memo(() => {
 
     setText('');
   }, [
-    currentUser,
+    currentUserId,
     editingMessage,
     refferedReplyingMessage,
     refferedText,
@@ -340,7 +321,7 @@ export const CreateMessageInput = React.memo(() => {
 
   const removeAttachment = useCallback(
     (attachmentToRemove: IAttachmentCreation) => {
-      setRemovedAttachments((oldList) => [...oldList, attachmentToRemove]);
+      setRemovedAttachments((oldList) => [...(oldList || []), attachmentToRemove]);
     },
     [setRemovedAttachments],
   );
@@ -362,82 +343,9 @@ export const CreateMessageInput = React.memo(() => {
     selectedChat?.attachmentsToSend,
   ]);
 
-  const cancelRecording = useCallback(() => {
-    Mousetrap.unbind('esc');
-    recorderData.current.isRecording = false;
-    recorderData.current.tracks.forEach((track) => track.stop());
-    recorderData.current.tracks = [];
-    recorderData.current.needToSubmit = false;
-    if (recorderData.current.mediaRecorder?.state !== 'inactive') {
-      recorderData.current.mediaRecorder?.stop();
-    }
-  }, []);
-
-  const startRecording = useCallback(() => {
-    Mousetrap.bind('esc', cancelRecording);
-    recorderData.current.tracks.forEach((track) => track.stop());
-    recorderData.current.tracks = [];
-
-    navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-      recorderData.current.mediaRecorder = new MediaRecorder(stream);
-      recorderData.current.mediaRecorder?.start();
-      const tracks = stream.getTracks();
-      recorderData.current.tracks.push(...tracks);
-
-      recorderData.current.isRecording = true;
-      setIsRecording(true);
-
-      const audioChunks: Blob[] = [];
-      recorderData.current.mediaRecorder?.addEventListener('dataavailable', (event) => {
-        audioChunks.push(event.data);
-      });
-
-      recorderData.current.mediaRecorder?.addEventListener('stop', () => {
-        setIsRecording(false);
-        recorderData.current.isRecording = false;
-
-        recorderData.current.tracks.forEach((track) => track.stop());
-        recorderData.current.tracks = [];
-
-        if (audioChunks[0]?.size > 0 && recorderData.current.needToSubmit) {
-          const audioBlob = new Blob(audioChunks);
-          const audioFile = new File([audioBlob], 'audio.mp3', {
-            type: 'audio/mp3; codecs="opus"',
-          });
-          uploadAttachmentRequest({
-            type: FileType.Voice,
-            file: audioFile as File,
-            attachmentId: new Date().getTime(),
-          });
-        }
-
-        setRecordedSeconds(0);
-      });
-    });
-  }, [cancelRecording, uploadAttachmentRequest]);
-
-  const stopRecording = useCallback(() => {
-    Mousetrap.unbind('esc');
-    if (recorderData.current.isRecording) {
-      if (recorderData.current.mediaRecorder?.state === 'recording') {
-        recorderData.current.needToSubmit = true;
-        recorderData.current.mediaRecorder?.stop();
-      }
-
-      recorderData.current.tracks.forEach((track) => track.stop());
-      recorderData.current.tracks = [];
-    }
-  }, []);
-
-  useOnClickOutside(registerAudioBtnRef, cancelRecording);
-
   const handleRegisterAudioBtnClick = useCallback(() => {
-    if (recorderData.current.isRecording) {
-      stopRecording();
-    } else {
-      startRecording();
-    }
-  }, [startRecording, stopRecording]);
+    setIsRecording((oldState) => !oldState);
+  }, [setIsRecording]);
 
   const openSelectFiles = useCallback(() => {
     fileInputRef.current?.click();
@@ -510,66 +418,49 @@ export const CreateMessageInput = React.memo(() => {
           {editingMessage && <EditingMessage />}
           {false && <MessageError />}
           <div className="message-input__send-message">
-            {!isRecording && (
+            {isRecording ? (
+              <RecordingMessage hide={handleRegisterAudioBtnClick} />
+            ) : (
               <>
                 <input multiple hidden type="file" onChange={uploadFile} ref={fileInputRef} />
                 <button type="button" onClick={openSelectFiles} className="message-input__add">
                   <AddSvg />
                 </button>
                 <div className="message-input__line" />
-                <CrayonSvg width={22} viewBox="0 0 16 16" className="message-input__crayon" />
               </>
             )}
 
-            {isRecording && (
-              <>
-                <div className="message-input__red-dot" />
-                <div className="message-input__counter">
-                  {moment.utc(recordedSeconds * 1000).format('mm:ss')}
-                </div>
-              </>
-            )}
-
-            {!isRecording && (
-              <ExpandingTextarea
-                value={text}
-                placeholder={t('messageInput.write')}
-                onChange={onType}
-                onPaste={onPaste}
-                className="mousetrap message-input__input-message"
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-              />
-            )}
-
-            {isRecording && (
-              <div className="message-input__recording-info">
-                Release outside this field to cancel
-              </div>
-            )}
+            <ExpandingTextarea
+              value={text}
+              placeholder={t('messageInput.write')}
+              onChange={onType}
+              onPaste={onPaste}
+              className="mousetrap message-input__input-message"
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+            />
 
             <div className="message-input__right-btns">
               {!isRecording && (
-                <Suspense fallback={<CubeLoader />}>
-                  <MessageSmiles setText={setText} />
-                </Suspense>
-              )}
+                <>
+                  <Suspense fallback={<CubeLoader />}>
+                    <MessageSmiles setText={setText} />
+                  </Suspense>
 
-              <button
-                type="button"
-                onClick={handleRegisterAudioBtnClick}
-                ref={registerAudioBtnRef}
-                className="message-input__voice-btn">
-                <VoiceSvg viewBox="0 0 20 24" />
-              </button>
+                  <button
+                    type="button"
+                    onClick={handleRegisterAudioBtnClick}
+                    className="message-input__voice-btn">
+                    <VoiceSvg viewBox="0 0 20 24" />
+                  </button>
 
-              {!isRecording && (
-                <button
-                  type="button"
-                  onClick={sendMessageToServer}
-                  className="message-input__send-btn">
-                  <SendSvg />
-                </button>
+                  <button
+                    type="button"
+                    onClick={sendMessageToServer}
+                    className="message-input__send-btn">
+                    <SendSvg />
+                  </button>
+                </>
               )}
             </div>
           </div>
@@ -577,4 +468,8 @@ export const CreateMessageInput = React.memo(() => {
       )}
     </div>
   );
-});
+};
+
+CreateMessageInput.displayName = 'CreateMessageInput';
+
+export { CreateMessageInput };

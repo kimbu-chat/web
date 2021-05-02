@@ -20,11 +20,15 @@ export class ChatClearedEventHandler {
         if (!onlyForUserInitiator || myId === userInitiatorId) {
           const chat = getChatByIdDraftSelector(chatId, draft);
 
-          draft.messages[chatId].messages = [];
-          draft.messages[chatId].hasMore = false;
+          const chatMessages = draft.messages[chatId];
 
-          if (chat) {
-            chat.lastMessage = null;
+          if (chatMessages && chatMessages.messageIds.length !== 0) {
+            chatMessages.messages = [];
+            chatMessages.hasMore = false;
+
+            if (chat) {
+              chat.lastMessage = null;
+            }
           }
         }
 

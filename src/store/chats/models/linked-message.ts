@@ -9,3 +9,12 @@ export interface ILinkedMessage {
   isEdited?: boolean;
   isDeleted?: boolean;
 }
+
+export interface INormalizedLinkedMessage {
+  id: number;
+  userCreator: number;
+  text?: string;
+  attachments?: IBaseAttachment[];
+  isEdited?: boolean;
+  isDeleted?: boolean;
+}

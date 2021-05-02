@@ -14,13 +14,13 @@ export class AddUsersToGroupChatSuccess {
   static get reducer() {
     return produce(
       (draft: IChatsState, { payload }: ReturnType<typeof AddUsersToGroupChatSuccess.action>) => {
-        const { chatId, users } = payload;
+        const { chatId, userIds } = payload;
 
         const chat = getChatByIdDraftSelector(chatId, draft);
 
         if (chat?.groupChat) {
-          chat.groupChat.membersCount += users.length;
-          chat.members.members = [...chat.members.members, ...users];
+          chat.groupChat.membersCount += userIds.length;
+          chat.members.memberIds = [...new Set([...chat.members.memberIds, ...userIds])];
         }
 
         return draft;

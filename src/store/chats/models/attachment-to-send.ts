@@ -5,4 +5,5 @@ export interface IAttachmentToSend<T> {
   success?: boolean;
   failure?: boolean;
   uploadedBytes?: number;
+  waveFormJson?: string;
 }

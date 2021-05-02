@@ -7,18 +7,14 @@ interface IFadeAnimationWrapperProps {
   children: JSX.Element;
 }
 
-const FadeAnimationWrapper: React.FC<IFadeAnimationWrapperProps> = React.memo(
-  ({ isDisplayed, children }) => (
-    <CSSTransition
-      unmountOnExit
-      in={isDisplayed}
-      timeout={{ enter: 200, exit: 200 }}
-      classNames="fade">
-      {children}
-    </CSSTransition>
-  ),
-  (prevProps, nextProps) =>
-    prevProps.isDisplayed === nextProps.isDisplayed && prevProps.children !== nextProps.children,
+const FadeAnimationWrapper: React.FC<IFadeAnimationWrapperProps> = ({ isDisplayed, children }) => (
+  <CSSTransition
+    unmountOnExit
+    in={isDisplayed}
+    timeout={{ enter: 200, exit: 200 }}
+    classNames="fade">
+    {children}
+  </CSSTransition>
 );
 
 FadeAnimationWrapper.displayName = 'FadeAnimationWrapper';

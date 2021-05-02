@@ -1,120 +1,22 @@
 import { useTranslation } from 'react-i18next';
-import { IMessage, MessageState, SystemMessageType } from '@store/chats/models';
 import React, { useCallback } from 'react';
-import { IUser } from '@store/common/models';
-import firstAvatar from '@icons/mockedUser1.png';
-import { myProfileSelector } from '@store/my-profile/selectors';
 import { useSelector } from 'react-redux';
 import './appearance.scss';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { ChangeTheme } from '@store/settings/features/change-theme/change-theme';
 import { Theme } from '@store/settings/features/models';
 import { getCurrentFontSizeSelector, getCurrentThemeSelector } from '@store/settings/selectors';
-import { ChangeFontSize } from '@store/settings/features/change-font-size/change-font-size';
+import { changeThemeAction, changeFontSizeAction } from '@store/settings/actions';
 import { MessageItem } from '../../message-item/message-item';
 import { RadioBox } from '../shared/radio-box/radio-box';
 
 export const Appearance: React.FC = () => {
   const { t } = useTranslation();
 
-  const changeTheme = useActionWithDispatch(ChangeTheme.action);
-  const changeFontSize = useActionWithDispatch(ChangeFontSize.action);
+  const changeTheme = useActionWithDispatch(changeThemeAction);
+  const changeFontSize = useActionWithDispatch(changeFontSizeAction);
 
-  const currentUser = useSelector(myProfileSelector);
   const currentTheme = useSelector(getCurrentThemeSelector);
   const fontSize = useSelector(getCurrentFontSizeSelector);
-
-  const messages: IMessage[] = [
-    {
-      id: 1,
-      userCreator: {
-        id: -1,
-        firstName: 'Julie',
-        lastName: 'Key',
-        avatar: {
-          url: firstAvatar,
-          previewUrl: firstAvatar,
-          id: -5,
-        },
-        nickname: '',
-        online: true,
-        lastOnlineTime: new Date(0),
-        phoneNumber: '',
-      },
-      creationDateTime: new Date(1000),
-      text: 'See later',
-      systemMessageType: SystemMessageType.None,
-      state: MessageState.READ,
-      chatId: -1,
-      needToShowCreator: true,
-    },
-    {
-      id: 4,
-      userCreator: currentUser as IUser,
-      creationDateTime: new Date(10000),
-      text: 'Italian or Corean kitchen?',
-      systemMessageType: SystemMessageType.None,
-      state: MessageState.READ,
-      chatId: -1,
-      needToShowCreator: true,
-    },
-    {
-      id: 2,
-      userCreator: {
-        id: -1,
-        firstName: 'Julie',
-        lastName: 'Key',
-        avatar: {
-          url: firstAvatar,
-          previewUrl: firstAvatar,
-          id: -5,
-        },
-        nickname: '',
-        online: true,
-        lastOnlineTime: new Date(0),
-        phoneNumber: '',
-      },
-      creationDateTime: new Date(1000000),
-      text: 'See later',
-      systemMessageType: SystemMessageType.None,
-      state: MessageState.READ,
-      chatId: -1,
-      needToShowCreator: true,
-    },
-    {
-      id: 5,
-      userCreator: currentUser as IUser,
-      creationDateTime: new Date(10000000),
-      text: 'Italian or Corean kitchen?',
-      systemMessageType: SystemMessageType.None,
-      state: MessageState.READ,
-      chatId: -1,
-      needToShowCreator: true,
-    },
-    {
-      id: 3,
-      userCreator: {
-        id: -1,
-        firstName: 'Julie',
-        lastName: 'Key',
-        avatar: {
-          url: firstAvatar,
-          previewUrl: firstAvatar,
-          id: -5,
-        },
-        nickname: '',
-        online: true,
-        lastOnlineTime: new Date(0),
-        phoneNumber: '',
-      },
-      creationDateTime: new Date(0),
-      text: 'Where shall we go?',
-      systemMessageType: SystemMessageType.None,
-      state: MessageState.READ,
-      chatId: -1,
-      needToShowCreator: true,
-    },
-  ];
 
   const goToLightTheme = useCallback(() => {
     changeTheme(Theme.LIGHT);
@@ -128,9 +30,9 @@ export const Appearance: React.FC = () => {
       <h3 className="appearance__title">{t('appearance.title')}</h3>
       <h3 className="appearance__theme">{t('appearance.choose-theme')}</h3>
       <div className="appearance__theme-box">
-        {messages.map((msg: IMessage) => (
-          <div key={msg.id} className="appearance__theme-box__msg-wrapper">
-            <MessageItem message={msg} />
+        {[1, 2, 3, 4, 5].map((messageId) => (
+          <div key={messageId} className="appearance__theme-box__msg-wrapper">
+            <MessageItem selectedChatId={5} messageId={messageId} />
           </div>
         ))}
       </div>

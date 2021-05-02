@@ -2,7 +2,6 @@ import React, { useEffect, useCallback, useState, useMemo } from 'react';
 import './chat-list.scss';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { useSelector } from 'react-redux';
-import { IChat } from '@store/chats/models';
 import {
   getChatsAction,
   changeSelectedChatAction,
@@ -35,14 +34,14 @@ const ChatList = React.memo(() => {
     [resetSearchChats],
   );
 
-  const { chatId } = useParams<{ chatId: string }>();
+  const { chatId: selectedChatId } = useParams<{ chatId: string }>();
 
   useEffect(() => {
-    if (chatId) {
-      const newChatId = Number(chatId);
+    if (selectedChatId) {
+      const newChatId = Number(selectedChatId);
       changeSelectedChat({ newChatId });
     }
-  }, [changeSelectedChat, chatId]);
+  }, [changeSelectedChat, selectedChatId]);
 
   const [newChatDisplayed, setNewChatDisplayed] = useState(false);
   const changeNewChatDisplayedState = useCallback(() => {
@@ -79,13 +78,16 @@ const ChatList = React.memo(() => {
     }
   }, [getChatsRequest, searchString, searchChatsList.loading, chatsList.loading]);
 
-  const renderChats = useCallback((chat: IChat) => <ChatFromList chat={chat} key={chat.id} />, []);
+  const renderChats = useCallback(
+    (chatId: number) => <ChatFromList chatId={chatId} key={chatId} />,
+    [],
+  );
 
   const renderedChats = useMemo(() => {
     if (searchString.length) {
-      return searchChatsList.chats.map(renderChats);
+      return searchChatsList.chatIds.map(renderChats);
     }
-    return chatsList.chats.map(renderChats);
+    return chatsList.chatIds.map(renderChats);
   }, [searchString.length, searchChatsList, chatsList, renderChats]);
 
   return (

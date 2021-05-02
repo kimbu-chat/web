@@ -7,7 +7,6 @@ import { getCallsAction, resetSearchCallsAction } from '@store/calls/actions';
 import { getCallsListSelector, getSearchCallsListSelector } from '@store/calls/selectors';
 import { InfiniteScroll, SearchBox } from '@components/messenger-page';
 import { CALL_LIMIT } from '@utils/pagination-limits';
-import { ICall } from '@store/calls/common/models';
 import { CallItem } from './call-item/call-item';
 
 export const CallList = () => {
@@ -36,22 +35,22 @@ export const CallList = () => {
   const loadMore = useCallback(() => {
     getCalls({
       page: {
-        offset: searchString.length ? searchCallsList.calls.length : callsList.calls.length,
+        offset: searchString.length ? searchCallsList.callIds.length : callsList.callIds.length,
         limit: CALL_LIMIT,
       },
       initializedByScroll: true,
       name: searchString,
     });
-  }, [callsList.calls.length, getCalls, searchString, searchCallsList.calls.length]);
+  }, [callsList.callIds.length, getCalls, searchString, searchCallsList.callIds.length]);
 
-  const renderCall = useCallback((call: ICall) => <CallItem key={call.id} call={call} />, []);
+  const renderCall = useCallback((callId: number) => <CallItem key={callId} callId={callId} />, []);
 
   const renderedCalls = useMemo(() => {
     if (searchString.length) {
-      return searchCallsList.calls.map(renderCall);
+      return searchCallsList.callIds.map(renderCall);
     }
-    return callsList.calls.map(renderCall);
-  }, [searchString.length, searchCallsList.calls, callsList.calls, renderCall]);
+    return callsList.callIds.map(renderCall);
+  }, [searchString.length, searchCallsList.callIds, callsList.callIds, renderCall]);
 
   useEffect(
     () => () => {

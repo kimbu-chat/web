@@ -2,10 +2,7 @@ import React, { useCallback, useState } from 'react';
 import './chat-actions.scss';
 import { IChat } from '@store/chats/models';
 import { useSelector } from 'react-redux';
-import {
-  getMemberIdsForSelectedGroupChatSelector,
-  getSelectedChatSelector,
-} from '@store/chats/selectors';
+import { getSelectedChatSelector } from '@store/chats/selectors';
 
 import { useTranslation } from 'react-i18next';
 import { changeChatMutedStatusAction } from '@store/chats/actions';
@@ -16,23 +13,25 @@ import { ReactComponent as ClearSvg } from '@icons/clear.svg';
 
 import { ReactComponent as DeleteSvg } from '@icons/delete-contact.svg';
 import { ReactComponent as LeaveSvg } from '@icons/leave.svg';
+import { ReactComponent as BlockSvg } from '@icons/block.svg';
+import { ReactComponent as UnBlockSvg } from '@icons/unblock.svg';
 import { ReactComponent as AddUsersSvg } from '@icons/add-users.svg';
 import { FadeAnimationWrapper, Button } from '@components/shared';
 import { deleteFriendAction, addFriendAction } from '@store/friends/actions';
-import { CreateGroupChat } from '@components/messenger-page';
-import { BlockUser } from '@store/settings/features/block-user/block-user';
-import { UnblockUser } from '@store/settings/features/unblock-user/unblock-user';
+import { CreateGroupChat, GroupChatAddFriendModal } from '@components/messenger-page';
 import { useActionWithDeferred, useEmptyActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { blockUserAction, unblockUserAction } from '@store/settings/actions';
 import { LeaveChatModal } from './leave-chat-modal/leave-chat-modal';
 import { ClearChatModal } from './clear-chat-modal/clear-chat-modal';
 import { RemoveChatModal } from './remove-chat-modal/remove-chat-modal';
 
-interface IChatActionsProps {
-  addMembers: (params: { excludeIds: (number | undefined)[] }) => void;
-}
-
-export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers }) => {
+export const ChatActions: React.FC = () => {
   const { t } = useTranslation();
+
+  const [addFriendsModalDisplayed, setAddFriendsModalDisplayed] = useState(false);
+  const changeSetAddFriendsModalDisplayedState = useCallback(() => {
+    setAddFriendsModalDisplayed((oldState) => !oldState);
+  }, [setAddFriendsModalDisplayed]);
 
   const [leaveGroupChatModalOpened, setLeaveGroupChatModalOpened] = useState<boolean>(false);
   const changeLeaveGroupChatModalOpenedState = useCallback(
@@ -61,11 +60,13 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
   const changeChatMutedStatus = useEmptyActionWithDeferred(changeChatMutedStatusAction);
   const deleteFriend = useActionWithDeferred(deleteFriendAction);
   const addFriend = useActionWithDeferred(addFriendAction);
-  const blockUser = useActionWithDeferred(BlockUser.action);
-  const unBlockUser = useActionWithDeferred(UnblockUser.action);
+  const blockUser = useActionWithDeferred(blockUserAction);
+  const unBlockUser = useActionWithDeferred(unblockUserAction);
 
-  const membersIdsForGroupChat = useSelector(getMemberIdsForSelectedGroupChatSelector);
-  const selectedChat = useSelector(getSelectedChatSelector) as IChat;
+  const selectedChat = useSelector(
+    getSelectedChatSelector,
+    (prev, next) => prev === next || prev?.draftMessage !== next?.draftMessage,
+  ) as IChat;
 
   const [isMuting, setIsMuting] = useState(false);
   const muteUnmute = useCallback(() => {
@@ -76,25 +77,25 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
   }, [changeChatMutedStatus]);
   const [isDeletingContact, setIsDeletingContact] = useState(false);
   const deleteContact = useCallback(() => {
-    if (selectedChat?.interlocutor?.id) {
+    if (selectedChat?.interlocutor) {
       setIsDeletingContact(true);
-      deleteFriend({ userIds: [selectedChat.interlocutor.id] }).then(() => {
+      deleteFriend({ userIds: [selectedChat.interlocutor] }).then(() => {
         setIsDeletingContact(false);
       });
     }
-  }, [deleteFriend, selectedChat?.interlocutor?.id]);
+  }, [deleteFriend, selectedChat?.interlocutor]);
   const [isAddingContact, setIsAddingContact] = useState(false);
   const addContact = useCallback(() => {
-    if (selectedChat.interlocutor) {
+    if (selectedChat?.interlocutor) {
       setIsAddingContact(true);
-      addFriend(selectedChat.interlocutor).then(() => {
+      addFriend(selectedChat?.interlocutor).then(() => {
         setIsAddingContact(false);
       });
     }
-  }, [addFriend, selectedChat?.interlocutor]);
+  }, [addFriend, selectedChat.interlocutor]);
   const [isBlocking, setIsBlocking] = useState(false);
   const blockSelectedUser = useCallback(() => {
-    if (selectedChat.interlocutor) {
+    if (selectedChat?.interlocutor) {
       setIsBlocking(true);
       blockUser(selectedChat.interlocutor).then(() => {
         setIsBlocking(false);
@@ -103,17 +104,13 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
   }, [blockUser, selectedChat?.interlocutor]);
   const [isUnBlocking, setIsUnBlocking] = useState(false);
   const unBlockSelectedUser = useCallback(() => {
-    if (selectedChat.interlocutor?.id) {
+    if (selectedChat.interlocutor) {
       setIsUnBlocking(true);
-      unBlockUser(selectedChat.interlocutor.id).then(() => {
+      unBlockUser(selectedChat.interlocutor).then(() => {
         setIsUnBlocking(false);
       });
     }
-  }, [unBlockUser, selectedChat?.interlocutor?.id]);
-  const addMembersToSelectedGroupChat = useCallback(
-    () => addMembers({ excludeIds: membersIdsForGroupChat }),
-    [addMembers, membersIdsForGroupChat],
-  );
+  }, [unBlockUser, selectedChat?.interlocutor]);
 
   return (
     <div className="chat-actions">
@@ -181,7 +178,7 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
             type="button"
             onClick={unBlockSelectedUser}
             className="chat-actions__action">
-            <DeleteSvg />
+            <UnBlockSvg />
             <span className="chat-actions__action__name">{t('chatActions.unblock-user')}</span>
           </Button>
         ) : (
@@ -191,7 +188,7 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
             type="button"
             onClick={blockSelectedUser}
             className="chat-actions__action">
-            <DeleteSvg />
+            <BlockSvg />
             <span className="chat-actions__action__name">{t('chatActions.block-user')}</span>
           </Button>
         ))}
@@ -211,7 +208,7 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
         <Button
           themed
           type="button"
-          onClick={addMembersToSelectedGroupChat}
+          onClick={changeSetAddFriendsModalDisplayedState}
           className="chat-actions__action">
           <AddUsersSvg />
           <span className="chat-actions__action__name">{t('chatActions.add-users')}</span>
@@ -235,7 +232,7 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
       {selectedChat.interlocutor && (
         <FadeAnimationWrapper isDisplayed={createGroupChatModalOpened}>
           <CreateGroupChat
-            preSelectedUserIds={[selectedChat.interlocutor.id]}
+            preSelectedUserIds={[selectedChat.interlocutor]}
             onClose={changeCreateGroupChatModalOpenedState}
           />
         </FadeAnimationWrapper>
@@ -246,6 +243,10 @@ export const ChatActions: React.FC<IChatActionsProps> = React.memo(({ addMembers
       <FadeAnimationWrapper isDisplayed={removeChatModalOpened}>
         <RemoveChatModal onClose={changeRemoveChatModalOpenedState} />
       </FadeAnimationWrapper>
+
+      <FadeAnimationWrapper isDisplayed={addFriendsModalDisplayed}>
+        <GroupChatAddFriendModal onClose={changeSetAddFriendsModalDisplayedState} />
+      </FadeAnimationWrapper>
     </div>
   );
-});
+};

@@ -26,7 +26,6 @@ import {
 import moment from 'moment';
 import { Rnd } from 'react-rnd';
 import { Avatar } from '@components/shared';
-import { getUserInitials } from '@utils/interlocutor-name-utils';
 import ReactDOM from 'react-dom';
 
 // SVG
@@ -54,9 +53,12 @@ import {
 } from '@store/calls/utils/user-media';
 import { InputType } from '@store/calls/common/enums/input-type';
 import { playSoundSafely } from '@utils/current-music';
+import classNames from 'classnames';
 import { Dropdown } from '../shared/dropdown/dropdown';
 
-export const ActiveCall: React.FC = () => {
+const ActiveCall: React.FC = () => {
+  const BLOCK_NAME = 'active-call';
+
   const interlocutor = useSelector(getCallInterlocutorSelector);
   const videoConstraints = useSelector(getVideoConstraintsSelector);
   const audioConstraints = useSelector(getAudioConstraintsSelector);
@@ -182,34 +184,34 @@ export const ActiveCall: React.FC = () => {
     return undefined;
   }, [amICallingSelectorSomebody, isInterlocutorBusy]);
 
-  const reCallWithVideo = useCallback(
-    () =>
+  const reCallWithVideo = useCallback(() => {
+    if (interlocutor?.id) {
       callInterlocutor({
-        calling: interlocutor as IUser,
+        callingId: interlocutor.id,
         constraints: {
           videoEnabled: true,
           audioEnabled: true,
         },
-      }),
-    [interlocutor, callInterlocutor],
-  );
+      });
+    }
+  }, [interlocutor, callInterlocutor]);
 
-  const reCallWithAudio = useCallback(
-    () =>
+  const reCallWithAudio = useCallback(() => {
+    if (interlocutor?.id) {
       callInterlocutor({
-        calling: interlocutor as IUser,
+        callingId: interlocutor.id,
         constraints: {
           videoEnabled: false,
           audioEnabled: true,
         },
-      }),
-    [interlocutor, callInterlocutor],
-  );
+      });
+    }
+  }, [interlocutor, callInterlocutor]);
 
   return ReactDOM.createPortal(
     <Rnd
       ref={dragRef}
-      className={`active-call__drag ${isFullScreen ? 'active-call__drag--big' : ''}`}
+      className={classNames(`${BLOCK_NAME}__drag`, { [`${BLOCK_NAME}__drag--big`]: isFullScreen })}
       default={{
         x: window.innerWidth / 2 - 120,
         y: window.innerHeight / 2 - 120,
@@ -218,12 +220,20 @@ export const ActiveCall: React.FC = () => {
       }}
       bounds="body"
       disableDragging={isFullScreen}>
-      <div className={`active-call ${isFullScreen ? 'active-call--big' : ''}`}>
+      <div
+        className={classNames(BLOCK_NAME, {
+          [`${BLOCK_NAME}--big`]: isFullScreen,
+        })}>
         <div
-          className={`active-call__main-data ${isFullScreen ? 'active-call__main-data--big' : ''}`}>
-          <h3 className="active-call__interlocutor-name">{`${interlocutor?.firstName} ${interlocutor?.lastName}`}</h3>
+          className={classNames(`${BLOCK_NAME}__main-data`, {
+            [`${BLOCK_NAME}__main-data--big`]: isFullScreen,
+          })}>
+          <h3
+            className={classNames(
+              `${BLOCK_NAME}__interlocutor-name`,
+            )}>{`${interlocutor?.firstName} ${interlocutor?.lastName}`}</h3>
           {amISpeaking && (
-            <div className="active-call__duration">
+            <div className={classNames(`${BLOCK_NAME}__duration`)}>
               {moment.utc(callDuration * 1000).format('HH:mm:ss')}
             </div>
           )}
@@ -232,7 +242,7 @@ export const ActiveCall: React.FC = () => {
         <button
           type="button"
           onClick={changeFullScreenStatus}
-          className="active-call__change-screen">
+          className={classNames(`${BLOCK_NAME}__change-screen`)}>
           {isFullScreen ? (
             <ExitFullScreenSvg viewBox="0 0 25 25" />
           ) : (
@@ -240,10 +250,19 @@ export const ActiveCall: React.FC = () => {
           )}
         </button>
 
-        <audio autoPlay playsInline ref={remoteAudioRef} className="active-call__remote-audio" />
+        <audio
+          autoPlay
+          playsInline
+          ref={remoteAudioRef}
+          className={classNames(`${BLOCK_NAME}__remote-audio`)}
+        />
 
         {isFullScreen && (
-          <div className="active-call__dropdown-wrapper active-call__dropdown-wrapper--audio">
+          <div
+            className={classNames(
+              `${BLOCK_NAME}__dropdown-wrapper`,
+              `${BLOCK_NAME}__dropdown-wrapper--audio`,
+            )}>
             <Dropdown
               selectedString={
                 audioDevices.find(({ deviceId }) => deviceId === activeAudioDevice)?.label ||
@@ -260,7 +279,11 @@ export const ActiveCall: React.FC = () => {
         )}
 
         {isFullScreen && (
-          <div className="active-call__dropdown-wrapper active-call__dropdown-wrapper--video">
+          <div
+            className={classNames(
+              `${BLOCK_NAME}__dropdown-wrapper`,
+              `${BLOCK_NAME}__dropdown-wrapper--video`,
+            )}>
             <Dropdown
               selectedString={
                 videoDevices.find(({ deviceId }) => deviceId === activeVideoDevice)?.label ||
@@ -282,18 +305,17 @@ export const ActiveCall: React.FC = () => {
               autoPlay
               playsInline
               ref={remoteVideoRef}
-              className={`active-call__remote-video ${
-                isFullScreen ? 'active-call__remote-video--big' : ''
-              }`}
+              className={classNames(`${BLOCK_NAME}__remote-video`, {
+                [`${BLOCK_NAME}__remote-video--big`]: isFullScreen,
+              })}
             />
-            <div className="active-call__gradient" />
+            <div className={classNames(`${BLOCK_NAME}__gradient`)} />
           </>
         ) : (
           <Avatar
-            className="active-call__interlocutor-avatar"
-            src={interlocutor?.avatar?.previewUrl}>
-            {getUserInitials(interlocutor)}
-          </Avatar>
+            className={classNames(`${BLOCK_NAME}__interlocutor-avatar`)}
+            user={interlocutor}
+          />
         )}
 
         {isInterlocutorBusy && <span>{t('activeCall.busy')}</span>}
@@ -303,22 +325,23 @@ export const ActiveCall: React.FC = () => {
             autoPlay
             playsInline
             ref={localVideoRef}
-            className={`active-call__local-video ${
-              isFullScreen ? 'active-call__local-video--big' : ''
-            }`}
+            className={classNames(`${BLOCK_NAME}__local-video`, {
+              [`${BLOCK_NAME}__local-video--big`]: isFullScreen,
+            })}
           />
         )}
 
         <div
-          className={`active-call__bottom-menu ${
-            isFullScreen ? 'active-call__bottom-menu--big' : ''
-          }`}>
+          className={classNames(`${BLOCK_NAME}__bottom-menu`, {
+            [`${BLOCK_NAME}__bottom-menu--big`]: isFullScreen,
+          })}>
           {amISpeaking && !isInterlocutorBusy && (
             <button
               type="button"
               onClick={changeAudioStatus}
-              className={`active-call__call-btn
-												${isFullScreen ? 'active-call__call-btn--big' : ''}`}>
+              className={classNames(`${BLOCK_NAME}__call-btn`, {
+                [`${BLOCK_NAME}__call-btn--big`]: isFullScreen,
+              })}>
               {isAudioOpened ? (
                 <MicrophoneEnableSvg viewBox="0 0 25 25" />
               ) : (
@@ -331,8 +354,9 @@ export const ActiveCall: React.FC = () => {
             <button
               type="button"
               onClick={changeVideoStatus}
-              className={`active-call__call-btn
-												${isFullScreen ? 'active-call__call-btn--big' : ''}`}>
+              className={classNames(`${BLOCK_NAME}__call-btn`, {
+                [`${BLOCK_NAME}__call-btn--big`]: isFullScreen,
+              })}>
               {isVideoOpened ? (
                 <VideoEnableSvg viewBox="0 0 25 25" />
               ) : (
@@ -345,8 +369,9 @@ export const ActiveCall: React.FC = () => {
             <button
               type="button"
               onClick={changeScreenShareStatus}
-              className={`active-call__call-btn
-												${isFullScreen ? 'active-call__call-btn--big' : ''}`}>
+              className={classNames(`${BLOCK_NAME}__call-btn`, {
+                [`${BLOCK_NAME}__call-btn--big`]: isFullScreen,
+              })}>
               {isScreenSharingOpened ? (
                 <ScreenSharingEnableSvg viewBox="0 0 25 25" />
               ) : (
@@ -359,8 +384,9 @@ export const ActiveCall: React.FC = () => {
             <button
               type="button"
               onClick={reCallWithVideo}
-              className={`active-call__call-btn
-												${isFullScreen ? 'active-call__call-btn--big' : ''}`}>
+              className={classNames(`${BLOCK_NAME}__call-btn`, {
+                [`${BLOCK_NAME}__call-btn--big`]: isFullScreen,
+              })}>
               <VideoEnableSvg viewBox="0 0 25 25" />
             </button>
           )}
@@ -369,17 +395,18 @@ export const ActiveCall: React.FC = () => {
             <button
               type="button"
               onClick={reCallWithAudio}
-              className={`active-call__call-btn
-												${isFullScreen ? 'active-call__call-btn--big' : ''}`}>
+              className={classNames(`${BLOCK_NAME}__call-btn`, {
+                [`${BLOCK_NAME}__call-btn--big`]: isFullScreen,
+              })}>
               <VoiceCallSvg viewBox="0 0 25 25" />
             </button>
           )}
 
           <button
             type="button"
-            className={`active-call__call-btn active-call__call-btn--end-call ${
-              isFullScreen ? 'active-call__call-btn--big' : ''
-            }`}
+            className={classNames(`${BLOCK_NAME}__call-btn`, `${BLOCK_NAME}__call-btn--end-call`, {
+              [`${BLOCK_NAME}__call-btn--big`]: isFullScreen,
+            })}
             onClick={() => {
               if (amICallingSelectorSomebody || isInterlocutorBusy) {
                 cancelCall();
@@ -396,3 +423,7 @@ export const ActiveCall: React.FC = () => {
     document.getElementById('root') || document.createElement('div'),
   );
 };
+
+ActiveCall.displayName = 'ActiveCall';
+
+export { ActiveCall };

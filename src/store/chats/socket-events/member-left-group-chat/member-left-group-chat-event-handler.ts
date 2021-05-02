@@ -24,10 +24,15 @@ export class MemberLeftGroupChatEventHandler {
 
         const isCurrentUserEventCreator = myId === userId;
 
-        if (isCurrentUserEventCreator) {
-          draft.chats.chats = draft.chats.chats.filter(
-            (chat) => chat.groupChat?.id !== groupChatId,
-          );
+        const chatExists = Boolean(draft.chats[chatId]);
+
+        if (isCurrentUserEventCreator && chatExists) {
+          const chatIndex = draft.chatList.chatIds.indexOf(chatId);
+          if (chatIndex !== 0) {
+            draft.chatList.chatIds.splice(chatIndex, 1);
+
+            delete draft.chats[chatId];
+          }
 
           delete draft.messages[chatId];
 
@@ -38,7 +43,7 @@ export class MemberLeftGroupChatEventHandler {
           const chat = getChatByIdDraftSelector(chatId, draft);
 
           if (chat) {
-            chat.members.members = chat.members.members.filter(({ id }) => id !== userId);
+            chat.members.memberIds = chat.members.memberIds.filter((id) => id !== userId);
           }
         }
 

@@ -14,6 +14,10 @@ import {
   IGroupChatMemberRemovedSystemMessageContent,
   getSystemMessageData,
 } from '@utils/message-utils';
+import { chatNormalizationSchema } from '@store/chats/normalization';
+import { IUser } from '@store/common/models';
+import { normalize } from 'normalizr';
+import { UpdateUsersList } from '@store/users/features/update-users-list/update-users-list';
 import { MessageLinkType } from '../../models/linked-message-type';
 import messageCameUnselected from '../../../../assets/sounds/notifications/messsage-came-unselected.ogg';
 import messageCameSelected from '../../../../assets/sounds/notifications/messsage-came-selected.ogg';
@@ -104,7 +108,15 @@ export class MessageCreatedEventHandler {
         if (data) {
           const [modeledChat] = modelChatList([data]);
 
-          yield put(UnshiftChat.action(modeledChat));
+          const {
+            entities: { chats, users },
+          } = normalize<IChat[], { chats: IChat[]; users: IUser[] }, number[]>(
+            modeledChat,
+            chatNormalizationSchema,
+          );
+
+          yield put(UnshiftChat.action({ chat: chats[modeledChat.id] }));
+          yield put(UpdateUsersList.action({ users }));
 
           chatOfMessage = data;
         }
@@ -114,7 +126,7 @@ export class MessageCreatedEventHandler {
 
       if (userCreator?.id !== myId) {
         if (chatOfMessage && isAudioPlayAllowed && !chatOfMessage.isMuted) {
-          if (!(selectedChatId !== chatId) && !document.hidden) {
+          if (selectedChatId === chatId && !document.hidden) {
             const audioSelected = new Audio(messageCameSelected);
             playSoundSafely(audioSelected);
           }

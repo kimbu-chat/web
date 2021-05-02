@@ -9,7 +9,7 @@ interface ILogoutModalProps {
   onClose: () => void;
 }
 
-export const LogoutModal: React.FC<ILogoutModalProps> = React.memo(({ onClose }) => {
+export const LogoutModal: React.FC<ILogoutModalProps> = ({ onClose }) => {
   const { t } = useTranslation();
 
   const logout = useCallback(() => window.location.replace('logout'), []);
@@ -44,4 +44,4 @@ export const LogoutModal: React.FC<ILogoutModalProps> = React.memo(({ onClose })
       />
     </WithBackground>
   );
-});
+};

@@ -1,23 +1,22 @@
-import { Register } from '@store/auth/features/register/register';
-import { getStringInitials } from '@utils/interlocutor-name-utils';
+import { getStringInitials } from '@utils/user-utils';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import React, { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
-import { ReactComponent as CloseSVG } from '@icons/ic-close.svg';
+import React, { lazy, useCallback, useEffect, useRef, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { authLoadingSelector } from '@store/auth/selectors';
 import { useSelector } from 'react-redux';
-import { CheckNicknameAvailability } from '@store/my-profile/features/check-nickname-availability/check-nickname-availability';
-import { CancelAvatarUploading } from '@store/my-profile/features/cancel-avatar-uploading/cancel-avatar-uploading';
-import { UploadAvatar } from '@store/my-profile/features/upload-avatar/upload-avatar';
 import { validateNickname } from '@utils/validate-nick-name';
-import { Avatar, BaseBtn } from '@components/shared';
-import { CircularProgress } from '@components/messenger-page';
-import { loadPhotoEditor } from '@routing/module-loader';
+import { Button } from '@components/shared';
 
 import { IAvatarSelectedData, IAvatar } from '@store/common/models';
-import { CubeLoader } from '@containers/cube-loader/cube-loader';
+import {
+  cancelAvatarUploadingRequestAction,
+  checkNicknameAvailabilityAction,
+  uploadAvatarRequestAction,
+} from '@store/my-profile/actions';
+import { registerAction } from '@store/auth/actions';
+import { loadPhotoEditor } from '@routing/module-loader';
 
 const PhotoEditor = lazy(loadPhotoEditor);
 
@@ -36,18 +35,16 @@ export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
     preloadNext();
   }, [preloadNext]);
 
-  const uploadRegistrationAvatar = useActionWithDeferred(UploadAvatar.action);
-  const register = useActionWithDeferred(Register.action);
-  const checkNicknameAvailability = useActionWithDeferred(CheckNicknameAvailability.action);
-  const cancelAvatarUploading = useActionWithDispatch(CancelAvatarUploading.action);
+  const uploadRegistrationAvatar = useActionWithDeferred(uploadAvatarRequestAction);
+  const register = useActionWithDeferred(registerAction);
+  const checkNicknameAvailability = useActionWithDeferred(checkNicknameAvailabilityAction);
+  const cancelAvatarUploading = useActionWithDispatch(cancelAvatarUploadingRequestAction);
 
   const openFileExplorer = useCallback(() => fileInputRef.current?.click(), [fileInputRef]);
 
-  const [avatarData, setAvatarData] = useState<IAvatarSelectedData | null>(null);
   const [avararUploadResponse, setAvatarUploadResponse] = useState<IAvatar | null>(null);
   const [imageUrl, setImageUrl] = useState<string>('');
   const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
-  const [uploaded, setUploaded] = useState(0);
   const [uploadEnded, setUploadEnded] = useState(true);
 
   const [firstName, setFirstName] = useState('');
@@ -98,8 +95,15 @@ export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
     ],
   );
 
+  const discardAvatar = useCallback(() => {
+    cancelAvatarUploading();
+    setAvatarUploadResponse(null);
+    setUploadEnded(true);
+  }, [cancelAvatarUploading]);
+
   const handleImageChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
+      discardAvatar();
       e.preventDefault();
 
       const reader = new FileReader();
@@ -117,7 +121,7 @@ export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
         fileInputRef.current.value = '';
       }
     },
-    [displayChangePhoto, setImageUrl, fileInputRef],
+    [displayChangePhoto, setImageUrl, fileInputRef, discardAvatar],
   );
 
   const applyAvatarData = useCallback(
@@ -126,25 +130,16 @@ export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
         setUploadEnded(false);
         const response = await uploadRegistrationAvatar({
           pathToFile: data.croppedImagePath,
-          onProgress: setUploaded,
         });
         setAvatarUploadResponse(response);
         setUploadEnded(true);
       } catch {
-        setAvatarData(null);
         setAvatarUploadResponse(null);
         setUploadEnded(true);
       }
     },
-    [setAvatarData, setUploaded, uploadRegistrationAvatar, setAvatarUploadResponse],
+    [uploadRegistrationAvatar, setAvatarUploadResponse],
   );
-
-  const discardAvatar = useCallback(() => {
-    cancelAvatarUploading();
-    setAvatarData(null);
-    setAvatarUploadResponse(null);
-    setUploadEnded(true);
-  }, [cancelAvatarUploading]);
 
   const onSubmit = useCallback(() => {
     register({
@@ -161,22 +156,18 @@ export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
         <div className="registration__window">
           <div className="registrtion__avatar-upload">
             <div className="edit-profile__photo-data">
-              <div className="create-group-chat__current-photo-wrapper">
-                <Avatar
-                  src={avatarData?.croppedImagePath}
-                  className="create-group-chat__current-photo">
-                  {getStringInitials(`${firstName} ${lastName}`)}
-                </Avatar>
-                {avatarData && (
-                  <>
-                    <CircularProgress progress={uploaded} />
-                    <button
-                      type="button"
-                      onClick={discardAvatar}
-                      className="create-group-chat__remove-photo">
-                      <CloseSVG viewBox="0 0 25 25" />
-                    </button>
-                  </>
+              <div className="registration__current-photo-wrapper">
+                {avararUploadResponse?.previewUrl ? (
+                  <img
+                    draggable={false}
+                    alt={getStringInitials(`${firstName} ${lastName}`)}
+                    src={avararUploadResponse?.previewUrl}
+                    className="registration__current-photo"
+                  />
+                ) : (
+                  <div draggable={false} className="registration__current-photo">
+                    {getStringInitials(`${firstName} ${lastName}`)}
+                  </div>
                 )}
               </div>
               <input
@@ -189,7 +180,7 @@ export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
               <button
                 type="button"
                 onClick={openFileExplorer}
-                className="create-group-chat__change-photo__btn">
+                className="registration__change-photo__btn">
                 Upload New Photo
               </button>
               <div className="register__photo-requirements">{t('register.photo-requirements')}</div>
@@ -220,7 +211,7 @@ export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
               />
             </div>
           </div>
-          <BaseBtn
+          <Button
             disabled={
               !uploadEnded ||
               !firstName.length ||
@@ -228,24 +219,19 @@ export const Registration: React.FC<IRegistrationProps> = ({ preloadNext }) => {
               !isNickNameAvailable ||
               isNickNameCheckLoading
             }
-            isLoading={isLoading}
+            loading={isLoading}
             onClick={onSubmit}
-            variant="contained"
-            color="primary"
-            width="contained"
             className="phone-confirmation__btn">
             {t('register.register')}
-          </BaseBtn>
+          </Button>
         </div>
       </div>
       {changePhotoDisplayed && (
-        <Suspense fallback={<CubeLoader />}>
-          <PhotoEditor
-            hideChangePhoto={hideChangePhoto}
-            imageUrl={imageUrl}
-            onSubmit={applyAvatarData}
-          />
-        </Suspense>
+        <PhotoEditor
+          hideChangePhoto={hideChangePhoto}
+          imageUrl={imageUrl}
+          onSubmit={applyAvatarData}
+        />
       )}
     </>
   );

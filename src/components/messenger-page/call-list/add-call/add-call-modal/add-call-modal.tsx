@@ -8,7 +8,7 @@ import { InfiniteScroll, SelectEntity, SearchBox } from '@components/messenger-p
 import './add-call-modal.scss';
 import { ReactComponent as AddCallSvg } from '@icons/add-call.svg';
 import { ReactComponent as CallSvg } from '@icons/call.svg';
-import { IPage, IUser } from '@store/common/models';
+import { IPage } from '@store/common/models';
 import { getFriendsAction, resetSearchFriendsAction } from '@store/friends/actions';
 import { getMyFriendsListSelector, getMySearchFriendsListSelector } from '@store/friends/selectors';
 import { FRIENDS_LIMIT } from '@utils/pagination-limits';
@@ -18,7 +18,7 @@ interface IAddCallModalProps {
   onClose: () => void;
 }
 
-export const AddCallModal: React.FC<IAddCallModalProps> = React.memo(({ onClose }) => {
+export const AddCallModal: React.FC<IAddCallModalProps> = ({ onClose }) => {
   const { t } = useTranslation();
 
   const friendsList = useSelector(getMyFriendsListSelector);
@@ -33,10 +33,10 @@ export const AddCallModal: React.FC<IAddCallModalProps> = React.memo(({ onClose 
     [resetSearchFriends],
   );
 
-  const { hasMore: hasMoreFriends, friends, loading: friendsLoading } = friendsList;
+  const { hasMore: hasMoreFriends, friendIds, loading: friendsLoading } = friendsList;
   const {
     hasMore: hasMoreSearchFriends,
-    friends: searchFriends,
+    friendIds: searchFriendIds,
     loading: searchFriendsLoading,
   } = searchFriendsList;
 
@@ -47,17 +47,17 @@ export const AddCallModal: React.FC<IAddCallModalProps> = React.memo(({ onClose 
 
   const loadMore = useCallback(() => {
     const page: IPage = {
-      offset: name.length ? searchFriends.length : friends.length,
+      offset: name.length ? searchFriendIds?.length || 0 : friendIds.length,
       limit: FRIENDS_LIMIT,
     };
     loadFriends({ page, name, initializedByScroll: true });
-  }, [searchFriends.length, friends.length, loadFriends, name]);
+  }, [searchFriendIds?.length, friendIds.length, loadFriends, name]);
 
   const call = useCallback(
-    (user) => {
+    (userId: number) => {
       onClose();
       callInterlocutor({
-        calling: user,
+        callingId: userId,
         constraints: {
           videoEnabled: true,
           audioEnabled: true,
@@ -80,15 +80,15 @@ export const AddCallModal: React.FC<IAddCallModalProps> = React.memo(({ onClose 
   );
 
   const renderSelectEntity = useCallback(
-    (user: IUser) => (
+    (userId: number) => (
       <SelectEntity
         icon={
-          <button onClick={() => call(user)} type="button" className="add-call-modal__call">
+          <button onClick={() => call(userId)} type="button" className="add-call-modal__call">
             <CallSvg />
           </button>
         }
-        key={user.id}
-        chatOrUser={user}
+        key={userId}
+        userId={userId}
       />
     ),
     [call],
@@ -96,10 +96,10 @@ export const AddCallModal: React.FC<IAddCallModalProps> = React.memo(({ onClose 
 
   const selectEntities = useMemo(() => {
     if (name.length) {
-      return searchFriends.map(renderSelectEntity);
+      return searchFriendIds?.map(renderSelectEntity);
     }
-    return friends.map(renderSelectEntity);
-  }, [name.length, searchFriends, friends, renderSelectEntity]);
+    return friendIds.map(renderSelectEntity);
+  }, [name.length, searchFriendIds, friendIds, renderSelectEntity]);
 
   return (
     <WithBackground onBackgroundClick={onClose}>
@@ -133,4 +133,4 @@ export const AddCallModal: React.FC<IAddCallModalProps> = React.memo(({ onClose 
       />
     </WithBackground>
   );
-});
+};

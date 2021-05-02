@@ -8,11 +8,11 @@ import { useTranslation } from 'react-i18next';
 import moment from 'moment';
 import { ISession } from '@store/settings/comon/models/session';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import { RevokeSession } from '@store/settings/features/revoke-session/revoke-session';
 import { deviceIdSelector } from '@store/auth/selectors';
 import { useSelector } from 'react-redux';
 
 import { Button } from '@components/shared';
+import { revokeSessionAction } from '@store/settings/actions';
 
 interface ISessionProps {
   session: ISession;
@@ -25,7 +25,7 @@ export const Session: React.FC<ISessionProps> = ({ session }) => {
 
   const currentDeviceId = useSelector(deviceIdSelector);
 
-  const revokeSession = useActionWithDeferred(RevokeSession.action);
+  const revokeSession = useActionWithDeferred(revokeSessionAction);
 
   const revokeThisSession = useCallback(() => {
     setRevoking(true);
@@ -36,16 +36,11 @@ export const Session: React.FC<ISessionProps> = ({ session }) => {
 
   return (
     <div className="session">
-      {session.os.includes('Windows') && (
-        <WindowsSvg className="session__icon" viewBox="0 0 108 108" />
-      )}
-      {(session.os.includes('Mac') || session.os.includes('iOS')) && (
-        <MacSvg className="session__icon" viewBox="0 0 108 108" />
-      )}
-      {session.os.includes('Linux') && <Linux className="session__icon" viewBox="0 0 108 108" />}
-
       <div className="session__data">
-        <div className="session__data__ordinary">{session.ipAddress}</div>
+        <div className="session__data__row">
+          <div className="session__data__highlighted">IP</div>
+          <div className="session__data__ordinary">{session.ipAddress}</div>
+        </div>
 
         <div className="session__data__row">
           <div className="session__data__highlighted">{session.clientApp}</div>

@@ -33,6 +33,7 @@ export function applyTheme(theme?: Theme) {
     '--chat-bg-dt-dark-wt-kingBlueLight': 'rgba(63, 138, 224, 0.55)',
     '--chat-bg-dt-dark-wt-kingBlueLight-transparent': 'rgba(63, 138, 224, 0.25)',
     '--chat-bg-dt-dark-wt-bright-blue': '#D6E9FF',
+    '--chat-bg-dt-dark-wt-grayLight': 'rgba(63, 138, 224, 0.12)',
 
     '--dt-kingBlue-wt-kingBlueLight': 'rgba(63, 138, 224, 0.55)',
     '--dt-kingBlue-wt-grayLight': 'rgba(63, 138, 224, 0.12)',
@@ -53,6 +54,8 @@ export function applyTheme(theme?: Theme) {
     '--input-active': '#D6E9FF',
     '--input-disabled': '#E5E5E5',
     '--input-placeholder': 'rgba(63, 138, 224, 0.25)',
+
+    '--avatar-bg': '#D6E9FF',
 
     '--dt-semi-transparent-wt-kingBlue': '#3F8AE0',
     '--dt-semi-transparent-white-wt-kingBlueLight-transparent': 'rgba(63, 138, 224, 0.25)',
@@ -91,6 +94,7 @@ export function applyTheme(theme?: Theme) {
     '--chat-bg-dt-dark-wt-kingBlue-lighter': '#32394a',
     '--chat-bg-dt-dark-wt-kingBlueLight-transparent': '#32394a',
     '--chat-bg-dt-dark-wt-bright-blue': '#32394a',
+    '--chat-bg-dt-dark-wt-grayLight': '#32394a',
 
     '--msg-bg-dt-gray-lt-grayLight': '#4a5466',
     '--msg-bg-dt-gray-lt-kingBlue-lighter': '#4a5466',
@@ -133,6 +137,8 @@ export function applyTheme(theme?: Theme) {
     '--input-active': '#4a5466',
     '--input-disabled': '#464c59',
     '--input-placeholder': 'rgba(255, 255, 255, 0.14)',
+
+    '--avatar-bg': '#161D2E',
 
     '--blur-color': 'rgba(38, 44, 56, 0.4)',
   };

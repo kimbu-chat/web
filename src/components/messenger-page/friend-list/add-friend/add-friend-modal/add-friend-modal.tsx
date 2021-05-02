@@ -5,26 +5,24 @@ import './add-friend-modal.scss';
 import { useTranslation } from 'react-i18next';
 import { PhoneInputGroup } from '@components/messenger-page';
 import { WithBackground, Modal, Avatar, Button } from '@components/shared';
-import { GetUserByPhone } from '@store/friends/features/get-user-by-phone/get-user-by-phone';
 import { IUser } from '@store/common/models';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { ReactComponent as CloseSvg } from '@icons/close-x-bold.svg';
-import { getUserInitials } from '@utils/interlocutor-name-utils';
 import parsePhoneNumberFromString, { parsePhoneNumber } from 'libphonenumber-js';
 import { Link } from 'react-router-dom';
 import { ChatId } from '@store/chats/chat-id';
-import { AddFriend } from '@store/friends/features/add-friend/add-friend';
 import { useSelector } from 'react-redux';
 import { isFriend } from '@store/friends/selectors';
+import { addFriendAction, getUserByPhoneAction } from '@store/friends/actions';
 
 interface IAddFriendModalProps {
   onClose: () => void;
 }
 
-export const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
+const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
   const { t } = useTranslation();
-  const getUserByPhone = useActionWithDeferred(GetUserByPhone.action);
-  const addFriend = useActionWithDeferred(AddFriend.action);
+  const getUserByPhone = useActionWithDeferred(getUserByPhoneAction);
+  const addFriend = useActionWithDeferred(addFriendAction);
 
   const [phone, setPhone] = useState('');
   const [error, setError] = useState(false);
@@ -49,14 +47,14 @@ export const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
   }, [phone, setUser, getUserByPhone]);
 
   const addRequiredUser = useCallback(() => {
-    if (user) {
+    if (user?.id) {
       setLoading(true);
-      addFriend(user).then(() => {
-        setLoading(false);
+      addFriend(user?.id).then(() => {
+        // setLoading(false);
         setSucess(true);
       });
     }
-  }, [user, addFriend]);
+  }, [user?.id, addFriend]);
 
   const closeError = useCallback(() => {
     setError(false);
@@ -74,9 +72,8 @@ export const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
         content={
           user ? (
             <div className="add-friends-modal__user">
-              <Avatar className="add-friends-modal__user__avatar" src={user.avatar?.previewUrl}>
-                {getUserInitials(user)}
-              </Avatar>
+              <Avatar className="add-friends-modal__user__avatar" user={user} />
+
               <h2 className="add-friends-modal__user__name">{`${user.firstName} ${user.lastName}`}</h2>
               <h4 className="add-friends-modal__user__phone">
                 {parsePhoneNumber(user?.phoneNumber).formatInternational()}
@@ -152,3 +149,7 @@ export const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
     </WithBackground>
   );
 };
+
+AddFriendModal.displayName = 'AddFriendModal';
+
+export { AddFriendModal };

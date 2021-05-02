@@ -1,3 +1,4 @@
+import { normalize } from 'normalizr';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
@@ -5,6 +6,9 @@ import { createAction } from 'typesafe-actions';
 import produce from 'immer';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
+import { IUser } from '@store/common/models';
+import { UpdateUsersList } from '@store/users/features/update-users-list/update-users-list';
+import { callArrNormalizationSchema } from '../../normalization';
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { ICall } from '../../common/models';
 import { IGetCallsActionPayload } from './action-payloads/get-calls-action-payload';
@@ -20,15 +24,15 @@ export class GetCalls {
   static get reducer() {
     return produce((draft: ICallsState, { payload }: ReturnType<typeof GetCalls.action>) => {
       if (!payload.name?.length && !payload.initializedByScroll) {
-        draft.searchCalls.calls = [];
-        draft.searchCalls.hasMore = true;
-        draft.searchCalls.loading = false;
+        draft.searchCallList.callIds = [];
+        draft.searchCallList.hasMore = true;
+        draft.searchCallList.loading = false;
       }
 
       if (payload.name?.length) {
-        draft.searchCalls.loading = true;
+        draft.searchCallList.loading = true;
       } else if (payload.initializedByScroll) {
-        draft.calls.loading = true;
+        draft.callList.loading = true;
       }
 
       return draft;
@@ -51,7 +55,19 @@ export class GetCalls {
       const hasMore = data.length >= page.limit;
 
       if (status === HTTPStatusCode.OK) {
-        yield put(GetCallsSuccess.action({ calls: data, hasMore, name, initializedByScroll }));
+        const {
+          entities: { calls, users },
+          result,
+        } = normalize<ICall[], { calls: ICall[]; users: IUser[] }, number[]>(
+          data,
+          callArrNormalizationSchema,
+        );
+
+        yield put(
+          GetCallsSuccess.action({ callIds: result, calls, hasMore, name, initializedByScroll }),
+        );
+
+        yield put(UpdateUsersList.action({ users }));
       }
     };
   }

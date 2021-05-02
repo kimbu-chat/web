@@ -5,6 +5,11 @@ import { put, call, select, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
+import { normalize } from 'normalizr';
+import { UpdateUsersList } from '@store/users/features/update-users-list/update-users-list';
+import { IUser } from '../../../common/models/user';
+import { INormalizedMessage } from '../../models/message';
+import { messageArrNormalizationSchema } from '../../normalization';
 import { GetMessagesFailure } from './get-messages-failure';
 import {
   getIsFirstChatsLoadSelector,
@@ -26,10 +31,14 @@ export class GetMessages {
   static get reducer() {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof GetMessages.action>) => {
       if (draft.selectedChatId) {
-        draft.messages[draft.selectedChatId].loading = true;
+        const selectedChatMessages = draft.messages[draft.selectedChatId];
 
-        if (payload.isFromSearch) {
-          draft.messages[draft.selectedChatId].searchString = payload.searchString;
+        if (selectedChatMessages) {
+          selectedChatMessages.loading = true;
+
+          if (payload.isFromSearch) {
+            selectedChatMessages.searchString = payload.searchString;
+          }
         }
       }
       return draft;
@@ -70,15 +79,25 @@ export class GetMessages {
                 : MessageState.SENT,
           }));
 
+          const {
+            entities: { messages, users },
+            result,
+          } = normalize<IMessage[], { messages: INormalizedMessage[]; users: IUser[] }, number[]>(
+            newMessages,
+            messageArrNormalizationSchema,
+          );
+
           const messageList = {
             chatId: chat.id,
-            messages: newMessages,
+            messages,
+            messageIds: result,
             hasMoreMessages: newMessages.length >= page.limit,
             searchString,
             isFromSearch,
           };
 
-          yield put(GetMessagesSuccess.action(messageList));
+          yield put(GetMessagesSuccess.action({ messageList }));
+          yield put(UpdateUsersList.action({ users }));
         } catch {
           yield put(GetMessagesFailure.action(chat.id));
         }

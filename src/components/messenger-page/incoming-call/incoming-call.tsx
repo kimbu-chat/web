@@ -8,7 +8,6 @@ import {
   getIsIncomingCallVideoEnabledSelector,
 } from '@store/calls/selectors';
 import { Avatar } from '@components/shared';
-import { getUserInitials } from '@utils/interlocutor-name-utils';
 
 // sounds
 import incomingCallSound from '@sounds/calls/imcoming-call.ogg';
@@ -71,9 +70,7 @@ export const IncomingCall: React.FC = () => {
       bounds="body"
       className="incoming-call-draggable">
       <div className="incoming-call">
-        <Avatar className="incoming-call__img" src={interlocutor?.avatar?.previewUrl}>
-          {getUserInitials(interlocutor)}
-        </Avatar>
+        <Avatar className="incoming-call__img" user={interlocutor} />
         <div className="incoming-call__info">
           <h1 className="incoming-call__calling-name">{`${interlocutor?.firstName} ${interlocutor?.lastName}`}</h1>
           <h3 className="incoming-call__additional-data">

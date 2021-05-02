@@ -6,6 +6,8 @@ import { createAction } from 'typesafe-actions';
 import { httpFilesRequestFactory, HttpRequestMethod } from '@store/common/http';
 import type { IFilesRequestGenerator } from '@store/common/http';
 import { FILES_API } from '@common/paths';
+import { emitToast } from '@utils/emit-toast';
+import { MAX_FILE_SIZE_MB } from '@utils/constants';
 import { getChatByIdDraftSelector, getSelectedChatIdSelector } from '../../selectors';
 import { addUploadingAttachment, removeUploadingAttachment } from '../../upload-qeue';
 import { UploadAttachmentFailure } from './upload-attachment-failure';
@@ -30,7 +32,11 @@ export class UploadAttachmentRequest {
   static get reducer() {
     return produce(
       (draft: IChatsState, { payload }: ReturnType<typeof UploadAttachmentRequest.action>) => {
-        const { type, attachmentId, file } = payload;
+        const { type, attachmentId, file, waveFormJson } = payload;
+
+        if (file.size / 1048576 > MAX_FILE_SIZE_MB) {
+          return draft;
+        }
 
         if (draft.selectedChatId) {
           const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
@@ -51,6 +57,7 @@ export class UploadAttachmentRequest {
               },
               progress: 0,
               file,
+              waveFormJson,
             };
 
             chat.attachmentsToSend?.push(attachmentToAdd);
@@ -66,8 +73,14 @@ export class UploadAttachmentRequest {
       action: ReturnType<typeof UploadAttachmentRequest.action>,
     ): SagaIterator {
       const chatId = yield select(getSelectedChatIdSelector);
-      const { file, type, attachmentId } = action.payload;
+      const { file, type, attachmentId, waveFormJson } = action.payload;
       let uploadRequest: IFilesRequestGenerator<AxiosResponse, FormData>;
+
+      if (file.size / 1048576 > MAX_FILE_SIZE_MB) {
+        emitToast(`The file "${file.name}" size cannot exceed 25Mb`, { type: 'error' });
+
+        return;
+      }
 
       switch (type) {
         case FileType.Audio:
@@ -96,10 +109,12 @@ export class UploadAttachmentRequest {
 
       const data = new FormData();
 
-      const uploadData = { file };
+      const uploadData = { file, waveFormJson };
 
       Object.entries(uploadData).forEach((k) => {
-        data.append(k[0], k[1]);
+        if (k[1]) {
+          data.append(k[0], k[1]);
+        }
       });
 
       yield call(() =>
@@ -120,7 +135,7 @@ export class UploadAttachmentRequest {
               UploadAttachmentSuccess.action({
                 chatId,
                 attachmentId,
-                attachment: payload.data,
+                attachment: { ...payload.data, waveFormJson } as IBaseAttachment,
               }),
             );
           },

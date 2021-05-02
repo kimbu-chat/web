@@ -20,12 +20,14 @@ export class ForwardMessages {
   static get reducer() {
     return produce((draft: IChatsState) => {
       if (draft.selectedChatId) {
-        draft.messages[draft.selectedChatId].messages = draft.messages[
-          draft.selectedChatId
-        ].messages.map((message) => ({
-          ...message,
-          isSelected: false,
-        }));
+        const selectedChatMessages = draft.messages[draft.selectedChatId];
+
+        selectedChatMessages?.messageIds.forEach((messageId) => {
+          const currentMessage = selectedChatMessages.messages[messageId];
+          if (currentMessage) {
+            currentMessage.isSelected = false;
+          }
+        });
       }
 
       draft.selectedMessageIds = [];

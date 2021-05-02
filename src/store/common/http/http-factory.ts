@@ -5,11 +5,13 @@ import { SagaIterator } from 'redux-saga';
 import { RootState } from 'typesafe-actions';
 import { ISecurityTokens } from '@store/auth/common/models/security-tokens';
 import { securityTokensSelector } from '@store/auth/selectors';
+import { ICustomJwtPayload } from '@store/auth/features/login/models/custom-jwt-payload';
+import jwtDecode from 'jwt-decode';
 import { isNetworkError } from '../../../utils/error-utils';
 import { RefreshToken } from '../../auth/features/refresh-token/refresh-token';
 import { RefreshTokenSuccess } from '../../auth/features/refresh-token/refresh-token-success';
 import { HttpRequestMethod } from './http-request-method';
-import { httpRequest } from './http-request';
+import { httpRequest, requestTimeout } from './http-request';
 import type { IRequestGenerator, UrlGenerator, HttpHeaders } from './types';
 
 function* getAuthHeader(): SagaIterator {
@@ -43,6 +45,15 @@ export const httpRequestFactory = <TResponse, TBody = unknown>(
         finalUrl = (url as UrlGenerator<TBody>)(body);
       }
 
+      const securityTokens: ISecurityTokens = yield select(securityTokensSelector);
+
+      const decodedJwt = jwtDecode<ICustomJwtPayload>(securityTokens.accessToken);
+
+      if ((new Date().getTime() + (requestTimeout + 5000)) / 1000 > (decodedJwt?.exp || -1)) {
+        yield put(RefreshToken.action());
+        yield take(RefreshTokenSuccess.action);
+      }
+
       try {
         const authHeader = yield call(getAuthHeader);
         cancelTokenSource = axios.CancelToken.source();
@@ -52,7 +63,8 @@ export const httpRequestFactory = <TResponse, TBody = unknown>(
         });
       } catch (e) {
         const error = e as AxiosError;
-        emitToast(e.message, { type: 'error' });
+
+        emitToast(error.message, { type: 'error' });
         if (!isNetworkError(e) && error?.response?.status === 401) {
           yield put(RefreshToken.action());
           yield take(RefreshTokenSuccess.action);

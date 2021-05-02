@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { getIsInfoOpenedSelector, getSelectedChatSelector } from '@store/chats/selectors';
+import { getSelectedChatSelector } from '@store/chats/selectors';
 
 import './chat-top-bar.scss';
 
@@ -12,52 +12,59 @@ import { Avatar, StatusBadge, TimeUpdateable } from '@components/shared';
 
 import { ReactComponent as VoiceCallSvg } from '@icons/audio-call.svg';
 import { ReactComponent as VideoCallSvg } from '@icons/video-call.svg';
-import { ReactComponent as ChatInfoSvg } from '@icons/chat-info.svg';
 import { ReactComponent as TypingSvg } from '@icons/typing.svg';
 
-import { getChatInterlocutor, getInterlocutorInitials } from '@utils/interlocutor-name-utils';
-import { ChangeChatInfoOpened } from '@store/chats/features/change-chat-info-opened/change-chat-info-opened';
+import { getChatInterlocutor } from '@utils/user-utils';
+import { changeChatInfoOpenedAction } from '@store/chats/actions';
+import { getUserSelector } from '@store/users/selectors';
 import { MessagesSearch } from './messages-search/messages-search';
+import { ChatInfoBtn } from './chat-info-btn/chat-info-btn';
 
-export const ChatTopBar = React.memo(() => {
+export const ChatTopBar = () => {
   const { t } = useTranslation();
 
-  const selectedChat = useSelector(getSelectedChatSelector);
-  const isInfoOpened = useSelector(getIsInfoOpenedSelector);
+  const selectedChat = useSelector(
+    getSelectedChatSelector,
+    (oldChat, newChat) =>
+      oldChat === newChat ||
+      oldChat?.draftMessage !== newChat?.draftMessage ||
+      oldChat?.lastMessage !== newChat?.lastMessage,
+  );
+  const interlocutor = useSelector(getUserSelector(selectedChat?.interlocutor));
 
   const callInterlocutor = useActionWithDispatch(outgoingCallAction);
-  const openCloseChatInfo = useActionWithDispatch(ChangeChatInfoOpened.action);
+  const openCloseChatInfo = useActionWithDispatch(changeChatInfoOpenedAction);
 
-  const callWithVideo = useCallback(
-    () =>
+  const callWithVideo = useCallback(() => {
+    if (interlocutor?.id) {
       callInterlocutor({
-        calling: selectedChat?.interlocutor as IUser,
+        callingId: interlocutor.id,
         constraints: {
           videoEnabled: true,
           audioEnabled: true,
         },
-      }),
-    [selectedChat?.interlocutor, callInterlocutor],
-  );
+      });
+    }
+  }, [interlocutor, callInterlocutor]);
 
-  const callWithAudio = useCallback(
-    () =>
+  const callWithAudio = useCallback(() => {
+    if (interlocutor?.id) {
       callInterlocutor({
-        calling: selectedChat?.interlocutor as IUser,
+        callingId: interlocutor.id,
         constraints: {
           videoEnabled: false,
           audioEnabled: true,
         },
-      }),
-    [selectedChat?.interlocutor, callInterlocutor],
-  );
+      });
+    }
+  }, [interlocutor, callInterlocutor]);
 
-  const interlocutorStatus = selectedChat?.interlocutor?.online ? (
+  const interlocutorStatus = interlocutor?.online ? (
     t('chatData.online')
   ) : (
     <>
       <span>{`${t('chatData.last-time')} `}</span>{' '}
-      <TimeUpdateable timeStamp={selectedChat?.interlocutor?.lastOnlineTime} />
+      <TimeUpdateable timeStamp={interlocutor?.lastOnlineTime} />
     </>
   );
 
@@ -69,61 +76,58 @@ export const ChatTopBar = React.memo(() => {
     return (
       <div className="chat-data__chat-data">
         <button type="button" onClick={openCloseChatInfo} className="chat-data__contact-data">
-          {selectedChat.interlocutor && (
+          {interlocutor && (
             <StatusBadge
               containerClassName="chat-data__contact-img-container"
               additionalClassNames="chat-data__contact-img"
-              user={selectedChat.interlocutor}
+              user={interlocutor}
             />
           )}
 
           {selectedChat.groupChat && (
             <div className="chat-data__contact-img-container">
-              <Avatar
-                className="chat-data__contact-img"
-                src={selectedChat.groupChat?.avatar?.previewUrl}>
-                {getInterlocutorInitials(selectedChat)}
-              </Avatar>
+              <Avatar className="chat-data__contact-img" groupChat={selectedChat.groupChat} />
             </div>
           )}
 
           <div className="chat-data__chat-info">
-            <h1 className="chat-data__chat-info__title">{getChatInterlocutor(selectedChat)}</h1>
-            <div className="chat-data__chat-info__info">
-              {selectedChat.typingInterlocutors && selectedChat.typingInterlocutors?.length > 0 ? (
-                <div className="chat-data__chat-info__info__typing">
-                  <TypingSvg viewBox="0 0 12 12" />
-                  <span>{t('chatData.typing')}</span>
-                </div>
-              ) : (
-                groupChatOrInterlocutorStatus
-              )}
-            </div>
+            <h1 className="chat-data__chat-info__title">
+              {getChatInterlocutor(interlocutor, selectedChat, t)}
+            </h1>
+
+            {!interlocutor?.deleted && (
+              <div className="chat-data__chat-info__info">
+                {selectedChat.typingInterlocutors &&
+                selectedChat.typingInterlocutors?.length > 0 ? (
+                  <div className="chat-data__chat-info__info__typing">
+                    <TypingSvg viewBox="0 0 12 12" />
+                    <span>{t('chatData.typing')}</span>
+                  </div>
+                ) : (
+                  groupChatOrInterlocutorStatus
+                )}
+              </div>
+            )}
           </div>
         </button>
         <div className="chat-data__buttons-group">
-          {selectedChat.interlocutor && (
-            <button type="button" className="chat-data__button" onClick={callWithAudio}>
-              <VoiceCallSvg />
-            </button>
-          )}
-          {selectedChat.interlocutor && (
-            <button type="button" className="chat-data__button" onClick={callWithVideo}>
-              <VideoCallSvg />
-            </button>
+          {interlocutor && !interlocutor?.deleted && (
+            <>
+              <button type="button" className="chat-data__button" onClick={callWithAudio}>
+                <VoiceCallSvg />
+              </button>
+
+              <button type="button" className="chat-data__button" onClick={callWithVideo}>
+                <VideoCallSvg />
+              </button>
+            </>
           )}
 
           <MessagesSearch />
-
-          <button
-            type="button"
-            onClick={openCloseChatInfo}
-            className={`chat-data__button ${isInfoOpened ? 'chat-data__button--active' : ''}`}>
-            <ChatInfoSvg />
-          </button>
+          <ChatInfoBtn toggleVisibility={openCloseChatInfo} />
         </div>
       </div>
     );
   }
   return <div className="chat-data__chat-data" />;
-});
+};

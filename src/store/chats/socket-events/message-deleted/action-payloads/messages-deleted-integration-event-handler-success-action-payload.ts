@@ -1,7 +1,7 @@
-import { IMessage } from '@store/chats/models';
+import { INormalizedMessage } from '@store/chats/models';
 
 export interface IMessagesDeletedIntegrationEventHandlerSuccessActionPayload {
   chatId: number;
   messageIds: number[];
-  chatNewLastMessage: IMessage | null;
+  chatNewLastMessage: INormalizedMessage | null;
 }

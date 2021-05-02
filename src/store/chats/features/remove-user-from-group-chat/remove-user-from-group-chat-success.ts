@@ -26,8 +26,10 @@ export class RemoveUserFromGroupChatSuccess {
 
         if (chat?.groupChat) {
           chat.groupChat.membersCount -= 1;
-          chat.members.members = chat.members.members.filter(({ id }) => id !== userId);
+          chat.members.memberIds = chat.members.memberIds.filter((id) => id !== userId);
         }
+
+        // TODO: handle user deleteing
 
         return draft;
       },

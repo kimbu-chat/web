@@ -10,7 +10,7 @@ import { ReactComponent as CloseSvg } from '@icons/close.svg';
 import { PublicRoute } from '@routing/public-route';
 import { PrivateRoute } from '@routing/private-route';
 
-import { authenticatedSelector, authPhoneNumberSelector } from '@store/auth/selectors';
+import { authenticatedSelector, authPhoneNumberExistsSelector } from '@store/auth/selectors';
 import { CubeLoader } from '@containers/cube-loader/cube-loader';
 import { ToastContainer } from 'react-toastify';
 import {
@@ -31,84 +31,64 @@ const NotFound = lazy(loadNotFound);
 const Registration = lazy(loadRegistration);
 const Logout = lazy(loadLogout);
 
-export const App = () => {
+const App = () => {
   const isAuthenticated = useSelector(authenticatedSelector);
-  const phoneNumber = useSelector(authPhoneNumberSelector);
+  const phoneNumberExists = useSelector(authPhoneNumberExistsSelector);
 
   return (
     <>
-      <Switch>
-        <PublicRoute
-          exact
-          path="/signup"
-          isAllowed={phoneNumber.length > 0}
-          componentToRender={
-            <Suspense fallback={<CubeLoader />}>
-              <Registration preloadNext={loadMessenger} />
-            </Suspense>
-          }
-        />
-        <PublicRoute
-          exact
-          path="/confirm-code"
-          isAllowed={phoneNumber.length > 0}
-          componentToRender={
-            <Suspense fallback={<CubeLoader />}>
-              <ConfirmCode preloadNext={loadMessenger} />
-            </Suspense>
-          }
-        />
-        <PublicRoute
-          exact
-          path="/login/"
-          componentToRender={
-            <Suspense fallback={<CubeLoader />}>
-              <ConfirmPhone preloadNext={loadCodeConfirmation} />
-            </Suspense>
-          }
-        />
-        <PrivateRoute
-          path="/(contacts|calls|chats|settings)/:id(\d+)?/(profile|notifications|typing|language|appearance|audio-video|privacy-security)?"
-          exact
-          isAllowed={isAuthenticated}
-          fallback="/login"
-          componentToRender={
-            <Suspense fallback={<CubeLoader />}>
-              <Messenger preloadNext={loadEmoji} />
-            </Suspense>
-          }
-        />
-        <PrivateRoute
-          path="/logout"
-          exact
-          isAllowed={isAuthenticated}
-          fallback="/login"
-          componentToRender={
-            <Suspense fallback={<CubeLoader />}>
-              <Logout />
-            </Suspense>
-          }
-        />
-        <Route path="/" exact render={() => <Redirect to="/chats" />} />
-        <Route
-          path="/"
-          render={() => (
-            <Suspense fallback={<CubeLoader />}>
-              <NotFound />
-            </Suspense>
+      <Suspense fallback={<CubeLoader />}>
+        <Switch>
+          <PublicRoute
+            exact
+            path="/signup"
+            isAllowed={!isAuthenticated && phoneNumberExists}
+            componentToRender={<Registration preloadNext={loadMessenger} />}
+          />
+          <PublicRoute
+            exact
+            path="/confirm-code"
+            isAllowed={!isAuthenticated && phoneNumberExists}
+            componentToRender={<ConfirmCode preloadNext={loadMessenger} />}
+          />
+          <PublicRoute
+            exact
+            path="/login/"
+            isAllowed={!isAuthenticated}
+            componentToRender={<ConfirmPhone preloadNext={loadCodeConfirmation} />}
+          />
+          <PrivateRoute
+            path="/(contacts|calls|chats|settings)/:id(\d+)?/(profile|notifications|typing|language|appearance|audio-video|privacy-security)?"
+            exact
+            isAllowed={isAuthenticated}
+            fallback="/login"
+            componentToRender={<Messenger preloadNext={loadEmoji} />}
+          />
+          <PrivateRoute
+            path="/logout"
+            exact
+            isAllowed={isAuthenticated}
+            fallback="/login"
+            componentToRender={<Logout />}
+          />
+          <Route path="/" exact render={() => <Redirect to="/chats" />} />
+          <Route path="/" render={() => <NotFound />} />
+        </Switch>
+        <ToastContainer
+          autoClose={5000000}
+          position="top-center"
+          hideProgressBar
+          closeButton={() => (
+            <button type="button">
+              <CloseSvg />
+            </button>
           )}
         />
-      </Switch>
-      <ToastContainer
-        autoClose={5000000}
-        position="top-center"
-        hideProgressBar
-        closeButton={
-          <button type="button">
-            <CloseSvg />
-          </button>
-        }
-      />
+      </Suspense>
     </>
   );
 };
+
+App.displayName = 'App';
+
+export { App };

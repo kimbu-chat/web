@@ -42,7 +42,7 @@ export class OutgoingCall {
         return draft;
       }
 
-      draft.interlocutor = payload.calling;
+      draft.interlocutor = payload.callingId;
       draft.isInterlocutorBusy = false;
       draft.amICalling = true;
       draft.audioConstraints = {
@@ -102,7 +102,7 @@ export class OutgoingCall {
       yield call(getAndSendUserMedia);
       //---
 
-      const userInterlocutorId = action.payload.calling.id;
+      const userInterlocutorId = action.payload.callingId;
 
       const offer: RTCSessionDescriptionInit = yield call(async () =>
         peerConnection?.createOffer({ offerToReceiveAudio: true, offerToReceiveVideo: true }),

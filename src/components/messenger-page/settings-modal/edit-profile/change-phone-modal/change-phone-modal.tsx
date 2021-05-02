@@ -14,7 +14,7 @@ interface IChangePhoneModalProps {
   onClose: () => void;
 }
 
-export const ChangePhoneModal: React.FC<IChangePhoneModalProps> = ({ onClose }) => {
+const ChangePhoneModal: React.FC<IChangePhoneModalProps> = ({ onClose }) => {
   const { t } = useTranslation();
 
   const [phone, setPhone] = useState('');
@@ -125,3 +125,7 @@ export const ChangePhoneModal: React.FC<IChangePhoneModalProps> = ({ onClose }) 
     </WithBackground>
   );
 };
+
+ChangePhoneModal.displayName = 'ChangePhoneModal';
+
+export { ChangePhoneModal };

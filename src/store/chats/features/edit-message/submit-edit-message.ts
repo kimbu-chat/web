@@ -1,10 +1,12 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
+import { unionBy } from 'lodash';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
+import { MessageState } from '@store/chats/models';
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { getSelectedChatIdSelector, getChatByIdDraftSelector } from '../../selectors';
 
@@ -21,18 +23,51 @@ export class SubmitEditMessage {
   static get reducer() {
     return produce(
       (draft: IChatsState, { payload }: ReturnType<typeof SubmitEditMessage.action>) => {
-        const { text } = payload;
+        const { messageId, removedAttachments, newAttachments, text } = payload;
+
         if (draft.selectedChatId) {
           const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
+          const message = draft.messages[draft.selectedChatId]?.messages[messageId];
+
+          let newAttachmentsToAssign = message?.attachments;
+
+          if (removedAttachments?.length || newAttachments?.length) {
+            newAttachmentsToAssign = unionBy(message?.attachments, newAttachments, 'id').filter(
+              ({ id }) => {
+                if (!removedAttachments) {
+                  return true;
+                }
+
+                return (
+                  removedAttachments?.findIndex(
+                    (removedAttachment) => removedAttachment.id === id,
+                  ) === -1
+                );
+              },
+            );
+          }
+          if (message) {
+            message.text = text;
+            message.isEdited = true;
+            message.state = MessageState.QUEUED;
+
+            message.attachments = newAttachmentsToAssign;
+          }
+
+          if (chat?.lastMessage) {
+            if (chat?.lastMessage.id === messageId) {
+              chat.lastMessage.state = MessageState.QUEUED;
+              chat.lastMessage.text = text;
+              chat.lastMessage.isEdited = true;
+
+              chat.lastMessage.attachments = newAttachmentsToAssign;
+            }
+          }
 
           if (chat?.messageToEdit) {
-            chat.attachmentsToSend = [];
+            delete chat.attachmentsToSend;
 
-            if (chat.lastMessage?.id === chat?.messageToEdit.id) {
-              chat.lastMessage.text = text;
-            }
-
-            chat.messageToEdit = undefined;
+            delete chat.messageToEdit;
           }
         }
 
@@ -62,10 +97,7 @@ export class SubmitEditMessage {
       if (status === HTTPStatusCode.OK) {
         yield put(
           SubmitEditMessageSuccess.action({
-            text,
             messageId,
-            removedAttachments,
-            newAttachments,
             chatId,
           }),
         );

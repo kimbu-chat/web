@@ -9,8 +9,9 @@ import {
   IVoiceAttachment,
 } from '@store/chats/models';
 import React, { useMemo } from 'react';
-import { getUserInitials } from '@utils/interlocutor-name-utils';
-import { ILinkedMessage } from '@store/chats/models/linked-message';
+import { INormalizedLinkedMessage } from '@store/chats/models/linked-message';
+import { useSelector } from 'react-redux';
+import { getUserSelector } from '@store/users/selectors';
 import { MessageAudioAttachment } from '../../shared/audio-attachment/audio-attachment';
 import { FileAttachment } from '../../shared/file-attachment/file-attachment';
 import { MediaGrid } from '../attachments/media-grid/media-grid';
@@ -18,11 +19,13 @@ import { RecordingAttachment } from '../attachments/recording-attachment/recordi
 import './message-link.scss';
 
 interface IMessageLinkProps {
-  linkedMessage?: ILinkedMessage | null;
+  linkedMessage: INormalizedLinkedMessage | null;
 }
 
-const MessageLink: React.FC<IMessageLinkProps> = React.memo(({ linkedMessage }) => {
+const MessageLink: React.FC<IMessageLinkProps> = ({ linkedMessage }) => {
   const { t } = useTranslation();
+
+  const userCreator = useSelector(getUserSelector(linkedMessage?.userCreator));
 
   const structuredAttachments = useMemo(
     () =>
@@ -75,9 +78,7 @@ const MessageLink: React.FC<IMessageLinkProps> = React.memo(({ linkedMessage }) 
 
   return (
     <div className="message-link">
-      <Avatar className="message-link__avatar" src={linkedMessage?.userCreator.avatar?.previewUrl}>
-        {getUserInitials(linkedMessage?.userCreator)}
-      </Avatar>
+      <Avatar className="message-link__avatar" user={userCreator} />
 
       <div className="message-link__text">
         <span>
@@ -86,13 +87,13 @@ const MessageLink: React.FC<IMessageLinkProps> = React.memo(({ linkedMessage }) 
 
         <div className="message-link__attachments">
           {structuredAttachments?.files.map((file) => (
-            <FileAttachment key={file.id} attachment={file} />
+            <FileAttachment key={file.id} {...file} />
           ))}
           {structuredAttachments?.recordings.map((recording) => (
             <RecordingAttachment key={recording.id} attachment={recording} />
           ))}
           {structuredAttachments?.audios.map((audio) => (
-            <MessageAudioAttachment key={audio.id} attachment={audio} />
+            <MessageAudioAttachment key={audio.id} {...audio} />
           ))}
           {structuredAttachments && structuredAttachments.media.length > 0 && (
             <MediaGrid media={structuredAttachments.media} />
@@ -101,7 +102,7 @@ const MessageLink: React.FC<IMessageLinkProps> = React.memo(({ linkedMessage }) 
       </div>
     </div>
   );
-});
+};
 
 MessageLink.displayName = 'MessageLink';
 

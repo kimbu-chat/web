@@ -16,7 +16,7 @@ export class InterlocutorStoppedTyping {
 
         const chat = getChatByIdDraftSelector(chatId, draft);
 
-        if (chat) {
+        if (chat && chat.typingInterlocutors?.length) {
           chat.typingInterlocutors = chat.typingInterlocutors?.filter(
             (fullName) => fullName !== interlocutorName,
           );

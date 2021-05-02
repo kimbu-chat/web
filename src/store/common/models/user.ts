@@ -11,4 +11,5 @@ export interface IUser {
   lastOnlineTime: Date;
   phoneNumber: string;
   deactivated?: boolean;
+  deleted?: boolean;
 }

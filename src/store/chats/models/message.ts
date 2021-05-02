@@ -16,8 +16,6 @@ export interface IMessage {
   chatId: number;
   dateSeparator?: string;
   isSelected?: boolean;
-  needToShowCreator?: boolean;
-  needToShowDateSeparator?: boolean;
 
   isEdited?: boolean;
   isDeleted?: boolean;

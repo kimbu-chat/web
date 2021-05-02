@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 export const containsFiles = (event: React.DragEvent<HTMLDivElement> | DragEvent) => {
   if (event.dataTransfer?.types) {
-    for (let i = 0; i < event.dataTransfer.types.length; i+=1) {
+    for (let i = 0; i < event.dataTransfer.types.length; i += 1) {
       if (event.dataTransfer.types[i] === 'Files') {
         return true;
       }
@@ -61,5 +61,11 @@ export function useGlobalDrop(listeners: {
         document.removeEventListener('drop', listeners.onDrop);
       }
     };
-  }, [listeners.onDrag, listeners.onDragEnter, listeners.onDragLeave, listeners.onDragOver, listeners.onDrop]);
+  }, [
+    listeners.onDrag,
+    listeners.onDragEnter,
+    listeners.onDragLeave,
+    listeners.onDragOver,
+    listeners.onDrop,
+  ]);
 }

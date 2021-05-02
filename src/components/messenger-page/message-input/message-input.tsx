@@ -37,6 +37,7 @@ import { ReactComponent as AddSvg } from '@icons/add-attachment.svg';
 import { ReactComponent as VoiceSvg } from '@icons/voice.svg';
 import { ReactComponent as SendSvg } from '@icons/send.svg';
 import { ReactComponent as CloseSvg } from '@icons/close.svg';
+import { ReactComponent as UploadSvg } from '@icons/upload.svg';
 
 import { RespondingMessage } from './responding-message/responding-message';
 import { ExpandingTextarea } from './expanding-textarea/expanding-textarea';
@@ -69,7 +70,6 @@ const CreateMessageInput = () => {
   const [text, setText] = useState('');
   const refferedText = useReferState(text);
   const [isRecording, setIsRecording] = useState(false);
-  const [isDraggingOver, setIsDraggingOver] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
 
   // edit state logic
@@ -91,26 +91,24 @@ const CreateMessageInput = () => {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const onDrag = useCallback(
-    (e: DragEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-      if (containsFiles(e)) {
-        setIsDragging(true);
-      }
-    },
-    [setIsDragging],
-  );
+  const onDrag = useCallback((e: DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (containsFiles(e)) {
+      setIsDragging(true);
+    }
+  }, []);
+
+  const onDragLeave = useCallback((e: DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  }, []);
 
   useGlobalDrop({
     onDragEnter: onDrag,
     onDragOver: onDrag,
-    onDragLeave: (e) => {
-      console.log('onDragLeave');
-      e.preventDefault();
-      e.stopPropagation();
-      setIsDragging(false);
-    },
+    onDragLeave,
   });
 
   useEffect(() => {
@@ -199,42 +197,12 @@ const CreateMessageInput = () => {
     updatedSelectedChat,
   ]);
 
-  const onDragOver = useCallback(
-    (e: React.DragEvent<HTMLDivElement>) => {
-      e.preventDefault();
-      e.stopPropagation();
-      if (containsFiles(e)) {
-        setIsDraggingOver(true);
-      }
-    },
-    [setIsDraggingOver],
-  );
-
-  const onDragEnter = useCallback(
-    (e: React.DragEvent<HTMLDivElement>) => {
-      e.preventDefault();
-      e.stopPropagation();
-      if (containsFiles(e)) {
-        setIsDraggingOver(true);
-      }
-    },
-    [setIsDraggingOver],
-  );
-
-  const onDragLeave = useCallback(
-    (e: React.DragEvent<HTMLDivElement>) => {
-      e.preventDefault();
-      e.stopPropagation();
-      setIsDraggingOver(false);
-    },
-    [setIsDraggingOver],
-  );
-
   const onDrop = useCallback(
     (e: React.DragEvent<HTMLDivElement>) => {
       e.preventDefault();
       e.stopPropagation();
-      setIsDraggingOver(false);
+      setIsDragging(false);
+      console.log('onDrop');
 
       if (e.dataTransfer?.files?.length > 0) {
         for (let index = 0; index < e.dataTransfer.files.length; index += 1) {
@@ -250,8 +218,13 @@ const CreateMessageInput = () => {
         }
       }
     },
-    [setIsDraggingOver, uploadAttachmentRequest],
+    [setIsDragging, uploadAttachmentRequest],
   );
+
+  const onDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+  }, []);
 
   const onPaste = useCallback(
     (event: React.ClipboardEvent<HTMLTextAreaElement>) => {
@@ -375,98 +348,102 @@ const CreateMessageInput = () => {
   );
 
   return (
-    <div
-      className="message-input"
-      onDrop={onDrop}
-      onDragOver={onDragOver}
-      onDragEnter={onDragEnter}
-      onDragLeave={onDragLeave}>
-      {((editingMessageAttachments && editingMessageAttachments?.length > 0) ||
-        (selectedChat?.attachmentsToSend && selectedChat?.attachmentsToSend?.length > 0)) && (
-        <div className="message-input__attachments-box">
-          <div className="message-input__attachments-box__container">
-            {editingMessageAttachments?.map((attachment) => (
-              <MessageInputAttachment
-                attachment={{ attachment } as IAttachmentToSend<IBaseAttachment>}
-                isFromEdit
-                removeSelectedAttachment={removeAttachment}
-                key={attachment.id}
-              />
-            ))}
-            {selectedChat?.attachmentsToSend?.map((attachment) => (
-              <MessageInputAttachment attachment={attachment} key={attachment.attachment.id} />
-            ))}
-          </div>
-          <button
-            onClick={removeAllAttachments}
-            type="button"
-            className="message-input__attachments-box__delete-all">
-            <CloseSvg viewBox="0 0 24 24" />
-          </button>
-        </div>
-      )}
-
-      {(isDragging || isDraggingOver) && (
-        <div
-          className={`message-input__drag ${isDraggingOver ? 'message-input__drag--active' : ''}`}>
-          Drop files here to send them
-        </div>
-      )}
-      {selectedChat && !(isDragging || isDraggingOver) && (
-        <>
-          {replyingMessage && <RespondingMessage />}
-          {editingMessage && <EditingMessage />}
-          {false && <MessageError />}
-          <div className="message-input__send-message">
-            {isRecording ? (
-              <RecordingMessage hide={handleRegisterAudioBtnClick} />
-            ) : (
-              <>
-                <input multiple hidden type="file" onChange={uploadFile} ref={fileInputRef} />
-                <button type="button" onClick={openSelectFiles} className="message-input__add">
-                  <AddSvg />
-                </button>
-                <div className="message-input__line" />
-              </>
-            )}
-
-            <ExpandingTextarea
-              value={text}
-              placeholder={t('messageInput.write')}
-              onChange={onType}
-              onPaste={onPaste}
-              className="mousetrap message-input__input-message"
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-            />
-
-            <div className="message-input__right-btns">
-              {!isRecording && (
-                <>
-                  <Suspense fallback={<CubeLoader />}>
-                    <MessageSmiles setText={setText} />
-                  </Suspense>
-
-                  <button
-                    type="button"
-                    onClick={handleRegisterAudioBtnClick}
-                    className="message-input__voice-btn">
-                    <VoiceSvg viewBox="0 0 20 24" />
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={sendMessageToServer}
-                    className="message-input__send-btn">
-                    <SendSvg />
-                  </button>
-                </>
-              )}
+    <>
+      {isDragging && (
+        <div className="message-input__drag">
+          <div className="message-input__drag__dashed">
+            <div className="message-input__drag__upload">
+              <div className="message-input__drag__icon-wrapper">
+                <UploadSvg className="message-input__drag__icon" />
+              </div>
+              <h3 className="message-input__drag__title">Drop to attach</h3>
+              <h4 className="message-input__drag__info">Maximum size: 10 MB</h4>
             </div>
           </div>
-        </>
+        </div>
       )}
-    </div>
+      <div onDrop={onDrop} onDragOver={onDragOver} className="message-input">
+        {((editingMessageAttachments && editingMessageAttachments?.length > 0) ||
+          (selectedChat?.attachmentsToSend && selectedChat?.attachmentsToSend?.length > 0)) && (
+          <div className="message-input__attachments-box">
+            <div className="message-input__attachments-box__container">
+              {editingMessageAttachments?.map((attachment) => (
+                <MessageInputAttachment
+                  attachment={{ attachment } as IAttachmentToSend<IBaseAttachment>}
+                  isFromEdit
+                  removeSelectedAttachment={removeAttachment}
+                  key={attachment.id}
+                />
+              ))}
+              {selectedChat?.attachmentsToSend?.map((attachment) => (
+                <MessageInputAttachment attachment={attachment} key={attachment.attachment.id} />
+              ))}
+            </div>
+            <button
+              onClick={removeAllAttachments}
+              type="button"
+              className="message-input__attachments-box__delete-all">
+              <CloseSvg viewBox="0 0 24 24" />
+            </button>
+          </div>
+        )}
+
+        {selectedChat && (
+          <>
+            {replyingMessage && <RespondingMessage />}
+            {editingMessage && <EditingMessage />}
+            {false && <MessageError />}
+            <div className="message-input__send-message">
+              {isRecording ? (
+                <RecordingMessage hide={handleRegisterAudioBtnClick} />
+              ) : (
+                <>
+                  <input multiple hidden type="file" onChange={uploadFile} ref={fileInputRef} />
+                  <button type="button" onClick={openSelectFiles} className="message-input__add">
+                    <AddSvg />
+                  </button>
+                  <div className="message-input__line" />
+                </>
+              )}
+
+              <ExpandingTextarea
+                value={text}
+                placeholder={t('messageInput.write')}
+                onChange={onType}
+                onPaste={onPaste}
+                className="mousetrap message-input__input-message"
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+              />
+
+              <div className="message-input__right-btns">
+                {!isRecording && (
+                  <>
+                    <Suspense fallback={<CubeLoader />}>
+                      <MessageSmiles setText={setText} />
+                    </Suspense>
+
+                    <button
+                      type="button"
+                      onClick={handleRegisterAudioBtnClick}
+                      className="message-input__voice-btn">
+                      <VoiceSvg viewBox="0 0 20 24" />
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={sendMessageToServer}
+                      className="message-input__send-btn">
+                      <SendSvg />
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+    </>
   );
 };
 

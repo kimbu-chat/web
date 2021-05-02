@@ -17,7 +17,7 @@ export class GetChatsSuccess {
       chatIds.forEach((chatId) => {
         if (!draft.messages[chatId]) {
           draft.messages[chatId] = {
-            messages: {},
+            messages: [],
             messageIds: [],
             hasMore: true,
             loading: false,

@@ -36,7 +36,7 @@ export const getSystemMessageData = <TSystemMessagePayload>(
   message: INormalizedMessage | IMessage,
 ): TSystemMessagePayload => JSON.parse(message.text);
 
-export const checkIfDatesAreDifferentDate = (startDate: Date, endDate: Date): boolean =>
+export const checkIfDatesAreSameDate = (startDate: Date, endDate: Date): boolean =>
   startDate.toDateString() !== endDate.toDateString();
 
 const getCallEndedMessage = (
@@ -265,6 +265,28 @@ export const createSystemMessage = (systemMessage: ISystemMessageBase): string =
 
 // export const signAndSeparate = (arr: INormalizedMessage[]): INormalizedMessage[] => {
 //   const signedMessages = arr.map((message, index) => {
+//     if (index < arr.length - 1) {
+//       if (
+//         checkIfDatesAreSameDate(
+//           moment
+//             .utc(arr[index + 1].creationDateTime || '')
+//             .local()
+//             .toDate(),
+//           moment
+//             .utc(message.creationDateTime || '')
+//             .local()
+//             .toDate(),
+//         )
+//       ) {
+//         return produce(message, (draft) => {
+//           draft.needToShowCreator = true;
+//           draft.needToShowDateSeparator = true;
+
+//           return draft;
+//         });
+//       }
+//     }
+
 //     if (
 //       index < arr.length - 1 &&
 //       (arr[index].userCreator?.id !== arr[index + 1].userCreator?.id ||

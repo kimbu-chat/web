@@ -57,268 +57,283 @@ import { MessageLink } from './message-link/message-link';
 interface IMessageItemProps {
   messageId: number;
   selectedChatId: number;
-  needToShowCreator?: boolean;
 }
 
-const MessageItem: React.FC<IMessageItemProps> = React.memo(
-  ({ messageId, selectedChatId, needToShowCreator }) => {
-    const isSelectState = useSelector(getIsSelectMessagesStateSelector);
-    const myId = useSelector(myIdSelector) as number;
-    const message = useSelector(getMessageSelector(selectedChatId, messageId));
-    const userCreator = useSelector(getUserSelector(message?.userCreator));
+const MessageItem: React.FC<IMessageItemProps> = React.memo(({ messageId, selectedChatId }) => {
+  const isSelectState = useSelector(getIsSelectMessagesStateSelector);
+  const myId = useSelector(myIdSelector) as number;
+  const message = useSelector(getMessageSelector(selectedChatId, messageId));
+  const userCreator = useSelector(getUserSelector(message?.userCreator));
 
-    const isCurrentUserMessageCreator = message?.userCreator === myId;
+  const isCurrentUserMessageCreator = message?.userCreator === myId;
 
-    const { t } = useTranslation();
+  const { t } = useTranslation();
 
-    const selectMessage = useActionWithDispatch(selectMessageAction);
+  const selectMessage = useActionWithDispatch(selectMessageAction);
 
-    const selectThisMessage = useCallback(
-      (event?: React.MouseEvent<HTMLButtonElement | HTMLDivElement, MouseEvent>) => {
-        event?.stopPropagation();
-        selectMessage({ messageId });
-      },
-      [messageId, selectMessage],
-    );
+  const selectThisMessage = useCallback(
+    (event?: React.MouseEvent<HTMLButtonElement | HTMLDivElement, MouseEvent>) => {
+      event?.stopPropagation();
+      selectMessage({ messageId });
+    },
+    [messageId, selectMessage],
+  );
 
-    const getMessageIcon = (): ReactElement => {
-      let icon;
+  const getMessageIcon = (): ReactElement => {
+    let icon;
 
-      switch (message?.state) {
-        case MessageState.READ:
-          icon = <MessageReadSvg className="message__state" />;
-          break;
-        case MessageState.QUEUED:
-          icon = <MessageQeuedSvg className="message__state" />;
-          break;
-        default:
-          icon = <MessageSentSvg className="message__state" />;
-      }
-
-      return icon;
-    };
-
-    const structuredAttachments = useMemo(
-      () =>
-        message?.attachments?.reduce(
-          (
-            accum: {
-              files: IBaseAttachment[];
-              media: (IVideoAttachment | IPictureAttachment)[];
-              audios: IAudioAttachment[];
-              recordings: IVoiceAttachment[];
-            },
-            currentAttachment,
-          ) => {
-            switch (currentAttachment.type) {
-              case FileType.Raw:
-                accum.files.push(currentAttachment);
-
-                break;
-              case FileType.Picture:
-                accum.media.push(currentAttachment as IPictureAttachment);
-
-                break;
-              case FileType.Video:
-                accum.media.push(currentAttachment as IVideoAttachment);
-
-                break;
-              case FileType.Audio:
-                accum.audios.push(currentAttachment as IAudioAttachment);
-
-                break;
-              case FileType.Voice:
-                accum.recordings.push(currentAttachment as IVoiceAttachment);
-
-                break;
-              default:
-                break;
-            }
-
-            return accum;
-          },
-          {
-            files: [],
-            media: [],
-            audios: [],
-            recordings: [],
-          },
-        ),
-      [message?.attachments],
-    );
-
-    if (message && message.systemMessageType !== SystemMessageType.None) {
-      const additionalData = getSystemMessageData<ICallMessage>(message);
-      const callStatus = additionalData?.status;
-      const isOutgoing = myId === additionalData?.userCallerId;
-
-      return (
-        <>
-          <div className="message__system-message">
-            <div
-              className={`message__system-message__content ${
-                callStatus === CallStatus.Ended && 'message__system-message__content--success-call'
-              } ${
-                (callStatus === CallStatus.Declined ||
-                  callStatus === CallStatus.NotAnswered ||
-                  callStatus === CallStatus.Interrupted) &&
-                'message__system-message__content--failure-call'
-              }`}>
-              {message?.systemMessageType === SystemMessageType.GroupChatMemberAdded && (
-                <AddUsersSvg className="message__system-message__icon" viewBox="0 0 18 18" />
-              )}
-              {message?.systemMessageType === SystemMessageType.GroupChatMemberRemoved && (
-                <LeaveSvg className="message__system-message__icon" viewBox="0 0 18 18" />
-              )}
-              {message?.systemMessageType === SystemMessageType.GroupChatCreated && (
-                <CreateChatSvg className="message__system-message__icon" viewBox="0 0 24 24" />
-              )}
-              {message?.systemMessageType === SystemMessageType.GroupChatNameChanged && (
-                <CrayonSvg className="message__system-message__icon" viewBox="0 0 16 16" />
-              )}
-              {message?.systemMessageType === SystemMessageType.GroupChatAvatarChanged && (
-                <PictureSvg className="message__system-message__icon" viewBox="0 0 18 19" />
-              )}
-
-              {(message?.systemMessageType === SystemMessageType.CallEnded &&
-                callStatus === CallStatus.Ended &&
-                (isOutgoing ? (
-                  <OutgoingCallSvg className="message__system-message__icon" viewBox="0 0 11 12" />
-                ) : (
-                  <IncomingCallSvg className="message__system-message__icon" viewBox="0 0 12 12" />
-                ))) ||
-                (callStatus === CallStatus.NotAnswered && (
-                  <MissedCallSvg className="message__system-message__icon" viewBox="0 0 12 12" />
-                )) ||
-                ((callStatus === CallStatus.Declined || callStatus === CallStatus.Interrupted) && (
-                  <DeclinedCallSvg className="message__system-message__icon" viewBox="0 0 13 14" />
-                ))}
-
-              <span>{constructSystemMessageText(message, t, myId, userCreator)}</span>
-            </div>
-          </div>
-        </>
-      );
+    switch (message?.state) {
+      case MessageState.READ:
+        icon = <MessageReadSvg className="message__state" />;
+        break;
+      case MessageState.QUEUED:
+        icon = <MessageQeuedSvg className="message__state" />;
+        break;
+      default:
+        icon = <MessageSentSvg className="message__state" />;
     }
+
+    return icon;
+  };
+
+  const structuredAttachments = useMemo(
+    () =>
+      message?.attachments?.reduce(
+        (
+          accum: {
+            files: IBaseAttachment[];
+            media: (IVideoAttachment | IPictureAttachment)[];
+            audios: IAudioAttachment[];
+            recordings: IVoiceAttachment[];
+          },
+          currentAttachment,
+        ) => {
+          switch (currentAttachment.type) {
+            case FileType.Raw:
+              accum.files.push(currentAttachment);
+
+              break;
+            case FileType.Picture:
+              accum.media.push(currentAttachment as IPictureAttachment);
+
+              break;
+            case FileType.Video:
+              accum.media.push(currentAttachment as IVideoAttachment);
+
+              break;
+            case FileType.Audio:
+              accum.audios.push(currentAttachment as IAudioAttachment);
+
+              break;
+            case FileType.Voice:
+              accum.recordings.push(currentAttachment as IVoiceAttachment);
+
+              break;
+            default:
+              break;
+          }
+
+          return accum;
+        },
+        {
+          files: [],
+          media: [],
+          audios: [],
+          recordings: [],
+        },
+      ),
+    [message?.attachments],
+  );
+
+  if (message && message.systemMessageType !== SystemMessageType.None) {
+    const additionalData = getSystemMessageData<ICallMessage>(message);
+    const callStatus = additionalData?.status;
+    const isOutgoing = myId === additionalData?.userCallerId;
 
     return (
       <>
-        <div
-          className={`message__container  ${
-            isCurrentUserMessageCreator
-              ? 'message__container--outgoing'
-              : 'message__container--incoming'
-          }`}
-          onClick={isSelectState ? selectThisMessage : undefined}
-          id={`message-${messageId}`}>
-          {needToShowCreator &&
-            (myId === message?.userCreator ? (
-              <p className="message__sender-name">{`${userCreator?.firstName} ${userCreator?.lastName}`}</p>
-            ) : (
-              <Link to={`/chats/${message?.userCreator}1`} className="message__sender-name">
-                {`${userCreator?.firstName} ${userCreator?.lastName}`}
-              </Link>
-            ))}
+        <div className="message__system-message">
+          <div
+            className={`message__system-message__content ${
+              callStatus === CallStatus.Ended && 'message__system-message__content--success-call'
+            } ${
+              (callStatus === CallStatus.Declined ||
+                callStatus === CallStatus.NotAnswered ||
+                callStatus === CallStatus.Interrupted) &&
+              'message__system-message__content--failure-call'
+            }`}>
+            {message?.systemMessageType === SystemMessageType.GroupChatMemberAdded && (
+              <AddUsersSvg className="message__system-message__icon" viewBox="0 0 18 18" />
+            )}
+            {message?.systemMessageType === SystemMessageType.GroupChatMemberRemoved && (
+              <LeaveSvg className="message__system-message__icon" viewBox="0 0 18 18" />
+            )}
+            {message?.systemMessageType === SystemMessageType.GroupChatCreated && (
+              <CreateChatSvg className="message__system-message__icon" viewBox="0 0 24 24" />
+            )}
+            {message?.systemMessageType === SystemMessageType.GroupChatNameChanged && (
+              <CrayonSvg className="message__system-message__icon" viewBox="0 0 16 16" />
+            )}
+            {message?.systemMessageType === SystemMessageType.GroupChatAvatarChanged && (
+              <PictureSvg className="message__system-message__icon" viewBox="0 0 18 19" />
+            )}
 
-          <div className={`message__item ${message?.isSelected ? 'message__item--selected' : ''}`}>
-            <button
-              type="button"
-              onClick={selectThisMessage}
-              className={`message__checkbox ${
-                message?.isSelected ? '' : 'message__checkbox--unselected'
-              }`}>
-              <SelectSvg />
-            </button>
+            {(message?.systemMessageType === SystemMessageType.CallEnded &&
+              callStatus === CallStatus.Ended &&
+              (isOutgoing ? (
+                <OutgoingCallSvg className="message__system-message__icon" viewBox="0 0 11 12" />
+              ) : (
+                <IncomingCallSvg className="message__system-message__icon" viewBox="0 0 12 12" />
+              ))) ||
+              (callStatus === CallStatus.NotAnswered && (
+                <MissedCallSvg className="message__system-message__icon" viewBox="0 0 12 12" />
+              )) ||
+              ((callStatus === CallStatus.Declined || callStatus === CallStatus.Interrupted) && (
+                <DeclinedCallSvg className="message__system-message__icon" viewBox="0 0 13 14" />
+              ))}
 
-            <div className="message__sender-photo-wrapper">
-              {needToShowCreator &&
-                (myId === message?.userCreator ? (
-                  <Avatar className="message__sender-photo " user={userCreator} />
-                ) : (
-                  <Link to={`/chats/${ChatId.from(message?.userCreator).id}`}>
-                    <Avatar className="message__sender-photo " user={userCreator} />
-                  </Link>
-                ))}
-            </div>
-
-            <div
-              className={`message__contents-wrapper ${
-                needToShowCreator ? '' : 'message__contents-wrapper--upcoming'
-              }`}>
-              <MessageItemActions
-                messageId={messageId}
-                isEditAllowed={
-                  isCurrentUserMessageCreator &&
-                  !(message?.linkedMessageType === MessageLinkType.Forward)
-                }
-              />
-
-              {message?.isEdited && <CrayonSvg className="message__edited" />}
-
-              {!(
-                ((message?.attachments?.length || 0) > 0 && message?.text) ||
-                message?.linkedMessageType ||
-                message?.text
-              ) && (
-                <div className="message__attachments">
-                  {structuredAttachments?.files.map((file) => (
-                    <FileAttachment key={file.id} {...file} />
-                  ))}
-
-                  {structuredAttachments?.recordings.map((recording) => (
-                    <RecordingAttachment key={recording.id} attachment={recording} />
-                  ))}
-
-                  {structuredAttachments?.audios.map((audio) => (
-                    <MessageAudioAttachment key={audio.id} {...audio} />
-                  ))}
-
-                  {structuredAttachments?.media && (
-                    <MediaGrid media={structuredAttachments.media} />
-                  )}
-                </div>
-              )}
-
-              {(((message?.attachments?.length || 0) > 0 && message?.text) ||
-                message?.linkedMessageType ||
-                message?.text) && (
-                <div className="message__content">
-                  {message?.linkedMessage && <MessageLink linkedMessage={message?.linkedMessage} />}
-
-                  {(message?.attachments?.length || 0) > 0 && (
-                    <div className="message__attachments">
-                      {structuredAttachments?.files.map((file) => (
-                        <FileAttachment key={file.id} {...file} />
-                      ))}
-
-                      {structuredAttachments?.recordings.map((recording) => (
-                        <RecordingAttachment key={recording.id} attachment={recording} />
-                      ))}
-
-                      {structuredAttachments?.audios.map((audio) => (
-                        <MessageAudioAttachment key={audio.id} {...audio} />
-                      ))}
-
-                      {structuredAttachments?.media && (
-                        <MediaGrid media={structuredAttachments.media} />
-                      )}
-                    </div>
-                  )}
-
-                  <span>{message?.text}</span>
-                </div>
-              )}
-            </div>
-            {isCurrentUserMessageCreator && getMessageIcon()}
-            <div className="message__time">
-              {moment.utc(message?.creationDateTime).local().format('LT')}
-            </div>
+            <span>{constructSystemMessageText(message, t, myId, userCreator)}</span>
           </div>
         </div>
+
+        {message?.needToShowDateSeparator && (
+          <div className="message__separator message__separator--date">
+            <span>
+              {moment
+                .utc(message?.creationDateTime)
+                .local()
+                .format('dddd, MMMM D, YYYY')
+                .toString()}
+            </span>
+          </div>
+        )}
       </>
     );
-  },
-);
+  }
+
+  return (
+    <>
+      <div
+        className={`message__container  ${
+          isCurrentUserMessageCreator
+            ? 'message__container--outgoing'
+            : 'message__container--incoming'
+        }`}
+        onClick={isSelectState ? selectThisMessage : undefined}
+        id={`message-${messageId}`}>
+        {message?.needToShowCreator &&
+          (myId === message?.userCreator ? (
+            <p className="message__sender-name">{`${userCreator?.firstName} ${userCreator?.lastName}`}</p>
+          ) : (
+            <Link to={`/chats/${message?.userCreator}1`} className="message__sender-name">
+              {`${userCreator?.firstName} ${userCreator?.lastName}`}
+            </Link>
+          ))}
+
+        <div className={`message__item ${message?.isSelected ? 'message__item--selected' : ''}`}>
+          <button
+            type="button"
+            onClick={selectThisMessage}
+            className={`message__checkbox ${
+              message?.isSelected ? '' : 'message__checkbox--unselected'
+            }`}>
+            <SelectSvg />
+          </button>
+
+          <div className="message__sender-photo-wrapper">
+            {message?.needToShowCreator &&
+              (myId === message?.userCreator ? (
+                <Avatar className="message__sender-photo " user={userCreator} />
+              ) : (
+                <Link to={`/chats/${ChatId.from(message?.userCreator).id}`}>
+                  <Avatar className="message__sender-photo " user={userCreator} />
+                </Link>
+              ))}
+          </div>
+
+          <div
+            className={`message__contents-wrapper ${
+              message?.needToShowCreator ? '' : 'message__contents-wrapper--upcoming'
+            }`}>
+            <MessageItemActions
+              messageId={messageId}
+              isEditAllowed={
+                isCurrentUserMessageCreator &&
+                !(message?.linkedMessageType === MessageLinkType.Forward)
+              }
+            />
+
+            {message?.isEdited && <CrayonSvg className="message__edited" />}
+
+            {!(
+              ((message?.attachments?.length || 0) > 0 && message?.text) ||
+              message?.linkedMessageType ||
+              message?.text
+            ) && (
+              <div className="message__attachments">
+                {structuredAttachments?.files.map((file) => (
+                  <FileAttachment key={file.id} {...file} />
+                ))}
+
+                {structuredAttachments?.recordings.map((recording) => (
+                  <RecordingAttachment key={recording.id} attachment={recording} />
+                ))}
+
+                {structuredAttachments?.audios.map((audio) => (
+                  <MessageAudioAttachment key={audio.id} {...audio} />
+                ))}
+
+                {structuredAttachments?.media && <MediaGrid media={structuredAttachments.media} />}
+              </div>
+            )}
+
+            {(((message?.attachments?.length || 0) > 0 && message?.text) ||
+              message?.linkedMessageType ||
+              message?.text) && (
+              <div className="message__content">
+                {message?.linkedMessage && <MessageLink linkedMessage={message?.linkedMessage} />}
+
+                {(message?.attachments?.length || 0) > 0 && (
+                  <div className="message__attachments">
+                    {structuredAttachments?.files.map((file) => (
+                      <FileAttachment key={file.id} {...file} />
+                    ))}
+
+                    {structuredAttachments?.recordings.map((recording) => (
+                      <RecordingAttachment key={recording.id} attachment={recording} />
+                    ))}
+
+                    {structuredAttachments?.audios.map((audio) => (
+                      <MessageAudioAttachment key={audio.id} {...audio} />
+                    ))}
+
+                    {structuredAttachments?.media && (
+                      <MediaGrid media={structuredAttachments.media} />
+                    )}
+                  </div>
+                )}
+
+                <span>{message?.text}</span>
+              </div>
+            )}
+          </div>
+          {isCurrentUserMessageCreator && getMessageIcon()}
+          <div className="message__time">
+            {moment.utc(message?.creationDateTime).local().format('LT')}
+          </div>
+        </div>
+      </div>
+
+      {message?.needToShowDateSeparator && (
+        <div className="message__separator message__separator--date">
+          <span>
+            {moment.utc(message?.creationDateTime).local().format('dddd, MMMM D, YYYY').toString()}
+          </span>
+        </div>
+      )}
+    </>
+  );
+});
 
 MessageItem.displayName = 'MessageItem';
 

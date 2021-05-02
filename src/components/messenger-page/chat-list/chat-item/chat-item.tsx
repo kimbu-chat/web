@@ -25,7 +25,7 @@ import { ReactComponent as MessageErrorSvg } from '@icons/message-error.svg';
 
 import { getTypingStringSelector, getChatSelector } from '@store/chats/selectors';
 import { getChatInterlocutor } from '@utils/user-utils';
-import { constructSystemMessageText, checkIfDatesAreDifferentDate } from '@utils/message-utils';
+import { constructSystemMessageText, checkIfDatesAreSameDate } from '@utils/message-utils';
 import { getUserSelector } from '@store/users/selectors';
 
 interface IChatItemProps {
@@ -160,7 +160,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
               messageStatIconMap[chat.lastMessage.state]}
           </div>
           <div className="chat-item__time">
-            {checkIfDatesAreDifferentDate(
+            {checkIfDatesAreSameDate(
               new Date(existedChat.lastMessage?.creationDateTime as Date),
               new Date(),
             )

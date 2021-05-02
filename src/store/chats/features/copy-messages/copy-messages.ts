@@ -3,7 +3,7 @@ import { SagaIterator } from 'redux-saga';
 import { select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { IMessage } from '../../models';
-import { getSelectedChatMessageIdsSelector } from '../../selectors';
+import { getSelectedChatMessagesSelector } from '../../selectors';
 import { ICopyMessagesActionPayload } from './action-payloads/copy-messages-action-payload';
 
 export class CopyMessages {
@@ -13,7 +13,7 @@ export class CopyMessages {
 
   static get saga() {
     return function* copyMessages(action: ReturnType<typeof CopyMessages.action>): SagaIterator {
-      const messages: IMessage[] = yield select(getSelectedChatMessageIdsSelector);
+      const messages: IMessage[] = yield select(getSelectedChatMessagesSelector);
 
       const content = messages.reduce((accum: string, current) => {
         if (action.payload.messageIds.includes(current.id)) {

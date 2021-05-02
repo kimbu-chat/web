@@ -11,17 +11,13 @@ import {
   getHasMoreMessagesMessagesSelector,
   getSelectedChatIdSelector,
   getSelectedChatUnreadMessagesCountSelector,
-  getSelectedChatMessagesSelector,
 } from '@store/chats/selectors';
 import { InfiniteScroll, SelectedMessagesData, MessageItem } from '@components/messenger-page';
 import { FadeAnimationWrapper } from '@components/shared';
 
 import { MESSAGES_LIMIT } from '@utils/pagination-limits';
-import { SystemMessageType } from '@store/chats/models';
 
 import { getMessagesAction, markMessagesAsReadAction } from '@store/chats/actions';
-import { checkIfDatesAreDifferentDate } from '@utils/message-utils';
-import moment from 'moment';
 
 const MessageList = () => {
   const getMessages = useActionWithDispatch(getMessagesAction);
@@ -33,7 +29,6 @@ const MessageList = () => {
   const unreadMessagesCount = useSelector(getSelectedChatUnreadMessagesCountSelector);
   const isSelectState = useSelector(getIsSelectMessagesStateSelector);
   const messagesIds = useSelector(getMessagesIdsByChatIdSelector);
-  const messages = useSelector(getSelectedChatMessagesSelector);
   const areMessagesLoading = useSelector(getMessagesLoadingSelector);
   const hasMoreMessages = useSelector(getHasMoreMessagesMessagesSelector);
 
@@ -80,58 +75,9 @@ const MessageList = () => {
           hasMore={hasMoreMessages}
           isLoading={areMessagesLoading}
           isReverse>
-          {messagesIds
-            ?.reduce(
-              (accumulator: number[][], currentMessageId, index) => {
-                if (
-                  index > 0 &&
-                  checkIfDatesAreDifferentDate(
-                    moment
-                      .utc((messages && messages[messagesIds[index - 1]]?.creationDateTime) || '')
-                      .local()
-                      .toDate(),
-                    moment
-                      .utc((messages && messages[currentMessageId]?.creationDateTime) || '')
-                      .local()
-                      .toDate(),
-                  )
-                ) {
-                  accumulator.push([]);
-                }
-
-                accumulator[accumulator.length - 1].push(currentMessageId);
-
-                return accumulator;
-              },
-              [[]] as number[][],
-            )
-            .map((separatedMessages) => (
-              <div key={separatedMessages[0]} className="chat__messages-group">
-                {separatedMessages.map((messageId, index) => (
-                  <MessageItem
-                    selectedChatId={selectedChatId}
-                    messageId={messageId}
-                    key={messageId}
-                    needToShowCreator={
-                      messages &&
-                      (messages[messageId]?.userCreator !==
-                        messages[separatedMessages[index + 1]]?.userCreator ||
-                        messages[separatedMessages[index + 1]]?.systemMessageType !==
-                          SystemMessageType.None)
-                    }
-                  />
-                ))}
-                <div className="message__separator">
-                  <span>
-                    {moment
-                      .utc((messages && messages[separatedMessages[0]]?.creationDateTime) || '')
-                      .local()
-                      .format('dddd, MMMM D, YYYY')
-                      .toString()}
-                  </span>
-                </div>
-              </div>
-            ))}
+          {messagesIds?.map((messageId) => (
+            <MessageItem selectedChatId={selectedChatId} messageId={messageId} key={messageId} />
+          ))}
         </InfiniteScroll>
       </div>
     </div>

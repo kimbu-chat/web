@@ -23,13 +23,7 @@ import { ChatInfoBtn } from './chat-info-btn/chat-info-btn';
 export const ChatTopBar = () => {
   const { t } = useTranslation();
 
-  const selectedChat = useSelector(
-    getSelectedChatSelector,
-    (oldChat, newChat) =>
-      oldChat === newChat ||
-      oldChat?.draftMessage !== newChat?.draftMessage ||
-      oldChat?.lastMessage !== newChat?.lastMessage,
-  );
+  const selectedChat = useSelector(getSelectedChatSelector);
   const interlocutor = useSelector(getUserSelector(selectedChat?.interlocutor));
 
   const callInterlocutor = useActionWithDispatch(outgoingCallAction);

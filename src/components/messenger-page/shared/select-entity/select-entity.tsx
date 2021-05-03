@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 
-import { Avatar, StatusBadge, TimeUpdateable } from '@components/shared';
+import { Avatar, TimeUpdateable } from '@components/shared';
 import { getUserName } from '@utils/user-utils';
 import { ReactComponent as SelectedSvg } from '@icons/checked.svg';
 import { IChat } from '@store/chats/models';
@@ -50,18 +50,9 @@ export const SelectEntity: React.FC<ISelectEntityProps> = ({
 
   return (
     <div onClick={onClickOnThisContact} className="select-entity__friend">
-      {groupChat && (
-        <div className="select-entity__avatar-container">
-          <Avatar className="select-entity__avatar" groupChat={groupChat} />
-        </div>
-      )}
-      {interlocutor && (
-        <StatusBadge
-          containerClassName="select-entity__avatar-container"
-          additionalClassNames="select-entity__avatar"
-          user={interlocutor}
-        />
-      )}
+      <div className="select-entity__avatar-container">
+        <Avatar className="select-entity__avatar" user={interlocutor} groupChat={groupChat} />
+      </div>
 
       <div className="select-entity__friend-data">
         <div className="select-entity__friend-name">

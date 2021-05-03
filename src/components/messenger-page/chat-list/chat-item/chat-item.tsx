@@ -12,7 +12,7 @@ import {
   INormalizedMessage,
 } from '@store/chats/models';
 
-import { StatusBadge, Avatar } from '@components/shared';
+import { Avatar } from '@components/shared';
 
 import { useTranslation } from 'react-i18next';
 import { myIdSelector } from '@store/my-profile/selectors';
@@ -135,11 +135,9 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
       className="chat-item"
       activeClassName="chat-item chat-item--active">
       {interlocutor && (
-        <StatusBadge
-          containerClassName="chat-item__avatar-container"
-          additionalClassNames="chat-item__avatar"
-          user={interlocutor}
-        />
+        <div className="chat-item__avatar-container">
+          <Avatar className="chat-item__avatar" user={interlocutor} statusBadge />
+        </div>
       )}
 
       {chat.groupChat && (

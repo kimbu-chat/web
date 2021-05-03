@@ -7,8 +7,7 @@ import './chat-top-bar.scss';
 import { useTranslation } from 'react-i18next';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { outgoingCallAction } from '@store/calls/actions';
-import { IUser } from '@store/common/models';
-import { Avatar, StatusBadge, TimeUpdateable } from '@components/shared';
+import { Avatar, TimeUpdateable } from '@components/shared';
 
 import { ReactComponent as VoiceCallSvg } from '@icons/audio-call.svg';
 import { ReactComponent as VideoCallSvg } from '@icons/video-call.svg';
@@ -70,19 +69,13 @@ export const ChatTopBar = () => {
     return (
       <div className="chat-data__chat-data">
         <button type="button" onClick={openCloseChatInfo} className="chat-data__contact-data">
-          {interlocutor && (
-            <StatusBadge
-              containerClassName="chat-data__contact-img-container"
-              additionalClassNames="chat-data__contact-img"
+          <div className="chat-data__contact-img-container">
+            <Avatar
+              className="chat-data__contact-img"
               user={interlocutor}
+              groupChat={selectedChat.groupChat}
             />
-          )}
-
-          {selectedChat.groupChat && (
-            <div className="chat-data__contact-img-container">
-              <Avatar className="chat-data__contact-img" groupChat={selectedChat.groupChat} />
-            </div>
-          )}
+          </div>
 
           <div className="chat-data__chat-info">
             <h1 className="chat-data__chat-info__title">

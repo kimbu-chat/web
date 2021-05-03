@@ -7,6 +7,7 @@ import { ICountry } from '@common/country';
 import { useTranslation } from 'react-i18next';
 import { removeCountryCodeFromPhoneNumber } from '@utils/phone-number-utils';
 import noop from 'lodash/noop';
+import { ErrorTooltip } from '@components/shared/error-tooltip/error-tooltip';
 
 interface IPhoneInputProps {
   country: ICountry;
@@ -15,11 +16,20 @@ interface IPhoneInputProps {
   displayCountries: () => void;
   submitFunction?: () => void;
   icon?: JSX.Element;
+  errorText?: string | null;
 }
 
 export const PhoneInput = React.forwardRef(
   (
-    { country, phone, setPhone, displayCountries, submitFunction = noop, icon }: IPhoneInputProps,
+    {
+      country,
+      phone,
+      setPhone,
+      displayCountries,
+      submitFunction = noop,
+      icon,
+      errorText,
+    }: IPhoneInputProps,
     ref: React.Ref<HTMLInputElement>,
   ) => {
     const { t } = useTranslation();
@@ -48,6 +58,7 @@ export const PhoneInput = React.forwardRef(
         />
         <div className="phone-input__bg" />
         <div className="phone-input__icon-holder">{icon}</div>
+        {errorText && <ErrorTooltip>{errorText}</ErrorTooltip>}
       </div>
     );
   },

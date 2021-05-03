@@ -1,0 +1,43 @@
+.error-tooltip {
+  background: #c74848;
+  border-radius: 10px;
+  left: 0;
+  padding: 6px 16px;
+  position: relative;
+  position: absolute;
+  bottom: -5px;
+  transition: all 0.2s;
+  transform: translateY(100%);
+
+  &__content {
+    display: flex;
+    align-items: center;
+    &__icon {
+      height: 12px;
+      width: 12px;
+      color: white;
+    }
+
+    &__text {
+      margin-left: 4px;
+      color: #fff;
+      font-weight: 300;
+      font-size: 12px;
+      line-height: 14px;
+      white-space: nowrap;
+      z-index: 20;
+    }
+  }
+
+  &__indicator {
+    background: #c74848;
+    border-radius: 4px;
+    top: 5px;
+    height: 20px;
+    left: 7%;
+    position: absolute;
+    transform: rotate(45deg) translateX(-50%);
+    width: 20px;
+    z-index: -1;
+  }
+}

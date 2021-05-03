@@ -255,7 +255,9 @@
     "change": "Change",
     "confirm": "Confirm",
     "details": "You can resend the code in {{time}}",
-    "enter-numbers": "Enter numbers"
+    "enter-numbers": "Enter numbers",
+    "user-exists": "User with such a phone number exists",
+    "wrong-code": "Provided code is wrong"
   },
   "deactivateAccountModal": {
     "title": "Deactivate account",

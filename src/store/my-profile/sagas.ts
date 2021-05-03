@@ -8,6 +8,8 @@ import { UploadAvatar } from './features/upload-avatar/upload-avatar';
 import { GetMyProfileSuccess } from './features/get-my-profile/get-my-profile-success';
 import { DeactivateAccount } from './features/deactivate-account/deactivate-acccount';
 import { DeleteAccount } from './features/delete-account/delete-account';
+import { SendSmsChangePhone } from './features/send-sms-change-phone/send-sms-change-phone';
+import { ConfirmChangePhone } from './features/confirm-change-phone/confirm-change-phone';
 
 export const MyProfileSagas = [
   spawn(GetMyProfile.saga),
@@ -20,4 +22,6 @@ export const MyProfileSagas = [
   takeEvery(CancelAvatarUploading.action, CancelAvatarUploading.saga),
   takeLatest(DeactivateAccount.action, DeactivateAccount.saga),
   takeEvery(DeleteAccount.action, DeleteAccount.saga),
+  takeLatest(SendSmsChangePhone.action, SendSmsChangePhone.saga),
+  takeLatest(ConfirmChangePhone.action, ConfirmChangePhone.saga),
 ];

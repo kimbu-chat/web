@@ -52,26 +52,4 @@
     position: absolute;
     top: -13px;
   }
-
-  &__error {
-    align-items: center;
-    bottom: -28px;
-    display: flex;
-    margin-left: 16px;
-    position: absolute;
-
-    &__icon {
-      color: #c74848;
-      height: 24px;
-      margin-right: 3px;
-      width: 24px;
-    }
-
-    &__text {
-      color: #c74848;
-      font-size: 14px;
-      font-weight: 300;
-      line-height: 17px;
-    }
-  }
 }

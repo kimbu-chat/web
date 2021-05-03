@@ -49,10 +49,11 @@ import {
 } from '@utils/message-utils';
 import { selectMessageAction } from '@store/chats/actions';
 import { getUserSelector } from '@store/users/selectors';
+import { getUserName } from '@utils/user-utils';
 import { MediaGrid } from './attachments/media-grid/media-grid';
 import { RecordingAttachment } from './attachments/recording-attachment/recording-attachment';
 import { MessageItemActions } from './message-item-actions/message-item-actions';
-import { MessageLink } from './message-link/message-link';
+import { RepliedMessage } from './replied-message/replied-message';
 
 interface IMessageItemProps {
   messageId: number;
@@ -66,6 +67,12 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
     const myId = useSelector(myIdSelector) as number;
     const message = useSelector(getMessageSelector(selectedChatId, messageId));
     const userCreator = useSelector(getUserSelector(message?.userCreator));
+    const linkedMessageUserCreator = useSelector(
+      getUserSelector(message?.linkedMessage?.userCreator),
+    );
+
+    const messageToProcess =
+      message?.linkedMessageType === MessageLinkType.Forward ? message?.linkedMessage : message;
 
     const isCurrentUserMessageCreator = message?.userCreator === myId;
 
@@ -100,7 +107,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
 
     const structuredAttachments = useMemo(
       () =>
-        message?.attachments?.reduce(
+        messageToProcess?.attachments?.reduce(
           (
             accum: {
               files: IBaseAttachment[];
@@ -144,7 +151,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
             recordings: [],
           },
         ),
-      [message?.attachments],
+      [messageToProcess?.attachments],
     );
 
     if (message && message.systemMessageType !== SystemMessageType.None) {
@@ -213,10 +220,10 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
           id={`message-${messageId}`}>
           {needToShowCreator &&
             (myId === message?.userCreator ? (
-              <p className="message__sender-name">{`${userCreator?.firstName} ${userCreator?.lastName}`}</p>
+              <p className="message__sender-name">{userCreator && getUserName(userCreator, t)}</p>
             ) : (
               <Link to={`/chats/${message?.userCreator}1`} className="message__sender-name">
-                {`${userCreator?.firstName} ${userCreator?.lastName}`}
+                {userCreator && getUserName(userCreator, t)}
               </Link>
             ))}
 
@@ -253,11 +260,11 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                 }
               />
 
-              {message?.isEdited && <CrayonSvg className="message__edited" />}
+              {messageToProcess?.isEdited && <CrayonSvg className="message__edited" />}
 
               {!(
                 ((message?.attachments?.length || 0) > 0 && message?.text) ||
-                message?.linkedMessageType ||
+                message?.linkedMessageType === MessageLinkType.Forward ||
                 message?.text
               ) && (
                 <div className="message__attachments">
@@ -279,13 +286,28 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                 </div>
               )}
 
-              {(((message?.attachments?.length || 0) > 0 && message?.text) ||
-                message?.linkedMessageType ||
+              {(((messageToProcess?.attachments?.length || 0) > 0 && message?.text) ||
+                message?.linkedMessageType === MessageLinkType.Forward ||
                 message?.text) && (
                 <div className="message__content">
-                  {message?.linkedMessage && <MessageLink linkedMessage={message?.linkedMessage} />}
+                  {message &&
+                    message.linkedMessage &&
+                    message.linkedMessageType === MessageLinkType.Reply && (
+                      <RepliedMessage linkedMessage={message.linkedMessage} />
+                    )}
 
-                  {(message?.attachments?.length || 0) > 0 && (
+                  {message &&
+                    message.linkedMessage &&
+                    message.linkedMessageType === MessageLinkType.Forward && (
+                      <div className="message__forward-indicator">
+                        {t('messageItem.forward-indicator', {
+                          fullName:
+                            linkedMessageUserCreator && getUserName(linkedMessageUserCreator, t),
+                        })}
+                      </div>
+                    )}
+
+                  {(messageToProcess?.attachments?.length || 0) > 0 && (
                     <div className="message__attachments">
                       {structuredAttachments?.files.map((file) => (
                         <FileAttachment key={file.id} {...file} />
@@ -305,7 +327,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                     </div>
                   )}
 
-                  <span>{message?.text}</span>
+                  <span>{messageToProcess?.text}</span>
                 </div>
               )}
             </div>

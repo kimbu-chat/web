@@ -1,4 +1,6 @@
 .message {
+  $this: &;
+
   &__edited {
     color: var(--dt-white-wt-kingBlue);
     position: absolute;
@@ -6,6 +8,15 @@
     top: 0;
     transform: translate(-27%, -47%);
     z-index: 5;
+  }
+
+  &__forward-indicator {
+    margin-left: -2px;
+    font-weight: 300;
+    font-size: 10px;
+    line-height: 12px;
+    margin-bottom: 10px;
+    color: #fff;
   }
 
   &__container {
@@ -23,10 +34,18 @@
 
     &--incoming {
       color: var(--dt-kingBlue-wt-grayLight);
+
+      #{$this}__forward-indicator {
+        color: var(--dt-white-wt-kingBlue);
+      }
     }
 
     &--outgoing {
       color: var(--msg-bg-dt-gray-lt-kingBlueLight);
+
+      #{$this}__forward-indicator {
+        color: white;
+      }
     }
   }
 

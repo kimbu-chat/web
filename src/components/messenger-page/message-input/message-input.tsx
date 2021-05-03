@@ -381,31 +381,6 @@ const CreateMessageInput = () => {
       onDragOver={onDragOver}
       onDragEnter={onDragEnter}
       onDragLeave={onDragLeave}>
-      {((editingMessageAttachments && editingMessageAttachments?.length > 0) ||
-        (selectedChat?.attachmentsToSend && selectedChat?.attachmentsToSend?.length > 0)) && (
-        <div className="message-input__attachments-box">
-          <div className="message-input__attachments-box__container">
-            {editingMessageAttachments?.map((attachment) => (
-              <MessageInputAttachment
-                attachment={{ attachment } as IAttachmentToSend<IBaseAttachment>}
-                isFromEdit
-                removeSelectedAttachment={removeAttachment}
-                key={attachment.id}
-              />
-            ))}
-            {selectedChat?.attachmentsToSend?.map((attachment) => (
-              <MessageInputAttachment attachment={attachment} key={attachment.attachment.id} />
-            ))}
-          </div>
-          <button
-            onClick={removeAllAttachments}
-            type="button"
-            className="message-input__attachments-box__delete-all">
-            <CloseSvg viewBox="0 0 24 24" />
-          </button>
-        </div>
-      )}
-
       {(isDragging || isDraggingOver) && (
         <div
           className={`message-input__drag ${isDraggingOver ? 'message-input__drag--active' : ''}`}>
@@ -416,6 +391,30 @@ const CreateMessageInput = () => {
         <>
           {replyingMessage && <RespondingMessage />}
           {editingMessage && <EditingMessage />}
+          {((editingMessageAttachments && editingMessageAttachments?.length > 0) ||
+            (selectedChat?.attachmentsToSend && selectedChat?.attachmentsToSend?.length > 0)) && (
+            <div className="message-input__attachments-box">
+              <div className="message-input__attachments-box__container">
+                {editingMessageAttachments?.map((attachment) => (
+                  <MessageInputAttachment
+                    attachment={{ attachment } as IAttachmentToSend<IBaseAttachment>}
+                    isFromEdit
+                    removeSelectedAttachment={removeAttachment}
+                    key={attachment.id}
+                  />
+                ))}
+                {selectedChat?.attachmentsToSend?.map((attachment) => (
+                  <MessageInputAttachment attachment={attachment} key={attachment.attachment.id} />
+                ))}
+              </div>
+              <button
+                onClick={removeAllAttachments}
+                type="button"
+                className="message-input__attachments-box__delete-all">
+                <CloseSvg viewBox="0 0 24 24" />
+              </button>
+            </div>
+          )}
           {false && <MessageError />}
           <div className="message-input__send-message">
             {isRecording ? (

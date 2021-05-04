@@ -25,7 +25,8 @@ import { ReactComponent as MessageErrorSvg } from '@icons/message-error.svg';
 
 import { getTypingStringSelector, getChatSelector } from '@store/chats/selectors';
 import { getChatInterlocutor } from '@utils/user-utils';
-import { constructSystemMessageText, checkIfDatesAreDifferentDate } from '@utils/message-utils';
+import { constructSystemMessageText } from '@utils/message-utils';
+import { checkIfDatesAreDifferentDate } from '@utils/date-utils';
 import { getUserSelector } from '@store/users/selectors';
 
 interface IChatItemProps {

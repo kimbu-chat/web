@@ -20,7 +20,7 @@ import { MESSAGES_LIMIT } from '@utils/pagination-limits';
 import { SystemMessageType } from '@store/chats/models';
 
 import { getMessagesAction, markMessagesAsReadAction } from '@store/chats/actions';
-import { checkIfDatesAreDifferentDate } from '@utils/message-utils';
+import { checkIfDatesAreDifferentDate } from '@utils/date-utils';
 import moment from 'moment';
 
 const MessageList = () => {
@@ -86,14 +86,8 @@ const MessageList = () => {
                 if (
                   index > 0 &&
                   checkIfDatesAreDifferentDate(
-                    moment
-                      .utc((messages && messages[messagesIds[index - 1]]?.creationDateTime) || '')
-                      .local()
-                      .toDate(),
-                    moment
-                      .utc((messages && messages[currentMessageId]?.creationDateTime) || '')
-                      .local()
-                      .toDate(),
+                    (messages && messages[messagesIds[index - 1]]?.creationDateTime) || '',
+                    (messages && messages[currentMessageId]?.creationDateTime) || '',
                   )
                 ) {
                   accumulator.push([]);

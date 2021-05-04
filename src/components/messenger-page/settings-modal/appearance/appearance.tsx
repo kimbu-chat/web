@@ -30,9 +30,13 @@ export const Appearance: React.FC = () => {
       <h3 className="appearance__title">{t('appearance.title')}</h3>
       <h3 className="appearance__theme">{t('appearance.choose-theme')}</h3>
       <div className="appearance__theme-box">
-        {[1, 2, 3, 4, 5].map((messageId) => (
+        {[-1, -2, -3, -4, -5, -6, -7, -8, -9].map((messageId) => (
           <div key={messageId} className="appearance__theme-box__msg-wrapper">
-            <MessageItem selectedChatId={5} messageId={messageId} />
+            <MessageItem
+              needToShowCreator={messageId === -1}
+              selectedChatId={-1}
+              messageId={messageId}
+            />
           </div>
         ))}
       </div>

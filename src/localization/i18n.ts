@@ -3,12 +3,15 @@ import { initReactI18next } from 'react-i18next';
 import moment from 'moment';
 import { SettingsService } from '@services/settings-service';
 import HttpApi from 'i18next-http-backend';
-import 'moment/locale/ru';
 
 // todo: load only needed local at runtime
 
-i18n.on('languageChanged', (lng: string) => {
-  moment.locale(lng);
+i18n.on('languageChanged', (lang: string) => {
+  if (lang !== 'en') {
+    import(`moment/locale/${lang}.js`).then(() => {
+      moment.locale(lang);
+    });
+  }
 });
 
 i18n

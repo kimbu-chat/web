@@ -36,9 +36,6 @@ export const getSystemMessageData = <TSystemMessagePayload>(
   message: INormalizedMessage | IMessage,
 ): TSystemMessagePayload => JSON.parse(message.text);
 
-export const checkIfDatesAreDifferentDate = (startDate: Date, endDate: Date): boolean =>
-  startDate.toDateString() !== endDate.toDateString();
-
 const getCallEndedMessage = (
   message: INormalizedMessage,
   callMessage: ICallMessage,

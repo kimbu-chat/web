@@ -257,7 +257,9 @@
     "details": "You can resend the code in {{time}}",
     "enter-numbers": "Enter numbers",
     "user-exists": "User with such a phone number exists",
-    "wrong-code": "Provided code is wrong"
+    "wrong-code": "Provided code is wrong",
+    "resend": "Resend code",
+    "something-wrong": "Something went wrong, please try again later"
   },
   "deactivateAccountModal": {
     "title": "Deactivate account",

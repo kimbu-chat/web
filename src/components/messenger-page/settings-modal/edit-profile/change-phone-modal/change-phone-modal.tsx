@@ -32,6 +32,7 @@ const ChangePhoneModal: React.FC<IChangePhoneModalProps> = ({ onClose }) => {
   const [error, setError] = useState<string | null>(null);
   const [submited, setSubmited] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [resendLoading, setResendLoading] = useState(false);
   const [remainedTime, setRemainedTime] = useState(60);
 
   useInterval(() => {
@@ -62,12 +63,30 @@ const ChangePhoneModal: React.FC<IChangePhoneModalProps> = ({ onClose }) => {
             })
             .catch(() => {
               setLoading(false);
-              setError('changePhoneModal.user-exists');
+              setError('changePhoneModal.something-wrong');
             });
         }
       });
     }
   }, [phone, getUserByPhone, sendSms]);
+
+  const reSendCode = useCallback(() => {
+    setResendLoading(true);
+    const phoneNumber = parsePhoneNumberFromString(phone);
+    if (phoneNumber?.number) {
+      sendSms({ phone: phoneNumber.number as string })
+        .then(() => {
+          setResendLoading(false);
+          setSubmited(true);
+          setRemainedTime(60);
+          setError(null);
+        })
+        .catch(() => {
+          setResendLoading(false);
+          setError('changePhoneModal.something-wrong');
+        });
+    }
+  }, [phone, sendSms]);
 
   const confirm = useCallback(() => {
     setLoading(true);
@@ -133,11 +152,21 @@ const ChangePhoneModal: React.FC<IChangePhoneModalProps> = ({ onClose }) => {
                   errorText={error && t(error)}
                 />
 
-                <span className={classNames(`${BLOCK_NAME}__details`)}>
-                  {t('changePhoneModal.details', {
-                    time: moment.utc(remainedTime * 1000).format('mm:ss'),
-                  })}
-                </span>
+                {remainedTime === 0 ? (
+                  <Button
+                    onClick={reSendCode}
+                    themed
+                    loading={resendLoading}
+                    className={classNames(`${BLOCK_NAME}__resend`)}>
+                    {t('changePhoneModal.resend')}
+                  </Button>
+                ) : (
+                  <span className={classNames(`${BLOCK_NAME}__details`)}>
+                    {t('changePhoneModal.details', {
+                      time: moment.utc(remainedTime * 1000).format('mm:ss'),
+                    })}
+                  </span>
+                )}
               </>
             )}
           </div>

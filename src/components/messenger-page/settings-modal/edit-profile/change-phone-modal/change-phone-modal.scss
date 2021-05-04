@@ -54,6 +54,18 @@
     margin-top: 16px;
   }
 
+  &__resend {
+    color: var(--dt-white-wt-dark);
+    display: block;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 14px;
+    margin-bottom: -37px;
+    margin-top: 16px;
+    display: flex;
+    cursor: pointer;
+  }
+
   &__back-icon {
     svg {
       color: var(--dt-white-wt-kingBlue);

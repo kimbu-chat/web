@@ -106,7 +106,7 @@ const MessageList = () => {
               [[]] as number[][],
             )
             .map((separatedMessages) => (
-              <div key={separatedMessages[0]} className="chat__messages-group">
+              <div key={`${separatedMessages[0]}group`} className="chat__messages-group">
                 {separatedMessages.map((messageId, index) => (
                   <MessageItem
                     selectedChatId={selectedChatId}

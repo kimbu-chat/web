@@ -26,7 +26,7 @@ export class GetMyProfileSuccess {
       action: ReturnType<typeof GetMyProfileSuccess.action>,
     ): SagaIterator {
       const myProfileService = new MyProfileService();
-      yield apply(myProfileService, myProfileService.setMyProfile, [action.payload.user])
+      yield apply(myProfileService, myProfileService.setMyProfile, [action.payload.user]);
     };
   }
 }

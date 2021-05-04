@@ -42,6 +42,9 @@
     "user-deactivated": "You cannot send messages to deactivated user",
     "user-deleted": "You cannot send messages to deleted user"
   },
+  "messageItem": {
+    "forward-indicator": "Forwarding message from {{fullName}}"
+  },
   "chatData": {
     "members": "members",
     "online": "Online",
@@ -333,7 +336,7 @@
     "title": "Clear chat",
     "clear-confirmation": "Clear for everybody"
   },
-  "message-link": {
+  "repliedMessage": {
     "message-deleted": "Message deleted"
   },
   "addFriend": {

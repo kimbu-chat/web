@@ -43,7 +43,7 @@
     "user-deleted": "You cannot send messages to deleted user"
   },
   "messageItem": {
-    "forward-indicator": "Forwarding message from {{fullName}}"
+    "forward-indicator": "Forwarding message from "
   },
   "chatData": {
     "members": "members",

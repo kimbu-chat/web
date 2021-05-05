@@ -300,10 +300,10 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                     message.linkedMessage &&
                     message.linkedMessageType === MessageLinkType.Forward && (
                       <div className="message__forward-indicator">
-                        {t('messageItem.forward-indicator', {
-                          fullName:
-                            linkedMessageUserCreator && getUserName(linkedMessageUserCreator, t),
-                        })}
+                        {t('messageItem.forward-indicator')}
+                        <span className="message__forward-indicator__name">
+                          {linkedMessageUserCreator && getUserName(linkedMessageUserCreator, t)}
+                        </span>
                       </div>
                     )}
 
@@ -327,7 +327,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                     </div>
                   )}
 
-                  <span>{messageToProcess?.text}</span>
+                  <span className="message__content__text">{messageToProcess?.text}</span>
                 </div>
               )}
             </div>

@@ -17,6 +17,9 @@
     "photo-requirements": "Как минимум 256*256px PNG или JPG",
     "register": "Регистрация"
   },
+  "messageItem": {
+    "forward-indicator": "Пересланно от "
+  },
   "deleteChatMemberModal": {
     "title": "Удалить пользователя из переписки",
     "delete-confirmation": "Вы уверены что хотите удалить выбранного пользователя из переписки?",

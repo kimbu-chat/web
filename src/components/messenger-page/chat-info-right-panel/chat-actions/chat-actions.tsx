@@ -11,11 +11,12 @@ import { ReactComponent as MuteSvg } from '@icons/mute.svg';
 import { ReactComponent as UnmuteSvg } from '@icons/unmute.svg';
 import { ReactComponent as ClearSvg } from '@icons/clear.svg';
 
-import { ReactComponent as DeleteSvg } from '@icons/delete-contact.svg';
+import { ReactComponent as DeleteSvg } from '@icons/remove-chat.svg';
 import { ReactComponent as LeaveSvg } from '@icons/leave.svg';
 import { ReactComponent as BlockSvg } from '@icons/block.svg';
 import { ReactComponent as UnBlockSvg } from '@icons/unblock.svg';
 import { ReactComponent as AddUsersSvg } from '@icons/add-users.svg';
+import { ReactComponent as DeleteContactSvg } from '@icons/delete-contact.svg';
 import { FadeAnimationWrapper, Button } from '@components/shared';
 import { deleteFriendAction, addFriendAction } from '@store/friends/actions';
 import { CreateGroupChat, GroupChatAddFriendModal } from '@components/messenger-page';
@@ -155,7 +156,7 @@ export const ChatActions: React.FC = () => {
             type="button"
             onClick={deleteContact}
             className="chat-actions__action">
-            <DeleteSvg />
+            <DeleteContactSvg />
             <span className="chat-actions__action__name">{t('chatActions.delete-contact')}</span>
           </Button>
         ) : (

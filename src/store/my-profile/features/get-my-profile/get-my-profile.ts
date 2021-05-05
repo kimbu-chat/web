@@ -3,6 +3,9 @@ import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 import { authenticatedSelector } from '@store/auth/selectors';
 import { createEmptyAction } from '@store/common/actions';
+import { userNormalizationSchema } from '@store/friends/normalization';
+import { normalize } from 'normalizr';
+import { UpdateUsersList } from '@store/users/features/update-users-list/update-users-list';
 import { HttpRequestMethod, httpRequestFactory } from '@store/common/http';
 
 import { MAIN_API } from '@common/paths';
@@ -24,6 +27,11 @@ export class GetMyProfile {
 
       const { httpRequest } = GetMyProfile;
       const { data } = httpRequest.call(yield call(() => httpRequest.generator()));
+      const {
+        entities: { users },
+      } = normalize<IUser, { users: IUser[] }, number[]>(data, userNormalizationSchema);
+      yield put(UpdateUsersList.action({ users }));
+
       yield put(GetMyProfileSuccess.action({ user: data }));
     };
   }

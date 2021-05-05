@@ -14,10 +14,7 @@ export interface IMessage {
   systemMessageType: SystemMessageType;
   state?: MessageState;
   chatId: number;
-  dateSeparator?: string;
   isSelected?: boolean;
-  needToShowCreator?: boolean;
-  needToShowDateSeparator?: boolean;
 
   isEdited?: boolean;
   isDeleted?: boolean;
@@ -36,10 +33,7 @@ export interface INormalizedMessage {
   systemMessageType: SystemMessageType;
   state?: MessageState;
   chatId: number;
-  dateSeparator?: string;
   isSelected?: boolean;
-  needToShowCreator?: boolean;
-  needToShowDateSeparator?: boolean;
 
   isEdited?: boolean;
   isDeleted?: boolean;

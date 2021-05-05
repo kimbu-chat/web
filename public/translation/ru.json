@@ -36,7 +36,11 @@
     "change": "Изменить",
     "confirm": "Подтвердить",
     "details": "Вы можете пере-отправить код через {{time}}",
-    "enter-numbers": "Введите цифры"
+    "enter-numbers": "Введите цифры",
+    "user-exists": "Пользователь с таким номером телефона существует",
+    "wrong-code": "Неверный код",
+    "resend": "Отправить код ещё раз",
+    "something-wrong": "Что то пошло не так, попробуйте позже"
   },
   "activeCall": {
     "default": "По умолчанию"
@@ -327,7 +331,7 @@
     "title": "Отчистить чат",
     "clear-confirmation": "Отчистить для всех"
   },
-  "message-link": {
+  "repliedMessage": {
     "message-deleted": "Сообщение удалено"
   },
   "addFriend": {

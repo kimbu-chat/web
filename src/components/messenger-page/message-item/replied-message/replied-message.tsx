@@ -16,13 +16,13 @@ import { MessageAudioAttachment } from '../../shared/audio-attachment/audio-atta
 import { FileAttachment } from '../../shared/file-attachment/file-attachment';
 import { MediaGrid } from '../attachments/media-grid/media-grid';
 import { RecordingAttachment } from '../attachments/recording-attachment/recording-attachment';
-import './message-link.scss';
+import './replied-message.scss';
 
-interface IMessageLinkProps {
+interface IRepliedMessageProps {
   linkedMessage: INormalizedLinkedMessage | null;
 }
 
-const MessageLink: React.FC<IMessageLinkProps> = ({ linkedMessage }) => {
+const RepliedMessage: React.FC<IRepliedMessageProps> = ({ linkedMessage }) => {
   const { t } = useTranslation();
 
   const userCreator = useSelector(getUserSelector(linkedMessage?.userCreator));
@@ -77,15 +77,15 @@ const MessageLink: React.FC<IMessageLinkProps> = ({ linkedMessage }) => {
   );
 
   return (
-    <div className="message-link">
-      <Avatar className="message-link__avatar" user={userCreator} />
+    <div className="replied-message">
+      <Avatar className="replied-message__avatar" user={userCreator} />
 
-      <div className="message-link__text">
+      <div className="replied-message__text">
         <span>
-          {linkedMessage === null ? t('message-link.message-deleted') : linkedMessage?.text}
+          {linkedMessage === null ? t('repliedMessage.message-deleted') : linkedMessage?.text}
         </span>
 
-        <div className="message-link__attachments">
+        <div className="replied-message__attachments">
           {structuredAttachments?.files.map((file) => (
             <FileAttachment key={file.id} {...file} />
           ))}
@@ -104,6 +104,6 @@ const MessageLink: React.FC<IMessageLinkProps> = ({ linkedMessage }) => {
   );
 };
 
-MessageLink.displayName = 'MessageLink';
+RepliedMessage.displayName = 'RepliedMessage';
 
-export { MessageLink };
+export { RepliedMessage };

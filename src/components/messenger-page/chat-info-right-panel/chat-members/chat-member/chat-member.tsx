@@ -5,7 +5,7 @@ import './chat-member.scss';
 import { useTranslation } from 'react-i18next';
 
 import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
-import { FadeAnimationWrapper, StatusBadge, TimeUpdateable } from '@components/shared';
+import { FadeAnimationWrapper, Avatar, TimeUpdateable } from '@components/shared';
 import { MyProfileService } from '@services/my-profile-service';
 import { getUserName } from '@utils/user-utils';
 import { useSelector } from 'react-redux';
@@ -36,13 +36,12 @@ export const Member: React.FC<IMemberProps> = ({ memberId }) => {
     <>
       <div className="chat-member">
         {member && (
-          <StatusBadge
-            containerClassName={`chat-member__avatar-container ${
+          <div
+            className={`chat-member__avatar-container ${
               isOwner ? 'chat-member__avatar-container--owner' : ''
-            }`}
-            additionalClassNames="chat-member__avatar"
-            user={member}
-          />
+            }`}>
+            <Avatar className="chat-member__avatar" user={member} />
+          </div>
         )}
 
         <div className="chat-member__data">
@@ -53,11 +52,11 @@ export const Member: React.FC<IMemberProps> = ({ memberId }) => {
 
           {!member?.deleted &&
             (member?.online ? (
+              <span className="chat-member__status">{t('chatData.online')}</span>
+            ) : (
               <span className="chat-member__status">
                 <TimeUpdateable timeStamp={member?.lastOnlineTime} />
               </span>
-            ) : (
-              <span className="chat-member__status">{t('chatData.online')}</span>
             ))}
         </div>
 

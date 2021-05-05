@@ -12,6 +12,7 @@ interface IPhoneInputGroupProps {
   submitFunction?: () => void;
   phone: string;
   phoneInputIcon?: JSX.Element;
+  errorText?: string | null;
 }
 
 const PhoneInputGroup: React.FC<IPhoneInputGroupProps> = ({
@@ -20,6 +21,7 @@ const PhoneInputGroup: React.FC<IPhoneInputGroupProps> = ({
   submitFunction,
   hideCountrySelect,
   phoneInputIcon,
+  errorText,
 }) => {
   const [country, setCountry] = useState<ICountry>(countryList[countryList.length - 1]);
   const [
@@ -85,6 +87,7 @@ const PhoneInputGroup: React.FC<IPhoneInputGroupProps> = ({
         phone={phone}
         setPhone={setPhone}
         submitFunction={submitFunction}
+        errorText={errorText}
       />
     </div>
   );

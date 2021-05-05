@@ -5,8 +5,9 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import './friend.scss';
-import { StatusBadge, TimeUpdateable } from '@components/shared';
+import { Avatar, TimeUpdateable } from '@components/shared';
 import { getUserSelector } from '@store/users/selectors';
+import { getUserName } from '@utils/user-utils';
 
 interface IFriendProps {
   friendId: number;
@@ -19,15 +20,9 @@ export const Friend: React.FC<IFriendProps> = ({ friendId }) => {
 
   return (
     <Link to={`/chats/${friend ? ChatId.from(friend.id).id : ''}`} className="friend">
-      {friend && (
-        <StatusBadge
-          containerClassName="friend__avatar-container"
-          additionalClassNames="friend__avatar"
-          user={friend}
-        />
-      )}
+      {friend && <Avatar className="friend__avatar" user={friend} />}
       <div className="friend__contents">
-        <div className="friend__name">{`${friend?.firstName} ${friend?.lastName}`}</div>
+        <div className="friend__name">{friend && getUserName(friend, t)}</div>
 
         {!friend?.deleted && (
           <div className="friend__status">

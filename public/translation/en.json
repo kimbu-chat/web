@@ -42,6 +42,9 @@
     "user-deactivated": "You cannot send messages to deactivated user",
     "user-deleted": "You cannot send messages to deleted user"
   },
+  "messageItem": {
+    "forward-indicator": "Forwarding message from {{fullName}}"
+  },
   "chatData": {
     "members": "members",
     "online": "Online",
@@ -255,7 +258,11 @@
     "change": "Change",
     "confirm": "Confirm",
     "details": "You can resend the code in {{time}}",
-    "enter-numbers": "Enter numbers"
+    "enter-numbers": "Enter numbers",
+    "user-exists": "User with such a phone number exists",
+    "wrong-code": "Provided code is wrong",
+    "resend": "Resend code",
+    "something-wrong": "Something went wrong, please try again later"
   },
   "deactivateAccountModal": {
     "title": "Deactivate account",
@@ -329,7 +336,7 @@
     "title": "Clear chat",
     "clear-confirmation": "Clear for everybody"
   },
-  "message-link": {
+  "repliedMessage": {
     "message-deleted": "Message deleted"
   },
   "addFriend": {

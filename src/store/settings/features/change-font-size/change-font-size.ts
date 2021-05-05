@@ -35,7 +35,7 @@ export class ChangeFontSize {
       const element =
         document.querySelector('#message-font-size') || document.createElement('style');
       element.id = 'message-font-size';
-      element.innerHTML = `.message__content span{ font-size: ${action.payload}px; }`;
+      element.innerHTML = `.message__content__text{ font-size: ${action.payload}px !important; }`;
       document.head.appendChild(element);
     };
   }

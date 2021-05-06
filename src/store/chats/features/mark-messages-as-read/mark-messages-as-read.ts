@@ -7,7 +7,6 @@ import { MAIN_API } from '@common/paths';
 import { getSelectedChatSelector } from '../../selectors';
 import { MarkMessagesAsReadSuccess } from './mark-messages-as-read-success';
 import { IMarkMessagesAsReadApiRequest } from './api-requests/mark-messages-as-read-api-request';
-import { IChat } from '../../models';
 
 export class MarkMessagesAsRead {
   static get action() {
@@ -16,7 +15,7 @@ export class MarkMessagesAsRead {
 
   static get saga() {
     return function* markMessagesAsRead(): SagaIterator {
-      const chat: IChat | undefined = yield select(getSelectedChatSelector);
+      const chat = yield select(getSelectedChatSelector);
       const chatId = chat?.id;
       const lastReadMessageId = chat?.lastMessage?.id;
 

@@ -12,6 +12,7 @@ export const callNormalizationSchema = new schema.Entity<ICall>(
   {
     processStrategy: (call) => ({
       ...call,
+      userInterlocutor: undefined,
       userInterlocutorId: call.userInterlocutor,
     }),
   },

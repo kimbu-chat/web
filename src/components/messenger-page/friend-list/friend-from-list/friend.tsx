@@ -13,7 +13,7 @@ interface IFriendProps {
   friendId: number;
 }
 
-export const Friend: React.FC<IFriendProps> = ({ friendId }) => {
+export const Friend: React.FC<IFriendProps> = React.memo(({ friendId }) => {
   const { t } = useTranslation();
 
   const friend = useSelector(getUserSelector(friendId));
@@ -39,4 +39,4 @@ export const Friend: React.FC<IFriendProps> = ({ friendId }) => {
       </div>
     </Link>
   );
-};
+});

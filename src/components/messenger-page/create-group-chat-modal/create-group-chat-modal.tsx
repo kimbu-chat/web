@@ -11,9 +11,8 @@ import { useHistory } from 'react-router';
 import { myIdSelector } from '@store/my-profile/selectors';
 import { ICreateGroupChatActionPayload } from '@store/chats/features/create-group-chat/action-payloads/create-group-chat-action-payload';
 
-import { IAvatar, IUser } from '@store/common/models';
+import { IAvatar } from '@store/common/models';
 import { ReactComponent as GroupSvg } from '@icons/group.svg';
-import { xor } from 'lodash';
 import './create-group-chat-modal.scss';
 import { UserSelect } from './user-select/user-select';
 import { GroupChatCreation } from './group-chat-creation/group-chat-creation';

@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react';
 import './chat-actions.scss';
-import { INormalizedChat } from '@store/chats/models';
 import { useSelector } from 'react-redux';
 import { getSelectedChatSelector } from '@store/chats/selectors';
 
@@ -67,7 +66,7 @@ export const ChatActions: React.FC = () => {
   const selectedChat = useSelector(
     getSelectedChatSelector,
     (prev, next) => prev === next || prev?.draftMessage !== next?.draftMessage,
-  ) as INormalizedChat;
+  );
 
   const [isMuting, setIsMuting] = useState(false);
   const muteUnmute = useCallback(() => {
@@ -80,7 +79,7 @@ export const ChatActions: React.FC = () => {
   const deleteContact = useCallback(() => {
     if (selectedChat?.interlocutorId) {
       setIsDeletingContact(true);
-      deleteFriend(selectedChat.interlocutorId).then(() => {
+      deleteFriend(selectedChat?.interlocutorId).then(() => {
         setIsDeletingContact(false);
       });
     }
@@ -93,21 +92,21 @@ export const ChatActions: React.FC = () => {
         setIsAddingContact(false);
       });
     }
-  }, [addFriend, selectedChat.interlocutorId]);
+  }, [addFriend, selectedChat?.interlocutorId]);
   const [isBlocking, setIsBlocking] = useState(false);
   const blockSelectedUser = useCallback(() => {
     if (selectedChat?.interlocutorId) {
       setIsBlocking(true);
-      blockUser(selectedChat.interlocutorId).then(() => {
+      blockUser(selectedChat?.interlocutorId).then(() => {
         setIsBlocking(false);
       });
     }
   }, [blockUser, selectedChat?.interlocutorId]);
   const [isUnBlocking, setIsUnBlocking] = useState(false);
   const unBlockSelectedUser = useCallback(() => {
-    if (selectedChat.interlocutorId) {
+    if (selectedChat?.interlocutorId) {
       setIsUnBlocking(true);
-      unBlockUser(selectedChat.interlocutorId).then(() => {
+      unBlockUser(selectedChat?.interlocutorId).then(() => {
         setIsUnBlocking(false);
       });
     }
@@ -123,9 +122,9 @@ export const ChatActions: React.FC = () => {
         type="button"
         onClick={muteUnmute}
         className="chat-actions__action">
-        {selectedChat.isMuted ? <UnmuteSvg /> : <MuteSvg />}
+        {selectedChat?.isMuted ? <UnmuteSvg /> : <MuteSvg />}
         <span className="chat-actions__action__name">
-          {selectedChat.isMuted ? t('chatActions.unmute') : t('chatActions.mute')}
+          {selectedChat?.isMuted ? t('chatActions.unmute') : t('chatActions.mute')}
         </span>
       </Button>
       <Button
@@ -137,7 +136,7 @@ export const ChatActions: React.FC = () => {
         <span className="chat-actions__action__name">{t('chatActions.clear-history')}</span>
       </Button>
 
-      {selectedChat.interlocutorId && (
+      {selectedChat?.interlocutorId && (
         <Button
           themed
           type="button"
@@ -148,8 +147,8 @@ export const ChatActions: React.FC = () => {
         </Button>
       )}
 
-      {selectedChat.interlocutorId &&
-        (selectedChat.isInContacts ? (
+      {selectedChat?.interlocutorId &&
+        (selectedChat?.isInContacts ? (
           <Button
             themed
             loading={isDeletingContact}
@@ -171,8 +170,8 @@ export const ChatActions: React.FC = () => {
           </Button>
         ))}
 
-      {selectedChat.interlocutorId &&
-        (selectedChat.isBlockedByUser ? (
+      {selectedChat?.interlocutorId &&
+        (selectedChat?.isBlockedByUser ? (
           <Button
             themed
             loading={isUnBlocking}
@@ -194,7 +193,7 @@ export const ChatActions: React.FC = () => {
           </Button>
         ))}
 
-      {selectedChat.interlocutorId && selectedChat.isInContacts && (
+      {selectedChat?.interlocutorId && selectedChat?.isInContacts && (
         <Button
           themed
           type="button"
@@ -205,7 +204,7 @@ export const ChatActions: React.FC = () => {
         </Button>
       )}
 
-      {selectedChat.groupChat && (
+      {selectedChat?.groupChat && (
         <Button
           themed
           type="button"
@@ -216,7 +215,7 @@ export const ChatActions: React.FC = () => {
         </Button>
       )}
 
-      {selectedChat.groupChat && (
+      {selectedChat?.groupChat && (
         <Button
           themed
           type="button"
@@ -230,10 +229,10 @@ export const ChatActions: React.FC = () => {
       <FadeAnimationWrapper isDisplayed={leaveGroupChatModalOpened}>
         <LeaveChatModal hide={changeLeaveGroupChatModalOpenedState} />
       </FadeAnimationWrapper>
-      {selectedChat.interlocutorId && (
+      {selectedChat?.interlocutorId && (
         <FadeAnimationWrapper isDisplayed={createGroupChatModalOpened}>
           <CreateGroupChat
-            preSelectedUserIds={[selectedChat.interlocutorId]}
+            preSelectedUserIds={[selectedChat?.interlocutorId]}
             onClose={changeCreateGroupChatModalOpenedState}
           />
         </FadeAnimationWrapper>

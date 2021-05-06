@@ -107,8 +107,12 @@ export class ChangeSelectedChat {
             chatNormalizationSchema,
           );
 
-          yield put(UnshiftChat.action({ chat: chats[modeledChat.id] as INormalizedChat }));
-          yield put(AddOrUpdateUsers.action({ users }));
+          const chat = chats[modeledChat.id];
+
+          if (chat) {
+            yield put(UnshiftChat.action({ chat }));
+            yield put(AddOrUpdateUsers.action({ users }));
+          }
         }
       }
     };

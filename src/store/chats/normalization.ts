@@ -1,8 +1,23 @@
+import { ILinkedMessage } from '@store/chats/models/linked-message';
 import { IChat, IMessage } from '@store/chats/models';
 import { IUser } from '@store/common/models';
 import { schema } from 'normalizr';
 
 const user = new schema.Entity<IUser>('users');
+
+export const linkedMessageNormalizationSchema = new schema.Entity<ILinkedMessage>(
+  'linkedMessages',
+  {
+    userCreatorId: user,
+  },
+  {
+    processStrategy: (linkedMessage) => ({
+      ...linkedMessage,
+      userCreatorId: linkedMessage.userCreator,
+      userCreator: undefined,
+    }),
+  },
+);
 
 export const messageNormalizationSchema = new schema.Entity<IMessage>(
   'messages',

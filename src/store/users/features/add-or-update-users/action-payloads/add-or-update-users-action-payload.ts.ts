@@ -1,6 +1,6 @@
 import { IUser } from '../../../../common/models/user';
 import { ById } from '../../../../chats/models/by-id';
 
-export interface IUpdateUsersListActionPayload {
+export interface IAddOrUpdateUsersActionPayload {
   users: ById<IUser>;
 }

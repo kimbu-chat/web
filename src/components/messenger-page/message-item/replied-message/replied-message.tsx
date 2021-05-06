@@ -25,7 +25,7 @@ interface IRepliedMessageProps {
 const RepliedMessage: React.FC<IRepliedMessageProps> = ({ linkedMessage }) => {
   const { t } = useTranslation();
 
-  const userCreator = useSelector(getUserSelector(linkedMessage?.userCreator));
+  const userCreator = useSelector(getUserSelector(linkedMessage?.userCreatorId));
 
   const structuredAttachments = useMemo(
     () =>
@@ -80,8 +80,8 @@ const RepliedMessage: React.FC<IRepliedMessageProps> = ({ linkedMessage }) => {
     <div className="replied-message">
       <Avatar className="replied-message__avatar" user={userCreator} />
 
-      <div className="replied-message__text">
-        <span>
+      <div className="replied-message__contents">
+        <span className="replied-message__text">
           {linkedMessage === null ? t('repliedMessage.message-deleted') : linkedMessage?.text}
         </span>
 

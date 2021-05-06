@@ -1,3 +1,3 @@
-import { IChat } from '../../../models';
+import { INormalizedChat } from '../../../models';
 
-export type ICreateGroupChatSuccessActionPayload = IChat;
+export type ICreateGroupChatSuccessActionPayload = INormalizedChat;

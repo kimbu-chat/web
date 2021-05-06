@@ -1,9 +1,9 @@
 import { ById } from '@store/chats/models/by-id';
-import { IChat } from '../../../models/chat';
+import { INormalizedChat } from '../../../models/chat';
 
 export interface IGetChatsSuccessActionPayload {
   initializedByScroll: boolean;
-  chats: ById<IChat>;
+  chats: ById<INormalizedChat>;
   chatIds: number[];
   hasMore: boolean;
   searchString?: string;

@@ -2,12 +2,12 @@ import { TFunction } from 'i18next';
 import { RootState } from 'typesafe-actions';
 import { IAttachmentToSend } from './models/attachment-to-send';
 import { IBaseAttachment } from './models/attachments/base-attachment';
-import { IChat } from './models/chat';
+import { INormalizedChat } from './models/chat';
 import { IChatsState } from './chats-state';
 import { InterlocutorType } from './models';
 
 // RootState selectors
-export const getSelectedChatSelector = (state: RootState): IChat | undefined =>
+export const getSelectedChatSelector = (state: RootState): INormalizedChat | undefined =>
   state.chats.chats[state?.chats?.selectedChatId || -1];
 
 export const getSelectedChatLastMessageIdSelector = (state: RootState): number | undefined =>
@@ -31,10 +31,10 @@ export const getSelectedGroupChatSelector = (state: RootState) =>
   state.chats.chats[state?.chats?.selectedChatId || -1]?.groupChat;
 
 export const getSelectedInterlocutorSelector = (state: RootState) =>
-  state.users.users[state.chats.chats[state?.chats?.selectedChatId || -1]?.interlocutor || -1];
+  state.users.users[state.chats.chats[state?.chats?.selectedChatId || -1]?.interlocutorId || -1];
 
 export const getSelectedInterlocutorIdSelector = (state: RootState) =>
-  state.chats.chats[state?.chats?.selectedChatId || -1]?.interlocutor;
+  state.chats.chats[state?.chats?.selectedChatId || -1]?.interlocutorId;
 
 export const getSelectedGroupChatNameSelector = (state: RootState) =>
   state.chats.chats[state?.chats?.selectedChatId || -1]?.groupChat?.name;
@@ -135,6 +135,8 @@ export const getTypingStringSelector = (t: TFunction, chatId: number | null) => 
   return undefined;
 };
 
+export const getSelectedMessageIds = (state: RootState) => state.chats.selectedMessageIds;
+
 export const getIsSelectMessagesStateSelector = (state: RootState) =>
   state.chats.selectedMessageIds.length > 0;
 
@@ -201,9 +203,9 @@ export const amIBlackListedByInterlocutorSelector = (state: RootState) =>
   state.chats.chats[state.chats.selectedChatId || -1]?.isBlockedByInterlocutor;
 
 export const isCurrentChatUserDeactivatedSelector = (state: RootState) =>
-  state.users.users[state.chats.chats[state?.chats?.selectedChatId || -1]?.interlocutor || -1]
+  state.users.users[state.chats.chats[state?.chats?.selectedChatId || -1]?.interlocutorId || -1]
     ?.deactivated;
 
 export const isCurrentChatUserDeletedSelector = (state: RootState) =>
-  state.users.users[state.chats.chats[state?.chats?.selectedChatId || -1]?.interlocutor || -1]
+  state.users.users[state.chats.chats[state?.chats?.selectedChatId || -1]?.interlocutorId || -1]
     ?.deleted;

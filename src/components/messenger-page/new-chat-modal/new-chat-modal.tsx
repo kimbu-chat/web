@@ -19,7 +19,7 @@ import { getMyFriendsListSelector, getMySearchFriendsListSelector } from '@store
 import { FRIENDS_LIMIT } from '@utils/pagination-limits';
 import { ChatId } from '@store/chats/chat-id';
 
-import { IChat } from '@store/chats/models';
+import { INormalizedChat } from '@store/chats/models';
 import { SelectEntity } from '../shared/select-entity/select-entity';
 
 interface INewChatModalProps {
@@ -55,7 +55,7 @@ const NewChatModal: React.FC<INewChatModalProps> = ({ onClose, displayCreateGrou
   const history = useHistory();
 
   const createEmptyChat = useCallback(
-    (user: IChat | IUser) => {
+    (user: INormalizedChat | IUser) => {
       const chatId = ChatId.from((user as IUser).id).id;
       history.push(`/chats/${chatId}`);
       onClose();

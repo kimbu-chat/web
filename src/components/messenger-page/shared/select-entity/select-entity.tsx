@@ -3,7 +3,7 @@ import React, { useCallback } from 'react';
 import { Avatar, TimeUpdateable } from '@components/shared';
 import { getUserName } from '@utils/user-utils';
 import { ReactComponent as SelectedSvg } from '@icons/checked.svg';
-import { IChat } from '@store/chats/models';
+import { INormalizedChat } from '@store/chats/models';
 import { IUser } from '@store/common/models';
 import './select-entity.scss';
 import { useTranslation } from 'react-i18next';
@@ -17,7 +17,7 @@ interface ISelectEntityProps {
   chatId?: number;
   userId?: number;
   icon?: JSX.Element;
-  onClick?: (chat: IChat | IUser) => void;
+  onClick?: (chat: INormalizedChat | IUser) => void;
 }
 
 export const SelectEntity: React.FC<ISelectEntityProps> = ({
@@ -30,7 +30,7 @@ export const SelectEntity: React.FC<ISelectEntityProps> = ({
 }) => {
   const userInterlocutor = useSelector(getUserSelector(userId));
   const chat = useSelector(getChatSelector(chatId));
-  const chatInterlocutor = useSelector(getUserSelector(chat?.interlocutor));
+  const chatInterlocutor = useSelector(getUserSelector(chat?.interlocutorId));
 
   const interlocutor = chatInterlocutor || userInterlocutor;
 
@@ -40,7 +40,7 @@ export const SelectEntity: React.FC<ISelectEntityProps> = ({
 
   const onClickOnThisContact = useCallback(() => {
     if (onClick) {
-      onClick((chat || interlocutor) as IChat | IUser);
+      onClick((chat || interlocutor) as INormalizedChat | IUser);
     }
 
     if (changeSelectedState) {
@@ -65,7 +65,7 @@ export const SelectEntity: React.FC<ISelectEntityProps> = ({
         )}
       </div>
 
-      {icon && <div className="select-entity__icon-holder">{icon}</div>}
+      {icon && !interlocutor?.deleted && <div className="select-entity__icon-holder">{icon}</div>}
       {changeSelectedState &&
         (isSelected ? (
           <SelectedSvg className="select-entity__selected" />

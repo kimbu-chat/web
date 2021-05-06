@@ -7,7 +7,7 @@ import { ChatId } from '../../chat-id';
 import {
   SystemMessageType,
   MessageState,
-  IChat,
+  INormalizedChat,
   InterlocutorType,
   INormalizedMessage,
 } from '../../models';
@@ -50,7 +50,7 @@ export class GroupChatCreatedEventHandler {
           systemMessageType: SystemMessageType.GroupChatCreated,
           text: createSystemMessage({}),
           creationDateTime: new Date(new Date().toUTCString()),
-          userCreator: userCreator.id,
+          userCreatorId: userCreator.id,
           state: MessageState.READ,
           chatId,
           id: systemMessageId,
@@ -58,7 +58,7 @@ export class GroupChatCreatedEventHandler {
           isEdited: false,
         };
 
-        const newChat: IChat = {
+        const newChat: INormalizedChat = {
           id: chatId,
           interlocutorType: InterlocutorType.GroupChat,
           unreadMessagesCount: 1,

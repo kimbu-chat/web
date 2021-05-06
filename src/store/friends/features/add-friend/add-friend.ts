@@ -5,8 +5,8 @@ import { createAction } from 'typesafe-actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { Meta } from '@store/common/actions';
 import { MAIN_API } from '@common/paths';
-import { AddFriendSuccess } from './add-friend-success';
 import { IAddFriendApiRequest } from './api-requests/add-friend-api-request';
+import { AddFriendSuccess } from './add-friend-success';
 
 export class AddFriend {
   static get action() {
@@ -21,6 +21,7 @@ export class AddFriend {
       yield call(() => AddFriend.httpRequest.generator(phoneToAdd));
 
       yield put(AddFriendSuccess.action(userId));
+
       action.meta.deferred?.resolve();
     };
   }

@@ -17,6 +17,13 @@
     line-height: 12px;
     margin-bottom: 10px;
     color: #fff;
+
+    &__name {
+      font-size: 10px;
+      line-height: 12px;
+      color: #fff;
+      font-weight: 400;
+    }
   }
 
   &__container {
@@ -56,7 +63,7 @@
     line-break: anywhere;
     padding: 10px 16px;
 
-    span {
+    &__text {
       color: var(--dt-white-wt-dark);
       display: inline-block;
       font-size: 16px;

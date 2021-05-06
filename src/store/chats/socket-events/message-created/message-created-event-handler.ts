@@ -1,3 +1,4 @@
+import { ILinkedMessage, INormalizedLinkedMessage } from '@store/chats/models/linked-message';
 import { SagaIterator } from 'redux-saga';
 import { select, put, call, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
@@ -14,10 +15,14 @@ import {
   IGroupChatMemberRemovedSystemMessageContent,
   getSystemMessageData,
 } from '@utils/message-utils';
-import { chatNormalizationSchema } from '@store/chats/normalization';
+import {
+  chatNormalizationSchema,
+  linkedMessageNormalizationSchema,
+} from '@store/chats/normalization';
 import { IUser } from '@store/common/models';
 import { normalize } from 'normalizr';
-import { UpdateUsersList } from '@store/users/features/update-users-list/update-users-list';
+import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
+import { ById } from '@store/chats/models/by-id';
 import { MessageLinkType } from '../../models/linked-message-type';
 import messageCameUnselected from '../../../../assets/sounds/notifications/messsage-came-unselected.ogg';
 import messageCameSelected from '../../../../assets/sounds/notifications/messsage-came-selected.ogg';
@@ -25,7 +30,7 @@ import messageCameSelected from '../../../../assets/sounds/notifications/messsag
 import { tabActiveSelector, myIdSelector } from '../../../my-profile/selectors';
 import { ChangeSelectedChat } from '../../features/change-selected-chat/change-selected-chat';
 import { MarkMessagesAsRead } from '../../features/mark-messages-as-read/mark-messages-as-read';
-import { IChat, IMessage, SystemMessageType } from '../../models';
+import { IChat, INormalizedChat, IMessage, SystemMessageType } from '../../models';
 import {
   getSelectedChatIdSelector,
   getChatByIdSelector,
@@ -80,7 +85,7 @@ export class MessageCreatedEventHandler {
       const isTabActive = yield select(tabActiveSelector);
       const selectedChatId = yield select(getSelectedChatIdSelector);
 
-      let linkedMessage: IMessage | undefined;
+      let linkedMessage: INormalizedLinkedMessage | undefined;
 
       if (linkedMessageType === MessageLinkType.Reply) {
         linkedMessage = yield select(getChatMessageByIdSelector(linkedMessageId, chatId));
@@ -93,7 +98,20 @@ export class MessageCreatedEventHandler {
           ),
         );
 
-        linkedMessage = data;
+        if (data) {
+          const {
+            entities: { linkedMessages, users },
+          } = normalize<
+            ILinkedMessage[],
+            { linkedMessages: ById<INormalizedLinkedMessage>; users: ById<IUser> },
+            number[]
+          >(data, linkedMessageNormalizationSchema);
+          const normalizedLinkedMessage = linkedMessages[data.id];
+          if (normalizedLinkedMessage) {
+            linkedMessage = normalizedLinkedMessage;
+            yield put(AddOrUpdateUsers.action({ users }));
+          }
+        }
       }
 
       // notifications play
@@ -110,13 +128,15 @@ export class MessageCreatedEventHandler {
 
           const {
             entities: { chats, users },
-          } = normalize<IChat[], { chats: IChat[]; users: IUser[] }, number[]>(
+          } = normalize<IChat[], { chats: ById<INormalizedChat>; users: ById<IUser> }, number[]>(
             modeledChat,
             chatNormalizationSchema,
           );
-
-          yield put(UnshiftChat.action({ chat: chats[modeledChat.id] }));
-          yield put(UpdateUsersList.action({ users }));
+          const chat = chats[modeledChat.id];
+          if (chat) {
+            yield put(UnshiftChat.action({ chat }));
+            yield put(AddOrUpdateUsers.action({ users }));
+          }
 
           chatOfMessage = data;
         }

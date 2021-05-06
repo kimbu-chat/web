@@ -187,7 +187,7 @@ const ActiveCall: React.FC = () => {
   const reCallWithVideo = useCallback(() => {
     if (interlocutor?.id) {
       callInterlocutor({
-        callingId: interlocutor.id,
+        callingUserId: interlocutor.id,
         constraints: {
           videoEnabled: true,
           audioEnabled: true,
@@ -199,7 +199,7 @@ const ActiveCall: React.FC = () => {
   const reCallWithAudio = useCallback(() => {
     if (interlocutor?.id) {
       callInterlocutor({
-        callingId: interlocutor.id,
+        callingUserId: interlocutor.id,
         constraints: {
           videoEnabled: false,
           audioEnabled: true,
@@ -312,10 +312,12 @@ const ActiveCall: React.FC = () => {
             <div className={classNames(`${BLOCK_NAME}__gradient`)} />
           </>
         ) : (
-          <Avatar
-            className={classNames(`${BLOCK_NAME}__interlocutor-avatar`)}
-            user={interlocutor}
-          />
+          <div className={classNames(`${BLOCK_NAME}__interlocutor-avatar-wrapper`)}>
+            <Avatar
+              className={classNames(`${BLOCK_NAME}__interlocutor-avatar`)}
+              user={interlocutor}
+            />
+          </div>
         )}
 
         {isInterlocutorBusy && <span>{t('activeCall.busy')}</span>}

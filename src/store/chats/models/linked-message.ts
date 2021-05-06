@@ -12,7 +12,7 @@ export interface ILinkedMessage {
 
 export interface INormalizedLinkedMessage {
   id: number;
-  userCreator: number;
+  userCreatorId: number;
   text?: string;
   attachments?: IBaseAttachment[];
   isEdited?: boolean;

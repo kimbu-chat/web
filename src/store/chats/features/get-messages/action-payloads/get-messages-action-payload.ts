@@ -2,6 +2,6 @@ import { IPage } from '../../../../common/models';
 
 export interface IGetMessagesActionPayload {
   page: IPage;
-  isFromSearch?: boolean;
+  isFromScroll?: boolean;
   searchString?: string;
 }

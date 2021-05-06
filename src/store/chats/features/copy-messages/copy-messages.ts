@@ -1,9 +1,10 @@
+import { getUsersSelector } from '@store/users/selectors';
 import moment from 'moment';
 import { SagaIterator } from 'redux-saga';
 import { select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { IMessage } from '../../models';
-import { getSelectedChatMessageIdsSelector } from '../../selectors';
+import { INormalizedMessage } from '../../models';
+import { getSelectedChatMessagesSelector } from '../../selectors';
 import { ICopyMessagesActionPayload } from './action-payloads/copy-messages-action-payload';
 
 export class CopyMessages {
@@ -13,13 +14,18 @@ export class CopyMessages {
 
   static get saga() {
     return function* copyMessages(action: ReturnType<typeof CopyMessages.action>): SagaIterator {
-      const messages: IMessage[] = yield select(getSelectedChatMessageIdsSelector);
+      const messages: INormalizedMessage[] = yield select(getSelectedChatMessagesSelector);
+      const users = yield select(getUsersSelector);
 
-      const content = messages.reduce((accum: string, current) => {
-        if (action.payload.messageIds.includes(current.id)) {
-          const preparedStr = `\n[${moment
-            .utc(current?.creationDateTime)
-            .format('YYYY MM DD h:mm')}] ${current?.userCreator?.nickname}: ${current?.text}`;
+      const content = action.payload.messageIds.reduce((accum: string, currentMessageId, index) => {
+        const message = messages[currentMessageId];
+        if (message) {
+          const userCreator = users[message.userCreatorId];
+          const preparedStr = `[${moment
+            .utc(message?.creationDateTime)
+            .format('YYYY MM DD h:mm')}] ${userCreator?.nickname}: ${message?.text}${
+            index < action.payload.messageIds.length - 1 ? '\n' : ''
+          }`;
           return accum + preparedStr;
         }
         return accum;

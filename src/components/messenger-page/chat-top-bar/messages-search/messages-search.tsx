@@ -31,8 +31,7 @@ const MessagesSearch = () => {
 
       getMessages({
         page: pageData,
-        isFromSearch: true,
-        searchString: '',
+        isFromScroll: false,
       });
     } else {
       setIsSearching(true);
@@ -48,7 +47,7 @@ const MessagesSearch = () => {
 
       getMessages({
         page: pageData,
-        isFromSearch: true,
+        isFromScroll: false,
         searchString: e.target.value,
       });
     },

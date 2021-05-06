@@ -23,7 +23,7 @@ export const ChatTopBar = () => {
   const { t } = useTranslation();
 
   const selectedChat = useSelector(getSelectedChatSelector);
-  const interlocutor = useSelector(getUserSelector(selectedChat?.interlocutor));
+  const interlocutor = useSelector(getUserSelector(selectedChat?.interlocutorId));
 
   const callInterlocutor = useActionWithDispatch(outgoingCallAction);
   const openCloseChatInfo = useActionWithDispatch(changeChatInfoOpenedAction);
@@ -31,7 +31,7 @@ export const ChatTopBar = () => {
   const callWithVideo = useCallback(() => {
     if (interlocutor?.id) {
       callInterlocutor({
-        callingId: interlocutor.id,
+        callingUserId: interlocutor.id,
         constraints: {
           videoEnabled: true,
           audioEnabled: true,
@@ -43,7 +43,7 @@ export const ChatTopBar = () => {
   const callWithAudio = useCallback(() => {
     if (interlocutor?.id) {
       callInterlocutor({
-        callingId: interlocutor.id,
+        callingUserId: interlocutor.id,
         constraints: {
           videoEnabled: false,
           audioEnabled: true,

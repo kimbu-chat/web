@@ -3,25 +3,25 @@ import { createAction } from 'typesafe-actions';
 
 import { ICallsState } from '@store/calls/calls-state';
 
-import { ICall } from '../../common/models';
+import { INormalizedCall } from '../../common/models';
 
 export class CallEndedEventHandlerSuccess {
   static get action() {
-    return createAction('CallEndedEventHandlerSuccess')<ICall>();
+    return createAction('CallEndedEventHandlerSuccess')<INormalizedCall>();
   }
 
   static get reducer() {
     return produce(
       (draft: ICallsState, { payload }: ReturnType<typeof CallEndedEventHandlerSuccess.action>) => {
         if (payload) {
-          draft.callList.callIds.unshift(payload.id);
-
-          if (!draft.calls[payload.id]) {
-            draft.calls[payload.id] = payload;
+          if (!draft.callList.callIds.includes(payload.id)) {
+            draft.callList.callIds.unshift(payload.id);
           }
+
+          draft.calls[payload.id] = payload;
         }
 
-        draft.interlocutor = undefined;
+        draft.interlocutorId = undefined;
         draft.isInterlocutorBusy = false;
         draft.amICalling = false;
         draft.amICalled = false;

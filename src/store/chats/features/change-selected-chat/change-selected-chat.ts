@@ -7,7 +7,8 @@ import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { replaceInUrl } from '@utils/replace-in-url';
 import { MAIN_API } from '@common/paths';
 import { normalize } from 'normalizr';
-import { UpdateUsersList } from '@store/users/features/update-users-list/update-users-list';
+import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
+import { ById } from '@store/chats/models/by-id';
 import { chatNormalizationSchema } from '../../normalization';
 import {
   getChatByIdSelector,
@@ -16,7 +17,7 @@ import {
 } from '../../selectors';
 import { IUser } from '../../../common/models';
 import { MESSAGES_LIMIT } from '../../../../utils/pagination-limits';
-import { IChat } from '../../models';
+import { IChat, INormalizedChat } from '../../models';
 import { GetChatsSuccess } from '../get-chats/get-chats-success';
 import { IChangeSelectedChatActionPayload } from './action-payloads/change-selected-chat-action-payload';
 import { IGetChatByIdApiRequest } from './api-requests/get-chat-by-id-api-request';
@@ -62,15 +63,6 @@ export class ChangeSelectedChat {
             }
 
             oldChatMessages.hasMore = true;
-
-            if (chat && draft.selectedMessageIds.length > 0) {
-              oldChatMessages.messageIds.forEach((messageId) => {
-                const currentMessage = oldChatMessages.messages[messageId];
-                if (currentMessage) {
-                  currentMessage.isSelected = false;
-                }
-              });
-            }
           }
         }
 
@@ -110,13 +102,17 @@ export class ChangeSelectedChat {
 
           const {
             entities: { chats, users },
-          } = normalize<IChat[], { chats: IChat[]; users: IUser[] }, number[]>(
+          } = normalize<IChat[], { chats: ById<INormalizedChat>; users: ById<IUser> }, number[]>(
             modeledChat,
             chatNormalizationSchema,
           );
 
-          yield put(UnshiftChat.action({ chat: chats[modeledChat.id] }));
-          yield put(UpdateUsersList.action({ users }));
+          const chat = chats[modeledChat.id];
+
+          if (chat) {
+            yield put(UnshiftChat.action({ chat }));
+            yield put(AddOrUpdateUsers.action({ users }));
+          }
         }
       }
     };

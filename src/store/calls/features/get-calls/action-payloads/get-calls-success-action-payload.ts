@@ -1,8 +1,8 @@
 import { ById } from '@store/chats/models/by-id';
-import { ICall } from '../../../common/models';
+import { INormalizedCall } from '../../../common/models';
 
 export interface IGetCallsSuccessActionPayload {
-  calls: ById<ICall>;
+  calls: ById<INormalizedCall>;
   callIds: number[];
   hasMore: boolean;
   initializedByScroll: boolean;

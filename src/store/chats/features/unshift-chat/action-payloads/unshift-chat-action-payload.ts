@@ -1,3 +1,3 @@
-import { IChat } from '../../../models';
+import { INormalizedChat } from '../../../models';
 
-export type IUnshiftChatActionPayload = { chat: IChat };
+export type IUnshiftChatActionPayload = { chat: INormalizedChat };

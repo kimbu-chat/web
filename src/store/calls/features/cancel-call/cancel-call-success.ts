@@ -9,7 +9,7 @@ export class CancelCallSuccess {
 
   static get reducer() {
     return produce((draft: ICallsState) => {
-      draft.interlocutor = undefined;
+      draft.interlocutorId = undefined;
       draft.isInterlocutorBusy = false;
       draft.amICalling = false;
       draft.amICalled = false;

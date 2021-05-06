@@ -23,9 +23,7 @@ export class GetFriendsSuccess {
           } else {
             draft.friends.loading = false;
             draft.friends.hasMore = hasMore;
-            draft.friends.friendIds = [
-              ...new Set([...draft.searchFriends.friendIds, ...friendIds]),
-            ];
+            draft.friends.friendIds = [...new Set([...draft.friends.friendIds, ...friendIds])];
           }
         } else {
           draft.searchFriends.loading = false;

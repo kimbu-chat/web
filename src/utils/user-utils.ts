@@ -1,8 +1,12 @@
 import { TFunction } from 'i18next';
-import { IChat, IGroupChat } from '../store/chats/models';
+import { INormalizedChat, IGroupChat } from '../store/chats/models';
 import { IUser } from '../store/common/models';
 
-export const getChatInterlocutor = (interlocutor?: IUser, chat?: IChat, t?: TFunction): string => {
+export const getChatInterlocutor = (
+  interlocutor?: IUser,
+  chat?: INormalizedChat,
+  t?: TFunction,
+): string => {
   if (interlocutor) {
     if (interlocutor.deleted && t) {
       return t('deleted');

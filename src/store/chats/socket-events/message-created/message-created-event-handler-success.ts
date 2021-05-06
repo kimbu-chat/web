@@ -60,7 +60,7 @@ export class MessageCreatedEventHandlerSuccess {
           id,
           systemMessageType,
           text,
-          userCreator: userCreator.id,
+          userCreatorId: userCreator.id,
           linkedMessageType,
 
           isEdited: false,
@@ -70,7 +70,10 @@ export class MessageCreatedEventHandlerSuccess {
         const chat = draft.chats[chatId];
 
         if (linkedMessage && linkedMessageId) {
-          message.linkedMessage = { ...linkedMessage, userCreator: linkedMessage.userCreator.id };
+          message.linkedMessage = {
+            ...linkedMessage,
+            userCreatorId: linkedMessage.userCreator.id,
+          };
         }
 
         if (chat) {

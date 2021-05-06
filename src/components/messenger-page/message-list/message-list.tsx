@@ -5,13 +5,14 @@ import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 
 import { useTranslation } from 'react-i18next';
 import {
-  getIsSelectMessagesStateSelector,
   getMessagesIdsByChatIdSelector,
+  getSelectedMessageIds,
   getMessagesLoadingSelector,
   getHasMoreMessagesMessagesSelector,
   getSelectedChatIdSelector,
   getSelectedChatUnreadMessagesCountSelector,
   getSelectedChatMessagesSelector,
+  getSelectedChatMessagesSearchStringSelector,
 } from '@store/chats/selectors';
 import { InfiniteScroll, SelectedMessagesData, MessageItem } from '@components/messenger-page';
 import { FadeAnimationWrapper } from '@components/shared';
@@ -31,11 +32,12 @@ const MessageList = () => {
 
   const selectedChatId = useSelector(getSelectedChatIdSelector);
   const unreadMessagesCount = useSelector(getSelectedChatUnreadMessagesCountSelector);
-  const isSelectState = useSelector(getIsSelectMessagesStateSelector);
+  const selectedMessageIds = useSelector(getSelectedMessageIds);
   const messagesIds = useSelector(getMessagesIdsByChatIdSelector);
   const messages = useSelector(getSelectedChatMessagesSelector);
   const areMessagesLoading = useSelector(getMessagesLoadingSelector);
   const hasMoreMessages = useSelector(getHasMoreMessagesMessagesSelector);
+  const messagesSearchString = useSelector(getSelectedChatMessagesSearchStringSelector);
 
   useEffect(() => {
     if (selectedChatId && (unreadMessagesCount || 0) > 0) {
@@ -51,8 +53,10 @@ const MessageList = () => {
 
     getMessages({
       page: pageData,
+      isFromScroll: true,
+      searchString: messagesSearchString,
     });
-  }, [getMessages, messagesIds?.length]);
+  }, [getMessages, messagesIds?.length, messagesSearchString]);
 
   if (!selectedChatId) {
     return (
@@ -71,7 +75,7 @@ const MessageList = () => {
           </div>
         )}
 
-        <FadeAnimationWrapper isDisplayed={isSelectState}>
+        <FadeAnimationWrapper isDisplayed={selectedMessageIds.length > 0}>
           <SelectedMessagesData />
         </FadeAnimationWrapper>
 
@@ -104,12 +108,13 @@ const MessageList = () => {
                 {separatedMessages.map((messageId, index) => (
                   <MessageItem
                     selectedChatId={selectedChatId}
+                    isSelected={selectedMessageIds.includes(messageId)}
                     messageId={messageId}
                     key={messageId}
                     needToShowCreator={
                       messages &&
-                      (messages[messageId]?.userCreator !==
-                        messages[separatedMessages[index + 1]]?.userCreator ||
+                      (messages[messageId]?.userCreatorId !==
+                        messages[separatedMessages[index + 1]]?.userCreatorId ||
                         messages[separatedMessages[index + 1]]?.systemMessageType !==
                           SystemMessageType.None)
                     }

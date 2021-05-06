@@ -2,26 +2,65 @@ import { IChat, IMessage } from '@store/chats/models';
 import { IUser } from '@store/common/models';
 import { schema } from 'normalizr';
 
-// Define a users schema
 const user = new schema.Entity<IUser>('users');
 
-// Define your comments schema
-export const messageNormalizationSchema = new schema.Entity<IMessage>('messages', {
-  userCreator: user,
-  linkedMessage: {
-    userCreator: user,
-  },
-});
-
-export const chatNormalizationSchema = new schema.Entity<IChat>('chats', {
-  lastMessage: {
-    userCreator: user,
+export const messageNormalizationSchema = new schema.Entity<IMessage>(
+  'messages',
+  {
+    userCreatorId: user,
     linkedMessage: {
-      userCreator: user,
+      userCreatorId: user,
     },
   },
-  interlocutor: user,
-});
+  {
+    processStrategy: (message) => ({
+      ...message,
+      linkedMessage: message?.linkedMessage
+        ? {
+            ...message?.linkedMessage,
+            userCreator: undefined,
+            userCreatorId: message?.linkedMessage?.userCreator,
+          }
+        : undefined,
+      userCreatorId: message.userCreator,
+      userCreator: undefined,
+    }),
+  },
+);
+
+export const chatNormalizationSchema = new schema.Entity<IChat>(
+  'chats',
+  {
+    lastMessage: {
+      userCreatorId: user,
+      linkedMessage: {
+        userCreatorId: user,
+      },
+    },
+    interlocutorId: user,
+  },
+  {
+    processStrategy: (chat) => ({
+      ...chat,
+      interlocutorId: chat.interlocutor,
+      interlocutor: undefined,
+      lastMessage: chat.lastMessage
+        ? {
+            ...chat.lastMessage,
+            linkedMessage: chat.lastMessage?.linkedMessage
+              ? {
+                  ...chat.lastMessage?.linkedMessage,
+                  userCreator: undefined,
+                  userCreatorId: chat.lastMessage?.linkedMessage?.userCreator,
+                }
+              : undefined,
+            userCreator: undefined,
+            userCreatorId: chat.lastMessage?.userCreator,
+          }
+        : undefined,
+    }),
+  },
+);
 
 export const messageArrNormalizationSchema = new schema.Array<IMessage[]>(
   messageNormalizationSchema,

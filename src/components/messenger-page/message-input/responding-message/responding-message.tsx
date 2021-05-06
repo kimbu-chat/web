@@ -14,9 +14,9 @@ import { getUserSelector } from '@store/users/selectors';
 export const RespondingMessage = () => {
   const replyingMessage = useSelector(getMessageToReplySelector);
   const myId = useSelector(myIdSelector) as number;
-  const userCreator = useSelector(getUserSelector(replyingMessage?.userCreator));
+  const userCreator = useSelector(getUserSelector(replyingMessage?.userCreatorId));
 
-  const isCurrentUserMessageCreator = replyingMessage?.userCreator === myId;
+  const isCurrentUserMessageCreator = replyingMessage?.userCreatorId === myId;
 
   const resetReplyToMessage = useActionWithDispatch(resetReplyToMessageAction);
 

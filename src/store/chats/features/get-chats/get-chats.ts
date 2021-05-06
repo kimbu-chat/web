@@ -1,5 +1,5 @@
 import { IUser, IPage } from '@store/common/models';
-import { IChat } from '@store/chats/models';
+import { IChat, INormalizedChat } from '@store/chats/models';
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
@@ -9,7 +9,8 @@ import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
 import { normalize } from 'normalizr';
 
-import { UpdateUsersList } from '@store/users/features/update-users-list/update-users-list';
+import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
+import { ById } from '@store/chats/models/by-id';
 import { CHATS_LIMIT } from '../../../../utils/pagination-limits';
 import { chatArrNormalizationSchema } from '../../normalization';
 import { IGetChatsActionPayload } from './action-payloads/get-chats-action-payload';
@@ -82,7 +83,7 @@ export class GetChats {
       const {
         entities: { chats: normalizedChats, users },
         result,
-      } = normalize<IChat[], { chats: IChat[]; users: IUser[] }, number[]>(
+      } = normalize<IChat[], { chats: ById<INormalizedChat>; users: ById<IUser> }, number[]>(
         modeledChats,
         chatArrNormalizationSchema,
       );
@@ -96,7 +97,7 @@ export class GetChats {
 
       yield put(GetChatsSuccess.action(chatList));
 
-      yield put(UpdateUsersList.action({ users }));
+      yield put(AddOrUpdateUsers.action({ users }));
     };
   }
 

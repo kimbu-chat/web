@@ -12,7 +12,7 @@ export class GetMessagesSuccess {
     return produce(
       (draft: IChatsState, { payload }: ReturnType<typeof GetMessagesSuccess.action>) => {
         const {
-          messageList: { chatId, hasMoreMessages, messages, isFromSearch, messageIds },
+          messageList: { chatId, hasMoreMessages, messages, messageIds, isFromScroll },
         }: IGetMessagesSuccessActionPayload = payload;
 
         const chatMessages = draft.messages[chatId];
@@ -22,12 +22,12 @@ export class GetMessagesSuccess {
 
           chatMessages.loading = false;
 
-          if (isFromSearch) {
-            chatMessages.messageIds = messageIds;
-            chatMessages.messages = messages;
-          } else {
+          if (isFromScroll) {
             chatMessages.messageIds = [...new Set([...chatMessages.messageIds, ...messageIds])];
             chatMessages.messages = { ...messages, ...chatMessages.messages };
+          } else {
+            chatMessages.messageIds = messageIds;
+            chatMessages.messages = messages;
           }
         }
 

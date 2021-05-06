@@ -1,3 +1,4 @@
+import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
@@ -9,9 +10,8 @@ import { Meta } from '@store/common/actions';
 import { MAIN_API } from '@common/paths';
 
 import { httpRequestFactory } from '@store/common/http';
-import { ConfirmPhone } from '@store/auth/features/confirm-phone/confirm-phone';
 import { myProfileSelector } from '@store/my-profile/selectors';
-import { UpdateUsersList } from '@store/users/features/update-users-list/update-users-list';
+import { ConfirmPhone } from '@store/auth/features/confirm-phone/confirm-phone';
 import { IConfirmChangePhoneActionPayload } from './action-payloads/confirm-change-phone-action-payload';
 import { IConfirmChangePhoneApiRequest } from './api-requests/confirm-change-phone-api-request';
 
@@ -59,7 +59,7 @@ export class ConfirmChangePhone {
           ...myProfile,
           phoneNumber: action.payload.phoneNumber,
         };
-        yield put(UpdateUsersList.action({ users: { [updatedProfile.id]: updatedProfile } }));
+        yield put(AddOrUpdateUsers.action({ users: { [updatedProfile.id]: updatedProfile } }));
       }
 
       action?.meta.deferred.resolve();

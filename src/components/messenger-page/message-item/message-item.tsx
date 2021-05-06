@@ -7,7 +7,7 @@ import { myIdSelector } from '@store/my-profile/selectors';
 
 import { useTranslation } from 'react-i18next';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { getIsSelectMessagesStateSelector, getMessageSelector } from '@store/chats/selectors';
+import { getMessageSelector, getIsSelectMessagesStateSelector } from '@store/chats/selectors';
 import { Avatar } from '@components/shared';
 import { MessageAudioAttachment, FileAttachment } from '@components/messenger-page';
 import { CallStatus } from '@store/common/models';
@@ -59,22 +59,23 @@ interface IMessageItemProps {
   messageId: number;
   selectedChatId: number;
   needToShowCreator?: boolean;
+  isSelected?: boolean;
 }
 
 const MessageItem: React.FC<IMessageItemProps> = React.memo(
-  ({ messageId, selectedChatId, needToShowCreator }) => {
+  ({ messageId, selectedChatId, needToShowCreator, isSelected }) => {
     const isSelectState = useSelector(getIsSelectMessagesStateSelector);
     const myId = useSelector(myIdSelector) as number;
     const message = useSelector(getMessageSelector(selectedChatId, messageId));
-    const userCreator = useSelector(getUserSelector(message?.userCreator));
+    const userCreator = useSelector(getUserSelector(message?.userCreatorId));
     const linkedMessageUserCreator = useSelector(
-      getUserSelector(message?.linkedMessage?.userCreator),
+      getUserSelector(message?.linkedMessage?.userCreatorId),
     );
 
     const messageToProcess =
       message?.linkedMessageType === MessageLinkType.Forward ? message?.linkedMessage : message;
 
-    const isCurrentUserMessageCreator = message?.userCreator === myId;
+    const isCurrentUserMessageCreator = message?.userCreatorId === myId;
 
     const { t } = useTranslation();
 
@@ -219,30 +220,28 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
           onClick={isSelectState ? selectThisMessage : undefined}
           id={`message-${messageId}`}>
           {needToShowCreator &&
-            (myId === message?.userCreator ? (
+            (myId === message?.userCreatorId ? (
               <p className="message__sender-name">{userCreator && getUserName(userCreator, t)}</p>
             ) : (
-              <Link to={`/chats/${message?.userCreator}1`} className="message__sender-name">
+              <Link to={`/chats/${message?.userCreatorId}1`} className="message__sender-name">
                 {userCreator && getUserName(userCreator, t)}
               </Link>
             ))}
 
-          <div className={`message__item ${message?.isSelected ? 'message__item--selected' : ''}`}>
+          <div className={`message__item ${isSelected ? 'message__item--selected' : ''}`}>
             <button
               type="button"
               onClick={selectThisMessage}
-              className={`message__checkbox ${
-                message?.isSelected ? '' : 'message__checkbox--unselected'
-              }`}>
+              className={`message__checkbox ${isSelected ? '' : 'message__checkbox--unselected'}`}>
               <SelectSvg />
             </button>
 
             <div className="message__sender-photo-wrapper">
               {needToShowCreator &&
-                (myId === message?.userCreator ? (
+                (myId === message?.userCreatorId ? (
                   <Avatar className="message__sender-photo " user={userCreator} />
                 ) : (
-                  <Link to={`/chats/${ChatId.from(message?.userCreator).id}`}>
+                  <Link to={`/chats/${ChatId.from(message?.userCreatorId).id}`}>
                     <Avatar className="message__sender-photo " user={userCreator} />
                   </Link>
                 ))}

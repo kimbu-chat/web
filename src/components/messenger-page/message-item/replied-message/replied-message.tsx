@@ -25,7 +25,7 @@ interface IRepliedMessageProps {
 const RepliedMessage: React.FC<IRepliedMessageProps> = ({ linkedMessage }) => {
   const { t } = useTranslation();
 
-  const userCreator = useSelector(getUserSelector(linkedMessage?.userCreator));
+  const userCreator = useSelector(getUserSelector(linkedMessage?.userCreatorId));
 
   const structuredAttachments = useMemo(
     () =>

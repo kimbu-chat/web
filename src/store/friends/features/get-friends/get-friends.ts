@@ -1,3 +1,4 @@
+import { ById } from '@store/chats/models/by-id';
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
@@ -7,7 +8,7 @@ import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
 import { userArrNormalizationSchema } from '@store/friends/normalization';
 import { normalize } from 'normalizr';
-import { UpdateUsersList } from '@store/users/features/update-users-list/update-users-list';
+import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 import { IUser } from '../../../common/models';
 import { IFriendsState } from '../../friends-state';
 import { IGetFriendsActionPayload } from './action-payloads/get-friends-action-payload';
@@ -53,7 +54,7 @@ export class GetFriends {
       const {
         entities: { users },
         result,
-      } = normalize<IUser[], { users: IUser[] }, number[]>(data, userArrNormalizationSchema);
+      } = normalize<IUser[], { users: ById<IUser> }, number[]>(data, userArrNormalizationSchema);
 
       yield put(
         GetFriendsSuccess.action({
@@ -64,7 +65,7 @@ export class GetFriends {
         }),
       );
 
-      yield put(UpdateUsersList.action({ users }));
+      yield put(AddOrUpdateUsers.action({ users }));
     };
   }
 

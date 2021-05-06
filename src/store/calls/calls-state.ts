@@ -1,5 +1,5 @@
 import { ById } from '@store/chats/models/by-id';
-import { ICall } from './common/models/call';
+import { INormalizedCall } from './common/models/call';
 
 interface ICallList {
   callIds: number[];
@@ -13,7 +13,7 @@ export interface ICallsState {
   isInterlocutorVideoEnabled: boolean;
   isInterlocutorAudioEnabled: boolean;
   isInterlocutorBusy: boolean;
-  interlocutor?: number;
+  interlocutorId?: number;
   amICalled: boolean;
   amICalling: boolean;
   isSpeaking: boolean;
@@ -31,7 +31,7 @@ export interface ICallsState {
   audioDevicesList: MediaDeviceInfo[];
   videoDevicesList: MediaDeviceInfo[];
 
-  calls: ById<ICall>;
+  calls: ById<INormalizedCall>;
   callList: ICallList;
   searchCallList: ICallList;
 }

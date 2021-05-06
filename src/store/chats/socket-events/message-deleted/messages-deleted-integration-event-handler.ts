@@ -9,7 +9,8 @@ import { MAIN_API } from '@common/paths';
 import { messageNormalizationSchema } from '@store/chats/normalization';
 import { IUser } from '@store/common/models';
 import { normalize } from 'normalizr';
-import { UpdateUsersList } from '../../../users/features/update-users-list/update-users-list';
+import { ById } from '@store/chats/models/by-id';
+import { AddOrUpdateUsers } from '../../../users/features/add-or-update-users/add-or-update-users';
 import { INormalizedMessage, IMessage } from '../../models';
 
 import { getChatLastMessageIdSelector, getChatMessagesLengthSelector } from '../../selectors';
@@ -41,20 +42,23 @@ export class MessagesDeletedIntegrationEventHandler {
 
         const {
           entities: { messages, users },
-        } = normalize<IMessage[], { messages: INormalizedMessage[]; users: IUser[] }, number[]>(
-          data,
-          messageNormalizationSchema,
-        );
+        } = normalize<
+          IMessage[],
+          { messages: ById<INormalizedMessage>; users: ById<IUser> },
+          number[]
+        >(data, messageNormalizationSchema);
 
-        yield put(
-          MessagesDeletedIntegrationEventHandlerSuccess.action({
-            chatNewLastMessage: messages[data.id],
-            chatId,
-            messageIds,
-          }),
-        );
+        if (messages[data.id]) {
+          yield put(
+            MessagesDeletedIntegrationEventHandlerSuccess.action({
+              chatNewLastMessage: messages[data.id] as INormalizedMessage,
+              chatId,
+              messageIds,
+            }),
+          );
+        }
 
-        yield put(UpdateUsersList.action({ users }));
+        yield put(AddOrUpdateUsers.action({ users }));
       } else {
         yield put(
           MessagesDeletedIntegrationEventHandlerSuccess.action({

@@ -1,3 +1,4 @@
+import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
@@ -7,7 +8,6 @@ import { Meta } from '@store/common/actions';
 import { HTTPStatusCode } from '@common/http-status-code';
 import { MAIN_API } from '@common/paths';
 import { myProfileSelector } from '@store/my-profile/selectors';
-import { UpdateUsersList } from '@store/users/features/update-users-list/update-users-list';
 import { IUpdateMyProfileActionPayload } from './action-payloads/update-my-profile-action-payload';
 import { IUpdateMyProfileApiRequest } from './api-requests/update-my-profile-api-request';
 
@@ -42,7 +42,7 @@ export class UpdateMyProfile {
             nickname,
             avatar,
           };
-          yield put(UpdateUsersList.action({ users: { [updatedProfile.id]: updatedProfile } }));
+          yield put(AddOrUpdateUsers.action({ users: { [updatedProfile.id]: updatedProfile } }));
         }
 
         action.meta.deferred.resolve();

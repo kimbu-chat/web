@@ -17,7 +17,8 @@ import {
 import { chatNormalizationSchema } from '@store/chats/normalization';
 import { IUser } from '@store/common/models';
 import { normalize } from 'normalizr';
-import { UpdateUsersList } from '@store/users/features/update-users-list/update-users-list';
+import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
+import { ById } from '@store/chats/models/by-id';
 import { MessageLinkType } from '../../models/linked-message-type';
 import messageCameUnselected from '../../../../assets/sounds/notifications/messsage-came-unselected.ogg';
 import messageCameSelected from '../../../../assets/sounds/notifications/messsage-came-selected.ogg';
@@ -25,7 +26,7 @@ import messageCameSelected from '../../../../assets/sounds/notifications/messsag
 import { tabActiveSelector, myIdSelector } from '../../../my-profile/selectors';
 import { ChangeSelectedChat } from '../../features/change-selected-chat/change-selected-chat';
 import { MarkMessagesAsRead } from '../../features/mark-messages-as-read/mark-messages-as-read';
-import { IChat, IMessage, SystemMessageType } from '../../models';
+import { IChat, INormalizedChat, IMessage, SystemMessageType } from '../../models';
 import {
   getSelectedChatIdSelector,
   getChatByIdSelector,
@@ -110,13 +111,14 @@ export class MessageCreatedEventHandler {
 
           const {
             entities: { chats, users },
-          } = normalize<IChat[], { chats: IChat[]; users: IUser[] }, number[]>(
+          } = normalize<IChat[], { chats: ById<INormalizedChat>; users: ById<IUser> }, number[]>(
             modeledChat,
             chatNormalizationSchema,
           );
-
-          yield put(UnshiftChat.action({ chat: chats[modeledChat.id] }));
-          yield put(UpdateUsersList.action({ users }));
+          if (chats[modeledChat.id]) {
+            yield put(UnshiftChat.action({ chat: chats[modeledChat.id] as INormalizedChat }));
+            yield put(AddOrUpdateUsers.action({ users }));
+          }
 
           chatOfMessage = data;
         }

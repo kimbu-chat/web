@@ -30,7 +30,7 @@ export const SelectEntity: React.FC<ISelectEntityProps> = ({
 }) => {
   const userInterlocutor = useSelector(getUserSelector(userId));
   const chat = useSelector(getChatSelector(chatId));
-  const chatInterlocutor = useSelector(getUserSelector(chat?.interlocutor));
+  const chatInterlocutor = useSelector(getUserSelector(chat?.interlocutorId));
 
   const interlocutor = chatInterlocutor || userInterlocutor;
 
@@ -65,7 +65,7 @@ export const SelectEntity: React.FC<ISelectEntityProps> = ({
         )}
       </div>
 
-      {icon && <div className="select-entity__icon-holder">{icon}</div>}
+      {icon && !interlocutor?.deleted && <div className="select-entity__icon-holder">{icon}</div>}
       {changeSelectedState &&
         (isSelected ? (
           <SelectedSvg className="select-entity__selected" />

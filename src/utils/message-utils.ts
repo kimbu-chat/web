@@ -264,7 +264,7 @@ export const createSystemMessage = (systemMessage: ISystemMessageBase): string =
 //   const signedMessages = arr.map((message, index) => {
 //     if (
 //       index < arr.length - 1 &&
-//       (arr[index].userCreator?.id !== arr[index + 1].userCreator?.id ||
+//       (arr[index].userCreatorId?.id !== arr[index + 1].userCreatorId?.id ||
 //         arr[index + 1].systemMessageType !== SystemMessageType.None)
 //     ) {
 //       return produce(message, (draft) => {

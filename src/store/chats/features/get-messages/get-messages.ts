@@ -1,3 +1,4 @@
+import { ById } from '@store/chats/models/by-id';
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
@@ -6,7 +7,7 @@ import { createAction } from 'typesafe-actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
 import { normalize } from 'normalizr';
-import { UpdateUsersList } from '@store/users/features/update-users-list/update-users-list';
+import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 import { IUser } from '../../../common/models/user';
 import { INormalizedMessage } from '../../models/message';
 import { messageArrNormalizationSchema } from '../../normalization';
@@ -36,9 +37,7 @@ export class GetMessages {
         if (selectedChatMessages) {
           selectedChatMessages.loading = true;
 
-          if (payload.isFromSearch) {
-            selectedChatMessages.searchString = payload.searchString;
-          }
+          selectedChatMessages.searchString = payload.searchString;
         }
       }
       return draft;
@@ -47,7 +46,7 @@ export class GetMessages {
 
   static get saga() {
     return function* getMessages(action: ReturnType<typeof GetMessages.action>): SagaIterator {
-      const { page, isFromSearch } = action.payload;
+      const { page, isFromScroll } = action.payload;
 
       const isFirstChatsLoad = yield select(getIsFirstChatsLoadSelector);
 
@@ -74,7 +73,8 @@ export class GetMessages {
           const newMessages = data.map((message) => ({
             ...message,
             state:
-              chat.interlocutorLastReadMessageId && chat.interlocutorLastReadMessageId >= message.id
+              chat.interlocutorIdLastReadMessageId &&
+              chat.interlocutorIdLastReadMessageId >= message.id
                 ? MessageState.READ
                 : MessageState.SENT,
           }));
@@ -82,10 +82,11 @@ export class GetMessages {
           const {
             entities: { messages, users },
             result,
-          } = normalize<IMessage[], { messages: INormalizedMessage[]; users: IUser[] }, number[]>(
-            newMessages,
-            messageArrNormalizationSchema,
-          );
+          } = normalize<
+            IMessage[],
+            { messages: ById<INormalizedMessage>; users: ById<IUser> },
+            number[]
+          >(newMessages, messageArrNormalizationSchema);
 
           const messageList = {
             chatId: chat.id,
@@ -93,11 +94,11 @@ export class GetMessages {
             messageIds: result,
             hasMoreMessages: newMessages.length >= page.limit,
             searchString,
-            isFromSearch,
+            isFromScroll,
           };
 
           yield put(GetMessagesSuccess.action({ messageList }));
-          yield put(UpdateUsersList.action({ users }));
+          yield put(AddOrUpdateUsers.action({ users }));
         } catch {
           yield put(GetMessagesFailure.action(chat.id));
         }

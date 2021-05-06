@@ -14,6 +14,7 @@ import { ChatId } from '@store/chats/chat-id';
 import { useSelector } from 'react-redux';
 import { isFriend } from '@store/friends/selectors';
 import { addFriendAction, getUserByPhoneAction } from '@store/friends/actions';
+import { addOrUpdateUsers } from '@store/users/actions';
 
 interface IAddFriendModalProps {
   onClose: () => void;
@@ -23,6 +24,7 @@ const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
   const { t } = useTranslation();
   const getUserByPhone = useActionWithDeferred(getUserByPhoneAction);
   const addFriend = useActionWithDeferred(addFriendAction);
+  const addUsers = useActionWithDeferred(addOrUpdateUsers);
 
   const [phone, setPhone] = useState('');
   const [error, setError] = useState(false);
@@ -49,12 +51,17 @@ const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
   const addRequiredUser = useCallback(() => {
     if (user?.id) {
       setLoading(true);
+      addUsers({
+        users: {
+          [user.id]: user,
+        },
+      });
       addFriend(user?.id).then(() => {
         // setLoading(false);
         setSucess(true);
       });
     }
-  }, [user?.id, addFriend]);
+  }, [user, addUsers, addFriend]);
 
   const closeError = useCallback(() => {
     setError(false);

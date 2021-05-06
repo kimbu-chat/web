@@ -22,7 +22,7 @@ export const InterlocutorInfo = () => {
     getSelectedChatSelector,
     (prev, next) => prev === next || prev?.draftMessage !== next?.draftMessage,
   );
-  const interlocutor = useSelector(getUserSelector(selectedChat?.interlocutor));
+  const interlocutor = useSelector(getUserSelector(selectedChat?.interlocutorId));
   const groupChat = selectedChat?.groupChat;
 
   const [editGroupChatDisplayed, setEditGroupChatDisplayed] = useState(false);

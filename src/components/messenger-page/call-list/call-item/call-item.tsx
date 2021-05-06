@@ -24,7 +24,7 @@ const CallItem: React.FC<ICallItemProps> = ({ callId }) => {
   const { t } = useTranslation();
 
   const call = useSelector(getCallSelector(callId));
-  const userInterlocutor = useSelector(getUserSelector(call?.userInterlocutor));
+  const userInterlocutor = useSelector(getUserSelector(call?.userInterlocutorId));
 
   const myId = useSelector(myIdSelector);
 

@@ -57,7 +57,7 @@ export const AddCallModal: React.FC<IAddCallModalProps> = ({ onClose }) => {
     (userId: number) => {
       onClose();
       callInterlocutor({
-        callingId: userId,
+        callingUserId: userId,
         constraints: {
           videoEnabled: true,
           audioEnabled: true,

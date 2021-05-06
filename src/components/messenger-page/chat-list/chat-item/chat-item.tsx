@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import './chat-item.scss';
 import {
-  IChat,
+  INormalizedChat,
   MessageLinkType,
   MessageState,
   SystemMessageType,
@@ -35,14 +35,14 @@ interface IChatItemProps {
 
 const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
   const { t } = useTranslation();
-  const chat = useSelector(getChatSelector(chatId)) as IChat;
-  const lastMessageUserCreator = useSelector(getUserSelector(chat.lastMessage?.userCreator));
-  const interlocutor = useSelector(getUserSelector(chat.interlocutor));
+  const chat = useSelector(getChatSelector(chatId)) as INormalizedChat;
+  const lastMessageUserCreator = useSelector(getUserSelector(chat.lastMessage?.userCreatorId));
+  const interlocutor = useSelector(getUserSelector(chat.interlocutorId));
 
   const currentUserId = useSelector(myIdSelector) as number;
   const typingString = useSelector(getTypingStringSelector(t, chat.id));
 
-  const isMessageCreatorCurrentUser: boolean = chat.lastMessage?.userCreator === currentUserId;
+  const isMessageCreatorCurrentUser: boolean = chat.lastMessage?.userCreatorId === currentUserId;
 
   const getMessageText = useCallback((): string => {
     const messageToProcess =
@@ -54,7 +54,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
     if (
       (chat.lastMessage?.text.length === 0 && (chat.lastMessage.attachments?.length || 0) > 0) ||
       (chat.lastMessage?.linkedMessage?.text?.length === 0 &&
-        (chat.lastMessage?.linkedMessage.attachments?.length || 0) > 0)
+        (chat.lastMessage?.linkedMessage?.attachments?.length || 0) > 0)
     ) {
       return t('chatFromList.media');
     }
@@ -119,7 +119,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
     t,
   ]);
 
-  const existedChat = chat as Required<IChat>;
+  const existedChat = chat as Required<INormalizedChat>;
 
   const messageStatIconMap = {
     [MessageState.QUEUED]: <MessageQeuedSvg />,

@@ -8,7 +8,7 @@ import { MAIN_API } from '@common/paths';
 import { createSystemMessage } from '@utils/message-utils';
 import { ChatId } from '../../chat-id';
 import {
-  IChat,
+  INormalizedChat,
   INormalizedMessage,
   InterlocutorType,
   MessageState,
@@ -21,7 +21,10 @@ import { ICerateGroupChatApiRequest } from './api-requests/create-group-chat-api
 
 export class CreateGroupChat {
   static get action() {
-    return createAction('CREATE_GROUP_CHAT')<ICreateGroupChatActionPayload, Meta<IChat>>();
+    return createAction('CREATE_GROUP_CHAT')<
+      ICreateGroupChatActionPayload,
+      Meta<INormalizedChat>
+    >();
   }
 
   static get saga() {
@@ -50,12 +53,12 @@ export class CreateGroupChat {
         text: createSystemMessage({}),
         chatId,
         state: MessageState.LOCALMESSAGE,
-        userCreator: currentUserId,
+        userCreatorId: currentUserId,
         isDeleted: false,
         isEdited: false,
       };
 
-      const chat: IChat = {
+      const chat: INormalizedChat = {
         interlocutorType: InterlocutorType.GroupChat,
         unreadMessagesCount: 0,
         id: chatId,

@@ -4,7 +4,7 @@ import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { HTTPStatusCode } from '@common/http-status-code';
 import { Meta } from '@store/common/actions';
-import { IMessage } from '../../models/message';
+import { INormalizedMessage } from '../../models/message';
 import { getChatMessageByIdSelector, getSelectedChatIdSelector } from '../../selectors';
 import { MessageLinkType } from '../../models';
 import { IForwardMessagesActionPayload } from './action-payloads/forward-messages-action-payload';
@@ -19,17 +19,6 @@ export class ForwardMessages {
 
   static get reducer() {
     return produce((draft: IChatsState) => {
-      if (draft.selectedChatId) {
-        const selectedChatMessages = draft.messages[draft.selectedChatId];
-
-        selectedChatMessages?.messageIds.forEach((messageId) => {
-          const currentMessage = selectedChatMessages.messages[messageId];
-          if (currentMessage) {
-            currentMessage.isSelected = false;
-          }
-        });
-      }
-
       draft.selectedMessageIds = [];
 
       return draft;
@@ -44,7 +33,7 @@ export class ForwardMessages {
 
       // eslint-disable-next-line no-restricted-syntax
       for (const messageId of messageIdsToForward) {
-        const message: IMessage = yield select(
+        const message: INormalizedMessage = yield select(
           getChatMessageByIdSelector(messageId, forwardedChatId),
         );
         const originalMessageId = message.linkedMessage?.id;

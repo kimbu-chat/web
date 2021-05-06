@@ -1,3 +1,4 @@
+import { ById } from '@store/chats/models/by-id';
 import { produce } from 'immer';
 
 import { AxiosResponse } from 'axios';
@@ -7,7 +8,7 @@ import { createAction } from 'typesafe-actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
 import { userArrNormalizationSchema } from '@store/friends/normalization';
-import { UpdateUsersList } from '@store/users/features/update-users-list/update-users-list';
+import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 import { normalize } from 'normalizr';
 import { IUser } from '../../../common/models';
 import { GetGroupChatUsersSuccess } from './get-group-chat-users-success';
@@ -55,7 +56,7 @@ export class GetGroupChatUsers {
         const {
           entities: { users },
           result,
-        } = normalize<IUser[], { users: IUser[] }, number[]>(data, userArrNormalizationSchema);
+        } = normalize<IUser[], { users: ById<IUser> }, number[]>(data, userArrNormalizationSchema);
 
         yield put(
           GetGroupChatUsersSuccess.action({
@@ -66,7 +67,7 @@ export class GetGroupChatUsers {
           }),
         );
 
-        yield put(UpdateUsersList.action({ users }));
+        yield put(AddOrUpdateUsers.action({ users }));
       }
     };
   }

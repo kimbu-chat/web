@@ -20,7 +20,7 @@ const ChatInfoRightPanel: React.FC = React.memo(() => {
     getSelectedChatSelector,
     (prev, next) => prev === next || prev?.draftMessage !== next?.draftMessage,
   );
-  const interlocutor = useSelector(getUserSelector(selectedChat?.interlocutor));
+  const interlocutor = useSelector(getUserSelector(selectedChat?.interlocutorId));
   const isInfoOpened = useSelector(getIsInfoOpenedSelector);
 
   const getChatInfo = useActionWithDispatch(getChatInfoAction);

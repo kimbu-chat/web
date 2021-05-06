@@ -182,16 +182,14 @@ const reducer = createReducer<IChatsState>(initialState)
   .handleAction(
     DeleteFriendSuccess.action,
     produce((draft: IChatsState, { payload }: ReturnType<typeof DeleteFriendSuccess.action>) => {
-      const { userIds } = payload;
+      const userId = payload;
 
-      userIds.forEach((userId) => {
-        const chatId: number = ChatId.from(userId).id;
-        const chat = getChatByIdDraftSelector(chatId, draft);
+      const chatId: number = ChatId.from(userId).id;
+      const chat = getChatByIdDraftSelector(chatId, draft);
 
-        if (chat) {
-          chat.isInContacts = false;
-        }
-      });
+      if (chat) {
+        chat.isInContacts = false;
+      }
 
       return draft;
     }),
@@ -260,7 +258,7 @@ const reducer = createReducer<IChatsState>(initialState)
         messages: {
           [-1]: {
             id: -1,
-            userCreator: currentUserId,
+            userCreatorId: currentUserId,
             creationDateTime: new Date('2021-05-04T13:50:11.5995892'),
             text: 'Hello',
             systemMessageType: SystemMessageType.None,
@@ -270,7 +268,7 @@ const reducer = createReducer<IChatsState>(initialState)
           },
           [-2]: {
             id: -2,
-            userCreator: currentUserId,
+            userCreatorId: currentUserId,
             creationDateTime: new Date('2021-05-04T13:51:11.3543574'),
             text: 'Hi, friend!',
             systemMessageType: SystemMessageType.None,
@@ -279,7 +277,7 @@ const reducer = createReducer<IChatsState>(initialState)
           },
           [-3]: {
             id: -3,
-            userCreator: currentUserId,
+            userCreatorId: currentUserId,
             creationDateTime: new Date('2021-05-04T14:28:11.137058'),
             text: 'How are you?',
             systemMessageType: SystemMessageType.None,
@@ -289,7 +287,7 @@ const reducer = createReducer<IChatsState>(initialState)
           },
           [-4]: {
             id: -4,
-            userCreator: currentUserId,
+            userCreatorId: currentUserId,
             creationDateTime: new Date('2021-05-04T15:58:10.9164275'),
             text: 'You know, I am great!',
             systemMessageType: SystemMessageType.None,
@@ -299,7 +297,7 @@ const reducer = createReducer<IChatsState>(initialState)
           },
           [-5]: {
             id: -5,
-            userCreator: currentUserId,
+            userCreatorId: currentUserId,
             creationDateTime: new Date('2021-05-04T16:08:10.7092581'),
             text: 'So, I am happy for you',
             systemMessageType: SystemMessageType.None,
@@ -308,7 +306,7 @@ const reducer = createReducer<IChatsState>(initialState)
           },
           [-6]: {
             id: -6,
-            userCreator: currentUserId,
+            userCreatorId: currentUserId,
             creationDateTime: new Date('2021-05-04T17:11:10.4607332'),
             text: 'What kind of plans do you have for tomorrow?',
             systemMessageType: SystemMessageType.None,
@@ -317,7 +315,7 @@ const reducer = createReducer<IChatsState>(initialState)
           },
           [-7]: {
             id: -7,
-            userCreator: currentUserId,
+            userCreatorId: currentUserId,
             creationDateTime: new Date('2021-05-04T17:22:10.1117228'),
             text: 'Swimming, running, doing sports',
             systemMessageType: SystemMessageType.None,
@@ -327,7 +325,7 @@ const reducer = createReducer<IChatsState>(initialState)
           },
           [-8]: {
             id: -8,
-            userCreator: currentUserId,
+            userCreatorId: currentUserId,
             creationDateTime: new Date('2021-05-04T22:35:09.7422384'),
             text: 'Can I make a company for you?',
             systemMessageType: SystemMessageType.None,
@@ -336,7 +334,7 @@ const reducer = createReducer<IChatsState>(initialState)
           },
           [-9]: {
             id: -9,
-            userCreator: currentUserId,
+            userCreatorId: currentUserId,
             creationDateTime: new Date(),
             text: 'I will be happy for such a company!',
             systemMessageType: SystemMessageType.None,

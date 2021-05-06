@@ -106,7 +106,6 @@ const CreateMessageInput = () => {
     onDragEnter: onDrag,
     onDragOver: onDrag,
     onDragLeave: (e) => {
-      console.log('onDragLeave');
       e.preventDefault();
       e.stopPropagation();
       setIsDragging(false);
@@ -167,7 +166,7 @@ const CreateMessageInput = () => {
         const message: INormalizedMessage = {
           text: refText,
           systemMessageType: SystemMessageType.None,
-          userCreator: currentUserId,
+          userCreatorId: currentUserId,
           creationDateTime: new Date(new Date().toUTCString()),
           state: MessageState.QUEUED,
           id: new Date().getTime(),

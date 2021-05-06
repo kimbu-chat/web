@@ -7,10 +7,11 @@ import produce from 'immer';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
 import { IUser } from '@store/common/models';
-import { UpdateUsersList } from '@store/users/features/update-users-list/update-users-list';
+import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
+import { ById } from '@store/chats/models/by-id';
 import { callArrNormalizationSchema } from '../../normalization';
 import { HTTPStatusCode } from '../../../../common/http-status-code';
-import { ICall } from '../../common/models';
+import { ICall, INormalizedCall } from '../../common/models';
 import { IGetCallsActionPayload } from './action-payloads/get-calls-action-payload';
 import { GetCallsSuccess } from './get-calls-success';
 import { IGetCallsApiRequest } from './api-requests/get-calls-api-requests';
@@ -58,7 +59,7 @@ export class GetCalls {
         const {
           entities: { calls, users },
           result,
-        } = normalize<ICall[], { calls: ICall[]; users: IUser[] }, number[]>(
+        } = normalize<ICall[], { calls: ById<INormalizedCall>; users: ById<IUser> }, number[]>(
           data,
           callArrNormalizationSchema,
         );
@@ -67,7 +68,7 @@ export class GetCalls {
           GetCallsSuccess.action({ callIds: result, calls, hasMore, name, initializedByScroll }),
         );
 
-        yield put(UpdateUsersList.action({ users }));
+        yield put(AddOrUpdateUsers.action({ users }));
       }
     };
   }

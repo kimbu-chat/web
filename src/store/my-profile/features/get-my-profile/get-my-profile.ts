@@ -5,10 +5,11 @@ import { authenticatedSelector } from '@store/auth/selectors';
 import { createEmptyAction } from '@store/common/actions';
 import { userNormalizationSchema } from '@store/friends/normalization';
 import { normalize } from 'normalizr';
-import { UpdateUsersList } from '@store/users/features/update-users-list/update-users-list';
+import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 import { HttpRequestMethod, httpRequestFactory } from '@store/common/http';
 
 import { MAIN_API } from '@common/paths';
+import { ById } from '@store/chats/models/by-id';
 import { IUser } from '../../../common/models';
 import { GetMyProfileSuccess } from './get-my-profile-success';
 
@@ -29,8 +30,8 @@ export class GetMyProfile {
       const { data } = httpRequest.call(yield call(() => httpRequest.generator()));
       const {
         entities: { users },
-      } = normalize<IUser, { users: IUser[] }, number[]>(data, userNormalizationSchema);
-      yield put(UpdateUsersList.action({ users }));
+      } = normalize<IUser, { users: ById<IUser> }, number[]>(data, userNormalizationSchema);
+      yield put(AddOrUpdateUsers.action({ users }));
 
       yield put(GetMyProfileSuccess.action({ user: data }));
     };

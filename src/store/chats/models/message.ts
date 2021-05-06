@@ -26,14 +26,13 @@ export interface IMessage {
 
 export interface INormalizedMessage {
   id: number;
-  userCreator: number;
+  userCreatorId: number;
   creationDateTime: Date;
   text: string;
   attachmentsJson?: string;
   systemMessageType: SystemMessageType;
   state?: MessageState;
   chatId: number;
-  isSelected?: boolean;
 
   isEdited?: boolean;
   isDeleted?: boolean;

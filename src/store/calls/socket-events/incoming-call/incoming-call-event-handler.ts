@@ -4,7 +4,8 @@ import { apply, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { userNormalizationSchema } from '@store/friends/normalization';
 import { normalize } from 'normalizr';
-import { UpdateUsersList } from '@store/users/features/update-users-list/update-users-list';
+import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
+import { ById } from '@store/chats/models/by-id';
 import { setInterlocutorOffer } from '../../../middlewares/webRTC/peerConnectionFactory';
 import { ICallsState } from '../../calls-state';
 import { IIncomingCallIntegrationEvent } from './incoming-call-integration-event';
@@ -20,7 +21,7 @@ export class IncomingCallEventHandler {
       (draft: ICallsState, { payload }: ReturnType<typeof IncomingCallEventHandler.action>) => {
         draft.isIncomingCallVideoEnbaled = payload.isVideoEnabled;
         const interlocutor = payload.userInterlocutor;
-        draft.interlocutor = interlocutor.id;
+        draft.interlocutorId = interlocutor.id;
         draft.amICalled = true;
 
         return draft;
@@ -36,11 +37,11 @@ export class IncomingCallEventHandler {
 
       const {
         entities: { users },
-      } = normalize<IUser, { users: IUser[] }, number[]>(
+      } = normalize<IUser, { users: ById<IUser> }, number[]>(
         action.payload.userInterlocutor,
         userNormalizationSchema,
       );
-      yield put(UpdateUsersList.action({ users }));
+      yield put(AddOrUpdateUsers.action({ users }));
     };
   }
 }

@@ -1,5 +1,5 @@
 export interface IOutgoingCallActionPayload {
-  callingId: number;
+  callingUserId: number;
   constraints: {
     videoEnabled: boolean;
     audioEnabled: boolean;

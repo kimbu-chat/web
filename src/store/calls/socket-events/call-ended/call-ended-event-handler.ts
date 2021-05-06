@@ -1,3 +1,4 @@
+import { getUserSelector } from '@store/users/selectors';
 import { SagaIterator } from 'redux-saga';
 import { createAction } from 'typesafe-actions';
 import { AxiosResponse } from 'axios';
@@ -9,14 +10,15 @@ import { replaceInUrl } from '@utils/replace-in-url';
 import { MAIN_API } from '@common/paths';
 import { normalize } from 'normalizr';
 import { IUser } from '@store/common/models';
-import { UpdateUsersList } from '@store/users/features/update-users-list/update-users-list';
+import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
+import { ById } from '@store/chats/models/by-id';
 import { myIdSelector } from '../../../my-profile/selectors';
 import { callNormalizationSchema } from '../../normalization';
 
 import { resetPeerConnection } from '../../../middlewares/webRTC/reset-peer-connection';
 import { getCallInterlocutorIdSelector, getIsActiveCallIncomingSelector } from '../../selectors';
 import { ICallEndedIntegrationEvent } from './call-ended-integration-event';
-import { ICall } from '../../common/models';
+import { ICall, INormalizedCall } from '../../common/models';
 import { IGetCallByIdApiRequest } from './api-requests/get-call-by-id-api-request';
 import { CallEndedEventHandlerSuccess } from './call-ended-event-handler-success';
 
@@ -47,10 +49,11 @@ export class CallEndedEventHandler {
         if (interlocutorId) {
           const isActiveCallIncoming = yield select(getIsActiveCallIncomingSelector);
           const myId = yield select(myIdSelector);
+          const userInterlocutor = yield select(getUserSelector(interlocutorId));
 
           activeCall = {
             id,
-            userInterlocutor: interlocutorId,
+            userInterlocutor,
             userCallerId: isActiveCallIncoming ? interlocutorId : myId,
             startDateTime,
             endDateTime,
@@ -67,13 +70,15 @@ export class CallEndedEventHandler {
 
         const {
           entities: { calls, users },
-        } = normalize<ICall[], { calls: ICall[]; users: IUser[] }, number[]>(
+        } = normalize<ICall[], { calls: ById<INormalizedCall>; users: ById<IUser> }, number[]>(
           activeCall,
           callNormalizationSchema,
         );
 
-        yield put(CallEndedEventHandlerSuccess.action(calls[activeCall.id]));
-        yield put(UpdateUsersList.action({ users }));
+        if (calls[activeCall.id]) {
+          yield put(CallEndedEventHandlerSuccess.action(calls[activeCall.id] as INormalizedCall));
+          yield put(AddOrUpdateUsers.action({ users }));
+        }
       }
     };
   }

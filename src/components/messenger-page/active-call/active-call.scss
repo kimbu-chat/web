@@ -135,11 +135,14 @@
 
   &__interlocutor-avatar {
     height: 100px;
+    width: 100px;
+  }
+
+  &__interlocutor-avatar-wrapper {
     left: 50%;
-    position: absolute !important;
+    position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 100px;
   }
 
   &__remote-video {

@@ -6,8 +6,9 @@ import HttpApi from 'i18next-http-backend';
 
 // todo: load only needed local at runtime
 
-i18n.on('languageChanged', (lang: string) => {
-  if (lang !== 'en') {
+i18n.on('languageChanged', (language: string) => {
+  if (language.includes('ru')) {
+    const lang = 'ru';
     import(`moment/locale/${lang}.js`).then(() => {
       moment.locale(lang);
     });
@@ -20,7 +21,9 @@ i18n
   .init({
     debug: process.env.NODE_ENV !== 'production',
     initImmediate: false,
-    lng: new SettingsService().settings?.language || navigator.language,
+    lng: (new SettingsService().settings?.language || navigator.language)?.includes('ru')
+      ? 'ru'
+      : 'en',
     ns: 'translation',
     interpolation: {
       escapeValue: false,

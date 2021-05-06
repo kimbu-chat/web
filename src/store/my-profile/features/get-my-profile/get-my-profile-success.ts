@@ -14,7 +14,7 @@ export class GetMyProfileSuccess {
   static get reducer() {
     return produce(
       (draft: IMyProfileState, { payload }: ReturnType<typeof GetMyProfileSuccess.action>) => {
-        draft.user = payload.user;
+        draft.userId = payload.user.id;
 
         return draft;
       },

@@ -1,6 +1,6 @@
+import { IUsersState } from '@store/users/users-state';
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { IMyProfileState } from '../../../my-profile/my-profile-state';
 import { IUserPhoneNumberChangedActionPayload } from './action-payloads/user-phone-number-changed-action-payload';
 
 export class UserPhoneNumberChangedEventHandler {
@@ -11,13 +11,14 @@ export class UserPhoneNumberChangedEventHandler {
   static get reducer() {
     return produce(
       (
-        draft: IMyProfileState,
+        draft: IUsersState,
         { payload }: ReturnType<typeof UserPhoneNumberChangedEventHandler.action>,
       ) => {
         const { userId, phoneNumber } = payload;
+        const user = draft.users[userId];
 
-        if (userId === draft.user?.id) {
-          draft.user.phoneNumber = phoneNumber;
+        if (user) {
+          user.phoneNumber = phoneNumber;
         }
 
         return draft;

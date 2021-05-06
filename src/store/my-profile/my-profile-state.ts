@@ -1,7 +1,5 @@
-import { IUser } from '../common/models';
-
 export interface IMyProfileState {
-  user?: IUser;
+  userId?: number;
   deviceId?: string;
   isTabActive: boolean;
 }

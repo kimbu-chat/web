@@ -1,3 +1,4 @@
+import { ILinkedMessage, INormalizedLinkedMessage } from '@store/chats/models/linked-message';
 import { SagaIterator } from 'redux-saga';
 import { select, put, call, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
@@ -14,7 +15,10 @@ import {
   IGroupChatMemberRemovedSystemMessageContent,
   getSystemMessageData,
 } from '@utils/message-utils';
-import { chatNormalizationSchema } from '@store/chats/normalization';
+import {
+  chatNormalizationSchema,
+  linkedMessageNormalizationSchema,
+} from '@store/chats/normalization';
 import { IUser } from '@store/common/models';
 import { normalize } from 'normalizr';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
@@ -81,7 +85,7 @@ export class MessageCreatedEventHandler {
       const isTabActive = yield select(tabActiveSelector);
       const selectedChatId = yield select(getSelectedChatIdSelector);
 
-      let linkedMessage: IMessage | undefined;
+      let linkedMessage: INormalizedLinkedMessage | undefined;
 
       if (linkedMessageType === MessageLinkType.Reply) {
         linkedMessage = yield select(getChatMessageByIdSelector(linkedMessageId, chatId));
@@ -94,7 +98,20 @@ export class MessageCreatedEventHandler {
           ),
         );
 
-        linkedMessage = data;
+        if (data) {
+          const {
+            entities: { linkedMessages, users },
+          } = normalize<
+            ILinkedMessage[],
+            { linkedMessages: ById<INormalizedLinkedMessage>; users: ById<IUser> },
+            number[]
+          >(data, linkedMessageNormalizationSchema);
+          const normalizedLinkedMessage = linkedMessages[data.id];
+          if (normalizedLinkedMessage) {
+            linkedMessage = normalizedLinkedMessage;
+            yield put(AddOrUpdateUsers.action({ users }));
+          }
+        }
       }
 
       // notifications play
@@ -115,8 +132,9 @@ export class MessageCreatedEventHandler {
             modeledChat,
             chatNormalizationSchema,
           );
-          if (chats[modeledChat.id]) {
-            yield put(UnshiftChat.action({ chat: chats[modeledChat.id] as INormalizedChat }));
+          const chat = chats[modeledChat.id];
+          if (chat) {
+            yield put(UnshiftChat.action({ chat }));
             yield put(AddOrUpdateUsers.action({ users }));
           }
 

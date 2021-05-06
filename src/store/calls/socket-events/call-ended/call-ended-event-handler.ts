@@ -75,8 +75,10 @@ export class CallEndedEventHandler {
           callNormalizationSchema,
         );
 
-        if (calls[activeCall.id]) {
-          yield put(CallEndedEventHandlerSuccess.action(calls[activeCall.id] as INormalizedCall));
+        const normalizedCall = calls[activeCall.id];
+
+        if (normalizedCall) {
+          yield put(CallEndedEventHandlerSuccess.action(normalizedCall));
           yield put(AddOrUpdateUsers.action({ users }));
         }
       }

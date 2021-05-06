@@ -48,10 +48,12 @@ export class MessagesDeletedIntegrationEventHandler {
           number[]
         >(data, messageNormalizationSchema);
 
-        if (messages[data.id]) {
+        const message = messages[data.id];
+
+        if (message) {
           yield put(
             MessagesDeletedIntegrationEventHandlerSuccess.action({
-              chatNewLastMessage: messages[data.id] as INormalizedMessage,
+              chatNewLastMessage: message,
               chatId,
               messageIds,
             }),

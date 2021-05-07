@@ -26,7 +26,7 @@ export const MessageSmiles: React.FC<IMessageSmilesProps> = React.memo(({ setTex
   const openEmojiRef = useRef<HTMLButtonElement>(null);
   const emojiRef = useRef<HTMLDivElement>(null);
 
-  useOnClickOutside(openEmojiRef, closeSmilesDisplayedStatus);
+  useOnClickOutside(openEmojiRef, closeSmilesDisplayedStatus, emojiRef);
 
   return (
     <>

@@ -1,6 +1,6 @@
 import { SearchBox, InfiniteScroll, SelectEntity } from '@components/messenger-page';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import { IPage, IUser } from '@store/common/models';
+import { IPage } from '@store/common/models';
 import { getFriendsAction } from '@store/friends/actions';
 import { getMyFriendsListSelector, getMySearchFriendsListSelector } from '@store/friends/selectors';
 import { FRIENDS_LIMIT } from '@utils/pagination-limits';

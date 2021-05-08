@@ -1,8 +1,5 @@
 import React, { useCallback, useState } from 'react';
 import './session.scss';
-import { ReactComponent as WindowsSvg } from '@icons/windows.svg';
-import { ReactComponent as MacSvg } from '@icons/mac.svg';
-import { ReactComponent as Linux } from '@icons/linux.svg';
 
 import { useTranslation } from 'react-i18next';
 import moment from 'moment';

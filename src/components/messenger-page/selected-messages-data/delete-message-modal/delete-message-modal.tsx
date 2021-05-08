@@ -6,7 +6,6 @@ import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 
 import { useTranslation } from 'react-i18next';
 import './delete-message-modal.scss';
-import { DeleteMessage } from '@store/chats/features/delete-message/delete-message';
 import { deleteMessageAction } from '@store/chats/actions';
 import { CheckBox } from '../../settings-modal/shared/check-box/check-box';
 

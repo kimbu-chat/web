@@ -3,7 +3,6 @@ import './dropdown.scss';
 import { ReactComponent as DropDownSvg } from '@icons/arrow.svg';
 import { useOnClickOutside } from '@hooks/use-on-click-outside';
 import noop from 'lodash/noop';
-import { xorBy } from 'lodash';
 
 interface IDropdownProps {
   selectedString: string;

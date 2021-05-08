@@ -15,6 +15,13 @@ jobs:
         - name: Install dependencies
           run: yarn
 
+        - name: Make envfile
+          uses: SpicyPizza/create-envfile@v1
+          with:
+            envkey_REACT_APP_MAIN_API: "https://api.ravudi.com"
+            envkey_REACT_APP_NOTIFICATIONS_API: "https://notifications.ravudi.com"
+            envkey_REACT_APP_FILES_API: https://files.ravudi.com
+            
         - name: Build
           run: yarn build
 

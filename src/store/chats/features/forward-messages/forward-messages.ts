@@ -5,7 +5,7 @@ import { call, select } from 'redux-saga/effects';
 import { HTTPStatusCode } from '@common/http-status-code';
 import { Meta } from '@store/common/actions';
 import { INormalizedMessage } from '../../models/message';
-import { getChatMessageByIdSelector, getSelectedChatIdSelector } from '../../selectors';
+import { getMessageSelector, getSelectedChatIdSelector } from '../../selectors';
 import { MessageLinkType } from '../../models';
 import { IForwardMessagesActionPayload } from './action-payloads/forward-messages-action-payload';
 import { ICreateMessageApiRequest } from '../create-message/api-requests/create-message-api-request';
@@ -34,7 +34,7 @@ export class ForwardMessages {
       // eslint-disable-next-line no-restricted-syntax
       for (const messageId of messageIdsToForward) {
         const message: INormalizedMessage = yield select(
-          getChatMessageByIdSelector(messageId, forwardedChatId),
+          getMessageSelector(forwardedChatId, messageId),
         );
         const originalMessageId = message.linkedMessage?.id;
         // eslint-disable-next-line no-restricted-syntax

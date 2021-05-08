@@ -6,6 +6,7 @@ import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { Theme } from '@store/settings/features/models';
 import { getCurrentFontSizeSelector, getCurrentThemeSelector } from '@store/settings/selectors';
 import { changeThemeAction, changeFontSizeAction } from '@store/settings/actions';
+import { APPEARANCE_CHAT_ID } from '@utils/constants';
 import { MessageItem } from '../../message-item/message-item';
 import { RadioBox } from '../shared/radio-box/radio-box';
 
@@ -34,7 +35,7 @@ export const Appearance: React.FC = () => {
           <div key={messageId} className="appearance__theme-box__msg-wrapper">
             <MessageItem
               needToShowCreator={messageId === -1}
-              selectedChatId={-1}
+              selectedChatId={APPEARANCE_CHAT_ID}
               messageId={messageId}
             />
           </div>

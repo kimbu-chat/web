@@ -4,7 +4,6 @@ import { IGroupable, IPictureAttachment } from '@store/chats/models';
 import { doesYearDifferFromCurrent } from '@utils/set-separators';
 import moment from 'moment';
 import React, { useCallback, useState } from 'react';
-import { xorBy } from 'lodash';
 
 interface IPhotoProps {
   photo: IPictureAttachment & IGroupable;

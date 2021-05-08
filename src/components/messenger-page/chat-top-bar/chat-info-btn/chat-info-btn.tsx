@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React from 'react';
 import { ReactComponent as ChatInfoSvg } from '@icons/chat-info.svg';
 import { getIsInfoOpenedSelector } from '@store/chats/selectors';
 import { useSelector } from 'react-redux';

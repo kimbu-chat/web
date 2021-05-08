@@ -1,12 +1,15 @@
+import { ById } from '../models/by-id';
 /* eslint-disable no-param-reassign */
-import produce from 'immer';
 
 import { ChatId } from '../chat-id';
-import { IChat, MessageState, InterlocutorType } from '../models';
+import { MessageState, InterlocutorType, INormalizedChat } from '../models';
 
-export const modelChatList = (chats: IChat[]) => {
-  const nextState = chats.map((initialChat: IChat) =>
-    produce(initialChat, (chat) => {
+export const modelChatList = (chats: ById<INormalizedChat>) => {
+  const modeledChats: ById<INormalizedChat> = {};
+  Object.values(chats).forEach((initialChat: INormalizedChat | undefined) => {
+    const chat = initialChat;
+
+    if (chat) {
       if (chat.lastMessage) {
         chat.lastMessage.state =
           chat.interlocutorLastReadMessageId &&
@@ -29,10 +32,15 @@ export const modelChatList = (chats: IChat[]) => {
       if (chat.interlocutorType === InterlocutorType.GroupChat) {
         chat.members = { memberIds: [], loading: false, hasMore: true };
       }
+      chat.messages = {
+        messages: {},
+        messageIds: [],
+        hasMore: true,
+        loading: false,
+      };
+      modeledChats[chat.id] = chat;
+    }
+  });
 
-      return chat;
-    }),
-  );
-
-  return nextState;
+  return modeledChats;
 };

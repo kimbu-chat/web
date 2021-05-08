@@ -425,18 +425,17 @@ const CreateMessageInput = () => {
                   <AddSvg />
                 </button>
                 <div className="message-input__line" />
+                <ExpandingTextarea
+                  value={text}
+                  placeholder={t('messageInput.write')}
+                  onChange={onType}
+                  onPaste={onPaste}
+                  className="mousetrap message-input__input-message"
+                  onFocus={handleFocus}
+                  onBlur={handleBlur}
+                />
               </>
             )}
-
-            <ExpandingTextarea
-              value={text}
-              placeholder={t('messageInput.write')}
-              onChange={onType}
-              onPaste={onPaste}
-              className="mousetrap message-input__input-message"
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-            />
 
             <div className="message-input__right-btns">
               {!isRecording && (

@@ -45,7 +45,6 @@ import callingBeep from '@sounds/calls/outgoing-call.ogg';
 import busySound from '@sounds/calls/busy-sound.ogg';
 
 import { useTranslation } from 'react-i18next';
-import { IUser } from '@store/common/models';
 import {
   getInterlocutorAudioTrack,
   getInterlocutorVideoTrack,

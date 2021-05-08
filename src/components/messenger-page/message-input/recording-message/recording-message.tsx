@@ -90,13 +90,13 @@ export const RecordingMessage: React.FC<IRecordingMessageProps> = ({ hide }) => 
 
             waveSurferInstance?.load(URL.createObjectURL(audioBlob));
 
-            const onReady = (e: any) => {
-              waveSurferInstance?.exportPCM(5, undefined, true).then((waveFormJson: string) => {
+            const onReady = () => {
+              waveSurferInstance?.exportPCM(5, undefined, true).then((waveForm) => {
                 uploadAttachmentRequest({
                   type: FileType.Voice,
                   file: audioFile as File,
                   attachmentId: new Date().getTime(),
-                  waveFormJson,
+                  waveFormJson: JSON.stringify(waveForm),
                 });
               });
 

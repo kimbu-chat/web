@@ -14,7 +14,6 @@ import {
   MessageState,
   SystemMessageType,
 } from '../../models';
-import { ChangeSelectedChat } from '../change-selected-chat/change-selected-chat';
 import { ICreateGroupChatActionPayload } from './action-payloads/create-group-chat-action-payload';
 import { CreateGroupChatSuccess } from './create-group-chat-success';
 import { ICerateGroupChatApiRequest } from './api-requests/create-group-chat-api-request';
@@ -104,6 +103,12 @@ export class CreateGroupChat {
           loading: false,
           recordings: [],
         },
+        messages: {
+          messages: [],
+          messageIds: [],
+          hasMore: true,
+          loading: false,
+        },
         isBlockedByInterlocutor: false,
         isBlockedByUser: false,
         isInContacts: false,
@@ -111,7 +116,6 @@ export class CreateGroupChat {
       };
 
       yield put(CreateGroupChatSuccess.action(chat));
-      yield put(ChangeSelectedChat.action({ newChatId: chat.id }));
       action.meta.deferred?.resolve(chat);
     };
   }

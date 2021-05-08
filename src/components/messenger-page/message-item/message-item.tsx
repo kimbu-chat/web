@@ -238,7 +238,8 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
 
             <div className="message__sender-photo-wrapper">
               {needToShowCreator &&
-                (myId === message?.userCreatorId ? (
+                message?.userCreatorId &&
+                (myId === message.userCreatorId ? (
                   <Avatar className="message__sender-photo " user={userCreator} />
                 ) : (
                   <Link to={`/chats/${ChatId.from(message?.userCreatorId).id}`}>

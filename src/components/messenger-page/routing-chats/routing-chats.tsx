@@ -51,7 +51,7 @@ export const RoutingChats = () => {
       </div>
 
       <NavLink
-        to="/settings/profile"
+        to="/settings"
         type="button"
         className="routing-chats__link routing-chats__link--settings"
         activeClassName="routing-chats__link routing-chats__link--active">

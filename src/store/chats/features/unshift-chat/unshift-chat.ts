@@ -17,15 +17,6 @@ export class UnshiftChat {
         draft.chats[chat.id] = chat;
       }
 
-      if (!draft.messages[chat.id]) {
-        draft.messages[chat.id] = {
-          messages: [],
-          messageIds: [],
-          hasMore: true,
-          loading: false,
-        };
-      }
-
       return draft;
     });
   }

@@ -7,7 +7,7 @@ import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 
 import { useTranslation } from 'react-i18next';
 import { getMyFriendsListSelector, getMySearchFriendsListSelector } from '@store/friends/selectors';
-import { IPage, IUser } from '@store/common/models';
+import { IPage } from '@store/common/models';
 
 import { FRIENDS_LIMIT } from '@utils/pagination-limits';
 import { ReactComponent as GroupSvg } from '@icons/group.svg';

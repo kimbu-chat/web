@@ -32,7 +32,7 @@ export class GetMessages {
   static get reducer() {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof GetMessages.action>) => {
       if (draft.selectedChatId) {
-        const selectedChatMessages = draft.messages[draft.selectedChatId];
+        const selectedChatMessages = draft.chats[draft.selectedChatId]?.messages;
 
         if (selectedChatMessages) {
           selectedChatMessages.loading = true;

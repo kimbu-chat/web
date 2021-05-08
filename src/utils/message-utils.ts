@@ -259,34 +259,3 @@ export const constructSystemMessageText = (
 
 export const createSystemMessage = (systemMessage: ISystemMessageBase): string =>
   JSON.stringify(systemMessage);
-
-// export const signAndSeparate = (arr: INormalizedMessage[]): INormalizedMessage[] => {
-//   const signedMessages = arr.map((message, index) => {
-//     if (
-//       index < arr.length - 1 &&
-//       (arr[index].userCreatorId?.id !== arr[index + 1].userCreatorId?.id ||
-//         arr[index + 1].systemMessageType !== SystemMessageType.None)
-//     ) {
-//       return produce(message, (draft) => {
-//         draft.needToShowCreator = true;
-
-//         return draft;
-//       });
-//     }
-
-//     return message;
-//   });
-
-//   signedMessages[signedMessages.length - 1] = produce(
-//     signedMessages[signedMessages.length - 1],
-//     (draft) => {
-//       if (draft) {
-//         draft.needToShowCreator = true;
-//         draft.needToShowDateSeparator = true;
-//       }
-//       return draft;
-//     },
-//   );
-
-//   return signedMessages;
-// };

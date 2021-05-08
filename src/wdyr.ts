@@ -1,6 +1,5 @@
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { useGlobalDrop } from '@hooks/use-global-drop';
 import { useOnClickOutside } from '@hooks/use-on-click-outside';
 import { useReferState } from '@hooks/use-referred-state';
 import { useHistory, useLocation } from 'react-router';
@@ -26,7 +25,6 @@ if (process.env.NODE_ENV !== 'production') {
       [useTranslation, 'useTranslation'],
       [useActionWithDeferred, 'useActionWithDeferred'],
       [useActionWithDispatch, 'useActionWithDispatch'],
-      [useGlobalDrop, 'useGlobalDrop'],
       [useOnClickOutside, 'useOnClickOutside'],
       [useReferState, 'useReferState'],
     ],

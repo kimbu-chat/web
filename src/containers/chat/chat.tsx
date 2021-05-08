@@ -41,6 +41,8 @@ import { KeyBindings } from '@components/messenger-page/settings-modal/key-bindi
 import { Appearance } from '@components/messenger-page/settings-modal/appearance/appearance';
 import { PrivacySecurity } from '@components/messenger-page/settings-modal/privacy-security/privacy-security';
 import { AudioVideoSettings } from '@components/messenger-page/settings-modal/audio-video/audio-video';
+import { useDragDrop } from '@hooks/use-drag-drop';
+import { DragIndicator } from '@components/messenger-page/drag-indicator/drag-indicator';
 
 interface IChatProps {
   preloadNext: () => void;
@@ -57,15 +59,21 @@ const Chat: React.FC<IChatProps> = ({ preloadNext }) => {
   const amIBlackListedByInterlocutor = useSelector(amIBlackListedByInterlocutorSelector);
   const isCurrentChatUserDeactivated = useSelector(isCurrentChatUserDeactivatedSelector);
   const isCurrentChatUserDeleted = useSelector(isCurrentChatUserDeletedSelector);
-
   const internetState = useSelector(getInternetStateSelector);
+
+  const { onDrop, onDragLeave, onDragEnter, onDragOver, isDragging } = useDragDrop();
 
   useEffect(() => {
     preloadNext();
   }, [preloadNext]);
 
   return (
-    <div className="messenger">
+    <div
+      onDragLeave={onDragLeave}
+      onDragEnter={onDragEnter}
+      onDrop={onDrop}
+      onDragOver={onDragOver}
+      className="messenger">
       {amICalledSelector && <IncomingCall />}
       {(amISpeaking || amICallingSelectorSomebody) && <ActiveCall />}
       {!internetState && <InternetError />}
@@ -94,7 +102,10 @@ const Chat: React.FC<IChatProps> = ({ preloadNext }) => {
               isCurrentChatUserDeleted={isCurrentChatUserDeleted}
             />
           ) : (
-            <CreateMessageInput />
+            <>
+              <CreateMessageInput />
+              {isDragging && <DragIndicator />}
+            </>
           )}
           {!isDismissed &&
             !isFriend &&

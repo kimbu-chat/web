@@ -34,8 +34,6 @@ export class MemberLeftGroupChatEventHandler {
             delete draft.chats[chatId];
           }
 
-          delete draft.messages[chatId];
-
           if (draft.selectedChatId === chatId) {
             draft.selectedChatId = null;
           }

@@ -83,7 +83,7 @@ export class MessageCreatedEventHandlerSuccess {
             isInterlocutorCurrentSelectedChat || isCurrentUserMessageCreator
               ? previousUnreadMessagesCount
               : previousUnreadMessagesCount + 1;
-          const chatMessages = draft.messages[chatId];
+          const chatMessages = draft.chats[chatId]?.messages;
 
           if (chatMessages) {
             chatMessages.messageIds.unshift(message.id);

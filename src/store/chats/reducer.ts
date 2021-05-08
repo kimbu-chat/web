@@ -3,6 +3,7 @@ import { createReducer } from 'typesafe-actions';
 import { DismissToAddContactSuccess } from '@store/friends/features/dismiss-to-add-contact/dismiss-to-add-contact-success';
 import { UserContactsRemovedEventHandler } from '@store/friends/socket-events/user-contacts-removed/user-contacts-removed-event-handler';
 import { GetMyProfileSuccess } from '@store/my-profile/features/get-my-profile/get-my-profile-success';
+import { APPEARANCE_CHAT_ID } from '@utils/constants';
 import { RemoveChatSuccess } from './features/remove-chat/remove-chat-success';
 import { AddUsersToGroupChatSuccess } from './features/add-users-to-group-chat/add-users-to-group-chat-success';
 import { ChangeChatMutedStatusSuccess } from './features/change-chat-muted-status/change-chat-muted-status-success';
@@ -72,7 +73,7 @@ import { RemoveUserFromGroupChatSuccess } from './features/remove-user-from-grou
 import { MessageCreatedEventHandlerSuccess } from './socket-events/message-created/message-created-event-handler-success';
 import { DialogRemovedEventHandler } from './socket-events/dialog-removed/dialog-removed-event-handler';
 import { ResetSearchChats } from './features/reset-search-chats/reset-search-chats';
-import { SystemMessageType, MessageState } from './models';
+import { SystemMessageType, MessageState, INormalizedChat } from './models';
 
 const initialState: IChatsState = {
   chats: {},
@@ -87,7 +88,6 @@ const initialState: IChatsState = {
     chatIds: [],
     page: 0,
   },
-  messages: {},
   selectedChatId: null,
   selectedMessageIds: [],
   isInfoOpened: false,
@@ -253,99 +253,97 @@ const reducer = createReducer<IChatsState>(initialState)
     GetMyProfileSuccess.action,
     produce((draft: IChatsState, { payload }: ReturnType<typeof GetMyProfileSuccess.action>) => {
       const currentUserId = payload.user.id;
-      draft.messages[-1] = {
-        messageIds: [-1, -2, -3, -4, -5],
+      draft.chats[APPEARANCE_CHAT_ID] = ({
         messages: {
-          [-1]: {
-            id: -1,
-            userCreatorId: currentUserId,
-            creationDateTime: new Date('2021-05-04T13:50:11.5995892'),
-            text: 'Hello',
-            systemMessageType: SystemMessageType.None,
-            state: MessageState.READ,
-            chatId: -1,
-            isEdited: true,
-          },
-          [-2]: {
-            id: -2,
-            userCreatorId: currentUserId,
-            creationDateTime: new Date('2021-05-04T13:51:11.3543574'),
-            text: 'Hi, friend!',
-            systemMessageType: SystemMessageType.None,
-            state: MessageState.READ,
-            chatId: -1,
-          },
-          [-3]: {
-            id: -3,
-            userCreatorId: currentUserId,
-            creationDateTime: new Date('2021-05-04T14:28:11.137058'),
-            text: 'How are you?',
-            systemMessageType: SystemMessageType.None,
-            state: MessageState.READ,
-            chatId: -1,
-            isEdited: true,
-          },
-          [-4]: {
-            id: -4,
-            userCreatorId: currentUserId,
-            creationDateTime: new Date('2021-05-04T15:58:10.9164275'),
-            text: 'You know, I am great!',
-            systemMessageType: SystemMessageType.None,
-            state: MessageState.READ,
-            chatId: -1,
-            isEdited: true,
-          },
-          [-5]: {
-            id: -5,
-            userCreatorId: currentUserId,
-            creationDateTime: new Date('2021-05-04T16:08:10.7092581'),
-            text: 'So, I am happy for you',
-            systemMessageType: SystemMessageType.None,
-            state: MessageState.READ,
-            chatId: -1,
-          },
-          [-6]: {
-            id: -6,
-            userCreatorId: currentUserId,
-            creationDateTime: new Date('2021-05-04T17:11:10.4607332'),
-            text: 'What kind of plans do you have for tomorrow?',
-            systemMessageType: SystemMessageType.None,
-            state: MessageState.READ,
-            chatId: -1,
-          },
-          [-7]: {
-            id: -7,
-            userCreatorId: currentUserId,
-            creationDateTime: new Date('2021-05-04T17:22:10.1117228'),
-            text: 'Swimming, running, doing sports',
-            systemMessageType: SystemMessageType.None,
-            state: MessageState.READ,
-            chatId: -1,
-            isEdited: true,
-          },
-          [-8]: {
-            id: -8,
-            userCreatorId: currentUserId,
-            creationDateTime: new Date('2021-05-04T22:35:09.7422384'),
-            text: 'Can I make a company for you?',
-            systemMessageType: SystemMessageType.None,
-            state: MessageState.SENT,
-            chatId: -1,
-          },
-          [-9]: {
-            id: -9,
-            userCreatorId: currentUserId,
-            creationDateTime: new Date(),
-            text: 'I will be happy for such a company!',
-            systemMessageType: SystemMessageType.None,
-            state: MessageState.QUEUED,
-            chatId: -1,
+          messages: {
+            [-1]: {
+              id: -1,
+              userCreatorId: currentUserId,
+              creationDateTime: new Date('2021-05-04T13:50:11.5995892'),
+              text: 'Hello',
+              systemMessageType: SystemMessageType.None,
+              state: MessageState.READ,
+              chatId: -1,
+              isEdited: true,
+            },
+            [-2]: {
+              id: -2,
+              userCreatorId: currentUserId,
+              creationDateTime: new Date('2021-05-04T13:51:11.3543574'),
+              text: 'Hi, friend!',
+              systemMessageType: SystemMessageType.None,
+              state: MessageState.READ,
+              chatId: -1,
+            },
+            [-3]: {
+              id: -3,
+              userCreatorId: currentUserId,
+              creationDateTime: new Date('2021-05-04T14:28:11.137058'),
+              text: 'How are you?',
+              systemMessageType: SystemMessageType.None,
+              state: MessageState.READ,
+              chatId: -1,
+              isEdited: true,
+            },
+            [-4]: {
+              id: -4,
+              userCreatorId: currentUserId,
+              creationDateTime: new Date('2021-05-04T15:58:10.9164275'),
+              text: 'You know, I am great!',
+              systemMessageType: SystemMessageType.None,
+              state: MessageState.READ,
+              chatId: -1,
+              isEdited: true,
+            },
+            [-5]: {
+              id: -5,
+              userCreatorId: currentUserId,
+              creationDateTime: new Date('2021-05-04T16:08:10.7092581'),
+              text: 'So, I am happy for you',
+              systemMessageType: SystemMessageType.None,
+              state: MessageState.READ,
+              chatId: -1,
+            },
+            [-6]: {
+              id: -6,
+              userCreatorId: currentUserId,
+              creationDateTime: new Date('2021-05-04T17:11:10.4607332'),
+              text: 'What kind of plans do you have for tomorrow?',
+              systemMessageType: SystemMessageType.None,
+              state: MessageState.READ,
+              chatId: -1,
+            },
+            [-7]: {
+              id: -7,
+              userCreatorId: currentUserId,
+              creationDateTime: new Date('2021-05-04T17:22:10.1117228'),
+              text: 'Swimming, running, doing sports',
+              systemMessageType: SystemMessageType.None,
+              state: MessageState.READ,
+              chatId: -1,
+              isEdited: true,
+            },
+            [-8]: {
+              id: -8,
+              userCreatorId: currentUserId,
+              creationDateTime: new Date('2021-05-04T22:35:09.7422384'),
+              text: 'Can I make a company for you?',
+              systemMessageType: SystemMessageType.None,
+              state: MessageState.SENT,
+              chatId: -1,
+            },
+            [-9]: {
+              id: -9,
+              userCreatorId: currentUserId,
+              creationDateTime: new Date(),
+              text: 'I will be happy for such a company!',
+              systemMessageType: SystemMessageType.None,
+              state: MessageState.QUEUED,
+              chatId: -1,
+            },
           },
         },
-        loading: false,
-        hasMore: false,
-      };
-
+      } as unknown) as INormalizedChat;
       return draft;
     }),
   )

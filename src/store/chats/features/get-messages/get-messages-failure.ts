@@ -12,7 +12,7 @@ export class GetMessagesFailure {
       (draft: IChatsState, { payload }: ReturnType<typeof GetMessagesFailure.action>) => {
         const chatId = payload;
 
-        const chatMessages = draft.messages[chatId];
+        const chatMessages = draft.chats[chatId]?.messages;
 
         if (chatMessages) {
           chatMessages.loading = false;

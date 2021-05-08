@@ -19,13 +19,13 @@ export const getChatLastMessageIdSelector = (chatId: number) => (
 
 export const getChatMessagesLengthSelector = (chatId: number) => (
   state: RootState,
-): number | undefined => state.chats?.messages[chatId]?.messageIds.length;
+): number | undefined => state.chats?.chats[chatId]?.messages.messageIds.length;
 
 export const getSelectedChatMessageIdsSelector = (state: RootState): number[] | undefined =>
-  state.chats?.messages[state?.chats?.selectedChatId || -1]?.messageIds;
+  state.chats?.chats[state?.chats?.selectedChatId || -1]?.messages.messageIds;
 
 export const getSelectedChatMessagesSearchStringSelector = (state: RootState): string | undefined =>
-  state.chats?.messages[state?.chats?.selectedChatId || -1]?.searchString;
+  state.chats?.chats[state?.chats?.selectedChatId || -1]?.messages.searchString;
 
 export const getSelectedGroupChatSelector = (state: RootState) =>
   state.chats.chats[state?.chats?.selectedChatId || -1]?.groupChat;
@@ -151,27 +151,23 @@ export const getMessageToReplySelector = (state: RootState) =>
   state.chats.chats[state.chats.selectedChatId || -1]?.messageToReply;
 
 export const getMessagesLoadingSelector = (state: RootState) =>
-  state.chats.messages[state.chats.selectedChatId || -1]?.loading;
+  state.chats.chats[state.chats.selectedChatId || -1]?.messages.loading;
 
 export const getHasMoreMessagesMessagesSelector = (state: RootState) =>
-  state.chats.messages[state.chats.selectedChatId || -1]?.hasMore;
+  state.chats.chats[state.chats.selectedChatId || -1]?.messages.hasMore;
 
 export const getMessagesIdsByChatIdSelector = (state: RootState) =>
-  state.chats.messages[state.chats.selectedChatId || -1]?.messageIds;
+  state.chats.chats[state.chats.selectedChatId || -1]?.messages.messageIds;
 
 export const getSelectedChatMessagesSelector = (state: RootState) =>
-  state.chats.messages[state.chats.selectedChatId || -1]?.messages;
-
-export const getChatMessageByIdSelector = (messageId: number, chatId: number) => (
-  state: RootState,
-) => state.chats.messages[chatId]?.messages[messageId];
+  state.chats.chats[state.chats.selectedChatId || -1]?.messages.messages;
 
 export const getMessageSelector = (chatId: number, messageId: number) => (state: RootState) =>
-  state.chats.messages[chatId]?.messages[messageId];
+  state.chats.chats[chatId]?.messages.messages[messageId];
 
 export const getChatHasMessageWithIdSelector = (messageId: number, chatId: number) => (
   state: RootState,
-) => state.chats.messages[chatId]?.messages[messageId] !== undefined;
+) => state.chats.chats[chatId]?.messages.messages[messageId] !== undefined;
 
 // IChatsState selectors
 export const getChatExistsDraftSelector = (chatId: number, draft: IChatsState): boolean =>
@@ -180,7 +176,7 @@ export const getChatExistsDraftSelector = (chatId: number, draft: IChatsState): 
 export const getChatByIdDraftSelector = (chatId: number, draft: IChatsState) => draft.chats[chatId];
 
 export const getMessageDraftSelector = (chatId: number, messageId: number, draft: IChatsState) =>
-  draft.messages[chatId]?.messages[messageId];
+  draft.chats[chatId]?.messages.messages[messageId];
 
 export const isCurrentChatBlackListedSelector = (state: RootState) =>
   state.chats.chats[state.chats.selectedChatId || -1]?.isBlockedByUser;

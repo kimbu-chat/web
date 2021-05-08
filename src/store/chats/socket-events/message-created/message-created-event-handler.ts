@@ -35,7 +35,7 @@ import {
   getSelectedChatIdSelector,
   getChatByIdSelector,
   getChatHasMessageWithIdSelector,
-  getChatMessageByIdSelector,
+  getMessageSelector,
 } from '../../selectors';
 import { IMessageCreatedIntegrationEvent } from './message-created-integration-event';
 import { UnshiftChat } from '../../features/unshift-chat/unshift-chat';
@@ -88,7 +88,7 @@ export class MessageCreatedEventHandler {
       let linkedMessage: INormalizedLinkedMessage | undefined;
 
       if (linkedMessageType === MessageLinkType.Reply) {
-        linkedMessage = yield select(getChatMessageByIdSelector(linkedMessageId, chatId));
+        linkedMessage = yield select(getMessageSelector(chatId, linkedMessageId));
       }
 
       if (linkedMessageId && !linkedMessage) {
@@ -124,17 +124,17 @@ export class MessageCreatedEventHandler {
         );
 
         if (data) {
-          const [modeledChat] = modelChatList([data]);
-
           const {
             entities: { chats, users },
           } = normalize<IChat[], { chats: ById<INormalizedChat>; users: ById<IUser> }, number[]>(
-            modeledChat,
+            data,
             chatNormalizationSchema,
           );
-          const chat = chats[modeledChat.id];
-          if (chat) {
-            yield put(UnshiftChat.action({ chat }));
+
+          const modeledChat = modelChatList(chats)[data.id];
+
+          if (modeledChat) {
+            yield put(UnshiftChat.action({ chat: modeledChat }));
             yield put(AddOrUpdateUsers.action({ users }));
           }
 

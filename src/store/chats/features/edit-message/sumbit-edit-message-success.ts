@@ -16,7 +16,7 @@ export class SubmitEditMessageSuccess {
         const { chatId, messageId } = payload;
 
         const chat = getChatByIdDraftSelector(chatId, draft);
-        const message = draft.messages[chatId]?.messages[messageId];
+        const message = draft.chats[chatId]?.messages.messages[messageId];
 
         if (message) {
           message.state = MessageState.SENT;

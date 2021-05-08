@@ -24,8 +24,6 @@ export class RemoveChatSuccess {
           draft.selectedChatId = null;
         }
 
-        delete draft.messages[chatId];
-
         return draft;
       },
     );

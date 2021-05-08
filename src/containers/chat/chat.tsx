@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Route } from 'react-router';
+import { Redirect, Route, Switch } from 'react-router';
 import './chat.scss';
 import {
   FriendList,
@@ -25,10 +25,8 @@ import {
   amICallingSelector,
   doIhaveCallSelector,
 } from '@store/calls/selectors';
-import { CSSTransition } from 'react-transition-group';
 import {
   amIBlackListedByInterlocutorSelector,
-  getIsInfoOpenedSelector,
   isCurrentChatBlackListedSelector,
   isCurrentChatDismissedAddToContactsSelector,
   isCurrentChatContactSelector,
@@ -119,33 +117,39 @@ const Chat: React.FC<IChatProps> = ({ preloadNext }) => {
           <SettingsNavigation />
         </div>
         <div className="messenger__settings-data">
-          <Route path="/settings/profile">
-            <EditProfile />
-          </Route>
+          <Switch>
+            <Route exact path="/settings/profile">
+              <EditProfile />
+            </Route>
 
-          <Route path="/settings/notifications">
-            <NotificationsSettings />
-          </Route>
+            <Route exact path="/settings/notifications">
+              <NotificationsSettings />
+            </Route>
 
-          <Route path="/settings/language">
-            <LanguageSettings />
-          </Route>
+            <Route exact path="/settings/language">
+              <LanguageSettings />
+            </Route>
 
-          <Route path="/settings/typing">
-            <KeyBindings />
-          </Route>
+            <Route exact path="/settings/typing">
+              <KeyBindings />
+            </Route>
 
-          <Route path="/settings/appearance">
-            <Appearance />
-          </Route>
+            <Route exact path="/settings/appearance">
+              <Appearance />
+            </Route>
 
-          <Route path="/settings/privacy-security">
-            <PrivacySecurity />
-          </Route>
+            <Route exact path="/settings/privacy-security">
+              <PrivacySecurity />
+            </Route>
 
-          <Route path="/settings/audio-video">
-            <AudioVideoSettings />
-          </Route>
+            <Route exact path="/settings/audio-video">
+              <AudioVideoSettings />
+            </Route>
+
+            <Route>
+              <Redirect to="/settings/profile" />
+            </Route>
+          </Switch>
         </div>
       </Route>
     </div>

@@ -28,12 +28,12 @@ export class MessagesDeletedIntegrationEventHandlerSuccess {
               (id) => id !== msgIdToDelete,
             );
 
-            const index = draft.messages[chatId]?.messageIds.indexOf(msgIdToDelete);
+            const index = draft.chats[chatId]?.messages.messageIds.indexOf(msgIdToDelete);
 
             if (index !== undefined && index > -1) {
-              draft.messages[chatId]?.messageIds.splice(index, 1);
+              draft.chats[chatId]?.messages.messageIds.splice(index, 1);
             }
-            const deletedMessage = draft.messages[chatId]?.messages[msgIdToDelete || -1];
+            const deletedMessage = draft.chats[chatId]?.messages.messages[msgIdToDelete || -1];
 
             deletedMessage?.attachments?.forEach((attachment) => {
               switch (attachment.type) {
@@ -69,14 +69,15 @@ export class MessagesDeletedIntegrationEventHandlerSuccess {
               }
             });
 
-            draft.messages[chatId]?.messageIds
+            draft.chats[chatId]?.messages.messageIds
               .filter((messageId) => {
-                const linkedMessage = draft.messages[chatId]?.messages[messageId]?.linkedMessage;
+                const linkedMessage =
+                  draft.chats[chatId]?.messages.messages[messageId]?.linkedMessage;
 
                 return linkedMessage?.id === msgIdToDelete;
               })
               .forEach((_msg, linkedMsgIndex) => {
-                const message = draft.messages[chatId]?.messages[linkedMsgIndex];
+                const message = draft.chats[chatId]?.messages.messages[linkedMsgIndex];
 
                 if (message?.linkedMessage) {
                   message.linkedMessage = null;
@@ -85,10 +86,11 @@ export class MessagesDeletedIntegrationEventHandlerSuccess {
                 return message;
               });
 
-            delete draft.messages[chatId]?.messages[msgIdToDelete || -1];
+            delete draft.chats[chatId]?.messages.messages[msgIdToDelete || -1];
           });
-
-          chat.lastMessage = chatNewLastMessage;
+          if (messageIds.includes(draft.chats[chatId]?.lastMessage?.id || -1)) {
+            chat.lastMessage = chatNewLastMessage;
+          }
 
           if (chat.lastMessage?.linkedMessage) {
             if (messageIds.includes(chat.lastMessage?.linkedMessage?.id)) {

@@ -1,6 +1,4 @@
 import { useTranslation } from 'react-i18next';
-import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { containsFiles, useGlobalDrop } from '@hooks/use-global-drop';
 import { useReferState } from '@hooks/use-referred-state';
 import {
   messageTypingAction,
@@ -32,6 +30,7 @@ import { useSelector } from 'react-redux';
 import { throttle } from 'lodash';
 import { TypingStrategy } from '@store/settings/features/models';
 import { CubeLoader } from '@containers/cube-loader/cube-loader';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 
 import { ReactComponent as AddSvg } from '@icons/add-attachment.svg';
 import { ReactComponent as VoiceSvg } from '@icons/voice.svg';
@@ -69,8 +68,6 @@ const CreateMessageInput = () => {
   const [text, setText] = useState('');
   const refferedText = useReferState(text);
   const [isRecording, setIsRecording] = useState(false);
-  const [isDraggingOver, setIsDraggingOver] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
 
   // edit state logic
   const [removedAttachments, setRemovedAttachments] = useState<IAttachmentCreation[] | undefined>(
@@ -90,27 +87,6 @@ const CreateMessageInput = () => {
   });
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const onDrag = useCallback(
-    (e: DragEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-      if (containsFiles(e)) {
-        setIsDragging(true);
-      }
-    },
-    [setIsDragging],
-  );
-
-  useGlobalDrop({
-    onDragEnter: onDrag,
-    onDragOver: onDrag,
-    onDragLeave: (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      setIsDragging(false);
-    },
-  });
 
   useEffect(() => {
     setText((oldText) =>
@@ -197,60 +173,6 @@ const CreateMessageInput = () => {
     submitEditedMessage,
     updatedSelectedChat,
   ]);
-
-  const onDragOver = useCallback(
-    (e: React.DragEvent<HTMLDivElement>) => {
-      e.preventDefault();
-      e.stopPropagation();
-      if (containsFiles(e)) {
-        setIsDraggingOver(true);
-      }
-    },
-    [setIsDraggingOver],
-  );
-
-  const onDragEnter = useCallback(
-    (e: React.DragEvent<HTMLDivElement>) => {
-      e.preventDefault();
-      e.stopPropagation();
-      if (containsFiles(e)) {
-        setIsDraggingOver(true);
-      }
-    },
-    [setIsDraggingOver],
-  );
-
-  const onDragLeave = useCallback(
-    (e: React.DragEvent<HTMLDivElement>) => {
-      e.preventDefault();
-      e.stopPropagation();
-      setIsDraggingOver(false);
-    },
-    [setIsDraggingOver],
-  );
-
-  const onDrop = useCallback(
-    (e: React.DragEvent<HTMLDivElement>) => {
-      e.preventDefault();
-      e.stopPropagation();
-      setIsDraggingOver(false);
-
-      if (e.dataTransfer?.files?.length > 0) {
-        for (let index = 0; index < e.dataTransfer.files.length; index += 1) {
-          const file = e.dataTransfer?.files[index] as File;
-
-          const fileType = getFileType(file.name);
-
-          uploadAttachmentRequest({
-            type: fileType,
-            file,
-            attachmentId: Number(`${new Date().getTime()}${index}`),
-          });
-        }
-      }
-    },
-    [setIsDraggingOver, uploadAttachmentRequest],
-  );
 
   const onPaste = useCallback(
     (event: React.ClipboardEvent<HTMLTextAreaElement>) => {
@@ -374,19 +296,8 @@ const CreateMessageInput = () => {
   );
 
   return (
-    <div
-      className="message-input"
-      onDrop={onDrop}
-      onDragOver={onDragOver}
-      onDragEnter={onDragEnter}
-      onDragLeave={onDragLeave}>
-      {(isDragging || isDraggingOver) && (
-        <div
-          className={`message-input__drag ${isDraggingOver ? 'message-input__drag--active' : ''}`}>
-          Drop files here to send them
-        </div>
-      )}
-      {selectedChat && !(isDragging || isDraggingOver) && (
+    <div className="message-input">
+      {selectedChat && (
         <>
           {replyingMessage && <RespondingMessage />}
           {editingMessage && <EditingMessage />}

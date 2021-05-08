@@ -33,6 +33,7 @@ module.exports = {
     'react/jsx-props-no-spreading': 'off',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
+    '@typescript-eslint/no-explicit-any': 'off',
     'react/jsx-filename-extension': [
       1,
       {

@@ -78,17 +78,18 @@ export class GetChats {
       const { data }: AxiosResponse<IChat[]> = GetChats.httpRequest.call(
         yield call(() => GetChats.httpRequest.generator(request)),
       );
-      const modeledChats = modelChatList(data);
 
       const {
         entities: { chats: normalizedChats, users },
         result,
       } = normalize<IChat[], { chats: ById<INormalizedChat>; users: ById<IUser> }, number[]>(
-        modeledChats,
+        data,
         chatArrNormalizationSchema,
       );
+      const modeledChats = modelChatList(normalizedChats);
+
       const chatList: IGetChatsSuccessActionPayload = {
-        chats: normalizedChats,
+        chats: modeledChats,
         chatIds: result,
         hasMore: result.length >= CHATS_LIMIT,
         initializedByScroll: chatsRequestData.initializedByScroll,

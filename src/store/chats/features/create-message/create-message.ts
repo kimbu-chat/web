@@ -38,7 +38,7 @@ export class CreateMessage {
         }
       }
 
-      const chatMessages = draft.messages[message.chatId];
+      const chatMessages = draft.chats[message.chatId]?.messages;
 
       if (chatMessages && chatMessages.messages[message.id] === undefined) {
         chatMessages.messages[message.id] = message;

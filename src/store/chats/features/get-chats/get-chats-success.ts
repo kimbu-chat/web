@@ -14,17 +14,6 @@ export class GetChatsSuccess {
 
       draft.chats = { ...draft.chats, ...chats };
 
-      chatIds.forEach((chatId) => {
-        if (!draft.messages[chatId]) {
-          draft.messages[chatId] = {
-            messages: {},
-            messageIds: [],
-            hasMore: true,
-            loading: false,
-          };
-        }
-      });
-
       if (searchString?.length) {
         draft.searchChatList.hasMore = hasMore;
         draft.searchChatList.loading = false;

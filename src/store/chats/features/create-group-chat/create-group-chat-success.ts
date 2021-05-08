@@ -19,12 +19,7 @@ export class CreateGroupChatSuccess {
         if (!isChatExists) {
           draft.chats[newChat.id] = newChat;
 
-          draft.messages[newChat.id] = {
-            messages: [],
-            messageIds: [],
-            hasMore: true,
-            loading: false,
-          };
+          draft.chatList.chatIds.unshift(newChat.id);
 
           return draft;
         }

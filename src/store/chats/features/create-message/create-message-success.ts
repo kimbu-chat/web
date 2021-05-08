@@ -22,7 +22,7 @@ export class CreateMessageSuccess {
         const { messageState, chatId, oldMessageId, newMessageId, attachments } = payload;
 
         const chat = getChatByIdDraftSelector(chatId, draft);
-        const chatMessages = draft.messages[chatId];
+        const chatMessages = draft.chats[chatId]?.messages;
 
         const message = chatMessages?.messages[oldMessageId];
 

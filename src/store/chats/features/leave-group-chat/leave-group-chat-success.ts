@@ -23,9 +23,6 @@ export class LeaveGroupChatSuccess {
         if (draft.selectedChatId === chatId) {
           draft.selectedChatId = null;
         }
-
-        delete draft.messages[chatId];
-
         // TODO: handle user deleteing
 
         return draft;

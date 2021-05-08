@@ -22,64 +22,66 @@ export class DeleteMessageSuccess {
               (id) => id !== msgIdToDelete,
             );
 
-            const index = draft.messages[chatId]?.messageIds.indexOf(msgIdToDelete);
+            const index = draft.chats[chatId]?.messages.messageIds.indexOf(msgIdToDelete);
 
             if (index !== undefined && index > -1) {
-              draft.messages[chatId]?.messageIds.splice(index, 1);
+              draft.chats[chatId]?.messages.messageIds.splice(index, 1);
             }
 
-            if (msgIdToDelete) {
-              const deletedMessage = draft.messages[chatId]?.messages[msgIdToDelete];
+            const deletedMessage = draft.chats[chatId]?.messages.messages[msgIdToDelete];
 
-              if (deletedMessage) {
-                deletedMessage.attachments?.forEach((attachment) => {
-                  switch (attachment.type) {
-                    case FileType.Audio:
-                      chat.audioAttachmentsCount = (chat.audioAttachmentsCount || 1) - 1;
-                      chat.audios.audios = chat.audios.audios.filter(
-                        ({ id }) => id !== attachment.id,
-                      );
+            if (deletedMessage) {
+              deletedMessage.attachments?.forEach((attachment) => {
+                switch (attachment.type) {
+                  case FileType.Audio:
+                    chat.audioAttachmentsCount = (chat.audioAttachmentsCount || 1) - 1;
+                    chat.audios.audios = chat.audios.audios.filter(
+                      ({ id }) => id !== attachment.id,
+                    );
 
-                      break;
-                    case FileType.Picture:
-                      chat.pictureAttachmentsCount = (chat.pictureAttachmentsCount || 1) - 1;
-                      chat.photos.photos = chat.photos.photos.filter(
-                        ({ id }) => id !== attachment.id,
-                      );
+                    break;
+                  case FileType.Picture:
+                    chat.pictureAttachmentsCount = (chat.pictureAttachmentsCount || 1) - 1;
+                    chat.photos.photos = chat.photos.photos.filter(
+                      ({ id }) => id !== attachment.id,
+                    );
 
-                      break;
-                    case FileType.Raw:
-                      chat.rawAttachmentsCount = (chat.rawAttachmentsCount || 1) - 1;
-                      chat.files.files = chat.files.files.filter(({ id }) => id !== attachment.id);
+                    break;
+                  case FileType.Raw:
+                    chat.rawAttachmentsCount = (chat.rawAttachmentsCount || 1) - 1;
+                    chat.files.files = chat.files.files.filter(({ id }) => id !== attachment.id);
 
-                      break;
-                    case FileType.Video:
-                      chat.videoAttachmentsCount = (chat.videoAttachmentsCount || 1) - 1;
-                      chat.videos.videos = chat.videos.videos.filter(
-                        ({ id }) => id !== attachment.id,
-                      );
+                    break;
+                  case FileType.Video:
+                    chat.videoAttachmentsCount = (chat.videoAttachmentsCount || 1) - 1;
+                    chat.videos.videos = chat.videos.videos.filter(
+                      ({ id }) => id !== attachment.id,
+                    );
 
-                      break;
-                    case FileType.Voice:
-                      chat.voiceAttachmentsCount = (chat.voiceAttachmentsCount || 1) - 1;
-                      chat.recordings.recordings = chat.recordings.recordings.filter(
-                        ({ id }) => id !== attachment.id,
-                      );
+                    break;
+                  case FileType.Voice:
+                    chat.voiceAttachmentsCount = (chat.voiceAttachmentsCount || 1) - 1;
+                    chat.recordings.recordings = chat.recordings.recordings.filter(
+                      ({ id }) => id !== attachment.id,
+                    );
 
-                      break;
-                    default:
-                      break;
-                  }
-                });
+                    break;
+                  default:
+                    break;
+                }
+              });
 
-                delete draft.messages[chatId]?.messages[msgIdToDelete];
-              }
+              delete draft.chats[chatId]?.messages.messages[msgIdToDelete];
             }
           });
 
-          if (draft.messages[chatId]?.messages[draft.messages[chatId]?.messageIds[0] || -1]) {
-            chat.lastMessage =
-              draft.messages[chatId]?.messages[draft.messages[chatId]?.messageIds[0] || -1];
+          const newLastMessage =
+            draft.chats[chatId]?.messages.messages[
+              draft.chats[chatId]?.messages.messageIds[0] || -1
+            ];
+
+          if (messageIds.includes(draft.chats[chatId]?.lastMessage?.id || -1) && newLastMessage) {
+            chat.lastMessage = newLastMessage;
           }
         }
 

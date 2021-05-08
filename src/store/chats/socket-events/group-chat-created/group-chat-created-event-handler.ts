@@ -101,6 +101,12 @@ export class GroupChatCreatedEventHandler {
             loading: false,
             memberIds: [],
           },
+          messages: {
+            messages: [],
+            messageIds: [],
+            hasMore: true,
+            loading: false,
+          },
           isBlockedByInterlocutor: false,
           isBlockedByUser: false,
           isInContacts: false,
@@ -119,13 +125,6 @@ export class GroupChatCreatedEventHandler {
           draft.chatList.chatIds.unshift(newChat.id);
           draft.chats[newChat.id] = newChat;
         }
-
-        draft.messages[newChat.id] = {
-          messages: [],
-          messageIds: [],
-          hasMore: true,
-          loading: false,
-        };
 
         return draft;
       },

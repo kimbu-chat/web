@@ -15,7 +15,7 @@ export class GetMessagesSuccess {
           messageList: { chatId, hasMoreMessages, messages, messageIds, isFromScroll },
         }: IGetMessagesSuccessActionPayload = payload;
 
-        const chatMessages = draft.messages[chatId];
+        const chatMessages = draft.chats[chatId]?.messages;
 
         if (chatMessages) {
           chatMessages.hasMore = hasMoreMessages;

@@ -9,61 +9,17 @@ import { IVoiceAttachment } from './attachments/voice-attachment';
 import { IGroupChat } from './group-chat';
 import { IGroupable } from './groupable';
 import { InterlocutorType } from './interlocutor-type';
+import { ById } from './by-id';
 
 export interface IChat {
   id: number;
 
-  interlocutorType?: InterlocutorType;
   groupChat?: IGroupChat;
   lastMessage?: IMessage;
   interlocutor?: IUser;
   unreadMessagesCount: number;
   interlocutorLastReadMessageId?: number;
-  draftMessage?: string;
-  typingInterlocutors?: string[];
   isMuted?: boolean;
-
-  messageToEdit?: INormalizedMessage;
-  messageToReply?: INormalizedMessage;
-
-  photos: {
-    photos: (IPictureAttachment & IGroupable)[];
-    loading: boolean;
-    hasMore: boolean;
-  };
-  videos: {
-    videos: (IVideoAttachment & IGroupable)[];
-    loading: boolean;
-    hasMore: boolean;
-  };
-  audios: {
-    audios: (IAudioAttachment & IGroupable)[];
-    loading: boolean;
-    hasMore: boolean;
-  };
-  files: {
-    files: (IBaseAttachment & IGroupable)[];
-    loading: boolean;
-    hasMore: boolean;
-  };
-  members: {
-    memberIds: number[];
-    loading: boolean;
-    hasMore: boolean;
-  };
-  recordings: {
-    recordings: (IVoiceAttachment & IGroupable)[];
-    loading: boolean;
-    hasMore: boolean;
-  };
-
-  attachmentsToSend?: IAttachmentToSend<IBaseAttachment>[];
-
-  rawAttachmentsCount?: number;
-  videoAttachmentsCount?: number;
-  voiceAttachmentsCount?: number;
-  audioAttachmentsCount?: number;
-  pictureAttachmentsCount?: number;
 
   isBlockedByInterlocutor: boolean;
   isBlockedByUser: boolean;
@@ -73,7 +29,6 @@ export interface IChat {
 
 export interface INormalizedChat {
   id: number;
-
   interlocutorType?: InterlocutorType;
   groupChat?: IGroupChat;
   lastMessage?: INormalizedMessage | null;
@@ -116,6 +71,14 @@ export interface INormalizedChat {
     recordings: (IVoiceAttachment & IGroupable)[];
     loading: boolean;
     hasMore: boolean;
+  };
+
+  messages: {
+    messages: ById<INormalizedMessage>;
+    messageIds: number[];
+    loading: boolean;
+    hasMore: boolean;
+    searchString?: string;
   };
 
   attachmentsToSend?: IAttachmentToSend<IBaseAttachment>[];

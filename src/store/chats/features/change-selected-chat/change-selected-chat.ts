@@ -42,7 +42,7 @@ export class ChangeSelectedChat {
 
         if (oldChatId) {
           const chat = getChatByIdDraftSelector(oldChatId, draft);
-          const oldChatMessages = draft.messages[oldChatId];
+          const oldChatMessages = draft.chats[oldChatId]?.messages;
 
           if (oldChatMessages) {
             if (oldChatMessages.searchString?.length) {
@@ -98,21 +98,17 @@ export class ChangeSelectedChat {
             ),
           );
 
-          const [modeledChat] = modelChatList([data]);
-
           const {
             entities: { chats, users },
           } = normalize<IChat[], { chats: ById<INormalizedChat>; users: ById<IUser> }, number[]>(
-            modeledChat,
+            data,
             chatNormalizationSchema,
           );
 
-          const chat = chats[modeledChat.id];
+          const modeledChat = modelChatList(chats)[data.id];
 
-          if (chat) {
-            yield put(UnshiftChat.action({ chat }));
-            yield put(AddOrUpdateUsers.action({ users }));
-          }
+          yield put(UnshiftChat.action({ chat: modeledChat as INormalizedChat }));
+          yield put(AddOrUpdateUsers.action({ users }));
         }
       }
     };

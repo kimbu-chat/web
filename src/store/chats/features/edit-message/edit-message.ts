@@ -16,7 +16,7 @@ export class EditMessage {
       if (draft.selectedChatId) {
         const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
 
-        const message = draft.messages[draft.selectedChatId]?.messages[messageId];
+        const message = draft.chats[draft.selectedChatId]?.messages.messages[messageId];
 
         if (chat && chat.messageToEdit?.id !== message?.id) {
           chat.messageToEdit = message;

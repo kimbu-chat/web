@@ -149,7 +149,7 @@ const reducer = createReducer<IChatsState>(initialState)
   .handleAction(ResetSearchChats.action, ResetSearchChats.reducer)
   .handleAction(
     BlockUserSuccess.action,
-    produce((draft: IChatsState, { payload }: ReturnType<typeof BlockUserSuccess.action>) => {
+    produce((draft, { payload }) => {
       const userId = payload;
       const chatId: number = ChatId.from(userId).id;
       const chat = getChatByIdDraftSelector(chatId, draft);

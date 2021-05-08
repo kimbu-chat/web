@@ -25,10 +25,8 @@ import {
   amICallingSelector,
   doIhaveCallSelector,
 } from '@store/calls/selectors';
-import { CSSTransition } from 'react-transition-group';
 import {
   amIBlackListedByInterlocutorSelector,
-  getIsInfoOpenedSelector,
   isCurrentChatBlackListedSelector,
   isCurrentChatDismissedAddToContactsSelector,
   isCurrentChatContactSelector,

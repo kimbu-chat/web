@@ -1,7 +1,6 @@
 import { IPictureAttachment, IVideoAttachment } from '@store/chats/models';
 import React from 'react';
 import './media-grid.scss';
-import { xorBy } from 'lodash';
 import { MessageMediaAttachment } from '../media-attachment/media-attachment';
 
 interface IMediaGridProps {

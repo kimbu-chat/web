@@ -24,19 +24,17 @@ export class GetGroupChatUsers {
   }
 
   static get reducer() {
-    return produce(
-      produce((draft: IChatsState) => {
-        if (draft.selectedChatId) {
-          const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
+    return produce((draft: IChatsState) => {
+      if (draft.selectedChatId) {
+        const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
 
-          if (chat) {
-            chat.members.loading = true;
-          }
+        if (chat) {
+          chat.members.loading = true;
         }
+      }
 
-        return draft;
-      }),
-    );
+      return draft;
+    });
   }
 
   static get saga() {

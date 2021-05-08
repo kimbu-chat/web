@@ -5,7 +5,6 @@ import { FadeAnimationWrapper } from '@components/shared';
 import { MediaModal } from '@components/messenger-page';
 import { IGroupable, IVideoAttachment } from '@store/chats/models';
 import { doesYearDifferFromCurrent } from '@utils/set-separators';
-import { xorBy } from 'lodash';
 
 interface IVideoFromListProps {
   video: IVideoAttachment & IGroupable;

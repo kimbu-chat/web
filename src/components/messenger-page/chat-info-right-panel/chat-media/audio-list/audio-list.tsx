@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { getSelectedChatAudiosSelector } from '@store/chats/selectors';
 import { getAudioAttachmentsAction } from '@store/chats/actions';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 import { doesYearDifferFromCurrent, setSeparators } from '@utils/set-separators';
 import { InfiniteScroll, MessageAudioAttachment } from '@components/messenger-page';
@@ -42,8 +42,8 @@ export const AudioList = () => {
                 <div className="chat-audios__separator">
                   {attachment.needToShowYearSeparator ||
                   doesYearDifferFromCurrent(attachment.creationDateTime)
-                    ? moment(attachment.creationDateTime).format('MMMM YYYY')
-                    : moment(attachment.creationDateTime).format('MMMM')}
+                    ? dayjs(attachment.creationDateTime).format('MMMM YYYY')
+                    : dayjs(attachment.creationDateTime).format('MMMM')}
                 </div>
               )}
               <div className="chat-audios__audio">

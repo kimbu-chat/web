@@ -1,4 +1,4 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { TFunction } from 'i18next';
 import { INormalizedMessage, IMessage } from '../store/chats/models/message';
 import { CallStatus, IUser } from '../store/common/models';
@@ -44,11 +44,11 @@ const getCallEndedMessage = (
 ) => {
   if (callMessage.userCallerId === myId) {
     return t('systemMessage.outgoing_call_success_ended', {
-      duration: moment.utc(callMessage.duration * 1000).format('HH:mm:ss'),
+      duration: dayjs.utc(callMessage.duration * 1000).format('HH:mm:ss'),
     });
   }
   return t('systemMessage.incoming_call_success_ended', {
-    duration: moment.utc(callMessage.duration * 1000).format('HH:mm:ss'),
+    duration: dayjs.utc(callMessage.duration * 1000).format('HH:mm:ss'),
   });
 };
 
@@ -90,10 +90,10 @@ const getCallNotAnsweredMessage = (
 ) =>
   callMessage.userCallerId === myId
     ? t('systemMessage.someone_missed_call', {
-        time: moment.utc(message.creationDateTime).local().format('LT').toLowerCase(),
+        time: dayjs.utc(message.creationDateTime).local().format('LT').toLowerCase(),
       })
     : t('systemMessage.you_missed_call', {
-        time: moment.utc(message.creationDateTime).local().format('LT').toLowerCase(),
+        time: dayjs.utc(message.creationDateTime).local().format('LT').toLowerCase(),
       });
 
 const callMessageMap: {

@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { getRawAttachmentsAction } from '@store/chats/actions';
 import { getSelectedChatFilesSelector } from '@store/chats/selectors';
 import { IPage } from '@store/common/models';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 import { doesYearDifferFromCurrent, setSeparators } from '@utils/set-separators';
 import { InfiniteScroll, FileAttachment } from '@components/messenger-page';
@@ -46,8 +46,8 @@ export const FileList = () => {
             {file.needToShowMonthSeparator && (
               <div className="chat-files__separator">
                 {file.needToShowYearSeparator || doesYearDifferFromCurrent(file.creationDateTime)
-                  ? moment(file.creationDateTime).format('MMMM YYYY')
-                  : moment(file.creationDateTime).format('MMMM')}
+                  ? dayjs(file.creationDateTime).format('MMMM YYYY')
+                  : dayjs(file.creationDateTime).format('MMMM')}
               </div>
             )}
             <FileAttachment {...file} />

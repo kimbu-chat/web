@@ -1,6 +1,6 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { SettingsService } from '@services/settings-service';
 import HttpApi from 'i18next-http-backend';
 
@@ -9,8 +9,8 @@ import HttpApi from 'i18next-http-backend';
 i18n.on('languageChanged', (language: string) => {
   if (language.includes('ru')) {
     const lang = 'ru';
-    import(`moment/locale/${lang}.js`).then(() => {
-      moment.locale(lang);
+    import(`dayjs/locale/${lang}.js`).then(() => {
+      dayjs.locale(lang);
     });
   }
 });
@@ -33,7 +33,7 @@ i18n
     },
   })
   .then(() => {
-    moment.locale(i18n.language);
+    dayjs.locale(i18n.language);
   });
 
 export default i18n;

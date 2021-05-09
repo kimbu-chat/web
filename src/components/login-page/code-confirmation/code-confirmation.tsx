@@ -7,7 +7,7 @@ import { sendSmsCodeAction, confirmPhoneAction } from '@store/auth/actions';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useSelector } from 'react-redux';
 import useInterval from 'use-interval';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { parsePhoneNumber } from 'libphonenumber-js';
 import { useHistory } from 'react-router';
 import {
@@ -166,7 +166,7 @@ const CodeConfirmation: React.FC<ICodeConfirmationProps> = ({ preloadNext }) => 
           <>
             <p className="code-confirmation__timer">
               {t('loginPage.reset_timer', {
-                time: moment.utc(remainingSeconds * 1000).format('mm:ss'),
+                time: dayjs.utc(remainingSeconds * 1000).format('mm:ss'),
               })}
             </p>
 

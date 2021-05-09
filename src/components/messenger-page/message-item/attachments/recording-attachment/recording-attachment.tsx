@@ -5,7 +5,7 @@ import { ReactComponent as PauseSvg } from '@icons/pause.svg';
 
 import WaveSurfer from 'wavesurfer.js';
 import { IVoiceAttachment } from '@store/chats/models';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 interface IRecordingAttachmentProps {
   attachment: IVoiceAttachment;
@@ -83,7 +83,7 @@ export const RecordingAttachment: React.FC<IRecordingAttachmentProps> = ({ attac
         <div ref={element} className="recording-attachment__vaweform" />
       </div>
       <div className="recording-attachment__duration">
-        {moment.utc(attachment.duration * 1000).format('mm:ss')}
+        {dayjs.utc(attachment.duration * 1000).format('mm:ss')}
       </div>
     </div>
   );

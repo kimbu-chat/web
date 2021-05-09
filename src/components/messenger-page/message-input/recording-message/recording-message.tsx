@@ -1,7 +1,7 @@
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { uploadAttachmentRequestAction } from '@store/chats/actions';
 import { FileType } from '@store/chats/models';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { ReactComponent as VoiceSvg } from '@icons/voice.svg';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -124,7 +124,7 @@ export const RecordingMessage: React.FC<IRecordingMessageProps> = ({ hide }) => 
   return (
     <div className="recording-message">
       <div className="recording-message__counter">
-        {moment.utc(recordedSeconds * 1000).format('mm:ss')}
+        {dayjs.utc(recordedSeconds * 1000).format('mm:ss')}
       </div>
       <div ref={waveformRef} className="recording-message__vaweform" />
       <button type="button" onClick={stopRecording} className="recording-message__voice-btn">

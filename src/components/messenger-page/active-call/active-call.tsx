@@ -23,7 +23,7 @@ import {
   outgoingCallAction,
   switchDeviceAction,
 } from '@store/calls/actions';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { Rnd } from 'react-rnd';
 import { Avatar } from '@components/shared';
 import ReactDOM from 'react-dom';
@@ -233,7 +233,7 @@ const ActiveCall: React.FC = () => {
             )}>{`${interlocutor?.firstName} ${interlocutor?.lastName}`}</h3>
           {amISpeaking && (
             <div className={classNames(`${BLOCK_NAME}__duration`)}>
-              {moment.utc(callDuration * 1000).format('HH:mm:ss')}
+              {dayjs.utc(callDuration * 1000).format('HH:mm:ss')}
             </div>
           )}
         </div>

@@ -126,7 +126,7 @@ export class MessageCreatedEventHandler {
         if (data) {
           const {
             entities: { chats, users },
-          } = normalize<IChat[], { chats: ById<INormalizedChat>; users: ById<IUser> }, number[]>(
+          } = normalize<IChat[], { chats?: ById<INormalizedChat>; users: ById<IUser> }, number[]>(
             data,
             chatNormalizationSchema,
           );

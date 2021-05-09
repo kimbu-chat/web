@@ -82,10 +82,11 @@ export class GetChats {
       const {
         entities: { chats: normalizedChats, users },
         result,
-      } = normalize<IChat[], { chats: ById<INormalizedChat>; users: ById<IUser> }, number[]>(
+      } = normalize<IChat[], { chats?: ById<INormalizedChat>; users: ById<IUser> }, number[]>(
         data,
         chatArrNormalizationSchema,
       );
+
       const modeledChats = modelChatList(normalizedChats);
 
       const chatList: IGetChatsSuccessActionPayload = {

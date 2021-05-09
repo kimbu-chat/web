@@ -23,6 +23,7 @@ import {
   loadEmoji,
 } from './routing/module-loader';
 import '@localization/i18n';
+import './dayjs/day';
 
 const ConfirmPhone = lazy(loadPhoneConfirmation);
 const ConfirmCode = lazy(loadCodeConfirmation);

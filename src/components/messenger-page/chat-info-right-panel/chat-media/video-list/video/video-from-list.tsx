@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { ReactComponent as PlaySvg } from '@icons/play.svg';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { FadeAnimationWrapper } from '@components/shared';
 import { MediaModal } from '@components/messenger-page';
 import { IGroupable, IVideoAttachment } from '@store/chats/models';
@@ -24,15 +24,15 @@ const VideoFromList: React.FC<IVideoFromListProps> = ({ video, attachmentsArr })
         <div className="chat-video__separator">
           {video.needToShowMonthSeparator &&
             (video.needToShowYearSeparator || doesYearDifferFromCurrent(video.creationDateTime)
-              ? moment(video.creationDateTime).format('MMMM YYYY')
-              : moment(video.creationDateTime).format('MMMM'))}
+              ? dayjs(video.creationDateTime).format('MMMM YYYY')
+              : dayjs(video.creationDateTime).format('MMMM'))}
         </div>
       )}
       <div onClick={changeVideoPlayerDisplayed} className="chat-video__video-wrapper">
         <img alt="" className="chat-video__video" src={video.firstFrameUrl} />
         <div className="chat-video__blur" />
         <span className="chat-video__duration">
-          {moment.utc(video.duration * 1000).format('mm:ss')}
+          {dayjs.utc(video.duration * 1000).format('mm:ss')}
         </span>
         <button type="button" className="chat-video__play">
           <PlaySvg />

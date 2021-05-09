@@ -178,7 +178,7 @@ export const PrivacyPolicy: React.FC<IPrivacyPolicyProps> = ({ close }) => (
         </p>
         <h2>6. How long your data is stored for</h2>
         <p>
-          Your data will be stored until the moment you withdraw your consent or our business
+          Your data will be stored until the dayjs you withdraw your consent or our business
           relationship is broken off, whichever happens later.
         </p>
         <h2>7. Your rights as a data subject</h2>

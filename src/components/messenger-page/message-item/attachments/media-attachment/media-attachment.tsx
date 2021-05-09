@@ -5,7 +5,7 @@ import { FadeAnimationWrapper } from '@components/shared';
 import { MediaModal } from '@components/messenger-page';
 import { FileType, IPictureAttachment, IVideoAttachment } from '@store/chats/models';
 import { ReactComponent as PlaySvg } from '@icons/play.svg';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 interface IMessageMediaAttachmentProps {
   attachmentId: number;
@@ -44,7 +44,7 @@ export const MessageMediaAttachment: React.FC<IMessageMediaAttachmentProps> = ({
             <div className="media-attachment__blur" />
             <PlaySvg className="media-attachment__svg" viewBox="0 0 25 25" />
             <div className="media-attachment__duration">
-              {moment.utc((currentAttachment as IVideoAttachment).duration * 1000).format('mm:ss')}
+              {dayjs.utc((currentAttachment as IVideoAttachment).duration * 1000).format('mm:ss')}
             </div>{' '}
           </>
         )}

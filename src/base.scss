@@ -107,6 +107,8 @@ input {
   --chat-bg-dt-dark-wt-bright-blue: #32394a;
   --chat-bg-dt-dark-wt-grayLight: #32394a;
 
+  --dt-white-wt-darker: #fff;
+
   --msg-bg-dt-gray-lt-grayLight: #4a5466;
   --msg-bg-dt-gray-lt-kingBlue-lighter: #4a5466;
   --msg-bg-dt-gray-lt-kingBlueLight: #4a5466;
@@ -122,6 +124,7 @@ input {
   --upload-photo-progress: rgba(38, 44, 56, 0.7);
 
   --dt-transparent-white-wt-kingBlueLight-transparenter: rgba(255, 255, 255, 0.14);
+  --dt-transparent-white-wt-kingBlueLight: rgba(214, 233, 255, 0.5);
   --dt-whiter-wt-bright-blue: rgba(255, 255, 255, 0.14);
 
   --box-shadow-1: rgba(14, 22, 43, 0.88);
@@ -143,6 +146,8 @@ input {
 
   --dt-semi-transparent-white-wt-kingBlueLight-transparent: rgba(255, 255, 255, 0.5);
 
+  --dt-dark-transparent-white-wt-kingBlueLight-transparenter: rgba(74, 84, 102, 0.6);
+
   --input-empty: rgba(74, 84, 102, 0.6);
   --input-hover: #4a5466;
   --input-active: #4a5466;
@@ -152,4 +157,5 @@ input {
   --avatar-bg: #161d2e;
 
   --blur-color: rgba(38, 44, 56, 0.4);
+  --blur-color-1: rgba(55, 63, 81, 0.7);
 }

@@ -22,7 +22,7 @@ import { SystemMessageType } from '@store/chats/models';
 
 import { getMessagesAction, markMessagesAsReadAction } from '@store/chats/actions';
 import { checkIfDatesAreDifferentDate } from '@utils/date-utils';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 const MessageList = () => {
   const getMessages = useActionWithDispatch(getMessagesAction);
@@ -120,15 +120,17 @@ const MessageList = () => {
                     }
                   />
                 ))}
-                <div className="message__separator">
-                  <span>
-                    {moment
-                      .utc((messages && messages[separatedMessages[0]]?.creationDateTime) || '')
-                      .local()
-                      .format('dddd, MMMM D, YYYY')
-                      .toString()}
-                  </span>
-                </div>
+                {separatedMessages.length > 0 && (
+                  <div className="message__separator">
+                    <span>
+                      {dayjs
+                        .utc((messages && messages[separatedMessages[0]]?.creationDateTime) || '')
+                        .local()
+                        .format('dddd, MMMM D, YYYY')
+                        .toString()}
+                    </span>
+                  </div>
+                )}
               </div>
             ))}
         </InfiniteScroll>

@@ -35,10 +35,16 @@ export function applyTheme(theme?: Theme) {
     '--chat-bg-dt-dark-wt-bright-blue': '#D6E9FF',
     '--chat-bg-dt-dark-wt-grayLight': 'rgba(63, 138, 224, 0.12)',
 
+    '--dt-white-wt-darker': '#32394a',
+
     '--dt-kingBlue-wt-kingBlueLight': 'rgba(63, 138, 224, 0.55)',
     '--dt-kingBlue-wt-grayLight': 'rgba(63, 138, 224, 0.12)',
 
     '--dt-transparent-white-wt-kingBlueLight-transparenter': 'rgba(214, 233, 255, 0.5)',
+
+    '--dt-dark-transparent-white-wt-kingBlueLight-transparenter': 'rgba(214, 233, 255, 0.5)',
+
+    '--dt-transparent-white-wt-kingBlueLight': 'rgba(63, 138, 224, 0.55)',
 
     '--msg-bg-dt-gray-lt-kingBlueLight': 'rgba(63, 138, 224, 0.55)',
     '--msg-bg-dt-gray-lt-grayLight': 'rgba(63, 138, 224, 0.12)',
@@ -61,6 +67,7 @@ export function applyTheme(theme?: Theme) {
     '--dt-semi-transparent-white-wt-kingBlueLight-transparent': 'rgba(63, 138, 224, 0.25)',
     '--dt-darker-wt-bright-blue': '#D6E9FF',
     '--blur-color': 'rgba(63, 138, 224, 0.25)',
+    '--blur-color-1': 'rgba(255, 255, 255, 0.7)',
     '--disabled-btn': '#7794B8',
     '--disabled-btn-text': 'rgba(255, 255, 255, 0.5)',
     '--disabled-input': '#E5E5E5', //
@@ -96,6 +103,8 @@ export function applyTheme(theme?: Theme) {
     '--chat-bg-dt-dark-wt-bright-blue': '#32394a',
     '--chat-bg-dt-dark-wt-grayLight': '#32394a',
 
+    '--dt-white-wt-darker': '#fff',
+
     '--msg-bg-dt-gray-lt-grayLight': '#4a5466',
     '--msg-bg-dt-gray-lt-kingBlue-lighter': '#4a5466',
     '--msg-bg-dt-gray-lt-kingBlueLight': '#4a5466',
@@ -111,6 +120,8 @@ export function applyTheme(theme?: Theme) {
     '--upload-photo-progress': 'rgba(38, 44, 56, 0.7)',
 
     '--dt-transparent-white-wt-kingBlueLight-transparenter': 'rgba(255, 255, 255, 0.14)',
+    '--dt-dark-transparent-white-wt-kingBlueLight-transparenter': 'rgba(74, 84, 102, 0.6)',
+    '--dt-transparent-white-wt-kingBlueLight': 'rgba(214, 233, 255, 0.5)',
     '--dt-whiter-wt-bright-blue': 'rgba(255, 255, 255, 0.14)',
 
     '--box-shadow-1': 'rgba(14, 22, 43, 0.88)',
@@ -141,6 +152,7 @@ export function applyTheme(theme?: Theme) {
     '--avatar-bg': '#161D2E',
 
     '--blur-color': 'rgba(38, 44, 56, 0.4)',
+    '--blur-color-1': 'rgba(55, 63, 81, 0.7)',
   };
 
   const root = document.documentElement;

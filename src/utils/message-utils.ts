@@ -1,4 +1,4 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { TFunction } from 'i18next';
 import { INormalizedMessage, IMessage } from '../store/chats/models/message';
 import { CallStatus, IUser } from '../store/common/models';
@@ -44,11 +44,11 @@ const getCallEndedMessage = (
 ) => {
   if (callMessage.userCallerId === myId) {
     return t('systemMessage.outgoing_call_success_ended', {
-      duration: moment.utc(callMessage.duration * 1000).format('HH:mm:ss'),
+      duration: dayjs.utc(callMessage.duration * 1000).format('HH:mm:ss'),
     });
   }
   return t('systemMessage.incoming_call_success_ended', {
-    duration: moment.utc(callMessage.duration * 1000).format('HH:mm:ss'),
+    duration: dayjs.utc(callMessage.duration * 1000).format('HH:mm:ss'),
   });
 };
 
@@ -90,10 +90,10 @@ const getCallNotAnsweredMessage = (
 ) =>
   callMessage.userCallerId === myId
     ? t('systemMessage.someone_missed_call', {
-        time: moment.utc(message.creationDateTime).local().format('LT').toLowerCase(),
+        time: dayjs.utc(message.creationDateTime).local().format('LT').toLowerCase(),
       })
     : t('systemMessage.you_missed_call', {
-        time: moment.utc(message.creationDateTime).local().format('LT').toLowerCase(),
+        time: dayjs.utc(message.creationDateTime).local().format('LT').toLowerCase(),
       });
 
 const callMessageMap: {
@@ -259,34 +259,3 @@ export const constructSystemMessageText = (
 
 export const createSystemMessage = (systemMessage: ISystemMessageBase): string =>
   JSON.stringify(systemMessage);
-
-// export const signAndSeparate = (arr: INormalizedMessage[]): INormalizedMessage[] => {
-//   const signedMessages = arr.map((message, index) => {
-//     if (
-//       index < arr.length - 1 &&
-//       (arr[index].userCreatorId?.id !== arr[index + 1].userCreatorId?.id ||
-//         arr[index + 1].systemMessageType !== SystemMessageType.None)
-//     ) {
-//       return produce(message, (draft) => {
-//         draft.needToShowCreator = true;
-
-//         return draft;
-//       });
-//     }
-
-//     return message;
-//   });
-
-//   signedMessages[signedMessages.length - 1] = produce(
-//     signedMessages[signedMessages.length - 1],
-//     (draft) => {
-//       if (draft) {
-//         draft.needToShowCreator = true;
-//         draft.needToShowDateSeparator = true;
-//       }
-//       return draft;
-//     },
-//   );
-
-//   return signedMessages;
-// };

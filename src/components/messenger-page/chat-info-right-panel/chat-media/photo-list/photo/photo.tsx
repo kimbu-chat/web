@@ -2,7 +2,7 @@ import { FadeAnimationWrapper } from '@components/shared';
 import { MediaModal } from '@components/messenger-page';
 import { IGroupable, IPictureAttachment } from '@store/chats/models';
 import { doesYearDifferFromCurrent } from '@utils/set-separators';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import React, { useCallback, useState } from 'react';
 
 interface IPhotoProps {
@@ -22,8 +22,8 @@ export const Photo: React.FC<IPhotoProps> = ({ photo, attachmentsArr }) => {
         <div className="chat-photo__separator">
           {photo.needToShowMonthSeparator &&
             (photo.needToShowYearSeparator || doesYearDifferFromCurrent(photo.creationDateTime)
-              ? moment(photo.creationDateTime).format('MMMM YYYY')
-              : moment(photo.creationDateTime).format('MMMM'))}
+              ? dayjs(photo.creationDateTime).format('MMMM YYYY')
+              : dayjs(photo.creationDateTime).format('MMMM'))}
         </div>
       )}
       <img

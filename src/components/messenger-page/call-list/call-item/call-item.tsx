@@ -7,7 +7,7 @@ import { ReactComponent as DeclinedCallSvg } from '@icons/declined-call.svg';
 import { ReactComponent as MissedCallSvg } from '@icons/missed-call.svg';
 
 import { useTranslation } from 'react-i18next';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { useSelector } from 'react-redux';
 import { myIdSelector } from '@store/my-profile/selectors';
 import { CallStatus } from '@store/common/models';
@@ -47,7 +47,7 @@ const CallItem: React.FC<ICallItemProps> = ({ callId }) => {
             call?.endDateTime &&
             (isOutgoing
               ? t('callFromList.outgoing', {
-                  duration: moment
+                  duration: dayjs
                     .utc(
                       new Date(call?.endDateTime).getTime() -
                         new Date(call?.startDateTime).getTime(),
@@ -55,7 +55,7 @@ const CallItem: React.FC<ICallItemProps> = ({ callId }) => {
                     .format('HH:mm:ss'),
                 })
               : t('callFromList.incoming', {
-                  duration: moment
+                  duration: dayjs
                     .utc(
                       new Date(call?.endDateTime).getTime() -
                         new Date(call?.startDateTime).getTime(),
@@ -69,7 +69,7 @@ const CallItem: React.FC<ICallItemProps> = ({ callId }) => {
       </div>
       <div className="call-from-list__aside-data">
         <div className="call-from-list__date">
-          {moment.utc(call?.creationDateTime).local().format('l LT')}
+          {dayjs.utc(call?.creationDateTime).local().format('l LT')}
         </div>
         <div
           className={`call-from-list__type-icon ${

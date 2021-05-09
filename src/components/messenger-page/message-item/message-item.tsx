@@ -11,7 +11,7 @@ import { getMessageSelector, getIsSelectMessagesStateSelector } from '@store/cha
 import { Avatar } from '@components/shared';
 import { MessageAudioAttachment, FileAttachment } from '@components/messenger-page';
 import { CallStatus } from '@store/common/models';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 import { ReactComponent as CrayonSvg } from '@icons/crayon.svg';
 import { ReactComponent as LeaveSvg } from '@icons/leave.svg';
@@ -333,7 +333,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
             </div>
             {isCurrentUserMessageCreator && getMessageIcon()}
             <div className="message__time">
-              {moment.utc(message?.creationDateTime).local().format('LT')}
+              {dayjs.utc(message?.creationDateTime).local().format('LT')}
             </div>
           </div>
         </div>

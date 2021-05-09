@@ -3,7 +3,7 @@ import './audio-attachment.scss';
 
 import { ReactComponent as PlaySvg } from '@icons/play.svg';
 import { ReactComponent as PauseSvg } from '@icons/pause.svg';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { changeMusic } from '@utils/current-music';
 import { IAudioAttachment } from '@store/chats/models';
 import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
@@ -35,7 +35,7 @@ export const MessageAudioAttachment: React.FC<IAudioAttachment> = ({ ...attachme
         <div className="audio-attachment__data">
           <h4 className="audio-attachment__file-name">{attachment.fileName}</h4>
           <div className="audio-attachment__duration">
-            {moment.utc(attachment.duration * 1000).format('mm:ss')}
+            {dayjs.utc(attachment.duration * 1000).format('mm:ss')}
           </div>
         </div>
 
@@ -43,7 +43,7 @@ export const MessageAudioAttachment: React.FC<IAudioAttachment> = ({ ...attachme
           ref={audioRef as React.RefObject<AudioPlayer>}
           src={attachment.url}
           preload="metadata"
-          defaultCurrentTime={<span>{moment.utc(attachment.duration * 1000).format('mm:ss')}</span>}
+          defaultCurrentTime={<span>{dayjs.utc(attachment.duration * 1000).format('mm:ss')}</span>}
           showSkipControls={false}
           showJumpControls={false}
           autoPlayAfterSrcChange={false}

@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import './session.scss';
 
 import { useTranslation } from 'react-i18next';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { ISession } from '@store/settings/comon/models/session';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { deviceIdSelector } from '@store/auth/selectors';
@@ -47,14 +47,14 @@ export const Session: React.FC<ISessionProps> = ({ session }) => {
         <div className="session__data__row">
           <div className="session__data__highlighted">{t('session.last-acessed')}</div>
           <div className="session__data__ordinary">
-            {moment.utc(session.lastAccessedDateTime).local().format('MMM DD,YYYY').toString()}
+            {dayjs.utc(session.lastAccessedDateTime).local().format('MMM DD,YYYY').toString()}
           </div>
         </div>
 
         <div className="session__data__row">
           <div className="session__data__highlighted">{t('session.signed-in')}</div>
           <div className="session__data__ordinary">
-            {moment.utc(session.signedInDateTime).local().format('MMM DD,YYYY').toString()}
+            {dayjs.utc(session.signedInDateTime).local().format('MMM DD,YYYY').toString()}
           </div>
         </div>
       </div>

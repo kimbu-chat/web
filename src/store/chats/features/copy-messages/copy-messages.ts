@@ -1,5 +1,5 @@
 import { getUsersSelector } from '@store/users/selectors';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { SagaIterator } from 'redux-saga';
 import { select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
@@ -21,7 +21,7 @@ export class CopyMessages {
         const message = messages[currentMessageId];
         if (message) {
           const userCreator = users[message.userCreatorId];
-          const preparedStr = `[${moment
+          const preparedStr = `[${dayjs
             .utc(message?.creationDateTime)
             .format('YYYY MM DD h:mm')}] ${userCreator?.nickname}: ${message?.text}${
             index < action.payload.messageIds.length - 1 ? '\n' : ''

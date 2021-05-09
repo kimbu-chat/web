@@ -8,7 +8,7 @@ import { PhoneInputGroup } from '@components/messenger-page';
 import { ReactComponent as CrayonSvg } from '@icons/crayon.svg';
 import parsePhoneNumberFromString from 'libphonenumber-js';
 import useInterval from 'use-interval';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { confirmChangePhone, sendSmsChangePhone } from '@store/my-profile/actions';
 import classNames from 'classnames';
@@ -163,7 +163,7 @@ const ChangePhoneModal: React.FC<IChangePhoneModalProps> = ({ onClose }) => {
                 ) : (
                   <span className={classNames(`${BLOCK_NAME}__details`)}>
                     {t('changePhoneModal.details', {
-                      time: moment.utc(remainedTime * 1000).format('mm:ss'),
+                      time: dayjs.utc(remainedTime * 1000).format('mm:ss'),
                     })}
                   </span>
                 )}

@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 import './chat-item.scss';
 import {
@@ -160,8 +160,8 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
               new Date(chat?.lastMessage?.creationDateTime as Date),
               new Date(),
             )
-              ? moment.utc(chat?.lastMessage?.creationDateTime).local().format('dd MMM YY')
-              : moment.utc(chat?.lastMessage?.creationDateTime).local().format('LT').toLowerCase()}
+              ? dayjs.utc(chat?.lastMessage?.creationDateTime).local().format('dd MMM YY')
+              : dayjs.utc(chat?.lastMessage?.creationDateTime).local().format('LT').toLowerCase()}
           </div>
         </div>
         <div className="chat-item__last-message">{typingString || getMessageText()}</div>

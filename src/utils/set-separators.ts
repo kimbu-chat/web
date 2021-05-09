@@ -1,4 +1,4 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { IGroupable } from '../store/chats/models';
 
 export const setSeparators = <T extends IGroupable>(
@@ -17,8 +17,8 @@ export const setSeparators = <T extends IGroupable>(
   const newElements = elements?.map((elem, index, array) => {
     const elemCopy = { ...elem };
 
-    const currentDate = new Date(moment.utc(elem?.creationDateTime).local().toDate());
-    const prevDate = moment
+    const currentDate = new Date(dayjs.utc(elem?.creationDateTime).local().toDate());
+    const prevDate = dayjs
       .utc(array[index - 1]?.creationDateTime)
       .local()
       .toDate();

@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { getSelectedChatRecordingsSelector } from '@store/chats/selectors';
 import { getVoiceAttachmentsAction } from '@store/chats/actions';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 import { doesYearDifferFromCurrent, setSeparators } from '@utils/set-separators';
 import { InfiniteScroll } from '@components/messenger-page';
@@ -46,8 +46,8 @@ export const RecordingsList = () => {
                 <div className="chat-recordings__separator">
                   {recording.needToShowYearSeparator ||
                   doesYearDifferFromCurrent(recording.creationDateTime)
-                    ? moment(recording.creationDateTime).format('MMMM YYYY')
-                    : moment(recording.creationDateTime).format('MMMM')}
+                    ? dayjs(recording.creationDateTime).format('MMMM YYYY')
+                    : dayjs(recording.creationDateTime).format('MMMM')}
                 </div>
               )}
               <RecordingAttachment key={recording.id} attachment={recording} />

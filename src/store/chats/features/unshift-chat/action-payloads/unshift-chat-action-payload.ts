@@ -1,3 +1,3 @@
 import { INormalizedChat } from '../../../models';
 
-export type IUnshiftChatActionPayload = { chat: INormalizedChat };
+export type IUnshiftChatActionPayload = { chat: INormalizedChat; addToList: boolean };

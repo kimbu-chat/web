@@ -21,6 +21,7 @@ export class MessagesDeletedIntegrationEventHandlerSuccess {
         const { chatId, messageIds, chatNewLastMessage } = payload;
 
         const chat = getChatByIdDraftSelector(chatId, draft);
+        const messagesForChat = draft.chats[chatId]?.messages;
 
         if (chat) {
           messageIds.forEach((msgIdToDelete) => {
@@ -28,12 +29,13 @@ export class MessagesDeletedIntegrationEventHandlerSuccess {
               (id) => id !== msgIdToDelete,
             );
 
-            const index = draft.chats[chatId]?.messages.messageIds.indexOf(msgIdToDelete);
-
-            if (index !== undefined && index > -1) {
-              draft.chats[chatId]?.messages.messageIds.splice(index, 1);
+            if (messagesForChat) {
+              messagesForChat.messageIds = messagesForChat.messageIds.filter(
+                (msgId) => msgIdToDelete !== msgId,
+              );
             }
-            const deletedMessage = draft.chats[chatId]?.messages.messages[msgIdToDelete || -1];
+
+            const deletedMessage = messagesForChat?.messages[msgIdToDelete || -1];
 
             deletedMessage?.attachments?.forEach((attachment) => {
               switch (attachment.type) {
@@ -69,15 +71,14 @@ export class MessagesDeletedIntegrationEventHandlerSuccess {
               }
             });
 
-            draft.chats[chatId]?.messages.messageIds
+            messagesForChat?.messageIds
               .filter((messageId) => {
-                const linkedMessage =
-                  draft.chats[chatId]?.messages.messages[messageId]?.linkedMessage;
+                const linkedMessage = messagesForChat?.messages[messageId]?.linkedMessage;
 
                 return linkedMessage?.id === msgIdToDelete;
               })
               .forEach((_msg, linkedMsgIndex) => {
-                const message = draft.chats[chatId]?.messages.messages[linkedMsgIndex];
+                const message = messagesForChat?.messages[linkedMsgIndex];
 
                 if (message?.linkedMessage) {
                   message.linkedMessage = null;
@@ -86,7 +87,7 @@ export class MessagesDeletedIntegrationEventHandlerSuccess {
                 return message;
               });
 
-            delete draft.chats[chatId]?.messages.messages[msgIdToDelete || -1];
+            delete messagesForChat?.messages[msgIdToDelete || -1];
           });
           if (messageIds.includes(draft.chats[chatId]?.lastMessage?.id || -1)) {
             chat.lastMessage = chatNewLastMessage;

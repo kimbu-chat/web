@@ -10,10 +10,12 @@ export class UnshiftChat {
 
   static get reducer() {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof UnshiftChat.action>) => {
-      const { chat } = payload;
+      const { chat, addToList } = payload;
 
       if (!draft.chats[chat.id]) {
-        draft.chatList.chatIds.unshift(chat.id);
+        if (addToList) {
+          draft.chatList.chatIds.unshift(chat.id);
+        }
         draft.chats[chat.id] = chat;
       }
 

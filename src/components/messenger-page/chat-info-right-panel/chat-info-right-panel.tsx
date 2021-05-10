@@ -2,7 +2,11 @@ import React, { useState, useCallback, useEffect } from 'react';
 import './chat-info-right-panel.scss';
 import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { getIsInfoOpenedSelector, getSelectedChatSelector } from '@store/chats/selectors';
+import {
+  getInfoChatSelector,
+  getIsInfoOpenedSelector,
+  getInfoChatIdSelector,
+} from '@store/chats/selectors';
 import { Avatar, FadeAnimationWrapper } from '@components/shared';
 import { MediaModal } from '@components/messenger-page';
 
@@ -16,11 +20,13 @@ import { ChatMembers } from './chat-members/chat-members';
 import { ChatMedia } from './chat-media/chat-media';
 
 const ChatInfoRightPanel: React.FC = React.memo(() => {
-  const selectedChat = useSelector(
-    getSelectedChatSelector,
+  const chat = useSelector(
+    getInfoChatSelector,
     (prev, next) => prev === next || prev?.draftMessage !== next?.draftMessage,
   );
-  const interlocutor = useSelector(getUserSelector(selectedChat?.interlocutorId));
+  const chatId = useSelector(getInfoChatIdSelector);
+
+  const interlocutor = useSelector(getUserSelector(chat?.interlocutorId));
   const isInfoOpened = useSelector(getIsInfoOpenedSelector);
 
   const getChatInfo = useActionWithDispatch(getChatInfoAction);
@@ -32,8 +38,8 @@ const ChatInfoRightPanel: React.FC = React.memo(() => {
       return interlocutor.avatar?.previewUrl as string;
     }
 
-    return selectedChat?.groupChat?.avatar?.previewUrl as string;
-  }, [interlocutor, selectedChat?.groupChat?.avatar?.previewUrl]);
+    return chat?.groupChat?.avatar?.previewUrl as string;
+  }, [interlocutor, chat?.groupChat?.avatar?.previewUrl]);
 
   const changeIsAvatarMaximizedState = useCallback(() => {
     if (getChatAvatar()) {
@@ -42,45 +48,41 @@ const ChatInfoRightPanel: React.FC = React.memo(() => {
   }, [setIsAvatarMaximized, getChatAvatar]);
 
   useEffect(() => {
-    if (isInfoOpened && selectedChat?.rawAttachmentsCount === undefined && selectedChat?.id) {
-      getChatInfo();
+    if (isInfoOpened && (chatId || chat?.id)) {
+      if (chatId) {
+        getChatInfo(chatId);
+      } else if (chat?.id) {
+        getChatInfo(chat.id);
+      }
     }
-  }, [getChatInfo, selectedChat?.rawAttachmentsCount, selectedChat?.id, isInfoOpened]);
+  }, [getChatInfo, chat?.rawAttachmentsCount, chatId, isInfoOpened, chat?.id]);
 
   const getChatFullSizeAvatar = useCallback((): string => {
     if (interlocutor?.avatar?.url) {
       return interlocutor.avatar.url as string;
     }
 
-    return selectedChat?.groupChat?.avatar?.url as string;
-  }, [selectedChat?.groupChat?.avatar?.url, interlocutor?.avatar?.url]);
+    return chat?.groupChat?.avatar?.url as string;
+  }, [chat?.groupChat?.avatar?.url, interlocutor?.avatar?.url]);
 
-  if (selectedChat) {
+  if (chat) {
     return (
       <CSSTransition in={isInfoOpened} timeout={200} classNames="chat-info-slide" unmountOnExit>
         <div className="messenger__info">
           <>
             <div className="chat-info">
-              {interlocutor && (
-                <Avatar
-                  onClick={changeIsAvatarMaximizedState}
-                  className="chat-info__avatar"
-                  user={interlocutor}
-                />
-              )}
-              {selectedChat?.groupChat && (
-                <Avatar
-                  onClick={changeIsAvatarMaximizedState}
-                  className="chat-info__avatar"
-                  groupChat={selectedChat.groupChat}
-                />
-              )}
+              <Avatar
+                onClick={changeIsAvatarMaximizedState}
+                className="chat-info__avatar"
+                user={interlocutor}
+                groupChat={chat.groupChat}
+              />
 
               <InterlocutorInfo />
 
               <ChatInfoActions />
 
-              {selectedChat?.groupChat && <ChatMembers />}
+              {chat?.groupChat && <ChatMembers />}
 
               <ChatMedia />
             </div>

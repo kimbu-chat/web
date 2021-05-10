@@ -8,6 +8,8 @@ import { useTranslation } from 'react-i18next';
 import './remove-chat-modal.scss';
 import { CheckBox } from '@components/messenger-page/settings-modal/shared/check-box/check-box';
 import { removeChat } from '@store/chats/actions';
+import { getInfoChatIdLoadedSelector } from '@store/chats/selectors';
+import { useSelector } from 'react-redux';
 
 interface IRemoveChatModalProps {
   onClose: () => void;
@@ -15,6 +17,8 @@ interface IRemoveChatModalProps {
 
 export const RemoveChatModal: React.FC<IRemoveChatModalProps> = ({ onClose }) => {
   const { t } = useTranslation();
+
+  const chatId = useSelector(getInfoChatIdLoadedSelector);
 
   const removeThisChat = useActionWithDeferred(removeChat);
 
@@ -25,9 +29,14 @@ export const RemoveChatModal: React.FC<IRemoveChatModalProps> = ({ onClose }) =>
   }, [setDeleteForInterlocutor]);
 
   const deleteTheseMessages = useCallback(() => {
-    setLoading(true);
-    removeThisChat({ forEveryone: deleteForInterlocutor });
-  }, [removeThisChat, deleteForInterlocutor, setLoading]);
+    if (chatId) {
+      setLoading(true);
+      removeThisChat({ forEveryone: deleteForInterlocutor, chatId }).then(() => {
+        setLoading(false);
+        onClose();
+      });
+    }
+  }, [removeThisChat, deleteForInterlocutor, setLoading, chatId, onClose]);
 
   return (
     <WithBackground onBackgroundClick={onClose}>

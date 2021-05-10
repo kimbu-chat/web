@@ -14,7 +14,7 @@ import { IUser } from '../../../common/models';
 import { GetGroupChatUsersSuccess } from './get-group-chat-users-success';
 import { ChatId } from '../../chat-id';
 import { IGetGroupChatUsersActionPayload } from './action-payloads/get-group-chat-users-action-payload';
-import { getChatByIdDraftSelector, getSelectedChatIdSelector } from '../../selectors';
+import { getInfoChatIdLoadedSelector } from '../../selectors';
 import { IGetGroupChatUsersApiRequest } from './api-requests/get-group-chat-users-api-request';
 import { IChatsState } from '../../chats-state';
 
@@ -25,12 +25,11 @@ export class GetGroupChatUsers {
 
   static get reducer() {
     return produce((draft: IChatsState) => {
-      if (draft.selectedChatId) {
-        const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
+      const chat =
+        draft.chats[draft.chatInfo.chatId || -1] || draft.chats[draft?.selectedChatId || -1];
 
-        if (chat) {
-          chat.members.loading = true;
-        }
+      if (chat) {
+        chat.members.loading = true;
       }
 
       return draft;
@@ -43,7 +42,7 @@ export class GetGroupChatUsers {
     ): SagaIterator {
       const { isFromSearch, page, name } = action.payload;
 
-      const chatId = yield select(getSelectedChatIdSelector);
+      const chatId = yield select(getInfoChatIdLoadedSelector);
       const { groupChatId } = ChatId.fromId(chatId);
 
       if (groupChatId) {

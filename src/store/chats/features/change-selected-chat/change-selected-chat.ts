@@ -36,7 +36,9 @@ export class ChangeSelectedChat {
       (draft: IChatsState, { payload }: ReturnType<typeof ChangeSelectedChat.action>) => {
         const { newChatId } = payload;
 
-        draft.isInfoOpened = false;
+        draft.chatInfo = {
+          isInfoOpened: false,
+        };
 
         const oldChatId = draft.selectedChatId;
 
@@ -67,6 +69,12 @@ export class ChangeSelectedChat {
         }
 
         draft.selectedChatId = newChatId;
+
+        if (newChatId) {
+          if (!draft.chatList.chatIds.includes(newChatId) && draft.chats[newChatId]) {
+            draft.chatList.chatIds.unshift(newChatId);
+          }
+        }
 
         draft.selectedMessageIds = [];
 
@@ -107,7 +115,7 @@ export class ChangeSelectedChat {
 
           const modeledChat = modelChatList(chats)[data.id];
 
-          yield put(UnshiftChat.action({ chat: modeledChat as INormalizedChat }));
+          yield put(UnshiftChat.action({ chat: modeledChat as INormalizedChat, addToList: true }));
           yield put(AddOrUpdateUsers.action({ users }));
         }
       }

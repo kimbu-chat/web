@@ -6,7 +6,7 @@ import produce from 'immer';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
 import { HTTPStatusCode } from '../../../../common/http-status-code';
-import { getChatByIdDraftSelector, getSelectedChatIdSelector } from '../../selectors';
+import { getInfoChatIdLoadedSelector } from '../../selectors';
 import { IGetVoiceAttachmentsActionPayload } from './action-payloads/get-voice-attachments-action-payload';
 import { IVoiceAttachment } from '../../models';
 import { GetVoiceAttachmentsSuccess } from './get-voice-attachments-success';
@@ -20,12 +20,11 @@ export class GetVoiceAttachments {
 
   static get reducer() {
     return produce((draft: IChatsState) => {
-      if (draft.selectedChatId) {
-        const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
+      const chat =
+        draft.chats[draft.chatInfo.chatId || -1] || draft.chats[draft?.selectedChatId || -1];
 
-        if (chat) {
-          chat.recordings.loading = true;
-        }
+      if (chat) {
+        chat.recordings.loading = true;
       }
       return draft;
     });
@@ -36,7 +35,7 @@ export class GetVoiceAttachments {
       action: ReturnType<typeof GetVoiceAttachments.action>,
     ): SagaIterator {
       const { page } = action.payload;
-      const chatId = yield select(getSelectedChatIdSelector);
+      const chatId = yield select(getInfoChatIdLoadedSelector);
 
       const { data, status } = GetVoiceAttachments.httpRequest.call(
         yield call(() => GetVoiceAttachments.httpRequest.generator({ page, chatId })),

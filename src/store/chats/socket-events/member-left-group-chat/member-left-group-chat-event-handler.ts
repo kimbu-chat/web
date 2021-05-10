@@ -27,12 +27,9 @@ export class MemberLeftGroupChatEventHandler {
         const chatExists = Boolean(draft.chats[chatId]);
 
         if (isCurrentUserEventCreator && chatExists) {
-          const chatIndex = draft.chatList.chatIds.indexOf(chatId);
-          if (chatIndex !== 0) {
-            draft.chatList.chatIds.splice(chatIndex, 1);
+          draft.chatList.chatIds = draft.chatList.chatIds.filter((id) => id !== chatId);
 
-            delete draft.chats[chatId];
-          }
+          delete draft.chats[chatId];
 
           if (draft.selectedChatId === chatId) {
             draft.selectedChatId = null;

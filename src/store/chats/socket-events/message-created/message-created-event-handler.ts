@@ -134,7 +134,7 @@ export class MessageCreatedEventHandler {
           const modeledChat = modelChatList(chats)[data.id];
 
           if (modeledChat) {
-            yield put(UnshiftChat.action({ chat: modeledChat }));
+            yield put(UnshiftChat.action({ chat: modeledChat, addToList: true }));
             yield put(AddOrUpdateUsers.action({ users }));
           }
 

@@ -35,6 +35,7 @@
 
   &__chat-send {
     display: flex;
+    position: relative;
     flex-direction: column;
     grid-column: 3/-1;
     grid-row: 2/3;

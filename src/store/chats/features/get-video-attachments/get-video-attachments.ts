@@ -5,7 +5,7 @@ import { createAction } from 'typesafe-actions';
 import produce from 'immer';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
-import { getChatByIdDraftSelector, getSelectedChatIdSelector } from '../../selectors';
+import { getInfoChatIdLoadedSelector } from '../../selectors';
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { IGetVideoAttachmentsActionPayload } from './action-payloads/get-video-attachments-action-payload';
 import { IVideoAttachment } from '../../models';
@@ -20,12 +20,11 @@ export class GetVideoAttachments {
 
   static get reducer() {
     return produce((draft: IChatsState) => {
-      if (draft.selectedChatId) {
-        const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
+      const chat =
+        draft.chats[draft.chatInfo.chatId || -1] || draft.chats[draft?.selectedChatId || -1];
 
-        if (chat) {
-          chat.videos.loading = true;
-        }
+      if (chat) {
+        chat.videos.loading = true;
       }
 
       return draft;
@@ -37,7 +36,7 @@ export class GetVideoAttachments {
       action: ReturnType<typeof GetVideoAttachments.action>,
     ): SagaIterator {
       const { page } = action.payload;
-      const chatId = yield select(getSelectedChatIdSelector);
+      const chatId = yield select(getInfoChatIdLoadedSelector);
 
       const { data, status } = GetVideoAttachments.httpRequest.call(
         yield call(() => GetVideoAttachments.httpRequest.generator({ page, chatId })),

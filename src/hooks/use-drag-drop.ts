@@ -44,7 +44,7 @@ export const useDragDrop = () => {
 
       if (
         (e.target as HTMLDivElement).matches(
-          '.messenger__chat-send, .messenger__chat-send *, .chat-data__chat-data, .chat-data__chat-data *, .messenger__info, .messenger__info *',
+          '.drag-indicator, .drag-indicator *, .messenger__chat-send, .messenger__chat-send *, .chat-data__chat-data, .chat-data__chat-data *, .messenger__info, .messenger__info *',
         )
       ) {
         if ((e.dataTransfer?.files?.length || 0) > 0) {

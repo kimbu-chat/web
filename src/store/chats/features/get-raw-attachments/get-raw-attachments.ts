@@ -5,7 +5,7 @@ import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
-import { getChatByIdDraftSelector, getSelectedChatIdSelector } from '../../selectors';
+import { getInfoChatIdLoadedSelector } from '../../selectors';
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { IBaseAttachment } from '../../models';
 import { IGetRawAttachmentsActionPayload } from './action-payloads/get-raw-attachments-action-payload';
@@ -20,12 +20,11 @@ export class GetRawAttachments {
 
   static get reducer() {
     return produce((draft: IChatsState) => {
-      if (draft.selectedChatId) {
-        const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
+      const chat =
+        draft.chats[draft.chatInfo.chatId || -1] || draft.chats[draft?.selectedChatId || -1];
 
-        if (chat) {
-          chat.files.loading = true;
-        }
+      if (chat) {
+        chat.files.loading = true;
       }
 
       return draft;
@@ -37,7 +36,7 @@ export class GetRawAttachments {
       action: ReturnType<typeof GetRawAttachments.action>,
     ): SagaIterator {
       const { page } = action.payload;
-      const chatId = yield select(getSelectedChatIdSelector);
+      const chatId = yield select(getInfoChatIdLoadedSelector);
 
       const { data, status } = GetRawAttachments.httpRequest.call(
         yield call(() => GetRawAttachments.httpRequest.generator({ page, chatId })),

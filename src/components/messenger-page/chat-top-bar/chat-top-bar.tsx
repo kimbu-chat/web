@@ -52,6 +52,10 @@ export const ChatTopBar = () => {
     }
   }, [interlocutor, callInterlocutor]);
 
+  const displayChatInfo = useCallback(() => {
+    openCloseChatInfo(undefined);
+  }, [openCloseChatInfo]);
+
   const interlocutorStatus = interlocutor?.online ? (
     t('chatData.online')
   ) : (
@@ -68,7 +72,7 @@ export const ChatTopBar = () => {
   if (selectedChat) {
     return (
       <div className="chat-data__chat-data">
-        <button type="button" onClick={openCloseChatInfo} className="chat-data__contact-data">
+        <button type="button" onClick={displayChatInfo} className="chat-data__contact-data">
           <div className="chat-data__contact-img-container">
             <Avatar
               className="chat-data__contact-img"
@@ -111,7 +115,7 @@ export const ChatTopBar = () => {
           )}
 
           <MessagesSearch />
-          <ChatInfoBtn toggleVisibility={openCloseChatInfo} />
+          <ChatInfoBtn toggleVisibility={displayChatInfo} />
         </div>
       </div>
     );

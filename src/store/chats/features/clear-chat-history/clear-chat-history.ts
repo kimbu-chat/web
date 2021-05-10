@@ -1,12 +1,11 @@
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
-import { put, call, select } from 'redux-saga/effects';
+import { put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
 import { Meta } from '@store/common/actions';
 import { HTTPStatusCode } from '../../../../common/http-status-code';
-import { getSelectedChatIdSelector } from '../../selectors';
 import { IClearChatHistoryActionPayload } from './action-payloads/clear-chat-history-action-payload';
 import { ClearChatHistorySuccess } from './clear-chat-history-success';
 import { IClearChatHistoryApiRequest } from './api-requests/clear-chat-history-api-request';
@@ -20,13 +19,13 @@ export class ClearChatHistory {
     return function* clearChatSaga(
       action: ReturnType<typeof ClearChatHistory.action>,
     ): SagaIterator {
-      const chatId = yield select(getSelectedChatIdSelector);
+      const { chatId, forEveryone } = action.payload;
 
       const { status } = ClearChatHistory.httpRequest.call(
         yield call(() =>
           ClearChatHistory.httpRequest.generator({
             chatId,
-            forEveryone: action.payload.forEveryone,
+            forEveryone,
           }),
         ),
       );

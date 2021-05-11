@@ -6,11 +6,11 @@ import useAutocomplete, { createFilterOptions } from '@material-ui/lab/useAutoco
 import { useTranslation } from 'react-i18next';
 
 import { ReactComponent as ArrowSvg } from '@icons/arrow-v.svg';
-import { countryList } from '@common/countries';
 import { ICountry } from '@common/country';
 
 interface ICountrySelectProps {
   country?: ICountry;
+  countries?: ICountry[];
   handleCountryChange: (newCountry: ICountry | null) => void;
   setRef: React.Dispatch<React.SetStateAction<React.RefObject<HTMLInputElement> | null>>;
 }
@@ -19,6 +19,7 @@ export const CountrySelect: React.FC<ICountrySelectProps> = ({
   country,
   handleCountryChange,
   setRef,
+  countries,
 }) => {
   const { t } = useTranslation();
 
@@ -31,13 +32,14 @@ export const CountrySelect: React.FC<ICountrySelectProps> = ({
     popupOpen,
   } = useAutocomplete({
     id: 'country-login-autocomplete',
-    options: countryList,
+    options: countries || [],
     getOptionLabel: (option) => option.title,
     value: country,
     onChange: (_event, newCountry) => handleCountryChange(newCountry),
     filterOptions: createFilterOptions({
       stringify: (option) => option.title + option.number,
     }),
+    getOptionSelected: (option, value) => option.code === value.code,
   });
 
   const inputProps = getInputProps();

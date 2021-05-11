@@ -1,9 +1,6 @@
-import React, { useCallback, useState, useRef, useEffect } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import './phone-confirmation.scss';
 import { FadeAnimationWrapper, PrivacyPolicy, Button } from '@components/shared';
-import { CountrySelect, PhoneInput } from '@components/login-page';
-import { countryList } from '@common/countries';
-import { ICountry } from '@common/country';
 
 import { useTranslation } from 'react-i18next';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
@@ -11,8 +8,8 @@ import { sendSmsCodeAction } from '@store/auth/actions';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import { getCountryByIp } from '@utils/get-country-by-ip';
 import { authLoadingSelector } from '@store/auth/selectors';
+import { PhoneInputGroup } from '@components/messenger-page';
 
 interface IPhoneConfirmationProps {
   preloadNext: () => void;
@@ -25,15 +22,8 @@ const PhoneConfirmation: React.FC<IPhoneConfirmationProps> = ({ preloadNext }) =
 
   const isLoading = useSelector(authLoadingSelector);
 
-  const [country, setCountry] = useState<ICountry>(countryList[countryList.length - 1]);
   const [phone, setPhone] = useState<string>('');
-  const [
-    countrySelectRef,
-    setCountrySelectRef,
-  ] = useState<React.RefObject<HTMLInputElement> | null>(null);
   const [policyDisplayed, setPolicyDisplayed] = useState(false);
-
-  const phoneInputRef = useRef<HTMLInputElement>(null);
 
   const sendSmsCode = useActionWithDeferred(sendSmsCodeAction);
   const sendSms = useCallback(() => {
@@ -41,57 +31,19 @@ const PhoneConfirmation: React.FC<IPhoneConfirmationProps> = ({ preloadNext }) =
     if (phoneNumber?.isValid()) {
       sendSmsCode({
         phoneNumber: phoneNumber.number as string,
-        twoLetterCountryCode: country.code,
       }).then(() => {
         history.push('/confirm-code');
       });
     }
-  }, [country.code, history, phone, sendSmsCode]);
+  }, [history, phone, sendSmsCode]);
 
   const changePolicyDisplayedState = useCallback(() => {
     setPolicyDisplayed((oldState) => !oldState);
   }, [setPolicyDisplayed]);
 
-  const displayCountries = useCallback(() => {
-    countrySelectRef?.current?.focus();
-    const clickEvent = document.createEvent('MouseEvents');
-    clickEvent.initEvent('mousedown', true, true);
-    countrySelectRef?.current?.dispatchEvent(clickEvent);
-  }, [countrySelectRef]);
-
-  const focusPhoneInput = useCallback(() => {
-    phoneInputRef.current?.focus();
-  }, [phoneInputRef]);
-
-  const handleCountryChange = useCallback(
-    (newCountry: ICountry) => {
-      setCountry((oldCountry) => {
-        setPhone((oldPhone) => {
-          focusPhoneInput();
-          if (oldCountry.title.length > 0) {
-            const onlyNumber = oldPhone.split(' ').join('').split(oldCountry.number)[1];
-            const newCode = newCountry ? newCountry.number : '';
-            return onlyNumber ? newCode + onlyNumber : newCode;
-          }
-          return newCountry ? newCountry.number + oldPhone : '';
-        });
-        return newCountry || oldCountry;
-      });
-    },
-    [setCountry, setPhone, focusPhoneInput],
-  );
-
-  const setCurrentCountry = useCallback(async () => {
-    const countryCode = await getCountryByIp();
-    const currentCountry = countryList.find(({ code }) => code === countryCode) || countryList[0];
-    setCountry(currentCountry);
-  }, []);
-
   useEffect(() => {
     preloadNext();
-    setCountry(countryList[0]);
-    setCurrentCountry();
-  }, [preloadNext, setCurrentCountry]);
+  }, [preloadNext]);
 
   return (
     <>
@@ -100,19 +52,7 @@ const PhoneConfirmation: React.FC<IPhoneConfirmationProps> = ({ preloadNext }) =
           <h1 className="phone-confirmation__logo">RAVUDI</h1>
           <p className="phone-confirmation__confirm-phone">{t('loginPage.confirm_phone')}</p>
           <div className="phone-confirmation__credentials">
-            <CountrySelect
-              setRef={setCountrySelectRef}
-              country={country}
-              handleCountryChange={handleCountryChange}
-            />
-            <PhoneInput
-              ref={phoneInputRef}
-              displayCountries={displayCountries}
-              country={country}
-              phone={phone}
-              setPhone={setPhone}
-              sendSms={sendSms}
-            />
+            <PhoneInputGroup phone={phone} setPhone={setPhone} />
           </div>
           <Button
             disabled={!parsePhoneNumberFromString(phone)?.isValid()}

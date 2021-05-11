@@ -14,7 +14,6 @@ import {
   authPhoneNumberSelector,
   confirmationCodeWrongSelector,
   authLoadingSelector,
-  twoLetterCountryCodeSelector,
 } from '@store/auth/selectors';
 
 const NUMBER_OF_DIGITS = [0, 1, 2, 3];
@@ -35,7 +34,6 @@ const CodeConfirmation: React.FC<ICodeConfirmationProps> = ({ preloadNext }) => 
   const [isIntervalRunning, setIsIntervalRunning] = useState(true);
 
   const phoneNumber = useSelector(authPhoneNumberSelector);
-  const twoLetterCountryCode = useSelector(twoLetterCountryCodeSelector);
   const isConfirmationCodeWrong = useSelector(confirmationCodeWrongSelector);
   const isLoading = useSelector(authLoadingSelector);
 
@@ -143,11 +141,10 @@ const CodeConfirmation: React.FC<ICodeConfirmationProps> = ({ preloadNext }) => 
   const resendPhoneConfirmationCode = useCallback((): void => {
     reSendSmsCode({
       phoneNumber,
-      twoLetterCountryCode,
     });
     setRemainingSeconds(60);
     setIsIntervalRunning(true);
-  }, [reSendSmsCode, phoneNumber, twoLetterCountryCode]);
+  }, [reSendSmsCode, phoneNumber]);
 
   return (
     <div className="code-confirmation">

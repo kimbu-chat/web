@@ -17,6 +17,7 @@ export interface ICallsState {
   amICalled: boolean;
   amICalling: boolean;
   isSpeaking: boolean;
+  isAcceptPending: boolean;
   videoConstraints: {
     isOpened: boolean;
     width?: { min: number; ideal: number; max: number };

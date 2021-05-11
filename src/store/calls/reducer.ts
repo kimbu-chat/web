@@ -33,6 +33,7 @@ const initialState: ICallsState = {
   amICalled: false,
   amICalling: false,
   isSpeaking: false,
+  isAcceptPending: false,
   videoConstraints: {
     isOpened: false,
     width: { min: 640, ideal: window.innerWidth, max: 1920 },

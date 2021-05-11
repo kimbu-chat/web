@@ -37,6 +37,7 @@ export class AcceptCall {
     return produce((draft: ICallsState, { payload }: ReturnType<typeof AcceptCall.action>) => {
       draft.audioConstraints = { ...draft.audioConstraints, isOpened: payload.audioEnabled };
       draft.videoConstraints = { ...draft.videoConstraints, isOpened: payload.videoEnabled };
+      draft.isAcceptPending = true;
 
       return draft;
     });

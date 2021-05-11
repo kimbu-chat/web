@@ -1,5 +1,4 @@
 import { getCountryByIp } from '@utils/get-country-by-ip';
-import { countryList } from '@common/countries';
 import { ICountry } from '@common/country';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { CountrySelect } from '../country-select/country-select';
@@ -23,19 +22,34 @@ const PhoneInputGroup: React.FC<IPhoneInputGroupProps> = ({
   phoneInputIcon,
   errorText,
 }) => {
-  const [country, setCountry] = useState<ICountry>(countryList[countryList.length - 1]);
+  const [countries, setCountries] = useState<ICountry[]>([
+    { code: 'AF', number: '+93', title: 'Afghanistan' },
+  ]);
+  const [country, setCountry] = useState<ICountry>({
+    code: 'AF',
+    number: '+93',
+    title: 'Afghanistan',
+  });
   const [
     countrySelectRef,
     setCountrySelectRef,
   ] = useState<React.RefObject<HTMLInputElement> | null>(null);
 
   useEffect(() => {
-    setCountry(countryList[0]);
     (async () => {
+      const loadedCountriesResponse = await fetch(`/countries.json`);
+      const loadedCountries: ICountry[] = await loadedCountriesResponse.json();
+      setCountries(loadedCountries);
+      setCountry(loadedCountries[0]);
       const countryCode = await getCountryByIp();
       const countryOfResidence =
-        countryList.find(({ code }) => code === countryCode) || countryList[0];
-      setCountry(countryOfResidence);
+        loadedCountries?.find(({ code }) => code === countryCode) || loadedCountries
+          ? loadedCountries[0]
+          : undefined;
+
+      if (countryOfResidence) {
+        setCountry(countryOfResidence);
+      }
     })();
   }, []);
 
@@ -57,8 +71,8 @@ const PhoneInputGroup: React.FC<IPhoneInputGroupProps> = ({
       setCountry((oldCountry) => {
         setPhone((oldPhone) => {
           focusPhoneInput();
-          if (oldCountry.title.length > 0) {
-            const onlyNumber = oldPhone.split(' ').join('').split(oldCountry.number)[1];
+          if (oldCountry?.title.length) {
+            const onlyNumber = oldPhone.split(' ').join('').split(oldCountry?.number)[1];
             const newCode = newCountry ? newCountry.number : '';
             return onlyNumber ? newCode + onlyNumber : newCode;
           }
@@ -76,6 +90,7 @@ const PhoneInputGroup: React.FC<IPhoneInputGroupProps> = ({
         <CountrySelect
           setRef={setCountrySelectRef}
           country={country}
+          countries={countries}
           handleCountryChange={handleCountryChange}
         />
       )}

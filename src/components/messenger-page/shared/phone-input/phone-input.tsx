@@ -10,7 +10,7 @@ import noop from 'lodash/noop';
 import { ErrorTooltip } from '@components/shared/error-tooltip/error-tooltip';
 
 interface IPhoneInputProps {
-  country: ICountry;
+  country?: ICountry;
   phone: string;
   setPhone: React.Dispatch<React.SetStateAction<string>>;
   displayCountries: () => void;
@@ -41,15 +41,18 @@ export const PhoneInput = React.forwardRef(
           type="text"
           className="phone-input__country-code"
           readOnly
-          value={country.number}
+          value={country?.number}
         />
         <span className="phone-input__label">{t('phoneInputGroup.phone')}</span>
         <input
           ref={ref}
           placeholder={t('phoneInputGroup.phone')}
-          value={removeCountryCodeFromPhoneNumber(country.number, new AsYouType().input(phone))}
+          value={removeCountryCodeFromPhoneNumber(
+            country?.number || '',
+            new AsYouType().input(phone),
+          )}
           onChange={(e) => {
-            setPhone(new AsYouType().input(country.number + e.target.value));
+            setPhone(new AsYouType().input(country?.number + e.target.value));
           }}
           className="phone-input__input"
           onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) =>

@@ -26,7 +26,6 @@ export class SendSmsCode {
       loading: true,
       isConfirmationCodeWrong: false,
       phoneNumber: payload.phoneNumber,
-      twoLetterCountryCode: payload.twoLetterCountryCode,
     }));
   }
 

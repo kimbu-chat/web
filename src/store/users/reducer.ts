@@ -5,6 +5,7 @@ import { createReducer } from 'typesafe-actions';
 import { UserEditedEventHandler } from './socket-events/user-edited/user-edited-event-handler';
 import { AddOrUpdateUsers } from './features/add-or-update-users/add-or-update-users';
 import { IUsersState } from './users-state';
+import { UserActivatedEventHandler } from './socket-events/user-activated/user-activated-event-handler';
 
 const initialState: IUsersState = {
   users: {},
@@ -16,6 +17,7 @@ const reducer = createReducer<IUsersState>(initialState)
   // data maniputating
   .handleAction(UserEditedEventHandler.action, UserEditedEventHandler.reducer)
   .handleAction(UserDeactivatedEventHandler.action, UserDeactivatedEventHandler.reducer)
+  .handleAction(UserActivatedEventHandler.action, UserActivatedEventHandler.reducer)
   .handleAction(UserDeletedEventHandler.action, UserDeletedEventHandler.reducer)
   .handleAction(
     UserPhoneNumberChangedEventHandler.action,

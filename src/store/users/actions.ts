@@ -4,6 +4,7 @@ import { UserDeactivatedEventHandler } from './socket-events/user-deactivated/us
 import { UserDeletedEventHandler } from './socket-events/user-deleted/user-deleted';
 import { UserPhoneNumberChangedEventHandler } from './socket-events/user-phone-number-changed/user-phone-number-changed';
 import { UserStatusChangedEventHandler } from './socket-events/user-status-changed/user-status-changed-event-handler';
+import { UserActivatedEventHandler } from './socket-events/user-activated/user-activated-event-handler';
 
 export const addOrUpdateUsers = AddOrUpdateUsers.action;
 export const userStatusChangedEventHandler = UserStatusChangedEventHandler.action;
@@ -11,6 +12,7 @@ export const userDeactivatedEventHandler = UserDeactivatedEventHandler.action;
 export const userDeletedEventHandler = UserDeletedEventHandler.action;
 export const userPhoneNumberChangedEventHandler = UserPhoneNumberChangedEventHandler.action;
 export const userEditedEventHandlerAction = UserEditedEventHandler.action;
+export const userActivatedEventHandler = UserActivatedEventHandler.action;
 
 export const UsersActions = {
   addOrUpdateUsers,
@@ -19,4 +21,5 @@ export const UsersActions = {
   userDeletedEventHandler,
   userDeactivatedEventHandler,
   userPhoneNumberChangedEventHandler,
+  userActivatedEventHandler,
 };

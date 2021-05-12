@@ -21,7 +21,6 @@ import { IChat, INormalizedChat } from '../../models';
 import { GetChatsSuccess } from '../get-chats/get-chats-success';
 import { IChangeSelectedChatActionPayload } from './action-payloads/change-selected-chat-action-payload';
 import { IGetChatByIdApiRequest } from './api-requests/get-chat-by-id-api-request';
-import { IGetUserByIdApiRequest } from './api-requests/get-user-by-id-api-request';
 import { UnshiftChat } from '../unshift-chat/unshift-chat';
 import { IChatsState } from '../../chats-state';
 import { modelChatList } from '../../utils/model-chat-list';

@@ -1,31 +1,36 @@
-import React, { useCallback, useState, useEffect } from 'react';
-import './phone-confirmation.scss';
-import { FadeAnimationWrapper, PrivacyPolicy, Button } from '@components/shared';
-
-import { useTranslation } from 'react-i18next';
-import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import { sendSmsCodeAction } from '@store/auth/actions';
-import { parsePhoneNumberFromString } from 'libphonenumber-js';
+import React, { useCallback, useState, useEffect, Suspense } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
+import { useTranslation } from 'react-i18next';
+import { parsePhoneNumberFromString } from 'libphonenumber-js';
+
+import { Button, FadeAnimationWrapper } from '@components/shared';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { sendSmsCodeAction } from '@store/auth/actions';
 import { authLoadingSelector } from '@store/auth/selectors';
 import { PhoneInputGroup } from '@components/messenger-page';
 
-interface IPhoneConfirmationProps {
-  preloadNext: () => void;
-}
+import './phone-confirmation.scss';
 
-const PhoneConfirmation: React.FC<IPhoneConfirmationProps> = ({ preloadNext }) => {
+const LazyPrivacyPolicy = React.lazy(() => import('@components/shared/privacy-policy'));
+const BLOCK_NAME = 'phone-confirmation';
+
+type PhoneConfirmationProps = {
+  preloadNext: () => void;
+};
+
+const PhoneConfirmation: React.FC<PhoneConfirmationProps> = ({ preloadNext }) => {
   const { t } = useTranslation();
 
   const history = useHistory();
 
   const isLoading = useSelector(authLoadingSelector);
 
-  const [phone, setPhone] = useState<string>('');
+  const [phone, setPhone] = useState('');
   const [policyDisplayed, setPolicyDisplayed] = useState(false);
 
   const sendSmsCode = useActionWithDeferred(sendSmsCodeAction);
+
   const sendSms = useCallback(() => {
     const phoneNumber = parsePhoneNumberFromString(phone);
     if (phoneNumber?.isValid()) {
@@ -46,31 +51,31 @@ const PhoneConfirmation: React.FC<IPhoneConfirmationProps> = ({ preloadNext }) =
   }, [preloadNext]);
 
   return (
-    <>
-      <div className="phone-confirmation">
-        <div className="phone-confirmation__container">
-          <h1 className="phone-confirmation__logo">RAVUDI</h1>
-          <p className="phone-confirmation__confirm-phone">{t('loginPage.confirm_phone')}</p>
-          <div className="phone-confirmation__credentials">
-            <PhoneInputGroup phone={phone} setPhone={setPhone} />
-          </div>
-          <Button
-            disabled={!parsePhoneNumberFromString(phone)?.isValid()}
-            loading={isLoading}
-            onClick={sendSms}
-            className="phone-confirmation__btn">
-            {t('loginPage.next')}
-          </Button>
-          <p className="phone-confirmation__conditions">
-            {t('loginPage.agree_to')}
-            <span onClick={changePolicyDisplayedState}>{t('loginPage.ravudi_terms')}</span>
-          </p>
+    <div className={BLOCK_NAME}>
+      <div className={`${BLOCK_NAME}__container`}>
+        <h1 className={`${BLOCK_NAME}__logo`}>RAVUDI</h1>
+        <p className={`${BLOCK_NAME}__confirm-phone`}>{t('loginPage.confirm_phone')}</p>
+        <div className={`${BLOCK_NAME}__credentials`}>
+          <PhoneInputGroup phone={phone} setPhone={setPhone} />
         </div>
-        <FadeAnimationWrapper isDisplayed={policyDisplayed}>
-          <PrivacyPolicy close={changePolicyDisplayedState} />
-        </FadeAnimationWrapper>
+        <Button
+          disabled={!parsePhoneNumberFromString(phone)?.isValid()}
+          loading={isLoading}
+          onClick={sendSms}
+          className={`${BLOCK_NAME}__btn`}>
+          {t('loginPage.next')}
+        </Button>
+        <p className={`${BLOCK_NAME}__conditions`}>
+          {t('loginPage.agree_to')}
+          <span onClick={changePolicyDisplayedState}>{t('loginPage.ravudi_terms')}</span>
+        </p>
       </div>
-    </>
+      <FadeAnimationWrapper isDisplayed={policyDisplayed}>
+        <Suspense fallback={<div>Loading</div>}>
+          <LazyPrivacyPolicy close={changePolicyDisplayedState} />
+        </Suspense>
+      </FadeAnimationWrapper>
+    </div>
   );
 };
 

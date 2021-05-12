@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
-import { unionBy } from 'lodash';
+import unionBy from 'lodash/unionBy';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';

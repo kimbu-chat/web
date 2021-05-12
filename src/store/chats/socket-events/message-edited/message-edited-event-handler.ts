@@ -1,5 +1,5 @@
 import produce from 'immer';
-import { xorBy } from 'lodash';
+import xorBy from 'lodash/xorBy';
 import { createAction } from 'typesafe-actions';
 import { IChatsState } from '../../chats-state';
 import { IBaseAttachment } from '../../models';

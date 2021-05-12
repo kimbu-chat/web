@@ -1,1 +1,1 @@
-export { FadeAnimationWrapper } from './fade-animation-wrapper';
+export { FadeAnimationWrapper as default } from './fade-animation-wrapper';

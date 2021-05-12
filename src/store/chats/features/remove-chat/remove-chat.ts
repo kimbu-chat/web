@@ -1,33 +1,42 @@
 import { createAction } from 'typesafe-actions';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
-import { call, put, select } from 'redux-saga/effects';
+import { call, put } from 'redux-saga/effects';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { replaceInUrl } from '@utils/replace-in-url';
 import { MAIN_API } from '@common/paths';
 import { Meta } from '@store/common/actions';
+import produce from 'immer';
 import { HTTPStatusCode } from '../../../../common/http-status-code';
-import { getSelectedChatIdSelector } from '../../selectors';
 import { ChatId } from '../../chat-id';
 import { IRemoveChatApiRequest } from './api-requests/remove-chat-api-request';
 import { RemoveChatSuccess } from './remove-chat-success';
 import { IRemoveChatActionPayload } from './action-payloads/remove-chat-action-payload';
+import { IChatsState } from '../../chats-state';
 
 export class RemoveChat {
   static get action() {
-    return createAction('REMOVE_SELECTED_CHAT')<IRemoveChatActionPayload, Meta>();
+    return createAction('REMOVE_CHAT')<IRemoveChatActionPayload, Meta>();
+  }
+
+  static get reducer() {
+    return produce((draft: IChatsState) => {
+      draft.chatInfo = {
+        isInfoOpened: false,
+      };
+
+      return draft;
+    });
   }
 
   static get saga() {
     return function* removeChatSaga(action: ReturnType<typeof RemoveChat.action>): SagaIterator {
-      const chatId = yield select(getSelectedChatIdSelector);
+      const { chatId, forEveryone } = action.payload;
       const { userId } = ChatId.fromId(chatId);
 
       if (userId) {
         const { status } = RemoveChat.httpRequest.call(
-          yield call(() =>
-            RemoveChat.httpRequest.generator({ userId, forEveryone: action.payload.forEveryone }),
-          ),
+          yield call(() => RemoveChat.httpRequest.generator({ userId, forEveryone })),
         );
 
         // TODO: handle user deleteing

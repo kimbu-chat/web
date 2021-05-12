@@ -2,23 +2,57 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
-import { createEmptyAction } from '@store/common/actions';
 import { replaceInUrl } from '@utils/replace-in-url';
 import { MAIN_API } from '@common/paths';
-import { HTTPStatusCode } from '../../../../common/http-status-code';
-import { getSelectedChatIdSelector } from '../../selectors';
-import { IGetChatInfoApiRequest } from './api-requests/get-chat-info-api-request';
-import { IGetChatInfoApiResponse } from './api-requests/get-chat-info-api-response';
+import { createAction } from 'typesafe-actions';
+import { IChat, INormalizedChat } from '@store/chats/models';
+import { ById } from '@store/chats/models/by-id';
+import { chatNormalizationSchema } from '@store/chats/normalization';
+import { getChatByIdSelector } from '@store/chats/selectors';
+import { modelChatList } from '@store/chats/utils/model-chat-list';
+import { IUser } from '@store/common/models';
+import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
+import { normalize } from 'normalizr';
 import { GetChatInfoSuccess } from './get-chat-info-success';
+import { IGetChatInfoApiResponse } from './api-requests/get-chat-info-api-response';
+import { IGetChatInfoApiRequest } from './api-requests/get-chat-info-api-request';
+import { HTTPStatusCode } from '../../../../common/http-status-code';
+import { ChangeSelectedChat } from '../change-selected-chat/change-selected-chat';
+import { UnshiftChat } from '../unshift-chat/unshift-chat';
 
 export class GetChatInfo {
   static get action() {
-    return createEmptyAction('GET_CHAT_INFO');
+    return createAction('GET_CHAT_INFO')<number>();
   }
 
   static get saga() {
-    return function* getChatInfoSaga(): SagaIterator {
-      const chatId = yield select(getSelectedChatIdSelector);
+    return function* getChatInfoSaga(action: ReturnType<typeof GetChatInfo.action>): SagaIterator {
+      const chatId = action.payload;
+
+      const chat = yield select(getChatByIdSelector(chatId));
+      const chatExists = chat !== undefined && !chat.isGeneratedLocally;
+
+      if (!chatExists) {
+        const { data } = ChangeSelectedChat.httpRequest.call(
+          yield call(() =>
+            ChangeSelectedChat.httpRequest.generator({
+              chatId: action.payload,
+            }),
+          ),
+        );
+
+        const {
+          entities: { chats, users },
+        } = normalize<IChat[], { chats: ById<INormalizedChat>; users: ById<IUser> }, number[]>(
+          data,
+          chatNormalizationSchema,
+        );
+
+        const modeledChat = modelChatList(chats)[data.id];
+
+        yield put(UnshiftChat.action({ chat: modeledChat as INormalizedChat, addToList: false }));
+        yield put(AddOrUpdateUsers.action({ users }));
+      }
 
       const { data, status } = GetChatInfo.httpRequest.call(
         yield call(() => GetChatInfo.httpRequest.generator({ chatId })),

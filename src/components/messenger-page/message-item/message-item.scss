@@ -118,6 +118,7 @@
     border-radius: 6px;
     height: 40px;
     width: 40px;
+    cursor: pointer;
   }
 
   &__sender-name {
@@ -126,6 +127,7 @@
     font-weight: normal;
     line-height: 19px;
     margin: 7px 0 4px 142px;
+    cursor: pointer;
   }
 
   &__time {

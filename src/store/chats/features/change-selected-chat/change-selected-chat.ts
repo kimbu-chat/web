@@ -36,7 +36,9 @@ export class ChangeSelectedChat {
       (draft: IChatsState, { payload }: ReturnType<typeof ChangeSelectedChat.action>) => {
         const { newChatId } = payload;
 
-        draft.isInfoOpened = false;
+        draft.chatInfo = {
+          isInfoOpened: false,
+        };
 
         const oldChatId = draft.selectedChatId;
 
@@ -68,6 +70,17 @@ export class ChangeSelectedChat {
 
         draft.selectedChatId = newChatId;
 
+        // We have to check if chat exists in ById<IChat> reducer then we will not request it from server
+        if (newChatId) {
+          if (
+            !draft.chatList.chatIds.includes(newChatId) &&
+            draft.chats[newChatId] &&
+            !draft.chats[newChatId]?.isGeneratedLocally
+          ) {
+            draft.chatList.chatIds.unshift(newChatId);
+          }
+        }
+
         draft.selectedMessageIds = [];
 
         return draft;
@@ -86,13 +99,12 @@ export class ChangeSelectedChat {
           yield take(GetChatsSuccess.action);
         }
 
-        const chatExists =
-          (yield select(getChatByIdSelector(action.payload.newChatId))) !== undefined;
-
+        const chat = yield select(getChatByIdSelector(action.payload.newChatId));
+        const chatExists = chat !== undefined && !chat.isGeneratedLocally;
         if (!chatExists) {
-          const { data } = ChangeSelectedChat.httpRequest.getChat.call(
+          const { data } = ChangeSelectedChat.httpRequest.call(
             yield call(() =>
-              ChangeSelectedChat.httpRequest.getChat.generator({
+              ChangeSelectedChat.httpRequest.generator({
                 chatId: action.payload.newChatId as number,
               }),
             ),
@@ -107,7 +119,7 @@ export class ChangeSelectedChat {
 
           const modeledChat = modelChatList(chats)[data.id];
 
-          yield put(UnshiftChat.action({ chat: modeledChat as INormalizedChat }));
+          yield put(UnshiftChat.action({ chat: modeledChat as INormalizedChat, addToList: true }));
           yield put(AddOrUpdateUsers.action({ users }));
         }
       }
@@ -115,15 +127,9 @@ export class ChangeSelectedChat {
   }
 
   static get httpRequest() {
-    return {
-      getChat: httpRequestFactory<AxiosResponse<IChat>, IGetChatByIdApiRequest>(
-        ({ chatId }: IGetChatByIdApiRequest) => replaceInUrl(MAIN_API.GET_CHAT, ['chatId', chatId]),
-        HttpRequestMethod.Get,
-      ),
-      getUser: httpRequestFactory<AxiosResponse<IUser>, IGetUserByIdApiRequest>(
-        ({ userId }: IGetUserByIdApiRequest) => replaceInUrl(MAIN_API.GET_USER, ['userId', userId]),
-        HttpRequestMethod.Get,
-      ),
-    };
+    return httpRequestFactory<AxiosResponse<IChat>, IGetChatByIdApiRequest>(
+      ({ chatId }: IGetChatByIdApiRequest) => replaceInUrl(MAIN_API.GET_CHAT, ['chatId', chatId]),
+      HttpRequestMethod.Get,
+    );
   }
 }

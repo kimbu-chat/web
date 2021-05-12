@@ -5,7 +5,7 @@ import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
-import { getChatByIdDraftSelector, getSelectedChatIdSelector } from '../../selectors';
+import { getInfoChatIdSelector } from '../../selectors';
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { IPictureAttachment } from '../../models';
 import { IGetPhotoAttachmentsActionPayload } from './action-payloads/get-photo-attachments-action-payload';
@@ -20,13 +20,13 @@ export class GetPhotoAttachments {
 
   static get reducer() {
     return produce((draft: IChatsState) => {
-      if (draft.selectedChatId) {
-        const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
+      const chat =
+        draft.chats[draft.chatInfo.chatId || -1] || draft.chats[draft?.selectedChatId || -1];
 
-        if (chat) {
-          chat.photos.loading = true;
-        }
+      if (chat) {
+        chat.photos.loading = true;
       }
+
       return draft;
     });
   }
@@ -36,7 +36,7 @@ export class GetPhotoAttachments {
       action: ReturnType<typeof GetPhotoAttachments.action>,
     ): SagaIterator {
       const { page } = action.payload;
-      const chatId = yield select(getSelectedChatIdSelector);
+      const chatId = yield select(getInfoChatIdSelector);
 
       const { data, status } = GetPhotoAttachments.httpRequest.call(
         yield call(() => GetPhotoAttachments.httpRequest.generator({ page, chatId })),

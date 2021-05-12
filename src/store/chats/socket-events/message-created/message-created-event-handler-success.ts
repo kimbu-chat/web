@@ -142,12 +142,11 @@ export class MessageCreatedEventHandlerSuccess {
           chat.unreadMessagesCount = newUnreadMessagesCount;
           chat.draftMessage = '';
 
-          const chatIndex = draft.chatList.chatIds.indexOf(chat.id);
-          if (chatIndex !== 0) {
-            draft.chatList.chatIds.splice(chatIndex, 1);
+          draft.chatList.chatIds = draft.chatList.chatIds.filter(
+            (currentId) => currentId !== chatId,
+          );
 
-            draft.chatList.chatIds.unshift(chat.id);
-          }
+          draft.chatList.chatIds.unshift(chat.id);
         }
 
         return draft;

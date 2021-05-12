@@ -1,23 +1,29 @@
 .edit-profile {
   display: inline-flex;
   flex-direction: column;
-  padding-left: 40px;
+  padding: 40px 0 40px 40px;
   overflow: hidden;
+
+  &__line {
+    width: 100%;
+    border: 1px solid var(--input-placeholder);
+    margin-top: 32px;
+  }
+
+  &__page-name {
+    font-weight: normal;
+    font-size: 28px;
+    line-height: 33px;
+    color: var(--dt-white-wt-dark);
+  }
 
   &__title {
     color: var(--dt-white-wt-dark);
-    font-size: 28px;
     font-weight: normal;
-    line-height: 33px;
-    margin: 38px 0 40px;
-
-    &--phone {
-      margin-top: 32px;
-    }
-
-    &--delete {
-      margin-top: 80px;
-    }
+    font-size: 24px;
+    line-height: 28px;
+    margin-top: 32px;
+    margin-bottom: 32px;
   }
 
   &__photo-data {
@@ -86,43 +92,38 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-left: 31px;
+    margin-left: 37px;
   }
 
   &__avatar-upload-btn {
-    align-items: center;
-    background: var(--msg-bg-dt-gray-lt-grayLight);
+    background: #3f8ae0;
     border-radius: 6px;
-    display: flex;
-    margin-bottom: 11px;
-    padding: 18px 45px 18px 35px;
-
-    span {
-      color: var(--dt-white-wt-dark);
-      font-size: 12px;
-      font-weight: 300;
-      line-height: 14px;
-      margin-left: 16px;
-    }
-
-    svg {
-      color: var(--dt-white-wt-kingBlue);
-      height: 24px;
-      width: 24px;
-    }
+    margin-top: 14px;
+    padding: 12px 32px;
+    color: #fff;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 17px;
   }
 
   &__avatar-requirements {
     color: var(--dt-white-wt-dark);
-    font-size: 10px;
     font-weight: 300;
+    font-size: 10px;
     line-height: 12px;
+    margin-top: -22px;
   }
 
   &__input {
     height: 60px;
     margin-top: 30px;
     width: 578px;
+
+    input {
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 21px;
+    }
   }
 
   &__btn {
@@ -130,11 +131,12 @@
     --bg-color: #3f8ae0;
     border-radius: 6px;
     color: #fff;
-    font-size: 16px;
     font-weight: normal;
+    font-size: 16px;
     line-height: 19px;
-    margin-left: auto;
-    padding: 10px 17px;
+    margin-right: auto;
+    padding: 10px 32px;
+    margin-top: 32px;
 
     &:hover {
       box-shadow: 0 3px 6px rgba(14, 22, 43, 0.62);
@@ -146,20 +148,10 @@
       color: var(--disabled-btn-text);
     }
 
-    &--personal {
-      margin-top: 32px;
-    }
-
     &--delete {
       --bg-color: #c74848;
       background: #c74848;
     }
-  }
-
-  &__phone-data {
-    align-items: center;
-    display: flex;
-    margin-top: -9px;
   }
 
   &__phone {
@@ -169,25 +161,22 @@
     line-height: 28px;
   }
 
-  &__phone-details {
+  &__details {
     color: var(--dt-white-wt-dark);
     font-size: 14px;
     font-weight: 300;
     line-height: 17px;
     margin-top: 16px;
-  }
+    max-width: 578px;
 
-  &__delete-data {
-    align-items: center;
-    display: flex;
-    margin-bottom: 32px;
-    margin-top: -6px;
-  }
+    &--deactivate {
+      max-width: 500px;
+      margin-top: 0;
+    }
 
-  &__delete-details {
-    color: var(--dt-white-wt-dark);
-    font-size: 14px;
-    font-weight: 300;
-    line-height: 17px;
+    &--delete {
+      max-width: 532px;
+      margin-top: 30px;
+    }
   }
 }

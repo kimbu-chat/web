@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import './edit-profile.scss';
 import { ReactComponent as UserSvg } from '@icons/user.svg';
 import { ReactComponent as TopAvatarLine } from '@icons/top-avatar-line.svg';
-import { ReactComponent as PhotoSvg } from '@icons/picture.svg';
 import { ReactComponent as BottomAvatarLine } from '@icons/bottom-avatar-line.svg';
 import {
   uploadAvatarRequestAction,
@@ -190,6 +189,7 @@ export const EditProfile = () => {
   return (
     <>
       <div className="edit-profile">
+        <h2 className="edit-profile__page-name">{t('settings.edit_profile')}</h2>
         <h2 className="edit-profile__title">{t('editProfile.personal-information')}</h2>
         <div className="edit-profile__photo-data">
           <div className="edit-profile__avatar-wrapper">
@@ -214,31 +214,27 @@ export const EditProfile = () => {
           />
 
           <div className="edit-profile__avatar-upload">
+            <div className="edit-profile__avatar-requirements">{t('editProfile.requirements')}</div>
             <button
               type="button"
               onClick={openFileExplorer}
               className="edit-profile__avatar-upload-btn">
-              <PhotoSvg viewBox="0 0 18 19" />
-              <span>{t('editProfile.upload_new_photo')}</span>
+              {t('editProfile.upload_new_photo')}
             </button>
-            <div className="edit-profile__avatar-requirements">{t('editProfile.requirements')}</div>
           </div>
         </div>
-
         <LabeledInput
           label={t('editProfile.first_name')}
           value={firstName}
           onChange={changeFirstName}
           containerClassName="edit-profile__input"
         />
-
         <LabeledInput
           label={t('editProfile.last_name')}
           value={lastName}
           onChange={changeLastName}
           containerClassName="edit-profile__input"
         />
-
         <LabeledInput
           label={t('editProfile.username')}
           value={nickname}
@@ -249,7 +245,7 @@ export const EditProfile = () => {
         <Button
           type="button"
           onClick={sumbmitChanges}
-          className="edit-profile__btn edit-profile__btn--personal"
+          className="edit-profile__btn"
           loading={submitLoading}
           disabled={
             error !== NicknameState.ALLOWED_NICKNAME ||
@@ -259,46 +255,35 @@ export const EditProfile = () => {
           }>
           {t('editProfile.save-changes')}
         </Button>
-
-        <h2 className="edit-profile__title edit-profile__title--phone">
-          {t('editProfile.phone-number')}
-        </h2>
-        <div className="edit-profile__phone-data">
-          <div className="edit-profile__phone">
-            {myProfile?.phoneNumber &&
-              parsePhoneNumber(myProfile?.phoneNumber).formatInternational()}
-          </div>
-          <button onClick={toggleChangeEditPhoneModal} type="button" className="edit-profile__btn">
-            {t('editProfile.change-number')}
-          </button>
+        <div className="edit-profile__line" />
+        <h2 className="edit-profile__title">{t('editProfile.phone-number')}</h2>
+        <div className="edit-profile__phone">
+          {myProfile?.phoneNumber && parsePhoneNumber(myProfile?.phoneNumber).formatInternational()}
         </div>
-        <div className="edit-profile__phone-details">{t('editProfile.phone-details')}</div>
-
-        <h2 className="edit-profile__title edit-profile__title--delete">
-          {t('editProfile.deactivate-account')}
-        </h2>
-        <div className="edit-profile__delete-data">
-          <div className="edit-profile__delete-details">{t('editProfile.deactivate-details')}</div>
-          <button
-            onClick={toggleDeactivateAccountModal}
-            type="button"
-            className="edit-profile__btn edit-profile__btn--delete">
-            {t('editProfile.deactivate-confirmation')}
-          </button>
+        <div className="edit-profile__details">{t('editProfile.phone-details')}</div>
+        <button onClick={toggleChangeEditPhoneModal} type="button" className="edit-profile__btn">
+          {t('editProfile.change-number')}
+        </button>
+        <div className="edit-profile__line" />
+        <h2 className="edit-profile__title">{t('editProfile.account-actions')}</h2>
+        <div className="edit-profile__details edit-profile__details--deactivate">
+          {t('editProfile.deactivate-details')}
         </div>
-
-        <h2 className="edit-profile__title edit-profile__title--delete">
-          {t('editProfile.delete-account')}
-        </h2>
-        <div className="edit-profile__delete-data">
-          <div className="edit-profile__delete-details">{t('editProfile.delete-details')}</div>
-          <button
-            onClick={toggleDeleteAccountModal}
-            type="button"
-            className="edit-profile__btn edit-profile__btn--delete">
-            {t('editProfile.delete-confirmation')}
-          </button>
+        <button
+          onClick={toggleDeactivateAccountModal}
+          type="button"
+          className="edit-profile__btn edit-profile__btn--delete">
+          {t('editProfile.deactivate-confirmation')}
+        </button>
+        <div className="edit-profile__details edit-profile__details--delete">
+          {t('editProfile.delete-details')}
         </div>
+        <button
+          onClick={toggleDeleteAccountModal}
+          type="button"
+          className="edit-profile__btn edit-profile__btn--delete">
+          {t('editProfile.delete-confirmation')}
+        </button>
       </div>
 
       {changePhotoDisplayed && (

@@ -15,6 +15,7 @@ export class DeleteMessageSuccess {
       (draft: IChatsState, { payload }: ReturnType<typeof DeleteMessageSuccess.action>) => {
         const { chatId, messageIds } = payload;
         const chat = getChatByIdDraftSelector(chatId, draft);
+        const messagesForChat = draft.chats[chatId]?.messages;
 
         if (chat) {
           messageIds.forEach((msgIdToDelete) => {
@@ -22,13 +23,13 @@ export class DeleteMessageSuccess {
               (id) => id !== msgIdToDelete,
             );
 
-            const index = draft.chats[chatId]?.messages.messageIds.indexOf(msgIdToDelete);
-
-            if (index !== undefined && index > -1) {
-              draft.chats[chatId]?.messages.messageIds.splice(index, 1);
+            if (messagesForChat) {
+              messagesForChat.messageIds = messagesForChat.messageIds.filter(
+                (msgId) => msgIdToDelete !== msgId,
+              );
             }
 
-            const deletedMessage = draft.chats[chatId]?.messages.messages[msgIdToDelete];
+            const deletedMessage = messagesForChat?.messages[msgIdToDelete];
 
             if (deletedMessage) {
               deletedMessage.attachments?.forEach((attachment) => {
@@ -71,14 +72,11 @@ export class DeleteMessageSuccess {
                 }
               });
 
-              delete draft.chats[chatId]?.messages.messages[msgIdToDelete];
+              delete messagesForChat?.messages[msgIdToDelete];
             }
           });
 
-          const newLastMessage =
-            draft.chats[chatId]?.messages.messages[
-              draft.chats[chatId]?.messages.messageIds[0] || -1
-            ];
+          const newLastMessage = messagesForChat?.messages[messagesForChat?.messageIds[0] || -1];
 
           if (messageIds.includes(draft.chats[chatId]?.lastMessage?.id || -1) && newLastMessage) {
             chat.lastMessage = newLastMessage;

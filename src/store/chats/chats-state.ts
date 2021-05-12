@@ -17,5 +17,8 @@ export interface IChatsState {
   selectedChatId: number | null;
   selectedMessageIds: number[];
 
-  isInfoOpened: boolean;
+  chatInfo: {
+    chatId?: number;
+    isInfoOpened: boolean;
+  };
 }

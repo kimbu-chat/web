@@ -74,6 +74,7 @@ import { MessageCreatedEventHandlerSuccess } from './socket-events/message-creat
 import { DialogRemovedEventHandler } from './socket-events/dialog-removed/dialog-removed-event-handler';
 import { ResetSearchChats } from './features/reset-search-chats/reset-search-chats';
 import { SystemMessageType, MessageState, INormalizedChat } from './models';
+import { RemoveChat } from './features/remove-chat/remove-chat';
 
 const initialState: IChatsState = {
   chats: {},
@@ -90,7 +91,7 @@ const initialState: IChatsState = {
   },
   selectedChatId: null,
   selectedMessageIds: [],
-  isInfoOpened: false,
+  chatInfo: { isInfoOpened: false },
 };
 
 const reducer = createReducer<IChatsState>(initialState)
@@ -147,6 +148,7 @@ const reducer = createReducer<IChatsState>(initialState)
   .handleAction(MessageCreatedEventHandlerSuccess.action, MessageCreatedEventHandlerSuccess.reducer)
   .handleAction(DialogRemovedEventHandler.action, DialogRemovedEventHandler.reducer)
   .handleAction(ResetSearchChats.action, ResetSearchChats.reducer)
+  .handleAction(RemoveChat.action, RemoveChat.reducer)
   .handleAction(
     BlockUserSuccess.action,
     produce((draft, { payload }) => {

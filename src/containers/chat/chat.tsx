@@ -89,6 +89,7 @@ const Chat: React.FC<IChatProps> = ({ preloadNext }) => {
 
       <Route path="/chats/:chatId?/">
         <ChatList />
+        {isDragging && <DragIndicator />}
         <div className="messenger__chat-send">
           <MessageList />
           {isCurrentChatBlackListed ||
@@ -102,10 +103,7 @@ const Chat: React.FC<IChatProps> = ({ preloadNext }) => {
               isCurrentChatUserDeleted={isCurrentChatUserDeleted}
             />
           ) : (
-            <>
-              <CreateMessageInput />
-              {isDragging && <DragIndicator />}
-            </>
+            <CreateMessageInput />
           )}
           {!isDismissed &&
             !isFriend &&

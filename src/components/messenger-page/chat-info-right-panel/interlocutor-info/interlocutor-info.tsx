@@ -7,7 +7,7 @@ import { ReactComponent as DogSvg } from '@icons/@.svg';
 
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { getSelectedChatSelector } from '@store/chats/selectors';
+import { getInfoChatSelector } from '@store/chats/selectors';
 import { parsePhoneNumber } from 'libphonenumber-js';
 import { Link } from 'react-router-dom';
 import { FadeAnimationWrapper } from '@components/shared';
@@ -18,12 +18,12 @@ import { EditChatModal } from '../../edit-chat-modal/edit-chat-modal';
 export const InterlocutorInfo = () => {
   const { t } = useTranslation();
 
-  const selectedChat = useSelector(
-    getSelectedChatSelector,
+  const chat = useSelector(
+    getInfoChatSelector,
     (prev, next) => prev === next || prev?.draftMessage !== next?.draftMessage,
   );
-  const interlocutor = useSelector(getUserSelector(selectedChat?.interlocutorId));
-  const groupChat = selectedChat?.groupChat;
+  const interlocutor = useSelector(getUserSelector(chat?.interlocutorId));
+  const groupChat = chat?.groupChat;
 
   const [editGroupChatDisplayed, setEditGroupChatDisplayed] = useState(false);
   const changeEditGroupChatDisplayedState = useCallback(() => {
@@ -36,7 +36,7 @@ export const InterlocutorInfo = () => {
         <div className="interlocutor-info__interlocutor-data">
           <div className="interlocutor-info__chat-data">
             <div className="interlocutor-info__interlocutor">
-              {getChatInterlocutor(interlocutor, selectedChat, t)}
+              {getChatInterlocutor(interlocutor, chat, t)}
             </div>
             {groupChat?.description && (
               <div className="interlocutor-info__description">{groupChat?.description}</div>
@@ -65,11 +65,9 @@ export const InterlocutorInfo = () => {
         <div className="interlocutor-info__info-block">
           <DogSvg className="interlocutor-info__info-svg" />
           <Link
-            to={`/chats/${selectedChat?.id}`}
+            to={`/chats/${chat?.id}`}
             className="interlocutor-info__data-value interlocutor-info__data-value--link">
-            {`${
-              interlocutor ? `@${interlocutor?.nickname}` : `ravudi.com/chats/${selectedChat?.id}2`
-            }`}
+            {`${interlocutor ? `@${interlocutor?.nickname}` : `ravudi.com/chats/${chat?.id}2`}`}
           </Link>
         </div>
       </div>

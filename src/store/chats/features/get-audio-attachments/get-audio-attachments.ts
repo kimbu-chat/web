@@ -5,7 +5,7 @@ import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
-import { getChatByIdDraftSelector, getSelectedChatIdSelector } from '../../selectors';
+import { getChatByIdDraftSelector, getInfoChatIdSelector } from '../../selectors';
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { IAudioAttachment } from '../../models';
 import { IGetAudioAttachmentsActionPayload } from './action-payloads/get-audio-attachments-action-payload';
@@ -38,7 +38,7 @@ export class GetAudioAttachments {
     ): SagaIterator {
       const { page } = action.payload;
 
-      const chatId = yield select(getSelectedChatIdSelector);
+      const chatId = yield select(getInfoChatIdSelector);
 
       const { data, status } = GetAudioAttachments.httpRequest.call(
         yield call(() => GetAudioAttachments.httpRequest.generator({ page, chatId })),

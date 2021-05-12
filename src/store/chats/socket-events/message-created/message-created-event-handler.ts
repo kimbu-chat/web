@@ -119,8 +119,8 @@ export class MessageCreatedEventHandler {
       const isAudioPlayAllowed = yield select(areNotificationsEnabledSelector);
 
       if (!chatOfMessage) {
-        const { data } = ChangeSelectedChat.httpRequest.getChat.call(
-          yield call(() => ChangeSelectedChat.httpRequest.getChat.generator({ chatId })),
+        const { data } = ChangeSelectedChat.httpRequest.call(
+          yield call(() => ChangeSelectedChat.httpRequest.generator({ chatId })),
         );
 
         if (data) {

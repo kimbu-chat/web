@@ -39,17 +39,15 @@ import {
   SystemMessageType,
   MessageLinkType,
 } from '@store/chats/models';
-import { Link } from 'react-router-dom';
-
-import { ChatId } from '@store/chats/chat-id';
 import {
   constructSystemMessageText,
   getSystemMessageData,
   ICallMessage,
 } from '@utils/message-utils';
-import { selectMessageAction } from '@store/chats/actions';
+import { changeChatInfoOpenedAction, selectMessageAction } from '@store/chats/actions';
 import { getUserSelector } from '@store/users/selectors';
 import { getUserName } from '@utils/user-utils';
+import { ChatId } from '@store/chats/chat-id';
 import { MediaGrid } from './attachments/media-grid/media-grid';
 import { RecordingAttachment } from './attachments/recording-attachment/recording-attachment';
 import { MessageItemActions } from './message-item-actions/message-item-actions';
@@ -80,6 +78,13 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
     const { t } = useTranslation();
 
     const selectMessage = useActionWithDispatch(selectMessageAction);
+    const openCloseChatInfo = useActionWithDispatch(changeChatInfoOpenedAction);
+
+    const displayMessageCreatorInfo = useCallback(() => {
+      if (message?.userCreatorId) {
+        openCloseChatInfo(ChatId.from(message.userCreatorId).id);
+      }
+    }, [openCloseChatInfo, message?.userCreatorId]);
 
     const selectThisMessage = useCallback(
       (event?: React.MouseEvent<HTMLButtonElement | HTMLDivElement, MouseEvent>) => {
@@ -219,14 +224,11 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
           }`}
           onClick={isSelectState ? selectThisMessage : undefined}
           id={`message-${messageId}`}>
-          {needToShowCreator &&
-            (myId === message?.userCreatorId ? (
-              <p className="message__sender-name">{userCreator && getUserName(userCreator, t)}</p>
-            ) : (
-              <Link to={`/chats/${message?.userCreatorId}1`} className="message__sender-name">
-                {userCreator && getUserName(userCreator, t)}
-              </Link>
-            ))}
+          {needToShowCreator && (
+            <p onClick={displayMessageCreatorInfo} className="message__sender-name">
+              {userCreator && getUserName(userCreator, t)}
+            </p>
+          )}
 
           <div className={`message__item ${isSelected ? 'message__item--selected' : ''}`}>
             <button
@@ -237,18 +239,17 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
             </button>
 
             <div className="message__sender-photo-wrapper">
-              {needToShowCreator &&
-                message?.userCreatorId &&
-                (myId === message.userCreatorId ? (
-                  <Avatar className="message__sender-photo " user={userCreator} />
-                ) : (
-                  <Link to={`/chats/${ChatId.from(message?.userCreatorId).id}`}>
-                    <Avatar className="message__sender-photo " user={userCreator} />
-                  </Link>
-                ))}
+              {needToShowCreator && (
+                <Avatar
+                  onClick={displayMessageCreatorInfo}
+                  className="message__sender-photo "
+                  user={userCreator}
+                />
+              )}
             </div>
 
             <div
+              onClick={displayMessageCreatorInfo}
               className={`message__contents-wrapper ${
                 needToShowCreator ? '' : 'message__contents-wrapper--upcoming'
               }`}>

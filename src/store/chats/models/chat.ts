@@ -38,6 +38,7 @@ export interface INormalizedChat {
   draftMessage?: string;
   typingInterlocutors?: string[];
   isMuted?: boolean;
+  isGeneratedLocally?: boolean;
 
   messageToEdit?: INormalizedMessage;
   messageToReply?: INormalizedMessage;

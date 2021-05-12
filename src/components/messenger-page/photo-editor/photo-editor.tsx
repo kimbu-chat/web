@@ -1,4 +1,6 @@
 import React, { useState, useCallback } from 'react';
+import { Tooltip } from '@components/shared/tooltip/tooltip';
+import { WithBackground, Modal, Button } from '@components/shared';
 import './photo-editor.scss';
 
 import { useTranslation } from 'react-i18next';
@@ -10,9 +12,9 @@ import { ReactComponent as ReflectSvg } from '@icons/reflect.svg';
 import { ReactComponent as PeisageSvg } from '@icons/peisage.svg';
 
 import Cropper from 'react-easy-crop';
-import { WithBackground, Modal, Button } from '@components/shared';
+
 import { IAvatarSelectedData } from '@store/common/models';
-import { Tooltip } from '@components/shared/tooltip/tooltip';
+
 import { Area } from 'react-easy-crop/types';
 import Slider from 'rc-slider/lib/Slider';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';

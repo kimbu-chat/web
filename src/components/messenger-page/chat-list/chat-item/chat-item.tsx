@@ -165,7 +165,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
           </div>
         </div>
         <div className="chat-item__last-message">{typingString || getMessageText()}</div>
-        {chat?.unreadMessagesCount && (
+        {Boolean(chat?.unreadMessagesCount) && (
           <div
             className={
               chat?.isMuted ? 'chat-item__count chat-item__count--muted' : 'chat-item__count'

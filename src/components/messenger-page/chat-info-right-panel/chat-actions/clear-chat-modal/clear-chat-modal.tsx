@@ -1,13 +1,13 @@
 import { useTranslation } from 'react-i18next';
 import { Button, Modal, WithBackground } from '@components/shared';
-import { getSelectedGroupChatNameSelector } from '@store/chats/selectors';
 import React, { useCallback, useState } from 'react';
 import './clear-chat-modal.scss';
 import { ReactComponent as ClearSvg } from '@icons/clear.svg';
-import { useSelector } from 'react-redux';
 import { CheckBox } from '@components/messenger-page/settings-modal/shared/check-box/check-box';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { clearChatHistoryAction } from '@store/chats/actions';
+import { getInfoChatIdSelector } from '@store/chats/selectors';
+import { useSelector } from 'react-redux';
 
 interface IClearChatModalProps {
   hide: () => void;
@@ -16,7 +16,7 @@ interface IClearChatModalProps {
 export const ClearChatModal: React.FC<IClearChatModalProps> = ({ hide }) => {
   const { t } = useTranslation();
 
-  const selectedGroupChatName = useSelector(getSelectedGroupChatNameSelector);
+  const chatId = useSelector(getInfoChatIdSelector);
 
   const [deleteForInterlocutor, setDeleteForInterlocutor] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -25,13 +25,15 @@ export const ClearChatModal: React.FC<IClearChatModalProps> = ({ hide }) => {
   }, [setDeleteForInterlocutor]);
 
   const clearHistory = useActionWithDeferred(clearChatHistoryAction);
-  const clearSelectedChat = useCallback(() => {
-    setLoading(true);
-    clearHistory({ forEveryone: deleteForInterlocutor }).then(() => {
-      setLoading(false);
-      hide();
-    });
-  }, [deleteForInterlocutor, clearHistory, hide]);
+  const clearChat = useCallback(() => {
+    if (chatId) {
+      setLoading(true);
+      clearHistory({ forEveryone: deleteForInterlocutor, chatId }).then(() => {
+        setLoading(false);
+        hide();
+      });
+    }
+  }, [deleteForInterlocutor, clearHistory, hide, chatId]);
 
   return (
     <WithBackground onBackgroundClick={hide}>
@@ -54,7 +56,6 @@ export const ClearChatModal: React.FC<IClearChatModalProps> = ({ hide }) => {
             </div>
           </div>
         }
-        highlightedInContents={selectedGroupChatName}
         closeModal={hide}
         buttons={[
           <button key={1} type="button" className="clear-chat-modal__cancel-btn" onClick={hide}>
@@ -65,7 +66,7 @@ export const ClearChatModal: React.FC<IClearChatModalProps> = ({ hide }) => {
             loading={loading}
             type="button"
             className="clear-chat-modal__confirm-btn"
-            onClick={clearSelectedChat}>
+            onClick={clearChat}>
             {t('chatInfo.clear')}
           </Button>,
         ]}

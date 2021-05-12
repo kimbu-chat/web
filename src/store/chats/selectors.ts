@@ -64,36 +64,41 @@ export const getChatsSearchPageSelector = (state: RootState) => state.chats.sear
 // Attachments list selector
 
 export const getSelectedChatRecordingsSelector = (state: RootState) =>
-  state.chats.chats[state?.chats?.selectedChatId || -1]?.recordings;
+  state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.recordings;
 
 export const getSelectedChatAudiosSelector = (state: RootState) =>
-  state.chats.chats[state?.chats?.selectedChatId || -1]?.audios;
+  state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.audios;
 
 export const getSelectedChatFilesSelector = (state: RootState) =>
-  state.chats.chats[state?.chats?.selectedChatId || -1]?.files;
+  state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.files;
 
 export const getSelectedChatPhotosSelector = (state: RootState) =>
-  state.chats.chats[state?.chats?.selectedChatId || -1]?.photos;
+  state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.photos;
 
 export const getSelectedChatVideosSelector = (state: RootState) =>
-  state.chats.chats[state?.chats?.selectedChatId || -1]?.videos;
+  state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.videos;
 
 // Attachments count selector
 
 export const getPictureAttachmentsCountSelector = (state: RootState): number =>
-  state.chats.chats[state?.chats?.selectedChatId || -1]?.pictureAttachmentsCount || 0;
+  state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]
+    ?.pictureAttachmentsCount || 0;
 
 export const getVideoAttachmentsCountSelector = (state: RootState): number =>
-  state.chats.chats[state?.chats?.selectedChatId || -1]?.videoAttachmentsCount || 0;
+  state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]
+    ?.videoAttachmentsCount || 0;
 
 export const getFilesAttachmentsCountSelector = (state: RootState): number =>
-  state.chats.chats[state?.chats?.selectedChatId || -1]?.rawAttachmentsCount || 0;
+  state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]
+    ?.rawAttachmentsCount || 0;
 
 export const getVoiceAttachmentsCountSelector = (state: RootState): number =>
-  state.chats.chats[state?.chats?.selectedChatId || -1]?.voiceAttachmentsCount || 0;
+  state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]
+    ?.voiceAttachmentsCount || 0;
 
 export const getAudioAttachmentsCountSelector = (state: RootState): number =>
-  state.chats.chats[state?.chats?.selectedChatId || -1]?.audioAttachmentsCount || 0;
+  state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]
+    ?.audioAttachmentsCount || 0;
 // -----------
 
 export const getSelectedChatIdSelector = (state: RootState): number | null =>
@@ -142,7 +147,13 @@ export const getIsSelectMessagesStateSelector = (state: RootState) =>
 
 export const getSelectedMessagesIdSelector = (state: RootState) => state.chats.selectedMessageIds;
 
-export const getIsInfoOpenedSelector = (state: RootState) => state.chats.isInfoOpened;
+export const getIsInfoOpenedSelector = (state: RootState) => state.chats.chatInfo.isInfoOpened;
+
+export const getInfoChatSelector = (state: RootState) =>
+  state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1];
+
+export const getInfoChatIdSelector = (state: RootState) =>
+  state.chats.chatInfo.chatId || state.chats.selectedChatId;
 
 export const getMessageToEditSelector = (state: RootState) =>
   state.chats.chats[state.chats.selectedChatId || -1]?.messageToEdit;

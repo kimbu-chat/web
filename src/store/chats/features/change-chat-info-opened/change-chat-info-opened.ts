@@ -1,17 +1,85 @@
 import produce from 'immer';
-import { createEmptyAction } from '@store/common/actions';
+import { createAction } from 'typesafe-actions';
+import { INormalizedChat } from '../../models/chat';
+import { ChatId } from '../../chat-id';
 import { IChatsState } from '../../chats-state';
 
 export class ChangeChatInfoOpened {
   static get action() {
-    return createEmptyAction('CHANGE_CHAT_INFO_OPENED');
+    return createAction('CHANGE_CHAT_INFO_OPENED')<number | undefined>();
   }
 
   static get reducer() {
-    return produce((draft: IChatsState) => {
-      draft.isInfoOpened = !draft.isInfoOpened;
+    return produce(
+      (draft: IChatsState, { payload }: ReturnType<typeof ChangeChatInfoOpened.action>) => {
+        const chatId = payload;
 
-      return draft;
-    });
+        if (chatId) {
+          draft.chatInfo.isInfoOpened = true;
+          if (!draft.chats[chatId]) {
+            const { interlocutorId, interlocutorType } = ChatId.fromId(chatId);
+
+            const chat: INormalizedChat = {
+              id: chatId,
+              interlocutorType,
+              lastMessage: null,
+              interlocutorId,
+              unreadMessagesCount: 0,
+              isGeneratedLocally: true,
+
+              photos: {
+                photos: [],
+                loading: false,
+                hasMore: true,
+              },
+              videos: {
+                videos: [],
+                loading: false,
+                hasMore: true,
+              },
+              audios: {
+                audios: [],
+                loading: false,
+                hasMore: true,
+              },
+              files: {
+                files: [],
+                loading: false,
+                hasMore: true,
+              },
+              members: {
+                memberIds: [],
+                loading: false,
+                hasMore: true,
+              },
+              recordings: {
+                recordings: [],
+                loading: false,
+                hasMore: true,
+              },
+
+              messages: {
+                messages: {},
+                messageIds: [],
+                loading: false,
+                hasMore: true,
+              },
+
+              isBlockedByInterlocutor: false,
+              isBlockedByUser: false,
+              isInContacts: false,
+              isDismissedAddToContacts: false,
+            };
+
+            draft.chats[chatId] = chat;
+          }
+        } else {
+          draft.chatInfo.isInfoOpened = !draft.chatInfo.isInfoOpened;
+        }
+        draft.chatInfo.chatId = chatId;
+
+        return draft;
+      },
+    );
   }
 }

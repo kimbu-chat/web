@@ -1,4 +1,5 @@
 import produce from 'immer';
+import { merge } from 'lodash';
 import { createAction } from 'typesafe-actions';
 import { IChatsState } from '../../chats-state';
 import { IUnshiftChatActionPayload } from './action-payloads/unshift-chat-action-payload';
@@ -10,11 +11,18 @@ export class UnshiftChat {
 
   static get reducer() {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof UnshiftChat.action>) => {
-      const { chat } = payload;
+      const { chat, addToList } = payload;
 
-      if (!draft.chats[chat.id]) {
+      merge(draft.chats[chat.id], chat);
+
+      const chatFromStore = draft.chats[chat.id];
+
+      if (chatFromStore) {
+        chatFromStore.isGeneratedLocally = false;
+      }
+
+      if (addToList) {
         draft.chatList.chatIds.unshift(chat.id);
-        draft.chats[chat.id] = chat;
       }
 
       return draft;

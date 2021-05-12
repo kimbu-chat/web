@@ -27,7 +27,7 @@ import { getFileType } from '@utils/get-file-extension';
 import Mousetrap from 'mousetrap';
 import React, { useState, useRef, useEffect, useCallback, Suspense } from 'react';
 import { useSelector } from 'react-redux';
-import { throttle } from 'lodash';
+import throttle from 'lodash/throttle';
 import { TypingStrategy } from '@store/settings/features/models';
 import { CubeLoader } from '@containers/cube-loader/cube-loader';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';

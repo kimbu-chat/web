@@ -12,6 +12,7 @@ export class CancelCallSuccess {
       draft.interlocutorId = undefined;
       draft.isInterlocutorBusy = false;
       draft.amICalling = false;
+      draft.isAcceptPending = false;
       draft.amICalled = false;
       draft.isSpeaking = false;
       draft.isInterlocutorVideoEnabled = false;

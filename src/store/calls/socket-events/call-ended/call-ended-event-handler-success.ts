@@ -25,6 +25,7 @@ export class CallEndedEventHandlerSuccess {
         draft.isInterlocutorBusy = false;
         draft.amICalling = false;
         draft.amICalled = false;
+        draft.isAcceptPending = false;
         draft.isSpeaking = false;
         draft.isInterlocutorVideoEnabled = false;
         draft.isInterlocutorAudioEnabled = false;

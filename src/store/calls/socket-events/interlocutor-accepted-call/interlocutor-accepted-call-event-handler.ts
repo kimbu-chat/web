@@ -26,7 +26,7 @@ export class InterlocutorAcceptedCallEventHandler {
           draft.isSpeaking = true;
           draft.amICalled = false;
           draft.amICalling = false;
-        } else if (!draft.isSpeaking) {
+        } else if (!(draft.isSpeaking || draft.isAcceptPending)) {
           draft.interlocutorId = undefined;
           draft.isInterlocutorBusy = false;
           draft.amICalling = false;

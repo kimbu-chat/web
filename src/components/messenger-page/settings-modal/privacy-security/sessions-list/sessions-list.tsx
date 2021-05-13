@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import './sessions-list.scss';
-import { ReactComponent as ArrowSvg } from '@icons/arrow.svg';
+import { ReactComponent as ArrowSvg } from '@icons/arrow-v.svg';
 
 import { useTranslation } from 'react-i18next';
 import { InfiniteScrollLoader } from '@components/messenger-page/shared/infinite-scroll/infinite-scroll-loader/infinite-scroll-loader';
@@ -41,9 +41,11 @@ export const SessionsList = () => {
           className={`sessions-list__header__open ${
             opened ? 'sessions-list__header__open--opened' : ''
           }`}>
-          <ArrowSvg viewBox="0 0 48 48" />
+          <span>{opened ? t('sessionaList.hide-all') : t('sessionaList.show-all')}</span>
+          <ArrowSvg />
         </button>
       </div>
+      <div className="sessions-list__details">{t('sessionaList.details')}</div>
 
       {opened && (
         <div className="sessions-list__content">

@@ -4,6 +4,7 @@ import { RadioBox } from '../shared/radio-box/radio-box';
 import { BlockedUsers } from './blocked-users/blocked-users';
 import './privacy-security.scss';
 import { SessionsList } from './sessions-list/sessions-list';
+import { HorizontalSeparator } from '../shared/horizontal-separator/horizontal-separator';
 
 export const PrivacySecurity = () => {
   const { t } = useTranslation();
@@ -22,6 +23,7 @@ export const PrivacySecurity = () => {
         <RadioBox groupName="who-can-message-me" content={t('privacySecurity.no-one')} />
         <RadioBox groupName="who-can-message-me" content={t('privacySecurity.everyone')} />
       </div>
+      <HorizontalSeparator />
 
       <h2 className="privacy-security__subject">{t('privacySecurity.who-can-call-me')}</h2>
       <div className="privacy-security__radiobox-group">
@@ -33,15 +35,17 @@ export const PrivacySecurity = () => {
         <RadioBox groupName="who-can-call-me" content={t('privacySecurity.no-one')} />
         <RadioBox groupName="who-can-call-me" content={t('privacySecurity.everyone')} />
       </div>
+      <HorizontalSeparator />
 
       <h2 className="privacy-security__subject">{t('privacySecurity.who-can-find-me')}</h2>
       <div className="privacy-security__radiobox-group">
         <RadioBox groupName="who-can-find-me" content={t('privacySecurity.no-one')} />
         <RadioBox groupName="who-can-find-me" content={t('privacySecurity.everyone')} />
       </div>
+      <HorizontalSeparator />
 
       <BlockedUsers />
-
+      <HorizontalSeparator />
       <SessionsList />
     </div>
   );

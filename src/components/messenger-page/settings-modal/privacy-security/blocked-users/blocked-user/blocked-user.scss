@@ -1,6 +1,9 @@
 .blocked-user {
   display: flex;
-  padding: 8px 65px 8px 20px;
+
+  &:not(:first-child) {
+    margin-top: 16px;
+  }
 
   &__avatar {
     height: 24px;
@@ -10,16 +13,19 @@
 
   &__name {
     color: var(--dt-white-wt-dark);
-    font-size: 16px;
     font-weight: 300;
-    line-height: 19px;
+    font-size: 18px;
+    line-height: 21px;
   }
 
   &__unblock {
-    color: #c74848;
-    font-size: 16px;
+    color: #fff;
+    background-color: var(--msg-bg-dt-gray-lt-red);
+    border-radius: 6px;
+    padding: 3px 32px;
     font-weight: 300;
-    line-height: 19px;
+    font-size: 14px;
+    line-height: 17px;
     margin-left: auto;
   }
 }

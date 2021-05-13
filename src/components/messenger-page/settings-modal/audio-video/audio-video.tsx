@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { ReactComponent as VideoSvg } from '@icons/video.svg';
+import { ReactComponent as VideoSvg } from '@icons/attachment-video.svg';
 import { ReactComponent as PlaySvg } from '@icons/play.svg';
 import { ReactComponent as PauseSvg } from '@icons/pause.svg';
 import { ReactComponent as MicrophoneSvg } from '@icons/voice.svg';
@@ -27,6 +27,7 @@ import { getAudioVolume } from '@utils/get-audio-volume-size';
 import { playSoundSafely } from '@utils/current-music';
 import { Button } from '@components/shared';
 import { Dropdown } from '../../shared/dropdown/dropdown';
+import { HorizontalSeparator } from '../shared/horizontal-separator/horizontal-separator';
 
 interface IIntensityPointProps {
   dataActive?: boolean;
@@ -166,6 +167,10 @@ export const AudioVideoSettings = () => {
     setRequestingVideo(true);
   }, [setVideoOpened]);
 
+  const stopVideo = useCallback(() => {
+    setVideoOpened(false);
+  }, [setVideoOpened]);
+
   useEffect(() => {
     if (audioPlaying) {
       (async () => {
@@ -221,7 +226,14 @@ export const AudioVideoSettings = () => {
       <div className="audio-video__video-area">
         <VideoCameraSvg className="audio-video__video-icon" viewBox="0 0 300 280" />
         {videoOpened && (
-          <video muted autoPlay playsInline ref={videoRef} className="audio-video__video" />
+          <>
+            <video muted autoPlay playsInline ref={videoRef} className="audio-video__video" />
+            {!requestingVideo && (
+              <Button onClick={stopVideo} type="button" className="audio-video__stop-video">
+                {t('audioVideo.stop-video')}
+              </Button>
+            )}
+          </>
         )}
         <Button
           loading={requestingVideo}
@@ -231,6 +243,7 @@ export const AudioVideoSettings = () => {
           {t('audioVideo.test-video')}
         </Button>
       </div>
+      <HorizontalSeparator />
       <div className="audio-video__intensity-wrapper">
         <div className="audio-video__subject-title">
           {audioPlaying ? (
@@ -255,19 +268,8 @@ export const AudioVideoSettings = () => {
         </div>
         {audioMeasurementAllowed && <IntensityIndicator intensity={audioIntensity} />}
       </div>
-      <div className="audio-video__dropdown-wrapper">
-        <Dropdown
-          selectedString={
-            audioDevices.find(({ deviceId }) => deviceId === activeAudioDevice)?.label ||
-            t('activeCall.default')
-          }
-          options={audioDevices.map((device) => ({
-            title: device.label,
-            onClick: () => switchDevice({ kind: InputType.AudioInput, deviceId: device.deviceId }),
-          }))}
-        />
-      </div>
-      <div className="audio-video__intensity-wrapper audio-video__intensity-wrapper--microphone">
+      <HorizontalSeparator />
+      <div className="audio-video__intensity-wrapper">
         <div className="audio-video__subject-title">
           {microphoneOpened ? (
             <CloseMicrophoneSvg
@@ -285,6 +287,18 @@ export const AudioVideoSettings = () => {
           <h5 className="audio-video__subject-text">{t('audioVideo.microphone')}</h5>
         </div>
         {audioMeasurementAllowed && <IntensityIndicator intensity={microphoneIntensity} />}
+      </div>
+      <div className="audio-video__dropdown-wrapper">
+        <Dropdown
+          selectedString={
+            audioDevices.find(({ deviceId }) => deviceId === activeAudioDevice)?.label ||
+            t('activeCall.default')
+          }
+          options={audioDevices.map((device) => ({
+            title: device.label,
+            onClick: () => switchDevice({ kind: InputType.AudioInput, deviceId: device.deviceId }),
+          }))}
+        />
       </div>
     </div>
   );

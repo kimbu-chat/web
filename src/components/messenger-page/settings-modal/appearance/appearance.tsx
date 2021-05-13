@@ -9,6 +9,7 @@ import { changeThemeAction, changeFontSizeAction } from '@store/settings/actions
 import { APPEARANCE_CHAT_ID } from '@utils/constants';
 import { MessageItem } from '../../message-item/message-item';
 import { RadioBox } from '../shared/radio-box/radio-box';
+import { HorizontalSeparator } from '../shared/horizontal-separator/horizontal-separator';
 
 export const Appearance: React.FC = () => {
   const { t } = useTranslation();
@@ -57,6 +58,7 @@ export const Appearance: React.FC = () => {
           content={t('appearance.light')}
         />
       </div>
+      <HorizontalSeparator />
       <h3 className="appearance__font-size-title">{t('appearance.font-size')}</h3>
       <div className="appearance__font-size-box">
         <div className="appearance__font-sizes">

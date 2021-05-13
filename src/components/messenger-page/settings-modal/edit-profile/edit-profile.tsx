@@ -22,6 +22,7 @@ import { loadPhotoEditor } from '@routing/module-loader';
 import { ChangePhoneModal } from './change-phone-modal/change-phone-modal';
 import { DeactivateAccountModal } from './deactivate-account-modal/deactivate-account-modal';
 import { DeleteAccountModal } from './delete-account-modal/delete-account-modal';
+import { HorizontalSeparator } from '../shared/horizontal-separator/horizontal-separator';
 
 const PhotoEditor = lazy(loadPhotoEditor);
 
@@ -255,7 +256,7 @@ export const EditProfile = () => {
           }>
           {t('editProfile.save-changes')}
         </Button>
-        <div className="edit-profile__line" />
+        <HorizontalSeparator />
         <h2 className="edit-profile__title">{t('editProfile.phone-number')}</h2>
         <div className="edit-profile__phone">
           {myProfile?.phoneNumber && parsePhoneNumber(myProfile?.phoneNumber).formatInternational()}
@@ -264,7 +265,7 @@ export const EditProfile = () => {
         <button onClick={toggleChangeEditPhoneModal} type="button" className="edit-profile__btn">
           {t('editProfile.change-number')}
         </button>
-        <div className="edit-profile__line" />
+        <HorizontalSeparator />
         <h2 className="edit-profile__title">{t('editProfile.account-actions')}</h2>
         <div className="edit-profile__details edit-profile__details--deactivate">
           {t('editProfile.deactivate-details')}

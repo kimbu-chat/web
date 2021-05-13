@@ -1,13 +1,21 @@
 .sessions-list {
-  background: var(--dt-dark-wt-bright-blue);
   border-radius: 6px;
   margin-top: 35px;
+
+  &__details {
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 17px;
+    margin-top: 32px;
+    color: var(--dt-white-wt-dark);
+    max-width: 535px;
+  }
 
   &__header {
     align-items: center;
     display: flex;
     cursor: pointer;
-    padding: 18px 20px;
+    margin-top: -6px;
 
     span {
       color: var(--dt-white-wt-dark);
@@ -18,16 +26,30 @@
 
     &__open {
       margin-left: auto;
-      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      color: #3f8ae0;
 
       svg {
-        color: var(--dt-white-wt-kingBlue);
-        height: 24px;
-        width: 24px;
+        transition: all 0.2s;
+        color: #3f8ae0;
+        height: 11px;
+        transform: rotate(0deg);
+      }
+
+      span {
+        color: #3f8ae0;
+        font-weight: 300;
+        font-size: 18px;
+        line-height: 21px;
+        margin-right: 8px;
       }
 
       &--opened {
-        transform: rotate(90deg);
+        svg {
+          transform: rotate(90deg);
+        }
       }
     }
   }

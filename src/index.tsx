@@ -14,7 +14,7 @@ if (process.env.NODE_ENV === 'production') {
     dsn: 'https://88240f4812e54397a554e2e35bc7ef32@o116167.ingest.sentry.io/5524434',
     integrations: [new Integrations.BrowserTracing()],
     logLevel: 1,
-    allowUrls: ['https://ravudi.com'],
+    allowUrls: ['https:// kimbu.io'],
     // We recommend adjusting this value in production, or using tracesSampler
     // for finer control
     tracesSampleRate: 1.0,

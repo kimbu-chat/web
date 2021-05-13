@@ -132,7 +132,8 @@
     "video": "Video",
     "load-speaker": "Load speaker",
     "microphone": "Microphone",
-    "test-video": "Test video"
+    "test-video": "Test video",
+    "stop-video": "End test"
   },
   "messageInput": {
     "write": "Type something..."
@@ -279,13 +280,19 @@
     "everyone": "Everyone"
   },
   "blockedUsers": {
-    "title": "Blocked users  {{count}}"
+    "title": "Blocked users  {{count}}",
+    "hide-all": "Hide all",
+    "show-all": "Show all",
+    "details": "A blocked user will not be able to leave personal messages, call you or add you to groups."
   },
   "blockedUser": {
     "unblock": "Unblock"
   },
   "sessionaList": {
-    "title": "Sessions {{count}}"
+    "title": "Sessions {{count}}",
+    "hide-all": "Hide all",
+    "show-all": "Show all",
+    "details": "This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize."
   },
   "session": {
     "last-acessed": "Last accessed",

@@ -28,7 +28,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      width: 200px;
+      width: 185px;
     }
 
     &--disabled {
@@ -43,12 +43,12 @@
 
   &__icon {
     color: var(--dt-white-wt-dark);
-    height: 16px;
+    height: 13px;
     margin-left: auto;
     right: 12px;
     transform: rotate(90deg);
     transition: all 0.1s;
-    width: 16px;
+    width: 13px;
 
     &--opened {
       transform: rotate(-90deg);

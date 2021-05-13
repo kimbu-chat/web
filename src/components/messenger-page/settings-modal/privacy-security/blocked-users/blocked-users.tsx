@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import './blocked-users.scss';
-import { ReactComponent as ArrowSvg } from '@icons/arrow.svg';
+import { ReactComponent as ArrowSvg } from '@icons/arrow-v.svg';
 
 import { useTranslation } from 'react-i18next';
 import { InfiniteScrollLoader } from '@components/messenger-page/shared/infinite-scroll/infinite-scroll-loader/infinite-scroll-loader';
@@ -44,10 +44,11 @@ export const BlockedUsers = () => {
           className={`blocked-users__header__open ${
             opened ? 'blocked-users__header__open--opened' : ''
           }`}>
-          <ArrowSvg viewBox="0 0 48 48" />
+          <span>{opened ? t('blockedUsers.hide-all') : t('blockedUsers.show-all')}</span>
+          <ArrowSvg />
         </button>
       </div>
-
+      <div className="blocked-users__details">{t('blockedUsers.details')}</div>
       {opened && (
         <div className="blocked-users__content">
           {blockedUsers.map((user) => (
@@ -55,7 +56,6 @@ export const BlockedUsers = () => {
           ))}
         </div>
       )}
-
       {opened && loading && <InfiniteScrollLoader />}
     </div>
   );

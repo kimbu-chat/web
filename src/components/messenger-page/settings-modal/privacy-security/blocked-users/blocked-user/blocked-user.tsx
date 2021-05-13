@@ -32,7 +32,6 @@ export const BlockedUser: React.FC<IBlockedUserProps> = ({ user }) => {
       <span className="blocked-user__name">{`${user.firstName} ${user.lastName}`}</span>
 
       <Button
-        themed
         loading={isUnblocking}
         onClick={unblockThisUser}
         type="button"

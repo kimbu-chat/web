@@ -1,5 +1,7 @@
 .privacy-security {
   padding: 32px 40px;
+  display: inline-flex;
+  flex-direction: column;
 
   &__title {
     color: var(--dt-white-wt-dark);
@@ -14,7 +16,7 @@
     font-weight: normal;
     line-height: 28px;
     margin-bottom: 16px;
-    margin-top: 40px;
+    margin-top: 29px;
 
     &:first-of-type {
       margin-top: 40px;
@@ -27,7 +29,11 @@
 
     & > * {
       &:not(:last-child) {
-        margin-right: 114px;
+        margin-right: 70px;
+      }
+
+      &:last-child {
+        margin-right: 74px;
       }
     }
   }

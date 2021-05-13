@@ -21,7 +21,6 @@ import {
   loadRegistration,
   loadLogout,
   loadEmoji,
-  loadPhotoEditor,
 } from './routing/module-loader';
 import '@localization/i18n';
 import './dayjs/day';
@@ -64,14 +63,7 @@ const App = () => {
             exact
             isAllowed={isAuthenticated}
             fallback="/login"
-            componentToRender={
-              <Messenger
-                preloadNext={() => {
-                  loadEmoji();
-                  loadPhotoEditor();
-                }}
-              />
-            }
+            componentToRender={<Messenger preloadNext={loadEmoji} />}
           />
           <PrivateRoute
             path="/logout"

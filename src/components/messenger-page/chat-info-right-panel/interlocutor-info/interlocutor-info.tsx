@@ -67,7 +67,7 @@ export const InterlocutorInfo = () => {
           <Link
             to={`/chats/${chat?.id}`}
             className="interlocutor-info__data-value interlocutor-info__data-value--link">
-            {`${interlocutor ? `@${interlocutor?.nickname}` : `ravudi.com/chats/${chat?.id}2`}`}
+            {`${interlocutor ? `@${interlocutor?.nickname}` : ` kimbu.io/chats/${chat?.id}2`}`}
           </Link>
         </div>
       </div>

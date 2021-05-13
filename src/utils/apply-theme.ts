@@ -12,6 +12,7 @@ export function applyTheme(theme?: Theme) {
     '--dt-dark-wt-bright-blue': '#D6E9FF',
     '--dt-dark-wt-kingBlueLight': 'rgba(63, 138, 224, 0.55)',
     '--dt-semi-transparent-wt-kingBlueLight': 'rgba(63, 138, 224, 0.55)',
+    '--dt-gray-transparent-wt-kingBlueLight': 'rgba(63, 138, 224, 0.55)',
     '--dt-dark-wt-kingBlue': '#3F8AE0',
     '--dt-dark-wt-whiter': 'rgba(214, 233, 255, 0.2)',
     '--dt-dark-wt-kingBlue-lighter': '#E8F1FB',
@@ -50,6 +51,7 @@ export function applyTheme(theme?: Theme) {
     '--msg-bg-dt-gray-lt-grayLight': 'rgba(63, 138, 224, 0.12)',
     '--msg-bg-dt-gray-lt-kingBlue-lighter': '#E8F1FB',
     '--msg-bg-dt-gray-lt-bright-blue': '#D6E9FF',
+    '--msg-bg-dt-gray-lt-red': '#c74848',
 
     '--box-shadow-1': 'rgba(69, 107, 140, 0.5)',
     '--box-shadow-2': 'rgba(180, 180, 180, 0.7)',
@@ -87,6 +89,7 @@ export function applyTheme(theme?: Theme) {
     '--dt-dark-wt-whiter': '#262c38',
     '--dt-dark-wt-kingBlue-lighter': '#262c38',
     '--dt-dark-transparent-wt-kingBlueLight-transparent': 'rgba(38, 44, 56, 0.5)',
+    '--dt-gray-transparent-wt-kingBlueLight': 'rgba(55, 63, 81, 0.5)',
     '--dt-dark-wt-pink': '#262c38',
 
     '--dt-darker-wt-bright-blue': '#161d2e',
@@ -109,6 +112,7 @@ export function applyTheme(theme?: Theme) {
     '--msg-bg-dt-gray-lt-kingBlue-lighter': '#4a5466',
     '--msg-bg-dt-gray-lt-kingBlueLight': '#4a5466',
     '--msg-bg-dt-gray-lt-bright-blue': '#4a5466',
+    '--msg-bg-dt-gray-lt-red': '#4a5466',
 
     '--modals-bg': 'rgba(15, 23, 41, 0.7)',
     '--error-bg-themed': '#483e4a',

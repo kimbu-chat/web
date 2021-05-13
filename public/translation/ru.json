@@ -152,7 +152,8 @@
     "video": "Видео",
     "load-speaker": "Воспроизвести музыку",
     "microphone": "Микрофон",
-    "test-video": "Тест видео"
+    "test-video": "Тест видео",
+    "stop-video": "Завершить тест"
   },
   "messageInput": {
     "write": "Напишите сообщение..."
@@ -278,13 +279,17 @@
     "everyone": "Все"
   },
   "blockedUsers": {
-    "title": "Заблокированные пользователи  {{count}}"
+    "title": "Заблокированные пользователи  {{count}}",
+    "show-all": "Показать всё",
+    "hide-all": "Скрыть всё"
   },
   "blockedUser": {
     "unblock": "Разблокировать"
   },
   "sessionaList": {
-    "title": "Сессии {{count}}"
+    "title": "Сессии {{count}}",
+    "show-all": "Показать всё",
+    "hide-all": "Скрыть всё"
   },
   "session": {
     "last-acessed": "Последний доступ",

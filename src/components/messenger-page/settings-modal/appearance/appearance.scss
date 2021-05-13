@@ -11,6 +11,7 @@
 
   &__theme {
     color: var(--dt-white-wt-dark);
+    font-weight: normal;
     font-size: 24px;
     line-height: 28px;
     margin-bottom: 32px;
@@ -20,7 +21,7 @@
     background: var(--dt-dark-wt-whiter);
     border-radius: 6px;
     box-sizing: border-box;
-    margin-bottom: 40px;
+    margin-bottom: 32px;
     max-height: 400px;
     overflow: auto;
     padding: 0 32px 32px 0;
@@ -51,15 +52,15 @@
 
   &__font-size-title {
     color: var(--dt-white-wt-dark);
-    font-size: 18px;
     font-weight: normal;
-    line-height: 21px;
-    margin-top: 40px;
+    font-size: 24px;
+    line-height: 28px;
+    margin-top: 31px;
   }
 
   &__font-sizes {
     display: flex;
-    margin-top: 34px;
+    margin-top: 17px;
   }
 
   &__font-size {

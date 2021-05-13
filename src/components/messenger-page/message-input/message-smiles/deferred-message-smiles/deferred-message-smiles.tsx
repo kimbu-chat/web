@@ -1,4 +1,6 @@
-import { BaseEmoji, Picker } from 'emoji-mart';
+import type { BaseEmoji, Data } from 'emoji-mart';
+import NimblePicker from 'emoji-mart/dist-es/components/picker/nimble-picker';
+import data from 'emoji-mart/data/apple.json';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -17,9 +19,12 @@ const DeferredMessageSmiles: React.FC<IDeferredMessageSmilesProps> = ({ setText,
     [setText],
   );
 
+  const emojis: unknown = data as unknown;
+
   return (
     <div ref={emojiRef} className="emoji-wrapper">
-      <Picker
+      <NimblePicker
+        data={emojis as Data}
         set="apple"
         showSkinTones={false}
         showPreview={false}

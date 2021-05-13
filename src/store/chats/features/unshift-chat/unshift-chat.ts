@@ -1,5 +1,5 @@
 import produce from 'immer';
-import { merge } from 'lodash';
+import merge from 'lodash/merge';
 import { createAction } from 'typesafe-actions';
 import { IChatsState } from '../../chats-state';
 import { IUnshiftChatActionPayload } from './action-payloads/unshift-chat-action-payload';

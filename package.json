@@ -75,6 +75,7 @@
     "@typescript-eslint/parser": "4.22.1",
     "@welldone-software/why-did-you-render": "6.1.1",
     "babel-preset-react-app": "10.0.0",
+    "cross-env": "^7.0.3",
     "customize-cra": "1.0.0",
     "eslint": "7.25.0",
     "eslint-config-airbnb": "18.2.1",
@@ -95,7 +96,8 @@
     "stylelint": "13.13.1",
     "stylelint-config-prettier": "8.0.2",
     "stylelint-config-sass-guidelines": "8.0.0",
-    "stylelint-prettier": "1.2.0"
+    "stylelint-prettier": "1.2.0",
+    "webpack-bundle-analyzer": "^4.4.1"
   },
   "eslintConfig": {
     "extends": [
@@ -144,7 +146,8 @@
     "stylelint": "stylelint ./src",
     "test": "craco test",
     "prepare": "husky install",
-    "pre-commit": "lint-staged"
+    "pre-commit": "lint-staged",
+    "bundle-analyze": "cross-env REACT_APP_INTERACTIVE_ANALYZE=1 yarn build"
   },
   "version": "0.1.0"
 }

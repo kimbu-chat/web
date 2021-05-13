@@ -1,5 +1,5 @@
-export * from './audio-attachment';
-export * from './base-attachment';
-export * from './picture-atachment';
-export * from './video-attachment';
-export * from './voice-attachment';
+export type { IAudioAttachment } from './audio-attachment';
+export type { IBaseAttachment } from './base-attachment';
+export type { IPictureAttachment } from './picture-atachment';
+export type { IVideoAttachment } from './video-attachment';
+export type { IVoiceAttachment } from './voice-attachment';

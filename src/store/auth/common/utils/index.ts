@@ -1,1 +1,1 @@
-export * from './get-push-notification-tokens';
+export { getPushNotificationToken } from './get-push-notification-tokens';

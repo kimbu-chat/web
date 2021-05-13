@@ -1,2 +1,2 @@
-export * from './security-tokens';
-export * from './device-id';
+export type { ISecurityTokens } from './security-tokens';
+export type { IDeviceId } from './device-id';

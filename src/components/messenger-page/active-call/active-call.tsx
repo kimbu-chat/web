@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, useEffect, useState } from 'react';
+import React, { useRef, useCallback, useEffect, useState, useMemo } from 'react';
 import './active-call.scss';
 import { useSelector } from 'react-redux';
 import {
@@ -207,6 +207,20 @@ const ActiveCall: React.FC = () => {
     }
   }, [interlocutor, callInterlocutor]);
 
+  const selectedAudioString = useMemo(
+    () =>
+      audioDevices.find(({ deviceId }) => deviceId === activeAudioDevice)?.label ||
+      t('activeCall.default'),
+    [audioDevices, t, activeAudioDevice],
+  );
+
+  const selectedVideoString = useMemo(
+    () =>
+      videoDevices.find(({ deviceId }) => deviceId === activeVideoDevice)?.label ||
+      t('activeCall.default'),
+    [activeVideoDevice, t, videoDevices],
+  );
+
   return ReactDOM.createPortal(
     <Rnd
       ref={dragRef}
@@ -263,10 +277,7 @@ const ActiveCall: React.FC = () => {
               `${BLOCK_NAME}__dropdown-wrapper--audio`,
             )}>
             <Dropdown
-              selectedString={
-                audioDevices.find(({ deviceId }) => deviceId === activeAudioDevice)?.label ||
-                t('activeCall.default')
-              }
+              selectedString={selectedAudioString}
               disabled={!isAudioOpened}
               options={audioDevices.map((device) => ({
                 title: device.label,
@@ -284,10 +295,7 @@ const ActiveCall: React.FC = () => {
               `${BLOCK_NAME}__dropdown-wrapper--video`,
             )}>
             <Dropdown
-              selectedString={
-                videoDevices.find(({ deviceId }) => deviceId === activeVideoDevice)?.label ||
-                t('activeCall.default')
-              }
+              selectedString={selectedVideoString}
               disabled={!isVideoOpened}
               options={videoDevices.map((device) => ({
                 title: device.label,

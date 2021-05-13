@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { ReactComponent as VideoSvg } from '@icons/attachment-video.svg';
 import { ReactComponent as PlaySvg } from '@icons/play.svg';
 import { ReactComponent as PauseSvg } from '@icons/pause.svg';
@@ -204,6 +204,13 @@ export const AudioVideoSettings = () => {
     };
   }, [audioPlaying]);
 
+  const selectedString = useMemo(
+    () =>
+      audioDevices.find(({ deviceId }) => deviceId === activeAudioDevice)?.label ||
+      t('activeCall.default'),
+    [activeAudioDevice, audioDevices, t],
+  );
+
   return (
     <div className="audio-video">
       <h3 className="audio-video__title">{t('audioVideo.title')}</h3>
@@ -290,10 +297,7 @@ export const AudioVideoSettings = () => {
       </div>
       <div className="audio-video__dropdown-wrapper">
         <Dropdown
-          selectedString={
-            audioDevices.find(({ deviceId }) => deviceId === activeAudioDevice)?.label ||
-            t('activeCall.default')
-          }
+          selectedString={selectedString}
           options={audioDevices.map((device) => ({
             title: device.label,
             onClick: () => switchDevice({ kind: InputType.AudioInput, deviceId: device.deviceId }),

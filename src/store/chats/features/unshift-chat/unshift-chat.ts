@@ -13,7 +13,7 @@ export class UnshiftChat {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof UnshiftChat.action>) => {
       const { chat, addToList } = payload;
 
-      merge(draft.chats[chat.id], chat);
+      draft.chats[chat.id] = merge(draft.chats[chat.id], chat);
 
       const chatFromStore = draft.chats[chat.id];
 

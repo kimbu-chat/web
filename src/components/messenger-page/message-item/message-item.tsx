@@ -249,7 +249,6 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
             </div>
 
             <div
-              onClick={displayMessageCreatorInfo}
               className={`message__contents-wrapper ${
                 needToShowCreator ? '' : 'message__contents-wrapper--upcoming'
               }`}>

@@ -1,5 +1,7 @@
 import produce from 'immer';
+
 import { createEmptyAction } from '@store/common/actions';
+
 import { ICallsState } from '../../calls-state';
 
 export class AcceptCallSuccess {

@@ -1,8 +1,11 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
+
 import { IChatsState } from '@store/chats/chats-state';
+
 import { FileType } from '../../models';
 import { getChatByIdDraftSelector } from '../../selectors';
+
 import { IMessagesDeletedIntegrationEventHandlerSuccessActionPayload } from './action-payloads/messages-deleted-integration-event-handler-success-action-payload';
 
 export class MessagesDeletedIntegrationEventHandlerSuccess {

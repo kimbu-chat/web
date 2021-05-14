@@ -1,9 +1,10 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
+
 import { IChatsState } from '@store/chats/chats-state';
 import { MyProfileService } from '@services/my-profile-service';
-
 import { INormalizedLinkedMessage } from '@store/chats/models/linked-message';
+
 import {
   FileType,
   IAudioAttachment,
@@ -13,6 +14,7 @@ import {
   INormalizedMessage,
 } from '../../models';
 import { getMessageDraftSelector } from '../../selectors';
+
 import { IMessageCreatedIntegrationEvent } from './message-created-integration-event';
 
 export class MessageCreatedEventHandlerSuccess {

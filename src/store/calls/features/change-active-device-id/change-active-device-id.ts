@@ -1,8 +1,10 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { IChangeActiveDeviceIdActionPayload } from './action-payloads/change-active-device-id-action-payload';
+
 import { ICallsState } from '../../calls-state';
 import { InputType } from '../../common/enums/input-type';
+
+import { IChangeActiveDeviceIdActionPayload } from './action-payloads/change-active-device-id-action-payload';
 
 export class ChangeActiveDeviceId {
   static get action() {

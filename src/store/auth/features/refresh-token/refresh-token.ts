@@ -2,13 +2,16 @@ import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
+
 import { HttpRequestMethod } from '@store/common/http/http-request-method';
 import { authRequestFactory } from '@store/common/http/auth-request-factory';
 import { createEmptyAction } from '@store/common/actions';
 import { MAIN_API } from '@common/paths';
+
 import { IAuthState } from '../../auth-state';
 import { ISecurityTokens } from '../../common/models';
 import { securityTokensSelector } from '../../selectors';
+
 import { IRefreshTokenApiRequest } from './api-requests/refresh-token-api-request';
 import { IRefreshTokenApiResponse } from './api-requests/refresh-token-api-response';
 import { RefreshTokenFailure } from './refresh-token-failure';

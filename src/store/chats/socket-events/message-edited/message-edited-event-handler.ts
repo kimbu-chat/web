@@ -1,9 +1,11 @@
 import produce from 'immer';
 import xorBy from 'lodash/xorBy';
 import { createAction } from 'typesafe-actions';
+
 import { IChatsState } from '../../chats-state';
 import { IBaseAttachment } from '../../models';
 import { getChatByIdDraftSelector } from '../../selectors';
+
 import { IMessageEditedIntegrationEvent } from './message-edited-integration-event';
 
 export class MessageEditedEventHandler {

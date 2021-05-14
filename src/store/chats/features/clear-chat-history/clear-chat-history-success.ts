@@ -1,7 +1,9 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
+
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
+
 import { IClearChatHistorySuccessActionPayload } from './action-payloads/clear-chat-history-success-action-payload';
 
 export class ClearChatHistorySuccess {

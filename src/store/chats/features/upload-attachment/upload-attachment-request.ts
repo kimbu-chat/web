@@ -3,13 +3,20 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select, apply } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+
 import { httpFilesRequestFactory, HttpRequestMethod } from '@store/common/http';
 import type { IFilesRequestGenerator } from '@store/common/http';
 import { FILES_API } from '@common/paths';
 import { emitToast } from '@utils/emit-toast';
 import { MAX_FILE_SIZE_MB } from '@utils/constants';
+
 import { getChatByIdDraftSelector, getSelectedChatIdSelector } from '../../selectors';
 import { addUploadingAttachment, removeUploadingAttachment } from '../../upload-qeue';
+import { IAttachmentToSend } from '../../models/attachment-to-send';
+import { IBaseAttachment } from '../../models/attachments';
+import { IChatsState } from '../../chats-state';
+import { FileType } from '../../models/file-type';
+
 import { UploadAttachmentFailure } from './upload-attachment-failure';
 import { UploadAttachmentProgress } from './upload-attachment-progress';
 import { IUploadAttachmentRequestActionPayload } from './action-payloads/upload-attachment-request-action-payload';
@@ -19,10 +26,6 @@ import { IUploadFileApiResponse } from './api-requests/upload-file-api-response'
 import { IUploadPictureApiResponse } from './api-requests/upload-picture-api-response';
 import { IUploadVideoApiResponse } from './api-requests/upload-video-api-response';
 import { IUploadVoiceApiResponse } from './api-requests/upload-voice-api-response';
-import { IAttachmentToSend } from '../../models/attachment-to-send';
-import { IBaseAttachment } from '../../models/attachments';
-import { IChatsState } from '../../chats-state';
-import { FileType } from '../../models/file-type';
 
 export class UploadAttachmentRequest {
   static get action() {

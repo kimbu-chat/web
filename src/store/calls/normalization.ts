@@ -1,6 +1,7 @@
+import { schema } from 'normalizr';
+
 import { ICall } from '@store/calls/common/models';
 import { IUser } from '@store/common/models';
-import { schema } from 'normalizr';
 
 const user = new schema.Entity<IUser>('users');
 

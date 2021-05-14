@@ -2,10 +2,12 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+
 import { authRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { Meta } from '@store/common/actions';
 import { replaceInUrl } from '@utils/replace-in-url';
 import { MAIN_API } from '@common/paths';
+
 import { ICheckNicknameAvailabilityActionPayload } from './action-payloads/check-nickname-availability-action-payload';
 import { ICheckNicknameAvailabilityApiRequest } from './api-requests/check-nickname-availability-api-request';
 

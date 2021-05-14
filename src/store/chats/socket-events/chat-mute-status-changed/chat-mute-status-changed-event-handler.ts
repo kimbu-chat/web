@@ -1,6 +1,8 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
+
 import { IChatsState } from '../../chats-state';
+
 import { IChatMutedStatusChangedIntegrationEvent } from './chat-mute-status-changed-integration-event';
 
 export class ChatMutedStatusChangedEventHandler {

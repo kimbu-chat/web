@@ -1,5 +1,6 @@
-import { IUser } from '@store/common/models';
 import { schema } from 'normalizr';
+
+import { IUser } from '@store/common/models';
 
 export const userNormalizationSchema = new schema.Entity<IUser>('users');
 

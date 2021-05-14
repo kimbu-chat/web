@@ -1,8 +1,10 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
+
 import { getChatByIdDraftSelector } from '../../selectors';
-import { IInterlocutorStoppedTypingActionPayload } from './action-payloads/interlocutor-stopped-typing-action-payload';
 import { IChatsState } from '../../chats-state';
+
+import { IInterlocutorStoppedTypingActionPayload } from './action-payloads/interlocutor-stopped-typing-action-payload';
 
 export class InterlocutorStoppedTyping {
   static get action() {

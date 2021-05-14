@@ -1,6 +1,8 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
+
 import { createSystemMessage } from '@utils/message-utils';
+
 import { playSoundSafely } from '../../../../utils/current-music';
 import messageCameUnselected from '../../../../assets/sounds/notifications/messsage-came-unselected.ogg';
 import { ChatId } from '../../chat-id';
@@ -12,8 +14,9 @@ import {
   INormalizedMessage,
 } from '../../models';
 import { getChatExistsDraftSelector } from '../../selectors';
-import { IGroupChatCreatedIntegrationEvent } from './group-chat-сreated-integration-event';
 import { IChatsState } from '../../chats-state';
+
+import { IGroupChatCreatedIntegrationEvent } from './group-chat-сreated-integration-event';
 
 export class GroupChatCreatedEventHandler {
   static get action() {

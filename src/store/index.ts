@@ -1,6 +1,7 @@
 import { createStore, applyMiddleware, compose, Store, Action, Dispatch } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { RootState } from 'typesafe-actions';
+
 import rootReducer from './root-reducer';
 import { rootSaga } from './root-saga';
 import { signalRInvokeMiddleware } from './middlewares/websockets/signalR';

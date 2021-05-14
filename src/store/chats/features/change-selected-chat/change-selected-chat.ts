@@ -3,12 +3,14 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+import { normalize } from 'normalizr';
+
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { replaceInUrl } from '@utils/replace-in-url';
 import { MAIN_API } from '@common/paths';
-import { normalize } from 'normalizr';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 import { ById } from '@store/chats/models/by-id';
+
 import { chatNormalizationSchema } from '../../normalization';
 import {
   getChatByIdSelector,
@@ -19,11 +21,12 @@ import { IUser } from '../../../common/models';
 import { MESSAGES_LIMIT } from '../../../../utils/pagination-limits';
 import { IChat, INormalizedChat } from '../../models';
 import { GetChatsSuccess } from '../get-chats/get-chats-success';
-import { IChangeSelectedChatActionPayload } from './action-payloads/change-selected-chat-action-payload';
-import { IGetChatByIdApiRequest } from './api-requests/get-chat-by-id-api-request';
 import { UnshiftChat } from '../unshift-chat/unshift-chat';
 import { IChatsState } from '../../chats-state';
 import { modelChatList } from '../../utils/model-chat-list';
+
+import { IChangeSelectedChatActionPayload } from './action-payloads/change-selected-chat-action-payload';
+import { IGetChatByIdApiRequest } from './api-requests/get-chat-by-id-api-request';
 
 export class ChangeSelectedChat {
   static get action() {

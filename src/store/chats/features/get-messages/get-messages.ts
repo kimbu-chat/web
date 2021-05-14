@@ -1,28 +1,31 @@
-import { ById } from '@store/chats/models/by-id';
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+import { normalize } from 'normalizr';
+
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
-import { normalize } from 'normalizr';
+import { ById } from '@store/chats/models/by-id';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
+
 import { IUser } from '../../../common/models/user';
 import { INormalizedMessage } from '../../models/message';
 import { messageArrNormalizationSchema } from '../../normalization';
-import { GetMessagesFailure } from './get-messages-failure';
 import {
   getIsFirstChatsLoadSelector,
   getSelectedChatMessagesSearchStringSelector,
   getSelectedChatSelector,
 } from '../../selectors';
 import { IMessage, MessageState } from '../../models';
+import { GetChatsSuccess } from '../get-chats/get-chats-success';
+import { IChatsState } from '../../chats-state';
+
 import { IGetMessagesActionPayload } from './action-payloads/get-messages-action-payload';
 import { IGetMessagesApiRequest } from './api-requests/get-messages-api-request';
 import { GetMessagesSuccess } from './get-messages-success';
-import { GetChatsSuccess } from '../get-chats/get-chats-success';
-import { IChatsState } from '../../chats-state';
+import { GetMessagesFailure } from './get-messages-failure';
 
 export class GetMessages {
   static get action() {

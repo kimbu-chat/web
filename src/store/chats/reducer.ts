@@ -1,9 +1,16 @@
 import produce from 'immer';
 import { createReducer } from 'typesafe-actions';
+
 import { DismissToAddContactSuccess } from '@store/friends/features/dismiss-to-add-contact/dismiss-to-add-contact-success';
 import { UserContactsRemovedEventHandler } from '@store/friends/socket-events/user-contacts-removed/user-contacts-removed-event-handler';
 import { GetMyProfileSuccess } from '@store/my-profile/features/get-my-profile/get-my-profile-success';
 import { APPEARANCE_CHAT_ID } from '@utils/constants';
+
+import { AddFriendSuccess } from '../friends/features/add-friend/add-friend-success';
+import { DeleteFriendSuccess } from '../friends/features/delete-friend/delete-friend-success';
+import { BlockUserSuccess } from '../settings/features/block-user/block-user-success';
+import { UnblockUserSuccess } from '../settings/features/unblock-user/unblock-user-success';
+
 import { RemoveChatSuccess } from './features/remove-chat/remove-chat-success';
 import { AddUsersToGroupChatSuccess } from './features/add-users-to-group-chat/add-users-to-group-chat-success';
 import { ChangeChatMutedStatusSuccess } from './features/change-chat-muted-status/change-chat-muted-status-success';
@@ -65,10 +72,6 @@ import { IChatsState } from './chats-state';
 import { ChangeChatInfoOpened } from './features/change-chat-info-opened/change-chat-info-opened';
 import { MessagesDeletedIntegrationEventHandlerSuccess } from './socket-events/message-deleted/messages-deleted-integration-event-handler-success';
 import { RemoveAllAttachments } from './features/remove-attachment/remove-all-attachments';
-import { AddFriendSuccess } from '../friends/features/add-friend/add-friend-success';
-import { DeleteFriendSuccess } from '../friends/features/delete-friend/delete-friend-success';
-import { BlockUserSuccess } from '../settings/features/block-user/block-user-success';
-import { UnblockUserSuccess } from '../settings/features/unblock-user/unblock-user-success';
 import { RemoveUserFromGroupChatSuccess } from './features/remove-user-from-group-chat/remove-user-from-group-chat-success';
 import { MessageCreatedEventHandlerSuccess } from './socket-events/message-created/message-created-event-handler-success';
 import { DialogRemovedEventHandler } from './socket-events/dialog-removed/dialog-removed-event-handler';

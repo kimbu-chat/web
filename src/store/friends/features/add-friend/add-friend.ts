@@ -2,9 +2,11 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { Meta } from '@store/common/actions';
 import { MAIN_API } from '@common/paths';
+
 import { IAddFriendApiRequest } from './api-requests/add-friend-api-request';
 import { AddFriendSuccess } from './add-friend-success';
 

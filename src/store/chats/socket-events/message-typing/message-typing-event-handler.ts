@@ -1,13 +1,15 @@
 import { delay, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import produce from 'immer';
+
 import { InterlocutorType } from '../../models';
 import { ChatId } from '../../chat-id';
 import { MyProfileService } from '../../../../services/my-profile-service';
-import { IIntercolutorMessageTypingIntegrationEvent } from './message-typing-integration-event';
 import { getChatByIdDraftSelector } from '../../selectors';
 import { InterlocutorStoppedTyping } from '../../features/interlocutor-message-typing/interlocutor-stopped-typing';
 import { IChatsState } from '../../chats-state';
+
+import { IIntercolutorMessageTypingIntegrationEvent } from './message-typing-integration-event';
 
 export class UserMessageTypingEventHandler {
   static get action() {

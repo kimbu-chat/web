@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import flow from 'lodash/flow';
 import { useDispatch } from 'react-redux';
 import { createCustomAction } from 'typesafe-actions';
+
 import { withDeferred } from '@utils/with-deffered';
 
 type ActionReturnType = ReturnType<typeof createCustomAction>;

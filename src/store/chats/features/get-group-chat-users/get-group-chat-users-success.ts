@@ -1,8 +1,10 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
+
 import { getChatByIdDraftSelector } from '../../selectors';
-import { IGetGroupChatUsersSuccessActionPayload } from './action-payloads/get-group-chat-users-success-action-payload';
 import { IChatsState } from '../../chats-state';
+
+import { IGetGroupChatUsersSuccessActionPayload } from './action-payloads/get-group-chat-users-success-action-payload';
 
 export class GetGroupChatUsersSuccess {
   static get action() {

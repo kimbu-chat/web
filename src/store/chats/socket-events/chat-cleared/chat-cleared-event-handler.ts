@@ -1,8 +1,10 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
+
 import { MyProfileService } from '../../../../services/my-profile-service';
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
+
 import { IChatClearedIntegrationEvent } from './chat-cleared-integration-event';
 
 export class ChatClearedEventHandler {

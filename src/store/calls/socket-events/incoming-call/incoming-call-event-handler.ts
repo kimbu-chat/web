@@ -2,14 +2,17 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { apply, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { userNormalizationSchema } from '@store/friends/normalization';
 import { normalize } from 'normalizr';
+
+import { userNormalizationSchema } from '@store/friends/normalization';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 import { ById } from '@store/chats/models/by-id';
+
 import { setInterlocutorOffer } from '../../../middlewares/webRTC/peerConnectionFactory';
 import { ICallsState } from '../../calls-state';
-import { IIncomingCallIntegrationEvent } from './incoming-call-integration-event';
 import { IUser } from '../../../common/models';
+
+import { IIncomingCallIntegrationEvent } from './incoming-call-integration-event';
 
 export class IncomingCallEventHandler {
   static get action() {

@@ -1,4 +1,5 @@
 import { TFunction } from 'i18next';
+
 import { INormalizedChat, IGroupChat } from '../store/chats/models';
 import { IUser } from '../store/common/models';
 

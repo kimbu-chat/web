@@ -1,8 +1,10 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
+
 import { ChatId } from '../../chat-id';
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
+
 import { IGroupChatEditedIntegrationEvent } from './group-chat-edited-integration-event';
 
 export class GroupChatEditedEventHandler {

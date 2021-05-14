@@ -2,17 +2,20 @@ import { createAction } from 'typesafe-actions';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
+import produce from 'immer';
+
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { replaceInUrl } from '@utils/replace-in-url';
 import { MAIN_API } from '@common/paths';
 import { Meta } from '@store/common/actions';
-import produce from 'immer';
+
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { ChatId } from '../../chat-id';
+import { IChatsState } from '../../chats-state';
+
 import { IRemoveChatApiRequest } from './api-requests/remove-chat-api-request';
 import { RemoveChatSuccess } from './remove-chat-success';
 import { IRemoveChatActionPayload } from './action-payloads/remove-chat-action-payload';
-import { IChatsState } from '../../chats-state';
 
 export class RemoveChat {
   static get action() {

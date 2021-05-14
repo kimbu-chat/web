@@ -1,5 +1,6 @@
 import { IUser } from '@store/common/models';
 import { IMessage, INormalizedMessage } from '@store/chats/models/message';
+
 import { IAttachmentToSend } from './attachment-to-send';
 import { IAudioAttachment } from './attachments/audio-attachment';
 import { IBaseAttachment } from './attachments/base-attachment';

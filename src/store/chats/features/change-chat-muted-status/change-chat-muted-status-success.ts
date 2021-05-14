@@ -1,8 +1,10 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
+
 import { getChatByIdDraftSelector } from '../../selectors';
-import { IChangeChatMutedStatusSuccessActionPayload } from './action-payloads/change-chat-muted-status-success-action-payload';
 import { IChatsState } from '../../chats-state';
+
+import { IChangeChatMutedStatusSuccessActionPayload } from './action-payloads/change-chat-muted-status-success-action-payload';
 
 export class ChangeChatMutedStatusSuccess {
   static get action() {

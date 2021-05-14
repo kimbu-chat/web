@@ -1,5 +1,7 @@
 import { createReducer } from 'typesafe-actions';
+
 import { MyProfileService } from '../../services/my-profile-service';
+
 import { GetMyProfileSuccess } from './features/get-my-profile/get-my-profile-success';
 import { ChangeUserOnlineStatus } from './features/change-user-online-status/change-user-online-status';
 import { IMyProfileState } from './my-profile-state';

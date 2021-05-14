@@ -1,6 +1,8 @@
-import { IUsersState } from '@store/users/users-state';
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
+
+import { IUsersState } from '@store/users/users-state';
+
 import { IUserPhoneNumberChangedActionPayload } from './action-payloads/user-phone-number-changed-action-payload';
 
 export class UserPhoneNumberChangedEventHandler {

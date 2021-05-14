@@ -20,10 +20,11 @@ import {
   getIsVideoEnabledSelector,
   getVideoConstraintsSelector,
 } from '@store/calls/selectors';
-
 import { MAIN_API } from '@common/paths';
+
 import { ICallsState } from '../../calls-state';
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
+
 import { IAcceptCallActionPayload } from './action-payloads/accept-call-action-payload';
 import { AcceptCallSuccess } from './accept-call-success';
 import { IAcceptCallApiRequest } from './api-requests/accept-call-api-request';

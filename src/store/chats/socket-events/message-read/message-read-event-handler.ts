@@ -1,9 +1,11 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
+
 import { MyProfileService } from '../../../../services/my-profile-service';
 import { IChatsState } from '../../chats-state';
 import { MessageState } from '../../models';
 import { getChatByIdDraftSelector } from '../../selectors';
+
 import { IMessagesReadIntegrationEvent } from './messages-read-integration-event';
 
 export class MessageReadEventHandler {

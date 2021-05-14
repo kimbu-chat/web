@@ -65,6 +65,7 @@ module.exports = function ({ env }) {
         '@sounds': path.resolve(__dirname, 'src/assets/sounds'),
         '@icons': path.resolve(__dirname, 'src/assets/icons'),
         '@containers': path.resolve(__dirname, 'src/containers'),
+        '@pages': path.resolve(__dirname, 'src/pages'),
       },
     },
   };

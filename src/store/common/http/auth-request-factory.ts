@@ -1,6 +1,7 @@
-import { emitToast } from '@utils/emit-toast';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
+
+import { emitToast } from '@utils/emit-toast';
 
 import { httpRequest } from './http-request';
 import { HttpRequestMethod } from './http-request-method';

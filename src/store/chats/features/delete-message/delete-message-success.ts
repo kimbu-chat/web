@@ -1,9 +1,11 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
+
 import { FileType } from '../../models';
 import { getChatByIdDraftSelector } from '../../selectors';
-import { IDeleteMessageSuccessActionPayload } from './action-payloads/delete-message-success-action-payload';
 import { IChatsState } from '../../chats-state';
+
+import { IDeleteMessageSuccessActionPayload } from './action-payloads/delete-message-success-action-payload';
 
 export class DeleteMessageSuccess {
   static get action() {

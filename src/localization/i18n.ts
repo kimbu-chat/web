@@ -1,8 +1,9 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import dayjs from 'dayjs';
-import { SettingsService } from '@services/settings-service';
 import HttpApi from 'i18next-http-backend';
+
+import { SettingsService } from '@services/settings-service';
 
 // todo: load only needed local at runtime
 

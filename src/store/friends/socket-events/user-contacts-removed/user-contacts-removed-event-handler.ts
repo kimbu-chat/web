@@ -1,6 +1,8 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
+
 import { IFriendsState } from '../../friends-state';
+
 import { IUserContactsRemovedIntegrationEvent } from './user-contacts-removed-integration-event';
 
 export class UserContactsRemovedEventHandler {

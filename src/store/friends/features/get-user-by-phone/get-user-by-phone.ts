@@ -1,12 +1,14 @@
+import { AxiosResponse } from 'axios';
+import { SagaIterator } from 'redux-saga';
+import { call } from 'redux-saga/effects';
+import { createAction } from 'typesafe-actions';
+
 import { MAIN_API } from '@common/paths';
 import { Meta } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { IUser } from '@store/common/models';
 import { replaceInUrl } from '@utils/replace-in-url';
-import { AxiosResponse } from 'axios';
-import { SagaIterator } from 'redux-saga';
-import { call } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
+
 import { IGetUserByPhone } from './action-payloads/get-user-by-phone-action-payload';
 
 export class GetUserByPhone {

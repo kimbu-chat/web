@@ -14,8 +14,8 @@ import {
 } from '@store/auth/selectors';
 import { Login } from '@store/auth/features/login/login';
 import { LoginSuccess } from '@store/auth/features/login/login-success';
-
 import { MAIN_API } from '@common/paths';
+
 import { IRegisterActionPayload } from './action-payloads/register-action-payload';
 import { IRegisterApiRequest } from './api-requests/register-api-request';
 

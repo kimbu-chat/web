@@ -1,7 +1,9 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { IRemoveChatSuccessActionPayload } from './action-payloads/remove-chat-success-action-payload';
+
 import { IChatsState } from '../../chats-state';
+
+import { IRemoveChatSuccessActionPayload } from './action-payloads/remove-chat-success-action-payload';
 
 export class RemoveChatSuccess {
   static get action() {

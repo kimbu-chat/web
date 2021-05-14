@@ -27,7 +27,7 @@ module.exports = {
     },
     ecmaVersion: 12,
   },
-  plugins: ['react', '@typescript-eslint', 'react-hooks'],
+  plugins: ['react', '@typescript-eslint', 'react-hooks', 'import'],
   rules: {
     ...a11yOff,
     'react/jsx-props-no-spreading': 'off',
@@ -38,6 +38,13 @@ module.exports = {
       1,
       {
         extensions: ['.tsx'],
+      },
+    ],
+    'import/order': [
+      'error',
+      {
+        groups: ['builtin', 'external', ['internal', 'unknown'], 'parent', 'sibling', 'index'],
+        'newlines-between': 'always',
       },
     ],
     'import/prefer-default-export': 'off',

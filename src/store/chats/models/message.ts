@@ -1,4 +1,5 @@
 import { IUser } from '@store/common/models';
+
 import { MessageLinkType } from './linked-message-type';
 import { IBaseAttachment } from './attachments/base-attachment';
 import { MessageState } from './message-state';

@@ -1,25 +1,27 @@
-import { IUser, IPage } from '@store/common/models';
-import { IChat, INormalizedChat } from '@store/chats/models';
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
-import { MAIN_API } from '@common/paths';
 import { normalize } from 'normalizr';
 
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { MAIN_API } from '@common/paths';
+import { IChat, INormalizedChat } from '@store/chats/models';
+import { IUser, IPage } from '@store/common/models';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 import { ById } from '@store/chats/models/by-id';
+
 import { CHATS_LIMIT } from '../../../../utils/pagination-limits';
 import { chatArrNormalizationSchema } from '../../normalization';
-import { IGetChatsActionPayload } from './action-payloads/get-chats-action-payload';
-import { GetChatsSuccess } from './get-chats-success';
-import { IGetChatsSuccessActionPayload } from './action-payloads/get-chats-success-action-payload';
-import { IGetChatsApiRequest } from './api-requests/get-chats-api-request';
 import { getChatsPageSelector, getChatsSearchPageSelector } from '../../selectors';
 import { IChatsState } from '../../chats-state';
 import { modelChatList } from '../../utils/model-chat-list';
+
+import { IGetChatsSuccessActionPayload } from './action-payloads/get-chats-success-action-payload';
+import { IGetChatsApiRequest } from './api-requests/get-chats-api-request';
+import { GetChatsSuccess } from './get-chats-success';
+import { IGetChatsActionPayload } from './action-payloads/get-chats-action-payload';
 
 export class GetChats {
   static get action() {

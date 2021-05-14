@@ -3,18 +3,20 @@ import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import produce from 'immer';
+
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
+
 import { getPeerConnection } from '../../../middlewares/webRTC/peerConnectionFactory';
 import { ICallsState } from '../../calls-state';
 import { getCallInterlocutorIdSelector, getIsActiveCallIncomingSelector } from '../../selectors';
-
 import {
   getIgnoreOffer,
   getIsSettingRemoteAnswerPending,
   getMakingOffer,
   setIgnoreOffer,
 } from '../../utils/glare-utils';
+
 import { IAcceptRenegotiationApiRequest } from './api-requests/accept-renegotiation-api-request';
 import { IRenegotiationSentIntegrationEvent } from './renegotiation-sent-integration-event';
 

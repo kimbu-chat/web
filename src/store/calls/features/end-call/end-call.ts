@@ -2,10 +2,12 @@ import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
+
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { createEmptyAction } from '@store/common/actions';
 import { resetPeerConnection } from '@store/middlewares/webRTC/reset-peer-connection';
 import { MAIN_API } from '@common/paths';
+
 import { ICallsState } from '../../calls-state';
 
 export class EndCall {

@@ -1,14 +1,11 @@
-export const loadPhoneConfirmation = () =>
-  import('../components/login-page/phone-confirmation/phone-confirmation');
-export const loadCodeConfirmation = () =>
-  import('../components/login-page/code-confirmation/code-confirmation');
-export const loadMessenger = () => import('../containers/chat/chat');
-export const loadNotFound = () => import('../containers/not-found/not-found');
-export const loadRegistration = () => import('../containers/registration/registration');
-export const loadLogout = () => import('../components/login-page/logout/logout');
-export const loadPhotoEditor = () =>
-  import('../components/messenger-page/photo-editor/photo-editor');
+export const loadPhoneConfirmation = () => import('../pages/phone-confirmation/phone-confirmation');
+export const loadCodeConfirmation = () => import('../pages/code-confirmation/code-confirmation');
+export const loadMessenger = () => import('./chat/chat');
+export const loadNotFound = () => import('../pages/not-found/not-found');
+export const loadRegistration = () => import('../pages/registration/registration');
+export const loadLogout = () => import('../pages/logout/logout');
+export const loadPhotoEditor = () => import('../components/photo-editor/photo-editor');
 export const loadEmoji = () =>
   import(
-    '../components/messenger-page/message-input/message-smiles/deferred-message-smiles/deferred-message-smiles'
+    '../components/message-input/message-smiles/deferred-message-smiles/deferred-message-smiles'
   );

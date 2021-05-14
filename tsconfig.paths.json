@@ -18,7 +18,8 @@
       "@hooks": ["./hooks"],
       "@sounds/*": ["./assets/sounds/*"],
       "@containers/*": ["./containers/*"],
-      "@icons/*": ["./assets/icons/*"]
+      "@icons/*": ["./assets/icons/*"],
+      "@pages/*": ["./pages/*"]
     }
   }
 }

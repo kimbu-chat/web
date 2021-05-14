@@ -1,9 +1,9 @@
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
+
 import { createEmptyDefferedAction } from '@store/common/actions';
 import { HttpRequestMethod, httpRequestFactory } from '@store/common/http';
-
 import { MAIN_API } from '@common/paths';
 
 export class DeleteAccount {

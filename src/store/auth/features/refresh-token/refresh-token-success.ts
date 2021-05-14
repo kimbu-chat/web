@@ -2,8 +2,10 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { apply } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+
 import { AuthService } from '../../../../services/auth-service';
 import { IAuthState } from '../../auth-state';
+
 import { IRefreshTokenSuccessActionPayload } from './action-payloads/refresh-token-success-action-payload';
 
 export class RefreshTokenSuccess {

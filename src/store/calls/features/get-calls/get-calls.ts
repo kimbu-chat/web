@@ -4,18 +4,21 @@ import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import produce from 'immer';
+
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
 import { IUser } from '@store/common/models';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 import { ById } from '@store/chats/models/by-id';
+
 import { callArrNormalizationSchema } from '../../normalization';
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { ICall, INormalizedCall } from '../../common/models';
+import { ICallsState } from '../../calls-state';
+
 import { IGetCallsActionPayload } from './action-payloads/get-calls-action-payload';
 import { GetCallsSuccess } from './get-calls-success';
 import { IGetCallsApiRequest } from './api-requests/get-calls-api-requests';
-import { ICallsState } from '../../calls-state';
 
 export class GetCalls {
   static get action() {

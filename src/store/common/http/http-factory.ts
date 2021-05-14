@@ -1,15 +1,18 @@
-import { emitToast } from '@utils/emit-toast';
 import axios, { AxiosError, CancelTokenSource } from 'axios';
 import { call, cancelled, put, select, take } from 'redux-saga/effects';
 import { SagaIterator } from 'redux-saga';
 import { RootState } from 'typesafe-actions';
+import jwtDecode from 'jwt-decode';
+
 import { ISecurityTokens } from '@store/auth/common/models/security-tokens';
 import { securityTokensSelector } from '@store/auth/selectors';
 import { ICustomJwtPayload } from '@store/auth/features/login/models/custom-jwt-payload';
-import jwtDecode from 'jwt-decode';
+import { emitToast } from '@utils/emit-toast';
+
 import { isNetworkError } from '../../../utils/error-utils';
 import { RefreshToken } from '../../auth/features/refresh-token/refresh-token';
 import { RefreshTokenSuccess } from '../../auth/features/refresh-token/refresh-token-success';
+
 import { HttpRequestMethod } from './http-request-method';
 import { httpRequest, requestTimeout } from './http-request';
 import type { IRequestGenerator, UrlGenerator, HttpHeaders } from './types';

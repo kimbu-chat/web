@@ -1,9 +1,11 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
+
 import { MyProfileService } from '../../../../services/my-profile-service';
 import { ChatId } from '../../chat-id';
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
+
 import { IMemberLeftGroupChatIntegrationEvent } from './member-left-group-chat-integration-event';
 
 export class MemberLeftGroupChatEventHandler {

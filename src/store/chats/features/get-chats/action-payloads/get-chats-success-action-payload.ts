@@ -1,4 +1,5 @@
 import { ById } from '@store/chats/models/by-id';
+
 import { INormalizedChat } from '../../../models/chat';
 
 export interface IGetChatsSuccessActionPayload {

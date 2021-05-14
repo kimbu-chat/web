@@ -1,9 +1,11 @@
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+
 import { getPeerConnection } from '../../../middlewares/webRTC/peerConnectionFactory';
 import { getCallInterlocutorIdSelector } from '../../selectors';
 import { getIgnoreOffer } from '../../utils/glare-utils';
+
 import { IIceCandidateSentIntegrationEvent } from './ice-candidate-sent-integration-event';
 
 export class IceCandidateSentEventHandler {

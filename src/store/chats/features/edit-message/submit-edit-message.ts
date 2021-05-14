@@ -4,16 +4,18 @@ import unionBy from 'lodash/unionBy';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
 import { MessageState } from '@store/chats/models';
+
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { getSelectedChatIdSelector, getChatByIdDraftSelector } from '../../selectors';
+import { IChatsState } from '../../chats-state';
 
 import { ISumbitEditMessageActionPayload } from './action-payloads/submit-edit-message-action-payload';
 import { SubmitEditMessageSuccess } from './sumbit-edit-message-success';
 import { ISubmitEditMessageApiRequest } from './api-requests/submit-edit-message-api-request';
-import { IChatsState } from '../../chats-state';
 
 export class SubmitEditMessage {
   static get action() {

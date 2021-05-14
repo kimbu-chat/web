@@ -1,8 +1,10 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { IReplyToMessageActionPayload } from './action-payloads/reply-to-message-action-payload';
+
 import { getChatByIdDraftSelector } from '../../selectors';
 import { IChatsState } from '../../chats-state';
+
+import { IReplyToMessageActionPayload } from './action-payloads/reply-to-message-action-payload';
 
 export class ReplyToMessage {
   static get action() {

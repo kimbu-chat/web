@@ -1,7 +1,9 @@
+import { createReducer } from 'typesafe-actions';
+
 import { UserDeactivatedEventHandler } from '@store/users/socket-events/user-deactivated/user-deactivated-event-handler';
 import { UserDeletedEventHandler } from '@store/users/socket-events/user-deleted/user-deleted';
 import { UserPhoneNumberChangedEventHandler } from '@store/users/socket-events/user-phone-number-changed/user-phone-number-changed';
-import { createReducer } from 'typesafe-actions';
+
 import { UserEditedEventHandler } from './socket-events/user-edited/user-edited-event-handler';
 import { AddOrUpdateUsers } from './features/add-or-update-users/add-or-update-users';
 import { IUsersState } from './users-state';

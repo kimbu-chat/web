@@ -7,8 +7,8 @@ import { authRequestFactory } from '@store/common/http/auth-request-factory';
 import { createEmptyAction } from '@store/common/actions';
 import { messaging } from '@store/middlewares/firebase/firebase';
 import { getPushNotificationToken } from '@store/auth/common/utils';
-
 import { NOTIFICATIONS_API } from '@common/paths';
+
 import { IUnsubscribeFromPushNotificationsRequest } from './api-requests/unsubscribe-from-push-notifications-api-request';
 import { UnSubscribeToPushNotificationsSuccess } from './un-subscribe-from-push-notifications_success';
 

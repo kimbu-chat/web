@@ -1,5 +1,6 @@
 import { SagaIterator } from 'redux-saga';
 import { put } from 'redux-saga/effects';
+
 import { SettingsService } from '@services/settings-service';
 import { createEmptyAction } from '@store/common/actions';
 

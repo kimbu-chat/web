@@ -3,15 +3,18 @@ import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import produce from 'immer';
+
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
+
 import { getInfoChatIdSelector } from '../../selectors';
 import { HTTPStatusCode } from '../../../../common/http-status-code';
-import { IGetVideoAttachmentsActionPayload } from './action-payloads/get-video-attachments-action-payload';
 import { IVideoAttachment } from '../../models';
+import { IChatsState } from '../../chats-state';
+
+import { IGetVideoAttachmentsActionPayload } from './action-payloads/get-video-attachments-action-payload';
 import { GetVideoAttachmentsSuccess } from './get-video-attachments-success';
 import { IGetVideoAttachmentsApiRequest } from './api-requests/get-video-attachments-api-request';
-import { IChatsState } from '../../chats-state';
 
 export class GetVideoAttachments {
   static get action() {

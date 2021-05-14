@@ -1,16 +1,19 @@
-import { ById } from '@store/chats/models/by-id';
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+import { normalize } from 'normalizr';
+
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
 import { userArrNormalizationSchema } from '@store/friends/normalization';
-import { normalize } from 'normalizr';
+import { ById } from '@store/chats/models/by-id';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
+
 import { IUser } from '../../../common/models';
 import { IFriendsState } from '../../friends-state';
+
 import { IGetFriendsActionPayload } from './action-payloads/get-friends-action-payload';
 import { IGetFriendsApiRequest } from './api-requests/get-friends-api-request';
 import { GetFriendsSuccess } from './get-friends-success';

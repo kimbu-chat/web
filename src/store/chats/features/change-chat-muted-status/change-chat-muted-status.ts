@@ -1,12 +1,15 @@
 import { AxiosResponse } from 'axios';
 import { call, put, select } from 'redux-saga/effects';
 import { SagaIterator } from 'redux-saga';
+import { createAction } from 'typesafe-actions';
+
 import { HTTPStatusCode } from '@common/http-status-code';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
-import { createAction } from 'typesafe-actions';
 import { Meta } from '@store/common/actions';
+
 import { getChatByIdSelector } from '../../selectors';
+
 import { IChangeChatMutedStatusApiRequest } from './api-requests/change-chat-muted-status-api-request';
 import { ChangeChatMutedStatusSuccess } from './change-chat-muted-status-success';
 

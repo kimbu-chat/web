@@ -1,0 +1,7 @@
+.messenger {
+  background: var(--chat-bg-dt-dark-wt-whiter);
+  display: grid;
+  grid-template-columns: 80px 347px 1fr;
+  grid-template-rows: 64px 1fr;
+  height: 100vh;
+}

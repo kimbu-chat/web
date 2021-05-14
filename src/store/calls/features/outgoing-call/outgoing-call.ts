@@ -2,14 +2,13 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, delay, put, race, select, spawn, take } from 'redux-saga/effects';
 import { createAction, RootState } from 'typesafe-actions';
-
 import { AxiosResponse } from 'axios';
+
 import { httpRequestFactory } from '@store/common/http/http-factory';
 import { MAIN_API } from '@common/paths';
-
 import { HttpRequestMethod } from '@store/common/http/http-request-method';
-import { getIsVideoEnabledSelector } from '../../selectors';
 
+import { getIsVideoEnabledSelector } from '../../selectors';
 import {
   createPeerConnection,
   getPeerConnection,
@@ -22,12 +21,13 @@ import { CancelCall } from '../cancel-call/cancel-call';
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
 import { InterlocutorAcceptedCallEventHandler } from '../../socket-events/interlocutor-accepted-call/interlocutor-accepted-call-event-handler';
 import { TimeoutCall } from '../timeout-call/timeout-call';
-import { IOutgoingCallActionPayload } from './action-payloads/outgoing-call-action-payload';
 import { InputType } from '../../common/enums/input-type';
 import { CallEndedEventHandler } from '../../socket-events/call-ended/call-ended-event-handler';
 import { InterlocutorBusy } from '../interlocutor-busy/interlocutor-busy';
 import { peerWatcher } from '../../utils/peer-watcher';
 import { setIsRenegotiationAccepted } from '../../utils/glare-utils';
+
+import { IOutgoingCallActionPayload } from './action-payloads/outgoing-call-action-payload';
 import { IOutgoingCallApiRequest } from './api-requests/outgoing-call-api-request';
 import { IOutgoingCallApiResponse } from './api-requests/outgoing-call-api-response';
 

@@ -1,5 +1,6 @@
 import { TFunction } from 'i18next';
 import { RootState } from 'typesafe-actions';
+
 import { IAttachmentToSend } from './models/attachment-to-send';
 import { IBaseAttachment } from './models/attachments/base-attachment';
 import { INormalizedChat } from './models/chat';

@@ -1,8 +1,10 @@
-import { ILinkedMessage, INormalizedLinkedMessage } from '@store/chats/models/linked-message';
 import { SagaIterator } from 'redux-saga';
 import { select, put, call, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { AxiosResponse } from 'axios';
+import { normalize } from 'normalizr';
+
+import { ILinkedMessage, INormalizedLinkedMessage } from '@store/chats/models/linked-message';
 import { areNotificationsEnabledSelector } from '@store/settings/selectors';
 import { ChangeUserOnlineStatus } from '@store/my-profile/features/change-user-online-status/change-user-online-status';
 import { setNewTitleNotificationInterval, incrementNotifications } from '@utils/set-favicon';
@@ -20,13 +22,12 @@ import {
   linkedMessageNormalizationSchema,
 } from '@store/chats/normalization';
 import { IUser } from '@store/common/models';
-import { normalize } from 'normalizr';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 import { ById } from '@store/chats/models/by-id';
+
 import { MessageLinkType } from '../../models/linked-message-type';
 import messageCameUnselected from '../../../../assets/sounds/notifications/messsage-came-unselected.ogg';
 import messageCameSelected from '../../../../assets/sounds/notifications/messsage-came-selected.ogg';
-
 import { tabActiveSelector, myIdSelector } from '../../../my-profile/selectors';
 import { ChangeSelectedChat } from '../../features/change-selected-chat/change-selected-chat';
 import { MarkMessagesAsRead } from '../../features/mark-messages-as-read/mark-messages-as-read';
@@ -37,9 +38,10 @@ import {
   getChatHasMessageWithIdSelector,
   getMessageSelector,
 } from '../../selectors';
-import { IMessageCreatedIntegrationEvent } from './message-created-integration-event';
 import { UnshiftChat } from '../../features/unshift-chat/unshift-chat';
 import { IMarkMessagesAsReadApiRequest } from '../../features/mark-messages-as-read/api-requests/mark-messages-as-read-api-request';
+
+import { IMessageCreatedIntegrationEvent } from './message-created-integration-event';
 import { IGetMessageByIdApiRequest } from './api-requests/get-message-by-id-api-request';
 import { MessageCreatedEventHandlerSuccess } from './message-created-event-handler-success';
 

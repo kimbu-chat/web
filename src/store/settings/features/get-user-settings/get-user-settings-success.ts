@@ -1,11 +1,12 @@
 import { createAction } from 'typesafe-actions';
 import produce from 'immer';
-
-import { IUserSettings } from '@store/settings/user-settings-state';
 import { SagaIterator } from 'redux-saga';
 import { apply } from '@redux-saga/core/effects';
+
+import { IUserSettings } from '@store/settings/user-settings-state';
 import { applyFontSize } from '@utils/apply-font-size';
 import { applyTheme } from '@utils/apply-theme';
+
 import { IGetUserSettingsSuccessActionPayload } from './action-payloads/get-user-settings-success-action-payload';
 
 export class GetUserSettingsSuccess {

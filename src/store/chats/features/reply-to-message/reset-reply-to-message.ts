@@ -1,5 +1,7 @@
 import produce from 'immer';
+
 import { createEmptyAction } from '@store/common/actions';
+
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
 

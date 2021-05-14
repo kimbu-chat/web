@@ -1,5 +1,6 @@
 import { call, race, take } from 'redux-saga/effects';
 import { SagaIterator } from 'redux-saga';
+
 import { isNetworkError } from '../../../../utils/error-utils';
 import { WebsocketsConnected } from '../../../internet/features/websockets-connection/websockets-connected';
 import { InternetConnected } from '../../../internet/features/internet-connection-check/internet-connected';

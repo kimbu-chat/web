@@ -1,6 +1,7 @@
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+
 import { doIhaveCallSelector, getIsActiveCallIncomingSelector } from '../../selectors';
 import { getPeerConnection } from '../../../middlewares/webRTC/peerConnectionFactory';
 import {
@@ -10,6 +11,7 @@ import {
   setIsRenegotiationAccepted,
   setIsSettingRemoteAnswerPending,
 } from '../../utils/glare-utils';
+
 import { IRenegotiationAcceptedIntegrationEvent } from './renegotiation-accepted-integration-event';
 
 export class RenegotiationAcceptedEventHandler {

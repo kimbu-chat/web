@@ -1,8 +1,10 @@
+import produce from 'immer';
+import { createAction } from 'typesafe-actions';
+
 import { ChatId } from '@store/chats/chat-id';
 import { IChatsState } from '@store/chats/chats-state';
 import { getChatByIdDraftSelector } from '@store/chats/selectors';
-import produce from 'immer';
-import { createAction } from 'typesafe-actions';
+
 import { IRemoveUserFromGroupChatSuccessActionPayload } from './action-payloads/remove-user-from-group-chat-success-payload';
 
 export class RemoveUserFromGroupChatSuccess {

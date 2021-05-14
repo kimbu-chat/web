@@ -3,12 +3,15 @@ import { call, cancelled, put, select, take, takeEvery } from 'redux-saga/effect
 import { END, eventChannel, SagaIterator, buffers } from 'redux-saga';
 import noop from 'lodash/noop';
 import { RootState } from 'typesafe-actions';
+
 import { emitToast } from '@utils/emit-toast';
+
 import { isNetworkError } from '../../../utils/error-utils';
 import { ISecurityTokens } from '../../auth/common/models';
 import { securityTokensSelector } from '../../auth/selectors';
 import { RefreshToken } from '../../auth/features/refresh-token/refresh-token';
 import { RefreshTokenSuccess } from '../../auth/features/refresh-token/refresh-token-success';
+
 import { HttpRequestMethod } from './http-request-method';
 import type {
   IFilesRequestGeneratorCallbacks,

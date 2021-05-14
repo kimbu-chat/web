@@ -1,6 +1,7 @@
+import produce from 'immer';
+
 import { ICallsState } from '@store/calls/calls-state';
 import { createEmptyAction } from '@store/common/actions';
-import produce from 'immer';
 
 export class ResetSearchCalls {
   static get action() {

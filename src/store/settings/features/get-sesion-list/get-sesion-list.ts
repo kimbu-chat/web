@@ -1,13 +1,16 @@
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
+import produce from 'immer';
+
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { createEmptyAction } from '@store/common/actions';
-import produce from 'immer';
 import { MAIN_API } from '@common/paths';
+
 import { IUserSettings } from '../../user-settings-state';
-import { GetSessionListSuccess } from './get-sesion-list-success';
 import { ISession } from '../../comon/models/session';
+
+import { GetSessionListSuccess } from './get-sesion-list-success';
 
 export class GetSessionList {
   static get action() {

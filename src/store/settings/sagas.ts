@@ -1,7 +1,7 @@
 import { takeLatest, takeLeading } from 'redux-saga/effects';
+
 import { BlockUser } from './features/block-user/block-user';
 import { ChangeFontSize } from './features/change-font-size/change-font-size';
-
 import { ChangeLanguage } from './features/change-language/change-language';
 import { ChangeNotificationSoundState } from './features/change-notification-sound-state/change-notification-sound-state';
 import { ChangePushNotificationState } from './features/change-push-notification-state/change-push-notification-state';

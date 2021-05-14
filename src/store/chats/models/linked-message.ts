@@ -1,4 +1,5 @@
 import { IUser } from '@store/common/models';
+
 import { IBaseAttachment } from './attachments';
 
 export interface ILinkedMessage {

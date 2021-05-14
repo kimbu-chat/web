@@ -1,6 +1,8 @@
-import { IUsersState } from '@store/users/users-state';
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
+
+import { IUsersState } from '@store/users/users-state';
+
 import { IUserEditedIntegrationEvent } from './action-payloads/user-edited-integration-event';
 
 export class UserEditedEventHandler {

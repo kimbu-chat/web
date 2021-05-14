@@ -1,7 +1,9 @@
 import produce from 'immer';
 import merge from 'lodash/merge';
 import { createAction } from 'typesafe-actions';
+
 import { IUsersState } from '../../users-state';
+
 import { IAddOrUpdateUsersActionPayload } from './action-payloads/add-or-update-users-action-payload.ts';
 
 export class AddOrUpdateUsers {

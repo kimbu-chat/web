@@ -1,10 +1,12 @@
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
+import { createAction } from 'typesafe-actions';
+import { normalize } from 'normalizr';
+
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { replaceInUrl } from '@utils/replace-in-url';
 import { MAIN_API } from '@common/paths';
-import { createAction } from 'typesafe-actions';
 import { IChat, INormalizedChat } from '@store/chats/models';
 import { ById } from '@store/chats/models/by-id';
 import { chatNormalizationSchema } from '@store/chats/normalization';
@@ -12,13 +14,14 @@ import { getChatByIdSelector } from '@store/chats/selectors';
 import { modelChatList } from '@store/chats/utils/model-chat-list';
 import { IUser } from '@store/common/models';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
-import { normalize } from 'normalizr';
-import { GetChatInfoSuccess } from './get-chat-info-success';
-import { IGetChatInfoApiResponse } from './api-requests/get-chat-info-api-response';
-import { IGetChatInfoApiRequest } from './api-requests/get-chat-info-api-request';
+
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { ChangeSelectedChat } from '../change-selected-chat/change-selected-chat';
 import { UnshiftChat } from '../unshift-chat/unshift-chat';
+
+import { GetChatInfoSuccess } from './get-chat-info-success';
+import { IGetChatInfoApiResponse } from './api-requests/get-chat-info-api-response';
+import { IGetChatInfoApiRequest } from './api-requests/get-chat-info-api-request';
 
 export class GetChatInfo {
   static get action() {

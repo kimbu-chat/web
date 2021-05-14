@@ -1,8 +1,10 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { ISelectMessageActionPayload } from './action-payloads/select-message-action-payload';
+
 import { getMessageDraftSelector } from '../../selectors';
 import { IChatsState } from '../../chats-state';
+
+import { ISelectMessageActionPayload } from './action-payloads/select-message-action-payload';
 
 export class SelectMessage {
   static get action() {

@@ -1,0 +1,10 @@
+.chat-page {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  grid-column: 3/-1;
+  grid-row: 2/3;
+  height: calc(100vh - 64px);
+  overflow: auto;
+  transition: all 0.3s;
+}

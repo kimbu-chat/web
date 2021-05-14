@@ -1,11 +1,14 @@
-import { MAIN_API } from '@common/paths';
-import { Meta } from '@store/common/actions';
-import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { Meta } from '@store/common/actions';
+import { MAIN_API } from '@common/paths';
+
 import { getSelectedGroupChatIdSelector } from '../../selectors';
+
 import { IRemoveUserFromGroupChatActionPayload } from './action-payloads/remove-user-from-group-chat-payload';
 import { IRemoveUserFromGroupChatApiRequest } from './api-requests/remove-user-from-group-chat-api-request';
 import { RemoveUserFromGroupChatSuccess } from './remove-user-from-group-chat-success';

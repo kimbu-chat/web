@@ -1,6 +1,8 @@
-import { IUser } from '@store/common/models';
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
+
+import { IUser } from '@store/common/models';
+
 import { IUserSettings } from '../../user-settings-state';
 
 export class GetBlackListSuccess {

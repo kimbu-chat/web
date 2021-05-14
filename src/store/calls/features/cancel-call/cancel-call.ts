@@ -5,8 +5,8 @@ import { call, put } from 'redux-saga/effects';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { resetPeerConnection } from '@store/middlewares/webRTC/reset-peer-connection';
 import { createEmptyAction } from '@store/common/actions';
-
 import { MAIN_API } from '@common/paths';
+
 import { CancelCallSuccess } from './cancel-call-success';
 
 export class CancelCall {

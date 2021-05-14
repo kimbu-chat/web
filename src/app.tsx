@@ -1,18 +1,15 @@
 import React, { Suspense, lazy } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
-
-import 'react-toastify/dist/ReactToastify.css';
-import './base.scss';
-import './toastify.scss';
-
 import { useSelector } from 'react-redux';
-import { ReactComponent as CloseSvg } from '@icons/close.svg';
-import { PublicRoute } from '@routing/public-route';
-import { PrivateRoute } from '@routing/private-route';
-
-import { authenticatedSelector, authPhoneNumberExistsSelector } from '@store/auth/selectors';
-import { CubeLoader } from '@containers/cube-loader/cube-loader';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import { ReactComponent as CloseSvg } from '@icons/close.svg';
+import { PublicRoute, PrivateRoute, CubeLoader } from '@components';
+import { authenticatedSelector, authPhoneNumberExistsSelector } from '@store/auth/selectors';
+import '@localization/i18n';
+
+import './dayjs/day';
 import {
   loadPhoneConfirmation,
   loadCodeConfirmation,
@@ -22,8 +19,9 @@ import {
   loadLogout,
   loadEmoji,
 } from './routing/module-loader';
-import '@localization/i18n';
-import './dayjs/day';
+
+import './base.scss';
+import './toastify.scss';
 
 const ConfirmPhone = lazy(loadPhoneConfirmation);
 const ConfirmCode = lazy(loadCodeConfirmation);

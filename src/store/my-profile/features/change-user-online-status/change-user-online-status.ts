@@ -8,8 +8,8 @@ import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { authenticatedSelector } from '@store/auth/selectors';
 import { resetUnreadNotifications } from '@utils/set-favicon';
 import { IMyProfileState } from '@store/my-profile/my-profile-state';
-
 import { MAIN_API } from '@common/paths';
+
 import { IChangeUserOnlineStatusApiRequest } from './api-requests/change-user-online-status-api-request';
 
 export class ChangeUserOnlineStatus {

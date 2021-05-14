@@ -1,7 +1,9 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
+
 import { ChatId } from '../../chat-id';
 import { IChatsState } from '../../chats-state';
+
 import { IDialogRemovedIntegrationEvent } from './dialog-removed-integration-event';
 
 export class DialogRemovedEventHandler {

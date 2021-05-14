@@ -4,10 +4,11 @@ import {
   HubConnectionState,
   LogLevel,
 } from '@microsoft/signalr';
-
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux';
 import { getType, RootAction, RootState } from 'typesafe-actions';
+
 import { NOTIFICATIONS_API } from '@common/paths';
+
 import { InitSocketConnection } from '../../web-sockets/features/init-web-socked-connection/init-web-socket-connection';
 import { WebsocketsConnected } from '../../internet/features/websockets-connection/websockets-connected';
 import { WebsocketsDisconnected } from '../../internet/features/websockets-connection/websockets-disconnected';

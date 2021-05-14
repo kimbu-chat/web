@@ -1,10 +1,12 @@
 import { SagaIterator } from 'redux-saga';
 import { call, put, spawn } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+
 import { InputType } from '../../common/enums/input-type';
 import { deviceUpdateWatcher } from '../../utils/device-update-watcher';
 import { getMediaDevicesList } from '../../utils/user-media';
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
+
 import { ISpawnDeviceUpdateWatcherActionPayload } from './action-payloads/spawn-device-update-watcher-action-payload';
 
 export class SpawnDeviceUpdateWatcher {

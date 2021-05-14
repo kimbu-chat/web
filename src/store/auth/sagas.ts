@@ -1,4 +1,5 @@
 import { takeLatest, takeLeading } from 'redux-saga/effects';
+
 import { Logout } from './features/logout/logout';
 import { ConfirmPhone } from './features/confirm-phone/confirm-phone';
 import { RefreshToken } from './features/refresh-token/refresh-token';

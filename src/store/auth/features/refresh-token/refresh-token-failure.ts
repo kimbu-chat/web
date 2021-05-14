@@ -1,7 +1,9 @@
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { createEmptyAction } from '@store/common/actions';
 import { apply, call } from 'redux-saga/effects';
+
+import { createEmptyAction } from '@store/common/actions';
+
 import { IAuthState } from '../../auth-state';
 
 export class RefreshTokenFailure {

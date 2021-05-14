@@ -1,10 +1,13 @@
-import { getUsersSelector } from '@store/users/selectors';
 import dayjs from 'dayjs';
 import { SagaIterator } from 'redux-saga';
 import { select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+
+import { getUsersSelector } from '@store/users/selectors';
+
 import { INormalizedMessage } from '../../models';
 import { getSelectedChatMessagesSelector } from '../../selectors';
+
 import { ICopyMessagesActionPayload } from './action-payloads/copy-messages-action-payload';
 
 export class CopyMessages {

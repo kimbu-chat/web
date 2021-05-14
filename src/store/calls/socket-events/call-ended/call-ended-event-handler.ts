@@ -1,24 +1,25 @@
-import { getUserSelector } from '@store/users/selectors';
 import { SagaIterator } from 'redux-saga';
 import { createAction } from 'typesafe-actions';
 import { AxiosResponse } from 'axios';
 import { select, put, call } from 'redux-saga/effects';
+import { normalize } from 'normalizr';
 
+import { getUserSelector } from '@store/users/selectors';
 import { httpRequestFactory } from '@store/common/http/http-factory';
 import { HttpRequestMethod } from '@store/common/http/http-request-method';
 import { replaceInUrl } from '@utils/replace-in-url';
 import { MAIN_API } from '@common/paths';
-import { normalize } from 'normalizr';
 import { IUser } from '@store/common/models';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 import { ById } from '@store/chats/models/by-id';
+
 import { myIdSelector } from '../../../my-profile/selectors';
 import { callNormalizationSchema } from '../../normalization';
-
 import { resetPeerConnection } from '../../../middlewares/webRTC/reset-peer-connection';
 import { getCallInterlocutorIdSelector, getIsActiveCallIncomingSelector } from '../../selectors';
-import { ICallEndedIntegrationEvent } from './call-ended-integration-event';
 import { ICall, INormalizedCall } from '../../common/models';
+
+import { ICallEndedIntegrationEvent } from './call-ended-integration-event';
 import { IGetCallByIdApiRequest } from './api-requests/get-call-by-id-api-request';
 import { CallEndedEventHandlerSuccess } from './call-ended-event-handler-success';
 

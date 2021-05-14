@@ -1,5 +1,7 @@
-import { createEmptyAction } from '@store/common/actions';
 import produce from 'immer';
+
+import { createEmptyAction } from '@store/common/actions';
+
 import { IAuthState } from '../../auth-state';
 
 export class SendSmsCodeSuccess {

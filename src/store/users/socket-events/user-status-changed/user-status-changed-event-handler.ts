@@ -1,10 +1,13 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
-import { myIdSelector } from '@store/my-profile/selectors';
-import { resetUnreadNotifications } from '@utils/set-favicon';
 import { SagaIterator } from 'redux-saga';
 import { select } from 'redux-saga/effects';
+
+import { myIdSelector } from '@store/my-profile/selectors';
+import { resetUnreadNotifications } from '@utils/set-favicon';
+
 import { IUsersState } from '../../users-state';
+
 import { IStatusChangedIntegrationEvent } from './status-changed-integration-event';
 
 export class UserStatusChangedEventHandler {

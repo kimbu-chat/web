@@ -1,7 +1,9 @@
 import { eventChannel, SagaIterator } from 'redux-saga';
 import { takeEvery, select, put, take, cancel, spawn } from 'redux-saga/effects';
+
 import { authenticatedSelector } from '@store/auth/selectors';
 import { createEmptyAction } from '@store/common/actions';
+
 import { Logout } from '../../../auth/features/logout/logout';
 import { ChangeUserOnlineStatus } from '../../../my-profile/features/change-user-online-status/change-user-online-status';
 

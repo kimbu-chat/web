@@ -2,15 +2,18 @@ import { createAction } from 'typesafe-actions';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
+
 import { HTTPStatusCode } from '@common/http-status-code';
 import { Meta } from '@store/common/actions';
+
 import { INormalizedMessage } from '../../models/message';
 import { getMessageSelector, getSelectedChatIdSelector } from '../../selectors';
 import { MessageLinkType } from '../../models';
-import { IForwardMessagesActionPayload } from './action-payloads/forward-messages-action-payload';
 import { ICreateMessageApiRequest } from '../create-message/api-requests/create-message-api-request';
 import { CreateMessage } from '../create-message/create-message';
 import { IChatsState } from '../../chats-state';
+
+import { IForwardMessagesActionPayload } from './action-payloads/forward-messages-action-payload';
 
 export class ForwardMessages {
   static get action() {

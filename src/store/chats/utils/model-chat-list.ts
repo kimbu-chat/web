@@ -1,6 +1,5 @@
 import { ById } from '../models/by-id';
 /* eslint-disable no-param-reassign */
-
 import { ChatId } from '../chat-id';
 import { MessageState, InterlocutorType, INormalizedChat } from '../models';
 

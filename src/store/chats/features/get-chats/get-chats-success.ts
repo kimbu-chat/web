@@ -1,6 +1,8 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
+
 import { IChatsState } from '../../chats-state';
+
 import { IGetChatsSuccessActionPayload } from './action-payloads/get-chats-success-action-payload';
 
 export class GetChatsSuccess {

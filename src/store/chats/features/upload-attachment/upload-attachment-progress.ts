@@ -1,8 +1,10 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
+
 import { getChatByIdDraftSelector } from '../../selectors';
-import { IUploadAttachmentProgressActionPayload } from './action-payloads/upload-attachment-progress-action-payload';
 import { IChatsState } from '../../chats-state';
+
+import { IUploadAttachmentProgressActionPayload } from './action-payloads/upload-attachment-progress-action-payload';
 
 export class UploadAttachmentProgress {
   static get action() {

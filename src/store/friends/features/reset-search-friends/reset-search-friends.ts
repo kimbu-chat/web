@@ -1,6 +1,7 @@
+import produce from 'immer';
+
 import { createEmptyAction } from '@store/common/actions';
 import { IFriendsState } from '@store/friends/friends-state';
-import produce from 'immer';
 
 export class ResetSearchFriends {
   static get action() {

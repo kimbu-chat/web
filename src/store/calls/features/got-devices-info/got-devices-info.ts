@@ -1,7 +1,9 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
+
 import { InputType } from '../../common/enums/input-type';
 import { ICallsState } from '../../calls-state';
+
 import { IGotDevicesInfoActionPayload } from './action-payloads/got-devices-info-action-payload';
 
 export class GotDevicesInfo {

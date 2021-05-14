@@ -1,7 +1,9 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
+
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
+
 import { IEditMessageActionPayload } from './action-payloads/edit-message-action-payload';
 
 export class EditMessage {

@@ -1,5 +1,6 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
+
 import { INormalizedChat } from '../../models/chat';
 import { ChatId } from '../../chat-id';
 import { IChatsState } from '../../chats-state';

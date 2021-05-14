@@ -9,8 +9,8 @@ import { httpFilesRequestFactory } from '@store/common/http/http-file-factory';
 import { IAvatar } from '@store/common/models';
 import { getFileFromUrl } from '@utils/get-file-from-url';
 import { setAvatarUploadCancelTokenSource } from '@store/my-profile/my-profile-utils';
-
 import { FILES_API } from '@common/paths';
+
 import { IUploadAvatarActionPayload } from './upload-avatar-action-payload';
 
 export class UploadAvatar {

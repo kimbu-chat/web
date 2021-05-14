@@ -1,7 +1,9 @@
+import { useState, useCallback } from 'react';
+
 import { containsFiles } from '@utils/contains-files';
 import { uploadAttachmentRequestAction } from '@store/chats/actions';
 import { getFileType } from '@utils/get-file-extension';
-import { useState, useCallback } from 'react';
+
 import { useActionWithDispatch } from './use-action-with-dispatch';
 
 export const useDragDrop = () => {
@@ -44,7 +46,7 @@ export const useDragDrop = () => {
 
       if (
         (e.target as HTMLDivElement).matches(
-          '.drag-indicator, .drag-indicator *, .messenger__chat-send, .messenger__chat-send *, .chat-data__chat-data, .chat-data__chat-data *, .messenger__info, .messenger__info *',
+          '.drag-indicator, .drag-indicator *, .chat-page, .chat-page *, .chat-data__chat-data, .chat-data__chat-data *, .chat-info__messenger-info, .chat-info__messenger-info *',
         )
       ) {
         if ((e.dataTransfer?.files?.length || 0) > 0) {

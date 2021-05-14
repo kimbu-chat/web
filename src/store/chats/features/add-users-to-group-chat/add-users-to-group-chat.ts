@@ -6,12 +6,14 @@ import { createAction } from 'typesafe-actions';
 import { MAIN_API } from '@common/paths';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { Meta } from '@store/common/actions';
+
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { getSelectedChatIdSelector } from '../../selectors';
+import { ChatId } from '../../chat-id';
+
 import { IAddUsersToGroupChatActionPayload } from './action-payloads/add-users-to-group-chat-action-payload';
 import { AddUsersToGroupChatSuccess } from './add-users-to-group-chat-success';
 import { IAddUsersToGroupChatApiRequest } from './api-requests/add-users-to-group-chat-api-request';
-import { ChatId } from '../../chat-id';
 
 export class AddUsersToGroupChat {
   static get action() {

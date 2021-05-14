@@ -1,10 +1,13 @@
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
-import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { createAction } from 'typesafe-actions';
+
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
+
 import { Meta } from '../../../common/actions';
+
 import { IBlockUserApiRequest } from './api-requests/block-user-api-request';
 import { BlockUserSuccess } from './block-user-success';
 

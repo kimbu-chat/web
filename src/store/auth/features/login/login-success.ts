@@ -2,8 +2,10 @@ import { apply } from '@redux-saga/core/effects';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { createAction } from 'typesafe-actions';
+
 import { AuthService } from '../../../../services/auth-service';
 import { IAuthState } from '../../auth-state';
+
 import { ILoginSuccessActionPayload } from './action-payloads/login-success-action-payload';
 
 export class LoginSuccess {

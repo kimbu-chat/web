@@ -1,23 +1,26 @@
 import { buffers, eventChannel, SagaIterator } from 'redux-saga';
 import { call, cancel, put, race, select, take, takeEvery } from 'redux-saga/effects';
 import { AxiosResponse } from 'axios';
+
 import { MAIN_API } from '@common/paths';
+
 import {
   amICalledSelector,
   getCallInterlocutorIdSelector,
   getIsVideoEnabledSelector,
 } from '../selectors';
 import { httpRequestFactory, HttpRequestMethod } from '../../common/http';
-
 import { getPeerConnection } from '../../middlewares/webRTC/peerConnectionFactory';
 import { RenegotiationAcceptedEventHandler } from '../socket-events/renegotiation-accepted/renegotiation-accepted-event-handler';
 import { OpenInterlocutorVideoStatus } from '../features/change-interlocutor-media-status/open-interlocutor-video-status';
 import { InterlocutorAcceptedCallEventHandler } from '../socket-events/interlocutor-accepted-call/interlocutor-accepted-call-event-handler';
 import { AcceptCallSuccess } from '../features/accept-call/accept-call-success';
-import { assignInterlocutorAudioTrack, assignInterlocutorVideoTrack } from './user-media';
 import { CancelCall } from '../features/cancel-call/cancel-call';
 import { DeclineCall } from '../features/decline-call/decline-call';
 import { CallEndedEventHandler } from '../socket-events/call-ended/call-ended-event-handler';
+import { OpenInterlocutorAudioStatus } from '../features/change-interlocutor-media-status/open-interlocutor-audio-status';
+
+import { assignInterlocutorAudioTrack, assignInterlocutorVideoTrack } from './user-media';
 import {
   getIsRenegotiationAccepted,
   setIsRenegotiationAccepted,
@@ -25,7 +28,6 @@ import {
 } from './glare-utils';
 import { ICandidateApiRequest } from './api-requests/candidate-api-request';
 import { IRenegociateApiRequest } from './api-requests/renegotiate-api-request';
-import { OpenInterlocutorAudioStatus } from '../features/change-interlocutor-media-status/open-interlocutor-audio-status';
 
 const CallsHttpRequests = {
   candidate: httpRequestFactory<AxiosResponse, ICandidateApiRequest>(

@@ -1,5 +1,6 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
+
 import { IUserSettings } from '../../user-settings-state';
 
 export class RevokeSessionSuccess {

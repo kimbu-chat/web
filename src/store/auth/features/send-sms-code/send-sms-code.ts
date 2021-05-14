@@ -3,13 +3,14 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+
 import { HttpRequestMethod } from '@store/common/http/http-request-method';
 import { authRequestFactory } from '@store/common/http/auth-request-factory';
 import { HTTPStatusCode } from '@common/http-status-code';
 import { Meta } from '@store/common/actions';
 import { IAuthState } from '@store/auth/auth-state';
-
 import { MAIN_API } from '@common/paths';
+
 import { ISendSmsCodeActionPayload } from './action-payloads/send-sms-code-action-payload';
 import { SendSmsCodeFailure } from './send-sms-code-failure';
 import { SendSmsCodeSuccess } from './send-sms-code-success';

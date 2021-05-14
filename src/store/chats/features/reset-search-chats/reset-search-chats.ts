@@ -1,6 +1,7 @@
+import produce from 'immer';
+
 import { IChatsState } from '@store/chats/chats-state';
 import { createEmptyAction } from '@store/common/actions';
-import produce from 'immer';
 
 export class ResetSearchChats {
   static get action() {

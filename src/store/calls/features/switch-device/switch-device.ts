@@ -2,6 +2,7 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+
 import {
   getAudioConstraintsSelector,
   getVideoConstraintsSelector,
@@ -15,8 +16,9 @@ import {
   tracks,
   getAudioSender,
 } from '../../utils/user-media';
-import { ISwitchDeviceActionPayload } from './action-payloads/switch-device-action-payload';
 import { InputType } from '../../common/enums/input-type';
+
+import { ISwitchDeviceActionPayload } from './action-payloads/switch-device-action-payload';
 
 export class SwitchDevice {
   static get action() {

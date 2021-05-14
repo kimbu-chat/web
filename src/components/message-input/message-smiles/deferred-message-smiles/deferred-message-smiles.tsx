@@ -1,8 +1,9 @@
-import type { BaseEmoji, Data } from 'emoji-mart';
-import NimblePicker from 'emoji-mart/dist-es/components/picker/nimble-picker';
-import data from 'emoji-mart/data/apple.json';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import NimblePicker from 'emoji-mart/dist-es/components/picker/nimble-picker';
+import data from 'emoji-mart/data/apple.json';
+
+import type { BaseEmoji, Data } from 'emoji-mart';
 
 interface IDeferredMessageSmilesProps {
   setText: React.Dispatch<React.SetStateAction<string>>;

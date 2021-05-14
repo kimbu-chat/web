@@ -1,4 +1,4 @@
-import { apply } from '@redux-saga/core/effects';
+import { apply } from 'redux-saga/effects';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { createAction } from 'typesafe-actions';

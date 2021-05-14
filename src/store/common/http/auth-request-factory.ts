@@ -5,6 +5,7 @@ import { emitToast } from '@utils/emit-toast';
 
 import { httpRequest } from './http-request';
 import { HttpRequestMethod } from './http-request-method';
+
 import type { IRequestGenerator, UrlGenerator } from './types';
 
 export const authRequestFactory = <TResponse, TBody = unknown>(

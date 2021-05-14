@@ -15,6 +15,7 @@ import { RefreshTokenSuccess } from '../../auth/features/refresh-token/refresh-t
 
 import { HttpRequestMethod } from './http-request-method';
 import { httpRequest, requestTimeout } from './http-request';
+
 import type { IRequestGenerator, UrlGenerator, HttpHeaders } from './types';
 
 function* getAuthHeader(): SagaIterator {

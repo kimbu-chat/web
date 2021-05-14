@@ -11,6 +11,11 @@
       "not op_mini all"
     ]
   },
+  "engines": {
+    "npm": "please-use-yarn",
+    "yarn": ">= 1.17.3",
+    "node": ">= 12.5.0"
+  },
   "dependencies": {
     "@material-ui/core": "4.11.4",
     "@material-ui/lab": "4.0.0-alpha.58",

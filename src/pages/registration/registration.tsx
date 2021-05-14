@@ -15,9 +15,8 @@ import {
   uploadAvatarRequestAction,
 } from '@store/my-profile/actions';
 import { registerAction } from '@store/auth/actions';
-import { loadPhotoEditor } from '@routing/module-loader';
 
-const PhotoEditor = lazy(loadPhotoEditor);
+const PhotoEditor = lazy(() => import('@components/photo-editor/photo-editor'));
 
 interface IRegistrationProps {
   preloadNext: () => void;

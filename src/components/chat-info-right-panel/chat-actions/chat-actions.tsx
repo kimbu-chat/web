@@ -14,12 +14,10 @@ import { ReactComponent as BlockSvg } from '@icons/block.svg';
 import { ReactComponent as UnBlockSvg } from '@icons/unblock.svg';
 import { ReactComponent as AddUsersSvg } from '@icons/add-users.svg';
 import { ReactComponent as DeleteContactSvg } from '@icons/delete-contact.svg';
-import {
-  FadeAnimationWrapper,
-  Button,
-  CreateGroupChat,
-  GroupChatAddFriendModal,
-} from '@components';
+import FadeAnimationWrapper from '@components/fade-animation-wrapper';
+import { Button } from '@components/button';
+import { CreateGroupChat } from '@components/create-group-chat-modal';
+import { GroupChatAddFriendModal } from '@components/group-chat-add-friend-modal';
 import { deleteFriendAction, addFriendAction } from '@store/friends/actions';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { blockUserAction, unblockUserAction } from '@store/settings/actions';

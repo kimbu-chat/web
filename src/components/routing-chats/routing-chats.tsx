@@ -9,7 +9,8 @@ import { ReactComponent as SettingsSvg } from '@icons/settings.svg';
 import { ReactComponent as LogoutSvg } from '@icons/logout.svg';
 import { getSelectedChatIdSelector } from '@store/chats/selectors';
 import { myProfileSelector } from '@store/my-profile/selectors';
-import { Avatar, FadeAnimationWrapper } from '@components';
+import { Avatar } from '@components/avatar';
+import FadeAnimationWrapper from '@components/fade-animation-wrapper';
 
 import { LogoutModal } from '../logout-modal/logout-modal';
 

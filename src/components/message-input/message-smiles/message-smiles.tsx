@@ -3,7 +3,7 @@ import 'emoji-mart/css/emoji-mart.css';
 
 import { useOnClickOutside } from '@hooks/use-on-click-outside';
 import { ReactComponent as SmilesSvg } from '@icons/smiles.svg';
-import { CubeLoader } from '@components';
+import { CubeLoader } from '@components/cube-loader';
 import { loadEmoji } from '@routing/module-loader';
 
 import './message-smiles.scss';

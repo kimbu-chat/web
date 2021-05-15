@@ -10,15 +10,13 @@ import {
   isCurrentChatUserDeletedSelector,
 } from '@store/chats/selectors';
 import { DragIndicator } from '@components/drag-indicator/drag-indicator';
-import {
-  ChatInfoRightPanel,
-  CreateMessageInput,
-  ChatList,
-  ChatTopBar,
-  MessageList,
-  NotContact,
-  BlockedMessageInput,
-} from '@components';
+import { ChatInfoRightPanel } from '@components/chat-info-right-panel';
+import { CreateMessageInput } from '@components/message-input';
+import { ChatList } from '@components/chat-list';
+import { ChatTopBar } from '@components/chat-top-bar';
+import { MessageList } from '@components/message-list';
+import { NotContact } from '@components/not-contact';
+import { BlockedMessageInput } from '@components/blocked-message-input';
 
 import './chat.scss';
 

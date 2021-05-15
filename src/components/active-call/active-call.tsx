@@ -29,7 +29,8 @@ import {
   outgoingCallAction,
   switchDeviceAction,
 } from '@store/calls/actions';
-import { Avatar, Dropdown } from '@components';
+import { Avatar } from '@components/avatar';
+import { Dropdown } from '@components/dropdown';
 // SVG
 import { ReactComponent as MicrophoneEnableSvg } from '@icons/ic-microphone.svg';
 import { ReactComponent as MicrophoneDisableSvg } from '@icons/ic-microphone-mute.svg';

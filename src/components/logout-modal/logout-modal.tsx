@@ -1,7 +1,8 @@
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Modal, WithBackground } from '@components';
+import { WithBackground } from '@components/with-background';
+import { Modal } from '@components/modal';
 import './logout-modal.scss';
 import { ReactComponent as LogoutSvg } from '@icons/logout.svg';
 

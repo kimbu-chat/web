@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 
-import { FadeAnimationWrapper } from '@components';
+import FadeAnimationWrapper from '@components/fade-animation-wrapper';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ReactComponent as ForwardSvg } from '@icons/forward.svg';
 import { ReactComponent as EditSVG } from '@icons/edit.svg';

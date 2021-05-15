@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { ISession } from '@store/settings/comon/models/session';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { deviceIdSelector } from '@store/auth/selectors';
-import { Button } from '@components';
+import { Button } from '@components/button';
 import { revokeSessionAction } from '@store/settings/actions';
 
 import './session.scss';

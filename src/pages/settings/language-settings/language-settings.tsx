@@ -8,7 +8,7 @@ import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { Langs } from '@store/settings/features/models';
 import { ReactComponent as RussiaSvg } from '@icons/Russian.svg';
 import { ReactComponent as USASvg } from '@icons/Usa.svg';
-import { RadioBox } from '@components';
+import { RadioBox } from '@components/radio-box';
 import './language-settings.scss';
 
 const LanguageSettings = () => {

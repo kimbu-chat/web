@@ -6,7 +6,7 @@ import { getSelectedChatRecordingsSelector } from '@store/chats/selectors';
 import { getVoiceAttachmentsAction } from '@store/chats/actions';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { doesYearDifferFromCurrent, setSeparators } from '@utils/set-separators';
-import { InfiniteScroll } from '@components';
+import { InfiniteScroll } from '@components/infinite-scroll';
 import { VOICE_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 import { RecordingAttachment } from '@components/message-item/attachments/recording-attachment/recording-attachment';
 

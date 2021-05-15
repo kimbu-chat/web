@@ -3,13 +3,11 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { parsePhoneNumber } from 'libphonenumber-js';
 
-import {
-  Button,
-  FadeAnimationWrapper,
-  LabeledInput,
-  CubeLoader,
-  HorizontalSeparator,
-} from '@components';
+import { Button } from '@components/button';
+import { LabeledInput } from '@components/labeled-input';
+import { CubeLoader } from '@components/cube-loader';
+import { HorizontalSeparator } from '@components/horizontal-separator';
+import FadeAnimationWrapper from '@components/fade-animation-wrapper';
 import { myProfileSelector } from '@store/my-profile/selectors';
 import { ReactComponent as UserSvg } from '@icons/user.svg';
 import { ReactComponent as TopAvatarLine } from '@icons/top-avatar-line.svg';

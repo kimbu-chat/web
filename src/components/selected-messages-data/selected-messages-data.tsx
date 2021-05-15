@@ -8,7 +8,8 @@ import { getSelectedMessagesIdSelector } from '@store/chats/selectors';
 import { ReactComponent as CloseSvg } from '@icons/close.svg';
 import { ReactComponent as ForwardSvg } from '@icons/forward.svg';
 import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
-import { FadeAnimationWrapper, ForwardModal } from '@components';
+import FadeAnimationWrapper from '@components/fade-animation-wrapper';
+import { ForwardModal } from '@components/forward-modal';
 import { copyMessagesAction, resetSelectedMessagesAction } from '@store/chats/actions';
 
 import { DeleteMessageModal } from './delete-message-modal/delete-message-modal';

@@ -1,7 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import React, { useCallback, useState } from 'react';
 
-import { Avatar, Button } from '@components';
+import { Avatar } from '@components/avatar';
+import { Button } from '@components/button';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { IUser } from '@store/common/models';
 import { unblockUserAction } from '@store/settings/actions';

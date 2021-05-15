@@ -1,7 +1,8 @@
 import dayjs from 'dayjs';
 import React, { useCallback, useState } from 'react';
 
-import { FadeAnimationWrapper, MediaModal } from '@components';
+import FadeAnimationWrapper from '@components/fade-animation-wrapper';
+import { MediaModal } from '@components/image-modal';
 import { IGroupable, IPictureAttachment } from '@store/chats/models';
 import { doesYearDifferFromCurrent } from '@utils/set-separators';
 

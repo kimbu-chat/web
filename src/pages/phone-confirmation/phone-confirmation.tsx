@@ -4,9 +4,11 @@ import { useHistory } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 
-import { Button, FadeAnimationWrapper, PhoneInputGroup } from '@components';
+import { Button } from '@components/button/button';
+import FadeAnimationWrapper from '@components/fade-animation-wrapper';
+import { PhoneInputGroup } from '@components/phone-input-group';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import { sendSmsCodeAction } from '@store/auth/actions';
+import { SendSmsCode } from '@store/auth/features/send-sms-code/send-sms-code';
 import { authLoadingSelector } from '@store/auth/selectors';
 
 import './phone-confirmation.scss';
@@ -28,7 +30,7 @@ const PhoneConfirmation: React.FC<PhoneConfirmationProps> = ({ preloadNext }) =>
   const [phone, setPhone] = useState('');
   const [policyDisplayed, setPolicyDisplayed] = useState(false);
 
-  const sendSmsCode = useActionWithDeferred(sendSmsCodeAction);
+  const sendSmsCode = useActionWithDeferred(SendSmsCode.action);
 
   const sendSms = useCallback(() => {
     const phoneNumber = parsePhoneNumberFromString(phone);

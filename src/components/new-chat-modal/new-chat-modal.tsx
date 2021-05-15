@@ -3,7 +3,10 @@ import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { useTranslation } from 'react-i18next';
 
-import { Modal, WithBackground, InfiniteScroll, SearchBox } from '@components';
+import { Modal } from '@components/modal';
+import { WithBackground } from '@components/with-background';
+import { InfiniteScroll } from '@components/infinite-scroll';
+import { SearchBox } from '@components/search-box/search-box';
 import { getFriendsAction, resetSearchFriendsAction } from '@store/friends/actions';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { IUser, IPage } from '@store/common/models';

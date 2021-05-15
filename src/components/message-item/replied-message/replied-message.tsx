@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
-import { Avatar } from '@components';
+import { Avatar } from '@components/avatar';
 import {
   FileType,
   IAudioAttachment,

@@ -6,7 +6,7 @@ import { getVideoAttachmentsAction } from '@store/chats/actions';
 import { getSelectedChatVideosSelector } from '@store/chats/selectors';
 import { IPage } from '@store/common/models';
 import { setSeparators } from '@utils/set-separators';
-import { InfiniteScroll } from '@components';
+import { InfiniteScroll } from '@components/infinite-scroll';
 import { VIDEO_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 
 import { VideoFromList } from './video/video-from-list';

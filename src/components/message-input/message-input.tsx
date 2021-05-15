@@ -30,7 +30,7 @@ import { myIdSelector } from '@store/my-profile/selectors';
 import { getTypingStrategySelector } from '@store/settings/selectors';
 import { getFileType } from '@utils/get-file-extension';
 import { TypingStrategy } from '@store/settings/features/models';
-import { CubeLoader } from '@components';
+import { CubeLoader } from '@components/cube-loader';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ReactComponent as AddSvg } from '@icons/add-attachment.svg';
 import { ReactComponent as VoiceSvg } from '@icons/voice.svg';

@@ -2,7 +2,9 @@ import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { Button, Modal, WithBackground } from '@components';
+import { Button } from '@components/button';
+import { Modal } from '@components/modal';
+import { WithBackground } from '@components/with-background';
 import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { CheckBox } from '@components/check-box/check-box';

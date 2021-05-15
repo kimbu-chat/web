@@ -3,7 +3,11 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { WithBackground, Modal, InfiniteScroll, SelectEntity, SearchBox } from '@components';
+import { WithBackground } from '@components/with-background';
+import { Modal } from '@components/modal';
+import { InfiniteScroll } from '@components/infinite-scroll';
+import { SelectEntity } from '@components/select-entity';
+import { SearchBox } from '@components/search-box/search-box';
 import './add-call-modal.scss';
 import { ReactComponent as AddCallSvg } from '@icons/add-call.svg';
 import { ReactComponent as CallSvg } from '@icons/call.svg';

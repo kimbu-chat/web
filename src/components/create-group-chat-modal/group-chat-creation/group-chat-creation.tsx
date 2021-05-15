@@ -1,6 +1,6 @@
 import React, { lazy, useCallback, useRef, useState } from 'react';
 
-import { LabeledInput } from '@components';
+import { LabeledInput } from '@components/labeled-input';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { IAvatar, IAvatarSelectedData } from '@store/common/models';

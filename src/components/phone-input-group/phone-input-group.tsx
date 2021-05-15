@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { getCountryByIp } from '@utils/get-country-by-ip';
-import { ICountry } from '@common/country';
+import { CountrySelect } from '@components/country-select/country-select';
+import { PhoneInput } from '@components/phone-input/phone-input';
 
-import { CountrySelect } from '../country-select/country-select';
+import type { ICountry } from '@common/country';
+
 import './phone-input-group.scss';
-import { PhoneInput } from '../phone-input/phone-input';
 
 interface IPhoneInputGroupProps {
   setPhone: React.Dispatch<React.SetStateAction<string>>;

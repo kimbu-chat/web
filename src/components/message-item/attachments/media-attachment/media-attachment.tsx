@@ -1,7 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import dayjs from 'dayjs';
 
-import { FadeAnimationWrapper, MediaModal } from '@components';
+import { MediaModal } from '@components/image-modal';
+import FadeAnimationWrapper from '@components/fade-animation-wrapper';
 import { FileType, IPictureAttachment, IVideoAttachment } from '@store/chats/models';
 import { ReactComponent as PlaySvg } from '@icons/play.svg';
 

@@ -6,7 +6,7 @@ import { changeTypingStrategyAction } from '@store/settings/actions';
 import { getTypingStrategySelector } from '@store/settings/selectors';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { TypingStrategy } from '@store/settings/features/models';
-import { RadioBox } from '@components';
+import { RadioBox } from '@components/radio-box';
 import './key-bindings.scss';
 
 export const KeyBindings = () => {

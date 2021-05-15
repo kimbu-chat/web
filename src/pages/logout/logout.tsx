@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { CubeLoader } from '@components';
+import { CubeLoader } from '@components/cube-loader';
 import { useEmptyActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { logoutAction } from '@store/auth/actions';
 

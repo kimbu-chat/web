@@ -6,7 +6,7 @@ import { getPhotoAttachmentsAction } from '@store/chats/actions';
 import { getSelectedChatPhotosSelector } from '@store/chats/selectors';
 import { IPage } from '@store/common/models';
 import { setSeparators } from '@utils/set-separators';
-import { InfiniteScroll } from '@components';
+import { InfiniteScroll } from '@components/infinite-scroll';
 import { PHOTO_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 
 import { Photo } from './photo/photo';

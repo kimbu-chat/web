@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { ReactComponent as BlockedSvg } from '@icons/blocked.svg';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { getSelectedInterlocutorIdSelector } from '@store/chats/selectors';
-import { Button } from '@components';
+import { Button } from '@components/button';
 import { unblockUserAction } from '@store/settings/actions';
 
 import './blocked-message-input.scss';

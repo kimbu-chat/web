@@ -5,7 +5,11 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { ReactComponent as AddContactSvg } from '@icons/add-users.svg';
-import { PhoneInputGroup, WithBackground, Modal, Avatar, Button } from '@components';
+import { WithBackground } from '@components/with-background';
+import { Modal } from '@components/modal';
+import { Button } from '@components/button';
+import { PhoneInputGroup } from '@components/phone-input-group';
+import { Avatar } from '@components/avatar';
 import { IUser } from '@store/common/models';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { ReactComponent as CloseSvg } from '@icons/close-x-bold.svg';

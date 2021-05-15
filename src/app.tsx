@@ -5,7 +5,9 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { ReactComponent as CloseSvg } from '@icons/close.svg';
-import { PublicRoute, PrivateRoute, CubeLoader } from '@components';
+import { PublicRoute } from '@components/public-route';
+import { PrivateRoute } from '@components/private-route';
+import { CubeLoader } from '@components/cube-loader';
 import { authenticatedSelector, authPhoneNumberExistsSelector } from '@store/auth/selectors';
 import '@localization/i18n';
 

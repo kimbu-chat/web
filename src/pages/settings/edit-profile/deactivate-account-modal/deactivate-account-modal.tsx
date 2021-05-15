@@ -1,7 +1,9 @@
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Button, Modal, WithBackground } from '@components';
+import { WithBackground } from '@components/with-background';
+import { Modal } from '@components/modal';
+import { Button } from '@components/button';
 import './deactivate-account-modal.scss';
 import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
 import { useEmptyActionWithDeferred } from '@hooks/use-action-with-deferred';

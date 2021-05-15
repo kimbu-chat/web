@@ -3,7 +3,9 @@ import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 
-import { Modal, WithBackground, Button } from '@components';
+import { Modal } from '@components/modal';
+import { Button } from '@components/button';
+import { WithBackground } from '@components/with-background';
 import { leaveGroupChatAction } from '@store/chats/actions';
 import { getSelectedGroupChatNameSelector } from '@store/chats/selectors';
 import { useEmptyActionWithDeferred } from '@hooks/use-action-with-deferred';

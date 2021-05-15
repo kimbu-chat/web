@@ -4,7 +4,8 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { ChatId } from '@store/chats/chat-id';
-import { Avatar, TimeUpdateable } from '@components';
+import { TimeUpdateable } from '@components/time-updateable';
+import { Avatar } from '@components/avatar';
 import { getUserSelector } from '@store/users/selectors';
 import { getUserName } from '@utils/user-utils';
 

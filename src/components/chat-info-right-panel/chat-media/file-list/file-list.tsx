@@ -7,7 +7,8 @@ import { getRawAttachmentsAction } from '@store/chats/actions';
 import { getSelectedChatFilesSelector } from '@store/chats/selectors';
 import { IPage } from '@store/common/models';
 import { doesYearDifferFromCurrent, setSeparators } from '@utils/set-separators';
-import { InfiniteScroll, FileAttachment } from '@components';
+import { InfiniteScroll } from '@components/infinite-scroll';
+import { FileAttachment } from '@components/file-attachment';
 import { FILE_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 
 import './file-list.scss';

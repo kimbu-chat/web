@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { AddCall, CallList } from '@components';
+import { AddCall } from '@components/call-list/add-call';
+import { CallList } from '@components/call-list';
 
 import './calls.scss';
 

@@ -7,7 +7,7 @@ import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { authLoadingSelector } from '@store/auth/selectors';
 import { validateNickname } from '@utils/validate-nick-name';
-import { Button } from '@components';
+import { Button } from '@components/button';
 import { IAvatarSelectedData, IAvatar } from '@store/common/models';
 import {
   cancelAvatarUploadingRequestAction,

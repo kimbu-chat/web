@@ -7,7 +7,7 @@ import { ReactComponent as ContactSvg } from '@icons/user-o.svg';
 import { ReactComponent as CloseSvg } from '@icons/close.svg';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { getSelectedInterlocutorSelector } from '@store/chats/selectors';
-import { Button } from '@components';
+import { Button } from '@components/button';
 import { addFriendAction, dismissToAddContactAction } from '@store/friends/actions';
 import { blockUserAction } from '@store/settings/actions';
 

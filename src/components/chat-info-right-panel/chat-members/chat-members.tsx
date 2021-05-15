@@ -6,7 +6,8 @@ import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getGroupChatUsersAction } from '@store/chats/actions';
 import { getMembersListForSelectedGroupChatSelector } from '@store/chats/selectors';
 import { ReactComponent as OpenArrowSvg } from '@icons/open-arrow.svg';
-import { InfiniteScroll, SearchBox } from '@components';
+import { InfiniteScroll } from '@components/infinite-scroll';
+import { SearchBox } from '@components/search-box/search-box';
 import { IPage } from '@store/common/models';
 import { CHAT_MEMBERS_LIMIT } from '@utils/pagination-limits';
 

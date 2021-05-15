@@ -5,10 +5,12 @@ import { CSSTransition } from 'react-transition-group';
 
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getInfoChatSelector, getIsInfoOpenedSelector } from '@store/chats/selectors';
-import { Avatar, FadeAnimationWrapper, MediaModal } from '@components';
-import { getChatInfoAction } from '@store/chats/actions';
+import { Avatar } from '@components/avatar';
+import FadeAnimationWrapper from '@components/fade-animation-wrapper';
+import { MediaModal } from '@components/image-modal';
 import { FileType } from '@store/chats/models';
 import { getUserSelector } from '@store/users/selectors';
+import { getChatInfoAction } from '@store/chats/actions';
 
 import { InterlocutorInfo } from './interlocutor-info/interlocutor-info';
 import { ChatActions as ChatInfoActions } from './chat-actions/chat-actions';

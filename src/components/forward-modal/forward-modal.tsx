@@ -3,7 +3,11 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { Button, Modal, WithBackground, InfiniteScroll, SearchBox } from '@components';
+import { WithBackground } from '@components/with-background';
+import { Modal } from '@components/modal';
+import { Button } from '@components/button';
+import { InfiniteScroll } from '@components/infinite-scroll';
+import { SearchBox } from '@components/search-box';
 import {
   getChatsAction,
   forwardMessagesAction,

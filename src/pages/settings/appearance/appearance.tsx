@@ -8,7 +8,9 @@ import { Theme } from '@store/settings/features/models';
 import { getCurrentFontSizeSelector, getCurrentThemeSelector } from '@store/settings/selectors';
 import { changeThemeAction, changeFontSizeAction } from '@store/settings/actions';
 import { APPEARANCE_CHAT_ID } from '@utils/constants';
-import { MessageItem, RadioBox, HorizontalSeparator } from '@components';
+import { MessageItem } from '@components/message-item';
+import { RadioBox } from '@components/radio-box';
+import { HorizontalSeparator } from '@components/horizontal-separator';
 
 export const Appearance: React.FC = () => {
   const { t } = useTranslation();

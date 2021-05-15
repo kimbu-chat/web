@@ -2,10 +2,11 @@ import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { ReactComponent as AddContactSvg } from '@icons/add-users.svg';
-import './add-friend.scss';
-import { FadeAnimationWrapper } from '@components';
+import FadeAnimationWrapper from '@components/fade-animation-wrapper';
 
 import { AddFriendModal } from './add-friend-modal/add-friend-modal';
+
+import './add-friend.scss';
 
 const AddFriend = () => {
   const { t } = useTranslation();

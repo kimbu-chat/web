@@ -10,7 +10,7 @@ import {
   getCallInterlocutorSelector,
   getIsIncomingCallVideoEnabledSelector,
 } from '@store/calls/selectors';
-import { Avatar } from '@components';
+import { Avatar } from '@components/avatar';
 // sounds
 import incomingCallSound from '@sounds/calls/imcoming-call.ogg';
 // svgs

@@ -2,7 +2,8 @@ import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { Avatar, TimeUpdateable } from '@components';
+import { Avatar } from '@components/avatar';
+import { TimeUpdateable } from '@components/time-updateable';
 import { getUserName } from '@utils/user-utils';
 import { ReactComponent as SelectedSvg } from '@icons/checked.svg';
 import { INormalizedChat } from '@store/chats/models';

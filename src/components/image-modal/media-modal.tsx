@@ -5,7 +5,7 @@ import Mousetrap from 'mousetrap';
 import { ReactComponent as CloseSVG } from '@icons/close.svg';
 import { ReactComponent as ArrowSvg } from '@icons/arrow.svg';
 import { FileType, IPictureAttachment, IVideoAttachment } from '@store/chats/models';
-import { BackgroundBlur } from '@components';
+import { BackgroundBlur } from '@components/with-background';
 import { stopPropagation } from '@utils/stop-propagation';
 
 import './media-modal.scss';

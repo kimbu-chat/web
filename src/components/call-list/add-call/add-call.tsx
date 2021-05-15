@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { ReactComponent as AddCallSvg } from '@icons/add-call.svg';
-import { FadeAnimationWrapper } from '@components';
+import FadeAnimationWrapper from '@components/fade-animation-wrapper';
 
 import { AddCallModal } from './add-call-modal/add-call-modal';
 

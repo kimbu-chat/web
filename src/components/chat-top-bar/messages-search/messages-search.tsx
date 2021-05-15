@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { ReactComponent as SearchSvg } from '@icons/search.svg';
 // import { ReactComponent as ArrowSvg } from '@icons/arrow-v.svg';
 import { MESSAGES_LIMIT } from '@utils/pagination-limits';
-import { SearchBox } from '@components';
+import { SearchBox } from '@components/search-box';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import {
   getSelectedChatIdSelector,

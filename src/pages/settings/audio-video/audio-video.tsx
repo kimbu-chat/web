@@ -24,7 +24,9 @@ import {
 import incomingCallSound from '@sounds/calls/imcoming-call.ogg';
 import { getAudioVolume } from '@utils/get-audio-volume-size';
 import { playSoundSafely } from '@utils/current-music';
-import { Button, HorizontalSeparator, Dropdown } from '@components';
+import { Button } from '@components/button';
+import { HorizontalSeparator } from '@components/horizontal-separator';
+import { Dropdown } from '@components/dropdown';
 
 import './audio-video.scss';
 

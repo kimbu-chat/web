@@ -7,7 +7,11 @@ import classNames from 'classnames';
 
 import { ReactComponent as ChatSvg } from '@icons/single-chat.svg';
 import { ReactComponent as CrayonSvg } from '@icons/crayon.svg';
-import { WithBackground, Modal, LabeledInput, Button, PhoneInputGroup } from '@components';
+import { WithBackground } from '@components/with-background';
+import { Modal } from '@components/modal';
+import { Button } from '@components/button';
+import { PhoneInputGroup } from '@components/phone-input-group';
+import { LabeledInput } from '@components/labeled-input';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { confirmChangePhone, sendSmsChangePhone } from '@store/my-profile/actions';
 import { getUserByPhoneAction } from '@store/friends/actions';

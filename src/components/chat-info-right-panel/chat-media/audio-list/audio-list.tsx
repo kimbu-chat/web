@@ -6,7 +6,8 @@ import { getSelectedChatAudiosSelector } from '@store/chats/selectors';
 import { getAudioAttachmentsAction } from '@store/chats/actions';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { doesYearDifferFromCurrent, setSeparators } from '@utils/set-separators';
-import { InfiniteScroll, MessageAudioAttachment } from '@components';
+import { InfiniteScroll } from '@components/infinite-scroll';
+import { MessageAudioAttachment } from '@components/audio-attachment';
 import { AUDIO_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 
 import './audio-list.scss';

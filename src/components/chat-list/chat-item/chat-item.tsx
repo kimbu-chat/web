@@ -11,7 +11,7 @@ import {
   SystemMessageType,
   INormalizedMessage,
 } from '@store/chats/models';
-import { Avatar } from '@components';
+import { Avatar } from '@components/avatar';
 import { myIdSelector } from '@store/my-profile/selectors';
 import { ReactComponent as MessageQeuedSvg } from '@icons/message-queued.svg';
 import { ReactComponent as MessageSentSvg } from '@icons/message-sent.svg';

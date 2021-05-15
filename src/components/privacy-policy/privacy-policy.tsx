@@ -3,8 +3,7 @@ import React from 'react';
 import { ReactComponent as CloseSVG } from '@icons/ic-close.svg';
 import './privacy-policy.scss';
 import { stopPropagation } from '@utils/stop-propagation';
-
-import { WithBackground } from '..';
+import { WithBackground } from '@components/with-background';
 
 interface IPrivacyPolicyProps {
   close: () => void;

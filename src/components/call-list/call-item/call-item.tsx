@@ -10,7 +10,7 @@ import { ReactComponent as DeclinedCallSvg } from '@icons/declined-call.svg';
 import { ReactComponent as MissedCallSvg } from '@icons/missed-call.svg';
 import { myIdSelector } from '@store/my-profile/selectors';
 import { CallStatus } from '@store/common/models';
-import { Avatar } from '@components';
+import { Avatar } from '@components/avatar';
 import { getUserName } from '@utils/user-utils';
 import { getUserSelector } from '@store/users/selectors';
 import { getCallSelector } from '@store/calls/selectors';

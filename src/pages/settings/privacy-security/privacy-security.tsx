@@ -1,7 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import React from 'react';
 
-import { RadioBox, HorizontalSeparator } from '@components';
+import { RadioBox } from '@components/radio-box';
+import { HorizontalSeparator } from '@components/horizontal-separator';
 
 import { BlockedUsers } from './blocked-users/blocked-users';
 import './privacy-security.scss';

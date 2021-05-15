@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import './not-found.scss';
 import SadSmilePNG from '@icons/sad-emoji.png';
 import NotFoundBackgroundPNG from '@icons/404-bg.png';
-import { Button } from '@components';
+import { Button } from '@components/button';
 
 const NotFound = () => {
   const { t } = useTranslation();

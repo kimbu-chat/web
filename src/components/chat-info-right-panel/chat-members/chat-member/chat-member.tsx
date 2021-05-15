@@ -3,7 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
-import { FadeAnimationWrapper, Avatar, TimeUpdateable } from '@components';
+import { TimeUpdateable } from '@components/time-updateable';
+import FadeAnimationWrapper from '@components/fade-animation-wrapper';
+import { Avatar } from '@components/avatar';
 import { MyProfileService } from '@services/my-profile-service';
 import { getUserName } from '@utils/user-utils';
 import { getUserSelector } from '@store/users/selectors';

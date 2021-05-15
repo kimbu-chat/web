@@ -8,7 +8,7 @@ import { ReactComponent as PhoneSvg } from '@icons/phone-chat-info.svg';
 import { ReactComponent as EditSvg } from '@icons/crayon.svg';
 import { ReactComponent as DogSvg } from '@icons/@.svg';
 import { getInfoChatSelector } from '@store/chats/selectors';
-import { FadeAnimationWrapper } from '@components';
+import FadeAnimationWrapper from '@components/fade-animation-wrapper';
 import { getChatInterlocutor } from '@utils/user-utils';
 import { getUserSelector } from '@store/users/selectors';
 

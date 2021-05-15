@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import { ICountry } from '@common/country';
 import { removeCountryCodeFromPhoneNumber } from '@utils/phone-number-utils';
-import { ErrorTooltip } from '@components';
+import { ErrorTooltip } from '@components/error-tooltip';
 
 import './phone-input.scss';
 

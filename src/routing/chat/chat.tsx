@@ -2,7 +2,10 @@ import React, { useEffect } from 'react';
 import { Route } from 'react-router';
 import { useSelector } from 'react-redux';
 
-import { RoutingChats, ActiveCall, IncomingCall, InternetError } from '@components';
+import { RoutingChats } from '@components/routing-chats';
+import { ActiveCall } from '@components/active-call';
+import { IncomingCall } from '@components/incoming-call';
+import { InternetError } from '@components/internet-error';
 import {
   amICalledSelector as isCallingMe,
   amICallingSelector,

@@ -4,7 +4,10 @@ import Cropper from 'react-easy-crop';
 import { Area } from 'react-easy-crop/types';
 import Slider from 'rc-slider/lib/Slider';
 
-import { WithBackground, Modal, Button, Tooltip } from '@components';
+import { WithBackground } from '@components/with-background';
+import { Modal } from '@components/modal';
+import { Button } from '@components/button';
+import { Tooltip } from '@components/tooltip';
 import { ReactComponent as PhotoSvg } from '@icons/picture.svg';
 import { ReactComponent as LeftRotateSvg } from '@icons/left-rotate.svg';
 import { ReactComponent as RightRotateSvg } from '@icons/right-rotate.svg';

@@ -8,13 +8,11 @@ import {
   changeSelectedChatAction,
   resetSearchChatsAction,
 } from '@store/chats/actions';
-import {
-  CreateGroupChat,
-  InfiniteScroll,
-  NewChatModal,
-  SearchBox,
-  FadeAnimationWrapper,
-} from '@components';
+import { CreateGroupChat } from '@components/create-group-chat-modal';
+import { InfiniteScroll } from '@components/infinite-scroll';
+import { NewChatModal } from '@components/new-chat-modal';
+import { SearchBox } from '@components/search-box/search-box';
+import FadeAnimationWrapper from '@components/fade-animation-wrapper';
 import { ReactComponent as CreateChatSvg } from '@icons/create-chat.svg';
 import { getChatsListSelector, getSearchChatsListSelector } from '@store/chats/selectors';
 

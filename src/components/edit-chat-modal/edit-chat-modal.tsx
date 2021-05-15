@@ -1,7 +1,10 @@
 import React, { lazy, useCallback, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { Modal, WithBackground, LabeledInput, Button } from '@components';
+import { WithBackground } from '@components/with-background';
+import { Modal } from '@components/modal';
+import { Button } from '@components/button';
+import { LabeledInput } from '@components/labeled-input';
 import { IGroupChat } from '@store/chats/models';
 import { getSelectedGroupChatSelector } from '@store/chats/selectors';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';

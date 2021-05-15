@@ -4,7 +4,8 @@ import { useSelector } from 'react-redux';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getCallsAction, resetSearchCallsAction } from '@store/calls/actions';
 import { getCallsListSelector, getSearchCallsListSelector } from '@store/calls/selectors';
-import { InfiniteScroll, SearchBox } from '@components';
+import { InfiniteScroll } from '@components/infinite-scroll';
+import { SearchBox } from '@components/search-box/search-box';
 import { CALL_LIMIT } from '@utils/pagination-limits';
 
 import { CallItem } from './call-item/call-item';

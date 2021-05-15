@@ -3,11 +3,25 @@
   <head>
     <meta charset="utf-8" />
     <base href="/" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
+      rel="preload"
+      as="style"
       href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400&display=swap"
-      rel="stylesheet"
     />
+
+    <link
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+      href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400&display=swap"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400&display=swap"
+      />
+    </noscript>
     <link
       rel="icon"
       type="image/png"

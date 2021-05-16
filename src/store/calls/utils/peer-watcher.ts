@@ -4,36 +4,20 @@ import { AxiosResponse } from 'axios';
 
 import { MAIN_API } from '@common/paths';
 
-import {
-  amICalledSelector,
-  getCallInterlocutorIdSelector,
-  getIsVideoEnabledSelector,
-} from '../selectors';
+import { getCallInterlocutorIdSelector, getIsVideoEnabledSelector } from '../selectors';
 import { httpRequestFactory, HttpRequestMethod } from '../../common/http';
 import { getPeerConnection } from '../../middlewares/webRTC/peerConnectionFactory';
-import { RenegotiationAcceptedEventHandler } from '../socket-events/renegotiation-accepted/renegotiation-accepted-event-handler';
 import { OpenInterlocutorVideoStatus } from '../features/change-interlocutor-media-status/open-interlocutor-video-status';
-import { InterlocutorAcceptedCallEventHandler } from '../socket-events/interlocutor-accepted-call/interlocutor-accepted-call-event-handler';
-import { AcceptCallSuccess } from '../features/accept-call/accept-call-success';
 import { CancelCall } from '../features/cancel-call/cancel-call';
 import { DeclineCall } from '../features/decline-call/decline-call';
 import { CallEndedEventHandler } from '../socket-events/call-ended/call-ended-event-handler';
 import { OpenInterlocutorAudioStatus } from '../features/change-interlocutor-media-status/open-interlocutor-audio-status';
 
 import { assignInterlocutorAudioTrack, assignInterlocutorVideoTrack } from './user-media';
-import {
-  getIsRenegotiationAccepted,
-  setIsRenegotiationAccepted,
-  setMakingOffer,
-} from './glare-utils';
-import { ICandidateApiRequest } from './api-requests/candidate-api-request';
+import { setIsRenegotiationAccepted, setMakingOffer } from './glare-utils';
 import { IRenegociateApiRequest } from './api-requests/renegotiate-api-request';
 
 const CallsHttpRequests = {
-  candidate: httpRequestFactory<AxiosResponse, ICandidateApiRequest>(
-    MAIN_API.SEND_ICE_CANDIDATE,
-    HttpRequestMethod.Post,
-  ),
   renegotiate: httpRequestFactory<AxiosResponse, IRenegociateApiRequest>(
     MAIN_API.SEND_RENEGOTIATION,
     HttpRequestMethod.Post,
@@ -44,9 +28,6 @@ function createPeerConnectionChannel() {
   return eventChannel<{ type: string; event?: RTCPeerConnectionIceEvent | RTCTrackEvent }>(
     (emit) => {
       const peerConnection = getPeerConnection();
-      const onIceCandidate = (event: RTCPeerConnectionIceEvent) => {
-        emit({ type: 'icecandidate', event });
-      };
 
       const onNegotiationNeeded = () => {
         emit({ type: 'negotiationneeded' });
@@ -65,12 +46,10 @@ function createPeerConnectionChannel() {
         }
       };
 
-      peerConnection?.addEventListener('icecandidate', onIceCandidate);
       peerConnection?.addEventListener('negotiationneeded', onNegotiationNeeded);
       peerConnection?.addEventListener('track', onTrack);
 
       return () => {
-        peerConnection?.removeEventListener('icecandidate', onIceCandidate);
         peerConnection?.removeEventListener('negotiationneeded', onNegotiationNeeded);
         peerConnection?.removeEventListener('track', onTrack);
       };
@@ -89,36 +68,7 @@ export function* peerWatcher(): SagaIterator {
       event?: RTCPeerConnectionIceEvent | RTCTrackEvent;
     }): SagaIterator {
       const peerConnection = getPeerConnection();
-      const isRenegotiationAccepted = getIsRenegotiationAccepted();
-
       switch (action.type) {
-        case 'icecandidate': {
-          const myCandidate = (action.event as RTCPeerConnectionIceEvent).candidate;
-          const interlocutorId = yield select(getCallInterlocutorIdSelector);
-          const inclomingCallActive = yield select(amICalledSelector);
-
-          if (inclomingCallActive) {
-            yield take(AcceptCallSuccess.action);
-          }
-
-          if (!isRenegotiationAccepted) {
-            yield race([
-              take(RenegotiationAcceptedEventHandler.action),
-              take(InterlocutorAcceptedCallEventHandler.action),
-            ]);
-          }
-
-          if (myCandidate) {
-            const request: ICandidateApiRequest = {
-              interlocutorId,
-              candidate: myCandidate,
-            };
-
-            yield call(() => CallsHttpRequests.candidate.generator(request));
-          }
-
-          break;
-        }
         case 'negotiationneeded':
           {
             setIsRenegotiationAccepted(false);
@@ -135,16 +85,19 @@ export function* peerWatcher(): SagaIterator {
 
             yield call(async () => peerConnection?.setLocalDescription(offer));
 
+            // yield call(waitForAllICE, peerConnection);
+
             const isVideoEnabled = yield select(getIsVideoEnabledSelector);
+            if (peerConnection?.localDescription) {
+              const request: IRenegociateApiRequest = {
+                offer: peerConnection.localDescription,
+                interlocutorId,
+                isVideoEnabled,
+              };
 
-            const request: IRenegociateApiRequest = {
-              offer,
-              interlocutorId,
-              isVideoEnabled,
-            };
-
-            yield call(() => CallsHttpRequests.renegotiate.generator(request));
-            setMakingOffer(false);
+              yield call(() => CallsHttpRequests.renegotiate.generator(request));
+              setMakingOffer(false);
+            }
           }
           break;
         case 'audioTrack':

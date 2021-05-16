@@ -21,7 +21,6 @@ export const MAIN_API = {
   CALL_ENDED_EVENT: `${REACT_APP_MAIN_API}/api/calls/:callId`,
   REMOVE_CHAT: `${REACT_APP_MAIN_API}/api/dialogs/:userId?forEveryone=:forEveryone`,
   ACCEPT_RENEGOTIATION: `${REACT_APP_MAIN_API}/api/calls/accept-renegotiation`,
-  SEND_ICE_CANDIDATE: `${REACT_APP_MAIN_API}/api/calls/send-ice-candidate`,
   SEND_RENEGOTIATION: `${REACT_APP_MAIN_API}/api/calls/send-renegotiation`,
   ADD_TO_GROUP_CHAT: `${REACT_APP_MAIN_API}/api/group-chats/users`,
   CHANGE_CHAT_MUTED_STATUS: `${REACT_APP_MAIN_API}/api/chats/change-muted-status`,

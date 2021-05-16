@@ -9,7 +9,6 @@ import { InterlocutorAcceptedCallEventHandler } from './socket-events/interlocut
 import { OutgoingCall } from './features/outgoing-call/outgoing-call';
 import { TimeoutCall } from './features/timeout-call/timeout-call';
 import { CallEndedEventHandler } from './socket-events/call-ended/call-ended-event-handler';
-import { IceCandidateSentEventHandler } from './socket-events/ice-candidate-sent/ice-candidate-sent-event-handler';
 import { ChangeScreenShareStatus } from './features/change-screen-share-status/change-screen-share-status';
 import { SwitchDevice } from './features/switch-device/switch-device';
 import { ChangeMediaStatus } from './features/change-user-media-status/change-media-status';
@@ -42,5 +41,4 @@ export const CallsSagas = [
     InterlocutorAcceptedCallEventHandler.action,
     InterlocutorAcceptedCallEventHandler.saga,
   ),
-  takeEvery(IceCandidateSentEventHandler.action, IceCandidateSentEventHandler.saga),
 ];

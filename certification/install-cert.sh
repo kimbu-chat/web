@@ -1,1 +1,1 @@
-sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain .cert/cert.crt
+sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain cert.crt

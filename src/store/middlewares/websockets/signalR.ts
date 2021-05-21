@@ -1,55 +1,50 @@
-import {
-  HubConnection,
-  HubConnectionBuilder,
-  HubConnectionState,
-  LogLevel,
-} from '@microsoft/signalr';
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux';
+import Centrifuge from 'centrifuge';
 import { getType, RootAction, RootState } from 'typesafe-actions';
 
-import { NOTIFICATIONS_API } from '@common/paths';
+import { REACT_APP_WEBSOCKET_API } from '@common/paths';
 
 import { InitSocketConnection } from '../../web-sockets/features/init-web-socked-connection/init-web-socket-connection';
 import { WebsocketsConnected } from '../../internet/features/websockets-connection/websockets-connected';
 import { WebsocketsDisconnected } from '../../internet/features/websockets-connection/websockets-disconnected';
 import { CloseWebsocketConnection } from '../../web-sockets/features/close-web-socket-connection/close-web-socket-connection';
 
-let connection: HubConnection;
+let connection: Centrifuge;
 
 function openConnection(store: MiddlewareAPI<Dispatch, RootState>): void {
-  connection = new HubConnectionBuilder()
-    .withUrl(NOTIFICATIONS_API.OPEN_CONNECTION, {
-      logMessageContent: true,
-      accessTokenFactory: () => {
-        const accessToken = store.getState().auth?.securityTokens?.accessToken;
-        if (accessToken) {
-          return accessToken;
-        }
 
-        return '';
-      },
-    })
-    .withAutomaticReconnect()
-    .configureLogging(LogLevel.None)
-    .build();
+  connection = new Centrifuge(REACT_APP_WEBSOCKET_API, { debug: true });
 
-  connection.start().then(() => {
+  connection.setToken(store.getState().auth?.securityTokens?.accessToken || '');
+
+  connection.connect();
+
+  console.log(store.getState().auth?.securityTokens?.accessToken)
+
+  connection.on('connect', (d: unknown) => {
+    console.log(d)
     store.dispatch(WebsocketsConnected.action());
   });
 
-  connection.on('notify', (event: IIntegrationEvent) => {
-    store.dispatch({ type: event.name, payload: event.object });
+  connection.on('broadcast', (ctx: CentrifugoEvent) => {
+    const { data } = { ...ctx };
+    store.dispatch({ type: data.name, payload: data.object });
   });
 
-  connection.onreconnecting(() => {
-    store.dispatch(WebsocketsDisconnected.action());
+  connection.on('publish', (ctx: CentrifugoEvent) => {
+    const { data } = { ...ctx };
+    store.dispatch({ type: data.name, payload: data.object });
   });
 
-  connection.onreconnected(() => {
-    store.dispatch(WebsocketsConnected.action());
-  });
+  // connection.onreconnecting(() => {
+  //   store.dispatch(WebsocketsDisconnected.action());
+  // });
 
-  connection.onclose(() => {
+  // connection.onreconnected(() => {
+  //   store.dispatch(WebsocketsConnected.action());
+  // });
+
+  connection.on('disconnect', () => {
     store.dispatch(WebsocketsDisconnected.action());
   });
 }
@@ -59,18 +54,14 @@ export const signalRInvokeMiddleware: Middleware<RootAction, RootState> = (
 ) => (next: Dispatch<RootAction>) => async (action: RootAction): Promise<RootAction> => {
   switch (action.type) {
     case getType(InitSocketConnection.action): {
-      if (
-        !connection ||
-        connection.state === HubConnectionState.Disconnected ||
-        connection.state !== HubConnectionState.Connecting
-      ) {
+      if (!connection || !connection.isConnected()) {
         openConnection(store);
       }
       return next(action);
     }
     case getType(CloseWebsocketConnection.action): {
-      if (connection && connection.state === HubConnectionState.Connected) {
-        connection.stop();
+      if (connection && connection.isConnected()) {
+        connection.disconnect();
       }
       return next(action);
     }
@@ -82,4 +73,8 @@ export const signalRInvokeMiddleware: Middleware<RootAction, RootState> = (
 interface IIntegrationEvent {
   name: string;
   object: unknown;
+}
+
+interface CentrifugoEvent {
+  data: IIntegrationEvent
 }

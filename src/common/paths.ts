@@ -2,6 +2,7 @@ export const {
   REACT_APP_FILES_API,
   REACT_APP_MAIN_API,
   REACT_APP_NOTIFICATIONS_API,
+  REACT_APP_WEBSOCKET_API,
 } = window.__config;
 
 export const MAIN_API = {

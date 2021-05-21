@@ -19,10 +19,7 @@ function openConnection(store: MiddlewareAPI<Dispatch, RootState>): void {
 
   connection.connect();
 
-  console.log(store.getState().auth?.securityTokens?.accessToken)
-
-  connection.on('connect', (d: unknown) => {
-    console.log(d)
+  connection.on('connect', () => {
     store.dispatch(WebsocketsConnected.action());
   });
 

@@ -8,6 +8,7 @@ import { UserEditedEventHandler } from './socket-events/user-edited/user-edited-
 import { AddOrUpdateUsers } from './features/add-or-update-users/add-or-update-users';
 import { IUsersState } from './users-state';
 import { UserActivatedEventHandler } from './socket-events/user-activated/user-activated-event-handler';
+import { UserStatusChangedEventHandler } from './socket-events/user-status-changed/user-status-changed-event-handler';
 
 const initialState: IUsersState = {
   users: {},
@@ -24,5 +25,9 @@ const reducer = createReducer<IUsersState>(initialState)
   .handleAction(
     UserPhoneNumberChangedEventHandler.action,
     UserPhoneNumberChangedEventHandler.reducer,
+  )
+  .handleAction(
+    UserStatusChangedEventHandler.action,
+    UserStatusChangedEventHandler.reducer,
   );
 export default reducer;

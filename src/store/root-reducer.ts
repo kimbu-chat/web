@@ -8,6 +8,7 @@ import calls from './calls/reducer';
 import internet from './internet/reducer';
 import settings from './settings/reducer';
 import users from './users/reducer';
+import login from './login/reducer';
 
 const combinedReducer = combineReducers({
   auth,
@@ -18,6 +19,7 @@ const combinedReducer = combineReducers({
   internet,
   settings,
   users,
+  login,
 });
 
 export default combinedReducer;

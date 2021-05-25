@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <base href="/" />
+    <link rel="preconnect" href="https://api.kimbu.io" crossorigin />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="preload"
@@ -14,6 +15,22 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400&display=swap"
     />
+
+    <script
+      src="https://js.sentry-cdn.com/88240f4812e54397a554e2e35bc7ef32.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      Sentry.onLoad(function () {
+        Sentry.init({
+          logLevel: 1,
+          allowUrls: ['https:// kimbu.io'],
+          // We recommend adjusting this value in production, or using tracesSampler
+          // for finer control
+          tracesSampleRate: 1.0,
+        });
+      });
+    </script>
     <link
       rel="icon"
       type="image/png"

@@ -7,13 +7,13 @@ import { parsePhoneNumber } from 'libphonenumber-js';
 import { useHistory } from 'react-router';
 
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import { sendSmsCodeAction, confirmPhoneAction } from '@store/auth/actions';
+import { sendSmsCodeAction, confirmPhoneAction } from '@store/login/actions';
 import { Button } from '@components/button';
 import {
   authPhoneNumberSelector,
   confirmationCodeWrongSelector,
   authLoadingSelector,
-} from '@store/auth/selectors';
+} from '@store/login/selectors';
 
 import './code-confirmation.scss';
 

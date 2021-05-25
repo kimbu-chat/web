@@ -1,1 +1,1 @@
-export { SettingsRouter } from './settings-router';
+export { SettingsRouter as default } from './settings-router';

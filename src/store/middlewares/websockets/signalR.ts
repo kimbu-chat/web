@@ -12,7 +12,6 @@ import { CloseWebsocketConnection } from '../../web-sockets/features/close-web-s
 let connection: Centrifuge;
 
 function openConnection(store: MiddlewareAPI<Dispatch, RootState>): void {
-
   connection = new Centrifuge(REACT_APP_WEBSOCKET_API, { debug: true });
 
   connection.setToken(store.getState().auth?.securityTokens?.accessToken || '');
@@ -73,5 +72,5 @@ interface IIntegrationEvent {
 }
 
 interface CentrifugoEvent {
-  data: IIntegrationEvent
+  data: IIntegrationEvent;
 }

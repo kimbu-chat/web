@@ -1,4 +1,4 @@
-import { takeLatest, takeLeading } from 'redux-saga/effects';
+import { all, takeLatest, takeLeading } from 'redux-saga/effects';
 
 import { BlockUser } from './features/block-user/block-user';
 import { ChangeFontSize } from './features/change-font-size/change-font-size';
@@ -14,18 +14,20 @@ import { GetUserSettingsSuccess } from './features/get-user-settings/get-user-se
 import { RevokeSession } from './features/revoke-session/revoke-session';
 import { UnblockUser } from './features/unblock-user/unblock-user';
 
-export const SettingsSagas = [
-  takeLatest(ChangeLanguage.action, ChangeLanguage.saga),
-  takeLatest(ChangeNotificationSoundState.action, ChangeNotificationSoundState.saga),
-  takeLatest(ChangeTypingStrategy.action, ChangeTypingStrategy.saga),
-  takeLatest(GetUserSettings.action, GetUserSettings.saga),
-  takeLatest(GetUserSettingsSuccess.action, GetUserSettingsSuccess.saga),
-  takeLatest(ChangeTheme.action, ChangeTheme.saga),
-  takeLatest(ChangeFontSize.action, ChangeFontSize.saga),
-  takeLeading(ChangePushNotificationState.action, ChangePushNotificationState.saga),
-  takeLatest(GetBlackList.action, GetBlackList.saga),
-  takeLatest(BlockUser.action, BlockUser.saga),
-  takeLatest(UnblockUser.action, UnblockUser.saga),
-  takeLatest(GetSessionList.action, GetSessionList.saga),
-  takeLatest(RevokeSession.action, RevokeSession.saga),
-];
+export function* settingsSaga() {
+  yield all([
+    takeLatest(ChangeLanguage.action, ChangeLanguage.saga),
+    takeLatest(ChangeNotificationSoundState.action, ChangeNotificationSoundState.saga),
+    takeLatest(ChangeTypingStrategy.action, ChangeTypingStrategy.saga),
+    takeLatest(GetUserSettings.action, GetUserSettings.saga),
+    takeLatest(GetUserSettingsSuccess.action, GetUserSettingsSuccess.saga),
+    takeLatest(ChangeTheme.action, ChangeTheme.saga),
+    takeLatest(ChangeFontSize.action, ChangeFontSize.saga),
+    takeLeading(ChangePushNotificationState.action, ChangePushNotificationState.saga),
+    takeLatest(GetBlackList.action, GetBlackList.saga),
+    takeLatest(BlockUser.action, BlockUser.saga),
+    takeLatest(UnblockUser.action, UnblockUser.saga),
+    takeLatest(GetSessionList.action, GetSessionList.saga),
+    takeLatest(RevokeSession.action, RevokeSession.saga),
+  ]);
+}

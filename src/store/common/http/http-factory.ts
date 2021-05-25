@@ -6,7 +6,7 @@ import jwtDecode from 'jwt-decode';
 
 import { ISecurityTokens } from '@store/auth/common/models/security-tokens';
 import { securityTokensSelector } from '@store/auth/selectors';
-import { ICustomJwtPayload } from '@store/auth/features/login/models/custom-jwt-payload';
+import { ICustomJwtPayload } from '@store/login/features/login/models/custom-jwt-payload';
 import { emitToast } from '@utils/emit-toast';
 
 import { isNetworkError } from '../../../utils/error-utils';

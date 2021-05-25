@@ -7,6 +7,7 @@ import { InternetActions } from './internet/actions';
 import { SettingsActions } from './settings/actions';
 import { WebSocketActions } from './web-sockets/actions';
 import { UsersActions } from './users/actions';
+import { LoginActions } from './login/actions';
 
 export default {
   auth: AuthActions,
@@ -18,4 +19,5 @@ export default {
   settings: SettingsActions,
   webSocket: WebSocketActions,
   users: UsersActions,
+  login: LoginActions,
 };

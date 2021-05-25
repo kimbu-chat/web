@@ -26,8 +26,5 @@ const reducer = createReducer<IUsersState>(initialState)
     UserPhoneNumberChangedEventHandler.action,
     UserPhoneNumberChangedEventHandler.reducer,
   )
-  .handleAction(
-    UserStatusChangedEventHandler.action,
-    UserStatusChangedEventHandler.reducer,
-  );
+  .handleAction(UserStatusChangedEventHandler.action, UserStatusChangedEventHandler.reducer);
 export default reducer;

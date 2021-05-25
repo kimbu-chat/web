@@ -8,8 +8,8 @@ import { Button } from '@components/button/button';
 import FadeAnimationWrapper from '@components/fade-animation-wrapper';
 import { PhoneInputGroup } from '@components/phone-input-group';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import { SendSmsCode } from '@store/auth/features/send-sms-code/send-sms-code';
-import { authLoadingSelector } from '@store/auth/selectors';
+import { SendSmsCode } from '@store/login/features/send-sms-code/send-sms-code';
+import { authLoadingSelector } from '@store/login/selectors';
 
 import './phone-confirmation.scss';
 

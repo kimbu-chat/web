@@ -9,7 +9,7 @@ import { Meta } from '@store/common/actions';
 import { MAIN_API } from '@common/paths';
 
 import { Login } from '../login/login';
-import { IAuthState } from '../../auth-state';
+import { IAuthState } from '../../../auth/auth-state';
 import { LoginSuccess } from '../login/login-success';
 
 import { ConfirmPhoneFailure } from './confirm-phone-failure';

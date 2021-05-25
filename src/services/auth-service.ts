@@ -1,5 +1,5 @@
 import { BrowserStorage } from '@utils/browser-storage';
-import { IDeviceId, ISecurityTokens } from '@store/auth/common/models';
+import { ISecurityTokens } from '@store/auth/common/models';
 
 export class AuthService {
   private readonly authentication = 'authentication';
@@ -12,15 +12,15 @@ export class AuthService {
     return this.browserStorage.getObject<ISecurityTokens>(this.authentication);
   }
 
-  public get deviceId(): IDeviceId {
-    return this.browserStorage.getObject<IDeviceId>(this.deviceIdentifier);
+  public get deviceId(): string {
+    return this.browserStorage.getObject<string>(this.deviceIdentifier);
   }
 
-  public initialize(auth: ISecurityTokens, deviceId?: IDeviceId) {
+  public initialize(auth: ISecurityTokens, deviceId?: string) {
     this.browserStorage.setObject<ISecurityTokens>(this.authentication, auth);
 
     if (deviceId) {
-      this.browserStorage.setObject<IDeviceId>(this.deviceIdentifier, deviceId);
+      this.browserStorage.setObject<string>(this.deviceIdentifier, deviceId);
     }
   }
 

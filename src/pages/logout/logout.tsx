@@ -6,7 +6,6 @@ import { logoutAction } from '@store/auth/actions';
 
 const Logout: React.FC = () => {
   const logout = useEmptyActionWithDeferred(logoutAction);
-
   useEffect(() => {
     logout().then(() => {
       window.location.replace('login');

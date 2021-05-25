@@ -10,7 +10,7 @@ import { Meta } from '@store/common/actions';
 import { MAIN_API } from '@common/paths';
 import { httpRequestFactory } from '@store/common/http';
 import { myProfileSelector } from '@store/my-profile/selectors';
-import { ConfirmPhone } from '@store/auth/features/confirm-phone/confirm-phone';
+import { ConfirmPhone } from '@store/login/features/confirm-phone/confirm-phone';
 
 import { IConfirmChangePhoneActionPayload } from './action-payloads/confirm-change-phone-action-payload';
 import { IConfirmChangePhoneApiRequest } from './api-requests/confirm-change-phone-api-request';

@@ -2,7 +2,7 @@ import produce from 'immer';
 
 import { createEmptyAction } from '@store/common/actions';
 
-import { IAuthState } from '../../auth-state';
+import { ILoginState } from '../../login-state';
 
 export class SendSmsCodeSuccess {
   static get action() {
@@ -10,7 +10,7 @@ export class SendSmsCodeSuccess {
   }
 
   static get reducer() {
-    return produce((draft: IAuthState) => {
+    return produce((draft: ILoginState) => {
       draft.loading = false;
 
       return draft;

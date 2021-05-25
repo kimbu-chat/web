@@ -14,8 +14,6 @@ interface IChatProps {
 }
 
 const Chat: React.FC<IChatProps> = ({ preloadNext, store }) => {
-  console.log('CHAAAAAAAAAAAAT');
-
   const { onDrop, onDragLeave, onDragEnter, onDragOver, isDragging } = useDragDrop();
 
   const dispatch = useDispatch();
@@ -44,26 +42,9 @@ const Chat: React.FC<IChatProps> = ({ preloadNext, store }) => {
 
   const ChatPage = lazy(() => import('@pages/chat/chat'));
 
-  const ContactsPage = lazy(async () => {
-    const friendsModule = await import('@store/friends/module');
-    store.injectReducer('friends', friendsModule.reducer);
-    store.injectSaga('friends', friendsModule.FriendSagas);
+  const ContactsPage = lazy(() => import('@pages/contacts'));
 
-    const usersModule = await import('@store/users/module');
-    store.injectReducer('users', usersModule.reducer);
-    store.injectSaga('users', usersModule.usersSaga);
-
-    return import('@pages/contacts');
-  });
-
-  const SettingsRouter = lazy(() =>
-    import('@store/settings/module').then((module) => {
-      store.injectReducer(module.reducer);
-      store.injectSaga(module.settingsSaga);
-
-      return import('../settings-router');
-    }),
-  );
+  const SettingsRouter = lazy(() => import('../settings-router'));
 
   useEffect(() => {
     preloadNext();

@@ -1,8 +1,8 @@
 name: Build and Deploy
-on: 
-    push:
-        branches:
-            - development
+on:
+  push:
+    branches:
+      - development
 jobs:
   run:
     runs-on: ubuntu-latest
@@ -10,30 +10,31 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     steps:
-        - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-        - name: Install dependencies
-          run: yarn
-            
-        - name: Make envfile
-          uses: SpicyPizza/create-envfile@v1
-          with:
-            envkey_REACT_APP_MAIN_API: "https://api.kimbu.io"
-            envkey_REACT_APP_NOTIFICATIONS_API: "https://notifications.kimbu.io"
-            envkey_REACT_APP_FILES_API: https://files.kimbu.io
-            file_name: .env
-            
-        - name: Build
-          run: yarn run generate-conf && yarn build
-          
-        - name: Deploy
-          uses: reggionick/s3-deploy@v3
-          with:
-            folder: build
-            bucket: ${{ secrets.S3_BUCKET_DEV }}
-            bucket-region: ${{ secrets.S3_BUCKET_REGION_DEV }}
-            dist-id: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_DEV }}
-            invalidation: /
-            delete-removed: true
-            no-cache: true
-            private: true
+      - name: Install dependencies
+        run: yarn
+
+      - name: Make envfile
+        uses: SpicyPizza/create-envfile@v1
+        with:
+          envkey_REACT_APP_MAIN_API: "https://api.kimbu.io"
+          envkey_REACT_APP_NOTIFICATIONS_API: "https://notifications.kimbu.io"
+          envkey_REACT_APP_FILES_API: https://files.kimbu.io
+          envkey_REACT_APP_WEBSOCKET_API: wss://websocket.kimbu.io/connection/websocket
+          file_name: .env
+
+      - name: Build
+        run: yarn run generate-conf && yarn build
+
+      - name: Deploy
+        uses: reggionick/s3-deploy@v3
+        with:
+          folder: build
+          bucket: ${{ secrets.S3_BUCKET_DEV }}
+          bucket-region: ${{ secrets.S3_BUCKET_REGION_DEV }}
+          dist-id: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_DEV }}
+          invalidation: /
+          delete-removed: true
+          no-cache: true
+          private: true

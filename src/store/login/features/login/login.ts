@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import jwtDecode from 'jwt-decode';
 import { SagaIterator } from 'redux-saga';
-import { call, apply } from 'redux-saga/effects';
+import { call, apply, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
 import { authRequestFactory, HttpRequestMethod } from '@store/common/http';
@@ -12,6 +12,7 @@ import { ILoginApiRequest } from './api-requests/login-api-request';
 import { ILoginApiResponse } from './api-requests/login-api-response';
 import { ILoginActionPayload } from './action-payloads/login-action-payload';
 import { ICustomJwtPayload } from './models/custom-jwt-payload';
+import { LoginSuccess } from './login-success';
 
 export class Login {
   static get action() {
@@ -33,9 +34,8 @@ export class Login {
       const authService = new AuthService();
 
       yield apply(authService, authService.initialize, [data, deviceId]);
-      // yield put(GetMyProfile.action());
-      // yield put(SubscribeToPushNotifications.action());
-      // yield put(AppInit.action());
+
+      yield put(LoginSuccess.action());
     };
   }
 

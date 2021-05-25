@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { call, put } from 'redux-saga/effects';
+import { call, put, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
 import { authRequestFactory, HttpRequestMethod } from '@store/common/http';
@@ -10,6 +10,7 @@ import { MAIN_API } from '@common/paths';
 
 import { Login } from '../login/login';
 import { IAuthState } from '../../../auth/auth-state';
+import { LoginSuccess } from '../login/login-success';
 
 import { ConfirmPhoneFailure } from './confirm-phone-failure';
 import { ConfirmPhoneSuccess } from './confirm-phone-success';
@@ -40,6 +41,7 @@ export class ConfirmPhone {
       if (data.isCodeCorrect && data.userExists) {
         const { phoneNumber, code } = action.payload;
         yield put(Login.action({ phoneNumber, code }));
+        yield take(LoginSuccess.action);
         action?.meta?.deferred?.resolve({ userRegistered: true });
       } else if (data.isCodeCorrect && !data.userExists) {
         yield put(ConfirmPhoneSuccess.action({ confirmationCode: action.payload.code }));

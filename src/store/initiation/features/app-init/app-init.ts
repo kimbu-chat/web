@@ -27,7 +27,6 @@ export class AppInit {
   static get saga() {
     return function* initializeSaga(): SagaIterator {
       const authService = new AuthService();
-
       if (isEmpty(authService.securityTokens)) {
         return;
       }

@@ -18,5 +18,6 @@ interface Window {
     REACT_APP_MAIN_API: string;
     REACT_APP_NOTIFICATIONS_API: string;
     REACT_APP_FILES_API: string;
+    REACT_APP_WEBSOCKET_API: string;
   };
 }

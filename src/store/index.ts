@@ -1,11 +1,11 @@
-import { createStore, applyMiddleware, compose, combineReducers, CombinedState } from 'redux';
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { all } from 'redux-saga/effects';
 import { Reducer, RootAction, RootState } from 'typesafe-actions';
 
 import { signalRInvokeMiddleware } from './middlewares/websockets/signalR';
 
-import type { Store, Action, Dispatch } from 'redux';
+import type { Store, Dispatch } from 'redux';
 import type { Saga, Task } from 'redux-saga';
 
 export enum StoreKeys {
@@ -82,7 +82,7 @@ function configureStore(): InjectorReduxStore {
       : compose;
   const sagaMiddleware = createSagaMiddleware();
   const enchancers = composeEnchancers(applyMiddleware(sagaMiddleware, signalRInvokeMiddleware));
-  const store: InjectorReduxStore = createStore(createReducer(), enchancers);
+  const store: any = createStore(createReducer(), enchancers);
   store.asyncReducers = {};
 
   store.injectReducer = (key: StoreKeys, asyncReducer: Reducer<RootState, RootAction>) => {

@@ -35,3 +35,15 @@ export function getIsRenegotiationAccepted() {
 export const setIsRenegotiationAccepted = (newValue: boolean) => {
   isRenegotiationAccepted = newValue;
 };
+
+export function waitForAllICE(pc: RTCPeerConnection | null) {
+  const peerConnection = pc;
+  return new Promise<void>((resolve, reject) => {
+    if (peerConnection) {
+      peerConnection.onicecandidate = (iceEvent) => {
+        if (iceEvent.candidate === null) resolve();
+      };
+    }
+    setTimeout(() => reject(new Error('Waited a long time for ice candidates...')), 10000);
+  });
+}

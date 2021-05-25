@@ -6,67 +6,116 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { ReactComponent as CloseSvg } from '@icons/close.svg';
 import { PrivateRoute } from '@components/private-route';
+import { PublicRoute } from '@components/public-route';
 import { CubeLoader } from '@components/cube-loader';
 import { AuthService } from '@services/auth-service';
 import '@localization/i18n';
 
 import './dayjs/day';
-import { loadMessenger, loadNotFound, loadLogout, loadEmoji } from './routing/module-loader';
+import {
+  loadMessenger,
+  loadNotFound,
+  loadLogout,
+  loadEmoji,
+  loadCodeConfirmation,
+  loadRegistration,
+  loadPhoneConfirmation,
+} from './routing/module-loader';
+import { StoreKeys } from './store';
 
 import './base.scss';
 import './toastify.scss';
-import { StoreKeys } from './store';
 
 const NotFound = lazy(loadNotFound);
-const Logout = lazy(loadLogout);
 
 const App = ({ store }: { store: any }) => {
   const authService = new AuthService();
   const isAuthenticated = !isEmpty(authService.securityTokens);
 
+  const ConfirmCode = lazy(async () => {
+    const loginModule = await import('@store/login/module');
+    store.injectReducer('login', loginModule.reducer);
+    store.injectSaga('login', loginModule.loginSaga);
+    return loadCodeConfirmation();
+  });
+  const Registration = lazy(async () => {
+    const loginModule = await import('@store/login/module');
+    store.injectReducer('login', loginModule.reducer);
+    store.injectSaga('login', loginModule.loginSaga);
+    return loadRegistration();
+  });
+  const ConfirmPhone = lazy(async () => {
+    const loginModule = await import('@store/login/module');
+    store.injectReducer('login', loginModule.reducer);
+    store.injectSaga('login', loginModule.loginSaga);
+    return loadPhoneConfirmation();
+  });
+
   const Messenger = lazy(async () => {
-    const initModule = await import('@store/initiation/sagas');
-    const authModule = await import('@store/auth/module');
-    const usersModule = await import('@store/users/module');
-    const myProfileModule = await import('@store/my-profile/module');
-    const settingsModule = await import('@store/settings/module');
-    const chatsModule = await import('@store/chats/module');
+    const [
+      initModule,
+      authModule,
+      usersModule,
+      myProfileModule,
+      settingsModule,
+      chatsModule,
+      friendsModule,
+    ] = await Promise.all([
+      import('@store/initiation/sagas'),
+      import('@store/auth/module'),
+      import('@store/users/module'),
+      import('@store/my-profile/module'),
+      import('@store/settings/module'),
+      import('@store/chats/module'),
+      import('@store/friends/module'),
+    ]);
 
-    store.inject([[StoreKeys.AUTH, authModule.reducer, authModule.authSagas]]);
-
-    store.injectReducer('auth', authModule.reducer);
-    store.injectSaga('auth', authModule.authSagas);
-    store.injectSaga('initiation', initModule.initiationSaga);
-    store.injectReducer('users', usersModule.reducer);
-    store.injectSaga('users', usersModule.usersSaga);
-    store.injectReducer('myProfile', myProfileModule.reducer);
-    store.injectSaga('myProfile', myProfileModule.myProfileSagas);
-    store.injectReducer('settings', settingsModule.reducer);
-    store.injectSaga('settings', settingsModule.settingsSaga);
-    store.injectReducer('chats', chatsModule.reducer);
-    store.injectSaga('chats', chatsModule.chatSaga);
+    store.inject([
+      [StoreKeys.AUTH, authModule.reducer, authModule.authSagas],
+      [StoreKeys.INITIATION, undefined, initModule.initiationSaga],
+      [StoreKeys.USERS, usersModule.reducer, usersModule.usersSaga],
+      [StoreKeys.MY_PROFILE, myProfileModule.reducer, myProfileModule.myProfileSagas],
+      [StoreKeys.SETTINGS, settingsModule.reducer, settingsModule.settingsSaga],
+      [StoreKeys.CHATS, chatsModule.reducer, chatsModule.chatSaga],
+      [StoreKeys.FRIENDS, friendsModule.reducer, friendsModule.friendsSaga],
+    ]);
 
     return loadMessenger();
   });
 
-  const LazyLoginRouter = lazy(async () => {
-    console.log('LOGOGOGOGOGOG');
-    const loginModule = await import('@store/login/module');
-    store.injectReducer('login', loginModule.reducer);
-    store.injectSaga('login', loginModule.loginSaga);
+  const Logout = lazy(async () => {
+    const authModule = await import('@store/auth/module');
+    store.inject([[StoreKeys.AUTH, authModule.reducer, authModule.authSagas]]);
 
-    return import('@routing/login/login');
+    return loadLogout();
   });
 
   return (
     <>
       <Suspense fallback={<CubeLoader />}>
         <Switch>
-          {/* <LazyLoginRouter /> */}
+          <PublicRoute
+            exact
+            path="/signup"
+            isAllowed={!isAuthenticated}
+            componentToRender={<Registration preloadNext={loadMessenger} />}
+          />
+          <PublicRoute
+            exact
+            path="/confirm-code"
+            isAllowed={!isAuthenticated}
+            componentToRender={<ConfirmCode preloadNext={loadMessenger} />}
+          />
+          <PublicRoute
+            exact
+            path="/login/"
+            isAllowed={!isAuthenticated}
+            componentToRender={<ConfirmPhone preloadNext={loadCodeConfirmation} />}
+          />
           <PrivateRoute
             path="/(contacts|calls|chats|settings)/:id(\d+)?/(profile|notifications|typing|language|appearance|audio-video|privacy-security)?"
             exact
-            isAllowed={isAuthenticated}
+            isAllowed
             fallback="/login"
             componentToRender={
               <Suspense fallback={<CubeLoader />}>

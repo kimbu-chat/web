@@ -1,8 +1,9 @@
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux';
-import Centrifuge from 'centrifuge';
+import Centrifuge, { RefreshResponse } from 'centrifuge';
 import { getType, RootAction, RootState } from 'typesafe-actions';
 
 import { REACT_APP_WEBSOCKET_API } from '@common/paths';
+import { refreshTokenAction, refreshTokenSuccessAction } from '@store/auth/actions';
 
 import { InitSocketConnection } from '../../web-sockets/features/init-web-socked-connection/init-web-socket-connection';
 import { WebsocketsConnected } from '../../internet/features/websockets-connection/websockets-connected';
@@ -10,9 +11,24 @@ import { WebsocketsDisconnected } from '../../internet/features/websockets-conne
 import { CloseWebsocketConnection } from '../../web-sockets/features/close-web-socket-connection/close-web-socket-connection';
 
 let connection: Centrifuge;
+const timeout = 5000;
+let refreshResponseCallback: (response: RefreshResponse) => void;
 
 function openConnection(store: MiddlewareAPI<Dispatch, RootState>): void {
-  connection = new Centrifuge(REACT_APP_WEBSOCKET_API, { debug: true });
+  connection = new Centrifuge(REACT_APP_WEBSOCKET_API, {
+    debug: true,
+    timeout,
+  });
+
+  const onRefresh = (_: any, cb: (response: RefreshResponse) => void) => {
+    store.dispatch(refreshTokenAction());
+    refreshResponseCallback = cb;
+  };
+
+  connection = new Centrifuge(REACT_APP_WEBSOCKET_API, {
+    debug: true,
+    onRefresh,
+  });
 
   connection.setToken(store.getState().auth?.securityTokens?.accessToken || '');
 
@@ -50,9 +66,22 @@ export const signalRInvokeMiddleware: Middleware<RootAction, RootState> = (
 ) => (next: Dispatch<RootAction>) => async (action: RootAction): Promise<RootAction> => {
   switch (action.type) {
     case getType(InitSocketConnection.action): {
+      const expTime = store.getState().auth?.securityTokens?.accessTokenExpirationTime;
+
+      if (!expTime) {
+        return next(action);
+      }
+
+      expTime.setMilliseconds(expTime.getMilliseconds() - timeout);
+
+      if (expTime < new Date()) {
+        return next(action);
+      }
+
       if (!connection || !connection.isConnected()) {
         openConnection(store);
       }
+
       return next(action);
     }
     case getType(CloseWebsocketConnection.action): {
@@ -61,6 +90,21 @@ export const signalRInvokeMiddleware: Middleware<RootAction, RootState> = (
       }
       return next(action);
     }
+    case getType(refreshTokenSuccessAction): {
+      if (!refreshResponseCallback) {
+        openConnection(store);
+      } else {
+        refreshResponseCallback({
+          status: 200,
+          data: {
+            token: action.payload.accessToken,
+          },
+        });
+      }
+
+      return next(action);
+    }
+
     default:
       return next(action);
   }

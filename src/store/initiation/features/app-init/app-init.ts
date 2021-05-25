@@ -31,14 +31,14 @@ export class AppInit {
         return;
       }
 
-      yield put(GetMyProfile.action());
-      yield put(SubscribeToPushNotifications.action());
       yield put(
         AuthInit.action({
           securityTokens: authService.securityTokens,
           deviceId: authService.deviceId,
         }),
       );
+      yield put(GetMyProfile.action());
+      yield put(SubscribeToPushNotifications.action());
       yield put(ChangeUserOnlineStatus.action(true));
       yield put(InitSocketConnection.action());
       yield put(getUserSettingsAction());

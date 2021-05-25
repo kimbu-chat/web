@@ -1,4 +1,4 @@
-import { takeEvery, takeLatest } from 'redux-saga/effects';
+import { all, takeEvery, takeLatest } from 'redux-saga/effects';
 
 import { RemoveChat } from './features/remove-chat/remove-chat';
 import { CreateGroupChat } from './features/create-group-chat/create-group-chat';
@@ -32,41 +32,43 @@ import { MessagesDeletedIntegrationEventHandler } from './socket-events/message-
 import { RemoveAllAttachments } from './features/remove-attachment/remove-all-attachments';
 import { RemoveUserFromGroupChat } from './features/remove-user-from-group-chat/remove-user-from-group-chat';
 
-export const ChatSagas = [
-  takeLatest(GetChats.action, GetChats.saga),
-  takeLatest(LeaveGroupChat.action, LeaveGroupChat.saga),
-  takeLatest(GetGroupChatUsers.action, GetGroupChatUsers.saga),
-  takeLatest(CreateGroupChat.action, CreateGroupChat.saga),
-  takeLatest(AddUsersToGroupChat.action, AddUsersToGroupChat.saga),
-  takeLatest(ChangeChatMutedStatus.action, ChangeChatMutedStatus.saga),
-  takeLatest(GetPhotoAttachments.action, GetPhotoAttachments.saga),
-  takeLatest(GetVideoAttachments.action, GetVideoAttachments.saga),
-  takeLatest(GetRawAttachments.action, GetRawAttachments.saga),
-  takeLatest(GetVoiceAttachments.action, GetVoiceAttachments.saga),
-  takeLatest(GetAudioAttachments.action, GetAudioAttachments.saga),
-  takeLatest(MarkMessagesAsRead.action, MarkMessagesAsRead.saga),
-  takeLatest(GetChatInfo.action, GetChatInfo.saga),
-  takeLatest(ChangeSelectedChat.action, ChangeSelectedChat.saga),
-  takeLatest(EditGroupChat.action, EditGroupChat.saga),
-  takeEvery(UploadAttachmentRequest.action, UploadAttachmentRequest.saga),
-  takeEvery(RemoveAttachment.action, RemoveAttachment.saga),
-  takeLatest(MessageTyping.action, MessageTyping.saga),
-  takeLatest(GetMessages.action, GetMessages.saga),
-  takeLatest(ClearChatHistory.action, ClearChatHistory.saga),
-  takeEvery(CreateMessage.action, CreateMessage.saga),
-  takeEvery(CopyMessages.action, CopyMessages.saga),
-  takeEvery(SubmitEditMessage.action, SubmitEditMessage.saga),
-  takeEvery(DeleteMessage.action, DeleteMessage.saga),
-  takeEvery(ForwardMessages.action, ForwardMessages.saga),
-  takeEvery(RemoveAllAttachments.action, RemoveAllAttachments.saga),
-  takeEvery(RemoveUserFromGroupChat.action, RemoveUserFromGroupChat.saga),
-  takeEvery(RemoveChat.action, RemoveChat.saga),
+export function* chatSaga() {
+  yield all([
+    takeLatest(GetChats.action, GetChats.saga),
+    takeLatest(LeaveGroupChat.action, LeaveGroupChat.saga),
+    takeLatest(GetGroupChatUsers.action, GetGroupChatUsers.saga),
+    takeLatest(CreateGroupChat.action, CreateGroupChat.saga),
+    takeLatest(AddUsersToGroupChat.action, AddUsersToGroupChat.saga),
+    takeLatest(ChangeChatMutedStatus.action, ChangeChatMutedStatus.saga),
+    takeLatest(GetPhotoAttachments.action, GetPhotoAttachments.saga),
+    takeLatest(GetVideoAttachments.action, GetVideoAttachments.saga),
+    takeLatest(GetRawAttachments.action, GetRawAttachments.saga),
+    takeLatest(GetVoiceAttachments.action, GetVoiceAttachments.saga),
+    takeLatest(GetAudioAttachments.action, GetAudioAttachments.saga),
+    takeLatest(MarkMessagesAsRead.action, MarkMessagesAsRead.saga),
+    takeLatest(GetChatInfo.action, GetChatInfo.saga),
+    takeLatest(ChangeSelectedChat.action, ChangeSelectedChat.saga),
+    takeLatest(EditGroupChat.action, EditGroupChat.saga),
+    takeEvery(UploadAttachmentRequest.action, UploadAttachmentRequest.saga),
+    takeEvery(RemoveAttachment.action, RemoveAttachment.saga),
+    takeLatest(MessageTyping.action, MessageTyping.saga),
+    takeLatest(GetMessages.action, GetMessages.saga),
+    takeLatest(ClearChatHistory.action, ClearChatHistory.saga),
+    takeEvery(CreateMessage.action, CreateMessage.saga),
+    takeEvery(CopyMessages.action, CopyMessages.saga),
+    takeEvery(SubmitEditMessage.action, SubmitEditMessage.saga),
+    takeEvery(DeleteMessage.action, DeleteMessage.saga),
+    takeEvery(ForwardMessages.action, ForwardMessages.saga),
+    takeEvery(RemoveAllAttachments.action, RemoveAllAttachments.saga),
+    takeEvery(RemoveUserFromGroupChat.action, RemoveUserFromGroupChat.saga),
+    takeEvery(RemoveChat.action, RemoveChat.saga),
 
-  // socket-events
-  takeEvery(MessageCreatedEventHandler.action, MessageCreatedEventHandler.saga),
-  takeEvery(
-    MessagesDeletedIntegrationEventHandler.action,
-    MessagesDeletedIntegrationEventHandler.saga,
-  ),
-  takeLatest(UserMessageTypingEventHandler.action, UserMessageTypingEventHandler.saga),
-];
+    // socket-events
+    takeEvery(MessageCreatedEventHandler.action, MessageCreatedEventHandler.saga),
+    takeEvery(
+      MessagesDeletedIntegrationEventHandler.action,
+      MessagesDeletedIntegrationEventHandler.saga,
+    ),
+    takeLatest(UserMessageTypingEventHandler.action, UserMessageTypingEventHandler.saga),
+  ]);
+}

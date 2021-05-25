@@ -21,6 +21,7 @@ function openConnection(store: MiddlewareAPI<Dispatch, RootState>): void {
     .withUrl(NOTIFICATIONS_API.OPEN_CONNECTION, {
       logMessageContent: true,
       accessTokenFactory: () => {
+        console.log('STORE', store, store.getState());
         const accessToken = store.getState().auth?.securityTokens?.accessToken;
         if (accessToken) {
           return accessToken;
@@ -75,6 +76,7 @@ export const signalRInvokeMiddleware: Middleware<RootAction, RootState> = (
       return next(action);
     }
     default:
+      console.log('ACTION!!', action);
       return next(action);
   }
 };

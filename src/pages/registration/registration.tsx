@@ -14,7 +14,7 @@ import {
   checkNicknameAvailabilityAction,
   uploadAvatarRequestAction,
 } from '@store/my-profile/actions';
-import { registerAction } from '@store/auth/actions';
+import { registerAction } from '@store/login/actions';
 
 const PhotoEditor = lazy(() => import('@components/photo-editor/photo-editor'));
 

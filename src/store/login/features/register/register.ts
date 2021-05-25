@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { call, put, select, take } from 'redux-saga/effects';
+import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
 import { Meta } from '@store/common/actions';
@@ -11,9 +11,8 @@ import {
   authPhoneNumberSelector,
   confirmationCodeSelector,
   twoLetterCountryCodeSelector,
-} from '@store/auth/selectors';
-import { Login } from '@store/auth/features/login/login';
-import { LoginSuccess } from '@store/auth/features/login/login-success';
+} from '@store/login/selectors';
+import { Login } from '@store/login/features/login/login';
 import { MAIN_API } from '@common/paths';
 
 import { IRegisterActionPayload } from './action-payloads/register-action-payload';
@@ -53,7 +52,6 @@ export class Register {
       );
 
       yield put(Login.action({ phoneNumber, code: confirmationCode }));
-      yield take(LoginSuccess.action);
 
       action.meta.deferred.resolve();
     };

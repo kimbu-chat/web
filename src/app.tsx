@@ -1,69 +1,78 @@
 import React, { Suspense, lazy } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
-import { useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
+import isEmpty from 'lodash/isEmpty';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { ReactComponent as CloseSvg } from '@icons/close.svg';
-import { PublicRoute } from '@components/public-route';
 import { PrivateRoute } from '@components/private-route';
 import { CubeLoader } from '@components/cube-loader';
-import { authenticatedSelector, authPhoneNumberExistsSelector } from '@store/auth/selectors';
+import { AuthService } from '@services/auth-service';
 import '@localization/i18n';
 
 import './dayjs/day';
-import {
-  loadPhoneConfirmation,
-  loadCodeConfirmation,
-  loadMessenger,
-  loadNotFound,
-  loadRegistration,
-  loadLogout,
-  loadEmoji,
-} from './routing/module-loader';
+import { loadMessenger, loadNotFound, loadLogout, loadEmoji } from './routing/module-loader';
 
 import './base.scss';
 import './toastify.scss';
+import { StoreKeys } from './store';
 
-const ConfirmPhone = lazy(loadPhoneConfirmation);
-const ConfirmCode = lazy(loadCodeConfirmation);
-const Messenger = lazy(loadMessenger);
 const NotFound = lazy(loadNotFound);
-const Registration = lazy(loadRegistration);
 const Logout = lazy(loadLogout);
 
-const App = () => {
-  const isAuthenticated = useSelector(authenticatedSelector);
-  const phoneNumberExists = useSelector(authPhoneNumberExistsSelector);
+const App = ({ store }: { store: any }) => {
+  const authService = new AuthService();
+  const isAuthenticated = !isEmpty(authService.securityTokens);
+
+  const Messenger = lazy(async () => {
+    const initModule = await import('@store/initiation/sagas');
+    const authModule = await import('@store/auth/module');
+    const usersModule = await import('@store/users/module');
+    const myProfileModule = await import('@store/my-profile/module');
+    const settingsModule = await import('@store/settings/module');
+    const chatsModule = await import('@store/chats/module');
+
+    store.inject([[StoreKeys.AUTH, authModule.reducer, authModule.authSagas]]);
+
+    store.injectReducer('auth', authModule.reducer);
+    store.injectSaga('auth', authModule.authSagas);
+    store.injectSaga('initiation', initModule.initiationSaga);
+    store.injectReducer('users', usersModule.reducer);
+    store.injectSaga('users', usersModule.usersSaga);
+    store.injectReducer('myProfile', myProfileModule.reducer);
+    store.injectSaga('myProfile', myProfileModule.myProfileSagas);
+    store.injectReducer('settings', settingsModule.reducer);
+    store.injectSaga('settings', settingsModule.settingsSaga);
+    store.injectReducer('chats', chatsModule.reducer);
+    store.injectSaga('chats', chatsModule.chatSaga);
+
+    return loadMessenger();
+  });
+
+  const LazyLoginRouter = lazy(async () => {
+    console.log('LOGOGOGOGOGOG');
+    const loginModule = await import('@store/login/module');
+    store.injectReducer('login', loginModule.reducer);
+    store.injectSaga('login', loginModule.loginSaga);
+
+    return import('@routing/login/login');
+  });
 
   return (
     <>
       <Suspense fallback={<CubeLoader />}>
         <Switch>
-          <PublicRoute
-            exact
-            path="/signup"
-            isAllowed={!isAuthenticated && phoneNumberExists}
-            componentToRender={<Registration preloadNext={loadMessenger} />}
-          />
-          <PublicRoute
-            exact
-            path="/confirm-code"
-            isAllowed={!isAuthenticated && phoneNumberExists}
-            componentToRender={<ConfirmCode preloadNext={loadMessenger} />}
-          />
-          <PublicRoute
-            exact
-            path="/login/"
-            isAllowed={!isAuthenticated}
-            componentToRender={<ConfirmPhone preloadNext={loadCodeConfirmation} />}
-          />
+          {/* <LazyLoginRouter /> */}
           <PrivateRoute
             path="/(contacts|calls|chats|settings)/:id(\d+)?/(profile|notifications|typing|language|appearance|audio-video|privacy-security)?"
             exact
             isAllowed={isAuthenticated}
             fallback="/login"
-            componentToRender={<Messenger preloadNext={loadEmoji} />}
+            componentToRender={
+              <Suspense fallback={<CubeLoader />}>
+                <Messenger store={store} preloadNext={loadEmoji} />
+              </Suspense>
+            }
           />
           <PrivateRoute
             path="/logout"

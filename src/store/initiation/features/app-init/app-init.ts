@@ -1,10 +1,14 @@
 import { SagaIterator } from 'redux-saga';
-import { put, select } from 'redux-saga/effects';
+import { put } from 'redux-saga/effects';
+import isEmpty from 'lodash/isEmpty';
+import produce from 'immer';
 
-import { authenticatedSelector } from '@store/auth/selectors';
 import { createEmptyAction } from '@store/common/actions';
+import { AuthService } from '@services/auth-service';
+import { AuthInit } from '@store/auth/features/initiate-auth/initiate-auth';
+import { GetMyProfile } from '@store/my-profile/features/get-my-profile/get-my-profile';
+import { SubscribeToPushNotifications } from '@store/auth/features/subscribe-to-push-notifications/subscribe-to-push-notifications';
 
-// eslint-disable-next-line max-len
 import { StartInternetConnectionStateChangeWatcher } from '../../../internet/features/internet-connection-check/start-internet-connection-state-change-watcher';
 import { ChangeUserOnlineStatus } from '../../../my-profile/features/change-user-online-status/change-user-online-status';
 import { getUserSettingsAction } from '../../../settings/actions';
@@ -16,14 +20,26 @@ export class AppInit {
     return createEmptyAction('INIT');
   }
 
+  static get reducer() {
+    return produce((draft) => draft);
+  }
+
   static get saga() {
     return function* initializeSaga(): SagaIterator {
-      const authenticated = yield select(authenticatedSelector);
+      const authService = new AuthService();
 
-      if (!authenticated) {
+      if (isEmpty(authService.securityTokens)) {
         return;
       }
 
+      yield put(GetMyProfile.action());
+      yield put(SubscribeToPushNotifications.action());
+      yield put(
+        AuthInit.action({
+          securityTokens: authService.securityTokens,
+          deviceId: authService.deviceId,
+        }),
+      );
       yield put(ChangeUserOnlineStatus.action(true));
       yield put(InitSocketConnection.action());
       yield put(getUserSettingsAction());

@@ -1,27 +1,112 @@
-import { createStore, applyMiddleware, compose, Store, Action, Dispatch } from 'redux';
+import { createStore, applyMiddleware, compose, combineReducers, CombinedState } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import { RootState } from 'typesafe-actions';
+import { all } from 'redux-saga/effects';
+import { Reducer, RootAction, RootState } from 'typesafe-actions';
 
-import rootReducer from './root-reducer';
-import { rootSaga } from './root-saga';
 import { signalRInvokeMiddleware } from './middlewares/websockets/signalR';
 
-type ReduxStore = Store<RootState, Action> & {
-  dispatch: Dispatch;
+import type { Store, Action, Dispatch } from 'redux';
+import type { Saga, Task } from 'redux-saga';
+
+export enum StoreKeys {
+  AUTH = 'auth',
+  INITIATION = 'initiation',
+  USERS = 'users',
+  MY_PROFILE = 'myProfile',
+  SETTINGS = 'settings',
+  CHATS = 'chats',
+  LOGIN = 'login',
+  CALLS = 'calls',
+  FRIENDS = 'friends',
+  INTERNET = 'internet',
+}
+
+type CustomReducer = Reducer<RootState, RootAction>;
+
+type ReducersStore = {
+  [key in StoreKeys]?: CustomReducer;
 };
 
-function makeStore(): ReduxStore {
+type InjectorReduxStore = Store<ReducersStore, RootAction> & {
+  dispatch: Dispatch;
+  injectReducer: (key: StoreKeys, asyncReducer: CustomReducer) => void;
+  injectSaga: <S extends Saga>(key: StoreKeys, saga: S) => void;
+  asyncReducers: ReducersStore;
+  inject: <S extends Saga>(
+    injector: [StoreKeys, Reducer<RootState, RootAction> | undefined, S | undefined][],
+  ) => void;
+};
+
+const staticReducers = {};
+
+function* staticRootSaga() {
+  yield all([]);
+}
+
+function createReducer(asyncReducers?: ReducersStore) {
+  return combineReducers({
+    ...staticReducers,
+    ...asyncReducers,
+  });
+}
+
+function createSagaInjector(
+  runSaga: <S extends Saga>(saga: S, ...args: Parameters<S>) => Task,
+  rootSaga: Saga,
+) {
+  const injectedSagas = new Map();
+
+  const isInjected = (key: string) => injectedSagas.has(key);
+
+  const injectSaga = (key: string, saga: Parameters<typeof runSaga>[0]) => {
+    // We won't run saga if it is already injected
+    if (isInjected(key)) return;
+    // Sagas return task when they executed, which can be used
+    // to cancel them
+    const task = runSaga(saga);
+
+    // Save the task if we want to cancel it in the future
+    injectedSagas.set(key, task);
+  };
+
+  // Inject the root saga as it a staticlly loaded file,
+  injectSaga('root', rootSaga);
+
+  return injectSaga;
+}
+
+function configureStore(): InjectorReduxStore {
   const composeEnchancers =
     process.env.NODE_ENV === 'development'
       ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
       : compose;
   const sagaMiddleware = createSagaMiddleware();
   const enchancers = composeEnchancers(applyMiddleware(sagaMiddleware, signalRInvokeMiddleware));
-  const store = createStore(rootReducer, enchancers);
+  const store: InjectorReduxStore = createStore(createReducer(), enchancers);
+  store.asyncReducers = {};
 
-  sagaMiddleware.run(rootSaga);
+  store.injectReducer = (key: StoreKeys, asyncReducer: Reducer<RootState, RootAction>) => {
+    store.asyncReducers[key] = asyncReducer;
+    store.replaceReducer(createReducer(store.asyncReducers));
+  };
+
+  store.injectSaga = createSagaInjector(sagaMiddleware.run, staticRootSaga);
+
+  store.inject = <S extends Saga>(
+    injector: [StoreKeys, Reducer<RootState, RootAction> | undefined, S | undefined][],
+  ) => {
+    injector.forEach((inj) => {
+      if (inj[1]) {
+        store.injectReducer(inj[0], inj[1]);
+      }
+
+      if (inj[2]) {
+        store.injectSaga(inj[0], inj[2]);
+      }
+    });
+  };
 
   return store;
 }
 
-export default makeStore;
+export default configureStore;

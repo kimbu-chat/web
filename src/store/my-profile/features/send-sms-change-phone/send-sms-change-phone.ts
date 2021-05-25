@@ -5,7 +5,7 @@ import { createAction } from 'typesafe-actions';
 
 import { HTTPStatusCode } from '@common/http-status-code';
 import { Meta } from '@store/common/actions';
-import { SendSmsCode } from '@store/auth/features/send-sms-code/send-sms-code';
+import { SendSmsCode } from '@store/login/features/send-sms-code/send-sms-code';
 
 import { ISendSmsChangePhoneActionPayload } from './action-payloads/send-sms-code-action-payload';
 

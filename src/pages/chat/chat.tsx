@@ -26,13 +26,14 @@ type ChatPageProps = {
 
 const BLOCK_NAME = 'chat-page';
 
-export const ChatPage: React.FC<ChatPageProps> = ({ isDragging }) => {
+const ChatPage: React.FC<ChatPageProps> = ({ isDragging }) => {
   const isCurrentChatBlackListed = useSelector(isCurrentChatBlackListedSelector);
   const isFriend = useSelector(isCurrentChatContactSelector);
   const isDismissed = useSelector(isCurrentChatDismissedAddToContactsSelector);
   const amIBlackListedByInterlocutor = useSelector(amIBlackListedByInterlocutorSelector);
   const isCurrentChatUserDeactivated = useSelector(isCurrentChatUserDeactivatedSelector);
   const isCurrentChatUserDeleted = useSelector(isCurrentChatUserDeletedSelector);
+  
 
   return (
     <>
@@ -63,3 +64,5 @@ export const ChatPage: React.FC<ChatPageProps> = ({ isDragging }) => {
     </>
   );
 };
+
+export default ChatPage;

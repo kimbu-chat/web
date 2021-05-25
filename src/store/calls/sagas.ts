@@ -1,4 +1,4 @@
-import { takeEvery, takeLatest, takeLeading } from 'redux-saga/effects';
+import { all, takeEvery, takeLatest, takeLeading } from 'redux-saga/effects';
 
 import { EndCall } from './features/end-call/end-call';
 import { CancelCall } from './features/cancel-call/cancel-call';
@@ -20,27 +20,29 @@ import { SpawnDeviceUpdateWatcher } from './features/device-watcher/spawn-device
 
 //! important peer whitch has initiated the call  is the polite one
 
-export const CallsSagas = [
-  takeLatest(OutgoingCall.action, OutgoingCall.saga),
-  takeLatest(CancelCall.action, CancelCall.saga),
-  takeLatest(EndCall.action, EndCall.saga),
-  takeLatest(DeclineCall.action, DeclineCall.saga),
-  takeLatest(TimeoutCall.action, TimeoutCall.saga),
-  takeLatest(AcceptCall.action, AcceptCall.saga),
-  takeLatest(ChangeScreenShareStatus.action, ChangeScreenShareStatus.saga),
-  takeLatest(SwitchDevice.action, SwitchDevice.saga),
-  takeLeading(ChangeMediaStatus.action, ChangeMediaStatus.saga),
-  takeLatest(GetCalls.action, GetCalls.saga),
-  takeLatest(SpawnDeviceUpdateWatcher.action, SpawnDeviceUpdateWatcher.saga),
+export function* callsSaga() {
+  yield all([
+    takeLatest(OutgoingCall.action, OutgoingCall.saga),
+    takeLatest(CancelCall.action, CancelCall.saga),
+    takeLatest(EndCall.action, EndCall.saga),
+    takeLatest(DeclineCall.action, DeclineCall.saga),
+    takeLatest(TimeoutCall.action, TimeoutCall.saga),
+    takeLatest(AcceptCall.action, AcceptCall.saga),
+    takeLatest(ChangeScreenShareStatus.action, ChangeScreenShareStatus.saga),
+    takeLatest(SwitchDevice.action, SwitchDevice.saga),
+    takeLeading(ChangeMediaStatus.action, ChangeMediaStatus.saga),
+    takeLatest(GetCalls.action, GetCalls.saga),
+    takeLatest(SpawnDeviceUpdateWatcher.action, SpawnDeviceUpdateWatcher.saga),
 
-  // socket-events
-  takeLatest(IncomingCallEventHandler.action, IncomingCallEventHandler.saga),
-  takeEvery(RenegotiationSentEventHandler.action, RenegotiationSentEventHandler.saga),
-  takeLatest(CallEndedEventHandler.action, CallEndedEventHandler.saga),
-  takeEvery(RenegotiationAcceptedEventHandler.action, RenegotiationAcceptedEventHandler.saga),
-  takeLatest(
-    InterlocutorAcceptedCallEventHandler.action,
-    InterlocutorAcceptedCallEventHandler.saga,
-  ),
-  takeEvery(IceCandidateSentEventHandler.action, IceCandidateSentEventHandler.saga),
-];
+    // socket-events
+    takeLatest(IncomingCallEventHandler.action, IncomingCallEventHandler.saga),
+    takeEvery(RenegotiationSentEventHandler.action, RenegotiationSentEventHandler.saga),
+    takeLatest(CallEndedEventHandler.action, CallEndedEventHandler.saga),
+    takeEvery(RenegotiationAcceptedEventHandler.action, RenegotiationAcceptedEventHandler.saga),
+    takeLatest(
+      InterlocutorAcceptedCallEventHandler.action,
+      InterlocutorAcceptedCallEventHandler.saga,
+    ),
+    takeEvery(IceCandidateSentEventHandler.action, IceCandidateSentEventHandler.saga),
+  ]);
+}

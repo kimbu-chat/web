@@ -3,18 +3,23 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { createAction } from 'typesafe-actions';
 
+import { ISecurityTokens } from '@store/auth/common/models';
+
 import { AuthService } from '../../../../services/auth-service';
 import { IAuthState } from '../../auth-state';
 
-import { ILoginSuccessActionPayload } from './action-payloads/login-success-action-payload';
+interface AuthInitPayload {
+  securityTokens: ISecurityTokens;
+  deviceId: string;
+}
 
-export class LoginSuccess {
+export class AuthInit {
   static get action() {
-    return createAction('LOGIN_SUCCESS')<ILoginSuccessActionPayload>();
+    return createAction('AUTH_INIT')<AuthInitPayload>();
   }
 
   static get reducer() {
-    return produce((draft: IAuthState, { payload }: ReturnType<typeof LoginSuccess.action>) => ({
+    return produce((draft: IAuthState, { payload }: ReturnType<typeof AuthInit.action>) => ({
       ...draft,
       isAuthenticated: true,
       loading: false,
@@ -24,11 +29,11 @@ export class LoginSuccess {
   }
 
   static get saga() {
-    return function* loginSuccess(action: ReturnType<typeof LoginSuccess.action>): SagaIterator {
+    return function* initiateTokens(action: ReturnType<typeof AuthInit.action>): SagaIterator {
       const authService = new AuthService();
       yield apply(authService, authService.initialize, [
         action.payload.securityTokens,
-        { deviceId: action.payload.deviceId },
+        action.payload.deviceId,
       ]);
     };
   }

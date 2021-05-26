@@ -19,18 +19,17 @@
     <script
       src="https://js.sentry-cdn.com/88240f4812e54397a554e2e35bc7ef32.min.js"
       crossorigin="anonymous"
-      async
-    ></script>
-    <script>
+      defer
+    >
       Sentry.onLoad(function () {
-        Sentry.init({
-          logLevel: 1,
-          allowUrls: ['https:// kimbu.io'],
-          // We recommend adjusting this value in production, or using tracesSampler
-          // for finer control
-          tracesSampleRate: 1.0,
-        });
-      });
+            Sentry.init({
+              logLevel: 1,
+              allowUrls: ['https:// kimbu.io'],
+              // We recommend adjusting this value in production, or using tracesSampler
+              // for finer control
+              tracesSampleRate: 1.0,
+            });
+          });
     </script>
     <link
       rel="icon"

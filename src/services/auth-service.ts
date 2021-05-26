@@ -9,7 +9,12 @@ export class AuthService {
   private browserStorage = new BrowserStorage(this.authentication);
 
   public get securityTokens(): ISecurityTokens {
-    return this.browserStorage.getObject<ISecurityTokens>(this.authentication);
+    const tokens = this.browserStorage.getObject<ISecurityTokens>(this.authentication);
+
+    return {
+      ...tokens,
+      ...{ accessTokenExpirationTime: new Date(tokens.accessTokenExpirationTime) },
+    };
   }
 
   public get deviceId(): string {

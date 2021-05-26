@@ -7,6 +7,8 @@ import { createAction } from 'typesafe-actions';
 import { authRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
 import { AuthService } from '@services/auth-service';
+import { ISecurityTokens } from '@store/auth/common/models';
+import { getAccessTokenExpirationTime } from '@utils/get-access-token-expiration-time';
 
 import { ILoginApiRequest } from './api-requests/login-api-request';
 import { ILoginApiResponse } from './api-requests/login-api-response';
@@ -33,7 +35,12 @@ export class Login {
 
       const authService = new AuthService();
 
-      yield apply(authService, authService.initialize, [data, deviceId]);
+      const securityTokens: ISecurityTokens = {
+        ...data,
+        ...{ accessTokenExpirationTime: getAccessTokenExpirationTime(data.accessToken) },
+      };
+
+      yield apply(authService, authService.initialize, [securityTokens, deviceId]);
 
       yield put(LoginSuccess.action());
     };

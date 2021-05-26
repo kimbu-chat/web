@@ -7,6 +7,7 @@ import { HttpRequestMethod } from '@store/common/http/http-request-method';
 import { authRequestFactory } from '@store/common/http/auth-request-factory';
 import { createEmptyAction } from '@store/common/actions';
 import { MAIN_API } from '@common/paths';
+import { getAccessTokenExpirationTime } from '@utils/get-access-token-expiration-time';
 
 import { IAuthState } from '../../auth-state';
 import { ISecurityTokens } from '../../common/models';
@@ -16,6 +17,7 @@ import { IRefreshTokenApiRequest } from './api-requests/refresh-token-api-reques
 import { IRefreshTokenApiResponse } from './api-requests/refresh-token-api-response';
 import { RefreshTokenFailure } from './refresh-token-failure';
 import { RefreshTokenSuccess } from './refresh-token-success';
+import { IRefreshTokenSuccessActionPayload } from './action-payloads/refresh-token-success-action-payload';
 
 export class RefreshToken {
   static get action() {
@@ -38,7 +40,13 @@ export class RefreshToken {
         const { data } = httpRequest.call(
           yield call(() => httpRequest.generator({ refreshToken })),
         );
-        yield put(RefreshTokenSuccess.action(data));
+
+        const refreshTokenActionPayload: IRefreshTokenSuccessActionPayload = {
+          ...data,
+          ...{ accessTokenExpirationTime: getAccessTokenExpirationTime(data.accessToken) },
+        };
+
+        yield put(RefreshTokenSuccess.action(refreshTokenActionPayload));
       } catch (e) {
         yield put(RefreshTokenFailure.action());
       }

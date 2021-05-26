@@ -2,11 +2,9 @@ import axios, { AxiosError, CancelTokenSource } from 'axios';
 import { call, cancelled, put, select, take } from 'redux-saga/effects';
 import { SagaIterator } from 'redux-saga';
 import { RootState } from 'typesafe-actions';
-import jwtDecode from 'jwt-decode';
 
 import { ISecurityTokens } from '@store/auth/common/models/security-tokens';
 import { securityTokensSelector } from '@store/auth/selectors';
-import { ICustomJwtPayload } from '@store/login/features/login/models/custom-jwt-payload';
 import { emitToast } from '@utils/emit-toast';
 
 import { isNetworkError } from '../../../utils/error-utils';
@@ -50,10 +48,12 @@ export const httpRequestFactory = <TResponse, TBody = unknown>(
       }
 
       const securityTokens: ISecurityTokens = yield select(securityTokensSelector);
+      const { accessTokenExpirationTime } = securityTokens;
+      accessTokenExpirationTime.setMilliseconds(
+        accessTokenExpirationTime.getMilliseconds() - requestTimeout,
+      );
 
-      const decodedJwt = jwtDecode<ICustomJwtPayload>(securityTokens.accessToken);
-
-      if ((new Date().getTime() + (requestTimeout + 5000)) / 1000 > (decodedJwt?.exp || -1)) {
+      if (accessTokenExpirationTime < new Date()) {
         yield put(RefreshToken.action());
         yield take(RefreshTokenSuccess.action);
       }

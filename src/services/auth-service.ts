@@ -11,10 +11,14 @@ export class AuthService {
   public get securityTokens(): ISecurityTokens {
     const tokens = this.browserStorage.getObject<ISecurityTokens>(this.authentication);
 
-    return {
-      ...tokens,
-      ...{ accessTokenExpirationTime: new Date(tokens.accessTokenExpirationTime) },
-    };
+    if (tokens?.accessTokenExpirationTime) {
+      return {
+        ...tokens,
+        ...{ accessTokenExpirationTime: new Date(tokens?.accessTokenExpirationTime) },
+      };
+    }
+
+    return tokens;
   }
 
   public get deviceId(): string {

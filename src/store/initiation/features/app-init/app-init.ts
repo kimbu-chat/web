@@ -28,7 +28,7 @@ export class AppInit {
     return function* initializeSaga(): SagaIterator {
       const authService = new AuthService();
       if (isEmpty(authService.securityTokens)) {
-        return;
+        window.location.replace('login');
       }
 
       yield put(

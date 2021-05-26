@@ -1,6 +1,6 @@
 export interface ISecurityTokens {
   accessToken: string;
-  accessTokenExpirationTime: Date;
+  accessTokenExpirationTime?: Date;
   refreshToken: string;
   refreshTokenExpirationTime: Date;
 }

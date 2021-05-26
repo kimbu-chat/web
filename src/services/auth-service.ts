@@ -1,5 +1,6 @@
 import { BrowserStorage } from '@utils/browser-storage';
 import { ISecurityTokens } from '@store/auth/common/models';
+import { getAccessTokenExpirationTime } from '@utils/get-access-token-expiration-time';
 
 export class AuthService {
   private readonly authentication = 'authentication';
@@ -12,9 +13,11 @@ export class AuthService {
     const tokens = this.browserStorage.getObject<ISecurityTokens>(this.authentication);
 
     if (tokens?.accessTokenExpirationTime) {
+      const accessTokenExpirationTime = getAccessTokenExpirationTime(tokens.accessToken);
+
       return {
         ...tokens,
-        ...{ accessTokenExpirationTime: new Date(tokens?.accessTokenExpirationTime) },
+        accessTokenExpirationTime,
       };
     }
 

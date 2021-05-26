@@ -49,6 +49,11 @@ export const httpRequestFactory = <TResponse, TBody = unknown>(
 
       const securityTokens: ISecurityTokens = yield select(securityTokensSelector);
       const { accessTokenExpirationTime } = securityTokens;
+
+      if (!accessTokenExpirationTime) {
+        throw new Error(`accessTokenExpirationTime is undefined`);
+      }
+
       accessTokenExpirationTime.setMilliseconds(
         accessTokenExpirationTime.getMilliseconds() - requestTimeout,
       );

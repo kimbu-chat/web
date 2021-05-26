@@ -43,7 +43,7 @@ export class RefreshToken {
 
         const refreshTokenActionPayload: IRefreshTokenSuccessActionPayload = {
           ...data,
-          ...{ accessTokenExpirationTime: getAccessTokenExpirationTime(data.accessToken) },
+          accessTokenExpirationTime: getAccessTokenExpirationTime(data.accessToken),
         };
 
         yield put(RefreshTokenSuccess.action(refreshTokenActionPayload));

@@ -12,9 +12,8 @@ export class AuthService {
   public get securityTokens(): ISecurityTokens {
     const tokens = this.browserStorage.getObject<ISecurityTokens>(this.authentication);
 
-    if (tokens && !tokens?.accessTokenExpirationTime) {
+    if (tokens) {
       const accessTokenExpirationTime = getAccessTokenExpirationTime(tokens.accessToken);
-
       return {
         ...tokens,
         accessTokenExpirationTime,

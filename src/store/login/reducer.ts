@@ -9,6 +9,7 @@ import { SendSmsCode } from './features/send-sms-code/send-sms-code';
 import { ConfirmPhone } from './features/confirm-phone/confirm-phone';
 import { Register } from './features/register/register';
 import { ConfirmPhoneSuccess } from './features/confirm-phone/confirm-phone-success';
+import { LoginSuccess } from './features/login/login-success';
 
 const authService = new AuthService();
 const securityTokens = authService?.securityTokens;
@@ -31,6 +32,7 @@ const reducer = createReducer<ILoginState>(initialState)
   .handleAction(ConfirmPhone.action, ConfirmPhone.reducer)
   .handleAction(ConfirmPhoneSuccess.action, ConfirmPhoneSuccess.reducer)
   .handleAction(ConfirmPhoneFailure.action, ConfirmPhoneFailure.reducer)
-  .handleAction(Register.action, Register.reducer);
+  .handleAction(Register.action, Register.reducer)
+  .handleAction(LoginSuccess.action, LoginSuccess.reducer);
 
 export default reducer;

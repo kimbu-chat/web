@@ -1,0 +1,98 @@
+.country-phone-input {
+  position: relative;
+
+  &__input-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 6px;
+    background: #e8f1fb;
+    width: 320px;
+    padding: 8px 10px;
+  }
+
+  &__code-btn {
+    display: flex;
+    align-items: center;
+  }
+
+  &__flag-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  &__country-code {
+    padding: 0 10px;
+    font-size: 16px;
+    line-height: 19px;
+    color: #3f8ae0;
+  }
+
+  &__input {
+    background: transparent;
+    border: none;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 19px;
+    color: #3f8ae0;
+    width: 100%;
+
+    &::placeholder {
+      color: #cfe2f7;
+    }
+  }
+
+  &__separator {
+    margin: 0 8px 0 10px;
+    height: 24px;
+    border-left: 1px solid #3f8ae0;
+  }
+
+  &__list {
+    position: absolute;
+    background: #e8f1fb;
+    top: 35px;
+    padding-top: 5px;
+    left: 0;
+    width: 340px;
+    list-style-type: none;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+    overflow: hidden;
+    max-height: 200px;
+
+    &::-webkit-scrollbar {
+      width: 14px;
+      background-color: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border: 4px solid transparent;
+      background-clip: padding-box;
+      border-radius: 9999px;
+      background-color: #3f8ae0;
+    }
+
+    &:hover {
+      overflow: auto;
+    }
+  }
+
+  &__list-item {
+    padding: 10px;
+    color: #3f8ae0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      background-color: #3f8ae0;
+      color: white;
+    }
+  }
+
+  &__list-item-code {
+    width: 65px;
+    padding-left: 10px;
+  }
+}

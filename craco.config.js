@@ -66,6 +66,7 @@ module.exports = function ({ env }) {
         '@icons': path.resolve(__dirname, 'src/assets/icons'),
         '@containers': path.resolve(__dirname, 'src/containers'),
         '@pages': path.resolve(__dirname, 'src/pages'),
+        '@flags': path.resolve(__dirname, 'src/assets/flags'),
       },
     },
   };

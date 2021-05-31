@@ -1,20 +1,32 @@
 {
   "loginPage": {
     "confirm_phone": "Enter your number to log in",
-    "confirm_code": "We sent you a code to verify your phone number",
+    "confirm_code": "We sent you a code to verify your",
+    "confirm_code_phone_number": "phone number ",
     "code_sent_to": "Sent to",
     "next": "Next",
-    "resend": "Send code again",
-    "wrong_code": "Wrong code",
+    "sendme": "Send me",
+    "sendme_another": " another code.",
+    "wrong_code": "Wrong verification code",
     "country": "Country",
     "phone": "Phone",
     "agree_to": "By signing in you agree to ",
-    "ravudi_terms": "Ravudi Terms and Conditions",
-    "reset_timer": "Code can be re-sent in {{time}}"
+    "kimbu_terms": "Kimbu Terms and Conditions",
+    "another_code": "Another code of verify will be able in ",
+    "connect": "Connect.",
+    "chat_involve": "Chat. Involve.",
+    "stay_connected": "Stay connected with friends and",
+    "new_experience": "get ready for the new social experience.",
+    "mobile_phone": "Your mobile number",
+    "wrong_phone": "Phone number is wrong",
+    "last_name": "Last name",
+    "nick_name": "Nickname",
+    "name": "Name"
   },
   "register": {
     "photo-requirements": "At least 256*256px PNG or JPG",
-    "register": "Register"
+    "register": "Register",
+    "already_in_use": "User name already used"
   },
   "deleteChatMemberModal": {
     "title": "Delete chat member",

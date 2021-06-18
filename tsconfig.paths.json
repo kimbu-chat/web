@@ -19,6 +19,7 @@
       "@sounds/*": ["./assets/sounds/*"],
       "@containers/*": ["./containers/*"],
       "@icons/*": ["./assets/icons/*"],
+      "@flags/*": ["./assets/flags/*"],
       "@pages/*": ["./pages/*"]
     }
   }

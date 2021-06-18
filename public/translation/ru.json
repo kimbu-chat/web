@@ -1,21 +1,33 @@
 {
   "loginPage": {
     "confirm_phone": "Введите ваш номер телефона для входа",
-    "confirm_code": "Мы отправили вам код для подтверждения вашего номера телефона",
+    "confirm_code": "Мы отправили Вам код подтверждения",
+    "confirm_code_phone_number": "на номер ",
     "code_sent_to": "Код отправлен на",
     "next": "Далее",
-    "resend": "Отправить повторно",
-    "wrong_code": "Неверный код",
+    "sendme": "Получить",
+    "sendme_another": " другой код.",
+    "wrong_code": "Неверный код подтверждения",
     "country": "Cтрана",
     "phone": "Телефон",
     "code": "Код",
-    "agree_to": "Выполняя вход, вы соглашаетесь с",
-    "ravudi_terms": " Условиями Ravudi",
-    "reset_timer": "Код можно повторно отправить через {{time}}"
+    "agree_to": "Выполняя вход, вы соглашаетесь с ",
+    "kimbu_terms": "Условиями Kimbu",
+    "another_code": "Еще один код можно будет отправить через ",
+    "connect": "Связывайся.",
+    "chat_involve": "Беседуй. Вовлекайся.",
+    "stay_connected": "Оставайся на связи с друзьями и",
+    "new_experience": "готовься к новому социальному опыту.",
+    "mobile_phone": "Ваш номер телефона",
+    "wrong_phone": "Неверный номер телефона",
+    "last_name": "Фамилия",
+    "nick_name": "Никнейм",
+    "name": "Имя"
   },
   "register": {
     "photo-requirements": "Как минимум 256*256px PNG или JPG",
-    "register": "Регистрация"
+    "register": "Регистрация",
+    "already_in_use": "Имя пользователя уже используется"
   },
   "messageItem": {
     "forward-indicator": "Пересланно от "

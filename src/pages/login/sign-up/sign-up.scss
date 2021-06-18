@@ -1,0 +1,50 @@
+.sign-up-page {
+  &__input {
+    width: 431px;
+    margin-top: 21px;
+
+    & + & {
+      margin-top: 21px;
+    }
+  }
+
+  &__pretext {
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 29px;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+    color: var(--msg-bg-dt-gray-lt-grayLight);
+    padding: 32px 0;
+  }
+
+  &__login-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 40px;
+    background: var(--dt-kingBlue-wt-kingBlueLight);
+    border-radius: 6px;
+    color: white;
+    font-size: 18px;
+    line-height: 21px;
+    margin-top: 38px;
+    margin-left: 311px;
+
+    &:hover {
+      background: #3180d9;
+    }
+  }
+
+  &__error-tooltip {
+    padding: 6px 16px;
+    background: #c74848;
+    border-radius: 10px;
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 14px;
+    text-align: center;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+    color: #ffffff;
+  }
+}

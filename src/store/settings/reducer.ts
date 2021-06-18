@@ -20,7 +20,7 @@ const initialState: IUserSettings = {
   language: navigator.language.includes('ru') ? Langs.Ru : Langs.En,
   typingStrategy: TypingStrategy.Nlce,
   notificationSound: true,
-  theme: Theme.DARK,
+  theme: Theme.LIGHT,
   fontSize: 16,
   pushNotificationsEnabled: true,
   blackList: {

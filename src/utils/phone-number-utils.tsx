@@ -1,4 +1,4 @@
-export const removeCountryCodeFromPhoneNumber = (countryCode: string, phone: string) => {
+export const removeCountryCodeFromPhoneNumber = (countryCode = '', phone: string) => {
   let regex = '';
   const countryCodeArr = String(countryCode).split('');
 

@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import { all } from 'redux-saga/effects';
 import { Reducer, RootAction, RootState } from 'typesafe-actions';
+import { all } from 'redux-saga/effects';
 
 import { signalRInvokeMiddleware } from './middlewares/websockets/signalR';
 
@@ -19,6 +19,7 @@ export enum StoreKeys {
   CALLS = 'calls',
   FRIENDS = 'friends',
   INTERNET = 'internet',
+  LOCATION = 'location',
 }
 
 type CustomReducer = Reducer<RootState, RootAction>;
@@ -70,7 +71,7 @@ function createSagaInjector(
   };
 
   // Inject the root saga as it a staticlly loaded file,
-  injectSaga('root', rootSaga);
+  injectSaga('location', rootSaga);
 
   return injectSaga;
 }

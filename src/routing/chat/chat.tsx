@@ -61,8 +61,6 @@ const Chat: React.FC<IChatProps> = ({ preloadNext, store }) => {
       {/* TODO: FIX THIS LATER!!! */}
       {/* {!internetState && <InternetError />} */}
 
-      {/* <RoutingChats /> */}
-
       <RoutingChats />
 
       <Route path="/calls">

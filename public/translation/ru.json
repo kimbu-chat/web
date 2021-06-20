@@ -267,7 +267,8 @@
     "delete-confirmation": "Удалить аккаунт",
     "deactivate-confirmation": "Деактивировать аккаунт",
     "nickname-busy": "Данное имя пользователя занять",
-    "nickname-not-acceptable": "Имя пользователя не соответствует требованиям"
+    "nickname-not-acceptable": "Имя пользователя не соответствует требованиям",
+    "view_photo": "Посмотреть фото"
   },
   "deactivateAccountModal": {
     "title": "Деактивировать аккаунт",

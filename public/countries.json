@@ -40,11 +40,6 @@
     "code": "AI"
   },
   {
-    "title": "Antarctica",
-    "number": "+672",
-    "code": "AQ"
-  },
-  {
     "title": "Antigua and Barbuda",
     "number": "+1268",
     "code": "AG"
@@ -365,11 +360,6 @@
     "code": "FR"
   },
   {
-    "title": "French Guiana",
-    "number": "+594",
-    "code": "GF"
-  },
-  {
     "title": "French Polynesia",
     "number": "+689",
     "code": "PF"
@@ -418,11 +408,6 @@
     "title": "Grenada",
     "number": "+1473",
     "code": "GD"
-  },
-  {
-    "title": "Guadeloupe",
-    "number": "+590",
-    "code": "GP"
   },
   {
     "title": "Guam",
@@ -685,11 +670,6 @@
     "code": "MU"
   },
   {
-    "title": "Mayotte",
-    "number": "+262",
-    "code": "YT"
-  },
-  {
     "title": "Mexico",
     "number": "+52",
     "code": "MX"
@@ -758,16 +738,6 @@
     "title": "Netherlands",
     "number": "+31",
     "code": "NL"
-  },
-  {
-    "title": "Netherlands Antilles",
-    "number": "+599",
-    "code": "AN"
-  },
-  {
-    "title": "New Caledonia",
-    "number": "+687",
-    "code": "NC"
   },
   {
     "title": "New Zealand",
@@ -895,19 +865,9 @@
     "code": "RW"
   },
   {
-    "title": "Reunion",
-    "number": "+262",
-    "code": "RE"
-  },
-  {
     "title": "Saint Barthelemy",
     "number": "+590",
     "code": "BL"
-  },
-  {
-    "title": "Saint Helena",
-    "number": "+290",
-    "code": "SH"
   },
   {
     "title": "Saint Kitts and Nevis",
@@ -918,16 +878,6 @@
     "title": "Saint Lucia",
     "number": "+1758",
     "code": "LC"
-  },
-  {
-    "title": "Saint Martin",
-    "number": "+590",
-    "code": "MF"
-  },
-  {
-    "title": "Saint Pierre and Miquelon",
-    "number": "+508",
-    "code": "PM"
   },
   {
     "title": "Saint Vincent and the Grenadines",
@@ -1010,11 +960,6 @@
     "code": "SS"
   },
   {
-    "title": "South Georgia and the South Sandwich Islands",
-    "number": "+500",
-    "code": "GS"
-  },
-  {
     "title": "Spain",
     "number": "+34",
     "code": "ES"
@@ -1030,14 +975,9 @@
     "code": "SD"
   },
   {
-    "title": "Surititle",
+    "title": "Suriname",
     "number": "+597",
     "code": "SR"
-  },
-  {
-    "title": "Svalbard and Jan Mayen",
-    "number": "+47",
-    "code": "SJ"
   },
   {
     "title": "Swaziland",
@@ -1188,11 +1128,6 @@
     "title": "Virgin Islands, U.S.",
     "number": "+1340",
     "code": "VI"
-  },
-  {
-    "title": "Wallis and Futuna",
-    "number": "+681",
-    "code": "WF"
   },
   {
     "title": "Yemen",

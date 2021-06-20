@@ -3,7 +3,6 @@ import find from 'lodash/find';
 import { useTranslation } from 'react-i18next';
 import { AsYouType } from 'libphonenumber-js';
 
-import { ReactComponent as BelarusFlag } from '@flags/belarus.svg';
 import { ReactComponent as ArrowDown } from '@icons/arrow-down.svg';
 import { getCountryByIp } from '@utils/get-country-by-ip';
 import { removeCountryCodeFromPhoneNumber } from '@utils/phone-number-utils';
@@ -19,8 +18,13 @@ type CountryPhoneInputProps = {
   value: string;
 };
 
+type Selection = {
+  country?: string;
+  code?: string;
+};
+
 export const CountryPhoneInput: React.FC<CountryPhoneInputProps> = ({ onChange, value }) => {
-  const [code, setCode] = useState<string | undefined>('+375');
+  const [selection, setSelection] = useState<Selection>({ code: '+375', country: 'BY' });
   const [countries, setCountries] = useState<ICountry[]>([]);
   const { t } = useTranslation();
 
@@ -31,9 +35,9 @@ export const CountryPhoneInput: React.FC<CountryPhoneInputProps> = ({ onChange, 
 
   const onPhoneChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      onChange(`${code}${e.target.value}`);
+      onChange(`${selection.code}${e.target.value}`);
     },
-    [code, onChange],
+    [onChange, selection.code],
   );
 
   useEffect(() => {
@@ -55,7 +59,8 @@ export const CountryPhoneInput: React.FC<CountryPhoneInputProps> = ({ onChange, 
       const countriesResp = await res.json();
       const countryCode = await getCountryByIp();
       setCountries(countriesResp);
-      setCode(find(countriesResp, { code: countryCode })?.number);
+      const currentCountry = find(countriesResp, { code: countryCode });
+      setSelection({ code: currentCountry?.number, country: currentCountry?.code });
     };
     getCountries();
   }, []);
@@ -65,7 +70,10 @@ export const CountryPhoneInput: React.FC<CountryPhoneInputProps> = ({ onChange, 
   }, []);
 
   const onSelect = useCallback((e: React.SyntheticEvent<HTMLUListElement>) => {
-    setCode((e.target as HTMLLIElement).dataset.code);
+    setSelection({
+      code: (e.target as HTMLLIElement).dataset.code,
+      country: (e.target as HTMLLIElement).dataset.country,
+    });
     setOpen(false);
     inputRef.current?.focus();
   }, []);
@@ -74,8 +82,13 @@ export const CountryPhoneInput: React.FC<CountryPhoneInputProps> = ({ onChange, 
     <div className={BLOCK_NAME} ref={ref}>
       <div className={`${BLOCK_NAME}__input-container`}>
         <button className={`${BLOCK_NAME}__code-btn`} onClick={toggle} type="button">
-          <BelarusFlag className={`${BLOCK_NAME}__flag-icon`} />
-          <span className={`${BLOCK_NAME}__country-code`}>{code}</span>
+          <img
+            loading="lazy"
+            className={`${BLOCK_NAME}__flag-icon`}
+            src={`/assets/flags/${selection.country}.svg`}
+            alt={selection.country}
+          />
+          <span className={`${BLOCK_NAME}__country-code`}>{selection.code}</span>
           <ArrowDown />
         </button>
         <span className={`${BLOCK_NAME}__separator`} />
@@ -87,14 +100,23 @@ export const CountryPhoneInput: React.FC<CountryPhoneInputProps> = ({ onChange, 
           pattern="(\+?\d[- .]*){7,13}"
           ref={inputRef}
           onChange={onPhoneChange}
-          value={removeCountryCodeFromPhoneNumber(code, new AsYouType().input(value))}
+          value={removeCountryCodeFromPhoneNumber(selection.code, new AsYouType().input(value))}
         />
       </div>
       {open && (
         <ul className={`${BLOCK_NAME}__list`} onClick={onSelect}>
           {countries.map((item) => (
-            <li data-code={item.number} key={item.code} className={`${BLOCK_NAME}__list-item`}>
-              <BelarusFlag className={`${BLOCK_NAME}__flag-icon`} />
+            <li
+              data-code={item.number}
+              data-country={item.code}
+              key={item.code}
+              className={`${BLOCK_NAME}__list-item`}>
+              <img
+                loading="lazy"
+                className={`${BLOCK_NAME}__flag-icon`}
+                src={`/assets/flags/${item.code}.svg`}
+                alt={item.title}
+              />
               <span className={`${BLOCK_NAME}__list-item-code`}>{item.number}</span>
               {item.title}
             </li>

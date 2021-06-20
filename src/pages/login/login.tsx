@@ -66,7 +66,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ store }) => {
             fallback="/login"
             isAllowed={!!phoneNumber}
           />
-          <Route path="/" exact render={() => <Redirect to="/login" />} />
+          <Route render={() => <Redirect to="/login" />} />
         </Switch>
       </div>
     </div>

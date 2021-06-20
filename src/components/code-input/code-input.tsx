@@ -1,4 +1,4 @@
-import React, { useState, useRef, forwardRef } from 'react';
+import React, { useState, useRef, forwardRef, useEffect } from 'react';
 import classnames from 'classnames';
 
 import './code-input.scss';
@@ -8,6 +8,7 @@ type CodeInputProps = {
   onComplete: (code: string) => void;
   loading: boolean;
   error?: boolean;
+  resending?: boolean;
 };
 
 const DEFAULT_CODE_LENGTH = 4;
@@ -15,9 +16,15 @@ const DEFAULT_CODE_LENGTH = 4;
 const BLOCK_NAME = 'code-input';
 
 export const CodeInput = forwardRef<HTMLDivElement, CodeInputProps>(
-  ({ length = DEFAULT_CODE_LENGTH, onComplete, loading, error }, ref) => {
+  ({ length = DEFAULT_CODE_LENGTH, onComplete, loading, error, resending }, ref) => {
     const [code, setCode] = useState([...Array(length)].map(() => ''));
     const inputs = useRef<(HTMLInputElement | null)[]>([]);
+
+    useEffect(() => {
+      if (resending) {
+        setCode([...Array(length)].map(() => ''));
+      }
+    }, [resending, length]);
 
     const processInput = (e: React.ChangeEvent<HTMLInputElement>, slot: number) => {
       const num = e.target.value;
@@ -67,6 +74,7 @@ export const CodeInput = forwardRef<HTMLDivElement, CodeInputProps>(
                 onChange={(e) => processInput(e, idx)}
                 onKeyUp={(e) => onKeyUp(e, idx)}
                 ref={(reference) => inputs.current.push(reference)}
+                autoComplete="off"
               />
             </div>
           ))}

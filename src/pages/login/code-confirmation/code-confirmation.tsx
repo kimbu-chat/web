@@ -27,6 +27,7 @@ const CodeConfirmation: React.FC = () => {
   const history = useHistory();
   const [[mins, secs], setTime] = useState(DEFAULT_TIMEOUT);
   const [done, setDone] = useState(false);
+  const [resending, setResending] = useState(false);
   const codeInputRef = useRef<HTMLDivElement>(null);
 
   const tick = useCallback(() => {
@@ -56,7 +57,8 @@ const CodeConfirmation: React.FC = () => {
   const checkConfirmationCode = useActionWithDeferred(confirmPhoneAction);
 
   const resendVerificationCode = useCallback(() => {
-    reSendSmsCode({ phoneNumber });
+    setResending(true);
+    reSendSmsCode({ phoneNumber }).then(() => setResending(false));
     setDone(false);
     reset();
   }, [phoneNumber, reSendSmsCode]);
@@ -87,6 +89,7 @@ const CodeConfirmation: React.FC = () => {
         onComplete={sendCodeToVerify}
         ref={codeInputRef}
         error={isConfirmationCodeWrong}
+        resending={resending}
       />
       <p className={`${BLOCK_NAME}__another-code`}>
         {done ? (

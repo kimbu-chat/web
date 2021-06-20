@@ -232,7 +232,6 @@ export const AudioVideoSettings = () => {
         />
       </div>
       <div className="audio-video__video-area">
-        <VideoCameraSvg className="audio-video__video-icon" viewBox="0 0 300 280" />
         {videoOpened && (
           <>
             <video muted autoPlay playsInline ref={videoRef} className="audio-video__video" />
@@ -243,13 +242,18 @@ export const AudioVideoSettings = () => {
             )}
           </>
         )}
-        <Button
-          loading={requestingVideo}
-          onClick={getVideo}
-          type="button"
-          className="audio-video__video-btn">
-          {t('audioVideo.test-video')}
-        </Button>
+        {(!videoOpened || requestingVideo) && (
+          <>
+            <VideoCameraSvg className="audio-video__video-icon" viewBox="0 0 300 280" />
+            <Button
+              loading={requestingVideo}
+              onClick={getVideo}
+              type="button"
+              className="audio-video__video-btn">
+              {t('audioVideo.test-video')}
+            </Button>
+          </>
+        )}
       </div>
       <HorizontalSeparator />
       <div className="audio-video__intensity-wrapper">

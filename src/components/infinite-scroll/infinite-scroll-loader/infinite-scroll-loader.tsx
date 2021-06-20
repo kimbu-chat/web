@@ -2,7 +2,7 @@ import React from 'react';
 import './infinite-scroll-loader.scss';
 
 const InfiniteScrollLoader = () => (
-  <div className="loader ">
+  <div className="infinite-loader">
     <div className="">
       <div className="lds-ellipsis">
         <div />

@@ -16,9 +16,9 @@ import { ICreateGroupChatActionPayload } from '@store/chats/features/create-grou
 import { IAvatar } from '@store/common/models';
 import { ReactComponent as GroupSvg } from '@icons/group.svg';
 
-import './create-group-chat-modal.scss';
 import { UserSelect } from './user-select/user-select';
 import { GroupChatCreation } from './group-chat-creation/group-chat-creation';
+import './create-group-chat-modal.scss';
 
 interface ICreateGroupChatProps {
   onClose: () => void;

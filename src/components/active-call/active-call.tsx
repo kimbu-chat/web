@@ -236,30 +236,32 @@ const ActiveCall: React.FC = () => {
           [`${BLOCK_NAME}--big`]: isFullScreen,
         })}>
         <div
-          className={classNames(`${BLOCK_NAME}__main-data`, {
-            [`${BLOCK_NAME}__main-data--big`]: isFullScreen,
+          className={classNames(`${BLOCK_NAME}__top`, {
+            [`${BLOCK_NAME}__top--big`]: isFullScreen,
           })}>
-          <h3
-            className={classNames(
-              `${BLOCK_NAME}__interlocutor-name`,
-            )}>{`${interlocutor?.firstName} ${interlocutor?.lastName}`}</h3>
-          {amISpeaking && (
-            <div className={classNames(`${BLOCK_NAME}__duration`)}>
-              {dayjs.utc(callDuration * 1000).format('HH:mm:ss')}
-            </div>
-          )}
-        </div>
+          <div className={classNames(`${BLOCK_NAME}__main-data`)}>
+            <h3
+              className={classNames(
+                `${BLOCK_NAME}__interlocutor-name`,
+              )}>{`${interlocutor?.firstName} ${interlocutor?.lastName}`}</h3>
+            {amISpeaking && (
+              <div className={classNames(`${BLOCK_NAME}__duration`)}>
+                {dayjs.utc(callDuration * 1000).format('HH:mm:ss')}
+              </div>
+            )}
+          </div>
 
-        <button
-          type="button"
-          onClick={changeFullScreenStatus}
-          className={classNames(`${BLOCK_NAME}__change-screen`)}>
-          {isFullScreen ? (
-            <ExitFullScreenSvg viewBox="0 0 25 25" />
-          ) : (
-            <FullScreenSvg viewBox="0 0 25 25" />
-          )}
-        </button>
+          <button
+            type="button"
+            onClick={changeFullScreenStatus}
+            className={classNames(`${BLOCK_NAME}__change-screen`)}>
+            {isFullScreen ? (
+              <ExitFullScreenSvg viewBox="0 0 25 25" />
+            ) : (
+              <FullScreenSvg viewBox="0 0 25 25" />
+            )}
+          </button>
+        </div>
 
         <audio
           autoPlay

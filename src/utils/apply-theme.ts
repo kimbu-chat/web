@@ -11,6 +11,7 @@ export function applyTheme(theme?: Theme) {
     '--dt-dark-wt-white': '#fff',
     '--dt-dark-wt-bright-blue': '#D6E9FF',
     '--dt-dark-wt-kingBlueLight': 'rgba(63, 138, 224, 0.55)',
+    '--dt-dark-transparent-wt-kingBlueLight': 'rgba(63, 138, 224, 0.55)',
     '--dt-semi-transparent-wt-kingBlueLight': 'rgba(63, 138, 224, 0.55)',
     '--dt-gray-transparent-wt-kingBlueLight': 'rgba(63, 138, 224, 0.55)',
     '--dt-dark-wt-kingBlue': '#3F8AE0',
@@ -89,6 +90,7 @@ export function applyTheme(theme?: Theme) {
     '--dt-dark-wt-whiter': '#262c38',
     '--dt-dark-wt-kingBlue-lighter': '#262c38',
     '--dt-dark-transparent-wt-kingBlueLight-transparent': 'rgba(38, 44, 56, 0.5)',
+    '--dt-dark-transparent-wt-kingBlueLight': 'rgba(38, 44, 56, 0.5)',
     '--dt-gray-transparent-wt-kingBlueLight': 'rgba(55, 63, 81, 0.5)',
     '--dt-dark-wt-pink': '#262c38',
 

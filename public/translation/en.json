@@ -254,7 +254,8 @@
     "delete-confirmation": "Delete account",
     "deactivate-confirmation": "Deactivate account",
     "nickname-busy": "This nickname is busy",
-    "nickname-not-acceptable": "This nickname is not acceptable"
+    "nickname-not-acceptable": "This nickname is not acceptable",
+    "view_photo": "View photo"
   },
   "deleteAccountModal": {
     "title": "Delete account",

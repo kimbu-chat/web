@@ -9,6 +9,10 @@ import { authenticatedSelector } from '@store/auth/selectors';
 import { resetUnreadNotifications } from '@utils/set-favicon';
 import { IMyProfileState } from '@store/my-profile/my-profile-state';
 import { MAIN_API } from '@common/paths';
+import { MarkMessagesAsRead } from '@store/chats/features/mark-messages-as-read/mark-messages-as-read';
+import { IMarkMessagesAsReadApiRequest } from '@store/chats/features/mark-messages-as-read/api-requests/mark-messages-as-read-api-request';
+import { getSelectedChatIdSelector } from '@store/chats/selectors';
+import { getUnreadMessageId } from '@store/chats/utils/unread-message';
 
 import { IChangeUserOnlineStatusApiRequest } from './api-requests/change-user-online-status-api-request';
 
@@ -31,6 +35,8 @@ export class ChangeUserOnlineStatus {
       payload,
     }: ReturnType<typeof ChangeUserOnlineStatus.action>): SagaIterator {
       const isAuthenticated = yield select(authenticatedSelector);
+      const selectedChatId = yield select(getSelectedChatIdSelector);
+
       if (isAuthenticated) {
         ChangeUserOnlineStatus.httpRequest.call(
           yield call(() => ChangeUserOnlineStatus.httpRequest.generator({ isOnline: payload })),
@@ -39,6 +45,17 @@ export class ChangeUserOnlineStatus {
 
       if (payload) {
         resetUnreadNotifications();
+      }
+
+      const unreadMessageId = getUnreadMessageId();
+
+      if (unreadMessageId) {
+        const httpRequestPayload: IMarkMessagesAsReadApiRequest = {
+          chatId: selectedChatId,
+          lastReadMessageId: unreadMessageId,
+        };
+
+        yield call(() => MarkMessagesAsRead.httpRequest.generator(httpRequestPayload));
       }
     };
   }

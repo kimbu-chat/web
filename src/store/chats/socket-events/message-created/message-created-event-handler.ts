@@ -1,12 +1,11 @@
 import { SagaIterator } from 'redux-saga';
-import { select, put, call, take } from 'redux-saga/effects';
+import { select, put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 import { AxiosResponse } from 'axios';
 import { normalize } from 'normalizr';
 
 import { ILinkedMessage, INormalizedLinkedMessage } from '@store/chats/models/linked-message';
 import { areNotificationsEnabledSelector } from '@store/settings/selectors';
-import { ChangeUserOnlineStatus } from '@store/my-profile/features/change-user-online-status/change-user-online-status';
 import { setNewTitleNotificationInterval, incrementNotifications } from '@utils/set-favicon';
 import { playSoundSafely } from '@utils/current-music';
 import { modelChatList } from '@store/chats/utils/model-chat-list';
@@ -24,13 +23,15 @@ import {
 import { IUser } from '@store/common/models';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 import { ById } from '@store/chats/models/by-id';
+import { setUnreadMessageId } from '@store/chats/utils/unread-message';
+import { IMarkMessagesAsReadApiRequest } from '@store/chats/features/mark-messages-as-read/api-requests/mark-messages-as-read-api-request';
+import { MarkMessagesAsRead } from '@store/chats/features/mark-messages-as-read/mark-messages-as-read';
 
 import { MessageLinkType } from '../../models/linked-message-type';
 import messageCameUnselected from '../../../../assets/sounds/notifications/messsage-came-unselected.ogg';
 import messageCameSelected from '../../../../assets/sounds/notifications/messsage-came-selected.ogg';
 import { tabActiveSelector, myIdSelector } from '../../../my-profile/selectors';
 import { ChangeSelectedChat } from '../../features/change-selected-chat/change-selected-chat';
-import { MarkMessagesAsRead } from '../../features/mark-messages-as-read/mark-messages-as-read';
 import { IChat, INormalizedChat, IMessage, SystemMessageType } from '../../models';
 import {
   getSelectedChatIdSelector,
@@ -39,7 +40,6 @@ import {
   getMessageSelector,
 } from '../../selectors';
 import { UnshiftChat } from '../../features/unshift-chat/unshift-chat';
-import { IMarkMessagesAsReadApiRequest } from '../../features/mark-messages-as-read/api-requests/mark-messages-as-read-api-request';
 
 import { IMessageCreatedIntegrationEvent } from './message-created-integration-event';
 import { IGetMessageByIdApiRequest } from './api-requests/get-message-by-id-api-request';
@@ -167,16 +167,16 @@ export class MessageCreatedEventHandler {
 
       if (selectedChatId === chatId) {
         if (myId !== userCreator?.id) {
-          const httpRequestPayload: IMarkMessagesAsReadApiRequest = {
-            chatId: selectedChatId,
-            lastReadMessageId: id,
-          };
+          if (isTabActive) {
+            const httpRequestPayload: IMarkMessagesAsReadApiRequest = {
+              chatId: selectedChatId,
+              lastReadMessageId: id,
+            };
 
-          if (!isTabActive) {
-            yield take(ChangeUserOnlineStatus.action);
+            yield call(() => MarkMessagesAsRead.httpRequest.generator(httpRequestPayload));
+          } else {
+            setUnreadMessageId(id);
           }
-
-          yield call(() => MarkMessagesAsRead.httpRequest.generator(httpRequestPayload));
         }
       }
     };

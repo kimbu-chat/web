@@ -87,6 +87,8 @@
 
   &__video-area {
     align-items: center;
+    min-height: 494px;
+    box-sizing: border-box;
     background: var(--dt-dark-wt-kingBlue-lighter);
     border-radius: 30px;
     display: flex;
@@ -117,10 +119,7 @@
   }
 
   &__stop-video {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 60px;
+    margin-top: 53px;
     background: var(--dt-gray-transparent-wt-kingBlueLight);
     padding: 11px 57px;
     font-weight: normal;
@@ -129,5 +128,6 @@
     z-index: 55;
     color: #fff;
     border-radius: 6px;
+    margin-top: auto;
   }
 }

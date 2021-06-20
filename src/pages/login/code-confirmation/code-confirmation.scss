@@ -1,0 +1,35 @@
+.code-confirmation {
+  &__pretext {
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 29px;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+    color: var(--msg-bg-dt-gray-lt-grayLight);
+    padding: 32px 0;
+  }
+
+  &__another-code {
+    padding-top: 32px;
+    font-size: 14px;
+    line-height: 17px;
+    color: var(--msg-bg-dt-gray-lt-grayLight);
+  }
+
+  &__send-me {
+    text-decoration-line: underline;
+    color: var(--dt-kingBlue-wt-kingBlueLight);
+    cursor: pointer;
+  }
+
+  &__error-tooltip {
+    padding: 6px 16px;
+    background: #c74848;
+    border-radius: 10px;
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 14px;
+    text-align: center;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+    color: #ffffff;
+  }
+}

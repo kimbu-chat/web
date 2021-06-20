@@ -1,0 +1,19 @@
+.tooltip-popover {
+  position: absolute;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 14px;
+    width: 0;
+    height: 0;
+    margin-top: -4px;
+    border-bottom: solid 10px transparent;
+    border-left: solid 10px #c74848;
+    border-right: solid 10px transparent;
+    border-top: solid 10px #c74848;
+    transform: rotate(45deg);
+    border-radius: 4px;
+  }
+}

@@ -1,0 +1,50 @@
+.input-component {
+  display: table;
+  position: relative;
+
+  &__label {
+    background-color: var(--dt-kingBlue-wt-kingBlueLight);
+    border-radius: 6px;
+    padding: 2px 8px;
+    line-height: 14px;
+    font-size: 12px;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+    color: #ffffff;
+    font-weight: 300;
+    position: absolute;
+    left: 16px;
+    top: -13px;
+
+    &--error {
+      background-color: #c74848;
+    }
+  }
+
+  &__input-container {
+    display: flex;
+    align-items: center;
+    color: var(--dt-kingBlue-wt-kingBlueLight);
+    border-radius: 6px;
+    padding: 10px 16px;
+    background-color: #d6e9ff;
+
+    &--error {
+      background-color: #eea39d;
+      color: #c74848;
+    }
+  }
+
+  &__input {
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 20px;
+    border: none;
+    background-color: transparent;
+    color: var(--dt-kingBlue-wt-kingBlueLight);
+    width: 100%;
+
+    &--error {
+      color: #c74848;
+    }
+  }
+}

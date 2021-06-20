@@ -1,0 +1,50 @@
+.phone-confirmation {
+  &__slogan-pretext {
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 29px;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+    color: #32394a;
+    padding: 32px 0;
+  }
+
+  &__login-form {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &__login-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 40px;
+    background: var(--dt-kingBlue-wt-kingBlueLight);
+    border-radius: 6px;
+    color: white;
+    font-size: 18px;
+    line-height: 21px;
+    margin-left: 13px;
+
+    &:hover {
+      background: #3180d9;
+    }
+  }
+
+  &__conditions {
+    font-weight: 300;
+    line-height: 1;
+    margin-top: 15px;
+
+    span {
+      color: rgb(63, 138, 224);
+      display: inline;
+      font-weight: 400;
+
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+  }
+}

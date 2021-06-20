@@ -16,9 +16,10 @@ import './chat-member.scss';
 
 interface IMemberProps {
   memberId: number;
+  isOwner: boolean;
 }
 
-export const Member: React.FC<IMemberProps> = ({ memberId }) => {
+export const Member: React.FC<IMemberProps> = ({ memberId, isOwner }) => {
   const { t } = useTranslation();
 
   const member = useSelector(getUserSelector(memberId));
@@ -30,8 +31,6 @@ export const Member: React.FC<IMemberProps> = ({ memberId }) => {
 
   const myId = new MyProfileService().myProfile.id;
 
-  // TODO: isOwner logic is not implemented at all
-  const isOwner = false;
   const itIsMe = member?.id === myId;
 
   return (

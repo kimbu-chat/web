@@ -4,7 +4,10 @@ import { useSelector } from 'react-redux';
 
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getGroupChatUsersAction } from '@store/chats/actions';
-import { getMembersListForSelectedGroupChatSelector } from '@store/chats/selectors';
+import {
+  getMembersListForSelectedGroupChatSelector,
+  getSelectedGroupChatCreatorIdSelector,
+} from '@store/chats/selectors';
 import { ReactComponent as OpenArrowSvg } from '@icons/open-arrow.svg';
 import { InfiniteScroll } from '@components/infinite-scroll';
 import { SearchBox } from '@components/search-box/search-box';
@@ -20,6 +23,7 @@ export const ChatMembers: React.FC = () => {
   const getGroupChatUsers = useActionWithDispatch(getGroupChatUsersAction);
 
   const membersListForGroupChat = useSelector(getMembersListForSelectedGroupChatSelector);
+  const userCreatorId = useSelector(getSelectedGroupChatCreatorIdSelector);
 
   const loadMore = useCallback(() => {
     const page: IPage = {
@@ -78,7 +82,7 @@ export const ChatMembers: React.FC = () => {
             isLoading={membersListForGroupChat?.loading}
             threshold={0.3}>
             {membersListForGroupChat?.memberIds?.map((memberId) => (
-              <Member memberId={memberId} key={memberId} />
+              <Member isOwner={userCreatorId === memberId} memberId={memberId} key={memberId} />
             ))}
           </InfiniteScroll>
         </>

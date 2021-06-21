@@ -236,16 +236,14 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
               <SelectSvg />
             </button>
 
-            <div className="message__sender-photo-wrapper">
-              {needToShowCreator && (
-                <Avatar
-                  onClick={displayMessageCreatorInfo}
-                  className="message__sender-photo "
-                  user={userCreator}
-                />
-              )}
-            </div>
-
+            {needToShowCreator && (
+              <Avatar
+                className="message__sender-photo"
+                onClick={displayMessageCreatorInfo}
+                size={40}
+                user={userCreator}
+              />
+            )}
             <div
               className={`message__contents-wrapper ${
                 needToShowCreator ? '' : 'message__contents-wrapper--upcoming'

@@ -29,7 +29,7 @@ export const RoutingChats = () => {
 
   return (
     <div className="routing-chats">
-      <Avatar className="routing-chats__my-photo" user={myProfile} />
+      <Avatar className="routing-chats__my-photo" size={48} user={myProfile} />
 
       <div className="routing-chats__middle-group">
         <NavLink

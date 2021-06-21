@@ -73,13 +73,12 @@ export const ChatTopBar = () => {
     return (
       <div className="chat-data__chat-data">
         <button type="button" onClick={displayChatInfo} className="chat-data__contact-data">
-          <div className="chat-data__contact-img-container">
-            <Avatar
-              className="chat-data__contact-img"
-              user={interlocutor}
-              groupChat={selectedChat.groupChat}
-            />
-          </div>
+          <Avatar
+            className="chat-data__contact-img"
+            size={48}
+            user={interlocutor}
+            groupChat={selectedChat.groupChat}
+          />
 
           <div className="chat-data__chat-info">
             <h1 className="chat-data__chat-info__title">

@@ -29,7 +29,7 @@ export const BlockedUser: React.FC<IBlockedUserProps> = ({ user }) => {
 
   return (
     <div className="blocked-user">
-      <Avatar className="blocked-user__avatar" user={user} />
+      <Avatar className="blocked-user__avatar" size={24} user={user} />
 
       <span className="blocked-user__name">{`${user.firstName} ${user.lastName}`}</span>
 

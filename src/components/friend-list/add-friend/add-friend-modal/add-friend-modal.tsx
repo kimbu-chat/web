@@ -83,7 +83,7 @@ const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
         content={
           user ? (
             <div className="add-friends-modal__user">
-              <Avatar className="add-friends-modal__user__avatar" user={user} />
+              <Avatar className="add-friends-modal__user__avatar" size={80} user={user} />
 
               <h2 className="add-friends-modal__user__name">{`${user.firstName} ${user.lastName}`}</h2>
               <h4 className="add-friends-modal__user__phone">

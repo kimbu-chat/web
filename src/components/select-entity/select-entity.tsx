@@ -52,9 +52,12 @@ export const SelectEntity: React.FC<ISelectEntityProps> = ({
 
   return (
     <div onClick={onClickOnThisContact} className="select-entity__friend">
-      <div className="select-entity__avatar-container">
-        <Avatar className="select-entity__avatar" user={interlocutor} groupChat={groupChat} />
-      </div>
+      <Avatar
+        className="select-entity__avatar"
+        size={48}
+        user={interlocutor}
+        groupChat={groupChat}
+      />
 
       <div className="select-entity__friend-data">
         <div className="select-entity__friend-name">

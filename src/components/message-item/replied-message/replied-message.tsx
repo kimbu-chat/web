@@ -80,7 +80,7 @@ const RepliedMessage: React.FC<IRepliedMessageProps> = ({ linkedMessage }) => {
 
   return (
     <div className="replied-message">
-      <Avatar className="replied-message__avatar" user={userCreator} />
+      <Avatar size={32} user={userCreator} />
 
       <div className="replied-message__contents">
         <span className="replied-message__text">

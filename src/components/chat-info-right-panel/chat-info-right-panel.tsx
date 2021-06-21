@@ -66,6 +66,7 @@ const ChatInfoRightPanel: React.FC = React.memo(() => {
               <Avatar
                 onClick={changeIsAvatarMaximizedState}
                 className={`${BLOCK_NAME}__avatar`}
+                size={148}
                 user={interlocutor}
                 groupChat={chat?.groupChat}
               />

@@ -319,12 +319,11 @@ const ActiveCall: React.FC = () => {
             <div className={classNames(`${BLOCK_NAME}__gradient`)} />
           </>
         ) : (
-          <div className={classNames(`${BLOCK_NAME}__interlocutor-avatar-wrapper`)}>
-            <Avatar
-              className={classNames(`${BLOCK_NAME}__interlocutor-avatar`)}
-              user={interlocutor}
-            />
-          </div>
+          <Avatar
+            className={classNames(`${BLOCK_NAME}__interlocutor-avatar`)}
+            size={100}
+            user={interlocutor}
+          />
         )}
 
         {isInterlocutorBusy && <span>{t('activeCall.busy')}</span>}

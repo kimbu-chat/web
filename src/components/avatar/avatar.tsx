@@ -12,9 +12,10 @@ import { StatusBadge } from '../status-badge';
 interface IAvatarProps {
   user?: IUser;
   groupChat?: IGroupChat;
-  className?: string;
   statusBadge?: boolean;
+  size: number;
   onClick?: () => void;
+  className?: string;
 }
 
 const BLOCK_NAME = 'avatar';
@@ -23,21 +24,19 @@ const BLOCK_NAME_WRAPPER = 'avatar-wrapper';
 export const Avatar: React.FC<IAvatarProps> = ({
   user,
   groupChat,
-  className,
+  size,
   onClick,
   statusBadge,
-  ...props
-}) => {
-  if (user?.deleted) {
-    return (
-      <div className={classnames(BLOCK_NAME, `${BLOCK_NAME}--deleted`, className)}>
+  className,
+}) => (
+  <div className={classnames(className)}>
+    {user?.deleted ? (
+      <div
+        className={classnames(BLOCK_NAME, `${BLOCK_NAME}--deleted`)}
+        style={{ height: `${size}px`, width: `${size}px` }}>
         <DeletedSvg />
       </div>
-    );
-  }
-
-  return (
-    <>
+    ) : (
       <div className={BLOCK_NAME_WRAPPER}>
         {statusBadge && user?.online && <StatusBadge />}
         {user?.avatar?.previewUrl || groupChat?.avatar?.previewUrl ? (
@@ -45,22 +44,22 @@ export const Avatar: React.FC<IAvatarProps> = ({
             draggable={false}
             alt={getInterlocutorInitials({ user, groupChat })}
             src={user?.avatar?.previewUrl || groupChat?.avatar?.previewUrl}
-            {...props}
+            style={{ height: `${size}px`, width: `${size}px` }}
             onClick={onClick}
-            className={classnames(BLOCK_NAME, className)}
+            className={classnames(BLOCK_NAME)}
           />
         ) : (
           <div
             draggable={false}
-            {...props}
+            style={{ height: `${size}px`, width: `${size}px` }}
             onClick={onClick}
-            className={classnames(BLOCK_NAME, className)}>
+            className={classnames(BLOCK_NAME)}>
             {getInterlocutorInitials({ user, groupChat })}
           </div>
         )}
       </div>
-    </>
-  );
-};
+    )}
+  </div>
+);
 
 Avatar.displayName = 'Avatar';

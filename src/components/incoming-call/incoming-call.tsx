@@ -69,7 +69,7 @@ export const IncomingCall: React.FC = () => {
       bounds="body"
       className="incoming-call-draggable">
       <div className="incoming-call">
-        <Avatar className="incoming-call__img" user={interlocutor} />
+        <Avatar className="incoming-call__img" size={48} user={interlocutor} />
         <div className="incoming-call__info">
           <h1 className="incoming-call__calling-name">{`${interlocutor?.firstName} ${interlocutor?.lastName}`}</h1>
           <h3 className="incoming-call__additional-data">

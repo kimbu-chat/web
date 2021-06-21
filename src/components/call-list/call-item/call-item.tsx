@@ -36,7 +36,8 @@ const CallItem: React.FC<ICallItemProps> = ({ callId }) => {
 
   return (
     <div className={BLOCK_NAME}>
-      <Avatar className={`${BLOCK_NAME}__interlocutor-avatar`} user={userInterlocutor} />
+      <Avatar className={`${BLOCK_NAME}__interlocutor-avatar`} size={48} user={userInterlocutor} />
+
       <div className={`${BLOCK_NAME}__data`}>
         <div
           className={classnames(`${BLOCK_NAME}__name`, {

@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import truncate from 'lodash/truncate';
+import classnames from 'classnames';
 
 import {
   MessageLinkType,
@@ -28,6 +29,8 @@ import './chat-item.scss';
 interface IChatItemProps {
   chatId: number;
 }
+
+const BLOCK_NAME = 'chat-item';
 
 const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
   const { t } = useTranslation();
@@ -127,24 +130,24 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
   return (
     <NavLink
       to={`/chats/${chat?.id.toString()}`}
-      className="chat-item"
-      activeClassName="chat-item chat-item--active">
+      className={BLOCK_NAME}
+      activeClassName={classnames(BLOCK_NAME, `${BLOCK_NAME}--active`)}>
       {interlocutor && (
-        <div className="chat-item__avatar-container">
-          <Avatar className="chat-item__avatar" user={interlocutor} statusBadge />
+        <div className={`${BLOCK_NAME}__avatar-container`}>
+          <Avatar className={`${BLOCK_NAME}__avatar`} user={interlocutor} statusBadge />
         </div>
       )}
 
       {chat?.groupChat && (
         <Avatar
-          className="chat-item__avatar chat-item__avatar-container"
+          className={classnames(`${BLOCK_NAME}__avatar`, `${BLOCK_NAME}__avatar-container`)}
           groupChat={chat?.groupChat}
         />
       )}
-      <div className="chat-item__contents">
-        <div className="chat-item__heading">
-          <div className="chat-item__name">{getChatInterlocutor(interlocutor, chat, t)}</div>
-          <div className="chat-item__status">
+      <div className={`${BLOCK_NAME}__contents`}>
+        <div className={`${BLOCK_NAME}__heading`}>
+          <div className={`${BLOCK_NAME}__name`}>{getChatInterlocutor(interlocutor, chat, t)}</div>
+          <div className={`${BLOCK_NAME}__status`}>
             {!(
               chat?.lastMessage?.systemMessageType !== SystemMessageType.None ||
               !isMessageCreatorCurrentUser
@@ -152,7 +155,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
               chat?.lastMessage.state &&
               messageStatIconMap[chat?.lastMessage.state]}
           </div>
-          <div className="chat-item__time">
+          <div className={`${BLOCK_NAME}__time`}>
             {checkIfDatesAreDifferentDate(
               new Date(chat?.lastMessage?.creationDateTime as Date),
               new Date(),
@@ -161,12 +164,12 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
               : dayjs.utc(chat?.lastMessage?.creationDateTime).local().format('LT').toLowerCase()}
           </div>
         </div>
-        <div className="chat-item__last-message">{typingString || getMessageText()}</div>
+        <div className={`${BLOCK_NAME}__last-message`}>{typingString || getMessageText()}</div>
         {Boolean(chat?.unreadMessagesCount) && (
           <div
-            className={
-              chat?.isMuted ? 'chat-item__count chat-item__count--muted' : 'chat-item__count'
-            }>
+            className={classnames(`${BLOCK_NAME}__count`, {
+              [`${BLOCK_NAME}__count--muted`]: chat?.isMuted,
+            })}>
             {chat?.unreadMessagesCount}
           </div>
         )}

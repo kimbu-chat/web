@@ -9,7 +9,7 @@ import { getMessageSelector, getIsSelectMessagesStateSelector } from '@store/cha
 import { Avatar } from '@components/avatar';
 import { FileAttachment } from '@components/file-attachment';
 import { MessageAudioAttachment } from '@components/audio-attachment';
-import { CallStatus } from '@store/common/models';
+import { CallStatus } from '@store/common/models/call-status';
 import { ReactComponent as CrayonSvg } from '@icons/crayon.svg';
 import { ReactComponent as LeaveSvg } from '@icons/leave.svg';
 import { ReactComponent as CreateChatSvg } from '@icons/create-chat.svg';

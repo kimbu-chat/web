@@ -26,6 +26,8 @@ import { LeaveChatModal } from './leave-chat-modal/leave-chat-modal';
 import { ClearChatModal } from './clear-chat-modal/clear-chat-modal';
 import { RemoveChatModal } from './remove-chat-modal/remove-chat-modal';
 
+const BLOCK_NAME = 'chat-actions';
+
 export const ChatActions: React.FC = () => {
   const { t } = useTranslation();
 
@@ -116,17 +118,17 @@ export const ChatActions: React.FC = () => {
   }, [unBlockUser, chat?.interlocutorId]);
 
   return (
-    <div className="chat-actions">
-      <h3 className="chat-actions__title">{t('chatActions.actions')}</h3>
+    <div className={BLOCK_NAME}>
+      <h3 className={`${BLOCK_NAME}__title`}>{t('chatActions.actions')}</h3>
 
       <Button
         themed
         loading={isMuting}
         type="button"
         onClick={muteUnmute}
-        className="chat-actions__action">
+        className={`${BLOCK_NAME}__action`}>
         {chat?.isMuted ? <UnmuteSvg /> : <MuteSvg />}
-        <span className="chat-actions__action__name">
+        <span className={`${BLOCK_NAME}__action__name`}>
           {chat?.isMuted ? t('chatActions.unmute') : t('chatActions.mute')}
         </span>
       </Button>
@@ -134,9 +136,9 @@ export const ChatActions: React.FC = () => {
         themed
         onClick={changeClearChatModalOpenedState}
         type="button"
-        className="chat-actions__action">
+        className={`${BLOCK_NAME}__action`}>
         <ClearSvg />
-        <span className="chat-actions__action__name">{t('chatActions.clear-history')}</span>
+        <span className={`${BLOCK_NAME}__action__name`}>{t('chatActions.clear-history')}</span>
       </Button>
 
       {chat?.interlocutorId && (
@@ -144,9 +146,9 @@ export const ChatActions: React.FC = () => {
           themed
           type="button"
           onClick={changeRemoveChatModalOpenedState}
-          className="chat-actions__action">
+          className={`${BLOCK_NAME}__action`}>
           <DeleteSvg />
-          <span className="chat-actions__action__name">{t('chatActions.remove-chat')}</span>
+          <span className={`${BLOCK_NAME}__action__name`}>{t('chatActions.remove-chat')}</span>
         </Button>
       )}
 
@@ -157,9 +159,9 @@ export const ChatActions: React.FC = () => {
             loading={isDeletingContact}
             type="button"
             onClick={deleteContact}
-            className="chat-actions__action">
+            className={`${BLOCK_NAME}__action`}>
             <DeleteContactSvg />
-            <span className="chat-actions__action__name">{t('chatActions.delete-contact')}</span>
+            <span className={`${BLOCK_NAME}__action__name`}>{t('chatActions.delete-contact')}</span>
           </Button>
         ) : (
           <Button
@@ -167,9 +169,9 @@ export const ChatActions: React.FC = () => {
             loading={isAddingContact}
             type="button"
             onClick={addContact}
-            className="chat-actions__action">
+            className={`${BLOCK_NAME}__action`}>
             <AddUsersSvg />
-            <span className="chat-actions__action__name">{t('chatActions.add-contact')}</span>
+            <span className={`${BLOCK_NAME}__action__name`}>{t('chatActions.add-contact')}</span>
           </Button>
         ))}
 
@@ -180,9 +182,9 @@ export const ChatActions: React.FC = () => {
             loading={isUnBlocking}
             type="button"
             onClick={unBlockSelectedUser}
-            className="chat-actions__action">
+            className={`${BLOCK_NAME}__action`}>
             <UnBlockSvg />
-            <span className="chat-actions__action__name">{t('chatActions.unblock-user')}</span>
+            <span className={`${BLOCK_NAME}__action__name`}>{t('chatActions.unblock-user')}</span>
           </Button>
         ) : (
           <Button
@@ -190,9 +192,9 @@ export const ChatActions: React.FC = () => {
             loading={isBlocking}
             type="button"
             onClick={blockSelectedUser}
-            className="chat-actions__action">
+            className={`${BLOCK_NAME}__action`}>
             <BlockSvg />
-            <span className="chat-actions__action__name">{t('chatActions.block-user')}</span>
+            <span className={`${BLOCK_NAME}__action__name`}>{t('chatActions.block-user')}</span>
           </Button>
         ))}
 
@@ -201,9 +203,9 @@ export const ChatActions: React.FC = () => {
           themed
           type="button"
           onClick={changeCreateGroupChatModalOpenedState}
-          className="chat-actions__action">
+          className={`${BLOCK_NAME}__action`}>
           <UnmuteSvg />
-          <span className="chat-actions__action__name">{t('chatActions.create-group')}</span>
+          <span className={`${BLOCK_NAME}__action__name`}>{t('chatActions.create-group')}</span>
         </Button>
       )}
 
@@ -212,9 +214,9 @@ export const ChatActions: React.FC = () => {
           themed
           type="button"
           onClick={changeSetAddFriendsModalDisplayedState}
-          className="chat-actions__action">
+          className={`${BLOCK_NAME}__action`}>
           <AddUsersSvg />
-          <span className="chat-actions__action__name">{t('chatActions.add-users')}</span>
+          <span className={`${BLOCK_NAME}__action__name`}>{t('chatActions.add-users')}</span>
         </Button>
       )}
 
@@ -223,9 +225,9 @@ export const ChatActions: React.FC = () => {
           themed
           type="button"
           onClick={changeLeaveGroupChatModalOpenedState}
-          className="chat-actions__action">
+          className={`${BLOCK_NAME}__action`}>
           <LeaveSvg />
-          <span className="chat-actions__action__name">{t('chatActions.leave-chat')}</span>
+          <span className={`${BLOCK_NAME}__action__name`}>{t('chatActions.leave-chat')}</span>
         </Button>
       )}
 

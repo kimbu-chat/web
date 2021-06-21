@@ -17,6 +17,8 @@ interface IRemoveChatModalProps {
   onClose: () => void;
 }
 
+const BLOCK_NAME = 'remove-chat-modal';
+
 export const RemoveChatModal: React.FC<IRemoveChatModalProps> = ({ onClose }) => {
   const { t } = useTranslation();
 
@@ -45,15 +47,15 @@ export const RemoveChatModal: React.FC<IRemoveChatModalProps> = ({ onClose }) =>
       <Modal
         title={
           <>
-            <DeleteSvg viewBox="0 0 15 16" className="remove-chat-modal__icon" />
+            <DeleteSvg viewBox="0 0 15 16" className={`${BLOCK_NAME}__icon`} />
             <span> {t('removeChatModal.title')} </span>
           </>
         }
         content={
-          <div className="remove-chat-modal">
-            <div className="remove-chat-modal__delete-all">
+          <div className={BLOCK_NAME}>
+            <div className={`${BLOCK_NAME}__delete-all`}>
               <CheckBox
-                className="remove-chat-modal__check-box"
+                className={`${BLOCK_NAME}__check-box`}
                 onClick={changeDeleteForInterlocutorState}
                 isChecked={deleteForInterlocutor}
                 title={t('removeChatModal.delete-confirmation')}
@@ -63,7 +65,7 @@ export const RemoveChatModal: React.FC<IRemoveChatModalProps> = ({ onClose }) =>
         }
         closeModal={onClose}
         buttons={[
-          <button key={1} type="button" onClick={onClose} className="remove-chat-modal__cancel-btn">
+          <button key={1} type="button" onClick={onClose} className={`${BLOCK_NAME}__cancel-btn`}>
             {t('removeChatModal.cancel')}
           </button>,
           <Button
@@ -71,7 +73,7 @@ export const RemoveChatModal: React.FC<IRemoveChatModalProps> = ({ onClose }) =>
             type="button"
             loading={loading}
             onClick={deleteTheseMessages}
-            className="remove-chat-modal__confirm-btn">
+            className={`${BLOCK_NAME}__confirm-btn`}>
             {t('removeChatModal.delete-confirm')}
           </Button>,
         ]}

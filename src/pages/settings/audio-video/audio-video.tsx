@@ -94,6 +94,8 @@ export const AudioVideoSettings = () => {
   const [microphoneIntensity, setMicrophoneIntensity] = useState(0);
   const [audioIntensity, setAudioIntensity] = useState(0);
 
+  const toggleAudio = useCallback(() => setAudioPlaying((state) => !state), []);
+
   const toggleMicrophone = useCallback(() => {
     setMicrophoneOpened((oldState) => !oldState);
   }, [setMicrophoneOpened]);
@@ -257,47 +259,14 @@ export const AudioVideoSettings = () => {
       </div>
       <HorizontalSeparator />
       <div className="audio-video__intensity-wrapper">
-        <div className="audio-video__subject-title">
-          {audioPlaying ? (
-            <PauseSvg
-              onClick={() => {
-                setAudioPlaying(false);
-              }}
-              viewBox="0 0 24 24"
-              className="audio-video__subject-icon"
-            />
-          ) : (
-            <PlaySvg
-              onClick={() => {
-                setAudioPlaying(true);
-              }}
-              viewBox="0 0 24 24"
-              className="audio-video__subject-icon"
-            />
-          )}
-          <audio src={incomingCallSound} hidden ref={audioRef} />
-          <h5 className="audio-video__subject-text">{t('audioVideo.load-speaker')}</h5>
-        </div>
-        {audioMeasurementAllowed && <IntensityIndicator intensity={audioIntensity} />}
-      </div>
-      <HorizontalSeparator />
-      <div className="audio-video__intensity-wrapper">
-        <div className="audio-video__subject-title">
+        <button type="button" onClick={toggleMicrophone} className="audio-video__subject-title">
           {microphoneOpened ? (
-            <CloseMicrophoneSvg
-              onClick={toggleMicrophone}
-              viewBox="0 0 20 24"
-              className="audio-video__subject-icon"
-            />
+            <CloseMicrophoneSvg viewBox="0 0 20 24" className="audio-video__subject-icon" />
           ) : (
-            <MicrophoneSvg
-              onClick={toggleMicrophone}
-              viewBox="0 0 20 24"
-              className="audio-video__subject-icon"
-            />
+            <MicrophoneSvg viewBox="0 0 20 24" className="audio-video__subject-icon" />
           )}
           <h5 className="audio-video__subject-text">{t('audioVideo.microphone')}</h5>
-        </div>
+        </button>
         {audioMeasurementAllowed && <IntensityIndicator intensity={microphoneIntensity} />}
       </div>
       <div className="audio-video__dropdown-wrapper">
@@ -308,6 +277,19 @@ export const AudioVideoSettings = () => {
             onClick: () => switchDevice({ kind: InputType.AudioInput, deviceId: device.deviceId }),
           }))}
         />
+      </div>
+      <HorizontalSeparator />
+      <div className="audio-video__intensity-wrapper">
+        <button type="button" onClick={toggleAudio} className="audio-video__subject-title">
+          {audioPlaying ? (
+            <PauseSvg viewBox="0 0 24 24" className="audio-video__subject-icon" />
+          ) : (
+            <PlaySvg viewBox="0 0 24 24" className="audio-video__subject-icon" />
+          )}
+          <audio src={incomingCallSound} hidden ref={audioRef} />
+          <h5 className="audio-video__subject-text">{t('audioVideo.load-speaker')}</h5>
+        </button>
+        {audioMeasurementAllowed && <IntensityIndicator intensity={audioIntensity} />}
       </div>
     </div>
   );

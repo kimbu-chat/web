@@ -49,12 +49,14 @@
   &__intensity-wrapper {
     align-items: center;
     display: flex;
+    flex-wrap: wrap;
     margin-top: 32px;
   }
 
   &__intensity-indicator {
     align-items: center;
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row-reverse;
     margin-left: auto;
     margin-right: 7px;

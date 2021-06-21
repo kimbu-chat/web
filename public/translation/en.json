@@ -26,7 +26,8 @@
   "register": {
     "photo-requirements": "At least 256*256px PNG or JPG",
     "register": "Register",
-    "already_in_use": "User name already used"
+    "already_in_use": "User name already used",
+    "nickname_invalid": "Nickname should be at least 5 symbols and can contain _ special symbol."
   },
   "deleteChatMemberModal": {
     "title": "Delete chat member",

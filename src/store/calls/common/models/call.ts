@@ -1,4 +1,6 @@
-import { IUser, CallStatus } from '@store/common/models';
+import { CallStatus } from '@store/common/models/call-status';
+
+import type { IUser } from '@store/common/models';
 
 export interface ICall {
   id: number;

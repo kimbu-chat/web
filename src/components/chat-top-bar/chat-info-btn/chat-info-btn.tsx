@@ -1,4 +1,5 @@
 import React from 'react';
+import classnames from 'classnames';
 import { useSelector } from 'react-redux';
 
 import { ReactComponent as ChatInfoSvg } from '@icons/chat-info.svg';
@@ -8,6 +9,8 @@ interface IChatItemProps {
   toggleVisibility: () => void;
 }
 
+const BLOCK_NAME = 'chat-data';
+
 const ChatInfoBtn: React.FC<IChatItemProps> = ({ toggleVisibility }) => {
   const isInfoOpened = useSelector(getIsInfoOpenedSelector);
 
@@ -15,7 +18,9 @@ const ChatInfoBtn: React.FC<IChatItemProps> = ({ toggleVisibility }) => {
     <button
       type="button"
       onClick={toggleVisibility}
-      className={`chat-data__button ${isInfoOpened ? 'chat-data__button--active' : ''}`}>
+      className={classnames(`${BLOCK_NAME}__button`, {
+        [`${BLOCK_NAME}__button--active`]: isInfoOpened,
+      })}>
       <ChatInfoSvg />
     </button>
   );

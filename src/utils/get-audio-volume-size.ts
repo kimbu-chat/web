@@ -22,6 +22,7 @@ export async function getAudioVolume(
   microphone.connect(node).connect(audioContext.destination);
 
   return () => {
+    node.port.onmessage = null;
     if (audioContext.state === 'running') {
       audioContext.close();
     }

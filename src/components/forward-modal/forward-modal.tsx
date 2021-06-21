@@ -132,7 +132,7 @@ const ForwardModal: React.FC<IForwardModalProps> = ({ onClose, messageIdsToForwa
             />
             <InfiniteScroll
               className="forward-modal__chats-block"
-              onReachExtreme={loadMore}
+              onReachBottom={loadMore}
               hasMore={searchString.length ? searchChatsList.hasMore : chatsList.hasMore}
               isLoading={searchString.length ? searchChatsList.loading : chatsList.loading}>
               {selectEntities}

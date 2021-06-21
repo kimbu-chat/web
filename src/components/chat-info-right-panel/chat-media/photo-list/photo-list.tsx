@@ -39,7 +39,7 @@ const PhotoList = () => {
     <div className="chat-photo">
       <InfiniteScroll
         className="chat-photo__photo-container"
-        onReachExtreme={loadMore}
+        onReachBottom={loadMore}
         hasMore={photoForSelectedChat?.hasMore}
         isLoading={photoForSelectedChat?.loading}>
         {photosWithSeparators?.map((photo) => (

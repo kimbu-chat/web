@@ -146,7 +146,7 @@ const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = ({ onCl
             />
             <InfiniteScroll
               className="group-chat-add-friend-modal__friends-block"
-              onReachExtreme={loadMore}
+              onReachBottom={loadMore}
               hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}
               isLoading={name.length ? searchFriendsLoading : friendsLoading}>
               {selectEntities}

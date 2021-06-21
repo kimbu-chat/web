@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
+import incomingCallSound from '@sounds/calls/incoming-call.ogg';
 import { ReactComponent as VideoSvg } from '@icons/attachment-video.svg';
 import { ReactComponent as PlaySvg } from '@icons/play.svg';
 import { ReactComponent as PauseSvg } from '@icons/pause.svg';
@@ -21,7 +22,6 @@ import {
   spawnDeviceUpdateWatcherAction,
   switchDeviceAction,
 } from '@store/calls/actions';
-import incomingCallSound from '@sounds/calls/imcoming-call.ogg';
 import { getAudioVolume } from '@utils/get-audio-volume-size';
 import { playSoundSafely } from '@utils/current-music';
 import { Button } from '@components/button';

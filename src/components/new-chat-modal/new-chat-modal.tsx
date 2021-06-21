@@ -132,7 +132,7 @@ const NewChatModal: React.FC<INewChatModalProps> = ({ onClose, displayCreateGrou
             </div>
             <InfiniteScroll
               className="new-chat__friends-block"
-              onReachExtreme={loadMore}
+              onReachBottom={loadMore}
               hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}
               isLoading={name.length ? searchFriendsLoading : friendsLoading}>
               {selectEntities}

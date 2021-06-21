@@ -81,7 +81,7 @@ export const ChatMembers: React.FC = () => {
 
           <InfiniteScroll
             className={`${BLOCK_NAME}__members-list`}
-            onReachExtreme={loadMore}
+            onReachBottom={loadMore}
             hasMore={membersListForGroupChat?.hasMore}
             isLoading={membersListForGroupChat?.loading}
             threshold={0.3}>

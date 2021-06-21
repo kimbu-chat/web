@@ -112,7 +112,7 @@ const ChatList = React.memo(() => {
         </div>
         <div className={BLOCK_NAME}>
           <InfiniteScroll
-            onReachExtreme={loadMore}
+            onReachBottom={loadMore}
             hasMore={searchString.length ? searchChatsList.hasMore : chatsList.hasMore}
             isLoading={searchString.length ? searchChatsList.loading : chatsList.loading}>
             {renderedChats}

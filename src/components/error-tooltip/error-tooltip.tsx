@@ -4,12 +4,14 @@ import { ReactComponent as BulbSvg } from '@icons/bulb.svg';
 
 import './error-tooltip.scss';
 
+const BLOCK_NAME = 'error-tooltip';
+
 export const ErrorTooltip: React.FC = ({ children }) => (
-  <div className="error-tooltip">
-    <span className="error-tooltip__content">
-      <BulbSvg className="error-tooltip__content__icon" />
-      <span className="error-tooltip__content__text">{children}</span>
+  <div className={BLOCK_NAME}>
+    <span className={`${BLOCK_NAME}__content`}>
+      <BulbSvg className={`${BLOCK_NAME}__content__icon`} />
+      <span className={`${BLOCK_NAME}__content__text`}>{children}</span>
     </span>
-    <div className="error-tooltip__indicator" />
+    <div className={`${BLOCK_NAME}__indicator`} />
   </div>
 );

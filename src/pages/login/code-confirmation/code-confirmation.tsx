@@ -46,8 +46,12 @@ const CodeConfirmation: React.FC = () => {
   useEffect(() => {
     const timerId = setInterval(tick, 1000);
 
+    if (done) {
+      clearInterval(timerId);
+    }
+
     return () => clearInterval(timerId);
-  }, [tick]);
+  }, [tick, done]);
 
   const phoneNumber = useSelector(authPhoneNumberSelector);
   const isConfirmationCodeWrong = useSelector(confirmationCodeWrongSelector);

@@ -1,23 +1,27 @@
-import './call-item.scss';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
 import { useSelector } from 'react-redux';
+import classnames from 'classnames';
 
 import { ReactComponent as IncomingCallSvg } from '@icons/incoming-call.svg';
 import { ReactComponent as OutgoingCallSvg } from '@icons/outgoing-call.svg';
 import { ReactComponent as DeclinedCallSvg } from '@icons/declined-call.svg';
 import { ReactComponent as MissedCallSvg } from '@icons/missed-call.svg';
 import { myIdSelector } from '@store/my-profile/selectors';
-import { CallStatus } from '@store/common/models';
 import { Avatar } from '@components/avatar';
 import { getUserName } from '@utils/user-utils';
 import { getUserSelector } from '@store/users/selectors';
 import { getCallSelector } from '@store/calls/selectors';
+import { CallStatus } from '@store/common/models/call-status';
+
+import './call-item.scss';
 
 interface ICallItemProps {
   callId: number;
 }
+
+const BLOCK_NAME = 'call-from-list';
 
 const CallItem: React.FC<ICallItemProps> = ({ callId }) => {
   const { t } = useTranslation();
@@ -31,13 +35,16 @@ const CallItem: React.FC<ICallItemProps> = ({ callId }) => {
   const missedByMe = !isOutgoing && call?.status === CallStatus.NotAnswered;
 
   return (
-    <div className="call-from-list">
-      <Avatar className="call-from-list__interlocutor-avatar" user={userInterlocutor} />
-      <div className="call-from-list__data">
-        <div className={`call-from-list__name ${missedByMe ? 'call-from-list__name--missed' : ''}`}>
+    <div className={BLOCK_NAME}>
+      <Avatar className={`${BLOCK_NAME}__interlocutor-avatar`} user={userInterlocutor} />
+      <div className={`${BLOCK_NAME}__data`}>
+        <div
+          className={classnames(`${BLOCK_NAME}__name`, {
+            [`${BLOCK_NAME}__name--missed`]: missedByMe,
+          })}>
           {userInterlocutor && getUserName(userInterlocutor, t)}
         </div>
-        <div className="call-from-list__type">
+        <div className={`${BLOCK_NAME}__type`}>
           {call?.status === CallStatus.Cancelled && t('callFromList.canceled')}
 
           {call?.status === CallStatus.Declined && t('callFromList.declined')}
@@ -66,14 +73,14 @@ const CallItem: React.FC<ICallItemProps> = ({ callId }) => {
             (isOutgoing ? t('callFromList.missed') : t('callFromList.notAnswered'))}
         </div>
       </div>
-      <div className="call-from-list__aside-data">
-        <div className="call-from-list__date">
+      <div className={`${BLOCK_NAME}__aside-data`}>
+        <div className={`${BLOCK_NAME}__date`}>
           {dayjs.utc(call?.creationDateTime).local().format('l LT')}
         </div>
         <div
-          className={`call-from-list__type-icon ${
-            missedByMe ? 'call-from-list__type-icon--missed' : ''
-          }`}>
+          className={classnames(`${BLOCK_NAME}__type-icon`, {
+            [`${BLOCK_NAME}__type-icon--missed`]: missedByMe,
+          })}>
           {call?.status === CallStatus.Ended &&
             (isOutgoing ? (
               <OutgoingCallSvg viewBox="0 0 11 12" />

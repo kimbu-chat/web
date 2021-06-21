@@ -17,6 +17,8 @@ interface IBlockedMessageInputProps {
   isCurrentChatUserDeleted?: boolean;
 }
 
+const BLOCK_NAME = 'blocked-message-input';
+
 export const BlockedMessageInput: React.FC<IBlockedMessageInputProps> = ({
   isCurrentChatBlackListed,
   amIBlackListedByInterlocutor,
@@ -69,16 +71,16 @@ export const BlockedMessageInput: React.FC<IBlockedMessageInputProps> = ({
   ]);
 
   return (
-    <div className="blocked-message-input">
-      <BlockedSvg className="blocked-message-input__icon" viewBox="0 0 22 22" />
-      <div className="blocked-message-input__description">{text}</div>
+    <div className={BLOCK_NAME}>
+      <BlockedSvg className={`${BLOCK_NAME}__icon`} viewBox="0 0 22 22" />
+      <div className={`${BLOCK_NAME}__description`}>{text}</div>
 
       {isCurrentChatBlackListed && (
         <Button
           loading={unBlocking}
           onClick={unBlockSelectedUser}
           type="button"
-          className="blocked-message-input__btn">
+          className={`${BLOCK_NAME}__btn`}>
           {t('blockedMessageInput.unblock')}
         </Button>
       )}

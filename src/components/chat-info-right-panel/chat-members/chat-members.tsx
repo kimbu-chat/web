@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
-import './chat-members.scss';
 import { useSelector } from 'react-redux';
+import classnames from 'classnames';
 
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getGroupChatUsersAction } from '@store/chats/actions';
@@ -15,6 +15,10 @@ import { IPage } from '@store/common/models';
 import { CHAT_MEMBERS_LIMIT } from '@utils/pagination-limits';
 
 import { Member } from './chat-member/chat-member';
+
+import './chat-members.scss';
+
+const BLOCK_NAME = 'chat-members';
 
 export const ChatMembers: React.FC = () => {
   const [searchStr, setSearchStr] = useState<string>('');
@@ -56,27 +60,27 @@ export const ChatMembers: React.FC = () => {
   );
 
   return (
-    <div className="chat-members">
-      <div className="chat-members__heading-block">
-        <h3 className="chat-members__heading">Members</h3>
+    <div className={BLOCK_NAME}>
+      <div className={`${BLOCK_NAME}__heading-block`}>
+        <h3 className={`${BLOCK_NAME}__heading`}>Members</h3>
         <button
           type="button"
           onClick={changeMembersDisplayedState}
-          className={`chat-members__open-arrow ${
-            membersDisplayed ? 'chat-members__open-arrow--rotated' : ''
-          }`}>
+          className={classnames(`${BLOCK_NAME}__open-arrow`, {
+            [`${BLOCK_NAME}__open-arrow--rotated`]: membersDisplayed,
+          })}>
           <OpenArrowSvg />
         </button>
       </div>
 
       {membersDisplayed && (
         <>
-          <div className="chat-members__search">
-            <SearchBox containerClassName="chat-members__search-container" onChange={search} />
+          <div className={`${BLOCK_NAME}__search`}>
+            <SearchBox containerClassName={`${BLOCK_NAME}__search-container`} onChange={search} />
           </div>
 
           <InfiniteScroll
-            className="chat-members__members-list"
+            className={`${BLOCK_NAME}__members-list`}
             onReachExtreme={loadMore}
             hasMore={membersListForGroupChat?.hasMore}
             isLoading={membersListForGroupChat?.loading}

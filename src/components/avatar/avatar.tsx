@@ -1,4 +1,5 @@
 import React from 'react';
+import classnames from 'classnames';
 
 import { IGroupChat } from '@store/chats/models';
 import { IUser } from '@store/common/models';
@@ -16,6 +17,9 @@ interface IAvatarProps {
   onClick?: () => void;
 }
 
+const BLOCK_NAME = 'avatar';
+const BLOCK_NAME_WRAPPER = 'avatar-wrapper';
+
 export const Avatar: React.FC<IAvatarProps> = ({
   user,
   groupChat,
@@ -26,7 +30,7 @@ export const Avatar: React.FC<IAvatarProps> = ({
 }) => {
   if (user?.deleted) {
     return (
-      <div className={`avatar avatar--deleted ${className || ''}`}>
+      <div className={classnames(BLOCK_NAME, `${BLOCK_NAME}--deleted`, className)}>
         <DeletedSvg />
       </div>
     );
@@ -34,7 +38,7 @@ export const Avatar: React.FC<IAvatarProps> = ({
 
   return (
     <>
-      <div className="avatar-wrapper">
+      <div className={BLOCK_NAME_WRAPPER}>
         {statusBadge && user?.online && <StatusBadge />}
         {user?.avatar?.previewUrl || groupChat?.avatar?.previewUrl ? (
           <img
@@ -43,14 +47,14 @@ export const Avatar: React.FC<IAvatarProps> = ({
             src={user?.avatar?.previewUrl || groupChat?.avatar?.previewUrl}
             {...props}
             onClick={onClick}
-            className={`avatar ${className || ''}`}
+            className={classnames(BLOCK_NAME, className)}
           />
         ) : (
           <div
             draggable={false}
             {...props}
             onClick={onClick}
-            className={`avatar ${className || ''}`}>
+            className={classnames(BLOCK_NAME, className)}>
             {getInterlocutorInitials({ user, groupChat })}
           </div>
         )}

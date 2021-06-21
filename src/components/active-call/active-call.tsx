@@ -53,9 +53,9 @@ import {
 import { InputType } from '@store/calls/common/enums/input-type';
 import { playSoundSafely } from '@utils/current-music';
 
-const ActiveCall: React.FC = () => {
-  const BLOCK_NAME = 'active-call';
+const BLOCK_NAME = 'active-call';
 
+const ActiveCall: React.FC = () => {
   const interlocutor = useSelector(getCallInterlocutorSelector);
   const videoConstraints = useSelector(getVideoConstraintsSelector);
   const audioConstraints = useSelector(getAudioConstraintsSelector);

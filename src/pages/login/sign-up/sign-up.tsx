@@ -11,6 +11,7 @@ import { authLoadingSelector, authPhoneNumberSelector } from '@store/login/selec
 import { registerAction } from '@store/login/actions';
 import { checkNicknameAvailabilityAction } from '@store/my-profile/actions';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { validateNickname } from '@utils/validate-nick-name';
 
 import './sign-up.scss';
 
@@ -20,9 +21,9 @@ const SignUpPage: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const phoneNumber = useSelector(authPhoneNumberSelector);
-  const [firstName, setFirstName] = useState<string>();
-  const [lastName, setLastname] = useState<string>();
-  const [nickname, setNickname] = useState<string>();
+  const [firstName, setFirstName] = useState<string>('');
+  const [lastName, setLastname] = useState<string>('');
+  const [nickname, setNickname] = useState<string>('');
   const [error, setError] = useState<string>();
 
   const usernameRef = useRef<HTMLDivElement>(null);
@@ -34,21 +35,26 @@ const SignUpPage: React.FC = () => {
   const registerUser = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
-      if (firstName && lastName && nickname) {
-        checkNicknameAvailability({ nickname }).then(({ isAvailable }) => {
-          if (isAvailable) {
-            register({
-              firstName,
-              lastName,
-              nickname,
-            }).then(() => {
-              history.push('/chats');
-            });
-          } else {
-            setError(t('register.already_in_use'));
-          }
-        });
+
+      const isNicknameValid = validateNickname(nickname);
+      if (!isNicknameValid) {
+        setError(t('register.nickname_invalid'));
+        return;
       }
+
+      checkNicknameAvailability({ nickname }).then(({ isAvailable }) => {
+        if (isAvailable) {
+          register({
+            firstName,
+            lastName,
+            nickname,
+          }).then(() => {
+            history.push('/chats');
+          });
+        } else {
+          setError(t('register.already_in_use'));
+        }
+      });
     },
     [checkNicknameAvailability, firstName, history, lastName, nickname, register, t],
   );

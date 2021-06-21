@@ -16,6 +16,8 @@ interface ILeaveChatModalProps {
   hide: () => void;
 }
 
+const BLOCK_NAME = 'leave-chat-modal';
+
 export const LeaveChatModal: React.FC<ILeaveChatModalProps> = ({ hide }) => {
   const { t } = useTranslation();
   const history = useHistory();
@@ -42,14 +44,14 @@ export const LeaveChatModal: React.FC<ILeaveChatModalProps> = ({ hide }) => {
         highlightedInContents={selectedGroupChatName}
         closeModal={hide}
         buttons={[
-          <button key={1} type="button" className="leave-chat-modal__cancel-btn" onClick={hide}>
+          <button key={1} type="button" className={`${BLOCK_NAME}__cancel-btn`} onClick={hide}>
             {t('chatInfo.cancel')}
           </button>,
           <Button
             key={2}
             loading={loading}
             type="button"
-            className="leave-chat-modal__confirm-btn"
+            className={`${BLOCK_NAME}__confirm-btn`}
             onClick={deleteGroupChat}>
             {t('chatInfo.confirm')}
           </Button>,

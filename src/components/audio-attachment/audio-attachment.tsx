@@ -9,6 +9,8 @@ import { IAudioAttachment } from '@store/chats/models';
 
 import './audio-attachment.scss';
 
+const BLOCK_NAME = 'audio-attachment';
+
 export const MessageAudioAttachment: React.FC<IAudioAttachment> = ({ ...attachment }) => {
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -28,14 +30,14 @@ export const MessageAudioAttachment: React.FC<IAudioAttachment> = ({ ...attachme
   );
 
   return (
-    <div className="audio-attachment">
-      <button type="button" onClick={playPauseAudio} className="audio-attachment__download">
+    <div className={BLOCK_NAME}>
+      <button type="button" onClick={playPauseAudio} className={`${BLOCK_NAME}__download`}>
         {isPlaying ? <PauseSvg viewBox="0 0 24 24" /> : <PlaySvg viewBox="0 0 24 24" />}
       </button>
-      <div className="audio-attachment__play-data">
-        <div className="audio-attachment__data">
-          <h4 className="audio-attachment__file-name">{attachment.fileName}</h4>
-          <div className="audio-attachment__duration">
+      <div className={`${BLOCK_NAME}__play-data`}>
+        <div className={`${BLOCK_NAME}__data`}>
+          <h4 className={`${BLOCK_NAME}__file-name`}>{attachment.fileName}</h4>
+          <div className={`${BLOCK_NAME}__duration`}>
             {dayjs.utc(attachment.duration * 1000).format('mm:ss')}
           </div>
         </div>

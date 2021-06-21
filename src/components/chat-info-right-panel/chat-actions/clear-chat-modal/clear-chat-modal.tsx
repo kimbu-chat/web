@@ -17,6 +17,8 @@ interface IClearChatModalProps {
   hide: () => void;
 }
 
+const BLOCK_NAME = 'clear-chat-modal';
+
 export const ClearChatModal: React.FC<IClearChatModalProps> = ({ hide }) => {
   const { t } = useTranslation();
 
@@ -44,15 +46,15 @@ export const ClearChatModal: React.FC<IClearChatModalProps> = ({ hide }) => {
       <Modal
         title={
           <>
-            <ClearSvg viewBox="0 0 18 18" className="clear-chat-modal__icon" />
+            <ClearSvg viewBox="0 0 18 18" className={`${BLOCK_NAME}__icon`} />
             <span> {t('clearChat.title')} </span>
           </>
         }
         content={
-          <div className="clear-chat-modal">
-            <div className="clear-chat-modal__delete-all">
+          <div className={BLOCK_NAME}>
+            <div className={`${BLOCK_NAME}__delete-all`}>
               <CheckBox
-                className="clear-chat-modal__check-box"
+                className={`${BLOCK_NAME}__check-box`}
                 onClick={changeDeleteForInterlocutorState}
                 isChecked={deleteForInterlocutor}
                 title={t('clearChat.clear-confirmation')}
@@ -62,14 +64,14 @@ export const ClearChatModal: React.FC<IClearChatModalProps> = ({ hide }) => {
         }
         closeModal={hide}
         buttons={[
-          <button key={1} type="button" className="clear-chat-modal__cancel-btn" onClick={hide}>
+          <button key={1} type="button" className={`${BLOCK_NAME}__cancel-btn`} onClick={hide}>
             {t('chatInfo.cancel')}
           </button>,
           <Button
             key={2}
             loading={loading}
             type="button"
-            className="clear-chat-modal__confirm-btn"
+            className={`${BLOCK_NAME}__confirm-btn`}
             onClick={clearChat}>
             {t('chatInfo.clear')}
           </Button>,

@@ -1,4 +1,4 @@
-import { CallStatus } from '../../../common/models';
+import { CallStatus } from '../../../common/models/call-status';
 
 export interface ICallEndedIntegrationEvent {
   userInterlocutorId: number;

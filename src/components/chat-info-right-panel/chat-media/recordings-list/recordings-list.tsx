@@ -37,7 +37,7 @@ export const RecordingsList = () => {
     <div className="chat-recordings">
       <div className="chat-recordings__recordings">
         <InfiniteScroll
-          onReachExtreme={loadMore}
+          onReachBottom={loadMore}
           hasMore={recordingsForSelectedChat?.hasMore}
           isLoading={recordingsForSelectedChat?.loading}>
           {recordingsWithSeparators?.map((recording) => (

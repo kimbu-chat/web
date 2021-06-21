@@ -33,7 +33,7 @@ export const AudioList = () => {
     <div className="chat-audios">
       <div className="chat-audios__audios">
         <InfiniteScroll
-          onReachExtreme={loadMore}
+          onReachBottom={loadMore}
           hasMore={audiosForSelectedChat?.hasMore}
           isLoading={audiosForSelectedChat?.loading}
           threshold={0.3}>

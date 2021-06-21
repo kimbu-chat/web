@@ -1,4 +1,5 @@
 import React from 'react';
+import './infinite-scroll.scss';
 
 import { InfiniteScrollLoader } from './infinite-scroll-loader/infinite-scroll-loader';
 
@@ -8,8 +9,8 @@ interface IInfiniteScrollProps {
   className?: string;
   hasMore?: boolean;
   isLoading?: boolean;
-  onReachExtreme: () => void;
-  isReverse?: boolean;
+  onReachTop?: () => void;
+  onReachBottom?: () => void;
   threshold?: number | Array<number>;
 }
 
@@ -19,43 +20,66 @@ const InfiniteScroll: React.FC<IInfiniteScrollProps> = ({
   className = '',
   hasMore,
   isLoading,
-  onReachExtreme,
-  isReverse,
+  onReachTop,
+  onReachBottom,
   threshold = 0.0,
 }) => {
-  const loaderRef = React.useRef<HTMLDivElement>(null);
+  const loaderTopRef = React.useRef<HTMLDivElement>(null);
+  const loaderBottomRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
-    const loadMore = (entries: Array<IntersectionObserverEntry>) => {
+    const loadMoreTop = (entries: Array<IntersectionObserverEntry>) => {
       const [first] = entries;
 
-      if (!isLoading && hasMore && first.isIntersecting) {
-        onReachExtreme();
+      if (!isLoading && onReachTop && hasMore && first.isIntersecting) {
+        onReachTop();
+      }
+    };
+
+    const loadMoreBottom = (entries: Array<IntersectionObserverEntry>) => {
+      const [first] = entries;
+
+      if (!isLoading && onReachBottom && hasMore && first.isIntersecting) {
+        onReachBottom();
       }
     };
 
     const options = { threshold };
-    const observer = new IntersectionObserver(loadMore, options);
+    const topObserver = new IntersectionObserver(loadMoreTop, options);
+    const bottomObserver = new IntersectionObserver(loadMoreBottom, options);
 
-    const loaderCurrent = loaderRef.current;
-    if (loaderCurrent) {
-      observer.observe(loaderCurrent);
+    const topLoaderCurrent = loaderTopRef.current;
+    const bottomLoaderCurrent = loaderBottomRef.current;
+
+    if (topLoaderCurrent) {
+      topObserver.observe(topLoaderCurrent);
+    }
+
+    if (bottomLoaderCurrent) {
+      bottomObserver.observe(bottomLoaderCurrent);
     }
 
     return () => {
-      if (loaderCurrent) {
-        observer.unobserve(loaderCurrent);
+      if (topLoaderCurrent) {
+        topObserver.unobserve(topLoaderCurrent);
+      }
+
+      if (bottomLoaderCurrent) {
+        bottomObserver.unobserve(bottomLoaderCurrent);
       }
     };
-  }, [hasMore, isLoading, onReachExtreme, threshold]);
+  }, [hasMore, isLoading, loaderBottomRef, loaderTopRef, onReachBottom, onReachTop, threshold]);
 
   return (
-    <div
-      style={{ display: 'flex', flexDirection: isReverse ? 'column-reverse' : 'column' }}
-      className={`endless-scroll-wrapper ${className}`}>
+    <div className={`infinite-scroll ${className}`}>
+      {hasMore && onReachTop && (
+        <div ref={loaderTopRef} className="infinite-scroll__loader">
+          <Loader />
+        </div>
+      )}
       {children}
-      {hasMore && (
-        <div ref={loaderRef} className="endless-scroll-loader-wrapper">
+      {hasMore && onReachBottom && (
+        <div ref={loaderBottomRef} className="infinite-scroll__loader">
           <Loader />
         </div>
       )}

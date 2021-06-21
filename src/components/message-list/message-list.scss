@@ -25,6 +25,10 @@
         text-align: center;
       }
     }
+
+    &__scroll {
+      flex-direction: column-reverse;
+    }
   }
 
   &__select-chat {

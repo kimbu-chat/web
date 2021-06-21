@@ -81,10 +81,10 @@ const MessageList = () => {
         </FadeAnimationWrapper>
 
         <InfiniteScroll
-          onReachExtreme={loadMore}
+          onReachBottom={loadMore}
           hasMore={hasMoreMessages}
-          isLoading={areMessagesLoading}
-          isReverse>
+          className="chat__messages-list__scroll"
+          isLoading={areMessagesLoading}>
           {messagesIds
             ?.reduce(
               (accumulator: number[][], currentMessageId, index) => {

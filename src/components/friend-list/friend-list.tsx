@@ -79,7 +79,7 @@ export const FriendList = () => {
       </div>
       <div className="friend-list">
         <InfiniteScroll
-          onReachExtreme={loadMore}
+          onReachBottom={loadMore}
           hasMore={searchString.length ? hasMoreSearchFriends : hasMoreFriends}
           isLoading={searchString.length ? searchFriendsLoading : friendsLoading}>
           {renderedFriends}

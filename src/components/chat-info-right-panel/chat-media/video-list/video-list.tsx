@@ -39,7 +39,7 @@ export const VideoList = () => {
     <div className="chat-video">
       <InfiniteScroll
         className="chat-video__video-container"
-        onReachExtreme={loadMore}
+        onReachBottom={loadMore}
         hasMore={videosForSelectedChat?.hasMore}
         isLoading={videosForSelectedChat?.loading}>
         {videosWithSeparators?.map((video) => (

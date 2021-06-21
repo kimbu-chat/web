@@ -12,7 +12,7 @@ import {
 } from '@store/calls/selectors';
 import { Avatar } from '@components/avatar';
 // sounds
-import incomingCallSound from '@sounds/calls/imcoming-call.ogg';
+import incomingCallSound from '@sounds/calls/incoming-call.ogg';
 // svgs
 import { ReactComponent as AcceptWithAudioSvg } from '@icons/audio-call.svg';
 import { ReactComponent as AcceptWithVideoSvg } from '@icons/video-call.svg';

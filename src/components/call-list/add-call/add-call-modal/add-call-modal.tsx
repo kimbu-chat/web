@@ -125,7 +125,7 @@ export const AddCallModal: React.FC<IAddCallModalProps> = ({ onClose }) => {
             />
             <InfiniteScroll
               className="add-call-modal__friends-block"
-              onReachExtreme={loadMore}
+              onReachBottom={loadMore}
               hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}
               isLoading={name.length ? searchFriendsLoading : friendsLoading}>
               {selectEntities}

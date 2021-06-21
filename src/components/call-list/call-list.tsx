@@ -76,7 +76,7 @@ export const CallList = () => {
       </div>
       <div className={BLOCK_NAME}>
         <InfiniteScroll
-          onReachExtreme={loadMore}
+          onReachBottom={loadMore}
           hasMore={searchString.length ? searchCallsList.hasMore : callsList.hasMore}
           isLoading={searchString.length ? searchCallsList.loading : callsList.loading}>
           {renderedCalls}

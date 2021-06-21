@@ -38,7 +38,7 @@ export const FileList = () => {
   return (
     <div className="chat-files">
       <InfiniteScroll
-        onReachExtreme={loadMore}
+        onReachBottom={loadMore}
         hasMore={filesForSelectedChat?.hasMore}
         isLoading={filesForSelectedChat?.loading}
         threshold={0.3}>

@@ -5,7 +5,6 @@ import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
 import { Meta } from '@store/common/actions';
-import { IAuthState } from '@store/auth/auth-state';
 import { authRequestFactory, HttpRequestMethod } from '@store/common/http';
 import {
   authPhoneNumberSelector,
@@ -18,13 +17,15 @@ import { MAIN_API } from '@common/paths';
 import { IRegisterActionPayload } from './action-payloads/register-action-payload';
 import { IRegisterApiRequest } from './api-requests/register-api-request';
 
+import type { ILoginState } from '@store/login/login-state';
+
 export class Register {
   static get action() {
     return createAction('REGISTER')<IRegisterActionPayload, Meta>();
   }
 
   static get reducer() {
-    return produce((draft: IAuthState) => ({
+    return produce((draft: ILoginState) => ({
       ...draft,
       loading: true,
     }));

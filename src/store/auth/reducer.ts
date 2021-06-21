@@ -12,10 +12,6 @@ const securityTokens = authService?.securityTokens;
 
 const initialState: IAuthState = {
   loading: false,
-  confirmationCode: '',
-  twoLetterCountryCode: '',
-  phoneNumber: '',
-  isConfirmationCodeWrong: false,
   isAuthenticated: Boolean(securityTokens),
   securityTokens,
   refreshTokenRequestLoading: false,

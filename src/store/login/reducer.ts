@@ -21,9 +21,6 @@ const initialState: ILoginState = {
   phoneNumber: '',
   isConfirmationCodeWrong: false,
   isAuthenticated: Boolean(securityTokens),
-  securityTokens,
-  refreshTokenRequestLoading: false,
-  deviceId: authService.deviceId,
 };
 
 const reducer = createReducer<ILoginState>(initialState)

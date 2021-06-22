@@ -1,16 +1,23 @@
 import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import dayjs from 'dayjs';
 
 import { getSelectedChatAudiosSelector } from '@store/chats/selectors';
 import { getAudioAttachmentsAction } from '@store/chats/actions';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { doesYearDifferFromCurrent, setSeparators } from '@utils/set-separators';
+import { setSeparators } from '@utils/set-separators';
 import { InfiniteScroll } from '@components/infinite-scroll';
 import { MessageAudioAttachment } from '@components/audio-attachment';
 import { AUDIO_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
-
 import './audio-list.scss';
+import { separateGroupable } from '@utils/date-utils';
+import { IAudioAttachment } from '@store/chats/models';
+import { ChatAttachment } from '@utils/chat-attachment/chat-attachment';
+
+const AudioAttachmentComponent: React.FC<IAudioAttachment> = ({ ...audio }) => (
+  <div className="chat-audios__audio">
+    <MessageAudioAttachment {...audio} />
+  </div>
+);
 
 export const AudioList = () => {
   const audiosForSelectedChat = useSelector(getSelectedChatAudiosSelector);
@@ -37,21 +44,12 @@ export const AudioList = () => {
           hasMore={audiosForSelectedChat?.hasMore}
           isLoading={audiosForSelectedChat?.loading}
           threshold={0.3}>
-          {audiosWithSeparators?.map((attachment) => (
-            <React.Fragment key={attachment.id}>
-              {attachment.needToShowMonthSeparator && (
-                <div className="chat-audios__separator">
-                  {attachment.needToShowYearSeparator ||
-                  doesYearDifferFromCurrent(attachment.creationDateTime)
-                    ? dayjs(attachment.creationDateTime).format('MMMM YYYY')
-                    : dayjs(attachment.creationDateTime).format('MMMM')}
-                </div>
-              )}
-              <div className="chat-audios__audio">
-                <MessageAudioAttachment key={attachment.id} {...attachment} />
+          {audiosWithSeparators &&
+            separateGroupable(audiosWithSeparators).map((audiosArr) => (
+              <div key={`${audiosArr[0]?.id}Arr`}>
+                <ChatAttachment items={audiosArr} AttachmentComponent={AudioAttachmentComponent} />
               </div>
-            </React.Fragment>
-          ))}
+            ))}
         </InfiniteScroll>
       </div>
     </div>

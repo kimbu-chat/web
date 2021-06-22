@@ -16,8 +16,8 @@ import {
   getAudioAttachmentsCountSelector,
 } from '@store/chats/selectors';
 
-import { AudioList } from './audio-list/audio-list';
 import { PhotoList } from './photo-list/photo-list';
+import { AudioList } from './audio-list/audio-list';
 import { RecordingsList } from './recordings-list/recordings-list';
 import { VideoList } from './video-list/video-list';
 import { FileList } from './file-list/file-list';
@@ -56,7 +56,7 @@ export const ChatMedia = () => {
   const voiceAttachmentsCount = useSelector(getVoiceAttachmentsCountSelector);
   const audioAttachmentsCount = useSelector(getAudioAttachmentsCountSelector);
 
-  const totalAttacchmentsCount =
+  const totalAttachmentsCount =
     pictureAttachmentsCount +
     videoAttachmentsCount +
     filesAttachmentsCount +
@@ -65,7 +65,7 @@ export const ChatMedia = () => {
 
   return (
     <>
-      {totalAttacchmentsCount > 0 && (
+      {totalAttachmentsCount > 0 && (
         <div className="chat-media">
           <h3 className="chat-media__title">{t('chatMedia.media')}</h3>
           {pictureAttachmentsCount > 0 && (

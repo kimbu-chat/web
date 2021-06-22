@@ -8,11 +8,7 @@ import { IVoiceAttachment } from '@store/chats/models';
 
 import './recording-attachment.scss';
 
-interface IRecordingAttachmentProps {
-  attachment: IVoiceAttachment;
-}
-
-export const RecordingAttachment: React.FC<IRecordingAttachmentProps> = ({ attachment }) => {
+export const RecordingAttachment: React.FC<IVoiceAttachment> = ({ ...attachment }) => {
   const element = useRef<HTMLDivElement>(null);
 
   const [progress, setProgress] = useState(0);

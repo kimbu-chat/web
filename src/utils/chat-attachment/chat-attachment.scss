@@ -1,20 +1,4 @@
-.chat-photo {
-  &__photo-container {
-    display: flex;
-    flex-direction: row !important;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-  }
-
-  &__photo {
-    cursor: pointer;
-    height: 98px;
-    margin-bottom: 8px;
-    margin-right: 5px;
-    object-fit: cover;
-    width: 148px;
-  }
-
+.chat-attachment {
   &__separator {
     color: #3f8ae0;
     font-size: 16px;
@@ -25,6 +9,7 @@
     width: 100%;
     position: sticky;
     top: 17px;
+    z-index: 10;
     background-color: var(--dt-grafit-wt-white);
 
     &:first-child {

@@ -40,12 +40,13 @@ export const Member: React.FC<IMemberProps> = ({ memberId, isOwner }) => {
     <>
       <div className={BLOCK_NAME}>
         {member && (
-          <div
-            className={classnames(`${BLOCK_NAME}__avatar-container`, {
-              [`${BLOCK_NAME}__avatar-container--owner`]: isOwner,
-            })}>
-            <Avatar className={`${BLOCK_NAME}__avatar`} user={member} />
-          </div>
+          <Avatar
+            className={classnames(`${BLOCK_NAME}__avatar`, {
+              [`${BLOCK_NAME}__avatar--owner`]: isOwner,
+            })}
+            size={isOwner ? 52 : 48}
+            user={member}
+          />
         )}
 
         <div className={`${BLOCK_NAME}__data`}>

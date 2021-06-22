@@ -67,15 +67,14 @@
   }
 
   &__avatar {
-    height: 148px;
     margin-left: auto;
     margin-right: auto;
     margin-top: 20px;
-    width: 148px;
+    display: flex;
+    justify-content: center;
 
-    &:hover + * {
-      opacity: 1;
-      visibility: visible;
+    &:hover {
+      cursor: pointer;
     }
   }
 }

@@ -3,26 +3,15 @@
   margin-left: 24px;
   margin-top: 16px;
 
-  &__avatar-container {
+  &__avatar {
     color: var(--dt-grafit-wt-white);
-    height: 48px;
     margin-right: 18px;
-    width: 48px;
     display: grid;
 
     &--owner {
-      height: 52px;
       margin-right: 14px;
-      width: 52px;
     }
   }
-
-  &__avatar {
-    border-radius: 6px;
-    height: 100%;
-    width: 100%;
-  }
-
   &__data {
     display: flex;
     flex-direction: column;

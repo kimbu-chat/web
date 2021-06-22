@@ -26,7 +26,7 @@ export const RespondingMessage = () => {
       <ReplySvg className="responding-message__icon" viewBox="0 0 15 16" />
       <div className="responding-message__line" />
 
-      <Avatar className="responding-message__message-sender" user={userCreator} />
+      <Avatar size={32} user={userCreator} />
 
       <div
         className={`responding-message__message-contents ${

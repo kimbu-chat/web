@@ -133,16 +133,11 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
       className={BLOCK_NAME}
       activeClassName={classnames(BLOCK_NAME, `${BLOCK_NAME}--active`)}>
       {interlocutor && (
-        <div className={`${BLOCK_NAME}__avatar-container`}>
-          <Avatar className={`${BLOCK_NAME}__avatar`} user={interlocutor} statusBadge />
-        </div>
+        <Avatar className={`${BLOCK_NAME}__avatar`} size={48} user={interlocutor} statusBadge />
       )}
 
       {chat?.groupChat && (
-        <Avatar
-          className={classnames(`${BLOCK_NAME}__avatar`, `${BLOCK_NAME}__avatar-container`)}
-          groupChat={chat?.groupChat}
-        />
+        <Avatar className={`${BLOCK_NAME}__avatar`} size={48} groupChat={chat?.groupChat} />
       )}
       <div className={`${BLOCK_NAME}__contents`}>
         <div className={`${BLOCK_NAME}__heading`}>

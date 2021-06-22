@@ -19,15 +19,10 @@
     user-select: none;
   }
 
-  &__contact-img-container {
+  &__contact-img {
     color: var(--dt-grafit-wt-white);
     margin-left: 20px;
     margin-right: 18px;
-  }
-
-  &__contact-img {
-    height: 48px;
-    width: 48px;
   }
 
   &__chat-info {

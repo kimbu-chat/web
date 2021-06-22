@@ -108,16 +108,10 @@
     }
   }
 
-  &__sender-photo-wrapper {
+  &__sender-photo {
     margin-bottom: auto;
     margin-left: 32px;
     margin-right: 10px;
-  }
-
-  &__sender-photo {
-    border-radius: 6px;
-    height: 40px;
-    width: 40px;
     cursor: pointer;
   }
 
@@ -217,7 +211,7 @@
     position: relative;
 
     &--upcoming {
-      margin-left: 40px;
+      margin-left: 80px;
     }
 
     &:hover .message-item-actions {

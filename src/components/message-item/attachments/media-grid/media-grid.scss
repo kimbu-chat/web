@@ -1,6 +1,6 @@
 .media-grid {
   border-radius: 6px;
-  display: inline-grid;
+  display: inline-grid !important;
   flex-wrap: wrap;
   grid-template-columns: 1fr 1fr;
   justify-content: flex-start;

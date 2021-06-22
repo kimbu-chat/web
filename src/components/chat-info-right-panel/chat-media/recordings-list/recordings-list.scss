@@ -3,22 +3,18 @@
     color: #3f8ae0;
     font-size: 16px;
     line-height: 19px;
-    margin-bottom: 16px;
-    margin-top: 8px;
+    padding-bottom: 16px;
+    padding-top: 8px;
     text-transform: capitalize;
     width: 100%;
+    position: sticky;
+    top: 17px;
+    z-index: 10;
+    background-color: var(--dt-grafit-wt-white);
+    margin-bottom: -30px;
 
     &:first-child {
-      margin-top: 17px;
-    }
-  }
-
-  &__recording {
-    margin-top: 20px;
-    max-width: calc(100% - 40px);
-
-    &:first-child {
-      margin-top: 0;
+      padding-top: 17px;
     }
   }
 

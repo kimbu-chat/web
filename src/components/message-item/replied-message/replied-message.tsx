@@ -92,7 +92,7 @@ const RepliedMessage: React.FC<IRepliedMessageProps> = ({ linkedMessage }) => {
             <FileAttachment key={file.id} {...file} />
           ))}
           {structuredAttachments?.recordings.map((recording) => (
-            <RecordingAttachment key={recording.id} attachment={recording} />
+            <RecordingAttachment key={recording.id} {...recording} />
           ))}
           {structuredAttachments?.audios.map((audio) => (
             <MessageAudioAttachment key={audio.id} {...audio} />

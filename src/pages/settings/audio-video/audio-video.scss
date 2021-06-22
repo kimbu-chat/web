@@ -23,9 +23,11 @@
     display: flex;
     color: var(--dt-white-wt-dark);
 
-    &:hover {
-      color: #3f8ae0;
-      cursor: pointer;
+    &--button {
+      &:hover {
+        color: #3f8ae0;
+        cursor: pointer;
+      }
     }
   }
 

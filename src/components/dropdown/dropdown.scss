@@ -5,7 +5,7 @@
     border-radius: 4px;
     color: var(--dt-white-wt-dark);
     display: inline-block;
-    font-size: 11px;
+    font-size: 0.6875rem;
     font-weight: 400;
     position: relative;
     z-index: 5555;
@@ -21,7 +21,7 @@
     position: relative;
 
     span {
-      font-size: 12px;
+      font-size: 0.75rem;
       font-weight: 300;
       line-height: 14px;
       margin-right: 16px;
@@ -65,7 +65,7 @@
     &__option {
       background: var(--chat-bg-dt-dark-wt-bright-blue);
       cursor: pointer;
-      font-size: 12px;
+      font-size: 0.75rem;
 
       font-weight: 300;
       line-height: 14px;

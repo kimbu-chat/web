@@ -19,7 +19,7 @@
     &__ordinary {
       color: var(--dt-white-wt-dark);
       font-weight: 300;
-      font-size: 18px;
+      font-size: 1.125rem;
       line-height: 21px;
     }
 
@@ -31,7 +31,7 @@
     &__highlighted {
       color: #3f8ae0;
       font-weight: normal;
-      font-size: 18px;
+      font-size: 1.125rem;
       line-height: 21px;
       margin-right: 10px;
     }
@@ -40,7 +40,7 @@
   &__current-session {
     color: var(--dt-white-wt-dark);
     font-weight: 300;
-    font-size: 18px;
+    font-size: 1.125rem;
     line-height: 21px;
     margin-left: auto;
   }
@@ -51,7 +51,7 @@
     border-radius: 6px;
     color: #fff;
     font-weight: 300;
-    font-size: 18px;
+    font-size: 1.125rem;
     line-height: 21px;
     margin-left: auto;
     margin-right: -3px;

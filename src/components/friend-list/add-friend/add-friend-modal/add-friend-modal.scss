@@ -22,7 +22,7 @@
     width: calc(100% - 40px);
 
     span {
-      font-size: 12px;
+      font-size: 0.75rem;
       font-weight: 300;
       line-height: 14px;
     }
@@ -51,7 +51,7 @@
     width: calc(100% - 56px);
 
     span {
-      font-size: 12px;
+      font-size: 0.75rem;
       font-weight: 300;
       line-height: 14px;
     }
@@ -60,7 +60,7 @@
   &__btn {
     border-radius: 6px;
     color: var(--dt-white-wt-dark);
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 300;
     line-height: 19px;
     padding: 10px 30px;
@@ -102,7 +102,7 @@
 
     &__name {
       color: var(--dt-white-wt-dark);
-      font-size: 16px;
+      font-size: 1rem;
       font-weight: normal;
       line-height: 19px;
       margin-bottom: 14px;
@@ -110,7 +110,7 @@
 
     &__phone {
       color: var(--dt-white-wt-dark);
-      font-size: 14px;
+      font-size: 0.875rem;
       font-weight: 300;
       line-height: 17px;
     }

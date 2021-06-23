@@ -19,7 +19,7 @@
     border: none;
     box-sizing: border-box;
     color: var(--dt-white-wt-kingBlue);
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 300;
     height: 40px;
     line-height: 19px;
@@ -60,7 +60,7 @@
     background: var(--dt-dark-wt-kingBlue);
     border-radius: 60px;
     color: #fff;
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 300;
     left: 16px;
     line-height: 14px;
@@ -87,7 +87,7 @@
 
   &__country-name {
     color: #fff;
-    font-size: 13px;
+    font-size: 0.8125rem;
     font-weight: 400;
     left: 88px;
     line-height: 16px;
@@ -96,7 +96,7 @@
 
   &__number {
     color: #fff;
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 300;
     line-height: 19px;
   }

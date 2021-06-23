@@ -32,20 +32,20 @@
     flex-direction: column;
 
     &__title {
-      font-size: 16px;
+      font-size: 1rem;
       font-weight: 500;
       line-height: 19px;
     }
 
     &__info {
-      font-size: 14px;
+      font-size: 0.875rem;
       font-weight: 400;
       line-height: 16px;
       margin-top: 8px;
 
       &__typing {
         span {
-          font-size: 14px;
+          font-size: 0.875rem;
           font-weight: 300;
           line-height: 17px;
           margin-left: 4px;

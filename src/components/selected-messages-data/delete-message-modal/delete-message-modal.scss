@@ -9,7 +9,7 @@
     margin-top: -9px;
 
     span {
-      font-size: 16px;
+      font-size: 1rem;
       font-weight: 300;
       line-height: 19px;
     }
@@ -24,7 +24,7 @@
 
   &__btn-description {
     color: var(--dt-white-wt-dark);
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 300;
     line-height: 19px;
     margin-left: 16px;
@@ -35,7 +35,7 @@
     --bg-color: #c74848;
     border-radius: 6px;
     color: #fff;
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 300;
     line-height: 19px;
     padding: 10px 32px;
@@ -44,7 +44,7 @@
   &__cancel-btn {
     background: transparent;
     color: var(--dt-white-wt-dark);
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 300;
     line-height: 19px;
     margin-left: auto;

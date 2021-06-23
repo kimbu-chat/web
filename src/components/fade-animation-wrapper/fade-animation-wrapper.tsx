@@ -8,7 +8,7 @@ interface IFadeAnimationWrapperProps {
   children: JSX.Element;
 }
 
-const DEFAULT_TIMEOUT = 200;
+const DEFAULT_TIMEOUT = 0;
 
 const CLASS_NAMES = 'fade';
 

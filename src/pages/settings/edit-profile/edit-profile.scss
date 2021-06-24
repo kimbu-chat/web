@@ -6,7 +6,7 @@
 
   &__page-name {
     font-weight: normal;
-    font-size: 28px;
+    font-size: 1.75rem;
     line-height: 33px;
     color: var(--dt-white-wt-dark);
     margin-bottom: 5px;
@@ -15,7 +15,7 @@
   &__title {
     color: var(--dt-white-wt-dark);
     font-weight: normal;
-    font-size: 24px;
+    font-size: 1.5rem;
     line-height: 28px;
     margin-top: 32px;
     margin-bottom: 32px;
@@ -74,7 +74,7 @@
       bottom: 0;
       width: 100%;
       font-weight: 300;
-      font-size: 14px;
+      font-size: 0.875rem;
       line-height: 17px;
       padding: 7px 0;
       left: 0;
@@ -129,14 +129,14 @@
     padding: 12px 32px;
     color: #fff;
     font-weight: 300;
-    font-size: 14px;
+    font-size: 0.875rem;
     line-height: 17px;
   }
 
   &__avatar-requirements {
     color: var(--dt-white-wt-dark);
     font-weight: 300;
-    font-size: 10px;
+    font-size: 0.625rem;
     line-height: 12px;
     margin-top: -16px;
   }
@@ -148,7 +148,7 @@
 
     input {
       font-weight: 500;
-      font-size: 18px;
+      font-size: 1.125rem;
       line-height: 21px;
     }
   }
@@ -159,7 +159,7 @@
     border-radius: 6px;
     color: #fff;
     font-weight: normal;
-    font-size: 16px;
+    font-size: 1rem;
     line-height: 19px;
     margin-right: auto;
     padding: 10px 32px;
@@ -183,14 +183,14 @@
 
   &__phone {
     color: var(--dt-white-wt-dark);
-    font-size: 24px;
+    font-size: 1.5rem;
     font-weight: 500;
     line-height: 28px;
   }
 
   &__details {
     color: var(--dt-white-wt-dark);
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 300;
     line-height: 17px;
     margin-top: 16px;

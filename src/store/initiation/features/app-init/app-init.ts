@@ -7,7 +7,6 @@ import { createEmptyAction } from '@store/common/actions';
 import { AuthService } from '@services/auth-service';
 import { AuthInit } from '@store/auth/features/initiate-auth/initiate-auth';
 import { GetMyProfile } from '@store/my-profile/features/get-my-profile/get-my-profile';
-import { SubscribeToPushNotifications } from '@store/auth/features/subscribe-to-push-notifications/subscribe-to-push-notifications';
 
 import { StartInternetConnectionStateChangeWatcher } from '../../../internet/features/internet-connection-check/start-internet-connection-state-change-watcher';
 import { ChangeUserOnlineStatus } from '../../../my-profile/features/change-user-online-status/change-user-online-status';
@@ -38,7 +37,6 @@ export class AppInit {
         }),
       );
       yield put(GetMyProfile.action());
-      yield put(SubscribeToPushNotifications.action());
       yield put(ChangeUserOnlineStatus.action(true));
       yield put(InitSocketConnection.action());
       yield put(getUserSettingsAction());

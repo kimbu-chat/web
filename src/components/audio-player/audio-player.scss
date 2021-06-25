@@ -1,0 +1,115 @@
+.audio-player {
+  width: 100%;
+  top: 0;
+  right: 0;
+  padding: 5px 24px 8px 23px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  background: var(--dt-gray-semi-transparent-wt-kingBlueLight-transparentest);
+  backdrop-filter: blur(6px);
+  position: absolute;
+  z-index: 5;
+  padding: 5px 24px 6px 23px;
+
+  &__data {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+  }
+
+  &__duration {
+    color: var(--dt-white-lt-gray);
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+  }
+
+  &__audio-name {
+    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 1.0625rem;
+    display: inline-block;
+    width: 300px;
+    white-space: nowrap;
+    color: var(--dt-white-lt-gray);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 6px;
+    width: 17.9%;
+  }
+
+  &__audio-close {
+    svg {
+      width: 18px;
+      height: 18px;
+      color: var(--dt-white-lt-gray);
+    }
+  }
+
+  &__audio-controls {
+    display: flex;
+    align-items: center;
+    margin-right: 2%;
+  }
+
+  &__audio-control {
+    &--play {
+      margin: 0 16px;
+      color: #3f8ae0;
+    }
+
+    &--mute {
+      margin-right: 24px;
+      color: var(--dt-white-lt-gray);
+    }
+
+    &--repeat {
+      margin-left: 27px;
+      color: var(--dt-white-lt-gray);
+    }
+
+    &--active {
+      color: #3f8ae0;
+    }
+  }
+
+  .rhap {
+    &_container {
+      background: inherit;
+      box-shadow: none;
+      background: transparent;
+      max-width: 100%;
+      padding: 0;
+    }
+
+    &_controls-section {
+      display: none;
+    }
+
+    &_progress-bar {
+      background-color: #fff;
+      border-radius: 4px;
+      height: 4px;
+    }
+
+    &_progress-filled {
+      height: 6px;
+    }
+
+    &_download-progress {
+      background: transparent;
+    }
+
+    &_progress-indicator {
+      height: 18px;
+      width: 18px;
+      top: -6px;
+    }
+
+    &_progress-container {
+      margin: 0;
+    }
+  }
+}

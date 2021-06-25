@@ -39,7 +39,7 @@ export const LeaveChatModal: React.FC<ILeaveChatModalProps> = ({ hide }) => {
   return (
     <WithBackground onBackgroundClick={hide}>
       <Modal
-        title="Delete chat"
+        title={t('chatActions.leave-chat')}
         content={t('chatInfo.leave-confirmation', { groupChatName: selectedGroupChatName })}
         highlightedInContents={selectedGroupChatName}
         closeModal={hide}
@@ -53,7 +53,7 @@ export const LeaveChatModal: React.FC<ILeaveChatModalProps> = ({ hide }) => {
             type="button"
             className={`${BLOCK_NAME}__confirm-btn`}
             onClick={deleteGroupChat}>
-            {t('chatInfo.confirm')}
+            {t('chatInfo.leave')}
           </Button>,
         ]}
       />

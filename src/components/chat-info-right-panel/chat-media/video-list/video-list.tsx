@@ -9,7 +9,7 @@ import { setSeparators } from '@utils/set-separators';
 import { InfiniteScroll } from '@components/infinite-scroll';
 import { VIDEO_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 import { separateGroupable } from '@utils/date-utils';
-import { ChatAttachment } from '@utils/chat-attachment/chat-attachment';
+import { ChatAttachment } from '@components/chat-attachment/chat-attachment';
 import { IVideoAttachment } from '@store/chats/models';
 
 import { VideoFromList } from './video/video-from-list';

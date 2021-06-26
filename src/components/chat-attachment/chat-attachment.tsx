@@ -3,7 +3,7 @@ import './chat-attachment.scss';
 
 import { IGroupable, IBaseAttachment } from '@store/chats/models';
 
-import { dateByOffset } from '../date-utils';
+import { dateByOffset } from '../../utils/date-utils';
 
 export function ChatAttachment<T extends IBaseAttachment>({
   items,

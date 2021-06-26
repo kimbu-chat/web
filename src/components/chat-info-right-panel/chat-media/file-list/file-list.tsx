@@ -11,7 +11,7 @@ import { FileAttachment } from '@components/file-attachment';
 import { FILE_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 import './file-list.scss';
 import { separateGroupable } from '@utils/date-utils';
-import { ChatAttachment } from '@utils/chat-attachment/chat-attachment';
+import { ChatAttachment } from '@components/chat-attachment/chat-attachment';
 import { IBaseAttachment } from '@store/chats/models';
 
 const FileAttachmentComponent: React.FC<IBaseAttachment> = ({ ...file }) => (

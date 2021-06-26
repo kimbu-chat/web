@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import WaveSurfer from 'wavesurfer.js';
-import dayjs from 'dayjs';
 
 import { ReactComponent as PlaySvg } from '@icons/play.svg';
 import { ReactComponent as PauseSvg } from '@icons/pause.svg';
 import { IVoiceAttachment } from '@store/chats/models';
 import './recording-attachment.scss';
 import { changeMusic, Origin } from '@utils/current-music';
+import { getMinutesSeconds } from '@utils/date-utils';
 
 export const RecordingAttachment: React.FC<IVoiceAttachment> = ({ ...attachment }) => {
   const element = useRef<HTMLDivElement>(null);
@@ -89,9 +89,7 @@ export const RecordingAttachment: React.FC<IVoiceAttachment> = ({ ...attachment 
         <div style={{ width: `${progress * 100}%` }} className="recording-attachment__progress" />
         <div ref={element} className="recording-attachment__vaweform" />
       </div>
-      <div className="recording-attachment__duration">
-        {dayjs.utc(attachment.duration * 1000).format('mm:ss')}
-      </div>
+      <div className="recording-attachment__duration">{getMinutesSeconds(attachment.duration)}</div>
     </div>
   );
 };

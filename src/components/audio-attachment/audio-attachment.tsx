@@ -1,12 +1,11 @@
 import React from 'react';
-import dayjs from 'dayjs';
 
 import { ReactComponent as PlaySvg } from '@icons/play.svg';
 import { ReactComponent as PauseSvg } from '@icons/pause.svg';
 import { AudioContext } from '@contexts/audioContext';
 import { IAudioAttachment } from '@store/chats/models';
-
 import './audio-attachment.scss';
+import { getMinutesSeconds } from '@utils/date-utils';
 
 const BLOCK_NAME = 'audio-attachment';
 
@@ -36,7 +35,7 @@ export const MessageAudioAttachment: React.FC<IAudioAttachment> = ({ ...attachme
           <div className={`${BLOCK_NAME}__data`}>
             <h4 className={`${BLOCK_NAME}__file-name`}>{attachment.fileName}</h4>
             <div className={`${BLOCK_NAME}__duration`}>
-              {dayjs.utc(attachment.duration * 1000).format('mm:ss')}
+              {getMinutesSeconds(attachment.duration)}
             </div>
           </div>
         </div>

@@ -1,12 +1,14 @@
 import { TFunction } from 'i18next';
 import { RootState } from 'typesafe-actions';
-import { unionBy } from 'lodash';
+import unionBy from 'lodash/unionBy';
 
 import { IAttachmentToSend } from './models/attachment-to-send';
 import { IBaseAttachment } from './models/attachments/base-attachment';
 import { INormalizedChat } from './models/chat';
 import { IChatsState } from './chats-state';
-import { FileType, IAudioAttachment, InterlocutorType } from './models';
+import { FileType, InterlocutorType } from './models';
+
+import type { IAudioAttachment } from './models';
 
 // RootState selectors
 export const getSelectedChatSelector = (state: RootState): INormalizedChat | undefined =>

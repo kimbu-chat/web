@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
@@ -12,20 +11,28 @@ import { ReactComponent as RepeatSvg } from '@icons/repeat.svg';
 import { ReactComponent as CloseSvg } from '@icons/close.svg';
 import { ReactComponent as ArrowRightSvg } from '@icons/arrow_right.svg';
 import { changeMusic, Origin, playSoundSafely } from '@utils/current-music';
-import './audio-player.scss';
 import { getSelectedChatAudioAttachmentsSelector } from '@store/chats/selectors';
 import { CurrentAudio } from '@contexts/audioContext';
+import { getMinutesSeconds } from '@utils/date-utils';
+import './audio-player.scss';
 
-export const TopAudioPlayer: React.FC<
-  CurrentAudio & {
-    isPlayingAudio: boolean;
-    setIsPlayingAudio: React.Dispatch<React.SetStateAction<boolean>>;
-    closeAudio: () => void;
-    moveAudio: (audioId: number) => void;
-  }
-> = ({ chatId, audioId, setIsPlayingAudio, isPlayingAudio, moveAudio, closeAudio }) => {
-  const BLOCK_NAME = 'audio-player';
+type ITopAudioPlayerProps = CurrentAudio & {
+  isPlayingAudio: boolean;
+  setIsPlayingAudio: React.Dispatch<React.SetStateAction<boolean>>;
+  closeAudio: () => void;
+  moveAudio: (audioId: number) => void;
+};
 
+const BLOCK_NAME = 'audio-player';
+
+export const TopAudioPlayer: React.FC<ITopAudioPlayerProps> = ({
+  chatId,
+  audioId,
+  setIsPlayingAudio,
+  isPlayingAudio,
+  moveAudio,
+  closeAudio,
+}) => {
   const audioAttachmentsForChat = useSelector(getSelectedChatAudioAttachmentsSelector(chatId));
 
   const audioRef = useRef<AudioPlayer | null>(null);
@@ -158,9 +165,12 @@ export const TopAudioPlayer: React.FC<
           </button>
         </div>
         <div className={classNames(`${BLOCK_NAME}__duration`)}>
-          {dayjs.utc((currentAudioAttachment?.duration || 0) * 1000).format('mm:ss')}
+          {getMinutesSeconds(currentAudioAttachment?.duration || 0)}
         </div>
-        <button type="button" onClick={closeAudio} className="audio-player__audio-close">
+        <button
+          type="button"
+          onClick={closeAudio}
+          className={classNames(`${BLOCK_NAME}__audio-close`)}>
           <CloseSvg />
         </button>
       </div>

@@ -47,7 +47,6 @@ const ChatPage: React.FC<ChatPageProps> = ({ isDragging }) => {
     (audioId: number) => {
       if (selectedChatId) {
         setCurrentAudio({ chatId: selectedChatId, audioId });
-        setIsPlayingAudio(false);
         setIsPlayingAudio(true);
       }
     },

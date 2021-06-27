@@ -1,5 +1,5 @@
 import { SagaIterator } from 'redux-saga';
-import { put } from 'redux-saga/effects';
+import { call, put } from 'redux-saga/effects';
 import isEmpty from 'lodash/isEmpty';
 import produce from 'immer';
 
@@ -40,7 +40,7 @@ export class AppInit {
       yield put(ChangeUserOnlineStatus.action(true));
       yield put(InitSocketConnection.action());
       yield put(getUserSettingsAction());
-      yield put(StartInternetConnectionStateChangeWatcher.action());
+      yield call(StartInternetConnectionStateChangeWatcher.saga);
       yield put(StartIdleStateChangeWatcher.action());
     };
   }

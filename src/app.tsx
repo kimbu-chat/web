@@ -48,6 +48,7 @@ const App = ({ store }: { store: any }) => {
       settingsModule,
       chatsModule,
       friendsModule,
+      internet,
     ] = await Promise.all([
       import('@store/initiation/sagas'),
       import('@store/auth/module'),
@@ -56,6 +57,7 @@ const App = ({ store }: { store: any }) => {
       import('@store/settings/module'),
       import('@store/chats/module'),
       import('@store/friends/module'),
+      import('@store/internet/module'),
     ]);
 
     store.inject([
@@ -66,6 +68,7 @@ const App = ({ store }: { store: any }) => {
       [StoreKeys.SETTINGS, settingsModule.reducer, settingsModule.settingsSaga],
       [StoreKeys.CHATS, chatsModule.reducer, chatsModule.chatSaga],
       [StoreKeys.FRIENDS, friendsModule.reducer, friendsModule.friendsSaga],
+      [StoreKeys.INTERNET, internet.reducer, internet.internetSagas],
     ]);
 
     return loadMessenger();

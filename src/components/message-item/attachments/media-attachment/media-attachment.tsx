@@ -1,12 +1,11 @@
 import React, { useCallback, useState } from 'react';
-import dayjs from 'dayjs';
 
 import { MediaModal } from '@components/image-modal';
 import FadeAnimationWrapper from '@components/fade-animation-wrapper';
 import { FileType, IPictureAttachment, IVideoAttachment } from '@store/chats/models';
 import { ReactComponent as PlaySvg } from '@icons/play.svg';
-
 import './media-attachment.scss';
+import { getMinutesSeconds } from '@utils/date-utils';
 
 interface IMessageMediaAttachmentProps {
   attachmentId: number;
@@ -18,9 +17,10 @@ export const MessageMediaAttachment: React.FC<IMessageMediaAttachmentProps> = ({
   attachmentsArr,
 }) => {
   const [bigMediaDisplayed, setBigMediaDisplayed] = useState(false);
-  const changeBigMediaDisplayed = useCallback(() => setBigMediaDisplayed((oldState) => !oldState), [
-    setBigMediaDisplayed,
-  ]);
+  const changeBigMediaDisplayed = useCallback(
+    () => setBigMediaDisplayed((oldState) => !oldState),
+    [setBigMediaDisplayed],
+  );
 
   const currentAttachment = attachmentsArr.find(({ id }) => id === attachmentId);
 
@@ -45,7 +45,7 @@ export const MessageMediaAttachment: React.FC<IMessageMediaAttachmentProps> = ({
             <div className="media-attachment__blur" />
             <PlaySvg className="media-attachment__svg" viewBox="0 0 25 25" />
             <div className="media-attachment__duration">
-              {dayjs.utc((currentAttachment as IVideoAttachment).duration * 1000).format('mm:ss')}
+              {getMinutesSeconds((currentAttachment as IVideoAttachment).duration)}
             </div>{' '}
           </>
         )}

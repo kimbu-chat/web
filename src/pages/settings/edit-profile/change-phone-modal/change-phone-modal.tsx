@@ -2,7 +2,6 @@ import React, { useCallback, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import parsePhoneNumberFromString from 'libphonenumber-js';
 import useInterval from 'use-interval';
-import dayjs from 'dayjs';
 import classNames from 'classnames';
 
 import { ReactComponent as ChatSvg } from '@icons/single-chat.svg';
@@ -15,8 +14,8 @@ import { LabeledInput } from '@components/labeled-input';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { confirmChangePhone, sendSmsChangePhone } from '@store/my-profile/actions';
 import { getUserByPhoneAction } from '@store/friends/actions';
-
 import './change-phone-modal.scss';
+import { getMinutesSeconds } from '@utils/date-utils';
 
 interface IChangePhoneModalProps {
   onClose: () => void;
@@ -167,7 +166,7 @@ const ChangePhoneModal: React.FC<IChangePhoneModalProps> = ({ onClose }) => {
                 ) : (
                   <span className={classNames(`${BLOCK_NAME}__details`)}>
                     {t('changePhoneModal.details', {
-                      time: dayjs.utc(remainedTime * 1000).format('mm:ss'),
+                      time: getMinutesSeconds(remainedTime),
                     })}
                   </span>
                 )}

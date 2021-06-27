@@ -107,7 +107,7 @@ export class CreateGroupChat {
           recordings: [],
         },
         messages: {
-          messages: [],
+          messages: {},
           messageIds: [],
           hasMore: true,
           loading: false,

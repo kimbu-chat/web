@@ -47,42 +47,6 @@
 
   &__play-data {
     flex-grow: 1;
-
-    .rhap {
-      &_container {
-        background: inherit;
-        box-shadow: none;
-        max-width: 76%;
-        padding: 0;
-      }
-
-      &_controls-section {
-        display: none;
-      }
-
-      &_progress-container {
-        margin: 0;
-        margin-bottom: -6px;
-        margin-top: -6px;
-      }
-
-      &_progress-bar {
-        background-color: var(--chat-bg-dt-dark-wt-whiter);
-        border-radius: 6px;
-        height: 4px;
-      }
-
-      &_download-progress {
-        background: transparent;
-      }
-
-      &_progress-indicator {
-        height: 6px;
-        margin-left: 0;
-        top: -1px;
-        width: 6px;
-      }
-    }
   }
 }
 

@@ -1,36 +1,23 @@
-let currentMusic: HTMLAudioElement | null;
-let currentChangePlayStatus: React.Dispatch<React.SetStateAction<boolean>> | undefined;
+export enum Origin {
+  AudioPlayer,
+  Record,
+}
 
-export const changeMusic = (
-  newMusic: HTMLAudioElement | null,
-  changePlayStatus?: React.Dispatch<React.SetStateAction<boolean>>,
-  needsToBePaused?: boolean,
-) => {
-  if (newMusic !== currentMusic) {
-    newMusic?.play();
+let current: { id: number; endAudio: () => void; origin: Origin } | null = null;
 
-    if (currentMusic) {
-      currentMusic.pause();
-    }
-  } else if (newMusic?.paused) {
-    newMusic?.play();
-  } else if (needsToBePaused) {
-    newMusic?.pause();
+export const changeMusic = (id: number, origin: Origin, endAudio: () => void) => {
+  if (id !== current?.id) {
+    if (!(origin === Origin.AudioPlayer && current?.origin === Origin.AudioPlayer))
+      current?.endAudio();
+  } else {
+    current = null;
   }
 
-  if (currentChangePlayStatus) {
-    currentChangePlayStatus(false);
-  }
-
-  currentMusic = newMusic;
-
-  if (changePlayStatus) {
-    currentChangePlayStatus = changePlayStatus;
-  }
-
-  if (changePlayStatus) {
-    changePlayStatus(!currentMusic?.paused);
-  }
+  current = {
+    id,
+    origin,
+    endAudio,
+  };
 };
 
 export function playSoundSafely(sound: HTMLAudioElement): void {

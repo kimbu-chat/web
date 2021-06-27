@@ -62,7 +62,7 @@ export const incrementNotifications = () => {
 
 export const resetUnreadNotifications = () => {
   unreadNotifications = 0;
-  window.document.title = 'Ravudi';
+  window.document.title = 'Kimbu';
 
   if (windowNotificationIntervalCode) {
     clearInterval(windowNotificationIntervalCode);
@@ -83,7 +83,7 @@ export const setNewTitleNotificationInterval = () => {
   window.document.title = `${unreadNotifications} unread Notification !`;
   windowNotificationIntervalCode = setInterval(() => {
     window.document.title = notificationsDisplayed
-      ? 'Ravudi'
+      ? 'Kimbu'
       : `${unreadNotifications} unread Notification !`;
     notificationsDisplayed = !notificationsDisplayed;
   }, 500);

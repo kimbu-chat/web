@@ -124,7 +124,7 @@
     ]
   },
   "module": "esnext",
-  "name": "ravudi",
+  "name": "kimbu",
   "private": true,
   "scripts": {
     "analyze": "source-map-explorer 'build/*.js'",

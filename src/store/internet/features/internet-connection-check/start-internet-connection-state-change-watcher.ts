@@ -46,8 +46,10 @@ function* watchInternetConnectionChange(): SagaIterator {
 
     if (internetState) {
       yield put(InternetConnected.action());
+      [window.document.title] = window.document.title.split(' [offline]');
     } else {
       yield put(InternetDisconnected.action());
+      window.document.title += ' [Offline]';
     }
   }
 }

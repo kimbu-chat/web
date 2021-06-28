@@ -1,12 +1,12 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 
-import FadeAnimationWrapper from '@components/fade-animation-wrapper';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ReactComponent as ForwardSvg } from '@icons/forward.svg';
 import { ReactComponent as EditSVG } from '@icons/edit.svg';
 import { ReactComponent as DeleteSVG } from '@icons/delete.svg';
 import { ReactComponent as ReplySVG } from '@icons/reply.svg';
 import { editMessageAction, replyToMessageAction } from '@store/chats/actions';
+import { useToggledState } from '@hooks/use-toggled-state';
 
 import { DeleteMessageModal } from '../../selected-messages-data/delete-message-modal/delete-message-modal';
 import { ForwardModal } from '../../forward-modal/forward-modal';
@@ -30,17 +30,11 @@ const MessageItemActions: React.FC<IMessageItemActionsProps> = ({ messageId, isE
     editMessage({ messageId });
   }, [editMessage, messageId]);
 
-  // --Delete message logic
-  const [deleteMessagesModalDisplayed, setDeleteMessagesModalDisplayed] = useState(false);
-  const changeDeleteMessagesModalDisplayedState = useCallback(() => {
-    setDeleteMessagesModalDisplayed((oldState) => !oldState);
-  }, [setDeleteMessagesModalDisplayed]);
+  const [deleteMessagesModalDisplayed, displayDeleteMessagesModal, hideBigMedia] =
+    useToggledState(false);
 
-  // --Forward Message Logic
-  const [forwardMessagesModalDisplayed, setForwardMessagesModalDisplayed] = useState(false);
-  const changeForwardMessagesModalDisplayedState = useCallback(() => {
-    setForwardMessagesModalDisplayed((oldState) => !oldState);
-  }, [setForwardMessagesModalDisplayed]);
+  const [forwardMessagesModalDisplayed, displayForwardMessagesModal, hideForwardMessagesModal] =
+    useToggledState(false);
 
   return (
     <>
@@ -56,7 +50,7 @@ const MessageItemActions: React.FC<IMessageItemActionsProps> = ({ messageId, isE
 
         <button
           type="button"
-          onClick={changeForwardMessagesModalDisplayedState}
+          onClick={displayForwardMessagesModal}
           className="message-item-actions__action">
           <ForwardSvg />
         </button>
@@ -70,25 +64,19 @@ const MessageItemActions: React.FC<IMessageItemActionsProps> = ({ messageId, isE
 
         <button
           type="button"
-          onClick={changeDeleteMessagesModalDisplayedState}
+          onClick={displayDeleteMessagesModal}
           className="message-item-actions__action">
           <DeleteSVG />
         </button>
       </div>
 
-      <FadeAnimationWrapper isDisplayed={deleteMessagesModalDisplayed}>
-        <DeleteMessageModal
-          onClose={changeDeleteMessagesModalDisplayedState}
-          selectedMessages={[messageId]}
-        />
-      </FadeAnimationWrapper>
+      {deleteMessagesModalDisplayed && (
+        <DeleteMessageModal onClose={hideBigMedia} selectedMessages={[messageId]} />
+      )}
 
-      <FadeAnimationWrapper isDisplayed={forwardMessagesModalDisplayed}>
-        <ForwardModal
-          messageIdsToForward={[messageId]}
-          onClose={changeForwardMessagesModalDisplayedState}
-        />
-      </FadeAnimationWrapper>
+      {forwardMessagesModalDisplayed && (
+        <ForwardModal messageIdsToForward={[messageId]} onClose={hideForwardMessagesModal} />
+      )}
     </>
   );
 };

@@ -82,7 +82,7 @@
       background-color: var(--dt-dark-transparent-wt-kingBlueLight);
       color: white;
       opacity: 0;
-      transition: all 0.2s;
+      transition: all var(--ANIMATION-DURATION);
     }
 
     &__delete {
@@ -92,7 +92,7 @@
       right: 7px;
       border-radius: 50%;
       color: var(--dt-dark-transparent-wt-kingBlueLight);
-      transition: all 0.2s;
+      transition: all var(--ANIMATION-DURATION);
     }
 
     &:hover &__delete,

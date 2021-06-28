@@ -7,7 +7,6 @@ import { Button } from '@components/button';
 import { LabeledInput } from '@components/labeled-input';
 import { CubeLoader } from '@components/cube-loader';
 import { HorizontalSeparator } from '@components/horizontal-separator';
-import FadeAnimationWrapper from '@components/fade-animation-wrapper';
 import { myProfileSelector } from '@store/my-profile/selectors';
 import { ReactComponent as UserSvg } from '@icons/user.svg';
 import { ReactComponent as TopAvatarLine } from '@icons/top-avatar-line.svg';
@@ -24,6 +23,8 @@ import { IAvatarSelectedData } from '@store/common/models';
 import { validateNickname } from '@utils/validate-nick-name';
 import { loadPhotoEditor } from '@routing/module-loader';
 import { MediaModal } from '@components/image-modal';
+
+import { useToggledState } from '../../../hooks/use-toggled-state';
 
 import { ChangePhoneModal } from './change-phone-modal/change-phone-modal';
 import { DeactivateAccountModal } from './deactivate-account-modal/deactivate-account-modal';
@@ -58,33 +59,17 @@ export const EditProfile = () => {
   const [submitLoading, setSubmitLoading] = useState(false);
   const [nickname, setNickname] = useState(myProfile?.nickname || '');
 
-  const [bigPhotoDisplayed, setBigPhotoDisplayed] = useState(false);
-  const changeBigPhotoDisplayed = useCallback(() => setBigPhotoDisplayed((oldState) => !oldState), [
-    setBigPhotoDisplayed,
-  ]);
-
-  const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
-  const displayChangePhoto = useCallback(() => setChangePhotoDisplayed(true), [
-    setChangePhotoDisplayed,
-  ]);
-  const hideChangePhoto = useCallback(() => setChangePhotoDisplayed(false), [
-    setChangePhotoDisplayed,
-  ]);
-
-  const [editPhoneModalDisplayed, setEditPhoneModalDisplayed] = useState(false);
-  const toggleChangeEditPhoneModal = useCallback(() => {
-    setEditPhoneModalDisplayed((oldState) => !oldState);
-  }, [setEditPhoneModalDisplayed]);
-
-  const [deactivateAccountModalDisplayed, setDeactivateAccountModalDisplayed] = useState(false);
-  const toggleDeactivateAccountModal = useCallback(() => {
-    setDeactivateAccountModalDisplayed((oldState) => !oldState);
-  }, [setDeactivateAccountModalDisplayed]);
-
-  const [deleteAccountModalDisplayed, setDeleteAccountModalDisplayed] = useState(false);
-  const toggleDeleteAccountModal = useCallback(() => {
-    setDeleteAccountModalDisplayed((oldState) => !oldState);
-  }, [setDeleteAccountModalDisplayed]);
+  const [bigPhotoDisplayed, displayBigPhoto, hideBigPhoto] = useToggledState(false);
+  const [changePhotoDisplayed, displayChangePhoto, hideChangePhoto] = useToggledState(false);
+  const [editPhoneModalDisplayed, displayEditPhoneModal, hideEditPhoneModal] =
+    useToggledState(false);
+  const [
+    deactivateAccountModalDisplayed,
+    displayDeactivateAccountModal,
+    hideDeactivateAccountModal,
+  ] = useToggledState(false);
+  const [deleteAccountModalDisplayed, displayDeleteAccountModal, hideDeleteAccountModal] =
+    useToggledState(false);
 
   const handleImageChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -218,7 +203,7 @@ export const EditProfile = () => {
             {newAvatar && (
               <>
                 <button
-                  onClick={changeBigPhotoDisplayed}
+                  onClick={displayBigPhoto}
                   type="button"
                   className="edit-profile__avatar-wrapper__view-avatar">
                   {t('editProfile.view_photo')}
@@ -289,7 +274,7 @@ export const EditProfile = () => {
           {myProfile?.phoneNumber && parsePhoneNumber(myProfile?.phoneNumber).formatInternational()}
         </div>
         <div className="edit-profile__details">{t('editProfile.phone-details')}</div>
-        <button onClick={toggleChangeEditPhoneModal} type="button" className="edit-profile__btn">
+        <button onClick={displayEditPhoneModal} type="button" className="edit-profile__btn">
           {t('editProfile.change-number')}
         </button>
         <HorizontalSeparator />
@@ -298,7 +283,7 @@ export const EditProfile = () => {
           {t('editProfile.deactivate-details')}
         </div>
         <button
-          onClick={toggleDeactivateAccountModal}
+          onClick={displayDeactivateAccountModal}
           type="button"
           className="edit-profile__btn edit-profile__btn--delete">
           {t('editProfile.deactivate-confirmation')}
@@ -307,7 +292,7 @@ export const EditProfile = () => {
           {t('editProfile.delete-details')}
         </div>
         <button
-          onClick={toggleDeleteAccountModal}
+          onClick={displayDeleteAccountModal}
           type="button"
           className="edit-profile__btn edit-profile__btn--delete">
           {t('editProfile.delete-confirmation')}
@@ -324,26 +309,20 @@ export const EditProfile = () => {
         </Suspense>
       )}
 
-      <FadeAnimationWrapper isDisplayed={editPhoneModalDisplayed}>
-        <ChangePhoneModal onClose={toggleChangeEditPhoneModal} />
-      </FadeAnimationWrapper>
+      {editPhoneModalDisplayed && <ChangePhoneModal onClose={hideEditPhoneModal} />}
 
-      <FadeAnimationWrapper isDisplayed={deactivateAccountModalDisplayed}>
-        <DeactivateAccountModal onClose={toggleDeactivateAccountModal} />
-      </FadeAnimationWrapper>
+      {deactivateAccountModalDisplayed && (
+        <DeactivateAccountModal onClose={hideDeactivateAccountModal} />
+      )}
 
-      <FadeAnimationWrapper isDisplayed={deleteAccountModalDisplayed}>
-        <DeleteAccountModal onClose={toggleDeleteAccountModal} />
-      </FadeAnimationWrapper>
+      {deleteAccountModalDisplayed && <DeleteAccountModal onClose={hideDeleteAccountModal} />}
 
-      {newAvatar?.url && (
-        <FadeAnimationWrapper isDisplayed={bigPhotoDisplayed}>
-          <MediaModal
-            attachmentsArr={[{ url: newAvatar.url, id: 1, type: FileType.Picture }]}
-            attachmentId={1}
-            onClose={changeBigPhotoDisplayed}
-          />
-        </FadeAnimationWrapper>
+      {newAvatar?.url && bigPhotoDisplayed && (
+        <MediaModal
+          attachmentsArr={[{ url: newAvatar.url, id: 1, type: FileType.Picture }]}
+          attachmentId={1}
+          onClose={hideBigPhoto}
+        />
       )}
     </>
   );

@@ -10,6 +10,13 @@
   top: 50%;
   transform: translate(-50%, -50%);
   z-index: 50;
+  transition: opacity var(--ANIMATION-DURATION);
+  animation: fade var(--ANIMATION-DURATION);
+  will-change: opacity;
+
+  &--close {
+    opacity: 0;
+  }
 
   &__title {
     align-items: center;

@@ -7,7 +7,6 @@ import parsePhoneNumberFromString from 'libphonenumber-js';
 import { authLoadingSelector } from '@store/login/selectors';
 import { CountryPhoneInput } from '@components/country-phone-input';
 import { Loader } from '@components/loader';
-import FadeAnimationWrapper from '@components/fade-animation-wrapper';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { sendSmsCodeAction } from '@store/login/actions';
 
@@ -65,11 +64,11 @@ const PhoneConfirmationPage: React.FC = () => {
         {t('loginPage.agree_to')}
         <span onClick={changePolicyDisplayedState}>{t('loginPage.kimbu_terms')}</span>
       </p>
-      <FadeAnimationWrapper isDisplayed={policyDisplayed}>
+      {policyDisplayed && (
         <Suspense fallback={<div>Loading</div>}>
           <LazyPrivacyPolicy close={changePolicyDisplayedState} />
         </Suspense>
-      </FadeAnimationWrapper>
+      )}
     </form>
   );
 };

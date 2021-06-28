@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 
 import { Button } from '@components/button';
 import { Modal } from '@components/modal';
-import { WithBackground } from '@components/with-background';
 import { ReactComponent as ClearSvg } from '@icons/clear.svg';
 import { CheckBox } from '@components/check-box/check-box';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
@@ -42,41 +41,39 @@ export const ClearChatModal: React.FC<IClearChatModalProps> = ({ hide }) => {
   }, [deleteForInterlocutor, clearHistory, hide, chatId]);
 
   return (
-    <WithBackground onBackgroundClick={hide}>
-      <Modal
-        title={
-          <>
-            <ClearSvg viewBox="0 0 18 18" className={`${BLOCK_NAME}__icon`} />
-            <span> {t('clearChat.title')} </span>
-          </>
-        }
-        content={
-          <div className={BLOCK_NAME}>
-            <div className={`${BLOCK_NAME}__delete-all`}>
-              <CheckBox
-                className={`${BLOCK_NAME}__check-box`}
-                onClick={changeDeleteForInterlocutorState}
-                isChecked={deleteForInterlocutor}
-                title={t('clearChat.clear-confirmation')}
-              />
-            </div>
+    <Modal
+      title={
+        <>
+          <ClearSvg viewBox="0 0 18 18" className={`${BLOCK_NAME}__icon`} />
+          <span> {t('clearChat.title')} </span>
+        </>
+      }
+      content={
+        <div className={BLOCK_NAME}>
+          <div className={`${BLOCK_NAME}__delete-all`}>
+            <CheckBox
+              className={`${BLOCK_NAME}__check-box`}
+              onClick={changeDeleteForInterlocutorState}
+              isChecked={deleteForInterlocutor}
+              title={t('clearChat.clear-confirmation')}
+            />
           </div>
-        }
-        closeModal={hide}
-        buttons={[
-          <button key={1} type="button" className={`${BLOCK_NAME}__cancel-btn`} onClick={hide}>
-            {t('chatInfo.cancel')}
-          </button>,
-          <Button
-            key={2}
-            loading={loading}
-            type="button"
-            className={`${BLOCK_NAME}__confirm-btn`}
-            onClick={clearChat}>
-            {t('chatInfo.clear')}
-          </Button>,
-        ]}
-      />
-    </WithBackground>
+        </div>
+      }
+      closeModal={hide}
+      buttons={[
+        <button key={1} type="button" className={`${BLOCK_NAME}__cancel-btn`} onClick={hide}>
+          {t('chatInfo.cancel')}
+        </button>,
+        <Button
+          key={2}
+          loading={loading}
+          type="button"
+          className={`${BLOCK_NAME}__confirm-btn`}
+          onClick={clearChat}>
+          {t('chatInfo.clear')}
+        </Button>,
+      ]}
+    />
   );
 };

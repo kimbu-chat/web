@@ -4,7 +4,6 @@ import { useHistory } from 'react-router';
 import { useTranslation } from 'react-i18next';
 
 import { Modal } from '@components/modal';
-import { WithBackground } from '@components/with-background';
 import { InfiniteScroll } from '@components/infinite-scroll';
 import { SearchBox } from '@components/search-box/search-box';
 import { getFriendsAction, resetSearchFriendsAction } from '@store/friends/actions';
@@ -108,40 +107,38 @@ const NewChatModal: React.FC<INewChatModalProps> = ({ onClose, displayCreateGrou
   }, [name.length, searchFriendIds, friendIds, renderSelectEntity]);
 
   return (
-    <WithBackground onBackgroundClick={onClose}>
-      <Modal
-        title={
-          <>
-            <NewMessageSvg viewBox="0 0 24 24" className="new-chat__icon" />
-            <span>{t('newChat.new_message')}</span>
-          </>
-        }
-        closeModal={onClose}
-        content={
-          <div className="new-chat">
-            <SearchBox containerClassName="new-chat__search" onChange={handleSearchInputChange} />
+    <Modal
+      title={
+        <>
+          <NewMessageSvg viewBox="0 0 24 24" className="new-chat__icon" />
+          <span>{t('newChat.new_message')}</span>
+        </>
+      }
+      closeModal={onClose}
+      content={
+        <div className="new-chat">
+          <SearchBox containerClassName="new-chat__search" onChange={handleSearchInputChange} />
 
-            <div onClick={createGroupChat} className="new-chat__new-group">
-              <div className="new-chat__new-group__img">
-                <GroupSvg viewBox="0 0 24 24" />
-              </div>
-              <span className="new-chat__new-group__title">{t('newChat.new_group')}</span>
-              <div className="new-chat__new-group__go">
-                <ArrowSvg viewBox="0 0 8 14" />
-              </div>
+          <div onClick={createGroupChat} className="new-chat__new-group">
+            <div className="new-chat__new-group__img">
+              <GroupSvg viewBox="0 0 24 24" />
             </div>
-            <InfiniteScroll
-              className="new-chat__friends-block"
-              onReachBottom={loadMore}
-              hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}
-              isLoading={name.length ? searchFriendsLoading : friendsLoading}>
-              {selectEntities}
-            </InfiniteScroll>
+            <span className="new-chat__new-group__title">{t('newChat.new_group')}</span>
+            <div className="new-chat__new-group__go">
+              <ArrowSvg viewBox="0 0 8 14" />
+            </div>
           </div>
-        }
-        buttons={[]}
-      />
-    </WithBackground>
+          <InfiniteScroll
+            className="new-chat__friends-block"
+            onReachBottom={loadMore}
+            hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}
+            isLoading={name.length ? searchFriendsLoading : friendsLoading}>
+            {selectEntities}
+          </InfiniteScroll>
+        </div>
+      }
+      buttons={[]}
+    />
   );
 };
 

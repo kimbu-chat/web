@@ -2,6 +2,13 @@
   object-fit: contain;
   z-index: 100;
 
+  transition: opacity var(--ANIMATION-DURATION);
+  animation: fade var(--ANIMATION-DURATION);
+
+  &--close {
+    opacity: 0;
+  }
+
   &__close {
     color: var(--dt-white-wt-kingBlue);
     cursor: pointer;

@@ -11,7 +11,6 @@ import {
   getSelectedChatIdSelector,
 } from '@store/chats/selectors';
 import { DragIndicator } from '@components/drag-indicator/drag-indicator';
-import { ChatInfoRightPanel } from '@components/chat-info-right-panel';
 import { CreateMessageInput } from '@components/message-input';
 import { ChatList } from '@components/chat-list';
 import { ChatTopBar } from '@components/chat-top-bar';
@@ -108,7 +107,6 @@ const ChatPage: React.FC<ChatPageProps> = ({ isDragging }) => {
             !amIBlackListedByInterlocutor && <NotContact />}
         </div>
         <ChatTopBar />
-        <ChatInfoRightPanel />
       </AudioContext.Provider>
     </>
   );

@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { WithBackground } from '@components/with-background';
 import { Modal } from '@components/modal';
 import { Button } from '@components/button';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
@@ -32,25 +31,23 @@ export const DeleteChatMemberModal: React.FC<IDeleteChatMemberModalProps> = ({ h
   }, [removeUserFromGroupChat, user.id]);
 
   return (
-    <WithBackground onBackgroundClick={hide}>
-      <Modal
-        title={t('deleteChatMemberModal.title')}
-        content={t('deleteChatMemberModal.delete-confirmation')}
-        closeModal={hide}
-        buttons={[
-          <button key={1} type="button" className={`${BLOCK_NAME}__cancel-btn`} onClick={hide}>
-            {t('deleteChatMemberModal.cancel')}
-          </button>,
-          <Button
-            key={2}
-            type="button"
-            loading={loading}
-            className={`${BLOCK_NAME}__confirm-btn`}
-            onClick={removeChatMember}>
-            {t('deleteChatMemberModal.confirm')}
-          </Button>,
-        ]}
-      />
-    </WithBackground>
+    <Modal
+      title={t('deleteChatMemberModal.title')}
+      content={t('deleteChatMemberModal.delete-confirmation')}
+      closeModal={hide}
+      buttons={[
+        <button key={1} type="button" className={`${BLOCK_NAME}__cancel-btn`} onClick={hide}>
+          {t('deleteChatMemberModal.cancel')}
+        </button>,
+        <Button
+          key={2}
+          type="button"
+          loading={loading}
+          className={`${BLOCK_NAME}__confirm-btn`}
+          onClick={removeChatMember}>
+          {t('deleteChatMemberModal.confirm')}
+        </Button>,
+      ]}
+    />
   );
 };

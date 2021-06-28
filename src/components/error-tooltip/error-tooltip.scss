@@ -6,7 +6,7 @@
   position: relative;
   position: absolute;
   bottom: -5px;
-  transition: all 0.2s;
+  transition: all var(--ANIMATION-DURATION);
   transform: translateY(100%);
 
   &__content {

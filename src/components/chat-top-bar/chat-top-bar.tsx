@@ -1,8 +1,9 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import classNames from 'classnames';
 
-import { getSelectedChatSelector } from '@store/chats/selectors';
+import { getIsInfoOpenedSelector, getSelectedChatSelector } from '@store/chats/selectors';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { outgoingCallAction } from '@store/calls/actions';
 import { Avatar } from '@components/avatar';
@@ -13,6 +14,8 @@ import { ReactComponent as TypingSvg } from '@icons/typing.svg';
 import { getChatInterlocutor } from '@utils/user-utils';
 import { changeChatInfoOpenedAction } from '@store/chats/actions';
 import { getUserSelector } from '@store/users/selectors';
+import { ChatInfoRightPanel } from '@components/chat-info-right-panel';
+import { useAnimation } from '@hooks/use-animation';
 
 import { MessagesSearch } from './messages-search/messages-search';
 import { ChatInfoBtn } from './chat-info-btn/chat-info-btn';
@@ -23,6 +26,7 @@ export const ChatTopBar = () => {
   const { t } = useTranslation();
 
   const selectedChat = useSelector(getSelectedChatSelector);
+  const isInfoOpened = useSelector(getIsInfoOpenedSelector);
   const interlocutor = useSelector(getUserSelector(selectedChat?.interlocutorId));
 
   const callInterlocutor = useActionWithDispatch(outgoingCallAction);
@@ -52,10 +56,6 @@ export const ChatTopBar = () => {
     }
   }, [interlocutor, callInterlocutor]);
 
-  const displayChatInfo = useCallback(() => {
-    openCloseChatInfo(undefined);
-  }, [openCloseChatInfo]);
-
   const interlocutorStatus = interlocutor?.online ? (
     t('chatData.online')
   ) : (
@@ -69,54 +69,80 @@ export const ChatTopBar = () => {
     ? `${selectedChat.groupChat.membersCount} ${t('chatData.members')}`
     : interlocutorStatus;
 
+  const { rootClass, animatedClose } = useAnimation('chat-info', () =>
+    openCloseChatInfo(undefined),
+  );
+  const toggleChatInfo = useCallback(() => {
+    if (isInfoOpened) {
+      animatedClose();
+    } else {
+      openCloseChatInfo(undefined);
+    }
+  }, [openCloseChatInfo, isInfoOpened, animatedClose]);
+  const [animatedChatInfoOpened, setAnimatedChatInfoOpened] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setAnimatedChatInfoOpened(isInfoOpened);
+    }, 0);
+  }, [isInfoOpened]);
+
   if (selectedChat) {
     return (
-      <div className="chat-data__chat-data">
-        <button type="button" onClick={displayChatInfo} className="chat-data__contact-data">
-          <Avatar
-            className="chat-data__contact-img"
-            size={48}
-            user={interlocutor}
-            groupChat={selectedChat.groupChat}
-          />
+      <>
+        <div className="chat-data__chat-data">
+          <button type="button" onClick={toggleChatInfo} className="chat-data__contact-data">
+            <Avatar
+              className="chat-data__contact-img"
+              size={48}
+              user={interlocutor}
+              groupChat={selectedChat.groupChat}
+            />
 
-          <div className="chat-data__chat-info">
-            <h1 className="chat-data__chat-info__title">
-              {getChatInterlocutor(interlocutor, selectedChat, t)}
-            </h1>
+            <div className="chat-data__chat-info">
+              <h1 className="chat-data__chat-info__title">
+                {getChatInterlocutor(interlocutor, selectedChat, t)}
+              </h1>
 
-            {!interlocutor?.deleted && (
-              <div className="chat-data__chat-info__info">
-                {selectedChat.typingInterlocutors &&
-                selectedChat.typingInterlocutors?.length > 0 ? (
-                  <div className="chat-data__chat-info__info__typing">
-                    <TypingSvg viewBox="0 0 12 12" />
-                    <span>{t('chatData.typing')}</span>
-                  </div>
-                ) : (
-                  groupChatOrInterlocutorStatus
-                )}
-              </div>
+              {!interlocutor?.deleted && (
+                <div className="chat-data__chat-info__info">
+                  {selectedChat.typingInterlocutors &&
+                  selectedChat.typingInterlocutors?.length > 0 ? (
+                    <div className="chat-data__chat-info__info__typing">
+                      <TypingSvg viewBox="0 0 12 12" />
+                      <span>{t('chatData.typing')}</span>
+                    </div>
+                  ) : (
+                    groupChatOrInterlocutorStatus
+                  )}
+                </div>
+              )}
+            </div>
+          </button>
+          <div className="chat-data__buttons-group">
+            {interlocutor && !interlocutor?.deleted && (
+              <>
+                <button type="button" className="chat-data__button" onClick={callWithAudio}>
+                  <VoiceCallSvg />
+                </button>
+
+                <button type="button" className="chat-data__button" onClick={callWithVideo}>
+                  <VideoCallSvg />
+                </button>
+              </>
             )}
+
+            <MessagesSearch />
+            <ChatInfoBtn toggleVisibility={toggleChatInfo} />
           </div>
-        </button>
-        <div className="chat-data__buttons-group">
-          {interlocutor && !interlocutor?.deleted && (
-            <>
-              <button type="button" className="chat-data__button" onClick={callWithAudio}>
-                <VoiceCallSvg />
-              </button>
-
-              <button type="button" className="chat-data__button" onClick={callWithVideo}>
-                <VideoCallSvg />
-              </button>
-            </>
-          )}
-
-          <MessagesSearch />
-          <ChatInfoBtn toggleVisibility={displayChatInfo} />
         </div>
-      </div>
+
+        {isInfoOpened && (
+          <div className={classNames(rootClass, { 'chat-info--open': animatedChatInfoOpened })}>
+            <ChatInfoRightPanel />
+          </div>
+        )}
+      </>
     );
   }
   return <div className="chat-data__chat-data" />;

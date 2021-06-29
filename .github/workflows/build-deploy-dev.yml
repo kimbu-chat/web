@@ -2,7 +2,7 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - development
+      - test
 jobs:
   run:
     runs-on: ubuntu-latest
@@ -18,8 +18,8 @@ jobs:
       - name: Make envfile
         uses: SpicyPizza/create-envfile@v1
         with:
-          envkey_REACT_APP_MAIN_API: "https://api.kimbu.io"
-          envkey_REACT_APP_NOTIFICATIONS_API: "https://notifications.kimbu.io"
+          envkey_REACT_APP_MAIN_API: 'https://api.kimbu.io'
+          envkey_REACT_APP_NOTIFICATIONS_API: 'https://notifications.kimbu.io'
           envkey_REACT_APP_FILES_API: https://files.kimbu.io
           envkey_REACT_APP_WEBSOCKET_API: wss://websocket.kimbu.io/connection/websocket
           file_name: .env

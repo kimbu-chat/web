@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import { parsePhoneNumber } from 'libphonenumber-js';
 
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
@@ -14,6 +14,9 @@ import { confirmPhoneAction, sendSmsCodeAction } from '@store/login/actions';
 import { CodeInput } from '@components/code-input';
 import { Portal } from '@components/portal';
 import { TooltipPopover } from '@components/tooltip-popover';
+import AuthWrapper from '@components/auth-wrapper/auth-wrapper';
+import { INSTANT_MESSAGING_PATH, SIGN_UP_PATH } from '@routing/routing.constants';
+import { preloadAuthRoute } from '@routing/routes/auth-routes';
 
 import './code-confirmation.scss';
 
@@ -29,6 +32,13 @@ const CodeConfirmation: React.FC = () => {
   const [done, setDone] = useState(false);
   const [resending, setResending] = useState(false);
   const codeInputRef = useRef<HTMLDivElement>(null);
+
+  const preloadRoutes = () => {
+    preloadAuthRoute(INSTANT_MESSAGING_PATH);
+    preloadAuthRoute(SIGN_UP_PATH);
+  };
+
+  useEffect(preloadRoutes, []);
 
   const tick = useCallback(() => {
     if (mins === 0 && secs === 0) {
@@ -71,9 +81,9 @@ const CodeConfirmation: React.FC = () => {
     (code: string) => {
       checkConfirmationCode({ code, phoneNumber }).then(({ userRegistered }) => {
         if (userRegistered) {
-          history.push('/chats');
+          history.push(INSTANT_MESSAGING_PATH);
         } else {
-          history.push('/sign-up');
+          history.push(SIGN_UP_PATH);
         }
       });
     },
@@ -81,7 +91,7 @@ const CodeConfirmation: React.FC = () => {
   );
 
   return (
-    <>
+    <AuthWrapper>
       <div className={`${BLOCK_NAME}__pretext`}>
         {t('loginPage.confirm_code')}
         <br />
@@ -118,7 +128,7 @@ const CodeConfirmation: React.FC = () => {
           </TooltipPopover>
         </Portal>
       )}
-    </>
+    </AuthWrapper>
   );
 };
 

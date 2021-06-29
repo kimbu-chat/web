@@ -39,7 +39,7 @@ enum NicknameState {
   ALLOWED_NICKNAME = 'ALLOWED_NICKNAME',
 }
 
-export const EditProfile = () => {
+const EditProfile = () => {
   const { t } = useTranslation();
   const myProfile = useSelector(myProfileSelector);
 
@@ -348,3 +348,5 @@ export const EditProfile = () => {
     </>
   );
 };
+
+export default EditProfile;

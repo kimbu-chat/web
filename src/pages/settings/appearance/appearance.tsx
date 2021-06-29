@@ -12,7 +12,7 @@ import { MessageItem } from '@components/message-item';
 import { RadioBox } from '@components/radio-box';
 import { HorizontalSeparator } from '@components/horizontal-separator';
 
-export const Appearance: React.FC = () => {
+const Appearance: React.FC = () => {
   const { t } = useTranslation();
 
   const changeTheme = useActionWithDispatch(changeThemeAction);
@@ -134,3 +134,5 @@ export const Appearance: React.FC = () => {
     </div>
   );
 };
+
+export default Appearance;

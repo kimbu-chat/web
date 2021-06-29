@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
+import classnames from 'classnames';
 
 import { ReactComponent as ArrowSvg } from '@icons/arrow-v.svg';
 import { InfiniteScrollLoader } from '@components/infinite-scroll/infinite-scroll-loader/infinite-scroll-loader';
@@ -11,6 +12,8 @@ import { getSessionListAction } from '@store/settings/actions';
 import { Session } from './session/session';
 
 import './sessions-list.scss';
+
+const BLOCK_NAME = 'sessions-list';
 
 export const SessionsList = () => {
   const { t } = useTranslation();
@@ -32,25 +35,25 @@ export const SessionsList = () => {
   }, [opened, setOpened, getSessions]);
 
   return (
-    <div className="sessions-list">
-      <div onClick={loadSessionsList} className="sessions-list__header">
+    <div className={BLOCK_NAME}>
+      <div onClick={loadSessionsList} className={`${BLOCK_NAME}__header`}>
         <span>
           {t('sessionaList.title', { count: sessions.length === 0 ? undefined : sessions.length })}
         </span>
 
         <button
           type="button"
-          className={`sessions-list__header__open ${
-            opened ? 'sessions-list__header__open--opened' : ''
-          }`}>
+          className={classnames(`${BLOCK_NAME}__header__open`, {
+            [`${BLOCK_NAME}__header__open--opened`]: opened,
+          })}>
           <span>{opened ? t('sessionaList.hide-all') : t('sessionaList.show-all')}</span>
           <ArrowSvg />
         </button>
       </div>
-      <div className="sessions-list__details">{t('sessionaList.details')}</div>
+      <div className={`${BLOCK_NAME}__details`}>{t('sessionaList.details')}</div>
 
       {opened && (
-        <div className="sessions-list__content">
+        <div className={`${BLOCK_NAME}__content`}>
           {sessions.map((session) => (
             <Session key={session.id} session={session} />
           ))}

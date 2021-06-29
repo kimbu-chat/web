@@ -1,7 +1,7 @@
-import React, { useState, useCallback, Suspense } from 'react';
+import React, { useState, useCallback, Suspense, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import parsePhoneNumberFromString from 'libphonenumber-js';
 
 import { authLoadingSelector } from '@store/login/selectors';
@@ -10,6 +10,9 @@ import { Loader } from '@components/loader';
 import FadeAnimationWrapper from '@components/fade-animation-wrapper';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { sendSmsCodeAction } from '@store/login/actions';
+import AuthWrapper from '@components/auth-wrapper';
+import { CODE_CONFIRMATION_PATH } from '@routing/routing.constants';
+import { preloadAuthRoute } from '@routing/routes/auth-routes';
 
 import './phone-confirmation.scss';
 
@@ -29,6 +32,8 @@ const PhoneConfirmationPage: React.FC = () => {
 
   const sendSmsCode = useActionWithDeferred(sendSmsCodeAction);
 
+  useEffect(() => preloadAuthRoute(CODE_CONFIRMATION_PATH), []);
+
   const sendSms = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
@@ -37,7 +42,7 @@ const PhoneConfirmationPage: React.FC = () => {
         sendSmsCode({
           phoneNumber: phoneNumber.number as string,
         }).then(() => {
-          history.push('/code-confirmation');
+          history.push(CODE_CONFIRMATION_PATH);
         });
       }
     },
@@ -49,28 +54,30 @@ const PhoneConfirmationPage: React.FC = () => {
   }, [setPolicyDisplayed]);
 
   return (
-    <form onSubmit={sendSms}>
-      <p className={`${BLOCK_NAME}__slogan-pretext`}>
-        {t('loginPage.stay_connected')}
-        <br />
-        {t('loginPage.new_experience')}
-      </p>
-      <div className={`${BLOCK_NAME}__login-form`}>
-        <CountryPhoneInput onChange={setPhone} value={phone} />
-        <button type="submit" className={`${BLOCK_NAME}__login-button`}>
-          {isLoading ? <Loader /> : t('loginPage.next')}
-        </button>
-      </div>
-      <p className={`${BLOCK_NAME}__conditions`}>
-        {t('loginPage.agree_to')}
-        <span onClick={changePolicyDisplayedState}>{t('loginPage.kimbu_terms')}</span>
-      </p>
-      <FadeAnimationWrapper isDisplayed={policyDisplayed}>
-        <Suspense fallback={<div>Loading</div>}>
-          <LazyPrivacyPolicy close={changePolicyDisplayedState} />
-        </Suspense>
-      </FadeAnimationWrapper>
-    </form>
+    <AuthWrapper>
+      <form onSubmit={sendSms}>
+        <p className={`${BLOCK_NAME}__slogan-pretext`}>
+          {t('loginPage.stay_connected')}
+          <br />
+          {t('loginPage.new_experience')}
+        </p>
+        <div className={`${BLOCK_NAME}__login-form`}>
+          <CountryPhoneInput onChange={setPhone} value={phone} />
+          <button type="submit" className={`${BLOCK_NAME}__login-button`}>
+            {isLoading ? <Loader /> : t('loginPage.next')}
+          </button>
+        </div>
+        <p className={`${BLOCK_NAME}__conditions`}>
+          {t('loginPage.agree_to')}
+          <span onClick={changePolicyDisplayedState}>{t('loginPage.kimbu_terms')}</span>
+        </p>
+        <FadeAnimationWrapper isDisplayed={policyDisplayed}>
+          <Suspense fallback={<div>Loading</div>}>
+            <LazyPrivacyPolicy close={changePolicyDisplayedState} />
+          </Suspense>
+        </FadeAnimationWrapper>
+      </form>
+    </AuthWrapper>
   );
 };
 

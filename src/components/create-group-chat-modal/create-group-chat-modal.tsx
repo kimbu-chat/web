@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import React, { useCallback, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 
 import { WithBackground } from '@components/with-background';
 import { Modal } from '@components/modal';
@@ -79,7 +79,7 @@ const CreateGroupChat: React.FC<ICreateGroupChatProps> = ({ onClose, preSelected
 
       submitGroupChatCreation(groupChatToCreate).then((payload: IChat) => {
         onClose();
-        history.push(`/chats/${payload.id}`);
+        history.push(`/im/${payload.id}`);
       });
     }
   }, [

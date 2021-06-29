@@ -50,7 +50,8 @@ export class SendSmsCode {
       }
 
       yield put(SendSmsCodeSuccess.action());
-      action?.meta.deferred.resolve();
+
+      yield call([action, action?.meta.deferred.resolve]);
     };
   }
 

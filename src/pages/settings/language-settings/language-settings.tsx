@@ -81,4 +81,4 @@ const LanguageSettings = () => {
 
 LanguageSettings.displayName = 'LanguageSettings';
 
-export { LanguageSettings };
+export default LanguageSettings;

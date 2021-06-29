@@ -66,9 +66,9 @@ export const InterlocutorInfo = () => {
         <div className={`${BLOCK_NAME}__info-block`}>
           <DogSvg className={`${BLOCK_NAME}__info-svg`} />
           <Link
-            to={`/chats/${chat?.id}`}
+            to={`/im/${chat?.id}`}
             className={classnames(`${BLOCK_NAME}__data-value`, `${BLOCK_NAME}__data-value--link`)}>
-            {`${interlocutor ? `@${interlocutor?.nickname}` : ` kimbu.io/chats/${chat?.id}2`}`}
+            {`${interlocutor ? `@${interlocutor?.nickname}` : ` kimbu.io/im/${chat?.id}2`}`}
           </Link>
         </div>
       </div>

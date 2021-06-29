@@ -1,1 +1,1 @@
-export { Appearance } from './appearance';
+export { default } from './appearance';

@@ -1,5 +1,4 @@
-import { useHistory, useLocation } from 'react-router';
-import { useHistory as useHistoryDom } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 /* eslint-disable global-require */
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
@@ -21,7 +20,6 @@ if (process.env.NODE_ENV !== 'production') {
       [useSelector, 'useSelector'],
       [useDispatch, 'useDispatch'],
       [useHistory, 'useHistory'],
-      [useHistoryDom, 'useHistory'],
       [useLocation, 'useLocation'],
       [useTranslation, 'useTranslation'],
       [useActionWithDeferred, 'useActionWithDeferred'],

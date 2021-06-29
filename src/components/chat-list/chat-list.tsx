@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback, useState, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import {
@@ -37,7 +37,7 @@ const ChatList = React.memo(() => {
     [resetSearchChats],
   );
 
-  const { chatId: selectedChatId } = useParams<{ chatId: string }>();
+  const { id: selectedChatId } = useParams<{ id: string }>();
 
   useEffect(() => {
     if (selectedChatId) {

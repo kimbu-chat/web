@@ -17,29 +17,32 @@ import { ChatTopBar } from '@components/chat-top-bar';
 import { MessageList } from '@components/message-list';
 import { NotContact } from '@components/not-contact';
 import { BlockedMessageInput } from '@components/blocked-message-input';
+import { useDragDrop } from '@hooks/use-drag-drop';
 
 import './chat.scss';
 
-type ChatPageProps = {
-  isDragging: boolean;
-};
-
 const BLOCK_NAME = 'chat-page';
 
-const ChatPage: React.FC<ChatPageProps> = ({ isDragging }) => {
+const ChatPage: React.FC = () => {
+  const { onDrop, onDragLeave, onDragEnter, onDragOver, isDragging } = useDragDrop();
   const isCurrentChatBlackListed = useSelector(isCurrentChatBlackListedSelector);
   const isFriend = useSelector(isCurrentChatContactSelector);
   const isDismissed = useSelector(isCurrentChatDismissedAddToContactsSelector);
   const amIBlackListedByInterlocutor = useSelector(amIBlackListedByInterlocutorSelector);
   const isCurrentChatUserDeactivated = useSelector(isCurrentChatUserDeactivatedSelector);
   const isCurrentChatUserDeleted = useSelector(isCurrentChatUserDeletedSelector);
-  
 
   return (
     <>
       <ChatList />
-      {isDragging && <DragIndicator />}
-      <div className={BLOCK_NAME}>
+      <div
+        className={BLOCK_NAME}
+        onDragLeave={onDragLeave}
+        onDragEnter={onDragEnter}
+        onDrop={onDrop}
+        onDragOver={onDragOver}>
+        {isDragging && <DragIndicator />}
+
         <MessageList />
         {isCurrentChatBlackListed ||
         amIBlackListedByInterlocutor ||

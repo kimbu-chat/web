@@ -45,7 +45,7 @@ let stopAudioMeasurement: () => void;
 
 let videoStopped = false;
 
-export const AudioVideoSettings = () => {
+const AudioVideoSettings = () => {
   const IntensityPoint: React.FC<IIntensityPointProps> = ({ dataActive, dataMiddle }) => (
     <div
       data-active={dataActive}
@@ -290,3 +290,5 @@ export const AudioVideoSettings = () => {
     </div>
   );
 };
+
+export default AudioVideoSettings;

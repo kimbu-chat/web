@@ -9,7 +9,7 @@ import { TypingStrategy } from '@store/settings/features/models';
 import { RadioBox } from '@components/radio-box';
 import './key-bindings.scss';
 
-export const KeyBindings = () => {
+const KeyBindings = () => {
   const { t } = useTranslation();
 
   const currentStrategy = useSelector(getTypingStrategySelector);
@@ -47,3 +47,5 @@ export const KeyBindings = () => {
     </div>
   );
 };
+
+export default KeyBindings;

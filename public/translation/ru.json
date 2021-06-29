@@ -131,7 +131,8 @@
     "audio": "Аудио {{count}}"
   },
   "chatInfo": {
-    "leave-confirmation": "Вы уверенны что хотите покинуть ‘{{groupChatName}}‘ ? Все данные будут потерянны",
+    "leave-confirmation": "Вы уверенны что хотите покинуть ‘{{groupChatName}}‘?",
+    "leave": "Покинуть",
     "clear-confirmation": "Вы уверенны что хотите удалить все сообщения ? Все сообщения будут потерянны",
     "clear": "Отчистить",
     "clear-for-everybody": "Отчистить для всех",

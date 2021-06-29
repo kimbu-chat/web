@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 
+import { SECOND_DURATION } from '@utils/constants';
 import { IGroupable } from '@store/chats/models';
 
 import { doesYearDifferFromCurrent } from './set-separators';
@@ -36,3 +37,6 @@ export const dateByOffset = (date: Date): string => {
   const isDifferFromCurrent = doesYearDifferFromCurrent(date);
   return dayjs(date).format(isDifferFromCurrent ? MONTH_YEAR : MONTH_ONLY);
 };
+
+export const getMinutesSeconds = (seconds: number) =>
+  dayjs.utc(seconds * SECOND_DURATION).format('mm:ss');

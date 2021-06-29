@@ -17,6 +17,7 @@ import { TooltipPopover } from '@components/tooltip-popover';
 import AuthWrapper from '@components/auth-wrapper/auth-wrapper';
 import { INSTANT_MESSAGING_PATH, SIGN_UP_PATH } from '@routing/routing.constants';
 import { preloadAuthRoute } from '@routing/routes/auth-routes';
+import { preloadMainRoute } from '@routing/routes/main-routes';
 
 import './code-confirmation.scss';
 
@@ -34,7 +35,7 @@ const CodeConfirmation: React.FC = () => {
   const codeInputRef = useRef<HTMLDivElement>(null);
 
   const preloadRoutes = () => {
-    preloadAuthRoute(INSTANT_MESSAGING_PATH);
+    preloadMainRoute(INSTANT_MESSAGING_PATH);
     preloadAuthRoute(SIGN_UP_PATH);
   };
 

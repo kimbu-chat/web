@@ -10,7 +10,7 @@ import { VOICE_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 import { RecordingAttachment } from '@components/message-item/attachments/recording-attachment/recording-attachment';
 import './recordings-list.scss';
 import { separateGroupable } from '@utils/date-utils';
-import { ChatAttachment } from '@utils/chat-attachment/chat-attachment';
+import { ChatAttachment } from '@components/chat-attachment/chat-attachment';
 
 export const RecordingsList = () => {
   const recordingsForSelectedChat = useSelector(getSelectedChatRecordingsSelector);

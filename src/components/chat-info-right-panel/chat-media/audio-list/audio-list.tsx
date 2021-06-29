@@ -11,7 +11,7 @@ import { AUDIO_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 import './audio-list.scss';
 import { separateGroupable } from '@utils/date-utils';
 import { IAudioAttachment } from '@store/chats/models';
-import { ChatAttachment } from '@utils/chat-attachment/chat-attachment';
+import { ChatAttachment } from '@components/chat-attachment/chat-attachment';
 
 const AudioAttachmentComponent: React.FC<IAudioAttachment> = ({ ...audio }) => (
   <div className="chat-audios__audio">

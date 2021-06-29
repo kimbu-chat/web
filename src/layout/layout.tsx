@@ -24,6 +24,7 @@ const MainRouter = lazy(async () => {
     settingsModule,
     chatsModule,
     friendsModule,
+    internet,
   ] = await Promise.all([
     import('@store/initiation/sagas'),
     import('@store/auth/module'),
@@ -32,6 +33,7 @@ const MainRouter = lazy(async () => {
     import('@store/settings/module'),
     import('@store/chats/module'),
     import('@store/friends/module'),
+    import('@store/internet/module'),
   ]);
 
   store.inject([
@@ -42,6 +44,7 @@ const MainRouter = lazy(async () => {
     [StoreKeys.SETTINGS, settingsModule.reducer, settingsModule.settingsSaga],
     [StoreKeys.CHATS, chatsModule.reducer, chatsModule.chatSaga],
     [StoreKeys.FRIENDS, friendsModule.reducer, friendsModule.friendsSaga],
+    [StoreKeys.INTERNET, internet.reducer, internet.internetSagas],
   ]);
 
   return import('@routing/main-router');

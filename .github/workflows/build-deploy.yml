@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'src/**'
 jobs:
   run:
     runs-on: ubuntu-latest
@@ -15,11 +17,14 @@ jobs:
       - name: Install dependencies
         run: yarn
 
+      - name: Run ESLint
+        run: yarn run lint
+
       - name: Make envfile
         uses: SpicyPizza/create-envfile@v1
         with:
-          envkey_REACT_APP_MAIN_API: "https://api.kimbu.io"
-          envkey_REACT_APP_NOTIFICATIONS_API: "https://notifications.kimbu.io"
+          envkey_REACT_APP_MAIN_API: https://api.kimbu.io
+          envkey_REACT_APP_NOTIFICATIONS_API: https://notifications.kimbu.io
           envkey_REACT_APP_FILES_API: https://files.kimbu.io
           envkey_REACT_APP_WEBSOCKET_API: wss://websocket.kimbu.io/connection/websocket
           file_name: .env

@@ -7,7 +7,6 @@ import { BrowserRouter } from 'react-router-dom';
 
 import createStore from '@store';
 
-import { register } from './serviceWorkerRegistration';
 import { App } from './app';
 
 const store = createStore();
@@ -20,5 +19,3 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root'),
 );
-
-register();

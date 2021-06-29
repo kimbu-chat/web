@@ -8,15 +8,17 @@ import { BlockedUsers } from './blocked-users/blocked-users';
 import './privacy-security.scss';
 import { SessionsList } from './sessions-list/sessions-list';
 
-export const PrivacySecurity = () => {
+const BLOCK_NAME = 'privacy-security';
+
+const PrivacySecurity = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="privacy-security">
-      <h3 className="privacy-security__title">{t('privacySecurity.title')}</h3>
+    <div className={BLOCK_NAME}>
+      <h3 className={`${BLOCK_NAME}__title`}>{t('privacySecurity.title')}</h3>
 
-      <h2 className="privacy-security__subject">{t('privacySecurity.who-can-message-me')}</h2>
-      <div className="privacy-security__radiobox-group">
+      <h2 className={`${BLOCK_NAME}__subject`}>{t('privacySecurity.who-can-message-me')}</h2>
+      <div className={`${BLOCK_NAME}__radiobox-group`}>
         <RadioBox
           groupName="who-can-message-me"
           defaultChecked
@@ -27,8 +29,8 @@ export const PrivacySecurity = () => {
       </div>
       <HorizontalSeparator />
 
-      <h2 className="privacy-security__subject">{t('privacySecurity.who-can-call-me')}</h2>
-      <div className="privacy-security__radiobox-group">
+      <h2 className={`${BLOCK_NAME}__subject`}>{t('privacySecurity.who-can-call-me')}</h2>
+      <div className={`${BLOCK_NAME}__radiobox-group`}>
         <RadioBox
           groupName="who-can-call-me"
           defaultChecked
@@ -39,8 +41,8 @@ export const PrivacySecurity = () => {
       </div>
       <HorizontalSeparator />
 
-      <h2 className="privacy-security__subject">{t('privacySecurity.who-can-find-me')}</h2>
-      <div className="privacy-security__radiobox-group">
+      <h2 className={`${BLOCK_NAME}__subject`}>{t('privacySecurity.who-can-find-me')}</h2>
+      <div className={`${BLOCK_NAME}__radiobox-group`}>
         <RadioBox groupName="who-can-find-me" content={t('privacySecurity.no-one')} />
         <RadioBox groupName="who-can-find-me" content={t('privacySecurity.everyone')} />
       </div>
@@ -52,3 +54,5 @@ export const PrivacySecurity = () => {
     </div>
   );
 };
+
+export default PrivacySecurity;

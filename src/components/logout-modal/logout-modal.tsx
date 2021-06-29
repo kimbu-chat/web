@@ -5,6 +5,8 @@ import { WithBackground } from '@components/with-background';
 import { Modal } from '@components/modal';
 import './logout-modal.scss';
 import { ReactComponent as LogoutSvg } from '@icons/logout.svg';
+import { useEmptyActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { logoutAction } from '@store/auth/actions';
 
 interface ILogoutModalProps {
   onClose: () => void;
@@ -13,7 +15,15 @@ interface ILogoutModalProps {
 export const LogoutModal: React.FC<ILogoutModalProps> = ({ onClose }) => {
   const { t } = useTranslation();
 
-  const logout = useCallback(() => window.location.replace('logout'), []);
+  const logoutRequest = useEmptyActionWithDeferred(logoutAction);
+
+  const logout = useCallback(
+    () =>
+      logoutRequest().then(() => {
+        window.location.replace('login');
+      }),
+    [logoutRequest],
+  );
 
   return (
     <WithBackground onBackgroundClick={onClose}>

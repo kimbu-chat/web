@@ -141,7 +141,7 @@ const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
               className={`add-friends-modal__btn ${
                 added ? 'add-friends-modal__btn--confirm' : 'add-friends-modal__btn--cancel'
               }`}
-              to={`/chats/${ChatId.from(user.id).id}`}>
+              to={`/im/${ChatId.from(user.id).id}`}>
               {t('addFriendModal.chat')}
             </Link>
           ) : null,

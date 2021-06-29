@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 
 import { Modal } from '@components/modal';
 import { Button } from '@components/button';
@@ -32,7 +32,7 @@ export const LeaveChatModal: React.FC<ILeaveChatModalProps> = ({ hide }) => {
     setLoading(true);
     leaveGroupChat().then(() => {
       setLoading(false);
-      history.push('/chats');
+      history.push('/im');
     });
   }, [leaveGroupChat, history]);
 

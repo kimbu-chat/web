@@ -3,13 +3,14 @@ import { createReducer } from 'typesafe-actions';
 import { AuthService } from '../../services/auth-service';
 
 import { ConfirmPhoneFailure } from './features/confirm-phone/confirm-phone-failure';
-import { ILoginState } from './login-state';
 import { SendSmsCodeSuccess } from './features/send-sms-code/send-sms-code-success';
 import { SendSmsCode } from './features/send-sms-code/send-sms-code';
 import { ConfirmPhone } from './features/confirm-phone/confirm-phone';
 import { Register } from './features/register/register';
 import { ConfirmPhoneSuccess } from './features/confirm-phone/confirm-phone-success';
 import { LoginSuccess } from './features/login/login-success';
+
+import type { ILoginState } from './login-state';
 
 const authService = new AuthService();
 const securityTokens = authService?.securityTokens;

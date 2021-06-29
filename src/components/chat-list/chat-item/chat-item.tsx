@@ -129,7 +129,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
 
   return (
     <NavLink
-      to={`/chats/${chat?.id.toString()}`}
+      to={`/im/${chat?.id.toString()}`}
       className={BLOCK_NAME}
       activeClassName={classnames(BLOCK_NAME, `${BLOCK_NAME}--active`)}>
       {interlocutor && (

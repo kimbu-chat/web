@@ -17,10 +17,9 @@ export const MessageMediaAttachment: React.FC<IMessageMediaAttachmentProps> = ({
   attachmentsArr,
 }) => {
   const [bigMediaDisplayed, setBigMediaDisplayed] = useState(false);
-  const changeBigMediaDisplayed = useCallback(
-    () => setBigMediaDisplayed((oldState) => !oldState),
-    [setBigMediaDisplayed],
-  );
+  const changeBigMediaDisplayed = useCallback(() => setBigMediaDisplayed((oldState) => !oldState), [
+    setBigMediaDisplayed,
+  ]);
 
   const currentAttachment = attachmentsArr.find(({ id }) => id === attachmentId);
 

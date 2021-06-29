@@ -1,1 +1,1 @@
-export { PrivacySecurity } from './privacy-security';
+export { default } from './privacy-security';

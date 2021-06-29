@@ -18,17 +18,16 @@ import { ChatTopBar } from '@components/chat-top-bar';
 import { MessageList } from '@components/message-list';
 import { NotContact } from '@components/not-contact';
 import { BlockedMessageInput } from '@components/blocked-message-input';
-import './chat.scss';
+import { useDragDrop } from '@hooks/use-drag-drop';
 import { TopAudioPlayer } from '@components/audio-player/audio-player';
 import { CurrentAudio, AudioContext } from '@contexts/audioContext';
 
-type ChatPageProps = {
-  isDragging: boolean;
-};
+import './chat.scss';
 
 const BLOCK_NAME = 'chat-page';
 
-const ChatPage: React.FC<ChatPageProps> = ({ isDragging }) => {
+const ChatPage: React.FC = () => {
+  const { onDrop, onDragLeave, onDragEnter, onDragOver, isDragging } = useDragDrop();
   const isCurrentChatBlackListed = useSelector(isCurrentChatBlackListedSelector);
   const isFriend = useSelector(isCurrentChatContactSelector);
   const isDismissed = useSelector(isCurrentChatDismissedAddToContactsSelector);
@@ -77,8 +76,14 @@ const ChatPage: React.FC<ChatPageProps> = ({ isDragging }) => {
     <>
       <AudioContext.Provider value={{ currentAudio, changeAudio, isPlayingAudio, toggleAudio }}>
         <ChatList />
-        {isDragging && <DragIndicator />}
-        <div className={BLOCK_NAME}>
+        <div
+          className={BLOCK_NAME}
+          onDragLeave={onDragLeave}
+          onDragEnter={onDragEnter}
+          onDrop={onDrop}
+          onDragOver={onDragOver}>
+          {isDragging && <DragIndicator />}
+
           {currentAudio && (
             <TopAudioPlayer
               {...currentAudio}

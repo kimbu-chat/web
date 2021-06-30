@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import { store } from '@store';
 
+import { register } from './serviceWorkerRegistration';
 import { App } from './app';
 
 ReactDOM.render(
@@ -17,3 +18,5 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root'),
 );
+
+register();

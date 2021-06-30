@@ -1,7 +1,7 @@
 {
   "name": "Kimbu",
   "short_name": "kimbu",
-  "start_url": "/",
+  "start_url": "https://dev.kimbu.io/",
   "scope": "/",
   "icons": [
     {
@@ -23,6 +23,17 @@
       "src": "/favicons/favicon-180x180.png",
       "sizes": "180x180",
       "type": "image/png"
+    },
+    {
+      "src": "/favicons/favicon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicons/favicon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ],
   "theme_color": "#3F8AE0",

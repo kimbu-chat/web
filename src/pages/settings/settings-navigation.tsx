@@ -1,6 +1,6 @@
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
-import React, { useCallback } from 'react';
 
 import { ReactComponent as UserSvg } from '@icons/user-o.svg';
 import { ReactComponent as TypeSvg } from '@icons/type.svg';
@@ -18,7 +18,6 @@ import {
   PROFILE_SETTINGS_PATH,
   TYPING_SETTINGS_PATH,
 } from '@routing/routing.constants';
-import { preloadSettingsRoute } from '@routing/routes/settings-routes';
 
 import './settings-navigation.scss';
 
@@ -27,32 +26,9 @@ const BLOCK_NAME = 'settings-navigation';
 const SettingsNavigation = () => {
   const { t } = useTranslation();
 
-  const preloadProfileSettings = useCallback(() => preloadSettingsRoute(PROFILE_SETTINGS_PATH), []);
-  const preloadNotificationSettings = useCallback(
-    () => preloadSettingsRoute(NOTIFICATIONS_SETTINGS_PATH),
-    [],
-  );
-  const preloadTypingSettings = useCallback(() => preloadSettingsRoute(TYPING_SETTINGS_PATH), []);
-  const preloadLanguageSettings = useCallback(
-    () => preloadSettingsRoute(LANGUAGE_SETTINGS_PATH),
-    [],
-  );
-  const preloadAppearanceSettings = useCallback(
-    () => preloadSettingsRoute(APPEARANCE_SETTINGS_PATH),
-    [],
-  );
-  const preloadAudioVideoSettings = useCallback(
-    () => preloadSettingsRoute(AUDIO_VIDEO_SETTINGS_PATH),
-    [],
-  );
-  const preloadPrivacySecuritySettings = useCallback(
-    () => preloadSettingsRoute(PRIVACY_SECURITY_SETTINGS_PATH),
-    [],
-  );
   return (
     <>
       <NavLink
-        onMouseEnter={preloadProfileSettings}
         to={PROFILE_SETTINGS_PATH}
         className={`${BLOCK_NAME}__element`}
         activeClassName={`${BLOCK_NAME}__element--active`}>
@@ -61,7 +37,6 @@ const SettingsNavigation = () => {
       </NavLink>
 
       <NavLink
-        onMouseEnter={preloadNotificationSettings}
         to={NOTIFICATIONS_SETTINGS_PATH}
         className={`${BLOCK_NAME}__element`}
         activeClassName={`${BLOCK_NAME}__element--active`}>
@@ -70,7 +45,6 @@ const SettingsNavigation = () => {
       </NavLink>
 
       <NavLink
-        onMouseEnter={preloadTypingSettings}
         to={TYPING_SETTINGS_PATH}
         className={`${BLOCK_NAME}__element`}
         activeClassName={`${BLOCK_NAME}__element--active`}>
@@ -79,7 +53,6 @@ const SettingsNavigation = () => {
       </NavLink>
 
       <NavLink
-        onMouseEnter={preloadLanguageSettings}
         to={LANGUAGE_SETTINGS_PATH}
         className={`${BLOCK_NAME}__element`}
         activeClassName={`${BLOCK_NAME}__element--active`}>
@@ -88,7 +61,6 @@ const SettingsNavigation = () => {
       </NavLink>
 
       <NavLink
-        onMouseEnter={preloadAppearanceSettings}
         to={APPEARANCE_SETTINGS_PATH}
         className={`${BLOCK_NAME}__element`}
         activeClassName={`${BLOCK_NAME}__element--active`}>
@@ -97,7 +69,6 @@ const SettingsNavigation = () => {
       </NavLink>
 
       <NavLink
-        onMouseEnter={preloadAudioVideoSettings}
         to={AUDIO_VIDEO_SETTINGS_PATH}
         className={`${BLOCK_NAME}__element`}
         activeClassName={`${BLOCK_NAME}__element--active`}>
@@ -106,7 +77,6 @@ const SettingsNavigation = () => {
       </NavLink>
 
       <NavLink
-        onMouseEnter={preloadPrivacySecuritySettings}
         to={PRIVACY_SECURITY_SETTINGS_PATH}
         className={`${BLOCK_NAME}__element`}
         activeClassName={`${BLOCK_NAME}__element--active`}>

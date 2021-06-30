@@ -16,11 +16,8 @@ import {
   CALLS_PATH,
   CONTACTS_PATH,
   INSTANT_MESSAGING_PATH,
-  PROFILE_SETTINGS_PATH,
   SETTINGS_PATH,
 } from '@routing/routing.constants';
-import { preloadMainRoute } from '@routing/routes/main-routes';
-import { preloadSettingsRoute } from '@routing/routes/settings-routes';
 
 import { LogoutModal } from '../logout-modal/logout-modal';
 
@@ -39,35 +36,24 @@ export const RoutingChats = () => {
     [setLogoutDisplayed],
   );
 
-  const preloadContacts = useCallback(() => preloadMainRoute(CONTACTS_PATH), []);
-  const preloadIm = useCallback(() => preloadMainRoute(INSTANT_MESSAGING_PATH), []);
-  const preloadSettings = useCallback(() => {
-    preloadMainRoute(SETTINGS_PATH);
-    preloadSettingsRoute(PROFILE_SETTINGS_PATH);
-  }, []);
-  const preloadCalls = useCallback(() => preloadMainRoute(CALLS_PATH), []);
-
   return (
     <div className={BLOCK_NAME}>
       <Avatar className={`${BLOCK_NAME}__my-photo`} size={48} user={myProfile} />
 
       <div className={`${BLOCK_NAME}__middle-group`}>
         <NavLink
-          onMouseEnter={preloadContacts}
           className={classnames(`${BLOCK_NAME}__link`, `${BLOCK_NAME}__link--grouped`)}
           activeClassName={classnames(`${BLOCK_NAME}__link`, `${BLOCK_NAME}__link--active`)}
           to={CONTACTS_PATH}>
           <ContactSvg />
         </NavLink>
         <NavLink
-          onMouseEnter={preloadIm}
           className={classnames(`${BLOCK_NAME}__link`, `${BLOCK_NAME}__link--grouped`)}
           activeClassName={classnames(`${BLOCK_NAME}__link`, `${BLOCK_NAME}__link--active`)}
           to={`${INSTANT_MESSAGING_PATH}${selectedChatId ? `/${selectedChatId}` : ''}`}>
           <ChatsSvg />
         </NavLink>
         <NavLink
-          onMouseEnter={preloadCalls}
           className={classnames(`${BLOCK_NAME}__link`, `${BLOCK_NAME}__link--grouped`)}
           activeClassName={classnames(`${BLOCK_NAME}__link`, `${BLOCK_NAME}__link--active`)}
           to={CALLS_PATH}>
@@ -76,7 +62,6 @@ export const RoutingChats = () => {
       </div>
 
       <NavLink
-        onMouseEnter={preloadSettings}
         to={SETTINGS_PATH}
         type="button"
         className={classnames(`${BLOCK_NAME}__link`, `${BLOCK_NAME}__link--settings`)}

@@ -15,6 +15,8 @@ interface IDeleteChatMemberModalProps {
   hide: () => void;
 }
 
+const BLOCK_NAME = 'delete-chat-member-modal';
+
 export const DeleteChatMemberModal: React.FC<IDeleteChatMemberModalProps> = ({ hide, user }) => {
   const { t } = useTranslation();
 
@@ -36,18 +38,14 @@ export const DeleteChatMemberModal: React.FC<IDeleteChatMemberModalProps> = ({ h
         content={t('deleteChatMemberModal.delete-confirmation')}
         closeModal={hide}
         buttons={[
-          <button
-            key={1}
-            type="button"
-            className="delete-chat-member-modal__cancel-btn"
-            onClick={hide}>
+          <button key={1} type="button" className={`${BLOCK_NAME}__cancel-btn`} onClick={hide}>
             {t('deleteChatMemberModal.cancel')}
           </button>,
           <Button
             key={2}
             type="button"
             loading={loading}
-            className="delete-chat-member-modal__confirm-btn"
+            className={`${BLOCK_NAME}__confirm-btn`}
             onClick={removeChatMember}>
             {t('deleteChatMemberModal.confirm')}
           </Button>,

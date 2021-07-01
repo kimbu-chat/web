@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback, useState, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import {
@@ -20,6 +20,8 @@ import { ChatFromList } from './chat-item/chat-item';
 
 import './chat-list.scss';
 
+const BLOCK_NAME = 'chat-list';
+
 const ChatList = React.memo(() => {
   const chatsList = useSelector(getChatsListSelector);
   const searchChatsList = useSelector(getSearchChatsListSelector);
@@ -35,7 +37,7 @@ const ChatList = React.memo(() => {
     [resetSearchChats],
   );
 
-  const { chatId: selectedChatId } = useParams<{ chatId: string }>();
+  const { id: selectedChatId } = useParams<{ id: string }>();
 
   useEffect(() => {
     if (selectedChatId) {
@@ -93,24 +95,24 @@ const ChatList = React.memo(() => {
 
   return (
     <>
-      <div className="messenger__chats">
-        <div className="chat-list__search-top">
+      <div>
+        <div className={`${BLOCK_NAME}__search-top`}>
           <SearchBox
-            containerClassName="chat-list__search-top__search-container"
-            inputClassName="chat-list__search-top__search-input"
-            iconClassName="chat-list__search-top__search-icon"
+            containerClassName={`${BLOCK_NAME}__search-top__search-container`}
+            inputClassName={`${BLOCK_NAME}__search-top__search-input`}
+            iconClassName={`${BLOCK_NAME}__search-top__search-icon`}
             onChange={changeSearchString}
           />
           <button
             type="button"
             onClick={changeNewChatDisplayedState}
-            className="chat-list__search-top__create-chat-btn">
+            className={`${BLOCK_NAME}__search-top__create-chat-btn`}>
             <CreateChatSvg />
           </button>
         </div>
-        <div className="chat-list">
+        <div className={BLOCK_NAME}>
           <InfiniteScroll
-            onReachExtreme={loadMore}
+            onReachBottom={loadMore}
             hasMore={searchString.length ? searchChatsList.hasMore : chatsList.hasMore}
             isLoading={searchString.length ? searchChatsList.loading : chatsList.loading}>
             {renderedChats}

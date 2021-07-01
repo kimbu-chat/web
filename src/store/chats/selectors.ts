@@ -1,11 +1,14 @@
 import { TFunction } from 'i18next';
 import { RootState } from 'typesafe-actions';
+import unionBy from 'lodash/unionBy';
 
 import { IAttachmentToSend } from './models/attachment-to-send';
 import { IBaseAttachment } from './models/attachments/base-attachment';
 import { INormalizedChat } from './models/chat';
 import { IChatsState } from './chats-state';
-import { InterlocutorType } from './models';
+import { FileType, InterlocutorType } from './models';
+
+import type { IAudioAttachment } from './models';
 
 // RootState selectors
 export const getSelectedChatSelector = (state: RootState): INormalizedChat | undefined =>
@@ -39,6 +42,9 @@ export const getSelectedInterlocutorIdSelector = (state: RootState) =>
 
 export const getSelectedGroupChatNameSelector = (state: RootState) =>
   state.chats.chats[state?.chats?.selectedChatId || -1]?.groupChat?.name;
+
+export const getSelectedGroupChatCreatorIdSelector = (state: RootState) =>
+  state.chats.chats[state?.chats?.selectedChatId || -1]?.groupChat?.userCreatorId;
 
 export const getSelectedGroupChatIdSelector = (state: RootState) =>
   state.chats.chats[state?.chats?.selectedChatId || -1]?.groupChat?.id;
@@ -104,6 +110,32 @@ export const getAudioAttachmentsCountSelector = (state: RootState): number =>
 
 export const getSelectedChatIdSelector = (state: RootState): number | null =>
   state.chats.selectedChatId;
+
+export const getSelectedChatAudioAttachmentsSelector = (chatId: number) => (
+  state: RootState,
+): IAudioAttachment[] => {
+  const audioAttachments: IAudioAttachment[] = [];
+
+  Object.values(state.chats.chats[chatId]?.messages.messages).forEach((message) => {
+    message?.attachments?.forEach((attachment) => {
+      if (attachment.type === FileType.Audio) {
+        if (!audioAttachments.find(({ id }) => id === attachment.id)) {
+          audioAttachments.push(attachment as IAudioAttachment);
+        }
+      }
+    });
+
+    message?.linkedMessage?.attachments?.forEach((attachment) => {
+      if (attachment.type === FileType.Audio) {
+        if (!audioAttachments.find(({ id }) => id === attachment.id)) {
+          audioAttachments.push(attachment as IAudioAttachment);
+        }
+      }
+    });
+  });
+
+  return unionBy(audioAttachments, state.chats.chats[chatId]?.audios.audios, 'id');
+};
 
 export const getChatByIdSelector = (chatId: number) => (state: RootState) =>
   state.chats.chats[chatId];

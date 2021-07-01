@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react';
+import classnames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
@@ -16,9 +17,12 @@ import './chat-member.scss';
 
 interface IMemberProps {
   memberId: number;
+  isOwner: boolean;
 }
 
-export const Member: React.FC<IMemberProps> = ({ memberId }) => {
+const BLOCK_NAME = 'chat-member';
+
+export const Member: React.FC<IMemberProps> = ({ memberId, isOwner }) => {
   const { t } = useTranslation();
 
   const member = useSelector(getUserSelector(memberId));
@@ -30,33 +34,32 @@ export const Member: React.FC<IMemberProps> = ({ memberId }) => {
 
   const myId = new MyProfileService().myProfile.id;
 
-  // TODO: isOwner logic is not implemented at all
-  const isOwner = false;
   const itIsMe = member?.id === myId;
 
   return (
     <>
-      <div className="chat-member">
+      <div className={BLOCK_NAME}>
         {member && (
-          <div
-            className={`chat-member__avatar-container ${
-              isOwner ? 'chat-member__avatar-container--owner' : ''
-            }`}>
-            <Avatar className="chat-member__avatar" user={member} />
-          </div>
+          <Avatar
+            className={classnames(`${BLOCK_NAME}__avatar`, {
+              [`${BLOCK_NAME}__avatar--owner`]: isOwner,
+            })}
+            size={isOwner ? 52 : 48}
+            user={member}
+          />
         )}
 
-        <div className="chat-member__data">
-          <div className="chat-member__name-line">
-            <h3 className="chat-member__name">{member && getUserName(member, t)}</h3>
-            {isOwner && <div className="chat-member__owner">{t('chatMember.owner')}</div>}
+        <div className={`${BLOCK_NAME}__data`}>
+          <div className={`${BLOCK_NAME}__name-line`}>
+            <h3 className={`${BLOCK_NAME}__name`}>{member && getUserName(member, t)}</h3>
+            {isOwner && <div className={`${BLOCK_NAME}__owner`}>{t('chatMember.owner')}</div>}
           </div>
 
           {!member?.deleted &&
             (member?.online ? (
-              <span className="chat-member__status">{t('chatData.online')}</span>
+              <span className={`${BLOCK_NAME}__status`}>{t('chatData.online')}</span>
             ) : (
-              <span className="chat-member__status">
+              <span className={`${BLOCK_NAME}__status`}>
                 <TimeUpdateable timeStamp={member?.lastOnlineTime} />
               </span>
             ))}
@@ -66,7 +69,7 @@ export const Member: React.FC<IMemberProps> = ({ memberId }) => {
           <button
             onClick={changeRemoveChatMemberModalDisplayed}
             type="button"
-            className="chat-member__delete-user">
+            className={`${BLOCK_NAME}__delete-user`}>
             <DeleteSvg viewBox="0 0 15 16" />
           </button>
         )}

@@ -9,7 +9,7 @@ import { Meta } from '@store/common/actions';
 import { MAIN_API } from '@common/paths';
 
 import { Login } from '../login/login';
-import { IAuthState } from '../../../auth/auth-state';
+import { ILoginState } from '../../login-state';
 import { LoginSuccess } from '../login/login-success';
 
 import { ConfirmPhoneFailure } from './confirm-phone-failure';
@@ -24,7 +24,7 @@ export class ConfirmPhone {
   }
 
   static get reducer() {
-    return produce((draft: IAuthState) => {
+    return produce((draft: ILoginState) => {
       draft.loading = true;
       return draft;
     });

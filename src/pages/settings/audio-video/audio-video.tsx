@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
+import incomingCallSound from '@sounds/calls/incoming-call.ogg';
 import { ReactComponent as VideoSvg } from '@icons/attachment-video.svg';
 import { ReactComponent as PlaySvg } from '@icons/play.svg';
 import { ReactComponent as PauseSvg } from '@icons/pause.svg';
@@ -15,13 +16,11 @@ import {
   getVideoDevicesSelector,
 } from '@store/calls/selectors';
 import { ReactComponent as VideoCameraSvg } from '@icons/video-camera.svg';
-import { ReactComponent as CloseMicrophoneSvg } from '@icons/mic-close.svg';
 import {
   killDeviceUpdateWatcherAction,
   spawnDeviceUpdateWatcherAction,
   switchDeviceAction,
 } from '@store/calls/actions';
-import incomingCallSound from '@sounds/calls/imcoming-call.ogg';
 import { getAudioVolume } from '@utils/get-audio-volume-size';
 import { playSoundSafely } from '@utils/current-music';
 import { Button } from '@components/button';
@@ -44,7 +43,9 @@ let audioTrack: MediaStreamTrack | undefined;
 let stopMicrophoneMeasurement: () => void;
 let stopAudioMeasurement: () => void;
 
-export const AudioVideoSettings = () => {
+let videoStopped = false;
+
+const AudioVideoSettings = () => {
   const IntensityPoint: React.FC<IIntensityPointProps> = ({ dataActive, dataMiddle }) => (
     <div
       data-active={dataActive}
@@ -85,7 +86,6 @@ export const AudioVideoSettings = () => {
   const spawnDeviceUpdateWatcher = useActionWithDispatch(spawnDeviceUpdateWatcherAction);
 
   const [videoOpened, setVideoOpened] = useState(false);
-  const [microphoneOpened, setMicrophoneOpened] = useState(false);
   const [audioPlaying, setAudioPlaying] = useState(false);
   const [requestingVideo, setRequestingVideo] = useState(false);
 
@@ -94,59 +94,27 @@ export const AudioVideoSettings = () => {
   const [microphoneIntensity, setMicrophoneIntensity] = useState(0);
   const [audioIntensity, setAudioIntensity] = useState(0);
 
-  const toggleMicrophone = useCallback(() => {
-    setMicrophoneOpened((oldState) => !oldState);
-  }, [setMicrophoneOpened]);
+  const toggleAudio = useCallback(() => setAudioPlaying((state) => !state), []);
+
+  const startMicrophoneMeasurement = useCallback(async () => {
+    const localMediaStream = await navigator.mediaDevices.getUserMedia({
+      audio: audioConstraints,
+    });
+
+    [audioTrack] = localMediaStream.getAudioTracks();
+    spawnDeviceUpdateWatcher({ audioOpened: true, videoOpened: true });
+
+    try {
+      stopMicrophoneMeasurement = await getAudioVolume(localMediaStream, (val) => {
+        setMicrophoneIntensity(val);
+      });
+    } catch {
+      setAudioMeasurementAllowed(false);
+    }
+  }, [audioConstraints, spawnDeviceUpdateWatcher]);
 
   useEffect(() => {
-    if (videoOpened) {
-      navigator.mediaDevices
-        .getUserMedia({
-          video: videoOpened && videoConstraints,
-        })
-        .then((localMediaStream) => {
-          if (videoRef.current) {
-            [videoTrack] = localMediaStream.getVideoTracks();
-            setRequestingVideo(false);
-
-            videoRef.current.srcObject = localMediaStream;
-            spawnDeviceUpdateWatcher({ videoOpened });
-          }
-        })
-        .catch(() => {
-          setRequestingVideo(false);
-        });
-    }
-
-    return () => {
-      videoTrack?.stop();
-      killDeviceUpdateWatcher();
-    };
-  }, [videoConstraints, videoOpened, killDeviceUpdateWatcher, spawnDeviceUpdateWatcher]);
-
-  useEffect(() => {
-    if (microphoneOpened) {
-      (async () => {
-        const localMediaStream = await navigator.mediaDevices.getUserMedia({
-          audio: microphoneOpened && audioConstraints,
-        });
-
-        [audioTrack] = localMediaStream.getAudioTracks();
-        spawnDeviceUpdateWatcher({ audioOpened: microphoneOpened });
-
-        try {
-          stopMicrophoneMeasurement = await getAudioVolume(localMediaStream, (val) => {
-            setMicrophoneIntensity(val);
-          });
-        } catch {
-          setAudioMeasurementAllowed(false);
-        }
-      })();
-    } else {
-      killDeviceUpdateWatcher();
-      setMicrophoneIntensity(0);
-      audioTrack?.stop();
-    }
+    startMicrophoneMeasurement();
 
     return () => {
       if (stopMicrophoneMeasurement) {
@@ -157,11 +125,42 @@ export const AudioVideoSettings = () => {
     };
   }, [
     audioConstraints,
-    microphoneOpened,
     setMicrophoneIntensity,
     killDeviceUpdateWatcher,
     spawnDeviceUpdateWatcher,
+    startMicrophoneMeasurement,
   ]);
+
+  useEffect(() => {
+    if (videoOpened) {
+      videoStopped = false;
+      navigator.mediaDevices
+        .getUserMedia({
+          video: videoOpened && videoConstraints,
+        })
+        .then((localMediaStream) => {
+          [videoTrack] = localMediaStream.getVideoTracks();
+
+          if (videoStopped) {
+            videoTrack?.stop();
+          } else {
+            setRequestingVideo(false);
+          }
+
+          if (videoRef.current) {
+            videoRef.current.srcObject = localMediaStream;
+          }
+        })
+        .catch(() => {
+          setRequestingVideo(false);
+        });
+    }
+
+    return () => {
+      videoTrack?.stop();
+      videoStopped = true;
+    };
+  }, [videoConstraints, videoOpened]);
 
   const getVideo = useCallback(() => {
     setVideoOpened(true);
@@ -216,7 +215,7 @@ export const AudioVideoSettings = () => {
     <div className="audio-video">
       <h3 className="audio-video__title">{t('audioVideo.title')}</h3>
       <div className="audio-video__subject-title">
-        <VideoSvg onClick={getVideo} viewBox="0 0 18 18" className="audio-video__subject-icon" />
+        <VideoSvg viewBox="0 0 18 18" className="audio-video__subject-icon" />
         <h5 className="audio-video__subject-text">{t('audioVideo.video')}</h5>
       </div>
       <div className="audio-video__dropdown-wrapper">
@@ -232,7 +231,6 @@ export const AudioVideoSettings = () => {
         />
       </div>
       <div className="audio-video__video-area">
-        <VideoCameraSvg className="audio-video__video-icon" viewBox="0 0 300 280" />
         {videoOpened && (
           <>
             <video muted autoPlay playsInline ref={videoRef} className="audio-video__video" />
@@ -243,55 +241,23 @@ export const AudioVideoSettings = () => {
             )}
           </>
         )}
-        <Button
-          loading={requestingVideo}
-          onClick={getVideo}
-          type="button"
-          className="audio-video__video-btn">
-          {t('audioVideo.test-video')}
-        </Button>
+        {(!videoOpened || requestingVideo) && (
+          <>
+            <VideoCameraSvg className="audio-video__video-icon" viewBox="0 0 300 280" />
+            <Button
+              loading={requestingVideo}
+              onClick={getVideo}
+              type="button"
+              className="audio-video__video-btn">
+              {t('audioVideo.test-video')}
+            </Button>
+          </>
+        )}
       </div>
       <HorizontalSeparator />
       <div className="audio-video__intensity-wrapper">
         <div className="audio-video__subject-title">
-          {audioPlaying ? (
-            <PauseSvg
-              onClick={() => {
-                setAudioPlaying(false);
-              }}
-              viewBox="0 0 24 24"
-              className="audio-video__subject-icon"
-            />
-          ) : (
-            <PlaySvg
-              onClick={() => {
-                setAudioPlaying(true);
-              }}
-              viewBox="0 0 24 24"
-              className="audio-video__subject-icon"
-            />
-          )}
-          <audio src={incomingCallSound} hidden ref={audioRef} />
-          <h5 className="audio-video__subject-text">{t('audioVideo.load-speaker')}</h5>
-        </div>
-        {audioMeasurementAllowed && <IntensityIndicator intensity={audioIntensity} />}
-      </div>
-      <HorizontalSeparator />
-      <div className="audio-video__intensity-wrapper">
-        <div className="audio-video__subject-title">
-          {microphoneOpened ? (
-            <CloseMicrophoneSvg
-              onClick={toggleMicrophone}
-              viewBox="0 0 20 24"
-              className="audio-video__subject-icon"
-            />
-          ) : (
-            <MicrophoneSvg
-              onClick={toggleMicrophone}
-              viewBox="0 0 20 24"
-              className="audio-video__subject-icon"
-            />
-          )}
+          <MicrophoneSvg viewBox="0 0 20 24" className="audio-video__subject-icon" />
           <h5 className="audio-video__subject-text">{t('audioVideo.microphone')}</h5>
         </div>
         {audioMeasurementAllowed && <IntensityIndicator intensity={microphoneIntensity} />}
@@ -305,6 +271,24 @@ export const AudioVideoSettings = () => {
           }))}
         />
       </div>
+      <HorizontalSeparator />
+      <div className="audio-video__intensity-wrapper">
+        <button
+          type="button"
+          onClick={toggleAudio}
+          className="audio-video__subject-title audio-video__subject-title--button">
+          {audioPlaying ? (
+            <PauseSvg viewBox="0 0 24 24" className="audio-video__subject-icon" />
+          ) : (
+            <PlaySvg viewBox="0 0 24 24" className="audio-video__subject-icon" />
+          )}
+          <audio src={incomingCallSound} hidden ref={audioRef} />
+          <h5 className="audio-video__subject-text">{t('audioVideo.load-speaker')}</h5>
+        </button>
+        {audioMeasurementAllowed && <IntensityIndicator intensity={audioIntensity} />}
+      </div>
     </div>
   );
 };
+
+export default AudioVideoSettings;

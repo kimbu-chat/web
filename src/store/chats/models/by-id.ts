@@ -1,3 +1,1 @@
-export type ById<T> = {
-  [key: number]: T | undefined;
-};
+export type ById<T> = Record<number, T>;

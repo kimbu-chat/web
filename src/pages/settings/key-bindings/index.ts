@@ -1,1 +1,1 @@
-export { KeyBindings } from './key-bindings';
+export { default } from './key-bindings';

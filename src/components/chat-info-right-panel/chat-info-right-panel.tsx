@@ -17,6 +17,8 @@ import { ChatActions as ChatInfoActions } from './chat-actions/chat-actions';
 import { ChatMembers } from './chat-members/chat-members';
 import { ChatMedia } from './chat-media/chat-media';
 
+const BLOCK_NAME = 'chat-info';
+
 const ChatInfoRightPanel: React.FC = React.memo(() => {
   const chat = useSelector(getInfoChatSelector);
 
@@ -58,12 +60,13 @@ const ChatInfoRightPanel: React.FC = React.memo(() => {
   if (chat) {
     return (
       <CSSTransition in={isInfoOpened} timeout={200} classNames="chat-info-slide" unmountOnExit>
-        <div className="chat-info__messenger-info">
+        <div className={`${BLOCK_NAME}__messenger-info`}>
           <>
-            <div className="chat-info">
+            <div className={BLOCK_NAME}>
               <Avatar
                 onClick={changeIsAvatarMaximizedState}
-                className="chat-info__avatar"
+                className={`${BLOCK_NAME}__avatar`}
+                size={148}
                 user={interlocutor}
                 groupChat={chat?.groupChat}
               />

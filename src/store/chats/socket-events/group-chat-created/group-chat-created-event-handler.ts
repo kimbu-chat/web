@@ -3,8 +3,8 @@ import { createAction } from 'typesafe-actions';
 
 import { createSystemMessage } from '@utils/message-utils';
 
-import { playSoundSafely } from '../../../../utils/current-music';
 import messageCameUnselected from '../../../../assets/sounds/notifications/messsage-came-unselected.ogg';
+import { playSoundSafely } from '../../../../utils/current-music';
 import { ChatId } from '../../chat-id';
 import {
   SystemMessageType,

@@ -17,20 +17,21 @@
     />
 
     <script
-      src="https://js.sentry-cdn.com/88240f4812e54397a554e2e35bc7ef32.min.js"
+      src="https://js.sentry-cdn.com/916a1cae8acd4998a9c228e31567ddd3.min.js"
       crossorigin="anonymous"
-      defer
+      data-lazy="no"
     >
       Sentry.onLoad(function () {
             Sentry.init({
               logLevel: 1,
-              allowUrls: ['https:// kimbu.io'],
+              allowUrls: ['https://dev.kimbu.io', 'https://kimbu.io'],
               // We recommend adjusting this value in production, or using tracesSampler
               // for finer control
               tracesSampleRate: 1.0,
             });
           });
     </script>
+
     <link
       rel="icon"
       type="image/png"
@@ -73,7 +74,7 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>Ravudi</title>
+    <title>Kimbu</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

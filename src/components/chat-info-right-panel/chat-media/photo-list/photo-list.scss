@@ -17,15 +17,18 @@
 
   &__separator {
     color: #3f8ae0;
-    font-size: 16px;
+    font-size: 1rem;
     line-height: 19px;
-    margin-bottom: 16px;
-    margin-top: 8px;
+    padding-bottom: 16px;
+    padding-top: 8px;
     text-transform: capitalize;
     width: 100%;
+    position: sticky;
+    top: 17px;
+    background-color: var(--dt-grafit-wt-white);
 
     &:first-child {
-      margin-top: 17px;
+      padding-top: 17px;
     }
   }
 }

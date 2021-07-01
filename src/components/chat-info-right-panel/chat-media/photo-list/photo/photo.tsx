@@ -1,13 +1,11 @@
-import dayjs from 'dayjs';
 import React, { useCallback, useState } from 'react';
 
 import FadeAnimationWrapper from '@components/fade-animation-wrapper';
 import { MediaModal } from '@components/image-modal';
-import { IGroupable, IPictureAttachment } from '@store/chats/models';
-import { doesYearDifferFromCurrent } from '@utils/set-separators';
+import { IPictureAttachment } from '@store/chats/models';
 
 interface IPhotoProps {
-  photo: IPictureAttachment & IGroupable;
+  photo: IPictureAttachment;
   attachmentsArr: IPictureAttachment[];
 }
 
@@ -19,14 +17,6 @@ export const Photo: React.FC<IPhotoProps> = ({ photo, attachmentsArr }) => {
 
   return (
     <>
-      {photo.needToShowMonthSeparator && (
-        <div className="chat-photo__separator">
-          {photo.needToShowMonthSeparator &&
-            (photo.needToShowYearSeparator || doesYearDifferFromCurrent(photo.creationDateTime)
-              ? dayjs(photo.creationDateTime).format('MMMM YYYY')
-              : dayjs(photo.creationDateTime).format('MMMM'))}
-        </div>
-      )}
       <img
         alt="low speed"
         onClick={changeBigPhotoDisplayed}

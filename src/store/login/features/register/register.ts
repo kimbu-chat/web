@@ -1,11 +1,10 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { call, put, select } from 'redux-saga/effects';
+import { call, put, select, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
 import { Meta } from '@store/common/actions';
-import { IAuthState } from '@store/auth/auth-state';
 import { authRequestFactory, HttpRequestMethod } from '@store/common/http';
 import {
   authPhoneNumberSelector,
@@ -15,8 +14,11 @@ import {
 import { Login } from '@store/login/features/login/login';
 import { MAIN_API } from '@common/paths';
 
-import { IRegisterActionPayload } from './action-payloads/register-action-payload';
-import { IRegisterApiRequest } from './api-requests/register-api-request';
+import { LoginSuccess } from '../login/login-success';
+
+import type { IRegisterActionPayload } from './action-payloads/register-action-payload';
+import type { IRegisterApiRequest } from './api-requests/register-api-request';
+import type { ILoginState } from '@store/login/login-state';
 
 export class Register {
   static get action() {
@@ -24,7 +26,7 @@ export class Register {
   }
 
   static get reducer() {
-    return produce((draft: IAuthState) => ({
+    return produce((draft: ILoginState) => ({
       ...draft,
       loading: true,
     }));
@@ -52,7 +54,7 @@ export class Register {
       );
 
       yield put(Login.action({ phoneNumber, code: confirmationCode }));
-
+      yield take(LoginSuccess.action);
       action.meta.deferred.resolve();
     };
   }

@@ -1,10 +1,11 @@
 .recording-attachment {
   cursor: pointer;
-  margin-top: 10px;
+  margin-top: 30px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   position: relative;
+  max-width: calc(100% - 40px);
 
   &:first-child {
     margin-top: 0;
@@ -56,8 +57,9 @@
 
   &__duration {
     font-weight: normal;
-    font-size: 14px;
+    font-size: 0.875rem;
     line-height: 16px;
     color: var(--dt-white-wt-dark);
+    white-space: nowrap;
   }
 }

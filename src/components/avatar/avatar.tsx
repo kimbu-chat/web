@@ -1,4 +1,5 @@
 import React from 'react';
+import classnames from 'classnames';
 
 import { IGroupChat } from '@store/chats/models';
 import { IUser } from '@store/common/models';
@@ -11,52 +12,54 @@ import { StatusBadge } from '../status-badge';
 interface IAvatarProps {
   user?: IUser;
   groupChat?: IGroupChat;
-  className?: string;
   statusBadge?: boolean;
+  size: number;
   onClick?: () => void;
+  className?: string;
 }
+
+const BLOCK_NAME = 'avatar';
+const BLOCK_NAME_WRAPPER = 'avatar-wrapper';
 
 export const Avatar: React.FC<IAvatarProps> = ({
   user,
   groupChat,
-  className,
+  size,
   onClick,
   statusBadge,
-  ...props
-}) => {
-  if (user?.deleted) {
-    return (
-      <div className={`avatar avatar--deleted ${className || ''}`}>
+  className,
+}) => (
+  <div className={classnames(className)}>
+    {user?.deleted ? (
+      <div
+        className={classnames(BLOCK_NAME, `${BLOCK_NAME}--deleted`)}
+        style={{ height: `${size}px`, width: `${size}px` }}>
         <DeletedSvg />
       </div>
-    );
-  }
-
-  return (
-    <>
-      <div className="avatar-wrapper">
+    ) : (
+      <div className={BLOCK_NAME_WRAPPER}>
         {statusBadge && user?.online && <StatusBadge />}
         {user?.avatar?.previewUrl || groupChat?.avatar?.previewUrl ? (
           <img
             draggable={false}
             alt={getInterlocutorInitials({ user, groupChat })}
             src={user?.avatar?.previewUrl || groupChat?.avatar?.previewUrl}
-            {...props}
+            style={{ height: `${size}px`, width: `${size}px` }}
             onClick={onClick}
-            className={`avatar ${className || ''}`}
+            className={classnames(BLOCK_NAME)}
           />
         ) : (
           <div
             draggable={false}
-            {...props}
+            style={{ height: `${size}px`, width: `${size}px` }}
             onClick={onClick}
-            className={`avatar ${className || ''}`}>
+            className={classnames(BLOCK_NAME)}>
             {getInterlocutorInitials({ user, groupChat })}
           </div>
         )}
       </div>
-    </>
-  );
-};
+    )}
+  </div>
+);
 
 Avatar.displayName = 'Avatar';

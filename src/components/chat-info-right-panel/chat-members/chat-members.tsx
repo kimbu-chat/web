@@ -1,10 +1,13 @@
 import React, { useState, useCallback } from 'react';
-import './chat-members.scss';
 import { useSelector } from 'react-redux';
+import classnames from 'classnames';
 
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getGroupChatUsersAction } from '@store/chats/actions';
-import { getMembersListForSelectedGroupChatSelector } from '@store/chats/selectors';
+import {
+  getMembersListForSelectedGroupChatSelector,
+  getSelectedGroupChatCreatorIdSelector,
+} from '@store/chats/selectors';
 import { ReactComponent as OpenArrowSvg } from '@icons/open-arrow.svg';
 import { InfiniteScroll } from '@components/infinite-scroll';
 import { SearchBox } from '@components/search-box/search-box';
@@ -13,6 +16,10 @@ import { CHAT_MEMBERS_LIMIT } from '@utils/pagination-limits';
 
 import { Member } from './chat-member/chat-member';
 
+import './chat-members.scss';
+
+const BLOCK_NAME = 'chat-members';
+
 export const ChatMembers: React.FC = () => {
   const [searchStr, setSearchStr] = useState<string>('');
   const [membersDisplayed, setMembersDisplayed] = useState(false);
@@ -20,6 +27,7 @@ export const ChatMembers: React.FC = () => {
   const getGroupChatUsers = useActionWithDispatch(getGroupChatUsersAction);
 
   const membersListForGroupChat = useSelector(getMembersListForSelectedGroupChatSelector);
+  const userCreatorId = useSelector(getSelectedGroupChatCreatorIdSelector);
 
   const loadMore = useCallback(() => {
     const page: IPage = {
@@ -52,33 +60,33 @@ export const ChatMembers: React.FC = () => {
   );
 
   return (
-    <div className="chat-members">
-      <div className="chat-members__heading-block">
-        <h3 className="chat-members__heading">Members</h3>
+    <div className={BLOCK_NAME}>
+      <div className={`${BLOCK_NAME}__heading-block`}>
+        <h3 className={`${BLOCK_NAME}__heading`}>Members</h3>
         <button
           type="button"
           onClick={changeMembersDisplayedState}
-          className={`chat-members__open-arrow ${
-            membersDisplayed ? 'chat-members__open-arrow--rotated' : ''
-          }`}>
+          className={classnames(`${BLOCK_NAME}__open-arrow`, {
+            [`${BLOCK_NAME}__open-arrow--rotated`]: membersDisplayed,
+          })}>
           <OpenArrowSvg />
         </button>
       </div>
 
       {membersDisplayed && (
         <>
-          <div className="chat-members__search">
-            <SearchBox containerClassName="chat-members__search-container" onChange={search} />
+          <div className={`${BLOCK_NAME}__search`}>
+            <SearchBox containerClassName={`${BLOCK_NAME}__search-container`} onChange={search} />
           </div>
 
           <InfiniteScroll
-            className="chat-members__members-list"
-            onReachExtreme={loadMore}
+            className={`${BLOCK_NAME}__members-list`}
+            onReachBottom={loadMore}
             hasMore={membersListForGroupChat?.hasMore}
             isLoading={membersListForGroupChat?.loading}
             threshold={0.3}>
             {membersListForGroupChat?.memberIds?.map((memberId) => (
-              <Member memberId={memberId} key={memberId} />
+              <Member isOwner={userCreatorId === memberId} memberId={memberId} key={memberId} />
             ))}
           </InfiniteScroll>
         </>

@@ -1,5 +1,3 @@
-import { ISecurityTokens } from '../auth/common/models';
-
 export interface ILoginState {
   loading: boolean;
   confirmationCode: string;
@@ -7,7 +5,4 @@ export interface ILoginState {
   phoneNumber: string;
   isConfirmationCodeWrong: boolean;
   isAuthenticated: boolean;
-  securityTokens?: ISecurityTokens;
-  deviceId?: string;
-  refreshTokenRequestLoading: boolean;
 }

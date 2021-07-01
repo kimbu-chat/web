@@ -83,7 +83,7 @@ const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
         content={
           user ? (
             <div className="add-friends-modal__user">
-              <Avatar className="add-friends-modal__user__avatar" user={user} />
+              <Avatar className="add-friends-modal__user__avatar" size={80} user={user} />
 
               <h2 className="add-friends-modal__user__name">{`${user.firstName} ${user.lastName}`}</h2>
               <h4 className="add-friends-modal__user__phone">
@@ -141,7 +141,7 @@ const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
               className={`add-friends-modal__btn ${
                 added ? 'add-friends-modal__btn--confirm' : 'add-friends-modal__btn--cancel'
               }`}
-              to={`/chats/${ChatId.from(user.id).id}`}>
+              to={`/im/${ChatId.from(user.id).id}`}>
               {t('addFriendModal.chat')}
             </Link>
           ) : null,

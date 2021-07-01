@@ -1,0 +1,63 @@
+.auth-wrapper {
+  min-height: 100vh;
+  position: relative;
+
+  &__curved-shape {
+    right: 0;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    width: 66%;
+  }
+
+  &__vector1 {
+    right: 33%;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+  }
+
+  &__vector2 {
+    left: 0;
+    position: fixed;
+    bottom: 0;
+  }
+
+  &__vector3 {
+    left: 5%;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+  }
+
+  &__frame {
+    right: 70px;
+    position: fixed;
+    height: 70vh;
+    top: 120px;
+  }
+
+  &__text-logo {
+    position: fixed;
+    left: 107px;
+    top: 41px;
+  }
+
+  &__slogan-block {
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    left: 107px;
+  }
+
+  &__slogan {
+    font-weight: 500;
+    font-size: 4.5rem;
+    line-height: 85px;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+    color: #32394a;
+  }
+}

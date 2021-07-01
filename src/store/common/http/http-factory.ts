@@ -3,7 +3,6 @@ import { call, cancelled, put, select, take } from 'redux-saga/effects';
 import { SagaIterator } from 'redux-saga';
 import { RootState } from 'typesafe-actions';
 
-import { ISecurityTokens } from '@store/auth/common/models/security-tokens';
 import { securityTokensSelector } from '@store/auth/selectors';
 import { emitToast } from '@utils/emit-toast';
 
@@ -14,6 +13,7 @@ import { RefreshTokenSuccess } from '../../auth/features/refresh-token/refresh-t
 import { HttpRequestMethod } from './http-request-method';
 import { httpRequest, requestTimeout } from './http-request';
 
+import type { ISecurityTokens } from '@store/auth/common/models/security-tokens';
 import type { IRequestGenerator, UrlGenerator, HttpHeaders } from './types';
 
 function* getAuthHeader(): SagaIterator {

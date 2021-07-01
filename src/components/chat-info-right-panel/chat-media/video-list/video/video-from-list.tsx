@@ -1,11 +1,10 @@
 import React, { useCallback, useState } from 'react';
-import dayjs from 'dayjs';
 
 import { ReactComponent as PlaySvg } from '@icons/play.svg';
 import { MediaModal } from '@components/image-modal';
 import FadeAnimationWrapper from '@components/fade-animation-wrapper';
 import { IGroupable, IVideoAttachment } from '@store/chats/models';
-import { doesYearDifferFromCurrent } from '@utils/set-separators';
+import { getMinutesSeconds } from '@utils/date-utils';
 
 interface IVideoFromListProps {
   video: IVideoAttachment & IGroupable;
@@ -20,21 +19,11 @@ const VideoFromList: React.FC<IVideoFromListProps> = ({ video, attachmentsArr })
   );
 
   return (
-    <React.Fragment key={video.id}>
-      {video.needToShowMonthSeparator && (
-        <div className="chat-video__separator">
-          {video.needToShowMonthSeparator &&
-            (video.needToShowYearSeparator || doesYearDifferFromCurrent(video.creationDateTime)
-              ? dayjs(video.creationDateTime).format('MMMM YYYY')
-              : dayjs(video.creationDateTime).format('MMMM'))}
-        </div>
-      )}
+    <>
       <div onClick={changeVideoPlayerDisplayed} className="chat-video__video-wrapper">
         <img alt="" className="chat-video__video" src={video.firstFrameUrl} />
         <div className="chat-video__blur" />
-        <span className="chat-video__duration">
-          {dayjs.utc(video.duration * 1000).format('mm:ss')}
-        </span>
+        <span className="chat-video__duration">{getMinutesSeconds(video.duration * 1000)}</span>
         <button type="button" className="chat-video__play">
           <PlaySvg />
         </button>
@@ -47,7 +36,7 @@ const VideoFromList: React.FC<IVideoFromListProps> = ({ video, attachmentsArr })
           onClose={changeVideoPlayerDisplayed}
         />
       </FadeAnimationWrapper>
-    </React.Fragment>
+    </>
   );
 };
 

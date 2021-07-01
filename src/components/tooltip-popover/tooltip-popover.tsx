@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import debounce from 'lodash/debounce';
 import classnames from 'classnames';
 
@@ -17,19 +17,20 @@ export const TooltipPopover: React.FC<React.PropsWithChildren<TooltipPopoverProp
   tooltipRef,
   className,
 }) => {
-  const getCoords = useCallback(() => {
+  const tooltipCoords = useMemo(() => {
     const rect = tooltipRef?.current.getBoundingClientRect();
+
     return {
       left: rect.x,
       top: rect.bottom + window.scrollY + 7,
     };
   }, [tooltipRef]);
 
-  const [coords, setCoords] = useState(getCoords());
+  const [coords, setCoords] = useState(tooltipCoords);
 
   const updateTooltipCoords = useCallback(() => {
-    setCoords(getCoords());
-  }, [getCoords]);
+    setCoords(tooltipCoords);
+  }, [tooltipCoords]);
 
   const updateCoords = debounce(updateTooltipCoords, TIME_TO_UPDATE);
 

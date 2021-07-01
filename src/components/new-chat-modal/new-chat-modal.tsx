@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import { Modal } from '@components/modal';
@@ -57,7 +57,7 @@ const NewChatModal: React.FC<INewChatModalProps> = ({ onClose, displayCreateGrou
   const createEmptyChat = useCallback(
     (user: INormalizedChat | IUser) => {
       const chatId = ChatId.from((user as IUser).id).id;
-      history.push(`/chats/${chatId}`);
+      history.push(`/im/${chatId}`);
       onClose();
     },
     [history, onClose],
@@ -132,7 +132,7 @@ const NewChatModal: React.FC<INewChatModalProps> = ({ onClose, displayCreateGrou
             </div>
             <InfiniteScroll
               className="new-chat__friends-block"
-              onReachExtreme={loadMore}
+              onReachBottom={loadMore}
               hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}
               isLoading={name.length ? searchFriendsLoading : friendsLoading}>
               {selectEntities}

@@ -12,6 +12,8 @@ import { CallItem } from './call-item/call-item';
 
 import './call-list.scss';
 
+const BLOCK_NAME = 'call-list';
+
 export const CallList = () => {
   const callsList = useSelector(getCallsListSelector);
   const searchCallsList = useSelector(getSearchCallsListSelector);
@@ -63,18 +65,18 @@ export const CallList = () => {
   );
 
   return (
-    <div className="messenger__calls">
-      <div className="call-list__search-top">
+    <div>
+      <div className={`${BLOCK_NAME}__search-top`}>
         <SearchBox
-          containerClassName="call-list__search-top__search-container"
-          inputClassName="call-list__search-top__search-input"
-          iconClassName="call-list__search-top__search-icon"
+          containerClassName={`${BLOCK_NAME}__search-top__search-container`}
+          inputClassName={`${BLOCK_NAME}__search-top__search-input`}
+          iconClassName={`${BLOCK_NAME}__search-top__search-icon`}
           onChange={changeSearchString}
         />
       </div>
-      <div className="call-list">
+      <div className={BLOCK_NAME}>
         <InfiniteScroll
-          onReachExtreme={loadMore}
+          onReachBottom={loadMore}
           hasMore={searchString.length ? searchCallsList.hasMore : callsList.hasMore}
           isLoading={searchString.length ? searchCallsList.loading : callsList.loading}>
           {renderedCalls}

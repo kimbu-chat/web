@@ -82,7 +82,7 @@ const UserSelect: React.FC<IUserSelectProps> = ({ changeSelectedState, isSelecte
       />
       <InfiniteScroll
         className="create-group-chat__friends-block"
-        onReachExtreme={loadMore}
+        onReachBottom={loadMore}
         hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}
         isLoading={name.length ? searchFriendsLoading : friendsLoading}>
         {selectEntities}

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { parsePhoneNumber } from 'libphonenumber-js';
 import { Link } from 'react-router-dom';
+import classnames from 'classnames';
 
 import { ReactComponent as PhoneSvg } from '@icons/phone-chat-info.svg';
 import { ReactComponent as EditSvg } from '@icons/crayon.svg';
@@ -15,6 +16,8 @@ import { getUserSelector } from '@store/users/selectors';
 import { EditChatModal } from '../../edit-chat-modal/edit-chat-modal';
 
 import './interlocutor-info.scss';
+
+const BLOCK_NAME = 'interlocutor-info';
 
 export const InterlocutorInfo = () => {
   const { t } = useTranslation();
@@ -30,14 +33,14 @@ export const InterlocutorInfo = () => {
 
   return (
     <>
-      <div className="interlocutor-info">
-        <div className="interlocutor-info__interlocutor-data">
-          <div className="interlocutor-info__chat-data">
-            <div className="interlocutor-info__interlocutor">
+      <div className={BLOCK_NAME}>
+        <div className={`${BLOCK_NAME}__interlocutor-data`}>
+          <div className={`${BLOCK_NAME}__chat-data`}>
+            <div className={`${BLOCK_NAME}__interlocutor`}>
               {getChatInterlocutor(interlocutor, chat, t)}
             </div>
             {groupChat?.description && (
-              <div className="interlocutor-info__description">{groupChat?.description}</div>
+              <div className={`${BLOCK_NAME}__description`}>{groupChat?.description}</div>
             )}
           </div>
 
@@ -45,27 +48,27 @@ export const InterlocutorInfo = () => {
             <button
               type="button"
               onClick={changeEditGroupChatDisplayedState}
-              className="interlocutor-info__rename-btn">
+              className={`${BLOCK_NAME}__rename-btn`}>
               <EditSvg viewBox="0 0 16 16" />
             </button>
           )}
         </div>
 
         {interlocutor && !interlocutor.deleted && (
-          <div className="interlocutor-info__info-block">
-            <PhoneSvg className="interlocutor-info__info-svg" />
-            <div className="interlocutor-info__data-value">
+          <div className={`${BLOCK_NAME}__info-block`}>
+            <PhoneSvg className={`${BLOCK_NAME}__info-svg`} />
+            <div className={`${BLOCK_NAME}__data-value`}>
               {parsePhoneNumber(interlocutor?.phoneNumber).formatInternational()}
             </div>
           </div>
         )}
 
-        <div className="interlocutor-info__info-block">
-          <DogSvg className="interlocutor-info__info-svg" />
+        <div className={`${BLOCK_NAME}__info-block`}>
+          <DogSvg className={`${BLOCK_NAME}__info-svg`} />
           <Link
-            to={`/chats/${chat?.id}`}
-            className="interlocutor-info__data-value interlocutor-info__data-value--link">
-            {`${interlocutor ? `@${interlocutor?.nickname}` : ` kimbu.io/chats/${chat?.id}2`}`}
+            to={`/im/${chat?.id}`}
+            className={classnames(`${BLOCK_NAME}__data-value`, `${BLOCK_NAME}__data-value--link`)}>
+            {`${interlocutor ? `@${interlocutor?.nickname}` : ` kimbu.io/im/${chat?.id}2`}`}
           </Link>
         </div>
       </div>

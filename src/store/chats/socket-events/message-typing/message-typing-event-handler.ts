@@ -22,7 +22,7 @@ export class UserMessageTypingEventHandler {
         draft: IChatsState,
         { payload }: ReturnType<typeof UserMessageTypingEventHandler.action>,
       ) => {
-        const { interlocutorName, chatId, interlocutorId, text } = payload;
+        const { interlocutorName, chatId, interlocutorId } = payload;
 
         const myId = new MyProfileService().myProfile.id;
 
@@ -39,8 +39,6 @@ export class UserMessageTypingEventHandler {
         if (!chat) {
           return draft;
         }
-
-        chat.draftMessage = text;
 
         if (!chat.typingInterlocutors?.find((fullName) => fullName === interlocutorName)) {
           chat.typingInterlocutors = [...(chat.typingInterlocutors || []), interlocutorName];

@@ -13,13 +13,13 @@
   &__forward-indicator {
     margin-left: -2px;
     font-weight: 300;
-    font-size: 10px;
+    font-size: 0.625rem;
     line-height: 12px;
     margin-bottom: 10px;
     color: #fff;
 
     &__name {
-      font-size: 10px;
+      font-size: 0.625rem;
       line-height: 12px;
       color: #fff;
       font-weight: 400;
@@ -66,7 +66,7 @@
     &__text {
       color: var(--dt-white-wt-dark);
       display: inline-block;
-      font-size: 16px;
+      font-size: 1rem;
       font-weight: 300;
       line-break: anywhere;
       line-height: 19px;
@@ -108,22 +108,16 @@
     }
   }
 
-  &__sender-photo-wrapper {
+  &__sender-photo {
     margin-bottom: auto;
     margin-left: 32px;
     margin-right: 10px;
-  }
-
-  &__sender-photo {
-    border-radius: 6px;
-    height: 40px;
-    width: 40px;
     cursor: pointer;
   }
 
   &__sender-name {
     color: var(--dt-white-wt-dark);
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: normal;
     line-height: 19px;
     margin: 7px 0 4px 142px;
@@ -132,7 +126,7 @@
 
   &__time {
     color: var(--dt-semi-transparent-wt-kingBlueLight);
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 300;
     line-height: 14px;
     margin-left: 4px;
@@ -153,7 +147,7 @@
       border-radius: 6px;
       color: var(--dt-white-wt-dark);
       display: inline-block;
-      font-size: 12px;
+      font-size: 0.75rem;
       font-weight: 300;
       line-height: 14px;
       padding: 4px 16px;
@@ -179,7 +173,7 @@
       border-radius: 6px;
       color: #fff;
       display: inline-flex;
-      font-size: 12px;
+      font-size: 0.75rem;
       font-weight: 300;
       line-height: 14px;
       padding: 4px 16px;
@@ -217,7 +211,7 @@
     position: relative;
 
     &--upcoming {
-      margin-left: 40px;
+      margin-left: 80px;
     }
 
     &:hover .message-item-actions {

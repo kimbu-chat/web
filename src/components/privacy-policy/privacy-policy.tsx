@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ReactComponent as CloseSVG } from '@icons/ic-close.svg';
+import { ReactComponent as CloseSVG } from '@icons/close-x.svg';
 import './privacy-policy.scss';
 import { stopPropagation } from '@utils/stop-propagation';
 import { WithBackground } from '@components/with-background';
@@ -16,7 +16,7 @@ export const PrivacyPolicy: React.FC<IPrivacyPolicyProps> = ({ close }) => (
         <div className="policy-modal__top-group">
           <h1>Privacy Policy</h1>
           <button type="button" onClick={close} className="policy-modal__close">
-            <CloseSVG viewBox="0 0 25 25" />
+            <CloseSVG />
           </button>
         </div>
         <div className="policy-modal__h-line" />

@@ -1,16 +1,16 @@
 import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import dayjs from 'dayjs';
 
 import { getSelectedChatRecordingsSelector } from '@store/chats/selectors';
 import { getVoiceAttachmentsAction } from '@store/chats/actions';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { doesYearDifferFromCurrent, setSeparators } from '@utils/set-separators';
+import { setSeparators } from '@utils/set-separators';
 import { InfiniteScroll } from '@components/infinite-scroll';
 import { VOICE_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 import { RecordingAttachment } from '@components/message-item/attachments/recording-attachment/recording-attachment';
-
 import './recordings-list.scss';
+import { separateGroupable } from '@utils/date-utils';
+import { ChatAttachment } from '@components/chat-attachment/chat-attachment';
 
 export const RecordingsList = () => {
   const recordingsForSelectedChat = useSelector(getSelectedChatRecordingsSelector);
@@ -37,22 +37,15 @@ export const RecordingsList = () => {
     <div className="chat-recordings">
       <div className="chat-recordings__recordings">
         <InfiniteScroll
-          onReachExtreme={loadMore}
+          onReachBottom={loadMore}
           hasMore={recordingsForSelectedChat?.hasMore}
           isLoading={recordingsForSelectedChat?.loading}>
-          {recordingsWithSeparators?.map((recording) => (
-            <div key={recording.id} className="chat-recordings__recording">
-              {recording.needToShowMonthSeparator && (
-                <div className="chat-recordings__separator">
-                  {recording.needToShowYearSeparator ||
-                  doesYearDifferFromCurrent(recording.creationDateTime)
-                    ? dayjs(recording.creationDateTime).format('MMMM YYYY')
-                    : dayjs(recording.creationDateTime).format('MMMM')}
-                </div>
-              )}
-              <RecordingAttachment key={recording.id} attachment={recording} />
-            </div>
-          ))}
+          {recordingsWithSeparators &&
+            separateGroupable(recordingsWithSeparators).map((recordingsArr) => (
+              <div key={`${recordingsArr[0]?.id}Arr`}>
+                <ChatAttachment items={recordingsArr} AttachmentComponent={RecordingAttachment} />
+              </div>
+            ))}
         </InfiniteScroll>
       </div>
     </div>

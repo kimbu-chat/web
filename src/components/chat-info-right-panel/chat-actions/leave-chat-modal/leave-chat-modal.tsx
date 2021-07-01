@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 
 import { Modal } from '@components/modal';
 import { Button } from '@components/button';
@@ -15,6 +15,8 @@ import './leave-chat-modal.scss';
 interface ILeaveChatModalProps {
   hide: () => void;
 }
+
+const BLOCK_NAME = 'leave-chat-modal';
 
 export const LeaveChatModal: React.FC<ILeaveChatModalProps> = ({ hide }) => {
   const { t } = useTranslation();
@@ -30,28 +32,28 @@ export const LeaveChatModal: React.FC<ILeaveChatModalProps> = ({ hide }) => {
     setLoading(true);
     leaveGroupChat().then(() => {
       setLoading(false);
-      history.push('/chats');
+      history.push('/im');
     });
   }, [leaveGroupChat, history]);
 
   return (
     <WithBackground onBackgroundClick={hide}>
       <Modal
-        title="Delete chat"
+        title={t('chatActions.leave-chat')}
         content={t('chatInfo.leave-confirmation', { groupChatName: selectedGroupChatName })}
         highlightedInContents={selectedGroupChatName}
         closeModal={hide}
         buttons={[
-          <button key={1} type="button" className="leave-chat-modal__cancel-btn" onClick={hide}>
+          <button key={1} type="button" className={`${BLOCK_NAME}__cancel-btn`} onClick={hide}>
             {t('chatInfo.cancel')}
           </button>,
           <Button
             key={2}
             loading={loading}
             type="button"
-            className="leave-chat-modal__confirm-btn"
+            className={`${BLOCK_NAME}__confirm-btn`}
             onClick={deleteGroupChat}>
-            {t('chatInfo.confirm')}
+            {t('chatInfo.leave')}
           </Button>,
         ]}
       />

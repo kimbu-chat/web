@@ -9,7 +9,7 @@ import { getMessageSelector, getIsSelectMessagesStateSelector } from '@store/cha
 import { Avatar } from '@components/avatar';
 import { FileAttachment } from '@components/file-attachment';
 import { MessageAudioAttachment } from '@components/audio-attachment';
-import { CallStatus } from '@store/common/models';
+import { CallStatus } from '@store/common/models/call-status';
 import { ReactComponent as CrayonSvg } from '@icons/crayon.svg';
 import { ReactComponent as LeaveSvg } from '@icons/leave.svg';
 import { ReactComponent as CreateChatSvg } from '@icons/create-chat.svg';
@@ -236,16 +236,14 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
               <SelectSvg />
             </button>
 
-            <div className="message__sender-photo-wrapper">
-              {needToShowCreator && (
-                <Avatar
-                  onClick={displayMessageCreatorInfo}
-                  className="message__sender-photo "
-                  user={userCreator}
-                />
-              )}
-            </div>
-
+            {needToShowCreator && (
+              <Avatar
+                className="message__sender-photo"
+                onClick={displayMessageCreatorInfo}
+                size={40}
+                user={userCreator}
+              />
+            )}
             <div
               className={`message__contents-wrapper ${
                 needToShowCreator ? '' : 'message__contents-wrapper--upcoming'
@@ -271,7 +269,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                   ))}
 
                   {structuredAttachments?.recordings.map((recording) => (
-                    <RecordingAttachment key={recording.id} attachment={recording} />
+                    <RecordingAttachment key={recording.id} {...recording} />
                   ))}
 
                   {structuredAttachments?.audios.map((audio) => (
@@ -312,7 +310,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                       ))}
 
                       {structuredAttachments?.recordings.map((recording) => (
-                        <RecordingAttachment key={recording.id} attachment={recording} />
+                        <RecordingAttachment key={recording.id} {...recording} />
                       ))}
 
                       {structuredAttachments?.audios.map((audio) => (

@@ -26,7 +26,8 @@
   "register": {
     "photo-requirements": "At least 256*256px PNG or JPG",
     "register": "Register",
-    "already_in_use": "User name already used"
+    "already_in_use": "User name already used",
+    "nickname_invalid": "Nickname should be at least 5 symbols and can contain _ special symbol."
   },
   "deleteChatMemberModal": {
     "title": "Delete chat member",
@@ -110,7 +111,8 @@
     "audio": "Audios {{count}}"
   },
   "chatInfo": {
-    "leave-confirmation": "Are you sure you want to delete ‘{{groupChatName}}‘ chat? All the data will be lost",
+    "leave-confirmation": "Are you sure you want to leave ‘{{groupChatName}}‘ chat?",
+    "leave": "Leave",
     "clear-confirmation": "Are you sure you want to clear selected chat? All messages will be lost",
     "clear": "Clear",
     "clear-for-everybody": "Clear for everybody",
@@ -254,7 +256,8 @@
     "delete-confirmation": "Delete account",
     "deactivate-confirmation": "Deactivate account",
     "nickname-busy": "This nickname is busy",
-    "nickname-not-acceptable": "This nickname is not acceptable"
+    "nickname-not-acceptable": "This nickname is not acceptable",
+    "view_photo": "View photo"
   },
   "deleteAccountModal": {
     "title": "Delete account",

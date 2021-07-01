@@ -18,7 +18,7 @@
   &__btn {
     border-radius: 6px;
     color: var(--dt-white-wt-dark);
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 300;
     line-height: 19px;
     padding: 10px 17px;
@@ -47,7 +47,7 @@
   &__details {
     color: var(--dt-white-wt-dark);
     display: block;
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 300;
     line-height: 14px;
     margin-bottom: -32px;
@@ -57,7 +57,7 @@
   &__resend {
     color: var(--dt-white-wt-dark);
     display: block;
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 400;
     line-height: 14px;
     margin-bottom: -37px;

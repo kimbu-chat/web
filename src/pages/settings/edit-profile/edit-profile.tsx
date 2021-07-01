@@ -12,6 +12,8 @@ import { myProfileSelector } from '@store/my-profile/selectors';
 import { ReactComponent as UserSvg } from '@icons/user.svg';
 import { ReactComponent as TopAvatarLine } from '@icons/top-avatar-line.svg';
 import { ReactComponent as BottomAvatarLine } from '@icons/bottom-avatar-line.svg';
+import { ReactComponent as ColoredClose } from '@icons/colored-close.svg';
+import { FileType } from '@store/chats/models';
 import {
   uploadAvatarRequestAction,
   updateMyProfileAction,
@@ -21,6 +23,7 @@ import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { IAvatarSelectedData } from '@store/common/models';
 import { validateNickname } from '@utils/validate-nick-name';
 import { loadPhotoEditor } from '@routing/module-loader';
+import { MediaModal } from '@components/image-modal';
 
 import { ChangePhoneModal } from './change-phone-modal/change-phone-modal';
 import { DeactivateAccountModal } from './deactivate-account-modal/deactivate-account-modal';
@@ -36,7 +39,7 @@ enum NicknameState {
   ALLOWED_NICKNAME = 'ALLOWED_NICKNAME',
 }
 
-export const EditProfile = () => {
+const EditProfile = () => {
   const { t } = useTranslation();
   const myProfile = useSelector(myProfileSelector);
 
@@ -54,6 +57,11 @@ export const EditProfile = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
   const [nickname, setNickname] = useState(myProfile?.nickname || '');
+
+  const [bigPhotoDisplayed, setBigPhotoDisplayed] = useState(false);
+  const changeBigPhotoDisplayed = useCallback(() => setBigPhotoDisplayed((oldState) => !oldState), [
+    setBigPhotoDisplayed,
+  ]);
 
   const [changePhotoDisplayed, setChangePhotoDisplayed] = useState(false);
   const displayChangePhoto = useCallback(() => setChangePhotoDisplayed(true), [
@@ -119,8 +127,7 @@ export const EditProfile = () => {
 
   const openFileExplorer = useCallback(() => {
     fileInputRef.current?.click();
-    removeAvatar();
-  }, [fileInputRef, removeAvatar]);
+  }, [fileInputRef]);
 
   const changeFirstName = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -208,6 +215,22 @@ export const EditProfile = () => {
               className="edit-profile__avatar-wrapper__bottom-line"
               viewBox="0 0 114 114"
             />
+            {newAvatar && (
+              <>
+                <button
+                  onClick={changeBigPhotoDisplayed}
+                  type="button"
+                  className="edit-profile__avatar-wrapper__view-avatar">
+                  {t('editProfile.view_photo')}
+                </button>
+                <button
+                  onClick={removeAvatar}
+                  type="button"
+                  className="edit-profile__avatar-wrapper__delete">
+                  <ColoredClose className="edit-profile__avatar-wrapper__delete-icon" />
+                </button>
+              </>
+            )}
           </div>
 
           <input
@@ -312,6 +335,18 @@ export const EditProfile = () => {
       <FadeAnimationWrapper isDisplayed={deleteAccountModalDisplayed}>
         <DeleteAccountModal onClose={toggleDeleteAccountModal} />
       </FadeAnimationWrapper>
+
+      {newAvatar?.url && (
+        <FadeAnimationWrapper isDisplayed={bigPhotoDisplayed}>
+          <MediaModal
+            attachmentsArr={[{ url: newAvatar.url, id: 1, type: FileType.Picture }]}
+            attachmentId={1}
+            onClose={changeBigPhotoDisplayed}
+          />
+        </FadeAnimationWrapper>
+      )}
     </>
   );
 };
+
+export default EditProfile;

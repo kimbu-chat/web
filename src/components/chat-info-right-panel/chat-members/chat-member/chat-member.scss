@@ -3,26 +3,15 @@
   margin-left: 24px;
   margin-top: 16px;
 
-  &__avatar-container {
+  &__avatar {
     color: var(--dt-grafit-wt-white);
-    height: 48px;
     margin-right: 18px;
-    width: 48px;
     display: grid;
 
     &--owner {
-      height: 52px;
       margin-right: 14px;
-      width: 52px;
     }
   }
-
-  &__avatar {
-    border-radius: 6px;
-    height: 100%;
-    width: 100%;
-  }
-
   &__data {
     display: flex;
     flex-direction: column;
@@ -36,7 +25,7 @@
 
   &__name {
     color: var(--dt-white-wt-dark);
-    font-size: 16px;
+    font-size: 1rem;
 
     font-weight: normal;
     line-height: 19px;
@@ -45,14 +34,14 @@
 
   &__status {
     color: var(--dt-white-wt-dark);
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 300;
     line-height: 17px;
   }
 
   &__owner {
     color: #3f8ae0;
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 300;
     line-height: 17px;
     margin-left: 18px;
@@ -62,7 +51,7 @@
     align-items: center;
     color: var(--dt-kingBlue-wt-kingBlueLight);
     display: flex;
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 400;
     margin-left: auto;
   }

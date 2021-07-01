@@ -5,6 +5,7 @@ import { all } from 'redux-saga/effects';
 
 import { signalRInvokeMiddleware } from './middlewares/websockets/signalR';
 
+import type { RootReducer } from './root-reducer';
 import type { Store, Dispatch } from 'redux';
 import type { Saga, Task } from 'redux-saga';
 
@@ -33,9 +34,7 @@ type InjectorReduxStore = Store<ReducersStore, RootAction> & {
   injectReducer: (key: StoreKeys, asyncReducer: CustomReducer) => void;
   injectSaga: <S extends Saga>(key: StoreKeys, saga: S) => void;
   asyncReducers: ReducersStore;
-  inject: <S extends Saga>(
-    injector: [StoreKeys, Reducer<RootState, RootAction> | undefined, S | undefined][],
-  ) => void;
+  inject: <S extends Saga>(injector: [StoreKeys, RootReducer | undefined, S | undefined][]) => void;
 };
 
 const staticReducers = {};
@@ -110,4 +109,4 @@ function configureStore(): InjectorReduxStore {
   return store;
 }
 
-export default configureStore;
+export const store = configureStore();

@@ -1,1 +1,1 @@
-export { AudioVideoSettings } from './audio-video';
+export { default } from './audio-video';

@@ -12,15 +12,12 @@
   width: calc(100vw - 203px);
 
   &__img {
-    border-radius: 6px;
-    height: 48px;
     margin-right: 20px;
-    width: 48px;
   }
 
   &__calling-name {
     color: var(--dt-white-wt-dark);
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: normal;
     line-height: 19px;
     margin-bottom: 8px;
@@ -28,7 +25,7 @@
 
   &__additional-data {
     color: var(--dt-white-wt-dark);
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 300;
     line-height: 14px;
   }

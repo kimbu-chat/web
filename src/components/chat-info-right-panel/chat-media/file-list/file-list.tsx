@@ -1,17 +1,24 @@
 import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import dayjs from 'dayjs';
 
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getRawAttachmentsAction } from '@store/chats/actions';
 import { getSelectedChatFilesSelector } from '@store/chats/selectors';
 import { IPage } from '@store/common/models';
-import { doesYearDifferFromCurrent, setSeparators } from '@utils/set-separators';
+import { setSeparators } from '@utils/set-separators';
 import { InfiniteScroll } from '@components/infinite-scroll';
 import { FileAttachment } from '@components/file-attachment';
 import { FILE_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
-
 import './file-list.scss';
+import { separateGroupable } from '@utils/date-utils';
+import { ChatAttachment } from '@components/chat-attachment/chat-attachment';
+import { IBaseAttachment } from '@store/chats/models';
+
+const FileAttachmentComponent: React.FC<IBaseAttachment> = ({ ...file }) => (
+  <div>
+    <FileAttachment {...file} />
+  </div>
+);
 
 export const FileList = () => {
   const getRawAttachments = useActionWithDispatch(getRawAttachmentsAction);
@@ -38,22 +45,16 @@ export const FileList = () => {
   return (
     <div className="chat-files">
       <InfiniteScroll
-        onReachExtreme={loadMore}
+        onReachBottom={loadMore}
         hasMore={filesForSelectedChat?.hasMore}
         isLoading={filesForSelectedChat?.loading}
         threshold={0.3}>
-        {filesWithSeparators?.map((file) => (
-          <React.Fragment key={file.id}>
-            {file.needToShowMonthSeparator && (
-              <div className="chat-files__separator">
-                {file.needToShowYearSeparator || doesYearDifferFromCurrent(file.creationDateTime)
-                  ? dayjs(file.creationDateTime).format('MMMM YYYY')
-                  : dayjs(file.creationDateTime).format('MMMM')}
-              </div>
-            )}
-            <FileAttachment {...file} />
-          </React.Fragment>
-        ))}
+        {filesWithSeparators &&
+          separateGroupable(filesWithSeparators).map((filesArr) => (
+            <div key={`${filesArr[0]?.id}Arr`}>
+              <ChatAttachment items={filesArr} AttachmentComponent={FileAttachmentComponent} />
+            </div>
+          ))}
       </InfiniteScroll>
     </div>
   );

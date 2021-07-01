@@ -35,7 +35,7 @@
   &__time {
     color: var(--dt-white-wt-dark);
     font-feature-settings: 'pnum' on, 'lnum' on;
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 300;
     line-height: 14px;
     margin-top: 3px;
@@ -43,17 +43,12 @@
   }
 
   &__avatar {
-    height: 48px;
-    width: 48px;
-  }
-
-  &__avatar-container {
     margin-right: 20px;
   }
 
   &__name {
     color: var(--dt-white-wt-dark);
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: normal;
     line-height: 19px;
     margin-bottom: 8px;
@@ -66,7 +61,7 @@
   &__last-message {
     color: var(--dt-white-wt-dark);
     font-feature-settings: 'pnum' on, 'lnum' on;
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 300;
     line-height: 17px;
     max-width: 230px;
@@ -80,7 +75,7 @@
     border-radius: 6px;
     color: #fff;
     font-feature-settings: 'pnum' on, 'lnum' on;
-    font-size: 14px;
+    font-size: 0.875rem;
 
     font-weight: 400;
     line-height: 16px;

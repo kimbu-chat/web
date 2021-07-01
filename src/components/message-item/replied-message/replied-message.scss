@@ -6,11 +6,6 @@
   margin-right: 3px;
   margin-top: 5px;
 
-  &__avatar {
-    height: 32px;
-    width: 32px;
-  }
-
   &__contents {
     background: var(--chat-bg-dt-dark-wt-kingBlueLight);
     border-radius: 0 6px 6px;
@@ -20,7 +15,7 @@
 
   &__text {
     color: #fff;
-    font-size: 10px;
+    font-size: 0.625rem;
     font-weight: 300;
     line-break: anywhere;
     line-height: 12px;

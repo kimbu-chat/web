@@ -12,7 +12,7 @@ import {
 } from '@store/calls/selectors';
 import { Avatar } from '@components/avatar';
 // sounds
-import incomingCallSound from '@sounds/calls/imcoming-call.ogg';
+import incomingCallSound from '@sounds/calls/incoming-call.ogg';
 // svgs
 import { ReactComponent as AcceptWithAudioSvg } from '@icons/audio-call.svg';
 import { ReactComponent as AcceptWithVideoSvg } from '@icons/video-call.svg';
@@ -69,7 +69,7 @@ export const IncomingCall: React.FC = () => {
       bounds="body"
       className="incoming-call-draggable">
       <div className="incoming-call">
-        <Avatar className="incoming-call__img" user={interlocutor} />
+        <Avatar className="incoming-call__img" size={48} user={interlocutor} />
         <div className="incoming-call__info">
           <h1 className="incoming-call__calling-name">{`${interlocutor?.firstName} ${interlocutor?.lastName}`}</h1>
           <h3 className="incoming-call__additional-data">

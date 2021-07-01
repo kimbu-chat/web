@@ -21,8 +21,8 @@ export const Friend: React.FC<IFriendProps> = React.memo(({ friendId }) => {
   const friend = useSelector(getUserSelector(friendId));
 
   return (
-    <Link to={`/chats/${friend ? ChatId.from(friend.id).id : ''}`} className="friend">
-      {friend && <Avatar className="friend__avatar" user={friend} />}
+    <Link to={`/im/${friend ? ChatId.from(friend.id).id : ''}`} className="friend">
+      {friend && <Avatar size={48} user={friend} />}
       <div className="friend__contents">
         <div className="friend__name">{friend && getUserName(friend, t)}</div>
 

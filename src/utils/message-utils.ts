@@ -2,8 +2,10 @@ import dayjs from 'dayjs';
 import { TFunction } from 'i18next';
 
 import { INormalizedMessage, IMessage } from '../store/chats/models/message';
-import { CallStatus, IUser } from '../store/common/models';
+import { CallStatus } from '../store/common/models/call-status';
 import { SystemMessageType } from '../store/chats/models';
+
+import type { IUser } from '../store/common/models';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface ISystemMessageBase {}

@@ -19,16 +19,10 @@
     width: 1px;
   }
 
-  &__message-sender {
-    border-radius: 6px;
-    height: 32px;
-    width: 32px;
-  }
-
   &__message-contents {
     border-radius: 0 6px 6px;
     color: #fff;
-    font-size: 10px;
+    font-size: 0.625rem;
     font-weight: 300;
     line-break: anywhere;
     line-height: 12px;

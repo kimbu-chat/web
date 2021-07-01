@@ -1,17 +1,5 @@
 .chat-audios {
-  &__separator {
-    color: #3f8ae0;
-    font-size: 16px;
-    line-height: 19px;
-    text-transform: capitalize;
-    width: 100%;
-
-    &:first-child {
-      margin-top: 16px;
-    }
-  }
-
   &__audio {
-    margin-top: 16px;
+    margin-bottom: 16px;
   }
 }

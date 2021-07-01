@@ -16,7 +16,7 @@ import { useEmptyActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { CheckBox } from '../../../components/check-box/check-box';
 import './notifications-settings.scss';
 
-export const NotificationsSettings = () => {
+const NotificationsSettings = () => {
   const { t } = useTranslation();
 
   const [pushNotificationsLoading, setPushNotificationsLoading] = useState(false);
@@ -57,3 +57,5 @@ export const NotificationsSettings = () => {
     </div>
   );
 };
+
+export default NotificationsSettings;

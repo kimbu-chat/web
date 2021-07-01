@@ -1,4 +1,19 @@
 .delete-chat-member-modal {
+  margin-top: 39px;
+
+  &__сontent {
+    color: var(--dt-white-wt-dark);
+    font-size: 1rem;
+    font-weight: 300;
+    width: 340px;
+  }
+
+  &__btn-block {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 37px;
+  }
+
   &__confirm-btn {
     background: #c74848;
     --bg-color: #c74848;

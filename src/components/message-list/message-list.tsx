@@ -17,7 +17,6 @@ import {
 import { InfiniteScroll } from '@components/infinite-scroll';
 import { SelectedMessagesData } from '@components/selected-messages-data';
 import { MessageItem } from '@components/message-item';
-import FadeAnimationWrapper from '@components/fade-animation-wrapper';
 import { MESSAGES_LIMIT } from '@utils/pagination-limits';
 import { SystemMessageType } from '@store/chats/models';
 import { getMessagesAction, markMessagesAsReadAction } from '@store/chats/actions';
@@ -76,9 +75,7 @@ const MessageList = () => {
           </div>
         )}
 
-        <FadeAnimationWrapper isDisplayed={selectedMessageIds.length > 0}>
-          <SelectedMessagesData />
-        </FadeAnimationWrapper>
+        {selectedMessageIds.length > 0 && <SelectedMessagesData />}
 
         <InfiniteScroll
           onReachBottom={loadMore}

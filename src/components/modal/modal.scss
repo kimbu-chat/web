@@ -10,6 +10,13 @@
   top: 50%;
   transform: translate(-50%, -50%);
   z-index: 50;
+  transition: opacity var(--ANIMATION-DURATION);
+  animation: fade var(--ANIMATION-DURATION);
+  will-change: opacity;
+
+  &--close {
+    opacity: 0;
+  }
 
   &__title {
     align-items: center;
@@ -24,7 +31,7 @@
     align-items: center;
     display: flex;
     justify-content: space-between;
-    margin-bottom: 16px;
+    height: 24px;
   }
 
   &__close-btn {
@@ -33,32 +40,16 @@
     display: block;
     height: 24px;
     width: 24px;
+    position: absolute;
+    top: 16px;
+    right: 16px;
   }
 
   &__content {
+    overflow: hidden;
     color: var(--dt-white-wt-dark);
     font-size: 1rem;
     font-weight: 300;
     line-height: 19px;
-
-    margin-bottom: 22px;
-
-    &__text-wrapper {
-      margin-bottom: 15px;
-      margin-top: 23px;
-      width: 340px;
-    }
-
-    &__text {
-      &--highlighted {
-        color: rgb(63, 138, 224);
-        font-weight: 500;
-      }
-    }
-  }
-
-  &__btn-block {
-    display: flex;
-    justify-content: flex-end;
   }
 }

@@ -1,7 +1,12 @@
 .photo-editor {
   max-width: 520px;
-  margin-top: 15px;
-  margin-bottom: 10px;
+  margin-top: 32px;
+
+  &__btn-block {
+    margin-top: 32px;
+    display: flex;
+    justify-content: flex-end;
+  }
 
   &__crop-container {
     width: 522px;

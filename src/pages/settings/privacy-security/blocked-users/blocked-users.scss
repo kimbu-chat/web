@@ -35,7 +35,7 @@
       color: #3f8ae0;
 
       svg {
-        transition: all 0.2s;
+        transition: all var(--ANIMATION-DURATION);
         color: #3f8ae0;
         height: 11px;
         transform: rotate(0deg);

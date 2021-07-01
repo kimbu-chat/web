@@ -1,5 +1,12 @@
 .forward-modal {
   min-width: 330px;
+  margin-top: 15px;
+
+  &__btn-block {
+    margin-top: 22px;
+    display: flex;
+    justify-content: flex-end;
+  }
 
   &__chats-block {
     margin-right: -10px;

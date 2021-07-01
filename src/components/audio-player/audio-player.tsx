@@ -147,10 +147,7 @@ export const TopAudioPlayer: React.FC<ITopAudioPlayerProps> = ({
             )}>
             {isPlayingAudio ? <PauseSvg /> : <PlaySvg />}
           </button>
-          <button
-            onClick={handleNext}
-            type="button"
-            className={classNames(`${BLOCK_NAME}__audio-control`)}>
+          <button onClick={handleNext} type="button" className={`${BLOCK_NAME}__audio-control`}>
             <ArrowRightSvg />
           </button>
           <button
@@ -164,13 +161,10 @@ export const TopAudioPlayer: React.FC<ITopAudioPlayerProps> = ({
             <RepeatSvg />
           </button>
         </div>
-        <div className={classNames(`${BLOCK_NAME}__duration`)}>
+        <div className={`${BLOCK_NAME}__duration`}>
           {getMinutesSeconds(currentAudioAttachment?.duration || 0)}
         </div>
-        <button
-          type="button"
-          onClick={closeAudio}
-          className={classNames(`${BLOCK_NAME}__audio-close`)}>
+        <button type="button" onClick={closeAudio} className={`${BLOCK_NAME}__audio-close`}>
           <CloseSvg />
         </button>
       </div>

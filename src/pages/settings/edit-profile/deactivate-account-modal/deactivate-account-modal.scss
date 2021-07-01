@@ -1,12 +1,18 @@
 .deactivate-account-modal {
+  margin-top: 31px;
+
   &__сontent {
     color: var(--dt-white-wt-dark);
     font-size: 1rem;
     font-weight: 300;
     line-height: 19px;
-    margin-bottom: 11px;
-    margin-top: 15px;
+    margin-bottom: 33px;
     min-width: 340px;
+  }
+
+  &__btn-block {
+    display: flex;
+    justify-content: flex-end;
   }
 
   &__btn {

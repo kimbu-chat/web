@@ -1,8 +1,8 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { ReactComponent as AddCallSvg } from '@icons/add-call.svg';
-import FadeAnimationWrapper from '@components/fade-animation-wrapper';
+import { useToggledState } from '@hooks/use-toggled-state';
 
 import { AddCallModal } from './add-call-modal/add-call-modal';
 
@@ -13,10 +13,7 @@ const BLOCK_NAME = 'add-call';
 const AddCall = () => {
   const { t } = useTranslation();
 
-  const [addCallsModalDisplayed, setAddCallsModalDisplayed] = useState(false);
-  const changeSetAddCallsModalDisplayedState = useCallback(() => {
-    setAddCallsModalDisplayed((oldState) => !oldState);
-  }, [setAddCallsModalDisplayed]);
+  const [addCallsModalDisplayed, displayAddCallsModal, hideAddCallsModal] = useToggledState(false);
 
   return (
     <>
@@ -28,17 +25,12 @@ const AddCall = () => {
         <h3 className={`${BLOCK_NAME}__title`}>{t('addCall.title')}</h3>
         <h5 className={`${BLOCK_NAME}__subtitle`}>{t('addCall.subTitle')}</h5>
 
-        <button
-          onClick={changeSetAddCallsModalDisplayedState}
-          type="button"
-          className={`${BLOCK_NAME}__btn`}>
+        <button onClick={displayAddCallsModal} type="button" className={`${BLOCK_NAME}__btn`}>
           {t('addCall.add')}
         </button>
       </div>
 
-      <FadeAnimationWrapper isDisplayed={addCallsModalDisplayed}>
-        <AddCallModal onClose={changeSetAddCallsModalDisplayedState} />
-      </FadeAnimationWrapper>
+      {addCallsModalDisplayed && <AddCallModal onClose={hideAddCallsModal} />}
     </>
   );
 };

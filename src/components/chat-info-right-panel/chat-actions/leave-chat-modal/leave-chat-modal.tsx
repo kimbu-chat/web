@@ -2,10 +2,10 @@ import { useTranslation } from 'react-i18next';
 import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import classNames from 'classnames';
 
 import { Modal } from '@components/modal';
 import { Button } from '@components/button';
-import { WithBackground } from '@components/with-background';
 import { leaveGroupChatAction } from '@store/chats/actions';
 import { getSelectedGroupChatNameSelector } from '@store/chats/selectors';
 import { useEmptyActionWithDeferred } from '@hooks/use-action-with-deferred';
@@ -37,26 +37,43 @@ export const LeaveChatModal: React.FC<ILeaveChatModalProps> = ({ hide }) => {
   }, [leaveGroupChat, history]);
 
   return (
-    <WithBackground onBackgroundClick={hide}>
-      <Modal
-        title={t('chatActions.leave-chat')}
-        content={t('chatInfo.leave-confirmation', { groupChatName: selectedGroupChatName })}
-        highlightedInContents={selectedGroupChatName}
-        closeModal={hide}
-        buttons={[
-          <button key={1} type="button" className={`${BLOCK_NAME}__cancel-btn`} onClick={hide}>
-            {t('chatInfo.cancel')}
-          </button>,
-          <Button
-            key={2}
-            loading={loading}
-            type="button"
-            className={`${BLOCK_NAME}__confirm-btn`}
-            onClick={deleteGroupChat}>
-            {t('chatInfo.leave')}
-          </Button>,
-        ]}
-      />
-    </WithBackground>
+    <Modal closeModal={hide}>
+      <>
+        <Modal.Header>{t('chatActions.leave-chat')}</Modal.Header>
+        <div className={BLOCK_NAME}>
+          <div className={`${BLOCK_NAME}__сontent`}>
+            {t('chatInfo.leave-confirmation', { groupChatName: selectedGroupChatName })
+              .split(selectedGroupChatName || '')
+              .map((text, index, arr) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <React.Fragment key={index}>
+                  <span className={`${BLOCK_NAME}__сontent__text`}>{text}</span>
+                  {index < arr.length - 1 && (
+                    <span
+                      className={classNames(
+                        `${BLOCK_NAME}__сontent__text`,
+                        `${BLOCK_NAME}__сontent__text--highlighted`,
+                      )}>
+                      {selectedGroupChatName}
+                    </span>
+                  )}
+                </React.Fragment>
+              ))}
+          </div>
+          <div className={`${BLOCK_NAME}__btn-block`}>
+            <button type="button" className={`${BLOCK_NAME}__cancel-btn`} onClick={hide}>
+              {t('chatInfo.cancel')}
+            </button>
+            <Button
+              loading={loading}
+              type="button"
+              className={`${BLOCK_NAME}__confirm-btn`}
+              onClick={deleteGroupChat}>
+              {t('chatInfo.leave')}
+            </Button>
+          </div>
+        </div>
+      </>
+    </Modal>
   );
 };

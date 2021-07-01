@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { parsePhoneNumber } from 'libphonenumber-js';
@@ -9,9 +9,9 @@ import { ReactComponent as PhoneSvg } from '@icons/phone-chat-info.svg';
 import { ReactComponent as EditSvg } from '@icons/crayon.svg';
 import { ReactComponent as DogSvg } from '@icons/@.svg';
 import { getInfoChatSelector } from '@store/chats/selectors';
-import FadeAnimationWrapper from '@components/fade-animation-wrapper';
-import { getChatInterlocutor } from '@utils/user-utils';
 import { getUserSelector } from '@store/users/selectors';
+import { getChatInterlocutor } from '@utils/user-utils';
+import { useToggledState } from '@hooks/use-toggled-state';
 
 import { EditChatModal } from '../../edit-chat-modal/edit-chat-modal';
 
@@ -26,10 +26,7 @@ export const InterlocutorInfo = () => {
   const interlocutor = useSelector(getUserSelector(chat?.interlocutorId));
   const groupChat = chat?.groupChat;
 
-  const [editGroupChatDisplayed, setEditGroupChatDisplayed] = useState(false);
-  const changeEditGroupChatDisplayedState = useCallback(() => {
-    setEditGroupChatDisplayed((oldState) => !oldState);
-  }, [setEditGroupChatDisplayed]);
+  const [editGroupChatDisplayed, displayEditGroupChat, hideEditGroupChat] = useToggledState(false);
 
   return (
     <>
@@ -47,7 +44,7 @@ export const InterlocutorInfo = () => {
           {groupChat && (
             <button
               type="button"
-              onClick={changeEditGroupChatDisplayedState}
+              onClick={displayEditGroupChat}
               className={`${BLOCK_NAME}__rename-btn`}>
               <EditSvg viewBox="0 0 16 16" />
             </button>
@@ -73,9 +70,7 @@ export const InterlocutorInfo = () => {
         </div>
       </div>
 
-      <FadeAnimationWrapper isDisplayed={editGroupChatDisplayed}>
-        <EditChatModal onClose={changeEditGroupChatDisplayedState} />
-      </FadeAnimationWrapper>
+      {editGroupChatDisplayed && <EditChatModal onClose={hideEditGroupChat} />}
     </>
   );
 };

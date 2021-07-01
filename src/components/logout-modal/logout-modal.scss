@@ -1,11 +1,17 @@
 .logout-modal {
+  margin-top: 32px;
+
+  &__btn-block {
+    margin-top: 33px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
   &__сontent {
     color: var(--dt-white-wt-dark);
     font-size: 1rem;
     font-weight: 300;
     line-height: 19px;
-    margin-bottom: 11px;
-    margin-top: 15px;
     min-width: 340px;
   }
 

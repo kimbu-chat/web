@@ -1,9 +1,10 @@
 .clear-chat-modal {
-  align-items: center;
-  display: flex;
-  margin-bottom: 6px;
-  margin-top: 24px;
+  margin-top: 42px;
   min-width: 340px;
+
+  &__delete-all {
+    margin-bottom: 28px;
+  }
 
   &__check-box {
     margin-top: -9px;
@@ -19,6 +20,11 @@
     height: 26px;
     margin-right: 16px;
     width: 24px;
+  }
+
+  &__btn-block {
+    display: flex;
+    justify-content: flex-end;
   }
 
   &__confirm-btn {

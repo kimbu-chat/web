@@ -1,1 +1,1 @@
-export { WithBackground, BackgroundBlur } from './with-background';
+export { BackgroundBlur } from './with-background';

@@ -7,7 +7,6 @@ import parsePhoneNumberFromString from 'libphonenumber-js';
 import { authLoadingSelector } from '@store/login/selectors';
 import { CountryPhoneInput } from '@components/country-phone-input';
 import { Loader } from '@components/loader';
-import FadeAnimationWrapper from '@components/fade-animation-wrapper';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { sendSmsCodeAction } from '@store/login/actions';
 import AuthWrapper from '@components/auth-wrapper';
@@ -15,6 +14,7 @@ import { CODE_CONFIRMATION_PATH } from '@routing/routing.constants';
 import { preloadAuthRoute } from '@routing/routes/auth-routes';
 
 import './phone-confirmation.scss';
+import { useToggledState } from '../../hooks/use-toggled-state';
 
 const BLOCK_NAME = 'phone-confirmation';
 
@@ -28,7 +28,7 @@ const PhoneConfirmationPage: React.FC = () => {
   const isLoading = useSelector(authLoadingSelector);
 
   const [phone, setPhone] = useState('');
-  const [policyDisplayed, setPolicyDisplayed] = useState(false);
+  const [policyDisplayed, , , changePolicyDisplayedState] = useToggledState(false);
 
   const sendSmsCode = useActionWithDeferred(sendSmsCodeAction);
 
@@ -49,10 +49,6 @@ const PhoneConfirmationPage: React.FC = () => {
     [history, phone, sendSmsCode],
   );
 
-  const changePolicyDisplayedState = useCallback(() => {
-    setPolicyDisplayed((oldState) => !oldState);
-  }, [setPolicyDisplayed]);
-
   return (
     <AuthWrapper>
       <form onSubmit={sendSms}>
@@ -71,11 +67,11 @@ const PhoneConfirmationPage: React.FC = () => {
           {t('loginPage.agree_to')}
           <span onClick={changePolicyDisplayedState}>{t('loginPage.kimbu_terms')}</span>
         </p>
-        <FadeAnimationWrapper isDisplayed={policyDisplayed}>
+        {policyDisplayed && (
           <Suspense fallback={<div>Loading</div>}>
             <LazyPrivacyPolicy close={changePolicyDisplayedState} />
           </Suspense>
-        </FadeAnimationWrapper>
+        )}
       </form>
     </AuthWrapper>
   );

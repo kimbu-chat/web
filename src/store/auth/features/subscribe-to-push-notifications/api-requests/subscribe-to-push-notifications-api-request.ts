@@ -1,3 +1,3 @@
 export interface ISubscribeToPushNotificationsApiRequest {
-  tokenId: string;
+  token: string;
 }

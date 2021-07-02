@@ -20,7 +20,7 @@ export class SubscribeToPushNotifications {
       if (pushNotificationToken) {
         yield call(() =>
           SubscribeToPushNotifications.httpRequest.generator({
-            tokenId: pushNotificationToken,
+            token: pushNotificationToken,
           }),
         );
       }

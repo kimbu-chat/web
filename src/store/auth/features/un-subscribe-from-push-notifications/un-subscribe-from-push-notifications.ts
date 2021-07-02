@@ -24,7 +24,7 @@ export class UnSubscribeFromPushNotifications {
       if (pushNotificationToken) {
         yield call(() =>
           UnSubscribeFromPushNotifications.httpRequest.generator({
-            tokenId: pushNotificationToken,
+            token: pushNotificationToken,
           }),
         );
 

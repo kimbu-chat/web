@@ -6,7 +6,7 @@
     grid-column: 3/5;
     grid-row: 1/2;
     justify-content: space-between;
-    transition: all 0.3s;
+    transition: all var(--ANIMATION-DURATION);
 
     &--little {
       width: calc(100% - 300px);

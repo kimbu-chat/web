@@ -1,6 +1,6 @@
 .button {
   display: flex;
-  transition: all 0.2s;
+  transition: all var(--ANIMATION-DURATION);
   align-items: center;
   justify-content: center;
 
@@ -21,7 +21,7 @@
   &__loader-wrapper {
     width: 0;
     opacity: 0;
-    transition: width 0.2s;
+    transition: width var(--ANIMATION-DURATION);
     position: relative;
     font-size: 1.0625rem;
   }

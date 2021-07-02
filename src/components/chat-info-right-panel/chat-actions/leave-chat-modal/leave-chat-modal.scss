@@ -1,4 +1,25 @@
 .leave-chat-modal {
+  margin-top: 40px;
+  &__сontent {
+    color: var(--dt-white-wt-dark);
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 14px;
+    width: 340px;
+    &__text {
+      &--highlighted {
+        color: rgb(63, 138, 224);
+        font-weight: 500;
+      }
+    }
+  }
+
+  &__btn-block {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 37px;
+  }
+
   &__confirm-btn {
     background: #c74848;
     --bg-color: #c74848;

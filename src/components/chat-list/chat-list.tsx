@@ -12,7 +12,6 @@ import { CreateGroupChat } from '@components/create-group-chat-modal';
 import { InfiniteScroll } from '@components/infinite-scroll';
 import { NewChatModal } from '@components/new-chat-modal';
 import { SearchBox } from '@components/search-box/search-box';
-import FadeAnimationWrapper from '@components/fade-animation-wrapper';
 import { ReactComponent as CreateChatSvg } from '@icons/create-chat.svg';
 import { getChatsListSelector, getSearchChatsListSelector } from '@store/chats/selectors';
 
@@ -119,16 +118,16 @@ const ChatList = React.memo(() => {
           </InfiniteScroll>
         </div>
       </div>
-      <FadeAnimationWrapper isDisplayed={newChatDisplayed}>
+      {newChatDisplayed && (
         <NewChatModal
           displayCreateGroupChat={changeCreateGroupChatDisplayedState}
           onClose={changeNewChatDisplayedState}
         />
-      </FadeAnimationWrapper>
+      )}
 
-      <FadeAnimationWrapper isDisplayed={createGroupChatDisplayed}>
+      {createGroupChatDisplayed && (
         <CreateGroupChat onClose={changeCreateGroupChatDisplayedState} />
-      </FadeAnimationWrapper>
+      )}
     </>
   );
 });

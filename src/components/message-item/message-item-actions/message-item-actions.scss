@@ -11,7 +11,7 @@
 
   top: 0;
   transform: translate(-4%, -63%);
-  transition: all 0.1s;
+  transition: all var(--ANIMATION-DURATION);
   visibility: hidden;
   z-index: 22;
 
@@ -22,7 +22,7 @@
   &__action {
     color: var(--dt-white-wt-kingBlueLight);
     margin-right: 22px;
-    transition: all 0.1s ease-in-out;
+    transition: all var(--ANIMATION-DURATION) ease-in-out;
 
     &:hover {
       color: #3f8ae0;

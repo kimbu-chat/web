@@ -1,7 +1,14 @@
 .create-group-chat {
   align-items: center;
   display: flex;
+  margin-top: 16px;
   flex-direction: column;
+
+  &__btn-block {
+    margin-top: 22px;
+    display: flex;
+    justify-content: flex-end;
+  }
 
   &__icon {
     color: var(--dt-white-wt-kingBlue);
@@ -11,8 +18,7 @@
   }
 
   &__select-friends {
-    margin-top: -16px;
-
+    margin-top: 18px;
     &__search {
       height: 32px;
       margin-bottom: 23px;

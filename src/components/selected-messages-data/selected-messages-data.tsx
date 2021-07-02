@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import './selected-messages-data.scss';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -8,8 +8,8 @@ import { getSelectedMessagesIdSelector } from '@store/chats/selectors';
 import { ReactComponent as CloseSvg } from '@icons/close.svg';
 import { ReactComponent as ForwardSvg } from '@icons/forward.svg';
 import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
-import FadeAnimationWrapper from '@components/fade-animation-wrapper';
 import { ForwardModal } from '@components/forward-modal';
+import { useToggledState } from '@hooks/use-toggled-state';
 import { copyMessagesAction, resetSelectedMessagesAction } from '@store/chats/actions';
 
 import { DeleteMessageModal } from './delete-message-modal/delete-message-modal';
@@ -28,23 +28,16 @@ export const SelectedMessagesData = () => {
     resetSelectedMessages();
   }, [copyMessage, resetSelectedMessages, selectedMessages]);
 
-  // --Delete message logic
-  const [deleteMessagesModalDisplayed, setDeleteMessagesModalDisplayed] = useState(false);
-  const changeDeleteMessagesModalDisplayedState = useCallback(() => {
-    setDeleteMessagesModalDisplayed((oldState) => !oldState);
-  }, [setDeleteMessagesModalDisplayed]);
-
-  // --Forward Message Logic
-  const [forwardMessagesModalDisplayed, setForwardMessagesModalDisplayed] = useState(false);
-  const changeForwardMessagesModalDisplayedState = useCallback(() => {
-    setForwardMessagesModalDisplayed((oldState) => !oldState);
-  }, [setForwardMessagesModalDisplayed]);
+  const [deleteMessagesModalDisplayed, displayDeleteMessagesModal, hideDeleteMessagesModal] =
+    useToggledState(false);
+  const [forwardMessagesModalDisplayed, displayForwardMessagesModal, hideForwardMessagesModal] =
+    useToggledState(false);
 
   return (
     <div className="selected-messages-data">
       <button
         type="button"
-        onClick={changeForwardMessagesModalDisplayedState}
+        onClick={displayForwardMessagesModal}
         className="selected-messages-data__btn">
         <ForwardSvg viewBox="0 0 16 16" />
         <span>{t('selectedMessagesData.forward', { count: selectedMessagesCount })}</span>
@@ -52,7 +45,7 @@ export const SelectedMessagesData = () => {
 
       <button
         type="button"
-        onClick={changeDeleteMessagesModalDisplayedState}
+        onClick={displayDeleteMessagesModal}
         className="selected-messages-data__btn selected-messages-data__btn--delete">
         <DeleteSvg viewBox="0 0 15 16" />
         <span>{t('selectedMessagesData.delete', { count: selectedMessagesCount })}</span>
@@ -73,19 +66,13 @@ export const SelectedMessagesData = () => {
         //! Dynamically displayed modal using React.Portal
       }
 
-      <FadeAnimationWrapper isDisplayed={deleteMessagesModalDisplayed}>
-        <DeleteMessageModal
-          onClose={changeDeleteMessagesModalDisplayedState}
-          selectedMessages={selectedMessages}
-        />
-      </FadeAnimationWrapper>
+      {deleteMessagesModalDisplayed && (
+        <DeleteMessageModal onClose={hideDeleteMessagesModal} selectedMessages={selectedMessages} />
+      )}
 
-      <FadeAnimationWrapper isDisplayed={forwardMessagesModalDisplayed}>
-        <ForwardModal
-          messageIdsToForward={selectedMessages}
-          onClose={changeForwardMessagesModalDisplayedState}
-        />
-      </FadeAnimationWrapper>
+      {forwardMessagesModalDisplayed && (
+        <ForwardModal messageIdsToForward={selectedMessages} onClose={hideForwardMessagesModal} />
+      )}
     </div>
   );
 };

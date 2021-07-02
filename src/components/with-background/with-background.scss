@@ -8,4 +8,21 @@
   top: 0;
   width: 100vw;
   z-index: 50;
+
+  transition: opacity var(--ANIMATION-DURATION);
+  animation: fade var(--ANIMATION-DURATION);
+
+  &--close {
+    opacity: 0;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }

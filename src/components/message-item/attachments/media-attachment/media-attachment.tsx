@@ -1,11 +1,11 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 
 import { MediaModal } from '@components/image-modal';
-import FadeAnimationWrapper from '@components/fade-animation-wrapper';
 import { FileType, IPictureAttachment, IVideoAttachment } from '@store/chats/models';
 import { ReactComponent as PlaySvg } from '@icons/play.svg';
 import './media-attachment.scss';
 import { getMinutesSeconds } from '@utils/date-utils';
+import { useToggledState } from '@hooks/use-toggled-state';
 
 interface IMessageMediaAttachmentProps {
   attachmentId: number;
@@ -16,16 +16,13 @@ export const MessageMediaAttachment: React.FC<IMessageMediaAttachmentProps> = ({
   attachmentId,
   attachmentsArr,
 }) => {
-  const [bigMediaDisplayed, setBigMediaDisplayed] = useState(false);
-  const changeBigMediaDisplayed = useCallback(() => setBigMediaDisplayed((oldState) => !oldState), [
-    setBigMediaDisplayed,
-  ]);
+  const [bigMediaDisplayed, displayBigMedia, hideBigMedia] = useToggledState(false);
 
   const currentAttachment = attachmentsArr.find(({ id }) => id === attachmentId);
 
   return (
     <>
-      <div onClick={changeBigMediaDisplayed} className="media-attachment">
+      <div onClick={displayBigMedia} className="media-attachment">
         {currentAttachment?.type === FileType.Picture && (
           <img
             src={(currentAttachment as IPictureAttachment).previewUrl}
@@ -49,13 +46,13 @@ export const MessageMediaAttachment: React.FC<IMessageMediaAttachmentProps> = ({
           </>
         )}
       </div>
-      <FadeAnimationWrapper isDisplayed={bigMediaDisplayed}>
+      {bigMediaDisplayed && (
         <MediaModal
           attachmentsArr={attachmentsArr}
           attachmentId={attachmentId}
-          onClose={changeBigMediaDisplayed}
+          onClose={hideBigMedia}
         />
-      </FadeAnimationWrapper>
+      )}
     </>
   );
 };

@@ -1,12 +1,22 @@
 .chat-info {
-  background-color: var(--dt-grafit-wt-white);
-  height: calc(100vh - 64px);
-  overflow-y: auto;
-  width: 348px;
-  will-change: margin;
+  grid-column: 4/5;
+  transition: all var(--ANIMATION-DURATION);
+  margin-right: -348px;
+
+  &--open {
+    margin-right: 0;
+  }
+
+  &--close {
+    margin-right: -348px;
+  }
 
   &__messenger-info {
-    grid-column: 4/5;
+    background-color: var(--dt-grafit-wt-white);
+    height: calc(100vh - 64px);
+    overflow-y: auto;
+    width: 348px;
+    will-change: margin;
   }
 
   &__close {
@@ -18,51 +28,6 @@
     svg {
       height: 24px;
       width: 24px;
-    }
-  }
-
-  &-slide-enter,
-  &-slide-exit {
-    transition: margin 200ms linear;
-    will-change: margin;
-  }
-
-  &-slide-enter {
-    margin-right: -300px;
-    transition: margin 200ms linear;
-  }
-
-  &-slide-enter-active {
-    margin-right: 0;
-  }
-
-  &-slide-exit {
-    margin-right: 0;
-  }
-
-  &-slide-exit-active {
-    margin-right: -300px;
-  }
-
-  &__nested {
-    &-slide-enter {
-      transform: translateX(300px) translateZ(0) !important;
-      will-change: transform;
-    }
-
-    &-slide-enter-active {
-      transform: translateX(0) translateZ(0) !important;
-      transition: transform 200ms linear;
-    }
-
-    &-slide-exit {
-      transform: translateX(0) translateZ(0) !important;
-      transition: transform 200ms linear;
-      will-change: transform;
-    }
-
-    &-slide-exit-active {
-      transform: translateX(300px) translateZ(0) !important;
     }
   }
 

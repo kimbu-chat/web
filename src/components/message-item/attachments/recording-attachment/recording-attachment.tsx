@@ -73,7 +73,9 @@ export const RecordingAttachment: React.FC<IVoiceAttachment> = ({ ...attachment 
       wavesurfer.current?.load(attachment.url, JSON.parse(attachment.waveFormJson));
     }
 
-    return () => wavesurfer.current?.pause();
+    return () => {
+      wavesurfer.current?.pause();
+    };
   }, [attachment.url, setProgress, setIsPlaying, attachment.waveFormJson, attachment.id]);
 
   const playPause = useCallback(() => {

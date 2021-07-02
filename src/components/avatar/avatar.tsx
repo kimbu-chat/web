@@ -29,7 +29,7 @@ export const Avatar: React.FC<IAvatarProps> = ({
   statusBadge,
   className,
 }) => (
-  <div className={classnames(className)}>
+  <div className={className}>
     {user?.deleted ? (
       <div
         className={classnames(BLOCK_NAME, `${BLOCK_NAME}--deleted`)}
@@ -46,14 +46,14 @@ export const Avatar: React.FC<IAvatarProps> = ({
             src={user?.avatar?.previewUrl || groupChat?.avatar?.previewUrl}
             style={{ height: `${size}px`, width: `${size}px` }}
             onClick={onClick}
-            className={classnames(BLOCK_NAME)}
+            className={BLOCK_NAME}
           />
         ) : (
           <div
             draggable={false}
             style={{ height: `${size}px`, width: `${size}px` }}
             onClick={onClick}
-            className={classnames(BLOCK_NAME)}>
+            className={BLOCK_NAME}>
             {getInterlocutorInitials({ user, groupChat })}
           </div>
         )}

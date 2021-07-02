@@ -23,6 +23,15 @@
     "nick_name": "Nickname",
     "name": "Name"
   },
+  "editChatModal": {
+    "title": "Edit group",
+    "upload_new": "Upload New Photo",
+    "requirements": "At least 256*256px PNG or JPG",
+    "name": "Name",
+    "description": "Description",
+    "cancel": "Cancel",
+    "save": "Save"
+  },
   "register": {
     "photo-requirements": "At least 256*256px PNG or JPG",
     "register": "Register",
@@ -139,7 +148,10 @@
   "changePhoto": {
     "confirm": "Save",
     "title": "Upload Profile Photo",
-    "reject": "Cancel"
+    "reject": "Cancel",
+    "left": "Left Rotation",
+    "mirror": "Mirror",
+    "right": "Right Rotation"
   },
   "audioVideo": {
     "title": "Audio & Video",

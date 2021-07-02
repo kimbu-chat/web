@@ -26,9 +26,9 @@ export const Button: React.FC<IButtonProps> = ({
     className={classNames(BLOCK_NAME, { [`${BLOCK_NAME}--loading`]: loading }, className)}
     disabled={loading || disabled}
     {...props}>
-    <span className={classNames(`${BLOCK_NAME}__contents`)}>{children}</span>
+    <span className={`${BLOCK_NAME}__contents`}>{children}</span>
 
-    <div className={classNames(`${BLOCK_NAME}__loader-wrapper`)}>
+    <div className={`${BLOCK_NAME}__loader-wrapper`}>
       <div
         className={classNames(`${BLOCK_NAME}__loader`, {
           [`${BLOCK_NAME}__loader--themed`]: themed,

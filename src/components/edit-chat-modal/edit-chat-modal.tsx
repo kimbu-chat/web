@@ -1,7 +1,7 @@
 import React, { lazy, useCallback, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
-import { WithBackground } from '@components/with-background';
 import { Modal } from '@components/modal';
 import { Button } from '@components/button';
 import { LabeledInput } from '@components/labeled-input';
@@ -24,6 +24,8 @@ import { editGroupChatAction } from '@store/chats/actions';
 
 import './edit-chat-modal.scss';
 
+const BLOCK_NAME = 'edit-chat-modal';
+
 const PhotoEditor = lazy(loadPhotoEditor);
 
 export interface IEditChatModalProps {
@@ -31,6 +33,8 @@ export interface IEditChatModalProps {
 }
 
 const EditChatModal: React.FC<IEditChatModalProps> = ({ onClose }) => {
+  const { t } = useTranslation();
+
   const selectedGroupChat: IGroupChat | undefined = useSelector(
     getSelectedGroupChatSelector,
     () => true,
@@ -85,6 +89,17 @@ const EditChatModal: React.FC<IEditChatModalProps> = ({ onClose }) => {
     [setImageUrl, fileInputRef],
   );
 
+  const changeName = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => setNewName(e.target.value),
+    [],
+  );
+  const changeDescription = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => setNewDescription(e.target.value),
+    [],
+  );
+
+  const hideChangePhoto = useCallback(() => setImageUrl(null), []);
+
   const onSubmit = useCallback(() => {
     const changes: IEditGroupChatActionPayload = {
       avatar: avatarData,
@@ -104,96 +119,86 @@ const EditChatModal: React.FC<IEditChatModalProps> = ({ onClose }) => {
   }, [cancelAvatarUploading]);
 
   return (
-    <WithBackground onBackgroundClick={onClose}>
-      <Modal
-        title="Edit group"
-        content={
-          <>
-            <div className="edit-chat-modal">
-              <div className="edit-chat-modal__current-photo-wrapper">
-                <GroupSvg
-                  viewBox="0 0 24 24"
-                  className="edit-chat-modal__current-photo-wrapper__alt"
-                />
-                <input
-                  onChange={handleImageChange}
-                  ref={fileInputRef}
-                  type="file"
-                  hidden
-                  accept="image/*"
-                />
-                {avatarData?.previewUrl && (
-                  <img
-                    src={avatarData.previewUrl}
-                    alt=""
-                    className="edit-chat-modal__current-photo-wrapper__img"
-                  />
-                )}
-                <button
-                  type="button"
-                  onClick={() => {
-                    discardNewAvatar();
-                    fileInputRef.current?.click();
-                  }}
-                  className="edit-chat-modal__change-photo-btn">
-                  <PictureSvg viewBox="0 0 18 19" />
-                  <span>Upload New Photo</span>
-                </button>
-                <TopAvatarLine
-                  className="edit-chat-modal__current-photo-wrapper__top-line"
-                  viewBox="0 0 48 48"
-                />
-                <BottomAvatarLine
-                  className="edit-chat-modal__current-photo-wrapper__bottom-line"
-                  viewBox="0 0 114 114"
-                />
-              </div>
-              <div className="edit-chat-modal__criteria">At least 256*256px PNG or JPG </div>
-
-              <LabeledInput
-                label="Name"
-                value={newName}
-                onChange={(e) => setNewName(e.target.value)}
-                containerClassName="edit-chat-modal__input"
-              />
-
-              <LabeledInput
-                label="Description"
-                value={newDescription}
-                onChange={(e) => setNewDescription(e.target.value)}
-                containerClassName="edit-chat-modal__input"
-              />
-            </div>
-            {imageUrl && (
-              <PhotoEditor
-                hideChangePhoto={() => setImageUrl(null)}
-                imageUrl={imageUrl}
-                onSubmit={applyAvatarData}
+    <Modal closeModal={onClose}>
+      <>
+        <Modal.Header>{t('editChatModal.title')}</Modal.Header>
+        <div className={BLOCK_NAME}>
+          <div className={`${BLOCK_NAME}__current-photo-wrapper`}>
+            <GroupSvg viewBox="0 0 24 24" className={`${BLOCK_NAME}__current-photo-wrapper__alt`} />
+            <input
+              onChange={handleImageChange}
+              ref={fileInputRef}
+              type="file"
+              hidden
+              accept="image/*"
+            />
+            {avatarData?.previewUrl && (
+              <img
+                src={avatarData.previewUrl}
+                alt=""
+                className={`${BLOCK_NAME}__current-photo-wrapper__img`}
               />
             )}
-          </>
-        }
-        closeModal={onClose}
-        buttons={[
-          <button
-            key={1}
-            type="button"
-            onClick={onClose}
-            className="edit-chat-modal__btn edit-chat-modal__btn--cancel">
-            Cancel
-          </button>,
-          <Button
-            key={2}
-            disabled={newName?.length === 0}
-            type="button"
-            loading={submitLoading}
-            onClick={onSubmit}
-            className="edit-chat-modal__btn edit-chat-modal__btn--confirm">
-            Save
-          </Button>,
-        ]}
-      />
-    </WithBackground>
+            <button
+              type="button"
+              onClick={() => {
+                discardNewAvatar();
+                fileInputRef.current?.click();
+              }}
+              className={`${BLOCK_NAME}__change-photo-btn`}>
+              <PictureSvg viewBox="0 0 18 19" />
+              <span>{t('editChatModal.upload_new')}</span>
+            </button>
+            <TopAvatarLine
+              className={`${BLOCK_NAME}__current-photo-wrapper__top-line`}
+              viewBox="0 0 48 48"
+            />
+            <BottomAvatarLine
+              className={`${BLOCK_NAME}__current-photo-wrapper__bottom-line`}
+              viewBox="0 0 114 114"
+            />
+          </div>
+          <div className={`${BLOCK_NAME}__criteria`}>{t('editChatModal.requirements')}</div>
+
+          <LabeledInput
+            label={t('editChatModal.name')}
+            value={newName}
+            onChange={changeName}
+            containerClassName={`${BLOCK_NAME}__input`}
+          />
+
+          <LabeledInput
+            label={t('editChatModal.description')}
+            value={newDescription}
+            onChange={changeDescription}
+            containerClassName={`${BLOCK_NAME}__input`}
+          />
+          <div className={`${BLOCK_NAME}__btn-block`}>
+            <button
+              type="button"
+              onClick={onClose}
+              className={`${BLOCK_NAME}__btn edit-chat-modal__btn--cancel`}>
+              {t('editChatModal.cancel')}
+            </button>
+            <Button
+              disabled={newName?.length === 0}
+              type="button"
+              loading={submitLoading}
+              onClick={onSubmit}
+              className={`${BLOCK_NAME}__btn edit-chat-modal__btn--confirm`}>
+              {t('editChatModal.save')}
+            </Button>
+          </div>
+        </div>
+        {imageUrl && (
+          <PhotoEditor
+            hideChangePhoto={hideChangePhoto}
+            imageUrl={imageUrl}
+            onSubmit={applyAvatarData}
+          />
+        )}
+      </>
+    </Modal>
   );
 };
 

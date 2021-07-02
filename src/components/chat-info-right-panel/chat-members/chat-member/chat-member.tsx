@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 
 import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
 import { TimeUpdateable } from '@components/time-updateable';
-import FadeAnimationWrapper from '@components/fade-animation-wrapper';
 import { Avatar } from '@components/avatar';
 import { MyProfileService } from '@services/my-profile-service';
 import { getUserName } from '@utils/user-utils';
@@ -75,10 +74,8 @@ export const Member: React.FC<IMemberProps> = ({ memberId, isOwner }) => {
         )}
       </div>
 
-      {member && (
-        <FadeAnimationWrapper isDisplayed={removeChatMemberModalDisplayed}>
-          <DeleteChatMemberModal user={member} hide={changeRemoveChatMemberModalDisplayed} />
-        </FadeAnimationWrapper>
+      {member && removeChatMemberModalDisplayed && (
+        <DeleteChatMemberModal user={member} hide={changeRemoveChatMemberModalDisplayed} />
       )}
     </>
   );

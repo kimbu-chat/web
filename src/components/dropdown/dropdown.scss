@@ -47,7 +47,7 @@
     margin-left: auto;
     right: 12px;
     transform: rotate(90deg);
-    transition: all 0.1s;
+    transition: all var(--ANIMATION-DURATION);
     width: 13px;
 
     &--opened {

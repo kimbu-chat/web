@@ -45,7 +45,7 @@
     margin-left: auto;
     margin-right: 20px;
     transform: rotate(-90deg);
-    transition: all 0.2s;
+    transition: all var(--ANIMATION-DURATION);
 
     svg {
       color: #3f8ae0;

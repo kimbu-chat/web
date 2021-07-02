@@ -1,4 +1,11 @@
 .policy-modal {
+  transition: opacity var(--ANIMATION-DURATION);
+  animation: fade var(--ANIMATION-DURATION);
+
+  &--close {
+    opacity: 0;
+  }
+
   background-color: var(--dt-white-wt-dark);
   border-radius: 4px;
   color: #6d7885;

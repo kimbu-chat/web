@@ -239,13 +239,13 @@ const ActiveCall: React.FC = () => {
           className={classNames(`${BLOCK_NAME}__top`, {
             [`${BLOCK_NAME}__top--big`]: isFullScreen,
           })}>
-          <div className={classNames(`${BLOCK_NAME}__main-data`)}>
+          <div className={`${BLOCK_NAME}__main-data`}>
             <h3
               className={classNames(
                 `${BLOCK_NAME}__interlocutor-name`,
               )}>{`${interlocutor?.firstName} ${interlocutor?.lastName}`}</h3>
             {amISpeaking && (
-              <div className={classNames(`${BLOCK_NAME}__duration`)}>
+              <div className={`${BLOCK_NAME}__duration`}>
                 {dayjs.utc(callDuration * 1000).format('HH:mm:ss')}
               </div>
             )}
@@ -254,7 +254,7 @@ const ActiveCall: React.FC = () => {
           <button
             type="button"
             onClick={changeFullScreenStatus}
-            className={classNames(`${BLOCK_NAME}__change-screen`)}>
+            className={`${BLOCK_NAME}__change-screen`}>
             {isFullScreen ? (
               <ExitFullScreenSvg viewBox="0 0 25 25" />
             ) : (
@@ -267,7 +267,7 @@ const ActiveCall: React.FC = () => {
           autoPlay
           playsInline
           ref={remoteAudioRef}
-          className={classNames(`${BLOCK_NAME}__remote-audio`)}
+          className={`${BLOCK_NAME}__remote-audio`}
         />
 
         {isFullScreen && (
@@ -316,14 +316,10 @@ const ActiveCall: React.FC = () => {
                 [`${BLOCK_NAME}__remote-video--big`]: isFullScreen,
               })}
             />
-            <div className={classNames(`${BLOCK_NAME}__gradient`)} />
+            <div className={`${BLOCK_NAME}__gradient`} />
           </>
         ) : (
-          <Avatar
-            className={classNames(`${BLOCK_NAME}__interlocutor-avatar`)}
-            size={100}
-            user={interlocutor}
-          />
+          <Avatar className={`${BLOCK_NAME}__interlocutor-avatar`} size={100} user={interlocutor} />
         )}
 
         {isInterlocutorBusy && <span>{t('activeCall.busy')}</span>}

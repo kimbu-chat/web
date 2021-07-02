@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import classnames from 'classnames';
@@ -11,13 +11,13 @@ import { ReactComponent as LogoutSvg } from '@icons/logout.svg';
 import { getSelectedChatIdSelector } from '@store/chats/selectors';
 import { myProfileSelector } from '@store/my-profile/selectors';
 import { Avatar } from '@components/avatar';
-import FadeAnimationWrapper from '@components/fade-animation-wrapper';
 import {
   CALLS_PATH,
   CONTACTS_PATH,
   INSTANT_MESSAGING_PATH,
   SETTINGS_PATH,
 } from '@routing/routing.constants';
+import { useToggledState } from '@hooks/use-toggled-state';
 
 import { LogoutModal } from '../logout-modal/logout-modal';
 
@@ -30,11 +30,7 @@ export const RoutingChats = () => {
 
   const myProfile = useSelector(myProfileSelector);
 
-  const [logoutDisplayed, setLogoutDisplayed] = useState(false);
-  const changeLogoutDisplayedState = useCallback(
-    () => setLogoutDisplayed((oldState) => !oldState),
-    [setLogoutDisplayed],
-  );
+  const [logoutDisplayed, displayLogout, hideLogout] = useToggledState(false);
 
   return (
     <div className={BLOCK_NAME}>
@@ -70,15 +66,13 @@ export const RoutingChats = () => {
       </NavLink>
 
       <button
-        onClick={changeLogoutDisplayedState}
+        onClick={displayLogout}
         type="button"
         className={classnames(`${BLOCK_NAME}__link`, `${BLOCK_NAME}__link--logout`)}>
         <LogoutSvg />
       </button>
 
-      <FadeAnimationWrapper isDisplayed={logoutDisplayed}>
-        <LogoutModal onClose={changeLogoutDisplayedState} />
-      </FadeAnimationWrapper>
+      {logoutDisplayed && <LogoutModal onClose={hideLogout} />}
     </div>
   );
 };

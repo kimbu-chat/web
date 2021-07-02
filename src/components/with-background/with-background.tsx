@@ -1,43 +1,40 @@
 import Mousetrap from 'mousetrap';
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 import './with-background.scss';
+import classNames from 'classnames';
 
 interface IBackgroundBlurProps {
   onClick?: () => void;
+  hiding?: boolean;
 }
 
-const BackgroundBlur: React.FC<IBackgroundBlurProps> = ({ onClick, children }) => {
+const BLOCK_NAME = 'background-blur';
+
+const BackgroundBlur: React.FC<IBackgroundBlurProps> = ({ onClick, children, hiding }) => {
+  const close = useCallback(() => {
+    if (!hiding && onClick) {
+      onClick();
+    }
+  }, [hiding, onClick]);
+
   useEffect(() => {
     Mousetrap.bind('esc', (e) => {
       e.preventDefault();
-      if (onClick) {
-        onClick();
-      }
+
+      close();
     });
 
     return () => {
       Mousetrap.unbind('esc');
     };
-  }, [onClick]);
+  }, [close]);
   return ReactDOM.createPortal(
-    <div onClick={onClick} className="background-blur">
+    <div onClick={close} className={classNames(BLOCK_NAME, { [`${BLOCK_NAME}--close`]: hiding })}>
       {children}
     </div>,
     document.getElementById('root') || document.createElement('div'),
   );
 };
 
-export interface IWithBackgroundProps {
-  onBackgroundClick?: () => void;
-}
-
-const WithBackground: React.FC<IWithBackgroundProps> = ({ children, onBackgroundClick }) => (
-  <>
-    <BackgroundBlur onClick={onBackgroundClick}>{children}</BackgroundBlur>
-  </>
-);
-WithBackground.displayName = 'WithBackground';
-BackgroundBlur.displayName = 'BackgroundBlur';
-
-export { WithBackground, BackgroundBlur };
+export { BackgroundBlur };

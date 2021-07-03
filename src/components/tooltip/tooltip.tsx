@@ -1,4 +1,5 @@
 import React from 'react';
+
 import './tooltip.scss';
 
 export const Tooltip: React.FC = ({ children }) => (

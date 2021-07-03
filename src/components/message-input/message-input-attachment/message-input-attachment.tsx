@@ -1,5 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { ReactComponent as CloseSVG } from '@icons/close-x.svg';
+import { ReactComponent as FileSVG } from '@icons/file.svg';
+import { ReactComponent as PhotoSVG } from '@icons/picture.svg';
+import { ReactComponent as PlaySVG } from '@icons/play.svg';
+import { ReactComponent as VideoSVG } from '@icons/video.svg';
+import { ReactComponent as MicrophoneSvg } from '@icons/voice.svg';
+import { removeAttachmentAction } from '@store/chats/actions';
 import {
   FileType,
   IAttachmentCreation,
@@ -8,14 +16,6 @@ import {
   IPictureAttachment,
   IVideoAttachment,
 } from '@store/chats/models';
-import { ReactComponent as PhotoSVG } from '@icons/picture.svg';
-import { ReactComponent as VideoSVG } from '@icons/video.svg';
-import { ReactComponent as FileSVG } from '@icons/file.svg';
-import { ReactComponent as CloseSVG } from '@icons/close-x.svg';
-import { ReactComponent as PlaySVG } from '@icons/play.svg';
-import { ReactComponent as MicrophoneSvg } from '@icons/voice.svg';
-import { removeAttachmentAction } from '@store/chats/actions';
-import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getRawAttachmentSizeUnit } from '@utils/get-file-size-unit';
 
 import './message-input-attachment.scss';

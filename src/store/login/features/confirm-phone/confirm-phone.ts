@@ -4,19 +4,19 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
-import { authRequestFactory, HttpRequestMethod } from '@store/common/http';
-import { Meta } from '@store/common/actions';
 import { MAIN_API } from '@common/paths';
+import { Meta } from '@store/common/actions';
+import { authRequestFactory, HttpRequestMethod } from '@store/common/http';
 
-import { Login } from '../login/login';
 import { ILoginState } from '../../login-state';
 import { LoginSuccess } from '../login/login-success';
+import { Login } from '../login/login';
 
-import { ConfirmPhoneFailure } from './confirm-phone-failure';
-import { ConfirmPhoneSuccess } from './confirm-phone-success';
+import { IConfirmPhoneActionPayload } from './action-payloads/confirm-phone-action-payload';
 import { IConfirmProneApiRequest } from './api-requests/confirm-phone-api-request';
 import { IConfirmPhoneApiResponse } from './api-requests/confirm-phone-api-response';
-import { IConfirmPhoneActionPayload } from './action-payloads/confirm-phone-action-payload';
+import { ConfirmPhoneFailure } from './confirm-phone-failure';
+import { ConfirmPhoneSuccess } from './confirm-phone-success';
 
 export class ConfirmPhone {
   static get action() {

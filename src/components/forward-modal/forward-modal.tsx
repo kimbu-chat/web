@@ -1,22 +1,22 @@
 import React, { useCallback, useState, useMemo, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
 
-import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { Modal } from '@components/modal';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+
 import { Button } from '@components/button';
 import { InfiniteScroll } from '@components/infinite-scroll';
+import { Modal } from '@components/modal';
 import { SearchBox } from '@components/search-box';
+import { SelectEntity } from '@components/select-entity';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { ReactComponent as ForwardSvg } from '@icons/forward.svg';
 import {
   getChatsAction,
   forwardMessagesAction,
   resetSearchChatsAction,
 } from '@store/chats/actions';
 import { getChatsListSelector, getSearchChatsListSelector } from '@store/chats/selectors';
-import { ReactComponent as ForwardSvg } from '@icons/forward.svg';
-import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-
-import { SelectEntity } from '../select-entity/select-entity';
 
 import './forward-modal.scss';
 
@@ -27,7 +27,7 @@ interface IForwardModalProps {
   messageIdsToForward: number[];
 }
 
-const ForwardModal: React.FC<IForwardModalProps> = ({ onClose, messageIdsToForward }) => {
+export const ForwardModal: React.FC<IForwardModalProps> = ({ onClose, messageIdsToForward }) => {
   const { t } = useTranslation();
 
   const chatsList = useSelector(getChatsListSelector);
@@ -156,5 +156,3 @@ const ForwardModal: React.FC<IForwardModalProps> = ({ onClose, messageIdsToForwa
 };
 
 ForwardModal.displayName = 'ForwardModal';
-
-export { ForwardModal };

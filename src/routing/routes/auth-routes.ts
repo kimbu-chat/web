@@ -1,7 +1,7 @@
 import partialRight from 'lodash/partialRight';
 
-import { StoreKeys, store } from '@store/index';
 import { LazyPreload, preloadRouteComponent } from '@routing/preloading.utils';
+import { StoreKeys, store } from '@store/index';
 
 import {
   ANONYMOUS_USER,

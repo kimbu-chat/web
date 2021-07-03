@@ -1,23 +1,24 @@
 import React, { useEffect, useCallback } from 'react';
-import { useSelector } from 'react-redux';
-import { Rnd } from 'react-rnd';
+
 import ReactDOM from 'react-dom';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+import { Rnd } from 'react-rnd';
 
+import { Avatar } from '@components/avatar';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { ReactComponent as AcceptWithAudioSvg } from '@icons/audio-call.svg';
+import { ReactComponent as DeclineCallSvg } from '@icons/declined-call.svg';
+import { ReactComponent as AcceptWithVideoSvg } from '@icons/video-call.svg';
+import incomingCallSound from '@sounds/calls/incoming-call.ogg';
 import { declineCallAction, acceptCallAction } from '@store/calls/actions';
 import {
   getCallInterlocutorSelector,
   getIsIncomingCallVideoEnabledSelector,
 } from '@store/calls/selectors';
-import { Avatar } from '@components/avatar';
-// sounds
-import incomingCallSound from '@sounds/calls/incoming-call.ogg';
-// svgs
-import { ReactComponent as AcceptWithAudioSvg } from '@icons/audio-call.svg';
-import { ReactComponent as AcceptWithVideoSvg } from '@icons/video-call.svg';
-import { ReactComponent as DeclineCallSvg } from '@icons/declined-call.svg';
 import { playSoundSafely } from '@utils/current-music';
+// sounds
+// svgs
 
 import './incoming-call.scss';
 

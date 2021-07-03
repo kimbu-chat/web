@@ -1,20 +1,21 @@
 import React, { useState, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
+
+import classNames from 'classnames';
+import Slider from 'rc-slider/lib/Slider';
 import Cropper from 'react-easy-crop';
 import { Area } from 'react-easy-crop/types';
-import Slider from 'rc-slider/lib/Slider';
-import classNames from 'classnames';
+import { useTranslation } from 'react-i18next';
 
-import { Modal } from '@components/modal';
 import { Button } from '@components/button';
+import { Modal } from '@components/modal';
 import { Tooltip } from '@components/tooltip';
-import { ReactComponent as PhotoSvg } from '@icons/picture.svg';
-import { ReactComponent as LeftRotateSvg } from '@icons/left-rotate.svg';
-import { ReactComponent as RightRotateSvg } from '@icons/right-rotate.svg';
-import { ReactComponent as ReflectSvg } from '@icons/reflect.svg';
-import { ReactComponent as PeisageSvg } from '@icons/peisage.svg';
-import { IAvatarSelectedData } from '@store/common/models';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { ReactComponent as LeftRotateSvg } from '@icons/left-rotate.svg';
+import { ReactComponent as PeisageSvg } from '@icons/peisage.svg';
+import { ReactComponent as PhotoSvg } from '@icons/picture.svg';
+import { ReactComponent as ReflectSvg } from '@icons/reflect.svg';
+import { ReactComponent as RightRotateSvg } from '@icons/right-rotate.svg';
+import { IAvatarSelectedData } from '@store/common/models';
 import { cancelAvatarUploadingRequestAction } from '@store/my-profile/actions';
 
 import getCroppedImg from './crop-image';

@@ -1,21 +1,21 @@
+import { AxiosResponse } from 'axios';
 import { buffers, eventChannel, SagaIterator } from 'redux-saga';
 import { call, cancel, put, race, select, take, takeEvery } from 'redux-saga/effects';
-import { AxiosResponse } from 'axios';
 
 import { MAIN_API } from '@common/paths';
 
-import { getCallInterlocutorIdSelector, getIsVideoEnabledSelector } from '../selectors';
 import { httpRequestFactory, HttpRequestMethod } from '../../common/http';
 import { getPeerConnection } from '../../middlewares/webRTC/peerConnectionFactory';
-import { OpenInterlocutorVideoStatus } from '../features/change-interlocutor-media-status/open-interlocutor-video-status';
 import { CancelCall } from '../features/cancel-call/cancel-call';
-import { DeclineCall } from '../features/decline-call/decline-call';
-import { CallEndedEventHandler } from '../socket-events/call-ended/call-ended-event-handler';
 import { OpenInterlocutorAudioStatus } from '../features/change-interlocutor-media-status/open-interlocutor-audio-status';
+import { OpenInterlocutorVideoStatus } from '../features/change-interlocutor-media-status/open-interlocutor-video-status';
+import { DeclineCall } from '../features/decline-call/decline-call';
+import { getCallInterlocutorIdSelector, getIsVideoEnabledSelector } from '../selectors';
+import { CallEndedEventHandler } from '../socket-events/call-ended/call-ended-event-handler';
 
-import { assignInterlocutorAudioTrack, assignInterlocutorVideoTrack } from './user-media';
-import { setIsRenegotiationAccepted, setMakingOffer } from './glare-utils';
 import { IRenegociateApiRequest } from './api-requests/renegotiate-api-request';
+import { setIsRenegotiationAccepted, setMakingOffer } from './glare-utils';
+import { assignInterlocutorAudioTrack, assignInterlocutorVideoTrack } from './user-media';
 
 const CallsHttpRequests = {
   renegotiate: httpRequestFactory<AxiosResponse, IRenegociateApiRequest>(

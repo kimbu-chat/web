@@ -3,8 +3,8 @@ import { createAction } from 'typesafe-actions';
 
 import { getChatByIdDraftSelector } from '@store/chats/selectors';
 
-import { MessageState } from '../../models';
 import { IChatsState } from '../../chats-state';
+import { MessageState } from '../../models';
 
 import { ISumbitEditMessageSuccessActionPayload } from './action-payloads/sumbit-edit-message-success-action-payload';
 

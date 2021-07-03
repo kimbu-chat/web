@@ -11,11 +11,15 @@ import { DeleteFriendSuccess } from '../friends/features/delete-friend/delete-fr
 import { BlockUserSuccess } from '../settings/features/block-user/block-user-success';
 import { UnblockUserSuccess } from '../settings/features/unblock-user/unblock-user-success';
 
-import { RemoveChatSuccess } from './features/remove-chat/remove-chat-success';
+import { ChatId } from './chat-id';
+import { IChatsState } from './chats-state';
 import { AddUsersToGroupChatSuccess } from './features/add-users-to-group-chat/add-users-to-group-chat-success';
+import { ChangeChatInfoOpened } from './features/change-chat-info-opened/change-chat-info-opened';
 import { ChangeChatMutedStatusSuccess } from './features/change-chat-muted-status/change-chat-muted-status-success';
 import { ChangeSelectedChat } from './features/change-selected-chat/change-selected-chat';
+import { ClearChatHistorySuccess } from './features/clear-chat-history/clear-chat-history-success';
 import { CreateGroupChatSuccess } from './features/create-group-chat/create-group-chat-success';
+import { CreateMessageSuccess } from './features/create-message/create-message-success';
 import { CreateMessage } from './features/create-message/create-message';
 import { DeleteMessageSuccess } from './features/delete-message/delete-message-success';
 import { EditGroupChatSuccess } from './features/edit-group-chat/edit-group-chat-success';
@@ -23,61 +27,57 @@ import { EditMessage } from './features/edit-message/edit-message';
 import { ResetEditMessage } from './features/edit-message/reset-edit-message';
 import { SubmitEditMessage } from './features/edit-message/submit-edit-message';
 import { SubmitEditMessageSuccess } from './features/edit-message/sumbit-edit-message-success';
+import { ForwardMessages } from './features/forward-messages/forward-messages';
 import { GetAudioAttachmentsSuccess } from './features/get-audio-attachments/get-audio-attachments-success';
 import { GetChatInfoSuccess } from './features/get-chat-info/get-chat-info-success';
-import { GetChats } from './features/get-chats/get-chats';
 import { GetChatsFailure } from './features/get-chats/get-chats-failure';
 import { GetChatsSuccess } from './features/get-chats/get-chats-success';
-import { GetGroupChatUsers } from './features/get-group-chat-users/get-group-chat-users';
+import { GetChats } from './features/get-chats/get-chats';
 import { GetGroupChatUsersSuccess } from './features/get-group-chat-users/get-group-chat-users-success';
-import { GetMessages } from './features/get-messages/get-messages';
+import { GetGroupChatUsers } from './features/get-group-chat-users/get-group-chat-users';
 import { GetMessagesFailure } from './features/get-messages/get-messages-failure';
 import { GetMessagesSuccess } from './features/get-messages/get-messages-success';
-import { GetPhotoAttachments } from './features/get-photo-attachments/get-photo-attachments';
+import { GetMessages } from './features/get-messages/get-messages';
 import { GetPhotoAttachmentsSuccess } from './features/get-photo-attachments/get-photo-attachments-success';
-import { GetRawAttachments } from './features/get-raw-attachments/get-raw-attachments';
+import { GetPhotoAttachments } from './features/get-photo-attachments/get-photo-attachments';
 import { GetRawAttachmentsSuccess } from './features/get-raw-attachments/get-raw-attachments-success';
-import { GetVideoAttachments } from './features/get-video-attachments/get-video-attachments';
+import { GetRawAttachments } from './features/get-raw-attachments/get-raw-attachments';
 import { GetVideoAttachmentsSuccess } from './features/get-video-attachments/get-video-attachments-success';
-import { GetVoiceAttachments } from './features/get-voice-attachments/get-voice-attachments';
+import { GetVideoAttachments } from './features/get-video-attachments/get-video-attachments';
 import { GetVoiceAttachmentsSuccess } from './features/get-voice-attachments/get-voice-attachments-success';
+import { GetVoiceAttachments } from './features/get-voice-attachments/get-voice-attachments';
 import { InterlocutorStoppedTyping } from './features/interlocutor-message-typing/interlocutor-stopped-typing';
 import { LeaveGroupChatSuccess } from './features/leave-group-chat/leave-group-chat-success';
 import { MarkMessagesAsReadSuccess } from './features/mark-messages-as-read/mark-messages-as-read-success';
 import { MessageTyping } from './features/message-typing/message-typing';
+import { RemoveAllAttachments } from './features/remove-attachment/remove-all-attachments';
 import { RemoveAttachment } from './features/remove-attachment/remove-attachment';
+import { RemoveChatSuccess } from './features/remove-chat/remove-chat-success';
+import { RemoveChat } from './features/remove-chat/remove-chat';
+import { RemoveUserFromGroupChatSuccess } from './features/remove-user-from-group-chat/remove-user-from-group-chat-success';
 import { ReplyToMessage } from './features/reply-to-message/reply-to-message';
 import { ResetReplyToMessage } from './features/reply-to-message/reset-reply-to-message';
+import { ResetSearchChats } from './features/reset-search-chats/reset-search-chats';
 import { ResetSelectedMessages } from './features/select-message/reset-selected-messages';
 import { SelectMessage } from './features/select-message/select-message';
+import { UnshiftChat } from './features/unshift-chat/unshift-chat';
 import { UploadAttachmentFailure } from './features/upload-attachment/upload-attachment-failure';
 import { UploadAttachmentProgress } from './features/upload-attachment/upload-attachment-progress';
 import { UploadAttachmentRequest } from './features/upload-attachment/upload-attachment-request';
 import { UploadAttachmentSuccess } from './features/upload-attachment/upload-attachment-success';
-import { UnshiftChat } from './features/unshift-chat/unshift-chat';
+import { SystemMessageType, MessageState, INormalizedChat } from './models';
 import { getChatByIdDraftSelector } from './selectors';
-import { ClearChatHistorySuccess } from './features/clear-chat-history/clear-chat-history-success';
+import { ChatClearedEventHandler } from './socket-events/chat-cleared/chat-cleared-event-handler';
+import { ChatMutedStatusChangedEventHandler } from './socket-events/chat-mute-status-changed/chat-mute-status-changed-event-handler';
+import { DialogRemovedEventHandler } from './socket-events/dialog-removed/dialog-removed-event-handler';
 import { GroupChatCreatedEventHandler } from './socket-events/group-chat-created/group-chat-created-event-handler';
 import { GroupChatEditedEventHandler } from './socket-events/group-chat-edited/group-chat-edited-integration-event-handler';
 import { MemberLeftGroupChatEventHandler } from './socket-events/member-left-group-chat/member-left-group-chat-event-handler';
-import { MessageEditedEventHandler } from './socket-events/message-edited/message-edited-event-handler';
-import { UserMessageTypingEventHandler } from './socket-events/message-typing/message-typing-event-handler';
-import { MessageReadEventHandler } from './socket-events/message-read/message-read-event-handler';
-import { ChatClearedEventHandler } from './socket-events/chat-cleared/chat-cleared-event-handler';
-import { ForwardMessages } from './features/forward-messages/forward-messages';
-import { CreateMessageSuccess } from './features/create-message/create-message-success';
-import { ChatMutedStatusChangedEventHandler } from './socket-events/chat-mute-status-changed/chat-mute-status-changed-event-handler';
-import { ChatId } from './chat-id';
-import { IChatsState } from './chats-state';
-import { ChangeChatInfoOpened } from './features/change-chat-info-opened/change-chat-info-opened';
-import { MessagesDeletedIntegrationEventHandlerSuccess } from './socket-events/message-deleted/messages-deleted-integration-event-handler-success';
-import { RemoveAllAttachments } from './features/remove-attachment/remove-all-attachments';
-import { RemoveUserFromGroupChatSuccess } from './features/remove-user-from-group-chat/remove-user-from-group-chat-success';
 import { MessageCreatedEventHandlerSuccess } from './socket-events/message-created/message-created-event-handler-success';
-import { DialogRemovedEventHandler } from './socket-events/dialog-removed/dialog-removed-event-handler';
-import { ResetSearchChats } from './features/reset-search-chats/reset-search-chats';
-import { SystemMessageType, MessageState, INormalizedChat } from './models';
-import { RemoveChat } from './features/remove-chat/remove-chat';
+import { MessagesDeletedIntegrationEventHandlerSuccess } from './socket-events/message-deleted/messages-deleted-integration-event-handler-success';
+import { MessageEditedEventHandler } from './socket-events/message-edited/message-edited-event-handler';
+import { MessageReadEventHandler } from './socket-events/message-read/message-read-event-handler';
+import { UserMessageTypingEventHandler } from './socket-events/message-typing/message-typing-event-handler';
 
 const initialState: IChatsState = {
   chats: {},
@@ -258,7 +258,7 @@ const reducer = createReducer<IChatsState>(initialState)
     GetMyProfileSuccess.action,
     produce((draft: IChatsState, { payload }: ReturnType<typeof GetMyProfileSuccess.action>) => {
       const currentUserId = payload.user.id;
-      draft.chats[APPEARANCE_CHAT_ID] = ({
+      draft.chats[APPEARANCE_CHAT_ID] = {
         messages: {
           messages: {
             [-1]: {
@@ -348,7 +348,7 @@ const reducer = createReducer<IChatsState>(initialState)
             },
           },
         },
-      } as unknown) as INormalizedChat;
+      } as unknown as INormalizedChat;
       return draft;
     }),
   )

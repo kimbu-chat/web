@@ -1,16 +1,18 @@
-import { useTranslation } from 'react-i18next';
 import React, { useCallback } from 'react';
+
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import './appearance.scss';
-import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { Theme } from '@store/settings/features/models';
-import { getCurrentFontSizeSelector, getCurrentThemeSelector } from '@store/settings/selectors';
-import { changeThemeAction, changeFontSizeAction } from '@store/settings/actions';
-import { APPEARANCE_CHAT_ID } from '@utils/constants';
+import { HorizontalSeparator } from '@components/horizontal-separator';
 import { MessageItem } from '@components/message-item';
 import { RadioBox } from '@components/radio-box';
-import { HorizontalSeparator } from '@components/horizontal-separator';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { changeThemeAction, changeFontSizeAction } from '@store/settings/actions';
+import { Theme } from '@store/settings/features/models';
+import { getCurrentFontSizeSelector, getCurrentThemeSelector } from '@store/settings/selectors';
+import { APPEARANCE_CHAT_ID } from '@utils/constants';
+
+import './appearance.scss';
 
 const Appearance: React.FC = () => {
   const { t } = useTranslation();

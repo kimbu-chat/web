@@ -1,16 +1,17 @@
 import React, { useState, useCallback } from 'react';
-import { useSelector } from 'react-redux';
-import classnames from 'classnames';
 
+import classnames from 'classnames';
+import { useSelector } from 'react-redux';
+
+import { InfiniteScroll } from '@components/infinite-scroll';
+import { SearchBox } from '@components/search-box';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { ReactComponent as OpenArrowSvg } from '@icons/open-arrow.svg';
 import { getGroupChatUsersAction } from '@store/chats/actions';
 import {
   getMembersListForSelectedGroupChatSelector,
   getSelectedGroupChatCreatorIdSelector,
 } from '@store/chats/selectors';
-import { ReactComponent as OpenArrowSvg } from '@icons/open-arrow.svg';
-import { InfiniteScroll } from '@components/infinite-scroll';
-import { SearchBox } from '@components/search-box/search-box';
 import { IPage } from '@store/common/models';
 import { CHAT_MEMBERS_LIMIT } from '@utils/pagination-limits';
 

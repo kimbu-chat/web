@@ -1,7 +1,8 @@
 import { lazy } from 'react';
-import { matchPath } from 'react-router-dom';
+
 import forEach from 'lodash/forEach';
 import invoke from 'lodash/invoke';
+import { matchPath } from 'react-router-dom';
 
 import type { ImportStatement, PreloadableComponent, RouteObject } from './routing.types';
 

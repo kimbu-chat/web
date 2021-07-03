@@ -1,14 +1,15 @@
 import React from 'react';
+
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 
-import { ReactComponent as UserSvg } from '@icons/user-o.svg';
-import { ReactComponent as TypeSvg } from '@icons/type.svg';
 import { ReactComponent as LanguageSvg } from '@icons/language.svg';
-import { ReactComponent as AppearanceSvg } from '@icons/theme.svg';
+import { ReactComponent as MuteSvg } from '@icons/mute.svg';
 import { ReactComponent as PlaySvg } from '@icons/play.svg';
 import { ReactComponent as PrivacySvg } from '@icons/privacy.svg';
-import { ReactComponent as MuteSvg } from '@icons/mute.svg';
+import { ReactComponent as AppearanceSvg } from '@icons/theme.svg';
+import { ReactComponent as TypeSvg } from '@icons/type.svg';
+import { ReactComponent as UserSvg } from '@icons/user-o.svg';
 import {
   APPEARANCE_SETTINGS_PATH,
   AUDIO_VIDEO_SETTINGS_PATH,

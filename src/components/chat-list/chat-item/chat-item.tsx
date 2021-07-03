@@ -1,28 +1,29 @@
 import React, { useCallback } from 'react';
+
+import classnames from 'classnames';
+import dayjs from 'dayjs';
+import truncate from 'lodash/truncate';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import dayjs from 'dayjs';
-import { useTranslation } from 'react-i18next';
-import truncate from 'lodash/truncate';
-import classnames from 'classnames';
 
+import { Avatar } from '@components/avatar';
+import { ReactComponent as MessageErrorSvg } from '@icons/message-error.svg';
+import { ReactComponent as MessageQeuedSvg } from '@icons/message-queued.svg';
+import { ReactComponent as MessageReadSvg } from '@icons/message-read.svg';
+import { ReactComponent as MessageSentSvg } from '@icons/message-sent.svg';
 import {
   MessageLinkType,
   MessageState,
   SystemMessageType,
   INormalizedMessage,
 } from '@store/chats/models';
-import { Avatar } from '@components/avatar';
-import { myIdSelector } from '@store/my-profile/selectors';
-import { ReactComponent as MessageQeuedSvg } from '@icons/message-queued.svg';
-import { ReactComponent as MessageSentSvg } from '@icons/message-sent.svg';
-import { ReactComponent as MessageReadSvg } from '@icons/message-read.svg';
-import { ReactComponent as MessageErrorSvg } from '@icons/message-error.svg';
 import { getTypingStringSelector, getChatSelector } from '@store/chats/selectors';
-import { getChatInterlocutor } from '@utils/user-utils';
-import { constructSystemMessageText } from '@utils/message-utils';
-import { checkIfDatesAreDifferentDate } from '@utils/date-utils';
+import { myIdSelector } from '@store/my-profile/selectors';
 import { getUserSelector } from '@store/users/selectors';
+import { checkIfDatesAreDifferentDate } from '@utils/date-utils';
+import { constructSystemMessageText } from '@utils/message-utils';
+import { getChatInterlocutor } from '@utils/user-utils';
 
 import './chat-item.scss';
 

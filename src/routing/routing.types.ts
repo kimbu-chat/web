@@ -1,8 +1,8 @@
+import type { LazyExoticComponent, ComponentType } from 'react';
+
 import { RouteProps } from 'react-router-dom';
 
 import { ANONYMOUS_USER, PROSPECT_USER, REGISTERED_USER } from './routing.constants';
-
-import type { LazyExoticComponent, ComponentType } from 'react';
 
 export type UserStatus = typeof ANONYMOUS_USER | typeof PROSPECT_USER | typeof REGISTERED_USER;
 

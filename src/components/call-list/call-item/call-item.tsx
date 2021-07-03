@@ -1,19 +1,20 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import dayjs from 'dayjs';
-import { useSelector } from 'react-redux';
-import classnames from 'classnames';
 
-import { ReactComponent as IncomingCallSvg } from '@icons/incoming-call.svg';
-import { ReactComponent as OutgoingCallSvg } from '@icons/outgoing-call.svg';
-import { ReactComponent as DeclinedCallSvg } from '@icons/declined-call.svg';
-import { ReactComponent as MissedCallSvg } from '@icons/missed-call.svg';
-import { myIdSelector } from '@store/my-profile/selectors';
+import classnames from 'classnames';
+import dayjs from 'dayjs';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+
 import { Avatar } from '@components/avatar';
-import { getUserName } from '@utils/user-utils';
-import { getUserSelector } from '@store/users/selectors';
+import { ReactComponent as DeclinedCallSvg } from '@icons/declined-call.svg';
+import { ReactComponent as IncomingCallSvg } from '@icons/incoming-call.svg';
+import { ReactComponent as MissedCallSvg } from '@icons/missed-call.svg';
+import { ReactComponent as OutgoingCallSvg } from '@icons/outgoing-call.svg';
 import { getCallSelector } from '@store/calls/selectors';
 import { CallStatus } from '@store/common/models/call-status';
+import { myIdSelector } from '@store/my-profile/selectors';
+import { getUserSelector } from '@store/users/selectors';
+import { getUserName } from '@utils/user-utils';
 
 import './call-item.scss';
 

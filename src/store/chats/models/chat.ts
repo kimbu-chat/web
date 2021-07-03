@@ -1,5 +1,5 @@
-import { IUser } from '@store/common/models';
 import { IMessage, INormalizedMessage } from '@store/chats/models/message';
+import { IUser } from '@store/common/models';
 
 import { IAttachmentToSend } from './attachment-to-send';
 import { IAudioAttachment } from './attachments/audio-attachment';
@@ -7,10 +7,10 @@ import { IBaseAttachment } from './attachments/base-attachment';
 import { IPictureAttachment } from './attachments/picture-atachment';
 import { IVideoAttachment } from './attachments/video-attachment';
 import { IVoiceAttachment } from './attachments/voice-attachment';
+import { ById } from './by-id';
 import { IGroupChat } from './group-chat';
 import { IGroupable } from './groupable';
 import { InterlocutorType } from './interlocutor-type';
-import { ById } from './by-id';
 
 export interface IChat {
   id: number;

@@ -1,8 +1,9 @@
 import React from 'react';
+
 import { useTranslation } from 'react-i18next';
 
-import { ReactComponent as AddCallSvg } from '@icons/add-call.svg';
 import { useToggledState } from '@hooks/use-toggled-state';
+import { ReactComponent as AddCallSvg } from '@icons/add-call.svg';
 
 import { AddCallModal } from './add-call-modal/add-call-modal';
 

@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 
-import { containsFiles } from '@utils/contains-files';
 import { uploadAttachmentRequestAction } from '@store/chats/actions';
+import { containsFiles } from '@utils/contains-files';
 import { getFileType } from '@utils/get-file-extension';
 
 import { useActionWithDispatch } from './use-action-with-dispatch';

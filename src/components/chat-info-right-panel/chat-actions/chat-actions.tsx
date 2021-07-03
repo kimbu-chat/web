@@ -1,30 +1,32 @@
 import React, { useCallback, useState } from 'react';
-import './chat-actions.scss';
-import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
 
-import { getInfoChatSelector } from '@store/chats/selectors';
-import { changeChatMutedStatusAction } from '@store/chats/actions';
-import { ReactComponent as MuteSvg } from '@icons/mute.svg';
-import { ReactComponent as UnmuteSvg } from '@icons/unmute.svg';
-import { ReactComponent as ClearSvg } from '@icons/clear.svg';
-import { ReactComponent as DeleteSvg } from '@icons/remove-chat.svg';
-import { ReactComponent as LeaveSvg } from '@icons/leave.svg';
-import { ReactComponent as BlockSvg } from '@icons/block.svg';
-import { ReactComponent as UnBlockSvg } from '@icons/unblock.svg';
-import { ReactComponent as AddUsersSvg } from '@icons/add-users.svg';
-import { ReactComponent as DeleteContactSvg } from '@icons/delete-contact.svg';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+
 import { Button } from '@components/button';
 import { CreateGroupChat } from '@components/create-group-chat-modal';
 import { GroupChatAddFriendModal } from '@components/group-chat-add-friend-modal';
-import { deleteFriendAction, addFriendAction } from '@store/friends/actions';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import { blockUserAction, unblockUserAction } from '@store/settings/actions';
 import { useToggledState } from '@hooks/use-toggled-state';
+import { ReactComponent as AddUsersSvg } from '@icons/add-users.svg';
+import { ReactComponent as BlockSvg } from '@icons/block.svg';
+import { ReactComponent as ClearSvg } from '@icons/clear.svg';
+import { ReactComponent as DeleteContactSvg } from '@icons/delete-contact.svg';
+import { ReactComponent as LeaveSvg } from '@icons/leave.svg';
+import { ReactComponent as MuteSvg } from '@icons/mute.svg';
+import { ReactComponent as DeleteSvg } from '@icons/remove-chat.svg';
+import { ReactComponent as UnBlockSvg } from '@icons/unblock.svg';
+import { ReactComponent as UnmuteSvg } from '@icons/unmute.svg';
+import { changeChatMutedStatusAction } from '@store/chats/actions';
+import { getInfoChatSelector } from '@store/chats/selectors';
+import { deleteFriendAction, addFriendAction } from '@store/friends/actions';
+import { blockUserAction, unblockUserAction } from '@store/settings/actions';
 
-import { LeaveChatModal } from './leave-chat-modal/leave-chat-modal';
 import { ClearChatModal } from './clear-chat-modal/clear-chat-modal';
+import { LeaveChatModal } from './leave-chat-modal/leave-chat-modal';
 import { RemoveChatModal } from './remove-chat-modal/remove-chat-modal';
+
+import './chat-actions.scss';
 
 const BLOCK_NAME = 'chat-actions';
 

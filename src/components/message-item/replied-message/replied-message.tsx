@@ -1,7 +1,9 @@
-import { useTranslation } from 'react-i18next';
 import React, { useMemo } from 'react';
+
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
+import { MessageAudioAttachment } from '@components/audio-attachment';
 import { Avatar } from '@components/avatar';
 import {
   FileType,
@@ -14,10 +16,10 @@ import {
 import { INormalizedLinkedMessage } from '@store/chats/models/linked-message';
 import { getUserSelector } from '@store/users/selectors';
 
-import { MessageAudioAttachment } from '../../audio-attachment/audio-attachment';
 import { FileAttachment } from '../../file-attachment/file-attachment';
 import { MediaGrid } from '../attachments/media-grid/media-grid';
 import { RecordingAttachment } from '../attachments/recording-attachment/recording-attachment';
+
 import './replied-message.scss';
 
 interface IRepliedMessageProps {

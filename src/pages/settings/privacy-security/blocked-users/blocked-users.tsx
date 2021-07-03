@@ -1,12 +1,13 @@
 import React, { useCallback, useState } from 'react';
+
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { ReactComponent as ArrowSvg } from '@icons/arrow-v.svg';
 import { InfiniteScrollLoader } from '@components/infinite-scroll/infinite-scroll-loader/infinite-scroll-loader';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { getBlockedUsersSelector, getBlockedUsersLoadingSelector } from '@store/settings/selectors';
+import { ReactComponent as ArrowSvg } from '@icons/arrow-v.svg';
 import { getBlackListAction } from '@store/settings/actions';
+import { getBlockedUsersSelector, getBlockedUsersLoadingSelector } from '@store/settings/selectors';
 
 import { BlockedUser } from './blocked-user/blocked-user';
 

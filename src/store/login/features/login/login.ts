@@ -4,16 +4,16 @@ import { SagaIterator } from 'redux-saga';
 import { call, apply, put, spawn } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
-import { authRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
 import { AuthService } from '@services/auth-service';
 import { SubscribeToPushNotifications } from '@store/auth/features/subscribe-to-push-notifications/subscribe-to-push-notifications';
+import { authRequestFactory, HttpRequestMethod } from '@store/common/http';
 
+import { ILoginActionPayload } from './action-payloads/login-action-payload';
 import { ILoginApiRequest } from './api-requests/login-api-request';
 import { ILoginApiResponse } from './api-requests/login-api-response';
-import { ILoginActionPayload } from './action-payloads/login-action-payload';
-import { ICustomJwtPayload } from './models/custom-jwt-payload';
 import { LoginSuccess } from './login-success';
+import { ICustomJwtPayload } from './models/custom-jwt-payload';
 
 export class Login {
   static get action() {

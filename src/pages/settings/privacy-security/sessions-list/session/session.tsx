@@ -1,13 +1,14 @@
 import React, { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+
 import dayjs from 'dayjs';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { ISession } from '@store/settings/comon/models/session';
+import { Button } from '@components/button';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { deviceIdSelector } from '@store/auth/selectors';
-import { Button } from '@components/button';
 import { revokeSessionAction } from '@store/settings/actions';
+import { ISession } from '@store/settings/comon/models/session';
 
 import './session.scss';
 

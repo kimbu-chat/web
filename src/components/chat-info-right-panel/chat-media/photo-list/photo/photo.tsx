@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { MediaModal } from '@components/image-modal';
-import { IPictureAttachment } from '@store/chats/models';
 import { useToggledState } from '@hooks/use-toggled-state';
+import { IPictureAttachment } from '@store/chats/models';
 
 interface IPhotoProps {
   photo: IPictureAttachment;

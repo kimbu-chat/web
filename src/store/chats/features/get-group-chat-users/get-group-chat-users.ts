@@ -1,20 +1,20 @@
-import { produce } from 'immer';
 import { AxiosResponse } from 'axios';
+import { produce } from 'immer';
+import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { normalize } from 'normalizr';
 
-import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
+import { ById } from '@store/chats/models/by-id';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { userArrNormalizationSchema } from '@store/friends/normalization';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
-import { ById } from '@store/chats/models/by-id';
 
 import { IUser } from '../../../common/models';
 import { ChatId } from '../../chat-id';
-import { getInfoChatIdSelector } from '../../selectors';
 import { IChatsState } from '../../chats-state';
+import { getInfoChatIdSelector } from '../../selectors';
 
 import { IGetGroupChatUsersActionPayload } from './action-payloads/get-group-chat-users-action-payload';
 import { IGetGroupChatUsersApiRequest } from './api-requests/get-group-chat-users-api-request';

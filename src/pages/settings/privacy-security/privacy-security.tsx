@@ -1,12 +1,14 @@
-import { useTranslation } from 'react-i18next';
 import React from 'react';
 
-import { RadioBox } from '@components/radio-box';
+import { useTranslation } from 'react-i18next';
+
 import { HorizontalSeparator } from '@components/horizontal-separator';
+import { RadioBox } from '@components/radio-box';
 
 import { BlockedUsers } from './blocked-users/blocked-users';
-import './privacy-security.scss';
 import { SessionsList } from './sessions-list/sessions-list';
+
+import './privacy-security.scss';
 
 const BLOCK_NAME = 'privacy-security';
 

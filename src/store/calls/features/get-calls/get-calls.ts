@@ -1,24 +1,24 @@
-import { normalize } from 'normalizr';
 import { AxiosResponse } from 'axios';
+import produce from 'immer';
+import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import produce from 'immer';
 
-import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
+import { ById } from '@store/chats/models/by-id';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { IUser } from '@store/common/models';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
-import { ById } from '@store/chats/models/by-id';
 
-import { callArrNormalizationSchema } from '../../normalization';
 import { HTTPStatusCode } from '../../../../common/http-status-code';
-import { ICall, INormalizedCall } from '../../common/models';
 import { ICallsState } from '../../calls-state';
+import { ICall, INormalizedCall } from '../../common/models';
+import { callArrNormalizationSchema } from '../../normalization';
 
 import { IGetCallsActionPayload } from './action-payloads/get-calls-action-payload';
-import { GetCallsSuccess } from './get-calls-success';
 import { IGetCallsApiRequest } from './api-requests/get-calls-api-requests';
+import { GetCallsSuccess } from './get-calls-success';
 
 export class GetCalls {
   static get action() {

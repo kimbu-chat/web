@@ -1,9 +1,10 @@
 import React from 'react';
 
-import { ReactComponent as CloseSVG } from '@icons/close-x.svg';
-import { stopPropagation } from '@utils/stop-propagation';
 import { BackgroundBlur } from '@components/with-background';
 import { useAnimation } from '@hooks/use-animation';
+import { ReactComponent as CloseSVG } from '@icons/close-x.svg';
+import { stopPropagation } from '@utils/stop-propagation';
+
 import './privacy-policy.scss';
 
 interface IPrivacyPolicyProps {

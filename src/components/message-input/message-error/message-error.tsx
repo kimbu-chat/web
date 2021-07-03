@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { useTranslation } from 'react-i18next';
 
 import { ReactComponent as BulbSvg } from '@icons/bulb.svg';

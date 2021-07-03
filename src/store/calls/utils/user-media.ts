@@ -2,13 +2,13 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 
 import { getPeerConnection } from '../../middlewares/webRTC/peerConnectionFactory';
-import { getAudioConstraintsSelector, getVideoConstraintsSelector } from '../selectors';
 import { CloseScreenShareStatus } from '../features/change-screen-share-status/close-screen-share-status';
+import { OpenScreenShareStatus } from '../features/change-screen-share-status/open-screen-share-status';
 import { CloseAudioStatus } from '../features/change-user-media-status/close-audio-status';
 import { CloseVideoStatus } from '../features/change-user-media-status/close-video-status';
-import { OpenVideoStatus } from '../features/change-user-media-status/open-video-status';
 import { OpenAudioStatus } from '../features/change-user-media-status/open-audio-status';
-import { OpenScreenShareStatus } from '../features/change-screen-share-status/open-screen-share-status';
+import { OpenVideoStatus } from '../features/change-user-media-status/open-video-status';
+import { getAudioConstraintsSelector, getVideoConstraintsSelector } from '../selectors';
 
 interface IInCompleteConstraints {
   video?: {

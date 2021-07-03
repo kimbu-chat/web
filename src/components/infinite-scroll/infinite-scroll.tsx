@@ -1,7 +1,8 @@
 import React from 'react';
-import './infinite-scroll.scss';
 
 import { InfiniteScrollLoader } from './infinite-scroll-loader/infinite-scroll-loader';
+
+import './infinite-scroll.scss';
 
 interface IInfiniteScrollProps {
   children: React.ReactNode;
@@ -14,7 +15,7 @@ interface IInfiniteScrollProps {
   threshold?: number | Array<number>;
 }
 
-const InfiniteScroll: React.FC<IInfiniteScrollProps> = ({
+export const InfiniteScroll: React.FC<IInfiniteScrollProps> = ({
   children,
   Loader = InfiniteScrollLoader,
   className = '',
@@ -88,5 +89,3 @@ const InfiniteScroll: React.FC<IInfiniteScrollProps> = ({
 };
 
 InfiniteScroll.displayName = 'InfiniteScroll';
-
-export { InfiniteScroll };

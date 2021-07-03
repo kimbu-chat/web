@@ -2,8 +2,9 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
-import { getAudioConstraintsSelector, getVideoConstraintsSelector } from '../../selectors';
 import { getPeerConnection } from '../../../middlewares/webRTC/peerConnectionFactory';
+import { InputType } from '../../common/enums/input-type';
+import { getAudioConstraintsSelector, getVideoConstraintsSelector } from '../../selectors';
 import {
   getAudioSender,
   getMediaDevicesList,
@@ -17,9 +18,8 @@ import {
   getVideoSender,
 } from '../../utils/user-media';
 import { ChangeActiveDeviceId } from '../change-active-device-id/change-active-device-id';
-import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
-import { InputType } from '../../common/enums/input-type';
 import { CloseScreenShareStatus } from '../change-screen-share-status/close-screen-share-status';
+import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
 
 import { IChangeMediaStatusActionPayload } from './action-payloads/change-media-status-action-payload';
 import { CloseAudioStatus } from './close-audio-status';

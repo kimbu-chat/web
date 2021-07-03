@@ -1,11 +1,12 @@
 import React, { useCallback, useState, useMemo, useEffect } from 'react';
+
 import { useSelector } from 'react-redux';
 
+import { InfiniteScroll } from '@components/infinite-scroll';
+import { SearchBox } from '@components/search-box';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getCallsAction, resetSearchCallsAction } from '@store/calls/actions';
 import { getCallsListSelector, getSearchCallsListSelector } from '@store/calls/selectors';
-import { InfiniteScroll } from '@components/infinite-scroll';
-import { SearchBox } from '@components/search-box/search-box';
 import { CALL_LIMIT } from '@utils/pagination-limits';
 
 import { CallItem } from './call-item/call-item';

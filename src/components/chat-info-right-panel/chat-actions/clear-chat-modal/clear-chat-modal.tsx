@@ -1,12 +1,13 @@
-import { useTranslation } from 'react-i18next';
 import React, { useCallback, useState } from 'react';
+
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import { Button } from '@components/button';
+import { CheckBox } from '@components/check-box';
 import { Modal } from '@components/modal';
-import { ReactComponent as ClearSvg } from '@icons/clear.svg';
-import { CheckBox } from '@components/check-box/check-box';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { ReactComponent as ClearSvg } from '@icons/clear.svg';
 import { clearChatHistoryAction } from '@store/chats/actions';
 import { getInfoChatIdSelector } from '@store/chats/selectors';
 

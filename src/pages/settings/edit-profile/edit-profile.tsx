@@ -1,28 +1,29 @@
 import React, { useCallback, useState, useRef, lazy, Suspense } from 'react';
-import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
+
 import { parsePhoneNumber } from 'libphonenumber-js';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 
 import { Button } from '@components/button';
-import { LabeledInput } from '@components/labeled-input';
 import { CubeLoader } from '@components/cube-loader';
 import { HorizontalSeparator } from '@components/horizontal-separator';
-import { myProfileSelector } from '@store/my-profile/selectors';
-import { ReactComponent as UserSvg } from '@icons/user.svg';
-import { ReactComponent as TopAvatarLine } from '@icons/top-avatar-line.svg';
+import { MediaModal } from '@components/image-modal';
+import { LabeledInput } from '@components/labeled-input';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { ReactComponent as BottomAvatarLine } from '@icons/bottom-avatar-line.svg';
 import { ReactComponent as ColoredClose } from '@icons/colored-close.svg';
+import { ReactComponent as TopAvatarLine } from '@icons/top-avatar-line.svg';
+import { ReactComponent as UserSvg } from '@icons/user.svg';
+import { loadPhotoEditor } from '@routing/module-loader';
 import { FileType } from '@store/chats/models';
+import { IAvatarSelectedData } from '@store/common/models';
 import {
   uploadAvatarRequestAction,
   updateMyProfileAction,
   checkNicknameAvailabilityAction,
 } from '@store/my-profile/actions';
-import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import { IAvatarSelectedData } from '@store/common/models';
+import { myProfileSelector } from '@store/my-profile/selectors';
 import { validateNickname } from '@utils/validate-nick-name';
-import { loadPhotoEditor } from '@routing/module-loader';
-import { MediaModal } from '@components/image-modal';
 
 import { useToggledState } from '../../../hooks/use-toggled-state';
 

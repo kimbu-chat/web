@@ -1,12 +1,12 @@
 import { AxiosResponse } from 'axios';
-import { call, put, select } from 'redux-saga/effects';
 import { SagaIterator } from 'redux-saga';
+import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
 import { HTTPStatusCode } from '@common/http-status-code';
-import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
 import { Meta } from '@store/common/actions';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { getChatByIdSelector } from '../../selectors';
 

@@ -1,13 +1,14 @@
 import React, { useCallback, useState } from 'react';
+
+import classnames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import classnames from 'classnames';
 
-import { ReactComponent as ArrowSvg } from '@icons/arrow-v.svg';
 import { InfiniteScrollLoader } from '@components/infinite-scroll/infinite-scroll-loader/infinite-scroll-loader';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { getSessionsLoadingSelector, getSessionsSelector } from '@store/settings/selectors';
+import { ReactComponent as ArrowSvg } from '@icons/arrow-v.svg';
 import { getSessionListAction } from '@store/settings/actions';
+import { getSessionsLoadingSelector, getSessionsSelector } from '@store/settings/selectors';
 
 import { Session } from './session/session';
 

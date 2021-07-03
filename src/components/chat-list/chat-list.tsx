@@ -1,18 +1,19 @@
 import React, { useEffect, useCallback, useState, useMemo } from 'react';
+
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
+import { CreateGroupChat } from '@components/create-group-chat-modal';
+import { InfiniteScroll } from '@components/infinite-scroll';
+import { NewChatModal } from '@components/new-chat-modal';
+import { SearchBox } from '@components/search-box';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { ReactComponent as CreateChatSvg } from '@icons/create-chat.svg';
 import {
   getChatsAction,
   changeSelectedChatAction,
   resetSearchChatsAction,
 } from '@store/chats/actions';
-import { CreateGroupChat } from '@components/create-group-chat-modal';
-import { InfiniteScroll } from '@components/infinite-scroll';
-import { NewChatModal } from '@components/new-chat-modal';
-import { SearchBox } from '@components/search-box/search-box';
-import { ReactComponent as CreateChatSvg } from '@icons/create-chat.svg';
 import { getChatsListSelector, getSearchChatsListSelector } from '@store/chats/selectors';
 
 import { ChatFromList } from './chat-item/chat-item';

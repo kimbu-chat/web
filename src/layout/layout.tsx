@@ -1,6 +1,7 @@
 import React, { useMemo, lazy } from 'react';
-import { useSelector } from 'react-redux';
+
 import isEmpty from 'lodash/isEmpty';
+import { useSelector } from 'react-redux';
 
 import { AuthService } from '@services/auth-service';
 import { store, StoreKeys } from '@store';

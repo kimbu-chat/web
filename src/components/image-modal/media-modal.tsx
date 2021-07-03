@@ -1,14 +1,16 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import Mousetrap from 'mousetrap';
-import classNames from 'classnames';
 
-import { ReactComponent as CloseSVG } from '@icons/close.svg';
-import { ReactComponent as ArrowSvg } from '@icons/arrow.svg';
-import { FileType, IPictureAttachment, IVideoAttachment } from '@store/chats/models';
+import classNames from 'classnames';
+import Mousetrap from 'mousetrap';
+import { useTranslation } from 'react-i18next';
+
 import { BackgroundBlur } from '@components/with-background';
-import { stopPropagation } from '@utils/stop-propagation';
 import { useAnimation } from '@hooks/use-animation';
+import { ReactComponent as ArrowSvg } from '@icons/arrow.svg';
+import { ReactComponent as CloseSVG } from '@icons/close.svg';
+import { FileType, IPictureAttachment, IVideoAttachment } from '@store/chats/models';
+import { stopPropagation } from '@utils/stop-propagation';
+
 import './media-modal.scss';
 
 interface IImageModalProps {
@@ -23,7 +25,11 @@ interface IImageModalProps {
 
 const BLOCK_NAME = 'media-modal';
 
-const MediaModal: React.FC<IImageModalProps> = ({ attachmentId, attachmentsArr, onClose }) => {
+export const MediaModal: React.FC<IImageModalProps> = ({
+  attachmentId,
+  attachmentsArr,
+  onClose,
+}) => {
   const { t } = useTranslation();
 
   const { rootClass, closeInitiated, animatedClose } = useAnimation(BLOCK_NAME, onClose);
@@ -113,5 +119,3 @@ const MediaModal: React.FC<IImageModalProps> = ({ attachmentId, attachmentsArr, 
 };
 
 MediaModal.displayName = 'MediaModal';
-
-export { MediaModal };

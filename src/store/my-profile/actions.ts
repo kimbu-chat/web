@@ -4,8 +4,8 @@ import { CheckNicknameAvailability } from './features/check-nickname-availabilit
 import { ConfirmChangePhone } from './features/confirm-change-phone/confirm-change-phone';
 import { DeactivateAccount } from './features/deactivate-account/deactivate-acccount';
 import { DeleteAccount } from './features/delete-account/delete-account';
-import { GetMyProfile } from './features/get-my-profile/get-my-profile';
 import { GetMyProfileSuccess } from './features/get-my-profile/get-my-profile-success';
+import { GetMyProfile } from './features/get-my-profile/get-my-profile';
 import { SendSmsChangePhone } from './features/send-sms-change-phone/send-sms-change-phone';
 import { UpdateMyProfile } from './features/update-my-profile/update-my-profile';
 import { UploadAvatar } from './features/upload-avatar/upload-avatar';

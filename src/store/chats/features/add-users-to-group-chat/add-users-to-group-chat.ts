@@ -4,12 +4,12 @@ import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
-import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { Meta } from '@store/common/actions';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { HTTPStatusCode } from '../../../../common/http-status-code';
-import { getSelectedChatIdSelector } from '../../selectors';
 import { ChatId } from '../../chat-id';
+import { getSelectedChatIdSelector } from '../../selectors';
 
 import { IAddUsersToGroupChatActionPayload } from './action-payloads/add-users-to-group-chat-action-payload';
 import { AddUsersToGroupChatSuccess } from './add-users-to-group-chat-success';

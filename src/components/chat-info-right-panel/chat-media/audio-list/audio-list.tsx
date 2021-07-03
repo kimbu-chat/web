@@ -1,17 +1,19 @@
 import React, { useCallback } from 'react';
+
 import { useSelector } from 'react-redux';
 
-import { getSelectedChatAudiosSelector } from '@store/chats/selectors';
-import { getAudioAttachmentsAction } from '@store/chats/actions';
-import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { setSeparators } from '@utils/set-separators';
-import { InfiniteScroll } from '@components/infinite-scroll';
 import { MessageAudioAttachment } from '@components/audio-attachment';
-import { AUDIO_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
-import './audio-list.scss';
-import { separateGroupable } from '@utils/date-utils';
-import { IAudioAttachment } from '@store/chats/models';
 import { ChatAttachment } from '@components/chat-attachment/chat-attachment';
+import { InfiniteScroll } from '@components/infinite-scroll';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { getAudioAttachmentsAction } from '@store/chats/actions';
+import { IAudioAttachment } from '@store/chats/models';
+import { getSelectedChatAudiosSelector } from '@store/chats/selectors';
+import { separateGroupable } from '@utils/date-utils';
+import { AUDIO_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
+import { setSeparators } from '@utils/set-separators';
+
+import './audio-list.scss';
 
 const AudioAttachmentComponent: React.FC<IAudioAttachment> = ({ ...audio }) => (
   <div className="chat-audios__audio">

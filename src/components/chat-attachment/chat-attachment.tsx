@@ -1,9 +1,10 @@
 import React from 'react';
-import './chat-attachment.scss';
 
 import { IGroupable, IBaseAttachment } from '@store/chats/models';
 
 import { dateByOffset } from '../../utils/date-utils';
+
+import './chat-attachment.scss';
 
 export function ChatAttachment<T extends IBaseAttachment>({
   items,

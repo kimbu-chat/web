@@ -1,7 +1,7 @@
-import { createAction } from 'typesafe-actions';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { apply } from 'redux-saga/effects';
+import { createAction } from 'typesafe-actions';
 
 import { IUserSettings } from '@store/settings/user-settings-state';
 import { applyFontSize } from '@utils/apply-font-size';

@@ -1,5 +1,6 @@
 import partialRight from 'lodash/partialRight';
 
+import { LazyPreload, preloadRouteComponent } from '@routing/preloading.utils';
 import {
   CALLS_PATH,
   CONTACTS_PATH,
@@ -10,7 +11,6 @@ import {
 import { MainRoutesEnum, MainRoutesObject } from '@routing/routing.types';
 import withPageGuard from '@routing/with-page-guard';
 import { store, StoreKeys } from '@store';
-import { LazyPreload, preloadRouteComponent } from '@routing/preloading.utils';
 
 const ChatPage = LazyPreload(() => import('@pages/chat/chat'));
 

@@ -4,8 +4,8 @@ import { AuthService } from '../../services/auth-service';
 
 import { IAuthState } from './auth-state';
 import { Logout } from './features/logout/logout';
-import { RefreshToken } from './features/refresh-token/refresh-token';
 import { RefreshTokenSuccess } from './features/refresh-token/refresh-token-success';
+import { RefreshToken } from './features/refresh-token/refresh-token';
 
 const authService = new AuthService();
 const securityTokens = authService?.securityTokens;

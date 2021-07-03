@@ -1,8 +1,8 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 
-import { IChatsState } from '@store/chats/chats-state';
 import { MyProfileService } from '@services/my-profile-service';
+import { IChatsState } from '@store/chats/chats-state';
 import { INormalizedLinkedMessage } from '@store/chats/models/linked-message';
 
 import {

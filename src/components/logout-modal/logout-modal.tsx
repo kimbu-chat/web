@@ -1,13 +1,15 @@
 import React, { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import classNames from 'classnames';
 
-import { Modal } from '@components/modal';
-import './logout-modal.scss';
-import { ReactComponent as LogoutSvg } from '@icons/logout.svg';
-import { useEmptyActionWithDeferred } from '@hooks/use-action-with-deferred';
-import { logoutAction } from '@store/auth/actions';
+import classNames from 'classnames';
+import { useTranslation } from 'react-i18next';
+
 import { Button } from '@components/button';
+import { Modal } from '@components/modal';
+import { useEmptyActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { ReactComponent as LogoutSvg } from '@icons/logout.svg';
+import { logoutAction } from '@store/auth/actions';
+
+import './logout-modal.scss';
 
 interface ILogoutModalProps {
   onClose: () => void;

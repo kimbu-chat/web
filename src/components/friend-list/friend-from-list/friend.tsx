@@ -1,11 +1,12 @@
-import { useTranslation } from 'react-i18next';
 import React from 'react';
+
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { ChatId } from '@store/chats/chat-id';
-import { TimeUpdateable } from '@components/time-updateable';
 import { Avatar } from '@components/avatar';
+import { TimeUpdateable } from '@components/time-updateable';
+import { ChatId } from '@store/chats/chat-id';
 import { getUserSelector } from '@store/users/selectors';
 import { getUserName } from '@utils/user-utils';
 

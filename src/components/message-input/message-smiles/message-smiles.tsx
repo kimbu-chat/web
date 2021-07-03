@@ -1,9 +1,10 @@
 import React, { useCallback, useRef, useState, lazy, Suspense } from 'react';
+
 import 'emoji-mart/css/emoji-mart.css';
 
+import { CubeLoader } from '@components/cube-loader';
 import { useOnClickOutside } from '@hooks/use-on-click-outside';
 import { ReactComponent as SmilesSvg } from '@icons/smiles.svg';
-import { CubeLoader } from '@components/cube-loader';
 import { loadEmoji } from '@routing/module-loader';
 
 import './message-smiles.scss';

@@ -1,15 +1,14 @@
 import React, { useCallback } from 'react';
 
+import { ForwardModal } from '@components/forward-modal';
+import { DeleteMessageModal } from '@components/selected-messages-data/delete-message-modal/delete-message-modal';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { ReactComponent as ForwardSvg } from '@icons/forward.svg';
-import { ReactComponent as EditSVG } from '@icons/edit.svg';
+import { useToggledState } from '@hooks/use-toggled-state';
 import { ReactComponent as DeleteSVG } from '@icons/delete.svg';
+import { ReactComponent as EditSVG } from '@icons/edit.svg';
+import { ReactComponent as ForwardSvg } from '@icons/forward.svg';
 import { ReactComponent as ReplySVG } from '@icons/reply.svg';
 import { editMessageAction, replyToMessageAction } from '@store/chats/actions';
-import { useToggledState } from '@hooks/use-toggled-state';
-
-import { DeleteMessageModal } from '../../selected-messages-data/delete-message-modal/delete-message-modal';
-import { ForwardModal } from '../../forward-modal/forward-modal';
 
 import './message-item-actions.scss';
 

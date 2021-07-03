@@ -1,31 +1,31 @@
 import { createReducer } from 'typesafe-actions';
 
-import { RenegotiationSentEventHandler } from './socket-events/renegotiation-sent/renegotiation-sent-event-handler';
-import { DeclineCall } from './features/decline-call/decline-call';
 import { ICallsState } from './calls-state';
-import { IncomingCallEventHandler } from './socket-events/incoming-call/incoming-call-event-handler';
+import { AcceptCallSuccess } from './features/accept-call/accept-call-success';
 import { AcceptCall } from './features/accept-call/accept-call';
 import { CancelCallSuccess } from './features/cancel-call/cancel-call-success';
 import { ChangeActiveDeviceId } from './features/change-active-device-id/change-active-device-id';
-import { CloseAudioStatus } from './features/change-user-media-status/close-audio-status';
+import { OpenInterlocutorAudioStatus } from './features/change-interlocutor-media-status/open-interlocutor-audio-status';
+import { OpenInterlocutorVideoStatus } from './features/change-interlocutor-media-status/open-interlocutor-video-status';
 import { CloseScreenShareStatus } from './features/change-screen-share-status/close-screen-share-status';
+import { OpenScreenShareStatus } from './features/change-screen-share-status/open-screen-share-status';
+import { CloseAudioStatus } from './features/change-user-media-status/close-audio-status';
 import { CloseVideoStatus } from './features/change-user-media-status/close-video-status';
+import { OpenAudioStatus } from './features/change-user-media-status/open-audio-status';
+import { OpenVideoStatus } from './features/change-user-media-status/open-video-status';
+import { DeclineCall } from './features/decline-call/decline-call';
+import { EndCall } from './features/end-call/end-call';
 import { GetCallsSuccess } from './features/get-calls/get-calls-success';
+import { GetCalls } from './features/get-calls/get-calls';
 import { GotDevicesInfo } from './features/got-devices-info/got-devices-info';
 import { InterlocutorBusy } from './features/interlocutor-busy/interlocutor-busy';
 import { OutgoingCall } from './features/outgoing-call/outgoing-call';
-import { SwitchDevice } from './features/switch-device/switch-device';
-import { GetCalls } from './features/get-calls/get-calls';
-import { EndCall } from './features/end-call/end-call';
-import { InterlocutorAcceptedCallEventHandler } from './socket-events/interlocutor-accepted-call/interlocutor-accepted-call-event-handler';
-import { AcceptCallSuccess } from './features/accept-call/accept-call-success';
-import { OpenAudioStatus } from './features/change-user-media-status/open-audio-status';
-import { OpenVideoStatus } from './features/change-user-media-status/open-video-status';
-import { OpenScreenShareStatus } from './features/change-screen-share-status/open-screen-share-status';
-import { OpenInterlocutorVideoStatus } from './features/change-interlocutor-media-status/open-interlocutor-video-status';
-import { CallEndedEventHandlerSuccess } from './socket-events/call-ended/call-ended-event-handler-success';
-import { OpenInterlocutorAudioStatus } from './features/change-interlocutor-media-status/open-interlocutor-audio-status';
 import { ResetSearchCalls } from './features/reset-search-calls/reset-search-calls';
+import { SwitchDevice } from './features/switch-device/switch-device';
+import { CallEndedEventHandlerSuccess } from './socket-events/call-ended/call-ended-event-handler-success';
+import { IncomingCallEventHandler } from './socket-events/incoming-call/incoming-call-event-handler';
+import { InterlocutorAcceptedCallEventHandler } from './socket-events/interlocutor-accepted-call/interlocutor-accepted-call-event-handler';
+import { RenegotiationSentEventHandler } from './socket-events/renegotiation-sent/renegotiation-sent-event-handler';
 
 const initialState: ICallsState = {
   isInterlocutorVideoEnabled: false,

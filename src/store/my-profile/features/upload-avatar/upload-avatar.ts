@@ -3,13 +3,13 @@ import { SagaIterator } from 'redux-saga';
 import { apply, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
+import { FILES_API } from '@common/paths';
 import { Meta } from '@store/common/actions';
 import { HttpRequestMethod } from '@store/common/http';
 import { httpFilesRequestFactory } from '@store/common/http/http-file-factory';
 import { IAvatar } from '@store/common/models';
-import { getFileFromUrl } from '@utils/get-file-from-url';
 import { setAvatarUploadCancelTokenSource } from '@store/my-profile/my-profile-utils';
-import { FILES_API } from '@common/paths';
+import { getFileFromUrl } from '@utils/get-file-from-url';
 
 import { IUploadAvatarActionPayload } from './upload-avatar-action-payload';
 

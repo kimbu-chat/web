@@ -1,8 +1,10 @@
-import Mousetrap from 'mousetrap';
 import React, { useEffect, useCallback } from 'react';
-import ReactDOM from 'react-dom';
-import './with-background.scss';
+
 import classNames from 'classnames';
+import Mousetrap from 'mousetrap';
+import ReactDOM from 'react-dom';
+
+import './with-background.scss';
 
 interface IBackgroundBlurProps {
   onClick?: () => void;

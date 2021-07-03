@@ -1,12 +1,12 @@
 /* eslint-disable react/no-array-index-key */
-import './modal.scss';
-
 import React, { useCallback } from 'react';
 
-import { ReactComponent as CloseSVG } from '@icons/close.svg';
-import { stopPropagation } from '@utils/stop-propagation';
 import { BackgroundBlur } from '@components/with-background';
 import { useAnimation } from '@hooks/use-animation';
+import { ReactComponent as CloseSVG } from '@icons/close.svg';
+import { stopPropagation } from '@utils/stop-propagation';
+
+import './modal.scss';
 
 interface IModalProps {
   children: string | JSX.Element;

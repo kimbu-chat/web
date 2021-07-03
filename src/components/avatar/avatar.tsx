@@ -1,13 +1,15 @@
 import React from 'react';
+
 import classnames from 'classnames';
 
+import { ReactComponent as DeletedSvg } from '@icons/deleted.svg';
 import { IGroupChat } from '@store/chats/models';
 import { IUser } from '@store/common/models';
 import { getInterlocutorInitials } from '@utils/user-utils';
-import { ReactComponent as DeletedSvg } from '@icons/deleted.svg';
+
+import { StatusBadge } from '../status-badge';
 
 import './avatar.scss';
-import { StatusBadge } from '../status-badge';
 
 interface IAvatarProps {
   user?: IUser;

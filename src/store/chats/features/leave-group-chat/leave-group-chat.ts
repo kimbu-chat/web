@@ -2,17 +2,17 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 
-import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
-import { createEmptyDefferedAction } from '@store/common/actions';
-import { replaceInUrl } from '@utils/replace-in-url';
 import { MAIN_API } from '@common/paths';
+import { createEmptyDefferedAction } from '@store/common/actions';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { replaceInUrl } from '@utils/replace-in-url';
 
 import { HTTPStatusCode } from '../../../../common/http-status-code';
-import { getSelectedChatIdSelector } from '../../selectors';
 import { ChatId } from '../../chat-id';
+import { getSelectedChatIdSelector } from '../../selectors';
 
-import { LeaveGroupChatSuccess } from './leave-group-chat-success';
 import { ILeaveGroupChatApiRequest } from './api-requests/leave-group-chat-api-request';
+import { LeaveGroupChatSuccess } from './leave-group-chat-success';
 
 export class LeaveGroupChat {
   static get action() {

@@ -1,12 +1,12 @@
 import { TFunction } from 'i18next';
-import { RootState } from 'typesafe-actions';
 import unionBy from 'lodash/unionBy';
+import { RootState } from 'typesafe-actions';
 
+import { IChatsState } from './chats-state';
+import { FileType, InterlocutorType } from './models';
 import { IAttachmentToSend } from './models/attachment-to-send';
 import { IBaseAttachment } from './models/attachments/base-attachment';
 import { INormalizedChat } from './models/chat';
-import { IChatsState } from './chats-state';
-import { FileType, InterlocutorType } from './models';
 
 import type { IAudioAttachment } from './models';
 
@@ -17,13 +17,15 @@ export const getSelectedChatSelector = (state: RootState): INormalizedChat | und
 export const getSelectedChatLastMessageIdSelector = (state: RootState): number | undefined =>
   state.chats.chats[state?.chats?.selectedChatId || -1]?.lastMessage?.id;
 
-export const getChatLastMessageIdSelector = (chatId: number) => (
-  state: RootState,
-): number | undefined => state.chats.chats[chatId]?.lastMessage?.id;
+export const getChatLastMessageIdSelector =
+  (chatId: number) =>
+  (state: RootState): number | undefined =>
+    state.chats.chats[chatId]?.lastMessage?.id;
 
-export const getChatMessagesLengthSelector = (chatId: number) => (
-  state: RootState,
-): number | undefined => state.chats?.chats[chatId]?.messages.messageIds.length;
+export const getChatMessagesLengthSelector =
+  (chatId: number) =>
+  (state: RootState): number | undefined =>
+    state.chats?.chats[chatId]?.messages.messageIds.length;
 
 export const getSelectedChatMessageIdsSelector = (state: RootState): number[] | undefined =>
   state.chats?.chats[state?.chats?.selectedChatId || -1]?.messages.messageIds;
@@ -111,31 +113,31 @@ export const getAudioAttachmentsCountSelector = (state: RootState): number =>
 export const getSelectedChatIdSelector = (state: RootState): number | null =>
   state.chats.selectedChatId;
 
-export const getSelectedChatAudioAttachmentsSelector = (chatId: number) => (
-  state: RootState,
-): IAudioAttachment[] => {
-  const audioAttachments: IAudioAttachment[] = [];
+export const getSelectedChatAudioAttachmentsSelector =
+  (chatId: number) =>
+  (state: RootState): IAudioAttachment[] => {
+    const audioAttachments: IAudioAttachment[] = [];
 
-  Object.values(state.chats.chats[chatId]?.messages.messages).forEach((message) => {
-    message?.attachments?.forEach((attachment) => {
-      if (attachment.type === FileType.Audio) {
-        if (!audioAttachments.find(({ id }) => id === attachment.id)) {
-          audioAttachments.push(attachment as IAudioAttachment);
+    Object.values(state.chats.chats[chatId]?.messages.messages).forEach((message) => {
+      message?.attachments?.forEach((attachment) => {
+        if (attachment.type === FileType.Audio) {
+          if (!audioAttachments.find(({ id }) => id === attachment.id)) {
+            audioAttachments.push(attachment as IAudioAttachment);
+          }
         }
-      }
+      });
+
+      message?.linkedMessage?.attachments?.forEach((attachment) => {
+        if (attachment.type === FileType.Audio) {
+          if (!audioAttachments.find(({ id }) => id === attachment.id)) {
+            audioAttachments.push(attachment as IAudioAttachment);
+          }
+        }
+      });
     });
 
-    message?.linkedMessage?.attachments?.forEach((attachment) => {
-      if (attachment.type === FileType.Audio) {
-        if (!audioAttachments.find(({ id }) => id === attachment.id)) {
-          audioAttachments.push(attachment as IAudioAttachment);
-        }
-      }
-    });
-  });
-
-  return unionBy(audioAttachments, state.chats.chats[chatId]?.audios.audios, 'id');
-};
+    return unionBy(audioAttachments, state.chats.chats[chatId]?.audios.audios, 'id');
+  };
 
 export const getChatByIdSelector = (chatId: number) => (state: RootState) =>
   state.chats.chats[chatId];
@@ -146,32 +148,31 @@ export const getChatsListSelector = (state: RootState) => state.chats.chatList;
 export const getMembersListForSelectedGroupChatSelector = (state: RootState) =>
   state.chats.chats[state?.chats?.selectedChatId || -1]?.members;
 
-export const getTypingStringSelector = (t: TFunction, chatId: number | null) => (
-  state: RootState,
-) => {
-  const typingUsers = state.chats.chats[chatId || -1]?.typingInterlocutors;
+export const getTypingStringSelector =
+  (t: TFunction, chatId: number | null) => (state: RootState) => {
+    const typingUsers = state.chats.chats[chatId || -1]?.typingInterlocutors;
 
-  if (typingUsers) {
-    if (typingUsers.length === 1) {
-      return t('chat.typing', { firstInterlocutorName: typingUsers[0].split(' ')[0] });
+    if (typingUsers) {
+      if (typingUsers.length === 1) {
+        return t('chat.typing', { firstInterlocutorName: typingUsers[0].split(' ')[0] });
+      }
+      if (typingUsers.length === 2) {
+        return t('chat.typing_two', {
+          firstInterlocutorName: typingUsers[0].split(' ')[0],
+          secondInterlocutorName: typingUsers[1].split(' ')[0],
+        });
+      }
+      if (typingUsers.length > 2) {
+        return t('chat.typing_many', {
+          firstInterlocutorName: typingUsers[0].split(' ')[0],
+          secondInterlocutorName: typingUsers[1].split(' ')[0],
+          remainingCount: typingUsers.length - 2,
+        });
+      }
     }
-    if (typingUsers.length === 2) {
-      return t('chat.typing_two', {
-        firstInterlocutorName: typingUsers[0].split(' ')[0],
-        secondInterlocutorName: typingUsers[1].split(' ')[0],
-      });
-    }
-    if (typingUsers.length > 2) {
-      return t('chat.typing_many', {
-        firstInterlocutorName: typingUsers[0].split(' ')[0],
-        secondInterlocutorName: typingUsers[1].split(' ')[0],
-        remainingCount: typingUsers.length - 2,
-      });
-    }
-  }
 
-  return undefined;
-};
+    return undefined;
+  };
 
 export const getSelectedMessageIds = (state: RootState) => state.chats.selectedMessageIds;
 
@@ -209,9 +210,9 @@ export const getSelectedChatMessagesSelector = (state: RootState) =>
 export const getMessageSelector = (chatId: number, messageId: number) => (state: RootState) =>
   state.chats.chats[chatId]?.messages.messages[messageId];
 
-export const getChatHasMessageWithIdSelector = (messageId: number, chatId: number) => (
-  state: RootState,
-) => state.chats.chats[chatId]?.messages.messages[messageId] !== undefined;
+export const getChatHasMessageWithIdSelector =
+  (messageId: number, chatId: number) => (state: RootState) =>
+    state.chats.chats[chatId]?.messages.messages[messageId] !== undefined;
 
 // IChatsState selectors
 export const getChatExistsDraftSelector = (chatId: number, draft: IChatsState): boolean =>

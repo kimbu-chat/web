@@ -1,16 +1,17 @@
 import React, { useCallback } from 'react';
+
 import { useSelector } from 'react-redux';
 
+import { ChatAttachment } from '@components/chat-attachment/chat-attachment';
+import { InfiniteScroll } from '@components/infinite-scroll';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getPhotoAttachmentsAction } from '@store/chats/actions';
+import { IPictureAttachment } from '@store/chats/models';
 import { getSelectedChatPhotosSelector } from '@store/chats/selectors';
 import { IPage } from '@store/common/models';
-import { setSeparators } from '@utils/set-separators';
-import { InfiniteScroll } from '@components/infinite-scroll';
-import { PHOTO_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 import { separateGroupable } from '@utils/date-utils';
-import { ChatAttachment } from '@components/chat-attachment/chat-attachment';
-import { IPictureAttachment } from '@store/chats/models';
+import { PHOTO_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
+import { setSeparators } from '@utils/set-separators';
 
 import { Photo } from './photo/photo';
 

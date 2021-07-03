@@ -1,16 +1,17 @@
 import React, { useCallback } from 'react';
+
 import { useSelector } from 'react-redux';
 
+import { ChatAttachment } from '@components/chat-attachment/chat-attachment';
+import { InfiniteScroll } from '@components/infinite-scroll';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getVideoAttachmentsAction } from '@store/chats/actions';
+import { IVideoAttachment } from '@store/chats/models';
 import { getSelectedChatVideosSelector } from '@store/chats/selectors';
 import { IPage } from '@store/common/models';
-import { setSeparators } from '@utils/set-separators';
-import { InfiniteScroll } from '@components/infinite-scroll';
-import { VIDEO_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 import { separateGroupable } from '@utils/date-utils';
-import { ChatAttachment } from '@components/chat-attachment/chat-attachment';
-import { IVideoAttachment } from '@store/chats/models';
+import { VIDEO_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
+import { setSeparators } from '@utils/set-separators';
 
 import { VideoFromList } from './video/video-from-list';
 

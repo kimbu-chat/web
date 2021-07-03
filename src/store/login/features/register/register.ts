@@ -4,15 +4,15 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, select, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
+import { MAIN_API } from '@common/paths';
 import { Meta } from '@store/common/actions';
 import { authRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { Login } from '@store/login/features/login/login';
 import {
   authPhoneNumberSelector,
   confirmationCodeSelector,
   twoLetterCountryCodeSelector,
 } from '@store/login/selectors';
-import { Login } from '@store/login/features/login/login';
-import { MAIN_API } from '@common/paths';
 
 import { LoginSuccess } from '../login/login-success';
 

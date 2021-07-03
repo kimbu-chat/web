@@ -1,11 +1,12 @@
 import React from 'react';
+
 import { AsYouType } from 'libphonenumber-js';
 import noop from 'lodash/noop';
 import { useTranslation } from 'react-i18next';
 
 import { ICountry } from '@common/country';
-import { removeCountryCodeFromPhoneNumber } from '@utils/phone-number-utils';
 import { ErrorTooltip } from '@components/error-tooltip';
+import { removeCountryCodeFromPhoneNumber } from '@utils/phone-number-utils';
 
 import './phone-input.scss';
 

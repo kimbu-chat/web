@@ -1,13 +1,14 @@
 import React from 'react';
+
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
-import { ReactComponent as CurvedShape } from './curvedShape.svg';
-import { ReactComponent as Vector3 } from './vector3.svg';
-import { ReactComponent as Vector2 } from './vector2.svg';
-import { ReactComponent as Vector1 } from './vector1.svg';
-import { ReactComponent as KimbuText } from './kimbu.svg';
 import { ReactComponent as Frame } from './Frame.svg';
+import { ReactComponent as CurvedShape } from './curvedShape.svg';
+import { ReactComponent as KimbuText } from './kimbu.svg';
+import { ReactComponent as Vector1 } from './vector1.svg';
+import { ReactComponent as Vector2 } from './vector2.svg';
+import { ReactComponent as Vector3 } from './vector3.svg';
 
 import './auth-wrapper.scss';
 

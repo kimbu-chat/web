@@ -1,16 +1,18 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
+
+import useInterval from 'use-interval';
+import WaveSurfer from 'wavesurfer.js';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import MicrophonePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.microphone';
-import WaveSurfer from 'wavesurfer.js';
-import useInterval from 'use-interval';
 
-import { ReactComponent as VoiceSvg } from '@icons/voice.svg';
-import { FileType } from '@store/chats/models';
-import { uploadAttachmentRequestAction } from '@store/chats/actions';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import './recording-message.scss';
+import { ReactComponent as VoiceSvg } from '@icons/voice.svg';
+import { uploadAttachmentRequestAction } from '@store/chats/actions';
+import { FileType } from '@store/chats/models';
 import { getMinutesSeconds } from '@utils/date-utils';
+
+import './recording-message.scss';
 
 let mediaRecorder: MediaRecorder | null = null;
 let tracks: MediaStreamTrack[] = [];

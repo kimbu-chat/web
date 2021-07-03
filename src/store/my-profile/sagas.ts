@@ -14,7 +14,6 @@ import { ConfirmChangePhone } from './features/confirm-change-phone/confirm-chan
 
 export function* myProfileSagas() {
   yield all([
-    spawn(GetMyProfile.saga),
     takeLatest(UpdateMyProfile.action, UpdateMyProfile.saga),
     takeLatest(GetMyProfile.action, GetMyProfile.saga),
     takeLatest(GetMyProfileSuccess.action, GetMyProfileSuccess.saga),

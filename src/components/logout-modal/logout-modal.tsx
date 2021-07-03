@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 
@@ -7,6 +7,7 @@ import './logout-modal.scss';
 import { ReactComponent as LogoutSvg } from '@icons/logout.svg';
 import { useEmptyActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { logoutAction } from '@store/auth/actions';
+import { Button } from '@components/button';
 
 interface ILogoutModalProps {
   onClose: () => void;
@@ -17,15 +18,16 @@ const BLOCK_NAME = 'logout-modal';
 export const LogoutModal: React.FC<ILogoutModalProps> = ({ onClose }) => {
   const { t } = useTranslation();
 
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
   const logoutRequest = useEmptyActionWithDeferred(logoutAction);
 
-  const logout = useCallback(
-    () =>
-      logoutRequest().then(() => {
-        window.location.replace('login');
-      }),
-    [logoutRequest],
-  );
+  const logout = useCallback(() => {
+    setIsLoggingOut(true);
+    logoutRequest().then(() => {
+      window.location.replace('login');
+    });
+  }, [logoutRequest]);
 
   return (
     <Modal closeModal={onClose}>
@@ -45,12 +47,13 @@ export const LogoutModal: React.FC<ILogoutModalProps> = ({ onClose }) => {
               className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--cancel`)}>
               {t('logoutModal.cancel')}
             </button>
-            <button
+            <Button
+              loading={isLoggingOut}
               type="button"
               onClick={logout}
               className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--confirm`)}>
               {t('logoutModal.logout')}
-            </button>
+            </Button>
           </div>
         </div>
       </>

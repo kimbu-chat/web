@@ -2,8 +2,7 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 
-import { HttpRequestMethod } from '@store/common/http';
-import { authRequestFactory } from '@store/common/http/auth-request-factory';
+import { HttpRequestMethod, httpRequestFactory } from '@store/common/http';
 import { createEmptyAction } from '@store/common/actions';
 import { messaging } from '@store/middlewares/firebase/firebase';
 import { getPushNotificationToken } from '@store/auth/common/utils';
@@ -36,7 +35,7 @@ export class UnSubscribeFromPushNotifications {
   }
 
   static get httpRequest() {
-    return authRequestFactory<AxiosResponse, IUnsubscribeFromPushNotificationsRequest>(
+    return httpRequestFactory<AxiosResponse, IUnsubscribeFromPushNotificationsRequest>(
       NOTIFICATIONS_API.UNSUBSCRIBE,
       HttpRequestMethod.Post,
     );

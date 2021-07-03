@@ -23,7 +23,6 @@ import { CreateMessage } from './features/create-message/create-message';
 import { DeleteMessage } from './features/delete-message/delete-message';
 import { SubmitEditMessage } from './features/edit-message/submit-edit-message';
 import { GetMessages } from './features/get-messages/get-messages';
-import { MessageTyping } from './features/message-typing/message-typing';
 import { ClearChatHistory } from './features/clear-chat-history/clear-chat-history';
 import { MessageCreatedEventHandler } from './socket-events/message-created/message-created-event-handler';
 import { UserMessageTypingEventHandler } from './socket-events/message-typing/message-typing-event-handler';
@@ -51,7 +50,7 @@ export function* chatSaga() {
     takeLatest(EditGroupChat.action, EditGroupChat.saga),
     takeEvery(UploadAttachmentRequest.action, UploadAttachmentRequest.saga),
     takeEvery(RemoveAttachment.action, RemoveAttachment.saga),
-    takeLatest(MessageTyping.action, MessageTyping.saga),
+    // takeLatest(MessageTyping.action, MessageTyping.saga),
     takeLatest(GetMessages.action, GetMessages.saga),
     takeLatest(ClearChatHistory.action, ClearChatHistory.saga),
     takeEvery(CreateMessage.action, CreateMessage.saga),

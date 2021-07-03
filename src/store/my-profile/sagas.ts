@@ -1,4 +1,4 @@
-import { all, spawn, takeEvery, takeLatest } from 'redux-saga/effects';
+import { all, takeEvery, takeLatest } from 'redux-saga/effects';
 
 import { UpdateMyProfile } from './features/update-my-profile/update-my-profile';
 import { CheckNicknameAvailability } from './features/check-nickname-availability/check-nickname-availability';

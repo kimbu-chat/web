@@ -1,5 +1,5 @@
-import { InterlocutorType } from './models';
 import { ChatIdDetails } from './chat-id-details';
+import { InterlocutorType } from './models';
 
 export class ChatId {
   public static from(userId?: number, groupChatId?: number): ChatIdDetails {

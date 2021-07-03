@@ -1,13 +1,13 @@
 import React, { useCallback, useState } from 'react';
+
 import { useTranslation } from 'react-i18next';
 
-import { Modal } from '@components/modal';
 import { Button } from '@components/button';
-import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
+import { CheckBox } from '@components/check-box';
+import { Modal } from '@components/modal';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
 import { deleteMessageAction } from '@store/chats/actions';
-
-import { CheckBox } from '../../check-box/check-box';
 
 import './delete-message-modal.scss';
 

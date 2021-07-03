@@ -1,8 +1,9 @@
 import React, { useCallback, useMemo, useState } from 'react';
+
 import { useSelector } from 'react-redux';
 
-import { SearchBox } from '@components/search-box';
 import { InfiniteScroll } from '@components/infinite-scroll';
+import { SearchBox } from '@components/search-box';
 import { SelectEntity } from '@components/select-entity';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { IPage } from '@store/common/models';

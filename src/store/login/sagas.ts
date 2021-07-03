@@ -1,9 +1,9 @@
 import { all, takeLatest } from 'redux-saga/effects';
 
 import { ConfirmPhone } from './features/confirm-phone/confirm-phone';
-import { SendSmsCode } from './features/send-sms-code/send-sms-code';
-import { Register } from './features/register/register';
 import { Login } from './features/login/login';
+import { Register } from './features/register/register';
+import { SendSmsCode } from './features/send-sms-code/send-sms-code';
 
 export function* loginSaga() {
   yield all([

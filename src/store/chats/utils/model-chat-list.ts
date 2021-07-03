@@ -1,7 +1,7 @@
-import { ById } from '../models/by-id';
 /* eslint-disable no-param-reassign */
 import { ChatId } from '../chat-id';
 import { MessageState, InterlocutorType, INormalizedChat } from '../models';
+import { ById } from '../models/by-id';
 
 export const modelChatList = (chats?: ById<INormalizedChat>) => {
   const modeledChats: ById<INormalizedChat> = {};

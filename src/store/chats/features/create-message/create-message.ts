@@ -1,18 +1,18 @@
+import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { AxiosResponse } from 'axios';
 
-import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
-import { MessageState } from '../../models';
 import { IChatsState } from '../../chats-state';
+import { MessageState } from '../../models';
 
-import { CreateMessageSuccess } from './create-message-success';
 import { ICreateMessageActionPayload } from './action-payloads/create-message-action-payload';
 import { ICreateMessageApiRequest } from './api-requests/create-message-api-request';
+import { CreateMessageSuccess } from './create-message-success';
 
 export class CreateMessage {
   static get action() {

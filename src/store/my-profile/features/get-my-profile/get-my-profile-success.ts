@@ -1,6 +1,6 @@
-import { apply } from 'redux-saga/effects';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
+import { apply } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
 import { MyProfileService } from '../../../../services/my-profile-service';

@@ -1,18 +1,20 @@
 import React, { useCallback } from 'react';
-import './selected-messages-data.scss';
-import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
 
-import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { getSelectedMessagesIdSelector } from '@store/chats/selectors';
-import { ReactComponent as CloseSvg } from '@icons/close.svg';
-import { ReactComponent as ForwardSvg } from '@icons/forward.svg';
-import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+
 import { ForwardModal } from '@components/forward-modal';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { useToggledState } from '@hooks/use-toggled-state';
+import { ReactComponent as CloseSvg } from '@icons/close.svg';
+import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
+import { ReactComponent as ForwardSvg } from '@icons/forward.svg';
 import { copyMessagesAction, resetSelectedMessagesAction } from '@store/chats/actions';
+import { getSelectedMessagesIdSelector } from '@store/chats/selectors';
 
 import { DeleteMessageModal } from './delete-message-modal/delete-message-modal';
+
+import './selected-messages-data.scss';
 
 export const SelectedMessagesData = () => {
   const selectedMessages = useSelector(getSelectedMessagesIdSelector);

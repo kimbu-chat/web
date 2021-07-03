@@ -1,13 +1,14 @@
 import React from 'react';
+
 import { useSelector } from 'react-redux';
 
+import { Avatar } from '@components/avatar';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ReactComponent as CloseSvg } from '@icons/close.svg';
 import { ReactComponent as ReplySvg } from '@icons/reply.svg';
-import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { getMessageToReplySelector } from '@store/chats/selectors';
-import { Avatar } from '@components/avatar';
-import { myIdSelector } from '@store/my-profile/selectors';
 import { resetReplyToMessageAction } from '@store/chats/actions';
+import { getMessageToReplySelector } from '@store/chats/selectors';
+import { myIdSelector } from '@store/my-profile/selectors';
 import { getUserSelector } from '@store/users/selectors';
 
 import './responding-message.scss';

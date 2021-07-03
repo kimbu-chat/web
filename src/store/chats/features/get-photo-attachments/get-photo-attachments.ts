@@ -4,17 +4,17 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
-import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
-import { getInfoChatIdSelector } from '../../selectors';
 import { HTTPStatusCode } from '../../../../common/http-status-code';
-import { IPictureAttachment } from '../../models';
 import { IChatsState } from '../../chats-state';
+import { IPictureAttachment } from '../../models';
+import { getInfoChatIdSelector } from '../../selectors';
 
 import { IGetPhotoAttachmentsActionPayload } from './action-payloads/get-photo-attachments-action-payload';
-import { GetPhotoAttachmentsSuccess } from './get-photo-attachments-success';
 import { IGetPhotoAttachmentsApiRequest } from './api-requests/get-photo-attachments-api-request';
+import { GetPhotoAttachmentsSuccess } from './get-photo-attachments-success';
 
 export class GetPhotoAttachments {
   static get action() {

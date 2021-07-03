@@ -2,8 +2,9 @@ import React from 'react';
 
 import { IPictureAttachment, IVideoAttachment } from '@store/chats/models';
 
-import './media-grid.scss';
 import { MessageMediaAttachment } from '../media-attachment/media-attachment';
+
+import './media-grid.scss';
 
 interface IMediaGridProps {
   media: (IPictureAttachment | IVideoAttachment)[];

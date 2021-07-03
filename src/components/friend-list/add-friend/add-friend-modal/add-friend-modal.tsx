@@ -1,21 +1,22 @@
 import React, { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import parsePhoneNumberFromString, { parsePhoneNumber } from 'libphonenumber-js';
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import classNames from 'classnames';
 
-import { ReactComponent as AddContactSvg } from '@icons/add-users.svg';
-import { Modal } from '@components/modal';
-import { Button } from '@components/button';
-import { PhoneInputGroup } from '@components/phone-input-group';
+import classNames from 'classnames';
+import parsePhoneNumberFromString, { parsePhoneNumber } from 'libphonenumber-js';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+
 import { Avatar } from '@components/avatar';
-import { IUser } from '@store/common/models';
+import { Button } from '@components/button';
+import { Modal } from '@components/modal';
+import { PhoneInputGroup } from '@components/phone-input-group';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { ReactComponent as AddContactSvg } from '@icons/add-users.svg';
 import { ReactComponent as CloseSvg } from '@icons/close-x-bold.svg';
 import { ChatId } from '@store/chats/chat-id';
-import { isFriend } from '@store/friends/selectors';
+import { IUser } from '@store/common/models';
 import { addFriendAction, getUserByPhoneAction } from '@store/friends/actions';
+import { isFriend } from '@store/friends/selectors';
 import { addOrUpdateUsers } from '@store/users/actions';
 
 import './add-friend-modal.scss';

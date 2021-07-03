@@ -3,12 +3,12 @@ import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
-import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
-import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
-import { Meta } from '@store/common/actions';
 import { HTTPStatusCode } from '@common/http-status-code';
 import { MAIN_API } from '@common/paths';
+import { Meta } from '@store/common/actions';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { myProfileSelector } from '@store/my-profile/selectors';
+import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 
 import { IUpdateMyProfileActionPayload } from './action-payloads/update-my-profile-action-payload';
 import { IUpdateMyProfileApiRequest } from './api-requests/update-my-profile-api-request';

@@ -2,8 +2,8 @@ import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
-import { doIhaveCallSelector, getIsActiveCallIncomingSelector } from '../../selectors';
 import { getPeerConnection } from '../../../middlewares/webRTC/peerConnectionFactory';
+import { doIhaveCallSelector, getIsActiveCallIncomingSelector } from '../../selectors';
 import {
   getIsSettingRemoteAnswerPending,
   getMakingOffer,

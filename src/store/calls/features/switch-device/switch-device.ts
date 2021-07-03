@@ -3,12 +3,13 @@ import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
+import { ICallsState } from '../../calls-state';
+import { InputType } from '../../common/enums/input-type';
 import {
   getAudioConstraintsSelector,
   getVideoConstraintsSelector,
   doIhaveCallSelector,
 } from '../../selectors';
-import { ICallsState } from '../../calls-state';
 import {
   getVideoSender,
   getUserAudio,
@@ -16,7 +17,6 @@ import {
   tracks,
   getAudioSender,
 } from '../../utils/user-media';
-import { InputType } from '../../common/enums/input-type';
 
 import { ISwitchDeviceActionPayload } from './action-payloads/switch-device-action-payload';
 

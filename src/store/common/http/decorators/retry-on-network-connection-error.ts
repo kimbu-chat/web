@@ -1,9 +1,9 @@
-import { call, race, take } from 'redux-saga/effects';
 import { SagaIterator } from 'redux-saga';
+import { call, race, take } from 'redux-saga/effects';
 
 import { isNetworkError } from '../../../../utils/error-utils';
-import { WebsocketsConnected } from '../../../internet/features/websockets-connection/websockets-connected';
 import { InternetConnected } from '../../../internet/features/internet-connection-check/internet-connected';
+import { WebsocketsConnected } from '../../../internet/features/websockets-connection/websockets-connected';
 
 export function* retryOnNetworkConnectionError(handler: () => SagaIterator): SagaIterator {
   while (true) {

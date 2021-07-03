@@ -2,11 +2,11 @@ import { createReducer } from 'typesafe-actions';
 
 import { AddFriendSuccess } from './features/add-friend/add-friend-success';
 import { DeleteFriendSuccess } from './features/delete-friend/delete-friend-success';
-import { GetFriends } from './features/get-friends/get-friends';
 import { GetFriendsSuccess } from './features/get-friends/get-friends-success';
-import { UserContactsRemovedEventHandler } from './socket-events/user-contacts-removed/user-contacts-removed-event-handler';
-import { IFriendsState } from './friends-state';
+import { GetFriends } from './features/get-friends/get-friends';
 import { ResetSearchFriends } from './features/reset-search-friends/reset-search-friends';
+import { IFriendsState } from './friends-state';
+import { UserContactsRemovedEventHandler } from './socket-events/user-contacts-removed/user-contacts-removed-event-handler';
 
 const initialState: IFriendsState = {
   friends: {

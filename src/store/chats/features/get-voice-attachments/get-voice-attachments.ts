@@ -1,20 +1,20 @@
 import { AxiosResponse } from 'axios';
+import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import produce from 'immer';
 
-import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { HTTPStatusCode } from '../../../../common/http-status-code';
-import { getInfoChatIdSelector } from '../../selectors';
-import { IVoiceAttachment } from '../../models';
 import { IChatsState } from '../../chats-state';
+import { IVoiceAttachment } from '../../models';
+import { getInfoChatIdSelector } from '../../selectors';
 
 import { IGetVoiceAttachmentsActionPayload } from './action-payloads/get-voice-attachments-action-payload';
-import { GetVoiceAttachmentsSuccess } from './get-voice-attachments-success';
 import { IGetVoiceAttachmentsApiRequest } from './api-requests/get-voice-attachments-api-request';
+import { GetVoiceAttachmentsSuccess } from './get-voice-attachments-success';
 
 export class GetVoiceAttachments {
   static get action() {

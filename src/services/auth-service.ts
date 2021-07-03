@@ -1,5 +1,5 @@
-import { BrowserStorage } from '@utils/browser-storage';
 import { ISecurityTokens } from '@store/auth/common/models';
+import { BrowserStorage } from '@utils/browser-storage';
 import { getAccessTokenExpirationTime } from '@utils/get-access-token-expiration-time';
 
 export class AuthService {

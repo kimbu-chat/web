@@ -1,18 +1,20 @@
 import React, { useCallback } from 'react';
+
 import { useSelector } from 'react-redux';
 
+import { ChatAttachment } from '@components/chat-attachment/chat-attachment';
+import { FileAttachment } from '@components/file-attachment';
+import { InfiniteScroll } from '@components/infinite-scroll';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getRawAttachmentsAction } from '@store/chats/actions';
+import { IBaseAttachment } from '@store/chats/models';
 import { getSelectedChatFilesSelector } from '@store/chats/selectors';
 import { IPage } from '@store/common/models';
-import { setSeparators } from '@utils/set-separators';
-import { InfiniteScroll } from '@components/infinite-scroll';
-import { FileAttachment } from '@components/file-attachment';
-import { FILE_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
-import './file-list.scss';
 import { separateGroupable } from '@utils/date-utils';
-import { ChatAttachment } from '@components/chat-attachment/chat-attachment';
-import { IBaseAttachment } from '@store/chats/models';
+import { FILE_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
+import { setSeparators } from '@utils/set-separators';
+
+import './file-list.scss';
 
 const FileAttachmentComponent: React.FC<IBaseAttachment> = ({ ...file }) => (
   <div>

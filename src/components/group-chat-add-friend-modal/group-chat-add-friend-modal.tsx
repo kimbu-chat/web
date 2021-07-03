@@ -1,22 +1,23 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import classNames from 'classnames';
 
-import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { Modal } from '@components/modal';
+import classNames from 'classnames';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+
 import { Button } from '@components/button';
 import { InfiniteScroll } from '@components/infinite-scroll';
+import { Modal } from '@components/modal';
 import { SearchBox } from '@components/search-box';
-import { getMyFriendsListSelector, getMySearchFriendsListSelector } from '@store/friends/selectors';
-import { IPage } from '@store/common/models';
-import { FRIENDS_LIMIT } from '@utils/pagination-limits';
-import { ReactComponent as GroupSvg } from '@icons/group.svg';
-import { getFriendsAction, resetSearchFriendsAction } from '@store/friends/actions';
+import { SelectEntity } from '@components/select-entity';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { ReactComponent as GroupSvg } from '@icons/group.svg';
 import { addUsersToGroupChatAction } from '@store/chats/actions';
+import { IPage } from '@store/common/models';
+import { getFriendsAction, resetSearchFriendsAction } from '@store/friends/actions';
+import { getMyFriendsListSelector, getMySearchFriendsListSelector } from '@store/friends/selectors';
+import { FRIENDS_LIMIT } from '@utils/pagination-limits';
 
-import { SelectEntity } from '../select-entity/select-entity';
 import './group-chat-add-friend-modal.scss';
 
 interface IGroupChatAddFriendModalProps {

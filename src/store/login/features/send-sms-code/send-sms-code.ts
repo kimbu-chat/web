@@ -4,16 +4,16 @@ import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
-import { HttpRequestMethod } from '@store/common/http/http-request-method';
-import { authRequestFactory } from '@store/common/http/auth-request-factory';
 import { HTTPStatusCode } from '@common/http-status-code';
-import { Meta } from '@store/common/actions';
 import { MAIN_API } from '@common/paths';
+import { Meta } from '@store/common/actions';
+import { authRequestFactory } from '@store/common/http/auth-request-factory';
+import { HttpRequestMethod } from '@store/common/http/http-request-method';
 
 import { ISendSmsCodeActionPayload } from './action-payloads/send-sms-code-action-payload';
+import { ISendSmsCodeApiRequest } from './api-requests/send-sms-code-api-request';
 import { SendSmsCodeFailure } from './send-sms-code-failure';
 import { SendSmsCodeSuccess } from './send-sms-code-success';
-import { ISendSmsCodeApiRequest } from './api-requests/send-sms-code-api-request';
 
 import type { ILoginState } from '@store/login/login-state';
 

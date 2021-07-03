@@ -1,13 +1,13 @@
-import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import { Reducer, RootAction, RootState } from 'typesafe-actions';
 import { all } from 'redux-saga/effects';
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
+import { Reducer, RootAction, RootState } from 'typesafe-actions';
 
 import { signalRInvokeMiddleware } from './middlewares/websockets/signalR';
 
 import type { RootReducer } from './root-reducer';
-import type { Store, Dispatch } from 'redux';
 import type { Saga, Task } from 'redux-saga';
+import type { Store, Dispatch } from 'redux';
 
 export enum StoreKeys {
   AUTH = 'auth',

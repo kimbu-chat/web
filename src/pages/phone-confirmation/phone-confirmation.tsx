@@ -1,20 +1,22 @@
 import React, { useState, useCallback, Suspense, useEffect } from 'react';
+
+import parsePhoneNumberFromString from 'libphonenumber-js';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import parsePhoneNumberFromString from 'libphonenumber-js';
 
-import { authLoadingSelector } from '@store/login/selectors';
+import AuthWrapper from '@components/auth-wrapper';
 import { CountryPhoneInput } from '@components/country-phone-input';
 import { Loader } from '@components/loader';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import { sendSmsCodeAction } from '@store/login/actions';
-import AuthWrapper from '@components/auth-wrapper';
-import { CODE_CONFIRMATION_PATH } from '@routing/routing.constants';
 import { preloadAuthRoute } from '@routing/routes/auth-routes';
+import { CODE_CONFIRMATION_PATH } from '@routing/routing.constants';
+import { sendSmsCodeAction } from '@store/login/actions';
+import { authLoadingSelector } from '@store/login/selectors';
+
+import { useToggledState } from '../../hooks/use-toggled-state';
 
 import './phone-confirmation.scss';
-import { useToggledState } from '../../hooks/use-toggled-state';
 
 const BLOCK_NAME = 'phone-confirmation';
 

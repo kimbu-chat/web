@@ -1,7 +1,8 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
+
+import { AsYouType } from 'libphonenumber-js';
 import find from 'lodash/find';
 import { useTranslation } from 'react-i18next';
-import { AsYouType } from 'libphonenumber-js';
 
 import { ReactComponent as ArrowDown } from '@icons/arrow-down.svg';
 import { getCountryByIp } from '@utils/get-country-by-ip';

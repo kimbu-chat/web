@@ -1,14 +1,16 @@
-import { useTranslation } from 'react-i18next';
 import React, { useCallback } from 'react';
+
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { changeLanguageAction } from '@store/settings/actions';
-import { getCurrentLanguageSelector } from '@store/settings/selectors';
+import { RadioBox } from '@components/radio-box';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { Langs } from '@store/settings/features/models';
 import { ReactComponent as RussiaSvg } from '@icons/Russian.svg';
 import { ReactComponent as USASvg } from '@icons/Usa.svg';
-import { RadioBox } from '@components/radio-box';
+import { changeLanguageAction } from '@store/settings/actions';
+import { Langs } from '@store/settings/features/models';
+import { getCurrentLanguageSelector } from '@store/settings/selectors';
+
 import './language-settings.scss';
 
 const LanguageSettings = () => {

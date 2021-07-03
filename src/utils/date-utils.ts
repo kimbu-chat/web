@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 
-import { SECOND_DURATION } from '@utils/constants';
 import { IGroupable } from '@store/chats/models';
+import { SECOND_DURATION } from '@utils/constants';
 
 import { doesYearDifferFromCurrent } from './set-separators';
 

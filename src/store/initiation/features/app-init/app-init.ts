@@ -1,11 +1,11 @@
+import produce from 'immer';
+import isEmpty from 'lodash/isEmpty';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
-import isEmpty from 'lodash/isEmpty';
-import produce from 'immer';
 
-import { createEmptyAction } from '@store/common/actions';
 import { AuthService } from '@services/auth-service';
 import { AuthInit } from '@store/auth/features/initiate-auth/initiate-auth';
+import { createEmptyAction } from '@store/common/actions';
 import { GetMyProfile } from '@store/my-profile/features/get-my-profile/get-my-profile';
 
 import { StartInternetConnectionStateChangeWatcher } from '../../../internet/features/internet-connection-check/start-internet-connection-state-change-watcher';

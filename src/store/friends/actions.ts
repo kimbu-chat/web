@@ -1,11 +1,11 @@
-import { AddFriend } from './features/add-friend/add-friend';
 import { AddFriendSuccess } from './features/add-friend/add-friend-success';
-import { DeleteFriend } from './features/delete-friend/delete-friend';
+import { AddFriend } from './features/add-friend/add-friend';
 import { DeleteFriendSuccess } from './features/delete-friend/delete-friend-success';
-import { DismissToAddContact } from './features/dismiss-to-add-contact/dismiss-to-add-contact';
+import { DeleteFriend } from './features/delete-friend/delete-friend';
 import { DismissToAddContactSuccess } from './features/dismiss-to-add-contact/dismiss-to-add-contact-success';
-import { GetFriends } from './features/get-friends/get-friends';
+import { DismissToAddContact } from './features/dismiss-to-add-contact/dismiss-to-add-contact';
 import { GetFriendsSuccess } from './features/get-friends/get-friends-success';
+import { GetFriends } from './features/get-friends/get-friends';
 import { GetUserByPhone } from './features/get-user-by-phone/get-user-by-phone';
 import { ResetSearchFriends } from './features/reset-search-friends/reset-search-friends';
 import { UserContactsRemovedEventHandler } from './socket-events/user-contacts-removed/user-contacts-removed-event-handler';

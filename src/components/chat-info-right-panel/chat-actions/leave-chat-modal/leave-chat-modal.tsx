@@ -1,14 +1,15 @@
-import { useTranslation } from 'react-i18next';
 import React, { useCallback, useState } from 'react';
+
+import classNames from 'classnames';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import classNames from 'classnames';
 
-import { Modal } from '@components/modal';
 import { Button } from '@components/button';
+import { Modal } from '@components/modal';
+import { useEmptyActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { leaveGroupChatAction } from '@store/chats/actions';
 import { getSelectedGroupChatNameSelector } from '@store/chats/selectors';
-import { useEmptyActionWithDeferred } from '@hooks/use-action-with-deferred';
 
 import './leave-chat-modal.scss';
 

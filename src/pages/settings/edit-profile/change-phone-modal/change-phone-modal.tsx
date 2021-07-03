@@ -1,20 +1,22 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import parsePhoneNumberFromString from 'libphonenumber-js';
-import useInterval from 'use-interval';
-import classNames from 'classnames';
 
-import { ReactComponent as ChatSvg } from '@icons/single-chat.svg';
-import { ReactComponent as CrayonSvg } from '@icons/crayon.svg';
-import { Modal } from '@components/modal';
+import classNames from 'classnames';
+import parsePhoneNumberFromString from 'libphonenumber-js';
+import { useTranslation } from 'react-i18next';
+import useInterval from 'use-interval';
+
 import { Button } from '@components/button';
-import { PhoneInputGroup } from '@components/phone-input-group';
 import { LabeledInput } from '@components/labeled-input';
+import { Modal } from '@components/modal';
+import { PhoneInputGroup } from '@components/phone-input-group';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import { confirmChangePhone, sendSmsChangePhone } from '@store/my-profile/actions';
+import { ReactComponent as CrayonSvg } from '@icons/crayon.svg';
+import { ReactComponent as ChatSvg } from '@icons/single-chat.svg';
 import { getUserByPhoneAction } from '@store/friends/actions';
-import './change-phone-modal.scss';
+import { confirmChangePhone, sendSmsChangePhone } from '@store/my-profile/actions';
 import { getMinutesSeconds } from '@utils/date-utils';
+
+import './change-phone-modal.scss';
 
 interface IChangePhoneModalProps {
   onClose: () => void;

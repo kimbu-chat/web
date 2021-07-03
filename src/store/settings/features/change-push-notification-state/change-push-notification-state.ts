@@ -2,11 +2,11 @@ import { SagaIterator } from 'redux-saga';
 import { select, put, call } from 'redux-saga/effects';
 
 import { SettingsService } from '@services/settings-service';
-import { arePushNotificationsEnabledSelector } from '@store/settings/selectors';
 import { createEmptyDefferedAction } from '@store/common/actions';
+import { arePushNotificationsEnabledSelector } from '@store/settings/selectors';
 
-import { UnSubscribeFromPushNotifications } from '../../../auth/features/un-subscribe-from-push-notifications/un-subscribe-from-push-notifications';
 import { SubscribeToPushNotifications } from '../../../auth/features/subscribe-to-push-notifications/subscribe-to-push-notifications';
+import { UnSubscribeFromPushNotifications } from '../../../auth/features/un-subscribe-from-push-notifications/un-subscribe-from-push-notifications';
 
 import { ChangePushNotificationStateSuccess } from './change-push-notification-state-success';
 

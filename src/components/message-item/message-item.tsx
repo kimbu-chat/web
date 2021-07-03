@@ -1,28 +1,28 @@
 import React, { useCallback, useMemo, ReactElement } from 'react';
-import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import dayjs from 'dayjs';
 
-import { myIdSelector } from '@store/my-profile/selectors';
-import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { getMessageSelector, getIsSelectMessagesStateSelector } from '@store/chats/selectors';
+import dayjs from 'dayjs';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+
+import { MessageAudioAttachment } from '@components/audio-attachment';
 import { Avatar } from '@components/avatar';
 import { FileAttachment } from '@components/file-attachment';
-import { MessageAudioAttachment } from '@components/audio-attachment';
-import { CallStatus } from '@store/common/models/call-status';
-import { ReactComponent as CrayonSvg } from '@icons/crayon.svg';
-import { ReactComponent as LeaveSvg } from '@icons/leave.svg';
-import { ReactComponent as CreateChatSvg } from '@icons/create-chat.svg';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ReactComponent as AddUsersSvg } from '@icons/add-users.svg';
-import { ReactComponent as OutgoingCallSvg } from '@icons/outgoing-call.svg';
-import { ReactComponent as IncomingCallSvg } from '@icons/incoming-call.svg';
-import { ReactComponent as MissedCallSvg } from '@icons/missed-call.svg';
+import { ReactComponent as CrayonSvg } from '@icons/crayon.svg';
+import { ReactComponent as CreateChatSvg } from '@icons/create-chat.svg';
 import { ReactComponent as DeclinedCallSvg } from '@icons/declined-call.svg';
-import { ReactComponent as PictureSvg } from '@icons/picture.svg';
+import { ReactComponent as IncomingCallSvg } from '@icons/incoming-call.svg';
+import { ReactComponent as LeaveSvg } from '@icons/leave.svg';
 import { ReactComponent as MessageQeuedSvg } from '@icons/message-queued.svg';
-import { ReactComponent as MessageSentSvg } from '@icons/message-sent.svg';
 import { ReactComponent as MessageReadSvg } from '@icons/message-read.svg';
+import { ReactComponent as MessageSentSvg } from '@icons/message-sent.svg';
+import { ReactComponent as MissedCallSvg } from '@icons/missed-call.svg';
+import { ReactComponent as OutgoingCallSvg } from '@icons/outgoing-call.svg';
+import { ReactComponent as PictureSvg } from '@icons/picture.svg';
 import { ReactComponent as SelectSvg } from '@icons/select.svg';
+import { changeChatInfoOpenedAction, selectMessageAction } from '@store/chats/actions';
+import { ChatId } from '@store/chats/chat-id';
 import {
   IBaseAttachment,
   IPictureAttachment,
@@ -34,15 +34,16 @@ import {
   SystemMessageType,
   MessageLinkType,
 } from '@store/chats/models';
+import { getMessageSelector, getIsSelectMessagesStateSelector } from '@store/chats/selectors';
+import { CallStatus } from '@store/common/models/call-status';
+import { myIdSelector } from '@store/my-profile/selectors';
+import { getUserSelector } from '@store/users/selectors';
 import {
   constructSystemMessageText,
   getSystemMessageData,
   ICallMessage,
 } from '@utils/message-utils';
-import { changeChatInfoOpenedAction, selectMessageAction } from '@store/chats/actions';
-import { getUserSelector } from '@store/users/selectors';
 import { getUserName } from '@utils/user-utils';
-import { ChatId } from '@store/chats/chat-id';
 
 import { MediaGrid } from './attachments/media-grid/media-grid';
 import { RecordingAttachment } from './attachments/recording-attachment/recording-attachment';

@@ -6,6 +6,7 @@ import { createSystemMessage } from '@utils/message-utils';
 import messageCameUnselected from '../../../../assets/sounds/notifications/messsage-came-unselected.ogg';
 import { playSoundSafely } from '../../../../utils/current-music';
 import { ChatId } from '../../chat-id';
+import { IChatsState } from '../../chats-state';
 import {
   SystemMessageType,
   MessageState,
@@ -14,7 +15,6 @@ import {
   INormalizedMessage,
 } from '../../models';
 import { getChatExistsDraftSelector } from '../../selectors';
-import { IChatsState } from '../../chats-state';
 
 import { IGroupChatCreatedIntegrationEvent } from './group-chat-сreated-integration-event';
 

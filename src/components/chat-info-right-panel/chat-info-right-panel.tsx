@@ -1,20 +1,22 @@
 import React, { useMemo, useEffect } from 'react';
-import './chat-info-right-panel.scss';
+
 import { useSelector } from 'react-redux';
 
-import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { getInfoChatSelector } from '@store/chats/selectors';
 import { Avatar } from '@components/avatar';
 import { MediaModal } from '@components/image-modal';
-import { FileType } from '@store/chats/models';
-import { getUserSelector } from '@store/users/selectors';
-import { getChatInfoAction } from '@store/chats/actions';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { useToggledState } from '@hooks/use-toggled-state';
+import { getChatInfoAction } from '@store/chats/actions';
+import { FileType } from '@store/chats/models';
+import { getInfoChatSelector } from '@store/chats/selectors';
+import { getUserSelector } from '@store/users/selectors';
 
-import { InterlocutorInfo } from './interlocutor-info/interlocutor-info';
 import { ChatActions as ChatInfoActions } from './chat-actions/chat-actions';
-import { ChatMembers } from './chat-members/chat-members';
 import { ChatMedia } from './chat-media/chat-media';
+import { ChatMembers } from './chat-members/chat-members';
+import { InterlocutorInfo } from './interlocutor-info/interlocutor-info';
+
+import './chat-info-right-panel.scss';
 
 const BLOCK_NAME = 'chat-info';
 

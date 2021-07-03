@@ -1,5 +1,6 @@
-import classNames from 'classnames';
 import { useState, useCallback } from 'react';
+
+import classNames from 'classnames';
 
 import { ANIMATION_DURATION } from '../utils/constants';
 

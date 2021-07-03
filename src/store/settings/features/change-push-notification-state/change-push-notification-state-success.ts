@@ -1,7 +1,7 @@
 import produce from 'immer';
 
-import { IUserSettings } from '@store/settings/user-settings-state';
 import { createEmptyAction } from '@store/common/actions';
+import { IUserSettings } from '@store/settings/user-settings-state';
 
 export class ChangePushNotificationStateSuccess {
   static get action() {

@@ -1,22 +1,22 @@
-import { BlockUser } from './features/block-user/block-user';
 import { BlockUserSuccess } from './features/block-user/block-user-success';
+import { BlockUser } from './features/block-user/block-user';
 import { ChangeFontSize } from './features/change-font-size/change-font-size';
 import { ChangeLanguage } from './features/change-language/change-language';
 import { ChangeNotificationSoundState } from './features/change-notification-sound-state/change-notification-sound-state';
-import { ChangePushNotificationState } from './features/change-push-notification-state/change-push-notification-state';
 import { ChangePushNotificationStateSuccess } from './features/change-push-notification-state/change-push-notification-state-success';
+import { ChangePushNotificationState } from './features/change-push-notification-state/change-push-notification-state';
 import { ChangeTheme } from './features/change-theme/change-theme';
 import { ChangeTypingStrategy } from './features/change-typing-strategy/change-typing-strategy';
-import { GetBlackList } from './features/get-black-list/get-black-list';
 import { GetBlackListSuccess } from './features/get-black-list/get-black-list-success';
-import { GetSessionList } from './features/get-sesion-list/get-sesion-list';
+import { GetBlackList } from './features/get-black-list/get-black-list';
 import { GetSessionListSuccess } from './features/get-sesion-list/get-sesion-list-success';
-import { GetUserSettings } from './features/get-user-settings/get-user-settings';
+import { GetSessionList } from './features/get-sesion-list/get-sesion-list';
 import { GetUserSettingsSuccess } from './features/get-user-settings/get-user-settings-success';
-import { RevokeSession } from './features/revoke-session/revoke-session';
+import { GetUserSettings } from './features/get-user-settings/get-user-settings';
 import { RevokeSessionSuccess } from './features/revoke-session/revoke-session-success';
-import { UnblockUser } from './features/unblock-user/unblock-user';
+import { RevokeSession } from './features/revoke-session/revoke-session';
 import { UnblockUserSuccess } from './features/unblock-user/unblock-user-success';
+import { UnblockUser } from './features/unblock-user/unblock-user';
 
 // SettingsActions
 export const changeLanguageAction = ChangeLanguage.action;

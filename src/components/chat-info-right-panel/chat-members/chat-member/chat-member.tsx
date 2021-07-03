@@ -1,14 +1,15 @@
 import React, { useCallback, useState } from 'react';
+
 import classnames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
-import { TimeUpdateable } from '@components/time-updateable';
 import { Avatar } from '@components/avatar';
+import { TimeUpdateable } from '@components/time-updateable';
+import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
 import { MyProfileService } from '@services/my-profile-service';
-import { getUserName } from '@utils/user-utils';
 import { getUserSelector } from '@store/users/selectors';
+import { getUserName } from '@utils/user-utils';
 
 import { DeleteChatMemberModal } from '../delete-chat-member-modal/delete-chat-member-modal';
 

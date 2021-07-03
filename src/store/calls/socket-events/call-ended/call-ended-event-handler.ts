@@ -1,27 +1,27 @@
-import { SagaIterator } from 'redux-saga';
-import { createAction } from 'typesafe-actions';
 import { AxiosResponse } from 'axios';
-import { select, put, call } from 'redux-saga/effects';
 import { normalize } from 'normalizr';
+import { SagaIterator } from 'redux-saga';
+import { select, put, call } from 'redux-saga/effects';
+import { createAction } from 'typesafe-actions';
 
-import { getUserSelector } from '@store/users/selectors';
+import { MAIN_API } from '@common/paths';
+import { ById } from '@store/chats/models/by-id';
 import { httpRequestFactory } from '@store/common/http/http-factory';
 import { HttpRequestMethod } from '@store/common/http/http-request-method';
-import { replaceInUrl } from '@utils/replace-in-url';
-import { MAIN_API } from '@common/paths';
 import { IUser } from '@store/common/models';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
-import { ById } from '@store/chats/models/by-id';
+import { getUserSelector } from '@store/users/selectors';
+import { replaceInUrl } from '@utils/replace-in-url';
 
-import { myIdSelector } from '../../../my-profile/selectors';
-import { callNormalizationSchema } from '../../normalization';
 import { resetPeerConnection } from '../../../middlewares/webRTC/reset-peer-connection';
-import { getCallInterlocutorIdSelector, getIsActiveCallIncomingSelector } from '../../selectors';
+import { myIdSelector } from '../../../my-profile/selectors';
 import { ICall, INormalizedCall } from '../../common/models';
+import { callNormalizationSchema } from '../../normalization';
+import { getCallInterlocutorIdSelector, getIsActiveCallIncomingSelector } from '../../selectors';
 
-import { ICallEndedIntegrationEvent } from './call-ended-integration-event';
 import { IGetCallByIdApiRequest } from './api-requests/get-call-by-id-api-request';
 import { CallEndedEventHandlerSuccess } from './call-ended-event-handler-success';
+import { ICallEndedIntegrationEvent } from './call-ended-integration-event';
 
 export class CallEndedEventHandler {
   static get action() {
@@ -32,14 +32,8 @@ export class CallEndedEventHandler {
     return function* callEndedSaga(
       action: ReturnType<typeof CallEndedEventHandler.action>,
     ): SagaIterator {
-      const {
-        userInterlocutorId,
-        id,
-        startDateTime,
-        endDateTime,
-        creationDateTime,
-        status,
-      } = action.payload;
+      const { userInterlocutorId, id, startDateTime, endDateTime, creationDateTime, status } =
+        action.payload;
       const interlocutorId = yield select(getCallInterlocutorIdSelector);
 
       if (!interlocutorId || userInterlocutorId === interlocutorId) {

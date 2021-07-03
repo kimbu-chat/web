@@ -1,17 +1,19 @@
 import React, { useCallback, useState, useMemo, useEffect } from 'react';
+
 import { useSelector } from 'react-redux';
 
-import { IPage } from '@store/common/models';
-import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import { getFriendsAction, resetSearchFriendsAction } from '@store/friends/actions';
-import { getMyFriendsListSelector, getMySearchFriendsListSelector } from '@store/friends/selectors';
 import { InfiniteScroll } from '@components/infinite-scroll';
 import { SearchBox } from '@components/search-box';
-import { FRIENDS_LIMIT } from '@utils/pagination-limits';
-import './friend-list.scss';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { IPage } from '@store/common/models';
+import { getFriendsAction, resetSearchFriendsAction } from '@store/friends/actions';
+import { getMyFriendsListSelector, getMySearchFriendsListSelector } from '@store/friends/selectors';
+import { FRIENDS_LIMIT } from '@utils/pagination-limits';
 
 import { Friend } from './friend-from-list/friend';
+
+import './friend-list.scss';
 
 export const FriendList = () => {
   const friendsList = useSelector(getMyFriendsListSelector);

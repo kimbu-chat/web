@@ -1,20 +1,22 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
 
-import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { Modal } from '@components/modal';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+
 import { InfiniteScroll } from '@components/infinite-scroll';
+import { Modal } from '@components/modal';
+import { SearchBox } from '@components/search-box';
 import { SelectEntity } from '@components/select-entity';
-import { SearchBox } from '@components/search-box/search-box';
-import './add-call-modal.scss';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ReactComponent as AddCallSvg } from '@icons/add-call.svg';
 import { ReactComponent as CallSvg } from '@icons/call.svg';
+import { outgoingCallAction } from '@store/calls/actions';
 import { IPage } from '@store/common/models';
 import { getFriendsAction, resetSearchFriendsAction } from '@store/friends/actions';
 import { getMyFriendsListSelector, getMySearchFriendsListSelector } from '@store/friends/selectors';
 import { FRIENDS_LIMIT } from '@utils/pagination-limits';
-import { outgoingCallAction } from '@store/calls/actions';
+
+import './add-call-modal.scss';
 
 interface IAddCallModalProps {
   onClose: () => void;

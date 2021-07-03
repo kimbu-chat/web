@@ -1,6 +1,7 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 
+import { IChatsState } from '../../chats-state';
 import {
   FileType,
   IAudioAttachment,
@@ -9,7 +10,6 @@ import {
   IVoiceAttachment,
 } from '../../models';
 import { getChatByIdDraftSelector } from '../../selectors';
-import { IChatsState } from '../../chats-state';
 
 import { ICreateMessageSuccessActionPayload } from './action-payloads/create-message-success-action-payload';
 

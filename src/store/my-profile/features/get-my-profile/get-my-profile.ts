@@ -1,15 +1,15 @@
 import { AxiosResponse } from 'axios';
+import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
-import { normalize } from 'normalizr';
 
+import { MAIN_API } from '@common/paths';
 import { authenticatedSelector } from '@store/auth/selectors';
+import { ById } from '@store/chats/models/by-id';
 import { createEmptyAction } from '@store/common/actions';
+import { HttpRequestMethod, httpRequestFactory } from '@store/common/http';
 import { userNormalizationSchema } from '@store/friends/normalization';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
-import { HttpRequestMethod, httpRequestFactory } from '@store/common/http';
-import { MAIN_API } from '@common/paths';
-import { ById } from '@store/chats/models/by-id';
 
 import { IUser } from '../../../common/models';
 

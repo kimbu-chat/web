@@ -1,20 +1,20 @@
 import axios, { AxiosError, CancelTokenSource } from 'axios';
-import { call, cancelled, put, select, take } from 'redux-saga/effects';
 import { SagaIterator } from 'redux-saga';
+import { call, cancelled, put, select, take } from 'redux-saga/effects';
 import { RootState } from 'typesafe-actions';
 
 import { securityTokensSelector } from '@store/auth/selectors';
 import { emitToast } from '@utils/emit-toast';
 
 import { isNetworkError } from '../../../utils/error-utils';
-import { RefreshToken } from '../../auth/features/refresh-token/refresh-token';
 import { RefreshTokenSuccess } from '../../auth/features/refresh-token/refresh-token-success';
+import { RefreshToken } from '../../auth/features/refresh-token/refresh-token';
 
 import { HttpRequestMethod } from './http-request-method';
 import { httpRequest, requestTimeout } from './http-request';
 
-import type { ISecurityTokens } from '@store/auth/common/models/security-tokens';
 import type { IRequestGenerator, UrlGenerator, HttpHeaders } from './types';
+import type { ISecurityTokens } from '@store/auth/common/models/security-tokens';
 
 function* getAuthHeader(): SagaIterator {
   const securityTokens: ISecurityTokens = yield select(securityTokensSelector);

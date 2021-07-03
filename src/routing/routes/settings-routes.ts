@@ -1,5 +1,6 @@
 import partialRight from 'lodash/partialRight';
 
+import { LazyPreload, preloadRouteComponent } from '@routing/preloading.utils';
 import {
   APPEARANCE_SETTINGS_PATH,
   AUDIO_VIDEO_SETTINGS_PATH,
@@ -12,7 +13,6 @@ import {
 } from '@routing/routing.constants';
 import { SettingsRoutesEnum, SettingsRoutesObject } from '@routing/routing.types';
 import withPageGuard from '@routing/with-page-guard';
-import { LazyPreload, preloadRouteComponent } from '@routing/preloading.utils';
 
 const ProfileSettings = LazyPreload(() => import('@pages/settings/edit-profile'));
 const NotificationsSettings = LazyPreload(() => import('@pages/settings/notifications-settings'));

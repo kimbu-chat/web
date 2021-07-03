@@ -1,11 +1,11 @@
 import { AxiosResponse } from 'axios';
+import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import produce from 'immer';
 
-import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { getPeerConnection } from '../../../middlewares/webRTC/peerConnectionFactory';
 import { ICallsState } from '../../calls-state';

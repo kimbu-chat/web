@@ -1,23 +1,24 @@
 import React, { useCallback, useState, useEffect, useRef } from 'react';
+
+import { parsePhoneNumber } from 'libphonenumber-js';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { parsePhoneNumber } from 'libphonenumber-js';
 
+import AuthWrapper from '@components/auth-wrapper/auth-wrapper';
+import { CodeInput } from '@components/code-input';
+import { Portal } from '@components/portal';
+import { TooltipPopover } from '@components/tooltip-popover';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { preloadAuthRoute } from '@routing/routes/auth-routes';
+import { preloadMainRoute } from '@routing/routes/main-routes';
+import { INSTANT_MESSAGING_PATH, SIGN_UP_PATH } from '@routing/routing.constants';
+import { confirmPhoneAction, sendSmsCodeAction } from '@store/login/actions';
 import {
   authLoadingSelector,
   authPhoneNumberSelector,
   confirmationCodeWrongSelector,
 } from '@store/login/selectors';
-import { confirmPhoneAction, sendSmsCodeAction } from '@store/login/actions';
-import { CodeInput } from '@components/code-input';
-import { Portal } from '@components/portal';
-import { TooltipPopover } from '@components/tooltip-popover';
-import AuthWrapper from '@components/auth-wrapper/auth-wrapper';
-import { INSTANT_MESSAGING_PATH, SIGN_UP_PATH } from '@routing/routing.constants';
-import { preloadAuthRoute } from '@routing/routes/auth-routes';
-import { preloadMainRoute } from '@routing/routes/main-routes';
 
 import './code-confirmation.scss';
 

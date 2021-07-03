@@ -1,23 +1,23 @@
 import React, { useCallback, useState, useEffect, useMemo } from 'react';
+
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 
-import { Modal } from '@components/modal';
 import { InfiniteScroll } from '@components/infinite-scroll';
-import { SearchBox } from '@components/search-box/search-box';
-import { getFriendsAction, resetSearchFriendsAction } from '@store/friends/actions';
+import { Modal } from '@components/modal';
+import { SearchBox } from '@components/search-box';
+import { SelectEntity } from '@components/select-entity';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { IUser, IPage } from '@store/common/models';
 import { ReactComponent as ArrowSvg } from '@icons/arrow-v.svg';
-import { ReactComponent as GroupSvg } from '@icons/group.svg';
 import { ReactComponent as NewMessageSvg } from '@icons/create-chat.svg';
-import { getMyFriendsListSelector, getMySearchFriendsListSelector } from '@store/friends/selectors';
-import { FRIENDS_LIMIT } from '@utils/pagination-limits';
+import { ReactComponent as GroupSvg } from '@icons/group.svg';
 import { ChatId } from '@store/chats/chat-id';
 import { INormalizedChat } from '@store/chats/models';
-
-import { SelectEntity } from '../select-entity/select-entity';
+import { IUser, IPage } from '@store/common/models';
+import { getFriendsAction, resetSearchFriendsAction } from '@store/friends/actions';
+import { getMyFriendsListSelector, getMySearchFriendsListSelector } from '@store/friends/selectors';
+import { FRIENDS_LIMIT } from '@utils/pagination-limits';
 
 import './new-chat-modal.scss';
 

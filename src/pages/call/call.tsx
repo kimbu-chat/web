@@ -1,13 +1,14 @@
 import React from 'react';
+
 import { useSelector } from 'react-redux';
 
+import { ActiveCall } from '@components/active-call';
+import { IncomingCall } from '@components/incoming-call';
 import {
   amICalledSelector as isCallingMe,
   amICallingSelector,
   doIhaveCallSelector,
 } from '@store/calls/selectors';
-import { IncomingCall } from '@components/incoming-call';
-import { ActiveCall } from '@components/active-call';
 
 const Call: React.FC = () => {
   const amICalledSelector = useSelector(isCallingMe);

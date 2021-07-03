@@ -1,7 +1,11 @@
-import { useTranslation } from 'react-i18next';
 import React, { useCallback, useState } from 'react';
+
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
+import { CheckBox } from '@components/check-box';
+import { useEmptyActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import {
   changeNotificationSoundStateAction,
   changePushNotificationStateAction,
@@ -10,10 +14,7 @@ import {
   areNotificationsEnabledSelector,
   arePushNotificationsEnabledSelector,
 } from '@store/settings/selectors';
-import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { useEmptyActionWithDeferred } from '@hooks/use-action-with-deferred';
 
-import { CheckBox } from '../../../components/check-box/check-box';
 import './notifications-settings.scss';
 
 const NotificationsSettings = () => {

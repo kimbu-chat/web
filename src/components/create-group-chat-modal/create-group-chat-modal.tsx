@@ -1,23 +1,25 @@
-import { useTranslation } from 'react-i18next';
 import React, { useCallback, useState, useEffect } from 'react';
+
+import classNames from 'classnames';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import classNames from 'classnames';
 
-import { Modal } from '@components/modal';
 import { Button } from '@components/button';
-import { resetSearchFriendsAction } from '@store/friends/actions';
-import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { Modal } from '@components/modal';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import { createGroupChatAction } from '@store/chats/actions';
-import { IChat } from '@store/chats/models';
-import { myIdSelector } from '@store/my-profile/selectors';
-import { ICreateGroupChatActionPayload } from '@store/chats/features/create-group-chat/action-payloads/create-group-chat-action-payload';
-import { IAvatar } from '@store/common/models';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ReactComponent as GroupSvg } from '@icons/group.svg';
+import { createGroupChatAction } from '@store/chats/actions';
+import { ICreateGroupChatActionPayload } from '@store/chats/features/create-group-chat/action-payloads/create-group-chat-action-payload';
+import { IChat } from '@store/chats/models';
+import { IAvatar } from '@store/common/models';
+import { resetSearchFriendsAction } from '@store/friends/actions';
+import { myIdSelector } from '@store/my-profile/selectors';
 
-import { UserSelect } from './user-select/user-select';
 import { GroupChatCreation } from './group-chat-creation/group-chat-creation';
+import { UserSelect } from './user-select/user-select';
+
 import './create-group-chat-modal.scss';
 
 interface ICreateGroupChatProps {

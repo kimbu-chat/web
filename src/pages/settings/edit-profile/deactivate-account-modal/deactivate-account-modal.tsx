@@ -1,13 +1,15 @@
 import React, { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import classNames from 'classnames';
 
-import { Modal } from '@components/modal';
+import classNames from 'classnames';
+import { useTranslation } from 'react-i18next';
+
 import { Button } from '@components/button';
-import './deactivate-account-modal.scss';
-import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
+import { Modal } from '@components/modal';
 import { useEmptyActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
 import { deactivateAccountAction } from '@store/my-profile/actions';
+
+import './deactivate-account-modal.scss';
 
 interface IDeactivateAccountModalProps {
   onClose: () => void;

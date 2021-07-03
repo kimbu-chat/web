@@ -1,17 +1,18 @@
 import React from 'react';
+
+import classnames from 'classnames';
+import { parsePhoneNumber } from 'libphonenumber-js';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { parsePhoneNumber } from 'libphonenumber-js';
 import { Link } from 'react-router-dom';
-import classnames from 'classnames';
 
-import { ReactComponent as PhoneSvg } from '@icons/phone-chat-info.svg';
-import { ReactComponent as EditSvg } from '@icons/crayon.svg';
+import { useToggledState } from '@hooks/use-toggled-state';
 import { ReactComponent as DogSvg } from '@icons/@.svg';
+import { ReactComponent as EditSvg } from '@icons/crayon.svg';
+import { ReactComponent as PhoneSvg } from '@icons/phone-chat-info.svg';
 import { getInfoChatSelector } from '@store/chats/selectors';
 import { getUserSelector } from '@store/users/selectors';
 import { getChatInterlocutor } from '@utils/user-utils';
-import { useToggledState } from '@hooks/use-toggled-state';
 
 import { EditChatModal } from '../../edit-chat-modal/edit-chat-modal';
 

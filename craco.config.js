@@ -54,11 +54,17 @@ module.exports = function ({ env }) {
         optimization: {
           splitChunks: {
             cacheGroups: {
-              shared_components: {
-                name: 'shared_components',
+              vendor: {
+                test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+                name: 'vendor',
+                chunks: 'all',
+              },
+              common: {
+                name: 'common',
                 minChunks: 2,
                 test: /[\\/]components[\\/]/,
                 reuseExistingChunk: true,
+                minSize: 30000,
               },
             },
           },

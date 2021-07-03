@@ -1,19 +1,20 @@
 import React, { useCallback, useRef, useState } from 'react';
+
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
+import AuthWrapper from '@components/auth-wrapper';
 import { Input } from '@components/input';
 import { Loader } from '@components/loader';
 import { Portal } from '@components/portal';
 import { TooltipPopover } from '@components/tooltip-popover';
-import { authLoadingSelector, authPhoneNumberSelector } from '@store/login/selectors';
-import { registerAction } from '@store/login/actions';
-import { checkNicknameAvailabilityAction } from '@store/my-profile/actions';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import { validateNickname } from '@utils/validate-nick-name';
-import AuthWrapper from '@components/auth-wrapper';
 import { INSTANT_MESSAGING_PATH } from '@routing/routing.constants';
+import { registerAction } from '@store/login/actions';
+import { authLoadingSelector, authPhoneNumberSelector } from '@store/login/selectors';
+import { checkNicknameAvailabilityAction } from '@store/my-profile/actions';
+import { validateNickname } from '@utils/validate-nick-name';
 
 import './sign-up.scss';
 

@@ -3,8 +3,8 @@ import { SagaIterator } from 'redux-saga';
 import { select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
-import { IUsersState } from '@store/users/users-state';
 import { myIdSelector } from '@store/my-profile/selectors';
+import { IUsersState } from '@store/users/users-state';
 
 import { IUserDeactivatedActionPayload } from './action-payloads/user-deactivated-action-payload';
 

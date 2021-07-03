@@ -1,26 +1,27 @@
-import React, { useRef, useCallback, useEffect, useState, useMemo } from 'react';
-import './active-call.scss';
-import { useSelector } from 'react-redux';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+
+import classNames from 'classnames';
 import dayjs from 'dayjs';
-import { Rnd } from 'react-rnd';
 import ReactDOM from 'react-dom';
 import { useTranslation } from 'react-i18next';
-import classNames from 'classnames';
+import { useSelector } from 'react-redux';
+import { Rnd } from 'react-rnd';
 
-import {
-  amICallingSelector,
-  doIhaveCallSelector,
-  getAudioConstraintsSelector,
-  getAudioDevicesSelector,
-  getCallInterlocutorSelector,
-  getIsInterlocutorBusySelector,
-  getIsInterlocutorVideoEnabledSelector,
-  getIsInterlocutorAudioEnabledSelector,
-  getIsScreenSharingEnabledSelector,
-  getVideoConstraintsSelector,
-  getVideoDevicesSelector,
-} from '@store/calls/selectors';
+import { Avatar } from '@components/avatar';
+import { Dropdown } from '@components/dropdown';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { ReactComponent as HangUpSvg } from '@icons/ic-call-out.svg';
+import { ReactComponent as VoiceCallSvg } from '@icons/ic-call.svg';
+import { ReactComponent as ExitFullScreenSvg } from '@icons/ic-fullscreen-exit.svg';
+import { ReactComponent as FullScreenSvg } from '@icons/ic-fullscreen.svg';
+import { ReactComponent as MicrophoneDisableSvg } from '@icons/ic-microphone-mute.svg';
+import { ReactComponent as MicrophoneEnableSvg } from '@icons/ic-microphone.svg';
+import { ReactComponent as ScreenSharingDisableSvg } from '@icons/ic-screen-share-mute.svg';
+import { ReactComponent as ScreenSharingEnableSvg } from '@icons/ic-screen-share.svg';
+import { ReactComponent as VideoDisableSvg } from '@icons/ic-video-call-mute.svg';
+import { ReactComponent as VideoEnableSvg } from '@icons/ic-video-call.svg';
+import busySound from '@sounds/calls/busy-sound.ogg';
+import callingBeep from '@sounds/calls/outgoing-call.ogg';
 import {
   cancelCallAction,
   changeMediaStatusAction,
@@ -29,28 +30,25 @@ import {
   outgoingCallAction,
   switchDeviceAction,
 } from '@store/calls/actions';
-import { Avatar } from '@components/avatar';
-import { Dropdown } from '@components/dropdown';
-// SVG
-import { ReactComponent as MicrophoneEnableSvg } from '@icons/ic-microphone.svg';
-import { ReactComponent as MicrophoneDisableSvg } from '@icons/ic-microphone-mute.svg';
-import { ReactComponent as VideoEnableSvg } from '@icons/ic-video-call.svg';
-import { ReactComponent as VideoDisableSvg } from '@icons/ic-video-call-mute.svg';
-import { ReactComponent as ScreenSharingEnableSvg } from '@icons/ic-screen-share.svg';
-import { ReactComponent as ScreenSharingDisableSvg } from '@icons/ic-screen-share-mute.svg';
-import { ReactComponent as HangUpSvg } from '@icons/ic-call-out.svg';
-import { ReactComponent as FullScreenSvg } from '@icons/ic-fullscreen.svg';
-import { ReactComponent as ExitFullScreenSvg } from '@icons/ic-fullscreen-exit.svg';
-import { ReactComponent as VoiceCallSvg } from '@icons/ic-call.svg';
-// sounds
-import callingBeep from '@sounds/calls/outgoing-call.ogg';
-import busySound from '@sounds/calls/busy-sound.ogg';
+import { InputType } from '@store/calls/common/enums/input-type';
+import {
+  amICallingSelector,
+  doIhaveCallSelector,
+  getAudioConstraintsSelector,
+  getAudioDevicesSelector,
+  getCallInterlocutorSelector,
+  getIsInterlocutorAudioEnabledSelector,
+  getIsInterlocutorBusySelector,
+  getIsInterlocutorVideoEnabledSelector,
+  getIsScreenSharingEnabledSelector,
+  getVideoConstraintsSelector,
+  getVideoDevicesSelector,
+} from '@store/calls/selectors';
 import {
   getInterlocutorAudioTrack,
   getInterlocutorVideoTrack,
   tracks,
 } from '@store/calls/utils/user-media';
-import { InputType } from '@store/calls/common/enums/input-type';
 import { playSoundSafely } from '@utils/current-music';
 
 const BLOCK_NAME = 'active-call';

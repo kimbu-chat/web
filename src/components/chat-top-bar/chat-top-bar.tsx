@@ -1,24 +1,25 @@
 import React, { useCallback, useLayoutEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
+
 import classNames from 'classnames';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 
-import { getIsInfoOpenedSelector, getSelectedChatSelector } from '@store/chats/selectors';
-import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { outgoingCallAction } from '@store/calls/actions';
 import { Avatar } from '@components/avatar';
-import { TimeUpdateable } from '@components/time-updateable';
-import { ReactComponent as VoiceCallSvg } from '@icons/audio-call.svg';
-import { ReactComponent as VideoCallSvg } from '@icons/video-call.svg';
-import { ReactComponent as TypingSvg } from '@icons/typing.svg';
-import { getChatInterlocutor } from '@utils/user-utils';
-import { changeChatInfoOpenedAction } from '@store/chats/actions';
-import { getUserSelector } from '@store/users/selectors';
 import { ChatInfoRightPanel } from '@components/chat-info-right-panel';
+import { TimeUpdateable } from '@components/time-updateable';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { useAnimation } from '@hooks/use-animation';
+import { ReactComponent as VoiceCallSvg } from '@icons/audio-call.svg';
+import { ReactComponent as TypingSvg } from '@icons/typing.svg';
+import { ReactComponent as VideoCallSvg } from '@icons/video-call.svg';
+import { outgoingCallAction } from '@store/calls/actions';
+import { changeChatInfoOpenedAction } from '@store/chats/actions';
+import { getIsInfoOpenedSelector, getSelectedChatSelector } from '@store/chats/selectors';
+import { getUserSelector } from '@store/users/selectors';
+import { getChatInterlocutor } from '@utils/user-utils';
 
-import { MessagesSearch } from './messages-search/messages-search';
 import { ChatInfoBtn } from './chat-info-btn/chat-info-btn';
+import { MessagesSearch } from './messages-search/messages-search';
 
 import './chat-top-bar.scss';
 

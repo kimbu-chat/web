@@ -1,7 +1,8 @@
 import React, { useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
-import NimblePicker from 'emoji-mart/dist-es/components/picker/nimble-picker';
+
 import data from 'emoji-mart/data/apple.json';
+import NimblePicker from 'emoji-mart/dist-es/components/picker/nimble-picker';
+import { useTranslation } from 'react-i18next';
 
 import type { BaseEmoji, Data } from 'emoji-mart';
 

@@ -1,4 +1,5 @@
 import React from 'react';
+
 import './cube-loader.scss';
 
 export const CubeLoader = () => (

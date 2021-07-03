@@ -1,6 +1,17 @@
 import React, { useCallback, useState } from 'react';
+
 import { useSelector } from 'react-redux';
 
+import { TopAudioPlayer } from '@components/audio-player/audio-player';
+import { BlockedMessageInput } from '@components/blocked-message-input';
+import { ChatList } from '@components/chat-list';
+import { ChatTopBar } from '@components/chat-top-bar';
+import { DragIndicator } from '@components/drag-indicator/drag-indicator';
+import { CreateMessageInput } from '@components/message-input';
+import { MessageList } from '@components/message-list';
+import { NotContact } from '@components/not-contact';
+import { CurrentAudio, AudioContext } from '@contexts/audioContext';
+import { useDragDrop } from '@hooks/use-drag-drop';
 import {
   amIBlackListedByInterlocutorSelector,
   isCurrentChatBlackListedSelector,
@@ -10,16 +21,6 @@ import {
   isCurrentChatUserDeletedSelector,
   getSelectedChatIdSelector,
 } from '@store/chats/selectors';
-import { DragIndicator } from '@components/drag-indicator/drag-indicator';
-import { CreateMessageInput } from '@components/message-input';
-import { ChatList } from '@components/chat-list';
-import { ChatTopBar } from '@components/chat-top-bar';
-import { MessageList } from '@components/message-list';
-import { NotContact } from '@components/not-contact';
-import { BlockedMessageInput } from '@components/blocked-message-input';
-import { useDragDrop } from '@hooks/use-drag-drop';
-import { TopAudioPlayer } from '@components/audio-player/audio-player';
-import { CurrentAudio, AudioContext } from '@contexts/audioContext';
 
 import './chat.scss';
 

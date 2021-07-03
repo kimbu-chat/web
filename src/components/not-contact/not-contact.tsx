@@ -1,13 +1,14 @@
 import React, { useCallback, useState } from 'react';
+
+import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import classNames from 'classnames';
 
-import { ReactComponent as ContactSvg } from '@icons/user-o.svg';
-import { ReactComponent as CloseSvg } from '@icons/close.svg';
-import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import { getSelectedInterlocutorSelector } from '@store/chats/selectors';
 import { Button } from '@components/button';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { ReactComponent as CloseSvg } from '@icons/close.svg';
+import { ReactComponent as ContactSvg } from '@icons/user-o.svg';
+import { getSelectedInterlocutorSelector } from '@store/chats/selectors';
 import { addFriendAction, dismissToAddContactAction } from '@store/friends/actions';
 import { blockUserAction } from '@store/settings/actions';
 

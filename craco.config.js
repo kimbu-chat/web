@@ -50,6 +50,20 @@ module.exports = function ({ env }) {
       },
     },
     webpack: {
+      configure: {
+        optimization: {
+          splitChunks: {
+            cacheGroups: {
+              shared_components: {
+                name: 'shared_components',
+                minChunks: 2,
+                test: /[\\/]components[\\/]/,
+                reuseExistingChunk: true,
+              },
+            },
+          },
+        },
+      },
       plugins,
       extensions: ['.ts', '.tsx', '.js', '.jsx'],
       alias: {

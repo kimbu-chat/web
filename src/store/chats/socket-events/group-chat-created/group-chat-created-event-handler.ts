@@ -52,7 +52,7 @@ export class GroupChatCreatedEventHandler {
         const messageOfCreation: INormalizedMessage = {
           systemMessageType: SystemMessageType.GroupChatCreated,
           text: createSystemMessage({}),
-          creationDateTime: new Date(new Date().toUTCString()),
+          creationDateTime: new Date().toISOString(),
           userCreatorId: userCreator.id,
           state: MessageState.READ,
           chatId,

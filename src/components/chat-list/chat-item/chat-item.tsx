@@ -152,10 +152,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
               messageStatIconMap[chat?.lastMessage.state]}
           </div>
           <div className={`${BLOCK_NAME}__time`}>
-            {checkIfDatesAreDifferentDate(
-              new Date(chat?.lastMessage?.creationDateTime as Date),
-              new Date(),
-            )
+            {checkIfDatesAreDifferentDate(chat?.lastMessage?.creationDateTime || '', new Date())
               ? dayjs.utc(chat?.lastMessage?.creationDateTime).local().format('dd MMM YY')
               : dayjs.utc(chat?.lastMessage?.creationDateTime).local().format('LT').toLowerCase()}
           </div>

@@ -9,7 +9,7 @@ import { SystemMessageType } from './system-message-type';
 export interface IMessage {
   id: number;
   userCreator: IUser;
-  creationDateTime: Date;
+  creationDateTime: string;
   text: string;
   attachmentsJson?: string;
   systemMessageType: SystemMessageType;
@@ -28,7 +28,7 @@ export interface IMessage {
 export interface INormalizedMessage {
   id: number;
   userCreatorId: number;
-  creationDateTime: Date;
+  creationDateTime: string;
   text: string;
   attachmentsJson?: string;
   systemMessageType: SystemMessageType;

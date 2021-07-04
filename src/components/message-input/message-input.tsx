@@ -144,7 +144,7 @@ const CreateMessageInput = () => {
           text: refText,
           systemMessageType: SystemMessageType.None,
           userCreatorId: currentUserId,
-          creationDateTime: new Date(new Date().toUTCString()),
+          creationDateTime: new Date().toISOString(),
           state: MessageState.QUEUED,
           id: new Date().getTime(),
           chatId,

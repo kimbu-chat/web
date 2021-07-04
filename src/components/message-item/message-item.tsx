@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo, ReactElement } from 'react';
 
 import classNames from 'classnames';
-import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -40,6 +39,7 @@ import { getMessageSelector, getIsSelectMessagesStateSelector } from '@store/cha
 import { CallStatus } from '@store/common/models/call-status';
 import { myIdSelector } from '@store/my-profile/selectors';
 import { getUserSelector } from '@store/users/selectors';
+import { getShortTimeAmPm } from '@utils/date-utils';
 import {
   constructSystemMessageText,
   getSystemMessageData,
@@ -364,7 +364,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
             </div>
             {isCurrentUserMessageCreator && getMessageIcon()}
             <div className={`${BLOCK_NAME}__time`}>
-              {dayjs.utc(message?.creationDateTime).local().format('LT')}
+              {getShortTimeAmPm(message?.creationDateTime)}
             </div>
           </div>
         </div>

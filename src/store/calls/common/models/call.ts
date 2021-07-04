@@ -6,9 +6,9 @@ export interface ICall {
   id: number;
   userInterlocutor: IUser;
   userCallerId: number;
-  endDateTime?: Date;
-  creationDateTime: Date;
-  startDateTime: Date;
+  endDateTime?: string;
+  creationDateTime: string;
+  startDateTime: string;
   status: CallStatus;
 }
 
@@ -16,8 +16,8 @@ export interface INormalizedCall {
   id: number;
   userInterlocutorId: number;
   userCallerId: number;
-  endDateTime?: Date;
-  creationDateTime: Date;
-  startDateTime: Date;
+  endDateTime?: string;
+  creationDateTime: string;
+  startDateTime: string;
   status: CallStatus;
 }

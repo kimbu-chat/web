@@ -20,6 +20,7 @@ import {
   getSelectedChatMessagesSelector,
   getSelectedChatMessagesSearchStringSelector,
 } from '@store/chats/selectors';
+import { DAY_NAME_MONTH_NAME_DAY_NUMBER_YEAR } from '@utils/constants';
 import { checkIfDatesAreDifferentDate } from '@utils/date-utils';
 import { MESSAGES_LIMIT } from '@utils/pagination-limits';
 
@@ -125,7 +126,7 @@ const MessageList = () => {
                       {dayjs
                         .utc((messages && messages[separatedMessages[0]]?.creationDateTime) || '')
                         .local()
-                        .format('dddd, MMMM D, YYYY')
+                        .format(DAY_NAME_MONTH_NAME_DAY_NUMBER_YEAR)
                         .toString()}
                     </span>
                   </div>

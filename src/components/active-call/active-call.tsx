@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import classNames from 'classnames';
-import dayjs from 'dayjs';
 import ReactDOM from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -49,7 +48,9 @@ import {
   getInterlocutorVideoTrack,
   tracks,
 } from '@store/calls/utils/user-media';
+import { SECOND_DURATION } from '@utils/constants';
 import { playSoundSafely } from '@utils/current-music';
+import { getHourMinuteSecond } from '@utils/date-utils';
 
 const BLOCK_NAME = 'active-call';
 
@@ -244,7 +245,7 @@ const ActiveCall: React.FC = () => {
               )}>{`${interlocutor?.firstName} ${interlocutor?.lastName}`}</h3>
             {amISpeaking && (
               <div className={`${BLOCK_NAME}__duration`}>
-                {dayjs.utc(callDuration * 1000).format('HH:mm:ss')}
+                {getHourMinuteSecond(callDuration * SECOND_DURATION)}
               </div>
             )}
           </div>

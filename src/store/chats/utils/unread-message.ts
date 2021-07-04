@@ -1,6 +1,6 @@
-let unreadMessageId: number;
+let unreadMessageId: number | null = null;
 
-export const setUnreadMessageId = (id: number) => {
+export const setUnreadMessageId = (id: number | null) => {
   unreadMessageId = id;
 };
 

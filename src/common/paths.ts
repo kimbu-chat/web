@@ -66,7 +66,7 @@ export const NOTIFICATIONS_API = {
   OPEN_CONNECTION: `${REACT_APP_NOTIFICATIONS_API}/signalr`,
   SUBSCRIBE: `${REACT_APP_MAIN_API}/api/push-notifications/subscribe`,
   UNSUBSCRIBE: `${REACT_APP_MAIN_API}/api/push-notifications/unsubscribe`,
-  MESSAGE_TYPING: `${REACT_APP_NOTIFICATIONS_API}/api/message/notify-interlocutor-about-message-typing`,
+  MESSAGE_TYPING: `${REACT_APP_MAIN_API}/api/message-typing`,
 };
 
 export const FILES_API = {

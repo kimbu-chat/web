@@ -1,10 +1,12 @@
 import { createReducer } from 'typesafe-actions';
 
+import { RefreshTokenFailure } from '@store/auth/features/refresh-token/refresh-token-failure';
+import { RefreshTokenSuccess } from '@store/auth/features/refresh-token/refresh-token-success';
+
 import { AuthService } from '../../services/auth-service';
 
 import { IAuthState } from './auth-state';
 import { Logout } from './features/logout/logout';
-import { RefreshTokenSuccess } from './features/refresh-token/refresh-token-success';
 import { RefreshToken } from './features/refresh-token/refresh-token';
 
 const authService = new AuthService();
@@ -21,6 +23,7 @@ const initialState: IAuthState = {
 const reducer = createReducer<IAuthState>(initialState)
   .handleAction(Logout.action, Logout.reducer)
   .handleAction(RefreshToken.action, RefreshToken.reducer)
-  .handleAction(RefreshTokenSuccess.action, RefreshTokenSuccess.reducer);
+  .handleAction(RefreshTokenSuccess.action, RefreshTokenSuccess.reducer)
+  .handleAction(RefreshTokenFailure.action, RefreshTokenFailure.reducer);
 
 export default reducer;

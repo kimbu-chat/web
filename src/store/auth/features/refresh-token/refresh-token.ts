@@ -12,6 +12,7 @@ import { getAccessTokenExpirationTime } from '@utils/get-access-token-expiration
 import { IAuthState } from '../../auth-state';
 import { ISecurityTokens } from '../../common/models';
 import { securityTokensSelector } from '../../selectors';
+import { Logout } from '../logout/logout';
 
 import { IRefreshTokenSuccessActionPayload } from './action-payloads/refresh-token-success-action-payload';
 import { IRefreshTokenApiRequest } from './api-requests/refresh-token-api-request';
@@ -49,6 +50,7 @@ export class RefreshToken {
         yield put(RefreshTokenSuccess.action(refreshTokenActionPayload));
       } catch (e) {
         yield put(RefreshTokenFailure.action());
+        yield call(Logout.saga);
       }
     };
   }

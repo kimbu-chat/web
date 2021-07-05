@@ -56,6 +56,7 @@ export const MAIN_API = {
   UPDATE_PROFILE: `${REACT_APP_MAIN_API}/api/users`,
   BLACK_LIST: `${REACT_APP_MAIN_API}/api/black-list`,
   USER_SESSIONS: `${REACT_APP_MAIN_API}/api/sessions`,
+  TERMINATE_SESSION: `${REACT_APP_MAIN_API}/api/sessions/terminate`,
   REMOVE_FROM_BLACK_LIST: `${REACT_APP_MAIN_API}/api/black-list/batch-remove`,
   DEACTIVATE_ACCOUNT: `${REACT_APP_MAIN_API}/api/users/deactivate`,
   DELETE_ACCOUNT: `${REACT_APP_MAIN_API}/api/users`,

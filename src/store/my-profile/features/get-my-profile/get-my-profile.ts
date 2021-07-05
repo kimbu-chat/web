@@ -4,6 +4,7 @@ import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 
 import { MAIN_API } from '@common/paths';
+import { Logout } from '@store/auth/features/logout/logout';
 import { authenticatedSelector } from '@store/auth/selectors';
 import { ById } from '@store/chats/models/by-id';
 import { createEmptyAction } from '@store/common/actions';
@@ -30,6 +31,12 @@ export class GetMyProfile {
 
       const { httpRequest } = GetMyProfile;
       const { data } = httpRequest.call(yield call(() => httpRequest.generator()));
+
+      if (data.deleted || data.deactivated) {
+        yield call(Logout.saga);
+        return;
+      }
+
       const {
         entities: { users },
       } = normalize<IUser, { users: ById<IUser> }, number[]>(data, userNormalizationSchema);

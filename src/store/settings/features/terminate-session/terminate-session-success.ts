@@ -3,14 +3,14 @@ import { createAction } from 'typesafe-actions';
 
 import { IUserSettings } from '../../user-settings-state';
 
-export class RevokeSessionSuccess {
+export class TerminateSessionSuccess {
   static get action() {
-    return createAction('REVOKE_SESSION_SUCCESS')<number>();
+    return createAction('TERMINATE_SESSION_SUCCESS')<number>();
   }
 
   static get reducer() {
     return produce(
-      (draft: IUserSettings, { payload }: ReturnType<typeof RevokeSessionSuccess.action>) => {
+      (draft: IUserSettings, { payload }: ReturnType<typeof TerminateSessionSuccess.action>) => {
         draft.sessionList.sessions = draft.sessionList.sessions.filter(({ id }) => id !== payload);
         return draft;
       },

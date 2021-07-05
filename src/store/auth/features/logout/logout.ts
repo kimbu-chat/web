@@ -1,16 +1,14 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { call, put, take } from 'redux-saga/effects';
+import { call, put, select } from 'redux-saga/effects';
 
 import { MAIN_API } from '@common/paths';
 import { IAuthState } from '@store/auth/auth-state';
+import { securityTokensSelector } from '@store/auth/selectors';
 import { createEmptyDefferedAction } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { CloseWebsocketConnection } from '@store/web-sockets/features/close-web-socket-connection/close-web-socket-connection';
-
-import { UnSubscribeFromPushNotifications } from '../un-subscribe-from-push-notifications/un-subscribe-from-push-notifications';
-import { UnSubscribeToPushNotificationsSuccess } from '../un-subscribe-from-push-notifications/un-subscribe-from-push-notifications_success';
 
 export class Logout {
   static get action() {
@@ -25,13 +23,16 @@ export class Logout {
   }
 
   static get saga() {
-    return function* logout(action: ReturnType<typeof Logout.action>): SagaIterator {
-      yield put(UnSubscribeFromPushNotifications.action());
-      yield take(UnSubscribeToPushNotificationsSuccess.action);
-      yield put(CloseWebsocketConnection.action());
-      yield call(() => Logout.httpRequest.generator());
+    return function* logout(): SagaIterator {
+      const securityTokens = yield select(securityTokensSelector);
+
+      if (securityTokens) {
+        yield put(CloseWebsocketConnection.action());
+        yield call(() => Logout.httpRequest.generator());
+      }
+
       localStorage.clear();
-      action?.meta.deferred.resolve();
+      window.location.replace('/login');
     };
   }
 

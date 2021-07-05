@@ -1,4 +1,4 @@
-import { all, takeEvery, takeLatest } from 'redux-saga/effects';
+import { all, takeEvery, takeLatest, takeLeading } from 'redux-saga/effects';
 
 import { AddUsersToGroupChat } from './features/add-users-to-group-chat/add-users-to-group-chat';
 import { ChangeChatMutedStatus } from './features/change-chat-muted-status/change-chat-muted-status';
@@ -22,6 +22,7 @@ import { GetVideoAttachments } from './features/get-video-attachments/get-video-
 import { GetVoiceAttachments } from './features/get-voice-attachments/get-voice-attachments';
 import { LeaveGroupChat } from './features/leave-group-chat/leave-group-chat';
 import { MarkMessagesAsRead } from './features/mark-messages-as-read/mark-messages-as-read';
+import { MessageTyping } from './features/message-typing/message-typing';
 import { RemoveAllAttachments } from './features/remove-attachment/remove-all-attachments';
 import { RemoveAttachment } from './features/remove-attachment/remove-attachment';
 import { RemoveChat } from './features/remove-chat/remove-chat';
@@ -50,7 +51,7 @@ export function* chatSaga() {
     takeLatest(EditGroupChat.action, EditGroupChat.saga),
     takeEvery(UploadAttachmentRequest.action, UploadAttachmentRequest.saga),
     takeEvery(RemoveAttachment.action, RemoveAttachment.saga),
-    // takeLatest(MessageTyping.action, MessageTyping.saga),
+    takeLeading(MessageTyping.action, MessageTyping.saga),
     takeLatest(GetMessages.action, GetMessages.saga),
     takeLatest(ClearChatHistory.action, ClearChatHistory.saga),
     takeEvery(CreateMessage.action, CreateMessage.saga),

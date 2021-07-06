@@ -5,7 +5,7 @@ import { MessageLinkType } from '../../models/linked-message-type';
 export interface IMessageCreatedIntegrationEvent {
   attachments?: IBaseAttachment[];
   chatId: number;
-  creationDateTime: Date;
+  creationDateTime: string;
   id: number;
   clientId: number;
   systemMessageType: SystemMessageType;

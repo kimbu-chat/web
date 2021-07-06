@@ -5,8 +5,15 @@ import { SECOND_DURATION } from '@utils/constants';
 
 import { doesYearDifferFromCurrent } from './set-separators';
 
-export function getDayStart(datetime: number | string | Date) {
-  const date = new Date(datetime);
+export function getDayStart(datetime: string | Date) {
+  let date: Date;
+
+  if (typeof datetime === 'string') {
+    date = new Date(datetime);
+  } else {
+    date = datetime;
+  }
+
   date.setHours(0, 0, 0, 0);
   return date;
 }

@@ -15,6 +15,10 @@
   &--close {
     opacity: 0;
   }
+
+  &--no-animated-open {
+    animation: none;
+  }
 }
 
 @keyframes fade {

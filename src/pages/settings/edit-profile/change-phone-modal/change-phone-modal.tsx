@@ -14,6 +14,7 @@ import { ReactComponent as CrayonSvg } from '@icons/crayon.svg';
 import { ReactComponent as ChatSvg } from '@icons/single-chat.svg';
 import { getUserByPhoneAction } from '@store/friends/actions';
 import { confirmChangePhone, sendSmsChangePhone } from '@store/my-profile/actions';
+import { SECOND_DURATION } from '@utils/constants';
 import { getMinutesSeconds } from '@utils/date-utils';
 
 import './change-phone-modal.scss';
@@ -166,7 +167,7 @@ const ChangePhoneModal: React.FC<IChangePhoneModalProps> = ({ onClose }) => {
               ) : (
                 <span className={`${BLOCK_NAME}__details`}>
                   {t('changePhoneModal.details', {
-                    time: getMinutesSeconds(remainedTime * 1000),
+                    time: getMinutesSeconds(remainedTime * SECOND_DURATION),
                   })}
                 </span>
               )}

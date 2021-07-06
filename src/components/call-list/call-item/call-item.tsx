@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import classnames from 'classnames';
 import dayjs from 'dayjs';
@@ -14,6 +14,8 @@ import { getCallSelector } from '@store/calls/selectors';
 import { CallStatus } from '@store/common/models/call-status';
 import { myIdSelector } from '@store/my-profile/selectors';
 import { getUserSelector } from '@store/users/selectors';
+import { FULL_DATE_TIME } from '@utils/constants';
+import { getHourMinuteSecond } from '@utils/date-utils';
 import { getUserName } from '@utils/user-utils';
 
 import './call-item.scss';
@@ -35,6 +37,11 @@ const CallItem: React.FC<ICallItemProps> = ({ callId }) => {
   const isOutgoing = myId === call?.userCallerId;
   const missedByMe = !isOutgoing && call?.status === CallStatus.NotAnswered;
 
+  const getCallCreationDateTime = useCallback(
+    (creationDateTime: string) => dayjs.utc(creationDateTime).local().format(FULL_DATE_TIME),
+    [],
+  );
+
   return (
     <div className={BLOCK_NAME}>
       <Avatar className={`${BLOCK_NAME}__interlocutor-avatar`} size={48} user={userInterlocutor} />
@@ -55,20 +62,14 @@ const CallItem: React.FC<ICallItemProps> = ({ callId }) => {
             call?.endDateTime &&
             (isOutgoing
               ? t('callFromList.outgoing', {
-                  duration: dayjs
-                    .utc(
-                      new Date(call?.endDateTime).getTime() -
-                        new Date(call?.startDateTime).getTime(),
-                    )
-                    .format('HH:mm:ss'),
+                  duration: getHourMinuteSecond(
+                    new Date(call?.endDateTime).getTime() - new Date(call?.startDateTime).getTime(),
+                  ),
                 })
               : t('callFromList.incoming', {
-                  duration: dayjs
-                    .utc(
-                      new Date(call?.endDateTime).getTime() -
-                        new Date(call?.startDateTime).getTime(),
-                    )
-                    .format('HH:mm:ss'),
+                  duration: getHourMinuteSecond(
+                    new Date(call?.endDateTime).getTime() - new Date(call?.startDateTime).getTime(),
+                  ),
                 }))}
 
           {call?.status === CallStatus.NotAnswered &&
@@ -77,7 +78,7 @@ const CallItem: React.FC<ICallItemProps> = ({ callId }) => {
       </div>
       <div className={`${BLOCK_NAME}__aside-data`}>
         <div className={`${BLOCK_NAME}__date`}>
-          {dayjs.utc(call?.creationDateTime).local().format('l LT')}
+          {getCallCreationDateTime(call?.creationDateTime)}
         </div>
         <div
           className={classnames(`${BLOCK_NAME}__type-icon`, {

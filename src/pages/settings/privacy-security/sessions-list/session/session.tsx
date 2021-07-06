@@ -9,6 +9,7 @@ import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { deviceIdSelector } from '@store/auth/selectors';
 import { revokeSessionAction } from '@store/settings/actions';
 import { ISession } from '@store/settings/comon/models/session';
+import { MONTH_DAY_YEAR } from '@utils/constants';
 
 import './session.scss';
 
@@ -32,6 +33,11 @@ export const Session: React.FC<ISessionProps> = ({ session }) => {
     });
   }, [session.id, revokeSession]);
 
+  const formatSessionTime = useCallback(
+    (dateTime: string) => dayjs.utc(dateTime).local().format(MONTH_DAY_YEAR).toString(),
+    [],
+  );
+
   return (
     <div className="session">
       <div className="session__data">
@@ -48,14 +54,14 @@ export const Session: React.FC<ISessionProps> = ({ session }) => {
         <div className="session__data__row">
           <div className="session__data__highlighted">{t('session.last-acessed')}</div>
           <div className="session__data__ordinary">
-            {dayjs.utc(session.lastAccessedDateTime).local().format('MMM DD,YYYY').toString()}
+            {formatSessionTime(session.lastAccessedDateTime)}
           </div>
         </div>
 
         <div className="session__data__row">
           <div className="session__data__highlighted">{t('session.signed-in')}</div>
           <div className="session__data__ordinary">
-            {dayjs.utc(session.signedInDateTime).local().format('MMM DD,YYYY').toString()}
+            {formatSessionTime(session.signedInDateTime)}
           </div>
         </div>
       </div>

@@ -1,8 +1,8 @@
 import { IUser } from '@store/common/models';
 
 import { IBaseAttachment } from './attachments/base-attachment';
-import { MessageLinkType } from './linked-message-type';
 import { ILinkedMessage, INormalizedLinkedMessage } from './linked-message';
+import { MessageLinkType } from './linked-message-type';
 import { MessageState } from './message-state';
 import { SystemMessageType } from './system-message-type';
 

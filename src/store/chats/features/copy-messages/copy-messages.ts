@@ -4,6 +4,7 @@ import { select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
 import { getUsersSelector } from '@store/users/selectors';
+import { YEAR_MONTH_DAY_HOUR_MINUTE } from '@utils/constants';
 
 import { INormalizedMessage } from '../../models';
 import { getSelectedChatMessagesSelector } from '../../selectors';
@@ -26,7 +27,7 @@ export class CopyMessages {
           const userCreator = users[message.userCreatorId];
           const preparedStr = `[${dayjs
             .utc(message?.creationDateTime)
-            .format('YYYY MM DD h:mm')}] ${userCreator?.nickname}: ${message?.text}${
+            .format(YEAR_MONTH_DAY_HOUR_MINUTE)}] ${userCreator?.nickname}: ${message?.text}${
             index < action.payload.messageIds.length - 1 ? '\n' : ''
           }`;
           return accum + preparedStr;

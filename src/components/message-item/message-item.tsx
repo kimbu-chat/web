@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { MessageAudioAttachment } from '@components/audio-attachment';
 import { Avatar } from '@components/avatar';
@@ -329,9 +330,11 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                     message.linkedMessageType === MessageLinkType.Forward && (
                       <div className={`${BLOCK_NAME}__forward-indicator`}>
                         {t('messageItem.forward-indicator')}
-                        <span className={`${BLOCK_NAME}__forward-indicator__name`}>
+                        <Link
+                          to={`/im/${ChatId.from(linkedMessageUserCreator?.id).id}`}
+                          className={`${BLOCK_NAME}__forward-indicator__name`}>
                           {linkedMessageUserCreator && getUserName(linkedMessageUserCreator, t)}
-                        </span>
+                        </Link>
                       </div>
                     )}
 

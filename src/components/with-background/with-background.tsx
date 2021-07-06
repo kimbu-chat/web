@@ -6,14 +6,25 @@ import ReactDOM from 'react-dom';
 
 import './with-background.scss';
 
+export enum AnimationMode {
+  ENABLED,
+  CLOSE,
+}
+
 interface IBackgroundBlurProps {
   onClick?: () => void;
   hiding?: boolean;
+  animationMode?: AnimationMode;
 }
 
 const BLOCK_NAME = 'background-blur';
 
-const BackgroundBlur: React.FC<IBackgroundBlurProps> = ({ onClick, children, hiding }) => {
+const BackgroundBlur: React.FC<IBackgroundBlurProps> = ({
+  onClick,
+  children,
+  hiding,
+  animationMode = AnimationMode.ENABLED,
+}) => {
   const close = useCallback(() => {
     if (!hiding && onClick) {
       onClick();
@@ -32,7 +43,12 @@ const BackgroundBlur: React.FC<IBackgroundBlurProps> = ({ onClick, children, hid
     };
   }, [close]);
   return ReactDOM.createPortal(
-    <div onClick={close} className={classNames(BLOCK_NAME, { [`${BLOCK_NAME}--close`]: hiding })}>
+    <div
+      onClick={close}
+      className={classNames(BLOCK_NAME, {
+        [`${BLOCK_NAME}--close`]: hiding,
+        [`${BLOCK_NAME}--no-animated-open`]: animationMode === AnimationMode.CLOSE,
+      })}>
       {children}
     </div>,
     document.getElementById('root') || document.createElement('div'),

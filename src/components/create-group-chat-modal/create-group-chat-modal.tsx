@@ -17,6 +17,8 @@ import { IAvatar } from '@store/common/models';
 import { resetSearchFriendsAction } from '@store/friends/actions';
 import { myIdSelector } from '@store/my-profile/selectors';
 
+import { AnimationMode } from '../with-background/with-background';
+
 import { GroupChatCreation } from './group-chat-creation/group-chat-creation';
 import { UserSelect } from './user-select/user-select';
 
@@ -24,6 +26,7 @@ import './create-group-chat-modal.scss';
 
 interface ICreateGroupChatProps {
   onClose: () => void;
+  animationMode?: AnimationMode;
   preSelectedUserIds?: number[];
 }
 
@@ -34,7 +37,11 @@ enum GroupChatCreationStage {
 
 const BLOCK_NAME = 'create-group-chat';
 
-const CreateGroupChat: React.FC<ICreateGroupChatProps> = ({ onClose, preSelectedUserIds }) => {
+const CreateGroupChat: React.FC<ICreateGroupChatProps> = ({
+  onClose,
+  preSelectedUserIds,
+  animationMode = AnimationMode.ENABLED,
+}) => {
   const { t } = useTranslation();
 
   const currentUserId = useSelector(myIdSelector);
@@ -103,7 +110,7 @@ const CreateGroupChat: React.FC<ICreateGroupChatProps> = ({ onClose, preSelected
 
   return (
     <>
-      <Modal closeModal={onClose}>
+      <Modal animationMode={animationMode} closeModal={onClose}>
         <>
           <Modal.Header>
             {currentStage === GroupChatCreationStage.UserSelecting ? (

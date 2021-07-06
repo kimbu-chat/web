@@ -14,6 +14,10 @@
   animation: fade var(--ANIMATION-DURATION);
   will-change: opacity;
 
+  &--no-animated-open {
+    animation: none;
+  }
+
   &--close {
     opacity: 0;
   }

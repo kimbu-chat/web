@@ -1,5 +1,6 @@
-/* eslint-disable react/no-array-index-key */
 import React, { useCallback } from 'react';
+
+import classNames from 'classnames';
 
 import { BackgroundBlur } from '@components/with-background';
 import { useAnimation } from '@hooks/use-animation';
@@ -7,16 +8,23 @@ import { ReactComponent as CloseSVG } from '@icons/close.svg';
 import { stopPropagation } from '@utils/stop-propagation';
 
 import './modal.scss';
+import { AnimationMode } from '../with-background/with-background';
 
 interface IModalProps {
   children: string | JSX.Element;
   closeModal: () => void;
   unclickableBackground?: boolean;
+  animationMode?: AnimationMode;
 }
 
 const BLOCK_NAME = 'modal';
 
-const MainModal = ({ children, closeModal, unclickableBackground }: IModalProps) => {
+const MainModal = ({
+  children,
+  closeModal,
+  unclickableBackground,
+  animationMode = AnimationMode.ENABLED,
+}: IModalProps) => {
   const { rootClass, closeInitiated, animatedClose } = useAnimation(BLOCK_NAME, closeModal);
 
   const onBackgroundClick = useCallback(() => {
@@ -24,8 +32,15 @@ const MainModal = ({ children, closeModal, unclickableBackground }: IModalProps)
   }, [animatedClose, unclickableBackground]);
 
   return (
-    <BackgroundBlur hiding={closeInitiated} onClick={onBackgroundClick}>
-      <div onClick={stopPropagation} className={rootClass}>
+    <BackgroundBlur
+      animationMode={animationMode}
+      hiding={closeInitiated}
+      onClick={onBackgroundClick}>
+      <div
+        onClick={stopPropagation}
+        className={classNames(rootClass, {
+          [`${BLOCK_NAME}--no-animated-open`]: animationMode === AnimationMode.CLOSE,
+        })}>
         <CloseSVG
           onClick={animatedClose}
           viewBox="0 0 25 25"

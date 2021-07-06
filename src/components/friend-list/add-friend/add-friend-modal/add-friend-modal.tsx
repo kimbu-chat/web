@@ -104,7 +104,7 @@ const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
                   [`${BLOCK_NAME}__btn--confirm`]: added,
                   [`${BLOCK_NAME}__btn--cancel`]: !added,
                 })}
-                to={`/chats/${ChatId.from(user.id).id}`}>
+                to={`/im/${ChatId.from(user.id).id}`}>
                 {t('addFriendModal.chat')}
               </Link>
               {!added && (

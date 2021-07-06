@@ -64,9 +64,8 @@ export class ChangeSelectedChat {
               });
 
               oldChatMessages.messageIds = oldChatMessages.messageIds.slice(0, 30);
+              oldChatMessages.hasMore = true;
             }
-
-            oldChatMessages.hasMore = true;
           }
         }
 

@@ -1,8 +1,8 @@
 import React from 'react';
 
 import classnames from 'classnames';
-import { useSelector, useSelector } from 'react-redux';
-import { NavLink, NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 
 import { Avatar } from '@components/avatar';
 import { useToggledState } from '@hooks/use-toggled-state';

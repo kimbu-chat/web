@@ -1,4 +1,4 @@
-import React, { useState, useCallback, Suspense, useEffect } from 'react';
+import React, { useState, useCallback, Suspense, useEffect, useLayoutEffect } from 'react';
 
 import parsePhoneNumberFromString from 'libphonenumber-js';
 import { useTranslation } from 'react-i18next';
@@ -20,10 +20,16 @@ import './phone-confirmation.scss';
 
 const BLOCK_NAME = 'phone-confirmation';
 
-const LazyPrivacyPolicy = React.lazy(() => import('@components/privacy-policy'));
+const loadPrivacyPolicy = () => import('@components/privacy-policy');
+
+const LazyPrivacyPolicy = React.lazy(loadPrivacyPolicy);
 
 const PhoneConfirmationPage: React.FC = () => {
   const { t } = useTranslation();
+
+  useLayoutEffect(() => {
+    loadPrivacyPolicy();
+  }, []);
 
   const history = useHistory();
 
@@ -68,12 +74,12 @@ const PhoneConfirmationPage: React.FC = () => {
         <p className={`${BLOCK_NAME}__conditions`}>
           {t('loginPage.agree_to')}
           <span onClick={changePolicyDisplayedState}>{t('loginPage.kimbu_terms')}</span>
+          {policyDisplayed && (
+            <Suspense fallback={<span>Loading</span>}>
+              <LazyPrivacyPolicy close={changePolicyDisplayedState} />
+            </Suspense>
+          )}
         </p>
-        {policyDisplayed && (
-          <Suspense fallback={<div>Loading</div>}>
-            <LazyPrivacyPolicy close={changePolicyDisplayedState} />
-          </Suspense>
-        )}
       </form>
     </AuthWrapper>
   );

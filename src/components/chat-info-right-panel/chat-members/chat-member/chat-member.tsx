@@ -3,11 +3,13 @@ import React, { useCallback, useState } from 'react';
 import classnames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { Avatar } from '@components/avatar';
 import { TimeUpdateable } from '@components/time-updateable';
 import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
-import { MyProfileService } from '@services/my-profile-service';
+import { ChatId } from '@store/chats/chat-id';
+import { myIdSelector } from '@store/my-profile/selectors';
 import { getUserSelector } from '@store/users/selectors';
 import { getUserName } from '@utils/user-utils';
 
@@ -32,7 +34,7 @@ export const Member: React.FC<IMemberProps> = ({ memberId, isOwner }) => {
     setRemoveChatMemberModalDisplayed((oldState) => !oldState);
   }, [setRemoveChatMemberModalDisplayed]);
 
-  const myId = new MyProfileService().myProfile.id;
+  const myId = useSelector(myIdSelector);
 
   const itIsMe = member?.id === myId;
 
@@ -40,20 +42,29 @@ export const Member: React.FC<IMemberProps> = ({ memberId, isOwner }) => {
     <>
       <div className={BLOCK_NAME}>
         {member && (
-          <Avatar
-            className={classnames(`${BLOCK_NAME}__avatar`, {
-              [`${BLOCK_NAME}__avatar--owner`]: isOwner,
-            })}
-            size={isOwner ? 52 : 48}
-            user={member}
-          />
+          <Link data-not-clickable={itIsMe} to={`/im/${ChatId.from(memberId).id}`}>
+            <Avatar
+              className={classnames(`${BLOCK_NAME}__avatar`, {
+                [`${BLOCK_NAME}__avatar--owner`]: isOwner,
+              })}
+              size={isOwner ? 52 : 48}
+              user={member}
+            />
+          </Link>
         )}
 
         <div className={`${BLOCK_NAME}__data`}>
-          <div className={`${BLOCK_NAME}__name-line`}>
+          <Link
+            data-not-clickable={itIsMe}
+            to={`/im/${ChatId.from(memberId).id}`}
+            className={`${BLOCK_NAME}__name-line`}>
             <h3 className={`${BLOCK_NAME}__name`}>{member && getUserName(member, t)}</h3>
-            {isOwner && <div className={`${BLOCK_NAME}__owner`}>{t('chatMember.owner')}</div>}
-          </div>
+            {(isOwner || itIsMe) && (
+              <div className={`${BLOCK_NAME}__owner`}>
+                {isOwner ? t('chatMember.owner') : itIsMe && t('chatMember.me')}
+              </div>
+            )}
+          </Link>
 
           {!member?.deleted &&
             (member?.online ? (
@@ -75,7 +86,7 @@ export const Member: React.FC<IMemberProps> = ({ memberId, isOwner }) => {
         )}
       </div>
 
-      {member && removeChatMemberModalDisplayed && (
+      {member && removeChatMemberModalDisplayed && !itIsMe && (
         <DeleteChatMemberModal user={member} hide={changeRemoveChatMemberModalDisplayed} />
       )}
     </>

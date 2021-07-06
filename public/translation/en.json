@@ -74,7 +74,8 @@
     "typing": "typing something..."
   },
   "chatMember": {
-    "owner": "Owner"
+    "owner": "Owner",
+    "me": "It's You"
   },
   "chatFromList": {
     "you": "You",

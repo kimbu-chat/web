@@ -50,6 +50,10 @@ button {
   display: none;
 }
 
+[data-not-clickable='true'] {
+  pointer-events: none;
+}
+
 a {
   background-color: inherit;
   color: inherit;

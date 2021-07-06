@@ -94,7 +94,8 @@
     "typing": "печатает что-то..."
   },
   "chatMember": {
-    "owner": "Cоздатель"
+    "owner": "Cоздатель",
+    "me": "Это Вы"
   },
   "chatFromList": {
     "you": "Вы",

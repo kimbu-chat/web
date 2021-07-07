@@ -24,6 +24,15 @@
     "nick_name": "Никнейм",
     "name": "Имя"
   },
+  "editChatModal": {
+    "title": "Редактировать группу",
+    "upload_new": "Загрузить Новое Фото",
+    "requirements": "Минимум 256*256px PNG или JPG",
+    "name": "Название",
+    "description": "Описание",
+    "cancel": "Отмена",
+    "save": "Сохранить"
+  },
   "register": {
     "photo-requirements": "Как минимум 256*256px PNG или JPG",
     "register": "Регистрация",
@@ -85,7 +94,8 @@
     "typing": "печатает что-то..."
   },
   "chatMember": {
-    "owner": "Cоздатель"
+    "owner": "Cоздатель",
+    "me": "Это Вы"
   },
   "chatFromList": {
     "you": "Вы",
@@ -159,7 +169,10 @@
   "changePhoto": {
     "confirm": "Подтвердить",
     "title": "Загрузить аватар",
-    "reject": "Отмена"
+    "reject": "Отмена",
+    "left": "Повернуть в лево",
+    "mirror": "Зеркальное отражение",
+    "right": "Повернуть в право"
   },
   "audioVideo": {
     "title": "Аудио и Видео",

@@ -1,27 +1,34 @@
-import { useTranslation } from 'react-i18next';
 import React, { useCallback, useState, useEffect } from 'react';
+
+import classNames from 'classnames';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import { WithBackground } from '@components/with-background';
-import { Modal } from '@components/modal';
 import { Button } from '@components/button';
-import { resetSearchFriendsAction } from '@store/friends/actions';
-import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { Modal } from '@components/modal';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import { createGroupChatAction } from '@store/chats/actions';
-import { IChat } from '@store/chats/models';
-import { myIdSelector } from '@store/my-profile/selectors';
-import { ICreateGroupChatActionPayload } from '@store/chats/features/create-group-chat/action-payloads/create-group-chat-action-payload';
-import { IAvatar } from '@store/common/models';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ReactComponent as GroupSvg } from '@icons/group.svg';
+import { INSTANT_MESSAGING_CHAT_PATH } from '@routing/routing.constants';
+import { createGroupChatAction } from '@store/chats/actions';
+import { ICreateGroupChatActionPayload } from '@store/chats/features/create-group-chat/action-payloads/create-group-chat-action-payload';
+import { IChat } from '@store/chats/models';
+import { IAvatar } from '@store/common/models';
+import { resetSearchFriendsAction } from '@store/friends/actions';
+import { myIdSelector } from '@store/my-profile/selectors';
+import { replaceInUrl } from '@utils/replace-in-url';
 
-import { UserSelect } from './user-select/user-select';
+import { AnimationMode } from '../with-background/with-background';
+
 import { GroupChatCreation } from './group-chat-creation/group-chat-creation';
+import { UserSelect } from './user-select/user-select';
+
 import './create-group-chat-modal.scss';
 
 interface ICreateGroupChatProps {
   onClose: () => void;
+  animationMode?: AnimationMode;
   preSelectedUserIds?: number[];
 }
 
@@ -30,7 +37,13 @@ enum GroupChatCreationStage {
   GroupChatCreating = 'groupChatCreating',
 }
 
-const CreateGroupChat: React.FC<ICreateGroupChatProps> = ({ onClose, preSelectedUserIds }) => {
+const BLOCK_NAME = 'create-group-chat';
+
+const CreateGroupChat: React.FC<ICreateGroupChatProps> = ({
+  onClose,
+  preSelectedUserIds,
+  animationMode = AnimationMode.ENABLED,
+}) => {
   const { t } = useTranslation();
 
   const currentUserId = useSelector(myIdSelector);
@@ -79,7 +92,7 @@ const CreateGroupChat: React.FC<ICreateGroupChatProps> = ({ onClose, preSelected
 
       submitGroupChatCreation(groupChatToCreate).then((payload: IChat) => {
         onClose();
-        history.push(`/im/${payload.id}`);
+        history.push(replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, ['id?', payload.id]));
       });
     }
   }, [
@@ -99,69 +112,61 @@ const CreateGroupChat: React.FC<ICreateGroupChatProps> = ({ onClose, preSelected
 
   return (
     <>
-      <WithBackground onBackgroundClick={onClose}>
-        <Modal
-          title={
-            currentStage === GroupChatCreationStage.UserSelecting ? (
+      <Modal animationMode={animationMode} closeModal={onClose}>
+        <>
+          <Modal.Header>
+            {currentStage === GroupChatCreationStage.UserSelecting ? (
               <>
-                <GroupSvg viewBox="0 0 24 24" className="create-group-chat__icon" />
+                <GroupSvg viewBox="0 0 24 24" className={`${BLOCK_NAME}__icon`} />
                 <span>{t('createGroupChatModal.add_members')}</span>
               </>
             ) : (
               <>
-                <GroupSvg viewBox="0 0 24 24" className="create-group-chat__icon" />
+                <GroupSvg viewBox="0 0 24 24" className={`${BLOCK_NAME}__icon`} />
                 <span>{t('createGroupChatModal.new_group')}</span>
               </>
-            )
-          }
-          closeModal={onClose}
-          content={
-            <>
-              {currentStage === GroupChatCreationStage.UserSelecting && (
-                <UserSelect changeSelectedState={changeSelectedState} isSelected={isSelected} />
-              )}
+            )}
+          </Modal.Header>
+          {currentStage === GroupChatCreationStage.UserSelecting && (
+            <UserSelect changeSelectedState={changeSelectedState} isSelected={isSelected} />
+          )}
 
-              {currentStage === GroupChatCreationStage.GroupChatCreating && (
-                <GroupChatCreation
-                  setName={setName}
-                  setDescription={setDescription}
-                  setAvatarUploadResponse={setAvatarUploadResponse}
-                />
-              )}
-            </>
-          }
-          buttons={[
+          {currentStage === GroupChatCreationStage.GroupChatCreating && (
+            <GroupChatCreation
+              setName={setName}
+              setDescription={setDescription}
+              setAvatarUploadResponse={setAvatarUploadResponse}
+            />
+          )}
+
+          <div className={`${BLOCK_NAME}__btn-block`}>
             <button
-              key={1}
               type="button"
-              className="create-group-chat__btn create-group-chat__btn--cancel"
+              className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--cancel`)}
               onClick={onClose}>
               {t('createGroupChatModal.cancel')}
-            </button>,
-            currentStage === GroupChatCreationStage.UserSelecting ? (
+            </button>
+            {currentStage === GroupChatCreationStage.UserSelecting ? (
               <button
-                key={2}
                 disabled={selectedUserIds.length === 0}
                 type="button"
-                className="create-group-chat__btn create-group-chat__btn--confirm"
+                className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--confirm`)}
                 onClick={goToGroupChatCreationStage}>
                 {t('createGroupChatModal.next')}
               </button>
-            ) : null,
-            currentStage === GroupChatCreationStage.GroupChatCreating ? (
+            ) : (
               <Button
-                key={3}
                 disabled={!name.length}
                 loading={creationLoading}
                 type="button"
-                className="create-group-chat__btn create-group-chat__btn--confirm"
+                className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--confirm`)}
                 onClick={onSubmit}>
                 {t('createGroupChatModal.create_groupChat')}
               </Button>
-            ) : null,
-          ]}
-        />
-      </WithBackground>
+            )}
+          </div>
+        </>
+      </Modal>
     </>
   );
 };

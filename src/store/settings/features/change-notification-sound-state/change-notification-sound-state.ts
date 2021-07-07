@@ -1,6 +1,6 @@
+import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { select } from 'redux-saga/effects';
-import produce from 'immer';
 
 import { SettingsService } from '@services/settings-service';
 import { createEmptyAction } from '@store/common/actions';

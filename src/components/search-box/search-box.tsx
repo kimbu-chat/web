@@ -1,7 +1,8 @@
 import React from 'react';
 
-import './search-box.scss';
 import { ReactComponent as SearchSvg } from '@icons/search.svg';
+
+import './search-box.scss';
 
 interface ISearchBoxProps
   extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {

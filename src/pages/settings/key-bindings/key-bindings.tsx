@@ -1,12 +1,14 @@
-import { useTranslation } from 'react-i18next';
 import React, { useCallback } from 'react';
+
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { changeTypingStrategyAction } from '@store/settings/actions';
-import { getTypingStrategySelector } from '@store/settings/selectors';
-import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { TypingStrategy } from '@store/settings/features/models';
 import { RadioBox } from '@components/radio-box';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { changeTypingStrategyAction } from '@store/settings/actions';
+import { TypingStrategy } from '@store/settings/features/models';
+import { getTypingStrategySelector } from '@store/settings/selectors';
+
 import './key-bindings.scss';
 
 const KeyBindings = () => {

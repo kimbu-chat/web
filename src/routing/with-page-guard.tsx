@@ -1,7 +1,8 @@
 import React, { ReactElement } from 'react';
+
+import isEmpty from 'lodash/isEmpty';
 import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import isEmpty from 'lodash/isEmpty';
 
 import { AuthService } from '@services/auth-service';
 
@@ -12,9 +13,9 @@ import {
   REGISTERED_USER,
 } from './routing.constants';
 
+import type { Preload, UserStatus } from './routing.types';
 import type { RouteComponentProps } from 'react-router-dom';
 import type { RootState } from 'typesafe-actions';
-import type { Preload, UserStatus } from './routing.types';
 
 const userStatusSelector = (state: RootState): UserStatus => {
   const authService = new AuthService();
@@ -29,21 +30,21 @@ const userStatusSelector = (state: RootState): UserStatus => {
   return isProspectUser ? PROSPECT_USER : ANONYMOUS_USER;
 };
 
-const withPageGuard = (allowedUsers: UserStatus[], fallbackUrl?: string) => (
-  Component: React.FC<RouteComponentProps> & Preload,
-): React.FC<RouteComponentProps> => {
-  const RouteComponent = (props: any): ReactElement => {
-    const userStatus = useSelector(userStatusSelector);
-    if (allowedUsers.indexOf(userStatus) !== -1) {
-      return <Component {...props} />;
-    }
+const withPageGuard =
+  (allowedUsers: UserStatus[], fallbackUrl?: string) =>
+  (Component: React.FC<RouteComponentProps> & Preload): React.FC<RouteComponentProps> => {
+    const RouteComponent = (props: any): ReactElement => {
+      const userStatus = useSelector(userStatusSelector);
+      if (allowedUsers.indexOf(userStatus) !== -1) {
+        return <Component {...props} />;
+      }
 
-    return <Redirect to={fallbackUrl || HOME_PAGE_PATH} />;
+      return <Redirect to={fallbackUrl || HOME_PAGE_PATH} />;
+    };
+
+    RouteComponent.preload = Component.preload;
+
+    return RouteComponent;
   };
-
-  RouteComponent.preload = Component.preload;
-
-  return RouteComponent;
-};
 
 export default withPageGuard;

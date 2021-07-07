@@ -1,7 +1,13 @@
 .add-friends-modal {
-  margin-bottom: 47px;
-  margin-top: 14px;
+  margin-top: 30px;
   position: relative;
+
+  &__btn-block {
+    margin-top: 69px;
+    display: flex;
+    justify-content: flex-end;
+    margin-left: auto;
+  }
 
   &__icon {
     color: var(--dt-white-wt-kingBlue);
@@ -75,7 +81,7 @@
 
       color: #fff;
       margin-left: 20px;
-      transition: all 0.1s;
+      transition: all var(--ANIMATION-DURATION);
 
       &:hover {
         box-shadow: 0 3px 6px rgba(14, 22, 43, 0.62);
@@ -93,7 +99,7 @@
     align-items: center;
     display: flex;
     flex-direction: column;
-    margin-bottom: 30px;
+
     width: 340px;
 
     &__avatar {
@@ -113,6 +119,7 @@
       font-size: 0.875rem;
       font-weight: 300;
       line-height: 17px;
+      margin-bottom: -17px;
     }
   }
 }

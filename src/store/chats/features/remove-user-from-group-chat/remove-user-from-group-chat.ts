@@ -3,9 +3,9 @@ import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
-import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
-import { Meta } from '@store/common/actions';
 import { MAIN_API } from '@common/paths';
+import { Meta } from '@store/common/actions';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { getSelectedGroupChatIdSelector } from '../../selectors';
 

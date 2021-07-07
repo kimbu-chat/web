@@ -1,13 +1,14 @@
 import { AuthActions } from './auth/actions';
-import { ChatActions } from './chats/actions';
-import { MyProfileActions } from './my-profile/actions';
-import { FriendActions } from './friends/actions';
 import { CallActions } from './calls/actions';
+import { ChatActions } from './chats/actions';
+import { FriendActions } from './friends/actions';
 import { InternetActions } from './internet/actions';
-import { SettingsActions } from './settings/actions';
-import { WebSocketActions } from './web-sockets/actions';
-import { UsersActions } from './users/actions';
 import { LoginActions } from './login/actions';
+import { MyProfileActions } from './my-profile/actions';
+import { NotificationsActions } from './notifications/actions';
+import { SettingsActions } from './settings/actions';
+import { UsersActions } from './users/actions';
+import { WebSocketActions } from './web-sockets/actions';
 
 export default {
   auth: AuthActions,
@@ -20,4 +21,5 @@ export default {
   webSocket: WebSocketActions,
   users: UsersActions,
   login: LoginActions,
+  notifications: NotificationsActions,
 };

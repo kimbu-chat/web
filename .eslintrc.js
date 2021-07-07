@@ -53,7 +53,24 @@ module.exports = {
           'index',
           'type',
         ],
+        pathGroups: [
+          {
+            pattern: 'react',
+            group: 'external',
+            position: 'before',
+          },
+          {
+            pattern: '*.scss',
+            group: 'type',
+            patternOptions: { matchBase: true },
+            position: 'after',
+          },
+        ],
+        pathGroupsExcludedImportTypes: ['builtin'],
         'newlines-between': 'always',
+        alphabetize: {
+          order: 'asc',
+        },
       },
     ],
     'import/prefer-default-export': 'off',

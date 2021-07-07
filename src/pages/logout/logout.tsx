@@ -1,18 +1,16 @@
 import React, { useEffect } from 'react';
 
 import { CubeLoader } from '@components/cube-loader';
-import { useEmptyActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { logoutAction } from '@store/auth/actions';
 
-const Logout: React.FC = () => {
-  const logout = useEmptyActionWithDeferred(logoutAction);
+import { useActionWithDispatch } from '../../hooks/use-action-with-dispatch';
+
+export const Logout = () => {
+  const logout = useActionWithDispatch(logoutAction);
+
   useEffect(() => {
-    logout().then(() => {
-      window.location.replace('login');
-    });
+    logout();
   }, [logout]);
 
   return <CubeLoader />;
 };
-
-export default Logout;

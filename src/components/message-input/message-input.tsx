@@ -1,10 +1,17 @@
-import { useTranslation } from 'react-i18next';
-import Mousetrap from 'mousetrap';
 import React, { useState, useRef, useEffect, useCallback, Suspense } from 'react';
-import { useSelector } from 'react-redux';
-import throttle from 'lodash/throttle';
 
+import throttle from 'lodash/throttle';
+import Mousetrap from 'mousetrap';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+
+import { CubeLoader } from '@components/cube-loader';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { useReferState } from '@hooks/use-referred-state';
+import { ReactComponent as AddSvg } from '@icons/add-attachment.svg';
+import { ReactComponent as CloseSvg } from '@icons/close.svg';
+import { ReactComponent as SendSvg } from '@icons/send.svg';
+import { ReactComponent as VoiceSvg } from '@icons/voice.svg';
 import {
   messageTypingAction,
   createMessageAction,
@@ -27,23 +34,17 @@ import {
   getMessageToEditSelector,
 } from '@store/chats/selectors';
 import { myIdSelector } from '@store/my-profile/selectors';
+import { TypingStrategy } from '@store/settings/features/models';
 import { getTypingStrategySelector } from '@store/settings/selectors';
 import { getFileType } from '@utils/get-file-extension';
-import { TypingStrategy } from '@store/settings/features/models';
-import { CubeLoader } from '@components/cube-loader';
-import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { ReactComponent as AddSvg } from '@icons/add-attachment.svg';
-import { ReactComponent as VoiceSvg } from '@icons/voice.svg';
-import { ReactComponent as SendSvg } from '@icons/send.svg';
-import { ReactComponent as CloseSvg } from '@icons/close.svg';
 
-import { RespondingMessage } from './responding-message/responding-message';
-import { ExpandingTextarea } from './expanding-textarea/expanding-textarea';
-import { MessageInputAttachment } from './message-input-attachment/message-input-attachment';
 import { EditingMessage } from './editing-message/editing-message';
+import { ExpandingTextarea } from './expanding-textarea/expanding-textarea';
 import { MessageError } from './message-error/message-error';
+import { MessageInputAttachment } from './message-input-attachment/message-input-attachment';
 import { MessageSmiles } from './message-smiles/message-smiles';
 import { RecordingMessage } from './recording-message/recording-message';
+import { RespondingMessage } from './responding-message/responding-message';
 
 import './message-input.scss';
 
@@ -143,7 +144,7 @@ const CreateMessageInput = () => {
           text: refText,
           systemMessageType: SystemMessageType.None,
           userCreatorId: currentUserId,
-          creationDateTime: new Date(new Date().toUTCString()),
+          creationDateTime: new Date().toISOString(),
           state: MessageState.QUEUED,
           id: new Date().getTime(),
           chatId,

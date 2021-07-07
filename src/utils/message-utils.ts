@@ -1,9 +1,11 @@
-import dayjs from 'dayjs';
 import { TFunction } from 'i18next';
 
+import { SystemMessageType } from '../store/chats/models';
 import { INormalizedMessage, IMessage } from '../store/chats/models/message';
 import { CallStatus } from '../store/common/models/call-status';
-import { SystemMessageType } from '../store/chats/models';
+
+import { SECOND_DURATION } from './constants';
+import { getHourMinuteSecond, getShortTimeAmPm } from './date-utils';
 
 import type { IUser } from '../store/common/models';
 
@@ -47,11 +49,11 @@ const getCallEndedMessage = (
 ) => {
   if (callMessage.userCallerId === myId) {
     return t('systemMessage.outgoing_call_success_ended', {
-      duration: dayjs.utc(callMessage.duration * 1000).format('HH:mm:ss'),
+      duration: getHourMinuteSecond(callMessage.duration * SECOND_DURATION),
     });
   }
   return t('systemMessage.incoming_call_success_ended', {
-    duration: dayjs.utc(callMessage.duration * 1000).format('HH:mm:ss'),
+    duration: getHourMinuteSecond(callMessage.duration * SECOND_DURATION),
   });
 };
 
@@ -93,10 +95,10 @@ const getCallNotAnsweredMessage = (
 ) =>
   callMessage.userCallerId === myId
     ? t('systemMessage.someone_missed_call', {
-        time: dayjs.utc(message.creationDateTime).local().format('LT').toLowerCase(),
+        time: getShortTimeAmPm(message.creationDateTime).toLowerCase(),
       })
     : t('systemMessage.you_missed_call', {
-        time: dayjs.utc(message.creationDateTime).local().format('LT').toLowerCase(),
+        time: getShortTimeAmPm(message.creationDateTime).toLowerCase(),
       });
 
 const callMessageMap: {
@@ -132,9 +134,8 @@ const getGroupChatMemberRemovedMessage = (
   myId: number,
   userCreator?: IUser,
 ) => {
-  const systemMessageContent = getSystemMessageData<IGroupChatMemberRemovedSystemMessageContent>(
-    message,
-  );
+  const systemMessageContent =
+    getSystemMessageData<IGroupChatMemberRemovedSystemMessageContent>(message);
   if (systemMessageContent.removedUserId === userCreator?.id) {
     return t('systemMessage.left_group', {
       name: systemMessageContent.removedUserName,
@@ -151,9 +152,8 @@ const getGroupChatMemberAddedMessage = (
   myId: number,
   userCreator?: IUser,
 ) => {
-  const systemMessageContent = getSystemMessageData<IGroupChatMemberAddedSystemMessageContent>(
-    message,
-  );
+  const systemMessageContent =
+    getSystemMessageData<IGroupChatMemberAddedSystemMessageContent>(message);
 
   if (userCreator?.id === myId) {
     return t('systemMessage.you_added', {
@@ -172,9 +172,8 @@ const getGroupChatNameChangedMessage = (
   myId: number,
   userCreator?: IUser,
 ) => {
-  const systemMessageContent = getSystemMessageData<IGroupChatNameChangedSystemMessageContent>(
-    message,
-  );
+  const systemMessageContent =
+    getSystemMessageData<IGroupChatNameChangedSystemMessageContent>(message);
 
   if (userCreator?.id === myId) {
     return t('systemMessage.you_changed_name', {

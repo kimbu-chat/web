@@ -1,28 +1,32 @@
 import React, { useCallback } from 'react';
+
+import classnames from 'classnames';
+import dayjs from 'dayjs';
+import truncate from 'lodash/truncate';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import dayjs from 'dayjs';
-import { useTranslation } from 'react-i18next';
-import truncate from 'lodash/truncate';
-import classnames from 'classnames';
 
+import { Avatar } from '@components/avatar';
+import { ReactComponent as MessageErrorSvg } from '@icons/message-error.svg';
+import { ReactComponent as MessageQeuedSvg } from '@icons/message-queued.svg';
+import { ReactComponent as MessageReadSvg } from '@icons/message-read.svg';
+import { ReactComponent as MessageSentSvg } from '@icons/message-sent.svg';
+import { INSTANT_MESSAGING_CHAT_PATH } from '@routing/routing.constants';
 import {
   MessageLinkType,
   MessageState,
   SystemMessageType,
   INormalizedMessage,
 } from '@store/chats/models';
-import { Avatar } from '@components/avatar';
-import { myIdSelector } from '@store/my-profile/selectors';
-import { ReactComponent as MessageQeuedSvg } from '@icons/message-queued.svg';
-import { ReactComponent as MessageSentSvg } from '@icons/message-sent.svg';
-import { ReactComponent as MessageReadSvg } from '@icons/message-read.svg';
-import { ReactComponent as MessageErrorSvg } from '@icons/message-error.svg';
 import { getTypingStringSelector, getChatSelector } from '@store/chats/selectors';
-import { getChatInterlocutor } from '@utils/user-utils';
-import { constructSystemMessageText } from '@utils/message-utils';
-import { checkIfDatesAreDifferentDate } from '@utils/date-utils';
+import { myIdSelector } from '@store/my-profile/selectors';
 import { getUserSelector } from '@store/users/selectors';
+import { DAY_MONTH_YEAR } from '@utils/constants';
+import { checkIfDatesAreDifferentDate, getShortTimeAmPm } from '@utils/date-utils';
+import { constructSystemMessageText } from '@utils/message-utils';
+import { replaceInUrl } from '@utils/replace-in-url';
+import { getChatInterlocutor } from '@utils/user-utils';
 
 import './chat-item.scss';
 
@@ -42,6 +46,11 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
   const typingString = useSelector(getTypingStringSelector(t, chatId));
 
   const isMessageCreatorCurrentUser: boolean = chat?.lastMessage?.userCreatorId === currentUserId;
+
+  const getDayMonthYear = useCallback(
+    (creationDateTime: string) => dayjs.utc(creationDateTime).local().format(DAY_MONTH_YEAR),
+    [],
+  );
 
   const getMessageText = useCallback((): string => {
     const messageToProcess =
@@ -129,7 +138,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
 
   return (
     <NavLink
-      to={`/im/${chat?.id.toString()}`}
+      to={replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, ['id?', chat?.id])}
       className={BLOCK_NAME}
       activeClassName={classnames(BLOCK_NAME, `${BLOCK_NAME}--active`)}>
       {interlocutor && (
@@ -151,12 +160,11 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
               messageStatIconMap[chat?.lastMessage.state]}
           </div>
           <div className={`${BLOCK_NAME}__time`}>
-            {checkIfDatesAreDifferentDate(
-              new Date(chat?.lastMessage?.creationDateTime as Date),
-              new Date(),
-            )
-              ? dayjs.utc(chat?.lastMessage?.creationDateTime).local().format('dd MMM YY')
-              : dayjs.utc(chat?.lastMessage?.creationDateTime).local().format('LT').toLowerCase()}
+            {chat?.lastMessage &&
+              chat.lastMessage.creationDateTime &&
+              (checkIfDatesAreDifferentDate(new Date(chat.lastMessage.creationDateTime), new Date())
+                ? getDayMonthYear(chat.lastMessage.creationDateTime)
+                : getShortTimeAmPm(chat.lastMessage.creationDateTime).toLowerCase())}
           </div>
         </div>
         <div className={`${BLOCK_NAME}__last-message`}>{typingString || getMessageText()}</div>

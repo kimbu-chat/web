@@ -1,14 +1,14 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
+import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { normalize } from 'normalizr';
 
-import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
-import { userArrNormalizationSchema } from '@store/friends/normalization';
 import { ById } from '@store/chats/models/by-id';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { userArrNormalizationSchema } from '@store/friends/normalization';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 
 import { IUser } from '../../../common/models';

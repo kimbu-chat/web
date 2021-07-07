@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { AddFriend } from '@components/friend-list/add-friend';
 import { FriendList } from '@components/friend-list';
+import { AddFriend } from '@components/friend-list/add-friend';
 
 import './contacts.scss';
 

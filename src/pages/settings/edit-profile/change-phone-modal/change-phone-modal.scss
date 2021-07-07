@@ -1,7 +1,11 @@
 .change-phone-modal {
-  margin-bottom: 50px;
-  margin-top: 12px;
+  margin-top: 28px;
   position: relative;
+
+  &__btn-block {
+    display: flex;
+    justify-content: flex-end;
+  }
 
   &__icon {
     color: var(--dt-white-wt-kingBlue);
@@ -16,6 +20,7 @@
   }
 
   &__btn {
+    margin-top: 72px;
     border-radius: 6px;
     color: var(--dt-white-wt-dark);
     font-size: 1rem;

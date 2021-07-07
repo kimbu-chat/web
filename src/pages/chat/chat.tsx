@@ -1,6 +1,18 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useLayoutEffect, useState } from 'react';
+
 import { useSelector } from 'react-redux';
 
+import { TopAudioPlayer } from '@components/audio-player/audio-player';
+import { BlockedMessageInput } from '@components/blocked-message-input';
+import { ChatList } from '@components/chat-list';
+import { ChatTopBar } from '@components/chat-top-bar';
+import { DragIndicator } from '@components/drag-indicator/drag-indicator';
+import { CreateMessageInput } from '@components/message-input';
+import { MessageList } from '@components/message-list';
+import { NotContact } from '@components/not-contact';
+import { CurrentAudio, AudioContext } from '@contexts/audioContext';
+import { useDragDrop } from '@hooks/use-drag-drop';
+import { loadEmoji } from '@routing/module-loader';
 import {
   amIBlackListedByInterlocutorSelector,
   isCurrentChatBlackListedSelector,
@@ -10,17 +22,6 @@ import {
   isCurrentChatUserDeletedSelector,
   getSelectedChatIdSelector,
 } from '@store/chats/selectors';
-import { DragIndicator } from '@components/drag-indicator/drag-indicator';
-import { ChatInfoRightPanel } from '@components/chat-info-right-panel';
-import { CreateMessageInput } from '@components/message-input';
-import { ChatList } from '@components/chat-list';
-import { ChatTopBar } from '@components/chat-top-bar';
-import { MessageList } from '@components/message-list';
-import { NotContact } from '@components/not-contact';
-import { BlockedMessageInput } from '@components/blocked-message-input';
-import { useDragDrop } from '@hooks/use-drag-drop';
-import { TopAudioPlayer } from '@components/audio-player/audio-player';
-import { CurrentAudio, AudioContext } from '@contexts/audioContext';
 
 import './chat.scss';
 
@@ -35,6 +36,10 @@ const ChatPage: React.FC = () => {
   const isCurrentChatUserDeactivated = useSelector(isCurrentChatUserDeactivatedSelector);
   const isCurrentChatUserDeleted = useSelector(isCurrentChatUserDeletedSelector);
   const selectedChatId = useSelector(getSelectedChatIdSelector);
+
+  useLayoutEffect(() => {
+    loadEmoji();
+  }, []);
 
   const [currentAudio, setCurrentAudio] = useState<CurrentAudio>(null);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
@@ -113,7 +118,6 @@ const ChatPage: React.FC = () => {
             !amIBlackListedByInterlocutor && <NotContact />}
         </div>
         <ChatTopBar />
-        <ChatInfoRightPanel />
       </AudioContext.Provider>
     </>
   );

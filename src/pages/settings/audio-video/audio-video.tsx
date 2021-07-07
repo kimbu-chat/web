@@ -1,13 +1,23 @@
 import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
+
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import incomingCallSound from '@sounds/calls/incoming-call.ogg';
-import { ReactComponent as VideoSvg } from '@icons/attachment-video.svg';
-import { ReactComponent as PlaySvg } from '@icons/play.svg';
-import { ReactComponent as PauseSvg } from '@icons/pause.svg';
-import { ReactComponent as MicrophoneSvg } from '@icons/voice.svg';
+import { Button } from '@components/button';
+import { Dropdown } from '@components/dropdown';
+import { HorizontalSeparator } from '@components/horizontal-separator';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { ReactComponent as VideoSvg } from '@icons/attachment-video.svg';
+import { ReactComponent as PauseSvg } from '@icons/pause.svg';
+import { ReactComponent as PlaySvg } from '@icons/play.svg';
+import { ReactComponent as VideoCameraSvg } from '@icons/video-camera.svg';
+import { ReactComponent as MicrophoneSvg } from '@icons/voice.svg';
+import incomingCallSound from '@sounds/calls/incoming-call.ogg';
+import {
+  killDeviceUpdateWatcherAction,
+  spawnDeviceUpdateWatcherAction,
+  switchDeviceAction,
+} from '@store/calls/actions';
 import { InputType } from '@store/calls/common/enums/input-type';
 import {
   getVideoConstraintsSelector,
@@ -15,17 +25,8 @@ import {
   getAudioDevicesSelector,
   getVideoDevicesSelector,
 } from '@store/calls/selectors';
-import { ReactComponent as VideoCameraSvg } from '@icons/video-camera.svg';
-import {
-  killDeviceUpdateWatcherAction,
-  spawnDeviceUpdateWatcherAction,
-  switchDeviceAction,
-} from '@store/calls/actions';
-import { getAudioVolume } from '@utils/get-audio-volume-size';
 import { playSoundSafely } from '@utils/current-music';
-import { Button } from '@components/button';
-import { HorizontalSeparator } from '@components/horizontal-separator';
-import { Dropdown } from '@components/dropdown';
+import { getAudioVolume } from '@utils/get-audio-volume-size';
 
 import './audio-video.scss';
 
@@ -175,9 +176,11 @@ const AudioVideoSettings = () => {
     if (audioPlaying) {
       (async () => {
         if (audioRef.current) {
-          const stream = ((audioRef.current as unknown) as {
-            captureStream: () => MediaStream;
-          }).captureStream();
+          const stream = (
+            audioRef.current as unknown as {
+              captureStream: () => MediaStream;
+            }
+          ).captureStream();
           playSoundSafely(audioRef.current);
 
           try {

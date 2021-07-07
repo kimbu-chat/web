@@ -1,11 +1,11 @@
-import { ConfirmPhone } from './features/confirm-phone/confirm-phone';
 import { ConfirmPhoneFailure } from './features/confirm-phone/confirm-phone-failure';
 import { ConfirmPhoneSuccess } from './features/confirm-phone/confirm-phone-success';
+import { ConfirmPhone } from './features/confirm-phone/confirm-phone';
+import { LoginSuccess } from './features/login/login-success';
 import { Register } from './features/register/register';
-import { SendSmsCode } from './features/send-sms-code/send-sms-code';
 import { SendSmsCodeFailure } from './features/send-sms-code/send-sms-code-failure';
 import { SendSmsCodeSuccess } from './features/send-sms-code/send-sms-code-success';
-import { LoginSuccess } from './features/login/login-success';
+import { SendSmsCode } from './features/send-sms-code/send-sms-code';
 
 // AuthActions
 export const sendSmsCodeAction = SendSmsCode.action;

@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { ErrorTooltip } from '../error-tooltip/error-tooltip';
+import { ErrorTooltip } from '@components/error-tooltip/error-tooltip';
+
 import './labeled-input.scss';
 
 interface ILabeledInputProps {

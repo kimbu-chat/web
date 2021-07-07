@@ -1,20 +1,23 @@
 import partialRight from 'lodash/partialRight';
 
+import { LazyPreload, preloadRouteComponent } from '@routing/preloading.utils';
 import {
   CALLS_PATH,
   CONTACTS_PATH,
   INSTANT_MESSAGING_CHAT_PATH,
   REGISTERED_USER,
   SETTINGS_PATH,
+  LOGOUT_PATH,
 } from '@routing/routing.constants';
 import { MainRoutesEnum, MainRoutesObject } from '@routing/routing.types';
 import withPageGuard from '@routing/with-page-guard';
 import { store, StoreKeys } from '@store';
-import { LazyPreload, preloadRouteComponent } from '@routing/preloading.utils';
 
 const ChatPage = LazyPreload(() => import('@pages/chat/chat'));
 
 const ContactsPage = LazyPreload(() => import('@pages/contacts'));
+
+const LogoutPage = LazyPreload(() => import('@pages/logout'));
 
 const CallsPage = LazyPreload(() =>
   import('@store/calls/module').then((module) => {
@@ -53,6 +56,13 @@ const MainRoutes: MainRoutesObject = {
     pageName: 'Settings',
     props: {
       component: withPageGuard([REGISTERED_USER])(SettingsRouter),
+    },
+  },
+  [MainRoutesEnum.LOGOUT]: {
+    path: LOGOUT_PATH,
+    pageName: 'Logout',
+    props: {
+      component: withPageGuard([REGISTERED_USER])(LogoutPage),
     },
   },
 };

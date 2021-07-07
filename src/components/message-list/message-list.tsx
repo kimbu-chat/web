@@ -1,9 +1,15 @@
 import React, { useEffect, useCallback } from 'react';
-import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import dayjs from 'dayjs';
 
+import dayjs from 'dayjs';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+
+import { InfiniteScroll } from '@components/infinite-scroll';
+import { MessageItem } from '@components/message-item';
+import { SelectedMessagesData } from '@components/selected-messages-data';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { getMessagesAction, markMessagesAsReadAction } from '@store/chats/actions';
+import { SystemMessageType } from '@store/chats/models';
 import {
   getMessagesIdsByChatIdSelector,
   getSelectedMessageIds,
@@ -14,14 +20,9 @@ import {
   getSelectedChatMessagesSelector,
   getSelectedChatMessagesSearchStringSelector,
 } from '@store/chats/selectors';
-import { InfiniteScroll } from '@components/infinite-scroll';
-import { SelectedMessagesData } from '@components/selected-messages-data';
-import { MessageItem } from '@components/message-item';
-import FadeAnimationWrapper from '@components/fade-animation-wrapper';
-import { MESSAGES_LIMIT } from '@utils/pagination-limits';
-import { SystemMessageType } from '@store/chats/models';
-import { getMessagesAction, markMessagesAsReadAction } from '@store/chats/actions';
+import { DAY_NAME_MONTH_NAME_DAY_NUMBER_YEAR } from '@utils/constants';
 import { checkIfDatesAreDifferentDate } from '@utils/date-utils';
+import { MESSAGES_LIMIT } from '@utils/pagination-limits';
 
 import './message-list.scss';
 
@@ -76,9 +77,7 @@ const MessageList = () => {
           </div>
         )}
 
-        <FadeAnimationWrapper isDisplayed={selectedMessageIds.length > 0}>
-          <SelectedMessagesData />
-        </FadeAnimationWrapper>
+        {selectedMessageIds.length > 0 && <SelectedMessagesData />}
 
         <InfiniteScroll
           onReachBottom={loadMore}
@@ -127,7 +126,7 @@ const MessageList = () => {
                       {dayjs
                         .utc((messages && messages[separatedMessages[0]]?.creationDateTime) || '')
                         .local()
-                        .format('dddd, MMMM D, YYYY')
+                        .format(DAY_NAME_MONTH_NAME_DAY_NUMBER_YEAR)
                         .toString()}
                     </span>
                   </div>

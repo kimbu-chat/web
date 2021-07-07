@@ -1,21 +1,23 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import parsePhoneNumberFromString from 'libphonenumber-js';
-import useInterval from 'use-interval';
-import classNames from 'classnames';
 
-import { ReactComponent as ChatSvg } from '@icons/single-chat.svg';
-import { ReactComponent as CrayonSvg } from '@icons/crayon.svg';
-import { WithBackground } from '@components/with-background';
-import { Modal } from '@components/modal';
+import classNames from 'classnames';
+import parsePhoneNumberFromString from 'libphonenumber-js';
+import { useTranslation } from 'react-i18next';
+import useInterval from 'use-interval';
+
 import { Button } from '@components/button';
-import { PhoneInputGroup } from '@components/phone-input-group';
 import { LabeledInput } from '@components/labeled-input';
+import { Modal } from '@components/modal';
+import { PhoneInputGroup } from '@components/phone-input-group';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import { confirmChangePhone, sendSmsChangePhone } from '@store/my-profile/actions';
+import { ReactComponent as CrayonSvg } from '@icons/crayon.svg';
+import { ReactComponent as ChatSvg } from '@icons/single-chat.svg';
 import { getUserByPhoneAction } from '@store/friends/actions';
-import './change-phone-modal.scss';
+import { confirmChangePhone, sendSmsChangePhone } from '@store/my-profile/actions';
+import { SECOND_DURATION } from '@utils/constants';
 import { getMinutesSeconds } from '@utils/date-utils';
+
+import './change-phone-modal.scss';
 
 interface IChangePhoneModalProps {
   onClose: () => void;
@@ -112,103 +114,98 @@ const ChangePhoneModal: React.FC<IChangePhoneModalProps> = ({ onClose }) => {
   }, [phone, code]);
 
   return (
-    <WithBackground onBackgroundClick={onClose}>
-      <Modal
-        title={
-          submited ? (
+    <Modal closeModal={onClose}>
+      <>
+        <Modal.Header>
+          {submited ? (
             <>
-              <ChatSvg className={classNames(`${BLOCK_NAME}__icon`)} viewBox="0 0 24 24" />
+              <ChatSvg className={`${BLOCK_NAME}__icon`} viewBox="0 0 24 24" />
               <span> {t('changePhoneModal.code-sent')} </span>
             </>
           ) : (
             <>
-              <CrayonSvg className={classNames(`${BLOCK_NAME}__icon`)} viewBox="0 0 16 16" />
+              <CrayonSvg className={`${BLOCK_NAME}__icon`} viewBox="0 0 16 16" />
               <span> {t('changePhoneModal.change-number')} </span>
             </>
-          )
-        }
-        content={
-          <div className={classNames(BLOCK_NAME)}>
-            <PhoneInputGroup
-              submitFunction={sendCodeConfirmation}
-              hideCountrySelect={submited}
-              phone={phone}
-              setPhone={setPhone}
-              errorText={submited ? null : error && t(error)}
-              phoneInputIcon={
-                submited ? (
-                  <button type="button" className={classNames(`${BLOCK_NAME}__back-icon`)}>
-                    <CrayonSvg onClick={prevStep} viewBox="0 0 16 16" />
-                  </button>
-                ) : undefined
-              }
-            />
+          )}
+        </Modal.Header>
+        <div className={BLOCK_NAME}>
+          <PhoneInputGroup
+            submitFunction={sendCodeConfirmation}
+            hideCountrySelect={submited}
+            phone={phone}
+            setPhone={setPhone}
+            errorText={submited ? null : error && t(error)}
+            phoneInputIcon={
+              submited ? (
+                <button type="button" className={`${BLOCK_NAME}__back-icon`}>
+                  <CrayonSvg onClick={prevStep} viewBox="0 0 16 16" />
+                </button>
+              ) : undefined
+            }
+          />
 
-            {submited && (
+          {submited && (
+            <>
+              <LabeledInput
+                label={t('changePhoneModal.code')}
+                placeholder={t('changePhoneModal.enter-numbers')}
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+                containerClassName={`${BLOCK_NAME}__input`}
+                errorText={error && t(error)}
+              />
+
+              {remainedTime === 0 ? (
+                <Button
+                  onClick={reSendCode}
+                  themed
+                  loading={resendLoading}
+                  className={`${BLOCK_NAME}__resend`}>
+                  {t('changePhoneModal.resend')}
+                </Button>
+              ) : (
+                <span className={`${BLOCK_NAME}__details`}>
+                  {t('changePhoneModal.details', {
+                    time: getMinutesSeconds(remainedTime * SECOND_DURATION),
+                  })}
+                </span>
+              )}
+            </>
+          )}
+
+          <div className={`${BLOCK_NAME}__btn-block`}>
+            {submited ? (
+              <Button
+                disabled={!/^[0-9]{4}$/.test(code)}
+                loading={loading}
+                onClick={confirm}
+                type="button"
+                className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--submit`)}>
+                {t('changePhoneModal.confirm')}
+              </Button>
+            ) : (
               <>
-                <LabeledInput
-                  label={t('changePhoneModal.code')}
-                  placeholder={t('changePhoneModal.enter-numbers')}
-                  value={code}
-                  onChange={(e) => setCode(e.target.value)}
-                  containerClassName={classNames(`${BLOCK_NAME}__input`)}
-                  errorText={error && t(error)}
-                />
-
-                {remainedTime === 0 ? (
-                  <Button
-                    onClick={reSendCode}
-                    themed
-                    loading={resendLoading}
-                    className={classNames(`${BLOCK_NAME}__resend`)}>
-                    {t('changePhoneModal.resend')}
-                  </Button>
-                ) : (
-                  <span className={classNames(`${BLOCK_NAME}__details`)}>
-                    {t('changePhoneModal.details', {
-                      time: getMinutesSeconds(remainedTime),
-                    })}
-                  </span>
-                )}
+                <button
+                  type="button"
+                  className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--cancel`)}
+                  onClick={onClose}>
+                  {t('changePhoneModal.cancel')}
+                </button>
+                <Button
+                  disabled={!parsePhoneNumberFromString(phone)?.isValid()}
+                  type="button"
+                  loading={loading}
+                  onClick={sendCodeConfirmation}
+                  className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--submit`)}>
+                  {t('changePhoneModal.change')}
+                </Button>
               </>
             )}
           </div>
-        }
-        closeModal={onClose}
-        buttons={[
-          !submited && (
-            <button
-              key={1}
-              type="button"
-              className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--cancel`)}
-              onClick={onClose}>
-              {t('changePhoneModal.cancel')}
-            </button>
-          ),
-          submited ? (
-            <Button
-              key={2}
-              disabled={!/^[0-9]{4}$/.test(code)}
-              loading={loading}
-              onClick={confirm}
-              type="button"
-              className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--submit`)}>
-              {t('changePhoneModal.confirm')}
-            </Button>
-          ) : (
-            <Button
-              key={3}
-              disabled={!parsePhoneNumberFromString(phone)?.isValid()}
-              type="button"
-              loading={loading}
-              onClick={sendCodeConfirmation}
-              className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--submit`)}>
-              {t('changePhoneModal.change')}
-            </Button>
-          ),
-        ]}
-      />
-    </WithBackground>
+        </div>
+      </>
+    </Modal>
   );
 };
 

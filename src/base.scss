@@ -50,6 +50,10 @@ button {
   display: none;
 }
 
+[data-not-clickable='true'] {
+  pointer-events: none;
+}
+
 a {
   background-color: inherit;
   color: inherit;
@@ -68,6 +72,8 @@ input {
 
 :root {
   font-size: 16px;
+
+  --ANIMATION-DURATION: 0.2s;
 
   //primary colors
   --dt-dark-wt-white: #262c38;

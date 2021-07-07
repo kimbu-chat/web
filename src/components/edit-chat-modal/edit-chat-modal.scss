@@ -2,6 +2,13 @@
   align-items: center;
   display: flex;
   flex-direction: column;
+  margin-top: 16px;
+
+  &__btn-block {
+    margin-top: 22px;
+    display: flex;
+    margin-left: auto;
+  }
 
   &__current-photo-wrapper {
     background: var(--dt-darker-wt-bright-blue);

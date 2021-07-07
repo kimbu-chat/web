@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
-import debounce from 'lodash/debounce';
+
 import classnames from 'classnames';
+import debounce from 'lodash/debounce';
 
 import './tooltip-popover.scss';
 

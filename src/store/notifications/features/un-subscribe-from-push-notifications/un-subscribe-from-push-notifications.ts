@@ -2,12 +2,11 @@ import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 
-import { HttpRequestMethod } from '@store/common/http';
-import { authRequestFactory } from '@store/common/http/auth-request-factory';
-import { createEmptyAction } from '@store/common/actions';
-import { messaging } from '@store/middlewares/firebase/firebase';
-import { getPushNotificationToken } from '@store/auth/common/utils';
 import { NOTIFICATIONS_API } from '@common/paths';
+import { createEmptyAction } from '@store/common/actions';
+import { HttpRequestMethod, httpRequestFactory } from '@store/common/http';
+import { messaging } from '@store/middlewares/firebase/firebase';
+import { getPushNotificationToken } from '@store/notifications/utils';
 
 import { IUnsubscribeFromPushNotificationsRequest } from './api-requests/unsubscribe-from-push-notifications-api-request';
 import { UnSubscribeToPushNotificationsSuccess } from './un-subscribe-from-push-notifications_success';
@@ -24,7 +23,7 @@ export class UnSubscribeFromPushNotifications {
       if (pushNotificationToken) {
         yield call(() =>
           UnSubscribeFromPushNotifications.httpRequest.generator({
-            tokenId: pushNotificationToken,
+            token: pushNotificationToken,
           }),
         );
 
@@ -36,7 +35,7 @@ export class UnSubscribeFromPushNotifications {
   }
 
   static get httpRequest() {
-    return authRequestFactory<AxiosResponse, IUnsubscribeFromPushNotificationsRequest>(
+    return httpRequestFactory<AxiosResponse, IUnsubscribeFromPushNotificationsRequest>(
       NOTIFICATIONS_API.UNSUBSCRIBE,
       HttpRequestMethod.Post,
     );

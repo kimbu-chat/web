@@ -1,5 +1,6 @@
 const path = require('path');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = function ({ env }) {
   const isProductionBuild = process.env.NODE_ENV === 'production';
@@ -50,6 +51,36 @@ module.exports = function ({ env }) {
       },
     },
     webpack: {
+      configure: (webpackConfig) => {
+        const instanceOfMiniCssExtractPlugin = webpackConfig.plugins.find(
+          (plugin) => plugin instanceof MiniCssExtractPlugin,
+        );
+        if (instanceOfMiniCssExtractPlugin) {
+          instanceOfMiniCssExtractPlugin.options.ignoreOrder = true;
+        }
+
+        return {
+          ...webpackConfig,
+          optimization: {
+            splitChunks: {
+              cacheGroups: {
+                vendor: {
+                  test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+                  name: 'vendor',
+                  chunks: 'all',
+                },
+                common: {
+                  name: 'common',
+                  minChunks: 2,
+                  test: /[\\/]components[\\/]/,
+                  reuseExistingChunk: true,
+                  minSize: 30000,
+                },
+              },
+            },
+          },
+        };
+      },
       plugins,
       extensions: ['.ts', '.tsx', '.js', '.jsx'],
       alias: {

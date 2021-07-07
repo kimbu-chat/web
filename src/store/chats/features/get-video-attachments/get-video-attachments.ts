@@ -1,20 +1,20 @@
 import { AxiosResponse } from 'axios';
+import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import produce from 'immer';
 
-import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAIN_API } from '@common/paths';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
-import { getInfoChatIdSelector } from '../../selectors';
 import { HTTPStatusCode } from '../../../../common/http-status-code';
-import { IVideoAttachment } from '../../models';
 import { IChatsState } from '../../chats-state';
+import { IVideoAttachment } from '../../models';
+import { getInfoChatIdSelector } from '../../selectors';
 
 import { IGetVideoAttachmentsActionPayload } from './action-payloads/get-video-attachments-action-payload';
-import { GetVideoAttachmentsSuccess } from './get-video-attachments-success';
 import { IGetVideoAttachmentsApiRequest } from './api-requests/get-video-attachments-api-request';
+import { GetVideoAttachmentsSuccess } from './get-video-attachments-success';
 
 export class GetVideoAttachments {
   static get action() {

@@ -1,13 +1,15 @@
 import React, { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+
 import dayjs from 'dayjs';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { ISession } from '@store/settings/comon/models/session';
+import { Button } from '@components/button';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { deviceIdSelector } from '@store/auth/selectors';
-import { Button } from '@components/button';
-import { revokeSessionAction } from '@store/settings/actions';
+import { terminateSessionAction } from '@store/settings/actions';
+import { ISession } from '@store/settings/comon/models/session';
+import { MONTH_DAY_YEAR } from '@utils/constants';
 
 import './session.scss';
 
@@ -22,14 +24,19 @@ export const Session: React.FC<ISessionProps> = ({ session }) => {
 
   const currentDeviceId = useSelector(deviceIdSelector);
 
-  const revokeSession = useActionWithDeferred(revokeSessionAction);
+  const terminateSession = useActionWithDeferred(terminateSessionAction);
 
   const revokeThisSession = useCallback(() => {
     setRevoking(true);
-    revokeSession(session.id).then(() => {
+    terminateSession(session.id).then(() => {
       setRevoking(false);
     });
-  }, [session.id, revokeSession]);
+  }, [session.id, terminateSession]);
+
+  const formatSessionTime = useCallback(
+    (dateTime: string) => dayjs.utc(dateTime).local().format(MONTH_DAY_YEAR).toString(),
+    [],
+  );
 
   return (
     <div className="session">
@@ -47,14 +54,14 @@ export const Session: React.FC<ISessionProps> = ({ session }) => {
         <div className="session__data__row">
           <div className="session__data__highlighted">{t('session.last-acessed')}</div>
           <div className="session__data__ordinary">
-            {dayjs.utc(session.lastAccessedDateTime).local().format('MMM DD,YYYY').toString()}
+            {formatSessionTime(session.lastAccessedDateTime)}
           </div>
         </div>
 
         <div className="session__data__row">
           <div className="session__data__highlighted">{t('session.signed-in')}</div>
           <div className="session__data__ordinary">
-            {dayjs.utc(session.signedInDateTime).local().format('MMM DD,YYYY').toString()}
+            {formatSessionTime(session.signedInDateTime)}
           </div>
         </div>
       </div>

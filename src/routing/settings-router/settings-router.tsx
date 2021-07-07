@@ -1,9 +1,10 @@
 import React from 'react';
+
 import { Switch, Redirect } from 'react-router-dom';
 
 import { SettingsNavigation } from '@pages/settings/settings-navigation';
-import { routes } from '@routing/routes/settings-routes';
 import { mapRoutes } from '@routing/map-routing';
+import { routes } from '@routing/routes/settings-routes';
 import { PROFILE_SETTINGS_PATH } from '@routing/routing.constants';
 
 import './settings-router.scss';

@@ -1,54 +1,65 @@
-/* eslint-disable react/no-array-index-key */
-import React from 'react';
+import React, { useCallback } from 'react';
 
-import './modal.scss';
+import classNames from 'classnames';
 
+import { BackgroundBlur } from '@components/with-background';
+import { useAnimation } from '@hooks/use-animation';
 import { ReactComponent as CloseSVG } from '@icons/close.svg';
 import { stopPropagation } from '@utils/stop-propagation';
 
+import './modal.scss';
+import { AnimationMode } from '../with-background/with-background';
+
 interface IModalProps {
-  title: string | JSX.Element;
-  content: string | JSX.Element;
-  highlightedInContents?: string;
-  buttons: (JSX.Element | null | boolean)[];
+  children: string | JSX.Element;
   closeModal: () => void;
+  unclickableBackground?: boolean;
+  animationMode?: AnimationMode;
 }
 
-const Modal: React.FC<IModalProps> = ({
-  title,
-  content,
-  buttons,
-  highlightedInContents,
+const BLOCK_NAME = 'modal';
+
+const MainModal = ({
+  children,
   closeModal,
-}) => (
-  <div onClick={stopPropagation} className="modal">
-    <header className="modal__header">
-      <div className="modal__title">{title}</div>
-      <CloseSVG onClick={closeModal} viewBox="0 0 25 25" className="modal__close-btn" />
-    </header>
-    <div className="modal__content">
-      {typeof content === 'string' ? (
-        <div className="modal__content__text-wrapper">
-          {content.split(highlightedInContents || '').map((text, index, arr) => (
-            <React.Fragment key={index}>
-              <span className="modal__content__text">{text}</span>
-              {index < arr.length - 1 && (
-                <span className="modal__content__text modal__content__text--highlighted">
-                  {highlightedInContents}
-                </span>
-              )}
-            </React.Fragment>
-          ))}
-        </div>
-      ) : (
-        content
-      )}
-      <span />
-    </div>
-    <div className="modal__btn-block">{buttons}</div>
-  </div>
+  unclickableBackground,
+  animationMode = AnimationMode.ENABLED,
+}: IModalProps) => {
+  const { rootClass, closeInitiated, animatedClose } = useAnimation(BLOCK_NAME, closeModal);
+
+  const onBackgroundClick = useCallback(() => {
+    if (!unclickableBackground) animatedClose();
+  }, [animatedClose, unclickableBackground]);
+
+  return (
+    <BackgroundBlur
+      animationMode={animationMode}
+      hiding={closeInitiated}
+      onClick={onBackgroundClick}>
+      <div
+        onClick={stopPropagation}
+        className={classNames(rootClass, {
+          [`${BLOCK_NAME}--no-animated-open`]: animationMode === AnimationMode.CLOSE,
+        })}>
+        <CloseSVG
+          onClick={animatedClose}
+          viewBox="0 0 25 25"
+          className={`${BLOCK_NAME}__close-btn`}
+        />
+        <div className={`${BLOCK_NAME}__content`}>{children}</div>
+      </div>
+    </BackgroundBlur>
+  );
+};
+
+const Header: React.FC = ({ children }) => (
+  <header className={`${BLOCK_NAME}__header`}>
+    <div className={`${BLOCK_NAME}__title`}>{children}</div>
+  </header>
 );
 
-Modal.displayName = 'Modal';
+const Modal = Object.assign(MainModal, {
+  Header,
+});
 
 export { Modal };

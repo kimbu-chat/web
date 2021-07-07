@@ -1,7 +1,7 @@
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { createAction } from 'typesafe-actions';
 import { apply } from 'redux-saga/effects';
+import { createAction } from 'typesafe-actions';
 
 import { SettingsService } from '@services/settings-service';
 import { IUserSettings } from '@store/settings/user-settings-state';

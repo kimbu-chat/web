@@ -1,16 +1,18 @@
 import React, { useCallback } from 'react';
+
 import { useSelector } from 'react-redux';
 
-import { getSelectedChatRecordingsSelector } from '@store/chats/selectors';
-import { getVoiceAttachmentsAction } from '@store/chats/actions';
-import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { setSeparators } from '@utils/set-separators';
-import { InfiniteScroll } from '@components/infinite-scroll';
-import { VOICE_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
-import { RecordingAttachment } from '@components/message-item/attachments/recording-attachment/recording-attachment';
-import './recordings-list.scss';
-import { separateGroupable } from '@utils/date-utils';
 import { ChatAttachment } from '@components/chat-attachment/chat-attachment';
+import { InfiniteScroll } from '@components/infinite-scroll';
+import { RecordingAttachment } from '@components/message-item/attachments/recording-attachment/recording-attachment';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { getVoiceAttachmentsAction } from '@store/chats/actions';
+import { getSelectedChatRecordingsSelector } from '@store/chats/selectors';
+import { separateGroupable } from '@utils/date-utils';
+import { VOICE_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
+import { setSeparators } from '@utils/set-separators';
+
+import './recordings-list.scss';
 
 export const RecordingsList = () => {
   const recordingsForSelectedChat = useSelector(getSelectedChatRecordingsSelector);

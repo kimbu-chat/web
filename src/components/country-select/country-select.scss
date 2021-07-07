@@ -35,7 +35,7 @@
     position: absolute;
     right: 16px;
     top: 15px;
-    transition: all 0.1s ease;
+    transition: all var(--ANIMATION-DURATION) ease;
     width: 16px;
 
     &--open {

@@ -1,12 +1,14 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+
 import WaveSurfer from 'wavesurfer.js';
 
-import { ReactComponent as PlaySvg } from '@icons/play.svg';
 import { ReactComponent as PauseSvg } from '@icons/pause.svg';
+import { ReactComponent as PlaySvg } from '@icons/play.svg';
 import { IVoiceAttachment } from '@store/chats/models';
-import './recording-attachment.scss';
 import { changeMusic, Origin } from '@utils/current-music';
 import { getMinutesSeconds } from '@utils/date-utils';
+
+import './recording-attachment.scss';
 
 export const RecordingAttachment: React.FC<IVoiceAttachment> = ({ ...attachment }) => {
   const element = useRef<HTMLDivElement>(null);
@@ -73,7 +75,9 @@ export const RecordingAttachment: React.FC<IVoiceAttachment> = ({ ...attachment 
       wavesurfer.current?.load(attachment.url, JSON.parse(attachment.waveFormJson));
     }
 
-    return () => wavesurfer.current?.pause();
+    return () => {
+      wavesurfer.current?.pause();
+    };
   }, [attachment.url, setProgress, setIsPlaying, attachment.waveFormJson, attachment.id]);
 
   const playPause = useCallback(() => {

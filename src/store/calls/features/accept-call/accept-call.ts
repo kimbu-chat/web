@@ -4,30 +4,30 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, select, spawn } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
-import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
-import {
-  createPeerConnection,
-  getPeerConnection,
-  getInterlocutorOffer,
-} from '@store/middlewares/webRTC/peerConnectionFactory';
-import { deviceUpdateWatcher } from '@store/calls/utils/device-update-watcher';
-import { getAndSendUserMedia, getMediaDevicesList } from '@store/calls/utils/user-media';
+import { MAIN_API } from '@common/paths';
 import { InputType } from '@store/calls/common/enums/input-type';
-import { peerWatcher } from '@store/calls/utils/peer-watcher';
 import {
   getAudioConstraintsSelector,
   getCallInterlocutorIdSelector,
   getIsVideoEnabledSelector,
   getVideoConstraintsSelector,
 } from '@store/calls/selectors';
-import { MAIN_API } from '@common/paths';
+import { deviceUpdateWatcher } from '@store/calls/utils/device-update-watcher';
 import { waitForAllICE } from '@store/calls/utils/glare-utils';
+import { peerWatcher } from '@store/calls/utils/peer-watcher';
+import { getAndSendUserMedia, getMediaDevicesList } from '@store/calls/utils/user-media';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import {
+  createPeerConnection,
+  getPeerConnection,
+  getInterlocutorOffer,
+} from '@store/middlewares/webRTC/peerConnectionFactory';
 
 import { ICallsState } from '../../calls-state';
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
 
-import { IAcceptCallActionPayload } from './action-payloads/accept-call-action-payload';
 import { AcceptCallSuccess } from './accept-call-success';
+import { IAcceptCallActionPayload } from './action-payloads/accept-call-action-payload';
 import { IAcceptCallApiRequest } from './api-requests/accept-call-api-request';
 
 export class AcceptCall {

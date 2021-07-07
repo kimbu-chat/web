@@ -1,10 +1,11 @@
 import React, { lazy, Suspense } from 'react';
+
 import { Redirect, Route, Switch } from 'react-router-dom';
 
-import { mapRoutes } from '@routing/map-routing';
-import { HOME_PAGE_PATH, LOGIN_PAGE_PATH } from '@routing/routing.constants';
-import { routes } from '@routing/routes/auth-routes';
 import { CubeLoader } from '@components/cube-loader';
+import { mapRoutes } from '@routing/map-routing';
+import { routes } from '@routing/routes/auth-routes';
+import { HOME_PAGE_PATH, LOGIN_PAGE_PATH } from '@routing/routing.constants';
 
 const NotFound = lazy(() => import('@pages/not-found/not-found'));
 

@@ -1,19 +1,21 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
-import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
-import classNames from 'classnames';
 
-import { ReactComponent as SoundOnSvg } from '@icons/sound_on.svg';
-import { ReactComponent as ArrowLeftSvg } from '@icons/arrow_left.svg';
-import { ReactComponent as PlaySvg } from '@icons/play.svg';
-import { ReactComponent as PauseSvg } from '@icons/pause.svg';
-import { ReactComponent as RepeatSvg } from '@icons/repeat.svg';
-import { ReactComponent as CloseSvg } from '@icons/close.svg';
-import { ReactComponent as ArrowRightSvg } from '@icons/arrow_right.svg';
-import { changeMusic, Origin, playSoundSafely } from '@utils/current-music';
-import { getSelectedChatAudioAttachmentsSelector } from '@store/chats/selectors';
+import classNames from 'classnames';
+import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
+import { useSelector } from 'react-redux';
+
 import { CurrentAudio } from '@contexts/audioContext';
+import { ReactComponent as ArrowLeftSvg } from '@icons/arrow_left.svg';
+import { ReactComponent as ArrowRightSvg } from '@icons/arrow_right.svg';
+import { ReactComponent as CloseSvg } from '@icons/close.svg';
+import { ReactComponent as PauseSvg } from '@icons/pause.svg';
+import { ReactComponent as PlaySvg } from '@icons/play.svg';
+import { ReactComponent as RepeatSvg } from '@icons/repeat.svg';
+import { ReactComponent as SoundOnSvg } from '@icons/sound_on.svg';
+import { getSelectedChatAudioAttachmentsSelector } from '@store/chats/selectors';
+import { changeMusic, Origin, playSoundSafely } from '@utils/current-music';
 import { getMinutesSeconds } from '@utils/date-utils';
+
 import './audio-player.scss';
 
 type ITopAudioPlayerProps = CurrentAudio & {
@@ -147,10 +149,7 @@ export const TopAudioPlayer: React.FC<ITopAudioPlayerProps> = ({
             )}>
             {isPlayingAudio ? <PauseSvg /> : <PlaySvg />}
           </button>
-          <button
-            onClick={handleNext}
-            type="button"
-            className={classNames(`${BLOCK_NAME}__audio-control`)}>
+          <button onClick={handleNext} type="button" className={`${BLOCK_NAME}__audio-control`}>
             <ArrowRightSvg />
           </button>
           <button
@@ -164,13 +163,10 @@ export const TopAudioPlayer: React.FC<ITopAudioPlayerProps> = ({
             <RepeatSvg />
           </button>
         </div>
-        <div className={classNames(`${BLOCK_NAME}__duration`)}>
+        <div className={`${BLOCK_NAME}__duration`}>
           {getMinutesSeconds(currentAudioAttachment?.duration || 0)}
         </div>
-        <button
-          type="button"
-          onClick={closeAudio}
-          className={classNames(`${BLOCK_NAME}__audio-close`)}>
+        <button type="button" onClick={closeAudio} className={`${BLOCK_NAME}__audio-close`}>
           <CloseSvg />
         </button>
       </div>

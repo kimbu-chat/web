@@ -1,17 +1,20 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
+
+import classnames from 'classnames';
+import { parsePhoneNumber } from 'libphonenumber-js';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { parsePhoneNumber } from 'libphonenumber-js';
 import { Link } from 'react-router-dom';
-import classnames from 'classnames';
 
-import { ReactComponent as PhoneSvg } from '@icons/phone-chat-info.svg';
-import { ReactComponent as EditSvg } from '@icons/crayon.svg';
+import { useToggledState } from '@hooks/use-toggled-state';
 import { ReactComponent as DogSvg } from '@icons/@.svg';
+import { ReactComponent as EditSvg } from '@icons/crayon.svg';
+import { ReactComponent as PhoneSvg } from '@icons/phone-chat-info.svg';
+import { INSTANT_MESSAGING_CHAT_PATH } from '@routing/routing.constants';
 import { getInfoChatSelector } from '@store/chats/selectors';
-import FadeAnimationWrapper from '@components/fade-animation-wrapper';
-import { getChatInterlocutor } from '@utils/user-utils';
 import { getUserSelector } from '@store/users/selectors';
+import { replaceInUrl } from '@utils/replace-in-url';
+import { getChatInterlocutor } from '@utils/user-utils';
 
 import { EditChatModal } from '../../edit-chat-modal/edit-chat-modal';
 
@@ -26,10 +29,7 @@ export const InterlocutorInfo = () => {
   const interlocutor = useSelector(getUserSelector(chat?.interlocutorId));
   const groupChat = chat?.groupChat;
 
-  const [editGroupChatDisplayed, setEditGroupChatDisplayed] = useState(false);
-  const changeEditGroupChatDisplayedState = useCallback(() => {
-    setEditGroupChatDisplayed((oldState) => !oldState);
-  }, [setEditGroupChatDisplayed]);
+  const [editGroupChatDisplayed, displayEditGroupChat, hideEditGroupChat] = useToggledState(false);
 
   return (
     <>
@@ -47,7 +47,7 @@ export const InterlocutorInfo = () => {
           {groupChat && (
             <button
               type="button"
-              onClick={changeEditGroupChatDisplayedState}
+              onClick={displayEditGroupChat}
               className={`${BLOCK_NAME}__rename-btn`}>
               <EditSvg viewBox="0 0 16 16" />
             </button>
@@ -66,16 +66,21 @@ export const InterlocutorInfo = () => {
         <div className={`${BLOCK_NAME}__info-block`}>
           <DogSvg className={`${BLOCK_NAME}__info-svg`} />
           <Link
-            to={`/im/${chat?.id}`}
+            to={replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, ['id?', chat?.id])}
             className={classnames(`${BLOCK_NAME}__data-value`, `${BLOCK_NAME}__data-value--link`)}>
-            {`${interlocutor ? `@${interlocutor?.nickname}` : ` kimbu.io/im/${chat?.id}2`}`}
+            {`${
+              interlocutor
+                ? `@${interlocutor?.nickname}`
+                : `${window.location.host}${replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, [
+                    'id?',
+                    chat?.id,
+                  ])}`
+            }`}
           </Link>
         </div>
       </div>
 
-      <FadeAnimationWrapper isDisplayed={editGroupChatDisplayed}>
-        <EditChatModal onClose={changeEditGroupChatDisplayedState} />
-      </FadeAnimationWrapper>
+      {editGroupChatDisplayed && <EditChatModal onClose={hideEditGroupChat} />}
     </>
   );
 };

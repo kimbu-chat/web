@@ -1,32 +1,33 @@
 import React, { useCallback, useState, useMemo, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
 
-import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { WithBackground } from '@components/with-background';
-import { Modal } from '@components/modal';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+
 import { Button } from '@components/button';
 import { InfiniteScroll } from '@components/infinite-scroll';
+import { Modal } from '@components/modal';
 import { SearchBox } from '@components/search-box';
+import { SelectEntity } from '@components/select-entity';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { ReactComponent as ForwardSvg } from '@icons/forward.svg';
 import {
   getChatsAction,
   forwardMessagesAction,
   resetSearchChatsAction,
 } from '@store/chats/actions';
 import { getChatsListSelector, getSearchChatsListSelector } from '@store/chats/selectors';
-import { ReactComponent as ForwardSvg } from '@icons/forward.svg';
-import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-
-import { SelectEntity } from '../select-entity/select-entity';
 
 import './forward-modal.scss';
+
+const BLOCK_NAME = 'forward-modal';
 
 interface IForwardModalProps {
   onClose: () => void;
   messageIdsToForward: number[];
 }
 
-const ForwardModal: React.FC<IForwardModalProps> = ({ onClose, messageIdsToForward }) => {
+export const ForwardModal: React.FC<IForwardModalProps> = ({ onClose, messageIdsToForward }) => {
   const { t } = useTranslation();
 
   const chatsList = useSelector(getChatsListSelector);
@@ -113,51 +114,45 @@ const ForwardModal: React.FC<IForwardModalProps> = ({ onClose, messageIdsToForwa
   }, [searchString.length, searchChatsList, chatsList, renderSelectEntity]);
 
   return (
-    <WithBackground onBackgroundClick={onClose}>
-      <Modal
-        title={
+    <Modal closeModal={onClose}>
+      <>
+        <Modal.Header>
           <>
-            <ForwardSvg viewBox="0 0 16 16" className="forward-modal__icon" />
+            <ForwardSvg viewBox="0 0 16 16" className={`${BLOCK_NAME}__icon`} />
             <span> {t('forwardModal.forward', { count: messageIdsToForward.length })} </span>
           </>
-        }
-        closeModal={onClose}
-        content={
-          <div className="forward-modal">
-            <SearchBox
-              containerClassName="forward-modal__search-container"
-              iconClassName="forward-modal__search__icon"
-              inputClassName="forward-modal__search__input"
-              onChange={handleChatSearchChange}
-            />
-            <InfiniteScroll
-              className="forward-modal__chats-block"
-              onReachBottom={loadMore}
-              hasMore={searchString.length ? searchChatsList.hasMore : chatsList.hasMore}
-              isLoading={searchString.length ? searchChatsList.loading : chatsList.loading}>
-              {selectEntities}
-            </InfiniteScroll>
+        </Modal.Header>
+        <div className={BLOCK_NAME}>
+          <SearchBox
+            containerClassName={`${BLOCK_NAME}__search-container`}
+            iconClassName={`${BLOCK_NAME}__search__icon`}
+            inputClassName={`${BLOCK_NAME}__search__input`}
+            onChange={handleChatSearchChange}
+          />
+          <InfiniteScroll
+            className={`${BLOCK_NAME}__chats-block`}
+            onReachBottom={loadMore}
+            hasMore={searchString.length ? searchChatsList.hasMore : chatsList.hasMore}
+            isLoading={searchString.length ? searchChatsList.loading : chatsList.loading}>
+            {selectEntities}
+          </InfiniteScroll>
+          <div className={`${BLOCK_NAME}__btn-block`}>
+            <button type="button" onClick={onClose} className={`${BLOCK_NAME}__cancel-btn`}>
+              {t('forwardModal.cancel')}
+            </button>
+            <Button
+              type="button"
+              loading={loading}
+              disabled={selectedChatIds.length === 0}
+              onClick={forwardSelectedMessages}
+              className={`${BLOCK_NAME}__confirm-btn`}>
+              {t('forwardModal.send')}
+            </Button>
           </div>
-        }
-        buttons={[
-          <button key={1} type="button" onClick={onClose} className="forward-modal__cancel-btn">
-            {t('forwardModal.cancel')}
-          </button>,
-          <Button
-            key={2}
-            type="button"
-            loading={loading}
-            disabled={selectedChatIds.length === 0}
-            onClick={forwardSelectedMessages}
-            className="forward-modal__confirm-btn">
-            {t('forwardModal.send')}
-          </Button>,
-        ]}
-      />
-    </WithBackground>
+        </div>
+      </>
+    </Modal>
   );
 };
 
 ForwardModal.displayName = 'ForwardModal';
-
-export { ForwardModal };

@@ -1,9 +1,9 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 
-import { INormalizedChat } from '../../models/chat';
 import { ChatId } from '../../chat-id';
 import { IChatsState } from '../../chats-state';
+import { INormalizedChat } from '../../models/chat';
 
 export class ChangeChatInfoOpened {
   static get action() {

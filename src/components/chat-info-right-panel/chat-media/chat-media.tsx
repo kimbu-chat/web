@@ -1,13 +1,14 @@
 import React, { useCallback, useState } from 'react';
+
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { ReactComponent as PictureSvg } from '@icons/picture.svg';
 import { ReactComponent as VideoSvg } from '@icons/attachment-video.svg';
 import { ReactComponent as FilesSvg } from '@icons/files.svg';
-import { ReactComponent as VoiceSvg } from '@icons/voice.svg';
-import { ReactComponent as AudioSvg } from '@icons/song.svg';
 import { ReactComponent as OpenArrowSvg } from '@icons/open-arrow.svg';
+import { ReactComponent as PictureSvg } from '@icons/picture.svg';
+import { ReactComponent as AudioSvg } from '@icons/song.svg';
+import { ReactComponent as VoiceSvg } from '@icons/voice.svg';
 import {
   getPictureAttachmentsCountSelector,
   getVideoAttachmentsCountSelector,
@@ -16,11 +17,11 @@ import {
   getAudioAttachmentsCountSelector,
 } from '@store/chats/selectors';
 
-import { PhotoList } from './photo-list/photo-list';
 import { AudioList } from './audio-list/audio-list';
+import { FileList } from './file-list/file-list';
+import { PhotoList } from './photo-list/photo-list';
 import { RecordingsList } from './recordings-list/recordings-list';
 import { VideoList } from './video-list/video-list';
-import { FileList } from './file-list/file-list';
 
 import './chat-media.scss';
 
@@ -37,18 +38,22 @@ export const ChatMedia = () => {
     () => setPictureDisplayed((oldState) => !oldState),
     [setPictureDisplayed],
   );
-  const changeVideoDisplayedState = useCallback(() => setVideoDisplayed((oldState) => !oldState), [
-    setVideoDisplayed,
-  ]);
-  const changeFilesDisplayedState = useCallback(() => setFilesDisplayed((oldState) => !oldState), [
-    setFilesDisplayed,
-  ]);
-  const changeVoiceDisplayedState = useCallback(() => setVoiceDisplayed((oldState) => !oldState), [
-    setVoiceDisplayed,
-  ]);
-  const changeAudioDisplayedState = useCallback(() => setAudioDisplayed((oldState) => !oldState), [
-    setAudioDisplayed,
-  ]);
+  const changeVideoDisplayedState = useCallback(
+    () => setVideoDisplayed((oldState) => !oldState),
+    [setVideoDisplayed],
+  );
+  const changeFilesDisplayedState = useCallback(
+    () => setFilesDisplayed((oldState) => !oldState),
+    [setFilesDisplayed],
+  );
+  const changeVoiceDisplayedState = useCallback(
+    () => setVoiceDisplayed((oldState) => !oldState),
+    [setVoiceDisplayed],
+  );
+  const changeAudioDisplayedState = useCallback(
+    () => setAudioDisplayed((oldState) => !oldState),
+    [setAudioDisplayed],
+  );
 
   const pictureAttachmentsCount = useSelector(getPictureAttachmentsCountSelector);
   const videoAttachmentsCount = useSelector(getVideoAttachmentsCountSelector);

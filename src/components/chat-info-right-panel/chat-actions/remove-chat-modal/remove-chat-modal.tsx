@@ -1,13 +1,13 @@
 import React, { useCallback, useState } from 'react';
+
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import { Button } from '@components/button';
+import { CheckBox } from '@components/check-box';
 import { Modal } from '@components/modal';
-import { WithBackground } from '@components/with-background';
-import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import { CheckBox } from '@components/check-box/check-box';
+import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
 import { removeChat } from '@store/chats/actions';
 import { getInfoChatIdSelector } from '@store/chats/selectors';
 
@@ -43,41 +43,39 @@ export const RemoveChatModal: React.FC<IRemoveChatModalProps> = ({ onClose }) =>
   }, [removeThisChat, deleteForInterlocutor, setLoading, chatId, onClose]);
 
   return (
-    <WithBackground onBackgroundClick={onClose}>
-      <Modal
-        title={
+    <Modal closeModal={onClose}>
+      <>
+        <Modal.Header>
           <>
             <DeleteSvg viewBox="0 0 15 16" className={`${BLOCK_NAME}__icon`} />
             <span> {t('removeChatModal.title')} </span>
           </>
-        }
-        content={
-          <div className={BLOCK_NAME}>
-            <div className={`${BLOCK_NAME}__delete-all`}>
-              <CheckBox
-                className={`${BLOCK_NAME}__check-box`}
-                onClick={changeDeleteForInterlocutorState}
-                isChecked={deleteForInterlocutor}
-                title={t('removeChatModal.delete-confirmation')}
-              />
-            </div>
+        </Modal.Header>
+        <div className={BLOCK_NAME}>
+          <div className={`${BLOCK_NAME}__delete-all`}>
+            <CheckBox
+              className={`${BLOCK_NAME}__check-box`}
+              onClick={changeDeleteForInterlocutorState}
+              isChecked={deleteForInterlocutor}
+              title={t('removeChatModal.delete-confirmation')}
+            />
           </div>
-        }
-        closeModal={onClose}
-        buttons={[
-          <button key={1} type="button" onClick={onClose} className={`${BLOCK_NAME}__cancel-btn`}>
-            {t('removeChatModal.cancel')}
-          </button>,
-          <Button
-            key={2}
-            type="button"
-            loading={loading}
-            onClick={deleteTheseMessages}
-            className={`${BLOCK_NAME}__confirm-btn`}>
-            {t('removeChatModal.delete-confirm')}
-          </Button>,
-        ]}
-      />
-    </WithBackground>
+
+          <div className={`${BLOCK_NAME}__btn-block`}>
+            <button type="button" onClick={onClose} className={`${BLOCK_NAME}__cancel-btn`}>
+              {t('removeChatModal.cancel')}
+            </button>
+
+            <Button
+              type="button"
+              loading={loading}
+              onClick={deleteTheseMessages}
+              className={`${BLOCK_NAME}__confirm-btn`}>
+              {t('removeChatModal.delete-confirm')}
+            </Button>
+          </div>
+        </div>
+      </>
+    </Modal>
   );
 };

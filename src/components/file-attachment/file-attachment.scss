@@ -46,11 +46,11 @@
     position: absolute;
     top: 50%;
     transform: translate(-50%, -50%) rotate(-90deg);
-    transition: all 0.1s;
+    transition: all var(--ANIMATION-DURATION);
     width: 24px;
 
     circle {
-      transition: all 0.1s;
+      transition: all var(--ANIMATION-DURATION);
     }
   }
 

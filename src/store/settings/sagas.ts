@@ -9,9 +9,9 @@ import { ChangeTheme } from './features/change-theme/change-theme';
 import { ChangeTypingStrategy } from './features/change-typing-strategy/change-typing-strategy';
 import { GetBlackList } from './features/get-black-list/get-black-list';
 import { GetSessionList } from './features/get-sesion-list/get-sesion-list';
-import { GetUserSettings } from './features/get-user-settings/get-user-settings';
 import { GetUserSettingsSuccess } from './features/get-user-settings/get-user-settings-success';
-import { RevokeSession } from './features/revoke-session/revoke-session';
+import { GetUserSettings } from './features/get-user-settings/get-user-settings';
+import { TerminateSession } from './features/terminate-session/revoke-session';
 import { UnblockUser } from './features/unblock-user/unblock-user';
 
 export function* settingsSaga() {
@@ -28,6 +28,6 @@ export function* settingsSaga() {
     takeLatest(BlockUser.action, BlockUser.saga),
     takeLatest(UnblockUser.action, UnblockUser.saga),
     takeLatest(GetSessionList.action, GetSessionList.saga),
-    takeLatest(RevokeSession.action, RevokeSession.saga),
+    takeLatest(TerminateSession.action, TerminateSession.saga),
   ]);
 }

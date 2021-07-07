@@ -1,7 +1,7 @@
 import produce from 'immer';
-import { createAction } from 'typesafe-actions';
 import { SagaIterator } from 'redux-saga';
 import { select } from 'redux-saga/effects';
+import { createAction } from 'typesafe-actions';
 
 import { myIdSelector } from '@store/my-profile/selectors';
 import { resetUnreadNotifications } from '@utils/set-favicon';

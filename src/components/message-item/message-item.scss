@@ -23,6 +23,7 @@
       line-height: 12px;
       color: #fff;
       font-weight: 400;
+      display: inline;
     }
   }
 
@@ -113,6 +114,10 @@
     margin-left: 32px;
     margin-right: 10px;
     cursor: pointer;
+
+    &--me {
+      cursor: initial;
+    }
   }
 
   &__sender-name {
@@ -122,6 +127,10 @@
     line-height: 19px;
     margin: 7px 0 4px 142px;
     cursor: pointer;
+
+    &--me {
+      cursor: initial;
+    }
   }
 
   &__time {
@@ -211,7 +220,7 @@
     position: relative;
 
     &--upcoming {
-      margin-left: 80px;
+      margin-left: 82px;
     }
 
     &:hover .message-item-actions {

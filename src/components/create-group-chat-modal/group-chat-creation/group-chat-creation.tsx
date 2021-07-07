@@ -3,16 +3,16 @@ import React, { lazy, useCallback, useRef, useState } from 'react';
 import { LabeledInput } from '@components/labeled-input';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { IAvatar, IAvatarSelectedData } from '@store/common/models';
+import { ReactComponent as BottomAvatarLine } from '@icons/bottom-avatar-line.svg';
 import { ReactComponent as GroupSvg } from '@icons/group.svg';
 import { ReactComponent as PictureSvg } from '@icons/picture.svg';
 import { ReactComponent as TopAvatarLine } from '@icons/top-avatar-line.svg';
-import { ReactComponent as BottomAvatarLine } from '@icons/bottom-avatar-line.svg';
+import { loadPhotoEditor } from '@routing/module-loader';
+import { IAvatar, IAvatarSelectedData } from '@store/common/models';
 import {
   uploadAvatarRequestAction,
   cancelAvatarUploadingRequestAction,
 } from '@store/my-profile/actions';
-import { loadPhotoEditor } from '@routing/module-loader';
 
 const PhotoEditor = lazy(loadPhotoEditor);
 
@@ -52,12 +52,14 @@ const GroupChatCreation: React.FC<IGroupChatCreationProps> = ({
     [setAvatarData, uploadGroupChatAvatar, setAvatarUploadResponse],
   );
 
-  const displayChangePhoto = useCallback(() => setChangePhotoDisplayed(true), [
-    setChangePhotoDisplayed,
-  ]);
-  const hideChangePhoto = useCallback(() => setChangePhotoDisplayed(false), [
-    setChangePhotoDisplayed,
-  ]);
+  const displayChangePhoto = useCallback(
+    () => setChangePhotoDisplayed(true),
+    [setChangePhotoDisplayed],
+  );
+  const hideChangePhoto = useCallback(
+    () => setChangePhotoDisplayed(false),
+    [setChangePhotoDisplayed],
+  );
 
   const handleImageChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {

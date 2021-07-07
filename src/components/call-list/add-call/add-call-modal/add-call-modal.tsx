@@ -1,21 +1,22 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
 
-import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { WithBackground } from '@components/with-background';
-import { Modal } from '@components/modal';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+
 import { InfiniteScroll } from '@components/infinite-scroll';
+import { Modal } from '@components/modal';
+import { SearchBox } from '@components/search-box';
 import { SelectEntity } from '@components/select-entity';
-import { SearchBox } from '@components/search-box/search-box';
-import './add-call-modal.scss';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ReactComponent as AddCallSvg } from '@icons/add-call.svg';
 import { ReactComponent as CallSvg } from '@icons/call.svg';
+import { outgoingCallAction } from '@store/calls/actions';
 import { IPage } from '@store/common/models';
 import { getFriendsAction, resetSearchFriendsAction } from '@store/friends/actions';
 import { getMyFriendsListSelector, getMySearchFriendsListSelector } from '@store/friends/selectors';
 import { FRIENDS_LIMIT } from '@utils/pagination-limits';
-import { outgoingCallAction } from '@store/calls/actions';
+
+import './add-call-modal.scss';
 
 interface IAddCallModalProps {
   onClose: () => void;
@@ -105,35 +106,28 @@ export const AddCallModal: React.FC<IAddCallModalProps> = ({ onClose }) => {
   }, [name.length, searchFriendIds, friendIds, renderSelectEntity]);
 
   return (
-    <WithBackground onBackgroundClick={onClose}>
-      <Modal
-        title={
-          <>
-            <AddCallSvg viewBox="0 0 65 64" className="add-call-modal__icon" />
-
-            <span> {t('addCallModal.title')} </span>
-          </>
-        }
-        closeModal={onClose}
-        content={
-          <div className="add-call-modal">
-            <SearchBox
-              containerClassName="add-call-modal__search-container"
-              iconClassName="add-call-modal__search__icon"
-              inputClassName="add-call-modal__search__input"
-              onChange={handleSearchInputChange}
-            />
-            <InfiniteScroll
-              className="add-call-modal__friends-block"
-              onReachBottom={loadMore}
-              hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}
-              isLoading={name.length ? searchFriendsLoading : friendsLoading}>
-              {selectEntities}
-            </InfiniteScroll>
-          </div>
-        }
-        buttons={[]}
-      />
-    </WithBackground>
+    <Modal closeModal={onClose}>
+      <>
+        <Modal.Header>
+          <AddCallSvg viewBox="0 0 65 64" className="add-call-modal__icon" />
+          <span> {t('addCallModal.title')} </span>
+        </Modal.Header>
+        <div className="add-call-modal">
+          <SearchBox
+            containerClassName="add-call-modal__search-container"
+            iconClassName="add-call-modal__search__icon"
+            inputClassName="add-call-modal__search__input"
+            onChange={handleSearchInputChange}
+          />
+          <InfiniteScroll
+            className="add-call-modal__friends-block 1"
+            onReachBottom={loadMore}
+            hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}
+            isLoading={name.length ? searchFriendsLoading : friendsLoading}>
+            {selectEntities}
+          </InfiniteScroll>
+        </div>
+      </>
+    </Modal>
   );
 };

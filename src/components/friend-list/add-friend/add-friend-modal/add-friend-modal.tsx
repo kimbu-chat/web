@@ -1,28 +1,33 @@
 import React, { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import parsePhoneNumberFromString, { parsePhoneNumber } from 'libphonenumber-js';
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 
-import { ReactComponent as AddContactSvg } from '@icons/add-users.svg';
-import { WithBackground } from '@components/with-background';
-import { Modal } from '@components/modal';
-import { Button } from '@components/button';
-import { PhoneInputGroup } from '@components/phone-input-group';
+import classNames from 'classnames';
+import parsePhoneNumberFromString, { parsePhoneNumber } from 'libphonenumber-js';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+
 import { Avatar } from '@components/avatar';
-import { IUser } from '@store/common/models';
+import { Button } from '@components/button';
+import { Modal } from '@components/modal';
+import { PhoneInputGroup } from '@components/phone-input-group';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { ReactComponent as AddContactSvg } from '@icons/add-users.svg';
 import { ReactComponent as CloseSvg } from '@icons/close-x-bold.svg';
+import { INSTANT_MESSAGING_CHAT_PATH } from '@routing/routing.constants';
 import { ChatId } from '@store/chats/chat-id';
-import { isFriend } from '@store/friends/selectors';
+import { IUser } from '@store/common/models';
 import { addFriendAction, getUserByPhoneAction } from '@store/friends/actions';
+import { isFriend } from '@store/friends/selectors';
 import { addOrUpdateUsers } from '@store/users/actions';
+import { replaceInUrl } from '@utils/replace-in-url';
 
 import './add-friend-modal.scss';
 
 interface IAddFriendModalProps {
   onClose: () => void;
 }
+
+const BLOCK_NAME = 'add-friends-modal';
 
 const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
   const { t } = useTranslation();
@@ -72,92 +77,83 @@ const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
   }, [setError]);
 
   return (
-    <WithBackground onBackgroundClick={onClose}>
-      <Modal
-        title={
+    <Modal closeModal={onClose}>
+      <>
+        <Modal.Header>
           <>
-            <AddContactSvg className="add-friends-modal__icon" viewBox="0 0 18 18" />
+            <AddContactSvg className={`${BLOCK_NAME}__icon`} viewBox="0 0 18 18" />
             <span> {t('addFriendModal.title')} </span>
           </>
-        }
-        content={
-          user ? (
-            <div className="add-friends-modal__user">
-              <Avatar className="add-friends-modal__user__avatar" size={80} user={user} />
+        </Modal.Header>
+        {user ? (
+          <div className={`${BLOCK_NAME}__user`}>
+            <Avatar className={`${BLOCK_NAME}__user__avatar`} size={80} user={user} />
 
-              <h2 className="add-friends-modal__user__name">{`${user.firstName} ${user.lastName}`}</h2>
-              <h4 className="add-friends-modal__user__phone">
-                {parsePhoneNumber(user?.phoneNumber).formatInternational()}
-              </h4>
+            <h2 className={`${BLOCK_NAME}__user__name`}>{`${user.firstName} ${user.lastName}`}</h2>
+            <h4 className={`${BLOCK_NAME}__user__phone`}>
+              {parsePhoneNumber(user?.phoneNumber).formatInternational()}
+            </h4>
 
-              {success && (
-                <div className="add-friends-modal__success">
-                  <span>{t('addFriendModal.success')}</span>
-                </div>
+            {success && (
+              <div className={`${BLOCK_NAME}__success`}>
+                <span>{t('addFriendModal.success')}</span>
+              </div>
+            )}
+
+            <div className={`${BLOCK_NAME}__btn-block`}>
+              <Link
+                className={classNames(`${BLOCK_NAME}__btn`, {
+                  [`${BLOCK_NAME}__btn--confirm`]: added,
+                  [`${BLOCK_NAME}__btn--cancel`]: !added,
+                })}
+                to={replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, ['id?', ChatId.from(user.id).id])}>
+                {t('addFriendModal.chat')}
+              </Link>
+              {!added && (
+                <Button
+                  type="button"
+                  loading={loading}
+                  className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--confirm`)}
+                  onClick={addRequiredUser}>
+                  {t('addFriendModal.add')}
+                </Button>
               )}
             </div>
-          ) : (
-            <div className="add-friends-modal">
-              <PhoneInputGroup submitFunction={getRequiredUser} phone={phone} setPhone={setPhone} />
-              {error && (
-                <div className="add-friends-modal__error">
-                  <span>{t('addFriendModal.error')}</span>
-                  <button
-                    type="button"
-                    onClick={closeError}
-                    className="add-friends-modal__error__close">
-                    <CloseSvg viewBox="0 0 10 10" />
-                  </button>
-                </div>
-              )}
+          </div>
+        ) : (
+          <div className={BLOCK_NAME}>
+            <PhoneInputGroup submitFunction={getRequiredUser} phone={phone} setPhone={setPhone} />
+            {error && (
+              <div className={`${BLOCK_NAME}__error`}>
+                <span>{t('addFriendModal.error')}</span>
+                <button
+                  type="button"
+                  onClick={closeError}
+                  className={`${BLOCK_NAME}__error__close`}>
+                  <CloseSvg viewBox="0 0 10 10" />
+                </button>
+              </div>
+            )}
+            <div className={`${BLOCK_NAME}__btn-block`}>
+              <button
+                type="button"
+                className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--cancel`)}
+                onClick={onClose}>
+                {t('addFriendModal.cancel')}
+              </button>
+              <Button
+                disabled={!parsePhoneNumberFromString(phone)?.isValid()}
+                loading={loading}
+                type="button"
+                className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--confirm`)}
+                onClick={getRequiredUser}>
+                {t('addFriendModal.find')}
+              </Button>
             </div>
-          )
-        }
-        closeModal={onClose}
-        buttons={[
-          !user ? (
-            <button
-              key={1}
-              type="button"
-              className="add-friends-modal__btn add-friends-modal__btn--cancel"
-              onClick={onClose}>
-              {t('addFriendModal.cancel')}
-            </button>
-          ) : null,
-          !user ? (
-            <Button
-              disabled={!parsePhoneNumberFromString(phone)?.isValid()}
-              loading={loading}
-              key={2}
-              type="button"
-              className="add-friends-modal__btn add-friends-modal__btn--confirm"
-              onClick={getRequiredUser}>
-              {t('addFriendModal.find')}
-            </Button>
-          ) : null,
-          user ? (
-            <Link
-              key={3}
-              className={`add-friends-modal__btn ${
-                added ? 'add-friends-modal__btn--confirm' : 'add-friends-modal__btn--cancel'
-              }`}
-              to={`/im/${ChatId.from(user.id).id}`}>
-              {t('addFriendModal.chat')}
-            </Link>
-          ) : null,
-          user && !added ? (
-            <Button
-              key={4}
-              type="button"
-              loading={loading}
-              className="add-friends-modal__btn add-friends-modal__btn--confirm"
-              onClick={addRequiredUser}>
-              {t('addFriendModal.add')}
-            </Button>
-          ) : null,
-        ]}
-      />
-    </WithBackground>
+          </div>
+        )}
+      </>
+    </Modal>
   );
 };
 

@@ -3,8 +3,8 @@ import { call } from 'redux-saga/effects';
 
 import { emitToast } from '@utils/emit-toast';
 
-import { httpRequest } from './http-request';
 import { HttpRequestMethod } from './http-request-method';
+import { httpRequest } from './http-request';
 
 import type { IRequestGenerator, UrlGenerator } from './types';
 

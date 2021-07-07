@@ -1,17 +1,18 @@
 import React, { useCallback, useEffect, useState } from 'react';
+
 import { useSelector } from 'react-redux';
 
-import { ReactComponent as SearchSvg } from '@icons/search.svg';
 // import { ReactComponent as ArrowSvg } from '@icons/arrow-v.svg';
-import { MESSAGES_LIMIT } from '@utils/pagination-limits';
 import { SearchBox } from '@components/search-box';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { ReactComponent as CloseSvg } from '@icons/close.svg';
+import { ReactComponent as SearchSvg } from '@icons/search.svg';
+import { getMessagesAction } from '@store/chats/actions';
 import {
   getSelectedChatIdSelector,
   getSelectedChatMessagesSearchStringSelector,
 } from '@store/chats/selectors';
-import { ReactComponent as CloseSvg } from '@icons/close.svg';
-import { getMessagesAction } from '@store/chats/actions';
+import { MESSAGES_LIMIT } from '@utils/pagination-limits';
 
 import './messages-search.scss';
 

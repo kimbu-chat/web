@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react';
+
 import classNames from 'classnames';
 
 import { ReactComponent as UploadSvg } from '@icons/upload.svg';
@@ -35,17 +36,17 @@ export const DragIndicator = () => {
       onDragLeave={onDragLeave}
       onDragEnter={onDragEnter}
       onDragOver={onDragOver}
-      className={classNames(BLOCK_NAME)}>
+      className={BLOCK_NAME}>
       <div
         className={classNames(`${BLOCK_NAME}__dashed`, {
           [`${BLOCK_NAME}__dashed--over`]: isDragging,
         })}>
-        <div className={classNames(`${BLOCK_NAME}__upload`)}>
-          <div className={classNames(`${BLOCK_NAME}__icon-wrapper`)}>
+        <div className={`${BLOCK_NAME}__upload`}>
+          <div className={`${BLOCK_NAME}__icon-wrapper`}>
             <UploadSvg className="drag-indicator__icon" />
           </div>
-          <h3 className={classNames(`${BLOCK_NAME}__title`)}>Drop to attach</h3>
-          <h4 className={classNames(`${BLOCK_NAME}__info`)}>Maximum size: 10 MB</h4>
+          <h3 className={`${BLOCK_NAME}__title`}>Drop to attach</h3>
+          <h4 className={`${BLOCK_NAME}__info`}>Maximum size: 10 MB</h4>
         </div>
       </div>
     </div>

@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { getCountryByIp } from '@utils/get-country-by-ip';
 import { CountrySelect } from '@components/country-select/country-select';
 import { PhoneInput } from '@components/phone-input/phone-input';
+import { getCountryByIp } from '@utils/get-country-by-ip';
 
 import type { ICountry } from '@common/country';
 
@@ -33,10 +33,8 @@ const PhoneInputGroup: React.FC<IPhoneInputGroupProps> = ({
     number: '+93',
     title: 'Afghanistan',
   });
-  const [
-    countrySelectRef,
-    setCountrySelectRef,
-  ] = useState<React.RefObject<HTMLInputElement> | null>(null);
+  const [countrySelectRef, setCountrySelectRef] =
+    useState<React.RefObject<HTMLInputElement> | null>(null);
 
   useEffect(() => {
     (async () => {

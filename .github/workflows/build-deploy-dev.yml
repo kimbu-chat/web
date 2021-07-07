@@ -3,8 +3,6 @@ on:
   push:
     branches:
       - development
-    paths:
-      - 'src/**'
 jobs:
   run:
     runs-on: ubuntu-latest
@@ -13,8 +11,9 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     steps:
       - uses: actions/checkout@v2
+      - uses: c-hive/gha-yarn-cache@v2
 
-      - name: Install dependencies
+      - name: Install project dependencies
         run: yarn
 
       - name: Run ESLint

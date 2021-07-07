@@ -1,24 +1,25 @@
 import React, { useCallback, useState, useEffect, useMemo } from 'react';
+
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 
-import { Modal } from '@components/modal';
-import { WithBackground } from '@components/with-background';
 import { InfiniteScroll } from '@components/infinite-scroll';
-import { SearchBox } from '@components/search-box/search-box';
-import { getFriendsAction, resetSearchFriendsAction } from '@store/friends/actions';
+import { Modal } from '@components/modal';
+import { SearchBox } from '@components/search-box';
+import { SelectEntity } from '@components/select-entity';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { IUser, IPage } from '@store/common/models';
 import { ReactComponent as ArrowSvg } from '@icons/arrow-v.svg';
-import { ReactComponent as GroupSvg } from '@icons/group.svg';
 import { ReactComponent as NewMessageSvg } from '@icons/create-chat.svg';
-import { getMyFriendsListSelector, getMySearchFriendsListSelector } from '@store/friends/selectors';
-import { FRIENDS_LIMIT } from '@utils/pagination-limits';
+import { ReactComponent as GroupSvg } from '@icons/group.svg';
+import { INSTANT_MESSAGING_CHAT_PATH } from '@routing/routing.constants';
 import { ChatId } from '@store/chats/chat-id';
 import { INormalizedChat } from '@store/chats/models';
-
-import { SelectEntity } from '../select-entity/select-entity';
+import { IUser, IPage } from '@store/common/models';
+import { getFriendsAction, resetSearchFriendsAction } from '@store/friends/actions';
+import { getMyFriendsListSelector, getMySearchFriendsListSelector } from '@store/friends/selectors';
+import { FRIENDS_LIMIT } from '@utils/pagination-limits';
+import { replaceInUrl } from '@utils/replace-in-url';
 
 import './new-chat-modal.scss';
 
@@ -26,6 +27,8 @@ interface INewChatModalProps {
   onClose: () => void;
   displayCreateGroupChat: () => void;
 }
+
+const BLOCK_NAME = 'new-chat';
 
 const NewChatModal: React.FC<INewChatModalProps> = ({ onClose, displayCreateGroupChat }) => {
   const { t } = useTranslation();
@@ -57,7 +60,7 @@ const NewChatModal: React.FC<INewChatModalProps> = ({ onClose, displayCreateGrou
   const createEmptyChat = useCallback(
     (user: INormalizedChat | IUser) => {
       const chatId = ChatId.from((user as IUser).id).id;
-      history.push(`/im/${chatId}`);
+      history.push(replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, ['id?', chatId]));
       onClose();
     },
     [history, onClose],
@@ -108,40 +111,39 @@ const NewChatModal: React.FC<INewChatModalProps> = ({ onClose, displayCreateGrou
   }, [name.length, searchFriendIds, friendIds, renderSelectEntity]);
 
   return (
-    <WithBackground onBackgroundClick={onClose}>
-      <Modal
-        title={
+    <Modal closeModal={onClose}>
+      <>
+        <Modal.Header>
           <>
-            <NewMessageSvg viewBox="0 0 24 24" className="new-chat__icon" />
+            <NewMessageSvg viewBox="0 0 24 24" className={`${BLOCK_NAME}__icon`} />
             <span>{t('newChat.new_message')}</span>
           </>
-        }
-        closeModal={onClose}
-        content={
-          <div className="new-chat">
-            <SearchBox containerClassName="new-chat__search" onChange={handleSearchInputChange} />
+        </Modal.Header>
+        <div className={BLOCK_NAME}>
+          <SearchBox
+            containerClassName={`${BLOCK_NAME}__search`}
+            onChange={handleSearchInputChange}
+          />
 
-            <div onClick={createGroupChat} className="new-chat__new-group">
-              <div className="new-chat__new-group__img">
-                <GroupSvg viewBox="0 0 24 24" />
-              </div>
-              <span className="new-chat__new-group__title">{t('newChat.new_group')}</span>
-              <div className="new-chat__new-group__go">
-                <ArrowSvg viewBox="0 0 8 14" />
-              </div>
+          <div onClick={createGroupChat} className={`${BLOCK_NAME}__new-group`}>
+            <div className={`${BLOCK_NAME}__new-group__img`}>
+              <GroupSvg viewBox="0 0 24 24" />
             </div>
-            <InfiniteScroll
-              className="new-chat__friends-block"
-              onReachBottom={loadMore}
-              hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}
-              isLoading={name.length ? searchFriendsLoading : friendsLoading}>
-              {selectEntities}
-            </InfiniteScroll>
+            <span className={`${BLOCK_NAME}__new-group__title`}>{t('newChat.new_group')}</span>
+            <div className={`${BLOCK_NAME}__new-group__go`}>
+              <ArrowSvg viewBox="0 0 8 14" />
+            </div>
           </div>
-        }
-        buttons={[]}
-      />
-    </WithBackground>
+          <InfiniteScroll
+            className={`${BLOCK_NAME}__friends-block`}
+            onReachBottom={loadMore}
+            hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}
+            isLoading={name.length ? searchFriendsLoading : friendsLoading}>
+            {selectEntities}
+          </InfiniteScroll>
+        </div>
+      </>
+    </Modal>
   );
 };
 

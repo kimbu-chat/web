@@ -1,11 +1,12 @@
 import React, { useCallback, useState, useMemo } from 'react';
-import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
 
-import { ReactComponent as BlockedSvg } from '@icons/blocked.svg';
-import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import { getSelectedInterlocutorIdSelector } from '@store/chats/selectors';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+
 import { Button } from '@components/button';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { ReactComponent as BlockedSvg } from '@icons/blocked.svg';
+import { getSelectedInterlocutorIdSelector } from '@store/chats/selectors';
 import { unblockUserAction } from '@store/settings/actions';
 
 import './blocked-message-input.scss';

@@ -1,15 +1,15 @@
 import { IUser } from '@store/common/models';
 
-import { MessageLinkType } from './linked-message-type';
 import { IBaseAttachment } from './attachments/base-attachment';
+import { MessageLinkType } from './linked-message-type';
+import { ILinkedMessage, INormalizedLinkedMessage } from './linked-message';
 import { MessageState } from './message-state';
 import { SystemMessageType } from './system-message-type';
-import { ILinkedMessage, INormalizedLinkedMessage } from './linked-message';
 
 export interface IMessage {
   id: number;
   userCreator: IUser;
-  creationDateTime: Date;
+  creationDateTime: string;
   text: string;
   attachmentsJson?: string;
   systemMessageType: SystemMessageType;
@@ -28,7 +28,7 @@ export interface IMessage {
 export interface INormalizedMessage {
   id: number;
   userCreatorId: number;
-  creationDateTime: Date;
+  creationDateTime: string;
   text: string;
   attachmentsJson?: string;
   systemMessageType: SystemMessageType;

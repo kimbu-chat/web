@@ -1,11 +1,14 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import Mousetrap from 'mousetrap';
 
-import { ReactComponent as CloseSVG } from '@icons/close.svg';
-import { ReactComponent as ArrowSvg } from '@icons/arrow.svg';
-import { FileType, IPictureAttachment, IVideoAttachment } from '@store/chats/models';
+import classNames from 'classnames';
+import Mousetrap from 'mousetrap';
+import { useTranslation } from 'react-i18next';
+
 import { BackgroundBlur } from '@components/with-background';
+import { useAnimation } from '@hooks/use-animation';
+import { ReactComponent as ArrowSvg } from '@icons/arrow.svg';
+import { ReactComponent as CloseSVG } from '@icons/close.svg';
+import { FileType, IPictureAttachment, IVideoAttachment } from '@store/chats/models';
 import { stopPropagation } from '@utils/stop-propagation';
 
 import './media-modal.scss';
@@ -20,8 +23,16 @@ interface IImageModalProps {
   onClose: () => void;
 }
 
-const MediaModal: React.FC<IImageModalProps> = ({ attachmentId, attachmentsArr, onClose }) => {
+const BLOCK_NAME = 'media-modal';
+
+export const MediaModal: React.FC<IImageModalProps> = ({
+  attachmentId,
+  attachmentsArr,
+  onClose,
+}) => {
   const { t } = useTranslation();
+
+  const { rootClass, closeInitiated, animatedClose } = useAnimation(BLOCK_NAME, onClose);
 
   const [currentAttachmentIndex, setCurrentAttachmentIndex] = useState(
     attachmentsArr.findIndex(({ id }) => id === attachmentId),
@@ -54,10 +65,10 @@ const MediaModal: React.FC<IImageModalProps> = ({ attachmentId, attachmentsArr, 
   }, [goNext, goPrev]);
 
   return (
-    <BackgroundBlur onClick={onClose}>
-      <div className="media-modal">
-        <div className="media-modal__main">
-          <div className="media-modal__controls media-modal__controls--prev">
+    <BackgroundBlur hiding={closeInitiated} onClick={animatedClose}>
+      <div className={rootClass}>
+        <div className={`${BLOCK_NAME}__main`}>
+          <div className={classNames(`${BLOCK_NAME}__controls`, `${BLOCK_NAME}__controls--prev`)}>
             {currentAttachmentIndex > 0 && (
               <button type="button" onClick={goPrev}>
                 <ArrowSvg viewBox="0 0 48 48" />
@@ -65,13 +76,13 @@ const MediaModal: React.FC<IImageModalProps> = ({ attachmentId, attachmentsArr, 
             )}
           </div>
 
-          <div className="media-modal__media-wrapper">
+          <div className={`${BLOCK_NAME}__media-wrapper`}>
             {attachmentsArr[currentAttachmentIndex].type === FileType.Picture && (
               <img
                 onClick={stopPropagation}
                 src={attachmentsArr[currentAttachmentIndex].url}
                 alt=""
-                className="media-modal__photo"
+                className={`${BLOCK_NAME}__photo`}
               />
             )}
             {attachmentsArr[currentAttachmentIndex].type === FileType.Video && (
@@ -80,17 +91,17 @@ const MediaModal: React.FC<IImageModalProps> = ({ attachmentId, attachmentsArr, 
                 autoPlay
                 controls
                 src={attachmentsArr[currentAttachmentIndex].url}
-                className="media-modal__player"
+                className={`${BLOCK_NAME}__player`}
               />
             )}
             {attachmentsArr.length !== 1 && (
-              <div className="media-modal__position-pointer">
+              <div className={`${BLOCK_NAME}__position-pointer`}>
                 {`(${currentAttachmentIndex + 1} ${t('mediaModal.of')} ${attachmentsArr.length})`}
               </div>
             )}
           </div>
 
-          <div className="media-modal__controls media-modal__controls--next">
+          <div className={classNames(`${BLOCK_NAME}__controls`, `${BLOCK_NAME}__controls--next`)}>
             {currentAttachmentIndex < attachmentsArr.length - 1 && (
               <button type="button" onClick={goNext}>
                 <ArrowSvg viewBox="0 0 48 48" />
@@ -99,7 +110,7 @@ const MediaModal: React.FC<IImageModalProps> = ({ attachmentId, attachmentsArr, 
           </div>
         </div>
 
-        <button type="button" className="media-modal__close">
+        <button className={`${BLOCK_NAME}__close`} type="button">
           <CloseSVG viewBox="0 0 24 24" />
         </button>
       </div>
@@ -108,5 +119,3 @@ const MediaModal: React.FC<IImageModalProps> = ({ attachmentId, attachmentsArr, 
 };
 
 MediaModal.displayName = 'MediaModal';
-
-export { MediaModal };

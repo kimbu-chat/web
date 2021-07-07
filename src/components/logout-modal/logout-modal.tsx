@@ -1,58 +1,62 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
+
+import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 
-import { WithBackground } from '@components/with-background';
+import { Button } from '@components/button';
 import { Modal } from '@components/modal';
-import './logout-modal.scss';
-import { ReactComponent as LogoutSvg } from '@icons/logout.svg';
 import { useEmptyActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { ReactComponent as LogoutSvg } from '@icons/logout.svg';
 import { logoutAction } from '@store/auth/actions';
+
+import './logout-modal.scss';
 
 interface ILogoutModalProps {
   onClose: () => void;
 }
 
+const BLOCK_NAME = 'logout-modal';
+
 export const LogoutModal: React.FC<ILogoutModalProps> = ({ onClose }) => {
   const { t } = useTranslation();
 
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
   const logoutRequest = useEmptyActionWithDeferred(logoutAction);
 
-  const logout = useCallback(
-    () =>
-      logoutRequest().then(() => {
-        window.location.replace('login');
-      }),
-    [logoutRequest],
-  );
+  const logout = useCallback(() => {
+    setIsLoggingOut(true);
+    logoutRequest();
+  }, [logoutRequest]);
 
   return (
-    <WithBackground onBackgroundClick={onClose}>
-      <Modal
-        title={
+    <Modal closeModal={onClose}>
+      <>
+        <Modal.Header>
           <>
-            <LogoutSvg viewBox="0 0 30 28" className="logout-modal__icon" />
+            <LogoutSvg viewBox="0 0 30 28" className={`${BLOCK_NAME}__icon`} />
             <span> {t('logoutModal.title')} </span>
           </>
-        }
-        closeModal={onClose}
-        content={<div className="logout-modal__сontent">{t('logoutModal.confirm-content')}</div>}
-        buttons={[
-          <button
-            key={1}
-            type="button"
-            onClick={onClose}
-            className="logout-modal__btn logout-modal__btn--cancel">
-            {t('logoutModal.cancel')}
-          </button>,
-          <button
-            key={2}
-            type="button"
-            onClick={logout}
-            className="logout-modal__btn logout-modal__btn--confirm">
-            {t('logoutModal.logout')}
-          </button>,
-        ]}
-      />
-    </WithBackground>
+        </Modal.Header>
+        <div className={BLOCK_NAME}>
+          <div className={`${BLOCK_NAME}__сontent`}>{t('logoutModal.confirm-content')}</div>
+          <div className={`${BLOCK_NAME}__btn-block`}>
+            <button
+              type="button"
+              onClick={onClose}
+              className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--cancel`)}>
+              {t('logoutModal.cancel')}
+            </button>
+            <Button
+              loading={isLoggingOut}
+              type="button"
+              onClick={logout}
+              className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--confirm`)}>
+              {t('logoutModal.logout')}
+            </Button>
+          </div>
+        </div>
+      </>
+    </Modal>
   );
 };

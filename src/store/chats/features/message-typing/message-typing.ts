@@ -4,12 +4,12 @@ import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
-import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { NOTIFICATIONS_API } from '@common/paths';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { myFullNameSelector } from '../../../my-profile/selectors';
-import { getSelectedChatIdSelector, getChatByIdDraftSelector } from '../../selectors';
 import { IChatsState } from '../../chats-state';
+import { getSelectedChatIdSelector, getChatByIdDraftSelector } from '../../selectors';
 
 import { IMessageTypingActionPayload } from './action-payloads/message-typing-action-payload';
 import { IMessageTypingApiRequest } from './api-requests/message-typing-api-request';

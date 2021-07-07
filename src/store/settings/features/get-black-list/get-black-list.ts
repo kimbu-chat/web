@@ -1,12 +1,12 @@
 import { AxiosResponse } from 'axios';
+import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
-import produce from 'immer';
 
-import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
-import { createEmptyAction } from '@store/common/actions';
-import { IUser } from '@store/common/models';
 import { MAIN_API } from '@common/paths';
+import { createEmptyAction } from '@store/common/actions';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { IUser } from '@store/common/models';
 
 import { IUserSettings } from '../../user-settings-state';
 

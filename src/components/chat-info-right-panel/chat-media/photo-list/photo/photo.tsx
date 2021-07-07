@@ -1,7 +1,7 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 
-import FadeAnimationWrapper from '@components/fade-animation-wrapper';
 import { MediaModal } from '@components/image-modal';
+import { useToggledState } from '@hooks/use-toggled-state';
 import { IPictureAttachment } from '@store/chats/models';
 
 interface IPhotoProps {
@@ -10,27 +10,24 @@ interface IPhotoProps {
 }
 
 export const Photo: React.FC<IPhotoProps> = ({ photo, attachmentsArr }) => {
-  const [bigPhotoDisplayed, setBigPhotoDisplayed] = useState(false);
-  const changeBigPhotoDisplayed = useCallback(() => setBigPhotoDisplayed((oldState) => !oldState), [
-    setBigPhotoDisplayed,
-  ]);
+  const [bigPhotoDisplayed, displayBigPhoto, hideBigPhoto] = useToggledState(false);
 
   return (
     <>
       <img
         alt="low speed"
-        onClick={changeBigPhotoDisplayed}
+        onClick={displayBigPhoto}
         key={photo.id}
         className="chat-photo__photo"
         src={photo.url}
       />
-      <FadeAnimationWrapper isDisplayed={bigPhotoDisplayed}>
+      {bigPhotoDisplayed && (
         <MediaModal
           attachmentId={photo.id}
           attachmentsArr={attachmentsArr}
-          onClose={changeBigPhotoDisplayed}
+          onClose={hideBigPhoto}
         />
-      </FadeAnimationWrapper>
+      )}
     </>
   );
 };

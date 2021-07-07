@@ -1,49 +1,49 @@
+import { AxiosResponse } from 'axios';
+import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
 import { select, put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-import { AxiosResponse } from 'axios';
-import { normalize } from 'normalizr';
 
-import { ILinkedMessage, INormalizedLinkedMessage } from '@store/chats/models/linked-message';
-import { areNotificationsEnabledSelector } from '@store/settings/selectors';
-import { setNewTitleNotificationInterval, incrementNotifications } from '@utils/set-favicon';
-import { playSoundSafely } from '@utils/current-music';
-import { modelChatList } from '@store/chats/utils/model-chat-list';
-import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
-import { replaceInUrl } from '@utils/replace-in-url';
 import { MAIN_API } from '@common/paths';
-import {
-  IGroupChatMemberRemovedSystemMessageContent,
-  getSystemMessageData,
-} from '@utils/message-utils';
+import { IMarkMessagesAsReadApiRequest } from '@store/chats/features/mark-messages-as-read/api-requests/mark-messages-as-read-api-request';
+import { MarkMessagesAsRead } from '@store/chats/features/mark-messages-as-read/mark-messages-as-read';
+import { ById } from '@store/chats/models/by-id';
+import { ILinkedMessage, INormalizedLinkedMessage } from '@store/chats/models/linked-message';
 import {
   chatNormalizationSchema,
   linkedMessageNormalizationSchema,
 } from '@store/chats/normalization';
-import { IUser } from '@store/common/models';
-import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
-import { ById } from '@store/chats/models/by-id';
+import { modelChatList } from '@store/chats/utils/model-chat-list';
 import { setUnreadMessageId } from '@store/chats/utils/unread-message';
-import { IMarkMessagesAsReadApiRequest } from '@store/chats/features/mark-messages-as-read/api-requests/mark-messages-as-read-api-request';
-import { MarkMessagesAsRead } from '@store/chats/features/mark-messages-as-read/mark-messages-as-read';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { IUser } from '@store/common/models';
+import { areNotificationsEnabledSelector } from '@store/settings/selectors';
+import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
+import { playSoundSafely } from '@utils/current-music';
+import {
+  IGroupChatMemberRemovedSystemMessageContent,
+  getSystemMessageData,
+} from '@utils/message-utils';
+import { replaceInUrl } from '@utils/replace-in-url';
+import { setNewTitleNotificationInterval, incrementNotifications } from '@utils/set-favicon';
 
-import { MessageLinkType } from '../../models/linked-message-type';
-import messageCameUnselected from '../../../../assets/sounds/notifications/messsage-came-unselected.ogg';
 import messageCameSelected from '../../../../assets/sounds/notifications/messsage-came-selected.ogg';
+import messageCameUnselected from '../../../../assets/sounds/notifications/messsage-came-unselected.ogg';
 import { tabActiveSelector, myIdSelector } from '../../../my-profile/selectors';
 import { ChangeSelectedChat } from '../../features/change-selected-chat/change-selected-chat';
+import { UnshiftChat } from '../../features/unshift-chat/unshift-chat';
 import { IChat, INormalizedChat, IMessage, SystemMessageType } from '../../models';
+import { MessageLinkType } from '../../models/linked-message-type';
 import {
   getSelectedChatIdSelector,
   getChatByIdSelector,
   getChatHasMessageWithIdSelector,
   getMessageSelector,
 } from '../../selectors';
-import { UnshiftChat } from '../../features/unshift-chat/unshift-chat';
 
-import { IMessageCreatedIntegrationEvent } from './message-created-integration-event';
 import { IGetMessageByIdApiRequest } from './api-requests/get-message-by-id-api-request';
 import { MessageCreatedEventHandlerSuccess } from './message-created-event-handler-success';
+import { IMessageCreatedIntegrationEvent } from './message-created-integration-event';
 
 export class MessageCreatedEventHandler {
   static get action() {
@@ -75,9 +75,8 @@ export class MessageCreatedEventHandler {
       const myId: number = yield select(myIdSelector);
 
       if (systemMessageType === SystemMessageType.GroupChatMemberRemoved) {
-        const systemMessage = getSystemMessageData<IGroupChatMemberRemovedSystemMessageContent>(
-          payload,
-        );
+        const systemMessage =
+          getSystemMessageData<IGroupChatMemberRemovedSystemMessageContent>(payload);
 
         if (userCreator.id === myId && systemMessage.removedUserId === myId) {
           return;

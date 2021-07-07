@@ -3,21 +3,21 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 
-import { HttpRequestMethod } from '@store/common/http/http-request-method';
-import { authRequestFactory } from '@store/common/http/auth-request-factory';
-import { createEmptyAction } from '@store/common/actions';
 import { MAIN_API } from '@common/paths';
+import { createEmptyAction } from '@store/common/actions';
+import { authRequestFactory } from '@store/common/http/auth-request-factory';
+import { HttpRequestMethod } from '@store/common/http/http-request-method';
 import { getAccessTokenExpirationTime } from '@utils/get-access-token-expiration-time';
 
 import { IAuthState } from '../../auth-state';
 import { ISecurityTokens } from '../../common/models';
 import { securityTokensSelector } from '../../selectors';
 
+import { IRefreshTokenSuccessActionPayload } from './action-payloads/refresh-token-success-action-payload';
 import { IRefreshTokenApiRequest } from './api-requests/refresh-token-api-request';
 import { IRefreshTokenApiResponse } from './api-requests/refresh-token-api-response';
 import { RefreshTokenFailure } from './refresh-token-failure';
 import { RefreshTokenSuccess } from './refresh-token-success';
-import { IRefreshTokenSuccessActionPayload } from './action-payloads/refresh-token-success-action-payload';
 
 export class RefreshToken {
   static get action() {
@@ -49,6 +49,8 @@ export class RefreshToken {
         yield put(RefreshTokenSuccess.action(refreshTokenActionPayload));
       } catch (e) {
         yield put(RefreshTokenFailure.action());
+
+        window.location.replace('/logout');
       }
     };
   }

@@ -1,11 +1,13 @@
 import React from 'react';
 
-import { ReactComponent as PlaySvg } from '@icons/play.svg';
-import { ReactComponent as PauseSvg } from '@icons/pause.svg';
 import { AudioContext } from '@contexts/audioContext';
-import { IAudioAttachment } from '@store/chats/models';
-import './audio-attachment.scss';
+import { ReactComponent as PauseSvg } from '@icons/pause.svg';
+import { ReactComponent as PlaySvg } from '@icons/play.svg';
 import { getMinutesSeconds } from '@utils/date-utils';
+
+import type { IAudioAttachment } from '@store/chats/models';
+
+import './audio-attachment.scss';
 
 const BLOCK_NAME = 'audio-attachment';
 

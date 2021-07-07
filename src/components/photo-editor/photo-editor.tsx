@@ -1,20 +1,21 @@
 import React, { useState, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
+
+import classNames from 'classnames';
+import Slider from 'rc-slider/lib/Slider';
 import Cropper from 'react-easy-crop';
 import { Area } from 'react-easy-crop/types';
-import Slider from 'rc-slider/lib/Slider';
+import { useTranslation } from 'react-i18next';
 
-import { WithBackground } from '@components/with-background';
-import { Modal } from '@components/modal';
 import { Button } from '@components/button';
+import { Modal } from '@components/modal';
 import { Tooltip } from '@components/tooltip';
-import { ReactComponent as PhotoSvg } from '@icons/picture.svg';
-import { ReactComponent as LeftRotateSvg } from '@icons/left-rotate.svg';
-import { ReactComponent as RightRotateSvg } from '@icons/right-rotate.svg';
-import { ReactComponent as ReflectSvg } from '@icons/reflect.svg';
-import { ReactComponent as PeisageSvg } from '@icons/peisage.svg';
-import { IAvatarSelectedData } from '@store/common/models';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { ReactComponent as LeftRotateSvg } from '@icons/left-rotate.svg';
+import { ReactComponent as PeisageSvg } from '@icons/peisage.svg';
+import { ReactComponent as PhotoSvg } from '@icons/picture.svg';
+import { ReactComponent as ReflectSvg } from '@icons/reflect.svg';
+import { ReactComponent as RightRotateSvg } from '@icons/right-rotate.svg';
+import { IAvatarSelectedData } from '@store/common/models';
 import { cancelAvatarUploadingRequestAction } from '@store/my-profile/actions';
 
 import getCroppedImg from './crop-image';
@@ -53,6 +54,8 @@ interface ICrop {
   x: number;
   y: number;
 }
+
+const BLOCK_NAME = 'photo-editor';
 
 const PhotoEditor: React.FC<IPhotoEditorProps> = ({ imageUrl, onSubmit, hideChangePhoto }) => {
   const { t } = useTranslation();
@@ -122,88 +125,94 @@ const PhotoEditor: React.FC<IPhotoEditorProps> = ({ imageUrl, onSubmit, hideChan
   const rotateRight = useCallback(() => setRotation((old) => old + 90), [setRotation]);
 
   return (
-    <WithBackground>
-      <Modal
-        title={
+    <Modal unclickableBackground closeModal={cancelUpload}>
+      <>
+        <Modal.Header>
           <>
             <PhotoSvg viewBox="0 0 18 19" className="photo-editor__icon" />
 
             <span> {t('changePhoto.title')} </span>
           </>
-        }
-        closeModal={cancelUpload}
-        content={
-          <div onClick={(e) => e.stopPropagation()} className="photo-editor">
-            <div className="photo-editor__crop-container">
-              <Cropper
-                image={imageUrl}
-                aspect={1}
-                transform={[
-                  `translate(${crop.x}px, ${crop.y}px)`,
-                  `rotateZ(${rotation}deg)`,
-                  `rotateY(${flip.horizontal ? 180 : 0}deg)`,
-                  `rotateX(${flip.vertical ? 180 : 0}deg)`,
-                  `scale(${zoom})`,
-                ].join(' ')}
-                crop={crop}
-                rotation={rotation}
-                zoom={zoom}
-                onCropChange={changeCrop}
-                onRotationChange={setRotation}
-                onCropComplete={onCropComplete}
-                onZoomChange={setZoom}
+        </Modal.Header>
+        <div onClick={(e) => e.stopPropagation()} className={BLOCK_NAME}>
+          <div className={`${BLOCK_NAME}__crop-container`}>
+            <Cropper
+              image={imageUrl}
+              aspect={1}
+              transform={[
+                `translate(${crop.x}px, ${crop.y}px)`,
+                `rotateZ(${rotation}deg)`,
+                `rotateY(${flip.horizontal ? 180 : 0}deg)`,
+                `rotateX(${flip.vertical ? 180 : 0}deg)`,
+                `scale(${zoom})`,
+              ].join(' ')}
+              crop={crop}
+              rotation={rotation}
+              zoom={zoom}
+              onCropChange={changeCrop}
+              onRotationChange={setRotation}
+              onCropComplete={onCropComplete}
+              onZoomChange={setZoom}
+            />
+          </div>
+          <div className={`${BLOCK_NAME}__slider-section`}>
+            <PeisageSvg
+              className={classNames(
+                `${BLOCK_NAME}__slider-peisage`,
+                `${BLOCK_NAME}__slider-peisage--little`,
+              )}
+            />
+            <div className={`${BLOCK_NAME}__slider-container`}>
+              <Slider
+                handleStyle={handleStyle}
+                railStyle={railStyle}
+                value={zoom}
+                min={1}
+                max={3}
+                step={0.1}
+                onChange={setZoom}
               />
             </div>
-            <div className="photo-editor__slider-section">
-              <PeisageSvg className="photo-editor__slider-peisage photo-editor__slider-peisage--little" />
-              <div className="photo-editor__slider-container">
-                <Slider
-                  handleStyle={handleStyle}
-                  railStyle={railStyle}
-                  value={zoom}
-                  min={1}
-                  max={3}
-                  step={0.1}
-                  onChange={setZoom}
-                />
-              </div>
-              <PeisageSvg className="photo-editor__slider-peisage photo-editor__slider-peisage--big" />
-            </div>
-            <div className="photo-editor__btn-group">
-              <button onClick={rotateLeft} type="button" className="photo-editor__modify-btn">
-                <Tooltip>Left Rotation</Tooltip>
-                <LeftRotateSvg viewBox="0 0 18 18" />
-              </button>
-              <button onClick={mirrorImage} type="button" className="photo-editor__modify-btn">
-                <Tooltip>Mirror</Tooltip>
-                <ReflectSvg viewBox="0 0 18 18" />
-              </button>
-              <button onClick={rotateRight} type="button" className="photo-editor__modify-btn">
-                <Tooltip>Right Rotation</Tooltip>
-                <RightRotateSvg viewBox="0 0 18 18" />
-              </button>
-            </div>
+            <PeisageSvg
+              className={classNames(
+                `${BLOCK_NAME}__slider-peisage`,
+                `${BLOCK_NAME}__slider-peisage--big`,
+              )}
+            />
           </div>
-        }
-        buttons={[
-          <Button
-            key={0}
-            type="button"
-            className="photo-editor__btn photo-editor__btn--cancel"
-            onClick={cancelUpload}>
-            {t('changePhoto.reject')}
-          </Button>,
-          <Button
-            loading={submitLoading}
-            key={1}
-            type="button"
-            className="photo-editor__btn photo-editor__btn--confirm"
-            onClick={submitChange}>
-            {t('changePhoto.confirm')}
-          </Button>,
-        ]}
-      />
-    </WithBackground>
+          <div className={`${BLOCK_NAME}__btn-group`}>
+            <button onClick={rotateLeft} type="button" className={`${BLOCK_NAME}__modify-btn`}>
+              <Tooltip>Left Rotation</Tooltip>
+              <LeftRotateSvg viewBox="0 0 18 18" />
+            </button>
+            <button onClick={mirrorImage} type="button" className={`${BLOCK_NAME}__modify-btn`}>
+              <Tooltip>Mirror</Tooltip>
+              <ReflectSvg viewBox="0 0 18 18" />
+            </button>
+            <button onClick={rotateRight} type="button" className={`${BLOCK_NAME}__modify-btn`}>
+              <Tooltip>Right Rotation</Tooltip>
+              <RightRotateSvg viewBox="0 0 18 18" />
+            </button>
+          </div>
+
+          <div className={`${BLOCK_NAME}__btn-block`}>
+            <Button
+              type="button"
+              className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--cancel`)}
+              onClick={cancelUpload}>
+              {t('changePhoto.reject')}
+            </Button>
+            <Button
+              loading={submitLoading}
+              type="button"
+              className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--confirm`)}
+              onClick={submitChange}>
+              {t('changePhoto.confirm')}
+            </Button>
+          </div>
+        </div>
+      </>
+    </Modal>
   );
 };
 

@@ -19,7 +19,7 @@
     line-height: 19px;
     outline: none;
     padding: 10px 16px;
-    transition: all 0.2s;
+    transition: all var(--ANIMATION-DURATION);
     width: 100%;
 
     &:hover {

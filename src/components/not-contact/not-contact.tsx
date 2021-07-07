@@ -1,13 +1,14 @@
 import React, { useCallback, useState } from 'react';
+
+import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import classNames from 'classnames';
 
-import { ReactComponent as ContactSvg } from '@icons/user-o.svg';
-import { ReactComponent as CloseSvg } from '@icons/close.svg';
-import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import { getSelectedInterlocutorSelector } from '@store/chats/selectors';
 import { Button } from '@components/button';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { ReactComponent as CloseSvg } from '@icons/close.svg';
+import { ReactComponent as ContactSvg } from '@icons/user-o.svg';
+import { getSelectedInterlocutorSelector } from '@store/chats/selectors';
 import { addFriendAction, dismissToAddContactAction } from '@store/friends/actions';
 import { blockUserAction } from '@store/settings/actions';
 
@@ -54,16 +55,16 @@ export const NotContact = () => {
   }, [dismissUser, interlocutor?.id]);
 
   return (
-    <div className={classNames(BLOCK_NAME)}>
-      <ContactSvg className={classNames(`${BLOCK_NAME}__contact-icon`)} viewBox="0 0 24 24" />
+    <div className={BLOCK_NAME}>
+      <ContactSvg className={`${BLOCK_NAME}__contact-icon`} viewBox="0 0 24 24" />
 
-      <div className={classNames(`${BLOCK_NAME}__description`)}>
+      <div className={`${BLOCK_NAME}__description`}>
         {t('notContact.description', {
           fullName: `${interlocutor?.firstName} ${interlocutor?.lastName}`,
         })}
       </div>
 
-      <div className={classNames(`${BLOCK_NAME}__btn-group`)}>
+      <div className={`${BLOCK_NAME}__btn-group`}>
         <Button
           onClick={addSelectedUserToContacts}
           loading={addLoading}
@@ -81,7 +82,7 @@ export const NotContact = () => {
         <button
           onClick={dismissSelectedUserToBlackList}
           type="button"
-          className={classNames(`${BLOCK_NAME}__close-btn`)}>
+          className={`${BLOCK_NAME}__close-btn`}>
           <CloseSvg viewBox="0 0 24 24" />
         </button>
       </div>

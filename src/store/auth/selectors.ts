@@ -3,7 +3,7 @@ import { RootState } from 'typesafe-actions';
 import { ISecurityTokens } from './common/models';
 
 export const securityTokensSelector = (state: RootState): ISecurityTokens | undefined =>
-  state.auth.securityTokens;
+  state.auth?.securityTokens;
 
 export const authenticatedSelector = (state: RootState): boolean => state.auth.isAuthenticated;
 

@@ -1,12 +1,24 @@
 import dayjs from 'dayjs';
 
-import { SECOND_DURATION } from '@utils/constants';
 import { IGroupable } from '@store/chats/models';
+import {
+  SHORT_TIME_AM_PM,
+  HOUR_MINUTE_SECOND,
+  MINUTES_SECONDS,
+  SECOND_DURATION,
+} from '@utils/constants';
 
 import { doesYearDifferFromCurrent } from './set-separators';
 
-export function getDayStart(datetime: number | string | Date) {
-  const date = new Date(datetime);
+export function getDayStart(datetime: string | Date) {
+  let date: Date;
+
+  if (typeof datetime === 'string') {
+    date = new Date(datetime);
+  } else {
+    date = datetime;
+  }
+
   date.setHours(0, 0, 0, 0);
   return date;
 }
@@ -39,4 +51,8 @@ export const dateByOffset = (date: Date): string => {
 };
 
 export const getMinutesSeconds = (seconds: number) =>
-  dayjs.utc(seconds * SECOND_DURATION).format('mm:ss');
+  dayjs.utc(seconds * SECOND_DURATION).format(MINUTES_SECONDS);
+export const getHourMinuteSecond = (duration: number) =>
+  dayjs.utc(duration).format(HOUR_MINUTE_SECOND);
+export const getShortTimeAmPm = (creationDateTime: string) =>
+  dayjs.utc(creationDateTime).local().format(SHORT_TIME_AM_PM);

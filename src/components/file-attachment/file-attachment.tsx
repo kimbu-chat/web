@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import './file-attachment.scss';
 
 import { ReactComponent as DownloadSvg } from '@icons/download.svg';
 import { ReactComponent as ProgressSVG } from '@icons/ic-progress.svg';
-import { fileDownload } from '@utils/file-download';
 import { IBaseAttachment } from '@store/chats/models';
+import { fileDownload } from '@utils/file-download';
 import { getRawAttachmentSizeUnit } from '@utils/get-file-size-unit';
+
+import './file-attachment.scss';
 
 const FileAttachment: React.FC<IBaseAttachment> = ({ ...attachment }) => {
   const [isDownloading, setIsDownloading] = useState(false);

@@ -1,5 +1,6 @@
+import React, { useCallback } from 'react';
+
 import dayjs from 'dayjs';
-import React from 'react';
 
 import { useForceUpdate } from '@hooks/use-force-update';
 
@@ -10,7 +11,12 @@ interface ITimeUpdateableProps {
 const TimeUpdateable: React.FC<ITimeUpdateableProps> = ({ timeStamp }) => {
   useForceUpdate(30000);
 
-  return <span>{dayjs.utc(timeStamp).local().startOf('minute').fromNow()}</span>;
+  const getFromNowTime = useCallback(
+    (time?: Date) => dayjs.utc(time).local().startOf('minute').fromNow(),
+    [],
+  );
+
+  return <span>{getFromNowTime(timeStamp)}</span>;
 };
 
 TimeUpdateable.displayName = 'TimeUpdateable';

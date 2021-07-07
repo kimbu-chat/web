@@ -4,15 +4,15 @@ import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
-import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
-import { authenticatedSelector } from '@store/auth/selectors';
-import { resetUnreadNotifications } from '@utils/set-favicon';
-import { IMyProfileState } from '@store/my-profile/my-profile-state';
 import { MAIN_API } from '@common/paths';
-import { MarkMessagesAsRead } from '@store/chats/features/mark-messages-as-read/mark-messages-as-read';
+import { authenticatedSelector } from '@store/auth/selectors';
 import { IMarkMessagesAsReadApiRequest } from '@store/chats/features/mark-messages-as-read/api-requests/mark-messages-as-read-api-request';
+import { MarkMessagesAsRead } from '@store/chats/features/mark-messages-as-read/mark-messages-as-read';
 import { getSelectedChatIdSelector } from '@store/chats/selectors';
-import { getUnreadMessageId } from '@store/chats/utils/unread-message';
+import { getUnreadMessageId, setUnreadMessageId } from '@store/chats/utils/unread-message';
+import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { IMyProfileState } from '@store/my-profile/my-profile-state';
+import { resetUnreadNotifications } from '@utils/set-favicon';
 
 import { IChangeUserOnlineStatusApiRequest } from './api-requests/change-user-online-status-api-request';
 
@@ -56,6 +56,8 @@ export class ChangeUserOnlineStatus {
         };
 
         yield call(() => MarkMessagesAsRead.httpRequest.generator(httpRequestPayload));
+
+        setUnreadMessageId(null);
       }
     };
   }

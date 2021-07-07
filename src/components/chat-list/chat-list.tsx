@@ -1,19 +1,20 @@
 import React, { useEffect, useCallback, useState, useMemo } from 'react';
+
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
+import { CreateGroupChat } from '@components/create-group-chat-modal';
+import { InfiniteScroll } from '@components/infinite-scroll';
+import { NewChatModal } from '@components/new-chat-modal';
+import { SearchBox } from '@components/search-box';
+import { AnimationMode } from '@components/with-background/with-background';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { ReactComponent as CreateChatSvg } from '@icons/create-chat.svg';
 import {
   getChatsAction,
   changeSelectedChatAction,
   resetSearchChatsAction,
 } from '@store/chats/actions';
-import { CreateGroupChat } from '@components/create-group-chat-modal';
-import { InfiniteScroll } from '@components/infinite-scroll';
-import { NewChatModal } from '@components/new-chat-modal';
-import { SearchBox } from '@components/search-box/search-box';
-import FadeAnimationWrapper from '@components/fade-animation-wrapper';
-import { ReactComponent as CreateChatSvg } from '@icons/create-chat.svg';
 import { getChatsListSelector, getSearchChatsListSelector } from '@store/chats/selectors';
 
 import { ChatFromList } from './chat-item/chat-item';
@@ -119,16 +120,19 @@ const ChatList = React.memo(() => {
           </InfiniteScroll>
         </div>
       </div>
-      <FadeAnimationWrapper isDisplayed={newChatDisplayed}>
+      {newChatDisplayed && (
         <NewChatModal
           displayCreateGroupChat={changeCreateGroupChatDisplayedState}
           onClose={changeNewChatDisplayedState}
         />
-      </FadeAnimationWrapper>
+      )}
 
-      <FadeAnimationWrapper isDisplayed={createGroupChatDisplayed}>
-        <CreateGroupChat onClose={changeCreateGroupChatDisplayedState} />
-      </FadeAnimationWrapper>
+      {createGroupChatDisplayed && (
+        <CreateGroupChat
+          animationMode={AnimationMode.CLOSE}
+          onClose={changeCreateGroupChatDisplayedState}
+        />
+      )}
     </>
   );
 });

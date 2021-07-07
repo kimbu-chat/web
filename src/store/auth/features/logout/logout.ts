@@ -6,13 +6,14 @@ import { call, put, select } from 'redux-saga/effects';
 import { MAIN_API } from '@common/paths';
 import { IAuthState } from '@store/auth/auth-state';
 import { securityTokensSelector } from '@store/auth/selectors';
-import { createEmptyDefferedAction } from '@store/common/actions';
-import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { createEmptyAction } from '@store/common/actions';
+import { httpRequestFactory } from '@store/common/http/http-factory';
+import { HttpRequestMethod } from '@store/common/http/http-request-method';
 import { CloseWebsocketConnection } from '@store/web-sockets/features/close-web-socket-connection/close-web-socket-connection';
 
 export class Logout {
   static get action() {
-    return createEmptyDefferedAction('LOGOUT');
+    return createEmptyAction('LOGOUT');
   }
 
   static get reducer() {

@@ -12,12 +12,14 @@ import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ReactComponent as ArrowSvg } from '@icons/arrow-v.svg';
 import { ReactComponent as NewMessageSvg } from '@icons/create-chat.svg';
 import { ReactComponent as GroupSvg } from '@icons/group.svg';
+import { INSTANT_MESSAGING_CHAT_PATH } from '@routing/routing.constants';
 import { ChatId } from '@store/chats/chat-id';
 import { INormalizedChat } from '@store/chats/models';
 import { IUser, IPage } from '@store/common/models';
 import { getFriendsAction, resetSearchFriendsAction } from '@store/friends/actions';
 import { getMyFriendsListSelector, getMySearchFriendsListSelector } from '@store/friends/selectors';
 import { FRIENDS_LIMIT } from '@utils/pagination-limits';
+import { replaceInUrl } from '@utils/replace-in-url';
 
 import './new-chat-modal.scss';
 
@@ -58,7 +60,7 @@ const NewChatModal: React.FC<INewChatModalProps> = ({ onClose, displayCreateGrou
   const createEmptyChat = useCallback(
     (user: INormalizedChat | IUser) => {
       const chatId = ChatId.from((user as IUser).id).id;
-      history.push(`/im/${chatId}`);
+      history.push(replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, ['id?', chatId]));
       onClose();
     },
     [history, onClose],

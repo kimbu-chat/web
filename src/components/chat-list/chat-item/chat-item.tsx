@@ -12,6 +12,7 @@ import { ReactComponent as MessageErrorSvg } from '@icons/message-error.svg';
 import { ReactComponent as MessageQeuedSvg } from '@icons/message-queued.svg';
 import { ReactComponent as MessageReadSvg } from '@icons/message-read.svg';
 import { ReactComponent as MessageSentSvg } from '@icons/message-sent.svg';
+import { INSTANT_MESSAGING_CHAT_PATH } from '@routing/routing.constants';
 import {
   MessageLinkType,
   MessageState,
@@ -24,6 +25,7 @@ import { getUserSelector } from '@store/users/selectors';
 import { DAY_MONTH_YEAR } from '@utils/constants';
 import { checkIfDatesAreDifferentDate, getShortTimeAmPm } from '@utils/date-utils';
 import { constructSystemMessageText } from '@utils/message-utils';
+import { replaceInUrl } from '@utils/replace-in-url';
 import { getChatInterlocutor } from '@utils/user-utils';
 
 import './chat-item.scss';
@@ -136,7 +138,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
 
   return (
     <NavLink
-      to={`/im/${chat?.id.toString()}`}
+      to={replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, ['id?', chat?.id])}
       className={BLOCK_NAME}
       activeClassName={classnames(BLOCK_NAME, `${BLOCK_NAME}--active`)}>
       {interlocutor && (

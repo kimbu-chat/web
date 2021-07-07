@@ -3,11 +3,11 @@ import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
 
 import { NOTIFICATIONS_API } from '@common/paths';
-import { getPushNotificationToken } from '@store/auth/common/utils';
 import { createEmptyAction } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { getPushNotificationToken } from '@store/notifications/utils';
 
-import { ISubscribeToPushNotificationsApiRequest } from './api-requests/subscribe-to-push-notifications-api-request';
+import type { ISubscribeToPushNotificationsApiRequest } from './api-requests/subscribe-to-push-notifications-api-request';
 
 export class SubscribeToPushNotifications {
   static get action() {

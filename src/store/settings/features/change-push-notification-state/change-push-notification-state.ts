@@ -3,10 +3,9 @@ import { select, put, call } from 'redux-saga/effects';
 
 import { SettingsService } from '@services/settings-service';
 import { createEmptyDefferedAction } from '@store/common/actions';
+import { SubscribeToPushNotifications } from '@store/notifications/features/subscribe-to-push-notifications/subscribe-to-push-notifications';
+import { UnSubscribeFromPushNotifications } from '@store/notifications/features/un-subscribe-from-push-notifications/un-subscribe-from-push-notifications';
 import { arePushNotificationsEnabledSelector } from '@store/settings/selectors';
-
-import { SubscribeToPushNotifications } from '../../../auth/features/subscribe-to-push-notifications/subscribe-to-push-notifications';
-import { UnSubscribeFromPushNotifications } from '../../../auth/features/un-subscribe-from-push-notifications/un-subscribe-from-push-notifications';
 
 import { ChangePushNotificationStateSuccess } from './change-push-notification-state-success';
 

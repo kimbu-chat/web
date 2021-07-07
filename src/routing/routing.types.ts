@@ -23,6 +23,7 @@ export enum MainRoutesEnum {
   CALLS = 'CALLS',
   CONTACTS = 'CONTACTS',
   SETTINGS = 'SETTINGS',
+  LOGOUT = 'LOGOUT',
 }
 
 export enum SettingsRoutesEnum {

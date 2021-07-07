@@ -19,3 +19,4 @@ export const AUDIO_VIDEO_SETTINGS_PATH = '/settings/audio-video';
 export const PRIVACY_SECURITY_SETTINGS_PATH = '/settings/privacy-security';
 export const CALLS_PATH = '/calls';
 export const CONTACTS_PATH = '/contacts';
+export const LOGOUT_PATH = '/logout';

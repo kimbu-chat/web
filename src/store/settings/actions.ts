@@ -1,3 +1,5 @@
+import { TerminateSessionSuccess } from '@store/settings/features/terminate-session/terminate-session-success';
+
 import { BlockUserSuccess } from './features/block-user/block-user-success';
 import { BlockUser } from './features/block-user/block-user';
 import { ChangeFontSize } from './features/change-font-size/change-font-size';
@@ -13,8 +15,7 @@ import { GetSessionListSuccess } from './features/get-sesion-list/get-sesion-lis
 import { GetSessionList } from './features/get-sesion-list/get-sesion-list';
 import { GetUserSettingsSuccess } from './features/get-user-settings/get-user-settings-success';
 import { GetUserSettings } from './features/get-user-settings/get-user-settings';
-import { RevokeSessionSuccess } from './features/revoke-session/revoke-session-success';
-import { RevokeSession } from './features/revoke-session/revoke-session';
+import { TerminateSession } from './features/terminate-session/revoke-session';
 import { UnblockUserSuccess } from './features/unblock-user/unblock-user-success';
 import { UnblockUser } from './features/unblock-user/unblock-user';
 
@@ -36,8 +37,8 @@ export const unblockUserAction = UnblockUser.action;
 export const unblockUserSuccessAction = UnblockUserSuccess.action;
 export const getSessionListAction = GetSessionList.action;
 export const getSessionListSucessAction = GetSessionListSuccess.action;
-export const revokeSessionAction = RevokeSession.action;
-export const revokeSessionSuccessAction = RevokeSessionSuccess.action;
+export const terminateSessionAction = TerminateSession.action;
+export const terminateSessionSuccessAction = TerminateSessionSuccess.action;
 
 export const SettingsActions = {
   // SettingsActions
@@ -58,6 +59,6 @@ export const SettingsActions = {
   unblockUserSuccessAction,
   getSessionListAction,
   getSessionListSucessAction,
-  revokeSessionAction,
-  revokeSessionSuccessAction,
+  terminateSessionAction,
+  terminateSessionSuccessAction,
 };

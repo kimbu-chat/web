@@ -3,6 +3,7 @@ import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
 
 import { MAIN_API } from '@common/paths';
+import { Logout } from '@store/auth/features/logout/logout';
 import { createEmptyDefferedAction } from '@store/common/actions';
 import { HttpRequestMethod, httpRequestFactory } from '@store/common/http';
 
@@ -21,7 +22,7 @@ export class DeactivateAccount {
 
       action.meta.deferred.resolve();
 
-      window.location.replace('logout');
+      yield call(Logout.saga);
     };
   }
 

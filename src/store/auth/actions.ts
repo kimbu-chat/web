@@ -1,14 +1,21 @@
+import { RefreshTokenFailure } from '@store/auth/features/refresh-token/refresh-token-failure';
+import { RefreshTokenSuccess } from '@store/auth/features/refresh-token/refresh-token-success';
+
 import { Logout } from './features/logout/logout';
-import { RefreshTokenSuccess } from './features/refresh-token/refresh-token-success';
 import { RefreshToken } from './features/refresh-token/refresh-token';
+import { SessionTerminatedEventHandler } from './socket-events/session-terminated/session-terminated-integration-event';
 
 // AuthActions
 export const refreshTokenAction = RefreshToken.action;
 export const refreshTokenSuccessAction = RefreshTokenSuccess.action;
 export const logoutAction = Logout.action;
+export const sessionTerminatedEventHandler = SessionTerminatedEventHandler.action;
+export const refreshTokenFailureAction = RefreshTokenFailure.action;
 
 export const AuthActions = {
   refreshTokenAction,
   refreshTokenSuccessAction,
   logoutAction,
+  sessionTerminatedEventHandler,
+  refreshTokenFailureAction,
 };

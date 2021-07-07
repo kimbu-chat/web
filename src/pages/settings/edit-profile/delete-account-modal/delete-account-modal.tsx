@@ -26,9 +26,7 @@ export const DeleteAccountModal: React.FC<IDeleteAccountModalProps> = ({ onClose
 
   const submitDeleteing = useCallback(() => {
     setDeleting(true);
-    deactivateAccount().then(() => {
-      setDeleting(false);
-    });
+    deactivateAccount();
   }, [setDeleting, deactivateAccount]);
 
   return (

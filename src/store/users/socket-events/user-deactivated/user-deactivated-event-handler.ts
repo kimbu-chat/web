@@ -1,10 +1,12 @@
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { select } from 'redux-saga/effects';
+import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
 import { myIdSelector } from '@store/my-profile/selectors';
 import { IUsersState } from '@store/users/users-state';
+
+import { Logout } from '../../../auth/features/logout/logout';
 
 import { IUserDeactivatedActionPayload } from './action-payloads/user-deactivated-action-payload';
 
@@ -35,7 +37,7 @@ export class UserDeactivatedEventHandler {
       const currentUserId = yield select(myIdSelector);
 
       if (action.payload.userId === currentUserId) {
-        window.location.replace('logout');
+        yield call(Logout.saga);
       }
     };
   }

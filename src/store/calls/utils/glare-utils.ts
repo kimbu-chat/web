@@ -1,3 +1,5 @@
+import { REQUEST_TIMEOUT } from '@utils/constants';
+
 let makingOffer = false;
 let ignoreOffer = false;
 let isSettingRemoteAnswerPending = false;
@@ -44,6 +46,9 @@ export function waitForAllICE(pc: RTCPeerConnection | null) {
         if (iceEvent.candidate === null) resolve();
       };
     }
-    setTimeout(() => reject(new Error('Waited a long time for ice candidates...')), 10000);
+    setTimeout(
+      () => reject(new Error('Waited a long time for ice candidates...')),
+      REQUEST_TIMEOUT,
+    );
   });
 }

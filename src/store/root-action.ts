@@ -5,6 +5,7 @@ import { FriendActions } from './friends/actions';
 import { InternetActions } from './internet/actions';
 import { LoginActions } from './login/actions';
 import { MyProfileActions } from './my-profile/actions';
+import { NotificationsActions } from './notifications/actions';
 import { SettingsActions } from './settings/actions';
 import { UsersActions } from './users/actions';
 import { WebSocketActions } from './web-sockets/actions';
@@ -20,4 +21,5 @@ export default {
   webSocket: WebSocketActions,
   users: UsersActions,
   login: LoginActions,
+  notifications: NotificationsActions,
 };

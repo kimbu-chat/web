@@ -10,8 +10,10 @@ import { useToggledState } from '@hooks/use-toggled-state';
 import { ReactComponent as DogSvg } from '@icons/@.svg';
 import { ReactComponent as EditSvg } from '@icons/crayon.svg';
 import { ReactComponent as PhoneSvg } from '@icons/phone-chat-info.svg';
+import { INSTANT_MESSAGING_CHAT_PATH } from '@routing/routing.constants';
 import { getInfoChatSelector } from '@store/chats/selectors';
 import { getUserSelector } from '@store/users/selectors';
+import { replaceInUrl } from '@utils/replace-in-url';
 import { getChatInterlocutor } from '@utils/user-utils';
 
 import { EditChatModal } from '../../edit-chat-modal/edit-chat-modal';
@@ -64,9 +66,16 @@ export const InterlocutorInfo = () => {
         <div className={`${BLOCK_NAME}__info-block`}>
           <DogSvg className={`${BLOCK_NAME}__info-svg`} />
           <Link
-            to={`/im/${chat?.id}`}
+            to={replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, ['id?', chat?.id])}
             className={classnames(`${BLOCK_NAME}__data-value`, `${BLOCK_NAME}__data-value--link`)}>
-            {`${interlocutor ? `@${interlocutor?.nickname}` : ` kimbu.io/im/${chat?.id}2`}`}
+            {`${
+              interlocutor
+                ? `@${interlocutor?.nickname}`
+                : `${window.location.host}${replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, [
+                    'id?',
+                    chat?.id,
+                  ])}`
+            }`}
           </Link>
         </div>
       </div>

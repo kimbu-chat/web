@@ -22,6 +22,7 @@ import { ReactComponent as MissedCallSvg } from '@icons/missed-call.svg';
 import { ReactComponent as OutgoingCallSvg } from '@icons/outgoing-call.svg';
 import { ReactComponent as PictureSvg } from '@icons/picture.svg';
 import { ReactComponent as SelectSvg } from '@icons/select.svg';
+import { INSTANT_MESSAGING_CHAT_PATH } from '@routing/routing.constants';
 import { changeChatInfoOpenedAction, selectMessageAction } from '@store/chats/actions';
 import { ChatId } from '@store/chats/chat-id';
 import {
@@ -45,6 +46,7 @@ import {
   getSystemMessageData,
   ICallMessage,
 } from '@utils/message-utils';
+import { replaceInUrl } from '@utils/replace-in-url';
 import { getUserName } from '@utils/user-utils';
 
 import { MediaGrid } from './attachments/media-grid/media-grid';
@@ -331,7 +333,10 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                       <div className={`${BLOCK_NAME}__forward-indicator`}>
                         {t('messageItem.forward-indicator')}
                         <Link
-                          to={`/im/${ChatId.from(linkedMessageUserCreator?.id).id}`}
+                          to={replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, [
+                            'id?',
+                            ChatId.from(linkedMessageUserCreator?.id).id,
+                          ])}
                           className={`${BLOCK_NAME}__forward-indicator__name`}>
                           {linkedMessageUserCreator && getUserName(linkedMessageUserCreator, t)}
                         </Link>

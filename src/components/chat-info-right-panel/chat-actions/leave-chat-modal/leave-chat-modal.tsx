@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom';
 import { Button } from '@components/button';
 import { Modal } from '@components/modal';
 import { useEmptyActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { INSTANT_MESSAGING_PATH } from '@routing/routing.constants';
 import { leaveGroupChatAction } from '@store/chats/actions';
 import { getSelectedGroupChatNameSelector } from '@store/chats/selectors';
 
@@ -33,7 +34,7 @@ export const LeaveChatModal: React.FC<ILeaveChatModalProps> = ({ hide }) => {
     setLoading(true);
     leaveGroupChat().then(() => {
       setLoading(false);
-      history.push('/im');
+      history.push(INSTANT_MESSAGING_PATH);
     });
   }, [leaveGroupChat, history]);
 

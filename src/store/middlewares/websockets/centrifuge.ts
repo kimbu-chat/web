@@ -61,7 +61,7 @@ function openConnection(store: MiddlewareAPI<Dispatch, RootState>): void {
   });
 }
 
-export const signalRInvokeMiddleware: Middleware<RootAction, RootState> =
+export const centrifugeInvokeMiddleware: Middleware<RootAction, RootState> =
   (store: MiddlewareAPI<Dispatch, RootState>) =>
   (next: Dispatch<RootAction>) =>
   async (action: RootAction): Promise<RootAction> => {

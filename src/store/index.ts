@@ -3,7 +3,7 @@ import { all } from 'redux-saga/effects';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import { Reducer, RootAction, RootState } from 'typesafe-actions';
 
-import { signalRInvokeMiddleware } from './middlewares/websockets/signalR';
+import { centrifugeInvokeMiddleware } from './middlewares/websockets/centrifuge';
 
 import type { RootReducer } from './root-reducer';
 import type { Saga, Task } from 'redux-saga';
@@ -81,7 +81,7 @@ function configureStore(): InjectorReduxStore {
       ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
       : compose;
   const sagaMiddleware = createSagaMiddleware();
-  const enchancers = composeEnchancers(applyMiddleware(sagaMiddleware, signalRInvokeMiddleware));
+  const enchancers = composeEnchancers(applyMiddleware(sagaMiddleware, centrifugeInvokeMiddleware));
   const store: any = createStore(createReducer(), enchancers);
   store.asyncReducers = {};
 

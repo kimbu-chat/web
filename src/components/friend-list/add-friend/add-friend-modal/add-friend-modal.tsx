@@ -13,11 +13,13 @@ import { PhoneInputGroup } from '@components/phone-input-group';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { ReactComponent as AddContactSvg } from '@icons/add-users.svg';
 import { ReactComponent as CloseSvg } from '@icons/close-x-bold.svg';
+import { INSTANT_MESSAGING_CHAT_PATH } from '@routing/routing.constants';
 import { ChatId } from '@store/chats/chat-id';
 import { IUser } from '@store/common/models';
 import { addFriendAction, getUserByPhoneAction } from '@store/friends/actions';
 import { isFriend } from '@store/friends/selectors';
 import { addOrUpdateUsers } from '@store/users/actions';
+import { replaceInUrl } from '@utils/replace-in-url';
 
 import './add-friend-modal.scss';
 
@@ -104,7 +106,7 @@ const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
                   [`${BLOCK_NAME}__btn--confirm`]: added,
                   [`${BLOCK_NAME}__btn--cancel`]: !added,
                 })}
-                to={`/im/${ChatId.from(user.id).id}`}>
+                to={replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, ['id?', ChatId.from(user.id).id])}>
                 {t('addFriendModal.chat')}
               </Link>
               {!added && (

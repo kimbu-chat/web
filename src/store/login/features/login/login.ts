@@ -6,8 +6,8 @@ import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
 import { AuthService } from '@services/auth-service';
-import { SubscribeToPushNotifications } from '@store/auth/features/subscribe-to-push-notifications/subscribe-to-push-notifications';
 import { authRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { SubscribeToPushNotifications } from '@store/notifications/features/subscribe-to-push-notifications/subscribe-to-push-notifications';
 
 import { ILoginActionPayload } from './action-payloads/login-action-payload';
 import { ILoginApiRequest } from './api-requests/login-api-request';

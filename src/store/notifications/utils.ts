@@ -1,4 +1,4 @@
-import { messaging } from '../../../middlewares/firebase/firebase';
+import { messaging } from '@store/middlewares/firebase/firebase';
 
 export async function getPushNotificationToken(): Promise<string | null> {
   if (!('serviceWorker' in navigator)) {

@@ -12,7 +12,7 @@ import { GetSessionListSuccess } from './features/get-sesion-list/get-sesion-lis
 import { GetSessionList } from './features/get-sesion-list/get-sesion-list';
 import { GetUserSettingsSuccess } from './features/get-user-settings/get-user-settings-success';
 import { Langs, Theme, TypingStrategy } from './features/models';
-import { RevokeSessionSuccess } from './features/revoke-session/revoke-session-success';
+import { TerminateSessionSuccess } from './features/terminate-session/terminate-session-success';
 import { UnblockUserSuccess } from './features/unblock-user/unblock-user-success';
 import { IUserSettings } from './user-settings-state';
 
@@ -20,7 +20,7 @@ const initialState: IUserSettings = {
   language: navigator.language.includes('ru') ? Langs.Ru : Langs.En,
   typingStrategy: TypingStrategy.Nlce,
   notificationSound: true,
-  theme: Theme.LIGHT,
+  theme: Theme.DARK,
   fontSize: 16,
   pushNotificationsEnabled: true,
   blackList: {
@@ -49,6 +49,6 @@ const reducer = createReducer<IUserSettings>(initialState)
   .handleAction(GetSessionList.action, GetSessionList.reducer)
   .handleAction(UnblockUserSuccess.action, UnblockUserSuccess.reducer)
   .handleAction(GetSessionListSuccess.action, GetSessionListSuccess.reducer)
-  .handleAction(RevokeSessionSuccess.action, RevokeSessionSuccess.reducer);
+  .handleAction(TerminateSessionSuccess.action, TerminateSessionSuccess.reducer);
 
 export default reducer;

@@ -26,9 +26,7 @@ export const DeactivateAccountModal: React.FC<IDeactivateAccountModalProps> = ({
 
   const submitDeactivating = useCallback(() => {
     setDeactivating(true);
-    deactivateAccount().then(() => {
-      setDeactivating(false);
-    });
+    deactivateAccount();
   }, [setDeactivating, deactivateAccount]);
 
   return (
@@ -56,7 +54,7 @@ export const DeactivateAccountModal: React.FC<IDeactivateAccountModalProps> = ({
               type="button"
               loading={deactivating}
               onClick={submitDeactivating}
-              className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}--confirm`)}>
+              className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--confirm`)}>
               {t('deactivateAccountModal.confirm')}
             </Button>
           </div>

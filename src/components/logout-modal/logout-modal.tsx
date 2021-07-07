@@ -26,9 +26,7 @@ export const LogoutModal: React.FC<ILogoutModalProps> = ({ onClose }) => {
 
   const logout = useCallback(() => {
     setIsLoggingOut(true);
-    logoutRequest().then(() => {
-      window.location.replace('login');
-    });
+    logoutRequest();
   }, [logoutRequest]);
 
   return (

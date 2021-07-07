@@ -3,6 +3,10 @@ import React, { useCallback } from 'react';
 import data from 'emoji-mart/data/apple.json';
 import NimblePicker from 'emoji-mart/dist-es/components/picker/nimble-picker';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+
+import { Theme } from '@store/settings/features/models';
+import { getCurrentThemeSelector } from '@store/settings/selectors';
 
 import type { BaseEmoji, Data } from 'emoji-mart';
 
@@ -13,6 +17,8 @@ interface IDeferredMessageSmilesProps {
 
 const DeferredMessageSmiles: React.FC<IDeferredMessageSmilesProps> = ({ setText, emojiRef }) => {
   const { t } = useTranslation();
+
+  const theme = useSelector(getCurrentThemeSelector);
 
   const addNewSmile = useCallback(
     (emoji: BaseEmoji) => {
@@ -30,6 +36,7 @@ const DeferredMessageSmiles: React.FC<IDeferredMessageSmilesProps> = ({ setText,
         set="apple"
         showSkinTones={false}
         showPreview={false}
+        theme={theme === Theme.DARK ? 'dark' : 'light'}
         i18n={{
           search: t('emojiMart.search'),
           notfound: t('emojiMart.notfound'),

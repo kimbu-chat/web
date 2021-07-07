@@ -31,10 +31,9 @@ const MainRouter: React.FC = () => {
     dispatch(AppInit.action());
   }, [dispatch]);
 
-  useLayoutEffect(
-    () => preloadAllSkipActual(location.pathname, [...routes, ...settingsRoutes]),
-    [location.pathname],
-  );
+  useLayoutEffect(() => {
+    preloadAllSkipActual(location.pathname, [...routes, ...settingsRoutes]);
+  }, [location.pathname]);
 
   return (
     <div className="messenger">

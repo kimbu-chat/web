@@ -3,15 +3,16 @@ import { SagaIterator } from 'redux-saga';
 import { call, cancelled, put, select, take } from 'redux-saga/effects';
 import { RootState } from 'typesafe-actions';
 
+import { RefreshToken } from '@store/auth/features/refresh-token/refresh-token';
 import { securityTokensSelector } from '@store/auth/selectors';
+import { httpRequest } from '@store/common/http/http-request';
+import { REQUEST_TIMEOUT } from '@utils/constants';
 import { emitToast } from '@utils/emit-toast';
 
 import { isNetworkError } from '../../../utils/error-utils';
 import { RefreshTokenSuccess } from '../../auth/features/refresh-token/refresh-token-success';
-import { RefreshToken } from '../../auth/features/refresh-token/refresh-token';
 
 import { HttpRequestMethod } from './http-request-method';
-import { httpRequest, requestTimeout } from './http-request';
 
 import type { IRequestGenerator, UrlGenerator, HttpHeaders } from './types';
 import type { ISecurityTokens } from '@store/auth/common/models/security-tokens';
@@ -34,7 +35,7 @@ export const httpRequestFactory = <TResponse, TBody = unknown>(
 
     try {
       const refreshTokenRequestLoading = yield select(
-        (rootState: RootState) => rootState.auth.refreshTokenRequestLoading,
+        (rootState: RootState) => rootState.auth?.refreshTokenRequestLoading,
       );
 
       if (refreshTokenRequestLoading) {
@@ -54,11 +55,7 @@ export const httpRequestFactory = <TResponse, TBody = unknown>(
         throw new Error(`accessTokenExpirationTime is undefined`);
       }
 
-      accessTokenExpirationTime.setMilliseconds(
-        accessTokenExpirationTime.getMilliseconds() - requestTimeout,
-      );
-
-      if (accessTokenExpirationTime < new Date()) {
+      if (accessTokenExpirationTime.getTime() < new Date().getTime() - REQUEST_TIMEOUT) {
         yield put(RefreshToken.action());
         yield take(RefreshTokenSuccess.action);
       }

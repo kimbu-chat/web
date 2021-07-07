@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useLayoutEffect, useState } from 'react';
 
 import { useSelector } from 'react-redux';
 
@@ -12,6 +12,7 @@ import { MessageList } from '@components/message-list';
 import { NotContact } from '@components/not-contact';
 import { CurrentAudio, AudioContext } from '@contexts/audioContext';
 import { useDragDrop } from '@hooks/use-drag-drop';
+import { loadEmoji } from '@routing/module-loader';
 import {
   amIBlackListedByInterlocutorSelector,
   isCurrentChatBlackListedSelector,
@@ -35,6 +36,10 @@ const ChatPage: React.FC = () => {
   const isCurrentChatUserDeactivated = useSelector(isCurrentChatUserDeactivatedSelector);
   const isCurrentChatUserDeleted = useSelector(isCurrentChatUserDeletedSelector);
   const selectedChatId = useSelector(getSelectedChatIdSelector);
+
+  useLayoutEffect(() => {
+    loadEmoji();
+  }, []);
 
   const [currentAudio, setCurrentAudio] = useState<CurrentAudio>(null);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);

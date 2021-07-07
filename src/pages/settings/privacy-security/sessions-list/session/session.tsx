@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { Button } from '@components/button';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { deviceIdSelector } from '@store/auth/selectors';
-import { revokeSessionAction } from '@store/settings/actions';
+import { terminateSessionAction } from '@store/settings/actions';
 import { ISession } from '@store/settings/comon/models/session';
 import { MONTH_DAY_YEAR } from '@utils/constants';
 
@@ -24,14 +24,14 @@ export const Session: React.FC<ISessionProps> = ({ session }) => {
 
   const currentDeviceId = useSelector(deviceIdSelector);
 
-  const revokeSession = useActionWithDeferred(revokeSessionAction);
+  const terminateSession = useActionWithDeferred(terminateSessionAction);
 
   const revokeThisSession = useCallback(() => {
     setRevoking(true);
-    revokeSession(session.id).then(() => {
+    terminateSession(session.id).then(() => {
       setRevoking(false);
     });
-  }, [session.id, revokeSession]);
+  }, [session.id, terminateSession]);
 
   const formatSessionTime = useCallback(
     (dateTime: string) => dayjs.utc(dateTime).local().format(MONTH_DAY_YEAR).toString(),

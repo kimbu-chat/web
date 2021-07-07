@@ -52,6 +52,8 @@ import { SECOND_DURATION } from '@utils/constants';
 import { playSoundSafely } from '@utils/current-music';
 import { getHourMinuteSecond } from '@utils/date-utils';
 
+import './active-call.scss';
+
 const BLOCK_NAME = 'active-call';
 
 const ActiveCall: React.FC = () => {

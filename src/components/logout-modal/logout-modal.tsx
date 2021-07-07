@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';

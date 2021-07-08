@@ -52,9 +52,11 @@ const PhotoList = () => {
         isLoading={photoForSelectedChat?.loading}>
         {photosWithSeparators &&
           separateGroupable(photosWithSeparators).map((photoArr) => (
-            <div key={`${photoArr[0]?.id}Arr`}>
-              <ChatAttachment items={photoArr} AttachmentComponent={PhotoAttachmentComponent} />
-            </div>
+            <ChatAttachment
+              key={`${photoArr[0]?.id}Arr`}
+              items={photoArr}
+              AttachmentComponent={PhotoAttachmentComponent}
+            />
           ))}
       </InfiniteScroll>
     </div>

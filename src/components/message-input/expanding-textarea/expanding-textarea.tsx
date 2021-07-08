@@ -1,11 +1,27 @@
 import React, { useEffect, useRef, useState } from 'react';
 
+import { useSelector } from 'react-redux';
+
+import {
+  getSelectedChatSelector,
+  getMessageToReplySelector,
+  getMessageToEditSelector,
+} from '@store/chats/selectors';
+
 export const ExpandingTextarea: React.FC<
   React.DetailedHTMLProps<React.TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement>
 > = (props) => {
+  const selectedChat = useSelector(getSelectedChatSelector);
+  const replyingMessage = useSelector(getMessageToReplySelector);
+  const editingMessage = useSelector(getMessageToEditSelector);
+
   const [rows, setRows] = useState(1);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { value } = props;
+
+  useEffect(() => {
+    textareaRef.current?.focus();
+  }, [selectedChat?.id, replyingMessage, editingMessage]);
 
   useEffect(() => {
     if (textareaRef.current) {

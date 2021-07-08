@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { MediaModal } from '@components/image-modal';
+import ProgressiveImage from '@components/progressive-image';
 import { useToggledState } from '@hooks/use-toggled-state';
 import { ReactComponent as PlaySvg } from '@icons/play.svg';
 import { FileType, IPictureAttachment, IVideoAttachment } from '@store/chats/models';
@@ -25,11 +26,18 @@ export const MessageMediaAttachment: React.FC<IMessageMediaAttachmentProps> = ({
     <>
       <div onClick={displayBigMedia} className="media-attachment">
         {currentAttachment?.type === FileType.Picture && (
-          <img
-            src={(currentAttachment as IPictureAttachment).previewUrl}
-            alt=""
-            className="media-attachment__img"
+          <ProgressiveImage
+            thumb={(currentAttachment as IPictureAttachment).previewUrl}
+            src={currentAttachment.url}
+            alt={currentAttachment.fileName}
+            width={280}
+            height={210}
           />
+          // <img
+          //   src={(currentAttachment as IPictureAttachment).url}
+          //   alt=""
+          //   className="media-attachment__img"
+          // />
         )}
 
         {currentAttachment?.type === FileType.Video && (

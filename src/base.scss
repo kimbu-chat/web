@@ -10,6 +10,8 @@ body {
   outline: none;
   padding: 0;
 
+  scrollbar-width: thin;
+  scrollbar-color: var(--dt-white-wt-kingBlue) transparent;
   &::-webkit-scrollbar {
     height: 4px;
     width: 4px;

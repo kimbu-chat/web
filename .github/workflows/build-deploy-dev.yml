@@ -16,9 +16,6 @@ jobs:
       - name: Install project dependencies
         run: yarn
 
-      - name: Run ESLint
-        run: yarn run lint
-
       - name: Make envfile
         uses: SpicyPizza/create-envfile@v1
         with:

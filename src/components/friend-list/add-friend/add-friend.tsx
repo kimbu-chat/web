@@ -2,12 +2,15 @@ import React from 'react';
 
 import { useTranslation } from 'react-i18next';
 
+import { Button } from '@components/button';
 import { useToggledState } from '@hooks/use-toggled-state';
 import { ReactComponent as AddContactSvg } from '@icons/add-users.svg';
 
 import { AddFriendModal } from './add-friend-modal/add-friend-modal';
 
 import './add-friend.scss';
+
+const BLOCK_NAME = 'add-friend';
 
 const AddFriend = () => {
   const { t } = useTranslation();
@@ -17,17 +20,17 @@ const AddFriend = () => {
 
   return (
     <>
-      <div className="add-friend">
-        <div className="add-friend__icon-wrapper">
+      <div className={BLOCK_NAME}>
+        <div className={`${BLOCK_NAME}__icon-wrapper`}>
           <AddContactSvg viewBox="0 0 18 18" />
         </div>
 
-        <h3 className="add-friend__title">{t('addFriend.title')}</h3>
-        <h5 className="add-friend__subtitle">{t('addFriend.subtitle')}</h5>
+        <h3 className={`${BLOCK_NAME}__title`}>{t('addFriend.title')}</h3>
+        <h5 className={`${BLOCK_NAME}__subtitle`}>{t('addFriend.subtitle')}</h5>
 
-        <button onClick={displayAddFriendsModal} type="button" className="add-friend__btn">
+        <Button onClick={displayAddFriendsModal} type="button" className={`${BLOCK_NAME}__btn`}>
           {t('addFriend.add')}
-        </button>
+        </Button>
       </div>
 
       {addFriendsModalDisplayed && <AddFriendModal onClose={hideAddFriendsModal} />}

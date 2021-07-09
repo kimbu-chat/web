@@ -5,8 +5,9 @@
   display: flex;
   padding: 8px 20px;
   position: relative;
+  overflow: hidden;
 
-  &:hover {
+  &:not(&--active):hover {
     background-color: var(--chat-bg-dt-dark-wt-whiter);
     color: var(--chat-bg-dt-dark-wt-whiter);
   }

@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import { Avatar } from '@components/avatar';
+import Ripple from '@components/ripple';
 import { ReactComponent as MessageErrorSvg } from '@icons/message-error.svg';
 import { ReactComponent as MessageQeuedSvg } from '@icons/message-queued.svg';
 import { ReactComponent as MessageReadSvg } from '@icons/message-read.svg';
@@ -177,6 +178,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
           </div>
         )}
       </div>
+      <Ripple />
     </NavLink>
   );
 });

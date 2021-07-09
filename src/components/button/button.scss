@@ -3,6 +3,8 @@
   transition: all var(--ANIMATION-DURATION);
   align-items: center;
   justify-content: center;
+  position: relative;
+  overflow: hidden;
 
   &--loading {
     & > div {

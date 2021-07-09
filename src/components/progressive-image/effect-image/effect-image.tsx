@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 
 import classnames from 'classnames';
 
+import { Loader, LoaderSize } from '@components/loader';
+
 import './effect-image.scss';
 
 const BLOCK_NAME = 'effect-image';
@@ -12,7 +14,16 @@ export type EffectImageProps = {
   src: string;
 };
 
-const EffectImage: React.FC<EffectImageProps> = ({ alt, thumb, src }) => {
+interface EffectImageWithIntersecting extends EffectImageProps {
+  isIntersecting: boolean;
+}
+
+const EffectImage: React.FC<EffectImageWithIntersecting> = ({
+  alt,
+  thumb,
+  src,
+  isIntersecting,
+}) => {
   const [isLoaded, setIsLoaded] = useState(false);
   return (
     <>
@@ -24,15 +35,22 @@ const EffectImage: React.FC<EffectImageProps> = ({ alt, thumb, src }) => {
           visibility: isLoaded ? 'hidden' : 'visible',
         }}
       />
-      <img
-        onLoad={() => {
-          setIsLoaded(true);
-        }}
-        className={classnames(BLOCK_NAME, `${BLOCK_NAME}__full`)}
-        style={{ opacity: isLoaded ? 1 : 0 }}
-        alt={alt}
-        src={src}
-      />
+      {isIntersecting && !isLoaded && (
+        <div className={`${BLOCK_NAME}__loader`}>
+          <Loader size={LoaderSize.MEDIUM} />
+        </div>
+      )}
+      {isIntersecting && (
+        <img
+          onLoad={() => {
+            setIsLoaded(true);
+          }}
+          className={classnames(BLOCK_NAME, `${BLOCK_NAME}__full`)}
+          style={{ opacity: isLoaded ? 1 : 0 }}
+          alt={alt}
+          src={src}
+        />
+      )}
     </>
   );
 };

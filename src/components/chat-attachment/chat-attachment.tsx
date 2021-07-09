@@ -6,13 +6,15 @@ import { dateByOffset } from '../../utils/date-utils';
 
 import './chat-attachment.scss';
 
+type ChatAttachmentProps<T> = {
+  items: (T & IGroupable)[];
+  AttachmentComponent: React.FC<T>;
+};
+
 export function ChatAttachment<T extends IBaseAttachment>({
   items,
   AttachmentComponent,
-}: {
-  items: (T & IGroupable)[];
-  AttachmentComponent: React.FC<T>;
-}): JSX.Element {
+}: ChatAttachmentProps<T>): JSX.Element {
   return (
     <React.Fragment key={`${items[0]?.id}Arr`}>
       {items.map((item) => (

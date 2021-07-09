@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import classnames from 'classnames';
 import noop from 'lodash/noop';
 
-import useIntersectionObserver from '@hooks/use-intersection-observer';
+import { useIsIntersecting, ObserveFn } from '@hooks/use-intersection-observer';
 
 import Image from './effect-image/effect-image';
 
@@ -19,38 +19,22 @@ interface ImageContainerProps extends EffectImageProps {
   onIsVisible?: () => void;
   onClick?: () => void;
   className?: string;
+  observeIntersection: ObserveFn;
 }
-
-const INTERSECTION_THROTTLE_FOR_MEDIA = 350;
-const INTERSECTION_MARGIN_FOR_MEDIA = 300;
 
 const ProgressiveImage: React.FC<ImageContainerProps> = ({
   width,
   height,
-  onIsVisible = noop,
   onClick = noop,
   alt,
   thumb,
   src,
   className,
+  observeIntersection,
 }) => {
   const ref = React.useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = React.useState(false);
 
-  useIntersectionObserver({
-    target: ref,
-    throttleMs: INTERSECTION_THROTTLE_FOR_MEDIA,
-    margin: INTERSECTION_MARGIN_FOR_MEDIA,
-    onIntersect: ([{ isIntersecting }], observerElement) => {
-      if (isIntersecting) {
-        if (!isVisible) {
-          onIsVisible();
-          setIsVisible(true);
-        }
-        observerElement.unobserve(ref.current as Element);
-      }
-    },
-  });
+  const isIntersecting = useIsIntersecting(ref, observeIntersection);
 
   const aspectRatio = (height / width) * 100;
 
@@ -60,9 +44,9 @@ const ProgressiveImage: React.FC<ImageContainerProps> = ({
       ref={ref}
       className={classnames(BLOCK_NAME, className)}
       style={{ paddingBottom: `${aspectRatio}%`, width }}>
-      {isVisible && <Image src={src} thumb={thumb} alt={alt} />}
+      <Image src={src} thumb={thumb} alt={alt} isIntersecting={isIntersecting} />
     </div>
   );
 };
 
-export default ProgressiveImage;
+export default memo(ProgressiveImage);

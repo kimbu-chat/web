@@ -15,9 +15,15 @@ import { setSeparators } from '@utils/set-separators';
 
 import { Photo } from './photo/photo';
 
+import type { ObserveFn } from '@hooks/use-intersection-observer';
+
 import './photo-list.scss';
 
-const PhotoList = () => {
+type PhotoListProps = {
+  observeIntersection: ObserveFn;
+};
+
+const PhotoList: React.FC<PhotoListProps> = ({ observeIntersection }) => {
   const getPhotoAttachments = useActionWithDispatch(getPhotoAttachmentsAction);
   const photoForSelectedChat = useSelector(getSelectedChatPhotosSelector);
 
@@ -40,7 +46,11 @@ const PhotoList = () => {
 
   const PhotoAttachmentComponent: React.FC<IPictureAttachment> = ({ ...photo }) =>
     photoForSelectedChat?.photos ? (
-      <Photo photo={photo} attachmentsArr={photoForSelectedChat.photos} />
+      <Photo
+        photo={photo}
+        attachmentsArr={photoForSelectedChat.photos}
+        observeIntersection={observeIntersection}
+      />
     ) : null;
 
   return (

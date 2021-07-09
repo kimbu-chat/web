@@ -4,7 +4,7 @@ import { InfiniteScrollLoader } from './infinite-scroll-loader/infinite-scroll-l
 
 import './infinite-scroll.scss';
 
-interface IInfiniteScrollProps {
+type InfiniteScrollProps = {
   children: React.ReactNode;
   Loader?: () => JSX.Element;
   className?: string;
@@ -13,79 +13,84 @@ interface IInfiniteScrollProps {
   onReachTop?: () => void;
   onReachBottom?: () => void;
   threshold?: number | Array<number>;
-}
+};
 
-export const InfiniteScroll: React.FC<IInfiniteScrollProps> = ({
-  children,
-  Loader = InfiniteScrollLoader,
-  className = '',
-  hasMore,
-  isLoading,
-  onReachTop,
-  onReachBottom,
-  threshold = 0.0,
-}) => {
-  const loaderTopRef = React.useRef<HTMLDivElement>(null);
-  const loaderBottomRef = React.useRef<HTMLDivElement>(null);
+export const InfiniteScroll = React.forwardRef<HTMLDivElement, InfiniteScrollProps>(
+  (
+    {
+      children,
+      Loader = InfiniteScrollLoader,
+      className = '',
+      hasMore,
+      isLoading,
+      onReachTop,
+      onReachBottom,
+      threshold = 0.0,
+    },
+    ref,
+  ) => {
+    const loaderTopRef = React.useRef<HTMLDivElement>(null);
+    const loaderBottomRef = React.useRef<HTMLDivElement>(null);
 
-  React.useEffect(() => {
-    const loadMoreTop = (entries: Array<IntersectionObserverEntry>) => {
-      const [first] = entries;
+    React.useEffect(() => {
+      const loadMoreTop = (entries: Array<IntersectionObserverEntry>) => {
+        const [first] = entries;
 
-      if (!isLoading && onReachTop && hasMore && first.isIntersecting) {
-        onReachTop();
-      }
-    };
+        if (!isLoading && onReachTop && hasMore && first.isIntersecting) {
+          onReachTop();
+        }
+      };
 
-    const loadMoreBottom = (entries: Array<IntersectionObserverEntry>) => {
-      const [first] = entries;
+      const loadMoreBottom = (entries: Array<IntersectionObserverEntry>) => {
+        const [first] = entries;
 
-      if (!isLoading && onReachBottom && hasMore && first.isIntersecting) {
-        onReachBottom();
-      }
-    };
+        if (!isLoading && onReachBottom && hasMore && first.isIntersecting) {
+          onReachBottom();
+        }
+      };
 
-    const options = { threshold };
-    const topObserver = new IntersectionObserver(loadMoreTop, options);
-    const bottomObserver = new IntersectionObserver(loadMoreBottom, options);
+      const options = { threshold };
+      const topObserver = new IntersectionObserver(loadMoreTop, options);
+      const bottomObserver = new IntersectionObserver(loadMoreBottom, options);
 
-    const topLoaderCurrent = loaderTopRef.current;
-    const bottomLoaderCurrent = loaderBottomRef.current;
+      const topLoaderCurrent = loaderTopRef.current;
+      const bottomLoaderCurrent = loaderBottomRef.current;
 
-    if (topLoaderCurrent) {
-      topObserver.observe(topLoaderCurrent);
-    }
-
-    if (bottomLoaderCurrent) {
-      bottomObserver.observe(bottomLoaderCurrent);
-    }
-
-    return () => {
       if (topLoaderCurrent) {
-        topObserver.unobserve(topLoaderCurrent);
+        topObserver.observe(topLoaderCurrent);
       }
 
       if (bottomLoaderCurrent) {
-        bottomObserver.unobserve(bottomLoaderCurrent);
+        bottomObserver.observe(bottomLoaderCurrent);
       }
-    };
-  }, [hasMore, isLoading, loaderBottomRef, loaderTopRef, onReachBottom, onReachTop, threshold]);
 
-  return (
-    <div className={`infinite-scroll ${className}`}>
-      {hasMore && onReachTop && (
-        <div ref={loaderTopRef} className="infinite-scroll__loader">
-          <Loader />
-        </div>
-      )}
-      {children}
-      {hasMore && onReachBottom && (
-        <div ref={loaderBottomRef} className="infinite-scroll__loader">
-          <Loader />
-        </div>
-      )}
-    </div>
-  );
-};
+      return () => {
+        if (topLoaderCurrent) {
+          topObserver.unobserve(topLoaderCurrent);
+        }
+
+        if (bottomLoaderCurrent) {
+          bottomObserver.unobserve(bottomLoaderCurrent);
+        }
+      };
+    }, [hasMore, isLoading, loaderBottomRef, loaderTopRef, onReachBottom, onReachTop, threshold]);
+
+    return (
+      <div className={`infinite-scroll ${className}`} ref={ref}>
+        {hasMore && onReachTop && (
+          <div ref={loaderTopRef} className="infinite-scroll__loader">
+            <Loader />
+          </div>
+        )}
+        {children}
+        {hasMore && onReachBottom && (
+          <div ref={loaderBottomRef} className="infinite-scroll__loader">
+            <Loader />
+          </div>
+        )}
+      </div>
+    );
+  },
+);
 
 InfiniteScroll.displayName = 'InfiniteScroll';

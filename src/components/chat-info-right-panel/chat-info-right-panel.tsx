@@ -1,10 +1,15 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo, useEffect, useRef } from 'react';
 
 import { useSelector } from 'react-redux';
 
+import {
+  INTERSECTION_THROTTLE_FOR_MEDIA,
+  INTERSECTION_THRESHOLD_FOR_MEDIA,
+} from '@common/constants/media';
 import { Avatar } from '@components/avatar';
 import { MediaModal } from '@components/image-modal';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { useIntersectionObserver } from '@hooks/use-intersection-observer';
 import { useToggledState } from '@hooks/use-toggled-state';
 import { getChatInfoAction } from '@store/chats/actions';
 import { FileType } from '@store/chats/models';
@@ -22,6 +27,14 @@ const BLOCK_NAME = 'chat-info';
 
 const ChatInfoRightPanel: React.FC = React.memo(() => {
   const chat = useSelector(getInfoChatSelector);
+
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  const { observe: observeIntersectionForMedia } = useIntersectionObserver({
+    rootRef,
+    throttleMs: INTERSECTION_THROTTLE_FOR_MEDIA,
+    threshold: INTERSECTION_THRESHOLD_FOR_MEDIA,
+  });
 
   const interlocutor = useSelector(getUserSelector(chat?.interlocutorId));
 
@@ -46,7 +59,7 @@ const ChatInfoRightPanel: React.FC = React.memo(() => {
   if (chat) {
     return (
       <>
-        <div className={`${BLOCK_NAME}__messenger-info`}>
+        <div className={`${BLOCK_NAME}__messenger-info`} ref={rootRef}>
           <Avatar
             onClick={maximizeAvatar}
             className={`${BLOCK_NAME}__avatar`}
@@ -61,7 +74,7 @@ const ChatInfoRightPanel: React.FC = React.memo(() => {
 
           {chat?.groupChat && <ChatMembers />}
 
-          <ChatMedia />
+          <ChatMedia observeIntersection={observeIntersectionForMedia} />
         </div>
 
         {isAvatarMaximized && chatFullSizeAvatar && (

@@ -7,16 +7,20 @@ import { ReactComponent as PlaySvg } from '@icons/play.svg';
 import { FileType, IPictureAttachment, IVideoAttachment } from '@store/chats/models';
 import { getMinutesSeconds } from '@utils/date-utils';
 
+import type { ObserveFn } from '@hooks/use-intersection-observer';
+
 import './media-attachment.scss';
 
 interface IMessageMediaAttachmentProps {
   attachmentId: number;
   attachmentsArr: (IPictureAttachment | IVideoAttachment)[];
+  observeIntersection: ObserveFn;
 }
 
 export const MessageMediaAttachment: React.FC<IMessageMediaAttachmentProps> = ({
   attachmentId,
   attachmentsArr,
+  observeIntersection,
 }) => {
   const [bigMediaDisplayed, displayBigMedia, hideBigMedia] = useToggledState(false);
 
@@ -32,6 +36,7 @@ export const MessageMediaAttachment: React.FC<IMessageMediaAttachmentProps> = ({
             alt={currentAttachment.fileName}
             width={280}
             height={210}
+            observeIntersection={observeIntersection}
           />
           // <img
           //   src={(currentAttachment as IPictureAttachment).url}

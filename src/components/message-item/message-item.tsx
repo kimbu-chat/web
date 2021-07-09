@@ -54,6 +54,8 @@ import { RecordingAttachment } from './attachments/recording-attachment/recordin
 import { MessageItemActions } from './message-item-actions/message-item-actions';
 import { RepliedMessage } from './replied-message/replied-message';
 
+import type { ObserveFn } from '@hooks/use-intersection-observer';
+
 import './message-item.scss';
 
 interface IMessageItemProps {
@@ -61,12 +63,13 @@ interface IMessageItemProps {
   selectedChatId: number;
   needToShowCreator?: boolean;
   isSelected?: boolean;
+  observeIntersection: ObserveFn;
 }
 
 const BLOCK_NAME = 'message';
 
 const MessageItem: React.FC<IMessageItemProps> = React.memo(
-  ({ messageId, selectedChatId, needToShowCreator, isSelected }) => {
+  ({ messageId, selectedChatId, needToShowCreator, isSelected, observeIntersection }) => {
     const isSelectState = useSelector(getIsSelectMessagesStateSelector);
     const myId = useSelector(myIdSelector) as number;
     const message = useSelector(getMessageSelector(selectedChatId, messageId));
@@ -312,7 +315,10 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                   ))}
 
                   {structuredAttachments?.media && (
-                    <MediaGrid media={structuredAttachments.media} />
+                    <MediaGrid
+                      observeIntersection={observeIntersection}
+                      media={structuredAttachments.media}
+                    />
                   )}
                 </div>
               )}
@@ -324,7 +330,10 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                   {message &&
                     message.linkedMessage &&
                     message.linkedMessageType === MessageLinkType.Reply && (
-                      <RepliedMessage linkedMessage={message.linkedMessage} />
+                      <RepliedMessage
+                        observeIntersection={observeIntersection}
+                        linkedMessage={message.linkedMessage}
+                      />
                     )}
 
                   {message &&
@@ -358,7 +367,10 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                       ))}
 
                       {structuredAttachments?.media && (
-                        <MediaGrid media={structuredAttachments.media} />
+                        <MediaGrid
+                          observeIntersection={observeIntersection}
+                          media={structuredAttachments.media}
+                        />
                       )}
                     </div>
                   )}

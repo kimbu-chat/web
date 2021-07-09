@@ -20,13 +20,16 @@ import { FileAttachment } from '../../file-attachment/file-attachment';
 import { MediaGrid } from '../attachments/media-grid/media-grid';
 import { RecordingAttachment } from '../attachments/recording-attachment/recording-attachment';
 
+import type { ObserveFn } from '@hooks/use-intersection-observer';
+
 import './replied-message.scss';
 
 interface IRepliedMessageProps {
   linkedMessage: INormalizedLinkedMessage | null;
+  observeIntersection: ObserveFn;
 }
 
-const RepliedMessage: React.FC<IRepliedMessageProps> = ({ linkedMessage }) => {
+const RepliedMessage: React.FC<IRepliedMessageProps> = ({ linkedMessage, observeIntersection }) => {
   const { t } = useTranslation();
 
   const userCreator = useSelector(getUserSelector(linkedMessage?.userCreatorId));
@@ -100,7 +103,10 @@ const RepliedMessage: React.FC<IRepliedMessageProps> = ({ linkedMessage }) => {
             <MessageAudioAttachment key={audio.id} {...audio} />
           ))}
           {structuredAttachments && structuredAttachments.media.length > 0 && (
-            <MediaGrid media={structuredAttachments.media} />
+            <MediaGrid
+              observeIntersection={observeIntersection}
+              media={structuredAttachments.media}
+            />
           )}
         </div>
       </div>

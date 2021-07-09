@@ -14,10 +14,10 @@ import { blockUserAction } from '@store/settings/actions';
 
 import './not-contact.scss';
 
+const BLOCK_NAME = 'not-contact';
+
 export const NotContact = () => {
   const { t } = useTranslation();
-
-  const BLOCK_NAME = 'not-contact';
 
   const interlocutor = useSelector(getSelectedInterlocutorSelector);
 

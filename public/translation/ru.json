@@ -124,7 +124,8 @@
     "leave-chat": "Покинуть чат",
     "add-users": "Добавить в чат",
     "actions": "Действия",
-    "remove-chat": "Удалить чат"
+    "remove-chat": "Удалить чат",
+    "search": "Поиск"
   },
   "removeChatModal": {
     "title": "Удалить чат",

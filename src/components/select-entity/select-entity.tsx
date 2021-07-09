@@ -23,6 +23,8 @@ interface ISelectEntityProps {
   onClick?: (chat: INormalizedChat | IUser) => void;
 }
 
+const BLOCK_NAME = 'select-entity';
+
 export const SelectEntity: React.FC<ISelectEntityProps> = ({
   changeSelectedState,
   userId,
@@ -52,31 +54,31 @@ export const SelectEntity: React.FC<ISelectEntityProps> = ({
   }, [onClick, changeSelectedState, chat, interlocutor, userId, chatId]);
 
   return (
-    <div onClick={onClickOnThisContact} className="select-entity__friend">
+    <div onClick={onClickOnThisContact} className={`${BLOCK_NAME}__friend`}>
       <Avatar
-        className="select-entity__avatar"
+        className={`${BLOCK_NAME}__avatar`}
         size={48}
         user={interlocutor}
         groupChat={groupChat}
       />
 
-      <div className="select-entity__friend-data">
-        <div className="select-entity__friend-name">
+      <div className={`${BLOCK_NAME}__friend-data`}>
+        <div className={`${BLOCK_NAME}__friend-name`}>
           {groupChat ? groupChat?.name : interlocutor && getUserName(interlocutor, t)}
         </div>
         {interlocutor && !interlocutor?.deleted && (
-          <div className="select-entity__friend-status">
+          <div className={`${BLOCK_NAME}__friend-status`}>
             <TimeUpdateable timeStamp={interlocutor?.lastOnlineTime} />
           </div>
         )}
       </div>
 
-      {icon && !interlocutor?.deleted && <div className="select-entity__icon-holder">{icon}</div>}
+      {icon && !interlocutor?.deleted && <div className={`${BLOCK_NAME}__icon-holder`}>{icon}</div>}
       {changeSelectedState &&
         (isSelected ? (
-          <SelectedSvg className="select-entity__selected" />
+          <SelectedSvg className={`${BLOCK_NAME}__selected`} />
         ) : (
-          <div className="select-entity__select" />
+          <div className={`${BLOCK_NAME}__select`} />
         ))}
     </div>
   );

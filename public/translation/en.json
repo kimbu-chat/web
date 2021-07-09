@@ -104,7 +104,8 @@
     "leave-chat": "Leave chat",
     "add-users": "Add participants",
     "actions": "Actions",
-    "remove-chat": "Remove chat"
+    "remove-chat": "Remove chat",
+    "search": "Search"
   },
   "removeChatModal": {
     "title": "Remove chat",

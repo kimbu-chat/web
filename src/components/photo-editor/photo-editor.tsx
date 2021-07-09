@@ -129,7 +129,7 @@ const PhotoEditor: React.FC<IPhotoEditorProps> = ({ imageUrl, onSubmit, hideChan
       <>
         <Modal.Header>
           <>
-            <PhotoSvg viewBox="0 0 18 19" className="photo-editor__icon" />
+            <PhotoSvg viewBox="0 0 18 19" className={`${BLOCK_NAME}__icon`} />
 
             <span> {t('changePhoto.title')} </span>
           </>

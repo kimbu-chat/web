@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 
+import classnames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
@@ -15,6 +16,8 @@ import { getSelectedMessagesIdSelector } from '@store/chats/selectors';
 import { DeleteMessageModal } from './delete-message-modal/delete-message-modal';
 
 import './selected-messages-data.scss';
+
+const BLOCK_NAME = 'selected-messages-data';
 
 export const SelectedMessagesData = () => {
   const selectedMessages = useSelector(getSelectedMessagesIdSelector);
@@ -36,11 +39,8 @@ export const SelectedMessagesData = () => {
     useToggledState(false);
 
   return (
-    <div className="selected-messages-data">
-      <button
-        type="button"
-        onClick={displayForwardMessagesModal}
-        className="selected-messages-data__btn">
+    <div className={BLOCK_NAME}>
+      <button type="button" onClick={displayForwardMessagesModal} className={`${BLOCK_NAME}__btn`}>
         <ForwardSvg viewBox="0 0 16 16" />
         <span>{t('selectedMessagesData.forward', { count: selectedMessagesCount })}</span>
       </button>
@@ -48,25 +48,22 @@ export const SelectedMessagesData = () => {
       <button
         type="button"
         onClick={displayDeleteMessagesModal}
-        className="selected-messages-data__btn selected-messages-data__btn--delete">
+        className={classnames(
+          `${BLOCK_NAME}__btn`,
+          `${BLOCK_NAME}__btn`,
+          `${BLOCK_NAME}__btn--delete`,
+        )}>
         <DeleteSvg viewBox="0 0 15 16" />
         <span>{t('selectedMessagesData.delete', { count: selectedMessagesCount })}</span>
       </button>
 
-      <button type="button" onClick={copyTheseMessages} className="selected-messages-data__btn">
+      <button type="button" onClick={copyTheseMessages} className={`${BLOCK_NAME}__btn`}>
         <span>{t('selectedMessagesData.copy')}</span>
       </button>
 
-      <button
-        type="button"
-        onClick={resetSelectedMessages}
-        className="selected-messages-data__close">
+      <button type="button" onClick={resetSelectedMessages} className={`${BLOCK_NAME}__close`}>
         <CloseSvg />
       </button>
-
-      {
-        //! Dynamically displayed modal using React.Portal
-      }
 
       {deleteMessagesModalDisplayed && (
         <DeleteMessageModal onClose={hideDeleteMessagesModal} selectedMessages={selectedMessages} />

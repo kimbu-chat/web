@@ -18,8 +18,8 @@ import { GetUserSettings } from './features/get-user-settings/get-user-settings'
 import { TerminateSession } from './features/terminate-session/revoke-session';
 import { UnblockUserSuccess } from './features/unblock-user/unblock-user-success';
 import { UnblockUser } from './features/unblock-user/unblock-user';
-import { UserBlockedEventHandler } from './socket-events/user-blocked/user-blocked-event-handler';
-import { UserUnBlockedEventHandler } from './socket-events/user-unblocked/user-unblocked-event-handler';
+import { UserAddedToBlackListEventHandler } from './socket-events/user-added-to-black-list/user-added-to-black-list-event-handler';
+import { UserRemovedFromBlackListEventHandler } from './socket-events/user-removed-from-black-list/user-removed-from-black-list-event-handler';
 
 // SettingsActions
 export const changeLanguageAction = ChangeLanguage.action;
@@ -41,8 +41,8 @@ export const getSessionListAction = GetSessionList.action;
 export const getSessionListSucessAction = GetSessionListSuccess.action;
 export const terminateSessionAction = TerminateSession.action;
 export const terminateSessionSuccessAction = TerminateSessionSuccess.action;
-export const userUnBlockedEventHandler = UserUnBlockedEventHandler.action;
-export const userBlockedEventHandler = UserBlockedEventHandler.action;
+export const userRemovedFromBlackListEventHandler = UserRemovedFromBlackListEventHandler.action;
+export const userAddedToBlackListEventHandler = UserAddedToBlackListEventHandler.action;
 
 export const SettingsActions = {
   // SettingsActions
@@ -65,6 +65,6 @@ export const SettingsActions = {
   getSessionListSucessAction,
   terminateSessionAction,
   terminateSessionSuccessAction,
-  userUnBlockedEventHandler,
-  userBlockedEventHandler,
+  userRemovedFromBlackListEventHandler,
+  userAddedToBlackListEventHandler,
 };

@@ -5,8 +5,8 @@ import { MyProfileService } from '@services/my-profile-service';
 import { DismissToAddContactSuccess } from '@store/friends/features/dismiss-to-add-contact/dismiss-to-add-contact-success';
 import { UserContactsRemovedEventHandler } from '@store/friends/socket-events/user-contacts-removed/user-contacts-removed-event-handler';
 import { GetMyProfileSuccess } from '@store/my-profile/features/get-my-profile/get-my-profile-success';
-import { UserBlockedEventHandler } from '@store/settings/socket-events/user-blocked/user-blocked-event-handler';
-import { UserUnBlockedEventHandler } from '@store/settings/socket-events/user-unblocked/user-unblocked-event-handler';
+import { UserAddedToBlackListEventHandler } from '@store/settings/socket-events/user-added-to-black-list/user-added-to-black-list-event-handler';
+import { UserRemovedFromBlackListEventHandler } from '@store/settings/socket-events/user-removed-from-black-list/user-removed-from-black-list-event-handler';
 import { APPEARANCE_CHAT_ID } from '@utils/constants';
 
 import { AddFriendSuccess } from '../friends/features/add-friend/add-friend-success';
@@ -188,19 +188,19 @@ const reducer = createReducer<IChatsState>(initialState)
     }),
   )
   .handleAction(
-    UserBlockedEventHandler.action,
-    produce((draft, { payload }: ReturnType<typeof UserBlockedEventHandler.action>) => {
-      const { blockerId, blockedId } = payload;
+    UserAddedToBlackListEventHandler.action,
+    produce((draft, { payload }: ReturnType<typeof UserAddedToBlackListEventHandler.action>) => {
+      const { userInitiatorId, blockedUserId } = payload;
       const myId = new MyProfileService().myProfile.id;
 
-      if (myId === blockedId) {
-        const chatId: number = ChatId.from(blockerId).id;
+      if (myId === blockedUserId) {
+        const chatId: number = ChatId.from(userInitiatorId).id;
         const chat = getChatByIdDraftSelector(chatId, draft);
         if (chat) {
           chat.isBlockedByInterlocutor = true;
         }
       } else {
-        const chatId: number = ChatId.from(blockedId).id;
+        const chatId: number = ChatId.from(blockedUserId).id;
         const chat = getChatByIdDraftSelector(chatId, draft);
         if (chat) {
           chat.isBlockedByUser = true;
@@ -210,20 +210,23 @@ const reducer = createReducer<IChatsState>(initialState)
     }),
   )
   .handleAction(
-    UserUnBlockedEventHandler.action,
+    UserRemovedFromBlackListEventHandler.action,
     produce(
-      (draft: IChatsState, { payload }: ReturnType<typeof UserUnBlockedEventHandler.action>) => {
-        const { blockerId, blockedId } = payload;
+      (
+        draft: IChatsState,
+        { payload }: ReturnType<typeof UserRemovedFromBlackListEventHandler.action>,
+      ) => {
+        const { userInitiatorId, unblockedUserId } = payload;
         const myId = new MyProfileService().myProfile.id;
 
-        if (myId === blockedId) {
-          const chatId: number = ChatId.from(blockerId).id;
+        if (myId === unblockedUserId) {
+          const chatId: number = ChatId.from(userInitiatorId).id;
           const chat = getChatByIdDraftSelector(chatId, draft);
           if (chat) {
             chat.isBlockedByInterlocutor = false;
           }
         } else {
-          const chatId: number = ChatId.from(blockedId).id;
+          const chatId: number = ChatId.from(unblockedUserId).id;
           const chat = getChatByIdDraftSelector(chatId, draft);
           if (chat) {
             chat.isBlockedByUser = false;

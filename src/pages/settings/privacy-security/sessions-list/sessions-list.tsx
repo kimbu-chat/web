@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { InfiniteScrollLoader } from '@components/infinite-scroll/infinite-scroll-loader/infinite-scroll-loader';
+import { Button } from '@components/button';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ReactComponent as ArrowSvg } from '@icons/arrow-v.svg';
 import { getSessionListAction } from '@store/settings/actions';
@@ -42,14 +42,16 @@ export const SessionsList = () => {
           {t('sessionaList.title', { count: sessions.length === 0 ? undefined : sessions.length })}
         </span>
 
-        <button
+        <Button
+          loading={loading}
           type="button"
+          themed
           className={classnames(`${BLOCK_NAME}__header__open`, {
             [`${BLOCK_NAME}__header__open--opened`]: opened,
           })}>
           <span>{opened ? t('sessionaList.hide-all') : t('sessionaList.show-all')}</span>
           <ArrowSvg />
-        </button>
+        </Button>
       </div>
       <div className={`${BLOCK_NAME}__details`}>{t('sessionaList.details')}</div>
 
@@ -60,8 +62,6 @@ export const SessionsList = () => {
           ))}
         </div>
       )}
-
-      {opened && loading && <InfiniteScrollLoader />}
     </div>
   );
 };

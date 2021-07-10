@@ -1,9 +1,12 @@
 import produce from 'immer';
 import { createReducer } from 'typesafe-actions';
 
+import { MyProfileService } from '@services/my-profile-service';
 import { DismissToAddContactSuccess } from '@store/friends/features/dismiss-to-add-contact/dismiss-to-add-contact-success';
 import { UserContactsRemovedEventHandler } from '@store/friends/socket-events/user-contacts-removed/user-contacts-removed-event-handler';
 import { GetMyProfileSuccess } from '@store/my-profile/features/get-my-profile/get-my-profile-success';
+import { UserBlockedEventHandler } from '@store/settings/socket-events/user-blocked/user-blocked-event-handler';
+import { UserUnBlockedEventHandler } from '@store/settings/socket-events/user-unblocked/user-unblocked-event-handler';
 import { APPEARANCE_CHAT_ID } from '@utils/constants';
 
 import { AddFriendSuccess } from '../friends/features/add-friend/add-friend-success';
@@ -154,7 +157,7 @@ const reducer = createReducer<IChatsState>(initialState)
   .handleAction(RemoveChat.action, RemoveChat.reducer)
   .handleAction(
     BlockUserSuccess.action,
-    produce((draft, { payload }) => {
+    produce((draft, { payload }: ReturnType<typeof BlockUserSuccess.action>) => {
       const userId = payload;
       const chatId: number = ChatId.from(userId).id;
       const chat = getChatByIdDraftSelector(chatId, draft);
@@ -183,6 +186,52 @@ const reducer = createReducer<IChatsState>(initialState)
 
       return draft;
     }),
+  )
+  .handleAction(
+    UserBlockedEventHandler.action,
+    produce((draft, { payload }: ReturnType<typeof UserBlockedEventHandler.action>) => {
+      const { blockerId, blockedId } = payload;
+      const myId = new MyProfileService().myProfile.id;
+
+      if (myId === blockedId) {
+        const chatId: number = ChatId.from(blockerId).id;
+        const chat = getChatByIdDraftSelector(chatId, draft);
+        if (chat) {
+          chat.isBlockedByInterlocutor = true;
+        }
+      } else {
+        const chatId: number = ChatId.from(blockedId).id;
+        const chat = getChatByIdDraftSelector(chatId, draft);
+        if (chat) {
+          chat.isBlockedByUser = true;
+        }
+      }
+      return draft;
+    }),
+  )
+  .handleAction(
+    UserUnBlockedEventHandler.action,
+    produce(
+      (draft: IChatsState, { payload }: ReturnType<typeof UserUnBlockedEventHandler.action>) => {
+        const { blockerId, blockedId } = payload;
+        const myId = new MyProfileService().myProfile.id;
+
+        if (myId === blockedId) {
+          const chatId: number = ChatId.from(blockerId).id;
+          const chat = getChatByIdDraftSelector(chatId, draft);
+          if (chat) {
+            chat.isBlockedByInterlocutor = false;
+          }
+        } else {
+          const chatId: number = ChatId.from(blockedId).id;
+          const chat = getChatByIdDraftSelector(chatId, draft);
+          if (chat) {
+            chat.isBlockedByUser = false;
+          }
+        }
+        return draft;
+      },
+    ),
   )
   .handleAction(
     DeleteFriendSuccess.action,

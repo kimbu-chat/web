@@ -4,9 +4,11 @@ import { SagaIterator } from 'redux-saga';
 import { call, apply, put, spawn } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
+import { HTTPStatusCode } from '@common/http-status-code';
 import { MAIN_API } from '@common/paths';
 import { AuthService } from '@services/auth-service';
 import { authRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { messaging } from '@store/middlewares/firebase/firebase';
 import { SubscribeToPushNotifications } from '@store/notifications/features/subscribe-to-push-notifications/subscribe-to-push-notifications';
 
 import { ILoginActionPayload } from './action-payloads/login-action-payload';
@@ -24,21 +26,25 @@ export class Login {
     return function* login(action: ReturnType<typeof Login.action>): SagaIterator {
       const loginHttpRequest = Login.httpRequest;
 
-      const { data } = loginHttpRequest.call(
+      const { data, status } = loginHttpRequest.call(
         yield call(() => loginHttpRequest.generator(action.payload)),
       );
 
-      const decodedJwt = jwtDecode<ICustomJwtPayload>(data.accessToken);
+      if (status === HTTPStatusCode.OK) {
+        yield call(async () => messaging?.deleteToken());
 
-      const deviceId = decodedJwt.refreshTokenId;
+        const decodedJwt = jwtDecode<ICustomJwtPayload>(data.accessToken);
 
-      const authService = new AuthService();
+        const deviceId = decodedJwt.refreshTokenId;
 
-      yield apply(authService, authService.initialize, [data, deviceId]);
+        const authService = new AuthService();
 
-      yield spawn(SubscribeToPushNotifications.saga);
+        yield apply(authService, authService.initialize, [data, deviceId]);
 
-      yield put(LoginSuccess.action());
+        yield spawn(SubscribeToPushNotifications.saga);
+
+        yield put(LoginSuccess.action());
+      }
     };
   }
 

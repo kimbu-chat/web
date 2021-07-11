@@ -15,7 +15,7 @@ export class AcceptCallSuccess {
       draft.isSpeaking = true;
       draft.amICalled = false;
       draft.amICalling = false;
-      draft.isAcceptPending = false;
+      draft.isCallAccepted = false;
 
       return draft;
     });

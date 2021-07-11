@@ -13,7 +13,7 @@ import {
   getAudioConstraintsSelector,
   getVideoConstraintsSelector,
   amICallingSelector,
-  getIsAcceptCallPendingSelector,
+  getIsCallAcceptedSelector,
 } from '../selectors';
 
 interface IInCompleteConstraints {
@@ -71,12 +71,9 @@ export const setVideoSender = (sender: RTCRtpSender | null) => {
 export function* assignAudioStreams(stream: MediaStream): SagaIterator {
   [tracks.audioTrack] = stream.getAudioTracks();
 
-  const callActive = yield select(doIhaveCallSelector);
-  const outgoingCallActive = yield select(amICallingSelector);
-  const acceptCallPending = yield select(getIsAcceptCallPendingSelector);
-
-  if (!(callActive || outgoingCallActive || acceptCallPending)) {
-    stopAllTracks();
+  // if a user canceled call or interlocutor declined call before a user allowed video then do nothing/don't process call
+  const shouldPreventEternalCamera = yield call(preventEternalCamera);
+  if (shouldPreventEternalCamera) {
     return;
   }
 
@@ -88,12 +85,9 @@ export function* assignAudioStreams(stream: MediaStream): SagaIterator {
 export function* assignVideoStreams(stream: MediaStream): SagaIterator {
   [tracks.videoTrack] = stream.getVideoTracks();
 
-  const callActive = yield select(doIhaveCallSelector);
-  const outgoingCallActive = yield select(amICallingSelector);
-  const acceptCallPending = yield select(getIsAcceptCallPendingSelector);
-
-  if (!(callActive || outgoingCallActive || acceptCallPending)) {
-    stopAllTracks();
+  // if a user canceled call or interlocutor declined call before a user allowed video then do nothing/don't process call
+  const shouldPreventEternalCamera = yield call(preventEternalCamera);
+  if (shouldPreventEternalCamera) {
     return;
   }
 
@@ -105,13 +99,8 @@ export function* assignVideoStreams(stream: MediaStream): SagaIterator {
 function* assignScreenSharingTracks(stream: MediaStream): SagaIterator {
   [tracks.screenSharingTrack] = stream.getTracks();
 
-  const callActive = yield select(doIhaveCallSelector);
-  const outgoingCallActive = yield select(amICallingSelector);
-  const acceptCallPending = yield select(getIsAcceptCallPendingSelector);
-
-  if (!(callActive || outgoingCallActive || acceptCallPending)) {
-    stopAllTracks();
-  }
+  // if a user canceled call or interlocutor declined call before a user allowed video then do nothing/don't process call
+  yield call(preventEternalCamera);
 }
 
 export function* assignStreams(stream: MediaStream) {
@@ -247,13 +236,7 @@ export function* getAndSendUserMedia(): SagaIterator {
   if (localMediaStream) {
     yield call(assignStreams, localMediaStream);
 
-    const callActive = yield select(doIhaveCallSelector);
-    const outgoingCallActive = yield select(amICallingSelector);
-    const acceptCallPending = yield select(getIsAcceptCallPendingSelector);
-
-    if (!(callActive || outgoingCallActive || acceptCallPending)) {
-      stopAllTracks();
-    }
+    yield call(preventEternalCamera);
 
     if (tracks.videoTrack) {
       videoSender = peerConnection?.addTrack(tracks.videoTrack, localMediaStream) as RTCRtpSender;
@@ -268,3 +251,20 @@ export const getMediaDevicesList = async (kind: string) => {
   const devices = await navigator.mediaDevices.enumerateDevices();
   return devices.filter((device) => device.kind === kind);
 };
+
+// if a user canceled call or interlocutor declined call before a user allowed video then do nothing/don't process call
+export function* preventEternalCamera(): SagaIterator {
+  const state = yield select();
+  const callActive = doIhaveCallSelector(state);
+  const outgoingCallActive = amICallingSelector(state);
+  const acceptCallPending = getIsCallAcceptedSelector(state);
+
+  const shouldPrevent = !(callActive || outgoingCallActive || acceptCallPending);
+
+  // if a user canceled call or interlocutor declined call before a user allowed video then do nothing/don't process call
+  if (shouldPrevent) {
+    stopAllTracks();
+  }
+
+  return shouldPrevent;
+}

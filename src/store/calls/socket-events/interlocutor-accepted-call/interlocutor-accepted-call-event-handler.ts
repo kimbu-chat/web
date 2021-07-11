@@ -9,7 +9,7 @@ import { getPeerConnection } from '../../../middlewares/webRTC/peerConnectionFac
 import { ICallsState } from '../../calls-state';
 import {
   doIhaveCallSelector,
-  getIsAcceptCallPendingSelector,
+  getIsCallAcceptedSelector,
   getIsActiveCallIncomingSelector,
 } from '../../selectors';
 import { setIsRenegotiationAccepted } from '../../utils/glare-utils';
@@ -34,7 +34,7 @@ export class InterlocutorAcceptedCallEventHandler {
           draft.isSpeaking = true;
           draft.amICalled = false;
           draft.amICalling = false;
-        } else if (!(draft.isSpeaking || draft.isAcceptPending)) {
+        } else if (!(draft.isSpeaking || draft.isCallAccepted)) {
           draft.interlocutorId = undefined;
           draft.isInterlocutorBusy = false;
           draft.amICalling = false;
@@ -59,7 +59,7 @@ export class InterlocutorAcceptedCallEventHandler {
       const peerConnection = getPeerConnection();
       const myId = yield select(myIdSelector);
       const activeCallIncoming = yield select(getIsActiveCallIncomingSelector);
-      const acceptPending = yield select(getIsAcceptCallPendingSelector);
+      const acceptPending = yield select(getIsCallAcceptedSelector);
 
       if (
         !(activeCallIncoming || acceptPending) &&

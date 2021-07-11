@@ -7,13 +7,10 @@ import { createAction } from 'typesafe-actions';
 import { MAIN_API } from '@common/paths';
 import { InputType } from '@store/calls/common/enums/input-type';
 import {
-  doIhaveCallSelector,
   getAudioConstraintsSelector,
   getCallInterlocutorIdSelector,
   getIsVideoEnabledSelector,
   getVideoConstraintsSelector,
-  amICallingSelector,
-  getIsAcceptCallPendingSelector,
 } from '@store/calls/selectors';
 import { deviceUpdateWatcher } from '@store/calls/utils/device-update-watcher';
 import { waitForAllICE } from '@store/calls/utils/glare-utils';
@@ -21,7 +18,7 @@ import { peerWatcher } from '@store/calls/utils/peer-watcher';
 import {
   getAndSendUserMedia,
   getMediaDevicesList,
-  stopAllTracks,
+  preventEternalCamera,
 } from '@store/calls/utils/user-media';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import {
@@ -47,9 +44,11 @@ export class AcceptCall {
       draft.audioConstraints = { ...draft.audioConstraints, isOpened: payload.audioEnabled };
       draft.videoConstraints = { ...draft.videoConstraints, isOpened: payload.videoEnabled };
 
-      /* we need to indicate that accept is pending in order determining should we 
-      end the call on other instances of accepting accountor not */
-      draft.isAcceptPending = true;
+      /* 
+         We need to hide incoming call when other clients(mobile apps, web clients, etc) 
+         of same user get "CallAccepted" event and "isCallAccepted" is false. 
+      */
+      draft.isCallAccepted = true;
 
       return draft;
     });
@@ -99,13 +98,9 @@ export class AcceptCall {
       // setup local stream
       yield call(getAndSendUserMedia);
 
-      const callActive = yield select(doIhaveCallSelector);
-      const outgoingCallActive = yield select(amICallingSelector);
-      const acceptCallPending = yield select(getIsAcceptCallPendingSelector);
-
-      // if canceled call before allowed video then don't send offer
-      if (!(callActive || outgoingCallActive || acceptCallPending)) {
-        stopAllTracks();
+      // if a user canceled call or interlocutor declined call before a user allowed video then do nothing/don't process call
+      const shouldPreventEternalCamera = yield call(preventEternalCamera);
+      if (shouldPreventEternalCamera) {
         return;
       }
 

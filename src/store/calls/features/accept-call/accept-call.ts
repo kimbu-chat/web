@@ -7,15 +7,22 @@ import { createAction } from 'typesafe-actions';
 import { MAIN_API } from '@common/paths';
 import { InputType } from '@store/calls/common/enums/input-type';
 import {
+  doIhaveCallSelector,
   getAudioConstraintsSelector,
   getCallInterlocutorIdSelector,
   getIsVideoEnabledSelector,
   getVideoConstraintsSelector,
+  amICallingSelector,
+  getIsAcceptCallPendingSelector,
 } from '@store/calls/selectors';
 import { deviceUpdateWatcher } from '@store/calls/utils/device-update-watcher';
 import { waitForAllICE } from '@store/calls/utils/glare-utils';
 import { peerWatcher } from '@store/calls/utils/peer-watcher';
-import { getAndSendUserMedia, getMediaDevicesList } from '@store/calls/utils/user-media';
+import {
+  getAndSendUserMedia,
+  getMediaDevicesList,
+  stopAllTracks,
+} from '@store/calls/utils/user-media';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import {
   createPeerConnection,
@@ -39,6 +46,9 @@ export class AcceptCall {
     return produce((draft: ICallsState, { payload }: ReturnType<typeof AcceptCall.action>) => {
       draft.audioConstraints = { ...draft.audioConstraints, isOpened: payload.audioEnabled };
       draft.videoConstraints = { ...draft.videoConstraints, isOpened: payload.videoEnabled };
+
+      /* we need to indicate that accept is pending in order determining should we 
+      end the call on other instances of accepting accountor not */
       draft.isAcceptPending = true;
 
       return draft;
@@ -89,9 +99,20 @@ export class AcceptCall {
       // setup local stream
       yield call(getAndSendUserMedia);
 
+      const callActive = yield select(doIhaveCallSelector);
+      const outgoingCallActive = yield select(amICallingSelector);
+      const acceptCallPending = yield select(getIsAcceptCallPendingSelector);
+
+      // if canceled call before allowed video then don't send offer
+      if (!(callActive || outgoingCallActive || acceptCallPending)) {
+        stopAllTracks();
+        return;
+      }
+
       const answer = yield call(async () => peerConnection?.createAnswer());
       yield call(async () => peerConnection?.setLocalDescription(answer));
 
+      // when all ICE candidates will becollected them will be sent with the offer
       yield call(waitForAllICE, peerConnection);
 
       const isVideoEnabled = yield select(getIsVideoEnabledSelector);

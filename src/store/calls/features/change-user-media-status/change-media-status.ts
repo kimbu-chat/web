@@ -4,7 +4,13 @@ import { createAction } from 'typesafe-actions';
 
 import { getPeerConnection } from '../../../middlewares/webRTC/peerConnectionFactory';
 import { InputType } from '../../common/enums/input-type';
-import { getAudioConstraintsSelector, getVideoConstraintsSelector } from '../../selectors';
+import {
+  amICallingSelector,
+  doIhaveCallSelector,
+  getAudioConstraintsSelector,
+  getIsAcceptCallPendingSelector,
+  getVideoConstraintsSelector,
+} from '../../selectors';
 import {
   getAudioSender,
   getMediaDevicesList,
@@ -16,6 +22,7 @@ import {
   stopVideoTracks,
   tracks,
   getVideoSender,
+  stopAllTracks,
 } from '../../utils/user-media';
 import { ChangeActiveDeviceId } from '../change-active-device-id/change-active-device-id';
 import { CloseScreenShareStatus } from '../change-screen-share-status/close-screen-share-status';
@@ -46,12 +53,24 @@ export class ChangeMediaStatus {
         if (isVideoOpened) {
           yield call(getUserVideo, { video: { ...videoConstraints, isOpened: isVideoOpened } });
 
+          // if canceled call before allowed video then don't send offer
+          const callActive = yield select(doIhaveCallSelector);
+          const outgoingCallActive = yield select(amICallingSelector);
+          const acceptCallPending = yield select(getIsAcceptCallPendingSelector);
+
+          if (!(callActive || outgoingCallActive || acceptCallPending)) {
+            stopAllTracks();
+            return;
+          }
+
+          // if there was a screen share track al;ready enabled then we have only to replace track without negotiation
           if (videoSender) {
             videoSender?.replaceTrack(tracks.videoTrack);
           } else if (tracks.videoTrack) {
             setVideoSender(peerConnection?.addTrack(tracks.videoTrack) as RTCRtpSender);
           }
 
+          // we cannot send simultaneously video and sccreen
           stopScreenSharingTracks();
           yield put(CloseScreenShareStatus.action());
         } else {
@@ -90,6 +109,16 @@ export class ChangeMediaStatus {
           yield call(getUserAudio, {
             audio: { ...audioConstraints, isOpened: isAudioOpened },
           });
+
+          // if canceled call before allowed video then don't send offer
+          const callActive = yield select(doIhaveCallSelector);
+          const outgoingCallActive = yield select(amICallingSelector);
+          const acceptCallPending = yield select(getIsAcceptCallPendingSelector);
+
+          if (!(callActive || outgoingCallActive || acceptCallPending)) {
+            stopAllTracks();
+            return;
+          }
 
           if (tracks.audioTrack) {
             audioSender?.replaceTrack(tracks.audioTrack);

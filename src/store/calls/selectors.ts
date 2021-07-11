@@ -21,6 +21,8 @@ export const getAudioConstraintsSelector = (state: RootState) => state.calls.aud
 export const getIsActiveCallIncomingSelector = (state: RootState) =>
   state.calls.isActiveCallIncoming;
 
+export const getIsAcceptCallPendingSelector = (state: RootState) => state.calls.isAcceptPending;
+
 export const getIsIncomingCallVideoEnabledSelector = (state: RootState) =>
   state.calls.isIncomingCallVideoEnbaled;
 

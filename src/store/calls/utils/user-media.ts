@@ -8,7 +8,13 @@ import { CloseAudioStatus } from '../features/change-user-media-status/close-aud
 import { CloseVideoStatus } from '../features/change-user-media-status/close-video-status';
 import { OpenAudioStatus } from '../features/change-user-media-status/open-audio-status';
 import { OpenVideoStatus } from '../features/change-user-media-status/open-video-status';
-import { getAudioConstraintsSelector, getVideoConstraintsSelector } from '../selectors';
+import {
+  doIhaveCallSelector,
+  getAudioConstraintsSelector,
+  getVideoConstraintsSelector,
+  amICallingSelector,
+  getIsAcceptCallPendingSelector,
+} from '../selectors';
 
 interface IInCompleteConstraints {
   video?: {
@@ -62,25 +68,51 @@ export const setVideoSender = (sender: RTCRtpSender | null) => {
   videoSender = sender;
 };
 
-export function* assignAudioStreams(stream: MediaStream) {
+export function* assignAudioStreams(stream: MediaStream): SagaIterator {
   [tracks.audioTrack] = stream.getAudioTracks();
+
+  const callActive = yield select(doIhaveCallSelector);
+  const outgoingCallActive = yield select(amICallingSelector);
+  const acceptCallPending = yield select(getIsAcceptCallPendingSelector);
+
+  if (!(callActive || outgoingCallActive || acceptCallPending)) {
+    stopAllTracks();
+    return;
+  }
 
   if (tracks.audioTrack) {
     yield put(OpenAudioStatus.action(tracks.audioTrack.getCapabilities().deviceId));
   }
 }
 
-export function* assignVideoStreams(stream: MediaStream) {
+export function* assignVideoStreams(stream: MediaStream): SagaIterator {
   [tracks.videoTrack] = stream.getVideoTracks();
+
+  const callActive = yield select(doIhaveCallSelector);
+  const outgoingCallActive = yield select(amICallingSelector);
+  const acceptCallPending = yield select(getIsAcceptCallPendingSelector);
+
+  if (!(callActive || outgoingCallActive || acceptCallPending)) {
+    stopAllTracks();
+    return;
+  }
 
   if (tracks.videoTrack) {
     yield put(OpenVideoStatus.action(tracks.videoTrack.getCapabilities().deviceId));
   }
 }
 
-const assignScreenSharingTracks = (stream: MediaStream) => {
+function* assignScreenSharingTracks(stream: MediaStream): SagaIterator {
   [tracks.screenSharingTrack] = stream.getTracks();
-};
+
+  const callActive = yield select(doIhaveCallSelector);
+  const outgoingCallActive = yield select(amICallingSelector);
+  const acceptCallPending = yield select(getIsAcceptCallPendingSelector);
+
+  if (!(callActive || outgoingCallActive || acceptCallPending)) {
+    stopAllTracks();
+  }
+}
 
 export function* assignStreams(stream: MediaStream) {
   [tracks.videoTrack] = stream.getVideoTracks();
@@ -177,7 +209,7 @@ export function* getUserDisplay() {
   stopScreenSharingTracks();
 
   if (localDisplayStream) {
-    assignScreenSharingTracks(localDisplayStream);
+    yield call(assignScreenSharingTracks, localDisplayStream);
   }
 }
 
@@ -214,6 +246,14 @@ export function* getAndSendUserMedia(): SagaIterator {
 
   if (localMediaStream) {
     yield call(assignStreams, localMediaStream);
+
+    const callActive = yield select(doIhaveCallSelector);
+    const outgoingCallActive = yield select(amICallingSelector);
+    const acceptCallPending = yield select(getIsAcceptCallPendingSelector);
+
+    if (!(callActive || outgoingCallActive || acceptCallPending)) {
+      stopAllTracks();
+    }
 
     if (tracks.videoTrack) {
       videoSender = peerConnection?.addTrack(tracks.videoTrack, localMediaStream) as RTCRtpSender;

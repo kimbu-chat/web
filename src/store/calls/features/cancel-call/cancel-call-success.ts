@@ -11,6 +11,7 @@ export class CancelCallSuccess {
 
   static get reducer() {
     return produce((draft: ICallsState) => {
+      // reset all values that may change durting call to default
       draft.interlocutorId = undefined;
       draft.isInterlocutorBusy = false;
       draft.amICalling = false;

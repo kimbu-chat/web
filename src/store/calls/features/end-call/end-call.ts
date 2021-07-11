@@ -21,7 +21,7 @@ export class EndCall {
       draft.interlocutorId = undefined;
       draft.isInterlocutorBusy = false;
       draft.amICalling = false;
-      draft.isAcceptPending = false;
+      draft.isCallAccepted = false;
       draft.amICalled = false;
       draft.isSpeaking = false;
       draft.isInterlocutorVideoEnabled = false;

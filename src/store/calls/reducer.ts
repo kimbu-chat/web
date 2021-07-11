@@ -34,7 +34,7 @@ const initialState: ICallsState = {
   amICalled: false,
   amICalling: false,
   isSpeaking: false,
-  isAcceptPending: false,
+  isCallAccepted: false,
   videoConstraints: {
     isOpened: false,
     width: { min: 640, ideal: window.innerWidth, max: 1920 },
@@ -80,7 +80,7 @@ const reducer = createReducer<ICallsState>(initialState)
   .handleAction(OpenInterlocutorAudioStatus.action, OpenInterlocutorAudioStatus.reducer)
   .handleAction(ResetSearchCalls.action, ResetSearchCalls.reducer)
 
-  // socket-events
+  // web-socket events
   .handleAction(IncomingCallEventHandler.action, IncomingCallEventHandler.reducer)
   .handleAction(
     InterlocutorAcceptedCallEventHandler.action,

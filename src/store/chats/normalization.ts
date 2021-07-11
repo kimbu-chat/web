@@ -4,12 +4,12 @@ import { IChat, IMessage } from '@store/chats/models';
 import { ILinkedMessage } from '@store/chats/models/linked-message';
 import { IUser } from '@store/common/models';
 
-const user = new schema.Entity<IUser>('users');
+const userSchema = new schema.Entity<IUser>('users');
 
 export const linkedMessageNormalizationSchema = new schema.Entity<ILinkedMessage>(
   'linkedMessages',
   {
-    userCreatorId: user,
+    userCreatorId: userSchema,
   },
   {
     processStrategy: (linkedMessage) => ({
@@ -23,9 +23,9 @@ export const linkedMessageNormalizationSchema = new schema.Entity<ILinkedMessage
 export const messageNormalizationSchema = new schema.Entity<IMessage>(
   'messages',
   {
-    userCreatorId: user,
+    userCreatorId: userSchema,
     linkedMessage: {
-      userCreatorId: user,
+      userCreatorId: userSchema,
     },
   },
   {
@@ -48,12 +48,12 @@ export const chatNormalizationSchema = new schema.Entity<IChat>(
   'chats',
   {
     lastMessage: {
-      userCreatorId: user,
+      userCreatorId: userSchema,
       linkedMessage: {
-        userCreatorId: user,
+        userCreatorId: userSchema,
       },
     },
-    interlocutorId: user,
+    interlocutorId: userSchema,
   },
   {
     processStrategy: (chat) => ({

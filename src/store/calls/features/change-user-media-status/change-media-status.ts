@@ -4,13 +4,7 @@ import { createAction } from 'typesafe-actions';
 
 import { getPeerConnection } from '../../../middlewares/webRTC/peerConnectionFactory';
 import { InputType } from '../../common/enums/input-type';
-import {
-  amICallingSelector,
-  doIhaveCallSelector,
-  getAudioConstraintsSelector,
-  getIsAcceptCallPendingSelector,
-  getVideoConstraintsSelector,
-} from '../../selectors';
+import { getAudioConstraintsSelector, getVideoConstraintsSelector } from '../../selectors';
 import {
   getAudioSender,
   getMediaDevicesList,
@@ -22,7 +16,7 @@ import {
   stopVideoTracks,
   tracks,
   getVideoSender,
-  stopAllTracks,
+  preventEternalCamera,
 } from '../../utils/user-media';
 import { ChangeActiveDeviceId } from '../change-active-device-id/change-active-device-id';
 import { CloseScreenShareStatus } from '../change-screen-share-status/close-screen-share-status';
@@ -53,13 +47,9 @@ export class ChangeMediaStatus {
         if (isVideoOpened) {
           yield call(getUserVideo, { video: { ...videoConstraints, isOpened: isVideoOpened } });
 
-          // if canceled call before allowed video then don't send offer
-          const callActive = yield select(doIhaveCallSelector);
-          const outgoingCallActive = yield select(amICallingSelector);
-          const acceptCallPending = yield select(getIsAcceptCallPendingSelector);
-
-          if (!(callActive || outgoingCallActive || acceptCallPending)) {
-            stopAllTracks();
+          // if a user canceled call or interlocutor declined call before a user allowed video then do nothing/don't process call
+          const shouldPreventEternalCamera = yield call(preventEternalCamera);
+          if (shouldPreventEternalCamera) {
             return;
           }
 
@@ -110,13 +100,9 @@ export class ChangeMediaStatus {
             audio: { ...audioConstraints, isOpened: isAudioOpened },
           });
 
-          // if canceled call before allowed video then don't send offer
-          const callActive = yield select(doIhaveCallSelector);
-          const outgoingCallActive = yield select(amICallingSelector);
-          const acceptCallPending = yield select(getIsAcceptCallPendingSelector);
-
-          if (!(callActive || outgoingCallActive || acceptCallPending)) {
-            stopAllTracks();
+          // if a user canceled call or interlocutor declined call before a user allowed video then do nothing/don't process call
+          const shouldPreventEternalCamera = yield call(preventEternalCamera);
+          if (shouldPreventEternalCamera) {
             return;
           }
 

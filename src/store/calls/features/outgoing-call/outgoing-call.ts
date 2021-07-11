@@ -14,18 +14,17 @@ import {
 } from '../../../middlewares/webRTC/peerConnectionFactory';
 import { ICallsState } from '../../calls-state';
 import { InputType } from '../../common/enums/input-type';
-import {
-  getIsVideoEnabledSelector,
-  doIhaveCallSelector,
-  amICallingSelector,
-  getIsAcceptCallPendingSelector,
-} from '../../selectors';
+import { getIsVideoEnabledSelector } from '../../selectors';
 import { CallEndedEventHandler } from '../../socket-events/call-ended/call-ended-event-handler';
 import { InterlocutorAcceptedCallEventHandler } from '../../socket-events/interlocutor-accepted-call/interlocutor-accepted-call-event-handler';
 import { deviceUpdateWatcher } from '../../utils/device-update-watcher';
 import { setIsRenegotiationAccepted, waitForAllICE } from '../../utils/glare-utils';
 import { peerWatcher } from '../../utils/peer-watcher';
-import { getAndSendUserMedia, getMediaDevicesList, stopAllTracks } from '../../utils/user-media';
+import {
+  getAndSendUserMedia,
+  getMediaDevicesList,
+  preventEternalCamera,
+} from '../../utils/user-media';
 import { CancelCall } from '../cancel-call/cancel-call';
 import { DeclineCall } from '../decline-call/decline-call';
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
@@ -106,13 +105,9 @@ export class OutgoingCall {
       yield call(getAndSendUserMedia);
       //---
 
-      // if canceled call before allowed video then don't send offer
-      const callActive = yield select(doIhaveCallSelector);
-      const outgoingCallActive = yield select(amICallingSelector);
-      const acceptCallPending = yield select(getIsAcceptCallPendingSelector);
-
-      if (!(callActive || outgoingCallActive || acceptCallPending)) {
-        stopAllTracks();
+      // if a user canceled call or interlocutor declined call before a user allowed video then do nothing/don't process call
+      const shouldPreventEternalCamera = yield call(preventEternalCamera);
+      if (shouldPreventEternalCamera) {
         return;
       }
 

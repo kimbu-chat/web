@@ -6,7 +6,6 @@ import { InputType } from '../../common/enums/input-type';
 
 import { IChangeActiveDeviceIdActionPayload } from './action-payloads/change-active-device-id-action-payload';
 
-// This feature action  is inwoked only when active device is already changed in order totrigger ui changes only
 export class ChangeActiveDeviceId {
   static get action() {
     return createAction('CHANGE_ACTIVE_DEVICE_ID')<IChangeActiveDeviceIdActionPayload>();

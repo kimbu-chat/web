@@ -5,7 +5,7 @@ import { apply, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
 import { ById } from '@store/chats/models/by-id';
-import { userNormalizationSchema } from '@store/friends/normalization';
+import { userSchema } from '@store/friends/normalization';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 
 import { IUser } from '../../../common/models';
@@ -42,7 +42,7 @@ export class IncomingCallEventHandler {
         entities: { users },
       } = normalize<IUser, { users: ById<IUser> }, number[]>(
         action.payload.userInterlocutor,
-        userNormalizationSchema,
+        userSchema,
       );
       yield put(AddOrUpdateUsers.action({ users }));
     };

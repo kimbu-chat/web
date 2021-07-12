@@ -1,5 +1,7 @@
 import { TFunction } from 'i18next';
 
+import { IMessageCreatedIntegrationEvent } from '@store/chats/socket-events/message-created/message-created-integration-event';
+
 import { SystemMessageType } from '../store/chats/models';
 import { INormalizedMessage, IMessage } from '../store/chats/models/message';
 import { CallStatus } from '../store/common/models/call-status';
@@ -38,7 +40,7 @@ export interface ICallMessage {
 }
 
 export const getSystemMessageData = <TSystemMessagePayload>(
-  message: INormalizedMessage | IMessage,
+  message: INormalizedMessage | IMessage | IMessageCreatedIntegrationEvent,
 ): TSystemMessagePayload => JSON.parse(message.text);
 
 const getCallEndedMessage = (

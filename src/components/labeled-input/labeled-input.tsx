@@ -24,6 +24,7 @@ export const LabeledInput: React.FC<ILabeledInputProps> = ({
   <div className={`labeled-input ${errorText ? 'labeled-input--error' : ''} ${containerClassName}`}>
     <span className="labeled-input__label">{label}</span>
     <input
+      autoComplete="off"
       placeholder={placeholder}
       value={value}
       onChange={onChange}

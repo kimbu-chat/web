@@ -35,6 +35,12 @@
     "cancel": "Cancel",
     "save": "Save"
   },
+  "groupChatCreation": {
+    "upload_new": "Upload New Photo",
+    "requirements": "At least 256*256px PNG or JPG",
+    "name": "Name",
+    "description": "Description"
+  },
   "register": {
     "photo-requirements": "At least 256*256px PNG or JPG",
     "register": "Register",

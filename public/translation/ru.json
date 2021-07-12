@@ -36,6 +36,12 @@
     "cancel": "Отмена",
     "save": "Сохранить"
   },
+  "groupChatCreation": {
+    "upload_new": "Загрузить Новое Фото",
+    "requirements": "Минимум 256*256px PNG или JPG",
+    "name": "Название",
+    "description": "Описание"
+  },
   "register": {
     "photo-requirements": "Как минимум 256*256px PNG или JPG",
     "register": "Регистрация",

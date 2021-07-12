@@ -1,5 +1,7 @@
 import React, { lazy, useCallback, useRef, useState } from 'react';
 
+import { useTranslation } from 'react-i18next';
+
 import { LabeledInput } from '@components/labeled-input';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
@@ -27,6 +29,8 @@ const GroupChatCreation: React.FC<IGroupChatCreationProps> = ({
   setName,
   setDescription,
 }) => {
+  const { t } = useTranslation();
+
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const uploadGroupChatAvatar = useActionWithDeferred(uploadAvatarRequestAction);
@@ -116,7 +120,7 @@ const GroupChatCreation: React.FC<IGroupChatCreationProps> = ({
             }}
             className="create-group-chat__change-photo-btn">
             <PictureSvg viewBox="0 0 18 19" />
-            <span>Upload New Photo</span>
+            <span>{t('groupChatCreation.upload_new')}</span>
           </button>
           <TopAvatarLine
             className="create-group-chat__current-photo-wrapper__top-line"
@@ -127,16 +131,16 @@ const GroupChatCreation: React.FC<IGroupChatCreationProps> = ({
             viewBox="0 0 114 114"
           />
         </div>
-        <div className="create-group-chat__criteria">At least 256*256px PNG or JPG </div>
+        <div className="create-group-chat__criteria">{t('groupChatCreation.requirements')}</div>
 
         <LabeledInput
-          label="Name"
+          label={t('groupChatCreation.name')}
           onChange={(e) => setName(e.target.value)}
           containerClassName="create-group-chat__input"
         />
 
         <LabeledInput
-          label="Description"
+          label={t('groupChatCreation.description')}
           onChange={(e) => setDescription(e.target.value)}
           containerClassName="create-group-chat__input"
         />

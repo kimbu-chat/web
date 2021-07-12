@@ -20,7 +20,11 @@ import { InterlocutorAcceptedCallEventHandler } from '../../socket-events/interl
 import { deviceUpdateWatcher } from '../../utils/device-update-watcher';
 import { setIsRenegotiationAccepted, waitForAllICE } from '../../utils/glare-utils';
 import { peerWatcher } from '../../utils/peer-watcher';
-import { getAndSendUserMedia, getMediaDevicesList } from '../../utils/user-media';
+import {
+  getAndSendUserMedia,
+  getMediaDevicesList,
+  preventEternalCamera,
+} from '../../utils/user-media';
 import { CancelCall } from '../cancel-call/cancel-call';
 import { DeclineCall } from '../decline-call/decline-call';
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
@@ -65,7 +69,6 @@ export class OutgoingCall {
       setIsRenegotiationAccepted(false);
 
       if (amISpeaking) {
-        // Prevention of 'double-call'
         return;
       }
 
@@ -101,6 +104,12 @@ export class OutgoingCall {
       // setup local stream
       yield call(getAndSendUserMedia);
       //---
+
+      // if a user canceled call or interlocutor declined call before a user allowed video then do nothing/don't process call
+      const shouldPreventEternalCamera = yield call(preventEternalCamera);
+      if (shouldPreventEternalCamera) {
+        return;
+      }
 
       const userInterlocutorId = action.payload.callingUserId;
 

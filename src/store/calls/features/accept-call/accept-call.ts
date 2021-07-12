@@ -15,7 +15,11 @@ import {
 import { deviceUpdateWatcher } from '@store/calls/utils/device-update-watcher';
 import { waitForAllICE } from '@store/calls/utils/glare-utils';
 import { peerWatcher } from '@store/calls/utils/peer-watcher';
-import { getAndSendUserMedia, getMediaDevicesList } from '@store/calls/utils/user-media';
+import {
+  getAndSendUserMedia,
+  getMediaDevicesList,
+  preventEternalCamera,
+} from '@store/calls/utils/user-media';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import {
   createPeerConnection,
@@ -39,7 +43,12 @@ export class AcceptCall {
     return produce((draft: ICallsState, { payload }: ReturnType<typeof AcceptCall.action>) => {
       draft.audioConstraints = { ...draft.audioConstraints, isOpened: payload.audioEnabled };
       draft.videoConstraints = { ...draft.videoConstraints, isOpened: payload.videoEnabled };
-      draft.isAcceptPending = true;
+
+      /* 
+         We need to hide incoming call when other clients(mobile apps, web clients, etc) 
+         of same user get "CallAccepted" event and "isCallAccepted" is false. 
+      */
+      draft.isCallAccepted = true;
 
       return draft;
     });
@@ -89,9 +98,16 @@ export class AcceptCall {
       // setup local stream
       yield call(getAndSendUserMedia);
 
+      // if a user canceled call or interlocutor declined call before a user allowed video then do nothing/don't process call
+      const shouldPreventEternalCamera = yield call(preventEternalCamera);
+      if (shouldPreventEternalCamera) {
+        return;
+      }
+
       const answer = yield call(async () => peerConnection?.createAnswer());
       yield call(async () => peerConnection?.setLocalDescription(answer));
 
+      // when all ICE candidates will becollected them will be sent with the offer
       yield call(waitForAllICE, peerConnection);
 
       const isVideoEnabled = yield select(getIsVideoEnabledSelector);

@@ -10,6 +10,7 @@ import { CancelCall } from '../features/cancel-call/cancel-call';
 import { OpenInterlocutorAudioStatus } from '../features/change-interlocutor-media-status/open-interlocutor-audio-status';
 import { OpenInterlocutorVideoStatus } from '../features/change-interlocutor-media-status/open-interlocutor-video-status';
 import { DeclineCall } from '../features/decline-call/decline-call';
+import { EndCall } from '../features/end-call/end-call';
 import { getCallInterlocutorIdSelector, getIsVideoEnabledSelector } from '../selectors';
 import { CallEndedEventHandler } from '../socket-events/call-ended/call-ended-event-handler';
 
@@ -46,12 +47,18 @@ function createPeerConnectionChannel() {
         }
       };
 
+      const onConnectionStateChange = () => {
+        emit({ type: 'connectionstatechange' });
+      };
+
       peerConnection?.addEventListener('negotiationneeded', onNegotiationNeeded);
       peerConnection?.addEventListener('track', onTrack);
+      peerConnection?.addEventListener('connectionstatechange', onConnectionStateChange);
 
       return () => {
         peerConnection?.removeEventListener('negotiationneeded', onNegotiationNeeded);
         peerConnection?.removeEventListener('track', onTrack);
+        peerConnection?.removeEventListener('connectionstatechange', onConnectionStateChange);
       };
     },
     buffers.expanding(100),
@@ -109,6 +116,7 @@ export function* peerWatcher(): SagaIterator {
             yield put(OpenInterlocutorAudioStatus.action());
           }
           break;
+        // here we need to listen for this event in order to prevent 'the play request was ....' error;
         case 'videoTrackUnmuted':
           {
             const { track } = action.event as RTCTrackEvent;
@@ -118,12 +126,18 @@ export function* peerWatcher(): SagaIterator {
             yield put(OpenInterlocutorVideoStatus.action());
           }
           break;
+        case 'connectionstatechange':
+          if (peerConnection?.connectionState === 'disconnected') {
+            yield put(EndCall.action());
+          }
+          break;
         default:
           break;
       }
     },
   );
 
+  // we wait for first event that will end call and then we kill watcher instance
   yield race({
     callEnded: take(CallEndedEventHandler.action),
     callCanceled: take(CancelCall.action),

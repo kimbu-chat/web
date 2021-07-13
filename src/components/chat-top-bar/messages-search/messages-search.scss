@@ -1,6 +1,22 @@
 .messages-search {
   margin-right: 10px;
   position: relative;
+  display: flex;
+
+  &__search-box {
+    position: relative;
+    display: inline-flex;
+    transition: all var(--ANIMATION-DURATION);
+    width: 0px;
+
+    &--open {
+      width: 253px;
+    }
+
+    &--close {
+      width: 0px;
+    }
+  }
 
   &__input-container {
     background: var(--chat-bg-dt-dark-wt-whiter);
@@ -24,6 +40,7 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
+    animation: fade var(--ANIMATION-DURATION);
     right: 44px;
     svg {
       height: 18px;

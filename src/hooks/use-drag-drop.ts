@@ -1,6 +1,10 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
+import { useSelector } from 'react-redux';
+
+import { authenticatedSelector } from '@store/auth/selectors';
 import { uploadAttachmentRequestAction } from '@store/chats/actions';
+import { getSelectedChatIdSelector } from '@store/chats/selectors';
 import { containsFiles } from '@utils/contains-files';
 import { getFileType } from '@utils/get-file-extension';
 
@@ -9,25 +13,34 @@ import { useActionWithDispatch } from './use-action-with-dispatch';
 export const useDragDrop = () => {
   const uploadAttachmentRequest = useActionWithDispatch(uploadAttachmentRequestAction);
 
+  const isAuthenticated = useSelector(authenticatedSelector);
+  const selectedChatId = useSelector(getSelectedChatIdSelector);
+
   const [isDragging, setIsDragging] = useState(false);
 
-  const onDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (containsFiles(e)) {
-      setIsDragging(true);
-    }
-  }, []);
+  const onDragOver = useCallback(
+    (e: DragEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (containsFiles(e) && selectedChatId) {
+        setIsDragging(true);
+      }
+    },
+    [selectedChatId],
+  );
 
-  const onDragEnter = useCallback((e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (containsFiles(e)) {
-      setIsDragging(true);
-    }
-  }, []);
+  const onDragEnter = useCallback(
+    (e: DragEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (containsFiles(e) && selectedChatId) {
+        setIsDragging(true);
+      }
+    },
+    [selectedChatId],
+  );
 
-  const onDragLeave = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+  const onDragLeave = useCallback((e: DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
 
@@ -39,14 +52,14 @@ export const useDragDrop = () => {
   }, []);
 
   const onDrop = useCallback(
-    (e: React.DragEvent<HTMLDivElement>) => {
+    (e: DragEvent) => {
       setIsDragging(false);
       e.preventDefault();
       e.stopPropagation();
 
       if (
         (e.target as HTMLDivElement).matches(
-          '.drag-indicator, .drag-indicator *, .chat-page, .chat-page *, .chat-data__chat-data, .chat-data__chat-data *, .chat-info__messenger-info, .chat-info__messenger-info *',
+          '.drag-indicator, .drag-indicator *, .chat-page, .chat-page *',
         )
       ) {
         if ((e.dataTransfer?.files?.length || 0) > 0) {
@@ -67,5 +80,21 @@ export const useDragDrop = () => {
     [setIsDragging, uploadAttachmentRequest],
   );
 
-  return { onDrop, onDragLeave, onDragEnter, onDragOver, isDragging };
+  useEffect(() => {
+    if (isAuthenticated) {
+      document.addEventListener('drop', onDrop);
+      document.addEventListener('dragleave', onDragLeave);
+      document.addEventListener('dragenter', onDragEnter);
+      document.addEventListener('dragover', onDragOver);
+    }
+
+    return () => {
+      document.removeEventListener('drop', onDrop);
+      document.removeEventListener('dragleave', onDragLeave);
+      document.removeEventListener('dragenter', onDragEnter);
+      document.removeEventListener('dragover', onDragOver);
+    };
+  }, [isAuthenticated, onDragEnter, onDragLeave, onDragOver, onDrop]);
+
+  return { isDragging };
 };

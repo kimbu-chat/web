@@ -3,13 +3,13 @@
   box-sizing: border-box;
   background: var(--blur-color-1);
   position: absolute;
-  height: 100vh;
+  height: 100%;
   backdrop-filter: blur(6px);
   z-index: 15;
   top: 0;
   bottom: 0;
   right: 0;
-  width: calc(100vw - 427px);
+  width: 100%;
   padding: 24px;
 
   &__upload {

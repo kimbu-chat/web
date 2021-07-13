@@ -28,7 +28,7 @@ import './chat.scss';
 const BLOCK_NAME = 'chat-page';
 
 const ChatPage: React.FC = () => {
-  const { onDrop, onDragLeave, onDragEnter, onDragOver, isDragging } = useDragDrop();
+  const { isDragging } = useDragDrop();
   const isCurrentChatBlackListed = useSelector(isCurrentChatBlackListedSelector);
   const isFriend = useSelector(isCurrentChatContactSelector);
   const isDismissed = useSelector(isCurrentChatDismissedAddToContactsSelector);
@@ -81,12 +81,7 @@ const ChatPage: React.FC = () => {
     <>
       <AudioContext.Provider value={{ currentAudio, changeAudio, isPlayingAudio, toggleAudio }}>
         <ChatList />
-        <div
-          className={BLOCK_NAME}
-          onDragLeave={onDragLeave}
-          onDragEnter={onDragEnter}
-          onDrop={onDrop}
-          onDragOver={onDragOver}>
+        <div className={BLOCK_NAME}>
           {isDragging && <DragIndicator />}
 
           {currentAudio && (

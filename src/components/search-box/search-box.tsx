@@ -22,6 +22,7 @@ export const SearchBox: React.FC<ISearchBoxProps> = ({
   iconClassName,
   inputClassName,
   containerClassName,
+  ...props
 }) => {
   const { t } = useTranslation();
   return (
@@ -32,6 +33,7 @@ export const SearchBox: React.FC<ISearchBoxProps> = ({
         placeholder={t('chatActions.search')}
         type="text"
         className={classnames(`${BLOCK_NAME}__input`, inputClassName)}
+        {...props}
       />
       <SearchSvg
         viewBox="0 0 24 24"

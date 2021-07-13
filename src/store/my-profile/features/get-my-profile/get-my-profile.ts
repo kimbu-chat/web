@@ -9,7 +9,7 @@ import { authenticatedSelector } from '@store/auth/selectors';
 import { ById } from '@store/chats/models/by-id';
 import { createEmptyAction } from '@store/common/actions';
 import { HttpRequestMethod, httpRequestFactory } from '@store/common/http';
-import { userNormalizationSchema } from '@store/friends/normalization';
+import { userSchema } from '@store/friends/normalization';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 
 import { IUser } from '../../../common/models';
@@ -39,7 +39,7 @@ export class GetMyProfile {
 
       const {
         entities: { users },
-      } = normalize<IUser, { users: ById<IUser> }, number[]>(data, userNormalizationSchema);
+      } = normalize<IUser, { users: ById<IUser> }, number[]>(data, userSchema);
       yield put(AddOrUpdateUsers.action({ users }));
 
       yield put(GetMyProfileSuccess.action({ user: data }));

@@ -38,6 +38,7 @@ export const PhoneInput = React.forwardRef(
     return (
       <div className="phone-input">
         <input
+          autoComplete="off"
           onClick={displayCountries}
           type="text"
           className="phone-input__country-code"
@@ -46,6 +47,7 @@ export const PhoneInput = React.forwardRef(
         />
         <span className="phone-input__label">{t('phoneInputGroup.phone')}</span>
         <input
+          autoComplete="off"
           ref={ref}
           placeholder={t('phoneInputGroup.phone')}
           value={removeCountryCodeFromPhoneNumber(

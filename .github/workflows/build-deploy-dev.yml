@@ -3,6 +3,11 @@ on:
   push:
     branches:
       - development
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   run:
     runs-on: ubuntu-latest

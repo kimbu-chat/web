@@ -332,13 +332,7 @@ const CreateMessageInput = () => {
               <RecordingMessage hide={handleRegisterAudioBtnClick} />
             ) : (
               <>
-                <input
-                  autoComplete="off"
-                  multiple
-                  hidden
-                  onChange={uploadFile}
-                  ref={fileInputRef}
-                />
+                <input type="file" multiple hidden onChange={uploadFile} ref={fileInputRef} />
                 <button type="button" onClick={openSelectFiles} className="message-input__add">
                   <AddSvg />
                 </button>

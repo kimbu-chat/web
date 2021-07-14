@@ -15,7 +15,7 @@ import { GetSessionListSuccess } from './features/get-sesion-list/get-sesion-lis
 import { GetSessionList } from './features/get-sesion-list/get-sesion-list';
 import { GetUserSettingsSuccess } from './features/get-user-settings/get-user-settings-success';
 import { GetUserSettings } from './features/get-user-settings/get-user-settings';
-import { TerminateSession } from './features/terminate-session/revoke-session';
+import { TerminateSession } from './features/terminate-session/terminate-session';
 import { UnblockUserSuccess } from './features/unblock-user/unblock-user-success';
 import { UnblockUser } from './features/unblock-user/unblock-user';
 import { UserAddedToBlackListEventHandler } from './socket-events/user-added-to-black-list/user-added-to-black-list-event-handler';

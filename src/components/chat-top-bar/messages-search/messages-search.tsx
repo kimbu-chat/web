@@ -103,6 +103,7 @@ const MessagesSearch = () => {
         <div className={classNames(rootClass, { [`${rootClass}--open`]: animatedSearchOpened })}>
           <SearchBox
             containerClassName={`${BLOCK_NAME}__input-container`}
+            autoFocus
             value={messagesSearchString || ''}
             onChange={searchMessages}
           />

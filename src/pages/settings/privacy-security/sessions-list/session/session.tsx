@@ -28,9 +28,7 @@ export const Session: React.FC<ISessionProps> = ({ session }) => {
 
   const revokeThisSession = useCallback(() => {
     setRevoking(true);
-    terminateSession(session.id).then(() => {
-      setRevoking(false);
-    });
+    terminateSession(session.id);
   }, [session.id, terminateSession]);
 
   const formatSessionTime = useCallback(

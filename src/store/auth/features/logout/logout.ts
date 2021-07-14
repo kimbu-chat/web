@@ -9,6 +9,7 @@ import { securityTokensSelector } from '@store/auth/selectors';
 import { createEmptyAction } from '@store/common/actions';
 import { httpRequestFactory } from '@store/common/http/http-factory';
 import { HttpRequestMethod } from '@store/common/http/http-request-method';
+import { ChangeUserOnlineStatus } from '@store/my-profile/features/change-user-online-status/change-user-online-status';
 import { CloseWebsocketConnection } from '@store/web-sockets/features/close-web-socket-connection/close-web-socket-connection';
 
 export class Logout {
@@ -28,6 +29,7 @@ export class Logout {
       const securityTokens = yield select(securityTokensSelector);
 
       if (securityTokens) {
+        yield call(() => ChangeUserOnlineStatus.httpRequest.generator({ isOnline: false }));
         yield put(CloseWebsocketConnection.action());
         yield call(() => Logout.httpRequest.generator());
       }

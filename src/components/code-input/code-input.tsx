@@ -61,6 +61,7 @@ export const CodeInput = forwardRef<HTMLDivElement, CodeInputProps>(
               )}
               key={idx.toString()}>
               <input
+                autoComplete="off"
                 className={classnames(
                   `${BLOCK_NAME}__input`,
                   !code[idx] && `${BLOCK_NAME}__input--with-border`,
@@ -75,7 +76,6 @@ export const CodeInput = forwardRef<HTMLDivElement, CodeInputProps>(
                 onChange={(e) => processInput(e, idx)}
                 onKeyUp={(e) => onKeyUp(e, idx)}
                 ref={(reference) => inputs.current.push(reference)}
-                autoComplete="off"
               />
             </div>
           ))}

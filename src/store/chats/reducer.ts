@@ -1,9 +1,12 @@
 import produce from 'immer';
 import { createReducer } from 'typesafe-actions';
 
+import { MyProfileService } from '@services/my-profile-service';
 import { DismissToAddContactSuccess } from '@store/friends/features/dismiss-to-add-contact/dismiss-to-add-contact-success';
 import { UserContactsRemovedEventHandler } from '@store/friends/socket-events/user-contacts-removed/user-contacts-removed-event-handler';
 import { GetMyProfileSuccess } from '@store/my-profile/features/get-my-profile/get-my-profile-success';
+import { UserAddedToBlackListEventHandler } from '@store/settings/socket-events/user-added-to-black-list/user-added-to-black-list-event-handler';
+import { UserRemovedFromBlackListEventHandler } from '@store/settings/socket-events/user-removed-from-black-list/user-removed-from-black-list-event-handler';
 import { APPEARANCE_CHAT_ID } from '@utils/constants';
 
 import { AddFriendSuccess } from '../friends/features/add-friend/add-friend-success';
@@ -154,7 +157,7 @@ const reducer = createReducer<IChatsState>(initialState)
   .handleAction(RemoveChat.action, RemoveChat.reducer)
   .handleAction(
     BlockUserSuccess.action,
-    produce((draft, { payload }) => {
+    produce((draft, { payload }: ReturnType<typeof BlockUserSuccess.action>) => {
       const userId = payload;
       const chatId: number = ChatId.from(userId).id;
       const chat = getChatByIdDraftSelector(chatId, draft);
@@ -183,6 +186,55 @@ const reducer = createReducer<IChatsState>(initialState)
 
       return draft;
     }),
+  )
+  .handleAction(
+    UserAddedToBlackListEventHandler.action,
+    produce((draft, { payload }: ReturnType<typeof UserAddedToBlackListEventHandler.action>) => {
+      const { userInitiatorId, blockedUserId } = payload;
+      const myId = new MyProfileService().myProfile.id;
+
+      if (myId === blockedUserId) {
+        const chatId: number = ChatId.from(userInitiatorId).id;
+        const chat = getChatByIdDraftSelector(chatId, draft);
+        if (chat) {
+          chat.isBlockedByInterlocutor = true;
+        }
+      } else {
+        const chatId: number = ChatId.from(blockedUserId).id;
+        const chat = getChatByIdDraftSelector(chatId, draft);
+        if (chat) {
+          chat.isBlockedByUser = true;
+        }
+      }
+      return draft;
+    }),
+  )
+  .handleAction(
+    UserRemovedFromBlackListEventHandler.action,
+    produce(
+      (
+        draft: IChatsState,
+        { payload }: ReturnType<typeof UserRemovedFromBlackListEventHandler.action>,
+      ) => {
+        const { userInitiatorId, unblockedUserId } = payload;
+        const myId = new MyProfileService().myProfile.id;
+
+        if (myId === unblockedUserId) {
+          const chatId: number = ChatId.from(userInitiatorId).id;
+          const chat = getChatByIdDraftSelector(chatId, draft);
+          if (chat) {
+            chat.isBlockedByInterlocutor = false;
+          }
+        } else {
+          const chatId: number = ChatId.from(unblockedUserId).id;
+          const chat = getChatByIdDraftSelector(chatId, draft);
+          if (chat) {
+            chat.isBlockedByUser = false;
+          }
+        }
+        return draft;
+      },
+    ),
   )
   .handleAction(
     DeleteFriendSuccess.action,

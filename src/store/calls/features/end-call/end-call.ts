@@ -17,10 +17,11 @@ export class EndCall {
 
   static get reducer() {
     return produce((draft: ICallsState) => {
+      // reset all values that may change durting call to default
       draft.interlocutorId = undefined;
       draft.isInterlocutorBusy = false;
       draft.amICalling = false;
-      draft.isAcceptPending = false;
+      draft.isCallAccepted = false;
       draft.amICalled = false;
       draft.isSpeaking = false;
       draft.isInterlocutorVideoEnabled = false;

@@ -23,6 +23,9 @@
     "nick_name": "Nickname",
     "name": "Name"
   },
+  "chatMembers": {
+    "title": "Members"
+  },
   "editChatModal": {
     "title": "Edit group",
     "upload_new": "Upload New Photo",
@@ -31,6 +34,12 @@
     "description": "Description",
     "cancel": "Cancel",
     "save": "Save"
+  },
+  "groupChatCreation": {
+    "upload_new": "Upload New Photo",
+    "requirements": "At least 256*256px PNG or JPG",
+    "name": "Name",
+    "description": "Description"
   },
   "register": {
     "photo-requirements": "At least 256*256px PNG or JPG",
@@ -104,7 +113,8 @@
     "leave-chat": "Leave chat",
     "add-users": "Add participants",
     "actions": "Actions",
-    "remove-chat": "Remove chat"
+    "remove-chat": "Remove chat",
+    "search": "Search"
   },
   "removeChatModal": {
     "title": "Remove chat",
@@ -121,7 +131,7 @@
     "audio": "Audios {{count}}"
   },
   "chatInfo": {
-    "leave-confirmation": "Are you sure you want to leave ‘{{groupChatName}}‘ chat?",
+    "leave-confirmation": "Are you sure you want to leave chat?",
     "leave": "Leave",
     "clear-confirmation": "Are you sure you want to clear selected chat? All messages will be lost",
     "clear": "Clear",

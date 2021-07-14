@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 
 import classnames from 'classnames';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import { InfiniteScroll } from '@components/infinite-scroll';
@@ -24,6 +25,8 @@ const BLOCK_NAME = 'chat-members';
 export const ChatMembers: React.FC = () => {
   const [searchStr, setSearchStr] = useState<string>('');
   const [membersDisplayed, setMembersDisplayed] = useState(false);
+
+  const { t } = useTranslation();
 
   const getGroupChatUsers = useActionWithDispatch(getGroupChatUsersAction);
 
@@ -63,7 +66,7 @@ export const ChatMembers: React.FC = () => {
   return (
     <div className={BLOCK_NAME}>
       <div className={`${BLOCK_NAME}__heading-block`}>
-        <h3 className={`${BLOCK_NAME}__heading`}>Members</h3>
+        <h3 className={`${BLOCK_NAME}__heading`}>{t('chatMembers.title')}</h3>
         <button
           type="button"
           onClick={changeMembersDisplayedState}

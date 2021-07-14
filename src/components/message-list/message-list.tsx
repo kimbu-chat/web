@@ -1,13 +1,18 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useRef } from 'react';
 
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
+import {
+  INTERSECTION_THROTTLE_FOR_MEDIA,
+  INTERSECTION_THRESHOLD_FOR_MEDIA,
+} from '@common/constants/media';
 import { InfiniteScroll } from '@components/infinite-scroll';
 import { MessageItem } from '@components/message-item';
 import { SelectedMessagesData } from '@components/selected-messages-data';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { useIntersectionObserver } from '@hooks/use-intersection-observer';
 import { getMessagesAction, markMessagesAsReadAction } from '@store/chats/actions';
 import { SystemMessageType } from '@store/chats/models';
 import {
@@ -31,6 +36,14 @@ const MessageList = () => {
   const markMessagesAsRead = useActionWithDispatch(markMessagesAsReadAction);
 
   const { t } = useTranslation();
+
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  const { observe: observeIntersectionForMedia } = useIntersectionObserver({
+    rootRef,
+    throttleMs: INTERSECTION_THROTTLE_FOR_MEDIA,
+    threshold: INTERSECTION_THRESHOLD_FOR_MEDIA,
+  });
 
   const selectedChatId = useSelector(getSelectedChatIdSelector);
   const unreadMessagesCount = useSelector(getSelectedChatUnreadMessagesCountSelector);
@@ -70,7 +83,7 @@ const MessageList = () => {
 
   return (
     <div className="chat__messages-list">
-      <div className="chat__messages-container">
+      <div className="chat__messages-container" ref={rootRef}>
         {!areMessagesLoading && !hasMoreMessages && (messagesIds || []).length === 0 && (
           <div className="chat__messages-list__empty">
             <p>{t('chat.empty')}</p>
@@ -107,6 +120,7 @@ const MessageList = () => {
               <div key={`${separatedMessages[0]}group`} className="chat__messages-group">
                 {separatedMessages.map((messageId, index) => (
                   <MessageItem
+                    observeIntersection={observeIntersectionForMedia}
                     selectedChatId={selectedChatId}
                     isSelected={selectedMessageIds.includes(messageId)}
                     messageId={messageId}

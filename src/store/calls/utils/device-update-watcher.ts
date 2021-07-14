@@ -27,6 +27,7 @@ function createDeviceUpdateChannel() {
   }, buffers.expanding(10));
 }
 
+// this watcher helps us to determine what king of devices were connected to pc
 export function* deviceUpdateWatcher(): SagaIterator {
   const deviceUpdateChannel = createDeviceUpdateChannel();
 
@@ -38,12 +39,14 @@ export function* deviceUpdateWatcher(): SagaIterator {
       const prevAudioDevices = yield select(getAudioDevicesSelector);
       const isCallActive = yield select(doIhaveCallSelector);
 
+      // if it is the only audio device  connected in time if call we will get it's stream and send it
       if (prevAudioDevices.length === 0 && audioDevices[0]) {
         yield put(
           SwitchDevice.action({ kind: InputType.AudioInput, deviceId: audioDevices[0].deviceId }),
         );
 
         if (isCallActive) {
+          // if there were no audio devicces connected then when we connect first we need to open its status after we made it active
           yield put(ChangeMediaStatus.action({ kind: InputType.AudioInput }));
         }
       }
@@ -53,6 +56,7 @@ export function* deviceUpdateWatcher(): SagaIterator {
     },
   );
 
+  // we wait for first event that will end call and then we kill watcher instance
   yield race({
     callEnded: take(CallEndedEventHandler.action),
     callCanceled: take(CancelCall.action),

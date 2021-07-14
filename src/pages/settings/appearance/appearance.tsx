@@ -38,6 +38,8 @@ const Appearance: React.FC = () => {
         {[-1, -2, -3, -4, -5, -6, -7, -8, -9].map((messageId) => (
           <div key={messageId} className="appearance__theme-box__msg-wrapper">
             <MessageItem
+              // eslint-disable-next-line
+              observeIntersection={() => () => {}}
               needToShowCreator={messageId === -1}
               selectedChatId={APPEARANCE_CHAT_ID}
               messageId={messageId}

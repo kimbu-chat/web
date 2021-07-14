@@ -5,12 +5,15 @@ import ProgressiveImage from '@components/progressive-image';
 import { useToggledState } from '@hooks/use-toggled-state';
 import { IPictureAttachment } from '@store/chats/models';
 
-interface IPhotoProps {
+import type { ObserveFn } from '@hooks/use-intersection-observer';
+
+type PhotoProps = {
   photo: IPictureAttachment;
   attachmentsArr: IPictureAttachment[];
-}
+  observeIntersection: ObserveFn;
+};
 
-export const Photo: React.FC<IPhotoProps> = ({ photo, attachmentsArr }) => {
+export const Photo: React.FC<PhotoProps> = ({ photo, attachmentsArr, observeIntersection }) => {
   const [bigPhotoDisplayed, displayBigPhoto, hideBigPhoto] = useToggledState(false);
 
   return (
@@ -23,14 +26,8 @@ export const Photo: React.FC<IPhotoProps> = ({ photo, attachmentsArr }) => {
         className="chat-photo__photo"
         width={148}
         height={98}
+        observeIntersection={observeIntersection}
       />
-      {/* <img
-        alt="low speed"
-        onClick={displayBigPhoto}
-        key={photo.id}
-        className="chat-photo__photo"
-        src={photo.url}
-      /> */}
       {bigPhotoDisplayed && (
         <MediaModal
           attachmentId={photo.id}

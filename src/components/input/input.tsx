@@ -38,6 +38,7 @@ export const Input = forwardRef<HTMLDivElement, InputProps>(
           )}>
           {prefix}
           <input
+            autoComplete="off"
             className={classnames(`${BLOCK_NAME}__input`, error && `${BLOCK_NAME}__input--error`)}
             id="input"
             onChange={onInputChange}

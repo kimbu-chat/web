@@ -123,6 +123,7 @@ export const ChatTopBar = () => {
             </div>
           </button>
           <div className={`${BLOCK_NAME}__buttons-group`}>
+            <MessagesSearch />
             {interlocutor && !interlocutor?.deleted && (
               <>
                 <button type="button" className={`${BLOCK_NAME}__button`} onClick={callWithAudio}>
@@ -134,8 +135,6 @@ export const ChatTopBar = () => {
                 </button>
               </>
             )}
-
-            <MessagesSearch />
             <ChatInfoBtn toggleVisibility={toggleChatInfo} />
           </div>
         </div>

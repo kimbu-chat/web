@@ -2,25 +2,29 @@ import React from 'react';
 
 import classNames from 'classnames';
 
+import Ripple from '@components/ripple';
+
 import './button.scss';
 
-interface IButtonProps
+interface ButtonProps
   extends React.DetailedHTMLProps<
     React.ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
   > {
   loading?: boolean;
   themed?: boolean;
+  ripple?: boolean;
 }
 
 const BLOCK_NAME = 'button';
 
-export const Button: React.FC<IButtonProps> = ({
+export const Button: React.FC<ButtonProps> = ({
   children,
   className,
   loading,
   disabled,
   themed,
+  ripple = true,
   ...props
 }) => (
   <button
@@ -38,5 +42,6 @@ export const Button: React.FC<IButtonProps> = ({
         <div />
       </div>
     </div>
+    {ripple && <Ripple />}
   </button>
 );

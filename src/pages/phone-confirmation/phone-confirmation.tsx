@@ -6,8 +6,8 @@ import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import AuthWrapper from '@components/auth-wrapper';
+import { Button } from '@components/button';
 import { CountryPhoneInput } from '@components/country-phone-input';
-import { Loader } from '@components/loader';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { preloadAuthRoute } from '@routing/routes/auth-routes';
 import { CODE_CONFIRMATION_PATH } from '@routing/routing.constants';
@@ -67,9 +67,9 @@ const PhoneConfirmationPage: React.FC = () => {
         </p>
         <div className={`${BLOCK_NAME}__login-form`}>
           <CountryPhoneInput onChange={setPhone} value={phone} />
-          <button type="submit" className={`${BLOCK_NAME}__login-button`}>
-            {isLoading ? <Loader /> : t('loginPage.next')}
-          </button>
+          <Button type="submit" loading={isLoading} className={`${BLOCK_NAME}__login-button`}>
+            {t('loginPage.next')}
+          </Button>
         </div>
         <p className={`${BLOCK_NAME}__conditions`}>
           {t('loginPage.agree_to')}

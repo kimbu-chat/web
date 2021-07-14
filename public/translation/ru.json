@@ -24,6 +24,9 @@
     "nick_name": "Никнейм",
     "name": "Имя"
   },
+  "chatMembers": {
+    "title": "Участники"
+  },
   "editChatModal": {
     "title": "Редактировать группу",
     "upload_new": "Загрузить Новое Фото",
@@ -32,6 +35,12 @@
     "description": "Описание",
     "cancel": "Отмена",
     "save": "Сохранить"
+  },
+  "groupChatCreation": {
+    "upload_new": "Загрузить Новое Фото",
+    "requirements": "Минимум 256*256px PNG или JPG",
+    "name": "Название",
+    "description": "Описание"
   },
   "register": {
     "photo-requirements": "Как минимум 256*256px PNG или JPG",
@@ -43,8 +52,8 @@
     "forward-indicator": "Пересланно от "
   },
   "deleteChatMemberModal": {
-    "title": "Удалить пользователя из переписки",
-    "delete-confirmation": "Вы уверены что хотите удалить выбранного пользователя из переписки?",
+    "title": "Удалить пользователя",
+    "delete-confirmation": "Вы уверены что хотите удалить пользователя из чата?",
     "cancel": "Отена",
     "confirm": "Удалить"
   },
@@ -124,7 +133,8 @@
     "leave-chat": "Покинуть чат",
     "add-users": "Добавить в чат",
     "actions": "Действия",
-    "remove-chat": "Удалить чат"
+    "remove-chat": "Удалить чат",
+    "search": "Поиск"
   },
   "removeChatModal": {
     "title": "Удалить чат",
@@ -141,7 +151,7 @@
     "audio": "Аудио {{count}}"
   },
   "chatInfo": {
-    "leave-confirmation": "Вы уверенны что хотите покинуть ‘{{groupChatName}}‘?",
+    "leave-confirmation": "Вы уверенны что хотите покинуть чат?",
     "leave": "Покинуть",
     "clear-confirmation": "Вы уверенны что хотите удалить все сообщения ? Все сообщения будут потерянны",
     "clear": "Отчистить",
@@ -359,7 +369,7 @@
     "title": "Новый звонок"
   },
   "logoutModal": {
-    "title": "Система выхода",
+    "title": "Выход",
     "cancel": "Отмена",
     "logout": "Выход",
     "confirm-content": "Вы действительно хотите выйти?"

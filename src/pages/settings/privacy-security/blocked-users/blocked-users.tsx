@@ -3,7 +3,7 @@ import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { InfiniteScrollLoader } from '@components/infinite-scroll/infinite-scroll-loader/infinite-scroll-loader';
+import { Button } from '@components/button';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ReactComponent as ArrowSvg } from '@icons/arrow-v.svg';
 import { getBlackListAction } from '@store/settings/actions';
@@ -42,14 +42,16 @@ export const BlockedUsers = () => {
           })}
         </span>
 
-        <button
+        <Button
           type="button"
+          themed
+          loading={loading}
           className={`blocked-users__header__open ${
             opened ? 'blocked-users__header__open--opened' : ''
           }`}>
           <span>{opened ? t('blockedUsers.hide-all') : t('blockedUsers.show-all')}</span>
           <ArrowSvg />
-        </button>
+        </Button>
       </div>
       <div className="blocked-users__details">{t('blockedUsers.details')}</div>
       {opened && (
@@ -59,7 +61,6 @@ export const BlockedUsers = () => {
           ))}
         </div>
       )}
-      {opened && loading && <InfiniteScrollLoader />}
     </div>
   );
 };

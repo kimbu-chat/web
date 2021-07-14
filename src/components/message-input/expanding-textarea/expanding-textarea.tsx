@@ -48,5 +48,5 @@ export const ExpandingTextarea: React.FC<
     }
   }, [value, textareaRef]);
 
-  return <textarea rows={rows} ref={textareaRef} {...props} />;
+  return <textarea autoComplete="off" rows={rows} ref={textareaRef} {...props} />;
 };

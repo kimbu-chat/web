@@ -23,9 +23,15 @@ import { PhotoList } from './photo-list/photo-list';
 import { RecordingsList } from './recordings-list/recordings-list';
 import { VideoList } from './video-list/video-list';
 
+import type { ObserveFn } from '@hooks/use-intersection-observer';
+
 import './chat-media.scss';
 
-export const ChatMedia = () => {
+type ChatMediaProps = {
+  observeIntersection: ObserveFn;
+};
+
+export const ChatMedia: React.FC<ChatMediaProps> = ({ observeIntersection }) => {
   const { t } = useTranslation();
 
   const [pictureDisplayed, setPictureDisplayed] = useState(false);
@@ -89,7 +95,7 @@ export const ChatMedia = () => {
                   <OpenArrowSvg />
                 </button>
               </div>
-              {pictureDisplayed && <PhotoList />}
+              {pictureDisplayed && <PhotoList observeIntersection={observeIntersection} />}
             </div>
           )}
           {videoAttachmentsCount > 0 && (

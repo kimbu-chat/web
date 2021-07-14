@@ -11,6 +11,7 @@ export const setInterlocutorOffer = (offer: RTCSessionDescriptionInit | null) =>
 };
 
 export const createPeerConnection = () => {
+  // instanciation of a new peer connection
   peerConnection = new RTCPeerConnection(peerConfiguration);
 };
 

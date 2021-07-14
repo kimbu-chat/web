@@ -22,11 +22,7 @@ export const DragIndicator = () => {
   const onDragLeave = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     const { relatedTarget: toTarget } = e;
 
-    if (
-      !(toTarget as HTMLDivElement)?.matches(
-        '.chat-page, .chat-page *, .chat-data__chat-data, .chat-data__chat-data *, .chat-info__messenger-info, .chat-info__messenger-info *',
-      )
-    ) {
+    if (!(toTarget as HTMLDivElement)?.matches('.chat-page, .chat-page *')) {
       setIsDragging(false);
     }
   }, []);

@@ -26,6 +26,8 @@ export class ChangeScreenShareStatus {
   }
 
   static get saga() {
+    // user can end screen sharing without even interracting with UI using system button
+    // that's why we listen for this event
     function createTrackEndedChannel() {
       return eventChannel((emit) => {
         const onEnd = () => {
@@ -37,6 +39,7 @@ export class ChangeScreenShareStatus {
           tracks.screenSharingTrack.addEventListener('ended', onEnd);
         }
 
+        // if event was triggered by user or call ended  then we kill the instance of wtcher and remove event listener
         return () => {
           if (tracks.screenSharingTrack) {
             tracks.screenSharingTrack.removeEventListener('ended', onEnd);
@@ -64,6 +67,7 @@ export class ChangeScreenShareStatus {
         }
       });
 
+      // if close sharingevent was triggered by user or call ended  then we kill the instance of wtcher and remove event listener
       yield race({
         canceled: take(CancelCall.action),
         interlocutorCanceled: take(CallEndedEventHandler.action),

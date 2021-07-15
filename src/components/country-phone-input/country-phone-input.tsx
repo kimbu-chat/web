@@ -87,11 +87,8 @@ export const CountryPhoneInput: React.FC<CountryPhoneInputProps> = ({ onChange, 
   const searchCountries = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const searchValue = e.target.value;
     setCountries(
-      loadedCountries.filter(
-        (country) =>
-          country.title.includes(searchValue) ||
-          country.number.includes(searchValue) ||
-          country.code.includes(searchValue),
+      loadedCountries.filter((country) =>
+        country.title.toLowerCase().includes(searchValue.toLowerCase()),
       ),
     );
   }, []);

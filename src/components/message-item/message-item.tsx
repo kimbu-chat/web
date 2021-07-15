@@ -133,7 +133,11 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
           ) => {
             switch (currentAttachment.type) {
               case FileType.Raw:
-                accum.files.push(currentAttachment);
+                if (currentAttachment.fileName.endsWith('.gif')) {
+                  accum.media.push(currentAttachment as IPictureAttachment);
+                } else {
+                  accum.files.push(currentAttachment);
+                }
 
                 break;
               case FileType.Picture:

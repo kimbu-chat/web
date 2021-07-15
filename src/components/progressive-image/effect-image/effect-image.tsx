@@ -10,7 +10,7 @@ const BLOCK_NAME = 'effect-image';
 
 export type EffectImageProps = {
   alt: string;
-  thumb: string;
+  thumb?: string;
   src: string;
 };
 
@@ -27,26 +27,30 @@ const EffectImage: React.FC<EffectImageWithIntersecting> = ({
   const [isLoaded, setIsLoaded] = useState(false);
   return (
     <>
-      <img
-        className={classnames(BLOCK_NAME, `${BLOCK_NAME}__thumb`)}
-        alt={alt}
-        src={thumb}
-        style={{
-          visibility: isLoaded ? 'hidden' : 'visible',
-        }}
-      />
-      {isIntersecting && !isLoaded && (
-        <div className={`${BLOCK_NAME}__loader`}>
-          <Loader size={LoaderSize.MEDIUM} />
-        </div>
+      {thumb && (
+        <>
+          <img
+            className={classnames(BLOCK_NAME, `${BLOCK_NAME}__thumb`)}
+            alt={alt}
+            src={thumb}
+            style={{
+              visibility: isLoaded ? 'hidden' : 'visible',
+            }}
+          />
+          {isIntersecting && !isLoaded && (
+            <div className={`${BLOCK_NAME}__loader`}>
+              <Loader size={LoaderSize.MEDIUM} />
+            </div>
+          )}
+        </>
       )}
-      {isIntersecting && (
+      {(isIntersecting || !thumb) && (
         <img
           onLoad={() => {
             setIsLoaded(true);
           }}
           className={classnames(BLOCK_NAME, `${BLOCK_NAME}__full`)}
-          style={{ opacity: isLoaded ? 1 : 0 }}
+          style={{ opacity: isLoaded || !thumb ? 1 : 0 }}
           alt={alt}
           src={src}
         />

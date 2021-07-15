@@ -24,11 +24,13 @@ export class ConfirmChangePhone {
     return function* confirmChangePhone(
       action: ReturnType<typeof ConfirmChangePhone.action>,
     ): SagaIterator {
-      const { status: verifyStatus, data: verifyData } = yield call(() =>
-        ConfirmPhone.httpRequest.generator({
-          code: action.payload.confirmationCode,
-          phoneNumber: action.payload.phoneNumber,
-        }),
+      const { status: verifyStatus, data: verifyData } = ConfirmPhone.httpRequest.call(
+        yield call(() =>
+          ConfirmPhone.httpRequest.generator({
+            code: action.payload.confirmationCode,
+            phoneNumber: action.payload.phoneNumber,
+          }),
+        ),
       );
 
       if (

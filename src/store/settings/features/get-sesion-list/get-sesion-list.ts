@@ -26,14 +26,14 @@ export class GetSessionList {
   }
 
   static get saga() {
-    return function* addFriend(): SagaIterator {
-      const { data } = yield call(() => GetSessionList.httpRequest.generator());
+    return function* getSessionListSaga(): SagaIterator {
+      const { data } = GetSessionList.httpRequest.call(
+        yield call(() => GetSessionList.httpRequest.generator()),
+      );
 
       const currentDeviceId = yield select(deviceIdSelector);
 
-      const currentDeviceIndex = (data as ISession[])?.findIndex(
-        ({ id }) => id === Number(currentDeviceId),
-      );
+      const currentDeviceIndex = data?.findIndex(({ id }) => id === Number(currentDeviceId));
 
       if (currentDeviceIndex > -1) {
         const currentDevice = data[currentDeviceIndex];

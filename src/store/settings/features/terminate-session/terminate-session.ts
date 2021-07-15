@@ -17,7 +17,9 @@ export class TerminateSession {
   }
 
   static get saga() {
-    return function* addFriend(action: ReturnType<typeof TerminateSession.action>): SagaIterator {
+    return function* terminateSessionSaga(
+      action: ReturnType<typeof TerminateSession.action>,
+    ): SagaIterator {
       yield call(() => TerminateSession.httpRequest.generator({ sessionId: action.payload }));
 
       yield put(TerminateSessionSuccess.action(action.payload));

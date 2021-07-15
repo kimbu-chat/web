@@ -13,7 +13,7 @@ import { IGetUserByPhone } from './action-payloads/get-user-by-phone-action-payl
 
 export class GetUserByPhone {
   static get action() {
-    return createAction('GET_USER_BY_PHONE')<IGetUserByPhone, Meta>();
+    return createAction('GET_USER_BY_PHONE')<IGetUserByPhone, Meta<IUser>>();
   }
 
   static get saga() {
@@ -28,8 +28,8 @@ export class GetUserByPhone {
           .filter((x) => x !== ' ' && x !== '+')
           .join('');
 
-        const { data } = yield call(() =>
-          GetUserByPhone.httpRequest.generator({ phone: parsedPhone }),
+        const { data } = GetUserByPhone.httpRequest.call(
+          yield call(() => GetUserByPhone.httpRequest.generator({ phone: parsedPhone })),
         );
 
         action.meta.deferred?.resolve(data);

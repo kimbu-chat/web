@@ -1,10 +1,11 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useCallback, useRef, useEffect, ChangeEvent } from 'react';
 
 import { AsYouType } from 'libphonenumber-js';
 import find from 'lodash/find';
 import { useTranslation } from 'react-i18next';
 
 import { ReactComponent as ArrowDown } from '@icons/arrow-down.svg';
+import { ReactComponent as SearchSvg } from '@icons/search.svg';
 import { getCountryByIp } from '@utils/get-country-by-ip';
 import { removeCountryCodeFromPhoneNumber } from '@utils/phone-number-utils';
 
@@ -23,6 +24,8 @@ type Selection = {
   country?: string;
   code?: string;
 };
+
+let loadedCountries: ICountry[] = [];
 
 export const CountryPhoneInput: React.FC<CountryPhoneInputProps> = ({ onChange, value }) => {
   const [selection, setSelection] = useState<Selection>({ code: '+375', country: 'BY' });
@@ -45,6 +48,7 @@ export const CountryPhoneInput: React.FC<CountryPhoneInputProps> = ({ onChange, 
     const handleClickOutside = (evt: MouseEvent) => {
       if (!ref.current?.contains(evt.target as Node)) {
         setOpen(false);
+        setCountries(loadedCountries);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -57,10 +61,10 @@ export const CountryPhoneInput: React.FC<CountryPhoneInputProps> = ({ onChange, 
   useEffect(() => {
     const getCountries = async () => {
       const res = await fetch('/countries.json');
-      const countriesResp = await res.json();
+      loadedCountries = await res.json();
       const countryCode = await getCountryByIp();
-      setCountries(countriesResp);
-      const currentCountry = find(countriesResp, { code: countryCode });
+      setCountries(loadedCountries);
+      const currentCountry = find(loadedCountries, { code: countryCode });
       setSelection({ code: currentCountry?.number, country: currentCountry?.code });
     };
     getCountries();
@@ -70,13 +74,26 @@ export const CountryPhoneInput: React.FC<CountryPhoneInputProps> = ({ onChange, 
     setOpen((opened) => !opened);
   }, []);
 
-  const onSelect = useCallback((e: React.SyntheticEvent<HTMLUListElement>) => {
+  const onSelect = useCallback((e: React.SyntheticEvent<HTMLLIElement>) => {
     setSelection({
       code: (e.target as HTMLLIElement).dataset.code,
       country: (e.target as HTMLLIElement).dataset.country,
     });
     setOpen(false);
+    setCountries(loadedCountries);
     inputRef.current?.focus();
+  }, []);
+
+  const searchCountries = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const searchValue = e.target.value;
+    setCountries(
+      loadedCountries.filter(
+        (country) =>
+          country.title.includes(searchValue) ||
+          country.number.includes(searchValue) ||
+          country.code.includes(searchValue),
+      ),
+    );
   }, []);
 
   return (
@@ -106,24 +123,35 @@ export const CountryPhoneInput: React.FC<CountryPhoneInputProps> = ({ onChange, 
         />
       </div>
       {open && (
-        <ul className={`${BLOCK_NAME}__list`} onClick={onSelect}>
-          {countries.map((item) => (
-            <li
-              data-code={item.number}
-              data-country={item.code}
-              key={item.code}
-              className={`${BLOCK_NAME}__list-item`}>
-              <img
-                loading="lazy"
-                className={`${BLOCK_NAME}__flag-icon`}
-                src={`/assets/flags/${item.code}.svg`}
-                alt={item.title}
-              />
-              <span className={`${BLOCK_NAME}__list-item-code`}>{item.number}</span>
-              {item.title}
-            </li>
-          ))}
-        </ul>
+        <div className={`${BLOCK_NAME}__list`}>
+          <div className={`${BLOCK_NAME}__search`}>
+            <SearchSvg className={`${BLOCK_NAME}__search__icon`} />
+            <input
+              placeholder={t('loginPage.search_country')}
+              onChange={searchCountries}
+              className={`${BLOCK_NAME}__search__input`}
+            />
+          </div>
+          <ul className={`${BLOCK_NAME}__list__countries`}>
+            {countries.map((item) => (
+              <li
+                data-code={item.number}
+                data-country={item.code}
+                onClick={onSelect}
+                key={item.code}
+                className={`${BLOCK_NAME}__list-item`}>
+                <img
+                  loading="lazy"
+                  className={`${BLOCK_NAME}__flag-icon`}
+                  src={`/assets/flags/${item.code}.svg`}
+                  alt={item.title}
+                />
+                <span className={`${BLOCK_NAME}__list-item-code`}>{item.number}</span>
+                {item.title}
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
     </div>
   );

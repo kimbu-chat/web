@@ -25,8 +25,10 @@ export class GetBlackList {
   }
 
   static get saga() {
-    return function* addFriend(): SagaIterator {
-      const { data } = yield call(() => GetBlackList.httpRequest.generator());
+    return function* getBlackListSaga(): SagaIterator {
+      const { data } = GetBlackList.httpRequest.call(
+        yield call(() => GetBlackList.httpRequest.generator()),
+      );
 
       yield put(GetBlackListSuccess.action(data));
     };

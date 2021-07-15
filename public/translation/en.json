@@ -21,7 +21,8 @@
     "wrong_phone": "Phone number is wrong",
     "last_name": "Last name",
     "nick_name": "Nickname",
-    "name": "Name"
+    "name": "Name",
+    "search_country": "Search country"
   },
   "chatMembers": {
     "title": "Members"
@@ -74,10 +75,11 @@
     "user-deleted": "You cannot send messages to deleted user"
   },
   "messageItem": {
-    "forward-indicator": "Forwarding message from "
+    "forward-indicator": "Forwarded from "
   },
   "chatData": {
-    "members": "members",
+    "members": "{{count}} member",
+    "members_plural": "{{count}} members",
     "online": "Online",
     "last-time": "Last seen online",
     "typing": "typing something..."
@@ -110,7 +112,7 @@
     "add-contact": "Add contact",
     "create-group": "Create group",
     "delete-chat": "Delete chat",
-    "leave-chat": "Leave chat",
+    "leave-chat": "Leave the chat",
     "add-users": "Add participants",
     "actions": "Actions",
     "remove-chat": "Remove chat",
@@ -133,7 +135,7 @@
   "chatInfo": {
     "leave-confirmation": "Are you sure you want to leave chat?",
     "leave": "Leave",
-    "clear-confirmation": "Are you sure you want to clear selected chat? All messages will be lost",
+    "clear-confirmation": "Are you sure you want to clear the selected chat? All messages will be lost",
     "clear": "Clear",
     "clear-for-everybody": "Clear for everybody",
     "confirm": "Delete",
@@ -185,8 +187,8 @@
   },
   "notFound": {
     "back": "BACK TO HOMEPAGE",
-    "title": "Ooups, page not found",
-    "description": "We are very sory for the inconvenience. It looks like you're trying to access a page that has been deleted or never even existed."
+    "title": "Oops, page not found",
+    "description": "We are very sorry for the inconvenience. It looks like you're trying to access a page that has been deleted or never even existed."
   },
   "emojiMart": {
     "search": "Search",
@@ -374,7 +376,7 @@
     "title": "Logout system",
     "cancel": "Cancel",
     "logout": "Logout",
-    "confirm-content": "Are you sure you want to logout?"
+    "confirm-content": "Are you sure you want to log out?"
   },
   "clearChat": {
     "title": "Clear chat",
@@ -422,8 +424,8 @@
     "someone_missed_call": "Interlocutor missed call at {{time}}",
     "you_declined_call": "You declined incoming call",
     "someone_declined_call": "Interlocutor declined incoming call",
-    "outgoing_call_intrrerupted": "Outgoing call intrrerupted",
-    "incoming_call_intrrerupted": "Incoming call intrrerupted"
+    "outgoing_call_intrrerupted": "Outgoing call interrupted",
+    "incoming_call_intrrerupted": "Incoming call interrupted"
   },
   "deleted": "DELETED"
 }

@@ -16,7 +16,7 @@ export class DismissToAddContact {
   }
 
   static get saga() {
-    return function* addFriend(
+    return function* dismissToAddContactSaga(
       action: ReturnType<typeof DismissToAddContact.action>,
     ): SagaIterator {
       const userId = action.payload;

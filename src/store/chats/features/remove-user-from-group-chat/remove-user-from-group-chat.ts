@@ -22,7 +22,7 @@ export class RemoveUserFromGroupChat {
   }
 
   static get saga() {
-    return function* addFriend(
+    return function* removeUserFromGroupChatSaga(
       action: ReturnType<typeof RemoveUserFromGroupChat.action>,
     ): SagaIterator {
       const chatId = yield select(getSelectedGroupChatIdSelector);

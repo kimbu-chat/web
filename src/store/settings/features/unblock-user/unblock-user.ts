@@ -16,7 +16,7 @@ export class UnblockUser {
   }
 
   static get saga() {
-    return function* addFriend(action: ReturnType<typeof UnblockUser.action>): SagaIterator {
+    return function* unblockUserSaga(action: ReturnType<typeof UnblockUser.action>): SagaIterator {
       yield call(() => UnblockUser.httpRequest.generator({ userIds: [action.payload] }));
 
       yield put(UnblockUserSuccess.action(action.payload));

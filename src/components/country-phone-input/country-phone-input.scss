@@ -1,6 +1,41 @@
 .country-phone-input {
   position: relative;
 
+  &__search {
+    background: rgba(214, 233, 255, 0.5);
+    margin: 4px 16px;
+    border-radius: 6px;
+    height: 32px;
+    position: relative;
+
+    &__input {
+      border-radius: 6px;
+      background: none;
+      border: none;
+      width: 100%;
+      height: 100%;
+      text-indent: 32px;
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 17px;
+      color: #3f8ae0;
+
+      &::placeholder {
+        color: rgba(63, 138, 224, 0.55);
+      }
+    }
+
+    &__icon {
+      color: #3f8ae0;
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 12px;
+      width: 12px;
+    }
+  }
+
   &__input-container {
     display: flex;
     flex-direction: row;
@@ -14,6 +49,7 @@
   &__code-btn {
     display: flex;
     align-items: center;
+    margin-left: 6px;
   }
 
   &__flag-icon {
@@ -58,23 +94,30 @@
     list-style-type: none;
     border-bottom-right-radius: 6px;
     border-bottom-left-radius: 6px;
-    overflow: hidden;
-    max-height: 200px;
 
-    &::-webkit-scrollbar {
-      width: 14px;
-      background-color: transparent;
-    }
+    box-sizing: border-box;
 
-    &::-webkit-scrollbar-thumb {
-      border: 4px solid transparent;
-      background-clip: padding-box;
-      border-radius: 9999px;
-      background-color: #3f8ae0;
-    }
+    &__countries {
+      max-height: 200px;
+      margin-left: 7px;
+      margin-right: 16px;
+      overflow: hidden;
 
-    &:hover {
-      overflow: auto;
+      &::-webkit-scrollbar {
+        width: 14px;
+        background-color: transparent;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        border: 4px solid transparent;
+        background-clip: padding-box;
+        border-radius: 9999px;
+        background-color: #3f8ae0;
+      }
+
+      &:hover {
+        overflow: auto;
+      }
     }
   }
 

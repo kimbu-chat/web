@@ -21,7 +21,8 @@
     "wrong_phone": "Phone number is wrong",
     "last_name": "Last name",
     "nick_name": "Nickname",
-    "name": "Name"
+    "name": "Name",
+    "search_country": "Search country"
   },
   "chatMembers": {
     "title": "Members"

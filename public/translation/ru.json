@@ -22,7 +22,8 @@
     "wrong_phone": "Неверный номер телефона",
     "last_name": "Фамилия",
     "nick_name": "Никнейм",
-    "name": "Имя"
+    "name": "Имя",
+    "search_country": "Поиск страны"
   },
   "chatMembers": {
     "title": "Участники"

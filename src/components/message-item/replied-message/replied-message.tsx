@@ -40,7 +40,7 @@ const RepliedMessage: React.FC<IRepliedMessageProps> = ({ linkedMessage, observe
         (
           accum: {
             files: IBaseAttachment[];
-            media: (IVideoAttachment | IPictureAttachment)[];
+            media: (IVideoAttachment | IPictureAttachment | IBaseAttachment)[];
             audios: IAudioAttachment[];
             recordings: IVoiceAttachment[];
           },
@@ -48,7 +48,11 @@ const RepliedMessage: React.FC<IRepliedMessageProps> = ({ linkedMessage, observe
         ) => {
           switch (currentAttachment.type) {
             case FileType.Raw:
-              accum.files.push(currentAttachment);
+              if (currentAttachment.fileName.endsWith('.gif')) {
+                accum.media.push(currentAttachment as IPictureAttachment);
+              } else {
+                accum.files.push(currentAttachment);
+              }
 
               break;
             case FileType.Picture:

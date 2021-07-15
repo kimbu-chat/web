@@ -1,7 +1,7 @@
 import { FileType } from '../store/chats/models';
 
 export const getFileType = (fileName: string): FileType => {
-  const imgRegex = new RegExp(/\.+(jpg|jpeg|gif|tiff|png)$/, 'i');
+  const imgRegex = new RegExp(/\.+(jpg|jpeg|tiff|png)$/, 'i');
   const videoRegex = new RegExp(
     /\.+(mkv|ogv|avi|wmv|asf|mp4|m4p|m4v|mpeg|mpg|mpe|mpv|mpg|m2v)$/,
     'i',

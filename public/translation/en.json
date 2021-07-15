@@ -74,10 +74,11 @@
     "user-deleted": "You cannot send messages to deleted user"
   },
   "messageItem": {
-    "forward-indicator": "Forwarding message from "
+    "forward-indicator": "Forwarded from "
   },
   "chatData": {
-    "members": "members",
+    "members": "{{count}} member",
+    "members_plural": "{{count}} members",
     "online": "Online",
     "last-time": "Last seen online",
     "typing": "typing something..."
@@ -110,7 +111,7 @@
     "add-contact": "Add contact",
     "create-group": "Create group",
     "delete-chat": "Delete chat",
-    "leave-chat": "Leave chat",
+    "leave-chat": "Leave the chat",
     "add-users": "Add participants",
     "actions": "Actions",
     "remove-chat": "Remove chat",
@@ -133,7 +134,7 @@
   "chatInfo": {
     "leave-confirmation": "Are you sure you want to leave chat?",
     "leave": "Leave",
-    "clear-confirmation": "Are you sure you want to clear selected chat? All messages will be lost",
+    "clear-confirmation": "Are you sure you want to clear the selected chat? All messages will be lost",
     "clear": "Clear",
     "clear-for-everybody": "Clear for everybody",
     "confirm": "Delete",
@@ -185,8 +186,8 @@
   },
   "notFound": {
     "back": "BACK TO HOMEPAGE",
-    "title": "Ooups, page not found",
-    "description": "We are very sory for the inconvenience. It looks like you're trying to access a page that has been deleted or never even existed."
+    "title": "Oops, page not found",
+    "description": "We are very sorry for the inconvenience. It looks like you're trying to access a page that has been deleted or never even existed."
   },
   "emojiMart": {
     "search": "Search",

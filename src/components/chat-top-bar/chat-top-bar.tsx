@@ -69,7 +69,7 @@ export const ChatTopBar = () => {
   );
 
   const groupChatOrInterlocutorStatus = selectedChat?.groupChat
-    ? `${selectedChat.groupChat.membersCount} ${t('chatData.members')}`
+    ? t('chatData.members', { count: selectedChat.groupChat.membersCount })
     : interlocutorStatus;
 
   const { rootClass, animatedClose } = useAnimation('chat-info', () =>

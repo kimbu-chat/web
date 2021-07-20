@@ -1,4 +1,4 @@
-import { IS_TOUCH_ENV } from '@utils/constants';
+import { IS_TOUCH_ENV } from '@utils/emoji-constants';
 
 export function focusEditableElement(element: HTMLElement, force?: boolean) {
   if (!force && element === document.activeElement) {

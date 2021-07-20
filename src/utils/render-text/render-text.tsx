@@ -1,7 +1,7 @@
 import React from 'react';
 import './render-text.scss';
 
-import { EMOJI_REGEX, IS_EMOJI_SUPPORTED } from '../constants';
+import { EMOJI_REGEX, IS_EMOJI_SUPPORTED } from '../emoji-constants';
 
 type TextPart = string | JSX.Element;
 

@@ -1,4 +1,4 @@
-import { IS_EMOJI_SUPPORTED } from './constants';
+import { IS_EMOJI_SUPPORTED } from './emoji-constants';
 
 export function parseMarkdown(html: string) {
   let parsedHtml = html.slice(0);

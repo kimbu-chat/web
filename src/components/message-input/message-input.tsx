@@ -138,20 +138,13 @@ const CreateMessageInput = () => {
         typeof selectedChat?.draftMessage === 'string' ? selectedChat?.draftMessage : oldText;
 
       if (previousChatId !== selectedChat?.id && messageInputRef.current) {
-        // TODO: fix unneeded update
         messageInputRef.current.innerHTML = '';
-        insertTextAndUpdateCursor(newText);
+        insertHtmlInSelection(newText);
       }
 
       return newText;
     });
-  }, [
-    insertTextAndUpdateCursor,
-    previousChatId,
-    selectedChat?.draftMessage,
-    selectedChat?.id,
-    setText,
-  ]);
+  }, [previousChatId, selectedChat?.draftMessage, selectedChat?.id, setText]);
 
   useEffect(() => {
     const newText = editingMessage?.text || '';
@@ -258,7 +251,7 @@ const CreateMessageInput = () => {
     (event) => {
       setText(event.target.innerHTML);
 
-      throttledNotifyAboutTyping(parseMessageInput(event.target.innerHTML));
+      throttledNotifyAboutTyping(event.target.innerHTML);
     },
     [setText, throttledNotifyAboutTyping],
   );

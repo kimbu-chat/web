@@ -12,7 +12,7 @@ import { MessageList } from '@components/message-list';
 import { NotContact } from '@components/not-contact';
 import { CurrentAudio, AudioContext } from '@contexts/audioContext';
 import { useDragDrop } from '@hooks/use-drag-drop';
-import { loadEmoji } from '@routing/module-loader';
+import { loadEmojiPicker } from '@routing/module-loader';
 import {
   amIBlackListedByInterlocutorSelector,
   isCurrentChatBlackListedSelector,
@@ -38,7 +38,7 @@ const ChatPage: React.FC = () => {
   const selectedChatId = useSelector(getSelectedChatIdSelector);
 
   useLayoutEffect(() => {
-    loadEmoji();
+    loadEmojiPicker();
   }, []);
 
   const [currentAudio, setCurrentAudio] = useState<CurrentAudio>(null);

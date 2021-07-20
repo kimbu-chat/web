@@ -2,6 +2,10 @@
   background-color: var(--dt-grafit-wt-white);
   position: relative;
 
+  .rendered-emoji {
+    pointer-events: none;
+  }
+
   &__send-message {
     align-items: center;
     display: flex;
@@ -69,6 +73,12 @@
   &__smiles-btn {
     color: var(--dt-white-wt-dark);
     margin-right: 36px;
+
+    &:hover + * {
+      width: 378px;
+      height: 474px;
+      visibility: visible;
+    }
   }
 
   &__voice-btn {

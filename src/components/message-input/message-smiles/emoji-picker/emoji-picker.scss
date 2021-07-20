@@ -1,0 +1,75 @@
+.emoji-picker {
+  padding: 5px;
+  border-radius: 15px;
+  position: absolute;
+  bottom: 27px;
+  left: 25px;
+  transform: translateX(-100%);
+  background-color: var(--avatar-bg);
+  visibility: hidden;
+  transition: all var(--ANIMATION-DURATION);
+  width: 0;
+  height: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  will-change: width height;
+
+  animation: appearEmojiPicker var(--ANIMATION-DURATION);
+
+  &:hover {
+    width: 378px;
+    height: 474px;
+    visibility: visible;
+  }
+
+  &__categories {
+    display: flex;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--dt-kingBlue-wt-grayLight);
+  }
+
+  &__category-smiles {
+    display: flex;
+    flex-wrap: wrap;
+    max-height: 400px;
+    overflow: scroll;
+  }
+
+  &__emoji-wrapper {
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 15%;
+
+    &:hover {
+      background-color: rgba(63, 138, 224, 0.35);
+    }
+  }
+
+  &__category {
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 15%;
+    margin: 0 3px;
+
+    &:hover {
+      background-color: rgba(63, 138, 224, 0.35);
+    }
+
+    &--active {
+      background-color: rgba(63, 138, 224, 0.35);
+    }
+  }
+}
+
+@keyframes appearEmojiPicker {
+  from {
+    width: 0;
+    height: 0;
+    visibility: hidden;
+  }
+  to {
+    width: 378px;
+    height: 474px;
+    visibility: visible;
+  }
+}

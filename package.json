@@ -19,6 +19,7 @@
     "centrifuge": "2.7.6",
     "classnames": "2.3.1",
     "dayjs": "1.10.6",
+    "emoji-data-ios": "github:korenskoy/emoji-data-ios#1a4532f",
     "emoji-mart": "3.0.1",
     "firebase": "8.7.0",
     "i18next": "20.3.2",

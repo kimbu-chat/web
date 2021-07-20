@@ -48,6 +48,7 @@
     resize: none;
     white-space: pre-line;
     width: calc(100% - 52px);
+    max-height: 250px;
 
     &:focus {
       outline: none;

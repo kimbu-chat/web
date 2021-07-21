@@ -8,7 +8,12 @@ import { BackgroundBlur } from '@components/with-background';
 import { useAnimation } from '@hooks/use-animation';
 import { ReactComponent as ArrowSvg } from '@icons/arrow.svg';
 import { ReactComponent as CloseSVG } from '@icons/close.svg';
-import { FileType, IPictureAttachment, IVideoAttachment } from '@store/chats/models';
+import {
+  FileType,
+  IPictureAttachment,
+  IVideoAttachment,
+  IBaseAttachment,
+} from '@store/chats/models';
 import { stopPropagation } from '@utils/stop-propagation';
 
 import './media-modal.scss';
@@ -18,6 +23,7 @@ interface IImageModalProps {
   attachmentsArr: (
     | IPictureAttachment
     | IVideoAttachment
+    | IBaseAttachment
     | { url: string; type: FileType; id: number }
   )[];
   onClose: () => void;
@@ -64,6 +70,8 @@ export const MediaModal: React.FC<IImageModalProps> = ({
     };
   }, [goNext, goPrev]);
 
+  const currentAttachment = attachmentsArr[currentAttachmentIndex];
+
   return (
     <BackgroundBlur hiding={closeInitiated} onClick={animatedClose}>
       <div className={rootClass}>
@@ -77,20 +85,21 @@ export const MediaModal: React.FC<IImageModalProps> = ({
           </div>
 
           <div className={`${BLOCK_NAME}__media-wrapper`}>
-            {attachmentsArr[currentAttachmentIndex].type === FileType.Picture && (
+            {(currentAttachment.type === FileType.Picture ||
+              (currentAttachment as IBaseAttachment)?.fileName.endsWith('.gif')) && (
               <img
                 onClick={stopPropagation}
-                src={attachmentsArr[currentAttachmentIndex].url}
+                src={currentAttachment.url}
                 alt=""
                 className={`${BLOCK_NAME}__photo`}
               />
             )}
-            {attachmentsArr[currentAttachmentIndex].type === FileType.Video && (
+            {currentAttachment.type === FileType.Video && (
               <video
                 preload="metadata"
                 autoPlay
                 controls
-                src={attachmentsArr[currentAttachmentIndex].url}
+                src={currentAttachment.url}
                 className={`${BLOCK_NAME}__player`}
               />
             )}

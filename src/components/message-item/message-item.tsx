@@ -49,6 +49,8 @@ import {
 import { replaceInUrl } from '@utils/replace-in-url';
 import { getUserName } from '@utils/user-utils';
 
+import renderText from '../../utils/render-text/render-text';
+
 import { MediaGrid } from './attachments/media-grid/media-grid';
 import { RecordingAttachment } from './attachments/recording-attachment/recording-attachment';
 import { MessageItemActions } from './message-item-actions/message-item-actions';
@@ -133,7 +135,11 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
           ) => {
             switch (currentAttachment.type) {
               case FileType.Raw:
-                accum.files.push(currentAttachment);
+                if (currentAttachment.fileName.endsWith('.gif')) {
+                  accum.media.push(currentAttachment as IPictureAttachment);
+                } else {
+                  accum.files.push(currentAttachment);
+                }
 
                 break;
               case FileType.Picture:
@@ -375,7 +381,9 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                     </div>
                   )}
 
-                  <span className={`${BLOCK_NAME}__content__text`}>{messageToProcess?.text}</span>
+                  <span className={`${BLOCK_NAME}__content__text`}>
+                    {messageToProcess?.text && renderText(messageToProcess?.text)}
+                  </span>
                 </div>
               )}
             </div>

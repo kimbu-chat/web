@@ -2,46 +2,39 @@ import React, { useCallback, useRef, useState, lazy, Suspense } from 'react';
 
 import 'emoji-mart/css/emoji-mart.css';
 
-import { CubeLoader } from '@components/cube-loader';
-import { useOnClickOutside } from '@hooks/use-on-click-outside';
-import { ReactComponent as SmilesSvg } from '@icons/smiles.svg';
-import { loadEmoji } from '@routing/module-loader';
-
 import './message-smiles.scss';
+import { CubeLoader } from '@components/cube-loader';
+import { ReactComponent as SmilesSvg } from '@icons/smiles.svg';
+import { loadEmojiPicker } from '@routing/module-loader';
+import { IEmoji } from '@utils/smiles';
 
-const DeferredMessageSmiles = lazy(loadEmoji);
+const EmojiPicker = lazy(loadEmojiPicker);
 
 interface IMessageSmilesProps {
-  setText: React.Dispatch<React.SetStateAction<string>>;
+  onSelectEmoji: (emoji: string) => void;
 }
 
-export const MessageSmiles: React.FC<IMessageSmilesProps> = React.memo(({ setText }) => {
+export const MessageSmiles: React.FC<IMessageSmilesProps> = React.memo(({ onSelectEmoji }) => {
   const [smilesRendered, setSmilesRendered] = useState(false);
 
-  const changeSmilesDisplayedStatus = useCallback(() => {
-    setSmilesRendered((oldState) => !oldState);
-  }, [setSmilesRendered]);
-  const closeSmilesDisplayedStatus = useCallback(() => {
-    setSmilesRendered(() => false);
+  const displaySmiles = useCallback(() => {
+    setSmilesRendered(true);
   }, [setSmilesRendered]);
 
   const openEmojiRef = useRef<HTMLButtonElement>(null);
-  const emojiRef = useRef<HTMLDivElement>(null);
-
-  useOnClickOutside(openEmojiRef, closeSmilesDisplayedStatus, emojiRef);
 
   return (
     <>
       <button
         type="button"
         ref={openEmojiRef}
-        onClick={changeSmilesDisplayedStatus}
+        onMouseOver={displaySmiles}
         className="message-input__smiles-btn">
         <SmilesSvg />
       </button>
       {smilesRendered && (
         <Suspense fallback={<CubeLoader />}>
-          <DeferredMessageSmiles emojiRef={emojiRef} setText={setText} />
+          <EmojiPicker onEmojiClick={(emoji: IEmoji) => onSelectEmoji(emoji.native)} />
         </Suspense>
       )}
     </>

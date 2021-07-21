@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import classnames from 'classnames';
 import dayjs from 'dayjs';
@@ -26,6 +26,7 @@ import { getUserSelector } from '@store/users/selectors';
 import { DAY_MONTH_YEAR } from '@utils/constants';
 import { checkIfDatesAreDifferentDate, getShortTimeAmPm } from '@utils/date-utils';
 import { constructSystemMessageText } from '@utils/message-utils';
+import renderText from '@utils/render-text/render-text';
 import { replaceInUrl } from '@utils/replace-in-url';
 import { getChatInterlocutor } from '@utils/user-utils';
 
@@ -53,7 +54,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
     [],
   );
 
-  const getMessageText = useCallback((): string => {
+  const messageText = useMemo((): string => {
     const messageToProcess =
       chat?.lastMessage?.linkedMessageType === MessageLinkType.Forward &&
       chat?.lastMessage?.linkedMessage !== null
@@ -168,7 +169,9 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
                 : getShortTimeAmPm(chat.lastMessage.creationDateTime).toLowerCase())}
           </div>
         </div>
-        <div className={`${BLOCK_NAME}__last-message`}>{typingString || getMessageText()}</div>
+        <div className={`${BLOCK_NAME}__last-message`}>
+          {typingString || renderText(messageText)}
+        </div>
         {Boolean(chat?.unreadMessagesCount) && (
           <div
             className={classnames(`${BLOCK_NAME}__count`, {

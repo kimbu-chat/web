@@ -35,13 +35,10 @@ export class MessageTyping {
   }
 
   static get saga() {
-    return function* messageTypingSaga({
-      payload,
-    }: ReturnType<typeof MessageTyping.action>): SagaIterator {
-      const { text } = payload;
+    return function* messageTypingSaga(): SagaIterator {
       const chatId = yield select(getSelectedChatIdSelector);
       const interlocutorName = yield select(myFullNameSelector);
-      yield call(() => MessageTyping.httpRequest.generator({ interlocutorName, chatId, text }));
+      yield call(() => MessageTyping.httpRequest.generator({ interlocutorName, chatId }));
     };
   }
 

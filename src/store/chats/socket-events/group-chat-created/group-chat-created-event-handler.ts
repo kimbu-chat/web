@@ -1,6 +1,7 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 
+import { MyProfileService } from '@services/my-profile-service';
 import { createSystemMessage } from '@utils/message-utils';
 
 import messageCameUnselected from '../../../../assets/sounds/notifications/messsage-came-unselected.ogg';
@@ -41,6 +42,7 @@ export class GroupChatCreatedEventHandler {
         const chatId = ChatId.from(undefined, id).id;
 
         const doesChatExists: boolean = getChatExistsDraftSelector(chatId, draft);
+        const myId = new MyProfileService().myProfile.id;
 
         if (doesChatExists) {
           return draft;
@@ -64,7 +66,7 @@ export class GroupChatCreatedEventHandler {
         const newChat: INormalizedChat = {
           id: chatId,
           interlocutorType: InterlocutorType.GroupChat,
-          unreadMessagesCount: 1,
+          unreadMessagesCount: myId === userCreator.id ? 0 : 1,
           lastMessage: messageOfCreation,
           groupChat: {
             id,

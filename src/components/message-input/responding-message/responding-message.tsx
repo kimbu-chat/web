@@ -10,6 +10,7 @@ import { resetReplyToMessageAction } from '@store/chats/actions';
 import { getMessageToReplySelector } from '@store/chats/selectors';
 import { myIdSelector } from '@store/my-profile/selectors';
 import { getUserSelector } from '@store/users/selectors';
+import renderText from '@utils/render-text/render-text';
 
 import './responding-message.scss';
 
@@ -35,7 +36,7 @@ export const RespondingMessage = () => {
             ? 'responding-message__message-contents--outgoing'
             : 'responding-message__message-contents--incoming'
         }`}>
-        {replyingMessage?.text}
+        {replyingMessage?.text && renderText(replyingMessage?.text)}
       </div>
       <button type="button" onClick={resetReplyToMessage} className="responding-message__close">
         <CloseSvg viewBox="0 0 24 24" />

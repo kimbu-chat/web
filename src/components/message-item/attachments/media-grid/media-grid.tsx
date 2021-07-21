@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { IPictureAttachment, IVideoAttachment } from '@store/chats/models';
+import { IPictureAttachment, IVideoAttachment, IBaseAttachment } from '@store/chats/models';
 
 import { MessageMediaAttachment } from '../media-attachment/media-attachment';
 
@@ -9,7 +9,7 @@ import type { ObserveFn } from '@hooks/use-intersection-observer';
 import './media-grid.scss';
 
 interface IMediaGridProps {
-  media: (IPictureAttachment | IVideoAttachment)[];
+  media: (IPictureAttachment | IVideoAttachment | IBaseAttachment)[];
   observeIntersection: ObserveFn;
 }
 

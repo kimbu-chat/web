@@ -73,7 +73,7 @@
     "@types/react-router-dom": "5.1.8",
     "@types/wavesurfer.js": "5.1.0",
     "@typescript-eslint/eslint-plugin": "4.28.0",
-    "@typescript-eslint/parser": "4.28.2",
+    "@typescript-eslint/parser": "4.28.4",
     "@welldone-software/why-did-you-render": "6.2.0",
     "babel-preset-react-app": "10.0.0",
     "cross-env": "7.0.3",

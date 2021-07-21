@@ -1,12 +1,12 @@
-import React, { useState, useRef, useEffect, useCallback, Suspense } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 
 import throttle from 'lodash/throttle';
 import Mousetrap from 'mousetrap';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { CubeLoader } from '@components/cube-loader';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import usePrevious from '@hooks/use-previous';
 import { useReferState } from '@hooks/use-referred-state';
 import { ReactComponent as AddSvg } from '@icons/add-attachment.svg';
 import { ReactComponent as CloseSvg } from '@icons/close.svg';
@@ -36,10 +36,16 @@ import {
 import { myIdSelector } from '@store/my-profile/selectors';
 import { TypingStrategy } from '@store/settings/features/models';
 import { getTypingStrategySelector } from '@store/settings/selectors';
+import { MESSAGE_INPUT_ID } from '@utils/constants';
+import { focusEditableElement } from '@utils/focus-editable-element';
 import { getFileType } from '@utils/get-file-extension';
+import { parseMessageInput } from '@utils/parse-message-input';
+import renderText from '@utils/render-text/render-text';
+import { isSelectionInsideInput } from '@utils/selection';
+
+import { insertHtmlInSelection } from '../../utils/insert-html-in-selection';
 
 import { EditingMessage } from './editing-message/editing-message';
-import { ExpandingTextarea } from './expanding-textarea/expanding-textarea';
 import { MessageError } from './message-error/message-error';
 import { MessageInputAttachment } from './message-input-attachment/message-input-attachment';
 import { MessageSmiles } from './message-smiles/message-smiles';
@@ -59,6 +65,7 @@ const CreateMessageInput = () => {
 
   const currentUserId = useSelector(myIdSelector);
   const selectedChat = useSelector(getSelectedChatSelector);
+  const previousChatId = usePrevious(selectedChat?.id);
   const myTypingStrategy = useSelector(getTypingStrategySelector);
   const replyingMessage = useSelector(getMessageToReplySelector);
   const editingMessage = useSelector(getMessageToEditSelector);
@@ -69,6 +76,12 @@ const CreateMessageInput = () => {
   const [text, setText] = useState('');
   const refferedText = useReferState(text);
   const [isRecording, setIsRecording] = useState(false);
+
+  const messageInputRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    messageInputRef.current?.focus();
+  }, [selectedChat?.id, replyingMessage, editingMessage]);
 
   // edit state logic
   const [removedAttachments, setRemovedAttachments] = useState<IAttachmentCreation[] | undefined>(
@@ -87,18 +100,62 @@ const CreateMessageInput = () => {
     return res;
   });
 
+  const insertTextAndUpdateCursor = useCallback(
+    (textToInsert: string) => {
+      const selection = window.getSelection();
+      const messageInput = messageInputRef.current;
+
+      if (messageInput) {
+        const newHtml = renderText(textToInsert, ['escape_html', 'emoji_html', 'br_html'])
+          .join('')
+          .replace(/\u200b+/g, '\u200b');
+
+        if (selection && selection.rangeCount) {
+          const selectionRange = selection.getRangeAt(0);
+          if (isSelectionInsideInput(selectionRange, MESSAGE_INPUT_ID)) {
+            insertHtmlInSelection(newHtml);
+            messageInput.dispatchEvent(new Event('input', { bubbles: true }));
+            return;
+          }
+        }
+
+        setText(`${refferedText.current}${newHtml}`);
+
+        // If selection is outside of input, set cursor at the end of input
+        requestAnimationFrame(() => {
+          focusEditableElement(messageInput);
+        });
+      }
+    },
+    [refferedText],
+  );
+
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    setText((oldText) =>
-      typeof selectedChat?.draftMessage === 'string' ? selectedChat?.draftMessage : oldText,
-    );
-  }, [selectedChat?.draftMessage, selectedChat?.id, setText]);
+    setText((oldText) => {
+      const newText =
+        typeof selectedChat?.draftMessage === 'string' ? selectedChat?.draftMessage : oldText;
+
+      if (previousChatId !== selectedChat?.id && messageInputRef.current) {
+        messageInputRef.current.innerHTML = '';
+        insertHtmlInSelection(newText);
+      }
+
+      return newText;
+    });
+  }, [previousChatId, selectedChat?.draftMessage, selectedChat?.id, setText]);
 
   useEffect(() => {
-    setText(editingMessage?.text || '');
+    const newText = editingMessage?.text || '';
+
+    if (messageInputRef.current) {
+      messageInputRef.current.innerHTML = '';
+
+      insertTextAndUpdateCursor(newText);
+    }
     setRemovedAttachments(undefined);
-  }, [editingMessage?.text]);
+  }, [editingMessage?.text, insertTextAndUpdateCursor]);
 
   const submitEditedMessage = useCallback(() => {
     const newAttachments = updatedSelectedChat.current?.attachmentsToSend?.map(
@@ -106,7 +163,7 @@ const CreateMessageInput = () => {
     );
 
     submitEditMessage({
-      text: refferedText.current,
+      text: parseMessageInput(refferedText.current),
       removedAttachments: referredRemovedAttachments.current,
       newAttachments,
       messageId: editingMessage?.id as number,
@@ -127,10 +184,10 @@ const CreateMessageInput = () => {
 
     const chatId = updatedSelectedChat.current?.id;
 
-    const refText = refferedText.current;
+    const messageText = parseMessageInput(refferedText.current);
 
     if (
-      (refText.trim().length > 0 ||
+      (messageText.trim().length > 0 ||
         (updatedSelectedChat.current?.attachmentsToSend?.length || 0) > 0) &&
       updatedSelectedChat.current &&
       currentUserId
@@ -141,7 +198,7 @@ const CreateMessageInput = () => {
 
       if (chatId) {
         const message: INormalizedMessage = {
-          text: refText,
+          text: messageText,
           systemMessageType: SystemMessageType.None,
           userCreatorId: currentUserId,
           creationDateTime: new Date().toISOString(),
@@ -165,6 +222,9 @@ const CreateMessageInput = () => {
     }
 
     setText('');
+    if (messageInputRef.current) {
+      messageInputRef.current.innerHTML = '';
+    }
   }, [
     currentUserId,
     editingMessage,
@@ -174,26 +234,6 @@ const CreateMessageInput = () => {
     submitEditedMessage,
     updatedSelectedChat,
   ]);
-
-  const onPaste = useCallback(
-    (event: React.ClipboardEvent<HTMLTextAreaElement>) => {
-      if (event.clipboardData.files.length > 0) {
-        for (let index = 0; index < event.clipboardData.files.length; index += 1) {
-          const file = event.clipboardData.files.item(index) as File;
-
-          // extension test
-          const fileType = getFileType(file.name);
-
-          uploadAttachmentRequest({
-            type: fileType,
-            file,
-            attachmentId: Number(`${new Date().getTime()}${index}`),
-          });
-        }
-      }
-    },
-    [uploadAttachmentRequest],
-  );
 
   const throttledNotifyAboutTyping = useRef(
     throttle(
@@ -209,9 +249,9 @@ const CreateMessageInput = () => {
 
   const onType = useCallback(
     (event) => {
-      setText(event.target.value);
+      setText(event.target.innerHTML);
 
-      throttledNotifyAboutTyping(event.target.value);
+      throttledNotifyAboutTyping(event.target.innerHTML);
     },
     [setText, throttledNotifyAboutTyping],
   );
@@ -221,12 +261,12 @@ const CreateMessageInput = () => {
       Mousetrap.bind(['command+enter', 'ctrl+enter', 'alt+enter', 'shift+enter'], () => {
         sendMessageToServer();
       });
-      Mousetrap.bind('enter', (e) => {
-        onType(e);
+      Mousetrap.bind('enter', () => {
+        insertHtmlInSelection('<br /><br />');
       });
     } else {
       Mousetrap.bind(['command+enter', 'ctrl+enter', 'alt+enter', 'shift+enter'], (e) => {
-        setText((oldText) => `${oldText}\n`);
+        insertHtmlInSelection('<br /><br />');
         onType(e);
       });
       Mousetrap.bind('enter', (e) => {
@@ -234,7 +274,7 @@ const CreateMessageInput = () => {
         sendMessageToServer();
       });
     }
-  }, [setText, onType, sendMessageToServer, myTypingStrategy]);
+  }, [onType, sendMessageToServer, myTypingStrategy]);
 
   const handleBlur = useCallback(() => {
     Mousetrap.unbind(['command+enter', 'ctrl+enter', 'alt+enter', 'shift+enter']);
@@ -296,6 +336,34 @@ const CreateMessageInput = () => {
     [uploadAttachmentRequest, fileInputRef],
   );
 
+  const onPaste = useCallback(
+    (event: React.ClipboardEvent<HTMLDivElement>) => {
+      event.preventDefault();
+
+      if (event.clipboardData.files.length > 0) {
+        for (let index = 0; index < event.clipboardData.files.length; index += 1) {
+          const file = event.clipboardData.files.item(index) as File;
+
+          // extension test
+          const fileType = getFileType(file.name);
+
+          uploadAttachmentRequest({
+            type: fileType,
+            file,
+            attachmentId: Number(`${new Date().getTime()}${index}`),
+          });
+        }
+      }
+
+      const pastedText = event.clipboardData.getData('text');
+
+      if (pastedText) {
+        insertTextAndUpdateCursor(pastedText);
+      }
+    },
+    [insertTextAndUpdateCursor, uploadAttachmentRequest],
+  );
+
   return (
     <div className="message-input">
       {selectedChat && (
@@ -337,10 +405,12 @@ const CreateMessageInput = () => {
                   <AddSvg />
                 </button>
                 <div className="message-input__line" />
-                <ExpandingTextarea
-                  value={text}
+                <div
+                  id={MESSAGE_INPUT_ID}
+                  contentEditable
                   placeholder={t('messageInput.write')}
-                  onChange={onType}
+                  ref={messageInputRef}
+                  onInput={onType}
                   onPaste={onPaste}
                   className="mousetrap message-input__input-message"
                   onFocus={handleFocus}
@@ -352,9 +422,7 @@ const CreateMessageInput = () => {
             <div className="message-input__right-btns">
               {!isRecording && (
                 <>
-                  <Suspense fallback={<CubeLoader />}>
-                    <MessageSmiles setText={setText} />
-                  </Suspense>
+                  <MessageSmiles onSelectEmoji={insertTextAndUpdateCursor} />
 
                   <button
                     type="button"

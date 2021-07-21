@@ -7,6 +7,7 @@ import { SettingsService } from '@services/settings-service';
 import { IUserSettings } from '@store/settings/user-settings-state';
 
 import { AllowedFontSize } from '../models';
+import { isFontSizeAllowed } from '../models/allowed-font-size';
 
 export class ChangeFontSize {
   static get action() {
@@ -16,7 +17,12 @@ export class ChangeFontSize {
   static get reducer() {
     return produce(
       (draft: IUserSettings, { payload }: ReturnType<typeof ChangeFontSize.action>) => {
+        if (!isFontSizeAllowed(payload)) {
+          return draft;
+        }
+
         draft.fontSize = payload;
+
         return draft;
       },
     );
@@ -26,6 +32,10 @@ export class ChangeFontSize {
     return function* changeFontSizeSaga(
       action: ReturnType<typeof ChangeFontSize.action>,
     ): SagaIterator {
+      if (!isFontSizeAllowed(action.payload)) {
+        return;
+      }
+
       const settingsService = new SettingsService();
       yield apply(settingsService, settingsService.initializeOrUpdate, [
         {

@@ -1,4 +1,3 @@
-import Centrifuge, { RefreshResponse } from 'centrifuge';
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux';
 import { getType, RootAction, RootState } from 'typesafe-actions';
 
@@ -10,22 +9,29 @@ import { WebsocketsDisconnected } from '../../internet/features/websockets-conne
 import { CloseWebsocketConnection } from '../../web-sockets/features/close-web-socket-connection/close-web-socket-connection';
 import { InitSocketConnection } from '../../web-sockets/features/init-web-socked-connection/init-web-socket-connection';
 
-let connection: Centrifuge;
-const timeout = 5000;
-let refreshResponseCallback: (response: RefreshResponse) => void;
+import type Centrifuge from 'centrifuge';
 
-function openConnection(store: MiddlewareAPI<Dispatch, RootState>): void {
-  connection = new Centrifuge(REACT_APP_WEBSOCKET_API, {
+let connection: Centrifuge;
+let CentrifugeModule: typeof Centrifuge;
+const timeout = 5000;
+let refreshResponseCallback: (response: Centrifuge.RefreshResponse) => void;
+
+async function openConnection(store: MiddlewareAPI<Dispatch, RootState>) {
+  if (!CentrifugeModule) {
+    CentrifugeModule = (await import('centrifuge')).default;
+  }
+
+  connection = new CentrifugeModule(REACT_APP_WEBSOCKET_API, {
     debug: true,
     timeout,
   });
 
-  const onRefresh = (_: any, cb: (response: RefreshResponse) => void) => {
+  const onRefresh = (_: any, cb: (response: Centrifuge.RefreshResponse) => void) => {
     store.dispatch(refreshTokenAction());
     refreshResponseCallback = cb;
   };
 
-  connection = new Centrifuge(REACT_APP_WEBSOCKET_API, {
+  connection = new CentrifugeModule(REACT_APP_WEBSOCKET_API, {
     debug: true,
     onRefresh,
   });

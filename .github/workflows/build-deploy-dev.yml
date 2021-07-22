@@ -27,7 +27,7 @@ jobs:
           envkey_REACT_APP_MAIN_API: https://api.kimbu.io
           envkey_REACT_APP_NOTIFICATIONS_API: https://notifications.kimbu.io
           envkey_REACT_APP_FILES_API: https://files.kimbu.io
-          envkey_REACT_APP_WEBSOCKET_API: wss://websocket.kimbu.io/connection/websocket
+          envkey_REACT_APP_WEBSOCKET_API: wss://ws.kimbu.io/connection/websocket
           file_name: .env
 
       - name: Build

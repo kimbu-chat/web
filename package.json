@@ -21,7 +21,7 @@
     "dayjs": "1.10.6",
     "emoji-data-ios": "github:korenskoy/emoji-data-ios#1a4532f",
     "emoji-mart": "3.0.1",
-    "firebase": "8.7.1",
+    "firebase": "8.8.0",
     "i18next": "20.3.4",
     "i18next-http-backend": "1.2.6",
     "immer": "8.0.1",

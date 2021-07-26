@@ -89,7 +89,7 @@
     "eslint-plugin-react-hooks": "4.2.0",
     "file-loader": "6.2.0",
     "husky": "7.0.1",
-    "lint-staged": "11.0.1",
+    "lint-staged": "11.1.1",
     "prettier": "2.3.2",
     "run-script-os": "1.1.6",
     "sass": "1.35.2",

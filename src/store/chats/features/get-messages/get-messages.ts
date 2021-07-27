@@ -93,7 +93,7 @@ export class GetMessages {
 
           const messageList = {
             chatId: chat.id,
-            messages,
+            messages: messages || {},
             messageIds: result,
             hasMoreMessages: newMessages.length >= page.limit,
             searchString,

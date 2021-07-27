@@ -3,7 +3,7 @@ import { RefreshTokenSuccess } from '@store/auth/features/refresh-token/refresh-
 
 import { Logout } from './features/logout/logout';
 import { RefreshToken } from './features/refresh-token/refresh-token';
-import { SessionTerminatedEventHandler } from './socket-events/session-terminated/session-terminated-integration-event';
+import { SessionTerminatedEventHandler } from './socket-events/session-terminated/session-terminated-event-handler';
 
 // AuthActions
 export const refreshTokenAction = RefreshToken.action;

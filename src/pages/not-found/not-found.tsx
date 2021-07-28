@@ -3,10 +3,10 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
-import { Button } from '@components/button';
 import NotFoundBackgroundPNG from '@icons/404-bg.png';
 import SadSmilePNG from '@icons/sad-emoji.png';
 import { HOME_PAGE_PATH } from '@routing/routing.constants';
+import { Button } from '@shared-components/button';
 
 import './not-found.scss';
 

@@ -7,13 +7,13 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Avatar } from '@components/avatar';
-import { Button } from '@components/button';
 import { Modal } from '@components/modal';
 import { PhoneInputGroup } from '@components/phone-input-group';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { ReactComponent as AddContactSvg } from '@icons/add-users.svg';
 import { ReactComponent as CloseSvg } from '@icons/close-x-bold.svg';
 import { INSTANT_MESSAGING_CHAT_PATH } from '@routing/routing.constants';
+import { Button } from '@shared-components/button';
 import { ChatId } from '@store/chats/chat-id';
 import { IUser } from '@store/common/models';
 import { addFriendAction, getUserByPhoneAction } from '@store/friends/actions';

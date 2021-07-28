@@ -4,9 +4,9 @@ import classnames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { Button } from '@components/button';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ReactComponent as ArrowSvg } from '@icons/arrow-v.svg';
+import { Button } from '@shared-components/button';
 import { getSessionListAction } from '@store/settings/actions';
 import { getSessionsLoadingSelector, getSessionsSelector } from '@store/settings/selectors';
 

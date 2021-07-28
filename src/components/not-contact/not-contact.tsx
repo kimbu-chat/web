@@ -4,10 +4,10 @@ import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { Button } from '@components/button';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { ReactComponent as CloseSvg } from '@icons/close.svg';
 import { ReactComponent as ContactSvg } from '@icons/user-o.svg';
+import { Button } from '@shared-components/button';
 import { getSelectedInterlocutorSelector } from '@store/chats/selectors';
 import { addFriendAction, dismissToAddContactAction } from '@store/friends/actions';
 import { blockUserAction } from '@store/settings/actions';

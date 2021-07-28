@@ -3,10 +3,10 @@ import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 
-import { Button } from '@components/button';
 import { Modal } from '@components/modal';
 import { useEmptyActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { INSTANT_MESSAGING_PATH } from '@routing/routing.constants';
+import { Button } from '@shared-components/button';
 import { leaveGroupChatAction } from '@store/chats/actions';
 
 import './leave-chat-modal.scss';

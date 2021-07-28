@@ -2,9 +2,9 @@ import React from 'react';
 
 import { useTranslation } from 'react-i18next';
 
-import { Button } from '@components/button';
 import { useToggledState } from '@hooks/use-toggled-state';
 import { ReactComponent as AddContactSvg } from '@icons/add-users.svg';
+import { Button } from '@shared-components/button';
 
 import { AddFriendModal } from './add-friend-modal/add-friend-modal';
 

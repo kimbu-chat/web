@@ -3,9 +3,9 @@ import React, { useCallback, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { Button } from '@components/button';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { ReactComponent as BlockedSvg } from '@icons/blocked.svg';
+import { Button } from '@shared-components/button';
 import { getSelectedInterlocutorIdSelector } from '@store/chats/selectors';
 import { unblockUserAction } from '@store/settings/actions';
 

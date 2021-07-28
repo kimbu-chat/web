@@ -5,12 +5,13 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import { Button } from '@components/button';
 import { Modal } from '@components/modal';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ReactComponent as GroupSvg } from '@icons/group.svg';
 import { INSTANT_MESSAGING_CHAT_PATH } from '@routing/routing.constants';
+import { Button } from '@shared-components/button';
+import { AnimationMode } from '@shared-components/with-background/with-background';
 import { createGroupChatAction } from '@store/chats/actions';
 import { ICreateGroupChatActionPayload } from '@store/chats/features/create-group-chat/action-payloads/create-group-chat-action-payload';
 import { IChat } from '@store/chats/models';
@@ -18,8 +19,6 @@ import { IAvatar } from '@store/common/models';
 import { resetSearchFriendsAction } from '@store/friends/actions';
 import { myIdSelector } from '@store/my-profile/selectors';
 import { replaceInUrl } from '@utils/replace-in-url';
-
-import { AnimationMode } from '../with-background/with-background';
 
 import { GroupChatCreation } from './group-chat-creation/group-chat-creation';
 import { UserSelect } from './user-select/user-select';

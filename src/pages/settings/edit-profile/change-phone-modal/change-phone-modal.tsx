@@ -5,13 +5,13 @@ import parsePhoneNumberFromString from 'libphonenumber-js';
 import { useTranslation } from 'react-i18next';
 import useInterval from 'use-interval';
 
-import { Button } from '@components/button';
 import { LabeledInput } from '@components/labeled-input';
 import { Modal } from '@components/modal';
 import { PhoneInputGroup } from '@components/phone-input-group';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { ReactComponent as CrayonSvg } from '@icons/crayon.svg';
 import { ReactComponent as ChatSvg } from '@icons/single-chat.svg';
+import { Button } from '@shared-components/button';
 import { getUserByPhoneAction } from '@store/friends/actions';
 import { confirmChangePhone, sendSmsChangePhone } from '@store/my-profile/actions';
 import { SECOND_DURATION } from '@utils/constants';

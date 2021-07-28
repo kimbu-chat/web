@@ -3,9 +3,9 @@ import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { Button } from '@components/button';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ReactComponent as ArrowSvg } from '@icons/arrow-v.svg';
+import { Button } from '@shared-components/button';
 import { getBlackListAction } from '@store/settings/actions';
 import { getBlockedUsersSelector, getBlockedUsersLoadingSelector } from '@store/settings/selectors';
 

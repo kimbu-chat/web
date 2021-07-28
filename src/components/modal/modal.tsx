@@ -2,13 +2,13 @@ import React, { useCallback } from 'react';
 
 import classNames from 'classnames';
 
-import { BackgroundBlur } from '@components/with-background';
 import { useAnimation } from '@hooks/use-animation';
 import { ReactComponent as CloseSVG } from '@icons/close.svg';
+import { BackgroundBlur } from '@shared-components/with-background';
+import { AnimationMode } from '@shared-components/with-background/with-background';
 import { stopPropagation } from '@utils/stop-propagation';
 
 import './modal.scss';
-import { AnimationMode } from '../with-background/with-background';
 
 interface IModalProps {
   children: string | JSX.Element;

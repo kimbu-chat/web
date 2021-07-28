@@ -68,7 +68,11 @@ export const SelectEntity: React.FC<ISelectEntityProps> = ({
         </div>
         {interlocutor && !interlocutor?.deleted && (
           <div className={`${BLOCK_NAME}__friend-status`}>
-            <TimeUpdateable timeStamp={interlocutor?.lastOnlineTime} />
+            {interlocutor.online ? (
+              t('selectEntity.online')
+            ) : (
+              <TimeUpdateable timeStamp={interlocutor?.lastOnlineTime} />
+            )}
           </div>
         )}
       </div>

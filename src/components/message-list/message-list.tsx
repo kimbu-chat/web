@@ -30,6 +30,7 @@ import { checkIfDatesAreDifferentDate } from '@utils/date-utils';
 import { MESSAGES_LIMIT } from '@utils/pagination-limits';
 
 import './message-list.scss';
+import { Welcome } from '../welcome/welcome';
 
 const MessageList = () => {
   const getMessages = useActionWithDispatch(getMessagesAction);
@@ -74,11 +75,7 @@ const MessageList = () => {
   }, [getMessages, messagesIds?.length, messagesSearchString]);
 
   if (!selectedChatId) {
-    return (
-      <div className="chat__messages-list">
-        <div className="chat__select-chat">{t('chat.select_chat')}</div>
-      </div>
-    );
+    return <Welcome />;
   }
 
   return (

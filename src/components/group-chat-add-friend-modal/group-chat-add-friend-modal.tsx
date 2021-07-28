@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { Button } from '@components/button';
 import { InfiniteScroll } from '@components/infinite-scroll';
 import { Modal } from '@components/modal';
 import { SearchBox } from '@components/search-box';
@@ -12,6 +11,7 @@ import { SelectEntity } from '@components/select-entity';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ReactComponent as GroupSvg } from '@icons/group.svg';
+import { Button } from '@shared-components/button';
 import { addUsersToGroupChatAction } from '@store/chats/actions';
 import { IPage } from '@store/common/models';
 import { getFriendsAction, resetSearchFriendsAction } from '@store/friends/actions';

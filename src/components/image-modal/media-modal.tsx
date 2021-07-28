@@ -4,10 +4,10 @@ import classNames from 'classnames';
 import Mousetrap from 'mousetrap';
 import { useTranslation } from 'react-i18next';
 
-import { BackgroundBlur } from '@components/with-background';
 import { useAnimation } from '@hooks/use-animation';
 import { ReactComponent as ArrowSvg } from '@icons/arrow.svg';
 import { ReactComponent as CloseSVG } from '@icons/close.svg';
+import { BackgroundBlur } from '@shared-components/with-background';
 import {
   FileType,
   IPictureAttachment,

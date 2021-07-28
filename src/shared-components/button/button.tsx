@@ -2,7 +2,7 @@ import React from 'react';
 
 import classNames from 'classnames';
 
-import Ripple from '@components/ripple';
+import Ripple from '@shared-components/ripple';
 
 import './button.scss';
 

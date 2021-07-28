@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { BackgroundBlur } from '@components/with-background';
 import { useAnimation } from '@hooks/use-animation';
 import { ReactComponent as CloseSVG } from '@icons/close-x.svg';
+import { BackgroundBlur } from '@shared-components/with-background';
 import { stopPropagation } from '@utils/stop-propagation';
 
 import './privacy-policy.scss';

@@ -5,10 +5,10 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import AuthWrapper from '@components/auth-wrapper/auth-wrapper';
-import { CodeInput } from '@components/code-input';
-import { Portal } from '@components/portal';
-import { TooltipPopover } from '@components/tooltip-popover';
+import AuthWrapper from '@auth-components/auth-wrapper/auth-wrapper';
+import { CodeInput } from '@auth-components/code-input';
+import { Portal } from '@auth-components/portal';
+import { TooltipPopover } from '@auth-components/tooltip-popover';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { preloadAuthRoute } from '@routing/routes/auth-routes';
 import { preloadMainRoute } from '@routing/routes/main-routes';

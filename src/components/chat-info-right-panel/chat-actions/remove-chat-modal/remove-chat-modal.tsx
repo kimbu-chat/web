@@ -3,11 +3,11 @@ import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { Button } from '@components/button';
 import { CheckBox } from '@components/check-box';
 import { Modal } from '@components/modal';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
+import { Button } from '@shared-components/button';
 import { removeChat } from '@store/chats/actions';
 import { getInfoChatIdSelector } from '@store/chats/selectors';
 

@@ -3,7 +3,6 @@ import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { Button } from '@components/button';
 import { CreateGroupChat } from '@components/create-group-chat-modal';
 import { GroupChatAddFriendModal } from '@components/group-chat-add-friend-modal';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
@@ -17,6 +16,7 @@ import { ReactComponent as MuteSvg } from '@icons/mute.svg';
 import { ReactComponent as DeleteSvg } from '@icons/remove-chat.svg';
 import { ReactComponent as UnBlockSvg } from '@icons/unblock.svg';
 import { ReactComponent as UnmuteSvg } from '@icons/unmute.svg';
+import { Button } from '@shared-components/button';
 import { changeChatMutedStatusAction } from '@store/chats/actions';
 import { getInfoChatSelector } from '@store/chats/selectors';
 import { deleteFriendAction, addFriendAction } from '@store/friends/actions';

@@ -7,9 +7,9 @@ import { CreateGroupChat } from '@components/create-group-chat-modal';
 import { InfiniteScroll } from '@components/infinite-scroll';
 import { NewChatModal } from '@components/new-chat-modal';
 import { SearchBox } from '@components/search-box';
-import { AnimationMode } from '@components/with-background/with-background';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ReactComponent as CreateChatSvg } from '@icons/create-chat.svg';
+import { AnimationMode } from '@shared-components/with-background/with-background';
 import {
   getChatsAction,
   changeSelectedChatAction,

@@ -6,7 +6,6 @@ import Cropper from 'react-easy-crop';
 import { Area } from 'react-easy-crop/types';
 import { useTranslation } from 'react-i18next';
 
-import { Button } from '@components/button';
 import { Modal } from '@components/modal';
 import { Tooltip } from '@components/tooltip';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
@@ -15,6 +14,7 @@ import { ReactComponent as PeisageSvg } from '@icons/peisage.svg';
 import { ReactComponent as PhotoSvg } from '@icons/picture.svg';
 import { ReactComponent as ReflectSvg } from '@icons/reflect.svg';
 import { ReactComponent as RightRotateSvg } from '@icons/right-rotate.svg';
+import { Button } from '@shared-components/button';
 import { IAvatarSelectedData } from '@store/common/models';
 import { cancelAvatarUploadingRequestAction } from '@store/my-profile/actions';
 

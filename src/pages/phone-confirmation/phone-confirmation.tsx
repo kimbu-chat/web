@@ -5,22 +5,22 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import AuthWrapper from '@components/auth-wrapper';
-import { Button } from '@components/button';
-import { CountryPhoneInput } from '@components/country-phone-input';
+import { CountryPhoneInput } from '@auth-components/country-phone-input';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { preloadAuthRoute } from '@routing/routes/auth-routes';
 import { CODE_CONFIRMATION_PATH } from '@routing/routing.constants';
+import { Button } from '@shared-components/button';
 import { sendSmsCodeAction } from '@store/login/actions';
 import { authLoadingSelector } from '@store/login/selectors';
 
+import AuthWrapper from '../../auth-components/auth-wrapper';
 import { useToggledState } from '../../hooks/use-toggled-state';
 
 import './phone-confirmation.scss';
 
 const BLOCK_NAME = 'phone-confirmation';
 
-const loadPrivacyPolicy = () => import('@components/privacy-policy');
+const loadPrivacyPolicy = () => import('@auth-components/privacy-policy');
 
 const LazyPrivacyPolicy = React.lazy(loadPrivacyPolicy);
 

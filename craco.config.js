@@ -90,6 +90,8 @@ module.exports = function ({ env }) {
         '@common': path.resolve(__dirname, 'src/common'),
         '@services': path.resolve(__dirname, 'src/services'),
         '@components': path.resolve(__dirname, 'src/components'),
+        '@auth-components': path.resolve(__dirname, 'src/auth-components'),
+        '@shared-components': path.resolve(__dirname, 'src/shared-components'),
         '@routing': path.resolve(__dirname, 'src/routing'),
         '@contexts': path.resolve(__dirname, 'src/contexts'),
         '@hooks': path.resolve(__dirname, 'src/hooks'),

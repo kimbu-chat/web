@@ -4,11 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import AuthWrapper from '@components/auth-wrapper';
+import AuthWrapper from '@auth-components/auth-wrapper';
+import { Portal } from '@auth-components/portal';
+import { TooltipPopover } from '@auth-components/tooltip-popover';
 import { Input } from '@components/input';
 import { Loader } from '@components/loader';
-import { Portal } from '@components/portal';
-import { TooltipPopover } from '@components/tooltip-popover';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { INSTANT_MESSAGING_PATH } from '@routing/routing.constants';
 import { registerAction } from '@store/login/actions';

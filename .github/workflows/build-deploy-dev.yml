@@ -2,7 +2,7 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - development
+      - test-speed-insights
 
 concurrency:
   group: ${{ github.ref }}

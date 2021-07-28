@@ -2,9 +2,9 @@ import React, { useCallback, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 
-import { Button } from '@components/button';
 import { Modal } from '@components/modal';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { Button } from '@shared-components/button';
 import { removeUserFromGroupChatAction } from '@store/chats/actions';
 import { IUser } from '@store/common/models';
 

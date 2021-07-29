@@ -12,6 +12,7 @@ import './phone-input.scss';
 
 interface IPhoneInputProps {
   country?: ICountry;
+  disabled?: boolean;
   phone: string;
   setPhone: React.Dispatch<React.SetStateAction<string>>;
   displayCountries: () => void;
@@ -30,6 +31,7 @@ export const PhoneInput = React.forwardRef(
       submitFunction = noop,
       icon,
       errorText,
+      disabled,
     }: IPhoneInputProps,
     ref: React.Ref<HTMLInputElement>,
   ) => {
@@ -47,6 +49,8 @@ export const PhoneInput = React.forwardRef(
         />
         <span className="phone-input__label">{t('phoneInputGroup.phone')}</span>
         <input
+          autoFocus
+          disabled={disabled}
           autoComplete="off"
           ref={ref}
           placeholder={t('phoneInputGroup.phone')}

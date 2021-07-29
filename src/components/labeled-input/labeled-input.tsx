@@ -11,6 +11,7 @@ interface ILabeledInputProps {
   containerClassName: string;
   placeholder?: string;
   errorText?: string | null;
+  autoFocus?: boolean;
 }
 
 export const LabeledInput: React.FC<ILabeledInputProps> = ({
@@ -20,10 +21,12 @@ export const LabeledInput: React.FC<ILabeledInputProps> = ({
   containerClassName,
   placeholder,
   errorText,
+  autoFocus,
 }) => (
   <div className={`labeled-input ${errorText ? 'labeled-input--error' : ''} ${containerClassName}`}>
     <span className="labeled-input__label">{label}</span>
     <input
+      autoFocus={autoFocus}
       autoComplete="off"
       placeholder={placeholder}
       value={value}

@@ -11,6 +11,7 @@ import './phone-input-group.scss';
 interface IPhoneInputGroupProps {
   setPhone: React.Dispatch<React.SetStateAction<string>>;
   hideCountrySelect?: boolean;
+  disablePhoneInput?: boolean;
   submitFunction?: () => void;
   phone: string;
   phoneInputIcon?: JSX.Element;
@@ -24,6 +25,7 @@ const PhoneInputGroup: React.FC<IPhoneInputGroupProps> = ({
   hideCountrySelect,
   phoneInputIcon,
   errorText,
+  disablePhoneInput,
 }) => {
   const [countries, setCountries] = useState<ICountry[]>([
     { code: 'AF', number: '+93', title: 'Afghanistan' },
@@ -102,6 +104,7 @@ const PhoneInputGroup: React.FC<IPhoneInputGroupProps> = ({
         setPhone={setPhone}
         submitFunction={submitFunction}
         errorText={errorText}
+        disabled={disablePhoneInput}
       />
     </div>
   );

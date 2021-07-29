@@ -30,9 +30,9 @@
   "welcome": {
     "welcome": "Welcome to KIMBU",
     "select-next-step": "Select your next step",
-    "create-new-chat": "Create\nNew chat",
-    "add-new-contact": "Add\nNew contact",
-    "create-new-message": "Create\nNew message"
+    "create-new-chat": "Create\nGroup Chat",
+    "add-new-contact": "Add\nNew Contact",
+    "create-new-message": "Send\nDirect Message"
   },
   "chatMembers": {
     "title": "Members"

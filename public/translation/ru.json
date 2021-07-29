@@ -30,7 +30,7 @@
   },
   "welcome": {
     "welcome": "Добро пожаловать в KIMBU",
-    "select-next-step": "Выберите дальнейшие действия",
+    "select-next-step": "Выберите действия",
     "create-new-chat": "Создать\nГрупповой Чат",
     "add-new-contact": "Добавить\nНовый Контакт",
     "create-new-message": "Отправить\nЛичное Сообщение"

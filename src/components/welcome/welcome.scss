@@ -63,5 +63,7 @@
     color: var(--dt-white-wt-dark);
     white-space: nowrap;
     width: 108px;
+    display: flex;
+    justify-content: center;
   }
 }

@@ -1,9 +1,8 @@
 import axios, { AxiosError, CancelTokenSource } from 'axios';
 import { SagaIterator } from 'redux-saga';
-import { call, cancelled, put, race, select, take } from 'redux-saga/effects';
+import { call, cancelled, put, select, take } from 'redux-saga/effects';
 import { RootState } from 'typesafe-actions';
 
-import { RefreshTokenFailure } from '@store/auth/features/refresh-token/refresh-token-failure';
 import { RefreshToken } from '@store/auth/features/refresh-token/refresh-token';
 import { securityTokensSelector } from '@store/auth/selectors';
 import { httpRequest } from '@store/common/http/http-request';
@@ -75,10 +74,7 @@ export const httpRequestFactory = <TResponse, TBody = unknown>(
         if (!isNetworkError(e) && error?.response?.status === 401) {
           yield put(RefreshToken.action());
 
-          yield race({
-            success: take(RefreshTokenSuccess.action),
-            failure: take(RefreshTokenFailure.action),
-          });
+          yield take(RefreshTokenSuccess.action);
 
           cancelTokenSource = axios.CancelToken.source();
           const authHeader = yield call(getAuthHeader);

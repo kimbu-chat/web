@@ -29,11 +29,11 @@
     "online": "Онлайн"
   },
   "welcome": {
-    "welcome": "Добро пожаловать а KIMBU",
+    "welcome": "Добро пожаловать в KIMBU",
     "select-next-step": "Выберите дальнейшие действия",
-    "create-new-chat": "Создать Новый Чат",
-    "add-new-contact": "Добавить Новый Контакт",
-    "create-new-message": "Создать Новое Сообщение"
+    "create-new-chat": "Создать\nГрупповой Чат",
+    "add-new-contact": "Добавить\nНовый Контакт",
+    "create-new-message": "Отправить\nЛичное Сообщение"
   },
   "chatMembers": {
     "title": "Участники"

@@ -24,6 +24,16 @@
     "name": "Name",
     "search_country": "Search country"
   },
+  "selectEntity": {
+    "online": "Online"
+  },
+  "welcome": {
+    "welcome": "Welcome to KIMBU",
+    "select-next-step": "Select your next step",
+    "create-new-chat": "Create\nNew chat",
+    "add-new-contact": "Add\nNew contact",
+    "create-new-message": "Create\nNew message"
+  },
   "chatMembers": {
     "title": "Members"
   },
@@ -221,6 +231,9 @@
     "incoming_video": "Incoming video call"
   },
   "newChat": {
+    "new_chat": "New chat"
+  },
+  "newMessage": {
     "new_message": "New message",
     "new_group": "New group"
   },

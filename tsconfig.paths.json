@@ -10,6 +10,8 @@
       "@services/*": ["./services/*"],
       "@components": ["./components"],
       "@components/*": ["./components/*"],
+      "@auth-components/*": ["./auth-components/*"],
+      "@shared-components/*": ["./shared-components/*"],
       "@routing/*": ["./routing/*"],
       "@routing": ["./routing"],
       "@contexts": ["./contexts"],

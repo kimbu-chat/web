@@ -3,7 +3,6 @@ import React, { lazy, useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { Button } from '@components/button';
 import { LabeledInput } from '@components/labeled-input';
 import { Modal } from '@components/modal';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
@@ -13,6 +12,7 @@ import { ReactComponent as GroupSvg } from '@icons/group.svg';
 import { ReactComponent as PictureSvg } from '@icons/picture.svg';
 import { ReactComponent as TopAvatarLine } from '@icons/top-avatar-line.svg';
 import { loadPhotoEditor } from '@routing/module-loader';
+import { Button } from '@shared-components/button';
 import { editGroupChatAction } from '@store/chats/actions';
 import { IEditGroupChatActionPayload } from '@store/chats/features/edit-group-chat/action-payloads/edit-group-chat-action-payload';
 import { IGroupChat } from '@store/chats/models';

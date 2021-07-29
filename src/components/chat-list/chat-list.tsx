@@ -5,11 +5,11 @@ import { useParams } from 'react-router-dom';
 
 import { CreateGroupChat } from '@components/create-group-chat-modal';
 import { InfiniteScroll } from '@components/infinite-scroll';
-import { NewChatModal } from '@components/new-chat-modal';
+import { NewMessageModal } from '@components/new-message-modal';
 import { SearchBox } from '@components/search-box';
-import { AnimationMode } from '@components/with-background/with-background';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ReactComponent as CreateChatSvg } from '@icons/create-chat.svg';
+import { AnimationMode } from '@shared-components/with-background/with-background';
 import {
   getChatsAction,
   changeSelectedChatAction,
@@ -121,7 +121,7 @@ const ChatList = React.memo(() => {
         </div>
       </div>
       {newChatDisplayed && (
-        <NewChatModal
+        <NewMessageModal
           displayCreateGroupChat={changeCreateGroupChatDisplayedState}
           onClose={changeNewChatDisplayedState}
         />

@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { Button } from '@components/button';
 import { Dropdown } from '@components/dropdown';
 import { HorizontalSeparator } from '@components/horizontal-separator';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
@@ -12,6 +11,7 @@ import { ReactComponent as PauseSvg } from '@icons/pause.svg';
 import { ReactComponent as PlaySvg } from '@icons/play.svg';
 import { ReactComponent as VideoCameraSvg } from '@icons/video-camera.svg';
 import { ReactComponent as MicrophoneSvg } from '@icons/voice.svg';
+import { Button } from '@shared-components/button';
 import incomingCallSound from '@sounds/calls/incoming-call.ogg';
 import {
   killDeviceUpdateWatcherAction,

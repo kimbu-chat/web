@@ -25,6 +25,16 @@
     "name": "Имя",
     "search_country": "Поиск страны"
   },
+  "selectEntity": {
+    "online": "Онлайн"
+  },
+  "welcome": {
+    "welcome": "Добро пожаловать а KIMBU",
+    "select-next-step": "Выберите дальнейшие действия",
+    "create-new-chat": "Создать Новый Чат",
+    "add-new-contact": "Добавить Новый Контакт",
+    "create-new-message": "Создать Новое Сообщение"
+  },
   "chatMembers": {
     "title": "Участники"
   },
@@ -244,6 +254,9 @@
     "incoming_video": "Входящий видео вызов"
   },
   "newChat": {
+    "new_chat": "Новый чат"
+  },
+  "newMessage": {
     "new_message": "Новое сообщение",
     "new_group": "Новая группа"
   },

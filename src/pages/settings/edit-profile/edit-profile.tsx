@@ -4,7 +4,6 @@ import { parsePhoneNumber } from 'libphonenumber-js';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { Button } from '@components/button';
 import { CubeLoader } from '@components/cube-loader';
 import { HorizontalSeparator } from '@components/horizontal-separator';
 import { MediaModal } from '@components/image-modal';
@@ -15,6 +14,7 @@ import { ReactComponent as ColoredClose } from '@icons/colored-close.svg';
 import { ReactComponent as TopAvatarLine } from '@icons/top-avatar-line.svg';
 import { ReactComponent as UserSvg } from '@icons/user.svg';
 import { loadPhotoEditor } from '@routing/module-loader';
+import { Button } from '@shared-components/button';
 import { FileType } from '@store/chats/models';
 import { IAvatarSelectedData } from '@store/common/models';
 import {

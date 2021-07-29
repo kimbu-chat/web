@@ -50,7 +50,9 @@ export class RefreshToken {
       } catch (e) {
         yield put(RefreshTokenFailure.action());
 
-        window.location.replace('/logout');
+        if (!window.location.href.endsWith('/logout')) {
+          window.location.replace('/logout');
+        }
       }
     };
   }

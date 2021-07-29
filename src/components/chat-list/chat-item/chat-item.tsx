@@ -8,12 +8,12 @@ import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import { Avatar } from '@components/avatar';
-import Ripple from '@components/ripple';
 import { ReactComponent as MessageErrorSvg } from '@icons/message-error.svg';
 import { ReactComponent as MessageQeuedSvg } from '@icons/message-queued.svg';
 import { ReactComponent as MessageReadSvg } from '@icons/message-read.svg';
 import { ReactComponent as MessageSentSvg } from '@icons/message-sent.svg';
 import { INSTANT_MESSAGING_CHAT_PATH } from '@routing/routing.constants';
+import Ripple from '@shared-components/ripple';
 import {
   MessageLinkType,
   MessageState,

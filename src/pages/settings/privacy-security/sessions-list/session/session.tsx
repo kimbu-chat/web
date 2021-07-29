@@ -4,8 +4,8 @@ import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { Button } from '@components/button';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { Button } from '@shared-components/button';
 import { deviceIdSelector } from '@store/auth/selectors';
 import { terminateSessionAction } from '@store/settings/actions';
 import { ISession } from '@store/settings/comon/models/session';

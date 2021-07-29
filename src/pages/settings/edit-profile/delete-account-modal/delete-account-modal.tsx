@@ -3,10 +3,10 @@ import React, { useCallback, useState } from 'react';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 
-import { Button } from '@components/button';
 import { Modal } from '@components/modal';
 import { useEmptyActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
+import { Button } from '@shared-components/button';
 import { deleteAccountAction } from '@store/my-profile/actions';
 
 import './delete-account-modal.scss';

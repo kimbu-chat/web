@@ -20,6 +20,8 @@ export function applyTheme(theme?: Theme) {
     '--dt-dark-wt-kingBlue-lighter': '#E8F1FB',
     '--dt-dark-wt-pink': '#FCE4E3',
 
+    '--dt-kingBlue-transparentest-wt-grayLight': 'rgba(63, 138, 224, 0.12)',
+
     '--dt-dark-transparent-wt-kingBlueLight-transparent': 'rgba(63, 138, 224, 0.25)',
 
     '--upload-photo-progress': 'rgba(63, 138, 224, 0.55)',
@@ -46,6 +48,7 @@ export function applyTheme(theme?: Theme) {
     '--dt-transparent-white-wt-kingBlueLight-transparenter': 'rgba(214, 233, 255, 0.5)',
 
     '--dt-dark-transparent-white-wt-kingBlueLight-transparenter': 'rgba(214, 233, 255, 0.5)',
+    '--dt-dark-wt-kingBlueLight-transparenter': 'rgba(214, 233, 255, 0.5)',
 
     '--dt-transparent-white-wt-kingBlueLight': 'rgba(63, 138, 224, 0.55)',
 
@@ -91,11 +94,14 @@ export function applyTheme(theme?: Theme) {
     '--dt-dark-wt-kingBlue': '#262c38',
     '--dt-dark-wt-whiter': '#262c38',
     '--dt-dark-wt-kingBlue-lighter': '#262c38',
+    '--dt-dark-wt-kingBlueLight-transparenter': '#262c38',
     '--dt-dark-transparent-wt-kingBlueLight-transparent': 'rgba(38, 44, 56, 0.5)',
     '--dt-dark-transparent-wt-kingBlueLight': 'rgba(38, 44, 56, 0.5)',
     '--dt-gray-transparent-wt-kingBlueLight': 'rgba(55, 63, 81, 0.5)',
     '--dt-gray-semi-transparent-wt-kingBlueLight-transparentest': 'rgba(55, 63, 81, 0.8)',
     '--dt-dark-wt-pink': '#262c38',
+
+    '--dt-kingBlue-transparentest-wt-grayLight': 'rgba(63, 138, 224, 0.08)',
 
     '--dt-darker-wt-bright-blue': '#161d2e',
 

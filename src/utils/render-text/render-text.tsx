@@ -15,7 +15,7 @@ export function removeVS16s(rawEmoji: any) {
 
 export default function renderText(
   part: TextPart,
-  filters: ('escape_html' | 'emoji' | 'emoji_html' | 'br_html')[] = ['emoji'],
+  filters: ('escape_html' | 'emoji' | 'emoji_html' | 'br_html' | 'br_jsx')[] = ['emoji'],
 ): TextPart[] {
   if (typeof part !== 'string') {
     return [part];
@@ -37,6 +37,8 @@ export default function renderText(
 
         case 'br_html':
           return addLineBreaks(text);
+        case 'br_jsx':
+          return addLineBreaks(text, true);
 
         default:
           return text;
@@ -59,7 +61,7 @@ function escapeHtml(textParts: TextPart[]): TextPart[] {
   }, [] as TextPart[]);
 }
 
-function addLineBreaks(textParts: TextPart[]): TextPart[] {
+function addLineBreaks(textParts: TextPart[], jsx?: boolean): TextPart[] {
   return textParts.reduce((result, part) => {
     if (typeof part !== 'string') {
       return [...result, part];
@@ -74,7 +76,12 @@ function addLineBreaks(textParts: TextPart[]): TextPart[] {
         parts.push(String.fromCharCode(160).repeat(indentLength) + trimmedLine);
 
         if (i !== source.length - 1) {
-          parts.push('<br />');
+          if (jsx) {
+            // eslint-disable-next-line react/no-array-index-key
+            parts.push(<br key={i} />);
+          } else {
+            parts.push('<br />');
+          }
         }
 
         return parts;

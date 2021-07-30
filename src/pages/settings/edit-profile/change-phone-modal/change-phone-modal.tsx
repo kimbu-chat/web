@@ -14,7 +14,6 @@ import { ReactComponent as ChatSvg } from '@icons/single-chat.svg';
 import { Button } from '@shared-components/button';
 import { getUserByPhoneAction } from '@store/friends/actions';
 import { confirmChangePhone, sendSmsChangePhone } from '@store/my-profile/actions';
-import { SECOND_DURATION } from '@utils/constants';
 import { getMinutesSeconds } from '@utils/date-utils';
 
 import './change-phone-modal.scss';
@@ -133,6 +132,7 @@ const ChangePhoneModal: React.FC<IChangePhoneModalProps> = ({ onClose }) => {
           <PhoneInputGroup
             submitFunction={sendCodeConfirmation}
             hideCountrySelect={submited}
+            disablePhoneInput={submited}
             phone={phone}
             setPhone={setPhone}
             errorText={submited ? null : error && t(error)}
@@ -148,6 +148,7 @@ const ChangePhoneModal: React.FC<IChangePhoneModalProps> = ({ onClose }) => {
           {submited && (
             <>
               <LabeledInput
+                autoFocus
                 label={t('changePhoneModal.code')}
                 placeholder={t('changePhoneModal.enter-numbers')}
                 value={code}
@@ -167,7 +168,7 @@ const ChangePhoneModal: React.FC<IChangePhoneModalProps> = ({ onClose }) => {
               ) : (
                 <span className={`${BLOCK_NAME}__details`}>
                   {t('changePhoneModal.details', {
-                    time: getMinutesSeconds(remainedTime * SECOND_DURATION),
+                    time: getMinutesSeconds(remainedTime),
                   })}
                 </span>
               )}

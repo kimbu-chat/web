@@ -3,6 +3,7 @@ import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 
+import { HTTPStatusCode } from '@common/http-status-code';
 import { MAIN_API } from '@common/paths';
 import { createEmptyAction } from '@store/common/actions';
 import { authRequestFactory } from '@store/common/http/auth-request-factory';
@@ -35,25 +36,19 @@ export class RefreshToken {
     return function* refToken(): SagaIterator {
       const { refreshToken }: ISecurityTokens = yield select(securityTokensSelector);
 
-      try {
-        const { httpRequest } = RefreshToken;
-        const { data } = httpRequest.call(
-          yield call(() => httpRequest.generator({ refreshToken })),
-        );
+      const { httpRequest } = RefreshToken;
+      const response = httpRequest.call(yield call(() => httpRequest.generator({ refreshToken })));
 
-        const refreshTokenActionPayload: IRefreshTokenSuccessActionPayload = {
-          ...data,
-          accessTokenExpirationTime: getAccessTokenExpirationTime(data.accessToken),
-        };
-
-        yield put(RefreshTokenSuccess.action(refreshTokenActionPayload));
-      } catch (e) {
+      if (response?.status !== HTTPStatusCode.OK) {
         yield put(RefreshTokenFailure.action());
-
-        if (!window.location.href.endsWith('/logout')) {
-          window.location.replace('/logout');
-        }
       }
+
+      const refreshTokenActionPayload: IRefreshTokenSuccessActionPayload = {
+        ...response?.data,
+        accessTokenExpirationTime: getAccessTokenExpirationTime(response?.data.accessToken),
+      };
+
+      yield put(RefreshTokenSuccess.action(refreshTokenActionPayload));
     };
   }
 

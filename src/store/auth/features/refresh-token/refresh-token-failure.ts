@@ -1,7 +1,11 @@
 import produce from 'immer';
+import { SagaIterator } from 'redux-saga';
+import { apply } from 'redux-saga/effects';
 
+import { AuthService } from '@services/auth-service';
 import { createEmptyAction } from '@store/common/actions';
 
+import { MyProfileService } from '../../../../services/my-profile-service';
 import { IAuthState } from '../../auth-state';
 
 export class RefreshTokenFailure {
@@ -16,5 +20,17 @@ export class RefreshTokenFailure {
       draft.securityTokens = undefined;
       return draft;
     });
+  }
+
+  static get saga() {
+    return function* refTokenFailure(): SagaIterator {
+      const authService = new AuthService();
+      const myProfileService = new MyProfileService();
+
+      yield apply(authService, authService.clear, []);
+      yield apply(myProfileService, myProfileService.clear, []);
+
+      window.location.replace('/login');
+    };
   }
 }

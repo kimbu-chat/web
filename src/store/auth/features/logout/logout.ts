@@ -1,9 +1,11 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
-import { call, put, select } from 'redux-saga/effects';
+import { apply, call, put, select } from 'redux-saga/effects';
 
 import { MAIN_API } from '@common/paths';
+import { AuthService } from '@services/auth-service';
+import { MyProfileService } from '@services/my-profile-service';
 import { IAuthState } from '@store/auth/auth-state';
 import { securityTokensSelector } from '@store/auth/selectors';
 import { createEmptyAction } from '@store/common/actions';
@@ -34,7 +36,11 @@ export class Logout {
         yield call(() => Logout.httpRequest.generator());
       }
 
-      localStorage.clear();
+      const authService = new AuthService();
+      const myProfileService = new MyProfileService();
+
+      yield apply(authService, authService.clear, []);
+      yield apply(myProfileService, myProfileService.clear, []);
       window.location.replace('/login');
     };
   }

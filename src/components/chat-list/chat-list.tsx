@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState, useMemo } from 'react';
+import React, { useEffect, useCallback, useState, useMemo, useRef } from 'react';
 
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -26,6 +26,8 @@ const BLOCK_NAME = 'chat-list';
 const ChatList = React.memo(() => {
   const chatsList = useSelector(getChatsListSelector);
   const searchChatsList = useSelector(getSearchChatsListSelector);
+
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const getChatsRequest = useActionWithDispatch(getChatsAction);
   const changeSelectedChat = useActionWithDispatch(changeSelectedChatAction);
@@ -96,7 +98,7 @@ const ChatList = React.memo(() => {
 
   return (
     <>
-      <div>
+      <div ref={containerRef}>
         <div className={`${BLOCK_NAME}__search-top`}>
           <SearchBox
             containerClassName={`${BLOCK_NAME}__search-top__search-container`}
@@ -113,6 +115,7 @@ const ChatList = React.memo(() => {
         </div>
         <div className={BLOCK_NAME}>
           <InfiniteScroll
+            containerRef={containerRef}
             onReachBottom={loadMore}
             hasMore={searchString.length ? searchChatsList.hasMore : chatsList.hasMore}
             isLoading={searchString.length ? searchChatsList.loading : chatsList.loading}>

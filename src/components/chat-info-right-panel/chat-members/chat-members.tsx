@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 
 import classnames from 'classnames';
 import { useTranslation } from 'react-i18next';
@@ -25,6 +25,7 @@ const BLOCK_NAME = 'chat-members';
 export const ChatMembers: React.FC = () => {
   const [searchStr, setSearchStr] = useState<string>('');
   const [membersDisplayed, setMembersDisplayed] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const { t } = useTranslation();
 
@@ -64,7 +65,7 @@ export const ChatMembers: React.FC = () => {
   );
 
   return (
-    <div className={BLOCK_NAME}>
+    <div className={BLOCK_NAME} ref={containerRef}>
       <div className={`${BLOCK_NAME}__heading-block`}>
         <h3 className={`${BLOCK_NAME}__heading`}>{t('chatMembers.title')}</h3>
         <button
@@ -84,6 +85,7 @@ export const ChatMembers: React.FC = () => {
           </div>
 
           <InfiniteScroll
+            containerRef={containerRef}
             className={`${BLOCK_NAME}__members-list`}
             onReachBottom={loadMore}
             hasMore={membersListForGroupChat?.hasMore}

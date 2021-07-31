@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 
 import { useSelector } from 'react-redux';
 
@@ -26,6 +26,7 @@ type PhotoListProps = {
 const PhotoList: React.FC<PhotoListProps> = ({ observeIntersection }) => {
   const getPhotoAttachments = useActionWithDispatch(getPhotoAttachmentsAction);
   const photoForSelectedChat = useSelector(getSelectedChatPhotosSelector);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const loadMore = useCallback(() => {
     const page: IPage = {
@@ -54,8 +55,9 @@ const PhotoList: React.FC<PhotoListProps> = ({ observeIntersection }) => {
     ) : null;
 
   return (
-    <div className="chat-photo">
+    <div className="chat-photo" ref={containerRef}>
       <InfiniteScroll
+        containerRef={containerRef}
         className="chat-photo__photo-container"
         onReachBottom={loadMore}
         hasMore={photoForSelectedChat?.hasMore}

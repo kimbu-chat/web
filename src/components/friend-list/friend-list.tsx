@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useMemo, useEffect } from 'react';
+import React, { useCallback, useState, useMemo, useEffect, useRef } from 'react';
 
 import { useSelector } from 'react-redux';
 
@@ -18,6 +18,8 @@ import './friend-list.scss';
 export const FriendList = () => {
   const friendsList = useSelector(getMyFriendsListSelector);
   const searchFriendsList = useSelector(getMySearchFriendsListSelector);
+
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const { hasMore: hasMoreFriends, friendIds, loading: friendsLoading } = friendsList;
   const {
@@ -70,7 +72,7 @@ export const FriendList = () => {
   }, [searchString.length, searchFriendIds, friendIds, renderFriend]);
 
   return (
-    <div>
+    <div ref={containerRef}>
       <div className="friend-list__search-top">
         <SearchBox
           containerClassName="friend-list__search-top__search-container"
@@ -81,6 +83,7 @@ export const FriendList = () => {
       </div>
       <div className="friend-list">
         <InfiniteScroll
+          containerRef={containerRef}
           onReachBottom={loadMore}
           hasMore={searchString.length ? hasMoreSearchFriends : hasMoreFriends}
           isLoading={searchString.length ? searchFriendsLoading : friendsLoading}>

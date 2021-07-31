@@ -90,6 +90,7 @@ const MessageList = () => {
         {selectedMessageIds.length > 0 && <SelectedMessagesData />}
 
         <InfiniteScroll
+          containerRef={rootRef}
           onReachBottom={loadMore}
           hasMore={hasMoreMessages}
           className="chat__messages-list__scroll"

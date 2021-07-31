@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 
 import { useSelector } from 'react-redux';
 
@@ -23,7 +23,7 @@ const AudioAttachmentComponent: React.FC<IAudioAttachment> = ({ ...audio }) => (
 
 export const AudioList = () => {
   const audiosForSelectedChat = useSelector(getSelectedChatAudiosSelector);
-
+  const containerRef = useRef<HTMLDivElement>(null);
   const getAudios = useActionWithDispatch(getAudioAttachmentsAction);
 
   const loadMore = useCallback(() => {
@@ -39,9 +39,10 @@ export const AudioList = () => {
   );
 
   return (
-    <div className="chat-audios">
+    <div className="chat-audios" ref={containerRef}>
       <div className="chat-audios__audios">
         <InfiniteScroll
+          containerRef={containerRef}
           onReachBottom={loadMore}
           hasMore={audiosForSelectedChat?.hasMore}
           isLoading={audiosForSelectedChat?.loading}

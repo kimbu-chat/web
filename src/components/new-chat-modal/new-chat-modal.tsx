@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect, useMemo } from 'react';
+import React, { useCallback, useState, useEffect, useMemo, useRef } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -31,6 +31,8 @@ const NewChatModal: React.FC<INewChatModalProps> = ({ onClose }) => {
   const { t } = useTranslation();
 
   const [name, setName] = useState('');
+
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const friendsList = useSelector(getMyFriendsListSelector);
   const searchFriendsList = useSelector(getMySearchFriendsListSelector);
@@ -104,7 +106,7 @@ const NewChatModal: React.FC<INewChatModalProps> = ({ onClose }) => {
 
   return (
     <Modal closeModal={onClose}>
-      <>
+      <div ref={containerRef}>
         <Modal.Header>
           <>
             <NewMessageSvg viewBox="0 0 24 24" className={`${BLOCK_NAME}__icon`} />
@@ -117,6 +119,7 @@ const NewChatModal: React.FC<INewChatModalProps> = ({ onClose }) => {
             onChange={handleSearchInputChange}
           />
           <InfiniteScroll
+            containerRef={containerRef}
             className={`${BLOCK_NAME}__friends-block`}
             onReachBottom={loadMore}
             hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}
@@ -124,7 +127,7 @@ const NewChatModal: React.FC<INewChatModalProps> = ({ onClose }) => {
             {selectEntities}
           </InfiniteScroll>
         </div>
-      </>
+      </div>
     </Modal>
   );
 };

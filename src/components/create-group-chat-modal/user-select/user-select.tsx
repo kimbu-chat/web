@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState, useRef } from 'react';
 
 import { useSelector } from 'react-redux';
 
@@ -20,6 +20,8 @@ const UserSelect: React.FC<IUserSelectProps> = ({ changeSelectedState, isSelecte
   const loadFriends = useActionWithDeferred(getFriendsAction);
 
   const [name, setName] = useState('');
+
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const friendsList = useSelector(getMyFriendsListSelector);
   const searchFriendsList = useSelector(getMySearchFriendsListSelector);
@@ -76,12 +78,13 @@ const UserSelect: React.FC<IUserSelectProps> = ({ changeSelectedState, isSelecte
   }, [name.length, searchFriendIds, friendIds, renderSelectEntity]);
 
   return (
-    <div className="create-group-chat__select-friends">
+    <div className="create-group-chat__select-friends" ref={containerRef}>
       <SearchBox
         containerClassName="create-group-chat__select-friends__search"
         onChange={handleSearchInputChange}
       />
       <InfiniteScroll
+        containerRef={containerRef}
         className="create-group-chat__friends-block"
         onReachBottom={loadMore}
         hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}

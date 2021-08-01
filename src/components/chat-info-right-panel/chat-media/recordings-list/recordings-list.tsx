@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 
 import { useSelector } from 'react-redux';
 
@@ -16,7 +16,7 @@ import './recordings-list.scss';
 
 export const RecordingsList = () => {
   const recordingsForSelectedChat = useSelector(getSelectedChatRecordingsSelector);
-
+  const containerRef = useRef<HTMLDivElement>(null);
   const getRecordings = useActionWithDispatch(getVoiceAttachmentsAction);
 
   const loadMore = useCallback(() => {
@@ -36,9 +36,10 @@ export const RecordingsList = () => {
   );
 
   return (
-    <div className="chat-recordings">
+    <div className="chat-recordings" ref={containerRef}>
       <div className="chat-recordings__recordings">
         <InfiniteScroll
+          containerRef={containerRef}
           onReachBottom={loadMore}
           hasMore={recordingsForSelectedChat?.hasMore}
           isLoading={recordingsForSelectedChat?.loading}>

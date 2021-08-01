@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect, useMemo } from 'react';
+import React, { useCallback, useState, useEffect, useMemo, useRef } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -32,6 +32,8 @@ const BLOCK_NAME = 'new-message-modal';
 
 const NewMessageModal: React.FC<INewMessageModalProps> = ({ onClose, displayCreateGroupChat }) => {
   const { t } = useTranslation();
+
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const [name, setName] = useState('');
 
@@ -112,7 +114,7 @@ const NewMessageModal: React.FC<INewMessageModalProps> = ({ onClose, displayCrea
 
   return (
     <Modal closeModal={onClose}>
-      <>
+      <div ref={containerRef}>
         <Modal.Header>
           <>
             <NewMessageSvg viewBox="0 0 24 24" className={`${BLOCK_NAME}__icon`} />
@@ -135,6 +137,7 @@ const NewMessageModal: React.FC<INewMessageModalProps> = ({ onClose, displayCrea
             </div>
           </div>
           <InfiniteScroll
+            containerRef={containerRef}
             className={`${BLOCK_NAME}__friends-block`}
             onReachBottom={loadMore}
             hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}
@@ -142,7 +145,7 @@ const NewMessageModal: React.FC<INewMessageModalProps> = ({ onClose, displayCrea
             {selectEntities}
           </InfiniteScroll>
         </div>
-      </>
+      </div>
     </Modal>
   );
 };

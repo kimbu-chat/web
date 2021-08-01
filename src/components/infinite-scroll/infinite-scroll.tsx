@@ -1,96 +1,84 @@
-import React from 'react';
+import React, { RefObject, useMemo } from 'react';
 
-import { InfiniteScrollLoader } from './infinite-scroll-loader/infinite-scroll-loader';
+import classnames from 'classnames';
+import debounce from 'lodash/debounce';
+import noop from 'lodash/noop';
+
+import { useIntersectionObserver, useOnIntersect } from '@hooks/use-intersection-observer';
 
 import './infinite-scroll.scss';
 
 type InfiniteScrollProps = {
   children: React.ReactNode;
-  Loader?: () => JSX.Element;
+  loadingIndicator?: () => JSX.Element;
   className?: string;
   hasMore?: boolean;
   isLoading?: boolean;
   onReachTop?: () => void;
   onReachBottom?: () => void;
   threshold?: number | Array<number>;
+  containerRef: RefObject<HTMLDivElement>;
 };
 
-export const InfiniteScroll = React.forwardRef<HTMLDivElement, InfiniteScrollProps>(
-  (
+const TRIGGER_MARGIN = 500;
+
+const LOAD_MORE_DEBOUNCE = 500;
+
+const BLOCK_NAME = 'infinite-scroll';
+
+export const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
+  children,
+  className,
+  hasMore,
+  onReachTop = noop,
+  onReachBottom = noop,
+  threshold = 0.0,
+  containerRef,
+}) => {
+  const backwardsTriggerRef = React.useRef<HTMLDivElement>(null);
+  const forwardsTriggerRef = React.useRef<HTMLDivElement>(null);
+
+  const [loadMoreTop, loadMoreBottom] = useMemo(
+    () => [debounce(onReachTop, LOAD_MORE_DEBOUNCE), debounce(onReachBottom, LOAD_MORE_DEBOUNCE)],
+    [onReachTop, onReachBottom],
+  );
+
+  const { observe: observeIntersection } = useIntersectionObserver(
     {
-      children,
-      Loader = InfiniteScrollLoader,
-      className = '',
-      hasMore,
-      isLoading,
-      onReachTop,
-      onReachBottom,
-      threshold = 0.0,
+      rootRef: containerRef,
+      margin: TRIGGER_MARGIN,
+      threshold,
     },
-    ref,
-  ) => {
-    const loaderTopRef = React.useRef<HTMLDivElement>(null);
-    const loaderBottomRef = React.useRef<HTMLDivElement>(null);
+    (entries) => {
+      if (!hasMore) {
+        return;
+      }
+      const triggerEntry = entries.find(({ isIntersecting }) => isIntersecting);
 
-    React.useEffect(() => {
-      const loadMoreTop = (entries: Array<IntersectionObserverEntry>) => {
-        const [first] = entries;
-
-        if (!isLoading && onReachTop && hasMore && first.isIntersecting) {
-          onReachTop();
-        }
-      };
-
-      const loadMoreBottom = (entries: Array<IntersectionObserverEntry>) => {
-        const [first] = entries;
-
-        if (!isLoading && onReachBottom && hasMore && first.isIntersecting) {
-          onReachBottom();
-        }
-      };
-
-      const options = { threshold };
-      const topObserver = new IntersectionObserver(loadMoreTop, options);
-      const bottomObserver = new IntersectionObserver(loadMoreBottom, options);
-
-      const topLoaderCurrent = loaderTopRef.current;
-      const bottomLoaderCurrent = loaderBottomRef.current;
-
-      if (topLoaderCurrent) {
-        topObserver.observe(topLoaderCurrent);
+      if (!triggerEntry) {
+        return;
       }
 
-      if (bottomLoaderCurrent) {
-        bottomObserver.observe(bottomLoaderCurrent);
+      const { target } = triggerEntry;
+
+      if (target.className === 'top-trigger') {
+        loadMoreTop();
+      } else if (target.className === 'bottom-trigger') {
+        loadMoreBottom();
       }
+    },
+  );
 
-      return () => {
-        if (topLoaderCurrent) {
-          topObserver.unobserve(topLoaderCurrent);
-        }
+  useOnIntersect(forwardsTriggerRef, observeIntersection);
+  useOnIntersect(backwardsTriggerRef, observeIntersection);
 
-        if (bottomLoaderCurrent) {
-          bottomObserver.unobserve(bottomLoaderCurrent);
-        }
-      };
-    }, [hasMore, isLoading, loaderBottomRef, loaderTopRef, onReachBottom, onReachTop, threshold]);
-
-    return (
-      <div className={`infinite-scroll ${className}`} ref={ref}>
-        {hasMore && onReachTop && (
-          <div ref={loaderTopRef} className="infinite-scroll__loader">
-            <Loader />
-          </div>
-        )}
-        {children}
-        {hasMore && onReachBottom && (
-          <div ref={loaderBottomRef} className="infinite-scroll__loader">
-            <Loader />
-          </div>
-        )}
-      </div>
-    );
-  },
-);
+  return (
+    <div className={classnames(BLOCK_NAME, className)}>
+      <div ref={backwardsTriggerRef} key="top-trigger" className="top-trigger" />
+      {children}
+      <div ref={forwardsTriggerRef} key="bottom-trigger" className="bottom-trigger" />
+    </div>
+  );
+};
 
 InfiniteScroll.displayName = 'InfiniteScroll';

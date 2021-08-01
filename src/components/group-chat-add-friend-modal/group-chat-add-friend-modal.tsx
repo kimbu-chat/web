@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
@@ -28,6 +28,8 @@ const BLOCK_NAME = 'group-chat-add-friend-modal';
 
 const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = ({ onClose }) => {
   const { t } = useTranslation();
+
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const [selectedUserIds, setselectedUserIds] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
@@ -133,7 +135,7 @@ const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = ({ onCl
 
   return (
     <Modal closeModal={onClose}>
-      <>
+      <div ref={containerRef}>
         <Modal.Header>
           <>
             <GroupSvg viewBox="0 0 24 24" className={`${BLOCK_NAME}__icon`} />
@@ -146,6 +148,7 @@ const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = ({ onCl
             onChange={handleSearchInputChange}
           />
           <InfiniteScroll
+            containerRef={containerRef}
             className={`${BLOCK_NAME}__friends-block`}
             onReachBottom={loadMore}
             hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}
@@ -171,7 +174,7 @@ const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = ({ onCl
             </Button>
           </div>
         </div>
-      </>
+      </div>
     </Modal>
   );
 };

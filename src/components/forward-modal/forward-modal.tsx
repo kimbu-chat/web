@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useMemo, useEffect } from 'react';
+import React, { useCallback, useState, useMemo, useEffect, useRef } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -29,6 +29,8 @@ interface IForwardModalProps {
 
 export const ForwardModal: React.FC<IForwardModalProps> = ({ onClose, messageIdsToForward }) => {
   const { t } = useTranslation();
+
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const chatsList = useSelector(getChatsListSelector);
   const searchChatsList = useSelector(getSearchChatsListSelector);
@@ -115,7 +117,7 @@ export const ForwardModal: React.FC<IForwardModalProps> = ({ onClose, messageIds
 
   return (
     <Modal closeModal={onClose}>
-      <>
+      <div ref={containerRef}>
         <Modal.Header>
           <>
             <ForwardSvg viewBox="0 0 16 16" className={`${BLOCK_NAME}__icon`} />
@@ -130,6 +132,7 @@ export const ForwardModal: React.FC<IForwardModalProps> = ({ onClose, messageIds
             onChange={handleChatSearchChange}
           />
           <InfiniteScroll
+            containerRef={containerRef}
             className={`${BLOCK_NAME}__chats-block`}
             onReachBottom={loadMore}
             hasMore={searchString.length ? searchChatsList.hasMore : chatsList.hasMore}
@@ -150,7 +153,7 @@ export const ForwardModal: React.FC<IForwardModalProps> = ({ onClose, messageIds
             </Button>
           </div>
         </div>
-      </>
+      </div>
     </Modal>
   );
 };

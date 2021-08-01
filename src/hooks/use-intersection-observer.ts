@@ -25,7 +25,6 @@ export function useIntersectionObserver(
 ) {
   const intersectionControllerRef = useRef<IntersectionController>();
   const rootCallbackRef = useRef<RootCallback>();
-
   rootCallbackRef.current = rootCallback;
 
   useEffect(

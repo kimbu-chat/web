@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useMemo, useEffect } from 'react';
+import React, { useCallback, useState, useMemo, useEffect, useRef } from 'react';
 
 import { useSelector } from 'react-redux';
 
@@ -18,9 +18,10 @@ const BLOCK_NAME = 'call-list';
 export const CallList = () => {
   const callsList = useSelector(getCallsListSelector);
   const searchCallsList = useSelector(getSearchCallsListSelector);
-
   const getCalls = useActionWithDispatch(getCallsAction);
   const resetSearchCalls = useActionWithDispatch(resetSearchCallsAction);
+
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const [searchString, setSearchString] = useState('');
   const changeSearchString = useCallback(
@@ -75,8 +76,9 @@ export const CallList = () => {
           onChange={changeSearchString}
         />
       </div>
-      <div className={BLOCK_NAME}>
+      <div className={BLOCK_NAME} ref={containerRef}>
         <InfiniteScroll
+          containerRef={containerRef}
           onReachBottom={loadMore}
           hasMore={searchString.length ? searchCallsList.hasMore : callsList.hasMore}
           isLoading={searchString.length ? searchCallsList.loading : callsList.loading}>

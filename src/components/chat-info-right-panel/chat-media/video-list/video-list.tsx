@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 
 import { useSelector } from 'react-redux';
 
@@ -19,7 +19,7 @@ import './video-list.scss';
 
 export const VideoList = () => {
   const getVideoAttachmentss = useActionWithDispatch(getVideoAttachmentsAction);
-
+  const containerRef = useRef<HTMLDivElement>(null);
   const videosForSelectedChat = useSelector(getSelectedChatVideosSelector);
 
   const loadMore = useCallback(() => {
@@ -45,8 +45,9 @@ export const VideoList = () => {
     ) : null;
 
   return (
-    <div className="chat-video">
+    <div className="chat-video" ref={containerRef}>
       <InfiniteScroll
+        containerRef={containerRef}
         className="chat-video__scroll"
         onReachBottom={loadMore}
         hasMore={videosForSelectedChat?.hasMore}

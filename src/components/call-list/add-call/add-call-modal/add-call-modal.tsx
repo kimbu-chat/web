@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -24,6 +24,7 @@ interface IAddCallModalProps {
 
 export const AddCallModal: React.FC<IAddCallModalProps> = ({ onClose }) => {
   const { t } = useTranslation();
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const friendsList = useSelector(getMyFriendsListSelector);
   const searchFriendsList = useSelector(getMySearchFriendsListSelector);
@@ -107,7 +108,7 @@ export const AddCallModal: React.FC<IAddCallModalProps> = ({ onClose }) => {
 
   return (
     <Modal closeModal={onClose}>
-      <>
+      <div ref={containerRef}>
         <Modal.Header>
           <AddCallSvg viewBox="0 0 65 64" className="add-call-modal__icon" />
           <span> {t('addCallModal.title')} </span>
@@ -120,6 +121,7 @@ export const AddCallModal: React.FC<IAddCallModalProps> = ({ onClose }) => {
             onChange={handleSearchInputChange}
           />
           <InfiniteScroll
+            containerRef={containerRef}
             className="add-call-modal__friends-block 1"
             onReachBottom={loadMore}
             hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}
@@ -127,7 +129,7 @@ export const AddCallModal: React.FC<IAddCallModalProps> = ({ onClose }) => {
             {selectEntities}
           </InfiniteScroll>
         </div>
-      </>
+      </div>
     </Modal>
   );
 };

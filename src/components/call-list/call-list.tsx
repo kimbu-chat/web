@@ -3,6 +3,7 @@ import React, { useCallback, useState, useMemo, useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux';
 
 import { InfiniteScroll } from '@components/infinite-scroll';
+import { CenteredLoader, LoaderSize } from '@components/loader';
 import { SearchBox } from '@components/search-box';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getCallsAction, resetSearchCallsAction } from '@store/calls/actions';
@@ -77,13 +78,17 @@ export const CallList = () => {
         />
       </div>
       <div className={BLOCK_NAME} ref={containerRef}>
-        <InfiniteScroll
-          containerRef={containerRef}
-          onReachBottom={loadMore}
-          hasMore={searchString.length ? searchCallsList.hasMore : callsList.hasMore}
-          isLoading={searchString.length ? searchCallsList.loading : callsList.loading}>
-          {renderedCalls}
-        </InfiniteScroll>
+        {searchCallsList.loading || callsList.loading ? (
+          <CenteredLoader size={LoaderSize.LARGE} />
+        ) : (
+          <InfiniteScroll
+            containerRef={containerRef}
+            onReachBottom={loadMore}
+            hasMore={searchString.length ? searchCallsList.hasMore : callsList.hasMore}
+            isLoading={searchString.length ? searchCallsList.loading : callsList.loading}>
+            {renderedCalls}
+          </InfiniteScroll>
+        )}
       </div>
     </div>
   );

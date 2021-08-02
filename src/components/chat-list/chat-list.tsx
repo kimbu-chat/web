@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 
 import { CreateGroupChat } from '@components/create-group-chat-modal';
 import { InfiniteScroll } from '@components/infinite-scroll';
+import { CenteredLoader, LoaderSize } from '@components/loader';
 import { NewMessageModal } from '@components/new-message-modal';
 import { SearchBox } from '@components/search-box';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
@@ -114,13 +115,17 @@ const ChatList = React.memo(() => {
           </button>
         </div>
         <div className={BLOCK_NAME}>
-          <InfiniteScroll
-            containerRef={containerRef}
-            onReachBottom={loadMore}
-            hasMore={searchString.length ? searchChatsList.hasMore : chatsList.hasMore}
-            isLoading={searchString.length ? searchChatsList.loading : chatsList.loading}>
-            {renderedChats}
-          </InfiniteScroll>
+          {searchChatsList.loading || chatsList.loading ? (
+            <CenteredLoader size={LoaderSize.LARGE} />
+          ) : (
+            <InfiniteScroll
+              containerRef={containerRef}
+              onReachBottom={loadMore}
+              hasMore={searchString.length ? searchChatsList.hasMore : chatsList.hasMore}
+              isLoading={searchString.length ? searchChatsList.loading : chatsList.loading}>
+              {renderedChats}
+            </InfiniteScroll>
+          )}
         </div>
       </div>
       {newChatDisplayed && (

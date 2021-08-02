@@ -3,6 +3,7 @@ import React, { useCallback, useState, useMemo, useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux';
 
 import { InfiniteScroll } from '@components/infinite-scroll';
+import { CenteredLoader, LoaderSize } from '@components/loader';
 import { SearchBox } from '@components/search-box';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
@@ -39,6 +40,7 @@ export const FriendList = () => {
   );
 
   const [searchString, setSearchString] = useState('');
+
   const changeSearchString = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setSearchString(e.target.value);
@@ -82,13 +84,17 @@ export const FriendList = () => {
         />
       </div>
       <div className="friend-list">
-        <InfiniteScroll
-          containerRef={containerRef}
-          onReachBottom={loadMore}
-          hasMore={searchString.length ? hasMoreSearchFriends : hasMoreFriends}
-          isLoading={searchString.length ? searchFriendsLoading : friendsLoading}>
-          {renderedFriends}
-        </InfiniteScroll>
+        {!friendsLoading ? (
+          <InfiniteScroll
+            containerRef={containerRef}
+            onReachBottom={loadMore}
+            hasMore={searchString.length ? hasMoreSearchFriends : hasMoreFriends}
+            isLoading={searchString.length ? searchFriendsLoading : friendsLoading}>
+            {renderedFriends}
+          </InfiniteScroll>
+        ) : (
+          <CenteredLoader size={LoaderSize.LARGE} />
+        )}
       </div>
     </div>
   );

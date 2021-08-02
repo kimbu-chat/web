@@ -12,7 +12,7 @@ export enum LoaderSize {
   LARGE = 'LARGE',
 }
 
-type LoaderProps = {
+export type LoaderProps = {
   className?: string;
   size?: LoaderSize;
 };

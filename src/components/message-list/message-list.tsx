@@ -9,6 +9,7 @@ import {
   INTERSECTION_THRESHOLD_FOR_MEDIA,
 } from '@common/constants/media';
 import { InfiniteScroll } from '@components/infinite-scroll';
+import { CenteredLoader, LoaderSize } from '@components/loader';
 import { MessageItem } from '@components/message-item';
 import { SelectedMessagesData } from '@components/selected-messages-data';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
@@ -81,71 +82,74 @@ const MessageList = () => {
   return (
     <div className="chat__messages-list">
       <div className="chat__messages-container" ref={rootRef}>
-        {!areMessagesLoading && !hasMoreMessages && (messagesIds || []).length === 0 && (
+        {!areMessagesLoading && areMessagesLoading !== undefined && !messagesIds?.length && (
           <div className="chat__messages-list__empty">
             <p>{t('chat.empty')}</p>
           </div>
         )}
 
         {selectedMessageIds.length > 0 && <SelectedMessagesData />}
+        {messagesIds?.length ? (
+          <InfiniteScroll
+            containerRef={rootRef}
+            onReachBottom={loadMore}
+            hasMore={hasMoreMessages}
+            className="chat__messages-list__scroll"
+            isLoading={areMessagesLoading}>
+            {messagesIds
+              ?.reduce(
+                (accumulator: number[][], currentMessageId, index) => {
+                  if (
+                    index > 0 &&
+                    checkIfDatesAreDifferentDate(
+                      (messages && messages[messagesIds[index - 1]]?.creationDateTime) || '',
+                      (messages && messages[currentMessageId]?.creationDateTime) || '',
+                    )
+                  ) {
+                    accumulator.push([]);
+                  }
 
-        <InfiniteScroll
-          containerRef={rootRef}
-          onReachBottom={loadMore}
-          hasMore={hasMoreMessages}
-          className="chat__messages-list__scroll"
-          isLoading={areMessagesLoading}>
-          {messagesIds
-            ?.reduce(
-              (accumulator: number[][], currentMessageId, index) => {
-                if (
-                  index > 0 &&
-                  checkIfDatesAreDifferentDate(
-                    (messages && messages[messagesIds[index - 1]]?.creationDateTime) || '',
-                    (messages && messages[currentMessageId]?.creationDateTime) || '',
-                  )
-                ) {
-                  accumulator.push([]);
-                }
+                  accumulator[accumulator.length - 1].push(currentMessageId);
 
-                accumulator[accumulator.length - 1].push(currentMessageId);
-
-                return accumulator;
-              },
-              [[]] as number[][],
-            )
-            .map((separatedMessages) => (
-              <div key={`${separatedMessages[0]}group`} className="chat__messages-group">
-                {separatedMessages.map((messageId, index) => (
-                  <MessageItem
-                    observeIntersection={observeIntersectionForMedia}
-                    selectedChatId={selectedChatId}
-                    isSelected={selectedMessageIds.includes(messageId)}
-                    messageId={messageId}
-                    key={messageId}
-                    needToShowCreator={
-                      messages &&
-                      (messages[messageId]?.userCreatorId !==
-                        messages[separatedMessages[index + 1]]?.userCreatorId ||
-                        messages[separatedMessages[index + 1]]?.systemMessageType !==
-                          SystemMessageType.None)
-                    }
-                  />
-                ))}
-                {separatedMessages.length > 0 && (
-                  <div className="message__separator">
-                    <span>
-                      {dayjs
-                        .utc((messages && messages[separatedMessages[0]]?.creationDateTime) || '')
-                        .local()
-                        .format(DAY_NAME_MONTH_NAME_DAY_NUMBER_YEAR)
-                        .toString()}
-                    </span>
-                  </div>
-                )}
-              </div>
-            ))}
-        </InfiniteScroll>
+                  return accumulator;
+                },
+                [[]] as number[][],
+              )
+              .map((separatedMessages) => (
+                <div key={`${separatedMessages[0]}group`} className="chat__messages-group">
+                  {separatedMessages.map((messageId, index) => (
+                    <MessageItem
+                      observeIntersection={observeIntersectionForMedia}
+                      selectedChatId={selectedChatId}
+                      isSelected={selectedMessageIds.includes(messageId)}
+                      messageId={messageId}
+                      key={messageId}
+                      needToShowCreator={
+                        messages &&
+                        (messages[messageId]?.userCreatorId !==
+                          messages[separatedMessages[index + 1]]?.userCreatorId ||
+                          messages[separatedMessages[index + 1]]?.systemMessageType !==
+                            SystemMessageType.None)
+                      }
+                    />
+                  ))}
+                  {separatedMessages.length > 0 && (
+                    <div className="message__separator">
+                      <span>
+                        {dayjs
+                          .utc((messages && messages[separatedMessages[0]]?.creationDateTime) || '')
+                          .local()
+                          .format(DAY_NAME_MONTH_NAME_DAY_NUMBER_YEAR)
+                          .toString()}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              ))}
+          </InfiniteScroll>
+        ) : (
+          <CenteredLoader size={LoaderSize.LARGE} />
+        )}
       </div>
     </div>
   );

@@ -24,6 +24,8 @@ interface IGroupChatCreationProps {
   setDescription: (description: string) => void;
 }
 
+const BLOCK_NAME = 'create-group-chat';
+
 const GroupChatCreation: React.FC<IGroupChatCreationProps> = ({
   setAvatarUploadResponse,
   setName,
@@ -95,9 +97,9 @@ const GroupChatCreation: React.FC<IGroupChatCreationProps> = ({
 
   return (
     <>
-      <div className="create-group-chat">
-        <div className="create-group-chat__current-photo-wrapper">
-          <GroupSvg viewBox="0 0 24 24" className="create-group-chat__current-photo-wrapper__alt" />
+      <div className={BLOCK_NAME}>
+        <div className={`${BLOCK_NAME}__current-photo-wrapper`}>
+          <GroupSvg viewBox="0 0 24 24" className={`${BLOCK_NAME}__current-photo-wrapper__alt`} />
           <input
             onChange={handleImageChange}
             ref={fileInputRef}
@@ -109,7 +111,7 @@ const GroupChatCreation: React.FC<IGroupChatCreationProps> = ({
             <img
               src={avatarData?.croppedImagePath}
               alt=""
-              className="create-group-chat__current-photo-wrapper__img"
+              className={`${BLOCK_NAME}__current-photo-wrapper__img`}
             />
           )}
           <button
@@ -118,31 +120,32 @@ const GroupChatCreation: React.FC<IGroupChatCreationProps> = ({
               discardAvatar();
               fileInputRef.current?.click();
             }}
-            className="create-group-chat__change-photo-btn">
+            className={`${BLOCK_NAME}__change-photo-btn`}>
             <PictureSvg viewBox="0 0 18 19" />
             <span>{t('groupChatCreation.upload_new')}</span>
           </button>
           <TopAvatarLine
-            className="create-group-chat__current-photo-wrapper__top-line"
+            className={`${BLOCK_NAME}__current-photo-wrapper__top-line`}
             viewBox="0 0 48 48"
           />
           <BottomAvatarLine
-            className="create-group-chat__current-photo-wrapper__bottom-line"
+            className={`${BLOCK_NAME}__current-photo-wrapper__bottom-line`}
             viewBox="0 0 114 114"
           />
         </div>
-        <div className="create-group-chat__criteria">{t('groupChatCreation.requirements')}</div>
+        <div className={`${BLOCK_NAME}__criteria`}>{t('groupChatCreation.requirements')}</div>
 
         <LabeledInput
+          autoFocus
           label={t('groupChatCreation.name')}
           onChange={(e) => setName(e.target.value)}
-          containerClassName="create-group-chat__input"
+          containerClassName={`${BLOCK_NAME}__input`}
         />
 
         <LabeledInput
           label={t('groupChatCreation.description')}
           onChange={(e) => setDescription(e.target.value)}
-          containerClassName="create-group-chat__input"
+          containerClassName={`${BLOCK_NAME}__input`}
         />
       </div>
       {changePhotoDisplayed && (

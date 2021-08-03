@@ -57,7 +57,7 @@
   "devDependencies": {
     "@babel/preset-react": "7.14.5",
     "@commitlint/cli": "12.1.4",
-    "@commitlint/config-conventional": "12.1.4",
+    "@commitlint/config-conventional": "13.1.0",
     "@craco/craco": "6.2.0",
     "@types/dom-mediacapture-record": "1.0.10",
     "@types/emoji-mart": "3.0.5",

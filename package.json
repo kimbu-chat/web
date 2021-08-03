@@ -62,7 +62,7 @@
     "@types/dom-mediacapture-record": "1.0.10",
     "@types/emoji-mart": "3.0.5",
     "@types/jest": "26.0.24",
-    "@types/lodash": "4.14.171",
+    "@types/lodash": "4.14.172",
     "@types/mousetrap": "1.6.8",
     "@types/node": "16.3.3",
     "@types/react": "17.0.14",

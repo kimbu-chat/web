@@ -51,7 +51,7 @@
     padding: 16px 47px 16px 40px;
 
     &:hover {
-      box-shadow: 0 3px 6px rgba(14, 22, 43, 0.62);
+      box-shadow: 0 3px 6px var(--box-shadow-5);
     }
   }
 }

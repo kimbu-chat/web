@@ -116,7 +116,9 @@ const MessageList = () => {
                 [[]] as number[][],
               )
               .map((separatedMessages) => (
-                <div key={`${separatedMessages[0]}group`} className="chat__messages-group">
+                <div
+                  key={`${separatedMessages[separatedMessages.length - 1]}group`}
+                  className="chat__messages-group">
                   {separatedMessages.map((messageId, index) => (
                     <MessageItem
                       observeIntersection={observeIntersectionForMedia}

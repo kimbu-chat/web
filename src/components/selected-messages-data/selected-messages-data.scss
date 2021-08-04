@@ -16,7 +16,7 @@
     padding: 10px 18px;
 
     &:hover {
-      box-shadow: 0 3px 6px rgba(14, 22, 43, 0.62);
+      box-shadow: 0 3px 6px var(--box-shadow-5);
     }
 
     &:not(:last-child) {

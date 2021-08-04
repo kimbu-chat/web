@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 
-import axios from 'axios';
-
 import { ICountry } from '@common/country';
 import { CountryService } from '@services/country-service';
+import { getCountryList } from '@utils/get-country-list';
+import { getCountry } from '@utils/get-country';
 
-let loadedCountries: ICountry[];
+let cancelLoad: () => void;
 
 export const useCountry = () => {
   const [countries, setCountries] = useState<ICountry[]>([
@@ -18,33 +18,20 @@ export const useCountry = () => {
   });
 
   useEffect(() => {
-    const { CancelToken } = axios;
-    const source = CancelToken.source();
-
     (async () => {
       try {
-        if (!loadedCountries) {
-          const loadedCountriesResponse = await axios.get(`/countries.json`, {
-            cancelToken: source.token,
-          });
-
-          loadedCountries = loadedCountriesResponse.data;
-        }
-
+        const { loadCountryList, cancelLoadCountryList } = getCountryList();
+        cancelLoad = cancelLoadCountryList;
+        const loadedCountries = await loadCountryList();
         setCountries(loadedCountries);
         let countryOfResidence =
           loadedCountries?.find(({ code }) => code === new CountryService().country) ||
           loadedCountries[0];
-
         setCountry(countryOfResidence || loadedCountries[0]);
 
-        const countryCode = (
-          await axios.get('https://ipapi.co/json/', {
-            cancelToken: source.token,
-          })
-        ).data?.country_code as string;
-
-        new CountryService().initializeOrUpdate(countryCode);
+        const { loadCountry, cancelLoadCountry } = getCountry();
+        cancelLoad = cancelLoadCountry;
+        const countryCode = await loadCountry();
 
         countryOfResidence =
           loadedCountries?.find(({ code }) => code === countryCode) || loadedCountries[0];
@@ -57,7 +44,9 @@ export const useCountry = () => {
     })();
 
     return () => {
-      source.cancel('Operation canceled by the user.');
+      if (cancelLoad) {
+        cancelLoad();
+      }
     };
   }, []);
 

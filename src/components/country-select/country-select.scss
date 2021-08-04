@@ -79,14 +79,15 @@
     top: 40;
     width: 100%;
     z-index: 6;
+    color: var(--dt-white-wt-kingBlue);
 
     [data-focus^='true'] {
       background-color: var(--dt-dark-wt-kingBlueLight);
+      color: #fff;
     }
   }
 
   &__country-name {
-    color: #fff;
     font-size: 0.8125rem;
     font-weight: 400;
     left: 88px;
@@ -95,7 +96,6 @@
   }
 
   &__number {
-    color: #fff;
     font-size: 1rem;
     font-weight: 300;
     line-height: 19px;
